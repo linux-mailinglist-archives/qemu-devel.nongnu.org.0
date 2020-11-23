@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46DC2C1740
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:08:56 +0100 (CET)
-Received: from localhost ([::1]:54824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95502C1712
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:02:36 +0100 (CET)
+Received: from localhost ([::1]:39320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khJ4x-0006OX-Mn
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:08:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46534)
+	id 1khIyp-0007zr-L5
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:02:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khIiN-0001MC-LF
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:45:35 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36542)
+ id 1khIiU-0001Xp-Gr
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:45:42 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khIiK-0001PL-AV
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:45:35 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id z7so4294693wrn.3
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 12:45:31 -0800 (PST)
+ id 1khIiQ-0001Rg-86
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:45:42 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id d142so602144wmd.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 12:45:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+EqN5qDxtEBBzxLbgFeRkbW2j1iqK+UGwCfiEIja96k=;
- b=nFeQN6FsFha/SIFSYi+ZlCJIZF1+t3aitAuTqX/vVsmwZkWA9eE8TZH0JvBIKMR9du
- g/21ggfPC4xLe3wTWXXqV4hOyhY9Isk3ZKYMh+cS7vQPxjnuJqBT6q6JwsvDwuBZDuCi
- RckYysA96yAfXeGbQikZfguvGwPy94zzta0BOLZIwW+Znp3LvnNbxGAY7BrlTX04zcQa
- zpL5MwAf4Mr1+UjKgzziKTbUevgmzqJ4riX5U31aQ+YwVftTkjIUtG1L8J7FLItDIz6P
- Yhyk+QhNdt/sl3XtyYqTaIah3BarrAYhFN/l+JTRs3m8HQXBEXtA17F5PKP8onKadcKa
- NFPw==
+ bh=AyaRjSFV8oLCfj1+p3YaEW83pkx/QYtJCkxG9FO47+U=;
+ b=LBzPkAY3ECbDp5V3j9xF0p3GCMJVrp55NVMPXexLv4lLEsNhgL7AnGJgLL1yR7vQnr
+ TZHqV/ooCqS5NTBzPkClS/66aM6ZZjvJW8K3zkmOWPFZlKqDcVkhmWsf1T8kJRHXuSAL
+ EP9lhVpOyTvjtiOvmfuQmgAD7hZ+BGQ4FsDaI9UhRLOklEFlHcPzhzLnFwEzWNaOQXEq
+ JiM1Ozu4rW9gdm7g2CsEFfmcTow8y6BgMAMvE+55EpKYICW8O5URNaAq0spmIVLILtC8
+ TdChTSEAif+caYm7P1Ei76HtfLgCLazHv++48TOBNrtGHlPLsps9+BDa8mqcElxOkKpC
+ cA9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+EqN5qDxtEBBzxLbgFeRkbW2j1iqK+UGwCfiEIja96k=;
- b=OjTrmnJKR4UDaybAquMgfaQBMyRJf2pLofmRYYR8ZhyKv1P7ucykaOgZMubQcDKYwb
- KCP6MMTBo7/ikLdc3fU5//7OTHXCSv/6Z8cPymr4Rr+Id0NuGcZnBNVo/R/uw9jPA6tS
- sH9ZTccCrAZDt+5CI/fVNWZ5xdrGo2cUV7j9pdH5y2RS80ubjOPDQ4GuV7DGyHhqf0wn
- FTbukiJ/A0bzhjGfghl1BxGzbB9vTs8G6Ggz7Posfhk4BvitUDW87OpHt60xyYtp/I1W
- f1pGEODfG5rzWSoKPKfK3YzKwVMzE0cA1saphgNAyxiIaS/PCe6N0qhSawsJEKyYh+x1
- UOBQ==
-X-Gm-Message-State: AOAM531crRYIEd9L0k6fiw7snQs4TCiHfGx6AAKs3i9UGxDTRETE59Ny
- Crh1PVNLtEE6Kre4tPEG+9VwfrXhaYg=
-X-Google-Smtp-Source: ABdhPJySoOjCRzKwThpBCis/FwKVKFLuOYpqBuTqxzyxjOJluknwIYJStjvW4CNP3Z+pkXIOPDstrQ==
-X-Received: by 2002:adf:9b98:: with SMTP id d24mr1494737wrc.17.1606164330374; 
- Mon, 23 Nov 2020 12:45:30 -0800 (PST)
+ bh=AyaRjSFV8oLCfj1+p3YaEW83pkx/QYtJCkxG9FO47+U=;
+ b=UfLXMqWCFxWNcxJWe92tM/ElcHP4nDpLTIGzE5u2lJn62EmYzT6+Uck7F2wCBHxO1a
+ eaXMCKbvRkxADe2KhCbPacrhaQD5ymiaJkJeqjFo16iRMZRrx5mrdNxsARyMRLRAmly6
+ jkLmJCHYjOVzogG0DJTopSkOTG2Re6VNvnEPYJllMyYKGX5XgQRXXpy54qAhHDg3Qc7c
+ uPBKNSSHijDVRz0BuHeSj5jksE4CDcJdiQ/WFmJRCwiAck1/0VKDFANS/xU+Ca9njZHm
+ rG5XzxPTsxCnQ4zSQs0bwEigCZakVgPh5u459V1S9OAETdSRQ+vj2jDf59avAchYCsag
+ 9Q3Q==
+X-Gm-Message-State: AOAM530EXG+NLLJ6waVmDRuMvfBooWC9KOW7j/jrjiCxx5qmxAcAH9XR
+ +xNPdu31nCb7Is5QjHn6loVQwKjoIjs=
+X-Google-Smtp-Source: ABdhPJxVOPI/Pesu30fVsrGbqS5OEg3DWzdXZKTieUZCqSINYg3qgWHa/yMPyZ5p1/p4DNzPoC5LsQ==
+X-Received: by 2002:a1c:6306:: with SMTP id x6mr753483wmb.154.1606164335478;
+ Mon, 23 Nov 2020 12:45:35 -0800 (PST)
 Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id d134sm879570wmd.8.2020.11.23.12.45.29
+ by smtp.gmail.com with ESMTPSA id q12sm20740928wrx.86.2020.11.23.12.45.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 12:45:29 -0800 (PST)
+ Mon, 23 Nov 2020 12:45:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/28] target/mips: Extract DSP helper definitions
-Date: Mon, 23 Nov 2020 21:44:28 +0100
-Message-Id: <20201123204448.3260804-9-f4bug@amsat.org>
+Subject: [PATCH v2 09/28] target/mips: Extract DSP translation routines
+Date: Mon, 23 Nov 2020 21:44:29 +0100
+Message-Id: <20201123204448.3260804-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201123204448.3260804-1-f4bug@amsat.org>
 References: <20201123204448.3260804-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,372 +90,2211 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'MIPS DSP' is defined as a Module by MIPS. Extract the helper
-definitions to 'mod-dsp_helper.h.inc'.
+Extract 2150 lines from the huge translate.c to a new file,
+'mod-dsp_translate.c.inc'. As there are too many inter-
+dependencies we don't compile it as another object, but
+keep including it in the big translate.o. We gain in code
+maintainability.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201120210844.2625602-7-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201120210844.2625602-8-f4bug@amsat.org>
 ---
- target/mips/helper.h             | 335 +-----------------------------
- target/mips/mod-dsp_helper.h.inc | 344 +++++++++++++++++++++++++++++++
- 2 files changed, 345 insertions(+), 334 deletions(-)
- create mode 100644 target/mips/mod-dsp_helper.h.inc
+ target/mips/translate.c             | 2150 +-------------------------
+ target/mips/mod-dsp_translate.c.inc | 2158 +++++++++++++++++++++++++++
+ 2 files changed, 2162 insertions(+), 2146 deletions(-)
+ create mode 100644 target/mips/mod-dsp_translate.c.inc
 
-diff --git a/target/mips/helper.h b/target/mips/helper.h
-index 80eb675fa64..82f40c3b9bc 100644
---- a/target/mips/helper.h
-+++ b/target/mips/helper.h
-@@ -447,340 +447,7 @@ DEF_HELPER_FLAGS_2(pasubub, TCG_CALL_NO_RWG_SE, i64, i64, i64)
- DEF_HELPER_FLAGS_1(biadd, TCG_CALL_NO_RWG_SE, i64, i64)
- DEF_HELPER_FLAGS_1(pmovmskb, TCG_CALL_NO_RWG_SE, i64, i64)
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index e174bf778e6..d1e154b1f79 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -405,35 +405,6 @@ enum {
+     OPC_DMOD_G_2E   = 0x26 | OPC_SPECIAL3,
+     OPC_DMODU_G_2E  = 0x27 | OPC_SPECIAL3,
  
--/*** MIPS DSP ***/
--/* DSP Arithmetic Sub-class insns */
--DEF_HELPER_FLAGS_3(addq_ph, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(addq_s_ph, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(addq_qh, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(addq_s_qh, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(addq_s_w, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(addq_pw, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(addq_s_pw, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(addu_qb, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(addu_s_qb, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_2(adduh_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(adduh_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_3(addu_ph, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(addu_s_ph, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_2(addqh_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(addqh_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(addqh_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(addqh_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(addu_ob, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(addu_s_ob, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_2(adduh_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(adduh_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_3(addu_qh, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(addu_s_qh, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(subq_ph, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(subq_s_ph, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(subq_qh, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(subq_s_qh, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(subq_s_w, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(subq_pw, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(subq_s_pw, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(subu_qb, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(subu_s_qb, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_2(subuh_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(subuh_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_3(subu_ph, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(subu_s_ph, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_2(subqh_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(subqh_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(subqh_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(subqh_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(subu_ob, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(subu_s_ob, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_2(subuh_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(subuh_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_3(subu_qh, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(subu_s_qh, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(addsc, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(addwc, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_2(modsub, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_1(raddu_w_qb, TCG_CALL_NO_RWG_SE, tl, tl)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_1(raddu_l_ob, TCG_CALL_NO_RWG_SE, tl, tl)
--#endif
--DEF_HELPER_FLAGS_2(absq_s_qb, 0, tl, tl, env)
--DEF_HELPER_FLAGS_2(absq_s_ph, 0, tl, tl, env)
--DEF_HELPER_FLAGS_2(absq_s_w, 0, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_2(absq_s_ob, 0, tl, tl, env)
--DEF_HELPER_FLAGS_2(absq_s_qh, 0, tl, tl, env)
--DEF_HELPER_FLAGS_2(absq_s_pw, 0, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_2(precr_qb_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(precrq_qb_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_3(precr_sra_ph_w, TCG_CALL_NO_RWG_SE,
--                   tl, i32, tl, tl)
--DEF_HELPER_FLAGS_3(precr_sra_r_ph_w, TCG_CALL_NO_RWG_SE,
--                   tl, i32, tl, tl)
--DEF_HELPER_FLAGS_2(precrq_ph_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_3(precrq_rs_ph_w, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_2(precr_ob_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_3(precr_sra_qh_pw,
--                   TCG_CALL_NO_RWG_SE, tl, tl, tl, i32)
--DEF_HELPER_FLAGS_3(precr_sra_r_qh_pw,
--                   TCG_CALL_NO_RWG_SE, tl, tl, tl, i32)
--DEF_HELPER_FLAGS_2(precrq_ob_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(precrq_qh_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_3(precrq_rs_qh_pw,
--                   TCG_CALL_NO_RWG_SE, tl, tl, tl, env)
--DEF_HELPER_FLAGS_2(precrq_pw_l, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#endif
--DEF_HELPER_FLAGS_3(precrqu_s_qb_ph, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(precrqu_s_ob_qh,
--                   TCG_CALL_NO_RWG_SE, tl, tl, tl, env)
+-    /* MIPS DSP Load */
+-    OPC_LX_DSP         = 0x0A | OPC_SPECIAL3,
+-    /* MIPS DSP Arithmetic */
+-    OPC_ADDU_QB_DSP    = 0x10 | OPC_SPECIAL3,
+-    OPC_ADDU_OB_DSP    = 0x14 | OPC_SPECIAL3,
+-    OPC_ABSQ_S_PH_DSP  = 0x12 | OPC_SPECIAL3,
+-    OPC_ABSQ_S_QH_DSP  = 0x16 | OPC_SPECIAL3,
+-    /* OPC_ADDUH_QB_DSP is same as OPC_MULT_G_2E.  */
+-    /* OPC_ADDUH_QB_DSP   = 0x18 | OPC_SPECIAL3,  */
+-    OPC_CMPU_EQ_QB_DSP = 0x11 | OPC_SPECIAL3,
+-    OPC_CMPU_EQ_OB_DSP = 0x15 | OPC_SPECIAL3,
+-    /* MIPS DSP GPR-Based Shift Sub-class */
+-    OPC_SHLL_QB_DSP    = 0x13 | OPC_SPECIAL3,
+-    OPC_SHLL_OB_DSP    = 0x17 | OPC_SPECIAL3,
+-    /* MIPS DSP Multiply Sub-class insns */
+-    /* OPC_MUL_PH_DSP is same as OPC_ADDUH_QB_DSP.  */
+-    /* OPC_MUL_PH_DSP     = 0x18 | OPC_SPECIAL3,  */
+-    OPC_DPA_W_PH_DSP   = 0x30 | OPC_SPECIAL3,
+-    OPC_DPAQ_W_QH_DSP  = 0x34 | OPC_SPECIAL3,
+-    /* DSP Bit/Manipulation Sub-class */
+-    OPC_INSV_DSP       = 0x0C | OPC_SPECIAL3,
+-    OPC_DINSV_DSP      = 0x0D | OPC_SPECIAL3,
+-    /* MIPS DSP Append Sub-class */
+-    OPC_APPEND_DSP     = 0x31 | OPC_SPECIAL3,
+-    OPC_DAPPEND_DSP    = 0x35 | OPC_SPECIAL3,
+-    /* MIPS DSP Accumulator and DSPControl Access Sub-class */
+-    OPC_EXTR_W_DSP     = 0x38 | OPC_SPECIAL3,
+-    OPC_DEXTR_W_DSP    = 0x3C | OPC_SPECIAL3,
 -
--DEF_HELPER_FLAGS_1(preceq_pw_qhl, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(preceq_pw_qhr, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(preceq_pw_qhla, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(preceq_pw_qhra, TCG_CALL_NO_RWG_SE, tl, tl)
--#endif
--DEF_HELPER_FLAGS_1(precequ_ph_qbl, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(precequ_ph_qbr, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(precequ_ph_qbla, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(precequ_ph_qbra, TCG_CALL_NO_RWG_SE, tl, tl)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_1(precequ_qh_obl, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(precequ_qh_obr, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(precequ_qh_obla, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(precequ_qh_obra, TCG_CALL_NO_RWG_SE, tl, tl)
--#endif
--DEF_HELPER_FLAGS_1(preceu_ph_qbl, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(preceu_ph_qbr, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(preceu_ph_qbla, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(preceu_ph_qbra, TCG_CALL_NO_RWG_SE, tl, tl)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_1(preceu_qh_obl, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(preceu_qh_obr, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(preceu_qh_obla, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_1(preceu_qh_obra, TCG_CALL_NO_RWG_SE, tl, tl)
--#endif
--
--/* DSP GPR-Based Shift Sub-class insns */
--DEF_HELPER_FLAGS_3(shll_qb, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(shll_ob, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(shll_ph, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(shll_s_ph, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(shll_qh, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(shll_s_qh, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(shll_s_w, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(shll_pw, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(shll_s_pw, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_2(shrl_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(shrl_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_2(shrl_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(shrl_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#endif
--DEF_HELPER_FLAGS_2(shra_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(shra_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_2(shra_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(shra_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#endif
--DEF_HELPER_FLAGS_2(shra_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(shra_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(shra_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_2(shra_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(shra_r_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(shra_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(shra_r_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#endif
--
--/* DSP Multiply Sub-class insns */
--DEF_HELPER_FLAGS_3(muleu_s_ph_qbl, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(muleu_s_ph_qbr, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(muleu_s_qh_obl, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(muleu_s_qh_obr, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(mulq_rs_ph, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(mulq_rs_qh, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(muleq_s_w_phl, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(muleq_s_w_phr, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(muleq_s_pw_qhl, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(muleq_s_pw_qhr, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_4(dpau_h_qbl, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(dpau_h_qbr, 0, void, i32, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_4(dpau_h_obl, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(dpau_h_obr, 0, void, tl, tl, i32, env)
--#endif
--DEF_HELPER_FLAGS_4(dpsu_h_qbl, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(dpsu_h_qbr, 0, void, i32, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_4(dpsu_h_obl, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(dpsu_h_obr, 0, void, tl, tl, i32, env)
--#endif
--DEF_HELPER_FLAGS_4(dpa_w_ph, 0, void, i32, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_4(dpa_w_qh, 0, void, tl, tl, i32, env)
--#endif
--DEF_HELPER_FLAGS_4(dpax_w_ph, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(dpaq_s_w_ph, 0, void, i32, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_4(dpaq_s_w_qh, 0, void, tl, tl, i32, env)
--#endif
--DEF_HELPER_FLAGS_4(dpaqx_s_w_ph, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(dpaqx_sa_w_ph, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(dps_w_ph, 0, void, i32, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_4(dps_w_qh, 0, void, tl, tl, i32, env)
--#endif
--DEF_HELPER_FLAGS_4(dpsx_w_ph, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(dpsq_s_w_ph, 0, void, i32, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_4(dpsq_s_w_qh, 0, void, tl, tl, i32, env)
--#endif
--DEF_HELPER_FLAGS_4(dpsqx_s_w_ph, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(dpsqx_sa_w_ph, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(mulsaq_s_w_ph, 0, void, i32, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_4(mulsaq_s_w_qh, 0, void, tl, tl, i32, env)
--#endif
--DEF_HELPER_FLAGS_4(dpaq_sa_l_w, 0, void, i32, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_4(dpaq_sa_l_pw, 0, void, tl, tl, i32, env)
--#endif
--DEF_HELPER_FLAGS_4(dpsq_sa_l_w, 0, void, i32, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_4(dpsq_sa_l_pw, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(mulsaq_s_l_pw, 0, void, tl, tl, i32, env)
--#endif
--DEF_HELPER_FLAGS_4(maq_s_w_phl, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(maq_s_w_phr, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(maq_sa_w_phl, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_4(maq_sa_w_phr, 0, void, i32, tl, tl, env)
--DEF_HELPER_FLAGS_3(mul_ph, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(mul_s_ph, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(mulq_s_ph, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(mulq_s_w, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(mulq_rs_w, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_4(mulsa_w_ph, 0, void, i32, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_4(maq_s_w_qhll, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(maq_s_w_qhlr, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(maq_s_w_qhrl, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(maq_s_w_qhrr, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(maq_sa_w_qhll, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(maq_sa_w_qhlr, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(maq_sa_w_qhrl, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(maq_sa_w_qhrr, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(maq_s_l_pwl, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(maq_s_l_pwr, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(dmadd, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(dmaddu, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(dmsub, 0, void, tl, tl, i32, env)
--DEF_HELPER_FLAGS_4(dmsubu, 0, void, tl, tl, i32, env)
--#endif
--
--/* DSP Bit/Manipulation Sub-class insns */
--DEF_HELPER_FLAGS_1(bitrev, TCG_CALL_NO_RWG_SE, tl, tl)
--DEF_HELPER_FLAGS_3(insv, 0, tl, env, tl, tl)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(dinsv, 0, tl, env, tl, tl)
--#endif
--
--/* DSP Compare-Pick Sub-class insns */
--DEF_HELPER_FLAGS_3(cmpu_eq_qb, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmpu_lt_qb, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmpu_le_qb, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_2(cmpgu_eq_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(cmpgu_lt_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(cmpgu_le_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_3(cmp_eq_ph, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmp_lt_ph, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmp_le_ph, 0, void, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(cmpu_eq_ob, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmpu_lt_ob, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmpu_le_ob, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmpgdu_eq_ob, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmpgdu_lt_ob, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmpgdu_le_ob, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_2(cmpgu_eq_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(cmpgu_lt_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(cmpgu_le_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_3(cmp_eq_qh, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmp_lt_qh, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmp_le_qh, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmp_eq_pw, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmp_lt_pw, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_3(cmp_le_pw, 0, void, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(pick_qb, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(pick_ph, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(pick_ob, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(pick_qh, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(pick_pw, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_2(packrl_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_2(packrl_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--#endif
--
--/* DSP Accumulator and DSPControl Access Sub-class insns */
--DEF_HELPER_FLAGS_3(extr_w, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(extr_r_w, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(extr_rs_w, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(dextr_w, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(dextr_r_w, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(dextr_rs_w, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(dextr_l, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(dextr_r_l, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(dextr_rs_l, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(extr_s_h, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(dextr_s_h, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(extp, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(extpdp, 0, tl, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(dextp, 0, tl, tl, tl, env)
--DEF_HELPER_FLAGS_3(dextpdp, 0, tl, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(shilo, 0, void, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(dshilo, 0, void, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(mthlip, 0, void, tl, tl, env)
--#if defined(TARGET_MIPS64)
--DEF_HELPER_FLAGS_3(dmthlip, 0, void, tl, tl, env)
--#endif
--DEF_HELPER_FLAGS_3(wrdsp, 0, void, tl, tl, env)
--DEF_HELPER_FLAGS_2(rddsp, 0, tl, tl, env)
--
- DEF_HELPER_3(cache, void, env, tl, i32)
+     /* EVA */
+     OPC_LWLE           = 0x19 | OPC_SPECIAL3,
+     OPC_LWRE           = 0x1A | OPC_SPECIAL3,
+@@ -540,407 +511,6 @@ enum {
+     OPC_BPOSGE64 = (0x1D << 16) | OPC_REGIMM,
+ };
  
-+#include "mod-dsp_helper.h.inc"
- #include "mod-msa_helper.h.inc"
-diff --git a/target/mips/mod-dsp_helper.h.inc b/target/mips/mod-dsp_helper.h.inc
+-#define MASK_LX(op)                 (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-/* MIPS DSP Load */
+-enum {
+-    OPC_LBUX = (0x06 << 6) | OPC_LX_DSP,
+-    OPC_LHX  = (0x04 << 6) | OPC_LX_DSP,
+-    OPC_LWX  = (0x00 << 6) | OPC_LX_DSP,
+-    OPC_LDX = (0x08 << 6) | OPC_LX_DSP,
+-};
+-
+-#define MASK_ADDU_QB(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Arithmetic Sub-class */
+-    OPC_ADDQ_PH        = (0x0A << 6) | OPC_ADDU_QB_DSP,
+-    OPC_ADDQ_S_PH      = (0x0E << 6) | OPC_ADDU_QB_DSP,
+-    OPC_ADDQ_S_W       = (0x16 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_ADDU_QB        = (0x00 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_ADDU_S_QB      = (0x04 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_ADDU_PH        = (0x08 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_ADDU_S_PH      = (0x0C << 6) | OPC_ADDU_QB_DSP,
+-    OPC_SUBQ_PH        = (0x0B << 6) | OPC_ADDU_QB_DSP,
+-    OPC_SUBQ_S_PH      = (0x0F << 6) | OPC_ADDU_QB_DSP,
+-    OPC_SUBQ_S_W       = (0x17 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_SUBU_QB        = (0x01 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_SUBU_S_QB      = (0x05 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_SUBU_PH        = (0x09 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_SUBU_S_PH      = (0x0D << 6) | OPC_ADDU_QB_DSP,
+-    OPC_ADDSC          = (0x10 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_ADDWC          = (0x11 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_MODSUB         = (0x12 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_RADDU_W_QB     = (0x14 << 6) | OPC_ADDU_QB_DSP,
+-    /* MIPS DSP Multiply Sub-class insns */
+-    OPC_MULEU_S_PH_QBL = (0x06 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_MULEU_S_PH_QBR = (0x07 << 6) | OPC_ADDU_QB_DSP,
+-    OPC_MULQ_RS_PH     = (0x1F << 6) | OPC_ADDU_QB_DSP,
+-    OPC_MULEQ_S_W_PHL  = (0x1C << 6) | OPC_ADDU_QB_DSP,
+-    OPC_MULEQ_S_W_PHR  = (0x1D << 6) | OPC_ADDU_QB_DSP,
+-    OPC_MULQ_S_PH      = (0x1E << 6) | OPC_ADDU_QB_DSP,
+-};
+-
+-#define OPC_ADDUH_QB_DSP OPC_MULT_G_2E
+-#define MASK_ADDUH_QB(op)           (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Arithmetic Sub-class */
+-    OPC_ADDUH_QB   = (0x00 << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_ADDUH_R_QB = (0x02 << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_ADDQH_PH   = (0x08 << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_ADDQH_R_PH = (0x0A << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_ADDQH_W    = (0x10 << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_ADDQH_R_W  = (0x12 << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_SUBUH_QB   = (0x01 << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_SUBUH_R_QB = (0x03 << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_SUBQH_PH   = (0x09 << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_SUBQH_R_PH = (0x0B << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_SUBQH_W    = (0x11 << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_SUBQH_R_W  = (0x13 << 6) | OPC_ADDUH_QB_DSP,
+-    /* MIPS DSP Multiply Sub-class insns */
+-    OPC_MUL_PH     = (0x0C << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_MUL_S_PH   = (0x0E << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_MULQ_S_W   = (0x16 << 6) | OPC_ADDUH_QB_DSP,
+-    OPC_MULQ_RS_W  = (0x17 << 6) | OPC_ADDUH_QB_DSP,
+-};
+-
+-#define MASK_ABSQ_S_PH(op)          (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Arithmetic Sub-class */
+-    OPC_ABSQ_S_QB       = (0x01 << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_ABSQ_S_PH       = (0x09 << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_ABSQ_S_W        = (0x11 << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_PRECEQ_W_PHL    = (0x0C << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_PRECEQ_W_PHR    = (0x0D << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_PRECEQU_PH_QBL  = (0x04 << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_PRECEQU_PH_QBR  = (0x05 << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_PRECEQU_PH_QBLA = (0x06 << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_PRECEQU_PH_QBRA = (0x07 << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_PRECEU_PH_QBL   = (0x1C << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_PRECEU_PH_QBR   = (0x1D << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_PRECEU_PH_QBLA  = (0x1E << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_PRECEU_PH_QBRA  = (0x1F << 6) | OPC_ABSQ_S_PH_DSP,
+-    /* DSP Bit/Manipulation Sub-class */
+-    OPC_BITREV          = (0x1B << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_REPL_QB         = (0x02 << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_REPLV_QB        = (0x03 << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_REPL_PH         = (0x0A << 6) | OPC_ABSQ_S_PH_DSP,
+-    OPC_REPLV_PH        = (0x0B << 6) | OPC_ABSQ_S_PH_DSP,
+-};
+-
+-#define MASK_CMPU_EQ_QB(op)         (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Arithmetic Sub-class */
+-    OPC_PRECR_QB_PH      = (0x0D << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_PRECRQ_QB_PH     = (0x0C << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_PRECR_SRA_PH_W   = (0x1E << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_PRECR_SRA_R_PH_W = (0x1F << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_PRECRQ_PH_W      = (0x14 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_PRECRQ_RS_PH_W   = (0x15 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_PRECRQU_S_QB_PH  = (0x0F << 6) | OPC_CMPU_EQ_QB_DSP,
+-    /* DSP Compare-Pick Sub-class */
+-    OPC_CMPU_EQ_QB       = (0x00 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMPU_LT_QB       = (0x01 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMPU_LE_QB       = (0x02 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMPGU_EQ_QB      = (0x04 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMPGU_LT_QB      = (0x05 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMPGU_LE_QB      = (0x06 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMPGDU_EQ_QB     = (0x18 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMPGDU_LT_QB     = (0x19 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMPGDU_LE_QB     = (0x1A << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMP_EQ_PH        = (0x08 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMP_LT_PH        = (0x09 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_CMP_LE_PH        = (0x0A << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_PICK_QB          = (0x03 << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_PICK_PH          = (0x0B << 6) | OPC_CMPU_EQ_QB_DSP,
+-    OPC_PACKRL_PH        = (0x0E << 6) | OPC_CMPU_EQ_QB_DSP,
+-};
+-
+-#define MASK_SHLL_QB(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP GPR-Based Shift Sub-class */
+-    OPC_SHLL_QB    = (0x00 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHLLV_QB   = (0x02 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHLL_PH    = (0x08 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHLLV_PH   = (0x0A << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHLL_S_PH  = (0x0C << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHLLV_S_PH = (0x0E << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHLL_S_W   = (0x14 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHLLV_S_W  = (0x16 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRL_QB    = (0x01 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRLV_QB   = (0x03 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRL_PH    = (0x19 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRLV_PH   = (0x1B << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRA_QB    = (0x04 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRA_R_QB  = (0x05 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRAV_QB   = (0x06 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRAV_R_QB = (0x07 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRA_PH    = (0x09 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRAV_PH   = (0x0B << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRA_R_PH  = (0x0D << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRAV_R_PH = (0x0F << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRA_R_W   = (0x15 << 6) | OPC_SHLL_QB_DSP,
+-    OPC_SHRAV_R_W  = (0x17 << 6) | OPC_SHLL_QB_DSP,
+-};
+-
+-#define MASK_DPA_W_PH(op)           (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Multiply Sub-class insns */
+-    OPC_DPAU_H_QBL    = (0x03 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPAU_H_QBR    = (0x07 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPSU_H_QBL    = (0x0B << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPSU_H_QBR    = (0x0F << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPA_W_PH      = (0x00 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPAX_W_PH     = (0x08 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPAQ_S_W_PH   = (0x04 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPAQX_S_W_PH  = (0x18 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPAQX_SA_W_PH = (0x1A << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPS_W_PH      = (0x01 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPSX_W_PH     = (0x09 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPSQ_S_W_PH   = (0x05 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPSQX_S_W_PH  = (0x19 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPSQX_SA_W_PH = (0x1B << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_MULSAQ_S_W_PH = (0x06 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPAQ_SA_L_W   = (0x0C << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_DPSQ_SA_L_W   = (0x0D << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_MAQ_S_W_PHL   = (0x14 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_MAQ_S_W_PHR   = (0x16 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_MAQ_SA_W_PHL  = (0x10 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_MAQ_SA_W_PHR  = (0x12 << 6) | OPC_DPA_W_PH_DSP,
+-    OPC_MULSA_W_PH    = (0x02 << 6) | OPC_DPA_W_PH_DSP,
+-};
+-
+-#define MASK_INSV(op)               (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* DSP Bit/Manipulation Sub-class */
+-    OPC_INSV = (0x00 << 6) | OPC_INSV_DSP,
+-};
+-
+-#define MASK_APPEND(op)             (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Append Sub-class */
+-    OPC_APPEND  = (0x00 << 6) | OPC_APPEND_DSP,
+-    OPC_PREPEND = (0x01 << 6) | OPC_APPEND_DSP,
+-    OPC_BALIGN  = (0x10 << 6) | OPC_APPEND_DSP,
+-};
+-
+-#define MASK_EXTR_W(op)             (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Accumulator and DSPControl Access Sub-class */
+-    OPC_EXTR_W     = (0x00 << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTR_R_W   = (0x04 << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTR_RS_W  = (0x06 << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTR_S_H   = (0x0E << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTRV_S_H  = (0x0F << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTRV_W    = (0x01 << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTRV_R_W  = (0x05 << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTRV_RS_W = (0x07 << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTP       = (0x02 << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTPV      = (0x03 << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTPDP     = (0x0A << 6) | OPC_EXTR_W_DSP,
+-    OPC_EXTPDPV    = (0x0B << 6) | OPC_EXTR_W_DSP,
+-    OPC_SHILO      = (0x1A << 6) | OPC_EXTR_W_DSP,
+-    OPC_SHILOV     = (0x1B << 6) | OPC_EXTR_W_DSP,
+-    OPC_MTHLIP     = (0x1F << 6) | OPC_EXTR_W_DSP,
+-    OPC_WRDSP      = (0x13 << 6) | OPC_EXTR_W_DSP,
+-    OPC_RDDSP      = (0x12 << 6) | OPC_EXTR_W_DSP,
+-};
+-
+-#define MASK_ABSQ_S_QH(op)          (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Arithmetic Sub-class */
+-    OPC_PRECEQ_L_PWL    = (0x14 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEQ_L_PWR    = (0x15 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEQ_PW_QHL   = (0x0C << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEQ_PW_QHR   = (0x0D << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEQ_PW_QHLA  = (0x0E << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEQ_PW_QHRA  = (0x0F << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEQU_QH_OBL  = (0x04 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEQU_QH_OBR  = (0x05 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEQU_QH_OBLA = (0x06 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEQU_QH_OBRA = (0x07 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEU_QH_OBL   = (0x1C << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEU_QH_OBR   = (0x1D << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEU_QH_OBLA  = (0x1E << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_PRECEU_QH_OBRA  = (0x1F << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_ABSQ_S_OB       = (0x01 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_ABSQ_S_PW       = (0x11 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_ABSQ_S_QH       = (0x09 << 6) | OPC_ABSQ_S_QH_DSP,
+-    /* DSP Bit/Manipulation Sub-class */
+-    OPC_REPL_OB         = (0x02 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_REPL_PW         = (0x12 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_REPL_QH         = (0x0A << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_REPLV_OB        = (0x03 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_REPLV_PW        = (0x13 << 6) | OPC_ABSQ_S_QH_DSP,
+-    OPC_REPLV_QH        = (0x0B << 6) | OPC_ABSQ_S_QH_DSP,
+-};
+-
+-#define MASK_ADDU_OB(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Multiply Sub-class insns */
+-    OPC_MULEQ_S_PW_QHL = (0x1C << 6) | OPC_ADDU_OB_DSP,
+-    OPC_MULEQ_S_PW_QHR = (0x1D << 6) | OPC_ADDU_OB_DSP,
+-    OPC_MULEU_S_QH_OBL = (0x06 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_MULEU_S_QH_OBR = (0x07 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_MULQ_RS_QH     = (0x1F << 6) | OPC_ADDU_OB_DSP,
+-    /* MIPS DSP Arithmetic Sub-class */
+-    OPC_RADDU_L_OB     = (0x14 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_SUBQ_PW        = (0x13 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_SUBQ_S_PW      = (0x17 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_SUBQ_QH        = (0x0B << 6) | OPC_ADDU_OB_DSP,
+-    OPC_SUBQ_S_QH      = (0x0F << 6) | OPC_ADDU_OB_DSP,
+-    OPC_SUBU_OB        = (0x01 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_SUBU_S_OB      = (0x05 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_SUBU_QH        = (0x09 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_SUBU_S_QH      = (0x0D << 6) | OPC_ADDU_OB_DSP,
+-    OPC_SUBUH_OB       = (0x19 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_SUBUH_R_OB     = (0x1B << 6) | OPC_ADDU_OB_DSP,
+-    OPC_ADDQ_PW        = (0x12 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_ADDQ_S_PW      = (0x16 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_ADDQ_QH        = (0x0A << 6) | OPC_ADDU_OB_DSP,
+-    OPC_ADDQ_S_QH      = (0x0E << 6) | OPC_ADDU_OB_DSP,
+-    OPC_ADDU_OB        = (0x00 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_ADDU_S_OB      = (0x04 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_ADDU_QH        = (0x08 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_ADDU_S_QH      = (0x0C << 6) | OPC_ADDU_OB_DSP,
+-    OPC_ADDUH_OB       = (0x18 << 6) | OPC_ADDU_OB_DSP,
+-    OPC_ADDUH_R_OB     = (0x1A << 6) | OPC_ADDU_OB_DSP,
+-};
+-
+-#define MASK_CMPU_EQ_OB(op)         (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* DSP Compare-Pick Sub-class */
+-    OPC_CMP_EQ_PW         = (0x10 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMP_LT_PW         = (0x11 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMP_LE_PW         = (0x12 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMP_EQ_QH         = (0x08 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMP_LT_QH         = (0x09 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMP_LE_QH         = (0x0A << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMPGDU_EQ_OB      = (0x18 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMPGDU_LT_OB      = (0x19 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMPGDU_LE_OB      = (0x1A << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMPGU_EQ_OB       = (0x04 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMPGU_LT_OB       = (0x05 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMPGU_LE_OB       = (0x06 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMPU_EQ_OB        = (0x00 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMPU_LT_OB        = (0x01 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_CMPU_LE_OB        = (0x02 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PACKRL_PW         = (0x0E << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PICK_OB           = (0x03 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PICK_PW           = (0x13 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PICK_QH           = (0x0B << 6) | OPC_CMPU_EQ_OB_DSP,
+-    /* MIPS DSP Arithmetic Sub-class */
+-    OPC_PRECR_OB_QH       = (0x0D << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PRECR_SRA_QH_PW   = (0x1E << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PRECR_SRA_R_QH_PW = (0x1F << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PRECRQ_OB_QH      = (0x0C << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PRECRQ_PW_L       = (0x1C << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PRECRQ_QH_PW      = (0x14 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PRECRQ_RS_QH_PW   = (0x15 << 6) | OPC_CMPU_EQ_OB_DSP,
+-    OPC_PRECRQU_S_OB_QH   = (0x0F << 6) | OPC_CMPU_EQ_OB_DSP,
+-};
+-
+-#define MASK_DAPPEND(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* DSP Append Sub-class */
+-    OPC_DAPPEND  = (0x00 << 6) | OPC_DAPPEND_DSP,
+-    OPC_PREPENDD = (0x03 << 6) | OPC_DAPPEND_DSP,
+-    OPC_PREPENDW = (0x01 << 6) | OPC_DAPPEND_DSP,
+-    OPC_DBALIGN  = (0x10 << 6) | OPC_DAPPEND_DSP,
+-};
+-
+-#define MASK_DEXTR_W(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Accumulator and DSPControl Access Sub-class */
+-    OPC_DMTHLIP     = (0x1F << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DSHILO      = (0x1A << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTP       = (0x02 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTPDP     = (0x0A << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTPDPV    = (0x0B << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTPV      = (0x03 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTR_L     = (0x10 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTR_R_L   = (0x14 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTR_RS_L  = (0x16 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTR_W     = (0x00 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTR_R_W   = (0x04 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTR_RS_W  = (0x06 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTR_S_H   = (0x0E << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTRV_L    = (0x11 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTRV_R_L  = (0x15 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTRV_RS_L = (0x17 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTRV_S_H  = (0x0F << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTRV_W    = (0x01 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTRV_R_W  = (0x05 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DEXTRV_RS_W = (0x07 << 6) | OPC_DEXTR_W_DSP,
+-    OPC_DSHILOV     = (0x1B << 6) | OPC_DEXTR_W_DSP,
+-};
+-
+-#define MASK_DINSV(op)              (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* DSP Bit/Manipulation Sub-class */
+-    OPC_DINSV = (0x00 << 6) | OPC_DINSV_DSP,
+-};
+-
+-#define MASK_DPAQ_W_QH(op)          (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP Multiply Sub-class insns */
+-    OPC_DMADD         = (0x19 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DMADDU        = (0x1D << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DMSUB         = (0x1B << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DMSUBU        = (0x1F << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DPA_W_QH      = (0x00 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DPAQ_S_W_QH   = (0x04 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DPAQ_SA_L_PW  = (0x0C << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DPAU_H_OBL    = (0x03 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DPAU_H_OBR    = (0x07 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DPS_W_QH      = (0x01 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DPSQ_S_W_QH   = (0x05 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DPSQ_SA_L_PW  = (0x0D << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DPSU_H_OBL    = (0x0B << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_DPSU_H_OBR    = (0x0F << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MAQ_S_L_PWL   = (0x1C << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MAQ_S_L_PWR   = (0x1E << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MAQ_S_W_QHLL  = (0x14 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MAQ_SA_W_QHLL = (0x10 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MAQ_S_W_QHLR  = (0x15 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MAQ_SA_W_QHLR = (0x11 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MAQ_S_W_QHRL  = (0x16 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MAQ_SA_W_QHRL = (0x12 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MAQ_S_W_QHRR  = (0x17 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MAQ_SA_W_QHRR = (0x13 << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MULSAQ_S_L_PW = (0x0E << 6) | OPC_DPAQ_W_QH_DSP,
+-    OPC_MULSAQ_S_W_QH = (0x06 << 6) | OPC_DPAQ_W_QH_DSP,
+-};
+-
+-#define MASK_SHLL_OB(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
+-enum {
+-    /* MIPS DSP GPR-Based Shift Sub-class */
+-    OPC_SHLL_PW    = (0x10 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHLL_S_PW  = (0x14 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHLLV_OB   = (0x02 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHLLV_PW   = (0x12 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHLLV_S_PW = (0x16 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHLLV_QH   = (0x0A << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHLLV_S_QH = (0x0E << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRA_PW    = (0x11 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRA_R_PW  = (0x15 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRAV_OB   = (0x06 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRAV_R_OB = (0x07 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRAV_PW   = (0x13 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRAV_R_PW = (0x17 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRAV_QH   = (0x0B << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRAV_R_QH = (0x0F << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRLV_OB   = (0x03 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRLV_QH   = (0x1B << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHLL_OB    = (0x00 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHLL_QH    = (0x08 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHLL_S_QH  = (0x0C << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRA_OB    = (0x04 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRA_R_OB  = (0x05 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRA_QH    = (0x09 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRA_R_QH  = (0x0D << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRL_OB    = (0x01 << 6) | OPC_SHLL_OB_DSP,
+-    OPC_SHRL_QH    = (0x19 << 6) | OPC_SHLL_OB_DSP,
+-};
+-
+ /* Coprocessor 0 (rs field) */
+ #define MASK_CP0(op)                (MASK_OP_MAJOR(op) | (op & (0x1F << 21)))
+ 
+@@ -2759,42 +2329,9 @@ static inline void check_cp1_registers(DisasContext *ctx, int regs)
+     }
+ }
+ 
+-/*
+- * Verify that the processor is running with DSP instructions enabled.
+- * This is enabled by CP0 Status register MX(24) bit.
+- */
+-static inline void check_dsp(DisasContext *ctx)
+-{
+-    if (unlikely(!(ctx->hflags & MIPS_HFLAG_DSP))) {
+-        if (ctx->insn_flags & ASE_DSP) {
+-            generate_exception_end(ctx, EXCP_DSPDIS);
+-        } else {
+-            generate_exception_end(ctx, EXCP_RI);
+-        }
+-    }
+-}
+-
+-static inline void check_dsp_r2(DisasContext *ctx)
+-{
+-    if (unlikely(!(ctx->hflags & MIPS_HFLAG_DSP_R2))) {
+-        if (ctx->insn_flags & ASE_DSP) {
+-            generate_exception_end(ctx, EXCP_DSPDIS);
+-        } else {
+-            generate_exception_end(ctx, EXCP_RI);
+-        }
+-    }
+-}
+-
+-static inline void check_dsp_r3(DisasContext *ctx)
+-{
+-    if (unlikely(!(ctx->hflags & MIPS_HFLAG_DSP_R3))) {
+-        if (ctx->insn_flags & ASE_DSP) {
+-            generate_exception_end(ctx, EXCP_DSPDIS);
+-        } else {
+-            generate_exception_end(ctx, EXCP_RI);
+-        }
+-    }
+-}
++static inline void check_dsp(DisasContext *ctx);
++static inline void check_dsp_r2(DisasContext *ctx);
++static inline void check_dsp_r3(DisasContext *ctx);
+ 
+ /*
+  * This code generates a "reserved instruction" exception if the
+@@ -22785,1686 +22322,7 @@ static int decode_nanomips_opc(CPUMIPSState *env, DisasContext *ctx)
+ 
+ #endif
+ 
+-/* MIPSDSP functions. */
+-static void gen_mipsdsp_ld(DisasContext *ctx, uint32_t opc,
+-                           int rd, int base, int offset)
+-{
+-    TCGv t0;
+-
+-    check_dsp(ctx);
+-    t0 = tcg_temp_new();
+-
+-    if (base == 0) {
+-        gen_load_gpr(t0, offset);
+-    } else if (offset == 0) {
+-        gen_load_gpr(t0, base);
+-    } else {
+-        gen_op_addr_add(ctx, t0, cpu_gpr[base], cpu_gpr[offset]);
+-    }
+-
+-    switch (opc) {
+-    case OPC_LBUX:
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_UB);
+-        gen_store_gpr(t0, rd);
+-        break;
+-    case OPC_LHX:
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESW);
+-        gen_store_gpr(t0, rd);
+-        break;
+-    case OPC_LWX:
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESL);
+-        gen_store_gpr(t0, rd);
+-        break;
+-#if defined(TARGET_MIPS64)
+-    case OPC_LDX:
+-        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ);
+-        gen_store_gpr(t0, rd);
+-        break;
+-#endif
+-    }
+-    tcg_temp_free(t0);
+-}
+-
+-static void gen_mipsdsp_arith(DisasContext *ctx, uint32_t op1, uint32_t op2,
+-                              int ret, int v1, int v2)
+-{
+-    TCGv v1_t;
+-    TCGv v2_t;
+-
+-    if (ret == 0) {
+-        /* Treat as NOP. */
+-        return;
+-    }
+-
+-    v1_t = tcg_temp_new();
+-    v2_t = tcg_temp_new();
+-
+-    gen_load_gpr(v1_t, v1);
+-    gen_load_gpr(v2_t, v2);
+-
+-    switch (op1) {
+-    /* OPC_MULT_G_2E is equal OPC_ADDUH_QB_DSP */
+-    case OPC_MULT_G_2E:
+-        check_dsp_r2(ctx);
+-        switch (op2) {
+-        case OPC_ADDUH_QB:
+-            gen_helper_adduh_qb(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_ADDUH_R_QB:
+-            gen_helper_adduh_r_qb(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_ADDQH_PH:
+-            gen_helper_addqh_ph(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_ADDQH_R_PH:
+-            gen_helper_addqh_r_ph(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_ADDQH_W:
+-            gen_helper_addqh_w(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_ADDQH_R_W:
+-            gen_helper_addqh_r_w(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_SUBUH_QB:
+-            gen_helper_subuh_qb(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_SUBUH_R_QB:
+-            gen_helper_subuh_r_qb(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_SUBQH_PH:
+-            gen_helper_subqh_ph(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_SUBQH_R_PH:
+-            gen_helper_subqh_r_ph(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_SUBQH_W:
+-            gen_helper_subqh_w(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_SUBQH_R_W:
+-            gen_helper_subqh_r_w(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        }
+-        break;
+-    case OPC_ABSQ_S_PH_DSP:
+-        switch (op2) {
+-        case OPC_ABSQ_S_QB:
+-            check_dsp_r2(ctx);
+-            gen_helper_absq_s_qb(cpu_gpr[ret], v2_t, cpu_env);
+-            break;
+-        case OPC_ABSQ_S_PH:
+-            check_dsp(ctx);
+-            gen_helper_absq_s_ph(cpu_gpr[ret], v2_t, cpu_env);
+-            break;
+-        case OPC_ABSQ_S_W:
+-            check_dsp(ctx);
+-            gen_helper_absq_s_w(cpu_gpr[ret], v2_t, cpu_env);
+-            break;
+-        case OPC_PRECEQ_W_PHL:
+-            check_dsp(ctx);
+-            tcg_gen_andi_tl(cpu_gpr[ret], v2_t, 0xFFFF0000);
+-            tcg_gen_ext32s_tl(cpu_gpr[ret], cpu_gpr[ret]);
+-            break;
+-        case OPC_PRECEQ_W_PHR:
+-            check_dsp(ctx);
+-            tcg_gen_andi_tl(cpu_gpr[ret], v2_t, 0x0000FFFF);
+-            tcg_gen_shli_tl(cpu_gpr[ret], cpu_gpr[ret], 16);
+-            tcg_gen_ext32s_tl(cpu_gpr[ret], cpu_gpr[ret]);
+-            break;
+-        case OPC_PRECEQU_PH_QBL:
+-            check_dsp(ctx);
+-            gen_helper_precequ_ph_qbl(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEQU_PH_QBR:
+-            check_dsp(ctx);
+-            gen_helper_precequ_ph_qbr(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEQU_PH_QBLA:
+-            check_dsp(ctx);
+-            gen_helper_precequ_ph_qbla(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEQU_PH_QBRA:
+-            check_dsp(ctx);
+-            gen_helper_precequ_ph_qbra(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEU_PH_QBL:
+-            check_dsp(ctx);
+-            gen_helper_preceu_ph_qbl(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEU_PH_QBR:
+-            check_dsp(ctx);
+-            gen_helper_preceu_ph_qbr(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEU_PH_QBLA:
+-            check_dsp(ctx);
+-            gen_helper_preceu_ph_qbla(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEU_PH_QBRA:
+-            check_dsp(ctx);
+-            gen_helper_preceu_ph_qbra(cpu_gpr[ret], v2_t);
+-            break;
+-        }
+-        break;
+-    case OPC_ADDU_QB_DSP:
+-        switch (op2) {
+-        case OPC_ADDQ_PH:
+-            check_dsp(ctx);
+-            gen_helper_addq_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDQ_S_PH:
+-            check_dsp(ctx);
+-            gen_helper_addq_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDQ_S_W:
+-            check_dsp(ctx);
+-            gen_helper_addq_s_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDU_QB:
+-            check_dsp(ctx);
+-            gen_helper_addu_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDU_S_QB:
+-            check_dsp(ctx);
+-            gen_helper_addu_s_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDU_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_addu_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDU_S_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_addu_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBQ_PH:
+-            check_dsp(ctx);
+-            gen_helper_subq_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBQ_S_PH:
+-            check_dsp(ctx);
+-            gen_helper_subq_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBQ_S_W:
+-            check_dsp(ctx);
+-            gen_helper_subq_s_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBU_QB:
+-            check_dsp(ctx);
+-            gen_helper_subu_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBU_S_QB:
+-            check_dsp(ctx);
+-            gen_helper_subu_s_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBU_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_subu_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBU_S_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_subu_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDSC:
+-            check_dsp(ctx);
+-            gen_helper_addsc(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDWC:
+-            check_dsp(ctx);
+-            gen_helper_addwc(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MODSUB:
+-            check_dsp(ctx);
+-            gen_helper_modsub(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_RADDU_W_QB:
+-            check_dsp(ctx);
+-            gen_helper_raddu_w_qb(cpu_gpr[ret], v1_t);
+-            break;
+-        }
+-        break;
+-    case OPC_CMPU_EQ_QB_DSP:
+-        switch (op2) {
+-        case OPC_PRECR_QB_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_precr_qb_ph(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_PRECRQ_QB_PH:
+-            check_dsp(ctx);
+-            gen_helper_precrq_qb_ph(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_PRECR_SRA_PH_W:
+-            check_dsp_r2(ctx);
+-            {
+-                TCGv_i32 sa_t = tcg_const_i32(v2);
+-                gen_helper_precr_sra_ph_w(cpu_gpr[ret], sa_t, v1_t,
+-                                          cpu_gpr[ret]);
+-                tcg_temp_free_i32(sa_t);
+-                break;
+-            }
+-        case OPC_PRECR_SRA_R_PH_W:
+-            check_dsp_r2(ctx);
+-            {
+-                TCGv_i32 sa_t = tcg_const_i32(v2);
+-                gen_helper_precr_sra_r_ph_w(cpu_gpr[ret], sa_t, v1_t,
+-                                            cpu_gpr[ret]);
+-                tcg_temp_free_i32(sa_t);
+-                break;
+-            }
+-        case OPC_PRECRQ_PH_W:
+-            check_dsp(ctx);
+-            gen_helper_precrq_ph_w(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_PRECRQ_RS_PH_W:
+-            check_dsp(ctx);
+-            gen_helper_precrq_rs_ph_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_PRECRQU_S_QB_PH:
+-            check_dsp(ctx);
+-            gen_helper_precrqu_s_qb_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        }
+-        break;
+-#ifdef TARGET_MIPS64
+-    case OPC_ABSQ_S_QH_DSP:
+-        switch (op2) {
+-        case OPC_PRECEQ_L_PWL:
+-            check_dsp(ctx);
+-            tcg_gen_andi_tl(cpu_gpr[ret], v2_t, 0xFFFFFFFF00000000ull);
+-            break;
+-        case OPC_PRECEQ_L_PWR:
+-            check_dsp(ctx);
+-            tcg_gen_shli_tl(cpu_gpr[ret], v2_t, 32);
+-            break;
+-        case OPC_PRECEQ_PW_QHL:
+-            check_dsp(ctx);
+-            gen_helper_preceq_pw_qhl(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEQ_PW_QHR:
+-            check_dsp(ctx);
+-            gen_helper_preceq_pw_qhr(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEQ_PW_QHLA:
+-            check_dsp(ctx);
+-            gen_helper_preceq_pw_qhla(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEQ_PW_QHRA:
+-            check_dsp(ctx);
+-            gen_helper_preceq_pw_qhra(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEQU_QH_OBL:
+-            check_dsp(ctx);
+-            gen_helper_precequ_qh_obl(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEQU_QH_OBR:
+-            check_dsp(ctx);
+-            gen_helper_precequ_qh_obr(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEQU_QH_OBLA:
+-            check_dsp(ctx);
+-            gen_helper_precequ_qh_obla(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEQU_QH_OBRA:
+-            check_dsp(ctx);
+-            gen_helper_precequ_qh_obra(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEU_QH_OBL:
+-            check_dsp(ctx);
+-            gen_helper_preceu_qh_obl(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEU_QH_OBR:
+-            check_dsp(ctx);
+-            gen_helper_preceu_qh_obr(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEU_QH_OBLA:
+-            check_dsp(ctx);
+-            gen_helper_preceu_qh_obla(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_PRECEU_QH_OBRA:
+-            check_dsp(ctx);
+-            gen_helper_preceu_qh_obra(cpu_gpr[ret], v2_t);
+-            break;
+-        case OPC_ABSQ_S_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_absq_s_ob(cpu_gpr[ret], v2_t, cpu_env);
+-            break;
+-        case OPC_ABSQ_S_PW:
+-            check_dsp(ctx);
+-            gen_helper_absq_s_pw(cpu_gpr[ret], v2_t, cpu_env);
+-            break;
+-        case OPC_ABSQ_S_QH:
+-            check_dsp(ctx);
+-            gen_helper_absq_s_qh(cpu_gpr[ret], v2_t, cpu_env);
+-            break;
+-        }
+-        break;
+-    case OPC_ADDU_OB_DSP:
+-        switch (op2) {
+-        case OPC_RADDU_L_OB:
+-            check_dsp(ctx);
+-            gen_helper_raddu_l_ob(cpu_gpr[ret], v1_t);
+-            break;
+-        case OPC_SUBQ_PW:
+-            check_dsp(ctx);
+-            gen_helper_subq_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBQ_S_PW:
+-            check_dsp(ctx);
+-            gen_helper_subq_s_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBQ_QH:
+-            check_dsp(ctx);
+-            gen_helper_subq_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBQ_S_QH:
+-            check_dsp(ctx);
+-            gen_helper_subq_s_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBU_OB:
+-            check_dsp(ctx);
+-            gen_helper_subu_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBU_S_OB:
+-            check_dsp(ctx);
+-            gen_helper_subu_s_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBU_QH:
+-            check_dsp_r2(ctx);
+-            gen_helper_subu_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBU_S_QH:
+-            check_dsp_r2(ctx);
+-            gen_helper_subu_s_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_SUBUH_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_subuh_ob(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_SUBUH_R_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_subuh_r_ob(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_ADDQ_PW:
+-            check_dsp(ctx);
+-            gen_helper_addq_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDQ_S_PW:
+-            check_dsp(ctx);
+-            gen_helper_addq_s_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDQ_QH:
+-            check_dsp(ctx);
+-            gen_helper_addq_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDQ_S_QH:
+-            check_dsp(ctx);
+-            gen_helper_addq_s_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDU_OB:
+-            check_dsp(ctx);
+-            gen_helper_addu_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDU_S_OB:
+-            check_dsp(ctx);
+-            gen_helper_addu_s_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDU_QH:
+-            check_dsp_r2(ctx);
+-            gen_helper_addu_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDU_S_QH:
+-            check_dsp_r2(ctx);
+-            gen_helper_addu_s_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_ADDUH_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_adduh_ob(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_ADDUH_R_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_adduh_r_ob(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        }
+-        break;
+-    case OPC_CMPU_EQ_OB_DSP:
+-        switch (op2) {
+-        case OPC_PRECR_OB_QH:
+-            check_dsp_r2(ctx);
+-            gen_helper_precr_ob_qh(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_PRECR_SRA_QH_PW:
+-            check_dsp_r2(ctx);
+-            {
+-                TCGv_i32 ret_t = tcg_const_i32(ret);
+-                gen_helper_precr_sra_qh_pw(v2_t, v1_t, v2_t, ret_t);
+-                tcg_temp_free_i32(ret_t);
+-                break;
+-            }
+-        case OPC_PRECR_SRA_R_QH_PW:
+-            check_dsp_r2(ctx);
+-            {
+-                TCGv_i32 sa_v = tcg_const_i32(ret);
+-                gen_helper_precr_sra_r_qh_pw(v2_t, v1_t, v2_t, sa_v);
+-                tcg_temp_free_i32(sa_v);
+-                break;
+-            }
+-        case OPC_PRECRQ_OB_QH:
+-            check_dsp(ctx);
+-            gen_helper_precrq_ob_qh(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_PRECRQ_PW_L:
+-            check_dsp(ctx);
+-            gen_helper_precrq_pw_l(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_PRECRQ_QH_PW:
+-            check_dsp(ctx);
+-            gen_helper_precrq_qh_pw(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_PRECRQ_RS_QH_PW:
+-            check_dsp(ctx);
+-            gen_helper_precrq_rs_qh_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_PRECRQU_S_OB_QH:
+-            check_dsp(ctx);
+-            gen_helper_precrqu_s_ob_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        }
+-        break;
+-#endif
+-    }
+-
+-    tcg_temp_free(v1_t);
+-    tcg_temp_free(v2_t);
+-}
+-
+-static void gen_mipsdsp_shift(DisasContext *ctx, uint32_t opc,
+-                              int ret, int v1, int v2)
+-{
+-    uint32_t op2;
+-    TCGv t0;
+-    TCGv v1_t;
+-    TCGv v2_t;
+-
+-    if (ret == 0) {
+-        /* Treat as NOP. */
+-        return;
+-    }
+-
+-    t0 = tcg_temp_new();
+-    v1_t = tcg_temp_new();
+-    v2_t = tcg_temp_new();
+-
+-    tcg_gen_movi_tl(t0, v1);
+-    gen_load_gpr(v1_t, v1);
+-    gen_load_gpr(v2_t, v2);
+-
+-    switch (opc) {
+-    case OPC_SHLL_QB_DSP:
+-        {
+-            op2 = MASK_SHLL_QB(ctx->opcode);
+-            switch (op2) {
+-            case OPC_SHLL_QB:
+-                check_dsp(ctx);
+-                gen_helper_shll_qb(cpu_gpr[ret], t0, v2_t, cpu_env);
+-                break;
+-            case OPC_SHLLV_QB:
+-                check_dsp(ctx);
+-                gen_helper_shll_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-                break;
+-            case OPC_SHLL_PH:
+-                check_dsp(ctx);
+-                gen_helper_shll_ph(cpu_gpr[ret], t0, v2_t, cpu_env);
+-                break;
+-            case OPC_SHLLV_PH:
+-                check_dsp(ctx);
+-                gen_helper_shll_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-                break;
+-            case OPC_SHLL_S_PH:
+-                check_dsp(ctx);
+-                gen_helper_shll_s_ph(cpu_gpr[ret], t0, v2_t, cpu_env);
+-                break;
+-            case OPC_SHLLV_S_PH:
+-                check_dsp(ctx);
+-                gen_helper_shll_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-                break;
+-            case OPC_SHLL_S_W:
+-                check_dsp(ctx);
+-                gen_helper_shll_s_w(cpu_gpr[ret], t0, v2_t, cpu_env);
+-                break;
+-            case OPC_SHLLV_S_W:
+-                check_dsp(ctx);
+-                gen_helper_shll_s_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-                break;
+-            case OPC_SHRL_QB:
+-                check_dsp(ctx);
+-                gen_helper_shrl_qb(cpu_gpr[ret], t0, v2_t);
+-                break;
+-            case OPC_SHRLV_QB:
+-                check_dsp(ctx);
+-                gen_helper_shrl_qb(cpu_gpr[ret], v1_t, v2_t);
+-                break;
+-            case OPC_SHRL_PH:
+-                check_dsp_r2(ctx);
+-                gen_helper_shrl_ph(cpu_gpr[ret], t0, v2_t);
+-                break;
+-            case OPC_SHRLV_PH:
+-                check_dsp_r2(ctx);
+-                gen_helper_shrl_ph(cpu_gpr[ret], v1_t, v2_t);
+-                break;
+-            case OPC_SHRA_QB:
+-                check_dsp_r2(ctx);
+-                gen_helper_shra_qb(cpu_gpr[ret], t0, v2_t);
+-                break;
+-            case OPC_SHRA_R_QB:
+-                check_dsp_r2(ctx);
+-                gen_helper_shra_r_qb(cpu_gpr[ret], t0, v2_t);
+-                break;
+-            case OPC_SHRAV_QB:
+-                check_dsp_r2(ctx);
+-                gen_helper_shra_qb(cpu_gpr[ret], v1_t, v2_t);
+-                break;
+-            case OPC_SHRAV_R_QB:
+-                check_dsp_r2(ctx);
+-                gen_helper_shra_r_qb(cpu_gpr[ret], v1_t, v2_t);
+-                break;
+-            case OPC_SHRA_PH:
+-                check_dsp(ctx);
+-                gen_helper_shra_ph(cpu_gpr[ret], t0, v2_t);
+-                break;
+-            case OPC_SHRA_R_PH:
+-                check_dsp(ctx);
+-                gen_helper_shra_r_ph(cpu_gpr[ret], t0, v2_t);
+-                break;
+-            case OPC_SHRAV_PH:
+-                check_dsp(ctx);
+-                gen_helper_shra_ph(cpu_gpr[ret], v1_t, v2_t);
+-                break;
+-            case OPC_SHRAV_R_PH:
+-                check_dsp(ctx);
+-                gen_helper_shra_r_ph(cpu_gpr[ret], v1_t, v2_t);
+-                break;
+-            case OPC_SHRA_R_W:
+-                check_dsp(ctx);
+-                gen_helper_shra_r_w(cpu_gpr[ret], t0, v2_t);
+-                break;
+-            case OPC_SHRAV_R_W:
+-                check_dsp(ctx);
+-                gen_helper_shra_r_w(cpu_gpr[ret], v1_t, v2_t);
+-                break;
+-            default:            /* Invalid */
+-                MIPS_INVAL("MASK SHLL.QB");
+-                generate_exception_end(ctx, EXCP_RI);
+-                break;
+-            }
+-            break;
+-        }
+-#ifdef TARGET_MIPS64
+-    case OPC_SHLL_OB_DSP:
+-        op2 = MASK_SHLL_OB(ctx->opcode);
+-        switch (op2) {
+-        case OPC_SHLL_PW:
+-            check_dsp(ctx);
+-            gen_helper_shll_pw(cpu_gpr[ret], v2_t, t0, cpu_env);
+-            break;
+-        case OPC_SHLLV_PW:
+-            check_dsp(ctx);
+-            gen_helper_shll_pw(cpu_gpr[ret], v2_t, v1_t, cpu_env);
+-            break;
+-        case OPC_SHLL_S_PW:
+-            check_dsp(ctx);
+-            gen_helper_shll_s_pw(cpu_gpr[ret], v2_t, t0, cpu_env);
+-            break;
+-        case OPC_SHLLV_S_PW:
+-            check_dsp(ctx);
+-            gen_helper_shll_s_pw(cpu_gpr[ret], v2_t, v1_t, cpu_env);
+-            break;
+-        case OPC_SHLL_OB:
+-            check_dsp(ctx);
+-            gen_helper_shll_ob(cpu_gpr[ret], v2_t, t0, cpu_env);
+-            break;
+-        case OPC_SHLLV_OB:
+-            check_dsp(ctx);
+-            gen_helper_shll_ob(cpu_gpr[ret], v2_t, v1_t, cpu_env);
+-            break;
+-        case OPC_SHLL_QH:
+-            check_dsp(ctx);
+-            gen_helper_shll_qh(cpu_gpr[ret], v2_t, t0, cpu_env);
+-            break;
+-        case OPC_SHLLV_QH:
+-            check_dsp(ctx);
+-            gen_helper_shll_qh(cpu_gpr[ret], v2_t, v1_t, cpu_env);
+-            break;
+-        case OPC_SHLL_S_QH:
+-            check_dsp(ctx);
+-            gen_helper_shll_s_qh(cpu_gpr[ret], v2_t, t0, cpu_env);
+-            break;
+-        case OPC_SHLLV_S_QH:
+-            check_dsp(ctx);
+-            gen_helper_shll_s_qh(cpu_gpr[ret], v2_t, v1_t, cpu_env);
+-            break;
+-        case OPC_SHRA_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_shra_ob(cpu_gpr[ret], v2_t, t0);
+-            break;
+-        case OPC_SHRAV_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_shra_ob(cpu_gpr[ret], v2_t, v1_t);
+-            break;
+-        case OPC_SHRA_R_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_shra_r_ob(cpu_gpr[ret], v2_t, t0);
+-            break;
+-        case OPC_SHRAV_R_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_shra_r_ob(cpu_gpr[ret], v2_t, v1_t);
+-            break;
+-        case OPC_SHRA_PW:
+-            check_dsp(ctx);
+-            gen_helper_shra_pw(cpu_gpr[ret], v2_t, t0);
+-            break;
+-        case OPC_SHRAV_PW:
+-            check_dsp(ctx);
+-            gen_helper_shra_pw(cpu_gpr[ret], v2_t, v1_t);
+-            break;
+-        case OPC_SHRA_R_PW:
+-            check_dsp(ctx);
+-            gen_helper_shra_r_pw(cpu_gpr[ret], v2_t, t0);
+-            break;
+-        case OPC_SHRAV_R_PW:
+-            check_dsp(ctx);
+-            gen_helper_shra_r_pw(cpu_gpr[ret], v2_t, v1_t);
+-            break;
+-        case OPC_SHRA_QH:
+-            check_dsp(ctx);
+-            gen_helper_shra_qh(cpu_gpr[ret], v2_t, t0);
+-            break;
+-        case OPC_SHRAV_QH:
+-            check_dsp(ctx);
+-            gen_helper_shra_qh(cpu_gpr[ret], v2_t, v1_t);
+-            break;
+-        case OPC_SHRA_R_QH:
+-            check_dsp(ctx);
+-            gen_helper_shra_r_qh(cpu_gpr[ret], v2_t, t0);
+-            break;
+-        case OPC_SHRAV_R_QH:
+-            check_dsp(ctx);
+-            gen_helper_shra_r_qh(cpu_gpr[ret], v2_t, v1_t);
+-            break;
+-        case OPC_SHRL_OB:
+-            check_dsp(ctx);
+-            gen_helper_shrl_ob(cpu_gpr[ret], v2_t, t0);
+-            break;
+-        case OPC_SHRLV_OB:
+-            check_dsp(ctx);
+-            gen_helper_shrl_ob(cpu_gpr[ret], v2_t, v1_t);
+-            break;
+-        case OPC_SHRL_QH:
+-            check_dsp_r2(ctx);
+-            gen_helper_shrl_qh(cpu_gpr[ret], v2_t, t0);
+-            break;
+-        case OPC_SHRLV_QH:
+-            check_dsp_r2(ctx);
+-            gen_helper_shrl_qh(cpu_gpr[ret], v2_t, v1_t);
+-            break;
+-        default:            /* Invalid */
+-            MIPS_INVAL("MASK SHLL.OB");
+-            generate_exception_end(ctx, EXCP_RI);
+-            break;
+-        }
+-        break;
+-#endif
+-    }
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(v1_t);
+-    tcg_temp_free(v2_t);
+-}
+-
+-static void gen_mipsdsp_multiply(DisasContext *ctx, uint32_t op1, uint32_t op2,
+-                                 int ret, int v1, int v2, int check_ret)
+-{
+-    TCGv_i32 t0;
+-    TCGv v1_t;
+-    TCGv v2_t;
+-
+-    if ((ret == 0) && (check_ret == 1)) {
+-        /* Treat as NOP. */
+-        return;
+-    }
+-
+-    t0 = tcg_temp_new_i32();
+-    v1_t = tcg_temp_new();
+-    v2_t = tcg_temp_new();
+-
+-    tcg_gen_movi_i32(t0, ret);
+-    gen_load_gpr(v1_t, v1);
+-    gen_load_gpr(v2_t, v2);
+-
+-    switch (op1) {
+-    /*
+-     * OPC_MULT_G_2E, OPC_ADDUH_QB_DSP, OPC_MUL_PH_DSP have
+-     * the same mask and op1.
+-     */
+-    case OPC_MULT_G_2E:
+-        check_dsp_r2(ctx);
+-        switch (op2) {
+-        case  OPC_MUL_PH:
+-            gen_helper_mul_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case  OPC_MUL_S_PH:
+-            gen_helper_mul_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULQ_S_W:
+-            gen_helper_mulq_s_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULQ_RS_W:
+-            gen_helper_mulq_rs_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        }
+-        break;
+-    case OPC_DPA_W_PH_DSP:
+-        switch (op2) {
+-        case OPC_DPAU_H_QBL:
+-            check_dsp(ctx);
+-            gen_helper_dpau_h_qbl(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPAU_H_QBR:
+-            check_dsp(ctx);
+-            gen_helper_dpau_h_qbr(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPSU_H_QBL:
+-            check_dsp(ctx);
+-            gen_helper_dpsu_h_qbl(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPSU_H_QBR:
+-            check_dsp(ctx);
+-            gen_helper_dpsu_h_qbr(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPA_W_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_dpa_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPAX_W_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_dpax_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPAQ_S_W_PH:
+-            check_dsp(ctx);
+-            gen_helper_dpaq_s_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPAQX_S_W_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_dpaqx_s_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPAQX_SA_W_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_dpaqx_sa_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPS_W_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_dps_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPSX_W_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_dpsx_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPSQ_S_W_PH:
+-            check_dsp(ctx);
+-            gen_helper_dpsq_s_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPSQX_S_W_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_dpsqx_s_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPSQX_SA_W_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_dpsqx_sa_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULSAQ_S_W_PH:
+-            check_dsp(ctx);
+-            gen_helper_mulsaq_s_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPAQ_SA_L_W:
+-            check_dsp(ctx);
+-            gen_helper_dpaq_sa_l_w(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_DPSQ_SA_L_W:
+-            check_dsp(ctx);
+-            gen_helper_dpsq_sa_l_w(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MAQ_S_W_PHL:
+-            check_dsp(ctx);
+-            gen_helper_maq_s_w_phl(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MAQ_S_W_PHR:
+-            check_dsp(ctx);
+-            gen_helper_maq_s_w_phr(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MAQ_SA_W_PHL:
+-            check_dsp(ctx);
+-            gen_helper_maq_sa_w_phl(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MAQ_SA_W_PHR:
+-            check_dsp(ctx);
+-            gen_helper_maq_sa_w_phr(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULSA_W_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_mulsa_w_ph(t0, v1_t, v2_t, cpu_env);
+-            break;
+-        }
+-        break;
+-#ifdef TARGET_MIPS64
+-    case OPC_DPAQ_W_QH_DSP:
+-        {
+-            int ac = ret & 0x03;
+-            tcg_gen_movi_i32(t0, ac);
+-
+-            switch (op2) {
+-            case OPC_DMADD:
+-                check_dsp(ctx);
+-                gen_helper_dmadd(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DMADDU:
+-                check_dsp(ctx);
+-                gen_helper_dmaddu(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DMSUB:
+-                check_dsp(ctx);
+-                gen_helper_dmsub(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DMSUBU:
+-                check_dsp(ctx);
+-                gen_helper_dmsubu(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DPA_W_QH:
+-                check_dsp_r2(ctx);
+-                gen_helper_dpa_w_qh(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DPAQ_S_W_QH:
+-                check_dsp(ctx);
+-                gen_helper_dpaq_s_w_qh(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DPAQ_SA_L_PW:
+-                check_dsp(ctx);
+-                gen_helper_dpaq_sa_l_pw(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DPAU_H_OBL:
+-                check_dsp(ctx);
+-                gen_helper_dpau_h_obl(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DPAU_H_OBR:
+-                check_dsp(ctx);
+-                gen_helper_dpau_h_obr(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DPS_W_QH:
+-                check_dsp_r2(ctx);
+-                gen_helper_dps_w_qh(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DPSQ_S_W_QH:
+-                check_dsp(ctx);
+-                gen_helper_dpsq_s_w_qh(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DPSQ_SA_L_PW:
+-                check_dsp(ctx);
+-                gen_helper_dpsq_sa_l_pw(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DPSU_H_OBL:
+-                check_dsp(ctx);
+-                gen_helper_dpsu_h_obl(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_DPSU_H_OBR:
+-                check_dsp(ctx);
+-                gen_helper_dpsu_h_obr(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MAQ_S_L_PWL:
+-                check_dsp(ctx);
+-                gen_helper_maq_s_l_pwl(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MAQ_S_L_PWR:
+-                check_dsp(ctx);
+-                gen_helper_maq_s_l_pwr(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MAQ_S_W_QHLL:
+-                check_dsp(ctx);
+-                gen_helper_maq_s_w_qhll(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MAQ_SA_W_QHLL:
+-                check_dsp(ctx);
+-                gen_helper_maq_sa_w_qhll(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MAQ_S_W_QHLR:
+-                check_dsp(ctx);
+-                gen_helper_maq_s_w_qhlr(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MAQ_SA_W_QHLR:
+-                check_dsp(ctx);
+-                gen_helper_maq_sa_w_qhlr(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MAQ_S_W_QHRL:
+-                check_dsp(ctx);
+-                gen_helper_maq_s_w_qhrl(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MAQ_SA_W_QHRL:
+-                check_dsp(ctx);
+-                gen_helper_maq_sa_w_qhrl(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MAQ_S_W_QHRR:
+-                check_dsp(ctx);
+-                gen_helper_maq_s_w_qhrr(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MAQ_SA_W_QHRR:
+-                check_dsp(ctx);
+-                gen_helper_maq_sa_w_qhrr(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MULSAQ_S_L_PW:
+-                check_dsp(ctx);
+-                gen_helper_mulsaq_s_l_pw(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            case OPC_MULSAQ_S_W_QH:
+-                check_dsp(ctx);
+-                gen_helper_mulsaq_s_w_qh(v1_t, v2_t, t0, cpu_env);
+-                break;
+-            }
+-        }
+-        break;
+-#endif
+-    case OPC_ADDU_QB_DSP:
+-        switch (op2) {
+-        case OPC_MULEU_S_PH_QBL:
+-            check_dsp(ctx);
+-            gen_helper_muleu_s_ph_qbl(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULEU_S_PH_QBR:
+-            check_dsp(ctx);
+-            gen_helper_muleu_s_ph_qbr(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULQ_RS_PH:
+-            check_dsp(ctx);
+-            gen_helper_mulq_rs_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULEQ_S_W_PHL:
+-            check_dsp(ctx);
+-            gen_helper_muleq_s_w_phl(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULEQ_S_W_PHR:
+-            check_dsp(ctx);
+-            gen_helper_muleq_s_w_phr(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULQ_S_PH:
+-            check_dsp_r2(ctx);
+-            gen_helper_mulq_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        }
+-        break;
+-#ifdef TARGET_MIPS64
+-    case OPC_ADDU_OB_DSP:
+-        switch (op2) {
+-        case OPC_MULEQ_S_PW_QHL:
+-            check_dsp(ctx);
+-            gen_helper_muleq_s_pw_qhl(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULEQ_S_PW_QHR:
+-            check_dsp(ctx);
+-            gen_helper_muleq_s_pw_qhr(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULEU_S_QH_OBL:
+-            check_dsp(ctx);
+-            gen_helper_muleu_s_qh_obl(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULEU_S_QH_OBR:
+-            check_dsp(ctx);
+-            gen_helper_muleu_s_qh_obr(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_MULQ_RS_QH:
+-            check_dsp(ctx);
+-            gen_helper_mulq_rs_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        }
+-        break;
+-#endif
+-    }
+-
+-    tcg_temp_free_i32(t0);
+-    tcg_temp_free(v1_t);
+-    tcg_temp_free(v2_t);
+-}
+-
+-static void gen_mipsdsp_bitinsn(DisasContext *ctx, uint32_t op1, uint32_t op2,
+-                                int ret, int val)
+-{
+-    int16_t imm;
+-    TCGv t0;
+-    TCGv val_t;
+-
+-    if (ret == 0) {
+-        /* Treat as NOP. */
+-        return;
+-    }
+-
+-    t0 = tcg_temp_new();
+-    val_t = tcg_temp_new();
+-    gen_load_gpr(val_t, val);
+-
+-    switch (op1) {
+-    case OPC_ABSQ_S_PH_DSP:
+-        switch (op2) {
+-        case OPC_BITREV:
+-            check_dsp(ctx);
+-            gen_helper_bitrev(cpu_gpr[ret], val_t);
+-            break;
+-        case OPC_REPL_QB:
+-            check_dsp(ctx);
+-            {
+-                target_long result;
+-                imm = (ctx->opcode >> 16) & 0xFF;
+-                result = (uint32_t)imm << 24 |
+-                         (uint32_t)imm << 16 |
+-                         (uint32_t)imm << 8  |
+-                         (uint32_t)imm;
+-                result = (int32_t)result;
+-                tcg_gen_movi_tl(cpu_gpr[ret], result);
+-            }
+-            break;
+-        case OPC_REPLV_QB:
+-            check_dsp(ctx);
+-            tcg_gen_ext8u_tl(cpu_gpr[ret], val_t);
+-            tcg_gen_shli_tl(t0, cpu_gpr[ret], 8);
+-            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
+-            tcg_gen_shli_tl(t0, cpu_gpr[ret], 16);
+-            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
+-            tcg_gen_ext32s_tl(cpu_gpr[ret], cpu_gpr[ret]);
+-            break;
+-        case OPC_REPL_PH:
+-            check_dsp(ctx);
+-            {
+-                imm = (ctx->opcode >> 16) & 0x03FF;
+-                imm = (int16_t)(imm << 6) >> 6;
+-                tcg_gen_movi_tl(cpu_gpr[ret], \
+-                                (target_long)((int32_t)imm << 16 | \
+-                                (uint16_t)imm));
+-            }
+-            break;
+-        case OPC_REPLV_PH:
+-            check_dsp(ctx);
+-            tcg_gen_ext16u_tl(cpu_gpr[ret], val_t);
+-            tcg_gen_shli_tl(t0, cpu_gpr[ret], 16);
+-            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
+-            tcg_gen_ext32s_tl(cpu_gpr[ret], cpu_gpr[ret]);
+-            break;
+-        }
+-        break;
+-#ifdef TARGET_MIPS64
+-    case OPC_ABSQ_S_QH_DSP:
+-        switch (op2) {
+-        case OPC_REPL_OB:
+-            check_dsp(ctx);
+-            {
+-                target_long temp;
+-
+-                imm = (ctx->opcode >> 16) & 0xFF;
+-                temp = ((uint64_t)imm << 8) | (uint64_t)imm;
+-                temp = (temp << 16) | temp;
+-                temp = (temp << 32) | temp;
+-                tcg_gen_movi_tl(cpu_gpr[ret], temp);
+-                break;
+-            }
+-        case OPC_REPL_PW:
+-            check_dsp(ctx);
+-            {
+-                target_long temp;
+-
+-                imm = (ctx->opcode >> 16) & 0x03FF;
+-                imm = (int16_t)(imm << 6) >> 6;
+-                temp = ((target_long)imm << 32) \
+-                       | ((target_long)imm & 0xFFFFFFFF);
+-                tcg_gen_movi_tl(cpu_gpr[ret], temp);
+-                break;
+-            }
+-        case OPC_REPL_QH:
+-            check_dsp(ctx);
+-            {
+-                target_long temp;
+-
+-                imm = (ctx->opcode >> 16) & 0x03FF;
+-                imm = (int16_t)(imm << 6) >> 6;
+-
+-                temp = ((uint64_t)(uint16_t)imm << 48) |
+-                       ((uint64_t)(uint16_t)imm << 32) |
+-                       ((uint64_t)(uint16_t)imm << 16) |
+-                       (uint64_t)(uint16_t)imm;
+-                tcg_gen_movi_tl(cpu_gpr[ret], temp);
+-                break;
+-            }
+-        case OPC_REPLV_OB:
+-            check_dsp(ctx);
+-            tcg_gen_ext8u_tl(cpu_gpr[ret], val_t);
+-            tcg_gen_shli_tl(t0, cpu_gpr[ret], 8);
+-            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
+-            tcg_gen_shli_tl(t0, cpu_gpr[ret], 16);
+-            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
+-            tcg_gen_shli_tl(t0, cpu_gpr[ret], 32);
+-            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
+-            break;
+-        case OPC_REPLV_PW:
+-            check_dsp(ctx);
+-            tcg_gen_ext32u_i64(cpu_gpr[ret], val_t);
+-            tcg_gen_shli_tl(t0, cpu_gpr[ret], 32);
+-            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
+-            break;
+-        case OPC_REPLV_QH:
+-            check_dsp(ctx);
+-            tcg_gen_ext16u_tl(cpu_gpr[ret], val_t);
+-            tcg_gen_shli_tl(t0, cpu_gpr[ret], 16);
+-            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
+-            tcg_gen_shli_tl(t0, cpu_gpr[ret], 32);
+-            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
+-            break;
+-        }
+-        break;
+-#endif
+-    }
+-    tcg_temp_free(t0);
+-    tcg_temp_free(val_t);
+-}
+-
+-static void gen_mipsdsp_add_cmp_pick(DisasContext *ctx,
+-                                     uint32_t op1, uint32_t op2,
+-                                     int ret, int v1, int v2, int check_ret)
+-{
+-    TCGv t1;
+-    TCGv v1_t;
+-    TCGv v2_t;
+-
+-    if ((ret == 0) && (check_ret == 1)) {
+-        /* Treat as NOP. */
+-        return;
+-    }
+-
+-    t1 = tcg_temp_new();
+-    v1_t = tcg_temp_new();
+-    v2_t = tcg_temp_new();
+-
+-    gen_load_gpr(v1_t, v1);
+-    gen_load_gpr(v2_t, v2);
+-
+-    switch (op1) {
+-    case OPC_CMPU_EQ_QB_DSP:
+-        switch (op2) {
+-        case OPC_CMPU_EQ_QB:
+-            check_dsp(ctx);
+-            gen_helper_cmpu_eq_qb(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMPU_LT_QB:
+-            check_dsp(ctx);
+-            gen_helper_cmpu_lt_qb(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMPU_LE_QB:
+-            check_dsp(ctx);
+-            gen_helper_cmpu_le_qb(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMPGU_EQ_QB:
+-            check_dsp(ctx);
+-            gen_helper_cmpgu_eq_qb(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_CMPGU_LT_QB:
+-            check_dsp(ctx);
+-            gen_helper_cmpgu_lt_qb(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_CMPGU_LE_QB:
+-            check_dsp(ctx);
+-            gen_helper_cmpgu_le_qb(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_CMPGDU_EQ_QB:
+-            check_dsp_r2(ctx);
+-            gen_helper_cmpgu_eq_qb(t1, v1_t, v2_t);
+-            tcg_gen_mov_tl(cpu_gpr[ret], t1);
+-            tcg_gen_andi_tl(cpu_dspctrl, cpu_dspctrl, 0xF0FFFFFF);
+-            tcg_gen_shli_tl(t1, t1, 24);
+-            tcg_gen_or_tl(cpu_dspctrl, cpu_dspctrl, t1);
+-            break;
+-        case OPC_CMPGDU_LT_QB:
+-            check_dsp_r2(ctx);
+-            gen_helper_cmpgu_lt_qb(t1, v1_t, v2_t);
+-            tcg_gen_mov_tl(cpu_gpr[ret], t1);
+-            tcg_gen_andi_tl(cpu_dspctrl, cpu_dspctrl, 0xF0FFFFFF);
+-            tcg_gen_shli_tl(t1, t1, 24);
+-            tcg_gen_or_tl(cpu_dspctrl, cpu_dspctrl, t1);
+-            break;
+-        case OPC_CMPGDU_LE_QB:
+-            check_dsp_r2(ctx);
+-            gen_helper_cmpgu_le_qb(t1, v1_t, v2_t);
+-            tcg_gen_mov_tl(cpu_gpr[ret], t1);
+-            tcg_gen_andi_tl(cpu_dspctrl, cpu_dspctrl, 0xF0FFFFFF);
+-            tcg_gen_shli_tl(t1, t1, 24);
+-            tcg_gen_or_tl(cpu_dspctrl, cpu_dspctrl, t1);
+-            break;
+-        case OPC_CMP_EQ_PH:
+-            check_dsp(ctx);
+-            gen_helper_cmp_eq_ph(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMP_LT_PH:
+-            check_dsp(ctx);
+-            gen_helper_cmp_lt_ph(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMP_LE_PH:
+-            check_dsp(ctx);
+-            gen_helper_cmp_le_ph(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_PICK_QB:
+-            check_dsp(ctx);
+-            gen_helper_pick_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_PICK_PH:
+-            check_dsp(ctx);
+-            gen_helper_pick_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_PACKRL_PH:
+-            check_dsp(ctx);
+-            gen_helper_packrl_ph(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        }
+-        break;
+-#ifdef TARGET_MIPS64
+-    case OPC_CMPU_EQ_OB_DSP:
+-        switch (op2) {
+-        case OPC_CMP_EQ_PW:
+-            check_dsp(ctx);
+-            gen_helper_cmp_eq_pw(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMP_LT_PW:
+-            check_dsp(ctx);
+-            gen_helper_cmp_lt_pw(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMP_LE_PW:
+-            check_dsp(ctx);
+-            gen_helper_cmp_le_pw(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMP_EQ_QH:
+-            check_dsp(ctx);
+-            gen_helper_cmp_eq_qh(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMP_LT_QH:
+-            check_dsp(ctx);
+-            gen_helper_cmp_lt_qh(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMP_LE_QH:
+-            check_dsp(ctx);
+-            gen_helper_cmp_le_qh(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMPGDU_EQ_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_cmpgdu_eq_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMPGDU_LT_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_cmpgdu_lt_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMPGDU_LE_OB:
+-            check_dsp_r2(ctx);
+-            gen_helper_cmpgdu_le_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMPGU_EQ_OB:
+-            check_dsp(ctx);
+-            gen_helper_cmpgu_eq_ob(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_CMPGU_LT_OB:
+-            check_dsp(ctx);
+-            gen_helper_cmpgu_lt_ob(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_CMPGU_LE_OB:
+-            check_dsp(ctx);
+-            gen_helper_cmpgu_le_ob(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_CMPU_EQ_OB:
+-            check_dsp(ctx);
+-            gen_helper_cmpu_eq_ob(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMPU_LT_OB:
+-            check_dsp(ctx);
+-            gen_helper_cmpu_lt_ob(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_CMPU_LE_OB:
+-            check_dsp(ctx);
+-            gen_helper_cmpu_le_ob(v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_PACKRL_PW:
+-            check_dsp(ctx);
+-            gen_helper_packrl_pw(cpu_gpr[ret], v1_t, v2_t);
+-            break;
+-        case OPC_PICK_OB:
+-            check_dsp(ctx);
+-            gen_helper_pick_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_PICK_PW:
+-            check_dsp(ctx);
+-            gen_helper_pick_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        case OPC_PICK_QH:
+-            check_dsp(ctx);
+-            gen_helper_pick_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
+-            break;
+-        }
+-        break;
+-#endif
+-    }
+-
+-    tcg_temp_free(t1);
+-    tcg_temp_free(v1_t);
+-    tcg_temp_free(v2_t);
+-}
+-
+-static void gen_mipsdsp_append(CPUMIPSState *env, DisasContext *ctx,
+-                               uint32_t op1, int rt, int rs, int sa)
+-{
+-    TCGv t0;
+-
+-    check_dsp_r2(ctx);
+-
+-    if (rt == 0) {
+-        /* Treat as NOP. */
+-        return;
+-    }
+-
+-    t0 = tcg_temp_new();
+-    gen_load_gpr(t0, rs);
+-
+-    switch (op1) {
+-    case OPC_APPEND_DSP:
+-        switch (MASK_APPEND(ctx->opcode)) {
+-        case OPC_APPEND:
+-            if (sa != 0) {
+-                tcg_gen_deposit_tl(cpu_gpr[rt], t0, cpu_gpr[rt], sa, 32 - sa);
+-            }
+-            tcg_gen_ext32s_tl(cpu_gpr[rt], cpu_gpr[rt]);
+-            break;
+-        case OPC_PREPEND:
+-            if (sa != 0) {
+-                tcg_gen_ext32u_tl(cpu_gpr[rt], cpu_gpr[rt]);
+-                tcg_gen_shri_tl(cpu_gpr[rt], cpu_gpr[rt], sa);
+-                tcg_gen_shli_tl(t0, t0, 32 - sa);
+-                tcg_gen_or_tl(cpu_gpr[rt], cpu_gpr[rt], t0);
+-            }
+-            tcg_gen_ext32s_tl(cpu_gpr[rt], cpu_gpr[rt]);
+-            break;
+-        case OPC_BALIGN:
+-            sa &= 3;
+-            if (sa != 0 && sa != 2) {
+-                tcg_gen_shli_tl(cpu_gpr[rt], cpu_gpr[rt], 8 * sa);
+-                tcg_gen_ext32u_tl(t0, t0);
+-                tcg_gen_shri_tl(t0, t0, 8 * (4 - sa));
+-                tcg_gen_or_tl(cpu_gpr[rt], cpu_gpr[rt], t0);
+-            }
+-            tcg_gen_ext32s_tl(cpu_gpr[rt], cpu_gpr[rt]);
+-            break;
+-        default:            /* Invalid */
+-            MIPS_INVAL("MASK APPEND");
+-            generate_exception_end(ctx, EXCP_RI);
+-            break;
+-        }
+-        break;
+-#ifdef TARGET_MIPS64
+-    case OPC_DAPPEND_DSP:
+-        switch (MASK_DAPPEND(ctx->opcode)) {
+-        case OPC_DAPPEND:
+-            if (sa != 0) {
+-                tcg_gen_deposit_tl(cpu_gpr[rt], t0, cpu_gpr[rt], sa, 64 - sa);
+-            }
+-            break;
+-        case OPC_PREPENDD:
+-            tcg_gen_shri_tl(cpu_gpr[rt], cpu_gpr[rt], 0x20 | sa);
+-            tcg_gen_shli_tl(t0, t0, 64 - (0x20 | sa));
+-            tcg_gen_or_tl(cpu_gpr[rt], t0, t0);
+-            break;
+-        case OPC_PREPENDW:
+-            if (sa != 0) {
+-                tcg_gen_shri_tl(cpu_gpr[rt], cpu_gpr[rt], sa);
+-                tcg_gen_shli_tl(t0, t0, 64 - sa);
+-                tcg_gen_or_tl(cpu_gpr[rt], cpu_gpr[rt], t0);
+-            }
+-            break;
+-        case OPC_DBALIGN:
+-            sa &= 7;
+-            if (sa != 0 && sa != 2 && sa != 4) {
+-                tcg_gen_shli_tl(cpu_gpr[rt], cpu_gpr[rt], 8 * sa);
+-                tcg_gen_shri_tl(t0, t0, 8 * (8 - sa));
+-                tcg_gen_or_tl(cpu_gpr[rt], cpu_gpr[rt], t0);
+-            }
+-            break;
+-        default:            /* Invalid */
+-            MIPS_INVAL("MASK DAPPEND");
+-            generate_exception_end(ctx, EXCP_RI);
+-            break;
+-        }
+-        break;
+-#endif
+-    }
+-    tcg_temp_free(t0);
+-}
+-
+-static void gen_mipsdsp_accinsn(DisasContext *ctx, uint32_t op1, uint32_t op2,
+-                                int ret, int v1, int v2, int check_ret)
+-
+-{
+-    TCGv t0;
+-    TCGv t1;
+-    TCGv v1_t;
+-    TCGv v2_t;
+-    int16_t imm;
+-
+-    if ((ret == 0) && (check_ret == 1)) {
+-        /* Treat as NOP. */
+-        return;
+-    }
+-
+-    t0 = tcg_temp_new();
+-    t1 = tcg_temp_new();
+-    v1_t = tcg_temp_new();
+-    v2_t = tcg_temp_new();
+-
+-    gen_load_gpr(v1_t, v1);
+-    gen_load_gpr(v2_t, v2);
+-
+-    switch (op1) {
+-    case OPC_EXTR_W_DSP:
+-        check_dsp(ctx);
+-        switch (op2) {
+-        case OPC_EXTR_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_extr_w(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_EXTR_R_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_extr_r_w(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_EXTR_RS_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_extr_rs_w(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_EXTR_S_H:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_extr_s_h(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_EXTRV_S_H:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_extr_s_h(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_EXTRV_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_extr_w(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_EXTRV_R_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_extr_r_w(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_EXTRV_RS_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_extr_rs_w(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_EXTP:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_extp(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_EXTPV:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_extp(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_EXTPDP:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_extpdp(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_EXTPDPV:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_extpdp(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_SHILO:
+-            imm = (ctx->opcode >> 20) & 0x3F;
+-            tcg_gen_movi_tl(t0, ret);
+-            tcg_gen_movi_tl(t1, imm);
+-            gen_helper_shilo(t0, t1, cpu_env);
+-            break;
+-        case OPC_SHILOV:
+-            tcg_gen_movi_tl(t0, ret);
+-            gen_helper_shilo(t0, v1_t, cpu_env);
+-            break;
+-        case OPC_MTHLIP:
+-            tcg_gen_movi_tl(t0, ret);
+-            gen_helper_mthlip(t0, v1_t, cpu_env);
+-            break;
+-        case OPC_WRDSP:
+-            imm = (ctx->opcode >> 11) & 0x3FF;
+-            tcg_gen_movi_tl(t0, imm);
+-            gen_helper_wrdsp(v1_t, t0, cpu_env);
+-            break;
+-        case OPC_RDDSP:
+-            imm = (ctx->opcode >> 16) & 0x03FF;
+-            tcg_gen_movi_tl(t0, imm);
+-            gen_helper_rddsp(cpu_gpr[ret], t0, cpu_env);
+-            break;
+-        }
+-        break;
+-#ifdef TARGET_MIPS64
+-    case OPC_DEXTR_W_DSP:
+-        check_dsp(ctx);
+-        switch (op2) {
+-        case OPC_DMTHLIP:
+-            tcg_gen_movi_tl(t0, ret);
+-            gen_helper_dmthlip(v1_t, t0, cpu_env);
+-            break;
+-        case OPC_DSHILO:
+-            {
+-                int shift = (ctx->opcode >> 19) & 0x7F;
+-                int ac = (ctx->opcode >> 11) & 0x03;
+-                tcg_gen_movi_tl(t0, shift);
+-                tcg_gen_movi_tl(t1, ac);
+-                gen_helper_dshilo(t0, t1, cpu_env);
+-                break;
+-            }
+-        case OPC_DSHILOV:
+-            {
+-                int ac = (ctx->opcode >> 11) & 0x03;
+-                tcg_gen_movi_tl(t0, ac);
+-                gen_helper_dshilo(v1_t, t0, cpu_env);
+-                break;
+-            }
+-        case OPC_DEXTP:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-
+-            gen_helper_dextp(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_DEXTPV:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_dextp(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_DEXTPDP:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextpdp(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_DEXTPDPV:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_dextpdp(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_DEXTR_L:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextr_l(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_DEXTR_R_L:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextr_r_l(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_DEXTR_RS_L:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextr_rs_l(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_DEXTR_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextr_w(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_DEXTR_R_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextr_r_w(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_DEXTR_RS_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextr_rs_w(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_DEXTR_S_H:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextr_s_h(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_DEXTRV_S_H:
+-            tcg_gen_movi_tl(t0, v2);
+-            tcg_gen_movi_tl(t1, v1);
+-            gen_helper_dextr_s_h(cpu_gpr[ret], t0, t1, cpu_env);
+-            break;
+-        case OPC_DEXTRV_L:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_dextr_l(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_DEXTRV_R_L:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_dextr_r_l(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_DEXTRV_RS_L:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_dextr_rs_l(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_DEXTRV_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_dextr_w(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_DEXTRV_R_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_dextr_r_w(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        case OPC_DEXTRV_RS_W:
+-            tcg_gen_movi_tl(t0, v2);
+-            gen_helper_dextr_rs_w(cpu_gpr[ret], t0, v1_t, cpu_env);
+-            break;
+-        }
+-        break;
+-#endif
+-    }
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    tcg_temp_free(v1_t);
+-    tcg_temp_free(v2_t);
+-}
+-
+-/* End MIPSDSP functions. */
++#include "mod-dsp_translate.c.inc"
+ 
+ static void decode_opc_special_r6(CPUMIPSState *env, DisasContext *ctx)
+ {
+diff --git a/target/mips/mod-dsp_translate.c.inc b/target/mips/mod-dsp_translate.c.inc
 new file mode 100644
-index 00000000000..83f188a697e
+index 00000000000..80e3172c0be
 --- /dev/null
-+++ b/target/mips/mod-dsp_helper.h.inc
-@@ -0,0 +1,344 @@
++++ b/target/mips/mod-dsp_translate.c.inc
+@@ -0,0 +1,2158 @@
 +/*
-+ * MIPS ASE DSP instruction emulation helpers for QEMU.
++ *  MIPS DSP Architecture Module translation routines
 + *
 + *  Copyright (c) 2004-2005 Jocelyn Mayer
 + *  Copyright (c) 2006 Marius Groeger (FPU operations)
@@ -466,338 +2305,2152 @@ index 00000000000..83f188a697e
 + * SPDX-License-Identifier: LGPL-2.1-or-later
 + */
 +
-+/* DSP Arithmetic Sub-class insns */
-+DEF_HELPER_FLAGS_3(addq_ph, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(addq_s_ph, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(addq_qh, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(addq_s_qh, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(addq_s_w, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(addq_pw, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(addq_s_pw, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(addu_qb, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(addu_s_qb, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_2(adduh_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(adduh_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(addu_ph, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(addu_s_ph, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_2(addqh_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(addqh_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(addqh_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(addqh_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(addu_ob, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(addu_s_ob, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_2(adduh_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(adduh_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(addu_qh, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(addu_s_qh, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(subq_ph, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(subq_s_ph, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(subq_qh, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(subq_s_qh, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(subq_s_w, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(subq_pw, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(subq_s_pw, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(subu_qb, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(subu_s_qb, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_2(subuh_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(subuh_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(subu_ph, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(subu_s_ph, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_2(subqh_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(subqh_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(subqh_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(subqh_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(subu_ob, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(subu_s_ob, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_2(subuh_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(subuh_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(subu_qh, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(subu_s_qh, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(addsc, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(addwc, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_2(modsub, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_1(raddu_w_qb, TCG_CALL_NO_RWG_SE, tl, tl)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_1(raddu_l_ob, TCG_CALL_NO_RWG_SE, tl, tl)
-+#endif
-+DEF_HELPER_FLAGS_2(absq_s_qb, 0, tl, tl, env)
-+DEF_HELPER_FLAGS_2(absq_s_ph, 0, tl, tl, env)
-+DEF_HELPER_FLAGS_2(absq_s_w, 0, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_2(absq_s_ob, 0, tl, tl, env)
-+DEF_HELPER_FLAGS_2(absq_s_qh, 0, tl, tl, env)
-+DEF_HELPER_FLAGS_2(absq_s_pw, 0, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_2(precr_qb_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(precrq_qb_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(precr_sra_ph_w, TCG_CALL_NO_RWG_SE,
-+                   tl, i32, tl, tl)
-+DEF_HELPER_FLAGS_3(precr_sra_r_ph_w, TCG_CALL_NO_RWG_SE,
-+                   tl, i32, tl, tl)
-+DEF_HELPER_FLAGS_2(precrq_ph_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(precrq_rs_ph_w, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_2(precr_ob_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(precr_sra_qh_pw,
-+                   TCG_CALL_NO_RWG_SE, tl, tl, tl, i32)
-+DEF_HELPER_FLAGS_3(precr_sra_r_qh_pw,
-+                   TCG_CALL_NO_RWG_SE, tl, tl, tl, i32)
-+DEF_HELPER_FLAGS_2(precrq_ob_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(precrq_qh_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(precrq_rs_qh_pw,
-+                   TCG_CALL_NO_RWG_SE, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_2(precrq_pw_l, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#endif
-+DEF_HELPER_FLAGS_3(precrqu_s_qb_ph, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(precrqu_s_ob_qh,
-+                   TCG_CALL_NO_RWG_SE, tl, tl, tl, env)
++enum {
++    /* MIPS DSP Load */
++    OPC_LX_DSP         = 0x0A | OPC_SPECIAL3,
++    /* MIPS DSP Arithmetic */
++    OPC_ADDU_QB_DSP    = 0x10 | OPC_SPECIAL3,
++    OPC_ADDU_OB_DSP    = 0x14 | OPC_SPECIAL3,
++    OPC_ABSQ_S_PH_DSP  = 0x12 | OPC_SPECIAL3,
++    OPC_ABSQ_S_QH_DSP  = 0x16 | OPC_SPECIAL3,
++    /* OPC_ADDUH_QB_DSP is same as OPC_MULT_G_2E.  */
++    /* OPC_ADDUH_QB_DSP   = 0x18 | OPC_SPECIAL3,  */
++    OPC_CMPU_EQ_QB_DSP = 0x11 | OPC_SPECIAL3,
++    OPC_CMPU_EQ_OB_DSP = 0x15 | OPC_SPECIAL3,
++    /* MIPS DSP GPR-Based Shift Sub-class */
++    OPC_SHLL_QB_DSP    = 0x13 | OPC_SPECIAL3,
++    OPC_SHLL_OB_DSP    = 0x17 | OPC_SPECIAL3,
++    /* MIPS DSP Multiply Sub-class insns */
++    /* OPC_MUL_PH_DSP is same as OPC_ADDUH_QB_DSP.  */
++    /* OPC_MUL_PH_DSP     = 0x18 | OPC_SPECIAL3,  */
++    OPC_DPA_W_PH_DSP   = 0x30 | OPC_SPECIAL3,
++    OPC_DPAQ_W_QH_DSP  = 0x34 | OPC_SPECIAL3,
++    /* DSP Bit/Manipulation Sub-class */
++    OPC_INSV_DSP       = 0x0C | OPC_SPECIAL3,
++    OPC_DINSV_DSP      = 0x0D | OPC_SPECIAL3,
++    /* MIPS DSP Append Sub-class */
++    OPC_APPEND_DSP     = 0x31 | OPC_SPECIAL3,
++    OPC_DAPPEND_DSP    = 0x35 | OPC_SPECIAL3,
++    /* MIPS DSP Accumulator and DSPControl Access Sub-class */
++    OPC_EXTR_W_DSP     = 0x38 | OPC_SPECIAL3,
++    OPC_DEXTR_W_DSP    = 0x3C | OPC_SPECIAL3,
++};
 +
-+DEF_HELPER_FLAGS_1(preceq_pw_qhl, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(preceq_pw_qhr, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(preceq_pw_qhla, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(preceq_pw_qhra, TCG_CALL_NO_RWG_SE, tl, tl)
-+#endif
-+DEF_HELPER_FLAGS_1(precequ_ph_qbl, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(precequ_ph_qbr, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(precequ_ph_qbla, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(precequ_ph_qbra, TCG_CALL_NO_RWG_SE, tl, tl)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_1(precequ_qh_obl, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(precequ_qh_obr, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(precequ_qh_obla, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(precequ_qh_obra, TCG_CALL_NO_RWG_SE, tl, tl)
-+#endif
-+DEF_HELPER_FLAGS_1(preceu_ph_qbl, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(preceu_ph_qbr, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(preceu_ph_qbla, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(preceu_ph_qbra, TCG_CALL_NO_RWG_SE, tl, tl)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_1(preceu_qh_obl, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(preceu_qh_obr, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(preceu_qh_obla, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_1(preceu_qh_obra, TCG_CALL_NO_RWG_SE, tl, tl)
-+#endif
++#define MASK_LX(op)                 (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++/* MIPS DSP Load */
++enum {
++    OPC_LBUX = (0x06 << 6) | OPC_LX_DSP,
++    OPC_LHX  = (0x04 << 6) | OPC_LX_DSP,
++    OPC_LWX  = (0x00 << 6) | OPC_LX_DSP,
++    OPC_LDX = (0x08 << 6) | OPC_LX_DSP,
++};
 +
-+/* DSP GPR-Based Shift Sub-class insns */
-+DEF_HELPER_FLAGS_3(shll_qb, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(shll_ob, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(shll_ph, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(shll_s_ph, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(shll_qh, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(shll_s_qh, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(shll_s_w, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(shll_pw, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(shll_s_pw, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_2(shrl_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(shrl_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_2(shrl_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(shrl_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#endif
-+DEF_HELPER_FLAGS_2(shra_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(shra_r_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_2(shra_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(shra_r_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#endif
-+DEF_HELPER_FLAGS_2(shra_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(shra_r_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(shra_r_w, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_2(shra_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(shra_r_qh, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(shra_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(shra_r_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#endif
++#define MASK_ADDU_QB(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Arithmetic Sub-class */
++    OPC_ADDQ_PH        = (0x0A << 6) | OPC_ADDU_QB_DSP,
++    OPC_ADDQ_S_PH      = (0x0E << 6) | OPC_ADDU_QB_DSP,
++    OPC_ADDQ_S_W       = (0x16 << 6) | OPC_ADDU_QB_DSP,
++    OPC_ADDU_QB        = (0x00 << 6) | OPC_ADDU_QB_DSP,
++    OPC_ADDU_S_QB      = (0x04 << 6) | OPC_ADDU_QB_DSP,
++    OPC_ADDU_PH        = (0x08 << 6) | OPC_ADDU_QB_DSP,
++    OPC_ADDU_S_PH      = (0x0C << 6) | OPC_ADDU_QB_DSP,
++    OPC_SUBQ_PH        = (0x0B << 6) | OPC_ADDU_QB_DSP,
++    OPC_SUBQ_S_PH      = (0x0F << 6) | OPC_ADDU_QB_DSP,
++    OPC_SUBQ_S_W       = (0x17 << 6) | OPC_ADDU_QB_DSP,
++    OPC_SUBU_QB        = (0x01 << 6) | OPC_ADDU_QB_DSP,
++    OPC_SUBU_S_QB      = (0x05 << 6) | OPC_ADDU_QB_DSP,
++    OPC_SUBU_PH        = (0x09 << 6) | OPC_ADDU_QB_DSP,
++    OPC_SUBU_S_PH      = (0x0D << 6) | OPC_ADDU_QB_DSP,
++    OPC_ADDSC          = (0x10 << 6) | OPC_ADDU_QB_DSP,
++    OPC_ADDWC          = (0x11 << 6) | OPC_ADDU_QB_DSP,
++    OPC_MODSUB         = (0x12 << 6) | OPC_ADDU_QB_DSP,
++    OPC_RADDU_W_QB     = (0x14 << 6) | OPC_ADDU_QB_DSP,
++    /* MIPS DSP Multiply Sub-class insns */
++    OPC_MULEU_S_PH_QBL = (0x06 << 6) | OPC_ADDU_QB_DSP,
++    OPC_MULEU_S_PH_QBR = (0x07 << 6) | OPC_ADDU_QB_DSP,
++    OPC_MULQ_RS_PH     = (0x1F << 6) | OPC_ADDU_QB_DSP,
++    OPC_MULEQ_S_W_PHL  = (0x1C << 6) | OPC_ADDU_QB_DSP,
++    OPC_MULEQ_S_W_PHR  = (0x1D << 6) | OPC_ADDU_QB_DSP,
++    OPC_MULQ_S_PH      = (0x1E << 6) | OPC_ADDU_QB_DSP,
++};
 +
-+/* DSP Multiply Sub-class insns */
-+DEF_HELPER_FLAGS_3(muleu_s_ph_qbl, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(muleu_s_ph_qbr, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(muleu_s_qh_obl, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(muleu_s_qh_obr, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(mulq_rs_ph, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(mulq_rs_qh, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(muleq_s_w_phl, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(muleq_s_w_phr, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(muleq_s_pw_qhl, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(muleq_s_pw_qhr, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_4(dpau_h_qbl, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(dpau_h_qbr, 0, void, i32, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_4(dpau_h_obl, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(dpau_h_obr, 0, void, tl, tl, i32, env)
-+#endif
-+DEF_HELPER_FLAGS_4(dpsu_h_qbl, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(dpsu_h_qbr, 0, void, i32, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_4(dpsu_h_obl, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(dpsu_h_obr, 0, void, tl, tl, i32, env)
-+#endif
-+DEF_HELPER_FLAGS_4(dpa_w_ph, 0, void, i32, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_4(dpa_w_qh, 0, void, tl, tl, i32, env)
-+#endif
-+DEF_HELPER_FLAGS_4(dpax_w_ph, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(dpaq_s_w_ph, 0, void, i32, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_4(dpaq_s_w_qh, 0, void, tl, tl, i32, env)
-+#endif
-+DEF_HELPER_FLAGS_4(dpaqx_s_w_ph, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(dpaqx_sa_w_ph, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(dps_w_ph, 0, void, i32, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_4(dps_w_qh, 0, void, tl, tl, i32, env)
-+#endif
-+DEF_HELPER_FLAGS_4(dpsx_w_ph, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(dpsq_s_w_ph, 0, void, i32, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_4(dpsq_s_w_qh, 0, void, tl, tl, i32, env)
-+#endif
-+DEF_HELPER_FLAGS_4(dpsqx_s_w_ph, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(dpsqx_sa_w_ph, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(mulsaq_s_w_ph, 0, void, i32, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_4(mulsaq_s_w_qh, 0, void, tl, tl, i32, env)
-+#endif
-+DEF_HELPER_FLAGS_4(dpaq_sa_l_w, 0, void, i32, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_4(dpaq_sa_l_pw, 0, void, tl, tl, i32, env)
-+#endif
-+DEF_HELPER_FLAGS_4(dpsq_sa_l_w, 0, void, i32, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_4(dpsq_sa_l_pw, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(mulsaq_s_l_pw, 0, void, tl, tl, i32, env)
-+#endif
-+DEF_HELPER_FLAGS_4(maq_s_w_phl, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(maq_s_w_phr, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(maq_sa_w_phl, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_4(maq_sa_w_phr, 0, void, i32, tl, tl, env)
-+DEF_HELPER_FLAGS_3(mul_ph, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(mul_s_ph, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(mulq_s_ph, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(mulq_s_w, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(mulq_rs_w, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_4(mulsa_w_ph, 0, void, i32, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_4(maq_s_w_qhll, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(maq_s_w_qhlr, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(maq_s_w_qhrl, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(maq_s_w_qhrr, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(maq_sa_w_qhll, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(maq_sa_w_qhlr, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(maq_sa_w_qhrl, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(maq_sa_w_qhrr, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(maq_s_l_pwl, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(maq_s_l_pwr, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(dmadd, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(dmaddu, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(dmsub, 0, void, tl, tl, i32, env)
-+DEF_HELPER_FLAGS_4(dmsubu, 0, void, tl, tl, i32, env)
-+#endif
++#define OPC_ADDUH_QB_DSP OPC_MULT_G_2E
++#define MASK_ADDUH_QB(op)           (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Arithmetic Sub-class */
++    OPC_ADDUH_QB   = (0x00 << 6) | OPC_ADDUH_QB_DSP,
++    OPC_ADDUH_R_QB = (0x02 << 6) | OPC_ADDUH_QB_DSP,
++    OPC_ADDQH_PH   = (0x08 << 6) | OPC_ADDUH_QB_DSP,
++    OPC_ADDQH_R_PH = (0x0A << 6) | OPC_ADDUH_QB_DSP,
++    OPC_ADDQH_W    = (0x10 << 6) | OPC_ADDUH_QB_DSP,
++    OPC_ADDQH_R_W  = (0x12 << 6) | OPC_ADDUH_QB_DSP,
++    OPC_SUBUH_QB   = (0x01 << 6) | OPC_ADDUH_QB_DSP,
++    OPC_SUBUH_R_QB = (0x03 << 6) | OPC_ADDUH_QB_DSP,
++    OPC_SUBQH_PH   = (0x09 << 6) | OPC_ADDUH_QB_DSP,
++    OPC_SUBQH_R_PH = (0x0B << 6) | OPC_ADDUH_QB_DSP,
++    OPC_SUBQH_W    = (0x11 << 6) | OPC_ADDUH_QB_DSP,
++    OPC_SUBQH_R_W  = (0x13 << 6) | OPC_ADDUH_QB_DSP,
++    /* MIPS DSP Multiply Sub-class insns */
++    OPC_MUL_PH     = (0x0C << 6) | OPC_ADDUH_QB_DSP,
++    OPC_MUL_S_PH   = (0x0E << 6) | OPC_ADDUH_QB_DSP,
++    OPC_MULQ_S_W   = (0x16 << 6) | OPC_ADDUH_QB_DSP,
++    OPC_MULQ_RS_W  = (0x17 << 6) | OPC_ADDUH_QB_DSP,
++};
 +
-+/* DSP Bit/Manipulation Sub-class insns */
-+DEF_HELPER_FLAGS_1(bitrev, TCG_CALL_NO_RWG_SE, tl, tl)
-+DEF_HELPER_FLAGS_3(insv, 0, tl, env, tl, tl)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(dinsv, 0, tl, env, tl, tl)
-+#endif
++#define MASK_ABSQ_S_PH(op)          (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Arithmetic Sub-class */
++    OPC_ABSQ_S_QB       = (0x01 << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_ABSQ_S_PH       = (0x09 << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_ABSQ_S_W        = (0x11 << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_PRECEQ_W_PHL    = (0x0C << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_PRECEQ_W_PHR    = (0x0D << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_PRECEQU_PH_QBL  = (0x04 << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_PRECEQU_PH_QBR  = (0x05 << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_PRECEQU_PH_QBLA = (0x06 << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_PRECEQU_PH_QBRA = (0x07 << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_PRECEU_PH_QBL   = (0x1C << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_PRECEU_PH_QBR   = (0x1D << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_PRECEU_PH_QBLA  = (0x1E << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_PRECEU_PH_QBRA  = (0x1F << 6) | OPC_ABSQ_S_PH_DSP,
++    /* DSP Bit/Manipulation Sub-class */
++    OPC_BITREV          = (0x1B << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_REPL_QB         = (0x02 << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_REPLV_QB        = (0x03 << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_REPL_PH         = (0x0A << 6) | OPC_ABSQ_S_PH_DSP,
++    OPC_REPLV_PH        = (0x0B << 6) | OPC_ABSQ_S_PH_DSP,
++};
 +
-+/* DSP Compare-Pick Sub-class insns */
-+DEF_HELPER_FLAGS_3(cmpu_eq_qb, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmpu_lt_qb, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmpu_le_qb, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_2(cmpgu_eq_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(cmpgu_lt_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(cmpgu_le_qb, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(cmp_eq_ph, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmp_lt_ph, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmp_le_ph, 0, void, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(cmpu_eq_ob, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmpu_lt_ob, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmpu_le_ob, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmpgdu_eq_ob, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmpgdu_lt_ob, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmpgdu_le_ob, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_2(cmpgu_eq_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(cmpgu_lt_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_2(cmpgu_le_ob, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+DEF_HELPER_FLAGS_3(cmp_eq_qh, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmp_lt_qh, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmp_le_qh, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmp_eq_pw, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmp_lt_pw, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_3(cmp_le_pw, 0, void, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_3(pick_qb, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(pick_ph, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(pick_ob, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(pick_qh, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(pick_pw, 0, tl, tl, tl, env)
-+#endif
-+DEF_HELPER_FLAGS_2(packrl_ph, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_2(packrl_pw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
-+#endif
++#define MASK_CMPU_EQ_QB(op)         (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Arithmetic Sub-class */
++    OPC_PRECR_QB_PH      = (0x0D << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_PRECRQ_QB_PH     = (0x0C << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_PRECR_SRA_PH_W   = (0x1E << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_PRECR_SRA_R_PH_W = (0x1F << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_PRECRQ_PH_W      = (0x14 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_PRECRQ_RS_PH_W   = (0x15 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_PRECRQU_S_QB_PH  = (0x0F << 6) | OPC_CMPU_EQ_QB_DSP,
++    /* DSP Compare-Pick Sub-class */
++    OPC_CMPU_EQ_QB       = (0x00 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMPU_LT_QB       = (0x01 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMPU_LE_QB       = (0x02 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMPGU_EQ_QB      = (0x04 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMPGU_LT_QB      = (0x05 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMPGU_LE_QB      = (0x06 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMPGDU_EQ_QB     = (0x18 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMPGDU_LT_QB     = (0x19 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMPGDU_LE_QB     = (0x1A << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMP_EQ_PH        = (0x08 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMP_LT_PH        = (0x09 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_CMP_LE_PH        = (0x0A << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_PICK_QB          = (0x03 << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_PICK_PH          = (0x0B << 6) | OPC_CMPU_EQ_QB_DSP,
++    OPC_PACKRL_PH        = (0x0E << 6) | OPC_CMPU_EQ_QB_DSP,
++};
 +
-+/* DSP Accumulator and DSPControl Access Sub-class insns */
-+DEF_HELPER_FLAGS_3(extr_w, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(extr_r_w, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(extr_rs_w, 0, tl, tl, tl, env)
++#define MASK_SHLL_QB(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP GPR-Based Shift Sub-class */
++    OPC_SHLL_QB    = (0x00 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHLLV_QB   = (0x02 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHLL_PH    = (0x08 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHLLV_PH   = (0x0A << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHLL_S_PH  = (0x0C << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHLLV_S_PH = (0x0E << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHLL_S_W   = (0x14 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHLLV_S_W  = (0x16 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRL_QB    = (0x01 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRLV_QB   = (0x03 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRL_PH    = (0x19 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRLV_PH   = (0x1B << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRA_QB    = (0x04 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRA_R_QB  = (0x05 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRAV_QB   = (0x06 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRAV_R_QB = (0x07 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRA_PH    = (0x09 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRAV_PH   = (0x0B << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRA_R_PH  = (0x0D << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRAV_R_PH = (0x0F << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRA_R_W   = (0x15 << 6) | OPC_SHLL_QB_DSP,
++    OPC_SHRAV_R_W  = (0x17 << 6) | OPC_SHLL_QB_DSP,
++};
++
++#define MASK_DPA_W_PH(op)           (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Multiply Sub-class insns */
++    OPC_DPAU_H_QBL    = (0x03 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPAU_H_QBR    = (0x07 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPSU_H_QBL    = (0x0B << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPSU_H_QBR    = (0x0F << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPA_W_PH      = (0x00 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPAX_W_PH     = (0x08 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPAQ_S_W_PH   = (0x04 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPAQX_S_W_PH  = (0x18 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPAQX_SA_W_PH = (0x1A << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPS_W_PH      = (0x01 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPSX_W_PH     = (0x09 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPSQ_S_W_PH   = (0x05 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPSQX_S_W_PH  = (0x19 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPSQX_SA_W_PH = (0x1B << 6) | OPC_DPA_W_PH_DSP,
++    OPC_MULSAQ_S_W_PH = (0x06 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPAQ_SA_L_W   = (0x0C << 6) | OPC_DPA_W_PH_DSP,
++    OPC_DPSQ_SA_L_W   = (0x0D << 6) | OPC_DPA_W_PH_DSP,
++    OPC_MAQ_S_W_PHL   = (0x14 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_MAQ_S_W_PHR   = (0x16 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_MAQ_SA_W_PHL  = (0x10 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_MAQ_SA_W_PHR  = (0x12 << 6) | OPC_DPA_W_PH_DSP,
++    OPC_MULSA_W_PH    = (0x02 << 6) | OPC_DPA_W_PH_DSP,
++};
++
++#define MASK_INSV(op)               (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* DSP Bit/Manipulation Sub-class */
++    OPC_INSV = (0x00 << 6) | OPC_INSV_DSP,
++};
++
++#define MASK_APPEND(op)             (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Append Sub-class */
++    OPC_APPEND  = (0x00 << 6) | OPC_APPEND_DSP,
++    OPC_PREPEND = (0x01 << 6) | OPC_APPEND_DSP,
++    OPC_BALIGN  = (0x10 << 6) | OPC_APPEND_DSP,
++};
++
++#define MASK_EXTR_W(op)             (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Accumulator and DSPControl Access Sub-class */
++    OPC_EXTR_W     = (0x00 << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTR_R_W   = (0x04 << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTR_RS_W  = (0x06 << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTR_S_H   = (0x0E << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTRV_S_H  = (0x0F << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTRV_W    = (0x01 << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTRV_R_W  = (0x05 << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTRV_RS_W = (0x07 << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTP       = (0x02 << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTPV      = (0x03 << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTPDP     = (0x0A << 6) | OPC_EXTR_W_DSP,
++    OPC_EXTPDPV    = (0x0B << 6) | OPC_EXTR_W_DSP,
++    OPC_SHILO      = (0x1A << 6) | OPC_EXTR_W_DSP,
++    OPC_SHILOV     = (0x1B << 6) | OPC_EXTR_W_DSP,
++    OPC_MTHLIP     = (0x1F << 6) | OPC_EXTR_W_DSP,
++    OPC_WRDSP      = (0x13 << 6) | OPC_EXTR_W_DSP,
++    OPC_RDDSP      = (0x12 << 6) | OPC_EXTR_W_DSP,
++};
++
++#define MASK_ABSQ_S_QH(op)          (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Arithmetic Sub-class */
++    OPC_PRECEQ_L_PWL    = (0x14 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEQ_L_PWR    = (0x15 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEQ_PW_QHL   = (0x0C << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEQ_PW_QHR   = (0x0D << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEQ_PW_QHLA  = (0x0E << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEQ_PW_QHRA  = (0x0F << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEQU_QH_OBL  = (0x04 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEQU_QH_OBR  = (0x05 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEQU_QH_OBLA = (0x06 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEQU_QH_OBRA = (0x07 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEU_QH_OBL   = (0x1C << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEU_QH_OBR   = (0x1D << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEU_QH_OBLA  = (0x1E << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_PRECEU_QH_OBRA  = (0x1F << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_ABSQ_S_OB       = (0x01 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_ABSQ_S_PW       = (0x11 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_ABSQ_S_QH       = (0x09 << 6) | OPC_ABSQ_S_QH_DSP,
++    /* DSP Bit/Manipulation Sub-class */
++    OPC_REPL_OB         = (0x02 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_REPL_PW         = (0x12 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_REPL_QH         = (0x0A << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_REPLV_OB        = (0x03 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_REPLV_PW        = (0x13 << 6) | OPC_ABSQ_S_QH_DSP,
++    OPC_REPLV_QH        = (0x0B << 6) | OPC_ABSQ_S_QH_DSP,
++};
++
++#define MASK_ADDU_OB(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Multiply Sub-class insns */
++    OPC_MULEQ_S_PW_QHL = (0x1C << 6) | OPC_ADDU_OB_DSP,
++    OPC_MULEQ_S_PW_QHR = (0x1D << 6) | OPC_ADDU_OB_DSP,
++    OPC_MULEU_S_QH_OBL = (0x06 << 6) | OPC_ADDU_OB_DSP,
++    OPC_MULEU_S_QH_OBR = (0x07 << 6) | OPC_ADDU_OB_DSP,
++    OPC_MULQ_RS_QH     = (0x1F << 6) | OPC_ADDU_OB_DSP,
++    /* MIPS DSP Arithmetic Sub-class */
++    OPC_RADDU_L_OB     = (0x14 << 6) | OPC_ADDU_OB_DSP,
++    OPC_SUBQ_PW        = (0x13 << 6) | OPC_ADDU_OB_DSP,
++    OPC_SUBQ_S_PW      = (0x17 << 6) | OPC_ADDU_OB_DSP,
++    OPC_SUBQ_QH        = (0x0B << 6) | OPC_ADDU_OB_DSP,
++    OPC_SUBQ_S_QH      = (0x0F << 6) | OPC_ADDU_OB_DSP,
++    OPC_SUBU_OB        = (0x01 << 6) | OPC_ADDU_OB_DSP,
++    OPC_SUBU_S_OB      = (0x05 << 6) | OPC_ADDU_OB_DSP,
++    OPC_SUBU_QH        = (0x09 << 6) | OPC_ADDU_OB_DSP,
++    OPC_SUBU_S_QH      = (0x0D << 6) | OPC_ADDU_OB_DSP,
++    OPC_SUBUH_OB       = (0x19 << 6) | OPC_ADDU_OB_DSP,
++    OPC_SUBUH_R_OB     = (0x1B << 6) | OPC_ADDU_OB_DSP,
++    OPC_ADDQ_PW        = (0x12 << 6) | OPC_ADDU_OB_DSP,
++    OPC_ADDQ_S_PW      = (0x16 << 6) | OPC_ADDU_OB_DSP,
++    OPC_ADDQ_QH        = (0x0A << 6) | OPC_ADDU_OB_DSP,
++    OPC_ADDQ_S_QH      = (0x0E << 6) | OPC_ADDU_OB_DSP,
++    OPC_ADDU_OB        = (0x00 << 6) | OPC_ADDU_OB_DSP,
++    OPC_ADDU_S_OB      = (0x04 << 6) | OPC_ADDU_OB_DSP,
++    OPC_ADDU_QH        = (0x08 << 6) | OPC_ADDU_OB_DSP,
++    OPC_ADDU_S_QH      = (0x0C << 6) | OPC_ADDU_OB_DSP,
++    OPC_ADDUH_OB       = (0x18 << 6) | OPC_ADDU_OB_DSP,
++    OPC_ADDUH_R_OB     = (0x1A << 6) | OPC_ADDU_OB_DSP,
++};
++
++#define MASK_CMPU_EQ_OB(op)         (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* DSP Compare-Pick Sub-class */
++    OPC_CMP_EQ_PW         = (0x10 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMP_LT_PW         = (0x11 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMP_LE_PW         = (0x12 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMP_EQ_QH         = (0x08 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMP_LT_QH         = (0x09 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMP_LE_QH         = (0x0A << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMPGDU_EQ_OB      = (0x18 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMPGDU_LT_OB      = (0x19 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMPGDU_LE_OB      = (0x1A << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMPGU_EQ_OB       = (0x04 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMPGU_LT_OB       = (0x05 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMPGU_LE_OB       = (0x06 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMPU_EQ_OB        = (0x00 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMPU_LT_OB        = (0x01 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_CMPU_LE_OB        = (0x02 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PACKRL_PW         = (0x0E << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PICK_OB           = (0x03 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PICK_PW           = (0x13 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PICK_QH           = (0x0B << 6) | OPC_CMPU_EQ_OB_DSP,
++    /* MIPS DSP Arithmetic Sub-class */
++    OPC_PRECR_OB_QH       = (0x0D << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PRECR_SRA_QH_PW   = (0x1E << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PRECR_SRA_R_QH_PW = (0x1F << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PRECRQ_OB_QH      = (0x0C << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PRECRQ_PW_L       = (0x1C << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PRECRQ_QH_PW      = (0x14 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PRECRQ_RS_QH_PW   = (0x15 << 6) | OPC_CMPU_EQ_OB_DSP,
++    OPC_PRECRQU_S_OB_QH   = (0x0F << 6) | OPC_CMPU_EQ_OB_DSP,
++};
++
++#define MASK_DAPPEND(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* DSP Append Sub-class */
++    OPC_DAPPEND  = (0x00 << 6) | OPC_DAPPEND_DSP,
++    OPC_PREPENDD = (0x03 << 6) | OPC_DAPPEND_DSP,
++    OPC_PREPENDW = (0x01 << 6) | OPC_DAPPEND_DSP,
++    OPC_DBALIGN  = (0x10 << 6) | OPC_DAPPEND_DSP,
++};
++
++#define MASK_DEXTR_W(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Accumulator and DSPControl Access Sub-class */
++    OPC_DMTHLIP     = (0x1F << 6) | OPC_DEXTR_W_DSP,
++    OPC_DSHILO      = (0x1A << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTP       = (0x02 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTPDP     = (0x0A << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTPDPV    = (0x0B << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTPV      = (0x03 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTR_L     = (0x10 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTR_R_L   = (0x14 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTR_RS_L  = (0x16 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTR_W     = (0x00 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTR_R_W   = (0x04 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTR_RS_W  = (0x06 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTR_S_H   = (0x0E << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTRV_L    = (0x11 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTRV_R_L  = (0x15 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTRV_RS_L = (0x17 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTRV_S_H  = (0x0F << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTRV_W    = (0x01 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTRV_R_W  = (0x05 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DEXTRV_RS_W = (0x07 << 6) | OPC_DEXTR_W_DSP,
++    OPC_DSHILOV     = (0x1B << 6) | OPC_DEXTR_W_DSP,
++};
++
++#define MASK_DINSV(op)              (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* DSP Bit/Manipulation Sub-class */
++    OPC_DINSV = (0x00 << 6) | OPC_DINSV_DSP,
++};
++
++#define MASK_DPAQ_W_QH(op)          (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP Multiply Sub-class insns */
++    OPC_DMADD         = (0x19 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DMADDU        = (0x1D << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DMSUB         = (0x1B << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DMSUBU        = (0x1F << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DPA_W_QH      = (0x00 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DPAQ_S_W_QH   = (0x04 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DPAQ_SA_L_PW  = (0x0C << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DPAU_H_OBL    = (0x03 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DPAU_H_OBR    = (0x07 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DPS_W_QH      = (0x01 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DPSQ_S_W_QH   = (0x05 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DPSQ_SA_L_PW  = (0x0D << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DPSU_H_OBL    = (0x0B << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_DPSU_H_OBR    = (0x0F << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MAQ_S_L_PWL   = (0x1C << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MAQ_S_L_PWR   = (0x1E << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MAQ_S_W_QHLL  = (0x14 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MAQ_SA_W_QHLL = (0x10 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MAQ_S_W_QHLR  = (0x15 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MAQ_SA_W_QHLR = (0x11 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MAQ_S_W_QHRL  = (0x16 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MAQ_SA_W_QHRL = (0x12 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MAQ_S_W_QHRR  = (0x17 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MAQ_SA_W_QHRR = (0x13 << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MULSAQ_S_L_PW = (0x0E << 6) | OPC_DPAQ_W_QH_DSP,
++    OPC_MULSAQ_S_W_QH = (0x06 << 6) | OPC_DPAQ_W_QH_DSP,
++};
++
++#define MASK_SHLL_OB(op)            (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
++enum {
++    /* MIPS DSP GPR-Based Shift Sub-class */
++    OPC_SHLL_PW    = (0x10 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHLL_S_PW  = (0x14 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHLLV_OB   = (0x02 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHLLV_PW   = (0x12 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHLLV_S_PW = (0x16 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHLLV_QH   = (0x0A << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHLLV_S_QH = (0x0E << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRA_PW    = (0x11 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRA_R_PW  = (0x15 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRAV_OB   = (0x06 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRAV_R_OB = (0x07 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRAV_PW   = (0x13 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRAV_R_PW = (0x17 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRAV_QH   = (0x0B << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRAV_R_QH = (0x0F << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRLV_OB   = (0x03 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRLV_QH   = (0x1B << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHLL_OB    = (0x00 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHLL_QH    = (0x08 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHLL_S_QH  = (0x0C << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRA_OB    = (0x04 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRA_R_OB  = (0x05 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRA_QH    = (0x09 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRA_R_QH  = (0x0D << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRL_OB    = (0x01 << 6) | OPC_SHLL_OB_DSP,
++    OPC_SHRL_QH    = (0x19 << 6) | OPC_SHLL_OB_DSP,
++};
++
++/*
++ * Verify that the processor is running with DSP instructions enabled.
++ * This is enabled by CP0 Status register MX(24) bit.
++ */
++static inline void check_dsp(DisasContext *ctx)
++{
++    if (unlikely(!(ctx->hflags & MIPS_HFLAG_DSP))) {
++        if (ctx->insn_flags & ASE_DSP) {
++            generate_exception_end(ctx, EXCP_DSPDIS);
++        } else {
++            generate_exception_end(ctx, EXCP_RI);
++        }
++    }
++}
++
++static inline void check_dsp_r2(DisasContext *ctx)
++{
++    if (unlikely(!(ctx->hflags & MIPS_HFLAG_DSP_R2))) {
++        if (ctx->insn_flags & ASE_DSP) {
++            generate_exception_end(ctx, EXCP_DSPDIS);
++        } else {
++            generate_exception_end(ctx, EXCP_RI);
++        }
++    }
++}
++
++static inline void check_dsp_r3(DisasContext *ctx)
++{
++    if (unlikely(!(ctx->hflags & MIPS_HFLAG_DSP_R3))) {
++        if (ctx->insn_flags & ASE_DSP) {
++            generate_exception_end(ctx, EXCP_DSPDIS);
++        } else {
++            generate_exception_end(ctx, EXCP_RI);
++        }
++    }
++}
++
++static void gen_mipsdsp_ld(DisasContext *ctx, uint32_t opc,
++                           int rd, int base, int offset)
++{
++    TCGv t0;
++
++    check_dsp(ctx);
++    t0 = tcg_temp_new();
++
++    if (base == 0) {
++        gen_load_gpr(t0, offset);
++    } else if (offset == 0) {
++        gen_load_gpr(t0, base);
++    } else {
++        gen_op_addr_add(ctx, t0, cpu_gpr[base], cpu_gpr[offset]);
++    }
++
++    switch (opc) {
++    case OPC_LBUX:
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_UB);
++        gen_store_gpr(t0, rd);
++        break;
++    case OPC_LHX:
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESW);
++        gen_store_gpr(t0, rd);
++        break;
++    case OPC_LWX:
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TESL);
++        gen_store_gpr(t0, rd);
++        break;
 +#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(dextr_w, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(dextr_r_w, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(dextr_rs_w, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(dextr_l, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(dextr_r_l, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(dextr_rs_l, 0, tl, tl, tl, env)
++    case OPC_LDX:
++        tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ);
++        gen_store_gpr(t0, rd);
++        break;
 +#endif
-+DEF_HELPER_FLAGS_3(extr_s_h, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(dextr_s_h, 0, tl, tl, tl, env)
++    }
++    tcg_temp_free(t0);
++}
++
++static void gen_mipsdsp_arith(DisasContext *ctx, uint32_t op1, uint32_t op2,
++                              int ret, int v1, int v2)
++{
++    TCGv v1_t;
++    TCGv v2_t;
++
++    if (ret == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++
++    v1_t = tcg_temp_new();
++    v2_t = tcg_temp_new();
++
++    gen_load_gpr(v1_t, v1);
++    gen_load_gpr(v2_t, v2);
++
++    switch (op1) {
++    /* OPC_MULT_G_2E is equal OPC_ADDUH_QB_DSP */
++    case OPC_MULT_G_2E:
++        check_dsp_r2(ctx);
++        switch (op2) {
++        case OPC_ADDUH_QB:
++            gen_helper_adduh_qb(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_ADDUH_R_QB:
++            gen_helper_adduh_r_qb(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_ADDQH_PH:
++            gen_helper_addqh_ph(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_ADDQH_R_PH:
++            gen_helper_addqh_r_ph(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_ADDQH_W:
++            gen_helper_addqh_w(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_ADDQH_R_W:
++            gen_helper_addqh_r_w(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_SUBUH_QB:
++            gen_helper_subuh_qb(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_SUBUH_R_QB:
++            gen_helper_subuh_r_qb(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_SUBQH_PH:
++            gen_helper_subqh_ph(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_SUBQH_R_PH:
++            gen_helper_subqh_r_ph(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_SUBQH_W:
++            gen_helper_subqh_w(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_SUBQH_R_W:
++            gen_helper_subqh_r_w(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        }
++        break;
++    case OPC_ABSQ_S_PH_DSP:
++        switch (op2) {
++        case OPC_ABSQ_S_QB:
++            check_dsp_r2(ctx);
++            gen_helper_absq_s_qb(cpu_gpr[ret], v2_t, cpu_env);
++            break;
++        case OPC_ABSQ_S_PH:
++            check_dsp(ctx);
++            gen_helper_absq_s_ph(cpu_gpr[ret], v2_t, cpu_env);
++            break;
++        case OPC_ABSQ_S_W:
++            check_dsp(ctx);
++            gen_helper_absq_s_w(cpu_gpr[ret], v2_t, cpu_env);
++            break;
++        case OPC_PRECEQ_W_PHL:
++            check_dsp(ctx);
++            tcg_gen_andi_tl(cpu_gpr[ret], v2_t, 0xFFFF0000);
++            tcg_gen_ext32s_tl(cpu_gpr[ret], cpu_gpr[ret]);
++            break;
++        case OPC_PRECEQ_W_PHR:
++            check_dsp(ctx);
++            tcg_gen_andi_tl(cpu_gpr[ret], v2_t, 0x0000FFFF);
++            tcg_gen_shli_tl(cpu_gpr[ret], cpu_gpr[ret], 16);
++            tcg_gen_ext32s_tl(cpu_gpr[ret], cpu_gpr[ret]);
++            break;
++        case OPC_PRECEQU_PH_QBL:
++            check_dsp(ctx);
++            gen_helper_precequ_ph_qbl(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEQU_PH_QBR:
++            check_dsp(ctx);
++            gen_helper_precequ_ph_qbr(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEQU_PH_QBLA:
++            check_dsp(ctx);
++            gen_helper_precequ_ph_qbla(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEQU_PH_QBRA:
++            check_dsp(ctx);
++            gen_helper_precequ_ph_qbra(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEU_PH_QBL:
++            check_dsp(ctx);
++            gen_helper_preceu_ph_qbl(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEU_PH_QBR:
++            check_dsp(ctx);
++            gen_helper_preceu_ph_qbr(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEU_PH_QBLA:
++            check_dsp(ctx);
++            gen_helper_preceu_ph_qbla(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEU_PH_QBRA:
++            check_dsp(ctx);
++            gen_helper_preceu_ph_qbra(cpu_gpr[ret], v2_t);
++            break;
++        }
++        break;
++    case OPC_ADDU_QB_DSP:
++        switch (op2) {
++        case OPC_ADDQ_PH:
++            check_dsp(ctx);
++            gen_helper_addq_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDQ_S_PH:
++            check_dsp(ctx);
++            gen_helper_addq_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDQ_S_W:
++            check_dsp(ctx);
++            gen_helper_addq_s_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDU_QB:
++            check_dsp(ctx);
++            gen_helper_addu_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDU_S_QB:
++            check_dsp(ctx);
++            gen_helper_addu_s_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDU_PH:
++            check_dsp_r2(ctx);
++            gen_helper_addu_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDU_S_PH:
++            check_dsp_r2(ctx);
++            gen_helper_addu_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBQ_PH:
++            check_dsp(ctx);
++            gen_helper_subq_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBQ_S_PH:
++            check_dsp(ctx);
++            gen_helper_subq_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBQ_S_W:
++            check_dsp(ctx);
++            gen_helper_subq_s_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBU_QB:
++            check_dsp(ctx);
++            gen_helper_subu_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBU_S_QB:
++            check_dsp(ctx);
++            gen_helper_subu_s_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBU_PH:
++            check_dsp_r2(ctx);
++            gen_helper_subu_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBU_S_PH:
++            check_dsp_r2(ctx);
++            gen_helper_subu_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDSC:
++            check_dsp(ctx);
++            gen_helper_addsc(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDWC:
++            check_dsp(ctx);
++            gen_helper_addwc(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MODSUB:
++            check_dsp(ctx);
++            gen_helper_modsub(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_RADDU_W_QB:
++            check_dsp(ctx);
++            gen_helper_raddu_w_qb(cpu_gpr[ret], v1_t);
++            break;
++        }
++        break;
++    case OPC_CMPU_EQ_QB_DSP:
++        switch (op2) {
++        case OPC_PRECR_QB_PH:
++            check_dsp_r2(ctx);
++            gen_helper_precr_qb_ph(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_PRECRQ_QB_PH:
++            check_dsp(ctx);
++            gen_helper_precrq_qb_ph(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_PRECR_SRA_PH_W:
++            check_dsp_r2(ctx);
++            {
++                TCGv_i32 sa_t = tcg_const_i32(v2);
++                gen_helper_precr_sra_ph_w(cpu_gpr[ret], sa_t, v1_t,
++                                          cpu_gpr[ret]);
++                tcg_temp_free_i32(sa_t);
++                break;
++            }
++        case OPC_PRECR_SRA_R_PH_W:
++            check_dsp_r2(ctx);
++            {
++                TCGv_i32 sa_t = tcg_const_i32(v2);
++                gen_helper_precr_sra_r_ph_w(cpu_gpr[ret], sa_t, v1_t,
++                                            cpu_gpr[ret]);
++                tcg_temp_free_i32(sa_t);
++                break;
++            }
++        case OPC_PRECRQ_PH_W:
++            check_dsp(ctx);
++            gen_helper_precrq_ph_w(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_PRECRQ_RS_PH_W:
++            check_dsp(ctx);
++            gen_helper_precrq_rs_ph_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_PRECRQU_S_QB_PH:
++            check_dsp(ctx);
++            gen_helper_precrqu_s_qb_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        }
++        break;
++#ifdef TARGET_MIPS64
++    case OPC_ABSQ_S_QH_DSP:
++        switch (op2) {
++        case OPC_PRECEQ_L_PWL:
++            check_dsp(ctx);
++            tcg_gen_andi_tl(cpu_gpr[ret], v2_t, 0xFFFFFFFF00000000ull);
++            break;
++        case OPC_PRECEQ_L_PWR:
++            check_dsp(ctx);
++            tcg_gen_shli_tl(cpu_gpr[ret], v2_t, 32);
++            break;
++        case OPC_PRECEQ_PW_QHL:
++            check_dsp(ctx);
++            gen_helper_preceq_pw_qhl(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEQ_PW_QHR:
++            check_dsp(ctx);
++            gen_helper_preceq_pw_qhr(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEQ_PW_QHLA:
++            check_dsp(ctx);
++            gen_helper_preceq_pw_qhla(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEQ_PW_QHRA:
++            check_dsp(ctx);
++            gen_helper_preceq_pw_qhra(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEQU_QH_OBL:
++            check_dsp(ctx);
++            gen_helper_precequ_qh_obl(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEQU_QH_OBR:
++            check_dsp(ctx);
++            gen_helper_precequ_qh_obr(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEQU_QH_OBLA:
++            check_dsp(ctx);
++            gen_helper_precequ_qh_obla(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEQU_QH_OBRA:
++            check_dsp(ctx);
++            gen_helper_precequ_qh_obra(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEU_QH_OBL:
++            check_dsp(ctx);
++            gen_helper_preceu_qh_obl(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEU_QH_OBR:
++            check_dsp(ctx);
++            gen_helper_preceu_qh_obr(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEU_QH_OBLA:
++            check_dsp(ctx);
++            gen_helper_preceu_qh_obla(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_PRECEU_QH_OBRA:
++            check_dsp(ctx);
++            gen_helper_preceu_qh_obra(cpu_gpr[ret], v2_t);
++            break;
++        case OPC_ABSQ_S_OB:
++            check_dsp_r2(ctx);
++            gen_helper_absq_s_ob(cpu_gpr[ret], v2_t, cpu_env);
++            break;
++        case OPC_ABSQ_S_PW:
++            check_dsp(ctx);
++            gen_helper_absq_s_pw(cpu_gpr[ret], v2_t, cpu_env);
++            break;
++        case OPC_ABSQ_S_QH:
++            check_dsp(ctx);
++            gen_helper_absq_s_qh(cpu_gpr[ret], v2_t, cpu_env);
++            break;
++        }
++        break;
++    case OPC_ADDU_OB_DSP:
++        switch (op2) {
++        case OPC_RADDU_L_OB:
++            check_dsp(ctx);
++            gen_helper_raddu_l_ob(cpu_gpr[ret], v1_t);
++            break;
++        case OPC_SUBQ_PW:
++            check_dsp(ctx);
++            gen_helper_subq_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBQ_S_PW:
++            check_dsp(ctx);
++            gen_helper_subq_s_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBQ_QH:
++            check_dsp(ctx);
++            gen_helper_subq_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBQ_S_QH:
++            check_dsp(ctx);
++            gen_helper_subq_s_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBU_OB:
++            check_dsp(ctx);
++            gen_helper_subu_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBU_S_OB:
++            check_dsp(ctx);
++            gen_helper_subu_s_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBU_QH:
++            check_dsp_r2(ctx);
++            gen_helper_subu_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBU_S_QH:
++            check_dsp_r2(ctx);
++            gen_helper_subu_s_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_SUBUH_OB:
++            check_dsp_r2(ctx);
++            gen_helper_subuh_ob(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_SUBUH_R_OB:
++            check_dsp_r2(ctx);
++            gen_helper_subuh_r_ob(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_ADDQ_PW:
++            check_dsp(ctx);
++            gen_helper_addq_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDQ_S_PW:
++            check_dsp(ctx);
++            gen_helper_addq_s_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDQ_QH:
++            check_dsp(ctx);
++            gen_helper_addq_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDQ_S_QH:
++            check_dsp(ctx);
++            gen_helper_addq_s_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDU_OB:
++            check_dsp(ctx);
++            gen_helper_addu_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDU_S_OB:
++            check_dsp(ctx);
++            gen_helper_addu_s_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDU_QH:
++            check_dsp_r2(ctx);
++            gen_helper_addu_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDU_S_QH:
++            check_dsp_r2(ctx);
++            gen_helper_addu_s_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_ADDUH_OB:
++            check_dsp_r2(ctx);
++            gen_helper_adduh_ob(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_ADDUH_R_OB:
++            check_dsp_r2(ctx);
++            gen_helper_adduh_r_ob(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        }
++        break;
++    case OPC_CMPU_EQ_OB_DSP:
++        switch (op2) {
++        case OPC_PRECR_OB_QH:
++            check_dsp_r2(ctx);
++            gen_helper_precr_ob_qh(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_PRECR_SRA_QH_PW:
++            check_dsp_r2(ctx);
++            {
++                TCGv_i32 ret_t = tcg_const_i32(ret);
++                gen_helper_precr_sra_qh_pw(v2_t, v1_t, v2_t, ret_t);
++                tcg_temp_free_i32(ret_t);
++                break;
++            }
++        case OPC_PRECR_SRA_R_QH_PW:
++            check_dsp_r2(ctx);
++            {
++                TCGv_i32 sa_v = tcg_const_i32(ret);
++                gen_helper_precr_sra_r_qh_pw(v2_t, v1_t, v2_t, sa_v);
++                tcg_temp_free_i32(sa_v);
++                break;
++            }
++        case OPC_PRECRQ_OB_QH:
++            check_dsp(ctx);
++            gen_helper_precrq_ob_qh(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_PRECRQ_PW_L:
++            check_dsp(ctx);
++            gen_helper_precrq_pw_l(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_PRECRQ_QH_PW:
++            check_dsp(ctx);
++            gen_helper_precrq_qh_pw(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_PRECRQ_RS_QH_PW:
++            check_dsp(ctx);
++            gen_helper_precrq_rs_qh_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_PRECRQU_S_OB_QH:
++            check_dsp(ctx);
++            gen_helper_precrqu_s_ob_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        }
++        break;
 +#endif
-+DEF_HELPER_FLAGS_3(extp, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(extpdp, 0, tl, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(dextp, 0, tl, tl, tl, env)
-+DEF_HELPER_FLAGS_3(dextpdp, 0, tl, tl, tl, env)
++    }
++
++    tcg_temp_free(v1_t);
++    tcg_temp_free(v2_t);
++}
++
++static void gen_mipsdsp_shift(DisasContext *ctx, uint32_t opc,
++                              int ret, int v1, int v2)
++{
++    uint32_t op2;
++    TCGv t0;
++    TCGv v1_t;
++    TCGv v2_t;
++
++    if (ret == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++
++    t0 = tcg_temp_new();
++    v1_t = tcg_temp_new();
++    v2_t = tcg_temp_new();
++
++    tcg_gen_movi_tl(t0, v1);
++    gen_load_gpr(v1_t, v1);
++    gen_load_gpr(v2_t, v2);
++
++    switch (opc) {
++    case OPC_SHLL_QB_DSP:
++        {
++            op2 = MASK_SHLL_QB(ctx->opcode);
++            switch (op2) {
++            case OPC_SHLL_QB:
++                check_dsp(ctx);
++                gen_helper_shll_qb(cpu_gpr[ret], t0, v2_t, cpu_env);
++                break;
++            case OPC_SHLLV_QB:
++                check_dsp(ctx);
++                gen_helper_shll_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++                break;
++            case OPC_SHLL_PH:
++                check_dsp(ctx);
++                gen_helper_shll_ph(cpu_gpr[ret], t0, v2_t, cpu_env);
++                break;
++            case OPC_SHLLV_PH:
++                check_dsp(ctx);
++                gen_helper_shll_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++                break;
++            case OPC_SHLL_S_PH:
++                check_dsp(ctx);
++                gen_helper_shll_s_ph(cpu_gpr[ret], t0, v2_t, cpu_env);
++                break;
++            case OPC_SHLLV_S_PH:
++                check_dsp(ctx);
++                gen_helper_shll_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++                break;
++            case OPC_SHLL_S_W:
++                check_dsp(ctx);
++                gen_helper_shll_s_w(cpu_gpr[ret], t0, v2_t, cpu_env);
++                break;
++            case OPC_SHLLV_S_W:
++                check_dsp(ctx);
++                gen_helper_shll_s_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++                break;
++            case OPC_SHRL_QB:
++                check_dsp(ctx);
++                gen_helper_shrl_qb(cpu_gpr[ret], t0, v2_t);
++                break;
++            case OPC_SHRLV_QB:
++                check_dsp(ctx);
++                gen_helper_shrl_qb(cpu_gpr[ret], v1_t, v2_t);
++                break;
++            case OPC_SHRL_PH:
++                check_dsp_r2(ctx);
++                gen_helper_shrl_ph(cpu_gpr[ret], t0, v2_t);
++                break;
++            case OPC_SHRLV_PH:
++                check_dsp_r2(ctx);
++                gen_helper_shrl_ph(cpu_gpr[ret], v1_t, v2_t);
++                break;
++            case OPC_SHRA_QB:
++                check_dsp_r2(ctx);
++                gen_helper_shra_qb(cpu_gpr[ret], t0, v2_t);
++                break;
++            case OPC_SHRA_R_QB:
++                check_dsp_r2(ctx);
++                gen_helper_shra_r_qb(cpu_gpr[ret], t0, v2_t);
++                break;
++            case OPC_SHRAV_QB:
++                check_dsp_r2(ctx);
++                gen_helper_shra_qb(cpu_gpr[ret], v1_t, v2_t);
++                break;
++            case OPC_SHRAV_R_QB:
++                check_dsp_r2(ctx);
++                gen_helper_shra_r_qb(cpu_gpr[ret], v1_t, v2_t);
++                break;
++            case OPC_SHRA_PH:
++                check_dsp(ctx);
++                gen_helper_shra_ph(cpu_gpr[ret], t0, v2_t);
++                break;
++            case OPC_SHRA_R_PH:
++                check_dsp(ctx);
++                gen_helper_shra_r_ph(cpu_gpr[ret], t0, v2_t);
++                break;
++            case OPC_SHRAV_PH:
++                check_dsp(ctx);
++                gen_helper_shra_ph(cpu_gpr[ret], v1_t, v2_t);
++                break;
++            case OPC_SHRAV_R_PH:
++                check_dsp(ctx);
++                gen_helper_shra_r_ph(cpu_gpr[ret], v1_t, v2_t);
++                break;
++            case OPC_SHRA_R_W:
++                check_dsp(ctx);
++                gen_helper_shra_r_w(cpu_gpr[ret], t0, v2_t);
++                break;
++            case OPC_SHRAV_R_W:
++                check_dsp(ctx);
++                gen_helper_shra_r_w(cpu_gpr[ret], v1_t, v2_t);
++                break;
++            default:            /* Invalid */
++                MIPS_INVAL("MASK SHLL.QB");
++                generate_exception_end(ctx, EXCP_RI);
++                break;
++            }
++            break;
++        }
++#ifdef TARGET_MIPS64
++    case OPC_SHLL_OB_DSP:
++        op2 = MASK_SHLL_OB(ctx->opcode);
++        switch (op2) {
++        case OPC_SHLL_PW:
++            check_dsp(ctx);
++            gen_helper_shll_pw(cpu_gpr[ret], v2_t, t0, cpu_env);
++            break;
++        case OPC_SHLLV_PW:
++            check_dsp(ctx);
++            gen_helper_shll_pw(cpu_gpr[ret], v2_t, v1_t, cpu_env);
++            break;
++        case OPC_SHLL_S_PW:
++            check_dsp(ctx);
++            gen_helper_shll_s_pw(cpu_gpr[ret], v2_t, t0, cpu_env);
++            break;
++        case OPC_SHLLV_S_PW:
++            check_dsp(ctx);
++            gen_helper_shll_s_pw(cpu_gpr[ret], v2_t, v1_t, cpu_env);
++            break;
++        case OPC_SHLL_OB:
++            check_dsp(ctx);
++            gen_helper_shll_ob(cpu_gpr[ret], v2_t, t0, cpu_env);
++            break;
++        case OPC_SHLLV_OB:
++            check_dsp(ctx);
++            gen_helper_shll_ob(cpu_gpr[ret], v2_t, v1_t, cpu_env);
++            break;
++        case OPC_SHLL_QH:
++            check_dsp(ctx);
++            gen_helper_shll_qh(cpu_gpr[ret], v2_t, t0, cpu_env);
++            break;
++        case OPC_SHLLV_QH:
++            check_dsp(ctx);
++            gen_helper_shll_qh(cpu_gpr[ret], v2_t, v1_t, cpu_env);
++            break;
++        case OPC_SHLL_S_QH:
++            check_dsp(ctx);
++            gen_helper_shll_s_qh(cpu_gpr[ret], v2_t, t0, cpu_env);
++            break;
++        case OPC_SHLLV_S_QH:
++            check_dsp(ctx);
++            gen_helper_shll_s_qh(cpu_gpr[ret], v2_t, v1_t, cpu_env);
++            break;
++        case OPC_SHRA_OB:
++            check_dsp_r2(ctx);
++            gen_helper_shra_ob(cpu_gpr[ret], v2_t, t0);
++            break;
++        case OPC_SHRAV_OB:
++            check_dsp_r2(ctx);
++            gen_helper_shra_ob(cpu_gpr[ret], v2_t, v1_t);
++            break;
++        case OPC_SHRA_R_OB:
++            check_dsp_r2(ctx);
++            gen_helper_shra_r_ob(cpu_gpr[ret], v2_t, t0);
++            break;
++        case OPC_SHRAV_R_OB:
++            check_dsp_r2(ctx);
++            gen_helper_shra_r_ob(cpu_gpr[ret], v2_t, v1_t);
++            break;
++        case OPC_SHRA_PW:
++            check_dsp(ctx);
++            gen_helper_shra_pw(cpu_gpr[ret], v2_t, t0);
++            break;
++        case OPC_SHRAV_PW:
++            check_dsp(ctx);
++            gen_helper_shra_pw(cpu_gpr[ret], v2_t, v1_t);
++            break;
++        case OPC_SHRA_R_PW:
++            check_dsp(ctx);
++            gen_helper_shra_r_pw(cpu_gpr[ret], v2_t, t0);
++            break;
++        case OPC_SHRAV_R_PW:
++            check_dsp(ctx);
++            gen_helper_shra_r_pw(cpu_gpr[ret], v2_t, v1_t);
++            break;
++        case OPC_SHRA_QH:
++            check_dsp(ctx);
++            gen_helper_shra_qh(cpu_gpr[ret], v2_t, t0);
++            break;
++        case OPC_SHRAV_QH:
++            check_dsp(ctx);
++            gen_helper_shra_qh(cpu_gpr[ret], v2_t, v1_t);
++            break;
++        case OPC_SHRA_R_QH:
++            check_dsp(ctx);
++            gen_helper_shra_r_qh(cpu_gpr[ret], v2_t, t0);
++            break;
++        case OPC_SHRAV_R_QH:
++            check_dsp(ctx);
++            gen_helper_shra_r_qh(cpu_gpr[ret], v2_t, v1_t);
++            break;
++        case OPC_SHRL_OB:
++            check_dsp(ctx);
++            gen_helper_shrl_ob(cpu_gpr[ret], v2_t, t0);
++            break;
++        case OPC_SHRLV_OB:
++            check_dsp(ctx);
++            gen_helper_shrl_ob(cpu_gpr[ret], v2_t, v1_t);
++            break;
++        case OPC_SHRL_QH:
++            check_dsp_r2(ctx);
++            gen_helper_shrl_qh(cpu_gpr[ret], v2_t, t0);
++            break;
++        case OPC_SHRLV_QH:
++            check_dsp_r2(ctx);
++            gen_helper_shrl_qh(cpu_gpr[ret], v2_t, v1_t);
++            break;
++        default:            /* Invalid */
++            MIPS_INVAL("MASK SHLL.OB");
++            generate_exception_end(ctx, EXCP_RI);
++            break;
++        }
++        break;
 +#endif
-+DEF_HELPER_FLAGS_3(shilo, 0, void, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(dshilo, 0, void, tl, tl, env)
++    }
++
++    tcg_temp_free(t0);
++    tcg_temp_free(v1_t);
++    tcg_temp_free(v2_t);
++}
++
++static void gen_mipsdsp_multiply(DisasContext *ctx, uint32_t op1, uint32_t op2,
++                                 int ret, int v1, int v2, int check_ret)
++{
++    TCGv_i32 t0;
++    TCGv v1_t;
++    TCGv v2_t;
++
++    if ((ret == 0) && (check_ret == 1)) {
++        /* Treat as NOP. */
++        return;
++    }
++
++    t0 = tcg_temp_new_i32();
++    v1_t = tcg_temp_new();
++    v2_t = tcg_temp_new();
++
++    tcg_gen_movi_i32(t0, ret);
++    gen_load_gpr(v1_t, v1);
++    gen_load_gpr(v2_t, v2);
++
++    switch (op1) {
++    /*
++     * OPC_MULT_G_2E, OPC_ADDUH_QB_DSP, OPC_MUL_PH_DSP have
++     * the same mask and op1.
++     */
++    case OPC_MULT_G_2E:
++        check_dsp_r2(ctx);
++        switch (op2) {
++        case  OPC_MUL_PH:
++            gen_helper_mul_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case  OPC_MUL_S_PH:
++            gen_helper_mul_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULQ_S_W:
++            gen_helper_mulq_s_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULQ_RS_W:
++            gen_helper_mulq_rs_w(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        }
++        break;
++    case OPC_DPA_W_PH_DSP:
++        switch (op2) {
++        case OPC_DPAU_H_QBL:
++            check_dsp(ctx);
++            gen_helper_dpau_h_qbl(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPAU_H_QBR:
++            check_dsp(ctx);
++            gen_helper_dpau_h_qbr(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPSU_H_QBL:
++            check_dsp(ctx);
++            gen_helper_dpsu_h_qbl(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPSU_H_QBR:
++            check_dsp(ctx);
++            gen_helper_dpsu_h_qbr(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPA_W_PH:
++            check_dsp_r2(ctx);
++            gen_helper_dpa_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPAX_W_PH:
++            check_dsp_r2(ctx);
++            gen_helper_dpax_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPAQ_S_W_PH:
++            check_dsp(ctx);
++            gen_helper_dpaq_s_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPAQX_S_W_PH:
++            check_dsp_r2(ctx);
++            gen_helper_dpaqx_s_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPAQX_SA_W_PH:
++            check_dsp_r2(ctx);
++            gen_helper_dpaqx_sa_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPS_W_PH:
++            check_dsp_r2(ctx);
++            gen_helper_dps_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPSX_W_PH:
++            check_dsp_r2(ctx);
++            gen_helper_dpsx_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPSQ_S_W_PH:
++            check_dsp(ctx);
++            gen_helper_dpsq_s_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPSQX_S_W_PH:
++            check_dsp_r2(ctx);
++            gen_helper_dpsqx_s_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPSQX_SA_W_PH:
++            check_dsp_r2(ctx);
++            gen_helper_dpsqx_sa_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULSAQ_S_W_PH:
++            check_dsp(ctx);
++            gen_helper_mulsaq_s_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPAQ_SA_L_W:
++            check_dsp(ctx);
++            gen_helper_dpaq_sa_l_w(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_DPSQ_SA_L_W:
++            check_dsp(ctx);
++            gen_helper_dpsq_sa_l_w(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MAQ_S_W_PHL:
++            check_dsp(ctx);
++            gen_helper_maq_s_w_phl(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MAQ_S_W_PHR:
++            check_dsp(ctx);
++            gen_helper_maq_s_w_phr(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MAQ_SA_W_PHL:
++            check_dsp(ctx);
++            gen_helper_maq_sa_w_phl(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MAQ_SA_W_PHR:
++            check_dsp(ctx);
++            gen_helper_maq_sa_w_phr(t0, v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULSA_W_PH:
++            check_dsp_r2(ctx);
++            gen_helper_mulsa_w_ph(t0, v1_t, v2_t, cpu_env);
++            break;
++        }
++        break;
++#ifdef TARGET_MIPS64
++    case OPC_DPAQ_W_QH_DSP:
++        {
++            int ac = ret & 0x03;
++            tcg_gen_movi_i32(t0, ac);
++
++            switch (op2) {
++            case OPC_DMADD:
++                check_dsp(ctx);
++                gen_helper_dmadd(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DMADDU:
++                check_dsp(ctx);
++                gen_helper_dmaddu(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DMSUB:
++                check_dsp(ctx);
++                gen_helper_dmsub(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DMSUBU:
++                check_dsp(ctx);
++                gen_helper_dmsubu(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DPA_W_QH:
++                check_dsp_r2(ctx);
++                gen_helper_dpa_w_qh(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DPAQ_S_W_QH:
++                check_dsp(ctx);
++                gen_helper_dpaq_s_w_qh(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DPAQ_SA_L_PW:
++                check_dsp(ctx);
++                gen_helper_dpaq_sa_l_pw(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DPAU_H_OBL:
++                check_dsp(ctx);
++                gen_helper_dpau_h_obl(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DPAU_H_OBR:
++                check_dsp(ctx);
++                gen_helper_dpau_h_obr(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DPS_W_QH:
++                check_dsp_r2(ctx);
++                gen_helper_dps_w_qh(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DPSQ_S_W_QH:
++                check_dsp(ctx);
++                gen_helper_dpsq_s_w_qh(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DPSQ_SA_L_PW:
++                check_dsp(ctx);
++                gen_helper_dpsq_sa_l_pw(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DPSU_H_OBL:
++                check_dsp(ctx);
++                gen_helper_dpsu_h_obl(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_DPSU_H_OBR:
++                check_dsp(ctx);
++                gen_helper_dpsu_h_obr(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MAQ_S_L_PWL:
++                check_dsp(ctx);
++                gen_helper_maq_s_l_pwl(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MAQ_S_L_PWR:
++                check_dsp(ctx);
++                gen_helper_maq_s_l_pwr(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MAQ_S_W_QHLL:
++                check_dsp(ctx);
++                gen_helper_maq_s_w_qhll(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MAQ_SA_W_QHLL:
++                check_dsp(ctx);
++                gen_helper_maq_sa_w_qhll(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MAQ_S_W_QHLR:
++                check_dsp(ctx);
++                gen_helper_maq_s_w_qhlr(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MAQ_SA_W_QHLR:
++                check_dsp(ctx);
++                gen_helper_maq_sa_w_qhlr(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MAQ_S_W_QHRL:
++                check_dsp(ctx);
++                gen_helper_maq_s_w_qhrl(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MAQ_SA_W_QHRL:
++                check_dsp(ctx);
++                gen_helper_maq_sa_w_qhrl(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MAQ_S_W_QHRR:
++                check_dsp(ctx);
++                gen_helper_maq_s_w_qhrr(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MAQ_SA_W_QHRR:
++                check_dsp(ctx);
++                gen_helper_maq_sa_w_qhrr(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MULSAQ_S_L_PW:
++                check_dsp(ctx);
++                gen_helper_mulsaq_s_l_pw(v1_t, v2_t, t0, cpu_env);
++                break;
++            case OPC_MULSAQ_S_W_QH:
++                check_dsp(ctx);
++                gen_helper_mulsaq_s_w_qh(v1_t, v2_t, t0, cpu_env);
++                break;
++            }
++        }
++        break;
 +#endif
-+DEF_HELPER_FLAGS_3(mthlip, 0, void, tl, tl, env)
-+#if defined(TARGET_MIPS64)
-+DEF_HELPER_FLAGS_3(dmthlip, 0, void, tl, tl, env)
++    case OPC_ADDU_QB_DSP:
++        switch (op2) {
++        case OPC_MULEU_S_PH_QBL:
++            check_dsp(ctx);
++            gen_helper_muleu_s_ph_qbl(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULEU_S_PH_QBR:
++            check_dsp(ctx);
++            gen_helper_muleu_s_ph_qbr(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULQ_RS_PH:
++            check_dsp(ctx);
++            gen_helper_mulq_rs_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULEQ_S_W_PHL:
++            check_dsp(ctx);
++            gen_helper_muleq_s_w_phl(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULEQ_S_W_PHR:
++            check_dsp(ctx);
++            gen_helper_muleq_s_w_phr(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULQ_S_PH:
++            check_dsp_r2(ctx);
++            gen_helper_mulq_s_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        }
++        break;
++#ifdef TARGET_MIPS64
++    case OPC_ADDU_OB_DSP:
++        switch (op2) {
++        case OPC_MULEQ_S_PW_QHL:
++            check_dsp(ctx);
++            gen_helper_muleq_s_pw_qhl(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULEQ_S_PW_QHR:
++            check_dsp(ctx);
++            gen_helper_muleq_s_pw_qhr(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULEU_S_QH_OBL:
++            check_dsp(ctx);
++            gen_helper_muleu_s_qh_obl(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULEU_S_QH_OBR:
++            check_dsp(ctx);
++            gen_helper_muleu_s_qh_obr(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_MULQ_RS_QH:
++            check_dsp(ctx);
++            gen_helper_mulq_rs_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        }
++        break;
 +#endif
-+DEF_HELPER_FLAGS_3(wrdsp, 0, void, tl, tl, env)
-+DEF_HELPER_FLAGS_2(rddsp, 0, tl, tl, env)
++    }
++
++    tcg_temp_free_i32(t0);
++    tcg_temp_free(v1_t);
++    tcg_temp_free(v2_t);
++}
++
++static void gen_mipsdsp_bitinsn(DisasContext *ctx, uint32_t op1, uint32_t op2,
++                                int ret, int val)
++{
++    int16_t imm;
++    TCGv t0;
++    TCGv val_t;
++
++    if (ret == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++
++    t0 = tcg_temp_new();
++    val_t = tcg_temp_new();
++    gen_load_gpr(val_t, val);
++
++    switch (op1) {
++    case OPC_ABSQ_S_PH_DSP:
++        switch (op2) {
++        case OPC_BITREV:
++            check_dsp(ctx);
++            gen_helper_bitrev(cpu_gpr[ret], val_t);
++            break;
++        case OPC_REPL_QB:
++            check_dsp(ctx);
++            {
++                target_long result;
++                imm = (ctx->opcode >> 16) & 0xFF;
++                result = (uint32_t)imm << 24 |
++                         (uint32_t)imm << 16 |
++                         (uint32_t)imm << 8  |
++                         (uint32_t)imm;
++                result = (int32_t)result;
++                tcg_gen_movi_tl(cpu_gpr[ret], result);
++            }
++            break;
++        case OPC_REPLV_QB:
++            check_dsp(ctx);
++            tcg_gen_ext8u_tl(cpu_gpr[ret], val_t);
++            tcg_gen_shli_tl(t0, cpu_gpr[ret], 8);
++            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
++            tcg_gen_shli_tl(t0, cpu_gpr[ret], 16);
++            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
++            tcg_gen_ext32s_tl(cpu_gpr[ret], cpu_gpr[ret]);
++            break;
++        case OPC_REPL_PH:
++            check_dsp(ctx);
++            {
++                imm = (ctx->opcode >> 16) & 0x03FF;
++                imm = (int16_t)(imm << 6) >> 6;
++                tcg_gen_movi_tl(cpu_gpr[ret], \
++                                (target_long)((int32_t)imm << 16 | \
++                                (uint16_t)imm));
++            }
++            break;
++        case OPC_REPLV_PH:
++            check_dsp(ctx);
++            tcg_gen_ext16u_tl(cpu_gpr[ret], val_t);
++            tcg_gen_shli_tl(t0, cpu_gpr[ret], 16);
++            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
++            tcg_gen_ext32s_tl(cpu_gpr[ret], cpu_gpr[ret]);
++            break;
++        }
++        break;
++#ifdef TARGET_MIPS64
++    case OPC_ABSQ_S_QH_DSP:
++        switch (op2) {
++        case OPC_REPL_OB:
++            check_dsp(ctx);
++            {
++                target_long temp;
++
++                imm = (ctx->opcode >> 16) & 0xFF;
++                temp = ((uint64_t)imm << 8) | (uint64_t)imm;
++                temp = (temp << 16) | temp;
++                temp = (temp << 32) | temp;
++                tcg_gen_movi_tl(cpu_gpr[ret], temp);
++                break;
++            }
++        case OPC_REPL_PW:
++            check_dsp(ctx);
++            {
++                target_long temp;
++
++                imm = (ctx->opcode >> 16) & 0x03FF;
++                imm = (int16_t)(imm << 6) >> 6;
++                temp = ((target_long)imm << 32) \
++                       | ((target_long)imm & 0xFFFFFFFF);
++                tcg_gen_movi_tl(cpu_gpr[ret], temp);
++                break;
++            }
++        case OPC_REPL_QH:
++            check_dsp(ctx);
++            {
++                target_long temp;
++
++                imm = (ctx->opcode >> 16) & 0x03FF;
++                imm = (int16_t)(imm << 6) >> 6;
++
++                temp = ((uint64_t)(uint16_t)imm << 48) |
++                       ((uint64_t)(uint16_t)imm << 32) |
++                       ((uint64_t)(uint16_t)imm << 16) |
++                       (uint64_t)(uint16_t)imm;
++                tcg_gen_movi_tl(cpu_gpr[ret], temp);
++                break;
++            }
++        case OPC_REPLV_OB:
++            check_dsp(ctx);
++            tcg_gen_ext8u_tl(cpu_gpr[ret], val_t);
++            tcg_gen_shli_tl(t0, cpu_gpr[ret], 8);
++            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
++            tcg_gen_shli_tl(t0, cpu_gpr[ret], 16);
++            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
++            tcg_gen_shli_tl(t0, cpu_gpr[ret], 32);
++            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
++            break;
++        case OPC_REPLV_PW:
++            check_dsp(ctx);
++            tcg_gen_ext32u_i64(cpu_gpr[ret], val_t);
++            tcg_gen_shli_tl(t0, cpu_gpr[ret], 32);
++            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
++            break;
++        case OPC_REPLV_QH:
++            check_dsp(ctx);
++            tcg_gen_ext16u_tl(cpu_gpr[ret], val_t);
++            tcg_gen_shli_tl(t0, cpu_gpr[ret], 16);
++            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
++            tcg_gen_shli_tl(t0, cpu_gpr[ret], 32);
++            tcg_gen_or_tl(cpu_gpr[ret], cpu_gpr[ret], t0);
++            break;
++        }
++        break;
++#endif
++    }
++    tcg_temp_free(t0);
++    tcg_temp_free(val_t);
++}
++
++static void gen_mipsdsp_add_cmp_pick(DisasContext *ctx,
++                                     uint32_t op1, uint32_t op2,
++                                     int ret, int v1, int v2, int check_ret)
++{
++    TCGv t1;
++    TCGv v1_t;
++    TCGv v2_t;
++
++    if ((ret == 0) && (check_ret == 1)) {
++        /* Treat as NOP. */
++        return;
++    }
++
++    t1 = tcg_temp_new();
++    v1_t = tcg_temp_new();
++    v2_t = tcg_temp_new();
++
++    gen_load_gpr(v1_t, v1);
++    gen_load_gpr(v2_t, v2);
++
++    switch (op1) {
++    case OPC_CMPU_EQ_QB_DSP:
++        switch (op2) {
++        case OPC_CMPU_EQ_QB:
++            check_dsp(ctx);
++            gen_helper_cmpu_eq_qb(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMPU_LT_QB:
++            check_dsp(ctx);
++            gen_helper_cmpu_lt_qb(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMPU_LE_QB:
++            check_dsp(ctx);
++            gen_helper_cmpu_le_qb(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMPGU_EQ_QB:
++            check_dsp(ctx);
++            gen_helper_cmpgu_eq_qb(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_CMPGU_LT_QB:
++            check_dsp(ctx);
++            gen_helper_cmpgu_lt_qb(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_CMPGU_LE_QB:
++            check_dsp(ctx);
++            gen_helper_cmpgu_le_qb(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_CMPGDU_EQ_QB:
++            check_dsp_r2(ctx);
++            gen_helper_cmpgu_eq_qb(t1, v1_t, v2_t);
++            tcg_gen_mov_tl(cpu_gpr[ret], t1);
++            tcg_gen_andi_tl(cpu_dspctrl, cpu_dspctrl, 0xF0FFFFFF);
++            tcg_gen_shli_tl(t1, t1, 24);
++            tcg_gen_or_tl(cpu_dspctrl, cpu_dspctrl, t1);
++            break;
++        case OPC_CMPGDU_LT_QB:
++            check_dsp_r2(ctx);
++            gen_helper_cmpgu_lt_qb(t1, v1_t, v2_t);
++            tcg_gen_mov_tl(cpu_gpr[ret], t1);
++            tcg_gen_andi_tl(cpu_dspctrl, cpu_dspctrl, 0xF0FFFFFF);
++            tcg_gen_shli_tl(t1, t1, 24);
++            tcg_gen_or_tl(cpu_dspctrl, cpu_dspctrl, t1);
++            break;
++        case OPC_CMPGDU_LE_QB:
++            check_dsp_r2(ctx);
++            gen_helper_cmpgu_le_qb(t1, v1_t, v2_t);
++            tcg_gen_mov_tl(cpu_gpr[ret], t1);
++            tcg_gen_andi_tl(cpu_dspctrl, cpu_dspctrl, 0xF0FFFFFF);
++            tcg_gen_shli_tl(t1, t1, 24);
++            tcg_gen_or_tl(cpu_dspctrl, cpu_dspctrl, t1);
++            break;
++        case OPC_CMP_EQ_PH:
++            check_dsp(ctx);
++            gen_helper_cmp_eq_ph(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMP_LT_PH:
++            check_dsp(ctx);
++            gen_helper_cmp_lt_ph(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMP_LE_PH:
++            check_dsp(ctx);
++            gen_helper_cmp_le_ph(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_PICK_QB:
++            check_dsp(ctx);
++            gen_helper_pick_qb(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_PICK_PH:
++            check_dsp(ctx);
++            gen_helper_pick_ph(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_PACKRL_PH:
++            check_dsp(ctx);
++            gen_helper_packrl_ph(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        }
++        break;
++#ifdef TARGET_MIPS64
++    case OPC_CMPU_EQ_OB_DSP:
++        switch (op2) {
++        case OPC_CMP_EQ_PW:
++            check_dsp(ctx);
++            gen_helper_cmp_eq_pw(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMP_LT_PW:
++            check_dsp(ctx);
++            gen_helper_cmp_lt_pw(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMP_LE_PW:
++            check_dsp(ctx);
++            gen_helper_cmp_le_pw(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMP_EQ_QH:
++            check_dsp(ctx);
++            gen_helper_cmp_eq_qh(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMP_LT_QH:
++            check_dsp(ctx);
++            gen_helper_cmp_lt_qh(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMP_LE_QH:
++            check_dsp(ctx);
++            gen_helper_cmp_le_qh(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMPGDU_EQ_OB:
++            check_dsp_r2(ctx);
++            gen_helper_cmpgdu_eq_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMPGDU_LT_OB:
++            check_dsp_r2(ctx);
++            gen_helper_cmpgdu_lt_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMPGDU_LE_OB:
++            check_dsp_r2(ctx);
++            gen_helper_cmpgdu_le_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMPGU_EQ_OB:
++            check_dsp(ctx);
++            gen_helper_cmpgu_eq_ob(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_CMPGU_LT_OB:
++            check_dsp(ctx);
++            gen_helper_cmpgu_lt_ob(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_CMPGU_LE_OB:
++            check_dsp(ctx);
++            gen_helper_cmpgu_le_ob(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_CMPU_EQ_OB:
++            check_dsp(ctx);
++            gen_helper_cmpu_eq_ob(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMPU_LT_OB:
++            check_dsp(ctx);
++            gen_helper_cmpu_lt_ob(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_CMPU_LE_OB:
++            check_dsp(ctx);
++            gen_helper_cmpu_le_ob(v1_t, v2_t, cpu_env);
++            break;
++        case OPC_PACKRL_PW:
++            check_dsp(ctx);
++            gen_helper_packrl_pw(cpu_gpr[ret], v1_t, v2_t);
++            break;
++        case OPC_PICK_OB:
++            check_dsp(ctx);
++            gen_helper_pick_ob(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_PICK_PW:
++            check_dsp(ctx);
++            gen_helper_pick_pw(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        case OPC_PICK_QH:
++            check_dsp(ctx);
++            gen_helper_pick_qh(cpu_gpr[ret], v1_t, v2_t, cpu_env);
++            break;
++        }
++        break;
++#endif
++    }
++
++    tcg_temp_free(t1);
++    tcg_temp_free(v1_t);
++    tcg_temp_free(v2_t);
++}
++
++static void gen_mipsdsp_append(CPUMIPSState *env, DisasContext *ctx,
++                               uint32_t op1, int rt, int rs, int sa)
++{
++    TCGv t0;
++
++    check_dsp_r2(ctx);
++
++    if (rt == 0) {
++        /* Treat as NOP. */
++        return;
++    }
++
++    t0 = tcg_temp_new();
++    gen_load_gpr(t0, rs);
++
++    switch (op1) {
++    case OPC_APPEND_DSP:
++        switch (MASK_APPEND(ctx->opcode)) {
++        case OPC_APPEND:
++            if (sa != 0) {
++                tcg_gen_deposit_tl(cpu_gpr[rt], t0, cpu_gpr[rt], sa, 32 - sa);
++            }
++            tcg_gen_ext32s_tl(cpu_gpr[rt], cpu_gpr[rt]);
++            break;
++        case OPC_PREPEND:
++            if (sa != 0) {
++                tcg_gen_ext32u_tl(cpu_gpr[rt], cpu_gpr[rt]);
++                tcg_gen_shri_tl(cpu_gpr[rt], cpu_gpr[rt], sa);
++                tcg_gen_shli_tl(t0, t0, 32 - sa);
++                tcg_gen_or_tl(cpu_gpr[rt], cpu_gpr[rt], t0);
++            }
++            tcg_gen_ext32s_tl(cpu_gpr[rt], cpu_gpr[rt]);
++            break;
++        case OPC_BALIGN:
++            sa &= 3;
++            if (sa != 0 && sa != 2) {
++                tcg_gen_shli_tl(cpu_gpr[rt], cpu_gpr[rt], 8 * sa);
++                tcg_gen_ext32u_tl(t0, t0);
++                tcg_gen_shri_tl(t0, t0, 8 * (4 - sa));
++                tcg_gen_or_tl(cpu_gpr[rt], cpu_gpr[rt], t0);
++            }
++            tcg_gen_ext32s_tl(cpu_gpr[rt], cpu_gpr[rt]);
++            break;
++        default:            /* Invalid */
++            MIPS_INVAL("MASK APPEND");
++            generate_exception_end(ctx, EXCP_RI);
++            break;
++        }
++        break;
++#ifdef TARGET_MIPS64
++    case OPC_DAPPEND_DSP:
++        switch (MASK_DAPPEND(ctx->opcode)) {
++        case OPC_DAPPEND:
++            if (sa != 0) {
++                tcg_gen_deposit_tl(cpu_gpr[rt], t0, cpu_gpr[rt], sa, 64 - sa);
++            }
++            break;
++        case OPC_PREPENDD:
++            tcg_gen_shri_tl(cpu_gpr[rt], cpu_gpr[rt], 0x20 | sa);
++            tcg_gen_shli_tl(t0, t0, 64 - (0x20 | sa));
++            tcg_gen_or_tl(cpu_gpr[rt], t0, t0);
++            break;
++        case OPC_PREPENDW:
++            if (sa != 0) {
++                tcg_gen_shri_tl(cpu_gpr[rt], cpu_gpr[rt], sa);
++                tcg_gen_shli_tl(t0, t0, 64 - sa);
++                tcg_gen_or_tl(cpu_gpr[rt], cpu_gpr[rt], t0);
++            }
++            break;
++        case OPC_DBALIGN:
++            sa &= 7;
++            if (sa != 0 && sa != 2 && sa != 4) {
++                tcg_gen_shli_tl(cpu_gpr[rt], cpu_gpr[rt], 8 * sa);
++                tcg_gen_shri_tl(t0, t0, 8 * (8 - sa));
++                tcg_gen_or_tl(cpu_gpr[rt], cpu_gpr[rt], t0);
++            }
++            break;
++        default:            /* Invalid */
++            MIPS_INVAL("MASK DAPPEND");
++            generate_exception_end(ctx, EXCP_RI);
++            break;
++        }
++        break;
++#endif
++    }
++    tcg_temp_free(t0);
++}
++
++static void gen_mipsdsp_accinsn(DisasContext *ctx, uint32_t op1, uint32_t op2,
++                                int ret, int v1, int v2, int check_ret)
++
++{
++    TCGv t0;
++    TCGv t1;
++    TCGv v1_t;
++    TCGv v2_t;
++    int16_t imm;
++
++    if ((ret == 0) && (check_ret == 1)) {
++        /* Treat as NOP. */
++        return;
++    }
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
++    v1_t = tcg_temp_new();
++    v2_t = tcg_temp_new();
++
++    gen_load_gpr(v1_t, v1);
++    gen_load_gpr(v2_t, v2);
++
++    switch (op1) {
++    case OPC_EXTR_W_DSP:
++        check_dsp(ctx);
++        switch (op2) {
++        case OPC_EXTR_W:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_extr_w(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_EXTR_R_W:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_extr_r_w(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_EXTR_RS_W:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_extr_rs_w(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_EXTR_S_H:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_extr_s_h(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_EXTRV_S_H:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_extr_s_h(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_EXTRV_W:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_extr_w(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_EXTRV_R_W:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_extr_r_w(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_EXTRV_RS_W:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_extr_rs_w(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_EXTP:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_extp(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_EXTPV:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_extp(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_EXTPDP:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_extpdp(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_EXTPDPV:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_extpdp(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_SHILO:
++            imm = (ctx->opcode >> 20) & 0x3F;
++            tcg_gen_movi_tl(t0, ret);
++            tcg_gen_movi_tl(t1, imm);
++            gen_helper_shilo(t0, t1, cpu_env);
++            break;
++        case OPC_SHILOV:
++            tcg_gen_movi_tl(t0, ret);
++            gen_helper_shilo(t0, v1_t, cpu_env);
++            break;
++        case OPC_MTHLIP:
++            tcg_gen_movi_tl(t0, ret);
++            gen_helper_mthlip(t0, v1_t, cpu_env);
++            break;
++        case OPC_WRDSP:
++            imm = (ctx->opcode >> 11) & 0x3FF;
++            tcg_gen_movi_tl(t0, imm);
++            gen_helper_wrdsp(v1_t, t0, cpu_env);
++            break;
++        case OPC_RDDSP:
++            imm = (ctx->opcode >> 16) & 0x03FF;
++            tcg_gen_movi_tl(t0, imm);
++            gen_helper_rddsp(cpu_gpr[ret], t0, cpu_env);
++            break;
++        }
++        break;
++#ifdef TARGET_MIPS64
++    case OPC_DEXTR_W_DSP:
++        check_dsp(ctx);
++        switch (op2) {
++        case OPC_DMTHLIP:
++            tcg_gen_movi_tl(t0, ret);
++            gen_helper_dmthlip(v1_t, t0, cpu_env);
++            break;
++        case OPC_DSHILO:
++            {
++                int shift = (ctx->opcode >> 19) & 0x7F;
++                int ac = (ctx->opcode >> 11) & 0x03;
++                tcg_gen_movi_tl(t0, shift);
++                tcg_gen_movi_tl(t1, ac);
++                gen_helper_dshilo(t0, t1, cpu_env);
++                break;
++            }
++        case OPC_DSHILOV:
++            {
++                int ac = (ctx->opcode >> 11) & 0x03;
++                tcg_gen_movi_tl(t0, ac);
++                gen_helper_dshilo(v1_t, t0, cpu_env);
++                break;
++            }
++        case OPC_DEXTP:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++
++            gen_helper_dextp(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_DEXTPV:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_dextp(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_DEXTPDP:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_dextpdp(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_DEXTPDPV:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_dextpdp(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_DEXTR_L:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_dextr_l(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_DEXTR_R_L:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_dextr_r_l(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_DEXTR_RS_L:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_dextr_rs_l(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_DEXTR_W:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_dextr_w(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_DEXTR_R_W:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_dextr_r_w(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_DEXTR_RS_W:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_dextr_rs_w(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_DEXTR_S_H:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_dextr_s_h(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_DEXTRV_S_H:
++            tcg_gen_movi_tl(t0, v2);
++            tcg_gen_movi_tl(t1, v1);
++            gen_helper_dextr_s_h(cpu_gpr[ret], t0, t1, cpu_env);
++            break;
++        case OPC_DEXTRV_L:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_dextr_l(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_DEXTRV_R_L:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_dextr_r_l(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_DEXTRV_RS_L:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_dextr_rs_l(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_DEXTRV_W:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_dextr_w(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_DEXTRV_R_W:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_dextr_r_w(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        case OPC_DEXTRV_RS_W:
++            tcg_gen_movi_tl(t0, v2);
++            gen_helper_dextr_rs_w(cpu_gpr[ret], t0, v1_t, cpu_env);
++            break;
++        }
++        break;
++#endif
++    }
++
++    tcg_temp_free(t0);
++    tcg_temp_free(t1);
++    tcg_temp_free(v1_t);
++    tcg_temp_free(v2_t);
++}
 -- 
 2.26.2
 
