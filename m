@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E832BFE43
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 03:53:35 +0100 (CET)
-Received: from localhost ([::1]:49646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC2F2BFE8C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 04:16:51 +0100 (CET)
+Received: from localhost ([::1]:57332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh1yv-0003rR-Rk
-	for lists+qemu-devel@lfdr.de; Sun, 22 Nov 2020 21:53:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42400)
+	id 1kh2LS-0000ch-5G
+	for lists+qemu-devel@lfdr.de; Sun, 22 Nov 2020 22:16:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kh1xI-0003Nb-LP
- for qemu-devel@nongnu.org; Sun, 22 Nov 2020 21:51:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39973)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kh1xF-0002EC-53
- for qemu-devel@nongnu.org; Sun, 22 Nov 2020 21:51:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606099907;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FpiaZEn8i2YPh/EqssdzSSim+mReaxtD6cSmRWXww5Y=;
- b=JGrGzp4YlCfVsCLbAnD4xxTEXbJ3L/HX6D7tyh9Vxx4zEJK4mVltytLmRJmarnHTsu/60S
- BMamuKmf8bsxu0o1ODW18KWEvs9CmcRSzz6THpzvY7ox5PG6r5cVOtmBiUPMJtbebcZ3By
- gyfjUprKeEE7+4O7umJeAj4zZ5f1ey0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-BcUGJnfFMu6NS6IrtsJQew-1; Sun, 22 Nov 2020 21:51:41 -0500
-X-MC-Unique: BcUGJnfFMu6NS6IrtsJQew-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EB338735D5;
- Mon, 23 Nov 2020 02:51:40 +0000 (UTC)
-Received: from [10.72.13.192] (ovpn-13-192.pek2.redhat.com [10.72.13.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F2675D6D3;
- Mon, 23 Nov 2020 02:51:38 +0000 (UTC)
-Subject: Re: [PATCH 1/1] /net/tap.c: Fix a memory leak
-To: Peter Maydell <peter.maydell@linaro.org>, ruc_gongyuanjun@163.com
-References: <20201122044426.13454-1-ruc_gongyuanjun@163.com>
- <CAFEAcA-Oc1JO-3H+mmjmhTuVLa89fMN8HgWHhnO8q5TpBg61MA@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <a66e14c4-1765-901d-c3aa-e6eaefad7c0a@redhat.com>
-Date: Mon, 23 Nov 2020 10:51:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1kh2Jl-000873-2C; Sun, 22 Nov 2020 22:15:05 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1kh2Jh-00052U-H8; Sun, 22 Nov 2020 22:15:04 -0500
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CfXLq2NmXzhfhj;
+ Mon, 23 Nov 2020 11:14:27 +0800 (CST)
+Received: from [10.174.187.74] (10.174.187.74) by
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 23 Nov 2020 11:14:38 +0800
+Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
+ right place in VFIO migration
+To: Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>
+References: <20201114091731.157-1-lushenming@huawei.com>
+ <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
+ <20201119104127.5e243efa@w520.home>
+ <a7be9306-f800-0323-293e-217e2e9f6015@huawei.com>
+ <20201120150146.5e5693e9@w520.home>
+From: Shenming Lu <lushenming@huawei.com>
+Message-ID: <09549a98-85a0-fe4e-59fc-fdb636a4a5cd@huawei.com>
+Date: Mon, 23 Nov 2020 11:14:38 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-Oc1JO-3H+mmjmhTuVLa89fMN8HgWHhnO8q5TpBg61MA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201120150146.5e5693e9@w520.home>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.187.74]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=lushenming@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,56 +64,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Neo Jia <cjia@nvidia.com>, Marc Zyngier <maz@kernel.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org, yuzenghui@huawei.com,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/11/22 下午7:39, Peter Maydell wrote:
-> On Sun, 22 Nov 2020 at 11:07, <ruc_gongyuanjun@163.com> wrote:
->> From: yuanjungong <ruc_gongyuanjun@163.com>
+On 2020/11/21 6:01, Alex Williamson wrote:
+> On Fri, 20 Nov 2020 22:05:49 +0800
+> Shenming Lu <lushenming@huawei.com> wrote:
+> 
+>> On 2020/11/20 1:41, Alex Williamson wrote:
+>>> On Thu, 19 Nov 2020 14:13:24 +0530
+>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+>>>   
+>>>> On 11/14/2020 2:47 PM, Shenming Lu wrote:  
+>>>>> When running VFIO migration, I found that the restoring of VFIO PCI device’s
+>>>>> config space is before VGIC on ARM64 target. But generally, interrupt controllers
+>>>>> need to be restored before PCI devices.     
+>>>>
+>>>> Is there any other way by which VGIC can be restored before PCI device?  
 >>
->> Close fd before returning.
+>> As far as I know, it seems to have to depend on priorities in the non-iterable process.
 >>
->> Buglink: https://bugs.launchpad.net/qemu/+bug/1904486
->> Signed-off-by: yuanjungong <ruc_gongyuanjun@163.com>
->> ---
->>   net/tap.c | 2 ++
->>   1 file changed, 2 insertions(+)
+>>>>  
+>>>>> Besides, if a VFIO PCI device is
+>>>>> configured to have directly-injected MSIs (VLPIs), the restoring of its config
+>>>>> space will trigger the configuring of these VLPIs (in kernel), where it would
+>>>>> return an error as I saw due to the dependency on kvm’s vgic.
+>>>>>     
+>>>>
+>>>> Can this be fixed in kernel to re-initialize the kernel state?  
 >>
->> diff --git a/net/tap.c b/net/tap.c
->> index c46ff66..fe95fa7 100644
->> --- a/net/tap.c
->> +++ b/net/tap.c
->> @@ -817,6 +817,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
->>           if (ret < 0) {
->>               error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
->>                                name, fd);
->> +            close(fd);
->>               return -1;
->>           }
+>> Did you mean to reconfigure these VLPIs when restoring kvm's vgic?
+>> But the fact is that this error is not caused by kernel, it is due to the incorrect
+>> calling order of qemu...
 >>
->> @@ -831,6 +832,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
->>                            vhostfdname, vnet_hdr, fd, &err);
->>           if (err) {
->>               error_propagate(errp, err);
->> +            close(fd);
->>               return -1;
->>           }
->>       } else if (tap->has_fds) {
->> --
->> 2.17.1
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->
-> thanks
-> -- PMM
+>>>>  
+>>>>> To avoid this, we can move the saving of the config space from the iterable
+>>>>> process to the non-iterable process, so that it will be called after VGIC
+>>>>> according to their priorities.
+>>>>>     
+>>>>
+>>>> With this change, at resume side, pre-copy phase data would reach 
+>>>> destination without restored config space. VFIO device on destination 
+>>>> might need it's config space setup and validated before it can accept 
+>>>> further VFIO device specific migration state.
+>>>>
+>>>> This also changes bit-stream, so it would break migration with original 
+>>>> migration patch-set.  
+>>>
+>>> Config space can continue to change while in pre-copy, if we're only
+>>> sending config space at the initiation of pre-copy, how are any changes
+>>> that might occur before the VM is stopped conveyed to the target?  For
+>>> example the guest might reboot and a device returned to INTx mode from
+>>> MSI during pre-copy.  Thanks,  
+>>
+>> What I see is that the config space is only saved once in save_live_complete_precopy
+>> currently...
+>> As you said, a VFIO device might need it's config space setup first, and
+>> the config space can continue to change while in pre-copy, Did you mean we
+>> have to migrate the config space in save_live_iterate?
+>> However, I still have a little doubt about the restoring dependence between
+>> the qemu emulated config space and the device data...
+>>
+>> Besides, if we surely can't move the saving of the config space back, can we
+>> just move some actions which are triggered by the restoring of the config space
+>> back (such as vfio_msix_enable())?
+> 
+> It seems that the significant benefit to enabling interrupts during
+> pre-copy would be to reduce the latency and failure potential during
+> the final phase of migration.  Do we have any data for how much it adds
+> to the device contributed downtime to configure interrupts only at the
+> final stage?  My guess is that it's a measurable delay on its own.  At
+> the same time, we can't ignore the differences in machine specific
+> dependencies and if we don't even sync the config space once the VM is
+> stopped... this all seems not ready to call supported, especially if we
+> have concerns already about migration bit-stream compatibility.
+> 
 
+I have another question for this, if we restore the config space while in pre-copy
+(include enabling interrupts), does it affect the _RESUMING state (paused) of the
+device on the dst host (cause it to send interrupts? which should not be allowed
+in this stage). Does the restore sequence need to be further discussed and reach
+a consensus(spec) (taking into account other devices and the corresponding actions
+of the vendor driver)?
 
-Applied.
+> Given our timing relative to QEMU 5.2, the only path I feel comfortable
+> with is to move forward with downgrading vfio migration support to be
+> enabled via an experimental option.  Objections?  Thanks,
 
-Thanks
+Alright, but this issue is related to our ARM GICv4.1 migration scheme, could you
+give a rough idea about this (where to enable interrupts, we hope it to be after
+the restoring of VGIC)?
 
-
->
-
+Thanks,
+Shenming
 
