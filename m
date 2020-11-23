@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FC12C0D2A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:24:00 +0100 (CET)
-Received: from localhost ([::1]:51094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E03E02C0D2F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:25:58 +0100 (CET)
+Received: from localhost ([::1]:59358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khCl5-0006ds-Hw
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:23:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36524)
+	id 1khCmz-0001da-Sb
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:25:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcD-0002yz-LP
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20881)
+ id 1khCcE-0002zl-OZ
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcA-0007jx-TM
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:49 -0500
+ id 1khCcB-0007jz-3L
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606140886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NmX3I71P96GfjBY0QomlHY870xCwJWQCo5SPXB4hhow=;
- b=D3y1754tPsdKjJ0Q8Jbbw6d/3n7xP9GMq0WhiwU/5ZLFBKPBo+OciRTECq9uk3/z3mAqG3
- +HCUUvGVrwLZpBvjTm7PpuOago5LVugJtTpbfnNWbdBPx2fPXwZDfBNr6sGGiUgH0TTiZ+
- j8GVySRWJL0HawyeXpj6+4X5HlzX6Uo=
+ bh=f+4b/gxmOxkePzojbW9XT0AhSQo5i8jpL0dQ4zDtFFQ=;
+ b=IpNLCn/XBifbJqzj/aQQMRIlHgsiu6wvZ1aqSxOIpaK76uy13wN3nuoR29BCGwe9rqBWST
+ 2SzeyXqb2bh0ZcoE581ceiTQawcDvyRVqa60lifgeEbeGH/XuU+BaY19ehbu/rE0cAm3H+
+ stTanA4hkI2BTrBHNjz5N+Jh2hVN/fM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-0zebXlIKNVGq7nNXV6gSOw-1; Mon, 23 Nov 2020 09:14:44 -0500
-X-MC-Unique: 0zebXlIKNVGq7nNXV6gSOw-1
+ us-mta-445-ipO9VHy-MCKywd0f1iGvRg-1; Mon, 23 Nov 2020 09:14:44 -0500
+X-MC-Unique: ipO9VHy-MCKywd0f1iGvRg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D5BC18B9ED1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A83B018B9ED7
  for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:43 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0BA355D9E2;
- Mon, 23 Nov 2020 14:14:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 681C15D9E2;
+ Mon, 23 Nov 2020 14:14:43 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/36] vl: create "-net nic -net user" default earlier
-Date: Mon, 23 Nov 2020 09:14:10 -0500
-Message-Id: <20201123141435.2726558-12-pbonzini@redhat.com>
+Subject: [PATCH 12/36] vl: load plugins as late as possible
+Date: Mon, 23 Nov 2020 09:14:11 -0500
+Message-Id: <20201123141435.2726558-13-pbonzini@redhat.com>
 In-Reply-To: <20201123141435.2726558-1-pbonzini@redhat.com>
 References: <20201123141435.2726558-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,8 +56,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,53 +79,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create it together with other default backends, even though the processing is
-done later.
+There is no need to load plugins in the middle of default device processing,
+move -plugin handling just before preconfig is entered.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ softmmu/vl.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 10b6152e36..87c10f625c 100644
+index 87c10f625c..ab08a0290c 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -4249,6 +4249,14 @@ void qemu_init(int argc, char **argv, char **envp)
-             monitor_parse("vc:80Cx24C", "readline", false);
+@@ -125,6 +125,7 @@ static const char *boot_order;
+ static const char *boot_once;
+ static const char *incoming;
+ static const char *loadvm;
++static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+ enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
+ static int mem_prealloc; /* force preallocation of physical target memory */
+ int display_opengl;
+@@ -3074,6 +3075,11 @@ static void qemu_init_board(void)
+         create_default_memdev(current_machine, mem_path);
      }
  
-+    if (default_net) {
-+        QemuOptsList *net = qemu_find_opts("net");
-+        qemu_opts_parse(net, "nic", true, &error_abort);
-+#ifdef CONFIG_SLIRP
-+        qemu_opts_parse(net, "user", true, &error_abort);
-+#endif
++    /* process plugin before CPUs are created, but once -smp has been parsed */
++    if (qemu_plugin_load_list(&plugin_list)) {
++        exit(1);
 +    }
 +
- #if defined(CONFIG_VNC)
-     if (!QTAILQ_EMPTY(&(qemu_find_opts("vnc")->head))) {
-         display_remote++;
-@@ -4384,14 +4392,6 @@ void qemu_init(int argc, char **argv, char **envp)
-         semihosting_arg_fallback(kernel_filename, kernel_cmdline);
+     machine_run_board_init(current_machine);
+ 
+     /*
+@@ -3208,7 +3214,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     Error *err = NULL;
+     bool have_custom_ram_size;
+     BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
+-    QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+ 
+     qemu_add_opts(&qemu_drive_opts);
+     qemu_add_drive_opts(&qemu_legacy_drive_opts);
+@@ -4178,11 +4183,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                                machine_class->default_machine_opts, 0);
      }
  
--    if (default_net) {
--        QemuOptsList *net = qemu_find_opts("net");
--        qemu_opts_parse(net, "nic", true, &error_abort);
--#ifdef CONFIG_SLIRP
--        qemu_opts_parse(net, "user", true, &error_abort);
--#endif
+-    /* process plugin before CPUs are created, but once -smp has been parsed */
+-    if (qemu_plugin_load_list(&plugin_list)) {
+-        exit(1);
 -    }
 -
-     if (net_init_clients(&err) < 0) {
-         error_report_err(err);
-         exit(1);
+     qemu_opts_foreach(qemu_find_opts("device"),
+                       default_driver_check, NULL, NULL);
+     qemu_opts_foreach(qemu_find_opts("global"),
 -- 
 2.26.2
 
