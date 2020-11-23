@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1F42C0D23
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:21:36 +0100 (CET)
-Received: from localhost ([::1]:42676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D3C2C0D73
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:28:31 +0100 (CET)
+Received: from localhost ([::1]:39640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khCik-00035n-TZ
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:21:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36544)
+	id 1khCpS-0005E9-BT
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:28:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcE-0002zG-Ck
+ id 1khCcD-0002z7-Vi
  for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60544)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcB-0007kA-Qr
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:50 -0500
+ id 1khCcB-0007kB-K0
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606140886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1822Dy6qpSjZ0qF5GiK5kkEA0HHfKjbG66Y8OMKKfx8=;
- b=YGJj+KA1tSMHNvAHUUI9aqmkp77BMvhCL1ZSIvFPTyFQ7vukL+ReSVmzC6H6POKJvFfh1t
- QslSB2t7Hzeruc07ENuf4JA6dKhXGMeVX07+hLrvGUhH01rcv3LwrS4JvjOWE/gFo4xbQh
- N5iHTt41f0yDRPPrLu5zwlXLal5GZjE=
+ bh=qWMtToJZInFF6ipVkFH5WwwrpOT6b9FW6ITdG46LDts=;
+ b=bU0A0hncWrNXKrM5ef39qYMyqw8PtqSz1L7+6ti+7BiVwxEd74gzUjr2FZui4zqPjcW6JY
+ 2ZQOwm5irz+rD9DaMCcJTVDeumOLhSAw+bflxg8wtECPzaR5dGgFHTxGw9q5FK9jNkFJNB
+ KBD1jr13iWyMWPc+GBo7iFMN8my6Nog=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-HW6UmVFcMdKQRVnwEdvuUw-1; Mon, 23 Nov 2020 09:14:44 -0500
-X-MC-Unique: HW6UmVFcMdKQRVnwEdvuUw-1
+ us-mta-328-HmPSH24KOYKL8qqrBcwPQw-1; Mon, 23 Nov 2020 09:14:45 -0500
+X-MC-Unique: HmPSH24KOYKL8qqrBcwPQw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F412281CBE9
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C26D805BE6
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:44 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C2B415D9E2
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1A2885D9E8
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:44 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/36] vl: move semihosting command line fallback to
- qemu_init_board
-Date: Mon, 23 Nov 2020 09:14:12 -0500
-Message-Id: <20201123141435.2726558-14-pbonzini@redhat.com>
+Subject: [PATCH 14/36] vl: extract default devices to separate functions
+Date: Mon, 23 Nov 2020 09:14:13 -0500
+Message-Id: <20201123141435.2726558-15-pbonzini@redhat.com>
 In-Reply-To: <20201123141435.2726558-1-pbonzini@redhat.com>
 References: <20201123141435.2726558-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -83,43 +82,275 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move more sane parts of the huge qemu_init function out of it.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ softmmu/vl.c | 216 +++++++++++++++++++++++++++------------------------
+ 1 file changed, 114 insertions(+), 102 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ab08a0290c..5d68cf828c 100644
+index 5d68cf828c..b6c62e1e4f 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -3070,6 +3070,11 @@ static void qemu_init_board(void)
- {
-     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
+@@ -125,7 +125,9 @@ static const char *boot_order;
+ static const char *boot_once;
+ static const char *incoming;
+ static const char *loadvm;
++static int display_remote;
+ static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
++static bool nographic = false;
+ enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
+ static int mem_prealloc; /* force preallocation of physical target memory */
+ int display_opengl;
+@@ -147,6 +149,7 @@ static int rtc_host_datetime_offset = -1; /* valid & used only with
+                                              RTC_BASE_DATETIME */
+ QEMUClockType rtc_clock;
+ int vga_interface_type = VGA_NONE;
++static const char *vga_model = NULL;
+ static DisplayOptions dpy;
+ static int num_serial_hds;
+ static Chardev **serial_hds;
+@@ -2224,6 +2227,115 @@ static int foreach_device_config(int type, int (*func)(const char *cmdline))
+     return 0;
+ }
  
-+    if (semihosting_enabled() && !semihosting_get_argc() && current_machine->kernel_filename) {
-+        /* fall back to the -kernel/-append */
-+        semihosting_arg_fallback(current_machine->kernel_filename, current_machine->kernel_cmdline);
++static void qemu_disable_default_devices(void)
++{
++    MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
++
++    qemu_opts_foreach(qemu_find_opts("device"),
++                      default_driver_check, NULL, NULL);
++    qemu_opts_foreach(qemu_find_opts("global"),
++                      default_driver_check, NULL, NULL);
++
++    if (!vga_model && !default_vga) {
++        vga_interface_type = VGA_DEVICE;
++    }
++    if (!has_defaults || machine_class->no_serial) {
++        default_serial = 0;
++    }
++    if (!has_defaults || machine_class->no_parallel) {
++        default_parallel = 0;
++    }
++    if (!has_defaults || machine_class->no_floppy) {
++        default_floppy = 0;
++    }
++    if (!has_defaults || machine_class->no_cdrom) {
++        default_cdrom = 0;
++    }
++    if (!has_defaults || machine_class->no_sdcard) {
++        default_sdcard = 0;
++    }
++    if (!has_defaults) {
++        default_monitor = 0;
++        default_net = 0;
++        default_vga = 0;
++    }
++}
++
++static void qemu_create_default_devices(void)
++{
++    MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
++
++    if (is_daemonized()) {
++        /* According to documentation and historically, -nographic redirects
++         * serial port, parallel port and monitor to stdio, which does not work
++         * with -daemonize.  We can redirect these to null instead, but since
++         * -nographic is legacy, let's just error out.
++         * We disallow -nographic only if all other ports are not redirected
++         * explicitly, to not break existing legacy setups which uses
++         * -nographic _and_ redirects all ports explicitly - this is valid
++         * usage, -nographic is just a no-op in this case.
++         */
++        if (nographic
++            && (default_parallel || default_serial || default_monitor)) {
++            error_report("-nographic cannot be used with -daemonize");
++            exit(1);
++        }
 +    }
 +
-     if (machine_class->default_ram_id && current_machine->ram_size &&
-         numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
-         create_default_memdev(current_machine, mem_path);
-@@ -4385,13 +4390,6 @@ void qemu_init(int argc, char **argv, char **envp)
-         boot_order = machine_class->default_boot_order;
++    if (nographic) {
++        if (default_parallel)
++            add_device_config(DEV_PARALLEL, "null");
++        if (default_serial && default_monitor) {
++            add_device_config(DEV_SERIAL, "mon:stdio");
++        } else {
++            if (default_serial)
++                add_device_config(DEV_SERIAL, "stdio");
++            if (default_monitor)
++                monitor_parse("stdio", "readline", false);
++        }
++    } else {
++        if (default_serial)
++            add_device_config(DEV_SERIAL, "vc:80Cx24C");
++        if (default_parallel)
++            add_device_config(DEV_PARALLEL, "vc:80Cx24C");
++        if (default_monitor)
++            monitor_parse("vc:80Cx24C", "readline", false);
++    }
++
++    if (default_net) {
++        QemuOptsList *net = qemu_find_opts("net");
++        qemu_opts_parse(net, "nic", true, &error_abort);
++#ifdef CONFIG_SLIRP
++        qemu_opts_parse(net, "user", true, &error_abort);
++#endif
++    }
++
++#if defined(CONFIG_VNC)
++    if (!QTAILQ_EMPTY(&(qemu_find_opts("vnc")->head))) {
++        display_remote++;
++    }
++#endif
++    if (dpy.type == DISPLAY_TYPE_DEFAULT && !display_remote) {
++        if (!qemu_display_find_default(&dpy)) {
++            dpy.type = DISPLAY_TYPE_NONE;
++#if defined(CONFIG_VNC)
++            vnc_parse("localhost:0,to=99,id=default", &error_abort);
++#endif
++        }
++    }
++    if (dpy.type == DISPLAY_TYPE_DEFAULT) {
++        dpy.type = DISPLAY_TYPE_NONE;
++    }
++
++    /* If no default VGA is requested, the default is "none".  */
++    if (default_vga) {
++        vga_model = get_default_vga_model(machine_class);
++    }
++    if (vga_model) {
++        select_vgahw(machine_class, vga_model);
++    }
++}
++
+ static int serial_parse(const char *devname)
+ {
+     int index = num_serial_hds;
+@@ -3209,10 +3321,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     int optind;
+     const char *optarg;
+     MachineClass *machine_class;
+-    const char *vga_model = NULL;
+     bool userconfig = true;
+-    bool nographic = false;
+-    int display_remote = 0;
+     ram_addr_t maxram_size;
+     uint64_t ram_slots = 0;
+     FILE *vmstate_dump_file = NULL;
+@@ -4188,97 +4297,8 @@ void qemu_init(int argc, char **argv, char **envp)
+                                machine_class->default_machine_opts, 0);
      }
  
--    if (semihosting_enabled() && !semihosting_get_argc()) {
--        const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
--        const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
--        /* fall back to the -kernel/-append */
--        semihosting_arg_fallback(kernel_filename, kernel_cmdline);
+-    qemu_opts_foreach(qemu_find_opts("device"),
+-                      default_driver_check, NULL, NULL);
+-    qemu_opts_foreach(qemu_find_opts("global"),
+-                      default_driver_check, NULL, NULL);
+-
+-    if (!vga_model && !default_vga) {
+-        vga_interface_type = VGA_DEVICE;
+-    }
+-    if (!has_defaults || machine_class->no_serial) {
+-        default_serial = 0;
+-    }
+-    if (!has_defaults || machine_class->no_parallel) {
+-        default_parallel = 0;
+-    }
+-    if (!has_defaults || machine_class->no_floppy) {
+-        default_floppy = 0;
+-    }
+-    if (!has_defaults || machine_class->no_cdrom) {
+-        default_cdrom = 0;
+-    }
+-    if (!has_defaults || machine_class->no_sdcard) {
+-        default_sdcard = 0;
+-    }
+-    if (!has_defaults) {
+-        default_monitor = 0;
+-        default_net = 0;
+-        default_vga = 0;
 -    }
 -
-     if (net_init_clients(&err) < 0) {
-         error_report_err(err);
-         exit(1);
+-    if (is_daemonized()) {
+-        /* According to documentation and historically, -nographic redirects
+-         * serial port, parallel port and monitor to stdio, which does not work
+-         * with -daemonize.  We can redirect these to null instead, but since
+-         * -nographic is legacy, let's just error out.
+-         * We disallow -nographic only if all other ports are not redirected
+-         * explicitly, to not break existing legacy setups which uses
+-         * -nographic _and_ redirects all ports explicitly - this is valid
+-         * usage, -nographic is just a no-op in this case.
+-         */
+-        if (nographic
+-            && (default_parallel || default_serial || default_monitor)) {
+-            error_report("-nographic cannot be used with -daemonize");
+-            exit(1);
+-        }
+-    }
+-
+-    if (nographic) {
+-        if (default_parallel)
+-            add_device_config(DEV_PARALLEL, "null");
+-        if (default_serial && default_monitor) {
+-            add_device_config(DEV_SERIAL, "mon:stdio");
+-        } else {
+-            if (default_serial)
+-                add_device_config(DEV_SERIAL, "stdio");
+-            if (default_monitor)
+-                monitor_parse("stdio", "readline", false);
+-        }
+-    } else {
+-        if (default_serial)
+-            add_device_config(DEV_SERIAL, "vc:80Cx24C");
+-        if (default_parallel)
+-            add_device_config(DEV_PARALLEL, "vc:80Cx24C");
+-        if (default_monitor)
+-            monitor_parse("vc:80Cx24C", "readline", false);
+-    }
+-
+-    if (default_net) {
+-        QemuOptsList *net = qemu_find_opts("net");
+-        qemu_opts_parse(net, "nic", true, &error_abort);
+-#ifdef CONFIG_SLIRP
+-        qemu_opts_parse(net, "user", true, &error_abort);
+-#endif
+-    }
+-
+-#if defined(CONFIG_VNC)
+-    if (!QTAILQ_EMPTY(&(qemu_find_opts("vnc")->head))) {
+-        display_remote++;
+-    }
+-#endif
+-    if (dpy.type == DISPLAY_TYPE_DEFAULT && !display_remote) {
+-        if (!qemu_display_find_default(&dpy)) {
+-            dpy.type = DISPLAY_TYPE_NONE;
+-#if defined(CONFIG_VNC)
+-            vnc_parse("localhost:0,to=99,id=default", &error_abort);
+-#endif
+-        }
+-    }
+-    if (dpy.type == DISPLAY_TYPE_DEFAULT) {
+-        dpy.type = DISPLAY_TYPE_NONE;
+-    }
+-
++    qemu_disable_default_devices();
++    qemu_create_default_devices();
+     if ((alt_grab || ctrl_grab) && dpy.type != DISPLAY_TYPE_SDL) {
+         error_report("-alt-grab and -ctrl-grab are only valid "
+                      "for SDL, ignoring option");
+@@ -4417,14 +4437,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_semihosting_connect_chardevs();
+     qemu_semihosting_console_init();
+ 
+-    /* If no default VGA is requested, the default is "none".  */
+-    if (default_vga) {
+-        vga_model = get_default_vga_model(machine_class);
+-    }
+-    if (vga_model) {
+-        select_vgahw(machine_class, vga_model);
+-    }
+-
+     /* This checkpoint is required by replay to separate prior clock
+        reading from the other reads, because timer polling functions query
+        clock values from the log. */
 -- 
 2.26.2
 
