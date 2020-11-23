@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EDC2C0D72
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:28:29 +0100 (CET)
-Received: from localhost ([::1]:39610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C4B2C0D25
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:22:17 +0100 (CET)
+Received: from localhost ([::1]:46034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khCpQ-0005DC-Ow
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:28:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36742)
+	id 1khCjQ-0004ZI-JS
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:22:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcR-0003EU-5s
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22302)
+ id 1khCcQ-0003DD-N8
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcM-0007pl-OG
+ id 1khCcM-0007pV-O8
  for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606140898;
+ s=mimecast20190719; t=1606140897;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HJ786ZtxQcWYvdNbqpG/nqHQFKY8Ie9Xw7sxd/MhTEc=;
- b=bVx5gHnEu9wbQUHnz9ba1odqKcPVd6lY+zQqNj1zEQrhumOM+Gyfhki82CFio94yG1KwJE
- sRBWlPbjKO05HsnDt9M145Odvq3qYarXhQjPI4a0GAPjKVZcMbPNb3ZCtCL2E+sS+KM9X7
- 1nbjvvvxEMnc97x9v6tG6JH2eAVho5c=
+ bh=uu4pdBoN9dgyqSaHAUhMadj6P5dazVOovEt0liU4I1Y=;
+ b=ZDJjbt9Frqstvf2d9X1xa5T2VFGoC2o5xknRgaj9zkElD8Sf5iukLY0S7CQVhfNxgJoSF6
+ g9UJv4vDkytSiTTkgY/Ii6m5fsjDRI4jkzODCDGxbNIZt0CA/+GOCmsTIG/W4CmwiEZ6fj
+ ZswJMcuWmbn9OSgY6Oz7SFW6SEgbPjs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-NDMybW-MNBOSvrf3QKE3Tg-1; Mon, 23 Nov 2020 09:14:56 -0500
-X-MC-Unique: NDMybW-MNBOSvrf3QKE3Tg-1
+ us-mta-231-TRW-lHCRPPO1UxrsTBem9w-1; Mon, 23 Nov 2020 09:14:55 -0500
+X-MC-Unique: TRW-lHCRPPO1UxrsTBem9w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39B0518B9EDD
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9493218B9EEC
  for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:54 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED98C5D9E3;
- Mon, 23 Nov 2020 14:14:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 542645D9E3;
+ Mon, 23 Nov 2020 14:14:54 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 24/36] vl: start VM via qmp_cont
-Date: Mon, 23 Nov 2020 09:14:23 -0500
-Message-Id: <20201123141435.2726558-25-pbonzini@redhat.com>
+Subject: [PATCH 25/36] hmp: introduce cmd_available
+Date: Mon, 23 Nov 2020 09:14:24 -0500
+Message-Id: <20201123141435.2726558-26-pbonzini@redhat.com>
 In-Reply-To: <20201123141435.2726558-1-pbonzini@redhat.com>
 References: <20201123141435.2726558-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,38 +83,81 @@ Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Complement the previous patch by starting the VM with a QMP command.
-The plan is that the user will be able to do the same, invoking two
-commands "finish-machine-init" and "cont" instead of
-"x-exit-preconfig".
+Combine the RUN_STATE_PRECONFIG and cmd_can_preconfig checks
+into a single function, to avoid repeating the same expression
+(or its negation after applying DeMorgan's rule) over and
+over again.
 
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ monitor/hmp.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index d548c31ba0..ecfe16c4c4 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -110,6 +110,7 @@
- #include "qapi/qapi-visit-ui.h"
- #include "qapi/qapi-commands-block-core.h"
- #include "qapi/qapi-commands-migration.h"
-+#include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-commands-ui.h"
- #include "qapi/qmp/qerror.h"
-@@ -4558,7 +4559,7 @@ void qemu_init(int argc, char **argv, char **envp)
-             }
-         }
-     } else if (autostart) {
--        vm_start();
-+        qmp_cont(NULL);
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index 1204233999..d40f4f4391 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -213,6 +213,11 @@ static bool cmd_can_preconfig(const HMPCommand *cmd)
+     return strchr(cmd->flags, 'p');
+ }
+ 
++static bool cmd_available(const HMPCommand *cmd)
++{
++    return !runstate_check(RUN_STATE_PRECONFIG) || cmd_can_preconfig(cmd);
++}
++
+ static void help_cmd_dump_one(Monitor *mon,
+                               const HMPCommand *cmd,
+                               char **prefix_args,
+@@ -220,7 +225,7 @@ static void help_cmd_dump_one(Monitor *mon,
+ {
+     int i;
+ 
+-    if (runstate_check(RUN_STATE_PRECONFIG) && !cmd_can_preconfig(cmd)) {
++    if (!cmd_available(cmd)) {
+         return;
      }
  
-     accel_setup_post(current_machine);
+@@ -248,8 +253,7 @@ static void help_cmd_dump(Monitor *mon, const HMPCommand *cmds,
+     /* Find one entry to dump */
+     for (cmd = cmds; cmd->name != NULL; cmd++) {
+         if (hmp_compare_cmd(args[arg_index], cmd->name) &&
+-            ((!runstate_check(RUN_STATE_PRECONFIG) ||
+-                cmd_can_preconfig(cmd)))) {
++            cmd_available(cmd)) {
+             if (cmd->sub_table) {
+                 /* continue with next arg */
+                 help_cmd_dump(mon, cmd->sub_table,
+@@ -653,7 +657,7 @@ static const HMPCommand *monitor_parse_command(MonitorHMP *hmp_mon,
+                        (int)(p - cmdp_start), cmdp_start);
+         return NULL;
+     }
+-    if (runstate_check(RUN_STATE_PRECONFIG) && !cmd_can_preconfig(cmd)) {
++    if (!cmd_available(cmd)) {
+         monitor_printf(mon, "Command '%.*s' not available with -preconfig "
+                             "until after exit_preconfig.\n",
+                        (int)(p - cmdp_start), cmdp_start);
+@@ -1225,8 +1229,7 @@ static void monitor_find_completion_by_table(MonitorHMP *mon,
+         }
+         readline_set_completion_index(mon->rs, strlen(cmdname));
+         for (cmd = cmd_table; cmd->name != NULL; cmd++) {
+-            if (!runstate_check(RUN_STATE_PRECONFIG) ||
+-                 cmd_can_preconfig(cmd)) {
++            if (cmd_available(cmd)) {
+                 cmd_completion(mon, cmdname, cmd->name);
+             }
+         }
+@@ -1234,8 +1237,7 @@ static void monitor_find_completion_by_table(MonitorHMP *mon,
+         /* find the command */
+         for (cmd = cmd_table; cmd->name != NULL; cmd++) {
+             if (hmp_compare_cmd(args[0], cmd->name) &&
+-                (!runstate_check(RUN_STATE_PRECONFIG) ||
+-                 cmd_can_preconfig(cmd))) {
++                cmd_available(cmd)) {
+                 break;
+             }
+         }
 -- 
 2.26.2
 
