@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551562C04F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:54:27 +0100 (CET)
-Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AD142C0507
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:57:05 +0100 (CET)
+Received: from localhost ([::1]:32954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khAQL-0002vz-0e
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:54:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55848)
+	id 1khASt-0006WO-9T
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:57:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAG0-00050v-6Z
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:44 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43939)
+ id 1khAG1-00052v-2D
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:45 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFy-0002nZ-Ku
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:43 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id s8so18237520wrw.10
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:42 -0800 (PST)
+ id 1khAFz-0002nh-Jj
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:44 -0500
+Received: by mail-wr1-x429.google.com with SMTP id e7so745034wrv.6
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4Ypxoy0mib2XWO0hP79LJLjw0b7ewwN2mmrbu/XzDlQ=;
- b=GyGpIgSNCVp8lB4iiGMMUJTgZ93TPBaNbiz3lrj8y3WaFL59KbYFzbYGYQX5p4YkQm
- KDsFs3c5PILRidxh3qHwzGIpSASEfb9hZXdeBQyDeOx1bewnQJ+4h2yiM7CBRgKLX7dW
- 9b3dRzebLOjDbnDpJ3+pX+roJvpiUui4lQwxp4qQ936sn8y2d1vff9nhV/t5DBpf5Ogd
- Wi1VNDN42Witxrr1dbm0eJJFjLj+0AK7Xeyg60IdQk67KjrulJGZvH5vURFTStmajJzs
- eeH59z+5WvK6TezT4YPmx4qT0Py3Vgrgqttk8oDoSia0zyRs1IV3ASEyJHhDU5wt+P5m
- O3RQ==
+ bh=jRw7V/aJ86x3YsAvTQ4Pws7EotVTih6UAbh0dRymz/E=;
+ b=Qmon3wHFOZQkQwFVDpR0lwc+H2jJTVxg/cXpkgRXS1Gry4sa3v40yFNJ2lKue9w/6f
+ Z+xw+tbRjreb9kUpyVeMVyJol4unoqad4jQKfusP6ilvp5lZWcpGdR1KxKa+rJj6oJVE
+ JYNScCqoQH7cc2w5+4tinUAFYUjyVsxAcmG1D7YER2L7NtcHXwcl1Fxfe4LH78axl0+V
+ YBeonc2ANndvaXY6KQB19imYvmPXh5FdSCQaDYcjo0Cak6OE+fEnbNQWJDzSefS2rUyy
+ a9ghYz3rudK27hr27OCqM0575suoyRRZS1aKOcm1KqJmPrgD8sLFIbeocebQ1wnM5LEa
+ v4ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4Ypxoy0mib2XWO0hP79LJLjw0b7ewwN2mmrbu/XzDlQ=;
- b=MTGOfZY2+jyXCAgtTkpm6BUUuOCwMVA83sf5eXWFqMeiqRy3pFR8+lSnRbE6EPY+tU
- Merq0fAaMmP4EZGgGiuCosmz7OxYBPPw81yhij0w3OiGw2smt3+SeR+ahsvT2qNv6yt6
- TUSsa5U2G1HmAy/n5vJM6gO+KKCJ1cl1hmmzq8BNwVM9xjz4l5AwE9iGCVTrFb5krvXs
- TD5R4W0IK83fkFE87QbqMZnt0uh69i+Z0eSAIz2bPT0lHgNC7blb7s63QBqUq2TKnrjc
- fC5dZhvcgyyRGQ5TbDA8JUV5dIhSR64IgeYC21W/+wRx9u8OfcrFPY2e+WZAuighnm3u
- f9wg==
-X-Gm-Message-State: AOAM531iGZohB0JHc1vw/szfT+pEMZ71+B9wD0jylUDaWO0rwTskuUGi
- Eu+aDNTA0F+xMZUfcVevGCC7/IxruWDkTQ==
-X-Google-Smtp-Source: ABdhPJxik3KoTyYUzwtQiEoy23xNPOOzKmg0xAOk4dNYiIxD+Ywg5ChMQXi7iugHAtNYuIAOOPzBfw==
-X-Received: by 2002:adf:de12:: with SMTP id b18mr31384783wrm.187.1606131821185; 
- Mon, 23 Nov 2020 03:43:41 -0800 (PST)
+ bh=jRw7V/aJ86x3YsAvTQ4Pws7EotVTih6UAbh0dRymz/E=;
+ b=MwYuWMoI6BxrRWLTH8ThQLj/8xkNBqCOzduwj3iSPoOtcMGppD2RkugAoG7eHV1zAR
+ 7gewlP4taDt9QTAFpCSbSANAQVNGuNOA2b1iNr1FoemQ5HEsrNyk3IbKfNg/mq3XJSgX
+ CPAZozDH9mzqRYIypPuYrnoD+mlCZrImLFfxsMEVsIKABHzcGkXvkZQ4RTMuwJR6q+6E
+ TR1oVXg907b0VXn8R1PixI7pcg6Xj5RRtDXOseAFen2Cd7Eul1c0bpxHlXCL37vc8mSc
+ fCDJbLOz+maYhX2sMzxgYgbgMJc5SHlerwmIaGOMYChMaYWA/5IYN/O7jizFyGWgv7/V
+ 8hkQ==
+X-Gm-Message-State: AOAM532vC7GYZR36tJDQtCqWpsRh75ZTTWh2sadx85BU5jspWk4GAM/3
+ bD32muD6GJZnwxhHsn0p5gfjlCILJQ6JdQ==
+X-Google-Smtp-Source: ABdhPJwx2OPcxGRL29L8cevZtiRDHproRFBDg1wck1JVmig5TsP5pgRb6Wm2SnrhnNuXykVIlcHBHA==
+X-Received: by 2002:a5d:5482:: with SMTP id h2mr31008400wrv.18.1606131822181; 
+ Mon, 23 Nov 2020 03:43:42 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.40
+ by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:43:40 -0800 (PST)
+ Mon, 23 Nov 2020 03:43:41 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/24] docs: Move microvm.rst into the system manual
-Date: Mon, 23 Nov 2020 11:43:12 +0000
-Message-Id: <20201123114315.13372-22-peter.maydell@linaro.org>
+Subject: [PULL 22/24] docs: Move pr-manager.rst into the system manual
+Date: Mon, 23 Nov 2020 11:43:13 +0000
+Message-Id: <20201123114315.13372-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201123114315.13372-1-peter.maydell@linaro.org>
 References: <20201123114315.13372-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,46 +87,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that target-i386.rst has a place to list documentation of
-machines other than the 'pc' machine, we have a place we can
-move the microvm documentation to.
+Move the pr-manager documentation into the system manual.
+Some of it (the documentation of the pr-manager-helper tool)
+should be in tools, but we will split it up after moving it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/{ => system/i386}/microvm.rst | 5 ++---
- docs/system/target-i386.rst        | 1 +
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename docs/{ => system/i386}/microvm.rst (98%)
+ docs/system/index.rst            | 1 +
+ docs/{ => system}/pr-manager.rst | 0
+ 2 files changed, 1 insertion(+)
+ rename docs/{ => system}/pr-manager.rst (100%)
 
-diff --git a/docs/microvm.rst b/docs/system/i386/microvm.rst
-similarity index 98%
-rename from docs/microvm.rst
-rename to docs/system/i386/microvm.rst
-index fcf41fc1f6f..1675e37d3e7 100644
---- a/docs/microvm.rst
-+++ b/docs/system/i386/microvm.rst
-@@ -1,6 +1,5 @@
--====================
--microvm Machine Type
--====================
-+'microvm' virtual platform (``microvm``)
-+========================================
- 
- ``microvm`` is a machine type inspired by ``Firecracker`` and
- constructed after its machine model.
-diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
-index 1612ddba907..22ba5ce2c0f 100644
---- a/docs/system/target-i386.rst
-+++ b/docs/system/target-i386.rst
-@@ -16,6 +16,7 @@ Board-specific documentation
- .. toctree::
-    :maxdepth: 1
- 
-+   i386/microvm
-    i386/pc
- 
- .. include:: cpu-models-x86.rst.inc
+diff --git a/docs/system/index.rst b/docs/system/index.rst
+index 2a5155c67dc..e5a35817a24 100644
+--- a/docs/system/index.rst
++++ b/docs/system/index.rst
+@@ -31,6 +31,7 @@ Contents:
+    managed-startup
+    cpu-hotplug
+    virtio-pmem
++   pr-manager
+    targets
+    security
+    deprecated
+diff --git a/docs/pr-manager.rst b/docs/system/pr-manager.rst
+similarity index 100%
+rename from docs/pr-manager.rst
+rename to docs/system/pr-manager.rst
 -- 
 2.20.1
 
