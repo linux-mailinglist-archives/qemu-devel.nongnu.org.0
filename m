@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FB82C027D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 10:49:29 +0100 (CET)
-Received: from localhost ([::1]:42936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1327D2C02A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 10:56:41 +0100 (CET)
+Received: from localhost ([::1]:55012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh8TQ-0001V8-Bd
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 04:49:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58060)
+	id 1kh8aN-0006hY-JC
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 04:56:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kh8Rq-0000EQ-2G; Mon, 23 Nov 2020 04:47:50 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:55127)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kh8Z9-0006BV-FZ
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:55:23 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kh8Rn-0001PA-LX; Mon, 23 Nov 2020 04:47:49 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.147])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 23D6C7487B3E;
- Mon, 23 Nov 2020 10:47:43 +0100 (CET)
-Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 23 Nov
- 2020 10:47:43 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G00177f5ea59-0a37-482b-9a43-701ec71c3b52,
- 7563B3C8582C4E5C569F12427BEE2CF3FAD9DE82) smtp.auth=groug@kaod.org
-Date: Mon, 23 Nov 2020 10:47:41 +0100
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH for-6.0 7/8] spapr: Drop "nr_servers" argument of the
- sPAPR IC activate() operation
-Message-ID: <20201123104741.7866bae9@bahia.lan>
-In-Reply-To: <20201123043832.GG521467@yekko.fritz.box>
-References: <20201120174646.619395-1-groug@kaod.org>
- <20201120174646.619395-8-groug@kaod.org>
- <20201123043832.GG521467@yekko.fritz.box>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kh8Z6-0004TT-To
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:55:23 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 7F25FAF21;
+ Mon, 23 Nov 2020 09:55:18 +0000 (UTC)
+Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
+From: Claudio Fontana <cfontana@suse.de>
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20201118152552.GG1509407@habkost.net>
+ <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
+ <20201118161119.GJ1509407@habkost.net>
+ <CABgObfb2Fim=7j3z7ApTuW=R0dWam2F_JRuOoxhP=XZXdsWe7g@mail.gmail.com>
+ <20201118173055.GM1509407@habkost.net>
+ <e7b70933-acd1-668c-62cd-89f480945f0f@redhat.com>
+ <20201118220750.GP1509407@habkost.net>
+ <2984625a-15ee-f638-b1bb-050a4514bade@suse.de>
+ <20201120171942.GA2271382@habkost.net>
+ <f780a9e5-2142-3bf4-b3fb-1bdeeed61945@suse.de>
+ <20201120180936.GD2271382@habkost.net>
+ <a32dbea4-8381-d247-3443-441b484d39e3@suse.de>
+Message-ID: <3e8fac27-aea5-5f5d-5421-291df660a586@suse.de>
+Date: Mon, 23 Nov 2020 10:55:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/6sWzdgofr0MDIsUVd31f8Zc";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: e91aeb5e-b0e6-44c4-be2f-2e9146bddff6
-X-Ovh-Tracer-Id: 9601392934588619232
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgtdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheplefggfefueegudegkeevieevveejfffhuddvgeffteekieevueefgfeltdfgieetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a32dbea4-8381-d247-3443-441b484d39e3@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,141 +65,279 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Bruce Rogers <brogers@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Olaf Hering <ohering@suse.de>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/6sWzdgofr0MDIsUVd31f8Zc
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 11/23/20 10:29 AM, Claudio Fontana wrote:
+> On 11/20/20 7:09 PM, Eduardo Habkost wrote:
+>> On Fri, Nov 20, 2020 at 06:41:35PM +0100, Claudio Fontana wrote:
+>>> On 11/20/20 6:19 PM, Eduardo Habkost wrote:
+>>>> On Fri, Nov 20, 2020 at 01:13:33PM +0100, Claudio Fontana wrote:
+>>>>> On 11/18/20 11:07 PM, Eduardo Habkost wrote:
+>>>>>> On Wed, Nov 18, 2020 at 08:13:18PM +0100, Paolo Bonzini wrote:
+>>>>>>> On 18/11/20 18:30, Eduardo Habkost wrote:
+>>>>>>>>> Adding a layer of indirect calls is not very different from monkey patching
+>>>>>>>>> though.
+>>>>>>>>
+>>>>>>>> I'm a little bothered by monkey patching, but I'm more
+>>>>>>>> bothered by having to:
+>>>>>>>>
+>>>>>>>> (1) register (module_init()) a function (kvm_cpu_accel_register()) that
+>>>>>>>>    (2) register (accel_register_call()) a function (kvm_cpu_accel_init()) that
+>>>>>>>>      (3) register (x86_cpu_accel_init()) a data structure (X86CPUAccel kvm_cpu_accel) that
+>>>>>>>>        (4) will be saved in multiple QOM classes, so that
+>>>>>>>>          (5) we will call the right X86CPUClass.accel method at the right moment
+>>>>>>>>              (common_class_init(), instance_init(), realizefn()),
+>>>>>>>> where:
+>>>>>>>>    step 4 must be done before any CPU object is created
+>>>>>>>>      (otherwise X86CPUAccel.instance_init & X86CPUAccel.realizefn
+>>>>>>>>       will be silently ignored), and
+>>>>>>>>    step 3 must be done after all QOM types were registered.
+>>>>>>>>
+>>>>>>>>> You also have to consider that accel currently does not exist in usermode
+>>>>>>>>> emulators, so that's an issue too. I would rather get a simple change in
+>>>>>>>>> quickly, instead of designing the perfect class hierarchy.
+>>>>>>>>
+>>>>>>>> It doesn't have to be perfect.  I agree that simple is better.
+>>>>>>>>
+>>>>>>>> To me, registering a QOM type and looking it up when necessary is
+>>>>>>>> simpler than the above.  Even if it's a weird class having no
+>>>>>>>> object instances.  It probably could be an interface type.
+>>>>>>>
+>>>>>>> Registering a QOM type still has quite some boilerplate.  [...]
+>>>>>>
+>>>>>> We're working on that.  :)
+>>>>>>
+>>>>>>>                                                    [...]  Also registering a
+>>>>>>> QOM type has a public side effect (shows up in qom-list-types).  In general
+>>>>>>> I don't look at QOM unless I want its property mechanism, but maybe that's
+>>>>>>> just me.
+>>>>>>
+>>>>>> We have lots of internal-use-only types returned by
+>>>>>> qom-list-types, I don't think it's a big deal.
+>>>>>>
+>>>>>>>
+>>>>>>>>> Perhaps another idea would be to allow adding interfaces to classes
+>>>>>>>>> *separately from the registration of the types*. Then we can use it to add
+>>>>>>>>> SOFTMMU_ACCEL and I386_ACCEL interfaces to a bare bones accel class, and
+>>>>>>>>> add the accel object to usermode emulators.
+>>>>>>>>
+>>>>>>>> I'm not sure I follow.  What do you mean by bare bones accel
+>>>>>>>> class, and when exactly would you add the new interfaces to the
+>>>>>>>> classes?
+>>>>>>>
+>>>>>>> A bare bones accel class would not have init_machine and setup_post methods;
+>>>>>>> those would be in a TYPE_SOFTMMU_ACCEL interface.  It would still have
+>>>>>>> properties (such as tb-size for TCG) and would be able to register compat
+>>>>>>> properties.
+>>>>
+>>>> [1]
+>>>>
+>>>>>>
+>>>>>> Oh, I think I see.  This could save us having a lot of parallel type
+>>>>>> hierarchies.
+>>>>>>
+>>>>>>>
+>>>>>>> Where would I add it, I don't know.  It could be a simple public wrapper
+>>>>>>> around type_initialize_interface() if we add a new MODULE_INIT_* phase after
+>>>>>>> QOM.
+>>>>>>>
+>>>>>>> Or without adding a new phase, it could be a class_type->array of
+>>>>>>> (interface_type, init_fn) hash table.  type_initialize would look up the
+>>>>>>> class_type by name, add the interfaces would to the class with
+>>>>>>> type_initialize_interface, and then call the init_fn to fill in the vtable.
+>>>>>>
+>>>>>> That sounds nice.  I don't think Claudio's cleanup should be
+>>>>>> blocked until this new mechanism is ready, though.
+>>>>>>
+>>>>>> We don't really need the type representing X86CPUAccel to be a
+>>>>>> subtype of TYPE_ACCEL or an interface implemented by
+>>>>>> current_machine->accelerator, in the first version.  We just need
+>>>>>> a simple way for the CPU initialization code to find the correct
+>>>>>> X86CPUAccel struct.
+>>>>>>
+>>>>>> While we don't have the new mechanism, it can be just a:
+>>>>>>   object_class_by_name("%s-x86-cpu-accel" % (accel->name))
+>>>>>> call.
+>>>>>>
+>>>>>> Below is a rough draft of what I mean.  There's still lots of
+>>>>>> room for cleaning it up (especially getting rid of the
+>>>>>> X86CPUClass.common_class_init and X86CPUClass.accel fields).
+>>>>>>
+>>>>>> git tree at https://gitlab.com/ehabkost/qemu/-/commits/work/qom-based-x86-cpu-accel
+>>>>>>
+>>>>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>>>> [...]
+>>>>>>  /**
+>>>>>> - * X86CPUAccel:
+>>>>>> - * @name: string name of the X86 CPU Accelerator
+>>>>>> - *
+>>>>>> + * X86CPUAccelInterface:
+>>>>>>   * @common_class_init: initializer for the common cpu
+>>>>>>   * @instance_init: cpu instance initialization
+>>>>>>   * @realizefn: realize function, called first in x86 cpu realize
+>>>>>> @@ -85,14 +83,16 @@ struct X86CPUClass {
+>>>>>>   * X86 CPU accelerator-specific CPU initializations
+>>>>>>   */
+>>>>>>  
+>>>>>> -struct X86CPUAccel {
+>>>>>> -    const char *name;
+>>>>>> -
+>>>>>> +struct X86CPUAccelInterface {
+>>>>>> +    ObjectClass parent_class;
+>>>>>>      void (*common_class_init)(X86CPUClass *xcc);
+>>>>>>      void (*instance_init)(X86CPU *cpu);
+>>>>>>      void (*realizefn)(X86CPU *cpu, Error **errp);
+>>>>>>  };
+>>>>>>  
+>>>>>> -void x86_cpu_accel_init(const X86CPUAccel *accel);
+>>>>>> +#define TYPE_X86_CPU_ACCEL "x86-cpu-accel"
+>>>>>> +OBJECT_DECLARE_INTERFACE(X86CPUAccel, X86CPUAccelInterface, X86_CPU_ACCEL);
+>>>>>
+>>>>>
+>>>>> I am not exactly sure what precisely you are doing here,
+>>>>>
+>>>>> I get the general intention to use the existing interface-related "stuff" in QOM,
+>>>>> but I do not see any OBJECT_DECLARE_INTERFACE around, and does not seem like the other boilerplate used for interfaces.
+>>>>
+>>>> See the git URL I sent above, for other related changes:
+>>>>
+>>>>   https://gitlab.com/ehabkost/qemu/-/commits/work/qom-based-x86-cpu-accel
+>>>
+>>>
+>>> Aaah I missed this, there are quite a few more changes there;
+>>>
+>>> for me it's great if you take it from there, I see you are
+>>> developing a solution on top of the previous series.
+>>
+>> I'm a bit busy with other stuff, so I'm probably not going to be
+>> able to make sure the patches are in a good shape to be submitted
+>> soon.
+>>
+>> I don't want to impose any obstacles for the work you are doing,
+>> either.  Please consider the patch I sent (and the git tree
+>> above) as just an example of a possible solution to the two issues
+>> Paolo raised at https://lore.kernel.org/qemu-devel/8f829e99-c346-00bc-efdd-3e6d69cfba35@redhat.com
+> 
+> 
+> Ok, thanks for the clarification,
+> will take those two issues up in my next attempt.
+> 
+> 
+>>
+>>>
+>>>
+>>>>
+>>>>>
+>>>>> Could you clarify what happens here? Should we just use a normal object, call it "Interface" and call it a day?
+>>>>
+>>>> An interface is declared in a very similar way, but instance_size
+>>>> and the instance type cast macro is a bit different (because
+>>>> instances of interface types are never created directly).
+>>>>
+>>>> For the draft we have here, it shouldn't make any difference if
+>>>> you use OBJECT_DECLARE_TYPE, because the instance type cast
+>>>> macros are left unused.
+>>>>
+>>>> Normally the use case for interfaces is not like what I did here.
+>>>> Interfaces are usually attached to other classes (to declare that
+>>>> object instances of that class implement the methods of that
+>>>> interface).  Using interfaces would be just an intermediate step
+>>>> to the solution Paolo was mentioning (dynamically adding
+>>>> interface to classes, see [1] above).
+>>>>
+>>>
+>>> Makes sense to me,
+>>> let me know how you guys would like to proceed from here.
+>>>
+>>
+>> To me, the main issue (also raised by Paolo above) is the fact
+>> that you are doing *_enabled() checks in the module init
+>> functions.  Every single use case we have for module init
+>> functions today is for unconditionally registering code or data
+>> structures provided by a code module (config group names, QOM
+>> types, block backends, multifd methods, etc.), and none of them
+>> depend on runtime options (like machine or accelerator options).
+> 
+> 
+> Ok, no _enabled() checks, got it.
+> 
+> Just to note, since _enabled() has multiple meanings depending on configuration (CONFIG_KVM),
+> the _enabled() used in kvm/cpu.c has actually the meaning of:
+> 
+> if (accelerator_finally_chosen == KVM).
+> 
+> But we can refactor this implicit check out, and make it instead a
+> 
+> accel_cpu_init("kvm"), like you suggest, so that the ifs disappear.
+> 
+> 
+> 
+>>
+>> The x86_cpu_accel_init() calls, on the other hand, are not module
+>> initialization, but just one additional step of
+>> machine/accelerator/cpu initialization.
+>>
+>>
+>>> The thing I am still uncertain about, looking at your tree at:
+>>>
+>>> https://gitlab.com/ehabkost/qemu/-/commits/work/qom-based-x86-cpu-accel
+>>>
+>>> is the removal of MODULE_INIT_ACCEL_CPU, it would be way simpler to understand I think,
+>>> both for CpuAccelOps and X86CPUAccel, and is actualy in my view a perfect fit for
+>>> the problem that module_call_init is supposed to solve.
+>>
+>> That was one of my goals.  My first goal was the removal of the
+>> (hvm|kvm|tcg)_enabled() checks in the accel init functions.  My
+>> secondary goal (and a side effect of the first goal) was making
+>> MODULE_INIT_ACCEL_CPU unnecessary.
+>>
+>> If we are not trying to remove the *_enabled() checks in the
+>> accel init functions (nor trying to make MODULE_INIT_ACCEL_CPU
+>> unnecessary), my suggestion of using QOM doesn't make things
+>> simpler.
+>>
+>> Let's hear what Paolo thinks.
+>>
+>> If you want to proceed with the accel_register_call() solution
+>> suggested by Paolo, that's OK to me.  I just don't think we
+>> really need it, because QOM already solves the problem for us.
+>>
+> 
+> Ok, thanks for all the input, will need some time to process,
+> 
+> thanks,
+> 
+> Claudio
+> 
 
-On Mon, 23 Nov 2020 15:38:32 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+One idea that came to mind is, why not extend accel.h to user mode?
 
-> On Fri, Nov 20, 2020 at 06:46:45PM +0100, Greg Kurz wrote:
-> > This argument isn't used by the backends anymore.
-> >=20
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >  include/hw/ppc/spapr_irq.h | 3 +--
-> >  hw/intc/spapr_xive.c       | 3 +--
-> >  hw/intc/xics_spapr.c       | 3 +--
-> >  hw/ppc/spapr_irq.c         | 3 +--
-> >  4 files changed, 4 insertions(+), 8 deletions(-)
-> >=20
-> > diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-> > index c22a72c9e270..3e1c619d4c06 100644
-> > --- a/include/hw/ppc/spapr_irq.h
-> > +++ b/include/hw/ppc/spapr_irq.h
-> > @@ -43,8 +43,7 @@ DECLARE_CLASS_CHECKERS(SpaprInterruptControllerClass,=
- SPAPR_INTC,
-> >  struct SpaprInterruptControllerClass {
-> >      InterfaceClass parent;
-> > =20
-> > -    int (*activate)(SpaprInterruptController *intc, uint32_t nr_server=
-s,
-> > -                    Error **errp);
->=20
-> Hm.  Thinking back on this, is the problem just that it's not clear
-> here if the 'nr_servers' parameter here indicates the number of CPU
-> targets, or the maximum index of CPU targets?
->=20
+It already contains
 
-AIUI 'nr_servers' has always been referring to the number of consecutive
-server ids that we put in the "ibm,interrupt-server-ranges" property for
-XICS.
+#ifndef CONFIG_USER_ONLY
 
-> If so, I wonder if it might be better to pass both numbers as
-> parameters here, rather than shuffling the properties of the devices
-> themselves.
->=20
+parts, so maybe it was meant to be used by both, and just happened to end up confined to include/softmmu ?
 
-Maybe. I'll give a try.
+Basically I was thinking, we could have an AccelState and an AccelClass for user mode as well (without bringing in the whole machine thing),
+and from there we could use current_accel() to build up the right name for the chosen accelerator?
 
-> > +    int (*activate)(SpaprInterruptController *intc, Error **errp);
-> >      void (*deactivate)(SpaprInterruptController *intc);
-> > =20
-> >      /*
-> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> > index d13a2955ce9b..8331026fdb12 100644
-> > --- a/hw/intc/spapr_xive.c
-> > +++ b/hw/intc/spapr_xive.c
-> > @@ -754,8 +754,7 @@ static void spapr_xive_dt(SpaprInterruptController =
-*intc, uint32_t nr_servers,
-> >                       plat_res_int_priorities, sizeof(plat_res_int_prio=
-rities)));
-> >  }
-> > =20
-> > -static int spapr_xive_activate(SpaprInterruptController *intc,
-> > -                               uint32_t nr_servers, Error **errp)
-> > +static int spapr_xive_activate(SpaprInterruptController *intc, Error *=
-*errp)
-> >  {
-> >      SpaprXive *xive =3D SPAPR_XIVE(intc);
-> > =20
-> > diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-> > index ce147e8980ed..8810bd93c856 100644
-> > --- a/hw/intc/xics_spapr.c
-> > +++ b/hw/intc/xics_spapr.c
-> > @@ -426,8 +426,7 @@ static int xics_spapr_post_load(SpaprInterruptContr=
-oller *intc, int version_id)
-> >      return 0;
-> >  }
-> > =20
-> > -static int xics_spapr_activate(SpaprInterruptController *intc,
-> > -                               uint32_t nr_servers, Error **errp)
-> > +static int xics_spapr_activate(SpaprInterruptController *intc, Error *=
-*errp)
-> >  {
-> >      if (kvm_enabled()) {
-> >          return spapr_irq_init_kvm(xics_kvm_connect, intc,
-> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> > index be6f4041e433..f2897fbc942a 100644
-> > --- a/hw/ppc/spapr_irq.c
-> > +++ b/hw/ppc/spapr_irq.c
-> > @@ -480,7 +480,6 @@ static void set_active_intc(SpaprMachineState *spap=
-r,
-> >                              SpaprInterruptController *new_intc)
-> >  {
-> >      SpaprInterruptControllerClass *sicc;
-> > -    uint32_t nr_servers =3D spapr_max_server_number(spapr);
-> > =20
-> >      assert(new_intc);
-> > =20
-> > @@ -498,7 +497,7 @@ static void set_active_intc(SpaprMachineState *spap=
-r,
-> > =20
-> >      sicc =3D SPAPR_INTC_GET_CLASS(new_intc);
-> >      if (sicc->activate) {
-> > -        sicc->activate(new_intc, nr_servers, &error_fatal);
-> > +        sicc->activate(new_intc, &error_fatal);
-> >      }
-> > =20
-> >      spapr->active_intc =3D new_intc;
->=20
+Ciao,
+
+Claudio
 
 
---Sig_/6sWzdgofr0MDIsUVd31f8Zc
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl+7hT0ACgkQcdTV5YIv
-c9YhpxAAs187x1aZ0rXX+/WIbzkNPWfuO6Xt7trwfK/f+dE4RNfKJXQuv+P0uUWF
-qzC16UU3JUyCXVbY1kxpUPihOy30J5vcLttBSpdzHw8YlH6c+OV5wEj9S6/2TKaz
-BgmGR3niuOrHZXdZz+LXIKTLinS3mo5mvfEr1kHDOctDTbAZvQJuIaWWyjFTRpyp
-/tATGyzw8JlZWGFkS3z46VaJ9zPl6K7brU3z4V4bYpLP7uq51ERZPDs5qUbWo7CX
-GYkQeg+Lzq6Z1qrvb/rffOdeHlbA9hmHzafX/45FlLrRcQsadk/mmRsVTvUWU3al
-qhr7G7aLm0HKS/F2vjPXnPVtmcwydKB/RvPdGq3Trl9+3Tma71DVCMpjGe+3euQB
-yDyciQsOGV3HuasXI3kE1nZyVggDnlSFvVnDEyuxOTjL/FihJo8BHdrbRFtR+mdt
-1PhnIvpEcTsxzak8bUYETuWmWSPWconsMWTfvNWFgxP0C3UaLyxf8Bq4Lu+XHp/7
-safjIlAofUV+6Lk/nmJj3/ScWv9uVsN+r2ciPbIfChwlZQX32EAtj70pTwgOictd
-nczIPpZHco8vqovNoVopN0ejP6IpkY0wyuYFZuHh74j2eMoNdVEdMClqq8BP7aWx
-1Zv/MWjR8UP2tUd22TM3AZIDlkNBplTdbcCTY3PWTfR4bXL8aCE=
-=sezM
------END PGP SIGNATURE-----
-
---Sig_/6sWzdgofr0MDIsUVd31f8Zc--
 
