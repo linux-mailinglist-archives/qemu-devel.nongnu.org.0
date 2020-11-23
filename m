@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02892C157F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 21:16:24 +0100 (CET)
-Received: from localhost ([::1]:51610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C2702C1586
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 21:20:23 +0100 (CET)
+Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khIG7-00065q-Pz
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 15:16:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59004)
+	id 1khIJy-00013N-9k
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 15:20:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khHpu-0006Rz-9T
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:49:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52096)
+ id 1khHq4-0006Ui-6E
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:49:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khHpp-0007uq-Ab
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:49:17 -0500
+ id 1khHpt-0007vR-Mh
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:49:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606160950;
+ s=mimecast20190719; t=1606160955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xQldrGgePq9IKz8ZDRqERFSVJbb2ANqN1ThasIyDiKc=;
- b=KGFlst6My79RlwbEAYKMDRvHGjutDnifuckkmkNlHszUggP5mPGnFOVnoUsFbbW97aJ8v5
- Ncrfl8SW0LclQu9dgGf5DPO7Qvo0krrDaFTPQvo4/olepEjoioh/9jBEJDNKmyu6Hkc+or
- p0wRyWFvvCGi42LAGjMzIZxoV1vWiVU=
+ bh=HbLCIF6CtGHcuuTHcvlnbNvJqP2vd8/l7+RtnDAhzMY=;
+ b=ijOmjwab/dgcblB/0R+NK3Q4BIuxWsSQez5V9MC29MGvsAfySTeeHPvykpdW79Fh7FDbzB
+ DZ+nCCBAx+sq3alJxKg/UzELkJP5ZdADQD0n+mD8G3SwI8k0m36spi+EfE7LyK+fs6vdxo
+ O1tRA8e3U8IT77EnbFYsGjuOAP82X80=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595--Qn6CCECPSWRDFAcXXOVCw-1; Mon, 23 Nov 2020 14:49:08 -0500
-X-MC-Unique: -Qn6CCECPSWRDFAcXXOVCw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-291-2sL3Bg0sNyGyHjUYjgnjeQ-1; Mon, 23 Nov 2020 14:49:13 -0500
+X-MC-Unique: 2sL3Bg0sNyGyHjUYjgnjeQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5066518C43C1
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 19:49:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F027C1012E5E
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 19:49:12 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92CC16062F;
- Mon, 23 Nov 2020 19:49:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7274B19D9D;
+ Mon, 23 Nov 2020 19:49:09 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/19] qom: Make object_property_set_default() public
-Date: Mon, 23 Nov 2020 14:48:14 -0500
-Message-Id: <20201123194818.2773508-16-ehabkost@redhat.com>
+Subject: [PATCH v3 16/19] qom: Make PropertyInfo.set_default_value optional
+Date: Mon, 23 Nov 2020 14:48:15 -0500
+Message-Id: <20201123194818.2773508-17-ehabkost@redhat.com>
 In-Reply-To: <20201123194818.2773508-1-ehabkost@redhat.com>
 References: <20201123194818.2773508-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -86,51 +86,58 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function will be used outside qom/object.c, to simplify the
-field property code that sets the property default value.
+If .set_default_value is not set, call
+object_property_set_default().  This will let us delete most of
+the .set_default_value functions later.
 
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/qom/object.h | 11 +++++++++++
- qom/object.c         |  2 +-
- 2 files changed, 12 insertions(+), 1 deletion(-)
+This is a new patch in v3 of this series.
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 2ab124b8f0..4234cc9b66 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1090,6 +1090,17 @@ ObjectProperty *object_class_property_add(ObjectClass *klass, const char *name,
-                                           ObjectPropertyRelease *release,
-                                           void *opaque);
+In v2 of the series, equivalent functionality was implemented by
+"qom: Use qlit to represent property defaults".
+---
+ include/qom/field-property.h |  3 +++
+ qom/field-property.c         | 12 ++++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/include/qom/field-property.h b/include/qom/field-property.h
+index 951cec2fb0..00b83ee9ba 100644
+--- a/include/qom/field-property.h
++++ b/include/qom/field-property.h
+@@ -53,6 +53,9 @@ struct PropertyInfo {
+      * @set_default_value: Callback for initializing the default value
+      *
+      * @defval is a weak reference.
++     *
++     * Optional.  If not set and Property.defval is not QTYPE_NONE,
++     * object_property_set_default() will be called.
+      */
+     void (*set_default_value)(ObjectProperty *op, const Property *prop,
+                               const QObject *defval);
+diff --git a/qom/field-property.c b/qom/field-property.c
+index 593ffb53e9..d21ff98862 100644
+--- a/qom/field-property.c
++++ b/qom/field-property.c
+@@ -72,8 +72,16 @@ static void field_prop_set_default_value(ObjectProperty *op,
+     }
  
-+/**
-+ * object_property_set_default:
-+ * @prop: the property to set
-+ * @value: the value to be written to the property
-+ *
-+ * Set the property default value.
-+ *
-+ * Ownership of @value is transferred to the property.
-+ */
-+void object_property_set_default(ObjectProperty *prop, QObject *value);
-+
- /**
-  * object_property_set_default_bool:
-  * @prop: the property to set
-diff --git a/qom/object.c b/qom/object.c
-index 7c11bcd3b1..6b0d9d8c79 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1547,7 +1547,7 @@ static void object_property_init_defval(Object *obj, ObjectProperty *prop)
-     visit_free(v);
+     defval = qobject_from_qlit(&prop->defval);
+-    assert(prop->info->set_default_value);
+-    prop->info->set_default_value(op, prop, defval);
++    if (prop->info->set_default_value) {
++        /* .set_default_value() gets a weak reference */
++        prop->info->set_default_value(op, prop, defval);
++    } else {
++        /*
++         * object_property_set_default() takes ownership,
++         * so qobject_ref() is needed.
++         */
++        object_property_set_default(op, qobject_ref(defval));
++    }
+     qobject_unref(defval);
  }
  
--static void object_property_set_default(ObjectProperty *prop, QObject *defval)
-+void object_property_set_default(ObjectProperty *prop, QObject *defval)
- {
-     assert(!prop->defval);
-     assert(!prop->init);
 -- 
 2.28.0
 
