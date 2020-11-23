@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DBD52C0501
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:55:27 +0100 (CET)
-Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 565732C04D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:47:36 +0100 (CET)
+Received: from localhost ([::1]:55906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khARJ-0004LA-6Y
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:55:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55580)
+	id 1khAJh-00015A-TG
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:47:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFk-0004Ih-Ax
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:28 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35954)
+ id 1khAFl-0004Lt-Dy
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:29 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFi-0002gm-PG
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:28 -0500
-Received: by mail-wr1-x433.google.com with SMTP id z7so2449892wrn.3
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:26 -0800 (PST)
+ id 1khAFj-0002hl-QW
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:29 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id g14so3068689wrm.13
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=BWyPOb+H0I71tWGsMyPd+nfhG7gtf2Z6z/CFcaJuWXE=;
- b=z87aCT4zqU4+VMz0Qs8dfMKFx5ST6g7VqES7fjHrLxNuDrHiFjRH34vtBFP7ARUpgp
- 6j4VAzLZ/McG4CY4mhJEXjmE6EMkIjagQxSa+rDox+EUHKRrH2LT/0mtLV6GBxJ+fJL8
- Wh8gy43+vgx0FDWEh0tgOIMHXbGnUIRTgnpH7wdm7f+uUprcFYsRUZGFU+du1l88LzSc
- tIFhEfcaaudry0rPMhHQNYDfu5+t86ZHBCHEB3+46U0GZgrxKkYohtderCF+rWm4yieO
- p/qoX9rZ9JbWaFn00LP1FJs/o2jWtxzO2yzMBUPp3vliy3QN+NO3mLQJzicZ5t4lbS5O
- 8FFg==
+ bh=4ivn/ktLPx5Rnt+negJ2Tzjd+4/epqKGGhH+Jrx5AP0=;
+ b=mVBvafUkFqyFTgliPjP4phf47+6XpvIqiWegtOkjIBGnokS/o2SGiqdAEbNtw3Bcuy
+ RLHHnp1Yh0gTx/myU4BDS2gutusb9z6HTUlMp2BU4gSa9K79t3wrRjVBOjwZzGUt+wuh
+ c/goraLANVyuM1/uM/knnfX77JrLbU7KVsEvqKZToiw+njk2hIilO77BpNIG5iWOmju4
+ 3oEvawmjnjHj2GF3T9VTXX7e4XbwWst9EwSuI+0mboRfq2BrMtr+/tA0eFyzucV8a2VX
+ VA11Bj9NNC/0+zqdy0uEkzRy8F/dxZIVrqeU0YOnmjtxMQtzd9qADU1ho6sNNXP8R/RY
+ Bu3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BWyPOb+H0I71tWGsMyPd+nfhG7gtf2Z6z/CFcaJuWXE=;
- b=klL1/qU9gb6N5STF98uogeih3d2AqzcGVVpKH7uWIqgfmd5LT0YeKmAk/s0hqkZaVZ
- YTa1WK/G7anNSRiTaDlEngEvxyUb7GxqG3NyzXyinH26E4OWftzX0OTVXc3iG7YFOUpe
- 0q/BCrAqqfHmDdbr1HAqNBmchnLx/XAixyAJmjPNdQlQsalxA6ABkYOxax8wfjN03Iwa
- tFuQJDKW+ip/iJBI1J+O3MnGua1F5TPvyHmPiYULBJaD2a5L5yOSkEmBRqEK5hBHvaoD
- wEusxQadqPPDgwCcpXJfje45XA/u32B6jkQUIhyat/yKy7JSJYG7t89bnC7m7kblImYC
- /7Mw==
-X-Gm-Message-State: AOAM530Iz559kSCeJ1KFXhT8y4q4z8UYE01ErN5qj+HoPBWEr1elco/V
- 5f/CFrkWQ4dnCh4j81Cn/NG9KU9LY7DZTA==
-X-Google-Smtp-Source: ABdhPJy2DP1UXK1HbgCQu2EjAzEagPl8DDCE+2PQTZS+Gf+eJcTbDtNgmB4buREcMsf4dNCNQe19pQ==
-X-Received: by 2002:adf:fb06:: with SMTP id c6mr32192616wrr.117.1606131805251; 
- Mon, 23 Nov 2020 03:43:25 -0800 (PST)
+ bh=4ivn/ktLPx5Rnt+negJ2Tzjd+4/epqKGGhH+Jrx5AP0=;
+ b=Upi2AU7V2JqEMjoI5kMNSTNIJLBxZuj8xyayNtx3HQyXflkmEIF7eCzr+s8F3EoBGH
+ Q1A12G3qEEcDK3UaOB+r56YIn7tG0R+hO3+/yMIe1vpjmEuZ+5HYxHWlPYeJbJDRJ61a
+ fpG5BFybxIzV755CmWo43ZAD30Kva+zmetdsUuM7O7xs+Vx6VPbr4doA9pEnrQmK4ZpS
+ ZRRJARW5nnE/AAlOxjMpxaOvrt7jtpd+vC8qzeoEu/iYHYAyuVGvIH4D/fMeQejBO+fH
+ mpsLmpwtjM7LGxGEt48/mYknXQsuIhiO9NKWqMeKJ2sql6odk4l2THhwQwDnLfdWgAq+
+ T1rg==
+X-Gm-Message-State: AOAM532fCSVMjDeBkEHjbAWO0jtSnjCWhhbJvk5D8qax6RMojMLcv/0Y
+ CVdV83KsERUOEXGT6ioJZ2iF2eYOgnZaqA==
+X-Google-Smtp-Source: ABdhPJwAdK7GRM/VcAfAF57BVigQfcZqfsd9MjvpCBQIwxeF8KqHU8NtFlR0FIYq1Td8TeNPOc5DXg==
+X-Received: by 2002:a5d:4d87:: with SMTP id b7mr31943301wru.115.1606131806297; 
+ Mon, 23 Nov 2020 03:43:26 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.24
+ by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:43:24 -0800 (PST)
+ Mon, 23 Nov 2020 03:43:25 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/24] MAINTAINERS: Fix system/arm/orangepi.rst path
-Date: Mon, 23 Nov 2020 11:42:58 +0000
-Message-Id: <20201123114315.13372-8-peter.maydell@linaro.org>
+Subject: [PULL 08/24] MAINTAINERS: Cover system/arm/sbsa.rst with SBSA-REF
+ machine
+Date: Mon, 23 Nov 2020 11:42:59 +0000
+Message-Id: <20201123114315.13372-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201123114315.13372-1-peter.maydell@linaro.org>
 References: <20201123114315.13372-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,28 +90,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Fixes: 0553ef42571 ("docs: add Orange Pi PC document")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Message-id: 20201120154545.2504625-5-f4bug@amsat.org
+Message-id: 20201120154545.2504625-6-f4bug@amsat.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 5e478f9a26d..e653ff70d9d 100644
+index e653ff70d9d..33e44b023ae 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -559,7 +559,7 @@ S: Maintained
- F: hw/*/allwinner-h3*
- F: include/hw/*/allwinner-h3*
- F: hw/arm/orangepi.c
--F: docs/system/orangepi.rst
-+F: docs/system/arm/orangepi.rst
+@@ -857,6 +857,7 @@ R: Leif Lindholm <leif@nuviainc.com>
+ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/sbsa-ref.c
++F: docs/system/arm/sbsa.rst
  
- ARM PrimeCell and CMSDK devices
+ Sharp SL-5500 (Collie) PDA
  M: Peter Maydell <peter.maydell@linaro.org>
 -- 
 2.20.1
