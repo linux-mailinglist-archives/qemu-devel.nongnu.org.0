@@ -2,74 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD0D2BFFD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 07:14:02 +0100 (CET)
-Received: from localhost ([::1]:57436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA6C2BFFE3
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 07:20:46 +0100 (CET)
+Received: from localhost ([::1]:45988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh56u-0005mh-Sf
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 01:14:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46298)
+	id 1kh5DR-0004H7-Fd
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 01:20:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kh51x-00014Z-UR
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 01:08:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56931)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kh51v-0006Vo-WB
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 01:08:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606111731;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+3pX7kpyUgAc7fnu8t/5AoCmRbFf8PWEg3DJqKNYXIM=;
- b=Sv5QbtXoYpvK0VXWScvTdGfDRwz1cZG6fyC19bPgbnRfccajlClndKnO1RFWLpqR1a1KKS
- BZ7RaZxGVPGAS8LRhv8tSeS21YqgeO3iTr7nstNj79OmonBvQswp4eAAyPZITeUBiD/v0R
- Ej1LnD1rvWwrm0OvVeB6JVM717PeMUs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-QH_gPb13OHGDU02oKG00Mw-1; Mon, 23 Nov 2020 01:08:46 -0500
-X-MC-Unique: QH_gPb13OHGDU02oKG00Mw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9CBA1084C80;
- Mon, 23 Nov 2020 06:08:44 +0000 (UTC)
-Received: from [10.72.13.199] (ovpn-13-199.pek2.redhat.com [10.72.13.199])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8936060BF3;
- Mon, 23 Nov 2020 06:08:38 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 0/5] eBPF RSS support for virtio-net
-To: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com
-References: <20201119111305.485202-1-andrew@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <b7a7d4c2-d8ef-d9fe-22c7-fd5c42aef360@redhat.com>
-Date: Mon, 23 Nov 2020 14:08:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kh52J-0001Ke-VR; Mon, 23 Nov 2020 01:09:17 -0500
+Received: from ozlabs.org ([203.11.71.1]:57167)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kh52H-0006eW-Ou; Mon, 23 Nov 2020 01:09:15 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CfcDH4Gg5z9sVd; Mon, 23 Nov 2020 17:09:03 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1606111743;
+ bh=El+jrCM/alQAOQN1K9E6Q8D88TURECZmoKUDbzZWGOE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mq2tw6geKYvVp4tsOgAqVsNAClOksKo51/ghv6n6F5U3JYqlq+mVC0BbVkHrFnhoS
+ NyeU9VvBP9NmnPvk+d5kLwonWp9SYryfoZbkbe1kw4+1j31TyGZCoHhDqkQx+8YzNH
+ E9Fc9Kh3AS5DENapMqStWxLtagCbgLE0xPEDQoDk=
+Date: Mon, 23 Nov 2020 17:08:54 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: LemonBoy <thatlemon@gmail.com>
+Subject: Re: [PATCH v3 0/4] ppc/translate: Fix unordered f64/f128 comparisons
+Message-ID: <20201123060854.GU521467@yekko.fritz.box>
+References: <20201112230130.65262-1-thatlemon@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201119111305.485202-1-andrew@daynix.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5Dr6Wqe9hdyl7LAI"
+Content-Disposition: inline
+In-Reply-To: <20201112230130.65262-1-thatlemon@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,113 +57,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, yuri.benditovich@daynix.com, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/11/19 下午7:13, Andrew Melnychenko wrote:
-> This set of patches introduces the usage of eBPF for packet steering
-> and RSS hash calculation:
-> * RSS(Receive Side Scaling) is used to distribute network packets to
-> guest virtqueues by calculating packet hash
-> * Additionally adding support for the usage of RSS with vhost
->
-> The eBPF works on kernels 5.8+
-> On earlier kerneld it fails to load and the RSS feature is reported
-> only without vhost and implemented in 'in-qemu' software.
->
-> Implementation notes:
-> Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
-> Added libbpf dependency and eBPF support.
-> The eBPF program is part of the qemu and presented as an array
-> of BPF ELF file data.
-> The compilation of eBPF is not part of QEMU build and can be done
-> using provided Makefile.ebpf(need to adjust 'linuxhdrs').
-> Added changes to virtio-net and vhost, primary eBPF RSS is used.
-> 'in-qemu' RSS used in the case of hash population and as a fallback option.
-> For vhost, the hash population feature is not reported to the guest.
->
-> Please also see the documentation in PATCH 5/5.
->
-> I am sending those patches as RFC to initiate the discussions and get
-> feedback on the following points:
-> * Fallback when eBPF is not supported by the kernel
-> * Live migration to the kernel that doesn't have eBPF support
-> * Integration with current QEMU build
-> * Additional usage for eBPF for packet filtering
->
-> Known issues:
-> * hash population not supported by eBPF RSS: 'in-qemu' RSS used
-> as a fallback, also, hash population feature is not reported to guests
-> with vhost.
-> * big-endian BPF support: for now, eBPF isn't supported on
-> big-endian systems. Can be added in future if required.
-> * huge .h file with eBPF binary. The size of .h file containing
-> eBPF binary is currently ~5K lines, because the binary is built with debug information.
-> The binary without debug/BTF info can't be loaded by libbpf.
-> We're looking for possibilities to reduce the size of the .h files.
+--5Dr6Wqe9hdyl7LAI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Nov 13, 2020 at 12:01:26AM +0100, LemonBoy wrote:
+> Fix a couple of problems found in the emulation of f64/f128 comparisons p=
+lus
+> some minimal self-contained commits to clean-up some code.
 
-A question here, is this because the binary file contains DWARF data? If 
-yes, is it a building or loading dependency? If it's latter, maybe we 
-can try to strip them out, anyhow it can't be recognized by kernel.
+Applied to ppc-for-6.0.
 
-Thanks
+As bug fixes, these could theoretically go into qemu-5.2.  However,
+since they're not regressions, I'm more comfortable delaying these to
+6.0 given how late we are in the qemu-5.2 cycle.
 
+>=20
+> Giuseppe Musacchio (4):
+>   ppc/translate: Fix unordered f64/f128 comparisons
+>   ppc/translate: Turn the helper macros into functions
+>   ppc/translate: Delay NaN checking after comparison
+>   ppc/translate: Raise exceptions after setting the cc
+>=20
+>  target/ppc/fpu_helper.c | 212 +++++++++++++++++++++++-----------------
+>  1 file changed, 121 insertions(+), 91 deletions(-)
+>=20
 
->
-> Changes since v1:
-> * using libbpf instead of direct 'bpf' system call.
-> * added libbpf dependency to the configure/meson scripts.
-> * changed python script for eBPF .h file generation.
-> * changed eBPF program - reading L3 proto from ethernet frame.
-> * added TUNSETSTEERINGEBPF define for TUN.
-> * changed the maintainer's info.
-> * added license headers.
-> * refactored code.
->
-> Andrew (5):
->    net: Added SetSteeringEBPF method for NetClientState.
->    ebpf: Added eBPF RSS program.
->    ebpf: Added eBPF RSS loader.
->    virtio-net: Added eBPF RSS to virtio-net.
->    docs: Added eBPF RSS documentation.
->
->   MAINTAINERS                    |    7 +
->   configure                      |   33 +
->   docs/ebpf_rss.rst              |  133 +
->   ebpf/EbpfElf_to_C.py           |   36 +
->   ebpf/Makefile.ebpf             |   33 +
->   ebpf/ebpf_rss-stub.c           |   40 +
->   ebpf/ebpf_rss.c                |  186 ++
->   ebpf/ebpf_rss.h                |   44 +
->   ebpf/meson.build               |    1 +
->   ebpf/rss.bpf.c                 |  505 +++
->   ebpf/tun_rss_steering.h        | 5439 ++++++++++++++++++++++++++++++++
->   hw/net/vhost_net.c             |    2 +
->   hw/net/virtio-net.c            |  120 +-
->   include/hw/virtio/virtio-net.h |    4 +
->   include/net/net.h              |    2 +
->   meson.build                    |   11 +
->   net/tap-bsd.c                  |    5 +
->   net/tap-linux.c                |   13 +
->   net/tap-linux.h                |    1 +
->   net/tap-solaris.c              |    5 +
->   net/tap-stub.c                 |    5 +
->   net/tap.c                      |    9 +
->   net/tap_int.h                  |    1 +
->   net/vhost-vdpa.c               |    2 +
->   24 files changed, 6633 insertions(+), 4 deletions(-)
->   create mode 100644 docs/ebpf_rss.rst
->   create mode 100644 ebpf/EbpfElf_to_C.py
->   create mode 100755 ebpf/Makefile.ebpf
->   create mode 100644 ebpf/ebpf_rss-stub.c
->   create mode 100644 ebpf/ebpf_rss.c
->   create mode 100644 ebpf/ebpf_rss.h
->   create mode 100644 ebpf/meson.build
->   create mode 100644 ebpf/rss.bpf.c
->   create mode 100644 ebpf/tun_rss_steering.h
->
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--5Dr6Wqe9hdyl7LAI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+7UfQACgkQbDjKyiDZ
+s5I4Vw//fmQYFqyvJlUjVguxzpb4KvPvCbTHKU7ycyhnEnRs7KyI4vrcZaHggteR
+jowZTdh5jj4JMFH2Pf+4cfyGcA1n+W36QmmVng/AwTP8rIJzvXgFXCRYgfC4+h47
++ZD3XKXV0fUzy3uGjqruifFd+WU87PUpNkRerznpRRQ6UEiCR7y4WJ/hELqJr3gk
+9wGVEJczcA4eeeut7vGDn5bwJHvVP5XX/JiKCjpqNOl+s+UT7KPHNFWgOsvRhJrN
+nN3IGmyhL1a7ULm0uWxKbi4M3wCZHwHMhnUqAcv/6EGrPPAIHAe8ifFZaw2aFHco
+kK4PlYk1tvYfyjAw9OQl68uJ2xtCpb9mP+y10tqBdcN3R9mqTNVKl9ZWPdkXni54
+ttqe3cuwEYKuonO2fMKd8zzWILcMR7YgQRlfujkz33xww4RmK1NKeL8lLhiOtgtB
+MSxE2K5iJ0PEOEHGwWAb3eiZK5yiW/VHcwE6VWFw7DSsd9uAwLzsU0vxA9pQlHZg
+50aV6whAwOUyTbVEBgYNr1GC/MlurS4KIPDiR1kGjD4nBZElFh6jji3B44F60cDh
+a5hMjC/duajkkhWB+b/Pa19tJ6qYIp1Po6rtsjv9E5nkCC8WwWnLAeF1vmFUYgJH
+eBwHk1T7LUn1vDcJZ7JsJs+H48kWj6w9cBakNbjoJbV7U/N8+9w=
+=8KTi
+-----END PGP SIGNATURE-----
+
+--5Dr6Wqe9hdyl7LAI--
 
