@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9F62C0E1E
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:51:52 +0100 (CET)
-Received: from localhost ([::1]:36892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078372C0E0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:49:50 +0100 (CET)
+Received: from localhost ([::1]:34012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khDC3-0003D5-MI
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:51:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40576)
+	id 1khDA4-0001tt-HF
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:49:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1khCtt-000443-Cr
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:33:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21677)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1khCtq-0005ph-U7
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:33:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606141980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sAtbEYD3ofD3z8H1oXQSUrif8GErQDl3MRUOkSR2mWY=;
- b=WANHmRB/yRsC4G9WOTzAd7wQBw3M+Xz3s4fr8R9KDYRBHEUNVkU4Ew+7gutVnxuWWVYtg7
- DxnzUMKQQkc5Gxc/T+P2MqVDiBiQ3FtlMUt13X1vMtsCOkkgxZKEgwVVViUNreePsD26Dt
- g228hlD/7OZ/j1w5j2heawukgQk7Sr0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-FDDCx-RUP6OBNu5NPBqWpw-1; Mon, 23 Nov 2020 09:32:56 -0500
-X-MC-Unique: FDDCx-RUP6OBNu5NPBqWpw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2EB82805EFF;
- Mon, 23 Nov 2020 14:32:55 +0000 (UTC)
-Received: from [10.3.112.140] (ovpn-112-140.phx2.redhat.com [10.3.112.140])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A8A0B5D71D;
- Mon, 23 Nov 2020 14:32:54 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>,
- Andrew Melnichenko <andrew@daynix.com>
-References: <20200716035532.1407660-1-andrew@daynix.com>
- <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
- <874klk5gnc.fsf@dusky.pond.sub.org>
- <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
- <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
- <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
- <87lfesv2zu.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
- qmp_marshal_netdev_add()
-Message-ID: <52abb089-f5e2-a3a6-bf38-71ec76b4f3fc@redhat.com>
-Date: Mon, 23 Nov 2020 08:32:53 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1khD8Y-0001LC-Tc
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:48:14 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:35018)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1khD8W-0003IB-WF
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:48:14 -0500
+Received: by mail-ed1-x535.google.com with SMTP id cf17so13798848edb.2
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 06:48:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=G03zfpBJ1gx2z+xZPEk8uNItFGz1G7uc7ZApPGaDo+A=;
+ b=dXxy73XhjfMCTJ1gT50nce5qWrZ7jyx3x5xAFeLvmEsLRKY+iNZ8FdpCgSnUMbtNRl
+ v5S3fftvgB3FUxggK9PIqK3302xKyLmyEXu0j68IyRb6Kyxz3sheAy9TdJ7KP0uicoJ4
+ oLYIqd4yT1ZuEK2ykuq+yb4wS1cUbakqc158KiMTW8p/eO97CbQFNrLrODEZyVs3FJaw
+ 0o+ycTCOJ/IUyo2+fmUiBknLYWGWWIqVtTb6PhoK55/UiHS2ta+Vo9Zuk+fIwZOLXs16
+ 3qqpG12/w98WeewWOkzcb2vc4Izfab39g57mI11ZWPPX5Q4rBn/1axMnIYpypgSPWRiD
+ UweQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=G03zfpBJ1gx2z+xZPEk8uNItFGz1G7uc7ZApPGaDo+A=;
+ b=Y5yM28lNvNVVpAn/a1WuuSJzAycOZ7tOqTg0nMUq4lbEoAUW6GcTT76MpByxnl/QWH
+ 7LiV4OIQwXDgKvXtfp52SM5i+141RE8GdRY2/R5HzjvMjT7Y/IHsoTznn1EZXHWxJFV4
+ H2OA4QX1RSbNVuWs7fOVDOlK0BKCxBTE0iuRh72qE9xT2q5IXQ9sW2FX6LvExERoS1x+
+ RlAsXSjXTVcNaV7VK1nj1JvUCMvuMUhR5X5080ou/GJwcOlyd0Uh4BzkqiraZYLuu03B
+ W9Kusc57SRq+5x+TV7BaarQingn+kLpE6hxUh71/58O9QhqAR4Pjy4e5ph+VC0RKmdGl
+ hLWw==
+X-Gm-Message-State: AOAM531MGsSV9brrmsVZVDdH14RjEN5dgKV3gUT51Us2ieXcgcWYKpAP
+ RkDim9WKDUO6EWhoHFqIcGQzHH1tl3XEI1rki9Kkfg==
+X-Google-Smtp-Source: ABdhPJxHSokrMhPmnqp59fFO2f7Jpk5malGe0HxhSjfAHz3qIiAekqJLFgsZtN9uwOk3aufb0yILcABboltzaIPakYI=
+X-Received: by 2002:a50:fa92:: with SMTP id w18mr11334726edr.44.1606142891408; 
+ Mon, 23 Nov 2020 06:48:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87lfesv2zu.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201104151828.405824-1-stefanha@redhat.com>
+ <CAFEAcA_fer-r6tJLRgQwQ+X1bAe0ODSA5UNWxZbSCtS1VHDO9A@mail.gmail.com>
+ <753aef6b-128d-e1af-b959-e83481749120@redhat.com>
+In-Reply-To: <753aef6b-128d-e1af-b959-e83481749120@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 23 Nov 2020 14:47:59 +0000
+Message-ID: <CAFEAcA_eh_0w5jkU+DOnMU5+ynvqB74kxEC09V__tTsqrhxXaQ@mail.gmail.com>
+Subject: Re: [PULL 00/33] Block patches
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,70 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Keith Busch <kbusch@kernel.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/23/20 3:25 AM, Markus Armbruster wrote:
+On Mon, 23 Nov 2020 at 12:55, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> On 11/4/20 9:59 PM, Peter Maydell wrote:
+> > On Wed, 4 Nov 2020 at 15:18, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+> >>
+> >> The following changes since commit 8507c9d5c9a62de2a0e281b640f995e26ea=
+c46af:
+> >>
+> >>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into =
+staging (2020-11-03 15:59:44 +0000)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+> >>
+> >> for you to fetch changes up to fc107d86840b3364e922c26cf7631b7fd38ce52=
+3:
+> >>
+> >>   util/vfio-helpers: Assert offset is aligned to page size (2020-11-03=
+ 19:06:23 +0000)
+> >>
+> >> ----------------------------------------------------------------
+> >> Pull request for 5.2
+> >>
+> >> NVMe fixes to solve IOMMU issues on non-x86 and error message/tracing
+> >> improvements. Elena Afanasova's ioeventfd fixes are also included.
+>
+> There is a problem with this pull request, the fix hasn't
+> been merged...
 
->> Its still actual bug - I've checked it with the
->> master(2c6605389c1f76973d92b69b85d40d94b8f1092c).
-> 
-> I can see this with an even simpler reproducer:
-> 
->     $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio
->     QEMU 5.1.92 monitor - type 'help' for more information
->     (qemu) netdev_add user,id=net0
->     (qemu) info network
->     net0: index=0,type=user,net=10.0.2.0,restrict=off
->     (qemu) netdev_del net0
->     (qemu) info network
->     (qemu) netdev_add user,id=net0
->     upstream-qemu: Duplicate ID 'net0' for netdev
->     Try "help netdev_add" for more information
-> 
-> The appended patch fixes it for me.  It relies on nothing using the
-> "netdev" QemuOpts anymore.  Eric, what do you think?
+Sorry, this must have been a slip-up on my end. I have
+now merged and pushed this pullreq to master.
 
-Makes sense to me.  My quick audit for qemu_find_opts("netdev") finds only:
-
-monitor/hmp-cmds.c:    opts =
-qemu_opts_from_qdict(qemu_find_opts("netdev"), qdict, &err);
-
-net/net.c:    if (qemu_opts_foreach(qemu_find_opts("netdev"),
-
-softmmu/vl.c:                if
-(net_client_parse(qemu_find_opts("netdev"), optarg) == -1) {
-
-where the latter two are related (we gather the command line opts, and
-initialize net devs based on them, but never refer to those opts again),
-and the first is the one you are proposing to change.
-
-
-> 
-> 
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index a6a6684df1..8bc6b7bcc6 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1638,9 +1638,7 @@ void hmp_netdev_add(Monitor *mon, const QDict *qdict)
->      }
->  
->      netdev_add(opts, &err);
-> -    if (err) {
-> -        qemu_opts_del(opts);
-> -    }
-> +    qemu_opts_del(opts);
->  
->  out:
->      hmp_handle_error(mon, err);
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+-- PMM
 
