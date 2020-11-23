@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649F72C0D30
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:25:59 +0100 (CET)
-Received: from localhost ([::1]:59364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D8F2C0D22
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:21:34 +0100 (CET)
+Received: from localhost ([::1]:42464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khCn0-0001dl-CJ
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:25:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36474)
+	id 1khCij-0002zo-LF
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:21:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCcB-0002v1-GC
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22162)
+ id 1khCcD-0002y8-0d
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khCc9-0007jG-LD
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:47 -0500
+ id 1khCcA-0007jr-Al
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:14:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606140885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CG45locCjFwoPcA5B0Ny4DYAZJCuqnv0J1XcSfjFwOM=;
- b=O2f6OHpK1fcxi5rvXyCrqvJbFaplfPiqONjM7P75Z5oymoK9h/sqI41+RqIXdOcYVtzdUK
- 3LsmjglRhULfXDY7Yqw98VQR6K7E0e4D90hdUyvW1LAxA0Ri7OtbkKoJCiFKwolVvE1piC
- 7yJfn//YeFoekUt84+P75ENC6tiTum4=
+ bh=XtsLf+O212+f15Mtk9TRiG0ivfBlg9dYg7XaU5X3V+4=;
+ b=XAN2DwQNwNziknXCetpgR14F2/0qKoCUrKlzSwZf3eVEbz9sCK6LAj6zr2kRH+vixJ/Nk6
+ WOyU74EYBGTRUTKcJ3JwzPFf+Olbq+7APHFvHgXyHw60Fh3IyORgvnG71jeEi1+5vVXnXD
+ PKaqtAueiudx4q4GXCUU8QAxRcWpBsI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-auNpljbEMYOhgLxv68_9JA-1; Mon, 23 Nov 2020 09:14:43 -0500
-X-MC-Unique: auNpljbEMYOhgLxv68_9JA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-477-7ElUTDGWPOqYyhjaZtNE6Q-1; Mon, 23 Nov 2020 09:14:43 -0500
+X-MC-Unique: 7ElUTDGWPOqYyhjaZtNE6Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 543EA81CBDB
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4EB3100B714
  for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:42 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0483C5D6D3;
- Mon, 23 Nov 2020 14:14:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B39395D9E2
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:42 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/36] vl: extract various command line desugaring snippets to
- a new function
-Date: Mon, 23 Nov 2020 09:14:08 -0500
-Message-Id: <20201123141435.2726558-10-pbonzini@redhat.com>
+Subject: [PATCH 10/36] qemu-option: restrict qemu_opts_set to merge-lists
+ QemuOpts
+Date: Mon, 23 Nov 2020 09:14:09 -0500
+Message-Id: <20201123141435.2726558-11-pbonzini@redhat.com>
 In-Reply-To: <20201123141435.2726558-1-pbonzini@redhat.com>
 References: <20201123141435.2726558-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,123 +80,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Keep the machine initialization sequence free of miscellaneous command
-line parsing actions.
+qemu_opts_set is used to create default network backends and to
+parse sugar options -kernel, -initrd, -append, -bios and -dtb.
+These are very different uses:
 
-The only difference is that preallocation will always be done with one
-thread if -smp is not provided; previously it was using mc->default_cpus,
-which is almost always 1 anyway.
+I would *expect* a function named qemu_opts_set to set an option in a
+merge-lists QemuOptsList, such as -kernel, and possibly to set an option
+in a non-merge-lists QemuOptsList with non-NULL id, similar to -set.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+However, it wouldn't *work* to use qemu_opts_set for the latter
+because qemu_opts_set uses fail_if_exists==1. So, for non-merge-lists
+QemuOptsList and non-NULL id, the semantics of qemu_opts_set (fail if the
+(QemuOptsList, id) pair already exists) are debatable.
+
+On the other hand, I would not expect qemu_opts_set to create a
+non-merge-lists QemuOpts with a single option; which it does, though.
+For this case of non-merge-lists QemuOptsList and NULL id, qemu_opts_set
+hardly adds value over qemu_opts_parse.  It does skip some parsing and
+unescaping, but that's not needed when creating default network
+backends.
+
+So qemu_opts_set has warty behavior for non-merge-lists QemuOptsList
+if id is non-NULL, and it's mostly pointless if id is NULL.  My
+solution to keeping the API as simple as possible is to limit
+qemu_opts_set to merge-lists QemuOptsList.  For them, it's useful (we
+don't want comma-unescaping for -kernel) *and* has sane semantics.
+Network backend creation is switched to qemu_opts_parse.
+
+qemu_opts_set is now only used on merge-lists QemuOptsList... except
+in the testcase, which is changed to use a merge-list QemuOptsList.
+
+With this change we can also remove the id parameter.  With the
+parameter always NULL, we know that qemu_opts_create cannot fail
+and can pass &error_abort to it.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 40 ++++++++++++++++++++++------------------
- 1 file changed, 22 insertions(+), 18 deletions(-)
+ include/qemu/option.h  |  3 +--
+ softmmu/vl.c           | 19 +++++++------------
+ tests/test-qemu-opts.c | 20 +++++++++++++++++---
+ util/qemu-option.c     |  9 +++------
+ 4 files changed, 28 insertions(+), 23 deletions(-)
 
+diff --git a/include/qemu/option.h b/include/qemu/option.h
+index ac69352e0e..f73e0dc7d9 100644
+--- a/include/qemu/option.h
++++ b/include/qemu/option.h
+@@ -119,8 +119,7 @@ QemuOpts *qemu_opts_create(QemuOptsList *list, const char *id,
+                            int fail_if_exists, Error **errp);
+ void qemu_opts_reset(QemuOptsList *list);
+ void qemu_opts_loc_restore(QemuOpts *opts);
+-bool qemu_opts_set(QemuOptsList *list, const char *id,
+-                   const char *name, const char *value, Error **errp);
++bool qemu_opts_set(QemuOptsList *list, const char *name, const char *value, Error **errp);
+ const char *qemu_opts_id(QemuOpts *opts);
+ void qemu_opts_set_id(QemuOpts *opts, char *id);
+ void qemu_opts_del(QemuOpts *opts);
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index acea4286e9..1c08505f3a 100644
+index 1c08505f3a..10b6152e36 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -126,6 +126,7 @@ static const char *boot_once;
- static const char *incoming;
- static const char *loadvm;
- enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
-+static int mem_prealloc; /* force preallocation of physical target memory */
- int display_opengl;
- const char* keyboard_layout = NULL;
- static ram_addr_t ram_size;
-@@ -158,7 +159,7 @@ int fd_bootchk = 1;
- static int no_reboot;
- int no_shutdown = 0;
- int graphic_rotate = 0;
--const char *watchdog;
-+static const char *watchdog;
- QEMUOptionRom option_rom[MAX_OPTION_ROMS];
- int nb_option_roms;
- int old_param = 0;
-@@ -2910,6 +2911,25 @@ static void qemu_validate_options(void)
+@@ -3384,20 +3384,16 @@ void qemu_init(int argc, char **argv, char **envp)
+                 }
+                 break;
+             case QEMU_OPTION_kernel:
+-                qemu_opts_set(qemu_find_opts("machine"), NULL, "kernel", optarg,
+-                              &error_abort);
++                qemu_opts_set(qemu_find_opts("machine"), "kernel", optarg, &error_abort);
+                 break;
+             case QEMU_OPTION_initrd:
+-                qemu_opts_set(qemu_find_opts("machine"), NULL, "initrd", optarg,
+-                              &error_abort);
++                qemu_opts_set(qemu_find_opts("machine"), "initrd", optarg, &error_abort);
+                 break;
+             case QEMU_OPTION_append:
+-                qemu_opts_set(qemu_find_opts("machine"), NULL, "append", optarg,
+-                              &error_abort);
++                qemu_opts_set(qemu_find_opts("machine"), "append", optarg, &error_abort);
+                 break;
+             case QEMU_OPTION_dtb:
+-                qemu_opts_set(qemu_find_opts("machine"), NULL, "dtb", optarg,
+-                              &error_abort);
++                qemu_opts_set(qemu_find_opts("machine"), "dtb", optarg, &error_abort);
+                 break;
+             case QEMU_OPTION_cdrom:
+                 drive_add(IF_DEFAULT, 2, optarg, CDROM_OPTS);
+@@ -3507,8 +3503,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                 }
+                 break;
+             case QEMU_OPTION_bios:
+-                qemu_opts_set(qemu_find_opts("machine"), NULL, "firmware", optarg,
+-                              &error_abort);
++                qemu_opts_set(qemu_find_opts("machine"), "firmware", optarg, &error_abort);
+                 break;
+             case QEMU_OPTION_singlestep:
+                 singlestep = 1;
+@@ -4391,9 +4386,9 @@ void qemu_init(int argc, char **argv, char **envp)
+ 
+     if (default_net) {
+         QemuOptsList *net = qemu_find_opts("net");
+-        qemu_opts_set(net, NULL, "type", "nic", &error_abort);
++        qemu_opts_parse(net, "nic", true, &error_abort);
+ #ifdef CONFIG_SLIRP
+-        qemu_opts_set(net, NULL, "type", "user", &error_abort);
++        qemu_opts_parse(net, "user", true, &error_abort);
  #endif
- }
- 
-+static void qemu_process_sugar_options(void)
-+{
-+    if (mem_prealloc) {
-+        char *val;
-+
-+        val = g_strdup_printf("%d",
-+                 (uint32_t) qemu_opt_get_number(qemu_find_opts_singleton("smp-opts"), "cpus", 1));
-+        object_register_sugar_prop("memory-backend", "prealloc-threads", val);
-+        g_free(val);
-+        object_register_sugar_prop("memory-backend", "prealloc", "on");
-+    }
-+
-+    if (watchdog) {
-+        int i = select_watchdog(watchdog);
-+        if (i > 0)
-+            exit (i == 1 ? 1 : 0);
-+    }
-+}
-+
- static void qemu_process_early_options(void)
- {
-     char **dirs;
-@@ -3171,7 +3191,6 @@ static void qemu_machine_creation_done(void)
- 
- void qemu_init(int argc, char **argv, char **envp)
- {
--    int i;
-     int snapshot = 0;
-     QemuOpts *opts, *machine_opts;
-     QemuOpts *icount_opts = NULL, *accel_opts = NULL;
-@@ -3190,7 +3209,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     bool have_custom_ram_size;
-     BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
-     QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
--    int mem_prealloc = 0; /* force preallocation of physical target memory */
- 
-     qemu_add_opts(&qemu_drive_opts);
-     qemu_add_drive_opts(&qemu_legacy_drive_opts);
-@@ -4102,6 +4120,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     loc_set_none();
- 
-     qemu_validate_options();
-+    qemu_process_sugar_options();
- 
-     /*
-      * These options affect everything else and should be processed
-@@ -4155,15 +4174,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     machine_smp_parse(current_machine,
-         qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
- 
--    if (mem_prealloc) {
--        char *val;
--
--        val = g_strdup_printf("%d", current_machine->smp.cpus);
--        object_register_sugar_prop("memory-backend", "prealloc-threads", val);
--        g_free(val);
--        object_register_sugar_prop("memory-backend", "prealloc", "on");
--    }
--
-     /*
-      * Get the default machine options from the machine if it is not already
-      * specified either by the configuration file or by the command line.
-@@ -4422,12 +4432,6 @@ void qemu_init(int argc, char **argv, char **envp)
-         select_vgahw(machine_class, vga_model);
      }
  
--    if (watchdog) {
--        i = select_watchdog(watchdog);
--        if (i > 0)
--            exit (i == 1 ? 1 : 0);
+diff --git a/tests/test-qemu-opts.c b/tests/test-qemu-opts.c
+index 297ffe79dd..2aab831d10 100644
+--- a/tests/test-qemu-opts.c
++++ b/tests/test-qemu-opts.c
+@@ -84,11 +84,25 @@ static QemuOptsList opts_list_03 = {
+     },
+ };
+ 
++static QemuOptsList opts_list_04 = {
++    .name = "opts_list_04",
++    .head = QTAILQ_HEAD_INITIALIZER(opts_list_04.head),
++    .merge_lists = true,
++    .desc = {
++        {
++            .name = "str3",
++            .type = QEMU_OPT_STRING,
++        },
++        { /* end of list */ }
++    },
++};
++
+ static void register_opts(void)
+ {
+     qemu_add_opts(&opts_list_01);
+     qemu_add_opts(&opts_list_02);
+     qemu_add_opts(&opts_list_03);
++    qemu_add_opts(&opts_list_04);
+ }
+ 
+ static void test_find_unknown_opts(void)
+@@ -402,17 +416,17 @@ static void test_qemu_opts_set(void)
+     QemuOpts *opts;
+     const char *opt;
+ 
+-    list = qemu_find_opts("opts_list_01");
++    list = qemu_find_opts("opts_list_04");
+     g_assert(list != NULL);
+     g_assert(QTAILQ_EMPTY(&list->head));
+-    g_assert_cmpstr(list->name, ==, "opts_list_01");
++    g_assert_cmpstr(list->name, ==, "opts_list_04");
+ 
+     /* should not find anything at this point */
+     opts = qemu_opts_find(list, NULL);
+     g_assert(opts == NULL);
+ 
+     /* implicitly create opts and set str3 value */
+-    qemu_opts_set(list, NULL, "str3", "value", &error_abort);
++    qemu_opts_set(list, "str3", "value", &error_abort);
+     g_assert(!QTAILQ_EMPTY(&list->head));
+ 
+     /* get the just created opts */
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index acefbc23fa..25792159ba 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -670,15 +670,12 @@ void qemu_opts_loc_restore(QemuOpts *opts)
+     loc_restore(&opts->loc);
+ }
+ 
+-bool qemu_opts_set(QemuOptsList *list, const char *id,
+-                   const char *name, const char *value, Error **errp)
++bool qemu_opts_set(QemuOptsList *list, const char *name, const char *value, Error **errp)
+ {
+     QemuOpts *opts;
+ 
+-    opts = qemu_opts_create(list, id, 1, errp);
+-    if (!opts) {
+-        return false;
 -    }
--
-     /* This checkpoint is required by replay to separate prior clock
-        reading from the other reads, because timer polling functions query
-        clock values from the log. */
++    assert(list->merge_lists);
++    opts = qemu_opts_create(list, NULL, 0, &error_abort);
+     return qemu_opt_set(opts, name, value, errp);
+ }
+ 
 -- 
 2.26.2
 
