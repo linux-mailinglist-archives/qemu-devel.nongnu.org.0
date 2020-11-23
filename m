@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A972C1768
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:13:49 +0100 (CET)
-Received: from localhost ([::1]:33622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D272C1789
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:19:25 +0100 (CET)
+Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khJ9e-0000uo-Ej
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:13:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
+	id 1khJF6-0000LE-3m
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:19:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1khIiW-0001by-WF; Mon, 23 Nov 2020 15:45:45 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:51647)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1khIiU-0001Sf-4K; Mon, 23 Nov 2020 15:45:44 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 2AD791A76;
- Mon, 23 Nov 2020 15:45:39 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 23 Nov 2020 15:45:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=zb/tukUzDqC5CeuzrC8VH8Gze+h
- GP+49eu1ysv5CXCo=; b=x1xyE2r+pwZh39jhgJKP9vwTGTbK/Y6PhvMGw61igYR
- HPgBvJDyzhK/26Hxx1OfgMlXgAiblQcGZ7ww0sYxzQjAiEQo1dS1jZrgaqWITco+
- w4m+g2lKjpaHdsAgPi+ptagC/G+Me1zzWRYHJDZbwMAs06uOmHBYaPLH6AjZmmbK
- onQhsX65aFfzgBC4EzhnR2SvvNs4bpIMrO4tVLh5V49sBMesHuAsNJSMwF4TPSfm
- FjJnoWfE+PEel+A3P0KPOLwygK+pQeDWcdWZ7hT4p8Gp1vWDVo7cFqxnpnBVoyF/
- +6BG45mLnGWF8Sc5C1GCzgRSqeKSP8GYSdIxM9eks+g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=zb/tuk
- UzDqC5CeuzrC8VH8Gze+hGP+49eu1ysv5CXCo=; b=LStRaolv7Nr2/kQlBuzywc
- faYWSTMH7ux3NttLRWhh5upqq1sWy9c6fziBjdeN6wvUsCGhmgt278J7GlOqWX9v
- KgQp0LC9SImMLLpqwRQtibYEvcXSTIvDZsHhHIkmZ9liHKwolG24hmCuJBYuOeMM
- k/IiI2qmjHAnE7ofHIEbjxh1YP0d9+unCO+2fuO2u91VJuvaYIgtYtLmibqGoWO8
- hXMNMJ6xWNJsTozh5ZHaePFk0YVTAhc8SI1yjZAxMdy/fGY1C851rxeDSafLjjSA
- VtDjqvosM4iTKhIYHw1dRtGJ931VA9oOBfg6nHdbw/zOM7oTkWour0c7MJwgTV2g
- ==
-X-ME-Sender: <xms:cR-8X3n8tEUBqoPSBnS8XCBKB7Mc0pJgShdJup1LqSlLK4TVJRf_1Q>
- <xme:cR-8X61RZj50sVjQycROZnY219zHL8ym443zLGAdYeIU_5zbqc2sgHBJXAT5NBPeV
- 3Ht6h-slkIaNxSXhbQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudegjedgtdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:cR-8X9qMzsdwFiexs9a4QLlPtVzC9GK07CDIiNK7qGHsIg30H_UdYg>
- <xmx:cR-8X_lAWc-XLjxHWdV4bqwzbLEK3pY-VBIeW18XPMmS4Ii6M4F_eA>
- <xmx:cR-8X10kMIkya8E2-he4t4ZFHuNLM7vX4cYQoId-Yl4p8j3Xq2yKww>
- <xmx:ch-8X98w79w1-j-ViM8rWnZGvY-en1cVEmHqoPhB8G0BKip8kxLO_g>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 20CF9328005A;
- Mon, 23 Nov 2020 15:45:36 -0500 (EST)
-Date: Mon, 23 Nov 2020 21:45:34 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v8 0/5] hw/block/nvme: dulbe and dsm support
-Message-ID: <X7wfbihVNUIOBbb6@apples.localdomain>
-References: <20201112195945.819915-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1khIpa-0001Bw-H2
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:53:02 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:41855)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1khIpZ-00048W-0q
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 15:53:02 -0500
+Received: by mail-ej1-x644.google.com with SMTP id gj5so25294138ejb.8
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 12:53:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=cU7DoJxv833PmGc2df6a7f1kmAk9p3QINh6FBBR2LVM=;
+ b=sfOtikO4ZCdBdnTOCPmDX4FYQOAOWbwNpjBWzwPsyPMy7U1qyt57yu3zlhQ2UY4ECO
+ hbsfbK9vbxf29alDC3Hh2VOIfwzVqvoJWdBI6GhADnzYJ1RRKeLmhIO2KB3ILSIiV7mv
+ JaYgSzvoMRimfGSVYPJsWPE1wFfDKnwdZ+aDZtI1yezlU3QOehVXxAo7SsGzODze9iVP
+ tHBJnBQ2POG7bTh/abMIxbv83IgGDVgxcXsnN3ZZLvjNr8dBLyp5teB39F009972kALp
+ uj2VbFbQFFp1/ve3vxbKv9ra6uvbOvPlDvGkgIMsUc5ygsM91fzv0MGkWDtfdc92QyfU
+ E4ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cU7DoJxv833PmGc2df6a7f1kmAk9p3QINh6FBBR2LVM=;
+ b=O66tT0P7/VhNRnJ3wad1BSqgqnUJwZ3W+45oWsCsnsnSr59/QKp2d7GWcUDaITk1eN
+ c6NaMb97VYMUwE4QySbibcdeyqJi8WLZCdivI0IY11gngQHg8SKVuFKIKT9A0ddJRnor
+ rNfgT2bEfBjOid7C1qCiuDAxY/NgAxI1DQt2T9G8FsrWkbnluCpnO0uPSBsPBrYd5ZJb
+ 3KwFKJuiF1FMQPUoVZZQTEgZPivdOiS/WvvYkohyjq2K8eRjCsxO0nw0RRcQwbITYAku
+ F4r3pr8PmzMN6Vy9TEzJ9/fM37Hn5fwWFYQWGrCgNS9lJce60JMCPfXrqoaey1B/Yf9+
+ zZFw==
+X-Gm-Message-State: AOAM530i/PgKwOIUyiC6XrsZOe+d0ehBHfOXpPRrgmo305DDGQMNCgUm
+ gW676zp2rpG94Ikk6fpq4mw=
+X-Google-Smtp-Source: ABdhPJwNr+IE7+DG8wm/wIlGZ4yngjIpeEWwsTR3zAn3KS5dR0ykvqBCwYghWxoC8TpGtCVjSUN/lg==
+X-Received: by 2002:a17:906:af69:: with SMTP id
+ os9mr1287292ejb.180.1606164779778; 
+ Mon, 23 Nov 2020 12:52:59 -0800 (PST)
+Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id e9sm5594615edn.30.2020.11.23.12.52.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Nov 2020 12:52:59 -0800 (PST)
+Subject: Re: [PATCH V17 6/6] docs/system: Update MIPS machine documentation
+To: Huacai Chen <zltjiangshi@gmail.com>
+References: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
+ <1604636510-8347-7-git-send-email-chenhc@lemote.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b9fc2ad9-9713-252d-ffbc-b8d1780094e5@amsat.org>
+Date: Mon, 23 Nov 2020 21:52:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WGOtyXrZx7yCoeC4"
-Content-Disposition: inline
-In-Reply-To: <20201112195945.819915-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1604636510-8347-7-git-send-email-chenhc@lemote.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,85 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 11/6/20 5:21 AM, Huacai Chen wrote:
+> Update MIPS machine documentation to add Loongson-3 based machine description.
+> 
+> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> ---
+>  docs/system/target-mips.rst | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/docs/system/target-mips.rst b/docs/system/target-mips.rst
+> index cd2a931..138441b 100644
+> --- a/docs/system/target-mips.rst
+> +++ b/docs/system/target-mips.rst
+> @@ -84,6 +84,16 @@ The Fuloong 2E emulation supports:
+>  
+>  -  RTL8139D as a network card chipset
+>  
+> +The Loongson-3 virtual platform emulation supports:
+> +
+> +-  Loongson 3A CPU
+> +
+> +-  LIOINTC as interrupt controller
+> +
+> +-  GPEX and virtio as peripheral devices
+> +
+> +-  Both KVM and TCG supported
 
---WGOtyXrZx7yCoeC4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Nov 12 20:59, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> This adds support for the Deallocated or Unwritten Logical Block error
-> recovery feature as well as the Dataset Management command.
->=20
-> v8:
->   - Move req->opaque clearing to nvme_req_clear.
->   - Add two preparation/cleanup patches.
->=20
-> v7:
->   - Handle negative return value from bdrv_block_status.
->   - bdrv_get_info may not be supported on all block drivers, so do not
->     consider it a fatal error.
->=20
-> v6:
->   - Skip the allocation of the discards integer and just use the opaque
->     value directly (Philippe)
->   - Split changes to include/block/nvme.h into a separate patch
->     (Philippe)
->   - Clean up some convoluted checks on the discards value (Philippe)
->   - Use unambiguous units in the commit messages (Philippe)
->   - Stack allocate the range array (Keith)
->=20
-> v5:
->   - Restore status code from callback (Keith)
->=20
-> v4:
->   - Removed mixed declaration and code (Keith)
->   - Set NPDG and NPDA and account for the blockdev cluster size.
->=20
-> Klaus Jensen (5):
->   hw/block/nvme: remove superfluous NvmeCtrl parameter
->   hw/block/nvme: pull aio error handling
->   hw/block/nvme: add dulbe support
->   nvme: add namespace I/O optimization fields to shared header
->   hw/block/nvme: add the dataset management command
->=20
->  hw/block/nvme-ns.h    |   4 +
->  hw/block/nvme.h       |   2 +
->  include/block/nvme.h  |  12 +-
->  hw/block/nvme-ns.c    |  34 +++++-
->  hw/block/nvme.c       | 258 ++++++++++++++++++++++++++++++++++++------
->  hw/block/trace-events |   4 +
->  6 files changed, 276 insertions(+), 38 deletions(-)
->=20
-> --=20
-> 2.29.2
->=20
-
-Thanks for the reviews everyone; applied to nvme-next.
-
---WGOtyXrZx7yCoeC4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+8H2oACgkQTeGvMW1P
-DenH0QgAmyQYXNJ0vZX4YzfhneBa7GVHPEnV3tUUR4IU0nL3l56Tdk6p3J8qKttc
-4W9EY+pIND7wFUKjo0KDtvqt+QJZVb405zI4BSDTUgtTqS4Ls466Kpxqc7K98e4g
-ak4SQJ/q05OsOPAiuL7x7rroniyNyrW9FbMfK7AFwjHWbD5dAV37kuf7Ru4KtOeK
-cq/PQUZFDfa9goTD/82O9jurVsz+qu/nSvLMHUzeWaYX0Gt+7z1iViyw22/FVdBI
-XgWeEykL3zqyqimlv3NI5ZyJpIOD1wwkUXXDSt23DxA/VUpCV70o3nUoo2F9JSgI
-TL/zSXuiTIjIb+KlGVKrTpiQ4v4IbA==
-=s+M+
------END PGP SIGNATURE-----
-
---WGOtyXrZx7yCoeC4--
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
