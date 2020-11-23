@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E062C024B
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 10:30:53 +0100 (CET)
-Received: from localhost ([::1]:52904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F001F2C025A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 10:38:56 +0100 (CET)
+Received: from localhost ([::1]:59566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh8BQ-0001RK-H4
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 04:30:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53888)
+	id 1kh8JD-0004cx-FU
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 04:38:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kh8AT-0000tM-Ej
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:29:53 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48572)
+ (Exim 4.90_1) (envelope-from <quentin.grolleau@ovhcloud.com>)
+ id 1kh8HV-0003zE-3j
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:37:09 -0500
+Received: from 1.mo301.mail-out.ovh.net ([137.74.110.64]:53723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kh8AR-00034O-1r
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:29:53 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 58A01ACBD;
- Mon, 23 Nov 2020 09:29:49 +0000 (UTC)
-Subject: Re: [RFC v3 8/9] module: introduce MODULE_INIT_ACCEL_CPU
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201118152552.GG1509407@habkost.net>
- <CABgObfYL-TNAMmqkUh6cjcytaAFEtXPfw8toO6gXEuyokdyLhA@mail.gmail.com>
- <20201118161119.GJ1509407@habkost.net>
- <CABgObfb2Fim=7j3z7ApTuW=R0dWam2F_JRuOoxhP=XZXdsWe7g@mail.gmail.com>
- <20201118173055.GM1509407@habkost.net>
- <e7b70933-acd1-668c-62cd-89f480945f0f@redhat.com>
- <20201118220750.GP1509407@habkost.net>
- <2984625a-15ee-f638-b1bb-050a4514bade@suse.de>
- <20201120171942.GA2271382@habkost.net>
- <f780a9e5-2142-3bf4-b3fb-1bdeeed61945@suse.de>
- <20201120180936.GD2271382@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <a32dbea4-8381-d247-3443-441b484d39e3@suse.de>
-Date: Mon, 23 Nov 2020 10:29:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <quentin.grolleau@ovhcloud.com>)
+ id 1kh8HR-0005xQ-JT
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:37:08 -0500
+Received: from EX2.OVH.local (gw2.corp.ovh.com [51.255.55.227])
+ by mo301.mail-out.ovh.net (Postfix) with ESMTPS id 4C0247FDEE
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 10:36:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ovhcloud.com;
+ s=mailout; t=1606124216;
+ bh=DyM1vlwzyEOPY6R/PFEufKgDfXd17opKzh6vXoAnPxc=;
+ h=From:To:Subject:Date:From;
+ b=CQeHFOpgdapUUxyR7mmeQyIFPMNBer+mxuBZLii3poZBg5X8bAxtfblKDWcdkhC7J
+ 1BKLc4NX+LFnsdbrHIRIuRAwy0GRdddQ4ZJr0O0Zx2r44naaAT8uU36BSpIl/uzolI
+ k6tsobrVSElhTxtGvgwmDJvuFjMzKeSE0/9ZUatg=
+Received: from DAGFR7EX3.OVH.local (172.16.2.22) by EX2.OVH.local (172.16.2.2)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Mon, 23
+ Nov 2020 10:36:55 +0100
+Received: from DAGFR7EX2.OVH.local (172.16.2.21) by DAGFR7EX3.OVH.local
+ (172.16.2.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.721.2; Mon, 23 Nov 2020
+ 10:36:55 +0100
+Received: from DAGFR7EX2.OVH.local ([fe80::81c3:c718:13b4:fd11]) by
+ DAGFR7EX2.OVH.local ([fe80::81c3:c718:13b4:fd11%3]) with mapi id
+ 15.02.0721.003; Mon, 23 Nov 2020 10:36:55 +0100
+From: Quentin Grolleau <quentin.grolleau@ovhcloud.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: [raw] Guest stuck during live live-migration
+Thread-Topic: [raw] Guest stuck during live live-migration
+Thread-Index: AQHWwXs6AGfiafuLa06oUseJIin6Sw==
+Date: Mon, 23 Nov 2020 09:36:55 +0000
+Message-ID: <e6f25c7e67ce4cfea5e01e4e46f0a3d8@ovhcloud.com>
+Accept-Language: fr-FR, en-US
+Content-Language: fr-FR
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [109.190.254.58]
+x-ovh-corplimit-skip: true
+Content-Type: multipart/alternative;
+ boundary="_000_e6f25c7e67ce4cfea5e01e4e46f0a3d8ovhcloudcom_"
 MIME-Version: 1.0
-In-Reply-To: <20201120180936.GD2271382@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Ovh-Tracer-Id: 9419278622906236480
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgtdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvffuthffkfhitgggsegrtdhjredttddunecuhfhrohhmpefsuhgvnhhtihhnucfirhholhhlvggruhcuoehquhgvnhhtihhnrdhgrhholhhlvggruhesohhvhhgtlhhouhgurdgtohhmqeenucggtffrrghtthgvrhhnpeekheehhffhveetheetudefffetgeehgfeggeeugfevveevtdffueduffdvvdevjeenucffohhmrghinhepghhnuhdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpddutdelrdduledtrddvheegrdehkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopefgigdvrdfqggfjrdhlohgtrghlpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehquhgvnhhtihhnrdhgrhholhhlvggruhesohhvhhgtlhhouhgurdgtohhmpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=137.74.110.64;
+ envelope-from=quentin.grolleau@ovhcloud.com; helo=1.mo301.mail-out.ovh.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,259 +81,283 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Bruce Rogers <brogers@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Wenchao Wang <wenchao.wang@intel.com>,
- haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Dario Faggioli <dfaggioli@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/20/20 7:09 PM, Eduardo Habkost wrote:
-> On Fri, Nov 20, 2020 at 06:41:35PM +0100, Claudio Fontana wrote:
->> On 11/20/20 6:19 PM, Eduardo Habkost wrote:
->>> On Fri, Nov 20, 2020 at 01:13:33PM +0100, Claudio Fontana wrote:
->>>> On 11/18/20 11:07 PM, Eduardo Habkost wrote:
->>>>> On Wed, Nov 18, 2020 at 08:13:18PM +0100, Paolo Bonzini wrote:
->>>>>> On 18/11/20 18:30, Eduardo Habkost wrote:
->>>>>>>> Adding a layer of indirect calls is not very different from monkey patching
->>>>>>>> though.
->>>>>>>
->>>>>>> I'm a little bothered by monkey patching, but I'm more
->>>>>>> bothered by having to:
->>>>>>>
->>>>>>> (1) register (module_init()) a function (kvm_cpu_accel_register()) that
->>>>>>>    (2) register (accel_register_call()) a function (kvm_cpu_accel_init()) that
->>>>>>>      (3) register (x86_cpu_accel_init()) a data structure (X86CPUAccel kvm_cpu_accel) that
->>>>>>>        (4) will be saved in multiple QOM classes, so that
->>>>>>>          (5) we will call the right X86CPUClass.accel method at the right moment
->>>>>>>              (common_class_init(), instance_init(), realizefn()),
->>>>>>> where:
->>>>>>>    step 4 must be done before any CPU object is created
->>>>>>>      (otherwise X86CPUAccel.instance_init & X86CPUAccel.realizefn
->>>>>>>       will be silently ignored), and
->>>>>>>    step 3 must be done after all QOM types were registered.
->>>>>>>
->>>>>>>> You also have to consider that accel currently does not exist in usermode
->>>>>>>> emulators, so that's an issue too. I would rather get a simple change in
->>>>>>>> quickly, instead of designing the perfect class hierarchy.
->>>>>>>
->>>>>>> It doesn't have to be perfect.  I agree that simple is better.
->>>>>>>
->>>>>>> To me, registering a QOM type and looking it up when necessary is
->>>>>>> simpler than the above.  Even if it's a weird class having no
->>>>>>> object instances.  It probably could be an interface type.
->>>>>>
->>>>>> Registering a QOM type still has quite some boilerplate.  [...]
->>>>>
->>>>> We're working on that.  :)
->>>>>
->>>>>>                                                    [...]  Also registering a
->>>>>> QOM type has a public side effect (shows up in qom-list-types).  In general
->>>>>> I don't look at QOM unless I want its property mechanism, but maybe that's
->>>>>> just me.
->>>>>
->>>>> We have lots of internal-use-only types returned by
->>>>> qom-list-types, I don't think it's a big deal.
->>>>>
->>>>>>
->>>>>>>> Perhaps another idea would be to allow adding interfaces to classes
->>>>>>>> *separately from the registration of the types*. Then we can use it to add
->>>>>>>> SOFTMMU_ACCEL and I386_ACCEL interfaces to a bare bones accel class, and
->>>>>>>> add the accel object to usermode emulators.
->>>>>>>
->>>>>>> I'm not sure I follow.  What do you mean by bare bones accel
->>>>>>> class, and when exactly would you add the new interfaces to the
->>>>>>> classes?
->>>>>>
->>>>>> A bare bones accel class would not have init_machine and setup_post methods;
->>>>>> those would be in a TYPE_SOFTMMU_ACCEL interface.  It would still have
->>>>>> properties (such as tb-size for TCG) and would be able to register compat
->>>>>> properties.
->>>
->>> [1]
->>>
->>>>>
->>>>> Oh, I think I see.  This could save us having a lot of parallel type
->>>>> hierarchies.
->>>>>
->>>>>>
->>>>>> Where would I add it, I don't know.  It could be a simple public wrapper
->>>>>> around type_initialize_interface() if we add a new MODULE_INIT_* phase after
->>>>>> QOM.
->>>>>>
->>>>>> Or without adding a new phase, it could be a class_type->array of
->>>>>> (interface_type, init_fn) hash table.  type_initialize would look up the
->>>>>> class_type by name, add the interfaces would to the class with
->>>>>> type_initialize_interface, and then call the init_fn to fill in the vtable.
->>>>>
->>>>> That sounds nice.  I don't think Claudio's cleanup should be
->>>>> blocked until this new mechanism is ready, though.
->>>>>
->>>>> We don't really need the type representing X86CPUAccel to be a
->>>>> subtype of TYPE_ACCEL or an interface implemented by
->>>>> current_machine->accelerator, in the first version.  We just need
->>>>> a simple way for the CPU initialization code to find the correct
->>>>> X86CPUAccel struct.
->>>>>
->>>>> While we don't have the new mechanism, it can be just a:
->>>>>   object_class_by_name("%s-x86-cpu-accel" % (accel->name))
->>>>> call.
->>>>>
->>>>> Below is a rough draft of what I mean.  There's still lots of
->>>>> room for cleaning it up (especially getting rid of the
->>>>> X86CPUClass.common_class_init and X86CPUClass.accel fields).
->>>>>
->>>>> git tree at https://gitlab.com/ehabkost/qemu/-/commits/work/qom-based-x86-cpu-accel
->>>>>
->>>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>> [...]
->>>>>  /**
->>>>> - * X86CPUAccel:
->>>>> - * @name: string name of the X86 CPU Accelerator
->>>>> - *
->>>>> + * X86CPUAccelInterface:
->>>>>   * @common_class_init: initializer for the common cpu
->>>>>   * @instance_init: cpu instance initialization
->>>>>   * @realizefn: realize function, called first in x86 cpu realize
->>>>> @@ -85,14 +83,16 @@ struct X86CPUClass {
->>>>>   * X86 CPU accelerator-specific CPU initializations
->>>>>   */
->>>>>  
->>>>> -struct X86CPUAccel {
->>>>> -    const char *name;
->>>>> -
->>>>> +struct X86CPUAccelInterface {
->>>>> +    ObjectClass parent_class;
->>>>>      void (*common_class_init)(X86CPUClass *xcc);
->>>>>      void (*instance_init)(X86CPU *cpu);
->>>>>      void (*realizefn)(X86CPU *cpu, Error **errp);
->>>>>  };
->>>>>  
->>>>> -void x86_cpu_accel_init(const X86CPUAccel *accel);
->>>>> +#define TYPE_X86_CPU_ACCEL "x86-cpu-accel"
->>>>> +OBJECT_DECLARE_INTERFACE(X86CPUAccel, X86CPUAccelInterface, X86_CPU_ACCEL);
->>>>
->>>>
->>>> I am not exactly sure what precisely you are doing here,
->>>>
->>>> I get the general intention to use the existing interface-related "stuff" in QOM,
->>>> but I do not see any OBJECT_DECLARE_INTERFACE around, and does not seem like the other boilerplate used for interfaces.
->>>
->>> See the git URL I sent above, for other related changes:
->>>
->>>   https://gitlab.com/ehabkost/qemu/-/commits/work/qom-based-x86-cpu-accel
->>
->>
->> Aaah I missed this, there are quite a few more changes there;
->>
->> for me it's great if you take it from there, I see you are
->> developing a solution on top of the previous series.
-> 
-> I'm a bit busy with other stuff, so I'm probably not going to be
-> able to make sure the patches are in a good shape to be submitted
-> soon.
-> 
-> I don't want to impose any obstacles for the work you are doing,
-> either.  Please consider the patch I sent (and the git tree
-> above) as just an example of a possible solution to the two issues
-> Paolo raised at https://lore.kernel.org/qemu-devel/8f829e99-c346-00bc-efdd-3e6d69cfba35@redhat.com
+--_000_e6f25c7e67ce4cfea5e01e4e46f0a3d8ovhcloudcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+In our company, we are hosting a large number of Vm, hosted behind Openstac=
+k (so libvirt/qemu).
+A large majority of our Vms are runnign with local data only, stored on NVM=
+E, and most of them are RAW disks.
+
+With Qemu 4.0 (can be even with older version) we see strange  live-migrati=
+on comportement:
+    - some Vms live migrate at very high speed without issue (> 6 Gbps)
+    - some Vms are running correctly, but migrating at a strange low speed =
+(3Gbps)
+    - some Vms are migrating at a very low speed (1Gbps, sometime less) and=
+ during the migration the guest is completely I/O stuck
+
+When this issue happen the VM is completly block, iostat in the Vm show us =
+a latency of 30 secs
+
+First we thought it was related to an hardware issue we check it, we compar=
+ing different hardware, but no issue where found there
+
+So one of my colleague had the idea to limit with "tc" the bandwidth on the=
+ interface the migration was done, and it worked the VM didn't lose any pin=
+g nor being  I/O  stuck
+Important point : Once the Vm have been migrate (with the limitation ) one =
+time, if we migrate it again right after, the migration will be done at ful=
+l speed (8-9Gb/s) without freezing the Vm
+
+It only happen on existing VM, we tried to replicate with a fresh instance =
+with exactly the same spec and nothing was happening
+
+We tried to replicate the workload inside the VM but there was no way to re=
+plicate the case. So it was not related to the workload nor to the server t=
+hat hosts the Vm
+
+So we thought about the disk of the instance : the raw file.
+
+We also tried to strace -c the process during the live-migration and it was=
+ doing a lot of "lseek"
+
+and we found this :
+https://lists.gnu.org/archive/html/qemu-devel/2017-02/msg00462.html
 
 
-Ok, thanks for the clarification,
-will take those two issues up in my next attempt.
+So i rebuilt Qemu with this patch and the live-migration went well, at high=
+ speed and with no VM freeze
+( https://github.com/qemu/qemu/blob/master/block/file-posix.c#L2601 )
+
+Do you have a way to avoid the "lseek" mechanism as it consumes more resour=
+ces to find the holes in the disk and don't let any for the VM ?
 
 
-> 
->>
->>
->>>
->>>>
->>>> Could you clarify what happens here? Should we just use a normal object, call it "Interface" and call it a day?
->>>
->>> An interface is declared in a very similar way, but instance_size
->>> and the instance type cast macro is a bit different (because
->>> instances of interface types are never created directly).
->>>
->>> For the draft we have here, it shouldn't make any difference if
->>> you use OBJECT_DECLARE_TYPE, because the instance type cast
->>> macros are left unused.
->>>
->>> Normally the use case for interfaces is not like what I did here.
->>> Interfaces are usually attached to other classes (to declare that
->>> object instances of that class implement the methods of that
->>> interface).  Using interfaces would be just an intermediate step
->>> to the solution Paolo was mentioning (dynamically adding
->>> interface to classes, see [1] above).
->>>
->>
->> Makes sense to me,
->> let me know how you guys would like to proceed from here.
->>
-> 
-> To me, the main issue (also raised by Paolo above) is the fact
-> that you are doing *_enabled() checks in the module init
-> functions.  Every single use case we have for module init
-> functions today is for unconditionally registering code or data
-> structures provided by a code module (config group names, QOM
-> types, block backends, multifd methods, etc.), and none of them
-> depend on runtime options (like machine or accelerator options).
+Server hosting the VM :
+    - Bi-Xeon hosts With NVME storage and 10 Go Network card
+    - Qemu 4.0 And Libvirt 5.4
+    - Kernel 4.18.0.25
+
+Guest having the issue :
+    - raw image with Debian 8
+
+Here the qemu img on the disk :
+> qemu-img info disk
+image: disk
+file format: raw
+virtual size: 400G (429496729600 bytes)
+disk size: 400G
 
 
-Ok, no _enabled() checks, got it.
-
-Just to note, since _enabled() has multiple meanings depending on configuration (CONFIG_KVM),
-the _enabled() used in kvm/cpu.c has actually the meaning of:
-
-if (accelerator_finally_chosen == KVM).
-
-But we can refactor this implicit check out, and make it instead a
-
-accel_cpu_init("kvm"), like you suggest, so that the ifs disappear.
+Quentin GROLLEAU
 
 
+--_000_e6f25c7e67ce4cfea5e01e4e46f0a3d8ovhcloudcom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> The x86_cpu_accel_init() calls, on the other hand, are not module
-> initialization, but just one additional step of
-> machine/accelerator/cpu initialization.
-> 
-> 
->> The thing I am still uncertain about, looking at your tree at:
->>
->> https://gitlab.com/ehabkost/qemu/-/commits/work/qom-based-x86-cpu-accel
->>
->> is the removal of MODULE_INIT_ACCEL_CPU, it would be way simpler to understand I think,
->> both for CpuAccelOps and X86CPUAccel, and is actualy in my view a perfect fit for
->> the problem that module_call_init is supposed to solve.
-> 
-> That was one of my goals.  My first goal was the removal of the
-> (hvm|kvm|tcg)_enabled() checks in the accel init functions.  My
-> secondary goal (and a side effect of the first goal) was making
-> MODULE_INIT_ACCEL_CPU unnecessary.
-> 
-> If we are not trying to remove the *_enabled() checks in the
-> accel init functions (nor trying to make MODULE_INIT_ACCEL_CPU
-> unnecessary), my suggestion of using QOM doesn't make things
-> simpler.
-> 
-> Let's hear what Paolo thinks.
-> 
-> If you want to proceed with the accel_register_call() solution
-> suggested by Paolo, that's OK to me.  I just don't think we
-> really need it, because QOM already solves the problem for us.
-> 
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"><!-- P {margin-top:0;margi=
+n-bottom:0;} --></style>
+</head>
+<body dir=3D"ltr">
+<div id=3D"divtagdefaultwrapper" style=3D"font-size:12pt;color:#000000;font=
+-family:Calibri,Helvetica,sans-serif;" dir=3D"ltr">
+<p></p>
+<div id=3D"magicdomid2" class=3D"">
+<div id=3D"magicdomid4" class=3D""><span class=3D"author-a-z87zz78zf6enp3z6=
+7ziz84zqz90zo3z70z">Hello,</span></div>
+<div class=3D""><span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z"=
+><br>
+</span></div>
+<div class=3D""><span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z"=
+>In our company, we are hosting a large number of Vm, hosted behind Opensta=
+ck (so libvirt/qemu).&nbsp;</span></div>
+<div id=3D"magicdomid5" class=3D""><span class=3D"author-a-z87zz78zf6enp3z6=
+7ziz84zqz90zo3z70z">A large majority of our Vms are runnign with local data=
+ only, stored on NVME, and most of them are RAW disks.</span></div>
+<div id=3D"magicdomid6" class=3D""><br>
+</div>
+<div id=3D"magicdomid7" class=3D""><span class=3D"author-a-9z74zz70zyz84z9z=
+89zz84zz73zhz80z8rz73zp5">With Qemu 4.0</span><span class=3D"author-a-z87zz=
+78zf6enp3z67ziz84zqz90zo3z70z"> (can be even with older version)</span><spa=
+n class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80z8rz73zp5">
+ we see </span><span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z">=
+strange&nbsp;</span><span class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80=
+z8rz73zp5"> live-migration</span><span class=3D"author-a-z87zz78zf6enp3z67z=
+iz84zqz90zo3z70z"> comportement:</span></div>
+<div id=3D"magicdomid8" class=3D""><span class=3D"author-a-z87zz78zf6enp3z6=
+7ziz84zqz90zo3z70z">&nbsp;&nbsp;&nbsp; - some Vms live migrate at very high=
+ speed without issue (&gt; 6 Gbps)</span></div>
+<div id=3D"magicdomid9" class=3D""><span class=3D"author-a-z87zz78zf6enp3z6=
+7ziz84zqz90zo3z70z">&nbsp;&nbsp;&nbsp; - some Vms are running correctly, bu=
+t migrating at a strange low speed (3Gbps)</span></div>
+<div id=3D"magicdomid10" class=3D""><span class=3D"author-a-z87zz78zf6enp3z=
+67ziz84zqz90zo3z70z">&nbsp;&nbsp;&nbsp; - some Vms are migrating at a very =
+low speed (1Gbps, sometime less) and during the migration the guest is comp=
+letely I/O stuck</span></div>
+<div id=3D"magicdomid11" class=3D""><span class=3D"author-a-z87zz78zf6enp3z=
+67ziz84zqz90zo3z70z">&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+<div id=3D"magicdomid12" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">When
+</span><span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z">this iss=
+ue </span>
+<span class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80z8rz73zp5">happen th=
+e VM </span>
+<span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z">is completly bl=
+ock, iostat in the Vm show us a la</span><span class=3D"author-a-9z74zz70zy=
+z84z9z89zz84zz73zhz80z8rz73zp5">t</span><span class=3D"author-a-z87zz78zf6e=
+np3z67ziz84zqz90zo3z70z">ency of 30 secs</span></div>
+<div id=3D"magicdomid13" class=3D""><br>
+</div>
+<div id=3D"magicdomid14" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">First we thought it was related to
+</span><span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z">an hardw=
+are issue</span><span class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80z8rz=
+73zp5"> we check it, we comparing different hardware</span><span class=3D"a=
+uthor-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z">,
+ but no issue where found there</span></div>
+<div id=3D"magicdomid15" class=3D""><br>
+</div>
+<div id=3D"magicdomid16" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">So one of my colleague had the idea to limit wit=
+h &quot;tc&quot; the bandwidth on the interface the migration was done, and=
+ it worked the VM didn't lose any ping&nbsp;<span>nor
+ being&nbsp; I/O&nbsp; stuck</span></span></div>
+<div id=3D"magicdomid17" class=3D""><span class=3D"author-a-z87zz78zf6enp3z=
+67ziz84zqz90zo3z70z">Important point :
+</span><span class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80z8rz73zp5">On=
+ce the Vm have been migrate
+</span><span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z">(</span>=
+<span class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80z8rz73zp5">with the =
+limitation )
+</span><span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z">one time=
+, if we migrate it again right after, the migration will be done at full sp=
+eed (8-9Gb/s)
+</span><span class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80z8rz73zp5">wi=
+thout freezing
+</span><span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z">the Vm</=
+span></div>
+<div id=3D"magicdomid18" class=3D""><br>
+</div>
+<div id=3D"magicdomid19" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">It only happen on existing VM, we tried to repli=
+cate with a fresh instance with exactly the same spec and nothing was happe=
+ning</span></div>
+<div id=3D"magicdomid20" class=3D""><br>
+</div>
+<div id=3D"magicdomid21" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">We tried to replicate the workload inside the VM=
+ but there was no way to replicate the case. So it was not related to the w=
+orkload nor to the server that hosts the
+ Vm</span></div>
+<div id=3D"magicdomid22" class=3D""><br>
+</div>
+<div id=3D"magicdomid23" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">So we thought about the disk of the instance : t=
+he raw file.</span></div>
+<div id=3D"magicdomid24" class=3D""><br>
+</div>
+<div id=3D"magicdomid25" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">We also tried to strace -c the process during th=
+e live-migration and it was doing a lot of &quot;lseek&quot;</span></div>
+<div id=3D"magicdomid26" class=3D""><br>
+</div>
+<div id=3D"magicdomid27" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">and we found this :&nbsp;</span></div>
+<div id=3D"magicdomid28" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5 url"><a href=3D"https://lists.gnu.org/archive/htm=
+l/qemu-devel/2017-02/msg00462.html" id=3D"LPlnk604664" previewremoved=3D"tr=
+ue">https://lists.gnu.org/archive/html/qemu-devel/2017-02/msg00462.html</a>=
+</span></div>
+<div id=3D"magicdomid29" class=3D""><br>
+</div>
+<div id=3D"magicdomid30" class=3D""><br>
+</div>
+<div id=3D"magicdomid31" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">So i rebuilt Qemu with this patch and the live-m=
+igration went well</span><span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz9=
+0zo3z70z">, at high speed</span><span class=3D"author-a-9z74zz70zyz84z9z89z=
+z84zz73zhz80z8rz73zp5">
+ and with no VM freeze</span></div>
+<div id=3D"magicdomid32" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">(
+</span><span class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80z8rz73zp5 url=
+"><a href=3D"https://github.com/qemu/qemu/blob/master/block/file-posix.c#L2=
+601" id=3D"LPlnk419862" previewremoved=3D"true">https://github.com/qemu/qem=
+u/blob/master/block/file-posix.c#L2601</a></span><span class=3D"author-a-9z=
+74zz70zyz84z9z89zz84zz73zhz80z8rz73zp5">
+ )</span></div>
+<div id=3D"magicdomid33" class=3D""><br>
+</div>
+<div id=3D"magicdomid34" class=3D""><span class=3D"author-a-z87zz78zf6enp3z=
+67ziz84zqz90zo3z70z">Do you have a way
+</span><span class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80z8rz73zp5">to=
+ avoid the &quot;lseek&quot; mechanism as it consumes more resources to fin=
+d the holes in the disk and don't let any for the VM ?</span></div>
+<div id=3D"magicdomid35" class=3D""><br>
+</div>
+<div id=3D"magicdomid36" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5"><br>
+</span></div>
+<div id=3D"magicdomid37" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">Server hosting the VM :&nbsp;</span></div>
+<div id=3D"magicdomid38" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">&nbsp;&nbsp;&nbsp; -
+</span><span class=3D"author-a-z87zz78zf6enp3z67ziz84zqz90zo3z70z">Bi-Xeon =
+hosts With
+</span><span class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80z8rz73zp5">NV=
+ME storage and 10 Go Network card</span></div>
+<div id=3D"magicdomid39" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">&nbsp;&nbsp;&nbsp; - Qemu 4.0 And Libvirt 5.4</s=
+pan></div>
+<div id=3D"magicdomid40" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">&nbsp;&nbsp;&nbsp; - Kernel 4.18.0.25</span></di=
+v>
+<div id=3D"magicdomid41" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5"><br>
+</span></div>
+<div class=3D""><span class=3D"author-a-9z74zz70zyz84z9z89zz84zz73zhz80z8rz=
+73zp5">Guest having the issue :&nbsp;</span></div>
+<div id=3D"magicdomid42" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">&nbsp;&nbsp;&nbsp; - raw image with Debian 8</sp=
+an></div>
+<div id=3D"magicdomid43" class=3D""><br>
+</div>
+<div id=3D"magicdomid44" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">Here the qemu img on the disk :&nbsp;</span></di=
+v>
+<div id=3D"magicdomid45" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">&gt; qemu-img info disk</span></div>
+<div id=3D"magicdomid46" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">image: disk</span></div>
+<div id=3D"magicdomid47" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">file format: raw</span></div>
+<div id=3D"magicdomid48" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">virtual size: 400G (429496729600 bytes)</span></=
+div>
+<div id=3D"magicdomid49" class=3D""><span class=3D"author-a-9z74zz70zyz84z9=
+z89zz84zz73zhz80z8rz73zp5">disk size: 400G</span></div>
+<div id=3D"magicdomid50" class=3D""><br>
+<br>
+</div>
+Quentin GROLLEAU</div>
+<div class=3D""><br>
+</div>
+<p></p>
+</div>
+</body>
+</html>
 
-Ok, thanks for all the input, will need some time to process,
-
-thanks,
-
-Claudio
+--_000_e6f25c7e67ce4cfea5e01e4e46f0a3d8ovhcloudcom_--
 
