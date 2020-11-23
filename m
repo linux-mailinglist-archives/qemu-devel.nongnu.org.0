@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C3D2C1810
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:59:53 +0100 (CET)
-Received: from localhost ([::1]:42598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2692F2C185C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 23:26:22 +0100 (CET)
+Received: from localhost ([::1]:56190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khJsF-0005dG-J9
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:59:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43058)
+	id 1khKHs-0004pN-Jy
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 17:26:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1khJpq-00055g-NZ
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 16:57:22 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41805)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1khKFv-0004MH-Kz
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 17:24:19 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1khJpm-0001R1-GN
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 16:57:22 -0500
-Received: by mail-oi1-x241.google.com with SMTP id m13so21395076oih.8
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 13:57:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d7uyXmjsSZzzgR9qvvjOBjUaW5TzZMh1a0Ph1rC7u4M=;
- b=fIGrB9jaw9l+ygO2KLtkkuau/IDyZZ4Mtj001lA1NsF6oDWeuuPgLf4/Fk46mfAvs3
- iJDoTOJMUOfzDHcNyzXEhP+eDg3ehpGfxYu9domMumZGqFJEXpi/t1vXdvbZ82Y316jl
- Yb1+JIXvCUVA4n+CsXCgRwhiaVI9HEqKDkRZhGCKWXWZ3Zi8ZyFrew97IJcm8Q90RpCR
- VKnA2y3ToN7fNelvVzWoyRBq2+vEuhmzxwZeM5Eri5YSbDFtzbBu5o0/CMqPMHeJUIc5
- dL+YCVfJf+EU+d8rSCv8X8ZyduSAf9aRDZFp3zmWGSPxb3lmqDoJ4TAXIV52KWwba+VD
- UeHQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1khKFt-00021p-Mk
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 17:24:19 -0500
+Received: by mail-wr1-x442.google.com with SMTP id r17so20414948wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:24:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=p5JcNMCcSDgShjyrYXPu0330uQzTFNfvU94gJ/MD+qI=;
+ b=D0mkHjBHA0oC6Nt0JonciyGAr2TgEksk3ZmHwfZ79Nc7VlwkxBwP3q6eEpHf5wCy2o
+ YHT3OOKmNzeaodAlHikMlxe5cNLyKPvv5y43Lk5tszRvjo5j7uZPX79Qas4K4asxzvUf
+ h+9THDSY+qC8cKSKSHuG8+yJWNRQqlDcoIkZeyfFD4uIkNBhzH7Ul/u5COH92kKSPoID
+ qIb/+C2tv8+VxRSyfe4P6gNMUANlHhfU8crWQfKl0bwDO7O/Zfr3obZmhFaXvIx3+gEF
+ y+FJiRIDrpO/+/SGTH4RyvaAKCYRqKpyAM46CfJ+kBWmyvdRU2h/VejEawIpi/JejuUb
+ srVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=d7uyXmjsSZzzgR9qvvjOBjUaW5TzZMh1a0Ph1rC7u4M=;
- b=XCEaJviOthX4zfzeDOwye8Adwc/jVsEm16bwnIrtiSK+wOLLxDHgiXywNKeddf4H+6
- sW5G3vvZcD5FiOOypE9wRTYy4UYSAycFNw6FKjkXPWVcPsYJvHOp9byF6w6xbH/U+9r6
- Fw5SdM8W0iyqaHzbPx8ZyKF4IP0FG5jrmasxbVEtMDQedMFqS6+KmR0uTqIh6wL/KeCu
- cfoxamDpHHB85eJBr+lzQKlvl9QKIOF6GdBcoqvWUu8NdVaIUo6+RmUVgL3EVJb4Qcrr
- xE02cVfyTkw7YVMsyo0JtMHh/ztw7N/9zuycr1IJTXfaY72JgcUg/Cl51WPvUVM/T7Rw
- 8NVQ==
-X-Gm-Message-State: AOAM530U+wQZV603hEGlAj9dqslQyCWyGAXicBhnsTwjsoVREzRvAsKd
- 6GwUdzOblSqPt2StXQVSVT6EgkGAjNEXSYr4AdtE6A==
-X-Google-Smtp-Source: ABdhPJz0gcOKlM89zdF55Adzrq7c1a2wRoXaWrG61MuYqt1JBfcp2zvhsBaAGgLy0VrINpCMbWCAyXsb4aFj5L724bo=
-X-Received: by 2002:aca:5286:: with SMTP id g128mr722094oib.91.1606168636175; 
- Mon, 23 Nov 2020 13:57:16 -0800 (PST)
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=p5JcNMCcSDgShjyrYXPu0330uQzTFNfvU94gJ/MD+qI=;
+ b=StbBagIARerg9WQKNHC/XPdGFCq/pO8Z8R14zoXiPoPmHNwPe/LNgSObRxoAA6pwx0
+ iaE3Ww92D2Pn5fPjxIVwUFc7/kBPvydUIA9xKY0ltJIxcTzOLBUi/k37RMwC6EzIdQg2
+ xlewJpE78SbzSLm6o9jTQxK/ANIE4ePkMya8QQ+Hcm40MKt6aqOHVvhB9gqO9Dr3a4u7
+ neY5har4MEDIXZb4TEe6h3kdp6iPqD1FU33GBABqpTpRPOL5sE9e4GEsVg7dlDDBKMcu
+ UvSTWdgDO0aQCEL1tW0IX8Zu3Bv1zU+BMDcilTLPjZWdgc8fWzxieCPCQlzKVxmJlXI8
+ rfXg==
+X-Gm-Message-State: AOAM530QRL8JtMRABSS2Xde1b1vwqPEvG5tm9TdNavNLr6+QqraBl7pC
+ bfeTjXZmmMkPsdhr86qoxrA=
+X-Google-Smtp-Source: ABdhPJzWlp8C4E5DS5gkkKWtKhJbYpHo0YxP5a3Sx/bPj26eDfLSflJJBXn4ZwRybFWNSc9BzWaeLg==
+X-Received: by 2002:adf:ed02:: with SMTP id a2mr1910471wro.81.1606170255801;
+ Mon, 23 Nov 2020 14:24:15 -0800 (PST)
+Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id 34sm14999175wrh.78.2020.11.23.14.24.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Nov 2020 14:24:14 -0800 (PST)
+Subject: Re: [PATCH V17 2/6] hw/intc: Rework Loongson LIOINTC
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Huacai Chen <zltjiangshi@gmail.com>
+References: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
+ <1604636510-8347-3-git-send-email-chenhc@lemote.com>
+ <a70dae49-2a47-12bc-f580-640f032b78fd@amsat.org>
+Message-ID: <a60e002b-b102-a7b9-3de7-bb355319f8e1@amsat.org>
+Date: Mon, 23 Nov 2020 23:24:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20200716035532.1407660-1-andrew@daynix.com>
- <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
- <874klk5gnc.fsf@dusky.pond.sub.org>
- <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
- <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
- <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
- <87lfesv2zu.fsf@dusky.pond.sub.org>
- <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
-In-Reply-To: <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Mon, 23 Nov 2020 23:57:04 +0200
-Message-ID: <CAOEp5Of_4R5gXLT3AoGYhLwX46jhB7RXZzojNN6DsQ91Gbz1Yg@mail.gmail.com>
-Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
- qmp_marshal_netdev_add()
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000024db005b4cd471a"
-Received-SPF: none client-ip=2607:f8b0:4864:20::241;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-oi1-x241.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <a70dae49-2a47-12bc-f580-640f032b78fd@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,260 +90,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnichenko <andrew@daynix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000024db005b4cd471a
-Content-Type: text/plain; charset="UTF-8"
-
-The patch below solves both issues: with netdev created by hmp and with
-netdev created from command-line:
-
-diff --git a/net/net.c b/net/net.c
-index bcd5da4aa0..98294f24ed 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1155,6 +1155,11 @@ void qmp_netdev_del(const char *id, Error **errp)
-     }
-
-     qemu_del_net_client(nc);
-+
-+    QemuOpts *opts = qemu_opts_find(qemu_find_opts("netdev"), id);
-+    if (opts) {
-+        qemu_opts_del(opts);
-+    }
- }
-
-static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
-
-Please let me know if you have any objections.
-If not, I'll send it as a patch.
-
-
-On Mon, Nov 23, 2020 at 5:35 PM Yuri Benditovich <
-yuri.benditovich@daynix.com> wrote:
-
->
->
-> On Mon, Nov 23, 2020 at 11:25 AM Markus Armbruster <armbru@redhat.com>
-> wrote:
->
->> Andrew Melnichenko <andrew@daynix.com> writes:
+On 11/23/20 9:52 PM, Philippe Mathieu-Daudé wrote:
+> On 11/6/20 5:21 AM, Huacai Chen wrote:
+>> As suggested by Philippe Mathieu-Daudé, rework Loongson's liointc:
+>> 1, Move macro definitions to loongson_liointc.h;
+>> 2, Remove magic values and use macros instead;
+>> 3, Replace dead D() code by trace events.
 >>
->> > --000000000000f73b2205b4aef0c5
->> > Content-Type: text/plain; charset="UTF-8"
->> >
->> > Hi, the bug can be reproduced like that:
->> >
->> >> QEMU 5.1.50 monitor - type 'help' for more information
->> >> (qemu) netdev_add
->> >> type=tap,id=net0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
->> >> (qemu) info network
->> >> hub 0
->> >>  \ hub0port1: __org.qemu.net1:
->> index=0,type=user,net=10.0.2.0,restrict=off
->> >>  \ hub0port0: e1000e.0:
->> >> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
->> >> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
->> >> net0:
->> >>
->> index=0,type=tap,ifname=tap0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
->> >> (qemu) netdev_del net0
->> >> (qemu) info network
->> >> hub 0
->> >>  \ hub0port1: __org.qemu.net1:
->> index=0,type=user,net=10.0.2.0,restrict=off
->> >>  \ hub0port0: e1000e.0:
->> >> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
->> >> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
->> >> (qemu) netdev_add
->> >> type=tap,id=net0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
->> >> Try "help netdev_add" for more information
->> >> (qemu) info network
->> >> hub 0
->> >>  \ hub0port1: __org.qemu.net1:
->> index=0,type=user,net=10.0.2.0,restrict=off
->> >>  \ hub0port0: e1000e.0:
->> >> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
->> >> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
->> >> (qemu)
->> >>
->> >>
->> > Its still actual bug - I've checked it with the
->> > master(2c6605389c1f76973d92b69b85d40d94b8f1092c).
+>> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+>> ---
+>>  hw/intc/loongson_liointc.c         | 49 +++++++++++---------------------------
+>>  include/hw/intc/loongson_liointc.h | 39 ++++++++++++++++++++++++++++++
+>>  2 files changed, 53 insertions(+), 35 deletions(-)
+>>  create mode 100644 include/hw/intc/loongson_liointc.h
 >>
->> I can see this with an even simpler reproducer:
->>
->>     $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio
->>     QEMU 5.1.92 monitor - type 'help' for more information
->>     (qemu) netdev_add user,id=net0
->>     (qemu) info network
->>     net0: index=0,type=user,net=10.0.2.0,restrict=off
->>     (qemu) netdev_del net0
->>     (qemu) info network
->>     (qemu) netdev_add user,id=net0
->>     upstream-qemu: Duplicate ID 'net0' for netdev
->>     Try "help netdev_add" for more information
->>
->> The appended patch fixes it for me.  It relies on nothing using the
->> "netdev" QemuOpts anymore.  Eric, what do you think?
->>
->>
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index a6a6684df1..8bc6b7bcc6 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -1638,9 +1638,7 @@ void hmp_netdev_add(Monitor *mon, const QDict
->> *qdict)
+>> diff --git a/hw/intc/loongson_liointc.c b/hw/intc/loongson_liointc.c
+>> index fbbfb57..be29e2f 100644
+>> --- a/hw/intc/loongson_liointc.c
+>> +++ b/hw/intc/loongson_liointc.c
+>> @@ -1,6 +1,7 @@
+>>  /*
+>>   * QEMU Loongson Local I/O interrupt controler.
+>>   *
+>> + * Copyright (c) 2020 Huacai Chen <chenhc@lemote.com>
+>>   * Copyright (c) 2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
+>>   *
+>>   * This program is free software: you can redistribute it and/or modify
+>> @@ -19,33 +20,11 @@
+>>   */
+>>  
+>>  #include "qemu/osdep.h"
+>> -#include "hw/sysbus.h"
+>>  #include "qemu/module.h"
+>> +#include "qemu/log.h"
+>>  #include "hw/irq.h"
+>>  #include "hw/qdev-properties.h"
+>> -#include "qom/object.h"
+>> -
+>> -#define D(x)
+>> -
+>> -#define NUM_IRQS                32
+>> -
+>> -#define NUM_CORES               4
+>> -#define NUM_IPS                 4
+>> -#define NUM_PARENTS             (NUM_CORES * NUM_IPS)
+>> -#define PARENT_COREx_IPy(x, y)  (NUM_IPS * x + y)
+>> -
+>> -#define R_MAPPER_START          0x0
+>> -#define R_MAPPER_END            0x20
+>> -#define R_ISR                   R_MAPPER_END
+>> -#define R_IEN                   0x24
+>> -#define R_IEN_SET               0x28
+>> -#define R_IEN_CLR               0x2c
+>> -#define R_PERCORE_ISR(x)        (0x40 + 0x8 * x)
+>> -#define R_END                   0x64
+>> -
+>> -#define TYPE_LOONGSON_LIOINTC "loongson.liointc"
+>> -DECLARE_INSTANCE_CHECKER(struct loongson_liointc, LOONGSON_LIOINTC,
+>> -                         TYPE_LOONGSON_LIOINTC)
+>> +#include "hw/intc/loongson_liointc.h"
+>>  
+>>  struct loongson_liointc {
+>>      SysBusDevice parent_obj;
+>> @@ -123,14 +102,13 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
+>>          goto out;
 >>      }
->>
->>      netdev_add(opts, &err);
->> -    if (err) {
->> -        qemu_opts_del(opts);
->> -    }
->> +    qemu_opts_del(opts);
->>
->>
-> Unfortunately, if I'm not mistaken, with this fix qemu will be able to
-> create from hmp several devices with the same id
-> (which is not expected).
-> For example:
-> netdev_add user,id=net0
-> netdev_add user,id=net0
-> info network lists 2 devices net0
->
->
->
+>>  
+>> -    /* Rest is 4 byte */
+>> +    /* Rest are 4 bytes */
+>>      if (size != 4 || (addr % 4)) {
+>>          goto out;
+>>      }
+>>  
+>> -    if (addr >= R_PERCORE_ISR(0) &&
+>> -        addr < R_PERCORE_ISR(NUM_CORES)) {
+>> -        int core = (addr - R_PERCORE_ISR(0)) / 8;
+>> +    if (addr >= R_START && addr < R_END) {
+>> +        int core = (addr - R_START) / R_ISR_SIZE;
+>>          r = p->per_core_isr[core];
+>>          goto out;
+>>      }
+>> @@ -147,7 +125,8 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
+>>      }
+>>  
 >>  out:
->>      hmp_handle_error(mon, err);
+>> -    D(qemu_log("%s: size=%d addr=%lx val=%x\n", __func__, size, addr, r));
+>> +    qemu_log_mask(CPU_LOG_INT, "%s: size=%d addr=%lx val=%x\n",
+>> +                  __func__, size, addr, r);
+>>      return r;
+>>  }
+>>  
+>> @@ -158,7 +137,8 @@ liointc_write(void *opaque, hwaddr addr,
+>>      struct loongson_liointc *p = opaque;
+>>      uint32_t value = val64;
+>>  
+>> -    D(qemu_log("%s: size=%d, addr=%lx val=%x\n", __func__, size, addr, value));
+>> +    qemu_log_mask(CPU_LOG_INT, "%s: size=%d, addr=%lx val=%x\n",
+>> +                  __func__, size, addr, value);
+>>  
+>>      /* Mapper is 1 byte */
+>>      if (size == 1 && addr < R_MAPPER_END) {
+>> @@ -166,14 +146,13 @@ liointc_write(void *opaque, hwaddr addr,
+>>          goto out;
+>>      }
+>>  
+>> -    /* Rest is 4 byte */
+>> +    /* Rest are 4 bytes */
+>>      if (size != 4 || (addr % 4)) {
+>>          goto out;
+>>      }
+>>  
+>> -    if (addr >= R_PERCORE_ISR(0) &&
+>> -        addr < R_PERCORE_ISR(NUM_CORES)) {
+>> -        int core = (addr - R_PERCORE_ISR(0)) / 8;
+>> +    if (addr >= R_START && addr < R_END) {
+>> +        int core = (addr - R_START) / R_ISR_SIZE;
+>>          p->per_core_isr[core] = value;
+>>          goto out;
+>>      }
+>> @@ -224,7 +203,7 @@ static void loongson_liointc_init(Object *obj)
+>>      }
+>>  
+>>      memory_region_init_io(&p->mmio, obj, &pic_ops, p,
+>> -                         "loongson.liointc", R_END);
+>> +                         TYPE_LOONGSON_LIOINTC, R_END);
+>>      sysbus_init_mmio(SYS_BUS_DEVICE(obj), &p->mmio);
+>>  }
+>>  
+>> diff --git a/include/hw/intc/loongson_liointc.h b/include/hw/intc/loongson_liointc.h
+>> new file mode 100644
+>> index 0000000..e11f482
+>> --- /dev/null
+>> +++ b/include/hw/intc/loongson_liointc.h
+>> @@ -0,0 +1,39 @@
+>> +/*
+>> + * This file is subject to the terms and conditions of the GNU General Public
+>> + * License.  See the file "COPYING" in the main directory of this archive
+>> + * for more details.
+>> + *
+>> + * Copyright (c) 2020 Huacai Chen <chenhc@lemote.com>
+>> + * Copyright (c) 2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
+>> + *
+>> + */
+>> +
+>> +#ifndef LOONSGON_LIOINTC_H
+>> +#define LOONGSON_LIOINTC_H
+
+Clang is smart:
+
+hw/intc/loongson_liointc.h:11:9: error: 'LOONSGON_LIOINTC_H' is used as
+a header guard here, followed by #define of a different macro
+[-Werror,-Wheader-guard]
+#ifndef LOONSGON_LIOINTC_H
+        ^~~~~~~~~~~~~~~~~~
+include/hw/intc/loongson_liointc.h:12:9: note: 'LOONGSON_LIOINTC_H' is
+defined here; did you mean 'LOONSGON_LIOINTC_H'?
+#define LOONGSON_LIOINTC_H
+        ^~~~~~~~~~~~~~~~~~
+        LOONSGON_LIOINTC_H
+1 error generated.
+
+Once fixed:
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+>> +
+>> +#include "qemu/units.h"
+>> +#include "hw/sysbus.h"
+>> +#include "qom/object.h"
+>> +
+>> +#define NUM_IRQS                32
+>> +
+>> +#define NUM_CORES               4
+>> +#define NUM_IPS                 4
+>> +#define NUM_PARENTS             (NUM_CORES * NUM_IPS)
+>> +#define PARENT_COREx_IPy(x, y)  (NUM_IPS * x + y)
+>> +
+>> +#define R_MAPPER_START          0x0
+>> +#define R_MAPPER_END            0x20
+>> +#define R_ISR                   R_MAPPER_END
+>> +#define R_IEN                   0x24
+>> +#define R_IEN_SET               0x28
+>> +#define R_IEN_CLR               0x2c
+>> +#define R_ISR_SIZE              0x8
+>> +#define R_START                 0x40
+>> +#define R_END                   0x64
+> 
+> Can we keep the R_* definitions local in the .c?
+> (if you agree I can amend that when applying).
+> 
+> Thanks for cleaning!
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+>> +
+>> +#define TYPE_LOONGSON_LIOINTC "loongson.liointc"
+>> +DECLARE_INSTANCE_CHECKER(struct loongson_liointc, LOONGSON_LIOINTC,
+>> +                         TYPE_LOONGSON_LIOINTC)
+>> +
+>> +#endif /* LOONGSON_LIOINTC_H */
 >>
->>
-
---000000000000024db005b4cd471a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">The patch below solves both=C2=A0issues: with netdev creat=
-ed by hmp and with netdev created from command-line:<div><br></div><div>dif=
-f --git a/net/net.c b/net/net.c<br>index bcd5da4aa0..98294f24ed 100644<br>-=
--- a/net/net.c<br>+++ b/net/net.c<br>@@ -1155,6 +1155,11 @@ void qmp_netdev=
-_del(const char *id, Error **errp)<br>=C2=A0 =C2=A0 =C2=A0}<br><br>=C2=A0 =
-=C2=A0 =C2=A0qemu_del_net_client(nc);<br>+<br>+ =C2=A0 =C2=A0QemuOpts *opts=
- =3D qemu_opts_find(qemu_find_opts(&quot;netdev&quot;), id);<br>+ =C2=A0 =
-=C2=A0if (opts) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_opts_del(opts);<br>+=
- =C2=A0 =C2=A0}<br>=C2=A0}</div><div><br></div><div>static void netfilter_p=
-rint_info(Monitor *mon, NetFilterState *nf)<br></div><div><br></div><div>Pl=
-ease let me know if you have=C2=A0any objections.</div><div>If not, I&#39;l=
-l send it as a patch.</div><div><br></div></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 23, 2020 at 5:35 PM Y=
-uri Benditovich &lt;<a href=3D"mailto:yuri.benditovich@daynix.com">yuri.ben=
-ditovich@daynix.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 23, 20=
-20 at 11:25 AM Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" t=
-arget=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">Andrew Melnichenko &lt;<a href=3D"mailto:=
-andrew@daynix.com" target=3D"_blank">andrew@daynix.com</a>&gt; writes:<br>
-<br>
-&gt; --000000000000f73b2205b4aef0c5<br>
-&gt; Content-Type: text/plain; charset=3D&quot;UTF-8&quot;<br>
-&gt;<br>
-&gt; Hi, the bug can be reproduced like that:<br>
-&gt;<br>
-&gt;&gt; QEMU 5.1.50 monitor - type &#39;help&#39; for more information<br>
-&gt;&gt; (qemu) netdev_add<br>
-&gt;&gt; type=3Dtap,id=3Dnet0,script=3D/home/and/SRCS/qemu/ifup.sh,downscri=
-pt=3Dno<br>
-&gt;&gt; (qemu) info network<br>
-&gt;&gt; hub 0<br>
-&gt;&gt;=C2=A0 \ hub0port1: __org.qemu.net1: index=3D0,type=3Duser,net=3D10=
-.0.2.0,restrict=3Doff<br>
-&gt;&gt;=C2=A0 \ hub0port0: e1000e.0:<br>
-&gt;&gt; index=3D0,type=3Dnic,model=3De1000e,macaddr=3D52:54:00:12:34:56<br=
->
-&gt;&gt; dnet0: index=3D0,type=3Dnic,model=3Dvirtio-net-pci,macaddr=3D52:54=
-:00:12:34:57<br>
-&gt;&gt; net0:<br>
-&gt;&gt; index=3D0,type=3Dtap,ifname=3Dtap0,script=3D/home/and/SRCS/qemu/if=
-up.sh,downscript=3Dno<br>
-&gt;&gt; (qemu) netdev_del net0<br>
-&gt;&gt; (qemu) info network<br>
-&gt;&gt; hub 0<br>
-&gt;&gt;=C2=A0 \ hub0port1: __org.qemu.net1: index=3D0,type=3Duser,net=3D10=
-.0.2.0,restrict=3Doff<br>
-&gt;&gt;=C2=A0 \ hub0port0: e1000e.0:<br>
-&gt;&gt; index=3D0,type=3Dnic,model=3De1000e,macaddr=3D52:54:00:12:34:56<br=
->
-&gt;&gt; dnet0: index=3D0,type=3Dnic,model=3Dvirtio-net-pci,macaddr=3D52:54=
-:00:12:34:57<br>
-&gt;&gt; (qemu) netdev_add<br>
-&gt;&gt; type=3Dtap,id=3Dnet0,script=3D/home/and/SRCS/qemu/ifup.sh,downscri=
-pt=3Dno<br>
-&gt;&gt; Try &quot;help netdev_add&quot; for more information<br>
-&gt;&gt; (qemu) info network<br>
-&gt;&gt; hub 0<br>
-&gt;&gt;=C2=A0 \ hub0port1: __org.qemu.net1: index=3D0,type=3Duser,net=3D10=
-.0.2.0,restrict=3Doff<br>
-&gt;&gt;=C2=A0 \ hub0port0: e1000e.0:<br>
-&gt;&gt; index=3D0,type=3Dnic,model=3De1000e,macaddr=3D52:54:00:12:34:56<br=
->
-&gt;&gt; dnet0: index=3D0,type=3Dnic,model=3Dvirtio-net-pci,macaddr=3D52:54=
-:00:12:34:57<br>
-&gt;&gt; (qemu)<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; Its still actual bug - I&#39;ve checked it with the<br>
-&gt; master(2c6605389c1f76973d92b69b85d40d94b8f1092c).<br>
-<br>
-I can see this with an even simpler reproducer:<br>
-<br>
-=C2=A0 =C2=A0 $ qemu-system-x86_64 -S -display none -nodefaults -monitor st=
-dio<br>
-=C2=A0 =C2=A0 QEMU 5.1.92 monitor - type &#39;help&#39; for more informatio=
-n<br>
-=C2=A0 =C2=A0 (qemu) netdev_add user,id=3Dnet0<br>
-=C2=A0 =C2=A0 (qemu) info network<br>
-=C2=A0 =C2=A0 net0: index=3D0,type=3Duser,net=3D10.0.2.0,restrict=3Doff<br>
-=C2=A0 =C2=A0 (qemu) netdev_del net0<br>
-=C2=A0 =C2=A0 (qemu) info network<br>
-=C2=A0 =C2=A0 (qemu) netdev_add user,id=3Dnet0<br>
-=C2=A0 =C2=A0 upstream-qemu: Duplicate ID &#39;net0&#39; for netdev<br>
-=C2=A0 =C2=A0 Try &quot;help netdev_add&quot; for more information<br>
-<br>
-The appended patch fixes it for me.=C2=A0 It relies on nothing using the<br=
->
-&quot;netdev&quot; QemuOpts anymore.=C2=A0 Eric, what do you think?<br>
-<br>
-<br>
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c<br>
-index a6a6684df1..8bc6b7bcc6 100644<br>
---- a/monitor/hmp-cmds.c<br>
-+++ b/monitor/hmp-cmds.c<br>
-@@ -1638,9 +1638,7 @@ void hmp_netdev_add(Monitor *mon, const QDict *qdict)=
-<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0netdev_add(opts, &amp;err);<br>
--=C2=A0 =C2=A0 if (err) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_opts_del(opts);<br>
--=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 qemu_opts_del(opts);<br>
-<br></blockquote><div><br></div><div>Unfortunately, if I&#39;m not mistaken=
-, with this fix qemu will be able to create from hmp several devices with t=
-he same id</div><div>(which is not expected).</div><div>For example:</div><=
-div>netdev_add user,id=3Dnet0</div><div>netdev_add user,id=3Dnet0</div><div=
->info network lists 2 devices net0</div><div><br></div><div>=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0out:<br>
-=C2=A0 =C2=A0 =C2=A0hmp_handle_error(mon, err);<br>
-<br>
-</blockquote></div></div>
-</blockquote></div>
-
---000000000000024db005b4cd471a--
+> 
 
