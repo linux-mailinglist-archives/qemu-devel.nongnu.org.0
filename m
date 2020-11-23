@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1765C2C14C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 20:52:51 +0100 (CET)
-Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233212C14C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 20:54:39 +0100 (CET)
+Received: from localhost ([::1]:60940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khHtK-00088G-2U
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 14:52:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58732)
+	id 1khHv4-0002FN-0h
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 14:54:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khHpQ-0006Cp-92
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44693)
+ id 1khHpK-00069T-Pw
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khHpO-0007lk-4Z
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:48 -0500
+ id 1khHpH-0007jz-TC
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 14:48:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606160923;
+ s=mimecast20190719; t=1606160918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KCJ3F5piHSCFTXqtybKk/yRZJKA7CcQobZuLyCQSt3A=;
- b=Iq+2YLQdcHnCeuCcwiEj11v3uFzL9/fBmLKBPrFTD7p0QXe/NrpDDMSYKDQf/kSsF+kkAW
- TMu8FrLHCn1vhkvRdyVchVWHTDFkZQ2Y4froTYDbhBfqaPqbBo3o7OiVBaRvifU6f5Cgzt
- Yo0USpa8RrBdgsoH22KHICaKR0PDOMI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GZo5wy4nPrfx/mSiUDTwi2pKM+9qGPHBm6ffZ/XCySk=;
+ b=N6W/TLyt25CA8h20ipcU0wUBAPPRjMdVkf1df/HO1visK9RxMv30PVWDki+ohbjcle6p9X
+ Y/P6MbgM0EcMTZgwaCx/J3RFp1KY+G3CgIMifzTp8KpFc8mS8hiNhxxPSaFuwfVXeSef10
+ u1meVnjNFstGexcg8ILYIMNAyp60GFQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-OENu5oftPtCFt-jTQnm3vg-1; Mon, 23 Nov 2020 14:48:36 -0500
-X-MC-Unique: OENu5oftPtCFt-jTQnm3vg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-528-bNoAumd8NvqXgUj9KR4amg-1; Mon, 23 Nov 2020 14:48:36 -0500
+X-MC-Unique: bNoAumd8NvqXgUj9KR4amg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0E8484A5F2
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 19:48:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6827F1007483
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 19:48:22 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 67D4560C04;
- Mon, 23 Nov 2020 19:48:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 28BE15D6DC;
+ Mon, 23 Nov 2020 19:48:22 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/19] qom: Use qlit to represent property defaults
-Date: Mon, 23 Nov 2020 14:47:59 -0500
-Message-Id: <20201123194818.2773508-1-ehabkost@redhat.com>
+Subject: [PATCH v3 01/19] qnum: Make qnum_get_double() get const pointer
+Date: Mon, 23 Nov 2020 14:48:00 -0500
+Message-Id: <20201123194818.2773508-2-ehabkost@redhat.com>
+In-Reply-To: <20201123194818.2773508-1-ehabkost@redhat.com>
+References: <20201123194818.2773508-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -83,88 +86,43 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: 20201104160021.2342108-1-ehabkost@redhat.com=0D
-Git branch: https://gitlab.com/ehabkost/qemu/-/commits/work/qdev-qlit-defau=
-lts=0D
-=0D
-This extend qlit.h to support all QNum types (signed int,=0D
-unsigned int, and double), and use QLitObject to represent field=0D
-property defaults.=0D
-=0D
-It allows us to get rid of most type-specific .set_default_value=0D
-functions for QOM property types.=0D
-=0D
-The only remaining .set_default_value function in the code is=0D
-field_prop_set_default_value_enum().  This will take a bit more=0D
-work because the default is currently stored as int, but parsed=0D
-as string, so it will be addressed in a separate series.=0D
-=0D
-Changes v2 -> v3:=0D
-=0D
-* qnum/qlit patches:=0D
-  * Variable naming in qnum code=0D
-  * Coding style changes in qnum code=0D
-  * Split "qlit: Support all types of QNums"=0D
-    in smaller patches=0D
-  * Replace QLIT_QNUM with QLIT_QNUM_INT=0D
-  * Extend test cases, move most of the new test case code to=0D
-    check-qlit.c=0D
-  * Remove qnum_get_value() and qlit_get_type() function=0D
-  * Removed kernel-doc conversion patch, to reduce noise in series review=
-=0D
-* qom patches:=0D
-  * Split "qom: Use qlit to represent property defaults" in=0D
-    smaller patches, hopefully making review easier=0D
-  * Small changes in UUID property code (See=0D
-    "qom: Don't ignore defval on UUID property" and=0D
-    "qom: Fix documentation of UUID property type")=0D
-=0D
-Changes v1 -> v2:=0D
-* Rebase to latest version of field properties series=0D
-* Fix unit test failure=0D
-* Coding style changes=0D
-=0D
-Eduardo Habkost (19):=0D
-  qnum: Make qnum_get_double() get const pointer=0D
-  qnum: Make num_x/num_y variables at qnum_is_equal() const=0D
-  qnum: QNumValue type for QNum value literals=0D
-  qnum: qnum_value_is_equal() function=0D
-  qlit: Use qnum_value_is_equal() when comparing QNums=0D
-  qlit: Rename QLIT_QNUM to QLIT_QNUM_INT=0D
-  qlit: Use QNumValue to represent QNums=0D
-  qlit: Move qlit_equal_qobject() reference values to array=0D
-  qlit: Add more test literals to qlit_equal_qobject() test case=0D
-  qlit: Support all types of QNums=0D
-  qom: field_prop_set_default_value() helper=0D
-  qom: Replace defval value in Property with QLitObject=0D
-  qom: Fix documentation of UUID property type=0D
-  qom: Don't ignore defval on UUID property=0D
-  qom: Make object_property_set_default() public=0D
-  qom: Make PropertyInfo.set_default_value optional=0D
-  qom: Delete field_prop_set_default_value_*int()=0D
-  qom: Delete set_default_uuid()=0D
-  qom: Delete set_default_value_bool()=0D
-=0D
- include/hw/qdev-properties-system.h   |   4 +-=0D
- include/qapi/qmp/qlit.h               |  11 ++-=0D
- include/qapi/qmp/qnum.h               |  26 +++++-=0D
- include/qom/field-property-internal.h |   7 +-=0D
- include/qom/field-property.h          |  30 +++----=0D
- include/qom/object.h                  |  11 +++=0D
- include/qom/property-types.h          |  18 ++--=0D
- hw/core/qdev-properties-system.c      |  13 +--=0D
- qobject/qlit.c                        |   5 +-=0D
- qobject/qnum.c                        | 113 ++++++++++++++------------=0D
- qom/field-property.c                  |  36 ++++++--=0D
- qom/object.c                          |   2 +-=0D
- qom/property-types.c                  |  37 ++-------=0D
- tests/check-qjson.c                   |  30 +++----=0D
- tests/check-qlit.c                    |  72 +++++++++++++---=0D
- tests/check-qnum.c                    |  14 ++--=0D
- 16 files changed, 253 insertions(+), 176 deletions(-)=0D
-=0D
---=20=0D
-2.28.0=0D
-=0D
+qnum_get_double() won't change the object, the argument can be
+const.
+
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ include/qapi/qmp/qnum.h | 2 +-
+ qobject/qnum.c          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/qapi/qmp/qnum.h b/include/qapi/qmp/qnum.h
+index bbae0a5ec8..3e9ecd324e 100644
+--- a/include/qapi/qmp/qnum.h
++++ b/include/qapi/qmp/qnum.h
+@@ -64,7 +64,7 @@ int64_t qnum_get_int(const QNum *qn);
+ bool qnum_get_try_uint(const QNum *qn, uint64_t *val);
+ uint64_t qnum_get_uint(const QNum *qn);
+ 
+-double qnum_get_double(QNum *qn);
++double qnum_get_double(const QNum *qn);
+ 
+ char *qnum_to_string(QNum *qn);
+ 
+diff --git a/qobject/qnum.c b/qobject/qnum.c
+index 7012fc57f2..d328d91fcb 100644
+--- a/qobject/qnum.c
++++ b/qobject/qnum.c
+@@ -144,7 +144,7 @@ uint64_t qnum_get_uint(const QNum *qn)
+  *
+  * qnum_get_double() loses precision for integers beyond 53 bits.
+  */
+-double qnum_get_double(QNum *qn)
++double qnum_get_double(const QNum *qn)
+ {
+     switch (qn->kind) {
+     case QNUM_I64:
+-- 
+2.28.0
 
 
