@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A027C2C0A90
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 14:47:44 +0100 (CET)
-Received: from localhost ([::1]:56612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5EF72C0A88
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 14:45:43 +0100 (CET)
+Received: from localhost ([::1]:53852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khCBz-0000k1-Mm
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 08:47:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57962)
+	id 1khCA2-0007sq-UI
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 08:45:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1khC9W-0007zo-L9
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:45:10 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:49858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1khC9T-0005Jw-LB
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:45:10 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0ANDcevM118824
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 13:44:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : from : to :
- references : message-id : date : mime-version : in-reply-to : content-type
- : content-transfer-encoding; s=corp-2020-01-29;
- bh=ZBkIlN0RF6a0tzWNTcjDLgIGdoGduTpjPO7yKnjzj6E=;
- b=feqzVObMIAnoBwhooLrTg16jgsOZQ0UrM+DgpiGm+umY/XANPatvccX9UhyGiZoOmOZe
- c+PJa9GHD8YrMWufBmrK/Yb4tth94qrEZuhNWLlvU0tFOYa1ofrz/pdii6QjpBorBp9E
- if4CE5ZoeymzKPwaVfZxCPmReN5SFWOoWvajpvQ06kIRaXzi42xJUWTrwKB2Q/nZWZ20
- pbzW1YwzSh5vrejko+ac3aqfncOqJU+CGtuH+VpQUOA7BXrQ57Nx2rH+bIXz3D5nF4Wx
- lsyNpxg9+iTAUlUNCZdEoXUp3nA+R+i/JBfIapTlAnq/olfTkzsB2XClnDcR/51iJmd9 jw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2130.oracle.com with ESMTP id 34xrdana08-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 13:44:24 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0ANDYqPJ109894
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 13:42:23 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 34yctutm7e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 13:42:23 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0ANDgMlT002279
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 13:42:22 GMT
-Received: from [10.175.9.21] (/10.175.9.21)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 23 Nov 2020 05:42:22 -0800
-Subject: Re: [PATCH] Add support for pvpanic pci device
-From: Mihai Carabas <mihai.carabas@oracle.com>
-To: qemu-devel@nongnu.org
-References: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
- <a141323c-ecae-5c39-cf90-aae794e0099f@oracle.com>
-Message-ID: <e1d099d5-4cea-4bea-e969-b6ba4b09dba4@oracle.com>
-Date: Mon, 23 Nov 2020 15:42:22 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.3
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1khC8S-0007Il-Sm
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:44:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20111)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1khC8Q-0005Aa-Ma
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:44:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606139040;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r9ulyd/aGvLWjeTtJcZKRZQiU6ckzZTDQqhJ5Y4/A60=;
+ b=WR8XrkdjuJyOWSLBI7z3zJktPeed0HgcqYrKewF7ETNF1GNpKdVDoDAlvOc05r5dBWCKqZ
+ k/nP0NrsBHgOUJn8SPVoPrso3qb8xXVn5m4sipPawF2XTYS8Gvnu1nkwAGchQRIfyo2q/f
+ jRLfafExYJa2sE3/N320Hze5A4+7cbw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-36-zaTCoH9sPNmFn4-4deQj9g-1; Mon, 23 Nov 2020 08:43:57 -0500
+X-MC-Unique: zaTCoH9sPNmFn4-4deQj9g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A79C1868406;
+ Mon, 23 Nov 2020 13:43:56 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-143.gru2.redhat.com
+ [10.97.116.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4B0910021AA;
+ Mon, 23 Nov 2020 13:43:53 +0000 (UTC)
+Subject: Re: [PATCH v1 3/6] tests/avocado: clean-up socket directory after run
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201117173635.29101-1-alex.bennee@linaro.org>
+ <20201117173635.29101-4-alex.bennee@linaro.org>
+ <3bc76afb-e459-1324-d1ef-aba53faf6220@redhat.com> <87tutgo29p.fsf@linaro.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <b2319908-58b4-2c4f-8c1f-93468bd7c459@redhat.com>
+Date: Mon, 23 Nov 2020 10:43:50 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <a141323c-ecae-5c39-cf90-aae794e0099f@oracle.com>
+In-Reply-To: <87tutgo29p.fsf@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: ro
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9813
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- suspectscore=0
- malwarescore=0 spamscore=0 phishscore=0 mlxlogscore=999 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011230093
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9813
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- impostorscore=0 mlxscore=0
- mlxlogscore=999 spamscore=0 phishscore=0 clxscore=1015 malwarescore=0
- lowpriorityscore=0 adultscore=0 suspectscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011230093
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=mihai.carabas@oracle.com; helo=aserp2130.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,60 +85,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-La 29.10.2020 14:30, Mihai Carabas a scris:
-> La 28.10.2020 15:32, Mihai Carabas a scris:
->> This patchset adds support for pvpanic pci device. The patchset was 
->> assembled
->> from chuncks from some old patches [1] from 2018 which were left 
->> unmerged and
->> some additions from me.
->>
->> How to test this:
->> /usr/bin/qemu-system-aarch64 \
->>          -machine virt,gic-version=3 -device pvpanic-pci
->>
->> After that you need to run a Linux kernel as guest, but you have to 
->> also apply
->> the patches I will send for adding pci support for the pvpanic driver.
-> 
-> Here are the patches for Linux: https://lkml.org/lkml/2020/10/29/645
->>
->> [1] 
->> http://patchwork.ozlabs.org/project/qemu-devel/cover/1544095560-70807-1-git-send-email-peng.hao2@zte.com.cn/ 
+
+On 11/23/20 6:23 AM, Alex Bennée wrote:
+> Wainer dos Santos Moschetta <wainersm@redhat.com> writes:
+>
+>> On 11/17/20 2:36 PM, Alex Bennée wrote:
+>>> Previously we were leaving temporary directories behind. While the
+>>> QEMUMachine does make efforts to clean up after itself the directory
+>>> belongs to the calling function. We use TemporaryDirectory to wrap
+>>> this although we explicitly clear the reference in tearDown() as it
+>>> doesn't get cleaned up otherwise.
+>> This patch fixes the problem introduced on patch 02 of this series.
+> It didn't introduce the problem in patch 2, it just moved it. The
+> mkdtemp() was never cleaned up before.
 
 
-Any feedback on this patchset?
+True. My bad.
 
-Thank you,
-Mihai Carabas
+- Wainer
 
+>
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> ---
+>>>    tests/acceptance/avocado_qemu/__init__.py | 5 +++--
+>>>    1 file changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+>>> index 3033b2cabe..bf54e419da 100644
+>>> --- a/tests/acceptance/avocado_qemu/__init__.py
+>>> +++ b/tests/acceptance/avocado_qemu/__init__.py
+>>> @@ -171,8 +171,8 @@ class Test(avocado.Test):
+>>>                self.cancel("No QEMU binary defined or found in the build tree")
+>>>    
+>>>        def _new_vm(self, *args):
+>>> -        sd = tempfile.mkdtemp(prefix="avocado_qemu_sock_")
+>>> -        vm = QEMUMachine(self.qemu_bin, sock_dir=sd)
+>>> +        self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
+>> Double-checking that you really meant "avo" or if your fingers forgot to
+>> type the remaining letters. :)
+> Hmm yeah I should probably just be consistent with the name in both
+> patches.
+
+
+Anyway,
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+
+>
+>> - Wainer
 >>
->>
->> Mihai Carabas (1):
->>    pvpanic: break dependency on ISA_BUS adding PCI
->>
->> Peng Hao (3):
->>    hw/misc/pvpanic: Add the PCI interface
->>    hw/arm/virt: Use the pvpanic pci device
->>    pvpanic : update pvpanic document
->>
->> Philippe Mathieu-Daudé (2):
->>    hw/misc/pvpanic: Build the pvpanic device for any machine
->>    hw/misc/pvpanic: Cosmetic renaming
->>
->>   default-configs/devices/arm-softmmu.mak |  1 +
->>   docs/specs/pvpanic.txt                  | 12 ++++-
->>   hw/misc/Kconfig                         |  2 +-
->>   hw/misc/meson.build                     |  2 +-
->>   hw/misc/pvpanic.c                       | 96 
->> +++++++++++++++++++++++++++------
->>   include/hw/misc/pvpanic.h               |  3 +-
->>   include/hw/pci/pci.h                    |  1 +
->>   7 files changed, 97 insertions(+), 20 deletions(-)
->>
-> 
+>>> +        vm = QEMUMachine(self.qemu_bin, sock_dir=self._sd.name)
+>>>            if args:
+>>>                vm.add_args(*args)
+>>>            return vm
+>>> @@ -193,6 +193,7 @@ class Test(avocado.Test):
+>>>        def tearDown(self):
+>>>            for vm in self._vms.values():
+>>>                vm.shutdown()
+>>> +        self._sd = None
+>>>    
+>>>        def fetch_asset(self, name,
+>>>                        asset_hash=None, algorithm=None,
+>
 
 
