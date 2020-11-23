@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2682C00F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 09:04:21 +0100 (CET)
-Received: from localhost ([::1]:43064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3792C0101
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 09:07:28 +0100 (CET)
+Received: from localhost ([::1]:52634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh6pg-0005vb-9V
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 03:04:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35448)
+	id 1kh6sh-0001Xk-A0
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 03:07:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kh6nS-0005Eq-5L; Mon, 23 Nov 2020 03:02:02 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:54604
+ id 1kh6o4-0005jM-2q; Mon, 23 Nov 2020 03:02:40 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:54618
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kh6nP-0004PD-KG; Mon, 23 Nov 2020 03:02:01 -0500
-Received: from basile.remlab.net (dzyqn8ypzhx7l91mxjsvy-3.rev.dnainternet.fi
- [IPv6:2001:14ba:a01a:be01:9434:f69e:d553:3be2])
- (Authenticated sender: remi)
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id E7D065FC79;
- Mon, 23 Nov 2020 09:01:50 +0100 (CET)
-From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi.denis.courmont@huawei.com>
+ id 1kh6o2-0004dh-J0; Mon, 23 Nov 2020 03:02:39 -0500
+Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 37D6A5FC79;
+ Mon, 23 Nov 2020 09:02:37 +0100 (CET)
+From: remi.denis.courmont@huawei.com
 To: qemu-arm@nongnu.org
-Subject: [PATCHv3 00/17] ARMv8.4 Secure EL2
-Date: Mon, 23 Nov 2020 10:01:50 +0200
-Message-ID: <3333301.iIbC2pHGDl@basile.remlab.net>
-Organization: Huawei Technologies, Finland
+Subject: [PATCH 01/17] target/arm: remove redundant tests
+Date: Mon, 23 Nov 2020 10:02:21 +0200
+Message-Id: <20201123080237.18465-1-remi.denis.courmont@huawei.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <3333301.iIbC2pHGDl@basile.remlab.net>
+References: <3333301.iIbC2pHGDl@basile.remlab.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
  helo=ns207790.ip-94-23-215.eu
 X-Spam_score_int: -16
@@ -56,54 +56,72 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 8cc30eb1400fc01f2b139cdd3dc524f8b84dbe07:
+From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20201122' =
-into staging (2020-11-22 15:02:52 +0000)
+In this context, the HCR value is the effective value, and thus is
+zero in secure mode. The tests for HCR.{F,I}MO are sufficient.
 
-follow.
+Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/cpu.c    |  8 ++++----
+ target/arm/helper.c | 10 ++++------
+ 2 files changed, 8 insertions(+), 10 deletions(-)
 
-Changes since version 2:
-=2D Don't set HPFAR.NS in AT instruction in NS state.
-
-=2D---------------------------------------------------------------
-R=C3=A9mi Denis-Courmont (17):
-      target/arm: remove redundant tests
-      target/arm: add arm_is_el2_enabled() helper
-      target/arm: use arm_is_el2_enabled() where applicable
-      target/arm: use arm_hcr_el2_eff() where applicable
-      target/arm: factor MDCR_EL2 common handling
-      target/arm: declare new AA64PFR0 bit-fields
-      target/arm: add 64-bit S-EL2 to EL exception table
-      target/arm: return the stage 2 index for stage 1
-      target/arm: add MMU stage 1 for Secure EL2
-      target/arm: add ARMv8.4-SEL2 system registers
-      target/arm: do S1_ptw_translate() before address space lookup
-      target/arm: secure stage 2 translation regime
-      target/arm: handle VMID change in secure state
-      target/arm: set HPFAR_EL2.NS on secure stage 2 faults
-      target/arm: add ARMv8.4-SEL2 extension
-      target/arm: enable Secure EL2 in max CPU
-      target/arm: refactor vae1_tlbmask()
-
- target/arm/cpu-param.h     |   2 +-
- target/arm/cpu.c           |  10 +-
- target/arm/cpu.h           |  93 ++++++++--
- target/arm/cpu64.c         |   1 +
- target/arm/helper-a64.c    |   8 +-
- target/arm/helper.c        | 423 ++++++++++++++++++++++++++++++-----------=
-=2D---
- target/arm/internals.h     |  56 +++++-
- target/arm/op_helper.c     |   4 +-
- target/arm/tlb_helper.c    |   3 +
- target/arm/translate-a64.c |   4 +
- target/arm/translate.c     |   6 +-
- target/arm/translate.h     |   1 +
- 12 files changed, 431 insertions(+), 180 deletions(-)
-
-=2D-=20
-=E9=9B=B7=E7=B1=B3=E2=80=A7=E5=BE=B7=E5=B0=BC-=E5=BA=93=E5=B0=94=E8=92=99
-
-
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 07492e9f9a..48b34080ce 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -447,14 +447,14 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
+         break;
+ 
+     case EXCP_VFIQ:
+-        if (secure || !(hcr_el2 & HCR_FMO) || (hcr_el2 & HCR_TGE)) {
+-            /* VFIQs are only taken when hypervized and non-secure.  */
++        if (!(hcr_el2 & HCR_FMO) || (hcr_el2 & HCR_TGE)) {
++            /* VFIQs are only taken when hypervized.  */
+             return false;
+         }
+         return !(env->daif & PSTATE_F);
+     case EXCP_VIRQ:
+-        if (secure || !(hcr_el2 & HCR_IMO) || (hcr_el2 & HCR_TGE)) {
+-            /* VIRQs are only taken when hypervized and non-secure.  */
++        if (!(hcr_el2 & HCR_IMO) || (hcr_el2 & HCR_TGE)) {
++            /* VIRQs are only taken when hypervized.  */
+             return false;
+         }
+         return !(env->daif & PSTATE_I);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 11b0803df7..346dc91a91 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2083,13 +2083,11 @@ static void csselr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
+     CPUState *cs = env_cpu(env);
+-    uint64_t hcr_el2 = arm_hcr_el2_eff(env);
++    bool el1 = arm_current_el(env) == 1;
++    uint64_t hcr_el2 = el1 ? arm_hcr_el2_eff(env) : 0;
+     uint64_t ret = 0;
+-    bool allow_virt = (arm_current_el(env) == 1 &&
+-                       (!arm_is_secure_below_el3(env) ||
+-                        (env->cp15.scr_el3 & SCR_EEL2)));
+ 
+-    if (allow_virt && (hcr_el2 & HCR_IMO)) {
++    if (hcr_el2 & HCR_IMO) {
+         if (cs->interrupt_request & CPU_INTERRUPT_VIRQ) {
+             ret |= CPSR_I;
+         }
+@@ -2099,7 +2097,7 @@ static uint64_t isr_read(CPUARMState *env, const ARMCPRegInfo *ri)
+         }
+     }
+ 
+-    if (allow_virt && (hcr_el2 & HCR_FMO)) {
++    if (hcr_el2 & HCR_FMO) {
+         if (cs->interrupt_request & CPU_INTERRUPT_VFIQ) {
+             ret |= CPSR_F;
+         }
+-- 
+2.29.2
 
 
