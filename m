@@ -2,109 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2AA2C11A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 18:15:16 +0100 (CET)
-Received: from localhost ([::1]:37210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52FBD2C11F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 18:31:10 +0100 (CET)
+Received: from localhost ([::1]:44402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khFQp-0001sp-Dm
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 12:15:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34136)
+	id 1khFgC-0006O0-Te
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 12:31:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1khFPi-0001Lg-Rm; Mon, 23 Nov 2020 12:14:06 -0500
-Received: from mail-eopbgr30119.outbound.protection.outlook.com
- ([40.107.3.119]:7742 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <cristian.ancuta@intel.com>)
+ id 1khFeZ-0005Vk-OV
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 12:29:27 -0500
+Received: from mga02.intel.com ([134.134.136.20]:59326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1khFPf-0005mW-Dv; Mon, 23 Nov 2020 12:14:05 -0500
+ (Exim 4.90_1) (envelope-from <cristian.ancuta@intel.com>)
+ id 1khFeW-00004x-Qq
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 12:29:27 -0500
+IronPort-SDR: nN2d2xgvLXczz1BXAfIshyx77TpRSps2BRkdY345lXykyhNWflGffCwHZ+vZiMJm4liINAXySm
+ gxm1xPbhrTAg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9814"; a="158849646"
+X-IronPort-AV: E=Sophos;i="5.78,364,1599548400"; 
+ d="scan'208,217";a="158849646"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Nov 2020 09:29:16 -0800
+IronPort-SDR: cAi1vWlTEZ6PtQ5DGmGFfLcB2669A14AOnUKmycLr3fSahLIlOAvouZOxfEGvp9r2mVE5RvA6E
+ rSQE47SAD1jQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,364,1599548400"; 
+ d="scan'208,217";a="312960856"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga007.fm.intel.com with ESMTP; 23 Nov 2020 09:29:16 -0800
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 23 Nov 2020 09:29:15 -0800
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Mon, 23 Nov 2020 09:29:15 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Mon, 23 Nov 2020 09:29:15 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BUgsRAEBy9VGfLUfbHsS9KBxpTI7jVHRGNEkYH5u9hQ6ofq5F3JIADIfzJUTEVpotJ6E+GedaTx0ABmyT7Djv318KWJdAHbF5soXeOrj7fAKXnyY2tU/esSHfliWHZ+luD0cLBaELW5kJoIRYpTo/DT0dMGCqLCifTBJOLN1NsQy76Pl10umyahyNfhAUy1TBDDi/e47EQWfU+p3khb7YK7MICgH5jRvCc5Utxm56ktGW10hwPLSI0sw4xu8LZuJs15lC7lv9lB1XFhHz0zJvphxifoyvqHvO5D89o2JdwrZzdiPrAEHMFAdhiRYHsngszsT/N1wMRLDqwUjaHyT7Q==
+ b=kz3cz8GePorBkkQb2iMc+DZZ7clXXYCrtSy3GisB5URWuQGHqDTR4kuZ5kvFzH96w0xZeRy7XNbXMYVYqF7ZkGJ8/+KwjPLlSqa9pnye1QAtXTDU3aRd2XH3lyhufWk0I4xS5gFAy5MHDGE0EhyTT0OviQm2fS+ZR/Rl59/LIRZ0lodswuKABju6enDkihrXkXMx28wjSkhwbudZ/UGwjIDjG8rwOlB8rgUcPTb2gceeN2nQqHoypaHLNwJzal8s6OPvjpWs3gILFPejXnd++IUzW8sNNtoRDQvkx3PdOl0AEdhwcMPhCXgz6WzTkjC/z3wKSH9pt/q7B8raCXtcwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QS/Dz8NQQykbEzP9Z2KDWbpI4vYo6HZFxiHtc/0DvVY=;
- b=bYCpu/scpdFCUeDDOOObnlVKZpCya9VdZ48lS4d7SD7aDTPr/pc8wggBKHPo+qHOSBEJXApNxbDiZxuIk3I+yPHRIIIX75uGhqdXXoQmJkS770ME99m8KXVmXpiVlF8OJjpRG+y1VS0qM75AVXVCD13PhxYVqbEx3Hwuw4TyvsTXWbQ00WwFGhzvdOb+qVDPXhxSYdYz1O0YlGarKVBThBXGoLwvlPcju6EB5kEJFK8EwYdtXxvHIrngY4km1bxIwf9B708x4e5DtxJ6adGf/vE3QrmuLRnsI50dtyVhRActQ7sfhD3ggB3LqzuTJFBEyxCLPK7GpEb/FIq3CfzDQQ==
+ bh=zI7v13bEAkGMpP776hTUrDUh1EFqWwakKMC4e582uJI=;
+ b=hboln6AztMMSvoCZ+txMo0mwcUjEmviAHRmWrE/p4aoHtZfsyCJAfeiaRmRCh9X40tcq6j0ZfmXHJwndfEMRz7oEpRP863b/Pw5sCoQiLtngs2dBaN0g3fc7XF9YhMifkLS9FHSN/1Rbyp2epPjP0RPRpW/yfB8fyzGkfJvDm+k111ZVOcBAEQqzO3SmeCq5ncPs8Kk48Ofe7CCgYzijz4obDKnBDpHqBNQmjM8qN9A1vwTM+wb45w7HTAVY4ZkCYBY6AeS9gokeMk9Fwj4qNVYESDKzX1gM1eEzYYQuoUtDnherIfSFAv+I135n4jH2g2A185GLH706+8v8tKGWwA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QS/Dz8NQQykbEzP9Z2KDWbpI4vYo6HZFxiHtc/0DvVY=;
- b=Sa/jX6Qbj9reLVN6Zk1KP5rBLvZYCVM0U2GCooTH94JZzgbV+tB8gdBPIMbcr4oGZsRuWvNy/M/b+cRb3ZrutAxkVk7iVrV8k/5nfmvWiSV8eb/4ItWYnLzvEq3DWig+wludRtiD+dvPWtPmOWzHPsCGhczIRFBUnAiR9rGh5ck=
-Authentication-Results: virtuozzo.com; dkim=none (message not signed)
- header.d=none;virtuozzo.com; dmarc=none action=none
- header.from=virtuozzo.com;
-Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
- by HE1PR0801MB1644.eurprd08.prod.outlook.com (2603:10a6:3:85::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.30; Mon, 23 Nov
- 2020 17:13:59 +0000
-Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
- ([fe80::c565:a7d7:a7ab:e9c4]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
- ([fe80::c565:a7d7:a7ab:e9c4%10]) with mapi id 15.20.3589.030; Mon, 23 Nov
- 2020 17:13:59 +0000
-Subject: Re: [PATCH v2 0/2] Increase amount of data for monitor to read
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, marcandre.lureau@redhat.com, pbonzini@redhat.com,
- kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, dgilbert@redhat.com,
- den@openvz.org, vsementsov@virtuozzo.com
-References: <1606146274-246154-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Message-ID: <1dc583c5-3728-cc7a-0d8c-7a84440c3cc3@virtuozzo.com>
-Date: Mon, 23 Nov 2020 20:13:56 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
-In-Reply-To: <1606146274-246154-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [109.252.36.39]
-X-ClientProxiedBy: AM0PR04CA0018.eurprd04.prod.outlook.com
- (2603:10a6:208:122::31) To HE1PR0801MB2124.eurprd08.prod.outlook.com
- (2603:10a6:3:89::22)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Admins-MacBook-Pro.local (109.252.36.39) by
- AM0PR04CA0018.eurprd04.prod.outlook.com (2603:10a6:208:122::31) with
+ bh=zI7v13bEAkGMpP776hTUrDUh1EFqWwakKMC4e582uJI=;
+ b=JvE5gEqSrxZOQfhiJeGOREJXe1hQ1EP8dUmOyK5hKNu2fIvrH8/7NpDKgAobGOrOPQVAiKEYlxWSTyO/jsPCvibNZOWvt2HA+x0h5q1U3AEiW4pnqfoxBJv0Jj8JOe5RqfeQmF/yf42zDJ4kd96AlUYO4mbhBGHf2fOl1tIkqa4=
+Received: from DM6PR11MB3963.namprd11.prod.outlook.com (2603:10b6:5:19b::16)
+ by DM6PR11MB3673.namprd11.prod.outlook.com (2603:10b6:5:145::26) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21 via Frontend
- Transport; Mon, 23 Nov 2020 17:13:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef63f82a-3dfb-40d8-c18b-08d88fd32ac0
-X-MS-TrafficTypeDiagnostic: HE1PR0801MB1644:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <HE1PR0801MB1644298A31F2BE08D26A712DF4FC0@HE1PR0801MB1644.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PF/gWhENO4WwDtbPpQJFmw/gdmr7oMiB8xXPJuvyCWxxw+vYqtWLDI6dxx9lck81N5k9yBwfiPCq2vqQD1/baxAdlBzbdH8yc8wTsjS9VQJK9orf6Evc2A0xpU2I3VbMf7X9Lw8lCvYU2/Wj9cjDVigFHVOtWdSm6Vo3DXpw+fns3h3lP8UReuOqQRqRWAR/6gZE8Sc2pTPqt6g/FoygYpY0DvDwyhRGgDXFCVJ0jbGZACsOqsx9HOS/P2xQUND5AnzSU06I/dum0iZijecIIiM15oFj2DgbrkQ0FRElBsx5C2XLCZ0o5jSTYmwTqyIgy4yC1gV7mnB8qLCnXX8kB8ZpejjXu2KFiH00WOqfaZDHkripwTxVd49i1KQvCXsfRUQf68WLom1XSkDT7gWY5JKVJEQB401PUafjtxkX3OXqcPUZYoPmqnuOgO93cTCwf+FK1MIJ6vntkHIbMv0Iuw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(376002)(346002)(396003)(39840400004)(316002)(6512007)(5660300002)(44832011)(107886003)(31686004)(6486002)(8676002)(8936002)(16526019)(186003)(26005)(52116002)(966005)(53546011)(6506007)(478600001)(4326008)(6916009)(2906002)(956004)(2616005)(83380400001)(66946007)(86362001)(66476007)(66556008)(36756003)(31696002)(43740500002);
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.24; Mon, 23 Nov
+ 2020 17:29:14 +0000
+Received: from DM6PR11MB3963.namprd11.prod.outlook.com
+ ([fe80::7561:baba:68f0:74fe]) by DM6PR11MB3963.namprd11.prod.outlook.com
+ ([fe80::7561:baba:68f0:74fe%7]) with mapi id 15.20.3589.025; Mon, 23 Nov 2020
+ 17:29:14 +0000
+From: "Ancuta, Cristian" <cristian.ancuta@intel.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: QEMU build dependencies for new board
+Thread-Topic: QEMU build dependencies for new board
+Thread-Index: AdbBtL1I0SVUWHapTDmy3nFFMPEtqw==
+Date: Mon, 23 Nov 2020 17:29:14 +0000
+Message-ID: <DM6PR11MB3963BA87438B343A71230675F4FC0@DM6PR11MB3963.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+authentication-results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [94.52.169.46]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a9a8e5ed-4d6b-47dc-1200-08d88fd54c60
+x-ms-traffictypediagnostic: DM6PR11MB3673:
+x-microsoft-antispam-prvs: <DM6PR11MB3673D879872ED5C571010BA7F4FC0@DM6PR11MB3673.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bi4AUKicORFMPUdGGuAKuhp11vFm+rsepwD9cz4uV20CJgurbG4pHEsGD0RKNJyPwttCfYKeD2VKk17WdVCrs32seqdht5AqSLuSdC9043uUZZUnX+V6mXTbR5P1omHNj0Mpd1HcA/DGXX6dqac+oe6eTHCjG8/s8pw3ZbA67lNkkkkG9E6StjK15zFIMkaQTLwC3p9U0MNVX+HygsmwI9HaNBCpfxKtCg9wWgkLJu8TE0snC7mYqjNras2pS+Px8Tkwxs2zM3CegiaKdDXEM9vVoG0GI5vqXrGdqjv34ZHMwxM8p62X22GjJ546jYs2Ri1dghdb6N1kboyPkKr//Q==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB3963.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(366004)(376002)(346002)(136003)(9686003)(66946007)(76116006)(86362001)(52536014)(66476007)(66556008)(64756008)(66446008)(71200400001)(5660300002)(316002)(6916009)(26005)(186003)(478600001)(7696005)(8676002)(6506007)(2906002)(8936002)(33656002)(55016002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: ilE5q/Rg51fUHyBviggE2UD80w1fWO9y/jbtyjCenS3X1M/Hvd1Ni2PlNxEBsybmcw6K3brq/lWA+/hoQOY0HKb/g7t5/fhZB2fPgvB99Kf6jsOtlU7IaFrHEE6WMfD48+T5HiLfNeHIBbGGIyFip9NBAkfNzzP747qisBP+yA5+Xt1hhiogLlSgsnyFPZkf/fsB1+3gA+yqhxIJEziWTsP/2jAdCJJdzS8bZwJMdVUz0/ep6Cays1eLxgnRu19bZrXopkpsCGukk0oZvONZelNWsA8Sw0kMD3MP6z/SdK/L5HEdxi50n79wbhNh+Q17XtvEUoyJiWL+iazS/HWNZp2iQ9WSCVAVMfVvRnz4jXdHMkzftuVEXjDW3rpooYpwCF1dSdFtVTx2eXAoQijf3tEc3LFNShIGYwV2cSmaPDHlesPTE4L58yADeyxwyIgUUdxmawzvxLweJJLVNtKEhL+SX9lFSSlRGnEce9Z4iWqXKXRZ1x9qM/eTAgpML6EE8GnlylLE4EC9cfae4o/3i3IWopQimvOWg8kjip9S7NUvJxAACgCb/PZjLIq1A8o9QElIMuKsWUbqcNC2qgwyv4qngEBOw48uT3o2Yc6IvVEzrspTzKWP2/Ts6RU01Jp1w13Kh68JuXjGWQX1kbj2kowEjFDO1CpuMzZJI9BAJ+faeqXjCR+FFAXvgGItPzBhgA8HBbFDSDCBw27eXSNEzAwbKJqNBl83PiDWIDgYk+wuwd4Vaad4FmXrJIZrryGMMlvyMKHMxorJiSeiQSo29j5QNQ9JudKo7LIkkbu+Ul+YRfxteyPKLSuZEBNTOQHVI+ctRP9ADo6GuhUMaC9bkWnIo5+x9IwOCzv7zqVp8uS2/FB/sfj2djQS6hw9t9GOpsFJlyRvrc7vm204e5hBRw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef63f82a-3dfb-40d8-c18b-08d88fd32ac0
-X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
+x-ms-exchange-antispam-messagedata: 8pNn7niHVe9e4V0pYOgX5F2z1FWlJIxMDB9qCOb3PKy5VU4MVXzkJOjWJ4x5dUR+s2QP7PdpGWuIovUpfWF0jkYnG+DzvY3B/mgzA163DKCE8Q7H+1S8mxOCBEQhrM2H8ioyFG3JTyxYz/fDw8Zgbh43r4BYbnPdhBHNzaJ1WU8u6z6C+BhafyY5sZWxrP4k4pvhomkQXA64+DIwKgdrUv1CEsQmF6mIB+EIddjcF8Qbdt9MFleuDYyLDaZ6tsDitgedLJvqQBo/k5aCORiYAuo1taTrE4JX5du18iv21TKM0Y1N63oly4VvFfgR4u+cRjWtKyixmRn+DSoQHYQd7I/8CuVMSfRqNXZRzMJq5n31Cbya+5v07ftkviePaDv0NlEjQ309hJoE8RnNAGnNFe9+pIVeVAsnstqbNNRBmZaxIhQovVHdLmTeYVm+VtwgcAfE+jtUzbqSjTK7wX380oxQBu+qvyHBuz3bgRXXNOEVnPULYIjvEM34tuchGL69j+LMQpsc4HeOr5euSgsS8/92Vv7lWDolI8cz1h1s/Mu1HBxgl7YJqUGssWWWCi09UPxbD2V/1+NmSl6viFulTjBV4wPcA/LwTQiusPRqRTfdheHH3jFHxX9SdQ6VhPGAs6sL3m1QrKj6qKaLH79EJmY9LmK8zDi9CDTSKXi0xtxK2756tflEhbcxOxU2GajXOZ9KUybpiwuAPYTS8Ethe4ES74QZhCluZ7qNZuK3NSZPW4emmGfZmGUfzWWQhKw7toYdQfTSuOd0qnxh6JbW6OjQhxS+06PPXZT6qrgWZF2FsifvEP66SIxgLlalupRdA1Gtc8NIEJdyhY3V6kL6coBZ+ln05hrJxSUs1Q+w2bP7VcYDlkNy5zEznya4A7NqOOV77Fh2+44CJNeUDW6A4g==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_DM6PR11MB3963BA87438B343A71230675F4FC0DM6PR11MB3963namp_"
+MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2020 17:13:59.2821 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FyIuOjkcauRmODb8/yMb57jWTjpqJzuLqt2yui1aw8vBjMyxRcJVFowFPxD9WB3o7ktRh2nraKTNSgEGNeL6zwtNfNaag5XKHgmMrjNBa9w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0801MB1644
-Received-SPF: pass client-ip=40.107.3.119;
- envelope-from=andrey.shinkevich@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3963.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9a8e5ed-4d6b-47dc-1200-08d88fd54c60
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2020 17:29:14.3886 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: z5jEvDRdv6CjeFOHHVgiaCQTQ9VIILCaulwD01I0MNVijx2RP5LQswcQDz4Qd0FwT4haROPDftnGa8GLCu8gGuRpqOzgQbj08KnKI+Eaygo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3673
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.20;
+ envelope-from=cristian.ancuta@intel.com; helo=mga02.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,61 +140,235 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.11.2020 18:44, Andrey Shinkevich wrote:
-> The subject was discussed here:
-> https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg00206.html
-> 
-> This series is a solution for the issue with QMP monitor buffered input.
-> A JSON little parser is introduced to separate QMP commands read from the
-> input buffer so that incoming requests do not overwhelm the monitor queue.
-> A side effect raised in the test #247 was managed in the first patch.
-> It may be considered as a workaround. Any sane fix suggested will be
-> appreciated.
-> 
-> Note:
-> This series goes after the Vladimir's one:
-> '[PATCH v3 00/25] backup performance: block_status + async"'
-> To make the test #129 passed, the following patch should be applied first:
-> '[PATCH v3 01/25] iotests: 129 don't check backup "busy"'.
-> 
-> v2:
->    02: The static JSONthrottle object was made a member of the Chardev structure.
->        The fd_chr_read functions were merged.
->        The monitor thread synchronization was added to protect the input queue
->        from overflow.
-> 
-> Andrey Shinkevich (2):
->    iotests: add another bash sleep command to 247
->    monitor: increase amount of data for monitor to read
-> 
->   chardev/char-fd.c          | 35 +++++++++++++++++++++++++++++++++--
->   chardev/char-socket.c      | 42 +++++++++++++++++++++++++++++++++++++++---
->   chardev/char.c             | 41 +++++++++++++++++++++++++++++++++++++++++
->   include/chardev/char.h     | 15 +++++++++++++++
->   monitor/monitor.c          |  2 +-
->   tests/qemu-iotests/247     |  2 ++
->   tests/qemu-iotests/247.out |  1 +
->   7 files changed, 132 insertions(+), 6 deletions(-)
-> 
+--_000_DM6PR11MB3963BA87438B343A71230675F4FC0DM6PR11MB3963namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-...and with the extended number of QMP commands
+Hi all,
 
-time (echo "{ 'execute': 'qmp_capabilities' }"; for i in {1..10000}; do 
-echo "{ 'execute': 'query-block-jobs' } {"execute":"query-status"} { 
-'execute': 'query-block-jobs' } {"execute":"query-status"} { 'execute': 
-'query-block-jobs' } {"execute":"query-status"} { 'execute': 
-'query-block-jobs' } {"execute":"query-status"}"; done; echo "{ 
-'execute': 'quit' }" ) | ./build/qemu-system-x86_64 -qmp stdio > /dev/null
+I've implemented a new CPU target in ./target/arch_name and I'm also trying=
+ to add a new board to emulate that target on in system mode in ./hw/arch_n=
+ame. The board is based on the versatilepb, but I'll gradually be removing =
+all the arm implementation from it, aiming for a minimal implementation wit=
+h just my custom cpu architecture, system bus, main memory and an UART.
 
-on master:
-real	0m10.112s
-user	0m10.168s
-sys	0m4.793s
+I've also added all the necessary stuff required by minikconf.py in ./defau=
+lt-configs/<target>-softmmu.mak, ./hw/<arch>/Kconfig and a source entry in =
+./hw/Kconfig.
 
-after the patch applied:
-real	0m4.140s
-user	0m4.079s
-sys	0m0.785s
+Here's what the ./hw/<arch>/Kconfig file looks like
 
-Andrey
+config NEW_BOARD
+                  bool
+                  select PL011  # UART
+                  select PL080  # DMA controller
+
+The problem is that the build system is bringing in other files that I didn=
+'t specify (CONFIG_A15MPCORE, CONFIG_A15MPCORE, CONFIG_9MPCORE, etc. ), and=
+ I'm not sure how they're ending up in ./build/<target>-softmmu/config_devi=
+ce.mak:
+
+CONFIG_A15MPCORE=3Dy
+CONFIG_A9MPCORE=3Dy
+CONFIG_A9SCU=3Dy
+CONFIG_A9_GTIMER=3Dy
+CONFIG_ARM11MPCORE=3Dy
+CONFIG_ARM11SCU=3Dy
+CONFIG_ARM_GIC=3Dy
+CONFIG_ARM_MPTIMER=3Dy
+CONFIG_ARM_TIMER=3Dy
+CONFIG_BITBANG_I2C=3Dy
+CONFIG_DS1338=3Dy
+CONFIG_FRAMEBUFFER=3Dy
+CONFIG_I2C=3Dy
+CONFIG_LAN9118=3Dy
+CONFIG_LSI_SCSI_PCI=3Dy
+CONFIG_MSI_NONBROKEN=3Dy
+CONFIG_<NEW_BOARD>=3Dy
+CONFIG_PCI=3Dy
+CONFIG_PL011=3Dy
+CONFIG_PL031=3Dy
+CONFIG_PL041=3Dy
+CONFIG_PL050=3Dy
+CONFIG_PL061=3Dy
+CONFIG_PL080=3Dy
+CONFIG_PL110=3Dy
+CONFIG_PL181=3Dy
+CONFIG_PL310=3Dy
+CONFIG_PS2=3Dy
+CONFIG_PTIMER=3Dy
+CONFIG_SCSI=3Dy
+CONFIG_SD=3Dy
+
+
+And because a15mpcore.c is trying to include "kvm_arm.h" from /target/arm w=
+hich I don't include in my build, it obviously doesn't compile.
+
+Any help would be appreciated
+
+Thanks,
+Cristian
+
+--_000_DM6PR11MB3963BA87438B343A71230675F4FC0DM6PR11MB3963namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"RO" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi all,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">I&#8217;ve implemented a new CP=
+U target in ./target/arch_name and I&#8217;m also trying to add a new board=
+ to emulate that target on in system mode in ./hw/arch_name. The board is b=
+ased on the versatilepb, but I&#8217;ll gradually be removing
+ all the arm implementation from it, aiming for a minimal implementation wi=
+th just my custom cpu architecture, system bus, main memory and an UART.<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">I&#8217;ve also added all the n=
+ecessary stuff required by minikconf.py in ./default-configs/&lt;target&gt;=
+-softmmu.mak, ./hw/&lt;arch&gt;/Kconfig and a source entry in ./hw/Kconfig.=
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Here&#8217;s what the ./hw/&lt;=
+arch&gt;/Kconfig file looks like<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal" style=3D"text-indent:35.4pt"><span lang=3D"EN-US">co=
+nfig NEW_BOARD<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;bool<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;select P=
+L011&nbsp; # UART<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;select P=
+L080&nbsp; # DMA controller<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">The problem is that the build s=
+ystem is bringing in other files that I didn&#8217;t specify (CONFIG_A15MPC=
+ORE, CONFIG_A15MPCORE, CONFIG_9MPCORE, etc. ), and I&#8217;m not sure how t=
+hey&#8217;re ending up in ./build/&lt;target&gt;-softmmu/config_device.mak:=
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_A15MPCORE=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_A9MPCORE=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_A9SCU=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_A9_GTIMER=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_ARM11MPCORE=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_ARM11SCU=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_ARM_GIC=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_ARM_MPTIMER=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_ARM_TIMER=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_BITBANG_I2C=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_DS1338=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_FRAMEBUFFER=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_I2C=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_LAN9118=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_LSI_SCSI_PCI=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_MSI_NONBROKEN=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_&lt;NEW_BOARD&gt;=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PCI=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PL011=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PL031=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PL041=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PL050=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PL061=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PL080=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PL110=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PL181=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PL310=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PS2=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_PTIMER=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_SCSI=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US">CO=
+NFIG_SD=3Dy<o:p></o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US"><o=
+:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left:35.4pt"><span lang=3D"EN-US"><o=
+:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">And because a15mpcore.c is tryi=
+ng to include &#8220;kvm_arm.h&#8221; from /target/arm which I don&#8217;t =
+include in my build, it obviously doesn&#8217;t compile.<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Any help would be appreciated<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Thanks,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Cristian<o:p></o:p></span></p>
+</div>
+</body>
+</html>
+
+--_000_DM6PR11MB3963BA87438B343A71230675F4FC0DM6PR11MB3963namp_--
 
