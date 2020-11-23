@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA0B2BFFD4
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 07:16:38 +0100 (CET)
-Received: from localhost ([::1]:34528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE58F2BFFCE
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 07:11:02 +0100 (CET)
+Received: from localhost ([::1]:50136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh59Q-00083K-V0
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 01:16:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46350)
+	id 1kh541-0002nb-Vj
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 01:11:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kh52D-0001Ds-Va; Mon, 23 Nov 2020 01:09:09 -0500
-Received: from ozlabs.org ([203.11.71.1]:41273)
+ id 1kh52F-0001Ey-C4; Mon, 23 Nov 2020 01:09:11 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:49375 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kh52B-0006aX-4j; Mon, 23 Nov 2020 01:09:09 -0500
+ id 1kh52C-0006aW-65; Mon, 23 Nov 2020 01:09:11 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CfcDG48kpz9sVC; Mon, 23 Nov 2020 17:09:02 +1100 (AEDT)
+ id 4CfcDG4x8bz9sTc; Mon, 23 Nov 2020 17:09:02 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1606111742;
- bh=p0u+TfRbqPR203R/ZU8bMNNRBenkUb+qqD6NBFYIOmg=;
+ bh=/lwv8UPK6fRsQk0sxev78wuFFgGMasYJRcZDXu+N540=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lJit0i3fRuocZUFek6g2kmH6D0KIuIV2NOUES/qB39cDp71zOSXG8RjKIuarS8Qf0
- KS6h+Q+jc08EKGtRwzKpbR+RK6IEWeG+jIX8E7kHoPAURYAOET8JRptLo1/kzaxKcN
- 1VqnwHOSlGJhao4lcYwrFW3XLJOssBKvePufSvew=
-Date: Mon, 23 Nov 2020 16:26:12 +1100
+ b=UA5RwikmCpGL3DwgdvevzQe0vOQqG6vOCOzn/u6aU/2LMbZwbXt57TMkKbbjJuZxH
+ W18stDDzD3kjy1x3h4G3mz5gHxmbUf4jK+CskJTvwRtDmCovmTJfASZmlukp3NNGU1
+ ZhKiTekQXx5/h1JPxnFtWk8S2RkKDLdJUHwTVNBE=
+Date: Mon, 23 Nov 2020 16:32:44 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH for-6.0 7/9] spapr: Do PHB hoplug sanity check at pre-plug
-Message-ID: <20201123052612.GO521467@yekko.fritz.box>
+Subject: Re: [PATCH for-6.0 8/9] spapr: Do TPM proxy hotplug sanity checks at
+ pre-plug
+Message-ID: <20201123053244.GP521467@yekko.fritz.box>
 References: <20201120234208.683521-1-groug@kaod.org>
- <20201120234208.683521-8-groug@kaod.org>
+ <20201120234208.683521-9-groug@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xexMVKTdXPhpRiVT"
+ protocol="application/pgp-signature"; boundary="wqJr86X7F8PBspU2"
 Content-Disposition: inline
-In-Reply-To: <20201120234208.683521-8-groug@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20201120234208.683521-9-groug@kaod.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,90 +65,90 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---xexMVKTdXPhpRiVT
+--wqJr86X7F8PBspU2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 21, 2020 at 12:42:06AM +0100, Greg Kurz wrote:
-> We currently detect that a PHB index is already in use at plug time.
-> But this can be decteted at pre-plug in order to error out earlier.
+On Sat, Nov 21, 2020 at 12:42:07AM +0100, Greg Kurz wrote:
+> There can be only one TPM proxy at a time. This is currently
+> checked at plug time. But this can be detected at pre-plug in
+> order to error out earlier.
 >=20
-> This allows to pass &error_abort to spapr_drc_attach() and to end
-> up with a plug handler that doesn't need to report errors anymore.
+> This allows to get rid of error handling in the plug handler.
 >=20
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  hw/ppc/spapr.c | 17 +++++++++++------
->  1 file changed, 11 insertions(+), 6 deletions(-)
+>  hw/ppc/spapr.c | 23 ++++++++++++++++++-----
+>  1 file changed, 18 insertions(+), 5 deletions(-)
 >=20
 > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 81bac59887ab..bded059d59c8 100644
+> index bded059d59c8..5e32d1d396b4 100644
 > --- a/hw/ppc/spapr.c
 > +++ b/hw/ppc/spapr.c
-> @@ -3872,6 +3872,7 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotp=
-lug_dev, DeviceState *dev,
->      SpaprPhbState *sphb =3D SPAPR_PCI_HOST_BRIDGE(dev);
->      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
->      const unsigned windows_supported =3D spapr_phb_windows_supported(sph=
-b);
-> +    SpaprDrc *drc;
-> =20
->      if (dev->hotplugged && !smc->dr_phb_enabled) {
->          error_setg(errp, "PHB hotplug not supported for this machine");
-> @@ -3883,6 +3884,12 @@ static bool spapr_phb_pre_plug(HotplugHandler *hot=
-plug_dev, DeviceState *dev,
->          return false;
+> @@ -3957,17 +3957,28 @@ static void spapr_phb_unplug_request(HotplugHandl=
+er *hotplug_dev,
 >      }
-> =20
-> +    drc =3D spapr_drc_by_id(TYPE_SPAPR_DRC_PHB, sphb->index);
-> +    if (drc && drc->dev) {
-> +        error_setg(errp, "PHB %d already attached", sphb->index);
-> +        return false;
-> +    }
-> +
->      /*
->       * This will check that sphb->index doesn't exceed the maximum numbe=
-r of
->       * PHBs for the current machine type.
-> @@ -3896,8 +3903,7 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotp=
-lug_dev, DeviceState *dev,
->                             errp);
 >  }
 > =20
-> -static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-> -                           Error **errp)
-> +static void spapr_phb_plug(HotplugHandler *hotplug_dev, DeviceState *dev)
+> -static void spapr_tpm_proxy_plug(HotplugHandler *hotplug_dev, DeviceStat=
+e *dev,
+> -                                 Error **errp)
+> +static
+> +bool spapr_tpm_proxy_pre_plug(HotplugHandler *hotplug_dev, DeviceState *=
+dev,
+> +                              Error **errp)
 >  {
 >      SpaprMachineState *spapr =3D SPAPR_MACHINE(OBJECT(hotplug_dev));
->      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-> @@ -3913,9 +3919,8 @@ static void spapr_phb_plug(HotplugHandler *hotplug_=
-dev, DeviceState *dev,
->      /* hotplug hooks should check it's enabled before getting this far */
->      assert(drc);
+> -    SpaprTpmProxy *tpm_proxy =3D SPAPR_TPM_PROXY(dev);
 > =20
-> -    if (!spapr_drc_attach(drc, dev, errp)) {
+>      if (spapr->tpm_proxy !=3D NULL) {
+>          error_setg(errp, "Only one TPM proxy can be specified for this m=
+achine");
 > -        return;
-> -    }
-> +    /* spapr_phb_pre_plug() already checked the DRC is attachable */
-> +    spapr_drc_attach(drc, dev, &error_abort);
+> +        return false;
+>      }
 > =20
->      if (hotplugged) {
->          spapr_hotplug_req_add_by_index(drc);
-> @@ -3983,7 +3988,7 @@ static void spapr_machine_device_plug(HotplugHandle=
+> +    return true;
+> +}
+> +
+> +static void spapr_tpm_proxy_plug(HotplugHandler *hotplug_dev, DeviceStat=
+e *dev)
+> +{
+> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(OBJECT(hotplug_dev));
+> +    SpaprTpmProxy *tpm_proxy =3D SPAPR_TPM_PROXY(dev);
+> +
+> +    /* Already checked in spapr_tpm_proxy_pre_plug() */
+> +    g_assert(spapr->tpm_proxy =3D=3D NULL);
+> +
+>      spapr->tpm_proxy =3D tpm_proxy;
+>  }
+> =20
+> @@ -3990,7 +4001,7 @@ static void spapr_machine_device_plug(HotplugHandle=
 r *hotplug_dev,
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
->          spapr_core_plug(hotplug_dev, dev);
 >      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRID=
 GE)) {
-> -        spapr_phb_plug(hotplug_dev, dev, errp);
-> +        spapr_phb_plug(hotplug_dev, dev);
+>          spapr_phb_plug(hotplug_dev, dev);
 >      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
->          spapr_tpm_proxy_plug(hotplug_dev, dev, errp);
+> -        spapr_tpm_proxy_plug(hotplug_dev, dev, errp);
+> +        spapr_tpm_proxy_plug(hotplug_dev, dev);
 >      }
+>  }
+> =20
+> @@ -4053,6 +4064,8 @@ static void spapr_machine_device_pre_plug(HotplugHa=
+ndler *hotplug_dev,
+>          spapr_core_pre_plug(hotplug_dev, dev, errp);
+>      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BRID=
+GE)) {
+>          spapr_phb_pre_plug(hotplug_dev, dev, errp);
+> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY)) {
+> +        spapr_tpm_proxy_pre_plug(hotplug_dev, dev, errp);
+>      }
+>  }
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -155,25 +156,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---xexMVKTdXPhpRiVT
+--wqJr86X7F8PBspU2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+7R/IACgkQbDjKyiDZ
-s5LNUBAA28eamJLh9CRGPb/7bbSAcpPoiTjrqd8kDFwu54BSh6S02n8KGDvMkbOC
-38JcNwQIO6zx3KqJOUGYV4kaJSphbO1DrN4IdTP3sBZ11cVkI3mLFaDepVP1MxMv
-MKPSLUl7Ouim7cy7w/JEsuFfuHXvywhEHl9d0uaw5VBee520om1mdTj+xIMwhnm6
-R/rhR/JOHVdKFf8HeQDb/3vk8na7AZtFtZWIwxjdQy3fJOolRmjwIJZDVwtOzw+Q
-Gq/ktPFcpYToIjBhDmgUH//VOyostYEVUXHTdHNHw36C+4ypukTERXfqW0qC0F6M
-iIq0oxbn9Yybce1Ua6mThCzkws2dmUE9vNNoKfEUAPyh1cj0337ggsh/kJc7dUaw
-zel47ctUgW7uJlWK+H7myppLhlGrx4i5t8VZZZP/bACyBCtFc8ETvzRYaB8O5LHf
-TcUk+OO4ZYO8DRnLjo62798S4p6SYLgnm8krHaPp+f8eT5If3mMkPSwQnD5keFjR
-56Z/AEn2cDsCeptSoRp16rWlDbTB1tKvnVdy+fn18I3tc/p9kxonEpBnHhY7VrGb
-l6e8kCy8sANZOmYZtCZCksTC1YU8wb5AA1EfIcMzmAYqIROwhRTl0zuZIQM81mer
-SSLjS/ssNwfHkbiy5yTAQlG/3f21PzVD3lOKbE1rf+YXeGaoS4E=
-=TgtW
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+7SXwACgkQbDjKyiDZ
+s5KQ7RAAnAksaO606AqV0KIWqEZUVSIB5nxK/EhYWu0hXg+ys9XAXCauJiGi3efi
+iA8QZaPmEo2YCiwJOGsFjfUu5CAXJNT8Nab1FFZjQo8uR1yx0dXnV4yDjBFDlvnJ
+4zocpimPZNWZDPWP5t4Ty2vy4HNgLO6rspT7jyY90gcuOiB9bxselmIl15JVCba9
+jgv0gRG7QvdUeeeJbYoepxRlJH30FnUN8DSOyUSVMNGes9oMkvRL6sCQfnaOPDSG
+EYq4r2x4S8xEMNQxfZzb7AgaaP9LmYmCsICcLg6DzwlQE7pD2KGpc2+brDVWuFBP
+uTsV5q0FjONOcBPTrR2SkKTv2gsOSC+ao+CX2ukrFSgNJG1ZnX45g9GIweQbqdFw
+PgdQuj1Tgr4i0MJm8yfjKhjY3L4sSUWrjJ23hNOCBZS0WXDdrXBYsw3WkaGP9H0m
+0j0O+5e57r/QcJOOtIIfwyqCuqQqDnzX6eJEcilzuquG+E7IVhNPA2kkRGlUAuIO
+k+hG6FLM4cKgcnPFWMMMCv15CNQQJya2MhsJ4ERhUzLy3YxQK+j8gngd/xTMfwN/
+/9FXjajVieGR9Dgj34ufn5ZLsznboSEQ9S5Nz8gsszkKkNIMnTGnTDCnnn2bgQVs
+1+SeoGlj/pLDpopD3bYqtnXKt/GgslOfQUvzpJzqKPLO/elb6eI=
+=86/B
 -----END PGP SIGNATURE-----
 
---xexMVKTdXPhpRiVT--
+--wqJr86X7F8PBspU2--
 
