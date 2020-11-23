@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF902C04E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:49:53 +0100 (CET)
-Received: from localhost ([::1]:36126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 551562C04F4
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 12:54:27 +0100 (CET)
+Received: from localhost ([::1]:52698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khALv-0004V9-9P
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:49:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55834)
+	id 1khAQL-0002vz-0e
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 06:54:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFz-0004yG-9W
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:43 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:43948)
+ id 1khAG0-00050v-6Z
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:44 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khAFx-0002nR-Kw
+ id 1khAFy-0002nZ-Ku
  for qemu-devel@nongnu.org; Mon, 23 Nov 2020 06:43:43 -0500
-Received: by mail-wr1-x434.google.com with SMTP id s8so18237470wrw.10
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:41 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id s8so18237520wrw.10
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 03:43:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=UgYNIfqy+vUoUN0CjnlR/j55R+Sj3jYUN6rQ/u8c6Mw=;
- b=BiBjj6Hp2eWcFo2vEyv2eYQOoLRFOJnsKwYTaCawQFjyaK1R6y5DJNma6WKPQ98jRU
- cwe5MaXuNlAM3ovgF37W11KRdiYZETuJfCj/VwhTgqkg8KgqqCeex/2MDwI9JqcriWqQ
- cgTS0E1ck1z2nDSiyCARiZokeGpqgXylR/m/nMCrHfHFsXbPAHeP75pITIcc2IK6PdCo
- o205NmPgchmsTwEQmeDIGC4I+ZwwTozoWVEa8WNuarDQ+/l2vGgorBEakFb10sOquTCk
- YvwH8cHYUZbodK61T2nVqPTLlpUle6OzybbUydtwCcL1kpuzBuC0Cg+S+IQFkqWsTeJD
- /JUg==
+ bh=4Ypxoy0mib2XWO0hP79LJLjw0b7ewwN2mmrbu/XzDlQ=;
+ b=GyGpIgSNCVp8lB4iiGMMUJTgZ93TPBaNbiz3lrj8y3WaFL59KbYFzbYGYQX5p4YkQm
+ KDsFs3c5PILRidxh3qHwzGIpSASEfb9hZXdeBQyDeOx1bewnQJ+4h2yiM7CBRgKLX7dW
+ 9b3dRzebLOjDbnDpJ3+pX+roJvpiUui4lQwxp4qQ936sn8y2d1vff9nhV/t5DBpf5Ogd
+ Wi1VNDN42Witxrr1dbm0eJJFjLj+0AK7Xeyg60IdQk67KjrulJGZvH5vURFTStmajJzs
+ eeH59z+5WvK6TezT4YPmx4qT0Py3Vgrgqttk8oDoSia0zyRs1IV3ASEyJHhDU5wt+P5m
+ O3RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UgYNIfqy+vUoUN0CjnlR/j55R+Sj3jYUN6rQ/u8c6Mw=;
- b=l7T2JFlNCZ0riAgE+a67mSZXA30HNpib+8UQcGx3ajpPIsx+t2wQesFZuzlmZXYU23
- wPNZ7GtVkHcghSd3AuSIO/wNoAc07lhtiybfM54zoHT5d8lxMCEfaMqS0gg8so4FUGMS
- 2Vzr5To9W+zW/KBqgPkcuaR9uz8ldaTiNEFJsIB6CbZmnzCRwjsbhgjDdF2Nw/+SctU4
- lBNut3BhzLrWcy/GhlF02u/lzKqVr/bgUkMZ12yPaj478lXHPaJsscEFGiYYcf56ONBm
- q5dJSuV3r405kHhmGIqBcn26vTyjxF9RvIHKDd5Cc1/OEcXOwbVu2BUv+jgGpIWtTyAR
- m2lA==
-X-Gm-Message-State: AOAM531cxkCi2wkvzarx/JCmLB7uxzJjZDdIyshHncsEjWlF/9+TYUOA
- gGmCLi8cWp7Yd/uzDNT6ZyCV1XBhqsVpOg==
-X-Google-Smtp-Source: ABdhPJyplMLZThMGU0u4ekHBb7sAzPaIJnkt4qEvfLBlB+eAi6oCTRPf0fXfcM9O30AKX8Td2ntE7Q==
-X-Received: by 2002:a5d:4d87:: with SMTP id b7mr31944310wru.115.1606131820108; 
- Mon, 23 Nov 2020 03:43:40 -0800 (PST)
+ bh=4Ypxoy0mib2XWO0hP79LJLjw0b7ewwN2mmrbu/XzDlQ=;
+ b=MTGOfZY2+jyXCAgtTkpm6BUUuOCwMVA83sf5eXWFqMeiqRy3pFR8+lSnRbE6EPY+tU
+ Merq0fAaMmP4EZGgGiuCosmz7OxYBPPw81yhij0w3OiGw2smt3+SeR+ahsvT2qNv6yt6
+ TUSsa5U2G1HmAy/n5vJM6gO+KKCJ1cl1hmmzq8BNwVM9xjz4l5AwE9iGCVTrFb5krvXs
+ TD5R4W0IK83fkFE87QbqMZnt0uh69i+Z0eSAIz2bPT0lHgNC7blb7s63QBqUq2TKnrjc
+ fC5dZhvcgyyRGQ5TbDA8JUV5dIhSR64IgeYC21W/+wRx9u8OfcrFPY2e+WZAuighnm3u
+ f9wg==
+X-Gm-Message-State: AOAM531iGZohB0JHc1vw/szfT+pEMZ71+B9wD0jylUDaWO0rwTskuUGi
+ Eu+aDNTA0F+xMZUfcVevGCC7/IxruWDkTQ==
+X-Google-Smtp-Source: ABdhPJxik3KoTyYUzwtQiEoy23xNPOOzKmg0xAOk4dNYiIxD+Ywg5ChMQXi7iugHAtNYuIAOOPzBfw==
+X-Received: by 2002:adf:de12:: with SMTP id b18mr31384783wrm.187.1606131821185; 
+ Mon, 23 Nov 2020 03:43:41 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.38
+ by smtp.gmail.com with ESMTPSA id g186sm50836495wma.1.2020.11.23.03.43.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:43:38 -0800 (PST)
+ Mon, 23 Nov 2020 03:43:40 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/24] docs: Split out 'pc' machine model docs into their own
- file
-Date: Mon, 23 Nov 2020 11:43:11 +0000
-Message-Id: <20201123114315.13372-21-peter.maydell@linaro.org>
+Subject: [PULL 21/24] docs: Move microvm.rst into the system manual
+Date: Mon, 23 Nov 2020 11:43:12 +0000
+Message-Id: <20201123114315.13372-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201123114315.13372-1-peter.maydell@linaro.org>
 References: <20201123114315.13372-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,64 +87,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently target-i386.rst includes the documentation of the 'pc'
-machine model inline. Split it out into its own file, in a
-similar way to target-i386.rst; this gives us a place to put
-documentation of other i386 machine models, such as 'microvm'.
+Now that target-i386.rst has a place to list documentation of
+machines other than the 'pc' machine, we have a place we can
+move the microvm documentation to.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/system/i386/pc.rst     |  7 +++++++
- docs/system/target-i386.rst | 18 +++++++++++++-----
- 2 files changed, 20 insertions(+), 5 deletions(-)
- create mode 100644 docs/system/i386/pc.rst
+ docs/{ => system/i386}/microvm.rst | 5 ++---
+ docs/system/target-i386.rst        | 1 +
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename docs/{ => system/i386}/microvm.rst (98%)
 
-diff --git a/docs/system/i386/pc.rst b/docs/system/i386/pc.rst
-new file mode 100644
-index 00000000000..d543c11a5cd
---- /dev/null
-+++ b/docs/system/i386/pc.rst
-@@ -0,0 +1,7 @@
-+i440fx PC (``pc-i440fx``, ``pc``)
-+=================================
-+
-+Peripherals
-+~~~~~~~~~~~
-+
-+.. include:: ../target-i386-desc.rst.inc
+diff --git a/docs/microvm.rst b/docs/system/i386/microvm.rst
+similarity index 98%
+rename from docs/microvm.rst
+rename to docs/system/i386/microvm.rst
+index fcf41fc1f6f..1675e37d3e7 100644
+--- a/docs/microvm.rst
++++ b/docs/system/i386/microvm.rst
+@@ -1,6 +1,5 @@
+-====================
+-microvm Machine Type
+-====================
++'microvm' virtual platform (``microvm``)
++========================================
+ 
+ ``microvm`` is a machine type inspired by ``Firecracker`` and
+ constructed after its machine model.
 diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
-index 51be03d881f..1612ddba907 100644
+index 1612ddba907..22ba5ce2c0f 100644
 --- a/docs/system/target-i386.rst
 +++ b/docs/system/target-i386.rst
-@@ -1,14 +1,22 @@
- .. _QEMU-PC-System-emulator:
+@@ -16,6 +16,7 @@ Board-specific documentation
+ .. toctree::
+    :maxdepth: 1
  
--x86 (PC) System emulator
--------------------------
-+x86 System emulator
-+-------------------
- 
- .. _pcsys_005fdevices:
- 
--Peripherals
--~~~~~~~~~~~
-+Board-specific documentation
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--.. include:: target-i386-desc.rst.inc
-+..
-+   This table of contents should be kept sorted alphabetically
-+   by the title text of each file, which isn't the same ordering
-+   as an alphabetical sort by filename.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   i386/pc
++   i386/microvm
+    i386/pc
  
  .. include:: cpu-models-x86.rst.inc
- 
 -- 
 2.20.1
 
