@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7912C1355
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:51:32 +0100 (CET)
-Received: from localhost ([::1]:55488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 948B12C1356
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 19:52:49 +0100 (CET)
+Received: from localhost ([::1]:57622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khGvw-0005rB-DP
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:51:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36858)
+	id 1khGxE-0006rT-MY
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 13:52:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khGuQ-0005Ev-Ku
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:49:54 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43582)
+ id 1khGvm-000643-VV
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:51:18 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khGuO-0004SI-Ru
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:49:54 -0500
-Received: by mail-ej1-x630.google.com with SMTP id k27so24759454ejs.10
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 10:49:52 -0800 (PST)
+ id 1khGvk-0004za-6G
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 13:51:18 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id v22so18193990edt.9
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 10:51:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pA0pmF17LbFr2QuQBzOOHYll9rQrgKjh/yqGMlNsE3M=;
- b=b6y+tL8GttZWEJ0KBUEqqe2ulB5C/RZ/cT6qFkpWhla2Qp9YvXGM6wvhVbnYXiIU3M
- BzwfsQS9maaVREm/ddqU4wP79x2/ogoEVmgrqhk2zZJT++fmMzNkhOHIt+loH3TpTTXh
- pd5Kpg0gfBVWS3inrNryHJjeh0qhMYzx39Ha+XN36K6t3bvJqfQwIOtfg0nBy/4UnmmX
- INROUUuKLZHnN9ryOf+QfSLKSKZV84d6XgU3qQqF38nv2iHyHhmMDfIKwnwRs6tBsN2Y
- iM882kAaNqE1xElRsCREI8BgN0EkQhI0g1L8WO0TaBG1F/PNy+sZnWrmMTLqZjnJoH6s
- 84Mg==
+ :cc; bh=WWO/8mrDF1WLAAP5I1XV1UHU/YKdeoZScwl7Z5bBUuQ=;
+ b=usu0I7z/nfyvW5jNkUKmoXfzJIcO2I5aMUFgAx5FHdUYYnXuUojTh6AxjOfTxzw7nS
+ Z6D4wpIfKvVtgXVB0PHzhgcWJrKFft+SJWEnuLjrxqHhIr0TBPCFHqouHvGu5JRvmIFa
+ K4ER44mCX4aXL1vf1tRVkn3HbrFvfxO124PFsv7+LZ9bqxXrpvIs5RaJLqM1qjFWvkGl
+ 2yq17ig7GDHayJ4GhnWW15lsIgw0mxNOK4hV8RlZZRBvGD0J2fP6DZql+YTt7GQSrZzo
+ QDL5cezG0MpXAeSOLMODAEJ5eCZm7Wd2L7gSqj4ZDjIne3kOtxwECgG5WaknfhMZ8kYM
+ fRig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pA0pmF17LbFr2QuQBzOOHYll9rQrgKjh/yqGMlNsE3M=;
- b=mR/0DFQISDSQqFZg0GvVc8QL4a6hCqnZJdMl3nrgAY9gjUQ4UzsGtNSBU2YpvTRBdz
- Rz9VdmERwteFzlayrRkqhG8TU63WYYj30eDt+HG8tndno4X3xnE3JcKLOSj467ug9eWb
- oRMj7tg7Ky+T1d1KOKl2dzximWDUKXDsjDjWSlI7StAfBxztwrbQG6RUrJHwcXj5AqqQ
- v0knIjsp5FbyH3YzRI2DAuPSwKzjzk9kRzqX6NJroLohxMZKeqTO6eDjU9XVD39xwENR
- KUyJmv6L3Oac1wOrmwxQou/DFdPHCiZ625rVifuGqCcXo3B1OXiXLH75aU5VJ303ROss
- 9bkQ==
-X-Gm-Message-State: AOAM532fXeu5Q7C1Nke1bddNFWsd22Hipjr8Oyfj2QBeiVhc3OOV/YE0
- Uc61nCrxsubO1WnYodP4XjFR7EfreWsKmI18VZpKvQ==
-X-Google-Smtp-Source: ABdhPJxc2V2XT5XXQeJmYD7I2z1t7KBIlWjjFZ/h+X5du1T1WXxwIqJ/Zifurs2/zSerTW3BPejT3qdmNpog5nc+P6w=
-X-Received: by 2002:a17:906:5a88:: with SMTP id
- l8mr853896ejq.407.1606157391082; 
- Mon, 23 Nov 2020 10:49:51 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=WWO/8mrDF1WLAAP5I1XV1UHU/YKdeoZScwl7Z5bBUuQ=;
+ b=bGGuZhuPrzTPTOV2gHfRQUDZh36Ll+9otK4XjBdexvq4+hHWmECRYLfqXRQ+0ncDEs
+ z4j7ZyP3UTrKJrQd4MFrwQj+gPa/uxnyAyQgBNOD7YGCHHsEUfX15L1hO5nwQ3Ld2kjq
+ ZZr1fKk/Zxhwg/jBpV33H0uxsLmwoV5+lqDLc43LshoJShDBVvW9k5V5zWHOB50MdB2K
+ +1YKZQiIqiUirSxjyRWZMyAKNlkQuE2Y5p19o46EOvK54/NMhQsPIRkkx1iBmmiMF9Bx
+ ZVLXFXxseTVUX4wtv9rZsNq4ni4mi1Fyt48FZlJcC+XZlGUyd+PHaSKxKraHQNUOoDgM
+ c1Ww==
+X-Gm-Message-State: AOAM5306rrHYmjDPZEU9ENg3lzypxjMAJYZg11E1JSArzN6AF4fW+r0R
+ uAlRmAF2B8gRthb4zguoHq39vuGwJyg9HXCUjE6cbw==
+X-Google-Smtp-Source: ABdhPJzyLXv3e6ViGb2H0lwolNPv93rMTX0KB7w5jNjseU2QyFELGJLlISxp+s1ei56S391hDmOvyDA1Qw1uVkr/jec=
+X-Received: by 2002:a05:6402:3089:: with SMTP id
+ de9mr608691edb.100.1606157474635; 
+ Mon, 23 Nov 2020 10:51:14 -0800 (PST)
 MIME-Version: 1.0
-References: <DM6PR11MB3963BA87438B343A71230675F4FC0@DM6PR11MB3963.namprd11.prod.outlook.com>
-In-Reply-To: <DM6PR11MB3963BA87438B343A71230675F4FC0@DM6PR11MB3963.namprd11.prod.outlook.com>
+References: <20201123115155.232335-1-thuth@redhat.com>
+In-Reply-To: <20201123115155.232335-1-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 Nov 2020 18:49:38 +0000
-Message-ID: <CAFEAcA-_ZM7DKk0a0Lkp1boZwUHi-OxD62w1-=NqnYzGKJc9ZA@mail.gmail.com>
-Subject: Re: QEMU build dependencies for new board
-To: "Ancuta, Cristian" <cristian.ancuta@intel.com>
+Date: Mon, 23 Nov 2020 18:51:03 +0000
+Message-ID: <CAFEAcA-yHMgC+ZN=oQZM9TCg8d55ALewoy4-kkVqd3VmTk_1AQ@mail.gmail.com>
+Subject: Re: [PULL 0/3] s390-ccw bios reboot fixes
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,51 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Nov 2020 at 17:31, Ancuta, Cristian
-<cristian.ancuta@intel.com> wrote:
-> I=E2=80=99ve implemented a new CPU target in ./target/arch_name and I=E2=
-=80=99m also trying to add a new board to emulate that target on in system =
-mode in ./hw/arch_name. The board is based on the versatilepb, but I=E2=80=
-=99ll gradually be removing all the arm implementation from it, aiming for =
-a minimal implementation with just my custom cpu architecture, system bus, =
-main memory and an UART.
+On Mon, 23 Nov 2020 at 11:52, Thomas Huth <thuth@redhat.com> wrote:
+>
+>  Hi Peter,
+>
+> the following changes since commit 8cc30eb1400fc01f2b139cdd3dc524f8b84dbe07:
+>
+>   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20201122' into staging (2020-11-22 15:02:52 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/huth/qemu.git tags/pull-request-2020-11-23
+>
+> for you to fetch changes up to 7a3d37a3f2335e18539e821d0c72abe0b22480bd:
+>
+>   pc-bios/s390: Update the s390-ccw bios binaries (2020-11-23 10:16:09 +0100)
+>
+> CI runs:
+>
+>   https://gitlab.com/huth/qemu/-/pipelines/219883736
+>   https://travis-ci.com/github/huth/qemu/builds/203497483
+>
+> ----------------------------------------------------------------
+> * Two reboot fixes for the s390-ccw bios
+> ----------------------------------------------------------------
 
-Incidentally, versatilepb is a really bad board to start with
-as a template, because it's one of the oldest we have, and it
-does a lot of things in ways that work but which aren't how
-we'd recommend writing a new board model today. You might be
-better off looking at something added more recently.
 
-> I=E2=80=99ve also added all the necessary stuff required by minikconf.py =
-in
-> ./default-configs/<target>-softmmu.mak,
+Applied, thanks.
 
-This suggests you're not basing this on current head-of-git,
-because this is default-configs/targets/<target>-softmmu.mak
-and default-configs/devices/<target>-softmmu.mak now.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-> ./hw/<arch>/Kconfig and a source entry in ./hw/Kconfig.
-
-> The problem is that the build system is bringing in other files
-> that I didn=E2=80=99t specify (CONFIG_A15MPCORE, CONFIG_A15MPCORE,
-> CONFIG_9MPCORE, etc. ), and I=E2=80=99m not sure how they=E2=80=99re endi=
-ng
-> up in ./build/<target>-softmmu/config_device.mak:
-
-This shouldn't happen, but it's not really possible to identify
-the exact problem since you don't provide your code. I would
-try first doing a complete build from scratch (ie delete
-the build directory) in case the problem is that there are
-stale files in the build tree that are getting picked up.
-Otherwise re-double-check your default-config files to make
-sure they really don't have any CONFIG_whatever or "SELECT whatever"
-in that they shouldn't. (Looking at the list of devices, an
-accidental "select REALVIEW" would have that effect.)
-
-thanks
 -- PMM
 
