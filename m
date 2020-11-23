@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76662C0AAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 14:55:02 +0100 (CET)
-Received: from localhost ([::1]:37058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE9D2C0BE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 14:57:24 +0100 (CET)
+Received: from localhost ([::1]:41870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khCJ3-0004i2-QR
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 08:55:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60246)
+	id 1khCLL-0006qg-Pl
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 08:57:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1khCHG-0003xm-6r
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:53:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23689)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1khCHD-0008QI-2u
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:53:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606139585;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ooSF46QhlsVPumbusjyn5TcKvp7fanANg2KfWEMgU14=;
- b=OSSnD0DVYtM2/rWAD8aul5E5tYYf/16BEug5D74QU2XI4nq1Hk0zO6W1bFh92FBW2s3vjv
- cAp5qdVWlbl/FvkQKssoL68GXnBtFsTZ06UVM1QlaiccAmnx+gTJfQ4j9iGEgtFnaIRXTo
- jNHJrSsXyMrjh1fo0XAnvgOBlsIUblg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-SziwhRnYO4uETZ0qcrZFHg-1; Mon, 23 Nov 2020 08:53:00 -0500
-X-MC-Unique: SziwhRnYO4uETZ0qcrZFHg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C193884635C;
- Mon, 23 Nov 2020 13:52:45 +0000 (UTC)
-Received: from gondolin (ovpn-113-104.ams2.redhat.com [10.36.113.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B80A5D9E2;
- Mon, 23 Nov 2020 13:52:37 +0000 (UTC)
-Date: Mon, 23 Nov 2020 14:52:34 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
- right place in VFIO migration
-Message-ID: <20201123145234.266a7e42.cohuck@redhat.com>
-In-Reply-To: <20201120150146.5e5693e9@w520.home>
-References: <20201114091731.157-1-lushenming@huawei.com>
- <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
- <20201119104127.5e243efa@w520.home>
- <a7be9306-f800-0323-293e-217e2e9f6015@huawei.com>
- <20201120150146.5e5693e9@w520.home>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1khCJJ-0005Gg-Ka
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:55:17 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:41692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1khCJI-0000dX-8r
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 08:55:17 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id gj5so23404798ejb.8
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 05:55:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kp3mZYGzU8kxpRriMYseW1BNlGdRfXHHWB0eM4+zjMU=;
+ b=kUZ5Oww0xDHi36ufVAyddx6Im4xptkJyzmpdNReGBG325Bggy+mVdU8LHPvI4MWTSW
+ KAbHHHkRoUDYpWoywjvEXLbkqpHYH9fZdGz+1ykR67fmkkxMy5KRFM3R4v2ltT2qDba6
+ nlEO9MSf3MtKqpwbka6VG5tTnr8ymZ7Un625bXsXu/0PdT99ldrVnzbQI8i5M6zUdFRu
+ W06OrI9/5uvfzV5ASAPHWKj+9hYPRDmsFlXaD3UnTtpABAE3r4bqxUX+oeGTOE0tWkdT
+ 7oK1d+IGto1aDlU6TB++oFfzj4BXKdRLc0IXBoXogDqz8hE6RnBWIOiJ0W3eKEmZrNMJ
+ Tedw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kp3mZYGzU8kxpRriMYseW1BNlGdRfXHHWB0eM4+zjMU=;
+ b=JIIhnjN1aNOThjlcgY4FpX6CsexbiW/62tIRQR4V1R3uaVm497F/LFT6YPrJcXYcfi
+ YM9p9JrK4IQ+w0tvcF9djJXDrW91Kg7v0JEp0lv11c7VN7B+BdRSYuznR5dNHcpgP0Ue
+ FPpN29MPGB1rOZZ2hcUEbUR33Km0Fgg7a8YX6qDPzmYQ8I3iV3E3xpDZg1h8yqgyca0Z
+ TrhU403x2TqXEzTGq53RDPDe/qJuDUDtqqm7MRfjH4qhTXWhHlyWPoOTdkZ7IUvous2T
+ H3dN7uDw1lUhGEgur7HF79whYnHFHKcrFz+DpRbg1OAY4VvHmYsLyPFX20c9vjFXjVc8
+ 2YNw==
+X-Gm-Message-State: AOAM532YkyemlLoCwgSY84ITTaWGFN7nvYyf6/IDGrqb9BWi1L0YnLxE
+ tayY+PPAs6pm/VrNYyI2Oy+ZrerSRpc=
+X-Google-Smtp-Source: ABdhPJxupvJXtfJwv3NMJYT6Wh21p4TtTzZy1HlbkatT5e8jV2hD9N6ZN0ajd1a+hmh6isUlP4mhoA==
+X-Received: by 2002:a17:906:c312:: with SMTP id
+ s18mr44005274ejz.185.1606139713171; 
+ Mon, 23 Nov 2020 05:55:13 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id x23sm5008997ejs.16.2020.11.23.05.55.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Nov 2020 05:55:12 -0800 (PST)
+Subject: Re: Regressions in build process introduced since August
+To: Stefan Weil <sw@weilnetz.de>, Stefano Garzarella <sgarzare@redhat.com>
+References: <97b04446-ca94-cebd-2d8d-4c2013521208@weilnetz.de>
+ <20201117175030.eqz5run2m7qmx5qt@steredhat>
+ <a6c8de1a-da41-1a4a-8907-790c2467a0b0@redhat.com>
+ <ee31c6f2-19dd-f3f6-d916-f04490909dd8@weilnetz.de>
+ <d69b024e-9762-2b27-b558-0c60b3e96811@weilnetz.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <53da03f4-f044-fb1d-9a1a-a793077cccc3@redhat.com>
+Date: Mon, 23 Nov 2020 14:55:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d69b024e-9762-2b27-b558-0c60b3e96811@weilnetz.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,23 +93,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Neo Jia <cjia@nvidia.com>, Eric Auger <eric.auger@redhat.com>,
- Marc Zyngier <maz@kernel.org>, qemu-devel@nongnu.org, dgilbert@redhat.com,
- Shenming Lu <lushenming@huawei.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Nov 2020 15:01:46 -0700
-Alex Williamson <alex.williamson@redhat.com> wrote:
+On 21/11/20 12:09, Stefan Weil wrote:
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -649,9 +649,8 @@ if get_option('vnc').enabled()
+>     vnc = declare_dependency() # dummy dependency
+>     png = dependency('libpng', required: get_option('vnc_png'),
+>                      method: 'pkg-config', static: enable_static)
+> -  jpeg = cc.find_library('jpeg', has_headers: ['jpeglib.h'],
+> -                         required: get_option('vnc_jpeg'),
+> -                         static: enable_static)
 
-> Given our timing relative to QEMU 5.2, the only path I feel comfortable
-> with is to move forward with downgrading vfio migration support to be
-> enabled via an experimental option.  Objections?  Thanks,
-> 
-> Alex
+Does it work if you just remove "static: enable_static"?  That asks 
+Meson to look explicitly for a ".a" file instead of just adding a 
+"-ljpeg" flag.  However it is not what configure used to do so it 
+shouldn't be necessary.
 
-Agreed from my side. It seems better to give it one more release to
-figure out some issues, and just mark it experimental for now.
-
+Paolo
 
