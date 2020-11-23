@@ -2,87 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A182C0ED2
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:31:14 +0100 (CET)
-Received: from localhost ([::1]:43580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4842D2C0F1E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 16:42:46 +0100 (CET)
+Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khDo9-0006aS-9Q
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:31:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
+	id 1khDzJ-0003qk-Bk
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 10:42:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1khDnA-0005pk-K2
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:30:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1khDn8-00029X-V8
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:30:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606145410;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iyv/pNUPsdbaODe8oiXn7yzP0vhtydh/iG9hDqFfhSc=;
- b=ebzFCGy7GnwfE871O5oZAukHwAlJ/1PWoxV++NJMGgSXSYcNeDES/+cDV70BEV25g0M40J
- gyQlXaRd8TfVGs1LnSke6VtJJKNqCE7KkNbyTWa3uRyaGagz4QES483Kmg9f8qzKR9fO7y
- aO+5zLIofouzCUbUBRu0Gzh3pbsbU24=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-D1zwCzklMsag1diuMoJjww-1; Mon, 23 Nov 2020 10:30:06 -0500
-X-MC-Unique: D1zwCzklMsag1diuMoJjww-1
-Received: by mail-vk1-f199.google.com with SMTP id h67so8194439vke.2
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 07:30:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=iyv/pNUPsdbaODe8oiXn7yzP0vhtydh/iG9hDqFfhSc=;
- b=ewFcSXxc1RQ4DOsM/3KsrxQcmEy40uvSJYgbTC1mVre24Pq4C7Sc2UTIhWaURyoJEL
- 01a8KttTbIKJX8w/Rchb6h90wAkWsNfkQX+mJ4mz+/5I57GISNQgE8Xo0OYcth+FQrWb
- y+UTPHxgmHG+4UoX00g53ky1txNad8Vh6fVS+hSFTG49I3Bm5wcBgCqdO1Gk9dKND5S5
- cjChPBGJRvuGJZhghAPQ6PqYVrRpJdFFmVJxQzsqwB4fU239ZJKHHZLK8QUOtnZFMvly
- Y18WQlJJ0ZLAGFeJ6pi9fyCQIVmoayXZnPiBdcZdR7qqCYZ7uP/mCXDZ9KseOrApUsbm
- vtbQ==
-X-Gm-Message-State: AOAM5304Wnld1WuFicAePNlcR6YEJGjVqMbDmgGgBMipllbv96FH0bHF
- RNUNRW03BBX1ZpN2UwRQX0p/GvzZwc0wL4tgNA0H9vLev29qYata3wWK/TJPjMRlGUnA8Gr6iwH
- s/QM+/PHTmwGtM5FYMLF9JOAY2n62yAA=
-X-Received: by 2002:a1f:1c92:: with SMTP id c140mr288717vkc.7.1606145405328;
- Mon, 23 Nov 2020 07:30:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxXlVX37k2IhpD5o60gG7KEoII1CYVaTVXES7we7FT6p8KI8FhuwDsxxw7sK4/dDHiNZ5qe6xmTqVjYwBUSw80=
-X-Received: by 2002:a1f:1c92:: with SMTP id c140mr288698vkc.7.1606145405123;
- Mon, 23 Nov 2020 07:30:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khDxp-0002uA-Qg
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:41:13 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55248)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khDxm-0006uu-HN
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 10:41:13 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1khDxi-0001OX-AQ
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 15:41:06 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 272212E8184
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 15:41:05 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201102144245.2134077-1-philmd@redhat.com>
- <20201102144245.2134077-2-philmd@redhat.com>
-In-Reply-To: <20201102144245.2134077-2-philmd@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 23 Nov 2020 12:29:53 -0300
-Message-ID: <CAKJDGDaT0TonREayqwWs8CBfEv+35KCFUw6rG3NXGosrZHRRdQ@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2? 1/5] tests/acceptance: Restrict
- virtio_check_params tests to X86 target
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Mon, 23 Nov 2020 15:30:29 -0000
+From: sean mooney <1761798@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=nova; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: libvirt live-migration
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: balazs-gibizer dgilbert-h dsutyagin kashyapc
+ melwitt mriedem sean-k-mooney
+X-Launchpad-Bug-Reporter: Matt Riedemann (mriedem)
+X-Launchpad-Bug-Modifier: sean mooney (sean-k-mooney)
+References: <152303245198.3233.1033096993665779324.malonedeb@wampee.canonical.com>
+Message-Id: <160614542931.15552.11882143602350060958.malone@wampee.canonical.com>
+Subject: [Bug 1761798] Re: live migration intermittently fails in CI with "VQ
+ 0 size 0x80 Guest index 0x12c inconsistent with Host index 0x134:
+ delta 0xfff8"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
+X-Launchpad-Hash: ce47786eb1fadcee0a39622dfbd444204bc492b6
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,72 +75,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- Antony Pavlov <antonynpavlov@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Fabien Chouteau <chouteau@adacore.com>,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1761798 <1761798@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 2, 2020 at 11:45 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> We disabled the virtio_check_params tests in commit 2d6a6e238a2
-> ("tests/acceptance/virtio_check_params: Disable the test"),
-> because these tests were making multiarch CI fail (virtio is
-> multiarch).
->
-> We took the big hammer, as we can restrict the tests to the X86
-> arch. Restore them on this single arch.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  tests/acceptance/virtio_check_params.py | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/v=
-irtio_check_params.py
-> index 87e6c839d14..fecf1c094b1 100644
-> --- a/tests/acceptance/virtio_check_params.py
-> +++ b/tests/acceptance/virtio_check_params.py
-> @@ -42,6 +42,12 @@
->
->
->  class VirtioMaxSegSettingsCheck(Test):
-> +    """
-> +    This test should be multi-arch, however only X86 is implemented.
-> +
-> +    :avocado: tags=3Darch:x86_64
-> +    """
-> +
->      @staticmethod
->      def make_pattern(props):
->          pattern_items =3D ['{0} =3D \w+'.format(prop) for prop in props]
-> @@ -117,7 +123,6 @@ def seg_max_adjust_enabled(mt):
->              return True
->          return False
->
-> -    @skip("break multi-arch CI")
->      def test_machine_types(self):
->          # collect all machine types except 'none', 'isapc', 'microvm'
->          with QEMUMachine(self.qemu_bin) as vm:
-> --
-> 2.26.2
->
->
+in the new case we have the same qemu/libvirt version in both nodes
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+4.2.1Debian 1:4.2-3ubuntu6.7~cloud0
 
+and in this cae its failng for the virtio-blk device not the memroy
+ballon
+
+before the migration starts we see
+
+-sandbox on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcec=
+ontrol=3Ddeny \
+-msg timestamp=3Don
+char device redirected to /dev/pts/2 (label charserial0)
+virtio: bogus descriptor or out of resources
+2020-11-20 14:25:39.911+0000: initiating migration
+
+on the destination
+https://zuul.opendev.org/t/openstack/build/d50877ae15db4022b82f4bb1d1d52cea=
+/log/logs/subnode-2/libvirt/qemu/instance-0000001a.txt
+
+then  on the source we see
+
+char device redirected to /dev/pts/1 (label charserial0)
+2020-11-20T14:25:40.720757Z qemu-system-x86_64: VQ 0 size 0x80 Guest index =
+0xb8 inconsistent with Host index 0xe0: delta 0xffd8
+2020-11-20T14:25:40.720785Z qemu-system-x86_64: Failed to load virtio-blk:v=
+irtio
+2020-11-20T14:25:40.720790Z qemu-system-x86_64: error while loading state f=
+or instance 0x0 of device '0000:00:04.0/virtio-blk'
+2020-11-20T14:25:40.720824Z qemu-system-x86_64: load of migration failed: O=
+peration not permitted
+
+when it fails
+https://zuul.opendev.org/t/openstack/build/d50877ae15db4022b82f4bb1d1d52cea=
+/log/logs/libvirt/qemu/instance-0000001a.txt
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1761798
+
+Title:
+  live migration intermittently fails in CI with "VQ 0 size 0x80 Guest
+  index 0x12c inconsistent with Host index 0x134: delta 0xfff8"
+
+Status in OpenStack Compute (nova):
+  Confirmed
+Status in QEMU:
+  New
+
+Bug description:
+  Seen here:
+
+  http://logs.openstack.org/37/522537/20/check/legacy-tempest-dsvm-
+  multinode-live-
+  migration/8de6e74/logs/subnode-2/libvirt/qemu/instance-00000002.txt.gz
+
+  2018-04-05T21:48:38.205752Z qemu-system-x86_64: -chardev pty,id=3Dcharser=
+ial0,logfile=3D/dev/fdset/1,logappend=3Don: char device redirected to /dev/=
+pts/0 (label charserial0)
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.vmx [bit 5]
+  2018-04-05T21:48:43.153268Z qemu-system-x86_64: VQ 0 size 0x80 Guest inde=
+x 0x12c inconsistent with Host index 0x134: delta 0xfff8
+  2018-04-05T21:48:43.153288Z qemu-system-x86_64: Failed to load virtio-blk=
+:virtio
+  2018-04-05T21:48:43.153292Z qemu-system-x86_64: error while loading state=
+ for instance 0x0 of device '0000:00:04.0/virtio-blk'
+  2018-04-05T21:48:43.153347Z qemu-system-x86_64: load of migration failed:=
+ Operation not permitted
+  2018-04-05 21:48:43.198+0000: shutting down, reason=3Dcrashed
+
+  And in the n-cpu logs on the other host:
+
+  http://logs.openstack.org/37/522537/20/check/legacy-tempest-dsvm-
+  multinode-live-
+  migration/8de6e74/logs/screen-n-cpu.txt.gz#_Apr_05_21_48_43_257541
+
+  There is a related Red Hat bug:
+
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1450524
+
+  The CI job failures are at present using the Pike UCA:
+
+  ii  libvirt-bin                         3.6.0-1ubuntu6.2~cloud0
+
+  ii  qemu-system-x86                     1:2.10+dfsg-0ubuntu3.5~cloud0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/nova/+bug/1761798/+subscriptions
 
