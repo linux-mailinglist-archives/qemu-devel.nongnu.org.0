@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87D12C0DFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:43:14 +0100 (CET)
-Received: from localhost ([::1]:51866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E71AC2C0D92
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 15:34:27 +0100 (CET)
+Received: from localhost ([::1]:56322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khD3h-0005hB-Tl
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:43:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42822)
+	id 1khCvC-0003pl-UH
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 09:34:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1khD1q-0004hM-2f
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:41:18 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1khD1n-0000dB-ED
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:41:17 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5fbbca080000>; Mon, 23 Nov 2020 06:41:12 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 23 Nov
- 2020 14:41:11 +0000
-Received: from kwankhede-dev.nvidia.com (172.20.13.39) by mail.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 23 Nov 2020 14:41:09 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cohuck@redhat.com>, <dgilbert@redhat.com>, 
- <cjia@nvidia.com>, <mcrossley@nvidia.com>
-Subject: [v2 1/1] vfio: Change default dirty pages tracking behavior during
- migration
-Date: Mon, 23 Nov 2020 19:38:51 +0530
-Message-ID: <1606140531-8362-1-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-X-NVConfidentiality: public
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1khCcP-000392-3E
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1khCcJ-0007o7-PG
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 09:15:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606140895;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hr6BmOBAm9O1Te2By5R2isNkfpoVmWjVU8V2jeM9N3c=;
+ b=EQTBBVrLxuf9E8oTUx7m9rsMIEyp54kIxk5xNubuQJi57jz+JwsLFMFelFxAG0h7H5x3HP
+ Oz0QShyxU1e/uj4uLvwgtWbfg8KoDgfVs3DbujdBzYuFGndcNsYTFA45FFI7AI61QoSF0m
+ thcQHmUd0rOmCR1tiLVtUtznxT5G0fM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-98-UPLrS6BTMRWY_6ac3ZcytQ-1; Mon, 23 Nov 2020 09:14:52 -0500
+X-MC-Unique: UPLrS6BTMRWY_6ac3ZcytQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D26DD100C60A
+ for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 14:14:48 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9175B5D9E2;
+ Mon, 23 Nov 2020 14:14:48 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 18/36] vl: separate qemu_create_machine
+Date: Mon, 23 Nov 2020 09:14:17 -0500
+Message-Id: <20201123141435.2726558-19-pbonzini@redhat.com>
+In-Reply-To: <20201123141435.2726558-1-pbonzini@redhat.com>
+References: <20201123141435.2726558-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1606142473; bh=Wp5NiKecTjDmG1K/4iKaZqGU2YMRnkEMaEfKIOqQSJk=;
- h=From:To:CC:Subject:Date:Message-ID:X-Mailer:X-NVConfidentiality:
- MIME-Version:Content-Type;
- b=Ne+75EVNM2TjuqefKMik+D8dAwDm1ZkHaZX8tzNlJuO4UrXByXkiF2T5H8EUWSI1e
- d1iWVDyBCNWALM2kWLOq1cvAJcs6i0dmKdDNfTXRH4GpLTIeZ14XYc5u/ys3dhZ1fd
- sClmn0j9TXCsCS5+5Ei8TyxjaeuGOWn6WmUBa8hAqKoS80beJGCfBJWmYuydbSX9wX
- 8Z1KzAem9aB0bvJYdWhGoXivRL7gYX96AruVamvw5EleteviPqi09w2EWzp9cGh78z
- 6zCDeRaF5glWU6e8Wm0B1zLfl5W81jIzy7AlSIwQAty3Czpjk7VXsG8vFKdEoRFczO
- 6Aw+Dx14qwMhA==
-Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate25.nvidia.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,87 +79,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kirti Wankhede <kwankhede@nvidia.com>, qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By default dirty pages tracking is enabled during iterative phase
-(pre-copy phase).
-Added per device opt-out option 'pre-copy-dirty-page-tracking' to
-disable dirty pages tracking during iterative phase. If the option
-'pre-copy-dirty-page-tracking=off' is set for any VFIO device, dirty
-pages tracking during iterative phase will be disabled.
-
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/vfio/common.c              | 11 +++++++----
- hw/vfio/pci.c                 |  3 +++
- include/hw/vfio/vfio-common.h |  1 +
- 3 files changed, 11 insertions(+), 4 deletions(-)
+ softmmu/vl.c | 113 +++++++++++++++++++++++++++------------------------
+ 1 file changed, 60 insertions(+), 53 deletions(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index c1fdbf17f2e6..6ff1daa763f8 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -311,7 +311,7 @@ bool vfio_mig_active(void)
-     return true;
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index b2ec2ba8ef..c1eaa1e448 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -133,6 +133,8 @@ static const char *boot_order;
+ static const char *boot_once;
+ static const char *incoming;
+ static const char *loadvm;
++static ram_addr_t maxram_size;
++static uint64_t ram_slots;
+ static int display_remote;
+ static int snapshot;
+ static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+@@ -2791,8 +2793,13 @@ static void qemu_create_late_backends(void)
+     qemu_semihosting_console_init();
  }
  
--static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
-+static bool vfio_devices_all_saving(VFIOContainer *container)
+-static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
+-                               MachineClass *mc)
++static bool have_custom_ram_size(void)
++{
++    QemuOpts *opts = qemu_find_opts_singleton("memory");
++    return !!qemu_opt_get_size(opts, "size", 0);
++}
++
++static void set_memory_options(MachineClass *mc)
  {
-     VFIOGroup *group;
-     VFIODevice *vbasedev;
-@@ -329,8 +329,11 @@ static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
-                 return false;
-             }
+     uint64_t sz;
+     const char *mem_str;
+@@ -2842,7 +2849,7 @@ static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
  
--            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
--                !(migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-+            if (migration->device_state & VFIO_DEVICE_STATE_SAVING) {
-+                if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF)
-+                    && (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-+                        return false;
-+                }
-                 continue;
-             } else {
-                 return false;
-@@ -1125,7 +1128,7 @@ static void vfio_listerner_log_sync(MemoryListener *listener,
-         return;
+     /* store value for the future use */
+     qemu_opt_set_number(opts, "size", ram_size, &error_abort);
+-    *maxram_size = ram_size;
++    maxram_size = ram_size;
+ 
+     if (qemu_opt_get(opts, "maxmem")) {
+         uint64_t slots;
+@@ -2863,15 +2870,59 @@ static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
+             exit(EXIT_FAILURE);
+         }
+ 
+-        *maxram_size = sz;
+-        *ram_slots = slots;
++        maxram_size = sz;
++        ram_slots = slots;
+     } else if (qemu_opt_get(opts, "slots")) {
+         error_report("invalid -m option value: missing 'maxmem' option");
+         exit(EXIT_FAILURE);
      }
  
--    if (vfio_devices_all_stopped_and_saving(container)) {
-+    if (vfio_devices_all_saving(container)) {
-         vfio_sync_dirty_bitmap(container, section);
-     }
+     loc_pop(&loc);
+-    return !!mem_str;
++}
++
++static void qemu_create_machine(MachineClass *machine_class)
++{
++    object_set_machine_compat_props(machine_class->compat_props);
++
++    set_memory_options(machine_class);
++
++    current_machine = MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
++    if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
++        exit(0);
++    }
++    object_property_add_child(object_get_root(), "machine",
++                              OBJECT(current_machine));
++    object_property_add_child(container_get(OBJECT(current_machine),
++                                            "/unattached"),
++                              "sysbus", OBJECT(sysbus_get_default()));
++
++    if (machine_class->minimum_page_bits) {
++        if (!set_preferred_target_page_bits(machine_class->minimum_page_bits)) {
++            /* This would be a board error: specifying a minimum smaller than
++             * a target's compile-time fixed setting.
++             */
++            g_assert_not_reached();
++        }
++    }
++
++    cpu_exec_init_all();
++    page_size_init();
++
++    if (machine_class->hw_version) {
++        qemu_set_hw_version(machine_class->hw_version);
++    }
++
++    machine_smp_parse(current_machine,
++        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
++
++    /*
++     * Get the default machine options from the machine if it is not already
++     * specified either by the configuration file or by the command line.
++     */
++    if (machine_class->default_machine_opts) {
++        qemu_opts_set_defaults(qemu_find_opts("machine"),
++                               machine_class->default_machine_opts, 0);
++    }
  }
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 58c0ce8971e3..5601df6d6241 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -3182,6 +3182,9 @@ static void vfio_instance_init(Object *obj)
- static Property vfio_pci_dev_properties[] = {
-     DEFINE_PROP_PCI_HOST_DEVADDR("host", VFIOPCIDevice, host),
-     DEFINE_PROP_STRING("sysfsdev", VFIOPCIDevice, vbasedev.sysfsdev),
-+    DEFINE_PROP_ON_OFF_AUTO("x-pre-copy-dirty-page-tracking", VFIOPCIDevice,
-+                            vbasedev.pre_copy_dirty_page_tracking,
-+                            ON_OFF_AUTO_ON),
-     DEFINE_PROP_ON_OFF_AUTO("display", VFIOPCIDevice,
-                             display, ON_OFF_AUTO_OFF),
-     DEFINE_PROP_UINT32("xres", VFIOPCIDevice, display_xres, 0),
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index baeb4dcff102..267cf854bbba 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -129,6 +129,7 @@ typedef struct VFIODevice {
-     unsigned int flags;
-     VFIOMigration *migration;
-     Error *migration_blocker;
-+    OnOffAuto pre_copy_dirty_page_tracking;
- } VFIODevice;
  
- struct VFIODeviceOps {
+ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
+@@ -3405,10 +3456,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     const char *optarg;
+     MachineClass *machine_class;
+     bool userconfig = true;
+-    ram_addr_t maxram_size;
+-    uint64_t ram_slots = 0;
+     FILE *vmstate_dump_file = NULL;
+-    bool have_custom_ram_size;
+ 
+     qemu_add_opts(&qemu_drive_opts);
+     qemu_add_drive_opts(&qemu_legacy_drive_opts);
+@@ -4334,49 +4382,7 @@ void qemu_init(int argc, char **argv, char **envp)
+ 
+     configure_rtc(qemu_find_opts_singleton("rtc"));
+ 
+-    machine_class = select_machine();
+-    object_set_machine_compat_props(machine_class->compat_props);
+-
+-    have_custom_ram_size = set_memory_options(&ram_slots, &maxram_size,
+-                                              machine_class);
+-
+-    current_machine = MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
+-    if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
+-        exit(0);
+-    }
+-    object_property_add_child(object_get_root(), "machine",
+-                              OBJECT(current_machine));
+-    object_property_add_child(container_get(OBJECT(current_machine),
+-                                            "/unattached"),
+-                              "sysbus", OBJECT(sysbus_get_default()));
+-
+-    if (machine_class->minimum_page_bits) {
+-        if (!set_preferred_target_page_bits(machine_class->minimum_page_bits)) {
+-            /* This would be a board error: specifying a minimum smaller than
+-             * a target's compile-time fixed setting.
+-             */
+-            g_assert_not_reached();
+-        }
+-    }
+-
+-    cpu_exec_init_all();
+-    page_size_init();
+-
+-    if (machine_class->hw_version) {
+-        qemu_set_hw_version(machine_class->hw_version);
+-    }
+-
+-    machine_smp_parse(current_machine,
+-        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
+-
+-    /*
+-     * Get the default machine options from the machine if it is not already
+-     * specified either by the configuration file or by the command line.
+-     */
+-    if (machine_class->default_machine_opts) {
+-        qemu_opts_set_defaults(qemu_find_opts("machine"),
+-                               machine_class->default_machine_opts, 0);
+-    }
++    qemu_create_machine(select_machine());
+ 
+     qemu_disable_default_devices();
+     qemu_create_default_devices();
+@@ -4411,6 +4417,7 @@ void qemu_init(int argc, char **argv, char **envp)
+      * called from configure_accelerator().
+      */
+ 
++    machine_class = MACHINE_GET_CLASS(current_machine);
+     if (!qtest_enabled() && machine_class->deprecation_reason) {
+         error_report("Machine type '%s' is deprecated: %s",
+                      machine_class->name, machine_class->deprecation_reason);
+@@ -4464,7 +4471,7 @@ void qemu_init(int argc, char **argv, char **envp)
+             exit(EXIT_FAILURE);
+         }
+         backend_size = object_property_get_uint(backend, "size",  &error_abort);
+-        if (have_custom_ram_size && backend_size != ram_size) {
++        if (have_custom_ram_size() && backend_size != ram_size) {
+                 error_report("Size specified by -m option must match size of "
+                              "explicitly specified 'memory-backend' property");
+                 exit(EXIT_FAILURE);
 -- 
-2.7.0
+2.26.2
+
 
 
