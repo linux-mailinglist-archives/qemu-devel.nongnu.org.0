@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7242B2C17B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:36:23 +0100 (CET)
-Received: from localhost ([::1]:54036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3EC32C17E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 22:48:10 +0100 (CET)
+Received: from localhost ([::1]:35904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khJVW-0005bF-Ih
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:36:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
+	id 1khJgv-0002Cc-E4
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 16:48:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1khJUD-00044z-3r
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 16:35:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48324)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1khJfe-0001bw-4Q
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 16:46:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1khJUB-0001aF-Ds
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 16:35:00 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1khJfO-0006Fs-Sg
+ for qemu-devel@nongnu.org; Mon, 23 Nov 2020 16:46:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606167297;
+ s=mimecast20190719; t=1606167993;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NKWnkcuVA+AVztnrzDrZn1cQck6yvf2TauhDH/EtVCM=;
- b=Vl7TD2dvUNP/6EgsLyI5TbFCtUBHVJcyvduexM0ehur2RbWXzcxIMU/DVooZGm58zRukcd
- OX6GtI5k7sEopWo6DGii9tdYc+jS/wat6pNX+bdEneJCO+USS2p72T9If+EZIi7dXRUg+o
- h8R30plmBZCfN6M4EeyXOukf44Tkgac=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-582-EnmPOibrOMWehYYw8WmPQA-1; Mon, 23 Nov 2020 16:34:55 -0500
-X-MC-Unique: EnmPOibrOMWehYYw8WmPQA-1
-Received: by mail-qv1-f70.google.com with SMTP id dp12so13917568qvb.2
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 13:34:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NKWnkcuVA+AVztnrzDrZn1cQck6yvf2TauhDH/EtVCM=;
- b=GmEvG1mOcLnz2N2aJYKhjTm1MSJBdc2bRF5fUlrEYZjEZ+CC7oVEcuEjYDXJW5HJpA
- DS1oxU0hIdKHqdrc05ia33BkAhF/98i6CmV6mo41F5MUZ9PSJtW9gYevPHxTblFo8vM7
- Y7uxOYAF/LW37wK5kwkPpy8ImXiqR0CqbInuy7kpBi4MIgn4mtEDQVXyqBD5kau2e4dR
- XXPkMXWYexHaBlTE/rGZOagJW9OvZmGH3zQxVbnDjjMmtibnOzZxGXNEuormZCQfGtmH
- /VOiUvAswI180gc9QdO0I2VhiC/IVHpC5MyBrC9isvNi5xNQeZDRiXYUL/eO8rlfHSQO
- BUvg==
-X-Gm-Message-State: AOAM532wNp9DDIXWUV0btEbdELWZHITJkjn6LZrzuhCWNuewu6FATAQe
- OtCayg/uoYaVNhQyBT4TmidRZYrAB/3Ncw2TjcmNMczQU4LwmwEhB+YvDC4IN/Thlg2wCX0GZfc
- lDk4qpdBAP85J0DE=
-X-Received: by 2002:a0c:a959:: with SMTP id z25mr1471928qva.51.1606167295312; 
- Mon, 23 Nov 2020 13:34:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwStHtOqtNz0Sa/F7J10OWnsnylwZkS7OweTJ+fICVUbfgyjGAaJF5m4YEq4VjQ2l6XPC/D/g==
-X-Received: by 2002:a0c:a959:: with SMTP id z25mr1471885qva.51.1606167294958; 
- Mon, 23 Nov 2020 13:34:54 -0800 (PST)
-Received: from xz-x1 ([142.126.81.247])
- by smtp.gmail.com with ESMTPSA id r127sm10920386qke.64.2020.11.23.13.34.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 13:34:54 -0800 (PST)
-Date: Mon, 23 Nov 2020 16:34:43 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v3 3/7] support UFFD write fault processing in
- ram_save_iterate()
-Message-ID: <20201123213443.GE60522@xz-x1>
-References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
- <20201119125940.20017-4-andrey.gruzdev@virtuozzo.com>
- <20201119182516.GB6538@xz-x1>
- <1e35a550-a6a0-fbe2-ac8d-6844ce23b3fb@virtuozzo.com>
- <20201120150703.GE32525@xz-x1>
- <2797b4b6-b083-750f-385b-f0aa09730251@virtuozzo.com>
- <20201120164316.GC60522@xz-x1>
- <c222b7ca-9368-3adc-00fd-5261216f7df1@virtuozzo.com>
+ bh=eDa2ZrVlt7oeuteUnvGn2troD7Ne9Ce5xpaIBjTE0H8=;
+ b=Zf5mBAfalqOR/aXcQKSL2lKymZ5BY/8ClJduBYtf2U4foaUMevLJi/9p+usxAWEJ1gwbHk
+ Hf/bmyxigwVNvfUUpWJ+Z1UhrnDlL2nEGcFYX2j5oNZnZr6Afg+iOgItVWezOWRZl0Ugir
+ Pfk1AjPU+KlL8qC49nFlrND8HlV19oM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-Tq4on-ksMXa_aU-Rm6oLJQ-1; Mon, 23 Nov 2020 16:46:29 -0500
+X-MC-Unique: Tq4on-ksMXa_aU-Rm6oLJQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFB19183586A;
+ Mon, 23 Nov 2020 21:46:27 +0000 (UTC)
+Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D526B19D9D;
+ Mon, 23 Nov 2020 21:46:23 +0000 (UTC)
+Date: Mon, 23 Nov 2020 14:46:22 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Neo Jia <cjia@nvidia.com>
+Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
+ right place in VFIO migration
+Message-ID: <20201123144622.75a18812@w520.home>
+In-Reply-To: <20201123193336.GA32690@nvidia.com>
+References: <20201114091731.157-1-lushenming@huawei.com>
+ <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
+ <20201119104127.5e243efa@w520.home>
+ <a7be9306-f800-0323-293e-217e2e9f6015@huawei.com>
+ <20201120150146.5e5693e9@w520.home>
+ <09549a98-85a0-fe4e-59fc-fdb636a4a5cd@huawei.com>
+ <20201123193336.GA32690@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <c222b7ca-9368-3adc-00fd-5261216f7df1@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URG_BIZ=0.573 autolearn=no autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,87 +86,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Eric Auger <eric.auger@redhat.com>, Marc Zyngier <maz@kernel.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ Shenming Lu <lushenming@huawei.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 20, 2020 at 07:53:34PM +0300, Andrey Gruzdev wrote:
-> On 20.11.2020 19:43, Peter Xu wrote:
-> > On Fri, Nov 20, 2020 at 07:15:07PM +0300, Andrey Gruzdev wrote:
-> > > Yeah, I think we can re-use the postcopy queue code for faulting pages. I'm
-> > > worring a little about some additional overhead dealing with urgent request
-> > > semaphore. Also, the code won't change a lot, something like:
-> > > 
-> > > [...]
-> > >          /* In case of 'write-tracking' migration we first try
-> > >           * to poll UFFD and sse if we have write page fault event */
-> > >          poll_fault_page(rs);
-> > > 
-> > >          again = true;
-> > >          found = get_queued_page(rs, &pss);
-> > > 
-> > >          if (!found) {
-> > >              /* priority queue empty, so just search for something dirty */
-> > >              found = find_dirty_block(rs, &pss, &again);
-> > >          }
-> > > [...]
-> > 
-> > Could I ask what's the "urgent request semaphore"?  Thanks,
-> > 
-> 
-> These function use it (the correct name is 'rate_limit_sem'):
-> 
-> void migration_make_urgent_request(void)
-> {
->     qemu_sem_post(&migrate_get_current()->rate_limit_sem);
-> }
-> 
-> void migration_consume_urgent_request(void)
-> {
->     qemu_sem_wait(&migrate_get_current()->rate_limit_sem);
-> }
-> 
-> They are called from ram_save_queue_pages and unqueue_page, accordingly, to
-> control migration rate limiter.
-> 
-> bool migration_rate_limit(void)
-> {
-> [...]
->         /*
->          * Wait for a delay to do rate limiting OR
->          * something urgent to post the semaphore.
->          */
->         int ms = s->iteration_start_time + BUFFER_DELAY - now;
->         trace_migration_rate_limit_pre(ms);
->         if (qemu_sem_timedwait(&s->rate_limit_sem, ms) == 0) {
->             /*
->              * We were woken by one or more urgent things but
->              * the timedwait will have consumed one of them.
->              * The service routine for the urgent wake will dec
->              * the semaphore itself for each item it consumes,
->              * so add this one we just eat back.
->              */
->             qemu_sem_post(&s->rate_limit_sem);
->             urgent = true;
->         }
-> [...]
-> }
-> 
+On Mon, 23 Nov 2020 11:33:37 -0800
+Neo Jia <cjia@nvidia.com> wrote:
 
-Hmm... Why its overhead could be a problem?  If it's an overhead that can be
-avoided, then postcopy might want that too.
+> On Mon, Nov 23, 2020 at 11:14:38AM +0800, Shenming Lu wrote:
+> > External email: Use caution opening links or attachments
+> >=20
+> >=20
+> > On 2020/11/21 6:01, Alex Williamson wrote: =20
+> > > On Fri, 20 Nov 2020 22:05:49 +0800
+> > > Shenming Lu <lushenming@huawei.com> wrote:
+> > > =20
+> > >> On 2020/11/20 1:41, Alex Williamson wrote: =20
+> > >>> On Thu, 19 Nov 2020 14:13:24 +0530
+> > >>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> > >>> =20
+> > >>>> On 11/14/2020 2:47 PM, Shenming Lu wrote: =20
+> > >>>>> When running VFIO migration, I found that the restoring of VFIO P=
+CI device=E2=80=99s
+> > >>>>> config space is before VGIC on ARM64 target. But generally, inter=
+rupt controllers
+> > >>>>> need to be restored before PCI devices. =20
+> > >>>>
+> > >>>> Is there any other way by which VGIC can be restored before PCI de=
+vice? =20
+> > >>
+> > >> As far as I know, it seems to have to depend on priorities in the no=
+n-iterable process.
+> > >> =20
+> > >>>> =20
+> > >>>>> Besides, if a VFIO PCI device is
+> > >>>>> configured to have directly-injected MSIs (VLPIs), the restoring =
+of its config
+> > >>>>> space will trigger the configuring of these VLPIs (in kernel), wh=
+ere it would
+> > >>>>> return an error as I saw due to the dependency on kvm=E2=80=99s v=
+gic.
+> > >>>>> =20
+> > >>>>
+> > >>>> Can this be fixed in kernel to re-initialize the kernel state? =20
+> > >>
+> > >> Did you mean to reconfigure these VLPIs when restoring kvm's vgic?
+> > >> But the fact is that this error is not caused by kernel, it is due t=
+o the incorrect
+> > >> calling order of qemu...
+> > >> =20
+> > >>>> =20
+> > >>>>> To avoid this, we can move the saving of the config space from th=
+e iterable
+> > >>>>> process to the non-iterable process, so that it will be called af=
+ter VGIC
+> > >>>>> according to their priorities.
+> > >>>>> =20
+> > >>>>
+> > >>>> With this change, at resume side, pre-copy phase data would reach
+> > >>>> destination without restored config space. VFIO device on destinat=
+ion
+> > >>>> might need it's config space setup and validated before it can acc=
+ept
+> > >>>> further VFIO device specific migration state.
+> > >>>>
+> > >>>> This also changes bit-stream, so it would break migration with ori=
+ginal
+> > >>>> migration patch-set. =20
+> > >>>
+> > >>> Config space can continue to change while in pre-copy, if we're onl=
+y
+> > >>> sending config space at the initiation of pre-copy, how are any cha=
+nges
+> > >>> that might occur before the VM is stopped conveyed to the target?  =
+For
+> > >>> example the guest might reboot and a device returned to INTx mode f=
+rom
+> > >>> MSI during pre-copy.  Thanks, =20
+> > >>
+> > >> What I see is that the config space is only saved once in save_live_=
+complete_precopy
+> > >> currently...
+> > >> As you said, a VFIO device might need it's config space setup first,=
+ and
+> > >> the config space can continue to change while in pre-copy, Did you m=
+ean we
+> > >> have to migrate the config space in save_live_iterate?
+> > >> However, I still have a little doubt about the restoring dependence =
+between
+> > >> the qemu emulated config space and the device data...
+> > >>
+> > >> Besides, if we surely can't move the saving of the config space back=
+, can we
+> > >> just move some actions which are triggered by the restoring of the c=
+onfig space
+> > >> back (such as vfio_msix_enable())? =20
+> > >
+> > > It seems that the significant benefit to enabling interrupts during
+> > > pre-copy would be to reduce the latency and failure potential during
+> > > the final phase of migration.  Do we have any data for how much it ad=
+ds
+> > > to the device contributed downtime to configure interrupts only at th=
+e
+> > > final stage?  My guess is that it's a measurable delay on its own.  A=
+t
+> > > the same time, we can't ignore the differences in machine specific
+> > > dependencies and if we don't even sync the config space once the VM i=
+s
+> > > stopped... this all seems not ready to call supported, especially if =
+we
+> > > have concerns already about migration bit-stream compatibility.
+> > > =20
+> >=20
+> > I have another question for this, if we restore the config space while =
+in pre-copy
+> > (include enabling interrupts), does it affect the _RESUMING state (paus=
+ed) of the
+> > device on the dst host (cause it to send interrupts? which should not b=
+e allowed
+> > in this stage). Does the restore sequence need to be further discussed =
+and reach
+> > a consensus(spec) (taking into account other devices and the correspond=
+ing actions
+> > of the vendor driver)?
 
-The thing is I really feel like the snapshot logic can leverage the whole idea
-of existing postcopy (like get_queued_page/unqueue_page; it's probably due to
-the fact that both of them want to "migrate some more urgent pages than the
-background migration, due to either missing/wrprotected pages"), but I might
-have something missing.
+If a target device generates an interrupt when stopped, I think that
+would violate the basic notion of running vs stopped in the device
+state, right?
 
-Thanks,
+> > > Given our timing relative to QEMU 5.2, the only path I feel comfortab=
+le
+> > > with is to move forward with downgrading vfio migration support to be
+> > > enabled via an experimental option.  Objections?  Thanks, =20
+> >=20
+> > Alright, but this issue is related to our ARM GICv4.1 migration scheme,=
+ could you
+> > give a rough idea about this (where to enable interrupts, we hope it to=
+ be after
+> > the restoring of VGIC)? =20
+>=20
+> I disagree. If this is only specific to Huawei ARM GIC implementation, wh=
+y do we want to
+> make the entire VFIO based migration an experimental feature?
 
--- 
-Peter Xu
+Because it's essentially unproven by the larger community.  Let's face
+it, there was a surprisingly positive response to my previous proposal
+to mark this feature experimental, and mostly it was not due to the
+immediate issue that caused me to sound the alarm.  I think this latest
+issue shows that this feature has not had the upstream soak time that
+it needs.  Had we persisted with its development after it missed QEMU
+5.1, had we pushed it upstream after the freeze lifted and iterated
+throughout the 5.2 development window, we might be in a better position
+right now.
+
+As it stands, we're potentially at the final RC of this release, other
+vendors have yet to prove this for their devices and architectures in
+the short time since the code entered mainline, we continue to see new
+issues, we have zero available vendor drivers supporting migration,
+we're not sure how to maintain bit-stream compatibility with the issues
+we already know about, and we're out of time.  I don't see how the
+upstream community can gamble that this is in a supportable state at
+this point.  Thanks,
+
+Alex
 
 
