@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD962C027C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 10:48:48 +0100 (CET)
-Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FB82C027D
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 10:49:29 +0100 (CET)
+Received: from localhost ([::1]:42936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh8Sl-0000iM-47
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 04:48:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57958)
+	id 1kh8TQ-0001V8-Bd
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 04:49:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miklos@szeredi.hu>) id 1kh8RA-00088X-MR
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:47:11 -0500
-Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:35766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <miklos@szeredi.hu>) id 1kh8R7-0001CP-4b
- for qemu-devel@nongnu.org; Mon, 23 Nov 2020 04:47:07 -0500
-Received: by mail-vs1-xe43.google.com with SMTP id v8so8294357vso.2
- for <qemu-devel@nongnu.org>; Mon, 23 Nov 2020 01:47:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szeredi.hu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZsMt2XnoIlYnnG5BiedHbtTd+nxdVSn63U6LZGHCEbY=;
- b=cgA1U9oYtIMjlL5Yp4PqP3SYhuTk8FYirONLJ2I0gkGY5MedBfhscaEwdlnWa6jU6Y
- K6t76/mJ1boIMSKLcrH9IBb9Zve5sslmFr306M8ODmBg9xEYrBe2JRHEbxrKBh2prJJg
- CWQ36QR7rWz7zU1Ar/YGdHmLmdaNSH49r09ak=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZsMt2XnoIlYnnG5BiedHbtTd+nxdVSn63U6LZGHCEbY=;
- b=fUcu8Z9vngy9apJ4YWYnvziM99Ci6tpWm7CjX+8c8SAsVjEVaNiJYYuvKRbi05LnA2
- xfdLTmTIVyG1w2CGgtbJIuAh0i3DSLMUh8zz55/DncfM8To7B7ufIPxbFcOWNBAP5TYp
- ucFvKIQ339f8c1ovhnEESBnuA4lAeFlRJ0lu7YOpHzo/IL45SEINc74+2Y4ahOdEtgrf
- Nz/ubdUQFr1U2yViJ8W7tW6FyLlsz1WT3GAH9IarI86AYZYBxxAad3y4ist/X23Qmn4/
- gvxKEJpnR9EjIUXSIg9X0IdVtBFszekbFC4x0gvRSF89HYhYaR4qYtksfnvp+RYG4VFk
- miAg==
-X-Gm-Message-State: AOAM532B0a6i0UuKctzfOYaPtdF66hFThP+yCU5AEKEpZBnad8hIw35D
- eLMpQXKUUsWJ+sQ1JKQfPgpL6mlr/GlNWosWplueSg==
-X-Google-Smtp-Source: ABdhPJy/rSQfuF5AEH6P58plY0W4wVdx1VYe25ptRu0KINtPib26uBfc0mNIzOikXXn2lAV6AKOPEZ/GIVQMqw8g0WM=
-X-Received: by 2002:a67:e981:: with SMTP id b1mr19861393vso.47.1606124822229; 
- Mon, 23 Nov 2020 01:47:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kh8Rq-0000EQ-2G; Mon, 23 Nov 2020 04:47:50 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:55127)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kh8Rn-0001PA-LX; Mon, 23 Nov 2020 04:47:49 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.147])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 23D6C7487B3E;
+ Mon, 23 Nov 2020 10:47:43 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 23 Nov
+ 2020 10:47:43 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G00177f5ea59-0a37-482b-9a43-701ec71c3b52,
+ 7563B3C8582C4E5C569F12427BEE2CF3FAD9DE82) smtp.auth=groug@kaod.org
+Date: Mon, 23 Nov 2020 10:47:41 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH for-6.0 7/8] spapr: Drop "nr_servers" argument of the
+ sPAPR IC activate() operation
+Message-ID: <20201123104741.7866bae9@bahia.lan>
+In-Reply-To: <20201123043832.GG521467@yekko.fritz.box>
+References: <20201120174646.619395-1-groug@kaod.org>
+ <20201120174646.619395-8-groug@kaod.org>
+ <20201123043832.GG521467@yekko.fritz.box>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20201105194416.GA1384085@redhat.com>
- <20201105195253.GB1384085@redhat.com>
- <D9233684-9B76-468E-A5F1-B35DA3F3C091@intel.com>
- <20201106223524.GG1436035@redhat.com>
- <CAOssrKcJr9a_5EUTU19BTp1UaST64Shh9w0UeR6TXPLqkN7bBw@mail.gmail.com>
- <20201118195153.GB111728@redhat.com>
-In-Reply-To: <20201118195153.GB111728@redhat.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 23 Nov 2020 10:46:50 +0100
-Message-ID: <CAJfpeguJiVw=6Sd764Eqaw5hdkW4tOgRedek5H4G38++e0jxGA@mail.gmail.com>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: Use --thread-pool-size=0 to mean
- no thread pool
-To: Vivek Goyal <vgoyal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e43;
- envelope-from=miklos@szeredi.hu; helo=mail-vs1-xe43.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+Content-Type: multipart/signed; boundary="Sig_/6sWzdgofr0MDIsUVd31f8Zc";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: e91aeb5e-b0e6-44c4-be2f-2e9146bddff6
+X-Ovh-Tracer-Id: 9601392934588619232
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgtdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheplefggfefueegudegkeevieevveejfffhuddvgeffteekieevueefgfeltdfgieetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,92 +69,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, Miklos Szeredi <mszeredi@redhat.com>,
- "Shinde, Archana M" <archana.m.shinde@intel.com>, "Venegas Munoz,
- Jose Carlos" <jose.carlos.venegas.munoz@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 8:52 PM Vivek Goyal <vgoyal@redhat.com> wrote:
->
-> On Thu, Nov 12, 2020 at 10:06:37AM +0100, Miklos Szeredi wrote:
-> > On Fri, Nov 6, 2020 at 11:35 PM Vivek Goyal <vgoyal@redhat.com> wrote:
-> > >
-> > > On Fri, Nov 06, 2020 at 08:33:50PM +0000, Venegas Munoz, Jose Carlos wrote:
-> > > > Hi Vivek,
-> > > >
-> > > > I have tested with Kata 1.12-apha0, the results seems that are better for the use fio config I am tracking.
-> > > >
-> > > > The fio config does  randrw:
-> > > >
-> > > > fio --direct=1 --gtod_reduce=1 --name=test --filename=random_read_write.fio --bs=4k --iodepth=64 --size=200M --readwrite=randrw --rwmixread=75
-> > > >
-> > >
-> > > Hi Carlos,
-> > >
-> > > Thanks for the testing.
-> > >
-> > > So basically two conclusions from your tests.
-> > >
-> > > - for virtiofs, --thread-pool-size=0 is performing better as comapred
-> > >   to --thread-pool-size=1 as well as --thread-pool-size=64. Approximately
-> > >   35-40% better.
-> > >
-> > > - virtio-9p is still approximately 30% better than virtiofs
-> > >   --thread-pool-size=0.
-> > >
-> > > As I had done the analysis that this particular workload (mixed read and
-> > > write) is bad with virtiofs because after every write we are invalidating
-> > > attrs and cache so next read ends up fetching attrs again. I had posted
-> > > patches to gain some of the performance.
-> > >
-> > > https://lore.kernel.org/linux-fsdevel/20200929185015.GG220516@redhat.com/
-> > >
-> > > But I got the feedback to look into implementing file leases instead.
-> >
-> > Hmm, the FUSE_AUTO_INVAL_DATA feature is buggy, how about turning it
-> > off for now?   9p doesn't have it, so no point in enabling it for
-> > virtiofs by default.
->
-> If we disable FUSE_AUTO_INVAL_DATA, then client page cache will not
-> be invalidated even after 1 sec, right? (for cache=auto).
+--Sig_/6sWzdgofr0MDIsUVd31f8Zc
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Unless FOPEN_KEEP_CACHE is used (only cache=always, AFAICS) data cache
-will be invalidated on open.
+On Mon, 23 Nov 2020 15:38:32 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-I think it's what NFS does, except NFS does invalidation based on
-mtime *at the time of open*.   At least that's what I remember from
-past reading of NFS code.
+> On Fri, Nov 20, 2020 at 06:46:45PM +0100, Greg Kurz wrote:
+> > This argument isn't used by the backends anymore.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  include/hw/ppc/spapr_irq.h | 3 +--
+> >  hw/intc/spapr_xive.c       | 3 +--
+> >  hw/intc/xics_spapr.c       | 3 +--
+> >  hw/ppc/spapr_irq.c         | 3 +--
+> >  4 files changed, 4 insertions(+), 8 deletions(-)
+> >=20
+> > diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+> > index c22a72c9e270..3e1c619d4c06 100644
+> > --- a/include/hw/ppc/spapr_irq.h
+> > +++ b/include/hw/ppc/spapr_irq.h
+> > @@ -43,8 +43,7 @@ DECLARE_CLASS_CHECKERS(SpaprInterruptControllerClass,=
+ SPAPR_INTC,
+> >  struct SpaprInterruptControllerClass {
+> >      InterfaceClass parent;
+> > =20
+> > -    int (*activate)(SpaprInterruptController *intc, uint32_t nr_server=
+s,
+> > -                    Error **errp);
+>=20
+> Hm.  Thinking back on this, is the problem just that it's not clear
+> here if the 'nr_servers' parameter here indicates the number of CPU
+> targets, or the maximum index of CPU targets?
+>=20
 
-> Given now we also want to target sharing directory tree among multiple
-> clients, keeping FUSE_AUTO_INVAL_DATA enabled should help.
+AIUI 'nr_servers' has always been referring to the number of consecutive
+server ids that we put in the "ibm,interrupt-server-ranges" property for
+XICS.
 
-Depends what applications expect.  THe close-to-open coherency
-provided even without FUSE_AUTO_INVAL_DATA should be enough for the
-case when strong coherency is not required.
+> If so, I wonder if it might be better to pass both numbers as
+> parameters here, rather than shuffling the properties of the devices
+> themselves.
+>=20
 
->
-> >
-> > Also I think some confusion comes from cache=auto being the default
-> > for virtiofs.    Not sure what the default is for 9p, but comparing
-> > default to default will definitely not be apples to apples since this
-> > mode is nonexistent in 9p.
-> >
-> > 9p:cache=none  <-> virtiofs:cache=none
-> > 9p:cache=loose <-> virtiofs:cache=always
-> >
-> > "9p:cache=mmap" and "virtiofs:cache=auto" have no match.
->
-> Agreed from performance comparison point of view.
->
-> I will prefer cache=auto default (over cache=none) for virtiofsd. During
-> some kernel compilation tests over virtiofs, cache=none was painfully
-> slow as compared to cache=auto.
+Maybe. I'll give a try.
 
-It would also be interesting to know the exact bottleneck in the
-kernel compile with cache=none case.
+> > +    int (*activate)(SpaprInterruptController *intc, Error **errp);
+> >      void (*deactivate)(SpaprInterruptController *intc);
+> > =20
+> >      /*
+> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> > index d13a2955ce9b..8331026fdb12 100644
+> > --- a/hw/intc/spapr_xive.c
+> > +++ b/hw/intc/spapr_xive.c
+> > @@ -754,8 +754,7 @@ static void spapr_xive_dt(SpaprInterruptController =
+*intc, uint32_t nr_servers,
+> >                       plat_res_int_priorities, sizeof(plat_res_int_prio=
+rities)));
+> >  }
+> > =20
+> > -static int spapr_xive_activate(SpaprInterruptController *intc,
+> > -                               uint32_t nr_servers, Error **errp)
+> > +static int spapr_xive_activate(SpaprInterruptController *intc, Error *=
+*errp)
+> >  {
+> >      SpaprXive *xive =3D SPAPR_XIVE(intc);
+> > =20
+> > diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+> > index ce147e8980ed..8810bd93c856 100644
+> > --- a/hw/intc/xics_spapr.c
+> > +++ b/hw/intc/xics_spapr.c
+> > @@ -426,8 +426,7 @@ static int xics_spapr_post_load(SpaprInterruptContr=
+oller *intc, int version_id)
+> >      return 0;
+> >  }
+> > =20
+> > -static int xics_spapr_activate(SpaprInterruptController *intc,
+> > -                               uint32_t nr_servers, Error **errp)
+> > +static int xics_spapr_activate(SpaprInterruptController *intc, Error *=
+*errp)
+> >  {
+> >      if (kvm_enabled()) {
+> >          return spapr_irq_init_kvm(xics_kvm_connect, intc,
+> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> > index be6f4041e433..f2897fbc942a 100644
+> > --- a/hw/ppc/spapr_irq.c
+> > +++ b/hw/ppc/spapr_irq.c
+> > @@ -480,7 +480,6 @@ static void set_active_intc(SpaprMachineState *spap=
+r,
+> >                              SpaprInterruptController *new_intc)
+> >  {
+> >      SpaprInterruptControllerClass *sicc;
+> > -    uint32_t nr_servers =3D spapr_max_server_number(spapr);
+> > =20
+> >      assert(new_intc);
+> > =20
+> > @@ -498,7 +497,7 @@ static void set_active_intc(SpaprMachineState *spap=
+r,
+> > =20
+> >      sicc =3D SPAPR_INTC_GET_CLASS(new_intc);
+> >      if (sicc->activate) {
+> > -        sicc->activate(new_intc, nr_servers, &error_fatal);
+> > +        sicc->activate(new_intc, &error_fatal);
+> >      }
+> > =20
+> >      spapr->active_intc =3D new_intc;
+>=20
 
-Thanks,
-Miklos
+
+--Sig_/6sWzdgofr0MDIsUVd31f8Zc
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl+7hT0ACgkQcdTV5YIv
+c9YhpxAAs187x1aZ0rXX+/WIbzkNPWfuO6Xt7trwfK/f+dE4RNfKJXQuv+P0uUWF
+qzC16UU3JUyCXVbY1kxpUPihOy30J5vcLttBSpdzHw8YlH6c+OV5wEj9S6/2TKaz
+BgmGR3niuOrHZXdZz+LXIKTLinS3mo5mvfEr1kHDOctDTbAZvQJuIaWWyjFTRpyp
+/tATGyzw8JlZWGFkS3z46VaJ9zPl6K7brU3z4V4bYpLP7uq51ERZPDs5qUbWo7CX
+GYkQeg+Lzq6Z1qrvb/rffOdeHlbA9hmHzafX/45FlLrRcQsadk/mmRsVTvUWU3al
+qhr7G7aLm0HKS/F2vjPXnPVtmcwydKB/RvPdGq3Trl9+3Tma71DVCMpjGe+3euQB
+yDyciQsOGV3HuasXI3kE1nZyVggDnlSFvVnDEyuxOTjL/FihJo8BHdrbRFtR+mdt
+1PhnIvpEcTsxzak8bUYETuWmWSPWconsMWTfvNWFgxP0C3UaLyxf8Bq4Lu+XHp/7
+safjIlAofUV+6Lk/nmJj3/ScWv9uVsN+r2ciPbIfChwlZQX32EAtj70pTwgOictd
+nczIPpZHco8vqovNoVopN0ejP6IpkY0wyuYFZuHh74j2eMoNdVEdMClqq8BP7aWx
+1Zv/MWjR8UP2tUd22TM3AZIDlkNBplTdbcCTY3PWTfR4bXL8aCE=
+=sezM
+-----END PGP SIGNATURE-----
+
+--Sig_/6sWzdgofr0MDIsUVd31f8Zc--
 
