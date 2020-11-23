@@ -2,104 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77D72C0123
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 09:10:23 +0100 (CET)
-Received: from localhost ([::1]:34226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473202C012D
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Nov 2020 09:13:24 +0100 (CET)
+Received: from localhost ([::1]:45410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kh6vV-0005Sx-I7
-	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 03:10:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36544)
+	id 1kh6yQ-0001eo-LZ
+	for lists+qemu-devel@lfdr.de; Mon, 23 Nov 2020 03:13:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kh6tK-0003hn-1N; Mon, 23 Nov 2020 03:08:06 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:9220)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1kh6uu-0005zF-07; Mon, 23 Nov 2020 03:09:44 -0500
+Received: from 5.mo51.mail-out.ovh.net ([188.165.49.213]:53525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kh6tE-0006OA-0t; Mon, 23 Nov 2020 03:08:05 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AN81tCC088490; Mon, 23 Nov 2020 03:07:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=H9qsDqnApA16hwleIbkOJ4lIcwI2Iux9bOezob7Qw3I=;
- b=izDe5jqgFelUFu84W65X5KZ3QqD8hmMmS3RGuYXcIdqDYnLADKdT8zCskBMbNfukvuMJ
- 9zfROymVfcIdF592dBi+NBt5WU6R3dqAki3jwGX847ST8jLXYEU0N+5ssb3RZjgyP90U
- UJHQ1fsvWqmqTgIB2jdfO9MaomEWKpkT6BWIrBvZTm75hQLgeHVMwayLHVgcxCtxgaG8
- 6zHZ7JOr+O3/6hcalBpaJnLRBpNObg1PyVjZOfCcOKe7YSQcW7OuNOcCD9SGiSpg8Yhf
- Qu4H3ocBTox/vQC3zoxPiEN93X0IIXfnO5lC9Tiug6PkzAWYNv5uHr9+ApnRfhsjtsNM pg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34xvnhn5va-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Nov 2020 03:07:57 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AN828h0089515;
- Mon, 23 Nov 2020 03:07:57 -0500
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34xvnhn5u0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Nov 2020 03:07:57 -0500
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AN81gsY023274;
- Mon, 23 Nov 2020 08:07:55 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04fra.de.ibm.com with ESMTP id 34xth8956k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Nov 2020 08:07:54 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AN87quC9437888
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 23 Nov 2020 08:07:52 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8F34E4C082;
- Mon, 23 Nov 2020 08:07:50 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 36A554C05C;
- Mon, 23 Nov 2020 08:07:50 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.54.238])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 23 Nov 2020 08:07:50 +0000 (GMT)
-Subject: Re: [PATCH v2 2/2] pc-bios: s390x: Clear out leftover S390EP string
-To: Thomas Huth <thuth@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20201120160117.59366-1-farman@linux.ibm.com>
- <20201120160117.59366-3-farman@linux.ibm.com>
- <e29df739-baca-cd0a-d1d9-a690c0238ca4@de.ibm.com>
- <4738082f-ec10-e2a3-7756-9180a57329bb@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <1ad47eb6-5aca-a766-3bad-aa38924b5ef8@de.ibm.com>
-Date: Mon, 23 Nov 2020 09:07:49 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1kh6uq-0006uX-R2; Mon, 23 Nov 2020 03:09:43 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.2])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 46FE1237FCB;
+ Mon, 23 Nov 2020 09:09:03 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 23 Nov
+ 2020 09:09:01 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0052fc40d9f-06ba-4c42-85bd-6e1644df460d,
+ AF84A700016AED6247F1F5B9AC1D14952D0C96A6) smtp.auth=clg@kaod.org
+Subject: Re: [PATCH for-6.0 1/8] spapr/xive: Turn some sanity checks into
+ assertions
+To: Greg Kurz <groug@kaod.org>, <qemu-devel@nongnu.org>
+References: <20201120174646.619395-1-groug@kaod.org>
+ <20201120174646.619395-2-groug@kaod.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <1d0e378e-6213-e5b4-3ee8-991abaa25e8c@kaod.org>
+Date: Mon, 23 Nov 2020 09:09:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <4738082f-ec10-e2a3-7756-9180a57329bb@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201120174646.619395-2-groug@kaod.org>
+Content-Type: text/plain; charset="windows-1252"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-23_02:2020-11-20,
- 2020-11-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0
- lowpriorityscore=0 malwarescore=0 suspectscore=0 phishscore=0
- clxscore=1015 priorityscore=1501 mlxscore=0 spamscore=0 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011230052
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: a8f8db9f-7429-427c-b092-624090e11e56
+X-Ovh-Tracer-Id: 7934498121796717536
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeghedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeglefgjeevheeifeffudeuhedvveeftdeliedukeejgeeviefgieefhfdtffeftdenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,37 +70,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Herne <jjherne@linux.ibm.com>, qemu-s390x@nongnu.org,
- Janosch Frank <frankja@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 23.11.20 09:05, Thomas Huth wrote:
-> On 23/11/2020 08.39, Christian Borntraeger wrote:
->> On 20.11.20 17:01, Eric Farman wrote:
->>> A Linux binary will have the string "S390EP" at address 0x10008,
->>> which is important in getting the guest up off the ground. In the
->>> case of a reboot (specifically chreipl going to a new device),
->>> we should defer to the PSW at address zero for the new config,
->>> which will re-write "S390EP" from the new image.
->>>
->>> Let's clear it out at this point so that a reipl to, say, a DASD
->>> passthrough device drives the IPL path from scratch without disrupting
->>> disrupting the order of operations for other boots.
->>>
->>> Rather than hardcoding the address of this magic (again), let's
->>> define it somewhere so that the two users are visibly related.
->>
->>
->> Hmmm, this might have side effects, e.g. if you do something like a kdump
->> or kexec to a non-Linux binary that happens to have code at 0x10008, no?
+On 11/20/20 6:46 PM, Greg Kurz wrote:
+> The sPAPR XIVE device is created by the machine in spapr_irq_init().
+> The latter overrides any value provided by the user with -global for
+> the "nr-irqs" and "nr-ends" properties with strictly positive values.
 > 
-> Do these scenarios really go through the s390-ccw bios again, or do they
-> rather bypass the bios and jump directly into the new kernel?
+> It seems reasonable to assume these properties should never be 0,
+> which wouldn't make much sense by the way.
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-Right they jump directly into the new kernel. So this patch could actually
-be "good enough" for 5.2 as is?
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+> ---
+>  hw/intc/spapr_xive.c | 14 ++++----------
+>  1 file changed, 4 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> index 1fa09f287ac0..60e0d5769dcc 100644
+> --- a/hw/intc/spapr_xive.c
+> +++ b/hw/intc/spapr_xive.c
+> @@ -296,22 +296,16 @@ static void spapr_xive_realize(DeviceState *dev, Error **errp)
+>      XiveENDSource *end_xsrc = &xive->end_source;
+>      Error *local_err = NULL;
+>  
+> +    /* Set by spapr_irq_init() */
+> +    g_assert(xive->nr_irqs);
+> +    g_assert(xive->nr_ends);
+> +
+>      sxc->parent_realize(dev, &local_err);
+>      if (local_err) {
+>          error_propagate(errp, local_err);
+>          return;
+>      }
+>  
+> -    if (!xive->nr_irqs) {
+> -        error_setg(errp, "Number of interrupt needs to be greater 0");
+> -        return;
+> -    }
+> -
+> -    if (!xive->nr_ends) {
+> -        error_setg(errp, "Number of interrupt needs to be greater 0");
+> -        return;
+> -    }
+> -
+>      /*
+>       * Initialize the internal sources, for IPIs and virtual devices.
+>       */
+> 
+
 
