@@ -2,69 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23482C259C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 13:26:53 +0100 (CET)
-Received: from localhost ([::1]:34452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C53E2C25B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 13:30:37 +0100 (CET)
+Received: from localhost ([::1]:38876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khXPI-0002Wo-Po
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 07:26:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35888)
+	id 1khXSu-0004Ud-EJ
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 07:30:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1khXNm-0001wO-QB
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 07:25:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1khXNk-0003er-DA
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 07:25:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606220714;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OgDjw2RxfozEU4utFiItENRISKJSTdwOo5iyaRE8kGs=;
- b=Y+xYZz7B1GO1TIL08Bwhwm1QqPvvmULDe0UGhcw+eBnWjaTwdRHpsVVP0PkcCzEagSF7Mc
- sBHqliywU6VR5XyMmfONfgkGifm5FMMkMuwJ8X6LiJJRfD5Bt2CHleyguWHBhHjQz6TXSm
- 1QVHtoLAgGYoGcUWUzjYBxBC8h+8yyU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-4rcodghLMXGC-JRdrgLEhQ-1; Tue, 24 Nov 2020 07:25:12 -0500
-X-MC-Unique: 4rcodghLMXGC-JRdrgLEhQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9849F18C43C8;
- Tue, 24 Nov 2020 12:25:11 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0EF505C1BB;
- Tue, 24 Nov 2020 12:25:08 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC] ich9:cpuhp: add support for cpu hot-unplug with SMI broadcast
- enabled
-Date: Tue, 24 Nov 2020 07:25:07 -0500
-Message-Id: <20201124122507.1014839-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1khXRc-0003yZ-JF; Tue, 24 Nov 2020 07:29:16 -0500
+Received: from mail-vi1eur05on2102.outbound.protection.outlook.com
+ ([40.107.21.102]:8672 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1khXRY-00052P-VD; Tue, 24 Nov 2020 07:29:15 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NUeLBxpWphk/HEX5zEHlksMj0ackf5BwpuSo5EN7MePORScZZ7jm6Njb5TfVMT4iLhtktdX+cixu/dwoe+HCDYxobat+rSvjhcsheVX4BQ1p/XRNNNjcZxtynR7AAvZ49rr5SlmoPqtMauTqd9zNfqKs6ghfqebfBiF4eGzhR2TSGMiEole+rQmVepgGTbCgF3C/XCw2Ll24CDNWftWQaKVYMCff+4//WZE809U2n2cdT3OnxPqcAZvu9Y1D/M8vX8Dk42/Lpm7XdH6bqbaIbpH14BqUfJR5Y8rMHiHFYW1eAGodtvlQozTdtroOzlscKsXn1GoeZWK7z8rKZHYMVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FiEW/3eREhaEba8N12+uNfm4XoYPAuC09RM63dguuhA=;
+ b=POF291xtOgQxdyrDUUBFYb8EdkVbKGIO8HcSLlkI0htOxmSvqjwkyggTyaSvQJcG5EC+yM9xi82eHqGLH9jjMHPtcdDggQXcu2n4zntDs/KkuKwUnFbH8hklKhrH+RNnofCc9SXARe57WDgWmRXRyBNB506k7QvMEXmvyxQRLXtR3JYapbkmwayq75nR5km2nHmMMxLPyAnOdNrMY7vZPS/ygxSgR9prHtoQz5RFcI9VGNyW+YI0mTN/2B786kEJCM9v3qRgS6vtThAy1YVcKpn2yqgEmvnd3Y7aakZNxgO0EoNGeWVgib5zzioRAui6lRnUDx6DFQrcoOhc6ly3RA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FiEW/3eREhaEba8N12+uNfm4XoYPAuC09RM63dguuhA=;
+ b=k5Osr0RaJRYiiFjW8GXWFTtP05SzxPe0b3dwrlcq06mHNuVez0BWsPe502K8Sl2DXE5aomvfzh/k3kFIBeiNnHQDx/XQHpSwexQH8QaDsns4KIsxv03b/T0mFuG8Ea3JUsk7qwJ+++/fsiqM7MISouhud2y1hKUYSIUIbBAqfFo=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
+ by HE1PR0802MB2620.eurprd08.prod.outlook.com (2603:10a6:3:e2::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.28; Tue, 24 Nov
+ 2020 12:29:08 +0000
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::c565:a7d7:a7ab:e9c4]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::c565:a7d7:a7ab:e9c4%10]) with mapi id 15.20.3589.030; Tue, 24 Nov
+ 2020 12:29:08 +0000
+Subject: Re: [PATCH v2 1/2] iotests: add another bash sleep command to 247
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, dgilbert@redhat.com,
+ den@openvz.org, vsementsov@virtuozzo.com
+References: <1606146274-246154-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1606146274-246154-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <07b186ea-092b-7148-3abd-1ef8095a2da2@virtuozzo.com>
+Date: Tue, 24 Nov 2020 15:29:05 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <1606146274-246154-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [109.252.36.39]
+X-ClientProxiedBy: AM0PR03CA0037.eurprd03.prod.outlook.com (2603:10a6:208::14)
+ To HE1PR0801MB2124.eurprd08.prod.outlook.com
+ (2603:10a6:3:89::22)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.36.39) by
+ AM0PR03CA0037.eurprd03.prod.outlook.com (2603:10a6:208::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.20 via Frontend Transport; Tue, 24 Nov 2020 12:29:06 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8f65e0f8-8e8b-4e58-4bef-08d8907489f3
+X-MS-TrafficTypeDiagnostic: HE1PR0802MB2620:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <HE1PR0802MB262086E0ECFB9F31701155B0F4FB0@HE1PR0802MB2620.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: B69BaGNc7hooP97Cg0kxnTMZrg0hSXOElOplWmZJ0nufFptKDVYbVM2SJ0jwSXDQ6UqraJL7mYvrR8cMvVfC9Eic3wDhA6f6pMhNqrr8KUSr6Q5kd5l0rGq7LisFJ6cxHgEvSIY/8SF4DvODC24+Y+UcC4QwAqA45v48fyvyaWBqu3BAHKov+Em2JVxl+ayt7kIGwr/hl+bcvsC3jhG1Q+8bjht/QMc6vIkzN/huQPDMEW9IPlGpAPW77KPhVfS690CaYDsr7iX11U/bwIt5s9r5sdxKHVg0PhzIeDxfrOWwGbcjjNIEjaczJj4D58PJH1ltXK29exIWmtzuP8zpRRprwtTJXyjHgYRmvtpJGaQeWKUSTlnFGtq6qnocUIjB
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(396003)(376002)(366004)(136003)(346002)(2906002)(86362001)(36756003)(66476007)(6916009)(26005)(107886003)(44832011)(6486002)(66556008)(31686004)(66946007)(8936002)(2616005)(478600001)(956004)(16526019)(6512007)(186003)(53546011)(4326008)(8676002)(316002)(31696002)(5660300002)(52116002)(6506007)(4744005)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: Tw/1HxQoO3/uYCWXDWtNkzucyLU9TtCGZ7AFP9Okx50DjatH+uFpJVmZN8VLQmP/qq4qG5gzVlAlsflCtWJgucdRzVLemS6mHbVStWHAeGIybTf7qXoL+QFPGH+sg8frGYjaMw5sihX9dgK5EXSSTWURG2cxSv6NG3nI7wZAJ8o4Etg9KZ5pa+aZyC0Q9TqNZKj8Nj6imgDIpBgb+hDoct5zVvMD3pLosBmuBNcLvrBJHJPXuE89bMV+d8U4Kxm1uUrtmNsNgLg3Z/qGm5JT1ShcD8V71x21baMSN7wXlfeHVMvLWPZmxY21em1hnK2PdssFXkP4H5NX5kabn+HepML3V5KuTBEbaqiLEU6RqHAdQJxIkgWVKT1uUrJQwuCCKs6fzw/iHy+VTdtfvWsgGwkdk2DbVzDi6KECKeYCkFNeyqTg8WwUOS1BpcC57mu+ewNHsM3hmix97O9LUNFTfkz+9CETNCin/PNf9OhhjC5GJz+/j61QeDHj83HWTx5HoQBtI386E5lgrn3nn90SY0zx7ylEoqwRVGyZ8lWIGHqf+ba0XN37OAue2lfNdrv6ww3nAwxPlS81+ogui5aNNrJM2hpPFHnQeZAYvcyL9PTVVYw28yFgu8XZVKnvgxE3JOPmiGK1XNa3udZGnlD78bfWHV8Gk1wHvUciQB5BAL20REBQ1X54VhLv67Us/8n0ylQC48v9O8IK+ql1twpNfpiYiWZ2fDpShY5D8XBzT+AlfVxio6yWAsadBe16wY1YCXa6JxHZyO/AIDHKqbxAP6HIGlawx3/V8HUTyHflFw1EGMzV3bAZF5azEZo5ryMncjAL9YSYT20u3+Y6lsd8MZJ+iGvqAwzRHK2ZnCtn3XfKSw9+5iSt7HYFTFsv/8KBL0FtDCqSmOUAd7WLCZNZgQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f65e0f8-8e8b-4e58-4bef-08d8907489f3
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2020 12:29:08.0233 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eKwohDyJpao7hEehe6w4E6xqWaI/kykXWGvS08Vup5iIcY0LIvvk8Jc2x5/BjNla8QIUjceFpv9k+gZhzxNlaCqw/hLN4y8394uSyFSYS4Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0802MB2620
+Received-SPF: pass client-ip=40.107.21.102;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,205 +118,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lersek@redhat.com, ankur.a.arora@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If firmware negotiates ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT feature,
-OSPM on CPU eject will set bit #4 in CPU hotplug block for to be
-ejected CPU to mark it for removal by firmware and trigger SMI
-upcall to let firmware do actual eject.
+On 23.11.2020 18:44, Andrey Shinkevich wrote:
+> This patch paves the way for the one that follows. The following patch
+> makes the QMP monitor to read up to 4K from stdin at once. That results
+> in running the bash 'sleep' command before the _qemu_proc_exec() starts
+> in subshell. Another 'sleep' command with an unobtrusive 'query-status'
+> plays as a workaround.
+> 
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/247     | 2 ++
+>   tests/qemu-iotests/247.out | 1 +
+>   2 files changed, 3 insertions(+)
+> 
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-PS:
-  - abuse 5.1 machine type for now to turn off unplug feature
-    (it will be moved to 5.2 machine type once new merge window is open)
----
- include/hw/acpi/cpu.h           |  2 ++
- docs/specs/acpi_cpu_hotplug.txt | 11 +++++++++--
- hw/acpi/cpu.c                   | 18 ++++++++++++++++--
- hw/i386/acpi-build.c            |  5 +++++
- hw/i386/pc.c                    |  1 +
- hw/isa/lpc_ich9.c               |  2 +-
- 6 files changed, 34 insertions(+), 5 deletions(-)
+[...]
 
-diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
-index 0eeedaa491..999caaf510 100644
---- a/include/hw/acpi/cpu.h
-+++ b/include/hw/acpi/cpu.h
-@@ -22,6 +22,7 @@ typedef struct AcpiCpuStatus {
-     uint64_t arch_id;
-     bool is_inserting;
-     bool is_removing;
-+    bool fw_remove;
-     uint32_t ost_event;
-     uint32_t ost_status;
- } AcpiCpuStatus;
-@@ -50,6 +51,7 @@ void cpu_hotplug_hw_init(MemoryRegion *as, Object *owner,
- typedef struct CPUHotplugFeatures {
-     bool acpi_1_compatible;
-     bool has_legacy_cphp;
-+    bool fw_unplugs_cpu;
-     const char *smi_path;
- } CPUHotplugFeatures;
- 
-diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
-index 9bb22d1270..f68ef6e06c 100644
---- a/docs/specs/acpi_cpu_hotplug.txt
-+++ b/docs/specs/acpi_cpu_hotplug.txt
-@@ -57,7 +57,11 @@ read access:
-               It's valid only when bit 0 is set.
-            2: Device remove event, used to distinguish device for which
-               no device eject request to OSPM was issued.
--           3-7: reserved and should be ignored by OSPM
-+           3: reserved and should be ignored by OSPM
-+           4: if set to 1, OSPM requests firmware to perform device eject,
-+              firmware shall clear this event by writing 1 into it before
-+              performing device eject.
-+           5-7: reserved and should be ignored by OSPM
-     [0x5-0x7] reserved
-     [0x8] Command data: (DWORD access)
-           contains 0 unless value last stored in 'Command field' is one of:
-@@ -82,7 +86,10 @@ write access:
-                selected CPU device
-             3: if set to 1 initiates device eject, set by OSPM when it
-                triggers CPU device removal and calls _EJ0 method
--            4-7: reserved, OSPM must clear them before writing to register
-+            4: if set to 1 OSPM hands over device eject to firmware,
-+               Firmware shall issue device eject request as described above
-+               (bit #3) and OSPM should not touch device eject bit (#3),
-+            5-7: reserved, OSPM must clear them before writing to register
-     [0x5] Command field: (1 byte access)
-           value:
-             0: selects a CPU device with inserting/removing events and
-diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-index f099b50927..09d2f20dae 100644
---- a/hw/acpi/cpu.c
-+++ b/hw/acpi/cpu.c
-@@ -71,6 +71,7 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr addr, unsigned size)
-         val |= cdev->cpu ? 1 : 0;
-         val |= cdev->is_inserting ? 2 : 0;
-         val |= cdev->is_removing  ? 4 : 0;
-+        val |= cdev->fw_remove  ? 16 : 0;
-         trace_cpuhp_acpi_read_flags(cpu_st->selector, val);
-         break;
-     case ACPI_CPU_CMD_DATA_OFFSET_RW:
-@@ -148,6 +149,8 @@ static void cpu_hotplug_wr(void *opaque, hwaddr addr, uint64_t data,
-             hotplug_ctrl = qdev_get_hotplug_handler(dev);
-             hotplug_handler_unplug(hotplug_ctrl, dev, NULL);
-             object_unparent(OBJECT(dev));
-+        } else if (data & 16) {
-+            cdev->fw_remove = !cdev->fw_remove;
-         }
-         break;
-     case ACPI_CPU_CMD_OFFSET_WR:
-@@ -332,6 +335,7 @@ const VMStateDescription vmstate_cpu_hotplug = {
- #define CPU_INSERT_EVENT  "CINS"
- #define CPU_REMOVE_EVENT  "CRMV"
- #define CPU_EJECT_EVENT   "CEJ0"
-+#define CPU_FW_EJECT_EVENT "CEJF"
- 
- void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-                     hwaddr io_base,
-@@ -384,7 +388,10 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-         aml_append(field, aml_named_field(CPU_REMOVE_EVENT, 1));
-         /* initiates device eject, write only */
-         aml_append(field, aml_named_field(CPU_EJECT_EVENT, 1));
--        aml_append(field, aml_reserved_field(4));
-+        aml_append(field, aml_reserved_field(1));
-+        /* tell firmware to do device eject, write only */
-+        aml_append(field, aml_named_field(CPU_FW_EJECT_EVENT, 1));
-+        aml_append(field, aml_reserved_field(2));
-         aml_append(field, aml_named_field(CPU_COMMAND, 8));
-         aml_append(cpu_ctrl_dev, field);
- 
-@@ -419,6 +426,7 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-         Aml *ins_evt = aml_name("%s.%s", cphp_res_path, CPU_INSERT_EVENT);
-         Aml *rm_evt = aml_name("%s.%s", cphp_res_path, CPU_REMOVE_EVENT);
-         Aml *ej_evt = aml_name("%s.%s", cphp_res_path, CPU_EJECT_EVENT);
-+        Aml *fw_ej_evt = aml_name("%s.%s", cphp_res_path, CPU_FW_EJECT_EVENT);
- 
-         aml_append(cpus_dev, aml_name_decl("_HID", aml_string("ACPI0010")));
-         aml_append(cpus_dev, aml_name_decl("_CID", aml_eisaid("PNP0A05")));
-@@ -461,7 +469,13 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
- 
-             aml_append(method, aml_acquire(ctrl_lock, 0xFFFF));
-             aml_append(method, aml_store(idx, cpu_selector));
--            aml_append(method, aml_store(one, ej_evt));
-+            if (opts.fw_unplugs_cpu) {
-+                aml_append(method, aml_store(one, fw_ej_evt));
-+                aml_append(method, aml_store(aml_int(OVMF_CPUHP_SMI_CMD),
-+                           aml_name("%s", opts.smi_path)));
-+            } else {
-+                aml_append(method, aml_store(one, ej_evt));
-+            }
-             aml_append(method, aml_release(ctrl_lock));
-         }
-         aml_append(cpus_dev, method);
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 1f5c211245..475e76f514 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -96,6 +96,7 @@ typedef struct AcpiPmInfo {
-     bool s4_disabled;
-     bool pcihp_bridge_en;
-     bool smi_on_cpuhp;
-+    bool smi_on_cpu_unplug;
-     bool pcihp_root_en;
-     uint8_t s4_val;
-     AcpiFadtData fadt;
-@@ -197,6 +198,7 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-     pm->pcihp_io_base = 0;
-     pm->pcihp_io_len = 0;
-     pm->smi_on_cpuhp = false;
-+    pm->smi_on_cpu_unplug = false;
- 
-     assert(obj);
-     init_common_fadt_data(machine, obj, &pm->fadt);
-@@ -220,6 +222,8 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-         pm->cpu_hp_io_base = ICH9_CPU_HOTPLUG_IO_BASE;
-         pm->smi_on_cpuhp =
-             !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT));
-+        pm->smi_on_cpu_unplug =
-+            !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT));
-     }
- 
-     /* The above need not be conditional on machine type because the reset port
-@@ -1582,6 +1586,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         CPUHotplugFeatures opts = {
-             .acpi_1_compatible = true, .has_legacy_cphp = true,
-             .smi_path = pm->smi_on_cpuhp ? "\\_SB.PCI0.SMI0.SMIC" : NULL,
-+            .fw_unplugs_cpu = pm->smi_on_cpu_unplug,
-         };
-         build_cpus_aml(dsdt, machine, opts, pm->cpu_hp_io_base,
-                        "\\_SB.PCI0", "\\_GPE._E02");
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 17b514d1da..2952a00fe6 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -99,6 +99,7 @@
- 
- GlobalProperty pc_compat_5_1[] = {
-     { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
-+    { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
- };
- const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
- 
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index 087a18d04d..8c667b7166 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -770,7 +770,7 @@ static Property ich9_lpc_properties[] = {
-     DEFINE_PROP_BIT64("x-smi-cpu-hotplug", ICH9LPCState, smi_host_features,
-                       ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT, true),
-     DEFINE_PROP_BIT64("x-smi-cpu-hotunplug", ICH9LPCState, smi_host_features,
--                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, false),
-+                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
--- 
-2.27.0
+With the patch 2/2 of the current version 2, the test case #247 passes 
+without this patch 1/2. So, it may be excluded from the series.
+Thanks to Vladimir for the idea to check.
 
+Andrey
 
