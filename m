@@ -2,107 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E8B2C21E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 10:44:14 +0100 (CET)
-Received: from localhost ([::1]:37098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC42A2C2210
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 10:50:34 +0100 (CET)
+Received: from localhost ([::1]:47168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khUrt-00036n-IY
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 04:44:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48538)
+	id 1khUy1-0007Oh-CP
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 04:50:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1khUqf-00020q-4Y; Tue, 24 Nov 2020 04:42:57 -0500
-Received: from mail-vi1eur05on2100.outbound.protection.outlook.com
- ([40.107.21.100]:14369 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1khUqb-0003za-0l; Tue, 24 Nov 2020 04:42:56 -0500
+ (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1khUtt-0004mS-B7
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 04:46:18 -0500
+Received: from de-smtp-delivery-102.mimecast.com ([51.163.158.102]:42075)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1khUtm-0005C3-Pq
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 04:46:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
+ s=mimecast20200619; t=1606211166;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yubSQK+bCmGb0bgNOyVuBzrv8B+UwMKIcSEfo0sM1+I=;
+ b=R3EtzmUzKVEmoTsIBVg6JpAiX8znZznOCCHZtUJuOWv2FYNrFi+TdnOO/3uangkR+hLRGH
+ tpXDAJ/CveoLhKynAnc/SxuF0ZROp1TE2iIksXtAX+C/vxDNDCJ5ZM0umxN5R1LLHEQymL
+ SS26eJHUrrhP04ZUVfwGpyauezWL278=
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04lp2056.outbound.protection.outlook.com [104.47.14.56]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ de-mta-37-Rdsvi1p_MnSXmu208dYSzg-1; Tue, 24 Nov 2020 10:45:55 +0100
+X-MC-Unique: Rdsvi1p_MnSXmu208dYSzg-1
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oRHL5TKyjdsHGthiMHU/MBOlWkfz0dA/rHOxWgXuddQkRTBbDZkuA+ITKVM8icuCc08OW3AdoBtApBLeMcxbOVxBC+aV93U1PY/kxZWWUwLO/JKAPKB2TadWr8llwRxcq2zR1d7hyZzkTqPh0zVEnwT1oD09vfXurZ1J32Afv6tmhTH2cEMMcnqXk0sLbEq9DLgqRa+JdYrRYtKVuk1SiaJK9Pz9gsGlJeDvNcvUeI4I8zPmSOQ6CehIpUVv6yk0A8w3Zpu3ujeqGQ6EiX40q4XlMeAkfK1IGnk7PE5Lu4kS9LvG8hV9/OUcveB5jFTe/epv62KKiFeKyWHkPxfg0Q==
+ b=TNre/6zAlBn20Yfjz7xgFWjravKkYUT0kxaTRTLyazCQ08dGVmF4RWBucilcCkA2OByPt/ncTUCUx8x+IE6N4EOJgX0TkoVBRZ1HLTKbldIhB4eCNPokjHTLRMkT4IDXxP6vCWzrFveuh3AV15KAlkZFvlalNGGzKVkud63XwHyIqrxf5gPyH/jER28ioepXePx2ONqxhr9P52riLCGQCoycoueZikTbzLkT6RYMKv3Rqvy8bryz4ycPK2Fbh8uYVSpPpqJT4WvQUysS85foOszzJ22k3ncAyO+wFLGSn3CfpxqAJVsrlQdU35YIW7ykIvabCDCGIvSttWIKX1sJxQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i6y5SsM8gELT+M3hpXn+bvr63AR+Y3ESOQNl8ZhvcFI=;
- b=gct8b4fkBSp1MV7RLpz6hWa/7XQwFhtNXmRVpZK9ot1IJXI7e/k0eVOGjW0QGyPWYM385BZEu8qwbrr+3WuocQYvA1B/259qcbiRWe93puAGJjtWnn7qpQoZ6A7BbnVuKY2qAEFOHVO8PrVDgQXbiUSG8WGBInK15RvlCocymX8qFxhY0L0eZGCZg1xeUiGpHsSl/WyNrxSDvNQLeR20XeSKHJEgtxz3HzTR/fSFR4ZmLn5kQDlaZLMGq3PbsBP4ySblTISC7iB8YoGVnTQmG+Gw1YShkglSu69njov1BKdp1p3AZae74wHg7UmpH3BFwTwEfLpOolskqfwQtwg5Vg==
+ bh=k67sobDzvnbXOfYVs97bPZ6b22BxpqTry074WnEfncU=;
+ b=Hsfl2rYW2EIz6StSyQpozAOiHGdxa7m8egKSADcA4h+/pbAZfgfo4WoN/UrJNS6KmjgccxavUV8UPzBozthxVbUy2pdzEtNqX+CIwOVKhM6me8xUk+rVpbO6hhOdjzF7dU6313N8eJtzegV5x9lNvB29uZqIhRaWGynccSWE+MH//ML4EMP1o3EzbOWj+woQc8ZBCBVwjf2cSnY7Ai+/wWKfEq2AmakOMklE/pv/bVMXE0Uzp9xYZRfQ3sg/Q43DGnREyP4Kx3kHmV+aAwG+rTr8GVhZUJ9DoF5Qlw9pcqk2XGQlWQNlqWdw06JEdpOzZdNMNPdmFFecX/cT0iV+Hw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i6y5SsM8gELT+M3hpXn+bvr63AR+Y3ESOQNl8ZhvcFI=;
- b=Zy0I4KfHCkN9f0Ja3tJEyiVp+y+qfM+7UO0XhU4o5XjiQUFRmVrE3pXbWjsuxIQkO09C11dvwI2PHVFUSF1JqBapjL7cwKI+VUHfomILkL9Xx9GNUn9DA1ew6BfbS/sGt14j58o/jkbD7+jJHulAYiRBl2lI9gUIMtykgCSezwA=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB5990.eurprd08.prod.outlook.com (2603:10a6:20b:296::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.20; Tue, 24 Nov
- 2020 09:42:48 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3589.030; Tue, 24 Nov 2020
- 09:42:48 +0000
-Subject: Re: [PATCH 04/21] block: bdrv_refresh_perms: check parents compliance
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, jsnow@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com, den@openvz.org
-References: <20201123201233.9534-1-vsementsov@virtuozzo.com>
- <20201123201233.9534-7-vsementsov@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <97ec2117-470e-aac6-7861-903c97e91b97@virtuozzo.com>
-Date: Tue, 24 Nov 2020 12:42:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-In-Reply-To: <20201123201233.9534-7-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.100]
-X-ClientProxiedBy: AM8P189CA0006.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:218::11) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=suse.com;
+Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
+ (2603:10a6:803:16::25) by VI1PR0402MB3327.eurprd04.prod.outlook.com
+ (2603:10a6:803:2::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Tue, 24 Nov
+ 2020 09:45:53 +0000
+Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
+ ([fe80::c53b:66c3:e1dc:e5c6]) by VI1PR0402MB3744.eurprd04.prod.outlook.com
+ ([fe80::c53b:66c3:e1dc:e5c6%6]) with mapi id 15.20.3589.029; Tue, 24 Nov 2020
+ 09:45:53 +0000
+From: "Cho, Yu-Chen" <acho@suse.com>
+To: qemu-devel@nongnu.org
+CC: thuth@redhat.com, philmd@redhat.com, wainersm@redhat.com,
+ alex.bennee@linaro.org, fam@euphon.net, cfontana@suse.de, brogers@suse.com,
+ lyan@suse.com
+Subject: [PATCH v2] gitlab-ci.yml: Add openSUSE Leap 15.2 for gitlab CI/CD
+Date: Tue, 24 Nov 2020 17:45:35 +0800
+Message-ID: <20201124094535.18082-1-acho@suse.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201116113046.11362-1-acho@suse.com>
+References: <20201116113046.11362-1-acho@suse.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [60.251.47.115]
+X-ClientProxiedBy: HK2PR04CA0079.apcprd04.prod.outlook.com
+ (2603:1096:202:15::23) To VI1PR0402MB3744.eurprd04.prod.outlook.com
+ (2603:10a6:803:16::25)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.100) by
- AM8P189CA0006.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::11) with Microsoft
+Received: from localhost.localdomain (60.251.47.115) by
+ HK2PR04CA0079.apcprd04.prod.outlook.com (2603:1096:202:15::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3611.20 via Frontend Transport; Tue, 24 Nov 2020 09:42:47 +0000
+ 15.20.3589.20 via Frontend Transport; Tue, 24 Nov 2020 09:45:50 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 813a7743-7329-43c0-21a6-08d8905d4dd2
-X-MS-TrafficTypeDiagnostic: AS8PR08MB5990:
+X-MS-Office365-Filtering-Correlation-Id: 28f451a1-a8cd-40a1-a646-08d8905dbbcc
+X-MS-TrafficTypeDiagnostic: VI1PR0402MB3327:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB5990AE0FC0027B0A07A275D4C1FB0@AS8PR08MB5990.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:166;
+X-Microsoft-Antispam-PRVS: <VI1PR0402MB33279352ADFC7B320CDC4C48A0FB0@VI1PR0402MB3327.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 47T6TylnSbMLGe4pKdKUEvsAg4PPevg09BDW6GUnbobUvBE7t1VfM2YQFkZgtJMnmLuCTfsrBPDM2SrQaeN7rD2Py4Os7hD1veJ6E5iJkq49xWSFyCAdfeSitZKsL/Mx57zXgPpjqfvgFRqRbgSkTfXIqhwkkYe3TBda2xJrlc2S/Ihqof9OxGXxl4qyn5IrZ2gKaOhVevygZhIQkgdUHydiPGUajnou3RVfU3r47P8JGoxx3yyAiWcqMoGjG1kvAAFMdn+eMbfHcjAgbIkiFT6PggDJbIvcXuq/ltHdW1OtIyNT1bPLJc+Ky63vAkzSO1VnPDb2VydsOmy6eybOnZYSawYkyqOkvSCcjF3IGVaTFplzxhAfD97J64avBMGK
+X-Microsoft-Antispam-Message-Info: 5Smu8qQZpeS4NUomIDgoVRZ/4Hf/PGAWgbbN3lnlEU6swPlhbSl64cy2VsL68jIkjTQOQur9rY2ayX4mwxmTN4EzqeBrqrpJaRXBNa4TNZ4pyMBV30ld56OHrmQTH7Z+ssWMAIQZIfvEobQwUMZRjjAMAdXXYH/Qj6vgjDemCUB8gvq7JwvqaKnb5Rzl851nHGaHvCy/VuXnRYksQAn6BKP31tp62d4XsQvcI2ZNerp/QFNCguuYNRv2hwX8SkQc5zuqlt4Szu7pKzB/eAkx4qTfAgud1E5DytnFOqU/gr8ZsAbYdsQvv6E5Tr3tve5wbe+2LA2Ehxk/Ukb73qksBn5I8Othq231xGBd8Fn58zd1A4L1XWa0DZwPsTpAxTMP
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(39840400004)(346002)(136003)(396003)(26005)(83380400001)(16576012)(8936002)(316002)(31686004)(52116002)(66476007)(66556008)(2616005)(186003)(2906002)(6916009)(4326008)(956004)(66946007)(107886003)(5660300002)(16526019)(86362001)(36756003)(31696002)(478600001)(6486002)(8676002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: S2mbBwbZzMXpeOlSQK5lJJ5QdhvSYo+8cV//csU7Nv8WKvdxzLvIZzwezU5bU85KllPYJreB3V3TYqeD5fOgv7lN0EXL7v3X1xDMfZmOI+T+1r24EF6MBdWaV1tcA3BAd+/TkJ1pmYEI08OE24vdrYIWQ7OphQX+lVE79kp82oatBBkQJfKZavF0TBmdvQNRuHe0tIdzLJLG1HZICSuUSVy+SBD/XvRrOgejD2CYGWaKTl8IBY4MQaiQ6neAOOrsofU4OFGY7lCPgiTndCAt1hlA8RiM+zsShilfb0gu1eBCZiVwFWkNPTyEt/Fhxocw9q8X+zSPjNLfhpTWMw+Lq+AFAdp2ZybZTcwe2TjRMh1VP56bYuvKiSBGghZJjyjacEPPrlmQvj5QabcgRHjqMFOFl/DYR27owMjjnK7OjUMGlm07HOgnVdHfIO3tFwZSQtKorp8efYnXPDVclsjar2Y36Zr2EWKa7NsbT69JUw5uHPgFQuXArDx2OU1g3rtXNjogV1MtKUWDIBgFXfhUKVl5VIZT1MUFa8tMywIH+28L+z/dZ60+/5kjTxZf7Bbje+XxMcCLgKV/3rEdQgAbw/fWPKX1+oqKO6H4P13MBMJeVmCk35Ub1HDXT2iAjIdGHMZ4dR4Mjm9bMuelDnQWWauuywIS6rqgXQDwqUzJUzbFwlA9KwbrzUvGwDFxPShvhzp9pMqly0zwpICekzpGbotD4D7tilAWFFGo8HRVvaErQfBuHKtloBAGeDKpjWDMK5ALG/VkwWByF+wYyEVfyzYIU1TyQ3tpa/9qpu9N090FWwLIp65bb/mvUgfxCWQeQFjThcsgMDVjE56trv+yRb1dCT+jlYM0wXa0CJDj50dfZcFJJzEz7vKD/tuLsI1op+uEcs0DgDe1EPKS4IrPQw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 813a7743-7329-43c0-21a6-08d8905d4dd2
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3744.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(396003)(39860400002)(376002)(346002)(136003)(478600001)(5660300002)(6666004)(6512007)(52116002)(1076003)(66476007)(107886003)(83380400001)(2906002)(6916009)(66556008)(4326008)(66946007)(6486002)(86362001)(36756003)(8936002)(69590400008)(8676002)(316002)(6506007)(186003)(2616005)(956004)(16526019)(26005)(55236004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: FcP8LD8ydRBHbeCy5FMs9kmLzwcYesrBPtx0guu3LsMM6sKR76XL1+hldLN5piVw6H5qdyg5TtimMNdr2B3jMLWmNunAk5kcHNxQZfA+Tud+Dugw4sDEHbZb5CwhPhyUXrR01qwPCR0EXn1lkW3RpMmVUj0x7TVLfRXUDdhn38Va1TbH34J4cOaSQuN2hktVBn3DXoYzmKsETwm9nkg9WZtJSiZvYcmUqg2jJt96aK7XC3kLOrC8Jlekpg1z3odH2nO5i/QjFb4jzolM7vUHMAYCBEf3n3gfn7yt1Fz560Wz+uHqxfuWQ1AB/x/e0TjoJNdx3cCKuTaXLebnYLhTybalHgeuGqrTdjTjywVrwhWfRMUyikNaYSvpHfAG4BRcKIT9NukPBgYawGy6VeVOIhCUtd13kG1yFNNs5CQLunTEgPz+Mqo4Y3xyx6eZbhZ3XAcuKLescsQCwez/tb2Uoyc1DQhNCWbwWFGT9o+7J65LFGKYWAtNkQWaOTjZ/BXCszLba4X0gmq7WJkvOfd2WGhZkC1Ck+O8ZYm08gf1uBv3yd8PiFZmSDX/ArtGPaXkwhl9PT8Z0RH2RvQJNmOqwZ80lV/yAUUEO3fclJ5GmJDo5Dw8i+c+c9qmAvaZR5iebLHzPbDibQXdvgT6s09abm2Zkj0r6BWdaylheE9KOqqIoPZpZ/ZunP2MUdGA9hk/T8wN+Pir8Zx7nz+ktsd64UulJsIUhVO20oW01yRYRIUsDFAHVKrlr+i/+GMa3Q2KPIePF/joH6JPE0fX6SCb5lzuA/CazdVXIG3hemg1da64o94iKbVHV6JbDLZ846GZnGHj9D/W8teNKnRVwIYnN3RBdRq6ZkcMNqTE1xp6utFWiBfQW5d35hmAXZuSSM5tH4DwUMa+vyXN/+uF3tgOOQ==
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28f451a1-a8cd-40a1-a646-08d8905dbbcc
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3744.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2020 09:42:48.5686 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2020 09:45:53.4302 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 67NoAX4XnhNQdZYiVtIXFdpwwVgBDCebPBEwwp1IYcul3xK9P/aI+sb+UOzmpfU5ep8d2ASP+8D/gT0XI7XKogIWXFDDW5ylaJymnASk5No=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5990
-Received-SPF: pass client-ip=40.107.21.100;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-MS-Exchange-CrossTenant-UserPrincipalName: /hv2dezsDbesm1N2s1xv5muuQqvt/g1zaHhZam/+w6fCk9nRJbK/vutqcv5XIVmQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3327
+Received-SPF: pass client-ip=51.163.158.102; envelope-from=acho@suse.com;
+ helo=de-smtp-delivery-102.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,77 +125,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.11.2020 23:12, Vladimir Sementsov-Ogievskiy wrote:
-> Add additional check that node parents do not interfere with each
-> other. This should not hurt existing callers and allows in further
-> patch use bdrv_refresh_perms() to update a subtree of changed
-> BdrvChild (check that change is correct).
-> 
-> New check will substitute bdrv_check_update_perm() in following
-> permissions refactoring, so keep error messages the same to avoid
-> unit test result changes.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   block.c | 62 ++++++++++++++++++++++++++++++++++++++++++++++++---------
->   1 file changed, 53 insertions(+), 9 deletions(-)
-> 
-> diff --git a/block.c b/block.c
-> index 0dd28f0902..0d0f065db4 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -1945,6 +1945,56 @@ bool bdrv_is_writable(BlockDriverState *bs)
->       return bdrv_is_writable_after_reopen(bs, NULL);
->   }
->   
-> +static char *bdrv_child_user_desc(BdrvChild *c)
-> +{
-> +    if (c->klass->get_parent_desc) {
-> +        return c->klass->get_parent_desc(c);
-> +    }
-> +
-> +    return g_strdup("another user");
-> +}
-> +
-> +static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
-> +{
-> +    g_autofree char *user = NULL;
-> +    g_autofree char *perm_names = NULL;
-> +
-> +    if ((b->perm & a->shared_perm) == b->perm) {
-> +        return true;
-> +    }
-> +
-> +    perm_names = bdrv_perm_names(b->perm & ~a->shared_perm);
-> +    user = bdrv_child_user_desc(a);
-> +    error_setg(errp, "Conflicts with use by %s as '%s', which does not "
-> +               "allow '%s' on %s",
-> +               user, a->name, perm_names, bdrv_get_node_name(b->bs));
-> +
-> +    return false;
-> +}
-> +
-> +static bool bdrv_check_parents_compliance(BlockDriverState *bs, Error **errp)
-> +{
-> +    BdrvChild *a, *b;
-> +
-> +    QLIST_FOREACH(a, &bs->parents, next_parent) {
-> +        QLIST_FOREACH(b, &bs->parents, next_parent) {
-> +            if (a == b) {
-> +                continue;
-> +            }
-> +
-> +            if (!bdrv_a_allow_b(a, b, errp)) {
-> +                return false;
-> +            }
-> +
-> +            if (!bdrv_a_allow_b(b, a, errp)) {
-> +                return false;
-> +            }
+v2:
+Drop some package from dockerfile to make docker image more light.
 
-drop this if. We look at each pair twice anyway.
+v1:
+Add build-system-opensuse jobs and opensuse-leap.docker dockerfile.
+Use openSUSE Leap 15.2 container image in the gitlab-CI.
 
--- 
-Best regards,
-Vladimir
+Signed-off-by: Cho, Yu-Chen <acho@suse.com>
+---
+ .gitlab-ci.d/containers.yml                   |  5 ++
+ .gitlab-ci.yml                                | 30 +++++++++++
+ tests/docker/dockerfiles/opensuse-leap.docker | 54 +++++++++++++++++++
+ 3 files changed, 89 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/opensuse-leap.docker
+
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 892ca8d838..910754a699 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -246,3 +246,8 @@ amd64-ubuntu-container:
+   <<: *container_job_definition
+   variables:
+     NAME: ubuntu
++
++amd64-opensuse-leap-container:
++  <<: *container_job_definition
++  variables:
++    NAME: opensuse-leap
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index d0173e82b1..6a256fe07b 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -195,6 +195,36 @@ acceptance-system-centos:
+     MAKE_CHECK_ARGS: check-acceptance
+   <<: *acceptance_definition
+=20
++build-system-opensuse:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: opensuse-leap
++    TARGETS: s390x-softmmu x86_64-softmmu aarch64-softmmu
++    MAKE_CHECK_ARGS: check-build
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
++check-system-opensuse:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-system-opensuse
++      artifacts: true
++  variables:
++    IMAGE: opensuse-leap
++    MAKE_CHECK_ARGS: check
++
++acceptance-system-opensuse:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-system-opensuse
++      artifacts: true
++  variables:
++    IMAGE: opensuse-leap
++    MAKE_CHECK_ARGS: check-acceptance
++  <<: *acceptance_definition
++
+ build-disabled:
+   <<: *native_build_job_definition
+   variables:
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/d=
+ockerfiles/opensuse-leap.docker
+new file mode 100644
+index 0000000000..8b0d915bff
+--- /dev/null
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -0,0 +1,54 @@
++FROM opensuse/leap:15.2
++
++# Please keep this list sorted alphabetically
++ENV PACKAGES \
++    bc \
++    brlapi-devel \
++    bzip2 \
++    cyrus-sasl-devel \
++    gcc \
++    gcc-c++ \
++    mkisofs \
++    gettext-runtime \
++    git \
++    glib2-devel \
++    glusterfs-devel \
++    libgnutls-devel \
++    gtk3-devel \
++    libaio-devel \
++    libattr-devel \
++    libcap-ng-devel \
++    libepoxy-devel \
++    libfdt-devel \
++    libiscsi-devel \
++    libjpeg8-devel \
++    libpmem-devel \
++    libpng16-devel \
++    librbd-devel \
++    libseccomp-devel \
++    libssh-devel \
++    lzo-devel \
++    make \
++    libSDL2_image-devel \
++    ncurses-devel \
++    ninja \
++    libnuma-devel \
++    perl \
++    libpixman-1-0-devel \
++    python3-base \
++    python3-virtualenv \
++    rdma-core-devel \
++    libSDL2-devel \
++    snappy-devel \
++    libspice-server-devel \
++    systemd-devel \
++    systemtap-sdt-devel \
++    usbredir-devel \
++    virglrenderer-devel \
++    xen-devel \
++    vte-devel \
++    zlib-devel
++ENV QEMU_CONFIGURE_OPTS --python=3D/usr/bin/python3.8
++
++RUN zypper update -y && zypper --non-interactive install -y $PACKAGES
++RUN rpm -q $PACKAGES | sort > /packages.txt
+--=20
+2.29.2
+
 
