@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C863D2C26BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:04:43 +0100 (CET)
-Received: from localhost ([::1]:42862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164412C26F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:18:07 +0100 (CET)
+Received: from localhost ([::1]:58602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khXzu-0003MI-Qf
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:04:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44016)
+	id 1khYCr-0002CH-Jn
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:18:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1khXwY-0008OB-IK; Tue, 24 Nov 2020 08:01:16 -0500
-Resent-Date: Tue, 24 Nov 2020 08:01:14 -0500
-Resent-Message-Id: <E1khXwY-0008OB-IK@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21764)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1khY2h-0005QB-Gt
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:07:35 -0500
+Received: from 4.mo52.mail-out.ovh.net ([178.33.43.201]:57956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1khXwR-0007e5-C4; Tue, 24 Nov 2020 08:01:13 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1606222853; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=IyZ/n33TRK3qCUof4MAKmo+J9Hl0NoxwDpOxFl3mIjz48h5wDe3Pcj5ISHJF27HFwzJbC6hP1mWGOBDRw1HP3pl+t82P0OdriNLh2vIjD6R0KBQB/B6OOL0I62zCK4G9tqKMqEOcrL/Up699nDhn5236pufSnJzvUXTLl2Uu/Ko=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1606222853;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=B4+LYgnrM5RRei6GIq0W5J+UY1yz5dvlK78NkOFNfN0=; 
- b=BXXuhdO3jqsU/uvjLNmDZa/NJViPXQNb0f/nE9LgcZxZCl6y3NzT5aVAct5TLJh4tip/YfF905JOliCaY2H/yt+zA2m512OzA0EyheQPAfRMmVR3PUVXVbdRcM8dR5nYIo9zYuB6fWobG4ux47R4+WxJzNNXhWEJVQuLzpUFCEU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1606222844759223.07243068827995;
- Tue, 24 Nov 2020 05:00:44 -0800 (PST)
-In-Reply-To: <20201124125235.266884-1-marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 0/2] Remove GCC < 4.8 checks
-Message-ID: <160622284274.25614.2564084651371171994@9aeb27d8af94>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1khY2f-0001t5-NP
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:07:35 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.235])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 1E247207930;
+ Tue, 24 Nov 2020 14:07:29 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 24 Nov
+ 2020 14:07:28 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R003cf61c50c-5a08-4d09-98fb-a43e37276135,
+ 886B3C846F729F79F342FB8F3892F62368E4F687) smtp.auth=groug@kaod.org
+Date: Tue, 24 Nov 2020 14:07:27 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH for-6.0 5/9] spapr: Simplify error path of
+ spapr_core_plug()
+Message-ID: <20201124140727.18124eeb@bahia.lan>
+In-Reply-To: <20201123051318.GM521467@yekko.fritz.box>
+References: <20201120234208.683521-1-groug@kaod.org>
+ <20201120234208.683521-6-groug@kaod.org>
+ <20201123051318.GM521467@yekko.fritz.box>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: marcandre.lureau@redhat.com
-Date: Tue, 24 Nov 2020 05:00:44 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
+Content-Type: multipart/signed; boundary="Sig_/icC9x4JeX40aijVN6L5g1z1";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: c0daafa7-5f65-453e-aa4e-76d89aeffcc5
+X-Ovh-Tracer-Id: 401101844220254688
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegkedggeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephfffgfejleefgefggfetheeftdevhfehtdeggeehffduteduudeugfdvleelueetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehimhgrmhhmvgguohesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=groug@kaod.org;
+ helo=4.mo52.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,61 +68,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, thuth@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, dgilbert@redhat.com, qemu-arm@nongnu.org,
- stefanha@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTEyNDEyNTIzNS4yNjY4
-ODQtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTEyNDEy
-NTIzNS4yNjY4ODQtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENI
-IDAvMl0gUmVtb3ZlIEdDQyA8IDQuOCBjaGVja3MKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0K
-IyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQg
-Y29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFt
-Ci4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQ
-VCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEz
-Mzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcg
-dXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMDExMjQxMjI5MzYuMzA1ODgtMS1rcmF4ZWxAcmVkaGF0
-LmNvbSAtPiBwYXRjaGV3LzIwMjAxMTI0MTIyOTM2LjMwNTg4LTEta3JheGVsQHJlZGhhdC5jb20K
-ICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTEyNDEyNTIzNS4yNjY4ODQtMS1tYXJj
-YW5kcmUubHVyZWF1QHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIwMTEyNDEyNTIzNS4yNjY4ODQt
-MS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0
-ZXN0JwpjOWZkNzZmIGNvbXBpbGVyLmg6IHJlbW92ZSBRRU1VX0dOVUNfUFJFUkVRIG1hY3JvCjQ0
-MjhmNTUgUmVtb3ZlIEdDQyB2ZXJzaW9uIGNoZWNrcyAoYWxsIDwgNC44KQoKPT09IE9VVFBVVCBC
-RUdJTiA9PT0KMS8yIENoZWNraW5nIGNvbW1pdCA0NDI4ZjU1Mjg3MWMgKFJlbW92ZSBHQ0MgdmVy
-c2lvbiBjaGVja3MgKGFsbCA8IDQuOCkpCldBUk5JTkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBk
-ZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiMyMjogRklMRTogYWNjZWwvdGNnL2NwdS1leGVjLmM6
-NzI3OgorI2lmIGRlZmluZWQoX19jbGFuZ19fKQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNl
-IGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzg2OiBGSUxFOiBpbmNsdWRlL3FlbXUv
-Y29tcGlsZXIuaDoxMDU6CisgICAvKiBNYXAgX19wcmludGZfXyB0byBfX2dudV9wcmludGZfXyBi
-ZWNhdXNlIHdlIHdhbnQgc3RhbmRhcmQgZm9ybWF0IHN0cmluZ3MKCldBUk5JTkc6IEJsb2NrIGNv
-bW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGluZQojODc6IEZJTEU6IGlu
-Y2x1ZGUvcWVtdS9jb21waWxlci5oOjEwNjoKKyAgICAqIGV2ZW4gd2hlbiBNaW5HVyBvciBHTGli
-IGluY2x1ZGUgZmlsZXMgdXNlIF9fcHJpbnRmX18uICovCgpFUlJPUjogc3BhY2UgcHJvaGliaXRl
-ZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVzaXMgJygnCiMxMjk6IEZJ
-TEU6IHRlc3RzL3RjZy9hcm0vZmN2dC5jOjc2OgorIyBkZWZpbmUgU05BTkYgKF9fYnVpbHRpbl9u
-YW5zZiAoIiIpKQoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1l
-IGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojMTMwOiBGSUxFOiB0ZXN0cy90Y2cvYXJtL2ZjdnQu
-Yzo3NzoKKyMgZGVmaW5lIFNOQU4gKF9fYnVpbHRpbl9uYW5zICgiIikpCgpFUlJPUjogc3BhY2Ug
-cHJvaGliaXRlZCBiZXR3ZWVuIGZ1bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVzaXMgJygn
-CiMxMzE6IEZJTEU6IHRlc3RzL3RjZy9hcm0vZmN2dC5jOjc4OgorIyBkZWZpbmUgU05BTkwgKF9f
-YnVpbHRpbl9uYW5zbCAoIiIpKQoKV0FSTklORzogYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRlZmlu
-ZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzE0NjogRklMRTogdG9vbHMvdmlydGlvZnNkL2Z1c2VfY29t
-bW9uLmg6ODEzOgorI2lmIGRlZmluZWQoX19HTlVDX18pICYmICFkZWZpbmVkIF9fY3BsdXNwbHVz
-Cgp0b3RhbDogMyBlcnJvcnMsIDQgd2FybmluZ3MsIDEwNiBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
-LzIgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
-cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
-ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIvMiBDaGVja2luZyBjb21taXQgYzlmZDc2
-ZjgyODY2IChjb21waWxlci5oOiByZW1vdmUgUUVNVV9HTlVDX1BSRVJFUSBtYWNybykKPT09IE9V
-VFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxs
-IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDExMjQxMjUy
-MzUuMjY2ODg0LTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRj
-aC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
-Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
-IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+--Sig_/icC9x4JeX40aijVN6L5g1z1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 23 Nov 2020 16:13:18 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
+
+> On Sat, Nov 21, 2020 at 12:42:04AM +0100, Greg Kurz wrote:
+> > spapr_core_pre_plug() already guarantees that the slot for the given co=
+re
+> > ID is available. It is thus safe to assume that spapr_find_cpu_slot()
+> > returns a slot during plug. Turn the error path into an assertion.
+> > It is also safe to assume that no device is attached to the correspondi=
+ng
+> > DRC and that spapr_drc_attach() shouldn't fail.
+> >=20
+> > Pass &error_abort to spapr_drc_attach() and simplify error handling.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+>=20
+> Applied to ppc-for-6.0, thanks.
+>=20
+
+This patch depends on the previous one.
+
+> > ---
+> >  hw/ppc/spapr.c | 21 ++++++++++-----------
+> >  1 file changed, 10 insertions(+), 11 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index da7586f548df..cfca033c7b14 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -3739,8 +3739,7 @@ int spapr_core_dt_populate(SpaprDrc *drc, SpaprMa=
+chineState *spapr,
+> >      return 0;
+> >  }
+> > =20
+> > -static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *=
+dev,
+> > -                            Error **errp)
+
+../../hw/ppc/spapr.c: In function =E2=80=98spapr_core_plug=E2=80=99:
+../../hw/ppc/spapr.c:3802:32: error: =E2=80=98errp=E2=80=99 undeclared (fir=
+st use in this function); did you mean =E2=80=98errno=E2=80=99?
+                                errp) < 0) {
+                                ^~~~
+                                errno
+../../hw/ppc/spapr.c:3802:32: note: each undeclared identifier is reported =
+only once for each function it appears in
+
+Please either drop it from ppc-for-6.0 or possibly adapt spapr_core_plug()
+to handle errors from ppc_set_compat().
+
+<my 2 cents>
+Since I can't see how this could fail for a hotplugged CPU if it
+succeeded for the boot CPU, I'd pass &error_abort despite this
+being a hotplug path.
+</my 2 cents>
+
+> > +static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *=
+dev)
+> >  {
+> >      SpaprMachineState *spapr =3D SPAPR_MACHINE(OBJECT(hotplug_dev));
+> >      MachineClass *mc =3D MACHINE_GET_CLASS(spapr);
+> > @@ -3755,20 +3754,20 @@ static void spapr_core_plug(HotplugHandler *hot=
+plug_dev, DeviceState *dev,
+> >      int i;
+> > =20
+> >      core_slot =3D spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_i=
+d, &index);
+> > -    if (!core_slot) {
+> > -        error_setg(errp, "Unable to find CPU core with core-id: %d",
+> > -                   cc->core_id);
+> > -        return;
+> > -    }
+> > +    g_assert(core_slot); /* Already checked in spapr_core_pre_plug() */
+> > +
+> >      drc =3D spapr_drc_by_id(TYPE_SPAPR_DRC_CPU,
+> >                            spapr_vcpu_id(spapr, cc->core_id));
+> > =20
+> >      g_assert(drc || !mc->has_hotpluggable_cpus);
+> > =20
+> >      if (drc) {
+> > -        if (!spapr_drc_attach(drc, dev, errp)) {
+> > -            return;
+> > -        }
+> > +        /*
+> > +         * spapr_core_pre_plug() already buys us this is a brand new
+> > +         * core being plugged into a free slot. Nothing should already
+> > +         * be attached to the corresponding DRC.
+> > +         */
+> > +        spapr_drc_attach(drc, dev, &error_abort);
+> > =20
+> >          if (hotplugged) {
+> >              /*
+> > @@ -3981,7 +3980,7 @@ static void spapr_machine_device_plug(HotplugHand=
+ler *hotplug_dev,
+> >      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+> >          spapr_memory_plug(hotplug_dev, dev);
+> >      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
+> > -        spapr_core_plug(hotplug_dev, dev, errp);
+> > +        spapr_core_plug(hotplug_dev, dev);
+> >      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_BR=
+IDGE)) {
+> >          spapr_phb_plug(hotplug_dev, dev, errp);
+> >      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY))=
+ {
+>=20
+
+
+--Sig_/icC9x4JeX40aijVN6L5g1z1
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl+9BY8ACgkQcdTV5YIv
+c9Z4FRAAvdUn/yGetl6P8mNopXPQGvLuuPuD/V79BAZPFWPlF7hWbmAb7MLibuTL
+ng3nRc8pHELQYnxD9spFqQ7gQC8k3CXXpG6e93PYiIuQNcHJFrU4Ji17HAzHm6TN
+qSDiv0ZuXVQmNYqmCy3MeECvdkeZE+ASAFxnQWEO1lPjHCafBsITYM1AIoOta3zy
+UqTbhWnUoqVzQZ4Mn/3fkdggk37ziFSH2Uj1N7jInxd1eO55hyjUTCAnyyyH/TEY
+9mY+C7YhMwuU+fdd393m/llfCajr6UN25g5ULj3Ub2kcW/rZHAw+FCswi0GGU+Ul
++USoPAbgK2dvDrodxenC2e4X8DEoEnye+uY7sWLZbHWCzj0VSLuA/4CI6Ny7ILcD
+nvADi65hbfjX8QiZYksqsswp4MizEoY4/PYU7z6QOaDpuJipseAZaP7EwG02GkRR
+3zUFE9nbUwHKETJORIjNF4NXiql6J6gtUPiJBUG3zV89/Rl5PQpR8JoMsL8UB0Ko
+r/Nthkbsw/dG7WtWpJhpk6oD+8pHyHDtmTwgX0yblL8poZRA04OAUWxYgDg//5zu
+++mjXSnUChwzp+1bwKZqBJeOh6M/UUmZnndk6WEysVS4a59wBPPV2KMai3ecXr3B
+yDM8PgFQcu/6eCW7c/wz/w1NM1IiK2NrwwoxzDcPvcnk4hD3N6s=
+=2umT
+-----END PGP SIGNATURE-----
+
+--Sig_/icC9x4JeX40aijVN6L5g1z1--
 
