@@ -2,83 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7C22C2857
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:40:47 +0100 (CET)
-Received: from localhost ([::1]:59930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2712C283C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:39:40 +0100 (CET)
+Received: from localhost ([::1]:56206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khYYp-0006sS-13
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:40:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55152)
+	id 1khYXj-0005L7-KW
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:39:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khYUg-0003bW-EX
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:36:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46291)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khYUe-0003Pn-Sq
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:36:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606224988;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lQo3DvsB7M2Qm8kp4lKFMKb4PNcecuOqHRk8rA46ZT0=;
- b=JOPyh2uxBnJun0sryLdM7N/Hnk0mVUXkHdk8DQp7MI7Lz6KYV6Egn8VA2KOPo2aMP56ayZ
- vnaiZ4Udb/VcJTTp8solKKdNUPuJV2a+X1TORHNBf5rdZSzDgEco+hnPpQT6cr2FDWw3AI
- wFrXIKE72BpHTDBozJRptB2iV3hJQwk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-Mm-A5HRXP9SemN_pBU1l5w-1; Tue, 24 Nov 2020 08:36:25 -0500
-X-MC-Unique: Mm-A5HRXP9SemN_pBU1l5w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C637D803652;
- Tue, 24 Nov 2020 13:36:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 944755C1A3;
- Tue, 24 Nov 2020 13:36:23 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 245EC113864E; Tue, 24 Nov 2020 14:36:22 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
- qmp_marshal_netdev_add()
-References: <20200716035532.1407660-1-andrew@daynix.com>
- <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
- <874klk5gnc.fsf@dusky.pond.sub.org>
- <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
- <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
- <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
- <87lfesv2zu.fsf@dusky.pond.sub.org>
- <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
- <87blfnp20k.fsf@dusky.pond.sub.org>
- <87lferm4x5.fsf@dusky.pond.sub.org>
- <CAOEp5Oe18jtsgHVqwtm+-sqspD6KoJTOO9nNPmcWS++AVGjXKQ@mail.gmail.com>
- <87tutej3dc.fsf@dusky.pond.sub.org>
-Date: Tue, 24 Nov 2020 14:36:22 +0100
-In-Reply-To: <87tutej3dc.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Tue, 24 Nov 2020 14:22:55 +0100")
-Message-ID: <87blfmj2qx.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1khYVu-0004Lv-8g
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:37:46 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:41875)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1khYVq-0003oL-Pd
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:37:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=98Gdsh3wxSDxIGBalS3IropenSk0zko061idd1bjTkE=; b=UUBCyqfwldaTvwROdS9RKSI8jy
+ chElRZKx5BGztd1V5z+2HvBmrt1rLkYDgEA7k4OpNFE4IeFitG6m/jqPknQcY/5K9/elV8tbT8BLF
+ NrkUA37J9Xke9B9cIYTy0g4va/WpD0uItfqUCe3j61bUQCofe2yRHERbl/WH1SGUIay0OrbzGyG2L
+ KqCydYLfqsyN+PpphXfp73aL5qBBjdA+LVg9s4ZhTlONOlaPhebAP3e1TcRlnbl4trBALO1PF46Hc
+ k8EuE1u0IhxYnri9hXadFZ09xnHvQpuXLoJNbw/VtqENJN6xQddjdxhQkS/eKrNQM6KtnxOeWwmoM
+ V0jkCp9A==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Cole Robinson <crobinso@redhat.com>
+Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: virtio-9p-test.c:300:v9fs_req_recv: assertion failed (hdr.id ==
+ id): (7 == 73)
+Date: Tue, 24 Nov 2020 14:37:39 +0100
+Message-ID: <1762951.Dc85qNA9ec@silver>
+In-Reply-To: <163aa0fa-f8d2-84e8-7a01-1befa4f4731a@redhat.com>
+References: <fad8a69d-9c21-ac25-028d-646a64ccecc5@redhat.com>
+ <13275468.fAp1jBoSgB@silver>
+ <163aa0fa-f8d2-84e8-7a01-1befa4f4731a@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,92 +64,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnichenko <andrew@daynix.com>, "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+On Dienstag, 24. November 2020 14:25:17 CET Cole Robinson wrote:
+> On 11/23/20 2:45 PM, Christian Schoenebeck wrote:
+> > On Montag, 23. November 2020 14:48:15 CET Christian Schoenebeck wrote:
+> >> On Montag, 23. November 2020 14:17:34 CET Greg Kurz wrote:
+> >>> Fixed maintainer's address: s/oss@crudebyte.com/qemu_oss@crudebyte.com
+> >>> 
+> >>> On Sat, 21 Nov 2020 17:03:14 -0500
+> >>> 
+> >>> Cole Robinson <crobinso@redhat.com> wrote:
+> >>>> Hi, I'm consistently seeing this assertion running the qemu-5.2.0  test
+> >>>> suite. rc0, rc1, rc2 have been consistently affected, it reproduces
+> >>>> consistently in parts of Fedora's build system. Here's an example build
+> >>>> log for rc2 x86 against Fedora 32
+> >>>> 
+> >>>> https://download.copr.fedorainfracloud.org/results/@kubevirt/qemu-5.2.0
+> >>>> -> > > 0. 6.rc2/fedora-32-x86_64/01781514-qemu/builder-live.log.gz
+> >>>> 
+> >>>> The full test error:
+> >>>> 
+> >>>> ...
+> >>>> PASS 26 qtest-arm/qos-test
+> >>>> /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-t
+> >>>> e
+> >>>> st
+> >>>> s/synth/readdir/split_128 PASS 27 qtest-arm/qos-test
+> >>>> /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-t
+> >>>> e
+> >>>> st
+> >>>> s/local/config
+> >>> 
+> >>> Ok so the next test is supposed to be:
+> >>> 
+> >>> /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-te
+> >>> st
+> >>> s/ local/create_dir
+> >>> 
+> >>> This was added recently. This configures the virtio-9p device in QEMU
+> >>> to serve a real test directory from the host. This test directory is
+> >>> created under the current directory of the test process. The purpose
+> >>> of the test is then to ask the 9p server to create a directory within
+> >>> the test directory.
+> >>> 
+> >>>> Received response 7 (RLERROR) instead of 73 (RMKDIR)
+> >>>> ERROR qtest-arm/qos-test - Bail out!
+> >>>> ERROR:../tests/qtest/virtio-9p-test.c:300:v9fs_req_recv: assertion
+> >>>> failed (hdr.id == id): (7 == 73)
+> >>>> Rlerror has errno 95 (Operation not supported)
+> >>> 
+> >>> So this basically means that QEMU got ENOTSUP/EOPNOTSUPP when calling
+> >>> mkdir() into the test directory... not sure what could cause that. I'd
+> >>> need more details on the filesystem setup for the build.
+> >>> 
+> >>> Anyway, we already experienced some breakage in upstream CI because of
+> >>> the same family of tests that do real access to the host filesystem.
+> >>> Since they're being introduced in QEMU 5.2, I'll try to see if I can
+> >>> disable them to be run by default for RC3.
+> >>> 
+> >>> Cheers,
+> >>> 
+> >>> --
+> >>> Greg
+> >>> 
+> >>>> **
+> >>>> ERROR:../tests/qtest/virtio-9p-test.c:300:v9fs_req_recv: assertion
+> >>>> failed (hdr.id == id): (7 == 73)
+> >>>> make: *** [Makefile.mtest:1257: run-test-155] Error 1
+> >>>> error: Bad exit status from /var/tmp/rpm-tmp.EG4Dav (%check)
+> >>>> 
+> >>>> 
+> >>>> Thanks,
+> >>>> Cole
+> >> 
+> >> Yeah, looks like the mkdir() call which is supposed to create the 9p test
+> >> directory, is failing there for some reason. The question is how to find
+> >> that out (effectively) without having access to an affected system.
+> >> 
+> >> It's now too late for 5.2, but I think for 6.0 it would make sense
+> >> introducing a dedicated 9p option loglevel=..., so we can tell people to
+> >> enable this to capture the precise source location where an error
+> >> ocurred.
+> >> That would mean spreading a huge bunch of macros all over the 9p code
+> >> base,
+> >> but it would definitely help a lot understanding the root cause of
+> >> reported
+> >> issues in an efficient way.
+> >> 
+> >> Best regards,
+> >> Christian Schoenebeck
+> > 
+> > Cole, does the affected host system probably not have xattrs enabled on
+> > its
+> > file system?
+> 
+> Hmm I'm not sure, I will try to investigate.
+> 
+> google tells me David Gilbert also hit this too earlier:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg754556.html
+> 
+> Maybe he remembers details of his setup, CC'd
+> 
+> - Cole
 
-> Yuri Benditovich <yuri.benditovich@daynix.com> writes:
->
->> Please confirm that this patch is intended to solve only the problem with
->> hmp (and disallow duplicated ids)
->
-> The intent is to reject duplicate ID and to accept non-duplicate ID, no
-> matter how the device is created (CLI, HMP, QMP) or a prior instance was
-> deleted (HMP, QMP).
->
->> With it the netdev that was added from qemu's command line and was deleted
->> (for example by hmp) still can't be created, correct?
->
-> Yet another case; back to the drawing board...
+No, that was a different issue David had, that's already fixed in git
+by SHA-1 136b7af2277. You also see that he got a different error. Many people 
+were affected by that issue a month ago.
 
-Next try.  Hope this is one holds water :)
+However the issue you reported did not occur on other systems so far, 
+including many CI platforms out there. At least I haven't seen any other 
+similar report.
 
+What's the host file system used? ZFS?
 
-diff --git a/net/net.c b/net/net.c
-index 794c652282..c1dc75fc37 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -978,6 +978,7 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
- static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
- {
-     NetClientState *peer = NULL;
-+    NetClientState *nc;
- 
-     if (is_netdev) {
-         if (netdev->type == NET_CLIENT_DRIVER_NIC ||
-@@ -1005,6 +1006,12 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
-         }
-     }
- 
-+    nc = qemu_find_netdev(netdev->id);
-+    if (nc) {
-+        error_setg(errp, "Duplicate ID '%s'", netdev->id);
-+        return -1;
-+    }
-+
-     if (net_client_init_fun[netdev->type](netdev, netdev->id, peer, errp) < 0) {
-         /* FIXME drop when all init functions store an Error */
-         if (errp && !*errp) {
-@@ -1015,8 +1022,6 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
-     }
- 
-     if (is_netdev) {
--        NetClientState *nc;
--
-         nc = qemu_find_netdev(netdev->id);
-         assert(nc);
-         nc->is_netdev = true;
-@@ -1137,6 +1142,7 @@ void qmp_netdev_add(Netdev *netdev, Error **errp)
- void qmp_netdev_del(const char *id, Error **errp)
- {
-     NetClientState *nc;
-+    QemuOpts *opts;
- 
-     nc = qemu_find_netdev(id);
-     if (!nc) {
-@@ -1151,6 +1157,16 @@ void qmp_netdev_del(const char *id, Error **errp)
-     }
- 
-     qemu_del_net_client(nc);
-+
-+    /*
-+     * Wart: we need to delete the QemuOpts associated with netdevs
-+     * created via CLI or HMP, to avoid bogus "Duplicate ID" errors in
-+     * HMP netdev_add.
-+     */
-+    opts = qemu_opts_find(qemu_find_opts("netdev"), id);
-+    if (opts) {
-+        qemu_opts_del(opts);
-+    }
- }
- 
- static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
--- 
-2.26.2
+Best regards,
+Christian Schoenebeck
+
 
 
