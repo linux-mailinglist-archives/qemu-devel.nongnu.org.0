@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636EF2C2F6A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 18:59:13 +0100 (CET)
-Received: from localhost ([::1]:48288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1532C2F6D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 18:59:50 +0100 (CET)
+Received: from localhost ([::1]:49872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khcau-0002A5-Fa
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 12:59:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41828)
+	id 1khcbV-0002pP-8G
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 12:59:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khcYs-00016A-3w
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:57:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32079)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1khcZC-0001WK-KH
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:57:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khcYm-0007sk-Sk
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:57:05 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1khcZA-0007vx-Ev
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:57:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606240619;
+ s=mimecast20190719; t=1606240643;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=E3xRnxDRx2Kw+NvDOXZOnL7MKFFPmdG3cNAUX5KJFPE=;
- b=UYBnA1wnk3jMGt1x+bp/EeEz2dCVk3OmAdmKBUsVEvII2tpHlK0SoPYVBJk9WBzcMmuL5N
- bJ+Rla8f1fFVfmlgG055IzibDnDDPgs1RyjnQzPZwUoGSF4Kl7BntUs3BLiwM8xqpZ2hpf
- w55d2wx7aU8E1LRvdRJt5Aocw+/Nzks=
+ bh=IWrsDki/Rw5LEx7cpKUUYOEvxik3Pj9Bi4gwul1nFyo=;
+ b=UgveQC1WhiM4o1qPuNthyVulemTZZgx2goipdKBnIV2X2Zgabzq1ieHCoC3dr19WcAgYH6
+ F0oVUZW8vvgmPPu2g7CZE80k56Ivt6rbEbHvIr9W8yFvTDWIeyuRqPpRdYrhdQ2ZS46Err
+ 1x2wD2EwCdC6JscScc/7cO0sQtOtIZE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-OsrX9S78OGKhZhJgGjdxzg-1; Tue, 24 Nov 2020 12:56:58 -0500
-X-MC-Unique: OsrX9S78OGKhZhJgGjdxzg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-513-UuqtZx21N82yYvhqPkR2hQ-1; Tue, 24 Nov 2020 12:57:21 -0500
+X-MC-Unique: UuqtZx21N82yYvhqPkR2hQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D19391005D54;
- Tue, 24 Nov 2020 17:56:55 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A66E60BE5;
- Tue, 24 Nov 2020 17:56:52 +0000 (UTC)
-Date: Tue, 24 Nov 2020 12:56:51 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v5 08/12] accel: extend AccelState and AccelClass to
- user-mode
-Message-ID: <20201124175651.GU2271382@habkost.net>
-References: <20201124162210.8796-1-cfontana@suse.de>
- <20201124162210.8796-9-cfontana@suse.de>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA3BE876E08;
+ Tue, 24 Nov 2020 17:57:19 +0000 (UTC)
+Received: from work-vm (ovpn-115-42.ams2.redhat.com [10.36.115.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C8D9B1001901;
+ Tue, 24 Nov 2020 17:57:14 +0000 (UTC)
+Date: Tue, 24 Nov 2020 17:57:12 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v3 2/7] introduce UFFD-WP low-level interface helpers
+Message-ID: <20201124175712.GM3366@work-vm>
+References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
+ <20201119125940.20017-3-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20201124162210.8796-9-cfontana@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20201119125940.20017-3-andrey.gruzdev@virtuozzo.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,56 +79,364 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 24, 2020 at 05:22:06PM +0100, Claudio Fontana wrote:
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
-[...]
-> @@ -908,8 +909,12 @@ int main(int argc, char **argv)
->      }
->  
->      /* init tcg before creating CPUs and to get qemu_host_page_size */
-> -    tcg_exec_init(0);
-> +    {
-> +        AccelClass *ac = accel_find("tcg");
->  
-> +        g_assert(ac != NULL);
-> +        ac->init_machine(NULL);
-
-Most init_machine() methods will crash if you call them with a
-NULL argument.
-
-This looks like another reason for having a
-  void accel_init(AccelState*)
-function and a
-  void (*init)(AccelState*)
-method in AccelClass.
-
-Then the whole code block above would be as trivial as:
-
-  accel_init(current_accel());
-
-
-> +    }
-[...]
+* Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
+> Implemented support for the whole RAM block memory
+> protection/un-protection. Introduced higher level
+> ram_write_tracking_start() and ram_write_tracking_stop()
+> to start/stop tracking guest memory writes.
 > 
+> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> ---
+>  include/exec/memory.h |   7 ++
+>  migration/ram.c       | 267 ++++++++++++++++++++++++++++++++++++++++++
+>  migration/ram.h       |   4 +
+>  3 files changed, 278 insertions(+)
+> 
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index 0f3e6bcd5e..3d798fce16 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -139,6 +139,13 @@ typedef struct IOMMUNotifier IOMMUNotifier;
+>  /* RAM is a persistent kind memory */
+>  #define RAM_PMEM (1 << 5)
+>  
+> +/*
+> + * UFFDIO_WRITEPROTECT is used on this RAMBlock to
+> + * support 'write-tracking' migration type.
+> + * Implies ram_state->ram_wt_enabled.
+> + */
+> +#define RAM_UF_WRITEPROTECT (1 << 6)
+> +
+>  static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
+>                                         IOMMUNotifierFlag flags,
+>                                         hwaddr start, hwaddr end,
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 7811cde643..7f273c9996 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -56,6 +56,12 @@
+>  #include "savevm.h"
+>  #include "qemu/iov.h"
+>  #include "multifd.h"
+> +#include <inttypes.h>
+> +#include <poll.h>
+> +#include <sys/syscall.h>
+> +#include <sys/ioctl.h>
+> +#include <linux/userfaultfd.h>
+> +#include "sysemu/runstate.h"
+>  
+>  /***********************************************************/
+>  /* ram save/restore */
+> @@ -298,6 +304,8 @@ struct RAMSrcPageRequest {
+>  struct RAMState {
+>      /* QEMUFile used for this migration */
+>      QEMUFile *f;
+> +    /* UFFD file descriptor, used in 'write-tracking' migration */
+> +    int uffdio_fd;
+>      /* Last block that we have visited searching for dirty pages */
+>      RAMBlock *last_seen_block;
+>      /* Last block from where we have sent data */
+> @@ -453,6 +461,181 @@ static QemuThread *decompress_threads;
+>  static QemuMutex decomp_done_lock;
+>  static QemuCond decomp_done_cond;
+>  
+> +/**
+> + * uffd_create_fd: create UFFD file descriptor
+> + *
+> + * Returns non-negative file descriptor or negative value in case of an error
+> + */
+> +static int uffd_create_fd(void)
+> +{
+> +    int uffd;
+> +    struct uffdio_api api_struct;
+> +    uint64_t ioctl_mask = BIT(_UFFDIO_REGISTER) | BIT(_UFFDIO_UNREGISTER);
 
+You need to be a bit careful about doing this in migration/ram.c - it's
+generic code; at minimum it needs ifdef'ing for Linux.
+
+> +    uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
+> +    if (uffd < 0) {
+> +        error_report("uffd_create_fd() failed: UFFD not supported");
+> +        return -1;
+> +    }
+> +
+> +    api_struct.api = UFFD_API;
+> +    api_struct.features = UFFD_FEATURE_PAGEFAULT_FLAG_WP;
+> +    if (ioctl(uffd, UFFDIO_API, &api_struct)) {
+> +        error_report("uffd_create_fd() failed: "
+> +                "API version not supported version=%llx errno=%i",
+> +                api_struct.api, errno);
+> +        goto fail;
+> +    }
+> +
+> +    if ((api_struct.ioctls & ioctl_mask) != ioctl_mask) {
+> +        error_report("uffd_create_fd() failed: "
+> +                "PAGEFAULT_FLAG_WP feature missing");
+> +        goto fail;
+> +    }
+> +
+> +    return uffd;
+
+Should we be putting that somewher that we can share with postcopy?
+
+> +fail:
+> +    close(uffd);
+> +    return -1;
+> +}
+> +
+> +/**
+> + * uffd_close_fd: close UFFD file descriptor
+> + *
+> + * @uffd: UFFD file descriptor
+> + */
+> +static void uffd_close_fd(int uffd)
+> +{
+> +    assert(uffd >= 0);
+> +    close(uffd);
+> +}
+> +
+> +/**
+> + * uffd_register_memory: register memory range with UFFD
+> + *
+> + * Returns 0 in case of success, negative value on error
+> + *
+> + * @uffd: UFFD file descriptor
+> + * @start: starting virtual address of memory range
+> + * @length: length of memory range
+> + * @track_missing: generate events on missing-page faults
+> + * @track_wp: generate events on write-protected-page faults
+> + */
+> +static int uffd_register_memory(int uffd, hwaddr start, hwaddr length,
+> +        bool track_missing, bool track_wp)
+> +{
+> +    struct uffdio_register uffd_register;
+> +
+> +    uffd_register.range.start = start;
+> +    uffd_register.range.len = length;
+> +    uffd_register.mode = (track_missing ? UFFDIO_REGISTER_MODE_MISSING : 0) |
+> +                         (track_wp ? UFFDIO_REGISTER_MODE_WP : 0);
+> +
+> +    if (ioctl(uffd, UFFDIO_REGISTER, &uffd_register)) {
+> +        error_report("uffd_register_memory() failed: "
+> +                "start=%0"PRIx64" len=%"PRIu64" mode=%llu errno=%i",
+> +                start, length, uffd_register.mode, errno);
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +/**
+> + * uffd_protect_memory: protect/unprotect memory range for writes with UFFD
+> + *
+> + * Returns 0 on success or negative value in case of error
+> + *
+> + * @uffd: UFFD file descriptor
+> + * @start: starting virtual address of memory range
+> + * @length: length of memory range
+> + * @wp: write-protect/unprotect
+> + */
+> +static int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp)
+> +{
+> +    struct uffdio_writeprotect uffd_writeprotect;
+> +    int res;
+> +
+> +    uffd_writeprotect.range.start = start;
+> +    uffd_writeprotect.range.len = length;
+> +    uffd_writeprotect.mode = (wp ? UFFDIO_WRITEPROTECT_MODE_WP : 0);
+> +
+> +    do {
+> +        res = ioctl(uffd, UFFDIO_WRITEPROTECT, &uffd_writeprotect);
+> +    } while (res < 0 && errno == EINTR);
+> +    if (res < 0) {
+> +        error_report("uffd_protect_memory() failed: "
+> +                "start=%0"PRIx64" len=%"PRIu64" mode=%llu errno=%i",
+> +                start, length, uffd_writeprotect.mode, errno);
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +__attribute__ ((unused))
+> +static int uffd_read_events(int uffd, struct uffd_msg *msgs, int count);
+> +__attribute__ ((unused))
+> +static bool uffd_poll_events(int uffd, int tmo);
+> +
+> +/**
+> + * uffd_read_events: read pending UFFD events
+> + *
+> + * Returns number of fetched messages, 0 if non is available or
+> + * negative value in case of an error
+> + *
+> + * @uffd: UFFD file descriptor
+> + * @msgs: pointer to message buffer
+> + * @count: number of messages that can fit in the buffer
+> + */
+> +static int uffd_read_events(int uffd, struct uffd_msg *msgs, int count)
+> +{
+> +    ssize_t res;
+> +    do {
+> +        res = read(uffd, msgs, count * sizeof(struct uffd_msg));
+> +    } while (res < 0 && errno == EINTR);
+> +
+> +    if ((res < 0 && errno == EAGAIN)) {
+> +        return 0;
+> +    }
+> +    if (res < 0) {
+> +        error_report("uffd_read_events() failed: errno=%i", errno);
+> +        return -1;
+> +    }
+> +
+> +    return (int) (res / sizeof(struct uffd_msg));
+> +}
+> +
+> +/**
+> + * uffd_poll_events: poll UFFD file descriptor for read
+> + *
+> + * Returns true if events are available for read, false otherwise
+> + *
+> + * @uffd: UFFD file descriptor
+> + * @tmo: timeout in milliseconds, 0 for non-blocking operation,
+> + *       negative value for infinite wait
+> + */
+> +static bool uffd_poll_events(int uffd, int tmo)
+> +{
+> +    int res;
+> +    struct pollfd poll_fd = { .fd = uffd, .events = POLLIN, .revents = 0 };
+> +
+> +    do {
+> +        res = poll(&poll_fd, 1, tmo);
+> +    } while (res < 0 && errno == EINTR);
+> +
+> +    if (res == 0) {
+> +        return false;
+> +    }
+> +    if (res < 0) {
+> +        error_report("uffd_poll_events() failed: errno=%i", errno);
+> +        return false;
+> +    }
+> +
+> +    return (poll_fd.revents & POLLIN) != 0;
+> +}
+> +
+>  static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *block,
+>                                   ram_addr_t offset, uint8_t *source_buf);
+>  
+> @@ -3788,6 +3971,90 @@ static int ram_resume_prepare(MigrationState *s, void *opaque)
+>      return 0;
+>  }
+>  
+> +/**
+> + * ram_write_tracking_start: start UFFD-WP memory tracking
+> + *
+> + * Returns 0 for success or negative value in case of error
+> + *
+> + */
+> +int ram_write_tracking_start(void)
+> +{
+> +    int uffd;
+> +    RAMState *rs = ram_state;
+> +    RAMBlock *bs;
+> +
+> +    /* Open UFFD file descriptor */
+> +    uffd = uffd_create_fd();
+> +    if (uffd < 0) {
+> +        return uffd;
+> +    }
+> +    rs->uffdio_fd = uffd;
+> +
+> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
+> +        /* Nothing to do with read-only and MMIO-writable regions */
+> +        if (bs->mr->readonly || bs->mr->rom_device) {
+> +            continue;
+> +        }
+> +
+> +        /* Register block memory with UFFD to track writes */
+> +        if (uffd_register_memory(rs->uffdio_fd, (hwaddr) bs->host,
+> +                bs->max_length, false, true)) {
+> +            goto fail;
+> +        }
+> +        /* Apply UFFD write protection to the block memory range */
+> +        if (uffd_protect_memory(rs->uffdio_fd, (hwaddr) bs->host,
+> +                bs->max_length, true)) {
+> +            goto fail;
+> +        }
+> +        bs->flags |= RAM_UF_WRITEPROTECT;
+> +
+> +        info_report("UFFD-WP write-tracking enabled: "
+> +                "block_id=%s page_size=%zu start=%p length=%lu "
+> +                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
+> +                bs->idstr, bs->page_size, bs->host, bs->max_length,
+> +                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
+> +                bs->mr->nonvolatile, bs->mr->rom_device);
+> +    }
+> +
+> +    return 0;
+> +
+> +fail:
+> +    uffd_close_fd(uffd);
+> +    rs->uffdio_fd = -1;
+> +    return -1;
+> +}
+> +
+> +/**
+> + * ram_write_tracking_stop: stop UFFD-WP memory tracking and remove protection
+> + */
+> +void ram_write_tracking_stop(void)
+> +{
+> +    RAMState *rs = ram_state;
+> +    RAMBlock *bs;
+> +    assert(rs->uffdio_fd >= 0);
+> +
+> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
+> +        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
+> +            continue;
+> +        }
+> +        info_report("UFFD-WP write-tracking disabled: "
+> +                "block_id=%s page_size=%zu start=%p length=%lu "
+> +                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
+> +                bs->idstr, bs->page_size, bs->host, bs->max_length,
+> +                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
+> +                bs->mr->nonvolatile, bs->mr->rom_device);
+> +        /* Cleanup flags */
+> +        bs->flags &= ~RAM_UF_WRITEPROTECT;
+> +    }
+> +
+> +    /*
+> +     * Close UFFD file descriptor to remove protection,
+> +     * release registered memory regions and flush wait queues
+> +     */
+> +    uffd_close_fd(rs->uffdio_fd);
+> +    rs->uffdio_fd = -1;
+> +}
+> +
+>  static SaveVMHandlers savevm_ram_handlers = {
+>      .save_setup = ram_save_setup,
+>      .save_live_iterate = ram_save_iterate,
+> diff --git a/migration/ram.h b/migration/ram.h
+> index 011e85414e..3611cb51de 100644
+> --- a/migration/ram.h
+> +++ b/migration/ram.h
+> @@ -79,4 +79,8 @@ void colo_flush_ram_cache(void);
+>  void colo_release_ram_cache(void);
+>  void colo_incoming_start_dirty_log(void);
+>  
+> +/* Live snapshots */
+> +int ram_write_tracking_start(void);
+> +void ram_write_tracking_stop(void);
+> +
+>  #endif
+> -- 
+> 2.25.1
+> 
 -- 
-Eduardo
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
