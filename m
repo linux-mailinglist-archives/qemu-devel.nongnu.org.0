@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B65A2C2DCE
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 18:08:48 +0100 (CET)
-Received: from localhost ([::1]:49418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0730B2C2DBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 18:06:00 +0100 (CET)
+Received: from localhost ([::1]:42688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khbo7-0006TU-CV
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 12:08:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53466)
+	id 1khblO-0002zf-Hl
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 12:05:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khbXR-0002J8-Dh
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:51:34 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39774)
+ id 1khbXN-0002If-QA
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:51:31 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khbXE-0005kN-CO
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:51:33 -0500
+ id 1khbXD-0005kD-V5
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:51:29 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1khbXD-0001Kc-4a
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 16:51:19 +0000
+ id 1khbXB-00018c-1x
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 16:51:17 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 21C482E813E
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 16:51:19 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0AC7C2E813F
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 16:51:17 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2020 16:38:36 -0000
-From: Thomas Huth <1774853@bugs.launchpad.net>
+Date: Tue, 24 Nov 2020 16:44:17 -0000
+From: Thomas Huth <1779447@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alexaltea masonleeback th-huth tsiros
-X-Launchpad-Bug-Reporter: tsiros (tsiros)
+X-Launchpad-Bug-Commenters: arichardson th-huth
+X-Launchpad-Bug-Reporter: Alexander Richardson (arichardson)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <152802310962.26200.2575137842813128178.malonedeb@wampee.canonical.com>
-Message-Id: <160623591616.4950.17684540704822600119.malone@soybean.canonical.com>
-Subject: [Bug 1774853] Re: claims temp file is used by another process
+References: <153035288335.30029.15175462614252877889.malonedeb@wampee.canonical.com>
+Message-Id: <160623625773.8620.1416607212773561006.malone@gac.canonical.com>
+Subject: [Bug 1779447] Re: SLIRP SMB silently fails with MacOS smbd
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: 5f29068312c089e400d6c24d4990aaedc31a9893
+X-Launchpad-Hash: 8853474e463e5f02f7af52557219cac061cf60a2
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,12 +70,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1774853 <1774853@bugs.launchpad.net>
+Reply-To: Bug 1779447 <1779447@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is this still reproducible with the latest version of QEMU, or could
-this ticket be closed nowadays?
+The QEMU project is currently considering to move its bug tracking to anoth=
+er system. For this we need to know which bugs are still valid and which co=
+uld be closed already. Thus we are setting older bugs to "Incomplete" now.
+If you still think this bug report here is valid, then please switch the st=
+ate back to "New" within the next 60 days, otherwise this report will be ma=
+rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
+ved with a newer version of QEMU already. Thank you and sorry for the incon=
+venience.
 
 ** Changed in: qemu
        Status: New =3D> Incomplete
@@ -84,24 +90,38 @@ this ticket be closed nowadays?
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1774853
+https://bugs.launchpad.net/bugs/1779447
 
 Title:
-  claims temp file is used by another process
+  SLIRP SMB silently fails with MacOS smbd
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  QEMU emulator version 2.12.50 (v2.12.0-12378-g99a34dc4d2-dirty)
+  When using the -net user,id=3Dnet0,ipv6=3Doff,smb=3D/path/to/share/option=
+,hostfwd=3Dtcp::19500-:22 I can successfully mount_smbfs the shared directo=
+ry on the guest when QEMU is running on a Linux or FreeBSD host. However, o=
+n a MacOS host the mount_smbfs command just fails with
+  `mount_smbfs: unable to open connection: syserr =3D Connection reset by p=
+eer`.
+  After some debugging it turns out this is because the smbd shipped by mac=
+os is incompatible and doesn't use the same config file/command line argume=
+nts.
 
-  "c:\Program Files\qemu\qemu-system-x86_64.exe" -net none -parallel none -=
-bios OVMF.fd -L . -hda fat:rw:image
-  vvfat image chs 1024,16,63
-  c:\Program Files\qemu\qemu-system-x86_64.exe: -hda fat:rw:image: Could no=
-t open 'C:\Users\tsiros\AppData\Local\Temp\qem5B92.tmp': The process cannot=
- access the file because it is being used by another process.
+  I have since got it working by compiling the sources form samba.org
+  and using the --smbd=3D configure option pointing to that binary.
+
+  Would it be possible to print a warning message or even better abort
+  the launch saying smbd is incompatible with QEMU if the -smb=3D flag is
+  passed? It appears that smbd should die with an error code on invalid
+  arguments so QEMU should be able to report that.
+
+  =
+
+  This was happening with QEMU built from git sources at c1c2a435905ae76b15=
+9c573b0c0d6f095b45ebc6.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1774853/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1779447/+subscriptions
 
