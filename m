@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D3E2C28D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:57:59 +0100 (CET)
-Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C852C28F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 15:05:40 +0100 (CET)
+Received: from localhost ([::1]:48190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khYpS-0005EP-9q
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:57:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34126)
+	id 1khYwt-0006dG-36
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 09:05:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khYoI-0004T8-Ux
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:56:47 -0500
-Received: from mx2.suse.de ([195.135.220.15]:56758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khYoG-0002la-18
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:56:46 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8040AAC66;
- Tue, 24 Nov 2020 13:56:42 +0000 (UTC)
-Subject: Re: help with a build-user and build-user-plugin failure
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Alex Bennee <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
-References: <19955b4e-f33a-a672-e9c6-3efdd640906a@suse.de>
- <48353514-8dde-0f4b-193d-fa71737d7c80@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <b7dab3a2-3f04-36ec-bcdc-cacf38cdfde5@suse.de>
-Date: Tue, 24 Nov 2020 14:56:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1khYvE-0006B6-UL
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:03:56 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1khYvC-00057D-Lu
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:03:56 -0500
+Received: by mail-ot1-x343.google.com with SMTP id o3so19408624ota.8
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 06:03:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aJ4lfhx8djW0Z0WvrYqOJN5dSR/azb3OIQKXQjFH3lY=;
+ b=vkTfaIRHjjtkHbW7IC6DPoCNW0Rcxstzi7gz57BYs9p6L0YhTKBdQO/H67csIpn0Sp
+ MHMACTTW4MygJTRP4weAXPZtofwt7oztGH8myiHb+AKewdN44MbEniN0vtrRcb6gz0gl
+ RQt2dX0+bmlA8polnKJ+A1THucXgLiXznkJChN13wqMIfm+fR2gqA/VkKa2T4LiER381
+ 57RH6XBJqHPhwX1GjYJx41MTGxTohIelHj0iwW+2vU5wuJoG8FTYwgBflLm3hxTZKly6
+ VP4mTkCsYbmgBoQeBtaz8ZCjOCmZ0hXJoqv3E19UPxZGj7p0MvK8kfzx3u2E8PkSkRLc
+ jHow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aJ4lfhx8djW0Z0WvrYqOJN5dSR/azb3OIQKXQjFH3lY=;
+ b=I5IIagk0g8MSJde5FSU3yYZAb5eQfU64ZPhQA9CHpozDSU74Kvr8VUN0O1YnXbTgjA
+ AxH9ZDmNTiH8EOWwDbwDwTj8jQ1QUUPohw432NjcSmLh4aIC19Uvm2t5QslsAp2Nm+Xx
+ 4thjR1G58iVSBiX2zz7DuXmQxN+roFgtn+C3a1vG5CXdjd55+MJqzs1Ig8qD3vwF+7Rx
+ 6BOlI+PqwSFU7elbUBJqv8S/zlLvcDmP93ot3Hc7tBJY1Fx6lImbwy/x/HiOCqeEIAWO
+ 1uujD8rRntUKJJ32giv393aHUhhgmCtUg+y+Css2pH4ixUlEw7AzdjZWs8P0eV6Dv+pV
+ RXzg==
+X-Gm-Message-State: AOAM5334VLNEKl14WxNttlOsaOvDvujOrXuT83GvOYjk1chWXP9e3yB1
+ LatyGE5Se8FT9JrMrtzc82HBrKrQ7DzdT3OCnGSIdQ==
+X-Google-Smtp-Source: ABdhPJxMOGxuPU6sXrRDVKGB4W9qzD30hKNb6cMrTZMhGrCoEgWLMwdQ6Z/pOipiS+CVzTYTBmjyaaS7YGsMj+gIezI=
+X-Received: by 2002:a9d:4715:: with SMTP id a21mr3429552otf.220.1606226633408; 
+ Tue, 24 Nov 2020 06:03:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <48353514-8dde-0f4b-193d-fa71737d7c80@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200716035532.1407660-1-andrew@daynix.com>
+ <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
+ <874klk5gnc.fsf@dusky.pond.sub.org>
+ <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
+ <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
+ <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
+ <87lfesv2zu.fsf@dusky.pond.sub.org>
+ <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
+ <87blfnp20k.fsf@dusky.pond.sub.org> <87lferm4x5.fsf@dusky.pond.sub.org>
+ <CAOEp5Oe18jtsgHVqwtm+-sqspD6KoJTOO9nNPmcWS++AVGjXKQ@mail.gmail.com>
+ <87tutej3dc.fsf@dusky.pond.sub.org> <87blfmj2qx.fsf@dusky.pond.sub.org>
+In-Reply-To: <87blfmj2qx.fsf@dusky.pond.sub.org>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Tue, 24 Nov 2020 16:03:42 +0200
+Message-ID: <CAOEp5Ofozi59Ns3F72p-5VGgPBMdrym3dS8GCEiNg9Ovh0jK3A@mail.gmail.com>
+Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
+ qmp_marshal_netdev_add()
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000e9dd6d05b4dac783"
+Received-SPF: none client-ip=2607:f8b0:4864:20::343;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-ot1-x343.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,45 +87,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnichenko <andrew@daynix.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/20 2:54 PM, Philippe Mathieu-Daudé wrote:
-> On 11/24/20 12:04 PM, Claudio Fontana wrote:
->> Hi Alex,
->>
->> I am seeing build failures with build-user and build-user-plugin:
->>
->> https://gitlab.com/hw-claudio/qemu/-/pipelines/220245998
->>
->> and I am trying to start investigating.
->>
->> How do I reproduce this locally?
->>
->> I am trying to run locally the check-tcg rule, but I cannot get it to work.
->> I managed to work around the problem of static libraries (disabled them),
->>
->> but then I get:
->>
->>   BUILD   TCG tests for x86_64-linux-user
->>   BUILD   x86_64-linux-user guest-tests with cc
->> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /tmp/ccgqtAM9.o: in function `test_fops':
->> /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:759: undefined reference to `fmod'
->> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:760: undefined reference to `sqrt'
->> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:761: undefined reference to `sin'
->> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:762: undefined reference to `cos'
->>
->> Have you seen it before?
->> Any suggestions? I'm on OpenSUSE Leap 15 SP2.
-> 
-> Related to 3fc1aad3864 ("configure: remove unnecessary libm test")
-> + tcg tests still not ported to Meson?
-> 
+--000000000000e9dd6d05b4dac783
+Content-Type: text/plain; charset="UTF-8"
 
-thanks a lot for the info!
+On Tue, Nov 24, 2020 at 3:36 PM Markus Armbruster <armbru@redhat.com> wrote:
 
-Ciao,
+> Markus Armbruster <armbru@redhat.com> writes:
+>
+> > Yuri Benditovich <yuri.benditovich@daynix.com> writes:
+> >
+> >> Please confirm that this patch is intended to solve only the problem
+> with
+> >> hmp (and disallow duplicated ids)
+> >
+> > The intent is to reject duplicate ID and to accept non-duplicate ID, no
+> > matter how the device is created (CLI, HMP, QMP) or a prior instance was
+> > deleted (HMP, QMP).
+> >
+> >> With it the netdev that was added from qemu's command line and was
+> deleted
+> >> (for example by hmp) still can't be created, correct?
+> >
+> > Yet another case; back to the drawing board...
+>
+> Next try.  Hope this is one holds water :)
+>
+>
+> diff --git a/net/net.c b/net/net.c
+> index 794c652282..c1dc75fc37 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -978,6 +978,7 @@ static int (* const
+> net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+>  static int net_client_init1(const Netdev *netdev, bool is_netdev, Error
+> **errp)
+>  {
+>      NetClientState *peer = NULL;
+> +    NetClientState *nc;
+>
+>      if (is_netdev) {
+>          if (netdev->type == NET_CLIENT_DRIVER_NIC ||
+> @@ -1005,6 +1006,12 @@ static int net_client_init1(const Netdev *netdev,
+> bool is_netdev, Error **errp)
+>          }
+>      }
+>
+> +    nc = qemu_find_netdev(netdev->id);
+> +    if (nc) {
+> +        error_setg(errp, "Duplicate ID '%s'", netdev->id);
+> +        return -1;
+> +    }
+> +
+>      if (net_client_init_fun[netdev->type](netdev, netdev->id, peer, errp)
+> < 0) {
+>          /* FIXME drop when all init functions store an Error */
+>          if (errp && !*errp) {
+> @@ -1015,8 +1022,6 @@ static int net_client_init1(const Netdev *netdev,
+> bool is_netdev, Error **errp)
+>      }
+>
+>      if (is_netdev) {
+> -        NetClientState *nc;
+> -
+>          nc = qemu_find_netdev(netdev->id);
+>          assert(nc);
+>          nc->is_netdev = true;
+> @@ -1137,6 +1142,7 @@ void qmp_netdev_add(Netdev *netdev, Error **errp)
+>  void qmp_netdev_del(const char *id, Error **errp)
+>  {
+>      NetClientState *nc;
+> +    QemuOpts *opts;
+>
+>      nc = qemu_find_netdev(id);
+>      if (!nc) {
+> @@ -1151,6 +1157,16 @@ void qmp_netdev_del(const char *id, Error **errp)
+>      }
+>
+>      qemu_del_net_client(nc);
+> +
+> +    /*
+> +     * Wart: we need to delete the QemuOpts associated with netdevs
+> +     * created via CLI or HMP, to avoid bogus "Duplicate ID" errors in
+> +     * HMP netdev_add.
+> +     */
+> +    opts = qemu_opts_find(qemu_find_opts("netdev"), id);
+> +    if (opts) {
+> +        qemu_opts_del(opts);
+> +    }
+>  }
+>
+>
+With this part there is no need to unconditionally delete the options
+in hmp_netdev_add,
+correct?
 
-Claudio
+
+>  static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+> --
+> 2.26.2
+>
+>
+
+--000000000000e9dd6d05b4dac783
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 24, 2020=
+ at 3:36 PM Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armb=
+ru@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" tar=
+get=3D"_blank">armbru@redhat.com</a>&gt; writes:<br>
+<br>
+&gt; Yuri Benditovich &lt;<a href=3D"mailto:yuri.benditovich@daynix.com" ta=
+rget=3D"_blank">yuri.benditovich@daynix.com</a>&gt; writes:<br>
+&gt;<br>
+&gt;&gt; Please confirm that this patch is intended to solve only the probl=
+em with<br>
+&gt;&gt; hmp (and disallow duplicated ids)<br>
+&gt;<br>
+&gt; The intent is to reject duplicate ID and to accept non-duplicate ID, n=
+o<br>
+&gt; matter how the device is created (CLI, HMP, QMP) or a prior instance w=
+as<br>
+&gt; deleted (HMP, QMP).<br>
+&gt;<br>
+&gt;&gt; With it the netdev that was added from qemu&#39;s command line and=
+ was deleted<br>
+&gt;&gt; (for example by hmp) still can&#39;t be created, correct?<br>
+&gt;<br>
+&gt; Yet another case; back to the drawing board...<br>
+<br>
+Next try.=C2=A0 Hope this is one holds water :)<br>
+<br>
+<br>
+diff --git a/net/net.c b/net/net.c<br>
+index 794c652282..c1dc75fc37 100644<br>
+--- a/net/net.c<br>
++++ b/net/net.c<br>
+@@ -978,6 +978,7 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIV=
+ER__MAX])(<br>
+=C2=A0static int net_client_init1(const Netdev *netdev, bool is_netdev, Err=
+or **errp)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0NetClientState *peer =3D NULL;<br>
++=C2=A0 =C2=A0 NetClientState *nc;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (is_netdev) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (netdev-&gt;type =3D=3D NET_CLIENT_DRI=
+VER_NIC ||<br>
+@@ -1005,6 +1006,12 @@ static int net_client_init1(const Netdev *netdev, bo=
+ol is_netdev, Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
++=C2=A0 =C2=A0 nc =3D qemu_find_netdev(netdev-&gt;id);<br>
++=C2=A0 =C2=A0 if (nc) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Duplicate ID &#39;%s&#3=
+9;&quot;, netdev-&gt;id);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0if (net_client_init_fun[netdev-&gt;type](netdev, netdev=
+-&gt;id, peer, errp) &lt; 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* FIXME drop when all init functions sto=
+re an Error */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (errp &amp;&amp; !*errp) {<br>
+@@ -1015,8 +1022,6 @@ static int net_client_init1(const Netdev *netdev, boo=
+l is_netdev, Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (is_netdev) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 NetClientState *nc;<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nc =3D qemu_find_netdev(netdev-&gt;id);<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(nc);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nc-&gt;is_netdev =3D true;<br>
+@@ -1137,6 +1142,7 @@ void qmp_netdev_add(Netdev *netdev, Error **errp)<br>
+=C2=A0void qmp_netdev_del(const char *id, Error **errp)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0NetClientState *nc;<br>
++=C2=A0 =C2=A0 QemuOpts *opts;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0nc =3D qemu_find_netdev(id);<br>
+=C2=A0 =C2=A0 =C2=A0if (!nc) {<br>
+@@ -1151,6 +1157,16 @@ void qmp_netdev_del(const char *id, Error **errp)<br=
+>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0qemu_del_net_client(nc);<br>
++<br>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* Wart: we need to delete the QemuOpts associated with=
+ netdevs<br>
++=C2=A0 =C2=A0 =C2=A0* created via CLI or HMP, to avoid bogus &quot;Duplica=
+te ID&quot; errors in<br>
++=C2=A0 =C2=A0 =C2=A0* HMP netdev_add.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 opts =3D qemu_opts_find(qemu_find_opts(&quot;netdev&quot;), =
+id);<br>
++=C2=A0 =C2=A0 if (opts) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_opts_del(opts);<br>
++=C2=A0 =C2=A0 }<br>
+=C2=A0}<br>
+<br></blockquote><div><br></div><div>With this part there is no need to unc=
+onditionally delete the options in=C2=A0<span style=3D"color:rgb(80,0,80)">=
+hmp_netdev_add, correct?</span></div><div>=C2=A0</div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+=C2=A0static void netfilter_print_info(Monitor *mon, NetFilterState *nf)<br=
+>
+-- <br>
+2.26.2<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000e9dd6d05b4dac783--
 
