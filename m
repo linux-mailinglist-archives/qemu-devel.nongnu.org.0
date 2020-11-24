@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C902C281A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:34:43 +0100 (CET)
-Received: from localhost ([::1]:45178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C9492C281C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:35:17 +0100 (CET)
+Received: from localhost ([::1]:46298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khYSw-0000bB-SB
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:34:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53806)
+	id 1khYTU-00014k-8I
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:35:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1khYRB-0008L2-Sx
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:32:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25135)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1khYR8-0001zm-Ag
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:32:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606224768;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2TYW2ceypTnNkZ1+X3GyP1E1ySfXLa/1MPhx23MUywE=;
- b=hutoSM8RnebE7AnQDsXDnnOzrWLWsMMb9JE/zYMB1RNZn28W+cAIGvBneiAEkUzMGgl/V/
- CAOq/nCThDOqHAEsnNvzt7wFzgUF1yv5uxe0XGAIeGX/fw/5wQ4ZxKl7KZjUNIda/2MejL
- xyZyKIzid3Cpg8Kw8y1orrqTuoVq4fU=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-CIxqUlZsPKmNoOeuUz5hKw-1; Tue, 24 Nov 2020 08:32:46 -0500
-X-MC-Unique: CIxqUlZsPKmNoOeuUz5hKw-1
-Received: by mail-io1-f71.google.com with SMTP id j10so15582159iog.22
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 05:32:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1khYRO-0008Vj-GB
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:33:06 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1khYRM-00024r-C6
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:33:06 -0500
+Received: by mail-ed1-x535.google.com with SMTP id r22so12227183edw.6
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 05:33:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ea9Bx84tPZpqvF8jSvAhuGS8At7ayjJGLh3NxOADTh8=;
+ b=AjjaD0X2O8wmEQ+Wx5FeLlUAE4c5PSi4Jugwr80goXaBtBDLRiOeWhCMd2fL4D9Vi8
+ ZcvCtKezjQWYY+BLfyVZTjc+k+fo3Obl8orMhgEJZy9GJiEMzXmJzF7Dn5UfYIImRib/
+ Pp74D9JdHYXt0U+CTdOccPVGEwfnfr5XB9iPZKcS05TyyMSQmxPYzxVzM3sx3q2PS2t9
+ J29UzDbcyGg/8DwSPGVxXsWknYjm+yXNE2npNWvPNo+7I9Oyo+tHS84oxFG6tfb7fRva
+ TwfowewFGQZ8qchyu0YxnmiqYjzBBH5OKus+OgbcWgTbrKmlTqWcdjFoi9RqP48/xbO+
+ B89Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=2TYW2ceypTnNkZ1+X3GyP1E1ySfXLa/1MPhx23MUywE=;
- b=mS3B0FIHC6JsjBoH0sa0AueZwE3dAyG5GGx9dEiIJsfl7xk+gXgu5BbvqE3jzkfTGd
- 3Rlqsx1gqMNU4U44UBGdETt48oXsOQjrb30ssRD/IoUNOM1tXnJC3rqIbYl0cpObqI7U
- paaal3Ve4Jm+5D4yWOjK0Hq9FTyiSN2NF8SZWstgzCyK3nmN7Y9aKc8I6B+40IGBlgQ1
- Vqdx8fJb4rlvBliAIVuPrOHxD7ZCPwn0UULcDeniA4l/QJg2HtEL6inDbrnWdW6MEvHs
- KJdwzd88klb6+do+xDqu0sZ50lUUO0CUbQl8TSaTkdASjA35cKoQCz5mOTEb+WKRCGwv
- YdTg==
-X-Gm-Message-State: AOAM533v6BMreXhrQuonY+dwrYNYbaTl/BBcIXkaL6AdNwSoJbykxu53
- TF924xv9p8Vj//rbA8W9TN2ZFh+1jnnM7QWO3w/KPVdA5shIyuAgbe5JhG+XTw/Ru1SKHuNr5pp
- J82AY9D1gbFKil2fEtnfiuuc5pVNjCQc=
-X-Received: by 2002:a92:c8c4:: with SMTP id c4mr4342173ilq.161.1606224765383; 
- Tue, 24 Nov 2020 05:32:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx4cmD0FH85BpPaJjYlxjt8gymHj8aA+0fgY5BvN0V3daOeI4dfzNE4sJ59t/vPB2Csc571Fnf5IrcRbbLRUPE=
-X-Received: by 2002:a92:c8c4:: with SMTP id c4mr4342150ilq.161.1606224765097; 
- Tue, 24 Nov 2020 05:32:45 -0800 (PST)
+ bh=ea9Bx84tPZpqvF8jSvAhuGS8At7ayjJGLh3NxOADTh8=;
+ b=MfstuDIBIkpV9T+HtNTI1bQ01/6ZpoIMCMCrfZL8y0PZoHAFgx7ZsmO6xT3ooaqOXM
+ HkkpXn2CtyQ5VI+9SHCAoLAy4IwuVs9osKoMjRQdt8rpp/s/FNgOF83QuKyQhe9CKFnH
+ uAVjklinmREh+8HUWrAQbZ5r1du4pIJ9C02SSXgJ3BRrI/hDxgtZBTUj29tzAlvgiHMC
+ yw/q4bq5dNlO6Cr9MNU0aVY5JsGF7D/u3ec7qTWlkVQClrDzpYI7hs3GXk1olhxPHNp2
+ ngwLOrsbL5JMfTZJUUxDWxk95r+nDXOQmyrODA6dZmhia97pM5oXkCeCE+dvs3Fy02BY
+ 5SvQ==
+X-Gm-Message-State: AOAM5330XhZrU01VjGlX2x3ORBJKDfClAm5ZvVA3cswoQj7EbdQCZJ6H
+ 0pL8L9p+mczSh4R9JcXTIRWvJIV5LkMFF8Km3R5hDQ==
+X-Google-Smtp-Source: ABdhPJx6QMaAmkJ8mxwT9JA4EbSdWUYMXa81kDrigh2u6Jvn26XCngB8Z5WgbYq/X9aogbVYE5+4G8jNEbKflkl7pIk=
+X-Received: by 2002:a05:6402:3089:: with SMTP id
+ de9mr4118569edb.100.1606224781647; 
+ Tue, 24 Nov 2020 05:33:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20201118080902.30033-1-marcandre.lureau@redhat.com>
- <20201118080902.30033-3-marcandre.lureau@redhat.com>
- <20201124115405.GE3366@work-vm>
-In-Reply-To: <20201124115405.GE3366@work-vm>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 24 Nov 2020 17:32:33 +0400
-Message-ID: <CAMxuvayBgw9Y4sor79nZw1sj4Y4H6txdUKOr=k6JxoSNryiYTw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] libvhost-user: replace qemu/memfd.h usage
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20201124125235.266884-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20201124125235.266884-1-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 24 Nov 2020 13:32:50 +0000
+Message-ID: <CAFEAcA8cUpnA9bdp_MBe65YZe+6=avrczSO1=_Gc-gT6d+YVfw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Remove GCC < 4.8 checks
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,153 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Armbruster, Markus" <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Tue, Nov 24, 2020 at 3:54 PM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
+On Tue, 24 Nov 2020 at 12:52, <marcandre.lureau@redhat.com> wrote:
 >
-> * marcandre.lureau@redhat.com (marcandre.lureau@redhat.com) wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Undo the damage from commit 5f9ff1eff3 ("libvhost-user: Support trackin=
-g
-> > inflight I/O in shared memory") which introduced glib dependency throug=
-h
-> > osdep.h inclusion.
-> >
-> > libvhost-user.c tries to stay free from glib usage.
-> >
-> > Use glibc memfd_create directly when available (assumed so when
-> > MFD_ALLOW_SEALING is defined).
-> >
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  contrib/libvhost-user/libvhost-user.c | 50 +++++++++++++++++++++++----
-> >  1 file changed, 43 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-u=
-ser/libvhost-user.c
-> > index 1c1cfbf1e7..805521859d 100644
-> > --- a/contrib/libvhost-user/libvhost-user.c
-> > +++ b/contrib/libvhost-user/libvhost-user.c
-> > @@ -42,8 +42,6 @@
-> >  #endif
-> >
-> >  #include "qemu/atomic.h"
-> > -#include "qemu/osdep.h"
-> > -#include "qemu/memfd.h"
-> >
-> >  #include "libvhost-user.h"
-> >
-> > @@ -1615,11 +1613,45 @@ vu_inflight_queue_size(uint16_t queue_size)
-> >             sizeof(uint16_t), INFLIGHT_ALIGNMENT);
-> >  }
-> >
-> > +#ifdef MFD_ALLOW_SEALING
-> > +static void *
-> > +memfd_alloc(const char *name, size_t size, unsigned int flags, int *fd=
-)
-> > +{
-> > +    void *ptr;
-> > +    int ret;
-> > +
-> > +    *fd =3D memfd_create(name, MFD_ALLOW_SEALING);
-> > +    if (*fd < 0) {
-> > +        return NULL;
-> > +    }
-> > +
-> > +    ret =3D ftruncate(*fd, size);
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> Do you need to do any of the page alignment?
-
-We don't do any in util/memfd.c, I don't see an explicit requirement
-in memfd_create(). (however, util/memfd.c did check power of 2 for
-hugetlb usage, but this isn't necessary here)
-
-On mmap(), "if addr is NULL, then the kernel chooses the (page-aligned) add=
-ress"
-
+> Hi,
 >
-> > +    if (ret < 0) {
-> > +        close(*fd);
-> > +        return NULL;
-> > +    }
-> > +
-> > +    ret =3D fcntl(*fd, F_ADD_SEALS, F_SEAL_GROW | F_SEAL_SHRINK | F_SE=
-AL_SEAL);
->
-> I think you'd intended to use the 'flags' parameter there.
+> Since commit efc6c07 ("configure: Add a test for the minimum compiler ver=
+sion=3D
+> "),
+> QEMU explicitely depends on GCC >=3D 4.8.
 
-indeed, thanks
+You need to be a bit cautious about removing QEMU_GNUC_PREREQ()
+checks, because clang advertises itself as GCC 4.2 via the
+__GNUC__ and __GNUC_MINOR__ macros that QEMU_GNUC_PREREQ()
+tests, and so unless the code has explicitly handled clang
+via a different ifdef or feature test clang will be using
+the fallback codepath in cases like this. So you also need
+to find out whether all our supported versions of clang
+are OK with the gcc-4.4-and-up version of the code before
+removing any particular ifdef.
 
->
-> > +    if (ret < 0) {
-> > +        close(*fd);
-> > +        return NULL;
-> > +    }
-> > +
-> > +    ptr =3D mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED, *fd, 0);
-> > +    if (ptr =3D=3D MAP_FAILED) {
-> > +        close(*fd);
-> > +        return NULL;
-> > +    }
-> > +
-> > +    return ptr;
-> > +}
-> > +#endif
-> > +
-> >  static bool
-> >  vu_get_inflight_fd(VuDev *dev, VhostUserMsg *vmsg)
-> >  {
-> > -    int fd;
-> > -    void *addr;
-> > +    int fd =3D -1;
-> > +    void *addr =3D NULL;
-> >      uint64_t mmap_size;
-> >      uint16_t num_queues, queue_size;
-> >
-> > @@ -1637,9 +1669,13 @@ vu_get_inflight_fd(VuDev *dev, VhostUserMsg *vms=
-g)
-> >
-> >      mmap_size =3D vu_inflight_queue_size(queue_size) * num_queues;
-> >
-> > -    addr =3D qemu_memfd_alloc("vhost-inflight", mmap_size,
-> > -                            F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL,
-> > -                            &fd, NULL);
-> > +#ifdef MFD_ALLOW_SEALING
-> > +    addr =3D memfd_alloc("vhost-inflight", mmap_size,
-> > +                       F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL,
-> > +                       &fd);
-> > +#else
-> > +    vu_panic(dev, "Not implemented: memfd support is missing");
->
-> Should there be an ifdef somewhere on the declared features, so it
-> doesn't get this far because it wont negotiate the feature?
-
-Sealing grow/shrink came together with memfd, it was one of the main
-selling point. I assume if MFD_ALLOW_SEALING is defined, we have
-memfd_create and basic libc defines. But yes, if we want to handle
-weird corner cases, we should add more ifdef-ry. I'd pass for now.
+Compare this previous (not-applied) patchset from Philippe:
+ https://patchew.org/QEMU/20200928125859.734287-1-philmd@redhat.com/
+which dealt with two of these ifdefs, one of which is
+"clearly OK" and the other of which is "needs more analysis".
+The path forward I think is along those lines -- we need
+one patch per ifdef we're trying to remove, and the commit
+message can then include the information about why in
+this case it is OK for clang too (or switch the ifdef
+to check for something else, eg one of clang's feature-specific
+test macros).
 
 thanks
-
->
-> Dave
->
-> > +#endif
-> >
-> >      if (!addr) {
-> >          vu_panic(dev, "Failed to alloc vhost inflight area");
-> > --
-> > 2.29.0
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->
-
+-- PMM
 
