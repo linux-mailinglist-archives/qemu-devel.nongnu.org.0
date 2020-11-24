@@ -2,50 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A7602C2D04
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 17:36:42 +0100 (CET)
-Received: from localhost ([::1]:43162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43ACC2C2D26
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 17:42:11 +0100 (CET)
+Received: from localhost ([::1]:58500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khbJ3-0003VD-IF
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 11:36:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46842)
+	id 1khbOM-0001av-5q
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 11:42:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khb5R-0006ig-PV
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:22:37 -0500
-Received: from mx2.suse.de ([195.135.220.15]:38354)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1khb74-0000OZ-D3
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:24:18 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:47458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khb5P-0001iq-TU
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:22:37 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C464EAF48;
- Tue, 24 Nov 2020 16:22:21 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Emilio G . Cota" <cota@braap.org>
-Subject: [RFC v5 11/12] i386: centralize initialization of cpu accel interfaces
-Date: Tue, 24 Nov 2020 17:22:09 +0100
-Message-Id: <20201124162210.8796-12-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201124162210.8796-1-cfontana@suse.de>
-References: <20201124162210.8796-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1khb72-0001tF-2B
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:24:17 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AOGESu4182827;
+ Tue, 24 Nov 2020 16:23:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=74aB0HwoLbebVtOpcJXYrRNScTts15WDk/rp/kEvIgw=;
+ b=CR8ViMuaxfPEFQia2qr0FfPAEHMDdpjg9bqFStIKP1B+PANEqAxDPtOtrnj6G81F9aGU
+ /JIMn+O/NT6wj+lqdsbH34YNZJ2hFc3rU0rVxz537rQcCdAx/dfMgETSdjM0ZvmV0CtY
+ D5e8RFJPxvnwwVByEzzGSkSAQDKMzQokCtU3ENA2nYQD3x4AoMfn5tv51ab6/bLCv0nZ
+ wYKlJJl2RsPTjbRH/+e6DcInnsB9M2GjDlZBfwSjELag+wboBU+dQGwDcNKnT6MAst8z
+ 4TgsJiG7FeRJa0dXKDzf6FZAizsf+PBO8d5viAaOTpqNrHXJPl1/rPDLfMpXUn2dizl+ qw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 3514q8gbb3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 24 Nov 2020 16:23:41 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AOGFgsl127102;
+ Tue, 24 Nov 2020 16:23:40 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 34yx8k2u3y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 24 Nov 2020 16:23:40 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AOGNbfX029480;
+ Tue, 24 Nov 2020 16:23:38 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 24 Nov 2020 08:23:37 -0800
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id D37DF23C48F5; Tue, 24 Nov 2020 16:23:32 +0000 (GMT)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: P J P <ppandit@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [RFC 1/1] security-process: update process information
+In-Reply-To: <20201124142238.225417-2-ppandit@redhat.com>
+References: <20201124142238.225417-1-ppandit@redhat.com>
+ <20201124142238.225417-2-ppandit@redhat.com>
+Date: Tue, 24 Nov 2020 16:23:32 +0000
+Message-ID: <m2r1oi9117.fsf@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9815
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 suspectscore=2
+ bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011240101
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9815
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ clxscore=1011
+ impostorscore=0 mlxscore=0 suspectscore=2 lowpriorityscore=0 phishscore=0
+ priorityscore=1501 malwarescore=0 adultscore=0 bulkscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011240101
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=darren.kenny@oracle.com; helo=userp2130.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,131 +97,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
- Claudio Fontana <cfontana@suse.de>, Anthony Perard <anthony.perard@citrix.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
+Cc: peter.maydell@linaro.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Petr Matousek <pmatouse@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>, secalert@redhat.com,
+ Michael Roth <michael.roth@amd.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- target/i386/cpu-qom.h |  2 --
- target/i386/cpu.c     | 27 ++++++++++++++++++++-------
- target/i386/hvf/cpu.c |  9 ---------
- target/i386/kvm/cpu.c |  8 --------
- target/i386/tcg/cpu.c |  9 ---------
- 5 files changed, 20 insertions(+), 35 deletions(-)
+Hi Prasad,
 
-diff --git a/target/i386/cpu-qom.h b/target/i386/cpu-qom.h
-index 9316e78e71..2cea5394c6 100644
---- a/target/i386/cpu-qom.h
-+++ b/target/i386/cpu-qom.h
-@@ -98,6 +98,4 @@ struct X86CPUAccelClass {
-     void (*cpu_realizefn)(X86CPU *cpu, Error **errp);
- };
- 
--void x86_cpu_accel_init(const char *accel_name);
--
- #endif
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b799723e53..f6fd055046 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -7066,18 +7066,31 @@ type_init(x86_cpu_register_types)
- static void x86_cpu_accel_init_aux(ObjectClass *klass, void *opaque)
- {
-     X86CPUClass *xcc = X86_CPU_CLASS(klass);
--    const X86CPUAccelClass **accel = opaque;
-+    X86CPUAccelClass *accel = opaque;
- 
--    xcc->accel = *accel;
-+    xcc->accel = accel;
-     xcc->accel->cpu_common_class_init(xcc);
- }
- 
--void x86_cpu_accel_init(const char *accel_name)
-+static void x86_cpu_accel_init(void)
- {
--    X86CPUAccelClass *acc;
-+    const char *ac_name;
-+    ObjectClass *ac;
-+    char *xac_name;
-+    ObjectClass *xac;
- 
--    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
--    g_assert(acc != NULL);
-+    ac = object_get_class(OBJECT(current_accel()));
-+    g_assert(ac != NULL);
-+    ac_name = object_class_get_name(ac);
-+    g_assert(ac_name != NULL);
- 
--    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
-+    xac_name = g_strdup_printf("%s-%s", ac_name, TYPE_X86_CPU);
-+    xac = object_class_by_name(xac_name);
-+    g_free(xac_name);
-+
-+    if (xac) {
-+        object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, xac);
-+    }
- }
-+
-+accel_cpu_init(x86_cpu_accel_init);
-diff --git a/target/i386/hvf/cpu.c b/target/i386/hvf/cpu.c
-index 7e7dc044d3..70b6dbfc10 100644
---- a/target/i386/hvf/cpu.c
-+++ b/target/i386/hvf/cpu.c
-@@ -65,12 +65,3 @@ static void hvf_cpu_accel_register_types(void)
-     type_register_static(&hvf_cpu_accel_type_info);
- }
- type_init(hvf_cpu_accel_register_types);
--
--static void hvf_cpu_accel_init(void)
--{
--    if (hvf_enabled()) {
--        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("hvf"));
--    }
--}
--
--accel_cpu_init(hvf_cpu_accel_init);
-diff --git a/target/i386/kvm/cpu.c b/target/i386/kvm/cpu.c
-index bc5f519479..c17ed5a3f2 100644
---- a/target/i386/kvm/cpu.c
-+++ b/target/i386/kvm/cpu.c
-@@ -147,11 +147,3 @@ static void kvm_cpu_accel_register_types(void)
-     type_register_static(&kvm_cpu_accel_type_info);
- }
- type_init(kvm_cpu_accel_register_types);
--
--static void kvm_cpu_accel_init(void)
--{
--    if (kvm_enabled()) {
--        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("kvm"));
--    }
--}
--accel_cpu_init(kvm_cpu_accel_init);
-diff --git a/target/i386/tcg/cpu.c b/target/i386/tcg/cpu.c
-index e7d4effdd0..00166c36e9 100644
---- a/target/i386/tcg/cpu.c
-+++ b/target/i386/tcg/cpu.c
-@@ -170,12 +170,3 @@ static void tcg_cpu_accel_register_types(void)
-     type_register_static(&tcg_cpu_accel_type_info);
- }
- type_init(tcg_cpu_accel_register_types);
--
--static void tcg_cpu_accel_init(void)
--{
--    if (tcg_enabled()) {
--        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("tcg"));
--    }
--}
--
--accel_cpu_init(tcg_cpu_accel_init);
--- 
-2.26.2
+Thanks for writing this up.
+
+I have some comments below on the response steps.
+
+On Tuesday, 2020-11-24 at 19:52:38 +0530, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+>
+> We are about to introduce a qemu-security mailing list to report
+> and triage QEMU security issues.
+>
+> Update the QEMU security process web page with new mailing list
+> and triage details.
+>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> ---
+>  contribute/security-process.md | 105 +++++++++++++++++----------------
+>  1 file changed, 55 insertions(+), 50 deletions(-)
+>
+> diff --git a/contribute/security-process.md b/contribute/security-process.md
+> index 1239967..a03092c 100644
+> --- a/contribute/security-process.md
+> +++ b/contribute/security-process.md
+
+...
+
+> +## How we respond:
+> +
+> +* Steps to triage:
+> +    - Examine and validate the issue details to confirm whether the
+> +      issue is genuine and can be misused for malicious purposes.
+> +    - Determine its worst case impact and severity(Low/M/I/Critical)
+> +    - Negotiate embargo timeline (if required)
+> +    - Request a CVE and open an upstream bug
+> +    - Create an upstream fix patch
+> +
+> +* Above security lists are operated by select analysts, maintainers and/or
+> +  representatives from downstream communities.
+> +
+> +* List members follow a **responsible disclosure** policy. Any non-public
+> +  information you share about security issues, is kept confidential within the
+> +  respective affiliated companies. Such information shall not be passed on to
+> +  any third parties, including Xen Security Project, without your prior
+> +  permission.
+> +
+> +* We aim to triage security issues within maximum of 60 days.
+
+I always understood triage to be the initial steps in assessing a bug:
+
+- determining if it is a security bug, in this case
+
+- then deciding on the severity of it
+
+I would not expect triage to include seeing it through to the point
+where there is a fix as in the steps above and as such that definition
+of triage should probably have a shorter time frame.
+
+At this point, if it is not a security bug, then it should just be
+logged as any other bug in Qemu, which goes on to qemu-devel then.
+
+But, if it is a security bug - then that is when the next steps would be
+taken, to (not necessarily in this order):
+
+- negotiate an embargo (should the predefined 60 days be insufficient)
+
+  - don't know if you need to mention that this would include downstream
+    in this too, since they will be the ones most likely to need the
+    time to distribute a fix
+
+- request a CVE
+
+- create a fix for upstream
+
+  - distros can work on bringing that back into downstream as needed,
+    within the embargo period
+
+I do feel that it is worth separating the 2 phases of triage and beyond,
+but of course that is only my thoughts on it, I'm sure others will have
+theirs.
+
+Thanks,
+
+Darren.
+
 
 
