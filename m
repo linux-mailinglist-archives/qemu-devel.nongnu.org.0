@@ -2,65 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1758D2C1D3D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 06:12:00 +0100 (CET)
-Received: from localhost ([::1]:45730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A091E2C1DAC
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 06:44:36 +0100 (CET)
+Received: from localhost ([::1]:53700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khQcQ-0002VV-Jj
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 00:11:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43658)
+	id 1khR7z-0007zU-78
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 00:44:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khQbI-00024y-O5
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 00:10:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khQbF-0007kJ-CX
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 00:10:48 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1khQbC-0007hg-Ry
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 05:10:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D0C0D2E813C
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 05:10:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
+ id 1khR6X-0007YK-UJ
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 00:43:05 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26278
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
+ id 1khR6W-0002ce-68
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 00:43:05 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0AO5Xbd8143005; Tue, 24 Nov 2020 00:43:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=tiauImaUPmmh16cLi8Ua3hLJWu93NIOiMBaxg/Cbyj8=;
+ b=aONTUDvibqKOoYN2qFHit3bOxwckG1UsGrh8W4UU0LdCqi1UjhkFdvBZ1wJXplHLxmZY
+ tJpM1lFmI5Xoe9S4krCaYfPBv40fHNMk2jFlHQI6yf39u4nxtuyRTfK7Viq48QJn+aP2
+ qyYaiKyH09O5Rf7y3W4cf5T+jNMsvSxY0wAU1cFloksRJuQvsXJTju31A2P6yeC/vxc/
+ brvaEtMk3QnTuCl1TSqoU2I7YaWac7oAeugtDL8/XcC6LsrTJgurr7RgWr8a6FZLN4Vo
+ ome2xy4M3qcbu+PSyMpb5b9FtqxXId3zLcURlX6ACidoRBEj5eUsJpqxIdYfdqHZTOn0 7Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 350uq2gju3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Nov 2020 00:42:59 -0500
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AO5ZKN0151835;
+ Tue, 24 Nov 2020 00:42:59 -0500
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 350uq2gjtp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Nov 2020 00:42:59 -0500
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AO5gv1Q023807;
+ Tue, 24 Nov 2020 05:42:57 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03ams.nl.ibm.com with ESMTP id 34xth8b7km-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 24 Nov 2020 05:42:57 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0AO5gtqP9962202
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 24 Nov 2020 05:42:55 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 12427A4054;
+ Tue, 24 Nov 2020 05:42:55 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2D0E5A4064;
+ Tue, 24 Nov 2020 05:42:51 +0000 (GMT)
+Received: from [9.160.115.90] (unknown [9.160.115.90])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 24 Nov 2020 05:42:50 +0000 (GMT)
+Subject: Re: [PATCH 05/11] exec: add debug version of physical memory read and
+ write API
+To: Ashish Kalra <Ashish.Kalra@amd.com>, pbonzini@redhat.com
+References: <cover.1605316268.git.ashish.kalra@amd.com>
+ <7f254436d56679b27ba0112c16472831a6a66b49.1605316268.git.ashish.kalra@amd.com>
+From: Dov Murik <dovmurik@linux.vnet.ibm.com>
+Message-ID: <84180351-5946-b138-980e-f5192baa6868@linux.vnet.ibm.com>
+Date: Tue, 24 Nov 2020 07:42:49 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2020 05:05:03 -0000
-From: JIANG Muhui <1905356@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: muhui
-X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
-X-Launchpad-Bug-Modifier: JIANG Muhui (muhui)
-Message-Id: <160619430337.31223.17547021210606740630.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1905356] [NEW] No check for unaligned data access in ARM32
- instructions
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="c35ff22711d15549e2303ae18ae521fd91f6bf00"; Instance="production"
-X-Launchpad-Hash: e3a1e4b3a720d6b6b0e6eee153702dd843de8828
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <7f254436d56679b27ba0112c16472831a6a66b49.1605316268.git.ashish.kalra@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-24_01:2020-11-24,
+ 2020-11-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1011
+ bulkscore=0 suspectscore=0 spamscore=0 priorityscore=1501 malwarescore=0
+ adultscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011240033
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,104 +114,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905356 <1905356@bugs.launchpad.net>
+Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, ssg.sos.patches@amd.com, dgilbert@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-hi
 
-According to the ARM documentation, there are alignment requirements of
-load/store instructions.  Alignment fault should be raised if the
-alignment check is failed. However, it seems that QEMU doesn't implement
-this, which is against the documentation of ARM. For example, the
-instruction LDRD/STRD/LDREX/STREX must check the address is word
-alignment no matter what value the SCTLR.A is.
+On 16/11/2020 20:51, Ashish Kalra wrote:
+> From: Brijesh Singh <brijesh.singh@amd.com>
+> 
+> Adds the following new APIs
+> - cpu_physical_memory_read_debug
+> - cpu_physical_memory_write_debug
+> - cpu_physical_memory_rw_debug
+> - ldl_phys_debug
+> - ldq_phys_debug
+> 
+> The subsequent patch will make use of the API introduced, to ensure
+> that the page table walks are handled correctly when debugging an
+> SEV guest.
+> 
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
+> ---
 
-I attached a testcase, which contains an instruction at VA 0x10240: ldrd
-r0,[pc.#1] in the main function. QEMU can successfully load the data in
-the unaligned address. The test is done in QEMU 5.1.0. I can provide
-more testcases for the other instructions if you need. Many thanks.
+[...]
 
-To patch this, we need a check while we translate the instruction to
-tcg. If the address is unaligned, a signal number (i.e., SIGBUS) should
-be raised.
 
-Regards
-Muhui
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 2c08624ca8..6945bd5efe 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -3354,6 +3354,53 @@ inline MemTxResult address_space_write_rom_debug(AddressSpace *as,
+>       return MEMTX_OK;
+>   }
+> 
+> +uint32_t ldl_phys_debug(CPUState *cpu, hwaddr addr)
+> +{
+> +    MemTxAttrs attrs;
+> +    int asidx = cpu_asidx_from_attrs(cpu, attrs);
+> +    uint32_t val;
+> +
+> +    /* set debug attrs to indicate memory access is from the debugger */
+> +    attrs.debug = 1;
+> +
+> +    debug_ops->read(cpu->cpu_ases[asidx].as, addr, attrs,
+> +                    (void *) &val, 4);
+> +
+> +    return tswap32(val);
+> +}
+> +
+> +uint64_t ldq_phys_debug(CPUState *cpu, hwaddr addr)
+> +{
+> +    MemTxAttrs attrs;
+> +    int asidx = cpu_asidx_from_attrs(cpu, attrs);
+> +    uint64_t val;
+> +
+> +    /* set debug attrs to indicate memory access is from the debugger */
+> +    attrs.debug = 1;
+> +
+> +    debug_ops->read(cpu->cpu_ases[asidx].as, addr, attrs,
+> +                    (void *) &val, 8);
+> +    return val;
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+You probably want tswap64(val) here like in ldl_phys_debug (even though 
+I assume it's a noop in the SEV case).
 
-** Attachment added: "case_ldrd_arm"
-   https://bugs.launchpad.net/bugs/1905356/+attachment/5437364/+files/case_=
-ldrd_arm
+> +}
+> +
+> +void cpu_physical_memory_rw_debug(hwaddr addr, uint8_t *buf,
+> +                                  int len, int is_write)
+> +{
+> +    MemTxAttrs attrs;
+> +
+> +    /* set debug attrs to indicate memory access is from the debugger */
+> +    attrs.debug = 1;
 
-** Description changed:
+Maybe:
 
-  hi
-  =
+     MemTxAttrs attrs = { .debug = 1 };
 
-  According to the ARM documentation, there are alignment requirements of
-  load/store instructions.  Alignment fault should be raised if the
-  alignment check is failed. However, it seems that QEMU doesn't implement
-  this, which is against the documentation of ARM. For example, the
-  instruction LDRD/STRD/LDREX/STREX must check the address is word
-  alignment no matter what value the SCTLR.A is.
-  =
+(Also in the functions above.)
 
-- I attached a testcase, which contains a instruction at VA 0x10240: ldrd
-+ I attached a testcase, which contains an instruction at VA 0x10240: ldrd
-  r0,[pc.#1] in the main function. QEMU can successfully load the data in
-  the unaligned address. The test is done in QEMU 5.1.0. I can provide
-  more testcases for the other instructions if you need. Many thanks.
-  =
-
-  To patch this, we need a check while we translate the instruction to
-  tcg. If the address is unaligned, a signal number (i.e., SIGBUS) should
-  be raised.
-  =
-
-  Regards
-  Muhui
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905356
-
-Title:
-  No check for unaligned data access in ARM32 instructions
-
-Status in QEMU:
-  New
-
-Bug description:
-  hi
-
-  According to the ARM documentation, there are alignment requirements
-  of load/store instructions.  Alignment fault should be raised if the
-  alignment check is failed. However, it seems that QEMU doesn't
-  implement this, which is against the documentation of ARM. For
-  example, the instruction LDRD/STRD/LDREX/STREX must check the address
-  is word alignment no matter what value the SCTLR.A is.
-
-  I attached a testcase, which contains an instruction at VA 0x10240:
-  ldrd r0,[pc.#1] in the main function. QEMU can successfully load the
-  data in the unaligned address. The test is done in QEMU 5.1.0. I can
-  provide more testcases for the other instructions if you need. Many
-  thanks.
-
-  To patch this, we need a check while we translate the instruction to
-  tcg. If the address is unaligned, a signal number (i.e., SIGBUS)
-  should be raised.
-
-  Regards
-  Muhui
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905356/+subscriptions
+> +
+> +    if (is_write) {
+> +                debug_ops->write(&address_space_memory, addr,
+> +                                 attrs, buf, len);
+> +        } else {
+> +                debug_ops->read(&address_space_memory, addr,
+> +                                attrs, buf, len);
+> +        }
+> +
+> +}
+> +
+>   int64_t address_space_cache_init(MemoryRegionCache *cache,
+>                                    AddressSpace *as,
+>                                    hwaddr addr,
+> 
 
