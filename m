@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F58E2C33AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 23:07:09 +0100 (CET)
-Received: from localhost ([::1]:47916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE082C3424
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 23:41:49 +0100 (CET)
+Received: from localhost ([::1]:55428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khgSp-00058H-PK
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 17:07:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60658)
+	id 1khh0N-0002v6-L9
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 17:41:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khgRV-0004eR-Ad
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 17:05:45 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:46853)
+ id 1khgz6-0002R1-Tr
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 17:40:28 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:35600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1khgRT-0001fq-OT
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 17:05:44 -0500
-Received: by mail-ej1-x642.google.com with SMTP id bo9so103880ejb.13
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 14:05:43 -0800 (PST)
+ id 1khgz4-00064J-TL
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 17:40:28 -0500
+Received: by mail-ej1-x633.google.com with SMTP id f23so280793ejk.2
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 14:40:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=QboLXfmB5aYm/cVYNfSoVbEMKUbOLED1Ak18+1YstkQ=;
- b=xDw3DbfOGA2uC41wjJRrtQaIJG/QU+eTLWjsw1Ah3oBYfPo26A0GFkr6vwm7JahVbY
- oKWDJ6Z1VflYL+bX7HI4qrEk0w9sgkdt5mZRpdXc21sfmit1qNxtfwdVRtrUWET1BBwe
- 9A/emol9aEvqRlE0us4EBMqzDXgc0S0/27Bl0j0RqlEVn2QJCMFu/m0stg3tQfoJe/xl
- ee5lOxayz+zkpM6Yj5Nf94A5ioHBGVZ7ae/CKOWFtBjN/xf4UbwuEzSM/7XgPHTRV1FZ
- DarrS54rc0kIH5i40MfERuDUZ2jsBhMscxFYTJHj4vsltm0i5q5iKGKmG2g/gTS32E8W
- d43A==
+ :cc; bh=2skC0eDQQspFhyFqJC6WSLGpTsuxs9L+KJAOlyAN2YA=;
+ b=KJyby2YOFHdiW1f/nl1JO8n3bFNwjXREAZlGi/7Ws0HvSrqNLRVrnjSmB05q0b/Pan
+ wMQgxqYUuEY3wK4vh7piIiRWc4c6Tb98eE1YH34nheNBq23cLJUMQgZk8Zn7tJlJrmnl
+ Ac4zYyXbpx5YpOWUit6ohojtdIHFEAgL1GtQodH6THBh0ImMNjvqv/x5BWGGiA+eVtP1
+ 5wpy+hzReeBTW2jPNEN9aGeR0ZY0gr9AZmcrvKWnhK19KVPMOYo7sTvB5XMdkqApgWaC
+ dPDI3PE0/TYQSUrDxqYTK5IyZ7hWOtRsAFepgdS7q4+JkCbkRsinSSKSEmge/rJVttxB
+ okNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QboLXfmB5aYm/cVYNfSoVbEMKUbOLED1Ak18+1YstkQ=;
- b=Wp4itKVouPDB/3w+nkNVj13eXKSbQBrf63lykOSg97okuuaFVoINgi+n/E34YZHWeE
- qArCskMzOIcLe0/32qskWvAT/3qNnEww/in+WXfHmiY4KZsmDj/mwr7O4xIiWXZouCg0
- F53zeAzqPRMCQBy+xjJHKV1YgbbYMNE2VbRVIfKMX8WW4teCTjta/MVtN02UhVWTQdit
- bGgRk+bGxI5POT/ccVyNdqPTXFyYIlDVL05Yx++1Nn65Ytj44mVK6FzQDwByr2GII0XK
- AJlDcBwzu0EQoX2Ffuvo3ST3vGTE+dFZ93VLf1juJP6LNAxU9P0rNIvDB+zQYiiZlp+D
- M1/g==
-X-Gm-Message-State: AOAM530FilFKxAgOISI0FAMiwIGuvDRxoozrdUh+7kV3gOcfVonM1eXy
- EdAwfnAQLqTN1CV0fCTy62yLG7TrMUs4QngRdjwhgQ==
-X-Google-Smtp-Source: ABdhPJwj1vSEK2y4jDhlB9SayX4yIHC2Zq1elFkFoBQboPOYUPljYFtr06QVoYeGTWkW6S/tbAXYp+A8APvi031qjXc=
-X-Received: by 2002:a17:906:b53:: with SMTP id
- v19mr488094ejg.250.1606255541834; 
- Tue, 24 Nov 2020 14:05:41 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=2skC0eDQQspFhyFqJC6WSLGpTsuxs9L+KJAOlyAN2YA=;
+ b=fSvh1QC9MydBN0qi4sSKeJOdtGJm9+FzhX66V62o6XnqKNsGdkCmff3ia5dmg6lL3/
+ Eh6LrOhhoINSb2c+1x9UOWhAthCk3y66vENY028viZjfxAr/9Ita0486dYmTiwvMvv3R
+ tdRwNQGBNGIVJseaOBs2t2n5xoe5MwETS+/JdeHhabjqo6X6FQG/TCJKnmEotMdRAFCm
+ sSx/qy0PMEgp8VEfdPl15wXxV8F0K6fte2eFPoe/k7jgtptaiL/lQV8wZNHf2LOXo1a3
+ e7tR/wf4Av6Lj6qcg3G6QZigFvKROtgDq65GH3Sy4pvFZVysBvat2yMVOEeabnhI+EQE
+ ijDg==
+X-Gm-Message-State: AOAM531POtdx/3tRriADhKQA6bCRKzSpBYKbIomYiDS2jjc0Ro83e+td
+ y4iSFX3eNwxZd6NLVsARAiD6XWOEFQX9hJUMNi2r9A==
+X-Google-Smtp-Source: ABdhPJye+shvZj6J0Bxzvr+QsSIZ+ZDX1PCqRVCvhZX4S/UyuZeIRa5TX1wEoDiUGAy+HYs/SgB4Suo5KYHtgh346C0=
+X-Received: by 2002:a17:906:680d:: with SMTP id
+ k13mr580919ejr.482.1606257625432; 
+ Tue, 24 Nov 2020 14:40:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20201120122702.4413-1-lma@suse.com>
- <CAJ+F1CLuY7XtvpJXRfkK5dBpi3ZU5VYcmJ9XndP0S8CLQ1uXPw@mail.gmail.com>
- <ec802fc0-d348-6206-5cdd-20f28294d9a8@redhat.com>
-In-Reply-To: <ec802fc0-d348-6206-5cdd-20f28294d9a8@redhat.com>
+References: <20201124151500.2945356-1-ehabkost@redhat.com>
+In-Reply-To: <20201124151500.2945356-1-ehabkost@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Nov 2020 22:05:30 +0000
-Message-ID: <CAFEAcA9J9Hw-AUGSeBjASXq9EfVEpWLpKxpfiyMrRQQWS+5c5Q@mail.gmail.com>
-Subject: Re: [PATCH v3] qga: Correct loop count in qmp_guest_get_vcpus()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Tue, 24 Nov 2020 22:40:14 +0000
+Message-ID: <CAFEAcA-7MhM8uErhyvpVGerTJqmwurV7_rZ=urBzz=WUCGfVHg@mail.gmail.com>
+Subject: Re: [PULL 0/1] PCI host devaddr property fix for 5.2
+To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,22 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, Lin Ma <lma@suse.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Nov 2020 at 14:12, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
-> As we are going to tag 5.2-rc3, what is the status of this fix?
+On Tue, 24 Nov 2020 at 15:16, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit d536d9578ec3ac5029a70b8126cb84bb6f2124a4:
+>
+>   Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2020-11-24 10:59:12 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/machine-next-for-5.2-pull-request
+>
+> for you to fetch changes up to 28afbc1f11f5ae33b69deb162a551110717eec94:
+>
+>   Revert "hw/core/qdev-properties: Use qemu_strtoul() in set_pci_host_devaddr()" (2020-11-24 10:06:54 -0500)
+>
+> ----------------------------------------------------------------
+> PCI host devaddr property fix for 5.2
+>
+> ----------------------------------------------------------------
 
-'git blame' says none of the code changed here is newer than 2018,
-so it seems unlikely that this is a regression since 5.1. rc3 is
-now ready to tag, so this is going to get postponed to 6.0
-unless somebody has a really solid argument for why it is
-a release-critical bug.
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
 -- PMM
 
