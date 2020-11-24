@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E312C2995
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 15:29:57 +0100 (CET)
-Received: from localhost ([::1]:53300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1F62C29AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 15:31:57 +0100 (CET)
+Received: from localhost ([::1]:58294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khZKO-0004lY-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 09:29:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43108)
+	id 1khZMK-0006tQ-4o
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 09:31:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1khZFo-0000h8-10
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:25:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55185)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1khZFq-0000iI-AR
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:25:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1khZFm-0004pM-3E
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:25:11 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1khZFn-0004po-19
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:25:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606227909;
+ s=mimecast20190719; t=1606227910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6QXXQi1LNDQkOAwAYps943PqGx0+TW5Sxd6Y3xBxCrY=;
- b=O6I06TYGrntoCqQ/Co8ihmeGCVwvas3sRgMd/IJiqc6QroQskgNinkoxnG8fBkIE9Jamtr
- u0iPsBqhUT4odhlL0Q4EPLX6WqteZ9seQ/ABTNaJfBkucE8diy03dQ7NFpv9gCNtMU2p6C
- b6oc2dkfc5WQJAYrG/Mjok/x1eJEqQA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kSzzwRz99E9b98BSBSDMrjfyRmdFrqX2049eUPiwmWA=;
+ b=RMvxcqbReSLUvTMuhwq6xSuVUlpW3LCUs4bARVzEmYrEgxrKhUB6IsaywapeEjGRWY1LWZ
+ wc8bL4hsYzqa+ZlxF8Cn4U0okBs6mLWBhZ6QMkDvuJ/Ji3/mP1ghBNyDPtHVF8oIIgZl7M
+ FAKPI3Pch8Pzzq+2RnIyw4dL/NuQrFs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-77-WGE8uSeMMPeonT7h3cz-dg-1; Tue, 24 Nov 2020 09:25:04 -0500
-X-MC-Unique: WGE8uSeMMPeonT7h3cz-dg-1
+ us-mta-69-rOZkeXANNuOIQ2u7D-e8ww-1; Tue, 24 Nov 2020 09:25:07 -0500
+X-MC-Unique: rOZkeXANNuOIQ2u7D-e8ww-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E21871006C81;
- Tue, 24 Nov 2020 14:25:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD24618C43D7;
+ Tue, 24 Nov 2020 14:25:06 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-111.ams2.redhat.com [10.36.114.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC8BC60864;
- Tue, 24 Nov 2020 14:25:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 36DED60873;
+ Tue, 24 Nov 2020 14:25:03 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 0/1] Block layer patches for 5.2.0-rc3
-Date: Tue, 24 Nov 2020 15:24:58 +0100
-Message-Id: <20201124142459.298166-1-kwolf@redhat.com>
+Subject: [PULL 1/1] qcow2: Fix corruption on write_zeroes with MAY_UNMAP
+Date: Tue, 24 Nov 2020 15:24:59 +0100
+Message-Id: <20201124142459.298166-2-kwolf@redhat.com>
+In-Reply-To: <20201124142459.298166-1-kwolf@redhat.com>
+References: <20201124142459.298166-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -77,28 +80,68 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 23895cbd82be95428e90168b12e925d0d3ca2f06:
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-  Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20201123.0' into staging (2020-11-23 18:51:13 +0000)
+Commit 205fa50750 ("qcow2: Add subcluster support to zero_in_l2_slice()")
+introduced a subtle change to code in zero_in_l2_slice:
 
-are available in the Git repository at:
+It swapped the order of
 
-  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+2. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
+3. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
 
-for you to fetch changes up to c8bf9a9169db094aaed680cdba570758c0dc18b9:
+To
 
-  qcow2: Fix corruption on write_zeroes with MAY_UNMAP (2020-11-24 11:29:41 +0100)
+1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+2. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
+3. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
 
-----------------------------------------------------------------
-Patches for 5.2.0-rc3:
+It seems harmless, however the call to qcow2_free_any_clusters can
+trigger a cache flush which can mark the L2 table as clean, and
+assuming that this was the last write to it, a stale version of it
+will remain on the disk.
 
-- qcow2: Fix corruption on write_zeroes with MAY_UNMAP
+Now we have a valid L2 entry pointing to a freed cluster. Oops.
 
-----------------------------------------------------------------
-Maxim Levitsky (1):
-      qcow2: Fix corruption on write_zeroes with MAY_UNMAP
-
+Fixes: 205fa50750 ("qcow2: Add subcluster support to zero_in_l2_slice()")
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+[ kwolf: Fixed to restore the correct original order from before
+  205fa50750; added comments like in discard_in_l2_slice(). ]
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20201124092815.39056-1-kwolf@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
  block/qcow2-cluster.c | 9 ++++++---
  1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+index 485b4cb92e..bd0597842f 100644
+--- a/block/qcow2-cluster.c
++++ b/block/qcow2-cluster.c
+@@ -2010,14 +2010,17 @@ static int zero_in_l2_slice(BlockDriverState *bs, uint64_t offset,
+             continue;
+         }
+ 
++        /* First update L2 entries */
+         qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+-        if (unmap) {
+-            qcow2_free_any_cluster(bs, old_l2_entry, QCOW2_DISCARD_REQUEST);
+-        }
+         set_l2_entry(s, l2_slice, l2_index + i, new_l2_entry);
+         if (has_subclusters(s)) {
+             set_l2_bitmap(s, l2_slice, l2_index + i, new_l2_bitmap);
+         }
++
++        /* Then decrease the refcount */
++        if (unmap) {
++            qcow2_free_any_cluster(bs, old_l2_entry, QCOW2_DISCARD_REQUEST);
++        }
+     }
+ 
+     qcow2_cache_put(s->l2_table_cache, (void **) &l2_slice);
+-- 
+2.28.0
 
 
