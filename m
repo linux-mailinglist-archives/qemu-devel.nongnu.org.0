@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9C42C2092
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 09:58:45 +0100 (CET)
-Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE53C2C20FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 10:18:59 +0100 (CET)
+Received: from localhost ([::1]:49384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khU9t-0005Im-1S
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 03:58:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38002)
+	id 1khUTS-0002lj-Ex
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 04:18:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khU71-0002db-EW
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 03:55:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54564)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1khUS8-0002Es-Jy
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 04:17:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khU6z-00049Z-EG
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 03:55:47 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1khUS5-0003VK-Kj
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 04:17:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606208144;
+ s=mimecast20190719; t=1606209452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xVcKPVo+1qjDrthcoSp3KX1OU+hI40e6oUBPYmKqXWA=;
- b=UCQwIhJsAtcHy/uHtY5qQwiVcDFPGw1W+AGOhwJJwpe2TVtWeXC4k8elS4gcen3VDb5ZiW
- qYpQ1njtUvc+iA9QkgZ/FVIBokDivzn3/gdLqqCPPLRzBEk5pu/11gctSNn5UZToZKgn7S
- 1GjkvHVv4C4atP+QCZquJsxGsmg23wo=
+ bh=kgduawD1Mhmp8e6ovymPM2l6a6U4/pJ77FYki16+7rE=;
+ b=Kwve2/qR8EZf1ILb9YKbKdmSZIWMt3y4ejdeERyTyCI4Ju2sNTmKqYMjue8TLzgQPFnoYy
+ /K06noysyKn+8lmH9gJ4GervB+p2DjOkOGCG49+av6G7rQcxty6bp9lGvyPWoS4kcvf9Qp
+ DdrPW3f5xVWeLLi0bkXNTdpXFcEDj9Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-Xd0bCFyrMvCk8_obUmfkUg-1; Tue, 24 Nov 2020 03:55:42 -0500
-X-MC-Unique: Xd0bCFyrMvCk8_obUmfkUg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-323-n98BvP6KPvW_z-7s-bHWng-1; Tue, 24 Nov 2020 04:17:30 -0500
+X-MC-Unique: n98BvP6KPvW_z-7s-bHWng-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B795805BE0;
- Tue, 24 Nov 2020 08:55:41 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 26EED5D71B;
- Tue, 24 Nov 2020 08:55:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A79F4113864E; Tue, 24 Nov 2020 09:55:39 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
- qmp_marshal_netdev_add()
-References: <20200716035532.1407660-1-andrew@daynix.com>
- <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
- <874klk5gnc.fsf@dusky.pond.sub.org>
- <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
- <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
- <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
- <87lfesv2zu.fsf@dusky.pond.sub.org>
- <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
-Date: Tue, 24 Nov 2020 09:55:39 +0100
-In-Reply-To: <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
- (Yuri Benditovich's message of "Mon, 23 Nov 2020 17:35:30 +0200")
-Message-ID: <87blfnp20k.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86D503E75D;
+ Tue, 24 Nov 2020 09:17:28 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-111.ams2.redhat.com [10.36.114.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 779F219C71;
+ Tue, 24 Nov 2020 09:17:25 +0000 (UTC)
+Date: Tue, 24 Nov 2020 10:17:23 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Subject: Re: [PATCH 1/1] Fix qcow2 corruption on discard
+Message-ID: <20201124091723.GA22385@merkur.fritz.box>
+References: <20201123154929.330338-1-mlevitsk@redhat.com>
+ <20201123154929.330338-2-mlevitsk@redhat.com>
+ <20201123173853.GE5317@merkur.fritz.box>
+ <776008a350e47a33adbe659aa4ba106b6a2daf5f.camel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <776008a350e47a33adbe659aa4ba106b6a2daf5f.camel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,113 +78,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnichenko <andrew@daynix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: vsementsov@virtuozzo.com, Alberto Garcia <berto@igalia.com>,
+ qemu-block@nongnu.org, zhang_youjia@126.com, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, andrey.shinkevich@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yuri Benditovich <yuri.benditovich@daynix.com> writes:
+Am 23.11.2020 um 19:11 hat Maxim Levitsky geschrieben:
+> On Mon, 2020-11-23 at 18:38 +0100, Kevin Wolf wrote:
+> > Am 23.11.2020 um 16:49 hat Maxim Levitsky geschrieben:
+> > > Commit 205fa50750 ("qcow2: Add subcluster support to zero_in_l2_slice()")
+> > > introduced a subtle change to code in zero_in_l2_slice:
+> > > 
+> > > It swapped the order of
+> > > 
+> > > 1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+> > > 2. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
+> > > 3. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
+> > > 
+> > > To
+> > > 
+> > > 1. qcow2_cache_entry_mark_dirty(s->l2_table_cache, l2_slice);
+> > > 2. qcow2_free_any_clusters(bs, old_offset, 1, QCOW2_DISCARD_REQUEST);
+> > > 3. set_l2_entry(s, l2_slice, l2_index + i, QCOW_OFLAG_ZERO);
+> > > 
+> > > It seems harmless, however the call to qcow2_free_any_clusters
+> > > can trigger a cache flush which can mark the L2 table as clean,
+> > > and assuming that this was the last write to it,
+> > > a stale version of it will remain on the disk.
+> > 
+> > Do you have more details on this last paragraph? I'm trying to come up
+> > with a reproducer, but I don't see how qcow2_free_any_clusters() could
+> > flush the L2 table cache. (It's easy to get it to flush the refcount
+> > block cache, but that's useless for a reproducer.)
+> > 
+> > The only way I see to flush any cache with it is in update_refcount()
+> > the qcow2_cache_set_dependency() call. This will always flush the cache
+> > that the L2 cache depends on - which will never be the L2 cache itself,
+> > but always either the refcount cache or nothing.
+> > 
+> > There are more options in alloc_refcount_block() if we're allocating a
+> > new refcount block, but in the context of freeing clusters we'll never
+> > need to do that.
+> > 
+> > Whatever I tried, at the end of zero_in_l2_slice(), I have a dirty L2
+> > table and a dirty refcount block in the cache, with a dependency that
+> > makes sure that the L2 table will be written out first.
+> > 
+> > If you don't have the information yet, can you try to debug your manual
+> > reproducer a bit more to find out how this happens?
+> I'll do this tomorrow.
 
-> On Mon, Nov 23, 2020 at 11:25 AM Markus Armbruster <armbru@redhat.com>
-> wrote:
->
->> Andrew Melnichenko <andrew@daynix.com> writes:
->>
->> > --000000000000f73b2205b4aef0c5
->> > Content-Type: text/plain; charset="UTF-8"
->> >
->> > Hi, the bug can be reproduced like that:
->> >
->> >> QEMU 5.1.50 monitor - type 'help' for more information
->> >> (qemu) netdev_add
->> >> type=tap,id=net0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
->> >> (qemu) info network
->> >> hub 0
->> >>  \ hub0port1: __org.qemu.net1:
->> index=0,type=user,net=10.0.2.0,restrict=off
->> >>  \ hub0port0: e1000e.0:
->> >> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
->> >> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
->> >> net0:
->> >>
->> index=0,type=tap,ifname=tap0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
->> >> (qemu) netdev_del net0
->> >> (qemu) info network
->> >> hub 0
->> >>  \ hub0port1: __org.qemu.net1:
->> index=0,type=user,net=10.0.2.0,restrict=off
->> >>  \ hub0port0: e1000e.0:
->> >> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
->> >> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
->> >> (qemu) netdev_add
->> >> type=tap,id=net0,script=/home/and/SRCS/qemu/ifup.sh,downscript=no
->> >> Try "help netdev_add" for more information
->> >> (qemu) info network
->> >> hub 0
->> >>  \ hub0port1: __org.qemu.net1:
->> index=0,type=user,net=10.0.2.0,restrict=off
->> >>  \ hub0port0: e1000e.0:
->> >> index=0,type=nic,model=e1000e,macaddr=52:54:00:12:34:56
->> >> dnet0: index=0,type=nic,model=virtio-net-pci,macaddr=52:54:00:12:34:57
->> >> (qemu)
->> >>
->> >>
->> > Its still actual bug - I've checked it with the
->> > master(2c6605389c1f76973d92b69b85d40d94b8f1092c).
->>
->> I can see this with an even simpler reproducer:
->>
->>     $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio
->>     QEMU 5.1.92 monitor - type 'help' for more information
->>     (qemu) netdev_add user,id=net0
->>     (qemu) info network
->>     net0: index=0,type=user,net=10.0.2.0,restrict=off
->>     (qemu) netdev_del net0
->>     (qemu) info network
->>     (qemu) netdev_add user,id=net0
->>     upstream-qemu: Duplicate ID 'net0' for netdev
->>     Try "help netdev_add" for more information
->>
->> The appended patch fixes it for me.  It relies on nothing using the
->> "netdev" QemuOpts anymore.  Eric, what do you think?
->>
->>
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index a6a6684df1..8bc6b7bcc6 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -1638,9 +1638,7 @@ void hmp_netdev_add(Monitor *mon, const QDict *qdict)
->>      }
->>
->>      netdev_add(opts, &err);
->> -    if (err) {
->> -        qemu_opts_del(opts);
->> -    }
->> +    qemu_opts_del(opts);
->>
->>
-> Unfortunately, if I'm not mistaken, with this fix qemu will be able to
-> create from hmp several devices with the same id
-> (which is not expected).
-> For example:
-> netdev_add user,id=net0
-> netdev_add user,id=net0
-> info network lists 2 devices net0
+As the last RC for 5.2 is today, I will send a v2 that changes the fix
+to restore the original order.
 
-This means commit 08712fcb85 "net: Track netdevs in NetClientState
-rather than QemuOpt" didn't actually replace QemuOpts completely.
+We can then continue work to find a minimal reproducer and merge the
+test case in the early 6.0 cycle.
 
-This affects QMP:
-
-    $ socat "READLINE,history=$HOME/.qmp_history,prompt=QMP>" UNIX-CONNECT:$HOME/work/images/test-qmp 
-    {"QMP": {"version": {"qemu": {"micro": 92, "minor": 1, "major": 5}, "package": "v5.2.0-rc2-19-gff85db769f-dirty"}, "capabilities": ["oob"]}}
-    QMP>{ "execute": "qmp_capabilities", "arguments": { "enable": ["oob"] } }
-    {"return": {}}
-    QMP>{"execute": "netdev_add", "arguments": {"type": "user", "id":"net0"}}
-    {"return": {}}
-    QMP>{"execute": "netdev_add", "arguments": {"type": "user", "id":"net0"}}
-    {"return": {}}
-
-Results in two netdevs called "net0".  Needs fixing.
+Kevin
 
 
