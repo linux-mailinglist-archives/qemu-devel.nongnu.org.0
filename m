@@ -2,81 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0ECD2C2B1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 16:23:15 +0100 (CET)
-Received: from localhost ([::1]:52090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 277E12C2B2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 16:25:23 +0100 (CET)
+Received: from localhost ([::1]:32796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kha9v-0005FD-Vy
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 10:23:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58334)
+	id 1khaC2-0000SK-0n
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 10:25:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kha7Z-0003tm-LX
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 10:20:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kha7X-0007bj-Jt
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 10:20:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606231242;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bHM6smSIUleaOwc6stdAxbqa06fMmNXQJjmaXZrMzfg=;
- b=Scgf7t94yAMKldk+XcROMhvuG2oIO0HX3BShRm6mVs+jFYPkSndbdLFD9Z03r3h7b94w9f
- cZJJFZcYIzFg/YNeKbCJOrIT5Yy5Rz9kXptxaNWhm7ZBcfHUCF6LZAraYPD1BPDtpm0GkP
- dShOIxFTfRGV7Goq7JBz4FectYQ9Gk0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-mmrSBnHOMRWWw2orM6wLnw-1; Tue, 24 Nov 2020 10:20:39 -0500
-X-MC-Unique: mmrSBnHOMRWWw2orM6wLnw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3F7618C43CC;
- Tue, 24 Nov 2020 15:20:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A572460864;
- Tue, 24 Nov 2020 15:20:38 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 58B43113864E; Tue, 24 Nov 2020 16:20:37 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 3/8] qnum: QNumValue type for QNum value literals
-References: <CAJ+F1C+YUZdP56MuLtZbO0fK6rPsDosgxXG4zaDq=mjwqsV74A@mail.gmail.com>
- <20201117144246.GD1235237@habkost.net>
- <CAJ+F1CLZg-hhuK2ffRzVaWiZKe2Aqvf0-mqxXGAzscSa8FmCNw@mail.gmail.com>
- <87mtzdd4p7.fsf@dusky.pond.sub.org>
- <20201119182158.GX1509407@habkost.net>
- <877dqg8ukz.fsf@dusky.pond.sub.org>
- <20201120182720.GF2271382@habkost.net>
- <877dqcwlxc.fsf@dusky.pond.sub.org>
- <20201123183357.GK2271382@habkost.net>
- <87ft4zp2at.fsf@dusky.pond.sub.org>
- <20201124144102.GL2271382@habkost.net>
-Date: Tue, 24 Nov 2020 16:20:37 +0100
-In-Reply-To: <20201124144102.GL2271382@habkost.net> (Eduardo Habkost's message
- of "Tue, 24 Nov 2020 09:41:02 -0500")
-Message-ID: <877dqahjcq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kha8u-0004vp-4c
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 10:22:09 -0500
+Resent-Date: Tue, 24 Nov 2020 10:22:08 -0500
+Resent-Message-Id: <E1kha8u-0004vp-4c@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kha8j-0007z8-LJ
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 10:22:03 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1606231307; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Dmla1Y+eVrjWFs91GZaRq1Ck/sjwFxwktJ5+7FLdeF2ccmTvmle5wSgKTlqZyAmZ6/OwSkth5bT8tBJm41DQXhDtowo4DU8Xlx5ZykbyFL8JbxBxY1Bd7sZQ741sIlB6qmI3VdwJmwSUHcpBpduh03tDDxURgTk0Y8wNwW3D4PU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1606231307;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=tgvW7P2yUOe6w839HxynOUYcL/bU6UM8f5IY0JmW5xQ=; 
+ b=CZyNS2Y0WtGc5pMZ5a1NsZktoeUzkRTzRA6r9cG+CY4qT6lWMVByRxss80US0OvyVB3TdyTXwfXblyXS/G+d+ZmdMX83tbiL5s0B2C1cVgOIunhbPJKzvUKgAR479tf/FKHdQXr5y6cX1JWIgFyjNRx5ZmoPo7N4LPsgK4MY34w=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1606231304985420.2584881565733;
+ Tue, 24 Nov 2020 07:21:44 -0800 (PST)
+In-Reply-To: <20201124151500.2945356-1-ehabkost@redhat.com>
+Subject: Re: [PULL 0/1] PCI host devaddr property fix for 5.2
+Message-ID: <160623130350.25614.8973973535060718811@9aeb27d8af94>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ehabkost@redhat.com
+Date: Tue, 24 Nov 2020 07:21:44 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,71 +67,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
-
-> On Tue, Nov 24, 2020 at 09:49:30AM +0100, Markus Armbruster wrote:
->> Eduardo Habkost <ehabkost@redhat.com> writes:
->> 
->> > On Mon, Nov 23, 2020 at 08:51:27AM +0100, Markus Armbruster wrote:
->> >> Eduardo Habkost <ehabkost@redhat.com> writes:
->> >> 
->> >> > On Fri, Nov 20, 2020 at 06:29:16AM +0100, Markus Armbruster wrote:
->> >> [...]
->> >> >> When the structure of a data type is to be kept away from its users, I
->> >> >> prefer to keep it out of the public header, so the compiler enforces the
->> >> >> encapsulation.
->> >> >
->> >> > I prefer that too, except that it is impossible when users of the
->> >> > API need the compiler to know the struct size.
->> >> 
->> >> There are cases where the structure of a data type should be
->> >> encapsulated, yet its size must be made known for performance (avoid
->> >> dynamic memory allocation and pointer chasing).
->> >> 
->> >> Need for encapsulation correlates with complex algorithms and data
->> >> structures.  The cost of dynamic allocation is often in the noise then.
->> >
->> > I don't know what we are talking about anymore.  None of this
->> > applies to the QNum API, right?
->> >
->> > QNum/QNumValue are not complex data structures, and the reason we
->> > need the compiler to know the size of QNumValue is not related to
->> > performance at all.
->> 
->> We started with the question whether to make QNumValue's members
->> private.  We digressed to the question when to make members private.
->> So back to the original question.
->> 
->> > We might still want to discourage users of the QNum API from
->> > accessing QNum.u/QNumValue.u directly.  Documenting the field as
->> > private is a very easy way to do it.
->> 
->> It's a complete non-issue.  QNum has been around for years, and we
->> haven't had any issues that could've been plausibly avoided by asking
->> people to refrain from accessing its members.
->> 
->> If there was an actual need to keep the members private, I'd move the
->> struct out of the header, so the compiler enforces privacy.
->
-> Understood.  There's still a question I'd like to answer, to
-> decide how the API documentation should look like:
->
->   Is QNum.u/QNumValue.u required to be part of the API
->   documentation?
->
-> If accessing that field directly is not necessary for using the
-> API, I don't think it should appear in the documentation (because
-> it would be just noise).
-
-The current patch's comment on QNumValue looks good to me.
-
-Does this answer your question?
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTEyNDE1MTUwMC4yOTQ1
+MzU2LTEtZWhhYmtvc3RAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMTI0MTUxNTAwLjI5
+NDUzNTYtMS1laGFia29zdEByZWRoYXQuY29tClN1YmplY3Q6IFtQVUxMIDAvMV0gUENJIGhvc3Qg
+ZGV2YWRkciBwcm9wZXJ0eSBmaXggZm9yIDUuMgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQoj
+IS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBj
+b25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+cmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0K
+Li9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBU
+IEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMz
+ODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0
+YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTEyNDE1MTUwMC4yOTQ1MzU2LTEtZWhhYmtvc3RAcmVk
+aGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAxMTI0MTUxNTAwLjI5NDUzNTYtMS1laGFia29zdEByZWRo
+YXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZDY4MWRjMyBSZXZlcnQgImh3
+L2NvcmUvcWRldi1wcm9wZXJ0aWVzOiBVc2UgcWVtdV9zdHJ0b3VsKCkgaW4gc2V0X3BjaV9ob3N0
+X2RldmFkZHIoKSIKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBjb25zaWRlciB1c2luZyBx
+ZW11X3N0cnRvdWwgaW4gcHJlZmVyZW5jZSB0byBzdHJ0b3VsCiM0MjogRklMRTogaHcvY29yZS9x
+ZGV2LXByb3BlcnRpZXMtc3lzdGVtLmM6ODc2OgorICAgIHZhbCA9IHN0cnRvdWwocCwgJmUsIDE2
+KTsKCkVSUk9SOiBjb25zaWRlciB1c2luZyBxZW11X3N0cnRvdWwgaW4gcHJlZmVyZW5jZSB0byBz
+dHJ0b3VsCiM1MTogRklMRTogaHcvY29yZS9xZGV2LXByb3BlcnRpZXMtc3lzdGVtLmM6ODgzOgor
+ICAgIHZhbCA9IHN0cnRvdWwocCwgJmUsIDE2KTsKCkVSUk9SOiBjb25zaWRlciB1c2luZyBxZW11
+X3N0cnRvdWwgaW4gcHJlZmVyZW5jZSB0byBzdHJ0b3VsCiM2MTogRklMRTogaHcvY29yZS9xZGV2
+LXByb3BlcnRpZXMtc3lzdGVtLmM6ODkxOgorICAgICAgICB2YWwgPSBzdHJ0b3VsKHAsICZlLCAx
+Nik7CgpFUlJPUjogY29uc2lkZXIgdXNpbmcgcWVtdV9zdHJ0b3VsIGluIHByZWZlcmVuY2UgdG8g
+c3RydG91bAojNzM6IEZJTEU6IGh3L2NvcmUvcWRldi1wcm9wZXJ0aWVzLXN5c3RlbS5jOjkwMjoK
+KyAgICB2YWwgPSBzdHJ0b3VsKHAsICZlLCAxMCk7Cgp0b3RhbDogNCBlcnJvcnMsIDAgd2Fybmlu
+Z3MsIDU2IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCBkNjgxZGMzM2QxMzggKFJldmVydCAiaHcvY29y
+ZS9xZGV2LXByb3BlcnRpZXM6IFVzZSBxZW11X3N0cnRvdWwoKSBpbiBzZXRfcGNpX2hvc3RfZGV2
+YWRkcigpIikgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
+ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
+bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpU
+ZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
+bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDExMjQxNTE1MDAuMjk0NTM1Ni0xLWVo
+YWJrb3N0QHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpF
+bWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcu
+b3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQu
+Y29t
 
