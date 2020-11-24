@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B6B2C2CC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 17:25:07 +0100 (CET)
-Received: from localhost ([::1]:43762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93202C2CE3
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 17:29:16 +0100 (CET)
+Received: from localhost ([::1]:54314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khb7q-0008Sb-4V
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 11:25:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46778)
+	id 1khbBr-0004b3-TQ
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 11:29:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khb5J-0006bn-7P
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:22:29 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37988)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khb5E-0006a1-UT
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:22:25 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khb57-0001hw-7f
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:22:28 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khb5A-0001iC-SN
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:22:24 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 022D3AF32;
+ by mx2.suse.de (Postfix) with ESMTP id D5D6EAF40;
  Tue, 24 Nov 2020 16:22:16 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
@@ -30,10 +30,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  "Emilio G . Cota" <cota@braap.org>
-Subject: [RFC v5 04/12] i386: hvf: remove stale MAINTAINERS entry for old hvf
- stubs
-Date: Tue, 24 Nov 2020 17:22:02 +0100
-Message-Id: <20201124162210.8796-5-cfontana@suse.de>
+Subject: [RFC v5 05/12] i386: move TCG accel files into tcg/
+Date: Tue, 24 Nov 2020 17:22:03 +0100
+Message-Id: <20201124162210.8796-6-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201124162210.8796-1-cfontana@suse.de>
 References: <20201124162210.8796-1-cfontana@suse.de>
@@ -72,21 +71,140 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+ target/i386/meson.build             | 14 +-------------
+ target/i386/{ => tcg}/bpt_helper.c  |  0
+ target/i386/{ => tcg}/cc_helper.c   |  0
+ target/i386/{ => tcg}/excp_helper.c |  0
+ target/i386/{ => tcg}/fpu_helper.c  |  0
+ target/i386/{ => tcg}/int_helper.c  |  0
+ target/i386/{ => tcg}/mem_helper.c  |  0
+ target/i386/tcg/meson.build         | 13 +++++++++++++
+ target/i386/{ => tcg}/misc_helper.c |  0
+ target/i386/{ => tcg}/mpx_helper.c  |  0
+ target/i386/{ => tcg}/seg_helper.c  |  0
+ target/i386/{ => tcg}/smm_helper.c  |  0
+ target/i386/{ => tcg}/svm_helper.c  |  0
+ target/i386/{ => tcg}/tcg-stub.c    |  0
+ target/i386/{ => tcg}/translate.c   |  0
+ 15 files changed, 14 insertions(+), 13 deletions(-)
+ rename target/i386/{ => tcg}/bpt_helper.c (100%)
+ rename target/i386/{ => tcg}/cc_helper.c (100%)
+ rename target/i386/{ => tcg}/excp_helper.c (100%)
+ rename target/i386/{ => tcg}/fpu_helper.c (100%)
+ rename target/i386/{ => tcg}/int_helper.c (100%)
+ rename target/i386/{ => tcg}/mem_helper.c (100%)
+ create mode 100644 target/i386/tcg/meson.build
+ rename target/i386/{ => tcg}/misc_helper.c (100%)
+ rename target/i386/{ => tcg}/mpx_helper.c (100%)
+ rename target/i386/{ => tcg}/seg_helper.c (100%)
+ rename target/i386/{ => tcg}/smm_helper.c (100%)
+ rename target/i386/{ => tcg}/svm_helper.c (100%)
+ rename target/i386/{ => tcg}/tcg-stub.c (100%)
+ rename target/i386/{ => tcg}/translate.c (100%)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 463317784c..e892dd2220 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -443,7 +443,6 @@ M: Cameron Esfahani <dirty@apple.com>
- M: Roman Bolshakov <r.bolshakov@yadro.com>
- W: https://wiki.qemu.org/Features/HVF
- S: Maintained
--F: accel/stubs/hvf-stub.c
- F: target/i386/hvf/
- F: include/sysemu/hvf.h
+diff --git a/target/i386/meson.build b/target/i386/meson.build
+index 284d52ab81..750471c9f3 100644
+--- a/target/i386/meson.build
++++ b/target/i386/meson.build
+@@ -5,19 +5,6 @@ i386_ss.add(files(
+   'helper.c',
+   'xsave_helper.c',
+ ))
+-i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+-  'bpt_helper.c',
+-  'cc_helper.c',
+-  'excp_helper.c',
+-  'fpu_helper.c',
+-  'int_helper.c',
+-  'mem_helper.c',
+-  'misc_helper.c',
+-  'mpx_helper.c',
+-  'seg_helper.c',
+-  'smm_helper.c',
+-  'svm_helper.c',
+-  'translate.c'), if_false: files('tcg-stub.c'))
+ i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
  
+ i386_softmmu_ss = ss.source_set()
+@@ -32,6 +19,7 @@ subdir('kvm')
+ subdir('hax')
+ subdir('whpx')
+ subdir('hvf')
++subdir('tcg')
+ 
+ target_arch += {'i386': i386_ss}
+ target_softmmu_arch += {'i386': i386_softmmu_ss}
+diff --git a/target/i386/bpt_helper.c b/target/i386/tcg/bpt_helper.c
+similarity index 100%
+rename from target/i386/bpt_helper.c
+rename to target/i386/tcg/bpt_helper.c
+diff --git a/target/i386/cc_helper.c b/target/i386/tcg/cc_helper.c
+similarity index 100%
+rename from target/i386/cc_helper.c
+rename to target/i386/tcg/cc_helper.c
+diff --git a/target/i386/excp_helper.c b/target/i386/tcg/excp_helper.c
+similarity index 100%
+rename from target/i386/excp_helper.c
+rename to target/i386/tcg/excp_helper.c
+diff --git a/target/i386/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+similarity index 100%
+rename from target/i386/fpu_helper.c
+rename to target/i386/tcg/fpu_helper.c
+diff --git a/target/i386/int_helper.c b/target/i386/tcg/int_helper.c
+similarity index 100%
+rename from target/i386/int_helper.c
+rename to target/i386/tcg/int_helper.c
+diff --git a/target/i386/mem_helper.c b/target/i386/tcg/mem_helper.c
+similarity index 100%
+rename from target/i386/mem_helper.c
+rename to target/i386/tcg/mem_helper.c
+diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
+new file mode 100644
+index 0000000000..02794226c2
+--- /dev/null
++++ b/target/i386/tcg/meson.build
+@@ -0,0 +1,13 @@
++i386_ss.add(when: 'CONFIG_TCG', if_true: files(
++  'bpt_helper.c',
++  'cc_helper.c',
++  'excp_helper.c',
++  'fpu_helper.c',
++  'int_helper.c',
++  'mem_helper.c',
++  'misc_helper.c',
++  'mpx_helper.c',
++  'seg_helper.c',
++  'smm_helper.c',
++  'svm_helper.c',
++  'translate.c'), if_false: files('tcg-stub.c'))
+diff --git a/target/i386/misc_helper.c b/target/i386/tcg/misc_helper.c
+similarity index 100%
+rename from target/i386/misc_helper.c
+rename to target/i386/tcg/misc_helper.c
+diff --git a/target/i386/mpx_helper.c b/target/i386/tcg/mpx_helper.c
+similarity index 100%
+rename from target/i386/mpx_helper.c
+rename to target/i386/tcg/mpx_helper.c
+diff --git a/target/i386/seg_helper.c b/target/i386/tcg/seg_helper.c
+similarity index 100%
+rename from target/i386/seg_helper.c
+rename to target/i386/tcg/seg_helper.c
+diff --git a/target/i386/smm_helper.c b/target/i386/tcg/smm_helper.c
+similarity index 100%
+rename from target/i386/smm_helper.c
+rename to target/i386/tcg/smm_helper.c
+diff --git a/target/i386/svm_helper.c b/target/i386/tcg/svm_helper.c
+similarity index 100%
+rename from target/i386/svm_helper.c
+rename to target/i386/tcg/svm_helper.c
+diff --git a/target/i386/tcg-stub.c b/target/i386/tcg/tcg-stub.c
+similarity index 100%
+rename from target/i386/tcg-stub.c
+rename to target/i386/tcg/tcg-stub.c
+diff --git a/target/i386/translate.c b/target/i386/tcg/translate.c
+similarity index 100%
+rename from target/i386/translate.c
+rename to target/i386/tcg/translate.c
 -- 
 2.26.2
 
