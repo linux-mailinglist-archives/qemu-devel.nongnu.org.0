@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1762C2223
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 10:54:37 +0100 (CET)
-Received: from localhost ([::1]:59414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE4F2C2229
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 10:57:22 +0100 (CET)
+Received: from localhost ([::1]:38292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khV1w-000432-N6
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 04:54:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50742)
+	id 1khV4b-00071I-MM
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 04:57:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khUzC-0001d9-10
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 04:51:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34178)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khV2r-0005rW-71
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 04:55:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khUz9-00078s-DW
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 04:51:45 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khV2p-0008Pm-FV
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 04:55:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606211501;
+ s=mimecast20190719; t=1606211730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UgaWPaa1glq1x2bnbYxaLyY+m1avSf2EVIOsB+42L0Y=;
- b=O7VePA+jctsEB9g1Jzv8vt6roIJm1W0ZGeXKk0DB6+zC+ksw8Od5/82ZIHl6uHtsjaD+em
- 3iFYZ0mXl2DFILiKvrIZ/YzWCeopXwhfuzkRf13okD8KbaieajQ3uOOhJ2jpSTcXcASUxW
- 7+6PDbuBPQYvTqOcSZT9QYTOgBx6Cw4=
+ bh=qtIAPB3ibATioxV1ofmczLzi8zB6TvdAHeMHf7qW710=;
+ b=ZmTZX9po3SywJFbiP2VrkZfSp464t7GXpXdBLB7LoXrp9iDIjjIYIcxUp1qt8RfbGLRDEj
+ i6EJHr0FeytoHv+yifA6c8MnT1JDMw36/h0R4LPbFHFXfeHFb2vVIOGp7tLH35vVN4lEzO
+ TYJgvkTT9+gqbwct910+CAe0MzwPl+U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-W-v7KcXANWqB9gWbRM7EUw-1; Tue, 24 Nov 2020 04:51:39 -0500
-X-MC-Unique: W-v7KcXANWqB9gWbRM7EUw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-284-rtFSNkcJPSCKQnJEApkoRg-1; Tue, 24 Nov 2020 04:55:28 -0500
+X-MC-Unique: rtFSNkcJPSCKQnJEApkoRg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7449521D
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 09:51:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7261418C43D0
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 09:55:27 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8EB060864;
- Tue, 24 Nov 2020 09:51:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A06175D9CA;
+ Tue, 24 Nov 2020 09:55:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 582BC113864E; Tue, 24 Nov 2020 10:51:34 +0100 (CET)
+ id 40BC3113864E; Tue, 24 Nov 2020 10:55:22 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v3 08/19] qlit: Move qlit_equal_qobject() reference
- values to array
+Subject: Re: [PATCH v3 10/19] qlit: Support all types of QNums
 References: <20201123194818.2773508-1-ehabkost@redhat.com>
- <20201123194818.2773508-9-ehabkost@redhat.com>
-Date: Tue, 24 Nov 2020 10:51:34 +0100
-In-Reply-To: <20201123194818.2773508-9-ehabkost@redhat.com> (Eduardo Habkost's
- message of "Mon, 23 Nov 2020 14:48:07 -0500")
-Message-ID: <87360zozfd.fsf@dusky.pond.sub.org>
+ <20201123194818.2773508-11-ehabkost@redhat.com>
+Date: Tue, 24 Nov 2020 10:55:22 +0100
+In-Reply-To: <20201123194818.2773508-11-ehabkost@redhat.com> (Eduardo
+ Habkost's message of "Mon, 23 Nov 2020 14:48:09 -0500")
+Message-ID: <87y2irnkol.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,74 +89,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Eduardo Habkost <ehabkost@redhat.com> writes:
 
-> Add an array of values to qlit_equal_qobject_test(), so we can
-> extend the test case to compare multiple literals, not just the
-> ones at the existing `qlit` and `qlit_foo` variables.
+> Add two new macros to support other types of QNums:
+> QLIT_QNUM_UINT, and QLIT_QNUM_DOUBLE, and include them
+> in the qlit_equal_qobject_test() test case.
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
-> This is a new patch added in v3 of this series.
-> ---
->  tests/check-qlit.c | 26 +++++++++++++++++++-------
->  1 file changed, 19 insertions(+), 7 deletions(-)
+> Changes v2 -> v3:
+> * QLIT_QNUM macro doesn't exist anymore
+> * Addition of the QNumValue field to QLitObject is
+>   now in a separate patch ("qlit: Use QNumValue to represent QNums")
+> * check-qjson test case changes dropped.
+>   Instead, I'm only extending the qlit_equal_qobject_test() test
+>   case.
 >
+> Changes v1 -> v2:
+> * Coding style fix at qlit_equal_qobject()
+> ---
+>  include/qapi/qmp/qlit.h | 4 ++++
+>  tests/check-qlit.c      | 5 +++++
+>  2 files changed, 9 insertions(+)
+>
+> diff --git a/include/qapi/qmp/qlit.h b/include/qapi/qmp/qlit.h
+> index a240cdd299..a2881b7f42 100644
+> --- a/include/qapi/qmp/qlit.h
+> +++ b/include/qapi/qmp/qlit.h
+> @@ -42,6 +42,10 @@ struct QLitDictEntry {
+>      { .type = QTYPE_QBOOL, .value.qbool = (val) }
+>  #define QLIT_QNUM_INT(val) \
+>      { .type = QTYPE_QNUM, .value.qnum = QNUM_VAL_INT(val) }
+> +#define QLIT_QNUM_UINT(val) \
+> +    { .type = QTYPE_QNUM, .value.qnum = QNUM_VAL_UINT(val) }
+> +#define QLIT_QNUM_DOUBLE(val) \
+> +    { .type = QTYPE_QNUM, .value.qnum = QNUM_VAL_DOUBLE(val) }
+>  #define QLIT_QSTR(val) \
+>      { .type = QTYPE_QSTRING, .value.qstr = (val) }
+>  #define QLIT_QDICT(val) \
 > diff --git a/tests/check-qlit.c b/tests/check-qlit.c
-> index 24ac21395c..b1cfbddb17 100644
+> index 5a9260b93f..31e90f8965 100644
 > --- a/tests/check-qlit.c
 > +++ b/tests/check-qlit.c
-> @@ -29,11 +29,6 @@ static QLitObject qlit = QLIT_QDICT(((QLitDictEntry[]) {
->      { },
->  }));
->  
-> -static QLitObject qlit_foo = QLIT_QDICT(((QLitDictEntry[]) {
-> -    { "foo", QLIT_QNUM_INT(42) },
-> -    { },
-> -}));
-> -
->  static QObject *make_qobject(void)
->  {
->      QDict *qdict = qdict_new();
-> @@ -53,16 +48,33 @@ static QObject *make_qobject(void)
->  
->  static void qlit_equal_qobject_test(void)
->  {
-> +    /* Each entry in the values[] array should be different from the others */
-> +    QLitObject values[] = {
-> +        qlit,
-> +        QLIT_QDICT(((QLitDictEntry[]) {
-> +            { "foo", QLIT_QNUM_INT(42) },
-> +            { },
-> +        })),
-> +    };
-> +    int i;
->      QObject *qobj = make_qobject();
->  
->      g_assert(qlit_equal_qobject(&qlit, qobj));
->  
-> -    g_assert(!qlit_equal_qobject(&qlit_foo, qobj));
-> -
->      qdict_put(qobject_to(QDict, qobj), "bee", qlist_new());
->      g_assert(!qlit_equal_qobject(&qlit, qobj));
->  
->      qobject_unref(qobj);
-> +
-> +    for (i = 0; i < ARRAY_SIZE(values); i++) {
-> +        int j;
+> @@ -58,6 +58,11 @@ static void qlit_equal_qobject_test(void)
+>          QLIT_QNUM_INT(1),
+>          QLIT_QNUM_INT(INT64_MIN),
+>          QLIT_QNUM_INT(INT64_MAX),
+> +        QLIT_QNUM_UINT(UINT64_MAX),
+> +        /* Larger than UINT64_MAX: */
+> +        QLIT_QNUM_DOUBLE(18446744073709552e3),
+> +        /* Smaller than INT64_MIN: */
+> +        QLIT_QNUM_DOUBLE(-92233720368547758e2),
 
-I'd prefer to declare this one together with @i.
+Why "larger than UINT64_MAX" and "smaller than INT64_MIN"?
 
-> +        QObject *o = qobject_from_qlit(&values[i]);
-
-Blank line, if you don't mind.
-
-> +        for (j = 0; j < ARRAY_SIZE(values); j++) {
-> +            g_assert(qlit_equal_qobject(&values[j], o) == (i == j));
-> +        }
-> +        qobject_unref(o);
-> +    }
-> +
->  }
->  
->  static void qlit_equal_large_qnum_test(void)
+>          QLIT_QSTR(""),
+>          QLIT_QSTR("foo"),
+>          qlit,
 
 
