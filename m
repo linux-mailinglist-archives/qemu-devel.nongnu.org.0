@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B3F2C2828
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:36:53 +0100 (CET)
-Received: from localhost ([::1]:51492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC7C22C2857
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:40:47 +0100 (CET)
+Received: from localhost ([::1]:59930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khYV2-0003Iv-Aq
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:36:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
+	id 1khYYp-0006sS-13
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:40:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1khYTj-00027R-I2
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:35:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45842)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khYUg-0003bW-EX
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:36:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1khYTh-0002wM-Jy
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:35:31 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khYUe-0003Pn-Sq
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:36:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606224929;
+ s=mimecast20190719; t=1606224988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k/bW7KMbmlysipo48cuzP1/uqO8myOwJzLxr7vLzaW8=;
- b=QxNcGPjWLVO6neuYCazZv0zaGZRL5xtMb9VIa31Q++FeldjJ/Qm5RmQFUjsVs2q+P5ddlj
- 0v4uQGh6w7BxLioqhKK7TUMkgx40ZDkxbupvcLKdQIEQHGZJVC+RW0u1w/4SKxS3MG0tsg
- eDPkiIDNn4nRsvIJBZ3Conf5S6UtAj0=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-kuTUDgL-OUCemOo6XYyz-A-1; Tue, 24 Nov 2020 08:35:27 -0500
-X-MC-Unique: kuTUDgL-OUCemOo6XYyz-A-1
-Received: by mail-il1-f200.google.com with SMTP id l8so16816132ilf.10
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 05:35:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=k/bW7KMbmlysipo48cuzP1/uqO8myOwJzLxr7vLzaW8=;
- b=OOPaJOFtUhI4nl4Z+GobFIXxiR/EGUbuBNviRk2C3dJt4JwnqMoSaSiXWpg/Ap2yFE
- BghI8UtuCIord8WdIb0pE3N5sjwv9s9mFB6SSwNVf7xBkN+iM56dZdPixfD3725cQ7DL
- L+rmYZcBIdT2aqDFMrg0sMLld0xfVnPM+BXrqdq06HZU0iV6FQq0W38CqKCv7atTsDMh
- pv6YukMcFy1jnHP28fL9rGrJnTk+AvZ/UvMV2UqWbTDhTqu8j+4L6d/jB/YAfFYmaQyi
- sjFMT4ij3XmDKtuJJPNT9I59tZG8FWsoPJmRZjkCPLZ7fCWa2nKHBlPpIeFZRSHQWb0w
- Natg==
-X-Gm-Message-State: AOAM533dVI8AeMlrqwHcAQTjS/x3SJqkF0lK6LZUOENwfz1CjDi+Wn3n
- 7O5MYWq1B+OGzgGdd/K97/5anNT9z/lmYXWl7O/GGzO8/lLKmCghgiBFbRCwXFAgrKG3VSzv6CV
- D1WZzF3mQj8N0a550NiWpp4r5IQ7t4SU=
-X-Received: by 2002:a92:c8c4:: with SMTP id c4mr4353657ilq.161.1606224926884; 
- Tue, 24 Nov 2020 05:35:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy9K4NT+z1UQweKVQzf6cO1bbQX5CE7DoNmBixfG9GIzoLcn796Oi5QlAYfsxgymMnwVW0vfrsCn/LE2DV0ph0=
-X-Received: by 2002:a92:c8c4:: with SMTP id c4mr4353635ilq.161.1606224926653; 
- Tue, 24 Nov 2020 05:35:26 -0800 (PST)
+ bh=lQo3DvsB7M2Qm8kp4lKFMKb4PNcecuOqHRk8rA46ZT0=;
+ b=JOPyh2uxBnJun0sryLdM7N/Hnk0mVUXkHdk8DQp7MI7Lz6KYV6Egn8VA2KOPo2aMP56ayZ
+ vnaiZ4Udb/VcJTTp8solKKdNUPuJV2a+X1TORHNBf5rdZSzDgEco+hnPpQT6cr2FDWw3AI
+ wFrXIKE72BpHTDBozJRptB2iV3hJQwk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-Mm-A5HRXP9SemN_pBU1l5w-1; Tue, 24 Nov 2020 08:36:25 -0500
+X-MC-Unique: Mm-A5HRXP9SemN_pBU1l5w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C637D803652;
+ Tue, 24 Nov 2020 13:36:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 944755C1A3;
+ Tue, 24 Nov 2020 13:36:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 245EC113864E; Tue, 24 Nov 2020 14:36:22 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
+ qmp_marshal_netdev_add()
+References: <20200716035532.1407660-1-andrew@daynix.com>
+ <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
+ <874klk5gnc.fsf@dusky.pond.sub.org>
+ <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
+ <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
+ <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
+ <87lfesv2zu.fsf@dusky.pond.sub.org>
+ <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
+ <87blfnp20k.fsf@dusky.pond.sub.org>
+ <87lferm4x5.fsf@dusky.pond.sub.org>
+ <CAOEp5Oe18jtsgHVqwtm+-sqspD6KoJTOO9nNPmcWS++AVGjXKQ@mail.gmail.com>
+ <87tutej3dc.fsf@dusky.pond.sub.org>
+Date: Tue, 24 Nov 2020 14:36:22 +0100
+In-Reply-To: <87tutej3dc.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Tue, 24 Nov 2020 14:22:55 +0100")
+Message-ID: <87blfmj2qx.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20201118080902.30033-1-marcandre.lureau@redhat.com>
- <20201118080902.30033-3-marcandre.lureau@redhat.com>
- <20201124115405.GE3366@work-vm>
- <CAMxuvayBgw9Y4sor79nZw1sj4Y4H6txdUKOr=k6JxoSNryiYTw@mail.gmail.com>
-In-Reply-To: <CAMxuvayBgw9Y4sor79nZw1sj4Y4H6txdUKOr=k6JxoSNryiYTw@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 24 Nov 2020 17:35:15 +0400
-Message-ID: <CAMxuvawEKzx2v+HRVQBxGANecPjOG+8NW6rZERximJ_VMD5kOw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] libvhost-user: replace qemu/memfd.h usage
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -92,149 +91,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Armbruster, Markus" <armbru@redhat.com>
+Cc: Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnichenko <andrew@daynix.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Markus Armbruster <armbru@redhat.com> writes:
 
-On Tue, Nov 24, 2020 at 5:32 PM Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@redhat.com> wrote:
+> Yuri Benditovich <yuri.benditovich@daynix.com> writes:
 >
-> Hi
+>> Please confirm that this patch is intended to solve only the problem with
+>> hmp (and disallow duplicated ids)
 >
-> On Tue, Nov 24, 2020 at 3:54 PM Dr. David Alan Gilbert
-> <dgilbert@redhat.com> wrote:
-> >
-> > * marcandre.lureau@redhat.com (marcandre.lureau@redhat.com) wrote:
-> > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > >
-> > > Undo the damage from commit 5f9ff1eff3 ("libvhost-user: Support track=
-ing
-> > > inflight I/O in shared memory") which introduced glib dependency thro=
-ugh
-> > > osdep.h inclusion.
-> > >
-> > > libvhost-user.c tries to stay free from glib usage.
-> > >
-> > > Use glibc memfd_create directly when available (assumed so when
-> > > MFD_ALLOW_SEALING is defined).
-> > >
-> > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > > ---
-> > >  contrib/libvhost-user/libvhost-user.c | 50 +++++++++++++++++++++++--=
---
-> > >  1 file changed, 43 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost=
--user/libvhost-user.c
-> > > index 1c1cfbf1e7..805521859d 100644
-> > > --- a/contrib/libvhost-user/libvhost-user.c
-> > > +++ b/contrib/libvhost-user/libvhost-user.c
-> > > @@ -42,8 +42,6 @@
-> > >  #endif
-> > >
-> > >  #include "qemu/atomic.h"
-> > > -#include "qemu/osdep.h"
-> > > -#include "qemu/memfd.h"
-> > >
-> > >  #include "libvhost-user.h"
-> > >
-> > > @@ -1615,11 +1613,45 @@ vu_inflight_queue_size(uint16_t queue_size)
-> > >             sizeof(uint16_t), INFLIGHT_ALIGNMENT);
-> > >  }
-> > >
-> > > +#ifdef MFD_ALLOW_SEALING
-> > > +static void *
-> > > +memfd_alloc(const char *name, size_t size, unsigned int flags, int *=
-fd)
-> > > +{
-> > > +    void *ptr;
-> > > +    int ret;
-> > > +
-> > > +    *fd =3D memfd_create(name, MFD_ALLOW_SEALING);
-> > > +    if (*fd < 0) {
-> > > +        return NULL;
-> > > +    }
-> > > +
-> > > +    ret =3D ftruncate(*fd, size);
-> >
-> > Do you need to do any of the page alignment?
+> The intent is to reject duplicate ID and to accept non-duplicate ID, no
+> matter how the device is created (CLI, HMP, QMP) or a prior instance was
+> deleted (HMP, QMP).
 >
-> We don't do any in util/memfd.c, I don't see an explicit requirement
-> in memfd_create(). (however, util/memfd.c did check power of 2 for
-> hugetlb usage, but this isn't necessary here)
+>> With it the netdev that was added from qemu's command line and was deleted
+>> (for example by hmp) still can't be created, correct?
 >
-> On mmap(), "if addr is NULL, then the kernel chooses the (page-aligned) a=
-ddress"
->
-> >
-> > > +    if (ret < 0) {
-> > > +        close(*fd);
-> > > +        return NULL;
-> > > +    }
-> > > +
-> > > +    ret =3D fcntl(*fd, F_ADD_SEALS, F_SEAL_GROW | F_SEAL_SHRINK | F_=
-SEAL_SEAL);
-> >
-> > I think you'd intended to use the 'flags' parameter there.
->
-> indeed, thanks
->
-> >
-> > > +    if (ret < 0) {
-> > > +        close(*fd);
-> > > +        return NULL;
-> > > +    }
-> > > +
-> > > +    ptr =3D mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED, *fd, 0=
-);
-> > > +    if (ptr =3D=3D MAP_FAILED) {
-> > > +        close(*fd);
-> > > +        return NULL;
-> > > +    }
-> > > +
-> > > +    return ptr;
-> > > +}
-> > > +#endif
-> > > +
-> > >  static bool
-> > >  vu_get_inflight_fd(VuDev *dev, VhostUserMsg *vmsg)
-> > >  {
-> > > -    int fd;
-> > > -    void *addr;
-> > > +    int fd =3D -1;
-> > > +    void *addr =3D NULL;
-> > >      uint64_t mmap_size;
-> > >      uint16_t num_queues, queue_size;
-> > >
-> > > @@ -1637,9 +1669,13 @@ vu_get_inflight_fd(VuDev *dev, VhostUserMsg *v=
-msg)
-> > >
-> > >      mmap_size =3D vu_inflight_queue_size(queue_size) * num_queues;
-> > >
-> > > -    addr =3D qemu_memfd_alloc("vhost-inflight", mmap_size,
-> > > -                            F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEA=
-L,
-> > > -                            &fd, NULL);
-> > > +#ifdef MFD_ALLOW_SEALING
-> > > +    addr =3D memfd_alloc("vhost-inflight", mmap_size,
-> > > +                       F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL,
-> > > +                       &fd);
-> > > +#else
-> > > +    vu_panic(dev, "Not implemented: memfd support is missing");
-> >
-> > Should there be an ifdef somewhere on the declared features, so it
-> > doesn't get this far because it wont negotiate the feature?
->
-> Sealing grow/shrink came together with memfd, it was one of the main
-> selling point. I assume if MFD_ALLOW_SEALING is defined, we have
-> memfd_create and basic libc defines. But yes, if we want to handle
-> weird corner cases, we should add more ifdef-ry. I'd pass for now.
+> Yet another case; back to the drawing board...
+
+Next try.  Hope this is one holds water :)
 
 
-However, let's avoid compiling code that can panic. I am updating the
-series with a standalone meson subproject.
+diff --git a/net/net.c b/net/net.c
+index 794c652282..c1dc75fc37 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -978,6 +978,7 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
+ {
+     NetClientState *peer = NULL;
++    NetClientState *nc;
+ 
+     if (is_netdev) {
+         if (netdev->type == NET_CLIENT_DRIVER_NIC ||
+@@ -1005,6 +1006,12 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
+         }
+     }
+ 
++    nc = qemu_find_netdev(netdev->id);
++    if (nc) {
++        error_setg(errp, "Duplicate ID '%s'", netdev->id);
++        return -1;
++    }
++
+     if (net_client_init_fun[netdev->type](netdev, netdev->id, peer, errp) < 0) {
+         /* FIXME drop when all init functions store an Error */
+         if (errp && !*errp) {
+@@ -1015,8 +1022,6 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
+     }
+ 
+     if (is_netdev) {
+-        NetClientState *nc;
+-
+         nc = qemu_find_netdev(netdev->id);
+         assert(nc);
+         nc->is_netdev = true;
+@@ -1137,6 +1142,7 @@ void qmp_netdev_add(Netdev *netdev, Error **errp)
+ void qmp_netdev_del(const char *id, Error **errp)
+ {
+     NetClientState *nc;
++    QemuOpts *opts;
+ 
+     nc = qemu_find_netdev(id);
+     if (!nc) {
+@@ -1151,6 +1157,16 @@ void qmp_netdev_del(const char *id, Error **errp)
+     }
+ 
+     qemu_del_net_client(nc);
++
++    /*
++     * Wart: we need to delete the QemuOpts associated with netdevs
++     * created via CLI or HMP, to avoid bogus "Duplicate ID" errors in
++     * HMP netdev_add.
++     */
++    opts = qemu_opts_find(qemu_find_opts("netdev"), id);
++    if (opts) {
++        qemu_opts_del(opts);
++    }
+ }
+ 
+ static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+-- 
+2.26.2
 
 
