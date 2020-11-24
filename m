@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F482C2B3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 16:27:08 +0100 (CET)
-Received: from localhost ([::1]:35214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAEF2C2B57
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 16:31:26 +0100 (CET)
+Received: from localhost ([::1]:39608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khaDj-0001ZV-So
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 10:27:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58946)
+	id 1khaHs-0003dU-GY
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 10:31:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kha9j-0005wg-RJ
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 10:22:59 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39470)
+ id 1khaGM-0002gY-Sa
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 10:29:50 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:40760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kha9h-0008Gk-HX
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 10:22:59 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id mc24so7943526ejb.6
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 07:22:56 -0800 (PST)
+ id 1khaGL-00022O-4f
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 10:29:50 -0500
+Received: by mail-ej1-x641.google.com with SMTP id oq3so29072482ejb.7
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 07:29:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z+iYsQFeY83szMJLLCN8fYxIG6dv0pq5igOzVeIiOnw=;
- b=NZOlYLm7DRhjCM7frLoqM8FDN6v8lngiR98FcKG065YdcONnbzEyj+mSAN60Scba3S
- k0Bsw5JZBxb17jZzshCvppKMmktdXPyiLl0dU6KIcR0O0Jy9SeFLUH2LAZz3jtVqbZ26
- 2uKCpZnl/DCdMDLAynjuVUZJGzlGS4RWPHKzySfGlgRwGoBFmhYaPEFevp8ZhmGe7v/h
- 3SALDW0EaLRVtqrcisZyMDwRJHYFEnsWecQxBzEaSH57aKl43ioyS2FgtUhMStY+1bQZ
- 9Lfi2vtXk8RfwfMEhYGdV8PS827LaavyB4uu7hTKhwthvl8cDayRtnRokqKWe9PGgB66
- Fvyg==
+ :cc:content-transfer-encoding;
+ bh=YIK4rT06OEVfS5PAOFn7t9VN48hP6GRhcSimvXcCgSQ=;
+ b=CttcBkkcNyEqepfnn77FAVRKHMb7jYBvZrAZhZ6szTgFuj8XrMMpVLtuYzl1J3jS1K
+ MqS56Ge6WgO4SoOI1l/yOc+7N6l84nsa/vMrJo6INkKUO2unSVHKW5jwHcJCV7xmN9wH
+ rnxR2pQ21uh/kvzCtNCq0eOo1uBIuwE/qRAETiue8/KXez4QO7s1rhhWk3pU362HZvlE
+ 5HGa/1rFLN9fscHiEzlzsri03FgpseSnYxun2RXx3p0Ja22kCqyCO/HEv+i3lh7NJCi8
+ vn5A10fbIrn2+NqN02RK698saIMoDDWtu/lauHu24Cz03EWs31/mowHhjEyLXtocwlre
+ 3JgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z+iYsQFeY83szMJLLCN8fYxIG6dv0pq5igOzVeIiOnw=;
- b=aPM9jl9WvTyIqQEyPeS3V3MXjLiMbh/dbxRpbE+it/xVRT8bhaXQ9T6KKu6EQtcZFT
- b/H9vCQfGI3Tnhxa2PAYBoFQfA7T7BRd3/P9Ak36KzqjOXwaZ1hZXrZAqLhbQv3pS1Zg
- +4pJgLSgQSrPWDB2/s53ntkdzt9f5TGNOlI2HXpUQBb/WGg1+lZ6VSiYScfsjFCs4/ve
- InlWyropVwMqscePWJq9b2WlbkGGY0QrRzfQNFqtwjQAqdGCaXygtzAbHCAgUSAb3+tr
- UD5gONG2FY1ekrbeogJz8K9os/Vib5l0QOL17QtZMKeb9QXVSx1FaQYUHlo9kI90VA3d
- snLg==
-X-Gm-Message-State: AOAM531LkOqvxQgM1fxjTaZ2p4A2dPgptyXx7/RefK172d2aqmZhnXX1
- LwhTrizp0jvwhoR1gOsyNVD7KlxYzJ16PhfWRTlYSQ==
-X-Google-Smtp-Source: ABdhPJyXdQugoafLykcPsWJghROgNgFNol76+Dcu2yHWchHuP5O4bIkHcF+NF2h9Gq3OgF71E5hvLn46jl824FZJBt8=
-X-Received: by 2002:a17:906:680d:: with SMTP id
- k13mr4492164ejr.482.1606231375234; 
- Tue, 24 Nov 2020 07:22:55 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YIK4rT06OEVfS5PAOFn7t9VN48hP6GRhcSimvXcCgSQ=;
+ b=GWKP1jTSdIQg8umvp2Wzn5x4orthVoEEL5a4/UjOsdimgngnb5z/Iy9oquVfHTYnOY
+ pipHfsHSYs83GNFhbxu0kib34S0Ef/RZZkDexCHF57H8XCWWh1ffJASjQ8XrxrmcgNo6
+ CZnFaB6n64lyHC3+ZxyKNu3PtFcyqju4RM9DDHffAC+/ARiXTiwZGqVQ7RdGVYqo6yup
+ JkaCoFrmq9oxremhWpWmyawxHvbUa5ThPqUcIMR3EWA6EGoMf0u9bH8v1He2s9c91+H3
+ hXdQ5gdBEN8KuLGljC+weohMyJkJxDP0Xh1zQk+cQ0c8uWZFIEhlp2vNh1YT59xxKNw9
+ jd/Q==
+X-Gm-Message-State: AOAM530D5Gp41ZSIU+toUXREAGp9nn1kW4mmizt9EnGdXGz+YJe6Mel0
+ 0tN4N/W+XLDgvMo3g2wtSBAwCdu2xTMssT2nsGAwtw==
+X-Google-Smtp-Source: ABdhPJzYQbyOdV6QzHuci89/tFe1qmzC5izCPxllk7FamFiBMRWddCBalqN/+pVoS7iFB4JD0Z2wuOIeEzrzF2X8Pkk=
+X-Received: by 2002:a17:906:5a88:: with SMTP id
+ l8mr4504401ejq.407.1606231787291; 
+ Tue, 24 Nov 2020 07:29:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20201124055114.1017066-1-david@gibson.dropbear.id.au>
-In-Reply-To: <20201124055114.1017066-1-david@gibson.dropbear.id.au>
+References: <5F9AC6FF.4000301@huawei.com>
+ <CAC_L=vVg=YitEAKE+wGEmphuL8Eu87mYDiYD=UNKGhqOyd8PpQ@mail.gmail.com>
+ <5FBCF8F0.9060103@huawei.com>
+In-Reply-To: <5FBCF8F0.9060103@huawei.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Nov 2020 15:22:44 +0000
-Message-ID: <CAFEAcA9jNLPMyCxKmC+StCbrNFjrznK1-a=UVkbCF-_2mucPkw@mail.gmail.com>
-Subject: Re: [PULL 0/1] ppc-for-5.2 queue 20201124
-To: David Gibson <david@gibson.dropbear.id.au>
+Date: Tue, 24 Nov 2020 15:29:36 +0000
+Message-ID: <CAFEAcA985RuM96HP4mvHmU-ffAsQWv4hFFABXQ2ZW_t5Uts7vg@mail.gmail.com>
+Subject: Re: [PATCH] contrib/rdmacm-mux: Fix error condition in
+ hash_tbl_search_fd_by_ifid()
+To: Alex Chen <alex.chen@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,45 +82,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc <qemu-ppc@nongnu.org>, Greg Kurz <groug@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, QEMU <qemu-devel@nongnu.org>,
+ zhengchuan@huawei.com, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Nov 2020 at 05:51, David Gibson <david@gibson.dropbear.id.au> wrote:
+On Tue, 24 Nov 2020 at 12:15, Alex Chen <alex.chen@huawei.com> wrote:
 >
-> The following changes since commit 23895cbd82be95428e90168b12e925d0d3ca2f06:
+> Hi everyone=EF=BC=8C
 >
->   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20201123.0' into staging (2020-11-23 18:51:13 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/dgibson/qemu.git tags/ppc-for-5.2-20201124
->
-> for you to fetch changes up to afae37d98ae991c0792c867dbd9f32f988044318:
->
->   ppc/translate: Implement lxvwsx opcode (2020-11-24 11:34:18 +1100)
->
-> ----------------------------------------------------------------
-> ppc patch queue for 2020-11-24
->
-> One final update for qemu-5.2, implementing an instruction that we
-> already should have, given the ISA version we claim to support.  Sorry
-> for the lateness, I've been on holiday.
->
-> This isn't a regression, obviously, so if it misses qemu-5.2 it's not
-> a disaster, but it would be nice to have.  The risk is low that it
-> would break any existing instructions.
->
-> ----------------------------------------------------------------
-> LemonBoy (1):
->       ppc/translate: Implement lxvwsx opcode
+> Who can help me merge this patch into the master branch? This patch may b=
+e need for qemu-5.2
 
+This code has been like this since 2018, so this is not
+a regression in 5.2. At this point in the release cycle
+(rc3 imminent) I think it's best to just leave it until 6.0.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
+thanks
 -- PMM
 
