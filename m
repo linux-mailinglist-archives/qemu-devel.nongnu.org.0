@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A1532C2F6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 18:59:50 +0100 (CET)
-Received: from localhost ([::1]:49872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B092C2FCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 19:13:15 +0100 (CET)
+Received: from localhost ([::1]:58912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khcbV-0002pP-8G
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 12:59:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41912)
+	id 1khcoU-0007FN-ID
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 13:13:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1khcZC-0001WK-KH
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:57:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1khcZA-0007vx-Ev
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:57:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606240643;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IWrsDki/Rw5LEx7cpKUUYOEvxik3Pj9Bi4gwul1nFyo=;
- b=UgveQC1WhiM4o1qPuNthyVulemTZZgx2goipdKBnIV2X2Zgabzq1ieHCoC3dr19WcAgYH6
- F0oVUZW8vvgmPPu2g7CZE80k56Ivt6rbEbHvIr9W8yFvTDWIeyuRqPpRdYrhdQ2ZS46Err
- 1x2wD2EwCdC6JscScc/7cO0sQtOtIZE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-UuqtZx21N82yYvhqPkR2hQ-1; Tue, 24 Nov 2020 12:57:21 -0500
-X-MC-Unique: UuqtZx21N82yYvhqPkR2hQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA3BE876E08;
- Tue, 24 Nov 2020 17:57:19 +0000 (UTC)
-Received: from work-vm (ovpn-115-42.ams2.redhat.com [10.36.115.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C8D9B1001901;
- Tue, 24 Nov 2020 17:57:14 +0000 (UTC)
-Date: Tue, 24 Nov 2020 17:57:12 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v3 2/7] introduce UFFD-WP low-level interface helpers
-Message-ID: <20201124175712.GM3366@work-vm>
-References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
- <20201119125940.20017-3-andrey.gruzdev@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1khcng-0006qF-A9
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 13:12:25 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1khcnc-0001PJ-By
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 13:12:23 -0500
+Received: from fraeml735-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CgXB758yXz67DF8;
+ Wed, 25 Nov 2020 02:10:23 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Tue, 24 Nov 2020 19:12:07 +0100
+Received: from localhost (10.52.124.203) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 24 Nov
+ 2020 18:12:06 +0000
+Date: Tue, 24 Nov 2020 18:11:50 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2] hw/arm/virt enable support for virtio-mem
+Message-ID: <20201124181150.0000025f@Huawei.com>
+In-Reply-To: <5b1dff01-7e6b-78d2-d55a-20c0617c3076@redhat.com>
+References: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
+ <5b1dff01-7e6b-78d2-d55a-20c0617c3076@redhat.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <20201119125940.20017-3-andrey.gruzdev@virtuozzo.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.124.203]
+X-ClientProxiedBy: lhreml714-chm.china.huawei.com (10.201.108.65) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,364 +67,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Peter
+ Maydell <peter.maydell@linaro.org>, linuxarm@huawei.com, qemu-devel@nongnu.org,
+ Auger Eric <eric.auger@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
-> Implemented support for the whole RAM block memory
-> protection/un-protection. Introduced higher level
-> ram_write_tracking_start() and ram_write_tracking_stop()
-> to start/stop tracking guest memory writes.
+On Mon, 9 Nov 2020 20:47:09 +0100
+David Hildenbrand <david@redhat.com> wrote:
+
++CC Eric based on similar query in other branch of the thread.
+
+> On 05.11.20 18:43, Jonathan Cameron wrote:
+> > Basically a cut and paste job from the x86 support with the exception of
+> > needing a larger block size as the Memory Block Size (MIN_SECTION_SIZE)
+> > on ARM64 in Linux is 1G.
+> > 
+> > Tested:
+> > * In full emulation and with KVM on an arm64 server.
+> > * cold and hotplug for the virtio-mem-pci device.
+> > * Wide range of memory sizes, added at creation and later.
+> > * Fairly basic memory usage of memory added.  Seems to function as normal.
+> > * NUMA setup with virtio-mem-pci devices on each node.
+> > * Simple migration test.
+> > 
+> > Related kernel patch just enables the Kconfig item for ARM64 as an
+> > alternative to x86 in drivers/virtio/Kconfig
+> > 
+> > The original patches from David Hildenbrand stated that he thought it should
+> > work for ARM64 but it wasn't enabled in the kernel [1]
+> > It appears he was correct and everything 'just works'.
+> > 
+> > The build system related stuff is intended to ensure virtio-mem support is
+> > not built for arm32 (build will fail due no defined block size).
+> > If there is a more elegant way to do this, please point me in the right
+> > direction.  
 > 
-> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-> ---
->  include/exec/memory.h |   7 ++
->  migration/ram.c       | 267 ++++++++++++++++++++++++++++++++++++++++++
->  migration/ram.h       |   4 +
->  3 files changed, 278 insertions(+)
+> You might be aware of https://virtio-mem.gitlab.io/developer-guide.html 
+> and the "issue" with 64k base pages - 512MB granularity. Similar as the 
+> question from Auger, have you tried running arm64 with differing page 
+> sizes in host/guest?
 > 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 0f3e6bcd5e..3d798fce16 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -139,6 +139,13 @@ typedef struct IOMMUNotifier IOMMUNotifier;
->  /* RAM is a persistent kind memory */
->  #define RAM_PMEM (1 << 5)
->  
-> +/*
-> + * UFFDIO_WRITEPROTECT is used on this RAMBlock to
-> + * support 'write-tracking' migration type.
-> + * Implies ram_state->ram_wt_enabled.
-> + */
-> +#define RAM_UF_WRITEPROTECT (1 << 6)
-> +
->  static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
->                                         IOMMUNotifierFlag flags,
->                                         hwaddr start, hwaddr end,
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 7811cde643..7f273c9996 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -56,6 +56,12 @@
->  #include "savevm.h"
->  #include "qemu/iov.h"
->  #include "multifd.h"
-> +#include <inttypes.h>
-> +#include <poll.h>
-> +#include <sys/syscall.h>
-> +#include <sys/ioctl.h>
-> +#include <linux/userfaultfd.h>
-> +#include "sysemu/runstate.h"
->  
->  /***********************************************************/
->  /* ram save/restore */
-> @@ -298,6 +304,8 @@ struct RAMSrcPageRequest {
->  struct RAMState {
->      /* QEMUFile used for this migration */
->      QEMUFile *f;
-> +    /* UFFD file descriptor, used in 'write-tracking' migration */
-> +    int uffdio_fd;
->      /* Last block that we have visited searching for dirty pages */
->      RAMBlock *last_seen_block;
->      /* Last block from where we have sent data */
-> @@ -453,6 +461,181 @@ static QemuThread *decompress_threads;
->  static QemuMutex decomp_done_lock;
->  static QemuCond decomp_done_cond;
->  
-> +/**
-> + * uffd_create_fd: create UFFD file descriptor
-> + *
-> + * Returns non-negative file descriptor or negative value in case of an error
-> + */
-> +static int uffd_create_fd(void)
-> +{
-> +    int uffd;
-> +    struct uffdio_api api_struct;
-> +    uint64_t ioctl_mask = BIT(_UFFDIO_REGISTER) | BIT(_UFFDIO_UNREGISTER);
 
-You need to be a bit careful about doing this in migration/ram.c - it's
-generic code; at minimum it needs ifdef'ing for Linux.
+Hi David,
 
-> +    uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
-> +    if (uffd < 0) {
-> +        error_report("uffd_create_fd() failed: UFFD not supported");
-> +        return -1;
-> +    }
-> +
-> +    api_struct.api = UFFD_API;
-> +    api_struct.features = UFFD_FEATURE_PAGEFAULT_FLAG_WP;
-> +    if (ioctl(uffd, UFFDIO_API, &api_struct)) {
-> +        error_report("uffd_create_fd() failed: "
-> +                "API version not supported version=%llx errno=%i",
-> +                api_struct.api, errno);
-> +        goto fail;
-> +    }
-> +
-> +    if ((api_struct.ioctls & ioctl_mask) != ioctl_mask) {
-> +        error_report("uffd_create_fd() failed: "
-> +                "PAGEFAULT_FLAG_WP feature missing");
-> +        goto fail;
-> +    }
-> +
-> +    return uffd;
+> With recent kernels, you can use "memhp_default_state=online_movable" on 
+> the kernel cmdline to make memory unplug more likely to succeed - 
+> especially with 64k base pages. You just have to be sure to not hotplug 
+> "too much memory" to a VM.
 
-Should we be putting that somewher that we can share with postcopy?
+Thanks for the pointer - that definitely simplifies testing.  Was getting a bit
+tedious with out that.
 
-> +fail:
-> +    close(uffd);
-> +    return -1;
-> +}
-> +
-> +/**
-> + * uffd_close_fd: close UFFD file descriptor
-> + *
-> + * @uffd: UFFD file descriptor
-> + */
-> +static void uffd_close_fd(int uffd)
-> +{
-> +    assert(uffd >= 0);
-> +    close(uffd);
-> +}
-> +
-> +/**
-> + * uffd_register_memory: register memory range with UFFD
-> + *
-> + * Returns 0 in case of success, negative value on error
-> + *
-> + * @uffd: UFFD file descriptor
-> + * @start: starting virtual address of memory range
-> + * @length: length of memory range
-> + * @track_missing: generate events on missing-page faults
-> + * @track_wp: generate events on write-protected-page faults
-> + */
-> +static int uffd_register_memory(int uffd, hwaddr start, hwaddr length,
-> +        bool track_missing, bool track_wp)
-> +{
-> +    struct uffdio_register uffd_register;
-> +
-> +    uffd_register.range.start = start;
-> +    uffd_register.range.len = length;
-> +    uffd_register.mode = (track_missing ? UFFDIO_REGISTER_MODE_MISSING : 0) |
-> +                         (track_wp ? UFFDIO_REGISTER_MODE_WP : 0);
-> +
-> +    if (ioctl(uffd, UFFDIO_REGISTER, &uffd_register)) {
-> +        error_report("uffd_register_memory() failed: "
-> +                "start=%0"PRIx64" len=%"PRIu64" mode=%llu errno=%i",
-> +                start, length, uffd_register.mode, errno);
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +/**
-> + * uffd_protect_memory: protect/unprotect memory range for writes with UFFD
-> + *
-> + * Returns 0 on success or negative value in case of error
-> + *
-> + * @uffd: UFFD file descriptor
-> + * @start: starting virtual address of memory range
-> + * @length: length of memory range
-> + * @wp: write-protect/unprotect
-> + */
-> +static int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp)
-> +{
-> +    struct uffdio_writeprotect uffd_writeprotect;
-> +    int res;
-> +
-> +    uffd_writeprotect.range.start = start;
-> +    uffd_writeprotect.range.len = length;
-> +    uffd_writeprotect.mode = (wp ? UFFDIO_WRITEPROTECT_MODE_WP : 0);
-> +
-> +    do {
-> +        res = ioctl(uffd, UFFDIO_WRITEPROTECT, &uffd_writeprotect);
-> +    } while (res < 0 && errno == EINTR);
-> +    if (res < 0) {
-> +        error_report("uffd_protect_memory() failed: "
-> +                "start=%0"PRIx64" len=%"PRIu64" mode=%llu errno=%i",
-> +                start, length, uffd_writeprotect.mode, errno);
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +__attribute__ ((unused))
-> +static int uffd_read_events(int uffd, struct uffd_msg *msgs, int count);
-> +__attribute__ ((unused))
-> +static bool uffd_poll_events(int uffd, int tmo);
-> +
-> +/**
-> + * uffd_read_events: read pending UFFD events
-> + *
-> + * Returns number of fetched messages, 0 if non is available or
-> + * negative value in case of an error
-> + *
-> + * @uffd: UFFD file descriptor
-> + * @msgs: pointer to message buffer
-> + * @count: number of messages that can fit in the buffer
-> + */
-> +static int uffd_read_events(int uffd, struct uffd_msg *msgs, int count)
-> +{
-> +    ssize_t res;
-> +    do {
-> +        res = read(uffd, msgs, count * sizeof(struct uffd_msg));
-> +    } while (res < 0 && errno == EINTR);
-> +
-> +    if ((res < 0 && errno == EAGAIN)) {
-> +        return 0;
-> +    }
-> +    if (res < 0) {
-> +        error_report("uffd_read_events() failed: errno=%i", errno);
-> +        return -1;
-> +    }
-> +
-> +    return (int) (res / sizeof(struct uffd_msg));
-> +}
-> +
-> +/**
-> + * uffd_poll_events: poll UFFD file descriptor for read
-> + *
-> + * Returns true if events are available for read, false otherwise
-> + *
-> + * @uffd: UFFD file descriptor
-> + * @tmo: timeout in milliseconds, 0 for non-blocking operation,
-> + *       negative value for infinite wait
-> + */
-> +static bool uffd_poll_events(int uffd, int tmo)
-> +{
-> +    int res;
-> +    struct pollfd poll_fd = { .fd = uffd, .events = POLLIN, .revents = 0 };
-> +
-> +    do {
-> +        res = poll(&poll_fd, 1, tmo);
-> +    } while (res < 0 && errno == EINTR);
-> +
-> +    if (res == 0) {
-> +        return false;
-> +    }
-> +    if (res < 0) {
-> +        error_report("uffd_poll_events() failed: errno=%i", errno);
-> +        return false;
-> +    }
-> +
-> +    return (poll_fd.revents & POLLIN) != 0;
-> +}
-> +
->  static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *block,
->                                   ram_addr_t offset, uint8_t *source_buf);
->  
-> @@ -3788,6 +3971,90 @@ static int ram_resume_prepare(MigrationState *s, void *opaque)
->      return 0;
->  }
->  
-> +/**
-> + * ram_write_tracking_start: start UFFD-WP memory tracking
-> + *
-> + * Returns 0 for success or negative value in case of error
-> + *
-> + */
-> +int ram_write_tracking_start(void)
-> +{
-> +    int uffd;
-> +    RAMState *rs = ram_state;
-> +    RAMBlock *bs;
-> +
-> +    /* Open UFFD file descriptor */
-> +    uffd = uffd_create_fd();
-> +    if (uffd < 0) {
-> +        return uffd;
-> +    }
-> +    rs->uffdio_fd = uffd;
-> +
-> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-> +        /* Nothing to do with read-only and MMIO-writable regions */
-> +        if (bs->mr->readonly || bs->mr->rom_device) {
-> +            continue;
-> +        }
-> +
-> +        /* Register block memory with UFFD to track writes */
-> +        if (uffd_register_memory(rs->uffdio_fd, (hwaddr) bs->host,
-> +                bs->max_length, false, true)) {
-> +            goto fail;
-> +        }
-> +        /* Apply UFFD write protection to the block memory range */
-> +        if (uffd_protect_memory(rs->uffdio_fd, (hwaddr) bs->host,
-> +                bs->max_length, true)) {
-> +            goto fail;
-> +        }
-> +        bs->flags |= RAM_UF_WRITEPROTECT;
-> +
-> +        info_report("UFFD-WP write-tracking enabled: "
-> +                "block_id=%s page_size=%zu start=%p length=%lu "
-> +                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
-> +                bs->idstr, bs->page_size, bs->host, bs->max_length,
-> +                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
-> +                bs->mr->nonvolatile, bs->mr->rom_device);
-> +    }
-> +
-> +    return 0;
-> +
-> +fail:
-> +    uffd_close_fd(uffd);
-> +    rs->uffdio_fd = -1;
-> +    return -1;
-> +}
-> +
-> +/**
-> + * ram_write_tracking_stop: stop UFFD-WP memory tracking and remove protection
-> + */
-> +void ram_write_tracking_stop(void)
-> +{
-> +    RAMState *rs = ram_state;
-> +    RAMBlock *bs;
-> +    assert(rs->uffdio_fd >= 0);
-> +
-> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-> +        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
-> +            continue;
-> +        }
-> +        info_report("UFFD-WP write-tracking disabled: "
-> +                "block_id=%s page_size=%zu start=%p length=%lu "
-> +                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
-> +                bs->idstr, bs->page_size, bs->host, bs->max_length,
-> +                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
-> +                bs->mr->nonvolatile, bs->mr->rom_device);
-> +        /* Cleanup flags */
-> +        bs->flags &= ~RAM_UF_WRITEPROTECT;
-> +    }
-> +
-> +    /*
-> +     * Close UFFD file descriptor to remove protection,
-> +     * release registered memory regions and flush wait queues
-> +     */
-> +    uffd_close_fd(rs->uffdio_fd);
-> +    rs->uffdio_fd = -1;
-> +}
-> +
->  static SaveVMHandlers savevm_ram_handlers = {
->      .save_setup = ram_save_setup,
->      .save_live_iterate = ram_save_iterate,
-> diff --git a/migration/ram.h b/migration/ram.h
-> index 011e85414e..3611cb51de 100644
-> --- a/migration/ram.h
-> +++ b/migration/ram.h
-> @@ -79,4 +79,8 @@ void colo_flush_ram_cache(void);
->  void colo_release_ram_cache(void);
->  void colo_incoming_start_dirty_log(void);
->  
-> +/* Live snapshots */
-> +int ram_write_tracking_start(void);
-> +void ram_write_tracking_stop(void);
-> +
->  #endif
-> -- 
-> 2.25.1
+As ever other stuff got in the way, so I only just got back to looking at this.
+
+I've not done a particularly comprehensive set of tests yet, but things seem
+to 'work' with mixed page sizes.
+
+With 64K pages in general, you run into a problem with the device block_size being
+smaller than the subblock_size.  I've just added a check for that into the
+virtio-mem kernel driver and have it fail to probe if that happens.  I don't
+think such a setup makes any sense anyway so no loss there.  Should it make sense
+to drop that restriction in the future we can deal with that then without breaking
+backwards compatibility.
+
+So the question is whether it makes sense to bother with virtio-mem support
+at all on ARM64 with 64k pages given currently the minimum workable block_size
+is 512MiB?  I guess there is an argument of virtio-mem being a possibly more
+convenient interface than full memory HP.  Curious to hear what people think on
+this?
+
+4K guest on 64K host seems fine and no such limit is needed - though there
+may be performance issues doing that.
+
+64k guest on 4k host with 512MiB block size seems fine.
+
+If there are any places anyone thinks need particular poking I'd appreciate a hint :)
+
+Jonathan
+
+
+
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
+> I had my prototype living at
+> 
+> git@github.com:davidhildenbrand/qemu.git / virtio-mem-arm64
+> 
+> which looks very similar to your patch. That is good :)
+> 
+> [...]
+> 
+> >   static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+> >                                           DeviceState *dev, Error **errp)
+> >   {
+> > @@ -2336,6 +2389,9 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+> >       if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+> >           virt_memory_plug(hotplug_dev, dev, errp);
+> >       }
+> > +    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+> > +        virt_virtio_md_pci_plug(hotplug_dev, dev, errp);
+> > +    }  
+> 
+> These better all be "else if".
+> 
+> >       if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+> >           PCIDevice *pdev = PCI_DEVICE(dev);
+> >   
+> > @@ -2363,6 +2419,11 @@ static void virt_dimm_unplug_request(HotplugHandler *hotplug_dev,
+> >           goto out;
+> >       }
+> >   
+> > +    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
+> > +        error_setg(&local_err,
+> > +                   "virtio-mem based memory devices cannot be unplugged.");
+> > +        goto out;
+> > +    }  
+> 
+> This should go into virt_machine_device_unplug_request_cb() instead, no?
+> [...]
+> 
+> 
 
 
