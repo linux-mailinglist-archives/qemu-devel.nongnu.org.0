@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AFE32C29E0
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 15:42:18 +0100 (CET)
-Received: from localhost ([::1]:37064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2CD2C29E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 15:43:54 +0100 (CET)
+Received: from localhost ([::1]:40078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khZWK-0001sH-Jr
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 09:42:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46754)
+	id 1khZXt-0003BU-RU
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 09:43:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1khZUY-0000zd-Ab
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:40:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34135)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1khZVT-0001zt-Md
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:41:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1khZUT-0001nd-NM
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:40:25 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1khZVL-0002GR-S5
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:41:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606228818;
+ s=mimecast20190719; t=1606228874;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SsTWuLrFq+lXT72EkXvokUpUKtBHOB57os38D3vletM=;
- b=fvoNjTwVuG6mMN0dDeY8+mfJuNyjO7vhKWmc4doPlTi0+0koWB5Vo/cZ7kaeEdVz2OPLuh
- YS5XgHygkU/VqKm6Fs0vIl6ExXtsc60c7G775UFVX23yFI0lBEs7NRLL9eNZmieEX+S7p6
- JcJ/N7AFFnJLZe3YrEVS9bf1lIWQ6Fg=
+ bh=XUqGke1eobuaszj/1EjGI8LtbyserhEfG9dzim2zU3E=;
+ b=hhEbEjXQ7hSr4yQeXVYm6FjIErOMr84YwCfN9i8gMOzAuFNe1Zz+6/IXoR58PJM7l2IJ5I
+ 3S9LrS7asim7CQEB0Zm5kkDD8877dVVVoal7FvgcyOZ7y8NWyNygWT5idGqNmWkO0P8IHi
+ qW16cyYFGWp3/yNJT9B2voc8R4MDuIg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-WlHQIuliNj6os3-gT5kFpw-1; Tue, 24 Nov 2020 09:40:16 -0500
-X-MC-Unique: WlHQIuliNj6os3-gT5kFpw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-192-95kYxlMpODqs5zv7bpgxAw-1; Tue, 24 Nov 2020 09:41:10 -0500
+X-MC-Unique: 95kYxlMpODqs5zv7bpgxAw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE9EF873116
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 14:40:15 +0000 (UTC)
-Received: from work-vm (ovpn-115-42.ams2.redhat.com [10.36.115.42])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C331860D07;
- Tue, 24 Nov 2020 14:39:48 +0000 (UTC)
-Date: Tue, 24 Nov 2020 14:39:46 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 2/2] libvhost-user: replace qemu/memfd.h usage
-Message-ID: <20201124143946.GH3366@work-vm>
-References: <20201118080902.30033-1-marcandre.lureau@redhat.com>
- <20201118080902.30033-3-marcandre.lureau@redhat.com>
- <20201124115405.GE3366@work-vm>
- <CAMxuvayBgw9Y4sor79nZw1sj4Y4H6txdUKOr=k6JxoSNryiYTw@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BA381015C90;
+ Tue, 24 Nov 2020 14:41:04 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 01B3360C43;
+ Tue, 24 Nov 2020 14:41:03 +0000 (UTC)
+Date: Tue, 24 Nov 2020 09:41:02 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 3/8] qnum: QNumValue type for QNum value literals
+Message-ID: <20201124144102.GL2271382@habkost.net>
+References: <CAJ+F1C+YUZdP56MuLtZbO0fK6rPsDosgxXG4zaDq=mjwqsV74A@mail.gmail.com>
+ <20201117144246.GD1235237@habkost.net>
+ <CAJ+F1CLZg-hhuK2ffRzVaWiZKe2Aqvf0-mqxXGAzscSa8FmCNw@mail.gmail.com>
+ <87mtzdd4p7.fsf@dusky.pond.sub.org>
+ <20201119182158.GX1509407@habkost.net>
+ <877dqg8ukz.fsf@dusky.pond.sub.org>
+ <20201120182720.GF2271382@habkost.net>
+ <877dqcwlxc.fsf@dusky.pond.sub.org>
+ <20201123183357.GK2271382@habkost.net>
+ <87ft4zp2at.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvayBgw9Y4sor79nZw1sj4Y4H6txdUKOr=k6JxoSNryiYTw@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <87ft4zp2at.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,156 +86,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Armbruster, Markus" <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Marc-André Lureau (marcandre.lureau@redhat.com) wrote:
-> Hi
+On Tue, Nov 24, 2020 at 09:49:30AM +0100, Markus Armbruster wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
 > 
-> On Tue, Nov 24, 2020 at 3:54 PM Dr. David Alan Gilbert
-> <dgilbert@redhat.com> wrote:
+> > On Mon, Nov 23, 2020 at 08:51:27AM +0100, Markus Armbruster wrote:
+> >> Eduardo Habkost <ehabkost@redhat.com> writes:
+> >> 
+> >> > On Fri, Nov 20, 2020 at 06:29:16AM +0100, Markus Armbruster wrote:
+> >> [...]
+> >> >> When the structure of a data type is to be kept away from its users, I
+> >> >> prefer to keep it out of the public header, so the compiler enforces the
+> >> >> encapsulation.
+> >> >
+> >> > I prefer that too, except that it is impossible when users of the
+> >> > API need the compiler to know the struct size.
+> >> 
+> >> There are cases where the structure of a data type should be
+> >> encapsulated, yet its size must be made known for performance (avoid
+> >> dynamic memory allocation and pointer chasing).
+> >> 
+> >> Need for encapsulation correlates with complex algorithms and data
+> >> structures.  The cost of dynamic allocation is often in the noise then.
 > >
-> > * marcandre.lureau@redhat.com (marcandre.lureau@redhat.com) wrote:
-> > > From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > >
-> > > Undo the damage from commit 5f9ff1eff3 ("libvhost-user: Support tracking
-> > > inflight I/O in shared memory") which introduced glib dependency through
-> > > osdep.h inclusion.
-> > >
-> > > libvhost-user.c tries to stay free from glib usage.
-> > >
-> > > Use glibc memfd_create directly when available (assumed so when
-> > > MFD_ALLOW_SEALING is defined).
-> > >
-> > > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > > ---
-> > >  contrib/libvhost-user/libvhost-user.c | 50 +++++++++++++++++++++++----
-> > >  1 file changed, 43 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-> > > index 1c1cfbf1e7..805521859d 100644
-> > > --- a/contrib/libvhost-user/libvhost-user.c
-> > > +++ b/contrib/libvhost-user/libvhost-user.c
-> > > @@ -42,8 +42,6 @@
-> > >  #endif
-> > >
-> > >  #include "qemu/atomic.h"
-> > > -#include "qemu/osdep.h"
-> > > -#include "qemu/memfd.h"
-> > >
-> > >  #include "libvhost-user.h"
-> > >
-> > > @@ -1615,11 +1613,45 @@ vu_inflight_queue_size(uint16_t queue_size)
-> > >             sizeof(uint16_t), INFLIGHT_ALIGNMENT);
-> > >  }
-> > >
-> > > +#ifdef MFD_ALLOW_SEALING
-> > > +static void *
-> > > +memfd_alloc(const char *name, size_t size, unsigned int flags, int *fd)
-> > > +{
-> > > +    void *ptr;
-> > > +    int ret;
-> > > +
-> > > +    *fd = memfd_create(name, MFD_ALLOW_SEALING);
-> > > +    if (*fd < 0) {
-> > > +        return NULL;
-> > > +    }
-> > > +
-> > > +    ret = ftruncate(*fd, size);
+> > I don't know what we are talking about anymore.  None of this
+> > applies to the QNum API, right?
 > >
-> > Do you need to do any of the page alignment?
+> > QNum/QNumValue are not complex data structures, and the reason we
+> > need the compiler to know the size of QNumValue is not related to
+> > performance at all.
 > 
-> We don't do any in util/memfd.c, I don't see an explicit requirement
-> in memfd_create(). (however, util/memfd.c did check power of 2 for
-> hugetlb usage, but this isn't necessary here)
+> We started with the question whether to make QNumValue's members
+> private.  We digressed to the question when to make members private.
+> So back to the original question.
 > 
-> On mmap(), "if addr is NULL, then the kernel chooses the (page-aligned) address"
+> > We might still want to discourage users of the QNum API from
+> > accessing QNum.u/QNumValue.u directly.  Documenting the field as
+> > private is a very easy way to do it.
 > 
-> >
-> > > +    if (ret < 0) {
-> > > +        close(*fd);
-> > > +        return NULL;
-> > > +    }
-> > > +
-> > > +    ret = fcntl(*fd, F_ADD_SEALS, F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL);
-> >
-> > I think you'd intended to use the 'flags' parameter there.
+> It's a complete non-issue.  QNum has been around for years, and we
+> haven't had any issues that could've been plausibly avoided by asking
+> people to refrain from accessing its members.
 > 
-> indeed, thanks
-> 
-> >
-> > > +    if (ret < 0) {
-> > > +        close(*fd);
-> > > +        return NULL;
-> > > +    }
-> > > +
-> > > +    ptr = mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED, *fd, 0);
-> > > +    if (ptr == MAP_FAILED) {
-> > > +        close(*fd);
-> > > +        return NULL;
-> > > +    }
-> > > +
-> > > +    return ptr;
-> > > +}
-> > > +#endif
-> > > +
-> > >  static bool
-> > >  vu_get_inflight_fd(VuDev *dev, VhostUserMsg *vmsg)
-> > >  {
-> > > -    int fd;
-> > > -    void *addr;
-> > > +    int fd = -1;
-> > > +    void *addr = NULL;
-> > >      uint64_t mmap_size;
-> > >      uint16_t num_queues, queue_size;
-> > >
-> > > @@ -1637,9 +1669,13 @@ vu_get_inflight_fd(VuDev *dev, VhostUserMsg *vmsg)
-> > >
-> > >      mmap_size = vu_inflight_queue_size(queue_size) * num_queues;
-> > >
-> > > -    addr = qemu_memfd_alloc("vhost-inflight", mmap_size,
-> > > -                            F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL,
-> > > -                            &fd, NULL);
-> > > +#ifdef MFD_ALLOW_SEALING
-> > > +    addr = memfd_alloc("vhost-inflight", mmap_size,
-> > > +                       F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL,
-> > > +                       &fd);
-> > > +#else
-> > > +    vu_panic(dev, "Not implemented: memfd support is missing");
-> >
-> > Should there be an ifdef somewhere on the declared features, so it
-> > doesn't get this far because it wont negotiate the feature?
-> 
-> Sealing grow/shrink came together with memfd, it was one of the main
-> selling point. I assume if MFD_ALLOW_SEALING is defined, we have
-> memfd_create and basic libc defines. But yes, if we want to handle
-> weird corner cases, we should add more ifdef-ry. I'd pass for now.
+> If there was an actual need to keep the members private, I'd move the
+> struct out of the header, so the compiler enforces privacy.
 
-I wasn't being that selective; I just ment if any of the memfd
-wasn't available then we should just say the vu_inflight feature isn't
-available.
+Understood.  There's still a question I'd like to answer, to
+decide how the API documentation should look like:
 
-Dave
+  Is QNum.u/QNumValue.u required to be part of the API
+  documentation?
 
-> thanks
-> 
-> >
-> > Dave
-> >
-> > > +#endif
-> > >
-> > >      if (!addr) {
-> > >          vu_panic(dev, "Failed to alloc vhost inflight area");
-> > > --
-> > > 2.29.0
-> > >
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> >
-> 
+If accessing that field directly is not necessary for using the
+API, I don't think it should appear in the documentation (because
+it would be just noise).
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Eduardo
 
 
