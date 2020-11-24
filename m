@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0482C2562
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 13:09:47 +0100 (CET)
-Received: from localhost ([::1]:45052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027762C2563
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 13:09:50 +0100 (CET)
+Received: from localhost ([::1]:45194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khX8k-0002dq-Bf
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 07:09:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59708)
+	id 1khX8n-0002hP-0I
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 07:09:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1khX7Q-0001kG-Gm
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 07:08:24 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:51029)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1khX7R-0001l0-Pk
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 07:08:25 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:31874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1khX7O-00065e-Ib
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 07:08:24 -0500
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1khX7Q-00069y-A6
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 07:08:25 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-oczCcG8fN4i7adIpLbfHmQ-1; Tue, 24 Nov 2020 07:08:09 -0500
-X-MC-Unique: oczCcG8fN4i7adIpLbfHmQ-1
+ us-mta-510-3JTApDPEPfmOnpNsr8_BsA-1; Tue, 24 Nov 2020 07:08:19 -0500
+X-MC-Unique: 3JTApDPEPfmOnpNsr8_BsA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBAFE18C43DB;
- Tue, 24 Nov 2020 12:08:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BC941E640;
+ Tue, 24 Nov 2020 12:08:18 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-112-44.ams2.redhat.com [10.36.112.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EBB241002C11;
- Tue, 24 Nov 2020 12:08:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA9141057F59;
+ Tue, 24 Nov 2020 12:08:15 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/1] 9p fixes for 5.2 2020-11-24
-Date: Tue, 24 Nov 2020 13:07:27 +0100
-Message-Id: <20201124120728.1482792-1-groug@kaod.org>
+Subject: [PULL 1/1] tests/9pfs: Mark "local" tests as "slow"
+Date: Tue, 24 Nov 2020 13:07:28 +0100
+Message-Id: <20201124120728.1482792-2-groug@kaod.org>
+In-Reply-To: <20201124120728.1482792-1-groug@kaod.org>
+References: <20201124120728.1482792-1-groug@kaod.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -43,7 +45,7 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
  helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -11
@@ -64,34 +66,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 683685e72dccaf8cb9fe8ffa20f5c5aacea72118=
-:
+The "local" tests can fail on some automated build systems as
+reported here:
 
-  Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-req=
-uest' into staging (2020-11-23 13:03:13 +0000)
+https://lists.nongnu.org/archive/html/qemu-devel/2020-11/msg05510.html
 
-are available in the Git repository at:
+This will need to be investigated and addressed later. Let's go for a
+workaround in the meantime : mark the "local" tests as "slow" so that
+they aren't executed with a simple "make check" like in the case above.
 
-  https://gitlab.com/gkurz/qemu.git tags/9p-fix-2020-11-24
-
-for you to fetch changes up to 558f5c42efded3e0d0b20a90bce2a9a14580d824:
-
-  tests/9pfs: Mark "local" tests as "slow" (2020-11-24 12:44:25 +0100)
-
-----------------------------------------------------------------
-Mark "local" qtests as slow to avoid unwanted breakage of "make check"
-with some configurations (eg. Fedora's Copr automatic build system).
-
-----------------------------------------------------------------
-Greg Kurz (1):
-      tests/9pfs: Mark "local" tests as "slow"
-
+Reported-by: Cole Robinson <crobinso@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Message-Id: <160620382310.1423262.7364287092069513483.stgit@bahia.lan>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
  tests/qtest/virtio-9p-test.c | 9 +++++++++
  1 file changed, 9 insertions(+)
+
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 21e340fa5f43..92a498f24925 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -1456,6 +1456,15 @@ static void register_virtio_9p_test(void)
+=20
+=20
+     /* 9pfs test cases using the 'local' filesystem driver */
++
++    /*
++     * XXX: Until we are sure that these tests can run everywhere,
++     * keep them as "slow" so that they aren't run with "make check".
++     */
++    if (!g_test_slow()) {
++        return;
++    }
++
+     opts.before =3D assign_9p_local_driver;
+     qos_add_test("local/config", "virtio-9p", pci_config,  &opts);
+     qos_add_test("local/create_dir", "virtio-9p", fs_create_dir, &opts);
 --=20
 2.26.2
 
