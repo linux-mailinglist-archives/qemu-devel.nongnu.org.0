@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2B32C2D33
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 17:44:30 +0100 (CET)
-Received: from localhost ([::1]:35186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2531F2C2D8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 17:57:09 +0100 (CET)
+Received: from localhost ([::1]:59568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khbQb-0003dF-Qa
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 11:44:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49866)
+	id 1khbcq-0005h3-7n
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 11:57:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khbIH-0003iT-H9
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:35:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35404)
+ id 1khbXP-0002Il-Ob
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:51:33 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khbIC-0003Pp-VA
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:35:53 -0500
+ id 1khbXF-0005kV-4X
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 11:51:31 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1khbI9-00074Q-GW
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 16:35:45 +0000
+ id 1khbXD-0001Kc-Qj
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 16:51:19 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 655682E813E
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 16:35:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C90C62E813A
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 16:51:19 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2020 16:29:48 -0000
-From: Thomas Huth <1774605@bugs.launchpad.net>
+Date: Tue, 24 Nov 2020 16:32:28 -0000
+From: Thomas Huth <1774830@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: sathnaga
-X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Commenters: felix.von.s glaukommatos th-huth
+X-Launchpad-Bug-Reporter: Haskell Pointer (glaukommatos)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <152784273656.31479.153660947051184788.malonedeb@soybean.canonical.com>
-Message-Id: <160623538921.4877.2201606595485842664.launchpad@soybean.canonical.com>
-Subject: [Bug 1774605] Re: PowerPC guest does not emulate L2 and L3 cache for
- KVM vCPUs
+X-Launchpad-Bug-Duplicate: 1900779
+References: <152798433644.32292.11286299257318650919.malonedeb@soybean.canonical.com>
+Message-Id: <160623554876.25578.8223280369457355119.malone@chaenomeles.canonical.com>
+Subject: [Bug 1774830] Re: qemu monitor disassembled memory dump produces
+ incorrect output
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: df49d6099f4f12c186f5b5c17debd805171db359
+X-Launchpad-Hash: ed10a123efdee46e20b3112c2ed3693ff6920cb9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,67 +71,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1774605 <1774605@bugs.launchpad.net>
+Reply-To: Bug 1774830 <1774830@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: ppc
+*** This bug is a duplicate of bug 1900779 ***
+    https://bugs.launchpad.net/bugs/1900779
+
+I think this is likely a duplicate of bug
+https://bugs.launchpad.net/qemu/+bug/1900779 which has recently been
+fixed. Could you please check with the latest release candidate of QEMU
+5.2 whether the issue is fixed for you? Thanks!
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1774605
+https://bugs.launchpad.net/bugs/1774830
 
 Title:
-  PowerPC guest does not emulate L2 and L3 cache for KVM vCPUs
+  qemu monitor disassembled memory dump produces incorrect output
 
 Status in QEMU:
   New
 
 Bug description:
-  PowerPC KVM guest does not emulate L2 and L2 caches for vCPU, it would
-  be good to have them emulated to guest if not any known
-  issues/limitation already with PowerPC.
+  Greetings,
 
-  Host Env:
-  kernel: 4.17.0-rc7-00045-g0512e0134582
-  qemu: v2.12.0-923-gc181ddaa17-dirty
-  #libvirtd -V
-  libvirtd (libvirt) 4.4.0
+  I've been using qemu-system-aarch64 to do some low-level programming
+  targeting the raspberry pi 3. While I was debugging a problem in my
+  code I noticed a very confusing inconsistency that I think is very
+  likely a bug somewhere in how qemu's monitor produces its disassembled
+  output.
 
-  Guest Kernel:
-  # uname -a
-  Linux atest-guest 4.17.0-rc7-00045-g0512e0134582 #9 SMP Fri Jun 1 02:55:5=
-0 EDT 2018 ppc64le ppc64le ppc64le GNU/Linux
+  Here's my version output (installed via homebrew on macOS 10.13.4)
 
-  Guest:
-  # lscpu
-  Architecture:        ppc64le
-  Byte Order:          Little Endian
-  CPU(s):              16
-  On-line CPU(s) list: 0-15
-  Thread(s) per core:  8
-  Core(s) per socket:  2
-  Socket(s):           1
-  NUMA node(s):        1
-  Model:               2.1 (pvr 004b 0201)
-  Model name:          POWER8 (architected), altivec supported
-  Hypervisor vendor:   KVM
-  Virtualization type: para
-  L1d cache:           64K
-  L1i cache:           32K
-  NUMA node0 CPU(s):   0-15
+  $ qemu-system-aarch64 --version
+  QEMU emulator version 2.12.0
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
 
-  background: x86 enabling cpu L2 cache bydefault and L3 cache on demand fo=
-r kvm guest
-  and claims performance improvement as vcpus can be
-  benefited with lesser `vmexits due to guest send IPIs.` with L3 cache ena=
-bled, below was patch for same.
+  Some system information (macOS 10.13.4):
 
-  https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D14c985cffa6cb177fc01a16=
-3d8bcf227c104718c
+  $ uname -a
+  Darwin Lillith.local 17.5.0 Darwin Kernel Version 17.5.0: Fri Apr 13 19:3=
+2:32 PDT 2018; root:xnu-4570.51.2~1/RELEASE_X86_64 x86_64
+
+  Here's an example of the problem I am seeing:
+
+  qemu-system-aarch64 -S -M raspi3 -kernel kernel8.img -monitor stdio
+  QEMU 2.12.0 monitor - type 'help' for more information
+  (qemu) x /32x 0x80000
+  0000000000080000: 0xd53800a1 0x92400421 0xb4000061 0xd503205f
+  0000000000080010: 0x17ffffff 0x58000161 0x9100003f 0x58000161
+  0000000000080020: 0x180000e2 0x34000082 0xf800843f 0x51000442
+  0000000000080030: 0x35ffffa2 0xd2806763 0x17ffffff 0x00000000
+  0000000000080040: 0x00080000 0x00000000 0x00080050 0x00000000
+  0000000000080050: 0x00000000 0x00000000 0x00000000 0x00000000
+  0000000000080060: 0x00000000 0x00000000 0x00000000 0x00000000
+  0000000000080070: 0x00000000 0x00000000 0x00000000 0x00000000
+  (qemu) x /32i 0x80000
+  0x00080000:  d53800a1  mrs      x1, mpidr_el1
+  0x00080004:  92400421  and      x1, x1, #3
+  0x00080008:  b4000061  cbz      x1, #0x80014
+  0x0008000c:  d503205f  wfe
+  0x00080010:  17ffffff  b        #0x8000c
+  0x00080014:  58000161  ldr      x1, #0x80040
+  0x00080018:  9100003f  mov      sp, x1
+  0x0008001c:  58000161  ldr      x1, #0x80048
+  0x00080020:  92400421  and      x1, x1, #3
+  0x00080024:  b4000061  cbz      x1, #0x80030
+  0x00080028:  d503205f  wfe
+  0x0008002c:  17ffffff  b        #0x80028
+  0x00080030:  58000161  ldr      x1, #0x8005c
+  0x00080034:  9100003f  mov      sp, x1
+  0x00080038:  58000161  ldr      x1, #0x80064
+  0x0008003c:  180000e2  ldr      w2, #0x80058
+  0x00080040:  34000082  cbz      w2, #0x80050
+  0x00080044:  f800843f  str      xzr, [x1], #8
+  0x00080048:  51000442  sub      w2, w2, #1
+  0x0008004c:  35ffffa2  cbnz     w2, #0x80040
+  0x00080050:  d2806763  movz     x3, #0x33b
+  0x00080054:  17ffffff  b        #0x80050
+  0x00080058:  00000000  .byte    0x00, 0x00, 0x00, 0x00
+  0x0008005c:  00080000  .byte    0x00, 0x00, 0x08, 0x00
+  0x00080060:  00000000  .byte    0x00, 0x00, 0x00, 0x00
+  0x00080064:  00080050  .byte    0x50, 0x00, 0x08, 0x00
+  0x00080068:  00000000  .byte    0x00, 0x00, 0x00, 0x00
+  0x0008006c:  00000000  .byte    0x00, 0x00, 0x00, 0x00
+  0x00080070:  00000000  .byte    0x00, 0x00, 0x00, 0x00
+  0x00080074:  00000000  .byte    0x00, 0x00, 0x00, 0x00
+  0x00080078:  00000000  .byte    0x00, 0x00, 0x00, 0x00
+  0x0008007c:  00000000  .byte    0x00, 0x00, 0x00, 0x00
+
+  Please notice that between 0x80004 thru 0x8001c is repeated for some
+  reason in the /32i formatted output which also causes the addresses
+  for the following bytes to also be incorrect.
+
+  Just in order to keep things as clear as possible, I'll also attach
+  the binary shown above but disassembled by objdump instead of qemu.
+
+  $ aarch64-elf-objdump -d kernel8.elf
+
+  kernel8.elf:     file format elf64-littleaarch64
+
+  Disassembly of section .text:
+
+  0000000000080000 <_start>:
+  =C2=A0=C2=A0=C2=A080000:	d53800a1 	mrs	x1, mpidr_el1
+  =C2=A0=C2=A0=C2=A080004:	92400421 	and	x1, x1, #0x3
+  =C2=A0=C2=A0=C2=A080008:	b4000061 	cbz	x1, 80014 <_start+0x14>
+  =C2=A0=C2=A0=C2=A08000c:	d503205f 	wfe
+  =C2=A0=C2=A0=C2=A080010:	17ffffff 	b	8000c <_start+0xc>
+  =C2=A0=C2=A0=C2=A080014:	58000161 	ldr	x1, 80040 <_start+0x40>
+  =C2=A0=C2=A0=C2=A080018:	9100003f 	mov	sp, x1
+  =C2=A0=C2=A0=C2=A08001c:	58000161 	ldr	x1, 80048 <_start+0x48>
+  =C2=A0=C2=A0=C2=A080020:	180000e2 	ldr	w2, 8003c <_start+0x3c>
+  =C2=A0=C2=A0=C2=A080024:	34000082 	cbz	w2, 80034 <_start+0x34>
+  =C2=A0=C2=A0=C2=A080028:	f800843f 	str	xzr, [x1], #8
+  =C2=A0=C2=A0=C2=A08002c:	51000442 	sub	w2, w2, #0x1
+  =C2=A0=C2=A0=C2=A080030:	35ffffa2 	cbnz	w2, 80024 <_start+0x24>
+  =C2=A0=C2=A0=C2=A080034:	d2806763 	mov	x3, #0x33b                 	// #827
+  =C2=A0=C2=A0=C2=A080038:	17ffffff 	b	80034 <_start+0x34>
+  =C2=A0=C2=A0=C2=A08003c:	00000000 	.word	0x00000000
+  =C2=A0=C2=A0=C2=A080040:	00080000 	.word	0x00080000
+  =C2=A0=C2=A0=C2=A080044:	00000000 	.word	0x00000000
+  =C2=A0=C2=A0=C2=A080048:	00080050 	.word	0x00080050
+  =C2=A0=C2=A0=C2=A08004c:	00000000 	.word	0x00000000
+
+  Hopefully this is helpful information, please let me know if I left
+  out anything really important. Thank you!
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1774605/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1774830/+subscriptions
 
