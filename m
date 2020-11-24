@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313CA2C2218
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 10:52:26 +0100 (CET)
-Received: from localhost ([::1]:53794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1762C2223
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 10:54:37 +0100 (CET)
+Received: from localhost ([::1]:59414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khUzp-0001mH-8J
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 04:52:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50258)
+	id 1khV1w-000432-N6
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 04:54:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khUxb-0007x9-Gt; Tue, 24 Nov 2020 04:50:07 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34596)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khUxZ-0006Uo-Q8; Tue, 24 Nov 2020 04:50:07 -0500
-Received: by mail-wm1-x341.google.com with SMTP id x13so1636891wmj.1;
- Tue, 24 Nov 2020 01:50:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=HZTdjbmWHnGTuptVuo3d7Aeku+k4NYLvw5VlNk50nF8=;
- b=u8RQG6t7FQixuV7R41zhnmuROphjzW2Bkg0W2uHS7osEgDxmDvzMl3Tds8st9rTnbV
- pCAlhqjz/MLZsvy1klIcvuNnQq1emJRziehxlssAXDk4chOi2o1JLEN+SeBuw7rBElUh
- 2FBQWDqfhir26vM2mFhCvHSFh3wLQZJaDfCFe6zZ8Etw5vUzewz4Rz/xBreqmqz4b39k
- QzFHpyog/69bOAxDUuw7yWqHOfiV2jDrDvrIGHU80sBaX37hyjAx1/6E7l2pqJaphp85
- 9F9Hy+/rJFtryuGzTavN8KadVGsJkWsZO/3o9X0L+xoyoHGjfqqn999tEplJ1gI2z/P4
- XtIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=HZTdjbmWHnGTuptVuo3d7Aeku+k4NYLvw5VlNk50nF8=;
- b=foxSXCkdjUGCrNGn/SsV1toHQU9/QPrKvNkvHwyKqX5FKR0VLWdxYu+uSBC2J4gTXt
- pNpJyS32yYf5jiVGYfT1qJMY9CqIHvZIg1MlJfVmNoCWAdrKkh8bCCCzkfXp74FWrzpb
- YpVXymVxGYybRWUlF6SKgEFmFymI9RcEy4tO9m0TnCmIT+hjxlnQn/pF9ItRa/VB6VJZ
- B0YYZQDsJpR6ZaQnF/l4MUaYnSh2SdW44Gz4iF5k+CMzqNrMM2NnVUSEA6uNvjv0z0Xq
- ipDjw0wudT1mnyd8GAO0rdHlvvje/hklDLZyqmCohmmHkG+UoPlFwThZJaYz5r6guP6V
- 4FuA==
-X-Gm-Message-State: AOAM530A8K2VoV7UKanq/qU6E91TIlJWoi2Wf7kVcsPJ3ztyDJlrzgP3
- 7+tkie5t/LA60fPBwKlyh+goYlU0aDo=
-X-Google-Smtp-Source: ABdhPJwPqCGLXa4WZ7XiWVMejE80iZdj3K8VnrWmAbXmDsThsabxlaVkIzjNOrq9V4rkc8+jmyMiZA==
-X-Received: by 2002:a1c:6184:: with SMTP id v126mr3395095wmb.64.1606211403759; 
- Tue, 24 Nov 2020 01:50:03 -0800 (PST)
-Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id k84sm4454454wmf.42.2020.11.24.01.50.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 01:50:03 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2? 4/4] hw/arm/xilinx_zynq: Add SD bus QOM alias on the
- machine
-Date: Tue, 24 Nov 2020 10:49:41 +0100
-Message-Id: <20201124094941.485767-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201124094941.485767-1-f4bug@amsat.org>
-References: <20201124094941.485767-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khUzC-0001d9-10
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 04:51:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1khUz9-00078s-DW
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 04:51:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606211501;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UgaWPaa1glq1x2bnbYxaLyY+m1avSf2EVIOsB+42L0Y=;
+ b=O7VePA+jctsEB9g1Jzv8vt6roIJm1W0ZGeXKk0DB6+zC+ksw8Od5/82ZIHl6uHtsjaD+em
+ 3iFYZ0mXl2DFILiKvrIZ/YzWCeopXwhfuzkRf13okD8KbaieajQ3uOOhJ2jpSTcXcASUxW
+ 7+6PDbuBPQYvTqOcSZT9QYTOgBx6Cw4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-W-v7KcXANWqB9gWbRM7EUw-1; Tue, 24 Nov 2020 04:51:39 -0500
+X-MC-Unique: W-v7KcXANWqB9gWbRM7EUw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7449521D
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 09:51:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C8EB060864;
+ Tue, 24 Nov 2020 09:51:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 582BC113864E; Tue, 24 Nov 2020 10:51:34 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v3 08/19] qlit: Move qlit_equal_qobject() reference
+ values to array
+References: <20201123194818.2773508-1-ehabkost@redhat.com>
+ <20201123194818.2773508-9-ehabkost@redhat.com>
+Date: Tue, 24 Nov 2020 10:51:34 +0100
+In-Reply-To: <20201123194818.2773508-9-ehabkost@redhat.com> (Eduardo Habkost's
+ message of "Mon, 23 Nov 2020 14:48:07 -0500")
+Message-ID: <87360zozfd.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,49 +81,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr?= =?utf-8?Q?=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be able to select a particular SD bus from the command
-line, add a QOM alias on the machine (using an unique name).
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/xilinx_zynq.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+> Add an array of values to qlit_equal_qobject_test(), so we can
+> extend the test case to compare multiple literals, not just the
+> ones at the existing `qlit` and `qlit_foo` variables.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+> This is a new patch added in v3 of this series.
+> ---
+>  tests/check-qlit.c | 26 +++++++++++++++++++-------
+>  1 file changed, 19 insertions(+), 7 deletions(-)
+>
+> diff --git a/tests/check-qlit.c b/tests/check-qlit.c
+> index 24ac21395c..b1cfbddb17 100644
+> --- a/tests/check-qlit.c
+> +++ b/tests/check-qlit.c
+> @@ -29,11 +29,6 @@ static QLitObject qlit = QLIT_QDICT(((QLitDictEntry[]) {
+>      { },
+>  }));
+>  
+> -static QLitObject qlit_foo = QLIT_QDICT(((QLitDictEntry[]) {
+> -    { "foo", QLIT_QNUM_INT(42) },
+> -    { },
+> -}));
+> -
+>  static QObject *make_qobject(void)
+>  {
+>      QDict *qdict = qdict_new();
+> @@ -53,16 +48,33 @@ static QObject *make_qobject(void)
+>  
+>  static void qlit_equal_qobject_test(void)
+>  {
+> +    /* Each entry in the values[] array should be different from the others */
+> +    QLitObject values[] = {
+> +        qlit,
+> +        QLIT_QDICT(((QLitDictEntry[]) {
+> +            { "foo", QLIT_QNUM_INT(42) },
+> +            { },
+> +        })),
+> +    };
+> +    int i;
+>      QObject *qobj = make_qobject();
+>  
+>      g_assert(qlit_equal_qobject(&qlit, qobj));
+>  
+> -    g_assert(!qlit_equal_qobject(&qlit_foo, qobj));
+> -
+>      qdict_put(qobject_to(QDict, qobj), "bee", qlist_new());
+>      g_assert(!qlit_equal_qobject(&qlit, qobj));
+>  
+>      qobject_unref(qobj);
+> +
+> +    for (i = 0; i < ARRAY_SIZE(values); i++) {
+> +        int j;
 
-diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
-index b72772bc824..6a4a1de88cf 100644
---- a/hw/arm/xilinx_zynq.c
-+++ b/hw/arm/xilinx_zynq.c
-@@ -286,6 +286,7 @@ static void zynq_init(MachineState *machine)
-         DriveInfo *di;
-         BlockBackend *blk;
-         DeviceState *carddev;
-+        g_autofree char *bus_name = NULL;
- 
-         /* Compatible with:
-          * - SD Host Controller Specification Version 2.0 Part A2
-@@ -299,6 +300,11 @@ static void zynq_init(MachineState *machine)
-         sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, hci_addr);
-         sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[hci_irq - IRQ_OFFSET]);
- 
-+        /* Alias controller SD bus to the machine itself */
-+        bus_name = g_strdup_printf("sd-bus%d", n);
-+        object_property_add_alias(OBJECT(machine), bus_name,
-+                                  OBJECT(dev), "sd-bus");
-+
-         di = drive_get_next(IF_SD);
-         blk = di ? blk_by_legacy_dinfo(di) : NULL;
-         carddev = qdev_new(TYPE_SD_CARD);
--- 
-2.26.2
+I'd prefer to declare this one together with @i.
+
+> +        QObject *o = qobject_from_qlit(&values[i]);
+
+Blank line, if you don't mind.
+
+> +        for (j = 0; j < ARRAY_SIZE(values); j++) {
+> +            g_assert(qlit_equal_qobject(&values[j], o) == (i == j));
+> +        }
+> +        qobject_unref(o);
+> +    }
+> +
+>  }
+>  
+>  static void qlit_equal_large_qnum_test(void)
 
 
