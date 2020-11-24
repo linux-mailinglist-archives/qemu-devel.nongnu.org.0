@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2712C283C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:39:40 +0100 (CET)
-Received: from localhost ([::1]:56206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2B22C2879
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:45:09 +0100 (CET)
+Received: from localhost ([::1]:35506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khYXj-0005L7-KW
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:39:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55588)
+	id 1khYd2-0000Ci-4L
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:45:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1khYVu-0004Lv-8g
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:37:46 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:41875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1khYVq-0003oL-Pd
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:37:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=98Gdsh3wxSDxIGBalS3IropenSk0zko061idd1bjTkE=; b=UUBCyqfwldaTvwROdS9RKSI8jy
- chElRZKx5BGztd1V5z+2HvBmrt1rLkYDgEA7k4OpNFE4IeFitG6m/jqPknQcY/5K9/elV8tbT8BLF
- NrkUA37J9Xke9B9cIYTy0g4va/WpD0uItfqUCe3j61bUQCofe2yRHERbl/WH1SGUIay0OrbzGyG2L
- KqCydYLfqsyN+PpphXfp73aL5qBBjdA+LVg9s4ZhTlONOlaPhebAP3e1TcRlnbl4trBALO1PF46Hc
- k8EuE1u0IhxYnri9hXadFZ09xnHvQpuXLoJNbw/VtqENJN6xQddjdxhQkS/eKrNQM6KtnxOeWwmoM
- V0jkCp9A==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Cole Robinson <crobinso@redhat.com>
-Cc: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: virtio-9p-test.c:300:v9fs_req_recv: assertion failed (hdr.id ==
- id): (7 == 73)
-Date: Tue, 24 Nov 2020 14:37:39 +0100
-Message-ID: <1762951.Dc85qNA9ec@silver>
-In-Reply-To: <163aa0fa-f8d2-84e8-7a01-1befa4f4731a@redhat.com>
-References: <fad8a69d-9c21-ac25-028d-646a64ccecc5@redhat.com>
- <13275468.fAp1jBoSgB@silver>
- <163aa0fa-f8d2-84e8-7a01-1befa4f4731a@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1khYbU-00086J-Kz; Tue, 24 Nov 2020 08:43:32 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35548)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1khYbS-0005uc-Iv; Tue, 24 Nov 2020 08:43:32 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id f23so28579757ejk.2;
+ Tue, 24 Nov 2020 05:43:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NLt9hYWt++DaPXegFmbT1bFITii7wZIzdrhm/7F/+9s=;
+ b=ZnXYmZf1deXbA4c/L05TjPJied7VVDoIFMDKio3TaNCsSF2pzWYxH5SsqfqC4RR4Le
+ kX9SEok3Dv2PpGFED2fxbkQUH7qBciD3SWgDzggr7rZJElwFnfR7lYzPG+yrXEIX6fsF
+ V8miOLv4G1khrE+h52V4gdzglv+J3CeQEic4i6BlxEzuPCroA6vKSGxBByF5Hp0l4Kyw
+ iwLscsrF56tyXFXXerAVIwER3y0I5oxj4Z9FBhTVmnHpv8opAGVkxu3qvLnl1jNf5Nhk
+ 7G2VhQxfJVdHHrGqwOAm1YhGeJLfg+5tpYAVoa65y2/RFy8fQuYSBa1sfARybpwXZdo0
+ j2Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NLt9hYWt++DaPXegFmbT1bFITii7wZIzdrhm/7F/+9s=;
+ b=k/HGQpjLE3wZp6A2fPQdjGlV1+muJbiNsaGssOl983oJKKQIpgp4e/TOjreBDiHyxH
+ cGnoMiKjVkm+/VGF7lRuQCDuHBPywR2NhDl4YCX6RK7M1z6fICu2zloMbUf9iEUa1hN6
+ ocCaNdXHHrI7qsuU4uJX3LJ2oVJmRUOBANcfhN3SIMVKIcUp8DdN0rmQul+Ob3I9Rxoy
+ 86qcMgTkNS7dOKIvof7Spzd6Wuv13eZgfK2hFlFxpN6a3VWOcmBVg0iyiGKNe4JlE+LH
+ 7oQcLmTGaqb7sAWVejZkEsXYlhlws8Z9ZCZKamq1lWGW5Bt/r0AOQmdmvCpJysMgDVB4
+ RR8Q==
+X-Gm-Message-State: AOAM5319LfUhrmdyvpsLCZSBU5qThfuM+pTXogQQs72soZ7uUw8Ru5Tu
+ MtgLjQe79gyw4ZV4vrFhqKM1lLqspd2KQwPbcSw=
+X-Google-Smtp-Source: ABdhPJwOVCUmc3PBNZq/NXpgUE08UumIN7y4dWvnm2usYDBXMZkGSTj/l+xXghtYMtz6Ku/4PqkTztLIRquqce/XYfg=
+X-Received: by 2002:a17:906:af47:: with SMTP id
+ ly7mr4499786ejb.532.1606225399307; 
+ Tue, 24 Nov 2020 05:43:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
+References: <20201124125235.266884-1-marcandre.lureau@redhat.com>
+ <CAFEAcA8cUpnA9bdp_MBe65YZe+6=avrczSO1=_Gc-gT6d+YVfw@mail.gmail.com>
+In-Reply-To: <CAFEAcA8cUpnA9bdp_MBe65YZe+6=avrczSO1=_Gc-gT6d+YVfw@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 24 Nov 2020 17:43:06 +0400
+Message-ID: <CAJ+F1C+o+xZGyjGMyVGZmTGcvtdFswB2DYNCOmBr7uZwTbzCbQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Remove GCC < 4.8 checks
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000006576c005b4da7ec2"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,123 +76,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 24. November 2020 14:25:17 CET Cole Robinson wrote:
-> On 11/23/20 2:45 PM, Christian Schoenebeck wrote:
-> > On Montag, 23. November 2020 14:48:15 CET Christian Schoenebeck wrote:
-> >> On Montag, 23. November 2020 14:17:34 CET Greg Kurz wrote:
-> >>> Fixed maintainer's address: s/oss@crudebyte.com/qemu_oss@crudebyte.com
-> >>> 
-> >>> On Sat, 21 Nov 2020 17:03:14 -0500
-> >>> 
-> >>> Cole Robinson <crobinso@redhat.com> wrote:
-> >>>> Hi, I'm consistently seeing this assertion running the qemu-5.2.0  test
-> >>>> suite. rc0, rc1, rc2 have been consistently affected, it reproduces
-> >>>> consistently in parts of Fedora's build system. Here's an example build
-> >>>> log for rc2 x86 against Fedora 32
-> >>>> 
-> >>>> https://download.copr.fedorainfracloud.org/results/@kubevirt/qemu-5.2.0
-> >>>> -> > > 0. 6.rc2/fedora-32-x86_64/01781514-qemu/builder-live.log.gz
-> >>>> 
-> >>>> The full test error:
-> >>>> 
-> >>>> ...
-> >>>> PASS 26 qtest-arm/qos-test
-> >>>> /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-t
-> >>>> e
-> >>>> st
-> >>>> s/synth/readdir/split_128 PASS 27 qtest-arm/qos-test
-> >>>> /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-t
-> >>>> e
-> >>>> st
-> >>>> s/local/config
-> >>> 
-> >>> Ok so the next test is supposed to be:
-> >>> 
-> >>> /arm/virt/virtio-mmio/virtio-bus/virtio-9p-device/virtio-9p/virtio-9p-te
-> >>> st
-> >>> s/ local/create_dir
-> >>> 
-> >>> This was added recently. This configures the virtio-9p device in QEMU
-> >>> to serve a real test directory from the host. This test directory is
-> >>> created under the current directory of the test process. The purpose
-> >>> of the test is then to ask the 9p server to create a directory within
-> >>> the test directory.
-> >>> 
-> >>>> Received response 7 (RLERROR) instead of 73 (RMKDIR)
-> >>>> ERROR qtest-arm/qos-test - Bail out!
-> >>>> ERROR:../tests/qtest/virtio-9p-test.c:300:v9fs_req_recv: assertion
-> >>>> failed (hdr.id == id): (7 == 73)
-> >>>> Rlerror has errno 95 (Operation not supported)
-> >>> 
-> >>> So this basically means that QEMU got ENOTSUP/EOPNOTSUPP when calling
-> >>> mkdir() into the test directory... not sure what could cause that. I'd
-> >>> need more details on the filesystem setup for the build.
-> >>> 
-> >>> Anyway, we already experienced some breakage in upstream CI because of
-> >>> the same family of tests that do real access to the host filesystem.
-> >>> Since they're being introduced in QEMU 5.2, I'll try to see if I can
-> >>> disable them to be run by default for RC3.
-> >>> 
-> >>> Cheers,
-> >>> 
-> >>> --
-> >>> Greg
-> >>> 
-> >>>> **
-> >>>> ERROR:../tests/qtest/virtio-9p-test.c:300:v9fs_req_recv: assertion
-> >>>> failed (hdr.id == id): (7 == 73)
-> >>>> make: *** [Makefile.mtest:1257: run-test-155] Error 1
-> >>>> error: Bad exit status from /var/tmp/rpm-tmp.EG4Dav (%check)
-> >>>> 
-> >>>> 
-> >>>> Thanks,
-> >>>> Cole
-> >> 
-> >> Yeah, looks like the mkdir() call which is supposed to create the 9p test
-> >> directory, is failing there for some reason. The question is how to find
-> >> that out (effectively) without having access to an affected system.
-> >> 
-> >> It's now too late for 5.2, but I think for 6.0 it would make sense
-> >> introducing a dedicated 9p option loglevel=..., so we can tell people to
-> >> enable this to capture the precise source location where an error
-> >> ocurred.
-> >> That would mean spreading a huge bunch of macros all over the 9p code
-> >> base,
-> >> but it would definitely help a lot understanding the root cause of
-> >> reported
-> >> issues in an efficient way.
-> >> 
-> >> Best regards,
-> >> Christian Schoenebeck
-> > 
-> > Cole, does the affected host system probably not have xattrs enabled on
-> > its
-> > file system?
-> 
-> Hmm I'm not sure, I will try to investigate.
-> 
-> google tells me David Gilbert also hit this too earlier:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg754556.html
-> 
-> Maybe he remembers details of his setup, CC'd
-> 
-> - Cole
+--0000000000006576c005b4da7ec2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-No, that was a different issue David had, that's already fixed in git
-by SHA-1 136b7af2277. You also see that he got a different error. Many people 
-were affected by that issue a month ago.
+On Tue, Nov 24, 2020 at 5:33 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-However the issue you reported did not occur on other systems so far, 
-including many CI platforms out there. At least I haven't seen any other 
-similar report.
-
-What's the host file system used? ZFS?
-
-Best regards,
-Christian Schoenebeck
+> On Tue, 24 Nov 2020 at 12:52, <marcandre.lureau@redhat.com> wrote:
+> >
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Hi,
+> >
+> > Since commit efc6c07 ("configure: Add a test for the minimum compiler
+> version=3D
+> > "),
+> > QEMU explicitely depends on GCC >=3D 4.8.
+>
+> You need to be a bit cautious about removing QEMU_GNUC_PREREQ()
+> checks, because clang advertises itself as GCC 4.2 via the
+> __GNUC__ and __GNUC_MINOR__ macros that QEMU_GNUC_PREREQ()
+> tests, and so unless the code has explicitly handled clang
+> via a different ifdef or feature test clang will be using
+> the fallback codepath in cases like this. So you also need
+> to find out whether all our supported versions of clang
+> are OK with the gcc-4.4-and-up version of the code before
+> removing any particular ifdef.
+>
+> Compare this previous (not-applied) patchset from Philippe:
+>  https://patchew.org/QEMU/20200928125859.734287-1-philmd@redhat.com/
+> which dealt with two of these ifdefs, one of which is
+> "clearly OK" and the other of which is "needs more analysis".
+> The path forward I think is along those lines -- we need
+> one patch per ifdef we're trying to remove, and the commit
+> message can then include the information about why in
+> this case it is OK for clang too (or switch the ifdef
+> to check for something else, eg one of clang's feature-specific
+> test macros).
+>
 
 
+Thanks for pointing out the series, I missed it. Ok, I'll try to do some
+more research.
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000006576c005b4da7ec2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 24, 2020 at 5:33 PM Peter=
+ Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@lina=
+ro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Tue, 24 Nov 2020 at 12:52, &lt;<a href=3D"mailto:marcandre.lureau@=
+redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:<br=
+>
+&gt;<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; Since commit efc6c07 (&quot;configure: Add a test for the minimum comp=
+iler version=3D<br>
+&gt; &quot;),<br>
+&gt; QEMU explicitely depends on GCC &gt;=3D 4.8.<br>
+<br>
+You need to be a bit cautious about removing QEMU_GNUC_PREREQ()<br>
+checks, because clang advertises itself as GCC 4.2 via the<br>
+__GNUC__ and __GNUC_MINOR__ macros that QEMU_GNUC_PREREQ()<br>
+tests, and so unless the code has explicitly handled clang<br>
+via a different ifdef or feature test clang will be using<br>
+the fallback codepath in cases like this. So you also need<br>
+to find out whether all our supported versions of clang<br>
+are OK with the gcc-4.4-and-up version of the code before<br>
+removing any particular ifdef.<br>
+<br>
+Compare this previous (not-applied) patchset from Philippe:<br>
+=C2=A0<a href=3D"https://patchew.org/QEMU/20200928125859.734287-1-philmd@re=
+dhat.com/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QEMU/20=
+200928125859.734287-1-philmd@redhat.com/</a><br>
+which dealt with two of these ifdefs, one of which is<br>
+&quot;clearly OK&quot; and the other of which is &quot;needs more analysis&=
+quot;.<br>
+The path forward I think is along those lines -- we need<br>
+one patch per ifdef we&#39;re trying to remove, and the commit<br>
+message can then include the information about why in<br>
+this case it is OK for clang too (or switch the ifdef<br>
+to check for something else, eg one of clang&#39;s feature-specific<br>
+test macros).<br></blockquote><div><br></div><div><br></div><div>Thanks for=
+ pointing out the series, I missed it. Ok, I&#39;ll try to do some more res=
+earch.<br></div><br clear=3D"all"></div><div>-- <br><div dir=3D"ltr" class=
+=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div></div>
+
+--0000000000006576c005b4da7ec2--
 
