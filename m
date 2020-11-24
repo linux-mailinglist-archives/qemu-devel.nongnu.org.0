@@ -2,79 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576052C31B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 21:11:14 +0100 (CET)
-Received: from localhost ([::1]:37334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344082C31C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 21:14:34 +0100 (CET)
+Received: from localhost ([::1]:42598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kheef-00020A-0h
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 15:11:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51956)
+	id 1khehs-0004IA-NU
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 15:14:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khech-0001QQ-01; Tue, 24 Nov 2020 15:09:11 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:34886)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khecf-0001kE-Fp; Tue, 24 Nov 2020 15:09:10 -0500
-Received: by mail-ed1-x543.google.com with SMTP id cf17so132107edb.2;
- Tue, 24 Nov 2020 12:09:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=f3wDPtnsIa+S3jm8yr5kPDpsX6jhI9n3YSeepxAsueI=;
- b=Kp7vWj7cwozUdh7NiNbrmxhPx3zMDRQHvdozjtXryYscduNgoGd9AWQHMxN+n0Goi6
- 26BBpsgZ30/9ZT82dUnz5lqnlcOQCwG5xNh8fosx5ucbFQ16jDwVQfTq+kzkWcPMnqga
- dPDU2Dzq9jQWwSLC9H9hv6ZMKzrqchB7XboLOSH1NVJLnr8DEzYsPbZWX2RwO7v5Kdz1
- UE9+qTWg1gzj+g7HfEuL46l0C4YMsyh/CLmn1Mq3pf5pFsE6voK9tlSEQu6/wySm3aKr
- 4qXgWVvp56Qc4ZtwuHokV5d4a1STfsmzXJWvzWNF/+A/aL1OB5pFI7KyjQ0+Wwm57OZ7
- E1Rw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1khego-0003rD-LH
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 15:13:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33649)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1khegm-0002Xw-IY
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 15:13:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606248803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A8W23uE0DOiPKkKhPCIebKvWTh4Tsa8T1QoJh/pOWp0=;
+ b=fjNJVDTxdnd5U+/dXQXRePS7JLp46JbnZEQHXYW6ZmHVMe0yYLHlLFu19XK+unnPUa4YqJ
+ xOO681WVhYc7yYNo8IceXUYJ0W6IEuQmq7tv7omvWG4eIf3SE7ghpuSFtL3g68ax6NNebB
+ Le8GgihfDLRY0OsnMM3gfb7IG/2xxk8=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547-Wo5wfqbnMxyoMxbQS8UZ-g-1; Tue, 24 Nov 2020 15:13:16 -0500
+X-MC-Unique: Wo5wfqbnMxyoMxbQS8UZ-g-1
+Received: by mail-ej1-f70.google.com with SMTP id a9so36120ejy.22
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 12:13:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=f3wDPtnsIa+S3jm8yr5kPDpsX6jhI9n3YSeepxAsueI=;
- b=OF+Y18b0Bs3Dd3WtABg7sUMsskbi9LSS/V7fzYxU7/Tm+Sn9Ivpe01xERavV6rzL/L
- ZRkh9aOaZBBwOOG6GuG6ObWr/fzx11NW+lK2L8iMnWry0u7Exl+kxMtKz0HTkvMZ6GDv
- Mq4hyrpa8mhf5mY+BJlgT2Lu0z57lgAhU+pOKkdBJ/pOe7Jpw+EWT+qoE14CvA2dBOjK
- DsXKwPiDbHUcHSQEe9V7Hj1Md75uciwUsizRZhCrqiMFMe5pXFnfLWXX0i9feGrHfA/j
- Tbm+UPB7Q293FTdoV97HwZlVdoDjYSHSm2tJ9fxJg912RvXbPj3ME0xOrY9jRabfwPBu
- o2cQ==
-X-Gm-Message-State: AOAM531VRTPO2ROPg0A97kn1IksHkm/lpwarLWQkyFUKjlFIc4vGqJoh
- u5Je0dVidWdqA2LwEENengpv9DoDvEs=
-X-Google-Smtp-Source: ABdhPJyNbE2QybrJcys0a5Ihz0pb7FxndOwuc4wY48ATY5nI5n+y2kMH6L/PDjA/vMhZJrvDQ4wfSg==
-X-Received: by 2002:a50:8f64:: with SMTP id 91mr191708edy.310.1606248546931;
- Tue, 24 Nov 2020 12:09:06 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id e9sm7416958edn.30.2020.11.24.12.09.05
+ bh=A8W23uE0DOiPKkKhPCIebKvWTh4Tsa8T1QoJh/pOWp0=;
+ b=XRvFI0M5MMN1DiRAz2yRjhCo+8pArluJyHytpFZeLYo1zbIg/kAUi2C4xPwwE4uY3w
+ HfGQo3lXKB5jfVuK4SSSxgOkv7193z35GReMg1jauF3nHbl+z6HdZ9k2ALtGN/ei+v/I
+ wPYcT8+VkFK1OjU56xJ6v/4RuQr3uSnSyaZE8ywEkTS4e74BXZ06/1Yu4nXHdRQiJ5Pv
+ Q0c0pbn4OGYcjZuYHaweeppsiX5YXZJ663Et4n9nE0C6MtLNVnVHGcdfUNwXu4b4TAb5
+ 6hhIWReX5hDgmsmhii1Y5deL+KeYXwkHnCvAtGvbh8FoL+/9VVuqeAFo4pxSpWCdICAA
+ +p4A==
+X-Gm-Message-State: AOAM532mGJw7iuzp5U2MGjP3jsWgF1AxAE/rsdkALKgumavjYvmkvUKj
+ PS5F3yV35vaF2rRy7/xuybPUWwH29S77MXfMtCrW/ly90KYKymCZK3d7EQpJxbrH2v2ZpwXbaTS
+ FCecoHdb+hUM9gu8=
+X-Received: by 2002:a17:906:82c4:: with SMTP id a4mr95277ejy.131.1606248795449; 
+ Tue, 24 Nov 2020 12:13:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx/NxX+OcvRwqWcGVE5iHASC/gcfFafsLrIyIw8v7qBWte336GK/hKMisAzIPuD4S8LRN8dSA==
+X-Received: by 2002:a17:906:82c4:: with SMTP id a4mr95249ejy.131.1606248795285; 
+ Tue, 24 Nov 2020 12:13:15 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id u18sm7640749edd.60.2020.11.24.12.13.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Nov 2020 12:09:05 -0800 (PST)
-Subject: Re: [PATCH] Initialize Zynq7000 UART clocks on reset
-To: Michael Peter <michael.peter@hensoldt-cyber.de>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <FRYP281MB0158389968A2A1C231F3A585ABFB0@FRYP281MB0158.DEUP281.PROD.OUTLOOK.COM>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e03b9af9-d208-ed62-8e03-15004dee7783@amsat.org>
-Date: Tue, 24 Nov 2020 21:09:04 +0100
+ Tue, 24 Nov 2020 12:13:14 -0800 (PST)
+To: Claudio Fontana <cfontana@suse.de>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Emilio G . Cota" <cota@braap.org>
+References: <20201124162210.8796-1-cfontana@suse.de>
+ <20201124162210.8796-12-cfontana@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC v5 11/12] i386: centralize initialization of cpu accel
+ interfaces
+Message-ID: <7dc27df6-1c81-f8fb-3e56-aa6ffe9e8475@redhat.com>
+Date: Tue, 24 Nov 2020 21:13:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <FRYP281MB0158389968A2A1C231F3A585ABFB0@FRYP281MB0158.DEUP281.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20201124162210.8796-12-cfontana@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,84 +108,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing qemu-arm list too.
+On 24/11/20 17:22, Claudio Fontana wrote:
+> +static void x86_cpu_accel_init(void)
+>  {
+> -    X86CPUAccelClass *acc;
+> +    const char *ac_name;
+> +    ObjectClass *ac;
+> +    char *xac_name;
+> +    ObjectClass *xac;
+>  
+> -    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
+> -    g_assert(acc != NULL);
+> +    ac = object_get_class(OBJECT(current_accel()));
+> +    g_assert(ac != NULL);
+> +    ac_name = object_class_get_name(ac);
+> +    g_assert(ac_name != NULL);
+>  
+> -    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
+> +    xac_name = g_strdup_printf("%s-%s", ac_name, TYPE_X86_CPU);
+> +    xac = object_class_by_name(xac_name);
+> +    g_free(xac_name);
+> +
+> +    if (xac) {
+> +        object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, xac);
+> +    }
+>  }
+> +
+> +accel_cpu_init(x86_cpu_accel_init);
 
-On 11/24/20 5:52 PM, Michael Peter wrote:
-> Pass an additional argument to zynq_slcr_compute_clocks that indicates
-> whether an reset-exit condition
-> applies. If called from zynq_slcr_reset_exit, external clocks are
-> assumed to be active, even if the
-> device state indicates a reset state.
-> 
-> Signed-off-by: Michael Peter <michael.peter@hensoldt-cyber.de>
-> ---
->  hw/misc/zynq_slcr.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
-> index a2b28019e3..073122b934 100644
-> --- a/hw/misc/zynq_slcr.c
-> +++ b/hw/misc/zynq_slcr.c
-> @@ -269,12 +269,12 @@ static uint64_t zynq_slcr_compute_clock(const
-> uint64_t periods[],
->   * But do not propagate them further. Connected clocks
->   * will not receive any updates (See zynq_slcr_compute_clocks())
->   */
-> -static void zynq_slcr_compute_clocks(ZynqSLCRState *s)
-> +static void zynq_slcr_compute_clocks(ZynqSLCRState *s, bool ignore_reset)
->  {
->      uint64_t ps_clk = clock_get(s->ps_clk);
->  
->      /* consider outputs clocks are disabled while in reset */
-> -    if (device_is_in_reset(DEVICE(s))) {
-> +    if (!ignore_reset && device_is_in_reset(DEVICE(s))) {
->          ps_clk = 0;
->      }
->  
-> @@ -305,7 +305,7 @@ static void zynq_slcr_propagate_clocks(ZynqSLCRState *s)
->  static void zynq_slcr_ps_clk_callback(void *opaque)
->  {
->      ZynqSLCRState *s = (ZynqSLCRState *) opaque;
-> -    zynq_slcr_compute_clocks(s);
-> +    zynq_slcr_compute_clocks(s, false);
->      zynq_slcr_propagate_clocks(s);
->  }
->  
-> @@ -410,7 +410,7 @@ static void zynq_slcr_reset_hold(Object *obj)
->      ZynqSLCRState *s = ZYNQ_SLCR(obj);
->  
->      /* will disable all output clocks */
-> -    zynq_slcr_compute_clocks(s);
-> +    zynq_slcr_compute_clocks(s, false);
->      zynq_slcr_propagate_clocks(s);
->  }
->  
-> @@ -419,7 +419,7 @@ static void zynq_slcr_reset_exit(Object *obj)
->      ZynqSLCRState *s = ZYNQ_SLCR(obj);
->  
->      /* will compute output clocks according to ps_clk and registers */
-> -    zynq_slcr_compute_clocks(s);
-> +    zynq_slcr_compute_clocks(s, true);
->      zynq_slcr_propagate_clocks(s);
->  }
->  
-> @@ -558,7 +558,7 @@ static void zynq_slcr_write(void *opaque, hwaddr offset,
->      case R_ARM_PLL_CTRL:
->      case R_DDR_PLL_CTRL:
->      case R_UART_CLK_CTRL:
-> -        zynq_slcr_compute_clocks(s);
-> +        zynq_slcr_compute_clocks(s, false);
->          zynq_slcr_propagate_clocks(s);
->          break;
->      }
-> -- 
-> 2.17.1
-> 
-> 
-> 
+If this and cpus_accel_ops_init are the only call to accel_cpu_init, I'd 
+rather make them functions in CPUClass (which you find and call via 
+CPU_RESOLVING_TYPE) and AccelClass respectively.
+
+Paolo
 
 
