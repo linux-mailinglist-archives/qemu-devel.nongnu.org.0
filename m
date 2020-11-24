@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884EE2C2A66
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 15:51:28 +0100 (CET)
-Received: from localhost ([::1]:51302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E9D2C2AC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 16:05:04 +0100 (CET)
+Received: from localhost ([::1]:59818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khZfD-0008R3-KD
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 09:51:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48700)
+	id 1khZsM-0004QS-T8
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 10:05:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1khZdV-0007FV-Vz
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:49:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22168)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1khZqm-0003i7-0z
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 10:03:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1khZdU-0004sN-C8
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:49:41 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1khZqe-0001QJ-73
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 10:03:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606229379;
+ s=mimecast20190719; t=1606230194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NC617SLc3mZ1O5jVyz0jIt2/MqY7hydTiNs1hxpLqBw=;
- b=Q/mSpVG5LAirWyPWNudv2L5Z3v5TDQwS1SL9QMjjMIm3YEm6U41hQcbqJMN9LGRCBeH3rQ
- 5jaM3FpM/InHu9MeXM7ZF5RhB1F8C+gATSpPaO/EX+ksSwBlP1V3Y3axfLLR8BBoxFa7Xe
- S8T3E0P0rgnaghnX4kjuUOXAL69eNO0=
+ bh=C4Zncs+qxT7eDpL2zR4RFX6EL8jRWfVouQAZPDbGhDY=;
+ b=GpaWKnV/zGs7SqzAWoCzEza5H5P8ICPvFftap1ZvjX26g+1vwit2/BpeRVs/Uq9+VjnhSB
+ wvBLNaEmRft+42YMRemfoBYR55WsSkPqqS/90wi3XgA/spMrmV7Ip7QZjw5ijs5Vva9SZy
+ GOVyq2eeW1hv9QMKQDfIX94/6xSrSIE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-43fVRb4TO7yn1OsvEpfIzQ-1; Tue, 24 Nov 2020 09:49:34 -0500
-X-MC-Unique: 43fVRb4TO7yn1OsvEpfIzQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-548-bWO8LIjqOiCgwXOoqgyy-A-1; Tue, 24 Nov 2020 10:03:12 -0500
+X-MC-Unique: bWO8LIjqOiCgwXOoqgyy-A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51B11100C60F;
- Tue, 24 Nov 2020 14:49:33 +0000 (UTC)
-Received: from [10.3.113.85] (ovpn-113-85.phx2.redhat.com [10.3.113.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C68EE1002388;
- Tue, 24 Nov 2020 14:49:32 +0000 (UTC)
-Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
- qmp_marshal_netdev_add()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20200716035532.1407660-1-andrew@daynix.com>
- <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
- <874klk5gnc.fsf@dusky.pond.sub.org>
- <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
- <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
- <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
- <87lfesv2zu.fsf@dusky.pond.sub.org>
- <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
- <87blfnp20k.fsf@dusky.pond.sub.org> <87lferm4x5.fsf@dusky.pond.sub.org>
- <CAOEp5Oe18jtsgHVqwtm+-sqspD6KoJTOO9nNPmcWS++AVGjXKQ@mail.gmail.com>
- <87tutej3dc.fsf@dusky.pond.sub.org> <87blfmj2qx.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <f508a7ef-69f4-0bf1-2e9f-b9ea151a8557@redhat.com>
-Date: Tue, 24 Nov 2020 08:49:31 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A8A980B70A
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 15:03:11 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AAF7A5C1A3;
+ Tue, 24 Nov 2020 15:03:07 +0000 (UTC)
+Date: Tue, 24 Nov 2020 10:03:06 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v3 10/19] qlit: Support all types of QNums
+Message-ID: <20201124150306.GO2271382@habkost.net>
+References: <20201123194818.2773508-1-ehabkost@redhat.com>
+ <20201123194818.2773508-11-ehabkost@redhat.com>
+ <87y2irnkol.fsf@dusky.pond.sub.org>
+ <64059fc4-62e9-204d-c477-44f5165a240d@redhat.com>
+ <87im9vkkr9.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <87blfmj2qx.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <87im9vkkr9.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,77 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnichenko <andrew@daynix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/20 7:36 AM, Markus Armbruster wrote:
-> Markus Armbruster <armbru@redhat.com> writes:
+On Tue, Nov 24, 2020 at 01:22:02PM +0100, Markus Armbruster wrote:
+> Paolo Bonzini <pbonzini@redhat.com> writes:
 > 
->> Yuri Benditovich <yuri.benditovich@daynix.com> writes:
->>
->>> Please confirm that this patch is intended to solve only the problem with
->>> hmp (and disallow duplicated ids)
->>
->> The intent is to reject duplicate ID and to accept non-duplicate ID, no
->> matter how the device is created (CLI, HMP, QMP) or a prior instance was
->> deleted (HMP, QMP).
->>
->>> With it the netdev that was added from qemu's command line and was deleted
->>> (for example by hmp) still can't be created, correct?
->>
->> Yet another case; back to the drawing board...
+> > On 24/11/20 10:55, Markus Armbruster wrote:
+> >>> +        /* Larger than UINT64_MAX: */
+> >>> +        QLIT_QNUM_DOUBLE(18446744073709552e3),
+> >>> +        /* Smaller than INT64_MIN: */
+> >>> +        QLIT_QNUM_DOUBLE(-92233720368547758e2),
+> >> Why "larger than UINT64_MAX" and "smaller than INT64_MIN"?
+> >> 
+> >
+> > I guess the point is to test values that are only representable as a
+> > double, so (double)((uint64_t)INT64_MAX+1) wouldn't be very useful for 
+> > that: as the expression shows, it would not be a QNUM_VAL_INT but it
+> > would be representable as QNUM_VAL_UINT.
+> >
+> > So these are the cases that matter the most, even though -1, 0 and
+> > INT64_MAX+1 could be nice to have.
 > 
-> Next try.  Hope this is one holds water :)
+> qnum_is_equal()'s contract:
 > 
-> 
-> diff --git a/net/net.c b/net/net.c
-> index 794c652282..c1dc75fc37 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -978,6 +978,7 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
->  static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
->  {
->      NetClientState *peer = NULL;
-> +    NetClientState *nc;
->  
->      if (is_netdev) {
->          if (netdev->type == NET_CLIENT_DRIVER_NIC ||
-> @@ -1005,6 +1006,12 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
->          }
->      }
->  
-> +    nc = qemu_find_netdev(netdev->id);
-> +    if (nc) {
-> +        error_setg(errp, "Duplicate ID '%s'", netdev->id);
-> +        return -1;
-> +    }
+>  * Doubles are never considered equal to integers.
 
-Here, we fail if qemu_find_netdev() succeeded, regardless of whether
-is_netdev was set...
+If that's part of the contract, it would be OK to include
+0.0, -1.0, 1.0, INT64_MAX+1 in the list.  I incorrectly assumed
+  qnum_is_equal(qnum_from_int(0), qnum_from_double(0.0))
+was undefined.
 
-> +
->      if (net_client_init_fun[netdev->type](netdev, netdev->id, peer, errp) < 0) {
->          /* FIXME drop when all init functions store an Error */
->          if (errp && !*errp) {
-> @@ -1015,8 +1022,6 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
->      }
->  
->      if (is_netdev) {
-> -        NetClientState *nc;
-> -
->          nc = qemu_find_netdev(netdev->id);
->          assert(nc);
-
-and here, when is_netdev is set, we expect qemu_find_netdev() to
-succeed.  Does the first hunk need to be 'if (nc && !is_netdev)' ?
+However, if we really care about test coverage of
+qnum_is_equal(), we probably should be extending check-qnum.c,
+not check-qlit.c.
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Eduardo
 
 
