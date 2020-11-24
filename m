@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC082C2FFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 19:32:24 +0100 (CET)
-Received: from localhost ([::1]:35958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D742C300F
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 19:40:25 +0100 (CET)
+Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khd70-00025e-Vj
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 13:32:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49230)
+	id 1khdEm-00049G-6D
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 13:40:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khd4h-0001Vp-HT
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 13:29:59 -0500
-Received: from mx2.suse.de ([195.135.220.15]:60500)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khdCw-0003f3-PL
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 13:38:32 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khd4b-0003Vu-Lx
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 13:29:59 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khdCq-0004Zz-IT
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 13:38:30 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0CE69ACF1;
- Tue, 24 Nov 2020 18:29:52 +0000 (UTC)
-Subject: Re: [RFC v5 09/12] module: introduce MODULE_INIT_ACCEL_CPU
+ by mx2.suse.de (Postfix) with ESMTP id 60303AC55;
+ Tue, 24 Nov 2020 18:38:22 +0000 (UTC)
+Subject: Re: [RFC v5 11/12] i386: centralize initialization of cpu accel
+ interfaces
 To: Eduardo Habkost <ehabkost@redhat.com>
 References: <20201124162210.8796-1-cfontana@suse.de>
- <20201124162210.8796-10-cfontana@suse.de>
- <20201124170832.GS2271382@habkost.net>
+ <20201124162210.8796-12-cfontana@suse.de>
+ <20201124165906.GR2271382@habkost.net>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <a7bed792-5c6f-c49e-946c-f705707ce685@suse.de>
-Date: Tue, 24 Nov 2020 19:29:50 +0100
+Message-ID: <93f55856-639e-877f-cced-6b5f368ccd14@suse.de>
+Date: Tue, 24 Nov 2020 19:38:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201124170832.GS2271382@habkost.net>
+In-Reply-To: <20201124165906.GR2271382@habkost.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,66 +73,166 @@ Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/20 6:08 PM, Eduardo Habkost wrote:
-> On Tue, Nov 24, 2020 at 05:22:07PM +0100, Claudio Fontana wrote:
->> apply this to the registration of the cpus accel interfaces,
->>
->> but this will be also in preparation for later use of this
->> new module init step to also register per-accel x86 cpu type
->> interfaces.
->>
+On 11/24/20 5:59 PM, Eduardo Habkost wrote:
+> On Tue, Nov 24, 2020 at 05:22:09PM +0100, Claudio Fontana wrote:
 >> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> 
+> Probably this can be squashed into patch 10/12.
+
+
+Yes, you are right, no point building things fragmented and then merging together later.
+
+
+> 
 >> ---
-> [...]
->> diff --git a/accel/qtest/qtest.c b/accel/qtest/qtest.c
->> index b4e731cb2b..482f89729f 100644
->> --- a/accel/qtest/qtest.c
->> +++ b/accel/qtest/qtest.c
->> @@ -32,7 +32,6 @@ const CpusAccel qtest_cpus = {
+>>  target/i386/cpu-qom.h |  2 --
+>>  target/i386/cpu.c     | 27 ++++++++++++++++++++-------
+>>  target/i386/hvf/cpu.c |  9 ---------
+>>  target/i386/kvm/cpu.c |  8 --------
+>>  target/i386/tcg/cpu.c |  9 ---------
+>>  5 files changed, 20 insertions(+), 35 deletions(-)
+>>
+>> diff --git a/target/i386/cpu-qom.h b/target/i386/cpu-qom.h
+>> index 9316e78e71..2cea5394c6 100644
+>> --- a/target/i386/cpu-qom.h
+>> +++ b/target/i386/cpu-qom.h
+>> @@ -98,6 +98,4 @@ struct X86CPUAccelClass {
+>>      void (*cpu_realizefn)(X86CPU *cpu, Error **errp);
+>>  };
 >>  
->>  static int qtest_init_accel(MachineState *ms)
+>> -void x86_cpu_accel_init(const char *accel_name);
+>> -
+>>  #endif
+>> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+>> index b799723e53..f6fd055046 100644
+>> --- a/target/i386/cpu.c
+>> +++ b/target/i386/cpu.c
+>> @@ -7066,18 +7066,31 @@ type_init(x86_cpu_register_types)
+>>  static void x86_cpu_accel_init_aux(ObjectClass *klass, void *opaque)
 >>  {
->> -    cpus_register_accel(&qtest_cpus);
->>      return 0;
+>>      X86CPUClass *xcc = X86_CPU_CLASS(klass);
+>> -    const X86CPUAccelClass **accel = opaque;
+>> +    X86CPUAccelClass *accel = opaque;
+>>  
+>> -    xcc->accel = *accel;
+>> +    xcc->accel = accel;
+>>      xcc->accel->cpu_common_class_init(xcc);
 >>  }
 >>  
->> @@ -58,3 +57,12 @@ static void qtest_type_init(void)
->>  }
+>> -void x86_cpu_accel_init(const char *accel_name)
+>> +static void x86_cpu_accel_init(void)
+>>  {
+>> -    X86CPUAccelClass *acc;
+>> +    const char *ac_name;
+>> +    ObjectClass *ac;
+>> +    char *xac_name;
+>> +    ObjectClass *xac;
 >>  
->>  type_init(qtest_type_init);
+>> -    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
+>> -    g_assert(acc != NULL);
+>> +    ac = object_get_class(OBJECT(current_accel()));
+>> +    g_assert(ac != NULL);
+>> +    ac_name = object_class_get_name(ac);
+>> +    g_assert(ac_name != NULL);
+>>  
+>> -    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
+>> +    xac_name = g_strdup_printf("%s-%s", ac_name, TYPE_X86_CPU);
+>> +    xac = object_class_by_name(xac_name);
+>> +    g_free(xac_name);
 >> +
->> +static void qtest_accel_cpu_init(void)
->> +{
->> +    if (qtest_enabled()) {
->> +        cpus_register_accel(&qtest_cpus);
+>> +    if (xac) {
+>> +        object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, xac);
 >> +    }
->> +}
+>>  }
 >> +
->> +accel_cpu_init(qtest_accel_cpu_init);
+>> +accel_cpu_init(x86_cpu_accel_init);
 > 
-> I don't understand why this (and the similar changes on other
-> accelerators) is an improvement.
-> 
-> You are replacing a trivial AccelClass-specific init method with
-> a module_init() function that has a hidden dependency on runtime
+> This keeps the hidden initialization ordering dependency between
+> MODULE_INIT_ACCEL_CPU and current_accel().  I thought we were
+> going to get rid of module init functions that depend on runtime
 > state.
 > 
-
-Not a big advantage I agree,
-I think however there is one, in using the existing framework that exists, for the purposes that it was built for.
-
-As I understand it, the global module init framework is supposed to mark the major initialization steps,
-and this seems to fit the bill.
-
-The "hidden" dependency on the fact that accels need to be initialized at that time, is not hidden at all I think,
-it is what this module init step is all about.
-
-It is explicitly meaning, "_now that the current accelerator is chosen_, perform these initializations".
-
-But, as you mentioned elsewhere, I will in the meantime anyway squash these things so they do not start fragmented at all, and centralize immediately.
+> This is an improvement to the code in patch 10/12, though.  If
+> others believe it is an acceptable (temporary) solution, I won't
+> block it.
 
 
-Thanks,
+In the way I thought about it, MODULE_INIT_ACCEL_CPU meant exactly that: initializations to be done after accel is chosen.
+So in my view the relationship with current_accel() was then following naturally.
 
-Claudio
+
+
+> 
+> I would still prefer to have a
+>   void arch_accel_cpu_init(AccelState*)
+> function which would call a
+>   void x86_cpu_accel_init(AccelState*)
+> function.  That would make the dependency between
+> x86_cpu_accel_init() and accelerator creation explicit.
+> 
+
+
+not a bad idea either,
+what I would lose here is a single point to discover the codebase, ie
+
+MODULE_INIT_ACCEL_CPU via a simple grep or gid MODULE_INIT_ACCEL_CPU gives me all initializations done
+for this phase, not only the arch_ stuff, but also currently the Ops stuff.
+
+
+> 
+>> diff --git a/target/i386/hvf/cpu.c b/target/i386/hvf/cpu.c
+>> index 7e7dc044d3..70b6dbfc10 100644
+>> --- a/target/i386/hvf/cpu.c
+>> +++ b/target/i386/hvf/cpu.c
+>> @@ -65,12 +65,3 @@ static void hvf_cpu_accel_register_types(void)
+>>      type_register_static(&hvf_cpu_accel_type_info);
+>>  }
+>>  type_init(hvf_cpu_accel_register_types);
+>> -
+>> -static void hvf_cpu_accel_init(void)
+>> -{
+>> -    if (hvf_enabled()) {
+>> -        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("hvf"));
+>> -    }
+>> -}
+>> -
+>> -accel_cpu_init(hvf_cpu_accel_init);
+>> diff --git a/target/i386/kvm/cpu.c b/target/i386/kvm/cpu.c
+>> index bc5f519479..c17ed5a3f2 100644
+>> --- a/target/i386/kvm/cpu.c
+>> +++ b/target/i386/kvm/cpu.c
+>> @@ -147,11 +147,3 @@ static void kvm_cpu_accel_register_types(void)
+>>      type_register_static(&kvm_cpu_accel_type_info);
+>>  }
+>>  type_init(kvm_cpu_accel_register_types);
+>> -
+>> -static void kvm_cpu_accel_init(void)
+>> -{
+>> -    if (kvm_enabled()) {
+>> -        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("kvm"));
+>> -    }
+>> -}
+>> -accel_cpu_init(kvm_cpu_accel_init);
+>> diff --git a/target/i386/tcg/cpu.c b/target/i386/tcg/cpu.c
+>> index e7d4effdd0..00166c36e9 100644
+>> --- a/target/i386/tcg/cpu.c
+>> +++ b/target/i386/tcg/cpu.c
+>> @@ -170,12 +170,3 @@ static void tcg_cpu_accel_register_types(void)
+>>      type_register_static(&tcg_cpu_accel_type_info);
+>>  }
+>>  type_init(tcg_cpu_accel_register_types);
+>> -
+>> -static void tcg_cpu_accel_init(void)
+>> -{
+>> -    if (tcg_enabled()) {
+>> -        x86_cpu_accel_init(X86_CPU_ACCEL_TYPE_NAME("tcg"));
+>> -    }
+>> -}
+>> -
+>> -accel_cpu_init(tcg_cpu_accel_init);
+>> -- 
+>> 2.26.2
+>>
+> 
+
 
