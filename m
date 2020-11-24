@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6A02C2E4F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 18:19:16 +0100 (CET)
-Received: from localhost ([::1]:46220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D882C2E34
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 18:16:33 +0100 (CET)
+Received: from localhost ([::1]:39432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khbyF-0000s6-Ce
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 12:19:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60050)
+	id 1khbvb-0006Iv-W0
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 12:16:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khbvO-0007Wi-CI
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:16:20 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44318)
+ id 1khbqI-0001vh-HD
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:11:02 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khbvI-00023I-Dz
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:16:18 -0500
+ id 1khbqG-0001DM-Fv
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:11:02 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1khbvD-0004FY-Ug
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 17:16:07 +0000
+ id 1khbqE-00033D-IH
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 17:10:58 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B7F422E813E
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 17:16:07 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7B0C92E813F
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 17:10:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2020 16:57:40 -0000
-From: Richard Henderson <645662@bugs.launchpad.net>
+Date: Tue, 24 Nov 2020 16:59:03 -0000
+From: Michael Peter <1905297@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: arno-wagner pmaydell rth th-huth wagner-tansi
-X-Launchpad-Bug-Reporter: Arno Wagner (wagner-tansi)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <20100923002702.20683.97345.malonedeb@soybean.canonical.com>
-Message-Id: <160623706060.30566.2816098135313268832.malone@wampee.canonical.com>
-Subject: [Bug 645662] Re: QEMU x87 emulation of trig and other complex ops is
- only at 64-bit precision, not 80-bit
+X-Launchpad-Bug-Commenters: michaelpeter philmd
+X-Launchpad-Bug-Reporter: Michael Peter (michaelpeter)
+X-Launchpad-Bug-Modifier: Michael Peter (michaelpeter)
+References: <160614967524.17013.9714069541645314856.malonedeb@wampee.canonical.com>
+Message-Id: <160623714369.30366.10584846802407688298.malone@wampee.canonical.com>
+Subject: [Bug 1905297] Re: Zynq7000 UART clock reset initialization
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: 4cd10512a827ddb43c043c17422b706aa66048f0
+X-Launchpad-Hash: 5247d16dac9e5a6469a87f6fe23de839dc0ec86c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,78 +69,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 645662 <645662@bugs.launchpad.net>
+Reply-To: Bug 1905297 <1905297@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the meantime, target/m68k has implemented these trig
-functions for its (only slightly different) 96-bit
-extended-float format.
+Hi Phil,
 
-With a minor amount of work this code could be shared.
+thanks for your advise and patience.
+
+I created a new patch (this time with a sign-off) and sent it to qemu-
+devel@nongnu.org.
+
+Since I have to use a corporate email system, I hope that the formatting
+is not gone.
+
+Best regards,
+
+Michael
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/645662
+https://bugs.launchpad.net/bugs/1905297
 
 Title:
-  QEMU x87 emulation of trig and other complex ops is only at 64-bit
-  precision, not 80-bit
+  Zynq7000 UART clock reset initialization
 
 Status in QEMU:
-  Confirmed
+  New
 
 Bug description:
-  When doing the regression tests for Python 3.1.2 with Qemu 0.12.5, (Linux=
- version 2.6.26-2-686 (Debian 2.6.26-25lenny1)),
-  gcc (Debian 4.3.2-1.1) 4.3.2, Python compiled from sources within qemu,
-  3 math tests fail, apparently because the floating point unit is buggy. Q=
-meu was compiled from original sources
-  on Debian Lenny with kernel  2.6.34.6 from kernel.org, gcc  (Debian 4.3.2=
--1.1) 4.3. =
+  Hello,
 
-
-  Regression testing errors:
-
-  test_cmath
-  test test_cmath failed -- Traceback (most recent call last):
-    File "/root/tools/python3/Python-3.1.2/Lib/test/test_cmath.py", line 36=
-4, in
-      self.fail(error_message)
-  AssertionError: acos0034: acos(complex(-1.0000000000000002, 0.0))
-  Expected: complex(3.141592653589793, -2.1073424255447014e-08)
-  Received: complex(3.141592653589793, -2.1073424338879928e-08)
-  Received value insufficiently close to expected value.
+  we have come across a strange behavior in the Zynq7000 model of Qemu
+  that seems to have been  introduced between 5.0.0 and 5.1.0.
 
   =
 
-  test_float
-  test test_float failed -- Traceback (most recent call last):
-    File "/root/tools/python3/Python-3.1.2/Lib/test/test_float.py", line 47=
-9, in
-      self.assertEqual(s, repr(float(s)))
-  AssertionError: '8.72293771110361e+25' !=3D '8.722937711103609e+25'
+  The reset values of the SLCR register, in particular those for UART_CLK_C=
+TRL, are such that
+  the UARTs should find functional clocks. Up to 5.0.0 this was also the be=
+havior that was
+  implemented in QEMU.
 
-  =
+  Starting in 5.1.0, we found that - despite correct reset values [1] - the=
+ UARTs are non-functional
+  upon reset. Some investigation revealed that the cause for that is that t=
+he corresponding
+  clocks are not properly initialized.
 
-  test_math
-  test test_math failed -- multiple errors occurred; run in verbose mode fo=
-r deta
+  Between 5.0.0 and 5.1.0, there are three commits  that touch the Zynq
+  UART clocks [2]. The last of them [3] triggers the faulty behavior.
 
-  =3D>
+  Attached is a patch that applies 5.2.0-rc2 and yields a functional UART. =
+We surmise that the
+  underlying device release issue runs much deeper, so it is only meant to =
+identify the issue.
 
-  runtests.sh -v test_math
 
-  le01:~/tools/python3/Python-3.1.2# ./runtests.sh -v test_math
-  test_math BAD
-   1 BAD
-   0 GOOD
-   0 SKIPPED
-   1 total
-  le01:~/tools/python3/Python-3.1.2#
+  [1] hw/misc/zynq_slcr.c
+        static void zynq_slcr_reset_init(Object *obj, ResetType type)
+         s->regs[R_UART_CLK_CTRL]  =3D 0x00003F03;
+  [2] 38867cb7ec90..5b49a34c6800
+  [3] commit 5b49a34c6800d0cb917f959d8e75e5775f0fac3f (refs/bisect/bad)
+        Author: Damien Hedde <damien.hedde@greensocs.com>
+        Date:   Mon Apr 6 15:52:50 2020 +0200
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/645662/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1905297/+subscriptions
 
