@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD422C2E56
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 18:22:20 +0100 (CET)
-Received: from localhost ([::1]:51948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFA62C2E76
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 18:28:02 +0100 (CET)
+Received: from localhost ([::1]:34788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khc1D-0003NQ-6I
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 12:22:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60684)
+	id 1khc6j-0008GL-9c
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 12:28:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1khby2-0001RW-H3; Tue, 24 Nov 2020 12:19:02 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:34465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1khbxx-0002J7-DB; Tue, 24 Nov 2020 12:19:02 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.137])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 84A786E9A788;
- Tue, 24 Nov 2020 18:18:53 +0100 (CET)
-Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 24 Nov
- 2020 18:18:52 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G0057a1b719f-552c-49ac-9f2b-c1e8d12007cc,
- 886B3C846F729F79F342FB8F3892F62368E4F687) smtp.auth=groug@kaod.org
-Date: Tue, 24 Nov 2020 18:18:51 +0100
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH for-6.0 4/8] spapr/xive: Add "nr-ipis" property
-Message-ID: <20201124181851.79002ce0@bahia.lan>
-In-Reply-To: <0a4a08ab-7c5f-3635-86ac-de5cd536f257@kaod.org>
-References: <20201120174646.619395-1-groug@kaod.org>
- <20201120174646.619395-5-groug@kaod.org>
- <0a4a08ab-7c5f-3635-86ac-de5cd536f257@kaod.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1khc4E-00072Z-Fc
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:25:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55103)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1khc4B-0003EE-MH
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 12:25:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606238722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ok5pIfHQHqsEEqR8obfH7OlFckc9VYefaJsIeop2kBA=;
+ b=GKkOXM+hgoBKVUdrTUN2jLZ5BU3B0ukAOuGkKuC5lRqn4delwwRQc2cU8xPYTR3u8K/NYz
+ LmcGLHoJNkuTwwmDQzWE/bKWdeaaZ4eWbAU9q4vSMDy2+a1p5r7+l8PmOuwRC6+UZLn+hP
+ Y1wfz6kRl7MrhMgqrIR6xnaRh+MQGQ8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-XlWiFXExPNiwIz6Dl05VEQ-1; Tue, 24 Nov 2020 12:25:20 -0500
+X-MC-Unique: XlWiFXExPNiwIz6Dl05VEQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95F1C1006C81;
+ Tue, 24 Nov 2020 17:25:18 +0000 (UTC)
+Received: from work-vm (ovpn-115-42.ams2.redhat.com [10.36.115.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DD1519C45;
+ Tue, 24 Nov 2020 17:25:00 +0000 (UTC)
+Date: Tue, 24 Nov 2020 17:24:58 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [RFC v3] VFIO Migration
+Message-ID: <20201124172458.GK3366@work-vm>
+References: <20201110095349.GA1082456@stefanha-x1.localdomain>
+ <20201110131404.2c0f0d9d@w520.home>
+ <20201111124853.5a7fa359.cohuck@redhat.com>
+ <20201111151449.GC1421166@stefanha-x1.localdomain>
+ <20201111163543.2839e4c7.cohuck@redhat.com>
+ <20201116110251.GC96297@stefanha-x1.localdomain>
+ <20201116145226.57139a21.cohuck@redhat.com>
+ <20201116103015.5dc20ab2@w520.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201116103015.5dc20ab2@w520.home>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 7195051e-c719-4b18-952e-1b35f5381d2b
-X-Ovh-Tracer-Id: 4646870394798250464
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegkedguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeffgfekjedugeeuhefgkedvhfekheellefhtddvgfdtvdetleefudfhteetteeknecuffhomhgrihhnpehgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,176 +87,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: John G Johnson <john.g.johnson@oracle.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, mtsirkin@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>, quintela@redhat.com,
+ Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>, "Zeng,
+ Xin" <xin.zeng@intel.com>, qemu-devel@nongnu.org,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Christophe de Dinechin <dinechin@redhat.com>, Yan Zhao <yan.y.zhao@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Nov 2020 11:13:21 +0100
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-
-> On 11/20/20 6:46 PM, Greg Kurz wrote:
-> > The sPAPR XIVE device exposes a range of LISNs that the guest uses
-> > for IPIs. This range is currently sized according to the highest
-> > vCPU id, ie. spapr_max_server_number(), as obtained from the machine
-> > through the "nr_servers" argument of the generic spapr_irq_dt() call.
+* Alex Williamson (alex.williamson@redhat.com) wrote:
+> On Mon, 16 Nov 2020 14:52:26 +0100
+> Cornelia Huck <cohuck@redhat.com> wrote:
+>=20
+> > On Mon, 16 Nov 2020 11:02:51 +0000
+> > Stefan Hajnoczi <stefanha@redhat.com> wrote:
 > >=20
-> > This makes sense for the "ibm,interrupt-server-ranges" property of
-> > sPAPR XICS, but certainly not for "ibm,xive-lisn-ranges". The range
-> > should be sized to the maximum number of possible vCPUs. It happens
-> > that spapr_max_server_number() =3D=3D smp.max_cpus in practice with the
-> > machine default settings. This might not be the case though when
-> > VSMT is in use : we can end up with a much larger range (up to 8
-> > times bigger) than needed and waste LISNs.=20
->=20
-> will it exceed 4K ? if not, we are fine.
->=20
-> The fact that it is so complex to get the number of vCPUs is a=20
-> problem by it self to me. Can we simplify that ? or introduce a=20
-> spapr_max_server_number_id() ?=20
->=20
-
-"server number" is the XICS wording for vCPU id. The name of the
-existing spapr_max_server_number() is perfectly fine from this
-perspective: this sizes "ibm,interrupt-server-ranges".
-
-> > But most importantly, this
-> > lures people into thinking that IPI numbers are always equal to
-> > vCPU ids, which is wrong and bit us recently:
->=20
-> do we have a converting routing vcpu_id_to_ipi ? I think we have
-> that in KVM.
->=20
-> > https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg01476.html
+> > > On Wed, Nov 11, 2020 at 04:35:43PM +0100, Cornelia Huck wrote: =20
+> > > > On Wed, 11 Nov 2020 15:14:49 +0000
+> > > > Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > > >    =20
+> > > > > On Wed, Nov 11, 2020 at 12:48:53PM +0100, Cornelia Huck wrote:   =
+=20
+> > > > > > On Tue, 10 Nov 2020 13:14:04 -0700
+> > > > > > Alex Williamson <alex.williamson@redhat.com> wrote:     =20
+> > > > > > > On Tue, 10 Nov 2020 09:53:49 +0000
+> > > > > > > Stefan Hajnoczi <stefanha@redhat.com> wrote:     =20
+> > > > > >      =20
+> > > > > > > > Device models supported by an mdev driver and their details=
+ can be read from
+> > > > > > > > the migration_info.json attr. Each mdev type supports one d=
+evice model. If a
+> > > > > > > > parent device supports multiple device models then each dev=
+ice model has an
+> > > > > > > > mdev type. There may be multiple mdev types for a single de=
+vice model when they
+> > > > > > > > offer different migration parameters such as resource capac=
+ity or feature
+> > > > > > > > availability.
+> > > > > > > >=20
+> > > > > > > > For example, a graphics card that supports 4 GB and 8 GB de=
+vice instances would
+> > > > > > > > provide gfx-4GB and gfx-8GB mdev types with memory=3D4096 a=
+nd memory=3D8192
+> > > > > > > > migration parameters, respectively.       =20
+> > > > > > >=20
+> > > > > > >=20
+> > > > > > > I think this example could be expanded for clarity.  I think =
+this is
+> > > > > > > suggesting we have mdev_types of gfx-4GB and gfx-8GB, which e=
+ach
+> > > > > > > implement some common device model, ie. com.gfx/GPU, where th=
+e
+> > > > > > > migration parameter 'memory' for each defaults to a value mat=
+ching the
+> > > > > > > type name.  But it seems like this can also lead to some comb=
+inatorial
+> > > > > > > challenges for management tools if these parameters are writa=
+ble.  For
+> > > > > > > example, should a management tool create a gfx-4GB device and=
+ change to
+> > > > > > > memory parameter to 8192 or a gfx-8GB device with the default=
+ parameter?     =20
+> > > > > >=20
+> > > > > > I would expect that the mdev types need to match in the first p=
+lace.
+> > > > > > What role would the memory=3D parameter play, then? Allowing gf=
+x-4GB to
+> > > > > > have memory=3D8192 feels wrong to me.     =20
+> > > > >=20
+> > > > > Yes, I expected these mdev types to only accept a fixed "memory" =
+value,
+> > > > > but there's nothing stopping a driver author from making "memory"=
+ accept
+> > > > > any value.   =20
+> > > >=20
+> > > > I'm wondering how useful the memory parameter is, then. The layer
+> > > > checking for compatibility can filter out inconsistent settings, bu=
+t
+> > > > why would we need to express something that is already implied in t=
+he
+> > > > mdev type separately?   =20
+> > >=20
+> > > To avoid tying device instances to specific mdev types. An mdev type =
+is
+> > > a device implementation, but the goal is to enable migration between
+> > > device implementations (new/old or completely different
+> > > implementations).
+> > >=20
+> > > Imagine a new physical device that now offers variable memory because
+> > > users found the static mdev types too constraining.  How do you migra=
+te
+> > > back and forth between new and old physical devices if the migration
+> > > parameters don't describe the memory size? Migration parameters make =
+it
+> > > possible. Without them the management tool needs to hard-code knowled=
+ge
+> > > of specific mdev types that support migration. =20
 > >=20
-> > Introduce an "nr-ipis" property that the machine sets to smp.max_cpus
-> > before realizing the deice. Use that instead of "nr_servers" in
-> > spapr_xive_dt(). Have the machine to claim the same number of IPIs
-> > in spapr_irq_init().
+> > But doesn't the management tool *still* need to keep hardcoded
+> > information about what the value of that memory parameter was for an
+> > existing mdev type? If we have gfx-variable with a memory parameter,
+> > fine; but if the target is supposed to accept a gfx-4GB device, it
+> > should simply instantiate a gfx-4GB device.
 > >=20
-> > This doesn't cause any guest visible change when using the machine
-> > default settings (ie. VSMT =3D=3D smp.threads).>
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >  include/hw/ppc/spapr_xive.h | 8 ++++++++
-> >  hw/intc/spapr_xive.c        | 4 +++-
-> >  hw/ppc/spapr_irq.c          | 4 +++-
-> >  3 files changed, 14 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-> > index 7123ea07ed78..69b9fbc1b9a5 100644
-> > --- a/include/hw/ppc/spapr_xive.h
-> > +++ b/include/hw/ppc/spapr_xive.h
-> > @@ -43,6 +43,14 @@ typedef struct SpaprXive {
-> > =20
-> >      /* DT */
-> >      gchar *nodename;
-> > +    /*
-> > +     * The sPAPR XIVE device needs to know how many vCPUs it
-> > +     * might be exposed to in order to size the IPI range in
-> > +     * "ibm,interrupt-server-ranges". It is the purpose of the
+> > I'm getting a bit worried about the complexity of the checking that
+> > management software is supposed to perform. Is it really that bad to
+> > restrict the models to a few, well-defined ones? Especially in the mdev
+> > case, where we have control about what is getting instantiated?
 >=20
-> There is no "ibm,interrupt-server-ranges"  property in XIVE
+> This is exactly what I was noting with the combinatorial challenges of
+> the management tool.  If a vendor chooses to use a generic base device
+> model which they modify with parameters to match an assortment of mdev
+> types, then management tools will need to match every mdev type
+> implementing that device model to determine if compatible parameters
+> exist.  OTOH, the vendor could choose to create a device model that
+> specifically describes a single configuration of known parameters.
 >=20
+> For example, mdev type gfx-4GB might be a device model com.gfx/GPU with
+> a fixed memory parameter of 4GB or it could be a device model
+> com.gfx/GPU-4G with no additional parameter.  The hard part is when the
+> vendor offers an mdev type gfx-varGB with device model com.gfx/GPU and
+> available memory options of 1GB, 2GB, 4GB, 8GB.  At that point a
+> management tool might decide to create a gfx-varGB device instance and
+> tune the memory parameter or create a gfx-4GB instance, either would be
+> correct and we've expressed no preference for one or the other.  Thanks,
 
-Yeah copy/paste error. Read "ibm,xive-lisn-ranges" of course :)
+What you've described here is exactly what happens with QEMU/libvirts
+confusion of CPU models.  Both QEMU and Libvirt have their idea of what
+a named CPU model means and then add/subtract flags to get what they
+want.
+When libvirt wants a CPU model that doesn't quite match what it has
+(e.g. a host-compatibility thing where the host is a CPU it didn't know)
+it's heuristics to either start from above and remove things or start
+from below and add them.
 
-> > +     * "nr-ipis" property which *must* be set to a non-null
-> > +     * value before realizing the sPAPR XIVE device.
-> > +     */
-> > +    uint32_t nr_ipis;
-> > =20
-> >      /* Routing table */
-> >      XiveEAS       *eat;
-> > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> > index e4dbf9c2c409..d13a2955ce9b 100644
-> > --- a/hw/intc/spapr_xive.c
-> > +++ b/hw/intc/spapr_xive.c
-> > @@ -311,6 +311,7 @@ static void spapr_xive_realize(DeviceState *dev, Er=
-ror **errp)
-> >      /* Set by spapr_irq_init() */
-> >      g_assert(xive->nr_irqs);
-> >      g_assert(xive->nr_servers);
-> > +    g_assert(xive->nr_ipis);
-> > =20
-> >      sxc->parent_realize(dev, &local_err);
-> >      if (local_err) {
-> > @@ -608,6 +609,7 @@ static Property spapr_xive_properties[] =3D {
-> >       */
-> >      DEFINE_PROP_UINT32("nr-ends", SpaprXive, nr_ends_vmstate, 0),
-> >      DEFINE_PROP_UINT32("nr-servers", SpaprXive, nr_servers, 0),
-> > +    DEFINE_PROP_UINT32("nr-ipis", SpaprXive, nr_ipis, 0),
-> >      DEFINE_PROP_UINT64("vc-base", SpaprXive, vc_base, SPAPR_XIVE_VC_BA=
-SE),
-> >      DEFINE_PROP_UINT64("tm-base", SpaprXive, tm_base, SPAPR_XIVE_TM_BA=
-SE),
-> >      DEFINE_PROP_UINT8("hv-prio", SpaprXive, hv_prio, 7),
-> > @@ -698,7 +700,7 @@ static void spapr_xive_dt(SpaprInterruptController =
-*intc, uint32_t nr_servers,
-> >      /* Interrupt number ranges for the IPIs */
-> >      uint32_t lisn_ranges[] =3D {
-> >          cpu_to_be32(SPAPR_IRQ_IPI),
-> > -        cpu_to_be32(SPAPR_IRQ_IPI + nr_servers),
-> > +        cpu_to_be32(SPAPR_IRQ_IPI + xive->nr_ipis),
->=20
-> I don't understand why we need nr_ipis. Can't we pass the same value in=20
-> nr_servers from the machine ?
->=20
+Dave
 
-This is the point of this patch. nr_servers is vCPU id and shouldn't be
-used to size the LISN range.
-
-> ( Conceptually, the first 4K are all IPIs. The first range is for=20
->   HW threads )=20
->=20
->=20
-> >      };
-> >      /*
-> >       * EQ size - the sizes of pages supported by the system 4K, 64K,
-> > diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> > index 8c5627225636..a0fc474ecb06 100644
-> > --- a/hw/ppc/spapr_irq.c
-> > +++ b/hw/ppc/spapr_irq.c
-> > @@ -325,12 +325,14 @@ void spapr_irq_init(SpaprMachineState *spapr, Err=
-or **errp)
-> > =20
-> >      if (spapr->irq->xive) {
-> >          uint32_t nr_servers =3D spapr_max_server_number(spapr);
-> > +        uint32_t max_cpus =3D MACHINE(spapr)->smp.max_cpus;
->=20
-> So that's the value we should be using in case of VSMT and not=20
-> spapr_max_server_number(). If I am correct, this is a max_cpu_id ?
->=20
-
-This isn't an id, it is what you pass to -smp maxcpus, ie. the total
-number of vCPUs that the may run inside the guest. So this is what
-we should use everywhere we care for a number of vCPUs.
-
->=20
-> >          DeviceState *dev;
-> >          int i;
-> > =20
-> >          dev =3D qdev_new(TYPE_SPAPR_XIVE);
-> >          qdev_prop_set_uint32(dev, "nr-irqs", smc->nr_xirqs + SPAPR_XIR=
-Q_BASE);
-> >          qdev_prop_set_uint32(dev, "nr-servers", nr_servers);
-> > +        qdev_prop_set_uint32(dev, "nr-ipis", max_cpus);
-> >          object_property_set_link(OBJECT(dev), "xive-fabric", OBJECT(sp=
-apr),
-> >                                   &error_abort);
-> >          sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> > @@ -338,7 +340,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error=
- **errp)
-> >          spapr->xive =3D SPAPR_XIVE(dev);
-> > =20
-> >          /* Enable the CPU IPIs */
-> > -        for (i =3D 0; i < nr_servers; ++i) {
-> > +        for (i =3D 0; i < max_cpus; ++i) {
-> >              SpaprInterruptControllerClass *sicc
-> >                  =3D SPAPR_INTC_GET_CLASS(spapr->xive);
->=20
->=20
->=20
->=20
+> Alex
+--=20
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
