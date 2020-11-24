@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317D42C2315
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 11:39:35 +0100 (CET)
-Received: from localhost ([::1]:42292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197742C2323
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 11:43:20 +0100 (CET)
+Received: from localhost ([::1]:44562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khVjR-00065Q-PX
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 05:39:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33832)
+	id 1khVn5-0007H9-4O
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 05:43:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khViA-00056U-HI
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 05:38:14 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38266)
+ id 1khVls-0006pe-PN
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 05:42:04 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khVi8-0006vL-SQ
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 05:38:14 -0500
-Received: by mail-wr1-x442.google.com with SMTP id p8so21787935wrx.5
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 02:38:12 -0800 (PST)
+ id 1khVlr-00005y-BG
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 05:42:04 -0500
+Received: by mail-wm1-x344.google.com with SMTP id a65so2356326wme.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 02:42:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pXPYz5S1V8THmQFQE2Dw6eRg7/CvEX28euLcNTUQWsY=;
- b=pL7N23NEkdwhw3kEsKSaKlFmUjbmmXp3JSA5WXobDeoCrNcZ3Ag+EZNclD+BkiQzjq
- mUQ9cd2mwpWrh4yEmzGVnOVOijoD9z6AK2nK5l/zqtZJLTRk4CXY19jfaqrIo9QoKfyo
- HvlR19Y6B5MmYZPxjz7aZqkPSyeYDMG/eDDIYZpy739loSeFNfweaX22pQ8r1/MPYqcL
- dbyx2dh7xmXAcqq3ooRyqC9vDvSDZNqSuA7NOAp3JwI0zwKbQorguZlOMl5FYcgyUb3L
- e4V76gM20j9cOZEHam/8Ygllj0Df3ap3a19QplErkH129jow0I9AY/oMkxd01G1jHCmC
- llNQ==
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DM6HZMXZao4fUNtZXO7TGvcttKdNPcq9+B96SdLBj9U=;
+ b=sxxSxD7SBayVsZ6y7H5yJB26HDUIcja9wgv0Eo7wFNvgHbwlAOVopfuuhIuiT4QKJ9
+ fNAAfZNyNmfEWTZETRHnwW1TQ7VlT8A2V+ecVycRi6VlZUMvdDn018T6+gNOBMYW6kwO
+ fHEouzLQ+4ZjJbUdA2sbyrZyYQFDCtQseLvaEvxPhw4NlpAb2lRUNVdzIjD0O3ek8O3l
+ +jZ0YwIuk8HhM3KoEK1u87eNjDmziGyAVJCAnqvrWmQ2PmDssK3ak86sQLFgDnQR6CJX
+ NpfjMc333S/FIrjlHllr9WGotJibCbuiJGjO4MdtEayTmqP5Xebs15JeuVXZgPMe85Hj
+ KMpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=pXPYz5S1V8THmQFQE2Dw6eRg7/CvEX28euLcNTUQWsY=;
- b=V7ve7/8gTAp9/2Cbk2KNg/k/zLMHS/7VnU+nWMGz5aeNIZR0xchz+rYQy0mZPhfJbo
- KGlisTdXfE2Kl3H73yD5HlbcVy3VdIntPWuP/BPjowHs0ZlMPJjlbweB0m0EsxKYBCa5
- SYalmQ5Jf77khXAm47fz/BcVSNWdY0hr1WRqiSH2rx8fxhy6ZQeoh4AtQzEvA+NbsIl8
- N9kvFGB+0MC36UY9LPvbqIn00k1EtrOv97MqAS5prdTFbJlA9E+4UC8lCB5lYxAK8x2p
- 9kdJM0Te8aWMYonNg3q+++YVL80JGHetb52WfvEL73K/QHD3o/LEk4qWDk84WAhe3Gwe
- XMzg==
-X-Gm-Message-State: AOAM5300XrTcr4/D+6y1vebKmtbDvFteVTfV3kMqtMK0nrHJL6pEMm/6
- l8Y3rx1NzrjZLirCjLC6BxNu08yhfYk=
-X-Google-Smtp-Source: ABdhPJxYN2X/xqMk2elK0uJC1BuLGa4jPTqKs7T0VnRzYjo2EPanjHkHXfRk+WBilE/KlC/ylxfZQA==
-X-Received: by 2002:adf:c648:: with SMTP id u8mr4440544wrg.215.1606214291006; 
- Tue, 24 Nov 2020 02:38:11 -0800 (PST)
-Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DM6HZMXZao4fUNtZXO7TGvcttKdNPcq9+B96SdLBj9U=;
+ b=ndj0ZATYmoRvslY/gWJlB3jcXb7BufTJ/ra9Mn5YNPfHHgftyhCqWdp95M6WVAIdJ6
+ kRAvgf7f78bAkGheR6m+ekZ4a0a6OSD7G1Z8XHd2nAqbZApD0hZ6+o0MpbDi6xmzUwo9
+ CluyhSParOlqoDwPrXphIovnjkpm9y4NjsN2r37nb3vP63u2vktRoNgh62X1NlHTzXzD
+ nodFVvWBAhyQgYuRJiVWd0arNtQEsr7qf32Nab0pX/U4Q1SUg42njLMluMBbbiTXuPwS
+ 9bOVgAbau/9gU/2A5Q2pNKxoJ6GxFTmEICGlkqcQpbWNbmbfERvrhbLC1cKSoQC/PjhO
+ 2Tgw==
+X-Gm-Message-State: AOAM530HN5ay2czx3P1Pgj3Cca01B5VrvZCZ06UQKpM7UVEpod32kf4S
+ CIECcamfK9z0ZtVkIFGPUI8=
+X-Google-Smtp-Source: ABdhPJyHw7wi4/2dhZIDChkkS2nqcd7A47+9JSDO6NInvnUecYqxlLyOQREhS0gr2ajA77WwrdTvnw==
+X-Received: by 2002:a1c:7f81:: with SMTP id a123mr3868691wmd.6.1606214521671; 
+ Tue, 24 Nov 2020 02:42:01 -0800 (PST)
+Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id q5sm27274266wrf.41.2020.11.24.02.38.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 02:38:10 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/mips/translate: Simplify PCPYH using deposit/extract
-Date: Tue, 24 Nov 2020 11:38:08 +0100
-Message-Id: <20201124103808.499948-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ by smtp.gmail.com with ESMTPSA id o4sm4524669wmh.33.2020.11.24.02.42.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Nov 2020 02:42:00 -0800 (PST)
+Subject: Re: [PATCH 2/2] target/mips/kvm: Assert unreachable code is not used
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org, Huacai Chen <chenhuacai@gmail.com>
+References: <20200429082916.10669-1-f4bug@amsat.org>
+ <20200429082916.10669-3-f4bug@amsat.org>
+ <e33820ee-0013-bed9-ef06-9a66995f6405@amsat.org>
+Message-ID: <b938bfae-cc2b-e43b-36ef-8ac4b5f78eb4@amsat.org>
+Date: Tue, 24 Nov 2020 11:41:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <e33820ee-0013-bed9-ef06-9a66995f6405@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,74 +90,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Mateja Marjanovic <mateja.marjanovic@rt-rk.com>,
+Cc: Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@rt-rk.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify (and optimize) the Parallel Copy Halfword
-instruction using deposit() / extract() helpers.
+Huacai, ping?
 
-Ref: C790-Specific Instruction Set, Appendix B-63.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/translate.c | 35 ++++++++++-------------------------
- 1 file changed, 10 insertions(+), 25 deletions(-)
-
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index c64a1bc42e1..17a28557c2c 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -25220,34 +25220,19 @@ static void gen_mmi_pcpyh(DisasContext *ctx)
-         tcg_gen_movi_i64(cpu_mmr[rd], 0);
-     } else {
-         TCGv_i64 t0 = tcg_temp_new();
--        TCGv_i64 t1 = tcg_temp_new();
--        uint64_t mask = (1ULL << 16) - 1;
- 
--        tcg_gen_andi_i64(t0, cpu_gpr[rt], mask);
--        tcg_gen_movi_i64(t1, 0);
--        tcg_gen_or_i64(t1, t0, t1);
--        tcg_gen_shli_i64(t0, t0, 16);
--        tcg_gen_or_i64(t1, t0, t1);
--        tcg_gen_shli_i64(t0, t0, 16);
--        tcg_gen_or_i64(t1, t0, t1);
--        tcg_gen_shli_i64(t0, t0, 16);
--        tcg_gen_or_i64(t1, t0, t1);
-+        tcg_gen_extract_i64(t0, cpu_gpr[a->rt], 0, 16);
-+        tcg_gen_deposit_i64(cpu_gpr[a->rd], cpu_gpr[a->rd], t0, 0, 16);
-+        tcg_gen_deposit_i64(cpu_gpr[a->rd], cpu_gpr[a->rd], t0, 16, 16);
-+        tcg_gen_deposit_i64(cpu_gpr[a->rd], cpu_gpr[a->rd], t0, 32, 16);
-+        tcg_gen_deposit_i64(cpu_gpr[a->rd], cpu_gpr[a->rd], t0, 48, 16);
- 
--        tcg_gen_mov_i64(cpu_gpr[rd], t1);
-+        tcg_gen_extract_i64(t0, cpu_gpr_hi[a->rt], 0, 16);
-+        tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], cpu_gpr_hi[a->rd], t0, 0, 16);
-+        tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], cpu_gpr_hi[a->rd], t0, 16, 16);
-+        tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], cpu_gpr_hi[a->rd], t0, 32, 16);
-+        tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], cpu_gpr_hi[a->rd], t0, 48, 16);
- 
--        tcg_gen_andi_i64(t0, cpu_mmr[rt], mask);
--        tcg_gen_movi_i64(t1, 0);
--        tcg_gen_or_i64(t1, t0, t1);
--        tcg_gen_shli_i64(t0, t0, 16);
--        tcg_gen_or_i64(t1, t0, t1);
--        tcg_gen_shli_i64(t0, t0, 16);
--        tcg_gen_or_i64(t1, t0, t1);
--        tcg_gen_shli_i64(t0, t0, 16);
--        tcg_gen_or_i64(t1, t0, t1);
--
--        tcg_gen_mov_i64(cpu_mmr[rd], t1);
--
--        tcg_temp_free(t0);
-         tcg_temp_free(t1);
-     }
- }
--- 
-2.26.2
-
+On 5/12/20 9:09 AM, Philippe Mathieu-Daudé wrote:
+> +Paolo
+> 
+> On 4/29/20 10:29 AM, Philippe Mathieu-Daudé wrote:
+>> This code must not be used outside of KVM. Abort if it is.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   target/mips/kvm.c | 8 ++------
+>>   1 file changed, 2 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+>> index de3e26ef1f..050bfbd7fa 100644
+>> --- a/target/mips/kvm.c
+>> +++ b/target/mips/kvm.c
+>> @@ -196,9 +196,7 @@ int kvm_mips_set_interrupt(MIPSCPU *cpu, int irq,
+>> int level)
+>>       CPUState *cs = CPU(cpu);
+>>       struct kvm_mips_interrupt intr;
+>>   -    if (!kvm_enabled()) {
+>> -        return 0;
+>> -    }
+>> +    assert(kvm_enabled());
+>>         intr.cpu = -1;
+>>   @@ -219,9 +217,7 @@ int kvm_mips_set_ipi_interrupt(MIPSCPU *cpu, int
+>> irq, int level)
+>>       CPUState *dest_cs = CPU(cpu);
+>>       struct kvm_mips_interrupt intr;
+>>   -    if (!kvm_enabled()) {
+>> -        return 0;
+>> -    }
+>> +    assert(kvm_enabled());
+>>         intr.cpu = dest_cs->cpu_index;
+>>  
+> 
 
