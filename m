@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 346AA2C26B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:03:06 +0100 (CET)
-Received: from localhost ([::1]:36570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BABF2C26BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 14:05:43 +0100 (CET)
+Received: from localhost ([::1]:43846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khXyL-0000Z2-81
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:03:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43614)
+	id 1khY0s-0003kh-HX
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 08:05:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1khXvE-000769-9L
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 07:59:52 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:45591)
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1khXvf-0007Uu-Ou
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:00:20 -0500
+Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:35472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1khXvC-00074N-Hq
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 07:59:52 -0500
-Received: by mail-ej1-x642.google.com with SMTP id lv15so22482732ejb.12
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 04:59:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=nAOSdf+1dWSd26DXQ8liJVtSSpAL6szHxDdh0zVRnW8=;
- b=OGexWFOEW6Hp8Up94igfEYrElYEW2PdYVHXBEU56TaWATOMn5HiAcOhynf4OqH2/Yy
- JLOK4l6WGjUkUaZxuUANgN2HCSB3a3r/BFkz/darNJD+ah7/m+Don1vUWAURHvaXjxVG
- QNCmTCbVDxqIRD9lvZlwcTnjr82S7oeh/W81Fo13VcjCivWLUwpHd8fGJIJ0xOSevHtG
- r9x8c02mhOwmTkHU+1NygFPXkO7USaH9/x6We9KInmGVuE7CP541OkCj3kEsslX0+JIo
- ayTDgg7t8GaLaXHf03zpLo9o/G0xagcH03rMGU2G6PNyt56aWZNRNVY2+S6gm+XU98RO
- gKCw==
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1khXvc-0007GL-Nf
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 08:00:19 -0500
+Received: by mail-lj1-x235.google.com with SMTP id r18so7124686ljc.2
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 05:00:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=trYMOyrNje9jTZ9widsc4j5e7wvzlBx0xBYRijPE5Ic=;
+ b=yhM7Q9Mmb/0l/EkJtVBLh9qS0BgANr02m24LyevaKUAFT91o4NBM27vOzU3gtmoIHF
+ uLBO2M3eDp+y0T0Hty5iKwYx3+vKLK0XHQsRZz/QZZEzQBJSrLSZKSjJKCHaKtbunCdA
+ J3MXf79UUHwoNH6vTNg5v+PRKMBVvB7uGO0jvtNZ06Kn9goZ2/dDfV267/z2jxjoC9pm
+ uh9k66Cdt1dGmqE0KfWZcvffbAEdhAdbsITqOooWG4sVD1spViOWNSfG8hiy1d87QXYo
+ PWaW0yVz4f9J7JHKh0olhs3XgtIAcW/ZhGKpGFvYqoHSrr8o/wGaZPoBUMCATPvffBUV
+ M0bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=nAOSdf+1dWSd26DXQ8liJVtSSpAL6szHxDdh0zVRnW8=;
- b=FN1LGD0geLgQ/Duj1BS26Gu1pTuSjj8jUVxsY/RcsfwezK2bmrdakkgMLtIO65eWdb
- +7UrNljSV1dBkZsS/JlEIAqH6EG/sDlTtQQ13uUXoI01CjONg+cZUVWyKRMyQPpkwzjb
- M/j2+ln3+H9XCYtmRf0elAXsJkJ+gGc9N9MK/opr0cXzquMcWRpf5fJR+Yvh/v7KZ8cF
- 5/EwO4KyyifQ+F08okQwLpyjRR+ZPuvKavP9iYQeJAoVRGVKps1XCvNDMrOqlvqZnAKU
- zyfF4jwR1XBLScH5pQNBQgqpik8gCJCaRd/56Z2mgE0YAwaTc1eIU9SqVi3d9B1Qqmtj
- sDpA==
-X-Gm-Message-State: AOAM530UDaHnfo8FeggBQgI2g42XrMi0PfrLvFodL8wcnhxkEWTWCuoq
- 3refaY3NXVU++OrzWTkn+aIFcwu8AmpmuOJmBG9s1mYksZ4=
-X-Google-Smtp-Source: ABdhPJwWk05VAx/u6si0JzKYp4ocJh4UvoAiQJ9Sxi0B+g9t/qH3l1YCQr0UQNV6W9aPA11KKijp6C5beCRahD+O3Yk=
-X-Received: by 2002:a17:906:c298:: with SMTP id
- r24mr452787ejz.381.1606222787815; 
- Tue, 24 Nov 2020 04:59:47 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=trYMOyrNje9jTZ9widsc4j5e7wvzlBx0xBYRijPE5Ic=;
+ b=gXxxHsSUXNZDY39ZYD9GPNEoH2OlSPgN4WRS3Y4T55oaeazQHP0PfEU4Y+nPZczSB5
+ eDmZKlHBKJJuVGvMbTzCGdztxf1L9cHAMXM84hcgWx6hU57eLCHffI/OjejRNzV8efAH
+ ijPqrjlzWzgqVVoxkWlMED4CTXRed0kzf5usMqOzVWcr9mg8l4TTLXQ+pHEqxQflb4Sq
+ g3+misZ3ZjfvmCVKuZtdqSUGqHkjxaI/78Jt3yK/A32BcQZDFNvYTaF4TeZt7vhB2KzR
+ yOQe2zmxlI4Ik9ipkr91G1mxnu95A1KP+cfnOQdxV7Jti7HzQIs2SnqvSvvF1QsMejQG
+ aXSg==
+X-Gm-Message-State: AOAM532tTpBOxj2NunhZQe76piDR4UI9O0sG+unDBtfQqrfQ+bdINsa1
+ lUCDHUrWHwOIMHOFvP/v5fH1HjvqpXjhRzdr
+X-Google-Smtp-Source: ABdhPJw3OKco1hiQ04NX1pERXaiyJ30/gdVP+vVwGCKe2wTYGfYyyo9aH5TEGxdKBK0CNc8G+HjeMQ==
+X-Received: by 2002:a2e:9f08:: with SMTP id u8mr1655582ljk.352.1606222814531; 
+ Tue, 24 Nov 2020 05:00:14 -0800 (PST)
+Received: from puchatek.local (89-67-26-161.dynamic.chello.pl. [89.67.26.161])
+ by smtp.gmail.com with ESMTPSA id
+ m21sm317239ljh.82.2020.11.24.05.00.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Nov 2020 05:00:13 -0800 (PST)
+Subject: Re: [PATCH] sbsa-ref: allow to use Cortex-A53/57/72 cpus
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org
+References: <20201120141705.246690-1-marcin.juszkiewicz@linaro.org>
+ <e79639f0-041e-d190-c895-0e1f24d64102@linaro.org>
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+Message-ID: <6ae25fdc-0204-9000-57a8-04136ebe70f6@linaro.org>
+Date: Tue, 24 Nov 2020 14:00:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201124125235.266884-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20201124125235.266884-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 24 Nov 2020 16:59:34 +0400
-Message-ID: <CAJ+F1CJO52ZUNh+mJPEc4xAHXLLnCxBqoFP5nrERNqExjpVuVQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Remove GCC < 4.8 checks
-To: QEMU <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000b2ae4705b4d9e2b5"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x642.google.com
+In-Reply-To: <e79639f0-041e-d190-c895-0e1f24d64102@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::235;
+ envelope-from=marcin.juszkiewicz@linaro.org; helo=mail-lj1-x235.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,98 +90,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Leif Lindholm <leif@nuviainc.com>,
+ qemu-devel@nongnu.org, =?UTF-8?Q?Rados=c5=82aw_Biernacki?= <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b2ae4705b4d9e2b5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+W dniu 21.11.2020 o 18:09, Richard Henderson pisze:
+>> +static const char *valid_cpus[] = {
+> const char * const
 
-On Tue, Nov 24, 2020 at 4:54 PM <marcandre.lureau@redhat.com> wrote:
+I copied it from hw/arm/virt.c file.
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Hi,
->
-> Since commit efc6c07 ("configure: Add a test for the minimum compiler
-> version=3D
-> "),
-> QEMU explicitely depends on GCC >=3D3D 4.8.
->
-> Marc-Andr=3DC3=3DA9 Lureau (2):
->   Remove GCC version checks (all < 4.8)
->   compiler.h: remove QEMU_GNUC_PREREQ macro
->
+> Otherwise,
+> Reviewed-by: Richard Henderson<richard.henderson@linaro.org>
 
-There is some double-encoding going on with my cover letters, lovely...
-
-
->  include/qemu/atomic.h         | 17 -----------------
->  include/qemu/compiler.h       | 33 ++++++---------------------------
->  include/qemu/qemu-plugin.h    |  9 ++-------
->  scripts/cocci-macro-file.h    |  1 -
->  tools/virtiofsd/fuse_common.h |  4 +---
->  accel/tcg/cpu-exec.c          |  2 +-
->  tests/tcg/arm/fcvt.c          |  8 +++-----
->  7 files changed, 13 insertions(+), 61 deletions(-)
->
-> --=3D20
-> 2.29.0
->
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000b2ae4705b4d9e2b5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 24, 2020 at 4:54 PM &lt;<=
-a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fr=
-om: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.co=
-m" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br>
-Hi,<br>
-<br>
-Since commit efc6c07 (&quot;configure: Add a test for the minimum compiler =
-version=3D<br>
-&quot;),<br>
-QEMU explicitely depends on GCC &gt;=3D3D 4.8.<br>
-<br>
-Marc-Andr=3DC3=3DA9 Lureau (2):<br>
-=C2=A0 Remove GCC version checks (all &lt; 4.8)<br>
-=C2=A0 compiler.h: remove QEMU_GNUC_PREREQ macro<br></blockquote><div><br><=
-/div><div>There is some double-encoding going on with my cover letters, lov=
-ely... <br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-<br>
-=C2=A0include/qemu/atomic.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 17 ---------=
---------<br>
-=C2=A0include/qemu/compiler.h=C2=A0 =C2=A0 =C2=A0 =C2=A0| 33 ++++++--------=
--------------------<br>
-=C2=A0include/qemu/qemu-plugin.h=C2=A0 =C2=A0 |=C2=A0 9 ++-------<br>
-=C2=A0scripts/cocci-macro-file.h=C2=A0 =C2=A0 |=C2=A0 1 -<br>
-=C2=A0tools/virtiofsd/fuse_common.h |=C2=A0 4 +---<br>
-=C2=A0accel/tcg/cpu-exec.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<b=
-r>
-=C2=A0tests/tcg/arm/fcvt.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 +++-=
-----<br>
-=C2=A07 files changed, 13 insertions(+), 61 deletions(-)<br>
-<br>
---=3D20<br>
-2.29.0<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000b2ae4705b4d9e2b5--
+Thanks. Fixed patch sent in separate mail.
 
