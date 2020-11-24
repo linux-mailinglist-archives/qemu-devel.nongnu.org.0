@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BA12C2A5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 15:48:55 +0100 (CET)
-Received: from localhost ([::1]:47544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884EE2C2A66
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Nov 2020 15:51:28 +0100 (CET)
+Received: from localhost ([::1]:51302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khZck-0006hY-Oi
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 09:48:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48442)
+	id 1khZfD-0008R3-KD
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 09:51:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khZby-0006Ck-LY
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:48:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48121)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1khZdV-0007FV-Vz
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:49:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1khZbx-0004Mu-3l
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:48:06 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1khZdU-0004sN-C8
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 09:49:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606229284;
+ s=mimecast20190719; t=1606229379;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JqEvsQuuHlK/diA4QSHr77SXapmTHDYmgf4BFgDrLzU=;
- b=J1aoh5No8JzJDoS4YIEp0NZ8GpFnQj5i79KVRgez+xHIy3/Xz3aDtM7n808VZeFVK3S+7u
- Vc/lyJeBxD/ggXkp5Vrp1crPv2fMRbmacbKPPS16Ot5W5DsS6JJStqmOiZFuc8pvPH4IRm
- 1lyy0Vnt8xZj1Wlo5chz5e9In65GgLE=
+ bh=NC617SLc3mZ1O5jVyz0jIt2/MqY7hydTiNs1hxpLqBw=;
+ b=Q/mSpVG5LAirWyPWNudv2L5Z3v5TDQwS1SL9QMjjMIm3YEm6U41hQcbqJMN9LGRCBeH3rQ
+ 5jaM3FpM/InHu9MeXM7ZF5RhB1F8C+gATSpPaO/EX+ksSwBlP1V3Y3axfLLR8BBoxFa7Xe
+ S8T3E0P0rgnaghnX4kjuUOXAL69eNO0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-Q7p42OcoMyqIrtHycs05Xw-1; Tue, 24 Nov 2020 09:48:02 -0500
-X-MC-Unique: Q7p42OcoMyqIrtHycs05Xw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-593-43fVRb4TO7yn1OsvEpfIzQ-1; Tue, 24 Nov 2020 09:49:34 -0500
+X-MC-Unique: 43fVRb4TO7yn1OsvEpfIzQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B2C281CB0A
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 14:48:01 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4CEDF5D9CA;
- Tue, 24 Nov 2020 14:47:57 +0000 (UTC)
-Date: Tue, 24 Nov 2020 09:47:56 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 08/19] qlit: Move qlit_equal_qobject() reference
- values to array
-Message-ID: <20201124144756.GN2271382@habkost.net>
-References: <20201123194818.2773508-1-ehabkost@redhat.com>
- <20201123194818.2773508-9-ehabkost@redhat.com>
- <87360zozfd.fsf@dusky.pond.sub.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51B11100C60F;
+ Tue, 24 Nov 2020 14:49:33 +0000 (UTC)
+Received: from [10.3.113.85] (ovpn-113-85.phx2.redhat.com [10.3.113.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C68EE1002388;
+ Tue, 24 Nov 2020 14:49:32 +0000 (UTC)
+Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
+ qmp_marshal_netdev_add()
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20200716035532.1407660-1-andrew@daynix.com>
+ <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
+ <874klk5gnc.fsf@dusky.pond.sub.org>
+ <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
+ <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
+ <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
+ <87lfesv2zu.fsf@dusky.pond.sub.org>
+ <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
+ <87blfnp20k.fsf@dusky.pond.sub.org> <87lferm4x5.fsf@dusky.pond.sub.org>
+ <CAOEp5Oe18jtsgHVqwtm+-sqspD6KoJTOO9nNPmcWS++AVGjXKQ@mail.gmail.com>
+ <87tutej3dc.fsf@dusky.pond.sub.org> <87blfmj2qx.fsf@dusky.pond.sub.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <f508a7ef-69f4-0bf1-2e9f-b9ea151a8557@redhat.com>
+Date: Tue, 24 Nov 2020 08:49:31 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <87360zozfd.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <87blfmj2qx.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,91 +92,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Yan Vugenfirer <yan@daynix.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnichenko <andrew@daynix.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 24, 2020 at 10:51:34AM +0100, Markus Armbruster wrote:
-> Eduardo Habkost <ehabkost@redhat.com> writes:
+On 11/24/20 7:36 AM, Markus Armbruster wrote:
+> Markus Armbruster <armbru@redhat.com> writes:
 > 
-> > Add an array of values to qlit_equal_qobject_test(), so we can
-> > extend the test case to compare multiple literals, not just the
-> > ones at the existing `qlit` and `qlit_foo` variables.
-> >
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> > This is a new patch added in v3 of this series.
-> > ---
-> >  tests/check-qlit.c | 26 +++++++++++++++++++-------
-> >  1 file changed, 19 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/tests/check-qlit.c b/tests/check-qlit.c
-> > index 24ac21395c..b1cfbddb17 100644
-> > --- a/tests/check-qlit.c
-> > +++ b/tests/check-qlit.c
-> > @@ -29,11 +29,6 @@ static QLitObject qlit = QLIT_QDICT(((QLitDictEntry[]) {
-> >      { },
-> >  }));
-> >  
-> > -static QLitObject qlit_foo = QLIT_QDICT(((QLitDictEntry[]) {
-> > -    { "foo", QLIT_QNUM_INT(42) },
-> > -    { },
-> > -}));
-> > -
-> >  static QObject *make_qobject(void)
-> >  {
-> >      QDict *qdict = qdict_new();
-> > @@ -53,16 +48,33 @@ static QObject *make_qobject(void)
-> >  
-> >  static void qlit_equal_qobject_test(void)
-> >  {
-> > +    /* Each entry in the values[] array should be different from the others */
-> > +    QLitObject values[] = {
-> > +        qlit,
-> > +        QLIT_QDICT(((QLitDictEntry[]) {
-> > +            { "foo", QLIT_QNUM_INT(42) },
-> > +            { },
-> > +        })),
-> > +    };
-> > +    int i;
-> >      QObject *qobj = make_qobject();
-> >  
-> >      g_assert(qlit_equal_qobject(&qlit, qobj));
-> >  
-> > -    g_assert(!qlit_equal_qobject(&qlit_foo, qobj));
-> > -
-> >      qdict_put(qobject_to(QDict, qobj), "bee", qlist_new());
-> >      g_assert(!qlit_equal_qobject(&qlit, qobj));
-> >  
-> >      qobject_unref(qobj);
-> > +
-> > +    for (i = 0; i < ARRAY_SIZE(values); i++) {
-> > +        int j;
+>> Yuri Benditovich <yuri.benditovich@daynix.com> writes:
+>>
+>>> Please confirm that this patch is intended to solve only the problem with
+>>> hmp (and disallow duplicated ids)
+>>
+>> The intent is to reject duplicate ID and to accept non-duplicate ID, no
+>> matter how the device is created (CLI, HMP, QMP) or a prior instance was
+>> deleted (HMP, QMP).
+>>
+>>> With it the netdev that was added from qemu's command line and was deleted
+>>> (for example by hmp) still can't be created, correct?
+>>
+>> Yet another case; back to the drawing board...
 > 
-> I'd prefer to declare this one together with @i.
+> Next try.  Hope this is one holds water :)
 > 
-> > +        QObject *o = qobject_from_qlit(&values[i]);
 > 
-> Blank line, if you don't mind.
+> diff --git a/net/net.c b/net/net.c
+> index 794c652282..c1dc75fc37 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -978,6 +978,7 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+>  static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
+>  {
+>      NetClientState *peer = NULL;
+> +    NetClientState *nc;
+>  
+>      if (is_netdev) {
+>          if (netdev->type == NET_CLIENT_DRIVER_NIC ||
+> @@ -1005,6 +1006,12 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
+>          }
+>      }
+>  
+> +    nc = qemu_find_netdev(netdev->id);
+> +    if (nc) {
+> +        error_setg(errp, "Duplicate ID '%s'", netdev->id);
+> +        return -1;
+> +    }
 
-I will surely do it if there's a v4, but I hope you don't make me
-submit v4 just to change these.
+Here, we fail if qemu_find_netdev() succeeded, regardless of whether
+is_netdev was set...
 
-> 
-> > +        for (j = 0; j < ARRAY_SIZE(values); j++) {
-> > +            g_assert(qlit_equal_qobject(&values[j], o) == (i == j));
-> > +        }
-> > +        qobject_unref(o);
-> > +    }
-> > +
-> >  }
-> >  
-> >  static void qlit_equal_large_qnum_test(void)
+> +
+>      if (net_client_init_fun[netdev->type](netdev, netdev->id, peer, errp) < 0) {
+>          /* FIXME drop when all init functions store an Error */
+>          if (errp && !*errp) {
+> @@ -1015,8 +1022,6 @@ static int net_client_init1(const Netdev *netdev, bool is_netdev, Error **errp)
+>      }
+>  
+>      if (is_netdev) {
+> -        NetClientState *nc;
+> -
+>          nc = qemu_find_netdev(netdev->id);
+>          assert(nc);
+
+and here, when is_netdev is set, we expect qemu_find_netdev() to
+succeed.  Does the first hunk need to be 'if (nc && !is_netdev)' ?
 
 -- 
-Eduardo
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
