@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231FE2C448C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 16:56:47 +0100 (CET)
-Received: from localhost ([::1]:59140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480B52C449F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 17:05:45 +0100 (CET)
+Received: from localhost ([::1]:37768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khx9x-0002pg-L2
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 10:56:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51862)
+	id 1khxId-0006RT-S8
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 11:05:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1khx8R-0002F2-9Z
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 10:55:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57379)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1khxHE-0005uR-2R
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 11:04:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1khx8N-0003RP-Uq
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 10:55:10 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1khxHB-0007IT-IQ
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 11:04:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606319705;
+ s=mimecast20190719; t=1606320251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TBaXzrtRIr2C0Qm6sHPNk/xFVWr9PTSFrxWZdjT8ob0=;
- b=cbnbfrtXnvLHGFXHCHRAHwkIXXwPSZpyLYWcnPL4clt7XhQFSw/ALWe69toIhMlG0nPRcb
- smSu1BbA5XP9ccSFyVhEgXSIZGFqAT4lG6Lr4Y2ExnF+wo3cipNOkul1b1AhyOXeIkCxbG
- AwfDzo4UjGJ8qlL1fh0TccSKCYE9oME=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-QBt13JZyOoOMWXr_CyCTGg-1; Wed, 25 Nov 2020 10:55:02 -0500
-X-MC-Unique: QBt13JZyOoOMWXr_CyCTGg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C9781074640;
- Wed, 25 Nov 2020 15:55:01 +0000 (UTC)
-Received: from [10.36.112.131] (ovpn-112-131.ams2.redhat.com [10.36.112.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DFCD100AE2D;
- Wed, 25 Nov 2020 15:54:54 +0000 (UTC)
-Subject: Re: [PATCH v2] hw/arm/virt enable support for virtio-mem
-From: David Hildenbrand <david@redhat.com>
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-References: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
- <5b1dff01-7e6b-78d2-d55a-20c0617c3076@redhat.com>
- <20201124181150.0000025f@Huawei.com>
- <f2cfd3cb-27c8-f25b-2b57-6dc983a25a43@redhat.com>
- <20201125145659.00004b3e@Huawei.com>
- <b83a1914-16ae-4f1a-318f-59920ecf17e2@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <7c635948-b78c-c28f-f170-dc9291af4fac@redhat.com>
-Date: Wed, 25 Nov 2020 16:54:53 +0100
+ bh=nCkBjTzPLv4IgCwTupsg3WitZgfpR7NPCe/llhX5fkA=;
+ b=I9Hp7aVgAZNmtaVVlwgwGvASgI9Vb/EKVTrub2Js79rNGFUdJl1b0401mmjIGneJe2+PDG
+ 9xvl6/J5soLdkHkuJ841wfzGs5W7ZgHUxTT7/yEFHcxj4Ha9cEEjGZDSKJJWkMcKZLTyYs
+ ezv985uvFHVTNgB6ox5zOrkXU8n6VrA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-483-SU9e6ZdxNRKCtq9fPxrEGQ-1; Wed, 25 Nov 2020 11:04:09 -0500
+X-MC-Unique: SU9e6ZdxNRKCtq9fPxrEGQ-1
+Received: by mail-ej1-f71.google.com with SMTP id r2so916962ejx.9
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 08:04:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nCkBjTzPLv4IgCwTupsg3WitZgfpR7NPCe/llhX5fkA=;
+ b=OB2cSbyfG3AfL+WYISNbN6SKkM6drhfV9mARgjAxtgRlPbWaTOjzTdtM8VnJWZWmDQ
+ TvTdWUGss3ZXoCeYUfC/XyOa6aaj3++31qz7c3rvQLEByWPmufKmLMn1aWKx4w6PuK1u
+ VR29wNS2zcKlaZ3I421uD2L7fTVy+Q6vO+ERLRVWwrjDYykoS99sJ/Zr5LdYLC2oV4nP
+ 2d0hNHiINTCkwFWTUMxg63g2uLHK/njRm7xC9kQdkcjLvQU7Vc7XWOYQMPT/WorMDMMZ
+ U9oce+73rdN5J+0kpwpf9eSsgEMpAJZ6DkLw9I/U64AoWwgAEshc8+SUZAwsJdJHDPO1
+ 4jSw==
+X-Gm-Message-State: AOAM531kVqhfFQjlurOHIiWOAlocV5aEdfhEOhFDJceqWb4aNiL7YRHR
+ zbRxkJAx7/WbpO/7KTJpbdRspup39X0xg79HooDeGmEr0tK3azL4ByQ3c1Yb34YKGud+ZueUMNO
+ v9vYpXwV6kx8eqqk=
+X-Received: by 2002:a50:cd84:: with SMTP id p4mr3991956edi.81.1606320248294;
+ Wed, 25 Nov 2020 08:04:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzOV4hCg8SIB33rDc+tsZCQImrKEK9JQyd0YtMKTDvPcUOsfSk3/VoeGvrhqNq5Q6AB1XSrnw==
+X-Received: by 2002:a50:cd84:: with SMTP id p4mr3991906edi.81.1606320247958;
+ Wed, 25 Nov 2020 08:04:07 -0800 (PST)
+Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id c8sm1538078edr.29.2020.11.25.08.04.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Nov 2020 08:04:07 -0800 (PST)
+Subject: Re: [PATCH RFC] tests/acceptance: add a test for devices on s390x
+To: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201125135820.1442611-1-cohuck@redhat.com>
+ <148a7ef1-aae2-89ae-88f7-3c70c9f02999@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <79a12074-e63d-6362-5359-612069d10d26@redhat.com>
+Date: Wed, 25 Nov 2020 17:04:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <b83a1914-16ae-4f1a-318f-59920ecf17e2@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <148a7ef1-aae2-89ae-88f7-3c70c9f02999@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,38 +99,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, linuxarm@huawei.com,
- qemu-devel@nongnu.org, Auger Eric <eric.auger@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: qemu-s390x@nongnu.org, Guenter Roeck <linux@roeck-us.net>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>>>
->>>> 64k guest on 4k host with 512MiB block size seems fine.
->>>>
->>>> If there are any places anyone thinks need particular poking I'd appreciate a hint :)  
->>>
->>> If things seem to work for now, that's great :) Thanks!
->>>
->> Cool.  I'll run a few more comprehensive tests then send out the
->> trivial patch to enable the kernel option + v2 of the qemu support.
+Hi Cornelia,
+
+On 11/25/20 4:03 PM, Thomas Huth wrote:
+> On 25/11/2020 14.58, Cornelia Huck wrote:
+>> This adds a very basic test for checking that we present devices
+>> in a way that Linux can consume: boot with both virtio-net-ccw and
+>> virtio-net-pci attached and then verify that Linux is able to see
+>> and detect these devices.
 > 
-> Perfect, thanks!
+> Thanks for tackling it!
+> 
+>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>> ---
+>>
+>> A very basic test, but it would have caught the recent zPCI regression.
 
-Oh, btw, I have no idea what the state of vfio-pci + QEMU on arm64 is.
-In case it's supposed to work, you could give
+Thanks for adding this test :)
 
-https://lkml.kernel.org/r/20201119153918.120976-1-david@redhat.com
+>>
+>> If anyone has a better idea than using early debug shells in the Debian
+>> install image, please let me know. At least it's quick, as we can check
+>> for the devices quite early in the boot sequence.
 
-to see what we're missing.
+This is the simplest cheaper way I think.
 
-I added a short virtio-pci guide to
+Alternative is to use Guenter's images:
+https://github.com/groeck/linux-build-test/tree/master/rootfs/s390
 
-https://virtio-mem.gitlab.io/user-guide/user-guide-qemu.html
+>>
+>> Not sure if running under both kvm and tcg on an s390 host would add
+>> useful extra coverage. Also not sure if this needs fencing on any of the
+>> public CIs (have not tried yet).
+> 
+> We're only running the acceptance tests in the gitlab-CI, no worries about
+> the others.
+> 
+>> ---
+>>  tests/acceptance/s390_devices.py | 68 ++++++++++++++++++++++++++++++++
+>>  1 file changed, 68 insertions(+)
+>>  create mode 100644 tests/acceptance/s390_devices.py
+>>
+>> diff --git a/tests/acceptance/s390_devices.py b/tests/acceptance/s390_devices.py
+>> new file mode 100644
+>> index 000000000000..6ce47061f35d
+>> --- /dev/null
+>> +++ b/tests/acceptance/s390_devices.py
+> 
+> s390x_devices.py ?
+> 
+> Or maybe even machine_s390x.py instead, like the other machine*.py files?
 
--- 
-Thanks,
+Feel free to use whatever name/directory structure that help others to
+find your tests (don't forget to add an entry to MAINTAINERS).
 
-David / dhildenb
+Regards,
+
+Phil.
 
 
