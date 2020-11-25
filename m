@@ -2,88 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BD92C49C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 22:16:24 +0100 (CET)
-Received: from localhost ([::1]:56490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 298A12C49D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 22:25:30 +0100 (CET)
+Received: from localhost ([::1]:59882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ki29G-0004hu-GU
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 16:16:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
+	id 1ki2I4-00077b-PT
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 16:25:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ki25O-00040u-JL; Wed, 25 Nov 2020 16:12:23 -0500
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:40399)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1ki25H-0000Wf-Eb; Wed, 25 Nov 2020 16:12:22 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 8FBDD2C0;
- Wed, 25 Nov 2020 16:12:11 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 25 Nov 2020 16:12:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=dT58t/8ODmMfBwGmNAYUyELR39h
- Zb6aesV6A45MNA1U=; b=JAZP2+9g6DCmNvItIqd2GauCtUlTSPLOAzMG/Y7yoky
- 2hFXsCXGg+pvCkO//YcUWj/KPIbitmMOtoHGLnEtc4QyWoXnSkVxP+22Zmg+AnkM
- 52175j2P/TjgHwCqk0dFN21YxobgfALz+Sje3y4JNcogSp8Kj0FOnurzef1WXNcU
- sYXhnP++007mnC+0QGi3CfhSjgzEG819BqZku3Ix1ulzNCJofno22gBjf846UBsl
- NY8GtgJmhQCPr/ZsSPowRXppZlJE/LM06BtXa8R2EMAnEVf65EQiUgOPBTB4ch5Q
- WCSC8DdD1iwJGoPQlqmLZ+KD7MEPQxwd1qH4x04/PIg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dT58t/
- 8ODmMfBwGmNAYUyELR39hZb6aesV6A45MNA1U=; b=LKPHThc9CyYlJmZb96D+l5
- gsfb5oCH4E7aNl/p5OVIwGp9I76soSMFDyfxjf5Bt7BCurpSscwBZGaJ11rbGTTs
- WIE0NeprAq3v+tM6IYJJGJQqvRTnODVoPWXK4sFGxV0m6q9JVJIlHALLzLLNRO1g
- pu103hTJbIoJgexPnjo6oYdz7BFuinlz5xxYqnR/s6e4dccBucTCDQMAmGb8wl/A
- cnqpOZ4BwxUJFKCYt8lPPzHL6cH1OuZSLfE3SGdDl4j1RIQTcvE6bnwipQcqcuhY
- cLsugaYY9gEkrpQFZujAtB0a8VkYxT5zrHQXIh0H/i+IXuHdhAP+lNXLbXJXqS/w
- ==
-X-ME-Sender: <xms:qci-X2IsWF5W8ZcaFyqHb10Y_jFq54U_hHlXTao0zmGIcpUOBE96Jw>
- <xme:qci-X-INuZFp2WvhthtkU6pbDhwnDMjkwgvOnZHj5ETs8ML1jx9S4vfv26XM77eMT
- ykhQjnv0lQq9kCOa-k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudehtddgudegjecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:qci-X2tN_A2RyNTe5N9vRkrQYCJlacI5ojoXoxm-llQZ1r6HVeBwSA>
- <xmx:qci-X7aEgg9_9pbJWZkC8DPKFAXgolRv4AHaMN9wqQXJxknLKk5HTA>
- <xmx:qci-X9bJ2UWJ50ofVMKRKbUpXZ3Wnj7T9Plj4uu8xteY2bWW7PURLw>
- <xmx:q8i-X6R9PrVLZq5VzHO10IVSR5W4xvPNpJfJB7XoAALlHMJiNLKf8uDlF20>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8DCAD3280060;
- Wed, 25 Nov 2020 16:12:07 -0500 (EST)
-Date: Wed, 25 Nov 2020 22:12:05 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v9 08/12] hw/block/nvme: Support Zoned Namespace Command
- Set
-Message-ID: <X77IpabPCv1BXirj@apples.localdomain>
-References: <20201105025342.9037-1-dmitry.fomichev@wdc.com>
- <20201105025342.9037-9-dmitry.fomichev@wdc.com>
- <20201112193639.GA811486@apples.localdomain>
- <20201118003234.GA2719991@dhcp-10-100-145-180.wdc.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ki2Gv-0006eY-Ol
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 16:24:17 -0500
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:33943)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ki2Gu-0004rZ-82
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 16:24:17 -0500
+Received: by mail-ed1-x543.google.com with SMTP id a15so4112141edy.1
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 13:24:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MszC8hrU0HPD1crrHXZgzS/1TEI3PYDeGS5CdTGM2kg=;
+ b=Ytt35iSvsJ+Jgha8o9kFEOPPu9yssEXdQqzAB5+ZcI63I5SDROhasd85h/YUoeAEx8
+ 5IkCUuVfLIFl9gBE0STnLl4ICAbSGVuj8d8mbJg0/t5YnbhtDFrqmFb7gWayjZN59MYF
+ rruedK6HXSdGclxW2zOLlRVpiZNl5Y/aF0lHfrDSLcZE8o0XbA7YOuumFfpu/eR8pbz1
+ a4FMShLwsVtmFhGqi2eyIBFUYTwO2/0LRK/cbyeH5hc9x+uJiY+xFSu6NMrWRuoxrva2
+ m3NxBfDjYr1cT6eBiM2ECMqbZ3DbXrMOYNbdwa2VUFmYAYsfMDud3h5wAG2GKgTl8keF
+ 6tPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MszC8hrU0HPD1crrHXZgzS/1TEI3PYDeGS5CdTGM2kg=;
+ b=VViDa4Ub3zPr336qQPWwX1yn6k/0maLnwD5yf+wod0MCCdd8UjAtRlIWTnYxfbDW/S
+ lq4egIRoEToq8zULq0S/oafUeHuVlZSOD9DGofHN9wlI632LeLbXTHpuWq4cR0uUG+qG
+ coV6i7clCbGVxNimS9EMUnN6SDGhRKYgvNZ43fneWYfUcDhOaP57fPEYOa3VwmCuGARO
+ 7hChHbWg/+40mii0beisZbP02v5opVx3BSzAXMr7pS9KuF9ZVux4WMAG2H0SLGEmVp+N
+ xuuwT1BXuq3/De8K2nG32KdHsxLYb5nIjGt/kkNXHz5toivJK6S3VfEf2mlQJGXMWym7
+ joEQ==
+X-Gm-Message-State: AOAM532dGS1SSshwxI/XxeKZxLkRmSiy618vVCTidhvOm+2dkYjYKbk0
+ fg0+2Phq36RoXJgWSMW1ytzVi8DZK57MlyUtgts=
+X-Google-Smtp-Source: ABdhPJy53M/gc00wh4vbvHLr5ySDad8OYHWN3BoV5E3PvCjNLlkgsLGwhsyn8a3J7RbLq2hY5lIRS67i7Iv3YvQJkdM=
+X-Received: by 2002:aa7:c3c4:: with SMTP id l4mr5283649edr.314.1606339454941; 
+ Wed, 25 Nov 2020 13:24:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="M+whIGSyY/UcoKNO"
-Content-Disposition: inline
-In-Reply-To: <20201118003234.GA2719991@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
- helo=wnew2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201125191833.964753-1-sw@weilnetz.de>
+In-Reply-To: <20201125191833.964753-1-sw@weilnetz.de>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 26 Nov 2020 01:24:03 +0400
+Message-ID: <CAJ+F1CL_ByOhpHaVpiQdp+yHNO8gwtK5a2c0DOucV_xG-WW=mQ@mail.gmail.com>
+Subject: Re: [PATCH for-5.2] nsis: Fix build for 64 bit installer
+To: Stefan Weil <sw@weilnetz.de>
+Content-Type: multipart/alternative; boundary="00000000000099bd2305b4f50c28"
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x543.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,63 +76,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---M+whIGSyY/UcoKNO
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--00000000000099bd2305b4f50c28
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Nov 17 16:32, Keith Busch wrote:
-> On Thu, Nov 12, 2020 at 08:36:39PM +0100, Klaus Jensen wrote:
-> > On Nov  5 11:53, Dmitry Fomichev wrote:
-> > > @@ -133,6 +300,12 @@ static Property nvme_ns_props[] =3D {
-> > >      DEFINE_BLOCK_PROPERTIES(NvmeNamespace, blkconf),
-> > >      DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
-> > >      DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid),
-> > > +    DEFINE_PROP_BOOL("zoned", NvmeNamespace, params.zoned, false),
-> >=20
-> > I disagree on this. Using the "magic" value ensures that only one
-> > command set can be selected. We can do a custom property so we can set
-> > `iocs=3Dzoned` as well as `iocs=3D0x2` if that makes it more user frien=
-dly?
->=20
-> IMO, 'iocs' is a rather difficult parameter name for a user to remember
-> compared to 'zoned=3Dtrue'. While 'iocs' is a spec field, the spec isn't
-> very user friendly either, and these user parameters can hide the spec
-> terms behind human comprehensible names.
->=20
+On Wed, Nov 25, 2020 at 11:22 PM Stefan Weil <sw@weilnetz.de> wrote:
 
-I'm okay with a "zoned" bool parameter and having zone size and capacity
-in bytes. But parameters such as ZASL, MAR and MOR are "expert"
-parameters so I think its better to use the spec field names and
-meanings for those. The nvme device already has precedence for using
-spec field names (and meanings, e.g. zeroes based) for "expert"
-parameters (mdts, aerl).
+> Pass cpu instead of cpu_family to the NSIS installer script.
+>
+> That script checks for "x86_64" which is the cpu value,
+> while cpu_family is "x86".
+>
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+>
 
---M+whIGSyY/UcoKNO
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
------BEGIN PGP SIGNATURE-----
+---
+>  meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meson.build b/meson.build
+> index 5062407c70..8a99c948d3 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1956,7 +1956,7 @@ if host_machine.system() =3D=3D 'windows'
+>      '@OUTPUT@',
+>      get_option('prefix'),
+>      meson.current_source_dir(),
+> -    host_machine.cpu_family(),
+> +    host_machine.cpu(),
+>      '--',
+>      '-DDISPLAYVERSION=3D' + meson.project_version(),
+>    ]
+> --
+> 2.29.2
+>
+>
+>
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl++yKMACgkQTeGvMW1P
-DelYSwgAuh9yfQ6319Qv+cfRJ22hQm4h//iAa/jrD5Ey8uDRZN6/YtkOVqZISncM
-8+dLLM8Nf49/Jd3YmHsIoCwVRuxmHPeUjFAs8bB8bw+7YqJL3KWl5Zx6/kYF7958
-QrzMQtyFpwfUEIZXAxna7lPfj8SpwM5JL440Saua53Vt510L9kKmWb0idCRqVDHE
-ykDgTLMwnqVt5BsCuZB+AmoyfiTteSGh0+VBI10cj+iP/7zPZhlOA0K4YDc9cViY
-QxtVpctNZob/anSbsjxzjwV814DcqBE6p4zDwQSYYWBo3tcTwuHVm64Sxb5EEIDN
-Kb1BLSUWauUrVS25Q8+nG5tyw2xx5A==
-=zK9S
------END PGP SIGNATURE-----
+--=20
+Marc-Andr=C3=A9 Lureau
 
---M+whIGSyY/UcoKNO--
+--00000000000099bd2305b4f50c28
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 25, 2020 at 11:22 PM Stef=
+an Weil &lt;<a href=3D"mailto:sw@weilnetz.de">sw@weilnetz.de</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Pass cpu instea=
+d of cpu_family to the NSIS installer script.<br>
+<br>
+That script checks for &quot;x86_64&quot; which is the cpu value,<br>
+while cpu_family is &quot;x86&quot;.<br>
+<br>
+Signed-off-by: Stefan Weil &lt;<a href=3D"mailto:sw@weilnetz.de" target=3D"=
+_blank">sw@weilnetz.de</a>&gt;<br></blockquote><div><br></div><div>Reviewed=
+-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.c=
+om">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0meson.build | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meson.build b/meson.build<br>
+index 5062407c70..8a99c948d3 100644<br>
+--- a/meson.build<br>
++++ b/meson.build<br>
+@@ -1956,7 +1956,7 @@ if host_machine.system() =3D=3D &#39;windows&#39;<br>
+=C2=A0 =C2=A0 =C2=A0&#39;@OUTPUT@&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0get_option(&#39;prefix&#39;),<br>
+=C2=A0 =C2=A0 =C2=A0meson.current_source_dir(),<br>
+-=C2=A0 =C2=A0 host_machine.cpu_family(),<br>
++=C2=A0 =C2=A0 host_machine.cpu(),<br>
+=C2=A0 =C2=A0 =C2=A0&#39;--&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0&#39;-DDISPLAYVERSION=3D&#39; + meson.project_version()=
+,<br>
+=C2=A0 =C2=A0]<br>
+-- <br>
+2.29.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000099bd2305b4f50c28--
 
