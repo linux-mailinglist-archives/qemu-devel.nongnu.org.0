@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE382C39C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 08:13:53 +0100 (CET)
-Received: from localhost ([::1]:32820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784992C3A23
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 08:33:09 +0100 (CET)
+Received: from localhost ([::1]:40344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khozw-0008P5-4l
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 02:13:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44062)
+	id 1khpIa-0004as-2D
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 02:33:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1khova-0007Ma-Eu
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 02:09:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1khovU-0004Jc-BZ
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 02:09:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606288154;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VUSbcPm6ZnSi1CPK9hIkQAxwx3nEzibHi6QrBh+W7dE=;
- b=itQ0tJOMKISuLknkAMrvDSfnqdP+GWkXbGTfVfsf1nUThuFj73cmtvL/Vhm3WcRYaVzV9n
- I5dpLzHJvFqnKro9ly8VS2GAJik93wnZAgBOIFmrbcoGyA5pfronRes5AVjPsck/1c8uPH
- B/u2peeH5+BdZ3OYGg6XjNie9u0kfPc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-bycO1I44PYCAiQ5nbkcSJA-1; Wed, 25 Nov 2020 02:09:11 -0500
-X-MC-Unique: bycO1I44PYCAiQ5nbkcSJA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEF5A809DD9;
- Wed, 25 Nov 2020 07:09:08 +0000 (UTC)
-Received: from [10.72.13.165] (ovpn-13-165.pek2.redhat.com [10.72.13.165])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09EF519C46;
- Wed, 25 Nov 2020 07:08:33 +0000 (UTC)
-Subject: Re: [RFC PATCH 00/27] vDPA software assisted live migration
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-References: <20201120185105.279030-1-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <5a4d0b7a-fb62-9e78-9e85-9262dca57f1c@redhat.com>
-Date: Wed, 25 Nov 2020 15:08:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khpGN-00042q-D9
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 02:30:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40432)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khpGI-0002xC-9Z
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 02:30:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1khpGE-00037o-A8
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 07:30:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E88482E8147
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 07:30:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201120185105.279030-1-eperezma@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2020 07:22:12 -0000
+From: Gaoning Pan <1905521@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=pgn@zju.edu.cn; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hades0506
+X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
+X-Launchpad-Bug-Modifier: Gaoning Pan (hades0506)
+Message-Id: <160628893217.26625.10789422824158727924.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1905521] [NEW] assert issue locates in hw/scsi/lsi53c895a.c:624:
+ lsi_do_dma: Assertion `s->current' failed
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
+X-Launchpad-Hash: d2833fd66058e7296bfb75f4d728b722d2dee5df
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,166 +70,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
- Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
- Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Reply-To: Bug 1905521 <1905521@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
-On 2020/11/21 上午2:50, Eugenio Pérez wrote:
-> This series enable vDPA software assisted live migration for vhost-net
-> devices. This is a new method of vhost devices migration: Instead of
-> relay on vDPA device's dirty logging capability, SW assisted LM
-> intercepts dataplane, forwarding the descriptors between VM and device.
->
-> In this migration mode, qemu offers a new vring to the device to
-> read and write into, and disable vhost notifiers, processing guest and
-> vhost notifications in qemu. On used buffer relay, qemu will mark the
-> dirty memory as with plain virtio-net devices. This way, devices does
-> not need to have dirty page logging capability.
->
-> This series is a POC doing SW LM for vhost-net devices, which already
-> have dirty page logging capabilities. None of the changes have actual
-> effect with current devices until last two patches (26 and 27) are
-> applied, but they can be rebased on top of any other. These checks the
-> device to meet all requirements, and disable vhost-net devices logging
-> so migration goes through SW LM. This last patch is not meant to be
-> applied in the final revision, it is in the series just for testing
-> purposes.
->
-> For use SW assisted LM these vhost-net devices need to be instantiated:
-> * With IOMMU (iommu_platform=on,ats=on)
-> * Without event_idx (event_idx=off)
+Hello,
+
+I found an assertion failure in hw/scsi/lsi53c895a.c:624
+
+This was found in latest version 5.2.0.
 
 
-So a question is at what level do we want to implement qemu assisted 
-live migration. To me it could be done at two levels:
-
-1) generic vhost level which makes it work for both vhost-net/vhost-user 
-and vhost-vDPA
-2) a specific type of vhost
-
-To me, having a generic one looks better but it would be much more 
-complicated. So what I read from this series is it was a vhost kernel 
-specific software assisted live migration which is a good start. 
-Actually it may even have real use case, e.g it can save dirty bitmaps 
-for guest with large memory. But we need to address the above 
-limitations first.
-
-So I would like to know what's the reason for mandating iommu platform 
-and ats? And I think we need to fix case of event idx support.
+my reproduced environment is as follows:
+    Host: ubuntu 18.04
+    Guest: ubuntu 18.04
 
 
->
-> Just the notification forwarding (with no descriptor relay) can be
-> achieved with patches 7 and 9, and starting migration. Partial applies
-> between 13 and 24 will not work while migrating on source, and patch
-> 25 is needed for the destination to resume network activity.
->
-> It is based on the ideas of DPDK SW assisted LM, in the series of
+QEMU boot command line:
+qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=3D.=
+/ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -device =
+lsi53c895a -trace lsi\*
+
+Backtrace is as follows:
+#0  0x00007f845c6eff47 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/un=
+ix/sysv/linux/raise.c:51
+#1  0x00007f845c6f18b1 in __GI_abort () at abort.c:79
+#2  0x00007f845c6e142a in __assert_fail_base (fmt=3D0x7f845c868a38 "%s%s%s:=
+%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x55a103=
+4486a0 "s->current", file=3Dfile@entry=3D0x55a103448360 "../hw/scsi/lsi53c8=
+95a.c", line=3Dline@entry=3D624, function=3Dfunction@entry=3D0x55a10344ae60=
+ <__PRETTY_FUNCTION__.31674> "lsi_do_dma") at assert.c:92
+#3  0x00007f845c6e14a2 in __GI___assert_fail (assertion=3D0x55a1034486a0 "s=
+->current", file=3D0x55a103448360 "../hw/scsi/lsi53c895a.c", line=3D624, fu=
+nction=3D0x55a10344ae60 <__PRETTY_FUNCTION__.31674> "lsi_do_dma") at assert=
+.c:101
+#4  0x000055a102049c65 in lsi_do_dma (s=3D0x62600000c100, out=3D1) at ../hw=
+/scsi/lsi53c895a.c:624
+#5  0x000055a102051573 in lsi_execute_script (s=3D0x62600000c100) at ../hw/=
+scsi/lsi53c895a.c:1250
+#6  0x000055a10205b05d in lsi_reg_writeb (s=3D0x62600000c100, offset=3D47, =
+val=3D178 '\262') at ../hw/scsi/lsi53c895a.c:1984
+#7  0x000055a10205fef8 in lsi_io_write (opaque=3D0x62600000c100, addr=3D47,=
+ val=3D178, size=3D1) at ../hw/scsi/lsi53c895a.c:2146
+#8  0x000055a102d1b791 in memory_region_write_accessor (mr=3D0x62600000cbe0=
+, addr=3D47, value=3D0x7f8349dfe2f8, size=3D1, shift=3D0, mask=3D255, attrs=
+=3D...) at ../softmmu/memory.c:484
+#9  0x000055a102d1bba8 in access_with_adjusted_size (addr=3D47, value=3D0x7=
+f8349dfe2f8, size=3D1, access_size_min=3D1, access_size_max=3D1, access_fn=
+=3D0x55a102d1b4de <memory_region_write_accessor>, mr=3D0x62600000cbe0, attr=
+s=3D...) at ../softmmu/memory.c:545
+#10 0x000055a102d261ef in memory_region_dispatch_write (mr=3D0x62600000cbe0=
+, addr=3D47, data=3D178, op=3DMO_8, attrs=3D...) at ../softmmu/memory.c:1494
+#11 0x000055a102b57c3c in flatview_write_continue (fv=3D0x6060000ea920, add=
+r=3D49199, attrs=3D..., ptr=3D0x7f8449efb000, len=3D1, addr1=3D47, l=3D1, m=
+r=3D0x62600000cbe0) at ../softmmu/physmem.c:2767
+#12 0x000055a102b57f07 in flatview_write (fv=3D0x6060000ea920, addr=3D49199=
+, attrs=3D..., buf=3D0x7f8449efb000, len=3D1) at ../softmmu/physmem.c:2807
+#13 0x000055a102b587cb in address_space_write (as=3D0x55a105ebca80 <address=
+_space_io>, addr=3D49199, attrs=3D..., buf=3D0x7f8449efb000, len=3D1) at ..=
+/softmmu/physmem.c:2899
+#14 0x000055a102b58878 in address_space_rw (as=3D0x55a105ebca80 <address_sp=
+ace_io>, addr=3D49199, attrs=3D..., buf=3D0x7f8449efb000, len=3D1, is_write=
+=3Dtrue) at ../softmmu/physmem.c:2909
+#15 0x000055a102ad4d50 in kvm_handle_io (port=3D49199, attrs=3D..., data=3D=
+0x7f8449efb000, direction=3D1, size=3D1, count=3D1) at ../accel/kvm/kvm-all=
+.c:2283
+#16 0x000055a102ad6a0f in kvm_cpu_exec (cpu=3D0x62e000000400) at ../accel/k=
+vm/kvm-all.c:2529
+#17 0x000055a102c26fbb in kvm_vcpu_thread_fn (arg=3D0x62e000000400) at ../a=
+ccel/kvm/kvm-cpus.c:49
+#18 0x000055a1032c08f8 in qemu_thread_start (args=3D0x603000082780) at ../u=
+til/qemu-thread-posix.c:521
+#19 0x00007f845caa96db in start_thread (arg=3D0x7f8349dff700) at pthread_cr=
+eate.c:463
+#20 0x00007f845c7d2a3f in clone () at ../sysdeps/unix/sysv/linux/x86_64/clo=
+ne.S:95
 
 
-Actually we're better than that since there's no need the trick like 
-hardcoded IOVA for mediated(shadow) virtqueue.
+The poc is attached.
+
+** Affects: qemu
+     Importance: Undecided
+     Assignee: Gaoning Pan (hades0506)
+         Status: New
+
+** Attachment added: "lsi-assert.c"
+   https://bugs.launchpad.net/bugs/1905521/+attachment/5437756/+files/lsi-a=
+ssert.c
+
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Gaoning Pan (hades0506)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1905521
+
+Title:
+  assert issue locates in hw/scsi/lsi53c895a.c:624: lsi_do_dma:
+  Assertion `s->current' failed
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I found an assertion failure in hw/scsi/lsi53c895a.c:624
+
+  This was found in latest version 5.2.0.
+
+  =
+
+  my reproduced environment is as follows:
+      Host: ubuntu 18.04
+      Guest: ubuntu 18.04
 
 
-> DPDK's https://patchwork.dpdk.org/cover/48370/ .
+  QEMU boot command line:
+  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
+=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -dev=
+ice lsi53c895a -trace lsi\*
 
+  Backtrace is as follows:
+  #0  0x00007f845c6eff47 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
+unix/sysv/linux/raise.c:51
+  #1  0x00007f845c6f18b1 in __GI_abort () at abort.c:79
+  #2  0x00007f845c6e142a in __assert_fail_base (fmt=3D0x7f845c868a38 "%s%s%=
+s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x55a1=
+034486a0 "s->current", file=3Dfile@entry=3D0x55a103448360 "../hw/scsi/lsi53=
+c895a.c", line=3Dline@entry=3D624, function=3Dfunction@entry=3D0x55a10344ae=
+60 <__PRETTY_FUNCTION__.31674> "lsi_do_dma") at assert.c:92
+  #3  0x00007f845c6e14a2 in __GI___assert_fail (assertion=3D0x55a1034486a0 =
+"s->current", file=3D0x55a103448360 "../hw/scsi/lsi53c895a.c", line=3D624, =
+function=3D0x55a10344ae60 <__PRETTY_FUNCTION__.31674> "lsi_do_dma") at asse=
+rt.c:101
+  #4  0x000055a102049c65 in lsi_do_dma (s=3D0x62600000c100, out=3D1) at ../=
+hw/scsi/lsi53c895a.c:624
+  #5  0x000055a102051573 in lsi_execute_script (s=3D0x62600000c100) at ../h=
+w/scsi/lsi53c895a.c:1250
+  #6  0x000055a10205b05d in lsi_reg_writeb (s=3D0x62600000c100, offset=3D47=
+, val=3D178 '\262') at ../hw/scsi/lsi53c895a.c:1984
+  #7  0x000055a10205fef8 in lsi_io_write (opaque=3D0x62600000c100, addr=3D4=
+7, val=3D178, size=3D1) at ../hw/scsi/lsi53c895a.c:2146
+  #8  0x000055a102d1b791 in memory_region_write_accessor (mr=3D0x62600000cb=
+e0, addr=3D47, value=3D0x7f8349dfe2f8, size=3D1, shift=3D0, mask=3D255, att=
+rs=3D...) at ../softmmu/memory.c:484
+  #9  0x000055a102d1bba8 in access_with_adjusted_size (addr=3D47, value=3D0=
+x7f8349dfe2f8, size=3D1, access_size_min=3D1, access_size_max=3D1, access_f=
+n=3D0x55a102d1b4de <memory_region_write_accessor>, mr=3D0x62600000cbe0, att=
+rs=3D...) at ../softmmu/memory.c:545
+  #10 0x000055a102d261ef in memory_region_dispatch_write (mr=3D0x62600000cb=
+e0, addr=3D47, data=3D178, op=3DMO_8, attrs=3D...) at ../softmmu/memory.c:1=
+494
+  #11 0x000055a102b57c3c in flatview_write_continue (fv=3D0x6060000ea920, a=
+ddr=3D49199, attrs=3D..., ptr=3D0x7f8449efb000, len=3D1, addr1=3D47, l=3D1,=
+ mr=3D0x62600000cbe0) at ../softmmu/physmem.c:2767
+  #12 0x000055a102b57f07 in flatview_write (fv=3D0x6060000ea920, addr=3D491=
+99, attrs=3D..., buf=3D0x7f8449efb000, len=3D1) at ../softmmu/physmem.c:2807
+  #13 0x000055a102b587cb in address_space_write (as=3D0x55a105ebca80 <addre=
+ss_space_io>, addr=3D49199, attrs=3D..., buf=3D0x7f8449efb000, len=3D1) at =
+../softmmu/physmem.c:2899
+  #14 0x000055a102b58878 in address_space_rw (as=3D0x55a105ebca80 <address_=
+space_io>, addr=3D49199, attrs=3D..., buf=3D0x7f8449efb000, len=3D1, is_wri=
+te=3Dtrue) at ../softmmu/physmem.c:2909
+  #15 0x000055a102ad4d50 in kvm_handle_io (port=3D49199, attrs=3D..., data=
+=3D0x7f8449efb000, direction=3D1, size=3D1, count=3D1) at ../accel/kvm/kvm-=
+all.c:2283
+  #16 0x000055a102ad6a0f in kvm_cpu_exec (cpu=3D0x62e000000400) at ../accel=
+/kvm/kvm-all.c:2529
+  #17 0x000055a102c26fbb in kvm_vcpu_thread_fn (arg=3D0x62e000000400) at ..=
+/accel/kvm/kvm-cpus.c:49
+  #18 0x000055a1032c08f8 in qemu_thread_start (args=3D0x603000082780) at ..=
+/util/qemu-thread-posix.c:521
+  #19 0x00007f845caa96db in start_thread (arg=3D0x7f8349dff700) at pthread_=
+create.c:463
+  #20 0x00007f845c7d2a3f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
 
-I notice that you do GPA->VA translations and try to establish a VA->VA 
-(use VA as IOVA) mapping via device IOTLB. This shortcut should work for 
-vhost-kernel/user but not vhost-vDPA. The reason is that there's no 
-guarantee that the whole 64bit address range could be used as IOVA. One 
-example is that for hardware IOMMU like intel, it usually has 47 or 52 
-bits of address width.
+  =
 
-So we probably need an IOVA allocator that can make sure the IOVA is not 
-overlapped and fit for [1]. We can probably build the IOVA for guest VA 
-via memory listeners. Then we have
+  The poc is attached.
 
-1) IOVA for GPA
-2) IOVA for shadow VQ
-
-And advertise IOVA to VA mapping to vhost.
-
-[1] 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1b48dc03e575a872404f33b04cd237953c5d7498
-
-
->
-> Comments are welcome.
->
-> Thanks!
->
-> Eugenio Pérez (27):
->    vhost: Add vhost_dev_can_log
->    vhost: Add device callback in vhost_migration_log
->    vhost: Move log resize/put to vhost_dev_set_log
->    vhost: add vhost_kernel_set_vring_enable
->    vhost: Add hdev->dev.sw_lm_vq_handler
->    virtio: Add virtio_queue_get_used_notify_split
->    vhost: Route guest->host notification through qemu
->    vhost: Add a flag for software assisted Live Migration
->    vhost: Route host->guest notification through qemu
->    vhost: Allocate shadow vring
->    virtio: const-ify all virtio_tswap* functions
->    virtio: Add virtio_queue_full
->    vhost: Send buffers to device
->    virtio: Remove virtio_queue_get_used_notify_split
->    vhost: Do not invalidate signalled used
->    virtio: Expose virtqueue_alloc_element
->    vhost: add vhost_vring_set_notification_rcu
->    vhost: add vhost_vring_poll_rcu
->    vhost: add vhost_vring_get_buf_rcu
->    vhost: Return used buffers
->    vhost: Add vhost_virtqueue_memory_unmap
->    vhost: Add vhost_virtqueue_memory_map
->    vhost: unmap qemu's shadow virtqueues on sw live migration
->    vhost: iommu changes
->    vhost: Do not commit vhost used idx on vhost_virtqueue_stop
->    vhost: Add vhost_hdev_can_sw_lm
->    vhost: forbid vhost devices logging
->
->   hw/virtio/vhost-sw-lm-ring.h      |  39 +++
->   include/hw/virtio/vhost.h         |   5 +
->   include/hw/virtio/virtio-access.h |   8 +-
->   include/hw/virtio/virtio.h        |   4 +
->   hw/net/virtio-net.c               |  39 ++-
->   hw/virtio/vhost-backend.c         |  29 ++
->   hw/virtio/vhost-sw-lm-ring.c      | 268 +++++++++++++++++++
->   hw/virtio/vhost.c                 | 431 +++++++++++++++++++++++++-----
->   hw/virtio/virtio.c                |  18 +-
->   hw/virtio/meson.build             |   2 +-
->   10 files changed, 758 insertions(+), 85 deletions(-)
->   create mode 100644 hw/virtio/vhost-sw-lm-ring.h
->   create mode 100644 hw/virtio/vhost-sw-lm-ring.c
-
-
-So this looks like a pretty huge patchset which I'm trying to think of 
-ways to split. An idea is to do this is two steps
-
-1) implement a shadow virtqueue mode for vhost first (w/o live 
-migration). Then we can test descriptors relay, IOVA allocating, etc.
-2) add live migration support on top
-
-And it looks to me it's better to split the shadow virtqueue (virtio 
-driver part) into an independent file. And use generic name (w/o 
-"shadow") in order to be reused by other use cases as well.
-
-Thoughts?
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1905521/+subscriptions
 
