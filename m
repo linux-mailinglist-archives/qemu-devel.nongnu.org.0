@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C799A2C3648
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 02:39:38 +0100 (CET)
-Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F78A2C364F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 02:45:48 +0100 (CET)
+Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khjmT-0002Uc-B6
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 20:39:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59928)
+	id 1khjsR-0005AL-MR
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 20:45:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1khjl4-0001av-1i; Tue, 24 Nov 2020 20:38:11 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2156)
+ id 1khjq1-0003e8-53; Tue, 24 Nov 2020 20:43:17 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1khjkx-0004dp-Es; Tue, 24 Nov 2020 20:38:09 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Cgk6B3pnTz6xTT;
- Wed, 25 Nov 2020 09:37:38 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Wed, 25 Nov 2020
- 09:37:49 +0800
+ id 1khjpy-0005Iq-Ke; Tue, 24 Nov 2020 20:43:16 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CgkDB2Jkmz15P11;
+ Wed, 25 Nov 2020 09:42:50 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Wed, 25 Nov 2020
+ 09:43:02 +0800
 From: Alex Chen <alex.chen@huawei.com>
 To: <mst@redhat.com>, <raphael.norwitz@nutanix.com>
-Subject: [PATCH v2] vhost-user-scsi: Fix memleaks in vus_proc_req()
-Date: Wed, 25 Nov 2020 01:25:43 +0000
-Message-ID: <20201125012543.109997-1-alex.chen@huawei.com>
+Subject: [PATCH v3] vhost-user-scsi: Fix memleaks in vus_proc_req()
+Date: Wed, 25 Nov 2020 01:30:55 +0000
+Message-ID: <20201125013055.34147-1-alex.chen@huawei.com>
 X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.175.124.27]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=alex.chen@huawei.com;
- helo=szxga07-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=alex.chen@huawei.com;
+ helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -66,6 +66,7 @@ the definition of 'elem' to the beginning of vus_proc_req().
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Alex Chen <alex.chen@huawei.com>
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
  contrib/vhost-user-scsi/vhost-user-scsi.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
