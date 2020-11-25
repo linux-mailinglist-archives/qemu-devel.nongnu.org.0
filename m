@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7813B2C4197
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 15:00:27 +0100 (CET)
-Received: from localhost ([::1]:35514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5C42C421E
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 15:22:08 +0100 (CET)
+Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khvLO-0004VV-Gv
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 09:00:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49640)
+	id 1khvgM-0002NM-Hl
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 09:22:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1khvJZ-0003eU-4i
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:58:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50033)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1khvJX-0003fW-7h
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:58:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606312710;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=lnrzkWdauGMCBJecHCperF3gbRhY0hklLvH+S/65hlc=;
- b=Iy0eA5Z//3BiWVcWsBLpqYur/Fz35gmLBB07HOgszAGHz2CVMO5vN9KsPr18jJbrpAXLBq
- /mj1g6I3+TV0/HiS2i040FE82uKypZ0ZRwJoY+vavZ/QzTO3GUnf+RAAkC6cwjNBUK5mEJ
- Z1xcQhL0ym4NXylVYF7Eh0T74e3YHPk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-56uXGi0ZMMOBJ9v8Z7ucLQ-1; Wed, 25 Nov 2020 08:58:27 -0500
-X-MC-Unique: 56uXGi0ZMMOBJ9v8Z7ucLQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D665A87308A;
- Wed, 25 Nov 2020 13:58:26 +0000 (UTC)
-Received: from gondolin.redhat.com (ovpn-113-39.ams2.redhat.com [10.36.113.39])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F39D160854;
- Wed, 25 Nov 2020 13:58:21 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RFC] tests/acceptance: add a test for devices on s390x
-Date: Wed, 25 Nov 2020 14:58:20 +0100
-Message-Id: <20201125135820.1442611-1-cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khvaa-0008BB-LV
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:16:09 -0500
+Received: from indium.canonical.com ([91.189.90.7]:52144)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khvaT-0001Hf-NN
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:16:07 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1khvaP-0006We-M3
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 14:15:57 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6DDE42E8033
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 14:15:56 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2020 14:03:13 -0000
+From: "Dr. David Alan Gilbert" <1761798@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=nova; status=Confirmed; importance=Medium;
+ assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: libvirt live-migration
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: balazs-gibizer dgilbert-h dsutyagin kashyapc
+ melwitt mriedem sean-k-mooney
+X-Launchpad-Bug-Reporter: Matt Riedemann (mriedem)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <152303245198.3233.1033096993665779324.malonedeb@wampee.canonical.com>
+Message-Id: <160631299333.9591.3725592481319808137.malone@soybean.canonical.com>
+Subject: [Bug 1761798] Re: live migration intermittently fails in CI with "VQ
+ 0 size 0x80 Guest index 0x12c inconsistent with Host index 0x134:
+ delta 0xfff8"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
+X-Launchpad-Hash: dd8c7e4187ab628b63067e2cd6f7c8d4610ed301
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,111 +75,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1761798 <1761798@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a very basic test for checking that we present devices
-in a way that Linux can consume: boot with both virtio-net-ccw and
-virtio-net-pci attached and then verify that Linux is able to see
-and detect these devices.
+OK, but that still says in both cases here we've got a virtio error
+telling us that the queues are broken before migration even starts;  so
+we should try and figure out why that's happening first.
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
+-- =
 
-A very basic test, but it would have caught the recent zPCI regression.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1761798
 
-If anyone has a better idea than using early debug shells in the Debian
-install image, please let me know. At least it's quick, as we can check
-for the devices quite early in the boot sequence.
+Title:
+  live migration intermittently fails in CI with "VQ 0 size 0x80 Guest
+  index 0x12c inconsistent with Host index 0x134: delta 0xfff8"
 
-Not sure if running under both kvm and tcg on an s390 host would add
-useful extra coverage. Also not sure if this needs fencing on any of the
-public CIs (have not tried yet).
+Status in OpenStack Compute (nova):
+  Confirmed
+Status in QEMU:
+  New
 
----
- tests/acceptance/s390_devices.py | 68 ++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
- create mode 100644 tests/acceptance/s390_devices.py
+Bug description:
+  Seen here:
 
-diff --git a/tests/acceptance/s390_devices.py b/tests/acceptance/s390_devices.py
-new file mode 100644
-index 000000000000..6ce47061f35d
---- /dev/null
-+++ b/tests/acceptance/s390_devices.py
-@@ -0,0 +1,68 @@
-+# Functional test that boots an s390x Linux guest with ccw and PCI devices
-+# attached and checks whether the devices are recognized by Linux
-+#
-+# Copyright (c) 2020 Red Hat, Inc.
-+#
-+# Author:
-+#  Cornelia Huck <cohuck@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+
-+import os
-+
-+from avocado_qemu import Test
-+from avocado_qemu import exec_command_and_wait_for_pattern
-+from avocado_qemu import wait_for_console_pattern
-+
-+class CheckS390xDevices(Test):
-+    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-+
-+    def wait_for_console_pattern(self, success_message, vm=None):
-+        wait_for_console_pattern(self, success_message,
-+                                 failure_message='Kernel panic - not syncing',
-+                                 vm=vm)
-+
-+    timeout = 60
-+
-+    def test(self):
-+
-+        """
-+        :avocado: tags=arch:s390x
-+        :avocado: tags=machine:s390-ccw-virtio
-+        """
-+
-+        # XXX: switch to https when debian fixes their certificate
-+        kernel_url = ('http://archive.debian.org/debian/dists/jessie/main'
-+                      '/installer-s390x/current/images/generic/kernel.debian')
-+        kernel_hash = '5af1aa839754f4d8817fb5878b4d55dfc887f45d'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-+
-+        initrd_url = ('http://archive.debian.org/debian/dists/jessie/main'
-+                      '/installer-s390x/current/images/generic/initrd.debian')
-+        initrd_hash = '99252b28306184b876f979585e2d4bfe96b27464'
-+        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-+
-+        self.vm.set_console()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                              'console=sclp0 root=/dev/ram0 BOOT_DEBUG=3')
-+        self.vm.add_args('-nographic',
-+                         '-kernel', kernel_path,
-+                         '-initrd', initrd_path,
-+                         '-append', kernel_command_line,
-+                         '-device', 'virtio-net-ccw,devno=fe.1.1111',
-+                         '-device', 'virtio-net-pci')
-+        self.vm.launch()
-+
-+        shell_ready = "sh: can't access tty; job control turned off"
-+        self.wait_for_console_pattern(shell_ready)
-+        # first debug shell is too early, we need to wait for device detection
-+        exec_command_and_wait_for_pattern(self, 'exit', shell_ready)
-+
-+        ccw_bus_id="0.1.1111"
-+        pci_bus_id="0000:00:00.0"
-+        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
-+                                          ccw_bus_id)
-+        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/pci/devices/',
-+                                          pci_bus_id)
--- 
-2.26.2
+  http://logs.openstack.org/37/522537/20/check/legacy-tempest-dsvm-
+  multinode-live-
+  migration/8de6e74/logs/subnode-2/libvirt/qemu/instance-00000002.txt.gz
 
+  2018-04-05T21:48:38.205752Z qemu-system-x86_64: -chardev pty,id=3Dcharser=
+ial0,logfile=3D/dev/fdset/1,logappend=3Don: char device redirected to /dev/=
+pts/0 (label charserial0)
+  warning: TCG doesn't support requested feature: CPUID.01H:ECX.vmx [bit 5]
+  2018-04-05T21:48:43.153268Z qemu-system-x86_64: VQ 0 size 0x80 Guest inde=
+x 0x12c inconsistent with Host index 0x134: delta 0xfff8
+  2018-04-05T21:48:43.153288Z qemu-system-x86_64: Failed to load virtio-blk=
+:virtio
+  2018-04-05T21:48:43.153292Z qemu-system-x86_64: error while loading state=
+ for instance 0x0 of device '0000:00:04.0/virtio-blk'
+  2018-04-05T21:48:43.153347Z qemu-system-x86_64: load of migration failed:=
+ Operation not permitted
+  2018-04-05 21:48:43.198+0000: shutting down, reason=3Dcrashed
+
+  And in the n-cpu logs on the other host:
+
+  http://logs.openstack.org/37/522537/20/check/legacy-tempest-dsvm-
+  multinode-live-
+  migration/8de6e74/logs/screen-n-cpu.txt.gz#_Apr_05_21_48_43_257541
+
+  There is a related Red Hat bug:
+
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1450524
+
+  The CI job failures are at present using the Pike UCA:
+
+  ii  libvirt-bin                         3.6.0-1ubuntu6.2~cloud0
+
+  ii  qemu-system-x86                     1:2.10+dfsg-0ubuntu3.5~cloud0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/nova/+bug/1761798/+subscriptions
 
