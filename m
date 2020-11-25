@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256002C37F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 05:18:08 +0100 (CET)
-Received: from localhost ([::1]:46886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748F82C37FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 05:21:31 +0100 (CET)
+Received: from localhost ([::1]:50050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khmFr-0000tn-7R
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 23:18:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36326)
+	id 1khmJ8-0002SP-HI
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 23:21:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1khm57-00059F-Qs
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:07:01 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38578)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1khm56-00066s-9R
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:07:01 -0500
-Received: by mail-pl1-x641.google.com with SMTP id l1so456075pld.5
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 20:06:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=bswwFH6M3LzgrGioTuBuBml8sz+8WXNnbRNFMSINy5c=;
- b=cPfStF8QWfXHzmeHyUAwYMr95YL+SgbOyg+t/I7RgWFMOjg6Mnj/Uj/PkrlTspdXrr
- vaweJ4fHkxzT7rTzGDD+8QXxlri67W1A9ePAECiLTQRSHdIGEY9rBnjU+ei7Ox8vkgnH
- 5qhBHXcknXBh7ZJAeWPJWNdEbX7xwPFR+GrDAbROduL4G2QIhSXa+iovkxal2xkkCYss
- W1qoV1fle1pV88fz9UM08pzFmw6ezytjI5jR5dgGqB/JSoAOOBvcBJ7Dz6jbhXPR8ZNh
- iOnOmVG8dCeYATKrSPhHqCCf6TKwEEVuHmTrGZWNJBpFX4PbYHplCduEjR9u41vydADU
- RFvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bswwFH6M3LzgrGioTuBuBml8sz+8WXNnbRNFMSINy5c=;
- b=UYLtHvCktYnPprFKHTZAGuSMraD9Ou9pBdiftRVAA7ouaztVHG+pyYLpGg3BAhNLz8
- X5bs839kUEkzNWfrgIbQYieKcWPcBb934zPz7lWTcpWRFzQjWKxr43Qtabe5v5WJ5xAX
- Y6WyW259DkQ7joeQgULdkW3XNiQPIHjDlhZT/kUwvcCX+koh07OrPMQ9HzyAIUVNMWbq
- mWagmxJYbl6suYdjgqAmAh4RwZjxsvZw2AICZUzmYbN8xDgPvZ0AM3/RLXvbrS+vuX1V
- WbHCBhZYNt76KO0HtttIubodfP2S7EnqlzU2/zxjDEKryM+ca8rb47D0piGTykNUKEw1
- pFEA==
-X-Gm-Message-State: AOAM5308OCKShWtJsgtgsC5qST2+OKWPeDqdXjcvb/q+rzzKXUKucqwP
- YyWM4C3zrMB3BYoLoWOJLDr67tUiGvqlnw==
-X-Google-Smtp-Source: ABdhPJzc3GuKmI6Y9PNbGdFU7ZNgInk/1fblltE9ZDG2nZmcQpd/9evaVqDrttzglWTjMmkVg1PjRQ==
-X-Received: by 2002:a17:902:ff07:b029:d8:eea2:afae with SMTP id
- f7-20020a170902ff07b02900d8eea2afaemr1604511plj.18.1606277218752; 
- Tue, 24 Nov 2020 20:06:58 -0800 (PST)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f7sm447806pfe.30.2020.11.24.20.06.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 20:06:58 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 11/11] target/arm: Enforce alignment for VLDn/VSTn (single)
-Date: Tue, 24 Nov 2020 20:06:42 -0800
-Message-Id: <20201125040642.2339476-12-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201125040642.2339476-1-richard.henderson@linaro.org>
-References: <20201125040642.2339476-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1khmHi-0001gj-Lw
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:20:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48997)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1khmHe-00024s-UM
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:20:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606277996;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/cusLSheyvJx53R5gzIjKx1lxpzFxtddPlsSIBlsnvA=;
+ b=fNYErW+15MdCBGNDAoZpKRALGZAQEyXfTlm/QYp3wDL1BlRzsyQKO85u06rmcKtHb8Y7Ul
+ N30DLHRUk/JsyE9LF+kABUreyVoEBi6F9IDtSA1mp57vl7pjsHJPG0vof4eIMP4LfUarWW
+ jK/dS5AyLVeMeX0eu22J7Pys8IZiE34=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-3uO8ie28M5GmTZeDOJH0xQ-1; Tue, 24 Nov 2020 23:19:55 -0500
+X-MC-Unique: 3uO8ie28M5GmTZeDOJH0xQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0842805BE6;
+ Wed, 25 Nov 2020 04:19:53 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-81.ams2.redhat.com [10.36.112.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E6CF510016FB;
+ Wed, 25 Nov 2020 04:19:47 +0000 (UTC)
+Subject: Re: [PATCH v1] configure: remove python pkg_resources check
+To: Olaf Hering <olaf@aepfle.de>, qemu-devel@nongnu.org
+References: <20201124211925.4194-1-olaf@aepfle.de>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <055163a8-9c26-4454-89e8-9b40c31d79a0@redhat.com>
+Date: Wed, 25 Nov 2020 05:19:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20201124211925.4194-1-olaf@aepfle.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,84 +80,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate-neon.c.inc | 39 ++++++++++++++++++++++++++-------
- 1 file changed, 31 insertions(+), 8 deletions(-)
+On 24/11/2020 22.19, Olaf Hering wrote:
+> Since meson.git#0240d760c7699a059cc89e584363c6431cdd2b61 setuptools is not required anymore.
 
-diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-index 330b5fc7b0..160dc3d755 100644
---- a/target/arm/translate-neon.c.inc
-+++ b/target/arm/translate-neon.c.inc
-@@ -602,6 +602,7 @@ static bool trans_VLDST_single(DisasContext *s, arg_VLDST_single *a)
-     int nregs = a->n + 1;
-     int vd = a->vd;
-     TCGv_i32 addr, tmp;
-+    MemOp mop;
- 
-     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-         return false;
-@@ -651,25 +652,47 @@ static bool trans_VLDST_single(DisasContext *s, arg_VLDST_single *a)
-         return true;
-     }
- 
-+    mop = s->be_data | a->size;
-+    if (a->align) {
-+        static const MemOp mop_align[] = {
-+            MO_ALIGN_2, MO_ALIGN_4, MO_ALIGN_8, MO_ALIGN_16
-+        };
-+
-+        switch (nregs) {
-+        case 1:
-+            mop |= MO_ALIGN;
-+            break;
-+        case 2:
-+            mop |= mop_align[a->size];
-+            break;
-+        case 3:
-+            /* the align field is repurposed for VLD3 */
-+            break;
-+        case 4:
-+            mop |= mop_align[a->size + a->align];
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+    }
-+
-     tmp = tcg_temp_new_i32();
-     addr = tcg_temp_new_i32();
-     load_reg_var(s, addr, a->rn);
--    /*
--     * TODO: if we implemented alignment exceptions, we should check
--     * addr against the alignment encoded in a->align here.
--     */
-+
-     for (reg = 0; reg < nregs; reg++) {
-         if (a->l) {
--            gen_aa32_ld_i32(s, tmp, addr, get_mem_index(s),
--                            s->be_data | a->size);
-+            gen_aa32_ld_i32(s, tmp, addr, get_mem_index(s), mop);
-             neon_store_element(vd, a->reg_idx, a->size, tmp);
-         } else { /* Store */
-             neon_load_element(tmp, vd, a->reg_idx, a->size);
--            gen_aa32_st_i32(s, tmp, addr, get_mem_index(s),
--                            s->be_data | a->size);
-+            gen_aa32_st_i32(s, tmp, addr, get_mem_index(s), mop);
-         }
-         vd += a->stride;
-         tcg_gen_addi_i32(addr, addr, 1 << a->size);
-+
-+        /* Subsequent memory operations inherit alignment */
-+        mop &= ~MO_AMASK;
-     }
-     tcg_temp_free_i32(addr);
-     tcg_temp_free_i32(tmp);
--- 
-2.25.1
+That commit was part of meson 0.55.1. We require at least meson 0.55.3. So
+right, this should be fine.
+
+> Signed-off-by: Olaf Hering <olaf@aepfle.de>
+> ---
+>  configure | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 8c5d2f9a69..ce9b3c0a33 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1913,9 +1913,6 @@ fi
+>  
+>  case "$meson" in
+>      git | internal)
+> -        if ! $python -c 'import pkg_resources' > /dev/null 2>&1; then
+> -            error_exit "Python setuptools not found"
+> -        fi
+>          meson="$python ${source_path}/meson/meson.py"
+>          ;;
+>      *) meson=$(command -v "$meson") ;;
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+I guess we could now also remove the corresponding package from the docker
+and vm files?
+
+$ grep -r setuptool tests/
+tests/docker/dockerfiles/debian10.docker:     python3-setuptools \
+tests/docker/dockerfiles/fedora-win32-cross.docker:    python3-setuptools \
+tests/docker/dockerfiles/fedora-win64-cross.docker:    python3-setuptools \
+tests/vm/freebsd:        "py37-setuptools",
+tests/vm/openbsd:        "py3-setuptools",
+tests/vm/haiku.x86_64:        "setuptools_python3"
+tests/vm/netbsd:        "py37-setuptools",
 
 
