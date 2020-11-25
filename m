@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4532C40F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 14:14:50 +0100 (CET)
-Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380B82C4105
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 14:20:59 +0100 (CET)
+Received: from localhost ([::1]:48164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khudE-0006xJ-NW
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 08:14:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34696)
+	id 1khuj8-0001p2-LG
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 08:20:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1khuXQ-0003UW-P7
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:08:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52799)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1khuge-0000hJ-9J
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:18:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1khuXL-0002or-OR
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:08:47 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1khugc-000692-1L
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:18:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606309722;
+ s=mimecast20190719; t=1606310296;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hiHo9DbDoCCDh4n5WrneTRby3gUfBpzNuKSPqTximSM=;
- b=HLXCp8dKfcXFlS+aG3GisBnY4m1UqmzHEy2ja6s7l72C1WWO3GwjEyvxubeR3OyIrgNDRD
- HD+C28F3WJqIFn4wHK4w9pVQbzVG7qF0uvAMV68CRGQmhXlekK/uMQT+ifc0BWwbsvgTj9
- 3yyzgMr+x6XhhWdrcqb1/XpEijuoObk=
+ bh=Mp2IJTYqFqppXVtKKihfJwUT/XuA4Rt+Q9Pj3b7bvaE=;
+ b=PRk0l8Yb4Z8ByfBTCBktCj+T0TeadyZ4jwg8fMoCs7RUSHZ/Qd56kotdmSrG0+T5aCkKYf
+ UVa0imo5Sk6wCjaRglT9+UAuK/RLnp9HncyfKtnbsuRuUKBNdJQ4qYyaYDN2jY32DeR0H3
+ W3ZrhudSD9kMmv71enigYMYatipp3J8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-CgSvLrj7O7-55ESvP_n3rw-1; Wed, 25 Nov 2020 08:08:40 -0500
-X-MC-Unique: CgSvLrj7O7-55ESvP_n3rw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-530-IzRWZkPONY2JcsRFRv2rsg-1; Wed, 25 Nov 2020 08:18:12 -0500
+X-MC-Unique: IzRWZkPONY2JcsRFRv2rsg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75734100C66A;
- Wed, 25 Nov 2020 13:08:39 +0000 (UTC)
-Received: from work-vm (ovpn-115-12.ams2.redhat.com [10.36.115.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 715F85C1C5;
- Wed, 25 Nov 2020 13:08:28 +0000 (UTC)
-Date: Wed, 25 Nov 2020 13:08:25 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v3 3/7] support UFFD write fault processing in
- ram_save_iterate()
-Message-ID: <20201125130825.GE3222@work-vm>
-References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
- <20201119125940.20017-4-andrey.gruzdev@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52C808735D3;
+ Wed, 25 Nov 2020 13:18:11 +0000 (UTC)
+Received: from [10.3.112.182] (ovpn-112-182.phx2.redhat.com [10.3.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF18460BE5;
+ Wed, 25 Nov 2020 13:18:10 +0000 (UTC)
+Subject: Re: [PATCH 1/1] net: Fix handling of id in netdev_add and netdev_del
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20201125100220.50251-1-armbru@redhat.com>
+ <20201125100220.50251-2-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <abaa78a8-1228-8517-1bcd-3afcefc47251@redhat.com>
+Date: Wed, 25 Nov 2020 07:18:09 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201119125940.20017-4-andrey.gruzdev@virtuozzo.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201125100220.50251-2-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,218 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: yuri.benditovich@daynix.com, jasowang@redhat.com, qemu-stable@nongnu.org,
+ andrew@daynix.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
-> In this particular implementation the same single migration
-> thread is responsible for both normal linear dirty page
-> migration and procesing UFFD page fault events.
+On 11/25/20 4:02 AM, Markus Armbruster wrote:
+> CLI -netdev accumulates in option group "netdev".
 > 
-> Processing write faults includes reading UFFD file descriptor,
-> finding respective RAM block and saving faulting page to
-> the migration stream. After page has been saved, write protection
-> can be removed. Since asynchronous version of qemu_put_buffer()
-> is expected to be used to save pages, we also have to flush
-> migraion stream prior to un-protecting saved memory range.
+> Before commit 08712fcb85 "net: Track netdevs in NetClientState rather
+> than QemuOpt", netdev_add added to the option group, and netdev_del
+> removed from it, both HMP and QMP.  Thus, every netdev had a
+> corresponding QemuOpts in this option group.
 > 
-> Write protection is being removed for any previously protected
-> memory chunk that has hit the migration stream. That's valid
-> for pages from linear page scan along with write fault pages.
+> Commit 08712fcb85 dropped this for QMP netdev_add and both netdev_del.
+> Now a netdev has a corresponding QemuOpts only when it was created
+> with CLI or HMP.  Two issues:
 > 
-> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> * QMP and HMP netdev_del can leave QemuOpts behind, breaking HMP
+>   netdev_add.  Reproducer:
+> 
+>     $ qemu-system-x86_64 -S -display none -nodefaults -monitor stdio
+>     QEMU 5.1.92 monitor - type 'help' for more information
+>     (qemu) netdev_add user,id=net0
+>     (qemu) info network
+>     net0: index=0,type=user,net=10.0.2.0,restrict=off
+>     (qemu) netdev_del net0
+>     (qemu) info network
+>     (qemu) netdev_add user,id=net0
+>     upstream-qemu: Duplicate ID 'net0' for netdev
+>     Try "help netdev_add" for more information
+> 
+>   Fix by restoring the QemuOpts deletion in qmp_netdev_del(), but with
+>   a guard, because the QemuOpts need not exist.
+> 
+> * QMP netdev_add loses its "no duplicate ID" check.  Reproducer:
+> 
+>     $ qemu-system-x86_64 -S -display none -qmp stdio
+>     {"QMP": {"version": {"qemu": {"micro": 92, "minor": 1, "major": 5}, "package": "v5.2.0-rc2-1-g02c1f0142c"}, "capabilities": ["oob"]}}
+>     {"execute": "qmp_capabilities"}
+>     {"return": {}}
+>     {"execute": "netdev_add", "arguments": {"type": "user", "id":"net0"}}
+>     {"return": {}}
+>     {"execute": "netdev_add", "arguments": {"type": "user", "id":"net0"}}
+>     {"return": {}}
+> 
+>   Fix by adding a duplicate ID check to net_client_init1() to replace
+>   the lost one.  The check is redundant for callers where QemuOpts
+>   still checks, i.e. for CLI and HMP.
+> 
+> Reported-by: Andrew Melnichenko <andrew@daynix.com>
+> Fixes: 08712fcb851034228b61f75bd922863a984a4f60
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  migration/ram.c | 124 ++++++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 115 insertions(+), 9 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 7f273c9996..08a1d7a252 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -314,6 +314,8 @@ struct RAMState {
->      ram_addr_t last_page;
->      /* last ram version we have seen */
->      uint32_t last_version;
-> +    /* 'write-tracking' migration is enabled */
-> +    bool ram_wt_enabled;
->      /* We are in the first round */
->      bool ram_bulk_stage;
->      /* The free page optimization is enabled */
-> @@ -574,8 +576,6 @@ static int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp)
->      return 0;
->  }
->  
-> -__attribute__ ((unused))
-> -static int uffd_read_events(int uffd, struct uffd_msg *msgs, int count);
->  __attribute__ ((unused))
->  static bool uffd_poll_events(int uffd, int tmo);
->  
-> @@ -1929,6 +1929,86 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->      return pages;
->  }
->  
-> +/**
-> + * ram_find_block_by_host_address: find RAM block containing host page
-> + *
-> + * Returns true if RAM block is found and pss->block/page are
-> + * pointing to the given host page, false in case of an error
-> + *
-> + * @rs: current RAM state
-> + * @pss: page-search-status structure
-> + */
-> +static bool ram_find_block_by_host_address(RAMState *rs, PageSearchStatus *pss,
-> +        hwaddr page_address)
-> +{
-> +    bool found = false;
-> +
-> +    pss->block = rs->last_seen_block;
-> +    do {
-> +        if (page_address >= (hwaddr) pss->block->host &&
-> +            (page_address + TARGET_PAGE_SIZE) <=
-> +                    ((hwaddr) pss->block->host + pss->block->used_length)) {
-> +            pss->page = (unsigned long)
-> +                    ((page_address - (hwaddr) pss->block->host) >> TARGET_PAGE_BITS);
-> +            found = true;
-> +            break;
-> +        }
-> +
-> +        pss->block = QLIST_NEXT_RCU(pss->block, next);
-> +        if (!pss->block) {
-> +            /* Hit the end of the list */
-> +            pss->block = QLIST_FIRST_RCU(&ram_list.blocks);
-> +        }
-> +    } while (pss->block != rs->last_seen_block);
-> +
-> +    rs->last_seen_block = pss->block;
-> +    /*
-> +     * Since we are in the same loop with ram_find_and_save_block(),
-> +     * need to reset pss->complete_round after switching to
-> +     * other block/page in pss.
-> +     */
-> +    pss->complete_round = false;
-> +
-> +    return found;
-> +}
-> +
-> +/**
-> + * get_fault_page: try to get next UFFD write fault page and, if pending fault
-> + *   is found, put info about RAM block and block page into pss structure
-> + *
-> + * Returns true in case of UFFD write fault detected, false otherwise
-> + *
-> + * @rs: current RAM state
-> + * @pss: page-search-status structure
-> + *
-> + */
-> +static bool get_fault_page(RAMState *rs, PageSearchStatus *pss)
-> +{
-> +    struct uffd_msg uffd_msg;
-> +    hwaddr page_address;
-> +    int res;
-> +
-> +    if (!rs->ram_wt_enabled) {
-> +        return false;
-> +    }
-> +
-> +    res = uffd_read_events(rs->uffdio_fd, &uffd_msg, 1);
-> +    if (res <= 0) {
-> +        return false;
-> +    }
-> +
-> +    page_address = uffd_msg.arg.pagefault.address;
-> +    if (!ram_find_block_by_host_address(rs, pss, page_address)) {
-> +        /* In case we couldn't find respective block, just unprotect faulting page */
-> +        uffd_protect_memory(rs->uffdio_fd, page_address, TARGET_PAGE_SIZE, false);
-> +        error_report("ram_find_block_by_host_address() failed: address=0x%0lx",
-> +                     page_address);
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +
->  /**
->   * ram_find_and_save_block: finds a dirty page and sends it to f
->   *
-> @@ -1955,25 +2035,50 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
->          return pages;
->      }
->  
-> +    if (!rs->last_seen_block) {
-> +        rs->last_seen_block = QLIST_FIRST_RCU(&ram_list.blocks);
-> +    }
->      pss.block = rs->last_seen_block;
->      pss.page = rs->last_page;
->      pss.complete_round = false;
->  
-> -    if (!pss.block) {
-> -        pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
-> -    }
-> -
->      do {
-> +        ram_addr_t page;
-> +        ram_addr_t page_to;
-> +
->          again = true;
-> -        found = get_queued_page(rs, &pss);
-> -
-> +        /* In case of 'write-tracking' migration we first try
-> +         * to poll UFFD and get write page fault event */
-> +        found = get_fault_page(rs, &pss);
-> +        if (!found) {
-> +            /* No trying to fetch something from the priority queue */
-> +            found = get_queued_page(rs, &pss);
-> +        }
->          if (!found) {
->              /* priority queue empty, so just search for something dirty */
->              found = find_dirty_block(rs, &pss, &again);
->          }
->  
->          if (found) {
-> +            page = pss.page;
->              pages = ram_save_host_page(rs, &pss, last_stage);
-> +            page_to = pss.page;
-> +
-> +            /* Check if page is from UFFD-managed region */
-> +            if (pss.block->flags & RAM_UF_WRITEPROTECT) {
-> +                hwaddr page_address = (hwaddr) pss.block->host +
-> +                        ((hwaddr) page << TARGET_PAGE_BITS);
-> +                hwaddr run_length = (hwaddr) (page_to - page + 1) << TARGET_PAGE_BITS;
-> +                int res;
-> +
-> +                /* Flush async buffers before un-protect */
-> +                qemu_fflush(rs->f);
-> +                /* Un-protect memory range */
-> +                res = uffd_protect_memory(rs->uffdio_fd, page_address, run_length, false);
-> +                if (res < 0) {
-> +                    break;
-> +                }
-> +            }
+>  net/net.c | 20 ++++++++++++++++++--
+>  1 file changed, 18 insertions(+), 2 deletions(-)
 
-Please separate that out into a separate function.
+The adventure in QAPIfication of netdev_add has been long.  Thanks for
+working on this.
 
-Dave
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
->          }
->      } while (!pages && again);
->  
-> @@ -2086,7 +2191,8 @@ static void ram_state_reset(RAMState *rs)
->      rs->last_sent_block = NULL;
->      rs->last_page = 0;
->      rs->last_version = ram_list.version;
-> -    rs->ram_bulk_stage = true;
-> +    rs->ram_wt_enabled = migrate_track_writes_ram();
-> +    rs->ram_bulk_stage = !rs->ram_wt_enabled;
->      rs->fpo_enabled = false;
->  }
->  
-> -- 
-> 2.25.1
-> 
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
