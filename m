@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343D62C3669
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 03:02:40 +0100 (CET)
-Received: from localhost ([::1]:51196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA7E72C366C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 03:07:22 +0100 (CET)
+Received: from localhost ([::1]:57034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khk69-0000Wf-MQ
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 20:59:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37092)
+	id 1khkC0-0003RB-9b
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 21:06:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aiyutao@huawei.com>)
- id 1khk44-0007o8-VU
+ id 1khk45-0007o9-1m
  for qemu-devel@nongnu.org; Tue, 24 Nov 2020 20:57:49 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2099)
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aiyutao@huawei.com>)
- id 1khk41-0007P9-3n
+ id 1khk41-0007PA-3r
  for qemu-devel@nongnu.org; Tue, 24 Nov 2020 20:57:48 -0500
 Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CgkXs2Vl5zhYm4;
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CgkXs2ggkzhZrK;
  Wed, 25 Nov 2020 09:57:17 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS405-HUB.china.huawei.com
  (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Wed, 25 Nov 2020
  09:57:22 +0800
 From: Yutao Ai <aiyutao@huawei.com>
 To: <dgilbert@redhat.com>, <armbru@redhat.com>
-Subject: [PATCH 2/3] monitor:braces {} are necessary for all arms of this
- statement
-Date: Wed, 25 Nov 2020 01:45:13 +0000
-Message-ID: <20201125014514.55562-3-aiyutao@huawei.com>
+Subject: [PATCH 3/3] monitor:Don't use '#' flag of printf format ('%#') in
+ format strings
+Date: Wed, 25 Nov 2020 01:45:14 +0000
+Message-ID: <20201125014514.55562-4-aiyutao@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20201125014514.55562-1-aiyutao@huawei.com>
 References: <20201125014514.55562-1-aiyutao@huawei.com>
@@ -63,57 +63,26 @@ Cc: alex.chen@huawei.com, aiyutao@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix the errors by add {}
+Delete '#' and use '0x' prefix instead
 
 Signed-off-by: Yutao Ai <aiyutao@huawei.com>
 ---
- monitor/misc.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ monitor/misc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/monitor/misc.c b/monitor/misc.c
-index 398211a034..7588f12053 100644
+index 7588f12053..2eb563f6f3 100644
 --- a/monitor/misc.c
 +++ b/monitor/misc.c
-@@ -492,8 +492,10 @@ static void hmp_singlestep(Monitor *mon, const QDict *qdict)
- static void hmp_gdbserver(Monitor *mon, const QDict *qdict)
- {
-     const char *device = qdict_get_try_str(qdict, "device");
--    if (!device)
-+    if (!device) {
-         device = "tcp::" DEFAULT_GDBSTUB_PORT;
-+    }
-+
-     if (gdbserver_start(device) < 0) {
-         monitor_printf(mon, "Could not open gdbserver on device '%s'\n",
-                        device);
-@@ -559,10 +561,11 @@ static void memory_dump(Monitor *mon, int count, int format, int wsize,
+@@ -910,7 +910,7 @@ static void hmp_ioport_read(Monitor *mon, const QDict *qdict)
+         suffix = 'l';
+         break;
      }
+-    monitor_printf(mon, "port%c[0x%04x] = %#0*x\n",
++    monitor_printf(mon, "port%c[0x%04x] = 0x%0*x\n",
+                    suffix, addr, size * 2, val);
+ }
  
-     len = wsize * count;
--    if (wsize == 1)
-+    if (wsize == 1) {
-         line_size = 8;
--    else
-+    } else {
-         line_size = 16;
-+    }
-     max_digits = 0;
- 
-     switch(format) {
-@@ -583,10 +586,11 @@ static void memory_dump(Monitor *mon, int count, int format, int wsize,
-     }
- 
-     while (len > 0) {
--        if (is_physical)
-+        if (is_physical) {
-             monitor_printf(mon, TARGET_FMT_plx ":", addr);
--        else
-+        } else {
-             monitor_printf(mon, TARGET_FMT_lx ":", (target_ulong)addr);
-+        }
-         l = len;
-         if (l > line_size)
-             l = line_size;
 -- 
 2.19.1
 
