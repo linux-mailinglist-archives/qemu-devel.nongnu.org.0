@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB93E2C3526
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 00:57:18 +0100 (CET)
-Received: from localhost ([::1]:53418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8133F2C362B
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 02:17:23 +0100 (CET)
+Received: from localhost ([::1]:52590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khiBR-0003KG-9z
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 18:57:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58506)
+	id 1khjQv-0003Ws-W1
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 20:17:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khi9y-0002pj-48
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 18:55:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48210)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khi9v-0007dD-LP
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 18:55:45 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1khi9t-0000to-OM
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 23:55:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B56B42E813A
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 23:55:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>) id 1khjPE-0002zw-SX
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 20:15:37 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:41228
+ helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>) id 1khjP8-0001h3-S1
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 20:15:36 -0500
+Received: from Alexanders-Mac-mini.local
+ (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
+ by csgraf.de (Postfix) with UTF8SMTPSA id 9ED7C3900384;
+ Wed, 25 Nov 2020 02:15:24 +0100 (CET)
+Subject: Re: [PATCH v5 6/7] tcg: implement JIT for iOS and Apple Silicon
+To: Joelle van Dyne <j@getutm.app>
+References: <20201108232425.1705-1-j@getutm.app>
+ <20201108232425.1705-7-j@getutm.app>
+ <6fb788c8-ac2b-83b6-8977-24652a05f7c5@csgraf.de>
+ <CA+E+eSAznXzHD1u+a+X4kenbOzfEifzznXx0Qq6425ahjK7K_Q@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <781d6412-ff8a-ae33-3b00-d27e9fc9cd0a@csgraf.de>
+Date: Wed, 25 Nov 2020 02:15:24 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
+ Gecko/20100101 Thunderbird/84.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2020 23:46:20 -0000
-From: Richard Henderson <1905356@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: muhui rth
-X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <160619430337.31223.17547021210606740630.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160626158081.25387.11667629190099738241.malone@chaenomeles.canonical.com>
-Subject: [Bug 1905356] Re: No check for unaligned data access in ARM32
- instructions
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: 69e38a218afe85ced93a7177926bcc45c03d585a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CA+E+eSAznXzHD1u+a+X4kenbOzfEifzznXx0Qq6425ahjK7K_Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,54 +56,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905356 <1905356@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't implement SCTLR.A, but you're right that we should be
-checking the mandatory alignments.
 
-Note!  Any fix will only apply to system mode (qemu-system-arm)
-and not user-only mode (qemu-arm).
+On 20.11.20 16:58, Joelle van Dyne wrote:
+> On Fri, Nov 20, 2020 at 3:08 AM Alexander Graf <agraf@csgraf.de> wrote:
+>>
+>> On 09.11.20 00:24, Joelle van Dyne wrote:
+>>> When entitlements are available (macOS or jailbroken iOS), a hardware
+>>> feature called APRR exists on newer Apple Silicon that can cheaply mark JIT
+>>> pages as either RX or RW. Reverse engineered functions from
+>>> libsystem_pthread.dylib are implemented to handle this.
+>>>
+>>> The following rules apply for JIT write protect:
+>>>     * JIT write-protect is enabled before tcg_qemu_tb_exec()
+>>>     * JIT write-protect is disabled after tcg_qemu_tb_exec() returns
+>>>     * JIT write-protect is disabled inside do_tb_phys_invalidate() but if it
+>>>       is called inside of tcg_qemu_tb_exec() then write-protect will be
+>>>       enabled again before returning.
+>>>     * JIT write-protect is disabled by cpu_loop_exit() for interrupt handling.
+>>>     * JIT write-protect is disabled everywhere else.
+>>>
+>>> See https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
+>>>
+>>> Signed-off-by: Joelle van Dyne <j@getutm.app>
+>>> ---
+>>>    include/exec/exec-all.h     |  2 +
+>>>    include/tcg/tcg-apple-jit.h | 86 +++++++++++++++++++++++++++++++++++++
+>>>    include/tcg/tcg.h           |  3 ++
+>>>    accel/tcg/cpu-exec-common.c |  2 +
+>>>    accel/tcg/cpu-exec.c        |  2 +
+>>>    accel/tcg/translate-all.c   | 46 ++++++++++++++++++++
+>>>    tcg/tcg.c                   |  4 ++
+>>>    7 files changed, 145 insertions(+)
+>>>    create mode 100644 include/tcg/tcg-apple-jit.h
+>>>
+>>> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+>>> index aa65103702..3829f3d470 100644
+>>> --- a/include/exec/exec-all.h
+>>> +++ b/include/exec/exec-all.h
+>>> @@ -549,6 +549,8 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+>>>                                       target_ulong cs_base, uint32_t flags,
+>>>                                       uint32_t cf_mask);
+>>>    void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
+>>> +void tb_exec_lock(void);
+>>> +void tb_exec_unlock(void);
+>>>
+>>>    /* GETPC is the true target of the return instruction that we'll execute.  */
+>>>    #if defined(CONFIG_TCG_INTERPRETER)
+>>> diff --git a/include/tcg/tcg-apple-jit.h b/include/tcg/tcg-apple-jit.h
+>>> new file mode 100644
+>>> index 0000000000..9efdb2000d
+>>> --- /dev/null
+>>> +++ b/include/tcg/tcg-apple-jit.h
+>>> @@ -0,0 +1,86 @@
+>>> +/*
+>>> + * Apple Silicon functions for JIT handling
+>>> + *
+>>> + * Copyright (c) 2020 osy
+>>> + *
+>>> + * This library is free software; you can redistribute it and/or
+>>> + * modify it under the terms of the GNU Lesser General Public
+>>> + * License as published by the Free Software Foundation; either
+>>> + * version 2.1 of the License, or (at your option) any later version.
+>>> + *
+>>> + * This library is distributed in the hope that it will be useful,
+>>> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>>> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>>> + * Lesser General Public License for more details.
+>>> + *
+>>> + * You should have received a copy of the GNU Lesser General Public
+>>> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+>>> + */
+>>> +
+>>> +#ifndef TCG_APPLE_JIT_H
+>>> +#define TCG_APPLE_JIT_H
+>>> +
+>>> +/*
+>>> + * APRR handling
+>>> + * Credits to: https://siguza.github.io/APRR/
+>>> + * Reversed from /usr/lib/system/libsystem_pthread.dylib
+>>> + */
+>>> +
+>>> +#if defined(__aarch64__) && defined(CONFIG_DARWIN)
+>>> +
+>>> +#define _COMM_PAGE_START_ADDRESS        (0x0000000FFFFFC000ULL) /* In TTBR0 */
+>>> +#define _COMM_PAGE_APRR_SUPPORT         (_COMM_PAGE_START_ADDRESS + 0x10C)
+>>> +#define _COMM_PAGE_APPR_WRITE_ENABLE    (_COMM_PAGE_START_ADDRESS + 0x110)
+>>> +#define _COMM_PAGE_APRR_WRITE_DISABLE   (_COMM_PAGE_START_ADDRESS + 0x118)
+>>> +
+>>> +static __attribute__((__always_inline__)) bool jit_write_protect_supported(void)
+>>> +{
+>>> +    /* Access shared kernel page at fixed memory location. */
+>>> +    uint8_t aprr_support = *(volatile uint8_t *)_COMM_PAGE_APRR_SUPPORT;
+>>> +    return aprr_support > 0;
+>>> +}
+>>> +
+>>> +/* write protect enable = write disable */
+>>> +static __attribute__((__always_inline__)) void jit_write_protect(int enabled)
+>>> +{
+>>> +    /* Access shared kernel page at fixed memory location. */
+>>> +    uint8_t aprr_support = *(volatile uint8_t *)_COMM_PAGE_APRR_SUPPORT;
+>>> +    if (aprr_support == 0 || aprr_support > 3) {
+>>> +        return;
+>>> +    } else if (aprr_support == 1) {
+>>> +        __asm__ __volatile__ (
+>>> +            "mov x0, %0\n"
+>>> +            "ldr x0, [x0]\n"
+>>> +            "msr S3_4_c15_c2_7, x0\n"
+>>> +            "isb sy\n"
+>>> +            :: "r" (enabled ? _COMM_PAGE_APRR_WRITE_DISABLE
+>>> +                            : _COMM_PAGE_APPR_WRITE_ENABLE)
+>>> +            : "memory", "x0"
+>>> +        );
+>>> +    } else {
+>>> +        __asm__ __volatile__ (
+>>> +            "mov x0, %0\n"
+>>> +            "ldr x0, [x0]\n"
+>>> +            "msr S3_6_c15_c1_5, x0\n"
+>>> +            "isb sy\n"
+>>> +            :: "r" (enabled ? _COMM_PAGE_APRR_WRITE_DISABLE
+>>> +                            : _COMM_PAGE_APPR_WRITE_ENABLE)
+>>> +            : "memory", "x0"
+>>> +        );
+>>> +    }
+>>> +}
+>>
+>> Is there a particular reason you're not just calling
+>> pthread_jit_write_protect_np()? That would remove the dependency on
+>> anything reverse engineered.
+> Those APIs are not available on iOS 13 or below, which has the same
+> APRR requirements. If for legal reasons we cannot include this code,
+> then it is fine to remove this file and replace the calls with the
+> APIs, but we would lose support on lower iOS versions.
 
-** Changed in: qemu
-       Status: New =3D> Confirmed
 
--- =
+I don't think we realistically care about running QEMU on iOS13, do we? 
+Let's just focus on making the code maintainable for anything going 
+forward from now :).
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905356
 
-Title:
-  No check for unaligned data access in ARM32 instructions
+Alex
 
-Status in QEMU:
-  Confirmed
 
-Bug description:
-  hi
-
-  According to the ARM documentation, there are alignment requirements
-  of load/store instructions.  Alignment fault should be raised if the
-  alignment check is failed. However, it seems that QEMU doesn't
-  implement this, which is against the documentation of ARM. For
-  example, the instruction LDRD/STRD/LDREX/STREX must check the address
-  is word alignment no matter what value the SCTLR.A is.
-
-  I attached a testcase, which contains an instruction at VA 0x10240:
-  ldrd r0,[pc.#1] in the main function. QEMU can successfully load the
-  data in the unaligned address. The test is done in QEMU 5.1.0. I can
-  provide more testcases for the other instructions if you need. Many
-  thanks.
-
-  To patch this, we need a check while we translate the instruction to
-  tcg. If the address is unaligned, a signal number (i.e., SIGBUS)
-  should be raised.
-
-  Regards
-  Muhui
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905356/+subscriptions
 
