@@ -2,86 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77B402C4217
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 15:20:21 +0100 (CET)
-Received: from localhost ([::1]:45180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 283B52C4226
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 15:26:18 +0100 (CET)
+Received: from localhost ([::1]:51332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khvec-0001Bh-RH
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 09:20:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54322)
+	id 1khvkO-0004Cj-JO
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 09:26:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1khvaU-0008Af-Fn; Wed, 25 Nov 2020 09:16:03 -0500
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:49363)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1khvaS-0001Gj-4V; Wed, 25 Nov 2020 09:16:02 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 5AC31DD3;
- Wed, 25 Nov 2020 09:15:55 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 25 Nov 2020 09:15:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1khvjC-0003cK-Uy; Wed, 25 Nov 2020 09:25:02 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:35798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1khvjB-0004QI-8h; Wed, 25 Nov 2020 09:25:02 -0500
+Received: by mail-pf1-x442.google.com with SMTP id e8so2489881pfh.2;
+ Wed, 25 Nov 2020 06:25:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=htAe+SZZaZ8W/qtE4Gtr4UrTtOg
- 4Kv+K30N3RDpc9lg=; b=s2TSOHYJXUKbMFMWGlpT6oMLYhRM2YXwSAEmK/P2rJV
- yyc0Z9WE5F7IRPz9eY/1Y8MVYW3Nol62xQwcx87AkX70FEwhNSjbddx14N2saRnF
- n7s1x9ksgmbxMmL9vk/TKfkdiNiPYmvVqu72ETWsec3EFJaG/4XXxCel93fKHPDQ
- 3139QW01kAfhPB/en1w7NmUT6k1i0piYzm8C2VPkTuoGIX1HMgEg9Stvj6MOrX9F
- Gbk4s3LpLdB7RjFji/zWX9sbJ4PIeAgQmJINIx/AZxAAxF8rPWC0urvxhH+2ENUM
- xaNyJyX6cxmQ/L7auVqPWKnq1lfxyvRgSp0NtLKK4tQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=htAe+S
- ZZaZ8W/qtE4Gtr4UrTtOg4Kv+K30N3RDpc9lg=; b=jl9dOucaRIm9GV3/LsY3qB
- evVoQ9x+Jm8DBGh95vVfBqfJSMizK9e+J7g8BqzqhVM/iFiIELglySBDEoZCD7UO
- CwVDcsaczNMgKL0r59scKaJmRvXie3Hkl7NOipmxgJDqKHpIWTwMkE+a7+ODZrki
- 1i6V5Vwn/jcPAqL5nMkQfEg92tSKlT1qL6ENUCeRwpzNBc8f11k3GyvAMQ+UbBgm
- qlhdaGGTzDvGmVuTj9oPWqOqy7Arqu/dkNOUlY/kLSJvchWknD35YmNKTOnN0SYx
- 7J1h0xmCb1VpWXyJMl9ltVjRne8iacuFM+5ROr8NKoBl+Wz6QcneeFtJbNFLxPsw
- ==
-X-ME-Sender: <xms:Gme-XxbsMsPlF_viNxZHxoj_SvtI2O-NV9CaGnHKex9mT4vLHX-RVg>
- <xme:Gme-X4ZlCN1-WD4bmt2q_ECg8R9gVCmYDBluGLPuZUzq-5pI6CZVNr1_0X0uNjnfg
- 5Vm_ja254-O1UBXFoc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudehtddgiedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:Gme-Xz_2sWpKH_kSJqmxsGMyBWxcTas-EXz1GcCtQ_endsaqslehJw>
- <xmx:Gme-X_re-TmMI4zi6yftlemEBCqzjHeLtzeXTfnzh5_56zhlWYhWxg>
- <xmx:Gme-X8pQdMQR-YaItnknjRHZqMRPDnl7o1L3eMtFotS3gEnSahNlCg>
- <xmx:Gme-X9eCK9u2bOsCQ3lqG-Lpy91Z4KhBUtNiRPE1CXwD2k8R2lndoQ>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id D138D3280065;
- Wed, 25 Nov 2020 09:15:52 -0500 (EST)
-Date: Wed, 25 Nov 2020 15:15:50 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH] hw/block/nvme: add compare command
-Message-ID: <X75nFo7LD7Ltb4MF@apples.localdomain>
-References: <20201124073714.24458-1-its@irrelevant.dk>
- <20201125141104.bs5fwi7xtyo4nyv7@localhost.localdomain>
+ :content-disposition:in-reply-to;
+ bh=0YKonwth5B9CcTF7ErTs5ytvfI54YXFd2EyuwKgo0Pw=;
+ b=QEPzPhltsD2HCNJ3JOkI7zlxoRphLY9BBCgSf8763VHVLDfq6qHB4DJSCkMGPdqzfQ
+ t0nK1SvLLWNO5WdlkmK03g1rENz38W9Yi/mwo13DlYUaHPYIbXupYv8U5V9hL4IAjSyF
+ Dq19aRaUjLINUZZSFU63X5mTu7rZgPhfUxq6S3aFU7E0ygnyo5d2KgvEYA2EWANFtVTu
+ POh8yrMv+NimHB2dL5nW/7yG+2jvdB3/s4ID74Z8O9WPiyKpTM64SGJDM3+xDkV056Z5
+ g5NN1ApOoCwdTacgbLkZsI2qbch3xM73Jd6LNzzEzozQQU0gf1cf/EpFPGxoow+N2zdz
+ sE1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0YKonwth5B9CcTF7ErTs5ytvfI54YXFd2EyuwKgo0Pw=;
+ b=lSv1lBwiFjd4dzxnadt5Eu2NndH1A9x7iQwicZV3TJc5CucOxHs04ww5HAtYlAlyRV
+ Q8GKIQ5vFE6caa9TIwwknpYW1ePL8+Cwo8zYnzut3J2m29/TxqWgxsQdGXZc8dfbv+Xr
+ GKN+IhznV65iZVnvVNfcadEELgEWKbvKf8iWcmsSpWpDw+b380FO/s1P4F4uH3JbS9yg
+ Br4Y9tE9pechiqeqjOJ/t7VJsQr86p5G5Jagvcv0u7E39UlJQZeB087L5aVJAB7j0wzB
+ uyobLkmEVgK2IFsmdmGfqIspWvugZE+2zZP3onTKCzxJeyspQvWFVEalOqkuiYCCg786
+ yUxQ==
+X-Gm-Message-State: AOAM533w5eeiYhXYxR23aZrqDD2sT+JgeVr/J3RyLy8j/NIKh1oxaMA/
+ EW+mTF9AfcrEpLdLSyq+9cg=
+X-Google-Smtp-Source: ABdhPJzt+msXWZXubvklxWtdpd3//Fgmp/T+MKvbGx/x2hh39T+OGuPFbCienUFbeojQwEOJpJEyww==
+X-Received: by 2002:a63:194d:: with SMTP id 13mr3287072pgz.317.1606314299563; 
+ Wed, 25 Nov 2020 06:24:59 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id ha21sm3066817pjb.2.2020.11.25.06.24.58
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 25 Nov 2020 06:24:58 -0800 (PST)
+Date: Wed, 25 Nov 2020 23:24:56 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH 1/2] nvme: updated shared header for copy command
+Message-ID: <20201125142456.ujotoholyodthygm@localhost.localdomain>
+References: <20201124071418.12160-1-its@irrelevant.dk>
+ <20201124071418.12160-2-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Ty+wSX1Sbfmfmtu4"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201125141104.bs5fwi7xtyo4nyv7@localhost.localdomain>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20201124071418.12160-2-its@irrelevant.dk>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x442.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,108 +81,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello,
 
---Ty+wSX1Sbfmfmtu4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 20-11-24 08:14:17, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Add new data structures and types for the Simple Copy command.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: Fam Zheng <fam@euphon.net>
+> ---
+>  include/block/nvme.h | 45 ++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 43 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/block/nvme.h b/include/block/nvme.h
+> index e95ff6ca9b37..b56efd6a89af 100644
+> --- a/include/block/nvme.h
+> +++ b/include/block/nvme.h
+> @@ -472,6 +472,7 @@ enum NvmeIoCommands {
+>      NVME_CMD_COMPARE            = 0x05,
+>      NVME_CMD_WRITE_ZEROES       = 0x08,
+>      NVME_CMD_DSM                = 0x09,
+> +    NVME_CMD_COPY               = 0x19,
+>  };
+>  
+>  typedef struct QEMU_PACKED NvmeDeleteQ {
+> @@ -603,6 +604,35 @@ typedef struct QEMU_PACKED NvmeDsmRange {
+>      uint64_t    slba;
+>  } NvmeDsmRange;
+>  
+> +enum {
+> +    NVME_COPY_FORMAT_0 = 0x0,
+> +};
+> +
+> +typedef struct NvmeCopyCmd {
+> +    uint8_t     opcode;
+> +    uint8_t     flags;
+> +    uint16_t    cid;
+> +    uint32_t    nsid;
+> +    uint32_t    rsvd2[4];
+> +    NvmeCmdDptr dptr;
+> +    uint64_t    sdlba;
+> +    uint32_t    cdw12;
+> +    uint32_t    cdw13;
+> +    uint32_t    ilbrt;
+> +    uint16_t    lbat;
+> +    uint16_t    lbatm;
+> +} NvmeCopyCmd;
+> +
+> +typedef struct NvmeCopySourceRange {
+> +    uint8_t  rsvd0[8];
+> +    uint64_t slba;
+> +    uint16_t nlb;
+> +    uint8_t  rsvd18[6];
+> +    uint32_t eilbrt;
+> +    uint16_t elbatm;
+> +    uint16_t elbat;
+> +} NvmeCopySourceRange;
+> +
+>  enum NvmeAsyncEventRequest {
+>      NVME_AER_TYPE_ERROR                     = 0,
+>      NVME_AER_TYPE_SMART                     = 1,
+> @@ -680,6 +710,7 @@ enum NvmeStatusCodes {
+>      NVME_CONFLICTING_ATTRS      = 0x0180,
+>      NVME_INVALID_PROT_INFO      = 0x0181,
+>      NVME_WRITE_TO_RO            = 0x0182,
+> +    NVME_CMD_SIZE_LIMIT         = 0x0183,
+>      NVME_WRITE_FAULT            = 0x0280,
+>      NVME_UNRECOVERED_READ       = 0x0281,
+>      NVME_E2E_GUARD_ERROR        = 0x0282,
+> @@ -831,7 +862,7 @@ typedef struct QEMU_PACKED NvmeIdCtrl {
+>      uint8_t     nvscc;
+>      uint8_t     rsvd531;
+>      uint16_t    acwu;
+> -    uint8_t     rsvd534[2];
+> +    uint16_t    ocfs;
+>      uint32_t    sgls;
+>      uint8_t     rsvd540[228];
+>      uint8_t     subnqn[256];
+> @@ -854,6 +885,11 @@ enum NvmeIdCtrlOncs {
+>      NVME_ONCS_FEATURES      = 1 << 4,
+>      NVME_ONCS_RESRVATIONS   = 1 << 5,
+>      NVME_ONCS_TIMESTAMP     = 1 << 6,
+> +    NVME_ONCS_COPY          = 1 << 8,
+> +};
+> +
+> +enum NvmeIdCtrlOcfs {
+> +    NVME_OCFS_COPY_FORMAT_0 = 1 << NVME_COPY_FORMAT_0,
 
-On Nov 25 23:11, Minwoo Im wrote:
-> Hello,
->=20
-> On 20-11-24 08:37:14, Klaus Jensen wrote:
-> > From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> >=20
-> > Add the Compare command.
-> >=20
-> > This implementation uses a bounce buffer to read in the data from
-> > storage and then compare with the host supplied buffer.
-> >=20
-> > Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> > [k.jensen: rebased]
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> > ---
-> >  hw/block/nvme.c       | 100 +++++++++++++++++++++++++++++++++++++++++-
-> >  hw/block/trace-events |   2 +
-> >  2 files changed, 101 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index f7f888402b06..f88710ca3948 100644
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -999,6 +999,50 @@ static void nvme_aio_discard_cb(void *opaque, int =
-ret)
-> >      nvme_enqueue_req_completion(nvme_cq(req), req);
-> >  }
-> > =20
-> > +struct nvme_compare_ctx {
-> > +    QEMUIOVector iov;
-> > +    uint8_t *bounce;
-> > +    size_t len;
-> > +};
-> > +
-> > +static void nvme_compare_cb(void *opaque, int ret)
-> > +{
-> > +    NvmeRequest *req =3D opaque;
-> > +    NvmeNamespace *ns =3D req->ns;
-> > +    struct nvme_compare_ctx *ctx =3D req->opaque;
-> > +    g_autofree uint8_t *buf =3D NULL;
->=20
-> nit-picking here: unnecessary initialization to NULL.
->=20
+I'd prefer (1 << 0) to (1 << enum) which is more obvious and same style
+with enum NvmeIdCtrlOncs.
 
-I don't think it is unnecessary when it using g_autofree?
+But I'm fine with both cases.
 
-> > +    uint16_t status;
-> > +
-> > +    trace_pci_nvme_compare_cb(nvme_cid(req));
-> > +
-> > +    if (!ret) {
-> > +        block_acct_done(blk_get_stats(ns->blkconf.blk), &req->acct);
-> > +    } else {
-> > +        block_acct_failed(blk_get_stats(ns->blkconf.blk), &req->acct);
-> > +        nvme_aio_err(req, ret);
-> > +        goto out;
-> > +    }
-> > +
-> > +    buf =3D g_malloc(ctx->len);
-> > +
-> > +    status =3D nvme_dma(nvme_ctrl(req), buf, ctx->len, DMA_DIRECTION_T=
-O_DEVICE,
-> > +                      req);
-> > +    if (status) {
-> > +        goto out;
-> > +    }
->=20
-> Don't we need to give status value to req->status in case of
-> (status !=3D 0)?  If we don't give it to req->status, it will complete
-> with success status code even it fails during the nvme_dma().
->=20
+Please add:
 
-Nice catch! nvme_aio_err normally takes care of this for blk/aio errors,
-but this one slipped. Thanks!
-
---Ty+wSX1Sbfmfmtu4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl++ZxIACgkQTeGvMW1P
-DenbuQf/Vv7pB2yWRqdxoipaHjnVE1X82ZDRFyA6ixvyOITHPko1OeAB4lR8Ryol
-ELf0+RD+MkeJ21zprcttp1Is4WdKZFFsfwQwmX/3BYCzJLYhkv8LoHlt4LvETJRd
-pWFU9IE+L16QvVPMrkAxLCz1zAZluniOWl7demCmW7eSOJ+cF6ggn859OAZ6zptL
-/j0ZYFumzRZmIjprEIc38dCJ0EFcnfFbC7gDUs1wpITNP6GlyHIIxEcAXvIbhrgW
-JDq0BJPeo3omdkalagkykAh1yrakVq82MVx6Zkxs+GHqqRbY3LsIJiwXHOzC7/wt
-ge9HVxaqydhpQtxMcvFM44925zvSUQ==
-=AtM6
------END PGP SIGNATURE-----
-
---Ty+wSX1Sbfmfmtu4--
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 
