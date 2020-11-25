@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB642C37E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 05:10:52 +0100 (CET)
-Received: from localhost ([::1]:56700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7692C37EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 05:12:22 +0100 (CET)
+Received: from localhost ([::1]:33102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khm8p-0001T1-M1
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 23:10:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36082)
+	id 1khmAH-0003RG-Qw
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 23:12:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1khm4w-0004gN-Sc
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:06:50 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:34484)
+ id 1khm4z-0004mM-Em
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:06:53 -0500
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1khm4v-00061p-Dg
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:06:50 -0500
-Received: by mail-pl1-x641.google.com with SMTP id l11so464441plt.1
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 20:06:49 -0800 (PST)
+ id 1khm4w-000626-Jm
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:06:53 -0500
+Received: by mail-pg1-x544.google.com with SMTP id t37so1186462pga.7
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 20:06:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dUvIZnJazJaOEZboAW1OJSDBnVf8XIUz/RaJk/SSM4M=;
- b=gKo6nG+2jXZE3ogTrnzyGe3McgptHnSF8F6CBBoMM2Q1cJxRZP3ua3mgjowIt5vE0k
- 6/P+GHygWDH8cuUMEizCIhUO+NAGIEdLWg5j9m3fZE+8DXpLtvMpTRnqTOOvZj5F/5du
- kY6L/SlyQUevSvHLir/mAQSfl8ImPXj+jQ9EYnBVWKgyX5HDxj9MQp2hUoZ7ILfFNS1C
- vg2y0LoVj5dEC9I/fp3r0wh6Ts48kwG0FOu4ocODVVPAqYVXiLdcndY5i5Nf6uUgZ6zu
- z6o2nnk17tpk61aCnII1ZMBu11tYs9VM9ePmcRs2xRYPM+grCB1wB/dhLDmEP3b2HZ02
- hFTQ==
+ bh=CeRrpuz8AyToTR5rNqSx2nYuSkShEOKR3hSvhU0d5PE=;
+ b=acPV/Ah429b3YcECViVoxv+ryYJKhc4SL5NQI6ZIKrNgoT0izAyAnTe9Z2/k1s1fsD
+ 1I80CcVYJmvnok+Rmxy5CfieRDTamaUC4n6eKvBQgKYw1hXzwNG/J1hP8sKv5ccsS1A8
+ iwB+rN4+lSHA8+vq9pvqAI75Nllva5kV+zI66MiKDwfH4U7a6vIR6fHE67cOjMzuYLe7
+ U76WjTTF/bVBvtWFwuSwj/TCCrGUxcoHKyRXU66TfVFnLVCx+ZYZ+x8drKtGdrTGbv/Y
+ gXVRcZShWsWcqkes0oZoOcL3p30KJeTP/EYcotZpWJK4Kc7id5vZAN0O2jWY9OMOHey0
+ V8bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dUvIZnJazJaOEZboAW1OJSDBnVf8XIUz/RaJk/SSM4M=;
- b=at7lNpP/hhE73C8cwWNxLSZD7JLd9gpCHMU16dh6zSXnlB9K8LHMlOGOd+TKa8+QIe
- PiMdeLu2m2D9Q6yEKhc3ujMS+jV4iWX5djOaylChBrN68ThTHZ5HRnVWOkEEHJvte1NV
- V2Fkct2agvLEI/XPG5ISu39qJdRueKTDNwrZzUqbEQBwufU51p12fIgcrzKA3izIwxQ6
- GQvTdJ+ThzY7VYfpjDeRNxfI9qdCduYQYWWbZKGQv5+F579HiqKsJfKAUOnwVsMLgi0O
- U8YKMU+CLAN1B6ag0ME6mOL8cJW3UONDb5jLajSg3xDxDygtDrDBAZws9X9aEYvdtP2l
- WpqQ==
-X-Gm-Message-State: AOAM530APYbN0wEoGGhUV1y96SqSEZohWV/mR/HxoVjYaxD384DrCe1l
- WCqFxhautEFPwHVc2lKy6zi/DYkI7UN2dg==
-X-Google-Smtp-Source: ABdhPJyGmnSUMEkJY27qWB9YHgw+FVaPTafkE04FKKlTCdH1k6sAud48KBBMpc86FJqNUdgJKybqSA==
-X-Received: by 2002:a17:902:9a8e:b029:d8:d989:4f80 with SMTP id
- w14-20020a1709029a8eb02900d8d9894f80mr1514185plp.32.1606277207801; 
- Tue, 24 Nov 2020 20:06:47 -0800 (PST)
+ bh=CeRrpuz8AyToTR5rNqSx2nYuSkShEOKR3hSvhU0d5PE=;
+ b=AEBSIdU80xIiuPU/fKM+gB91jgbNBSOA6BbXRH9pIBbLdRZdQFVczK21GJwIzIZROJ
+ 9XbuLTHmVgT/Z6HniiFifHqx4HZRYvLo/rx/lFrR7WkrBfn23WVg6Q8VdaHUTWYk3dXj
+ H2vXRvExKJrnvM7txwRHOrj0vfjUaGeQpBFmyKPQglPK3nEvMkMaFWRLBXnII9m+JZOC
+ NMDjFjJpwhED+lZPiguB8cBRFauAmuyxEKEq/kJZWvMFSNrw4Nia2ZtdHHhQIbhA5rEa
+ gymTm3BG9n/gQG3gXcpZwvLBVJQvnps5SDi6VZ22G6scJ4WClkz9O5dyGU/jztliPuh1
+ A6zA==
+X-Gm-Message-State: AOAM530fjk4ztQWgHTtcjAxFpp7EDHCpPpracL94JUusnDszbGK+WSS7
+ /M6ks5ft0AcxBtOzb5OFgSOxPf6x6o6/0A==
+X-Google-Smtp-Source: ABdhPJwD7iG9xdZhIJbjuntO+lv2P3aKgdHiSq7Ge2piU6PIssduCbu0GpoD+4cd9Y5j2Oo4e1GD0g==
+X-Received: by 2002:a17:90a:5d0e:: with SMTP id
+ s14mr1843248pji.53.1606277209110; 
+ Tue, 24 Nov 2020 20:06:49 -0800 (PST)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f7sm447806pfe.30.2020.11.24.20.06.46
+ by smtp.gmail.com with ESMTPSA id f7sm447806pfe.30.2020.11.24.20.06.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 20:06:47 -0800 (PST)
+ Tue, 24 Nov 2020 20:06:48 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/11] target/arm: Enforce alignment for LDA/LDAH/STL/STLH
-Date: Tue, 24 Nov 2020 20:06:33 -0800
-Message-Id: <20201125040642.2339476-3-richard.henderson@linaro.org>
+Subject: [PATCH 03/11] target/arm: Enforce alignment for LDM/STM
+Date: Tue, 24 Nov 2020 20:06:34 -0800
+Message-Id: <20201125040642.2339476-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201125040642.2339476-1-richard.henderson@linaro.org>
 References: <20201125040642.2339476-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x544.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,49 +89,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/arm/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 17883d00f4..73b3d8cbbf 100644
+index 73b3d8cbbf..fe4400fa6c 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -6876,7 +6876,7 @@ static bool op_stl(DisasContext *s, arg_STL *a, MemOp mop)
+@@ -7814,7 +7814,7 @@ static bool op_stm(DisasContext *s, arg_ldst_block *a, int min_n)
+         } else {
+             tmp = load_reg(s, i);
+         }
+-        gen_aa32_st32(s, tmp, addr, mem_idx);
++        gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN | s->be_data);
+         tcg_temp_free_i32(tmp);
  
- static bool trans_STL(DisasContext *s, arg_STL *a)
- {
--    return op_stl(s, a, MO_UL);
-+    return op_stl(s, a, MO_UL | MO_ALIGN);
- }
+         /* No need to add after the last transfer.  */
+@@ -7889,7 +7889,7 @@ static bool do_ldm(DisasContext *s, arg_ldst_block *a, int min_n)
+         }
  
- static bool trans_STLB(DisasContext *s, arg_STL *a)
-@@ -6886,7 +6886,7 @@ static bool trans_STLB(DisasContext *s, arg_STL *a)
- 
- static bool trans_STLH(DisasContext *s, arg_STL *a)
- {
--    return op_stl(s, a, MO_UW);
-+    return op_stl(s, a, MO_UW | MO_ALIGN);
- }
- 
- static bool op_ldrex(DisasContext *s, arg_LDREX *a, MemOp mop, bool acq)
-@@ -7033,7 +7033,7 @@ static bool op_lda(DisasContext *s, arg_LDA *a, MemOp mop)
- 
- static bool trans_LDA(DisasContext *s, arg_LDA *a)
- {
--    return op_lda(s, a, MO_UL);
-+    return op_lda(s, a, MO_UL | MO_ALIGN);
- }
- 
- static bool trans_LDAB(DisasContext *s, arg_LDA *a)
-@@ -7043,7 +7043,7 @@ static bool trans_LDAB(DisasContext *s, arg_LDA *a)
- 
- static bool trans_LDAH(DisasContext *s, arg_LDA *a)
- {
--    return op_lda(s, a, MO_UW);
-+    return op_lda(s, a, MO_UW | MO_ALIGN);
- }
- 
- /*
+         tmp = tcg_temp_new_i32();
+-        gen_aa32_ld32u(s, tmp, addr, mem_idx);
++        gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN | s->be_data);
+         if (user) {
+             tmp2 = tcg_const_i32(i);
+             gen_helper_set_user_reg(cpu_env, tmp2, tmp);
 -- 
 2.25.1
 
