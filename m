@@ -2,40 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA24B2C3BE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 10:23:22 +0100 (CET)
-Received: from localhost ([::1]:45532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1CCB2C3C26
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 10:25:18 +0100 (CET)
+Received: from localhost ([::1]:47680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khr1F-0006a9-Ft
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 04:23:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57548)
+	id 1khr37-0007bH-WE
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 04:25:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khqzS-0005NL-QB
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 04:21:30 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37286)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khr2E-00079a-VO
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 04:24:22 -0500
+Received: from mx2.suse.de ([195.135.220.15]:40362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khqzR-0002gP-1x
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 04:21:30 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khr2D-0003f7-EM
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 04:24:22 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 28237AC75;
- Wed, 25 Nov 2020 09:21:27 +0000 (UTC)
-Subject: Re: [RFC v5 09/12] module: introduce MODULE_INIT_ACCEL_CPU
-To: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+ by mx2.suse.de (Postfix) with ESMTP id 259D0AF4C;
+ Wed, 25 Nov 2020 09:24:20 +0000 (UTC)
+Subject: Re: [RFC v5 11/12] i386: centralize initialization of cpu accel
+ interfaces
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Emilio G . Cota" <cota@braap.org>
 References: <20201124162210.8796-1-cfontana@suse.de>
- <20201124162210.8796-10-cfontana@suse.de>
- <20201124170832.GS2271382@habkost.net>
- <a7bed792-5c6f-c49e-946c-f705707ce685@suse.de>
- <20201124190807.GW2271382@habkost.net>
- <58e4d100-f096-0c41-4780-b8b7e9533b5d@redhat.com>
+ <20201124162210.8796-12-cfontana@suse.de>
+ <7dc27df6-1c81-f8fb-3e56-aa6ffe9e8475@redhat.com>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <7a3e2790-1924-3d03-d588-a904d7e19282@suse.de>
-Date: Wed, 25 Nov 2020 10:21:25 +0100
+Message-ID: <61d2e854-5d60-9b1e-25fb-6f37e82e29f8@suse.de>
+Date: Wed, 25 Nov 2020 10:24:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <58e4d100-f096-0c41-4780-b8b7e9533b5d@redhat.com>
+In-Reply-To: <7dc27df6-1c81-f8fb-3e56-aa6ffe9e8475@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -59,74 +64,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul@xen.org>, Olaf Hering <ohering@suse.de>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Bruce Rogers <brogers@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, "Emilio G . Cota" <cota@braap.org>,
- haxm-team@intel.com, Peter Xu <peterx@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Dario Faggioli <dfaggioli@suse.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Colin Xu <colin.xu@intel.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/24/20 9:01 PM, Paolo Bonzini wrote:
-> On 24/11/20 20:08, Eduardo Habkost wrote:
->>> Not a big advantage I agree,
->>> I think however there is one, in using the existing framework that exists, for the purposes that it was built for.
->>>
->>> As I understand it, the global module init framework is supposed to mark the major initialization steps,
->>> and this seems to fit the bill.
->> That seems to be the main source of disagreement.  I don't agree
->> that's the purpose of module_init().
->>
->> The module init framework is used to unconditionally register
->> module-provided entities like option names, QOM types, block
->> drivers, trace events, etc.  The entities registered by module
->> init functions represent a passive dynamically loadable piece of
->> code.
+On 11/24/20 9:13 PM, Paolo Bonzini wrote:
+> On 24/11/20 17:22, Claudio Fontana wrote:
+>> +static void x86_cpu_accel_init(void)
+>>  {
+>> -    X86CPUAccelClass *acc;
+>> +    const char *ac_name;
+>> +    ObjectClass *ac;
+>> +    char *xac_name;
+>> +    ObjectClass *xac;
+>>  
+>> -    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
+>> -    g_assert(acc != NULL);
+>> +    ac = object_get_class(OBJECT(current_accel()));
+>> +    g_assert(ac != NULL);
+>> +    ac_name = object_class_get_name(ac);
+>> +    g_assert(ac_name != NULL);
+>>  
+>> -    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
+>> +    xac_name = g_strdup_printf("%s-%s", ac_name, TYPE_X86_CPU);
+>> +    xac = object_class_by_name(xac_name);
+>> +    g_free(xac_name);
+>> +
+>> +    if (xac) {
+>> +        object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, xac);
+>> +    }
+>>  }
+>> +
+>> +accel_cpu_init(x86_cpu_accel_init);
 > 
-> Indeed.  Think of module_init() as C++ global constructors.
-> 
-> Anything that has an "if" does not belong in module_init.
-> 
-> If you look at my review of the previous versions, I was not necessarily 
-> against MODULE_INIT_ACCEL_CPU, but I was (and am) strongly against 
-> calling it in the middle of the machine creation sequence.
+> If this and cpus_accel_ops_init are the only call to accel_cpu_init, I'd 
+> rather make them functions in CPUClass (which you find and call via 
+> CPU_RESOLVING_TYPE) and AccelClass respectively.
 > 
 > Paolo
 > 
 > 
 
-Hi Paolo,
+I don't expect others (actually I do, but it's going to be one additional call per target).
+So based on RFCv5, I would see additional calls to accel_cpu_init for target/arm/cpu.c, target/s390x/cpu.c in patches to come.
 
-in RFC v5 , module init for ACCEL_CPU is not conditional anymore, right?
-But the fact that its behavior depends on current_accel() still disqualifies it?
+I'll look into this.
 
-It is called right after the accelerator is chosen and initialized in RFC v5, this still is "in the middle of the machine creation sequence"?
-
-I am trying to find the actual things to fix, since when doing RFC v5 I tried to specifically address two points:
-
-1) no if () inside module init functions
-
-2) no proliferation of module init functions
-
-which I accomplished via AccelClass extension to user mode, current_accel(), and class lookup.
-
-If MODULE_INIT_ACCEL_CPU remains an option, where would you like to see the call so that it is not "in the middle"?
-
-It is interesting for me to try to discern which meaning you folks give to MODULE_INIT.
-
-Keep in mind, I will experiment with Eduardo's option of "one accel_init() to rule them all", without MODULE_INIT_ACCEL_CPU,
-so I am not focused on using this no matter what.
-
-Ciao,
+Thanks,
 
 Claudio
-
-
 
