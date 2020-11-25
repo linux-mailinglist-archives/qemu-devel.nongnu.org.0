@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FE92C496B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 21:59:54 +0100 (CET)
-Received: from localhost ([::1]:59280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AA02C4985
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 22:09:28 +0100 (CET)
+Received: from localhost ([::1]:51754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ki1tJ-0001y2-O4
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 15:59:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51908)
+	id 1ki22Z-0002TG-Uc
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 16:09:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1ki1qU-0000KE-Mz
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 15:56:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43092)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1ki1qT-0003LO-5F
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 15:56:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606337816;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EFazzX6+7EagLkp46jyoR/EQd/qYnXrHDEbzHJLMYpI=;
- b=LEL9Oex/7UDBV2TIERyE6JHKlqRmOgeyBvIbLg8bAh5MF4lr84FJUlPjgSiK+OSQ+3lQO5
- nupzy5E98JhCfsWyhoHb9b2YNX/GZ/+zr0zSHxcAihonx88HVUz3A18xVUuyFt4g11p4Qy
- 6oumvyY/McumwOWF7k7ydPKQrymhb8w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-o1JDkAcBNf-GrKvfqYDjBw-1; Wed, 25 Nov 2020 15:56:54 -0500
-X-MC-Unique: o1JDkAcBNf-GrKvfqYDjBw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66359106B821;
- Wed, 25 Nov 2020 20:56:53 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3ED7F60636;
- Wed, 25 Nov 2020 20:56:50 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/6] accel: accel_available() function
-Date: Wed, 25 Nov 2020 15:56:32 -0500
-Message-Id: <20201125205636.3305257-3-ehabkost@redhat.com>
-In-Reply-To: <20201125205636.3305257-1-ehabkost@redhat.com>
-References: <20201125205636.3305257-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ki1ug-0003dq-OD
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 16:01:19 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58172)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1ki1ua-0004cL-34
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 16:01:18 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1ki1uX-0007SO-6p
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 21:01:09 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 329D72E813B
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 21:01:09 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2020 20:47:40 -0000
+From: Nikolay Kichukov <1833053@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: crash qemu spice usbredir
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gsanic hijacker-c th-huth
+X-Launchpad-Bug-Reporter: Nikolay Kichukov (hijacker-c)
+X-Launchpad-Bug-Modifier: Nikolay Kichukov (hijacker-c)
+References: <156076455835.24347.5065510387911666481.malonedeb@gac.canonical.com>
+Message-Id: <160633726183.26468.4562862723483576027.launchpad@wampee.canonical.com>
+Subject: [Bug 1833053] Re: qemu guest crashes on spice client USB redirected
+ device removal
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
+X-Launchpad-Hash: a40d0d6d0e426cc2f52cfcc8cd88a61072d8c160
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,56 +71,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>
+Reply-To: Bug 1833053 <1833053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function will be used to replace the xen_available() and
-kvm_available() functions from arch_init.c.
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Claudio Fontana <cfontana@suse.de>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>
----
- include/sysemu/accel.h | 1 +
- accel/accel.c          | 5 +++++
- 2 files changed, 6 insertions(+)
+-- =
 
-diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
-index e08b8ab8fa..a4a00c75c8 100644
---- a/include/sysemu/accel.h
-+++ b/include/sysemu/accel.h
-@@ -67,6 +67,7 @@ typedef struct AccelClass {
-     OBJECT_GET_CLASS(AccelClass, (obj), TYPE_ACCEL)
- 
- AccelClass *accel_find(const char *opt_name);
-+bool accel_available(const char *name);
- int accel_init_machine(AccelState *accel, MachineState *ms);
- 
- /* Called just before os_setup_post (ie just before drop OS privs) */
-diff --git a/accel/accel.c b/accel/accel.c
-index cb555e3b06..4a64a2b38a 100644
---- a/accel/accel.c
-+++ b/accel/accel.c
-@@ -46,6 +46,11 @@ AccelClass *accel_find(const char *opt_name)
-     return ac;
- }
- 
-+bool accel_available(const char *name)
-+{
-+    return accel_find(name) != NULL;
-+}
-+
- int accel_init_machine(AccelState *accel, MachineState *ms)
- {
-     AccelClass *acc = ACCEL_GET_CLASS(accel);
--- 
-2.28.0
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1833053
 
+Title:
+  qemu guest crashes on spice client USB redirected device removal
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I am experiencing guest crashes, which cannot be reproduced at all
+  times, but are pretty frequent (4 out of 5 tries it would crash). The
+  guest crashes when a previously attached USB redirected device through
+  SPICE has been removed by the client.
+
+  Steps to reproduce:
+  1.) Start windows 10 guest with display driver Spice
+  2.) Connect to the console with remote-viewer spice://IP:PORT or via virt=
+-viewer (tunnelled through SSH)
+  3.) Attach a client USB device, for example storage device, iPhone or And=
+roid phone
+  4.) Observe the guest OS detects it and sets it up
+  5.) Go back to 'USB device selection' and untick the USB device
+  6.) Observe the guest VM crashed and the below assertion was printed in t=
+he qemu log for this virtual machine:
+
+  qemu-system-x86_64: /var/tmp/portage/app-emulation/qemu-4.0.0-r3/work/qem=
+u-4.0.0/hw/usb/core.c:720: usb_ep_get: Assertion `dev !=3D NULL' failed.
+  2019-06-17 09:25:09.160+0000: shutting down, reason=3Dcrashed
+
+  =
+
+  Versions of related packages on the host:
+  app-emulation/qemu-4.0.0-r3
+  app-emulation/spice-0.14.0-r2:0
+  app-emulation/spice-protocol-0.12.14:0
+  net-misc/spice-gtk-0.35:0
+  Kernel: 5.1.7-gentoo on Intel x86_64 CPU
+
+  Version of the spice-tools on the guest:
+  virtio-win 0.1-126
+  QXL 0.1-21
+  mingw-vdagent-win 0.8.0
+
+  QEMU command line (generated by libvirt):
+
+  /usr/bin/qemu-system-x86_64 -name guest=3DW10VM,debug-threads=3Don -S
+  -object
+  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-4=
+1-W10VM
+  /master-key.aes -machine pc-i440fx-2.12,accel=3Dkvm,usb=3Doff,vmport=3Doff
+  ,dump-guest-core=3Doff -cpu
+  qemu64,hv_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff,hv_synic,hv_stim=
+er
+  -m 4500 -realtime mlock=3Doff -smp
+  2,maxcpus=3D4,sockets=3D4,cores=3D1,threads=3D1 -uuid b39afae2-5085-4659-=
+891c-
+  b3c65e65af2e -no-user-config -nodefaults -chardev
+  socket,id=3Dcharmonitor,fd=3D26,server,nowait -mon
+  chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
+  base=3Dlocaltime,driftfix=3Dslew -no-hpet -global kvm-
+  pit.lost_tick_policy=3Ddelay -no-shutdown -global PIIX4_PM.disable_s3=3D1
+  -global PIIX4_PM.disable_s4=3D1 -boot menu=3Doff,strict=3Don -device ich9
+  -usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0x5.0x7 -device ich9-usb-
+  uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,multifunction=3Don,addr=
+=3D0x5
+  -device ich9-usb-
+  uhci2,masterbus=3Dusb.0,firstport=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device =
+ich9
+  -usb-uhci3,masterbus=3Dusb.0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -de=
+vice
+  virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.0,addr=3D0x8 -device virtio-serial-
+  pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x6 -drive
+  file=3D/libvirt/images/W10VM.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-
+  scsi0-0-0-1,cache=3Dunsafe,discard=3Dunmap,detect-zeroes=3Dunmap -device
+  scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,device_id=3Ddrive-
+  scsi0-0-0-1,drive=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1,bootindex=3D1,writ=
+e-
+  cache=3Don -netdev tap,fd=3D28,id=3Dhostnet0,vhost=3Don,vhostfd=3D29 -dev=
+ice
+  virtio-net-
+  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:44:f6:21,bus=3Dpci.0,addr=
+=3D0x3
+  -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device
+  virtserialport,bus=3Dvirtio-
+  serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dcom.redhat.s=
+pice.0
+  -chardev socket,id=3Dcharchannel1,fd=3D30,server,nowait -device
+  virtserialport,bus=3Dvirtio-
+  serial0.0,nr=3D3,chardev=3Dcharchannel1,id=3Dchannel1,name=3Dorg.qemu.gue=
+st_agent.0
+  -chardev spiceport,id=3Dcharchannel2,name=3Dorg.spice-space.webdav.0
+  -device virtserialport,bus=3Dvirtio-
+  serial0.0,nr=3D2,chardev=3Dcharchannel2,id=3Dchannel2,name=3Dorg.spice-
+  space.webdav.0 -spice port=3D5901,addr=3D0.0.0.0,seamless-migration=3Don
+  -device qxl-
+  vga,id=3Dvideo0,ram_size=3D134217728,vram_size=3D134217728,vram64_size_mb=
+=3D0,vgamem_mb=3D64,max_outputs=3D1,bus=3Dpci.0,addr=3D0x2
+  -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -device hda-
+  duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -chardev
+  spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-
+  redir,chardev=3Dcharredir0,id=3Dredir0,bus=3Dusb.0,port=3D1 -chardev
+  spicevmc,id=3Dcharredir1,name=3Dusbredir -device usb-
+  redir,chardev=3Dcharredir1,id=3Dredir1,bus=3Dusb.0,port=3D2 -device virti=
+o-
+  balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x7 -sandbox
+  on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
+=3Ddeny
+  -msg timestamp=3Don
+
+  =
+
+  I have attempted to collect a backtrace, but will need direction as I am =
+not sure on which thread to listen and where to set the breakpoint, 'thread=
+ apply all backtrace' does not seem to work well with the qemu process...
+
+  Thank you
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1833053/+subscriptions
 
