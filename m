@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED942C47B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 19:36:52 +0100 (CET)
-Received: from localhost ([::1]:59780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 691592C47D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 19:43:35 +0100 (CET)
+Received: from localhost ([::1]:37810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khzet-0004hD-5d
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 13:36:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36632)
+	id 1khzlO-0007cr-2j
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 13:43:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khzdf-0003Hw-Lb
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 13:35:35 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khzdd-0002Vf-8t
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 13:35:35 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1khzdc-0001G4-5b
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 18:35:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 254EE2E813B
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 18:35:32 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1khzk5-00075U-VE
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 13:42:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27445)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1khzk1-0003VQ-7M
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 13:42:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606329724;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fn5Bx42zWzvqFR/DBvXeN2aaVTzhUslRPuGOk0/JwQw=;
+ b=ZZtw3k4KAm3R9h3QzUfCR+YFPGtzKfMK3uTiVge8nGdX9Y7SDkLIG7VaHuZ+hrL0T8iu5g
+ 1BrcxS+/4ulbBudyOsPnOAgSpYGSqvEvJLzyc3Uo34XWQ5BxrPE4iYq36wQs5CCbKjj87V
+ aYemZAgF7Kz0GKdfmcvVOdVexFJTpXg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-WSI7hUJ1MMSSCw0BrIU4dw-1; Wed, 25 Nov 2020 13:42:02 -0500
+X-MC-Unique: WSI7hUJ1MMSSCw0BrIU4dw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6AE411CC7EC;
+ Wed, 25 Nov 2020 18:41:59 +0000 (UTC)
+Received: from work-vm (ovpn-115-12.ams2.redhat.com [10.36.115.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E9EB35C1B4;
+ Wed, 25 Nov 2020 18:41:57 +0000 (UTC)
+Date: Wed, 25 Nov 2020 18:41:55 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v3 3/7] support UFFD write fault processing in
+ ram_save_iterate()
+Message-ID: <20201125184155.GI3222@work-vm>
+References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
+ <20201119125940.20017-4-andrey.gruzdev@virtuozzo.com>
+ <20201125130825.GE3222@work-vm>
+ <2d755397-4053-c883-3832-5d475c88b546@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2020 18:30:09 -0000
-From: Thomas Huth <1820247@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: qemu
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paelzer premysl-kouril th-huth
-X-Launchpad-Bug-Reporter: Premysl Kouril (premysl-kouril)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <155264640750.14328.9388423276905279806.malonedeb@soybean.canonical.com>
-Message-Id: <160632900994.9859.12336403696012443828.malone@soybean.canonical.com>
-Subject: [Bug 1820247] Re: QEMU random crash caused by libspice-server
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: adefdaa8dd6568727ea345a29388940c66bb02f6
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <2d755397-4053-c883-3832-5d475c88b546@virtuozzo.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,266 +82,230 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1820247 <1820247@bugs.launchpad.net>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has been sol=
-ved with a newer version of QEMU already. Thank you and sorry for the incon=
-venience.
+* Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
+> On 25.11.2020 16:08, Dr. David Alan Gilbert wrote:
+> > * Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
+> > > In this particular implementation the same single migration
+> > > thread is responsible for both normal linear dirty page
+> > > migration and procesing UFFD page fault events.
+> > > 
+> > > Processing write faults includes reading UFFD file descriptor,
+> > > finding respective RAM block and saving faulting page to
+> > > the migration stream. After page has been saved, write protection
+> > > can be removed. Since asynchronous version of qemu_put_buffer()
+> > > is expected to be used to save pages, we also have to flush
+> > > migraion stream prior to un-protecting saved memory range.
+> > > 
+> > > Write protection is being removed for any previously protected
+> > > memory chunk that has hit the migration stream. That's valid
+> > > for pages from linear page scan along with write fault pages.
+> > > 
+> > > Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> > > ---
+> > >   migration/ram.c | 124 ++++++++++++++++++++++++++++++++++++++++++++----
+> > >   1 file changed, 115 insertions(+), 9 deletions(-)
+> > > 
+> > > diff --git a/migration/ram.c b/migration/ram.c
+> > > index 7f273c9996..08a1d7a252 100644
+> > > --- a/migration/ram.c
+> > > +++ b/migration/ram.c
+> > > @@ -314,6 +314,8 @@ struct RAMState {
+> > >       ram_addr_t last_page;
+> > >       /* last ram version we have seen */
+> > >       uint32_t last_version;
+> > > +    /* 'write-tracking' migration is enabled */
+> > > +    bool ram_wt_enabled;
+> > >       /* We are in the first round */
+> > >       bool ram_bulk_stage;
+> > >       /* The free page optimization is enabled */
+> > > @@ -574,8 +576,6 @@ static int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp)
+> > >       return 0;
+> > >   }
+> > > -__attribute__ ((unused))
+> > > -static int uffd_read_events(int uffd, struct uffd_msg *msgs, int count);
+> > >   __attribute__ ((unused))
+> > >   static bool uffd_poll_events(int uffd, int tmo);
+> > > @@ -1929,6 +1929,86 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+> > >       return pages;
+> > >   }
+> > > +/**
+> > > + * ram_find_block_by_host_address: find RAM block containing host page
+> > > + *
+> > > + * Returns true if RAM block is found and pss->block/page are
+> > > + * pointing to the given host page, false in case of an error
+> > > + *
+> > > + * @rs: current RAM state
+> > > + * @pss: page-search-status structure
+> > > + */
+> > > +static bool ram_find_block_by_host_address(RAMState *rs, PageSearchStatus *pss,
+> > > +        hwaddr page_address)
+> > > +{
+> > > +    bool found = false;
+> > > +
+> > > +    pss->block = rs->last_seen_block;
+> > > +    do {
+> > > +        if (page_address >= (hwaddr) pss->block->host &&
+> > > +            (page_address + TARGET_PAGE_SIZE) <=
+> > > +                    ((hwaddr) pss->block->host + pss->block->used_length)) {
+> > > +            pss->page = (unsigned long)
+> > > +                    ((page_address - (hwaddr) pss->block->host) >> TARGET_PAGE_BITS);
+> > > +            found = true;
+> > > +            break;
+> > > +        }
+> > > +
+> > > +        pss->block = QLIST_NEXT_RCU(pss->block, next);
+> > > +        if (!pss->block) {
+> > > +            /* Hit the end of the list */
+> > > +            pss->block = QLIST_FIRST_RCU(&ram_list.blocks);
+> > > +        }
+> > > +    } while (pss->block != rs->last_seen_block);
+> > > +
+> > > +    rs->last_seen_block = pss->block;
+> > > +    /*
+> > > +     * Since we are in the same loop with ram_find_and_save_block(),
+> > > +     * need to reset pss->complete_round after switching to
+> > > +     * other block/page in pss.
+> > > +     */
+> > > +    pss->complete_round = false;
+> > > +
+> > > +    return found;
+> > > +}
+> > > +
+> > > +/**
+> > > + * get_fault_page: try to get next UFFD write fault page and, if pending fault
+> > > + *   is found, put info about RAM block and block page into pss structure
+> > > + *
+> > > + * Returns true in case of UFFD write fault detected, false otherwise
+> > > + *
+> > > + * @rs: current RAM state
+> > > + * @pss: page-search-status structure
+> > > + *
+> > > + */
+> > > +static bool get_fault_page(RAMState *rs, PageSearchStatus *pss)
+> > > +{
+> > > +    struct uffd_msg uffd_msg;
+> > > +    hwaddr page_address;
+> > > +    int res;
+> > > +
+> > > +    if (!rs->ram_wt_enabled) {
+> > > +        return false;
+> > > +    }
+> > > +
+> > > +    res = uffd_read_events(rs->uffdio_fd, &uffd_msg, 1);
+> > > +    if (res <= 0) {
+> > > +        return false;
+> > > +    }
+> > > +
+> > > +    page_address = uffd_msg.arg.pagefault.address;
+> > > +    if (!ram_find_block_by_host_address(rs, pss, page_address)) {
+> > > +        /* In case we couldn't find respective block, just unprotect faulting page */
+> > > +        uffd_protect_memory(rs->uffdio_fd, page_address, TARGET_PAGE_SIZE, false);
+> > > +        error_report("ram_find_block_by_host_address() failed: address=0x%0lx",
+> > > +                     page_address);
+> > > +        return false;
+> > > +    }
+> > > +
+> > > +    return true;
+> > > +}
+> > > +
+> > >   /**
+> > >    * ram_find_and_save_block: finds a dirty page and sends it to f
+> > >    *
+> > > @@ -1955,25 +2035,50 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
+> > >           return pages;
+> > >       }
+> > > +    if (!rs->last_seen_block) {
+> > > +        rs->last_seen_block = QLIST_FIRST_RCU(&ram_list.blocks);
+> > > +    }
+> > >       pss.block = rs->last_seen_block;
+> > >       pss.page = rs->last_page;
+> > >       pss.complete_round = false;
+> > > -    if (!pss.block) {
+> > > -        pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
+> > > -    }
+> > > -
+> > >       do {
+> > > +        ram_addr_t page;
+> > > +        ram_addr_t page_to;
+> > > +
+> > >           again = true;
+> > > -        found = get_queued_page(rs, &pss);
+> > > -
+> > > +        /* In case of 'write-tracking' migration we first try
+> > > +         * to poll UFFD and get write page fault event */
+> > > +        found = get_fault_page(rs, &pss);
+> > > +        if (!found) {
+> > > +            /* No trying to fetch something from the priority queue */
+> > > +            found = get_queued_page(rs, &pss);
+> > > +        }
+> > >           if (!found) {
+> > >               /* priority queue empty, so just search for something dirty */
+> > >               found = find_dirty_block(rs, &pss, &again);
+> > >           }
+> > >           if (found) {
+> > > +            page = pss.page;
+> > >               pages = ram_save_host_page(rs, &pss, last_stage);
+> > > +            page_to = pss.page;
+> > > +
+> > > +            /* Check if page is from UFFD-managed region */
+> > > +            if (pss.block->flags & RAM_UF_WRITEPROTECT) {
+> > > +                hwaddr page_address = (hwaddr) pss.block->host +
+> > > +                        ((hwaddr) page << TARGET_PAGE_BITS);
+> > > +                hwaddr run_length = (hwaddr) (page_to - page + 1) << TARGET_PAGE_BITS;
+> > > +                int res;
+> > > +
+> > > +                /* Flush async buffers before un-protect */
+> > > +                qemu_fflush(rs->f);
+> > > +                /* Un-protect memory range */
+> > > +                res = uffd_protect_memory(rs->uffdio_fd, page_address, run_length, false);
+> > > +                if (res < 0) {
+> > > +                    break;
+> > > +                }
+> > > +            }
+> > 
+> > Please separate that out into a separate function.
+> > 
+> > Dave
+> > 
+> 
+> You mean separate implementation of ram_find_and_save_block()?
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+No, I mean take that if (...WRITEPROTECT) { ..} block and put it in a
+function and call it from there, just to keep ram_find_and_save_block
+clean.
 
--- =
+Dave
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1820247
+> Andrey
+> 
+> > >           }
+> > >       } while (!pages && again);
+> > > @@ -2086,7 +2191,8 @@ static void ram_state_reset(RAMState *rs)
+> > >       rs->last_sent_block = NULL;
+> > >       rs->last_page = 0;
+> > >       rs->last_version = ram_list.version;
+> > > -    rs->ram_bulk_stage = true;
+> > > +    rs->ram_wt_enabled = migrate_track_writes_ram();
+> > > +    rs->ram_bulk_stage = !rs->ram_wt_enabled;
+> > >       rs->fpo_enabled = false;
+> > >   }
+> > > -- 
+> > > 2.25.1
+> > > 
+> 
+> 
+> -- 
+> Andrey Gruzdev, Principal Engineer
+> Virtuozzo GmbH  +7-903-247-6397
+>                 virtuzzo.com
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Title:
-  QEMU random crash caused by libspice-server
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hi,
-
-  One of our OpenStack instances crashed. It seems there was some
-  problem related to SPICE. Attaching what we had in qemu log. Also
-  sending our versions:
-
-  Linux pre-node1 4.18.0-13-generic #14~18.04.1-Ubuntu SMP Thu Dec 6
-  14:09:52 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
-
-  QEMU emulator version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.9)
-  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
-
-  =
-
-  root@pre-node1:~# cat /var/log/libvirt/qemu/instance-00000038.log =
-
-  2019-03-10 20:39:36.510+0000: starting up libvirt version: 4.0.0, package=
-: 1ubuntu8.6 (Christian Ehrhardt <christian.ehrhardt@canonical.com> Fri, 09=
- Nov 2018 07:42:01 +0100), qemu version: 2.11.1(Debian 1:2.11+dfsg-1ubuntu7=
-.9), hostname: pre-node1
-  LC_ALL=3DC PATH=3D/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin=
-:/bin QEMU_AUDIO_DRV=3Dspice /usr/bin/kvm-spice -name guest=3Dinstance-0000=
-0038,debug-threads=3Don -S -object secret,id=3DmasterKey0,format=3Draw,file=
-=3D/var/lib/libvirt/qemu/domain-5-instance-00000038/master-key.aes -machine=
- pc-i440fx-bionic,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff,mem-merge=3Do=
-ff -cpu Skylake-Server-IBRS,ss=3Don,hypervisor=3Don,tsc_adjust=3Don,clflush=
-opt=3Don,pku=3Don,ssbd=3Don,xsaves=3Don -m 2048 -realtime mlock=3Don -smp 2=
-,sockets=3D1,cores=3D1,threads=3D2 -object memory-backend-file,id=3Dram-nod=
-e0,prealloc=3Dyes,mem-path=3D/dev/hugepages/libvirt/qemu/5-instance-0000003=
-8,share=3Dyes,size=3D2147483648,host-nodes=3D0,policy=3Dbind -numa node,nod=
-eid=3D0,cpus=3D0-1,memdev=3Dram-node0 -uuid 3c3d04f3-4b25-4ea5-8836-0e06eef=
-9dcb7 -smbios 'type=3D1,manufacturer=3DOpenStack Foundation,product=3DOpenS=
-tack Nova,version=3D18.1.1,serial=3D93fa1a55-ba3a-4a99-80b3-3a7bb4e964af,uu=
-id=3D3c3d04f3-4b25-4ea5-8836-0e06eef9dcb7,family=3DVirtual Machine' -no-use=
-r-config -nodefaults -chardev socket,id=3Dcharmonitor,path=3D/var/lib/libvi=
-rt/qemu/domain-5-instance-00000038/monitor.sock,server,nowait -mon chardev=
-=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dutc,driftfix=3Dslew =
--global kvm-pit.lost_tick_policy=3Ddelay -no-hpet -no-shutdown -boot strict=
-=3Don -device piix3-usb-uhci,id=3Dusb,bus=3Dpci.0,addr=3D0x1.0x2 -device vi=
-rtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x3 -drive file=3D/v=
-ar/lib/nova/instances/3c3d04f3-4b25-4ea5-8836-0e06eef9dcb7/disk,format=3Dqc=
-ow2,if=3Dnone,id=3Ddrive-virtio-disk0,cache=3Dnone,discard=3Dignore,throttl=
-ing.iops-read=3D5000,throttling.iops-write=3D5000 -device virtio-blk-pci,sc=
-si=3Doff,bus=3Dpci.0,addr=3D0x4,drive=3Ddrive-virtio-disk0,id=3Dvirtio-disk=
-0,bootindex=3D1 -add-fd set=3D0,fd=3D29 -chardev pty,id=3Dcharserial0,logfi=
-le=3D/dev/fdset/0,logappend=3Don -device isa-serial,chardev=3Dcharserial0,i=
-d=3Dserial0 -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device virt=
-serialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchanne=
-l0,name=3Dcom.redhat.spice.0 -spice port=3D5900,addr=3D10.252.0.101,disable=
--ticketing,seamless-migration=3Don -device qxl-vga,id=3Dvideo0,ram_size=3D6=
-7108864,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=
-=3D1,bus=3Dpci.0,addr=3D0x2 -device vfio-pci,host=3D25:04.1,id=3Dhostdev0,b=
-us=3Dpci.0,addr=3D0x5 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,=
-addr=3D0x6 -msg timestamp=3Don
-  2019-03-10T20:39:36.568276Z qemu-system-x86_64: -chardev pty,id=3Dcharser=
-ial0,logfile=3D/dev/fdset/0,logappend=3Don: char device redirected to /dev/=
-pts/2 (label charserial0)
-  inputs_channel_detach_tablet: =
-
-  main_channel_link: add main channel client
-  main_channel_client_handle_pong: net test: latency 32.760000 ms, bitrate =
-33384953 bps (31.838372 Mbps)
-  red_qxl_set_cursor_peer: =
-
-  inputs_connect: inputs channel client create
-
-  (process:65324): Spice-WARNING **: 16:35:23.769: Failed to create channel=
- client: Client 0x55e7c157e970: duplicate channel type 2 id 0
-  red_qxl_set_cursor_peer: =
-
-
-  (process:65324): Spice-WARNING **: 16:35:24.142: Failed to create
-  channel client: Client 0x55e7c157e970: duplicate channel type 4 id 0
-
-  (process:65324): Spice-CRITICAL **: 16:35:24.142: cursor-channel.c:353:cu=
-rsor_channel_connect: condition `ccc !=3D NULL' failed
-  2019-03-13 15:35:31.785+0000: shutting down, reason=3Dcrashed
-
-
-  =
-
-  I am also attaching some gdb information extracted from qemu crash dump f=
-ile. These are backtraces of particular threads within the crashed QEMU pro=
-cess.
-
-  =
-
-  Thread 9 (Thread 0x7f69649ea5c0 (LWP 65324)):
-  #0  0x00007f695f02d2b7 in __libc_write (fd=3D26, buf=3D0x7ffc33f5b330, nb=
-ytes=3D56) at ../sysdeps/unix/sysv/linux/write.c:27
-  #1  0x00007f695ff30ed3 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #2  0x00007f695ff316ce in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #3  0x00007f695ff52db6 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #4  0x00007f695ff58e38 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #5  0x00007f695ff5f463 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #6  0x00007f695ff5f7bb in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #7  0x000055e7bec94584 in  ()
-  #8  0x000055e7bec94e58 in aio_dispatch ()
-  #9  0x000055e7bec91e3e in  ()
-  #10 0x00007f695fa45387 in g_main_context_dispatch () at /usr/lib/x86_64-l=
-inux-gnu/libglib-2.0.so.0
-  #11 0x000055e7bec940a7 in main_loop_wait ()
-  #12 0x000055e7be8b8486 in main ()
-
-  Thread 8 (Thread 0x7f68b78fc700 (LWP 61873)):
-  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
-stime=3D0x7f68b78fb900, expected=3D0, futex_word=3D0x55e7c1531d78)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
-, abstime=3Dabstime@entry=3D0x7f68b78fb900) at sem_waitcommon.c:111
-  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
-ime=3D0x7f68b78fb900) at sem_waitcommon.c:181
-  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
-  #4  0x000055e7bec928bc in  ()
-  #5  0x00007f695f0236db in start_thread (arg=3D0x7f68b78fc700) at pthread_=
-create.c:463
-  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 7 (Thread 0x7f688f7fe700 (LWP 61366)):
-  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
-stime=3D0x7f688f7fd900, expected=3D0, futex_word=3D0x55e7c1531d78)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
-, abstime=3Dabstime@entry=3D0x7f688f7fd900) at sem_waitcommon.c:111
-  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
-ime=3D0x7f688f7fd900) at sem_waitcommon.c:181
-  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
-  #4  0x000055e7bec928bc in  ()
-  #5  0x00007f695f0236db in start_thread (arg=3D0x7f688f7fe700) at pthread_=
-create.c:463
-  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 6 (Thread 0x7f687effd700 (LWP 61362)):
-  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
-stime=3D0x7f687effc900, expected=3D0, futex_word=3D0x55e7c1531d78)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
-, abstime=3Dabstime@entry=3D0x7f687effc900) at sem_waitcommon.c:111
-  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
-ime=3D0x7f687effc900) at sem_waitcommon.c:181
-  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
-  #4  0x000055e7bec928bc in  ()
-  #5  0x00007f695f0236db in start_thread (arg=3D0x7f687effd700) at pthread_=
-create.c:463
-  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 5 (Thread 0x7f68b58f1700 (LWP 60991)):
-  #0  0x00007f695f02c8c2 in futex_abstimed_wait_cancelable (private=3D0, ab=
-stime=3D0x7f68b58f0900, expected=3D0, futex_word=3D0x55e7c1531d78)
-      at ../sysdeps/unix/sysv/linux/futex-internal.h:205
-  #1  0x00007f695f02c8c2 in do_futex_wait (sem=3Dsem@entry=3D0x55e7c1531d78=
-, abstime=3Dabstime@entry=3D0x7f68b58f0900) at sem_waitcommon.c:111
-  #2  0x00007f695f02c9d3 in __new_sem_wait_slow (sem=3D0x55e7c1531d78, abst=
-ime=3D0x7f68b58f0900) at sem_waitcommon.c:181
-  #3  0x000055e7bec976cf in qemu_sem_timedwait ()
-  #4  0x000055e7bec928bc in  ()
-  #5  0x00007f695f0236db in start_thread (arg=3D0x7f68b58f1700) at pthread_=
-create.c:463
-  #6  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 4 (Thread 0x7f69564a2700 (LWP 65331)):
-  #0  0x00007f695ed46839 in syscall () at ../sysdeps/unix/sysv/linux/x86_64=
-/syscall.S:38
-  #1  0x000055e7bec9790b in qemu_event_wait ()
-  #2  0x000055e7beca7ebe in  ()
-  #3  0x00007f695f0236db in start_thread (arg=3D0x7f69564a2700) at pthread_=
-create.c:463
-  #4  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 3 (Thread 0x7f695449d700 (LWP 65363)):
-  #0  0x00007f695ed415d7 in ioctl () at ../sysdeps/unix/syscall-template.S:=
-78
-  #1  0x000055e7be910547 in kvm_vcpu_ioctl ()
-  #2  0x000055e7be910684 in kvm_cpu_exec ()
-  #3  0x000055e7be8ed3f4 in  ()
-  #4  0x00007f695f0236db in start_thread (arg=3D0x7f695449d700) at pthread_=
-create.c:463
-  #5  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 2 (Thread 0x7f6952b4f700 (LWP 65366)):
-  #0  0x00007f695ed415d7 in ioctl () at ../sysdeps/unix/syscall-template.S:=
-78
-  #1  0x000055e7be910547 in kvm_vcpu_ioctl ()
-  ---Type <return> to continue, or q <return> to quit---
-  #2  0x000055e7be910684 in kvm_cpu_exec ()
-  #3  0x000055e7be8ed3f4 in  ()
-  #4  0x00007f695f0236db in start_thread (arg=3D0x7f6952b4f700) at pthread_=
-create.c:463
-  #5  0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Thread 1 (Thread 0x7f6951a40700 (LWP 65368)):
-  #0  0x00007f695ec69e97 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
-unix/sysv/linux/raise.c:51
-  #1  0x00007f695ec6b801 in __GI_abort () at abort.c:79
-  #2  0x00007f695ff81cc9 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #3  0x00007f695ff63929 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #4  0x00007f695ff314f1 in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #5  0x00007f695ff37d7b in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #6  0x00007f695fa451f5 in g_main_context_dispatch () at /usr/lib/x86_64-l=
-inux-gnu/libglib-2.0.so.0
-  #7  0x00007f695fa455c0 in  () at /usr/lib/x86_64-linux-gnu/libglib-2.0.so=
-.0
-  #8  0x00007f695fa458d2 in g_main_loop_run () at /usr/lib/x86_64-linux-gnu=
-/libglib-2.0.so.0
-  #9  0x00007f695ff63b3a in  () at /usr/lib/x86_64-linux-gnu/libspice-serve=
-r.so.1
-  #10 0x00007f695f0236db in start_thread (arg=3D0x7f6951a40700) at pthread_=
-create.c:463
-  #11 0x00007f695ed4c88f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
-
-  Regards,
-  Premysl
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1820247/+subscriptions
 
