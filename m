@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80AA62C36D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 03:42:06 +0100 (CET)
-Received: from localhost ([::1]:47958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56ED12C36D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 03:42:05 +0100 (CET)
+Received: from localhost ([::1]:47890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khkkv-0005Ch-J9
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 21:42:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46754)
+	id 1khkkt-0005B4-Tf
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 21:42:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1khkjR-0004Er-IO; Tue, 24 Nov 2020 21:40:33 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:47903)
+ id 1khkjQ-0004Ed-85; Tue, 24 Nov 2020 21:40:32 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:37185 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1khkjN-0004h4-JM; Tue, 24 Nov 2020 21:40:33 -0500
+ id 1khkjN-0004h3-Po; Tue, 24 Nov 2020 21:40:31 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CglVb4qvjz9sT6; Wed, 25 Nov 2020 13:40:23 +1100 (AEDT)
+ id 4CglVb6MZGz9sSs; Wed, 25 Nov 2020 13:40:23 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1606272023;
- bh=PhEWN3NCWykrfvUg+VApwdPPuHQw2bFfLdTNxunjMg8=;
+ bh=Jnet97omEC3NeUP5zzuz6y+C0v4dTJ+GN47UAcf0ZTM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=X81vL0BWCAt6NeGi5de3yvwsi2CO0yKYiuk52v7uBmgHgL73x4McyXmE3625ad25P
- YIVKd0Sy1JpXyHRF2CpQDTtDsQTHsH6WNqPl0EMxNhKAKExNH0ZD8UusyiQQ+aAIsi
- FbhRDpjSDRJDlsFLhLeWXkmxSGt3KaEqV140GQjE=
-Date: Wed, 25 Nov 2020 13:39:47 +1100
+ b=oKoJmeBoLD+dSSxMkcPyI5O7nC3MysTxxUl2zuLDDubigScxvrrC7v24/yGUxJR0/
+ 995Jk2kbGt0QImON5NcyXWdf5qoear9q1O9JrdFHFG1XZZN7l8unazVG6EQzs3YgTN
+ 6QHaNL32claRSGTB150zs9LAtTyTqKulvE+kDAH8=
+Date: Wed, 25 Nov 2020 13:40:17 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH for-6.0 4/9] spapr: Set compat mode in spapr_reset_vcpu()
-Message-ID: <20201125023947.GE521467@yekko.fritz.box>
+Subject: Re: [PATCH for-6.0 5/9] spapr: Simplify error path of
+ spapr_core_plug()
+Message-ID: <20201125024017.GF521467@yekko.fritz.box>
 References: <20201120234208.683521-1-groug@kaod.org>
- <20201120234208.683521-5-groug@kaod.org>
- <20201123051130.GL521467@yekko.fritz.box>
- <20201123125108.2118048e@bahia.lan>
+ <20201120234208.683521-6-groug@kaod.org>
+ <20201123051318.GM521467@yekko.fritz.box>
+ <20201124140727.18124eeb@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0Zc0bQF+fxzVVQOT"
+ protocol="application/pgp-signature"; boundary="ViWwB84N1zFtNiVD"
 Content-Disposition: inline
-In-Reply-To: <20201123125108.2118048e@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20201124140727.18124eeb@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -66,141 +67,122 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---0Zc0bQF+fxzVVQOT
-Content-Type: text/plain; charset=us-ascii
+--ViWwB84N1zFtNiVD
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 23, 2020 at 12:51:08PM +0100, Greg Kurz wrote:
-> On Mon, 23 Nov 2020 16:11:30 +1100
+On Tue, Nov 24, 2020 at 02:07:27PM +0100, Greg Kurz wrote:
+> On Mon, 23 Nov 2020 16:13:18 +1100
 > David Gibson <david@gibson.dropbear.id.au> wrote:
 >=20
-> > On Sat, Nov 21, 2020 at 12:42:03AM +0100, Greg Kurz wrote:
-> > > When it comes to resetting the compat mode of the vCPUS, there are
-> > > two situations to consider:
-> > > (1) machine reset should set the compat mode back to the machine defa=
-ult,
-> > >     ie. spapr->max_compat_pvr
-> > > (2) hot plugged vCPUs should set their compat mode to mach the boot v=
-CPU,
-> > >     ie. POWERPC_CPU(first_cpu)->compat_pvr
+> > On Sat, Nov 21, 2020 at 12:42:04AM +0100, Greg Kurz wrote:
+> > > spapr_core_pre_plug() already guarantees that the slot for the given =
+core
+> > > ID is available. It is thus safe to assume that spapr_find_cpu_slot()
+> > > returns a slot during plug. Turn the error path into an assertion.
+> > > It is also safe to assume that no device is attached to the correspon=
+ding
+> > > DRC and that spapr_drc_attach() shouldn't fail.
 > > >=20
-> > > This is currently handled in two separate places: globally for all vC=
-PUs
-> > > from the machine reset code for (1) and for each thread of a core from
-> > > the hotplug path for (2).
-> > >=20
-> > > Since the machine reset code already resets all vCPUs, starting with =
-boot
-> > > vCPU, consolidate the logic in spapr_reset_vcpu(). Special case the b=
-oot
-> > > vCPU so that it resets its compat mode back to the machine default. A=
-ny
-> > > other vCPU just need to match the compat mode of the boot vCPU.
-> > >=20
-> > > Failing to set the compat mode during machine reset is a fatal error,
-> > > but not for hot plugged vCPUs. This is arguable because if we've been
-> > > able to set the boot vCPU compat mode at CAS or during machine reset,
-> > > it should definitely not fail for other vCPUs. Since spapr_reset_vcpu=
-()
-> > > already has a fatal error path for kvm_check_mmu() failures, do the
-> > > same for ppc_set_compat().
-> > >=20
-> > > This gets rid of an error path in spapr_core_plug(). It will allow
-> > > further simplifications.
+> > > Pass &error_abort to spapr_drc_attach() and simplify error handling.
 > > >=20
 > > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> >=20
+> > Applied to ppc-for-6.0, thanks.
+> >=20
+>=20
+> This patch depends on the previous one.
+>=20
 > > > ---
-> > >  hw/ppc/spapr.c          | 16 ----------------
-> > >  hw/ppc/spapr_cpu_core.c | 13 +++++++++++++
-> > >  2 files changed, 13 insertions(+), 16 deletions(-)
+> > >  hw/ppc/spapr.c | 21 ++++++++++-----------
+> > >  1 file changed, 10 insertions(+), 11 deletions(-)
 > > >=20
 > > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > index f58f77389e8e..da7586f548df 100644
+> > > index da7586f548df..cfca033c7b14 100644
 > > > --- a/hw/ppc/spapr.c
 > > > +++ b/hw/ppc/spapr.c
-> > > @@ -1606,8 +1606,6 @@ static void spapr_machine_reset(MachineState *m=
-achine)
-> > >      spapr_ovec_cleanup(spapr->ov5_cas);
-> > >      spapr->ov5_cas =3D spapr_ovec_new();
-> > > =20
-> > > -    ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
-> > > -
-> > >      /*
-> > >       * This is fixing some of the default configuration of the XIVE
-> > >       * devices. To be called after the reset of the machine devices.
-> > > @@ -3785,20 +3783,6 @@ static void spapr_core_plug(HotplugHandler *ho=
-tplug_dev, DeviceState *dev,
-> > > =20
-> > >      core_slot->cpu =3D OBJECT(dev);
-> > > =20
-> > > -    /*
-> > > -     * Set compatibility mode to match the boot CPU, which was eithe=
-r set
-> > > -     * by the machine reset code or by CAS.
-> > > -     */
-> > > -    if (hotplugged) {
-> > > -        for (i =3D 0; i < cc->nr_threads; i++) {
-> > > -            if (ppc_set_compat(core->threads[i],
-> > > -                               POWERPC_CPU(first_cpu)->compat_pvr,
-> > > -                               errp) < 0) {
-> > > -                return;
-> > > -            }
-> > > -        }
-> > > -    }
-> > > -
-> > >      if (smc->pre_2_10_has_unused_icps) {
-> > >          for (i =3D 0; i < cc->nr_threads; i++) {
-> > >              cs =3D CPU(core->threads[i]);
-> > > diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> > > index 2f7dc3c23ded..17741a3fb77f 100644
-> > > --- a/hw/ppc/spapr_cpu_core.c
-> > > +++ b/hw/ppc/spapr_cpu_core.c
-> > > @@ -27,6 +27,7 @@
-> > > =20
-> > >  static void spapr_reset_vcpu(PowerPCCPU *cpu)
-> > >  {
-> > > +    PowerPCCPU *first_ppc_cpu =3D POWERPC_CPU(first_cpu);
-> > >      CPUState *cs =3D CPU(cpu);
-> > >      CPUPPCState *env =3D &cpu->env;
-> > >      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> > > @@ -69,6 +70,18 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
-> > >      kvm_check_mmu(cpu, &error_fatal);
-> > > =20
-> > >      spapr_irq_cpu_intc_reset(spapr, cpu);
-> > > +
-> > > +    /*
-> > > +     * The boot CPU is only reset during machine reset : reset its
-> > > +     * compatibility mode to the machine default. For other CPUs,
-> > > +     * either cold plugged or hot plugged, set the compatibility mode
-> > > +     * to match the boot CPU, which was either set by the machine re=
-set
-> > > +     * code or by CAS.
-> > > +     */
-> > > +    ppc_set_compat(cpu,
-> > > +                   cpu =3D=3D first_ppc_cpu ?
-> > > +                   spapr->max_compat_pvr : first_ppc_cpu->compat_pvr,
-> > > +                   &error_fatal);
-> >=20
-> > This assumes that when it is called for a non-boot CPU, it has already
-> > been called for the boot CPU..  Are we certain that's guaranteed by
-> > the sequence of reset calls during a full machine reset?
-> >=20
->=20
-> This happens to be the case. Basically because the boot CPU core
-> is created (including registering its reset handler) first and
-> qemu_devices_reset() calls handlers in the same order they were
-> registered.
-
-Right, I assumed it works for now, but it seems rather fragile, since
-I'm not sure we're relying on guaranteed properties of the interface.
-Is there any way we could at least assert() if things are called out
-of order?
-
->=20
+> > > @@ -3739,8 +3739,7 @@ int spapr_core_dt_populate(SpaprDrc *drc, Spapr=
+MachineState *spapr,
+> > >      return 0;
 > > >  }
 > > > =20
-> > >  void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
+> > > -static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState=
+ *dev,
+> > > -                            Error **errp)
+>=20
+> ../../hw/ppc/spapr.c: In function =E2=80=98spapr_core_plug=E2=80=99:
+> ../../hw/ppc/spapr.c:3802:32: error: =E2=80=98errp=E2=80=99 undeclared (f=
+irst use in this function); did you mean =E2=80=98errno=E2=80=99?
+>                                 errp) < 0) {
+>                                 ^~~~
+>                                 errno
+> ../../hw/ppc/spapr.c:3802:32: note: each undeclared identifier is reporte=
+d only once for each function it appears in
+>=20
+> Please either drop it from ppc-for-6.0 or possibly adapt spapr_core_plug()
+> to handle errors from ppc_set_compat().
+
+Dropped for now (along with a later patch that depended on this one).
+
+>=20
+> <my 2 cents>
+> Since I can't see how this could fail for a hotplugged CPU if it
+> succeeded for the boot CPU, I'd pass &error_abort despite this
+> being a hotplug path.
+> </my 2 cents>
+>=20
+> > > +static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState=
+ *dev)
+> > >  {
+> > >      SpaprMachineState *spapr =3D SPAPR_MACHINE(OBJECT(hotplug_dev));
+> > >      MachineClass *mc =3D MACHINE_GET_CLASS(spapr);
+> > > @@ -3755,20 +3754,20 @@ static void spapr_core_plug(HotplugHandler *h=
+otplug_dev, DeviceState *dev,
+> > >      int i;
+> > > =20
+> > >      core_slot =3D spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core=
+_id, &index);
+> > > -    if (!core_slot) {
+> > > -        error_setg(errp, "Unable to find CPU core with core-id: %d",
+> > > -                   cc->core_id);
+> > > -        return;
+> > > -    }
+> > > +    g_assert(core_slot); /* Already checked in spapr_core_pre_plug()=
+ */
+> > > +
+> > >      drc =3D spapr_drc_by_id(TYPE_SPAPR_DRC_CPU,
+> > >                            spapr_vcpu_id(spapr, cc->core_id));
+> > > =20
+> > >      g_assert(drc || !mc->has_hotpluggable_cpus);
+> > > =20
+> > >      if (drc) {
+> > > -        if (!spapr_drc_attach(drc, dev, errp)) {
+> > > -            return;
+> > > -        }
+> > > +        /*
+> > > +         * spapr_core_pre_plug() already buys us this is a brand new
+> > > +         * core being plugged into a free slot. Nothing should alrea=
+dy
+> > > +         * be attached to the corresponding DRC.
+> > > +         */
+> > > +        spapr_drc_attach(drc, dev, &error_abort);
+> > > =20
+> > >          if (hotplugged) {
+> > >              /*
+> > > @@ -3981,7 +3980,7 @@ static void spapr_machine_device_plug(HotplugHa=
+ndler *hotplug_dev,
+> > >      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+> > >          spapr_memory_plug(hotplug_dev, dev);
+> > >      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)=
+) {
+> > > -        spapr_core_plug(hotplug_dev, dev, errp);
+> > > +        spapr_core_plug(hotplug_dev, dev);
+> > >      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_PCI_HOST_=
+BRIDGE)) {
+> > >          spapr_phb_plug(hotplug_dev, dev, errp);
+> > >      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_TPM_PROXY=
+)) {
 > >=20
 >=20
 
@@ -212,25 +194,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---0Zc0bQF+fxzVVQOT
+--ViWwB84N1zFtNiVD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+9w/AACgkQbDjKyiDZ
-s5IkHxAAzTjHx76BoVhnjNwc2LiTQTDuReiUwbMfZ0X4BWqWVVZEVzwo/B0cP7Gu
-AIiCwtzKC73fNLp6dK25udwMPF93VURSzg5+Q8wcLi8zpx2Ohkc1eimTNnFxaDcS
-byLDL6+GVRdh4fklm+Q8aQaPJhmxWAxRoWR9JmCbdW+SdCI8UPr8ltt7yDOektM4
-47m1935DLGCE80kF/TK1YlAx82Wy9I04sP2UI81ARAo7Sv2poSUI10TSSFXoU9GA
-3clGprMsVUWm+As+BwiMqh9TUivDzU2nt3QqCtV+qAp780diRfK3jKtoJNznb8Hu
-+W319W8mPZo1ag7wCK3DLvGM6UO355tsgxOuicnhQCLyRlHAyuqzEZCCjI5he1f5
-s84RGtcRdQkttxMFbytsizn9M/QP/AjFJmkC10yW+aw1SW4Eq9PD3OMa0jdOcLOK
-28HqYQMSKv0Dx32ou6z4ZrwFm+X1993JxNzchEDK/nBLW2uj+5p9+kpalKojxkl4
-qzGKAyLC8Msb/ua/9H5IQs465v7WRhT/VLKjoxio5rX8hwLN6XdI6dgRXsvX5Rkn
-IGFv19G0FkntjdNceqddN+QDjf6fqRniODkgbg75GrB1jpb28k4eVOB4GpLP9JpO
-fF0Lk2n+/8C0Jk0mgTViOrEmxbpB+jwp+oOtHFoZ3cgS0orjOaI=
-=EKxS
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+9xBEACgkQbDjKyiDZ
+s5IIhA//edaMmhLm0XIfUjpyVxGCxj68yJmCJLOX6iJ/lCYVULEpPRdD6HzttjhR
+Ri8hGdbH3gxVWNoJxxdaZgCbSu3AyZDH2VeMZ7LW/3yL6r9q419kdHp0y4JhK9Ah
+2E/HZmOTWE9WIAPFUjJtBd039PJ4zhznQb2boVNactCcpdT24BkemrTNdKQrIGH4
+hMcJ31p35ZSiJZWEDYoVkMXuBRfANigLcDwXGXzx0mTdETYi+4enJXse+leQNksn
+TZlx/yfx0wKvvmADOUl0/FM2PlxUfF0Uq/4+NXj2e3ZFzaIbfHRcYvvKnYb0JpQ3
+WXxac5IA7NHBMnCRMzEajMu1rw/u03TfsQQxfT2MMsihWaUufeSo+rEeNLmsGL1y
+ADHq1lDX+g1pV/wk26g4tBgxalCCDZhJi166Inn8mXBB5Rj6/+peDHsQaLD8fP02
+q7BmQ64ZZlApkxbrbd2kkpSWy8OZHb5mlGKxNPH3ZaDWbCDXMXJQXOTTYqNeG4v2
+2hO6wVdh1x+jI3d29BhW66NLsPfPHEZ3iicuUzQZryoVTyI/T/WbbL6Pm7qrxOyW
+mDb8Yu7jksRfH+Xly5KIeFAAjGkJKfVJ90Q3N6H01/jf2LY1vfCKdMtYBiLGZ9l0
+yJJixX/xT6lMvj5gjLaIw/9EEWscYLpA8sRqIEMrkCiSWPYUMto=
+=Hkr5
 -----END PGP SIGNATURE-----
 
---0Zc0bQF+fxzVVQOT--
+--ViWwB84N1zFtNiVD--
 
