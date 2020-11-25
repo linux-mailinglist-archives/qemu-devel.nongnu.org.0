@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26B32C36D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 03:52:52 +0100 (CET)
-Received: from localhost ([::1]:52398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792442C36F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 03:56:51 +0100 (CET)
+Received: from localhost ([::1]:54518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khkvL-0007pY-HG
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 21:52:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48384)
+	id 1khkzC-0000W2-EK
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 21:56:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1khks0-00072e-Jw; Tue, 24 Nov 2020 21:49:24 -0500
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:35414)
+ id 1khkut-00086R-Ku; Tue, 24 Nov 2020 21:52:23 -0500
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:43811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1khkry-0005jr-NM; Tue, 24 Nov 2020 21:49:24 -0500
-Received: by mail-qk1-x742.google.com with SMTP id v143so1913208qkb.2;
- Tue, 24 Nov 2020 18:49:21 -0800 (PST)
+ id 1khkur-0006BC-6t; Tue, 24 Nov 2020 21:52:23 -0500
+Received: by mail-qk1-x742.google.com with SMTP id u4so1835176qkk.10;
+ Tue, 24 Nov 2020 18:52:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=kXVueYUa/uAk7l7Au0UFCAqyQlpGibXkR/Ajck+DQXw=;
- b=T0sbynXvxjJlW2mjh707bCTWU8V0Dsga87ovVjeF8E7cAGvB9v8460dSyXMIzpwTy/
- I7YGrwCjMAdgOWdMubbR0KxaM4GSlM/ulR3SDqWx2OQvzpRMBpv+FCk1iw1Z5IOli5K5
- 7wgA91/RYLaKC+59/0/5nlrUaOCkXHG0Oz3/U=
+ bh=8KCMB56xke4Fi4UqdZFRvzzs3NZ9qK79sJRBWmn5hNU=;
+ b=E3FBNTUUqOrGIsxpWOTm1zsbg+mpw+k1q2kHiGXRxvtlziHqOVU3fuWJa6WRsUC0Fc
+ SrLA3/cnHQJF2Jd3iyLqlx/0T5QxCCXzus3GR4OSzRWuKbQoFsHaJI+KueTyXbmkvTbM
+ Fb3JpEeBiny5gfelEj1QTJmVCFUpnBKiZ97qo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=kXVueYUa/uAk7l7Au0UFCAqyQlpGibXkR/Ajck+DQXw=;
- b=Aie8Z9t4E/Kx+APUK4+gdQ9oUjdZKLlh4w4Kw5JsCNzWNhoFNLElyz4YUhyqbKKtGX
- jfCaM+yaFinA2ivondYMfK9syCeQ7nzYvQdyR7BQa2apwhi3d+yPI8aGBdYeoJjsZF89
- pYptc3wbZc03rU3CJVSj7ul7drKE/b1DKPsLUAvKteFbpB++6Y83315C8FFngjOmTfyJ
- MjTprMPr46q4HX8wn+RYuE3FBuNEu6HfNTG+ohrpBLu3QFJIwQwTdzi1+cYk+JIVNGsf
- IpGkB7beMSisIff7RxHdXpJs86ewfzSq2ZtPai7hAFIVSEP/FsarlaOIWVtFTW0hbHNf
- N3sw==
-X-Gm-Message-State: AOAM5301T335zTGERyqove/wB97R1PWmX6GcVc4WQUmJ9OSDWD2BtQUa
- NGGch4YlAELvpXSGC1niEE7gL1xHVenirMmQTGI=
-X-Google-Smtp-Source: ABdhPJynmt36rCQhmafCL+sKQdn2roqka8pPdKZkeMfOVDuVChRlYsOWSBEW8EaGAYCVS14LftFo2qcGwZRr9HV8vWw=
-X-Received: by 2002:a37:664d:: with SMTP id a74mr1330409qkc.487.1606272560639; 
- Tue, 24 Nov 2020 18:49:20 -0800 (PST)
+ bh=8KCMB56xke4Fi4UqdZFRvzzs3NZ9qK79sJRBWmn5hNU=;
+ b=PturAXcrBWp/oijkFGC83CApz4N1LN2DDpF1enzP2ciwoiAvZcbJlBktGTpec3uNUr
+ DPmcGfR6qt+OHletu4DCfvvhxTvy50v+lkIcbwY/ggl+Ah5MBL21Ypj96tRHEDJi8+MN
+ TXkhdJAEuapIUWEi/dL0zdeuMYjY1IzNT8ILQQipueMSjWI/Vl85Ham65CN26qiIQW8x
+ ibLqU9Uu5yPiaC+LWOlYSNuwRMzteTeEdF1WZ/8Q9Dd5kdmfevX4d91pzD7lqSXKIW/q
+ IkReN8ES3wzQFVW2KaugaKZY6D8J5WiBAkyrZORxSB8cUF0Hv761y6iK4IMUeDY2KRZ9
+ tuQw==
+X-Gm-Message-State: AOAM532XHNtbWXsw8WxPMV/kEy/h2Fn0dFm8wkw9CwBK9CPkcARlXV3Q
+ PZoBwJW/Gjz7Hs7KncRzNc4PTAVm2VIdM87/ATM=
+X-Google-Smtp-Source: ABdhPJxRtVZxxWA3kBM/NPbUt8kXs2QG52aQ0fjIPHgG4EMdWisl576/KwaukPQKlkri1humuC4qT4PyJ2Ik5x217Uo=
+X-Received: by 2002:a05:620a:7e8:: with SMTP id
+ k8mr1374789qkk.273.1606272739709; 
+ Tue, 24 Nov 2020 18:52:19 -0800 (PST)
 MIME-Version: 1.0
 References: <20201120161547.740806-1-clg@kaod.org>
- <20201120161547.740806-3-clg@kaod.org>
-In-Reply-To: <20201120161547.740806-3-clg@kaod.org>
+ <20201120161547.740806-2-clg@kaod.org>
+In-Reply-To: <20201120161547.740806-2-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 25 Nov 2020 02:49:08 +0000
-Message-ID: <CACPK8Xf_Q2_r=B54hvxmq4ezwmAndDPqGqOh9+YGFDCb4jfqig@mail.gmail.com>
-Subject: Re: [PATCH for-6.0 2/2] aspeed/smc: Add extra controls to request DMA
+Date: Wed, 25 Nov 2020 02:52:07 +0000
+Message-ID: <CACPK8Xdx8HYw0ZL1Z2+KTZ6m5yerkoB+6j3uQrMSHWd0ZT4Ldg@mail.gmail.com>
+Subject: Re: [PATCH for-6.0 1/2] aspeed/smc: Add support for address lane
+ disablement
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -83,56 +85,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 20 Nov 2020 at 16:16, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> The controller has a set of hidden bits to request/grant DMA access.
-
-Do you have the ast2600 datasheet? It describes these bits:
-
-31 RW DMA Request
-
-Write SPIR80 =3D 0xAEED0000 to set this bit ot '1'.
-And hardware will clear the request to '0' after DMA done, or FW can
-clear to '0' by writing SPIR80 =3D 0xDEEA0000.
-
-30 RO DMA Grant
-
-0: DMA is not allowed to be used. All DMA related control registers
-are not allowed to be written.
-1: DMA is granted to be used.
-
-Do you want to add the magic behavior to your model?
-
+> The controller can be configured to disable or enable address and data
+> byte lanes when issuing commands. This is useful in read command mode
+> to send SPI NOR commands that don't have an address space, such as
+> RDID. It's a good way to have a unified read operation for registers
+> and flash contents accesses.
+>
+> A new SPI driver proposed by Aspeed makes use of this feature. Add
+> support for address lanes to start with. We will do the same for the
+> data lanes if they are controlled one day.
 >
 > Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
 > ---
->  hw/ssi/aspeed_smc.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  hw/ssi/aspeed_smc.c | 25 ++++++++++++++++++-------
+>  1 file changed, 18 insertions(+), 7 deletions(-)
 >
 > diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-> index e3d5e26058c0..c1557ef5d848 100644
+> index 795784e5f364..e3d5e26058c0 100644
 > --- a/hw/ssi/aspeed_smc.c
 > +++ b/hw/ssi/aspeed_smc.c
-> @@ -127,6 +127,8 @@
+> @@ -71,6 +71,16 @@
+>  #define   INTR_CTRL_CMD_ABORT_EN          (1 << 2)
+>  #define   INTR_CTRL_WRITE_PROTECT_EN      (1 << 1)
 >
->  /* DMA Control/Status Register */
->  #define R_DMA_CTRL        (0x80 / 4)
-> +#define   DMA_CTRL_REQUEST      (1 << 31)
-> +#define   DMA_CTRL_GRANT        (1 << 30)
->  #define   DMA_CTRL_DELAY_MASK   0xf
->  #define   DMA_CTRL_DELAY_SHIFT  8
->  #define   DMA_CTRL_FREQ_MASK    0xf
-> @@ -1237,6 +1239,11 @@ static void aspeed_smc_dma_done(AspeedSMCState *s)
->
->  static void aspeed_smc_dma_ctrl(AspeedSMCState *s, uint64_t dma_ctrl)
->  {
-> +    if (dma_ctrl & DMA_CTRL_REQUEST) {
-> +            s->regs[R_DMA_CTRL] =3D dma_ctrl | DMA_CTRL_GRANT;
-> +            return;
-> +    }
+> +/* Command Control Register */
+> +#define R_CE_CMD_CTRL      (0x0C / 4)
+> +#define   CTRL_ADDR_BYTE0_DISABLE_SHIFT       4
+> +#define   CTRL_DATA_BYTE0_DISABLE_SHIFT       0
 > +
->      if (!(dma_ctrl & DMA_CTRL_ENABLE)) {
->          s->regs[R_DMA_CTRL] =3D dma_ctrl;
+> +#define aspeed_smc_addr_byte_enabled(s, i)                              =
+ \
+> +    (!((s)->regs[R_CE_CMD_CTRL] & (1 << (CTRL_ADDR_BYTE0_DISABLE_SHIFT +=
+ (i)))))
+> +#define aspeed_smc_data_byte_enabled(s, i)                              =
+ \
+> +    (!((s)->regs[R_CE_CMD_CTRL] & (1 << (CTRL_DATA_BYTE0_DISABLE_SHIFT +=
+ (i)))))
+> +
+>  /* CEx Control Register */
+>  #define R_CTRL0           (0x10 / 4)
+>  #define   CTRL_IO_QPI              (1 << 31)
+> @@ -702,19 +712,17 @@ static void aspeed_smc_flash_setup(AspeedSMCFlash *=
+fl, uint32_t addr)
+>  {
+>      const AspeedSMCState *s =3D fl->controller;
+>      uint8_t cmd =3D aspeed_smc_flash_cmd(fl);
+> -    int i;
+> +    int i =3D aspeed_smc_flash_is_4byte(fl) ? 4 : 3;
 >
+>      /* Flash access can not exceed CS segment */
+>      addr =3D aspeed_smc_check_segment_addr(fl, addr);
+>
+>      ssi_transfer(s->spi, cmd);
+> -
+> -    if (aspeed_smc_flash_is_4byte(fl)) {
+> -        ssi_transfer(s->spi, (addr >> 24) & 0xff);
+> +    while (i--) {
+> +        if (aspeed_smc_addr_byte_enabled(s, i)) {
+> +            ssi_transfer(s->spi, (addr >> (i * 8)) & 0xff);
+> +        }
+>      }
+> -    ssi_transfer(s->spi, (addr >> 16) & 0xff);
+> -    ssi_transfer(s->spi, (addr >> 8) & 0xff);
+> -    ssi_transfer(s->spi, (addr & 0xff));
+>
+>      /*
+>       * Use fake transfers to model dummy bytes. The value should
+> @@ -988,6 +996,7 @@ static uint64_t aspeed_smc_read(void *opaque, hwaddr =
+addr, unsigned int size)
+>          (addr >=3D s->r_timings &&
+>           addr < s->r_timings + s->ctrl->nregs_timings) ||
+>          addr =3D=3D s->r_ce_ctrl ||
+> +        addr =3D=3D R_CE_CMD_CTRL ||
+>          addr =3D=3D R_INTR_CTRL ||
+>          addr =3D=3D R_DUMMY_DATA ||
+>          (s->ctrl->has_dma && addr =3D=3D R_DMA_CTRL) ||
+> @@ -1276,6 +1285,8 @@ static void aspeed_smc_write(void *opaque, hwaddr a=
+ddr, uint64_t data,
+>          if (value !=3D s->regs[R_SEG_ADDR0 + cs]) {
+>              aspeed_smc_flash_set_segment(s, cs, value);
+>          }
+> +    } else if (addr =3D=3D R_CE_CMD_CTRL) {
+> +        s->regs[addr] =3D value & 0xff;
+>      } else if (addr =3D=3D R_DUMMY_DATA) {
+>          s->regs[addr] =3D value & 0xff;
+>      } else if (addr =3D=3D R_INTR_CTRL) {
 > --
 > 2.26.2
 >
