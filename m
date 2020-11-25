@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397372C412D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 14:34:09 +0100 (CET)
-Received: from localhost ([::1]:39202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77EF2C4131
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 14:35:09 +0100 (CET)
+Received: from localhost ([::1]:42298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khuvt-0001vZ-T9
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 08:34:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41262)
+	id 1khuwt-0003CA-Bp
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 08:35:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
- id 1khupK-0007FF-1d
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:27:18 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55138)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
- id 1khupH-0000sh-U7
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:27:17 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id d142so2005367wmd.4
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 05:27:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=blade-group.com; s=google;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition
- :content-transfer-encoding;
- bh=ks4A3N69cOaw0ymDGE2Z/6Z927zJtwPh2/d5E7s9xIQ=;
- b=IORGh6zSqMyxnc3qSi8PjYHw15LmsKLdBYil3CLvTotR6GgNMNDWOcatnzbQgEdgt4
- wHmwQ04z2BVi35lHa0IPNOmGYnyNS5zYcv9SR6YEROOwbhl9685FvL/pLm3W0MPNuFAu
- fbU9cytgdcD/IrQ+QcsiRnPU/sZS/yd9MTL1790bAnvvAMB79xR29hxyzactKbUQbMus
- Ra/BE9DVQ79ftUlGFMrd7NbPeyTFXGTC1NquZit5w3uPFJRXRpa3eWslDybRF2++EsBN
- 4InqcMELT38QWGdhm9WzbED9/0Gzahly9/PKFfBn1SJIG2OhXPkq0EG9+2XCfYpkPgLM
- h9Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=ks4A3N69cOaw0ymDGE2Z/6Z927zJtwPh2/d5E7s9xIQ=;
- b=LLMr9qlATnO+YRp21E4sAg8pkKeb/2tiOtOVJD1cGhUki4XEpwviCqn6qSFOjI/PCB
- GLzJZ8eOmwAAvDTca6gjbkXlh7U8c4Zcjo0IinE7HUYS84sGQiTpHUvwqFfGHNSGbO2W
- elscBPOFPVURLVVCj6t5aJsPbZb+E6WS5D5iehCH9+RJxb/twur4bt09zRjvEEFDohSg
- 3yiLXFobChLzOQf+YNV++xgpC7wlBtpsGYane+Nio20f4CXGh8FYTPanZgLbC7/EISL8
- YsecqPEt4diMYWB38sBT2XvWoabgKBv2u7H+NBfvcwM4CVpDL90eHS2UxwdkLWk/EQWx
- UF5Q==
-X-Gm-Message-State: AOAM530beqkvJqy7NC1NFytXdJ8ev+XHN5TJ2k4dMAdw2g0nbuPA8ct+
- GFdbcbjvffim19ILttr/NtrurCxWFYvFWw==
-X-Google-Smtp-Source: ABdhPJwD1rA8sa7A1OKfyUXrz+F7FwO4pLAQ8Sum3BDVE2OXrsJ9QoTKl6o5bDigY6WGJ0XaTFByKA==
-X-Received: by 2002:a05:600c:214f:: with SMTP id
- v15mr4060875wml.5.1606310833192; 
- Wed, 25 Nov 2020 05:27:13 -0800 (PST)
-Received: from localhost ([2a01:e34:ec16:8a90:4e1d:96ff:fe49:7109])
- by smtp.gmail.com with ESMTPSA id f23sm4439400wmb.43.2020.11.25.05.27.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Nov 2020 05:27:12 -0800 (PST)
-Date: Wed, 25 Nov 2020 14:27:11 +0100
-From: Antoine Damhet <antoine.damhet@blade-group.com>
-To: qemu-devel@nongnu.org
-Subject: [DISCUSSION] Allow ACPI default OEM ID and OEM table ID fields to be
- set.
-Message-ID: <20201125132711.jqb7znxu5jpoanwi@tartarus>
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1khuus-0001zV-Uh
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:33:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1khuuq-0002yG-3I
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:33:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606311177;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BMonAe3cabz8+rLp09CIpfOlD+YpM14UG/ZLjHJTNSE=;
+ b=CGAUoJEmjy9lZ5hnTF2OjdOK0fHk9PqYZv7sh6KmdHfMzQ/ocItD8ukqlQWfsx64l5LH2W
+ A9GhajsGfYVciHUnfbuL9MEC5Y93KLvCl0WCT/igWMhTCQeF9Ewjd8ncA990EANYY613g8
+ NUVhToejFMG/jM/qoen+Tfqtl3w3J64=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-83-WfQ9J5EiMcecuWEG6wceEQ-1; Wed, 25 Nov 2020 08:32:53 -0500
+X-MC-Unique: WfQ9J5EiMcecuWEG6wceEQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98335107ACE3;
+ Wed, 25 Nov 2020 13:32:52 +0000 (UTC)
+Received: from localhost (ovpn-114-98.ams2.redhat.com [10.36.114.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E5A360854;
+ Wed, 25 Nov 2020 13:32:52 +0000 (UTC)
+Date: Wed, 25 Nov 2020 13:32:51 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Antoine Damhet <antoine.damhet@blade-group.com>
+Subject: Re: [DISCUSSION] Allow ACPI default OEM ID and OEM table ID fields
+ to be set.
+Message-ID: <20201125133251.GI30079@redhat.com>
+References: <20201125132711.jqb7znxu5jpoanwi@tartarus>
 MIME-Version: 1.0
+In-Reply-To: <20201125132711.jqb7znxu5jpoanwi@tartarus>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=antoine.damhet@blade-group.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>,
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
  "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Wed, Nov 25, 2020 at 02:27:11PM +0100, Antoine Damhet wrote:
+> Hello,
+> 
+> We recently found out that some softwares are effectively crashing
+> when they detect qemu's `OEM ID` or `OEM table ID` in the ACPI tables.
+> 
+> I see no reason not to expose the setting to the user/command-line. A
+> previous patch has been submitted in 2015[1] but did not get through
+> because (if I understand correctly) using the IDs on the `SLIC`, `BXPC`
+> and `RSDT` tables were enough at the time.
+> 
+> If you agree, I am willing to forward port the patches of M. Jones but I
+> need to ask how it would work `Signed-Off`-wise ?
 
-We recently found out that some softwares are effectively crashing
-when they detect qemu's `OEM ID` or `OEM table ID` in the ACPI tables.
+On this point, the patch I sent was actually written by
+Michael Tokarev, I was only trying to get them upstream.
 
-I see no reason not to expose the setting to the user/command-line. A
-previous patch has been submitted in 2015[1] but did not get through
-because (if I understand correctly) using the IDs on the `SLIC`, `BXPC`
-and `RSDT` tables were enough at the time.
+Rich.
 
-If you agree, I am willing to forward port the patches of M. Jones but I
-need to ask how it would work `Signed-Off`-wise ?
+> Thanks in advance for your time,
+> 
+> PS: the softwares will crash if the signature is found in any of the
+>     exposed tables.
+> 
+> [1]: https://lore.kernel.org/qemu-devel/1441220618-4750-1-git-send-email-rjones@redhat.com/
+> 
+> -- 
+> Antoine 'xdbob' Damhet
 
-Thanks in advance for your time,
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-p2v converts physical machines to virtual machines.  Boot with a
+live CD or over the network (PXE) and turn machines into KVM guests.
+http://libguestfs.org/virt-v2v
 
-PS: the softwares will crash if the signature is found in any of the
-    exposed tables.
-
-[1]: https://lore.kernel.org/qemu-devel/1441220618-4750-1-git-send-email-rj=
-ones@redhat.com/
-
---=20
-Antoine 'xdbob' Damhet
 
