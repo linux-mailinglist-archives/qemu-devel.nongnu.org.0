@@ -2,59 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9854A2C4604
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 17:54:59 +0100 (CET)
-Received: from localhost ([::1]:47312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4312A2C466A
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 18:06:19 +0100 (CET)
+Received: from localhost ([::1]:33646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khy4I-00007y-Ko
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 11:54:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38274)
+	id 1khyFF-0007oF-Qz
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 12:06:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1khy36-00087O-18
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 11:53:44 -0500
-Received: from mga11.intel.com ([192.55.52.93]:7764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1khy33-0001WJ-2I
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 11:53:43 -0500
-IronPort-SDR: l5eryvrF8NGyWsC8CK3ealxYRzGv2+rFr8tyNC9mB31KNwyv8yVE597vTeaOojkShDuDz1Yzwu
- qXmeUKjyhd8A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9816"; a="168655832"
-X-IronPort-AV: E=Sophos;i="5.78,369,1599548400"; d="scan'208";a="168655832"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2020 08:53:36 -0800
-IronPort-SDR: djwmSpV/Cql2xvEMW4GRKjsTDKxjUQcPLg6sXWQmZSuwIlKnBKouWvYpmjUMFGJyC6ao+mI3P2
- 6+DyrGWVl23w==
-X-IronPort-AV: E=Sophos;i="5.78,369,1599548400"; d="scan'208";a="547359033"
-Received: from jsyrstad-mobl1.amr.corp.intel.com (HELO intel.com)
- ([10.252.133.29])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2020 08:53:34 -0800
-Date: Wed, 25 Nov 2020 08:53:33 -0800
-From: Ben Widawsky <ben.widawsky@intel.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC PATCH 18/25] hw/cxl/device: Add a memory device (8.2.8.5)
-Message-ID: <20201125165333.zn5tpwfjnwmjmcdu@intel.com>
-References: <20201111054724.794888-1-ben.widawsky@intel.com>
- <20201111054724.794888-19-ben.widawsky@intel.com>
- <b2d95e72-51d9-72d2-b340-aefb00928a76@redhat.com>
- <87d00hk89c.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1khyBo-00041x-EZ
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 12:02:44 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44833)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1khyBl-0005AS-Ag
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 12:02:44 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id 64so2590857wra.11
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 09:02:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4tlYFFtmbvGOQbMUfYwBCAsChVL5o/1sr5d7vegIV68=;
+ b=DZLu21kexBIJ3Vv5+dpJfz6grMcyV2L3XgjggXDNbpGnnMzkjBmAo6i1Vuf/FchSd0
+ pmrxeU1RVxKZn0UmiUN+3HVwgSalAZYQhHlX2VhvmzHWdbYPGCtuj7ogTHIevYB25x1H
+ 5Car2HQTKqyK5J50oYkXM6otsOd2frEac3ry9DfL3Rs8Nd8n/dyX91gyMS9xHgMz8D7C
+ rTuQa46ROWfOfxH3iw1y43kzTp1W3nrYYsVcdEWql4IO8uiwcdYwo9h4Hew9k/p0GRK5
+ UpmcpxXdHeDlwti1NZNIPUoE41wHxyjOV2LFcKWkDlTqu9ilBK1QRcBgcT2YiuMbPlB0
+ hI5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=4tlYFFtmbvGOQbMUfYwBCAsChVL5o/1sr5d7vegIV68=;
+ b=JMw1wkr4InyBMoeAbH1rom4YL9+J6Io6KPVjnwQFAM/nGBOpLlz3fh08DHBZIBnGNT
+ 8cmNeUU5G5mhwIqqJ+xvKEKFjTJHCpBJhOWtplZZfAYOykcZpFYKHOFdaA2tuWrF19eB
+ YBbG61j2XZZVMHsoXFPr3SgtYLMWorqsnPntRq1IeWCl+05yiiHzr85+UeiHjtZV4GkN
+ Dqqb0+8harNRWNP3M7FoZsu9espKb8lWM4Mzq2PvywVOoWNMeJWJEuzI+kKqaXnvJlXw
+ i69pAqwJ7W9LG/WM3Q5AypIeRLrFRE9KdznELWs0XZ9nWXH7ibD/Rn6zkCokcq6k0XmR
+ VFxg==
+X-Gm-Message-State: AOAM530OkRGdrEtFzc/ewOJ9Bq4HqVE4a0/gZAIfw+y1SctEYLDtt02W
+ Yrg7C/sRjdrLpe20sXjcXDXstg==
+X-Google-Smtp-Source: ABdhPJxefxPDHjnAPTzzaqdeqC2UuaPEEpTX35z31yitSjLOa5whrxUnWEzJi5LL2EU36ekB2vJSYQ==
+X-Received: by 2002:adf:dec3:: with SMTP id i3mr5154467wrn.263.1606323759524; 
+ Wed, 25 Nov 2020 09:02:39 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w186sm5436442wmb.26.2020.11.25.09.02.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Nov 2020 09:02:37 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D11041FF7E;
+ Wed, 25 Nov 2020 17:02:36 +0000 (GMT)
+References: <19955b4e-f33a-a672-e9c6-3efdd640906a@suse.de>
+ <48353514-8dde-0f4b-193d-fa71737d7c80@amsat.org>
+ <871rghixhb.fsf@linaro.org> <6efbff12-a10b-8e55-908b-f2233fc8001e@suse.de>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: help with a build-user and build-user-plugin failure
+In-reply-to: <6efbff12-a10b-8e55-908b-f2233fc8001e@suse.de>
+Date: Wed, 25 Nov 2020 17:02:36 +0000
+Message-ID: <87sg8xgyj7.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87d00hk89c.fsf@dusky.pond.sub.org>
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=ben.widawsky@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,77 +88,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20-11-13 08:47:59, Markus Armbruster wrote:
-> Eric Blake <eblake@redhat.com> writes:
-> 
-> > On 11/10/20 11:47 PM, Ben Widawsky wrote:
-> >> A CXL memory device (AKA Type 3) is a CXL component that contains some
-> >> combination of volatile and persistent memory. It also implements the
-> >> previously defined mailbox interface as well as the memory device
-> >> firmware interface.
-> >> 
-> >> The following example will create a 256M device in a 512M window:
-> >> 
-> >> -object "memory-backend-file,id=cxl-mem1,share,mem-path=cxl-type3,size=512M"
-> >> -device "cxl-type3,bus=rp0,memdev=cxl-mem1,id=cxl-pmem0,size=256M"
-> >> 
-> >> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> >> ---
-> >
-> >> +++ b/qapi/machine.json
-> >> @@ -1394,6 +1394,7 @@
-> >>  { 'union': 'MemoryDeviceInfo',
-> >>    'data': { 'dimm': 'PCDIMMDeviceInfo',
-> >>              'nvdimm': 'PCDIMMDeviceInfo',
-> >> +            'cxl': 'PCDIMMDeviceInfo',
-> >>              'virtio-pmem': 'VirtioPMEMDeviceInfo',
-> >>              'virtio-mem': 'VirtioMEMDeviceInfo'
-> >>            }
-> >
-> > Missing documentation of the new data type, and the fact that it will be
-> > introduced in 6.0.
-> 
-> Old wish list item: improve the QAPI schema frontend to flag this.
-> 
 
-"Introduced in 6.0" - quite the optimist. Kidding aside, this is the area where
-I could use some feedback. CXL Type 3 memory devices can contain both volatile
-and persistent memory at the same time. As such, I think I'll need a new type to
-represent that, but I'd love to know how best to accomplish that.
+Claudio Fontana <cfontana@suse.de> writes:
 
-> >                     Also, Markus has been trying to get rid of so-called
-> > "simple unions" in favor of "flat unions" - every time we modify an
-> > existing simple union, it is worth asking if it is time to first flatten
-> > this.
-> 
-> 0. Simple unions can be transformed into flat unions.  The
-> transformation can either preserve the nested wire format, or flatten
-> it.  See docs/devel/qapi-code-gen.txt "A simple union can always be
-> re-written as a flat union ..."
-> 
-> 1. No new simple unions.
-> 
-> 2. Existing simple unions that can be flattened without breaking
-> backward compatibility have long been flattened.
-> 
-> 3. The remaining simple unions are part of QMP, where we need to
-> preserve the wire format.  We could turn them into flat union preserving
-> the wire format.  Only worthwhile if we kill simple unions and simplify
-> scripts/qapi/.  Opportunity to make the flat union syntax less
-> cumbersome.  Not done due to lack of time.
-> 
-> 4. Kevin and I have been experimenting with ways to provide both flat
-> and nested wire format.  This would pave the way for orderly deprecation
-> of the nested wire format.  May not be practical for QMP output.
-> 
+> Hi Alex,
+>
+> On 11/25/20 10:42 AM, Alex Benn=C3=A9e wrote:
+>>=20
+>> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+>>=20
+>>> On 11/24/20 12:04 PM, Claudio Fontana wrote:
+>>>> Hi Alex,
+>>>>
+>>>> I am seeing build failures with build-user and build-user-plugin:
+>>>>
+>>>> https://gitlab.com/hw-claudio/qemu/-/pipelines/220245998
+>>>>
+>>>> and I am trying to start investigating.
+>>>>
+>>>> How do I reproduce this locally?
+>>>>
+>>>> I am trying to run locally the check-tcg rule, but I cannot get it to =
+work.
+>>>> I managed to work around the problem of static libraries (disabled the=
+m),
+>>>>
+>>>> but then I get:
+>>>>
+>>>>   BUILD   TCG tests for x86_64-linux-user
+>>>>   BUILD   x86_64-linux-user guest-tests with cc
+>>>> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/l=
+d: /tmp/ccgqtAM9.o: in function `test_fops':
+>>>> /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:759: undefined refer=
+ence to `fmod'
+>>>> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/l=
+d: /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:760: undefined referen=
+ce to `sqrt'
+>>>> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/l=
+d: /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:761: undefined referen=
+ce to `sin'
+>>>> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/l=
+d: /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:762: undefined referen=
+ce to `cos'
+>>>>
+>>>> Have you seen it before?
+>>>> Any suggestions? I'm on OpenSUSE Leap 15 SP2.
+>>>
+>>> Related to 3fc1aad3864 ("configure: remove unnecessary libm test")
+>>> + tcg tests still not ported to Meson?
+>>=20
+>> Hmm so we certainly need libm for the testcase but I guess this is> fail=
+ing with a local cross compiler rather than docker? I'm not sure the
+>> global feature test should be relevant for testcases.
+>>=20
+>
+> Probably it's my attempt to make it work with non-static libm that failed=
+ then,
+>
+> is it supposed to work?
+>
+> I see mention of BUILD_STATIC there, but it does not seem to actually wor=
+k for me.
+>
+> If I use static libm, then it works.
+> If I uninstall static libm, any attempt to build fails, regardless of
+> whether I pass BUILD_STATIC=3D'n' or so.
 
-So is there anything for me to do here?
+All the test cases themselves should be built as static although I see
+we fall back for the case of using a local cross compiler. That normally
+only covers the case where the host compiler can also build for 32 bit
+for testcases.
+
+>
+> Ciao and thanks,
+>
+> CLaudio
+
+
+--=20
+Alex Benn=C3=A9e
 
