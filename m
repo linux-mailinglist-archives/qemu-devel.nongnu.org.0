@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471252C44B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 17:13:15 +0100 (CET)
-Received: from localhost ([::1]:42246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D362C44D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 17:22:14 +0100 (CET)
+Received: from localhost ([::1]:52122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khxPu-0000np-CJ
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 11:13:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56676)
+	id 1khxYb-0005Y3-GO
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 11:22:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1khxOv-0000NJ-CH
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 11:12:13 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2071)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1khxOs-00029h-Py
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 11:12:12 -0500
-Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Ch5T86jDvz67J0y;
- Thu, 26 Nov 2020 00:10:20 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 25 Nov 2020 17:12:06 +0100
-Received: from localhost (10.52.126.32) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1913.5; Wed, 25 Nov
- 2020 16:12:04 +0000
-Date: Wed, 25 Nov 2020 16:11:48 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v2] hw/arm/virt enable support for virtio-mem
-Message-ID: <20201125161148.00005f6e@Huawei.com>
-In-Reply-To: <7c635948-b78c-c28f-f170-dc9291af4fac@redhat.com>
-References: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
- <5b1dff01-7e6b-78d2-d55a-20c0617c3076@redhat.com>
- <20201124181150.0000025f@Huawei.com>
- <f2cfd3cb-27c8-f25b-2b57-6dc983a25a43@redhat.com>
- <20201125145659.00004b3e@Huawei.com>
- <b83a1914-16ae-4f1a-318f-59920ecf17e2@redhat.com>
- <7c635948-b78c-c28f-f170-dc9291af4fac@redhat.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khxXE-0004Wo-DZ
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 11:20:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35318)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khxXB-0005TD-3W
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 11:20:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1khxX9-00070q-KE
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 16:20:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 97F812E813E
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 16:20:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.126.32]
-X-ClientProxiedBy: lhreml705-chm.china.huawei.com (10.201.108.54) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2020 16:14:04 -0000
+From: Thomas Huth <1821054@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: brianl723 dgilbert-h th-huth
+X-Launchpad-Bug-Reporter: Brian Liddle (brianl723)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <155310378408.17549.16030757294518265758.malonedeb@gac.canonical.com>
+Message-Id: <160632084497.8321.17560459675399548042.malone@soybean.canonical.com>
+Subject: [Bug 1821054] Re: qemu segfault error when using pcie to dual pci
+ adapter
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
+X-Launchpad-Hash: 023347be6692d325d3b57c37bd492daf15dd2307
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,44 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter
- Maydell <peter.maydell@linaro.org>, linuxarm@huawei.com, qemu-devel@nongnu.org,
- Auger Eric <eric.auger@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1821054 <1821054@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Nov 2020 16:54:53 +0100
-David Hildenbrand <david@redhat.com> wrote:
+Hi! Did you ever get a backtrace? ... otherwise I think we have to close
+this ticket due to insufficient data...
 
-> >>>>
-> >>>> 64k guest on 4k host with 512MiB block size seems fine.
-> >>>>
-> >>>> If there are any places anyone thinks need particular poking I'd appreciate a hint :)    
-> >>>
-> >>> If things seem to work for now, that's great :) Thanks!
-> >>>  
-> >> Cool.  I'll run a few more comprehensive tests then send out the
-> >> trivial patch to enable the kernel option + v2 of the qemu support.  
-> > 
-> > Perfect, thanks!  
-> 
-> Oh, btw, I have no idea what the state of vfio-pci + QEMU on arm64 is.
-> In case it's supposed to work, you could give
-> 
-> https://lkml.kernel.org/r/20201119153918.120976-1-david@redhat.com
-> 
-> to see what we're missing.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-vfio-pci works in general (and we use it a lot), so sure I'll give
-this a test run.
+-- =
 
-> 
-> I added a short virtio-pci guide to
-> 
-> https://virtio-mem.gitlab.io/user-guide/user-guide-qemu.html
-> 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1821054
 
-Thanks,
+Title:
+  qemu segfault error when using pcie to dual pci adapter
 
-Jonathan
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  All the information I have is located in the Unraid forum on post "https:=
+//forums.unraid.net/topic/78545-internal-error-qemu-unexpectedly-closed-the=
+-monitor"
+  I am happy to provide any addition information requested. Please let me k=
+now. Reporting bug here based on recommendation by admin in that forum.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1821054/+subscriptions
 
