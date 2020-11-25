@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E932C4257
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 15:46:08 +0100 (CET)
-Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE472C4276
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 15:53:22 +0100 (CET)
+Received: from localhost ([::1]:46748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khw3b-0004cs-Qz
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 09:46:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33736)
+	id 1khwAZ-00077u-PD
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 09:53:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1khw2R-000460-UZ
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:44:57 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:42608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1khw2O-0003Zc-Uq
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:44:55 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0APEiZLp058832;
- Wed, 25 Nov 2020 14:44:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : mime-version :
- content-type; s=corp-2020-01-29;
- bh=BbTWFrI0oPy6jB3yg/rWXSpGQmF1NWnPJBcXGxpnfJA=;
- b=HyU/PWnYdGgqGOjn8KGgharghXsitWpvR1qY/aX/7KWBeiOEHL5HxatlgIwW9k+vaVA+
- XJQdeTo6GzxHndmzMsYHS5hnkiPcYVp6rnWyzbG3SWKSLQBIS/gRB4SQRC7wtiGz5qET
- mbZ61a72obtpyhSJX7opZGOk7mQxqnY6FwvW3cK4tnnqDrilq7ovsSlw7rn1dt+IauRA
- 6JYX4LCmRoF0Q+a9czgpx3H42v5U1s0HDjSpXKHgXEzLHDSzmHcL3WIZjEzbMliGEz+y
- 7lg0NM6c6XsKtpvzQE7g+aivL/htMdB4Tw+TaI44O6A1Dd5Xk1TbF/jhd3STfou+alG5 sQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 351kwh9nsr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 25 Nov 2020 14:44:46 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0APEfh3b182944;
- Wed, 25 Nov 2020 14:44:46 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 351kwecp5b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 25 Nov 2020 14:44:46 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0APEij6o005232;
- Wed, 25 Nov 2020 14:44:45 GMT
-Received: from starbug-mbp.localdomain (/79.97.215.145)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 25 Nov 2020 06:44:44 -0800
-Received: by starbug-mbp.localdomain (Postfix, from userid 501)
- id 1944C23EB1E7; Wed, 25 Nov 2020 14:44:43 +0000 (GMT)
-From: Darren Kenny <darren.kenny@oracle.com>
-To: P J P <ppandit@redhat.com>
-Subject: Re: [RFC 1/1] security-process: update process information
-In-Reply-To: <88q0r796-9s48-103n-po28-2o60o9q29499@erqung.pbz>
-References: <20201124142238.225417-1-ppandit@redhat.com>
- <20201124142238.225417-2-ppandit@redhat.com> <m2r1oi9117.fsf@oracle.com>
- <88q0r796-9s48-103n-po28-2o60o9q29499@erqung.pbz>
-Date: Wed, 25 Nov 2020 14:44:42 +0000
-Message-ID: <m2pn41ijhh.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1khw9E-0006cT-5g
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:51:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1khw9B-0006Er-4k
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:51:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606315911;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hfwq5YnhQZZ0OwVxtuUm0y9mK94HSxzFwNbPRmiswG0=;
+ b=GOuT4gRUXjO7RsZq7wZCPNe1fu0HcafxzBmbFZF6Ud7LLnrzjnPVff/MswIrejJiPsaeek
+ isUBPViBvWunWdw3ScoQpPwyG69K3mKX4PDn/Ja2gHN7UlvPtkpci/ssyGs9I3Q9+kkB0B
+ W2H4Q8uMNMczB47wjn5trFuoyfgglgg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-uK425IIJP5WxH817Chs-bw-1; Wed, 25 Nov 2020 09:51:47 -0500
+X-MC-Unique: uK425IIJP5WxH817Chs-bw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A2A38F8E06;
+ Wed, 25 Nov 2020 14:51:26 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 50FFA5D9CA;
+ Wed, 25 Nov 2020 14:51:24 +0000 (UTC)
+Date: Wed, 25 Nov 2020 09:51:23 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v5 12/12] accel: centralize initialization of CpusAccelOps
+Message-ID: <20201125145123.GC2271382@habkost.net>
+References: <20201124162210.8796-1-cfontana@suse.de>
+ <20201124162210.8796-13-cfontana@suse.de>
+ <20201124174821.GT2271382@habkost.net>
+ <4deb0de9-9556-85da-76fb-8050551d6dd6@suse.de>
+ <20201124192756.GX2271382@habkost.net>
+ <115546ec-1024-e515-8eba-b89937fb23ac@suse.de>
+ <20201124203452.GZ2271382@habkost.net>
+ <60e9ff3e-8896-c9a1-302c-c1378a48a564@suse.de>
+ <6328a231-a3d0-92c7-7da6-f383c14748ac@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9815
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- bulkscore=0 suspectscore=1
- phishscore=0 mlxscore=0 spamscore=0 malwarescore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011250093
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9815
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxlogscore=999
- lowpriorityscore=0 suspectscore=1 adultscore=0 impostorscore=0 mlxscore=0
- spamscore=0 phishscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011250093
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=darren.kenny@oracle.com; helo=aserp2120.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <6328a231-a3d0-92c7-7da6-f383c14748ac@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,111 +85,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefano Stabellini <sstabellini@kernel.org>,
- Petr Matousek <pmatouse@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>,
- =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 2020-11-25 at 18:18:56 +0530, P J P wrote:
->   Hello Darren, all
->
-> +-- On Tue, 24 Nov 2020, Darren Kenny wrote --+
-> | I always understood triage to be the initial steps in assessing a bug:
-> | 
-> | - determining if it is a security bug, in this case
-> | - then deciding on the severity of it
-> |
-> | I would not expect triage to include seeing it through to the point
-> | where there is a fix as in the steps above and as such that definition
-> | of triage should probably have a shorter time frame.
->
-> * Yes, initial triage is to determine if a given issue is a security one and 
->   its impact if so.
+On Wed, Nov 25, 2020 at 12:48:22PM +0100, Claudio Fontana wrote:
+> On 11/25/20 10:32 AM, Claudio Fontana wrote:
+> > On 11/24/20 9:34 PM, Eduardo Habkost wrote:
+> >> On Tue, Nov 24, 2020 at 08:39:33PM +0100, Claudio Fontana wrote:
+> >>> On 11/24/20 8:27 PM, Eduardo Habkost wrote:
+> >>>> On Tue, Nov 24, 2020 at 07:52:15PM +0100, Claudio Fontana wrote:
+> >>>> [...]
+> >>>>>>> +    }
+> >>>>>>
+> >>>>>> Additionally, if you call arch_cpu_accel_init() here, you won't
+> >>>>>> need MODULE_INIT_ACCEL_CPU anymore.  The
+> >>>>>>
+> >>>>>>   module_call_init(MODULE_INIT_ACCEL_CPU)
+> >>>>>>
+> >>>>>> call with implicit dependencies on runtime state inside vl.c and
+> >>>>>> *-user/main.c becomes a trivial:
+> >>>>>>
+> >>>>>>   accel_init(accel)
+> >>>>>>
+> >>>>>> call in accel_init_machine() and *-user:main().
+> 
+> 
+> On this one I see an issue:
+> 
+> the *-user_main() would still need an ac->machine_init() call to initialize tcg itself,
+> currently the accelerator initialization is put into ac->machine_init
+> 
+> (tcg_init, kvm_init, xen_init, etc).
+> 
+> Or are you proposing to move tcg initialization away from the current ->machine_init(),
+> into the new ac->init called by accel_init()?
 
-Sounds good.
+Yes.  Anything that requires MachineState (and is
+softmmu-specific) would go to ->machine_init().  Anything that is
+not softmmu-specific would go to ->init().
 
->
-> * After above step, an upstream bug (or GitLab issue) shall be filed if the
->   issue can be made public readily and does not need an embargo period.
+> 
+> This would make tcg even more different from the other accelerators.
 
-OK
+That's true, but isn't this only because TCG is the only one that
+really needs it?
 
-> * Following step about creating a patch is needed considering the influx of 
->   these issues. If such a patch is not proposed at this time, we risk having 
->   numerous CVE bugs open and unfixed without a patch.
->
-> * Sometimes proposed patches take long time to get merged upstream. Hence the 
->   60 days time frame.
+> 
+> Or are you proposing for all accelerators to separate the initialization of the accelerator itself
+> from the machine state input, leading to, for example, separating kvm-all.c kvm_init() into two
+> functions, one which takes the input from MachineState and puts it into the AccelState, and
+> another one which actually then initializes kvm proper? And same for all accels?
 
-Absolutely understand that.
+That would be possible (and maybe a good idea), but not necessary
+to make it work.
 
->
-> * It does not mean issue report will remain private for 60 days, nope.
+> 
+> In my view we could still do in *-user main.c,
+> 
+> ac = ACCEL_GET_CLASS(current_accel())
+> ac->machine_init(NULL);
+> ac->init_cpu_interfaces(ac);
 
-OK, it is not the embargo period then, got it.
+That would work too.  I would implement it as an accel_init(NULL)
+call, however, to avoid duplicating the code from
+accel_init_machine().
 
->
->
-> | But, if it is a security bug - then that is when the next steps would be
-> | taken, to (not necessarily in this order):
-> | 
-> | - negotiate an embargo (should the predefined 60 days be insufficient)
-> |
-> |   - don't know if you need to mention that this would include downstream
-> |     in this too, since they will be the ones most likely to need the
-> |     time to distribute a fix
->
-> * Embargo period is negotiated for important/critical issues. Such embargo 
->   period is generally not more than 2 weeks.
+Calling ->machine_init(NULL) is just a bit surprising because of
+the name (calling machine_init() when there's no machine), and
+because we know most accelerators will crash if getting a NULL
+argument.
 
-I always thought that the purpose of an embargo period was to enable
-downstream to have patches available and ready for distribution, and
-preferably distributed already if its something a malicious guest could
-use. In that case 2 weeks seems like a pretty short time-frame for all
-of that to be completed, especially if it is something that could be
-exploitable as soon as the patch lands and is thus visible in upstream
-code.
+Anyway, the split between ->machine_init() and ->init() is just a
+suggestion.  Keeping a single init method that accepts a NULL
+MachineState* as argument is not my favourite option, but it
+works.
 
-But I guess the negotiation would iron that out at the time, so it's
-probably OK to default to 2 weeks.
+Whatever you choose, my only ask is to document clearly the
+expectations and requirements of the AccelClass methods you are
+using.
 
-> * Yes, embargo process includes notifying various downstream communities about 
->   the issue, its fix(es) and co-ordinating disclosure.
 
-OK.
+> 
+> to solve this, or something like that, but also the option of fixing all accelerators to separate
+> the gathering of the input from the MachineState to the actual accelerator initialization is
+> a possibility to me.
+> 
+> Ciao,
+> 
+> Claudio
 
-> | - request a CVE
-> | - create a fix for upstream
-> |   - distros can work on bringing that back into downstream as needed,
-> |     within the embargo period
-> | 
-> | I do feel that it is worth separating the 2 phases of triage and beyond,
-> | but of course that is only my thoughts on it, I'm sure others will have
-> | theirs.
->
-> * Yes, I appreciate it, thanks so much for sharing.
->
-> * This patch is to get the qemu-security list up and running. I'll refine the 
->   process further with above/more details as we start using it. Hope that's 
->   okay.
+Thank you very much for your patience!  I think we're going on
+the right direction.
 
-OK, since it was an RFC I didn't think it was the actual patch yet, just
-looking for comments ;-)
+-- 
+Eduardo
 
-I'm alright if it gets ironed out more after...
-
-Thanks,
-
-Darren.
-
->
->
-> Thank you.
-> --
-> Prasad J Pandit / Red Hat Product Security Team
-> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
 
