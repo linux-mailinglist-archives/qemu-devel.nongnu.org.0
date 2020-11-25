@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6851C2C37E3
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 05:08:47 +0100 (CET)
-Received: from localhost ([::1]:48182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB642C37E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 05:10:52 +0100 (CET)
+Received: from localhost ([::1]:56700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khm6o-0006QO-6Z
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 23:08:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36060)
+	id 1khm8p-0001T1-M1
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 23:10:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1khm4v-0004fA-W5
+ id 1khm4w-0004gN-Sc
  for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:06:50 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:33076)
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:34484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1khm4u-00060n-9R
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:06:49 -0500
-Received: by mail-pg1-x541.google.com with SMTP id 81so1218822pgf.0
- for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 20:06:47 -0800 (PST)
+ id 1khm4v-00061p-Dg
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 23:06:50 -0500
+Received: by mail-pl1-x641.google.com with SMTP id l11so464441plt.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Nov 2020 20:06:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nu/Ovkj+6UMFJbUMB5ay1PUB81CaPlCNyUgEjjeQxrc=;
- b=AKEyKHrJslwxk/lcm9Q9s77PG0gmeaWgvdWkQD3YenuURG8qC+p+BffZbgnDgKX582
- EG+iK++2sVR+LMp0/l9RY10u/eHGsc7RdIIFWCsjL5vdiicHfz6aQiI2BHYM1WspI4xb
- QjCYzS1eURaqZ0XyoOTCqoRPU81pctycyrifMRnjB3z7SdPJe1ga8WZExbBGT5sprnfY
- eIl38jh5BtrBJ0OA46rjXLvHKzdElawTWFjQXC8BCviPOEi8kROVd09+mlDDEfL4Y7CX
- B4tYnyaLmUarvQjfyeJEpGfLbu9PVyLmHZXYJ7ITJCGykE1YAcDSWM3fsWFtYAqWx3rm
- nhkw==
+ bh=dUvIZnJazJaOEZboAW1OJSDBnVf8XIUz/RaJk/SSM4M=;
+ b=gKo6nG+2jXZE3ogTrnzyGe3McgptHnSF8F6CBBoMM2Q1cJxRZP3ua3mgjowIt5vE0k
+ 6/P+GHygWDH8cuUMEizCIhUO+NAGIEdLWg5j9m3fZE+8DXpLtvMpTRnqTOOvZj5F/5du
+ kY6L/SlyQUevSvHLir/mAQSfl8ImPXj+jQ9EYnBVWKgyX5HDxj9MQp2hUoZ7ILfFNS1C
+ vg2y0LoVj5dEC9I/fp3r0wh6Ts48kwG0FOu4ocODVVPAqYVXiLdcndY5i5Nf6uUgZ6zu
+ z6o2nnk17tpk61aCnII1ZMBu11tYs9VM9ePmcRs2xRYPM+grCB1wB/dhLDmEP3b2HZ02
+ hFTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nu/Ovkj+6UMFJbUMB5ay1PUB81CaPlCNyUgEjjeQxrc=;
- b=pPRdHLhui83E5mIZzeRWDft39rxrZK+ZxVpDesontU02joBG7TrLjFnWj08do/hmq+
- V6p2cYySyR2HT00emtDktwsiMusG9aPb8jZNujLdSrEdk3z4Z2oS65Ez6LM7HRsIyGJU
- LFhxWcYJ0s0Azyj4OFN3jaBlIsZcM4C+wRH8IA1L54gF0WVmKbwEi+m+ZID/AQtVvW7D
- /nuvNxqyV8d2Aq6A25337bV0n2EifN1hPaEtzb817EXNRh0XnLaBhtf7VSzJLF3ux2L0
- 7oEjByqtLRlrKJzpeFWXw4U8w53itNEpg3J7OuSpPURsE1qh8a2cCCIJZ3CEGlL2ojjG
- NtjQ==
-X-Gm-Message-State: AOAM531/sr+O5jyi+NN/71h4NE+sHpWQ48snQcSNwCf1cpAf7Z/Ni12y
- dIJ8/P5jU4C7vDMLrrdSZ9kn8fSDxL8u6Q==
-X-Google-Smtp-Source: ABdhPJzenlruFW3fiTaLsvcQeMEWw5lyBCOpLVf1z4C8pNVvakNOGdXgzdtGDSPYa5Yb+zTptjVoqA==
-X-Received: by 2002:a17:90a:fe0e:: with SMTP id
- ck14mr1773081pjb.80.1606277206639; 
- Tue, 24 Nov 2020 20:06:46 -0800 (PST)
+ bh=dUvIZnJazJaOEZboAW1OJSDBnVf8XIUz/RaJk/SSM4M=;
+ b=at7lNpP/hhE73C8cwWNxLSZD7JLd9gpCHMU16dh6zSXnlB9K8LHMlOGOd+TKa8+QIe
+ PiMdeLu2m2D9Q6yEKhc3ujMS+jV4iWX5djOaylChBrN68ThTHZ5HRnVWOkEEHJvte1NV
+ V2Fkct2agvLEI/XPG5ISu39qJdRueKTDNwrZzUqbEQBwufU51p12fIgcrzKA3izIwxQ6
+ GQvTdJ+ThzY7VYfpjDeRNxfI9qdCduYQYWWbZKGQv5+F579HiqKsJfKAUOnwVsMLgi0O
+ U8YKMU+CLAN1B6ag0ME6mOL8cJW3UONDb5jLajSg3xDxDygtDrDBAZws9X9aEYvdtP2l
+ WpqQ==
+X-Gm-Message-State: AOAM530APYbN0wEoGGhUV1y96SqSEZohWV/mR/HxoVjYaxD384DrCe1l
+ WCqFxhautEFPwHVc2lKy6zi/DYkI7UN2dg==
+X-Google-Smtp-Source: ABdhPJyGmnSUMEkJY27qWB9YHgw+FVaPTafkE04FKKlTCdH1k6sAud48KBBMpc86FJqNUdgJKybqSA==
+X-Received: by 2002:a17:902:9a8e:b029:d8:d989:4f80 with SMTP id
+ w14-20020a1709029a8eb02900d8d9894f80mr1514185plp.32.1606277207801; 
+ Tue, 24 Nov 2020 20:06:47 -0800 (PST)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id f7sm447806pfe.30.2020.11.24.20.06.45
+ by smtp.gmail.com with ESMTPSA id f7sm447806pfe.30.2020.11.24.20.06.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 20:06:45 -0800 (PST)
+ Tue, 24 Nov 2020 20:06:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/11] target/arm: Enforce word alignment for LDRD/STRD
-Date: Tue, 24 Nov 2020 20:06:32 -0800
-Message-Id: <20201125040642.2339476-2-richard.henderson@linaro.org>
+Subject: [PATCH 02/11] target/arm: Enforce alignment for LDA/LDAH/STL/STLH
+Date: Tue, 24 Nov 2020 20:06:33 -0800
+Message-Id: <20201125040642.2339476-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201125040642.2339476-1-richard.henderson@linaro.org>
 References: <20201125040642.2339476-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x641.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,45 +93,45 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 6d04ca3a8a..17883d00f4 100644
+index 17883d00f4..73b3d8cbbf 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -6458,7 +6458,7 @@ static bool trans_LDRD_rr(DisasContext *s, arg_ldst_rr *a)
-     addr = op_addr_rr_pre(s, a);
+@@ -6876,7 +6876,7 @@ static bool op_stl(DisasContext *s, arg_STL *a, MemOp mop)
  
-     tmp = tcg_temp_new_i32();
--    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
-+    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN_4 | s->be_data);
-     store_reg(s, a->rt, tmp);
+ static bool trans_STL(DisasContext *s, arg_STL *a)
+ {
+-    return op_stl(s, a, MO_UL);
++    return op_stl(s, a, MO_UL | MO_ALIGN);
+ }
  
-     tcg_gen_addi_i32(addr, addr, 4);
-@@ -6487,7 +6487,7 @@ static bool trans_STRD_rr(DisasContext *s, arg_ldst_rr *a)
-     addr = op_addr_rr_pre(s, a);
+ static bool trans_STLB(DisasContext *s, arg_STL *a)
+@@ -6886,7 +6886,7 @@ static bool trans_STLB(DisasContext *s, arg_STL *a)
  
-     tmp = load_reg(s, a->rt);
--    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
-+    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN_4 | s->be_data);
-     tcg_temp_free_i32(tmp);
+ static bool trans_STLH(DisasContext *s, arg_STL *a)
+ {
+-    return op_stl(s, a, MO_UW);
++    return op_stl(s, a, MO_UW | MO_ALIGN);
+ }
  
-     tcg_gen_addi_i32(addr, addr, 4);
-@@ -6595,7 +6595,7 @@ static bool op_ldrd_ri(DisasContext *s, arg_ldst_ri *a, int rt2)
-     addr = op_addr_ri_pre(s, a);
+ static bool op_ldrex(DisasContext *s, arg_LDREX *a, MemOp mop, bool acq)
+@@ -7033,7 +7033,7 @@ static bool op_lda(DisasContext *s, arg_LDA *a, MemOp mop)
  
-     tmp = tcg_temp_new_i32();
--    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
-+    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN_4 | s->be_data);
-     store_reg(s, a->rt, tmp);
+ static bool trans_LDA(DisasContext *s, arg_LDA *a)
+ {
+-    return op_lda(s, a, MO_UL);
++    return op_lda(s, a, MO_UL | MO_ALIGN);
+ }
  
-     tcg_gen_addi_i32(addr, addr, 4);
-@@ -6634,7 +6634,7 @@ static bool op_strd_ri(DisasContext *s, arg_ldst_ri *a, int rt2)
-     addr = op_addr_ri_pre(s, a);
+ static bool trans_LDAB(DisasContext *s, arg_LDA *a)
+@@ -7043,7 +7043,7 @@ static bool trans_LDAB(DisasContext *s, arg_LDA *a)
  
-     tmp = load_reg(s, a->rt);
--    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | s->be_data);
-+    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN_4 | s->be_data);
-     tcg_temp_free_i32(tmp);
+ static bool trans_LDAH(DisasContext *s, arg_LDA *a)
+ {
+-    return op_lda(s, a, MO_UW);
++    return op_lda(s, a, MO_UW | MO_ALIGN);
+ }
  
-     tcg_gen_addi_i32(addr, addr, 4);
+ /*
 -- 
 2.25.1
 
