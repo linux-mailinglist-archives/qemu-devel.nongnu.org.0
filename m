@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E9A2C3D9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 11:27:53 +0100 (CET)
-Received: from localhost ([::1]:43150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126362C3D51
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 11:11:12 +0100 (CET)
+Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khs1f-0001Ko-Kt
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 05:27:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42240)
+	id 1khrlX-00029R-1c
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 05:11:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1khrj9-0007kI-W1
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 05:08:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59553)
+ id 1khrjM-00080a-EP
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 05:08:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1khrj8-0003PJ-8I
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 05:08:43 -0500
+ id 1khrjK-0003TV-Oz
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 05:08:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606298920;
+ s=mimecast20190719; t=1606298934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1WInulEBNYJrSEae5i+nZvQ2xAyWD7JOEfJhEKhriP0=;
- b=UVPR9u2ycv4SnOqhWnYjgoVIpGffpiLVYg/gCDNf4uLHMGLr6uof01gIOtLJjoFwgp3wJD
- 5x94dWUcNTlB+JrNHSObN23X3zPkx59U6f8CBjBikK+ZaphNtKwVjnNC5eakzhCIfNXtGh
- tSgOEFpv87307dISbNdEDgV51suyIuc=
+ bh=al6H++3zUEjGIG8qVSO39K/S1Yku6SF0SEQjSENo0I4=;
+ b=d0dgaCkkAfP9kNUlqQJ3sU9clebNVHVEz75X8MhkItB7aY6tL96Vh3c3w0yONWYrPXiNCG
+ bw4aIGnWkExiqkU9gyXW5LHExmzsGZROPWZFiiH/ORXn4AdQM5y3BltM9pV+1Dw3GnGt7S
+ YFnzqzdrpAQlT3jiITjbKi4B64srROg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-jbOmF7MHNNm4O_OsVV-QIw-1; Wed, 25 Nov 2020 05:08:38 -0500
-X-MC-Unique: jbOmF7MHNNm4O_OsVV-QIw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-101-aaN3gar7NMO8xIKBaZZm4w-1; Wed, 25 Nov 2020 05:08:52 -0500
+X-MC-Unique: aaN3gar7NMO8xIKBaZZm4w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82DE41005E46
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 10:08:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1111803F4B
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 10:08:51 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 91F9619C78;
- Wed, 25 Nov 2020 10:08:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D488F4D;
+ Wed, 25 Nov 2020 10:08:41 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/8] libvhost-user: add a simple link test without glib
-Date: Wed, 25 Nov 2020 14:06:39 +0400
-Message-Id: <20201125100640.366523-8-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 8/8] .gitlab-ci: add build-libvhost-user
+Date: Wed, 25 Nov 2020 14:06:40 +0400
+Message-Id: <20201125100640.366523-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20201125100640.366523-1-marcandre.lureau@redhat.com>
 References: <20201125100640.366523-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -65,7 +65,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,77 +89,31 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- subprojects/libvhost-user/link-test.c | 45 +++++++++++++++++++++++++++
- subprojects/libvhost-user/meson.build |  4 +++
- 2 files changed, 49 insertions(+)
- create mode 100644 subprojects/libvhost-user/link-test.c
+ .gitlab-ci.yml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/subprojects/libvhost-user/link-test.c b/subprojects/libvhost-user/link-test.c
-new file mode 100644
-index 0000000000..e01d6eb1fa
---- /dev/null
-+++ b/subprojects/libvhost-user/link-test.c
-@@ -0,0 +1,45 @@
-+/*
-+ * A trivial unit test to check linking without glib. A real test suite should
-+ * probably based off libvhost-user-glib instead.
-+ */
-+#include <assert.h>
-+#include <stdlib.h>
-+#include "libvhost-user.h"
-+
-+static void
-+panic(VuDev *dev, const char *err)
-+{
-+    abort();
-+}
-+
-+static void
-+set_watch(VuDev *dev, int fd, int condition,
-+          vu_watch_cb cb, void *data)
-+{
-+    abort();
-+}
-+
-+static void
-+remove_watch(VuDev *dev, int fd)
-+{
-+    abort();
-+}
-+
-+static const VuDevIface iface = {
-+    0,
-+};
-+
-+int
-+main(int argc, const char *argv[])
-+{
-+    bool rc;
-+    uint16_t max_queues = 2;
-+    int socket = 0;
-+    VuDev dev = { 0, };
-+
-+    rc = vu_init(&dev, max_queues, socket, panic, NULL, set_watch, remove_watch, &iface);
-+    assert(rc == true);
-+    vu_deinit(&dev);
-+
-+    return 0;
-+}
-diff --git a/subprojects/libvhost-user/meson.build b/subprojects/libvhost-user/meson.build
-index ac228b5ba6..76e83c0cec 100644
---- a/subprojects/libvhost-user/meson.build
-+++ b/subprojects/libvhost-user/meson.build
-@@ -22,6 +22,10 @@ vhost_user = static_library('vhost-user',
-                             include_directories: inc,
-                             c_args: '-D_GNU_SOURCE')
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index d0173e82b1..e517506c35 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -455,6 +455,17 @@ check-dco:
+   variables:
+     GIT_DEPTH: 1000
  
-+executable('link-test', files('link-test.c'),
-+           link_whole: vhost_user,
-+           include_directories: inc)
++build-libvhost-user:
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
++  before_script:
++    - dnf install -y meson ninja-build
++  script:
++    - mkdir subprojects/libvhost-user/build
++    - cd subprojects/libvhost-user/build
++    - meson
++    - ninja
 +
- vhost_user_glib = static_library('vhost-user-glib',
-                                  files('libvhost-user-glib.c'),
-                                  include_directories: inc,
+ pages:
+   image: $CI_REGISTRY_IMAGE/qemu/ubuntu2004:latest
+   stage: test
 -- 
 2.29.0
 
