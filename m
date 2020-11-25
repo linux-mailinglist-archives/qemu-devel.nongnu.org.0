@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403532C3FB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 13:16:53 +0100 (CET)
-Received: from localhost ([::1]:55818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3D22C4011
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 13:28:29 +0100 (CET)
+Received: from localhost ([::1]:39172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khtj8-0002pA-Op
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 07:16:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46150)
+	id 1khtuM-0008Fm-7g
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 07:28:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1khthB-0001zF-Di
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 07:14:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25191)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1khth7-0008JG-Ge
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 07:14:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606306484;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DMmA4XTQ00FJZ1hDsKzyU42iqLETf4QTiXbtu9A5zJg=;
- b=AepW1gearhoml6zUK8EzWW39duiylVUXXEXTWhzIHxS86zH27a7aahG7ngt7kkGAk+O+/g
- pwXlG0DSesVxKKvjX2kCGQbp1LhtMkHm8UPfJe+UNsKLWILIFKSKy7KMdpiH+nJiEMGOjW
- +QesGamdHD1EZUsT5FAR5c+ubIfa54M=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-n6wAHPFrMa69tbETIwqWbQ-1; Wed, 25 Nov 2020 07:14:42 -0500
-X-MC-Unique: n6wAHPFrMa69tbETIwqWbQ-1
-Received: by mail-qv1-f72.google.com with SMTP id l15so2289363qvu.8
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 04:14:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DMmA4XTQ00FJZ1hDsKzyU42iqLETf4QTiXbtu9A5zJg=;
- b=bsz+Zaq94b/J+vOyKr/AdXA8T1NAKJLxk2d5b4rZmyRlLS2ysTIcnXwzWwWarJVlNP
- wEexFxmdZZeoMlBDPciBgZWv/ABNtaImVh9n+Y5WmZCHJMT8b/qK5McRnBheC8MrM6gD
- JXdnwQaKwnn0AfOKdf8QWbmBtbUlpTJtXfhNK32ON2AbLX7/yyWVkCp53R+kbCzL9RR/
- CCTgJhvx6f42qbBrvqQStPdgiyAGE1/pE5j1anexlc0vhxt9e2oxNDXYJmc/cj8mIo48
- 8Xp2BwHhkRbo20qwLyVwFOgZJKweSR9QZkrN/BIqtgwTkNfMukYmH1DV0sjQ5VAG3Go8
- woew==
-X-Gm-Message-State: AOAM532wdC6owzW+uRLn+84w8vHV3d0AmKzbUU3QVCunZdYFSFWTqWOl
- IEhED22iDUwIIHHu2WIlO00CmQoIRAFRUGiI7LZfhp8i8VdKoMn9BiAR3sNeRBmgMH1FLxFQ5GK
- ooqcA78FtGCty7H8BRDQl3A6iaj49mWk=
-X-Received: by 2002:a0c:a802:: with SMTP id w2mr1345928qva.9.1606306481520;
- Wed, 25 Nov 2020 04:14:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzd8me3OtSowApCvc1hz6io7NTPHg4CrJj45yH6wBfmBDAx+yL2zySfQm4ED57QCMTJdKae9z/q4HcSu554TUY=
-X-Received: by 2002:a0c:a802:: with SMTP id w2mr1345902qva.9.1606306481218;
- Wed, 25 Nov 2020 04:14:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1khtsH-0007AE-R4; Wed, 25 Nov 2020 07:26:17 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:56163)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1khtsF-0004XM-Sf; Wed, 25 Nov 2020 07:26:17 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.173])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 75DD77543629;
+ Wed, 25 Nov 2020 13:26:05 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 25 Nov
+ 2020 13:26:04 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004522fc838-181f-425b-a275-d1f117638e14,
+ 13817E1CA0648EB9EE095497159C33290D197662) smtp.auth=groug@kaod.org
+Date: Wed, 25 Nov 2020 13:26:03 +0100
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH for-6.0 2/8] spapr/xive: Introduce spapr_xive_nr_ends()
+Message-ID: <20201125132603.11a0c08e@bahia.lan>
+In-Reply-To: <be6b856e-1517-eb77-ae27-80a851b78168@kaod.org>
+References: <20201120174646.619395-1-groug@kaod.org>
+ <20201120174646.619395-3-groug@kaod.org>
+ <9da660d2-1969-a548-5092-7f645a610e6d@kaod.org>
+ <20201123121635.65506f0c@bahia.lan>
+ <e7a4b597-300a-6f9b-337e-507703dc4d35@kaod.org>
+ <20201124180120.7a86f49c@bahia.lan>
+ <353fd413-6c50-64ea-f2cf-24d42ee8010d@kaod.org>
+ <20201125103337.4716b0d0@bahia.lan>
+ <be6b856e-1517-eb77-ae27-80a851b78168@kaod.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <5a4d0b7a-fb62-9e78-9e85-9262dca57f1c@redhat.com>
- <CAJaqyWf+6yoMHJuLv=QGLMP4egmdm722=V2kKJ_aiQAfCCQOFw@mail.gmail.com>
-In-Reply-To: <CAJaqyWf+6yoMHJuLv=QGLMP4egmdm722=V2kKJ_aiQAfCCQOFw@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 25 Nov 2020 13:14:05 +0100
-Message-ID: <CAJaqyWcQH7TXVArEX1SNZ9XaAOwWjjjSX-onx=tmkioyJefMkQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/27] vDPA software assisted live migration
-To: Jason Wang <jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 9b4adee6-cec4-4fe8-8f8a-2a6d00ce2cec
+X-Ovh-Tracer-Id: 5574330442215692768
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudehtddggeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevlefhtddufffhieevhefhleegleelgfetffetkedugeehjeffgfehhfefueduffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,216 +74,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Daniel Daly <dandaly0@gmail.com>,
- virtualization@lists.linux-foundation.org, Liran Alon <liralon@gmail.com>,
- Eli Cohen <eli@mellanox.com>, Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 25, 2020 at 1:03 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Wed, Nov 25, 2020 at 8:09 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> >
-> > On 2020/11/21 =E4=B8=8A=E5=8D=882:50, Eugenio P=C3=A9rez wrote:
-> > > This series enable vDPA software assisted live migration for vhost-ne=
-t
-> > > devices. This is a new method of vhost devices migration: Instead of
-> > > relay on vDPA device's dirty logging capability, SW assisted LM
-> > > intercepts dataplane, forwarding the descriptors between VM and devic=
-e.
-> > >
-> > > In this migration mode, qemu offers a new vring to the device to
-> > > read and write into, and disable vhost notifiers, processing guest an=
-d
-> > > vhost notifications in qemu. On used buffer relay, qemu will mark the
-> > > dirty memory as with plain virtio-net devices. This way, devices does
-> > > not need to have dirty page logging capability.
-> > >
-> > > This series is a POC doing SW LM for vhost-net devices, which already
-> > > have dirty page logging capabilities. None of the changes have actual
-> > > effect with current devices until last two patches (26 and 27) are
-> > > applied, but they can be rebased on top of any other. These checks th=
-e
-> > > device to meet all requirements, and disable vhost-net devices loggin=
-g
-> > > so migration goes through SW LM. This last patch is not meant to be
-> > > applied in the final revision, it is in the series just for testing
-> > > purposes.
-> > >
-> > > For use SW assisted LM these vhost-net devices need to be instantiate=
-d:
-> > > * With IOMMU (iommu_platform=3Don,ats=3Don)
-> > > * Without event_idx (event_idx=3Doff)
-> >
-> >
-> > So a question is at what level do we want to implement qemu assisted
-> > live migration. To me it could be done at two levels:
-> >
-> > 1) generic vhost level which makes it work for both vhost-net/vhost-use=
-r
-> > and vhost-vDPA
-> > 2) a specific type of vhost
-> >
-> > To me, having a generic one looks better but it would be much more
-> > complicated. So what I read from this series is it was a vhost kernel
-> > specific software assisted live migration which is a good start.
-> > Actually it may even have real use case, e.g it can save dirty bitmaps
-> > for guest with large memory. But we need to address the above
-> > limitations first.
-> >
-> > So I would like to know what's the reason for mandating iommu platform
-> > and ats? And I think we need to fix case of event idx support.
-> >
->
-> There is no specific reason for mandating iommu & ats, it was just
-> started that way.
->
-> I will extend the patch to support those cases too.
->
-> >
-> > >
-> > > Just the notification forwarding (with no descriptor relay) can be
-> > > achieved with patches 7 and 9, and starting migration. Partial applie=
-s
-> > > between 13 and 24 will not work while migrating on source, and patch
-> > > 25 is needed for the destination to resume network activity.
-> > >
-> > > It is based on the ideas of DPDK SW assisted LM, in the series of
-> >
-> >
-> > Actually we're better than that since there's no need the trick like
-> > hardcoded IOVA for mediated(shadow) virtqueue.
-> >
-> >
-> > > DPDK's https://patchwork.dpdk.org/cover/48370/ .
-> >
-> >
-> > I notice that you do GPA->VA translations and try to establish a VA->VA
-> > (use VA as IOVA) mapping via device IOTLB. This shortcut should work fo=
-r
-> > vhost-kernel/user but not vhost-vDPA. The reason is that there's no
-> > guarantee that the whole 64bit address range could be used as IOVA. One
-> > example is that for hardware IOMMU like intel, it usually has 47 or 52
-> > bits of address width.
-> >
-> > So we probably need an IOVA allocator that can make sure the IOVA is no=
-t
-> > overlapped and fit for [1]. We can probably build the IOVA for guest VA
-> > via memory listeners. Then we have
-> >
-> > 1) IOVA for GPA
-> > 2) IOVA for shadow VQ
-> >
-> > And advertise IOVA to VA mapping to vhost.
-> >
-> > [1]
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/?id=3D1b48dc03e575a872404f33b04cd237953c5d7498
-> >
->
-> Got it, will control it too.
->
-> Maybe for vhost-net we could directly send iotlb miss for [0,~0ULL].
->
+On Wed, 25 Nov 2020 12:34:25 +0100
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Sorry, this was intended to be a question :).
+> =20
+> >>> This complexifies migration because we have to guess at
+> >>> post load if we should claim the IPI in KVM or not. The
+> >>> simple presence of the vCPU isn't enough : we need to
+> >>> guess if the guest actually configured the IPI or not.
+> >>
+> >> The EAT will be transferred from the source and the call to=20
+> >> kvmppc_xive_source_reset_one() should initialize the KVM=20
+> >> device correctly on the target for all interrupts.
+> >>
+> >=20
+> > Except that the EAS appears as valid for all IPIs, even
+> > though the source didn't claim them at the KVM level.=20
+>=20
+> why ? we would stop claiming IPIs in spapr_irq_init() and so
+> they won't appear as being valid anymore, at boot time or
+> restore time.
+>=20
 
-Given a vhost-* device IOVA usable range, is ok to expose all of qemu
-overlapping VA to it? With the iotlb miss, for example. Would it be
-acceptable from a security point of view? The device would have access
-to all qemu VA, but on the other hand devices like vhost-net already
-have it.
+If we don't claim the IPIs in spapr_irq_init() anymore then
+we must at least claim them on the path of H_INT_GET_SOURCE_INFO
+otherwise it will fail with H_P2 and the guest won't even
+try to setup the IPI. Even if we do that, we still have a
+window where the source is valid in QEMU but not yet at
+the KVM level.
 
-> >
-> > >
-> > > Comments are welcome.
-> > >
-> > > Thanks!
-> > >
-> > > Eugenio P=C3=A9rez (27):
-> > >    vhost: Add vhost_dev_can_log
-> > >    vhost: Add device callback in vhost_migration_log
-> > >    vhost: Move log resize/put to vhost_dev_set_log
-> > >    vhost: add vhost_kernel_set_vring_enable
-> > >    vhost: Add hdev->dev.sw_lm_vq_handler
-> > >    virtio: Add virtio_queue_get_used_notify_split
-> > >    vhost: Route guest->host notification through qemu
-> > >    vhost: Add a flag for software assisted Live Migration
-> > >    vhost: Route host->guest notification through qemu
-> > >    vhost: Allocate shadow vring
-> > >    virtio: const-ify all virtio_tswap* functions
-> > >    virtio: Add virtio_queue_full
-> > >    vhost: Send buffers to device
-> > >    virtio: Remove virtio_queue_get_used_notify_split
-> > >    vhost: Do not invalidate signalled used
-> > >    virtio: Expose virtqueue_alloc_element
-> > >    vhost: add vhost_vring_set_notification_rcu
-> > >    vhost: add vhost_vring_poll_rcu
-> > >    vhost: add vhost_vring_get_buf_rcu
-> > >    vhost: Return used buffers
-> > >    vhost: Add vhost_virtqueue_memory_unmap
-> > >    vhost: Add vhost_virtqueue_memory_map
-> > >    vhost: unmap qemu's shadow virtqueues on sw live migration
-> > >    vhost: iommu changes
-> > >    vhost: Do not commit vhost used idx on vhost_virtqueue_stop
-> > >    vhost: Add vhost_hdev_can_sw_lm
-> > >    vhost: forbid vhost devices logging
-> > >
-> > >   hw/virtio/vhost-sw-lm-ring.h      |  39 +++
-> > >   include/hw/virtio/vhost.h         |   5 +
-> > >   include/hw/virtio/virtio-access.h |   8 +-
-> > >   include/hw/virtio/virtio.h        |   4 +
-> > >   hw/net/virtio-net.c               |  39 ++-
-> > >   hw/virtio/vhost-backend.c         |  29 ++
-> > >   hw/virtio/vhost-sw-lm-ring.c      | 268 +++++++++++++++++++
-> > >   hw/virtio/vhost.c                 | 431 +++++++++++++++++++++++++--=
----
-> > >   hw/virtio/virtio.c                |  18 +-
-> > >   hw/virtio/meson.build             |   2 +-
-> > >   10 files changed, 758 insertions(+), 85 deletions(-)
-> > >   create mode 100644 hw/virtio/vhost-sw-lm-ring.h
-> > >   create mode 100644 hw/virtio/vhost-sw-lm-ring.c
-> >
-> >
-> > So this looks like a pretty huge patchset which I'm trying to think of
-> > ways to split. An idea is to do this is two steps
-> >
-> > 1) implement a shadow virtqueue mode for vhost first (w/o live
-> > migration). Then we can test descriptors relay, IOVA allocating, etc.
->
-> How would that mode be activated if it is not tied to live migration?
-> New backend/command line switch?
->
-> Maybe it is better to also start with no iommu & ats support and add it o=
-n top.
->
-> > 2) add live migration support on top
-> >
-> > And it looks to me it's better to split the shadow virtqueue (virtio
-> > driver part) into an independent file. And use generic name (w/o
-> > "shadow") in order to be reused by other use cases as well.
-> >
->
-> I think the same.
->
-> Thanks!
->
-> > Thoughts?
-> >
+>=20
+> C.
 
 
