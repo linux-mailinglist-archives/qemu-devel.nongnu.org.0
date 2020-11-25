@@ -2,136 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5592C4249
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 15:42:06 +0100 (CET)
-Received: from localhost ([::1]:38570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0E932C4257
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 15:46:08 +0100 (CET)
+Received: from localhost ([::1]:41740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khvzh-000350-06
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 09:42:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32846)
+	id 1khw3b-0004cs-Qz
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 09:46:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1khvyQ-0002Sr-ST
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:40:46 -0500
-Received: from mail-eopbgr130130.outbound.protection.outlook.com
- ([40.107.13.130]:31328 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1khw2R-000460-UZ
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:44:57 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:42608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1khvyM-0002DV-KQ
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:40:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PTjKlUyWv+fBC2MewJU6KpEwjHshcXGffXNhZNO39Rtex+9VtbWlON/TCZxnr9y/xbDqiqv4+VKVqScDAU/3zJtZVCGpw0PB675o1mKrOO+mwEJqWqJ3iYDVK5LR6fECw2X5TLaBPfh3FuvPlSA5nuKzP2h2dRXWm5GGRW2WgpuRaZNxf7fm68kR/K3nwCEwn+1liMbiqqW3abotcw9fpfLaUYooKCfiX8HQ+/PSXFgtUm3OYjqbsxwOlnh2WWUbFxtuG0E2xUXA/MUS4w6m0qBHiH0j/Mohrv1Xe2gXzm+PCJZZhkkJ1g8oYOeWmdYMs3W0SNwOL8DEOXkm7iDrrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=di1AE3RlUCuJLggJ+pQImRWZLRbtiSBoQnUZWoEmwMk=;
- b=jFnt/Pmih2KTrhS7tnvR+6mT8gXra2rfsi2Oe03qTGdaItf5Ecu16kC+AoES9qdwEsCbyYDQgYV3v5G8PI1wi/phi7BcducwMNk92YjV6fKWgV1wPiIeJy1jJPhuk4KgxeWJCiOvFwncbHDKL0Rs87fv/H/VT7STthmC6nzNsY3bIfbEPM1a8vVN4uQOU4zuOoUrHD3/rsOmOJvgEfHLNSde2rkPvJiKSW4rd0uA2qPrEjlFteS0HFglTyA3NLD4aW9ebIQf5cZH6Fsoxb0Edi5pvEN+IqAFh3lNc+09IzRplP8GGqF2c/7RkXLkeQsnA9dnKsG78bqQs7t1GZSd5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=di1AE3RlUCuJLggJ+pQImRWZLRbtiSBoQnUZWoEmwMk=;
- b=NRQE4HCFnhnrQAVhykUadhNJLx9yzF/sSwvx3gvx961FLwZAd1NIjJFrxzvVwaGqg7Ms5NSRLQdI/3e6N2wcpxDW9HMThsOK1Hm5xK8Lq30ykUsd/+ieWqFYCtfSj/XXpyjU1aqxTXdA9qIukr7lim2tPAAkapzaNxq5V2SvePw=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
- (2603:10a6:800:ad::14) by VI1PR0802MB2608.eurprd08.prod.outlook.com
- (2603:10a6:800:ae::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.20; Wed, 25 Nov
- 2020 14:40:37 +0000
-Received: from VI1PR0802MB2510.eurprd08.prod.outlook.com
- ([fe80::8d6a:734c:e4a2:8543]) by VI1PR0802MB2510.eurprd08.prod.outlook.com
- ([fe80::8d6a:734c:e4a2:8543%7]) with mapi id 15.20.3589.030; Wed, 25 Nov 2020
- 14:40:37 +0000
-Subject: Re: [PATCH v3 3/7] support UFFD write fault processing in
- ram_save_iterate()
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Peter Xu <peterx@redhat.com>
-References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
- <20201119125940.20017-4-andrey.gruzdev@virtuozzo.com>
- <20201125130825.GE3222@work-vm>
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-ID: <2d755397-4053-c883-3832-5d475c88b546@virtuozzo.com>
-Date: Wed, 25 Nov 2020 17:40:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201125130825.GE3222@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [95.165.26.68]
-X-ClientProxiedBy: AM0PR03CA0108.eurprd03.prod.outlook.com
- (2603:10a6:208:69::49) To VI1PR0802MB2510.eurprd08.prod.outlook.com
- (2603:10a6:800:ad::14)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1khw2O-0003Zc-Uq
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:44:55 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0APEiZLp058832;
+ Wed, 25 Nov 2020 14:44:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=BbTWFrI0oPy6jB3yg/rWXSpGQmF1NWnPJBcXGxpnfJA=;
+ b=HyU/PWnYdGgqGOjn8KGgharghXsitWpvR1qY/aX/7KWBeiOEHL5HxatlgIwW9k+vaVA+
+ XJQdeTo6GzxHndmzMsYHS5hnkiPcYVp6rnWyzbG3SWKSLQBIS/gRB4SQRC7wtiGz5qET
+ mbZ61a72obtpyhSJX7opZGOk7mQxqnY6FwvW3cK4tnnqDrilq7ovsSlw7rn1dt+IauRA
+ 6JYX4LCmRoF0Q+a9czgpx3H42v5U1s0HDjSpXKHgXEzLHDSzmHcL3WIZjEzbMliGEz+y
+ 7lg0NM6c6XsKtpvzQE7g+aivL/htMdB4Tw+TaI44O6A1Dd5Xk1TbF/jhd3STfou+alG5 sQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 351kwh9nsr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 25 Nov 2020 14:44:46 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0APEfh3b182944;
+ Wed, 25 Nov 2020 14:44:46 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 351kwecp5b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 25 Nov 2020 14:44:46 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0APEij6o005232;
+ Wed, 25 Nov 2020 14:44:45 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 25 Nov 2020 06:44:44 -0800
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id 1944C23EB1E7; Wed, 25 Nov 2020 14:44:43 +0000 (GMT)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: P J P <ppandit@redhat.com>
+Subject: Re: [RFC 1/1] security-process: update process information
+In-Reply-To: <88q0r796-9s48-103n-po28-2o60o9q29499@erqung.pbz>
+References: <20201124142238.225417-1-ppandit@redhat.com>
+ <20201124142238.225417-2-ppandit@redhat.com> <m2r1oi9117.fsf@oracle.com>
+ <88q0r796-9s48-103n-po28-2o60o9q29499@erqung.pbz>
+Date: Wed, 25 Nov 2020 14:44:42 +0000
+Message-ID: <m2pn41ijhh.fsf@oracle.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (95.165.26.68) by
- AM0PR03CA0108.eurprd03.prod.outlook.com (2603:10a6:208:69::49) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.21 via Frontend Transport; Wed, 25 Nov 2020 14:40:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cf900b64-91d2-4534-c88c-08d8915012e6
-X-MS-TrafficTypeDiagnostic: VI1PR0802MB2608:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR0802MB2608ABF702DFE29CD4343F139FFA0@VI1PR0802MB2608.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: t7x5dEIYOnqGLc46iNrsayPIeJP7mYDTPdhaISw9y3t7uASVnuqdSqEjbGPXMEgUUdH5JNCKSIn10RYljOPzeTQsyz8H78RYZNmCkdCg9MPe1ZPOnXNhTLjawWSHbtpX4YhqH4dbu8faam59Ke81QeSf5wSJcQbpAOai+3dciW6EuSH9IcG1kC0v49GMoiU8jERCiT2LRFhoIyQy6SXX14o1MkW3Nhveguei0OGHpXfZBVF4hLjaw/zEJ41vpi/iaz2pmNuC1B4PwRMqsbsRcu+8V3kfvm3s48sv//uulWaQroXt1L77kX5B63c23wnY5RiE2GVUTdvEzX/OwocJHzUWKVIRoxC7lOz44PCAAOEeIowrrlvtURpSTJb/RnP2
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR0802MB2510.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(136003)(366004)(346002)(376002)(396003)(31696002)(26005)(54906003)(8936002)(53546011)(2906002)(4326008)(66556008)(8676002)(186003)(16526019)(66476007)(316002)(5660300002)(16576012)(2616005)(6486002)(66946007)(44832011)(956004)(36756003)(52116002)(6916009)(83380400001)(86362001)(478600001)(31686004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZU9PT3k4WElRN3ArNU56MEhUTm40am5HY2FYRWRmRGlYbEY2YWgyQitiblQv?=
- =?utf-8?B?dURpQU9ZVmhIaWxDTW8xNDVwLzg2aC90QXRrZWlHWlZ4ZitSUkJ4RGZsUHhM?=
- =?utf-8?B?VHNRK01uUlZtQTNHMVJQc1B1ZFRubnZ0UGJkMHpZNHNSb1NZM3RCRG9oQzNB?=
- =?utf-8?B?UlUrWHB3b0VJQmR1M1JhS2lWVlE0Sll6UTY1SWMzSzFhVlJ3RGJmelhKVENH?=
- =?utf-8?B?ejR6WlJ0UkpYdGo2TmNmWXROVEg1UmNNMk1GTW1QU0pnWnZVMVVNZG8rVGto?=
- =?utf-8?B?WjZxOHAyRFZhUzV2NWUvNWFSUEU0SEppWVU1ZGJVZHJMOHB4MGtzcjZzTVNZ?=
- =?utf-8?B?Wm0yaWhFT2d0WGdWc0U4Uko1a0RVUzZUV0xGRzRHV1Bvb2pPVzJkTlpoWWdp?=
- =?utf-8?B?SG90UHlyVXhLaEZIbWdKS0hHSzZCcG9EWjVmdGQ4bWowUmFXd3BhVktFS3Yz?=
- =?utf-8?B?c3V3Vzdwb1BSaGNyaTM0Z3ZaOEJMamFDVDU3UW1RZ05QRlNBYXlQSlhJQU0x?=
- =?utf-8?B?WE1iNVVMcDdNMktrOEdpcndZWW5kbkJVZk96Tms5L1BreG1oY0w1Vllveldi?=
- =?utf-8?B?aVVBMTF4VlFCYk5wZy9TZnFDMW9LeEkvOE5kdC9BeTY4MHI1ZjM5c0FwZURJ?=
- =?utf-8?B?a0ZvdXBWVXUxeU0vR3RGeW9EMlcyMzBiSDl5dTdnNnVtMlJNN2lSTGZBRTdS?=
- =?utf-8?B?bUM4elJxckhVTGRBRVo5c25aVW9kRHZGNVFMMERGbVdRbWthcHdQWmtCMkRZ?=
- =?utf-8?B?MVI3bytwN3JVcjlNT09jVFpjNUVpbmczSWhlUzVza1lZa0MvTFhWU1ZVRDRn?=
- =?utf-8?B?eWlkd2t0dlc0MXZsRllpOTNRWVBZNksySnBKTnRLZWFsWkdITDdzSC92TFF5?=
- =?utf-8?B?MXFiLzkvOGVaNnpNR2xvM0o4RmRscTVWZ1NtNEV3S2Ewa3pNZmdPYUE4ZkYr?=
- =?utf-8?B?R1k2RjNodHRpNnhJOTAybmdHUjlVQ3hOdUZnYnpsbEwzOTJWVk5xOGg1T2dp?=
- =?utf-8?B?cmFaZlNqNDEyT1lSVjl3bmx1ZVBnazVOQWFGSGlvR1JZY3RXV3VPWHltbG5J?=
- =?utf-8?B?NW51UkxseGFTelNxMlhDa2hMSUhWVmRtSE1wV21yY2tYcGtmMVhtNWo5MWxC?=
- =?utf-8?B?VVpWcUw5Y0JJVDZuc1JaSW9uVEcvZjUxWmlWYTBuOU9rTllUT0g3c2RCNTdq?=
- =?utf-8?B?YkVQZmREVGF3b2Q1NmVRMjlrb3hKelNQcU5DdVlZdUE2ZGQzMGZlUjZZR3ZY?=
- =?utf-8?B?cUR6ODBoM21meUxoaWxJRWpqMXBjdjVDYkdwdjA4TjJMMUt3bEE2TXFZc0dr?=
- =?utf-8?Q?p8hbDDoRm46Fk=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf900b64-91d2-4534-c88c-08d8915012e6
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0802MB2510.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2020 14:40:37.4980 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EQxyfWe7pJOxRBokplcuuZxKfL8KFf8dUWDTyJyeVxOXEn8kdHoYsKrcrsp8aUPcSdJ9S2IK0BC3p2fCohzxh68issvoYsLohK+f8Ui4e8g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2608
-Received-SPF: pass client-ip=40.107.13.130;
- envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9815
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ bulkscore=0 suspectscore=1
+ phishscore=0 mlxscore=0 spamscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011250093
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9815
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=999
+ lowpriorityscore=0 suspectscore=1 adultscore=0 impostorscore=0 mlxscore=0
+ spamscore=0 phishscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011250093
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=darren.kenny@oracle.com; helo=aserp2120.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -144,224 +98,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Petr Matousek <pmatouse@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Michael Roth <michael.roth@amd.com>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.11.2020 16:08, Dr. David Alan Gilbert wrote:
-> * Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
->> In this particular implementation the same single migration
->> thread is responsible for both normal linear dirty page
->> migration and procesing UFFD page fault events.
->>
->> Processing write faults includes reading UFFD file descriptor,
->> finding respective RAM block and saving faulting page to
->> the migration stream. After page has been saved, write protection
->> can be removed. Since asynchronous version of qemu_put_buffer()
->> is expected to be used to save pages, we also have to flush
->> migraion stream prior to un-protecting saved memory range.
->>
->> Write protection is being removed for any previously protected
->> memory chunk that has hit the migration stream. That's valid
->> for pages from linear page scan along with write fault pages.
->>
->> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
->> ---
->>   migration/ram.c | 124 ++++++++++++++++++++++++++++++++++++++++++++----
->>   1 file changed, 115 insertions(+), 9 deletions(-)
->>
->> diff --git a/migration/ram.c b/migration/ram.c
->> index 7f273c9996..08a1d7a252 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -314,6 +314,8 @@ struct RAMState {
->>       ram_addr_t last_page;
->>       /* last ram version we have seen */
->>       uint32_t last_version;
->> +    /* 'write-tracking' migration is enabled */
->> +    bool ram_wt_enabled;
->>       /* We are in the first round */
->>       bool ram_bulk_stage;
->>       /* The free page optimization is enabled */
->> @@ -574,8 +576,6 @@ static int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp)
->>       return 0;
->>   }
->>   
->> -__attribute__ ((unused))
->> -static int uffd_read_events(int uffd, struct uffd_msg *msgs, int count);
->>   __attribute__ ((unused))
->>   static bool uffd_poll_events(int uffd, int tmo);
->>   
->> @@ -1929,6 +1929,86 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->>       return pages;
->>   }
->>   
->> +/**
->> + * ram_find_block_by_host_address: find RAM block containing host page
->> + *
->> + * Returns true if RAM block is found and pss->block/page are
->> + * pointing to the given host page, false in case of an error
->> + *
->> + * @rs: current RAM state
->> + * @pss: page-search-status structure
->> + */
->> +static bool ram_find_block_by_host_address(RAMState *rs, PageSearchStatus *pss,
->> +        hwaddr page_address)
->> +{
->> +    bool found = false;
->> +
->> +    pss->block = rs->last_seen_block;
->> +    do {
->> +        if (page_address >= (hwaddr) pss->block->host &&
->> +            (page_address + TARGET_PAGE_SIZE) <=
->> +                    ((hwaddr) pss->block->host + pss->block->used_length)) {
->> +            pss->page = (unsigned long)
->> +                    ((page_address - (hwaddr) pss->block->host) >> TARGET_PAGE_BITS);
->> +            found = true;
->> +            break;
->> +        }
->> +
->> +        pss->block = QLIST_NEXT_RCU(pss->block, next);
->> +        if (!pss->block) {
->> +            /* Hit the end of the list */
->> +            pss->block = QLIST_FIRST_RCU(&ram_list.blocks);
->> +        }
->> +    } while (pss->block != rs->last_seen_block);
->> +
->> +    rs->last_seen_block = pss->block;
->> +    /*
->> +     * Since we are in the same loop with ram_find_and_save_block(),
->> +     * need to reset pss->complete_round after switching to
->> +     * other block/page in pss.
->> +     */
->> +    pss->complete_round = false;
->> +
->> +    return found;
->> +}
->> +
->> +/**
->> + * get_fault_page: try to get next UFFD write fault page and, if pending fault
->> + *   is found, put info about RAM block and block page into pss structure
->> + *
->> + * Returns true in case of UFFD write fault detected, false otherwise
->> + *
->> + * @rs: current RAM state
->> + * @pss: page-search-status structure
->> + *
->> + */
->> +static bool get_fault_page(RAMState *rs, PageSearchStatus *pss)
->> +{
->> +    struct uffd_msg uffd_msg;
->> +    hwaddr page_address;
->> +    int res;
->> +
->> +    if (!rs->ram_wt_enabled) {
->> +        return false;
->> +    }
->> +
->> +    res = uffd_read_events(rs->uffdio_fd, &uffd_msg, 1);
->> +    if (res <= 0) {
->> +        return false;
->> +    }
->> +
->> +    page_address = uffd_msg.arg.pagefault.address;
->> +    if (!ram_find_block_by_host_address(rs, pss, page_address)) {
->> +        /* In case we couldn't find respective block, just unprotect faulting page */
->> +        uffd_protect_memory(rs->uffdio_fd, page_address, TARGET_PAGE_SIZE, false);
->> +        error_report("ram_find_block_by_host_address() failed: address=0x%0lx",
->> +                     page_address);
->> +        return false;
->> +    }
->> +
->> +    return true;
->> +}
->> +
->>   /**
->>    * ram_find_and_save_block: finds a dirty page and sends it to f
->>    *
->> @@ -1955,25 +2035,50 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
->>           return pages;
->>       }
->>   
->> +    if (!rs->last_seen_block) {
->> +        rs->last_seen_block = QLIST_FIRST_RCU(&ram_list.blocks);
->> +    }
->>       pss.block = rs->last_seen_block;
->>       pss.page = rs->last_page;
->>       pss.complete_round = false;
->>   
->> -    if (!pss.block) {
->> -        pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
->> -    }
->> -
->>       do {
->> +        ram_addr_t page;
->> +        ram_addr_t page_to;
->> +
->>           again = true;
->> -        found = get_queued_page(rs, &pss);
->> -
->> +        /* In case of 'write-tracking' migration we first try
->> +         * to poll UFFD and get write page fault event */
->> +        found = get_fault_page(rs, &pss);
->> +        if (!found) {
->> +            /* No trying to fetch something from the priority queue */
->> +            found = get_queued_page(rs, &pss);
->> +        }
->>           if (!found) {
->>               /* priority queue empty, so just search for something dirty */
->>               found = find_dirty_block(rs, &pss, &again);
->>           }
->>   
->>           if (found) {
->> +            page = pss.page;
->>               pages = ram_save_host_page(rs, &pss, last_stage);
->> +            page_to = pss.page;
->> +
->> +            /* Check if page is from UFFD-managed region */
->> +            if (pss.block->flags & RAM_UF_WRITEPROTECT) {
->> +                hwaddr page_address = (hwaddr) pss.block->host +
->> +                        ((hwaddr) page << TARGET_PAGE_BITS);
->> +                hwaddr run_length = (hwaddr) (page_to - page + 1) << TARGET_PAGE_BITS;
->> +                int res;
->> +
->> +                /* Flush async buffers before un-protect */
->> +                qemu_fflush(rs->f);
->> +                /* Un-protect memory range */
->> +                res = uffd_protect_memory(rs->uffdio_fd, page_address, run_length, false);
->> +                if (res < 0) {
->> +                    break;
->> +                }
->> +            }
-> 
-> Please separate that out into a separate function.
-> 
-> Dave
-> 
+On Wednesday, 2020-11-25 at 18:18:56 +0530, P J P wrote:
+>   Hello Darren, all
+>
+> +-- On Tue, 24 Nov 2020, Darren Kenny wrote --+
+> | I always understood triage to be the initial steps in assessing a bug:
+> | 
+> | - determining if it is a security bug, in this case
+> | - then deciding on the severity of it
+> |
+> | I would not expect triage to include seeing it through to the point
+> | where there is a fix as in the steps above and as such that definition
+> | of triage should probably have a shorter time frame.
+>
+> * Yes, initial triage is to determine if a given issue is a security one and 
+>   its impact if so.
 
-You mean separate implementation of ram_find_and_save_block()?
+Sounds good.
 
-Andrey
+>
+> * After above step, an upstream bug (or GitLab issue) shall be filed if the
+>   issue can be made public readily and does not need an embargo period.
 
->>           }
->>       } while (!pages && again);
->>   
->> @@ -2086,7 +2191,8 @@ static void ram_state_reset(RAMState *rs)
->>       rs->last_sent_block = NULL;
->>       rs->last_page = 0;
->>       rs->last_version = ram_list.version;
->> -    rs->ram_bulk_stage = true;
->> +    rs->ram_wt_enabled = migrate_track_writes_ram();
->> +    rs->ram_bulk_stage = !rs->ram_wt_enabled;
->>       rs->fpo_enabled = false;
->>   }
->>   
->> -- 
->> 2.25.1
->>
+OK
 
+> * Following step about creating a patch is needed considering the influx of 
+>   these issues. If such a patch is not proposed at this time, we risk having 
+>   numerous CVE bugs open and unfixed without a patch.
+>
+> * Sometimes proposed patches take long time to get merged upstream. Hence the 
+>   60 days time frame.
 
--- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                 virtuzzo.com
+Absolutely understand that.
+
+>
+> * It does not mean issue report will remain private for 60 days, nope.
+
+OK, it is not the embargo period then, got it.
+
+>
+>
+> | But, if it is a security bug - then that is when the next steps would be
+> | taken, to (not necessarily in this order):
+> | 
+> | - negotiate an embargo (should the predefined 60 days be insufficient)
+> |
+> |   - don't know if you need to mention that this would include downstream
+> |     in this too, since they will be the ones most likely to need the
+> |     time to distribute a fix
+>
+> * Embargo period is negotiated for important/critical issues. Such embargo 
+>   period is generally not more than 2 weeks.
+
+I always thought that the purpose of an embargo period was to enable
+downstream to have patches available and ready for distribution, and
+preferably distributed already if its something a malicious guest could
+use. In that case 2 weeks seems like a pretty short time-frame for all
+of that to be completed, especially if it is something that could be
+exploitable as soon as the patch lands and is thus visible in upstream
+code.
+
+But I guess the negotiation would iron that out at the time, so it's
+probably OK to default to 2 weeks.
+
+> * Yes, embargo process includes notifying various downstream communities about 
+>   the issue, its fix(es) and co-ordinating disclosure.
+
+OK.
+
+> | - request a CVE
+> | - create a fix for upstream
+> |   - distros can work on bringing that back into downstream as needed,
+> |     within the embargo period
+> | 
+> | I do feel that it is worth separating the 2 phases of triage and beyond,
+> | but of course that is only my thoughts on it, I'm sure others will have
+> | theirs.
+>
+> * Yes, I appreciate it, thanks so much for sharing.
+>
+> * This patch is to get the qemu-security list up and running. I'll refine the 
+>   process further with above/more details as we start using it. Hope that's 
+>   okay.
+
+OK, since it was an RFC I didn't think it was the actual patch yet, just
+looking for comments ;-)
+
+I'm alright if it gets ironed out more after...
+
+Thanks,
+
+Darren.
+
+>
+>
+> Thank you.
+> --
+> Prasad J Pandit / Red Hat Product Security Team
+> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
 
