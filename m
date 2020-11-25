@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63D7F2C3B4F
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 09:48:38 +0100 (CET)
-Received: from localhost ([::1]:49168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 631BB2C3B6C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 09:56:48 +0100 (CET)
+Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khqTc-0002KO-Tg
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 03:48:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46598)
+	id 1khqbW-0006bY-Uj
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 03:56:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1khqQi-0001XQ-Pu
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 03:45:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20786)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1khqQf-0006Mw-KY
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 03:45:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606293931;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HbIlvUsEqQewM8n+4RKyHqf6GweZCpgC+Ut9CN+JhR0=;
- b=hyEYs3Z0xBmDDEHmko35Ot/t+NPRAeYxCTyiskkafG8x/U6mlbiXSnnWviVDS+Eq8nsAY0
- euRpfVsEXVDO0S3FOcwEP71ZSAwef+dKiNE5I/pp95aepGkCncknjFF8iIQHIrAyYsaiDY
- Nqm5Ko/+Tz90ylqpmECgLI7DIqoOlp8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-503-P7hzwp_XMTaX7WGq0pdutw-1; Wed, 25 Nov 2020 03:45:29 -0500
-X-MC-Unique: P7hzwp_XMTaX7WGq0pdutw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59D5F107ACE6;
- Wed, 25 Nov 2020 08:45:28 +0000 (UTC)
-Received: from [10.36.112.131] (ovpn-112-131.ams2.redhat.com [10.36.112.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C88160C43;
- Wed, 25 Nov 2020 08:45:19 +0000 (UTC)
-Subject: Re: [PATCH v2] hw/arm/virt enable support for virtio-mem
-To: Andrew Jones <drjones@redhat.com>
-References: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
- <5b1dff01-7e6b-78d2-d55a-20c0617c3076@redhat.com>
- <20201124181150.0000025f@Huawei.com>
- <f2cfd3cb-27c8-f25b-2b57-6dc983a25a43@redhat.com>
- <20201125083844.krr4d5ww3a2ki25c@kamzik.brq.redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <b06d3a29-a1b3-da53-fade-33413d611ec5@redhat.com>
-Date: Wed, 25 Nov 2020 09:45:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1khqZr-0005hm-5v
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 03:55:03 -0500
+Received: from mail-oo1-xc42.google.com ([2607:f8b0:4864:20::c42]:34254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1khqZo-0001OC-Dh
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 03:55:02 -0500
+Received: by mail-oo1-xc42.google.com with SMTP id l10so317822ooh.1
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 00:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PAZEAGuMhmOcEV5WNzYxhTDbEV7LwlxWEtuY1MviPC4=;
+ b=tUz4tk8BMY2QNeKxw1LfU1QSUzGrQXlZpXL0CR0ZixBBQpP2WXy8mw6mnBamuPe/uK
+ zrNdcXok8mcLAiwJIX+NeuIqg19KZv6elPr43al9N9k8mjLHIt/+hXnbyr+CXFl3pHDz
+ Eo8Lw1sGGY+T4zGowa86bIU5R38OcMyhnoTi+kAVWd3zB4E81aHc+Woshx9M3ibRs7tB
+ CG1yRxmT8mXosPCh/L/wp2ykogsXu9L8rOznYifsSaXMbBda9e2hk0tJUsCBOiH0ETMM
+ d+dW2R70b87HvXpPkKswTYd+OArD3ZDGLGH/XloNESegw7Ql/+xGQbv4PTnzFeDEWApC
+ 0LaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PAZEAGuMhmOcEV5WNzYxhTDbEV7LwlxWEtuY1MviPC4=;
+ b=pBGJhytMRa0BGFnCR+fb+zmEcNOwAsv6P5j+L9MduYUp70nQxRBpkICuZYiTScfd2O
+ XefFJniFUeR36ZOythTYAM8w2mycN5r5O6Cgd26nyNa+neRlonXkTaJfE/ouUJlkFCK/
+ 4hfh6qknz2w8Lko80ZTGwnUcRZLp/tIwcBA89MUiIeSmgseF5y2ImdDLHs4ueM8ke+Sy
+ CiC3/9fpzg4+r9nbmMxREloXGCIY4NyGO7AxQ4ZwKWWDMDrRrmBlrRSdmuEPnuOU3qzU
+ gaqYZB9Bz0rjS+Bd49RqHAswJLncKkWTX4ub3CkwgoAdPsiSxWUbd3teFdI5qszRbit9
+ fmTg==
+X-Gm-Message-State: AOAM530tYs7cLRstUHikFPEAgiHTaOFFVKvaUq4fZ4GoWyWflflL+IPY
+ ENwmWG6gmBo36Tp+ZI/IvL98k8WS8jdTpMwsyoVyGQ==
+X-Google-Smtp-Source: ABdhPJzyWG5l82d+1+OiUSIJsjdZiQMyUo63UTmrC5H+XYZxYHGnLI5sEQLjAD7jKqa9G604JOUpJXZmskFMotQDubg=
+X-Received: by 2002:a4a:e882:: with SMTP id g2mr60578ooe.55.1606294495004;
+ Wed, 25 Nov 2020 00:54:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201125083844.krr4d5ww3a2ki25c@kamzik.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200716035532.1407660-1-andrew@daynix.com>
+ <CABcq3pGFPkDMmEegGaw6UjHBijPZiyFj-uR+6Phz+0K44VRNgw@mail.gmail.com>
+ <874klk5gnc.fsf@dusky.pond.sub.org>
+ <CAOEp5OfjuR97v0VyyHpXJiZVsU1jMphHh86XwAU4t3Uw1T8Ghg@mail.gmail.com>
+ <CAOEp5OdiFaCK=Ag8f9oNixhrkW4xoEJ2bXKU7ThXeF9VJXPqTw@mail.gmail.com>
+ <CABcq3pGDAO7sB6jobcsiE8_7md1yZ7wGkkyxZefjXGc7-d6obw@mail.gmail.com>
+ <87lfesv2zu.fsf@dusky.pond.sub.org>
+ <CAOEp5OcAXn0dvvpaZSu3C0rnGPA_NTFKUxqMMKMJx2xzBQ8YiA@mail.gmail.com>
+ <87blfnp20k.fsf@dusky.pond.sub.org> <87lferm4x5.fsf@dusky.pond.sub.org>
+ <CAOEp5Oe18jtsgHVqwtm+-sqspD6KoJTOO9nNPmcWS++AVGjXKQ@mail.gmail.com>
+ <87tutej3dc.fsf@dusky.pond.sub.org> <87blfmj2qx.fsf@dusky.pond.sub.org>
+ <CAOEp5Ofozi59Ns3F72p-5VGgPBMdrym3dS8GCEiNg9Ovh0jK3A@mail.gmail.com>
+ <87y2iqg3m3.fsf@dusky.pond.sub.org>
+In-Reply-To: <87y2iqg3m3.fsf@dusky.pond.sub.org>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Wed, 25 Nov 2020 10:54:44 +0200
+Message-ID: <CAOEp5OdzKNOBkXQDePKLe90jpYqYyNyis1gqsJ0dCSB2YC29Dw@mail.gmail.com>
+Subject: Re: [PATCH] hmp: Changed hmp_netdev_add() using
+ qmp_marshal_netdev_add()
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000c79aea05b4ea94e6"
+Received-SPF: none client-ip=2607:f8b0:4864:20::c42;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-oo1-xc42.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,109 +89,294 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- linuxarm@huawei.com, Auger Eric <eric.auger@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnichenko <andrew@daynix.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.11.20 09:38, Andrew Jones wrote:
-> On Tue, Nov 24, 2020 at 08:17:35PM +0100, David Hildenbrand wrote:
->> On 24.11.20 19:11, Jonathan Cameron wrote:
->>> On Mon, 9 Nov 2020 20:47:09 +0100
->>> David Hildenbrand <david@redhat.com> wrote:
->>>
->>> +CC Eric based on similar query in other branch of the thread.
->>>
->>>> On 05.11.20 18:43, Jonathan Cameron wrote:
->>>>> Basically a cut and paste job from the x86 support with the exception of
->>>>> needing a larger block size as the Memory Block Size (MIN_SECTION_SIZE)
->>>>> on ARM64 in Linux is 1G.
->>>>>
->>>>> Tested:
->>>>> * In full emulation and with KVM on an arm64 server.
->>>>> * cold and hotplug for the virtio-mem-pci device.
->>>>> * Wide range of memory sizes, added at creation and later.
->>>>> * Fairly basic memory usage of memory added.  Seems to function as normal.
->>>>> * NUMA setup with virtio-mem-pci devices on each node.
->>>>> * Simple migration test.
->>>>>
->>>>> Related kernel patch just enables the Kconfig item for ARM64 as an
->>>>> alternative to x86 in drivers/virtio/Kconfig
->>>>>
->>>>> The original patches from David Hildenbrand stated that he thought it should
->>>>> work for ARM64 but it wasn't enabled in the kernel [1]
->>>>> It appears he was correct and everything 'just works'.
->>>>>
->>>>> The build system related stuff is intended to ensure virtio-mem support is
->>>>> not built for arm32 (build will fail due no defined block size).
->>>>> If there is a more elegant way to do this, please point me in the right
->>>>> direction.  
->>>>
->>>> You might be aware of https://virtio-mem.gitlab.io/developer-guide.html 
->>>> and the "issue" with 64k base pages - 512MB granularity. Similar as the 
->>>> question from Auger, have you tried running arm64 with differing page 
->>>> sizes in host/guest?
->>>>
->>>
->>> Hi David,
->>>
->>>> With recent kernels, you can use "memhp_default_state=online_movable" on 
->>>> the kernel cmdline to make memory unplug more likely to succeed - 
->>>> especially with 64k base pages. You just have to be sure to not hotplug 
->>>> "too much memory" to a VM.
->>>
->>> Thanks for the pointer - that definitely simplifies testing.  Was getting a bit
->>> tedious with out that.
->>>
->>> As ever other stuff got in the way, so I only just got back to looking at this.
->>>
->>> I've not done a particularly comprehensive set of tests yet, but things seem
->>> to 'work' with mixed page sizes.
->>>
->>> With 64K pages in general, you run into a problem with the device block_size being
->>> smaller than the subblock_size.  I've just added a check for that into the
->>
->> "device block size smaller than subblock size" - that's very common,
->> e.g.,  on x86-64.
->>
->> E.g., device_block_size is 2MiB, subblock size 4MiB - until we improve
->> that in the future in Linux guests.
->>
->> Or did you mean something else?
->>
->>> virtio-mem kernel driver and have it fail to probe if that happens.  I don't
->>> think such a setup makes any sense anyway so no loss there.  Should it make sense
->>> to drop that restriction in the future we can deal with that then without breaking
->>> backwards compatibility.
->>>
->>> So the question is whether it makes sense to bother with virtio-mem support
->>> at all on ARM64 with 64k pages given currently the minimum workable block_size
->>> is 512MiB?  I guess there is an argument of virtio-mem being a possibly more
->>> convenient interface than full memory HP.  Curious to hear what people think on
->>> this?
->>
->> IMHO we really want it. For example, RHEL is always 64k. This is a
->> current guest limitation, to be improved in the future - either by
->> moving away from 512MB huge pages with 64k or by improving
->> alloc_contig_range().
-> 
-> Even with 64k pages you may be able to have 2MB huge pages by setting
-> default_hugepagesz=2M on the kernel command line.
+--000000000000c79aea05b4ea94e6
+Content-Type: text/plain; charset="UTF-8"
 
-Yes, but not for THP, right? Last time I checked that move was not
-performed yet - resulting in MAX_ORDER/pageblock_order in Linux
-corresponding to 512 MB.
+On Tue, Nov 24, 2020 at 5:46 PM Markus Armbruster <armbru@redhat.com> wrote:
 
-> 
-> Thanks,
-> drew
+> Yuri Benditovich <yuri.benditovich@daynix.com> writes:
+>
+> > On Tue, Nov 24, 2020 at 3:36 PM Markus Armbruster <armbru@redhat.com>
+> wrote:
+> >
+> >> Markus Armbruster <armbru@redhat.com> writes:
+> >>
+> >> > Yuri Benditovich <yuri.benditovich@daynix.com> writes:
+> >> >
+> >> >> Please confirm that this patch is intended to solve only the problem
+> >> with
+> >> >> hmp (and disallow duplicated ids)
+> >> >
+> >> > The intent is to reject duplicate ID and to accept non-duplicate ID,
+> no
+> >> > matter how the device is created (CLI, HMP, QMP) or a prior instance
+> was
+> >> > deleted (HMP, QMP).
+> >> >
+> >> >> With it the netdev that was added from qemu's command line and was
+> >> deleted
+> >> >> (for example by hmp) still can't be created, correct?
+> >> >
+> >> > Yet another case; back to the drawing board...
+> >>
+> >> Next try.  Hope this is one holds water :)
+> >>
+> >>
+> >> diff --git a/net/net.c b/net/net.c
+> >> index 794c652282..c1dc75fc37 100644
+> >> --- a/net/net.c
+> >> +++ b/net/net.c
+> >> @@ -978,6 +978,7 @@ static int (* const
+> >> net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+> >>  static int net_client_init1(const Netdev *netdev, bool is_netdev, Error
+> >> **errp)
+> >>  {
+> >>      NetClientState *peer = NULL;
+> >> +    NetClientState *nc;
+> >>
+> >>      if (is_netdev) {
+> >>          if (netdev->type == NET_CLIENT_DRIVER_NIC ||
+> >> @@ -1005,6 +1006,12 @@ static int net_client_init1(const Netdev *netdev,
+> >> bool is_netdev, Error **errp)
+> >>          }
+> >>      }
+> >>
+> >> +    nc = qemu_find_netdev(netdev->id);
+> >> +    if (nc) {
+> >> +        error_setg(errp, "Duplicate ID '%s'", netdev->id);
+> >> +        return -1;
+> >> +    }
+> >> +
+> >>      if (net_client_init_fun[netdev->type](netdev, netdev->id, peer,
+> errp)
+> >> < 0) {
+> >>          /* FIXME drop when all init functions store an Error */
+> >>          if (errp && !*errp) {
+> >> @@ -1015,8 +1022,6 @@ static int net_client_init1(const Netdev *netdev,
+> >> bool is_netdev, Error **errp)
+> >>      }
+> >>
+> >>      if (is_netdev) {
+> >> -        NetClientState *nc;
+> >> -
+> >>          nc = qemu_find_netdev(netdev->id);
+> >>          assert(nc);
+> >>          nc->is_netdev = true;
+> >> @@ -1137,6 +1142,7 @@ void qmp_netdev_add(Netdev *netdev, Error **errp)
+> >>  void qmp_netdev_del(const char *id, Error **errp)
+> >>  {
+> >>      NetClientState *nc;
+> >> +    QemuOpts *opts;
+> >>
+> >>      nc = qemu_find_netdev(id);
+> >>      if (!nc) {
+> >> @@ -1151,6 +1157,16 @@ void qmp_netdev_del(const char *id, Error **errp)
+> >>      }
+> >>
+> >>      qemu_del_net_client(nc);
+> >> +
+> >> +    /*
+> >> +     * Wart: we need to delete the QemuOpts associated with netdevs
+> >> +     * created via CLI or HMP, to avoid bogus "Duplicate ID" errors in
+> >> +     * HMP netdev_add.
+> >> +     */
+> >> +    opts = qemu_opts_find(qemu_find_opts("netdev"), id);
+> >> +    if (opts) {
+> >> +        qemu_opts_del(opts);
+> >> +    }
+> >>  }
+> >>
+> >>
+> > With this part there is no need to unconditionally delete the options
+> > in hmp_netdev_add,
+> > correct?
+>
+> Yes.
+>
+> The CLI accumulates -netdev in option group "netdev".  It has to, or
+> else -writeconfig doesn't work.
+>
+> Before commit 08712fcb85 "net: Track netdevs in NetClientState rather
+> than QemuOpt", netdev_add added to the option group, and netdev_del
+> removed from it, both for HMP and QMP.  Thus, every netdev had a
+> corresponding QemuOpts in this option group.
+>
+> Commit 08712fcb85 dropped this for QMP netdev_add and both netdev_del.
+> Now a netdev has a corresponding QemuOpts only when it was created with
+> CLI or HMP.  Two issues:
+>
+> * QMP netdev_add loses its "no duplicate ID" check.
+>
+>   My change to net_init_client1() fixes this.
+>
+> * Both netdev_add can leave QemuOpts behind, breaking HMP netdev_add.
+>
+>   My change to qmp_netdev_del() fixes this.
+>
+> Questions?
+>
+> No questions, looking forward for the final patch
+Thanks
 
+--000000000000c79aea05b4ea94e6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Thanks,
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 24, 2020 at 5:46 PM Marku=
+s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Yuri=
+ Benditovich &lt;<a href=3D"mailto:yuri.benditovich@daynix.com" target=3D"_=
+blank">yuri.benditovich@daynix.com</a>&gt; writes:<br>
+<br>
+&gt; On Tue, Nov 24, 2020 at 3:36 PM Markus Armbruster &lt;<a href=3D"mailt=
+o:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" target=
+=3D"_blank">armbru@redhat.com</a>&gt; writes:<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; Yuri Benditovich &lt;<a href=3D"mailto:yuri.benditovich@dayni=
+x.com" target=3D"_blank">yuri.benditovich@daynix.com</a>&gt; writes:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; Please confirm that this patch is intended to solve only =
+the problem<br>
+&gt;&gt; with<br>
+&gt;&gt; &gt;&gt; hmp (and disallow duplicated ids)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; The intent is to reject duplicate ID and to accept non-duplic=
+ate ID, no<br>
+&gt;&gt; &gt; matter how the device is created (CLI, HMP, QMP) or a prior i=
+nstance was<br>
+&gt;&gt; &gt; deleted (HMP, QMP).<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;&gt; With it the netdev that was added from qemu&#39;s command=
+ line and was<br>
+&gt;&gt; deleted<br>
+&gt;&gt; &gt;&gt; (for example by hmp) still can&#39;t be created, correct?=
+<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Yet another case; back to the drawing board...<br>
+&gt;&gt;<br>
+&gt;&gt; Next try.=C2=A0 Hope this is one holds water :)<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/net/net.c b/net/net.c<br>
+&gt;&gt; index 794c652282..c1dc75fc37 100644<br>
+&gt;&gt; --- a/net/net.c<br>
+&gt;&gt; +++ b/net/net.c<br>
+&gt;&gt; @@ -978,6 +978,7 @@ static int (* const<br>
+&gt;&gt; net_client_init_fun[NET_CLIENT_DRIVER__MAX])(<br>
+&gt;&gt;=C2=A0 static int net_client_init1(const Netdev *netdev, bool is_ne=
+tdev, Error<br>
+&gt;&gt; **errp)<br>
+&gt;&gt;=C2=A0 {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 NetClientState *peer =3D NULL;<br>
+&gt;&gt; +=C2=A0 =C2=A0 NetClientState *nc;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 if (is_netdev) {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (netdev-&gt;type =3D=3D NET_C=
+LIENT_DRIVER_NIC ||<br>
+&gt;&gt; @@ -1005,6 +1006,12 @@ static int net_client_init1(const Netdev *n=
+etdev,<br>
+&gt;&gt; bool is_netdev, Error **errp)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt;<br>
+&gt;&gt; +=C2=A0 =C2=A0 nc =3D qemu_find_netdev(netdev-&gt;id);<br>
+&gt;&gt; +=C2=A0 =C2=A0 if (nc) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Duplicate ID &=
+#39;%s&#39;&quot;, netdev-&gt;id);<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+&gt;&gt; +=C2=A0 =C2=A0 }<br>
+&gt;&gt; +<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 if (net_client_init_fun[netdev-&gt;type](netde=
+v, netdev-&gt;id, peer, errp)<br>
+&gt;&gt; &lt; 0) {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* FIXME drop when all init func=
+tions store an Error */<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errp &amp;&amp; !*errp) {<br=
+>
+&gt;&gt; @@ -1015,8 +1022,6 @@ static int net_client_init1(const Netdev *ne=
+tdev,<br>
+&gt;&gt; bool is_netdev, Error **errp)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 if (is_netdev) {<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 NetClientState *nc;<br>
+&gt;&gt; -<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nc =3D qemu_find_netdev(netdev-&=
+gt;id);<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 assert(nc);<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nc-&gt;is_netdev =3D true;<br>
+&gt;&gt; @@ -1137,6 +1142,7 @@ void qmp_netdev_add(Netdev *netdev, Error **=
+errp)<br>
+&gt;&gt;=C2=A0 void qmp_netdev_del(const char *id, Error **errp)<br>
+&gt;&gt;=C2=A0 {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 NetClientState *nc;<br>
+&gt;&gt; +=C2=A0 =C2=A0 QemuOpts *opts;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 nc =3D qemu_find_netdev(id);<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 if (!nc) {<br>
+&gt;&gt; @@ -1151,6 +1157,16 @@ void qmp_netdev_del(const char *id, Error *=
+*errp)<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 qemu_del_net_client(nc);<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 /*<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* Wart: we need to delete the QemuOpts associ=
+ated with netdevs<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* created via CLI or HMP, to avoid bogus &quo=
+t;Duplicate ID&quot; errors in<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* HMP netdev_add.<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt;&gt; +=C2=A0 =C2=A0 opts =3D qemu_opts_find(qemu_find_opts(&quot;netdev=
+&quot;), id);<br>
+&gt;&gt; +=C2=A0 =C2=A0 if (opts) {<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_opts_del(opts);<br>
+&gt;&gt; +=C2=A0 =C2=A0 }<br>
+&gt;&gt;=C2=A0 }<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt; With this part there is no need to unconditionally delete the options<=
+br>
+&gt; in hmp_netdev_add,<br>
+&gt; correct?<br>
+<br>
+Yes.<br>
+<br>
+The CLI accumulates -netdev in option group &quot;netdev&quot;.=C2=A0 It ha=
+s to, or<br>
+else -writeconfig doesn&#39;t work.<br>
+<br>
+Before commit 08712fcb85 &quot;net: Track netdevs in NetClientState rather<=
+br>
+than QemuOpt&quot;, netdev_add added to the option group, and netdev_del<br=
+>
+removed from it, both for HMP and QMP.=C2=A0 Thus, every netdev had a<br>
+corresponding QemuOpts in this option group.<br>
+<br>
+Commit 08712fcb85 dropped this for QMP netdev_add and both netdev_del.<br>
+Now a netdev has a corresponding QemuOpts only when it was created with<br>
+CLI or HMP.=C2=A0 Two issues:<br>
+<br>
+* QMP netdev_add loses its &quot;no duplicate ID&quot; check.<br>
+<br>
+=C2=A0 My change to net_init_client1() fixes this.<br>
+<br>
+* Both netdev_add can leave QemuOpts behind, breaking HMP netdev_add.<br>
+<br>
+=C2=A0 My change to qmp_netdev_del() fixes this.<br>
+<br>
+Questions?<br>
+<br></blockquote><div>No questions, looking forward for the final patch</di=
+v><div>Thanks</div><div>=C2=A0</div></div></div>
 
-David / dhildenb
-
+--000000000000c79aea05b4ea94e6--
 
