@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1280B2C364E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 02:44:26 +0100 (CET)
-Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320142C3668
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 03:02:40 +0100 (CET)
+Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khjr7-0003o8-3r
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 20:44:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32798)
+	id 1khk68-0000W8-6f
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 20:59:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1khjpN-0003IP-TL; Tue, 24 Nov 2020 20:42:37 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2464)
+ (Exim 4.90_1) (envelope-from <aiyutao@huawei.com>)
+ id 1khk43-0007no-Ho
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 20:57:47 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1khjpL-0005Ea-Iu; Tue, 24 Nov 2020 20:42:37 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CgkCF3BS4zLswf;
- Wed, 25 Nov 2020 09:42:01 +0800 (CST)
-Received: from [10.174.187.138] (10.174.187.138) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 25 Nov 2020 09:42:21 +0800
-Message-ID: <5FBDB67C.5090202@huawei.com>
-Date: Wed, 25 Nov 2020 09:42:20 +0800
-From: Alex Chen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+ (Exim 4.90_1) (envelope-from <aiyutao@huawei.com>)
+ id 1khk41-0007Ob-2e
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 20:57:47 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CgkXg2MDdz15Rlf;
+ Wed, 25 Nov 2020 09:57:07 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Wed, 25 Nov 2020
+ 09:57:21 +0800
+From: Yutao Ai <aiyutao@huawei.com>
+To: <dgilbert@redhat.com>, <armbru@redhat.com>
+Subject: [PATCH 0/3] Fix some style problems in monitor
+Date: Wed, 25 Nov 2020 01:45:11 +0000
+Message-ID: <20201125014514.55562-1-aiyutao@huawei.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-To: Alex Chen <alex.chen@huawei.com>
-Subject: Re: [PATCH v2] vhost-user-scsi: Fix memleaks in vus_proc_req()
-References: <20201125012543.109997-1-alex.chen@huawei.com>
-In-Reply-To: <20201125012543.109997-1-alex.chen@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.138]
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=alex.chen@huawei.com;
- helo=szxga05-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=aiyutao@huawei.com;
+ helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,53 +56,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, zhang.zhanghailiang@huawei.com,
- raphael.norwitz@nutanix.com, qemu-devel@nongnu.org, mst@redhat.com
+Cc: alex.chen@huawei.com, aiyutao@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry, I forgot to add the Reviewed-by information, I will send patch v3.
+I find some style problems while using checkpatch.pl to check monitor codes.
+And I fixed these style problems in the submit patches.
 
-On 2020/11/25 9:25, Alex Chen wrote:
-> The 'elem' is allocated memory in vu_queue_pop(), and its memory should be
-> freed in all error branches after vu_queue_pop().
-> In addition, in order to free the 'elem' memory outside of while(1) loop, move
-> the definition of 'elem' to the beginning of vus_proc_req().
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
-> ---
->  contrib/vhost-user-scsi/vhost-user-scsi.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/contrib/vhost-user-scsi/vhost-user-scsi.c b/contrib/vhost-user-scsi/vhost-user-scsi.c
-> index 0f9ba4b2a2..4639440a70 100644
-> --- a/contrib/vhost-user-scsi/vhost-user-scsi.c
-> +++ b/contrib/vhost-user-scsi/vhost-user-scsi.c
-> @@ -232,6 +232,7 @@ static void vus_proc_req(VuDev *vu_dev, int idx)
->      VugDev *gdev;
->      VusDev *vdev_scsi;
->      VuVirtq *vq;
-> +    VuVirtqElement *elem = NULL;
->  
->      assert(vu_dev);
->  
-> @@ -248,7 +249,6 @@ static void vus_proc_req(VuDev *vu_dev, int idx)
->      g_debug("Got kicked on vq[%d]@%p", idx, vq);
->  
->      while (1) {
-> -        VuVirtqElement *elem;
->          VirtIOSCSICmdReq *req;
->          VirtIOSCSICmdResp *rsp;
->  
-> @@ -288,6 +288,7 @@ static void vus_proc_req(VuDev *vu_dev, int idx)
->  
->          free(elem);
->      }
-> +    free(elem);
->  }
->  
->  static void vus_queue_set_started(VuDev *vu_dev, int idx, bool started)
-> 
+Yutao Ai (3):
+  monitor:open brace '{' following struct go on the same line
+  monitor:braces {} are necessary for all arms of this statement
+  monitor:Don't use '#' flag of printf format ('%#') in format strings
+
+ monitor/hmp-cmds.c |  3 +--
+ monitor/misc.c     | 16 ++++++++++------
+ 2 files changed, 11 insertions(+), 8 deletions(-)
+
+-- 
+2.19.1
 
 
