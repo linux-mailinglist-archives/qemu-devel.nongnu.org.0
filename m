@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE412C4144
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 14:39:41 +0100 (CET)
-Received: from localhost ([::1]:49070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397372C412D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 14:34:09 +0100 (CET)
+Received: from localhost ([::1]:39202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khv1F-00069h-On
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 08:39:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42976)
+	id 1khuvt-0001vZ-T9
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 08:34:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khusx-0000b5-MT
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:31:04 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41282)
+ (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
+ id 1khupK-0007FF-1d
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:27:18 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khusr-0002Im-T4
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:31:03 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1khusp-0008O4-Ms
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 13:30:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A7F062E813E
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 13:30:55 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2020 13:19:27 -0000
-From: post-factum <1837218@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <antoine.damhet@blade-group.com>)
+ id 1khupH-0000sh-U7
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:27:17 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id d142so2005367wmd.4
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 05:27:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=blade-group.com; s=google;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+ :content-transfer-encoding;
+ bh=ks4A3N69cOaw0ymDGE2Z/6Z927zJtwPh2/d5E7s9xIQ=;
+ b=IORGh6zSqMyxnc3qSi8PjYHw15LmsKLdBYil3CLvTotR6GgNMNDWOcatnzbQgEdgt4
+ wHmwQ04z2BVi35lHa0IPNOmGYnyNS5zYcv9SR6YEROOwbhl9685FvL/pLm3W0MPNuFAu
+ fbU9cytgdcD/IrQ+QcsiRnPU/sZS/yd9MTL1790bAnvvAMB79xR29hxyzactKbUQbMus
+ Ra/BE9DVQ79ftUlGFMrd7NbPeyTFXGTC1NquZit5w3uPFJRXRpa3eWslDybRF2++EsBN
+ 4InqcMELT38QWGdhm9WzbED9/0Gzahly9/PKFfBn1SJIG2OhXPkq0EG9+2XCfYpkPgLM
+ h9Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=ks4A3N69cOaw0ymDGE2Z/6Z927zJtwPh2/d5E7s9xIQ=;
+ b=LLMr9qlATnO+YRp21E4sAg8pkKeb/2tiOtOVJD1cGhUki4XEpwviCqn6qSFOjI/PCB
+ GLzJZ8eOmwAAvDTca6gjbkXlh7U8c4Zcjo0IinE7HUYS84sGQiTpHUvwqFfGHNSGbO2W
+ elscBPOFPVURLVVCj6t5aJsPbZb+E6WS5D5iehCH9+RJxb/twur4bt09zRjvEEFDohSg
+ 3yiLXFobChLzOQf+YNV++xgpC7wlBtpsGYane+Nio20f4CXGh8FYTPanZgLbC7/EISL8
+ YsecqPEt4diMYWB38sBT2XvWoabgKBv2u7H+NBfvcwM4CVpDL90eHS2UxwdkLWk/EQWx
+ UF5Q==
+X-Gm-Message-State: AOAM530beqkvJqy7NC1NFytXdJ8ev+XHN5TJ2k4dMAdw2g0nbuPA8ct+
+ GFdbcbjvffim19ILttr/NtrurCxWFYvFWw==
+X-Google-Smtp-Source: ABdhPJwD1rA8sa7A1OKfyUXrz+F7FwO4pLAQ8Sum3BDVE2OXrsJ9QoTKl6o5bDigY6WGJ0XaTFByKA==
+X-Received: by 2002:a05:600c:214f:: with SMTP id
+ v15mr4060875wml.5.1606310833192; 
+ Wed, 25 Nov 2020 05:27:13 -0800 (PST)
+Received: from localhost ([2a01:e34:ec16:8a90:4e1d:96ff:fe49:7109])
+ by smtp.gmail.com with ESMTPSA id f23sm4439400wmb.43.2020.11.25.05.27.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Nov 2020 05:27:12 -0800 (PST)
+Date: Wed, 25 Nov 2020 14:27:11 +0100
+From: Antoine Damhet <antoine.damhet@blade-group.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: post-factum th-huth
-X-Launchpad-Bug-Reporter: post-factum (post-factum)
-X-Launchpad-Bug-Modifier: post-factum (post-factum)
-References: <156354588692.30209.14783168884867057348.malonedeb@soybean.canonical.com>
-Message-Id: <160631036783.27482.12584654960374511050.malone@chaenomeles.canonical.com>
-Subject: [Bug 1837218] Re: qemu segfaults after spice update with bochs-display
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: a5f8836cd003ea9e446b49fa88c5fb012f920e89
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [DISCUSSION] Allow ACPI default OEM ID and OEM table ID fields to be
+ set.
+Message-ID: <20201125132711.jqb7znxu5jpoanwi@tartarus>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=antoine.damhet@blade-group.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,67 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1837218 <1837218@bugs.launchpad.net>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The issue is not experienced any more.
+Hello,
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+We recently found out that some softwares are effectively crashing
+when they detect qemu's `OEM ID` or `OEM table ID` in the ACPI tables.
 
--- =
+I see no reason not to expose the setting to the user/command-line. A
+previous patch has been submitted in 2015[1] but did not get through
+because (if I understand correctly) using the IDs on the `SLIC`, `BXPC`
+and `RSDT` tables were enough at the time.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1837218
+If you agree, I am willing to forward port the patches of M. Jones but I
+need to ask how it would work `Signed-Off`-wise ?
 
-Title:
-  qemu segfaults after spice update with bochs-display
+Thanks in advance for your time,
 
-Status in QEMU:
-  Fix Released
+PS: the softwares will crash if the signature is found in any of the
+    exposed tables.
 
-Bug description:
-  Description:
+[1]: https://lore.kernel.org/qemu-devel/1441220618-4750-1-git-send-email-rj=
+ones@redhat.com/
 
-  qemu segfaults after latest spice update with bochs-display.
-  Downgrading spice solves the issue. Switching to qxl-vga and/or
-  virtio-gpu also works even with new spice.
-
-  Additional info:
-  * package version(s)
-
-  spice 0.14.2-1 (0.14.0 is unaffected)
-  qemu-headless 4.0.0-3
-
-  * config and/or log files etc.
-
-  pf@defiant:~ =C2=BB /mnt/vms/02-archlinux/start.sh
-  /mnt/vms/02-archlinux/start.sh: line 41: 13501 Segmentation fault (core d=
-umped) qemu-system-x86_64 -name "${NAME}" -display none -spice ipv4,addr=3D=
-127.0.0.1,port=3D270${ID},disable-ticketing,disable-copy-paste,disable-agen=
-t-file-xfer,agent-mouse=3Doff -serial mon:telnet:127.0.0.1:280${ID},server,=
-nowait,nodelay -gdb tcp::260${ID} -nodefaults -machine q35,accel=3Dkvm -cpu=
- max -smp cores=3D${CPU},threads=3D1,sockets=3D1 -m ${MEM} -drive if=3Dpfla=
-sh,format=3Draw,readonly,file=3D"${BIOS}" -drive if=3Dpflash,format=3Draw,f=
-ile=3D"${VARS}" -device virtio-rng -device bochs-display -device virtio-key=
-board -netdev bridge,id=3Dbridge.0,br=3Dvm0 -device virtio-net,mac=3D${_MAC=
-}:01,netdev=3Dbridge.0,mq=3Don,vectors=3D${_VECTORS} -fsdev local,id=3D"${N=
-AME}",path=3D"${SHARED}",security_model=3Dmapped,writeout=3Dimmediate -devi=
-ce virtio-9p-pci,fsdev=3D"${NAME}",mount_tag=3D"shared" -device virtio-scsi=
-,id=3Dscsi,num_queues=3D${CPU},vectors=3D${_VECTORS} -device scsi-hd,drive=
-=3Dhd1 -drive if=3Dnone,media=3Ddisk,id=3Dhd1,file=3D"${DISK1}",format=3Dra=
-w,cache=3Ddirectsync,discard=3Dunmap,detect-zeroes=3Dunmap -device scsi-hd,=
-drive=3Dhd2 -drive if=3Dnone,media=3Ddisk,id=3Dhd2,file=3D"${DISK2}",format=
-=3Draw,cache=3Ddirectsync,discard=3Dunmap,detect-zeroes=3Dunmap -device scs=
-i-cd,drive=3Dcd1 -drive if=3Dnone,media=3Dcdrom,id=3Dcd1,file=3D"${CDROM1}"=
-,format=3Draw,cache=3Ddirectsync
-
-  Steps to reproduce:
-
-  Update spice, launch a VM like the above and observe a segfault.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1837218/+subscriptions
+--=20
+Antoine 'xdbob' Damhet
 
