@@ -2,73 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3262C4A47
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 22:54:20 +0100 (CET)
-Received: from localhost ([::1]:36270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36652C4A51
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 23:04:53 +0100 (CET)
+Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ki2jx-0005aq-Cr
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 16:54:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40134)
+	id 1ki2uC-0008Ez-El
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 17:04:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3PtK-XwMKCuEGMHJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--dje.bounces.google.com>)
- id 1ki2io-0005A6-Pp
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 16:53:07 -0500
-Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449]:39855)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3PtK-XwMKCuEGMHJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--dje.bounces.google.com>)
- id 1ki2im-0007VD-Mk
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 16:53:06 -0500
-Received: by mail-pf1-x449.google.com with SMTP id x20so20147pfm.6
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 13:53:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:message-id:mime-version:subject:from:to:cc;
- bh=1c+hkc6fKPTVXFNT+nM6f3Sk60lyM5QT+iK7Y7bzRdI=;
- b=vHfqAjSwJQdhy8lB3ZR2kOqnlIOICInyKoBfclBhuXp801qF0DCC4YVmm+j1Ugz29Y
- hdvfzDtjMEUN62S9OA+nUie1hvF6TXpPFcV5jJ54MgCg7TKHBp81IoRSFkJzenLE/vwo
- 4u7mCJfnem7pbBLS2FQiLWCJH0KTmKAS56iYmqKUtTHflNME0sAbT0JT1Z4QFRENGMsm
- QNCUPS9rXVKi9xTM5OHL8V8lgwEHIs/1FOX5yb8c6lBM934efU4sDEbMVke6D7ZocxvG
- 0l2ueJHqgKGTZN6/CPOfAzFJ4SAerzPcy9cFsqkq5B43MOCprVZ7BsGJ6C4jYQfD8Oxy
- I3Qw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ki2sY-0007mw-NR
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 17:03:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24583)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1ki2sT-0002tB-Ad
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 17:03:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606341783;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bpM2QVMAF4g7JVu233TUI9IzJbPw/HVIkZKwvGw4G2c=;
+ b=V/2/aEzyJJV75+zV/CmCyZWy36Ydw2OPlYKbdiBj94R4G9mPvsJrz3tVLsCmhKFFuu/0k2
+ Fb/7bcltDB78KZBWssgTsvaBSrmMnO0MB+YkGhAIhh6F64SM/ZTMgHDxAlOsf4StOOScFE
+ nrX8sVqi7JZeh5tAAB4eXpkmkqP6bTs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-aD43DeVcM4Gt6OVUO1U5dQ-1; Wed, 25 Nov 2020 17:03:01 -0500
+X-MC-Unique: aD43DeVcM4Gt6OVUO1U5dQ-1
+Received: by mail-ed1-f71.google.com with SMTP id x15so78365edr.10
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 14:03:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
- :to:cc;
- bh=1c+hkc6fKPTVXFNT+nM6f3Sk60lyM5QT+iK7Y7bzRdI=;
- b=sjIFK3uMfiT8Kj/5UghhMy+EhvfquHnWS70ssThDvSU5CcLy7mUtzMV+pbHWVg/5D8
- TJjL+z9TTUpLiKQRMIgL/mEbZkpFJiFAhhktkMuU0qxhSjcNesPIJgmkcp87kwIBxEA4
- KLqT+kBXfRbx+i63JuRueILIt/dYGpwn3wzHy5ySUmZ7FSwrhbaRSReKhI+VQDSTGJ/G
- LFBn52qK6R8bRVlgsOXi55GKwkrCosJvDGvE0PluX+nnZl+TWhQxwFy8uiP1iSnM7tf1
- U4/F6PhrLRIleRPPsV+LhCKLgBk12tu/jxCA5com/Xn7vWnYyVzdpmeNiXLNl43ycp6x
- ppGQ==
-X-Gm-Message-State: AOAM533Ci1J8NH8ax17Axe1KfQYpRWFRFKlb/NrHuQK9wH0Wcr3nVc2G
- 8o9/V9QKFdrdDDFs0A8CRobrO/MMUj80szceYWjBTfM18wqQ+hmL1FC91Mp97NvotRhTb5G0rfZ
- n6emhE7tJNTB5uyO3Dz0Fb8ymMTHA/+twmKU8nsXf5z5TE25enHIJ
-X-Google-Smtp-Source: ABdhPJztIthtYJw1R6DxLLwh6O3QURQXLjYedBZpxMacQjSOvdz4h0R9/73kjzcxwskZjMifdbtV8Ww=
-X-Received: from ruffy.mtv.corp.google.com
- ([2620:0:1000:1412:4a0f:cfff:fe66:e570])
- (user=dje job=sendgmr) by 2002:a17:90a:4497:: with SMTP id
- t23mr6606467pjg.39.1606341182432; Wed, 25 Nov 2020 13:53:02 -0800 (PST)
-Date: Wed, 25 Nov 2020 13:52:45 -0800
-Message-Id: <20201125215245.3514695-1-dje@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
-Subject: [PATCH 1/1] trace: Send "-d trace:help" output to stdout
-To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, Doug Evans <dje@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
- envelope-from=3PtK-XwMKCuEGMHJRRJOH.FRPTHPX-GHYHOQRQJQX.RUJ@flex--dje.bounces.google.com;
- helo=mail-pf1-x449.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bpM2QVMAF4g7JVu233TUI9IzJbPw/HVIkZKwvGw4G2c=;
+ b=DGBq2V0vOWVD6ngjn9QB8yBAX2I1S96lv0c0Lg/bf2CUBQlnlR7GOkwfDZSdW1cNHk
+ L9+KWV2BvTwIXkuZQQDedEXnz2hYHljkXY3303kOXqrkBl8jaKWM0V9M370aonrQiGJE
+ c/B4dy5IZlYgwexWaIkSlvrE7kxtr8BYkQUBRK6o7rotVRxn2yGf1kCb//ZgnnGywfZp
+ fTDLn5A8dZJdZ1PhTC6KTNBp0kSggiLTGbEQIVahuOjvyYFO026wRwPoao2Dnjd+wF3s
+ AqeV959ZmeCBISE0DygpZsp/HKaF6TM0G0e5EGWtvDNRgb6vBM85EovFbminhVJdnl/9
+ OMxg==
+X-Gm-Message-State: AOAM533o4ngevkkviXPP1WxVJU9OlCDYvjg1+aMQQ2QH6RsQCDtsed20
+ FP8MtvsuEfYouEq7KG9G1bZd/T4bDHyR7xrrb8IFxCRIZ+fD7kzhvxErgj2jLaNCFtpWVRnH4uv
+ QPvjdBE7MkL7D8k95G8Fk90pKXVUte5TY8dsSIl6n43SdhCpJE/BHQgx1vkXOLAcMJt8=
+X-Received: by 2002:a17:906:314f:: with SMTP id
+ e15mr51303eje.496.1606341779577; 
+ Wed, 25 Nov 2020 14:02:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwErFBtPkErGg+I/GzTTL5KSeaeeW7pAefGLXUlXgGy5ua25Cfi9Sj7GfBLAtKnVJBttKbZNg==
+X-Received: by 2002:a17:906:314f:: with SMTP id
+ e15mr51290eje.496.1606341779299; 
+ Wed, 25 Nov 2020 14:02:59 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id f19sm2046095edy.13.2020.11.25.14.02.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Nov 2020 14:02:58 -0800 (PST)
+Subject: Re: [EXTERNAL] Re: [PATCH] WHPX: support for the kernel-irqchip on/off
+To: Sunil Muthuswamy <sunilmut@microsoft.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <SN4PR2101MB0880B13258DA9251F8459F4DC0170@SN4PR2101MB0880.namprd21.prod.outlook.com>
+ <167595b8-bf4a-b961-cfaa-593a3f8d1940@redhat.com>
+ <SN4PR2101MB08804B299AF5979564CB4CB7C0FA0@SN4PR2101MB0880.namprd21.prod.outlook.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <dea94346-0f74-54db-f541-dd749e5608cf@redhat.com>
+Date: Wed, 25 Nov 2020 23:02:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <SN4PR2101MB08804B299AF5979564CB4CB7C0FA0@SN4PR2101MB0880.namprd21.prod.outlook.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,74 +107,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Doug Evans <dje@google.com>
-From: Doug Evans via <qemu-devel@nongnu.org>
 
-... for consistency with "-d help".
+On 25/11/20 21:35, Sunil Muthuswamy wrote:
+>   > Sorry, this has missed the 5.2 soft freeze.  Can you please resend it in
+>> about a month?
+>
+> Paolo, is the branch open now for this kind of change? Where can I track
+> the branch status?
 
-Signed-off-by: Doug Evans <dje@google.com>
----
- trace/control.c | 12 ++++++------
- trace/control.h |  3 ++-
- 2 files changed, 8 insertions(+), 7 deletions(-)
+Hi, you can track it at https://wiki.qemu.org/Planning/5.2.
 
-diff --git a/trace/control.c b/trace/control.c
-index b82fb87316..cd04dd4e0c 100644
---- a/trace/control.c
-+++ b/trace/control.c
-@@ -125,18 +125,18 @@ TraceEvent *trace_event_iter_next(TraceEventIter *iter)
-     return NULL;
- }
- 
--void trace_list_events(void)
-+void trace_list_events(FILE *f)
- {
-     TraceEventIter iter;
-     TraceEvent *ev;
-     trace_event_iter_init(&iter, NULL);
-     while ((ev = trace_event_iter_next(&iter)) != NULL) {
--        fprintf(stderr, "%s\n", trace_event_get_name(ev));
-+        fprintf(f, "%s\n", trace_event_get_name(ev));
-     }
- #ifdef CONFIG_TRACE_DTRACE
--    fprintf(stderr, "This list of names of trace points may be incomplete "
--                    "when using the DTrace/SystemTap backends.\n"
--                    "Run 'qemu-trace-stap list %s' to print the full list.\n",
-+    fprintf(f, "This list of names of trace points may be incomplete "
-+               "when using the DTrace/SystemTap backends.\n"
-+               "Run 'qemu-trace-stap list %s' to print the full list.\n",
-             error_get_progname());
- #endif
- }
-@@ -176,7 +176,7 @@ static void do_trace_enable_events(const char *line_buf)
- void trace_enable_events(const char *line_buf)
- {
-     if (is_help_option(line_buf)) {
--        trace_list_events();
-+        trace_list_events(stdout);
-         if (monitor_cur() == NULL) {
-             exit(0);
-         }
-diff --git a/trace/control.h b/trace/control.h
-index 05b95ea453..9522a7b318 100644
---- a/trace/control.h
-+++ b/trace/control.h
-@@ -201,10 +201,11 @@ void trace_fini_vcpu(CPUState *vcpu);
- 
- /**
-  * trace_list_events:
-+ * @f: Where to send output.
-  *
-  * List all available events.
-  */
--void trace_list_events(void);
-+void trace_list_events(FILE *f);
- 
- /**
-  * trace_enable_events:
--- 
-2.29.2.454.gaff20da3a2-goog
+It's close enough to the release that you can resend (or if no rebasing 
+is needed, just tell me).
+
+Paolo
 
 
