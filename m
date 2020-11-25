@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E5C42C421E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 15:22:08 +0100 (CET)
-Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D882C41E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 15:12:49 +0100 (CET)
+Received: from localhost ([::1]:40670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khvgM-0002NM-Hl
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 09:22:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54380)
+	id 1khvXL-0007Sc-LQ
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 09:12:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khvaa-0008BB-LV
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:16:09 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52144)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1khvVo-0006qg-CW; Wed, 25 Nov 2020 09:11:12 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:35659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khvaT-0001Hf-NN
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 09:16:07 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1khvaP-0006We-M3
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 14:15:57 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6DDE42E8033
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 14:15:56 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1khvVl-0007we-OC; Wed, 25 Nov 2020 09:11:12 -0500
+Received: by mail-pf1-x441.google.com with SMTP id e8so2454544pfh.2;
+ Wed, 25 Nov 2020 06:11:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=PD27QkSFm5MCXlD8o6xlhMP62UK8tjMFKe/ug7vPXKo=;
+ b=mJqpHRfnqlCfZfxk3db6Gyt6vgxWbx3rWX+31fqPHzltiqnmCjMuw2Hjr1FGOcsMne
+ I2WqYiEdAfemVZJmSOPZ8uogFnQZMLeisN3yqhBoU5VHSHWKJCjnd4DO3ZRlX9CglffJ
+ 2hyjmwtOis8rK3PhVnKpR8xBv5dfO+GA3TFVFrVabPD81lEpHdFi+GjYw/apa/wXXhkO
+ iF7881TSTw2q34KJlj+NzbdAWCQLmv5yJklNZpVPXuSnFd6XEH3Nz5ujv3CTZaqwWLe2
+ JqY7JXiWwYGkp5sLyYva5U4Gcx7hbszK7M/eutAOi2LQtxZIVtjZGYDk/jC58imlmrT1
+ 3V2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=PD27QkSFm5MCXlD8o6xlhMP62UK8tjMFKe/ug7vPXKo=;
+ b=gKnKjc07/YTiH/5TlhdH8fUQvJsV8Jhb9pfo3xrBr+Y+E3qJPCE3c7sNk5EpMVa9vb
+ 6IiwVFNbnK0TBfk/i4JtCjWEA8+nRmQFVvVLxSIn+15OpSNN65Ifmx/gnFgCqJh9qtPx
+ PzqPMI4dQ9+Y/aaj+RCLJV0vDpf1BmNCyy5w13+wSquDUGAZXfEpGm2o7tdDjClOZX6p
+ cDrdg/WSq5i8gMP9Ytmg6hCtaXc4GcypGxpXBLHPYaqYYCN1anGV21Y54Cj+k4HJVjWV
+ 7hZZN/LKFDcCpLyvkt2eztJCOqsqZkeSMqQE9zzJYtttEX32Z7U4XUdgWkmCOaud/BKM
+ DLzw==
+X-Gm-Message-State: AOAM5303TrbDiavI+uf8Aj6CqV0DDpL2TJ+B456+mw2KSDGX5eH0NLVH
+ UixOW9TnNg/FyvbrW60C1j4=
+X-Google-Smtp-Source: ABdhPJw1+AorC4h8GZJFkwWLCfPg4wlhNo02P69Oa2zRU+jHBabfeWyCnDDchccNBlI8tygWRthvhw==
+X-Received: by 2002:aa7:96ba:0:b029:197:e733:ae3c with SMTP id
+ g26-20020aa796ba0000b0290197e733ae3cmr2441823pfk.46.1606313467713; 
+ Wed, 25 Nov 2020 06:11:07 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id p6sm3289031pjt.13.2020.11.25.06.11.06
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 25 Nov 2020 06:11:07 -0800 (PST)
+Date: Wed, 25 Nov 2020 23:11:04 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH] hw/block/nvme: add compare command
+Message-ID: <20201125141104.bs5fwi7xtyo4nyv7@localhost.localdomain>
+References: <20201124073714.24458-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2020 14:03:13 -0000
-From: "Dr. David Alan Gilbert" <1761798@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=nova; status=Confirmed; importance=Medium;
- assignee=None; 
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: libvirt live-migration
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: balazs-gibizer dgilbert-h dsutyagin kashyapc
- melwitt mriedem sean-k-mooney
-X-Launchpad-Bug-Reporter: Matt Riedemann (mriedem)
-X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
-References: <152303245198.3233.1033096993665779324.malonedeb@wampee.canonical.com>
-Message-Id: <160631299333.9591.3725592481319808137.malone@soybean.canonical.com>
-Subject: [Bug 1761798] Re: live migration intermittently fails in CI with "VQ
- 0 size 0x80 Guest index 0x12c inconsistent with Host index 0x134:
- delta 0xfff8"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: dd8c7e4187ab628b63067e2cd6f7c8d4610ed301
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201124073714.24458-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x441.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,66 +81,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1761798 <1761798@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OK, but that still says in both cases here we've got a virtio error
-telling us that the queues are broken before migration even starts;  so
-we should try and figure out why that's happening first.
+Hello,
 
--- =
+On 20-11-24 08:37:14, Klaus Jensen wrote:
+> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> 
+> Add the Compare command.
+> 
+> This implementation uses a bounce buffer to read in the data from
+> storage and then compare with the host supplied buffer.
+> 
+> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> [k.jensen: rebased]
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c       | 100 +++++++++++++++++++++++++++++++++++++++++-
+>  hw/block/trace-events |   2 +
+>  2 files changed, 101 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index f7f888402b06..f88710ca3948 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -999,6 +999,50 @@ static void nvme_aio_discard_cb(void *opaque, int ret)
+>      nvme_enqueue_req_completion(nvme_cq(req), req);
+>  }
+>  
+> +struct nvme_compare_ctx {
+> +    QEMUIOVector iov;
+> +    uint8_t *bounce;
+> +    size_t len;
+> +};
+> +
+> +static void nvme_compare_cb(void *opaque, int ret)
+> +{
+> +    NvmeRequest *req = opaque;
+> +    NvmeNamespace *ns = req->ns;
+> +    struct nvme_compare_ctx *ctx = req->opaque;
+> +    g_autofree uint8_t *buf = NULL;
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1761798
+nit-picking here: unnecessary initialization to NULL.
 
-Title:
-  live migration intermittently fails in CI with "VQ 0 size 0x80 Guest
-  index 0x12c inconsistent with Host index 0x134: delta 0xfff8"
+> +    uint16_t status;
+> +
+> +    trace_pci_nvme_compare_cb(nvme_cid(req));
+> +
+> +    if (!ret) {
+> +        block_acct_done(blk_get_stats(ns->blkconf.blk), &req->acct);
+> +    } else {
+> +        block_acct_failed(blk_get_stats(ns->blkconf.blk), &req->acct);
+> +        nvme_aio_err(req, ret);
+> +        goto out;
+> +    }
+> +
+> +    buf = g_malloc(ctx->len);
+> +
+> +    status = nvme_dma(nvme_ctrl(req), buf, ctx->len, DMA_DIRECTION_TO_DEVICE,
+> +                      req);
+> +    if (status) {
+> +        goto out;
+> +    }
 
-Status in OpenStack Compute (nova):
-  Confirmed
-Status in QEMU:
-  New
-
-Bug description:
-  Seen here:
-
-  http://logs.openstack.org/37/522537/20/check/legacy-tempest-dsvm-
-  multinode-live-
-  migration/8de6e74/logs/subnode-2/libvirt/qemu/instance-00000002.txt.gz
-
-  2018-04-05T21:48:38.205752Z qemu-system-x86_64: -chardev pty,id=3Dcharser=
-ial0,logfile=3D/dev/fdset/1,logappend=3Don: char device redirected to /dev/=
-pts/0 (label charserial0)
-  warning: TCG doesn't support requested feature: CPUID.01H:ECX.vmx [bit 5]
-  2018-04-05T21:48:43.153268Z qemu-system-x86_64: VQ 0 size 0x80 Guest inde=
-x 0x12c inconsistent with Host index 0x134: delta 0xfff8
-  2018-04-05T21:48:43.153288Z qemu-system-x86_64: Failed to load virtio-blk=
-:virtio
-  2018-04-05T21:48:43.153292Z qemu-system-x86_64: error while loading state=
- for instance 0x0 of device '0000:00:04.0/virtio-blk'
-  2018-04-05T21:48:43.153347Z qemu-system-x86_64: load of migration failed:=
- Operation not permitted
-  2018-04-05 21:48:43.198+0000: shutting down, reason=3Dcrashed
-
-  And in the n-cpu logs on the other host:
-
-  http://logs.openstack.org/37/522537/20/check/legacy-tempest-dsvm-
-  multinode-live-
-  migration/8de6e74/logs/screen-n-cpu.txt.gz#_Apr_05_21_48_43_257541
-
-  There is a related Red Hat bug:
-
-  https://bugzilla.redhat.com/show_bug.cgi?id=3D1450524
-
-  The CI job failures are at present using the Pike UCA:
-
-  ii  libvirt-bin                         3.6.0-1ubuntu6.2~cloud0
-
-  ii  qemu-system-x86                     1:2.10+dfsg-0ubuntu3.5~cloud0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/nova/+bug/1761798/+subscriptions
+Don't we need to give status value to req->status in case of
+(status != 0)?  If we don't give it to req->status, it will complete
+with success status code even it fails during the nvme_dma().
 
