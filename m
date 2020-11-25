@@ -2,47 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC092C466B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 18:06:44 +0100 (CET)
-Received: from localhost ([::1]:34700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AAF62C4707
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 18:52:15 +0100 (CET)
+Received: from localhost ([::1]:59346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khyFg-0008G4-0P
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 12:06:44 -0500
-Received: from [2001:470:142:3::10] (port=41128 helo=eggs.gnu.org)
+	id 1khyxi-0006TG-6g
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 12:52:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khyDB-0005gr-OM
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 12:04:10 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55140)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khyD7-0005l1-Ft
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 12:04:08 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D93DEAC22;
- Wed, 25 Nov 2020 17:04:03 +0000 (UTC)
-Subject: Re: help with a build-user and build-user-plugin failure
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <19955b4e-f33a-a672-e9c6-3efdd640906a@suse.de>
- <48353514-8dde-0f4b-193d-fa71737d7c80@amsat.org> <871rghixhb.fsf@linaro.org>
- <6efbff12-a10b-8e55-908b-f2233fc8001e@suse.de> <87sg8xgyj7.fsf@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <ff24dee6-a7c5-af88-0b84-e6a978a7f210@suse.de>
-Date: Wed, 25 Nov 2020 18:04:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1khywV-0005WH-TN
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 12:50:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35974)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1khywT-0004qO-LB
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 12:50:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606326656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XoLew6fCJvQ4C8y1gmDHrdDLwCAMji/JWWXDSHwIdec=;
+ b=BfA2Bf3Y5LEal0OugeXZvE3/mqdK8cQcBO2d2JTz83jiVlQsAQGFXARLjT62Q1fjP/Jzh0
+ Wyh4FDwN4ufN+1PggwYU8ZjnQUmWFIGigfmjuCci6FWDE8D84dZ24ymXzHY7B1/esKkyKa
+ 2sd22blla5KVUF4c45xIPA1jf3wXCvQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-357-y-8SPD9LPFSPGFX9YsRvew-1; Wed, 25 Nov 2020 12:50:52 -0500
+X-MC-Unique: y-8SPD9LPFSPGFX9YsRvew-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D809C9A257
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 17:50:51 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86F8810023BA;
+ Wed, 25 Nov 2020 17:50:51 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/docker, tests/vm: remove setuptools from images
+Date: Wed, 25 Nov 2020 12:50:51 -0500
+Message-Id: <20201125175051.3051129-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87sg8xgyj7.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,81 +76,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/25/20 6:02 PM, Alex Bennée wrote:
-> 
-> Claudio Fontana <cfontana@suse.de> writes:
-> 
->> Hi Alex,
->>
->> On 11/25/20 10:42 AM, Alex Bennée wrote:
->>>
->>> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
->>>
->>>> On 11/24/20 12:04 PM, Claudio Fontana wrote:
->>>>> Hi Alex,
->>>>>
->>>>> I am seeing build failures with build-user and build-user-plugin:
->>>>>
->>>>> https://gitlab.com/hw-claudio/qemu/-/pipelines/220245998
->>>>>
->>>>> and I am trying to start investigating.
->>>>>
->>>>> How do I reproduce this locally?
->>>>>
->>>>> I am trying to run locally the check-tcg rule, but I cannot get it to work.
->>>>> I managed to work around the problem of static libraries (disabled them),
->>>>>
->>>>> but then I get:
->>>>>
->>>>>   BUILD   TCG tests for x86_64-linux-user
->>>>>   BUILD   x86_64-linux-user guest-tests with cc
->>>>> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /tmp/ccgqtAM9.o: in function `test_fops':
->>>>> /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:759: undefined reference to `fmod'
->>>>> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:760: undefined reference to `sqrt'
->>>>> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:761: undefined reference to `sin'
->>>>> /usr/lib64/gcc/x86_64-suse-linux/7/../../../../x86_64-suse-linux/bin/ld: /dev/shm/cfontana/qemu/tests/tcg/i386/test-i386.c:762: undefined reference to `cos'
->>>>>
->>>>> Have you seen it before?
->>>>> Any suggestions? I'm on OpenSUSE Leap 15 SP2.
->>>>
->>>> Related to 3fc1aad3864 ("configure: remove unnecessary libm test")
->>>> + tcg tests still not ported to Meson?
->>>
->>> Hmm so we certainly need libm for the testcase but I guess this is> failing with a local cross compiler rather than docker? I'm not sure the
->>> global feature test should be relevant for testcases.
->>>
->>
->> Probably it's my attempt to make it work with non-static libm that failed then,
->>
->> is it supposed to work?
->>
->> I see mention of BUILD_STATIC there, but it does not seem to actually work for me.
->>
->> If I use static libm, then it works.
->> If I uninstall static libm, any attempt to build fails, regardless of
->> whether I pass BUILD_STATIC='n' or so.
-> 
-> All the test cases themselves should be built as static although I see
-> we fall back for the case of using a local cross compiler. That normally
-> only covers the case where the host compiler can also build for 32 bit
-> for testcases.
-> 
->>
->> Ciao and thanks,
->>
->> CLaudio
-> 
-> 
+Setuptools is not needed anymore by the bundled copy of meson,
+remove it.
 
-Ok, so static build required then, np!
+Suggested-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ .cirrus.yml                                        | 1 -
+ tests/docker/dockerfiles/debian10.docker           | 1 -
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 1 -
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 1 -
+ tests/vm/freebsd                                   | 1 -
+ tests/vm/haiku.x86_64                              | 1 -
+ tests/vm/netbsd                                    | 1 -
+ tests/vm/openbsd                                   | 1 -
+ 8 files changed, 8 deletions(-)
 
-Thanks,
+diff --git a/.cirrus.yml b/.cirrus.yml
+index f0209b7a3e..2e45b3254f 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -85,7 +85,6 @@ windows_msys2_task:
+         C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed \
+           diffutils git grep make pkg-config sed \
+           mingw-w64-x86_64-python \
+-          mingw-w64-x86_64-python-setuptools \
+           mingw-w64-x86_64-toolchain \
+           mingw-w64-x86_64-SDL2 \
+           mingw-w64-x86_64-SDL2_image \
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index 21cc671d71..73a3caac9c 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -30,7 +30,6 @@ RUN apt update && \
+         pkg-config \
+         psmisc \
+         python3 \
+-        python3-setuptools \
+         python3-sphinx \
+         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+ 
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index 5903e1b0b4..087df598a0 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -30,7 +30,6 @@ ENV PACKAGES \
+     perl-Test-Harness \
+     python3 \
+     python3-PyYAML \
+-    python3-setuptools \
+     tar \
+     which
+ 
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index 7f03cd8ffc..d5d2f5f00d 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -26,7 +26,6 @@ ENV PACKAGES \
+     perl-Test-Harness \
+     python3 \
+     python3-PyYAML \
+-    python3-setuptools \
+     tar \
+     which
+ 
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 04ee793381..09f3ee6cb8 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -33,7 +33,6 @@ class FreeBSDVM(basevm.BaseVM):
+         "pkgconf",
+         "bzip2",
+         "python37",
+-        "py37-setuptools",
+         "ninja",
+ 
+         # gnu tools
+diff --git a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_64
+index 37af48bf1b..2eb736dae1 100755
+--- a/tests/vm/haiku.x86_64
++++ b/tests/vm/haiku.x86_64
+@@ -77,7 +77,6 @@ class HaikuVM(basevm.BaseVM):
+         "devel:libusb_1.0",
+         "devel:libz",
+         "ninja",
+-        "setuptools_python3"
+     ]
+ 
+     # https://dev.haiku-os.org/ticket/16512 virtio disk1 shows up as 0 (reversed order)
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index 596717cc76..b9efc269d2 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -31,7 +31,6 @@ class NetBSDVM(basevm.BaseVM):
+         "pkgconf",
+         "xz",
+         "python37",
+-        "py37-setuptools",
+         "ninja-build",
+ 
+         # gnu tools
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index 386b2c72f7..4d1399378e 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -30,7 +30,6 @@ class OpenBSDVM(basevm.BaseVM):
+         "git",
+         "pkgconf",
+         "bzip2", "xz",
+-        "py3-setuptools",
+         "ninja",
+ 
+         # gnu tools
+-- 
+2.26.2
 
-Claudio
 
