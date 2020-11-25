@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D242C3667
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 03:02:30 +0100 (CET)
-Received: from localhost ([::1]:54586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 343D62C3669
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 03:02:40 +0100 (CET)
+Received: from localhost ([::1]:51196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khk8b-000272-AH
-	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 21:02:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37074)
+	id 1khk69-0000Wf-MQ
+	for lists+qemu-devel@lfdr.de; Tue, 24 Nov 2020 20:59:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aiyutao@huawei.com>)
- id 1khk43-0007nr-OI
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 20:57:47 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2866)
+ id 1khk44-0007o8-VU
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 20:57:49 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aiyutao@huawei.com>)
- id 1khk41-0007OX-37
- for qemu-devel@nongnu.org; Tue, 24 Nov 2020 20:57:47 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CgkXg20wPz15Rgf;
- Wed, 25 Nov 2020 09:57:07 +0800 (CST)
+ id 1khk41-0007P9-3n
+ for qemu-devel@nongnu.org; Tue, 24 Nov 2020 20:57:48 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CgkXs2Vl5zhYm4;
+ Wed, 25 Nov 2020 09:57:17 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS405-HUB.china.huawei.com
  (10.3.19.205) with Microsoft SMTP Server id 14.3.487.0; Wed, 25 Nov 2020
- 09:57:21 +0800
+ 09:57:22 +0800
 From: Yutao Ai <aiyutao@huawei.com>
 To: <dgilbert@redhat.com>, <armbru@redhat.com>
-Subject: [PATCH 1/3] monitor:open brace '{' following struct go on the same
- line
-Date: Wed, 25 Nov 2020 01:45:12 +0000
-Message-ID: <20201125014514.55562-2-aiyutao@huawei.com>
+Subject: [PATCH 2/3] monitor:braces {} are necessary for all arms of this
+ statement
+Date: Wed, 25 Nov 2020 01:45:13 +0000
+Message-ID: <20201125014514.55562-3-aiyutao@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20201125014514.55562-1-aiyutao@huawei.com>
 References: <20201125014514.55562-1-aiyutao@huawei.com>
@@ -39,8 +39,8 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.175.124.27]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=aiyutao@huawei.com;
- helo=szxga04-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=aiyutao@huawei.com;
+ helo=szxga06-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -63,27 +63,57 @@ Cc: alex.chen@huawei.com, aiyutao@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the open brace '{' following struct go on the same line
+Fix the errors by add {}
 
 Signed-off-by: Yutao Ai <aiyutao@huawei.com>
 ---
- monitor/hmp-cmds.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ monitor/misc.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 8d7f5fee7e..64188c9fa2 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1548,8 +1548,7 @@ end:
-     hmp_handle_error(mon, err);
- }
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 398211a034..7588f12053 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -492,8 +492,10 @@ static void hmp_singlestep(Monitor *mon, const QDict *qdict)
+ static void hmp_gdbserver(Monitor *mon, const QDict *qdict)
+ {
+     const char *device = qdict_get_try_str(qdict, "device");
+-    if (!device)
++    if (!device) {
+         device = "tcp::" DEFAULT_GDBSTUB_PORT;
++    }
++
+     if (gdbserver_start(device) < 0) {
+         monitor_printf(mon, "Could not open gdbserver on device '%s'\n",
+                        device);
+@@ -559,10 +561,11 @@ static void memory_dump(Monitor *mon, int count, int format, int wsize,
+     }
  
--typedef struct HMPMigrationStatus
--{
-+typedef struct HMPMigrationStatus {
-     QEMUTimer *timer;
-     Monitor *mon;
-     bool is_block_migration;
+     len = wsize * count;
+-    if (wsize == 1)
++    if (wsize == 1) {
+         line_size = 8;
+-    else
++    } else {
+         line_size = 16;
++    }
+     max_digits = 0;
+ 
+     switch(format) {
+@@ -583,10 +586,11 @@ static void memory_dump(Monitor *mon, int count, int format, int wsize,
+     }
+ 
+     while (len > 0) {
+-        if (is_physical)
++        if (is_physical) {
+             monitor_printf(mon, TARGET_FMT_plx ":", addr);
+-        else
++        } else {
+             monitor_printf(mon, TARGET_FMT_lx ":", (target_ulong)addr);
++        }
+         l = len;
+         if (l > line_size)
+             l = line_size;
 -- 
 2.19.1
 
