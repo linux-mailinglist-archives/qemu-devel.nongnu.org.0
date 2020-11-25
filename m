@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABAB82C3E44
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 11:41:43 +0100 (CET)
-Received: from localhost ([::1]:58250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835D52C3E47
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 11:43:58 +0100 (CET)
+Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khsF4-00084R-GW
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 05:41:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49826)
+	id 1khsHF-0001QD-I8
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 05:43:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1khsE6-00075A-Ti; Wed, 25 Nov 2020 05:40:42 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:43705)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1khsE5-00077C-8D; Wed, 25 Nov 2020 05:40:42 -0500
-Received: by mail-ej1-x642.google.com with SMTP id k27so2286793ejs.10;
- Wed, 25 Nov 2020 02:40:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JDXtBYcuuRxOiCAVLeZf6/IcC/h23HsqzybB+jzVtB8=;
- b=pjcHRc2sO1Ywr7UKIOz/Hoo3NTekbEUJKVOd1oJEWf9XIPvoISOqGnQhgVAY3zb8uA
- SVPskk2vgqNM4JZ2tMtqNBEHLe5eIu79rrgc9RMk/lFPuB3f8ZvPCeocP/9AnfSSlzti
- cfYsnSZPhZMYPd4ZsmLfM0b7C/+y6IOgWEEf/d2lOOLH2NcVfQAlVqBuVG4yJ4WmyCB9
- AG5fTJ3laSJx4LJv78kRMWnkZE+QA8BYBID7G4f/HeFaYG+izcgWqEKh9WTdPQsbWoZs
- u9EqclHjenE7pH0LlwRG65BpdEFCaJJ70SmVFzzsbbzwT9B1wruvHkgBRXWhLjuIgzD3
- 7Low==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JDXtBYcuuRxOiCAVLeZf6/IcC/h23HsqzybB+jzVtB8=;
- b=SQk8J7LfcO0/lDRw94V9nPv2MmUKXyFIHNcLoJBBzLN2vjL+hejF+9lGuO1cSG7Pw6
- 3rrLAMTgAH0JIIBGd+O1cQvSHWTL0UpVcgoIBMcLbZCk55gXmUU/le6oZ6T/E/QXpT1k
- iHXSM5mB1jiVWEx5oRWgzwto/z5DV5o1PoprI+s3sFwnEOy7+QCxILAG+VLATLCqJfDg
- 8KxB3zDGSR3e1juA7ohgMjYWl7c2e1Wjxfoj8+hOVHqoEuLcAPfXUKMV/Gcsg7shiazY
- jNpyf7vENsn3eJJc0hTdbs61k1HmUr7kmnZDBXoCr5ol02Ex/qvHxrjyk0QYESmNbwSk
- Cu1Q==
-X-Gm-Message-State: AOAM5317cACawN5WtkUg6Jb7CuaSMp57AAWMiH6nVJaDEjdqTQI0KOG3
- 6KF9/Nra0v/nIyroRRxKC8z+IF6/dRgpKDIOsOE=
-X-Google-Smtp-Source: ABdhPJy2iLsnwNhbvrORmhV20eqZuojWcvVRTvBFylUANS9HNFsZ/7h7j91ii/hoawtpmryY8S2Rwzh4VAnlf1CYgU0=
-X-Received: by 2002:a17:906:bcd4:: with SMTP id
- lw20mr2457966ejb.527.1606300839322; 
- Wed, 25 Nov 2020 02:40:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khsFc-0000Zm-Qi
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 05:42:16 -0500
+Received: from mx2.suse.de ([195.135.220.15]:42678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khsFb-0007uU-2R
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 05:42:16 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3051BAC65;
+ Wed, 25 Nov 2020 10:42:13 +0000 (UTC)
+Subject: Re: [RFC v5 09/12] module: introduce MODULE_INIT_ACCEL_CPU
+To: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20201124162210.8796-1-cfontana@suse.de>
+ <20201124162210.8796-10-cfontana@suse.de>
+ <20201124170832.GS2271382@habkost.net>
+ <a7bed792-5c6f-c49e-946c-f705707ce685@suse.de>
+ <20201124190807.GW2271382@habkost.net>
+ <58e4d100-f096-0c41-4780-b8b7e9533b5d@redhat.com>
+ <7a3e2790-1924-3d03-d588-a904d7e19282@suse.de>
+ <3360fb6f-d1ce-5b7e-0d2f-784e8a8345cf@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <b6c3acb8-2929-e600-1448-5213a08ec044@suse.de>
+Date: Wed, 25 Nov 2020 11:42:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201125102403.57709-1-alex.chen@huawei.com>
-In-Reply-To: <20201125102403.57709-1-alex.chen@huawei.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 25 Nov 2020 14:40:27 +0400
-Message-ID: <CAJ+F1C+mc-HHs629SYQcRtxrLZxaEne5Bi+NnWOyo4EAEL3oyw@mail.gmail.com>
-Subject: Re: [PATCH] test-qga: fix a resource leak in
- test_qga_guest_get_osinfo()
-To: Alex Chen <alex.chen@huawei.com>
-Content-Type: multipart/alternative; boundary="000000000000ee2bc805b4ec0ec7"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x642.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <3360fb6f-d1ce-5b7e-0d2f-784e8a8345cf@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,100 +61,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu trival <qemu-trivial@nongnu.org>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, QEMU <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, Bruce Rogers <brogers@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, "Emilio G . Cota" <cota@braap.org>,
+ haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Olaf Hering <ohering@suse.de>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ee2bc805b4ec0ec7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 11/25/20 10:30 AM, Paolo Bonzini wrote:
+> On 25/11/20 10:21, Claudio Fontana wrote:
+>> Hi Paolo,
+>>
+>> in RFC v5 , module init for ACCEL_CPU is not conditional anymore, right?
+>> But the fact that its behavior depends on current_accel() still disqualifies it?
+>> It is called right after the accelerator is chosen and initialized
+>> in RFC v5, this still is "in the middle of the machine creation sequence"?
+> Yes, machine creation basically starts after command line parsing, or 
+> perhaps even _with_ command line parsing.  Basically once the user can 
+> control the flow it is already too late.
+> 
+>> I am trying to find the actual things to fix, since when doing RFC
+>> v5  I tried to specifically address two points:
+>>
+>> 1) no if () inside module init functions
+>>
+>> 2) no proliferation of module init functions
+>>
+>> which I accomplished via AccelClass extension to user mode, current_accel(), and class lookup.
+> 
+> Yes, the rest is great, I'm just not sure that MODULE_INIT_ACCEL_CPU is 
+> useful and if virtual functions on accel and CPU_RESOLVING_TYPE can 
+> achieve the same.
+> 
+>> If MODULE_INIT_ACCEL_CPU remains an option, where would you like to see the call so that it is not "in the middle"?
+> 
+> No later than the runstate_init() call, roughly.
+> 
+> Paolo
+> 
+> 
 
-On Wed, Nov 25, 2020 at 2:37 PM Alex Chen <alex.chen@huawei.com> wrote:
+Aha! Then that solves it, I don't think it is feasible to put it that early with the meaning I intended for it.
 
-> The fixture->fd is created in fixture_setup() and, likewise, needs to be
-> closed
-> in fixture_tear_down().
->
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
->
+Thanks for clarifying this,
 
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
----
->  tests/test-qga.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/tests/test-qga.c b/tests/test-qga.c
-> index c1b173b3cb..eb33264e8e 100644
-> --- a/tests/test-qga.c
-> +++ b/tests/test-qga.c
-> @@ -111,6 +111,7 @@ fixture_tear_down(TestFixture *fixture, gconstpointer
-> data)
->
->      g_rmdir(fixture->test_dir);
->      g_free(fixture->test_dir);
-> +    close(fixture->fd);
->  }
->
->  static void qmp_assertion_message_error(const char     *domain,
-> --
-> 2.19.1
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000ee2bc805b4ec0ec7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 25, 2020 at 2:37 PM Alex =
-Chen &lt;<a href=3D"mailto:alex.chen@huawei.com">alex.chen@huawei.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The fi=
-xture-&gt;fd is created in fixture_setup() and, likewise, needs to be close=
-d<br>
-in fixture_tear_down().<br>
-<br>
-Reported-by: Euler Robot &lt;<a href=3D"mailto:euler.robot@huawei.com" targ=
-et=3D"_blank">euler.robot@huawei.com</a>&gt;<br>
-Signed-off-by: Alex Chen &lt;<a href=3D"mailto:alex.chen@huawei.com" target=
-=3D"_blank">alex.chen@huawei.com</a>&gt;<br></blockquote><div><br></div><di=
-v><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:=
-marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br>=
-</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0tests/test-qga.c | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/tests/test-qga.c b/tests/test-qga.c<br>
-index c1b173b3cb..eb33264e8e 100644<br>
---- a/tests/test-qga.c<br>
-+++ b/tests/test-qga.c<br>
-@@ -111,6 +111,7 @@ fixture_tear_down(TestFixture *fixture, gconstpointer d=
-ata)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0g_rmdir(fixture-&gt;test_dir);<br>
-=C2=A0 =C2=A0 =C2=A0g_free(fixture-&gt;test_dir);<br>
-+=C2=A0 =C2=A0 close(fixture-&gt;fd);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void qmp_assertion_message_error(const char=C2=A0 =C2=A0 =C2=
-=A0*domain,<br>
--- <br>
-2.19.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000ee2bc805b4ec0ec7--
+Claudio
 
