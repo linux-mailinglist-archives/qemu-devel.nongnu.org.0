@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F063A2C4112
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 14:24:12 +0100 (CET)
-Received: from localhost ([::1]:53736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4532C40F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 14:14:50 +0100 (CET)
+Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khumI-0004OJ-5C
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 08:24:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39148)
+	id 1khudE-0006xJ-NW
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 08:14:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khujF-0002dO-RV
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:21:01 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1khuj9-00073w-Sl
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:21:01 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1khuj7-0007Cv-PO
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 13:20:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BF1B72E813F
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 13:20:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1khuXQ-0003UW-P7
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:08:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1khuXL-0002or-OR
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 08:08:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606309722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hiHo9DbDoCCDh4n5WrneTRby3gUfBpzNuKSPqTximSM=;
+ b=HLXCp8dKfcXFlS+aG3GisBnY4m1UqmzHEy2ja6s7l72C1WWO3GwjEyvxubeR3OyIrgNDRD
+ HD+C28F3WJqIFn4wHK4w9pVQbzVG7qF0uvAMV68CRGQmhXlekK/uMQT+ifc0BWwbsvgTj9
+ 3yyzgMr+x6XhhWdrcqb1/XpEijuoObk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-459-CgSvLrj7O7-55ESvP_n3rw-1; Wed, 25 Nov 2020 08:08:40 -0500
+X-MC-Unique: CgSvLrj7O7-55ESvP_n3rw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75734100C66A;
+ Wed, 25 Nov 2020 13:08:39 +0000 (UTC)
+Received: from work-vm (ovpn-115-12.ams2.redhat.com [10.36.115.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 715F85C1C5;
+ Wed, 25 Nov 2020 13:08:28 +0000 (UTC)
+Date: Wed, 25 Nov 2020 13:08:25 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v3 3/7] support UFFD write fault processing in
+ ram_save_iterate()
+Message-ID: <20201125130825.GE3222@work-vm>
+References: <20201119125940.20017-1-andrey.gruzdev@virtuozzo.com>
+ <20201119125940.20017-4-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2020 13:05:48 -0000
-From: James Harvey <1905562@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jamespharvey20
-X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
-X-Launchpad-Bug-Modifier: James Harvey (jamespharvey20)
-References: <160630934472.9591.9894580742878185011.malonedeb@soybean.canonical.com>
-Message-Id: <160630954829.8693.11688398533055514612.malone@soybean.canonical.com>
-Subject: [Bug 1905562] Re: Guest seems suspended after host freed memory for
- it using oom-killer
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: a17776f1da699685d1be84db7f66c63908138691
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201119125940.20017-4-andrey.gruzdev@virtuozzo.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,100 +80,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905562 <1905562@bugs.launchpad.net>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am I correct to expect the VM to continue successfully, after oom-killer
-successfully freed up memory?  This journactl does show a calltrace
-which includes "vmx_vmexit", and I'm not sure what that function is for
-but looks a little worrisome.
+* Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
+> In this particular implementation the same single migration
+> thread is responsible for both normal linear dirty page
+> migration and procesing UFFD page fault events.
+> 
+> Processing write faults includes reading UFFD file descriptor,
+> finding respective RAM block and saving faulting page to
+> the migration stream. After page has been saved, write protection
+> can be removed. Since asynchronous version of qemu_put_buffer()
+> is expected to be used to save pages, we also have to flush
+> migraion stream prior to un-protecting saved memory range.
+> 
+> Write protection is being removed for any previously protected
+> memory chunk that has hit the migration stream. That's valid
+> for pages from linear page scan along with write fault pages.
+> 
+> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> ---
+>  migration/ram.c | 124 ++++++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 115 insertions(+), 9 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 7f273c9996..08a1d7a252 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -314,6 +314,8 @@ struct RAMState {
+>      ram_addr_t last_page;
+>      /* last ram version we have seen */
+>      uint32_t last_version;
+> +    /* 'write-tracking' migration is enabled */
+> +    bool ram_wt_enabled;
+>      /* We are in the first round */
+>      bool ram_bulk_stage;
+>      /* The free page optimization is enabled */
+> @@ -574,8 +576,6 @@ static int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp)
+>      return 0;
+>  }
+>  
+> -__attribute__ ((unused))
+> -static int uffd_read_events(int uffd, struct uffd_msg *msgs, int count);
+>  __attribute__ ((unused))
+>  static bool uffd_poll_events(int uffd, int tmo);
+>  
+> @@ -1929,6 +1929,86 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
+>      return pages;
+>  }
+>  
+> +/**
+> + * ram_find_block_by_host_address: find RAM block containing host page
+> + *
+> + * Returns true if RAM block is found and pss->block/page are
+> + * pointing to the given host page, false in case of an error
+> + *
+> + * @rs: current RAM state
+> + * @pss: page-search-status structure
+> + */
+> +static bool ram_find_block_by_host_address(RAMState *rs, PageSearchStatus *pss,
+> +        hwaddr page_address)
+> +{
+> +    bool found = false;
+> +
+> +    pss->block = rs->last_seen_block;
+> +    do {
+> +        if (page_address >= (hwaddr) pss->block->host &&
+> +            (page_address + TARGET_PAGE_SIZE) <=
+> +                    ((hwaddr) pss->block->host + pss->block->used_length)) {
+> +            pss->page = (unsigned long)
+> +                    ((page_address - (hwaddr) pss->block->host) >> TARGET_PAGE_BITS);
+> +            found = true;
+> +            break;
+> +        }
+> +
+> +        pss->block = QLIST_NEXT_RCU(pss->block, next);
+> +        if (!pss->block) {
+> +            /* Hit the end of the list */
+> +            pss->block = QLIST_FIRST_RCU(&ram_list.blocks);
+> +        }
+> +    } while (pss->block != rs->last_seen_block);
+> +
+> +    rs->last_seen_block = pss->block;
+> +    /*
+> +     * Since we are in the same loop with ram_find_and_save_block(),
+> +     * need to reset pss->complete_round after switching to
+> +     * other block/page in pss.
+> +     */
+> +    pss->complete_round = false;
+> +
+> +    return found;
+> +}
+> +
+> +/**
+> + * get_fault_page: try to get next UFFD write fault page and, if pending fault
+> + *   is found, put info about RAM block and block page into pss structure
+> + *
+> + * Returns true in case of UFFD write fault detected, false otherwise
+> + *
+> + * @rs: current RAM state
+> + * @pss: page-search-status structure
+> + *
+> + */
+> +static bool get_fault_page(RAMState *rs, PageSearchStatus *pss)
+> +{
+> +    struct uffd_msg uffd_msg;
+> +    hwaddr page_address;
+> +    int res;
+> +
+> +    if (!rs->ram_wt_enabled) {
+> +        return false;
+> +    }
+> +
+> +    res = uffd_read_events(rs->uffdio_fd, &uffd_msg, 1);
+> +    if (res <= 0) {
+> +        return false;
+> +    }
+> +
+> +    page_address = uffd_msg.arg.pagefault.address;
+> +    if (!ram_find_block_by_host_address(rs, pss, page_address)) {
+> +        /* In case we couldn't find respective block, just unprotect faulting page */
+> +        uffd_protect_memory(rs->uffdio_fd, page_address, TARGET_PAGE_SIZE, false);
+> +        error_report("ram_find_block_by_host_address() failed: address=0x%0lx",
+> +                     page_address);
+> +        return false;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+>  /**
+>   * ram_find_and_save_block: finds a dirty page and sends it to f
+>   *
+> @@ -1955,25 +2035,50 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
+>          return pages;
+>      }
+>  
+> +    if (!rs->last_seen_block) {
+> +        rs->last_seen_block = QLIST_FIRST_RCU(&ram_list.blocks);
+> +    }
+>      pss.block = rs->last_seen_block;
+>      pss.page = rs->last_page;
+>      pss.complete_round = false;
+>  
+> -    if (!pss.block) {
+> -        pss.block = QLIST_FIRST_RCU(&ram_list.blocks);
+> -    }
+> -
+>      do {
+> +        ram_addr_t page;
+> +        ram_addr_t page_to;
+> +
+>          again = true;
+> -        found = get_queued_page(rs, &pss);
+> -
+> +        /* In case of 'write-tracking' migration we first try
+> +         * to poll UFFD and get write page fault event */
+> +        found = get_fault_page(rs, &pss);
+> +        if (!found) {
+> +            /* No trying to fetch something from the priority queue */
+> +            found = get_queued_page(rs, &pss);
+> +        }
+>          if (!found) {
+>              /* priority queue empty, so just search for something dirty */
+>              found = find_dirty_block(rs, &pss, &again);
+>          }
+>  
+>          if (found) {
+> +            page = pss.page;
+>              pages = ram_save_host_page(rs, &pss, last_stage);
+> +            page_to = pss.page;
+> +
+> +            /* Check if page is from UFFD-managed region */
+> +            if (pss.block->flags & RAM_UF_WRITEPROTECT) {
+> +                hwaddr page_address = (hwaddr) pss.block->host +
+> +                        ((hwaddr) page << TARGET_PAGE_BITS);
+> +                hwaddr run_length = (hwaddr) (page_to - page + 1) << TARGET_PAGE_BITS;
+> +                int res;
+> +
+> +                /* Flush async buffers before un-protect */
+> +                qemu_fflush(rs->f);
+> +                /* Un-protect memory range */
+> +                res = uffd_protect_memory(rs->uffdio_fd, page_address, run_length, false);
+> +                if (res < 0) {
+> +                    break;
+> +                }
+> +            }
 
-** Attachment added: "section or journalctl from host, showing oom-killer"
-   https://bugs.launchpad.net/qemu/+bug/1905562/+attachment/5437889/+files/=
-journalctl.oom-killer
+Please separate that out into a separate function.
 
--- =
+Dave
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905562
+>          }
+>      } while (!pages && again);
+>  
+> @@ -2086,7 +2191,8 @@ static void ram_state_reset(RAMState *rs)
+>      rs->last_sent_block = NULL;
+>      rs->last_page = 0;
+>      rs->last_version = ram_list.version;
+> -    rs->ram_bulk_stage = true;
+> +    rs->ram_wt_enabled = migrate_track_writes_ram();
+> +    rs->ram_bulk_stage = !rs->ram_wt_enabled;
+>      rs->fpo_enabled = false;
+>  }
+>  
+> -- 
+> 2.25.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Title:
-  Guest seems suspended after host freed memory for it using oom-killer
-
-Status in QEMU:
-  New
-
-Bug description:
-  Host: qemu 5.1.0, linux 5.5.13
-  Guest: Windows 7 64-bit
-
-  This guest ran a memory intensive process, and triggered oom-killer on
-  host.  Luckily, it killed chromium.  My understanding is this should
-  mean qemu should have continued running unharmed.  But, the spice
-  connection shows the host system clock is stuck at the exact time oom-
-  killer was triggered.  The host is completely unresponsive.
-
-  I can telnet to the qemu monitor.  "info status" shows "running".
-  But, multiple times running "info registers -a" and saving the output
-  to text files shows the registers are 100% unchanged, so it's not
-  really running.
-
-  On the host, top shows around 4% CPU usage by qemu.  strace shows
-  about 1,000 times a second, these 6 lines repeat:
-
-  0.000698 ioctl(18, KVM_IRQ_LINE_STATUS, 0x7fff1f030c10) =3D 0 <0.000010>
-  0.000034 ioctl(18, KVM_IRQ_LINE_STATUS, 0x7fff1f030c60) =3D 0 <0.000009>
-  0.000031 ioctl(18, KVM_IRQ_LINE_STATUS, 0x7fff1f030c20) =3D 0 <0.000007>
-  0.000028 ioctl(18, KVM_IRQ_LINE_STATUS, 0x7fff1f030c70) =3D 0 <0.000007>
-  0.000030 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLIN}, {fd=
-=3D7, events=3DPOLLIN}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN=
-}, {fd=3D11, events         =3DPOLLIN}, {fd=3D16, events=3DPOLLIN}, {fd=3D3=
-2, events=3DPOLLIN}, {fd=3D34, events=3DPOLLIN}, {fd=3D39, events=3DPOLLIN}=
-, {fd=3D40, events=3DPOLLIN}, {fd=3D41, events=3DPOLLI         N}, {fd=3D42=
-, events=3DPOLLIN}, {fd=3D43, events=3DPOLLIN}, {fd=3D44, events=3DPOLLIN},=
- {fd=3D45, events=3DPOLLIN}], 16, {tv_sec=3D0, tv_nsec=3D0}, NULL, 8) =3D 0=
- (Timeout)          <0.000009>
-  0.000043 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLIN}, {fd=
-=3D7, events=3DPOLLIN}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN=
-}, {fd=3D11, events         =3DPOLLIN}, {fd=3D16, events=3DPOLLIN}, {fd=3D3=
-2, events=3DPOLLIN}, {fd=3D34, events=3DPOLLIN}, {fd=3D39, events=3DPOLLIN}=
-, {fd=3D40, events=3DPOLLIN}, {fd=3D41, events=3DPOLLI         N}, {fd=3D42=
-, events=3DPOLLIN}, {fd=3D43, events=3DPOLLIN}, {fd=3D44, events=3DPOLLIN},=
- {fd=3D45, events=3DPOLLIN}], 16, {tv_sec=3D0, tv_nsec=3D769662}, NULL, 8) =
-=3D 0 (Tim         eout) <0.000788>
-
-  In the monitor, "info irq" shows IRQ 0 is increasing about 1,000 times
-  a second.  IRQ 0 seems to be for the system clock, and 1,000 times a
-  second seems to be the frequency a windows 7 guest might have the
-  clock at.
-
-  Those fd's are for: (9) [eventfd]; [signalfd], type=3DSTREAM, 4 x the
-  spice socket file, and "TCP localhost:ftnmtp->localhost:36566
-  (ESTABLISHED)".
-
-  Because the guest's registers aren't changing, it seems to me like
-  monitor thinks the VM is running, but it's actually effectively in a
-  paused state.  I think all the strace activity shown above must be
-  generated by the host.  Perhaps it's repeatedly trying to contact the
-  guest to inject a new clock, and communicate with it on the various
-  eventfd's, spice socket, etc.  So, I'm thinking the strace doesn't
-  give any information about the real reason why the VM is acting as if
-  it's paused.
-
-  I've checked "info block", and there's nothing showing that a device
-  is paused, or that there's any issues with them.  (Can't remember what
-  term can be there, but a paused/blocked/etc block device I think
-  caused a VM to act like this for me in the past.)
-
-  =
-
-  Is there something I can provide to help fix the bug here?
-
-  Is there something I can do, to try to get the VM running again?  (I
-  sadly have unsaved work in it.)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905562/+subscriptions
 
