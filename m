@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4FB72C3F92
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 13:08:16 +0100 (CET)
-Received: from localhost ([::1]:51012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403532C3FB3
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 13:16:53 +0100 (CET)
+Received: from localhost ([::1]:55818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khtap-0000KH-Vi
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 07:08:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44390)
+	id 1khtj8-0002pA-Op
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 07:16:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1khtZM-0008Ez-Af
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 07:06:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38857)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1khthB-0001zF-Di
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 07:14:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1khtZK-0005PR-RV
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 07:06:44 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1khth7-0008JG-Ge
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 07:14:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606306001;
+ s=mimecast20190719; t=1606306484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JXvN1fwdi+Ln79fFgeuToNBOdonqS7+Hi66ZgrajwEc=;
- b=BFZ7AT7rpPSLx2G46FEdcmITrTVJT2W1nik0Qxctwykty9useaIbVpH4aIwcODxPr9SAhj
- 1ZP3G4tsRyT7hKBuM1uPFtktIkSdMMhMW5QmKmZ5EkYvVT/DD0SD3DsasvoWJqUOtpyy5R
- TWuvmVUy0Dhsk66ZzSfdGvDsw7CFVXo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-PWV_gvTdN42IrottsTVwRg-1; Wed, 25 Nov 2020 07:06:38 -0500
-X-MC-Unique: PWV_gvTdN42IrottsTVwRg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 358A6108088C;
- Wed, 25 Nov 2020 12:06:37 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-65.ams2.redhat.com
- [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 91E4760854;
- Wed, 25 Nov 2020 12:06:31 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A470917535; Wed, 25 Nov 2020 13:06:30 +0100 (CET)
-Date: Wed, 25 Nov 2020 13:06:30 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-Subject: Re: [PATCH v2] Fix build with 64 bits time_t
-Message-ID: <20201125120630.oey76zk2kfyr5epa@sirius.home.kraxel.org>
-References: <20201118203824.1624924-1-fontaine.fabrice@gmail.com>
+ bh=DMmA4XTQ00FJZ1hDsKzyU42iqLETf4QTiXbtu9A5zJg=;
+ b=AepW1gearhoml6zUK8EzWW39duiylVUXXEXTWhzIHxS86zH27a7aahG7ngt7kkGAk+O+/g
+ pwXlG0DSesVxKKvjX2kCGQbp1LhtMkHm8UPfJe+UNsKLWILIFKSKy7KMdpiH+nJiEMGOjW
+ +QesGamdHD1EZUsT5FAR5c+ubIfa54M=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-454-n6wAHPFrMa69tbETIwqWbQ-1; Wed, 25 Nov 2020 07:14:42 -0500
+X-MC-Unique: n6wAHPFrMa69tbETIwqWbQ-1
+Received: by mail-qv1-f72.google.com with SMTP id l15so2289363qvu.8
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 04:14:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DMmA4XTQ00FJZ1hDsKzyU42iqLETf4QTiXbtu9A5zJg=;
+ b=bsz+Zaq94b/J+vOyKr/AdXA8T1NAKJLxk2d5b4rZmyRlLS2ysTIcnXwzWwWarJVlNP
+ wEexFxmdZZeoMlBDPciBgZWv/ABNtaImVh9n+Y5WmZCHJMT8b/qK5McRnBheC8MrM6gD
+ JXdnwQaKwnn0AfOKdf8QWbmBtbUlpTJtXfhNK32ON2AbLX7/yyWVkCp53R+kbCzL9RR/
+ CCTgJhvx6f42qbBrvqQStPdgiyAGE1/pE5j1anexlc0vhxt9e2oxNDXYJmc/cj8mIo48
+ 8Xp2BwHhkRbo20qwLyVwFOgZJKweSR9QZkrN/BIqtgwTkNfMukYmH1DV0sjQ5VAG3Go8
+ woew==
+X-Gm-Message-State: AOAM532wdC6owzW+uRLn+84w8vHV3d0AmKzbUU3QVCunZdYFSFWTqWOl
+ IEhED22iDUwIIHHu2WIlO00CmQoIRAFRUGiI7LZfhp8i8VdKoMn9BiAR3sNeRBmgMH1FLxFQ5GK
+ ooqcA78FtGCty7H8BRDQl3A6iaj49mWk=
+X-Received: by 2002:a0c:a802:: with SMTP id w2mr1345928qva.9.1606306481520;
+ Wed, 25 Nov 2020 04:14:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzd8me3OtSowApCvc1hz6io7NTPHg4CrJj45yH6wBfmBDAx+yL2zySfQm4ED57QCMTJdKae9z/q4HcSu554TUY=
+X-Received: by 2002:a0c:a802:: with SMTP id w2mr1345902qva.9.1606306481218;
+ Wed, 25 Nov 2020 04:14:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201118203824.1624924-1-fontaine.fabrice@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20201120185105.279030-1-eperezma@redhat.com>
+ <5a4d0b7a-fb62-9e78-9e85-9262dca57f1c@redhat.com>
+ <CAJaqyWf+6yoMHJuLv=QGLMP4egmdm722=V2kKJ_aiQAfCCQOFw@mail.gmail.com>
+In-Reply-To: <CAJaqyWf+6yoMHJuLv=QGLMP4egmdm722=V2kKJ_aiQAfCCQOFw@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 25 Nov 2020 13:14:05 +0100
+Message-ID: <CAJaqyWcQH7TXVArEX1SNZ9XaAOwWjjjSX-onx=tmkioyJefMkQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/27] vDPA software assisted live migration
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,29 +91,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: kvm list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, Daniel Daly <dandaly0@gmail.com>,
+ virtualization@lists.linux-foundation.org, Liran Alon <liralon@gmail.com>,
+ Eli Cohen <eli@mellanox.com>, Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
+ Alex Barba <alex.barba@broadcom.com>,
+ Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
+ Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
+ vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
+ Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jim Harford <jim.harford@broadcom.com>,
+ Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
+ Max Gurtovoy <maxgu14@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 18, 2020 at 09:38:24PM +0100, Fabrice Fontaine wrote:
-> time element is deprecated on new input_event structure in kernel's
-> input.h [1]
-> 
-> This will avoid the following build failure:
-> 
-> hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_status':
-> hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no member named 'time'
->   198 |     if (gettimeofday(&evdev.time, NULL)) {
->       |                            ^
+On Wed, Nov 25, 2020 at 1:03 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Wed, Nov 25, 2020 at 8:09 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > On 2020/11/21 =E4=B8=8A=E5=8D=882:50, Eugenio P=C3=A9rez wrote:
+> > > This series enable vDPA software assisted live migration for vhost-ne=
+t
+> > > devices. This is a new method of vhost devices migration: Instead of
+> > > relay on vDPA device's dirty logging capability, SW assisted LM
+> > > intercepts dataplane, forwarding the descriptors between VM and devic=
+e.
+> > >
+> > > In this migration mode, qemu offers a new vring to the device to
+> > > read and write into, and disable vhost notifiers, processing guest an=
+d
+> > > vhost notifications in qemu. On used buffer relay, qemu will mark the
+> > > dirty memory as with plain virtio-net devices. This way, devices does
+> > > not need to have dirty page logging capability.
+> > >
+> > > This series is a POC doing SW LM for vhost-net devices, which already
+> > > have dirty page logging capabilities. None of the changes have actual
+> > > effect with current devices until last two patches (26 and 27) are
+> > > applied, but they can be rebased on top of any other. These checks th=
+e
+> > > device to meet all requirements, and disable vhost-net devices loggin=
+g
+> > > so migration goes through SW LM. This last patch is not meant to be
+> > > applied in the final revision, it is in the series just for testing
+> > > purposes.
+> > >
+> > > For use SW assisted LM these vhost-net devices need to be instantiate=
+d:
+> > > * With IOMMU (iommu_platform=3Don,ats=3Don)
+> > > * Without event_idx (event_idx=3Doff)
+> >
+> >
+> > So a question is at what level do we want to implement qemu assisted
+> > live migration. To me it could be done at two levels:
+> >
+> > 1) generic vhost level which makes it work for both vhost-net/vhost-use=
+r
+> > and vhost-vDPA
+> > 2) a specific type of vhost
+> >
+> > To me, having a generic one looks better but it would be much more
+> > complicated. So what I read from this series is it was a vhost kernel
+> > specific software assisted live migration which is a good start.
+> > Actually it may even have real use case, e.g it can save dirty bitmaps
+> > for guest with large memory. But we need to address the above
+> > limitations first.
+> >
+> > So I would like to know what's the reason for mandating iommu platform
+> > and ats? And I think we need to fix case of event idx support.
+> >
+>
+> There is no specific reason for mandating iommu & ats, it was just
+> started that way.
+>
+> I will extend the patch to support those cases too.
+>
+> >
+> > >
+> > > Just the notification forwarding (with no descriptor relay) can be
+> > > achieved with patches 7 and 9, and starting migration. Partial applie=
+s
+> > > between 13 and 24 will not work while migrating on source, and patch
+> > > 25 is needed for the destination to resume network activity.
+> > >
+> > > It is based on the ideas of DPDK SW assisted LM, in the series of
+> >
+> >
+> > Actually we're better than that since there's no need the trick like
+> > hardcoded IOVA for mediated(shadow) virtqueue.
+> >
+> >
+> > > DPDK's https://patchwork.dpdk.org/cover/48370/ .
+> >
+> >
+> > I notice that you do GPA->VA translations and try to establish a VA->VA
+> > (use VA as IOVA) mapping via device IOTLB. This shortcut should work fo=
+r
+> > vhost-kernel/user but not vhost-vDPA. The reason is that there's no
+> > guarantee that the whole 64bit address range could be used as IOVA. One
+> > example is that for hardware IOMMU like intel, it usually has 47 or 52
+> > bits of address width.
+> >
+> > So we probably need an IOVA allocator that can make sure the IOVA is no=
+t
+> > overlapped and fit for [1]. We can probably build the IOVA for guest VA
+> > via memory listeners. Then we have
+> >
+> > 1) IOVA for GPA
+> > 2) IOVA for shadow VQ
+> >
+> > And advertise IOVA to VA mapping to vhost.
+> >
+> > [1]
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?id=3D1b48dc03e575a872404f33b04cd237953c5d7498
+> >
+>
+> Got it, will control it too.
+>
+> Maybe for vhost-net we could directly send iotlb miss for [0,~0ULL].
+>
 
-Fails to build (rhel-7).
+Sorry, this was intended to be a question :).
 
->  - Drop define of input_event_{sec,usec} as it is already done in 
->    include/standard-headers/linux/input.h
+Given a vhost-* device IOVA usable range, is ok to expose all of qemu
+overlapping VA to it? With the iotlb miss, for example. Would it be
+acceptable from a security point of view? The device would have access
+to all qemu VA, but on the other hand devices like vhost-net already
+have it.
 
-Maybe these are not used?  So it breaks with old system headers?
-
-take care,
-  Gerd
+> >
+> > >
+> > > Comments are welcome.
+> > >
+> > > Thanks!
+> > >
+> > > Eugenio P=C3=A9rez (27):
+> > >    vhost: Add vhost_dev_can_log
+> > >    vhost: Add device callback in vhost_migration_log
+> > >    vhost: Move log resize/put to vhost_dev_set_log
+> > >    vhost: add vhost_kernel_set_vring_enable
+> > >    vhost: Add hdev->dev.sw_lm_vq_handler
+> > >    virtio: Add virtio_queue_get_used_notify_split
+> > >    vhost: Route guest->host notification through qemu
+> > >    vhost: Add a flag for software assisted Live Migration
+> > >    vhost: Route host->guest notification through qemu
+> > >    vhost: Allocate shadow vring
+> > >    virtio: const-ify all virtio_tswap* functions
+> > >    virtio: Add virtio_queue_full
+> > >    vhost: Send buffers to device
+> > >    virtio: Remove virtio_queue_get_used_notify_split
+> > >    vhost: Do not invalidate signalled used
+> > >    virtio: Expose virtqueue_alloc_element
+> > >    vhost: add vhost_vring_set_notification_rcu
+> > >    vhost: add vhost_vring_poll_rcu
+> > >    vhost: add vhost_vring_get_buf_rcu
+> > >    vhost: Return used buffers
+> > >    vhost: Add vhost_virtqueue_memory_unmap
+> > >    vhost: Add vhost_virtqueue_memory_map
+> > >    vhost: unmap qemu's shadow virtqueues on sw live migration
+> > >    vhost: iommu changes
+> > >    vhost: Do not commit vhost used idx on vhost_virtqueue_stop
+> > >    vhost: Add vhost_hdev_can_sw_lm
+> > >    vhost: forbid vhost devices logging
+> > >
+> > >   hw/virtio/vhost-sw-lm-ring.h      |  39 +++
+> > >   include/hw/virtio/vhost.h         |   5 +
+> > >   include/hw/virtio/virtio-access.h |   8 +-
+> > >   include/hw/virtio/virtio.h        |   4 +
+> > >   hw/net/virtio-net.c               |  39 ++-
+> > >   hw/virtio/vhost-backend.c         |  29 ++
+> > >   hw/virtio/vhost-sw-lm-ring.c      | 268 +++++++++++++++++++
+> > >   hw/virtio/vhost.c                 | 431 +++++++++++++++++++++++++--=
+---
+> > >   hw/virtio/virtio.c                |  18 +-
+> > >   hw/virtio/meson.build             |   2 +-
+> > >   10 files changed, 758 insertions(+), 85 deletions(-)
+> > >   create mode 100644 hw/virtio/vhost-sw-lm-ring.h
+> > >   create mode 100644 hw/virtio/vhost-sw-lm-ring.c
+> >
+> >
+> > So this looks like a pretty huge patchset which I'm trying to think of
+> > ways to split. An idea is to do this is two steps
+> >
+> > 1) implement a shadow virtqueue mode for vhost first (w/o live
+> > migration). Then we can test descriptors relay, IOVA allocating, etc.
+>
+> How would that mode be activated if it is not tied to live migration?
+> New backend/command line switch?
+>
+> Maybe it is better to also start with no iommu & ats support and add it o=
+n top.
+>
+> > 2) add live migration support on top
+> >
+> > And it looks to me it's better to split the shadow virtqueue (virtio
+> > driver part) into an independent file. And use generic name (w/o
+> > "shadow") in order to be reused by other use cases as well.
+> >
+>
+> I think the same.
+>
+> Thanks!
+>
+> > Thoughts?
+> >
 
 
