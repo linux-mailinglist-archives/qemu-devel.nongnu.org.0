@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4432C3E95
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 11:58:56 +0100 (CET)
-Received: from localhost ([::1]:45608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4402C3F28
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 12:35:38 +0100 (CET)
+Received: from localhost ([::1]:53372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khsVj-0007H3-D2
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 05:58:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54870)
+	id 1kht5E-0004jV-BP
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 06:35:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1khsUY-0006oe-S4
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 05:57:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24861)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1khsUW-0004zw-IA
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 05:57:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606301857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gJMeIdANo3H0wa4H0R2pjGhyeENIBFD05dtGRaIltic=;
- b=gyc3ZmwqvI0eRr5ElZnE10sRBKsjTvBkwQ99T6zahQnzHKm/8XKoxqKdxmqO3BcV3h8t5s
- i6Ym4HwD60pp692SChH0zLjNk/HngzmiC6M58UlLkLvMU4OFlFNuHwrNL9tIRPcMbVT9k2
- aLRQnr9NbPbO2KkgcxTAG2Kb/QzaAfo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-4BJmuEfyMtG5jOpaSJb_Ng-1; Wed, 25 Nov 2020 05:57:34 -0500
-X-MC-Unique: 4BJmuEfyMtG5jOpaSJb_Ng-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 850DE805BE6;
- Wed, 25 Nov 2020 10:57:33 +0000 (UTC)
-Received: from [10.36.112.131] (ovpn-112-131.ams2.redhat.com [10.36.112.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B1305D9C2;
- Wed, 25 Nov 2020 10:57:25 +0000 (UTC)
-Subject: Re: [PATCH v2] hw/arm/virt enable support for virtio-mem
-To: Andrew Jones <drjones@redhat.com>
-References: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
- <5b1dff01-7e6b-78d2-d55a-20c0617c3076@redhat.com>
- <20201124181150.0000025f@Huawei.com>
- <f2cfd3cb-27c8-f25b-2b57-6dc983a25a43@redhat.com>
- <20201125083844.krr4d5ww3a2ki25c@kamzik.brq.redhat.com>
- <b06d3a29-a1b3-da53-fade-33413d611ec5@redhat.com>
- <20201125104729.as7yizogfmckacw4@kamzik.brq.redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <0396ad12-85ec-845a-c314-42fe8cec144f@redhat.com>
-Date: Wed, 25 Nov 2020 11:57:24 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kht4C-0004E1-Rt
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 06:34:32 -0500
+Received: from 2.mo51.mail-out.ovh.net ([178.33.255.19]:58361)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kht49-0001wX-PE
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 06:34:32 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.238])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 9BA8B23C865;
+ Wed, 25 Nov 2020 12:34:26 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 25 Nov
+ 2020 12:34:25 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R0039c320920-6450-4d05-bcf9-95420bb54df3,
+ 1D6677CCFEDB402305856C1EADE37DC40CDB6EE3) smtp.auth=clg@kaod.org
+Subject: Re: [PATCH for-6.0 2/8] spapr/xive: Introduce spapr_xive_nr_ends()
+To: Greg Kurz <groug@kaod.org>
+References: <20201120174646.619395-1-groug@kaod.org>
+ <20201120174646.619395-3-groug@kaod.org>
+ <9da660d2-1969-a548-5092-7f645a610e6d@kaod.org>
+ <20201123121635.65506f0c@bahia.lan>
+ <e7a4b597-300a-6f9b-337e-507703dc4d35@kaod.org>
+ <20201124180120.7a86f49c@bahia.lan>
+ <353fd413-6c50-64ea-f2cf-24d42ee8010d@kaod.org>
+ <20201125103337.4716b0d0@bahia.lan>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <be6b856e-1517-eb77-ae27-80a851b78168@kaod.org>
+Date: Wed, 25 Nov 2020 12:34:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201125104729.as7yizogfmckacw4@kamzik.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201125103337.4716b0d0@bahia.lan>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 11a24c60-867a-4d7c-a581-785877191a76
+X-Ovh-Tracer-Id: 4702320964161080288
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudehtddgfeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgedvieejfedvhfduhfffueevheeludffhfdvkeehleegtddttdfhieegveeghfffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,120 +75,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, linuxarm@huawei.com,
- qemu-devel@nongnu.org, Auger Eric <eric.auger@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25.11.20 11:47, Andrew Jones wrote:
-> On Wed, Nov 25, 2020 at 09:45:19AM +0100, David Hildenbrand wrote:
->> On 25.11.20 09:38, Andrew Jones wrote:
->>> On Tue, Nov 24, 2020 at 08:17:35PM +0100, David Hildenbrand wrote:
->>>> On 24.11.20 19:11, Jonathan Cameron wrote:
->>>>> On Mon, 9 Nov 2020 20:47:09 +0100
->>>>> David Hildenbrand <david@redhat.com> wrote:
->>>>>
->>>>> +CC Eric based on similar query in other branch of the thread.
->>>>>
->>>>>> On 05.11.20 18:43, Jonathan Cameron wrote:
->>>>>>> Basically a cut and paste job from the x86 support with the exception of
->>>>>>> needing a larger block size as the Memory Block Size (MIN_SECTION_SIZE)
->>>>>>> on ARM64 in Linux is 1G.
->>>>>>>
->>>>>>> Tested:
->>>>>>> * In full emulation and with KVM on an arm64 server.
->>>>>>> * cold and hotplug for the virtio-mem-pci device.
->>>>>>> * Wide range of memory sizes, added at creation and later.
->>>>>>> * Fairly basic memory usage of memory added.  Seems to function as normal.
->>>>>>> * NUMA setup with virtio-mem-pci devices on each node.
->>>>>>> * Simple migration test.
->>>>>>>
->>>>>>> Related kernel patch just enables the Kconfig item for ARM64 as an
->>>>>>> alternative to x86 in drivers/virtio/Kconfig
->>>>>>>
->>>>>>> The original patches from David Hildenbrand stated that he thought it should
->>>>>>> work for ARM64 but it wasn't enabled in the kernel [1]
->>>>>>> It appears he was correct and everything 'just works'.
->>>>>>>
->>>>>>> The build system related stuff is intended to ensure virtio-mem support is
->>>>>>> not built for arm32 (build will fail due no defined block size).
->>>>>>> If there is a more elegant way to do this, please point me in the right
->>>>>>> direction.  
->>>>>>
->>>>>> You might be aware of https://virtio-mem.gitlab.io/developer-guide.html 
->>>>>> and the "issue" with 64k base pages - 512MB granularity. Similar as the 
->>>>>> question from Auger, have you tried running arm64 with differing page 
->>>>>> sizes in host/guest?
->>>>>>
->>>>>
->>>>> Hi David,
->>>>>
->>>>>> With recent kernels, you can use "memhp_default_state=online_movable" on 
->>>>>> the kernel cmdline to make memory unplug more likely to succeed - 
->>>>>> especially with 64k base pages. You just have to be sure to not hotplug 
->>>>>> "too much memory" to a VM.
->>>>>
->>>>> Thanks for the pointer - that definitely simplifies testing.  Was getting a bit
->>>>> tedious with out that.
->>>>>
->>>>> As ever other stuff got in the way, so I only just got back to looking at this.
->>>>>
->>>>> I've not done a particularly comprehensive set of tests yet, but things seem
->>>>> to 'work' with mixed page sizes.
->>>>>
->>>>> With 64K pages in general, you run into a problem with the device block_size being
->>>>> smaller than the subblock_size.  I've just added a check for that into the
->>>>
->>>> "device block size smaller than subblock size" - that's very common,
->>>> e.g.,  on x86-64.
->>>>
->>>> E.g., device_block_size is 2MiB, subblock size 4MiB - until we improve
->>>> that in the future in Linux guests.
->>>>
->>>> Or did you mean something else?
->>>>
->>>>> virtio-mem kernel driver and have it fail to probe if that happens.  I don't
->>>>> think such a setup makes any sense anyway so no loss there.  Should it make sense
->>>>> to drop that restriction in the future we can deal with that then without breaking
->>>>> backwards compatibility.
->>>>>
->>>>> So the question is whether it makes sense to bother with virtio-mem support
->>>>> at all on ARM64 with 64k pages given currently the minimum workable block_size
->>>>> is 512MiB?  I guess there is an argument of virtio-mem being a possibly more
->>>>> convenient interface than full memory HP.  Curious to hear what people think on
->>>>> this?
->>>>
->>>> IMHO we really want it. For example, RHEL is always 64k. This is a
->>>> current guest limitation, to be improved in the future - either by
->>>> moving away from 512MB huge pages with 64k or by improving
->>>> alloc_contig_range().
->>>
->>> Even with 64k pages you may be able to have 2MB huge pages by setting
->>> default_hugepagesz=2M on the kernel command line.
+ 
+>>> This complexifies migration because we have to guess at
+>>> post load if we should claim the IPI in KVM or not. The
+>>> simple presence of the vCPU isn't enough : we need to
+>>> guess if the guest actually configured the IPI or not.
 >>
->> Yes, but not for THP, right? Last time I checked that move was not
->> performed yet - resulting in MAX_ORDER/pageblock_order in Linux
->> corresponding to 512 MB.
+>> The EAT will be transferred from the source and the call to 
+>> kvmppc_xive_source_reset_one() should initialize the KVM 
+>> device correctly on the target for all interrupts.
 >>
 > 
-> Yes, I believe you're correct. At least on the machine I've booted with
-> default_hugepagesz=2M, I see
-> 
->  $ cat /sys/kernel/mm/transparent_hugepage/hpage_pmd_size
->  536870912
-> 
-> (I'm not running a latest mainline kernel though.)
+> Except that the EAS appears as valid for all IPIs, even
+> though the source didn't claim them at the KVM level. 
 
-I remember some upstream discussions where people raised that switching
-to 2 MB THP might be possible (implemented via cont bits in the
-pagetables - similar to 2MB huge pages you mentioned). 512 MB really
-sounds more like gigantic pages after all.
+why ? we would stop claiming IPIs in spapr_irq_init() and so
+they won't appear as being valid anymore, at boot time or
+restore time.
 
--- 
-Thanks,
 
-David / dhildenb
-
+C.
 
