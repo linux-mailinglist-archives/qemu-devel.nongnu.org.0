@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323542C3AB5
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 09:14:47 +0100 (CET)
-Received: from localhost ([::1]:46622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD182C3B0F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 09:27:17 +0100 (CET)
+Received: from localhost ([::1]:60148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khpws-0004ao-9r
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 03:14:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60848)
+	id 1khq8y-0002US-4b
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 03:27:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khpvk-0003s2-3C; Wed, 25 Nov 2020 03:13:36 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52725)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khq7Y-00020T-Rh
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 03:25:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1khpvi-0001s6-Lj; Wed, 25 Nov 2020 03:13:35 -0500
-Received: by mail-wm1-x341.google.com with SMTP id 10so1171802wml.2;
- Wed, 25 Nov 2020 00:13:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Yza3QuMv9Til8gM8mBpOwRdYCHxSnYnR29n1qkHbTqE=;
- b=uZsfh6+Hs28PO04QCPBz4ykhYdRz5+7T8RUeDFINpgIpW3aAtNp8Kpvg75l93xH8LL
- nTAm8y+4awFPqhiuhf4o5IZsmVex6A/RT5BUiOssoyE0SFxsUv4rTvkybqO3Gl+wgywp
- Xbtwpj3D7a2mo6tds5XNTsN3IJZhA/jc00JBI+xlUzfdN/UKV5LfuoJ+08fiyd8VXDzT
- IU9Ttg5S5XGh+czRIxM1PssnJw9juo/n3s84aysYZPpd1Dm6jZtbfn5BqHUwsDtufgMY
- jo9lc9HNVwFMSUNgDHlivf73KHirAixeRT6tXVB2Z0/3PK5ephK5snPNkb6Kh8IJkFI3
- blPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Yza3QuMv9Til8gM8mBpOwRdYCHxSnYnR29n1qkHbTqE=;
- b=jdU+a18Q1gn2TRjWYqr5YPqINeR94+EQSLxSb6u2Sdi4NS1tq/Cjs5N/GFVGnap6ai
- QWaB7JJ35BkjtmRChcKyKpxRPbDN6J/5dp3tvhHakh8QhP2VGPHj6cY985dh0X9LOiQG
- in/yIEqiDKTP2wKSg8vD78wTGLIT/bUhlOmivFjViqOwNXewjRJpF4aj+IKXoHBkAG11
- 8rScntnXRyC6N5J0WGdNIrasjNATRjsgrGLq4OqJMBGIAehux5goilwI/mxaQKZ1/GXr
- bVqfO7l62DDRwHfBKlq0M1fjceIfhnAM2FkCsVO8j4C1EE1unc5VwTylYkD6QRLdllx0
- trfQ==
-X-Gm-Message-State: AOAM533Q93iT7jBM2tCAQqR4b12k1gkBWBETfSVuRBCm0JKrYvvkU7gs
- Hnb0RDWHLcK5UinDpEBHWhCiLYo3KzQ=
-X-Google-Smtp-Source: ABdhPJx4+9e9PcJOOXLi6Ni8MZIyoLsNsdFM/xlqieZjxQr3S9PWv3J5mCcp1n+829HCDdpC6uh9Cw==
-X-Received: by 2002:a05:600c:2908:: with SMTP id
- i8mr2534490wmd.182.1606292012264; 
- Wed, 25 Nov 2020 00:13:32 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id k16sm3440160wrl.65.2020.11.25.00.13.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Nov 2020 00:13:31 -0800 (PST)
-Subject: Re: [PATCH 02/11] target/arm: Enforce alignment for LDA/LDAH/STL/STLH
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20201125040642.2339476-1-richard.henderson@linaro.org>
- <20201125040642.2339476-3-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2f73b182-b854-2a7f-5aea-8ad62765241a@amsat.org>
-Date: Wed, 25 Nov 2020 09:13:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1khq7W-0006dQ-HY
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 03:25:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1khq7U-0008Eo-Nf
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 08:25:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AF9572E8138
+ for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 08:25:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201125040642.2339476-3-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2020 08:18:47 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1905521@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=pgn@zju.edu.cn; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hades0506 philmd
+X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <160628893217.26625.10789422824158727924.malonedeb@chaenomeles.canonical.com>
+Message-Id: <3e1f041f-90d3-4f76-2a87-6a807dca9d66@redhat.com>
+Subject: Re: [Bug 1905521] [NEW] assert issue locates in
+ hw/scsi/lsi53c895a.c:624: lsi_do_dma: Assertion `s->current' failed
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
+X-Launchpad-Hash: 5cd097931dbfaa263d152d6338d12e7bf15fbca8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,15 +72,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Reply-To: Bug 1905521 <1905521@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/25/20 5:06 AM, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+Cc'ing Fam directly because his launchpad account
+contact points to invalid email address.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 11/25/20 8:22 AM, Gaoning Pan wrote:
+> Public bug reported:
+> =
+
+> Hello,
+> =
+
+> I found an assertion failure in hw/scsi/lsi53c895a.c:624
+> =
+
+> This was found in latest version 5.2.0.
+> =
+
+> =
+
+> my reproduced environment is as follows:
+>     Host: ubuntu 18.04
+>     Guest: ubuntu 18.04
+> =
+
+> =
+
+> QEMU boot command line:
+> qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
+=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -dev=
+ice lsi53c895a -trace lsi\*
+> =
+
+> Backtrace is as follows:
+> #0  0x00007f845c6eff47 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
+unix/sysv/linux/raise.c:51
+> #1  0x00007f845c6f18b1 in __GI_abort () at abort.c:79
+> #2  0x00007f845c6e142a in __assert_fail_base (fmt=3D0x7f845c868a38 "%s%s%=
+s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x55a1=
+034486a0 "s->current", file=3Dfile@entry=3D0x55a103448360 "../hw/scsi/lsi53=
+c895a.c", line=3Dline@entry=3D624, function=3Dfunction@entry=3D0x55a10344ae=
+60 <__PRETTY_FUNCTION__.31674> "lsi_do_dma") at assert.c:92
+> #3  0x00007f845c6e14a2 in __GI___assert_fail (assertion=3D0x55a1034486a0 =
+"s->current", file=3D0x55a103448360 "../hw/scsi/lsi53c895a.c", line=3D624, =
+function=3D0x55a10344ae60 <__PRETTY_FUNCTION__.31674> "lsi_do_dma") at asse=
+rt.c:101
+> #4  0x000055a102049c65 in lsi_do_dma (s=3D0x62600000c100, out=3D1) at ../=
+hw/scsi/lsi53c895a.c:624
+> #5  0x000055a102051573 in lsi_execute_script (s=3D0x62600000c100) at ../h=
+w/scsi/lsi53c895a.c:1250
+> #6  0x000055a10205b05d in lsi_reg_writeb (s=3D0x62600000c100, offset=3D47=
+, val=3D178 '\262') at ../hw/scsi/lsi53c895a.c:1984
+> #7  0x000055a10205fef8 in lsi_io_write (opaque=3D0x62600000c100, addr=3D4=
+7, val=3D178, size=3D1) at ../hw/scsi/lsi53c895a.c:2146
+> #8  0x000055a102d1b791 in memory_region_write_accessor (mr=3D0x62600000cb=
+e0, addr=3D47, value=3D0x7f8349dfe2f8, size=3D1, shift=3D0, mask=3D255, att=
+rs=3D...) at ../softmmu/memory.c:484
+> #9  0x000055a102d1bba8 in access_with_adjusted_size (addr=3D47, value=3D0=
+x7f8349dfe2f8, size=3D1, access_size_min=3D1, access_size_max=3D1, access_f=
+n=3D0x55a102d1b4de <memory_region_write_accessor>, mr=3D0x62600000cbe0, att=
+rs=3D...) at ../softmmu/memory.c:545
+> #10 0x000055a102d261ef in memory_region_dispatch_write (mr=3D0x62600000cb=
+e0, addr=3D47, data=3D178, op=3DMO_8, attrs=3D...) at ../softmmu/memory.c:1=
+494
+> #11 0x000055a102b57c3c in flatview_write_continue (fv=3D0x6060000ea920, a=
+ddr=3D49199, attrs=3D..., ptr=3D0x7f8449efb000, len=3D1, addr1=3D47, l=3D1,=
+ mr=3D0x62600000cbe0) at ../softmmu/physmem.c:2767
+> #12 0x000055a102b57f07 in flatview_write (fv=3D0x6060000ea920, addr=3D491=
+99, attrs=3D..., buf=3D0x7f8449efb000, len=3D1) at ../softmmu/physmem.c:2807
+> #13 0x000055a102b587cb in address_space_write (as=3D0x55a105ebca80 <addre=
+ss_space_io>, addr=3D49199, attrs=3D..., buf=3D0x7f8449efb000, len=3D1) at =
+../softmmu/physmem.c:2899
+> #14 0x000055a102b58878 in address_space_rw (as=3D0x55a105ebca80 <address_=
+space_io>, addr=3D49199, attrs=3D..., buf=3D0x7f8449efb000, len=3D1, is_wri=
+te=3Dtrue) at ../softmmu/physmem.c:2909
+> #15 0x000055a102ad4d50 in kvm_handle_io (port=3D49199, attrs=3D..., data=
+=3D0x7f8449efb000, direction=3D1, size=3D1, count=3D1) at ../accel/kvm/kvm-=
+all.c:2283
+> #16 0x000055a102ad6a0f in kvm_cpu_exec (cpu=3D0x62e000000400) at ../accel=
+/kvm/kvm-all.c:2529
+> #17 0x000055a102c26fbb in kvm_vcpu_thread_fn (arg=3D0x62e000000400) at ..=
+/accel/kvm/kvm-cpus.c:49
+> #18 0x000055a1032c08f8 in qemu_thread_start (args=3D0x603000082780) at ..=
+/util/qemu-thread-posix.c:521
+> #19 0x00007f845caa96db in start_thread (arg=3D0x7f8349dff700) at pthread_=
+create.c:463
+> #20 0x00007f845c7d2a3f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+> =
+
+> =
+
+> The poc is attached.
+> =
+
+> ** Affects: qemu
+>      Importance: Undecided
+>      Assignee: Gaoning Pan (hades0506)
+>          Status: New
+> =
+
+> ** Attachment added: "lsi-assert.c"
+>    https://bugs.launchpad.net/bugs/1905521/+attachment/5437756/+files/lsi=
+-assert.c
+> =
+
+> ** Changed in: qemu
+>      Assignee: (unassigned) =3D> Gaoning Pan (hades0506)
+>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1905521
+
+Title:
+  assert issue locates in hw/scsi/lsi53c895a.c:624: lsi_do_dma:
+  Assertion `s->current' failed
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I found an assertion failure in hw/scsi/lsi53c895a.c:624
+
+  This was found in latest version 5.2.0.
+
+  =
+
+  my reproduced environment is as follows:
+      Host: ubuntu 18.04
+      Guest: ubuntu 18.04
+
+
+  QEMU boot command line:
+  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
+=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -dev=
+ice lsi53c895a -trace lsi\*
+
+  Backtrace is as follows:
+  #0  0x00007f845c6eff47 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
+unix/sysv/linux/raise.c:51
+  #1  0x00007f845c6f18b1 in __GI_abort () at abort.c:79
+  #2  0x00007f845c6e142a in __assert_fail_base (fmt=3D0x7f845c868a38 "%s%s%=
+s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x55a1=
+034486a0 "s->current", file=3Dfile@entry=3D0x55a103448360 "../hw/scsi/lsi53=
+c895a.c", line=3Dline@entry=3D624, function=3Dfunction@entry=3D0x55a10344ae=
+60 <__PRETTY_FUNCTION__.31674> "lsi_do_dma") at assert.c:92
+  #3  0x00007f845c6e14a2 in __GI___assert_fail (assertion=3D0x55a1034486a0 =
+"s->current", file=3D0x55a103448360 "../hw/scsi/lsi53c895a.c", line=3D624, =
+function=3D0x55a10344ae60 <__PRETTY_FUNCTION__.31674> "lsi_do_dma") at asse=
+rt.c:101
+  #4  0x000055a102049c65 in lsi_do_dma (s=3D0x62600000c100, out=3D1) at ../=
+hw/scsi/lsi53c895a.c:624
+  #5  0x000055a102051573 in lsi_execute_script (s=3D0x62600000c100) at ../h=
+w/scsi/lsi53c895a.c:1250
+  #6  0x000055a10205b05d in lsi_reg_writeb (s=3D0x62600000c100, offset=3D47=
+, val=3D178 '\262') at ../hw/scsi/lsi53c895a.c:1984
+  #7  0x000055a10205fef8 in lsi_io_write (opaque=3D0x62600000c100, addr=3D4=
+7, val=3D178, size=3D1) at ../hw/scsi/lsi53c895a.c:2146
+  #8  0x000055a102d1b791 in memory_region_write_accessor (mr=3D0x62600000cb=
+e0, addr=3D47, value=3D0x7f8349dfe2f8, size=3D1, shift=3D0, mask=3D255, att=
+rs=3D...) at ../softmmu/memory.c:484
+  #9  0x000055a102d1bba8 in access_with_adjusted_size (addr=3D47, value=3D0=
+x7f8349dfe2f8, size=3D1, access_size_min=3D1, access_size_max=3D1, access_f=
+n=3D0x55a102d1b4de <memory_region_write_accessor>, mr=3D0x62600000cbe0, att=
+rs=3D...) at ../softmmu/memory.c:545
+  #10 0x000055a102d261ef in memory_region_dispatch_write (mr=3D0x62600000cb=
+e0, addr=3D47, data=3D178, op=3DMO_8, attrs=3D...) at ../softmmu/memory.c:1=
+494
+  #11 0x000055a102b57c3c in flatview_write_continue (fv=3D0x6060000ea920, a=
+ddr=3D49199, attrs=3D..., ptr=3D0x7f8449efb000, len=3D1, addr1=3D47, l=3D1,=
+ mr=3D0x62600000cbe0) at ../softmmu/physmem.c:2767
+  #12 0x000055a102b57f07 in flatview_write (fv=3D0x6060000ea920, addr=3D491=
+99, attrs=3D..., buf=3D0x7f8449efb000, len=3D1) at ../softmmu/physmem.c:2807
+  #13 0x000055a102b587cb in address_space_write (as=3D0x55a105ebca80 <addre=
+ss_space_io>, addr=3D49199, attrs=3D..., buf=3D0x7f8449efb000, len=3D1) at =
+../softmmu/physmem.c:2899
+  #14 0x000055a102b58878 in address_space_rw (as=3D0x55a105ebca80 <address_=
+space_io>, addr=3D49199, attrs=3D..., buf=3D0x7f8449efb000, len=3D1, is_wri=
+te=3Dtrue) at ../softmmu/physmem.c:2909
+  #15 0x000055a102ad4d50 in kvm_handle_io (port=3D49199, attrs=3D..., data=
+=3D0x7f8449efb000, direction=3D1, size=3D1, count=3D1) at ../accel/kvm/kvm-=
+all.c:2283
+  #16 0x000055a102ad6a0f in kvm_cpu_exec (cpu=3D0x62e000000400) at ../accel=
+/kvm/kvm-all.c:2529
+  #17 0x000055a102c26fbb in kvm_vcpu_thread_fn (arg=3D0x62e000000400) at ..=
+/accel/kvm/kvm-cpus.c:49
+  #18 0x000055a1032c08f8 in qemu_thread_start (args=3D0x603000082780) at ..=
+/util/qemu-thread-posix.c:521
+  #19 0x00007f845caa96db in start_thread (arg=3D0x7f8349dff700) at pthread_=
+create.c:463
+  #20 0x00007f845c7d2a3f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  =
+
+  The poc is attached.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1905521/+subscriptions
 
