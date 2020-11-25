@@ -2,97 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D2C2C3C36
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 10:33:22 +0100 (CET)
-Received: from localhost ([::1]:59456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD7C2C3C3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Nov 2020 10:36:38 +0100 (CET)
+Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1khrAv-0004b8-47
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 04:33:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59954)
+	id 1khrE5-0008Ge-U9
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 04:36:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khr8d-0003Xu-WE
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 04:31:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46487)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1khr8b-0006L6-Uh
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 04:30:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606296656;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8/fQ+BRB8mHAS2bjUfCv+NrFaC/Djp9Z/00CRKhq/JA=;
- b=XLgqfGs3KsrdKs/fTBA0AreWNcLpco3redxkGEQCnvrKQcKuxFkl2BXYbLFEoE5NeSBaKY
- n10JYe+cqfoLBmzFWGDlLS/E7IULqjMzvqewnUsO1B7LohQP2wvF+ChF/RZnuCOyxrwmOf
- +LWtBjSpTSdv0bMN2DqROgd1X/mb0oI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-DOnoIFdLN12tM3meHKgr6w-1; Wed, 25 Nov 2020 04:30:52 -0500
-X-MC-Unique: DOnoIFdLN12tM3meHKgr6w-1
-Received: by mail-wm1-f72.google.com with SMTP id y26so256341wmj.7
- for <qemu-devel@nongnu.org>; Wed, 25 Nov 2020 01:30:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8/fQ+BRB8mHAS2bjUfCv+NrFaC/Djp9Z/00CRKhq/JA=;
- b=ZjP+vC1XAT8QOQDg5PUTQA/3KCYKp4yT1MjYL2tOCyWcwrw1UKG7B4wj+HjJ9ZVX60
- oBWkGVLmOmSrJ51MYWcfeimP3AhnYrzpV+fF/q95oyW9d0x7Xuw1tfAMRTJzUsn2w1J4
- Toi48ALkP0Op6sr4Ue5krCu9fblfVN29FFleSJyMxnpjw1O4LaJpgHri9VlO7Q2Hpbv3
- JgbFDy8i2FO5P/b9Ssobd4FVxIdXIxzDXpUl6g/yDZ7H6slXN9xKgM43no30iUlEoc7r
- vtXWwX7EBt+ysGaqjoev7dBzVqglTClnz6udifL/FEBCCqoAM6PLGDBl9gO+nToDcxvP
- c+kA==
-X-Gm-Message-State: AOAM5327h9X71X20ivHG1rI1FvBEanSGU098ufpBbDUoCKe2MPVU6DNT
- 9PVcqjSjdvVznIAgiaKRRrENXBWu6fMDS7L/u6ibqmATn5htwWmkSr+4PvM7XKWUMmhVBvCuvol
- Os5FKgJ/NGtt5XII=
-X-Received: by 2002:a5d:52c1:: with SMTP id r1mr3083672wrv.255.1606296651101; 
- Wed, 25 Nov 2020 01:30:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy+de33/7QeRq4Llom0Q27zXBdFOmbEgBOccaIQz8vIsGm71V+9FZeuWvAXbPDnqe5JBRkLXA==
-X-Received: by 2002:a5d:52c1:: with SMTP id r1mr3083638wrv.255.1606296650850; 
- Wed, 25 Nov 2020 01:30:50 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q5sm3802068wrf.41.2020.11.25.01.30.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Nov 2020 01:30:49 -0800 (PST)
-To: Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khr9j-0004II-MF
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 04:32:09 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56940)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1khr9h-0006hC-H1
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 04:32:07 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BC2CDAC6A;
+ Wed, 25 Nov 2020 09:32:02 +0000 (UTC)
+Subject: Re: [RFC v5 12/12] accel: centralize initialization of CpusAccelOps
+To: Eduardo Habkost <ehabkost@redhat.com>
 References: <20201124162210.8796-1-cfontana@suse.de>
- <20201124162210.8796-10-cfontana@suse.de>
- <20201124170832.GS2271382@habkost.net>
- <a7bed792-5c6f-c49e-946c-f705707ce685@suse.de>
- <20201124190807.GW2271382@habkost.net>
- <58e4d100-f096-0c41-4780-b8b7e9533b5d@redhat.com>
- <7a3e2790-1924-3d03-d588-a904d7e19282@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC v5 09/12] module: introduce MODULE_INIT_ACCEL_CPU
-Message-ID: <3360fb6f-d1ce-5b7e-0d2f-784e8a8345cf@redhat.com>
-Date: Wed, 25 Nov 2020 10:30:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ <20201124162210.8796-13-cfontana@suse.de>
+ <20201124174821.GT2271382@habkost.net>
+ <4deb0de9-9556-85da-76fb-8050551d6dd6@suse.de>
+ <20201124192756.GX2271382@habkost.net>
+ <115546ec-1024-e515-8eba-b89937fb23ac@suse.de>
+ <20201124203452.GZ2271382@habkost.net>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <60e9ff3e-8896-c9a1-302c-c1378a48a564@suse.de>
+Date: Wed, 25 Nov 2020 10:32:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <7a3e2790-1924-3d03-d588-a904d7e19282@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201124203452.GZ2271382@habkost.net>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,49 +60,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul@xen.org>, Olaf Hering <ohering@suse.de>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Bruce Rogers <brogers@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, "Emilio G . Cota" <cota@braap.org>,
- haxm-team@intel.com, Peter Xu <peterx@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Dario Faggioli <dfaggioli@suse.com>,
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Colin Xu <colin.xu@intel.com>
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/11/20 10:21, Claudio Fontana wrote:
-> Hi Paolo,
+On 11/24/20 9:34 PM, Eduardo Habkost wrote:
+> On Tue, Nov 24, 2020 at 08:39:33PM +0100, Claudio Fontana wrote:
+>> On 11/24/20 8:27 PM, Eduardo Habkost wrote:
+>>> On Tue, Nov 24, 2020 at 07:52:15PM +0100, Claudio Fontana wrote:
+>>> [...]
+>>>>>> +    }
+>>>>>
+>>>>> Additionally, if you call arch_cpu_accel_init() here, you won't
+>>>>> need MODULE_INIT_ACCEL_CPU anymore.  The
+>>>>>
+>>>>>   module_call_init(MODULE_INIT_ACCEL_CPU)
+>>>>>
+>>>>> call with implicit dependencies on runtime state inside vl.c and
+>>>>> *-user/main.c becomes a trivial:
+>>>>>
+>>>>>   accel_init(accel)
+>>>>>
+>>>>> call in accel_init_machine() and *-user:main().
+>>>>
+>>>>
+>>>>
+>>>> I do need a separate thing for the arch cpu accel specialization though,
+>>>> without MODULE_INIT_ACCEL_CPU that link between all operations done at accel-chosen time is missing..
+>>>>
+>>>
+>>> I think this is a key point we need to sort out.
+>>>
+>>> What do you mean by "link between all operations done at
+>>> accel-chosen time" and why that's important?
+>>
+>>
+>> For understanding by a reader that tries to figure this out,
+>> (see the gid MODULE_INIT_ACCEL_CPU comment elsewhere in the thread).
 > 
-> in RFC v5 , module init for ACCEL_CPU is not conditional anymore, right?
-> But the fact that its behavior depends on current_accel() still disqualifies it?
-> It is called right after the accelerator is chosen and initialized
-> in RFC v5, this still is "in the middle of the machine creation sequence"?
-Yes, machine creation basically starts after command line parsing, or 
-perhaps even _with_ command line parsing.  Basically once the user can 
-control the flow it is already too late.
+> Right, but how does the module_call_init(MODULE_INIT_ACCEL_CPU)
+> indirection makes this easier to figure out than just looking at
+> a accel_init() function that makes regular function calls?
 
-> I am trying to find the actual things to fix, since when doing RFC
-> v5  I tried to specifically address two points:
+
+I agree, if we accomplish a single accel_init() call that does everything (accelerator initialization and arch independent ops initialization and arch dependent specialization of the x86 cpu),
+that would be the best outcome in my view also.
+
+
 > 
-> 1) no if () inside module init functions
 > 
-> 2) no proliferation of module init functions
+>>
+>> And it could be that the high level plan to make accelerators fully dynamically loadable plugins in the future
+>> also conditioned me to want to have a very clear demarcation line around the choice of the accelerator.
 > 
-> which I accomplished via AccelClass extension to user mode, current_accel(), and class lookup.
+> We have dynamically loadable modules for other QOM types,
+> already, and they just use type_init().  I don't see why an extra
+> module_init() type makes this easier.
+> 
+>>
+>>
+>>>
+>>> accel_init_machine() has 2-3 lines of code with side effects.  It
+>>> calls AccelClass.init_machine(), which may may have hundreds of
+>>
+>>
+>> could we initialize also all arch-dependent stuff in here?
+> 
+> You can, if you use a wrapper + stub, like arch_cpu_accel_init().
+> 
 
-Yes, the rest is great, I'm just not sure that MODULE_INIT_ACCEL_CPU is 
-useful and if virtual functions on accel and CPU_RESOLVING_TYPE can 
-achieve the same.
+As mentioned elsewhere, I'll try to avoid stubs. One is too many I think in the codebase (well one is probably ok, but you get what I mean, I don't like their proliferation).
 
-> If MODULE_INIT_ACCEL_CPU remains an option, where would you like to see the call so that it is not "in the middle"?
+> 
+>>
+>>
+>>> lines of code.  accel_setup_post() has one additional method
+>>> call, which is triggered at a slightly different moment.
+>>>
+>>> You are using MODULE_INIT_ACCEL for 2 additional lines of code:
+>>> - the cpus_register_accel() call
+>>> - the x86_cpu_accel_init() call
+>>>
+>>> What makes those 2 lines of code so special, to make them deserve
+>>> a completely new mechanism to trigger them, instead of using
+>>> trivial function calls inside a accel_init() function?
+>>>
+>>
+>> ...can we do also the x86_cpu_accel_init inside accel_init()?
+>>
+>>
+>> In any case I'll try also the alternative, it would be nice if I could bring everything together under the same roof,
+>> and easily discoverable, both the arch-specific steps that we need to do at accel-chosen time and the non-arch-specific steps.
+> 
+> One way to bring everything together under the same roof is to
+> call everything inside a accel_init() function.
 
-No later than the runstate_init() call, roughly.
+Will try!
 
-Paolo
 
+> 
+> 
+>>
+>> Hope this helps clarifying where I am coming from,
+>> but I am open to have my mind changed, also trying the alternatives you propose here could help me see first hand how things play out.
+> 
+> Thanks!
+> 
+
+Thanks,
+
+Ciao,
+
+Claudio
 
