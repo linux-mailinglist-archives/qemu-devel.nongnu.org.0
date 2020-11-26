@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC0D2C5521
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 14:20:22 +0100 (CET)
-Received: from localhost ([::1]:44414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE1C2C5549
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 14:27:49 +0100 (CET)
+Received: from localhost ([::1]:51118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiHC9-0007Z7-RG
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 08:20:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
+	id 1kiHJK-0002Ow-Cj
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 08:27:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kiH8S-0005jx-3r
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:16:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50332)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kiHH5-0001b3-I5
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:25:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kiH8N-0007g3-Qb
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:16:31 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kiHH0-00024t-QT
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:25:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606396585;
+ s=mimecast20190719; t=1606397120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u/rRYtcTIEk8McFRGIQaSKToUARu2tQnOZbfvtojdMw=;
- b=VLZMwfaCElOaLB4Rmx75O42lS7rcHpIvxB1xzAZbr8VMXLIxfVuJPvjVQMtWa1nw9vOp5b
- 2UzcW/2J000iMv9D89StQXGrfLRV4NV0pSJaoMsA+96tZ8FFqwTdfCcZ2QItgcu6leKZQ8
- F6a3ihjmPIGgPGjOGt7hz0EKY92yrMc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-D7gKtSANN7C-rnifVTMzhA-1; Thu, 26 Nov 2020 08:16:23 -0500
-X-MC-Unique: D7gKtSANN7C-rnifVTMzhA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36540805BFB;
- Thu, 26 Nov 2020 13:16:22 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-133.ams2.redhat.com [10.36.113.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB18760636;
- Thu, 26 Nov 2020 13:16:16 +0000 (UTC)
-Subject: Re: [PATCH v2] tests/acceptance: add a test for devices on s390x
-To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
-References: <20201126130158.1471985-1-cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <5f3948f4-e476-5acb-437f-83e5fcac7336@redhat.com>
-Date: Thu, 26 Nov 2020 14:16:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ bh=Y7jh8pQtnRJpFKFr9TucWJZ8bJh+BuzJOonrExBkq0k=;
+ b=VbjCL5hPDmzGe8MV53Ov1rE7WjJ6uWxtu/AOabyHwPb5f2VNR2XBAdyiJardb1wjuNFP/d
+ ebHJGD0FoBUBKaw/7Tms9WUucH5N26ogfNcoR5StAUIllUmg1bwc9zhYgS3gQDncqN/AP7
+ MGf/7wWxbyt1SgHZuQe5TbbMsKOvVpw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-PehRY6nsMiG67AMB5fUDKg-1; Thu, 26 Nov 2020 08:25:18 -0500
+X-MC-Unique: PehRY6nsMiG67AMB5fUDKg-1
+Received: by mail-wr1-f69.google.com with SMTP id z13so1287446wrm.19
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 05:25:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Y7jh8pQtnRJpFKFr9TucWJZ8bJh+BuzJOonrExBkq0k=;
+ b=SRhj+rwRzYwLXwVkxhdU2Y3Vv8NZIgmqqkssR/0uyP+EHbmOrMlkd6qCuzDvTlWrT7
+ H5KX9DtmAh7vyzgp0jXqUCfKdShSf+UIGwDoDDPBvaxdezpzJAV1CzDvAIggeBwKYlMN
+ 6v/Hiz9kZrKFktvKHc7iQsJ2OU6Z2lY1ZUU6Nt7QHmYtl1zOubsnUKb4CJrDssoW+dMq
+ DTaoUaKQKZ2E/GY8f08ybgKcbbVPWoYTYhRaaAy2l0YVQkelKcnV8Dwtd+IuvYMOYjMP
+ fWQSonK0sLNUAWYFGeDkiyqKuZZCtTQf1694LGdOxP3O3cESH4LzjTaVW+RrThSql9Me
+ X1dQ==
+X-Gm-Message-State: AOAM533nfL6uUeRX60m0j5GXXR555AsPZDnUPXwK9s2iNyR2Rpp2ubLH
+ PcPfuv2cTeVC/33l3FVxfNgr/0K/LFt9BIyB9HS+74cvdM4c22uwxTA7fYgP6XGBT2z1C4La6Kd
+ hLbrqO92F6C7CfVs=
+X-Received: by 2002:a7b:c5c6:: with SMTP id n6mr3313687wmk.131.1606397117612; 
+ Thu, 26 Nov 2020 05:25:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwbC0NTLOkXr2BsKMAePXaPZUET44Hj7G5NoME88+x80cxKlo9wiHkUDYNiTtkYFfDR2bk5wg==
+X-Received: by 2002:a7b:c5c6:: with SMTP id n6mr3313661wmk.131.1606397117405; 
+ Thu, 26 Nov 2020 05:25:17 -0800 (PST)
+Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
+ by smtp.gmail.com with ESMTPSA id s4sm8953961wru.56.2020.11.26.05.25.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Nov 2020 05:25:16 -0800 (PST)
+Date: Thu, 26 Nov 2020 08:25:14 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Subject: Re: [DISCUSSION] Allow ACPI default OEM ID and OEM table ID fields
+ to be set.
+Message-ID: <20201126082033-mutt-send-email-mst@kernel.org>
+References: <20201125132711.jqb7znxu5jpoanwi@tartarus>
+ <20201125133251.GI30079@redhat.com>
+ <20201125110221-mutt-send-email-mst@kernel.org>
+ <20201125201322.urze5b7vwaa2t5sy@tartarus>
+ <20201126051838-mutt-send-email-mst@kernel.org>
+ <0d63ed0e-4dae-9f7e-9512-45c94e1968f0@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201126130158.1471985-1-cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <0d63ed0e-4dae-9f7e-9512-45c94e1968f0@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,124 +96,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Antoine Damhet <antoine.damhet@blade-group.com>,
+ Igor Mammedov <imammedo@redhat.com>, "Richard W.M. Jones" <rjones@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/11/2020 14.01, Cornelia Huck wrote:
-> This adds a very basic test for checking that we present devices
-> in a way that Linux can consume: boot with both virtio-net-ccw and
-> virtio-net-pci attached and then verify that Linux is able to see
-> and detect these devices.
+On Thu, Nov 26, 2020 at 01:51:43PM +0100, Laszlo Ersek wrote:
+> On 11/26/20 12:09, Michael S. Tsirkin wrote:
+> > On Wed, Nov 25, 2020 at 09:13:22PM +0100, Antoine Damhet wrote:
+> >> On Wed, Nov 25, 2020 at 11:04:55AM -0500, Michael S. Tsirkin wrote:
+> >>> On Wed, Nov 25, 2020 at 01:32:51PM +0000, Richard W.M. Jones wrote:
+> >>>> On Wed, Nov 25, 2020 at 02:27:11PM +0100, Antoine Damhet wrote:
+> >>>>> Hello,
+> >>>>>
+> >>>>> We recently found out that some softwares are effectively crashing
+> >>>>> when they detect qemu's `OEM ID` or `OEM table ID` in the ACPI tables.
+> >>>>>
+> >>>>> I see no reason not to expose the setting to the user/command-line. A
+> >>>>> previous patch has been submitted in 2015[1] but did not get through
+> >>>>> because (if I understand correctly) using the IDs on the `SLIC`, `BXPC`
+> >>>>> and `RSDT` tables were enough at the time.
+> >>>>>
+> >>>>> If you agree, I am willing to forward port the patches of M. Jones but I
+> >>>>> need to ask how it would work `Signed-Off`-wise ?
+> >>>>
+> >>>> On this point, the patch I sent was actually written by
+> >>>> Michael Tokarev, I was only trying to get them upstream.
+> >>>>
+> >>>> Rich.
+> >>>
+> >>> I think at least one of the issues is that e.g. UEFI at least
+> >>> seems to assume unique OEM table IDs e.g. for SSDTs.
+> >>>
+> >>> So let's try to be more specific please, which software
+> >>> crashes, what does it want to see and in which table.
+> >>
+> >> I'm sorry I cannot give you the name of the crashing software due to a
+> >> company policy. But I can tell you that if either `BOCHS ` or `BXPC` is
+> >> present in any of the tables it will crash. Any (or at least the few
+> >> that I threw at it) other string will work so it seems it's some kind
+> >> of DRM-related hypervisor detection.
+> > 
+> > Hmm I'm not sure how far we want to go with this. If software vendors
+> > want to detect a hypervisor there will always be a way.
+> > How are we sure we are not starting an arms race here?
+> > 
+> > Also which of the IDs matter?  OEMID? OEM Table ID? Creator ID?
+> > 
+> > 
+> >> As for the uniqueness of the table IDs, I guess it would be sane to keep
+> >> the same pattern (id+table sig) but allowing the first 4 bytes to be
+> >> overridden.
+> >>
+> >> [...]
+> > 
+> > It's certainly possible, it's just very specific to just this DRM scheme.
+> > Not sure what's a better way to do it:
+> >   qemu -acpidefault oem_id=ABCD,oem_table_id=EFGHIJKL
+> > is probably going too far since then table IDs are not unique.
+> > 
+> > Also I'd probably use machine properties for this, the need here
+> > is baroque enough that we don't want a dedicated option.
 > 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
-> RFC->v2:
->  - use a newer kernel that uses the uid in zpci address generation
->  - add a zpci device to specify a uid
->  - increase timeout
->  - tweak naming
->  - add a MAINTAINERS entry
-> ---
->  MAINTAINERS                                 |  1 +
->  tests/acceptance/machine_s390_ccw_virtio.py | 70 +++++++++++++++++++++
->  2 files changed, 71 insertions(+)
->  create mode 100644 tests/acceptance/machine_s390_ccw_virtio.py
+> Minimally, I dislike the partial overlap with the existent "-acpitable"
+> switch.
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 68bc160f41bc..cc1c7c2ffed8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1426,6 +1426,7 @@ F: include/hw/s390x/
->  F: hw/watchdog/wdt_diag288.c
->  F: include/hw/watchdog/wdt_diag288.h
->  F: default-configs/s390x-softmmu.mak
-> +F: tests/acceptance/machine_s390_ccw_virtio.py
->  T: git https://github.com/cohuck/qemu.git s390-next
->  T: git https://github.com/borntraeger/qemu.git s390-next
->  L: qemu-s390x@nongnu.org
-> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-> new file mode 100644
-> index 000000000000..1f56be776c5f
-> --- /dev/null
-> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
-> @@ -0,0 +1,70 @@
-> +# Functional test that boots an s390x Linux guest with ccw and PCI devices
-> +# attached and checks whether the devices are recognized by Linux
-> +#
-> +# Copyright (c) 2020 Red Hat, Inc.
-> +#
-> +# Author:
-> +#  Cornelia Huck <cohuck@redhat.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +
-> +import os
-> +
-> +from avocado_qemu import Test
-> +from avocado_qemu import exec_command_and_wait_for_pattern
-> +from avocado_qemu import wait_for_console_pattern
-> +
-> +class S390CCWVirtioMachine(Test):
-> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-> +
-> +    def wait_for_console_pattern(self, success_message, vm=None):
-> +        wait_for_console_pattern(self, success_message,
-> +                                 failure_message='Kernel panic - not syncing',
-> +                                 vm=vm)
-> +
-> +    timeout = 120
-> +
-> +    def test_s390x_devices(self):
-> +
-> +        """
-> +        :avocado: tags=arch:s390x
-> +        :avocado: tags=machine:s390-ccw-virtio
-> +        """
-> +
-> +        kernel_url = ('https://snapshot.debian.org/archive/debian/'
-> +                      '20201126T092837Z/dists/buster/main/installer-s390x/'
-> +                      '20190702+deb10u6/images/generic/kernel.debian')
-> +        kernel_hash = '5821fbee57d6220a067a8b967d24595621aa1eb6'
-> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-> +
-> +        initrd_url = ('https://snapshot.debian.org/archive/debian/'
-> +                      '20201126T092837Z/dists/buster/main/installer-s390x/'
-> +                      '20190702+deb10u6/images/generic/initrd.debian')
-> +        initrd_hash = '81ba09c97bef46e8f4660ac25b4ac0a5be3a94d6'
-> +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-> +
-> +        self.vm.set_console()
-> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-> +                              'console=sclp0 root=/dev/ram0 BOOT_DEBUG=3')
-> +        self.vm.add_args('-nographic',
-> +                         '-kernel', kernel_path,
-> +                         '-initrd', initrd_path,
-> +                         '-append', kernel_command_line,
-> +                         '-device', 'virtio-net-ccw,devno=fe.1.1111',
-> +                         '-device', 'zpci,uid=5,target=zzz',
-> +                         '-device', 'virtio-net-pci,id=zzz')
-> +        self.vm.launch()
-> +
-> +        shell_ready = "sh: can't access tty; job control turned off"
-> +        self.wait_for_console_pattern(shell_ready)
-> +        # first debug shell is too early, we need to wait for device detection
-> +        exec_command_and_wait_for_pattern(self, 'exit', shell_ready)
-> +
-> +        ccw_bus_id="0.1.1111"
-> +        pci_bus_id="0005:00:00.0"
-> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
-> +                                          ccw_bus_id)
-> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/pci/devices/',
-> +                                          pci_bus_id)
-> 
+> Thanks
+> Laszlo
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Well the existing -acpitable is very powerful and easy to break guests
+with, it can not really be fully supported.
+
+> > 
+> >>
+> >> -- 
+> >> Antoine 'xdbob' Damhet
+> > 
 
 
