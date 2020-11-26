@@ -2,48 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5732E2C56DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 15:15:18 +0100 (CET)
-Received: from localhost ([::1]:52974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EBE2C5707
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 15:24:29 +0100 (CET)
+Received: from localhost ([::1]:36484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiI3J-00012J-Cu
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 09:15:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56824)
+	id 1kiICC-0006Al-Qv
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 09:24:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiI1o-0008V2-Qo
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:13:45 -0500
-Received: from mx2.suse.de ([195.135.220.15]:46246)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiI1f-0002oT-9i
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:13:42 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id ED119AD20;
- Thu, 26 Nov 2020 14:13:33 +0000 (UTC)
-Subject: Re: [PATCH v2 2/6] accel: accel_available() function
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201125205636.3305257-1-ehabkost@redhat.com>
- <20201125205636.3305257-3-ehabkost@redhat.com>
- <12f82771-9db9-8fcd-ea25-736428d2650a@suse.de>
- <20201126133645.GG2271382@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <8d90d611-6545-a478-1316-542dc5424b92@suse.de>
-Date: Thu, 26 Nov 2020 15:13:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kiIAH-0004WC-4X
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:22:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37778)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kiIAD-0005mj-0d
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:22:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606400543;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=h5ROIBYB6eKLXY4zShSMAzpTSYTH7Ph1hUnnK7WWPC0=;
+ b=hS5YRyNcqCWjirzP+vSu2fnDvXYeoU4OfKvMSy/q59ESm8+rrE0uiOAusGVijU7u5QySgo
+ tNudJQfzBgmdDfhCAiButSYtOOE8CtostWg9wq22R0iCrkluu+v0XClO+QodaAEq13Ez9M
+ sL2Gbw/QtxiDaa9i/TvG4/VW2ZIDKT0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-p1TnDX6dMaKZ-LBj-DTHjw-1; Thu, 26 Nov 2020 09:22:20 -0500
+X-MC-Unique: p1TnDX6dMaKZ-LBj-DTHjw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7988156C33
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 14:22:19 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45DE810021B3
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 14:22:19 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 0/4] Final (?) batch of misc patches for QEMU 5.2
+Date: Thu, 26 Nov 2020 09:22:14 -0500
+Message-Id: <20201126142218.3121595-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201126133645.GG2271382@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,76 +76,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/26/20 2:36 PM, Eduardo Habkost wrote:
-> On Thu, Nov 26, 2020 at 10:14:31AM +0100, Claudio Fontana wrote:
->> Hi Eduardo,
->>
->> On 11/25/20 9:56 PM, Eduardo Habkost wrote:
->>> This function will be used to replace the xen_available() and
->>> kvm_available() functions from arch_init.c.
->>>
->>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>> ---
->>> Cc: Richard Henderson <richard.henderson@linaro.org>
->>> Cc: Paolo Bonzini <pbonzini@redhat.com>
->>> Cc: Claudio Fontana <cfontana@suse.de>
->>> Cc: Roman Bolshakov <r.bolshakov@yadro.com>
->>> ---
->>>  include/sysemu/accel.h | 1 +
->>>  accel/accel.c          | 5 +++++
->>>  2 files changed, 6 insertions(+)
->>>
->>> diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
->>> index e08b8ab8fa..a4a00c75c8 100644
->>> --- a/include/sysemu/accel.h
->>> +++ b/include/sysemu/accel.h
->>> @@ -67,6 +67,7 @@ typedef struct AccelClass {
->>>      OBJECT_GET_CLASS(AccelClass, (obj), TYPE_ACCEL)
->>>  
->>>  AccelClass *accel_find(const char *opt_name);
->>> +bool accel_available(const char *name);
->>>  int accel_init_machine(AccelState *accel, MachineState *ms);
->>>  
->>>  /* Called just before os_setup_post (ie just before drop OS privs) */
->>> diff --git a/accel/accel.c b/accel/accel.c
->>> index cb555e3b06..4a64a2b38a 100644
->>> --- a/accel/accel.c
->>> +++ b/accel/accel.c
->>> @@ -46,6 +46,11 @@ AccelClass *accel_find(const char *opt_name)
->>>      return ac;
->>>  }
->>>  
->>> +bool accel_available(const char *name)
->>> +{
->>> +    return accel_find(name) != NULL;
->>
->>
->> accel_find() in its implementation allocates and then frees memory to generate the string,
->> the user of accel_available() might be unaware and overuse leading to fragmentation/performance issues?
-> 
-> Is that a real issue?  We had only 3 users of kvm_available() and
-> xen_available() since those functions were added 10 years ago.
-> 
-> Do you have any suggestions on what we should do?
-> 
+The following changes since commit 8cc30eb1400fc01f2b139cdd3dc524f8b84dbe07:
 
-One option I see is simply to document the behavior where accel_available() is declared in accel.h (ie do not use in fast path), as well as in accel_find() actually,
-so that both accel_find() and accel_available() are avoided in fast path and avoid being called frequently at runtime.
+  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20201122' into staging (2020-11-22 15:02:52 +0000)
 
-Another option could be to remove the allocation completely, and use for example accel_find(ACCEL_CLASS_NAME("tcg")),
-or another option again would be to remove the allocation and use either a fixed buffer + snprintf, or alloca -like builtin code to use the stack, ...
+are available in the Git repository at:
 
-Not a big deal, but with a general utility and short name like accel_available(name) it might be tempting to use this more in the future?
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-Ciao,
+for you to fetch changes up to 24bdcc9608fad3dce2bcf3362722493f1ba0f3eb:
 
-Claudio
+  nsis: Fix build for 64 bit installer (2020-11-26 09:20:48 -0500)
+
+v1->v2: dropped i386 patch
+
+----------------------------------------------------------------
+Remove obsolete setuptools dependency and fix Stefan's
+Win32 builds.
+
+----------------------------------------------------------------
+Olaf Hering (1):
+      configure: remove python pkg_resources check
+
+Paolo Bonzini (2):
+      meson: use dependency() to find libjpeg
+      tests/docker, tests/vm: remove setuptools from images
+
+Stefan Weil (1):
+      nsis: Fix build for 64 bit installer
+
+ .cirrus.yml                                        | 1 -
+ configure                                          | 3 ---
+ meson.build                                        | 7 +++----
+ tests/docker/dockerfiles/debian10.docker           | 1 -
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 1 -
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 1 -
+ tests/vm/freebsd                                   | 1 -
+ tests/vm/haiku.x86_64                              | 1 -
+ tests/vm/netbsd                                    | 1 -
+ tests/vm/openbsd                                   | 1 -
+ 10 files changed, 3 insertions(+), 15 deletions(-)
+-- 
+2.26.2
 
 
