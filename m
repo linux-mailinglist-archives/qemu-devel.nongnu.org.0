@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77662C5365
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 12:58:04 +0100 (CET)
-Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6EE02C536A
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:00:28 +0100 (CET)
+Received: from localhost ([::1]:57790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiFuV-0001u6-Rp
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 06:58:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45424)
+	id 1kiFwp-0003fS-Sq
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:00:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiFs9-0000eF-F0
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:55:37 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:41501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiFs7-0006Vt-Rg
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:55:37 -0500
-Received: by mail-ej1-x644.google.com with SMTP id gj5so2512098ejb.8
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 03:55:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rBm7TqlGv+Y96tWgQKyII0nQ3apBWaTPBQIEewmx53c=;
- b=UyMarC/CxiZPWUKbnRsg6fHhFhdFl+Ayxn2hWCMpvMvhN+qf2KsERFnaJeLd/gKS+3
- hbITYnXbCkVjoZ6xTpiZf+Sz2fQLEGJMlglFIqD4aEMvgQi7ckLRiM5fIX7zciaUcuJQ
- nbMXKmHGKq96Xd/vEiIg0ocOaMGF8rm5tTZaxLsCj/yump5L8ADH6wAY9ZV0+pWzahRh
- h/DGvxL9kysX9XUJVwNx5rx/egM7fm6pz8UELEX0rsB3Xp84z0JRUh8hzEvc4HEsPGib
- BQ5mC2x0r+GDQ9uj04KxO3Yi4XPu42cD0aWX/Kypnn4aVAVWw//jZ5mz5fjY2PXWtvqX
- ZP1A==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kiFsM-0000nq-CL
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:55:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35368)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kiFsI-0006e6-UY
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:55:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606391744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7YqBn8jAqyGKV/2OXH7i5yOki/3LiEWzoVQjmVGl9Uo=;
+ b=OOEBq14tyGhaEyberTd58ebgqCgrWNsWCExTkavhoORrRbbwN3+08I1QgIcohy9KEMpKiY
+ Lt4rhozrSMRQtYIfZTup4RQzVniDVjJAN++P0QAs31xIkbP/H34XQzfy1Re5ZZKKcYRYma
+ 8DHLeXcTeF2TlOTIChLzRt8mmN3ebbY=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-93-whGnt4SSN2erj9sVCEozRw-1; Thu, 26 Nov 2020 06:55:41 -0500
+X-MC-Unique: whGnt4SSN2erj9sVCEozRw-1
+Received: by mail-io1-f72.google.com with SMTP id b4so1285043ioa.4
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 03:55:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=rBm7TqlGv+Y96tWgQKyII0nQ3apBWaTPBQIEewmx53c=;
- b=bOyZ068Pu+syZYe24s9G/gNuMJOHH2OUno7ZQc/hkcnjxm3GsIVGbYeH0LtFIqWBxz
- EyV6xQpn48JhhqQLHcoKxrSYhtNGU8MZTlBYc/V/eMrbccPBZS0Nrd2mvdh6rCEm4jxe
- OMM5jaK5uk1hkfisqm81soRw5Uosd/8OAwp8zCNo47CmkoAdry52WNDlDdP7nIwgsmvV
- RU5UxE6BzDZNmKqP/2PbJXsVO55EfxlDxZ3BdtkRpoiEcZe9lx/VNG/4Yi7zKhS/3gTf
- S1bitWO/JzN9UNM26p02AHw925amuVxb6CNtXK51LD+vgSNI/HUitsMHHk3r2YxZuJwp
- LE2Q==
-X-Gm-Message-State: AOAM533zeE+F13ZvpjMMGUSW35iFBiTRpNwi8LYiAYQzflPuF0hrXVY5
- a4j22Hq0XGZXuZ+v5sbm+JDrRvLaoSpIfoJkHcn7qw==
-X-Google-Smtp-Source: ABdhPJzCDHTLYUFIqd1p0FOpL3OWCUwSBhkiP570JuwyhKPSiAndNfd30aJM+sd31H8D4KhHWzjP9R+MZcV5fd5S1pA=
-X-Received: by 2002:a17:906:5a88:: with SMTP id
- l8mr2320201ejq.407.1606391733698; 
- Thu, 26 Nov 2020 03:55:33 -0800 (PST)
+ bh=7YqBn8jAqyGKV/2OXH7i5yOki/3LiEWzoVQjmVGl9Uo=;
+ b=WInAoRejL2zB0ZkMa6A45l2LziSzO8wX4zmgx0SdfyjPjeUaeHxP8GFlCQ/PhMCBHZ
+ cmmNBfQM1RItQQ7g2rhPhzsyNN6xsLtG8crwh0mwHt9lTq7+sMFtM+4jQXvKrJbDE9OY
+ /lHP/xAysUyQmR5kHXYehjTvxAdC69vXm5mmhzSmyzTtwNQw/QAQZ3xGcO06KBGkWIGl
+ vlbgsHk+JA+4onACozAC/GaNxUO/WX/8FDha9FgJrXz+XEZfQrCuki247DNzhtv+vgrX
+ fRUNGdlcPnUAOIiqdJ++aWkQFub9DlxjwdMbHDx2lBBYZ65SQfSJx4Ec5pUD60+nXBXi
+ nFvA==
+X-Gm-Message-State: AOAM5331pOoloukBf7qlpLLlXGFyvd6sWJCN+wUa7koqFRl/M6hu+dfD
+ tUB9xJcKH2Kpl0MIUHSSKKaZHoLqU+BGNraggp+zy4oetCHZ4vDM+CdM+2bIq4PYcpQFZFmx/wk
+ 8CayHxZwxdyCOhN4n+h4C5MWpe1tKM/c=
+X-Received: by 2002:a5d:858b:: with SMTP id f11mr2006219ioj.0.1606391741202;
+ Thu, 26 Nov 2020 03:55:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwO8s4j3K9Zn60srz+nf9OSkYNUC40UD/yQWxmdi15mfKFLcUPEjGEEbCjsQ45FSjVqxuCbtlIKjWKZ6wWbq6U=
+X-Received: by 2002:a5d:858b:: with SMTP id f11mr2006212ioj.0.1606391741012;
+ Thu, 26 Nov 2020 03:55:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
- <20201126112915.525285-5-marcandre.lureau@redhat.com>
-In-Reply-To: <20201126112915.525285-5-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Nov 2020 11:55:22 +0000
-Message-ID: <CAFEAcA-P=PMn92xYG4xUo6EuQVzvCDcyTvCpO_mfyOLWLB19Xw@mail.gmail.com>
-Subject: Re: [PATCH v2 04/13] compiler.h: remove GCC < 3 __builtin_expect
- fallback
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+ <20201126112915.525285-2-marcandre.lureau@redhat.com>
+ <CAFEAcA-qDgEG_N8ONha=wTtKGM4v-+3umLiZhA7DzP-1HiRXwQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA-qDgEG_N8ONha=wTtKGM4v-+3umLiZhA7DzP-1HiRXwQ@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 26 Nov 2020 15:55:30 +0400
+Message-ID: <CAMxuvazX5d8wHXZEejwh0dHQ3Q+RibSrbBxBQV4Kd1cd4DKOXg@mail.gmail.com>
+Subject: Re: [PATCH v2 01/13] compiler.h: replace QEMU_GNUC_PREREQ macro
+To: Peter Maydell <peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,20 +96,79 @@ Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Nov 2020 at 11:29, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Since commit efc6c07 ("configure: Add a test for the minimum compiler
-> version"), QEMU explicitely depends on GCC >=3D 4.8.
->
-> (clang >=3D 3.8 advertizes itself as GCC >=3D 4.2 compatible)
+Hi
 
-All clangs always have advertised themselves as gcc-4.2-compatible,
-as far as I'm aware. 3.4 is the version we need to care about,
-I think it probably supported __builtin_expect(). (A test
-of the whole series with gcc 4.8 and clang 3.4 would confirm this.)
+On Thu, Nov 26, 2020 at 3:48 PM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+>
+> On Thu, 26 Nov 2020 at 11:29, <marcandre.lureau@redhat.com> wrote:
+> >
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Replace it with glib G_GNUC_CHECK_VERSION.
+> >
+> > Available since 2.42, the macro received a small correction in
+> > 2.55.1 (glib d44afbadda8a "macros: make G_GNUC_CHECK_VERSION()
+> > portable" which was apparently harmless).
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  include/qemu/atomic.h      |  2 +-
+> >  include/qemu/compiler.h    | 15 +++------------
+> >  scripts/cocci-macro-file.h |  1 -
+> >  accel/tcg/cpu-exec.c       |  2 +-
+> >  4 files changed, 5 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
+> > index c1d211a351..c409257c11 100644
+> > --- a/include/qemu/atomic.h
+> > +++ b/include/qemu/atomic.h
+> > @@ -248,7 +248,7 @@
+> >   * 4.3 (http://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D36793).
+> >   */
+> >  #if defined(__i386__) || defined(__x86_64__)
+> > -#if !QEMU_GNUC_PREREQ(4, 4)
+> > +#if !G_GNUC_CHECK_VERSION(4, 4)
+> >  #if defined __x86_64__
+> >  #define smp_mb()    ({ asm volatile("mfence" ::: "memory"); (void)0; }=
+)
+> >  #else
+> > diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+> > index c76281f354..cf044bab4a 100644
+> > --- a/include/qemu/compiler.h
+> > +++ b/include/qemu/compiler.h
+> > @@ -7,21 +7,12 @@
+> >  #ifndef COMPILER_H
+> >  #define COMPILER_H
+> >
+> > +#include "glib-compat.h"
+>
+> osdep.h already includes glib-compat.h, so if it's safe to
+> include it this early we should just move that #include line
+> in osdep.h up above compiler.h. But I don't think it's going
+> to be quite that simple, because some parts of osdep.h
+> need to happen before we include any system headers, and
+> glib-compat.h includes some system headers. As it stands
+> this fragment will pull in glib-compat.h too early.
+>
+> You probably need to rearrange osdep.h so it is
+>  * config-host.h
+>  * poison.h
+>  * bits that must go before any standard headers
+>  * pure system includes
+>  * glib-compat.h
+>  * compiler.h
+> (and hopefully none of the above needed stuff set up by compiler.h !)
+>
+> Or if this tangle of bits depending on each other seems too
+> messy, we could just leave QEMU_GNUC_PREREQ the way it is :-)
 
-thnaks
--- PMM
+Or I just change the order the header are included in libvhost-user
+(before https://patchew.org/QEMU/20201125100640.366523-1-marcandre.lureau@r=
+edhat.com/
+lands), since that was the reason I didn't include osdep.h iirc.
+
+Anyway, if the rest of the series is accepted, the include should go
+away too (should have done that on top).
+
 
