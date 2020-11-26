@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E356A2C5522
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 14:20:25 +0100 (CET)
-Received: from localhost ([::1]:44632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC0D2C5521
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 14:20:22 +0100 (CET)
+Received: from localhost ([::1]:44414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiHCC-0007eW-W3
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 08:20:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41486)
+	id 1kiHC9-0007Z7-RG
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 08:20:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kiH89-0005ZY-FT; Thu, 26 Nov 2020 08:16:13 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kiH85-0007ZM-1k; Thu, 26 Nov 2020 08:16:13 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4ChdY616Fqz6vVv;
- Thu, 26 Nov 2020 21:15:38 +0800 (CST)
-Received: from [10.174.187.138] (10.174.187.138) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 26 Nov 2020 21:15:51 +0800
-Message-ID: <5FBFAA87.5000400@huawei.com>
-Date: Thu, 26 Nov 2020 21:15:51 +0800
-From: Alex Chen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kiH8S-0005jx-3r
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:16:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50332)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kiH8N-0007g3-Qb
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:16:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606396585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u/rRYtcTIEk8McFRGIQaSKToUARu2tQnOZbfvtojdMw=;
+ b=VLZMwfaCElOaLB4Rmx75O42lS7rcHpIvxB1xzAZbr8VMXLIxfVuJPvjVQMtWa1nw9vOp5b
+ 2UzcW/2J000iMv9D89StQXGrfLRV4NV0pSJaoMsA+96tZ8FFqwTdfCcZ2QItgcu6leKZQ8
+ F6a3ihjmPIGgPGjOGt7hz0EKY92yrMc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-D7gKtSANN7C-rnifVTMzhA-1; Thu, 26 Nov 2020 08:16:23 -0500
+X-MC-Unique: D7gKtSANN7C-rnifVTMzhA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36540805BFB;
+ Thu, 26 Nov 2020 13:16:22 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-133.ams2.redhat.com [10.36.113.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB18760636;
+ Thu, 26 Nov 2020 13:16:16 +0000 (UTC)
+Subject: Re: [PATCH v2] tests/acceptance: add a test for devices on s390x
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+References: <20201126130158.1471985-1-cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <5f3948f4-e476-5acb-437f-83e5fcac7336@redhat.com>
+Date: Thu, 26 Nov 2020 14:16:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] virtfs-proxy-helper: Fix a resource leak in main()
-References: <20201126101624.55714-1-alex.chen@huawei.com>
- <20201126130734.56f2a84a@bahia.lan>
-In-Reply-To: <20201126130734.56f2a84a@bahia.lan>
-Content-Type: text/plain; charset="ISO-8859-1"
+In-Reply-To: <20201126130158.1471985-1-cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.138]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=alex.chen@huawei.com;
- helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,59 +80,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Greg,
-
-Thanks for your review.
-
-On 2020/11/26 20:07, Greg Kurz wrote:
-> On Thu, 26 Nov 2020 10:16:24 +0000
-> Alex Chen <alex.chen@huawei.com> wrote:
+On 26/11/2020 14.01, Cornelia Huck wrote:
+> This adds a very basic test for checking that we present devices
+> in a way that Linux can consume: boot with both virtio-net-ccw and
+> virtio-net-pci attached and then verify that Linux is able to see
+> and detect these devices.
 > 
->> Only one of the options -s and -f can be used. When -f is used,
->> the fd is created externally and does not need to be closed.
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+> RFC->v2:
+>  - use a newer kernel that uses the uid in zpci address generation
+>  - add a zpci device to specify a uid
+>  - increase timeout
+>  - tweak naming
+>  - add a MAINTAINERS entry
+> ---
+>  MAINTAINERS                                 |  1 +
+>  tests/acceptance/machine_s390_ccw_virtio.py | 70 +++++++++++++++++++++
+>  2 files changed, 71 insertions(+)
+>  create mode 100644 tests/acceptance/machine_s390_ccw_virtio.py
 > 
-> The process running virtfs-proxy-helper has its own copy of
-> the fd inherited from its parent. And this fd will be closed
-> eventually when the process terminates.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 68bc160f41bc..cc1c7c2ffed8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1426,6 +1426,7 @@ F: include/hw/s390x/
+>  F: hw/watchdog/wdt_diag288.c
+>  F: include/hw/watchdog/wdt_diag288.h
+>  F: default-configs/s390x-softmmu.mak
+> +F: tests/acceptance/machine_s390_ccw_virtio.py
+>  T: git https://github.com/cohuck/qemu.git s390-next
+>  T: git https://github.com/borntraeger/qemu.git s390-next
+>  L: qemu-s390x@nongnu.org
+> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
+> new file mode 100644
+> index 000000000000..1f56be776c5f
+> --- /dev/null
+> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
+> @@ -0,0 +1,70 @@
+> +# Functional test that boots an s390x Linux guest with ccw and PCI devices
+> +# attached and checks whether the devices are recognized by Linux
+> +#
+> +# Copyright (c) 2020 Red Hat, Inc.
+> +#
+> +# Author:
+> +#  Cornelia Huck <cohuck@redhat.com>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +
+> +import os
+> +
+> +from avocado_qemu import Test
+> +from avocado_qemu import exec_command_and_wait_for_pattern
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class S390CCWVirtioMachine(Test):
+> +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
+> +
+> +    def wait_for_console_pattern(self, success_message, vm=None):
+> +        wait_for_console_pattern(self, success_message,
+> +                                 failure_message='Kernel panic - not syncing',
+> +                                 vm=vm)
+> +
+> +    timeout = 120
+> +
+> +    def test_s390x_devices(self):
+> +
+> +        """
+> +        :avocado: tags=arch:s390x
+> +        :avocado: tags=machine:s390-ccw-virtio
+> +        """
+> +
+> +        kernel_url = ('https://snapshot.debian.org/archive/debian/'
+> +                      '20201126T092837Z/dists/buster/main/installer-s390x/'
+> +                      '20190702+deb10u6/images/generic/kernel.debian')
+> +        kernel_hash = '5821fbee57d6220a067a8b967d24595621aa1eb6'
+> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+> +
+> +        initrd_url = ('https://snapshot.debian.org/archive/debian/'
+> +                      '20201126T092837Z/dists/buster/main/installer-s390x/'
+> +                      '20190702+deb10u6/images/generic/initrd.debian')
+> +        initrd_hash = '81ba09c97bef46e8f4660ac25b4ac0a5be3a94d6'
+> +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+> +
+> +        self.vm.set_console()
+> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+> +                              'console=sclp0 root=/dev/ram0 BOOT_DEBUG=3')
+> +        self.vm.add_args('-nographic',
+> +                         '-kernel', kernel_path,
+> +                         '-initrd', initrd_path,
+> +                         '-append', kernel_command_line,
+> +                         '-device', 'virtio-net-ccw,devno=fe.1.1111',
+> +                         '-device', 'zpci,uid=5,target=zzz',
+> +                         '-device', 'virtio-net-pci,id=zzz')
+> +        self.vm.launch()
+> +
+> +        shell_ready = "sh: can't access tty; job control turned off"
+> +        self.wait_for_console_pattern(shell_ready)
+> +        # first debug shell is too early, we need to wait for device detection
+> +        exec_command_and_wait_for_pattern(self, 'exit', shell_ready)
+> +
+> +        ccw_bus_id="0.1.1111"
+> +        pci_bus_id="0005:00:00.0"
+> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+> +                                          ccw_bus_id)
+> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/pci/devices/',
+> +                                          pci_bus_id)
 > 
->> When -s is used, a new socket fd is created, and this socket fd
->> needs to be closed at the end of main().
->>
-> 
-> Same here, the new socket fd is closed when the process
-> terminates.
 
-IMO, it's best to explicitly release resources before the process terminates,
-just as the variable 'rpath' is explicitly freed in main(),
-so socket fd also needs to be explicitly closed here.
-
-Looking forward to your reply.
-
-> 
-> The only justification to merge such a change would be if
-> the code was sitting in some other function, in which
-> case we should indeed do proper rollback. But it is main()
-> here, so this patch isn't needed.
-> 
->> Reported-by: Euler Robot <euler.robot@huawei.com>
-> 
-> Can you provide a copy of the report in case I'm
-> missing something ?
-> 
-
-Our codecheck tool reports a resource leak here, which is relatively simple,
-like the one below, I did not attach it.
-
----------------------
-"Resource leak: sock"
----------------------
-
-Thanks,
-Alex
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
