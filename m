@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3A22C5324
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 12:38:09 +0100 (CET)
-Received: from localhost ([::1]:46810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379B42C5347
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 12:52:12 +0100 (CET)
+Received: from localhost ([::1]:44864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiFbE-0003M3-IJ
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 06:38:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37930)
+	id 1kiFop-0006It-90
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 06:52:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kiFUG-0004Si-Sc
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:30:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28330)
+ id 1kiFUR-0004ae-6T
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:31:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kiFUF-0006fF-1S
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:30:56 -0500
+ id 1kiFUN-0006lz-Ng
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:31:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606390254;
+ s=mimecast20190719; t=1606390262;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HUbagllB6aSqe2toADC1Gstjc1ag32tbrFS/wjOOmXo=;
- b=MucZnb9tu1YPP9zAhfrf5IEGavMntDHKdG5Kx5+A0IRuPXp21lOq6neZGFaBukDH/m9wjl
- N3fDydanH35eH9xON+ouQFpvWleCgcpfWlY/gElYNrxPfDPnlBrUWqhCfSJcWK4fFpoCjy
- bAbr7TbHVVSQVYG53gYOAIkoLU2IEx8=
+ bh=UTevGdfibyme3XURRVx8yzU7J+hfx+OKI5/cvGjuQhY=;
+ b=ivZRUrkudf3ROHHvPrjupkqJi+mGdTEkrqXvSYeLrxjcJJKvE+Clea+YAEddntsocodJ+g
+ jWrsqZmfeVWUGuIrE8X6HThcXypHaf3DRrdMVT/zp4jBGI2Wjn54sWwneyqZaKUSQslYEl
+ dn2hEgkJbn0Fa1ArEkfAg4gl6oggLOU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-HjYbacLzP9ar5Cf4OD7p6g-1; Thu, 26 Nov 2020 06:30:52 -0500
-X-MC-Unique: HjYbacLzP9ar5Cf4OD7p6g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-272-NWNXdqDwOpO4ey4uRz-1wQ-1; Thu, 26 Nov 2020 06:31:00 -0500
+X-MC-Unique: NWNXdqDwOpO4ey4uRz-1wQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD76A100F772;
- Thu, 26 Nov 2020 11:30:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 771AF100F340;
+ Thu, 26 Nov 2020 11:30:59 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 681565C1BD;
- Thu, 26 Nov 2020 11:30:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3451E60BFA;
+ Thu, 26 Nov 2020 11:30:54 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/13] compiler: remove GNUC check
-Date: Thu, 26 Nov 2020 15:29:14 +0400
-Message-Id: <20201126112915.525285-13-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 13/13] linux-user: remove GNUC check
+Date: Thu, 26 Nov 2020 15:29:15 +0400
+Message-Id: <20201126112915.525285-14-marcandre.lureau@redhat.com>
 In-Reply-To: <20201126112915.525285-1-marcandre.lureau@redhat.com>
 References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,46 +90,31 @@ QEMU requires Clang or GCC, that define and support __GNUC__ extensions.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/qemu/compiler.h | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ linux-user/strace.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index 108bfdb391..f492baf341 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -55,14 +55,10 @@
-     (offsetof(container, field) + sizeof_field(container, field))
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 11fea14fba..e00275fcb5 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -24,7 +24,6 @@ struct syscallname {
+                    abi_long, abi_long, abi_long);
+ };
  
- /* Convert from a base type to a parent type, with compile time checking.  */
 -#ifdef __GNUC__
- #define DO_UPCAST(type, field, dev) ( __extension__ ( { \
-     char __attribute__((unused)) offset_must_be_zero[ \
-         -offsetof(type, field)]; \
-     container_of(dev, type, field);}))
+ /*
+  * It is possible that target doesn't have syscall that uses
+  * following flags but we don't want the compiler to warn
+@@ -32,9 +31,6 @@ struct syscallname {
+  * functions.  It is ok to keep them while not used.
+  */
+ #define UNUSED __attribute__ ((unused))
 -#else
--#define DO_UPCAST(type, field, dev) container_of(dev, type, field)
+-#define UNUSED
 -#endif
  
- #define typeof_field(type, field) typeof(((type *)0)->field)
- #define type_check(t1,t2) ((t1*)0 - (t2*)0)
-@@ -93,7 +89,7 @@
- #if defined(__clang__)
-   /* clang doesn't support gnu_printf, so use printf. */
- # define GCC_FMT_ATTR(n, m) __attribute__((format(printf, n, m)))
--#elif defined(__GNUC__)
-+#else
-    /* Use gnu_printf (qemu uses standard format strings). */
- # define GCC_FMT_ATTR(n, m) __attribute__((format(gnu_printf, n, m)))
- # if defined(_WIN32)
-@@ -101,8 +97,6 @@
-     * even when MinGW or GLib include files use __printf__. */
- #  define __printf__ __gnu_printf__
- # endif
--#else
--#define GCC_FMT_ATTR(n, m)
- #endif
- 
- #ifndef __has_warning
+ /*
+  * Structure used to translate flag values into strings.  This is
 -- 
 2.29.0
 
