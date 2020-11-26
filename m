@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1452C5B8B
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 19:06:38 +0100 (CET)
-Received: from localhost ([::1]:54580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06C72C5BF0
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 19:24:16 +0100 (CET)
+Received: from localhost ([::1]:60806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiLfB-0000kz-9H
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 13:06:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46858)
+	id 1kiLwF-0004Lp-HV
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 13:24:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiLdr-0008DV-8s
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 13:05:15 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:35162)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiLdp-0002Pm-FB
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 13:05:14 -0500
-Received: by mail-ej1-x644.google.com with SMTP id f23so4134227ejk.2
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 10:05:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=OqrmPnoggcLtxT00sDykkwbcz2yDbg5QBTVngWEu9UI=;
- b=m40sP57Fu+d+JBSYKTCaSG97cY0NpRFbymMHhzdMzbvneRtGl7AiW+QQ97PSBMdmxa
- AydW1cSjbLYrcWci/s+WMfjq4cb4icNJMHb6icrXnJQjZbjeT/RFYBOQUYHsiffqAzbh
- sNWUJmNBdfJWzf7Tf9zQfgyJ1k1ANCMCnlTSwZRcVKVufVjUVazUBLtk9ZnlsKFSqF1N
- u5nSXZ27ynCAwAcK8Ne/E0TX+0jIeDmQsXk8cmnzIgff7qOUBmeZdfdD2VrgTImGzokv
- cf2KFrmhBTE3GxuOzbksfVTwPT96k1LSRKe8IIVkjXgAq3AyMbZTpZg533e+rKyS5sp3
- wINA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=OqrmPnoggcLtxT00sDykkwbcz2yDbg5QBTVngWEu9UI=;
- b=WX8H2tveYUUxP2m9xPkE766zblwRRUFwwFcLw2PM0O5Rv9KnOUxdmNGB0q6q7ye6cW
- TQ4N+UEtJLs29XCYzBPYMnMSIeM7v7bBDryftFZmG7030FN0pljvqj1RUXACe1RsAW50
- h0Lrafl2sTT9ZZ7fgh9MIWQzmI4NMXpZ//J9wipiYk92k8GpuGDE4ZzhjBiq58Ts8ojM
- MgogHG6BF0k+D+lm4xyiFG355M918H6vJ67/kCEOpSh8CZhhncV4C9BnrVWkaZzTqwU9
- nHX1eKunK7ac7JKJRUAozsmrduZTo0+W0DqBCd/HCpLrRU6pb+UotRy4zoca5APuR2Wj
- L2kA==
-X-Gm-Message-State: AOAM530rjKMv8OvLA6PbUKjnbJEdhIDXMGCYnkNtWt+tofADKDn6hmfB
- +rhMqkwG/TCFN4U0PGXGXsaUZN4ofyPzkVIQSo/a+Q==
-X-Google-Smtp-Source: ABdhPJxacYqo1ZErczfkVeuFwBY4Ur67p/I4ISq7R31lCH7aYAus6EyRL+mmO3Zn+cKOn2vSGQPVwK5l+O/c/n0iehg=
-X-Received: by 2002:a17:906:4bc6:: with SMTP id x6mr3879596ejv.4.1606413911743; 
- Thu, 26 Nov 2020 10:05:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kiLuy-0003ur-Qf
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 13:22:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57147)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kiLuw-0008F7-FN
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 13:22:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606414972;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9BUsFBpPcsatRcg1MOdg2GbAZEELj7c4LvoGQFO0iaE=;
+ b=YCb5m2KnM/6UZBkmCLRNrRhLXr6UPuCkTxDDov4Y/b8Dmbiin01Al9e5KyfzoiLsRjNysG
+ IdNHeDEd8i0LWCcNn8gfd1qjVAUyRye9utmdXAgjJ8NeAHlDtx5gl8sWxeTJ/j+Y0rIlKQ
+ R8r47knqdub47eZ9vjw2x75vn8aq3Mw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-74-l1sxIunkM2-FhAIxHOaTfQ-1; Thu, 26 Nov 2020 13:22:50 -0500
+X-MC-Unique: l1sxIunkM2-FhAIxHOaTfQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 463D310051CC;
+ Thu, 26 Nov 2020 18:22:49 +0000 (UTC)
+Received: from gondolin (ovpn-113-125.ams2.redhat.com [10.36.113.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D7D160855;
+ Thu, 26 Nov 2020 18:22:48 +0000 (UTC)
+Date: Thu, 26 Nov 2020 19:22:45 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH for-6.0] qga/commands-posix: Send CCW address on s390x
+ with the fsinfo data
+Message-ID: <20201126192245.7c09fd06.cohuck@redhat.com>
+In-Reply-To: <20201125105417.380317-1-thuth@redhat.com>
+References: <20201125105417.380317-1-thuth@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20201124122936.30588-1-kraxel@redhat.com>
- <CAJ+F1CJYeO9fGcSOZEEJmYvFwAxXe32rKGv81sfG8Dz=nCiGog@mail.gmail.com>
-In-Reply-To: <CAJ+F1CJYeO9fGcSOZEEJmYvFwAxXe32rKGv81sfG8Dz=nCiGog@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Nov 2020 18:05:00 +0000
-Message-ID: <CAFEAcA9FWSwZnoGm67sswTDP29CZQr0NRJsD7dqrRWSom3B1Fw@mail.gmail.com>
-Subject: Re: [PATCH] qxl: fix segfault
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,34 +78,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Nov 2020 at 15:42, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Tue, Nov 24, 2020 at 4:30 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->>
->> Add missing sanity check.
->> Reproducer: run qemu with "-device qxl" but without "-spice ..."
->>
->> Fixes: 0d9b90ce5c73 ("console: make QMP/HMP screendump run in coroutine"=
-)
->> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->
->
-> It would be nice to include this regression fix in the release. Anyone ta=
-king the patch to PR?
+On Wed, 25 Nov 2020 11:54:17 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
+> We need the CCW address on the libvirt side to correctly identify
+> the disk, so add this information to the GuestDiskAddress on s390x.
+> 
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1755075
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  qga/commands-posix.c | 34 ++++++++++++++++++++++++++++++++++
+>  qga/qapi-schema.json | 19 ++++++++++++++++++-
+>  2 files changed, 52 insertions(+), 1 deletion(-)
+> 
 
-Looks like a safe fix and we do need to roll rc4 anyway, so if somebody wan=
-ts
-to send a pullreq tomorrow I can apply it.
+(...)
 
-thanks
--- PMM
+> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+> index 3b3d1d0bd9..8be84b56e9 100644
+> --- a/qga/qapi-schema.json
+> +++ b/qga/qapi-schema.json
+> @@ -846,6 +846,21 @@
+>    'data': {'domain': 'int', 'bus': 'int',
+>             'slot': 'int', 'function': 'int'} }
+>  
+> +##
+> +# @GuestCCWAddress:
+> +#
+> +# @cssid: channel subsystem image id
+> +# @ssid: subchannel set id
+
+You're missing subchno here.
+
+> +# @devno:  device number
+> +#
+> +# Since: 6.0
+> +##
+> +{ 'struct': 'GuestCCWAddress',
+> +  'data': {'cssid': 'int',
+> +           'ssid': 'int',
+> +           'subchno': 'int',
+> +           'devno': 'int'} }
+> +
+>  ##
+>  # @GuestDiskAddress:
+>  #
+
+(...)
+
+Otherwise LGTM.
+
 
