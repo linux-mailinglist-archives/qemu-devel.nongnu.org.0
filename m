@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CDA2C4FEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 09:02:21 +0100 (CET)
-Received: from localhost ([::1]:42024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6012C4FF7
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 09:07:24 +0100 (CET)
+Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiCEO-0004ub-In
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 03:02:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59846)
+	id 1kiCJH-0001Yg-5e
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 03:07:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiCBg-0003SH-7S
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44692)
+ id 1kiCBk-0003cc-VS
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49609)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiCBd-0007G7-3d
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:31 -0500
+ id 1kiCBi-0007Gw-TF
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606377568;
+ s=mimecast20190719; t=1606377569;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XoLew6fCJvQ4C8y1gmDHrdDLwCAMji/JWWXDSHwIdec=;
- b=OpwWOlRA3dZBVI4Sa2VEohquWaVUmo7svrVibbG6vzkYHma1DxHekY5sGOSdzk32cpZ6zu
- Q3Ba3Qqarj2GxMJaRX3oUtNhDYxtPNSq5OEXAKhB5HnduN5URvDJQOxBkVMD8bCFIraK/J
- z9IElYHhfLnuDWCjuW8BUfV9o8dB9dA=
+ bh=8q7SRaneaETkvZvvdP49m+lKaklZq3Z1IrJrbscMkKk=;
+ b=BDW9SamEuK46GEo6iQDMYpkwO1DA0wxvGBDBIM8Fn2RXJY68HNiDPQKH3M7IPrFug/M9Ek
+ NTU0MhAF4NI0PdYnmAZY2g4FQRLkyVidUlCEYwdcTx5jt5DahK9y4t4R2EZ8uT1aGArzh9
+ jVsja801SLS+xN1GYkf2cF4ZY6Iru4s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-4OcnuACUNg20qTcX7D59Ww-1; Thu, 26 Nov 2020 02:59:24 -0500
-X-MC-Unique: 4OcnuACUNg20qTcX7D59Ww-1
+ us-mta-249-qIBns7UyMBqqv3hKK4osJw-1; Thu, 26 Nov 2020 02:59:25 -0500
+X-MC-Unique: qIBns7UyMBqqv3hKK4osJw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD83A185E490
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 07:59:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67C9B9A234;
+ Thu, 26 Nov 2020 07:59:24 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7E6BF60855;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE06B60855;
  Thu, 26 Nov 2020 07:59:23 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] tests/docker, tests/vm: remove setuptools from images
-Date: Thu, 26 Nov 2020 02:59:19 -0500
-Message-Id: <20201126075921.3116321-4-pbonzini@redhat.com>
+Subject: [PULL 4/5] target/i386: fix operand order for PDEP and PEXT
+Date: Thu, 26 Nov 2020 02:59:20 -0500
+Message-Id: <20201126075921.3116321-5-pbonzini@redhat.com>
 In-Reply-To: <20201126075921.3116321-1-pbonzini@redhat.com>
 References: <20201126075921.3116321-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,122 +79,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Lenard Szolnoki <blog@lenardszolnoki.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Setuptools is not needed anymore by the bundled copy of meson,
-remove it.
+For PDEP and PEXT, the mask is provided in the memory (mod+r/m)
+operand, and therefore is loaded in s->T0 by gen_ldst_modrm.
+The source is provided in the second source operand (VEX.vvvv)
+and therefore is loaded in s->T1.  Fix the order in which
+they are passed to the helpers.
 
-Suggested-by: Thomas Huth <thuth@redhat.com>
+Reported-by: Lenard Szolnoki <blog@lenardszolnoki.com>
+Analyzed-by: Lenard Szolnoki <blog@lenardszolnoki.com>
+Fixes: https://bugs.launchpad.net/qemu/+bug/1605123
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- .cirrus.yml                                        | 1 -
- tests/docker/dockerfiles/debian10.docker           | 1 -
- tests/docker/dockerfiles/fedora-win32-cross.docker | 1 -
- tests/docker/dockerfiles/fedora-win64-cross.docker | 1 -
- tests/vm/freebsd                                   | 1 -
- tests/vm/haiku.x86_64                              | 1 -
- tests/vm/netbsd                                    | 1 -
- tests/vm/openbsd                                   | 1 -
- 8 files changed, 8 deletions(-)
+ target/i386/translate.c         |  8 +++----
+ tests/tcg/i386/Makefile.target  |  3 +++
+ tests/tcg/i386/test-i386-bmi2.c | 40 +++++++++++++++++++++++++++++++++
+ 3 files changed, 47 insertions(+), 4 deletions(-)
+ create mode 100644 tests/tcg/i386/test-i386-bmi2.c
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index f0209b7a3e..2e45b3254f 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -85,7 +85,6 @@ windows_msys2_task:
-         C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed \
-           diffutils git grep make pkg-config sed \
-           mingw-w64-x86_64-python \
--          mingw-w64-x86_64-python-setuptools \
-           mingw-w64-x86_64-toolchain \
-           mingw-w64-x86_64-SDL2 \
-           mingw-w64-x86_64-SDL2_image \
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index 21cc671d71..73a3caac9c 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -30,7 +30,6 @@ RUN apt update && \
-         pkg-config \
-         psmisc \
-         python3 \
--        python3-setuptools \
-         python3-sphinx \
-         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index 4c57307e42..e8f5f5803a 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
+@@ -3936,14 +3936,14 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                 }
+                 ot = mo_64_32(s->dflag);
+                 gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
+-                /* Note that by zero-extending the mask operand, we
++                /* Note that by zero-extending the source operand, we
+                    automatically handle zero-extending the result.  */
+                 if (ot == MO_64) {
+                     tcg_gen_mov_tl(s->T1, cpu_regs[s->vex_v]);
+                 } else {
+                     tcg_gen_ext32u_tl(s->T1, cpu_regs[s->vex_v]);
+                 }
+-                gen_helper_pdep(cpu_regs[reg], s->T0, s->T1);
++                gen_helper_pdep(cpu_regs[reg], s->T1, s->T0);
+                 break;
  
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index 5903e1b0b4..087df598a0 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -30,7 +30,6 @@ ENV PACKAGES \
-     perl-Test-Harness \
-     python3 \
-     python3-PyYAML \
--    python3-setuptools \
-     tar \
-     which
+             case 0x2f5: /* pext Gy, By, Ey */
+@@ -3954,14 +3954,14 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+                 }
+                 ot = mo_64_32(s->dflag);
+                 gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
+-                /* Note that by zero-extending the mask operand, we
++                /* Note that by zero-extending the source operand, we
+                    automatically handle zero-extending the result.  */
+                 if (ot == MO_64) {
+                     tcg_gen_mov_tl(s->T1, cpu_regs[s->vex_v]);
+                 } else {
+                     tcg_gen_ext32u_tl(s->T1, cpu_regs[s->vex_v]);
+                 }
+-                gen_helper_pext(cpu_regs[reg], s->T0, s->T1);
++                gen_helper_pext(cpu_regs[reg], s->T1, s->T0);
+                 break;
  
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index 7f03cd8ffc..d5d2f5f00d 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -26,7 +26,6 @@ ENV PACKAGES \
-     perl-Test-Harness \
-     python3 \
-     python3-PyYAML \
--    python3-setuptools \
-     tar \
-     which
+             case 0x1f6: /* adcx Gy, Ey */
+diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
+index a66232a67d..ad187cb2c9 100644
+--- a/tests/tcg/i386/Makefile.target
++++ b/tests/tcg/i386/Makefile.target
+@@ -18,6 +18,9 @@ test-i386-pcmpistri: CFLAGS += -msse4.2
+ run-test-i386-pcmpistri: QEMU_OPTS += -cpu max
+ run-plugin-test-i386-pcmpistri-%: QEMU_OPTS += -cpu max
  
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 04ee793381..09f3ee6cb8 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -33,7 +33,6 @@ class FreeBSDVM(basevm.BaseVM):
-         "pkgconf",
-         "bzip2",
-         "python37",
--        "py37-setuptools",
-         "ninja",
- 
-         # gnu tools
-diff --git a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_64
-index 37af48bf1b..2eb736dae1 100755
---- a/tests/vm/haiku.x86_64
-+++ b/tests/vm/haiku.x86_64
-@@ -77,7 +77,6 @@ class HaikuVM(basevm.BaseVM):
-         "devel:libusb_1.0",
-         "devel:libz",
-         "ninja",
--        "setuptools_python3"
-     ]
- 
-     # https://dev.haiku-os.org/ticket/16512 virtio disk1 shows up as 0 (reversed order)
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index 596717cc76..b9efc269d2 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -31,7 +31,6 @@ class NetBSDVM(basevm.BaseVM):
-         "pkgconf",
-         "xz",
-         "python37",
--        "py37-setuptools",
-         "ninja-build",
- 
-         # gnu tools
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 386b2c72f7..4d1399378e 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -30,7 +30,6 @@ class OpenBSDVM(basevm.BaseVM):
-         "git",
-         "pkgconf",
-         "bzip2", "xz",
--        "py3-setuptools",
-         "ninja",
- 
-         # gnu tools
++run-test-i386-bmi2: QEMU_OPTS += -cpu max
++run-plugin-test-i386-bmi2-%: QEMU_OPTS += -cpu max
++
+ #
+ # hello-i386 is a barebones app
+ #
+diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
+new file mode 100644
+index 0000000000..e7a93b88b4
+--- /dev/null
++++ b/tests/tcg/i386/test-i386-bmi2.c
+@@ -0,0 +1,40 @@
++/* See if various BMI2 instructions give expected results */
++#include <assert.h>
++#include <stdint.h>
++
++int main(int argc, char *argv[]) {
++    char hello[16];
++    uint64_t ehlo = 0x202020204f4c4845ull;
++    uint64_t mask = 0xa080800302020001ull;
++    uint64_t result64;
++    uint32_t result32;
++
++    /* 64 bits */
++    asm volatile ("pextq   %2, %1, %0" : "=r"(result64) : "r"(ehlo), "m"(mask));
++    assert(result64 == 133);
++
++    asm volatile ("pdepq   %2, %1, %0" : "=r"(result64) : "r"(result64), "m"(mask));
++    assert(result64 == (ehlo & mask));
++
++    asm volatile ("pextq   %2, %1, %0" : "=r"(result64) : "r"(-1ull), "m"(mask));
++    assert(result64 == 511); /* mask has 9 bits set */
++
++    asm volatile ("pdepq   %2, %1, %0" : "=r"(result64) : "r"(-1ull), "m"(mask));
++    assert(result64 == mask);
++
++    /* 32 bits */
++    asm volatile ("pextl   %2, %k1, %k0" : "=r"(result32) : "r"(ehlo), "m"(mask));
++    assert(result32 == 5);
++
++    asm volatile ("pdepl   %2, %k1, %k0" : "=r"(result32) : "r"(result32), "m"(mask));
++    assert(result32 == (uint32_t)(ehlo & mask));
++
++    asm volatile ("pextl   %2, %k1, %k0" : "=r"(result32) : "r"(-1ull), "m"(mask));
++    assert(result32 == 7); /* mask has 3 bits set */
++
++    asm volatile ("pdepl   %2, %k1, %k0" : "=r"(result32) : "r"(-1ull), "m"(mask));
++    assert(result32 == (uint32_t)mask);
++
++    return 0;
++}
++
 -- 
 2.26.2
 
