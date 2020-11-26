@@ -2,63 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF4252C5A9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 18:31:58 +0100 (CET)
-Received: from localhost ([::1]:52392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 686C12C5AC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 18:38:44 +0100 (CET)
+Received: from localhost ([::1]:60604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiL7d-0000KA-7Z
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 12:31:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36382)
+	id 1kiLEA-00048b-UD
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 12:38:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kiL5a-000899-Tu
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:29:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58295)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kiLBA-0002Hf-CG
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:35:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kiL5X-0005Ey-Vf
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:29:50 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kiLB7-0006K4-Ck
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:35:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606411786;
+ s=mimecast20190719; t=1606412131;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OFmvACxxkYNZp1EbOVzaLVslCf+VwexV6AmrQg1eR2Y=;
- b=BZ7bDD1TOxNlNizbYhJJl9N/c9uXlT5fcP0RXgEfATiFVD6PABrz3wKbebbFGx1TF/wECE
- kQN1QYqTHXyVq5hJx8HLqzrkD+QKghO6lXLLR2IuMKb4vpIqGZgSdLhRDeVLgrbUr2En5E
- GNc/zQdmPi9JH0c/TDpYFjCruvFjrjc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JnmrYEOj67EZWDomGBByyZvDmPDGTLmkKS8pAcqC+7k=;
+ b=fhN3iuo/sIuoYvG8pl1K1zVTIJyQ9fCcJrnobIX8X5FN7EZ1q+PduMz/YBitvZtXMdoRdZ
+ Dr9gERes719LleNA0L5FuRNHB9IJUbE+qYBoqUCiUYJsJBVI1o2NccQramPdxGI8A3j1+j
+ 9Oy5DZt4/qMehdZlOhhtRAQjxU8V5TM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-yp6F0PQHPt2q1dcKA5A6xw-1; Thu, 26 Nov 2020 12:29:44 -0500
-X-MC-Unique: yp6F0PQHPt2q1dcKA5A6xw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-160-z15nCgp8MjCZsWdv0KJ6Nw-1; Thu, 26 Nov 2020 12:35:28 -0500
+X-MC-Unique: z15nCgp8MjCZsWdv0KJ6Nw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74781100C663
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 17:29:43 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 823EE10013C0;
- Thu, 26 Nov 2020 17:29:42 +0000 (UTC)
-Date: Thu, 26 Nov 2020 18:29:40 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 14/36] vl: extract default devices to separate functions
-Message-ID: <20201126182940.664004a9@redhat.com>
-In-Reply-To: <20201123141435.2726558-15-pbonzini@redhat.com>
-References: <20201123141435.2726558-1-pbonzini@redhat.com>
- <20201123141435.2726558-15-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 352291009B60;
+ Thu, 26 Nov 2020 17:35:27 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.36.110.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F22911A4D0;
+ Thu, 26 Nov 2020 17:35:22 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v8 00/11] migration: bring improved savevm/loadvm/delvm to QMP
+Date: Thu, 26 Nov 2020 17:35:10 +0000
+Message-Id: <20201126173521.137580-1-berrange@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,284 +75,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Nov 2020 09:14:13 -0500
-Paolo Bonzini <pbonzini@redhat.com> wrote:
-
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  softmmu/vl.c | 216 +++++++++++++++++++++++++++------------------------
->  1 file changed, 114 insertions(+), 102 deletions(-)
-> 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 5d68cf828c..b6c62e1e4f 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -125,7 +125,9 @@ static const char *boot_order;
->  static const char *boot_once;
->  static const char *incoming;
->  static const char *loadvm;
-> +static int display_remote;
->  static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
-> +static bool nographic = false;
->  enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
->  static int mem_prealloc; /* force preallocation of physical target memory */
->  int display_opengl;
-> @@ -147,6 +149,7 @@ static int rtc_host_datetime_offset = -1; /* valid & used only with
->                                               RTC_BASE_DATETIME */
->  QEMUClockType rtc_clock;
->  int vga_interface_type = VGA_NONE;
-> +static const char *vga_model = NULL;
->  static DisplayOptions dpy;
->  static int num_serial_hds;
->  static Chardev **serial_hds;
-> @@ -2224,6 +2227,115 @@ static int foreach_device_config(int type, int (*func)(const char *cmdline))
->      return 0;
->  }
->  
-> +static void qemu_disable_default_devices(void)
-> +{
-> +    MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
-> +
-> +    qemu_opts_foreach(qemu_find_opts("device"),
-> +                      default_driver_check, NULL, NULL);
-> +    qemu_opts_foreach(qemu_find_opts("global"),
-> +                      default_driver_check, NULL, NULL);
-> +
-> +    if (!vga_model && !default_vga) {
-> +        vga_interface_type = VGA_DEVICE;
-> +    }
-> +    if (!has_defaults || machine_class->no_serial) {
-> +        default_serial = 0;
-> +    }
-> +    if (!has_defaults || machine_class->no_parallel) {
-> +        default_parallel = 0;
-> +    }
-> +    if (!has_defaults || machine_class->no_floppy) {
-> +        default_floppy = 0;
-> +    }
-> +    if (!has_defaults || machine_class->no_cdrom) {
-> +        default_cdrom = 0;
-> +    }
-> +    if (!has_defaults || machine_class->no_sdcard) {
-> +        default_sdcard = 0;
-> +    }
-> +    if (!has_defaults) {
-> +        default_monitor = 0;
-> +        default_net = 0;
-> +        default_vga = 0;
-> +    }
-> +}
-> +
-> +static void qemu_create_default_devices(void)
-> +{
-> +    MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
-> +
-> +    if (is_daemonized()) {
-> +        /* According to documentation and historically, -nographic redirects
-> +         * serial port, parallel port and monitor to stdio, which does not work
-> +         * with -daemonize.  We can redirect these to null instead, but since
-> +         * -nographic is legacy, let's just error out.
-> +         * We disallow -nographic only if all other ports are not redirected
-> +         * explicitly, to not break existing legacy setups which uses
-> +         * -nographic _and_ redirects all ports explicitly - this is valid
-> +         * usage, -nographic is just a no-op in this case.
-> +         */
-> +        if (nographic
-> +            && (default_parallel || default_serial || default_monitor)) {
-> +            error_report("-nographic cannot be used with -daemonize");
-> +            exit(1);
-> +        }
-> +    }
-> +
-> +    if (nographic) {
-> +        if (default_parallel)
-> +            add_device_config(DEV_PARALLEL, "null");
-> +        if (default_serial && default_monitor) {
-> +            add_device_config(DEV_SERIAL, "mon:stdio");
-> +        } else {
-> +            if (default_serial)
-> +                add_device_config(DEV_SERIAL, "stdio");
-> +            if (default_monitor)
-> +                monitor_parse("stdio", "readline", false);
-> +        }
-> +    } else {
-> +        if (default_serial)
-> +            add_device_config(DEV_SERIAL, "vc:80Cx24C");
-> +        if (default_parallel)
-> +            add_device_config(DEV_PARALLEL, "vc:80Cx24C");
-> +        if (default_monitor)
-> +            monitor_parse("vc:80Cx24C", "readline", false);
-> +    }
-> +
-> +    if (default_net) {
-> +        QemuOptsList *net = qemu_find_opts("net");
-> +        qemu_opts_parse(net, "nic", true, &error_abort);
-> +#ifdef CONFIG_SLIRP
-> +        qemu_opts_parse(net, "user", true, &error_abort);
-> +#endif
-> +    }
-> +
-> +#if defined(CONFIG_VNC)
-> +    if (!QTAILQ_EMPTY(&(qemu_find_opts("vnc")->head))) {
-> +        display_remote++;
-> +    }
-> +#endif
-> +    if (dpy.type == DISPLAY_TYPE_DEFAULT && !display_remote) {
-> +        if (!qemu_display_find_default(&dpy)) {
-> +            dpy.type = DISPLAY_TYPE_NONE;
-> +#if defined(CONFIG_VNC)
-> +            vnc_parse("localhost:0,to=99,id=default", &error_abort);
-> +#endif
-> +        }
-> +    }
-> +    if (dpy.type == DISPLAY_TYPE_DEFAULT) {
-> +        dpy.type = DISPLAY_TYPE_NONE;
-> +    }
-> +
-> +    /* If no default VGA is requested, the default is "none".  */
-> +    if (default_vga) {
-> +        vga_model = get_default_vga_model(machine_class);
-> +    }
-> +    if (vga_model) {
-> +        select_vgahw(machine_class, vga_model);
-> +    }
-> +}
-> +
->  static int serial_parse(const char *devname)
->  {
->      int index = num_serial_hds;
-> @@ -3209,10 +3321,7 @@ void qemu_init(int argc, char **argv, char **envp)
->      int optind;
->      const char *optarg;
->      MachineClass *machine_class;
-> -    const char *vga_model = NULL;
->      bool userconfig = true;
-> -    bool nographic = false;
-> -    int display_remote = 0;
->      ram_addr_t maxram_size;
->      uint64_t ram_slots = 0;
->      FILE *vmstate_dump_file = NULL;
-> @@ -4188,97 +4297,8 @@ void qemu_init(int argc, char **argv, char **envp)
->                                 machine_class->default_machine_opts, 0);
->      }
->  
-> -    qemu_opts_foreach(qemu_find_opts("device"),
-> -                      default_driver_check, NULL, NULL);
-> -    qemu_opts_foreach(qemu_find_opts("global"),
-> -                      default_driver_check, NULL, NULL);
-> -
-> -    if (!vga_model && !default_vga) {
-> -        vga_interface_type = VGA_DEVICE;
-> -    }
-> -    if (!has_defaults || machine_class->no_serial) {
-> -        default_serial = 0;
-> -    }
-> -    if (!has_defaults || machine_class->no_parallel) {
-> -        default_parallel = 0;
-> -    }
-> -    if (!has_defaults || machine_class->no_floppy) {
-> -        default_floppy = 0;
-> -    }
-> -    if (!has_defaults || machine_class->no_cdrom) {
-> -        default_cdrom = 0;
-> -    }
-> -    if (!has_defaults || machine_class->no_sdcard) {
-> -        default_sdcard = 0;
-> -    }
-> -    if (!has_defaults) {
-> -        default_monitor = 0;
-> -        default_net = 0;
-> -        default_vga = 0;
-> -    }
-> -
-> -    if (is_daemonized()) {
-> -        /* According to documentation and historically, -nographic redirects
-> -         * serial port, parallel port and monitor to stdio, which does not work
-> -         * with -daemonize.  We can redirect these to null instead, but since
-> -         * -nographic is legacy, let's just error out.
-> -         * We disallow -nographic only if all other ports are not redirected
-> -         * explicitly, to not break existing legacy setups which uses
-> -         * -nographic _and_ redirects all ports explicitly - this is valid
-> -         * usage, -nographic is just a no-op in this case.
-> -         */
-> -        if (nographic
-> -            && (default_parallel || default_serial || default_monitor)) {
-> -            error_report("-nographic cannot be used with -daemonize");
-> -            exit(1);
-> -        }
-> -    }
-> -
-> -    if (nographic) {
-> -        if (default_parallel)
-> -            add_device_config(DEV_PARALLEL, "null");
-> -        if (default_serial && default_monitor) {
-> -            add_device_config(DEV_SERIAL, "mon:stdio");
-> -        } else {
-> -            if (default_serial)
-> -                add_device_config(DEV_SERIAL, "stdio");
-> -            if (default_monitor)
-> -                monitor_parse("stdio", "readline", false);
-> -        }
-> -    } else {
-> -        if (default_serial)
-> -            add_device_config(DEV_SERIAL, "vc:80Cx24C");
-> -        if (default_parallel)
-> -            add_device_config(DEV_PARALLEL, "vc:80Cx24C");
-> -        if (default_monitor)
-> -            monitor_parse("vc:80Cx24C", "readline", false);
-> -    }
-> -
-> -    if (default_net) {
-> -        QemuOptsList *net = qemu_find_opts("net");
-> -        qemu_opts_parse(net, "nic", true, &error_abort);
-> -#ifdef CONFIG_SLIRP
-> -        qemu_opts_parse(net, "user", true, &error_abort);
-> -#endif
-> -    }
-> -
-> -#if defined(CONFIG_VNC)
-> -    if (!QTAILQ_EMPTY(&(qemu_find_opts("vnc")->head))) {
-> -        display_remote++;
-> -    }
-> -#endif
-> -    if (dpy.type == DISPLAY_TYPE_DEFAULT && !display_remote) {
-> -        if (!qemu_display_find_default(&dpy)) {
-> -            dpy.type = DISPLAY_TYPE_NONE;
-> -#if defined(CONFIG_VNC)
-> -            vnc_parse("localhost:0,to=99,id=default", &error_abort);
-> -#endif
-> -        }
-> -    }
-> -    if (dpy.type == DISPLAY_TYPE_DEFAULT) {
-> -        dpy.type = DISPLAY_TYPE_NONE;
-> -    }
-> -
-> +    qemu_disable_default_devices();
-> +    qemu_create_default_devices();
->      if ((alt_grab || ctrl_grab) && dpy.type != DISPLAY_TYPE_SDL) {
->          error_report("-alt-grab and -ctrl-grab are only valid "
->                       "for SDL, ignoring option");
-> @@ -4417,14 +4437,6 @@ void qemu_init(int argc, char **argv, char **envp)
->      qemu_semihosting_connect_chardevs();
->      qemu_semihosting_console_init();
->  
-> -    /* If no default VGA is requested, the default is "none".  */
-> -    if (default_vga) {
-> -        vga_model = get_default_vga_model(machine_class);
-> -    }
-> -    if (vga_model) {
-> -        select_vgahw(machine_class, vga_model);
-> -    }
-> -
->      /* This checkpoint is required by replay to separate prior clock
->         reading from the other reads, because timer polling functions query
->         clock values from the log. */
+ v1: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg00866.html=0D
+ v2: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg07523.html=0D
+ v3: https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg07076.html=0D
+ v4: https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg05221.html=0D
+ v5: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg00587.html=0D
+ v6: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg02158.html=0D
+ v7: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg06205.html=0D
+=0D
+This series aims to provide a better designed replacement for the=0D
+savevm/loadvm/delvm HMP commands, which despite their flaws continue=0D
+to be actively used in the QMP world via the HMP command passthrough=0D
+facility.=0D
+=0D
+The main problems addressed are:=0D
+=0D
+ - The logic to pick which disk to store the vmstate in is not=0D
+   satsifactory.=0D
+=0D
+   The first block driver state cannot be assumed to be the root disk=0D
+   image, it might be OVMF varstore and we don't want to store vmstate=0D
+   in there.=0D
+=0D
+ - The logic to decide which disks must be snapshotted is hardwired=0D
+   to all disks which are writable=0D
+=0D
+   Again with OVMF there might be a writable varstore, but this can be=0D
+   raw rather than qcow2 format, and thus unable to be snapshotted.=0D
+   While users might wish to snapshot their varstore, in some/many/most=0D
+   cases it is entirely uneccessary. Users are blocked from snapshotting=0D
+   their VM though due to this varstore.=0D
+=0D
+ - The commands are synchronous blocking execution and returning=0D
+   errors immediately.=0D
+=0D
+   This is partially addressed by integrating with the job framework.=0D
+   This forces the client to use the async commands to determine=0D
+   the completion status or error message from the operations.=0D
+=0D
+In the block code I've only dealt with node names for block devices, as=0D
+IIUC, this is all that libvirt should need in the -blockdev world it now=0D
+lives in. IOW, I've made not attempt to cope with people wanting to use=0D
+these QMP commands in combination with -drive args, as libvirt will=0D
+never use -drive with a QEMU new enough to have these new commands.=0D
+=0D
+The main limitations of this current impl=0D
+=0D
+ - The snapshot process runs serialized in the main thread. ie QEMU=0D
+   guest execution is blocked for the duration. The job framework=0D
+   lets us fix this in future without changing the QMP semantics=0D
+   exposed to the apps.=0D
+=0D
+ - Most vmstate loading errors just go to stderr, as they are not=0D
+   using Error **errp reporting. Thus the job framework just=0D
+   reports a fairly generic message=0D
+=0D
+     "Error -22 while loading VM state"=0D
+=0D
+   Again this can be fixed later without changing the QMP semantics=0D
+   exposed to apps.=0D
+=0D
+I've done some minimal work in libvirt to start to make use of the new=0D
+commands to validate their functionality, but this isn't finished yet.=0D
+=0D
+My ultimate goal is to make the GNOME Boxes maintainer happy again by=0D
+having internal snapshots work with OVMF:=0D
+=0D
+  https://gitlab.gnome.org/GNOME/gnome-boxes/-/commit/c486da262f6566326fbcb=
+5e=3D=0D
+f45c5f64048f16a6e=0D
+=0D
+Changed in v8:=0D
+=0D
+ - Rebase to git master to resolve conflicts=0D
+ - Updated QAPI since versions to 6.0=0D
+=0D
+Changed in v7:=0D
+=0D
+ - Incorporate changes from:=0D
+=0D
+     https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03165.html=0D
+=0D
+ - Tweaked error message=0D
+=0D
+Changed in v6:=0D
+=0D
+ - Resolve many conflicts with recent replay changes=0D
+ - Misc typos in QAPI=0D
+=0D
+Changed in v5:=0D
+=0D
+ - Fix prevention of tag overwriting=0D
+ - Refactor and expand test suite coverage to validate=0D
+   more negative scenarios=0D
+=0D
+Changed in v4:=0D
+=0D
+ - Make the device lists mandatory, dropping all support for=0D
+   QEMU's built-in heuristics to select devices.=0D
+=0D
+ - Improve some error reporting and I/O test coverage=0D
+=0D
+Changed in v3:=0D
+=0D
+ - Schedule a bottom half to escape from coroutine context in=0D
+   the jobs. This is needed because the locking in the snapshot=0D
+   code goes horribly wrong when run from a background coroutine=0D
+   instead of the main event thread.=0D
+=0D
+ - Re-factor way we iterate over devices, so that we correctly=0D
+   report non-existant devices passed by the user over QMP.=0D
+=0D
+ - Add QAPI docs notes about limitations wrt vmstate error=0D
+   reporting (it all goes to stderr not an Error **errp)=0D
+   so QMP only gets a fairly generic error message currently.=0D
+=0D
+ - Add I/O test to validate many usage scenarios / errors=0D
+=0D
+ - Add I/O test helpers to handle QMP events with a deterministic=0D
+   ordering=0D
+=0D
+ - Ensure 'delete-snapshot' reports an error if requesting=0D
+   delete from devices that don't support snapshot, instead of=0D
+   silently succeeding with no erro.=0D
+=0D
+Changed in v2:=0D
+=0D
+ - Use new command names "snapshot-{load,save,delete}" to make it=0D
+   clear that these are different from the "savevm|loadvm|delvm"=0D
+   as they use the Job framework=0D
+=0D
+ - Use an include list for block devs, not an exclude list=0D
+=0D
+Daniel P. Berrang=3DC3=3DA9 (10):=0D
+  block: push error reporting into bdrv_all_*_snapshot functions=0D
+  migration: stop returning errno from load_snapshot()=0D
+  block: add ability to specify list of blockdevs during snapshot=0D
+  block: allow specifying name of block device for vmstate storage=0D
+  block: rename and alter bdrv_all_find_snapshot semantics=0D
+  migration: control whether snapshots are ovewritten=0D
+  migration: wire up support for snapshot device selection=0D
+  migration: introduce a delete_snapshot wrapper=0D
+  iotests: add support for capturing and matching QMP events=0D
+  migration: introduce snapshot-{save,load,delete} QMP commands=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (1):=0D
+  migration: Make save_snapshot() return bool, not 0/-1=0D
+=0D
+ block/monitor/block-hmp-cmds.c |   7 +-=0D
+ block/snapshot.c               | 256 +++++++++++++++------=0D
+ include/block/snapshot.h       |  23 +-=0D
+ include/migration/snapshot.h   |  47 +++-=0D
+ migration/savevm.c             | 294 ++++++++++++++++++++----=0D
+ monitor/hmp-cmds.c             |  12 +-=0D
+ qapi/job.json                  |   9 +-=0D
+ qapi/migration.json            | 121 ++++++++++=0D
+ replay/replay-debugging.c      |  12 +-=0D
+ replay/replay-snapshot.c       |   5 +-=0D
+ softmmu/vl.c                   |   2 +-=0D
+ tests/qemu-iotests/267.out     |  12 +-=0D
+ tests/qemu-iotests/310         | 385 +++++++++++++++++++++++++++++++=0D
+ tests/qemu-iotests/310.out     | 407 +++++++++++++++++++++++++++++++++=0D
+ tests/qemu-iotests/common.qemu | 107 ++++++++-=0D
+ tests/qemu-iotests/group       |   1 +=0D
+ 16 files changed, 1548 insertions(+), 152 deletions(-)=0D
+ create mode 100755 tests/qemu-iotests/310=0D
+ create mode 100644 tests/qemu-iotests/310.out=0D
+=0D
+--=3D20=0D
+2.28.0=0D
+=0D
 
 
