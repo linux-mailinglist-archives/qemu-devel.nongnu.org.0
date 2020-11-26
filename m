@@ -2,57 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C1E2C53A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:13:28 +0100 (CET)
-Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 743262C53DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:19:58 +0100 (CET)
+Received: from localhost ([::1]:60166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiG9P-0003hb-Vb
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:13:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49178)
+	id 1kiGFh-0000n1-Em
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:19:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kiG3q-0002BT-5Z
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:07:42 -0500
-Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:51641)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kiG3n-0002Fi-OY
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:07:41 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.137])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id A359B1FEC5F;
- Thu, 26 Nov 2020 13:07:35 +0100 (CET)
-Received: from kaod.org (37.59.142.96) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 26 Nov
- 2020 13:07:35 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R0017a8ab3fb-4e31-460a-8f95-ed6f7cb74178,
- 3D9671329B6E73EAAA72C004E5562AE56C463AC8) smtp.auth=groug@kaod.org
-Date: Thu, 26 Nov 2020 13:07:34 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Alex Chen <alex.chen@huawei.com>
-Subject: Re: [PATCH] virtfs-proxy-helper: Fix a resource leak in main()
-Message-ID: <20201126130734.56f2a84a@bahia.lan>
-In-Reply-To: <20201126101624.55714-1-alex.chen@huawei.com>
-References: <20201126101624.55714-1-alex.chen@huawei.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kiG5Y-0003CW-Kb
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:09:28 -0500
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:33474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kiG5S-0002nL-Q0
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:09:28 -0500
+Received: by mail-ed1-x544.google.com with SMTP id k4so2074572edl.0
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 04:09:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Tcy37N3WqundCYjhm6/DFEnU903JxZpjmoYPcvTLayQ=;
+ b=xtd5Gqu11kzyabMAg2PB/Z5zVju8LbYjWiBTtz5PuVKlb3WwU+k9IFyf9GRd0GQPEc
+ wHIZQcCcbyw+jTwj8y3rflxbX4emUukpV0B8mTRspFSHwu5lAQ6hlTv7oHS9QbDWBmt5
+ yyqae+dDyxqHSWlJod+ZvVfXa5lBKJw4sGcQdait8VsMa6ToE281RHvuB6OytkLru5AG
+ ZunQiMXFdvvJC7u+JG7rMHuNA+0DaYqRmNiIC1plJvCX/txTukhxuXJWub55WqP98uOk
+ FKK1sZBTqaiUXaXiT2R1rOPwDGW3L586YZBCQ8XumLePQYnmbvnZVvrA7kYYd/s67cN+
+ LliA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Tcy37N3WqundCYjhm6/DFEnU903JxZpjmoYPcvTLayQ=;
+ b=hWHpVDowCvbORiauYauo4yvHApWKi0Vwz+P6rraXZBmNgbNNJIpy6Ew6iLGaRTjQ1r
+ VMdJDWodb6MNOyvnLbCGAfRxYasD+SEnYyOw4MP71M8LIWRF7gFv4xe2Gh9L7h9X8pfN
+ MitiFH9au6jVG2otzFa2waYgpELoBbS/3nD4o0OpEp9QAzAGKZ2ejVPKROLlzxvITy3O
+ 7UuVyQzknLis7IUyxdxtxth1SsYTN7YbUu9jZ0j5Mzg/cWnfoKH8w5nrI7T/4RNKP83e
+ UJqkrXZOMBXprqZvIZ0z4/rrDePexjJIZ75NaAcjs9wj11zrBXO7cS5E0ZcGaFQuZYIz
+ 8JSg==
+X-Gm-Message-State: AOAM532Jxfp1rfgT5f94Xk5aFYIIhLDtzE2ytrGvVUqna1pEHONNf5TP
+ I2ucvz5hvVPQEBAWZzPOO7inasbeQmAVRH+0Em9xVA==
+X-Google-Smtp-Source: ABdhPJzxE4VZqwvD4Za+D569O+I0pJqGNXaNM1c4Veprj/69BGJRsV+ccCYxntpnNomLHwrt5SH7Cqa3Cav0U43+AC4=
+X-Received: by 2002:a50:fe88:: with SMTP id d8mr2188287edt.36.1606392559714;
+ Thu, 26 Nov 2020 04:09:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 12e4a73d-b486-4a6b-addd-d533006ebef0
-X-Ovh-Tracer-Id: 11134868607857695139
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudehvddgfeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopeiihhgrnhhgrdiihhgrnhhghhgrihhlihgrnhhgsehhuhgrfigvihdrtghomh
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=groug@kaod.org;
- helo=8.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
+ <20201126112915.525285-12-marcandre.lureau@redhat.com>
+In-Reply-To: <20201126112915.525285-12-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Nov 2020 12:09:08 +0000
+Message-ID: <CAFEAcA96h-06YHhugeq5NLg9_yvJ033Sy0GKqU=oKJoXQPnWpQ@mail.gmail.com>
+Subject: Re: [PATCH v2 11/13] xen: remove GNUC check
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,56 +79,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu_oss@crudebyte.com, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: Anthony PERARD <anthony.perard@citrix.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paul Durrant <paul@xen.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Nov 2020 10:16:24 +0000
-Alex Chen <alex.chen@huawei.com> wrote:
-
-> Only one of the options -s and -f can be used. When -f is used,
-> the fd is created externally and does not need to be closed.
-
-The process running virtfs-proxy-helper has its own copy of
-the fd inherited from its parent. And this fd will be closed
-eventually when the process terminates.
-
-> When -s is used, a new socket fd is created, and this socket fd
-> needs to be closed at the end of main().
-> 
-
-Same here, the new socket fd is closed when the process
-terminates.
-
-The only justification to merge such a change would be if
-the code was sitting in some other function, in which
-case we should indeed do proper rollback. But it is main()
-here, so this patch isn't needed.
-
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-
-Can you provide a copy of the report in case I'm
-missing something ?
-
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+On Thu, 26 Nov 2020 at 11:30, <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> QEMU requires Clang or GCC, that define and support __GNUC__ extensions
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  fsdev/virtfs-proxy-helper.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/fsdev/virtfs-proxy-helper.c b/fsdev/virtfs-proxy-helper.c
-> index 15c0e79b06..339d477169 100644
-> --- a/fsdev/virtfs-proxy-helper.c
-> +++ b/fsdev/virtfs-proxy-helper.c
-> @@ -1154,6 +1154,9 @@ int main(int argc, char **argv)
->      process_requests(sock);
->  error:
->      g_free(rpath);
-> +    if (sock_name) {
-> +        close(sock);
-> +    }
->      g_free(sock_name);
->      do_log(LOG_INFO, "Done\n");
->      closelog();
+>  include/hw/xen/interface/io/ring.h | 9 ---------
+>  1 file changed, 9 deletions(-)
 
+From QEMU's POV this change is good, but this header seems to have
+originally been an import from the Xen public headers -- are we
+happy to diverge from that original or do we prefer to stay as
+close as possible to the upstream header? Cc'ing the Xen maintainers
+for their opinion.
+
+> diff --git a/include/hw/xen/interface/io/ring.h b/include/hw/xen/interfac=
+e/io/ring.h
+> index 5d048b335c..115705f3f4 100644
+> --- a/include/hw/xen/interface/io/ring.h
+> +++ b/include/hw/xen/interface/io/ring.h
+> @@ -206,21 +206,12 @@ typedef struct __name##_back_ring __name##_back_rin=
+g_t
+>  #define RING_HAS_UNCONSUMED_RESPONSES(_r)                               =
+\
+>      ((_r)->sring->rsp_prod - (_r)->rsp_cons)
+>
+> -#ifdef __GNUC__
+>  #define RING_HAS_UNCONSUMED_REQUESTS(_r) ({                             =
+\
+>      unsigned int req =3D (_r)->sring->req_prod - (_r)->req_cons;        =
+  \
+>      unsigned int rsp =3D RING_SIZE(_r) -                                =
+  \
+>          ((_r)->req_cons - (_r)->rsp_prod_pvt);                          =
+\
+>      req < rsp ? req : rsp;                                              =
+\
+>  })
+> -#else
+> -/* Same as above, but without the nice GCC ({ ... }) syntax. */
+> -#define RING_HAS_UNCONSUMED_REQUESTS(_r)                                =
+\
+> -    ((((_r)->sring->req_prod - (_r)->req_cons) <                        =
+\
+> -      (RING_SIZE(_r) - ((_r)->req_cons - (_r)->rsp_prod_pvt))) ?        =
+\
+> -     ((_r)->sring->req_prod - (_r)->req_cons) :                         =
+\
+> -     (RING_SIZE(_r) - ((_r)->req_cons - (_r)->rsp_prod_pvt)))
+> -#endif
+>
+>  /* Direct access to individual ring elements, by index. */
+>  #define RING_GET_REQUEST(_r, _idx)                                      =
+\
+> --
+
+
+thanks
+-- PMM
 
