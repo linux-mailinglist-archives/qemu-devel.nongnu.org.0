@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14282C5338
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 12:47:04 +0100 (CET)
-Received: from localhost ([::1]:34192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070982C533C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 12:49:16 +0100 (CET)
+Received: from localhost ([::1]:38882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiFjs-0001j7-1L
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 06:47:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37860)
+	id 1kiFlz-0003hO-1U
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 06:49:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kiFU3-00041y-7e
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:30:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41088)
+ id 1kiFU9-0004Ei-Qu
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:30:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kiFU1-0006aj-Cy
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:30:42 -0500
+ id 1kiFU8-0006d8-1X
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:30:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606390240;
+ s=mimecast20190719; t=1606390247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bJfxR8iE/ekObIgENFS5uk+Teh5Zrfon3J6p5gZpF/M=;
- b=R3zxoY+BrPk2ahofi4pFRGiRlLrOA4vIaIIYdDnj4xve4tq145F22RJqSxrIP7JQ8b7++B
- Qc620Bb8DDkJ8muHIny852ouRKkIwA6nqf7EB14SaoDIOpcyaaUzaHU0l3nKE8DubqOsBR
- OeSPWYblUMLRHHlYMFDMTkt8R/0PcIE=
+ bh=Anas+Ip5rfAmmLWsIrmXzri9ludYH3kXDTxP+SHHB58=;
+ b=iQkr9UyOHUYU7enspdz6x6eIBXqRrS/E7zquF4dcdiGXzE+4I9KfIq7ed0iJjRcryYSQp9
+ yskXcEJR96/FGl/8NvVd3dp4aJRMMix5EgdZ1iONsS8i+gg4jzsHYu7P/PMz0ScVGBfAOY
+ 3qPd7u84C7r/6XEBacW6w8sIvzAZkjg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-elP0U3LnOjGFkd5z20UEgQ-1; Thu, 26 Nov 2020 06:30:38 -0500
-X-MC-Unique: elP0U3LnOjGFkd5z20UEgQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-102-8WVdMjZnOIuIzwAUrB7xNw-1; Thu, 26 Nov 2020 06:30:43 -0500
+X-MC-Unique: 8WVdMjZnOIuIzwAUrB7xNw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FFCE100C662;
- Thu, 26 Nov 2020 11:30:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 573DA100D684;
+ Thu, 26 Nov 2020 11:30:42 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E452860C05;
- Thu, 26 Nov 2020 11:30:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A00D5D9C6;
+ Thu, 26 Nov 2020 11:30:41 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/13] poison: remove GNUC check
-Date: Thu, 26 Nov 2020 15:29:12 +0400
-Message-Id: <20201126112915.525285-11-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 11/13] xen: remove GNUC check
+Date: Thu, 26 Nov 2020 15:29:13 +0400
+Message-Id: <20201126112915.525285-12-marcandre.lureau@redhat.com>
 In-Reply-To: <20201126112915.525285-1-marcandre.lureau@redhat.com>
 References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,26 +90,35 @@ QEMU requires Clang or GCC, that define and support __GNUC__ extensions
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/exec/poison.h | 2 --
- 1 file changed, 2 deletions(-)
+ include/hw/xen/interface/io/ring.h | 9 ---------
+ 1 file changed, 9 deletions(-)
 
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index 7b9ac361dc..d7ae1f23e7 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -3,7 +3,6 @@
+diff --git a/include/hw/xen/interface/io/ring.h b/include/hw/xen/interface/io/ring.h
+index 5d048b335c..115705f3f4 100644
+--- a/include/hw/xen/interface/io/ring.h
++++ b/include/hw/xen/interface/io/ring.h
+@@ -206,21 +206,12 @@ typedef struct __name##_back_ring __name##_back_ring_t
+ #define RING_HAS_UNCONSUMED_RESPONSES(_r)                               \
+     ((_r)->sring->rsp_prod - (_r)->rsp_cons)
  
- #ifndef HW_POISON_H
- #define HW_POISON_H
 -#ifdef __GNUC__
- 
- #pragma GCC poison TARGET_I386
- #pragma GCC poison TARGET_X86_64
-@@ -93,4 +92,3 @@
- #pragma GCC poison CONFIG_SOFTMMU
- 
- #endif
+ #define RING_HAS_UNCONSUMED_REQUESTS(_r) ({                             \
+     unsigned int req = (_r)->sring->req_prod - (_r)->req_cons;          \
+     unsigned int rsp = RING_SIZE(_r) -                                  \
+         ((_r)->req_cons - (_r)->rsp_prod_pvt);                          \
+     req < rsp ? req : rsp;                                              \
+ })
+-#else
+-/* Same as above, but without the nice GCC ({ ... }) syntax. */
+-#define RING_HAS_UNCONSUMED_REQUESTS(_r)                                \
+-    ((((_r)->sring->req_prod - (_r)->req_cons) <                        \
+-      (RING_SIZE(_r) - ((_r)->req_cons - (_r)->rsp_prod_pvt))) ?        \
+-     ((_r)->sring->req_prod - (_r)->req_cons) :                         \
+-     (RING_SIZE(_r) - ((_r)->req_cons - (_r)->rsp_prod_pvt)))
 -#endif
+ 
+ /* Direct access to individual ring elements, by index. */
+ #define RING_GET_REQUEST(_r, _idx)                                      \
 -- 
 2.29.0
 
