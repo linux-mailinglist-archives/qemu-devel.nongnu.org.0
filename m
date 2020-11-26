@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98FD52C5E4E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 00:50:33 +0100 (CET)
-Received: from localhost ([::1]:47994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 205A02C5E50
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 00:51:01 +0100 (CET)
+Received: from localhost ([::1]:48724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiR20-0000kX-0U
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 18:50:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55826)
+	id 1kiR2S-00013w-04
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 18:51:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kiQxt-0007P8-Ks; Thu, 26 Nov 2020 18:46:17 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:41727)
+ id 1kiQxx-0007Pz-5u; Thu, 26 Nov 2020 18:46:21 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:54733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kiQxk-0003sL-Su; Thu, 26 Nov 2020 18:46:17 -0500
+ id 1kiQxm-0003tG-Dq; Thu, 26 Nov 2020 18:46:20 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id D311A580E83;
- Thu, 26 Nov 2020 18:46:07 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 56CF35C0203;
+ Thu, 26 Nov 2020 18:46:09 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 26 Nov 2020 18:46:07 -0500
+ by compute4.internal (MEProxy); Thu, 26 Nov 2020 18:46:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=sBPATm+u2MfPv
- qufWKbPI4pSHthzu9uObTwJH52y8Q0=; b=1ZpSg2B8YF1z9unSMZEEpBjOS2JBW
- Bj+XPbdIGw01Bu8IA1gQTyC/jUkMJSlypVQ++IgB+X14ADZVODxMkDkbXrqIgNEA
- VdRFgcvo8w6updEe8TBKtbTqq/Z+sNl47uhOSdpP0miguWnhO5lHA+3eHXYsygGZ
- +FjYcpnBKGE8uLS+TINqd8WxDDxWEfLM4UoK9STQtmXQilh1bONKUVulmm9dJZ9R
- P5sg/diJ/ZPQvP8NyjpMvrbed7lEjx/zsnTW21emDn8byMKqvZOHp34nGyE59TNF
- TwITE4YSyhnII+eUrCeCjNG4y+31+U9kvAiBwBE7yas0sFA6di6dUAWBw==
+ :mime-version:content-transfer-encoding; s=fm1; bh=j2k9HpTrV3TkL
+ 6eRFBEngDJVE7jcAkCbhkcm19svwDg=; b=voFziL87mlMuHQraZFHPGo7ODxLJ4
+ 5C0OcxbM6NdeROpUXnPwp6FOtBDI3i7PMHaW+ohZJpQEWnlTpAfCZv4EDtb8LuJZ
+ RrXYHmb9W+IGkvat5xM1S+lW3+MUXEO9eBi5Xl1bNHpdplADkaONtD6FoccJyYCY
+ AaiKDP6lrta+nTukKjp4OfEjWQj2ZRNY2tNvNsS3VD3L8jRpvV54zeDGGEQ1bQu2
+ wDbbuAvy2YTvesEfkleYRVNDqqWGfNX1L9GQLnduRTRWhLCFMwARMYfUW08ZghdF
+ 7EltxKum73FvNY4Uxax1cFrAujoiW41kH6kvGWkAKSEZEbnQ/PrMIjXYg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=sBPATm+u2MfPvqufWKbPI4pSHthzu9uObTwJH52y8Q0=; b=cej9pILW
- mVEYUMmY9H3rj9rJuyTsPQGcDbbkkyadzvEVNzDS1CIAwU1eCkbWACmpcQnH27Bl
- 5+ljRlLZDaaiEOl8C6cXarqWxY4MhVRLLqmHa5VNQaUIbVChQ2DrSSpYnU7zIR5N
- /CaLVjZLpxa5kvp8FayABpRVlzq6XJyNpal36HciRAPozJiLGe3Bv7KWmMJCOI5j
- V0Lkc+xNkV0HVcUatmJl8ReRDuVnvaPZIWl+ZQycEJMciY+yBvAmMmlexuEUnvCL
- I5L3Y6SKLqWNoMEjwJzKBTNX0enp7rc12cCQSQjNrB0IVdjErPOzZ/fsh4oFcLco
- H0xzyjukd67gIQ==
-X-ME-Sender: <xms:Pz7AXzrxzE73AbzyHfdGqGBtYihDeO1jWjNElz44Tb53cunUaQkaxg>
- <xme:Pz7AX9rtaqMk9pcPi3R9Zs__5DtOdvbCKZp1AxphNTkXQiJdhkCa2YoC8AW2Q5d-1
- _VndvO4Q0wt_b3pel8>
+ fm1; bh=j2k9HpTrV3TkL6eRFBEngDJVE7jcAkCbhkcm19svwDg=; b=mn7gIkqK
+ MeDyrqaSzySgg3YmVfigLsaOj4vbYuOaYbM2XhtjS6dsNaSPh0F4VEnboyhoiSdE
+ DvOvBWdLE7Aq8nlkC4mb2l0p7ooSsws/MNXSLQlRBrlFvaoUsFtM9JmNaUyLfY0l
+ LspN9C48mOjZMM60xOU9+FHr2wmDL1PJoXahrGiabs8c/MQygAsCQ5uEv28+jYg2
+ 44a70VvGchleKFbBbUl9RbBxkWMljkH16aeGwhk9BZ2vDjyrxW+NEWB/lylsps4m
+ 5tkgRK5wObL6ljbuq9hS8iS2+/6gd1MONxG62N4Ihe1IWbY++ivd5gnJGqXQZEyT
+ O73gehfrHZIPnA==
+X-ME-Sender: <xms:QT7AX84XCwLfzAxrlr2425HBcclCUt3eTvU8KACFjiFvLMmFpe8ogw>
+ <xme:QT7AX95S-rPwy67cXWQRdXawGi0QgzG2Gkxv1QcbZQI8NuNIEHmlcfZCvAIyLDqBH
+ RP7EjY9Ewi7XjceyjQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudehfedguddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,34 +53,34 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudehfedguddvucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:Pz7AXwN6ke6WrsCwAvQW98DlcIfNgicq7Y7oOZt-ef7cInTrZpV6jg>
- <xmx:Pz7AX24RN6FM56OUlco7P5QRMSoksh-VyDtJmPQ7j6tV_uT7u7HNvw>
- <xmx:Pz7AXy4Ex89FsQf-2JUPcl2l2J5t9LrBL9elGchjFpuFtdT_Rm4QbQ>
- <xmx:Pz7AX0vp7lZzoQB-yBYsTE8xRJ6gVVYlYCDNS2U8lpYHKcyNgSUK4A>
+X-ME-Proxy: <xmx:QT7AX7cUEWiKxqgpjkv-N_Qnfrc7kXXLkrl7rwOROp48Pf7YtPDqcQ>
+ <xmx:QT7AXxKoebcbE9BdDuJCBOXJzMkp3PuPM_nKCpOSGPMyJYVkzVwR5A>
+ <xmx:QT7AXwKAqDTMUWwqiFu26YzOdf6ydFaaQphFrr-DU7eVKV2Mg5YKPQ>
+ <xmx:QT7AX5pQNmacjdk5hg9zzwTnP_EDm112QE206EwEqik-sUc8JYKCvw>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 43D733064AAA;
- Thu, 26 Nov 2020 18:46:06 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id D80B63064AB3;
+ Thu, 26 Nov 2020 18:46:07 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 02/12] hw/block/nvme: Merge nvme_write_zeroes() with
- nvme_write()
-Date: Fri, 27 Nov 2020 00:45:51 +0100
-Message-Id: <20201126234601.689714-3-its@irrelevant.dk>
+Subject: [PATCH v5 03/12] hw/block/nvme: add commands supported and effects
+ log page
+Date: Fri, 27 Nov 2020 00:45:52 +0100
+Message-Id: <20201126234601.689714-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201126234601.689714-1-its@irrelevant.dk>
 References: <20201126234601.689714-1-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
- helo=new2-smtp.messagingengine.com
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,148 +94,167 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Niklas Cassel <Niklas.Cassel@wdc.com>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-nvme_write() now handles WRITE, WRITE ZEROES and ZONE_APPEND.
+This is to support for the Commands Supported and Effects log page. See
+NVM Express Spec 1.3d, sec. 5.14.1.5 ("Commands Supported and Effects")
 
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Reviewed-by: Niklas Cassel <Niklas.Cassel@wdc.com>
-[kj: rebased]
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c       | 69 +++++++++++++++++--------------------------
- hw/block/trace-events |  1 -
- 2 files changed, 27 insertions(+), 43 deletions(-)
+ include/block/nvme.h | 25 ++++++++++++++++--
+ hw/block/nvme.c      | 61 +++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 83 insertions(+), 3 deletions(-)
 
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 6ea435fd34ab..ffc65dc25f90 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -773,6 +773,24 @@ typedef struct QEMU_PACKED NvmeSmartLog {
+     uint8_t     reserved2[320];
+ } NvmeSmartLog;
+ 
++typedef struct NvmeEffectsLog {
++    uint32_t acs[256];
++    uint32_t iocs[256];
++    uint8_t  rsvd2048[2048];
++} NvmeEffectsLog;
++
++enum {
++    NVME_EFFECTS_CSUPP      = 1 <<  0,
++    NVME_EFFECTS_LBCC       = 1 <<  1,
++    NVME_EFFECTS_NCC        = 1 <<  2,
++    NVME_EFFECTS_NIC        = 1 <<  3,
++    NVME_EFFECTS_CCC        = 1 <<  4,
++    NVME_EFFECTS_CSE_SINGLE = 1 << 16,
++    NVME_EFFECTS_CSE_MULTI  = 1 << 17,
++    NVME_EFFECTS_CSE_MASK   = 3 << 16,
++    NVME_EFFECTS_UUID_SEL   = 1 << 19,
++};
++
+ enum NvmeSmartWarn {
+     NVME_SMART_SPARE                  = 1 << 0,
+     NVME_SMART_TEMPERATURE            = 1 << 1,
+@@ -785,6 +803,7 @@ enum NvmeLogIdentifier {
+     NVME_LOG_ERROR_INFO     = 0x01,
+     NVME_LOG_SMART_INFO     = 0x02,
+     NVME_LOG_FW_SLOT_INFO   = 0x03,
++    NVME_LOG_EFFECTS        = 0x05,
+ };
+ 
+ typedef struct QEMU_PACKED NvmePSD {
+@@ -901,8 +920,9 @@ enum NvmeIdCtrlFrmw {
+ };
+ 
+ enum NvmeIdCtrlLpa {
+-    NVME_LPA_NS_SMART = 1 << 0,
+-    NVME_LPA_EXTENDED = 1 << 2,
++    NVME_LPA_NS_SMART     = 1 << 0,
++    NVME_LPA_EFFECTS_LOG  = 1 << 1,
++    NVME_LPA_EXTENDED     = 1 << 2,
+ };
+ 
+ #define NVME_CTRL_SQES_MIN(sqes) ((sqes) & 0xf)
+@@ -1119,5 +1139,6 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNs) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSglDescriptor) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsDescr) != 4);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeEffectsLog) != 4096);
+ }
+ #endif
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 657d0b8b2922..0050ef87cb92 100644
+index 0050ef87cb92..7a5ec843d567 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1449,31 +1449,6 @@ invalid:
-     return status;
+@@ -1782,6 +1782,63 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+                     DMA_DIRECTION_FROM_DEVICE, req);
  }
  
--static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
--{
--    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
--    NvmeNamespace *ns = req->ns;
--    uint64_t slba = le64_to_cpu(rw->slba);
--    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
--    uint64_t offset = nvme_l2b(ns, slba);
--    uint32_t count = nvme_l2b(ns, nlb);
--    uint16_t status;
--
--    trace_pci_nvme_write_zeroes(nvme_cid(req), nvme_nsid(ns), slba, nlb);
--
--    status = nvme_check_bounds(ns, slba, nlb);
--    if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
--        return status;
--    }
--
--    block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
--                     BLOCK_ACCT_WRITE);
--    req->aiocb = blk_aio_pwrite_zeroes(req->ns->blkconf.blk, offset, count,
--                                       BDRV_REQ_MAY_UNMAP, nvme_rw_cb, req);
--    return NVME_NO_COMPLETE;
--}
--
- static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req)
++static void nvme_effects_nvm(NvmeEffectsLog *effects)
++{
++    effects->iocs[NVME_CMD_FLUSH] = NVME_EFFECTS_CSUPP | NVME_EFFECTS_LBCC;
++    effects->iocs[NVME_CMD_WRITE] = NVME_EFFECTS_CSUPP | NVME_EFFECTS_LBCC;
++    effects->iocs[NVME_CMD_READ] = NVME_EFFECTS_CSUPP;
++    effects->iocs[NVME_CMD_COMPARE] = NVME_EFFECTS_CSUPP;
++    effects->iocs[NVME_CMD_WRITE_ZEROES] = NVME_EFFECTS_CSUPP |
++                                           NVME_EFFECTS_LBCC;
++    effects->iocs[NVME_CMD_DSM] = NVME_EFFECTS_CSUPP | NVME_EFFECTS_LBCC;
++    effects->iocs[NVME_CMD_COPY] = NVME_EFFECTS_CSUPP | NVME_EFFECTS_LBCC;
++}
++
++static uint16_t nvme_effects_log(NvmeCtrl *n, uint32_t buf_len, uint64_t off,
++                                 NvmeRequest *req)
++{
++    NvmeEffectsLog effects = (NvmeEffectsLog) {
++        .acs = {
++            [NVME_ADM_CMD_DELETE_SQ]    = NVME_EFFECTS_CSUPP,
++            [NVME_ADM_CMD_CREATE_SQ]    = NVME_EFFECTS_CSUPP,
++            [NVME_ADM_CMD_GET_LOG_PAGE] = NVME_EFFECTS_CSUPP,
++            [NVME_ADM_CMD_DELETE_CQ]    = NVME_EFFECTS_CSUPP,
++            [NVME_ADM_CMD_CREATE_CQ]    = NVME_EFFECTS_CSUPP,
++            [NVME_ADM_CMD_IDENTIFY]     = NVME_EFFECTS_CSUPP,
++            [NVME_ADM_CMD_ABORT]        = NVME_EFFECTS_CSUPP,
++            [NVME_ADM_CMD_SET_FEATURES] = NVME_EFFECTS_CSUPP |
++                                          NVME_EFFECTS_CCC |
++                                          NVME_EFFECTS_NIC |
++                                          NVME_EFFECTS_NCC,
++            [NVME_ADM_CMD_GET_FEATURES] = NVME_EFFECTS_CSUPP,
++            [NVME_ADM_CMD_ASYNC_EV_REQ] = NVME_EFFECTS_CSUPP
++        },
++    };
++
++    uint32_t trans_len;
++
++    if (off >= sizeof(NvmeEffectsLog)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    switch (NVME_CC_CSS(n->bar.cc)) {
++    case NVME_CC_CSS_ADMIN_ONLY:
++        break;
++
++    case NVME_CC_CSS_NVM:
++        nvme_effects_nvm(&effects);
++        break;
++
++    default:
++        return NVME_INTERNAL_DEV_ERROR | NVME_DNR;
++    }
++
++    trans_len = MIN(sizeof(effects) - off, buf_len);
++
++    return nvme_dma(n, (uint8_t *)&effects + off, trans_len,
++                    DMA_DIRECTION_FROM_DEVICE, req);
++}
++
+ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
  {
-     NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-@@ -1483,15 +1458,18 @@ static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req)
-     uint64_t data_size = nvme_l2b(ns, nlb);
-     uint64_t data_offset;
-     BlockBackend *blk = ns->blkconf.blk;
-+    bool wrz = rw->opcode == NVME_CMD_WRITE_ZEROES;
-     uint16_t status;
+     NvmeCmd *cmd = &req->cmd;
+@@ -1825,6 +1882,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_smart_info(n, rae, len, off, req);
+     case NVME_LOG_FW_SLOT_INFO:
+         return nvme_fw_log_info(n, len, off, req);
++    case NVME_LOG_EFFECTS:
++        return nvme_effects_log(n, len, off, req);
+     default:
+         trace_pci_nvme_err_invalid_log_page(nvme_cid(req), lid);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -3286,7 +3345,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->acl = 3;
+     id->aerl = n->params.aerl;
+     id->frmw = (NVME_NUM_FW_SLOTS << 1) | NVME_FRMW_SLOT1_RO;
+-    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_EXTENDED;
++    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_EXTENDED | NVME_LPA_EFFECTS_LOG;
  
-     trace_pci_nvme_write(nvme_cid(req), nvme_io_opc_str(rw->opcode),
-                          nvme_nsid(ns), nlb, data_size, slba);
- 
--    status = nvme_check_mdts(n, data_size);
--    if (status) {
--        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
--        goto invalid;
-+    if (!wrz) {
-+        status = nvme_check_mdts(n, data_size);
-+        if (status) {
-+            trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
-+            goto invalid;
-+        }
-     }
- 
-     status = nvme_check_bounds(ns, slba, nlb);
-@@ -1500,22 +1478,30 @@ static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req)
-         goto invalid;
-     }
- 
--    status = nvme_map_dptr(n, data_size, req);
--    if (status) {
--        goto invalid;
--    }
--
-     data_offset = nvme_l2b(ns, slba);
- 
--    block_acct_start(blk_get_stats(blk), &req->acct, data_size,
--                     BLOCK_ACCT_WRITE);
--    if (req->qsg.sg) {
--        req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
--                                   BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-+    if (!wrz) {
-+        status = nvme_map_dptr(n, data_size, req);
-+        if (status) {
-+            goto invalid;
-+        }
-+
-+        block_acct_start(blk_get_stats(blk), &req->acct, data_size,
-+                         BLOCK_ACCT_WRITE);
-+        if (req->qsg.sg) {
-+            req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
-+                                       BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-+        } else {
-+            req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
-+                                         nvme_rw_cb, req);
-+        }
-     } else {
--        req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
--                                     nvme_rw_cb, req);
-+        block_acct_start(blk_get_stats(blk), &req->acct, 0, BLOCK_ACCT_WRITE);
-+        req->aiocb = blk_aio_pwrite_zeroes(blk, data_offset, data_size,
-+                                           BDRV_REQ_MAY_UNMAP, nvme_rw_cb,
-+                                           req);
-     }
-+
-     return NVME_NO_COMPLETE;
- 
- invalid:
-@@ -1547,7 +1533,6 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     case NVME_CMD_FLUSH:
-         return nvme_flush(n, req);
-     case NVME_CMD_WRITE_ZEROES:
--        return nvme_write_zeroes(n, req);
-     case NVME_CMD_WRITE:
-         return nvme_write(n, req);
-     case NVME_CMD_READ:
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index cc269b51a1e0..35ea40c49169 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -47,7 +47,6 @@ pci_nvme_copy(uint16_t cid, uint32_t nsid, uint16_t nr, uint8_t format) "cid %"P
- pci_nvme_copy_source_range(uint64_t slba, uint32_t nlb) "slba 0x%"PRIx64" nlb %"PRIu32""
- pci_nvme_copy_in_complete(uint16_t cid) "cid %"PRIu16""
- pci_nvme_copy_cb(uint16_t cid) "cid %"PRIu16""
--pci_nvme_write_zeroes(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
- pci_nvme_block_status(int64_t offset, int64_t bytes, int64_t pnum, int ret, bool zeroed) "offset %"PRId64" bytes %"PRId64" pnum %"PRId64" ret 0x%x zeroed %d"
- pci_nvme_dsm(uint16_t cid, uint32_t nsid, uint32_t nr, uint32_t attr) "cid %"PRIu16" nsid %"PRIu32" nr %"PRIu32" attr 0x%"PRIx32""
- pci_nvme_dsm_deallocate(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
+     /* recommended default value (~70 C) */
+     id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
 -- 
 2.29.2
 
