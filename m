@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E572C5325
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 12:38:42 +0100 (CET)
-Received: from localhost ([::1]:47784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F14282C5338
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 12:47:04 +0100 (CET)
+Received: from localhost ([::1]:34192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiFbl-0003kL-81
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 06:38:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37818)
+	id 1kiFjs-0001j7-1L
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 06:47:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kiFTv-0003kJ-Ow
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:30:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60258)
+ id 1kiFU3-00041y-7e
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:30:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kiFTs-0006XE-Fk
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:30:35 -0500
+ id 1kiFU1-0006aj-Cy
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:30:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606390231;
+ s=mimecast20190719; t=1606390240;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nM2YOWlL4oKxjru1lmnZu7dVtPS06ZweI/bTapfx3O4=;
- b=PsS+EWdvA+R9kVtnNopbghS+103obClxaMHd9uJJzKHB+UPT1yv34vJ0UqZhToSe6rF/n/
- 8D8jCt1b2TRdisiSqCGplF4nkgznu8Y2FmOrE53jxt3Eyb884pjyz1d3dyPfb0kV0pDMIm
- 4W0l96c22THfUS0/PyP0wN2NAuOIgVE=
+ bh=bJfxR8iE/ekObIgENFS5uk+Teh5Zrfon3J6p5gZpF/M=;
+ b=R3zxoY+BrPk2ahofi4pFRGiRlLrOA4vIaIIYdDnj4xve4tq145F22RJqSxrIP7JQ8b7++B
+ Qc620Bb8DDkJ8muHIny852ouRKkIwA6nqf7EB14SaoDIOpcyaaUzaHU0l3nKE8DubqOsBR
+ OeSPWYblUMLRHHlYMFDMTkt8R/0PcIE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-WJLo0Jd-NR2c4b9I2Xgi-g-1; Thu, 26 Nov 2020 06:30:29 -0500
-X-MC-Unique: WJLo0Jd-NR2c4b9I2Xgi-g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-262-elP0U3LnOjGFkd5z20UEgQ-1; Thu, 26 Nov 2020 06:30:38 -0500
+X-MC-Unique: elP0U3LnOjGFkd5z20UEgQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 983A0190A7A0;
- Thu, 26 Nov 2020 11:30:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FFCE100C662;
+ Thu, 26 Nov 2020 11:30:37 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C95E1001E73;
- Thu, 26 Nov 2020 11:30:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E452860C05;
+ Thu, 26 Nov 2020 11:30:32 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/13] audio: remove GNUC & MSVC check
-Date: Thu, 26 Nov 2020 15:29:11 +0400
-Message-Id: <20201126112915.525285-10-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 10/13] poison: remove GNUC check
+Date: Thu, 26 Nov 2020 15:29:12 +0400
+Message-Id: <20201126112915.525285-11-marcandre.lureau@redhat.com>
 In-Reply-To: <20201126112915.525285-1-marcandre.lureau@redhat.com>
 References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,33 +86,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-QEMU requires either GCC or Clang, which both advertize __GNUC__.
-Drop MSVC fallback path.
+QEMU requires Clang or GCC, that define and support __GNUC__ extensions
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- audio/audio.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ include/exec/poison.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 46578e4a58..d7a00294de 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -122,13 +122,7 @@ int audio_bug (const char *funcname, int cond)
+diff --git a/include/exec/poison.h b/include/exec/poison.h
+index 7b9ac361dc..d7ae1f23e7 100644
+--- a/include/exec/poison.h
++++ b/include/exec/poison.h
+@@ -3,7 +3,6 @@
  
- #if defined AUDIO_BREAKPOINT_ON_BUG
- #  if defined HOST_I386
--#    if defined __GNUC__
--        __asm__ ("int3");
--#    elif defined _MSC_VER
--        _asm _emit 0xcc;
--#    else
--        abort ();
--#    endif
-+      __asm__ ("int3");
- #  else
-         abort ();
- #  endif
+ #ifndef HW_POISON_H
+ #define HW_POISON_H
+-#ifdef __GNUC__
+ 
+ #pragma GCC poison TARGET_I386
+ #pragma GCC poison TARGET_X86_64
+@@ -93,4 +92,3 @@
+ #pragma GCC poison CONFIG_SOFTMMU
+ 
+ #endif
+-#endif
 -- 
 2.29.0
 
