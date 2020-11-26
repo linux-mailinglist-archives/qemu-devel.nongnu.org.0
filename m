@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2C542C5DC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 23:28:41 +0100 (CET)
-Received: from localhost ([::1]:48292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE22D2C5DD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 23:31:22 +0100 (CET)
+Received: from localhost ([::1]:51532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiPkm-00070D-Do
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 17:28:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41652)
+	id 1kiPnN-0008QQ-RC
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 17:31:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1kiPeV-0005GO-Kp; Thu, 26 Nov 2020 17:22:11 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38314)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kiPj0-0006Cv-F3
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 17:26:50 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:35763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1kiPeT-00082s-VO; Thu, 26 Nov 2020 17:22:11 -0500
-Received: by mail-ot1-x341.google.com with SMTP id h39so3029055otb.5;
- Thu, 26 Nov 2020 14:22:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kiPix-0001E5-HZ
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 17:26:50 -0500
+Received: by mail-ej1-x643.google.com with SMTP id f23so4959344ejk.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 14:26:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=V01+2pVf3iNWwDk6BZ5Dn2lGMVYKNZwGeFqfpVoAE8o=;
- b=GCD9HlAKX1toB0hyoYiwZEloOhiwaY9AFjuZseQ0ZtA8HTOL4jtngAD1JdcEOu2yRJ
- xVddNg5TXr7xdG1pLzaY81vH2vs91tvEGMJbVoaEAIQVryC6BXFbgPIWR4/RvQ3kcU0t
- pGb837jTvU9wmBNr9wCn7KHlrhNRwZERrDZ7w/BVhh8yCskk6LyrimNqy+aJrUJvNWvO
- M5uvWaDY4w9CeQbdilltpUSsfvgL/JVw+XMXlvI7EI1G0J3VjZ4pd4/Uk3PWbrB3qLoE
- ow0X9DdpJ/JvFSlrbYFzuFTGjw9whNgdTYFAqcikSi8hefzhgZEC8ztl/NYiUrSB59hQ
- M8QA==
+ :cc; bh=0y4RpvpeQrQuyoRlFv0Z0WA/0BbXyrS+nASu+yXFU3o=;
+ b=hElLGIZyKxfkWo5oFGt112j81TeN/dNGw+p6eQPpW5gD1U1gxlLNgXDXqH20REMoUB
+ H7WH3lBucKZlCQ7UZM3tx52vobqNALWO7RXL8YglfbKxxPf7keFtYeVSoo6uNYeGzHWI
+ EPeLAmOhV8Z5lBb0nY2OUmVzYmrqkCdC1yUaX81SrfGhhq0OfrbJQdCXTBEyKVRIy4IH
+ ETdYQILz9JIxjGDnbstZwV5GZwrLpba5Jkqh9krRrZBL2ynI9wXm9Rqm41lwiJKKmlvX
+ PpXno1N+zTThsK+mDjPJGkCDUhjlC1gbbC+jDoE7XQc/VdOIqHt7/Mt+2PfMk6E8rdWF
+ 85bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=V01+2pVf3iNWwDk6BZ5Dn2lGMVYKNZwGeFqfpVoAE8o=;
- b=hQWGSaVuaeFcGx6+hJDiKYghPbAubFseUW+vYi5KHdLEF1WoZfybzRHIphB1dKOISr
- Tw2S3CzeoYk+g0EExZG/Jgqm0l9QtoBYNNMcPHR2lo3hXKgL50ewo7mh996R6eP6SsBX
- xwXObRgaiXRfGNT0bhiUMlrck7zsxgwh1KMaBBt02B2AHiH5jKzGtLAg0PoEG8ZNH2yg
- j7Cr9r1DbpF6c6LAxUFZA+x4MMkSu2ODIUQMxOZ6uR9OoXEq75DnJqU5nIC7uhF8mUo7
- iBgmv/jbVTEZOu0SAkJovnpAqDR2lIktTj6SPicYFPATUM5iPV52QLFLUwV60NJYfYaf
- Nk8A==
-X-Gm-Message-State: AOAM533wNHG24fLeFyk54zzKo83DmlXaF7QwVLuir8xI6Mj4MAdhFV8F
- a4o6QtXr0JiQome86q1S29jeSM8E3+MtzW/gdyo=
-X-Google-Smtp-Source: ABdhPJww93fj0xFBms+PCGC2HKcEEKnmZBr2PE9D/JaTaOEvBFqNI+0AnF9HEm49CKs+81oQB0ev1mIOBtDUA+PP3Eg=
-X-Received: by 2002:a05:6830:4035:: with SMTP id
- i21mr3673707ots.221.1606429327728; 
- Thu, 26 Nov 2020 14:22:07 -0800 (PST)
+ bh=0y4RpvpeQrQuyoRlFv0Z0WA/0BbXyrS+nASu+yXFU3o=;
+ b=JSnsoLREU7/G18k+5U/utrnKYA6M2mnjNMkitxCYpT7nGHZhLZ954gROEONGDE/R46
+ BXUIuhDuPdydnLkv4uv5xiqujqPaOP3LKQy3O97q4cpRmN/C/JdNpdkSBUj2gfZmirU7
+ Lb+qMI6/+9iM+l4HjjVcX2cGbg3HrX61XuWqIohsPLICgOajgz7HhIV7GzBSsSj4NA76
+ dq3onOfseOb1mc83ZeMGNFKus/IJ2Km1NT+OxDG9LDXkALbN5ZBBQmdjfjBbZv57tMSv
+ 5QUaGKxjaQdM/bd5wLs4Enpiq3VVpAk2hO0GFk6Tid5p7w5XCNwR2Hf19wovYeUyc9DA
+ /vLA==
+X-Gm-Message-State: AOAM530ms0+w/WHasZXikOt3Rwb3YH5ArYVXfuzZ4sbMBEYOBoMnq+DM
+ RKeQeINM9Rjf3T2m0/SrIuOKDyxXRnopzGfK3xsgFA==
+X-Google-Smtp-Source: ABdhPJw4oOxdRXdjX8imlCnocVLUlvx57b2UaU+p9G1M7KutPCFI6hHnZGXfngm1CQOQvfRfN5vM3hGmlPLf9/OjUeU=
+X-Received: by 2002:a17:906:d8a9:: with SMTP id
+ qc9mr4615748ejb.482.1606429605919; 
+ Thu, 26 Nov 2020 14:26:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20201126185605.539311-1-its@irrelevant.dk>
-In-Reply-To: <20201126185605.539311-1-its@irrelevant.dk>
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-Date: Fri, 27 Nov 2020 07:21:52 +0900
-Message-ID: <CAA7jztcYwDm3-T4mhbWYOsPn+5-ko6j4Qd2ge7DVLgAf7GfKAw@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/block/nvme: add compare command
-To: Klaus Jensen <its@irrelevant.dk>
+References: <20201126213600.40654-1-agraf@csgraf.de>
+ <20201126213600.40654-5-agraf@csgraf.de>
+ <CAFEAcA_XZu07Fg3G05VWYDYTJfMSAzOH5yyd=rFLJVa73juDtw@mail.gmail.com>
+ <785c216b-d4b5-b65f-1ddf-4c6374b72ece@csgraf.de>
+In-Reply-To: <785c216b-d4b5-b65f-1ddf-4c6374b72ece@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Nov 2020 22:26:34 +0000
+Message-ID: <CAFEAcA9QUfBQpmH=8_A+xDm53GkkOgFEDnkTDXOX_1A-bFg0Ng@mail.gmail.com>
+Subject: Re: [PATCH 4/8] arm: Synchronize CPU on PSCI on
+To: Alexander Graf <agraf@csgraf.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,28 +80,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+On Thu, 26 Nov 2020 at 22:16, Alexander Graf <agraf@csgraf.de> wrote:
+> cpu_synchronize_state() sets the CPU registers into "dirty" state which
+> means that env now holds the current copy. On the next entry, we then
+> sync them back into HVF.
+>
+> Without the cpu_synchronize_state() call, HVF never knows that the CPU
+> state is actually dirty. I guess it could as well live in cpu_reset()
+> somewhere, but we have to get the state switched over to dirty one way
+> or another.
+>
+> One interesting thing to note here is that the CPU actually comes up in
+> "dirty" after init. But init is done on realization already. I'm not
+> sure why we lose the dirty state in between that and the reset.
 
-On Fri, Nov 27, 2020 at 3:56 AM Klaus Jensen <its@irrelevant.dk> wrote:
->
-> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->
-> Add the Compare command.
->
-> This implementation uses a bounce buffer to read in the data from
-> storage and then compare with the host supplied buffer.
->
-> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> [k.jensen: rebased]
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Yeah, it sounds like you need to figure out where the dirty
+to not-dirty transitions ought to be happening rather than
+just fudging things here...
 
-
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+-- PMM
 
