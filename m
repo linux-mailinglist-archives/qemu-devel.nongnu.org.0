@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C2E2C58F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 17:05:06 +0100 (CET)
-Received: from localhost ([::1]:54320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8141D2C593C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 17:25:01 +0100 (CET)
+Received: from localhost ([::1]:35832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiJlY-0003TD-C8
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 11:05:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57400)
+	id 1kiK4q-0001DX-3V
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 11:25:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiJVN-0003GF-6o
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:48:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43764)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kiK3Q-0000lA-5w
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 11:23:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiJVL-0001KU-CA
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:48:20 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kiK3N-0002Vo-Pl
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 11:23:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606405698;
+ s=mimecast20190719; t=1606407807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9zImwZ3E/Ibs9FRFNAYZxws9TifsfC7c/xUAFobPeWo=;
- b=hzdjyPUmeXOYHGi+S9CPZT7/NkWinHXIWCQveISh0UnQ308vJ9ODD7Qw+9x8ugjlNH7OGM
- ja9oBomeqfY1OAWZ6BAj405w1Q4M+uQANzFVyVmSCogTV+nQ0eheaVr3SMJw96H58XEEVX
- OnH2T0yXkZVuheN3FNMWRXlEZdyx+VY=
+ bh=88Ilrs/UtaOI/nuaUxZhQsBUeU6nzmFeMf8qZEvQOMs=;
+ b=LfO0tElwo7l8ISqTWi/w2Rm+ZcN9GZc8WucG9qXVRCVmIZGeQtaaTwq6FkISk3gI3ZvC8e
+ eh+mAKbK3NF9BwK04s/XgANxbXKfPro5IjoK/WMBcSD6Vg0xI7dtTj05OJcLqdzAqp+Vif
+ RUnpaz7/8Aic7vXn0UzPg8tLWdWvB2E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-jAfIEpz7MwOudKJzrBf19Q-1; Thu, 26 Nov 2020 10:48:15 -0500
-X-MC-Unique: jAfIEpz7MwOudKJzrBf19Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-426-sU0mou_5ORSdcibn0sC3Xw-1; Thu, 26 Nov 2020 11:23:25 -0500
+X-MC-Unique: sU0mou_5ORSdcibn0sC3Xw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADD4B1087D60;
- Thu, 26 Nov 2020 15:48:12 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 434B95D9C6;
- Thu, 26 Nov 2020 15:48:09 +0000 (UTC)
-Date: Thu, 26 Nov 2020 10:48:08 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v5 11/12] i386: centralize initialization of cpu accel
- interfaces
-Message-ID: <20201126154808.GN2271382@habkost.net>
-References: <20201124162210.8796-12-cfontana@suse.de>
- <7dc27df6-1c81-f8fb-3e56-aa6ffe9e8475@redhat.com>
- <20201124213159.GA2271382@habkost.net>
- <1205be9d-d2f0-4533-68aa-608b16ad2181@suse.de>
- <20201126134425.GH2271382@habkost.net>
- <86ba92db-7b01-5644-7452-2fde753ddba6@suse.de>
- <20201126144959.GJ2271382@habkost.net>
- <16445790-3371-9775-3d03-f8c8f0d66b18@suse.de>
- <20201126151432.GL2271382@habkost.net>
- <dfcdf02b-0bb6-215b-464b-7704cb27818f@suse.de>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1197C185E490;
+ Thu, 26 Nov 2020 16:23:24 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76E335D6AC;
+ Thu, 26 Nov 2020 16:23:22 +0000 (UTC)
+Date: Thu, 26 Nov 2020 17:23:20 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH for-6.0 4/9] spapr: Set compat mode in spapr_reset_vcpu()
+Message-ID: <20201126172320.4453fbd7@redhat.com>
+In-Reply-To: <20201126101027.03f67ad5@bahia.lan>
+References: <20201120234208.683521-1-groug@kaod.org>
+ <20201120234208.683521-5-groug@kaod.org>
+ <20201123051130.GL521467@yekko.fritz.box>
+ <20201123125108.2118048e@bahia.lan>
+ <20201125023947.GE521467@yekko.fritz.box>
+ <20201125105105.05d25b1f@bahia.lan>
+ <20201126045737.GA152349@yekko.fritz.box>
+ <20201126101027.03f67ad5@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <dfcdf02b-0bb6-215b-464b-7704cb27818f@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,146 +85,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 26, 2020 at 04:34:17PM +0100, Claudio Fontana wrote:
-> On 11/26/20 4:14 PM, Eduardo Habkost wrote:
-> > On Thu, Nov 26, 2020 at 03:55:37PM +0100, Claudio Fontana wrote:
-> >> On 11/26/20 3:49 PM, Eduardo Habkost wrote:
-> >>> On Thu, Nov 26, 2020 at 03:33:17PM +0100, Claudio Fontana wrote:
-> >>>> On 11/26/20 2:44 PM, Eduardo Habkost wrote:
-> >>>>> On Thu, Nov 26, 2020 at 11:57:28AM +0100, Claudio Fontana wrote:
-> >>>>>> On 11/24/20 10:31 PM, Eduardo Habkost wrote:
-> >>>>>>> On Tue, Nov 24, 2020 at 09:13:13PM +0100, Paolo Bonzini wrote:
-> >>>>>>>> On 24/11/20 17:22, Claudio Fontana wrote:
-> >>>>>>>>> +static void x86_cpu_accel_init(void)
-> >>>>>>>>>  {
-> >>>>>>>>> -    X86CPUAccelClass *acc;
-> >>>>>>>>> +    const char *ac_name;
-> >>>>>>>>> +    ObjectClass *ac;
-> >>>>>>>>> +    char *xac_name;
-> >>>>>>>>> +    ObjectClass *xac;
-> >>>>>>>>> -    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
-> >>>>>>>>> -    g_assert(acc != NULL);
-> >>>>>>>>> +    ac = object_get_class(OBJECT(current_accel()));
-> >>>>>>>>> +    g_assert(ac != NULL);
-> >>>>>>>>> +    ac_name = object_class_get_name(ac);
-> >>>>>>>>> +    g_assert(ac_name != NULL);
-> >>>>>>>>> -    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
-> >>>>>>>>> +    xac_name = g_strdup_printf("%s-%s", ac_name, TYPE_X86_CPU);
-> >>>>>>>>> +    xac = object_class_by_name(xac_name);
-> >>>>>>>>> +    g_free(xac_name);
-> >>>>>>>>> +
-> >>>>>>>>> +    if (xac) {
-> >>>>>>>>> +        object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, xac);
-> >>>>>>>>> +    }
-> >>>>>>>>>  }
-> >>>>>>>>> +
-> >>>>>>>>> +accel_cpu_init(x86_cpu_accel_init);
-> >>>>>>>>
-> >>>>>>>> If this and cpus_accel_ops_init are the only call to accel_cpu_init, I'd
-> >>>>>>>> rather make them functions in CPUClass (which you find and call via
-> >>>>>>>> CPU_RESOLVING_TYPE) and AccelClass respectively.
-> >>>>>>>
-> >>>>>>> Making x86_cpu_accel_init() be a CPUClass method sounds like a
-> >>>>>>> good idea.  This way we won't need a arch_cpu_accel_init() stub
-> >>>>>>> for non-x86.
-> >>>>>>>
-> >>>>>>> accel.c can't use cpu.h, correct?  We can add a:
-> >>>>>>>
-> >>>>>>>   CPUClass *arch_base_cpu_type(void)
-> >>>>>>>   {
-> >>>>>>>       return object_class_by_name(CPU_RESOLVING_TYPE);
-> >>>>>>>   }
-> >>>>>>>
-> >>>>>>> function to arch_init.c, to allow target-independent code call
-> >>>>>>> target-specific code.
-> >>>>>>>
-> >>>>>>
-> >>>>>> Hi Eduardo,
-> >>>>>>
-> >>>>>> we can't use arch-init because it is softmmu only, but we could put this in $(top_srcdir)/cpu.c
-> >>>>>
-> >>>>> That would work, too.
-> >>>>>
-> >>>>>>
-> >>>>>> however, it would be very useful to put a:
-> >>>>>>
-> >>>>>> #define TYPE_ACCEL_CPU "accel-" CPU_RESOLVING_TYPE
-> >>>>>> #define ACCEL_CPU_NAME(name) (name "-" TYPE_ACCEL_CPU)
-> >>>>>>
-> >>>>>> in an H file somewhere, for convenience for the programmer that
-> >>>>>> has to implement subclasses in target/xxx/
-> >>>>>
-> >>>>> Absolutely.
-> >>>>>
-> >>>>>>
-> >>>>>> But it is tough to find a header where CPU_RESOLVING_TYPE can be used.
-> >>>>>
-> >>>>> cpu-all.h?
-> >>>>>
-> >>>>>>
-> >>>>>> We could I guess just use plain "cpu" instead of CPU_RESOLVING_TYPE,
-> >>>>>> maybe that would be acceptable too? The interface ends up in CPUClass, so maybe ok?
-> >>>>>>
-> >>>>>> So we'd end up having
-> >>>>>>
-> >>>>>> accel-cpu
-> >>>>>>
-> >>>>>> instead of the previous
-> >>>>>>
-> >>>>>> accel-x86_64-cpu
-> >>>>>>
-> >>>>>> on top of the hierarchy.
-> >>>>>
-> >>>>> It seems OK to have a accel-cpu type at the top, but I don't see
-> >>>>> why it solves the problem above.  What exactly would be the value
-> >>>>> of `kvm_cpu_accel.name`?
-> >>>>>
-> >>>>
-> >>>> It does solve the problem, because we can put then all AccelOpsClass and AccelCPUClass stuff in accel.h,
-> >>>> resolve everything in accel/accel-*.c, and make a generic solution fairly self-contained (already tested, will post soonish).
-> >>>>
-> >>>> But I'll try cpu-all.h if it's preferred to have accel-x86_64-cpu, accel-XXX-cpu on top, I wonder what the preference would be?
-> >>>
-> >>> I don't have a specific preference, but I still wonder how
-> >>> exactly you would name the X86CPUAccel implemented at
-> >>> target/i386/kvm, and how exactly you would look for it when
-> >>> initializing the accelerator.
-> >>>
-> >>
-> >> If we agree to use "accel-cpu" I would lookup "kvm-accel-cpu"
-> > 
-> > The structure in target/i386/kvm is x86-specific and
-> > kvm-specific.  If we name it "kvm-accel-cpu", how would you name
-> > the equivalent structures at target/s390x/kvm, target/arm/kvm,
-> > target/ppc/kvm?
+On Thu, 26 Nov 2020 10:10:27 +0100
+Greg Kurz <groug@kaod.org> wrote:
+
+> On Thu, 26 Nov 2020 15:57:37 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
 > 
-> The same way; only one of them would be compiled into the target binary, so the lookup would not collide in practice,
+> > On Wed, Nov 25, 2020 at 10:51:05AM +0100, Greg Kurz wrote:  
+> > > On Wed, 25 Nov 2020 13:39:47 +1100
+> > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > >   
+> > > > On Mon, Nov 23, 2020 at 12:51:08PM +0100, Greg Kurz wrote:  
+> > > > > On Mon, 23 Nov 2020 16:11:30 +1100
+> > > > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > > > >   
+> > > > > > On Sat, Nov 21, 2020 at 12:42:03AM +0100, Greg Kurz wrote:  
+> > > > > > > When it comes to resetting the compat mode of the vCPUS, there are
+> > > > > > > two situations to consider:
+> > > > > > > (1) machine reset should set the compat mode back to the machine default,
+> > > > > > >     ie. spapr->max_compat_pvr
+> > > > > > > (2) hot plugged vCPUs should set their compat mode to mach the boot vCPU,
+> > > > > > >     ie. POWERPC_CPU(first_cpu)->compat_pvr
+> > > > > > > 
+> > > > > > > This is currently handled in two separate places: globally for all vCPUs
+> > > > > > > from the machine reset code for (1) and for each thread of a core from
+> > > > > > > the hotplug path for (2).
+> > > > > > > 
+> > > > > > > Since the machine reset code already resets all vCPUs, starting with boot
+> > > > > > > vCPU, consolidate the logic in spapr_reset_vcpu(). Special case the boot
+> > > > > > > vCPU so that it resets its compat mode back to the machine default. Any
+> > > > > > > other vCPU just need to match the compat mode of the boot vCPU.
+> > > > > > > 
+> > > > > > > Failing to set the compat mode during machine reset is a fatal error,
+> > > > > > > but not for hot plugged vCPUs. This is arguable because if we've been
+> > > > > > > able to set the boot vCPU compat mode at CAS or during machine reset,
+> > > > > > > it should definitely not fail for other vCPUs. Since spapr_reset_vcpu()
+> > > > > > > already has a fatal error path for kvm_check_mmu() failures, do the
+> > > > > > > same for ppc_set_compat().
+> > > > > > > 
+> > > > > > > This gets rid of an error path in spapr_core_plug(). It will allow
+> > > > > > > further simplifications.
+> > > > > > > 
+> > > > > > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > > > > > > ---
+> > > > > > >  hw/ppc/spapr.c          | 16 ----------------
+> > > > > > >  hw/ppc/spapr_cpu_core.c | 13 +++++++++++++
+> > > > > > >  2 files changed, 13 insertions(+), 16 deletions(-)
+> > > > > > > 
+> > > > > > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > > > > > > index f58f77389e8e..da7586f548df 100644
+> > > > > > > --- a/hw/ppc/spapr.c
+> > > > > > > +++ b/hw/ppc/spapr.c
+> > > > > > > @@ -1606,8 +1606,6 @@ static void spapr_machine_reset(MachineState *machine)
+> > > > > > >      spapr_ovec_cleanup(spapr->ov5_cas);
+> > > > > > >      spapr->ov5_cas = spapr_ovec_new();
+> > > > > > >  
+> > > > > > > -    ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
+> > > > > > > -
+> > > > > > >      /*
+> > > > > > >       * This is fixing some of the default configuration of the XIVE
+> > > > > > >       * devices. To be called after the reset of the machine devices.
+> > > > > > > @@ -3785,20 +3783,6 @@ static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+> > > > > > >  
+> > > > > > >      core_slot->cpu = OBJECT(dev);
+> > > > > > >  
+> > > > > > > -    /*
+> > > > > > > -     * Set compatibility mode to match the boot CPU, which was either set
+> > > > > > > -     * by the machine reset code or by CAS.
+> > > > > > > -     */
+> > > > > > > -    if (hotplugged) {
+> > > > > > > -        for (i = 0; i < cc->nr_threads; i++) {
+> > > > > > > -            if (ppc_set_compat(core->threads[i],
+> > > > > > > -                               POWERPC_CPU(first_cpu)->compat_pvr,
+> > > > > > > -                               errp) < 0) {
+> > > > > > > -                return;
+> > > > > > > -            }
+> > > > > > > -        }
+> > > > > > > -    }
+> > > > > > > -
+> > > > > > >      if (smc->pre_2_10_has_unused_icps) {
+> > > > > > >          for (i = 0; i < cc->nr_threads; i++) {
+> > > > > > >              cs = CPU(core->threads[i]);
+> > > > > > > diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> > > > > > > index 2f7dc3c23ded..17741a3fb77f 100644
+> > > > > > > --- a/hw/ppc/spapr_cpu_core.c
+> > > > > > > +++ b/hw/ppc/spapr_cpu_core.c
+> > > > > > > @@ -27,6 +27,7 @@
+> > > > > > >  
+> > > > > > >  static void spapr_reset_vcpu(PowerPCCPU *cpu)
+> > > > > > >  {
+> > > > > > > +    PowerPCCPU *first_ppc_cpu = POWERPC_CPU(first_cpu);
+> > > > > > >      CPUState *cs = CPU(cpu);
+> > > > > > >      CPUPPCState *env = &cpu->env;
+> > > > > > >      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+> > > > > > > @@ -69,6 +70,18 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+> > > > > > >      kvm_check_mmu(cpu, &error_fatal);
+> > > > > > >  
+> > > > > > >      spapr_irq_cpu_intc_reset(spapr, cpu);
+> > > > > > > +
+> > > > > > > +    /*
+> > > > > > > +     * The boot CPU is only reset during machine reset : reset its
+> > > > > > > +     * compatibility mode to the machine default. For other CPUs,
+> > > > > > > +     * either cold plugged or hot plugged, set the compatibility mode
+> > > > > > > +     * to match the boot CPU, which was either set by the machine reset
+> > > > > > > +     * code or by CAS.
+> > > > > > > +     */
+> > > > > > > +    ppc_set_compat(cpu,
+> > > > > > > +                   cpu == first_ppc_cpu ?
+> > > > > > > +                   spapr->max_compat_pvr : first_ppc_cpu->compat_pvr,
+> > > > > > > +                   &error_fatal);  
+> > > > > > 
+> > > > > > This assumes that when it is called for a non-boot CPU, it has already
+> > > > > > been called for the boot CPU..  Are we certain that's guaranteed by
+> > > > > > the sequence of reset calls during a full machine reset?
+> > > > > >   
+> > > > > 
+> > > > > This happens to be the case. Basically because the boot CPU core
+> > > > > is created (including registering its reset handler) first and
+> > > > > qemu_devices_reset() calls handlers in the same order they were
+> > > > > registered.  
+> > > > 
+> > > > Right, I assumed it works for now, but it seems rather fragile, since
+> > > > I'm not sure we're relying on guaranteed properties of the interface.  
+> > > 
+> > > The reset handler interface is absolutely undocumented, so I guess we
+> > > have no formal guarantees at the present time. But since the current
+> > > implementation has the property, would it be acceptable to carve it
+> > > in stone with added documentation ? In the event of unlikely changes
+> > > to the reset handler logic, people would _just_ need to make sure
+> > > handlers are called in the same order they were registered.  
+> > 
+> > Yeah, maybe.
+> > 
+> > One other thing occurs to me: will we still do things in the right
+> > order if the (initial) boot cpu is hot unplugged, then replugged
+> > before a reset?
+> >   
+> 
+> This can't happen AFAICT.
+> 
+> (qemu) qom-get /machine/unattached/device[1] core-id
+> 0
+> (qemu) device_del /machine/unattached/device[1]
+> Error: Boot CPU core may not be unplugged
+> 
+> commit 62be8b044adf47327ebefdefb25f28a40316ebd0
+> Author: Bharata B Rao <bharata@linux.vnet.ibm.com>
+> Date:   Wed Jul 27 10:44:42 2016 +0530
+> 
+>     spapr: Prevent boot CPU core removal
+> 
+> 
+> So yes, this adds yet another road block on the way to support hot
+> unplug of the boot CPU. Is this a concern ?
+> 
+> If we go forward with this patch, maybe I should mention in the
+> changelog/documentation the various assumptions which this patch
+> is made under:
+> - reset handlers are called in the same order they were registered
+> - boot CPU registers its reset handler before other CPUs
+> - boot CPU cannot be hot unplugged
+> 
+> These guarantee that the boot core is always reset before other
+> cores during reset.
+it might work for now but it seems fragile to me.
 
-That's not always going to be true.  Maybe for KVM it will, but
-not necessarily for TCG.
+What if we  make compat mode a property and move setting it to machine code,
+more precisely treat it like any other cpu feature property.
+  
+ if(need_compat_more)
+    register_global_property(compat_mode)
 
-> but I wonder whether we want separate names anyway.
+that way when any cpu is created it will have this property set
+and it won't depend on the order CPUs are created/reset
 
-I believe we do.  Avoiding duplicate QOM type names is a good
-idea in either case.
-
--- 
-Eduardo
+> 
+> > > > Is there any way we could at least assert() if things are called out
+> > > > of order?
+> > > >   
+> > > 
+> > > Maybe. I'll look into it.
+> > >   
+> > > > >   
+> > > > > > >  }
+> > > > > > >  
+> > > > > > >  void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,  
+> > > > > >   
+> > > > >   
+> > > > 
+> > > > 
+> > > >   
+> > >   
+> > 
+> > 
+> >   
+> 
 
 
