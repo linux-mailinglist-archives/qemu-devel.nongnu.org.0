@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5232C5DBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 23:18:20 +0100 (CET)
-Received: from localhost ([::1]:35916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4E92C5DBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 23:20:12 +0100 (CET)
+Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiPal-0001J6-Ca
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 17:18:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40780)
+	id 1kiPcZ-0002zi-LP
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 17:20:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kiPZ5-0000MH-Rs; Thu, 26 Nov 2020 17:16:39 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:33746
+ id 1kiPa3-0001Jv-Jz; Thu, 26 Nov 2020 17:17:35 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:33806
  helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1kiPZ0-0006Ew-2p; Thu, 26 Nov 2020 17:16:35 -0500
+ id 1kiPa0-0006Vr-H8; Thu, 26 Nov 2020 17:17:35 -0500
 Received: from Alexanders-Air.alex.local
  (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with ESMTPSA id EB068390015A;
- Thu, 26 Nov 2020 23:16:23 +0100 (CET)
-Subject: Re: [PATCH 4/8] arm: Synchronize CPU on PSCI on
+ by csgraf.de (Postfix) with ESMTPSA id 180A8390015A;
+ Thu, 26 Nov 2020 23:17:29 +0100 (CET)
+Subject: Re: [PATCH 8/8] hw/arm/virt: Disable highmem when on
+ hypervisor.framework
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20201126213600.40654-1-agraf@csgraf.de>
- <20201126213600.40654-5-agraf@csgraf.de>
- <CAFEAcA_XZu07Fg3G05VWYDYTJfMSAzOH5yyd=rFLJVa73juDtw@mail.gmail.com>
+ <20201126213600.40654-9-agraf@csgraf.de>
+ <CAFEAcA95L=25QM4BTPbDV6HXLXD5zh+50WTVtrK=fKPwynV=vg@mail.gmail.com>
 From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <785c216b-d4b5-b65f-1ddf-4c6374b72ece@csgraf.de>
-Date: Thu, 26 Nov 2020 23:16:21 +0100
+Message-ID: <54b287f7-5240-5e98-d5d8-581cccb14b82@csgraf.de>
+Date: Thu, 26 Nov 2020 23:17:28 +0100
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
  Gecko/20100101 Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_XZu07Fg3G05VWYDYTJfMSAzOH5yyd=rFLJVa73juDtw@mail.gmail.com>
+In-Reply-To: <CAFEAcA95L=25QM4BTPbDV6HXLXD5zh+50WTVtrK=fKPwynV=vg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -64,63 +65,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 26.11.20 22:47, Peter Maydell wrote:
+On 26.11.20 22:54, Peter Maydell wrote:
 > On Thu, 26 Nov 2020 at 21:36, Alexander Graf <agraf@csgraf.de> wrote:
->> We are going to reuse the TCG PSCI code for HVF. This however means that we
->> need to ensure that CPU register state is synchronized properly between the
->> two worlds.
+>> The Apple M1 only supports up to 36 bits of physical address space. That
+>> means we can not fit the 64bit MMIO BAR region into our address space.
 >>
->> So let's make sure that at least on the PSCI on call, the secondary core gets
->> to sync its registers after reset, so that changes also propagate.
+>> To fix this, let's not expose a 64bit MMIO BAR region when running on
+>> Apple Silicon.
 >>
->> Signed-off-by: Alexander Graf <agraf@csgraf.de>
->> ---
->>   target/arm/arm-powerctl.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
->> index b75f813b40..256f7cfdcd 100644
->> --- a/target/arm/arm-powerctl.c
->> +++ b/target/arm/arm-powerctl.c
->> @@ -15,6 +15,7 @@
->>   #include "arm-powerctl.h"
->>   #include "qemu/log.h"
->>   #include "qemu/main-loop.h"
->> +#include "sysemu/hw_accel.h"
->>
->>   #ifndef DEBUG_ARM_POWERCTL
->>   #define DEBUG_ARM_POWERCTL 0
->> @@ -66,6 +67,8 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
->>       cpu_reset(target_cpu_state);
->>       target_cpu_state->halted = 0;
->>
->> +    cpu_synchronize_state(target_cpu_state);
->> +
->>       if (info->target_aa64) {
->>           if ((info->target_el < 3) && arm_feature(&target_cpu->env,
->>                                                    ARM_FEATURE_EL3))
-> This looks weird. The CPU was off, so not running anything.
-> Why doesn't the state we set up here get synchronized to
-> HVF as part of the normal enter-guest-code process that we
-> do when we do whatever HVF's equivalent of KVM_RUN is ?
->
-> Also, we change more bits of CPU state later in this function,
-> so if we do need to manually sychronize in this function this
-> doesn't seem like the right place...
+>> I have not been able to find a way to enumerate that easily, so let's
+>> just assume we always have that little PA space on hypervisor.framework
+>> systems.
+> If you have direct access to the host ID_AA64MMFR0_EL1 you can look
+> at the PARange field; otherwise start a stunt VM and look at its
+> ID_AA64MMFR0_EL1.PARange (this is what we do for KVM to query various
+> things about the VM's capabilities/ID regs).
 
 
-cpu_synchronize_state() sets the CPU registers into "dirty" state which 
-means that env now holds the current copy. On the next entry, we then 
-sync them back into HVF.
+When I tried, I couldn't fetch IID_AA64MMFR0_EL1 as sysreg via hvf.
 
-Without the cpu_synchronize_state() call, HVF never knows that the CPU 
-state is actually dirty. I guess it could as well live in cpu_reset() 
-somewhere, but we have to get the state switched over to dirty one way 
-or another.
-
-One interesting thing to note here is that the CPU actually comes up in 
-"dirty" after init. But init is done on realization already. I'm not 
-sure why we lose the dirty state in between that and the reset.
+Are you suggesting that on boot, we start a tiny mini-VM to enumerate 
+the PARange and set highmem based on it? That sounds like absolute 
+overkill to me ...
 
 
 Alex
