@@ -2,48 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698F92C5807
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 16:23:09 +0100 (CET)
-Received: from localhost ([::1]:39392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15092C5856
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 16:35:42 +0100 (CET)
+Received: from localhost ([::1]:57346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiJ6y-0008Qg-Gn
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 10:23:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48370)
+	id 1kiJJ7-00080m-FI
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 10:35:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kiJ4P-00060I-G6
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:20:31 -0500
-Received: from relay.sw.ru ([185.231.240.75]:50278 helo=relay3.sw.ru)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiJHr-00078a-JP
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:34:23 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kiJ4N-0000Iu-5c
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:20:29 -0500
-Received: from [192.168.15.178] (helo=andrey-MS-7B54.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.94)
- (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kiJ3t-00AT4g-V6; Thu, 26 Nov 2020 18:19:57 +0300
-To: qemu-devel@nongnu.org
-Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [PATCH v4 6/6] introduce simple linear scan rate limiting mechanism
-Date: Thu, 26 Nov 2020 18:17:34 +0300
-Message-Id: <20201126151734.743849-7-andrey.gruzdev@virtuozzo.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
-References: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiJHp-000562-IH
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:34:23 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 49FD7AEFF;
+ Thu, 26 Nov 2020 15:34:19 +0000 (UTC)
+Subject: Re: [RFC v5 11/12] i386: centralize initialization of cpu accel
+ interfaces
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20201124162210.8796-1-cfontana@suse.de>
+ <20201124162210.8796-12-cfontana@suse.de>
+ <7dc27df6-1c81-f8fb-3e56-aa6ffe9e8475@redhat.com>
+ <20201124213159.GA2271382@habkost.net>
+ <1205be9d-d2f0-4533-68aa-608b16ad2181@suse.de>
+ <20201126134425.GH2271382@habkost.net>
+ <86ba92db-7b01-5644-7452-2fde753ddba6@suse.de>
+ <20201126144959.GJ2271382@habkost.net>
+ <16445790-3371-9775-3d03-f8c8f0d66b18@suse.de>
+ <20201126151432.GL2271382@habkost.net>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <dfcdf02b-0bb6-215b-464b-7704cb27818f@suse.de>
+Date: Thu, 26 Nov 2020 16:34:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201126151432.GL2271382@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,143 +64,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
-Since reading UFFD events and saving paged data are performed
-from the same thread, write fault latencies are sensitive to
-migration stream stalls. Limiting total page saving rate is a
-method to reduce amount of noticiable fault resolution latencies.
+On 11/26/20 4:14 PM, Eduardo Habkost wrote:
+> On Thu, Nov 26, 2020 at 03:55:37PM +0100, Claudio Fontana wrote:
+>> On 11/26/20 3:49 PM, Eduardo Habkost wrote:
+>>> On Thu, Nov 26, 2020 at 03:33:17PM +0100, Claudio Fontana wrote:
+>>>> On 11/26/20 2:44 PM, Eduardo Habkost wrote:
+>>>>> On Thu, Nov 26, 2020 at 11:57:28AM +0100, Claudio Fontana wrote:
+>>>>>> On 11/24/20 10:31 PM, Eduardo Habkost wrote:
+>>>>>>> On Tue, Nov 24, 2020 at 09:13:13PM +0100, Paolo Bonzini wrote:
+>>>>>>>> On 24/11/20 17:22, Claudio Fontana wrote:
+>>>>>>>>> +static void x86_cpu_accel_init(void)
+>>>>>>>>>  {
+>>>>>>>>> -    X86CPUAccelClass *acc;
+>>>>>>>>> +    const char *ac_name;
+>>>>>>>>> +    ObjectClass *ac;
+>>>>>>>>> +    char *xac_name;
+>>>>>>>>> +    ObjectClass *xac;
+>>>>>>>>> -    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
+>>>>>>>>> -    g_assert(acc != NULL);
+>>>>>>>>> +    ac = object_get_class(OBJECT(current_accel()));
+>>>>>>>>> +    g_assert(ac != NULL);
+>>>>>>>>> +    ac_name = object_class_get_name(ac);
+>>>>>>>>> +    g_assert(ac_name != NULL);
+>>>>>>>>> -    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
+>>>>>>>>> +    xac_name = g_strdup_printf("%s-%s", ac_name, TYPE_X86_CPU);
+>>>>>>>>> +    xac = object_class_by_name(xac_name);
+>>>>>>>>> +    g_free(xac_name);
+>>>>>>>>> +
+>>>>>>>>> +    if (xac) {
+>>>>>>>>> +        object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, xac);
+>>>>>>>>> +    }
+>>>>>>>>>  }
+>>>>>>>>> +
+>>>>>>>>> +accel_cpu_init(x86_cpu_accel_init);
+>>>>>>>>
+>>>>>>>> If this and cpus_accel_ops_init are the only call to accel_cpu_init, I'd
+>>>>>>>> rather make them functions in CPUClass (which you find and call via
+>>>>>>>> CPU_RESOLVING_TYPE) and AccelClass respectively.
+>>>>>>>
+>>>>>>> Making x86_cpu_accel_init() be a CPUClass method sounds like a
+>>>>>>> good idea.  This way we won't need a arch_cpu_accel_init() stub
+>>>>>>> for non-x86.
+>>>>>>>
+>>>>>>> accel.c can't use cpu.h, correct?  We can add a:
+>>>>>>>
+>>>>>>>   CPUClass *arch_base_cpu_type(void)
+>>>>>>>   {
+>>>>>>>       return object_class_by_name(CPU_RESOLVING_TYPE);
+>>>>>>>   }
+>>>>>>>
+>>>>>>> function to arch_init.c, to allow target-independent code call
+>>>>>>> target-specific code.
+>>>>>>>
+>>>>>>
+>>>>>> Hi Eduardo,
+>>>>>>
+>>>>>> we can't use arch-init because it is softmmu only, but we could put this in $(top_srcdir)/cpu.c
+>>>>>
+>>>>> That would work, too.
+>>>>>
+>>>>>>
+>>>>>> however, it would be very useful to put a:
+>>>>>>
+>>>>>> #define TYPE_ACCEL_CPU "accel-" CPU_RESOLVING_TYPE
+>>>>>> #define ACCEL_CPU_NAME(name) (name "-" TYPE_ACCEL_CPU)
+>>>>>>
+>>>>>> in an H file somewhere, for convenience for the programmer that
+>>>>>> has to implement subclasses in target/xxx/
+>>>>>
+>>>>> Absolutely.
+>>>>>
+>>>>>>
+>>>>>> But it is tough to find a header where CPU_RESOLVING_TYPE can be used.
+>>>>>
+>>>>> cpu-all.h?
+>>>>>
+>>>>>>
+>>>>>> We could I guess just use plain "cpu" instead of CPU_RESOLVING_TYPE,
+>>>>>> maybe that would be acceptable too? The interface ends up in CPUClass, so maybe ok?
+>>>>>>
+>>>>>> So we'd end up having
+>>>>>>
+>>>>>> accel-cpu
+>>>>>>
+>>>>>> instead of the previous
+>>>>>>
+>>>>>> accel-x86_64-cpu
+>>>>>>
+>>>>>> on top of the hierarchy.
+>>>>>
+>>>>> It seems OK to have a accel-cpu type at the top, but I don't see
+>>>>> why it solves the problem above.  What exactly would be the value
+>>>>> of `kvm_cpu_accel.name`?
+>>>>>
+>>>>
+>>>> It does solve the problem, because we can put then all AccelOpsClass and AccelCPUClass stuff in accel.h,
+>>>> resolve everything in accel/accel-*.c, and make a generic solution fairly self-contained (already tested, will post soonish).
+>>>>
+>>>> But I'll try cpu-all.h if it's preferred to have accel-x86_64-cpu, accel-XXX-cpu on top, I wonder what the preference would be?
+>>>
+>>> I don't have a specific preference, but I still wonder how
+>>> exactly you would name the X86CPUAccel implemented at
+>>> target/i386/kvm, and how exactly you would look for it when
+>>> initializing the accelerator.
+>>>
+>>
+>> If we agree to use "accel-cpu" I would lookup "kvm-accel-cpu"
+> 
+> The structure in target/i386/kvm is x86-specific and
+> kvm-specific.  If we name it "kvm-accel-cpu", how would you name
+> the equivalent structures at target/s390x/kvm, target/arm/kvm,
+> target/ppc/kvm?
 
-Migration bandwidth limiting is achieved via noticing cases of
-out-of-threshold write fault latencies and temporarily disabling
-(strictly speaking, severely throttling) saving non-faulting pages.
+The same way; only one of them would be compiled into the target binary, so the lookup would not collide in practice,
+but I wonder whether we want separate names anyway.
 
-Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
----
- migration/ram.c | 67 +++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 65 insertions(+), 2 deletions(-)
+Ciao,
 
-diff --git a/migration/ram.c b/migration/ram.c
-index bcdccdaef7..d5b50b7804 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -322,6 +322,10 @@ struct RAMState {
-     /* these variables are used for bitmap sync */
-     /* last time we did a full bitmap_sync */
-     int64_t time_last_bitmap_sync;
-+    /* last time UFFD fault occured */
-+    int64_t last_fault_ns;
-+    /* linear scan throttling counter */
-+    int throttle_skip_counter;
-     /* bytes transferred at start_time */
-     uint64_t bytes_xfer_prev;
-     /* number of dirty pages since start_time */
-@@ -1506,6 +1510,8 @@ static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
-         return NULL;
-     }
- 
-+    rs->last_fault_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME);
-+
-     *offset = (ram_addr_t) (page_address - (hwaddr) bs->host);
-     return bs;
- }
-@@ -1882,6 +1888,55 @@ static void ram_save_host_page_post(RAMState *rs, PageSearchStatus *pss,
-     }
- }
- 
-+#define FAULT_HIGH_LATENCY_NS   5000000     /* 5 ms */
-+#define SLOW_FAULT_POLL_TMO     5           /* 5 ms */
-+#define SLOW_FAULT_SKIP_PAGES   200
-+
-+/**
-+ * limit_scan_rate: limit RAM linear scan rate in case of growing write fault
-+ *   latencies, used in write-tracking migration implementation
-+ *
-+ * @rs: current RAM state
-+ */
-+static void limit_scan_rate(RAMState *rs)
-+{
-+    if (!migrate_background_snapshot()) {
-+        return;
-+    }
-+
-+#ifdef CONFIG_LINUX
-+    int64_t last_fault_latency_ns = 0;
-+
-+    /* Check if last write fault time is available */
-+    if (rs->last_fault_ns) {
-+        last_fault_latency_ns = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) -
-+                rs->last_fault_ns;
-+        rs->last_fault_ns = 0;
-+    }
-+
-+    /*
-+     * In case last fault time was available and we have
-+     * latency value, check if it's not too high
-+     */
-+    if (last_fault_latency_ns > FAULT_HIGH_LATENCY_NS) {
-+        /* Reset counter after each slow write fault */
-+        rs->throttle_skip_counter = SLOW_FAULT_SKIP_PAGES;
-+    }
-+    /*
-+     * Delay thread execution till next write fault occures or timeout expires.
-+     * Next SLOW_FAULT_SKIP_PAGES can be write fault pages only, not from pages going from
-+     * linear scan logic. Thus we moderate migration stream rate to reduce latencies
-+     */
-+    if (rs->throttle_skip_counter > 0) {
-+        uffd_poll_events(rs->uffdio_fd, SLOW_FAULT_POLL_TMO);
-+        rs->throttle_skip_counter--;
-+    }
-+#else
-+    /* Should never happen */
-+    qemu_file_set_error(rs->f, -ENOSYS);
-+#endif /* CONFIG_LINUX */
-+}
-+
- /**
-  * ram_find_and_save_block: finds a dirty page and sends it to f
-  *
-@@ -1931,6 +1986,9 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
-             ram_save_host_page_pre(rs, &pss, &opaque);
-             pages = ram_save_host_page(rs, &pss, last_stage);
-             ram_save_host_page_post(rs, &pss, opaque, &pages);
-+
-+            /* Linear scan rate limiting */
-+            limit_scan_rate(rs);
-         }
-     } while (!pages && again);
- 
-@@ -2043,11 +2101,14 @@ static void ram_state_reset(RAMState *rs)
-     rs->last_sent_block = NULL;
-     rs->last_page = 0;
-     rs->last_version = ram_list.version;
-+    rs->last_fault_ns = 0;
-+    rs->throttle_skip_counter = 0;
-     rs->ram_bulk_stage = true;
-     rs->fpo_enabled = false;
- }
- 
--#define MAX_WAIT 50 /* ms, half buffered_file limit */
-+#define MAX_WAIT    50      /* ms, half buffered_file limit */
-+#define BG_MAX_WAIT 1000    /* 1000 ms, need bigger limit for background snapshot */
- 
- /*
-  * 'expected' is the value you expect the bitmap mostly to be full
-@@ -2723,7 +2784,9 @@ static int ram_save_iterate(QEMUFile *f, void *opaque)
-             if ((i & 63) == 0) {
-                 uint64_t t1 = (qemu_clock_get_ns(QEMU_CLOCK_REALTIME) - t0) /
-                               1000000;
--                if (t1 > MAX_WAIT) {
-+                uint64_t max_wait = migrate_background_snapshot() ?
-+                        BG_MAX_WAIT : MAX_WAIT;
-+                if (t1 > max_wait) {
-                     trace_ram_save_iterate_big_wait(t1, i);
-                     break;
-                 }
--- 
-2.25.1
+Claudio
+
+> 
+> The same question would apply to target/*/tcg*, and to other
+> accelerators.
+> 
+>> if we agree to use "accel-x86_64" aka "accel-" CPU_RESOLVING_TYPE, I would lookup "kvm-accel-" CPU_RESOLVING_TYPE
+>>
+>> * initialize the arch-specific accel CpuClass interfaces */
+>> static void accel_init_cpu_interfaces(AccelClass *ac, const char *cpu_type)
+>> {
+>>     const char *ac_name; /* AccelClass name */
+>>     char *acc_name;      /* AccelCPUClass name */
+>>     ObjectClass *acc;    /* AccelCPUClass */
+>>
+>>     ac_name = object_class_get_name(OBJECT_CLASS(ac));
+>>     g_assert(ac_name != NULL);
+>>
+>>     acc_name = g_strdup_printf("%s-cpu", ac_name);
+>>     acc = object_class_by_name(acc_name);
+>>     g_free(acc_name);
+>>
+>>     if (acc) {
+>>         object_class_foreach(accel_init_cpu_interfaces_aux, cpu_type, false, acc);
+>>     }
+>> }
+>>
+>> Ciao,
+>>
+>> CLaudio
+>>
+> 
 
 
