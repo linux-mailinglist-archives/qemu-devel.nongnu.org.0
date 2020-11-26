@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9242C52E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 12:26:24 +0100 (CET)
-Received: from localhost ([::1]:42448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 653A82C52EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 12:29:33 +0100 (CET)
+Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiFPr-0006UM-5H
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 06:26:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35548)
+	id 1kiFSu-0001oj-EC
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 06:29:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kiFNI-0004V4-HQ; Thu, 26 Nov 2020 06:23:44 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2804)
+ id 1kiFNI-0004V0-Bj; Thu, 26 Nov 2020 06:23:44 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kiFND-0003rC-CE; Thu, 26 Nov 2020 06:23:44 -0500
+ id 1kiFND-0003rA-2z; Thu, 26 Nov 2020 06:23:44 -0500
 Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Chb3D36tpzkcb7;
- Thu, 26 Nov 2020 19:23:04 +0800 (CST)
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Chb3L5nMJz73Mk;
+ Thu, 26 Nov 2020 19:23:10 +0800 (CST)
 Received: from huawei.com (10.175.124.27) by DGGEMS406-HUB.china.huawei.com
  (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Thu, 26 Nov 2020
- 19:23:23 +0800
+ 19:23:24 +0800
 From: Alex Chen <alex.chen@huawei.com>
 To: <peter.maydell@linaro.org>, <jcd@tribudubois.net>,
  <peter.chubb@nicta.com.au>
-Subject: [PATCH 1/5] i.MX25: Fix bad printf format specifiers
-Date: Thu, 26 Nov 2020 11:11:05 +0000
-Message-ID: <20201126111109.112238-2-alex.chen@huawei.com>
+Subject: [PATCH 2/5] i.MX31: Fix bad printf format specifiers
+Date: Thu, 26 Nov 2020 11:11:06 +0000
+Message-ID: <20201126111109.112238-3-alex.chen@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20201126111109.112238-1-alex.chen@huawei.com>
 References: <20201126111109.112238-1-alex.chen@huawei.com>
@@ -37,8 +37,8 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.175.124.27]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=alex.chen@huawei.com;
- helo=szxga04-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=alex.chen@huawei.com;
+ helo=szxga07-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -68,24 +68,25 @@ argument of type "unsigned int".
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Alex Chen <alex.chen@huawei.com>
 ---
- hw/misc/imx25_ccm.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/misc/imx31_ccm.c | 14 +++++++-------
+ hw/misc/imx_ccm.c   |  4 ++--
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/hw/misc/imx25_ccm.c b/hw/misc/imx25_ccm.c
-index d3107e5ca2..ff996e2f2c 100644
---- a/hw/misc/imx25_ccm.c
-+++ b/hw/misc/imx25_ccm.c
-@@ -91,7 +91,7 @@ static const char *imx25_ccm_reg_name(uint32_t reg)
-     case IMX25_CCM_LPIMR1_REG:
-         return "lpimr1";
+diff --git a/hw/misc/imx31_ccm.c b/hw/misc/imx31_ccm.c
+index 6e246827ab..ad30a4b2c0 100644
+--- a/hw/misc/imx31_ccm.c
++++ b/hw/misc/imx31_ccm.c
+@@ -89,7 +89,7 @@ static const char *imx31_ccm_reg_name(uint32_t reg)
+     case IMX31_CCM_PDR2_REG:
+         return "PDR2";
      default:
 -        sprintf(unknown, "[%d ?]", reg);
 +        sprintf(unknown, "[%u ?]", reg);
          return unknown;
      }
  }
-@@ -118,7 +118,7 @@ static uint32_t imx25_ccm_get_mpll_clk(IMXCCMState *dev)
-         freq = imx_ccm_calc_pll(s->reg[IMX25_CCM_MPCTL_REG], CKIH_FREQ);
+@@ -120,7 +120,7 @@ static uint32_t imx31_ccm_get_pll_ref_clk(IMXCCMState *dev)
+         freq = CKIH_FREQ;
      }
  
 -    DPRINTF("freq = %d\n", freq);
@@ -93,34 +94,43 @@ index d3107e5ca2..ff996e2f2c 100644
  
      return freq;
  }
-@@ -136,7 +136,7 @@ static uint32_t imx25_ccm_get_mcu_clk(IMXCCMState *dev)
- 
-     freq = freq / (1 + EXTRACT(s->reg[IMX25_CCM_CCTL_REG], ARM_CLK_DIV));
- 
--    DPRINTF("freq = %d\n", freq);
-+    DPRINTF("freq = %u\n", freq);
- 
-     return freq;
- }
-@@ -149,7 +149,7 @@ static uint32_t imx25_ccm_get_ahb_clk(IMXCCMState *dev)
-     freq = imx25_ccm_get_mcu_clk(dev)
-            / (1 + EXTRACT(s->reg[IMX25_CCM_CCTL_REG], AHB_CLK_DIV));
+@@ -133,7 +133,7 @@ static uint32_t imx31_ccm_get_mpll_clk(IMXCCMState *dev)
+     freq = imx_ccm_calc_pll(s->reg[IMX31_CCM_MPCTL_REG],
+                             imx31_ccm_get_pll_ref_clk(dev));
  
 -    DPRINTF("freq = %d\n", freq);
 +    DPRINTF("freq = %u\n", freq);
  
      return freq;
  }
-@@ -160,7 +160,7 @@ static uint32_t imx25_ccm_get_ipg_clk(IMXCCMState *dev)
- 
-     freq = imx25_ccm_get_ahb_clk(dev) / 2;
+@@ -150,7 +150,7 @@ static uint32_t imx31_ccm_get_mcu_main_clk(IMXCCMState *dev)
+         freq = imx31_ccm_get_mpll_clk(dev);
+     }
  
 -    DPRINTF("freq = %d\n", freq);
 +    DPRINTF("freq = %u\n", freq);
  
      return freq;
  }
-@@ -186,7 +186,7 @@ static uint32_t imx25_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
+@@ -163,7 +163,7 @@ static uint32_t imx31_ccm_get_hclk_clk(IMXCCMState *dev)
+     freq = imx31_ccm_get_mcu_main_clk(dev)
+            / (1 + EXTRACT(s->reg[IMX31_CCM_PDR0_REG], MAX));
+ 
+-    DPRINTF("freq = %d\n", freq);
++    DPRINTF("freq = %u\n", freq);
+ 
+     return freq;
+ }
+@@ -176,7 +176,7 @@ static uint32_t imx31_ccm_get_ipg_clk(IMXCCMState *dev)
+     freq = imx31_ccm_get_hclk_clk(dev)
+            / (1 + EXTRACT(s->reg[IMX31_CCM_PDR0_REG], IPG));
+ 
+-    DPRINTF("freq = %d\n", freq);
++    DPRINTF("freq = %u\n", freq);
+ 
+     return freq;
+ }
+@@ -201,7 +201,7 @@ static uint32_t imx31_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
          break;
      }
  
@@ -129,6 +139,28 @@ index d3107e5ca2..ff996e2f2c 100644
  
      return freq;
  }
+diff --git a/hw/misc/imx_ccm.c b/hw/misc/imx_ccm.c
+index 52882071d3..08a50ee4c8 100644
+--- a/hw/misc/imx_ccm.c
++++ b/hw/misc/imx_ccm.c
+@@ -38,7 +38,7 @@ uint32_t imx_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
+         freq = klass->get_clock_frequency(dev, clock);
+     }
+ 
+-    DPRINTF("(clock = %d) = %d\n", clock, freq);
++    DPRINTF("(clock = %d) = %u\n", clock, freq);
+ 
+     return freq;
+ }
+@@ -65,7 +65,7 @@ uint32_t imx_ccm_calc_pll(uint32_t pllreg, uint32_t base_freq)
+     freq = ((2 * (base_freq >> 10) * (mfi * mfd + mfn)) /
+             (mfd * pd)) << 10;
+ 
+-    DPRINTF("(pllreg = 0x%08x, base_freq = %d) = %d\n", pllreg, base_freq,
++    DPRINTF("(pllreg = 0x%08x, base_freq = %u) = %d\n", pllreg, base_freq,
+             freq);
+ 
+     return freq;
 -- 
 2.19.1
 
