@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAD72C5A12
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 18:06:59 +0100 (CET)
-Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B2692C5A3B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 18:10:14 +0100 (CET)
+Received: from localhost ([::1]:43802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiKjR-0001kg-Oz
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 12:06:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58698)
+	id 1kiKmb-0003B5-8b
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 12:10:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kiKiB-00010h-RH
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:05:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34033)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kiKlm-0002eq-Ht
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:09:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kiKi9-0001qR-2D
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:05:39 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kiKlk-0002Ia-Up
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:09:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606410335;
+ s=mimecast20190719; t=1606410560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MFfPbcNOJCzRGP/wYFrU8LWxAhZjLo10hE0zy/zrOgs=;
- b=SAR5B+5rABvh1xv9RRft1L9Y9RZO47/KyIhhCS2g1Kew0peX7wHH4yYFgQwcWPnqYdHgHQ
- LGSDh1uJZs0y6KyqwM09UCdy/macE1PFlpuMzVqCinI4BBKtOoJqXYfwl1rnhOXlLcZHjs
- AzaEKHLzgq2P4PyOTmExtt4Ei6DInO8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-zP6bdRLIP9qZG88ax2b1DQ-1; Thu, 26 Nov 2020 12:05:33 -0500
-X-MC-Unique: zP6bdRLIP9qZG88ax2b1DQ-1
-Received: by mail-wr1-f69.google.com with SMTP id e6so1572135wrx.13
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 09:05:33 -0800 (PST)
+ bh=F9gCIpcYzVxNAzonX30wnbTQ1/bm3O7UjCnIoHGkYUQ=;
+ b=dnZJpiGq+wPBOXhWMZWKbulA7Rz9EOW9nXZDJX+OAQgDAJFxzQrHDHdt7NVQEI4o5kasPZ
+ P0XS8nOq12UtV+Gqnhu37PbOmNs/NKjB3Jwdo7oYHPaQkLrF/bCB5rtbu8mC/TgonOUrj2
+ iz9TwP5zKwc0wenm6bOr9bhHfA9c3kM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-KbIvVCFoOSyn2wqbK8IQ1g-1; Thu, 26 Nov 2020 12:09:18 -0500
+X-MC-Unique: KbIvVCFoOSyn2wqbK8IQ1g-1
+Received: by mail-wm1-f71.google.com with SMTP id o203so1454661wmo.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 09:09:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=MFfPbcNOJCzRGP/wYFrU8LWxAhZjLo10hE0zy/zrOgs=;
- b=G+yavJUrTdPaunjOisHlXUwwl4YghOs86ci8R18XCvSVW60Aoypm9NpsoBuzjscHSn
- vbF4fj67f0AsI7/ab2V0RQAMOy+oBp0pAnW5hf9M3XZ9lubfgOkoU76B+6w8fhxqSHl9
- kTQqRruU1mGct615E+RYU7ve8UYgyOCYvOYhVrO9UkhEmSN1qNEyZdGRFM3UKBmUiEyD
- utws7FPoxbOXMhZy6maMbxqb0t/PjtoR2QCzl6wTYlNc3BzlIdQv6T6Rfp/Cc+ticYBv
- RuLn83fsLVzpbuQIIYibKKbc0N5/L/5+zvL/ccppKRSc+dMZIhFilYFbK24yiI/kzJl1
- sKIg==
-X-Gm-Message-State: AOAM533NKc4vR/AHmpnfhwcDl9RCnvR4xutubCyaMaKDkJf+ySwJf5Kt
- YUqUTgIYZ9YxuEycQYvGwBm2R64HE4smDp3EpWzRTruNT+nJ/jJVJ50svtpJchIiWDkI+kZRYcf
- Ow/JQZ3bUGR58iCE=
-X-Received: by 2002:adf:eb08:: with SMTP id s8mr5058295wrn.12.1606410332112;
- Thu, 26 Nov 2020 09:05:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyLwQz2jHNeKs2BASV4s2nZG7v2BjViWm2qZCR5frGoIi7NzbTKx8+49LArQirFl5GvSCv/dg==
-X-Received: by 2002:adf:eb08:: with SMTP id s8mr5058275wrn.12.1606410331940;
- Thu, 26 Nov 2020 09:05:31 -0800 (PST)
+ bh=F9gCIpcYzVxNAzonX30wnbTQ1/bm3O7UjCnIoHGkYUQ=;
+ b=BeFUnPd9n0YUGJc+OvYIYNe8w9yDtw4UUZOA16atqbTjQNir8TTPav4ogCDBKVbvId
+ 5sOEHsD2rMOx7OqzzY+vTcxvI90f9imgHqUm9UzAJYzOccXsmL2CPZ2lR15VLVO4Os3h
+ UsJRZBMab3dEPelYeIaOnU7jzKyYAR319cE9g+dDamV/lRcf1Fq4qgwk9wMAsxDZf48O
+ kGAb759bloXa/LL8OC6vjNt/6qV2enbPoElgEeypKf3bIE0yV/cKpJ8cUUpEO1r3MKA7
+ wbFpZWxyqoZu1H49DzhlQ2aKZfQJ/H4YF8TkG4nH1eLlvyaL7EGpFUSvGO0ijjdDyqkx
+ aMXg==
+X-Gm-Message-State: AOAM532of6O1fjGz0+JM5mZsk/HoRLWHNkgXnpfLp/SkkTy/3w7+wXqY
+ JaXm5r/GGjIoOu0IbKofcrpuUNQMZQByoTfwy5Um+/4srTpPnA2Dg2Rwgl0PKQxTgVKoBlvYZBl
+ VXuePh+pCr7PlN6I=
+X-Received: by 2002:a7b:c1d8:: with SMTP id a24mr4311609wmj.112.1606410557227; 
+ Thu, 26 Nov 2020 09:09:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxZ5COysCKCHSMl8NOFalaCBOxeUxVDi4ecxIj6dZBfaXKL4pd6iLbd5oZhRo5E6+89nfXBtQ==
+X-Received: by 2002:a7b:c1d8:: with SMTP id a24mr4311590wmj.112.1606410557022; 
+ Thu, 26 Nov 2020 09:09:17 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id v64sm9635713wme.25.2020.11.26.09.05.29
+ by smtp.gmail.com with ESMTPSA id d16sm10771553wrw.17.2020.11.26.09.09.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Nov 2020 09:05:30 -0800 (PST)
-Date: Thu, 26 Nov 2020 12:05:27 -0500
+ Thu, 26 Nov 2020 09:09:16 -0800 (PST)
+Date: Thu, 26 Nov 2020 12:09:13 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Antoine Damhet <antoine.damhet@blade-group.com>
 Subject: Re: [DISCUSSION] Allow ACPI default OEM ID and OEM table ID fields
  to be set.
-Message-ID: <20201126120350-mutt-send-email-mst@kernel.org>
+Message-ID: <20201126120701-mutt-send-email-mst@kernel.org>
 References: <20201125132711.jqb7znxu5jpoanwi@tartarus>
  <20201125133251.GI30079@redhat.com>
  <20201125110221-mutt-send-email-mst@kernel.org>
@@ -77,14 +77,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -126,16 +126,20 @@ On Thu, Nov 26, 2020 at 05:34:50PM +0100, Antoine Damhet wrote:
 > That's a good idea, but I still think they should be user override-able
 > (unless you think it would be a heavy maintenance burden, in that case
 > you are king in your castle :D )
-> 
+
+Fundamentally there's a chance that if you get unlucky
+with your OEM ID some software somewhere will look for
+it and try to activate some vendor specific behaviour.
+So giving users full control here isn't all that safe ...
+
+Question btw, are you also supplying a SLIC table?
+
+
 > > Question is will this cause annoyances with e.g. windows guests?
 > 
 > Windows 10 guests seems unaffected, I cannot say for the other
 > versions/servers editions.
-
-unaffected yes, but what about things like reactivation,
-warning about system changes at boot or reinstalling
-drivers? changing acpi significantly does this sometimes ...
-
+> 
 > > Igor what's your experience with this?
 > 
 > [...]
