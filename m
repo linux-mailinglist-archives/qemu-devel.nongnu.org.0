@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49AF2C5DAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 22:56:56 +0100 (CET)
-Received: from localhost ([::1]:47644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D7D72C5DA7
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 22:54:02 +0100 (CET)
+Received: from localhost ([::1]:37144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiPG3-0001Qt-PW
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 16:56:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36332)
+	id 1kiPDF-0005RT-6Y
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 16:54:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kiP9r-0001rP-Ph; Thu, 26 Nov 2020 16:50:31 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:60546
+ id 1kiP9l-0001jm-9l; Thu, 26 Nov 2020 16:50:25 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:60556
  helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1kiP9i-0005kM-Mh; Thu, 26 Nov 2020 16:50:31 -0500
+ id 1kiP9i-0005kd-Mg; Thu, 26 Nov 2020 16:50:25 -0500
 Received: from localhost.localdomain
  (dynamic-077-009-187-158.77.9.pool.telefonica.de [77.9.187.158])
- by csgraf.de (Postfix) with ESMTPSA id 88DE53900581;
- Thu, 26 Nov 2020 22:50:19 +0100 (CET)
+ by csgraf.de (Postfix) with ESMTPSA id 0BFC13900590;
+ Thu, 26 Nov 2020 22:50:20 +0100 (CET)
 From: Alexander Graf <agraf@csgraf.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/8] arm: Set PSCI to 0.2 for HVF
-Date: Thu, 26 Nov 2020 22:50:12 +0100
-Message-Id: <20201126215017.41156-4-agraf@csgraf.de>
+Subject: [PATCH 4/8] arm: Synchronize CPU on PSCI on
+Date: Thu, 26 Nov 2020 22:50:13 +0100
+Message-Id: <20201126215017.41156-5-agraf@csgraf.de>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20201126215017.41156-1-agraf@csgraf.de>
 References: <20201126215017.41156-1-agraf@csgraf.de>
@@ -58,30 +58,39 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In Hypervisor.framework, we just pass PSCI calls straight on to the QEMU emulation
-of it. That means, if TCG is compatible with PSCI 0.2, so are we. Let's transpose
-that fact in code too.
+We are going to reuse the TCG PSCI code for HVF. This however means that we
+need to ensure that CPU register state is synchronized properly between the
+two worlds.
+
+So let's make sure that at least on the PSCI on call, the secondary core gets
+to sync its registers after reset, so that changes also propagate.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
 ---
- target/arm/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/arm/arm-powerctl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 07492e9f9a..db6f7c34ed 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1062,6 +1062,10 @@ static void arm_cpu_initfn(Object *obj)
-     if (tcg_enabled()) {
-         cpu->psci_version = 2; /* TCG implements PSCI 0.2 */
-     }
-+
-+    if (hvf_enabled()) {
-+        cpu->psci_version = 2; /* HVF uses TCG's PSCI */
-+    }
- }
+diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
+index b75f813b40..256f7cfdcd 100644
+--- a/target/arm/arm-powerctl.c
++++ b/target/arm/arm-powerctl.c
+@@ -15,6 +15,7 @@
+ #include "arm-powerctl.h"
+ #include "qemu/log.h"
+ #include "qemu/main-loop.h"
++#include "sysemu/hw_accel.h"
  
- static Property arm_cpu_gt_cntfrq_property =
+ #ifndef DEBUG_ARM_POWERCTL
+ #define DEBUG_ARM_POWERCTL 0
+@@ -66,6 +67,8 @@ static void arm_set_cpu_on_async_work(CPUState *target_cpu_state,
+     cpu_reset(target_cpu_state);
+     target_cpu_state->halted = 0;
+ 
++    cpu_synchronize_state(target_cpu_state);
++
+     if (info->target_aa64) {
+         if ((info->target_el < 3) && arm_feature(&target_cpu->env,
+                                                  ARM_FEATURE_EL3)) {
 -- 
 2.24.3 (Apple Git-128)
 
