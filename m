@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5192C580E
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 16:25:08 +0100 (CET)
-Received: from localhost ([::1]:45756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D0482C57ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 16:16:46 +0100 (CET)
+Received: from localhost ([::1]:51336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiJ8t-0002cn-08
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 10:25:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48482)
+	id 1kiJ0m-0001bP-JW
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 10:16:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kiJ56-0006cR-M3
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:21:14 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38836)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kiJ4u-0000XN-VX
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:21:10 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kiJ4r-0004mU-G1
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 15:20:57 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5B0BE2E808B
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 15:20:57 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kiIyt-0000ea-Iz
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:14:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38687)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kiIyp-0006oy-SD
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:14:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606403681;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=W9P2KpcR5gCE7nStTCIM5jY33AzY3vPrBHyXJ89MAec=;
+ b=LF9B+BF5IxdLAHGb5eFtgQR34yeqogJK++NFzsoBBzli68zAvkz40SJZAONvl5G9YtV/t/
+ aivQCBqbKpTQGLe2Igd9WciedG+qioUlNAPrORRWR4g/9HHQeRkTmwMkByeAUA/iNeVPCR
+ 27Vml8x6LWsVJk2RunhT5D96jIVO+fg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-YKA265TWNfOlj6260UbMNg-1; Thu, 26 Nov 2020 10:14:40 -0500
+X-MC-Unique: YKA265TWNfOlj6260UbMNg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9FC99A221;
+ Thu, 26 Nov 2020 15:14:37 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B13C18996;
+ Thu, 26 Nov 2020 15:14:33 +0000 (UTC)
+Date: Thu, 26 Nov 2020 10:14:32 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v5 11/12] i386: centralize initialization of cpu accel
+ interfaces
+Message-ID: <20201126151432.GL2271382@habkost.net>
+References: <20201124162210.8796-1-cfontana@suse.de>
+ <20201124162210.8796-12-cfontana@suse.de>
+ <7dc27df6-1c81-f8fb-3e56-aa6ffe9e8475@redhat.com>
+ <20201124213159.GA2271382@habkost.net>
+ <1205be9d-d2f0-4533-68aa-608b16ad2181@suse.de>
+ <20201126134425.GH2271382@habkost.net>
+ <86ba92db-7b01-5644-7452-2fde753ddba6@suse.de>
+ <20201126144959.GJ2271382@habkost.net>
+ <16445790-3371-9775-3d03-f8c8f0d66b18@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2020 15:10:45 -0000
-From: Satheesh Rajendran <1900241@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=gromero@br.ibm.com; 
-X-Launchpad-Bug-Tags: kvm powerpc xive
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gkurz sathnaga
-X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
-X-Launchpad-Bug-Modifier: Satheesh Rajendran (sathnaga)
-References: <160293454254.8431.993577940537988142.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160640344605.28413.2149135666347510672.malone@chaenomeles.canonical.com>
-Subject: [Bug 1900241] Re: [regression][powerpc] some vcpus are found offline
- inside guest with different vsmt setting from qemu-cmdline and breaks
- subsequent vcpu hotplug operation (xive)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: 10bc4ab6c5a9455054fe6204f076099deaf03d33
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <16445790-3371-9775-3d03-f8c8f0d66b18@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,210 +86,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900241 <1900241@bugs.launchpad.net>
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tested  with latest upstream and found the issue is fixed,
+On Thu, Nov 26, 2020 at 03:55:37PM +0100, Claudio Fontana wrote:
+> On 11/26/20 3:49 PM, Eduardo Habkost wrote:
+> > On Thu, Nov 26, 2020 at 03:33:17PM +0100, Claudio Fontana wrote:
+> >> On 11/26/20 2:44 PM, Eduardo Habkost wrote:
+> >>> On Thu, Nov 26, 2020 at 11:57:28AM +0100, Claudio Fontana wrote:
+> >>>> On 11/24/20 10:31 PM, Eduardo Habkost wrote:
+> >>>>> On Tue, Nov 24, 2020 at 09:13:13PM +0100, Paolo Bonzini wrote:
+> >>>>>> On 24/11/20 17:22, Claudio Fontana wrote:
+> >>>>>>> +static void x86_cpu_accel_init(void)
+> >>>>>>>  {
+> >>>>>>> -    X86CPUAccelClass *acc;
+> >>>>>>> +    const char *ac_name;
+> >>>>>>> +    ObjectClass *ac;
+> >>>>>>> +    char *xac_name;
+> >>>>>>> +    ObjectClass *xac;
+> >>>>>>> -    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
+> >>>>>>> -    g_assert(acc != NULL);
+> >>>>>>> +    ac = object_get_class(OBJECT(current_accel()));
+> >>>>>>> +    g_assert(ac != NULL);
+> >>>>>>> +    ac_name = object_class_get_name(ac);
+> >>>>>>> +    g_assert(ac_name != NULL);
+> >>>>>>> -    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
+> >>>>>>> +    xac_name = g_strdup_printf("%s-%s", ac_name, TYPE_X86_CPU);
+> >>>>>>> +    xac = object_class_by_name(xac_name);
+> >>>>>>> +    g_free(xac_name);
+> >>>>>>> +
+> >>>>>>> +    if (xac) {
+> >>>>>>> +        object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, xac);
+> >>>>>>> +    }
+> >>>>>>>  }
+> >>>>>>> +
+> >>>>>>> +accel_cpu_init(x86_cpu_accel_init);
+> >>>>>>
+> >>>>>> If this and cpus_accel_ops_init are the only call to accel_cpu_init, I'd
+> >>>>>> rather make them functions in CPUClass (which you find and call via
+> >>>>>> CPU_RESOLVING_TYPE) and AccelClass respectively.
+> >>>>>
+> >>>>> Making x86_cpu_accel_init() be a CPUClass method sounds like a
+> >>>>> good idea.  This way we won't need a arch_cpu_accel_init() stub
+> >>>>> for non-x86.
+> >>>>>
+> >>>>> accel.c can't use cpu.h, correct?  We can add a:
+> >>>>>
+> >>>>>   CPUClass *arch_base_cpu_type(void)
+> >>>>>   {
+> >>>>>       return object_class_by_name(CPU_RESOLVING_TYPE);
+> >>>>>   }
+> >>>>>
+> >>>>> function to arch_init.c, to allow target-independent code call
+> >>>>> target-specific code.
+> >>>>>
+> >>>>
+> >>>> Hi Eduardo,
+> >>>>
+> >>>> we can't use arch-init because it is softmmu only, but we could put this in $(top_srcdir)/cpu.c
+> >>>
+> >>> That would work, too.
+> >>>
+> >>>>
+> >>>> however, it would be very useful to put a:
+> >>>>
+> >>>> #define TYPE_ACCEL_CPU "accel-" CPU_RESOLVING_TYPE
+> >>>> #define ACCEL_CPU_NAME(name) (name "-" TYPE_ACCEL_CPU)
+> >>>>
+> >>>> in an H file somewhere, for convenience for the programmer that
+> >>>> has to implement subclasses in target/xxx/
+> >>>
+> >>> Absolutely.
+> >>>
+> >>>>
+> >>>> But it is tough to find a header where CPU_RESOLVING_TYPE can be used.
+> >>>
+> >>> cpu-all.h?
+> >>>
+> >>>>
+> >>>> We could I guess just use plain "cpu" instead of CPU_RESOLVING_TYPE,
+> >>>> maybe that would be acceptable too? The interface ends up in CPUClass, so maybe ok?
+> >>>>
+> >>>> So we'd end up having
+> >>>>
+> >>>> accel-cpu
+> >>>>
+> >>>> instead of the previous
+> >>>>
+> >>>> accel-x86_64-cpu
+> >>>>
+> >>>> on top of the hierarchy.
+> >>>
+> >>> It seems OK to have a accel-cpu type at the top, but I don't see
+> >>> why it solves the problem above.  What exactly would be the value
+> >>> of `kvm_cpu_accel.name`?
+> >>>
+> >>
+> >> It does solve the problem, because we can put then all AccelOpsClass and AccelCPUClass stuff in accel.h,
+> >> resolve everything in accel/accel-*.c, and make a generic solution fairly self-contained (already tested, will post soonish).
+> >>
+> >> But I'll try cpu-all.h if it's preferred to have accel-x86_64-cpu, accel-XXX-cpu on top, I wonder what the preference would be?
+> > 
+> > I don't have a specific preference, but I still wonder how
+> > exactly you would name the X86CPUAccel implemented at
+> > target/i386/kvm, and how exactly you would look for it when
+> > initializing the accelerator.
+> > 
+> 
+> If we agree to use "accel-cpu" I would lookup "kvm-accel-cpu"
 
+The structure in target/i386/kvm is x86-specific and
+kvm-specific.  If we name it "kvm-accel-cpu", how would you name
+the equivalent structures at target/s390x/kvm, target/arm/kvm,
+target/ppc/kvm?
 
-# git log -1
-commit dd3d2340c4076d1735cd0f7cb61f4d8622b9562d (HEAD -> master, tag: v5.2.=
-0-rc3, origin/master, origin/HEAD)
-Author: Peter Maydell <peter.maydell@linaro.org>
-Date:   Tue Nov 24 22:13:30 2020 +0000
+The same question would apply to target/*/tcg*, and to other
+accelerators.
 
-    Update version for v5.2.0-rc3 release
-    =
+> if we agree to use "accel-x86_64" aka "accel-" CPU_RESOLVING_TYPE, I would lookup "kvm-accel-" CPU_RESOLVING_TYPE
+> 
+> * initialize the arch-specific accel CpuClass interfaces */
+> static void accel_init_cpu_interfaces(AccelClass *ac, const char *cpu_type)
+> {
+>     const char *ac_name; /* AccelClass name */
+>     char *acc_name;      /* AccelCPUClass name */
+>     ObjectClass *acc;    /* AccelCPUClass */
+> 
+>     ac_name = object_class_get_name(OBJECT_CLASS(ac));
+>     g_assert(ac_name != NULL);
+> 
+>     acc_name = g_strdup_printf("%s-cpu", ac_name);
+>     acc = object_class_by_name(acc_name);
+>     g_free(acc_name);
+> 
+>     if (acc) {
+>         object_class_foreach(accel_init_cpu_interfaces_aux, cpu_type, false, acc);
+>     }
+> }
+> 
+> Ciao,
+> 
+> CLaudio
+> 
 
-    Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+-- 
+Eduardo
 
-
-/home/sath/qemu/build/qemu-system-ppc64 -name vm1 -M pseries,vsmt=3D2 -acce=
-l kvm -m 4096 -smp 8,cores=3D8,threads=3D1 -nographic -nodefaults -serial m=
-on:stdio -vga none -nographic -device virtio-scsi-pci -drive file=3D/home/s=
-ath/tests/data/avocado-vt/images/fdevel-ppc64le.qcow2,if=3Dnone,id=3Dhd0,fo=
-rmat=3Dqcow2,cache=3Dnone -device scsi-hd,drive=3Dhd0
-
-
-Fedora 33 (Thirty Three Prerelease)
-Kernel 5.8.13-300.fc33.ppc64le on an ppc64le (hvc0)
-
-atest-guest login: 	root
-Password: =
-
-Login incorrect
-
-atest-guest login: root
-Password: =
-
-Last login: Wed Nov 18 09:03:24 on hvc0
-[root@atest-guest ~]# lscpu
-Architecture:                    ppc64le
-Byte Order:                      Little Endian
-CPU(s):                          8
-On-line CPU(s) list:             0-7
-Thread(s) per core:              1
-Core(s) per socket:              8
-Socket(s):                       1
-NUMA node(s):                    1
-
-
-Regards,
--Satheesh
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900241
-
-Title:
-  [regression][powerpc] some vcpus are found offline inside guest with
-  different vsmt setting from qemu-cmdline and breaks subsequent vcpu
-  hotplug operation (xive)
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  Env:
-  Host: Power9 HW ppc64le
-
-  # lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          128
-  On-line CPU(s) list:             24-31,40-159
-  Thread(s) per core:              4
-  Core(s) per socket:              16
-  Socket(s):                       2
-  NUMA node(s):                    2
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9, altivec supported
-  Frequency boost:                 enabled
-  CPU max MHz:                     3800.0000
-  CPU min MHz:                     2300.0000
-  L1d cache:                       1 MiB
-  L1i cache:                       1 MiB
-  L2 cache:                        8 MiB
-  L3 cache:                        160 MiB
-  NUMA node0 CPU(s):               24-31,40-79
-  NUMA node8 CPU(s):               80-159
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardware accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-
-  Host Kernel: 5.9.0-0.rc8.28.fc34.ppc64le (Fedora rawhide)
-  Guest Kernel: Fedora33(5.8.6-301.fc33.ppc64le)
-
-  Qemu: e12ce85b2c79d83a340953291912875c30b3af06 (qemu/master)
-
-  =
-
-  Steps to reproduce:
-
-  Boot below kvm guest: (-M pseries,vsmt=3D2 -smp 8,cores=3D8,threads=3D1)
-
-   /home/sath/qemu/build/qemu-system-ppc64 -name vm1 -M pseries,vsmt=3D2
-  -accel kvm -m 4096  -smp 8,cores=3D8,threads=3D1 -nographic -nodefaults
-  -serial mon:stdio -vga none -nographic -device virtio-scsi-pci -drive
-  file=3D/home/sath/tests/data/avocado-vt/images/fdevel-
-  ppc64le.qcow2,if=3Dnone,id=3Dhd0,format=3Dqcow2,cache=3Dnone -device scsi-
-  hd,drive=3Dhd0
-
-  =
-
-  lscpu inside guest:
-  Actual:
-  [root@atest-guest ~]# lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          8
-  On-line CPU(s) list:             0,2,4,6
-  Off-line CPU(s) list:            1,3,5,7 --------------------------NOK
-  Thread(s) per core:              1
-  Core(s) per socket:              4
-  Socket(s):                       1
-  NUMA node(s):                    1
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9 (architected), altivec supported
-  Hypervisor vendor:               KVM
-  Virtualization type:             para
-  L1d cache:                       128 KiB
-  L1i cache:                       128 KiB
-  NUMA node0 CPU(s):               0,2,4,6
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 =
-
-                                   speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardwar
-                                   e accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-  =
-
-  Expected:
-
-  [root@atest-guest ~]# lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          8
-  On-line CPU(s) list:             0-7
-  Thread(s) per core:              1
-  Core(s) per socket:              8
-  Socket(s):                       1
-  NUMA node(s):                    1
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9 (architected), altivec supported
-  Hypervisor vendor:               KVM
-  Virtualization type:             para
-  L1d cache:                       256 KiB
-  L1i cache:                       256 KiB
-  NUMA node0 CPU(s):               0-7
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 =
-
-                                   speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardwar
-                                   e accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-
-  There by further vcpuhotplug operation fails...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900241/+subscriptions
 
