@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6012C4FF7
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 09:07:24 +0100 (CET)
-Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4696F2C4FF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 09:05:33 +0100 (CET)
+Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiCJH-0001Yg-5e
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 03:07:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59894)
+	id 1kiCHU-0007uu-7w
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 03:05:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiCBk-0003cc-VS
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49609)
+ id 1kiCBo-0003js-CI
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiCBi-0007Gw-TF
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:36 -0500
+ id 1kiCBm-0007Hy-Ng
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606377569;
+ s=mimecast20190719; t=1606377573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8q7SRaneaETkvZvvdP49m+lKaklZq3Z1IrJrbscMkKk=;
- b=BDW9SamEuK46GEo6iQDMYpkwO1DA0wxvGBDBIM8Fn2RXJY68HNiDPQKH3M7IPrFug/M9Ek
- NTU0MhAF4NI0PdYnmAZY2g4FQRLkyVidUlCEYwdcTx5jt5DahK9y4t4R2EZ8uT1aGArzh9
- jVsja801SLS+xN1GYkf2cF4ZY6Iru4s=
+ bh=Iscxj1bJF1udx8dBwJ7KFfb3EmPFrugWzsS5Mh1Qmxo=;
+ b=H8zTNSn1L+nf2AV/Hk6c+JQr1tJ3cKDl5VzvBm18Xb0SckNPDQSgkhtDKMsD47Kwe6S75F
+ 61FJNPLhmE8FfctOD7bfbk/ArxPqCYBWbJrN4Um3ZpyoYYwHzTXvjRk5hr5GLgUiI4IGka
+ BNb9s34jy3cqdKR2nICX3Tmpccn923I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-qIBns7UyMBqqv3hKK4osJw-1; Thu, 26 Nov 2020 02:59:25 -0500
-X-MC-Unique: qIBns7UyMBqqv3hKK4osJw-1
+ us-mta-519-I2WZYXzNNm2BWrAw4I-h0A-1; Thu, 26 Nov 2020 02:59:30 -0500
+X-MC-Unique: I2WZYXzNNm2BWrAw4I-h0A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67C9B9A234;
- Thu, 26 Nov 2020 07:59:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C39E100C602;
+ Thu, 26 Nov 2020 07:59:29 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE06B60855;
- Thu, 26 Nov 2020 07:59:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8755860855;
+ Thu, 26 Nov 2020 07:59:24 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] target/i386: fix operand order for PDEP and PEXT
-Date: Thu, 26 Nov 2020 02:59:20 -0500
-Message-Id: <20201126075921.3116321-5-pbonzini@redhat.com>
+Subject: [PULL 5/5] nsis: Fix build for 64 bit installer
+Date: Thu, 26 Nov 2020 02:59:21 -0500
+Message-Id: <20201126075921.3116321-6-pbonzini@redhat.com>
 In-Reply-To: <20201126075921.3116321-1-pbonzini@redhat.com>
 References: <20201126075921.3116321-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,8 +56,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,129 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lenard Szolnoki <blog@lenardszolnoki.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For PDEP and PEXT, the mask is provided in the memory (mod+r/m)
-operand, and therefore is loaded in s->T0 by gen_ldst_modrm.
-The source is provided in the second source operand (VEX.vvvv)
-and therefore is loaded in s->T1.  Fix the order in which
-they are passed to the helpers.
+From: Stefan Weil <sw@weilnetz.de>
 
-Reported-by: Lenard Szolnoki <blog@lenardszolnoki.com>
-Analyzed-by: Lenard Szolnoki <blog@lenardszolnoki.com>
-Fixes: https://bugs.launchpad.net/qemu/+bug/1605123
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Pass cpu instead of cpu_family to the NSIS installer script.
+
+That script checks for "x86_64" which is the cpu value,
+while cpu_family is "x86".
+
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20201125191833.964753-1-sw@weilnetz.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/translate.c         |  8 +++----
- tests/tcg/i386/Makefile.target  |  3 +++
- tests/tcg/i386/test-i386-bmi2.c | 40 +++++++++++++++++++++++++++++++++
- 3 files changed, 47 insertions(+), 4 deletions(-)
- create mode 100644 tests/tcg/i386/test-i386-bmi2.c
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 4c57307e42..e8f5f5803a 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -3936,14 +3936,14 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                 }
-                 ot = mo_64_32(s->dflag);
-                 gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                /* Note that by zero-extending the mask operand, we
-+                /* Note that by zero-extending the source operand, we
-                    automatically handle zero-extending the result.  */
-                 if (ot == MO_64) {
-                     tcg_gen_mov_tl(s->T1, cpu_regs[s->vex_v]);
-                 } else {
-                     tcg_gen_ext32u_tl(s->T1, cpu_regs[s->vex_v]);
-                 }
--                gen_helper_pdep(cpu_regs[reg], s->T0, s->T1);
-+                gen_helper_pdep(cpu_regs[reg], s->T1, s->T0);
-                 break;
- 
-             case 0x2f5: /* pext Gy, By, Ey */
-@@ -3954,14 +3954,14 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                 }
-                 ot = mo_64_32(s->dflag);
-                 gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                /* Note that by zero-extending the mask operand, we
-+                /* Note that by zero-extending the source operand, we
-                    automatically handle zero-extending the result.  */
-                 if (ot == MO_64) {
-                     tcg_gen_mov_tl(s->T1, cpu_regs[s->vex_v]);
-                 } else {
-                     tcg_gen_ext32u_tl(s->T1, cpu_regs[s->vex_v]);
-                 }
--                gen_helper_pext(cpu_regs[reg], s->T0, s->T1);
-+                gen_helper_pext(cpu_regs[reg], s->T1, s->T0);
-                 break;
- 
-             case 0x1f6: /* adcx Gy, Ey */
-diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
-index a66232a67d..ad187cb2c9 100644
---- a/tests/tcg/i386/Makefile.target
-+++ b/tests/tcg/i386/Makefile.target
-@@ -18,6 +18,9 @@ test-i386-pcmpistri: CFLAGS += -msse4.2
- run-test-i386-pcmpistri: QEMU_OPTS += -cpu max
- run-plugin-test-i386-pcmpistri-%: QEMU_OPTS += -cpu max
- 
-+run-test-i386-bmi2: QEMU_OPTS += -cpu max
-+run-plugin-test-i386-bmi2-%: QEMU_OPTS += -cpu max
-+
- #
- # hello-i386 is a barebones app
- #
-diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
-new file mode 100644
-index 0000000000..e7a93b88b4
---- /dev/null
-+++ b/tests/tcg/i386/test-i386-bmi2.c
-@@ -0,0 +1,40 @@
-+/* See if various BMI2 instructions give expected results */
-+#include <assert.h>
-+#include <stdint.h>
-+
-+int main(int argc, char *argv[]) {
-+    char hello[16];
-+    uint64_t ehlo = 0x202020204f4c4845ull;
-+    uint64_t mask = 0xa080800302020001ull;
-+    uint64_t result64;
-+    uint32_t result32;
-+
-+    /* 64 bits */
-+    asm volatile ("pextq   %2, %1, %0" : "=r"(result64) : "r"(ehlo), "m"(mask));
-+    assert(result64 == 133);
-+
-+    asm volatile ("pdepq   %2, %1, %0" : "=r"(result64) : "r"(result64), "m"(mask));
-+    assert(result64 == (ehlo & mask));
-+
-+    asm volatile ("pextq   %2, %1, %0" : "=r"(result64) : "r"(-1ull), "m"(mask));
-+    assert(result64 == 511); /* mask has 9 bits set */
-+
-+    asm volatile ("pdepq   %2, %1, %0" : "=r"(result64) : "r"(-1ull), "m"(mask));
-+    assert(result64 == mask);
-+
-+    /* 32 bits */
-+    asm volatile ("pextl   %2, %k1, %k0" : "=r"(result32) : "r"(ehlo), "m"(mask));
-+    assert(result32 == 5);
-+
-+    asm volatile ("pdepl   %2, %k1, %k0" : "=r"(result32) : "r"(result32), "m"(mask));
-+    assert(result32 == (uint32_t)(ehlo & mask));
-+
-+    asm volatile ("pextl   %2, %k1, %k0" : "=r"(result32) : "r"(-1ull), "m"(mask));
-+    assert(result32 == 7); /* mask has 3 bits set */
-+
-+    asm volatile ("pdepl   %2, %k1, %k0" : "=r"(result32) : "r"(-1ull), "m"(mask));
-+    assert(result32 == (uint32_t)mask);
-+
-+    return 0;
-+}
-+
+diff --git a/meson.build b/meson.build
+index 360623ece9..e3386196ba 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1955,7 +1955,7 @@ if host_machine.system() == 'windows'
+     '@OUTPUT@',
+     get_option('prefix'),
+     meson.current_source_dir(),
+-    host_machine.cpu_family(),
++    host_machine.cpu(),
+     '--',
+     '-DDISPLAYVERSION=' + meson.project_version(),
+   ]
 -- 
 2.26.2
-
 
 
