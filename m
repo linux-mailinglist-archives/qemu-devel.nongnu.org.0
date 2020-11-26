@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E522C53A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:12:52 +0100 (CET)
-Received: from localhost ([::1]:47518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8802C539C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:09:45 +0100 (CET)
+Received: from localhost ([::1]:44408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiG8p-0003VD-3K
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:12:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48798)
+	id 1kiG5o-00026h-O9
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:09:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiG2h-00017c-SS
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:06:31 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:33598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiG2g-0001tj-61
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:06:31 -0500
-Received: by mail-ej1-x644.google.com with SMTP id 7so2637498ejm.0
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 04:06:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kpjf8Y8HCgAUQxxZ53cX0oE55KrvZllXNp+tnC8WQVE=;
- b=lgrXxBCiDNIgWUBEvGpXzcupX1dHtGdh5puewSDV7hec3/6s2f+erOkoxksSZwpDb+
- OmJxzqJ+7BvOd7wfomcmJNAn6VFyE+ST1e+xYgzU9ciFKMZgzRUhGBqH5SYo999muvf0
- JgkOw3clkS6OP8IfUKqvcQMgZ8o12Lnuf2OWfP5Cda5JLtuxk7cu4Szp/0Ok+ygOAEQi
- /9Ck08SiAEMhBuPPLDK8WerqK50u7flKo1t4beRDjyWleY32KcloGj82spBMvBJ9XT/F
- lEXPWUA6YjgrNwm07+IHuNf8z9TnGuX6bVH2JxDHMk71DNfIrOmYoV1H/lcibRjWGYh3
- UElQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kpjf8Y8HCgAUQxxZ53cX0oE55KrvZllXNp+tnC8WQVE=;
- b=Jc6lOknczIXII53F3EeDUZXZyeDLvHfyLskSMbrQE7rgRZZVSbMgol0Am/DdllfJ5K
- sz1FggQiI4IyNh6bYrLFttf+TNAbxEHPfUZlDk2TIUtmpJNvEB66G0NtXIyR8fXMPaae
- udLf56Hhxtz0c1Qp68zV2evX/jenLVjrnuVOXp8rwx0PZZTN2Gmj9x48wMnSky1c1kAx
- Q1ceVfGqbkKP/Ta/eaIbjE6y4+9XxLWpD3huJKyJcheBOR0vls5AKbJ7aTlY5j79cpWW
- 7NX01Bf7Wb9hWYIBNPR73T8SxIpqoeIm97i1f9Ta+yU8n79mk6XX4KtYtLi1fnRAoeJq
- MmPw==
-X-Gm-Message-State: AOAM530XjQD9JGgEC3GtXW0umsqeX4r8w0ZNg/otWkn5zyx0LKwkFRkq
- zQrfFkG+Ub8M+TVlnE5TkCfapwxvV+MsjigBcAqSxg==
-X-Google-Smtp-Source: ABdhPJw646vi87iOoZVBdMZgFzmCwKlZc1FZP/mw0ppnu9nXPQuPvXYbgAbkg2Snc+ANqAiqZTLZSFWpfwAAd1P8RXc=
-X-Received: by 2002:a17:906:d8a9:: with SMTP id
- qc9mr2361040ejb.482.1606392388678; 
- Thu, 26 Nov 2020 04:06:28 -0800 (PST)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kiG2s-0001Dg-6S
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:06:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43056)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kiG2p-0001wQ-BL
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:06:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606392398;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mN/n+CnSMcOkY4R5sv8giQPuR7sjSZtBfPz4DC6XvHM=;
+ b=c70VTbYwTF8iplOjD1kNVYziJJeK8+FLxhXv6dWSuMgZ5BULdE1gUqFyfmpycu766MiUfC
+ kP65E/UPBp/l+S27LFfOOdYbcB4kIeQ1oDiejkafI4zt6uXBp6On0WWEuvg1cBV7AQYi1n
+ JjK8h0d6NVJwPYm236A33rQn6+ghBDw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-juHihixdOoeHSnuY7nsBzg-1; Thu, 26 Nov 2020 07:06:33 -0500
+X-MC-Unique: juHihixdOoeHSnuY7nsBzg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A756E835B48;
+ Thu, 26 Nov 2020 12:06:31 +0000 (UTC)
+Received: from redhat.com (ovpn-115-34.ams2.redhat.com [10.36.115.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AE1260C05;
+ Thu, 26 Nov 2020 12:06:27 +0000 (UTC)
+Date: Thu, 26 Nov 2020 12:06:24 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 02/13] qemu/atomic: Drop special case for unsupported
+ compiler
+Message-ID: <20201126120624.GE1122957@redhat.com>
 References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
- <20201126112915.525285-10-marcandre.lureau@redhat.com>
-In-Reply-To: <20201126112915.525285-10-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Nov 2020 12:06:17 +0000
-Message-ID: <CAFEAcA9tcduAw1vEjWoOvmiJGS-S6zUx3t_nmssSNxbgPXpyOQ@mail.gmail.com>
-Subject: Re: [PATCH v2 09/13] audio: remove GNUC & MSVC check
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+ <20201126112915.525285-3-marcandre.lureau@redhat.com>
+ <CAFEAcA8QY_rt_JXy+O-3nOJUvbeAz7QMfXU3uDm78JigNvogiA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8QY_rt_JXy+O-3nOJUvbeAz7QMfXU3uDm78JigNvogiA@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,52 +84,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Nov 2020 at 11:30, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> QEMU requires either GCC or Clang, which both advertize __GNUC__.
-> Drop MSVC fallback path.
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  audio/audio.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/audio/audio.c b/audio/audio.c
-> index 46578e4a58..d7a00294de 100644
-> --- a/audio/audio.c
-> +++ b/audio/audio.c
-> @@ -122,13 +122,7 @@ int audio_bug (const char *funcname, int cond)
->
->  #if defined AUDIO_BREAKPOINT_ON_BUG
->  #  if defined HOST_I386
-> -#    if defined __GNUC__
-> -        __asm__ ("int3");
-> -#    elif defined _MSC_VER
-> -        _asm _emit 0xcc;
-> -#    else
-> -        abort ();
-> -#    endif
-> +      __asm__ ("int3");
->  #  else
->          abort ();
->  #  endif
-> --
-> 2.29.0
+On Thu, Nov 26, 2020 at 11:49:28AM +0000, Peter Maydell wrote:
+> On Thu, 26 Nov 2020 at 11:29, <marcandre.lureau@redhat.com> wrote:
+> >
+> > From: Philippe Mathieu-Daudé <philmd@redhat.com>
+> >
+> > Since commit efc6c070aca ("configure: Add a test for the
+> > minimum compiler version") the minimum compiler version
+> > required for GCC is 4.8, which has the GCC BZ#36793 bug fixed.
+> >
+> > We can safely remove the special case introduced in commit
+> > a281ebc11a6 ("virtio: add missing mb() on notification").
+> >
+> > With clang 3.8 (xenial amd64) __ATOMIC_RELAXED is defined, so the chunk
+> > to remove (which is x86-specific), isn't reached.
+> 
+> The minimum clang version enforced by configure is 3.4, not 3.8.
+> (Or Apple XCode clang 5.1 -- they use a different versioning scheme!)
 
-I would prefer to just drop this attempt to emit an inline
-breakpoint insn (which won't work on non-x86 hosts and seems
-to me to have no benefit over just calling abort(), which will
-also drop you into the debugger) and simply make it abort() if
-AUDIO_BREAKPOINT_ON_BUG is defined. Gerd, do you have an
-opinion ?
+We picked clang 3.4 based on fact that is what ships in EPEL7, and
+Debian Jessie 3.5.  We then picked the XCode version to match.
 
-thanks
--- PMM
+Based on our platform support matrix we no longer support Debian
+Jessie, and IMHO we also don't really need to consider 3rd party
+add-on repos shipping non-default toolschains. So IMHO we could
+entirely ignore clang in EPEL7 when picking min versions.
+
+IOW, we are likely justified in picking a new clang version if
+someone wants to research what is a suitable min version across
+our intended supported distros.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
