@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CD32C4FE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 09:02:19 +0100 (CET)
-Received: from localhost ([::1]:41826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2330B2C4FF1
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 09:05:33 +0100 (CET)
+Received: from localhost ([::1]:49300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiCEL-0004pZ-NC
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 03:02:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59836)
+	id 1kiCHU-0007vh-5M
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 03:05:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiCBf-0003Rx-9N
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49499)
+ id 1kiCBj-0003Yd-26
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiCBd-0007Fr-0c
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:30 -0500
+ id 1kiCBh-0007Fw-Dy
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 02:59:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606377566;
+ s=mimecast20190719; t=1606377567;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uKPevZNw50mcXBWvIsDGlYOs/W06lxb+pCPBZwwW2zc=;
- b=AHEnVYM8fDGq2gDZcD9coJgIIKL5P0p4NVBx6doCzcV0YpFo6HHtePLnD4A5qccliuII9R
- 6P+yX70Td9CnMApOb/aEmXk1G/KpmTRtLHUM3ElfUSCgUzoOGIf616hTc09oMOFXQYXHBh
- m4MlJgC+uaHDWHKdj8hYmKgyUCHHDAw=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D2aLyrM1tfSGtiUWdWept7ozELi7c+yJBSlVcGctauk=;
+ b=gTQwCGig+jFAgbL1FkN9QdU9c8cTGH9OqFRn8HBqgYO7cyPMvwvYzO/nvbTRyHDFHboltZ
+ r6jDtLqetBBkujjU/AxtzOU09f8UgJoHl7iDM0Yo6EphWgYMSaj5T9njshJciUvCfHLAUM
+ 44MT+5y0QXqh/f2O9FRyTnHXtuOMigs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-k5_tm_J3NlmXu6NW7kiOxA-1; Thu, 26 Nov 2020 02:59:23 -0500
-X-MC-Unique: k5_tm_J3NlmXu6NW7kiOxA-1
+ us-mta-455-R9VGmNEUOSOfYK_ktqcbEA-1; Thu, 26 Nov 2020 02:59:23 -0500
+X-MC-Unique: R9VGmNEUOSOfYK_ktqcbEA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45829185E48A
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 07:59:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6AEB87309D;
+ Thu, 26 Nov 2020 07:59:22 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0879460855
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 07:59:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6596260855;
+ Thu, 26 Nov 2020 07:59:22 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] Final (?) batch of misc patches for QEMU 5.2
-Date: Thu, 26 Nov 2020 02:59:16 -0500
-Message-Id: <20201126075921.3116321-1-pbonzini@redhat.com>
+Subject: [PULL 1/5] meson: use dependency() to find libjpeg
+Date: Thu, 26 Nov 2020 02:59:17 -0500
+Message-Id: <20201126075921.3116321-2-pbonzini@redhat.com>
+In-Reply-To: <20201126075921.3116321-1-pbonzini@redhat.com>
+References: <20201126075921.3116321-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,52 +79,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 8cc30eb1400fc01f2b139cdd3dc524f8b84dbe07:
+Prefer pkg-config to find_library because some installations of libjpeg
+may place it outside the default search path.
 
-  Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20201122' into staging (2020-11-22 15:02:52 +0000)
+Reported-by: Stefan Weil <sw@weilnetz.de>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to dae3916d846cd88aff038a56b82fa687fd6d02a3:
-
-  nsis: Fix build for 64 bit installer (2020-11-25 17:39:12 -0500)
-
-----------------------------------------------------------------
-Bug fixes + removing the setuptools dependency
-
-----------------------------------------------------------------
-Olaf Hering (1):
-      configure: remove python pkg_resources check
-
-Paolo Bonzini (3):
-      meson: use dependency() to find libjpeg
-      tests/docker, tests/vm: remove setuptools from images
-      target/i386: fix operand order for PDEP and PEXT
-
-Stefan Weil (1):
-      nsis: Fix build for 64 bit installer
-
- .cirrus.yml                                        |  1 -
- configure                                          |  3 --
- meson.build                                        |  7 ++--
- target/i386/translate.c                            |  8 ++---
- tests/docker/dockerfiles/debian10.docker           |  1 -
- tests/docker/dockerfiles/fedora-win32-cross.docker |  1 -
- tests/docker/dockerfiles/fedora-win64-cross.docker |  1 -
- tests/tcg/i386/Makefile.target                     |  3 ++
- tests/tcg/i386/test-i386-bmi2.c                    | 40 ++++++++++++++++++++++
- tests/vm/freebsd                                   |  1 -
- tests/vm/haiku.x86_64                              |  1 -
- tests/vm/netbsd                                    |  1 -
- tests/vm/openbsd                                   |  1 -
- 13 files changed, 50 insertions(+), 19 deletions(-)
- create mode 100644 tests/tcg/i386/test-i386-bmi2.c
+diff --git a/meson.build b/meson.build
+index 5062407c70..360623ece9 100644
+--- a/meson.build
++++ b/meson.build
+@@ -654,9 +654,8 @@ if get_option('vnc').enabled()
+   vnc = declare_dependency() # dummy dependency
+   png = dependency('libpng', required: get_option('vnc_png'),
+                    method: 'pkg-config', static: enable_static)
+-  jpeg = cc.find_library('jpeg', has_headers: ['jpeglib.h'],
+-                         required: get_option('vnc_jpeg'),
+-                         static: enable_static)
++  jpeg = dependency('libjpeg', required: get_option('vnc_jpeg'),
++                    method: 'pkg-config', static: enable_static)
+   sasl = cc.find_library('sasl2', has_headers: ['sasl/sasl.h'],
+                          required: get_option('vnc_sasl'),
+                          static: enable_static)
 -- 
 2.26.2
+
 
 
