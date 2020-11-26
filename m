@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3CBF2C521A
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 11:34:55 +0100 (CET)
-Received: from localhost ([::1]:36574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B52042C5229
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 11:39:01 +0100 (CET)
+Received: from localhost ([::1]:39774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiEc2-0006X1-Ss
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 05:34:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47194)
+	id 1kiEg0-00082i-Qo
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 05:39:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kiEZy-0005uc-Ck; Thu, 26 Nov 2020 05:32:46 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:44907)
+ id 1kiEek-0007EO-LJ; Thu, 26 Nov 2020 05:37:42 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kiEZw-0002cj-Qh; Thu, 26 Nov 2020 05:32:46 -0500
-Received: by mail-oi1-x243.google.com with SMTP id y74so1749687oia.11;
- Thu, 26 Nov 2020 02:32:43 -0800 (PST)
+ id 1kiEej-0004H7-8y; Thu, 26 Nov 2020 05:37:42 -0500
+Received: by mail-ot1-x341.google.com with SMTP id 11so1469004oty.9;
+ Thu, 26 Nov 2020 02:37:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=3+Mxlv6Nd/uo7icmu0ecISLar6ooaj/Ded6ha4ra8hs=;
- b=LM7PixAS3BMNtoSBcFzzPrXOLEhBqtOQFRc8D+78mkIKFsyc/fIU414ndmhjlIztPW
- GohtLmjNJ/sFIVi709/aTff91O4hQ288GInbSDhCMoYAf17/f3z9u6f8Zzo2BtNLB82p
- I9UTwtMHl1ik8NWVO1OVhhkGVCj45B74W+qHbL/+JQgdor0oih5tP5s/EXeCm1hs8PGe
- 5QcLvAWNYL29fODhaa9DagGmkcWbh/f1nEQmSR/tjsGMvU9fAcnWfpnZm7iuT856EDzg
- 6b2ySDgGk0olX6vQLEB3pLi1Xtv1054jYeZG8MSsOxgAciBvNSuVAHYo2AbbXdXKuKhA
- pXYg==
+ bh=2shOX+HFGjx9yof2t8AsTuEfNL0YMKvC4gSmFolDGQY=;
+ b=lpYcEQnkmOJlR6C2GvlgFoc9TPG5YFUItL13tg5rv5f+NMCCYdWBYHUk9Jr5Sx8uSC
+ XAlheBcPj3iWwqdfhnTBeK3dC/6pTcU2gCYFOwhLbioSX17P5i966QH09k5Y272f+Ozd
+ MMDY+5JoxHnY2R+A9O0IPaULtjbfcxs+z5x0YlNtdzk3c9BFHbUg3eZVqcl3B8u+KBGe
+ 8ZTk+3sOnVGoTOEXAILIJvcuQKYcoLbMS1IDqs8rNTAub4+qDfR4Pw7ejHPhf1gZDDDm
+ yIUv44G1LHpa2+5Sb/kqzK17Ue7ZqM8K2tyT1I8f46KxJhh24UTuxV6nbvY/IY0cla8r
+ DmTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=3+Mxlv6Nd/uo7icmu0ecISLar6ooaj/Ded6ha4ra8hs=;
- b=cwcTTL9nxt06s5HReIwJl/ar/RjRlU7Ww3p7xIO73tXXJIoRWgkx6Am9P6nUQF2TGt
- mFmgOhhstHZETwwyUVeQM5WQyeYS9rRU7fEjI0mwe3QLGvu8gSTGSLercMWU/VpOSXpg
- 7mGDOiGY04BsMwDg+zT6fckNGI8V3Q9yoglHNYJ45Z/EXk1IIqtJyWtXDn/U5qe6yf+H
- gObeMJ/98knidZAuOyY0P3F695UF4IvAM5pp6vdEFk0zchRwPkhIGdHgctMqihDfadBS
- SrD+FkNBIFlMnEq2VGy51kEAtjUqBtHoNmMr9yvR44QeIXka3bmm7TcyqcF+UzVgbQc2
- swuQ==
-X-Gm-Message-State: AOAM531HGAC165mb5ayBq+fjfCQ3iQ+yaOPyHqSAW1xiRucQGM41fv2p
- d9+bV18gZazXwMlswe6xy13mJnbsUhjStHgOYgk=
-X-Google-Smtp-Source: ABdhPJxdslI7RNqNMR5vKF93Xj15nz+N7byTxxk1EZ1Q0Uc16w8oPJE8a+HVZUPSVCA9LvKEkd2eMB1pTc1dLzgbOPY=
-X-Received: by 2002:aca:cd17:: with SMTP id d23mr1688099oig.56.1606386763110; 
- Thu, 26 Nov 2020 02:32:43 -0800 (PST)
+ bh=2shOX+HFGjx9yof2t8AsTuEfNL0YMKvC4gSmFolDGQY=;
+ b=crweY5UbhQyT81/9yJKanNr0rtA7YM5mmLZT5N2BbaYNZj1jYyjjyB4d4RZmsFKr/x
+ uVzQcItr59MIXs2SakTOh/GQERCYQY26dk5v/ae59EI7AH9USU8x5rny5+hQ/rY8vVOY
+ G+b5Oujal1c5P4KCE8xz8eOF0kGw3HI8PO1Oe9Ky44zhBX25smfCDo0ES4OxODOeRmiK
+ s1mazAAb+ClX+oTND6svSXls64Tr6HGiOhhjMmaYjIVtrgNFcNjtQHjfGHav2oWz4/mC
+ 7g0Pbgglz/hqJ9hWMkqBEfArxK25YsAL/dkqlCb2vTqkGnasmFD/EXC9lxgIvv7ysU5b
+ /KlA==
+X-Gm-Message-State: AOAM532jlIjkz9o8JDU6xbhiKWmNk0GGi1tMsvxm3o3xVCylwOrbO88i
+ OLW7NEM4xK6wuMnmri9qWqnztENuTlhtYoU0JFI=
+X-Google-Smtp-Source: ABdhPJwYEFlO61IOOuH68cppSd9RmtPzOakXuEMmsZOGSPMJZF3IswLWSXuRpNF7SpL9anXymaSzZUx2nOkXW6ll+8k=
+X-Received: by 2002:a9d:7e96:: with SMTP id m22mr1855365otp.181.1606387059699; 
+ Thu, 26 Nov 2020 02:37:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20201126065702.35095-1-alex.chen@huawei.com>
-In-Reply-To: <20201126065702.35095-1-alex.chen@huawei.com>
+References: <20201125102403.57709-1-alex.chen@huawei.com>
+In-Reply-To: <20201125102403.57709-1-alex.chen@huawei.com>
 From: Li Qiang <liq3ea@gmail.com>
-Date: Thu, 26 Nov 2020 18:32:07 +0800
-Message-ID: <CAKXe6SKKqHAwbOHQzy3ZviQKrotFWKJ3h2Gtm0Aw1nk++3+eWw@mail.gmail.com>
-Subject: Re: [PATCH] vnc: Fix a memleak in vnc_display_connect()
+Date: Thu, 26 Nov 2020 18:37:03 +0800
+Message-ID: <CAKXe6SJJRx8KQZXLBP8vGmA6_Xz_EZG9d3G-Ogx=3uf_r3Xarw@mail.gmail.com>
+Subject: Re: [PATCH] test-qga: fix a resource leak in
+ test_qga_guest_get_osinfo()
 To: Alex Chen <alex.chen@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=liq3ea@gmail.com; helo=mail-ot1-x341.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,14 +78,17 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex Chen <alex.chen@huawei.com> =E4=BA=8E2020=E5=B9=B411=E6=9C=8826=E6=97=
-=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=883:10=E5=86=99=E9=81=93=EF=BC=9A
+Alex Chen <alex.chen@huawei.com> =E4=BA=8E2020=E5=B9=B411=E6=9C=8825=E6=97=
+=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=886:37=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Free the 'sioc' when the qio_channel_socket_connect_sync() fails.
+> The fixture->fd is created in fixture_setup() and, likewise, needs to be =
+closed
+> in fixture_tear_down().
 >
 > Reported-by: Euler Robot <euler.robot@huawei.com>
 > Signed-off-by: Alex Chen <alex.chen@huawei.com>
@@ -92,21 +96,22 @@ Alex Chen <alex.chen@huawei.com> =E4=BA=8E2020=E5=B9=B411=E6=9C=8826=E6=97=
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
 > ---
->  ui/vnc.c | 1 +
+>  tests/test-qga.c | 1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index 49235056f7..dae56e9493 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -3743,6 +3743,7 @@ static int vnc_display_connect(VncDisplay *vd,
->      sioc =3D qio_channel_socket_new();
->      qio_channel_set_name(QIO_CHANNEL(sioc), "vnc-reverse");
->      if (qio_channel_socket_connect_sync(sioc, saddr[0], errp) < 0) {
-> +        object_unref(OBJECT(sioc));
->          return -1;
->      }
->      vnc_connect(vd, sioc, false, false);
+> diff --git a/tests/test-qga.c b/tests/test-qga.c
+> index c1b173b3cb..eb33264e8e 100644
+> --- a/tests/test-qga.c
+> +++ b/tests/test-qga.c
+> @@ -111,6 +111,7 @@ fixture_tear_down(TestFixture *fixture, gconstpointer=
+ data)
+>
+>      g_rmdir(fixture->test_dir);
+>      g_free(fixture->test_dir);
+> +    close(fixture->fd);
+>  }
+>
+>  static void qmp_assertion_message_error(const char     *domain,
 > --
 > 2.19.1
 >
