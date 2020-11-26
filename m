@@ -2,54 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BEB2C4E1E
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 05:58:42 +0100 (CET)
-Received: from localhost ([::1]:39230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CC7E2C4EE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 07:39:39 +0100 (CET)
+Received: from localhost ([::1]:40844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ki9Mf-0000YK-3a
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 23:58:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47504)
+	id 1kiAwM-0003GD-3h
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 01:39:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ki9Lq-0008Sm-RS; Wed, 25 Nov 2020 23:57:50 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:55001 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1ki9Ln-00052E-Qe; Wed, 25 Nov 2020 23:57:50 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4ChQVZ2skpz9sTv; Thu, 26 Nov 2020 15:57:42 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1606366662;
- bh=tk36rd0jGohpWZHD5JoRtrPBWCm/ZTqXw+GcMVQg8qQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GYc32mI+mYWKIM8je+cSlzhvvrsA0ETtXYBHMKYzL9yUx7AtCAsT1kSxNL0Aa21dn
- njU8Wi+Vm6yNxLragRiA/EbEVhjRtS6nk93hJYobczArIcYu+OuBGRQQQk7/ci4WOF
- FoDu4KIcTDpcmJPOHJGDyn4qJD74QFi/8sInffbc=
-Date: Thu, 26 Nov 2020 15:57:37 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH for-6.0 4/9] spapr: Set compat mode in spapr_reset_vcpu()
-Message-ID: <20201126045737.GA152349@yekko.fritz.box>
-References: <20201120234208.683521-1-groug@kaod.org>
- <20201120234208.683521-5-groug@kaod.org>
- <20201123051130.GL521467@yekko.fritz.box>
- <20201123125108.2118048e@bahia.lan>
- <20201125023947.GE521467@yekko.fritz.box>
- <20201125105105.05d25b1f@bahia.lan>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kiAtQ-00026I-9c
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 01:36:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40618)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kiAtN-0005hx-I3
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 01:36:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606372591;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=q27Y2Vo+E1LQ4TXHi7QV/n/HVKBJe6ViTGL3Hr2mSMI=;
+ b=Ke65HhSh483wTq0tEd2wpT9E4aw9A6TqzE34JryJz8A5GkdIqxWNQJpAii0LkCcXS8QVDs
+ iIIM34ufsZpaCsYxBNqkfm1B5soMItxhsPkDD5ZySdp/knpPWUEAMWqimAoFU8v+aQT0/w
+ eKG3izkq7ml/PjSkPnYan6lLq16dYOQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-574-eX_B3GgTMIqcG1it1yM68w-1; Thu, 26 Nov 2020 01:36:29 -0500
+X-MC-Unique: eX_B3GgTMIqcG1it1yM68w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 433D71015C84;
+ Thu, 26 Nov 2020 06:36:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C0EF760C05;
+ Thu, 26 Nov 2020 06:36:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4E753113864E; Thu, 26 Nov 2020 07:36:23 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Ben Widawsky <ben.widawsky@intel.com>
+Subject: Re: [RFC PATCH 18/25] hw/cxl/device: Add a memory device (8.2.8.5)
+References: <20201111054724.794888-1-ben.widawsky@intel.com>
+ <20201111054724.794888-19-ben.widawsky@intel.com>
+ <b2d95e72-51d9-72d2-b340-aefb00928a76@redhat.com>
+ <87d00hk89c.fsf@dusky.pond.sub.org>
+ <20201125165333.zn5tpwfjnwmjmcdu@intel.com>
+Date: Thu, 26 Nov 2020 07:36:23 +0100
+In-Reply-To: <20201125165333.zn5tpwfjnwmjmcdu@intel.com> (Ben Widawsky's
+ message of "Wed, 25 Nov 2020 08:53:33 -0800")
+Message-ID: <87360w39qw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AqsLC8rIMeq19msA"
-Content-Disposition: inline
-In-Reply-To: <20201125105105.05d25b1f@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,214 +83,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Ben Widawsky <ben.widawsky@intel.com> writes:
 
---AqsLC8rIMeq19msA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 20-11-13 08:47:59, Markus Armbruster wrote:
+>> Eric Blake <eblake@redhat.com> writes:
+>> 
+>> > On 11/10/20 11:47 PM, Ben Widawsky wrote:
+>> >> A CXL memory device (AKA Type 3) is a CXL component that contains some
+>> >> combination of volatile and persistent memory. It also implements the
+>> >> previously defined mailbox interface as well as the memory device
+>> >> firmware interface.
+>> >> 
+>> >> The following example will create a 256M device in a 512M window:
+>> >> 
+>> >> -object "memory-backend-file,id=cxl-mem1,share,mem-path=cxl-type3,size=512M"
+>> >> -device "cxl-type3,bus=rp0,memdev=cxl-mem1,id=cxl-pmem0,size=256M"
+>> >> 
+>> >> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+>> >> ---
+>> >
+>> >> +++ b/qapi/machine.json
+>> >> @@ -1394,6 +1394,7 @@
+>> >>  { 'union': 'MemoryDeviceInfo',
+>> >>    'data': { 'dimm': 'PCDIMMDeviceInfo',
+>> >>              'nvdimm': 'PCDIMMDeviceInfo',
+>> >> +            'cxl': 'PCDIMMDeviceInfo',
+>> >>              'virtio-pmem': 'VirtioPMEMDeviceInfo',
+>> >>              'virtio-mem': 'VirtioMEMDeviceInfo'
+>> >>            }
+>> >
+>> > Missing documentation of the new data type, and the fact that it will be
+>> > introduced in 6.0.
+>> 
+>> Old wish list item: improve the QAPI schema frontend to flag this.
+>> 
+>
+> "Introduced in 6.0" - quite the optimist. Kidding aside, this is the area where
+> I could use some feedback. CXL Type 3 memory devices can contain both volatile
+> and persistent memory at the same time. As such, I think I'll need a new type to
+> represent that, but I'd love to know how best to accomplish that.
 
-On Wed, Nov 25, 2020 at 10:51:05AM +0100, Greg Kurz wrote:
-> On Wed, 25 Nov 2020 13:39:47 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > On Mon, Nov 23, 2020 at 12:51:08PM +0100, Greg Kurz wrote:
-> > > On Mon, 23 Nov 2020 16:11:30 +1100
-> > > David Gibson <david@gibson.dropbear.id.au> wrote:
-> > >=20
-> > > > On Sat, Nov 21, 2020 at 12:42:03AM +0100, Greg Kurz wrote:
-> > > > > When it comes to resetting the compat mode of the vCPUS, there are
-> > > > > two situations to consider:
-> > > > > (1) machine reset should set the compat mode back to the machine =
-default,
-> > > > >     ie. spapr->max_compat_pvr
-> > > > > (2) hot plugged vCPUs should set their compat mode to mach the bo=
-ot vCPU,
-> > > > >     ie. POWERPC_CPU(first_cpu)->compat_pvr
-> > > > >=20
-> > > > > This is currently handled in two separate places: globally for al=
-l vCPUs
-> > > > > from the machine reset code for (1) and for each thread of a core=
- from
-> > > > > the hotplug path for (2).
-> > > > >=20
-> > > > > Since the machine reset code already resets all vCPUs, starting w=
-ith boot
-> > > > > vCPU, consolidate the logic in spapr_reset_vcpu(). Special case t=
-he boot
-> > > > > vCPU so that it resets its compat mode back to the machine defaul=
-t. Any
-> > > > > other vCPU just need to match the compat mode of the boot vCPU.
-> > > > >=20
-> > > > > Failing to set the compat mode during machine reset is a fatal er=
-ror,
-> > > > > but not for hot plugged vCPUs. This is arguable because if we've =
-been
-> > > > > able to set the boot vCPU compat mode at CAS or during machine re=
-set,
-> > > > > it should definitely not fail for other vCPUs. Since spapr_reset_=
-vcpu()
-> > > > > already has a fatal error path for kvm_check_mmu() failures, do t=
-he
-> > > > > same for ppc_set_compat().
-> > > > >=20
-> > > > > This gets rid of an error path in spapr_core_plug(). It will allow
-> > > > > further simplifications.
-> > > > >=20
-> > > > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > > > ---
-> > > > >  hw/ppc/spapr.c          | 16 ----------------
-> > > > >  hw/ppc/spapr_cpu_core.c | 13 +++++++++++++
-> > > > >  2 files changed, 13 insertions(+), 16 deletions(-)
-> > > > >=20
-> > > > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > > > index f58f77389e8e..da7586f548df 100644
-> > > > > --- a/hw/ppc/spapr.c
-> > > > > +++ b/hw/ppc/spapr.c
-> > > > > @@ -1606,8 +1606,6 @@ static void spapr_machine_reset(MachineStat=
-e *machine)
-> > > > >      spapr_ovec_cleanup(spapr->ov5_cas);
-> > > > >      spapr->ov5_cas =3D spapr_ovec_new();
-> > > > > =20
-> > > > > -    ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
-> > > > > -
-> > > > >      /*
-> > > > >       * This is fixing some of the default configuration of the X=
-IVE
-> > > > >       * devices. To be called after the reset of the machine devi=
-ces.
-> > > > > @@ -3785,20 +3783,6 @@ static void spapr_core_plug(HotplugHandler=
- *hotplug_dev, DeviceState *dev,
-> > > > > =20
-> > > > >      core_slot->cpu =3D OBJECT(dev);
-> > > > > =20
-> > > > > -    /*
-> > > > > -     * Set compatibility mode to match the boot CPU, which was e=
-ither set
-> > > > > -     * by the machine reset code or by CAS.
-> > > > > -     */
-> > > > > -    if (hotplugged) {
-> > > > > -        for (i =3D 0; i < cc->nr_threads; i++) {
-> > > > > -            if (ppc_set_compat(core->threads[i],
-> > > > > -                               POWERPC_CPU(first_cpu)->compat_pv=
-r,
-> > > > > -                               errp) < 0) {
-> > > > > -                return;
-> > > > > -            }
-> > > > > -        }
-> > > > > -    }
-> > > > > -
-> > > > >      if (smc->pre_2_10_has_unused_icps) {
-> > > > >          for (i =3D 0; i < cc->nr_threads; i++) {
-> > > > >              cs =3D CPU(core->threads[i]);
-> > > > > diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> > > > > index 2f7dc3c23ded..17741a3fb77f 100644
-> > > > > --- a/hw/ppc/spapr_cpu_core.c
-> > > > > +++ b/hw/ppc/spapr_cpu_core.c
-> > > > > @@ -27,6 +27,7 @@
-> > > > > =20
-> > > > >  static void spapr_reset_vcpu(PowerPCCPU *cpu)
-> > > > >  {
-> > > > > +    PowerPCCPU *first_ppc_cpu =3D POWERPC_CPU(first_cpu);
-> > > > >      CPUState *cs =3D CPU(cpu);
-> > > > >      CPUPPCState *env =3D &cpu->env;
-> > > > >      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> > > > > @@ -69,6 +70,18 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
-> > > > >      kvm_check_mmu(cpu, &error_fatal);
-> > > > > =20
-> > > > >      spapr_irq_cpu_intc_reset(spapr, cpu);
-> > > > > +
-> > > > > +    /*
-> > > > > +     * The boot CPU is only reset during machine reset : reset i=
-ts
-> > > > > +     * compatibility mode to the machine default. For other CPUs,
-> > > > > +     * either cold plugged or hot plugged, set the compatibility=
- mode
-> > > > > +     * to match the boot CPU, which was either set by the machin=
-e reset
-> > > > > +     * code or by CAS.
-> > > > > +     */
-> > > > > +    ppc_set_compat(cpu,
-> > > > > +                   cpu =3D=3D first_ppc_cpu ?
-> > > > > +                   spapr->max_compat_pvr : first_ppc_cpu->compat=
-_pvr,
-> > > > > +                   &error_fatal);
-> > > >=20
-> > > > This assumes that when it is called for a non-boot CPU, it has alre=
-ady
-> > > > been called for the boot CPU..  Are we certain that's guaranteed by
-> > > > the sequence of reset calls during a full machine reset?
-> > > >=20
-> > >=20
-> > > This happens to be the case. Basically because the boot CPU core
-> > > is created (including registering its reset handler) first and
-> > > qemu_devices_reset() calls handlers in the same order they were
-> > > registered.
-> >=20
-> > Right, I assumed it works for now, but it seems rather fragile, since
-> > I'm not sure we're relying on guaranteed properties of the interface.
->=20
-> The reset handler interface is absolutely undocumented, so I guess we
-> have no formal guarantees at the present time. But since the current
-> implementation has the property, would it be acceptable to carve it
-> in stone with added documentation ? In the event of unlikely changes
-> to the reset handler logic, people would _just_ need to make sure
-> handlers are called in the same order they were registered.
+We can help.  Tell us what information you want to provide in variant
+'cxl'.  If it's a superset of an existing variant, give us just the
+delta.
 
-Yeah, maybe.
+>> >                     Also, Markus has been trying to get rid of so-called
+>> > "simple unions" in favor of "flat unions" - every time we modify an
+>> > existing simple union, it is worth asking if it is time to first flatten
+>> > this.
+>> 
+>> 0. Simple unions can be transformed into flat unions.  The
+>> transformation can either preserve the nested wire format, or flatten
+>> it.  See docs/devel/qapi-code-gen.txt "A simple union can always be
+>> re-written as a flat union ..."
+>> 
+>> 1. No new simple unions.
+>> 
+>> 2. Existing simple unions that can be flattened without breaking
+>> backward compatibility have long been flattened.
+>> 
+>> 3. The remaining simple unions are part of QMP, where we need to
+>> preserve the wire format.  We could turn them into flat union preserving
+>> the wire format.  Only worthwhile if we kill simple unions and simplify
+>> scripts/qapi/.  Opportunity to make the flat union syntax less
+>> cumbersome.  Not done due to lack of time.
+>> 
+>> 4. Kevin and I have been experimenting with ways to provide both flat
+>> and nested wire format.  This would pave the way for orderly deprecation
+>> of the nested wire format.  May not be practical for QMP output.
+>> 
+>
+> So is there anything for me to do here?
 
-One other thing occurs to me: will we still do things in the right
-order if the (initial) boot cpu is hot unplugged, then replugged
-before a reset?
+No.  Extending an existing simple union is okay.
 
-> > Is there any way we could at least assert() if things are called out
-> > of order?
-> >=20
->=20
-> Maybe. I'll look into it.
->=20
-> > >=20
-> > > > >  }
-> > > > > =20
-> > > > >  void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,
-> > > >=20
-> > >=20
-> >=20
-> >=20
-> >=20
->=20
+We should not add news ones.  We should think twice before we add new
+uses of existing ones.
 
-
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---AqsLC8rIMeq19msA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+/NcEACgkQbDjKyiDZ
-s5Lu1A/+NUXA2OuvMSGKh7cnfGqT/m7a6+1867DlkDakukP11CL7R65Q6zYaXopS
-gperjVGdVA7gZPpUSnk1401GCoKJbMSx2z7b/YpXxcsk26BxASbdNmj6R64xfnjp
-AInYKZO/EoKHsTfewVPIUo6ss/TlZH/kgsRLo9bFc9/86ppt5hQKqatgr8NATGCW
-NLE3o34WshmVF9T3lQi4uJOR4iwLdyTrPaRtkmLGKsaItnzUK9gbnDSIExO70H1D
-p6L/b/bGf7cz/MgdXS9uM2lRPlC1hFVC15ba3O2xM9wm78uL38wY3DHj57sIa8h0
-K3GkNbv83QM5d6jZ2ybYHVmYgydNO1o5Z97QkGtH9oUhmulrNfahA13n9psgqHdW
-Mm29ouEPBQlp32y56wNaVrdjnY3mx4GXVMUIalm+vAspmRq8GIDDDYPuL8kilK46
-edHPd1Zu8UlfNFLgnWtUeCPL5SGYir76V/snhfwwEJVibdz3EOlbPwDhYSQxBQiA
-PC7Fk+NR3juHd+wtpaXXtSVf1ApmWYt9gi7g6TvyuCm1FoUkN0ZKdZkSINMlsYJ1
-dYAGyBYpYPP7F+VfqgK2/YRkzfPHElBzVPtyUcdaA3bUoUeVPtVZIiWTnOd/boS9
-6kFNu3LycQgpmWxfiNziAMHy8l8jsshZlzkbP9gOiuyOb6njm4Q=
-=DvmH
------END PGP SIGNATURE-----
-
---AqsLC8rIMeq19msA--
 
