@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6252C55CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 14:38:02 +0100 (CET)
-Received: from localhost ([::1]:60452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D579C2C565D
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 14:46:14 +0100 (CET)
+Received: from localhost ([::1]:40424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiHTF-00071C-6j
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 08:38:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46170)
+	id 1kiHbB-0002P3-Cs
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 08:46:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiHSD-0006SC-DF
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:36:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48027)
+ id 1kiHZl-0001ph-Bq
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:44:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiHSA-00066c-Tq
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:36:56 -0500
+ id 1kiHZi-0000ad-JR
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:44:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606397813;
+ s=mimecast20190719; t=1606398280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UezNt4AGfc68oFctSl8QMqWNpgO5Qv9puyz+jTHtBZ4=;
- b=JNJx3vMSujOfONeeWDrmdNeWi7QUr9C+PKLHn94VAJTJhKJrQisrJeg/EgwXuV8EGTUux4
- NbkjqqJ0oqk3OTyCQL+Bf/fRi6GejuodYUyFjlp6bXl0ogf6nIYMAL/ScOz9t+CmxslRYy
- gYgGSVUDO1DFMkz7QvKy46dfuRbYD8w=
+ bh=2IVPfkVI8oB6l8EQe2288oAi5+1xFRJ/h/4xI1s12kU=;
+ b=Q6ICGY3FIhr53CW5N+GoD/WZDwok+wv8mfNP6jUY1oPQ4g0LWNor04TSLcD1pyjCBYAgB3
+ dI1a3IQ2VqRisDfRQWuqBfcOL6KERrVCbeFS5s5z1TEYkzj2y80aHKL20N7m0BMMjAVefB
+ Kns6kRz1pI3ln1FScwNpVuedKC0qWso=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-Lh3dueHVO5Wty5kRk1nkMg-1; Thu, 26 Nov 2020 08:36:51 -0500
-X-MC-Unique: Lh3dueHVO5Wty5kRk1nkMg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-592-KayDxWDQPsK6chmga5Fghg-1; Thu, 26 Nov 2020 08:44:36 -0500
+X-MC-Unique: KayDxWDQPsK6chmga5Fghg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EFDE803F69;
- Thu, 26 Nov 2020 13:36:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A55DE8797E5;
+ Thu, 26 Nov 2020 13:44:32 +0000 (UTC)
 Received: from localhost (unknown [10.10.67.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C36D31C934;
- Thu, 26 Nov 2020 13:36:46 +0000 (UTC)
-Date: Thu, 26 Nov 2020 08:36:45 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0EB7060636;
+ Thu, 26 Nov 2020 13:44:27 +0000 (UTC)
+Date: Thu, 26 Nov 2020 08:44:25 -0500
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v2 2/6] accel: accel_available() function
-Message-ID: <20201126133645.GG2271382@habkost.net>
-References: <20201125205636.3305257-1-ehabkost@redhat.com>
- <20201125205636.3305257-3-ehabkost@redhat.com>
- <12f82771-9db9-8fcd-ea25-736428d2650a@suse.de>
+Subject: Re: [RFC v5 11/12] i386: centralize initialization of cpu accel
+ interfaces
+Message-ID: <20201126134425.GH2271382@habkost.net>
+References: <20201124162210.8796-1-cfontana@suse.de>
+ <20201124162210.8796-12-cfontana@suse.de>
+ <7dc27df6-1c81-f8fb-3e56-aa6ffe9e8475@redhat.com>
+ <20201124213159.GA2271382@habkost.net>
+ <1205be9d-d2f0-4533-68aa-608b16ad2181@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <12f82771-9db9-8fcd-ea25-736428d2650a@suse.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <1205be9d-d2f0-4533-68aa-608b16ad2181@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,63 +82,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>,
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 26, 2020 at 10:14:31AM +0100, Claudio Fontana wrote:
+On Thu, Nov 26, 2020 at 11:57:28AM +0100, Claudio Fontana wrote:
+> On 11/24/20 10:31 PM, Eduardo Habkost wrote:
+> > On Tue, Nov 24, 2020 at 09:13:13PM +0100, Paolo Bonzini wrote:
+> >> On 24/11/20 17:22, Claudio Fontana wrote:
+> >>> +static void x86_cpu_accel_init(void)
+> >>>  {
+> >>> -    X86CPUAccelClass *acc;
+> >>> +    const char *ac_name;
+> >>> +    ObjectClass *ac;
+> >>> +    char *xac_name;
+> >>> +    ObjectClass *xac;
+> >>> -    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
+> >>> -    g_assert(acc != NULL);
+> >>> +    ac = object_get_class(OBJECT(current_accel()));
+> >>> +    g_assert(ac != NULL);
+> >>> +    ac_name = object_class_get_name(ac);
+> >>> +    g_assert(ac_name != NULL);
+> >>> -    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
+> >>> +    xac_name = g_strdup_printf("%s-%s", ac_name, TYPE_X86_CPU);
+> >>> +    xac = object_class_by_name(xac_name);
+> >>> +    g_free(xac_name);
+> >>> +
+> >>> +    if (xac) {
+> >>> +        object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, xac);
+> >>> +    }
+> >>>  }
+> >>> +
+> >>> +accel_cpu_init(x86_cpu_accel_init);
+> >>
+> >> If this and cpus_accel_ops_init are the only call to accel_cpu_init, I'd
+> >> rather make them functions in CPUClass (which you find and call via
+> >> CPU_RESOLVING_TYPE) and AccelClass respectively.
+> > 
+> > Making x86_cpu_accel_init() be a CPUClass method sounds like a
+> > good idea.  This way we won't need a arch_cpu_accel_init() stub
+> > for non-x86.
+> > 
+> > accel.c can't use cpu.h, correct?  We can add a:
+> > 
+> >   CPUClass *arch_base_cpu_type(void)
+> >   {
+> >       return object_class_by_name(CPU_RESOLVING_TYPE);
+> >   }
+> > 
+> > function to arch_init.c, to allow target-independent code call
+> > target-specific code.
+> > 
+> 
 > Hi Eduardo,
 > 
-> On 11/25/20 9:56 PM, Eduardo Habkost wrote:
-> > This function will be used to replace the xen_available() and
-> > kvm_available() functions from arch_init.c.
-> > 
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> > Cc: Richard Henderson <richard.henderson@linaro.org>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Claudio Fontana <cfontana@suse.de>
-> > Cc: Roman Bolshakov <r.bolshakov@yadro.com>
-> > ---
-> >  include/sysemu/accel.h | 1 +
-> >  accel/accel.c          | 5 +++++
-> >  2 files changed, 6 insertions(+)
-> > 
-> > diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
-> > index e08b8ab8fa..a4a00c75c8 100644
-> > --- a/include/sysemu/accel.h
-> > +++ b/include/sysemu/accel.h
-> > @@ -67,6 +67,7 @@ typedef struct AccelClass {
-> >      OBJECT_GET_CLASS(AccelClass, (obj), TYPE_ACCEL)
-> >  
-> >  AccelClass *accel_find(const char *opt_name);
-> > +bool accel_available(const char *name);
-> >  int accel_init_machine(AccelState *accel, MachineState *ms);
-> >  
-> >  /* Called just before os_setup_post (ie just before drop OS privs) */
-> > diff --git a/accel/accel.c b/accel/accel.c
-> > index cb555e3b06..4a64a2b38a 100644
-> > --- a/accel/accel.c
-> > +++ b/accel/accel.c
-> > @@ -46,6 +46,11 @@ AccelClass *accel_find(const char *opt_name)
-> >      return ac;
-> >  }
-> >  
-> > +bool accel_available(const char *name)
-> > +{
-> > +    return accel_find(name) != NULL;
-> 
-> 
-> accel_find() in its implementation allocates and then frees memory to generate the string,
-> the user of accel_available() might be unaware and overuse leading to fragmentation/performance issues?
+> we can't use arch-init because it is softmmu only, but we could put this in $(top_srcdir)/cpu.c
 
-Is that a real issue?  We had only 3 users of kvm_available() and
-xen_available() since those functions were added 10 years ago.
+That would work, too.
 
-Do you have any suggestions on what we should do?
+> 
+> however, it would be very useful to put a:
+> 
+> #define TYPE_ACCEL_CPU "accel-" CPU_RESOLVING_TYPE
+> #define ACCEL_CPU_NAME(name) (name "-" TYPE_ACCEL_CPU)
+> 
+> in an H file somewhere, for convenience for the programmer that
+> has to implement subclasses in target/xxx/
+
+Absolutely.
+
+> 
+> But it is tough to find a header where CPU_RESOLVING_TYPE can be used.
+
+cpu-all.h?
+
+> 
+> We could I guess just use plain "cpu" instead of CPU_RESOLVING_TYPE,
+> maybe that would be acceptable too? The interface ends up in CPUClass, so maybe ok?
+> 
+> So we'd end up having
+> 
+> accel-cpu
+> 
+> instead of the previous
+> 
+> accel-x86_64-cpu
+> 
+> on top of the hierarchy.
+
+It seems OK to have a accel-cpu type at the top, but I don't see
+why it solves the problem above.  What exactly would be the value
+of `kvm_cpu_accel.name`?
 
 -- 
 Eduardo
