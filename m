@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66712C57F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 16:21:25 +0100 (CET)
-Received: from localhost ([::1]:32824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AD522C57FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 16:21:29 +0100 (CET)
+Received: from localhost ([::1]:33204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiJ5I-0005bT-JZ
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 10:21:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47476)
+	id 1kiJ5M-0005kw-3L
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 10:21:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kiJ2B-0003oU-76
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:18:11 -0500
-Received: from relay.sw.ru ([185.231.240.75]:49550 helo=relay3.sw.ru)
+ id 1kiJ2Q-00046Z-Ce
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:18:26 -0500
+Received: from relay.sw.ru ([185.231.240.75]:49656 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kiJ28-000831-4f
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:18:10 -0500
+ id 1kiJ2O-00088T-LC
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:18:26 -0500
 Received: from [192.168.15.178] (helo=andrey-MS-7B54.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kiJ1a-00AT4g-JY; Thu, 26 Nov 2020 18:17:34 +0300
+ id 1kiJ1y-00AT4g-7Q; Thu, 26 Nov 2020 18:17:59 +0300
 To: qemu-devel@nongnu.org
 Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [PATCH v4 0/6] UFFD write-tracking migration/snapshots
-Date: Thu, 26 Nov 2020 18:17:28 +0300
-Message-Id: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
+Subject: [PATCH v4 1/6] introduce 'background-snapshot' migration capability
+Date: Thu, 26 Nov 2020 18:17:29 +0300
+Message-Id: <20201126151734.743849-2-andrey.gruzdev@virtuozzo.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
+References: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=185.231.240.75;
@@ -59,76 +61,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
-This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
-implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
+Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+---
+ migration/migration.c | 67 +++++++++++++++++++++++++++++++++++++++++++
+ migration/migration.h |  1 +
+ qapi/migration.json   |  7 ++++-
+ 3 files changed, 74 insertions(+), 1 deletion(-)
 
-Currently the only way to make (external) live VM snapshot is using existing
-dirty page logging migration mechanism. The main problem is that it tends to
-produce a lot of page duplicates while running VM goes on updating already
-saved pages. That leads to the fact that vmstate image size is commonly several
-times bigger then non-zero part of virtual machine's RSS. Time required to
-converge RAM migration and the size of snapshot image severely depend on the
-guest memory write rate, sometimes resulting in unacceptably long snapshot
-creation time and huge image size.
-
-This series propose a way to solve the aforementioned problems. This is done
-by using different RAM migration mechanism based on UFFD write protection
-management introduced in v5.7 kernel. The migration strategy is to 'freeze'
-guest RAM content using write-protection and iteratively release protection
-for memory ranges that have already been saved to the migration stream.
-At the same time we read in pending UFFD write fault events and save those
-pages out-of-order with higher priority.
-
-How to use:
-1. Enable write-tracking migration capability
-   virsh qemu-monitor-command <domain> --hmp migrate_set_capability.
-track-writes-ram on
-
-2. Start the external migration to a file
-   virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
-
-3. Wait for the migration finish and check that the migration has completed.
-state.
-
-Changes v3->v4:
-
-* 1. Renamed migrate capability 'track-writes-ram'->'background-snapshot'.
-* 2. Use array of incompatible caps to replace bulky 'if' constructs.
-* 3. Moved UFFD low-level code to the separate module ('util/userfaultfd.c').
-* 4. Always do UFFD wr-unprotect on cleanup; just closing file descriptor
-*    won't cleanup PTEs anyhow, it will release registration ranges, wait 
-*    queues etc. but won't cleanup process MM context on MMU level.
-* 5. Allow to enable 'background-snapshot' capability on Linux-only hosts.
-* 6. Put UFFD code usage under '#ifdef CONFIG_LINUX' prerequisite.
-* 7. Removed 'wt_' from RAMState struct.
-* 8. Refactored ram_find_and_save_block() to make more clean - poll UFFD
-*    wr-fault events in get_queued_page(), use ram_save_host_page_pre(),
-*    ram_save_host_page_post() notifiers around ram_save_host_page()
-*    instead of bulky inline write-unprotect code.
-
-Andrey Gruzdev (6):
-  introduce 'background-snapshot' migration capability
-  introduce UFFD-WP low-level interface helpers
-  support UFFD write fault processing in ram_save_iterate()
-  implementation of background snapshot thread
-  the rest of write tracking migration code
-  introduce simple linear scan rate limiting mechanism
-
- include/exec/memory.h      |   7 +
- include/qemu/userfaultfd.h |  29 ++++
- migration/migration.c      | 314 +++++++++++++++++++++++++++++++++-
- migration/migration.h      |   4 +
- migration/ram.c            | 334 ++++++++++++++++++++++++++++++++++++-
- migration/ram.h            |   4 +
- migration/savevm.c         |   1 -
- migration/savevm.h         |   2 +
- qapi/migration.json        |   7 +-
- util/meson.build           |   1 +
- util/userfaultfd.c         | 215 ++++++++++++++++++++++++
- 11 files changed, 908 insertions(+), 10 deletions(-)
- create mode 100644 include/qemu/userfaultfd.h
- create mode 100644 util/userfaultfd.c
-
+diff --git a/migration/migration.c b/migration/migration.c
+index 87a9b59f83..8be3bd2b8c 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -56,6 +56,7 @@
+ #include "net/announce.h"
+ #include "qemu/queue.h"
+ #include "multifd.h"
++#include "sysemu/cpus.h"
+ 
+ #ifdef CONFIG_VFIO
+ #include "hw/vfio/vfio-common.h"
+@@ -134,6 +135,38 @@ enum mig_rp_message_type {
+     MIG_RP_MSG_MAX
+ };
+ 
++/* Migration capabilities set */
++struct MigrateCapsSet {
++    int size;                       /* Capability set size */
++    MigrationCapability caps[];     /* Variadic array of capabilities */
++};
++typedef struct MigrateCapsSet MigrateCapsSet;
++
++/* Define and initialize MigrateCapsSet */
++#define INITIALIZE_MIGRATE_CAPS_SET(_name, ...)   \
++    MigrateCapsSet _name = {    \
++        .size = sizeof((int []) { __VA_ARGS__ }) / sizeof(int), \
++        .caps = { __VA_ARGS__ } \
++    }
++
++/* Background-snapshot compatibility check list */
++static const
++INITIALIZE_MIGRATE_CAPS_SET(check_caps_background_snapshot,
++    MIGRATION_CAPABILITY_POSTCOPY_RAM,
++    MIGRATION_CAPABILITY_DIRTY_BITMAPS,
++    MIGRATION_CAPABILITY_POSTCOPY_BLOCKTIME,
++    MIGRATION_CAPABILITY_LATE_BLOCK_ACTIVATE,
++    MIGRATION_CAPABILITY_RETURN_PATH,
++    MIGRATION_CAPABILITY_MULTIFD,
++    MIGRATION_CAPABILITY_PAUSE_BEFORE_SWITCHOVER,
++    MIGRATION_CAPABILITY_AUTO_CONVERGE,
++    MIGRATION_CAPABILITY_RELEASE_RAM,
++    MIGRATION_CAPABILITY_RDMA_PIN_ALL,
++    MIGRATION_CAPABILITY_COMPRESS,
++    MIGRATION_CAPABILITY_XBZRLE,
++    MIGRATION_CAPABILITY_X_COLO,
++    MIGRATION_CAPABILITY_VALIDATE_UUID);
++
+ /* When we add fault tolerance, we could have several
+    migrations at once.  For now we don't need to add
+    dynamic creation of migration */
+@@ -1165,6 +1198,29 @@ static bool migrate_caps_check(bool *cap_list,
+         }
+     }
+ 
++    if (cap_list[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT]) {
++#ifdef CONFIG_LINUX
++        int idx;
++        /*
++         * Check if there are any migration capabilities
++         * incompatible with 'background-snapshot'.
++         */
++        for (idx = 0; idx < check_caps_background_snapshot.size; idx++) {
++            int incomp_cap = check_caps_background_snapshot.caps[idx];
++            if (cap_list[incomp_cap]) {
++                error_setg(errp,
++                        "Background-snapshot is not compatible with %s",
++                        MigrationCapability_str(incomp_cap));
++                return false;
++            }
++        }
++#else
++        error_setg(errp,
++                "Background-snapshot is not supported on non-Linux hosts");
++        return false;
++#endif
++    }
++
+     return true;
+ }
+ 
+@@ -2490,6 +2546,15 @@ bool migrate_use_block_incremental(void)
+     return s->parameters.block_incremental;
+ }
+ 
++bool migrate_background_snapshot(void)
++{
++    MigrationState *s;
++
++    s = migrate_get_current();
++
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT];
++}
++
+ /* migration thread support */
+ /*
+  * Something bad happened to the RP stream, mark an error
+@@ -3783,6 +3848,8 @@ static Property migration_properties[] = {
+     DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
+     DEFINE_PROP_MIG_CAP("x-return-path", MIGRATION_CAPABILITY_RETURN_PATH),
+     DEFINE_PROP_MIG_CAP("x-multifd", MIGRATION_CAPABILITY_MULTIFD),
++    DEFINE_PROP_MIG_CAP("x-background-snapshot",
++            MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT),
+ 
+     DEFINE_PROP_END_OF_LIST(),
+ };
+diff --git a/migration/migration.h b/migration/migration.h
+index d096b77f74..f40338cfbf 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -341,6 +341,7 @@ int migrate_compress_wait_thread(void);
+ int migrate_decompress_threads(void);
+ bool migrate_use_events(void);
+ bool migrate_postcopy_blocktime(void);
++bool migrate_background_snapshot(void);
+ 
+ /* Sending on the return path - generic and then for each message type */
+ void migrate_send_rp_shut(MigrationIncomingState *mis,
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 3c75820527..6291143678 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -442,6 +442,11 @@
+ # @validate-uuid: Send the UUID of the source to allow the destination
+ #                 to ensure it is the same. (since 4.2)
+ #
++# @background-snapshot: If enabled, the migration stream will be a snapshot
++#                       of the VM exactly at the point when the migration
++#                       procedure starts. The VM RAM is saved with running VM.
++#                       (since 6.0)
++#
+ # Since: 1.2
+ ##
+ { 'enum': 'MigrationCapability',
+@@ -449,7 +454,7 @@
+            'compress', 'events', 'postcopy-ram', 'x-colo', 'release-ram',
+            'block', 'return-path', 'pause-before-switchover', 'multifd',
+            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+-           'x-ignore-shared', 'validate-uuid' ] }
++           'x-ignore-shared', 'validate-uuid', 'background-snapshot'] }
+ 
+ ##
+ # @MigrationCapabilityStatus:
 -- 
 2.25.1
 
