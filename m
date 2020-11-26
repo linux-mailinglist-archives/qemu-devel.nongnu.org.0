@@ -2,41 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06912C5732
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 15:35:24 +0100 (CET)
-Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7AB2C5746
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 15:44:03 +0100 (CET)
+Received: from localhost ([::1]:57476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiIMl-0004ej-Fo
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 09:35:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34122)
+	id 1kiIV7-0007Nn-KL
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 09:44:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiIKo-00048D-HZ
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:33:22 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41704)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiITc-0006kP-Bc
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:42:28 -0500
+Received: from mx2.suse.de ([195.135.220.15]:47776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiIKm-0001C8-Mp
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:33:22 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiITa-0004Km-HW
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:42:28 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3356AACE0;
- Thu, 26 Nov 2020 14:33:19 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 7A3D0ADE2;
+ Thu, 26 Nov 2020 14:42:08 +0000 (UTC)
 Subject: Re: [RFC v5 11/12] i386: centralize initialization of cpu accel
  interfaces
-To: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Emilio G . Cota" <cota@braap.org>
 References: <20201124162210.8796-1-cfontana@suse.de>
  <20201124162210.8796-12-cfontana@suse.de>
  <7dc27df6-1c81-f8fb-3e56-aa6ffe9e8475@redhat.com>
- <20201124213159.GA2271382@habkost.net>
- <1205be9d-d2f0-4533-68aa-608b16ad2181@suse.de>
- <20201126134425.GH2271382@habkost.net>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <86ba92db-7b01-5644-7452-2fde753ddba6@suse.de>
-Date: Thu, 26 Nov 2020 15:33:17 +0100
+Message-ID: <72f7847c-9e52-2e64-6112-39d52ef8c64b@suse.de>
+Date: Thu, 26 Nov 2020 15:42:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201126134425.GH2271382@habkost.net>
+In-Reply-To: <7dc27df6-1c81-f8fb-3e56-aa6ffe9e8475@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -60,120 +64,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/26/20 2:44 PM, Eduardo Habkost wrote:
-> On Thu, Nov 26, 2020 at 11:57:28AM +0100, Claudio Fontana wrote:
->> On 11/24/20 10:31 PM, Eduardo Habkost wrote:
->>> On Tue, Nov 24, 2020 at 09:13:13PM +0100, Paolo Bonzini wrote:
->>>> On 24/11/20 17:22, Claudio Fontana wrote:
->>>>> +static void x86_cpu_accel_init(void)
->>>>>  {
->>>>> -    X86CPUAccelClass *acc;
->>>>> +    const char *ac_name;
->>>>> +    ObjectClass *ac;
->>>>> +    char *xac_name;
->>>>> +    ObjectClass *xac;
->>>>> -    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
->>>>> -    g_assert(acc != NULL);
->>>>> +    ac = object_get_class(OBJECT(current_accel()));
->>>>> +    g_assert(ac != NULL);
->>>>> +    ac_name = object_class_get_name(ac);
->>>>> +    g_assert(ac_name != NULL);
->>>>> -    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
->>>>> +    xac_name = g_strdup_printf("%s-%s", ac_name, TYPE_X86_CPU);
->>>>> +    xac = object_class_by_name(xac_name);
->>>>> +    g_free(xac_name);
->>>>> +
->>>>> +    if (xac) {
->>>>> +        object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, xac);
->>>>> +    }
->>>>>  }
->>>>> +
->>>>> +accel_cpu_init(x86_cpu_accel_init);
->>>>
->>>> If this and cpus_accel_ops_init are the only call to accel_cpu_init, I'd
->>>> rather make them functions in CPUClass (which you find and call via
->>>> CPU_RESOLVING_TYPE) and AccelClass respectively.
->>>
->>> Making x86_cpu_accel_init() be a CPUClass method sounds like a
->>> good idea.  This way we won't need a arch_cpu_accel_init() stub
->>> for non-x86.
->>>
->>> accel.c can't use cpu.h, correct?  We can add a:
->>>
->>>   CPUClass *arch_base_cpu_type(void)
->>>   {
->>>       return object_class_by_name(CPU_RESOLVING_TYPE);
->>>   }
->>>
->>> function to arch_init.c, to allow target-independent code call
->>> target-specific code.
->>>
->>
->> Hi Eduardo,
->>
->> we can't use arch-init because it is softmmu only, but we could put this in $(top_srcdir)/cpu.c
+On 11/24/20 9:13 PM, Paolo Bonzini wrote:
+> On 24/11/20 17:22, Claudio Fontana wrote:
+>> +static void x86_cpu_accel_init(void)
+>>  {
+>> -    X86CPUAccelClass *acc;
+>> +    const char *ac_name;
+>> +    ObjectClass *ac;
+>> +    char *xac_name;
+>> +    ObjectClass *xac;
+>>  
+>> -    acc = X86_CPU_ACCEL_CLASS(object_class_by_name(accel_name));
+>> -    g_assert(acc != NULL);
+>> +    ac = object_get_class(OBJECT(current_accel()));
+>> +    g_assert(ac != NULL);
+>> +    ac_name = object_class_get_name(ac);
+>> +    g_assert(ac_name != NULL);
+>>  
+>> -    object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, &acc);
+>> +    xac_name = g_strdup_printf("%s-%s", ac_name, TYPE_X86_CPU);
+>> +    xac = object_class_by_name(xac_name);
+>> +    g_free(xac_name);
+>> +
+>> +    if (xac) {
+>> +        object_class_foreach(x86_cpu_accel_init_aux, TYPE_X86_CPU, false, xac);
+>> +    }
+>>  }
+>> +
+>> +accel_cpu_init(x86_cpu_accel_init);
 > 
-> That would work, too.
+> If this and cpus_accel_ops_init are the only call to accel_cpu_init, I'd 
+> rather make them functions in CPUClass (which you find and call via 
+> CPU_RESOLVING_TYPE) and AccelClass respectively.
 > 
->>
->> however, it would be very useful to put a:
->>
->> #define TYPE_ACCEL_CPU "accel-" CPU_RESOLVING_TYPE
->> #define ACCEL_CPU_NAME(name) (name "-" TYPE_ACCEL_CPU)
->>
->> in an H file somewhere, for convenience for the programmer that
->> has to implement subclasses in target/xxx/
-> 
-> Absolutely.
-> 
->>
->> But it is tough to find a header where CPU_RESOLVING_TYPE can be used.
-> 
-> cpu-all.h?
-> 
->>
->> We could I guess just use plain "cpu" instead of CPU_RESOLVING_TYPE,
->> maybe that would be acceptable too? The interface ends up in CPUClass, so maybe ok?
->>
->> So we'd end up having
->>
->> accel-cpu
->>
->> instead of the previous
->>
->> accel-x86_64-cpu
->>
->> on top of the hierarchy.
-> 
-> It seems OK to have a accel-cpu type at the top, but I don't see
-> why it solves the problem above.  What exactly would be the value
-> of `kvm_cpu_accel.name`?
+> Paolo
 > 
 
-It does solve the problem, because we can put then all AccelOpsClass and AccelCPUClass stuff in accel.h,
-resolve everything in accel/accel-*.c, and make a generic solution fairly self-contained (already tested, will post soonish).
+Hi Paolo,
 
-But I'll try cpu-all.h if it's preferred to have accel-x86_64-cpu, accel-XXX-cpu on top, I wonder what the preference would be?
+this works well.
 
-Ciao,
+The only thing is, setting the ops in the AccelClass is basically useless:
+we need to cache the AccelClass * in cpus.c anyway, so I ended up not putting it in AccelClass, as nobody ends up using it.
+
+Maybe you could look for this in the series I am posting later today,
+
+Ciao, thanks!
 
 Claudio
-
 
 
