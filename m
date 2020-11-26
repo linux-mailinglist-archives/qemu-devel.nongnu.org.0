@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0A432C53E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:24:29 +0100 (CET)
-Received: from localhost ([::1]:40222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94442C53FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:34:20 +0100 (CET)
+Received: from localhost ([::1]:54448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiGK4-0004T9-EE
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:24:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51082)
+	id 1kiGTb-0002Zw-G4
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:34:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiGAy-0006Df-CC
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:15:08 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:42213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiGAu-0004a4-OW
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:15:04 -0500
-Received: by mail-ej1-x641.google.com with SMTP id d17so706878ejy.9
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 04:15:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PPMYSpW1oRvUcUazLR1FH53oFJ/sZPVetrUYaZgkZ0o=;
- b=DVQpMrWnothmwnoLxMf05Oh/jtwGFk5lR7RxoZV0356XWPF46qUcekZwNhe+upyE3y
- J9EE+bNwW3NVc0cZiZCP05RdDhD2wNfwwPXBnczimZLvomnsWFpNperRGinjy0dlU7ZB
- ATK+jJ3om15ycBRKleFKYSGaF3A/jfqBKNkbalLBplosaqjOK3/qMrv+qT/CnBUGQdSn
- QpGSOHmPPRr0KUqlJDwa043Rv9p6nFJaedqysK9PSHijqIC5FJBUSD5YH0CgcSbHmNYr
- Io4/zRjhy3VeIxJoQCxdXWbBfmKUcC9guCiE/62SLf+UOS3qF69ytzsYZL9MOFtUD8h6
- h06A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PPMYSpW1oRvUcUazLR1FH53oFJ/sZPVetrUYaZgkZ0o=;
- b=VSUG1Z+6R51eHSU9qs8c8sibHkH/rH7vrHAOPuH1CSIRlC/hD3ASpduSLNNW6zBck6
- 7Ng3NQtB+ipyn2kqd94661looollNr0AT8sRxtX1aWxG1WrJvACBXM7iwPq/gxB+6b/8
- Wg0so34vgm4gVMmtbQGF9aatfwZUZNsAJqaSE6F6LxlLmS6RuK+iUoovHQBuAsFVCc9c
- plIH8UFUF1zl93a3StUhcmYRaGlmKBJB3t6Y3e8jRppEtPMlFwLbaQPQxKvfYcgdFBBJ
- 8ic4GyaaMQPh3xYknpto3VcpBrL53p40T5yAg7VZTy8dxg3OncRJipNglWTedw61oFF3
- 5oUg==
-X-Gm-Message-State: AOAM530VjJVUWVZmRRYEW49oVbF0nruq3bBlU+yy9loWmQ2CMuGkyiGz
- mmLJhG6vD7p1P/8iKqZ5H2kbnGfZD6hnEgh/J6Cu1Q==
-X-Google-Smtp-Source: ABdhPJyZ9Y6YOGzVPMi9cyMjEn2uU9a9zyUHMJ1mj5H8GiKuSse3TIBJcYV8NKgVkS7kLxylitaMGUX4XEbrU19GgI0=
-X-Received: by 2002:a17:906:5a88:: with SMTP id
- l8mr2397822ejq.407.1606392899224; 
- Thu, 26 Nov 2020 04:14:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kiGEh-00019h-9D
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:18:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32310)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kiGEc-0005p2-Dh
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:18:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606393129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8hyGwEr3c9FhMyqbwznveREn1v7aCE+EXsUcBxwYHW4=;
+ b=BhH19yYZxipKLVb38IldwL6DFIcFHoGxmkX0/O2aivU+13GpDwSzXWDpDkEBta5XpGUP3i
+ 1bzm5kyDgiNkNA79vCBeeMgy01HA1WIbn1fCtBlj1qI7VEUdwx808Z1HutW/5XgFIN6WfL
+ HGquBelPhbyjZa63ao0gqZkd4Yl6mRc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-M6867Q9bNPeHLCaG68JbLw-1; Thu, 26 Nov 2020 07:18:47 -0500
+X-MC-Unique: M6867Q9bNPeHLCaG68JbLw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74087196633D;
+ Thu, 26 Nov 2020 12:18:42 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-113-133.ams2.redhat.com [10.36.113.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA5AD5D6AC;
+ Thu, 26 Nov 2020 12:18:39 +0000 (UTC)
+Subject: Re: [PATCH RFC] tests/acceptance: add a test for devices on s390x
+To: Cornelia Huck <cohuck@redhat.com>
+References: <20201125135820.1442611-1-cohuck@redhat.com>
+ <148a7ef1-aae2-89ae-88f7-3c70c9f02999@redhat.com>
+ <20201125163034.5a935baa.cohuck@redhat.com>
+ <20201126130519.4e178309.cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <33974f91-5fe5-7c80-69b4-4e087a6fc150@redhat.com>
+Date: Thu, 26 Nov 2020 13:18:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
- <20201126112915.525285-6-marcandre.lureau@redhat.com>
- <CAFEAcA9+hV2L9qjCj8naNX1GuPgGenE2CLBuKR+LHa415jrmRw@mail.gmail.com>
- <20201126121243.GF1122957@redhat.com>
-In-Reply-To: <20201126121243.GF1122957@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Nov 2020 12:14:48 +0000
-Message-ID: <CAFEAcA8QqAq=+UQ2m7ztD7-Qh6y0YJ=qY3koabX7koWi-9b_MA@mail.gmail.com>
-Subject: Re: [PATCH v2 05/13] qemu-plugin.h: remove GCC < 4
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+In-Reply-To: <20201126130519.4e178309.cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,31 +83,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Nov 2020 at 12:12, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
-> On Thu, Nov 26, 2020 at 11:57:14AM +0000, Peter Maydell wrote:
-> > This is an interesting case, because it's a header intended
-> > for external use (people compiling plugins), not part of
-> > QEMU proper. I don't know whether we want to impose the
-> > same clang/gcc requirements on plugin builders, though it's
-> > probably not a bad idea to do so. Alex ?
->
-> IIUC, we expect that the plugins are built specifically to go with
-> the QEMU you have built.
+On 26/11/2020 13.05, Cornelia Huck wrote:
+> On Wed, 25 Nov 2020 16:30:34 +0100
+> Cornelia Huck <cohuck@redhat.com> wrote:
+> 
+>> On Wed, 25 Nov 2020 16:03:13 +0100
+>> Thomas Huth <thuth@redhat.com> wrote:
+>>
+>>> On 25/11/2020 14.58, Cornelia Huck wrote:  
+> 
+>>>> +    def test(self):
+>>>> +
+>>>> +        """
+>>>> +        :avocado: tags=arch:s390x
+>>>> +        :avocado: tags=machine:s390-ccw-virtio
+>>>> +        """
+>>>> +
+>>>> +        # XXX: switch to https when debian fixes their certificate
+>>>> +        kernel_url = ('http://archive.debian.org/debian/dists/jessie/main'
+>>>> +                      '/installer-s390x/current/images/generic/kernel.debian')
+>>>> +        kernel_hash = '5af1aa839754f4d8817fb5878b4d55dfc887f45d'
+>>>> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>>>> +
+>>>> +        initrd_url = ('http://archive.debian.org/debian/dists/jessie/main'
+>>>> +                      '/installer-s390x/current/images/generic/initrd.debian')
+>>>> +        initrd_hash = '99252b28306184b876f979585e2d4bfe96b27464'
+>>>> +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
+>>>> +
+>>>> +        self.vm.set_console()
+>>>> +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
+>>>> +                              'console=sclp0 root=/dev/ram0 BOOT_DEBUG=3')
+>>>> +        self.vm.add_args('-nographic',
+>>>> +                         '-kernel', kernel_path,
+>>>> +                         '-initrd', initrd_path,
+>>>> +                         '-append', kernel_command_line,
+>>>> +                         '-device', 'virtio-net-ccw,devno=fe.1.1111',
+>>>> +                         '-device', 'virtio-net-pci')    
+>>>
+>>> Maybe use '-device', 'virtio-net-pci,addr=6' or something similar to check a
+>>> non-default PCI address, too?  
+>>
+>> Not sure if addr= will do the trick, I may need to add a zpci device.
+> 
+> It seems I need both a zpci device (to specify the uid) and a newer
+> kernel (so that the uid is actually used to construct the address in
+> the guest). I guess I should use snapshots.debian.org to get a stable
+> link to a newer version?
 
-No, the point of the plugin interface is that it actually is
-a (constrained) stable ABI with version-querying and checking
-so you don't have to build a plugin against the exact matching
-QEMU version. (But "don't use really ancient gcc" doesn't seem
-like a very major thing to ask of its users.)
+Not sure ... I assume the links to archive.debian.org are less likely to
+change? So maybe simply forget about testing a different PCI address for
+now, the default should be good enough for a simple check.
 
-thanks
--- PMM
+ Thomas
+
+PS: Seems like at least "ip addr" is working there already - so you could at
+least check the MAC address setting?
+
 
