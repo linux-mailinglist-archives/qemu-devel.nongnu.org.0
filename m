@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC22F2C5DBE
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 23:19:57 +0100 (CET)
-Received: from localhost ([::1]:39294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C542C5DC9
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 23:28:41 +0100 (CET)
+Received: from localhost ([::1]:48292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiPcK-0002jK-OH
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 17:19:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40990)
+	id 1kiPkm-00070D-Do
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 17:28:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiPai-0001ep-RH
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 17:18:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiPah-0006iO-Ef
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 17:18:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606429094;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Cb8Zv7Us93ZclFUD1ChcH5jTB77zVSWs9yexiJbaFPM=;
- b=EW1seHfHjLcXyVEPnQlPjIT3U2lCYd0AhknZaNxcEcJpLLlQCGJebCsyn61R/sFmJJmCuR
- 9CtNKWTlOd1LmCUt5PrnvZUTbAm17UCTUFI3wZ611/SvCzVJsBm3NHTD4P8ShfpLkjK3a7
- OWsLA1ZUNtgA8BYrshFLaZ0MdcTp3Xs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-6LNn82KgM_GbYrWJKMk1lA-1; Thu, 26 Nov 2020 17:18:11 -0500
-X-MC-Unique: 6LNn82KgM_GbYrWJKMk1lA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 763831005D5F;
- Thu, 26 Nov 2020 22:18:09 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3E4745D6AC;
- Thu, 26 Nov 2020 22:18:09 +0000 (UTC)
-Date: Thu, 26 Nov 2020 17:18:08 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH 6/8] hvf: Use OS provided vcpu kick function
-Message-ID: <20201126221808.GU2271382@habkost.net>
-References: <20201126215017.41156-1-agraf@csgraf.de>
- <20201126215017.41156-7-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1kiPeV-0005GO-Kp; Thu, 26 Nov 2020 17:22:11 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1kiPeT-00082s-VO; Thu, 26 Nov 2020 17:22:11 -0500
+Received: by mail-ot1-x341.google.com with SMTP id h39so3029055otb.5;
+ Thu, 26 Nov 2020 14:22:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=V01+2pVf3iNWwDk6BZ5Dn2lGMVYKNZwGeFqfpVoAE8o=;
+ b=GCD9HlAKX1toB0hyoYiwZEloOhiwaY9AFjuZseQ0ZtA8HTOL4jtngAD1JdcEOu2yRJ
+ xVddNg5TXr7xdG1pLzaY81vH2vs91tvEGMJbVoaEAIQVryC6BXFbgPIWR4/RvQ3kcU0t
+ pGb837jTvU9wmBNr9wCn7KHlrhNRwZERrDZ7w/BVhh8yCskk6LyrimNqy+aJrUJvNWvO
+ M5uvWaDY4w9CeQbdilltpUSsfvgL/JVw+XMXlvI7EI1G0J3VjZ4pd4/Uk3PWbrB3qLoE
+ ow0X9DdpJ/JvFSlrbYFzuFTGjw9whNgdTYFAqcikSi8hefzhgZEC8ztl/NYiUrSB59hQ
+ M8QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=V01+2pVf3iNWwDk6BZ5Dn2lGMVYKNZwGeFqfpVoAE8o=;
+ b=hQWGSaVuaeFcGx6+hJDiKYghPbAubFseUW+vYi5KHdLEF1WoZfybzRHIphB1dKOISr
+ Tw2S3CzeoYk+g0EExZG/Jgqm0l9QtoBYNNMcPHR2lo3hXKgL50ewo7mh996R6eP6SsBX
+ xwXObRgaiXRfGNT0bhiUMlrck7zsxgwh1KMaBBt02B2AHiH5jKzGtLAg0PoEG8ZNH2yg
+ j7Cr9r1DbpF6c6LAxUFZA+x4MMkSu2ODIUQMxOZ6uR9OoXEq75DnJqU5nIC7uhF8mUo7
+ iBgmv/jbVTEZOu0SAkJovnpAqDR2lIktTj6SPicYFPATUM5iPV52QLFLUwV60NJYfYaf
+ Nk8A==
+X-Gm-Message-State: AOAM533wNHG24fLeFyk54zzKo83DmlXaF7QwVLuir8xI6Mj4MAdhFV8F
+ a4o6QtXr0JiQome86q1S29jeSM8E3+MtzW/gdyo=
+X-Google-Smtp-Source: ABdhPJww93fj0xFBms+PCGC2HKcEEKnmZBr2PE9D/JaTaOEvBFqNI+0AnF9HEm49CKs+81oQB0ev1mIOBtDUA+PP3Eg=
+X-Received: by 2002:a05:6830:4035:: with SMTP id
+ i21mr3673707ots.221.1606429327728; 
+ Thu, 26 Nov 2020 14:22:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201126215017.41156-7-agraf@csgraf.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201126185605.539311-1-its@irrelevant.dk>
+In-Reply-To: <20201126185605.539311-1-its@irrelevant.dk>
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+Date: Fri, 27 Nov 2020 07:21:52 +0900
+Message-ID: <CAA7jztcYwDm3-T4mhbWYOsPn+5-ko6j4Qd2ge7DVLgAf7GfKAw@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/block/nvme: add compare command
+To: Klaus Jensen <its@irrelevant.dk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-ot1-x341.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,60 +75,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 26, 2020 at 10:50:15PM +0100, Alexander Graf wrote:
-> When kicking another vCPU, we get an OS function that explicitly does that for us
-> on Apple Silicon. That works better than the current signaling logic, let's make
-> use of it there.
-> 
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> ---
->  accel/hvf/hvf-cpus.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
-> index b9f674478d..74a272d2e8 100644
-> --- a/accel/hvf/hvf-cpus.c
-> +++ b/accel/hvf/hvf-cpus.c
-> @@ -418,8 +418,20 @@ static void hvf_start_vcpu_thread(CPUState *cpu)
->                         cpu, QEMU_THREAD_JOINABLE);
->  }
->  
-> +#ifdef __aarch64__
-> +static void hvf_kick_vcpu_thread(CPUState *cpu)
-> +{
-> +    if (!qemu_cpu_is_self(cpu)) {
-> +        hv_vcpus_exit(&cpu->hvf_fd, 1);
-> +    }
-> +}
-> +#endif
-> +
->  static const CpusAccel hvf_cpus = {
->      .create_vcpu_thread = hvf_start_vcpu_thread,
-> +#ifdef __aarch64__
-> +    .kick_vcpu_thread = hvf_kick_vcpu_thread,
-> +#endif
+Hello,
 
-Interesting.  We have considered the possibility of adding
-arch-specific TYPE_ACCEL subclasses when discussing Claudio's,
-series.  Here we have another arch-specific hack that could be
-avoided if we had a TYPE_ARM_HVF_ACCEL QOM class.
+On Fri, Nov 27, 2020 at 3:56 AM Klaus Jensen <its@irrelevant.dk> wrote:
+>
+> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>
+> Add the Compare command.
+>
+> This implementation uses a bounce buffer to read in the data from
+> storage and then compare with the host supplied buffer.
+>
+> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> [k.jensen: rebased]
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 
->  
->      .synchronize_post_reset = hvf_cpu_synchronize_post_reset,
->      .synchronize_post_init = hvf_cpu_synchronize_post_init,
-> -- 
-> 2.24.3 (Apple Git-128)
-> 
 
--- 
-Eduardo
-
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 
