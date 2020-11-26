@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F06C72C5BF0
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 19:24:16 +0100 (CET)
-Received: from localhost ([::1]:60806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59BB2C5C03
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 19:29:29 +0100 (CET)
+Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiLwF-0004Lp-HV
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 13:24:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50638)
+	id 1kiM1I-0006Zz-HG
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 13:29:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kiLuy-0003ur-Qf
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 13:22:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kiLuw-0008F7-FN
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 13:22:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606414972;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9BUsFBpPcsatRcg1MOdg2GbAZEELj7c4LvoGQFO0iaE=;
- b=YCb5m2KnM/6UZBkmCLRNrRhLXr6UPuCkTxDDov4Y/b8Dmbiin01Al9e5KyfzoiLsRjNysG
- IdNHeDEd8i0LWCcNn8gfd1qjVAUyRye9utmdXAgjJ8NeAHlDtx5gl8sWxeTJ/j+Y0rIlKQ
- R8r47knqdub47eZ9vjw2x75vn8aq3Mw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-l1sxIunkM2-FhAIxHOaTfQ-1; Thu, 26 Nov 2020 13:22:50 -0500
-X-MC-Unique: l1sxIunkM2-FhAIxHOaTfQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 463D310051CC;
- Thu, 26 Nov 2020 18:22:49 +0000 (UTC)
-Received: from gondolin (ovpn-113-125.ams2.redhat.com [10.36.113.125])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D7D160855;
- Thu, 26 Nov 2020 18:22:48 +0000 (UTC)
-Date: Thu, 26 Nov 2020 19:22:45 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for-6.0] qga/commands-posix: Send CCW address on s390x
- with the fsinfo data
-Message-ID: <20201126192245.7c09fd06.cohuck@redhat.com>
-In-Reply-To: <20201125105417.380317-1-thuth@redhat.com>
-References: <20201125105417.380317-1-thuth@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kiLzS-0005cB-S0; Thu, 26 Nov 2020 13:27:34 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:55839)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kiLzQ-0001cU-MF; Thu, 26 Nov 2020 13:27:34 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.177])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id ABF6475ACA19;
+ Thu, 26 Nov 2020 19:27:21 +0100 (CET)
+Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 26 Nov
+ 2020 19:27:21 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006b7b33361-ce64-401b-b4ad-2cc815f99f38,
+ 3D9671329B6E73EAAA72C004E5562AE56C463AC8) smtp.auth=groug@kaod.org
+Date: Thu, 26 Nov 2020 19:27:19 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH] virtfs-proxy-helper: Fix a resource leak in main()
+Message-ID: <20201126192719.7ea20846@bahia.lan>
+In-Reply-To: <2017010.0bgJjaKMus@silver>
+References: <20201126101624.55714-1-alex.chen@huawei.com>
+ <20201126130734.56f2a84a@bahia.lan> <5FBFAA87.5000400@huawei.com>
+ <2017010.0bgJjaKMus@silver>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 3511e01f-556f-409d-882d-cd562bc06e2a
+X-Ovh-Tracer-Id: 17548557425123498403
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudehvddguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopeiihhgrnhhgrdiihhgrnhhghhgrihhlihgrnhhgsehhuhgrfigvihdrtghomh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_BL_SPAMCOP_NET=1.347,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,59 +68,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Alex Chen <alex.chen@huawei.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Nov 2020 11:54:17 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+On Thu, 26 Nov 2020 18:52:39 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> We need the CCW address on the libvirt side to correctly identify
-> the disk, so add this information to the GuestDiskAddress on s390x.
+> On Donnerstag, 26. November 2020 14:15:51 CET Alex Chen wrote:
+> > Hi Greg,
+> > 
+> > Thanks for your review.
+> > 
+> > On 2020/11/26 20:07, Greg Kurz wrote:
+> > > On Thu, 26 Nov 2020 10:16:24 +0000
+> > > 
+> > > Alex Chen <alex.chen@huawei.com> wrote:
+> > >> Only one of the options -s and -f can be used. When -f is used,
+> > >> the fd is created externally and does not need to be closed.
 > 
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1755075
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  qga/commands-posix.c | 34 ++++++++++++++++++++++++++++++++++
->  qga/qapi-schema.json | 19 ++++++++++++++++++-
->  2 files changed, 52 insertions(+), 1 deletion(-)
+> So somebody is really using the 9p proxy driver for something; interesting.
+> 
+> > > 
+> > > The process running virtfs-proxy-helper has its own copy of
+> > > the fd inherited from its parent. And this fd will be closed
+> > > eventually when the process terminates.
+> > > 
+> > >> When -s is used, a new socket fd is created, and this socket fd
+> > >> needs to be closed at the end of main().
+> > > 
+> > > Same here, the new socket fd is closed when the process
+> > > terminates.
+> 
+> Does it? I haven't reviewed much of the 9p proxy code yet, however if chroot() 
+> fails for instance, the fd would leak right now, wouldn't it?
 > 
 
-(...)
+This is done just at the end of main()... the leak won't last long.
 
-> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> index 3b3d1d0bd9..8be84b56e9 100644
-> --- a/qga/qapi-schema.json
-> +++ b/qga/qapi-schema.json
-> @@ -846,6 +846,21 @@
->    'data': {'domain': 'int', 'bus': 'int',
->             'slot': 'int', 'function': 'int'} }
->  
-> +##
-> +# @GuestCCWAddress:
-> +#
-> +# @cssid: channel subsystem image id
-> +# @ssid: subchannel set id
+> Or was your argument that it's the OS's job to free any file descriptor 
+> automatically on process terminations in general?
+> 
 
-You're missing subchno here.
+That's exactly my point.
 
-> +# @devno:  device number
-> +#
-> +# Since: 6.0
-> +##
-> +{ 'struct': 'GuestCCWAddress',
-> +  'data': {'cssid': 'int',
-> +           'ssid': 'int',
-> +           'subchno': 'int',
-> +           'devno': 'int'} }
-> +
->  ##
->  # @GuestDiskAddress:
->  #
+The only justification that'd deserve to be in the changelog of
+such a patch is something like "because this is good practice
+to rollback in case code moves to another function than main()".
 
-(...)
+> > IMO, it's best to explicitly release resources before the process
+> > terminates, just as the variable 'rpath' is explicitly freed in main(),
+> > so socket fd also needs to be explicitly closed here.
+> > 
+> > Looking forward to your reply.
+> > 
+> > > The only justification to merge such a change would be if
+> > > the code was sitting in some other function, in which
+> > > case we should indeed do proper rollback. But it is main()
+> > > here, so this patch isn't needed.
+> > > 
+> > >> Reported-by: Euler Robot <euler.robot@huawei.com>
+> > > 
+> > > Can you provide a copy of the report in case I'm
+> > > missing something ?
+> > 
+> > Our codecheck tool reports a resource leak here, which is relatively simple,
+> > like the one below, I did not attach it.
+> > 
+> > ---------------------
+> > "Resource leak: sock"
+> > ---------------------
+> 
+> Yeah, not very helpful that output.
+> 
 
-Otherwise LGTM.
+Indeed :D
+
+> > 
+> > Thanks,
+> > Alex
+> 
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
