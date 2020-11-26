@@ -2,54 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 035C22C4C3F
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 01:43:16 +0100 (CET)
-Received: from localhost ([::1]:40654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0377A2C4D98
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 04:02:39 +0100 (CET)
+Received: from localhost ([::1]:39232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ki5NS-0007PL-JS
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 19:43:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48174)
+	id 1ki7YL-0002YI-JZ
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 22:02:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ki5LL-0006z6-56
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 19:41:03 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51778)
+ id 1ki7Wi-00026e-Tb
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 22:00:56 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ki5LE-0007pK-73
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 19:41:02 -0500
+ id 1ki7Wg-0004AJ-EK
+ for qemu-devel@nongnu.org; Wed, 25 Nov 2020 22:00:56 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ki5LA-0000KJ-Ov
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 00:40:52 +0000
+ id 1ki7We-0001Rn-G5
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 03:00:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BB80A2E813A
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 00:40:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 73C5D2E8042
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 03:00:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2020 00:34:03 -0000
-From: Amol Surati <1826827@bugs.launchpad.net>
+Date: Thu, 26 Nov 2020 02:47:49 -0000
+From: Doug Evans <1905651@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: asurati dwg th-huth
-X-Launchpad-Bug-Reporter: Amol Surati (asurati)
-X-Launchpad-Bug-Modifier: Amol Surati (asurati)
-References: <155651553398.6774.264581366962353554.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160635084409.17321.10792923001903440079.launchpad@gac.canonical.com>
-Subject: [Bug 1826827] Re: dtc crash; pnv_dt_serial cannot find lpc's phandle
+X-Launchpad-Bug-Commenters: dje
+X-Launchpad-Bug-Reporter: Doug Evans (dje)
+X-Launchpad-Bug-Modifier: Doug Evans (dje)
+Message-Id: <160635886967.28413.180075874214780604.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1905651] [NEW] Tests cannot call g_error
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: 0353654e4ec991f9c72c7fd88a28ff858039c2f6
+X-Launchpad-Hash: b1bbcd3b0a50119c8991116af9fe8f0b211b549c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,97 +68,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1826827 <1826827@bugs.launchpad.net>
+Reply-To: Bug 1905651 <1905651@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+Public bug reported:
+
+I stumbled on this writing a new test, using tests/qtest/e1000e-test.c
+as a template.
+
+g_error() causes SIGTRAP, not SIGABRT, and thus the abort handler doesn't g=
+et run.
+This in turn means qemu is not killed, which hangs the test because the tap=
+-driver.pl script hangs waiting for more input.
+There are a few tests that call g_error().
+
+The SIGABRT handler explicitly kills qemu, e.g.:
+
+qos-test.c:
+    qtest_add_abrt_handler(kill_qemu_hook_func, s);
+
+ref:
+https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dtests/qtest/libqtest.c;h=3D=
+e49f3a1e45f4cd96279241fdb2bbe231029ab922;hb=3DHEAD#l272
+
+But not unexpectedly there's no such handler for SIGTRAP.
+
+Apply this patch to trigger a repro:
+
+diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
+index fc226fdfeb..e83ace1b5c 100644
+--- a/tests/qtest/e1000e-test.c
++++ b/tests/qtest/e1000e-test.c
+@@ -87,6 +87,9 @@ static void e1000e_send_verify(QE1000E *d, int *test_sock=
+ets, QGuestAllocator *a
+     /* Wait for TX WB interrupt */
+     e1000e_wait_isr(d, E1000E_TX0_MSG_ID);
+
++    g_message("Test g_error hang ...");
++    g_error("Pretend something timed out");
++
+     /* Check DD bit */
+     g_assert_cmphex(le32_to_cpu(descr.upper.data) & dsta_dd, =3D=3D, dsta_=
+dd);
+
+Then:
+
+configure
+make
+make check-qtest-i386
+
+check-qtest-i386 will take awhile. To repro faster:
+
+$ grep qtest-i386/qos-test Makefile.mtest
+.test.name.229 :=3D qtest-i386/qos-test
+$ make run-test-229
+Running test qtest-i386/qos-test
+** Message: 18:40:49.821: Test g_error hang ...
+
+** (tests/qtest/qos-test:3820728): ERROR **: 18:40:49.821: Pretend somethin=
+g timed out
+ERROR qtest-i386/qos-test - Bail out! FATAL-ERROR: Pretend something timed =
+out
+
+At this point things are hung because tap-driver.pl is still waiting for
+input because qemu is still running.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1826827
+https://bugs.launchpad.net/bugs/1905651
 
 Title:
-  dtc crash; pnv_dt_serial cannot find lpc's phandle
+  Tests cannot call g_error
 
 Status in QEMU:
-  Fix Released
+  New
 
 Bug description:
-  Qemu version:
-  QEMU emulator version 4.0.50 (v4.0.0-142-ge0fb2c3d89)
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+  I stumbled on this writing a new test, using tests/qtest/e1000e-test.c
+  as a template.
 
-  dtc version:
-  Version: DTC 1.5.0-g5c3513f6
+  g_error() causes SIGTRAP, not SIGABRT, and thus the abort handler doesn't=
+ get run.
+  This in turn means qemu is not killed, which hangs the test because the t=
+ap-driver.pl script hangs waiting for more input.
+  There are a few tests that call g_error().
 
-  -------------------------------------------------------------------------
-  pnv_dt_serial has a line which is supposed to set the interrupt-parent of=
- the "isa-serial@i3f8" node to the phandle of "lpc@0".
+  The SIGABRT handler explicitly kills qemu, e.g.:
 
-  To that end, it calls fdt_get_phandle as shown below:
-  _FDT((fdt_setprop_cell(fdt, node, "interrupt-parent", fdt_get_phandle(fdt=
-, lpc_off))));
+  qos-test.c:
+      qtest_add_abrt_handler(kill_qemu_hook_func, s);
 
-  The function fdt_get_phandle fails to find the property "phandle" (or
-  "linux,phandle") for the lpc node. Consequently, pnv_dt_serial sets
-  the interrupt-parent to 0.
+  ref:
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dtests/qtest/libqtest.c;h=
+=3De49f3a1e45f4cd96279241fdb2bbe231029ab922;hb=3DHEAD#l272
 
-  Now boot the qemu-system-ppc64 powernv machine, and extract the fdt by
-  using the qemu monitor's pmemsave command, taking help of the OPAL
-  firmware's messages to locate the fdt in the physical ram.
+  But not unexpectedly there's no such handler for SIGTRAP.
 
-  qemu-system-ppc64 -m 1g -machine powernv,num-chips=3D1 \
-  -cpu power9 -smp 2,cores=3D2,threads=3D1 -accel tcg,thread=3Dmulti \
-  -kernel ./vmlinux \
-  -append 'disable_radix' \
-  -serial mon:stdio -nographic -nodefaults
+  Apply this patch to trigger a repro:
 
-  The kernel vmlinux contains nothing but a single instruction which
-  loops infintely, so that we can gather OPAL's messages, especially the
-  one below:
+  diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
+  index fc226fdfeb..e83ace1b5c 100644
+  --- a/tests/qtest/e1000e-test.c
+  +++ b/tests/qtest/e1000e-test.c
+  @@ -87,6 +87,9 @@ static void e1000e_send_verify(QE1000E *d, int *test_so=
+ckets, QGuestAllocator *a
+       /* Wait for TX WB interrupt */
+       e1000e_wait_isr(d, E1000E_TX0_MSG_ID);
 
-  [    0.168845963,5] INIT: Starting kernel at 0x20000000, fdt at
-  0x304b0b70 14404 bytes
+  +    g_message("Test g_error hang ...");
+  +    g_error("Pretend something timed out");
+  +
+       /* Check DD bit */
+       g_assert_cmphex(le32_to_cpu(descr.upper.data) & dsta_dd, =3D=3D, dst=
+a_dd);
 
-  Once the fdt is dumped to a file, run the following:
+  Then:
 
-  'dtc -O dtb -I dts -o out.dts dtb'
+  configure
+  make
+  make check-qtest-i386
 
-  After a few warnings, the dtc application crashes because an assertion
-  was fired.
+  check-qtest-i386 will take awhile. To repro faster:
 
-  out.dts: Warning (unit_address_vs_reg): /lpcm-opb@6030000000000/lpc@0: no=
-de has a unit name, but no reg property
-  out.dts: Warning (simple_bus_reg): /lpcm-opb@6030000000000/lpc@0: missing=
- or empty reg/ranges property
-  out.dts: Warning (avoid_unnecessary_addr_size): /ibm,opal: unnecessary #a=
-ddress-cells/#size-cells without "ranges" or child "reg" property
-  out.dts: Warning (unique_unit_address): /interrupt-controller@0: duplicat=
-e unit-address (also used in node /memory@0)
-  out.dts: Warning (chosen_node_stdout_path): /chosen:linux,stdout-path: Us=
-e 'stdout-path' instead
-  dtc: livetree.c:575: get_node_by_phandle: Assertion `generate_fixups' fai=
-led.
-  Aborted (core dumped)
+  $ grep qtest-i386/qos-test Makefile.mtest
+  .test.name.229 :=3D qtest-i386/qos-test
+  $ make run-test-229
+  Running test qtest-i386/qos-test
+  ** Message: 18:40:49.821: Test g_error hang ...
 
-  The assertion is fired because get_node_by_phandle receives a phandle
-  value of 0, which is unexpected, unless fixups are needed (They are
-  not, when running the dtc command).
+  ** (tests/qtest/qos-test:3820728): ERROR **: 18:40:49.821: Pretend someth=
+ing timed out
+  ERROR qtest-i386/qos-test - Bail out! FATAL-ERROR: Pretend something time=
+d out
 
-  Back inside pnv_dt_serial, if the line that sets "interrupt-parent"
-  for the serial device node is commented out, the dtc crash is
-  prevented. Looking at hw/ppc/e500.c, it takes care of allocating
-  necessary phandle values in the nodes, so a similar method can be
-  adopted for powernv.
-
-  The dtb is attached.
-
-  Edit: Add version, Correct filenames.
+  At this point things are hung because tap-driver.pl is still waiting
+  for input because qemu is still running.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1826827/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1905651/+subscriptions
 
