@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08AAA2C4FDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 08:57:00 +0100 (CET)
-Received: from localhost ([::1]:34216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1857C2C4FDE
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 08:57:10 +0100 (CET)
+Received: from localhost ([::1]:34770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiC9C-0001P1-Jb
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 02:56:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58152)
+	id 1kiC9N-0001dT-4i
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 02:57:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1kiC7B-0000Fb-2c; Thu, 26 Nov 2020 02:54:53 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45544)
+ id 1kiC7X-0000TT-0l; Thu, 26 Nov 2020 02:55:15 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1kiC78-0005PB-AH; Thu, 26 Nov 2020 02:54:52 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ id 1kiC7T-0005Ui-36; Thu, 26 Nov 2020 02:55:14 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AQ735sm118789; Thu, 26 Nov 2020 02:54:44 -0500
+ 0AQ71JM5147890; Thu, 26 Nov 2020 02:55:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=subject : from : to : cc
- : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=pp1;
- bh=KM4j+IdoWFNlVw8ds3NjC19NdTNkgCzbMcKACGWEfqA=;
- b=fZqqVkOyfW8cXufWpKaMvE0uuI2/TrehvJe2Eee6fQGRDAYPU76onzmrphxN1i9YzYns
- Po7vKPliR0Wp5iKSYoi5mDm9Vut3ZXf4N6zSQfehyQkmiO7J2uN38mJ7JIB232qktUPZ
- DMzVcqk+ZImIvsk18LCz4DGNch4Uu181xPww/F7W2aFb+BvytB5L6pzflESFTzYo1VUn
- 2EyGgD7WAdYNQraZTn6yrcmBXKAip06UNELIfG9w2h1Cv5/grkZh1c0xRbT0GGTWFCXq
- HJdjA5Ku6NiNzCyx81WCPsilGZzb5FGzusHoZpzx7XQMKK4bt4FK8Q32/8YT/fHqB/04 7Q== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=vmynOO0OC8i6baSfxu+2Y4bdfbLG58xZnKltpDHGDf0=;
+ b=Y8vNha1f8uBll12MyA8P3H/GRLnHdWFennkkvJ47hjE9aDowVpfRbr7SrGNqrFgsOXP+
+ bxaeR4yrGsvCdwF6o1CuULeACmcebZ1avFaSYwRNCYFdIRloCltYCmhtjDY+15RRhyMg
+ QCHejjRVO6cF8xh1x3+IfiBNbEMmGVY+U6NB9rHC1WR/OXOfm5PUsxgxMrgxBfBsFn+8
+ YIn71Ptif010c/8h52+CL2niO/Zey16DVELNWZ6gmFBak1SXnqVFVIoEWGjdet3nTOKg
+ y3C5vec4E9gRMN/rmVuTQt+jztN/RLBdfeN2X/XTSMVivr+A5TRCit1MBdpnO0JvYVbc pw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3522mrfk69-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3523k1ebhr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Nov 2020 02:54:43 -0500
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AQ7AlCQ002690;
- Thu, 26 Nov 2020 02:54:43 -0500
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3522mrfk4u-1
+ Thu, 26 Nov 2020 02:55:05 -0500
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AQ7ChY0192222;
+ Thu, 26 Nov 2020 02:55:05 -0500
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3523k1ebgx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Nov 2020 02:54:43 -0500
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AQ7lSf9022793;
- Thu, 26 Nov 2020 07:54:41 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3518j8hemu-1
+ Thu, 26 Nov 2020 02:55:05 -0500
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AQ7mpui018630;
+ Thu, 26 Nov 2020 07:55:03 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04fra.de.ibm.com with ESMTP id 34xth8asgq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Nov 2020 07:54:41 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 0AQ7scmk46072270
+ Thu, 26 Nov 2020 07:55:03 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0AQ7t1ih8651386
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 26 Nov 2020 07:54:38 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AD62E42047;
- Thu, 26 Nov 2020 07:54:38 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8CB2F42052;
- Thu, 26 Nov 2020 07:54:37 +0000 (GMT)
+ Thu, 26 Nov 2020 07:55:01 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E9D3A11C05B;
+ Thu, 26 Nov 2020 07:55:00 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BE12111C050;
+ Thu, 26 Nov 2020 07:54:59 +0000 (GMT)
 Received: from lep8c.aus.stglabs.ibm.com (unknown [9.40.192.207])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 26 Nov 2020 07:54:37 +0000 (GMT)
-Subject: [RFC PATCH 0/2] spapr: scm: Asynchronus flush hcall support
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 26 Nov 2020 07:54:59 +0000 (GMT)
+Subject: [RFC PATCH 1/2] spapr: drc: Add support for async hcalls at the drc
+ level
 From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 To: xiaoguangrong.eric@gmail.com, mst@redhat.com, imammedo@redhat.com,
  david@gibson.dropbear.id.au, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Date: Thu, 26 Nov 2020 01:54:36 -0600
-Message-ID: <160637722874.1977658.13777818163262816915.stgit@lep8c.aus.stglabs.ibm.com>
+Date: Thu, 26 Nov 2020 01:54:55 -0600
+Message-ID: <160637728389.1977658.13576068142432992889.stgit@lep8c.aus.stglabs.ibm.com>
+In-Reply-To: <160637722874.1977658.13777818163262816915.stgit@lep8c.aus.stglabs.ibm.com>
+References: <160637722874.1977658.13777818163262816915.stgit@lep8c.aus.stglabs.ibm.com>
 User-Agent: StGit/0.19
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
@@ -80,13 +83,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
  definitions=2020-11-26_01:2020-11-26,
  2020-11-26 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0
- priorityscore=1501 mlxlogscore=999 clxscore=1011 phishscore=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 mlxscore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0 phishscore=0
+ impostorscore=0 mlxlogscore=999 bulkscore=0 spamscore=0 suspectscore=2
+ malwarescore=0 mlxscore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2011260037
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=sbhat@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -110,67 +113,257 @@ Cc: shivaprasadbhat@gmail.com, bharata@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The nvdimm devices are expected to ensure write persistent during power
-failure kind of scenarios.
+The patch adds support for async hcalls at the DRC level for the
+spapr devices. To be used by spapr-scm devices in the patch/es to follow.
 
-The libpmem has architecture specific instructions like dcbf on power
-to flush the cache data to backend nvdimm device during normal writes.
-
-Qemu - virtual nvdimm devices are memory mapped. The dcbf in the guest
-doesn't traslate to actual flush to the backend file on the host in case
-of file backed vnvdimms. This is addressed by virtio-pmem in case of x86_64
-by making asynchronous flushes.
-
-On PAPR, issue is addressed by adding a new hcall to
-request for an explicit asynchronous flush requests from the guest ndctl
-driver when the backend nvdimm cannot ensure write persistence with dcbf
-alone. So, the approach here is to convey when the asynchronous flush is
-required in a device tree property. The guest makes the hcall when the
-property is found, instead of relying on dcbf.
-
-The first patch adds the necessary asynchronous hcall support infrastructure
-code at the DRC level. Second patch implements the hcall using the
-infrastructure.
-
-Hcall semantics are in review and not final.
-
-A new device property sync-dax is added to the nvdimm device. When the sync-dax is off(default),
-the asynchronous hcalls will be called.
-
-With respect to save from new qemu to restore on old qemu, having the
-sync-dax by default off(when not specified) causes IO errors in guests as
-the async-hcall would not be supported on old qemu. The new hcall
-implementation being supported only on the new  pseries machine version,
-the current machine version checks may be to prevent sufficient to prevent
-such migration. Please suggest what can be done.
-
-The below demonstration shows the map_sync behavior with sync-dax on & off.
-(https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c)
-
-The pmem0 is from nvdimm with With sync-dax=on, and pmem1 is from nvdimm with syn-dax=off, mounted as
-/dev/pmem0 on /mnt1 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
-/dev/pmem1 on /mnt2 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
-
-[root@atest-guest ~]# ./mapsync /mnt1/newfile    ----> When sync-dax=off
-[root@atest-guest ~]# ./mapsync /mnt2/newfile    ----> when sync-dax=on
-Failed to mmap  with Operation not supported
-
+Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 ---
-
-Shivaprasad G Bhat (2):
-      spapr: drc: Add support for async hcalls at the drc level
-      spapr: nvdimm: Implement async flush hcalls
-
-
- hw/mem/nvdimm.c            |    1
  hw/ppc/spapr_drc.c         |  146 ++++++++++++++++++++++++++++++++++++++++++++
- hw/ppc/spapr_nvdimm.c      |   79 ++++++++++++++++++++++++
- include/hw/mem/nvdimm.h    |   10 +++
- include/hw/ppc/spapr.h     |    3 +
  include/hw/ppc/spapr_drc.h |   25 ++++++++
- 6 files changed, 263 insertions(+), 1 deletion(-)
+ 2 files changed, 171 insertions(+)
 
---
-Signature
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index 77718cde1f..2cecccf701 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -15,6 +15,7 @@
+ #include "qapi/qmp/qnull.h"
+ #include "cpu.h"
+ #include "qemu/cutils.h"
++#include "qemu/guest-random.h"
+ #include "hw/ppc/spapr_drc.h"
+ #include "qom/object.h"
+ #include "migration/vmstate.h"
+@@ -421,6 +422,145 @@ void spapr_drc_detach(SpaprDrc *drc)
+     spapr_drc_release(drc);
+ }
+ 
++
++/*
++ * @drc : device DRC targetting which the async hcalls to be made.
++ *
++ * All subsequent requests to run/query the status should use the
++ * unique token returned here.
++ */
++uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc)
++{
++    Error *err = NULL;
++    uint64_t token;
++    SpaprDrcDeviceAsyncHCallState *tmp, *next, *state;
++
++    state = g_malloc0(sizeof(*state));
++    state->pending = true;
++
++    qemu_mutex_lock(&drc->async_hcall_states_lock);
++retry:
++    if (qemu_guest_getrandom(&token, sizeof(token), &err) < 0) {
++        error_report_err(err);
++        g_free(state);
++        return 0;
++    }
++
++    if (!token) /* Token should be non-zero */
++        goto retry;
++
++    if (!QLIST_EMPTY(&drc->async_hcall_states)) {
++        QLIST_FOREACH_SAFE(tmp, &drc->async_hcall_states, node, next) {
++            if (tmp->continue_token == token) {
++                /* If the token already in use, get a new one */
++                goto retry;
++            }
++        }
++    }
++
++    state->continue_token = token;
++    QLIST_INSERT_HEAD(&drc->async_hcall_states, state, node);
++
++    qemu_mutex_unlock(&drc->async_hcall_states_lock);
++
++    return state->continue_token;
++}
++
++static void *spapr_drc_async_hcall_runner(void *opaque)
++{
++    int response = -1;
++    SpaprDrcDeviceAsyncHCallState *state = opaque;
++
++    /*
++     * state is freed only after this thread finishes(after pthread_join()),
++     * don't worry about it becoming NULL.
++     */
++
++    response = state->func(state->data);
++
++    state->hcall_ret = response;
++    state->pending = 0;
++
++    return NULL;
++}
++
++/*
++ * @drc  : device DRC targetting which the async hcalls to be made.
++ * token : The continue token to be used for tracking as recived from
++ *         spapr_drc_get_new_async_hcall_token
++ * @func() : the worker function which needs to be executed asynchronously
++ * @data : data to be passed to the asynchronous function. Worker is supposed
++ *         to free/cleanup the data that is passed here
++ */
++void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
++                               SpaprDrcAsyncHcallWorkerFunc *func, void *data)
++{
++    SpaprDrcDeviceAsyncHCallState *state, *next;
++
++    qemu_mutex_lock(&drc->async_hcall_states_lock);
++    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, next) {
++        if (state->continue_token == token) {
++            state->func = func;
++            state->data = data;
++            qemu_thread_create(&state->thread, "sPAPR Async HCALL",
++                               spapr_drc_async_hcall_runner, state,
++                               QEMU_THREAD_JOINABLE);
++            break;
++        }
++    }
++    qemu_mutex_unlock(&drc->async_hcall_states_lock);
++}
++
++/*
++ * spapr_drc_finish_async_hcalls
++ *      Waits for all pending async requests to complete
++ *      thier execution and free the states
++ */
++static void spapr_drc_finish_async_hcalls(SpaprDrc *drc)
++{
++    SpaprDrcDeviceAsyncHCallState *state, *next;
++
++    if (QLIST_EMPTY(&drc->async_hcall_states)) {
++        return;
++    }
++
++    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, next) {
++        qemu_thread_join(&state->thread);
++        QLIST_REMOVE(state, node);
++        g_free(state);
++    }
++}
++
++/*
++ * spapr_drc_get_async_hcall_status
++ *      Fetches the status of the hcall worker and returns H_BUSY
++ *      if the worker is still running.
++ */
++int spapr_drc_get_async_hcall_status(SpaprDrc *drc, uint64_t token)
++{
++    int ret = H_PARAMETER;
++    SpaprDrcDeviceAsyncHCallState *state, *node;
++
++    qemu_mutex_lock(&drc->async_hcall_states_lock);
++    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, node) {
++        if (state->continue_token == token) {
++            if (state->pending) {
++                ret = H_BUSY;
++                break;
++            } else {
++                ret = state->hcall_ret;
++                qemu_thread_join(&state->thread);
++                QLIST_REMOVE(state, node);
++                g_free(state);
++                break;
++            }
++        }
++    }
++    qemu_mutex_unlock(&drc->async_hcall_states_lock);
++
++    return ret;
++}
++
+ void spapr_drc_reset(SpaprDrc *drc)
+ {
+     SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+@@ -448,6 +588,7 @@ void spapr_drc_reset(SpaprDrc *drc)
+         drc->ccs_offset = -1;
+         drc->ccs_depth = -1;
+     }
++    spapr_drc_finish_async_hcalls(drc);
+ }
+ 
+ static bool spapr_drc_unplug_requested_needed(void *opaque)
+@@ -558,6 +699,7 @@ SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
+     drc->owner = owner;
+     prop_name = g_strdup_printf("dr-connector[%"PRIu32"]",
+                                 spapr_drc_index(drc));
++
+     object_property_add_child(owner, prop_name, OBJECT(drc));
+     object_unref(OBJECT(drc));
+     qdev_realize(DEVICE(drc), NULL, NULL);
+@@ -577,6 +719,10 @@ static void spapr_dr_connector_instance_init(Object *obj)
+     object_property_add(obj, "fdt", "struct", prop_get_fdt,
+                         NULL, NULL, NULL);
+     drc->state = drck->empty_state;
++
++    qemu_mutex_init(&drc->async_hcall_states_lock);
++    QLIST_INIT(&drc->async_hcall_states);
++
+ }
+ 
+ static void spapr_dr_connector_class_init(ObjectClass *k, void *data)
+diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+index 165b281496..77f6e4386c 100644
+--- a/include/hw/ppc/spapr_drc.h
++++ b/include/hw/ppc/spapr_drc.h
+@@ -18,6 +18,7 @@
+ #include "sysemu/runstate.h"
+ #include "hw/qdev-core.h"
+ #include "qapi/error.h"
++#include "block/thread-pool.h"
+ 
+ #define TYPE_SPAPR_DR_CONNECTOR "spapr-dr-connector"
+ #define SPAPR_DR_CONNECTOR_GET_CLASS(obj) \
+@@ -168,6 +169,21 @@ typedef enum {
+     SPAPR_DRC_STATE_PHYSICAL_CONFIGURED = 8,
+ } SpaprDrcState;
+ 
++typedef struct SpaprDrc SpaprDrc;
++
++typedef int SpaprDrcAsyncHcallWorkerFunc(void *opaque);
++typedef struct SpaprDrcDeviceAsyncHCallState {
++    uint64_t continue_token;
++    bool pending;
++
++    int hcall_ret;
++    SpaprDrcAsyncHcallWorkerFunc *func;
++    void *data;
++
++    QemuThread thread;
++
++    QLIST_ENTRY(SpaprDrcDeviceAsyncHCallState) node;
++} SpaprDrcDeviceAsyncHCallState;
+ typedef struct SpaprDrc {
+     /*< private >*/
+     DeviceState parent;
+@@ -182,6 +198,10 @@ typedef struct SpaprDrc {
+     int ccs_offset;
+     int ccs_depth;
+ 
++    /* async hcall states */
++    QemuMutex async_hcall_states_lock;
++    QLIST_HEAD(, SpaprDrcDeviceAsyncHCallState) async_hcall_states;
++
+     /* device pointer, via link property */
+     DeviceState *dev;
+     bool unplug_requested;
+@@ -241,6 +261,11 @@ void spapr_drc_detach(SpaprDrc *drc);
+ /* Returns true if a hot plug/unplug request is pending */
+ bool spapr_drc_transient(SpaprDrc *drc);
+ 
++uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc);
++void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
++                               SpaprDrcAsyncHcallWorkerFunc, void *data);
++int spapr_drc_get_async_hcall_status(SpaprDrc *drc, uint64_t token);
++
+ static inline bool spapr_drc_unplug_requested(SpaprDrc *drc)
+ {
+     return drc->unplug_requested;
+
 
 
