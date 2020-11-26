@@ -2,52 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C134D2C5431
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:49:09 +0100 (CET)
-Received: from localhost ([::1]:35934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4792C5439
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:52:25 +0100 (CET)
+Received: from localhost ([::1]:41982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiGhw-0007F7-Rg
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:49:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60850)
+	id 1kiGl4-0001OZ-VV
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:52:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiGeC-0005r4-0P
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:45:16 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41560)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiGe3-0005lp-QE
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:45:15 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E509CACE0;
- Thu, 26 Nov 2020 12:45:04 +0000 (UTC)
-Subject: Re: [RFC v5 09/12] module: introduce MODULE_INIT_ACCEL_CPU
-To: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20201124162210.8796-1-cfontana@suse.de>
- <20201124162210.8796-10-cfontana@suse.de>
- <20201124170832.GS2271382@habkost.net>
- <a7bed792-5c6f-c49e-946c-f705707ce685@suse.de>
- <20201124190807.GW2271382@habkost.net>
- <58e4d100-f096-0c41-4780-b8b7e9533b5d@redhat.com>
- <7a3e2790-1924-3d03-d588-a904d7e19282@suse.de>
- <3360fb6f-d1ce-5b7e-0d2f-784e8a8345cf@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <ba8cddcf-6f4f-be7d-dd95-0b47106ba674@suse.de>
-Date: Thu, 26 Nov 2020 13:45:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kiGfi-0006bg-Jk
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:46:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48429)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kiGfb-0006Jy-Ie
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 07:46:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606394802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4ghkJQQz6mafMlUmtKOeVCb0HbaqNJT2payBd7vEiT8=;
+ b=BE0tMQrYo1Mb/OhYbKtuyPUJ2AhZaX7slp4gp1I4O0SugqCr5sHl5c9dnFlID5taHZEZ7V
+ GnD2Hd7XNeX0rNYSlcZbzbIgC/Wo6Y8YsAtTxCJnQRHOy4yy285H0VR6X6+nGTjy5Hw0Mt
+ pJWLugPRNTYAbXQjtB44K2OneFzDby4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-427-wn0Jx9gXPDeROa5_Ksbppw-1; Thu, 26 Nov 2020 07:46:38 -0500
+X-MC-Unique: wn0Jx9gXPDeROa5_Ksbppw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AAB01087D79;
+ Thu, 26 Nov 2020 12:46:34 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-34.ams2.redhat.com
+ [10.36.113.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 698F560855;
+ Thu, 26 Nov 2020 12:46:33 +0000 (UTC)
+Subject: Re: [RFC] ich9:cpuhp: add support for cpu hot-unplug with SMI
+ broadcast enabled
+To: Ankur Arora <ankur.a.arora@oracle.com>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20201124122507.1014839-1-imammedo@redhat.com>
+ <20640581-e37d-8783-451c-22627aabb77f@oracle.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <a5bb1550-6253-87eb-87a0-0532725d5d42@redhat.com>
+Date: Thu, 26 Nov 2020 13:46:32 +0100
 MIME-Version: 1.0
-In-Reply-To: <3360fb6f-d1ce-5b7e-0d2f-784e8a8345cf@redhat.com>
+In-Reply-To: <20640581-e37d-8783-451c-22627aabb77f@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,74 +81,311 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- Paul Durrant <paul@xen.org>, Olaf Hering <ohering@suse.de>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Bruce Rogers <brogers@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, "Emilio G . Cota" <cota@braap.org>,
- haxm-team@intel.com, Peter Xu <peterx@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Dario Faggioli <dfaggioli@suse.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/25/20 10:30 AM, Paolo Bonzini wrote:
-> On 25/11/20 10:21, Claudio Fontana wrote:
->> Hi Paolo,
+On 11/26/20 11:24, Ankur Arora wrote:
+> On 2020-11-24 4:25 a.m., Igor Mammedov wrote:
+>> If firmware negotiates ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT feature,
+>> OSPM on CPU eject will set bit #4 in CPU hotplug block for to be
+>> ejected CPU to mark it for removal by firmware and trigger SMI
+>> upcall to let firmware do actual eject.
 >>
->> in RFC v5 , module init for ACCEL_CPU is not conditional anymore, right?
->> But the fact that its behavior depends on current_accel() still disqualifies it?
->> It is called right after the accelerator is chosen and initialized
->> in RFC v5, this still is "in the middle of the machine creation sequence"?
-> Yes, machine creation basically starts after command line parsing, or 
-> perhaps even _with_ command line parsing.  Basically once the user can 
-> control the flow it is already too late.
-> 
->> I am trying to find the actual things to fix, since when doing RFC
->> v5  I tried to specifically address two points:
+>> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+>> ---
+>> PS:
+>>    - abuse 5.1 machine type for now to turn off unplug feature
+>>      (it will be moved to 5.2 machine type once new merge window is open)
+>> ---
+>>   include/hw/acpi/cpu.h           |  2 ++
+>>   docs/specs/acpi_cpu_hotplug.txt | 11 +++++++++--
+>>   hw/acpi/cpu.c                   | 18 ++++++++++++++++--
+>>   hw/i386/acpi-build.c            |  5 +++++
+>>   hw/i386/pc.c                    |  1 +
+>>   hw/isa/lpc_ich9.c               |  2 +-
+>>   6 files changed, 34 insertions(+), 5 deletions(-)
 >>
->> 1) no if () inside module init functions
->>
->> 2) no proliferation of module init functions
->>
->> which I accomplished via AccelClass extension to user mode, current_accel(), and class lookup.
+>> diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
+>> index 0eeedaa491..999caaf510 100644
+>> --- a/include/hw/acpi/cpu.h
+>> +++ b/include/hw/acpi/cpu.h
+>> @@ -22,6 +22,7 @@ typedef struct AcpiCpuStatus {
+>>       uint64_t arch_id;
+>>       bool is_inserting;
+>>       bool is_removing;
+>> +    bool fw_remove;
+>>       uint32_t ost_event;
+>>       uint32_t ost_status;
+>>   } AcpiCpuStatus;
+>> @@ -50,6 +51,7 @@ void cpu_hotplug_hw_init(MemoryRegion *as, Object
+>> *owner,
+>>   typedef struct CPUHotplugFeatures {
+>>       bool acpi_1_compatible;
+>>       bool has_legacy_cphp;
+>> +    bool fw_unplugs_cpu;
+>>       const char *smi_path;
+>>   } CPUHotplugFeatures;
+>>   diff --git a/docs/specs/acpi_cpu_hotplug.txt
+>> b/docs/specs/acpi_cpu_hotplug.txt
+>> index 9bb22d1270..f68ef6e06c 100644
+>> --- a/docs/specs/acpi_cpu_hotplug.txt
+>> +++ b/docs/specs/acpi_cpu_hotplug.txt
+>> @@ -57,7 +57,11 @@ read access:
+>>                 It's valid only when bit 0 is set.
+>>              2: Device remove event, used to distinguish device for which
+>>                 no device eject request to OSPM was issued.
+>> -           3-7: reserved and should be ignored by OSPM
+>> +           3: reserved and should be ignored by OSPM
+>> +           4: if set to 1, OSPM requests firmware to perform device
+>> eject,
+>> +              firmware shall clear this event by writing 1 into it
+>> before
+>> +              performing device eject> +           5-7: reserved and
+>> should be ignored by OSPM
+>>       [0x5-0x7] reserved
+>>       [0x8] Command data: (DWORD access)
+>>             contains 0 unless value last stored in 'Command field' is
+>> one of:
+>> @@ -82,7 +86,10 @@ write access:
+>>                  selected CPU device
+>>               3: if set to 1 initiates device eject, set by OSPM when it
+>>                  triggers CPU device removal and calls _EJ0 method
+>> -            4-7: reserved, OSPM must clear them before writing to
+>> register
+>> +            4: if set to 1 OSPM hands over device eject to firmware,
+>> +               Firmware shall issue device eject request as described
+>> above
+>> +               (bit #3) and OSPM should not touch device eject bit (#3),
+>> +            5-7: reserved, OSPM must clear them before writing to
+>> register
+>>       [0x5] Command field: (1 byte access)
+>>             value:
+>>               0: selects a CPU device with inserting/removing events and
+>> diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+>> index f099b50927..09d2f20dae 100644
+>> --- a/hw/acpi/cpu.c
+>> +++ b/hw/acpi/cpu.c
+>> @@ -71,6 +71,7 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr
+>> addr, unsigned size)
+>>           val |= cdev->cpu ? 1 : 0;
+>>           val |= cdev->is_inserting ? 2 : 0;
+>>           val |= cdev->is_removing  ? 4 : 0;
+>> +        val |= cdev->fw_remove  ? 16 : 0;
 > 
-> Yes, the rest is great, I'm just not sure that MODULE_INIT_ACCEL_CPU is 
-> useful and if virtual functions on accel and CPU_RESOLVING_TYPE can 
-> achieve the same.
+> I might be missing something but I don't see where cdev->fw_remove is being
+> set.
+
+See just below, in the cpu_hotplug_wr() hunk. When bit#4 is written --
+which happens through the ACPI code change --, fw_remove is inverted.
+
+
+> We do set cdev->is_removing in acpi_cpu_unplug_request_cb() so AFAICS
+> we would always end up setting this bit:
+>>           val |= cdev->is_removing  ? 4 : 0;
 > 
->> If MODULE_INIT_ACCEL_CPU remains an option, where would you like to see the call so that it is not "in the middle"?
+> Also, if cdev->fw_remove and cdev->is_removing are both true, val would be
+> (4 | 16). I'm guessing that in that case the AML determines which case gets
+> handled but it might make sense to set just one of these?
+
+"is_removing" is set directly in response to the device_del QMP command.
+That QMP command is asynchronous to the execution of the guest OS.
+
+"fw_remove" is set (by virtue of inverting) by ACPI CEJ0, which is
+executed by the guest OS's ACPI interpreter, after the guest OS has
+de-scheduled all processes from the CPU being removed (= basically after
+the OS has willfully forgotten about the CPU).
+
+Therefore, considering the bitmask (is_removing, fw_remove), three
+variations make sense:
+
+#1 (is_removing=0, fw_remove=0) -- normal status; no unplug requested
+
+#2 (is_removing=1, fw_remove=0) -- unplug requested via QMP, guest OS
+                                   is processing the request
+
+#3 (is_removing=1, fw_remove=1) -- guest OS removed all references from
+                                   the CPU, firmware is permitted /
+                                   required to forget about the CPU as
+                                   well, and then unplug the CPU
+
+#4 (is_removing=1, fw_remove=0) -- fimware is about to unplug the CPU
+
+#5 (is_removing=0, fw_remove=0) -- firmware performing unplug
+
+
+The variation (is_removing=0, fw_remove=1) is invalid / unused.
+
+
+The firmware may be investigating the CPU register block between steps
+#2 and #3 -- in other words, the firmware may see a CPU for which
+is_remove is set (unplug requested via QMP), but the OS has not vacated
+yet (fw_remove=0). In that case, the firmware must just skip the CPU --
+once the OS is done, it will set fw_remove too, and raise another SMI.
+
+
 > 
-> No later than the runstate_init() call, roughly.
 > 
-> Paolo
+>>           trace_cpuhp_acpi_read_flags(cpu_st->selector, val);
+>>           break;
+>>       case ACPI_CPU_CMD_DATA_OFFSET_RW:
+>> @@ -148,6 +149,8 @@ static void cpu_hotplug_wr(void *opaque, hwaddr
+>> addr, uint64_t data,
+>>               hotplug_ctrl = qdev_get_hotplug_handler(dev);
+>>               hotplug_handler_unplug(hotplug_ctrl, dev, NULL);
+>>               object_unparent(OBJECT(dev));
+>> +        } else if (data & 16) {
+>> +            cdev->fw_remove = !cdev->fw_remove;
+>>           }
+>>           break;
+>>       case ACPI_CPU_CMD_OFFSET_WR:
+>> @@ -332,6 +335,7 @@ const VMStateDescription vmstate_cpu_hotplug = {
+>>   #define CPU_INSERT_EVENT  "CINS"
+>>   #define CPU_REMOVE_EVENT  "CRMV"
+>>   #define CPU_EJECT_EVENT   "CEJ0"
+>> +#define CPU_FW_EJECT_EVENT "CEJF"
+>>     void build_cpus_aml(Aml *table, MachineState *machine,
+>> CPUHotplugFeatures opts,
+>>                       hwaddr io_base,
+>> @@ -384,7 +388,10 @@ void build_cpus_aml(Aml *table, MachineState
+>> *machine, CPUHotplugFeatures opts,
+>>           aml_append(field, aml_named_field(CPU_REMOVE_EVENT, 1));
+>>           /* initiates device eject, write only */
+>>           aml_append(field, aml_named_field(CPU_EJECT_EVENT, 1));
+>> -        aml_append(field, aml_reserved_field(4));
+>> +        aml_append(field, aml_reserved_field(1));
+>> +        /* tell firmware to do device eject, write only */
+>> +        aml_append(field, aml_named_field(CPU_FW_EJECT_EVENT, 1));
+>> +        aml_append(field, aml_reserved_field(2));
+>>           aml_append(field, aml_named_field(CPU_COMMAND, 8));
+>>           aml_append(cpu_ctrl_dev, field);
+>>   @@ -419,6 +426,7 @@ void build_cpus_aml(Aml *table, MachineState
+>> *machine, CPUHotplugFeatures opts,
+>>           Aml *ins_evt = aml_name("%s.%s", cphp_res_path,
+>> CPU_INSERT_EVENT);
+>>           Aml *rm_evt = aml_name("%s.%s", cphp_res_path,
+>> CPU_REMOVE_EVENT);
+>>           Aml *ej_evt = aml_name("%s.%s", cphp_res_path,
+>> CPU_EJECT_EVENT);
+>> +        Aml *fw_ej_evt = aml_name("%s.%s", cphp_res_path,
+>> CPU_FW_EJECT_EVENT);
+>>             aml_append(cpus_dev, aml_name_decl("_HID",
+>> aml_string("ACPI0010")));
+>>           aml_append(cpus_dev, aml_name_decl("_CID",
+>> aml_eisaid("PNP0A05")));
+>> @@ -461,7 +469,13 @@ void build_cpus_aml(Aml *table, MachineState
+>> *machine, CPUHotplugFeatures opts,
+>>                 aml_append(method, aml_acquire(ctrl_lock, 0xFFFF));
+>>               aml_append(method, aml_store(idx, cpu_selector));
+>> -            aml_append(method, aml_store(one, ej_evt));
+>> +            if (opts.fw_unplugs_cpu) {
+>> +                aml_append(method, aml_store(one, fw_ej_evt));
+>> +                aml_append(method,
+>> aml_store(aml_int(OVMF_CPUHP_SMI_CMD),
+>> +                           aml_name("%s", opts.smi_path)));
+>> +            } else {
+>> +                aml_append(method, aml_store(one, ej_evt));
+>> +            }
+> My knowledge of AML is rather rudimentary but this looks mostly
+> reasonable to me.
+> 
+> One question: the corresponding code for CPU hotplug does not send an
+> SMI_CMD.
+> Why the difference?
+
+This code (on eject) is executing *after* the OS kernel has processed
+the event. But on hotplug, the ordering is different (it must be): in
+that case, the CSCN (scan) method first notifies the firmware, and then
+the OS.
+
+Thanks
+Laszlo
+
+> 
+>                     aml_append(while_ctx,
+>                         aml_store(aml_derefof(aml_index(new_cpus,
+> cpu_idx)),
+>                                   uid));
+>                     aml_append(while_ctx,
+>                         aml_call2(CPU_NOTIFY_METHOD, uid, dev_chk));
+>                     aml_append(while_ctx, aml_store(uid, cpu_selector));
+>                     aml_append(while_ctx, aml_store(one, ins_evt));
+>                     aml_append(while_ctx, aml_increment(cpu_idx));
+> 
+> 
+>>               aml_append(method, aml_release(ctrl_lock));
+>>           }
+>>           aml_append(cpus_dev, method);
+>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+>> index 1f5c211245..475e76f514 100644
+>> --- a/hw/i386/acpi-build.c
+>> +++ b/hw/i386/acpi-build.c
+>> @@ -96,6 +96,7 @@ typedef struct AcpiPmInfo {
+>>       bool s4_disabled;
+>>       bool pcihp_bridge_en;
+>>       bool smi_on_cpuhp;
+>> +    bool smi_on_cpu_unplug;
+>>       bool pcihp_root_en;
+>>       uint8_t s4_val;
+>>       AcpiFadtData fadt;
+>> @@ -197,6 +198,7 @@ static void acpi_get_pm_info(MachineState
+>> *machine, AcpiPmInfo *pm)
+>>       pm->pcihp_io_base = 0;
+>>       pm->pcihp_io_len = 0;
+>>       pm->smi_on_cpuhp = false;
+>> +    pm->smi_on_cpu_unplug = false;
+>>         assert(obj);
+>>       init_common_fadt_data(machine, obj, &pm->fadt);
+>> @@ -220,6 +222,8 @@ static void acpi_get_pm_info(MachineState
+>> *machine, AcpiPmInfo *pm)
+>>           pm->cpu_hp_io_base = ICH9_CPU_HOTPLUG_IO_BASE;
+>>           pm->smi_on_cpuhp =
+>>               !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT));
+>> +        pm->smi_on_cpu_unplug =
+>> +            !!(smi_features &
+>> BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT));
+>>       }
+>>         /* The above need not be conditional on machine type because
+>> the reset port
+>> @@ -1582,6 +1586,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>>           CPUHotplugFeatures opts = {
+>>               .acpi_1_compatible = true, .has_legacy_cphp = true,
+>>               .smi_path = pm->smi_on_cpuhp ? "\\_SB.PCI0.SMI0.SMIC" :
+>> NULL,
+>> +            .fw_unplugs_cpu = pm->smi_on_cpu_unplug,
+>>           };
+>>           build_cpus_aml(dsdt, machine, opts, pm->cpu_hp_io_base,
+>>                          "\\_SB.PCI0", "\\_GPE._E02");
+>> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+>> index 17b514d1da..2952a00fe6 100644
+>> --- a/hw/i386/pc.c
+>> +++ b/hw/i386/pc.c
+>> @@ -99,6 +99,7 @@
+>>     GlobalProperty pc_compat_5_1[] = {
+>>       { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
+>> +    { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
+>>   };
+>>   const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
+>>   diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+>> index 087a18d04d..8c667b7166 100644
+>> --- a/hw/isa/lpc_ich9.c
+>> +++ b/hw/isa/lpc_ich9.c
+>> @@ -770,7 +770,7 @@ static Property ich9_lpc_properties[] = {
+>>       DEFINE_PROP_BIT64("x-smi-cpu-hotplug", ICH9LPCState,
+>> smi_host_features,
+>>                         ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT, true),
+>>       DEFINE_PROP_BIT64("x-smi-cpu-hotunplug", ICH9LPCState,
+>> smi_host_features,
+>> -                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, false),
+>> +                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, true),
+>>       DEFINE_PROP_END_OF_LIST(),
+>>   };
+>>  
+> 
+> Thanks for sending out the patch btw. This helped me crystallize some of
+> the
+> corresponding OVMF code.
+> 
+> Ankur
 > 
 
-Hi Paolo, not super-related to the context above,
-
-during the implementation I am trying to offer
-
-accel/accel-softmmu.c
-accel/accel-common.c
-accel/accel-user.c
-
-But I don't seem able to use CONFIG_USER_ONLY in accel-common.c .
-
-in accel/meson.build I am saying
-
- common_ss.add(files('accel-common.c'))
- softmmu_ss.add(files('accel-softmmu.c'))
- user_ss.add(files('accel-user.c'))
-
-But this doesn't work, if I use common_ss. If I use specific_ss, it works.
-
-So the term "common" is a bit overloaded, it means stuff for libcommon and such, not common between softmmu and user, right?
-
-Ciao,
-
-Claudio
 
