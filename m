@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5692C5AC5
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 18:39:19 +0100 (CET)
-Received: from localhost ([::1]:34076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3060A2C5AD2
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 18:42:13 +0100 (CET)
+Received: from localhost ([::1]:40816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiLEk-0004tE-OW
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 12:39:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38118)
+	id 1kiLHY-0007ft-6v
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 12:42:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kiLBI-0002UH-0n
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:35:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53133)
+ id 1kiLBL-0002WS-Ua
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:35:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kiLBE-0006NI-6X
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:35:43 -0500
+ id 1kiLBI-0006Q6-QS
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 12:35:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606412139;
+ s=mimecast20190719; t=1606412144;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L+gZLEKGgAn5nKHLjdQ/apPeszxp4758m/r7I4PQWm0=;
- b=UxTqYAlO5XAIMZzd4Uw9B/HZznUtqPfJ3umOw7FiCgGnoWZ3VS/cU/HH77pDR5pEyafBXe
- osQrT3oLYU+phTN0W2SzTqYXQ5f5APD5WCNJ8pG/y2OibEdbHgGbVvoki9Z+LTrQoDRdxf
- MOpq54d+ONbnvDh1B2kABWNMNNB6Yms=
+ bh=e5196SqpD375vYWx4xG4VibjqmMFILTepLqGU4c0jpA=;
+ b=OV+ZsiHrCxZZ0QcsKS1IjCfBEBP6GaApxNEK18SPktV45I90vcbc+Z70RT5xLPovV/t7aS
+ gI4LvMZ97kAfa3Jq65/ZBoYJzTMW4ghlMMGXvSg2g59DaBDewgRKEQZ562Vdfjvuw0yyDy
+ NTz5cUPT18mmpys75YHBUloWbkVAKIE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-FqHhwn_ZMz2dokKbS-lCLA-1; Thu, 26 Nov 2020 12:35:37 -0500
-X-MC-Unique: FqHhwn_ZMz2dokKbS-lCLA-1
+ us-mta-22-Y-RXXFzyN1ycfL0qKDf5JA-1; Thu, 26 Nov 2020 12:35:42 -0500
+X-MC-Unique: Y-RXXFzyN1ycfL0qKDf5JA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40E991007474;
- Thu, 26 Nov 2020 17:35:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CA6DC73A6;
+ Thu, 26 Nov 2020 17:35:41 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.36.110.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 115731C934;
- Thu, 26 Nov 2020 17:35:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9CBD61C934;
+ Thu, 26 Nov 2020 17:35:36 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 02/11] migration: Make save_snapshot() return bool, not 0/-1
-Date: Thu, 26 Nov 2020 17:35:12 +0000
-Message-Id: <20201126173521.137580-3-berrange@redhat.com>
+Subject: [PATCH v8 03/11] migration: stop returning errno from load_snapshot()
+Date: Thu, 26 Nov 2020 17:35:13 +0000
+Message-Id: <20201126173521.137580-4-berrange@redhat.com>
 In-Reply-To: <20201126173521.137580-1-berrange@redhat.com>
 References: <20201126173521.137580-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,144 +79,167 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
  Juan Quintela <quintela@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
  Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
  Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
  Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+None of the callers care about the errno value since there is a full
+Error object populated. This gives consistency with save_snapshot()
+which already just returns a boolean value.
 
-Just for consistency, following the example documented since
-commit e3fe3988d7 ("error: Document Error API usage rules"),
-return a boolean value indicating an error is set or not.
-
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+[PMD: Return false/true instead of -1/0, document function]
 Acked-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/migration/snapshot.h |  9 ++++++++-
- migration/savevm.c           | 16 ++++++++--------
- replay/replay-debugging.c    |  2 +-
+ include/migration/snapshot.h | 10 +++++++++-
+ migration/savevm.c           | 19 +++++++++----------
+ monitor/hmp-cmds.c           |  2 +-
  replay/replay-snapshot.c     |  2 +-
- 4 files changed, 18 insertions(+), 11 deletions(-)
+ softmmu/vl.c                 |  2 +-
+ 5 files changed, 21 insertions(+), 14 deletions(-)
 
 diff --git a/include/migration/snapshot.h b/include/migration/snapshot.h
-index c85b6ec75b..0eaf1ba0b1 100644
+index 0eaf1ba0b1..d7d210820c 100644
 --- a/include/migration/snapshot.h
 +++ b/include/migration/snapshot.h
-@@ -15,7 +15,14 @@
- #ifndef QEMU_MIGRATION_SNAPSHOT_H
- #define QEMU_MIGRATION_SNAPSHOT_H
- 
--int save_snapshot(const char *name, Error **errp);
+@@ -23,6 +23,14 @@
+  * On failure, store an error through @errp and return %false.
+  */
+ bool save_snapshot(const char *name, Error **errp);
+-int load_snapshot(const char *name, Error **errp);
++
 +/**
-+ * save_snapshot: Save an internal snapshot.
++ * load_snapshot: Load an internal snapshot.
 + * @name: name of internal snapshot
 + * @errp: pointer to error object
 + * On success, return %true.
 + * On failure, store an error through @errp and return %false.
 + */
-+bool save_snapshot(const char *name, Error **errp);
- int load_snapshot(const char *name, Error **errp);
++bool load_snapshot(const char *name, Error **errp);
  
  #endif
 diff --git a/migration/savevm.c b/migration/savevm.c
-index 221b85e07c..8304b5cd0a 100644
+index 8304b5cd0a..d86609cd7b 100644
 --- a/migration/savevm.c
 +++ b/migration/savevm.c
-@@ -2725,7 +2725,7 @@ int qemu_load_device_state(QEMUFile *f)
-     return 0;
+@@ -2931,7 +2931,7 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
+     migration_incoming_state_destroy();
  }
  
--int save_snapshot(const char *name, Error **errp)
-+bool save_snapshot(const char *name, Error **errp)
+-int load_snapshot(const char *name, Error **errp)
++bool load_snapshot(const char *name, Error **errp)
  {
-     BlockDriverState *bs;
-     QEMUSnapshotInfo sn1, *sn = &sn1, old_sn1, *old_sn = &old_sn1;
-@@ -2738,29 +2738,29 @@ int save_snapshot(const char *name, Error **errp)
-     AioContext *aio_context;
- 
-     if (migration_is_blocked(errp)) {
--        return ret;
-+        return false;
-     }
- 
-     if (!replay_can_snapshot()) {
-         error_setg(errp, "Record/replay does not allow making snapshot "
-                    "right now. Try once more later.");
--        return ret;
-+        return false;
-     }
+     BlockDriverState *bs_vm_state;
+     QEMUSnapshotInfo sn;
+@@ -2941,16 +2941,16 @@ int load_snapshot(const char *name, Error **errp)
+     MigrationIncomingState *mis = migration_incoming_get_current();
  
      if (!bdrv_all_can_snapshot(errp)) {
+-        return -ENOTSUP;
++        return false;
+     }
+     ret = bdrv_all_find_snapshot(name, errp);
+     if (ret < 0) {
 -        return ret;
 +        return false;
      }
  
-     /* Delete old snapshots of the same name */
-     if (name) {
-         if (bdrv_all_delete_snapshot(name, errp) < 0) {
--            return ret;
-+            return false;
-         }
+     bs_vm_state = bdrv_all_find_vmstate_bs(errp);
+     if (!bs_vm_state) {
+-        return -ENOTSUP;
++        return false;
+     }
+     aio_context = bdrv_get_aio_context(bs_vm_state);
+ 
+@@ -2959,11 +2959,11 @@ int load_snapshot(const char *name, Error **errp)
+     ret = bdrv_snapshot_find(bs_vm_state, &sn, name);
+     aio_context_release(aio_context);
+     if (ret < 0) {
+-        return ret;
++        return false;
+     } else if (sn.vm_state_size == 0) {
+         error_setg(errp, "This is a disk-only snapshot. Revert to it "
+                    " offline using qemu-img");
+-        return -EINVAL;
++        return false;
      }
  
-     bs = bdrv_all_find_vmstate_bs(errp);
-     if (bs == NULL) {
+     /*
+@@ -2984,7 +2984,6 @@ int load_snapshot(const char *name, Error **errp)
+     f = qemu_fopen_bdrv(bs_vm_state, 0);
+     if (!f) {
+         error_setg(errp, "Could not open VM state file");
+-        ret = -EINVAL;
+         goto err_drain;
+     }
+ 
+@@ -3000,14 +2999,14 @@ int load_snapshot(const char *name, Error **errp)
+ 
+     if (ret < 0) {
+         error_setg(errp, "Error %d while loading VM state", ret);
 -        return ret;
 +        return false;
      }
-     aio_context = bdrv_get_aio_context(bs);
  
-@@ -2769,7 +2769,7 @@ int save_snapshot(const char *name, Error **errp)
-     ret = global_state_store();
-     if (ret) {
-         error_setg(errp, "Error saving global state");
--        return ret;
-+        return false;
-     }
-     vm_stop(RUN_STATE_SAVE_VM);
+-    return 0;
++    return true;
  
-@@ -2846,7 +2846,7 @@ int save_snapshot(const char *name, Error **errp)
-     if (saved_vm_running) {
-         vm_start();
-     }
+ err_drain:
+     bdrv_drain_all_end();
 -    return ret;
-+    return ret == 0;
++    return false;
  }
  
- void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
-diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
-index 7ad0a37179..c5d3da1e80 100644
---- a/replay/replay-debugging.c
-+++ b/replay/replay-debugging.c
-@@ -324,7 +324,7 @@ void replay_gdb_attached(void)
-      */
-     if (replay_mode == REPLAY_MODE_PLAY
-         && !replay_snapshot) {
--        if (save_snapshot("start_debugging", NULL) != 0) {
-+        if (!save_snapshot("start_debugging", NULL)) {
-             /* Can't create the snapshot. Continue conventional debugging. */
-         }
+ void vmstate_register_ram(MemoryRegion *mr, DeviceState *dev)
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index e41e12347c..0ee12478ef 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1130,7 +1130,7 @@ void hmp_loadvm(Monitor *mon, const QDict *qdict)
+ 
+     vm_stop(RUN_STATE_RESTORE_VM);
+ 
+-    if (load_snapshot(name, &err) == 0 && saved_vm_running) {
++    if (!load_snapshot(name, &err) && saved_vm_running) {
+         vm_start();
      }
+     hmp_handle_error(mon, err);
 diff --git a/replay/replay-snapshot.c b/replay/replay-snapshot.c
-index e26fa4c892..4f2560d156 100644
+index 4f2560d156..b289365937 100644
 --- a/replay/replay-snapshot.c
 +++ b/replay/replay-snapshot.c
-@@ -77,7 +77,7 @@ void replay_vmstate_init(void)
- 
-     if (replay_snapshot) {
-         if (replay_mode == REPLAY_MODE_RECORD) {
--            if (save_snapshot(replay_snapshot, &err) != 0) {
-+            if (!save_snapshot(replay_snapshot, &err)) {
-                 error_report_err(err);
-                 error_report("Could not create snapshot for icount record");
+@@ -83,7 +83,7 @@ void replay_vmstate_init(void)
                  exit(1);
+             }
+         } else if (replay_mode == REPLAY_MODE_PLAY) {
+-            if (load_snapshot(replay_snapshot, &err) != 0) {
++            if (!load_snapshot(replay_snapshot, &err)) {
+                 error_report_err(err);
+                 error_report("Could not load snapshot for icount replay");
+                 exit(1);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index e6e0ad5a92..872ff8bdbc 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -4473,7 +4473,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     register_global_state();
+     if (loadvm) {
+         Error *local_err = NULL;
+-        if (load_snapshot(loadvm, &local_err) < 0) {
++        if (!load_snapshot(loadvm, &local_err)) {
+             error_report_err(local_err);
+             autostart = 0;
+             exit(1);
 -- 
 2.28.0
 
