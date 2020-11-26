@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E0B2C4DAA
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 04:10:06 +0100 (CET)
-Received: from localhost ([::1]:45238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA512C4DD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 04:37:33 +0100 (CET)
+Received: from localhost ([::1]:55812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ki7fY-0005NX-Vq
-	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 22:10:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47508)
+	id 1ki867-0003F0-TV
+	for lists+qemu-devel@lfdr.de; Wed, 25 Nov 2020 22:37:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ki7dE-0004WF-E1
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 22:07:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24477)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ki7dB-0006aw-JQ
- for qemu-devel@nongnu.org; Wed, 25 Nov 2020 22:07:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606360055;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8yXE0MDOyVD7WAE8aijm9XJiMRGRHSOjfmxlipWrPcs=;
- b=MMyM6futOer8PZU1EPuHpSHLdLoqULq4+03J3dtz/yEpRYG7UdSKCxROvenspMr2Zl4Tnm
- xcrJhkPYu6YJFnWlFk9cmM/tMVEPVpKAXzsulPzH7LWLhyynF8mfsK/DnPeNwtErc89SJF
- P9pJc0z9EZ3V5gXZCg8RPCpgW86fsLw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-GQ81NE11OqyvxM1ZNrQQ8w-1; Wed, 25 Nov 2020 22:07:32 -0500
-X-MC-Unique: GQ81NE11OqyvxM1ZNrQQ8w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B4781005E46;
- Thu, 26 Nov 2020 03:07:29 +0000 (UTC)
-Received: from [10.72.13.213] (ovpn-13-213.pek2.redhat.com [10.72.13.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B62E10023AF;
- Thu, 26 Nov 2020 03:07:04 +0000 (UTC)
-Subject: Re: [RFC PATCH 00/27] vDPA software assisted live migration
-To: Eugenio Perez Martin <eperezma@redhat.com>
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <5a4d0b7a-fb62-9e78-9e85-9262dca57f1c@redhat.com>
- <CAJaqyWf+6yoMHJuLv=QGLMP4egmdm722=V2kKJ_aiQAfCCQOFw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <9edb2df1-dec0-8aad-4fdd-93c3b3be9ff6@redhat.com>
-Date: Thu, 26 Nov 2020 11:07:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ki84o-0002cE-3E; Wed, 25 Nov 2020 22:36:10 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:48421 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1ki84i-0004st-Py; Wed, 25 Nov 2020 22:36:09 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4ChNh56bH0z9sTv; Thu, 26 Nov 2020 14:35:49 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1606361749;
+ bh=v5pzWHwwpy4XstzUNY5Yar+r0jLf22T9K+lFriDlVfQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PIKml/n/xlhBUM9FxbN1pYZfaWpafKR5qbCUEtSf0dEjgkQQgPQegbRHRmgeZR7gz
+ 1xpHn7tnoWUrGy1r0s/5rujxJURvP/8GAPr1AOkUSfEe/hzf8r8gwaNWyMMWkdl6Sq
+ o+BjOASTzEO8sFpbGtIP+tDxmgBkiQ82Ly2nmFAw=
+Date: Thu, 26 Nov 2020 11:06:23 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH for-6.0 2/8] spapr/xive: Introduce spapr_xive_nr_ends()
+Message-ID: <20201126000623.GA4980@yekko.fritz.box>
+References: <20201120174646.619395-1-groug@kaod.org>
+ <20201120174646.619395-3-groug@kaod.org>
+ <20201123033355.GB521467@yekko.fritz.box>
+ <20201125234326.1c26c7b8@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWf+6yoMHJuLv=QGLMP4egmdm722=V2kKJ_aiQAfCCQOFw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
+Content-Disposition: inline
+In-Reply-To: <20201125234326.1c26c7b8@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,197 +61,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Daniel Daly <dandaly0@gmail.com>,
- virtualization@lists.linux-foundation.org, Liran Alon <liralon@gmail.com>,
- Eli Cohen <eli@mellanox.com>, Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Rob Miller <rob.miller@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Alex Barba <alex.barba@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Jim Harford <jim.harford@broadcom.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Stephen Finucane <stephenfin@redhat.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/11/25 下午8:03, Eugenio Perez Martin wrote:
-> On Wed, Nov 25, 2020 at 8:09 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> On 2020/11/21 上午2:50, Eugenio Pérez wrote:
->>> This series enable vDPA software assisted live migration for vhost-net
->>> devices. This is a new method of vhost devices migration: Instead of
->>> relay on vDPA device's dirty logging capability, SW assisted LM
->>> intercepts dataplane, forwarding the descriptors between VM and device.
->>>
->>> In this migration mode, qemu offers a new vring to the device to
->>> read and write into, and disable vhost notifiers, processing guest and
->>> vhost notifications in qemu. On used buffer relay, qemu will mark the
->>> dirty memory as with plain virtio-net devices. This way, devices does
->>> not need to have dirty page logging capability.
->>>
->>> This series is a POC doing SW LM for vhost-net devices, which already
->>> have dirty page logging capabilities. None of the changes have actual
->>> effect with current devices until last two patches (26 and 27) are
->>> applied, but they can be rebased on top of any other. These checks the
->>> device to meet all requirements, and disable vhost-net devices logging
->>> so migration goes through SW LM. This last patch is not meant to be
->>> applied in the final revision, it is in the series just for testing
->>> purposes.
->>>
->>> For use SW assisted LM these vhost-net devices need to be instantiated:
->>> * With IOMMU (iommu_platform=on,ats=on)
->>> * Without event_idx (event_idx=off)
->>
->> So a question is at what level do we want to implement qemu assisted
->> live migration. To me it could be done at two levels:
->>
->> 1) generic vhost level which makes it work for both vhost-net/vhost-user
->> and vhost-vDPA
->> 2) a specific type of vhost
->>
->> To me, having a generic one looks better but it would be much more
->> complicated. So what I read from this series is it was a vhost kernel
->> specific software assisted live migration which is a good start.
->> Actually it may even have real use case, e.g it can save dirty bitmaps
->> for guest with large memory. But we need to address the above
->> limitations first.
->>
->> So I would like to know what's the reason for mandating iommu platform
->> and ats? And I think we need to fix case of event idx support.
->>
-> There is no specific reason for mandating iommu & ats, it was just
-> started that way.
->
-> I will extend the patch to support those cases too.
->
->>> Just the notification forwarding (with no descriptor relay) can be
->>> achieved with patches 7 and 9, and starting migration. Partial applies
->>> between 13 and 24 will not work while migrating on source, and patch
->>> 25 is needed for the destination to resume network activity.
->>>
->>> It is based on the ideas of DPDK SW assisted LM, in the series of
->>
->> Actually we're better than that since there's no need the trick like
->> hardcoded IOVA for mediated(shadow) virtqueue.
->>
->>
->>> DPDK's https://patchwork.dpdk.org/cover/48370/ .
->>
->> I notice that you do GPA->VA translations and try to establish a VA->VA
->> (use VA as IOVA) mapping via device IOTLB. This shortcut should work for
->> vhost-kernel/user but not vhost-vDPA. The reason is that there's no
->> guarantee that the whole 64bit address range could be used as IOVA. One
->> example is that for hardware IOMMU like intel, it usually has 47 or 52
->> bits of address width.
->>
->> So we probably need an IOVA allocator that can make sure the IOVA is not
->> overlapped and fit for [1]. We can probably build the IOVA for guest VA
->> via memory listeners. Then we have
->>
->> 1) IOVA for GPA
->> 2) IOVA for shadow VQ
->>
->> And advertise IOVA to VA mapping to vhost.
->>
->> [1]
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1b48dc03e575a872404f33b04cd237953c5d7498
->>
-> Got it, will control it too.
->
-> Maybe for vhost-net we could directly send iotlb miss for [0,~0ULL].
+--bp/iNruPH9dso1Pn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Nov 25, 2020 at 11:43:26PM +0100, Greg Kurz wrote:
+> On Mon, 23 Nov 2020 14:33:55 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Fri, Nov 20, 2020 at 06:46:40PM +0100, Greg Kurz wrote:
+> > > We're going to kill the "nr_ends" field in a subsequent patch.
+> > > Prepare ground by using an helper instead of peeking into
+> > > the sPAPR XIVE structure directly.
+> > >=20
+> > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> >=20
+> > Applied to ppc-for-6.0, thanks.
+> >=20
+>=20
+> I'm working on a new approach that doesn't need this change. Especially t=
+he
+> new approach doesn't kill the "nr_ends" fields, which makes the changelog=
+ of
+> this patch slightly wrong. Since it doesn't bring much in the end, maybe =
+you
+> can just drop it from ppc-for-6.0 ?
+
+Done.
+
+>=20
+> >=20
+> > > ---
+> > >  include/hw/ppc/spapr_xive.h |  1 +
+> > >  hw/intc/spapr_xive.c        | 23 ++++++++++++++---------
+> > >  hw/intc/spapr_xive_kvm.c    |  4 ++--
+> > >  3 files changed, 17 insertions(+), 11 deletions(-)
+> > >=20
+> > > diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+> > > index 26c8d90d7196..4b967f13c030 100644
+> > > --- a/include/hw/ppc/spapr_xive.h
+> > > +++ b/include/hw/ppc/spapr_xive.h
+> > > @@ -75,6 +75,7 @@ void spapr_xive_map_mmio(SpaprXive *xive);
+> > > =20
+> > >  int spapr_xive_end_to_target(uint8_t end_blk, uint32_t end_idx,
+> > >                               uint32_t *out_server, uint8_t *out_prio=
+);
+> > > +uint32_t spapr_xive_nr_ends(const SpaprXive *xive);
+> > > =20
+> > >  /*
+> > >   * KVM XIVE device helpers
+> > > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+> > > index 60e0d5769dcc..f473ad9cba47 100644
+> > > --- a/hw/intc/spapr_xive.c
+> > > +++ b/hw/intc/spapr_xive.c
+> > > @@ -192,7 +192,7 @@ void spapr_xive_pic_print_info(SpaprXive *xive, M=
+onitor *mon)
+> > >              uint32_t end_idx =3D xive_get_field64(EAS_END_INDEX, eas=
+->w);
+> > >              XiveEND *end;
+> > > =20
+> > > -            assert(end_idx < xive->nr_ends);
+> > > +            assert(end_idx < spapr_xive_nr_ends(xive));
+> > >              end =3D &xive->endt[end_idx];
+> > > =20
+> > >              if (xive_end_is_valid(end)) {
+> > > @@ -270,7 +270,7 @@ static void spapr_xive_reset(void *dev)
+> > >      }
+> > > =20
+> > >      /* Clear all ENDs */
+> > > -    for (i =3D 0; i < xive->nr_ends; i++) {
+> > > +    for (i =3D 0; i < spapr_xive_nr_ends(xive); i++) {
+> > >          spapr_xive_end_reset(&xive->endt[i]);
+> > >      }
+> > >  }
+> > > @@ -288,6 +288,11 @@ static void spapr_xive_instance_init(Object *obj)
+> > >      xive->fd =3D -1;
+> > >  }
+> > > =20
+> > > +uint32_t spapr_xive_nr_ends(const SpaprXive *xive)
+> > > +{
+> > > +    return xive->nr_ends;
+> > > +}
+> > > +
+> > >  static void spapr_xive_realize(DeviceState *dev, Error **errp)
+> > >  {
+> > >      SpaprXive *xive =3D SPAPR_XIVE(dev);
+> > > @@ -336,7 +341,7 @@ static void spapr_xive_realize(DeviceState *dev, =
+Error **errp)
+> > >       * Allocate the routing tables
+> > >       */
+> > >      xive->eat =3D g_new0(XiveEAS, xive->nr_irqs);
+> > > -    xive->endt =3D g_new0(XiveEND, xive->nr_ends);
+> > > +    xive->endt =3D g_new0(XiveEND, spapr_xive_nr_ends(xive));
+> > > =20
+> > >      xive->nodename =3D g_strdup_printf("interrupt-controller@%" PRIx=
+64,
+> > >                             xive->tm_base + XIVE_TM_USER_PAGE * (1 <<=
+ TM_SHIFT));
+> > > @@ -375,7 +380,7 @@ static int spapr_xive_get_end(XiveRouter *xrtr,
+> > >  {
+> > >      SpaprXive *xive =3D SPAPR_XIVE(xrtr);
+> > > =20
+> > > -    if (end_idx >=3D xive->nr_ends) {
+> > > +    if (end_idx >=3D spapr_xive_nr_ends(xive)) {
+> > >          return -1;
+> > >      }
+> > > =20
+> > > @@ -389,7 +394,7 @@ static int spapr_xive_write_end(XiveRouter *xrtr,=
+ uint8_t end_blk,
+> > >  {
+> > >      SpaprXive *xive =3D SPAPR_XIVE(xrtr);
+> > > =20
+> > > -    if (end_idx >=3D xive->nr_ends) {
+> > > +    if (end_idx >=3D spapr_xive_nr_ends(xive)) {
+> > >          return -1;
+> > >      }
+> > > =20
+> > > @@ -1138,7 +1143,7 @@ static target_ulong h_int_get_source_config(Pow=
+erPCCPU *cpu,
+> > >      /* EAS_END_BLOCK is unused on sPAPR */
+> > >      end_idx =3D xive_get_field64(EAS_END_INDEX, eas.w);
+> > > =20
+> > > -    assert(end_idx < xive->nr_ends);
+> > > +    assert(end_idx < spapr_xive_nr_ends(xive));
+> > >      end =3D &xive->endt[end_idx];
+> > > =20
+> > >      nvt_blk =3D xive_get_field32(END_W6_NVT_BLOCK, end->w6);
+> > > @@ -1216,7 +1221,7 @@ static target_ulong h_int_get_queue_info(PowerP=
+CCPU *cpu,
+> > >          return H_P2;
+> > >      }
+> > > =20
+> > > -    assert(end_idx < xive->nr_ends);
+> > > +    assert(end_idx < spapr_xive_nr_ends(xive));
+> > >      end =3D &xive->endt[end_idx];
+> > > =20
+> > >      args[0] =3D xive->end_base + (1ull << (end_xsrc->esb_shift + 1))=
+ * end_idx;
+> > > @@ -1304,7 +1309,7 @@ static target_ulong h_int_set_queue_config(Powe=
+rPCCPU *cpu,
+> > >          return H_P2;
+> > >      }
+> > > =20
+> > > -    assert(end_idx < xive->nr_ends);
+> > > +    assert(end_idx < spapr_xive_nr_ends(xive));
+> > >      memcpy(&end, &xive->endt[end_idx], sizeof(XiveEND));
+> > > =20
+> > >      switch (qsize) {
+> > > @@ -1470,7 +1475,7 @@ static target_ulong h_int_get_queue_config(Powe=
+rPCCPU *cpu,
+> > >          return H_P2;
+> > >      }
+> > > =20
+> > > -    assert(end_idx < xive->nr_ends);
+> > > +    assert(end_idx < spapr_xive_nr_ends(xive));
+> > >      end =3D &xive->endt[end_idx];
+> > > =20
+> > >      args[0] =3D 0;
+> > > diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> > > index 66bf4c06fe55..1566016f0e28 100644
+> > > --- a/hw/intc/spapr_xive_kvm.c
+> > > +++ b/hw/intc/spapr_xive_kvm.c
+> > > @@ -531,7 +531,7 @@ static int kvmppc_xive_get_queues(SpaprXive *xive=
+, Error **errp)
+> > >      int i;
+> > >      int ret;
+> > > =20
+> > > -    for (i =3D 0; i < xive->nr_ends; i++) {
+> > > +    for (i =3D 0; i < spapr_xive_nr_ends(xive); i++) {
+> > >          if (!xive_end_is_valid(&xive->endt[i])) {
+> > >              continue;
+> > >          }
+> > > @@ -701,7 +701,7 @@ int kvmppc_xive_post_load(SpaprXive *xive, int ve=
+rsion_id)
+> > >      assert(xive->fd !=3D -1);
+> > > =20
+> > >      /* Restore the ENDT first. The targetting depends on it. */
+> > > -    for (i =3D 0; i < xive->nr_ends; i++) {
+> > > +    for (i =3D 0; i < spapr_xive_nr_ends(xive); i++) {
+> > >          if (!xive_end_is_valid(&xive->endt[i])) {
+> > >              continue;
+> > >          }
+> >=20
+>=20
 
 
-It works but it means vhost-net needs some special care. To me a generic 
-IOVA allocator looks better.
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
->
->>> Comments are welcome.
->>>
->>> Thanks!
->>>
->>> Eugenio Pérez (27):
->>>     vhost: Add vhost_dev_can_log
->>>     vhost: Add device callback in vhost_migration_log
->>>     vhost: Move log resize/put to vhost_dev_set_log
->>>     vhost: add vhost_kernel_set_vring_enable
->>>     vhost: Add hdev->dev.sw_lm_vq_handler
->>>     virtio: Add virtio_queue_get_used_notify_split
->>>     vhost: Route guest->host notification through qemu
->>>     vhost: Add a flag for software assisted Live Migration
->>>     vhost: Route host->guest notification through qemu
->>>     vhost: Allocate shadow vring
->>>     virtio: const-ify all virtio_tswap* functions
->>>     virtio: Add virtio_queue_full
->>>     vhost: Send buffers to device
->>>     virtio: Remove virtio_queue_get_used_notify_split
->>>     vhost: Do not invalidate signalled used
->>>     virtio: Expose virtqueue_alloc_element
->>>     vhost: add vhost_vring_set_notification_rcu
->>>     vhost: add vhost_vring_poll_rcu
->>>     vhost: add vhost_vring_get_buf_rcu
->>>     vhost: Return used buffers
->>>     vhost: Add vhost_virtqueue_memory_unmap
->>>     vhost: Add vhost_virtqueue_memory_map
->>>     vhost: unmap qemu's shadow virtqueues on sw live migration
->>>     vhost: iommu changes
->>>     vhost: Do not commit vhost used idx on vhost_virtqueue_stop
->>>     vhost: Add vhost_hdev_can_sw_lm
->>>     vhost: forbid vhost devices logging
->>>
->>>    hw/virtio/vhost-sw-lm-ring.h      |  39 +++
->>>    include/hw/virtio/vhost.h         |   5 +
->>>    include/hw/virtio/virtio-access.h |   8 +-
->>>    include/hw/virtio/virtio.h        |   4 +
->>>    hw/net/virtio-net.c               |  39 ++-
->>>    hw/virtio/vhost-backend.c         |  29 ++
->>>    hw/virtio/vhost-sw-lm-ring.c      | 268 +++++++++++++++++++
->>>    hw/virtio/vhost.c                 | 431 +++++++++++++++++++++++++-----
->>>    hw/virtio/virtio.c                |  18 +-
->>>    hw/virtio/meson.build             |   2 +-
->>>    10 files changed, 758 insertions(+), 85 deletions(-)
->>>    create mode 100644 hw/virtio/vhost-sw-lm-ring.h
->>>    create mode 100644 hw/virtio/vhost-sw-lm-ring.c
->>
->> So this looks like a pretty huge patchset which I'm trying to think of
->> ways to split. An idea is to do this is two steps
->>
->> 1) implement a shadow virtqueue mode for vhost first (w/o live
->> migration). Then we can test descriptors relay, IOVA allocating, etc.
-> How would that mode be activated if it is not tied to live migration?
-> New backend/command line switch?
+--bp/iNruPH9dso1Pn
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-Either a new cli option or even a qmp command can work.
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl++8X0ACgkQbDjKyiDZ
+s5LQYBAAyBH4ZVqrbvbzgu7bbKvZkgmGUWkIr2ElgYWnjchaxp3sAx2Udj8FbM/Q
+fViROLTnjl/yNBEZ82gRGo+qxlhkKPkIiwJBMlk5Rpfaz8njLyP3H5M0rB2/psf1
+kh8brwpv9/tqjRyX+2ZtbUgtti6fkdzzQH14dkpunAVcK+9rpSDjCfG4pmEdnY5N
+iL8IN1ZOOlFD927loZ+s8zH9kUZhr2YppDaMw/rP5xlsvdmQ4GQz3D4thx+kOGej
+72xMUHNCUdSPWZMwWfk6uGmU1+RFNQidqeZ+UdELvJF1KaTnT/qzF/Z1ibqNYCf9
+bbxDHswbgB0D2N9LcSd/JS9yXETKn1AVhdUCbOtdPHl5xT85EkVdwiavQYYzl0M9
+SHujDK8I6Sb9N1JlFlfNfw4xBh1D6lhohDrI3RatUeJ2xr4j71ZKcw6Z25miG+F5
+KDp8KEdXfjbP1laGW7eYhcVf9l1VR5g18zrLGGKig0nDtIDzEfY5oQmTICBvDxHo
+p90NbMo7uhHajUhaPRn4lG/xACIai7mCkowOQ203e5C5fpyoce7ms5zb/c3HYNUa
+4eZSpqmyVrcXcuUSTuA/qEoyw+ZUMJvXZ5UyYII9m4hKKLXu/UpWdCi12sBK7IR9
+l03pyjdei6PoIIOpucSdw2gfFuSNSDNk5B0Ax1/DAplUAHUbyO8=
+=qx7d
+-----END PGP SIGNATURE-----
 
-
->
-> Maybe it is better to also start with no iommu & ats support and add it on top.
-
-
-Yes.
-
-
->
->> 2) add live migration support on top
->>
->> And it looks to me it's better to split the shadow virtqueue (virtio
->> driver part) into an independent file. And use generic name (w/o
->> "shadow") in order to be reused by other use cases as well.
->>
-> I think the same.
->
-> Thanks!
->
->> Thoughts?
->>
->
-
+--bp/iNruPH9dso1Pn--
 
