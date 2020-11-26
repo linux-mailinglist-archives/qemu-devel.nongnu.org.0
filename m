@@ -2,80 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500912C556A
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 14:32:17 +0100 (CET)
-Received: from localhost ([::1]:56746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6252C55CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 14:38:02 +0100 (CET)
+Received: from localhost ([::1]:60452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiHNf-00050x-Uy
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 08:32:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44608)
+	id 1kiHTF-00071C-6j
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 08:38:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kiHLL-0003wR-GK
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:29:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30383)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kiHSD-0006SC-DF
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:36:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kiHLJ-0003Xc-89
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:29:51 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kiHSA-00066c-Tq
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 08:36:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606397387;
+ s=mimecast20190719; t=1606397813;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RfilU3sxMO+u6NdKdsAHEPH2kDMW09Z7jh/YUdC0leo=;
- b=gqTdDB/G7NYCGEfcLprFEzJcFFpzy6vsTRRMNTjjN8if08bBLuAFh494DyLAKWtda/bTRk
- PRSLBlHkHhRcRiVmEh4JUOlvbvY4iQcmeZr6g2PsioDgVaSHdvOr7CDeXZAYks2Oak1i1j
- vt3/GX5VeA1Vcx45z0ly/pL01XJajdg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-FZasqlAFPYSsA4YLD8N40g-1; Thu, 26 Nov 2020 08:29:45 -0500
-X-MC-Unique: FZasqlAFPYSsA4YLD8N40g-1
-Received: by mail-wr1-f71.google.com with SMTP id b12so1301783wru.15
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 05:29:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=RfilU3sxMO+u6NdKdsAHEPH2kDMW09Z7jh/YUdC0leo=;
- b=jE1mPDdoPZGA8hACFrTJo617D4dd8y766pBjlbULn1NlSqE2M3cNOAlE1XZDALdV4g
- CmlriMMMTxQN5206b20h+Ht10O5syPv/cD0Gfprby8weuFUTNNc2GuEAkP8L3Pp15ayH
- vBeGXs4lJ7XmXuKOg3qF113i4X7cn49fJz7U/cyp1lum5x1Gh8LEH2lRf0M58AcBBrgl
- Aw0RFlMFcZxdYe8DjoPeSdgBYC+h+f7DZGU4S96Rs/iZ3yqWsjRjQY6vt4M1db3f9wVw
- ixIQNUTs02e/x9PqfVqnrufowKLehecy/c9ynjJx0hprLl17lz6ysErl9LYE69F/2IA/
- IJxQ==
-X-Gm-Message-State: AOAM533H3wdFPmos/H79q02DTBP/bY1qY7nPZwY+s++1Dr32O1N1dccm
- q1bLGGAeCchGQBgix64CN+bAhVq1CVds59x6ZllBwBoiuqlDzCe2aXcF8KJw411TpqFydPpiW5G
- EdKj/ggER+9L4BiE=
-X-Received: by 2002:a5d:5643:: with SMTP id j3mr3770354wrw.43.1606397384463;
- Thu, 26 Nov 2020 05:29:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzyxXcf4o78aXwuc+ICrLb3o92rmqToa7QBzxR1DUOUiMpHlGZimRrL57c6m2mACa/gtqgf5A==
-X-Received: by 2002:a5d:5643:: with SMTP id j3mr3770329wrw.43.1606397384238;
- Thu, 26 Nov 2020 05:29:44 -0800 (PST)
-Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id c2sm9458857wrf.68.2020.11.26.05.29.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Nov 2020 05:29:43 -0800 (PST)
-Date: Thu, 26 Nov 2020 08:29:41 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Antoine Damhet <antoine.damhet@blade-group.com>
-Subject: Re: [DISCUSSION] Allow ACPI default OEM ID and OEM table ID fields
- to be set.
-Message-ID: <20201126082606-mutt-send-email-mst@kernel.org>
-References: <20201125132711.jqb7znxu5jpoanwi@tartarus>
- <20201125133251.GI30079@redhat.com>
- <20201125110221-mutt-send-email-mst@kernel.org>
- <20201125201322.urze5b7vwaa2t5sy@tartarus>
- <20201126051838-mutt-send-email-mst@kernel.org>
- <20201126125012.x6yzsou5rmlxagli@tartarus>
+ bh=UezNt4AGfc68oFctSl8QMqWNpgO5Qv9puyz+jTHtBZ4=;
+ b=JNJx3vMSujOfONeeWDrmdNeWi7QUr9C+PKLHn94VAJTJhKJrQisrJeg/EgwXuV8EGTUux4
+ NbkjqqJ0oqk3OTyCQL+Bf/fRi6GejuodYUyFjlp6bXl0ogf6nIYMAL/ScOz9t+CmxslRYy
+ gYgGSVUDO1DFMkz7QvKy46dfuRbYD8w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-Lh3dueHVO5Wty5kRk1nkMg-1; Thu, 26 Nov 2020 08:36:51 -0500
+X-MC-Unique: Lh3dueHVO5Wty5kRk1nkMg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EFDE803F69;
+ Thu, 26 Nov 2020 13:36:50 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C36D31C934;
+ Thu, 26 Nov 2020 13:36:46 +0000 (UTC)
+Date: Thu, 26 Nov 2020 08:36:45 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v2 2/6] accel: accel_available() function
+Message-ID: <20201126133645.GG2271382@habkost.net>
+References: <20201125205636.3305257-1-ehabkost@redhat.com>
+ <20201125205636.3305257-3-ehabkost@redhat.com>
+ <12f82771-9db9-8fcd-ea25-736428d2650a@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20201126125012.x6yzsou5rmlxagli@tartarus>
+In-Reply-To: <12f82771-9db9-8fcd-ea25-736428d2650a@suse.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -96,83 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, lersek@redhat.com,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 26, 2020 at 01:50:12PM +0100, Antoine Damhet wrote:
-> On Thu, Nov 26, 2020 at 06:09:11AM -0500, Michael S. Tsirkin wrote:
-> > On Wed, Nov 25, 2020 at 09:13:22PM +0100, Antoine Damhet wrote:
-> > > On Wed, Nov 25, 2020 at 11:04:55AM -0500, Michael S. Tsirkin wrote:
-> > > > On Wed, Nov 25, 2020 at 01:32:51PM +0000, Richard W.M. Jones wrote:
-> > > > > On Wed, Nov 25, 2020 at 02:27:11PM +0100, Antoine Damhet wrote:
+On Thu, Nov 26, 2020 at 10:14:31AM +0100, Claudio Fontana wrote:
+> Hi Eduardo,
 > 
-> [...]
-> 
-> > > 
-> > > I'm sorry I cannot give you the name of the crashing software due to a
-> > > company policy. But I can tell you that if either `BOCHS ` or `BXPC` is
-> > > present in any of the tables it will crash. Any (or at least the few
-> > > that I threw at it) other string will work so it seems it's some kind
-> > > of DRM-related hypervisor detection.
+> On 11/25/20 9:56 PM, Eduardo Habkost wrote:
+> > This function will be used to replace the xen_available() and
+> > kvm_available() functions from arch_init.c.
 > > 
-> > Hmm I'm not sure how far we want to go with this. If software vendors
-> > want to detect a hypervisor there will always be a way.
-> > How are we sure we are not starting an arms race here?
-> 
-> We can't but IMHO, as long as we stay within the specs we should be OK.
-> There are far more obvious checks like the `CPUID[0x1].ECX[31]` which
-> would destroy most of the PV features in a proprietary OS like Windows
-> if disabled.
->
-> Worst case scenario they would do timing-based detection and that would
-> be insane to defeat. As for the `Shadow` virtual machines we try to
-> "play" fair by exposing deterministic values (for example `Shadow` and
-> `Blade` are clearly exposed in SMBIOS) and don't hide the fact that we
-> are a virtual machine, so we are easy to ban if the vendor really wishes
-> to.
-> 
+> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > ---
+> > Cc: Richard Henderson <richard.henderson@linaro.org>
+> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Claudio Fontana <cfontana@suse.de>
+> > Cc: Roman Bolshakov <r.bolshakov@yadro.com>
+> > ---
+> >  include/sysemu/accel.h | 1 +
+> >  accel/accel.c          | 5 +++++
+> >  2 files changed, 6 insertions(+)
 > > 
-> > Also which of the IDs matter?  OEMID? OEM Table ID? Creator ID?
+> > diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
+> > index e08b8ab8fa..a4a00c75c8 100644
+> > --- a/include/sysemu/accel.h
+> > +++ b/include/sysemu/accel.h
+> > @@ -67,6 +67,7 @@ typedef struct AccelClass {
+> >      OBJECT_GET_CLASS(AccelClass, (obj), TYPE_ACCEL)
+> >  
+> >  AccelClass *accel_find(const char *opt_name);
+> > +bool accel_available(const char *name);
+> >  int accel_init_machine(AccelState *accel, MachineState *ms);
+> >  
+> >  /* Called just before os_setup_post (ie just before drop OS privs) */
+> > diff --git a/accel/accel.c b/accel/accel.c
+> > index cb555e3b06..4a64a2b38a 100644
+> > --- a/accel/accel.c
+> > +++ b/accel/accel.c
+> > @@ -46,6 +46,11 @@ AccelClass *accel_find(const char *opt_name)
+> >      return ac;
+> >  }
+> >  
+> > +bool accel_available(const char *name)
+> > +{
+> > +    return accel_find(name) != NULL;
 > 
-> I just checked for the Creator ID and it also crash, my guess is that
-> they dump the tables and look for `BOSH` and `BXPC` patterns anywhere.
 > 
-> PS: we reached-out to the software-vendor which did not acknowledge
->     banning VMs but added an entry to their FAQ saying that VMs were not
->     supported.
+> accel_find() in its implementation allocates and then frees memory to generate the string,
+> the user of accel_available() might be unaware and overuse leading to fragmentation/performance issues?
 
-Exactly so I ask myself whether it's worth it, their next version
-will check CPUID and then where are we?
-But maybe it's time we just changed all these IDs to e.g. QEMU.
-We are very far from bochs generated tables by now.
-Question is will this cause annoyances with e.g. windows guests?
-Igor what's your experience with this?
+Is that a real issue?  We had only 3 users of kvm_available() and
+xen_available() since those functions were added 10 years ago.
 
-> 
-> > 
-> > 
-> > > As for the uniqueness of the table IDs, I guess it would be sane to keep
-> > > the same pattern (id+table sig) but allowing the first 4 bytes to be
-> > > overridden.
-> > > 
-> > > [...]
-> > 
-> > It's certainly possible, it's just very specific to just this DRM scheme.
-> > Not sure what's a better way to do it:
-> >   qemu -acpidefault oem_id=ABCD,oem_table_id=EFGHIJKL
-> > is probably going too far since then table IDs are not unique.
-> > 
-> > Also I'd probably use machine properties for this, the need here
-> > is baroque enough that we don't want a dedicated option.
-> > 
-> > > 
-> > > -- 
-> > > Antoine 'xdbob' Damhet
-> > 
-> 
-> -- 
-> Antoine 'xdbob' Damhet
+Do you have any suggestions on what we should do?
+
+-- 
+Eduardo
 
 
