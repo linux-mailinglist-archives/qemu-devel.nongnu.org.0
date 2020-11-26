@@ -2,99 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368CB2C57EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 16:17:26 +0100 (CET)
-Received: from localhost ([::1]:52998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66712C57F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 16:21:25 +0100 (CET)
+Received: from localhost ([::1]:32824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiJ1R-0002Gj-AI
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 10:17:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46598)
+	id 1kiJ5I-0005bT-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 10:21:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiIzH-0000y0-81
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:15:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35183)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiIzF-0006wz-GK
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:15:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606403708;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tw8xyH7XERYWo9cRSvvsen1ftYY3Rz8G8SbJ+FpQOxs=;
- b=TqrYVuexfvGmPbJ/1Wz5QMM0PIt99TvEXhMgHS5piIDkqAKNe0N7zYLrxmerYYkbbOWBPQ
- 7uSORanbSXiAlPcJ8aV1ImxySeyfA0DbmHOKjBcrXpy0b9bLgTPvWwd5CILPDwpLjCcTrC
- sD61dnkDyNx3MoZ7EO01zJKVyANrqXY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-RU6fQk34PV2CM4sDUAAfOA-1; Thu, 26 Nov 2020 10:15:04 -0500
-X-MC-Unique: RU6fQk34PV2CM4sDUAAfOA-1
-Received: by mail-wr1-f69.google.com with SMTP id q11so1432761wrw.14
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 07:15:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tw8xyH7XERYWo9cRSvvsen1ftYY3Rz8G8SbJ+FpQOxs=;
- b=jhoH3wQLBZZp4OKLG5jg9voIJhYLBRFUqrFz4DMF4ftJzvdzY7eEwTm523e3JONlM+
- AhX09gbRsYFQGQfKFzC3c5Seqyw4k8BE/FgPTt4ps/LfTA9E3O7Lk26BMEWyxi8CEHCl
- oNSrwu7C2kz2wR7siH0mGHrILkLmVoxsWCVbqu/4iq3ZixvUIn0MuEBjgoiH7dF+xlox
- 84cFCKMTFePsR98EtnmGN0OwMqV/jhy/rX7KxT+eo4KOeidoxwPb/oQTsylwq2ayefel
- JCKoChbyTD+5TkDrWWih0ZvdernvO+Vn79I0E/DNCbNOrg6U3lOavN+CZUTMu6cL5mXH
- dxJQ==
-X-Gm-Message-State: AOAM533ZvEsHfLWUlYoPuYvCJTUFZgf5rgryI8WJkIxS39ibHfMD0QzB
- B3OwPVnNQ47yuUElepzDxDg7w4ref9xDeKtQWyYCGAEJTcMiJIQZ3JY0Wy8KTTWcLMiwLBeNPjt
- TFe6GDQN7mSFeqlI=
-X-Received: by 2002:a5d:4d86:: with SMTP id b6mr4488308wru.80.1606403703386;
- Thu, 26 Nov 2020 07:15:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzroVeerMarfM7JaNasnGIhweGZ3lKnRrxRaY9FDehEkgKdU2FjJfHV7JWRv/rvPu9jefqtew==
-X-Received: by 2002:a5d:4d86:: with SMTP id b6mr4488272wru.80.1606403703210;
- Thu, 26 Nov 2020 07:15:03 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c9sm8829970wrp.73.2020.11.26.07.15.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Nov 2020 07:15:02 -0800 (PST)
-Subject: Re: [RFC v5 11/12] i386: centralize initialization of cpu accel
- interfaces
-To: Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20201124162210.8796-1-cfontana@suse.de>
- <20201124162210.8796-12-cfontana@suse.de>
- <7dc27df6-1c81-f8fb-3e56-aa6ffe9e8475@redhat.com>
- <20201124213159.GA2271382@habkost.net>
- <1205be9d-d2f0-4533-68aa-608b16ad2181@suse.de>
- <20201126134425.GH2271382@habkost.net>
- <86ba92db-7b01-5644-7452-2fde753ddba6@suse.de>
- <20201126144959.GJ2271382@habkost.net>
- <16445790-3371-9775-3d03-f8c8f0d66b18@suse.de>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <772a0f85-555a-50ee-2b5e-35ff748a589b@redhat.com>
-Date: Thu, 26 Nov 2020 16:14:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kiJ2B-0003oU-76
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:18:11 -0500
+Received: from relay.sw.ru ([185.231.240.75]:49550 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kiJ28-000831-4f
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 10:18:10 -0500
+Received: from [192.168.15.178] (helo=andrey-MS-7B54.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kiJ1a-00AT4g-JY; Thu, 26 Nov 2020 18:17:34 +0300
+To: qemu-devel@nongnu.org
+Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: [PATCH v4 0/6] UFFD write-tracking migration/snapshots
+Date: Thu, 26 Nov 2020 18:17:28 +0300
+Message-Id: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <16445790-3371-9775-3d03-f8c8f0d66b18@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,47 +54,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Cameron Esfahani <dirty@apple.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Bruce Rogers <brogers@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, "Emilio G . Cota" <cota@braap.org>,
- haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Dario Faggioli <dfaggioli@suse.com>,
- Olaf Hering <ohering@suse.de>, Wenchao Wang <wenchao.wang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
-On 26/11/20 15:55, Claudio Fontana wrote:
-> If we agree to use "accel-cpu" I would lookup "kvm-accel-cpu"
-> if we agree to use "accel-x86_64" aka "accel-" CPU_RESOLVING_TYPE, I would lookup "kvm-accel-" CPU_RESOLVING_TYPE
-> 
-> * initialize the arch-specific accel CpuClass interfaces */
-> static void accel_init_cpu_interfaces(AccelClass *ac, const char *cpu_type)
-> {
->      const char *ac_name; /* AccelClass name */
->      char *acc_name;      /* AccelCPUClass name */
->      ObjectClass *acc;    /* AccelCPUClass */
-> 
->      ac_name = object_class_get_name(OBJECT_CLASS(ac));
->      g_assert(ac_name != NULL);
-> 
->      acc_name = g_strdup_printf("%s-cpu", ac_name);
->      acc = object_class_by_name(acc_name);
->      g_free(acc_name);
-> 
->      if (acc) {
->          object_class_foreach(accel_init_cpu_interfaces_aux, cpu_type, false, acc);
->      }
-> }
+This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
 
-I would use the second; there's no reason to have allow only one CPU 
-type, it's just a limitation of QEMU.
+Currently the only way to make (external) live VM snapshot is using existing
+dirty page logging migration mechanism. The main problem is that it tends to
+produce a lot of page duplicates while running VM goes on updating already
+saved pages. That leads to the fact that vmstate image size is commonly several
+times bigger then non-zero part of virtual machine's RSS. Time required to
+converge RAM migration and the size of snapshot image severely depend on the
+guest memory write rate, sometimes resulting in unacceptably long snapshot
+creation time and huge image size.
 
-Paolo
+This series propose a way to solve the aforementioned problems. This is done
+by using different RAM migration mechanism based on UFFD write protection
+management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+guest RAM content using write-protection and iteratively release protection
+for memory ranges that have already been saved to the migration stream.
+At the same time we read in pending UFFD write fault events and save those
+pages out-of-order with higher priority.
+
+How to use:
+1. Enable write-tracking migration capability
+   virsh qemu-monitor-command <domain> --hmp migrate_set_capability.
+track-writes-ram on
+
+2. Start the external migration to a file
+   virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
+
+3. Wait for the migration finish and check that the migration has completed.
+state.
+
+Changes v3->v4:
+
+* 1. Renamed migrate capability 'track-writes-ram'->'background-snapshot'.
+* 2. Use array of incompatible caps to replace bulky 'if' constructs.
+* 3. Moved UFFD low-level code to the separate module ('util/userfaultfd.c').
+* 4. Always do UFFD wr-unprotect on cleanup; just closing file descriptor
+*    won't cleanup PTEs anyhow, it will release registration ranges, wait 
+*    queues etc. but won't cleanup process MM context on MMU level.
+* 5. Allow to enable 'background-snapshot' capability on Linux-only hosts.
+* 6. Put UFFD code usage under '#ifdef CONFIG_LINUX' prerequisite.
+* 7. Removed 'wt_' from RAMState struct.
+* 8. Refactored ram_find_and_save_block() to make more clean - poll UFFD
+*    wr-fault events in get_queued_page(), use ram_save_host_page_pre(),
+*    ram_save_host_page_post() notifiers around ram_save_host_page()
+*    instead of bulky inline write-unprotect code.
+
+Andrey Gruzdev (6):
+  introduce 'background-snapshot' migration capability
+  introduce UFFD-WP low-level interface helpers
+  support UFFD write fault processing in ram_save_iterate()
+  implementation of background snapshot thread
+  the rest of write tracking migration code
+  introduce simple linear scan rate limiting mechanism
+
+ include/exec/memory.h      |   7 +
+ include/qemu/userfaultfd.h |  29 ++++
+ migration/migration.c      | 314 +++++++++++++++++++++++++++++++++-
+ migration/migration.h      |   4 +
+ migration/ram.c            | 334 ++++++++++++++++++++++++++++++++++++-
+ migration/ram.h            |   4 +
+ migration/savevm.c         |   1 -
+ migration/savevm.h         |   2 +
+ qapi/migration.json        |   7 +-
+ util/meson.build           |   1 +
+ util/userfaultfd.c         | 215 ++++++++++++++++++++++++
+ 11 files changed, 908 insertions(+), 10 deletions(-)
+ create mode 100644 include/qemu/userfaultfd.h
+ create mode 100644 util/userfaultfd.c
+
+-- 
+2.25.1
 
 
