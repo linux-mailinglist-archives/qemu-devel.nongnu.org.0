@@ -2,57 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266852C5D2F
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 21:49:03 +0100 (CET)
-Received: from localhost ([::1]:34550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39EA2C5D38
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 21:54:37 +0100 (CET)
+Received: from localhost ([::1]:38500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiOCL-0005Uc-NI
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 15:49:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52710)
+	id 1kiOHk-0007QQ-PN
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 15:54:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kiO9b-0004jl-3f
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 15:46:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49531)
+ id 1kiOGg-0006sp-P1
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 15:53:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kiO9X-0008Vm-JG
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 15:46:10 -0500
+ id 1kiOGd-0002Rl-9p
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 15:53:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606423564;
+ s=mimecast20190719; t=1606424005;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VVE0uErekEqch1dW/1SQxKrOzsyApht4Bpu7jr2hQNc=;
- b=SHrAOrPptU0xlmKvEVKEVwz0UJSPA+msbEDJlUyXVZiQSkqyF2N+HMtiLDn11cujva95hI
- mqOla7wGLxXOR4cNXKMC1HjQxpEnb/hNyyxNlZPCoFEeFvX4tpGYcQnp4pl7MHevyR+OGz
- uqtNIvo1uBdfATrqXY6CS4XcnoKus3A=
+ bh=S8RDdzDxt8XWWiv7Vu7THzbdVszw3IrpufBEE6mvCsM=;
+ b=K74Al5Iqss2sm0N0INwd0+w/4AICvloQFUlnfbQ2R2QMAMuQ5i4p2MAbeTFnscirWxD3ea
+ /HTCjI9tgoGcO3yjnaA7NRuAkxEHCSpu5JJs/kM2h8Bdib/qirl5hnvCvokpJ3W0u+6Bl8
+ g6eQ4Ps509aWP9W71p7ucIR3rw5591I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-dMmO9zOENd-AGkuzYzKyGA-1; Thu, 26 Nov 2020 15:46:02 -0500
-X-MC-Unique: dMmO9zOENd-AGkuzYzKyGA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-255-YolwOV_UNPqhvdJKTGfxPQ-1; Thu, 26 Nov 2020 15:53:21 -0500
+X-MC-Unique: YolwOV_UNPqhvdJKTGfxPQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 846CB18C8C04;
- Thu, 26 Nov 2020 20:46:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E4E41005D4D;
+ Thu, 26 Nov 2020 20:53:20 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EC0A60C05;
- Thu, 26 Nov 2020 20:45:59 +0000 (UTC)
-Date: Thu, 26 Nov 2020 21:45:57 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C74010023B6;
+ Thu, 26 Nov 2020 20:53:17 +0000 (UTC)
+Date: Thu, 26 Nov 2020 21:53:16 +0100
 From: Igor Mammedov <imammedo@redhat.com>
-To: Ankur Arora <ankur.a.arora@oracle.com>
-Subject: Re: [RFC] ich9:cpuhp: add support for cpu hot-unplug with SMI
- broadcast enabled
-Message-ID: <20201126214557.6dcb8c41@redhat.com>
-In-Reply-To: <20640581-e37d-8783-451c-22627aabb77f@oracle.com>
-References: <20201124122507.1014839-1-imammedo@redhat.com>
- <20640581-e37d-8783-451c-22627aabb77f@oracle.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH for-6.0 4/9] spapr: Set compat mode in spapr_reset_vcpu()
+Message-ID: <20201126215316.5b8f61b7@redhat.com>
+In-Reply-To: <20201126172320.4453fbd7@redhat.com>
+References: <20201120234208.683521-1-groug@kaod.org>
+ <20201120234208.683521-5-groug@kaod.org>
+ <20201123051130.GL521467@yekko.fritz.box>
+ <20201123125108.2118048e@bahia.lan>
+ <20201125023947.GE521467@yekko.fritz.box>
+ <20201125105105.05d25b1f@bahia.lan>
+ <20201126045737.GA152349@yekko.fritz.box>
+ <20201126101027.03f67ad5@bahia.lan>
+ <20201126172320.4453fbd7@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -67,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,250 +86,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lersek@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Nov 2020 02:24:27 -0800
-Ankur Arora <ankur.a.arora@oracle.com> wrote:
+On Thu, 26 Nov 2020 17:23:20 +0100
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-> On 2020-11-24 4:25 a.m., Igor Mammedov wrote:
-> > If firmware negotiates ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT feature,
-> > OSPM on CPU eject will set bit #4 in CPU hotplug block for to be
-> > ejected CPU to mark it for removal by firmware and trigger SMI
-> > upcall to let firmware do actual eject.
+> On Thu, 26 Nov 2020 10:10:27 +0100
+> Greg Kurz <groug@kaod.org> wrote:
+> 
+> > On Thu, 26 Nov 2020 15:57:37 +1100
+> > David Gibson <david@gibson.dropbear.id.au> wrote:
+> >   
+> > > On Wed, Nov 25, 2020 at 10:51:05AM +0100, Greg Kurz wrote:    
+> > > > On Wed, 25 Nov 2020 13:39:47 +1100
+> > > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > > >     
+> > > > > On Mon, Nov 23, 2020 at 12:51:08PM +0100, Greg Kurz wrote:    
+> > > > > > On Mon, 23 Nov 2020 16:11:30 +1100
+> > > > > > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > > > > >     
+> > > > > > > On Sat, Nov 21, 2020 at 12:42:03AM +0100, Greg Kurz wrote:    
+> > > > > > > > When it comes to resetting the compat mode of the vCPUS, there are
+> > > > > > > > two situations to consider:
+> > > > > > > > (1) machine reset should set the compat mode back to the machine default,
+> > > > > > > >     ie. spapr->max_compat_pvr
+> > > > > > > > (2) hot plugged vCPUs should set their compat mode to mach the boot vCPU,
+> > > > > > > >     ie. POWERPC_CPU(first_cpu)->compat_pvr
+> > > > > > > > 
+> > > > > > > > This is currently handled in two separate places: globally for all vCPUs
+> > > > > > > > from the machine reset code for (1) and for each thread of a core from
+> > > > > > > > the hotplug path for (2).
+> > > > > > > > 
+> > > > > > > > Since the machine reset code already resets all vCPUs, starting with boot
+> > > > > > > > vCPU, consolidate the logic in spapr_reset_vcpu(). Special case the boot
+> > > > > > > > vCPU so that it resets its compat mode back to the machine default. Any
+> > > > > > > > other vCPU just need to match the compat mode of the boot vCPU.
+> > > > > > > > 
+> > > > > > > > Failing to set the compat mode during machine reset is a fatal error,
+> > > > > > > > but not for hot plugged vCPUs. This is arguable because if we've been
+> > > > > > > > able to set the boot vCPU compat mode at CAS or during machine reset,
+> > > > > > > > it should definitely not fail for other vCPUs. Since spapr_reset_vcpu()
+> > > > > > > > already has a fatal error path for kvm_check_mmu() failures, do the
+> > > > > > > > same for ppc_set_compat().
+> > > > > > > > 
+> > > > > > > > This gets rid of an error path in spapr_core_plug(). It will allow
+> > > > > > > > further simplifications.
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > > > > > > > ---
+> > > > > > > >  hw/ppc/spapr.c          | 16 ----------------
+> > > > > > > >  hw/ppc/spapr_cpu_core.c | 13 +++++++++++++
+> > > > > > > >  2 files changed, 13 insertions(+), 16 deletions(-)
+> > > > > > > > 
+> > > > > > > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > > > > > > > index f58f77389e8e..da7586f548df 100644
+> > > > > > > > --- a/hw/ppc/spapr.c
+> > > > > > > > +++ b/hw/ppc/spapr.c
+> > > > > > > > @@ -1606,8 +1606,6 @@ static void spapr_machine_reset(MachineState *machine)
+> > > > > > > >      spapr_ovec_cleanup(spapr->ov5_cas);
+> > > > > > > >      spapr->ov5_cas = spapr_ovec_new();
+> > > > > > > >  
+> > > > > > > > -    ppc_set_compat_all(spapr->max_compat_pvr, &error_fatal);
+> > > > > > > > -
+> > > > > > > >      /*
+> > > > > > > >       * This is fixing some of the default configuration of the XIVE
+> > > > > > > >       * devices. To be called after the reset of the machine devices.
+> > > > > > > > @@ -3785,20 +3783,6 @@ static void spapr_core_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+> > > > > > > >  
+> > > > > > > >      core_slot->cpu = OBJECT(dev);
+> > > > > > > >  
+> > > > > > > > -    /*
+> > > > > > > > -     * Set compatibility mode to match the boot CPU, which was either set
+> > > > > > > > -     * by the machine reset code or by CAS.
+> > > > > > > > -     */
+> > > > > > > > -    if (hotplugged) {
+> > > > > > > > -        for (i = 0; i < cc->nr_threads; i++) {
+> > > > > > > > -            if (ppc_set_compat(core->threads[i],
+> > > > > > > > -                               POWERPC_CPU(first_cpu)->compat_pvr,
+> > > > > > > > -                               errp) < 0) {
+> > > > > > > > -                return;
+> > > > > > > > -            }
+> > > > > > > > -        }
+> > > > > > > > -    }
+> > > > > > > > -
+> > > > > > > >      if (smc->pre_2_10_has_unused_icps) {
+> > > > > > > >          for (i = 0; i < cc->nr_threads; i++) {
+> > > > > > > >              cs = CPU(core->threads[i]);
+> > > > > > > > diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> > > > > > > > index 2f7dc3c23ded..17741a3fb77f 100644
+> > > > > > > > --- a/hw/ppc/spapr_cpu_core.c
+> > > > > > > > +++ b/hw/ppc/spapr_cpu_core.c
+> > > > > > > > @@ -27,6 +27,7 @@
+> > > > > > > >  
+> > > > > > > >  static void spapr_reset_vcpu(PowerPCCPU *cpu)
+> > > > > > > >  {
+> > > > > > > > +    PowerPCCPU *first_ppc_cpu = POWERPC_CPU(first_cpu);
+> > > > > > > >      CPUState *cs = CPU(cpu);
+> > > > > > > >      CPUPPCState *env = &cpu->env;
+> > > > > > > >      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+> > > > > > > > @@ -69,6 +70,18 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+> > > > > > > >      kvm_check_mmu(cpu, &error_fatal);
+> > > > > > > >  
+> > > > > > > >      spapr_irq_cpu_intc_reset(spapr, cpu);
+> > > > > > > > +
+> > > > > > > > +    /*
+> > > > > > > > +     * The boot CPU is only reset during machine reset : reset its
+> > > > > > > > +     * compatibility mode to the machine default. For other CPUs,
+> > > > > > > > +     * either cold plugged or hot plugged, set the compatibility mode
+> > > > > > > > +     * to match the boot CPU, which was either set by the machine reset
+> > > > > > > > +     * code or by CAS.
+> > > > > > > > +     */
+> > > > > > > > +    ppc_set_compat(cpu,
+> > > > > > > > +                   cpu == first_ppc_cpu ?
+> > > > > > > > +                   spapr->max_compat_pvr : first_ppc_cpu->compat_pvr,
+> > > > > > > > +                   &error_fatal);    
+> > > > > > > 
+> > > > > > > This assumes that when it is called for a non-boot CPU, it has already
+> > > > > > > been called for the boot CPU..  Are we certain that's guaranteed by
+> > > > > > > the sequence of reset calls during a full machine reset?
+> > > > > > >     
+> > > > > > 
+> > > > > > This happens to be the case. Basically because the boot CPU core
+> > > > > > is created (including registering its reset handler) first and
+> > > > > > qemu_devices_reset() calls handlers in the same order they were
+> > > > > > registered.    
+> > > > > 
+> > > > > Right, I assumed it works for now, but it seems rather fragile, since
+> > > > > I'm not sure we're relying on guaranteed properties of the interface.    
+> > > > 
+> > > > The reset handler interface is absolutely undocumented, so I guess we
+> > > > have no formal guarantees at the present time. But since the current
+> > > > implementation has the property, would it be acceptable to carve it
+> > > > in stone with added documentation ? In the event of unlikely changes
+> > > > to the reset handler logic, people would _just_ need to make sure
+> > > > handlers are called in the same order they were registered.    
+> > > 
+> > > Yeah, maybe.
+> > > 
+> > > One other thing occurs to me: will we still do things in the right
+> > > order if the (initial) boot cpu is hot unplugged, then replugged
+> > > before a reset?
+> > >     
 > > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> > PS:
-> >    - abuse 5.1 machine type for now to turn off unplug feature
-> >      (it will be moved to 5.2 machine type once new merge window is open)
-> > ---
-> >   include/hw/acpi/cpu.h           |  2 ++
-> >   docs/specs/acpi_cpu_hotplug.txt | 11 +++++++++--
-> >   hw/acpi/cpu.c                   | 18 ++++++++++++++++--
-> >   hw/i386/acpi-build.c            |  5 +++++
-> >   hw/i386/pc.c                    |  1 +
-> >   hw/isa/lpc_ich9.c               |  2 +-
-> >   6 files changed, 34 insertions(+), 5 deletions(-)
+> > This can't happen AFAICT.
 > > 
-> > diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
-> > index 0eeedaa491..999caaf510 100644
-> > --- a/include/hw/acpi/cpu.h
-> > +++ b/include/hw/acpi/cpu.h
-> > @@ -22,6 +22,7 @@ typedef struct AcpiCpuStatus {
-> >       uint64_t arch_id;
-> >       bool is_inserting;
-> >       bool is_removing;
-> > +    bool fw_remove;
-> >       uint32_t ost_event;
-> >       uint32_t ost_status;
-> >   } AcpiCpuStatus;
-> > @@ -50,6 +51,7 @@ void cpu_hotplug_hw_init(MemoryRegion *as, Object *owner,
-> >   typedef struct CPUHotplugFeatures {
-> >       bool acpi_1_compatible;
-> >       bool has_legacy_cphp;
-> > +    bool fw_unplugs_cpu;
-> >       const char *smi_path;
-> >   } CPUHotplugFeatures;
-> >   
-> > diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
-> > index 9bb22d1270..f68ef6e06c 100644
-> > --- a/docs/specs/acpi_cpu_hotplug.txt
-> > +++ b/docs/specs/acpi_cpu_hotplug.txt
-> > @@ -57,7 +57,11 @@ read access:
-> >                 It's valid only when bit 0 is set.
-> >              2: Device remove event, used to distinguish device for which
-> >                 no device eject request to OSPM was issued.
-> > -           3-7: reserved and should be ignored by OSPM
-> > +           3: reserved and should be ignored by OSPM
-> > +           4: if set to 1, OSPM requests firmware to perform device eject,
-> > +              firmware shall clear this event by writing 1 into it before
-> > +              performing device eject> +           5-7: reserved and should be ignored by OSPM
-> >       [0x5-0x7] reserved
-> >       [0x8] Command data: (DWORD access)
-> >             contains 0 unless value last stored in 'Command field' is one of:
-> > @@ -82,7 +86,10 @@ write access:
-> >                  selected CPU device
-> >               3: if set to 1 initiates device eject, set by OSPM when it
-> >                  triggers CPU device removal and calls _EJ0 method
-> > -            4-7: reserved, OSPM must clear them before writing to register
-> > +            4: if set to 1 OSPM hands over device eject to firmware,
-> > +               Firmware shall issue device eject request as described above
-> > +               (bit #3) and OSPM should not touch device eject bit (#3),
-> > +            5-7: reserved, OSPM must clear them before writing to register
-> >       [0x5] Command field: (1 byte access)
-> >             value:
-> >               0: selects a CPU device with inserting/removing events and
-> > diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-> > index f099b50927..09d2f20dae 100644
-> > --- a/hw/acpi/cpu.c
-> > +++ b/hw/acpi/cpu.c
-> > @@ -71,6 +71,7 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr addr, unsigned size)
-> >           val |= cdev->cpu ? 1 : 0;
-> >           val |= cdev->is_inserting ? 2 : 0;
-> >           val |= cdev->is_removing  ? 4 : 0;
-> > +        val |= cdev->fw_remove  ? 16 : 0;  
+> > (qemu) qom-get /machine/unattached/device[1] core-id
+> > 0
+> > (qemu) device_del /machine/unattached/device[1]
+> > Error: Boot CPU core may not be unplugged
+> > 
+> > commit 62be8b044adf47327ebefdefb25f28a40316ebd0
+> > Author: Bharata B Rao <bharata@linux.vnet.ibm.com>
+> > Date:   Wed Jul 27 10:44:42 2016 +0530
+> > 
+> >     spapr: Prevent boot CPU core removal
+> > 
+> > 
+> > So yes, this adds yet another road block on the way to support hot
+> > unplug of the boot CPU. Is this a concern ?
+> > 
+> > If we go forward with this patch, maybe I should mention in the
+> > changelog/documentation the various assumptions which this patch
+> > is made under:
+> > - reset handlers are called in the same order they were registered
+> > - boot CPU registers its reset handler before other CPUs
+> > - boot CPU cannot be hot unplugged
+> > 
+> > These guarantee that the boot core is always reset before other
+> > cores during reset.  
+> it might work for now but it seems fragile to me.
 > 
-> I might be missing something but I don't see where cdev->fw_remove is being
-> set. We do set cdev->is_removing in acpi_cpu_unplug_request_cb() so AFAICS
-> we would always end up setting this bit:
-> >           val |= cdev->is_removing  ? 4 : 0;  
+> What if we  make compat mode a property and move setting it to machine code,
+> more precisely treat it like any other cpu feature property.
+>   
+>  if(need_compat_more)
+>     register_global_property(compat_mode)
 > 
-> Also, if cdev->fw_remove and cdev->is_removing are both true, val would be
-> (4 | 16). I'm guessing that in that case the AML determines which case gets
-> handled but it might make sense to set just one of these?
+> that way when any cpu is created it will have this property set
+> and it won't depend on the order CPUs are created/reset
 
-cdev->fw_remove is set by AML when OSPM thinks it's ready to remove the CPU,
-see "aml_append(method, aml_store(one, fw_ej_evt));" in this patch.
-
-cdev->is_removing is set by QEMU's device_del command, and processed by AML
-(which includes it being cleared before OSPM calls EJ0), it only serves
-as flag for generating eject notification to OSPM.
+Ah it's more complicated, ignore this nonsense pls.
 
 > 
-> 
-> >           trace_cpuhp_acpi_read_flags(cpu_st->selector, val);
-> >           break;
-> >       case ACPI_CPU_CMD_DATA_OFFSET_RW:
-> > @@ -148,6 +149,8 @@ static void cpu_hotplug_wr(void *opaque, hwaddr addr, uint64_t data,
-> >               hotplug_ctrl = qdev_get_hotplug_handler(dev);
-> >               hotplug_handler_unplug(hotplug_ctrl, dev, NULL);
-> >               object_unparent(OBJECT(dev));
-> > +        } else if (data & 16) {
-> > +            cdev->fw_remove = !cdev->fw_remove;
-> >           }
-> >           break;
-> >       case ACPI_CPU_CMD_OFFSET_WR:
-> > @@ -332,6 +335,7 @@ const VMStateDescription vmstate_cpu_hotplug = {
-> >   #define CPU_INSERT_EVENT  "CINS"
-> >   #define CPU_REMOVE_EVENT  "CRMV"
-> >   #define CPU_EJECT_EVENT   "CEJ0"
-> > +#define CPU_FW_EJECT_EVENT "CEJF"
 > >   
-> >   void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-> >                       hwaddr io_base,
-> > @@ -384,7 +388,10 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-> >           aml_append(field, aml_named_field(CPU_REMOVE_EVENT, 1));
-> >           /* initiates device eject, write only */
-> >           aml_append(field, aml_named_field(CPU_EJECT_EVENT, 1));
-> > -        aml_append(field, aml_reserved_field(4));
-> > +        aml_append(field, aml_reserved_field(1));
-> > +        /* tell firmware to do device eject, write only */
-> > +        aml_append(field, aml_named_field(CPU_FW_EJECT_EVENT, 1));
-> > +        aml_append(field, aml_reserved_field(2));
-> >           aml_append(field, aml_named_field(CPU_COMMAND, 8));
-> >           aml_append(cpu_ctrl_dev, field);
-> >   
-> > @@ -419,6 +426,7 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-> >           Aml *ins_evt = aml_name("%s.%s", cphp_res_path, CPU_INSERT_EVENT);
-> >           Aml *rm_evt = aml_name("%s.%s", cphp_res_path, CPU_REMOVE_EVENT);
-> >           Aml *ej_evt = aml_name("%s.%s", cphp_res_path, CPU_EJECT_EVENT);
-> > +        Aml *fw_ej_evt = aml_name("%s.%s", cphp_res_path, CPU_FW_EJECT_EVENT);
-> >   
-> >           aml_append(cpus_dev, aml_name_decl("_HID", aml_string("ACPI0010")));
-> >           aml_append(cpus_dev, aml_name_decl("_CID", aml_eisaid("PNP0A05")));
-> > @@ -461,7 +469,13 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-> >   
-> >               aml_append(method, aml_acquire(ctrl_lock, 0xFFFF));
-> >               aml_append(method, aml_store(idx, cpu_selector));
-> > -            aml_append(method, aml_store(one, ej_evt));
-> > +            if (opts.fw_unplugs_cpu) {
-> > +                aml_append(method, aml_store(one, fw_ej_evt));
-> > +                aml_append(method, aml_store(aml_int(OVMF_CPUHP_SMI_CMD),
-> > +                           aml_name("%s", opts.smi_path)));
-> > +            } else {
-> > +                aml_append(method, aml_store(one, ej_evt));
-> > +            }  
-> My knowledge of AML is rather rudimentary but this looks mostly reasonable to me.
-> 
-> One question: the corresponding code for CPU hotplug does not send an SMI_CMD.
-> Why the difference?
-SMI for hotplug is sent during CSCN time before OSPM gets notification about new CPU[s]
-it's a block below 'in case FW negotiated ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT,' comment.
-
-> 
->                      aml_append(while_ctx,
->                          aml_store(aml_derefof(aml_index(new_cpus, cpu_idx)),
->                                    uid));
->                      aml_append(while_ctx,
->                          aml_call2(CPU_NOTIFY_METHOD, uid, dev_chk));
->                      aml_append(while_ctx, aml_store(uid, cpu_selector));
->                      aml_append(while_ctx, aml_store(one, ins_evt));
->                      aml_append(while_ctx, aml_increment(cpu_idx));
-> 
-> 
-> >               aml_append(method, aml_release(ctrl_lock));
-> >           }
-> >           aml_append(cpus_dev, method);
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 1f5c211245..475e76f514 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -96,6 +96,7 @@ typedef struct AcpiPmInfo {
-> >       bool s4_disabled;
-> >       bool pcihp_bridge_en;
-> >       bool smi_on_cpuhp;
-> > +    bool smi_on_cpu_unplug;
-> >       bool pcihp_root_en;
-> >       uint8_t s4_val;
-> >       AcpiFadtData fadt;
-> > @@ -197,6 +198,7 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-> >       pm->pcihp_io_base = 0;
-> >       pm->pcihp_io_len = 0;
-> >       pm->smi_on_cpuhp = false;
-> > +    pm->smi_on_cpu_unplug = false;
-> >   
-> >       assert(obj);
-> >       init_common_fadt_data(machine, obj, &pm->fadt);
-> > @@ -220,6 +222,8 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
-> >           pm->cpu_hp_io_base = ICH9_CPU_HOTPLUG_IO_BASE;
-> >           pm->smi_on_cpuhp =
-> >               !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT));
-> > +        pm->smi_on_cpu_unplug =
-> > +            !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT));
-> >       }
-> >   
-> >       /* The above need not be conditional on machine type because the reset port
-> > @@ -1582,6 +1586,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >           CPUHotplugFeatures opts = {
-> >               .acpi_1_compatible = true, .has_legacy_cphp = true,
-> >               .smi_path = pm->smi_on_cpuhp ? "\\_SB.PCI0.SMI0.SMIC" : NULL,
-> > +            .fw_unplugs_cpu = pm->smi_on_cpu_unplug,
-> >           };
-> >           build_cpus_aml(dsdt, machine, opts, pm->cpu_hp_io_base,
-> >                          "\\_SB.PCI0", "\\_GPE._E02");
-> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > index 17b514d1da..2952a00fe6 100644
-> > --- a/hw/i386/pc.c
-> > +++ b/hw/i386/pc.c
-> > @@ -99,6 +99,7 @@
-> >   
-> >   GlobalProperty pc_compat_5_1[] = {
-> >       { "ICH9-LPC", "x-smi-cpu-hotplug", "off" },
-> > +    { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
-> >   };
-> >   const size_t pc_compat_5_1_len = G_N_ELEMENTS(pc_compat_5_1);
-> >   
-> > diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-> > index 087a18d04d..8c667b7166 100644
-> > --- a/hw/isa/lpc_ich9.c
-> > +++ b/hw/isa/lpc_ich9.c
-> > @@ -770,7 +770,7 @@ static Property ich9_lpc_properties[] = {
-> >       DEFINE_PROP_BIT64("x-smi-cpu-hotplug", ICH9LPCState, smi_host_features,
-> >                         ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT, true),
-> >       DEFINE_PROP_BIT64("x-smi-cpu-hotunplug", ICH9LPCState, smi_host_features,
-> > -                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, false),
-> > +                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, true),
-> >       DEFINE_PROP_END_OF_LIST(),
-> >   };
-> >   
+> > > > > Is there any way we could at least assert() if things are called out
+> > > > > of order?
+> > > > >     
+> > > > 
+> > > > Maybe. I'll look into it.
+> > > >     
+> > > > > >     
+> > > > > > > >  }
+> > > > > > > >  
+> > > > > > > >  void spapr_cpu_set_entry_state(PowerPCCPU *cpu, target_ulong nip,    
+> > > > > > >     
+> > > > > >     
+> > > > > 
+> > > > > 
+> > > > >     
+> > > >     
+> > > 
+> > > 
+> > >     
 > >   
 > 
-> Thanks for sending out the patch btw. This helped me crystallize some of the
-> corresponding OVMF code.
-> 
-> Ankur
 > 
 
 
