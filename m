@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9222C537A
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:01:10 +0100 (CET)
-Received: from localhost ([::1]:59318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800EF2C5379
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 13:01:05 +0100 (CET)
+Received: from localhost ([::1]:58806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiFxV-0004KT-KI
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:01:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46274)
+	id 1kiFxQ-00045T-H4
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 07:01:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kiFuS-0002aY-UE
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:58:00 -0500
-Resent-Date: Thu, 26 Nov 2020 06:58:00 -0500
-Resent-Message-Id: <E1kiFuS-0002aY-UE@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21369)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kiFuO-0007N9-Nh
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:58:00 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1606391867; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=bx40fqCLQnsvCg44hv+buAHx5R4Z79aofRmtC/PFKcTSnQlqin98vXkJqI8kI+IeI3GFA/0jwSCgu1b9ObYtn8vE7vqvKjD17sHvDT/UG/TThDz3uppzeMWUA2ExdgCf4534X5IRUmS+o8qoFUk3sQuOMAnCWBlZ2A4abNiwdh8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1606391867;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=1knA5SJpavFRjSYEUwwf09+50vdTuD5scngoXS9gNOc=; 
- b=nR5Q/yL714Q99zcWxQB9Rpi5BbcIRWqVAnN1GrweFvHX1NlXGsh/qClTPl3qSAE6skTuiJBFIVRHIftfJdhtA0ImTzVZ2LpVoOUbU7TGr6MoEzgKr+DZPm7qCOoVQ420aaPWkXOkB9kF7l079eFZf8Xk0dWGzl8afD1XHbsRx7c=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1606391866692723.8758033213215;
- Thu, 26 Nov 2020 03:57:46 -0800 (PST)
-In-Reply-To: <20201126112915.525285-1-marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v2 00/13] Remove GCC < 4.8 checks
-Message-ID: <160639186420.26255.11641627304273884415@9aeb27d8af94>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kiFuq-0002m0-FF
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:58:25 -0500
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:43986)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kiFum-0007VR-CD
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 06:58:22 -0500
+Received: by mail-ed1-x543.google.com with SMTP id q16so1974001edv.10
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 03:58:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bYGLgJvG69plBr3zz2pPsGl3BdIiKOtz8cM4ws3I1kg=;
+ b=Y+rNxJVfv0Sxl/Nh3qrH4X5WsC/YNFfoEExZDEjlrdXIEURiRS18w+vKdeJm16lnZ7
+ bvKIKK5qLQo1YPAqXdUgekeSCW+mjaJqVGK8zBuDzBw0l1wwHHAUurGeOIwwCTDKfAkI
+ PTU0nt7IiLNUyXwwtuvBGBWsKn2MWuNT8nF0VMH5K3+Jns+9au+eD3Tx/4m4P03/F+0h
+ WCV/e1wIRQku2i4Y44DAAlncTQD1fR1d0q4aO7yYqMHnfGlayHHC/9PHsHBqOzdU0+j+
+ QZ2cf3FX+/Z1sDU3SJ732FWWhd3yX5GTmhuryJ1pZUYtEfnuykesjAV59blTlXDw+kbx
+ l50A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bYGLgJvG69plBr3zz2pPsGl3BdIiKOtz8cM4ws3I1kg=;
+ b=GKYOkqvmDZqq9Orfgmi282MDRHGyjpp3vKulK07Q1ceIgh/Us7a5TdPossdumERhG7
+ U3iA/FtlDLEOhLyu9zcrvUEkb5tdZNwe+RyXMypctYwd0+TD3mYR8Z902xgU4BRR+Oy4
+ 6UBIhLTfZ3GWAdGuSVGO/prV0tSrtlRqNMEctQnAhAnevSKPgfs+7vS7ZMix3YPQwzQ3
+ zZxBp+HCAMy5a2U049lMX7/7q2kC1Q5pVbvxMSRovyxojkgghRUH5lyR17cYImJpmogL
+ BkBZ4Zjh2zh19FeHosf+X7uEsuFujWLml+S0fJEpHcTgD+N+dwl2AoeJfpX5BFJn2i+N
+ 8s0Q==
+X-Gm-Message-State: AOAM530QXcu/04zX9PYtnEbJNaJWY36FCzURH7OMaGRTIktynGR5o3uI
+ smLZraIucwkmG6nKzNKHIBUgHbDyMHcBD8PF57S5gw==
+X-Google-Smtp-Source: ABdhPJzJoBSRz8eQIkOj5Ix46FIZPpFId1OvUKOpch9xjttNjchulIZfgIOZx8e1ZBK24CK3fQHUbWn9MIAzIDChVjc=
+X-Received: by 2002:a05:6402:b35:: with SMTP id
+ bo21mr2174161edb.52.1606391898308; 
+ Thu, 26 Nov 2020 03:58:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: marcandre.lureau@redhat.com
-Date: Thu, 26 Nov 2020 03:57:46 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
+ <20201126112915.525285-7-marcandre.lureau@redhat.com>
+In-Reply-To: <20201126112915.525285-7-marcandre.lureau@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Nov 2020 11:58:07 +0000
+Message-ID: <CAFEAcA_vCVbMTPsOosFfTt0eoTvdm0KKz2gh0u1AEOrifqJTWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 06/13] tests: remove GCC < 4 fallbacks
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,96 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, philmd@redhat.com, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTEyNjExMjkxNS41MjUy
-ODUtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTEyNjEx
-MjkxNS41MjUyODUtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENI
-IHYyIDAwLzEzXSBSZW1vdmUgR0NDIDwgNC44IGNoZWNrcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
-ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0g
-W3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIwMTEyNTE4NTU1MS4yMDQ3NS0xLWJlcnRvQGln
-YWxpYS5jb20gLT4gcGF0Y2hldy8yMDIwMTEyNTE4NTU1MS4yMDQ3NS0xLWJlcnRvQGlnYWxpYS5j
-b20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTEyNjExMjkxNS41MjUyODUtMS1t
-YXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIwMTEyNjExMjkxNS41MjUy
-ODUtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNo
-ICd0ZXN0Jwo3N2FiNGM2IGxpbnV4LXVzZXI6IHJlbW92ZSBHTlVDIGNoZWNrCmY3NmEwYjkgY29t
-cGlsZXI6IHJlbW92ZSBHTlVDIGNoZWNrCmJlZWFkYjEgeGVuOiByZW1vdmUgR05VQyBjaGVjawo0
-MDVlOTlmIHBvaXNvbjogcmVtb3ZlIEdOVUMgY2hlY2sKZTVjNmQ5OCBhdWRpbzogcmVtb3ZlIEdO
-VUMgJiBNU1ZDIGNoZWNrCjI2NzhiNjMgY29tcGlsZXIuaDogZXhwbGljaXQgY2FzZSBmb3IgQ2xh
-bmcgcHJpbnRmIGF0dHJpYnV0ZQo0N2UxYzVlIHZpcnRpb2ZzZDogcmVwbGFjZSBfU3RhdGljX2Fz
-c2VydCB3aXRoIFFFTVVfQlVJTERfQlVHX09OCjVlMTVjNGQgdGVzdHM6IHJlbW92ZSBHQ0MgPCA0
-IGZhbGxiYWNrcwphMmZmNmU4IHFlbXUtcGx1Z2luLmg6IHJlbW92ZSBHQ0MgPCA0CmYwZWViZWIg
-Y29tcGlsZXIuaDogcmVtb3ZlIEdDQyA8IDMgX19idWlsdGluX2V4cGVjdCBmYWxsYmFjawpiMTU3
-ZTlmIGFjY2VsL3RjZzogUmVtb3ZlIHNwZWNpYWwgY2FzZSBmb3IgR0NDIDwgNC42CjkzZWRkMjYg
-cWVtdS9hdG9taWM6IERyb3Agc3BlY2lhbCBjYXNlIGZvciB1bnN1cHBvcnRlZCBjb21waWxlcgpi
-NWM0MDYxIGNvbXBpbGVyLmg6IHJlcGxhY2UgUUVNVV9HTlVDX1BSRVJFUSBtYWNybwoKPT09IE9V
-VFBVVCBCRUdJTiA9PT0KMS8xMyBDaGVja2luZyBjb21taXQgYjVjNDA2MTc4NWVjIChjb21waWxl
-ci5oOiByZXBsYWNlIFFFTVVfR05VQ19QUkVSRVEgbWFjcm8pCldBUk5JTkc6IGFyY2hpdGVjdHVy
-ZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiMyNTogRklMRTogYWNjZWwvdGNn
-L2NwdS1leGVjLmM6NzI3OgorI2lmIGRlZmluZWQoX19jbGFuZ19fKSB8fCAhR19HTlVDX0NIRUNL
-X1ZFUlNJT04oNCwgNikKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgNTQgbGluZXMgY2hl
-Y2tlZAoKUGF0Y2ggMS8xMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBh
-bnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhl
-IG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyLzEzIENoZWNraW5n
-IGNvbW1pdCA5M2VkZDI2Y2Q4M2EgKHFlbXUvYXRvbWljOiBEcm9wIHNwZWNpYWwgY2FzZSBmb3Ig
-dW5zdXBwb3J0ZWQgY29tcGlsZXIpCjMvMTMgQ2hlY2tpbmcgY29tbWl0IGIxNTdlOWYxZjJkZiAo
-YWNjZWwvdGNnOiBSZW1vdmUgc3BlY2lhbCBjYXNlIGZvciBHQ0MgPCA0LjYpCldBUk5JTkc6IGFy
-Y2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiMzMDogRklMRTog
-YWNjZWwvdGNnL2NwdS1leGVjLmM6NzI3OgorI2lmIGRlZmluZWQoX19jbGFuZ19fKQoKdG90YWw6
-IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA4IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvMTMgaGFzIHN0
-eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUg
-ZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQ
-QVRDSCBpbiBNQUlOVEFJTkVSUy4KNC8xMyBDaGVja2luZyBjb21taXQgZjBlZWJlYmViYjNiIChj
-b21waWxlci5oOiByZW1vdmUgR0NDIDwgMyBfX2J1aWx0aW5fZXhwZWN0IGZhbGxiYWNrKQo1LzEz
-IENoZWNraW5nIGNvbW1pdCBhMmZmNmU4Y2EzZDUgKHFlbXUtcGx1Z2luLmg6IHJlbW92ZSBHQ0Mg
-PCA0KQo2LzEzIENoZWNraW5nIGNvbW1pdCA1ZTE1YzRkMDAyZGQgKHRlc3RzOiByZW1vdmUgR0ND
-IDwgNCBmYWxsYmFja3MpCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24g
-bmFtZSBhbmQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzI4OiBGSUxFOiB0ZXN0cy90Y2cvYXJtL2Zj
-dnQuYzo3NjoKKyMgZGVmaW5lIFNOQU5GIChfX2J1aWx0aW5fbmFuc2YgKCIiKSkKCkVSUk9SOiBz
-cGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgb3BlbiBwYXJlbnRoZXNp
-cyAnKCcKIzI5OiBGSUxFOiB0ZXN0cy90Y2cvYXJtL2ZjdnQuYzo3NzoKKyMgZGVmaW5lIFNOQU4g
-KF9fYnVpbHRpbl9uYW5zICgiIikpCgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZXR3ZWVuIGZ1
-bmN0aW9uIG5hbWUgYW5kIG9wZW4gcGFyZW50aGVzaXMgJygnCiMzMDogRklMRTogdGVzdHMvdGNn
-L2FybS9mY3Z0LmM6Nzg6CisjIGRlZmluZSBTTkFOTCAoX19idWlsdGluX25hbnNsICgiIikpCgp0
-b3RhbDogMyBlcnJvcnMsIDAgd2FybmluZ3MsIDE0IGxpbmVzIGNoZWNrZWQKClBhdGNoIDYvMTMg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjcvMTMgQ2hlY2tpbmcgY29tbWl0IDQ3ZTFjNWUw
-MzE5YSAodmlydGlvZnNkOiByZXBsYWNlIF9TdGF0aWNfYXNzZXJ0IHdpdGggUUVNVV9CVUlMRF9C
-VUdfT04pCjgvMTMgQ2hlY2tpbmcgY29tbWl0IDI2NzhiNjM5ZjQ5MCAoY29tcGlsZXIuaDogZXhw
-bGljaXQgY2FzZSBmb3IgQ2xhbmcgcHJpbnRmIGF0dHJpYnV0ZSkKV0FSTklORzogYXJjaGl0ZWN0
-dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzM3OiBGSUxFOiBpbmNsdWRl
-L3FlbXUvY29tcGlsZXIuaDo5MzoKKyNpZiBkZWZpbmVkKF9fY2xhbmdfXykKCldBUk5JTkc6IEJs
-b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM0NDogRklM
-RTogaW5jbHVkZS9xZW11L2NvbXBpbGVyLmg6MTAwOgorICAgLyogTWFwIF9fcHJpbnRmX18gdG8g
-X19nbnVfcHJpbnRmX18gYmVjYXVzZSB3ZSB3YW50IHN0YW5kYXJkIGZvcm1hdCBzdHJpbmdzCgpX
-QVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxp
-bmUKIzQ1OiBGSUxFOiBpbmNsdWRlL3FlbXUvY29tcGlsZXIuaDoxMDE6CisgICAgKiBldmVuIHdo
-ZW4gTWluR1cgb3IgR0xpYiBpbmNsdWRlIGZpbGVzIHVzZSBfX3ByaW50Zl9fLiAqLwoKdG90YWw6
-IDAgZXJyb3JzLCAzIHdhcm5pbmdzLCAyOCBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzEzIGhhcyBz
-dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
-IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
-UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjkvMTMgQ2hlY2tpbmcgY29tbWl0IGU1YzZkOTg1OTM2MiAo
-YXVkaW86IHJlbW92ZSBHTlVDICYgTVNWQyBjaGVjaykKMTAvMTMgQ2hlY2tpbmcgY29tbWl0IDQw
-NWU5OWZlMWZlZSAocG9pc29uOiByZW1vdmUgR05VQyBjaGVjaykKMTEvMTMgQ2hlY2tpbmcgY29t
-bWl0IGJlZWFkYjE4NmU2NiAoeGVuOiByZW1vdmUgR05VQyBjaGVjaykKMTIvMTMgQ2hlY2tpbmcg
-Y29tbWl0IGY3NmEwYjk0NjM3MSAoY29tcGlsZXI6IHJlbW92ZSBHTlVDIGNoZWNrKQoxMy8xMyBD
-aGVja2luZyBjb21taXQgNzdhYjRjNmExMGQ3IChsaW51eC11c2VyOiByZW1vdmUgR05VQyBjaGVj
-aykKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAy
-MDExMjYxMTI5MTUuNTI1Mjg1LTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tL3Rlc3Rpbmcu
-Y2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2Fs
-bHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZl
-ZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Thu, 26 Nov 2020 at 11:30, <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Since commit efc6c07 ("configure: Add a test for the minimum compiler
+> version"), QEMU explicitely depends on GCC >=3D 4.8.
+>
+> (clang >=3D 3.8 advertizes itself as GCC >=3D 4.2 compatible)
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  tests/tcg/arm/fcvt.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>
+> diff --git a/tests/tcg/arm/fcvt.c b/tests/tcg/arm/fcvt.c
+> index 617626bc63..7ac47b564e 100644
+> --- a/tests/tcg/arm/fcvt.c
+> +++ b/tests/tcg/arm/fcvt.c
+> @@ -73,11 +73,9 @@ static void print_int64(int i, int64_t num)
+>
+>  #ifndef SNANF
+>  /* Signaling NaN macros, if supported.  */
+> -# if __GNUC_PREREQ(3, 3)
+> -#  define SNANF (__builtin_nansf (""))
+> -#  define SNAN (__builtin_nans (""))
+> -#  define SNANL (__builtin_nansl (""))
+> -# endif
+> +# define SNANF (__builtin_nansf (""))
+> +# define SNAN (__builtin_nans (""))
+> +# define SNANL (__builtin_nansl (""))
+>  #endif
+
+Please fix the commit message to talk about clang 3.4, not 3.8,
+but otherwise
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
