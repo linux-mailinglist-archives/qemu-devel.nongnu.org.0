@@ -2,75 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3252C5DA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 22:50:01 +0100 (CET)
-Received: from localhost ([::1]:55480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F9C2C5DA4
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 22:51:57 +0100 (CET)
+Received: from localhost ([::1]:59778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiP9M-0001Cu-Ra
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 16:50:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35848)
+	id 1kiPBD-00038h-VE
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 16:51:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiP7y-0000LE-0G
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 16:48:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52389)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiP7u-00056A-10
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 16:48:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606427307;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ILR0ZaTx5mpfsZHHqwJA193TbRWATvjIepa9NXwM4x4=;
- b=YiTTrp1yyLox4uBDr1SzBmVLn/qIZJYCDhhaePpYqTKTxkVV8XGISkCRowSAqu/AHKYyzt
- ZIoNIR11rfwE7E8XaZnAzhDDoX7VvSrOjQPA2tYYAYb/WskmeKJ7A+37rdAKc3/B7L0xd+
- gB+6ahV25yT8pEAhar81eTb1mklQ0fQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-sH2MNn6qN3S_Cv9zNi7i4A-1; Thu, 26 Nov 2020 16:48:26 -0500
-X-MC-Unique: sH2MNn6qN3S_Cv9zNi7i4A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B24DE10073AB;
- Thu, 26 Nov 2020 21:48:24 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 416B65D752;
- Thu, 26 Nov 2020 21:48:11 +0000 (UTC)
-Date: Thu, 26 Nov 2020 16:48:10 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v2 2/6] accel: accel_available() function
-Message-ID: <20201126214810.GR2271382@habkost.net>
-References: <20201125205636.3305257-1-ehabkost@redhat.com>
- <20201125205636.3305257-3-ehabkost@redhat.com>
- <12f82771-9db9-8fcd-ea25-736428d2650a@suse.de>
- <20201126133645.GG2271382@habkost.net>
- <8d90d611-6545-a478-1316-542dc5424b92@suse.de>
- <f4f64154-9fbb-36fa-d9cb-e49c8ed06537@redhat.com>
- <7df7713c-5125-9e41-3572-a476cad2946b@suse.de>
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1kiP9j-0001jL-Vj; Thu, 26 Nov 2020 16:50:24 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:60506
+ helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1kiP9h-0005jj-W3; Thu, 26 Nov 2020 16:50:23 -0500
+Received: from localhost.localdomain
+ (dynamic-077-009-187-158.77.9.pool.telefonica.de [77.9.187.158])
+ by csgraf.de (Postfix) with ESMTPSA id 224CE390015A;
+ Thu, 26 Nov 2020 22:50:18 +0100 (CET)
+From: Alexander Graf <agraf@csgraf.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] hvf: Implement Apple Silicon Support
+Date: Thu, 26 Nov 2020 22:50:09 +0100
+Message-Id: <20201126215017.41156-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <7df7713c-5125-9e41-3572-a476cad2946b@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,46 +48,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 26, 2020 at 10:06:03PM +0100, Claudio Fontana wrote:
-> On 11/26/20 3:25 PM, Paolo Bonzini wrote:
-> > On 26/11/20 15:13, Claudio Fontana wrote:
-> >> One option I see is simply to document the behavior where
-> >> accel_available() is declared in accel.h (ie do not use in fast
-> >> path), as well as in accel_find() actually, so that both accel_find()
-> >> and accel_available() are avoided in fast path and avoid being called
-> >> frequently at runtime.
-> >>
-> >> Another option could be to remove the allocation completely, and use
-> >> for example accel_find(ACCEL_CLASS_NAME("tcg")), or another option
-> >> again would be to remove the allocation and use either a fixed buffer
-> >> + snprintf, or alloca -like builtin code to use the stack, ...
-> >>
-> >> Not a big deal, but with a general utility and short name like
-> >> accel_available(name) it might be tempting to use this more in the
-> >> future?
-> > 
-> > I think it's just that the usecase is not that common.  "Is this 
-> > accelerator compiled in the binary" is not something you need after 
-> > startup (or if querying the monitor).
-> > 
-> > Paolo
-> > 
-> > 
-> 
-> A script that repeatedly uses the QMP interface to query for
-> the status could generate fragmentation this way I think.
+Now that Apple Silicon is widely available, people are obviously excited
+to try and run virtualized workloads on them, such as Linux and Windows.
 
-Is this a problem?  Today, execution of a "query-kvm" command
-calls g_malloc() 37 times.
+This patch set implements a rudimentary, first version to get the ball
+going on that. With this applied, I can successfully run both Linux and
+Windows as guests, albeit with a few caveats:
+
+  * no WFI emulation, a vCPU always uses 100%
+  * vtimer handling is a bit hacky
+  * we handle most sysregs flying blindly, just returning 0
+  * XHCI breaks in OVMF, works in Linux+Windows
+
+Despite those drawbacks, it's still an exciting place to start playing
+with the power of Apple Silicon.
+
+Enjoy!
+
+Alex
+
+Alexander Graf (8):
+  hvf: Add hypervisor entitlement to output binaries
+  hvf: Move common code out
+  arm: Set PSCI to 0.2 for HVF
+  arm: Synchronize CPU on PSCI on
+  hvf: Add Apple Silicon support
+  hvf: Use OS provided vcpu kick function
+  arm: Add Hypervisor.framework build target
+  hw/arm/virt: Disable highmem when on hypervisor.framework
+
+ MAINTAINERS                  |  14 +-
+ accel/hvf/entitlements.plist |   8 +
+ accel/hvf/hvf-all.c          |  56 ++++
+ accel/hvf/hvf-cpus.c         | 484 +++++++++++++++++++++++++++++++++++
+ accel/hvf/meson.build        |   7 +
+ accel/meson.build            |   1 +
+ hw/arm/virt.c                |   9 +
+ include/hw/core/cpu.h        |   3 +-
+ include/sysemu/hvf_int.h     |  69 +++++
+ meson.build                  |  39 ++-
+ scripts/entitlement.sh       |  11 +
+ target/arm/arm-powerctl.c    |   3 +
+ target/arm/cpu.c             |   4 +
+ target/arm/hvf/hvf.c         | 345 +++++++++++++++++++++++++
+ target/arm/hvf/meson.build   |   3 +
+ target/arm/meson.build       |   2 +
+ target/i386/hvf/hvf-cpus.c   | 131 ----------
+ target/i386/hvf/hvf-cpus.h   |  25 --
+ target/i386/hvf/hvf-i386.h   |  48 +---
+ target/i386/hvf/hvf.c        | 360 +-------------------------
+ target/i386/hvf/meson.build  |   1 -
+ target/i386/hvf/x86hvf.c     |  11 +-
+ target/i386/hvf/x86hvf.h     |   2 -
+ 23 files changed, 1061 insertions(+), 575 deletions(-)
+ create mode 100644 accel/hvf/entitlements.plist
+ create mode 100644 accel/hvf/hvf-all.c
+ create mode 100644 accel/hvf/hvf-cpus.c
+ create mode 100644 accel/hvf/meson.build
+ create mode 100644 include/sysemu/hvf_int.h
+ create mode 100755 scripts/entitlement.sh
+ create mode 100644 target/arm/hvf/hvf.c
+ create mode 100644 target/arm/hvf/meson.build
+ delete mode 100644 target/i386/hvf/hvf-cpus.c
+ delete mode 100644 target/i386/hvf/hvf-cpus.h
 
 -- 
-Eduardo
+2.24.3 (Apple Git-128)
 
 
