@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D992C5DAE
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 22:58:37 +0100 (CET)
-Received: from localhost ([::1]:53092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33A72C5DAD
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 22:57:27 +0100 (CET)
+Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiPHg-0003iV-AK
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 16:58:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36336)
+	id 1kiPGY-0002I9-Sk
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 16:57:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kiP9s-0001sn-74; Thu, 26 Nov 2020 16:50:32 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:60638
+ id 1kiP9r-0001s0-TB; Thu, 26 Nov 2020 16:50:31 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:60636
  helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1kiP9m-0005nf-8y; Thu, 26 Nov 2020 16:50:31 -0500
+ id 1kiP9m-0005ng-B6; Thu, 26 Nov 2020 16:50:31 -0500
 Received: from localhost.localdomain
  (dynamic-077-009-187-158.77.9.pool.telefonica.de [77.9.187.158])
- by csgraf.de (Postfix) with ESMTPSA id 60BF439005B9;
+ by csgraf.de (Postfix) with ESMTPSA id CE7FE39005E9;
  Thu, 26 Nov 2020 22:50:21 +0100 (CET)
 From: Alexander Graf <agraf@csgraf.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/8] arm: Add Hypervisor.framework build target
-Date: Thu, 26 Nov 2020 22:50:16 +0100
-Message-Id: <20201126215017.41156-8-agraf@csgraf.de>
+Subject: [PATCH 8/8] hw/arm/virt: Disable highmem when on hypervisor.framework
+Date: Thu, 26 Nov 2020 22:50:17 +0100
+Message-Id: <20201126215017.41156-9-agraf@csgraf.de>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20201126215017.41156-1-agraf@csgraf.de>
 References: <20201126215017.41156-1-agraf@csgraf.de>
@@ -58,68 +58,48 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have all logic in place that we need to handle Hypervisor.framework
-on Apple Silicon systems, let's add CONFIG_HVF for aarch64 as well so that we
-can build it.
+The Apple M1 only supports up to 36 bits of physical address space. That
+means we can not fit the 64bit MMIO BAR region into our address space.
+
+To fix this, let's not expose a 64bit MMIO BAR region when running on
+Apple Silicon.
+
+I have not been able to find a way to enumerate that easily, so let's
+just assume we always have that little PA space on hypervisor.framework
+systems.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
 ---
- meson.build                | 9 ++++++++-
- target/arm/hvf/meson.build | 3 +++
- target/arm/meson.build     | 2 ++
- 3 files changed, 13 insertions(+), 1 deletion(-)
- create mode 100644 target/arm/hvf/meson.build
+ hw/arm/virt.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meson.build b/meson.build
-index 2a7ff5560c..21565f5787 100644
---- a/meson.build
-+++ b/meson.build
-@@ -74,16 +74,23 @@ else
- endif
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 27dbeb549e..d74053ecd4 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -45,6 +45,7 @@
+ #include "hw/display/ramfb.h"
+ #include "net/net.h"
+ #include "sysemu/device_tree.h"
++#include "sysemu/hvf.h"
+ #include "sysemu/numa.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+@@ -1746,6 +1747,14 @@ static void machvirt_init(MachineState *machine)
+     unsigned int smp_cpus = machine->smp.cpus;
+     unsigned int max_cpus = machine->smp.max_cpus;
  
- accelerator_targets = { 'CONFIG_KVM': kvm_targets }
++    /*
++     * On Hypervisor.framework capable systems, we only have 36 bits of PA
++     * space, which is not enough to fit a 64bit BAR space
++     */
++    if (hvf_enabled()) {
++        vms->highmem = false;
++    }
 +
-+if cpu in ['x86', 'x86_64']
-+  hvf_targets = ['i386-softmmu', 'x86_64-softmmu']
-+elif cpu in ['aarch64']
-+  hvf_targets = ['aarch64-softmmu']
-+endif
-+
- if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
-   # i368 emulator provides xenpv machine type for multiple architectures
-   accelerator_targets += {
-     'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu'],
-+    'CONFIG_HVF': hvf_targets,
-   }
- endif
- if cpu in ['x86', 'x86_64']
-   accelerator_targets += {
-     'CONFIG_HAX': ['i386-softmmu', 'x86_64-softmmu'],
--    'CONFIG_HVF': ['x86_64-softmmu'],
-     'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
-   }
- endif
-diff --git a/target/arm/hvf/meson.build b/target/arm/hvf/meson.build
-new file mode 100644
-index 0000000000..855e6cce5a
---- /dev/null
-+++ b/target/arm/hvf/meson.build
-@@ -0,0 +1,3 @@
-+arm_softmmu_ss.add(when: [hvf, 'CONFIG_HVF'], if_true: files(
-+  'hvf.c',
-+))
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index f5de2a77b8..95bebae216 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -56,5 +56,7 @@ arm_softmmu_ss.add(files(
-   'psci.c',
- ))
- 
-+subdir('hvf')
-+
- target_arch += {'arm': arm_ss}
- target_softmmu_arch += {'arm': arm_softmmu_ss}
+     /*
+      * In accelerated mode, the memory map is computed earlier in kvm_type()
+      * to create a VM with the right number of IPA bits.
 -- 
 2.24.3 (Apple Git-128)
 
