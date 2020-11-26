@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0E82C5706
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 15:24:27 +0100 (CET)
-Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 175C32C5708
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 15:24:30 +0100 (CET)
+Received: from localhost ([::1]:36548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiICA-00064U-4U
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 09:24:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59432)
+	id 1kiICD-0006CO-2q
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 09:24:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiIAF-0004T6-4I
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:22:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30660)
+ id 1kiIAG-0004VW-QA
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:22:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiIAC-0005mh-KW
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:22:26 -0500
+ id 1kiIAD-0005n2-Rl
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 09:22:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606400543;
+ s=mimecast20190719; t=1606400545;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2v4a8dtkHjMlGEaKD3psu8JUdLX0AIWK/wxoBPTbn2Y=;
- b=Cnw7d+LbLxIsKwVyQ5EH0mtbjnsdmnPPjHSshnS5qaOs95TdQ9WJltdRVQ/9mKFY9P0WNW
- FPGrH0FqxpriK6321CiQLj5ft30s8eAtbL+VvJ9y5Rx5cjH5lv6jrHRYqCGdNJT63BTK1K
- lz0+6wXTLvf5lwsU7Tb54cQcSk2lbL0=
+ bh=XoLew6fCJvQ4C8y1gmDHrdDLwCAMji/JWWXDSHwIdec=;
+ b=Z/v07afBoz+hGKUq5G8qY1syEFTLn/QRvILj62ig6voHK63O15dSRljQgYpN+103KQA/F5
+ ZTT2gTrjACz1TFK0qn3cb8fVnNGknjjsU5Bn1dlQcr3lUERClDPYKsQgTnpXzggo9gj4KP
+ RD2t3y29R9zbvuCpYonUDEpnkI3zwnU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-xnRmLIXfOXytmsUGVPM1Xg-1; Thu, 26 Nov 2020 09:22:21 -0500
-X-MC-Unique: xnRmLIXfOXytmsUGVPM1Xg-1
+ us-mta-203-ITLUI4qlNymT8E8I7HRjAA-1; Thu, 26 Nov 2020 09:22:21 -0500
+X-MC-Unique: ITLUI4qlNymT8E8I7HRjAA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F702100A65B;
- Thu, 26 Nov 2020 14:22:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCE5C5720C
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 14:22:20 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F378C10013C0;
- Thu, 26 Nov 2020 14:22:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7949910013C0;
+ Thu, 26 Nov 2020 14:22:20 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] configure: remove python pkg_resources check
-Date: Thu, 26 Nov 2020 09:22:16 -0500
-Message-Id: <20201126142218.3121595-3-pbonzini@redhat.com>
+Subject: [PULL 3/4] tests/docker, tests/vm: remove setuptools from images
+Date: Thu, 26 Nov 2020 09:22:17 -0500
+Message-Id: <20201126142218.3121595-4-pbonzini@redhat.com>
 In-Reply-To: <20201126142218.3121595-1-pbonzini@redhat.com>
 References: <20201126142218.3121595-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -79,36 +79,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Olaf Hering <olaf@aepfle.de>, Thomas Huth <thuth@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Olaf Hering <olaf@aepfle.de>
+Setuptools is not needed anymore by the bundled copy of meson,
+remove it.
 
-Since meson.git#0240d760c7699a059cc89e584363c6431cdd2b61 setuptools is not required anymore.
-
-Signed-off-by: Olaf Hering <olaf@aepfle.de>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201124211925.4194-1-olaf@aepfle.de>
+Suggested-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 3 ---
- 1 file changed, 3 deletions(-)
+ .cirrus.yml                                        | 1 -
+ tests/docker/dockerfiles/debian10.docker           | 1 -
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 1 -
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 1 -
+ tests/vm/freebsd                                   | 1 -
+ tests/vm/haiku.x86_64                              | 1 -
+ tests/vm/netbsd                                    | 1 -
+ tests/vm/openbsd                                   | 1 -
+ 8 files changed, 8 deletions(-)
 
-diff --git a/configure b/configure
-index 796cec14de..18c26e0389 100755
---- a/configure
-+++ b/configure
-@@ -1912,9 +1912,6 @@ fi
+diff --git a/.cirrus.yml b/.cirrus.yml
+index f0209b7a3e..2e45b3254f 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -85,7 +85,6 @@ windows_msys2_task:
+         C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -S --needed \
+           diffutils git grep make pkg-config sed \
+           mingw-w64-x86_64-python \
+-          mingw-w64-x86_64-python-setuptools \
+           mingw-w64-x86_64-toolchain \
+           mingw-w64-x86_64-SDL2 \
+           mingw-w64-x86_64-SDL2_image \
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index 21cc671d71..73a3caac9c 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -30,7 +30,6 @@ RUN apt update && \
+         pkg-config \
+         psmisc \
+         python3 \
+-        python3-setuptools \
+         python3-sphinx \
+         $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
  
- case "$meson" in
-     git | internal)
--        if ! $python -c 'import pkg_resources' > /dev/null 2>&1; then
--            error_exit "Python setuptools not found"
--        fi
-         meson="$python ${source_path}/meson/meson.py"
-         ;;
-     *) meson=$(command -v "$meson") ;;
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index 5903e1b0b4..087df598a0 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -30,7 +30,6 @@ ENV PACKAGES \
+     perl-Test-Harness \
+     python3 \
+     python3-PyYAML \
+-    python3-setuptools \
+     tar \
+     which
+ 
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index 7f03cd8ffc..d5d2f5f00d 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -26,7 +26,6 @@ ENV PACKAGES \
+     perl-Test-Harness \
+     python3 \
+     python3-PyYAML \
+-    python3-setuptools \
+     tar \
+     which
+ 
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 04ee793381..09f3ee6cb8 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -33,7 +33,6 @@ class FreeBSDVM(basevm.BaseVM):
+         "pkgconf",
+         "bzip2",
+         "python37",
+-        "py37-setuptools",
+         "ninja",
+ 
+         # gnu tools
+diff --git a/tests/vm/haiku.x86_64 b/tests/vm/haiku.x86_64
+index 37af48bf1b..2eb736dae1 100755
+--- a/tests/vm/haiku.x86_64
++++ b/tests/vm/haiku.x86_64
+@@ -77,7 +77,6 @@ class HaikuVM(basevm.BaseVM):
+         "devel:libusb_1.0",
+         "devel:libz",
+         "ninja",
+-        "setuptools_python3"
+     ]
+ 
+     # https://dev.haiku-os.org/ticket/16512 virtio disk1 shows up as 0 (reversed order)
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index 596717cc76..b9efc269d2 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -31,7 +31,6 @@ class NetBSDVM(basevm.BaseVM):
+         "pkgconf",
+         "xz",
+         "python37",
+-        "py37-setuptools",
+         "ninja-build",
+ 
+         # gnu tools
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index 386b2c72f7..4d1399378e 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -30,7 +30,6 @@ class OpenBSDVM(basevm.BaseVM):
+         "git",
+         "pkgconf",
+         "bzip2", "xz",
+-        "py3-setuptools",
+         "ninja",
+ 
+         # gnu tools
 -- 
 2.26.2
 
