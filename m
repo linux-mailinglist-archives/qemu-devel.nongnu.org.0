@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9862C5DA8
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 22:54:02 +0100 (CET)
-Received: from localhost ([::1]:37196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42D992C5DAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 22:58:37 +0100 (CET)
+Received: from localhost ([::1]:53092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiPDF-0005Sk-H3
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 16:54:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36310)
+	id 1kiPHg-0003iV-AK
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 16:58:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kiP9m-0001lk-HF; Thu, 26 Nov 2020 16:50:30 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:60628
+ id 1kiP9s-0001sn-74; Thu, 26 Nov 2020 16:50:32 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:60638
  helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1kiP9k-0005mr-Le; Thu, 26 Nov 2020 16:50:26 -0500
+ id 1kiP9m-0005nf-8y; Thu, 26 Nov 2020 16:50:31 -0500
 Received: from localhost.localdomain
  (dynamic-077-009-187-158.77.9.pool.telefonica.de [77.9.187.158])
- by csgraf.de (Postfix) with ESMTPSA id E832E39005A8;
- Thu, 26 Nov 2020 22:50:20 +0100 (CET)
+ by csgraf.de (Postfix) with ESMTPSA id 60BF439005B9;
+ Thu, 26 Nov 2020 22:50:21 +0100 (CET)
 From: Alexander Graf <agraf@csgraf.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/8] hvf: Use OS provided vcpu kick function
-Date: Thu, 26 Nov 2020 22:50:15 +0100
-Message-Id: <20201126215017.41156-7-agraf@csgraf.de>
+Subject: [PATCH 7/8] arm: Add Hypervisor.framework build target
+Date: Thu, 26 Nov 2020 22:50:16 +0100
+Message-Id: <20201126215017.41156-8-agraf@csgraf.de>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20201126215017.41156-1-agraf@csgraf.de>
 References: <20201126215017.41156-1-agraf@csgraf.de>
@@ -58,40 +58,68 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When kicking another vCPU, we get an OS function that explicitly does that for us
-on Apple Silicon. That works better than the current signaling logic, let's make
-use of it there.
+Now that we have all logic in place that we need to handle Hypervisor.framework
+on Apple Silicon systems, let's add CONFIG_HVF for aarch64 as well so that we
+can build it.
 
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
 ---
- accel/hvf/hvf-cpus.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meson.build                | 9 ++++++++-
+ target/arm/hvf/meson.build | 3 +++
+ target/arm/meson.build     | 2 ++
+ 3 files changed, 13 insertions(+), 1 deletion(-)
+ create mode 100644 target/arm/hvf/meson.build
 
-diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
-index b9f674478d..74a272d2e8 100644
---- a/accel/hvf/hvf-cpus.c
-+++ b/accel/hvf/hvf-cpus.c
-@@ -418,8 +418,20 @@ static void hvf_start_vcpu_thread(CPUState *cpu)
-                        cpu, QEMU_THREAD_JOINABLE);
- }
+diff --git a/meson.build b/meson.build
+index 2a7ff5560c..21565f5787 100644
+--- a/meson.build
++++ b/meson.build
+@@ -74,16 +74,23 @@ else
+ endif
  
-+#ifdef __aarch64__
-+static void hvf_kick_vcpu_thread(CPUState *cpu)
-+{
-+    if (!qemu_cpu_is_self(cpu)) {
-+        hv_vcpus_exit(&cpu->hvf_fd, 1);
-+    }
-+}
-+#endif
+ accelerator_targets = { 'CONFIG_KVM': kvm_targets }
 +
- static const CpusAccel hvf_cpus = {
-     .create_vcpu_thread = hvf_start_vcpu_thread,
-+#ifdef __aarch64__
-+    .kick_vcpu_thread = hvf_kick_vcpu_thread,
-+#endif
++if cpu in ['x86', 'x86_64']
++  hvf_targets = ['i386-softmmu', 'x86_64-softmmu']
++elif cpu in ['aarch64']
++  hvf_targets = ['aarch64-softmmu']
++endif
++
+ if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
+   # i368 emulator provides xenpv machine type for multiple architectures
+   accelerator_targets += {
+     'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu'],
++    'CONFIG_HVF': hvf_targets,
+   }
+ endif
+ if cpu in ['x86', 'x86_64']
+   accelerator_targets += {
+     'CONFIG_HAX': ['i386-softmmu', 'x86_64-softmmu'],
+-    'CONFIG_HVF': ['x86_64-softmmu'],
+     'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
+   }
+ endif
+diff --git a/target/arm/hvf/meson.build b/target/arm/hvf/meson.build
+new file mode 100644
+index 0000000000..855e6cce5a
+--- /dev/null
++++ b/target/arm/hvf/meson.build
+@@ -0,0 +1,3 @@
++arm_softmmu_ss.add(when: [hvf, 'CONFIG_HVF'], if_true: files(
++  'hvf.c',
++))
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index f5de2a77b8..95bebae216 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -56,5 +56,7 @@ arm_softmmu_ss.add(files(
+   'psci.c',
+ ))
  
-     .synchronize_post_reset = hvf_cpu_synchronize_post_reset,
-     .synchronize_post_init = hvf_cpu_synchronize_post_init,
++subdir('hvf')
++
+ target_arch += {'arm': arm_ss}
+ target_softmmu_arch += {'arm': arm_softmmu_ss}
 -- 
 2.24.3 (Apple Git-128)
 
