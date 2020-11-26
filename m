@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A204F2C51C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 11:11:06 +0100 (CET)
-Received: from localhost ([::1]:44974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD942C51D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Nov 2020 11:13:02 +0100 (CET)
+Received: from localhost ([::1]:47274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiEEx-00050I-CA
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 05:11:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39940)
+	id 1kiEGs-000666-0j
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 05:13:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiED6-0004UY-90
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 05:09:08 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35123)
+ id 1kiEEH-00051g-CB
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 05:10:21 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:39964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiECw-0002JX-93
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 05:09:07 -0500
-Received: by mail-ej1-x634.google.com with SMTP id f23so2125714ejk.2
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 02:08:55 -0800 (PST)
+ id 1kiEEE-0002uL-Dg
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 05:10:21 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id d18so1648422edt.7
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 02:10:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fWx1Q0HJ67YVpQIjJAXXivTwDjdOLj2gl6O3PnK6TSg=;
- b=xPeN2kBfQzaoGeOILQxLLzMdM7lpWsJp5MSphnZ6rybkJCWrE6hks4IhVFnhV+7w4a
- /NskGiOw2MdJrutmObVfWHucRXPIcE8ju6PHjM5M/KNwausHvMLoN2SmK/J03Sivkny5
- b8dKSrr1iHd2E16LdntRqyJxUJuyzS+2KOJd8Zadd367SHQJo/7wcsBZBNqxM4M5NR33
- I1vIGNPW7NRBKzRXoP8TsEA2sJiot5SOMYyZ9Vs74q1Gf+UPPhG57ymAlU0QXsp3+B4N
- gMoJSrOUnKu6kymTBBhzodo4QjRj4/HUq1V80WI5bwP9V15bLMjiJ8fTHZRDEInCInSR
- izwA==
+ :cc; bh=ZD2GhZ7ciBFg0gpRHqMQgLtXFpl1oBr0xntuRORsfr8=;
+ b=JWgNhG9RomFa/tEnXZ6y+tdwl1wAT3RN5P14lyvgzIy1c+nmC75ASWqp4r6TQYO/cH
+ T4QdSHGCTMIGt/N5pFXj6ZO9zqRZUZSIAgGdKOiYyXY0NBzk4umwjMf9QGHRJq5yL6/r
+ TiyzP+oLomwYOJnl6RO3hWo4C4OkTXZ/BrjO7Hs+czC+X3ZasHB9KFge4mixfrkz+xIJ
+ mpc7qKne+dtkeZ+WoSf8GSOlGkKRWQJzwyjkf/tuRWSwOEBOvigOLivWG4ppKPizfU2N
+ 2c1mtei27ds5dw5faBVwKo+X6oWJxXizszeyWjuv2DmudysEibuUHX8C5pE+gctWW8bQ
+ s74w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fWx1Q0HJ67YVpQIjJAXXivTwDjdOLj2gl6O3PnK6TSg=;
- b=LX8xftBGyB3WMg9jL3kpIQpxXP6FzsK2bchE8LJJ1H4ZYCIkOdfwDkhFgbon3T29qB
- RaiK5J+SXE84fhuGY+1Pd7WM15iPayLJPu+zCGar/Hyvh3UPXu7kZgUdwgApipxPIZ3a
- ohWkj5o4KwDMYTb97kz/yWxuFHUiak8EAzZ3paWWDutBeQieKkbFUPkFnkk5LOCv+Dzd
- gkjLYkPSsYhs02sPDijKosjh6ZEFXvl2QaThTbqzMjLC8o9pPbwp7xWdLbHZ1FgJnaZo
- hma4gZHS0JhHdmiX7TaNskxbc2hiFxvtkL3/MEeZIlpvcuurGxUgej2Re55N6YfWO1TA
- 8Bug==
-X-Gm-Message-State: AOAM533iDWkbxPsWChofhTIl2FUpFi6th7zR/9kXU5Y1jsImpxXNWUcc
- qV5BQLCo2owbOI0qNOFN/IRS3KNMxZo7e0Kz+6tkpA==
-X-Google-Smtp-Source: ABdhPJyn5ZukRyjVQ+dCA67BT6z/FnhJWqFtFU/IMWq5AljoDjxgMJ+QuOeEyZHCCRXdcqHNnrw6C/fSrTTHiEPT7Qo=
-X-Received: by 2002:a17:906:5a88:: with SMTP id
- l8mr1964867ejq.407.1606385334574; 
- Thu, 26 Nov 2020 02:08:54 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=ZD2GhZ7ciBFg0gpRHqMQgLtXFpl1oBr0xntuRORsfr8=;
+ b=In2jft22Jnxps4HOIFn7qqzo5lcXhRYSVQ5zun2LejihVmLjqNEWKpg89GfgWsfOo6
+ EPsTDJO56UD3VfZ+fHMJXD82TwL8UkXWtTnZyVS4H8+qOEf1I8rSkQ3yVsR0dMDCz9w0
+ GPIH7sqHlMvlguW4dvQTb6AdqKHfz2Q1T37Rc9IhWI5fXqQsQ8KlgjZAuaYIb81iFGuL
+ bP7WK0BNXgetlARP0oMi0qrpSAYwvyNOXIVYjahcggFl6tk5C0kn3rhFtRqqHBW++ro1
+ woPovQ0uo8PIH2PhEsV1xKfdpd1uwBTnff4R58IPvSWkc9wg/zHQ94UYIkOJuYZEq8HD
+ H1FQ==
+X-Gm-Message-State: AOAM530vL9Op4hFKPFwsCB0t/KDxrmas4ceTI8SuEb4y5Psz9e9srD7B
+ citj7OBwkhJmIZZACEd/KD+McZsuB0Rw+G4yL7PlXA==
+X-Google-Smtp-Source: ABdhPJy6p2lscfY87zDasHpV5bBWrxx1Qo7NN5K8bDvHYpzQOh0hSRasrdRkxRbHgGGjnzhAMo5AUxdZ7uYIAFgT/iM=
+X-Received: by 2002:a50:fe88:: with SMTP id d8mr1767522edt.36.1606385416401;
+ Thu, 26 Nov 2020 02:10:16 -0800 (PST)
 MIME-Version: 1.0
-References: <CADPb22TfGZjr85z=5+Vc9fNqooGq5JTTos1h-rta8d3eG0SQew@mail.gmail.com>
-In-Reply-To: <CADPb22TfGZjr85z=5+Vc9fNqooGq5JTTos1h-rta8d3eG0SQew@mail.gmail.com>
+References: <20201126075921.3116321-1-pbonzini@redhat.com>
+In-Reply-To: <20201126075921.3116321-1-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Nov 2020 10:08:43 +0000
-Message-ID: <CAFEAcA8CT8CpBJtm2Y=0ppj1ZLfN2LLP=o0K307rfX3juWn7fg@mail.gmail.com>
-Subject: Re: [DISCUSSION] Running one qtest test: how?
-To: Doug Evans <dje@google.com>
+Date: Thu, 26 Nov 2020 10:10:05 +0000
+Message-ID: <CAFEAcA8YP0-=RUVdW1f6M7NizMvNXwLoBpvqUqyPQNCJ6d238g@mail.gmail.com>
+Subject: Re: [PULL 0/5] Final (?) batch of misc patches for QEMU 5.2
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,23 +80,28 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Nov 2020 at 23:41, Doug Evans <dje@google.com> wrote:
-> I can run a subset of qtest tests with "make check-qtest-TARGET", but tha=
-t's the limit of the granularity that I can find. Why would one want more g=
-ranularity? When adding a test one wants the edit/test cycle as short as po=
-ssible and needlessly running other tests is a pain.
+On Thu, 26 Nov 2020 at 08:02, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> It'd be really nice to be able to specify one test via make check. I real=
-ize I can pass V=3D1 and get some help to dig further.
+> The following changes since commit 8cc30eb1400fc01f2b139cdd3dc524f8b84dbe07:
+>
+>   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20201122' into staging (2020-11-22 15:02:52 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to dae3916d846cd88aff038a56b82fa687fd6d02a3:
+>
+>   nsis: Fix build for 64 bit installer (2020-11-25 17:39:12 -0500)
+>
+> ----------------------------------------------------------------
+> Bug fixes + removing the setuptools dependency
 
-> Am I missing something? What do others do when adding a test?
-
-I just follow the approach outlined in:
-https://wiki.qemu.org/Features/QTest
- -- use V=3D1 to fish out the relevant commandline, and then
-if necessary narrow it down further with -p.
-I agree it might be nice if there were better support in
-the build system for doing this more automatically.
+Hi. We've passed rc3 now, so the only things going in should
+be absolutely release-critical bugs that oblige us to put
+out an rc4. That means pull requests need to have more
+explanation and justification of why these are release-critical
+issues; just "bug fixes" isn't enough detail...
 
 thanks
 -- PMM
