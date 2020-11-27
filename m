@@ -2,57 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B30A2C6B6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 19:13:32 +0100 (CET)
-Received: from localhost ([::1]:60046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A012C6B73
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 19:14:51 +0100 (CET)
+Received: from localhost ([::1]:34478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiiFP-0005Ii-B4
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 13:13:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36594)
+	id 1kiiGg-0006T9-U9
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 13:14:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kiiCf-0003YW-N3
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:10:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32820)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kiiFI-0005ha-Pi
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:13:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kiiCd-000203-MP
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:10:41 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kiiFF-0002MK-PZ
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:13:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606500638;
+ s=mimecast20190719; t=1606500800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=WLwVxrEsjzzsZOEuxbeFyk3NgBJ6cU+gai6r5KvQ7w8=;
- b=TXUT7wlhEwCby04or2kCMISzrcPNh+QmoOY3Rm4iZipaKf1dnne03VI5xMut9rHL5vg5S2
- Vk1jm0jaBB4YO5OUYvairbUKVSeYb0d5uaYwWXCAekKSjqRLjAXIRm3Ia2LICgw6DtDSlV
- Vo+q0XK+uTg0Job8qJCZFgYLpuPYtfk=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=QC4+5IvFCDMkwNFAKh14hyV/bsIqcaUmb/8WFSoxobQ=;
+ b=UL3xqdZ9ieT7t9Vp4qLcnqXRcCjKx5AbvHGLqs1gth6/J1xIIR0tmh061QmmeTKYxUXLpf
+ UCrycRfhzfYym7ROqb6qeawTAJAxQcArG3c4D00Rkkl39cdD9gqG3U+soqhzYRjklWCYvV
+ Ksw9M1J4mQZmFPARIN+hRcLO0A11wkI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-hIsPN7AENKuF2xhx4eWjlg-1; Fri, 27 Nov 2020 13:10:36 -0500
-X-MC-Unique: hIsPN7AENKuF2xhx4eWjlg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-197-BBLlle6uO_W8ImBxGFtoqw-1; Fri, 27 Nov 2020 13:13:16 -0500
+X-MC-Unique: BBLlle6uO_W8ImBxGFtoqw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 929478030AA;
- Fri, 27 Nov 2020 18:10:35 +0000 (UTC)
-Received: from thuth.com (ovpn-113-70.ams2.redhat.com [10.36.113.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A314D6085D;
- Fri, 27 Nov 2020 18:10:27 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH] gitlab-CI: Test 32-bit builds with the fedora-i386-cross
- container
-Date: Fri, 27 Nov 2020 19:10:25 +0100
-Message-Id: <20201127181025.472458-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14FEB8030AA;
+ Fri, 27 Nov 2020 18:13:14 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4430D60BF1;
+ Fri, 27 Nov 2020 18:13:10 +0000 (UTC)
+Date: Fri, 27 Nov 2020 13:13:09 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v6 10/11] accel: introduce AccelCPUClass extending CPUClass
+Message-ID: <20201127181309.GE2271382@habkost.net>
+References: <20201126223218.31480-1-cfontana@suse.de>
+ <20201126223218.31480-11-cfontana@suse.de>
+ <20201127170634.GA2271382@habkost.net>
+ <7f012127-5c85-d3c4-08c0-4a12cc9e3958@suse.de>
+MIME-Version: 1.0
+In-Reply-To: <7f012127-5c85-d3c4-08c0-4a12cc9e3958@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -73,107 +80,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.williamson@redhat.com,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After adding some missing packages, it's possible to check 32-bit
-builds and tests with the fedora-i386-cross container in the gitlab-CI,
-too.
+On Fri, Nov 27, 2020 at 06:58:22PM +0100, Claudio Fontana wrote:
+> On 11/27/20 6:06 PM, Eduardo Habkost wrote:
+> > On Thu, Nov 26, 2020 at 11:32:17PM +0100, Claudio Fontana wrote:
+> >> add a new optional interface to CPUClass,
+> >> which allows accelerators to extend the CPUClass
+> >> with additional accelerator-specific initializations.
+> >>
+> >> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> >> ---
+> > [...]
+> >> +static void accel_init_cpu_int_aux(ObjectClass *klass, void *opaque)
+> >> +{
+> >> +    CPUClass *cc = CPU_CLASS(klass);
+> >> +    AccelCPUClass *accel_cpu_interface = opaque;
+> >> +
+> >> +    cc->accel_cpu_interface = accel_cpu_interface;
+> >> +    if (accel_cpu_interface->cpu_class_init) {
+> >> +        accel_cpu_interface->cpu_class_init(cc);
+> >> +    }
+> >> +}
+> > 
+> > So, now that the approach we're following to trigger the
+> > accel_init_cpu*() call is less controversial (thanks for your
+> > patience!), we can try to address the monkey patching issue:
+> > 
+> > Monkey patching classes like this is acceptable as an initial
+> > solution, but I'd like us to have a plan to eventually get rid of
+> > it.  Monkey patching CPU classes makes querying of CPU model
+> > information less predictable and subtly dependent on QEMU
+> > initialization state.
+> 
+> 
+> The question of QEMU initialization state and the querying of supported functionality, also in relationship with the loadable modules, is I think a larger discussion.
+> 
+> Regardless of the amount of glue code and lipstick, this is hiding the fact that the fundamentals of the object hierarchy for cpus are wrong,
+> and are (unfortunately) codified as part of the external interface.
 
-While we're at it, update it to Fedora 31. Unfortunately the gcc
-from the later versions emits some very dubious format-truncation
-warnings, so Fedora 32 and 33 are currently unsuitable for this job.
+That's probably right, and removal of monkey patching might force
+us to change our external interfaces.
 
-I also had to remove the gnutls-devel package since linking then
-failed due to its dependency libtasn1 not being recognized (even
-if I explicitely installed it into the container).
+> 
+> 
+> > 
+> > Removing CPUClass.accel_cpu_interface may be easy, because it
+> > should be possible to just call current_accel() when realizing
+> > CPUs.  Getting rid of CPUClass.cpu_class_init might be more
+> > difficult, depending on what the ->cpu_class_init() function is
+> > doing.
+> 
+> 
+> This seems to be for a next step to me.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Test runs can be seen here:
-  https://gitlab.com/huth/qemu/-/jobs/877519207
- and here:
-  https://gitlab.com/huth/qemu/-/jobs/877519208
+Agreed, although I'd like to understand what makes
+AccelCPUClass.cpu_class_init() so important in the first version
+(considering that existing x86_cpu_class_init() has zero
+tcg_enabled() calls today).
 
- .gitlab-ci.d/crossbuilds.yml                     | 16 ++++++++++++++--
- .../docker/dockerfiles/fedora-i386-cross.docker  | 14 ++++++++++++--
- 2 files changed, 26 insertions(+), 4 deletions(-)
-
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index 03ebfabb3f..283c42b100 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -11,7 +11,7 @@
-         --target-list-exclude="aarch64-softmmu i386-softmmu microblaze-softmmu
-           mips-softmmu mipsel-softmmu mips64-softmmu ppc64-softmmu sh4-softmmu
-           xtensa-softmmu"
--    - make -j$(expr $(nproc) + 1) all check-build
-+    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
- 
- .cross_user_build_job_template: &cross_user_build_job_definition
-   stage: build
-@@ -21,7 +21,7 @@
-     - cd build
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-       ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-system
--    - make -j$(expr $(nproc) + 1) all check-build
-+    - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
- 
- cross-armel-system:
-   <<: *cross_system_build_job_definition
-@@ -53,6 +53,18 @@ cross-arm64-user:
-   variables:
-     IMAGE: debian-arm64-cross
- 
-+cross-i386-system:
-+  <<: *cross_system_build_job_definition
-+  variables:
-+    IMAGE: fedora-i386-cross
-+    MAKE_CHECK_ARGS: check
-+
-+cross-i386-user:
-+  <<: *cross_user_build_job_definition
-+  variables:
-+    IMAGE: fedora-i386-cross
-+    MAKE_CHECK_ARGS: check
-+
- cross-mips-system:
-   <<: *cross_system_build_job_definition
-   variables:
-diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
-index cd16cd1bfa..7824cc0da3 100644
---- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-@@ -1,14 +1,24 @@
--FROM fedora:30
-+FROM fedora:31
- ENV PACKAGES \
-+    bzip2 \
-+    diffutils \
-+    findutils \
-     gcc \
-+    git \
-+    make \
-+    meson \
-+    ninja-build \
-     glib2-devel.i686 \
-     glibc-devel.i686 \
-     glibc-static.i686 \
--    gnutls-devel.i686 \
-     nettle-devel.i686 \
-+    perl-Test-Harness \
-     pixman-devel.i686 \
-     zlib-devel.i686 \
-     libzstd-devel.i686
- 
-+ENV QEMU_CONFIGURE_OPTS --extra-cflags=-m32
-+ENV PKG_CONFIG_PATH /usr/lib/pkgconfig
-+
- RUN dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
 -- 
-2.18.4
+Eduardo
 
 
