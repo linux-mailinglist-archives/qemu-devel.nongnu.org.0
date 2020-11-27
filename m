@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F022C61CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 10:35:24 +0100 (CET)
-Received: from localhost ([::1]:35924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DD82C6227
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 10:46:28 +0100 (CET)
+Received: from localhost ([::1]:50078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kia9y-0005Nv-VS
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 04:35:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40828)
+	id 1kiaKg-0003SF-DV
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 04:46:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jinzeyu@huawei.com>)
- id 1kia7a-0003eu-Ew
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 04:32:54 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2239)
+ id 1kiaBL-0000Xc-Ur
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 04:36:47 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jinzeyu@huawei.com>)
- id 1kia7Y-00070p-7i
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 04:32:54 -0500
-Received: from DGGEMM402-HUB.china.huawei.com (unknown [172.30.72.54])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Cj8Xp0tt1z13MqM;
- Fri, 27 Nov 2020 17:32:10 +0800 (CST)
+ id 1kiaBJ-0008RH-Eg
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 04:36:47 -0500
+Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Cj8dG5JZ0zVfjs;
+ Fri, 27 Nov 2020 17:36:02 +0800 (CST)
 Received: from dggemi758-chm.china.huawei.com (10.1.198.144) by
- DGGEMM402-HUB.china.huawei.com (10.3.20.210) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Fri, 27 Nov 2020 17:32:48 +0800
+ DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Fri, 27 Nov 2020 17:36:41 +0800
 Received: from localhost (10.174.187.211) by dggemi758-chm.china.huawei.com
  (10.1.198.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1913.5; Fri, 27
- Nov 2020 17:32:48 +0800
+ Nov 2020 17:36:41 +0800
 From: Zeyu Jin <jinzeyu@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v2 6/6] doc: Update multi-thread compression doc
-Date: Fri, 27 Nov 2020 17:32:46 +0800
-Message-ID: <20201127093246.2763-1-jinzeyu@huawei.com>
+Subject: [PATCH v2 0/6] migration: Multi-thread compression method support
+Date: Fri, 27 Nov 2020 17:36:39 +0800
+Message-ID: <20201127093639.2815-1-jinzeyu@huawei.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.211]
-X-ClientProxiedBy: dggemi702-chm.china.huawei.com (10.3.20.101) To
+X-ClientProxiedBy: dggemi704-chm.china.huawei.com (10.3.20.103) To
  dggemi758-chm.china.huawei.com (10.1.198.144)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255; envelope-from=jinzeyu@huawei.com;
- helo=szxga08-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=jinzeyu@huawei.com;
+ helo=szxga01-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,88 +62,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ying Fang <fangying1@huawei.com>, qemu-devel@nongnu.org,
- Zeyu Jin <jinzeyu@huawei.com>, zhang.zhanghailiang@huawei.com
+Cc: qemu-devel@nongnu.org, Zeyu Jin <jinzeyu@huawei.com>,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Modify the doc to fit the previous changes.
+Currently we have both multi-thread compression and multifd to optimize
+live migration in Qemu. Mulit-thread compression deals with the situation
+where network bandwith is limited but cpu resource adequate. Multifd instead
+aims to take full advantage of network bandwith. Moreover it supports both
+zlib and zstd compression on each channel.
 
-Signed-off-by: Zeyu Jin <jinzeyu@huawei.com>
-Signed-off-by: Ying Fang <fangying1@huawei.com>
----
- docs/multi-thread-compression.txt | 31 ++++++++++++++++++-------------
- 1 file changed, 18 insertions(+), 13 deletions(-)
+In this patch series, we did some code refactoring on multi-thread compression
+live migration and bring zstd compression method support for it.
 
-diff --git a/docs/multi-thread-compression.txt b/docs/multi-thread-compression.txt
-index bb88c6bdf1..d429963cb0 100644
---- a/docs/multi-thread-compression.txt
-+++ b/docs/multi-thread-compression.txt
-@@ -33,14 +33,15 @@ thread compression can be used to accelerate the compression process.
- 
- The decompression speed of Zlib is at least 4 times as quick as
- compression, if the source and destination CPU have equal speed,
--keeping the compression thread count 4 times the decompression
--thread count can avoid resource waste.
-+and you choose Zlib as compression method, keeping the compression
-+thread count 4 times the decompression thread count can avoid resource waste.
- 
- Compression level can be used to control the compression speed and the
--compression ratio. High compression ratio will take more time, level 0
--stands for no compression, level 1 stands for the best compression
--speed, and level 9 stands for the best compression ratio. Users can
--select a level number between 0 and 9.
-+compression ratio. High compression ratio will take more time,
-+level 1 stands for the best compression speed, and higher level means higher
-+compression ration. For Zlib, users can select a level number between 0 and 9,
-+where level 0 stands for no compression. For Zstd, users can select a
-+level number between 1 and 22.
- 
- 
- When to use the multiple thread compression in live migration
-@@ -116,16 +117,19 @@ to support the multiple thread compression migration:
- 2. Activate compression on the source:
-     {qemu} migrate_set_capability compress on
- 
--3. Set the compression thread count on source:
-+3. Set the compression method:
-+    {qemu} migrate_set_parameter compress_method zstd
-+
-+4. Set the compression thread count on source:
-     {qemu} migrate_set_parameter compress_threads 12
- 
--4. Set the compression level on the source:
-+5. Set the compression level on the source:
-     {qemu} migrate_set_parameter compress_level 1
- 
--5. Set the decompression thread count on destination:
-+6. Set the decompression thread count on destination:
-     {qemu} migrate_set_parameter decompress_threads 3
- 
--6. Start outgoing migration:
-+7. Start outgoing migration:
-     {qemu} migrate -d tcp:destination.host:4444
-     {qemu} info migrate
-     Capabilities: ... compress: on
-@@ -136,6 +140,7 @@ The following are the default settings:
-     compress_threads: 8
-     decompress_threads: 2
-     compress_level: 1 (which means best speed)
-+    compress_method: zlib
- 
- So, only the first two steps are required to use the multiple
- thread compression in migration. You can do more if the default
-@@ -143,7 +148,7 @@ settings are not appropriate.
- 
- TODO
- ====
--Some faster (de)compression method such as LZ4 and Quicklz can help
--to reduce the CPU consumption when doing (de)compression. If using
--these faster (de)compression method, less (de)compression threads
-+Comparing to Zlib, Some faster (de)compression method such as LZ4
-+and Quicklz can help to reduce the CPU consumption when doing (de)compression.
-+If using these faster (de)compression method, less (de)compression threads
- are needed when doing the migration.
+Below is the test result of multi-thread compression live migration
+with different compress methods. Test result shows that zstd outperforms
+zlib by about 70%.
+
+ Migration Configuration:
+ Guest 8U 32G
+ compress-threads   8
+ decompress-threads 2
+ compress-level 1
+ bandwidth-limit 100Mbps
+
+ Test Result:
+ +---------------------+--------------+-------------+
+ |  compress method    |   zlib       |    zstd     |
+ +---------------------+--------------+-------------+
+ |  total time (ms)    |   75256      |    44187    |
+ +---------------------+--------------+-------------+
+ |  downtime(ms)       |   128        |    81       |
+ +---------------------+--------------+-------------+
+ |  transferred ram(kB)|   1576866    |    736117   |
+ +---------------------+--------------+-------------+
+ |  throughput(mbps)   |   172.06     |    137.16   |
+ +---------------------+--------------+-------------+
+ |  total ram(kB)      |   33685952   |    33685952 |
+ +---------------------+--------------+-------------+
+
+Zeyu Jin (6):
+  migration: Add multi-thread compress method
+  migration: Refactoring multi-thread compress migration
+  migration: Add multi-thread compress ops
+  migration: Add zstd support in multi-thread compression
+  migration: Add compress_level sanity check
+  doc: Update multi-thread compression doc
+
+ docs/multi-thread-compression.txt |  31 ++-
+ hw/core/qdev-properties-system.c  |  11 +
+ include/hw/qdev-properties.h      |   4 +
+ migration/migration.c             |  56 ++++-
+ migration/migration.h             |   1 +
+ migration/qemu-file.c             |  62 +----
+ migration/qemu-file.h             |   4 +-
+ migration/ram.c                   | 381 +++++++++++++++++++++++++-----
+ monitor/hmp-cmds.c                |  12 +
+ qapi/migration.json               |  26 +-
+ 10 files changed, 465 insertions(+), 123 deletions(-)
+
 -- 
 2.27.0
 
