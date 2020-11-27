@@ -2,100 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796372C5F68
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 06:04:52 +0100 (CET)
-Received: from localhost ([::1]:38644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C042C5F8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 06:22:12 +0100 (CET)
+Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiVwB-0004Y5-Ip
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 00:04:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50882)
+	id 1kiWCx-0007fn-8T
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 00:22:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiVvD-000480-VN
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 00:03:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kiVvC-0000am-Cd
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 00:03:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606453429;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OIc8hxQLG3QffazL32WkQKnQiOr0/1ohZR+ALx2ul8U=;
- b=YfMWDQvJWk4SuNh5xd1p4BvMGkZ23GO62H1Uxd2Suy8+c6lUlSqEpzE4b5cdC1Uwp/bgrg
- dAx7LjBfZLNJWMExTmPpMUbfYsUUBczj7pLGW8yBBQg/T2bM1DgyQi4UhKYY/9XcZXhKQv
- moC6f292jJe1XN6HdKFBqwhcvRKCdiE=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-cn-m-rgiNTOiwbCn2gLoQA-1; Fri, 27 Nov 2020 00:03:47 -0500
-X-MC-Unique: cn-m-rgiNTOiwbCn2gLoQA-1
-Received: by mail-ej1-f70.google.com with SMTP id dx19so1601278ejb.7
- for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 21:03:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OIc8hxQLG3QffazL32WkQKnQiOr0/1ohZR+ALx2ul8U=;
- b=EP1kUKPLQHhW76Tcwe8unuNP7e2JXEPA8P5AMBukohvk3M3uDltAmredlwcS5AqnIZ
- AypfbI3LI7SRWwaynRmL2K5zHTdZXIV2N02vBY1lLPZw/2g6uua7EQYDRa5P6fknVHD5
- W0AXmsjvQg6V5zGU5dW/wme0PY3J0rEXymyqqc4bOydfBVTCgc0kj1lSojys9Q1u254C
- 1Fd8ThN+P8dtcPOb6xS0UaBTKnAF4ImqVV/8fl1zDrkOwadZWPO9MnIE+rqOa9oRKkMU
- hK8lBGbb2AURl7hGKRGHH47OSHf7RrpT6CZh7v6EsfBjRBDXowdmS9uSbvwuVV7oTUGF
- mH8A==
-X-Gm-Message-State: AOAM530cbpUVkKMH1oEROVff6L3qvWf8+XVzdlzSu+oBDKTFIjFk6wLm
- 4rQmBCx402Uvsz6mNlLUhhNK7EzUG6J4rp25GeCithX4gmSzuIYW+ChzfhURD7LiG97XTclio5M
- JGoLYXAg7k55Q1uSIM1fNiPwlDYcx7RQR0yDHBHpWt5CP2zYNX6bvov9O0PR5U9i6Zs8=
-X-Received: by 2002:a17:906:8046:: with SMTP id
- x6mr5830740ejw.189.1606453425782; 
- Thu, 26 Nov 2020 21:03:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyXaWfcF1tNPtZ/DAevBi+uQKo5CmyUa8Y47p9Ccrnr4e1YS5s+WOHLfeZ5ohHXZSgwh1kZpw==
-X-Received: by 2002:a17:906:8046:: with SMTP id
- x6mr5830723ejw.189.1606453425527; 
- Thu, 26 Nov 2020 21:03:45 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id u1sm4162000edf.65.2020.11.26.21.03.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Nov 2020 21:03:44 -0800 (PST)
-Subject: Re: [PATCH 13/36] vl: move semihosting command line fallback to
- qemu_init_board
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20201123141435.2726558-1-pbonzini@redhat.com>
- <20201123141435.2726558-14-pbonzini@redhat.com>
- <20201126181036.3ff5d605@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <8866f216-911b-2803-4b15-0e794c4c71e1@redhat.com>
-Date: Fri, 27 Nov 2020 06:03:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kiWBd-0006iy-Q9
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 00:20:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kiWBb-0006Ve-Nr
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 00:20:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kiWBZ-0003br-F1
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 05:20:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 708B32E8088
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 05:20:45 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201126181036.3ff5d605@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Nov 2020 05:11:04 -0000
+From: Doug Evans <1905651@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dje
+X-Launchpad-Bug-Reporter: Doug Evans (dje)
+X-Launchpad-Bug-Modifier: Doug Evans (dje)
+References: <160635886967.28413.180075874214780604.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160645386477.7529.14827063615441589298.malone@soybean.canonical.com>
+Subject: [Bug 1905651] Re: Tests cannot call g_error
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
+X-Launchpad-Hash: a07e013660db39a355f634155ab40a8c6ef9f8d8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -104,63 +69,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1905651 <1905651@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/11/20 18:10, Igor Mammedov wrote:
-> On Mon, 23 Nov 2020 09:14:12 -0500
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
-> 
->> Move more sane parts of the huge qemu_init function out of it.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>   softmmu/vl.c | 12 +++++-------
->>   1 file changed, 5 insertions(+), 7 deletions(-)
->>
->> diff --git a/softmmu/vl.c b/softmmu/vl.c
->> index ab08a0290c..5d68cf828c 100644
->> --- a/softmmu/vl.c
->> +++ b/softmmu/vl.c
->> @@ -3070,6 +3070,11 @@ static void qemu_init_board(void)
->>   {
->>       MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
->>   
->> +    if (semihosting_enabled() && !semihosting_get_argc() && current_machine->kernel_filename) {
->> +        /* fall back to the -kernel/-append */
->> +        semihosting_arg_fallback(current_machine->kernel_filename, current_machine->kernel_cmdline);
->> +    }
-> 
-> it doesn't seem to depend on anything that warrants calling it this late.
+I don't know QEMU that well yet, but the following question arises: Why
+can't QEMU be driven in a way that allows it to see that its controlling
+parent has died -> causing QEMU to terminate as well. That way the test
+doesn't need to care how it dies (e.g., we don't want a segfault to hang
+testing; and nor do we, I think, want to install signal handlers for
+every possible signal).
 
-Yes, calling it around machine initialization time is also a 
-possibility.  I just wanted to get rid of it in code that I'm actually 
-looking at. :)
+-- =
 
-Paolo
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1905651
 
-> 
->>       if (machine_class->default_ram_id && current_machine->ram_size &&
->>           numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
->>           create_default_memdev(current_machine, mem_path);
->> @@ -4385,13 +4390,6 @@ void qemu_init(int argc, char **argv, char **envp)
->>           boot_order = machine_class->default_boot_order;
->>       }
->>   
->> -    if (semihosting_enabled() && !semihosting_get_argc()) {
->> -        const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
->> -        const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
->> -        /* fall back to the -kernel/-append */
->> -        semihosting_arg_fallback(kernel_filename, kernel_cmdline);
->> -    }
-> 
-> Can we move this hunk as is to somewhere around qemu_maybe_daemonize() time?
-> 
-> 
->>       if (net_init_clients(&err) < 0) {
->>           error_report_err(err);
->>           exit(1);
-> 
+Title:
+  Tests cannot call g_error
 
+Status in QEMU:
+  New
+
+Bug description:
+  I stumbled on this writing a new test, using tests/qtest/e1000e-test.c
+  as a template.
+
+  g_error() causes SIGTRAP, not SIGABRT, and thus the abort handler doesn't=
+ get run.
+  This in turn means qemu is not killed, which hangs the test because the t=
+ap-driver.pl script hangs waiting for more input.
+  There are a few tests that call g_error().
+
+  The SIGABRT handler explicitly kills qemu, e.g.:
+
+  qos-test.c:
+      qtest_add_abrt_handler(kill_qemu_hook_func, s);
+
+  ref:
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dtests/qtest/libqtest.c;h=
+=3De49f3a1e45f4cd96279241fdb2bbe231029ab922;hb=3DHEAD#l272
+
+  But not unexpectedly there's no such handler for SIGTRAP.
+
+  Apply this patch to trigger a repro:
+
+  diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
+  index fc226fdfeb..e83ace1b5c 100644
+  --- a/tests/qtest/e1000e-test.c
+  +++ b/tests/qtest/e1000e-test.c
+  @@ -87,6 +87,9 @@ static void e1000e_send_verify(QE1000E *d, int *test_so=
+ckets, QGuestAllocator *a
+       /* Wait for TX WB interrupt */
+       e1000e_wait_isr(d, E1000E_TX0_MSG_ID);
+
+  +    g_message("Test g_error hang ...");
+  +    g_error("Pretend something timed out");
+  +
+       /* Check DD bit */
+       g_assert_cmphex(le32_to_cpu(descr.upper.data) & dsta_dd, =3D=3D, dst=
+a_dd);
+
+  Then:
+
+  configure
+  make
+  make check-qtest-i386
+
+  check-qtest-i386 will take awhile. To repro faster:
+
+  $ grep qtest-i386/qos-test Makefile.mtest
+  .test.name.229 :=3D qtest-i386/qos-test
+  $ make run-test-229
+  Running test qtest-i386/qos-test
+  ** Message: 18:40:49.821: Test g_error hang ...
+
+  ** (tests/qtest/qos-test:3820728): ERROR **: 18:40:49.821: Pretend someth=
+ing timed out
+  ERROR qtest-i386/qos-test - Bail out! FATAL-ERROR: Pretend something time=
+d out
+
+  At this point things are hung because tap-driver.pl is still waiting
+  for input because qemu is still running.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1905651/+subscriptions
 
