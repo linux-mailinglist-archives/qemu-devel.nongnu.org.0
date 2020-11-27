@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53112C6834
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 15:51:07 +0100 (CET)
-Received: from localhost ([::1]:49808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FF52C683E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 15:53:38 +0100 (CET)
+Received: from localhost ([::1]:58300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kif5W-0005uK-Nu
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 09:51:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36474)
+	id 1kif7x-0000zz-NJ
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 09:53:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kif0Z-0000nD-IY; Fri, 27 Nov 2020 09:46:00 -0500
+ id 1kif0f-0000uW-EG; Fri, 27 Nov 2020 09:46:05 -0500
 Received: from mail-db8eur05on2112.outbound.protection.outlook.com
  ([40.107.20.112]:40192 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kif0R-000369-JR; Fri, 27 Nov 2020 09:45:56 -0500
+ id 1kif0d-000369-Gg; Fri, 27 Nov 2020 09:46:05 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MQtCosh6r62Z4li8BUQrNkAmxXCQNKSb04y7umghtaJwM4ClgcpTNREX5D6nADJyzWfXbBJ73XsK1IATbFYvxx0Z7UY5KnC+WQexCnmYeKIVB7hRhoPTclXzlKO4gB5WrLDMrYNPNbeJtr60fPhlA9vCFw/Cc2tiPFgqVPV6Yl/oMdS1N1hspc5zSq4iVmGeWGdou1BpsRbTkgyOFrLenkxiC+/D1MlCz29UXxqjDEZUr8lD1Tp4npvmZ+3AcW/iuOlcFaVdG955BoSD2Z+HS097XZNXUkhTL222113jwTkjqOit+ymQfi+xj0roT+jDPxJfKSj5JyF++Ht0N5MPeg==
+ b=g1lr9Okf4Oiw41XTRS79q/RpGsB7XsuNEZljzdckibrS9KQeWP5OtptTqMPfMClzbHwiy6fsh24yzrerwmEMcSv6XnyYbjaQDaEXw9E+7RJj6g1WSHo3SDBbDfVgLWiQ0tqIQC6ucFQRUlXpuf7UQYnVIC+pko7wJVJ8ul7sF8y3vPmKzNcl/TB3ZDZe6WyMJjVDTc0Y2mh8SjTVt/YEkq3s7CSt7JSbS6p8DJLfN17esB/O9acanrJB/SXzhYf3iTU7VYLY7dRssHa982HPMRKZcuWcib4bO7eUptKXKDCwxP7Du9yf78/EcV4VxEWGkspE4s+J7U3xWa3z8BlA7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nWfpKV73n42x1nKNQT2bBcd1svkRFzuHty3dcTTJtEI=;
- b=T6P84rRPFQY265GuUa/hCFiOHuxA2gkbnUANfNa3s79qAPP5zxDkf3CvbYLrwiyxNIkopW3Z434Tr9IXH3I+M58dbPdhza5FlxSfiCIl+qCTtlHEnlOZTGSdh5Tbb6FVJ5eLrjbQxuJ1IV6DOhkw9xUUCqsPvyAMKCdjKXjP3sRSIgs0nmJhPzLGJ8c8OaUgAMJ0AmNexcCP4khgNT85GQWCxro1PrwEkExMnZ5DRYJMrvRWYs/xYCfL003fGWWLEIDgHEltAG9reUs0HQQUUPWndr6xFW7mUOVOFlIMD5qoCeY5DgE1lwrR/eQhiylbmP8pkFK+pYjTrB4S1GBp4A==
+ bh=bfKrlBnM24PbMJMuiw42AzL42bQJiCYNW1BbgVgTT4s=;
+ b=BuKynLKMGARHAcRkVDcbfUbX/36sFvaF1xCzZRRaAzleUms8O+DdpJswZSvGqH6AXzdW8yLMuZ2xvkjGRNNa7dpxDJ0zkBSY/xvwakxe0qOUDGteLIc3Itkk28MoH8Fryy1g9bMdzuJ22aMyrwi8dyUacLCUTP8FLI7L93vPah47NKC9TfGeZy5MbRm09FhRKwfGuVNKsGs+QKKAdOXPkhfL0XD9FZRhnrRj55wVlZK9P5rZpJ9pR+J4vcQTq4mWhD03zTFYD3TNN+Py61eSxLRuP8m3jsM2oWHwtBKjnYLwr/1/gP2nASsdjzhv5cVaqTMgieCvdWwtyWUjbjpnZw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nWfpKV73n42x1nKNQT2bBcd1svkRFzuHty3dcTTJtEI=;
- b=GedyXl8qCIeUPUsCFxMxY70AsGGY6yCaVzgNMeHuHoHd3OBWKO1JZ0VYTgZARz7265uL6aJgO/1uFwwcfSZMzazRIzFM1s8Jb4XJ+Nv9x7AGh2PbUYuBZ3hCBh67IiZXEztsfaO4yB8B1M3PGmdej2ZiF8hmn5hIma3bXMSrdQE=
+ bh=bfKrlBnM24PbMJMuiw42AzL42bQJiCYNW1BbgVgTT4s=;
+ b=XQAJFnjO1HGBR75J4SvR7ECfpT3NZDrSZQWjvwpstiu4vpVhuen5JkLzThOD/vQnDPjvHlKZmJvGzGFvA5q/Q7nk850GcIo7Zev3nh+5MPVw+0jzVvuexQ9No0S6ou9g236a4e0joLEXX/q5DfTLMeVn0EUuFr7MfSoB8nZVtr0=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB5128.eurprd08.prod.outlook.com (2603:10a6:20b:e3::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.24; Fri, 27 Nov
- 2020 14:45:37 +0000
+ 2020 14:45:47 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3611.025; Fri, 27 Nov 2020
- 14:45:36 +0000
+ 14:45:47 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
  den@openvz.org
-Subject: [PATCH v2 00/36] block: update graph permissions update
-Date: Fri, 27 Nov 2020 17:44:46 +0300
-Message-Id: <20201127144522.29991-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 01/36] tests/test-bdrv-graph-mod: add
+ test_parallel_exclusive_write
+Date: Fri, 27 Nov 2020 17:44:47 +0300
+Message-Id: <20201127144522.29991-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20201127144522.29991-1-vsementsov@virtuozzo.com>
+References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [185.215.60.91]
 X-ClientProxiedBy: AM4PR0501CA0052.eurprd05.prod.outlook.com
  (2603:10a6:200:68::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
@@ -67,50 +70,45 @@ Received: from localhost.localdomain (185.215.60.91) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.22 via Frontend
  Transport; Fri, 27 Nov 2020 14:45:36 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3526213a-7bc0-4de3-d109-08d892e31a08
+X-MS-Office365-Filtering-Correlation-Id: 6c73c7ab-cc7f-46a6-b5af-08d892e31a8a
 X-MS-TrafficTypeDiagnostic: AM6PR08MB5128:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB51280297886FEF3A1C889D16C1F80@AM6PR08MB5128.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB5128DA6D0646E4B082E307A4C1F80@AM6PR08MB5128.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jsWKJPUaW/5MFRPKw+aOMpZYukOFj5pA7JOpd5xORoP5OOnMs+u8B/ruPUXJWmaDDJjp4h1RsDkAMLXQz36uJkcN5Rj6b6KuwLrv6vtaRRjD0p1vWtNvjy3PPciR6zkvqt+L2d3tns1PYnN0ZpBh3v0fbGVKVV94cKF+gL0LqvXU1dDU+wV3lC9B151o4+Q5unwhVRn6P+mx95wPERVKvk80dvOVpj8xvO+KJ1z1gTT4sEoO4u7fVdcv4YNDUkg6ihEVeFt2mQQ+ZmOoE9K5cVhM0ze53cB4pszgvEfomNpk80biiEhhy7+jNhbM2+JZyfScJQSdi/r8XBnr+p4kKt6/ua7HzXzGoglCWagb+vdK9aa6/z2dDaABrwC7RmN3y8XeWTrHNkkG5QDpuHt7pQ==
+X-Microsoft-Antispam-Message-Info: 6iztLi3J1k88Zm0VsJWgP0lD3PLIBHyjcJQenhY4nmGkaNJXj7yvIfkwTbbXeZBhujglejEIdUHp2DtaOaGDfDUS2d7UycG54np8Nw9wGiegCzd/eIt1GDgN+9jnVKyARp08PQr3UtxcUsQZk2R8Wco8kuHb73zS2txw2mD9dwfOxgoQMj6oTHa58Z4CJ0vhWNxbxXO9S4B/NfpXfYZacU135CvTVoimL8msBKD7K4KlicbrHKPMYqCScOz9g9LdMyp1kaUJ0SRHq1QRgcBlWOPSZ0pIXuKBhn7GZS2CAwUsEc+XDSX2ia7MR6A0R30VOfT+/td4iEC96T4KrjIGvQYqB/G9L3R/Jr1l33VwxFtjVXmGcfwP0pdDFUU1el3N
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(346002)(39840400004)(136003)(376002)(66946007)(66556008)(478600001)(6512007)(2616005)(66476007)(6506007)(316002)(26005)(966005)(186003)(6666004)(16526019)(956004)(8676002)(5660300002)(6916009)(83380400001)(2906002)(4326008)(1076003)(8936002)(36756003)(15650500001)(86362001)(6486002)(52116002)(107886003);
+ SFS:(4636009)(396003)(366004)(346002)(39840400004)(136003)(376002)(66946007)(66556008)(478600001)(6512007)(2616005)(66476007)(6506007)(316002)(26005)(186003)(6666004)(69590400008)(16526019)(956004)(8676002)(5660300002)(6916009)(83380400001)(2906002)(4326008)(1076003)(8936002)(36756003)(86362001)(6486002)(52116002)(107886003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?T0ExZnpaOEhLUHREMFczM21kZGgzOHlIcCtVV0J6QTNCQnZwZituYTEzQXBV?=
- =?utf-8?B?ZDBEWllQTlNLemFpb09lc20rMzRueFRtVHg3QSsxS2RlTzhPT0U4Q1hDKytV?=
- =?utf-8?B?SlpCTW9vZzlOYXVxVHdVWXZ5WjlLZ2xYRzZZb3lYVlRoUkU0ZVZUNGtDMjlH?=
- =?utf-8?B?VWlyK2dTQ280SXBFcVloUlZqdjRkU05ZdTd3YXFVa1JrTnhvUmZJWWFvYkJB?=
- =?utf-8?B?OWhrOU1CYnJHZmRRT1F0aCt0UkJFMEdsS3pRbkZxQ3o2YWExUlFjRUxmUlBY?=
- =?utf-8?B?VUhQT3RtbVkrdkdzcnhaM0tkQkxtWkN0aVZPM09PbnBmTGtmYTJhb1JOMlYx?=
- =?utf-8?B?eGI4VkFXak0yS1NPY21BMGQ3SmVYOFdNOUxmc2E2dGRKTFJqa05LVDdnWXZX?=
- =?utf-8?B?ZGw3ZUE4VzBSYm9UY2pXdkZNQWkxMjFJTEtPSnluNkxGMm8yR3dpclMzWlJ1?=
- =?utf-8?B?NFl0bml0Yk1VeCt2ak5DWmNoWGpINXZTa0hHaUVDOUpJeWEvQndMRjFqZVdl?=
- =?utf-8?B?Tk1JUTRCU24yRFRSc2VpTm0ycU1SaUQyeDNFako0TmxLZTMwK2hVVUFqUkRL?=
- =?utf-8?B?OUNRNEZGL3BINUZTL1FmeEJrZ2hxcStYM1lqanVtSUl2b1YzT2cvTUcxRTB2?=
- =?utf-8?B?R0xjT0p4NmtmMEMzY04rMU02TzBFSmNpcHF3ZS8rM0JGUHZJU1ZGWHlHRE1Z?=
- =?utf-8?B?c3pndmUyanl0a2oweVR0bS8rWWM4R2gxS3RMUUEyR0lYR1lFQWI4bFFUNWNt?=
- =?utf-8?B?VE5pOHpMYnlYTkJyOTEyT0dOcmM2Y1IybTFyTWU5RGo3Z3VUVE9XQ090YTdh?=
- =?utf-8?B?VUxJaVdqWlYybkJwYWNtRmVCN1YxdUZPMmdPT3Raa2lmcWtOeFFKQWNROVRG?=
- =?utf-8?B?KzFBOVhMc24vZG1kbmgvVzlhb1o3WG9HcmtDMFdFN0JSTHM4TW1VUXArOWFk?=
- =?utf-8?B?V3o2YkhRWlZvdS93Q1JwRSszWDJrOGt2cllOMGcyVUNkZEU2c09kR0p2eXk3?=
- =?utf-8?B?bEo0TTVCblV4a2hhQzdtU0JTS2p4ckxYNnhBbklXbm41NkJTT2YxejlTZk1s?=
- =?utf-8?B?NTI4YUZtYUNaZUYrL1ZyZDIycjZ2ZzJHTkNOOVVhdjJCU1g1emRxOUh6TGZ4?=
- =?utf-8?B?WDJiVm9LWjBGbE9oWjBrdHNzRDUxL2tQYWxPMkF2MlRIT3ZYMDhGWk1najVO?=
- =?utf-8?B?ODZuSmM0MytrcWJJQjVmWWVPZ1EvL2srdkhGeEZFVklQd2lqOHJhSjVpczJN?=
- =?utf-8?B?K1RqeGxPM3hTeDB4dmNQZmNpV1VOL0l6dVdrYWo0Z05Ydk9VQTFPaFlWTTNE?=
- =?utf-8?Q?W4Dq+vBf6hJHT/0yYcTYxz/OtnBnC8uwSc?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?zYBoRtRLanMSsyCXh1huDmhbAOVfVDky3KZRk0euHOEDqQY08QCLGgYBrke6?=
+ =?us-ascii?Q?Gf79KliqO5Rvxz53D/j7sojzL8jLLNZQPUDd/ftazr28jWUaskHXPpN/LWYt?=
+ =?us-ascii?Q?43o5Aa/tzHTyuQtwFXI9vmE1a1IpJXA2YRXhwq7+fLvbLZkuDEWGJf/A4X4p?=
+ =?us-ascii?Q?/HS9riX/6DWnOl61ZwjCrAXc2MurkHfcqWkZ5L01a8Uu5s0mW72UFfVB/+1m?=
+ =?us-ascii?Q?lDxUwKDEemj8ZaAe0PES7ZzMJLkhrxFlihAHLDEkMsBUH/cBER4xI9gWoR3r?=
+ =?us-ascii?Q?wPh+ZxN3X9B6FW+jPEUeubwQbOasaltcHAJ+NsNt2A/Q1fRbXcIxLZ/I6zog?=
+ =?us-ascii?Q?NaglgMl8T/SlVOIWPMwtnFzEwlJDA0YRJ49doFTdzHddGlpqMzXMe1X6g4JO?=
+ =?us-ascii?Q?b9ZflFf4oZhFuGwaYOjQZsaY5rR588tmMTHqcFSJPO+e6ruRYLfvN4hu8ktA?=
+ =?us-ascii?Q?kPD5l3yW8nQKYgm8yAMHgtERX7gO8bXt6UUzgdsUH1h3eKtHivlO3mLuGJsY?=
+ =?us-ascii?Q?DkjeIwK3KSyaIOsPYvtCWMD0KWSuZ1ptnoTJjEjX5UCSCOw0ulCJLeZRAmNm?=
+ =?us-ascii?Q?bWvG4QexNmCEzuVhV1DEgVV5iWBb1WK8mG5RdgIl4IPAgbiiwSKdO/3t56Xn?=
+ =?us-ascii?Q?dD1+K/CFxF7NnOHUs3g5dd9ozB9+8tG2eSVE7wq+LgaJFuQ8awWqoIQ+vDEn?=
+ =?us-ascii?Q?TJE8C8YKseG7ucXVN/iuyLGHlALBecbw/V9f6R9KmnANMJ02RyzyG5KsGDW/?=
+ =?us-ascii?Q?ybFQd6XcHITkcDboykggrM/H5QuqRKrvOLuUSJo3iBXcQh9DCZs7oFgxR9w5?=
+ =?us-ascii?Q?hHxQdx0jFQTEMZcz6THmstHzNsPBScspD99m0F1Hek2HQUyXsJ/QmQ2ct5CY?=
+ =?us-ascii?Q?ZltMokfn2j7a2mLHEylQQmhPceEE1ysyrKCNP7Xp52er0ECxzkS8i4VfVWXc?=
+ =?us-ascii?Q?B/cg4KwWky4r3U39FtAvr/DgKWGrAHDQMul3vcJ1NGie33WIhzQlwr0NN+FY?=
+ =?us-ascii?Q?1TRV?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3526213a-7bc0-4de3-d109-08d892e31a08
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c73c7ab-cc7f-46a6-b5af-08d892e31a8a
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2020 14:45:36.7321 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2020 14:45:37.5097 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /ixV+D29oq8JIhdhRmJWqwm7kDJ1N9WwYDNbCi6KQT1qLXN+h+451dGoHwAqFL9F0T3XaGRgxLtXHIjN4550eChHauGp7mk1vOUVceEOUO4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: LthqGRy+ndqcceSckbyrPoOyvlHF2z+cfCX9lwOem9kEe663Ey4uLkkuNyDWy9QolJG+f6UYwS6Wv2Vpy7mp5duQAZos7TceEYF3F/POgQM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5128
 Received-SPF: pass client-ip=40.107.20.112;
  envelope-from=vsementsov@virtuozzo.com;
@@ -138,120 +136,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Add the test that shows that concept of ignore_children is incomplete.
+Actually, when we want to update something, ignoring permission of some
+existing BdrvChild, we should ignore also the propagated effect of this
+child to the other children. But that's not done. Better approach
+(update permissions on already updated graph) will be implemented
+later.
 
-Here is a proposal of updating graph changing procedures.
+Now the test fails, so it's added with -d argument to not break make
+check.
 
-The thing brought me here is a question about "activating" filters after
-insertion, which is done in mirror_top and backup_top. The problem is
-that we can't simply avoid permission conflict when inserting the
-filter: during insertion old permissions of relations to be removed
-conflicting with new permissions of new created relations. And current
-solution is supporting additional "inactive" mode for the filter when it
-doesn't require any permissions.
+Test fails with
 
-I suggest to change the order of operations: let's first do all graph
-relations modifications and then refresh permissions. Of course we'll
-need a way to restore old graph if refresh fails.
+ "Conflicts with use by fl1 as 'backing', which does not allow 'write' on base"
 
-Another problem with permission update is that we update permissions in
-order of DFS which is not always correct. Better is update node when all
-its parents already updated and require correct permissions. This needs
-a topological sort of nodes prior to permission update, see more in
-patches later.
+because when updating permissions we can ignore original top->fl1
+BdrvChild. But we don't ignore exclusive write permission in fl1->base
+BdrvChild, which is propagated. Correct thing to do is make graph
+change first and then do permission update from the top node.
 
-Patches plan:
+To run test do
 
-01,02 - add failing tests to illustrate conceptual problems of current
-permission update system.
-[Here is side suggestion: we usually add tests after fix, so careful
- reviewer has to change order of patches to check that test fails before
- fix. I add tests in the way the may be simply executed but not yet take
- part in make check. It seems more native: first show the problem, then
- fix it. And when fixed, make tests available for make check]
+  ./test-bdrv-graph-mod -d -p /bdrv-graph-mod/parallel-exclusive-write
 
-03-09 - some perparations, refactorings which may go in separate
+from <build-directory>/tests.
 
-10 - new transaction API
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ tests/test-bdrv-graph-mod.c | 62 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
-15 - toplogical sort implemented for permission update, one of new tests
-now pass
-
-19 - improve bdrv_replace_node. second new test now pass
-
-26 - drop .active field and activation procedure for backup-top!
-
-30 - update bdrv_reopen_multiple. At this point everything is using new
-paradigm of permission update
-
-31-36 - post refactoring, drop old interfaces, we are done.
-
-Note, that this series does nothing with another graph-update problem
-discussed under "[PATCH RFC 0/5] Fix accidental crash in iotest 30".
-
-The series based on block-next Max's branch and can be found here:
-
-git: https://src.openvz.org/scm/~vsementsov/qemu.git
-tag: up-block-topologic-perm-v2
-
-Vladimir Sementsov-Ogievskiy (36):
-  tests/test-bdrv-graph-mod: add test_parallel_exclusive_write
-  tests/test-bdrv-graph-mod: add test_parallel_perm_update
-  block: bdrv_append(): don't consume reference
-  block: bdrv_append(): return status
-  block: add bdrv_parent_try_set_aio_context
-  block: BdrvChildClass: add .get_parent_aio_context handler
-  block: drop ctx argument from bdrv_root_attach_child
-  block: make bdrv_reopen_{prepare,commit,abort} private
-  block: return value from bdrv_replace_node()
-  util: add transactions.c
-  block: bdrv_refresh_perms: check parents compliance
-  block: refactor bdrv_child* permission functions
-  block: rewrite bdrv_child_try_set_perm() using bdrv_refresh_perms()
-  block: inline bdrv_child_*() permission functions calls
-  block: use topological sort for permission update
-  block: add bdrv_drv_set_perm transaction action
-  block: add bdrv_list_* permission update functions
-  block: add bdrv_replace_child_safe() transaction action
-  block: fix bdrv_replace_node_common
-  block: add bdrv_attach_child_common() transaction action
-  block: add bdrv_attach_child_noperm() transaction action
-  block: split out bdrv_replace_node_noperm()
-  block: adapt bdrv_append() for inserting filters
-  block: add bdrv_remove_backing transaction action
-  block: introduce bdrv_drop_filter()
-  block/backup-top: drop .active
-  block: drop ignore_children for permission update functions
-  block: add bdrv_set_backing_noperm() transaction action
-  blockdev: qmp_x_blockdev_reopen: acquire all contexts
-  block: bdrv_reopen_multiple: refresh permissions on updated graph
-  block: drop unused permission update functions
-  block: inline bdrv_check_perm_common()
-  block: inline bdrv_replace_child()
-  block: refactor bdrv_child_set_perm_safe() transaction action
-  block: rename bdrv_replace_child_safe() to bdrv_replace_child()
-  block: refactor bdrv_node_check_perm()
-
- include/block/block.h       |   20 +-
- include/block/block_int.h   |    8 +-
- include/qemu/transactions.h |   46 ++
- block.c                     | 1319 ++++++++++++++++++++---------------
- block/backup-top.c          |   39 +-
- block/block-backend.c       |   13 +-
- block/commit.c              |    7 +-
- block/file-posix.c          |   84 +--
- block/mirror.c              |    9 +-
- blockdev.c                  |   33 +-
- blockjob.c                  |   11 +-
- tests/test-bdrv-drain.c     |    2 +-
- tests/test-bdrv-graph-mod.c |  122 +++-
- util/transactions.c         |   81 +++
- tests/qemu-iotests/283.out  |    2 +-
- util/meson.build            |    1 +
- 16 files changed, 1100 insertions(+), 697 deletions(-)
- create mode 100644 include/qemu/transactions.h
- create mode 100644 util/transactions.c
-
+diff --git a/tests/test-bdrv-graph-mod.c b/tests/test-bdrv-graph-mod.c
+index 8cff13830e..3b9e6f242f 100644
+--- a/tests/test-bdrv-graph-mod.c
++++ b/tests/test-bdrv-graph-mod.c
+@@ -44,6 +44,21 @@ static BlockDriver bdrv_no_perm = {
+     .bdrv_child_perm = no_perm_default_perms,
+ };
+ 
++static void exclusive_write_perms(BlockDriverState *bs, BdrvChild *c,
++                                  BdrvChildRole role,
++                                  BlockReopenQueue *reopen_queue,
++                                  uint64_t perm, uint64_t shared,
++                                  uint64_t *nperm, uint64_t *nshared)
++{
++    *nperm = BLK_PERM_WRITE;
++    *nshared = BLK_PERM_ALL & ~BLK_PERM_WRITE;
++}
++
++static BlockDriver bdrv_exclusive_writer = {
++    .format_name = "exclusive-writer",
++    .bdrv_child_perm = exclusive_write_perms,
++};
++
+ static BlockDriverState *no_perm_node(const char *name)
+ {
+     return bdrv_new_open_driver(&bdrv_no_perm, name, BDRV_O_RDWR, &error_abort);
+@@ -55,6 +70,12 @@ static BlockDriverState *pass_through_node(const char *name)
+                                 BDRV_O_RDWR, &error_abort);
+ }
+ 
++static BlockDriverState *exclusive_writer_node(const char *name)
++{
++    return bdrv_new_open_driver(&bdrv_exclusive_writer, name,
++                                BDRV_O_RDWR, &error_abort);
++}
++
+ /*
+  * test_update_perm_tree
+  *
+@@ -185,8 +206,44 @@ static void test_should_update_child(void)
+     blk_unref(root);
+ }
+ 
++/*
++ * test_parallel_exclusive_write
++ *
++ * Check that when we replace node, old permissions of the node being removed
++ * doesn't break the replacement.
++ */
++static void test_parallel_exclusive_write(void)
++{
++    BlockDriverState *top = exclusive_writer_node("top");
++    BlockDriverState *base = no_perm_node("base");
++    BlockDriverState *fl1 = pass_through_node("fl1");
++    BlockDriverState *fl2 = pass_through_node("fl2");
++
++    bdrv_attach_child(top, fl1, "backing", &child_of_bds, BDRV_CHILD_DATA,
++                      &error_abort);
++    bdrv_attach_child(fl1, base, "backing", &child_of_bds, BDRV_CHILD_FILTERED,
++                      &error_abort);
++    bdrv_attach_child(fl2, base, "backing", &child_of_bds, BDRV_CHILD_FILTERED,
++                      &error_abort);
++    bdrv_ref(base);
++
++    bdrv_replace_node(fl1, fl2, &error_abort);
++
++    bdrv_unref(top);
++}
++
+ int main(int argc, char *argv[])
+ {
++    int i;
++    bool debug = false;
++
++    for (i = 1; i < argc; i++) {
++        if (!strcmp(argv[i], "-d")) {
++            debug = true;
++            break;
++        }
++    }
++
+     bdrv_init();
+     qemu_init_main_loop(&error_abort);
+ 
+@@ -196,5 +253,10 @@ int main(int argc, char *argv[])
+     g_test_add_func("/bdrv-graph-mod/should-update-child",
+                     test_should_update_child);
+ 
++    if (debug) {
++        g_test_add_func("/bdrv-graph-mod/parallel-exclusive-write",
++                        test_parallel_exclusive_write);
++    }
++
+     return g_test_run();
+ }
 -- 
 2.21.3
 
