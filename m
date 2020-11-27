@@ -2,45 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1EE72C68C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 16:36:47 +0100 (CET)
-Received: from localhost ([::1]:60714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3384F2C68BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 16:31:40 +0100 (CET)
+Received: from localhost ([::1]:51576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kifni-0008IT-P1
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 10:36:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44882)
+	id 1kifil-00040s-74
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 10:31:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1kifZ7-0001mw-WE
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:21:45 -0500
-Received: from foss.arm.com ([217.140.110.172]:37160)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1kifYz-0006yP-Df
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:21:41 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CC951597;
- Fri, 27 Nov 2020 07:21:31 -0800 (PST)
-Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7FC403F70D;
- Fri, 27 Nov 2020 07:21:28 -0800 (PST)
-From: Steven Price <steven.price@arm.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>
-Subject: [PATCH v6 2/2] arm64: kvm: Introduce MTE VCPU feature
-Date: Fri, 27 Nov 2020 15:21:13 +0000
-Message-Id: <20201127152113.13099-3-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201127152113.13099-1-steven.price@arm.com>
-References: <20201127152113.13099-1-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1kifgO-0002bI-F2
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:29:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56663)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1kifgL-0001Ip-Aw
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:29:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606490948;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XKH3Q9C0g9DkG272hqpSTp7g2ugMtGEgrEgUqH3qkKE=;
+ b=Dwn8xf80lBCmLF3eehtY/sO64uOhz7UpR452xLS08JazHSXoiN+eurNzOgFWrOy00JJftj
+ SR+TEdDFvLU2izSXb3Z2/5zMAyeeVQ+f/ej8Dc8L32SBGFpuNjevKjfL6eCyINBPvSJYeD
+ L875SwvgXI6uLU4YUaGEbJsPTGiMa84=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-smW6JAWbN4ihQjdF4qKi2A-1; Fri, 27 Nov 2020 10:29:06 -0500
+X-MC-Unique: smW6JAWbN4ihQjdF4qKi2A-1
+Received: by mail-wr1-f69.google.com with SMTP id w17so3556176wrp.11
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 07:29:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=oXKdmvLkDWwHXIC1vCfXtPKtHEwtoC4CPS+KvE2OLhs=;
+ b=JxtuZZ9DgRB/9kAHZYwMqMFcUi5DdUqS4GVxVKXPakXZJUeHEId4ehp34rHYhpVBJc
+ nRxjGaMxMCfJhZU6zT6rBotKwt6ZzFoyI8u4iJ9IE/FpnpsVxfcmwAcKn8984RcvgsZP
+ gNq+MQxNPHVZYs4buYw5MUdow0G5HDCPKXmCFrD+wKBHr3ko8dPI0SUuwODl+ARdLCOQ
+ oAmQGwcZtkSNLEt1+jnpo3bcoNTn4X6WW/8p8vdrlWtEUYonOFfZZ3yGyvHVmYdqF998
+ dO/eB5ceDatfE4vxSY3YJvXz7i5rdR6Z9kkgsKMqQu/ykgCiw9gfizLxpO8MZ+MYzhZ0
+ 2qVw==
+X-Gm-Message-State: AOAM5318J4gOAp/1uh8SGVKm8STkfFqcgym1ny8Cu3z75YcgDll6HZ7H
+ /fRM8Dqf8QU3fCdlddO8Btvbm5qk2KAs0DwneINT8M1f9Th6BBrkVIt18HOB/KmqQzyNO4/9luH
+ TCoOAHmuU248Leos=
+X-Received: by 2002:a5d:67c5:: with SMTP id n5mr11453731wrw.179.1606490945471; 
+ Fri, 27 Nov 2020 07:29:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy/4cCpUXCG3PtHNxRVLUGmUfj2FFttkpnXAUAHHS8uWedyJzj98T7fAMDHerVy+9j1MoYo4Q==
+X-Received: by 2002:a5d:67c5:: with SMTP id n5mr11453684wrw.179.1606490945268; 
+ Fri, 27 Nov 2020 07:29:05 -0800 (PST)
+Received: from steredhat (host-79-17-248-175.retail.telecomitalia.it.
+ [79.17.248.175])
+ by smtp.gmail.com with ESMTPSA id d3sm14667103wrr.2.2020.11.27.07.29.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Nov 2020 07:29:04 -0800 (PST)
+Date: Fri, 27 Nov 2020 16:29:01 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
+Subject: Re: [RFC PATCH 23/27] vhost: unmap qemu's shadow virtqueues on sw
+ live migration
+Message-ID: <20201127152901.cbfu7rmewbxventr@steredhat>
+References: <20201120185105.279030-1-eperezma@redhat.com>
+ <20201120185105.279030-24-eperezma@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20201120185105.279030-24-eperezma@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,224 +98,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
+ Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
+ Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
+ Alex Barba <alex.barba@broadcom.com>,
+ Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
+ Rob Miller <rob.miller@broadcom.com>, Howard Cai <howard.cai@gmail.com>,
+ Parav Pandit <parav@mellanox.com>, vm <vmireyno@marvell.com>,
+ Salil Mehta <mehta.salil.lnk@gmail.com>,
+ Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jim Harford <jim.harford@broadcom.com>,
+ Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
+ Max Gurtovoy <maxgu14@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
-for a VM. This exposes the feature to the guest and automatically tags
-memory pages touched by the VM as PG_mte_tagged (and clears the tags
-storage) to ensure that the guest cannot see stale tags, and so that the
-tags are correctly saved/restored across swap.
+On Fri, Nov 20, 2020 at 07:51:01PM +0100, Eugenio Pérez wrote:
+>Since vhost does not need to access it, it has no sense to keep it
+>mapped.
+>
+>Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+>---
+> hw/virtio/vhost.c | 1 +
+> 1 file changed, 1 insertion(+)
+>
+>diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>index f640d4edf0..eebfac4455 100644
+>--- a/hw/virtio/vhost.c
+>+++ b/hw/virtio/vhost.c
+>@@ -1124,6 +1124,7 @@ static int vhost_sw_live_migration_start(struct vhost_dev *dev)
+>
+>         dev->sw_lm_shadow_vq[idx] = vhost_sw_lm_shadow_vq(dev, idx);
+>         event_notifier_set_handler(&vq->masked_notifier, vhost_handle_call);
+>+        vhost_virtqueue_memory_unmap(dev, &dev->vqs[idx], true);
 
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- arch/arm64/include/asm/kvm_emulate.h |  3 +++
- arch/arm64/include/asm/kvm_host.h    |  4 ++++
- arch/arm64/include/asm/pgtable.h     |  2 +-
- arch/arm64/kernel/mte.c              | 18 +++++++++++++-----
- arch/arm64/kvm/arm.c                 |  9 +++++++++
- arch/arm64/kvm/mmu.c                 | 16 ++++++++++++++++
- arch/arm64/kvm/sys_regs.c            |  6 +++++-
- include/uapi/linux/kvm.h             |  1 +
- 8 files changed, 52 insertions(+), 7 deletions(-)
+IIUC vhost_virtqueue_memory_unmap() is already called at the end of 
+vhost_virtqueue_stop(), so we can skip this call, right?
 
-diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
-index 5ef2669ccd6c..7791ef044b7f 100644
---- a/arch/arm64/include/asm/kvm_emulate.h
-+++ b/arch/arm64/include/asm/kvm_emulate.h
-@@ -79,6 +79,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
- 	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
- 	    vcpu_el1_is_32bit(vcpu))
- 		vcpu->arch.hcr_el2 |= HCR_TID2;
-+
-+	if (kvm_has_mte(vcpu->kvm))
-+		vcpu->arch.hcr_el2 |= HCR_ATA;
- }
- 
- static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
-diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-index d3e136343468..aeff10bc5b31 100644
---- a/arch/arm64/include/asm/kvm_host.h
-+++ b/arch/arm64/include/asm/kvm_host.h
-@@ -120,6 +120,8 @@ struct kvm_arch {
- 	unsigned int pmuver;
- 
- 	u8 pfr0_csv2;
-+	/* Memory Tagging Extension enabled for the guest */
-+	bool mte_enabled;
- };
- 
- struct kvm_vcpu_fault_info {
-@@ -658,4 +660,6 @@ bool kvm_arm_vcpu_is_finalized(struct kvm_vcpu *vcpu);
- #define kvm_arm_vcpu_sve_finalized(vcpu) \
- 	((vcpu)->arch.flags & KVM_ARM64_VCPU_SVE_FINALIZED)
- 
-+#define kvm_has_mte(kvm) (system_supports_mte() && (kvm)->arch.mte_enabled)
-+
- #endif /* __ARM64_KVM_HOST_H__ */
-diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index 4ff12a7adcfd..74dfd9df38fb 100644
---- a/arch/arm64/include/asm/pgtable.h
-+++ b/arch/arm64/include/asm/pgtable.h
-@@ -304,7 +304,7 @@ static inline void set_pte_at(struct mm_struct *mm, unsigned long addr,
- 		__sync_icache_dcache(pte);
- 
- 	if (system_supports_mte() &&
--	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
-+	    pte_present(pte) && pte_valid_user(pte) && !pte_special(pte))
- 		mte_sync_tags(ptep, pte);
- 
- 	__check_racy_pte_update(mm, ptep, pte);
-diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-index 52a0638ed967..e0c252de25cd 100644
---- a/arch/arm64/kernel/mte.c
-+++ b/arch/arm64/kernel/mte.c
-@@ -20,18 +20,24 @@
- #include <asm/ptrace.h>
- #include <asm/sysreg.h>
- 
--static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap)
-+static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool check_swap,
-+			       bool pte_is_tagged)
- {
- 	pte_t old_pte = READ_ONCE(*ptep);
- 
- 	if (check_swap && is_swap_pte(old_pte)) {
- 		swp_entry_t entry = pte_to_swp_entry(old_pte);
- 
--		if (!non_swap_entry(entry) && mte_restore_tags(entry, page))
-+		if (!non_swap_entry(entry) && mte_restore_tags(entry, page)) {
-+			set_bit(PG_mte_tagged, &page->flags);
- 			return;
-+		}
- 	}
- 
--	mte_clear_page_tags(page_address(page));
-+	if (pte_is_tagged) {
-+		set_bit(PG_mte_tagged, &page->flags);
-+		mte_clear_page_tags(page_address(page));
-+	}
- }
- 
- void mte_sync_tags(pte_t *ptep, pte_t pte)
-@@ -39,11 +45,13 @@ void mte_sync_tags(pte_t *ptep, pte_t pte)
- 	struct page *page = pte_page(pte);
- 	long i, nr_pages = compound_nr(page);
- 	bool check_swap = nr_pages == 1;
-+	bool pte_is_tagged = pte_tagged(pte);
- 
- 	/* if PG_mte_tagged is set, tags have already been initialised */
- 	for (i = 0; i < nr_pages; i++, page++) {
--		if (!test_and_set_bit(PG_mte_tagged, &page->flags))
--			mte_sync_page_tags(page, ptep, check_swap);
-+		if (!test_bit(PG_mte_tagged, &page->flags))
-+			mte_sync_page_tags(page, ptep, check_swap,
-+					   pte_is_tagged);
- 	}
- }
- 
-diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-index c0ffb019ca8b..da4aeba1855c 100644
---- a/arch/arm64/kvm/arm.c
-+++ b/arch/arm64/kvm/arm.c
-@@ -89,6 +89,12 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
- 		r = 0;
- 		kvm->arch.return_nisv_io_abort_to_user = true;
- 		break;
-+	case KVM_CAP_ARM_MTE:
-+		if (!system_supports_mte() || kvm->created_vcpus)
-+			return -EINVAL;
-+		r = 0;
-+		kvm->arch.mte_enabled = true;
-+		break;
- 	default:
- 		r = -EINVAL;
- 		break;
-@@ -226,6 +232,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		 */
- 		r = 1;
- 		break;
-+	case KVM_CAP_ARM_MTE:
-+		r = system_supports_mte();
-+		break;
- 	case KVM_CAP_STEAL_TIME:
- 		r = kvm_arm_pvtime_supported();
- 		break;
-diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-index 1a01da9fdc99..014a7ab7c2e7 100644
---- a/arch/arm64/kvm/mmu.c
-+++ b/arch/arm64/kvm/mmu.c
-@@ -877,6 +877,22 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
- 	if (vma_pagesize == PAGE_SIZE && !force_pte)
- 		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
- 							   &pfn, &fault_ipa);
-+
-+	if (kvm_has_mte(kvm) && pfn_valid(pfn)) {
-+		/*
-+		 * VM will be able to see the page's tags, so we must ensure
-+		 * they have been initialised.
-+		 */
-+		struct page *page = pfn_to_page(pfn);
-+		long i, nr_pages = compound_nr(page);
-+
-+		/* if PG_mte_tagged is set, tags have already been initialised */
-+		for (i = 0; i < nr_pages; i++, page++) {
-+			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
-+				mte_clear_page_tags(page_address(page));
-+		}
-+	}
-+
- 	if (writable) {
- 		prot |= KVM_PGTABLE_PROT_W;
- 		kvm_set_pfn_dirty(pfn);
-diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-index 4792d5249f07..469b0ef3eb07 100644
---- a/arch/arm64/kvm/sys_regs.c
-+++ b/arch/arm64/kvm/sys_regs.c
-@@ -1123,7 +1123,8 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
- 		val &= ~(0xfUL << ID_AA64PFR0_CSV2_SHIFT);
- 		val |= ((u64)vcpu->kvm->arch.pfr0_csv2 << ID_AA64PFR0_CSV2_SHIFT);
- 	} else if (id == SYS_ID_AA64PFR1_EL1) {
--		val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
-+		if (!kvm_has_mte(vcpu->kvm))
-+			val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
- 	} else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
- 		val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
- 			 (0xfUL << ID_AA64ISAR1_API_SHIFT) |
-@@ -1369,6 +1370,9 @@ static bool access_ccsidr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
- static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
- 				   const struct sys_reg_desc *rd)
- {
-+	if (kvm_has_mte(vcpu->kvm))
-+		return 0;
-+
- 	return REG_HIDDEN;
- }
- 
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index ca41220b40b8..3e6fb5b580a9 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1053,6 +1053,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_X86_USER_SPACE_MSR 188
- #define KVM_CAP_X86_MSR_FILTER 189
- #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
-+#define KVM_CAP_ARM_MTE 191
- 
- #ifdef KVM_CAP_IRQ_ROUTING
- 
--- 
-2.20.1
+>
+>         vhost_vring_write_addr(dev->sw_lm_shadow_vq[idx], &addr);
+>         r = dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
+>-- 2.18.4
+>
 
 
