@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA612C6D63
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C66D2C6D62
 	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 23:53:06 +0100 (CET)
-Received: from localhost ([::1]:37858 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:37780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kimbx-0002cO-Tn
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 17:53:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51184)
+	id 1kimbw-0002aA-R3
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 17:53:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kimaY-0001hj-05
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 17:51:39 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43785)
+ id 1kimaW-0001hE-2E
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 17:51:36 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:34680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kimaS-00058C-PU
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 17:51:37 -0500
-Received: by mail-wr1-x442.google.com with SMTP id s8so7041042wrw.10
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 14:51:31 -0800 (PST)
+ id 1kimaS-00058F-SN
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 17:51:35 -0500
+Received: by mail-wr1-x442.google.com with SMTP id k14so7087789wrn.1
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 14:51:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QTGrTaVuJuSiVBQceY38No+SvKJpSGjN4L431x5ESuU=;
- b=uA7aNYPcL/V5XuZrNBtEfXoVFPl4a32m1gcxozxlqX3wAkvIwrItVh5Vq/FhVP3uqU
- pvDH1dnE77Asf4W7nV/TlHX707X9IxjVILtS/roPYUCnAVWC4FMPhJ9p3I5mEaLfRx42
- toRuZf01URAWeK7D0sw0+VeCECKc3mafMlk3PE3yYs35198Arg/tqoPJTIVsh7LvMSM9
- OvqZnyjiaRzDT+Qb5gZQzRPpHCYzPp6iKDeFiKOAhS0iwmm3FV50e+pIlxvHIc69GRZl
- 11R3XUbUKTmy0AFUSJYYvQUHBaFAEEWdxxcnWpwM6zJf61eR9k6Jsb/O+/1Nu+NoakyR
- fhKA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3uZMzY6oF54xbyAFQYKRwpZtvEnzb9HX015RCXLfpWQ=;
+ b=pjVUY+14jFJUqdJgZAS0vDYpiuya/0xywop/R3q2NQVYRM/Ni426uAmoNWSzE6O4R7
+ UIVPmyz11JuIoIzjHA3jhNZElKAuuOfGWkrVxX5RD8qwaiE07DKaKfbZgUQHlKA/Nij9
+ jkmaGafUnUYJgxD7iP875NDm7+k5UgGR/O8jLU0LruVnEmA8PyCo2WYCditxhlFeB04x
+ qWuCE3a/dVwYOQRUmd/QGiaCVD4/3mSEjZnWFTx8g6ALEDG8qNNgg9Bw9dxxpMgAxm7/
+ IOmB0GQ0vEL67khtI3mVFGIEdibV+Q+6vsYxC9ZzMQxZib7RSG87SAZHMze+7QNukJrr
+ /B9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QTGrTaVuJuSiVBQceY38No+SvKJpSGjN4L431x5ESuU=;
- b=E2A7jDwzkvjC9jznVMVTeMR4msgirhvaiGu9EV6xEdi/TMa+mpDjhUBN+lkIurHrPQ
- 0m5LXrryCeaRWHCCC50QXx6h2W6ZVZwfB+19JcfTJ0ekLD8BAABKo+CbjIoaDqRS7nzx
- 2qILMHOCQazd7dqfWC8E9pZA0zLZ4/R37F9BS7nSWLqNGapqPxned0aY0E07pWstTFyv
- zy3RJSU6Qx90wKneVqSfbmOxamCA0BTC94cx7CvV/yYkgZcngW1+Gk1oCKOiAj+0ymdg
- 7Ms8Sc0k2KxULrw9MY3R6AelY3xAXQf6MXC0GKO4HvAO9zXtVlagbQaA3SdhzI04zIfB
- EwAA==
-X-Gm-Message-State: AOAM530RyBFoWoOTY1xs8Owu+fy1wAEepbPuanOowdttOH673/n7O7VZ
- sU4qdYScPYDNr3whilHJU1zId64ClmC5Jg==
-X-Google-Smtp-Source: ABdhPJz5JG3rozEmKSjYFXMMQ4izdA/rO4+QSzvkXPr4uFmS6hTuo8wW6ME623/n3ADjV94CbJAY3w==
-X-Received: by 2002:a5d:634d:: with SMTP id b13mr13924955wrw.310.1606517489749; 
- Fri, 27 Nov 2020 14:51:29 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3uZMzY6oF54xbyAFQYKRwpZtvEnzb9HX015RCXLfpWQ=;
+ b=MFgYQQeXwJli+FQd41f5IyEly4We4tyifeiFBtl/uq24yHLzfns/nfkI0OL71m+qVC
+ 1pn4YfXRMmrX8bYDJ67Kqca11u8mGmjbG7khHqTfgCpCnhtD6BblHoM3bgRBzI94OY4O
+ CQaP4AHSizHzYKmsrg9faqpyusF2qxNiGIQS7TMl4yS9EzycnvqrwmfhwqkAKFXenpKu
+ Yu7bzE5n27fCaPKdU0JioPi0x23fXqDlUTmAO2pjkjK72B6raG5aXRH+VXYz31rbFH1L
+ njt3MRhh9GQNRAhloR2a0vFxXARtHckCzR7Z3EjdGrwzzL4FBJjcjAVIQjSuVwMJvLcM
+ XCDg==
+X-Gm-Message-State: AOAM533wvTjnh5ohbbiXFq1NchMgxlDos0JeDSywKY098a76YaNeIZua
+ bksODPoFbDQLb5MqQhhRIkaHaPN+iBOhzg==
+X-Google-Smtp-Source: ABdhPJwG0+NWSdaIsrx6NgiJtvPXBQ9DVp2JFa5+9LRh7pYaA1eJxNDb2LWEUJYgAUJ5qENe8EW2ag==
+X-Received: by 2002:adf:f9c6:: with SMTP id w6mr13433437wrr.273.1606517490828; 
+ Fri, 27 Nov 2020 14:51:30 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q16sm17429756wrn.13.2020.11.27.14.51.28
+ by smtp.gmail.com with ESMTPSA id q16sm17429756wrn.13.2020.11.27.14.51.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 14:51:28 -0800 (PST)
+ Fri, 27 Nov 2020 14:51:30 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] target/openrisc: Move pic_cpu code into CPU object
-Date: Fri, 27 Nov 2020 22:51:24 +0000
-Message-Id: <20201127225127.14770-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/3] hw/openrisc/openrisc_sim: Use IRQ splitter when
+ connecting IRQ to multiple CPUs
+Date: Fri, 27 Nov 2020 22:51:25 +0000
+Message-Id: <20201127225127.14770-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201127225127.14770-1-peter.maydell@linaro.org>
+References: <20201127225127.14770-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::442;
@@ -84,43 +87,60 @@ Cc: Stafford Horne <shorne@gmail.com>, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The openrisc code uses an old style of interrupt handling, where a
-separate standalone set of qemu_irqs invoke a function
-openrisc_pic_cpu_handler() which signals the interrupt to the CPU
-proper by directly calling cpu_interrupt() and cpu_reset_interrupt().
-Because CPU objects now inherit (indirectly) from TYPE_DEVICE, they
-can have GPIO input lines themselves, and the neater modern way to
-implement this is to simply have the CPU object itself provide the
-input IRQ lines.
+openrisc_sim_net_init() attempts to connect the IRQ line from the
+ethernet device to both CPUs in an SMP configuration by simply caling
+sysbus_connect_irq() for it twice.  This doesn't work, because the
+second connection simply overrides the first.
 
-The main aim of this patch series is to make that refactoring,
-which fixes a trivial memory leak reported by Coverity of the IRQs
-allocated in cpu_openrisc_pic_init(), and removes one callsite of
-the qemu_allocate_irqs() function.
+Fix this by creating a TYPE_SPLIT_IRQ to split the IRQ in the SMP
+case.
 
-Patch 1 is a minor bugfix noticed along the way; patch 2 is
-there to make the change in patch 3 simpler and clearer to review.
-
-Tested with 'make check' and 'make check-acceptance'.
-
-thanks
--- PMM
-
-Peter Maydell (3):
-  hw/openrisc/openrisc_sim: Use IRQ splitter when connecting IRQ to
-    multiple CPUs
-  hw/openrisc/openrisc_sim: Abstract out "get IRQ x of CPU y"
-  target/openrisc: Move pic_cpu code into CPU object proper
-
- target/openrisc/cpu.h      |  1 -
- hw/openrisc/openrisc_sim.c | 46 +++++++++++++++++-----------
- hw/openrisc/pic_cpu.c      | 61 --------------------------------------
- target/openrisc/cpu.c      | 32 ++++++++++++++++++++
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/openrisc/openrisc_sim.c | 13 +++++++++++--
  hw/openrisc/Kconfig        |  1 +
- hw/openrisc/meson.build    |  2 +-
- 6 files changed, 63 insertions(+), 80 deletions(-)
- delete mode 100644 hw/openrisc/pic_cpu.c
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
+diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+index d752282e675..a8adf6b70d7 100644
+--- a/hw/openrisc/openrisc_sim.c
++++ b/hw/openrisc/openrisc_sim.c
+@@ -34,6 +34,7 @@
+ #include "hw/sysbus.h"
+ #include "sysemu/qtest.h"
+ #include "sysemu/reset.h"
++#include "hw/core/split-irq.h"
+ 
+ #define KERNEL_LOAD_ADDR 0x100
+ 
+@@ -64,8 +65,16 @@ static void openrisc_sim_net_init(hwaddr base, hwaddr descriptors,
+ 
+     s = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(s, &error_fatal);
+-    for (i = 0; i < num_cpus; i++) {
+-        sysbus_connect_irq(s, 0, cpu_irqs[i][irq_pin]);
++    if (num_cpus > 1) {
++        DeviceState *splitter = qdev_new(TYPE_SPLIT_IRQ);
++        qdev_prop_set_uint32(splitter, "num-lines", num_cpus);
++        qdev_realize_and_unref(splitter, NULL, &error_fatal);
++        for (i = 0; i < num_cpus; i++) {
++            qdev_connect_gpio_out(splitter, i, cpu_irqs[i][irq_pin]);
++        }
++        sysbus_connect_irq(s, 0, qdev_get_gpio_in(splitter, 0));
++    } else {
++        sysbus_connect_irq(s, 0, cpu_irqs[0][irq_pin]);
+     }
+     sysbus_mmio_map(s, 0, base);
+     sysbus_mmio_map(s, 1, descriptors);
+diff --git a/hw/openrisc/Kconfig b/hw/openrisc/Kconfig
+index 6c1e86884e2..8f284f3ba04 100644
+--- a/hw/openrisc/Kconfig
++++ b/hw/openrisc/Kconfig
+@@ -3,3 +3,4 @@ config OR1K_SIM
+     select SERIAL
+     select OPENCORES_ETH
+     select OMPIC
++    select SPLIT_IRQ
 -- 
 2.20.1
 
