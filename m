@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0C42C6A65
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 18:07:35 +0100 (CET)
-Received: from localhost ([::1]:56152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A402C6A67
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 18:08:33 +0100 (CET)
+Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kihDa-00014W-Fw
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 12:07:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43682)
+	id 1kihEW-0001io-8j
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 12:08:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kih93-0006PV-0q
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:02:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39191)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kihCu-0000st-HH
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:06:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kih8z-0007Vg-9O
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:02:52 -0500
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kihCq-0000BB-LH
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:06:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606496567;
+ s=mimecast20190719; t=1606496806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JYXhL2TVPZe6HJTwX71Kh4KzzN9VpVkKjx6XuuAFJSA=;
- b=NpNBbIXYpBVuvA4Ub61IrXcSx9I4IdF9If2m+51V8XNBlGWza0cnhipJNvbTb7Yah9au9y
- qhD1gB6lYyT32fh6iQiwjEEzUIgVDt0uGRUmL0NeQ+ilSaGg/gZrXZT/VD69g3g4Nv4sWp
- cNED053NiaFBl/r5rovbfeSH2ofxVmY=
+ bh=VsMD/TNi6ukZFU8H+l4UaQHr6+mx6Ik2lRYX2H9mdYc=;
+ b=g5jVeC55utfSZwJC7McKYSEvaJRKFjizt7p0fk1wGL9hGQ61A8EWVKDbH1/3DQIN/00W0K
+ eoh1e4KsCKdVY7egChJwom7Z71vWzJpBtI4uVW2D3t2OnbDUP91e5jITP6txXca/rOpTg0
+ jk/U82ubPPGgmri+rrpiYlGVCB/5GkA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-HXPXwEC1NIubI4F9v9hnGQ-1; Fri, 27 Nov 2020 12:02:43 -0500
-X-MC-Unique: HXPXwEC1NIubI4F9v9hnGQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-255-jPpvFywZMzWjcGOiEJiYzQ-1; Fri, 27 Nov 2020 12:06:42 -0500
+X-MC-Unique: jPpvFywZMzWjcGOiEJiYzQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C46680F041;
- Fri, 27 Nov 2020 17:02:42 +0000 (UTC)
-Received: from gondolin (ovpn-113-65.ams2.redhat.com [10.36.113.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7AC15D9D3;
- Fri, 27 Nov 2020 17:02:37 +0000 (UTC)
-Date: Fri, 27 Nov 2020 18:02:35 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH v2] tests/acceptance: add a test for devices on s390x
-Message-ID: <20201127180235.6be7a316.cohuck@redhat.com>
-In-Reply-To: <1c17f8b0-509c-33b1-273e-c7e00e2bb284@redhat.com>
-References: <20201126130158.1471985-1-cohuck@redhat.com>
- <1c17f8b0-509c-33b1-273e-c7e00e2bb284@redhat.com>
-Organization: Red Hat GmbH
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A51D107ACF7;
+ Fri, 27 Nov 2020 17:06:40 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 56B785C1C2;
+ Fri, 27 Nov 2020 17:06:36 +0000 (UTC)
+Date: Fri, 27 Nov 2020 12:06:34 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v6 10/11] accel: introduce AccelCPUClass extending CPUClass
+Message-ID: <20201127170634.GA2271382@habkost.net>
+References: <20201126223218.31480-1-cfontana@suse.de>
+ <20201126223218.31480-11-cfontana@suse.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201126223218.31480-11-cfontana@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,152 +78,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Nov 2020 14:00:16 -0300
-Wainer dos Santos Moschetta <wainersm@redhat.com> wrote:
+On Thu, Nov 26, 2020 at 11:32:17PM +0100, Claudio Fontana wrote:
+> add a new optional interface to CPUClass,
+> which allows accelerators to extend the CPUClass
+> with additional accelerator-specific initializations.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+[...]
+> +static void accel_init_cpu_int_aux(ObjectClass *klass, void *opaque)
+> +{
+> +    CPUClass *cc = CPU_CLASS(klass);
+> +    AccelCPUClass *accel_cpu_interface = opaque;
+> +
+> +    cc->accel_cpu_interface = accel_cpu_interface;
+> +    if (accel_cpu_interface->cpu_class_init) {
+> +        accel_cpu_interface->cpu_class_init(cc);
+> +    }
+> +}
 
-> Hi,
-> 
-> On 11/26/20 10:01 AM, Cornelia Huck wrote:
-> > This adds a very basic test for checking that we present devices
-> > in a way that Linux can consume: boot with both virtio-net-ccw and
-> > virtio-net-pci attached and then verify that Linux is able to see
-> > and detect these devices.
-> >
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > ---
-> > RFC->v2:
-> >   - use a newer kernel that uses the uid in zpci address generation
-> >   - add a zpci device to specify a uid
-> >   - increase timeout
-> >   - tweak naming
-> >   - add a MAINTAINERS entry
-> > ---
-> >   MAINTAINERS                                 |  1 +
-> >   tests/acceptance/machine_s390_ccw_virtio.py | 70 +++++++++++++++++++++
-> >   2 files changed, 71 insertions(+)
-> >   create mode 100644 tests/acceptance/machine_s390_ccw_virtio.py
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 68bc160f41bc..cc1c7c2ffed8 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -1426,6 +1426,7 @@ F: include/hw/s390x/
-> >   F: hw/watchdog/wdt_diag288.c
-> >   F: include/hw/watchdog/wdt_diag288.h
-> >   F: default-configs/s390x-softmmu.mak
-> > +F: tests/acceptance/machine_s390_ccw_virtio.py
-> >   T: git https://github.com/cohuck/qemu.git s390-next
-> >   T: git https://github.com/borntraeger/qemu.git s390-next
-> >   L: qemu-s390x@nongnu.org
-> > diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-> > new file mode 100644
-> > index 000000000000..1f56be776c5f
-> > --- /dev/null
-> > +++ b/tests/acceptance/machine_s390_ccw_virtio.py
-> > @@ -0,0 +1,70 @@
-> > +# Functional test that boots an s390x Linux guest with ccw and PCI devices
-> > +# attached and checks whether the devices are recognized by Linux
-> > +#
-> > +# Copyright (c) 2020 Red Hat, Inc.
-> > +#
-> > +# Author:
-> > +#  Cornelia Huck <cohuck@redhat.com>
-> > +#
-> > +# This work is licensed under the terms of the GNU GPL, version 2 or
-> > +# later.  See the COPYING file in the top-level directory.
-> > +
-> > +
-> > +import os
-> > +  
-> 
-> 
-> Unused import.
+So, now that the approach we're following to trigger the
+accel_init_cpu*() call is less controversial (thanks for your
+patience!), we can try to address the monkey patching issue:
 
-Will remove.
+Monkey patching classes like this is acceptable as an initial
+solution, but I'd like us to have a plan to eventually get rid of
+it.  Monkey patching CPU classes makes querying of CPU model
+information less predictable and subtly dependent on QEMU
+initialization state.
 
-> 
-> 
-> > +from avocado_qemu import Test
-> > +from avocado_qemu import exec_command_and_wait_for_pattern
-> > +from avocado_qemu import wait_for_console_pattern
-> > +
-> > +class S390CCWVirtioMachine(Test):
-> > +    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-> > +
-> > +    def wait_for_console_pattern(self, success_message, vm=None):
-> > +        wait_for_console_pattern(self, success_message,
-> > +                                 failure_message='Kernel panic - not syncing',
-> > +                                 vm=vm)
-> > +
-> > +    timeout = 120
-> > +
-> > +    def test_s390x_devices(self):
-> > +
-> > +        """
-> > +        :avocado: tags=arch:s390x
-> > +        :avocado: tags=machine:s390-ccw-virtio
-> > +        """
-> > +
-> > +        kernel_url = ('https://snapshot.debian.org/archive/debian/'
-> > +                      '20201126T092837Z/dists/buster/main/installer-s390x/'
-> > +                      '20190702+deb10u6/images/generic/kernel.debian')
-> > +        kernel_hash = '5821fbee57d6220a067a8b967d24595621aa1eb6'
-> > +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-> > +
-> > +        initrd_url = ('https://snapshot.debian.org/archive/debian/'
-> > +                      '20201126T092837Z/dists/buster/main/installer-s390x/'
-> > +                      '20190702+deb10u6/images/generic/initrd.debian')
-> > +        initrd_hash = '81ba09c97bef46e8f4660ac25b4ac0a5be3a94d6'
-> > +        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
-> > +
-> > +        self.vm.set_console()
-> > +        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-> > +                              'console=sclp0 root=/dev/ram0 BOOT_DEBUG=3')
-> > +        self.vm.add_args('-nographic',
-> > +                         '-kernel', kernel_path,
-> > +                         '-initrd', initrd_path,
-> > +                         '-append', kernel_command_line,
-> > +                         '-device', 'virtio-net-ccw,devno=fe.1.1111',
-> > +                         '-device', 'zpci,uid=5,target=zzz',
-> > +                         '-device', 'virtio-net-pci,id=zzz')
-> > +        self.vm.launch()
-> > +
-> > +        shell_ready = "sh: can't access tty; job control turned off"
-> > +        self.wait_for_console_pattern(shell_ready)
-> > +        # first debug shell is too early, we need to wait for device detection
-> > +        exec_command_and_wait_for_pattern(self, 'exit', shell_ready)
-> > +
-> > +        ccw_bus_id="0.1.1111"
-> > +        pci_bus_id="0005:00:00.0"
-> > +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
-> > +                                          ccw_bus_id)
-> > +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/pci/devices/',
-> > +                                          pci_bus_id)  
-> 
-> 
-> I tested this test case on GitLab. It passed on the 
-> acceptance-system-centos job 
-> (https://gitlab.com/wainersm/qemu/-/jobs/877308808) and the pipeline as 
-> a whole passed (https://gitlab.com/wainersm/qemu/-/pipelines/222277683).
+Removing CPUClass.accel_cpu_interface may be easy, because it
+should be possible to just call current_accel() when realizing
+CPUs.  Getting rid of CPUClass.cpu_class_init might be more
+difficult, depending on what the ->cpu_class_init() function is
+doing.
 
-Oh, I should have mentioned that I ran it on gitlab as well :)
+> +
+> +/* initialize the arch-specific accel CpuClass interfaces */
+> +static void accel_init_cpu_interfaces(AccelClass *ac, const char *cpu_type)
+> +{
+> +    const char *ac_name; /* AccelClass name */
+> +    char *acc_name;      /* AccelCPUClass name */
+> +    ObjectClass *acc;    /* AccelCPUClass */
+> +
+> +    ac_name = object_class_get_name(OBJECT_CLASS(ac));
+> +    g_assert(ac_name != NULL);
+> +
+> +    acc_name = g_strdup_printf("%s-%s", ac_name, CPU_RESOLVING_TYPE);
+> +    acc = object_class_by_name(acc_name);
+> +    g_free(acc_name);
+> +
+> +    if (acc) {
+> +        object_class_foreach(accel_init_cpu_int_aux, cpu_type, false, acc);
+> +    }
+> +}
+> +
+>  void accel_init_interfaces(AccelClass *ac, const char *cpu_type)
+>  {
+>  #ifndef CONFIG_USER_ONLY
+>      accel_init_ops_interfaces(ac);
+>  #endif /* !CONFIG_USER_ONLY */
+> +
+> +    accel_init_cpu_interfaces(ac, cpu_type);
+>  }
+[...]
 
-> 
-> So once the unused import is removed:
-> 
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-Thanks!
-
-> 
-> 
+-- 
+Eduardo
 
 
