@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97AE2C6CCE
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 22:05:45 +0100 (CET)
-Received: from localhost ([::1]:58890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E65E22C6CDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 22:19:52 +0100 (CET)
+Received: from localhost ([::1]:38188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kikw4-0001e7-Fi
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 16:05:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49426)
+	id 1kil9j-0005M4-FL
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 16:19:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kikuY-0001D5-Da
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 16:04:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40993)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kil86-0004o4-V3
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 16:18:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kikuV-0008Sy-8J
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 16:04:09 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kil84-0003J7-J1
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 16:18:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606511045;
+ s=mimecast20190719; t=1606511887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=i2/dRtOuvhvSk3o68clscms5tYZWhEp07lrknaDlFBk=;
- b=aPPcG5NzRsD28j+tEmZUa3TwwLoP9AzZEIR7leZabuXk2WSGopGJOdNeP1DnYhadttoVxR
- LZz+Fq1X6IEGXHDiP2tkHQ2Nj+WVuGiFpzNXwkuPPS26XED9Pd2GZCWZBOy+kqygV1MxWL
- mf8LHnbdb2rZy5DiEYyQ0/oZwr+/sXc=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-8B6xctoUNy64Jpre4hrzSw-1; Fri, 27 Nov 2020 16:04:04 -0500
-X-MC-Unique: 8B6xctoUNy64Jpre4hrzSw-1
-Received: by mail-qt1-f200.google.com with SMTP id o1so3868877qtp.7
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 13:04:04 -0800 (PST)
+ bh=ettb4PEiP373OrCOXPZLXN8fMtqqK45DMZkEjAgFf1k=;
+ b=ZM1lvLRTl/r19RzyyskpNLZIVTmryfvcazJ1iepgF+98mymSng/NNFR8PvieFeTuKDiULN
+ j65lQ+Bhov9s0hnhWmGKQGJgPJEfnrGuikQpsJrcPxecb561mTmfTdCVheR7BAQoEvK6yz
+ p+qiteZ0nwwHy/p2kLJ5Z+OzMCEzLfg=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-fX33_advMS2WhmyRe9HIVg-1; Fri, 27 Nov 2020 16:18:01 -0500
+X-MC-Unique: fX33_advMS2WhmyRe9HIVg-1
+Received: by mail-pg1-f199.google.com with SMTP id k6so2317721pgh.19
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 13:18:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=i2/dRtOuvhvSk3o68clscms5tYZWhEp07lrknaDlFBk=;
- b=MLuJqDHu1Zu7gF3s/f0YT/EFNkuZXvhC41ZuVRPqn2qswSQgp3gMe7zyg420wpmuE3
- vFhsNFxTQq2tOm6X2psw1tMgfhcVx0OpnUKwv4SH5vr1IyaCJOiJtD/OhjD8NpE5WBUX
- 8QZLly63H3o/f2alMvHnRS4SJ/oxCSmJdZ/plZtJ3Z1b9lJL8+V7CR/BreAdzt/VlmAK
- 1XTzRmipmItscrXLVkibP7RZf+B1WD7zIJ/zvXmfzeVqPnNcvzFkrLj1nFpTomiKJWNO
- kAnMlLlTFd+4f2lLgY+avRV1wH8d0MG4ZJMptvlKz1/fnKZYHPrnvlotgFYreocxpfBF
- IMoA==
-X-Gm-Message-State: AOAM531WIEMzrUcgSzydEhDyPAg7O49w1ScRJcta/6b1npxJc1tw8/EM
- xzLPhyART9iU24EaD6K11Pg8QcQzzaZH/fyiaTnNbXTZTPm4wG2bMDbOOicqxtGf8i1HnLZ0fcV
- BT42RNCKxsph8y8w=
-X-Received: by 2002:a05:6214:40d:: with SMTP id
- z13mr10000501qvx.60.1606511043381; 
- Fri, 27 Nov 2020 13:04:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxH/otpKg9TgWRv62yB5nR1NWhiBOXAuwhpLRU28OGg7Frrz0yIT277aGTx7nsZmxOw3oiCrA==
-X-Received: by 2002:a05:6214:40d:: with SMTP id
- z13mr10000466qvx.60.1606511042986; 
- Fri, 27 Nov 2020 13:04:02 -0800 (PST)
-Received: from xz-x1 ([142.126.81.247])
- by smtp.gmail.com with ESMTPSA id r201sm7230184qka.114.2020.11.27.13.04.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 13:04:01 -0800 (PST)
-Date: Fri, 27 Nov 2020 16:04:00 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v4 2/6] introduce UFFD-WP low-level interface helpers
-Message-ID: <20201127210400.GF6573@xz-x1>
-References: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
- <20201126151734.743849-3-andrey.gruzdev@virtuozzo.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ettb4PEiP373OrCOXPZLXN8fMtqqK45DMZkEjAgFf1k=;
+ b=AGXso41MEMwhjR1ys15HtVqtT1DQkOJ9ocRDm6ik0lTgbfRPFTu3mLXmmXyW5g38oJ
+ wghBcNIu2NSTYBKExooENFzAmVugi951f+RQ6j81bN0m6+FawzZ3b/0w3G43a2HEYAmI
+ wcrvysiYOutShBOF2wPFNqXGDrgDGYScdY6XwE5f/+B06JwWIv7RN/GHjFvRVsBRdxm/
+ Zr7wPjyoYCC4DoZ/TwBO6rlVpA9iF4Zki20hi+o/KFVKzhN7nTHvCAf6iH+m1BuTE46C
+ HqWgDjosniKNy+EPYHUBb9aBw4w3oxIQ4TuElyLRs1xc3fR0qtlZbe36AglGsfQLKDU9
+ wGlg==
+X-Gm-Message-State: AOAM531wWOLgMiiXeAPPKZMItS+tNSocBBy7uy8uywkuMGTZD9a9rJ1v
+ 4p9ROhXQIPjbeHugaAPdiPE0GlzS3fq3usaAuXSTc59OH/dg4HoWX7e7CVUc40Btq5RD3QVhbpz
+ gakO5Hw564dErQNwX/G9XJqzrD61kJDU=
+X-Received: by 2002:a63:344a:: with SMTP id b71mr8110683pga.146.1606511880752; 
+ Fri, 27 Nov 2020 13:18:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxAmcriIDh61qXhSVuf0dfJmoHbPdLvdZpjFM/1nC+GfeD8pXD64EK/1jFxAuKekRivw9wMIZeAKnpd9lvH/qU=
+X-Received: by 2002:a63:344a:: with SMTP id b71mr8110676pga.146.1606511880499; 
+ Fri, 27 Nov 2020 13:18:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201126151734.743849-3-andrey.gruzdev@virtuozzo.com>
+References: <20201126215017.41156-1-agraf@csgraf.de>
+ <20201126215017.41156-2-agraf@csgraf.de>
+ <20201127194406.GB56950@SPB-NB-133.local>
+In-Reply-To: <20201127194406.GB56950@SPB-NB-133.local>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 27 Nov 2020 22:17:48 +0100
+Message-ID: <CABgObfaH1VnnyD0c60APVRNLw5y+605GtDPrKhLuXTRTZB+k1w@mail.gmail.com>
+Subject: Re: [PATCH 1/8] hvf: Add hypervisor entitlement to output binaries
+To: Roman Bolshakov <r.bolshakov@yadro.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000f70a7b05b51d31fb"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,534 +90,382 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Alexander Graf <agraf@csgraf.de>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 26, 2020 at 06:17:30PM +0300, Andrey Gruzdev wrote:
-> Implemented support for the whole RAM block memory
-> protection/un-protection. Introduced higher level
-> ram_write_tracking_start() and ram_write_tracking_stop()
-> to start/stop tracking guest memory writes.
+--000000000000f70a7b05b51d31fb
+Content-Type: text/plain; charset="UTF-8"
 
-The whole patch looks good to me in general.  A few nitpickings below..
+Il ven 27 nov 2020, 20:44 Roman Bolshakov <r.bolshakov@yadro.com> ha
+scritto:
 
-> 
-> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-> ---
->  include/exec/memory.h      |   7 ++
->  include/qemu/userfaultfd.h |  29 +++++
->  migration/ram.c            | 120 +++++++++++++++++++++
->  migration/ram.h            |   4 +
->  util/meson.build           |   1 +
->  util/userfaultfd.c         | 215 +++++++++++++++++++++++++++++++++++++
->  6 files changed, 376 insertions(+)
->  create mode 100644 include/qemu/userfaultfd.h
->  create mode 100644 util/userfaultfd.c
-> 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index 0f3e6bcd5e..3d798fce16 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -139,6 +139,13 @@ typedef struct IOMMUNotifier IOMMUNotifier;
->  /* RAM is a persistent kind memory */
->  #define RAM_PMEM (1 << 5)
->  
-> +/*
-> + * UFFDIO_WRITEPROTECT is used on this RAMBlock to
-> + * support 'write-tracking' migration type.
-> + * Implies ram_state->ram_wt_enabled.
-> + */
-> +#define RAM_UF_WRITEPROTECT (1 << 6)
-> +
->  static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
->                                         IOMMUNotifierFlag flags,
->                                         hwaddr start, hwaddr end,
-> diff --git a/include/qemu/userfaultfd.h b/include/qemu/userfaultfd.h
-> new file mode 100644
-> index 0000000000..fb843c76db
-> --- /dev/null
-> +++ b/include/qemu/userfaultfd.h
-> @@ -0,0 +1,29 @@
-> +/*
-> + * Linux UFFD-WP support
-> + *
-> + * Copyright Virtuozzo GmbH, 2020
-> + *
-> + * Authors:
-> + *  Andrey Gruzdev   <andrey.gruzdev@virtuozzo.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef USERFAULTFD_H
-> +#define USERFAULTFD_H
-> +
-> +#include "qemu/osdep.h"
-> +#include "exec/hwaddr.h"
-> +#include <linux/userfaultfd.h>
-> +
-> +int uffd_create_fd(void);
-> +void uffd_close_fd(int uffd);
-> +int uffd_register_memory(int uffd, hwaddr start, hwaddr length,
-> +        bool track_missing, bool track_wp);
-> +int uffd_unregister_memory(int uffd, hwaddr start, hwaddr length);
-> +int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp);
-> +int uffd_read_events(int uffd, struct uffd_msg *msgs, int count);
-> +bool uffd_poll_events(int uffd, int tmo);
-> +
-> +#endif /* USERFAULTFD_H */
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 7811cde643..3adfd1948d 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -56,6 +56,11 @@
->  #include "savevm.h"
->  #include "qemu/iov.h"
->  #include "multifd.h"
-> +#include "sysemu/runstate.h"
-> +
-> +#ifdef CONFIG_LINUX
-> +#include "qemu/userfaultfd.h"
-> +#endif
->  
->  /***********************************************************/
->  /* ram save/restore */
-> @@ -298,6 +303,8 @@ struct RAMSrcPageRequest {
->  struct RAMState {
->      /* QEMUFile used for this migration */
->      QEMUFile *f;
-> +    /* UFFD file descriptor, used in 'write-tracking' migration */
-> +    int uffdio_fd;
->      /* Last block that we have visited searching for dirty pages */
->      RAMBlock *last_seen_block;
->      /* Last block from where we have sent data */
-> @@ -3788,6 +3795,119 @@ static int ram_resume_prepare(MigrationState *s, void *opaque)
->      return 0;
->  }
->  
-> +/*
-> + * ram_write_tracking_start: start UFFD-WP memory tracking
-> + *
-> + * Returns 0 for success or negative value in case of error
-> + *
+> On Thu, Nov 26, 2020 at 10:50:10PM +0100, Alexander Graf wrote:
+> > In macOS 11, QEMU only gets access to Hypervisor.framework if it has the
+> > respective entitlement. Add an entitlement template and automatically
+> self
+> > sign and apply the entitlement in the build.
+> >
+> > Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> > ---
+> >  accel/hvf/entitlements.plist |  8 ++++++++
+> >  meson.build                  | 30 ++++++++++++++++++++++++++----
+> >  scripts/entitlement.sh       | 11 +++++++++++
+> >  3 files changed, 45 insertions(+), 4 deletions(-)
+> >  create mode 100644 accel/hvf/entitlements.plist
+> >  create mode 100755 scripts/entitlement.sh
+>
+> Hi,
+>
+> I think the patch should go ahead of other changes (with Paolo's fix for
+> ^C) and land into 5.2 because entitlements are needed for x86_64 hvf too
+> since Big Sur Beta 3. Ad-hoc signing is very convenient for development.
+>
 
-(extra new line)
+It's certainly too late for 5.2, but we could include the patch in the
+release notes and in 5.2.1.
 
-> + */
-> +int ram_write_tracking_start(void)
-> +{
-> +#ifdef CONFIG_LINUX
-> +    int uffd;
-> +    RAMState *rs = ram_state;
-> +    RAMBlock *bs;
-> +
-> +    /* Open UFFD file descriptor */
-> +    uffd = uffd_create_fd();
-> +    if (uffd < 0) {
-> +        return uffd;
-> +    }
-> +    rs->uffdio_fd = uffd;
+Paolo
 
-May need a rcu_read_lock() here to guarantee safe access to
-RAMBLOCK_FOREACH_NOT_IGNORED.
+Also, It might be good to have configure/meson option to disable signing
+> at all. Primarily for homebrew:
+>
+> https://discourse.brew.sh/t/code-signing-installed-executables/2131/10
+>
+> There's no established process how to deal with it, e.g. GDB in homebrew
+> has caveats section for now:
+>
+>   ==> Caveats
+>   gdb requires special privileges to access Mach ports.
+>   You will need to codesign the binary. For instructions, see:
+>
+>     https://sourceware.org/gdb/wiki/BuildingOnDarwin
+>
+> The discussion on discourse mentions some plans to do signing in
+> homebrew CI (with real Developer ID) but none of them are implemented
+> now.
+>
+> For now it'd be helpful to provide a way to disable signing and install
+> the entitlements (if one wants to sign after installation). Similar
+> issue was raised to fish-shell a while ago:
+>
+> https://github.com/fish-shell/fish-shell/issues/6952
+> https://github.com/fish-shell/fish-shell/issues/7467
+>
+> >
+> > diff --git a/accel/hvf/entitlements.plist b/accel/hvf/entitlements.plist
+> > new file mode 100644
+> > index 0000000000..154f3308ef
+> > --- /dev/null
+> > +++ b/accel/hvf/entitlements.plist
+> > @@ -0,0 +1,8 @@
+> > +<?xml version="1.0" encoding="UTF-8"?>
+> > +<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "
+> http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+> > +<plist version="1.0">
+> > +<dict>
+> > +    <key>com.apple.security.hypervisor</key>
+> > +    <true/>
+> > +</dict>
+> > +</plist>
+> > diff --git a/meson.build b/meson.build
+> > index 5062407c70..2a7ff5560c 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -1844,9 +1844,14 @@ foreach target : target_dirs
+> >      }]
+> >    endif
+> >    foreach exe: execs
+> > -    emulators += {exe['name']:
+> > -         executable(exe['name'], exe['sources'],
+> > -               install: true,
+> > +    exe_name = exe['name']
+> > +    exe_sign = 'CONFIG_HVF' in config_target
+>
+> I don't have Apple Silicon HW but it may require different kind of
+> entitlements for CONFIG_TCG:
+>
+>
+> https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
+>
+> Thanks,
+> Roman
+>
+> > +    if exe_sign
+> > +      exe_name += '-unsigned'
+> > +    endif
+> > +
+> > +    emulator = executable(exe_name, exe['sources'],
+> > +               install: not exe_sign,
+> >                 c_args: c_args,
+> >                 dependencies: arch_deps + deps + exe['dependencies'],
+> >                 objects: lib.extract_all_objects(recursive: true),
+> > @@ -1854,7 +1859,24 @@ foreach target : target_dirs
+> >                 link_depends: [block_syms, qemu_syms] +
+> exe.get('link_depends', []),
+> >                 link_args: link_args,
+> >                 gui_app: exe['gui'])
+> > -    }
+> > +
+> > +    if exe_sign
+> > +      exe_full = meson.current_build_dir() / exe['name']
+> > +      emulators += {exe['name'] : custom_target(exe['name'],
+> > +                   install: true,
+> > +                   install_dir: get_option('bindir'),
+> > +                   depends: emulator,
+> > +                   output: exe['name'],
+> > +                   command: [
+> > +                     meson.current_source_dir() /
+> 'scripts/entitlement.sh',
+> > +                     meson.current_build_dir() / exe['name'] +
+> '-unsigned',
+> > +                     meson.current_build_dir() / exe['name'],
+> > +                     meson.current_source_dir() /
+> 'accel/hvf/entitlements.plist'
+> > +                   ])
+> > +      }
+> > +    else
+> > +      emulators += {exe['name']: emulator}
+> > +    endif
+> >
+> >      if 'CONFIG_TRACE_SYSTEMTAP' in config_host
+> >        foreach stp: [
+> > diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
+> > new file mode 100755
+> > index 0000000000..7ed9590bf9
+> > --- /dev/null
+> > +++ b/scripts/entitlement.sh
+> > @@ -0,0 +1,11 @@
+> > +#!/bin/sh -e
+> > +#
+> > +# Helper script for the build process to apply entitlements
+> > +
+> > +SRC="$1"
+> > +DST="$2"
+> > +ENTITLEMENT="$3"
+> > +
+> > +rm -f "$2"
+> > +cp -a "$SRC" "$DST"
+> > +codesign --entitlements "$ENTITLEMENT" --force -s - "$DST"
+> > --
+> > 2.24.3 (Apple Git-128)
+> >
+> >
+>
+>
 
-> +
-> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-> +        /* Nothing to do with read-only and MMIO-writable regions */
-> +        if (bs->mr->readonly || bs->mr->rom_device) {
-> +            continue;
-> +        }
-> +
-> +        bs->flags |= RAM_UF_WRITEPROTECT;
-> +        /* Register block memory with UFFD to track writes */
-> +        if (uffd_register_memory(rs->uffdio_fd, (hwaddr) bs->host,
-> +                bs->max_length, false, true)) {
-> +            goto fail;
-> +        }
-> +        /* Apply UFFD write protection to the block memory range */
-> +        if (uffd_protect_memory(rs->uffdio_fd, (hwaddr) bs->host,
-> +                bs->max_length, true)) {
-> +            goto fail;
-> +        }
-> +
-> +        info_report("UFFD-WP write-tracking enabled: "
-> +                "block_id=%s page_size=%zu start=%p length=%lu "
-> +                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
-> +                bs->idstr, bs->page_size, bs->host, bs->max_length,
-> +                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
-> +                bs->mr->nonvolatile, bs->mr->rom_device);
+--000000000000f70a7b05b51d31fb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Is info_report() by default printed?  Change this into a tracepoint?  Please
-refer to functions named with trace_*().
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il ven 27 nov 2020, 20:44 Roman Bolshakov &lt;<a href=
+=3D"mailto:r.bolshakov@yadro.com">r.bolshakov@yadro.com</a>&gt; ha scritto:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex">On Thu, Nov 26, 2020 at 10:50:10PM=
+ +0100, Alexander Graf wrote:<br>
+&gt; In macOS 11, QEMU only gets access to Hypervisor.framework if it has t=
+he<br>
+&gt; respective entitlement. Add an entitlement template and automatically =
+self<br>
+&gt; sign and apply the entitlement in the build.<br>
+&gt; <br>
+&gt; Signed-off-by: Alexander Graf &lt;<a href=3D"mailto:agraf@csgraf.de" t=
+arget=3D"_blank" rel=3D"noreferrer">agraf@csgraf.de</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 accel/hvf/entitlements.plist |=C2=A0 8 ++++++++<br>
+&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | 30 ++++++++++++++++++++++++++----<br>
+&gt;=C2=A0 scripts/entitlement.sh=C2=A0 =C2=A0 =C2=A0 =C2=A0| 11 ++++++++++=
++<br>
+&gt;=C2=A0 3 files changed, 45 insertions(+), 4 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 accel/hvf/entitlements.plist<br>
+&gt;=C2=A0 create mode 100755 scripts/entitlement.sh<br>
+<br>
+Hi,<br>
+<br>
+I think the patch should go ahead of other changes (with Paolo&#39;s fix fo=
+r<br>
+^C) and land into 5.2 because entitlements are needed for x86_64 hvf too<br=
+>
+since Big Sur Beta 3. Ad-hoc signing is very convenient for development.<br=
+></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">It&=
+#39;s certainly too late for 5.2, but we could include the patch in the rel=
+ease notes and in 5.2.1.</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
+>Paolo</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gma=
+il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex">Also, It might be good to have con=
+figure/meson option to disable signing<br>
+at all. Primarily for homebrew:<br>
+<br>
+<a href=3D"https://discourse.brew.sh/t/code-signing-installed-executables/2=
+131/10" rel=3D"noreferrer noreferrer" target=3D"_blank">https://discourse.b=
+rew.sh/t/code-signing-installed-executables/2131/10</a><br>
+<br>
+There&#39;s no established process how to deal with it, e.g. GDB in homebre=
+w<br>
+has caveats section for now:<br>
+<br>
+=C2=A0 =3D=3D&gt; Caveats<br>
+=C2=A0 gdb requires special privileges to access Mach ports.<br>
+=C2=A0 You will need to codesign the binary. For instructions, see:<br>
+<br>
+=C2=A0 =C2=A0 <a href=3D"https://sourceware.org/gdb/wiki/BuildingOnDarwin" =
+rel=3D"noreferrer noreferrer" target=3D"_blank">https://sourceware.org/gdb/=
+wiki/BuildingOnDarwin</a><br>
+<br>
+The discussion on discourse mentions some plans to do signing in<br>
+homebrew CI (with real Developer ID) but none of them are implemented<br>
+now.<br>
+<br>
+For now it&#39;d be helpful to provide a way to disable signing and install=
+<br>
+the entitlements (if one wants to sign after installation). Similar<br>
+issue was raised to fish-shell a while ago:<br>
+<br>
+<a href=3D"https://github.com/fish-shell/fish-shell/issues/6952" rel=3D"nor=
+eferrer noreferrer" target=3D"_blank">https://github.com/fish-shell/fish-sh=
+ell/issues/6952</a><br>
+<a href=3D"https://github.com/fish-shell/fish-shell/issues/7467" rel=3D"nor=
+eferrer noreferrer" target=3D"_blank">https://github.com/fish-shell/fish-sh=
+ell/issues/7467</a><br>
+<br>
+&gt; <br>
+&gt; diff --git a/accel/hvf/entitlements.plist b/accel/hvf/entitlements.pli=
+st<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000000..154f3308ef<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/accel/hvf/entitlements.plist<br>
+&gt; @@ -0,0 +1,8 @@<br>
+&gt; +&lt;?xml version=3D&quot;1.0&quot; encoding=3D&quot;UTF-8&quot;?&gt;<=
+br>
+&gt; +&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &qu=
+ot;<a href=3D"http://www.apple.com/DTDs/PropertyList-1.0.dtd" rel=3D"norefe=
+rrer noreferrer" target=3D"_blank">http://www.apple.com/DTDs/PropertyList-1=
+.0.dtd</a>&quot;&gt;<br>
+&gt; +&lt;plist version=3D&quot;1.0&quot;&gt;<br>
+&gt; +&lt;dict&gt;<br>
+&gt; +=C2=A0 =C2=A0 &lt;key&gt;com.apple.security.hypervisor&lt;/key&gt;<br=
+>
+&gt; +=C2=A0 =C2=A0 &lt;true/&gt;<br>
+&gt; +&lt;/dict&gt;<br>
+&gt; +&lt;/plist&gt;<br>
+&gt; diff --git a/meson.build b/meson.build<br>
+&gt; index 5062407c70..2a7ff5560c 100644<br>
+&gt; --- a/meson.build<br>
+&gt; +++ b/meson.build<br>
+&gt; @@ -1844,9 +1844,14 @@ foreach target : target_dirs<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }]<br>
+&gt;=C2=A0 =C2=A0 endif<br>
+&gt;=C2=A0 =C2=A0 foreach exe: execs<br>
+&gt; -=C2=A0 =C2=A0 emulators +=3D {exe[&#39;name&#39;]:<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0executable(exe[&#39;name&#39;], exe=
+[&#39;sources&#39;],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install: true,=
+<br>
+&gt; +=C2=A0 =C2=A0 exe_name =3D exe[&#39;name&#39;]<br>
+&gt; +=C2=A0 =C2=A0 exe_sign =3D &#39;CONFIG_HVF&#39; in config_target<br>
+<br>
+I don&#39;t have Apple Silicon HW but it may require different kind of<br>
+entitlements for CONFIG_TCG:<br>
+<br>
+<a href=3D"https://developer.apple.com/documentation/apple_silicon/porting_=
+just-in-time_compilers_to_apple_silicon" rel=3D"noreferrer noreferrer" targ=
+et=3D"_blank">https://developer.apple.com/documentation/apple_silicon/porti=
+ng_just-in-time_compilers_to_apple_silicon</a><br>
+<br>
+Thanks,<br>
+Roman<br>
+<br>
+&gt; +=C2=A0 =C2=A0 if exe_sign<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 exe_name +=3D &#39;-unsigned&#39;<br>
+&gt; +=C2=A0 =C2=A0 endif<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 emulator =3D executable(exe_name, exe[&#39;sources&#39;=
+],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install: not e=
+xe_sign,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0c_args: c=
+_args,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dependenc=
+ies: arch_deps + deps + exe[&#39;dependencies&#39;],<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0objects: =
+lib.extract_all_objects(recursive: true),<br>
+&gt; @@ -1854,7 +1859,24 @@ foreach target : target_dirs<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0link_depe=
+nds: [block_syms, qemu_syms] + exe.get(&#39;link_depends&#39;, []),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0link_args=
+: link_args,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gui_app: =
+exe[&#39;gui&#39;])<br>
+&gt; -=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if exe_sign<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 exe_full =3D meson.current_build_dir() / exe[&#3=
+9;name&#39;]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 emulators +=3D {exe[&#39;name&#39;] : custom_tar=
+get(exe[&#39;name&#39;],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+install: true,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+install_dir: get_option(&#39;bindir&#39;),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+depends: emulator,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+output: exe[&#39;name&#39;],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+command: [<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0meson.current_source_dir() / &#39;scripts/entitlement.sh&#39;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0meson.current_build_dir() / exe[&#39;name&#39;] + &#39;-unsigned&#39=
+;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0meson.current_build_dir() / exe[&#39;name&#39;],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0meson.current_source_dir() / &#39;accel/hvf/entitlements.plist&#39;<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+])<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 else<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 emulators +=3D {exe[&#39;name&#39;]: emulator}<b=
+r>
+&gt; +=C2=A0 =C2=A0 endif<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if &#39;CONFIG_TRACE_SYSTEMTAP&#39; in config_host=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 foreach stp: [<br>
+&gt; diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh<br>
+&gt; new file mode 100755<br>
+&gt; index 0000000000..7ed9590bf9<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/scripts/entitlement.sh<br>
+&gt; @@ -0,0 +1,11 @@<br>
+&gt; +#!/bin/sh -e<br>
+&gt; +#<br>
+&gt; +# Helper script for the build process to apply entitlements<br>
+&gt; +<br>
+&gt; +SRC=3D&quot;$1&quot;<br>
+&gt; +DST=3D&quot;$2&quot;<br>
+&gt; +ENTITLEMENT=3D&quot;$3&quot;<br>
+&gt; +<br>
+&gt; +rm -f &quot;$2&quot;<br>
+&gt; +cp -a &quot;$SRC&quot; &quot;$DST&quot;<br>
+&gt; +codesign --entitlements &quot;$ENTITLEMENT&quot; --force -s - &quot;$=
+DST&quot;<br>
+&gt; -- <br>
+&gt; 2.24.3 (Apple Git-128)<br>
+&gt; <br>
+&gt; <br>
+<br>
+</blockquote></div></div></div>
 
-> +    }
-> +
-> +    return 0;
-> +
-> +fail:
-> +    error_report("ram_write_tracking_start() failed: restoring initial memory state");
-> +
-> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-> +        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
-> +            continue;
-> +        }
-> +        /*
-> +         * In case some memory block failed to be write-protected
-> +         * remove protection and unregister all succeeded RAM blocks
-> +         */
-> +        uffd_protect_memory(rs->uffdio_fd, (hwaddr) bs->host, bs->max_length, false);
-> +        uffd_unregister_memory(rs->uffdio_fd, (hwaddr) bs->host, bs->max_length);
-> +        /* Cleanup flags */
-> +        bs->flags &= ~RAM_UF_WRITEPROTECT;
-> +    }
-> +
-> +    uffd_close_fd(uffd);
-> +    rs->uffdio_fd = -1;
-> +    return -1;
-> +#else
-> +    rs->uffdio_fd = -1;
-> +    error_setg(&migrate_get_current()->error,
-> +            "Background-snapshot not supported on non-Linux hosts");
-
-Accessing the global var seems an overkill to me.  I'd simply return an error,
-since iiuc if we gate the capability bit well, then these paths won't really
-trigger at all.  So it's just to pass the compilations.
-
-> +    return -1;
-> +#endif /* CONFIG_LINUX */
-> +}
-> +
-> +/**
-> + * ram_write_tracking_stop: stop UFFD-WP memory tracking and remove protection
-> + */
-> +void ram_write_tracking_stop(void)
-> +{
-> +#ifdef CONFIG_LINUX
-> +    RAMState *rs = ram_state;
-> +    RAMBlock *bs;
-> +    assert(rs->uffdio_fd >= 0);
-
-Maybe too harsh - we can return if it's invalid.
-
-Meanwhile, better rcu_read_lock(), as well?
-
-> +
-> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-> +        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
-> +            continue;
-> +        }
-> +        /* Remove protection and unregister all affected RAM blocks */
-> +        uffd_protect_memory(rs->uffdio_fd, (hwaddr) bs->host, bs->max_length, false);
-> +        uffd_unregister_memory(rs->uffdio_fd, (hwaddr) bs->host, bs->max_length);
-> +        /* Cleanup flags */
-> +        bs->flags &= ~RAM_UF_WRITEPROTECT;
-> +
-> +        info_report("UFFD-WP write-tracking disabled: "
-> +                "block_id=%s page_size=%zu start=%p length=%lu "
-> +                "romd_mode=%i ram=%i readonly=%i nonvolatile=%i rom_device=%i",
-> +                bs->idstr, bs->page_size, bs->host, bs->max_length,
-> +                bs->mr->romd_mode, bs->mr->ram, bs->mr->readonly,
-> +                bs->mr->nonvolatile, bs->mr->rom_device);
-
-Use tracepoint?
-
-> +    }
-> +
-> +    /* Finally close UFFD file descriptor */
-> +    uffd_close_fd(rs->uffdio_fd);
-> +    rs->uffdio_fd = -1;
-> +#else
-> +    error_setg(&migrate_get_current()->error,
-> +            "Background-snapshot not supported on non-Linux hosts");
-
-Ditto.
-
-> +#endif /* CONFIG_LINUX */
-> +}
-> +
->  static SaveVMHandlers savevm_ram_handlers = {
->      .save_setup = ram_save_setup,
->      .save_live_iterate = ram_save_iterate,
-> diff --git a/migration/ram.h b/migration/ram.h
-> index 011e85414e..0ec63e27ee 100644
-> --- a/migration/ram.h
-> +++ b/migration/ram.h
-> @@ -79,4 +79,8 @@ void colo_flush_ram_cache(void);
->  void colo_release_ram_cache(void);
->  void colo_incoming_start_dirty_log(void);
->  
-> +/* Background snapshots */
-> +int ram_write_tracking_start(void);
-> +void ram_write_tracking_stop(void);
-> +
->  #endif
-> diff --git a/util/meson.build b/util/meson.build
-> index f359af0d46..c64bfe94b3 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -50,6 +50,7 @@ endif
->  
->  if have_system
->    util_ss.add(when: 'CONFIG_GIO', if_true: [files('dbus.c'), gio])
-> +  util_ss.add(when: 'CONFIG_LINUX', if_true: files('userfaultfd.c'))
->  endif
->  
->  if have_block
-> diff --git a/util/userfaultfd.c b/util/userfaultfd.c
-> new file mode 100644
-> index 0000000000..038953d7ed
-> --- /dev/null
-> +++ b/util/userfaultfd.c
-> @@ -0,0 +1,215 @@
-> +/*
-> + * Linux UFFD-WP support
-> + *
-> + * Copyright Virtuozzo GmbH, 2020
-> + *
-> + * Authors:
-> + *  Andrey Gruzdev   <andrey.gruzdev@virtuozzo.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/bitops.h"
-> +#include "qemu/error-report.h"
-> +#include "qemu/userfaultfd.h"
-> +#include <poll.h>
-> +#include <sys/syscall.h>
-> +#include <sys/ioctl.h>
-> +
-> +/**
-> + * uffd_create_fd: create UFFD file descriptor
-> + *
-> + * Returns non-negative file descriptor or negative value in case of an error
-> + */
-> +int uffd_create_fd(void)
-> +{
-> +    int uffd;
-> +    struct uffdio_api api_struct;
-> +    uint64_t ioctl_mask = BIT(_UFFDIO_REGISTER) | BIT(_UFFDIO_UNREGISTER);
-> +
-> +    uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
-> +    if (uffd < 0) {
-> +        error_report("uffd_create_fd() failed: UFFD not supported");
-> +        return -1;
-> +    }
-> +
-> +    api_struct.api = UFFD_API;
-> +    api_struct.features = UFFD_FEATURE_PAGEFAULT_FLAG_WP;
-
-This might be too strict if we want to reuse the codes with postcopy to run on
-old kernels that only supports missing.  Not a big problem for now; we can work
-on top.
-
-> +    if (ioctl(uffd, UFFDIO_API, &api_struct)) {
-> +        error_report("uffd_create_fd() failed: "
-> +                     "API version not supported version=%llx errno=%i",
-> +                api_struct.api, errno);
-
-(A few strange alignments... won't complain but fixing would be even better)
-
-> +        goto fail;
-> +    }
-> +
-> +    if ((api_struct.ioctls & ioctl_mask) != ioctl_mask) {
-> +        error_report("uffd_create_fd() failed: "
-> +                     "PAGEFAULT_FLAG_WP feature missing");
-> +        goto fail;
-> +    }
-> +
-> +    return uffd;
-> +
-> +fail:
-> +    close(uffd);
-> +    return -1;
-> +}
-> +
-> +/**
-> + * uffd_close_fd: close UFFD file descriptor
-> + *
-> + * @uffd: UFFD file descriptor
-> + */
-> +void uffd_close_fd(int uffd)
-> +{
-> +    assert(uffd >= 0);
-> +    close(uffd);
-> +}
-> +
-> +/**
-> + * uffd_register_memory: register memory range with UFFD
-> + *
-> + * Returns 0 in case of success, negative value on error
-> + *
-> + * @uffd: UFFD file descriptor
-> + * @start: starting virtual address of memory range
-> + * @length: length of memory range
-> + * @track_missing: generate events on missing-page faults
-> + * @track_wp: generate events on write-protected-page faults
-> + */
-> +int uffd_register_memory(int uffd, hwaddr start, hwaddr length,
-
-My understanding is that hwaddr is for guest physical address space.  Here
-I think either uint64_t or "void *" may suite better.
-
-> +        bool track_missing, bool track_wp)
-> +{
-> +    struct uffdio_register uffd_register;
-> +
-> +    uffd_register.range.start = start;
-> +    uffd_register.range.len = length;
-> +    uffd_register.mode = (track_missing ? UFFDIO_REGISTER_MODE_MISSING : 0) |
-> +                         (track_wp ? UFFDIO_REGISTER_MODE_WP : 0);
-> +
-> +    if (ioctl(uffd, UFFDIO_REGISTER, &uffd_register)) {
-> +        error_report("uffd_register_memory() failed: "
-> +                     "start=%0"PRIx64" len=%"PRIu64" mode=%llu errno=%i",
-> +                start, length, uffd_register.mode, errno);
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +/**
-> + * uffd_unregister_memory: un-register memory range with UFFD
-> + *
-> + * Returns 0 in case of success, negative value on error
-> + *
-> + * @uffd: UFFD file descriptor
-> + * @start: starting virtual address of memory range
-> + * @length: length of memory range
-> + */
-> +int uffd_unregister_memory(int uffd, hwaddr start, hwaddr length)
-
-Same question on using hwaddr as above.
-
-> +{
-> +    struct uffdio_range uffd_range;
-> +
-> +    uffd_range.start = start;
-> +    uffd_range.len = length;
-> +
-> +    if (ioctl(uffd, UFFDIO_UNREGISTER, &uffd_range)) {
-> +        error_report("uffd_unregister_memory() failed: "
-> +                     "start=%0"PRIx64" len=%"PRIu64" errno=%i",
-> +                start, length, errno);
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +/**
-> + * uffd_protect_memory: protect/unprotect memory range for writes with UFFD
-
-It may look strange if uffd_protect_memory() can also unprotect stuff...
-
-Maybe rename it to uffd_change_protection()?
-
-> + *
-> + * Returns 0 on success or negative value in case of error
-> + *
-> + * @uffd: UFFD file descriptor
-> + * @start: starting virtual address of memory range
-> + * @length: length of memory range
-> + * @wp: write-protect/unprotect
-> + */
-> +int uffd_protect_memory(int uffd, hwaddr start, hwaddr length, bool wp)
-> +{
-> +    struct uffdio_writeprotect uffd_writeprotect;
-> +    int res;
-> +
-> +    uffd_writeprotect.range.start = start;
-> +    uffd_writeprotect.range.len = length;
-> +    uffd_writeprotect.mode = (wp ? UFFDIO_WRITEPROTECT_MODE_WP : 0);
-> +
-> +    do {
-> +        res = ioctl(uffd, UFFDIO_WRITEPROTECT, &uffd_writeprotect);
-> +    } while (res < 0 && errno == EINTR);
-> +    if (res < 0) {
-> +        error_report("uffd_protect_memory() failed: "
-> +                     "start=%0"PRIx64" len=%"PRIu64" mode=%llu errno=%i",
-> +                start, length, uffd_writeprotect.mode, errno);
-> +        return -1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +/**
-> + * uffd_read_events: read pending UFFD events
-> + *
-> + * Returns number of fetched messages, 0 if non is available or
-> + * negative value in case of an error
-> + *
-> + * @uffd: UFFD file descriptor
-> + * @msgs: pointer to message buffer
-> + * @count: number of messages that can fit in the buffer
-> + */
-> +int uffd_read_events(int uffd, struct uffd_msg *msgs, int count)
-> +{
-> +    ssize_t res;
-> +    do {
-> +        res = read(uffd, msgs, count * sizeof(struct uffd_msg));
-> +    } while (res < 0 && errno == EINTR);
-> +
-> +    if ((res < 0 && errno == EAGAIN)) {
-> +        return 0;
-> +    }
-> +    if (res < 0) {
-> +        error_report("uffd_read_events() failed: errno=%i", errno);
-> +        return -1;
-> +    }
-> +
-> +    return (int) (res / sizeof(struct uffd_msg));
-> +}
-> +
-> +/**
-> + * uffd_poll_events: poll UFFD file descriptor for read
-> + *
-> + * Returns true if events are available for read, false otherwise
-> + *
-> + * @uffd: UFFD file descriptor
-> + * @tmo: timeout in milliseconds, 0 for non-blocking operation,
-> + *       negative value for infinite wait
-> + */
-> +bool uffd_poll_events(int uffd, int tmo)
-
-Shall we spell "tmo" out?
-
-Thanks,
-
-> +{
-> +    int res;
-> +    struct pollfd poll_fd = { .fd = uffd, .events = POLLIN, .revents = 0 };
-> +
-> +    do {
-> +        res = poll(&poll_fd, 1, tmo);
-> +    } while (res < 0 && errno == EINTR);
-> +
-> +    if (res == 0) {
-> +        return false;
-> +    }
-> +    if (res < 0) {
-> +        error_report("uffd_poll_events() failed: errno=%i", errno);
-> +        return false;
-> +    }
-> +
-> +    return (poll_fd.revents & POLLIN) != 0;
-> +}
-> -- 
-> 2.25.1
-> 
-
--- 
-Peter Xu
+--000000000000f70a7b05b51d31fb--
 
 
