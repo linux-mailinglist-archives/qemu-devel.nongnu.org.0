@@ -2,71 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79E102C66E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 14:34:55 +0100 (CET)
-Received: from localhost ([::1]:60262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B9B22C66E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 14:36:48 +0100 (CET)
+Received: from localhost ([::1]:34852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kidtm-0003ro-J4
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 08:34:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44710)
+	id 1kidvb-00054R-5N
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 08:36:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kidpf-00013M-Dz
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 08:30:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56375)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kidqX-0001fy-0B
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 08:31:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kidpT-000113-4v
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 08:30:35 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kidqR-0001Np-Dl
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 08:31:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606483826;
+ s=mimecast20190719; t=1606483886;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vtK5ZX+qNTus+qF0YE7fN2YwQUSG6QLzBmlGcn96vnE=;
- b=eKbRigZzDT+o5GuQ+7R5+hHn9qo3+qZJpO7YIwqVhJV/oD2c/cW6hESrtGkb5/+jMtUE54
- 7Sn8aNaS86RT3lFSvwpLEFcHYJbwEfFJoQ2jq+26XsDPdu4woihAFCY03BViGc6YI/5jP+
- p3ePRPYgG9TDTH+4W5Eq53navdhjsi4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-oeja48v5Mau2ox7vZ2xCZQ-1; Fri, 27 Nov 2020 08:30:23 -0500
-X-MC-Unique: oeja48v5Mau2ox7vZ2xCZQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 726938030C0
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 13:30:22 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 883491A88B;
- Fri, 27 Nov 2020 13:30:21 +0000 (UTC)
-Date: Fri, 27 Nov 2020 14:30:20 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 36/36] vl: move all generic initialization out of vl.c
-Message-ID: <20201127143020.2fe2d877@redhat.com>
-In-Reply-To: <20201123141435.2726558-37-pbonzini@redhat.com>
-References: <20201123141435.2726558-1-pbonzini@redhat.com>
- <20201123141435.2726558-37-pbonzini@redhat.com>
+ bh=VSoCQN9LBKnAq1K8c60N6ZFeYIVSzJRCltBojK0Rlbw=;
+ b=PZEEKGQF3zZrvkmZBaoiLtVj/6ZF0/qOpRluN5vt3L7jaBSMNndb4rdUb3fktnsAfO3VPA
+ YSc0iP2b/vj02QayoCm5+T3O/yExT/qkmGgXnNTAN3Vza4on0ROq6+7X2YGABU3BzWv49C
+ +eKAH16waowrnMfDc9uLJpEYcW/wWjw=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-If4Sc_QMPZeK_MmqkWLUiA-1; Fri, 27 Nov 2020 08:31:22 -0500
+X-MC-Unique: If4Sc_QMPZeK_MmqkWLUiA-1
+Received: by mail-ej1-f69.google.com with SMTP id t4so293105eju.0
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 05:31:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VSoCQN9LBKnAq1K8c60N6ZFeYIVSzJRCltBojK0Rlbw=;
+ b=KIjKvwYmGgza2EDcZ7m8i25dharKF6K5rXnlPdo+15HtjgMOQauv4D9dPaeA+VthCA
+ r90cD1Om5Sb+S/8FfrwWSy8cPYV5UvYiiHON/aCFvBv6tHoR9AeyoqBoYi7/lEAOoezz
+ C/zXIXY9j1T8rnQCbNiPwfIgYgB1zlGTLOGax7okwL8kN6liaZqJiO5H6J5y7P5E2ovD
+ 3qPFpoeijSEP2LYk1vgsoiMS0h8ut6E1p94jyLEhfYorWFx+v6XuWCW6oeyJsa9OZzmN
+ WLsfxOg1JWUF3s5M0wfZgb+iac6KnGr1roOVjSRNJgvnByNadyvWkA+6ZDz1huFkqLI7
+ 4hkw==
+X-Gm-Message-State: AOAM531WhL4k3f3Xc4nA1ggoFKFgMOo7n1VZgAD672PK2hKSs160QhpG
+ in/4h+QPCtMV8J9zLB6O0MQ+ujF6u8HI8ChiOZUfIZj/5ZBmbrwgeQ4X6IkteUnPyer1QX67FH7
+ ns5aQk3M/vSj2VIw=
+X-Received: by 2002:aa7:db8a:: with SMTP id u10mr7811633edt.204.1606483881077; 
+ Fri, 27 Nov 2020 05:31:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx9apks/K8m6ghY4hoYgWtl5uXcJg/ZVaLUb0T7/qhG83UZ+0VRpgTMG5o7viaEtDDytOekMQ==
+X-Received: by 2002:aa7:db8a:: with SMTP id u10mr7811593edt.204.1606483880888; 
+ Fri, 27 Nov 2020 05:31:20 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id eb14sm4848486edb.20.2020.11.27.05.31.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Nov 2020 05:31:20 -0800 (PST)
+Subject: Re: [RFC v6 10/11] accel: introduce AccelCPUClass extending CPUClass
+To: Claudio Fontana <cfontana@suse.de>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201126223218.31480-1-cfontana@suse.de>
+ <20201126223218.31480-11-cfontana@suse.de>
+ <6cbd508c-b24b-3219-3302-196dfefaa8f7@redhat.com>
+ <d43db8fc-ae7f-0f5f-2e3c-5aad1930f732@suse.de>
+ <b5da5096-da08-0856-a69a-12db19c40f67@suse.de>
+ <925030fe-4a98-cfb2-ead6-b4b5dbe581ca@suse.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <5415cf3a-d25b-1a8f-6388-5b665f777237@redhat.com>
+Date: Fri, 27 Nov 2020 14:31:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <925030fe-4a98-cfb2-ead6-b4b5dbe581ca@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,219 +110,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, haxm-team@intel.com,
+ Cameron Esfahani <dirty@apple.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 23 Nov 2020 09:14:35 -0500
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+On 27/11/20 12:41, Claudio Fontana wrote:
+> This seems to be due to "-machine none", is machine none supposed to
+> have no default cpu_type? Is it expected that for machine none
+> current_machine->cpu_type is NULL, or is it a bug?
 
-> qdev_machine_creation_done is only setting a flag now.  Extend it to
-> move more code out of vl.c.  Leave only consistency checks and gdbserver
-> processing in qemu_machine_creation_done.
-> 
-> gdbserver_start can be moved after qdev_machine_creation_done because
-> it only does listen on the socket and creates some internal data
-> structures; it does not send any data (e.g. guest state) over the socket.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+"-machine none" has no CPU at all, so I think anything is acceptable. 
+There's also the possibility of emulating big.LITTLE machines in the 
+future with >1 cpu_type, so the cop out of doing it on the whole 
+hierarchy is easiest.
 
-Reviewed-by: 
-
-> ---
->  hw/core/machine.c      | 47 +++++++++++++++++++++++++++++++++++++++++-
->  hw/core/qdev.c         | 12 +++--------
->  include/hw/qdev-core.h |  1 +
->  softmmu/vl.c           | 37 +--------------------------------
->  4 files changed, 51 insertions(+), 46 deletions(-)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 5659b1f49c..025c4f9749 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -16,16 +16,21 @@
->  #include "sysemu/replay.h"
->  #include "qemu/units.h"
->  #include "hw/boards.h"
-> +#include "hw/loader.h"
->  #include "qapi/error.h"
->  #include "qapi/qapi-visit-common.h"
->  #include "qapi/visitor.h"
->  #include "hw/sysbus.h"
-> +#include "sysemu/cpus.h"
->  #include "sysemu/sysemu.h"
-> +#include "sysemu/reset.h"
-> +#include "sysemu/runstate.h"
->  #include "sysemu/numa.h"
->  #include "qemu/error-report.h"
->  #include "sysemu/qtest.h"
->  #include "hw/pci/pci.h"
->  #include "hw/mem/nvdimm.h"
-> +#include "migration/global_state.h"
->  #include "migration/vmstate.h"
->  
->  GlobalProperty hw_compat_5_1[] = {
-> @@ -1186,10 +1191,50 @@ void qemu_remove_machine_init_done_notifier(Notifier *notify)
->      notifier_remove(notify);
->  }
->  
-> -void qemu_run_machine_init_done_notifiers(void)
-> +void qdev_machine_creation_done(void)
->  {
-> +    cpu_synchronize_all_post_init();
-> +
-> +    if (current_machine->boot_once) {
-> +        qemu_boot_set(current_machine->boot_once, &error_fatal);
-> +        qemu_register_reset(restore_boot_order, g_strdup(current_machine->boot_order));
-> +    }
-> +
-> +    /*
-> +     * ok, initial machine setup is done, starting from now we can
-> +     * only create hotpluggable devices
-> +     */
-> +    qdev_hotplug = true;
-> +    qdev_assert_realized_properly();
-> +
-> +    /* TODO: once all bus devices are qdevified, this should be done
-> +     * when bus is created by qdev.c */
-> +    /*
-> +     * TODO: If we had a main 'reset container' that the whole system
-> +     * lived in, we could reset that using the multi-phase reset
-> +     * APIs. For the moment, we just reset the sysbus, which will cause
-> +     * all devices hanging off it (and all their child buses, recursively)
-> +     * to be reset. Note that this will *not* reset any Device objects
-> +     * which are not attached to some part of the qbus tree!
-> +     */
-> +    qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
-> +
->      machine_init_done = true;
->      notifier_list_notify(&machine_init_done_notifiers, NULL);
-> +
-> +    if (rom_check_and_register_reset() != 0) {
-> +        error_report("rom check and register reset failed");
-> +        exit(1);
-> +    }
-> +
-> +    replay_start();
-> +
-> +    /* This checkpoint is required by replay to separate prior clock
-> +       reading from the other reads, because timer polling functions query
-> +       clock values from the log. */
-> +    replay_checkpoint(CHECKPOINT_RESET);
-> +    qemu_system_reset(SHUTDOWN_CAUSE_NONE);
-> +    register_global_state();
->  }
->  
->  static const TypeInfo machine_info = {
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index 262bca716f..bc5df8ce69 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -413,7 +413,7 @@ void qdev_unrealize(DeviceState *dev)
->      object_property_set_bool(OBJECT(dev), "realized", false, &error_abort);
->  }
->  
-> -static int qdev_assert_realized_properly(Object *obj, void *opaque)
-> +static int qdev_assert_realized_properly_cb(Object *obj, void *opaque)
->  {
->      DeviceState *dev = DEVICE(object_dynamic_cast(obj, TYPE_DEVICE));
->      DeviceClass *dc;
-> @@ -426,16 +426,10 @@ static int qdev_assert_realized_properly(Object *obj, void *opaque)
->      return 0;
->  }
->  
-> -void qdev_machine_creation_done(void)
-> +void qdev_assert_realized_properly(void)
->  {
-> -    /*
-> -     * ok, initial machine setup is done, starting from now we can
-> -     * only create hotpluggable devices
-> -     */
-> -    qdev_hotplug = true;
-> -
->      object_child_foreach_recursive(object_get_root(),
-> -                                   qdev_assert_realized_properly, NULL);
-> +                                   qdev_assert_realized_properly_cb, NULL);
->  }
->  
->  bool qdev_machine_modified(void)
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index b77a2f1da7..6446846752 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -815,6 +815,7 @@ const VMStateDescription *qdev_get_vmsd(DeviceState *dev);
->  
->  const char *qdev_fw_name(DeviceState *dev);
->  
-> +void qdev_assert_realized_properly(void);
->  Object *qdev_get_machine(void);
->  
->  /* FIXME: make this a link<> */
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index aeb988bcad..1fde4a17a9 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -72,7 +72,6 @@
->  #include "hw/i386/pc.h"
->  #include "migration/misc.h"
->  #include "migration/snapshot.h"
-> -#include "migration/global_state.h"
->  #include "sysemu/tpm.h"
->  #include "sysemu/dma.h"
->  #include "hw/audio/soundhw.h"
-> @@ -2426,8 +2425,6 @@ static void qemu_create_cli_devices(void)
->  
->  static void qemu_machine_creation_done(void)
->  {
-> -    cpu_synchronize_all_post_init();
-> -
->      /* Did we create any drives that we failed to create a device for? */
->      drive_check_orphaned();
->  
-> @@ -2445,43 +2442,11 @@ static void qemu_machine_creation_done(void)
->  
->      qdev_prop_check_globals();
->  
-> -    if (current_machine->boot_once) {
-> -        qemu_boot_set(current_machine->boot_once, &error_fatal);
-> -        qemu_register_reset(restore_boot_order, g_strdup(current_machine->boot_order));
-> -    }
-> -
-> -    if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
-> -        exit(1);
-> -    }
-> -
->      qdev_machine_creation_done();
->  
-> -    /* TODO: once all bus devices are qdevified, this should be done
-> -     * when bus is created by qdev.c */
-> -    /*
-> -     * TODO: If we had a main 'reset container' that the whole system
-> -     * lived in, we could reset that using the multi-phase reset
-> -     * APIs. For the moment, we just reset the sysbus, which will cause
-> -     * all devices hanging off it (and all their child buses, recursively)
-> -     * to be reset. Note that this will *not* reset any Device objects
-> -     * which are not attached to some part of the qbus tree!
-> -     */
-> -    qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
-> -    qemu_run_machine_init_done_notifiers();
-> -
-> -    if (rom_check_and_register_reset() != 0) {
-> -        error_report("rom check and register reset failed");
-> +    if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
->          exit(1);
->      }
-> -
-> -    replay_start();
-> -
-> -    /* This checkpoint is required by replay to separate prior clock
-> -       reading from the other reads, because timer polling functions query
-> -       clock values from the log. */
-> -    replay_checkpoint(CHECKPOINT_RESET);
-> -    qemu_system_reset(SHUTDOWN_CAUSE_NONE);
-> -    register_global_state();
->  }
->  
->  void qmp_x_exit_preconfig(Error **errp)
+Paolo
 
 
