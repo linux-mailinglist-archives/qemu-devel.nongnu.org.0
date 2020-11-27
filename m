@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2702C6BD1
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 20:09:04 +0100 (CET)
-Received: from localhost ([::1]:36648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BECD2C6BF1
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 20:23:50 +0100 (CET)
+Received: from localhost ([::1]:58018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kij79-00015U-2Z
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 14:09:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56364)
+	id 1kijLR-0002Ll-I7
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 14:23:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kij2x-00058q-1D
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:04:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34965)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kij2r-00022y-W5
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:04:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606503876;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HvH9I7UuseWlqYOfmZvr4nNNJaXwbdfvzo6xobnJ3Gs=;
- b=esI5VHlmKWC8lLXvszSD1iqH0avEtfvQjKfXrENfkJ49xJMKRSbi/orle0GK5pJ1fKDET3
- 0rZned3t8xT06Ft3xDI6DFaE+789qabOVJVUNZBxwV5Np5NyzBWi6U4oCnFgI0X9Z0wwkP
- g0YioD0CJzVhK5T2ODKZy/DY0M678ek=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-cMFLK_GpOgiczbLdhN_IAA-1; Fri, 27 Nov 2020 14:04:34 -0500
-X-MC-Unique: cMFLK_GpOgiczbLdhN_IAA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5875C8049C7;
- Fri, 27 Nov 2020 19:04:31 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69EF160BF1;
- Fri, 27 Nov 2020 19:04:27 +0000 (UTC)
-Date: Fri, 27 Nov 2020 14:04:24 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v6 07/11] i386: move TCG cpu class initialization out of
- helper.c
-Message-ID: <20201127190424.GH2271382@habkost.net>
-References: <20201126223218.31480-1-cfontana@suse.de>
- <20201126223218.31480-8-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kijAd-00059M-T9
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:12:39 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34690)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kijAc-0004Ri-1E
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:12:39 -0500
+Received: by mail-wr1-x441.google.com with SMTP id k14so6651954wrn.1
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 11:12:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1bq0iDuC/nznSu3yVWAfM2mAbaoiF3Yk2VQjStX2Hsk=;
+ b=kOjgHZURRpECDbByMHDBh9rCsDTIJEU31CjV8XUaBJhHCZUSf+Sw7sC5xszWKkhtIa
+ rWj3Y932hM/cKdddFezEJIfg2GFgAde68eF+lm0UTjtn75F+jYWWDSIaQyDMTbbvL18I
+ p9cieFXijqgjrigPK+vIWbIfy8++X1SM8aEqt1QQ2phq/xjxt2yMIhHIutlb6mYB/6Tj
+ oyvYSsUqRqR/CxF6p3VNBsNvRXXh3naJTm3F/Pmk2cj2div0MFEBqfZN0iKj6PGBiQ3D
+ Yj3fYUl0sINdSxkqJ4aHu1k/r34QO6lNrzw6E7RKYLvurQIlfUUx++mrOuCPkd4XKvkd
+ 2sKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1bq0iDuC/nznSu3yVWAfM2mAbaoiF3Yk2VQjStX2Hsk=;
+ b=b2gynXyuJM1IcnWVQ5bTjUb2k7DAa5C7CXcCTb0QbD3aaZOnAw+xrqGNHDfydy7dNy
+ cjEcz/u2YsLIBuTnAA8cjyH17HdadSV1MoPWAQa1pitRf1u6rHXb3fOkvt5SyNMRwYwP
+ DsVueM3g5/mVIGfUFWCLdbBVY8Oq/CwRK6Nw/BdlV3zfvjlriyBq299fngu5pYRRMxJS
+ dcZck7ItDqgVsva5ERrAcXK4nenfQoonpR64M8z05GicbYD7os0lrQF9AwQxMhz1rKkE
+ VXUhe/TloZn26lkPE8UO6IwFEtD8+cp03k2BIMwDUcsbV8nkxYKQNzV+AlzIfx9UwuS5
+ f6zA==
+X-Gm-Message-State: AOAM531h1y/+D9iLaWgdDHz8NBOs2Z811r2s7kb5p7RF9PlrrhzeGE7z
+ EYodPifvh9oF5Gj35gZa20xtfMHKb0/oqQ==
+X-Google-Smtp-Source: ABdhPJyERhDqrSxKbeVWfU4QGHMnIBjYnCePf6JvNGYWclhW6Q63XTKXpkEZFFFwYdzkQP2rAY8Ajw==
+X-Received: by 2002:a5d:6744:: with SMTP id l4mr12512755wrw.378.1606504356059; 
+ Fri, 27 Nov 2020 11:12:36 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id 34sm15809722wrh.78.2020.11.27.11.12.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Nov 2020 11:12:35 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] target/nios2: Roll cpu_pic code into CPU itself
+Date: Fri, 27 Nov 2020 19:12:31 +0000
+Message-Id: <20201127191233.11200-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201126223218.31480-8-cfontana@suse.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,176 +80,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Marek Vasut <marex@denx.de>, Sandra Loosemore <sandra@codesourcery.com>,
+ Chris Wulff <crwulff@gmail.com>, Wentong Wu <wentong.wu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that I understand what you are doing here, I have specific
-questions about the functions you are moving, below:
+(As well as the listed nios2 maintainers, I've cc'd a couple
+of the more recent contributors to this target in case they're
+interested or wish to test the changes.)
 
-On Thu, Nov 26, 2020 at 11:32:14PM +0100, Claudio Fontana wrote:
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-[...]
-> @@ -1495,7 +1497,8 @@ static inline uint64_t x86_cpu_xsave_components(X86CPU *cpu)
->             cpu->env.features[FEAT_XSAVE_COMP_LO];
->  }
->  
-> -const char *get_register_name_32(unsigned int reg)
-> +/* Return name of 32-bit register, from a R_* constant */
-> +static const char *get_register_name_32(unsigned int reg)
->  {
->      if (reg >= CPU_NB_REGS32) {
->          return NULL;
-> @@ -7012,13 +7015,6 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr value)
->      cpu->env.eip = value;
->  }
->  
-> -static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-> -{
-> -    X86CPU *cpu = X86_CPU(cs);
-> -
-> -    cpu->env.eip = tb->pc - tb->cs_base;
-> -}
+The nios2 code uses an old style of interrupt handling, where a
+separate standalone set of qemu_irqs invoke a function
+nios2_pic_cpu_handler() which signals the interrupt to the CPU proper
+by directly calling cpu_interrupt() and cpu_reset_interrupt().
+Because CPU objects now inherit (indirectly) from TYPE_DEVICE, they
+can have GPIO input lines themselves, and the neater modern way to
+implement this is to simply have the CPU object itself provide the
+input IRQ lines.
 
-Question to be answered in the commit message: how can somebody
-be sure this code is not necessary for any other accelerators?
-The TranslationBlock* argument is a hint, but not a guarantee.
+This allows us to roll all of the code in hw/nios/cpu_pic.c
+into target/nios2 one way or another.
 
-Maybe we should rename CPUClass.synchronize_from_tb to
-CPUClass.tcg_synchronize_from_tb?  Maybe we should have a
-separate TCGCpuOperations struct to carry TCG-specific methods?
+The motivation here is fixing a trivial Coverity-reported leak
+(CID 1421916) of the IRQ array allocated in nios2_cpu_pic_init(),
+and also part of the extremely slow refactoring of code away
+from using qemu_allocate_irqs() at all.
 
-(The same questions above apply to the other methods below)
+Tested with 'make check' and 'make check-acceptance' (which does
+include a boot test of a nios2 10m50 guest).
 
+thanks
+-- PMM
 
-> -
->  int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
->  {
->      X86CPU *cpu = X86_CPU(cs);
-> @@ -7252,17 +7248,18 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
->      cc->class_by_name = x86_cpu_class_by_name;
->      cc->parse_features = x86_cpu_parse_featurestr;
->      cc->has_work = x86_cpu_has_work;
-> +
->  #ifdef CONFIG_TCG
-> -    cc->do_interrupt = x86_cpu_do_interrupt;
-> -    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
+Peter Maydell (2):
+  target/nios2: Move cpu_pic code into CPU object proper
+  target/nios2: Move nios2_check_interrupts() into target/nios2
 
-These two are in seg_helper.c, so I agree it makes sense to keep
-it in tcg_cpu_common_class_init().
-
-I'd like to understand why they are TCG-specific, though.  Are
-CPUClass.do_interrupt and CPUClass.cpu_exec_enter TCG-specific on
-all architectures, or only in x86?
-
-> -#endif
-> +    tcg_cpu_common_class_init(cc);
-> +#endif /* CONFIG_TCG */
-> +
->      cc->dump_state = x86_cpu_dump_state;
->      cc->set_pc = x86_cpu_set_pc;
-> -    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
->      cc->gdb_read_register = x86_cpu_gdb_read_register;
->      cc->gdb_write_register = x86_cpu_gdb_write_register;
->      cc->get_arch_id = x86_cpu_get_arch_id;
->      cc->get_paging_enabled = x86_cpu_get_paging_enabled;
-> +
->  #ifndef CONFIG_USER_ONLY
->      cc->asidx_from_attrs = x86_asidx_from_attrs;
->      cc->get_memory_mapping = x86_cpu_get_memory_mapping;
-> @@ -7273,7 +7270,8 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
->      cc->write_elf32_note = x86_cpu_write_elf32_note;
->      cc->write_elf32_qemunote = x86_cpu_write_elf32_qemunote;
->      cc->vmsd = &vmstate_x86_cpu;
-> -#endif
-> +#endif /* !CONFIG_USER_ONLY */
-> +
->      cc->gdb_arch_name = x86_gdb_arch_name;
->  #ifdef TARGET_X86_64
->      cc->gdb_core_xml_file = "i386-64bit.xml";
-> @@ -7281,15 +7279,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
->  #else
->      cc->gdb_core_xml_file = "i386-32bit.xml";
->      cc->gdb_num_core_regs = 50;
-> -#endif
-> -#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
-> -    cc->debug_excp_handler = breakpoint_handler;
-
-That's in bpt_helper.c, also TCG-specific.  Makes sense to move
-it to tcg_cpu_common_class_init().
-
-Is CPUClass.debug_excp_handler() TCG-specific in all
-architectures, or only in x86?
-
-> -#endif
-> -    cc->cpu_exec_enter = x86_cpu_exec_enter;
-> -    cc->cpu_exec_exit = x86_cpu_exec_exit;
-
-I have a question about those two functions below[1].
-
-> -#ifdef CONFIG_TCG
-> -    cc->tcg_initialize = tcg_x86_init;
-
-The name makes this is obviously TCG-specific, so it makes sense
-to move it to tcg_cpu_common_class_init().
-
-> -    cc->tlb_fill = x86_cpu_tlb_fill;
-
-This is in excp_helper.c (TCG-specific), so it makes sense to
-move it to tcg_cpu_common_class_init().
-
-Is CPUClass.tlb_fill TCG-specific in all architectures, or only
-in x86?
-
->  #endif
->      cc->disas_set_info = x86_disas_set_info;
->  
-[...]
-> -/* Frob eflags into and out of the CPU temporary format.  */
-> -
-> -void x86_cpu_exec_enter(CPUState *cs)
-> -{
-> -    X86CPU *cpu = X86_CPU(cs);
-> -    CPUX86State *env = &cpu->env;
-> -
-> -    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-> -    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
-> -    CC_OP = CC_OP_EFLAGS;
-> -    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-> -}
-> -
-> -void x86_cpu_exec_exit(CPUState *cs)
-> -{
-> -    X86CPU *cpu = X86_CPU(cs);
-> -    CPUX86State *env = &cpu->env;
-> -
-> -    env->eflags = cpu_compute_eflags(env);
-> -}
-
-[1]
-
-How exactly can we be 100% sure this is not used by other
-accelerators?
-
-> -
->  #ifndef CONFIG_USER_ONLY
->  uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr)
->  {
-[...]
+ target/nios2/cpu.h        |  3 --
+ hw/nios2/10m50_devboard.c |  8 ++---
+ hw/nios2/cpu_pic.c        | 67 ---------------------------------------
+ target/nios2/cpu.c        | 34 ++++++++++++++++++++
+ target/nios2/op_helper.c  |  9 ++++++
+ hw/nios2/meson.build      |  2 +-
+ 6 files changed, 47 insertions(+), 76 deletions(-)
+ delete mode 100644 hw/nios2/cpu_pic.c
 
 -- 
-Eduardo
+2.20.1
 
 
