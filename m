@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF752C674F
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 14:59:31 +0100 (CET)
-Received: from localhost ([::1]:45086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAFFE2C67CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 15:25:04 +0100 (CET)
+Received: from localhost ([::1]:59402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kieHa-0005HJ-HC
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 08:59:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52356)
+	id 1kiegJ-0004jn-EX
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 09:25:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kieGK-0004lt-8C
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 08:58:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kieGG-0002gb-AT
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 08:58:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606485483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fQs/j5aP6DVM4WziF5SS/0vTH78MRlsNM9bJ+S08+zk=;
- b=HJOeST/gb1R8jtfO6rYOlcq2KSrkc434p4r3OeUHPFNruL4uCGsLSwss8EQpgxPBiUKYGb
- 97pzPiSrdnnzRgPXT7HDQRAII77l2D5V7oqzef2L3mdtBif57Ls24VafdsTDrYWu5oDmJO
- /i0ZH8JWkjqC4nPlhRWW1FSfQwBlx6A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-w8ux26_yNxKnoTH4tPjNgQ-1; Fri, 27 Nov 2020 08:58:01 -0500
-X-MC-Unique: w8ux26_yNxKnoTH4tPjNgQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80B2E1E7EC;
- Fri, 27 Nov 2020 13:58:00 +0000 (UTC)
-Received: from kaapi (unknown [10.74.9.38])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D197B1001901;
- Fri, 27 Nov 2020 13:57:58 +0000 (UTC)
-Date: Fri, 27 Nov 2020 19:27:55 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH] ide:atapi: check io_buffer_index in
- ide_atapi_cmd_reply_end
-In-Reply-To: <20201118142745.112579-1-ppandit@redhat.com>
-Message-ID: <204751s9-11np-413q-q3pr-3o6os86078@erqung.pbz>
-References: <20201118142745.112579-1-ppandit@redhat.com>
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1kiefZ-0004KN-4U
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 09:24:17 -0500
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:36119)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
+ id 1kiefX-0003fa-2G
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 09:24:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1606487055;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=D5L4R48jTaqMmWokScSU3RSjvbXkKn0bwvjerOZsofs=;
+ b=MpIn6mHoMt9usjEE/5CN9cOY2wg4MwdQu4UuHZiJV6DbFbk9NVoaGo0H
+ lnJUgPgejRKdbeiEQ/x6E2YVr08sd5gNXzCnwUzS5dNjb5KnP0YXokAcL
+ 6pG5dZsCEw4QjxPVvD5bdVRgPeQVqJK1kJrzqTfxXK5lPS2xh4YSBi82p o=;
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+IronPort-SDR: W0cOlhBUV4DnLGq2gDEc1NCNhR932tcp5/Y+YsLB7PwiA8cKThwaunpOtSNhWvvlp5Wr6rLx0F
+ W2A18XP4E+SFvNMbcDIqoFsA4rf8dtsH4TL9yXaFrrFH1MY6T9k+w5DO6EuuuB1iXU8eslcR2N
+ m6wk86nEHJPn2dYAz4ylRzw9v5yDJMwX4oH24xGdKijsByCPUrzurAL43d/D35A8rF4J5j6yP4
+ Mybi2pSan9LhqBlpgr3JpuYkUOSf1dfwmue4oPmVjLLwGtjQzf47vwySVbSX/o3SMYpwKnpnbc
+ r18=
+X-SBRS: None
+X-MesageID: 32019534
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.78,374,1599537600"; d="scan'208";a="32019534"
+Date: Fri, 27 Nov 2020 14:24:07 +0000
+To: Eduardo Habkost <ehabkost@redhat.com>
+CC: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, Igor Mammedov
+ <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, "Wainer
+ dos Santos Moschetta" <wainersm@redhat.com>, Aurelien Jarno
+ <aurelien@aurel32.net>, Thomas Huth <thuth@redhat.com>, Alex
+ =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Aleksandar Rikalo
+ <aleksandar.rikalo@syrmia.com>, Richard Henderson <rth@twiddle.net>, "Fam
+ Zheng" <fam@euphon.net>, "Daniel P . Berrange" <berrange@redhat.com>,
+ "Stefano Stabellini" <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ <xen-devel@lists.xenproject.org>
+Subject: Re: [PATCH-for-6.0 v4 15/17] gitlab-ci: Add test for Xen (on CentOS 7)
+Message-ID: <20201127142407.GC2098@perard.uk.xensource.com>
+References: <20201108204535.2319870-1-philmd@redhat.com>
+ <20201108204535.2319870-16-philmd@redhat.com>
+ <20201126173824.GB2098@perard.uk.xensource.com>
+ <20201126174559.GP2271382@habkost.net>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20201126174559.GP2271382@habkost.net>
+Received-SPF: pass client-ip=216.71.145.155;
+ envelope-from=anthony.perard@citrix.com; helo=esa3.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,57 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wenxiang Qian <leonwxqian@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Anthony PERARD <anthony.perard@citrix.com>
+From: Anthony PERARD via <qemu-devel@nongnu.org>
 
-+-- On Wed, 18 Nov 2020, P J P wrote --+
-| During data transfer via packet command in 'ide_atapi_cmd_reply_end'
-| 's->io_buffer_index' could exceed the 's->io_buffer' length, leading
-| to OOB access issue. Add check to avoid it.
-|  ...
-|  #9  ahci_pio_transfer ../hw/ide/ahci.c:1383
-|  #10 ide_transfer_start_norecurse ../hw/ide/core.c:553
-|  #11 ide_atapi_cmd_reply_end ../hw/ide/atapi.c:284
-|  #12 ide_atapi_cmd_read_pio ../hw/ide/atapi.c:329
-|  #13 ide_atapi_cmd_read ../hw/ide/atapi.c:442
-|  #14 cmd_read ../hw/ide/atapi.c:988
-|  #15 ide_atapi_cmd ../hw/ide/atapi.c:1352
-|  #16 ide_transfer_start ../hw/ide/core.c:561
-|  #17 cmd_packet ../hw/ide/core.c:1729
-|  #18 ide_exec_cmd ../hw/ide/core.c:2107
-|  #19 handle_reg_h2d_fis ../hw/ide/ahci.c:1267
-|  #20 handle_cmd ../hw/ide/ahci.c:1318
-|  #21 check_cmd ../hw/ide/ahci.c:592
-|  #22 ahci_port_write ../hw/ide/ahci.c:373
-|  #23 ahci_mem_write ../hw/ide/ahci.c:513
-| 
-| Reported-by: Wenxiang Qian <leonwxqian@gmail.com>
-| Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-| ---
-|  hw/ide/atapi.c | 3 +++
-|  1 file changed, 3 insertions(+)
-| 
-| diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
-| index 14a2b0bb2f..b991947c5c 100644
-| --- a/hw/ide/atapi.c
-| +++ b/hw/ide/atapi.c
-| @@ -276,6 +276,9 @@ void ide_atapi_cmd_reply_end(IDEState *s)
-|          s->packet_transfer_size -= size;
-|          s->elementary_transfer_size -= size;
-|          s->io_buffer_index += size;
-| +        if (s->io_buffer_index > s->io_buffer_total_len) {
-| +            return;
-| +        }
-|  
-|          /* Some adapters process PIO data right away.  In that case, we need
-|           * to avoid mutual recursion between ide_transfer_start
-| 
+On Thu, Nov 26, 2020 at 12:45:59PM -0500, Eduardo Habkost wrote:
+> On Thu, Nov 26, 2020 at 05:38:24PM +0000, Anthony PERARD wrote:
+> > Is `make check` going to do something useful with the Xen support? Or is
+> > it going to need more work in order to test the Xen support of QEMU?
+> > (Like starting an actual Xen guest.)
+> 
+> I don't think it will test Xen support, but we still want to at
+> least check if --enable-xen doesn't break anything else.
 
-Ping...!
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+That sound good.
 
+> Is there any public CI system anywhere where Xen support is
+> tested today?
+
+Yes, we have osstest which regularly test Xen with QEMU from upstream.
+Result are sent to xen-devel. But that might not be very useful for
+qemu-devel.
+
+We also have a GitLab CI which does some Xen tests, but I don't think
+QEMU is tested there.
+https://xenbits.xen.org/gitweb/?p=xen.git;a=blob;f=automation/gitlab-ci/test.yaml;hb=HEAD
+https://gitlab.com/xen-project/xen/
+
+Cheers,
+
+-- 
+Anthony PERARD
 
