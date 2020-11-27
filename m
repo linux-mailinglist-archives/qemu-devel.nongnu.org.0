@@ -2,49 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE082C6AF4
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 18:54:39 +0100 (CET)
-Received: from localhost ([::1]:43262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 812782C6B13
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 18:58:34 +0100 (CET)
+Received: from localhost ([::1]:46930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kihx7-0005Gh-56
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 12:54:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58242)
+	id 1kii0t-0007Ee-Sy
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 12:58:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kihw0-0004Vb-O6
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:53:28 -0500
-Received: from mx2.suse.de ([195.135.220.15]:51108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kihvy-0007ft-ST
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:53:28 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 35047AC0C;
- Fri, 27 Nov 2020 17:53:25 +0000 (UTC)
-Subject: Re: [RFC v6 11/11] i386: split cpu accelerators from cpu.c, using
- AccelCPUClass
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201126223218.31480-1-cfontana@suse.de>
- <20201126223218.31480-12-cfontana@suse.de>
- <20201127174121.GC2271382@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <81e97089-9c8a-d9f3-58cf-c26fa78a9a70@suse.de>
-Date: Fri, 27 Nov 2020 18:53:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kihzc-0006Wl-DL
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:57:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kihzZ-0008Ko-VE
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:57:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606499828;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XCq6wIWci5DpptHtNpQSEhSIHHLVPde7TTr7AXLjqNo=;
+ b=Jhc9Od51oGhRaqZl2qyjhGP3bj3z+k94oJdeSRmE9sKgs/inbKT6tUMzD8wocZWU1J/RnC
+ yu1sPpi4ajDsy8XHgyqcVWYTg1o94O6EZsyBtdF29cdm3r1echrWpiAdpF2PCn154x4o8Q
+ 18mTc+T1mQoos24l9ifiQcvOUtW9YSY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-179-odX33ZauOC2Wjtxd4POU-w-1; Fri, 27 Nov 2020 12:57:06 -0500
+X-MC-Unique: odX33ZauOC2Wjtxd4POU-w-1
+Received: by mail-wr1-f70.google.com with SMTP id n13so3784300wrs.10
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 09:57:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XCq6wIWci5DpptHtNpQSEhSIHHLVPde7TTr7AXLjqNo=;
+ b=XguYmwiF/Q6NZGD567TJqfZPFLeXx/XV8+Gcaz25iwVLNQ1gr25wH2PZq/kO+X0tDZ
+ r0vFbcU6+PvbPoinPKNhnrTp/qSkOioFxlfy4k8SiU4d6/PjmJNQGETH+kwj8J5d0o7y
+ NlwhhIGtqr45b0mmRvzxFTyMaZw+wee4oOR6iDVVQ1AUmQD9wfcc2o+kIQ7LdJEsai2/
+ ZbF1/pXuXgbjkqTcxD+jq6hnQiTFLlkzNO2eNgdFpKaQ8htbfGR85uLzt/Kbgar7uMnp
+ tNuFwc4D3MWp8EfQDK7XI4VBOKQoLvz0jO0mwNlNhtKDbdPTOkIFxXWfyc/1UlB3XiaT
+ wgkg==
+X-Gm-Message-State: AOAM530VeuVM1J+VQhl0rjbenNLtes1vZBAkTcP5sJgFibKbIL9hT/ZO
+ smaDKXpoChVzlgtl69902fCFdFRthcmaQc0+qjZ3AMCiKTw8U2GiV5dLr/XJdXgNmmdd/skiy/c
+ 5Mh/D/cajWqqzeEw=
+X-Received: by 2002:a1c:3c04:: with SMTP id j4mr10372263wma.105.1606499825266; 
+ Fri, 27 Nov 2020 09:57:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwJgI+JdeF41HTt2vhEkVM9UZADape9ui5rIoTsgG+u1ZvMFm7jWSxndMlLCKrQwx/WBfwIwg==
+X-Received: by 2002:a1c:3c04:: with SMTP id j4mr10372227wma.105.1606499825013; 
+ Fri, 27 Nov 2020 09:57:05 -0800 (PST)
+Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id a1sm16017066wrv.61.2020.11.27.09.57.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Nov 2020 09:57:04 -0800 (PST)
+Subject: Re: [RFC PATCH-for-5.2] gitlab-ci: Do not automatically run Avocado
+ integration tests anymore
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <wrampazz@redhat.com>
+References: <20201127174110.1932671-1-philmd@redhat.com>
+ <b08db31b-1411-6936-f737-0d6c8f98ebb8@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f32a1db5-5231-fc4d-1741-0b5ee13f618f@redhat.com>
+Date: Fri, 27 Nov 2020 18:57:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201127174121.GC2271382@habkost.net>
+In-Reply-To: <b08db31b-1411-6936-f737-0d6c8f98ebb8@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,168 +100,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ virt-ci-maint-team@redhat.com, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/27/20 6:41 PM, Eduardo Habkost wrote:
-> On Thu, Nov 26, 2020 at 11:32:18PM +0100, Claudio Fontana wrote:
->> i386 is the first user of AccelCPUClass, allowing to split
->> cpu.c into:
+On 11/27/20 6:47 PM, Thomas Huth wrote:
+> On 27/11/2020 18.41, Philippe Mathieu-Daudé wrote:
+>> We lately realized that the Avocado framework was not designed
+>> to be regularly run on CI environments. Therefore, as of 5.2
+>> we deprecate the gitlab-ci jobs using Avocado. To not disrupt
+>> current users, it is possible to keep the current behavior by
+>> setting the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable
+>> (see [*]).
+>> From now on, using these jobs (or adding new tests to them)
+>> is strongly discouraged.
 >>
->> cpu.c            cpuid and common x86 cpu functionality
->> host-cpu.c       host x86 cpu functions and "host" cpu type
->> kvm/cpu.c        KVM x86 AccelCPUClass
->> hvf/cpu.c        HVF x86 AccelCPUClass
->> tcg/cpu.c        TCG x86 AccelCPUClass
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> ---
-> [...]
->> +static void tcg_cpu_class_init(CPUClass *cc)
+>> Tests based on Avocado will be ported to new job schemes during
+>> the next releases, with better documentation and templates.
 > 
-> Is this the only case where we need to provide an
-> AccelCPUClass.cpu_class_init method?
-> 
-> 
->> +{
->> +    cc->do_interrupt = x86_cpu_do_interrupt;
->> +    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
->> +    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
->> +    cc->cpu_exec_enter = x86_cpu_exec_enter;
->> +    cc->cpu_exec_exit = x86_cpu_exec_exit;
->> +    cc->tcg_initialize = tcg_x86_init;
->> +    cc->tlb_fill = x86_cpu_tlb_fill;
->> +#ifndef CONFIG_USER_ONLY
->> +    cc->debug_excp_handler = breakpoint_handler;
->> +#endif /* !CONFIG_USER_ONLY */
-> 
-> I find the need for these method overrides suspicious.
+> Why should we disable the jobs by default as long as there is no replacement
+> available yet?
 
-These mechanisms are preexistent. My refactoring only makes them more visible.
-
-> 
-> Comparing this with the code on qemu.git master:
-> 
-> static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-> {
->     [...]
-> #ifdef CONFIG_TCG
->     cc->do_interrupt = x86_cpu_do_interrupt;
->     cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
-> #endif
->     [...]
->     cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
->     [...]
-> #if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
->     cc->debug_excp_handler = breakpoint_handler;
-> #endif
->     cc->cpu_exec_enter = x86_cpu_exec_enter;
->     cc->cpu_exec_exit = x86_cpu_exec_exit;
-> #ifdef CONFIG_TCG
->     cc->tcg_initialize = tcg_x86_init;
->     cc->tlb_fill = x86_cpu_tlb_fill;
-> #endif
->     [...]
-> }
-> 
-> So, we have two kinds of CPUClass fields above:
-> * Code that was never conditional on CONFIG_TCG, and now is
->   conditional (synchronize_from_tb, cpu_exec_enter,
->   cpu_exec_exit).
+Why keep it enabled if it is failing randomly, if images hardcoded
+in tests are being removed from public servers, etc...?
 
 
+They are not disabled, they are still runnable manually or setting
+QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE...
 
-synchronize_from_tb, cpu_exec_enter and cpu_exec_exit only makes sense for TCG,
-and their code should not be compiled in for non-TCG.
+We realized by default Avocado runs all tests on the CI jobs,
+triggering failures and complains. Developer stopped to contribute/
+review integration tests because of that. We want developers be
+able to contribute tests to the repository fearlessly.
 
-This is part of the effort to separate away non-pertinent code into accelerator-specific builds (and in the future modules).
+If we don't change anything, we'll keep having CI failures due
+to Avocado design issues (artifacts removed from remote servers,
+etc...).
 
-The fact that they were unconditionally compiled in before was a mistake, or at least this is the assumption I am making when changing this.
+I haven't seen any attempt on this list to improve the current
+fragile situation, but better suggestions are certainly welcome.
 
+Thanks,
 
-> * Code that was conditional on CONFIG_TCG at compile time, and is
->   now conditional on TCG being enabled at runtime.
-> 
-> On both cases, we are replacing static initialization of CPUClass
-> fields with dynamically initialization of CPUClass depending on
-> the chosen accelerator.  What makes this necessary?
-
-
-I am not sure about the definitions of "static" and "dynamic" you are using here, as all the above looks "dynamic" to me, before and after.
-
-The overrides and additional fields in the CPUClass are only necessary for TCG, and all that code should not be compiled in if TCG is not built-in.
-
-Ciao,
-
-Claudio
-
-> 
-> 
->> +}
->> +
->> +/*
->> + * TCG-specific defaults that override all CPU models when using TCG
->> + */
->> +static PropValue tcg_default_props[] = {
->> +    { "vme", "off" },
->> +    { NULL, NULL },
->> +};
->> +
->> +static void tcg_cpu_instance_init(CPUState *cs)
->> +{
->> +    X86CPU *cpu = X86_CPU(cs);
->> +    /* Special cases not set in the X86CPUDefinition structs: */
->> +    x86_cpu_apply_props(cpu, tcg_default_props);
->> +}
->> +
->> +static void tcg_cpu_accel_class_init(ObjectClass *oc, void *data)
->> +{
->> +    AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
->> +
->> +    acc->cpu_realizefn = tcg_cpu_realizefn;
->> +    acc->cpu_class_init = tcg_cpu_class_init;
->> +    acc->cpu_instance_init = tcg_cpu_instance_init;
->> +}
->> +static const TypeInfo tcg_cpu_accel_type_info = {
->> +    .name = ACCEL_CPU_NAME("tcg"),
->> +
->> +    .parent = TYPE_ACCEL_CPU,
->> +    .class_init = tcg_cpu_accel_class_init,
->> +    .abstract = true,
->> +};
->> +static void tcg_cpu_accel_register_types(void)
->> +{
->> +    type_register_static(&tcg_cpu_accel_type_info);
->> +}
->> +type_init(tcg_cpu_accel_register_types);
->> diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
->> index 02794226c2..9e439df9c7 100644
->> --- a/target/i386/tcg/meson.build
->> +++ b/target/i386/tcg/meson.build
->> @@ -10,4 +10,5 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
->>    'seg_helper.c',
->>    'smm_helper.c',
->>    'svm_helper.c',
->> -  'translate.c'), if_false: files('tcg-stub.c'))
->> +  'translate.c',
->> +  'cpu.c'), if_false: files('tcg-stub.c'))
->> -- 
->> 2.26.2
->>
->>
-> 
+Phil.
 
 
