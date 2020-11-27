@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFDE2C6356
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 11:44:07 +0100 (CET)
-Received: from localhost ([::1]:43256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051E62C635B
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 11:46:11 +0100 (CET)
+Received: from localhost ([::1]:47130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kibEU-000280-5E
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 05:44:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60468)
+	id 1kibGU-0003p4-31
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 05:46:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kibA1-0000UY-FU
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 05:39:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42074)
+ id 1kibAr-0000oz-S0
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 05:40:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kib9y-0006BW-DP
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 05:39:29 -0500
+ id 1kibAq-0006gf-2z
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 05:40:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606473565;
+ s=mimecast20190719; t=1606473619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Q9+JMW+ttd3mJrscwB69shaL9GgAnfa/MwvoY8iR04w=;
- b=PnsSfn5bkojwGtbHId66asDo2v6qlY6dfinlg6hE/Um1NmMSoAD1LJeaXezLezzoe7H6s2
- n26JYtSpZLKD6XE7Yo8UiY17FNrmOK2tnIqHEqqtv9qIPmfPWepyn8g0bjBxe9IfpM8VME
- /By62fNBw9440gHE+NAFmBnENOyAtKU=
+ bh=sTJZMlFqr59jCraKgRgdzhEuWCwII1Z9nYoO1oyEKl4=;
+ b=EVoh9c01nvYa7mneamCE+IbVUxga1GUWjgsUw3kDdAMNbpEgE+P3M7pL2HuNsUytIs7Pfn
+ WxmHzdD9VVWJfU99zVLXAVHNP3eI2TSdtDTNv97wPDXrihIrfwZhb4gvLN2eIRMjlzZMTv
+ Q8oCWqR4mUq4DhXkyoE/oCLmHaYfoe0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-Si-M7SkEOAGtALlQz0eYFQ-1; Fri, 27 Nov 2020 05:39:21 -0500
-X-MC-Unique: Si-M7SkEOAGtALlQz0eYFQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-40-kxCxPs0tOoi-KhmiGShXpw-1; Fri, 27 Nov 2020 05:40:17 -0500
+X-MC-Unique: kxCxPs0tOoi-KhmiGShXpw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48CD81E7EB;
- Fri, 27 Nov 2020 10:39:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43F0A101AFA9;
+ Fri, 27 Nov 2020 10:40:16 +0000 (UTC)
 Received: from work-vm (ovpn-114-206.ams2.redhat.com [10.36.114.206])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 826ED60C05;
- Fri, 27 Nov 2020 10:39:19 +0000 (UTC)
-Date: Fri, 27 Nov 2020 10:39:16 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD2F51A8A6;
+ Fri, 27 Nov 2020 10:40:14 +0000 (UTC)
+Date: Fri, 27 Nov 2020 10:40:12 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: Re: [PATCH for-6.0 5/6] hmp: Add 'info accel' command
-Message-ID: <20201127103916.GC2969@work-vm>
+Subject: Re: [PATCH for-6.0 2/6] qapi: Rename KvmInfo to AccelInfo
+Message-ID: <20201127104012.GD2969@work-vm>
 References: <20201116131011.26607-1-r.bolshakov@yadro.com>
- <20201116131011.26607-6-r.bolshakov@yadro.com>
+ <20201116131011.26607-3-r.bolshakov@yadro.com>
 MIME-Version: 1.0
-In-Reply-To: <20201116131011.26607-6-r.bolshakov@yadro.com>
+In-Reply-To: <20201116131011.26607-3-r.bolshakov@yadro.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,131 +79,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Roman Bolshakov (r.bolshakov@yadro.com) wrote:
-> The command is made after 'info kvm' and aims to replace it as more
-> generic one.
-> 
-> If used without parameters, the command can used to get current
-> accelerator. Otherwise, it may be used to determine if an accelerator is
-> available. Here's an example if a VM with hvf accel is started:
-> 
->   (qemu) info accel
->   hvf support: enabled
->   (qemu) info accel kvm
->   kvm support: not compiled
->   (qemu) info accel tcg
->   tcg support: disabled
+> There's nothing specific to KVM in the structure. A more generic name
+> would be more appropriate.
 > 
 > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> ---
->  hmp-commands-info.hx  | 13 +++++++++++++
->  include/monitor/hmp.h |  1 +
->  monitor/hmp-cmds.c    | 32 ++++++++++++++++++++++++++++++++
->  3 files changed, 46 insertions(+)
-> 
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index 117ba25f91..e9da6b52e4 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -337,6 +337,19 @@ SRST
->      Show KVM information.
->  ERST
->  
-> +    {
-> +        .name       = "accel",
-> +        .args_type  = "name:s?",
-> +        .params     = "[name]",
-> +        .help       = "show accelerator information",
-> +        .cmd        = hmp_info_accel,
-> +    },
-> +
-> +SRST
-> +  ``info accel``` [*name*]
-> +    Show accelerator information.
-> +ERST
-> +
->      {
->          .name       = "numa",
->          .args_type  = "",
-> diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> index ed2913fd18..03f22957d9 100644
-> --- a/include/monitor/hmp.h
-> +++ b/include/monitor/hmp.h
-> @@ -21,6 +21,7 @@ void hmp_handle_error(Monitor *mon, Error *err);
->  void hmp_info_name(Monitor *mon, const QDict *qdict);
->  void hmp_info_version(Monitor *mon, const QDict *qdict);
->  void hmp_info_kvm(Monitor *mon, const QDict *qdict);
-> +void hmp_info_accel(Monitor *mon, const QDict *qdict);
->  void hmp_info_status(Monitor *mon, const QDict *qdict);
->  void hmp_info_uuid(Monitor *mon, const QDict *qdict);
->  void hmp_info_chardev(Monitor *mon, const QDict *qdict);
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index ea86289fe8..00db791aa3 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -20,6 +20,7 @@
->  #include "chardev/char.h"
->  #include "sysemu/block-backend.h"
->  #include "sysemu/runstate.h"
-> +#include "sysemu/accel.h"
->  #include "qemu/config-file.h"
->  #include "qemu/option.h"
->  #include "qemu/timer.h"
-> @@ -133,6 +134,37 @@ void hmp_info_kvm(Monitor *mon, const QDict *qdict)
->      qapi_free_AccelInfo(info);
->  }
->  
-> +void hmp_info_accel(Monitor *mon, const QDict *qdict)
-> +{
-> +    AccelInfo *info;
-> +    AccelClass *acc;
-> +    const char *name, *typename;
-> +    char *current_name;
-> +    int len;
-> +
-> +    /* Figure out current accelerator */
-> +    acc = ACCEL_GET_CLASS(current_accel());
 
-Is that always guaranteed non-null?
+For HMP:
 
-> +    typename = object_class_get_name(OBJECT_CLASS(acc));
-> +    len = strlen(typename) - strlen(ACCEL_CLASS_SUFFIX);
-> +    current_name = g_strndup(typename, len);
-> +
-> +    name = qdict_get_try_str(qdict, "name");
-> +    if (!name) {
-> +        name = current_name;
-> +    }
-> +
-> +    info = qmp_query_accel(name, NULL);
-> +    monitor_printf(mon, "%s support: ", name);
-> +    if (info->present) {
-> +        monitor_printf(mon, "%s\n", info->enabled ? "enabled" : "disabled");
-> +    } else {
-> +        monitor_printf(mon, "not compiled\n");
-> +    }
-> +
-> +    qapi_free_AccelInfo(info);
-> +    g_free(current_name);
-> +}
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-I think that's fine, since HMP is not guaranteed stable, I'd say it's
-fine to kill off 'info kvm' and replace it with this.
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+Markus/Eric: Is it OK from QMP to change the type like that?
 
 Dave
 
-> +
->  void hmp_info_status(Monitor *mon, const QDict *qdict)
+> ---
+>  monitor/hmp-cmds.c |  4 ++--
+>  monitor/qmp-cmds.c |  8 ++++----
+>  qapi/machine.json  | 18 +++++++++---------
+>  3 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index a6a6684df1..ea86289fe8 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -120,7 +120,7 @@ void hmp_info_version(Monitor *mon, const QDict *qdict)
+>  
+>  void hmp_info_kvm(Monitor *mon, const QDict *qdict)
 >  {
->      StatusInfo *info;
+> -    KvmInfo *info;
+> +    AccelInfo *info;
+>  
+>      info = qmp_query_kvm(NULL);
+>      monitor_printf(mon, "kvm support: ");
+> @@ -130,7 +130,7 @@ void hmp_info_kvm(Monitor *mon, const QDict *qdict)
+>          monitor_printf(mon, "not compiled\n");
+>      }
+>  
+> -    qapi_free_KvmInfo(info);
+> +    qapi_free_AccelInfo(info);
+>  }
+>  
+>  void hmp_info_status(Monitor *mon, const QDict *qdict)
+> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> index 0454394e76..f5d50afa9c 100644
+> --- a/monitor/qmp-cmds.c
+> +++ b/monitor/qmp-cmds.c
+> @@ -52,9 +52,9 @@ NameInfo *qmp_query_name(Error **errp)
+>      return info;
+>  }
+>  
+> -KvmInfo *qmp_query_kvm(Error **errp)
+> +AccelInfo *qmp_query_kvm(Error **errp)
+>  {
+> -    KvmInfo *info = g_malloc0(sizeof(*info));
+> +    AccelInfo *info = g_malloc0(sizeof(*info));
+>  
+>      info->enabled = kvm_enabled();
+>      info->present = kvm_available();
+> @@ -62,9 +62,9 @@ KvmInfo *qmp_query_kvm(Error **errp)
+>      return info;
+>  }
+>  
+> -KvmInfo *qmp_query_accel(const char *name, Error **errp)
+> +AccelInfo *qmp_query_accel(const char *name, Error **errp)
+>  {
+> -    KvmInfo *info = g_malloc0(sizeof(*info));
+> +    AccelInfo *info = g_malloc0(sizeof(*info));
+>  
+>      AccelClass *ac = accel_find(name);
+>  
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index 11f364fab4..5648d8d24d 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -562,24 +562,24 @@
+>  { 'command': 'inject-nmi' }
+>  
+>  ##
+> -# @KvmInfo:
+> +# @AccelInfo:
+>  #
+> -# Information about support for KVM acceleration
+> +# Information about support for an acceleration
+>  #
+> -# @enabled: true if KVM acceleration is active
+> +# @enabled: true if an acceleration is active
+>  #
+> -# @present: true if KVM acceleration is built into this executable
+> +# @present: true if an acceleration is built into this executable
+>  #
+>  # Since: 0.14.0
+>  ##
+> -{ 'struct': 'KvmInfo', 'data': {'enabled': 'bool', 'present': 'bool'} }
+> +{ 'struct': 'AccelInfo', 'data': {'enabled': 'bool', 'present': 'bool'} }
+>  
+>  ##
+>  # @query-kvm:
+>  #
+>  # Returns information about KVM acceleration
+>  #
+> -# Returns: @KvmInfo
+> +# Returns: @AccelInfo
+>  #
+>  # Since: 0.14.0
+>  #
+> @@ -589,14 +589,14 @@
+>  # <- { "return": { "enabled": true, "present": true } }
+>  #
+>  ##
+> -{ 'command': 'query-kvm', 'returns': 'KvmInfo' }
+> +{ 'command': 'query-kvm', 'returns': 'AccelInfo' }
+>  
+>  ##
+>  # @query-accel:
+>  #
+>  # Returns information about an accelerator
+>  #
+> -# Returns: @KvmInfo
+> +# Returns: @AccelInfo
+>  #
+>  # Since: 6.0.0
+>  #
+> @@ -608,7 +608,7 @@
+>  ##
+>  { 'command': 'query-accel',
+>    'data': { 'name': 'str' },
+> -  'returns': 'KvmInfo' }
+> +  'returns': 'AccelInfo' }
+>  
+>  ##
+>  # @NumaOptionsType:
 > -- 
 > 2.29.2
 > 
