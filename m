@@ -2,45 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42152C68B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 16:29:16 +0100 (CET)
-Received: from localhost ([::1]:47072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFE02C68B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 16:28:04 +0100 (CET)
+Received: from localhost ([::1]:42266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kifgR-00021T-NN
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 10:29:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44874)
+	id 1kiffH-0008LB-OG
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 10:28:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1kifZ3-0001lz-Do
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:21:37 -0500
-Received: from foss.arm.com ([217.140.110.172]:37136)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1kifYv-0006xq-1C
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:21:37 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 469D3153B;
- Fri, 27 Nov 2020 07:21:28 -0800 (PST)
-Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A98583F70D;
- Fri, 27 Nov 2020 07:21:25 -0800 (PST)
-From: Steven Price <steven.price@arm.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>
-Subject: [PATCH v6 1/2] arm64: kvm: Save/restore MTE registers
-Date: Fri, 27 Nov 2020 15:21:12 +0000
-Message-Id: <20201127152113.13099-2-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201127152113.13099-1-steven.price@arm.com>
-References: <20201127152113.13099-1-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kifd3-0006yk-HA
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:25:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28470)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kifcz-00006L-Qw
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:25:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606490740;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PvLDQ5+gnoMeBZl9WxWP5Pfz+I+IRwV3Azx/NQG38JE=;
+ b=DxqKalkaleIv6COY21W0wYcw+AAt/i9Xd/wV3eLlPbJctcd8RAZw+uVAiwNGcdA9zFBLEy
+ HXrgO/JvrYLIPL+rI2JAcweA3XDPSCwUmOtQnw32i+/bJV7iGSkxCBH1c3SYeNE7ncejqA
+ UWgp3H/iSi82kXDaGTRd0eSfA/e+NM4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-103-erjdYplQPJC9Vh4UdtFjuA-1; Fri, 27 Nov 2020 10:25:38 -0500
+X-MC-Unique: erjdYplQPJC9Vh4UdtFjuA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79C4D56C8A;
+ Fri, 27 Nov 2020 15:25:37 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-250.ams2.redhat.com [10.36.113.250])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33AFB10023AE;
+ Fri, 27 Nov 2020 15:25:36 +0000 (UTC)
+Date: Fri, 27 Nov 2020 16:25:34 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: ImageInfo oddities regarding compression
+Message-ID: <20201127152534.GC4736@merkur.fritz.box>
+References: <87r1ofru4z.fsf@dusky.pond.sub.org>
+ <20201127101405.GA1596141@redhat.com>
+ <20201127103216.GA4736@merkur.fritz.box>
+ <87ft4vq9c1.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+In-Reply-To: <87ft4vq9c1.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,154 +78,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org
+Cc: Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Define the new system registers that MTE introduces and context switch
-them. The MTE feature is still hidden from the ID register as it isn't
-supported in a VM yet.
+Am 27.11.2020 um 13:21 hat Markus Armbruster geschrieben:
+> >> I fell down this (thankfully shallow) rabbit hole because we also have
+> >> 
+> >>     { 'enum': 'MultiFDCompression',
+> >>       'data': [ 'none', 'zlib',
+> >>                 { 'name': 'zstd', 'if': 'defined(CONFIG_ZSTD)' } ] }
+> >> 
+> >> I wonder whether we could merge them into a common type.
+> 
+> Looks like we could: current code would never report the additional
+> value 'none'.  Introspection would show it, though.  Seems unlikely to
+> cause trouble.  Observation, not demand.
 
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- arch/arm64/include/asm/kvm_host.h          |  4 ++++
- arch/arm64/include/asm/sysreg.h            |  3 ++-
- arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 14 ++++++++++++++
- arch/arm64/kvm/sys_regs.c                  | 14 ++++++++++----
- 4 files changed, 30 insertions(+), 5 deletions(-)
+Forgot to comment on this one...
 
-diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-index 0cd9f0f75c13..d3e136343468 100644
---- a/arch/arm64/include/asm/kvm_host.h
-+++ b/arch/arm64/include/asm/kvm_host.h
-@@ -136,6 +136,8 @@ enum vcpu_sysreg {
- 	SCTLR_EL1,	/* System Control Register */
- 	ACTLR_EL1,	/* Auxiliary Control Register */
- 	CPACR_EL1,	/* Coprocessor Access Control */
-+	RGSR_EL1,	/* Random Allocation Tag Seed Register */
-+	GCR_EL1,	/* Tag Control Register */
- 	ZCR_EL1,	/* SVE Control */
- 	TTBR0_EL1,	/* Translation Table Base Register 0 */
- 	TTBR1_EL1,	/* Translation Table Base Register 1 */
-@@ -152,6 +154,8 @@ enum vcpu_sysreg {
- 	TPIDR_EL1,	/* Thread ID, Privileged */
- 	AMAIR_EL1,	/* Aux Memory Attribute Indirection Register */
- 	CNTKCTL_EL1,	/* Timer Control Register (EL1) */
-+	TFSRE0_EL1,	/* Tag Fault Status Register (EL0) */
-+	TFSR_EL1,	/* Tag Fault Stauts Register (EL1) */
- 	PAR_EL1,	/* Physical Address Register */
- 	MDSCR_EL1,	/* Monitor Debug System Control Register */
- 	MDCCINT_EL1,	/* Monitor Debug Comms Channel Interrupt Enable Reg */
-diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
-index e2ef4c2edf06..b6668ffa04d9 100644
---- a/arch/arm64/include/asm/sysreg.h
-+++ b/arch/arm64/include/asm/sysreg.h
-@@ -569,7 +569,8 @@
- #define SCTLR_ELx_M	(BIT(0))
- 
- #define SCTLR_ELx_FLAGS	(SCTLR_ELx_M  | SCTLR_ELx_A | SCTLR_ELx_C | \
--			 SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB)
-+			 SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB | \
-+			 SCTLR_ELx_ITFSB)
- 
- /* SCTLR_EL2 specific flags. */
- #define SCTLR_EL2_RES1	((BIT(4))  | (BIT(5))  | (BIT(11)) | (BIT(16)) | \
-diff --git a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-index cce43bfe158f..45255ba60152 100644
---- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-+++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-@@ -18,6 +18,11 @@
- static inline void __sysreg_save_common_state(struct kvm_cpu_context *ctxt)
- {
- 	ctxt_sys_reg(ctxt, MDSCR_EL1)	= read_sysreg(mdscr_el1);
-+	if (system_supports_mte()) {
-+		ctxt_sys_reg(ctxt, RGSR_EL1)	= read_sysreg_s(SYS_RGSR_EL1);
-+		ctxt_sys_reg(ctxt, GCR_EL1)	= read_sysreg_s(SYS_GCR_EL1);
-+		ctxt_sys_reg(ctxt, TFSRE0_EL1)	= read_sysreg_s(SYS_TFSRE0_EL1);
-+	}
- }
- 
- static inline void __sysreg_save_user_state(struct kvm_cpu_context *ctxt)
-@@ -45,6 +50,8 @@ static inline void __sysreg_save_el1_state(struct kvm_cpu_context *ctxt)
- 	ctxt_sys_reg(ctxt, CNTKCTL_EL1)	= read_sysreg_el1(SYS_CNTKCTL);
- 	ctxt_sys_reg(ctxt, PAR_EL1)	= read_sysreg_par();
- 	ctxt_sys_reg(ctxt, TPIDR_EL1)	= read_sysreg(tpidr_el1);
-+	if (system_supports_mte())
-+		ctxt_sys_reg(ctxt, TFSR_EL1) = read_sysreg_el1(SYS_TFSR);
- 
- 	ctxt_sys_reg(ctxt, SP_EL1)	= read_sysreg(sp_el1);
- 	ctxt_sys_reg(ctxt, ELR_EL1)	= read_sysreg_el1(SYS_ELR);
-@@ -63,6 +70,11 @@ static inline void __sysreg_save_el2_return_state(struct kvm_cpu_context *ctxt)
- static inline void __sysreg_restore_common_state(struct kvm_cpu_context *ctxt)
- {
- 	write_sysreg(ctxt_sys_reg(ctxt, MDSCR_EL1),  mdscr_el1);
-+	if (system_supports_mte()) {
-+		write_sysreg_s(ctxt_sys_reg(ctxt, RGSR_EL1), SYS_RGSR_EL1);
-+		write_sysreg_s(ctxt_sys_reg(ctxt, GCR_EL1), SYS_GCR_EL1);
-+		write_sysreg_s(ctxt_sys_reg(ctxt, TFSRE0_EL1), SYS_TFSRE0_EL1);
-+	}
- }
- 
- static inline void __sysreg_restore_user_state(struct kvm_cpu_context *ctxt)
-@@ -106,6 +118,8 @@ static inline void __sysreg_restore_el1_state(struct kvm_cpu_context *ctxt)
- 	write_sysreg_el1(ctxt_sys_reg(ctxt, CNTKCTL_EL1), SYS_CNTKCTL);
- 	write_sysreg(ctxt_sys_reg(ctxt, PAR_EL1),	par_el1);
- 	write_sysreg(ctxt_sys_reg(ctxt, TPIDR_EL1),	tpidr_el1);
-+	if (system_supports_mte())
-+		write_sysreg_el1(ctxt_sys_reg(ctxt, TFSR_EL1), SYS_TFSR);
- 
- 	if (!has_vhe() &&
- 	    cpus_have_final_cap(ARM64_WORKAROUND_SPECULATIVE_AT) &&
-diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-index c1fac9836af1..4792d5249f07 100644
---- a/arch/arm64/kvm/sys_regs.c
-+++ b/arch/arm64/kvm/sys_regs.c
-@@ -1366,6 +1366,12 @@ static bool access_ccsidr(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
- 	return true;
- }
- 
-+static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
-+				   const struct sys_reg_desc *rd)
-+{
-+	return REG_HIDDEN;
-+}
-+
- /* sys_reg_desc initialiser for known cpufeature ID registers */
- #define ID_SANITISED(name) {			\
- 	SYS_DESC(SYS_##name),			\
-@@ -1534,8 +1540,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
- 	{ SYS_DESC(SYS_ACTLR_EL1), access_actlr, reset_actlr, ACTLR_EL1 },
- 	{ SYS_DESC(SYS_CPACR_EL1), NULL, reset_val, CPACR_EL1, 0 },
- 
--	{ SYS_DESC(SYS_RGSR_EL1), undef_access },
--	{ SYS_DESC(SYS_GCR_EL1), undef_access },
-+	{ SYS_DESC(SYS_RGSR_EL1), undef_access, reset_unknown, RGSR_EL1, .visibility = mte_visibility },
-+	{ SYS_DESC(SYS_GCR_EL1), undef_access, reset_unknown, GCR_EL1, .visibility = mte_visibility },
- 
- 	{ SYS_DESC(SYS_ZCR_EL1), NULL, reset_val, ZCR_EL1, 0, .visibility = sve_visibility },
- 	{ SYS_DESC(SYS_TTBR0_EL1), access_vm_reg, reset_unknown, TTBR0_EL1 },
-@@ -1561,8 +1567,8 @@ static const struct sys_reg_desc sys_reg_descs[] = {
- 	{ SYS_DESC(SYS_ERXMISC0_EL1), trap_raz_wi },
- 	{ SYS_DESC(SYS_ERXMISC1_EL1), trap_raz_wi },
- 
--	{ SYS_DESC(SYS_TFSR_EL1), undef_access },
--	{ SYS_DESC(SYS_TFSRE0_EL1), undef_access },
-+	{ SYS_DESC(SYS_TFSR_EL1), undef_access, reset_unknown, TFSR_EL1, .visibility = mte_visibility },
-+	{ SYS_DESC(SYS_TFSRE0_EL1), undef_access, reset_unknown, TFSRE0_EL1, .visibility = mte_visibility },
- 
- 	{ SYS_DESC(SYS_FAR_EL1), access_vm_reg, reset_unknown, FAR_EL1 },
- 	{ SYS_DESC(SYS_PAR_EL1), NULL, reset_unknown, PAR_EL1 },
--- 
-2.20.1
+Technically we could probably, but would it make sense? Support for
+compression formats has to be implemented separately for both cases, so
+that they currently happen to support the same list is more of a
+coincidence.
+
+If we ever add a third compression format to qcow2, would we add the
+same format to migration, too, or would we split the schema into two
+types again?
+
+Kevin
 
 
