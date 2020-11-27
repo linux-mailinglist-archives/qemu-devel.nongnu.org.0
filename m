@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFEB2C5F37
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 05:26:36 +0100 (CET)
-Received: from localhost ([::1]:40430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B2B2C5F44
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 05:37:15 +0100 (CET)
+Received: from localhost ([::1]:42948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiVL9-0008WS-8R
-	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 23:26:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43594)
+	id 1kiVVS-0001sz-67
+	for lists+qemu-devel@lfdr.de; Thu, 26 Nov 2020 23:37:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kiVKO-00085s-9C
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 23:25:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:45750)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kiVKM-0003iQ-7b
- for qemu-devel@nongnu.org; Thu, 26 Nov 2020 23:25:48 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kiVKK-0008Sj-77
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 04:25:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3458A2E8086
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 04:25:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kiVUW-0001SS-A3
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 23:36:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kiVUT-0007Sq-Lx
+ for qemu-devel@nongnu.org; Thu, 26 Nov 2020 23:36:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606451771;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XRuu/DzTIdeVKZHpmq+1+MpFrj/bdehTax4q1yNxD7M=;
+ b=i/yPdzD3frqPBQlC/YGetGXGnZgAXKj+RIOIKkOxO/ZVT9zFcfXhVHMMuNRtBUq6D8gy6X
+ PXCMvXRvmDcVgRFxnwAZNIIz4MaF+GxuE5ANFeIS9tx3Ll1uzlJQSJ+Qngo5ptUwRfA6Lp
+ cNvXHsSzN2xD+ENOes9sNEjEa1betJw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-WpQPTqHGMRC8lWcgZusvXQ-1; Thu, 26 Nov 2020 23:36:06 -0500
+X-MC-Unique: WpQPTqHGMRC8lWcgZusvXQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 985161842145;
+ Fri, 27 Nov 2020 04:36:05 +0000 (UTC)
+Received: from [10.72.13.168] (ovpn-13-168.pek2.redhat.com [10.72.13.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53ADE5C1C2;
+ Fri, 27 Nov 2020 04:35:59 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 0/5] eBPF RSS support for virtio-net
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+References: <20201119111305.485202-1-andrew@daynix.com>
+ <b7a7d4c2-d8ef-d9fe-22c7-fd5c42aef360@redhat.com>
+ <CAOEp5OeF8qZ0hbMV3KGZHS0RqTjjefGiFkLdOd2-pU37JZ54Fg@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <12187c50-94ce-e456-4c48-5497f2f2caee@redhat.com>
+Date: Fri, 27 Nov 2020 12:35:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2020 04:17:21 -0000
-From: Launchpad Bug Tracker <1896317@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: i386
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor peterx philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160050668992.17815.17282420990273568963.malonedeb@soybean.canonical.com>
-Message-Id: <160645064182.26234.14070852995947200776.malone@loganberry.canonical.com>
-Subject: [Bug 1896317] Re: ioapic: UndefinedBehaviorSanitizer starting
- qemu-system-i386
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: 3c8f06ac79669ea3cb6c57d891de52a6e6efae10
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAOEp5OeF8qZ0hbMV3KGZHS0RqTjjefGiFkLdOd2-pU37JZ54Fg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,100 +84,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896317 <1896317@bugs.launchpad.net>
+Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+On 2020/11/26 下午8:52, Yuri Benditovich wrote:
+>
+>
+> On Mon, Nov 23, 2020 at 8:08 AM Jason Wang <jasowang@redhat.com 
+> <mailto:jasowang@redhat.com>> wrote:
+>
+>
+>     On 2020/11/19 下午7:13, Andrew Melnychenko wrote:
+>     > This set of patches introduces the usage of eBPF for packet steering
+>     > and RSS hash calculation:
+>     > * RSS(Receive Side Scaling) is used to distribute network packets to
+>     > guest virtqueues by calculating packet hash
+>     > * Additionally adding support for the usage of RSS with vhost
+>     >
+>     > The eBPF works on kernels 5.8+
+>     > On earlier kerneld it fails to load and the RSS feature is reported
+>     > only without vhost and implemented in 'in-qemu' software.
+>     >
+>     > Implementation notes:
+>     > Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
+>     > Added libbpf dependency and eBPF support.
+>     > The eBPF program is part of the qemu and presented as an array
+>     > of BPF ELF file data.
+>     > The compilation of eBPF is not part of QEMU build and can be done
+>     > using provided Makefile.ebpf(need to adjust 'linuxhdrs').
+>     > Added changes to virtio-net and vhost, primary eBPF RSS is used.
+>     > 'in-qemu' RSS used in the case of hash population and as a
+>     fallback option.
+>     > For vhost, the hash population feature is not reported to the guest.
+>     >
+>     > Please also see the documentation in PATCH 5/5.
+>     >
+>     > I am sending those patches as RFC to initiate the discussions
+>     and get
+>     > feedback on the following points:
+>     > * Fallback when eBPF is not supported by the kernel
+>     > * Live migration to the kernel that doesn't have eBPF support
+>     > * Integration with current QEMU build
+>     > * Additional usage for eBPF for packet filtering
+>     >
+>     > Known issues:
+>     > * hash population not supported by eBPF RSS: 'in-qemu' RSS used
+>     > as a fallback, also, hash population feature is not reported to
+>     guests
+>     > with vhost.
+>     > * big-endian BPF support: for now, eBPF isn't supported on
+>     > big-endian systems. Can be added in future if required.
+>     > * huge .h file with eBPF binary. The size of .h file containing
+>     > eBPF binary is currently ~5K lines, because the binary is built
+>     with debug information.
+>     > The binary without debug/BTF info can't be loaded by libbpf.
+>     > We're looking for possibilities to reduce the size of the .h files.
+>
+>
+>     A question here, is this because the binary file contains DWARF
+>     data? If
+>     yes, is it a building or loading dependency? If it's latter, maybe we
+>     can try to strip them out, anyhow it can't be recognized by kernel.
+>
+>     Thanks
+>
+>
+> After some experiments we can see that stripping of debug sections 
+> reduces the size of
+> ELF from ~45K to ~20K (we tried to strip more but the libbpf fails to 
+> load it, libbpf needs BTF and symbols)
+> So I suggest to reevaluate the necessity of libbpf.
+> For this specific BPF it does not present advantage and we hardly can 
+> create some reusable code
+> related to libbpf, i.e. any further BPF will need its own libbpf wrapper.
+> The BTF is really good feature and in case some later BPF will need an 
+> access to kernel
+> structures it will use libbpf loader.
+> What you think about it?
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896317
+If we can find a way to use BTF without libbpf, it should be acceptable.
 
-Title:
-  ioapic: UndefinedBehaviorSanitizer starting qemu-system-i386
+Thanks
 
-Status in QEMU:
-  Expired
 
-Bug description:
-  As of commit 053a4177817:
+>
+>     >
+>     > Changes since v1:
+>     > * using libbpf instead of direct 'bpf' system call.
+>     > * added libbpf dependency to the configure/meson scripts.
+>     > * changed python script for eBPF .h file generation.
+>     > * changed eBPF program - reading L3 proto from ethernet frame.
+>     > * added TUNSETSTEERINGEBPF define for TUN.
+>     > * changed the maintainer's info.
+>     > * added license headers.
+>     > * refactored code.
+>     >
+>     > Andrew (5):
+>     >    net: Added SetSteeringEBPF method for NetClientState.
+>     >    ebpf: Added eBPF RSS program.
+>     >    ebpf: Added eBPF RSS loader.
+>     >    virtio-net: Added eBPF RSS to virtio-net.
+>     >    docs: Added eBPF RSS documentation.
+>     >
+>     >   MAINTAINERS                    |    7 +
+>     >   configure                      |   33 +
+>     >   docs/ebpf_rss.rst              |  133 +
+>     >   ebpf/EbpfElf_to_C.py           |   36 +
+>     >   ebpf/Makefile.ebpf             |   33 +
+>     >   ebpf/ebpf_rss-stub.c           |   40 +
+>     >   ebpf/ebpf_rss.c                |  186 ++
+>     >   ebpf/ebpf_rss.h                |   44 +
+>     >   ebpf/meson.build               |    1 +
+>     >   ebpf/rss.bpf.c                 |  505 +++
+>     >   ebpf/tun_rss_steering.h        | 5439
+>     ++++++++++++++++++++++++++++++++
+>     >   hw/net/vhost_net.c             |    2 +
+>     >   hw/net/virtio-net.c            |  120 +-
+>     >   include/hw/virtio/virtio-net.h |    4 +
+>     >   include/net/net.h              |    2 +
+>     >   meson.build                    |   11 +
+>     >   net/tap-bsd.c                  |    5 +
+>     >   net/tap-linux.c                |   13 +
+>     >   net/tap-linux.h                |    1 +
+>     >   net/tap-solaris.c              |    5 +
+>     >   net/tap-stub.c                 |    5 +
+>     >   net/tap.c                      |    9 +
+>     >   net/tap_int.h                  |    1 +
+>     >   net/vhost-vdpa.c               |    2 +
+>     >   24 files changed, 6633 insertions(+), 4 deletions(-)
+>     >   create mode 100644 docs/ebpf_rss.rst
+>     >   create mode 100644 ebpf/EbpfElf_to_C.py
+>     >   create mode 100755 ebpf/Makefile.ebpf
+>     >   create mode 100644 ebpf/ebpf_rss-stub.c
+>     >   create mode 100644 ebpf/ebpf_rss.c
+>     >   create mode 100644 ebpf/ebpf_rss.h
+>     >   create mode 100644 ebpf/meson.build
+>     >   create mode 100644 ebpf/rss.bpf.c
+>     >   create mode 100644 ebpf/tun_rss_steering.h
+>     >
+>
 
-  $ ./configure --enable-sanitizers --disable-kvm
-
-  $ make qemu-system-i386
-
-  $ ./build/i386-softmmu/qemu-system-i386
-  include/exec/memory.h:688:12: runtime error: member access within null po=
-inter of type 'AddressSpace' (aka 'struct AddressSpace')
-  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior include/exec/memo=
-ry.h:688:12 in =
-
-  AddressSanitizer:DEADLYSIGNAL
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  =3D=3D249513=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
-00000020 (pc 0x55955d7f8c4f bp 0x7fff10f3cff0 sp 0x7fff10f3cf20 T0)
-  =3D=3D249513=3D=3DThe signal is caused by a READ memory access.
-  =3D=3D249513=3D=3DHint: address points to the zero page.
-      #0 0x55955d7f8c4f in address_space_to_flatview include/exec/memory.h:=
-688:12
-      #1 0x55955d8003d2 in address_space_translate include/exec/memory.h:22=
-86:31
-      #2 0x55955d8315f3 in address_space_stl_internal memory_ldst.c.inc:312=
-:10
-      #3 0x55955d831cd1 in address_space_stl_le memory_ldst.c.inc:353:5
-      #4 0x55955d7ef2e1 in stl_le_phys include/exec/memory_ldst_phys.h.inc:=
-103:5
-      #5 0x55955d7ed299 in ioapic_service hw/intc/ioapic.c:138:17
-      #6 0x55955d7f0e30 in ioapic_set_irq hw/intc/ioapic.c:186:17
-      #7 0x55955e34b825 in qemu_set_irq hw/core/irq.c:45:5
-      #8 0x55955d0409e6 in gsi_handler hw/i386/x86.c:583:5
-      #9 0x55955e34b825 in qemu_set_irq hw/core/irq.c:45:5
-      #10 0x55955ca539c9 in hpet_handle_legacy_irq hw/timer/hpet.c:724:13
-      #11 0x55955e34b825 in qemu_set_irq hw/core/irq.c:45:5
-      #12 0x55955ce7a695 in pit_irq_timer_update hw/timer/i8254.c:264:5
-      #13 0x55955ce7a1d8 in pit_irq_control hw/timer/i8254.c:306:9
-      #14 0x55955e34b825 in qemu_set_irq hw/core/irq.c:45:5
-      #15 0x55955ca52276 in hpet_reset hw/timer/hpet.c:707:5
-      #16 0x55955e342e91 in device_transitional_reset hw/core/qdev.c:1114:9
-      #17 0x55955e345cfc in resettable_phase_hold hw/core/resettable.c:182:=
-13
-      #18 0x55955e31c1e5 in bus_reset_child_foreach hw/core/bus.c:94:9
-      #19 0x55955e348a58 in resettable_child_foreach hw/core/resettable.c:9=
-6:9
-      #20 0x55955e34596f in resettable_phase_hold hw/core/resettable.c:173:5
-      #21 0x55955e344a72 in resettable_assert_reset hw/core/resettable.c:60=
-:5
-      #22 0x55955e344919 in resettable_reset hw/core/resettable.c:45:5
-      #23 0x55955e3473e9 in resettable_cold_reset_fn hw/core/resettable.c:2=
-69:5
-      #24 0x55955e344898 in qemu_devices_reset hw/core/reset.c:69:9
-      #25 0x55955d05c5b0 in pc_machine_reset hw/i386/pc.c:1632:5
-      #26 0x55955d55ab84 in qemu_system_reset softmmu/vl.c:1403:9
-      #27 0x55955d56816d in qemu_init softmmu/vl.c:4458:5
-      #28 0x55955bc13609 in main softmmu/main.c:49:5
-      #29 0x7f3baad20041 in __libc_start_main (/lib64/libc.so.6+0x27041)
-      #30 0x55955bb398ed in _start (build-sanitizer/qemu-system-i386+0x1b3d=
-8ed)
-
-  AddressSanitizer can not provide additional info.
-  SUMMARY: AddressSanitizer: SEGV include/exec/memory.h:688:12 in address_s=
-pace_to_flatview
-
-  Comment and stl_le_phys() added in commit cb135f59b80:
-      /* No matter whether IR is enabled, we translate
-       * the IOAPIC message into a MSI one, and its
-       * address space will decide whether we need a
-       * translation. */
-      stl_le_phys(ioapic_as, info.addr, info.data);
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896317/+subscriptions
 
