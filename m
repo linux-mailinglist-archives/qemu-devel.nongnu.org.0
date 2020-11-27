@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1C72C6A2B
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 17:52:34 +0100 (CET)
-Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B63092C6A42
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 17:55:52 +0100 (CET)
+Received: from localhost ([::1]:35890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kigz3-0005Uy-5D
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 11:52:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39372)
+	id 1kih2F-0008Mj-Ld
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 11:55:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kiguT-0001p6-FR
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:47:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57677)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kigxD-0004Kf-Ks
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:50:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kiguR-000591-8s
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:47:49 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kigx7-0005VI-R0
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:50:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606495664;
+ s=mimecast20190719; t=1606495832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uUyln2Foq9Nd8oUoDAxLIPNWIRSlHjjTwSpy+2vsr1o=;
- b=FDMyrMqh/nRZwvlvjkVZQn/z783wMsN7nY/Un/xHfDmQoyjmw36yuhVfZQS2lOi1CHLpAn
- 6vrBuXMli5tQJTHE04CjbkONVJ2ypNkuxhijZQ7TcZgR+D1VjbGbP4DYqCVp1iiKkpUMyA
- M3AvL7uR+bAtm8FV76gefNFY24TNagg=
+ bh=AL69B+mDeAO6m58s2Opgcvqh9DBnxqRt/CwK6uD9aP4=;
+ b=GfB1tMd3pZ/lQv9vkwGYDR5kH4nEKbcEEk4sNhM1uS4IBfJMjAXlULx27y8Fj99iTLI1Yi
+ p88+iDudIx0pts50tmM2nSevNbafx7eAu1RXo1N0I8TWJIpVfs9SK6NHKB87NvQwI+4Di0
+ 6jGKft7n/0i4AcMSHJ8iHBjWElUbxTM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-16u7koQ2M3mba2wFec3FOA-1; Fri, 27 Nov 2020 11:47:43 -0500
-X-MC-Unique: 16u7koQ2M3mba2wFec3FOA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-26-8PtLC--pOrq3s4bqxplomQ-1; Fri, 27 Nov 2020 11:50:30 -0500
+X-MC-Unique: 8PtLC--pOrq3s4bqxplomQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB3A95189;
- Fri, 27 Nov 2020 16:47:41 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 645861001E73;
- Fri, 27 Nov 2020 16:47:38 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EF36E113864E; Fri, 27 Nov 2020 17:47:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v2 2/6] accel: accel_available() function
-References: <20201125205636.3305257-1-ehabkost@redhat.com>
- <20201125205636.3305257-3-ehabkost@redhat.com>
- <12f82771-9db9-8fcd-ea25-736428d2650a@suse.de>
- <20201126133645.GG2271382@habkost.net>
- <8d90d611-6545-a478-1316-542dc5424b92@suse.de>
- <f4f64154-9fbb-36fa-d9cb-e49c8ed06537@redhat.com>
- <7df7713c-5125-9e41-3572-a476cad2946b@suse.de>
- <20201126214810.GR2271382@habkost.net>
- <55ed249f-9fd3-fe3d-c63a-8d74803a72ca@suse.de>
- <87y2imq2ni.fsf@dusky.pond.sub.org>
- <573ed53e-fe9e-895b-bb15-3058089d9b5f@suse.de>
-Date: Fri, 27 Nov 2020 17:47:36 +0100
-In-Reply-To: <573ed53e-fe9e-895b-bb15-3058089d9b5f@suse.de> (Claudio Fontana's
- message of "Fri, 27 Nov 2020 15:58:13 +0100")
-Message-ID: <87im9qn3vb.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73EBF107ACF7;
+ Fri, 27 Nov 2020 16:50:29 +0000 (UTC)
+Received: from gondolin (ovpn-113-65.ams2.redhat.com [10.36.113.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 980A1189B4;
+ Fri, 27 Nov 2020 16:50:24 +0000 (UTC)
+Date: Fri, 27 Nov 2020 17:50:21 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v2] tests/acceptance: add a test for devices on s390x
+Message-ID: <20201127175021.38a24e83.cohuck@redhat.com>
+In-Reply-To: <20201126130158.1471985-1-cohuck@redhat.com>
+References: <20201126130158.1471985-1-cohuck@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -89,80 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Claudio Fontana <cfontana@suse.de> writes:
+On Thu, 26 Nov 2020 14:01:58 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-> On 11/27/20 3:45 PM, Markus Armbruster wrote:
->> Claudio Fontana <cfontana@suse.de> writes:
->> 
->>> On 11/26/20 10:48 PM, Eduardo Habkost wrote:
->>>> On Thu, Nov 26, 2020 at 10:06:03PM +0100, Claudio Fontana wrote:
->>>>> On 11/26/20 3:25 PM, Paolo Bonzini wrote:
->>>>>> On 26/11/20 15:13, Claudio Fontana wrote:
->>>>>>> One option I see is simply to document the behavior where
->>>>>>> accel_available() is declared in accel.h (ie do not use in fast
->>>>>>> path), as well as in accel_find() actually, so that both accel_find()
->>>>>>> and accel_available() are avoided in fast path and avoid being called
->>>>>>> frequently at runtime.
->>>>>>>
->>>>>>> Another option could be to remove the allocation completely, and use
->>>>>>> for example accel_find(ACCEL_CLASS_NAME("tcg")), or another option
->>>>>>> again would be to remove the allocation and use either a fixed buffer
->>>>>>> + snprintf, or alloca -like builtin code to use the stack, ...
->>>>>>>
->>>>>>> Not a big deal, but with a general utility and short name like
->>>>>>> accel_available(name) it might be tempting to use this more in the
->>>>>>> future?
->>>>>>
->>>>>> I think it's just that the usecase is not that common.  "Is this 
->>>>>> accelerator compiled in the binary" is not something you need after 
->>>>>> startup (or if querying the monitor).
->>>>>>
->>>>>> Paolo
->>>>>>
->>>>>>
->>>>>
->>>>> A script that repeatedly uses the QMP interface to query for
->>>>> the status could generate fragmentation this way I think.
->>>>
->>>> Is this a problem?  Today, execution of a "query-kvm" command
->>>> calls g_malloc() 37 times.
->>>>
->>>
->>> Not ideal in my view, but not the end of the world either.
->> 
->> QMP's appetite for malloc is roughly comparable to a pig's for truffles.
->> 
->
-> :-)
->
-> Btw, do we have limits on the maximum size of these objects? I mean, a single QMP command,
-> a single QEMU object type name, etc?
->
-> In this case we could do some overall improvement there, and might even avoid some problems down the road..
+> This adds a very basic test for checking that we present devices
+> in a way that Linux can consume: boot with both virtio-net-ccw and
+> virtio-net-pci attached and then verify that Linux is able to see
+> and detect these devices.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+> RFC->v2:
+>  - use a newer kernel that uses the uid in zpci address generation
+>  - add a zpci device to specify a uid
+>  - increase timeout
+>  - tweak naming
+>  - add a MAINTAINERS entry
+> ---
+>  MAINTAINERS                                 |  1 +
+>  tests/acceptance/machine_s390_ccw_virtio.py | 70 +++++++++++++++++++++
+>  2 files changed, 71 insertions(+)
+>  create mode 100644 tests/acceptance/machine_s390_ccw_virtio.py
 
-We have limits, but they are not comprehensive.
+Queued to s390-next.
 
-The QMP client is trusted.  We don't try to guard against a malicious
-QMP client.  We do try to guard against mistakes.
-
-The JSON parser limits token size (in characters), expression size (in
-tokens), and expression nesting depth.  This protects against a
-malfunctioning QMP client.  The limits are ridiculously generous.
-
-The QMP core limits the number of commands in flight per monitor to a
-somewhat parsimonious 8-9 in-band commands, plus one out-of-band
-command.  This protects against a QMP client sending commands faster
-than we can execute them.
-
-QMP output is buffered without limit.  When a (malfunctioning) QMP
-client keeps sending commands without reading their output, QEMU keeps
-buffering until it runs out of memory and crashes.
+I plan to add some more stuff on top (like checking the mac address, or
+adding more devices), but that will have to wait until next week.
 
 
