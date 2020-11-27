@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 712052C6852
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 15:59:27 +0100 (CET)
-Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFC92C6836
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 15:51:43 +0100 (CET)
+Received: from localhost ([::1]:52458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kifDa-0007vo-DZ
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 09:59:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36648)
+	id 1kif66-00075q-8l
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 09:51:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kif0p-00019Q-JU; Fri, 27 Nov 2020 09:46:21 -0500
-Received: from mail-am6eur05on2120.outbound.protection.outlook.com
- ([40.107.22.120]:28961 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ id 1kif0q-00019U-0P; Fri, 27 Nov 2020 09:46:21 -0500
+Received: from mail-am6eur05on2133.outbound.protection.outlook.com
+ ([40.107.22.133]:13377 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kif0n-0003Ef-7s; Fri, 27 Nov 2020 09:46:15 -0500
+ id 1kif0o-0003DS-6O; Fri, 27 Nov 2020 09:46:15 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PQrZN/pbB71AW7JKH5b3kgCWVMua+ydmOefYa4OFNUTqmNOCvtkGceF26QEi3JFD9bIaow0cuzUfAqqSpYIfE/Sombqkob40AmZsSgeaLzEQdIQrd/B2MECPWgso8tmD9KB4IvitCzbtGYzEQCbgCdKr3sCMFiBmvPAr84l656cblhjqm5gqYLQhmTLbGXtNbO4oxZHKo8y5kkIfJr3RuZt1MJset5gH0/KReXctAQHtiCsaO7AZ66mUOPmKpDmWFcfuFJvm9ps9SKhs/YpZcXzL95FFXJcmBYBV6Rmi6v/PIE+KjWkXmhlvq7AhhJHZjtDa+N9iI58Dhw21KL8eDA==
+ b=FInYyMMAAYEMcFEzmZ2rOdQSvP90+QlHkCn/hFTRlSM7AAmwjsp3coI+zMA1Ffe1RJc1Jn4EHH5gByfSy6ztrmf9wFBZ5SUDuVgBTKrVLWKWA2kVWGaVjcTW8nudFH0ZZMaINWkJW253iWa7vspt7BdWq2qtFkI2c0Fszp+wPz868O6TovSVYf02zCYFFhXS+IvLxAjD01S4/YMiHm1FxaLfmT9ONWaOQQIr7bwN2U7l1K+nG5RiMexVyFY6FmkjC6ThgFo2slwcGd7WnMg5PZ/G7v2n1EO6IvKI6mtENeKogidGVJGnD+Cmvq8wyS7DdwAcp+KJj4is4CEb3intyQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rjEFdMnLXLT905b3EAn1qXIZV99TbXSGSGpEPzWsiXU=;
- b=VXpZYJyh4InBmxTdtcORfuAohLTF2SMSrDyQWNquELnzAdkPdgxAhmp3OtF39EXDPsnDUmiXgUNUsHIGafnh9bh+L5kz83laL6JIzfblErrj2FV3B2YBrOLNndM11K9sv7BJWddxJcYVirH6ycacMOb5xj1CGn3fVHTtI7BKqLK1lP42yrW9A5N2juEte4QI6yqehz2dnx6RSFWD6RFQN1Ci6pAtcjhvZUuW+9K7gKhTD6eVA2BAfGyte5oMRvB+o7GuBpliH2skV45u9UoW1mZEUoiJQp0zSA7sDH47oGnMzpzQvy3gt8Neiyx2fkW8lQr6+T1NdI9Tow5Ne9Kdqw==
+ bh=D+nwm6BiwGwz7n5xFL+ZhtE6i+uFSKOf84EMaTTGtrA=;
+ b=MJfkV/TcK8W0Jb3ma6FlO9Z87/Q8N7DRR3MCyd/BDDMryNjkboL4NU886uaVpEeWtPlCqXk2LJPsu27ZBQAvmT/5oYnabInKetTQ4wh7ElYp1UjTJhvT9JzeN0S9a3BUl4ajH1+vNQDSMXG8Jph8iKpWrqEmsnWlUlv9RVthvlOHXVFCmsMueNqdH19B4906r2kVvzJYD51+S147TTgjrh/JOANoaWDE66+U4daNYps27uQqsgpwczbQIH815qRkw7lJGTSgQURYmsSw16pJCtxrXVon7BD5Nhh8Q4Gb5mDjZXfwG0XSc5v0b4RzfSLRL8CG0VM3mdhml0pyUETzpA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rjEFdMnLXLT905b3EAn1qXIZV99TbXSGSGpEPzWsiXU=;
- b=akBY+o1GSYWZr4djndF2yoNkQSvogPFsPcHNgrDdwe7FL36eR9WqcqAsZnmBo5fSpXIHeCiR7UFC8uGnsKhVc30NUQ8nkxyLAMWaBEsQQ04ZLei67rNJJztU+vWEkpQOod1aax1UF1hZkIy+FYuBuKhv1QpSzo/BrGbjTCjbjf4=
+ bh=D+nwm6BiwGwz7n5xFL+ZhtE6i+uFSKOf84EMaTTGtrA=;
+ b=aqxxRnms7L8bAyqaV/hf60tPMU6MyMI9Zh3x7sTn+bVTP4fSXr7tHsLldz1uZk8yNktXnhpljG2HZ26XsYKtDWp0azyYIVpsH2yDojKnZWwV+14JYI2MLWxwt1kQsSh5pBz0HqjPNpyQJqNJSN436bXSyH1Qa7LElDC8K3b2q+E=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB5078.eurprd08.prod.outlook.com (2603:10a6:20b:e7::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.25; Fri, 27 Nov
- 2020 14:46:04 +0000
+ 2020 14:46:05 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3611.025; Fri, 27 Nov 2020
@@ -49,9 +49,9 @@ To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, jsnow@redhat.com,
  mreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
  den@openvz.org
-Subject: [PATCH v2 10/36] util: add transactions.c
-Date: Fri, 27 Nov 2020 17:44:56 +0300
-Message-Id: <20201127144522.29991-11-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 11/36] block: bdrv_refresh_perms: check parents compliance
+Date: Fri, 27 Nov 2020 17:44:57 +0300
+Message-Id: <20201127144522.29991-12-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20201127144522.29991-1-vsementsov@virtuozzo.com>
 References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
@@ -67,49 +67,49 @@ Received: from localhost.localdomain (185.215.60.91) by
  AM4PR0501CA0052.eurprd05.prod.outlook.com (2603:10a6:200:68::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.22 via Frontend
- Transport; Fri, 27 Nov 2020 14:45:43 +0000
+ Transport; Fri, 27 Nov 2020 14:45:44 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 02e71819-9e86-4ee2-8229-08d892e31ec1
+X-MS-Office365-Filtering-Correlation-Id: 70c98a9b-a6df-4fc0-c0fa-08d892e31f33
 X-MS-TrafficTypeDiagnostic: AM6PR08MB5078:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB50783363CA474C2714913C76C1F80@AM6PR08MB5078.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB5078D0403D9394F2727245D2C1F80@AM6PR08MB5078.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2512;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vmappfu9h9/hwIF2HfTUaqr6GDP+hl3YtFLawJX8dL2tsMtO9V3/OFfGRsMFjWlC2kA0W6q3yaz1x0rUJ5HPcwVe+JQS5zelMENlicBl8nV7BMEed0UxUsvH0QfjVxdFf3sDFrX1f1T6naGBUo07KmDYcpj4mG54tUYna0GZIFQpDZXinBkPKni49FCJRU9rqbxEg3FIRFklM23f/199EevUFPymNcXRqGqpxYNkHbYUQJfoNEtKNu8inxAqdfEmtF+Rd8ML7l2ItKITp0b9KZyFtVg2MvObrP8D84Xn3Xprr4J+nEF8aDmCDSdWeXopNzqpsun9H+d74uPYgCTh4uFBn0UVq3kLGYupHqP/hk3uJuDHin7g0IFKUF6ASDzYSlIDdPV9NmALdjhYM26gjit5ongbtLhXtKw1Lf6/K4wKT0XOmU+4YMLuEr4wcIBc0H8JL0drnP3vFM93l3uyW94fG64gTTJT1Ss9/D+XWRs=
+X-Microsoft-Antispam-Message-Info: hCKsAY30Vbrou4EQaFu1/F59l5vMsysYNXut5LJaReWCm3Pe3UohMH5865JRpXNUrx409QO/8q7RpD/SLC4w/7g/1hOy5DzzlQVxzlQEET/M4B9Pj2ACw8OPSSsWZHyvve7FYfPmDcaH/6lICZh8Rq64vdfW5/DYl6FQVdZrKI4ImoGGqbaIzNnbDFXlv5erRt5BeJmhmLpQP7VazofXfaQw3CUc2moIoRRDVFvfzd7Vg8ND3JLfgdY0G75b0KaavvBsiPKJxijLdTHlL/X5ikUGzIWJtKvbyCrt5fwEFL/luwd2CE3M9hGOXaHplEXvHYt4K0V2hMjZe4Zbc8GjPBTaccAtD2E7KAkWfs7r8DEfQh5etDWQRTl7H7DjdV+Z
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39840400004)(346002)(136003)(396003)(376002)(86362001)(16526019)(66556008)(66476007)(478600001)(8676002)(186003)(66946007)(26005)(52116002)(83380400001)(6506007)(69590400008)(107886003)(6666004)(316002)(4326008)(36756003)(5660300002)(6486002)(2616005)(956004)(1076003)(6916009)(6512007)(8936002)(2906002)(2004002);
+ SFS:(4636009)(366004)(39840400004)(346002)(136003)(396003)(376002)(86362001)(16526019)(66556008)(66476007)(478600001)(8676002)(186003)(66946007)(26005)(52116002)(83380400001)(6506007)(69590400008)(107886003)(6666004)(316002)(4326008)(36756003)(5660300002)(6486002)(2616005)(956004)(1076003)(6916009)(6512007)(8936002)(2906002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?bLeCXm7c43SkONPVEX08B/HqLOdqiLXHPAnS9cWUeStsXGH++N1sX4WVRWBu?=
- =?us-ascii?Q?QSajGDWrG1AatMAi8FROu2WGa8jjnoJhuepgxVZDG1Pjvs+RD90mKqtsLuWh?=
- =?us-ascii?Q?HWwFhracQHQA7m+YtMvCwavUV77H+AU9ktUfu5JiZyfpBszKPXoimaQ2Z+gz?=
- =?us-ascii?Q?wVqip55i+oHQJfll7ZW+zveK+X4ibrj5ql2HRkDXAnHG+dnTyZnGa7kf3VNT?=
- =?us-ascii?Q?3MgxRa8ArH0Z3xtvAYgw5hzgmnrUWXVUpz1vCwlMpnVoooXKooqqJhpG9jcA?=
- =?us-ascii?Q?/9dYYPoDtWw5PYhWG+OImbPA2006FdFwvXudGyoKqBrrtwGwR8paeDhJiopP?=
- =?us-ascii?Q?40XnA4zc5RoNyTuADWqt1zkAVvGcnYxvK+aV2/8DK6nIGP72Nqa8/RJTl8Y0?=
- =?us-ascii?Q?Od3bIFDb3OSmsatEMxuV1PheB4pVyw/agY3NVStpZYc3+loSEWTPg9wbYe4b?=
- =?us-ascii?Q?LuBtteoWpHdC1jlYdKMwuVKh2VUhvHrznFs6QNVhTfMJZqoHgMX2RMlFrZUq?=
- =?us-ascii?Q?AzhkFLy/Yo9Pt6Spt0b4JPw7olMxpm/JeVr8a4PCx2P9VPjD0HxtO3rUJrP9?=
- =?us-ascii?Q?oD1bI7FKh5zmsQWXukv3lcCFrh99MDV9nuNfdE881bpDGvRNQ3DzopJBKLWe?=
- =?us-ascii?Q?JLUTSEJ9akjg4r5znCxn6+Q8WLcGaTicB26NK3iF/0RlooRYSj3wcjo+ntok?=
- =?us-ascii?Q?bY79s1CoCa+o1MycL9wHkOGCLRnRtXUi6uhVKGf3CYJMNTcmUljeh3DLRB5m?=
- =?us-ascii?Q?h0zwVqW3ltXVV9fa5bKC1qwJx0Gv3z3XgzJgklBDMRFhWN0lNsQ/V2GxnveG?=
- =?us-ascii?Q?berULNHPVDWnqzZRahh3aCwC/n35D1Z+8LzCYlHnQPTjtFrmHRhaZ9f8s6bO?=
- =?us-ascii?Q?6VwfIzS+Rnj9uoKu198qHMKeaxnC3jJDx/NeNVm8WKCm1uCyo5p6B4D+ZvhD?=
- =?us-ascii?Q?bnvqXct+y1knG08L2gebAkjl0FuFxC1lA+iHHYiHOorZHjODtouyumHUGymz?=
- =?us-ascii?Q?AkD/?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?AF5IWRzARvBZnIBYgpewVAkJsDW49/gNcGLGVpTtANmof2J1w+TIIBCdVXNh?=
+ =?us-ascii?Q?QUd/SByZTLKbv8u3HnU+7EE+UbM0U5M0YZilnBgY0i/9mgem9xLomlIWRanF?=
+ =?us-ascii?Q?p6vP/5aM0Hp0mD3ChoC0RlnfK21FsoQicXa87c1HBtmGnYeEDYZj8vUZRxZS?=
+ =?us-ascii?Q?67t3vvrfRPynBsDlv8geeDkA4rcNqZIG058kTyYXpQza34LksJTkR0i6OUzU?=
+ =?us-ascii?Q?2uVZ41JPdr4KSpmTVs1JAuqZoGt5Sg4hhzNfDomLnAVnw+MA+ej0WYHm2nZ/?=
+ =?us-ascii?Q?G1UzCpSIZtBvsXqu5IzqkSpEVFiznYAd/gsBpk1I59mYzV4jEUxU5DosG+Sw?=
+ =?us-ascii?Q?lh5yungtNfKQVDWd6QOfI11096Ae0aLdcJCCVR/q0Q8Nv/Wq0f+j9WPe2hK2?=
+ =?us-ascii?Q?m+Cgy/U8KCyj+A6+th3EWyWjSbuOLVnGVh5PoiD4ETpIMohLz9abrTKp96FQ?=
+ =?us-ascii?Q?FjOx9s8iPXf3YxvG6CJD67SroJajjbo+TYtEvWdRcIkjd7TblbTFiJerizWy?=
+ =?us-ascii?Q?I9Rd/dR132+6Hwyf/cEbNZGip91NB9nVWJCWBwOVRj1Bd+V2h5vQP0Rs2Ev5?=
+ =?us-ascii?Q?O6RHVitKNZW4oCXYVWVKB9yclwWZhwgKJH3HxoeUiATBRm+oM0vrdeXj1klf?=
+ =?us-ascii?Q?r2A7xu32yvuRxsGhroAG0QBoXZoNS+g+joRt7+w1vYB69V7TxXr5RjQH04R7?=
+ =?us-ascii?Q?ShSzYvloOVEBEZd66I74FTtRIYtpY5+fIb3hEGeqsrs0uJYCsKQBboa/yd8E?=
+ =?us-ascii?Q?wHyGTgqp4JQiXSlz90yRyWPoLqmMXIzUq4UfiblpwpOFZY1Xc4fds8nvIqJG?=
+ =?us-ascii?Q?Z/nRcT/gFiimH3yxy+d8rB80Fj7GIWrWMXyTfg6Ig/WZ4fvLWxKls8vPwka4?=
+ =?us-ascii?Q?B8tqkscN0i2ZC9hj9rfkpPkjnd4s0VvnW3GOteemyr2Bsi/kOeMzY2UWKl+e?=
+ =?us-ascii?Q?ghhmLgosAF6l2kNr45SKqNED6O5Ae/hdxYOR+jyg/In7/LfTm0fT6BRaTTda?=
+ =?us-ascii?Q?LrTt?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02e71819-9e86-4ee2-8229-08d892e31ec1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70c98a9b-a6df-4fc0-c0fa-08d892e31f33
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2020 14:45:44.5688 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2020 14:45:45.3135 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0V91uG04FkDXLY5aX+BZBoTLRUupmLIW8hwZRsEZF7SvEQQQeYUgGqO1exps/4v+IfXTdl2GOlHlD/Uqx6t8U2rWl6knYy387X38SWC5oII=
+X-MS-Exchange-CrossTenant-UserPrincipalName: bEsq1JX1vgrxrB91O76glpePHxq1mjsKSpmDYCSEduxioCrz4NqchNrePgt0vIegNgGuC1G20PmHleuFHmrXp/9VPFPp0Wy9j14SqKT5QK4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5078
-Received-SPF: pass client-ip=40.107.22.120;
+Received-SPF: pass client-ip=40.107.22.133;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-AM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -27
@@ -134,184 +134,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add simple transaction API to use in further update of block graph
-operations.
+Add additional check that node parents do not interfere with each
+other. This should not hurt existing callers and allows in further
+patch use bdrv_refresh_perms() to update a subtree of changed
+BdrvChild (check that change is correct).
 
-Supposed usage is:
-
-- "prepare" is main function of the action and it should make the main
-  effect of the action to be visible for the following actions, keeping
-  possibility of roll-back, saving necessary things in action state,
-  which is prepended to the list. So, driver struct doesn't include
-  "prepare" field, as it is supposed to be called directly.
-
-- commit/rollback is supposed to be called for the list of action
-  states, to commit/rollback all the actions in reverse order
-
-- When possible "commit" should not make visible effect for other
-  actions, which make possible transparent logical interaction between
-  actions.
+New check will substitute bdrv_check_update_perm() in following
+permissions refactoring, so keep error messages the same to avoid
+unit test result changes.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/qemu/transactions.h | 46 +++++++++++++++++++++
- util/transactions.c         | 81 +++++++++++++++++++++++++++++++++++++
- util/meson.build            |  1 +
- 3 files changed, 128 insertions(+)
- create mode 100644 include/qemu/transactions.h
- create mode 100644 util/transactions.c
+ block.c | 63 ++++++++++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 54 insertions(+), 9 deletions(-)
 
-diff --git a/include/qemu/transactions.h b/include/qemu/transactions.h
-new file mode 100644
-index 0000000000..a5b15f46ab
---- /dev/null
-+++ b/include/qemu/transactions.h
-@@ -0,0 +1,46 @@
-+/*
-+ * Simple transactions API
-+ *
-+ * Copyright (c) 2020 Virtuozzo International GmbH.
-+ *
-+ * Author:
-+ *  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef QEMU_TRANSACTIONS_H
-+#define QEMU_TRANSACTIONS_H
-+
-+#include <gmodule.h>
-+
-+typedef struct TransactionActionDrv {
-+    void (*abort)(void *opeque);
-+    void (*commit)(void *opeque);
-+    void (*clean)(void *opeque);
-+} TransactionActionDrv;
-+
-+void tran_prepend(GSList **list, TransactionActionDrv *drv, void *opaque);
-+void tran_abort(GSList *backup);
-+void tran_commit(GSList *backup);
-+static inline void tran_finalize(GSList *backup, int ret)
-+{
-+    if (ret < 0) {
-+        tran_abort(backup);
-+    } else {
-+        tran_commit(backup);
-+    }
-+}
-+
-+#endif /* QEMU_TRANSACTIONS_H */
-diff --git a/util/transactions.c b/util/transactions.c
-new file mode 100644
-index 0000000000..ef1b9a36a4
---- /dev/null
-+++ b/util/transactions.c
-@@ -0,0 +1,81 @@
-+/*
-+ * Simple transactions API
-+ *
-+ * Copyright (c) 2020 Virtuozzo International GmbH.
-+ *
-+ * Author:
-+ *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "qemu/transactions.h"
-+
-+typedef struct BdrvAction {
-+    TransactionActionDrv *drv;
-+    void *opaque;
-+} BdrvAction;
-+
-+void tran_prepend(GSList **list, TransactionActionDrv *drv, void *opaque)
-+{
-+    BdrvAction *act;
-+
-+    act = g_new(BdrvAction, 1);
-+    *act = (BdrvAction) {
-+        .drv = drv,
-+        .opaque = opaque
-+    };
-+
-+    *list = g_slist_prepend(*list, act);
-+}
-+
-+void tran_abort(GSList *list)
-+{
-+    GSList *p;
-+
-+    for (p = list; p != NULL; p = p->next) {
-+        BdrvAction *act = p->data;
-+
-+        if (act->drv->abort) {
-+            act->drv->abort(act->opaque);
-+        }
-+
-+        if (act->drv->clean) {
-+            act->drv->clean(act->opaque);
-+        }
-+    }
-+
-+    g_slist_free_full(list, g_free);
-+}
-+
-+void tran_commit(GSList *list)
-+{
-+    GSList *p;
-+
-+    for (p = list; p != NULL; p = p->next) {
-+        BdrvAction *act = p->data;
-+
-+        if (act->drv->commit) {
-+            act->drv->commit(act->opaque);
-+        }
-+
-+        if (act->drv->clean) {
-+            act->drv->clean(act->opaque);
-+        }
-+    }
-+
-+    g_slist_free_full(list, g_free);
-+}
-diff --git a/util/meson.build b/util/meson.build
-index f359af0d46..8c7c28bd40 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -41,6 +41,7 @@ util_ss.add(files('qsp.c'))
- util_ss.add(files('range.c'))
- util_ss.add(files('stats64.c'))
- util_ss.add(files('systemd.c'))
-+util_ss.add(files('transactions.c'))
- util_ss.add(when: 'CONFIG_POSIX', if_true: files('drm.c'))
- util_ss.add(files('guest-random.c'))
+diff --git a/block.c b/block.c
+index 29082c6d47..a756f3e8ad 100644
+--- a/block.c
++++ b/block.c
+@@ -1966,6 +1966,57 @@ bool bdrv_is_writable(BlockDriverState *bs)
+     return bdrv_is_writable_after_reopen(bs, NULL);
+ }
  
++static char *bdrv_child_user_desc(BdrvChild *c)
++{
++    if (c->klass->get_parent_desc) {
++        return c->klass->get_parent_desc(c);
++    }
++
++    return g_strdup("another user");
++}
++
++static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
++{
++    g_autofree char *user = NULL;
++    g_autofree char *perm_names = NULL;
++
++    if ((b->perm & a->shared_perm) == b->perm) {
++        return true;
++    }
++
++    perm_names = bdrv_perm_names(b->perm & ~a->shared_perm);
++    user = bdrv_child_user_desc(a);
++    error_setg(errp, "Conflicts with use by %s as '%s', which does not "
++               "allow '%s' on %s",
++               user, a->name, perm_names, bdrv_get_node_name(b->bs));
++
++    return false;
++}
++
++static bool bdrv_check_parents_compliance(BlockDriverState *bs, Error **errp)
++{
++    BdrvChild *a, *b;
++
++    /*
++     * During the loop we'll look at each pair twice. That's correct is
++     * bdrv_a_allow_b() is asymmetric and we should check each pair in both
++     * directions.
++     */
++    QLIST_FOREACH(a, &bs->parents, next_parent) {
++        QLIST_FOREACH(b, &bs->parents, next_parent) {
++            if (a == b) {
++                continue;
++            }
++
++            if (!bdrv_a_allow_b(a, b, errp)) {
++                return false;
++            }
++        }
++    }
++
++    return true;
++}
++
+ static void bdrv_child_perm(BlockDriverState *bs, BlockDriverState *child_bs,
+                             BdrvChild *c, BdrvChildRole role,
+                             BlockReopenQueue *reopen_queue,
+@@ -2143,15 +2194,6 @@ void bdrv_get_cumulative_perm(BlockDriverState *bs, uint64_t *perm,
+     *shared_perm = cumulative_shared_perms;
+ }
+ 
+-static char *bdrv_child_user_desc(BdrvChild *c)
+-{
+-    if (c->klass->get_parent_desc) {
+-        return c->klass->get_parent_desc(c);
+-    }
+-
+-    return g_strdup("another user");
+-}
+-
+ char *bdrv_perm_names(uint64_t perm)
+ {
+     struct perm_name {
+@@ -2295,6 +2337,9 @@ static int bdrv_refresh_perms(BlockDriverState *bs, Error **errp)
+     int ret;
+     uint64_t perm, shared_perm;
+ 
++    if (!bdrv_check_parents_compliance(bs, errp)) {
++        return -EPERM;
++    }
+     bdrv_get_cumulative_perm(bs, &perm, &shared_perm);
+     ret = bdrv_check_perm(bs, NULL, perm, shared_perm, NULL, errp);
+     if (ret < 0) {
 -- 
 2.21.3
 
