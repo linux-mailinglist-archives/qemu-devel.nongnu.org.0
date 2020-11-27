@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B7A2C695F
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 17:28:02 +0100 (CET)
-Received: from localhost ([::1]:33682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B042C696E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 17:31:48 +0100 (CET)
+Received: from localhost ([::1]:36268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kigbJ-0002eD-5i
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 11:28:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34416)
+	id 1kigex-0003wm-11
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 11:31:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiga1-000253-GU
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:26:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51646)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1kigdl-0003Mh-3i
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:30:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kigZy-0001iR-Vs
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:26:40 -0500
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1kigdg-0002Gf-On
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:30:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606494397;
+ s=mimecast20190719; t=1606494626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TrvBDi9yZGeY5Vbt3RGNQX372OakVVQv1ebR/1++2uo=;
- b=VX+oFksGoEh8uZ8twUXOFC97kptTlutX9Ar705Gk7jVNeCCx9CAp0P3pFHVzgk26OINB+Y
- ljW2iCMmfH0mf4FBr7dkALwcdT+wBeM55/ANvmhb5pVRANbjt3RnG9yDpIIzhA2XgSUav7
- 8u/jXnAfwPxTiU315w1GW6QUnMg1Wnk=
+ bh=wqfj/MrJHtdwNfc5MfSKu1LkHu2ZZqjOqNz4B4Jbg5A=;
+ b=W2QZYoAv4ueqZaERHKZb7ze4j7DQLbVF07Xjy3E5xN28JL8nVYStQeefCEEiyN64I2wCHg
+ r1bpFEryh2Ja4HJk8OUJxZFHg2DgwYym5zyv58YmM8hDw/cVb47/r1yW2DXK+TbQqe3Ye8
+ X7VODq3sKpMVqVQoZxHJdPgzkNov9wM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-jiQkH88kN--0iwqy45zqVA-1; Fri, 27 Nov 2020 11:26:36 -0500
-X-MC-Unique: jiQkH88kN--0iwqy45zqVA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-279-VhHOjBakPj-QQpTB8MEW1w-1; Fri, 27 Nov 2020 11:30:24 -0500
+X-MC-Unique: VhHOjBakPj-QQpTB8MEW1w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2FD910066FC;
- Fri, 27 Nov 2020 16:26:34 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 395495C1C2;
- Fri, 27 Nov 2020 16:26:34 +0000 (UTC)
-Date: Fri, 27 Nov 2020 11:26:33 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 8/8] hw/arm/virt: Disable highmem when on
- hypervisor.framework
-Message-ID: <20201127162633.GY2271382@habkost.net>
-References: <20201126215017.41156-1-agraf@csgraf.de>
- <20201126215017.41156-9-agraf@csgraf.de>
- <20201126221405.GT2271382@habkost.net>
- <CAFEAcA_Nc0Jp-3PPigt1YdqHfNhGToovCOO16DOPPC9Bt663qg@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEE4D107AD3B;
+ Fri, 27 Nov 2020 16:30:22 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4424A5D9D3;
+ Fri, 27 Nov 2020 16:30:16 +0000 (UTC)
+Date: Fri, 27 Nov 2020 17:30:13 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH for-6.0 6/6] qapi: Deprecate 'query-kvm'
+Message-ID: <20201127163013.GD105758@angien.pipo.sk>
+References: <20201116131011.26607-1-r.bolshakov@yadro.com>
+ <20201116131011.26607-7-r.bolshakov@yadro.com>
+ <20201127105059.GC1596141@redhat.com>
+ <20201127112154.GA105758@angien.pipo.sk>
+ <20201127114512.GE67322@SPB-NB-133.local>
+ <20201127121809.GB105758@angien.pipo.sk>
+ <87h7paoldm.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_Nc0Jp-3PPigt1YdqHfNhGToovCOO16DOPPC9Bt663qg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <87h7paoldm.fsf@dusky.pond.sub.org>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,77 +86,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Claudio Fontana <cfontana@suse.de>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: libvir-list@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 26, 2020 at 10:29:01PM +0000, Peter Maydell wrote:
-> On Thu, 26 Nov 2020 at 22:14, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> >
-> > On Thu, Nov 26, 2020 at 10:50:17PM +0100, Alexander Graf wrote:
-> > > The Apple M1 only supports up to 36 bits of physical address space. That
-> > > means we can not fit the 64bit MMIO BAR region into our address space.
-> > >
-> > > To fix this, let's not expose a 64bit MMIO BAR region when running on
-> > > Apple Silicon.
-> > >
-> > > I have not been able to find a way to enumerate that easily, so let's
-> > > just assume we always have that little PA space on hypervisor.framework
-> > > systems.
-> > >
-> > > Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> > > ---
-> > >  hw/arm/virt.c | 9 +++++++++
-> > >  1 file changed, 9 insertions(+)
-> > >
-> > > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > > index 27dbeb549e..d74053ecd4 100644
-> > > --- a/hw/arm/virt.c
-> > > +++ b/hw/arm/virt.c
-> > > @@ -45,6 +45,7 @@
-> > >  #include "hw/display/ramfb.h"
-> > >  #include "net/net.h"
-> > >  #include "sysemu/device_tree.h"
-> > > +#include "sysemu/hvf.h"
-> > >  #include "sysemu/numa.h"
-> > >  #include "sysemu/runstate.h"
-> > >  #include "sysemu/sysemu.h"
-> > > @@ -1746,6 +1747,14 @@ static void machvirt_init(MachineState *machine)
-> > >      unsigned int smp_cpus = machine->smp.cpus;
-> > >      unsigned int max_cpus = machine->smp.max_cpus;
-> > >
-> > > +    /*
-> > > +     * On Hypervisor.framework capable systems, we only have 36 bits of PA
-> > > +     * space, which is not enough to fit a 64bit BAR space
-> > > +     */
-> > > +    if (hvf_enabled()) {
-> > > +        vms->highmem = false;
-> > > +    }
-> >
-> > Direct checks for *_enabled() are a pain to clean up later when
-> > we add support to new accelerators.  Can't this be implemented as
-> > (e.g.) a AccelClass::max_physical_address_bits field?
+On Fri, Nov 27, 2020 at 16:44:05 +0100, Markus Armbruster wrote:
+> Peter Krempa <pkrempa@redhat.com> writes:
 > 
-> It's a property of the CPU (eg our emulated TCG CPUs may have
-> varying supported numbers of physical address bits). So the
-> virt board ought to look at the CPU, and the CPU should be
-> set up with the right information for all of KVM, TCG, HVF
-> (either a specific max_phys_addr_bits value or just ensure
-> its ID_AA64MMFR0_EL1.PARange is right, not sure which would
-> be easier/nicer).
+> > On Fri, Nov 27, 2020 at 14:45:12 +0300, Roman Bolshakov wrote:
+> >> On Fri, Nov 27, 2020 at 12:21:54PM +0100, Peter Krempa wrote:
 
-Agreed.
+ [...]
 
-My suggestion would still apply to the CPU code that will pick
-the address size; ideally, accel-specific behaviour should be
-represented as meaningful fields in AccelClass (either data or
-virtual methods) instead of direct *_enabled() checks.
+> > As you can see this has an issue when we have to add support for a
+> > unreleased interface, which may change during the dev cycle or plainly
+> > forget that something got deprecated as we've already added an override.
+> >
+> > This mainly comes from libvirt trying to keep on top of the changes so
+> > we refresh the QMP schema during qemu's dev cycle multiple times.
+> >
+> > Obviously the argument that we try to depend on unreleased functionality
+> > can be used, but that would be to detrement of progress IMO.
+> 
+> I understand your concerns.
+> 
+> We have a somewhat similar problem in QEMU: there's nothing to remind us
+> later on that the old interface still needs to be deprecated.
 
--- 
-Eduardo
+Oh, yes. That's basically the same thing.
+
+The thing is that changes to the new interface are very rare, but very
+real. Since I don't really want to increase the burden for any normal
+scenario.
+
+I'd also very much like to keep libvirt pulling in snapshots of qemu's
+capabilities/qapi schema etc throughout the development cycle. It allows
+us to adapt faster and develop features simultaneously.
+
+This unfortunately undermines my own arguments partially as libvirt
+regularly develops features on top of unreleased qemu features so we are
+regularly risking very similar circumstances. The small but important
+difference though is, that releasing a broken feature is not as bad as
+breaking an existing feature.
+
+As a conclusion of the above I'd basically prefer a sort of gentleman's
+agreement, that new APIs become 'somewhat' stable at the moment the
+commit deprecating the old interface hits upstream.
+
+The 'somewhat'-stable API would mean that any changes to the new API
+should be consulted with libvirt so that we can either give a go-ahead
+that we didn't adapt yet, disable the adaptation until the changes can
+be done, or another compromise depending on what's the state.
+
+I know it's hard to enforce, but probably the cheapest in terms of
+drawbacks any other solution would be.
+
+I'll probably keep notifying patchsets which implement and deprecate old
+api at the same time to keep in mind that we need to be kept in touch,
+but I really don't want to impose any kind of extra process to
+development on either side.
 
 
