@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECFDE2C6A1D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 17:49:32 +0100 (CET)
-Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1C72C6A2B
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 17:52:34 +0100 (CET)
+Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kigw7-0002gg-W4
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 11:49:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39340)
+	id 1kigz3-0005Uy-5D
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 11:52:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiguR-0001oQ-JD
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kiguT-0001p6-FR
  for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:47:49 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiguL-00058W-D1
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:47:47 -0500
-Received: by mail-ej1-x642.google.com with SMTP id lt17so8475296ejb.3
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 08:47:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uFI4g5tKIg+8FkTDm8TF/ivYcrUKkhGXo1xF1itZwZQ=;
- b=hGncZYa7UMJRHo8ItFhGUq+3J/LE/mnTXhKU546TTu9YmPmlE+ZkZuLSXKwPLAa9HK
- PrlK9bFBWqZIN7KQGFdDHJWQ49qPagWn7YQi6Is9OW0vERLLC/u1xqRJvx6JERXBBVOX
- xsjyRiOyed6nVYj+aRgiXV9dQkweZCwSyB113jFTZFtYY6USfFDoq894y32LmMqh5Cdd
- adBawl7Vw98CDLlUiOelrWzREBZtuy7PgRthIzm0WxEFjTXe/LiWspldO2uCqCNjHKPb
- xtaIen81RrICxmcaXuyu7hVGRxbkbFyix11WAh4NwSKZFBVARV7wnW4yTTGyeXWPQOZK
- L/0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uFI4g5tKIg+8FkTDm8TF/ivYcrUKkhGXo1xF1itZwZQ=;
- b=j/Ty4djXjE/o5k/LXc79LPw1U+Th6PAYoXH7Yf5ivzmwg9nbTxzCBJowPYc3+psOHT
- Op1PNTCkfn+FVDmpUmdMjo6o3w6rmPXLxsoQpT9xWiKLt2FDPAd0YhntBFg7i2pZiVrG
- 4xYE7sCucYKNCNrHzCEnib0n3k5ekqazev7HBXkNiRCOleFFWnepl+PbSMrXAhUNDZmS
- u31bV/1hhrgoqO5jYlZ1FexlXJCB1WTFS2Q4vkmq5+CGVy8cShldCrRxVM957E3+SqAX
- Ez6OlgLUJ3vXnc/Q0ZQOTJzLjXqW4yfvG4vNIsmgrYPIsanBIU/TTtE4dUG2vGoZRmLE
- imXg==
-X-Gm-Message-State: AOAM530wdCc8yhuUhPy00GVCRNkp4YY5ViYfC/9bwJBS0eCwtsOOkIZt
- cPUqA++yHAWsNbyyqdwRtoZljQrZZ3fH+9xqBic9fw==
-X-Google-Smtp-Source: ABdhPJzCeOV0jOdOEAIOHHmeKj0JXr24gE0wwNJUwyLL+oQtHQTCxH55dWsOh02zrdz3WtDkXGiilYj7GAgdGkRxo7w=
-X-Received: by 2002:a17:906:1542:: with SMTP id
- c2mr8186261ejd.382.1606495659277; 
- Fri, 27 Nov 2020 08:47:39 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kiguR-000591-8s
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 11:47:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606495664;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uUyln2Foq9Nd8oUoDAxLIPNWIRSlHjjTwSpy+2vsr1o=;
+ b=FDMyrMqh/nRZwvlvjkVZQn/z783wMsN7nY/Un/xHfDmQoyjmw36yuhVfZQS2lOi1CHLpAn
+ 6vrBuXMli5tQJTHE04CjbkONVJ2ypNkuxhijZQ7TcZgR+D1VjbGbP4DYqCVp1iiKkpUMyA
+ M3AvL7uR+bAtm8FV76gefNFY24TNagg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-16u7koQ2M3mba2wFec3FOA-1; Fri, 27 Nov 2020 11:47:43 -0500
+X-MC-Unique: 16u7koQ2M3mba2wFec3FOA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB3A95189;
+ Fri, 27 Nov 2020 16:47:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 645861001E73;
+ Fri, 27 Nov 2020 16:47:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EF36E113864E; Fri, 27 Nov 2020 17:47:36 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH v2 2/6] accel: accel_available() function
+References: <20201125205636.3305257-1-ehabkost@redhat.com>
+ <20201125205636.3305257-3-ehabkost@redhat.com>
+ <12f82771-9db9-8fcd-ea25-736428d2650a@suse.de>
+ <20201126133645.GG2271382@habkost.net>
+ <8d90d611-6545-a478-1316-542dc5424b92@suse.de>
+ <f4f64154-9fbb-36fa-d9cb-e49c8ed06537@redhat.com>
+ <7df7713c-5125-9e41-3572-a476cad2946b@suse.de>
+ <20201126214810.GR2271382@habkost.net>
+ <55ed249f-9fd3-fe3d-c63a-8d74803a72ca@suse.de>
+ <87y2imq2ni.fsf@dusky.pond.sub.org>
+ <573ed53e-fe9e-895b-bb15-3058089d9b5f@suse.de>
+Date: Fri, 27 Nov 2020 17:47:36 +0100
+In-Reply-To: <573ed53e-fe9e-895b-bb15-3058089d9b5f@suse.de> (Claudio Fontana's
+ message of "Fri, 27 Nov 2020 15:58:13 +0100")
+Message-ID: <87im9qn3vb.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20201126215017.41156-1-agraf@csgraf.de>
- <20201126215017.41156-9-agraf@csgraf.de>
- <20201126221405.GT2271382@habkost.net>
- <CAFEAcA_Nc0Jp-3PPigt1YdqHfNhGToovCOO16DOPPC9Bt663qg@mail.gmail.com>
- <20201127162633.GY2271382@habkost.net>
- <CAFEAcA-NvSUUJ1GpYP2tCgjD-RNL5rO7P2H63xHmGS7x6ggDBQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-NvSUUJ1GpYP2tCgjD-RNL5rO7P2H63xHmGS7x6ggDBQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Nov 2020 16:47:28 +0000
-Message-ID: <CAFEAcA_Xo4ptyVhJGXvO3B4FJh86W-Oj81f_nxMbaZt-DPfLrg@mail.gmail.com>
-Subject: Re: [PATCH 8/8] hw/arm/virt: Disable highmem when on
- hypervisor.framework
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +89,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Claudio Fontana <cfontana@suse.de>, qemu-arm <qemu-arm@nongnu.org>,
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Nov 2020 at 16:38, Peter Maydell <peter.maydell@linaro.org> wrote:
-> Having looked a bit more closely at some of the relevant target/arm
-> code, I think the best approach is going to be that in virt.c
-> we just check the PARange ID register field (probably via
-> a convenience function that does the conversion of that to
-> a nice number-of-bits return value; we might even have one
-> already).
+Claudio Fontana <cfontana@suse.de> writes:
 
-Ha, in fact we're already doing something quite close to this,
-though instead of saying "decide whether to use highmem based
-on the CPU's PA range" we go for "report error to user if PA
-range is insufficient" and let the user pick some command line
-options that disable highmem if they want:
+> On 11/27/20 3:45 PM, Markus Armbruster wrote:
+>> Claudio Fontana <cfontana@suse.de> writes:
+>> 
+>>> On 11/26/20 10:48 PM, Eduardo Habkost wrote:
+>>>> On Thu, Nov 26, 2020 at 10:06:03PM +0100, Claudio Fontana wrote:
+>>>>> On 11/26/20 3:25 PM, Paolo Bonzini wrote:
+>>>>>> On 26/11/20 15:13, Claudio Fontana wrote:
+>>>>>>> One option I see is simply to document the behavior where
+>>>>>>> accel_available() is declared in accel.h (ie do not use in fast
+>>>>>>> path), as well as in accel_find() actually, so that both accel_find()
+>>>>>>> and accel_available() are avoided in fast path and avoid being called
+>>>>>>> frequently at runtime.
+>>>>>>>
+>>>>>>> Another option could be to remove the allocation completely, and use
+>>>>>>> for example accel_find(ACCEL_CLASS_NAME("tcg")), or another option
+>>>>>>> again would be to remove the allocation and use either a fixed buffer
+>>>>>>> + snprintf, or alloca -like builtin code to use the stack, ...
+>>>>>>>
+>>>>>>> Not a big deal, but with a general utility and short name like
+>>>>>>> accel_available(name) it might be tempting to use this more in the
+>>>>>>> future?
+>>>>>>
+>>>>>> I think it's just that the usecase is not that common.  "Is this 
+>>>>>> accelerator compiled in the binary" is not something you need after 
+>>>>>> startup (or if querying the monitor).
+>>>>>>
+>>>>>> Paolo
+>>>>>>
+>>>>>>
+>>>>>
+>>>>> A script that repeatedly uses the QMP interface to query for
+>>>>> the status could generate fragmentation this way I think.
+>>>>
+>>>> Is this a problem?  Today, execution of a "query-kvm" command
+>>>> calls g_malloc() 37 times.
+>>>>
+>>>
+>>> Not ideal in my view, but not the end of the world either.
+>> 
+>> QMP's appetite for malloc is roughly comparable to a pig's for truffles.
+>> 
+>
+> :-)
+>
+> Btw, do we have limits on the maximum size of these objects? I mean, a single QMP command,
+> a single QEMU object type name, etc?
+>
+> In this case we could do some overall improvement there, and might even avoid some problems down the road..
 
-        if (aarch64 && vms->highmem) {
-            int requested_pa_size = 64 - clz64(vms->highest_gpa);
-            int pamax = arm_pamax(ARM_CPU(first_cpu));
+We have limits, but they are not comprehensive.
 
-            if (pamax < requested_pa_size) {
-                error_report("VCPU supports less PA bits (%d) than "
-                             "requested by the memory map (%d)",
-                             pamax, requested_pa_size);
-                exit(1);
-            }
-        }
+The QMP client is trusted.  We don't try to guard against a malicious
+QMP client.  We do try to guard against mistakes.
 
-thanks
--- PMM
+The JSON parser limits token size (in characters), expression size (in
+tokens), and expression nesting depth.  This protects against a
+malfunctioning QMP client.  The limits are ridiculously generous.
+
+The QMP core limits the number of commands in flight per monitor to a
+somewhat parsimonious 8-9 in-band commands, plus one out-of-band
+command.  This protects against a QMP client sending commands faster
+than we can execute them.
+
+QMP output is buffered without limit.  When a (malfunctioning) QMP
+client keeps sending commands without reading their output, QEMU keeps
+buffering until it runs out of memory and crashes.
+
 
