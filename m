@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A298E2C62DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 11:15:35 +0100 (CET)
-Received: from localhost ([::1]:49082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D95D82C6322
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 11:33:11 +0100 (CET)
+Received: from localhost ([::1]:57452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiams-000850-6D
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 05:15:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53294)
+	id 1kib3u-0004Hp-ET
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 05:33:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kiald-0007UP-W6
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 05:14:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60765)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kib2s-0003lp-0r
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 05:32:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kialb-0005R1-8B
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 05:14:17 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kib2o-0003Wg-En
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 05:32:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606472054;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=/ECF9uH1M9dAxQlGu6VGIpUGqxZZNgdBGkYVbVdzHaI=;
- b=AYvnUZPaaYs5A7o9Epu4XM6t3UQIWhT3nFFjjP1xszfU2CAr1Kn2tR8u4aZ0T4O/936SjF
- 6tsWFVfoyz3pg6PzRn9anE8aACMsz4R8YBh7NrpjvQzNQ93R+b9VHJ83zTD3C8SH6rAfOf
- iFdXfA7wDIp0dsLyzJ3FGYz5s49aqYo=
+ s=mimecast20190719; t=1606473120;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6SIV8MND6a/z4GEKZ1IpgSxo1LoFGfsSRe1SaKSmHus=;
+ b=RTUd4sAbVBmvFdRNw7QSVyRimld9J1xtGDyE+2LtiJoJMc9FCCz+jfnN6d9Qv+LMd4IJGL
+ 15Ob7VlZTVKeACH6QO3fQX6OAmfH3WjlNwW5G2Q5cl83hzsG8YandoVsQdKoDVg4asnari
+ FCibXF6oPUZVVQBOZXqUw2IUN5O5AmQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-M0A0IdikPhiz2lmeUd2YbA-1; Fri, 27 Nov 2020 05:14:11 -0500
-X-MC-Unique: M0A0IdikPhiz2lmeUd2YbA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-449-ncoUkmOJM6iiwrWUN9hnCg-1; Fri, 27 Nov 2020 05:31:58 -0500
+X-MC-Unique: ncoUkmOJM6iiwrWUN9hnCg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75C0980EF81;
- Fri, 27 Nov 2020 10:14:10 +0000 (UTC)
-Received: from redhat.com (ovpn-113-125.ams2.redhat.com [10.36.113.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB4BA5D9CC;
- Fri, 27 Nov 2020 10:14:08 +0000 (UTC)
-Date: Fri, 27 Nov 2020 10:14:05 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: ImageInfo oddities regarding compression
-Message-ID: <20201127101405.GA1596141@redhat.com>
-References: <87r1ofru4z.fsf@dusky.pond.sub.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE808803F62
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 10:31:57 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9ADAC5D6D1;
+ Fri, 27 Nov 2020 10:31:56 +0000 (UTC)
+Date: Fri, 27 Nov 2020 11:31:54 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 13/36] vl: move semihosting command line fallback to
+ qemu_init_board
+Message-ID: <20201127113154.1c9ef2c6@redhat.com>
+In-Reply-To: <8866f216-911b-2803-4b15-0e794c4c71e1@redhat.com>
+References: <20201123141435.2726558-1-pbonzini@redhat.com>
+ <20201123141435.2726558-14-pbonzini@redhat.com>
+ <20201126181036.3ff5d605@redhat.com>
+ <8866f216-911b-2803-4b15-0e794c4c71e1@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87r1ofru4z.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,68 +82,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 27, 2020 at 11:06:36AM +0100, Markus Armbruster wrote:
-> ImageInfo has an optional member @compressed:
-> 
->     ##
->     # @ImageInfo:
->     [...]
->     # @compressed: true if the image is compressed (Since 1.7)
-> 
-> Doc bug: neglects to specify the default.  I guess it's false.
-> 
-> The only user appears to be vmdk_get_extent_info().  Goes back to
-> v1.7.0's commits
-> 
->     f4c129a38a vmdk: Implment bdrv_get_specific_info
->     cbe82d7fb3 qapi: Add optional field 'compressed' to ImageInfo
-> 
-> ImageInfo also has an optional member @format-specific.
-> 
-> Doc bug: neglects to specify when it's present.  I assume it's always
-> present when member @format has a value that has a non-empty variant in
-> @format-specific's type ImageInfoSpecific.
-> 
-> Format qcow2's variant is ImageInfoSpecificQCow2.  It has a mandatory
-> member @compression-type.
-> 
->    ##
->    # @Qcow2CompressionType:
->    #
->    # Compression type used in qcow2 image file
->    #
->    # @zlib: zlib compression, see <http://zlib.net/>
->    # @zstd: zstd compression, see <http://github.com/facebook/zstd>
->    #
->    # Since: 5.1
->    ##
->    { 'enum': 'Qcow2CompressionType',
->      'data': [ 'zlib', { 'name': 'zstd', 'if': 'defined(CONFIG_ZSTD)' } ] }
-> 
-> Apparently, you can't have a qcow2 image without compression.  Correct?
-> 
-> Can you imagine a use case for "without compression"?
+On Fri, 27 Nov 2020 06:03:43 +0100
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Yes & no. An image always has a compression type, either implicitly
-zlib as the historical default, or explicitly as a type recorded in
-the header.  This doesn't mean compression is used.
+> On 26/11/20 18:10, Igor Mammedov wrote:
+> > On Mon, 23 Nov 2020 09:14:12 -0500
+> > Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >   
+> >> Move more sane parts of the huge qemu_init function out of it.
+> >>
+> >> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> >> ---
+> >>   softmmu/vl.c | 12 +++++-------
+> >>   1 file changed, 5 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> >> index ab08a0290c..5d68cf828c 100644
+> >> --- a/softmmu/vl.c
+> >> +++ b/softmmu/vl.c
+> >> @@ -3070,6 +3070,11 @@ static void qemu_init_board(void)
+> >>   {
+> >>       MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
+> >>   
+> >> +    if (semihosting_enabled() && !semihosting_get_argc() && current_machine->kernel_filename) {
+> >> +        /* fall back to the -kernel/-append */
+> >> +        semihosting_arg_fallback(current_machine->kernel_filename, current_machine->kernel_cmdline);
+> >> +    }  
+> > 
+> > it doesn't seem to depend on anything that warrants calling it this late.  
+> 
+> Yes, calling it around machine initialization time is also a 
+> possibility.  I just wanted to get rid of it in code that I'm actually 
+> looking at. :)
 
-There may be zero or more clusters actually using compression.
-Typically compression will never be used, but there's still an
-associated compression type regardless.
+I'd prefer it being moved close to CLI parsing,
+in a place where other _early call go.
 
+We probably want qemu_init_board() being clear of not really needed clutter.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+> Paolo
+> 
+> >   
+> >>       if (machine_class->default_ram_id && current_machine->ram_size &&
+> >>           numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
+> >>           create_default_memdev(current_machine, mem_path);
+> >> @@ -4385,13 +4390,6 @@ void qemu_init(int argc, char **argv, char **envp)
+> >>           boot_order = machine_class->default_boot_order;
+> >>       }
+> >>   
+> >> -    if (semihosting_enabled() && !semihosting_get_argc()) {
+> >> -        const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
+> >> -        const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
+> >> -        /* fall back to the -kernel/-append */
+> >> -        semihosting_arg_fallback(kernel_filename, kernel_cmdline);
+> >> -    }  
+> > 
+> > Can we move this hunk as is to somewhere around qemu_maybe_daemonize() time?
+> > 
+> >   
+> >>       if (net_init_clients(&err) < 0) {
+> >>           error_report_err(err);
+> >>           exit(1);  
+> >   
+> 
 
 
