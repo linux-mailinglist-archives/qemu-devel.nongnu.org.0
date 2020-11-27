@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD372C6705
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 14:40:21 +0100 (CET)
-Received: from localhost ([::1]:44810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FCAB2C6709
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 14:41:42 +0100 (CET)
+Received: from localhost ([::1]:48152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kidz2-00011F-S1
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 08:40:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46110)
+	id 1kie0L-0002Rs-Dl
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 08:41:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kidvG-0005kc-S9; Fri, 27 Nov 2020 08:36:27 -0500
-Received: from relay.sw.ru ([185.231.240.75]:52350 helo=relay3.sw.ru)
+ id 1kidvR-0005um-Mx; Fri, 27 Nov 2020 08:36:37 -0500
+Received: from relay.sw.ru ([185.231.240.75]:52496 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kidv5-000353-5u; Fri, 27 Nov 2020 08:36:25 -0500
+ id 1kidvP-0003BA-MH; Fri, 27 Nov 2020 08:36:37 -0500
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kiduZ-00AfjY-KL; Fri, 27 Nov 2020 16:35:43 +0300
+ id 1kidux-00AfjY-5Y; Fri, 27 Nov 2020 16:36:07 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
  mdroth@linux.vnet.ibm.com, thuth@redhat.com, lvivier@redhat.com,
  armbru@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  den@openvz.org, vsementsov@virtuozzo.com, andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v3 0/5] Increase amount of data for monitor to read
-Date: Fri, 27 Nov 2020 16:35:41 +0300
-Message-Id: <1606484146-913540-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v3 1/5] monitor: change function obsolete name in comments
+Date: Fri, 27 Nov 2020 16:35:42 +0300
+Message-Id: <1606484146-913540-2-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1606484146-913540-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+References: <1606484146-913540-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 Received-SPF: pass client-ip=185.231.240.75;
  envelope-from=andrey.shinkevich@virtuozzo.com; helo=relay3.sw.ru
 X-Spam_score_int: -18
@@ -54,44 +56,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-The subject was discussed here:
-https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg00206.html
-https://patchew.org/QEMU/20190610105906.28524-1-dplotnikov@virtuozzo.com/#
-Message-ID: <31dd78ba-bd64-2ed6-3c8f-eed4e904d14c@virtuozzo.com>
-and v2:
-Message-Id: <1606146274-246154-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+The function name monitor_qmp_bh_dispatcher() has been changed to
+monitor_qmp_dispatcher_co() since the commit 9ce44e2c. Let's amend the
+comments.
 
-This series is a solution for the issue with overflow of the monitor queue
-with QMP requests if we keep the maximum queue length unchanged (=8).
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+---
+ monitor/qmp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-v3:
-  01: New
-  02: New
-  03: The additional little JSON parser removed and the resources of the
-      existing JSON parser were used to track the end of a QMP command.
-  04: The amount of read input data increases only.
-
-Andrey Shinkevich (4):
-  monitor: change function obsolete name in comments
-  monitor: drain requests queue with 'channel closed' event
-  monitor: let QMP monitor track JSON message content
-  monitor: increase amount of data for monitor to read
-
-Vladimir Sementsov-Ogievskiy (1):
-  iotests: 129 don't check backup "busy"
-
- include/qapi/qmp/json-parser.h |  5 ++--
- monitor/monitor.c              |  2 +-
- monitor/qmp.c                  | 66 ++++++++++++++++++++++++------------------
- qga/main.c                     |  2 +-
- qobject/json-lexer.c           | 30 +++++++++++++------
- qobject/json-parser-int.h      |  8 +++--
- qobject/json-streamer.c        | 15 +++++-----
- qobject/qjson.c                |  2 +-
- tests/qemu-iotests/129         |  1 -
- tests/qtest/libqtest.c         |  2 +-
- 10 files changed, 79 insertions(+), 54 deletions(-)
-
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index b42f8c6..7169366 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -80,7 +80,7 @@ static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
+     qemu_mutex_lock(&mon->qmp_queue_lock);
+ 
+     /*
+-     * Same condition as in monitor_qmp_bh_dispatcher(), but before
++     * Same condition as in monitor_qmp_dispatcher_co(), but before
+      * removing an element from the queue (hence no `- 1`).
+      * Also, the queue should not be empty either, otherwise the
+      * monitor hasn't been suspended yet (or was already resumed).
+@@ -343,7 +343,7 @@ static void handle_qmp_command(void *opaque, QObject *req, Error *err)
+ 
+     /*
+      * Suspend the monitor when we can't queue more requests after
+-     * this one.  Dequeuing in monitor_qmp_bh_dispatcher() or
++     * this one.  Dequeuing in monitor_qmp_dispatcher_co() or
+      * monitor_qmp_cleanup_queue_and_resume() will resume it.
+      * Note that when OOB is disabled, we queue at most one command,
+      * for backward compatibility.
 -- 
 1.8.3.1
 
