@@ -2,96 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB482C6A85
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 18:21:26 +0100 (CET)
-Received: from localhost ([::1]:40394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0D82C6A84
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 18:20:12 +0100 (CET)
+Received: from localhost ([::1]:39236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kihQz-00078R-TL
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 12:21:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48430)
+	id 1kihPm-0006eq-Jz
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 12:20:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=593c3f9be=acatan@amazon.com>)
- id 1kihOK-00063E-23
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:18:40 -0500
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:59147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=593c3f9be=acatan@amazon.com>)
- id 1kihOC-00027K-Ur
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:18:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1606497513; x=1638033513;
- h=to:cc:references:from:subject:message-id:date:
- mime-version:in-reply-to:content-transfer-encoding;
- bh=ZDsRW21yvSMTemLZASbYFkblDZ5o8TFcQuYu06fdz2U=;
- b=Glp8UhpqVspxmGPSrGl+uvnHBt0KgvBxIC2rn1uqy8iVPwgDoeET7mXt
- wypde0XWZQg9zRWjk/crHJHA3XorddEs2fyguNzlkdAOrgXKkfxfzuhdo
- FAZ3MQf3jI8ThL/yEcrXiQc1BoASImz1o+FznLi6KzvloGxfsqar7mIa+ w=;
-X-IronPort-AV: E=Sophos;i="5.78,375,1599523200"; d="scan'208";a="98530105"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
- email-inbound-relay-1d-98acfc19.us-east-1.amazon.com) ([10.47.23.38])
- by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP;
- 27 Nov 2020 17:18:21 +0000
-Received: from EX13D08EUB004.ant.amazon.com
- (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
- by email-inbound-relay-1d-98acfc19.us-east-1.amazon.com (Postfix) with ESMTPS
- id 77698A176E; Fri, 27 Nov 2020 17:18:11 +0000 (UTC)
-Received: from 4c32759f87cf.ant.amazon.com (10.43.160.21) by
- EX13D08EUB004.ant.amazon.com (10.43.166.158) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Fri, 27 Nov 2020 17:17:57 +0000
-To: Alexander Graf <graf@amazon.de>, Christian Borntraeger
- <borntraeger@de.ibm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Jann Horn
- <jannh@google.com>
-CC: Willy Tarreau <w@1wt.eu>, "MacCarthaigh, Colm" <colmmacc@amazon.com>, Andy
- Lutomirski <luto@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, Eric
- Biggers <ebiggers@kernel.org>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
- "Woodhouse, David" <dwmw@amazon.co.uk>, "bonzini@gnu.org" <bonzini@gnu.org>,
- "Singh, Balbir" <sblbir@amazon.com>, "Weiss, Radu" <raduweis@amazon.com>,
- "oridgar@gmail.com" <oridgar@gmail.com>, "ghammer@redhat.com"
- <ghammer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Michael S. Tsirkin" <mst@redhat.com>, Qemu
- Developers <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>, Michal
- Hocko <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Pavel
- Machek <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>,
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>, linux-s390
- <linux-s390@vger.kernel.org>, "areber@redhat.com" <areber@redhat.com>, Pavel
- Emelyanov <ovzxemul@gmail.com>, Andrey Vagin <avagin@gmail.com>, Mike
- Rapoport <rppt@kernel.org>, Dmitry Safonov <0x7f454c46@gmail.com>, Pavel
- Tikhomirov <ptikhomirov@virtuozzo.com>, "gil@azul.com" <gil@azul.com>,
- "asmehra@redhat.com" <asmehra@redhat.com>, "dgunigun@redhat.com"
- <dgunigun@redhat.com>, "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
- <f78a0a2f-d26a-6b50-c252-b4610e5f8273@amazon.de>
-From: "Catangiu, Adrian Costin" <acatan@amazon.com>
-Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
-Message-ID: <ded94f0f-9c60-38b3-6217-03d3c0edd613@amazon.com>
-Date: Fri, 27 Nov 2020 19:17:53 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:78.0)
- Gecko/20100101 Thunderbird/78.4.3
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kihNt-0005kd-4V
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:18:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35305)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kihNk-00024R-2O
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 12:18:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606497482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WpkWoFSqB2UtbilhxjOZtvQ6tnj66kdLS/x8OXpv3ag=;
+ b=Tik+Q8TL2OJ3E/pkrrhuCHUWSmLAcwJrcWOIWi9dgtZ7LKPSEbK3T9EB58u4mRF0QvQ4wB
+ ElOpX2jHWecK06pbMZ2PHLgNpfjiWK+z22WhbfTauf7tFa1Yw7CF+HNnuaAfA7XFVlM49P
+ XNMsVeTreArt/I6rJkbg6UCAEGbROos=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-113-Sy4QISk4MkmCXtQUY13x-g-1; Fri, 27 Nov 2020 12:18:00 -0500
+X-MC-Unique: Sy4QISk4MkmCXtQUY13x-g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D25BAE7193;
+ Fri, 27 Nov 2020 17:17:58 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C0995D6D1;
+ Fri, 27 Nov 2020 17:17:58 +0000 (UTC)
+Date: Fri, 27 Nov 2020 12:17:57 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 8/8] hw/arm/virt: Disable highmem when on
+ hypervisor.framework
+Message-ID: <20201127171757.GB2271382@habkost.net>
+References: <20201126215017.41156-1-agraf@csgraf.de>
+ <20201126215017.41156-9-agraf@csgraf.de>
+ <20201126221405.GT2271382@habkost.net>
+ <CAFEAcA_Nc0Jp-3PPigt1YdqHfNhGToovCOO16DOPPC9Bt663qg@mail.gmail.com>
+ <20201127162633.GY2271382@habkost.net>
+ <CAFEAcA-NvSUUJ1GpYP2tCgjD-RNL5rO7P2H63xHmGS7x6ggDBQ@mail.gmail.com>
+ <20201127164708.GZ2271382@habkost.net>
+ <CAFEAcA_rt_aJTfBzAchUfCH5aKpSPReXWrVDC5mMEvyPughB8w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <f78a0a2f-d26a-6b50-c252-b4610e5f8273@amazon.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-X-Originating-IP: [10.43.160.21]
-X-ClientProxiedBy: EX13D14UWB001.ant.amazon.com (10.43.161.158) To
- EX13D08EUB004.ant.amazon.com (10.43.166.158)
-Precedence: Bulk
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.171.190.10;
- envelope-from=prvs=593c3f9be=acatan@amazon.com; helo=smtp-fw-33001.amazon.com
-X-Spam_score_int: -118
-X-Spam_score: -11.9
-X-Spam_bar: -----------
-X-Spam_report: (-11.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <CAFEAcA_rt_aJTfBzAchUfCH5aKpSPReXWrVDC5mMEvyPughB8w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -100,118 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Claudio Fontana <cfontana@suse.de>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ck9uIDE4LzExLzIwMjAgMTI6MzAsIEFsZXhhbmRlciBHcmFmIHdyb3RlOgo+Cj4KPiBPbiAxNi4x
-MS4yMCAxNjozNCwgQ2F0YW5naXUsIEFkcmlhbiBDb3N0aW4gd3JvdGU6Cj4+IC0gRnV0dXJlIGlt
-cHJvdmVtZW50cwo+Pgo+PiBJZGVhbGx5IHdlIHdvdWxkIHdhbnQgdGhlIGRyaXZlciB0byByZWdp
-c3RlciBpdHNlbGYgYmFzZWQgb24gZGV2aWNlcycKPj4gX0NJRCBhbmQgbm90IF9ISUQsIGJ1dCB1
-bmZvcnR1bmF0ZWx5IEkgY291bGRuJ3QgZmluZCBhIHdheSB0byBkbyB0aGF0Lgo+PiBUaGUgcHJv
-YmxlbSBpcyB0aGF0IEFDUEkgZGV2aWNlIG1hdGNoaW5nIGlzIGRvbmUgYnkKPj4gJ19fYWNwaV9t
-YXRjaF9kZXZpY2UoKScgd2hpY2ggZXhjbHVzaXZlbHkgbG9va3MgYXQKPj4gJ2FjcGlfaGFyZHdh
-cmVfaWQgKmh3aWQnLgo+Pgo+PiBUaGVyZSBpcyBhIHBhdGggZm9yIHBsYXRmb3JtIGRldmljZXMg
-dG8gbWF0Y2ggb24gX0NJRCB3aGVuIF9ISUQgaXMKPj4gJ1BSUDAwMDEnIC0gYnV0IHRoaXMgaXMg
-bm90IHRoZSBjYXNlIGZvciB0aGUgUWVtdSB2bWdlbmlkIGRldmljZS4KPj4KPj4gR3VpZGFuY2Ug
-YW5kIGhlbHAgaGVyZSB3b3VsZCBiZSBncmVhdGx5IGFwcHJlY2lhdGVkLgo+Cj4gVGhhdCBvbmUg
-aXMgcHJldHR5IGltcG9ydGFudCBJTUhPLiBIb3cgYWJvdXQgdGhlIGZvbGxvd2luZyAocHJvYmFi
-bHkKPiBwcmV0dHkgbWFuZ2xlZCkgcGF0Y2g/IFRoYXQgc2VlbXMgdG8gd29yayBmb3IgbWUuIFRo
-ZSBBQ1BJIGNoYW5nZQo+IHdvdWxkIG9idmlvdXNseSBuZWVkIHRvIGJlIGl0cyBvd24gc3RhbmQg
-YWxvbmUgY2hhbmdlIGFuZCBuZWVkcyBwcm9wZXIKPiBhc3Nlc3NtZW50IHdoZXRoZXIgaXQgY291
-bGQgcG9zc2libHkgYnJlYWsgYW55IGV4aXN0aW5nIHN5c3RlbXMuCj4KPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9hY3BpL2J1cy5jIGIvZHJpdmVycy9hY3BpL2J1cy5jCj4gaW5kZXggMTY4MmY4YjQ1
-NGEyLi40NTI0NDNkNzlkODcgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9hY3BpL2J1cy5jCj4gKysr
-IGIvZHJpdmVycy9hY3BpL2J1cy5jCj4gQEAgLTc0OCw3ICs3NDgsNyBAQCBzdGF0aWMgYm9vbCBf
-X2FjcGlfbWF0Y2hfZGV2aWNlKHN0cnVjdCBhY3BpX2RldmljZQo+ICpkZXZpY2UsCj4gwqDCoMKg
-wqDCoMKgwqDCoCAvKiBGaXJzdCwgY2hlY2sgdGhlIEFDUEkvUE5QIElEcyBwcm92aWRlZCBieSB0
-aGUgY2FsbGVyLiAqLwo+IMKgwqDCoMKgwqDCoMKgwqAgaWYgKGFjcGlfaWRzKSB7Cj4gwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGZvciAoaWQgPSBhY3BpX2lkczsgaWQtPmlkWzBdIHx8IGlkLT5j
-bHM7IGlkKyspIHsKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChpZC0+aWRb
-MF0gJiYgIXN0cmNtcCgoY2hhciAqKWlkLT5pZCwgaHdpZC0+aWQpKQo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgaWYgKGlkLT5pZFswXSAmJiAhc3RybmNtcCgoY2hhciAqKWlkLT5p
-ZCwgaHdpZC0+aWQsCj4gQUNQSV9JRF9MRU4gLSAxKSkKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gb3V0X2FjcGlfbWF0Y2g7Cj4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgaWYgKGlkLT5jbHMgJiYgX19hY3BpX21hdGNoX2RldmljZV9jbHMo
-aWQsIGh3aWQpKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290
-byBvdXRfYWNwaV9tYXRjaDsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aXJ0L3ZtZ2VuaWQuYyBi
-L2RyaXZlcnMvdmlydC92bWdlbmlkLmMKPiBpbmRleCA3NWE3ODdkYThhYWQuLjBiZmE0MjJjZjA5
-NCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3ZpcnQvdm1nZW5pZC5jCj4gKysrIGIvZHJpdmVycy92
-aXJ0L3ZtZ2VuaWQuYwo+IEBAIC0zNTYsNyArMzU2LDggQEAgc3RhdGljIHZvaWQgdm1nZW5pZF9h
-Y3BpX25vdGlmeShzdHJ1Y3QgYWNwaV9kZXZpY2UKPiAqZGV2aWNlLCB1MzIgZXZlbnQpCj4gwqB9
-Cj4KPiDCoHN0YXRpYyBjb25zdCBzdHJ1Y3QgYWNwaV9kZXZpY2VfaWQgdm1nZW5pZF9pZHNbXSA9
-IHsKPiAtwqDCoMKgIHsiUUVNVVZHSUQiLCAwfSwKPiArwqDCoMKgIC8qIFRoaXMgcmVhbGx5IGlz
-IFZNX0dlbl9Db3VudGVyLCBidXQgd2UgY2FuIG9ubHkgbWF0Y2ggOAo+IGNoYXJhY3RlcnMgKi8K
-PiArwqDCoMKgIHsiVk1fR0VOX0MiLCAwfSwKPiDCoMKgwqDCoCB7IiIsIDB9LAo+IMKgfTsKPgoK
-TG9va3MgbGVnaXQuIEkgY2FuIHByb3Bvc2UgYSBwYXRjaCB3aXRoIGl0LCBidXQgaG93IGRvIHdl
-IHZhbGlkYXRlIGl0CmRvZXNuJ3QgYnJlYWsgYW55IGRldmljZXM/CgoKPj4gKzIpIEFTWU5DIHNp
-bXBsaWZpZWQgZXhhbXBsZTo6Cj4+ICsKPj4gK8KgwqDCoCB2b2lkIGhhbmRsZV9pb19vbl92bWdl
-bmZkKGludCB2bWdlbmZkKQo+PiArwqDCoMKgIHsKPj4gK8KgwqDCoMKgwqDCoMKgIHVuc2lnbmVk
-IGdlbmlkOwo+PiArCj4+ICvCoMKgwqDCoMKgwqDCoCAvLyBiZWNhdXNlIG9mIFZNIGdlbmVyYXRp
-b24gY2hhbmdlLCB3ZSBuZWVkIHRvIHJlYnVpbGQgd29ybGQKPj4gK8KgwqDCoMKgwqDCoMKgIHJl
-c2VlZF9hcHBfZW52KCk7Cj4+ICsKPj4gK8KgwqDCoMKgwqDCoMKgIC8vIHJlYWQgbmV3IGdlbiBJ
-RCAtIHdlIG5lZWQgaXQgdG8gY29uZmlybSB3ZSd2ZSBoYW5kbGVkIHVwZGF0ZQo+PiArwqDCoMKg
-wqDCoMKgwqAgcmVhZChmZCwgJmdlbmlkLCBzaXplb2YoZ2VuaWQpKTsKPgo+IFRoaXMgaXMgcmFj
-eSBpbiBjYXNlIHR3byBjb25zZWN1dGl2ZSBzbmFwc2hvdHMgaGFwcGVuLiBUaGUgcmVhZCBuZWVk
-cwo+IHRvIGdvIGJlZm9yZSB0aGUgcmVzZWVkLgo+ClN3aXRjaGVkIHRoZW0gYXJvdW5kIGxpa2Ug
-eW91IHN1Z2dlc3QgdG8gYXZvaWQgY29uZnVzaW9uLgoKQnV0IEkgZG9uJ3Qgc2VlIGEgcHJvYmxl
-bSB3aXRoIHRoaXMgcmFjZS4gVGhlIGlkZWEgaGVyZSBpcyB0byB0cmlnZ2VyCnJlc2VlZF9hcHBf
-ZW52KCkgd2hpY2ggZG9lc24ndCBkZXBlbmQgb24gdGhlIGdlbmVyYXRpb24gY291bnRlciB2YWx1
-ZS4KV2hldGhlciBpdCBnZXRzIGluY3JlbWVudGVkIG9uY2Ugb3IgTiB0aW1lcyBpcyBpcnJlbGV2
-YW50LCB3ZSdyZSBqdXN0CmludGVyZXN0ZWQgdGhhdCB3ZSBwYXVzZSBleGVjdXRpb24gYW5kIHJl
-c2VlZCBiZWZvcmUgcmVzdW1pbmcgKGluCmJldHdlZW4gdGhlc2UsIHdoZXRoZXIgTiBvciBNIGdl
-bmVyYXRpb24gY2hhbmdlcyBpcyB0aGUgc2FtZSB0aGluZykuCgo+PiArMykgTWFwcGVkIG1lbW9y
-eSBwb2xsaW5nIHNpbXBsaWZpZWQgZXhhbXBsZTo6Cj4+ICsKPj4gK8KgwqDCoCAvKgo+PiArwqDC
-oMKgwqAgKiBhcHAvbGlicmFyeSBmdW5jdGlvbiB0aGF0IHByb3ZpZGVzIGNhY2hlZCBzZWNyZXRz
-Cj4+ICvCoMKgwqDCoCAqLwo+PiArwqDCoMKgIGNoYXIgKiBzYWZlX2NhY2hlZF9zZWNyZXQoYXBw
-X2RhdGFfdCAqYXBwKQo+PiArwqDCoMKgIHsKPj4gK8KgwqDCoMKgwqDCoMKgIGNoYXIgKnNlY3Jl
-dDsKPj4gK8KgwqDCoMKgwqDCoMKgIHZvbGF0aWxlIHVuc2lnbmVkICpjb25zdCBnZW5pZF9wdHIg
-PSBnZXRfdm1nZW5pZF9tYXBwaW5nKGFwcCk7Cj4+ICvCoMKgwqAgYWdhaW46Cj4+ICvCoMKgwqDC
-oMKgwqDCoCBzZWNyZXQgPSBfX2NhY2hlZF9zZWNyZXQoYXBwKTsKPj4gKwo+PiArwqDCoMKgwqDC
-oMKgwqAgaWYgKHVubGlrZWx5KCpnZW5pZF9wdHIgIT0gYXBwLT5jYWNoZWRfZ2VuaWQpKSB7Cj4+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8vIHJlYnVpbGQgd29ybGQgdGhlbiBjb25maXJtIHRo
-ZSBnZW5pZCB1cGRhdGUgKHRocnUgd3JpdGUpCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJl
-YnVpbGRfY2FjaGVzKGFwcCk7Cj4+ICsKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYXBwLT5j
-YWNoZWRfZ2VuaWQgPSAqZ2VuaWRfcHRyOwo+Cj4gVGhpcyBpcyByYWN5IGFnYWluLiBZb3UgbmVl
-ZCB0byByZWFkIHRoZSBnZW5pZCBiZWZvcmUgcmVidWlsZCBhbmQgc2V0Cj4gaXQgaGVyZS4KPgpJ
-IGRvbid0IHNlZSB0aGUgcmFjZS4gR2VuIGNvdW50ZXIgaXMgcmVhZCBmcm9tIHZvbGF0aWxlIG1h
-cHBlZCBtZW0sIG9uCmRldGVjdGVkIGNoYW5nZSB3ZSByZWJ1aWxkIHdvcmxkLCBjb25maXJtIHRo
-ZSB1cGRhdGUgYmFjayB0byB0aGUgZHJpdmVyCnRoZW4gcmVzdGFydCB0aGUgbG9vcC4gTG9vcCB3
-aWxsIGJyZWFrIHdoZW4gbm8gbW9yZSBjaGFuZ2VzIGhhcHBlbi4KCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGFja192bWdlbmlkX3VwZGF0ZShhcHApOwo+PiArCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGdvdG8gYWdhaW47Cj4+ICvCoMKgwqDCoMKgwqDCoCB9Cj4+ICsKPj4gK8KgwqDC
-oMKgwqDCoMKgIHJldHVybiBzZWNyZXQ7Cj4+ICvCoMKgwqAgfQo+PiArCgo+PiArCj4+ICtzdGF0
-aWMgaW50IHZtZ2VuaWRfY2xvc2Uoc3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IGZpbGUgKmZp
-bGUpCj4+ICt7Cj4+ICvCoMKgwqAgc3RydWN0IGZpbGVfZGF0YSAqZmlsZV9kYXRhID0gZmlsZS0+
-cHJpdmF0ZV9kYXRhOwo+PiArwqDCoMKgIHN0cnVjdCBkZXZfZGF0YSAqcHJpdiA9IGZpbGVfZGF0
-YS0+ZGV2X2RhdGE7Cj4+ICsKPj4gK8KgwqDCoCBpZiAoZmlsZV9kYXRhLT5hY2tlZF9nZW5fY291
-bnRlciAhPSBwcml2LT5nZW5lcmF0aW9uX2NvdW50ZXIpCj4+ICvCoMKgwqDCoMKgwqDCoCB2bWdl
-bmlkX3B1dF9vdXRkYXRlZF93YXRjaGVycyhwcml2KTsKPgo+IElzIHRoaXMgcmFjeT8gQ291bGQg
-dGhlcmUgYmUgYSBzbmFwc2hvdCBub3RpZmljYXRpb24gY29taW5nIGJldHdlZW4KPiB0aGUgYnJh
-bmNoIGFuZCB0aGUgcHV0Pwo+ClRoaXMgaXMgaW5kZWVkIHJhY3ksIHdpbGwgZml4IGl0IGluIHBh
-dGNoIHYzLgo+PiArwqDCoMKgIGF0b21pY19kZWMoJnByaXYtPndhdGNoZXJzKTsKPj4gK8KgwqDC
-oCBrZnJlZShmaWxlX2RhdGEpOwo+PiArCj4+ICvCoMKgwqAgcmV0dXJuIDA7Cj4+ICt9Cgo+PiAr
-c3RhdGljIHNzaXplX3Qgdm1nZW5pZF93cml0ZShzdHJ1Y3QgZmlsZSAqZmlsZSwgY29uc3QgY2hh
-ciBfX3VzZXIKPj4gKnVidWYsCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2l6
-ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpCj4+ICt7Cj4+ICvCoMKgwqAgc3RydWN0IGZpbGVfZGF0
-YSAqZmlsZV9kYXRhID0gZmlsZS0+cHJpdmF0ZV9kYXRhOwo+PiArwqDCoMKgIHN0cnVjdCBkZXZf
-ZGF0YSAqcHJpdiA9IGZpbGVfZGF0YS0+ZGV2X2RhdGE7Cj4+ICvCoMKgwqAgdW5zaWduZWQgaW50
-IGFja2VkX2dlbl9jb3VudDsKPj4gKwo+PiArwqDCoMKgIC8qIGRpc2FsbG93IHBhcnRpYWwgd3Jp
-dGVzICovCj4+ICvCoMKgwqAgaWYgKGNvdW50ICE9IHNpemVvZihhY2tlZF9nZW5fY291bnQpKQo+
-PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7Cj4+ICvCoMKgwqAgaWYgKGNvcHlfZnJv
-bV91c2VyKCZhY2tlZF9nZW5fY291bnQsIHVidWYsIGNvdW50KSkKPj4gK8KgwqDCoMKgwqDCoMKg
-IHJldHVybiAtRUZBVUxUOwo+PiArwqDCoMKgIC8qIHdyb25nIGdlbi1jb3VudGVyIGFja25vd2xl
-ZGdlZCAqLwo+PiArwqDCoMKgIGlmIChhY2tlZF9nZW5fY291bnQgIT0gcHJpdi0+Z2VuZXJhdGlv
-bl9jb3VudGVyKQo+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7Cj4+ICsKPj4gK8Kg
-wqDCoCBpZiAoZmlsZV9kYXRhLT5hY2tlZF9nZW5fY291bnRlciAhPSBwcml2LT5nZW5lcmF0aW9u
-X2NvdW50ZXIpIHsKPj4gK8KgwqDCoMKgwqDCoMKgIC8qIHVwZGF0ZSBsb2NhbCB2aWV3IG9mIFVV
-SUQgKi8KPj4gK8KgwqDCoMKgwqDCoMKgIGZpbGVfZGF0YS0+YWNrZWRfZ2VuX2NvdW50ZXIgPSBh
-Y2tlZF9nZW5fY291bnQ7Cj4+ICvCoMKgwqDCoMKgwqDCoCB2bWdlbmlkX3B1dF9vdXRkYXRlZF93
-YXRjaGVycyhwcml2KTsKPgo+IFNhbWUgcXVlc3Rpb24gaGVyZTogV2hhdCBpZiB0aGVyZSBpcyBh
-IG5vdGlmaWNhdGlvbiBiZXR3ZWVuIHRoZSBicmFuY2gKPiBhbmQgdGhlIHB1dD8KPgpSaWdodCwg
-cmFjeSBoZXJlIGFzIHdlbGwuIFdpbGwgZml4IGluIHBhdGNoIHYzLgoKClRoYW5rcywKCkFkcmlh
-bi4KCgoKCkFtYXpvbiBEZXZlbG9wbWVudCBDZW50ZXIgKFJvbWFuaWEpIFMuUi5MLiByZWdpc3Rl
-cmVkIG9mZmljZTogMjdBIFNmLiBMYXphciBTdHJlZXQsIFVCQzUsIGZsb29yIDIsIElhc2ksIElh
-c2kgQ291bnR5LCA3MDAwNDUsIFJvbWFuaWEuIFJlZ2lzdGVyZWQgaW4gUm9tYW5pYS4gUmVnaXN0
-cmF0aW9uIG51bWJlciBKMjIvMjYyMS8yMDA1Lgo=
+On Fri, Nov 27, 2020 at 04:53:59PM +0000, Peter Maydell wrote:
+> On Fri, 27 Nov 2020 at 16:47, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> > Do you know how the implicitly-accelerator-specific code is
+> > implemented?  PARange is in id_aa64mmfr0, correct?  I don't see
+> > any accel-specific code for initializing id_aa64mmfr0.
+> 
+> For TCG, the value of id_aa64mmfr0 is set by the per-cpu
+> init functions aarch64_a57_initfn(), aarch64_a72_initfn(), etc.
+> 
+> For KVM, if we're using "-cpu cortex-a53" or "-cpu cortex-a57"
+> these only work if the host CPU really is an A53 or A57, in
+> which case the reset value set by the initfn is correct.
+> In the more usual case of "-cpu host", we ask the kernel for
+> the ID register values in kvm_arm_get_host_cpu_features(),
+> which is part of the implementation of
+> kvm_arm_set_cpu_features_from_host(), which gets called
+> in aarch64_max_initfn() (inside a kvm_enabled() conditional).
+> 
+> So there is a *_enabled() check involved, which I hadn't
+> realised until I worked back up to where this stuff is called.
+> 
+
+Thanks!  Is the data returned by kvm_arm_get_host_cpu_features()
+supposed to eventually affect the value of id_aa64mmfr0?  I don't
+see how that could happen.
+
+-- 
+Eduardo
 
 
