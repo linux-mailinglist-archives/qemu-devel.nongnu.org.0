@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3384F2C68BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 16:31:40 +0100 (CET)
-Received: from localhost ([::1]:51576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 794682C68D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 16:39:09 +0100 (CET)
+Received: from localhost ([::1]:36632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kifil-00040s-74
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 10:31:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46714)
+	id 1kifq0-0001ei-HH
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 10:39:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kifgO-0002bI-F2
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:29:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56663)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kifgR-0002hZ-Vx
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:29:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kifgL-0001Ip-Aw
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:29:12 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kifgQ-0001KN-8G
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:29:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606490948;
+ s=mimecast20190719; t=1606490952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XKH3Q9C0g9DkG272hqpSTp7g2ugMtGEgrEgUqH3qkKE=;
- b=Dwn8xf80lBCmLF3eehtY/sO64uOhz7UpR452xLS08JazHSXoiN+eurNzOgFWrOy00JJftj
- SR+TEdDFvLU2izSXb3Z2/5zMAyeeVQ+f/ej8Dc8L32SBGFpuNjevKjfL6eCyINBPvSJYeD
- L875SwvgXI6uLU4YUaGEbJsPTGiMa84=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-smW6JAWbN4ihQjdF4qKi2A-1; Fri, 27 Nov 2020 10:29:06 -0500
-X-MC-Unique: smW6JAWbN4ihQjdF4qKi2A-1
-Received: by mail-wr1-f69.google.com with SMTP id w17so3556176wrp.11
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 07:29:06 -0800 (PST)
+ bh=eQjo2OiA95mpj40kn87khodSABSB35YOkpXM0UNm5IU=;
+ b=GhWLl+orPJB2PymOFeJw5HNBWcmoUcBYBGPDp9vlgs9FeZyY1VYhIC7eacXPkO6GRvNee8
+ EGYQQy8DHzmHZnbi+78klGThLddB/W/GBlML9hCk8vN3KyD5ose3MJZkHBvoKfn0Y0H9cb
+ 75AszZikofrHeOdy4NLloBS6JpodUOI=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-508-EWsG3xSmMoKDldu8KsN1Tg-1; Fri, 27 Nov 2020 10:29:10 -0500
+X-MC-Unique: EWsG3xSmMoKDldu8KsN1Tg-1
+Received: by mail-ed1-f72.google.com with SMTP id f20so2539312edx.23
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 07:29:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=oXKdmvLkDWwHXIC1vCfXtPKtHEwtoC4CPS+KvE2OLhs=;
- b=JxtuZZ9DgRB/9kAHZYwMqMFcUi5DdUqS4GVxVKXPakXZJUeHEId4ehp34rHYhpVBJc
- nRxjGaMxMCfJhZU6zT6rBotKwt6ZzFoyI8u4iJ9IE/FpnpsVxfcmwAcKn8984RcvgsZP
- gNq+MQxNPHVZYs4buYw5MUdow0G5HDCPKXmCFrD+wKBHr3ko8dPI0SUuwODl+ARdLCOQ
- oAmQGwcZtkSNLEt1+jnpo3bcoNTn4X6WW/8p8vdrlWtEUYonOFfZZ3yGyvHVmYdqF998
- dO/eB5ceDatfE4vxSY3YJvXz7i5rdR6Z9kkgsKMqQu/ykgCiw9gfizLxpO8MZ+MYzhZ0
- 2qVw==
-X-Gm-Message-State: AOAM5318J4gOAp/1uh8SGVKm8STkfFqcgym1ny8Cu3z75YcgDll6HZ7H
- /fRM8Dqf8QU3fCdlddO8Btvbm5qk2KAs0DwneINT8M1f9Th6BBrkVIt18HOB/KmqQzyNO4/9luH
- TCoOAHmuU248Leos=
-X-Received: by 2002:a5d:67c5:: with SMTP id n5mr11453731wrw.179.1606490945471; 
- Fri, 27 Nov 2020 07:29:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy/4cCpUXCG3PtHNxRVLUGmUfj2FFttkpnXAUAHHS8uWedyJzj98T7fAMDHerVy+9j1MoYo4Q==
-X-Received: by 2002:a5d:67c5:: with SMTP id n5mr11453684wrw.179.1606490945268; 
- Fri, 27 Nov 2020 07:29:05 -0800 (PST)
-Received: from steredhat (host-79-17-248-175.retail.telecomitalia.it.
- [79.17.248.175])
- by smtp.gmail.com with ESMTPSA id d3sm14667103wrr.2.2020.11.27.07.29.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 07:29:04 -0800 (PST)
-Date: Fri, 27 Nov 2020 16:29:01 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>
-Subject: Re: [RFC PATCH 23/27] vhost: unmap qemu's shadow virtqueues on sw
- live migration
-Message-ID: <20201127152901.cbfu7rmewbxventr@steredhat>
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-24-eperezma@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eQjo2OiA95mpj40kn87khodSABSB35YOkpXM0UNm5IU=;
+ b=HCSeLbbI+OSKWgM9ZmAAo/3JM0i2IUmoFtcFlwIUAgmVcpKYL7KSyTac1E3Pp9jSAt
+ 8+zjxxsdU1umDy/V8cBFKsHHWPz6goKQLlB1Icn0OP2eZs/6lHTro4AlphKHitbbK2me
+ M9Q/S34RB7l8+9Ojc+086IrBU6WXRkpH+MsQbA674quwH6G+o/DGEuzFP5WMUQ+zXHfC
+ HVta973tvXLMGvd0M5DUNGpFYw1eudVxNYv7FkhZ05t0xgfz+Ur/Zm6EksQww/6jMQl+
+ aHQMjB0QAOg7Tbksjb3LHQvKzj/bk0M3Qq8kJtNw3JMMVVUlu7CqbCycRXdPTP4+ugfy
+ dYKg==
+X-Gm-Message-State: AOAM530fkiPWOt3YNv4jVq+B9jaI6QyJFcB3xN37bZjTpZtTWWG4zgH3
+ AnUtOCX0Ge9LNMl+18FjwpCIt9MD8YSnf4fssgVL5ca+1GtJ9MjH6CMUkCKYdPD+Tn5DMDcKFBe
+ HuNvlmc3ebqQK6xBotaCXnx71u7EzR1VsvpHnH1DEZ5c0goXXW3UODe+EbVHCNlSBzhM=
+X-Received: by 2002:a50:da08:: with SMTP id z8mr8279271edj.170.1606490948346; 
+ Fri, 27 Nov 2020 07:29:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz5EHdBmPeNsThxy85ZwSnfXUkehHklYyMnlbPU/G1RRRrLUcYuTy7pIdliw6cnVzQCO5a3qQ==
+X-Received: by 2002:a50:da08:: with SMTP id z8mr8279241edj.170.1606490948098; 
+ Fri, 27 Nov 2020 07:29:08 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id dk14sm4950354ejb.97.2020.11.27.07.29.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Nov 2020 07:29:07 -0800 (PST)
+Subject: Re: [PATCH 37/36] machine: introduce MachineInitPhase
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20201123141435.2726558-1-pbonzini@redhat.com>
+ <20201127120021.3221679-1-pbonzini@redhat.com>
+ <20201127142910.5a921d27@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <763b40ab-2498-2d37-65b9-144b49a8db0e@redhat.com>
+Date: Fri, 27 Nov 2020 16:29:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201120185105.279030-24-eperezma@redhat.com>
+In-Reply-To: <20201127142910.5a921d27@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,52 +101,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
- Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
- Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Howard Cai <howard.cai@gmail.com>,
- Parav Pandit <parav@mellanox.com>, vm <vmireyno@marvell.com>,
- Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 20, 2020 at 07:51:01PM +0100, Eugenio Pérez wrote:
->Since vhost does not need to access it, it has no sense to keep it
->mapped.
->
->Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->---
-> hw/virtio/vhost.c | 1 +
-> 1 file changed, 1 insertion(+)
->
->diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->index f640d4edf0..eebfac4455 100644
->--- a/hw/virtio/vhost.c
->+++ b/hw/virtio/vhost.c
->@@ -1124,6 +1124,7 @@ static int vhost_sw_live_migration_start(struct vhost_dev *dev)
->
->         dev->sw_lm_shadow_vq[idx] = vhost_sw_lm_shadow_vq(dev, idx);
->         event_notifier_set_handler(&vq->masked_notifier, vhost_handle_call);
->+        vhost_virtqueue_memory_unmap(dev, &dev->vqs[idx], true);
+On 27/11/20 14:29, Igor Mammedov wrote:
+>>   void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
+>>   {
+>> -    if (qdev_hotplug) {
+>> -         error_setg(errp, "The command is permitted only before the machine has been created");
+>> -         return;
+>> +    if (phase_check(PHASE_MACHINE_READY)) {
+> that's what I was afraid of in 26/36,
+> it should be PHASE_MACHINE_INITIALIZED
+> 
+Indeed it should, and the same goes for qmp_x_exit_preconfig.  Also, 
+it's probably best to add a comment to qemu_init_board, like
 
-IIUC vhost_virtqueue_memory_unmap() is already called at the end of 
-vhost_virtqueue_stop(), so we can skip this call, right?
++    /* From here on we enter MACHINE_PHASE_INITIALIZED.  */
+      machine_run_board_init(current_machine);
 
->
->         vhost_vring_write_addr(dev->sw_lm_shadow_vq[idx], &addr);
->         r = dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
->-- 2.18.4
->
+Paolo
 
 
