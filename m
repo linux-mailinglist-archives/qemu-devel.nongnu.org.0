@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2F482C6059
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 08:10:26 +0100 (CET)
-Received: from localhost ([::1]:46430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B822C6066
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 08:17:45 +0100 (CET)
+Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiXth-0006dL-Tw
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 02:10:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53280)
+	id 1kiY0m-0001I2-3m
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 02:17:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kiXrg-00052v-Ac
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:08:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37861)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kiXyb-0000f2-5L
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:15:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kiXrc-0003vQ-LA
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:08:20 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kiXyY-0006c4-MA
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:15:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606460896;
+ s=mimecast20190719; t=1606461323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nhJT5FgKkRdbOxE74l72yK6HMopDgWPkyucqcRiX0L4=;
- b=UXtqTPjonQCwLAkywrKUxlaMcSj+OMAAdzXlGZeVITgY4FXqx91j5F/T6P/Cj2GfD2lCn3
- IHW1YVyQtVogKBUruFuBqNvMOBkHGA2nTW5yBGuLUFqE8W4P+u0s+56qZlMuAKiFtNci5s
- T3raBQXRcwyeguRVlkNchKe7+WQoO7c=
+ bh=XHc5CAL2LlBtk+Qh0Wpmd1ko0+wmfuVXZ26Oi4x5AoU=;
+ b=XGb2VyHUNNdbDc7rAdqvMOnwD5M3ZvVFbA+5SD+wbJ2DfhkTmTl6rTJOJTOj5NEEo09CsY
+ PX8/wW8Z9bpR2i2wgTH+kOagKOA6BL83hz2/koOxdHFZz+brURuvL7kIef41RZ7AHbTNMK
+ JfoBHJ5hRkzF6k61V+flZb/+qLRzUGI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-S5g_48yuP62ZaUDzbI2zRw-1; Fri, 27 Nov 2020 02:08:14 -0500
-X-MC-Unique: S5g_48yuP62ZaUDzbI2zRw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-123-p33fn5UeOMaeFmvb6NfueQ-1; Fri, 27 Nov 2020 02:15:20 -0500
+X-MC-Unique: p33fn5UeOMaeFmvb6NfueQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 333431009462;
- Fri, 27 Nov 2020 07:08:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2433100C665;
+ Fri, 27 Nov 2020 07:15:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
  [10.36.112.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EEA135D9CC;
- Fri, 27 Nov 2020 07:08:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 60B91100164C;
+ Fri, 27 Nov 2020 07:15:15 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C3134A1EE; Fri, 27 Nov 2020 08:08:11 +0100 (CET)
-Date: Fri, 27 Nov 2020 08:08:11 +0100
+ id A0346A1EE; Fri, 27 Nov 2020 08:15:14 +0100 (CET)
+Date: Fri, 27 Nov 2020 08:15:14 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] qxl: fix segfault
-Message-ID: <20201127070811.r2dgr72e5asgll26@sirius.home.kraxel.org>
-References: <20201124122936.30588-1-kraxel@redhat.com>
- <CAJ+F1CJYeO9fGcSOZEEJmYvFwAxXe32rKGv81sfG8Dz=nCiGog@mail.gmail.com>
- <CAFEAcA9FWSwZnoGm67sswTDP29CZQr0NRJsD7dqrRWSom3B1Fw@mail.gmail.com>
+Subject: Re: [PATCH v2 09/13] audio: remove GNUC & MSVC check
+Message-ID: <20201127071514.su5s4jmbtp2u6jrv@sirius.home.kraxel.org>
+References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
+ <20201126112915.525285-10-marcandre.lureau@redhat.com>
+ <CAFEAcA9tcduAw1vEjWoOvmiJGS-S6zUx3t_nmssSNxbgPXpyOQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9FWSwZnoGm67sswTDP29CZQr0NRJsD7dqrRWSom3B1Fw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CAFEAcA9tcduAw1vEjWoOvmiJGS-S6zUx3t_nmssSNxbgPXpyOQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,22 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
   Hi,
 
-> > It would be nice to include this regression fix in the release. Anyone taking the patch to PR?
+> >  #if defined AUDIO_BREAKPOINT_ON_BUG
+> >  #  if defined HOST_I386
+> > +      __asm__ ("int3");
+> >  #  else
+> >          abort ();
+> >  #  endif
+> > --
+> > 2.29.0
 > 
-> Looks like a safe fix and we do need to roll rc4 anyway, so if somebody wants
-> to send a pullreq tomorrow I can apply it.
+> I would prefer to just drop this attempt to emit an inline
+> breakpoint insn (which won't work on non-x86 hosts and seems
+> to me to have no benefit over just calling abort(), which will
+> also drop you into the debugger) and simply make it abort() if
+> AUDIO_BREAKPOINT_ON_BUG is defined. Gerd, do you have an
+> opinion ?
 
-I had one prepared already and was waiting for ci.
+   kraxel@sirius ~/projects/qemu# git grep AUDIO_BREAKPOINT_ON_BUG
+   audio/audio.c:#if defined AUDIO_BREAKPOINT_ON_BUG
 
-Sent now,
+Seems this is unused, so just remove it?
+
+take care,
   Gerd
 
 
