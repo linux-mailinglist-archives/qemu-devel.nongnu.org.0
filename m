@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC7B2C6057
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 08:09:30 +0100 (CET)
-Received: from localhost ([::1]:43972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2F482C6059
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 08:10:26 +0100 (CET)
+Received: from localhost ([::1]:46430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiXsn-0005bp-IY
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 02:09:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53088)
+	id 1kiXth-0006dL-Tw
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 02:10:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kiXqn-00047Z-6E
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:07:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60540)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kiXrg-00052v-Ac
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:08:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kiXql-0003fJ-9i
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:07:24 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kiXrc-0003vQ-LA
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:08:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606460842;
+ s=mimecast20190719; t=1606460896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AYi4hulj/fYV7TsiulqOS6W4dyYmiBqD9vAVquJIigw=;
- b=LtZPzzo2HyDOdGGRQdP/hhQMg6Mbgup7qi1/TOQWuTGf9KSHRh8oP8nn4OG0xEGvNZvbnr
- 8qjLewCnrLs6w/G1pm+EMSsn+K9EVl0b1V0ChiidK3PEavzY5KYewm6Gchk1tzEBGiltDh
- 7B6fG3tUql+AnK7aEIhsgGfP20EU4Gg=
+ bh=nhJT5FgKkRdbOxE74l72yK6HMopDgWPkyucqcRiX0L4=;
+ b=UXtqTPjonQCwLAkywrKUxlaMcSj+OMAAdzXlGZeVITgY4FXqx91j5F/T6P/Cj2GfD2lCn3
+ IHW1YVyQtVogKBUruFuBqNvMOBkHGA2nTW5yBGuLUFqE8W4P+u0s+56qZlMuAKiFtNci5s
+ T3raBQXRcwyeguRVlkNchKe7+WQoO7c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-LChoev2_OIGMVLWZS56-Zg-1; Fri, 27 Nov 2020 02:07:19 -0500
-X-MC-Unique: LChoev2_OIGMVLWZS56-Zg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-447-S5g_48yuP62ZaUDzbI2zRw-1; Fri, 27 Nov 2020 02:08:14 -0500
+X-MC-Unique: S5g_48yuP62ZaUDzbI2zRw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F79A427F3
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 07:07:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 333431009462;
+ Fri, 27 Nov 2020 07:08:13 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
  [10.36.112.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D8C360861;
- Fri, 27 Nov 2020 07:07:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EEA135D9CC;
+ Fri, 27 Nov 2020 07:08:12 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8FA54A1EE; Fri, 27 Nov 2020 08:07:10 +0100 (CET)
+ id C3134A1EE; Fri, 27 Nov 2020 08:08:11 +0100 (CET)
+Date: Fri, 27 Nov 2020 08:08:11 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 1/1] qxl: fix segfault
-Date: Fri, 27 Nov 2020 08:07:10 +0100
-Message-Id: <20201127070710.8851-2-kraxel@redhat.com>
-In-Reply-To: <20201127070710.8851-1-kraxel@redhat.com>
-References: <20201127070710.8851-1-kraxel@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] qxl: fix segfault
+Message-ID: <20201127070811.r2dgr72e5asgll26@sirius.home.kraxel.org>
+References: <20201124122936.30588-1-kraxel@redhat.com>
+ <CAJ+F1CJYeO9fGcSOZEEJmYvFwAxXe32rKGv81sfG8Dz=nCiGog@mail.gmail.com>
+ <CAFEAcA9FWSwZnoGm67sswTDP29CZQr0NRJsD7dqrRWSom3B1Fw@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAFEAcA9FWSwZnoGm67sswTDP29CZQr0NRJsD7dqrRWSom3B1Fw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,38 +80,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add missing sanity check.
-Reproducer: run qemu with "-device qxl" but without "-spice ..."
+  Hi,
 
-Fixes: 0d9b90ce5c73 ("console: make QMP/HMP screendump run in coroutine")
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-id: 20201124122936.30588-1-kraxel@redhat.com
----
- ui/console.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> > It would be nice to include this regression fix in the release. Anyone taking the patch to PR?
+> 
+> Looks like a safe fix and we do need to roll rc4 anyway, so if somebody wants
+> to send a pullreq tomorrow I can apply it.
 
-diff --git a/ui/console.c b/ui/console.c
-index e07d2c380df7..53dee8e26b17 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -264,7 +264,9 @@ static void gui_setup_refresh(DisplayState *ds)
- 
- void graphic_hw_update_done(QemuConsole *con)
- {
--    qemu_co_queue_restart_all(&con->dump_queue);
-+    if (con) {
-+        qemu_co_queue_restart_all(&con->dump_queue);
-+    }
- }
- 
- void graphic_hw_update(QemuConsole *con)
--- 
-2.27.0
+I had one prepared already and was waiting for ci.
+
+Sent now,
+  Gerd
 
 
