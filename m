@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82FF2C6B7E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 19:22:55 +0100 (CET)
-Received: from localhost ([::1]:45836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA012C6B87
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 19:24:27 +0100 (CET)
+Received: from localhost ([::1]:49206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiiOU-00037k-Uq
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 13:22:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40208)
+	id 1kiiPy-0004aR-N7
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 13:24:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiiMT-00023M-No
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:20:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54751)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kiiMO-000431-Pg
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:20:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606501241;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XRUu1ujYdL5L648exhpLxJs8pk5t7z5sXWcH0+n9S54=;
- b=Ky/Hg4U8YGwy2ubQJopRnHV9WoCrfGDsg05ZGMO2uoU3PrOu7gQ3cjak339i2dlENUYK4T
- R/2IE7uZypVHt/YNjr04SRuXP1MtWLtIkJ2W4QurdYkh/ZVcnLgSeSvIufJrwwzjtkQdp6
- 9YLJKOQt7taYkBUR/bIyLI6aOSSqjgY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-2m8OR-lgMeC9f3HDqcQa4g-1; Fri, 27 Nov 2020 13:20:39 -0500
-X-MC-Unique: 2m8OR-lgMeC9f3HDqcQa4g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9768100B724;
- Fri, 27 Nov 2020 18:20:37 +0000 (UTC)
-Received: from localhost (unknown [10.10.67.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0AEC060BF1;
- Fri, 27 Nov 2020 18:20:36 +0000 (UTC)
-Date: Fri, 27 Nov 2020 13:20:36 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 8/8] hw/arm/virt: Disable highmem when on
- hypervisor.framework
-Message-ID: <20201127182036.GF2271382@habkost.net>
-References: <20201126215017.41156-1-agraf@csgraf.de>
- <20201126215017.41156-9-agraf@csgraf.de>
- <20201126221405.GT2271382@habkost.net>
- <CAFEAcA_Nc0Jp-3PPigt1YdqHfNhGToovCOO16DOPPC9Bt663qg@mail.gmail.com>
- <20201127162633.GY2271382@habkost.net>
- <CAFEAcA-NvSUUJ1GpYP2tCgjD-RNL5rO7P2H63xHmGS7x6ggDBQ@mail.gmail.com>
- <20201127164708.GZ2271382@habkost.net>
- <CAFEAcA_rt_aJTfBzAchUfCH5aKpSPReXWrVDC5mMEvyPughB8w@mail.gmail.com>
- <20201127171757.GB2271382@habkost.net>
- <CAFEAcA8D3SUMvxXU4RRYxeBAsywRfAvaFhSToJ1jcrH8bn+-4Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <jannh@google.com>) id 1kiiP2-00045t-Ag
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:23:28 -0500
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:41733)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jannh@google.com>) id 1kiiOx-0004pi-JZ
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:23:28 -0500
+Received: by mail-lj1-x243.google.com with SMTP id y7so6855870lji.8
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 10:23:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e5KHpDtt5i2rR9LdUm+DCPfd8QCddCnGgU8lKoXRsc0=;
+ b=k13XGK60aqGF8P+LZ5njqN9LkrUfUD2db3KBZtvlM/8c/m+Ar7Iaj3L9tzWBo8M07X
+ SLsANqBnyZqRR6Y4soOGO3BasvLtrGteYICfbknYu6+sh6RI2ecZi3k8piaxa2oAkZ9r
+ 3r0E9YxnkK40upO2J0VCON60VP9A2pQg8FXc5xnBv6kNKFodimMOFDHidiR6CzUsbEFR
+ loPKKh70S/Se5tUMMtUFbZCKu5Z+hj/H3WQX43nUvJytv6dzolyzWwSFRv5P6nDBJLoK
+ qXUUk5BYiEe7ku9T/ezKgm1a+BRdDMxdD7inERGIrtnl3U0qHDisct5Mn5LnHgoH6V+P
+ 18tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e5KHpDtt5i2rR9LdUm+DCPfd8QCddCnGgU8lKoXRsc0=;
+ b=SrLQ3sKP4SpUbFHT5Sszupbe30YeUPGzfAQ40Ar4ybEA7hNDDIncnmjguKxL4m+N+f
+ mhI19/gnT+R5BBZLxT6rFruZ9m11RSYcliJDkkprYqoGrnX54FmM+h2mt5emALkozWc1
+ 4sPueimHB2Icw+Os0VUbCj16j5dvWjsKPn7K5fThJ9sDRaA44Jm8nV5EpuFTW54fZ6ro
+ puQetdj4xZJhm2pn13EUOLBf0trFT81knRMtxd/1pimiZPwcq8qhZ1g6VAcMWG7N+Bsj
+ BLZioYEBBNJAa86YVuqOrMcp4o/WqFXM5irMES6mzYA8JIQCs0Mjad225YXq+031zDCk
+ C+sw==
+X-Gm-Message-State: AOAM531/iL0JvMHsVuEl3t4wsR2K0QUpF1itxGMkrl/3RPXYw8RWW5J1
+ zJNtVs4OL0502wcXst792DI18aaRy5fXC+uN4jd9pA==
+X-Google-Smtp-Source: ABdhPJws0SUY2VfCWZwO1KgOCMLdvLLRf++rtY0jADZAsBpXkmgj4FmHl+qbGYochUFxuoYBMzoAHyDIowR/TJhi40s=
+X-Received: by 2002:a2e:9216:: with SMTP id k22mr3959253ljg.138.1606501400078; 
+ Fri, 27 Nov 2020 10:23:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8D3SUMvxXU4RRYxeBAsywRfAvaFhSToJ1jcrH8bn+-4Q@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
+ <CAG48ez2VAu6oARGVZ+muDK9_6_38KVUTJf7utz5Nn=AsmN17nA@mail.gmail.com>
+In-Reply-To: <CAG48ez2VAu6oARGVZ+muDK9_6_38KVUTJf7utz5Nn=AsmN17nA@mail.gmail.com>
+From: Jann Horn <jannh@google.com>
+Date: Fri, 27 Nov 2020 19:22:53 +0100
+Message-ID: <CAG48ez13ZAAOVmA89PRKRqr9UezV2_bj8Q6_6sSPzcqfzbsuQQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
+To: "Catangiu, Adrian Costin" <acatan@amazon.com>
+Cc: "Graf (AWS), Alexander" <graf@amazon.de>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, 
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, Willy Tarreau <w@1wt.eu>, "MacCarthaigh,
+ Colm" <colmmacc@amazon.com>, 
+ Andy Lutomirski <luto@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
+ Eric Biggers <ebiggers@kernel.org>, 
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ kernel list <linux-kernel@vger.kernel.org>, 
+ "Woodhouse, David" <dwmw@amazon.co.uk>, "bonzini@gnu.org" <bonzini@gnu.org>,
+ "Singh, Balbir" <sblbir@amazon.com>, 
+ "Weiss, Radu" <raduweis@amazon.com>, "oridgar@gmail.com" <oridgar@gmail.com>, 
+ "ghammer@redhat.com" <ghammer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Qemu Developers <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>, 
+ Michal Hocko <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Pavel Machek <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>,
+ "mpe@ellerman.id.au" <mpe@ellerman.id.au>, 
+ linux-s390 <linux-s390@vger.kernel.org>,
+ "areber@redhat.com" <areber@redhat.com>, 
+ Pavel Emelyanov <ovzxemul@gmail.com>, Andrey Vagin <avagin@gmail.com>,
+ Mike Rapoport <rppt@kernel.org>, Dmitry Safonov <0x7f454c46@gmail.com>,
+ Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, 
+ "gil@azul.com" <gil@azul.com>, "asmehra@redhat.com" <asmehra@redhat.com>, 
+ "dgunigun@redhat.com" <dgunigun@redhat.com>,
+ "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=jannh@google.com; helo=mail-lj1-x243.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,41 +102,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
- Claudio Fontana <cfontana@suse.de>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 27, 2020 at 06:16:27PM +0000, Peter Maydell wrote:
-> On Fri, 27 Nov 2020 at 17:18, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> > Thanks!  Is the data returned by kvm_arm_get_host_cpu_features()
-> > supposed to eventually affect the value of id_aa64mmfr0?  I don't
-> > see how that could happen.
-> 
-> kvm_arm_get_host_cpu_features() does:
->         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64mmfr0,
->                               ARM64_SYS_REG(3, 0, 0, 7, 0));
-> 
-> which is filling in data in the ARMHostCPUFeatures* that it is
-> passed as an argument. The caller is kvm_arm_set_cpu_features_from_host(),
-> which does
->  kvm_arm_get_host_cpu_features(&arm_host_cpu_features)
-> (assuming it hasn't already done it once and cached the results;
-> arm_host_cpu_features is a global) and then
->  cpu->isar = arm_host_cpu_features.isar;
-> thus copying the ID values into the "struct ARMISARegisters isar"
-> that is part of the ARMCPU struct. (It also copies across the
-> 'features' word which gets set up with ARM_FEATURE_* flags
-> for the benefit of the parts of the target code which key off
-> those rather than ID register fields.)
+[resend in the hope that amazon will accept my mail this time instead
+of replying "550 Too many invalid recipients" again]
 
-Thanks!  For some reason I missed the line above when grepping
-for id_aa64mmfr0.
-
--- 
-Eduardo
-
+On Fri, Nov 20, 2020 at 11:29 PM Jann Horn <jannh@google.com> wrote:
+> On Mon, Nov 16, 2020 at 4:35 PM Catangiu, Adrian Costin
+> <acatan@amazon.com> wrote:
+> > This patch is a driver that exposes a monotonic incremental Virtual
+> > Machine Generation u32 counter via a char-dev FS interface that
+> > provides sync and async VmGen counter updates notifications. It also
+> > provides VmGen counter retrieval and confirmation mechanisms.
+> >
+> > The hw provided UUID is not exposed to userspace, it is internally
+> > used by the driver to keep accounting for the exposed VmGen counter.
+> > The counter starts from zero when the driver is initialized and
+> > monotonically increments every time the hw UUID changes (the VM
+> > generation changes).
+> >
+> > On each hw UUID change, the new hypervisor-provided UUID is also fed
+> > to the kernel RNG.
+>
+> As for v1:
+>
+> Is there a reasonable usecase for the "confirmation" mechanism? It
+> doesn't seem very useful to me.
+>
+> How do you envision integrating this with libraries that have to work
+> in restrictive seccomp sandboxes? If this was in the vDSO, that would
+> be much easier.
 
