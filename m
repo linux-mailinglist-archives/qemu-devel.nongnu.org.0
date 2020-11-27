@@ -2,97 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5284B2C6BE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 20:19:34 +0100 (CET)
-Received: from localhost ([::1]:54822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2702C6BD1
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 20:09:04 +0100 (CET)
+Received: from localhost ([::1]:36648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kijHJ-0000kk-Al
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 14:19:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56320)
+	id 1kij79-00015U-2Z
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 14:09:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=593c3f9be=acatan@amazon.com>)
- id 1kij2n-00050s-CF
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:04:34 -0500
-Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:65447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=593c3f9be=acatan@amazon.com>)
- id 1kij2j-00020n-Ku
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:04:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1606503870; x=1638039870;
- h=to:cc:references:from:message-id:date:mime-version:
- in-reply-to:content-transfer-encoding:subject;
- bh=DSdcTDRQLgP6jheFII76+mQS/8C+1zMiWnZKLb2dyzA=;
- b=OgUKmXLKNZnnMOpfpHMG3BiFrCffB3Cz5LeH/46h8aF8yQIACTqCf0yW
- 52zA+3XF1lEqTyTgWM0Nu3KQ4btKeO5O+nsnUblrkbjHxJHRknQY2WTI1
- UdMbIIuGW9MNoYe6tXto0iLEV/avlCU1Pp5jirHg8M/z9/ShiEuXWSp4q s=;
-X-IronPort-AV: E=Sophos;i="5.78,375,1599523200"; d="scan'208";a="99817617"
-Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
- email-inbound-relay-2b-a7fdc47a.us-west-2.amazon.com) ([10.47.23.38])
- by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP;
- 27 Nov 2020 19:04:22 +0000
-Received: from EX13D08EUB004.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
- by email-inbound-relay-2b-a7fdc47a.us-west-2.amazon.com (Postfix) with ESMTPS
- id 2BE4DC05BB; Fri, 27 Nov 2020 19:04:19 +0000 (UTC)
-Received: from 4c32759f87cf.ant.amazon.com (10.43.160.125) by
- EX13D08EUB004.ant.amazon.com (10.43.166.158) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Fri, 27 Nov 2020 19:04:05 +0000
-To: Jann Horn <jannh@google.com>
-CC: "Graf (AWS), Alexander" <graf@amazon.de>, Christian Borntraeger
- <borntraeger@de.ibm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Willy
- Tarreau <w@1wt.eu>, "MacCarthaigh, Colm" <colmmacc@amazon.com>, Andy
- Lutomirski <luto@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, Eric
- Biggers <ebiggers@kernel.org>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
- "Woodhouse, David" <dwmw@amazon.co.uk>, "bonzini@gnu.org" <bonzini@gnu.org>,
- "Singh, Balbir" <sblbir@amazon.com>, "Weiss, Radu" <raduweis@amazon.com>,
- "oridgar@gmail.com" <oridgar@gmail.com>, "ghammer@redhat.com"
- <ghammer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Michael S. Tsirkin" <mst@redhat.com>, Qemu
- Developers <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>, Michal
- Hocko <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Pavel
- Machek <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>,
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>, linux-s390
- <linux-s390@vger.kernel.org>, "areber@redhat.com" <areber@redhat.com>, Pavel
- Emelyanov <ovzxemul@gmail.com>, Andrey Vagin <avagin@gmail.com>, Mike
- Rapoport <rppt@kernel.org>, Dmitry Safonov <0x7f454c46@gmail.com>, Pavel
- Tikhomirov <ptikhomirov@virtuozzo.com>, "gil@azul.com" <gil@azul.com>,
- "asmehra@redhat.com" <asmehra@redhat.com>, "dgunigun@redhat.com"
- <dgunigun@redhat.com>, "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
- <CAG48ez2VAu6oARGVZ+muDK9_6_38KVUTJf7utz5Nn=AsmN17nA@mail.gmail.com>
- <CAG48ez13ZAAOVmA89PRKRqr9UezV2_bj8Q6_6sSPzcqfzbsuQQ@mail.gmail.com>
-From: "Catangiu, Adrian Costin" <acatan@amazon.com>
-Message-ID: <e4acbcdb-7ee4-5dfb-ffbf-19eb49cef9c6@amazon.com>
-Date: Fri, 27 Nov 2020 21:04:01 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:78.0)
- Gecko/20100101 Thunderbird/78.4.3
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kij2x-00058q-1D
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:04:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34965)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kij2r-00022y-W5
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:04:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606503876;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HvH9I7UuseWlqYOfmZvr4nNNJaXwbdfvzo6xobnJ3Gs=;
+ b=esI5VHlmKWC8lLXvszSD1iqH0avEtfvQjKfXrENfkJ49xJMKRSbi/orle0GK5pJ1fKDET3
+ 0rZned3t8xT06Ft3xDI6DFaE+789qabOVJVUNZBxwV5Np5NyzBWi6U4oCnFgI0X9Z0wwkP
+ g0YioD0CJzVhK5T2ODKZy/DY0M678ek=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-517-cMFLK_GpOgiczbLdhN_IAA-1; Fri, 27 Nov 2020 14:04:34 -0500
+X-MC-Unique: cMFLK_GpOgiczbLdhN_IAA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5875C8049C7;
+ Fri, 27 Nov 2020 19:04:31 +0000 (UTC)
+Received: from localhost (unknown [10.10.67.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69EF160BF1;
+ Fri, 27 Nov 2020 19:04:27 +0000 (UTC)
+Date: Fri, 27 Nov 2020 14:04:24 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v6 07/11] i386: move TCG cpu class initialization out of
+ helper.c
+Message-ID: <20201127190424.GH2271382@habkost.net>
+References: <20201126223218.31480-1-cfontana@suse.de>
+ <20201126223218.31480-8-cfontana@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <CAG48ez13ZAAOVmA89PRKRqr9UezV2_bj8Q6_6sSPzcqfzbsuQQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-X-Originating-IP: [10.43.160.125]
-X-ClientProxiedBy: EX13D05UWB003.ant.amazon.com (10.43.161.26) To
- EX13D08EUB004.ant.amazon.com (10.43.166.158)
-Precedence: Bulk
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.171.184.29;
- envelope-from=prvs=593c3f9be=acatan@amazon.com; helo=smtp-fw-9102.amazon.com
-X-Spam_score_int: -145
-X-Spam_score: -14.6
-X-Spam_bar: --------------
-X-Spam_report: (-14.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20201126223218.31480-8-cfontana@suse.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -101,63 +79,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-U29ycnkgSmFubiBmb3IgbWlzc2luZyB5b3VyIG9yaWdpbmFsIGVtYWlsLgoKT24gMjcvMTEvMjAy
-MCAyMDoyMiwgSmFubiBIb3JuIHdyb3RlOgo+IENBVVRJT046IFRoaXMgZW1haWwgb3JpZ2luYXRl
-ZCBmcm9tIG91dHNpZGUgb2YgdGhlIG9yZ2FuaXphdGlvbi4gRG8gbm90IGNsaWNrIGxpbmtzIG9y
-IG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBjYW4gY29uZmlybSB0aGUgc2VuZGVyIGFuZCBr
-bm93IHRoZSBjb250ZW50IGlzIHNhZmUuCj4KPgo+Cj4gW3Jlc2VuZCBpbiB0aGUgaG9wZSB0aGF0
-IGFtYXpvbiB3aWxsIGFjY2VwdCBteSBtYWlsIHRoaXMgdGltZSBpbnN0ZWFkCj4gb2YgcmVwbHlp
-bmcgIjU1MCBUb28gbWFueSBpbnZhbGlkIHJlY2lwaWVudHMiIGFnYWluXQo+Cj4gT24gRnJpLCBO
-b3YgMjAsIDIwMjAgYXQgMTE6MjkgUE0gSmFubiBIb3JuIDxqYW5uaEBnb29nbGUuY29tPiB3cm90
-ZToKPj4gT24gTW9uLCBOb3YgMTYsIDIwMjAgYXQgNDozNSBQTSBDYXRhbmdpdSwgQWRyaWFuIENv
-c3Rpbgo+PiA8YWNhdGFuQGFtYXpvbi5jb20+IHdyb3RlOgo+Pj4gVGhpcyBwYXRjaCBpcyBhIGRy
-aXZlciB0aGF0IGV4cG9zZXMgYSBtb25vdG9uaWMgaW5jcmVtZW50YWwgVmlydHVhbAo+Pj4gTWFj
-aGluZSBHZW5lcmF0aW9uIHUzMiBjb3VudGVyIHZpYSBhIGNoYXItZGV2IEZTIGludGVyZmFjZSB0
-aGF0Cj4+PiBwcm92aWRlcyBzeW5jIGFuZCBhc3luYyBWbUdlbiBjb3VudGVyIHVwZGF0ZXMgbm90
-aWZpY2F0aW9ucy4gSXQgYWxzbwo+Pj4gcHJvdmlkZXMgVm1HZW4gY291bnRlciByZXRyaWV2YWwg
-YW5kIGNvbmZpcm1hdGlvbiBtZWNoYW5pc21zLgo+Pj4KPj4+IFRoZSBodyBwcm92aWRlZCBVVUlE
-IGlzIG5vdCBleHBvc2VkIHRvIHVzZXJzcGFjZSwgaXQgaXMgaW50ZXJuYWxseQo+Pj4gdXNlZCBi
-eSB0aGUgZHJpdmVyIHRvIGtlZXAgYWNjb3VudGluZyBmb3IgdGhlIGV4cG9zZWQgVm1HZW4gY291
-bnRlci4KPj4+IFRoZSBjb3VudGVyIHN0YXJ0cyBmcm9tIHplcm8gd2hlbiB0aGUgZHJpdmVyIGlz
-IGluaXRpYWxpemVkIGFuZAo+Pj4gbW9ub3RvbmljYWxseSBpbmNyZW1lbnRzIGV2ZXJ5IHRpbWUg
-dGhlIGh3IFVVSUQgY2hhbmdlcyAodGhlIFZNCj4+PiBnZW5lcmF0aW9uIGNoYW5nZXMpLgo+Pj4K
-Pj4+IE9uIGVhY2ggaHcgVVVJRCBjaGFuZ2UsIHRoZSBuZXcgaHlwZXJ2aXNvci1wcm92aWRlZCBV
-VUlEIGlzIGFsc28gZmVkCj4+PiB0byB0aGUga2VybmVsIFJORy4KPj4gQXMgZm9yIHYxOgo+Pgo+
-PiBJcyB0aGVyZSBhIHJlYXNvbmFibGUgdXNlY2FzZSBmb3IgdGhlICJjb25maXJtYXRpb24iIG1l
-Y2hhbmlzbT8gSXQKPj4gZG9lc24ndCBzZWVtIHZlcnkgdXNlZnVsIHRvIG1lLgoKSSB0aGluayBp
-dCBhZGRzIHZhbHVlIGluIGNvbXBsZXggc2NlbmFyaW9zIHdpdGggbXVsdGlwbGUgdXNlcnMgb2Yg
-dGhlCm1lY2hhbmlzbSwgcG90ZW50aWFsbHkgYXQgdmFyeWluZyBsYXllcnMgb2YgdGhlIHN0YWNr
-LCBkaWZmZXJlbnQKcHJvY2Vzc2VzIGFuZC9vciBydW50aW1lIGxpYnJhcmllcy4KClRoZSBkcml2
-ZXIgb2ZmZXJzIGEgbmF0dXJhbCBwbGFjZSB0byBoYW5kbGUgbWluaW1hbCBvcmNoZXN0cmF0aW9u
-CnN1cHBvcnQgYW5kIG9mZmVyIHZpc2liaWxpdHkgaW4gc3lzdGVtLXdpZGUgc3RhdHVzLgoKQSBo
-aWdoLWxldmVsIHNlcnZpY2UgdGhhdCB0cnVzdHMgYWxsIHN5c3RlbSBjb21wb25lbnRzIHRvIHBy
-b3Blcmx5IHVzZQp0aGUgY29uZmlybWF0aW9uIG1lY2hhbmlzbSBjYW4gYWN0dWFsbHkgYmxvY2sg
-YW5kIHdhaXQgcGF0aWVudGx5IGZvciB0aGUKc3lzdGVtIHRvIGFkanVzdCB0byB0aGUgbmV3IHdv
-cmxkLiBFdmVuIGlmIGl0IGRvZXNuJ3QgdHJ1c3QgYWxsCmNvbXBvbmVudHMgaXQgY2FuIHN0aWxs
-IGRvIGEgYmVzdC1lZmZvcnQsIHRpbWVvdXQgYmxvY2suCgo+Pgo+PiBIb3cgZG8geW91IGVudmlz
-aW9uIGludGVncmF0aW5nIHRoaXMgd2l0aCBsaWJyYXJpZXMgdGhhdCBoYXZlIHRvIHdvcmsKPj4g
-aW4gcmVzdHJpY3RpdmUgc2VjY29tcCBzYW5kYm94ZXM/IElmIHRoaXMgd2FzIGluIHRoZSB2RFNP
-LCB0aGF0IHdvdWxkCj4+IGJlIG11Y2ggZWFzaWVyLgoKU2luY2UgdGhpcyBtZWNoYW5pc20gdGFy
-Z2V0cyBhbGwgb2YgdXNlcnNwYWNlIHN0YWNrLCB0aGUgdXNlY2FzZSBncmVhdGx5CnZhcnkuIEkg
-ZG91YnQgd2UgY2FuIGhhdmUgYSBzaW5nbGUgc2lsdmVyIGJ1bGxldCBpbnRlcmZhY2UuCgpGb3Ig
-ZXhhbXBsZSwgdGhlIG1tYXAgaW50ZXJmYWNlIHRhcmdldHMgdXNlciBzcGFjZSBSTkdzLCB3aGVy
-ZSBhcyBmYXN0CmFuZCBhcyByYWNlIGZyZWUgYXMgcG9zc2libGUgaXMga2V5LiBCdXQgdGhlcmUg
-YWxzbyBoaWdoZXIgbGV2ZWwKYXBwbGljYXRpb25zIHRoYXQgZG9uJ3QgbWFuYWdlIHRoZWlyIG93
-biBtZW1vcnkgb3IgZG9uJ3QgaGF2ZSBhY2Nlc3MgdG8KbG93LWxldmVsIHByaW1pdGl2ZXMgc28g
-dGhleSBjYW4ndCB1c2UgdGhlIG1tYXAgb3IgZXZlbiB2RFNPIGludGVyZmFjZXMuClRoYXQncyB3
-aGF0IHRoZSByZXN0IG9mIHRoZSBsb2dpYyBpcyB0aGVyZSBmb3IsIHRoZSByZWFkK3BvbGwgaW50
-ZXJmYWNlCmFuZCBhbGwgb2YgdGhlIG9yY2hlc3RyYXRpb24gbG9naWMuCgpMaWtlIHlvdSBjb3Jy
-ZWN0bHkgcG9pbnQgb3V0LCB0aGVyZSBhcmUgYWxzbyBzY2VuYXJpb3MgbGlrZSB0aWdodApzZWNj
-b21wIGphaWxzIHdoZXJlIGV2ZW4gdGhlIEZTIGludGVyZmFjZXMgaXMgaW5hY2Nlc3NpYmxlLiBG
-b3IgY2FzZXMKbGlrZSB0aGlzIGFuZCBvdGhlcnMsIEkgYmVsaWV2ZSB3ZSB3aWxsIGhhdmUgdG8g
-d29yayBpbmNyZW1lbnRhbGx5IHRvCmJ1aWxkIHVwIHRoZSBpbnRlcmZhY2UgZGl2ZXJzaXR5IHRv
-IGNhdGVyIHRvIGFsbCB0aGUgdXNlciBzY2VuYXJpb3MKZGl2ZXJzaXR5LgoKClRoYW5rcywKCkFk
-cmlhbi4KCgoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIChSb21hbmlhKSBTLlIuTC4gcmVn
-aXN0ZXJlZCBvZmZpY2U6IDI3QSBTZi4gTGF6YXIgU3RyZWV0LCBVQkM1LCBmbG9vciAyLCBJYXNp
-LCBJYXNpIENvdW50eSwgNzAwMDQ1LCBSb21hbmlhLiBSZWdpc3RlcmVkIGluIFJvbWFuaWEuIFJl
-Z2lzdHJhdGlvbiBudW1iZXIgSjIyLzI2MjEvMjAwNS4K
+Now that I understand what you are doing here, I have specific
+questions about the functions you are moving, below:
+
+On Thu, Nov 26, 2020 at 11:32:14PM +0100, Claudio Fontana wrote:
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+[...]
+> @@ -1495,7 +1497,8 @@ static inline uint64_t x86_cpu_xsave_components(X86CPU *cpu)
+>             cpu->env.features[FEAT_XSAVE_COMP_LO];
+>  }
+>  
+> -const char *get_register_name_32(unsigned int reg)
+> +/* Return name of 32-bit register, from a R_* constant */
+> +static const char *get_register_name_32(unsigned int reg)
+>  {
+>      if (reg >= CPU_NB_REGS32) {
+>          return NULL;
+> @@ -7012,13 +7015,6 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr value)
+>      cpu->env.eip = value;
+>  }
+>  
+> -static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
+> -{
+> -    X86CPU *cpu = X86_CPU(cs);
+> -
+> -    cpu->env.eip = tb->pc - tb->cs_base;
+> -}
+
+Question to be answered in the commit message: how can somebody
+be sure this code is not necessary for any other accelerators?
+The TranslationBlock* argument is a hint, but not a guarantee.
+
+Maybe we should rename CPUClass.synchronize_from_tb to
+CPUClass.tcg_synchronize_from_tb?  Maybe we should have a
+separate TCGCpuOperations struct to carry TCG-specific methods?
+
+(The same questions above apply to the other methods below)
+
+
+> -
+>  int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
+>  {
+>      X86CPU *cpu = X86_CPU(cs);
+> @@ -7252,17 +7248,18 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+>      cc->class_by_name = x86_cpu_class_by_name;
+>      cc->parse_features = x86_cpu_parse_featurestr;
+>      cc->has_work = x86_cpu_has_work;
+> +
+>  #ifdef CONFIG_TCG
+> -    cc->do_interrupt = x86_cpu_do_interrupt;
+> -    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
+
+These two are in seg_helper.c, so I agree it makes sense to keep
+it in tcg_cpu_common_class_init().
+
+I'd like to understand why they are TCG-specific, though.  Are
+CPUClass.do_interrupt and CPUClass.cpu_exec_enter TCG-specific on
+all architectures, or only in x86?
+
+> -#endif
+> +    tcg_cpu_common_class_init(cc);
+> +#endif /* CONFIG_TCG */
+> +
+>      cc->dump_state = x86_cpu_dump_state;
+>      cc->set_pc = x86_cpu_set_pc;
+> -    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
+>      cc->gdb_read_register = x86_cpu_gdb_read_register;
+>      cc->gdb_write_register = x86_cpu_gdb_write_register;
+>      cc->get_arch_id = x86_cpu_get_arch_id;
+>      cc->get_paging_enabled = x86_cpu_get_paging_enabled;
+> +
+>  #ifndef CONFIG_USER_ONLY
+>      cc->asidx_from_attrs = x86_asidx_from_attrs;
+>      cc->get_memory_mapping = x86_cpu_get_memory_mapping;
+> @@ -7273,7 +7270,8 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+>      cc->write_elf32_note = x86_cpu_write_elf32_note;
+>      cc->write_elf32_qemunote = x86_cpu_write_elf32_qemunote;
+>      cc->vmsd = &vmstate_x86_cpu;
+> -#endif
+> +#endif /* !CONFIG_USER_ONLY */
+> +
+>      cc->gdb_arch_name = x86_gdb_arch_name;
+>  #ifdef TARGET_X86_64
+>      cc->gdb_core_xml_file = "i386-64bit.xml";
+> @@ -7281,15 +7279,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+>  #else
+>      cc->gdb_core_xml_file = "i386-32bit.xml";
+>      cc->gdb_num_core_regs = 50;
+> -#endif
+> -#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+> -    cc->debug_excp_handler = breakpoint_handler;
+
+That's in bpt_helper.c, also TCG-specific.  Makes sense to move
+it to tcg_cpu_common_class_init().
+
+Is CPUClass.debug_excp_handler() TCG-specific in all
+architectures, or only in x86?
+
+> -#endif
+> -    cc->cpu_exec_enter = x86_cpu_exec_enter;
+> -    cc->cpu_exec_exit = x86_cpu_exec_exit;
+
+I have a question about those two functions below[1].
+
+> -#ifdef CONFIG_TCG
+> -    cc->tcg_initialize = tcg_x86_init;
+
+The name makes this is obviously TCG-specific, so it makes sense
+to move it to tcg_cpu_common_class_init().
+
+> -    cc->tlb_fill = x86_cpu_tlb_fill;
+
+This is in excp_helper.c (TCG-specific), so it makes sense to
+move it to tcg_cpu_common_class_init().
+
+Is CPUClass.tlb_fill TCG-specific in all architectures, or only
+in x86?
+
+>  #endif
+>      cc->disas_set_info = x86_disas_set_info;
+>  
+[...]
+> -/* Frob eflags into and out of the CPU temporary format.  */
+> -
+> -void x86_cpu_exec_enter(CPUState *cs)
+> -{
+> -    X86CPU *cpu = X86_CPU(cs);
+> -    CPUX86State *env = &cpu->env;
+> -
+> -    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
+> -    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
+> -    CC_OP = CC_OP_EFLAGS;
+> -    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
+> -}
+> -
+> -void x86_cpu_exec_exit(CPUState *cs)
+> -{
+> -    X86CPU *cpu = X86_CPU(cs);
+> -    CPUX86State *env = &cpu->env;
+> -
+> -    env->eflags = cpu_compute_eflags(env);
+> -}
+
+[1]
+
+How exactly can we be 100% sure this is not used by other
+accelerators?
+
+> -
+>  #ifndef CONFIG_USER_ONLY
+>  uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr)
+>  {
+[...]
+
+-- 
+Eduardo
 
 
