@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A94A2C609A
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 08:45:01 +0100 (CET)
-Received: from localhost ([::1]:41490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E493F2C60A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 08:48:34 +0100 (CET)
+Received: from localhost ([::1]:48576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiYRA-0003vY-Kr
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 02:45:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34526)
+	id 1kiYUc-0006wq-0b
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 02:48:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jinzeyu@huawei.com>)
- id 1kiYOb-0001OQ-1m
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:42:23 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2958)
+ id 1kiYOv-0001aY-SG
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:42:41 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2237)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jinzeyu@huawei.com>)
- id 1kiYOW-0007nW-CB
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:42:19 -0500
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Cj65Y05xVzXgbg;
- Fri, 27 Nov 2020 15:41:53 +0800 (CST)
+ id 1kiYOt-0007yA-HW
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 02:42:41 -0500
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Cj65d22ljz13MyW;
+ Fri, 27 Nov 2020 15:41:57 +0800 (CST)
 Received: from dggemi758-chm.china.huawei.com (10.1.198.144) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Fri, 27 Nov 2020 15:42:11 +0800
+ DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Fri, 27 Nov 2020 15:42:26 +0800
 Received: from localhost (10.174.187.211) by dggemi758-chm.china.huawei.com
  (10.1.198.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1913.5; Fri, 27
- Nov 2020 15:42:11 +0800
+ Nov 2020 15:42:26 +0800
 From: Zeyu Jin <jinzeyu@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [RFC PATCH 4/6] migration: Add zstd support in multi-thread
- compression
-Date: Fri, 27 Nov 2020 15:42:09 +0800
-Message-ID: <20201127074209.2217-1-jinzeyu@huawei.com>
+Subject: [RFC PATCH 5/6] migration: Add compress_level sanity check
+Date: Fri, 27 Nov 2020 15:42:23 +0800
+Message-ID: <20201127074223.2269-1-jinzeyu@huawei.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -43,14 +42,13 @@ X-Originating-IP: [10.174.187.211]
 X-ClientProxiedBy: dggemi702-chm.china.huawei.com (10.3.20.101) To
  dggemi758-chm.china.huawei.com (10.1.198.144)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=jinzeyu@huawei.com;
- helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.255; envelope-from=jinzeyu@huawei.com;
+ helo=szxga08-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,218 +66,65 @@ Cc: Ying Fang <fangying1@huawei.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch enables zstd option in multi-thread compression.
+Zlib compression has level from 1 to 9. However Zstd compression has level
+from 1 to 22 (level >= 20 not recommanded). Let's do sanity check here
+to make sure a vaild compress_level is given by user.
 
 Signed-off-by: Zeyu Jin <jinzeyu@huawei.com>
 Signed-off-by: Ying Fang <fangying1@huawei.com>
 ---
- hw/core/qdev-properties-system.c |   2 +-
- migration/ram.c                  | 128 ++++++++++++++++++++++++++++++-
- qapi/migration.json              |   2 +-
- 3 files changed, 129 insertions(+), 3 deletions(-)
+ migration/migration.c | 32 ++++++++++++++++++++++++++++----
+ 1 file changed, 28 insertions(+), 4 deletions(-)
 
-diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index d757b2cd70..54760d94b3 100644
---- a/hw/core/qdev-properties-system.c
-+++ b/hw/core/qdev-properties-system.c
-@@ -667,7 +667,7 @@ const PropertyInfo qdev_prop_multifd_compression = {
- const PropertyInfo qdev_prop_compress_method = {
-     .name = "CompressMethod",
-     .description = "multi-thread compression method, "
--                   "zlib",
-+                   "zlib/zstd",
-     .enum_table = &CompressMethod_lookup,
-     .get = qdev_propinfo_get_enum,
-     .set = qdev_propinfo_set_enum,
-diff --git a/migration/ram.c b/migration/ram.c
-index 94a7422204..a732d80db2 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -57,6 +57,10 @@
- #include "qemu/iov.h"
- #include "multifd.h"
- 
-+#ifdef CONFIG_ZSTD
-+#include <zstd.h>
-+#include <zstd_errors.h>
-+#endif
- /***********************************************************/
- /* ram save/restore */
- 
-@@ -424,6 +428,11 @@ struct CompressParam {
-     /* for zlib compression */
-     z_stream stream;
- 
-+#ifdef CONFIG_ZSTD
-+    ZSTD_CStream *zstd_cs;
-+    ZSTD_inBuffer in;
-+    ZSTD_outBuffer out;
-+#endif
- };
- typedef struct CompressParam CompressParam;
- 
-@@ -438,6 +447,12 @@ struct DecompressParam {
- 
-     /* for zlib compression */
-     z_stream stream;
-+
-+#ifdef CONFIG_ZSTD
-+    ZSTD_DStream *zstd_ds;
-+    ZSTD_inBuffer in;
-+    ZSTD_outBuffer out;
-+#endif
- };
- typedef struct DecompressParam DecompressParam;
- 
-@@ -571,6 +586,102 @@ static int zlib_check_len(int len)
-     return len < 0 || len > compressBound(TARGET_PAGE_SIZE);
+diff --git a/migration/migration.c b/migration/migration.c
+index 2c68012029..6fc0c3b532 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1235,16 +1235,40 @@ void qmp_migrate_set_capabilities(MigrationCapabilityStatusList *params,
+     }
  }
  
++static bool compress_level_check(MigrationParameters *params, Error **errp)
++{
++    switch (params->compress_method) {
++    case COMPRESS_METHOD_ZLIB:
++        if (params->compress_level > 9 || params->compress_level < 1) {
++            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "compress_level",
++                           "a value in the range of 0 to 9 for Zlib method");
++            return false;
++        }
++        break;
 +#ifdef CONFIG_ZSTD
-+static int zstd_save_setup(CompressParam *param)
-+{
-+    int res;
-+    param->zstd_cs = ZSTD_createCStream();
-+    if (!param->zstd_cs) {
-+        return -1;
-+    }
-+    res = ZSTD_initCStream(param->zstd_cs, migrate_compress_level());
-+    if (ZSTD_isError(res)) {
-+        return -1;
-+    }
-+    return 0;
-+}
-+static void zstd_save_cleanup(CompressParam *param)
-+{
-+    ZSTD_freeCStream(param->zstd_cs);
-+    param->zstd_cs = NULL;
-+}
-+static ssize_t zstd_compress_data(CompressParam *param, size_t size)
-+{
-+    int ret;
-+    uint8_t *dest = NULL;
-+    uint8_t *p = param->originbuf;
-+    QEMUFile *f = f = param->file;
-+    ssize_t blen = qemu_put_compress_start(f, &dest);
-+    if (blen < ZSTD_compressBound(size)) {
-+        return -1;
-+    }
-+    param->out.dst = dest;
-+    param->out.size = blen;
-+    param->out.pos = 0;
-+    param->in.src = p;
-+    param->in.size = size;
-+    param->in.pos = 0;
-+    do {
-+        ret = ZSTD_compressStream2(param->zstd_cs, &param->out,
-+                                   &param->in, ZSTD_e_end);
-+    } while (ret > 0 && (param->in.size - param->in.pos > 0)
-+            && (param->out.size - param->out.pos > 0));
-+    if (ret > 0 && (param->in.size - param->in.pos > 0)) {
-+        return -1;
-+    }
-+    if (ZSTD_isError(ret)) {
-+        return -1;
-+    }
-+    blen = param->out.pos;
-+    qemu_put_compress_end(f, blen);
-+    return blen + sizeof(int32_t);
-+}
-+static int zstd_load_setup(DecompressParam *param)
-+{
-+    int ret;
-+    param->zstd_ds = ZSTD_createDStream();
-+    if (!param->zstd_ds) {
-+        return -1;
-+    }
-+    ret = ZSTD_initDStream(param->zstd_ds);
-+    if (ZSTD_isError(ret)) {
-+        return -1;
-+    }
-+    return 0;
-+}
-+static void zstd_load_cleanup(DecompressParam *param)
-+{
-+    ZSTD_freeDStream(param->zstd_ds);
-+    param->zstd_ds = NULL;
-+}
-+static int
-+zstd_decompress_data(DecompressParam *param, uint8_t *dest, size_t size)
-+{
-+    int ret;
-+    param->out.dst = dest;
-+    param->out.size = size;
-+    param->out.pos = 0;
-+    param->in.src = param->compbuf;
-+    param->in.size = param->len;
-+    param->in.pos = 0;
-+    do {
-+        ret = ZSTD_decompressStream(param->zstd_ds, &param->out, &param->in);
-+    } while (ret > 0 && (param->in.size - param->in.pos > 0)
-+                    && (param->out.size - param->out.pos > 0));
-+    if (ret > 0 && (param->in.size - param->in.pos > 0)) {
-+        return -1;
-+    }
-+    if (ZSTD_isError(ret)) {
-+        return -1;
-+    }
-+    return ret;
-+}
-+static int zstd_check_len(int len)
-+{
-+    return len < 0 || len > ZSTD_compressBound(TARGET_PAGE_SIZE);
-+}
++    case COMPRESS_METHOD_ZSTD:
++        if (params->compress_level > 19 || params->compress_level < 1) {
++            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "compress_level",
++                        "a value in the range of 1 to 19 for Zstd method");
++            return false;
++        }
++        break;
 +#endif
++    default:
++        error_setg(errp, "Checking compress_level failed for unknown reason");
++        return false;
++    }
 +
- static int set_compress_ops(void)
++    return true;
++}
++
+ /*
+  * Check whether the parameters are valid. Error will be put into errp
+  * (if provided). Return true if valid, otherwise false.
+  */
+ static bool migrate_params_check(MigrationParameters *params, Error **errp)
  {
-    compress_ops = g_new0(MigrationCompressOps, 1);
-@@ -581,9 +692,16 @@ static int set_compress_ops(void)
-         compress_ops->save_cleanup = zlib_save_cleanup;
-         compress_ops->compress_data = zlib_compress_data;
-         break;
-+#ifdef CONFIG_ZSTD
-+    case COMPRESS_METHOD_ZSTD:
-+        compress_ops->save_setup = zstd_save_setup;
-+        compress_ops->save_cleanup = zstd_save_cleanup;
-+        compress_ops->compress_data = zstd_compress_data;
-+        break;
-+#endif
-     default:
-         return -1;
--    }
-+   }
+-    if (params->has_compress_level &&
+-        (params->compress_level > 9)) {
+-        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "compress_level",
+-                   "is invalid, it should be in the range of 0 to 9");
++    if (params->has_compress_level && !compress_level_check(params, errp)) {
+         return false;
+     }
  
-     return 0;
- }
-@@ -599,6 +717,14 @@ static int set_decompress_ops(void)
-         decompress_ops->decompress_data = zlib_decompress_data;
-         decompress_ops->check_len = zlib_check_len;
-         break;
-+#ifdef CONFIG_ZSTD
-+    case COMPRESS_METHOD_ZSTD:
-+        decompress_ops->load_setup = zstd_load_setup;
-+        decompress_ops->load_cleanup = zstd_load_cleanup;
-+        decompress_ops->decompress_data = zstd_decompress_data;
-+        decompress_ops->check_len = zstd_check_len;
-+        break;
-+#endif
-     default:
-         return -1;
-    }
-diff --git a/qapi/migration.json b/qapi/migration.json
-index d262683a38..ac6d06c683 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -536,7 +536,7 @@
- #
- ##
- { 'enum': 'CompressMethod',
--  'data': [ 'zlib' ] }
-+  'data': [ 'zlib', { 'name': 'zstd', 'if': 'defined(CONFIG_ZSTD)' } ] }
- 
- ##
- # @BitmapMigrationBitmapAlias:
 -- 
 2.23.0
 
