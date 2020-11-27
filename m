@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61942C68FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 16:56:04 +0100 (CET)
-Received: from localhost ([::1]:37370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3100F2C68FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 16:56:07 +0100 (CET)
+Received: from localhost ([::1]:37556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kig6N-0005yK-VP
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 10:56:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50912)
+	id 1kig6Q-000634-8P
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 10:56:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kifwL-0005T5-CN
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:45:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53601)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kifwY-0005cp-FN
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:45:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kifwJ-0007Cy-Qx
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:45:41 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kifwW-0007IV-M0
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:45:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606491939;
+ s=mimecast20190719; t=1606491951;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/jM98+9QzEA24ZSx1+D0MfttLSxhLTxzTuufk7c6+hU=;
- b=CtcOVZH+zT+E00ss1AaoqB1Bi462j4O4XF5P3p5RG/Fch07pa4UeDJJmsHzOux+OLmpaDp
- IolVGC2vQVAt13Hn7XJj+U7M1O4sKegvhUMLA721IRC+P/5AlC4Gs1/EwHQ3xqhF6xltnz
- doGXQJHvctNxb/+XnabwDdipdul1HFs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-RrNZn876N7yF3BQCXp_XNw-1; Fri, 27 Nov 2020 10:45:37 -0500
-X-MC-Unique: RrNZn876N7yF3BQCXp_XNw-1
-Received: by mail-wr1-f70.google.com with SMTP id z6so1898823wrl.7
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 07:45:37 -0800 (PST)
+ bh=BDk4KGU12fM9Yex3trs/5DdgC/wMMJyJXqR3QcmFLnk=;
+ b=YPah0EqeA81pugDQ51LeaiyI9lQVMgNrQKDnLLNh/e9w/Vh+cj75uMO5aIEj49xWsfNyC+
+ j6OEvu3/rtiqUYySLpExarRLryZiCvkfCojMtToNRij2p/JIneNGArX9iia75r47cIuZdl
+ wyCN1qw+69I9gOLOotYpLNYCQfa/C3k=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-1jdHcLmuNH-TnXtOv0EnlA-1; Fri, 27 Nov 2020 10:45:49 -0500
+X-MC-Unique: 1jdHcLmuNH-TnXtOv0EnlA-1
+Received: by mail-qt1-f198.google.com with SMTP id v9so3474294qtw.12
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 07:45:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/jM98+9QzEA24ZSx1+D0MfttLSxhLTxzTuufk7c6+hU=;
- b=WJSPvB6MlCgUGtG/eqE0YcoM00Bz/7E2wacvVbWRBTG+FdnbJh+ehTlxkE5ftTHdDA
- zJQM4RpqqxAuRjYbxiynQ0TTPp/lv0i9IjP8VIDUe7qsHKMKwdaQ4MQBMbk1jujR2skf
- tIr7Rt/X3hhRbVH6tcwxs7kFZWyoLG4JXF5cif9diOu+7H3y4jurQLhUkvhpZYn5lRVU
- fzbqgwAp8HaICOBFXzZbntPrIz3Fm/N6hSPFMWgLUg2D1aJrivhNjLVQ1ahKHQ8dWhOm
- EWN7BC7P3pn9iGq75KBrlvpPYJi/YeGuxdDNLnzIbyuu7JLQHwKuEwU9uZbAuRr07d7D
- Rv6w==
-X-Gm-Message-State: AOAM530Gdb7sYKH6AppWwt1Nwr/byyoQg4Z39Mnmq71KhZmnzgy9EYdl
- QIf8GRHsOdSbD5U8WMAzBro6xKXqXxI4yQFWn2wL/TiQcLRSDBnTd4mSyyBBOAJ9wNHYqQaGkkv
- qZveX+D+Jp/W9NVQ=
-X-Received: by 2002:a1c:6609:: with SMTP id a9mr4204706wmc.32.1606491936559;
- Fri, 27 Nov 2020 07:45:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwc96KWGczHRzr0LTxPFYU0BHNEdAWXpJh6B2YiZdz+mbVa15jP12d9q1Aeo0uTzmBIxmFamA==
-X-Received: by 2002:a1c:6609:: with SMTP id a9mr4204676wmc.32.1606491936366;
- Fri, 27 Nov 2020 07:45:36 -0800 (PST)
-Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id o134sm2399780wme.6.2020.11.27.07.45.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BDk4KGU12fM9Yex3trs/5DdgC/wMMJyJXqR3QcmFLnk=;
+ b=NeY5NKMuwE3GvRXgBU3vHWG2r8sxzjBw1PXr4MdPhDNe+jT9oinbZZvhV77eQKl1mV
+ dJV/pgt1WEiqOKprXaB1CxpqEZagtmSi4wRmA0ej0LgFjuvvdPV1ME0SgoDGvj+2lQTx
+ S6d4HCUJr7NL9CLwZIWRZCfQcg0kCY7T6fTYVQgaJR2tx4zhNEMzQBKmbhAJYkp5It6x
+ kflqgLkc7MRqu1p9UDJ3kiWkAUQOb/nq94ajFEq1/nHCYPOxJiIj8RZINV5pmLaqoKTh
+ FuN2MywpMLKlF3+GkcSk97OVGlbqPEq//WX8hFnKhdy1ouxZXm93ajOT18c+MTzlX22S
+ 75gg==
+X-Gm-Message-State: AOAM532xTFwMdU3yQ/nzMiiF46Ysiv18XYd9O9DmVbHzqFO8DLxZgqTs
+ xjVFY96sjbOa8MYpZq1KWHQhXz/Ue2MK9HHi8/fejnJ0ukenQhVUMMMBFnAwKE38A2ETPYw+rTi
+ 0q41/67EOv9008KE=
+X-Received: by 2002:a05:6214:58d:: with SMTP id
+ bx13mr8493711qvb.44.1606491949449; 
+ Fri, 27 Nov 2020 07:45:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz0WzShylZBd/JKTkmqy/dk2epPSf7EMKq4DoUQJxRh3C5HE8rQbDLPDS2/2EIBDvmAwX6SOA==
+X-Received: by 2002:a05:6214:58d:: with SMTP id
+ bx13mr8493696qvb.44.1606491949193; 
+ Fri, 27 Nov 2020 07:45:49 -0800 (PST)
+Received: from xz-x1 ([142.126.81.247])
+ by smtp.gmail.com with ESMTPSA id q123sm6237294qke.28.2020.11.27.07.45.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 07:45:35 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Jason Wang <jasowang@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [RFC PATCH-for-5.2 2/2] net: Assert no packet bigger than NET_BUFSIZE
- is queued
-Date: Fri, 27 Nov 2020 16:45:24 +0100
-Message-Id: <20201127154524.1902024-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201127154524.1902024-1-philmd@redhat.com>
-References: <20201127154524.1902024-1-philmd@redhat.com>
+ Fri, 27 Nov 2020 07:45:48 -0800 (PST)
+Date: Fri, 27 Nov 2020 10:45:46 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v4 0/6] UFFD write-tracking migration/snapshots
+Message-ID: <20201127154546.GC6573@xz-x1>
+References: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
+ <20201126154751.GH2366@angien.pipo.sk>
+ <673bec91-31cb-5533-b223-8725948e2189@virtuozzo.com>
+ <20201127094911.GI2366@angien.pipo.sk>
+ <23cbb153-9260-3357-04ba-94da7da8c0d2@virtuozzo.com>
 MIME-Version: 1.0
+In-Reply-To: <23cbb153-9260-3357-04ba-94da7da8c0d2@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,46 +96,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, P J P <ppandit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Krempa <pkrempa@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ensure no packet bigger then NET_BUFSIZE is queued via
-qemu_net_queue_append*() by adding assertions.
+On Fri, Nov 27, 2020 at 01:00:48PM +0300, Andrey Gruzdev wrote:
+> On 27.11.2020 12:49, Peter Krempa wrote:
+> > On Fri, Nov 27, 2020 at 11:21:39 +0300, Andrey Gruzdev wrote:
+> > > On 26.11.2020 18:47, Peter Krempa wrote:
+> > > > On Thu, Nov 26, 2020 at 18:17:28 +0300, Andrey Gruzdev via wrote:
+> > > > > This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+> > > > > implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
+> > > > > 
+> > > > > Currently the only way to make (external) live VM snapshot is using existing
+> > > > > dirty page logging migration mechanism. The main problem is that it tends to
+> > > > > produce a lot of page duplicates while running VM goes on updating already
+> > > > > saved pages. That leads to the fact that vmstate image size is commonly several
+> > > > > times bigger then non-zero part of virtual machine's RSS. Time required to
+> > > > > converge RAM migration and the size of snapshot image severely depend on the
+> > > > > guest memory write rate, sometimes resulting in unacceptably long snapshot
+> > > > > creation time and huge image size.
+> > > > > 
+> > > > > This series propose a way to solve the aforementioned problems. This is done
+> > > > > by using different RAM migration mechanism based on UFFD write protection
+> > > > > management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+> > > > > guest RAM content using write-protection and iteratively release protection
+> > > > > for memory ranges that have already been saved to the migration stream.
+> > > > > At the same time we read in pending UFFD write fault events and save those
+> > > > > pages out-of-order with higher priority.
+> > > > 
+> > > > This sounds amazing! Based on your description I assume that the final
+> > > > memory image contains state image from the beginning of the migration.
+> > > > 
+> > > > This would make it desirable for the 'migrate' qmp command to be used as
+> > > > part of a 'transaction' qmp command so that we can do an instant disk
+> > > > and memory snapshot without any extraneous pausing of the VM.
+> > > > 
+> > > > I'll have a look at using this mechanism in libvirt natively.
+> > > > 
+> > > 
+> > > Correct, the final image contains state at the beginning of migration.
+> > > 
+> > > So far, if I'm not missing something about libvirt, for external snapshot
+> > > creation it performs a sequence like that:
+> > > migrate(fd)->transaction(blockdev-snapshot-all)->cont.
+> > > 
+> > > So, in case 'background-snapshot' capability is enabled, the sequence would
+> > > change to:
+> > > stop->transaction(blockdev-snapshot-all)->migrate(fd).
+> > > With background snapshot migration it will finish with VM running so there's
+> > > not need to 'cont' here.
+> > 
+> > Yes, that's correct.
+> > 
+> > The reason I've suggested that 'migrate' being part of a 'transaction'
+> > is that it would remove the need to stop it for the disk snapshot part.
+> > 
+> 
+> Hmm, I believe stopping VM for a short time is unavoidable to keep saved
+> device state consistent with blockdev snapshot base.. May be I've missed
+> something but it seems logical.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- net/queue.c | 3 +++
- 1 file changed, 3 insertions(+)
+I guess PeterK meant an explicit stop vm command, rather than the stop in this
+series that should be undetectable from the guest.  It would be definitely
+great if PeterK could quickly follow up with this on libvirt. :)
 
-diff --git a/net/queue.c b/net/queue.c
-index 221a1c87961..94b98b19ef9 100644
---- a/net/queue.c
-+++ b/net/queue.c
-@@ -102,6 +102,8 @@ static void qemu_net_queue_append(NetQueue *queue,
-     if (queue->nq_count >= queue->nq_maxlen && !sent_cb) {
-         return; /* drop if queue full and no callback */
-     }
-+
-+    assert(size <= NET_BUFSIZE);
-     packet = g_malloc(sizeof(NetPacket) + size);
-     packet->sender = sender;
-     packet->flags = flags;
-@@ -131,6 +133,7 @@ void qemu_net_queue_append_iov(NetQueue *queue,
-         max_len += iov[i].iov_len;
-     }
- 
-+    assert(max_len <= NET_BUFSIZE);
-     packet = g_malloc(sizeof(NetPacket) + max_len);
-     packet->sender = sender;
-     packet->sent_cb = sent_cb;
+One overall comment (before go into details) is that please remember to start
+using "migration: " prefixes in patch subjects from the next version.
+
+Thanks,
+
 -- 
-2.26.2
+Peter Xu
 
 
