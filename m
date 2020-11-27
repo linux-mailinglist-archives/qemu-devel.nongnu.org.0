@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1179D2C6B9D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 19:31:37 +0100 (CET)
-Received: from localhost ([::1]:56070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C5772C6B9E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 19:33:03 +0100 (CET)
+Received: from localhost ([::1]:59096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiiWu-0007w4-2R
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 13:31:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43856)
+	id 1kiiYI-0000pN-BS
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 13:33:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kiiV9-0007On-Uo
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:29:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41141)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kiiWp-0008JC-1W
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:31:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kiiV6-0007Bc-Im
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:29:47 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kiiWl-0007q4-6b
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:31:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606501783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c95/BQD1reQkyYDwgTsy9qz62mODFanT+OiCLgDY0z8=;
- b=BLBzbNMQtSV/I2eqxyFsUP2bSyuoOq0Moe61G51RDsDLfWIp9Kqdbnpyrtv50ttALSZHNv
- ekGZ8NtAZiLYI5SGbRn6EaDDozUQrvk5T/ToTuu47mMtdmEnizCxwW4sGmOKqQMXBbXw52
- NcpJER9XtU9TdB723AQxeXOiLgmePUE=
+ s=mimecast20190719; t=1606501886;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ZRqV252xLPTODhKGutIKprXDVXs4skDLBV2y4xikXAw=;
+ b=ZrpEoAKorbiHTgKpUBhxXurCkidOwRJSMJGZ6HODKZMuivrKgEkd2PVcHcABd4iMJ902RT
+ 1zoAW0hW/IvNq89Uoh0aPMiRK1hxVmE9RbnhKB9oZFbgWoWghXlBwq0BMbmd5LMAloFtE+
+ bHzWNXeLxCuD7LMy81UIOSwbTIDrxHM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-kXflL9XMPHOnMB4oQYAM_g-1; Fri, 27 Nov 2020 13:29:41 -0500
-X-MC-Unique: kXflL9XMPHOnMB4oQYAM_g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-58-C6nerz8jPdWFeXBWp25tbA-1; Fri, 27 Nov 2020 13:31:22 -0500
+X-MC-Unique: C6nerz8jPdWFeXBWp25tbA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FBDA802B48;
- Fri, 27 Nov 2020 18:29:40 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-70.ams2.redhat.com [10.36.113.70])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 770BC60BF1;
- Fri, 27 Nov 2020 18:29:32 +0000 (UTC)
-Subject: Re: [RFC PATCH-for-5.2] gitlab-ci: Do not automatically run Avocado
- integration tests anymore
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>
-References: <20201127174110.1932671-1-philmd@redhat.com>
- <b08db31b-1411-6936-f737-0d6c8f98ebb8@redhat.com>
- <f32a1db5-5231-fc4d-1741-0b5ee13f618f@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <9157dce0-4f5d-3f1e-ce75-3e9da9252203@redhat.com>
-Date: Fri, 27 Nov 2020 19:29:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEF4A803626;
+ Fri, 27 Nov 2020 18:31:20 +0000 (UTC)
+Received: from redhat.com (ovpn-113-125.ams2.redhat.com [10.36.113.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3019E189A5;
+ Fri, 27 Nov 2020 18:31:13 +0000 (UTC)
+Date: Fri, 27 Nov 2020 18:31:10 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] gitlab-CI: Test 32-bit builds with the fedora-i386-cross
+ container
+Message-ID: <20201127183110.GJ1596141@redhat.com>
+References: <20201127181025.472458-1-thuth@redhat.com>
+ <00693af0-4d49-8e8a-65d8-64c0ad34c756@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <f32a1db5-5231-fc4d-1741-0b5ee13f618f@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <00693af0-4d49-8e8a-65d8-64c0ad34c756@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,81 +80,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- virt-ci-maint-team@redhat.com,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ alex.williamson@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/11/2020 18.57, Philippe Mathieu-Daudé wrote:
-> On 11/27/20 6:47 PM, Thomas Huth wrote:
->> On 27/11/2020 18.41, Philippe Mathieu-Daudé wrote:
->>> We lately realized that the Avocado framework was not designed
->>> to be regularly run on CI environments. Therefore, as of 5.2
->>> we deprecate the gitlab-ci jobs using Avocado. To not disrupt
->>> current users, it is possible to keep the current behavior by
->>> setting the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable
->>> (see [*]).
->>> From now on, using these jobs (or adding new tests to them)
->>> is strongly discouraged.
->>>
->>> Tests based on Avocado will be ported to new job schemes during
->>> the next releases, with better documentation and templates.
->>
->> Why should we disable the jobs by default as long as there is no replacement
->> available yet?
+On Fri, Nov 27, 2020 at 07:15:43PM +0100, Thomas Huth wrote:
+> On 27/11/2020 19.10, Thomas Huth wrote:
+> > After adding some missing packages, it's possible to check 32-bit
+> > builds and tests with the fedora-i386-cross container in the gitlab-CI,
+> > too.
+> > 
+> > While we're at it, update it to Fedora 31. Unfortunately the gcc
+> > from the later versions emits some very dubious format-truncation
+> > warnings, so Fedora 32 and 33 are currently unsuitable for this job.
+> > 
+> > I also had to remove the gnutls-devel package since linking then
+> > failed due to its dependency libtasn1 not being recognized (even
+> > if I explicitely installed it into the container).
 > 
-> Why keep it enabled if it is failing randomly
+> In case anybody is interested, the failure can be seen here:
+> 
+>  https://gitlab.com/huth/qemu/-/jobs/876977206#L4799
+> 
+> ... which is very strange, since in line 259, meson claimed to have found
+> libtasn1 ... anybody got an idea what's going wrong here?
 
-We can still disable single jobs if they are not stable, but that's no
-reason to disable all of them by default, is it?
+It installed the 32-bit  tasn1 RPM, but the 64-bit tasn1-devel RPM
 
-> if images hardcoded
-> in tests are being removed from public servers, etc...?
 
-That's independent from Avocado, you'll always have that problem if you want
-to test with external images, unless you mirror them into a repository on
-the same server (ie. gitlab), which, however, might not always be possible...
-
-> They are not disabled, they are still runnable manually or setting
-> QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE...
-
-And who do you think is going to set that variable? Hardly anybody, I guess.
-So you could also simply remove the stuff from the yml file completely instead.
-
-> We realized by default Avocado runs all tests on the CI jobs,
-> triggering failures and complains. Developer stopped to contribute/
-> review integration tests because of that.
-
-Did anybody really stop contributing "acceptance" test since they were
-afraid of the gitlab-CI running them? That's new to me, do you have a pointer?
-
-> We want developers be
-> able to contribute tests to the repository fearlessly.
-
-You can always mark your test with @skipIf(os.getenv('GITLAB_CI')) if you
-don't want to see it running in the gitlab-CI, so that's not a reason to be
-afraid.
-
-> If we don't change anything, we'll keep having CI failures due
-> to Avocado design issues (artifacts removed from remote servers,
-> etc...).
-
-I fail to see the relation between Avocado and vanishing artifacts from 3rd
-party servers... what do you plan to do instead if something gets (re-)moved
-from a server that is not under our control?
-
-> I haven't seen any attempt on this list to improve the current
-> fragile situation, but better suggestions are certainly welcome.
-
-At least I am hoping that the "check-acceptance" tests will break a little
-bit less often once Peter uses the gitlab-CI for his gating tests, too. That
-will at least prevent that one of the tests gets completely broken by a new
-merged pull request. Of course there's still the risk that tests only fail
-occasionally due to new bugs, but that can also happen for all other test
-suites (unit, qtest, iotests, ...), too.
-
- Thomas
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
