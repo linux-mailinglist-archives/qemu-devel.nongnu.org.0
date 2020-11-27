@@ -2,70 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6852C63FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 12:36:59 +0100 (CET)
-Received: from localhost ([::1]:37664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E71762C6408
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 12:42:56 +0100 (CET)
+Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kic3e-0001xQ-Dh
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 06:36:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44314)
+	id 1kic9Q-0003Dg-26
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 06:42:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kic2q-0001H5-SV
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 06:36:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46164)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kic2k-0001WX-S9
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 06:36:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606476962;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=14aEWzZrDPF7XWUDksGeOC7vvrJ7oGa+7SJaCTLJz8o=;
- b=E7bI5q0CMBYvpnfOg0fTdtvgDPcpOdF7O0B7TMHbW12uWyBICvSnP3KkwWfUf/RzPirzyA
- nQkD49UZimvPWTiZl0vlYRqazZNLSHBXwtUg1l7uDRaIcXAsaRBH34xzNRNtiw0gIV1rbv
- ipOMJUrO8MhDFC9vzq9FpBnmd6AyTFI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-pbiAshTNPIW_4tnfi4fxTA-1; Fri, 27 Nov 2020 06:36:00 -0500
-X-MC-Unique: pbiAshTNPIW_4tnfi4fxTA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 760209A22A;
- Fri, 27 Nov 2020 11:35:55 +0000 (UTC)
-Received: from gondolin (ovpn-113-65.ams2.redhat.com [10.36.113.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5BB875D720;
- Fri, 27 Nov 2020 11:35:36 +0000 (UTC)
-Date: Fri, 27 Nov 2020 12:35:33 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 1/6] arch_init: Move QEMU_ARCH definitions to cpu.h
-Message-ID: <20201127123533.3707edf5.cohuck@redhat.com>
-In-Reply-To: <20201125205636.3305257-2-ehabkost@redhat.com>
-References: <20201125205636.3305257-1-ehabkost@redhat.com>
- <20201125205636.3305257-2-ehabkost@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kic8K-0002lA-80
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 06:41:48 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kic8I-0003lb-J5
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 06:41:47 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BF837AC23;
+ Fri, 27 Nov 2020 11:41:44 +0000 (UTC)
+Subject: Re: [RFC v6 10/11] accel: introduce AccelCPUClass extending CPUClass
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20201126223218.31480-1-cfontana@suse.de>
+ <20201126223218.31480-11-cfontana@suse.de>
+ <6cbd508c-b24b-3219-3302-196dfefaa8f7@redhat.com>
+ <d43db8fc-ae7f-0f5f-2e3c-5aad1930f732@suse.de>
+ <b5da5096-da08-0856-a69a-12db19c40f67@suse.de>
+Message-ID: <925030fe-4a98-cfb2-ead6-b4b5dbe581ca@suse.de>
+Date: Fri, 27 Nov 2020 12:41:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <b5da5096-da08-0856-a69a-12db19c40f67@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,101 +64,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-ppc@nongnu.org,
- Artyom Tarasenko <atar4qemu@gmail.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Michael Walle <michael@walle.cc>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, haxm-team@intel.com,
+ Cameron Esfahani <dirty@apple.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Nov 2020 15:56:31 -0500
-Eduardo Habkost <ehabkost@redhat.com> wrote:
+On 11/27/20 12:22 PM, Claudio Fontana wrote:
+> On 11/27/20 9:59 AM, Claudio Fontana wrote:
+>> On 11/27/20 7:21 AM, Paolo Bonzini wrote:
+>>> On 26/11/20 23:32, Claudio Fontana wrote:
+>>>> +    if (acc) {
+>>>> +        object_class_foreach(accel_init_cpu_int_aux, cpu_type, false, acc);
+>>>> +    }
+>>>
+>>> Any reason to do it for cpu_type only, rather than for all subclasses of 
+>>> CPU_RESOLVING_TYPE?  This would remove the cpu_type argument to 
+>>> accel_init_cpu_interfaces and accel_init_interfaces.
+>>>
+>>> Otherwise I haven't done a careful review yet but it looks very nice, 
+>>> thanks!
+>>>
+>>> Paolo
+>>>
+>>
+>> Hi Paolo,
+>>
+>> yes, I thought to pass cpu_type in order to set the interface only for the cpu that is actually used,
+>> instead of looping over all cpu models, just to be a bit quicker, but both things should work.
+>>
+>> Ciao,
+>>
+>> Claudio
+>>
+> 
+> Note that this actually creates a bug that is caught _ONLY_ by
+> 
+> acceptance-system-centos.
+> 
+> The gist of it is that cpu_type (or current_machine->default_cpu_type) is _not_ guaranteed to be set,
+> the code there is a bit misleading I think.
+> 
+> I'll look into it, but just wanted to warn early about it.
+> 
+> Ciao,
+> 
+> Claudio
+> 
 
-> Instead of a collection of #ifdefs on arch_init.c, define
-> QEMU_ARCH inside each cpu.h file.
->=20
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Michael Rolnik <mrolnik@gmail.com>
-> Cc: Sarah Harris <S.E.Harris@kent.ac.uk>
-> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Michael Walle <michael@walle.cc>
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> Cc: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
-> Cc: Aurelien Jarno <aurelien@aurel32.net>
-> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> Cc: Anthony Green <green@moxielogic.com>
-> Cc: Chris Wulff <crwulff@gmail.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Stafford Horne <shorne@gmail.com>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Alistair Francis <Alistair.Francis@wdc.com>
-> Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>
-> Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Cc: Artyom Tarasenko <atar4qemu@gmail.com>
-> Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
-> Cc: Max Filippov <jcmvbkbc@gmail.com>
-> Cc: qemu-devel@nongnu.org
-> Cc: qemu-arm@nongnu.org
-> Cc: qemu-ppc@nongnu.org
-> Cc: qemu-riscv@nongnu.org
-> Cc: qemu-s390x@nongnu.org
-> ---
->  target/alpha/cpu.h      |  1 +
->  target/arm/cpu.h        |  1 +
->  target/avr/cpu.h        |  1 +
->  target/cris/cpu.h       |  1 +
->  target/hppa/cpu.h       |  1 +
->  target/i386/cpu.h       |  1 +
->  target/lm32/cpu.h       |  1 +
->  target/m68k/cpu.h       |  1 +
->  target/microblaze/cpu.h |  1 +
->  target/mips/cpu.h       |  1 +
->  target/moxie/cpu.h      |  1 +
->  target/nios2/cpu.h      |  1 +
->  target/openrisc/cpu.h   |  1 +
->  target/ppc/cpu.h        |  1 +
->  target/riscv/cpu.h      |  1 +
->  target/rx/cpu.h         |  1 +
->  target/s390x/cpu.h      |  1 +
->  target/sh4/cpu.h        |  1 +
->  target/sparc/cpu.h      |  1 +
->  target/tricore/cpu.h    |  1 +
->  target/unicore32/cpu.h  |  1 +
->  target/xtensa/cpu.h     |  1 +
->  softmmu/arch_init.c     | 46 -----------------------------------------
->  23 files changed, 22 insertions(+), 46 deletions(-)
+This seems to be due to "-machine none", is machine none supposed to have no default cpu_type?
+Is it expected that for machine none current_machine->cpu_type is NULL, or is it a bug?
 
-Much better :)
+Thanks,
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Claudio
+
+
+
+
+
 
 
