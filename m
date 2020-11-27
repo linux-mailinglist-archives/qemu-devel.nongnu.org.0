@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBD92C6147
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 10:01:25 +0100 (CET)
-Received: from localhost ([::1]:47934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BAA2C615E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 10:09:26 +0100 (CET)
+Received: from localhost ([::1]:37200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiZd6-0001ld-CI
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 04:01:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59892)
+	id 1kiZkq-00012G-PA
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 04:09:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiZbO-0001Jo-DS
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 03:59:38 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41304)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiZgL-0004tv-4x
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 04:04:45 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiZbM-0003qo-V6
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 03:59:38 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kiZgG-0005Uq-Gl
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 04:04:43 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 10E63AD0B;
- Fri, 27 Nov 2020 08:59:35 +0000 (UTC)
-Subject: Re: [RFC v6 10/11] accel: introduce AccelCPUClass extending CPUClass
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201126223218.31480-1-cfontana@suse.de>
- <20201126223218.31480-11-cfontana@suse.de>
- <6cbd508c-b24b-3219-3302-196dfefaa8f7@redhat.com>
+ by mx2.suse.de (Postfix) with ESMTP id 8E2B2AC0C;
+ Fri, 27 Nov 2020 09:04:38 +0000 (UTC)
+Subject: Re: [PATCH v2 2/6] accel: accel_available() function
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20201125205636.3305257-1-ehabkost@redhat.com>
+ <20201125205636.3305257-3-ehabkost@redhat.com>
+ <12f82771-9db9-8fcd-ea25-736428d2650a@suse.de>
+ <20201126133645.GG2271382@habkost.net>
+ <8d90d611-6545-a478-1316-542dc5424b92@suse.de>
+ <f4f64154-9fbb-36fa-d9cb-e49c8ed06537@redhat.com>
+ <7df7713c-5125-9e41-3572-a476cad2946b@suse.de>
+ <20201126214810.GR2271382@habkost.net>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <d43db8fc-ae7f-0f5f-2e3c-5aad1930f732@suse.de>
-Date: Fri, 27 Nov 2020 09:59:33 +0100
+Message-ID: <55ed249f-9fd3-fe3d-c63a-8d74803a72ca@suse.de>
+Date: Fri, 27 Nov 2020 10:04:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <6cbd508c-b24b-3219-3302-196dfefaa8f7@redhat.com>
+In-Reply-To: <20201126214810.GR2271382@habkost.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -62,37 +61,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Anthony Perard <anthony.perard@citrix.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- "Emilio G . Cota" <cota@braap.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/27/20 7:21 AM, Paolo Bonzini wrote:
-> On 26/11/20 23:32, Claudio Fontana wrote:
->> +    if (acc) {
->> +        object_class_foreach(accel_init_cpu_int_aux, cpu_type, false, acc);
->> +    }
+On 11/26/20 10:48 PM, Eduardo Habkost wrote:
+> On Thu, Nov 26, 2020 at 10:06:03PM +0100, Claudio Fontana wrote:
+>> On 11/26/20 3:25 PM, Paolo Bonzini wrote:
+>>> On 26/11/20 15:13, Claudio Fontana wrote:
+>>>> One option I see is simply to document the behavior where
+>>>> accel_available() is declared in accel.h (ie do not use in fast
+>>>> path), as well as in accel_find() actually, so that both accel_find()
+>>>> and accel_available() are avoided in fast path and avoid being called
+>>>> frequently at runtime.
+>>>>
+>>>> Another option could be to remove the allocation completely, and use
+>>>> for example accel_find(ACCEL_CLASS_NAME("tcg")), or another option
+>>>> again would be to remove the allocation and use either a fixed buffer
+>>>> + snprintf, or alloca -like builtin code to use the stack, ...
+>>>>
+>>>> Not a big deal, but with a general utility and short name like
+>>>> accel_available(name) it might be tempting to use this more in the
+>>>> future?
+>>>
+>>> I think it's just that the usecase is not that common.  "Is this 
+>>> accelerator compiled in the binary" is not something you need after 
+>>> startup (or if querying the monitor).
+>>>
+>>> Paolo
+>>>
+>>>
+>>
+>> A script that repeatedly uses the QMP interface to query for
+>> the status could generate fragmentation this way I think.
 > 
-> Any reason to do it for cpu_type only, rather than for all subclasses of 
-> CPU_RESOLVING_TYPE?  This would remove the cpu_type argument to 
-> accel_init_cpu_interfaces and accel_init_interfaces.
-> 
-> Otherwise I haven't done a careful review yet but it looks very nice, 
-> thanks!
-> 
-> Paolo
+> Is this a problem?  Today, execution of a "query-kvm" command
+> calls g_malloc() 37 times.
 > 
 
-Hi Paolo,
-
-yes, I thought to pass cpu_type in order to set the interface only for the cpu that is actually used,
-instead of looping over all cpu models, just to be a bit quicker, but both things should work.
+Not ideal in my view, but not the end of the world either.
 
 Ciao,
 
