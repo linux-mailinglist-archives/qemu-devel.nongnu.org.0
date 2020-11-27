@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3002C6C09
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 20:38:25 +0100 (CET)
-Received: from localhost ([::1]:40966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5375F2C6C10
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 20:39:48 +0100 (CET)
+Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kijZY-00009Y-Hq
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 14:38:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46764)
+	id 1kijat-00016G-FW
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 14:39:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1kijYE-00089J-QI
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:37:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23331)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1kijYB-0004GA-Sn
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:37:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606505818;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EgMQ9ItV6Y3puCV7zYEStOR2JoM/Dhp4IQ8iqCe/vjw=;
- b=D1MJQeS9jISiaekQWDS9MqBz4zShm/VsgAjr2y017UnCVZucbr/CXC+3OfUL3zDRvg6GkF
- P1H5Ns7nJhR4hhlzKlVwPAssXV3QHnnVZm6QzlWIJi9YL+h9/c3+RSIgTJ/22+cx1xMgao
- DPs2nAnANePnHhQ/fTwAhF234+LCfAI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-nSeAR6-xNx-dq6bllcUOOw-1; Fri, 27 Nov 2020 14:36:55 -0500
-X-MC-Unique: nSeAR6-xNx-dq6bllcUOOw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78C21E719B;
- Fri, 27 Nov 2020 19:36:54 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-119.gru2.redhat.com
- [10.97.116.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A9D766085D;
- Fri, 27 Nov 2020 19:36:46 +0000 (UTC)
-Subject: Re: [RFC PATCH-for-5.2] gitlab-ci: Do not automatically run Avocado
- integration tests anymore
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20201127174110.1932671-1-philmd@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <e30a9acc-5fc2-97d0-0de4-c3eb02851571@redhat.com>
-Date: Fri, 27 Nov 2020 16:36:43 -0300
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kijYP-0008IV-3L
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:37:13 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33470)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kijYN-0004KI-F9
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:37:12 -0500
+Received: by mail-wr1-x442.google.com with SMTP id u12so6704803wrt.0
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 11:37:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CRPUPPWQ4Iptq0Ytd5wXyLcKreUsml8Ikg0eWo4JrBc=;
+ b=hOFqH4/Bj5A9FpkTrwfRgHO0JLEgAtffFMhxlvjeabH4T5XsH5I0wvRyzjSQBGZ1Yl
+ Z8U0veIm+zgn4wSGIKtgQECP8I890Y3J9x6GSA43IvRJrXummkh9WMjfwFQa6FuMRNLW
+ NHVPpM2HkHsC16UkpWPaww61/wXWLvevyUVknDUM6Sb2V/7RDc7VLXoUQLYdCwsqVIhE
+ neuXqWay0oAS1BowP5fWJ/eLjY5bTDMwRq+EfNILg6zeQKvKHzOJmfD39dJt9aqgwuSJ
+ lCT6Xu6EBDlvsQ1oR9aywBDFPuhtuFt6bNSqzFMa/dvNxuAqu+6dwXVWpeCCgtQzlrqk
+ 7TWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CRPUPPWQ4Iptq0Ytd5wXyLcKreUsml8Ikg0eWo4JrBc=;
+ b=uOAHL9VWUuyR9HmV6IzseJMMsOSPxmva3rX1k6oBU1KBBHOy4TL9byvvhEQaM8dZMr
+ Cyc/vJF/yzsXkFAcPvwo3fZE92rkWv6CCjm8RCPkMWlsIgswP2klv/e189+S6y1n2i3E
+ GisnhQ6huZBBH9vc9P9iFmY9QRFM3lWWwaT6xucWWSzRI2HgPl25d0heWO1E9bE5vpSV
+ F7IWMi4HPjDf92S5Nsbvmfz9ruVr/4X0rV3nHue0cmA6ApaLRjGyTjKlsSEGmz1I2MkR
+ IE+nJongeIYNYq7ygjAF/kqLatSWF6+yQWL2W4RYY34QHdAxO4HNOEsxz0QUnVmRKQ/X
+ gCSw==
+X-Gm-Message-State: AOAM532YSt8xQpaW6KkQ3SicB2Eh82PE4iNEYIVPYcuVWKBsyfxCRqV9
+ rRi7+mvJXiivYbJa1Uinz4B9CrSRJLs=
+X-Google-Smtp-Source: ABdhPJz/JcA2YGOnNeOt4ZBORD1j8vxq8q8GGI8QMC8FT2BuMnW235imdsV6elThKBH92PzvOu11tg==
+X-Received: by 2002:adf:fa05:: with SMTP id m5mr12547857wrr.26.1606505830114; 
+ Fri, 27 Nov 2020 11:37:10 -0800 (PST)
+Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id f2sm18017812wre.63.2020.11.27.11.37.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Nov 2020 11:37:09 -0800 (PST)
+Subject: Re: [PATCH 1/2] target/nios2: Move cpu_pic code into CPU object proper
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201127191233.11200-1-peter.maydell@linaro.org>
+ <20201127191233.11200-2-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d36dc289-3b25-0724-38f8-444992eb3e20@amsat.org>
+Date: Fri, 27 Nov 2020 20:37:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201127174110.1932671-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201127191233.11200-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,128 +89,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- virt-ci-maint-team@redhat.com, Cleber Rosa <crosa@redhat.com>
+Cc: Marek Vasut <marex@denx.de>, Sandra Loosemore <sandra@codesourcery.com>,
+ Chris Wulff <crwulff@gmail.com>, Wentong Wu <wentong.wu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Phil,
-
-On 11/27/20 2:41 PM, Philippe Mathieu-Daudé wrote:
-> We lately realized that the Avocado framework was not designed
-> to be regularly run on CI environments. Therefore, as of 5.2
-> we deprecate the gitlab-ci jobs using Avocado. To not disrupt
-> current users, it is possible to keep the current behavior by
-> setting the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable
-> (see [*]).
-
-
-Could you please detail where have you seen the avocado based tests 
-failing that much to justify their removal of CI?
-
-See below some data that I generated from the pipelines for 
-https://gitlab.com/qemu-project/qemu/. It seems that jobs which failed 
-due timeout are marked as 'skip' and that explain why some pipelines 
-don't have a list of failed jobs.
-
----
-
-Failed 21 out of 99
-Pipeline -- 221617704 (staging)
-check-patch
-Pipeline -- 219276598 (master)
-pages
-Pipeline -- 218121424 (master)
-Pipeline -- 217995873 (staging)
-acceptance-system-fedora
-Pipeline -- 217995872 (master)
-build-tci
-Pipeline -- 217551771 (v5.2.0-rc2)
-Pipeline -- 217503505 (master)
-Pipeline -- 217362429 (master)
-Pipeline -- 217328707 (master)
-check-crypto-old-nettle
-Pipeline -- 216770735 (staging)
-acceptance-system-fedora
-check-patch
-Pipeline -- 215772908 (master)
-Pipeline -- 215715025 (staging)
-check-crypto-old-gcrypt
-Pipeline -- 215715024 (master)
-check-crypto-old-nettle
-Pipeline -- 214944520 (master)
-acceptance-system-debian
-Pipeline -- 214460230 (v5.2.0-rc1)
-Pipeline -- 214438601 (master)
-check-crypto-only-gnutls
-Pipeline -- 214273938 (master)
-Pipeline -- 214183970 (master)
-Pipeline -- 214140305 (master)
-Pipeline -- 213892224 (master)
-Pipeline -- 213871132 (master)
->  From now on, using these jobs (or adding new tests to them)
-> is strongly discouraged.
->
-> Tests based on Avocado will be ported to new job schemes during
-> the next releases, with better documentation and templates.
->
-> [*] https://docs.gitlab.com/ee/ci/variables/README.html#create-a-custom-variable-in-the-ui
->
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 11/27/20 8:12 PM, Peter Maydell wrote:
+> The nios2 code uses an old style of interrupt handling, where a
+> separate standalone set of qemu_irqs invoke a function
+> nios2_pic_cpu_handler() which signals the interrupt to the CPU proper
+> by directly calling cpu_interrupt() and cpu_reset_interrupt().
+> Because CPU objects now inherit (indirectly) from TYPE_DEVICE, they
+> can have GPIO input lines themselves, and the neater modern way to
+> implement this is to simply have the CPU object itself provide the
+> input IRQ lines.
+> 
+> Create named "NMI" and "IRQ" GPIO inputs to the Nios2 CPU object, and
+> make the only user of nios2_cpu_pic_init() wire up directly to those
+> instead.
+> 
+> This fixes a Coverity-reported trivial memory leak of the IRQ array
+> allocated in nios2_cpu_pic_init().
+> 
+> Fixes: Coverity CID 1421916
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   .gitlab-ci.yml | 9 +++++++++
->   1 file changed, 9 insertions(+)
->
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index d0173e82b16..2674407cd13 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -66,6 +66,15 @@ include:
->       - cd build
->       - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP", "CANCEL")]' | xargs cat
->       - du -chs ${CI_PROJECT_DIR}/avocado-cache
-> +  rules:
-> +  # As of QEMU 5.2, Avocado is not yet ready to run in CI environments, therefore
-> +  # the jobs based on this template are not run automatically (except if the user
-> +  # explicitly sets the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE environment
-> +  # variable). Adding new jobs on top of this template is strongly discouraged.
-> +  - if: $QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE == null
-> +    when: manual
-> +    allow_failure: true
-> +  - when: always
->   
->   build-system-ubuntu:
->     <<: *native_build_job_definition
+>  target/nios2/cpu.h        |  1 -
+>  hw/nios2/10m50_devboard.c |  8 +++-----
+>  hw/nios2/cpu_pic.c        | 31 -------------------------------
+>  target/nios2/cpu.c        | 34 ++++++++++++++++++++++++++++++++++
+>  4 files changed, 37 insertions(+), 37 deletions(-)
+> 
+> diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+> index 86bbe1d8670..b7efb54ba7e 100644
+> --- a/target/nios2/cpu.h
+> +++ b/target/nios2/cpu.h
+> @@ -201,7 +201,6 @@ void nios2_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+>                                     MMUAccessType access_type,
+>                                     int mmu_idx, uintptr_t retaddr);
+>  
+> -qemu_irq *nios2_cpu_pic_init(Nios2CPU *cpu);
+>  void nios2_check_interrupts(CPUNios2State *env);
+>  
+>  void do_nios2_semihosting(CPUNios2State *env);
+> diff --git a/hw/nios2/10m50_devboard.c b/hw/nios2/10m50_devboard.c
+> index 5c13b74306f..ac1993e8c08 100644
+> --- a/hw/nios2/10m50_devboard.c
+> +++ b/hw/nios2/10m50_devboard.c
+> @@ -52,7 +52,7 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
+>      ram_addr_t tcm_size = 0x1000;    /* 1 kiB, but QEMU limit is 4 kiB */
+>      ram_addr_t ram_base = 0x08000000;
+>      ram_addr_t ram_size = 0x08000000;
+> -    qemu_irq *cpu_irq, irq[32];
+> +    qemu_irq irq[32];
+>      int i;
+>  
+>      /* Physical TCM (tb_ram_1k) with alias at 0xc0000000 */
+> @@ -76,14 +76,12 @@ static void nios2_10m50_ghrd_init(MachineState *machine)
+>      /* Create CPU -- FIXME */
+>      cpu = NIOS2_CPU(cpu_create(TYPE_NIOS2_CPU));
+>  
+> -    /* Register: CPU interrupt controller (PIC) */
+> -    cpu_irq = nios2_cpu_pic_init(cpu);
+> -
+>      /* Register: Internal Interrupt Controller (IIC) */
+>      dev = qdev_new("altera,iic");
+>      object_property_add_const_link(OBJECT(dev), "cpu", OBJECT(cpu));
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> -    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, cpu_irq[0]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
+> +                       qdev_get_gpio_in_named(DEVICE(cpu), "IRQ", 0));
 
+Ah, NMI is never used.
 
-The script I used to generate the above metrics:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-$ pip install --user python-gitlab
-
-$ cat gitlab-stats
-#!/bin/env python3
-
-import gitlab
-
-gl = gitlab.Gitlab('http://gitlab.com')
-qemu_project = gl.projects.get(11167699)
-pipelines = qemu_project.pipelines.list()
-
-total=0
-failed=[]
-for pipeline in qemu_project.pipelines.list(page=1, per_page=300):
-     if pipeline.status == 'running':
-         continue
-     elif pipeline.status == 'failed':
-         failed.append(pipeline)
-     total += 1
-
-print("Failed %d out of %d" % (len(failed), total))
-for pipeline in failed:
-     print('Pipeline -- %d (%s)' % (pipeline.id, pipeline.ref))
-     jobs_failed=[]
-     for job in pipeline.jobs.list():
-         if job.status == 'failed':
-             print(job.name)
-
+>      for (i = 0; i < 32; i++) {
+>          irq[i] = qdev_get_gpio_in(dev, i);
+>      }
+...
 
