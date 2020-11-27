@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CC82C6D34
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 23:29:57 +0100 (CET)
-Received: from localhost ([::1]:58228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA612C6D63
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 23:53:06 +0100 (CET)
+Received: from localhost ([::1]:37858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kimFY-0004v9-8p
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 17:29:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47206)
+	id 1kimbx-0002cO-Tn
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 17:53:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kimE1-0003iy-I8
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 17:28:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54183)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kimDx-0002a0-Fs
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 17:28:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606516096;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WBSgaYaGd3tfCFUDShj2uJr0oyzmy/JFGgvzxcBt+oQ=;
- b=Ch4mUz8P5gceJc2N0CTfs4CYqLVx5O+GZvoMabI5HH7vcvScqpZ8twNL8SGKtKz5jIFeiz
- 8Oqhat7jdVfyfTBhSnJagkr/WpQYghv5CsgL2MU2E1YdaYJDcW2y08a4hpgNVdQcy0sX31
- nACB66+IiV/3z/ZNi6ooycgLLqwNGWY=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-SPANPCbNOXamwEpvSRsOsQ-1; Fri, 27 Nov 2020 17:28:14 -0500
-X-MC-Unique: SPANPCbNOXamwEpvSRsOsQ-1
-Received: by mail-qt1-f197.google.com with SMTP id f29so2176357qtv.23
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 14:28:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kimaY-0001hj-05
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 17:51:39 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43785)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kimaS-00058C-PU
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 17:51:37 -0500
+Received: by mail-wr1-x442.google.com with SMTP id s8so7041042wrw.10
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 14:51:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QTGrTaVuJuSiVBQceY38No+SvKJpSGjN4L431x5ESuU=;
+ b=uA7aNYPcL/V5XuZrNBtEfXoVFPl4a32m1gcxozxlqX3wAkvIwrItVh5Vq/FhVP3uqU
+ pvDH1dnE77Asf4W7nV/TlHX707X9IxjVILtS/roPYUCnAVWC4FMPhJ9p3I5mEaLfRx42
+ toRuZf01URAWeK7D0sw0+VeCECKc3mafMlk3PE3yYs35198Arg/tqoPJTIVsh7LvMSM9
+ OvqZnyjiaRzDT+Qb5gZQzRPpHCYzPp6iKDeFiKOAhS0iwmm3FV50e+pIlxvHIc69GRZl
+ 11R3XUbUKTmy0AFUSJYYvQUHBaFAEEWdxxcnWpwM6zJf61eR9k6Jsb/O+/1Nu+NoakyR
+ fhKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=WBSgaYaGd3tfCFUDShj2uJr0oyzmy/JFGgvzxcBt+oQ=;
- b=untSXdEiVMPYLoou66/Z1G21vqdsswXcJomK96gBWpZUbpDUu5GA2T1ffonQhOpm+9
- 3CHWj/03q5Bw3NC4E0kXZzHMwymH2+VLanyJF2wUchyFJaKrj0zxWmX3ve/hn78Rhxt0
- L0StQM/n5ynaf5iRK2RIaZ8nAuU+U+GlxRhn8xEMrvB1XFxcdMOO3w3spesTPQuyKvZL
- TRx9Xf6EF7n+PN78PcEKCyJB3FxHdsP58swu2UanWrPiHo64UjuXsxR0RMH5N+pgKJDy
- yUwnr2/3TlFokVg/sloF0KMDOY7IoDx1GJ2rekENaP0sk3EPGzQzlUXrXx7eZSlXQU9z
- PwsA==
-X-Gm-Message-State: AOAM531oLRZSZcMSRWGOcgzqSduVPkh9y2qNH/+kkAUoqyrKlr03ogGB
- 27VAwtf8LJEpV0w77l6U9Z3OhqkJUn4lGSFiPMoIfLO/AA31F2fGyJAiZSgG8YRdUfa5DBSlJ7w
- FjL7wdSUmvr6VFT8=
-X-Received: by 2002:a37:a8c8:: with SMTP id r191mr10707583qke.58.1606516093566; 
- Fri, 27 Nov 2020 14:28:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxYBhIv0EUVHDjdw7PQVcWgc9OQU6efl1JCdYfXrpEgOjZ+vD72C9JNbnVvvrjbMQKfr8o7+A==
-X-Received: by 2002:a37:a8c8:: with SMTP id r191mr10707571qke.58.1606516093395; 
- Fri, 27 Nov 2020 14:28:13 -0800 (PST)
-Received: from xz-x1 ([142.126.81.247])
- by smtp.gmail.com with ESMTPSA id k32sm7527693qte.59.2020.11.27.14.28.12
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QTGrTaVuJuSiVBQceY38No+SvKJpSGjN4L431x5ESuU=;
+ b=E2A7jDwzkvjC9jznVMVTeMR4msgirhvaiGu9EV6xEdi/TMa+mpDjhUBN+lkIurHrPQ
+ 0m5LXrryCeaRWHCCC50QXx6h2W6ZVZwfB+19JcfTJ0ekLD8BAABKo+CbjIoaDqRS7nzx
+ 2qILMHOCQazd7dqfWC8E9pZA0zLZ4/R37F9BS7nSWLqNGapqPxned0aY0E07pWstTFyv
+ zy3RJSU6Qx90wKneVqSfbmOxamCA0BTC94cx7CvV/yYkgZcngW1+Gk1oCKOiAj+0ymdg
+ 7Ms8Sc0k2KxULrw9MY3R6AelY3xAXQf6MXC0GKO4HvAO9zXtVlagbQaA3SdhzI04zIfB
+ EwAA==
+X-Gm-Message-State: AOAM530RyBFoWoOTY1xs8Owu+fy1wAEepbPuanOowdttOH673/n7O7VZ
+ sU4qdYScPYDNr3whilHJU1zId64ClmC5Jg==
+X-Google-Smtp-Source: ABdhPJz5JG3rozEmKSjYFXMMQ4izdA/rO4+QSzvkXPr4uFmS6hTuo8wW6ME623/n3ADjV94CbJAY3w==
+X-Received: by 2002:a5d:634d:: with SMTP id b13mr13924955wrw.310.1606517489749; 
+ Fri, 27 Nov 2020 14:51:29 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id q16sm17429756wrn.13.2020.11.27.14.51.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 14:28:12 -0800 (PST)
-Date: Fri, 27 Nov 2020 17:28:11 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v4 6/6] introduce simple linear scan rate limiting
- mechanism
-Message-ID: <20201127222811.GJ6573@xz-x1>
-References: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
- <20201126151734.743849-7-andrey.gruzdev@virtuozzo.com>
+ Fri, 27 Nov 2020 14:51:28 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] target/openrisc: Move pic_cpu code into CPU object
+Date: Fri, 27 Nov 2020 22:51:24 +0000
+Message-Id: <20201127225127.14770-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201126151734.743849-7-andrey.gruzdev@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,26 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Stafford Horne <shorne@gmail.com>, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 26, 2020 at 06:17:34PM +0300, Andrey Gruzdev wrote:
-> Since reading UFFD events and saving paged data are performed
-> from the same thread, write fault latencies are sensitive to
-> migration stream stalls. Limiting total page saving rate is a
-> method to reduce amount of noticiable fault resolution latencies.
-> 
-> Migration bandwidth limiting is achieved via noticing cases of
-> out-of-threshold write fault latencies and temporarily disabling
-> (strictly speaking, severely throttling) saving non-faulting pages.
+The openrisc code uses an old style of interrupt handling, where a
+separate standalone set of qemu_irqs invoke a function
+openrisc_pic_cpu_handler() which signals the interrupt to the CPU
+proper by directly calling cpu_interrupt() and cpu_reset_interrupt().
+Because CPU objects now inherit (indirectly) from TYPE_DEVICE, they
+can have GPIO input lines themselves, and the neater modern way to
+implement this is to simply have the CPU object itself provide the
+input IRQ lines.
 
-So have you done any measurements out of it, as we've talked in previous
-version?  Thanks,
+The main aim of this patch series is to make that refactoring,
+which fixes a trivial memory leak reported by Coverity of the IRQs
+allocated in cpu_openrisc_pic_init(), and removes one callsite of
+the qemu_allocate_irqs() function.
+
+Patch 1 is a minor bugfix noticed along the way; patch 2 is
+there to make the change in patch 3 simpler and clearer to review.
+
+Tested with 'make check' and 'make check-acceptance'.
+
+thanks
+-- PMM
+
+Peter Maydell (3):
+  hw/openrisc/openrisc_sim: Use IRQ splitter when connecting IRQ to
+    multiple CPUs
+  hw/openrisc/openrisc_sim: Abstract out "get IRQ x of CPU y"
+  target/openrisc: Move pic_cpu code into CPU object proper
+
+ target/openrisc/cpu.h      |  1 -
+ hw/openrisc/openrisc_sim.c | 46 +++++++++++++++++-----------
+ hw/openrisc/pic_cpu.c      | 61 --------------------------------------
+ target/openrisc/cpu.c      | 32 ++++++++++++++++++++
+ hw/openrisc/Kconfig        |  1 +
+ hw/openrisc/meson.build    |  2 +-
+ 6 files changed, 63 insertions(+), 80 deletions(-)
+ delete mode 100644 hw/openrisc/pic_cpu.c
 
 -- 
-Peter Xu
+2.20.1
 
 
