@@ -2,54 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A0E2C6BD8
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 20:12:07 +0100 (CET)
-Received: from localhost ([::1]:42532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5284B2C6BE9
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 20:19:34 +0100 (CET)
+Received: from localhost ([::1]:54822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kijA6-0003fv-2d
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 14:12:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47232)
+	id 1kijHJ-0000kk-Al
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 14:19:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <info@metux.net>) id 1kiif4-00041o-Ot
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:40:02 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:54257)
+ (Exim 4.90_1) (envelope-from <prvs=593c3f9be=acatan@amazon.com>)
+ id 1kij2n-00050s-CF
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:04:34 -0500
+Received: from smtp-fw-9102.amazon.com ([207.171.184.29]:65447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <info@metux.net>) id 1kiif0-0002EE-Cz
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:40:02 -0500
-Received: from orion.localdomain ([95.114.158.11]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MDQqk-1ktCF033oM-00AZNi for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020
- 19:39:56 +0100
-From: "Enrico Weigelt, metux IT consult" <info@metux.net>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] scripts: minikconf: support config titles
-Date: Fri, 27 Nov 2020 19:39:56 +0100
-Message-Id: <20201127183956.11311-1-info@metux.net>
-X-Mailer: git-send-email 2.11.0
-X-Provags-ID: V03:K1:ZRWLrxqxHkRqrOT58NTOyjiI5N38TzmZAqv9ASjS7H5aH3zBUuC
- x/qFNtUBfFHydDpIicnzoA4ndygYQIZHHkAhCMJe5EizKzEsVs+UiPYB9DcxdXN1SNondY0
- VsylHD/XEYr/Y7WYCJC9SoVC+yeRCidPKaIJWs/KFK6fTR3xeoyvYcEnoENlaU+ouYxQ7JU
- c5u7/3PKa++s42eK0vdQw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Aso1z0DzrNo=:m1eJFudYYAyRKghi5YXwBB
- iaZHmtdXrtG0+OKYlhbNKfx5NNJfCI+F+sol7izjlbU5Du2B2p7pgiGrdDp/uFalL3RiJ54ol
- jRMVkZzI95T5mRnjd8q8y5i0dTt9qDTT4plO6XfmATMIMqIiAnUdi/pB4SM74l1VgqBNZQavj
- Lkp4Np8L+34XRYoKrR/iWpIL1qMMwg6C89u6F7pFqzviioTphGNYFU5IFeBp+48tGzuLOwV18
- M6OZmD1pSsrcFBffmL21IpCfdxwCEOvzWEsNX0m76HvBxMPsrCVOwmDNyaN8rBwSYfEG52Kzs
- C4vOnBWhJgQGEvlMhO8w13CkL3spDIxwpeR9EwI23LwcW3Byjnl96lBzRHIEJrtmqIa2iLnHt
- 1KPdMAAzTXuUzdOEVsiuoKTwXnWhR4MgKgvBvsBMSCeV5kfqAbNA8xSkQclnw
-Received-SPF: none client-ip=212.227.126.135; envelope-from=info@metux.net;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <prvs=593c3f9be=acatan@amazon.com>)
+ id 1kij2j-00020n-Ku
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 14:04:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1606503870; x=1638039870;
+ h=to:cc:references:from:message-id:date:mime-version:
+ in-reply-to:content-transfer-encoding:subject;
+ bh=DSdcTDRQLgP6jheFII76+mQS/8C+1zMiWnZKLb2dyzA=;
+ b=OgUKmXLKNZnnMOpfpHMG3BiFrCffB3Cz5LeH/46h8aF8yQIACTqCf0yW
+ 52zA+3XF1lEqTyTgWM0Nu3KQ4btKeO5O+nsnUblrkbjHxJHRknQY2WTI1
+ UdMbIIuGW9MNoYe6tXto0iLEV/avlCU1Pp5jirHg8M/z9/ShiEuXWSp4q s=;
+X-IronPort-AV: E=Sophos;i="5.78,375,1599523200"; d="scan'208";a="99817617"
+Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
+ email-inbound-relay-2b-a7fdc47a.us-west-2.amazon.com) ([10.47.23.38])
+ by smtp-border-fw-out-9102.sea19.amazon.com with ESMTP;
+ 27 Nov 2020 19:04:22 +0000
+Received: from EX13D08EUB004.ant.amazon.com
+ (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+ by email-inbound-relay-2b-a7fdc47a.us-west-2.amazon.com (Postfix) with ESMTPS
+ id 2BE4DC05BB; Fri, 27 Nov 2020 19:04:19 +0000 (UTC)
+Received: from 4c32759f87cf.ant.amazon.com (10.43.160.125) by
+ EX13D08EUB004.ant.amazon.com (10.43.166.158) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Fri, 27 Nov 2020 19:04:05 +0000
+To: Jann Horn <jannh@google.com>
+CC: "Graf (AWS), Alexander" <graf@amazon.de>, Christian Borntraeger
+ <borntraeger@de.ibm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Willy
+ Tarreau <w@1wt.eu>, "MacCarthaigh, Colm" <colmmacc@amazon.com>, Andy
+ Lutomirski <luto@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, Eric
+ Biggers <ebiggers@kernel.org>, "open list:DOCUMENTATION"
+ <linux-doc@vger.kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
+ "Woodhouse, David" <dwmw@amazon.co.uk>, "bonzini@gnu.org" <bonzini@gnu.org>,
+ "Singh, Balbir" <sblbir@amazon.com>, "Weiss, Radu" <raduweis@amazon.com>,
+ "oridgar@gmail.com" <oridgar@gmail.com>, "ghammer@redhat.com"
+ <ghammer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Michael S. Tsirkin" <mst@redhat.com>, Qemu
+ Developers <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>, Michal
+ Hocko <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Pavel
+ Machek <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>,
+ "mpe@ellerman.id.au" <mpe@ellerman.id.au>, linux-s390
+ <linux-s390@vger.kernel.org>, "areber@redhat.com" <areber@redhat.com>, Pavel
+ Emelyanov <ovzxemul@gmail.com>, Andrey Vagin <avagin@gmail.com>, Mike
+ Rapoport <rppt@kernel.org>, Dmitry Safonov <0x7f454c46@gmail.com>, Pavel
+ Tikhomirov <ptikhomirov@virtuozzo.com>, "gil@azul.com" <gil@azul.com>,
+ "asmehra@redhat.com" <asmehra@redhat.com>, "dgunigun@redhat.com"
+ <dgunigun@redhat.com>, "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
+References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
+ <CAG48ez2VAu6oARGVZ+muDK9_6_38KVUTJf7utz5Nn=AsmN17nA@mail.gmail.com>
+ <CAG48ez13ZAAOVmA89PRKRqr9UezV2_bj8Q6_6sSPzcqfzbsuQQ@mail.gmail.com>
+From: "Catangiu, Adrian Costin" <acatan@amazon.com>
+Message-ID: <e4acbcdb-7ee4-5dfb-ffbf-19eb49cef9c6@amazon.com>
+Date: Fri, 27 Nov 2020 21:04:01 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.3
+MIME-Version: 1.0
+In-Reply-To: <CAG48ez13ZAAOVmA89PRKRqr9UezV2_bj8Q6_6sSPzcqfzbsuQQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+X-Originating-IP: [10.43.160.125]
+X-ClientProxiedBy: EX13D05UWB003.ant.amazon.com (10.43.161.26) To
+ EX13D08EUB004.ant.amazon.com (10.43.166.158)
+Precedence: Bulk
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=207.171.184.29;
+ envelope-from=prvs=593c3f9be=acatan@amazon.com; helo=smtp-fw-9102.amazon.com
+X-Spam_score_int: -145
+X-Spam_score: -14.6
+X-Spam_bar: --------------
+X-Spam_report: (-14.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 27 Nov 2020 14:04:07 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -61,77 +104,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for config option titles, like the real kconfig does.
-Even though they're not presented anywhere yet (since minikconf
-only acts in the background), it's good to have them supported,
-so we can start adding descriptions in the Kconfig files.
-
-Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
----
- scripts/minikconf.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/scripts/minikconf.py b/scripts/minikconf.py
-index bcd91015d3..28c67906cb 100644
---- a/scripts/minikconf.py
-+++ b/scripts/minikconf.py
-@@ -206,6 +206,7 @@ class KconfigData:
-         self.defined_vars = set()
-         self.referenced_vars = dict()
-         self.clauses = list()
-+        self.title = None
- 
-     # semantic analysis -------------
- 
-@@ -290,6 +291,9 @@ class KconfigData:
-         cond = (cond & var) if cond is not None else var
-         self.clauses.append(KconfigData.SelectClause(symbol, cond))
- 
-+    def do_title(self, title):
-+        self.title = title
-+
-     def do_imply(self, var, symbol, cond=None):
-         # "config X imply Y [if COND]" is the same as
-         # "config Y default y if X [&& COND]"
-@@ -323,6 +327,7 @@ TOK_BOOL = 15;    TOKENS[TOK_BOOL] = '"bool"';
- TOK_IF = 16;      TOKENS[TOK_IF] = '"if"';
- TOK_ID = 17;      TOKENS[TOK_ID] = 'identifier';
- TOK_EOF = 18;     TOKENS[TOK_EOF] = 'end of file';
-+TOK_QUOTED = 19;  TOKENS[TOK_QUOTED] = 'quoted string';
- 
- class KconfigParserError(Exception):
-     def __init__(self, parser, msg, tok=None):
-@@ -501,6 +506,7 @@ class KconfigParser:
-     # property: DEFAULT y_or_n condition
-     #       | DEPENDS ON expr
-     #       | SELECT var condition
-+    #       | BOOL "comment"
-     #       | BOOL
-     def parse_property(self, var):
-         if self.tok == TOK_DEFAULT:
-@@ -526,6 +532,9 @@ class KconfigParser:
-             self.data.do_imply(var, symbol, cond)
-         elif self.tok == TOK_BOOL:
-             self.get_token()
-+            if self.tok == TOK_QUOTED:
-+                self.data.do_title(self.val)
-+                self.get_token()
-         else:
-             raise KconfigParserError(self, 'Error in recursive descent?')
- 
-@@ -645,6 +654,11 @@ class KconfigParser:
-             self.cursor = self.src.find('\n', self.cursor)
-             self.val = self.src[start:self.cursor]
-             return TOK_SOURCE
-+        elif self.tok == '"':
-+            start = self.cursor
-+            self.cursor = self.src.find('"', self.cursor)+1
-+            self.val = self.src[start:self.cursor]
-+            return TOK_QUOTED;
-         elif self.tok.isalnum():
-             # identifier
-             while self.src[self.cursor].isalnum() or self.src[self.cursor] == '_':
--- 
-2.11.0
+U29ycnkgSmFubiBmb3IgbWlzc2luZyB5b3VyIG9yaWdpbmFsIGVtYWlsLgoKT24gMjcvMTEvMjAy
+MCAyMDoyMiwgSmFubiBIb3JuIHdyb3RlOgo+IENBVVRJT046IFRoaXMgZW1haWwgb3JpZ2luYXRl
+ZCBmcm9tIG91dHNpZGUgb2YgdGhlIG9yZ2FuaXphdGlvbi4gRG8gbm90IGNsaWNrIGxpbmtzIG9y
+IG9wZW4gYXR0YWNobWVudHMgdW5sZXNzIHlvdSBjYW4gY29uZmlybSB0aGUgc2VuZGVyIGFuZCBr
+bm93IHRoZSBjb250ZW50IGlzIHNhZmUuCj4KPgo+Cj4gW3Jlc2VuZCBpbiB0aGUgaG9wZSB0aGF0
+IGFtYXpvbiB3aWxsIGFjY2VwdCBteSBtYWlsIHRoaXMgdGltZSBpbnN0ZWFkCj4gb2YgcmVwbHlp
+bmcgIjU1MCBUb28gbWFueSBpbnZhbGlkIHJlY2lwaWVudHMiIGFnYWluXQo+Cj4gT24gRnJpLCBO
+b3YgMjAsIDIwMjAgYXQgMTE6MjkgUE0gSmFubiBIb3JuIDxqYW5uaEBnb29nbGUuY29tPiB3cm90
+ZToKPj4gT24gTW9uLCBOb3YgMTYsIDIwMjAgYXQgNDozNSBQTSBDYXRhbmdpdSwgQWRyaWFuIENv
+c3Rpbgo+PiA8YWNhdGFuQGFtYXpvbi5jb20+IHdyb3RlOgo+Pj4gVGhpcyBwYXRjaCBpcyBhIGRy
+aXZlciB0aGF0IGV4cG9zZXMgYSBtb25vdG9uaWMgaW5jcmVtZW50YWwgVmlydHVhbAo+Pj4gTWFj
+aGluZSBHZW5lcmF0aW9uIHUzMiBjb3VudGVyIHZpYSBhIGNoYXItZGV2IEZTIGludGVyZmFjZSB0
+aGF0Cj4+PiBwcm92aWRlcyBzeW5jIGFuZCBhc3luYyBWbUdlbiBjb3VudGVyIHVwZGF0ZXMgbm90
+aWZpY2F0aW9ucy4gSXQgYWxzbwo+Pj4gcHJvdmlkZXMgVm1HZW4gY291bnRlciByZXRyaWV2YWwg
+YW5kIGNvbmZpcm1hdGlvbiBtZWNoYW5pc21zLgo+Pj4KPj4+IFRoZSBodyBwcm92aWRlZCBVVUlE
+IGlzIG5vdCBleHBvc2VkIHRvIHVzZXJzcGFjZSwgaXQgaXMgaW50ZXJuYWxseQo+Pj4gdXNlZCBi
+eSB0aGUgZHJpdmVyIHRvIGtlZXAgYWNjb3VudGluZyBmb3IgdGhlIGV4cG9zZWQgVm1HZW4gY291
+bnRlci4KPj4+IFRoZSBjb3VudGVyIHN0YXJ0cyBmcm9tIHplcm8gd2hlbiB0aGUgZHJpdmVyIGlz
+IGluaXRpYWxpemVkIGFuZAo+Pj4gbW9ub3RvbmljYWxseSBpbmNyZW1lbnRzIGV2ZXJ5IHRpbWUg
+dGhlIGh3IFVVSUQgY2hhbmdlcyAodGhlIFZNCj4+PiBnZW5lcmF0aW9uIGNoYW5nZXMpLgo+Pj4K
+Pj4+IE9uIGVhY2ggaHcgVVVJRCBjaGFuZ2UsIHRoZSBuZXcgaHlwZXJ2aXNvci1wcm92aWRlZCBV
+VUlEIGlzIGFsc28gZmVkCj4+PiB0byB0aGUga2VybmVsIFJORy4KPj4gQXMgZm9yIHYxOgo+Pgo+
+PiBJcyB0aGVyZSBhIHJlYXNvbmFibGUgdXNlY2FzZSBmb3IgdGhlICJjb25maXJtYXRpb24iIG1l
+Y2hhbmlzbT8gSXQKPj4gZG9lc24ndCBzZWVtIHZlcnkgdXNlZnVsIHRvIG1lLgoKSSB0aGluayBp
+dCBhZGRzIHZhbHVlIGluIGNvbXBsZXggc2NlbmFyaW9zIHdpdGggbXVsdGlwbGUgdXNlcnMgb2Yg
+dGhlCm1lY2hhbmlzbSwgcG90ZW50aWFsbHkgYXQgdmFyeWluZyBsYXllcnMgb2YgdGhlIHN0YWNr
+LCBkaWZmZXJlbnQKcHJvY2Vzc2VzIGFuZC9vciBydW50aW1lIGxpYnJhcmllcy4KClRoZSBkcml2
+ZXIgb2ZmZXJzIGEgbmF0dXJhbCBwbGFjZSB0byBoYW5kbGUgbWluaW1hbCBvcmNoZXN0cmF0aW9u
+CnN1cHBvcnQgYW5kIG9mZmVyIHZpc2liaWxpdHkgaW4gc3lzdGVtLXdpZGUgc3RhdHVzLgoKQSBo
+aWdoLWxldmVsIHNlcnZpY2UgdGhhdCB0cnVzdHMgYWxsIHN5c3RlbSBjb21wb25lbnRzIHRvIHBy
+b3Blcmx5IHVzZQp0aGUgY29uZmlybWF0aW9uIG1lY2hhbmlzbSBjYW4gYWN0dWFsbHkgYmxvY2sg
+YW5kIHdhaXQgcGF0aWVudGx5IGZvciB0aGUKc3lzdGVtIHRvIGFkanVzdCB0byB0aGUgbmV3IHdv
+cmxkLiBFdmVuIGlmIGl0IGRvZXNuJ3QgdHJ1c3QgYWxsCmNvbXBvbmVudHMgaXQgY2FuIHN0aWxs
+IGRvIGEgYmVzdC1lZmZvcnQsIHRpbWVvdXQgYmxvY2suCgo+Pgo+PiBIb3cgZG8geW91IGVudmlz
+aW9uIGludGVncmF0aW5nIHRoaXMgd2l0aCBsaWJyYXJpZXMgdGhhdCBoYXZlIHRvIHdvcmsKPj4g
+aW4gcmVzdHJpY3RpdmUgc2VjY29tcCBzYW5kYm94ZXM/IElmIHRoaXMgd2FzIGluIHRoZSB2RFNP
+LCB0aGF0IHdvdWxkCj4+IGJlIG11Y2ggZWFzaWVyLgoKU2luY2UgdGhpcyBtZWNoYW5pc20gdGFy
+Z2V0cyBhbGwgb2YgdXNlcnNwYWNlIHN0YWNrLCB0aGUgdXNlY2FzZSBncmVhdGx5CnZhcnkuIEkg
+ZG91YnQgd2UgY2FuIGhhdmUgYSBzaW5nbGUgc2lsdmVyIGJ1bGxldCBpbnRlcmZhY2UuCgpGb3Ig
+ZXhhbXBsZSwgdGhlIG1tYXAgaW50ZXJmYWNlIHRhcmdldHMgdXNlciBzcGFjZSBSTkdzLCB3aGVy
+ZSBhcyBmYXN0CmFuZCBhcyByYWNlIGZyZWUgYXMgcG9zc2libGUgaXMga2V5LiBCdXQgdGhlcmUg
+YWxzbyBoaWdoZXIgbGV2ZWwKYXBwbGljYXRpb25zIHRoYXQgZG9uJ3QgbWFuYWdlIHRoZWlyIG93
+biBtZW1vcnkgb3IgZG9uJ3QgaGF2ZSBhY2Nlc3MgdG8KbG93LWxldmVsIHByaW1pdGl2ZXMgc28g
+dGhleSBjYW4ndCB1c2UgdGhlIG1tYXAgb3IgZXZlbiB2RFNPIGludGVyZmFjZXMuClRoYXQncyB3
+aGF0IHRoZSByZXN0IG9mIHRoZSBsb2dpYyBpcyB0aGVyZSBmb3IsIHRoZSByZWFkK3BvbGwgaW50
+ZXJmYWNlCmFuZCBhbGwgb2YgdGhlIG9yY2hlc3RyYXRpb24gbG9naWMuCgpMaWtlIHlvdSBjb3Jy
+ZWN0bHkgcG9pbnQgb3V0LCB0aGVyZSBhcmUgYWxzbyBzY2VuYXJpb3MgbGlrZSB0aWdodApzZWNj
+b21wIGphaWxzIHdoZXJlIGV2ZW4gdGhlIEZTIGludGVyZmFjZXMgaXMgaW5hY2Nlc3NpYmxlLiBG
+b3IgY2FzZXMKbGlrZSB0aGlzIGFuZCBvdGhlcnMsIEkgYmVsaWV2ZSB3ZSB3aWxsIGhhdmUgdG8g
+d29yayBpbmNyZW1lbnRhbGx5IHRvCmJ1aWxkIHVwIHRoZSBpbnRlcmZhY2UgZGl2ZXJzaXR5IHRv
+IGNhdGVyIHRvIGFsbCB0aGUgdXNlciBzY2VuYXJpb3MKZGl2ZXJzaXR5LgoKClRoYW5rcywKCkFk
+cmlhbi4KCgoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIChSb21hbmlhKSBTLlIuTC4gcmVn
+aXN0ZXJlZCBvZmZpY2U6IDI3QSBTZi4gTGF6YXIgU3RyZWV0LCBVQkM1LCBmbG9vciAyLCBJYXNp
+LCBJYXNpIENvdW50eSwgNzAwMDQ1LCBSb21hbmlhLiBSZWdpc3RlcmVkIGluIFJvbWFuaWEuIFJl
+Z2lzdHJhdGlvbiBudW1iZXIgSjIyLzI2MjEvMjAwNS4K
 
 
