@@ -2,56 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71762C6408
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 12:42:56 +0100 (CET)
-Received: from localhost ([::1]:39940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260432C640E
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 12:46:24 +0100 (CET)
+Received: from localhost ([::1]:42124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kic9Q-0003Dg-26
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 06:42:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45174)
+	id 1kicCl-0004MW-7s
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 06:46:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kic8K-0002lA-80
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 06:41:48 -0500
-Received: from mx2.suse.de ([195.135.220.15]:36730)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kicBe-0003pX-Aw
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 06:45:14 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:58854 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kic8I-0003lb-J5
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 06:41:47 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BF837AC23;
- Fri, 27 Nov 2020 11:41:44 +0000 (UTC)
-Subject: Re: [RFC v6 10/11] accel: introduce AccelCPUClass extending CPUClass
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201126223218.31480-1-cfontana@suse.de>
- <20201126223218.31480-11-cfontana@suse.de>
- <6cbd508c-b24b-3219-3302-196dfefaa8f7@redhat.com>
- <d43db8fc-ae7f-0f5f-2e3c-5aad1930f732@suse.de>
- <b5da5096-da08-0856-a69a-12db19c40f67@suse.de>
-Message-ID: <925030fe-4a98-cfb2-ead6-b4b5dbe581ca@suse.de>
-Date: Fri, 27 Nov 2020 12:41:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kicBc-0004pI-HE
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 06:45:13 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 299B641389;
+ Fri, 27 Nov 2020 11:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1606477508;
+ x=1608291909; bh=TUJ00ZQ4GBq7Ftp+wauSBQHySWuS5BpNMAQE1gt4n1E=; b=
+ UPlvYrttnQJJtqW5q/2xUYWSPJne3djtEALQFeNFywtyYxCCUoSNJI0irzzkgKbk
+ 0CiOeDfipYqJQjxeJ512spUYcD/rPDo1m9h0U9y3HnjzQ6ykpd8mKWUNvpil14XU
+ 11Q1fjRsiVAe08t+FoDiNeIWQZlzKKtghiqoexRaN9U=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vW50BEulZFcf; Fri, 27 Nov 2020 14:45:08 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 1624641206;
+ Fri, 27 Nov 2020 14:45:07 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 27
+ Nov 2020 14:45:07 +0300
+Date: Fri, 27 Nov 2020 14:45:12 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Peter Krempa <pkrempa@redhat.com>
+Subject: Re: [PATCH for-6.0 6/6] qapi: Deprecate 'query-kvm'
+Message-ID: <20201127114512.GE67322@SPB-NB-133.local>
+References: <20201116131011.26607-1-r.bolshakov@yadro.com>
+ <20201116131011.26607-7-r.bolshakov@yadro.com>
+ <20201127105059.GC1596141@redhat.com>
+ <20201127112154.GA105758@angien.pipo.sk>
 MIME-Version: 1.0
-In-Reply-To: <b5da5096-da08-0856-a69a-12db19c40f67@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20201127112154.GA105758@angien.pipo.sk>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,69 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, haxm-team@intel.com,
- Cameron Esfahani <dirty@apple.com>, Anthony Perard <anthony.perard@citrix.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
+Cc: libvir-list@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/27/20 12:22 PM, Claudio Fontana wrote:
-> On 11/27/20 9:59 AM, Claudio Fontana wrote:
->> On 11/27/20 7:21 AM, Paolo Bonzini wrote:
->>> On 26/11/20 23:32, Claudio Fontana wrote:
->>>> +    if (acc) {
->>>> +        object_class_foreach(accel_init_cpu_int_aux, cpu_type, false, acc);
->>>> +    }
->>>
->>> Any reason to do it for cpu_type only, rather than for all subclasses of 
->>> CPU_RESOLVING_TYPE?  This would remove the cpu_type argument to 
->>> accel_init_cpu_interfaces and accel_init_interfaces.
->>>
->>> Otherwise I haven't done a careful review yet but it looks very nice, 
->>> thanks!
->>>
->>> Paolo
->>>
->>
->> Hi Paolo,
->>
->> yes, I thought to pass cpu_type in order to set the interface only for the cpu that is actually used,
->> instead of looping over all cpu models, just to be a bit quicker, but both things should work.
->>
->> Ciao,
->>
->> Claudio
->>
+On Fri, Nov 27, 2020 at 12:21:54PM +0100, Peter Krempa wrote:
+> On Fri, Nov 27, 2020 at 10:50:59 +0000, Daniel Berrange wrote:
+> > Copying libvir-list for the deprecation warning.
+> > 
+> > 
+> > On Mon, Nov 16, 2020 at 04:10:11PM +0300, Roman Bolshakov wrote:
+> > > 'query-accel' QMP command should be used instead.
+> > > 
+> > > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> > > ---
+> > >  qapi/machine.json | 6 +++++-
+> > >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > docs/system/deprecated.rst needs to be updated for any deprecation
+> > to be visible to consumers of QEMU.
 > 
-> Note that this actually creates a bug that is caught _ONLY_ by
+> On behalf of libvirt I'd like to ask to consider cases where the
+> replacement for a deprecated feature is added in the same release as the
+> deprecation happens, to treat the replacement as API stable at merge
+> time.
 > 
-> acceptance-system-centos.
+> Any changes to the command after the series is merged with a deprecation
+> of the old should be consulted with the libvirt team as we might
+> actually have already added support for the new approach. Considering it
+> as "it wasn't released so we can change it" may introduce breakage given
+> that the relase cycles of libvirt and qemu are not in sync.
 > 
-> The gist of it is that cpu_type (or current_machine->default_cpu_type) is _not_ guaranteed to be set,
-> the code there is a bit misleading I think.
-> 
-> I'll look into it, but just wanted to warn early about it.
-> 
-> Ciao,
-> 
-> Claudio
+> We try hard to stay on top of such changes by using the new interface as
+> soon as possible, but that is very hard if the replacement changes
+> during the dev cycle.
 > 
 
-This seems to be due to "-machine none", is machine none supposed to have no default cpu_type?
-Is it expected that for machine none current_machine->cpu_type is NULL, or is it a bug?
+I see, thanks for the explanation! Perhaps I'll drop deprecation from
+the series to avoid the issue.
 
-Thanks,
+Then as soon as libvirt gets support for queyring accels we might
+consider deprecation again.
 
-Claudio
-
-
-
-
-
-
+Best Regards,
+Roman
 
