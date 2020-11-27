@@ -2,33 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCAB2C6709
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 14:41:42 +0100 (CET)
-Received: from localhost ([::1]:48152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A05212C6710
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 14:42:19 +0100 (CET)
+Received: from localhost ([::1]:49396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kie0L-0002Rs-Dl
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 08:41:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46142)
+	id 1kie0w-0002xu-De
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 08:42:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kidvR-0005um-Mx; Fri, 27 Nov 2020 08:36:37 -0500
-Received: from relay.sw.ru ([185.231.240.75]:52496 helo=relay3.sw.ru)
+ id 1kidvp-0006LW-25; Fri, 27 Nov 2020 08:37:02 -0500
+Received: from relay.sw.ru ([185.231.240.75]:52608 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kidvP-0003BA-MH; Fri, 27 Nov 2020 08:36:37 -0500
+ id 1kidvm-0003I8-SN; Fri, 27 Nov 2020 08:37:00 -0500
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kidux-00AfjY-5Y; Fri, 27 Nov 2020 16:36:07 +0300
+ id 1kidvK-00AfjY-N5; Fri, 27 Nov 2020 16:36:30 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
  mdroth@linux.vnet.ibm.com, thuth@redhat.com, lvivier@redhat.com,
  armbru@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  den@openvz.org, vsementsov@virtuozzo.com, andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v3 1/5] monitor: change function obsolete name in comments
-Date: Fri, 27 Nov 2020 16:35:42 +0300
-Message-Id: <1606484146-913540-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v3 2/5] monitor: drain requests queue with 'channel closed'
+ event
+Date: Fri, 27 Nov 2020 16:35:43 +0300
+Message-Id: <1606484146-913540-3-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1606484146-913540-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1606484146-913540-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -56,37 +57,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-The function name monitor_qmp_bh_dispatcher() has been changed to
-monitor_qmp_dispatcher_co() since the commit 9ce44e2c. Let's amend the
-comments.
+When CHR_EVENT_CLOSED comes, the QMP requests queue may still contain
+unprocessed commands. It can happen with QMP capability OOB enabled.
+Let the dispatcher complete handling requests rest in the monitor
+queue.
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- monitor/qmp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ monitor/qmp.c | 46 +++++++++++++++++++++-------------------------
+ 1 file changed, 21 insertions(+), 25 deletions(-)
 
 diff --git a/monitor/qmp.c b/monitor/qmp.c
-index b42f8c6..7169366 100644
+index 7169366..a86ed35 100644
 --- a/monitor/qmp.c
 +++ b/monitor/qmp.c
-@@ -80,7 +80,7 @@ static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
-     qemu_mutex_lock(&mon->qmp_queue_lock);
+@@ -75,36 +75,32 @@ static void monitor_qmp_cleanup_req_queue_locked(MonitorQMP *mon)
+     }
+ }
  
-     /*
--     * Same condition as in monitor_qmp_bh_dispatcher(), but before
-+     * Same condition as in monitor_qmp_dispatcher_co(), but before
-      * removing an element from the queue (hence no `- 1`).
-      * Also, the queue should not be empty either, otherwise the
-      * monitor hasn't been suspended yet (or was already resumed).
-@@ -343,7 +343,7 @@ static void handle_qmp_command(void *opaque, QObject *req, Error *err)
+-static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
++/*
++ * Let unprocessed QMP commands be handled.
++ */
++static void monitor_qmp_drain_queue(MonitorQMP *mon)
+ {
+-    qemu_mutex_lock(&mon->qmp_queue_lock);
++    bool q_is_empty = false;
  
-     /*
-      * Suspend the monitor when we can't queue more requests after
--     * this one.  Dequeuing in monitor_qmp_bh_dispatcher() or
-+     * this one.  Dequeuing in monitor_qmp_dispatcher_co() or
-      * monitor_qmp_cleanup_queue_and_resume() will resume it.
-      * Note that when OOB is disabled, we queue at most one command,
-      * for backward compatibility.
+-    /*
+-     * Same condition as in monitor_qmp_dispatcher_co(), but before
+-     * removing an element from the queue (hence no `- 1`).
+-     * Also, the queue should not be empty either, otherwise the
+-     * monitor hasn't been suspended yet (or was already resumed).
+-     */
+-    bool need_resume = (!qmp_oob_enabled(mon) ||
+-        mon->qmp_requests->length == QMP_REQ_QUEUE_LEN_MAX)
+-        && !g_queue_is_empty(mon->qmp_requests);
++    while (!q_is_empty) {
++        qemu_mutex_lock(&mon->qmp_queue_lock);
++        q_is_empty = g_queue_is_empty(mon->qmp_requests);
++        qemu_mutex_unlock(&mon->qmp_queue_lock);
+ 
+-    monitor_qmp_cleanup_req_queue_locked(mon);
++        if (!q_is_empty) {
++            if (!qatomic_xchg(&qmp_dispatcher_co_busy, true)) {
++                /* Kick the dispatcher coroutine */
++                aio_co_wake(qmp_dispatcher_co);
++            } else {
++                /* Let the dispatcher do its job for a while */
++                g_usleep(40);
++            }
++        }
++    }
+ 
+-    if (need_resume) {
+-        /*
+-         * handle_qmp_command() suspended the monitor because the
+-         * request queue filled up, to be resumed when the queue has
+-         * space again.  We just emptied it; resume the monitor.
+-         *
+-         * Without this, the monitor would remain suspended forever
+-         * when we get here while the monitor is suspended.  An
+-         * unfortunately timed CHR_EVENT_CLOSED can do the trick.
+-         */
++    if (qatomic_mb_read(&mon->common.suspend_cnt)) {
+         monitor_resume(&mon->common);
+     }
+-
+-    qemu_mutex_unlock(&mon->qmp_queue_lock);
+ }
+ 
+ void qmp_send_response(MonitorQMP *mon, const QDict *rsp)
+@@ -418,7 +414,7 @@ static void monitor_qmp_event(void *opaque, QEMUChrEvent event)
+          * stdio, it's possible that stdout is still open when stdin
+          * is closed.
+          */
+-        monitor_qmp_cleanup_queue_and_resume(mon);
++        monitor_qmp_drain_queue(mon);
+         json_message_parser_destroy(&mon->parser);
+         json_message_parser_init(&mon->parser, handle_qmp_command,
+                                  mon, NULL);
 -- 
 1.8.3.1
 
