@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DD82C6227
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 10:46:28 +0100 (CET)
-Received: from localhost ([::1]:50078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D912C6230
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 10:48:17 +0100 (CET)
+Received: from localhost ([::1]:53240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiaKg-0003SF-DV
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 04:46:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
+	id 1kiaMS-0004mO-NR
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 04:48:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jinzeyu@huawei.com>)
- id 1kiaBL-0000Xc-Ur
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 04:36:47 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2488)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jinzeyu@huawei.com>)
- id 1kiaBJ-0008RH-Eg
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 04:36:47 -0500
-Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Cj8dG5JZ0zVfjs;
- Fri, 27 Nov 2020 17:36:02 +0800 (CST)
-Received: from dggemi758-chm.china.huawei.com (10.1.198.144) by
- DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Fri, 27 Nov 2020 17:36:41 +0800
-Received: from localhost (10.174.187.211) by dggemi758-chm.china.huawei.com
- (10.1.198.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1913.5; Fri, 27
- Nov 2020 17:36:41 +0800
-From: Zeyu Jin <jinzeyu@huawei.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v2 0/6] migration: Multi-thread compression method support
-Date: Fri, 27 Nov 2020 17:36:39 +0800
-Message-ID: <20201127093639.2815-1-jinzeyu@huawei.com>
-X-Mailer: git-send-email 2.28.0.windows.1
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kiaGG-00028B-Od
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 04:41:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25598)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kiaGF-0001uB-Af
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 04:41:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606470110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iYHT/ap7/LY7W4fH9OJaLGJCx9Xw8hIJmnaoRbpdI38=;
+ b=EeDCKejPOLhvzzyBRjcbjfWnrCOZYvszKl5jJ6vzgSmOAgOzYUZfxnfMG9/c5ANNd5tOJq
+ wq2/SrB6FeB7UNtQuq+p2t/HdGrCPobxJ38zprFs/5qHGa6U3rTdiAUk5DCcxJTSm9NRg3
+ c54fVOw2hh7hZwn5tbhzRA/Qw+qOQgs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-427-VxUbUth_OEWaR5Sl19aeJg-1; Fri, 27 Nov 2020 04:41:44 -0500
+X-MC-Unique: VxUbUth_OEWaR5Sl19aeJg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDBD5803F4E;
+ Fri, 27 Nov 2020 09:41:42 +0000 (UTC)
+Received: from gondolin (ovpn-113-65.ams2.redhat.com [10.36.113.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A502B60636;
+ Fri, 27 Nov 2020 09:41:41 +0000 (UTC)
+Date: Fri, 27 Nov 2020 10:41:38 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2] qga/commands-posix: Send CCW address on s390x with
+ the fsinfo data
+Message-ID: <20201127104138.36af6681.cohuck@redhat.com>
+In-Reply-To: <20201127082353.448251-1-thuth@redhat.com>
+References: <20201127082353.448251-1-thuth@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.211]
-X-ClientProxiedBy: dggemi704-chm.china.huawei.com (10.3.20.103) To
- dggemi758-chm.china.huawei.com (10.1.198.144)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=jinzeyu@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,67 +78,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Zeyu Jin <jinzeyu@huawei.com>,
- zhang.zhanghailiang@huawei.com
+Cc: Michael Roth <michael.roth@amd.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we have both multi-thread compression and multifd to optimize
-live migration in Qemu. Mulit-thread compression deals with the situation
-where network bandwith is limited but cpu resource adequate. Multifd instead
-aims to take full advantage of network bandwith. Moreover it supports both
-zlib and zstd compression on each channel.
+On Fri, 27 Nov 2020 09:23:53 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-In this patch series, we did some code refactoring on multi-thread compression
-live migration and bring zstd compression method support for it.
+> We need the CCW address on the libvirt side to correctly identify
+> the disk, so add this information to the GuestDiskAddress on s390x.
+> 
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1755075
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  v2: Add missing comment about "subchno" (thanks to Cornelia for spotting this)
+> 
+>  The libirt part of this fix can be found here:
+>  https://www.redhat.com/archives/libvir-list/2020-November/msg01455.html
+> 
+>  qga/commands-posix.c | 34 ++++++++++++++++++++++++++++++++++
+>  qga/qapi-schema.json | 20 +++++++++++++++++++-
+>  2 files changed, 53 insertions(+), 1 deletion(-)
 
-Below is the test result of multi-thread compression live migration
-with different compress methods. Test result shows that zstd outperforms
-zlib by about 70%.
-
- Migration Configuration:
- Guest 8U 32G
- compress-threads   8
- decompress-threads 2
- compress-level 1
- bandwidth-limit 100Mbps
-
- Test Result:
- +---------------------+--------------+-------------+
- |  compress method    |   zlib       |    zstd     |
- +---------------------+--------------+-------------+
- |  total time (ms)    |   75256      |    44187    |
- +---------------------+--------------+-------------+
- |  downtime(ms)       |   128        |    81       |
- +---------------------+--------------+-------------+
- |  transferred ram(kB)|   1576866    |    736117   |
- +---------------------+--------------+-------------+
- |  throughput(mbps)   |   172.06     |    137.16   |
- +---------------------+--------------+-------------+
- |  total ram(kB)      |   33685952   |    33685952 |
- +---------------------+--------------+-------------+
-
-Zeyu Jin (6):
-  migration: Add multi-thread compress method
-  migration: Refactoring multi-thread compress migration
-  migration: Add multi-thread compress ops
-  migration: Add zstd support in multi-thread compression
-  migration: Add compress_level sanity check
-  doc: Update multi-thread compression doc
-
- docs/multi-thread-compression.txt |  31 ++-
- hw/core/qdev-properties-system.c  |  11 +
- include/hw/qdev-properties.h      |   4 +
- migration/migration.c             |  56 ++++-
- migration/migration.h             |   1 +
- migration/qemu-file.c             |  62 +----
- migration/qemu-file.h             |   4 +-
- migration/ram.c                   | 381 +++++++++++++++++++++++++-----
- monitor/hmp-cmds.c                |  12 +
- qapi/migration.json               |  26 +-
- 10 files changed, 465 insertions(+), 123 deletions(-)
-
--- 
-2.27.0
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
