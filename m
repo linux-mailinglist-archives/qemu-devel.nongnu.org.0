@@ -2,65 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C042C5F8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 06:22:12 +0100 (CET)
-Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B892C5F8D
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 06:21:43 +0100 (CET)
+Received: from localhost ([::1]:42394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiWCx-0007fn-8T
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 00:22:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53044)
+	id 1kiWCU-00079m-1M
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 00:21:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kiWBd-0006iy-Q9
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 00:20:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kiWBb-0006Ve-Nr
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 00:20:49 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kiWBZ-0003br-F1
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 05:20:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 708B32E8088
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 05:20:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kiWAr-0006Ri-TQ
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 00:20:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24098)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kiWAp-00069W-UR
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 00:20:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606454398;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I7Hy7piC0mpSGruXrkSx/AVzvqWOebgXAtqLWGA/tjE=;
+ b=cPiFPnWPaHQDpYaDLSzcVofu9Nurhuh2jBv+ZSgxQvDp18SC5JWd3q/aMmX5z+ecvgvJtc
+ 2CnMiA1WyQadFUgfrBrEtF2fqstJsij8AIuxvmNLeAeTIYll2LV6Ufu0IBtHAsyUNI4F4T
+ PO0zc2I7vcLzYKAHVr8Q8mI6lNl1IZE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-kb77YV1ZPhmSf81nPcS8qw-1; Fri, 27 Nov 2020 00:19:55 -0500
+X-MC-Unique: kb77YV1ZPhmSf81nPcS8qw-1
+Received: by mail-ed1-f69.google.com with SMTP id y11so1994295edv.6
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 21:19:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=I7Hy7piC0mpSGruXrkSx/AVzvqWOebgXAtqLWGA/tjE=;
+ b=Q/3A4mkC4ggcgbAFJfBCPDO1C7P/RH0ojnKkJc+RIA9+D++jwYuColXhiqFooEhpWZ
+ PPwNArV0I4XdiRs0sd6x10Kq5zaFbP3Kw086XxHApt8+IYtqfbSv0wxN9um4c5LAGzSb
+ 0zUZRy5OFmxDSzrjk+kI28FaDFD52L4ecDanKJrOK8qnI3sEz3eUqni8Qesxx2TWIqWv
+ 4vtnQNxoIrgEYlb+AdcPQvu6YhUbKBCE05gCtmElmaFX/wy0CMkLhBvKR7VMY9QyT5Ps
+ kdJ9j/BpNhWzBxndmAkIuRS77SKJ/AulBLoT1TZXCfgu0gPxmNMlGtultttgwSQr/Vrr
+ yGDw==
+X-Gm-Message-State: AOAM532gZRuZDPAOb5mOwZ2aLHufESR7vRFJeFGX3MWiyvwXrhsRdUcU
+ 8QgJLqu4bB1SnTQ1YwmXoBBQeMh4TtcrX3jBpGjbDiiDXF78eGBpqCtBTk/OYSXpo7nYqpC7QVA
+ s6KJfCvlY2Iy/RVaHQdcdN1UCjioL+k/0dZB7hUDuo2dz/Dk+BMqKY6I6yb6aJ3SOVWc=
+X-Received: by 2002:a17:906:5fd6:: with SMTP id
+ k22mr5821010ejv.333.1606454393828; 
+ Thu, 26 Nov 2020 21:19:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzKRvwM/Jmz9Za+ILngeeSl9JkWLwYvdYuNuVrt4q1CsUcd3RkSh+s2e48N9CznHOQ02DlloQ==
+X-Received: by 2002:a17:906:5fd6:: with SMTP id
+ k22mr5820993ejv.333.1606454393487; 
+ Thu, 26 Nov 2020 21:19:53 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id f13sm4152344ejf.42.2020.11.26.21.19.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Nov 2020 21:19:52 -0800 (PST)
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20201123141435.2726558-1-pbonzini@redhat.com>
+ <20201123141435.2726558-27-pbonzini@redhat.com>
+ <20201126195551.7b761db9@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 26/36] remove preconfig state
+Message-ID: <f356049d-36e1-9b63-b50d-0a9ca2d1cb96@redhat.com>
+Date: Fri, 27 Nov 2020 06:19:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2020 05:11:04 -0000
-From: Doug Evans <1905651@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dje
-X-Launchpad-Bug-Reporter: Doug Evans (dje)
-X-Launchpad-Bug-Modifier: Doug Evans (dje)
-References: <160635886967.28413.180075874214780604.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160645386477.7529.14827063615441589298.malone@soybean.canonical.com>
-Subject: [Bug 1905651] Re: Tests cannot call g_error
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="3bd564e52ed9790394c5663a77af1e834fc2d372"; Instance="production"
-X-Launchpad-Hash: a07e013660db39a355f634155ab40a8c6ef9f8d8
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201126195551.7b761db9@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,90 +103,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905651 <1905651@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't know QEMU that well yet, but the following question arises: Why
-can't QEMU be driven in a way that allows it to see that its controlling
-parent has died -> causing QEMU to terminate as well. That way the test
-doesn't need to care how it dies (e.g., we don't want a segfault to hang
-testing; and nor do we, I think, want to install signal handlers for
-every possible signal).
+On 26/11/20 19:55, Igor Mammedov wrote:
+> On Mon, 23 Nov 2020 09:14:25 -0500
+> Paolo Bonzini <pbonzini@redhat.com> wrote:
+> 
+>> The preconfig state is only used if -incoming is not specified, which
+>> makes the RunState state machine more tricky than it need be.  However
+>> there is already an equivalent condition which works even with -incoming,
+>> namely qdev_hotplug.  Use it instead of a separate runstate.
+>>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>   hw/core/machine-qmp-cmds.c    |  5 ++---
+>>   include/qapi/qmp/dispatch.h   |  1 +
+>>   monitor/hmp.c                 |  7 ++++---
+>>   monitor/qmp-cmds.c            |  5 ++---
+>>   qapi/qmp-dispatch.c           |  5 +----
+>>   qapi/run-state.json           |  5 +----
+>>   softmmu/qdev-monitor.c        | 12 ++++++++++++
+>>   softmmu/vl.c                  | 13 ++-----------
+>>   stubs/meson.build             |  1 +
+>>   stubs/qmp-command-available.c |  7 +++++++
+>>   tests/qtest/qmp-test.c        |  2 +-
+>>   11 files changed, 34 insertions(+), 29 deletions(-)
+>>   create mode 100644 stubs/qmp-command-available.c
+>>
+>> diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+>> index 5362c80a18..cb9387c5f5 100644
+>> --- a/hw/core/machine-qmp-cmds.c
+>> +++ b/hw/core/machine-qmp-cmds.c
+>> @@ -286,9 +286,8 @@ HotpluggableCPUList *qmp_query_hotpluggable_cpus(Error **errp)
+>>   
+>>   void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
+>>   {
+>> -    if (!runstate_check(RUN_STATE_PRECONFIG)) {
+>> -        error_setg(errp, "The command is permitted only in '%s' state",
+>> -                   RunState_str(RUN_STATE_PRECONFIG));
+>> +    if (qdev_hotplug) {
+> 
+> that would work only as long as qemu_init_board() hasn't been called,
+> and fall apart as soon as we permit creating cold-pluged devices
+> (qemu_create_cli_devices()) at preconfig stage.
+> 
+> for qmp_set_numa_node() the better fit would something like
+>    if(is_board_created)
+>       error_out
+> so it won't break silently when we start extending list of
+> commands allowed at preconfig time.
+> 
+>> +         error_setg(errp, "The command is permitted only before the machine has been created");
+>>            return;
+>>       }
 
--- =
+I don't understand...  qdev_hotplug is a bad name for is_board_created, 
+it is set by qdev_machine_creation_done which is called after preconfig 
+is left.  As of this patch that happens after the early 
+qemu_main_loop(); the next patch moves it to qmp_x_exit_preconfig.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905651
+Cold-plugged devices would (by definition) be created while qdev_hotplug 
+is false.  But before we get there, I will have replaced the two states 
+permitted by qdev_hotplug with five separate phases (PHASE_NO_MACHINE, 
+PHASE_MACHINE_CREATED, PHASE_ACCEL_CREATED, PHASE_MACHINE_INITIALIZED, 
+PHASE_MACHINE_READY) to clarify the QMP command implementation and to 
+assert that various functions are called in the right phase.
 
-Title:
-  Tests cannot call g_error
+Thanks,
 
-Status in QEMU:
-  New
+Paolo
 
-Bug description:
-  I stumbled on this writing a new test, using tests/qtest/e1000e-test.c
-  as a template.
-
-  g_error() causes SIGTRAP, not SIGABRT, and thus the abort handler doesn't=
- get run.
-  This in turn means qemu is not killed, which hangs the test because the t=
-ap-driver.pl script hangs waiting for more input.
-  There are a few tests that call g_error().
-
-  The SIGABRT handler explicitly kills qemu, e.g.:
-
-  qos-test.c:
-      qtest_add_abrt_handler(kill_qemu_hook_func, s);
-
-  ref:
-  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dtests/qtest/libqtest.c;h=
-=3De49f3a1e45f4cd96279241fdb2bbe231029ab922;hb=3DHEAD#l272
-
-  But not unexpectedly there's no such handler for SIGTRAP.
-
-  Apply this patch to trigger a repro:
-
-  diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
-  index fc226fdfeb..e83ace1b5c 100644
-  --- a/tests/qtest/e1000e-test.c
-  +++ b/tests/qtest/e1000e-test.c
-  @@ -87,6 +87,9 @@ static void e1000e_send_verify(QE1000E *d, int *test_so=
-ckets, QGuestAllocator *a
-       /* Wait for TX WB interrupt */
-       e1000e_wait_isr(d, E1000E_TX0_MSG_ID);
-
-  +    g_message("Test g_error hang ...");
-  +    g_error("Pretend something timed out");
-  +
-       /* Check DD bit */
-       g_assert_cmphex(le32_to_cpu(descr.upper.data) & dsta_dd, =3D=3D, dst=
-a_dd);
-
-  Then:
-
-  configure
-  make
-  make check-qtest-i386
-
-  check-qtest-i386 will take awhile. To repro faster:
-
-  $ grep qtest-i386/qos-test Makefile.mtest
-  .test.name.229 :=3D qtest-i386/qos-test
-  $ make run-test-229
-  Running test qtest-i386/qos-test
-  ** Message: 18:40:49.821: Test g_error hang ...
-
-  ** (tests/qtest/qos-test:3820728): ERROR **: 18:40:49.821: Pretend someth=
-ing timed out
-  ERROR qtest-i386/qos-test - Bail out! FATAL-ERROR: Pretend something time=
-d out
-
-  At this point things are hung because tap-driver.pl is still waiting
-  for input because qemu is still running.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905651/+subscriptions
 
