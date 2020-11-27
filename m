@@ -2,99 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A982C5FD7
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 06:43:13 +0100 (CET)
-Received: from localhost ([::1]:56064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17CC2C5FF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 07:08:42 +0100 (CET)
+Received: from localhost ([::1]:40996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiWXH-00069L-K2
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 00:43:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60370)
+	id 1kiWvx-00050c-BD
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 01:08:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
- id 1kiWWI-0005io-Nn; Fri, 27 Nov 2020 00:42:10 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57028)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
- id 1kiWWG-0006Fx-Lt; Fri, 27 Nov 2020 00:42:10 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AR5WNiH184759; Fri, 27 Nov 2020 00:42:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : reply-to : references : mime-version : content-type
- : in-reply-to; s=pp1; bh=oc/RZtn1v9qpD3Flopm2nTXpBpCScyPH6DG7FnRg670=;
- b=lce7Fv5a5Kcm6aPndAo81z78UwBDsBj7oATj15lBs7SfDnTh92efDBhT8f+hmbhdMlnJ
- PWkKRP1u9zShas0k4Gp1h2PbqcUxjM9JOkfayIEUJpcGmNIJ5crND6B+tp+NGHMZciG0
- gUHXLIuMBATU/+vTI1HFhBoWjFHtLiwIU0+l21qmHGoEwqfnlMS7zQlTGVWVT/ehwiI2
- r+zZ20DX1GT6eDHlNcTdOzPN0jTLKoS54wqJ0HOEV4RztYGdaQAN9aIDqV++iwr9sMrx
- a4mmnxxXKyUYCVc+W09CfK8tR+xK2oF1X72jnNH8vThixD8B7W/kFF/f3HdtPFzYybqE qQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 352u8a8ats-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Nov 2020 00:42:02 -0500
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AR5d4L9036202;
- Fri, 27 Nov 2020 00:42:02 -0500
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 352u8a8asv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Nov 2020 00:42:02 -0500
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AR5ceVw032304;
- Fri, 27 Nov 2020 05:41:59 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma05fra.de.ibm.com with ESMTP id 352ata0da5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Nov 2020 05:41:59 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AR5fvkG40960386
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Nov 2020 05:41:57 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F027D11C054;
- Fri, 27 Nov 2020 05:41:56 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C15A11C04A;
- Fri, 27 Nov 2020 05:41:55 +0000 (GMT)
-Received: from in.ibm.com (unknown [9.85.69.121])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Fri, 27 Nov 2020 05:41:55 +0000 (GMT)
-Date: Fri, 27 Nov 2020 11:11:52 +0530
-From: Bharata B Rao <bharata@linux.ibm.com>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-Subject: Re: [RFC PATCH 1/2] spapr: drc: Add support for async hcalls at the
- drc level
-Message-ID: <20201127054152.GB72234@in.ibm.com>
-References: <160637722874.1977658.13777818163262816915.stgit@lep8c.aus.stglabs.ibm.com>
- <160637728389.1977658.13576068142432992889.stgit@lep8c.aus.stglabs.ibm.com>
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1kiWuL-0004Rs-Np
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 01:07:01 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:34303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1kiWuJ-0006Vq-1r
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 01:07:01 -0500
+Received: by mail-oi1-x241.google.com with SMTP id s18so4744144oih.1
+ for <qemu-devel@nongnu.org>; Thu, 26 Nov 2020 22:06:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=foP+6NpQr4e5sKYTyt7zY83VqypFnO5tOGMZ1RqcwaI=;
+ b=M4LNLSP3Cht8gVQicvTd/lqUOA4T17lPcEhkaeu8uWHj9v9X19CkAS/gO9MlrYG7wt
+ IJjvmoo8jinarKHyut/Xhe4WLXlFDcoM8WNfU4aYoeszbpZ+94RXiRdJWLF4yh/0jU7s
+ GvmSVs8zPFpbSLWherrtuaKWZAKGIcmR1g+dluUoeD78oFt+jQglHtODw+8BLSCTGSHd
+ zT4Eq84lDqWdDt/a6nzH/HVh/Vq+S4PX3khi1d71KD+h9AU0o29yWuGB3mSriY8Mslvr
+ drjyb2s38Yc6inrDF3LsXIcWLoWb6KzYOj37xpn+j/R4BYI2eSlr5j2Tv7ABJYUg6WTu
+ c82Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=foP+6NpQr4e5sKYTyt7zY83VqypFnO5tOGMZ1RqcwaI=;
+ b=Rs8ZmyLI0nvMH3n3RLbANhAGuo1Vd7oDeSYHpdxhNY2Ad3eZnQy0A8QE5xOWR/4CNL
+ IuJuCYW/V8o8EBxEy8xE+MUUenBDTrBR70LzzL5zFDrZa2J2ImiuYAb7RVhAn5r+aYHH
+ +/TsunHQD52pLXPe/id5RWL8L2Qi3+8iGfe/VwpnaULkYJmNZeNfpW8rVuR/J0/1cnTq
+ uNDIM6oME2vsrgMau3keru2xXrHWT8Hq5k1kCdAp8TScOfb07MmP0Ba9xdDntRAG4kHV
+ c0fZdrFY9UvjjqC1e6yait8/8XpyTGWHgcCmiThDKuzH9jDufKbLe8hoPvM6lvQ2LFiX
+ O0vw==
+X-Gm-Message-State: AOAM533exI1po2d62e3XmjBHIM/rsqiiklBn2WkHwxofgnlqHTN4G+FT
+ 44ofHnm6qoJrkN2c6EtcTaPIMU33rkVYfnuOWG0KOg==
+X-Google-Smtp-Source: ABdhPJwTi4HZMX7h+ULEXskIJUCb8PEZpZC2Dx8gJbK8vRe6oivRAzkpz7BbIbfFlmodmmwvJZ+7ZFB4/N94ZYUepps=
+X-Received: by 2002:aca:5286:: with SMTP id g128mr4310302oib.91.1606457217772; 
+ Thu, 26 Nov 2020 22:06:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <160637728389.1977658.13576068142432992889.stgit@lep8c.aus.stglabs.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-27_01:2020-11-26,
- 2020-11-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011
- priorityscore=1501 suspectscore=5 spamscore=0 impostorscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011270028
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=bharata@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201119111305.485202-1-andrew@daynix.com>
+ <b7a7d4c2-d8ef-d9fe-22c7-fd5c42aef360@redhat.com>
+ <CAOEp5OeF8qZ0hbMV3KGZHS0RqTjjefGiFkLdOd2-pU37JZ54Fg@mail.gmail.com>
+ <12187c50-94ce-e456-4c48-5497f2f2caee@redhat.com>
+In-Reply-To: <12187c50-94ce-e456-4c48-5497f2f2caee@redhat.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Fri, 27 Nov 2020 08:06:45 +0200
+Message-ID: <CAOEp5Oc=v_FPE+ik=X8UnPzOmEHBXRQGYsq1PPkUUCEeecNarA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/5] eBPF RSS support for virtio-net
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000d0036505b51077b8"
+Received-SPF: none client-ip=2607:f8b0:4864:20::241;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-oi1-x241.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,157 +79,408 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: bharata@linux.ibm.com
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, qemu-devel@nongnu.org,
- shivaprasadbhat@gmail.com, qemu-ppc@nongnu.org, bharata@linux.vnet.ibm.com,
- imammedo@redhat.com, david@gibson.dropbear.id.au
+Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 26, 2020 at 01:54:55AM -0600, Shivaprasad G Bhat wrote:
-> The patch adds support for async hcalls at the DRC level for the
-> spapr devices. To be used by spapr-scm devices in the patch/es to follow.
-> 
-> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-> ---
->  hw/ppc/spapr_drc.c         |  146 ++++++++++++++++++++++++++++++++++++++++++++
->  include/hw/ppc/spapr_drc.h |   25 ++++++++
->  2 files changed, 171 insertions(+)
-> 
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index 77718cde1f..2cecccf701 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -15,6 +15,7 @@
->  #include "qapi/qmp/qnull.h"
->  #include "cpu.h"
->  #include "qemu/cutils.h"
-> +#include "qemu/guest-random.h"
->  #include "hw/ppc/spapr_drc.h"
->  #include "qom/object.h"
->  #include "migration/vmstate.h"
-> @@ -421,6 +422,145 @@ void spapr_drc_detach(SpaprDrc *drc)
->      spapr_drc_release(drc);
->  }
-> 
-> +
-> +/*
-> + * @drc : device DRC targetting which the async hcalls to be made.
-> + *
-> + * All subsequent requests to run/query the status should use the
-> + * unique token returned here.
-> + */
-> +uint64_t spapr_drc_get_new_async_hcall_token(SpaprDrc *drc)
-> +{
-> +    Error *err = NULL;
-> +    uint64_t token;
-> +    SpaprDrcDeviceAsyncHCallState *tmp, *next, *state;
-> +
-> +    state = g_malloc0(sizeof(*state));
-> +    state->pending = true;
-> +
-> +    qemu_mutex_lock(&drc->async_hcall_states_lock);
-> +retry:
-> +    if (qemu_guest_getrandom(&token, sizeof(token), &err) < 0) {
-> +        error_report_err(err);
-> +        g_free(state);
-> +        return 0;
-> +    }
+--000000000000d0036505b51077b8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Returning w/o releasing the lock.
+On Fri, Nov 27, 2020 at 6:36 AM Jason Wang <jasowang@redhat.com> wrote:
 
-> +
-> +    if (!token) /* Token should be non-zero */
-> +        goto retry;
-> +
-> +    if (!QLIST_EMPTY(&drc->async_hcall_states)) {
-> +        QLIST_FOREACH_SAFE(tmp, &drc->async_hcall_states, node, next) {
-> +            if (tmp->continue_token == token) {
-> +                /* If the token already in use, get a new one */
-> +                goto retry;
-> +            }
-> +        }
-> +    }
-> +
-> +    state->continue_token = token;
-> +    QLIST_INSERT_HEAD(&drc->async_hcall_states, state, node);
-> +
-> +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
-> +
-> +    return state->continue_token;
-> +}
-> +
-> +static void *spapr_drc_async_hcall_runner(void *opaque)
-> +{
-> +    int response = -1;
-> +    SpaprDrcDeviceAsyncHCallState *state = opaque;
-> +
-> +    /*
-> +     * state is freed only after this thread finishes(after pthread_join()),
-> +     * don't worry about it becoming NULL.
-> +     */
-> +
-> +    response = state->func(state->data);
-> +
-> +    state->hcall_ret = response;
-> +    state->pending = 0;
-> +
-> +    return NULL;
-> +}
-> +
-> +/*
-> + * @drc  : device DRC targetting which the async hcalls to be made.
-> + * token : The continue token to be used for tracking as recived from
-> + *         spapr_drc_get_new_async_hcall_token
-> + * @func() : the worker function which needs to be executed asynchronously
-> + * @data : data to be passed to the asynchronous function. Worker is supposed
-> + *         to free/cleanup the data that is passed here
-> + */
-> +void spapr_drc_run_async_hcall(SpaprDrc *drc, uint64_t token,
-> +                               SpaprDrcAsyncHcallWorkerFunc *func, void *data)
-> +{
-> +    SpaprDrcDeviceAsyncHCallState *state, *next;
-> +
-> +    qemu_mutex_lock(&drc->async_hcall_states_lock);
-> +    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, next) {
-> +        if (state->continue_token == token) {
-> +            state->func = func;
-> +            state->data = data;
-> +            qemu_thread_create(&state->thread, "sPAPR Async HCALL",
-> +                               spapr_drc_async_hcall_runner, state,
-> +                               QEMU_THREAD_JOINABLE);
-> +            break;
-> +        }
-> +    }
+>
+> On 2020/11/26 =E4=B8=8B=E5=8D=888:52, Yuri Benditovich wrote:
+> >
+> >
+> > On Mon, Nov 23, 2020 at 8:08 AM Jason Wang <jasowang@redhat.com
+> > <mailto:jasowang@redhat.com>> wrote:
+> >
+> >
+> >     On 2020/11/19 =E4=B8=8B=E5=8D=887:13, Andrew Melnychenko wrote:
+> >     > This set of patches introduces the usage of eBPF for packet
+> steering
+> >     > and RSS hash calculation:
+> >     > * RSS(Receive Side Scaling) is used to distribute network packets
+> to
+> >     > guest virtqueues by calculating packet hash
+> >     > * Additionally adding support for the usage of RSS with vhost
+> >     >
+> >     > The eBPF works on kernels 5.8+
+> >     > On earlier kerneld it fails to load and the RSS feature is report=
+ed
+> >     > only without vhost and implemented in 'in-qemu' software.
+> >     >
+> >     > Implementation notes:
+> >     > Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF
+> program.
+> >     > Added libbpf dependency and eBPF support.
+> >     > The eBPF program is part of the qemu and presented as an array
+> >     > of BPF ELF file data.
+> >     > The compilation of eBPF is not part of QEMU build and can be done
+> >     > using provided Makefile.ebpf(need to adjust 'linuxhdrs').
+> >     > Added changes to virtio-net and vhost, primary eBPF RSS is used.
+> >     > 'in-qemu' RSS used in the case of hash population and as a
+> >     fallback option.
+> >     > For vhost, the hash population feature is not reported to the
+> guest.
+> >     >
+> >     > Please also see the documentation in PATCH 5/5.
+> >     >
+> >     > I am sending those patches as RFC to initiate the discussions
+> >     and get
+> >     > feedback on the following points:
+> >     > * Fallback when eBPF is not supported by the kernel
+> >     > * Live migration to the kernel that doesn't have eBPF support
+> >     > * Integration with current QEMU build
+> >     > * Additional usage for eBPF for packet filtering
+> >     >
+> >     > Known issues:
+> >     > * hash population not supported by eBPF RSS: 'in-qemu' RSS used
+> >     > as a fallback, also, hash population feature is not reported to
+> >     guests
+> >     > with vhost.
+> >     > * big-endian BPF support: for now, eBPF isn't supported on
+> >     > big-endian systems. Can be added in future if required.
+> >     > * huge .h file with eBPF binary. The size of .h file containing
+> >     > eBPF binary is currently ~5K lines, because the binary is built
+> >     with debug information.
+> >     > The binary without debug/BTF info can't be loaded by libbpf.
+> >     > We're looking for possibilities to reduce the size of the .h file=
+s.
+> >
+> >
+> >     A question here, is this because the binary file contains DWARF
+> >     data? If
+> >     yes, is it a building or loading dependency? If it's latter, maybe =
+we
+> >     can try to strip them out, anyhow it can't be recognized by kernel.
+> >
+> >     Thanks
+> >
+> >
+> > After some experiments we can see that stripping of debug sections
+> > reduces the size of
+> > ELF from ~45K to ~20K (we tried to strip more but the libbpf fails to
+> > load it, libbpf needs BTF and symbols)
+> > So I suggest to reevaluate the necessity of libbpf.
+> > For this specific BPF it does not present advantage and we hardly can
+> > create some reusable code
+> > related to libbpf, i.e. any further BPF will need its own libbpf wrappe=
+r.
+> > The BTF is really good feature and in case some later BPF will need an
+> > access to kernel
+> > structures it will use libbpf loader.
+> > What you think about it?
+>
+>
+> If we can find a way to use BTF without libbpf, it should be acceptable.
+>
+> But the point is that the RSS BPF does not need the BTF as it does not us=
+e
+any kernel structures.
+When we have, for example, filter BPF that will need the BTF - we'll  use
+libbpf for it.
+Anyway we do not have here any infrastructural code related to libbpf,
 
-Looks like QLIST_FOREACH should be enough here as you don't
-seem to be removing any list entry in this path.
 
-> +    qemu_mutex_unlock(&drc->async_hcall_states_lock);
-> +}
-> +
-> +/*
-> + * spapr_drc_finish_async_hcalls
-> + *      Waits for all pending async requests to complete
-> + *      thier execution and free the states
-> + */
-> +static void spapr_drc_finish_async_hcalls(SpaprDrc *drc)
-> +{
-> +    SpaprDrcDeviceAsyncHCallState *state, *next;
-> +
-> +    if (QLIST_EMPTY(&drc->async_hcall_states)) {
-> +        return;
-> +    }
-> +
-> +    QLIST_FOREACH_SAFE(state, &drc->async_hcall_states, node, next) {
-> +        qemu_thread_join(&state->thread);
-> +        QLIST_REMOVE(state, node);
-> +        g_free(state);
-> +    }
-> +}
 
-Why is it safe to iterate the list here w/o the lock?
+> Thanks
+>
+>
+> >
+> >     >
+> >     > Changes since v1:
+> >     > * using libbpf instead of direct 'bpf' system call.
+> >     > * added libbpf dependency to the configure/meson scripts.
+> >     > * changed python script for eBPF .h file generation.
+> >     > * changed eBPF program - reading L3 proto from ethernet frame.
+> >     > * added TUNSETSTEERINGEBPF define for TUN.
+> >     > * changed the maintainer's info.
+> >     > * added license headers.
+> >     > * refactored code.
+> >     >
+> >     > Andrew (5):
+> >     >    net: Added SetSteeringEBPF method for NetClientState.
+> >     >    ebpf: Added eBPF RSS program.
+> >     >    ebpf: Added eBPF RSS loader.
+> >     >    virtio-net: Added eBPF RSS to virtio-net.
+> >     >    docs: Added eBPF RSS documentation.
+> >     >
+> >     >   MAINTAINERS                    |    7 +
+> >     >   configure                      |   33 +
+> >     >   docs/ebpf_rss.rst              |  133 +
+> >     >   ebpf/EbpfElf_to_C.py           |   36 +
+> >     >   ebpf/Makefile.ebpf             |   33 +
+> >     >   ebpf/ebpf_rss-stub.c           |   40 +
+> >     >   ebpf/ebpf_rss.c                |  186 ++
+> >     >   ebpf/ebpf_rss.h                |   44 +
+> >     >   ebpf/meson.build               |    1 +
+> >     >   ebpf/rss.bpf.c                 |  505 +++
+> >     >   ebpf/tun_rss_steering.h        | 5439
+> >     ++++++++++++++++++++++++++++++++
+> >     >   hw/net/vhost_net.c             |    2 +
+> >     >   hw/net/virtio-net.c            |  120 +-
+> >     >   include/hw/virtio/virtio-net.h |    4 +
+> >     >   include/net/net.h              |    2 +
+> >     >   meson.build                    |   11 +
+> >     >   net/tap-bsd.c                  |    5 +
+> >     >   net/tap-linux.c                |   13 +
+> >     >   net/tap-linux.h                |    1 +
+> >     >   net/tap-solaris.c              |    5 +
+> >     >   net/tap-stub.c                 |    5 +
+> >     >   net/tap.c                      |    9 +
+> >     >   net/tap_int.h                  |    1 +
+> >     >   net/vhost-vdpa.c               |    2 +
+> >     >   24 files changed, 6633 insertions(+), 4 deletions(-)
+> >     >   create mode 100644 docs/ebpf_rss.rst
+> >     >   create mode 100644 ebpf/EbpfElf_to_C.py
+> >     >   create mode 100755 ebpf/Makefile.ebpf
+> >     >   create mode 100644 ebpf/ebpf_rss-stub.c
+> >     >   create mode 100644 ebpf/ebpf_rss.c
+> >     >   create mode 100644 ebpf/ebpf_rss.h
+> >     >   create mode 100644 ebpf/meson.build
+> >     >   create mode 100644 ebpf/rss.bpf.c
+> >     >   create mode 100644 ebpf/tun_rss_steering.h
+> >     >
+> >
+>
+>
 
-Regards,
-Bharata.
+--000000000000d0036505b51077b8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Nov 27, 2020 at 6:36 AM Jason=
+ Wang &lt;<a href=3D"mailto:jasowang@redhat.com">jasowang@redhat.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+On 2020/11/26 =E4=B8=8B=E5=8D=888:52, Yuri Benditovich wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt; On Mon, Nov 23, 2020 at 8:08 AM Jason Wang &lt;<a href=3D"mailto:jasow=
+ang@redhat.com" target=3D"_blank">jasowang@redhat.com</a> <br>
+&gt; &lt;mailto:<a href=3D"mailto:jasowang@redhat.com" target=3D"_blank">ja=
+sowang@redhat.com</a>&gt;&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0On 2020/11/19 =E4=B8=8B=E5=8D=887:13, Andrew Melnyc=
+henko wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; This set of patches introduces the usage of eB=
+PF for packet steering<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; and RSS hash calculation:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * RSS(Receive Side Scaling) is used to distrib=
+ute network packets to<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; guest virtqueues by calculating packet hash<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * Additionally adding support for the usage of=
+ RSS with vhost<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; The eBPF works on kernels 5.8+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; On earlier kerneld it fails to load and the RS=
+S feature is reported<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; only without vhost and implemented in &#39;in-=
+qemu&#39; software.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Implementation notes:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Linux TAP TUNSETSTEERINGEBPF ioctl was used to=
+ set the eBPF program.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Added libbpf dependency and eBPF support.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; The eBPF program is part of the qemu and prese=
+nted as an array<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; of BPF ELF file data.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; The compilation of eBPF is not part of QEMU bu=
+ild and can be done<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; using provided Makefile.ebpf(need to adjust &#=
+39;linuxhdrs&#39;).<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Added changes to virtio-net and vhost, primary=
+ eBPF RSS is used.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; &#39;in-qemu&#39; RSS used in the case of hash=
+ population and as a<br>
+&gt;=C2=A0 =C2=A0 =C2=A0fallback option.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; For vhost, the hash population feature is not =
+reported to the guest.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Please also see the documentation in PATCH 5/5=
+.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; I am sending those patches as RFC to initiate =
+the discussions<br>
+&gt;=C2=A0 =C2=A0 =C2=A0and get<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; feedback on the following points:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * Fallback when eBPF is not supported by the k=
+ernel<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * Live migration to the kernel that doesn&#39;=
+t have eBPF support<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * Integration with current QEMU build<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * Additional usage for eBPF for packet filteri=
+ng<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Known issues:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * hash population not supported by eBPF RSS: &=
+#39;in-qemu&#39; RSS used<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; as a fallback, also, hash population feature i=
+s not reported to<br>
+&gt;=C2=A0 =C2=A0 =C2=A0guests<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; with vhost.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * big-endian BPF support: for now, eBPF isn&#3=
+9;t supported on<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; big-endian systems. Can be added in future if =
+required.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * huge .h file with eBPF binary. The size of .=
+h file containing<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; eBPF binary is currently ~5K lines, because th=
+e binary is built<br>
+&gt;=C2=A0 =C2=A0 =C2=A0with debug information.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; The binary without debug/BTF info can&#39;t be=
+ loaded by libbpf.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; We&#39;re looking for possibilities to reduce =
+the size of the .h files.<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0A question here, is this because the binary file co=
+ntains DWARF<br>
+&gt;=C2=A0 =C2=A0 =C2=A0data? If<br>
+&gt;=C2=A0 =C2=A0 =C2=A0yes, is it a building or loading dependency? If it&=
+#39;s latter, maybe we<br>
+&gt;=C2=A0 =C2=A0 =C2=A0can try to strip them out, anyhow it can&#39;t be r=
+ecognized by kernel.<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0Thanks<br>
+&gt;<br>
+&gt;<br>
+&gt; After some experiments we can see that stripping of debug sections <br=
+>
+&gt; reduces the size of<br>
+&gt; ELF from ~45K to ~20K (we tried to strip more but the libbpf fails to =
+<br>
+&gt; load it, libbpf needs BTF and symbols)<br>
+&gt; So I suggest to reevaluate the necessity of libbpf.<br>
+&gt; For this specific BPF it does not present=C2=A0advantage and we hardly=
+ can <br>
+&gt; create some reusable code<br>
+&gt; related to libbpf, i.e. any further BPF will need its own libbpf wrapp=
+er.<br>
+&gt; The BTF is really good feature=C2=A0and in case some later BPF will ne=
+ed an <br>
+&gt; access to kernel<br>
+&gt; structures it will use libbpf loader.<br>
+&gt; What you think about it?<br>
+<br>
+<br>
+If we can find a way to use BTF without libbpf, it should be acceptable.<br=
+>
+<br></blockquote><div>But the point is that the RSS BPF does not need the B=
+TF as it does not use any kernel structures.</div><div>When we have, for ex=
+ample, filter BPF that will need the BTF - we&#39;ll=C2=A0 use libbpf for i=
+t.</div><div>Anyway we do not have here any infrastructural code related to=
+ libbpf,</div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">
+Thanks<br>
+<br>
+<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Changes since v1:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * using libbpf instead of direct &#39;bpf&#39;=
+ system call.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * added libbpf dependency to the configure/mes=
+on scripts.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * changed python script for eBPF .h file gener=
+ation.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * changed eBPF program - reading L3 proto from=
+ ethernet frame.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * added TUNSETSTEERINGEBPF define for TUN.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * changed the maintainer&#39;s info.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * added license headers.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; * refactored code.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt; Andrew (5):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 net: Added SetSteeringEBPF method=
+ for NetClientState.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 ebpf: Added eBPF RSS program.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 ebpf: Added eBPF RSS loader.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 virtio-net: Added eBPF RSS to vir=
+tio-net.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0 docs: Added eBPF RSS documentatio=
+n.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 7 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0configure=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A033 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0docs/ebpf_rss.rst=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 133 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0ebpf/EbpfElf_to_C.py=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A036 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0ebpf/Makefile.ebpf=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A033 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0ebpf/ebpf_rss-stub.c=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A040 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0ebpf/ebpf_rss.c=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 186 ++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0ebpf/ebpf_rss.h=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A044 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0ebpf/meson.build=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0ebpf/rss.bpf.c=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 505 +++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0ebpf/tun_rss_steering.h=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 5439<br>
+&gt;=C2=A0 =C2=A0 =C2=A0++++++++++++++++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0hw/net/vhost_net.c=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 2 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0hw/net/virtio-net.c=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 120 +-<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0include/hw/virtio/virtio-net.h |=
+=C2=A0 =C2=A0 4 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0include/net/net.h=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 2 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A011 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0net/tap-bsd.c=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 5 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0net/tap-linux.c=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A013 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0net/tap-linux.h=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 1 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0net/tap-solaris.c=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 5 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0net/tap-stub.c=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 5 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0net/tap.c=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 9 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0net/tap_int.h=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 1 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0net/vhost-vdpa.c=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 2 +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A024 files changed, 6633 insertions(=
++), 4 deletions(-)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0create mode 100644 docs/ebpf_rss.r=
+st<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0create mode 100644 ebpf/EbpfElf_to=
+_C.py<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0create mode 100755 ebpf/Makefile.e=
+bpf<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0create mode 100644 ebpf/ebpf_rss-s=
+tub.c<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0create mode 100644 ebpf/ebpf_rss.c=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0create mode 100644 ebpf/ebpf_rss.h=
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0create mode 100644 ebpf/meson.buil=
+d<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0create mode 100644 ebpf/rss.bpf.c<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;=C2=A0 =C2=A0create mode 100644 ebpf/tun_rss_st=
+eering.h<br>
+&gt;=C2=A0 =C2=A0 =C2=A0&gt;<br>
+&gt;<br>
+<br>
+</blockquote></div></div>
+
+--000000000000d0036505b51077b8--
 
