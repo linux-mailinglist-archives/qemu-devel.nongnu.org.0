@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243422C6861
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 16:03:34 +0100 (CET)
-Received: from localhost ([::1]:58786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACB82C686F
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 16:07:17 +0100 (CET)
+Received: from localhost ([::1]:42100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kifHZ-0004ns-4y
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 10:03:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38404)
+	id 1kifLA-0001I7-Mr
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 10:07:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kif6w-0000un-WF
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 09:52:35 -0500
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:58239)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kif6u-0005M4-Sm
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 09:52:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1606488752;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=jJUcZXbN3G+d9ShSTyFz3C85sAOZLC2pSugnQvqiPxY=;
- b=SRir0pA0xg2rY6NnGEth/v/tfW7VCWwaetiy3WWe5FvCDBA7cPfU3QlL
- mXHGGZ7hmPfQznw49NcWTHNANavJ1CIqR8d7pJMg0hjwUtUf3d6R2+gou
- 6XKh3cGzo5+K4LFk7MLU4m9zA26byCFUcGgMRmf2mYSI1X6iVksIIYNhI I=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: F81GW4oBIsFnf3DpXILoVgoHENqX4BfBxXBaBnkRhAWH2+0zZ2j/guKA7KooSvnQBEafrTkZ6M
- /oDh/0MtzQL+Oo/kRAgHJctdgjnO7t/IAK5MClGk/Fy5K7LKR/Nl/KgNrDQQTo+g+mlRuwJG/Q
- syHLyYIFRvxFxwKnMBuarl5+WmLWeGYUn1xa1Ucupfe+7PCki/nrGDZZY6ii6ABS+LZCuWPcXk
- 1qKpPJ7dPIU7mEFeeOARLuQpowzPwkC6/nkvmQvalyskPkB4lGAc+D0dXvMcOeBlzu0FcYT8nb
- K0U=
-X-SBRS: None
-X-MesageID: 33214504
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.78,374,1599537600"; d="scan'208";a="33214504"
-Date: Fri, 27 Nov 2020 14:52:27 +0000
-To: Eduardo Habkost <ehabkost@redhat.com>
-CC: <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth
- <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- <xen-devel@lists.xenproject.org>, Richard Henderson
- <richard.henderson@linaro.org>, Claudio Fontana <cfontana@suse.de>, Roman
- Bolshakov <r.bolshakov@yadro.com>
-Subject: Re: [PATCH v2 4/6] xen: Delete xen_available() function
-Message-ID: <20201127145227.GD2098@perard.uk.xensource.com>
-References: <20201125205636.3305257-1-ehabkost@redhat.com>
- <20201125205636.3305257-5-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kifF0-0003C4-KW
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:00:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57776)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kifEx-0008Kj-4C
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 10:00:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kifEu-0001Ol-Ft
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 15:00:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 70E562E813B
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 15:00:48 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20201125205636.3305257-5-ehabkost@redhat.com>
-Received-SPF: pass client-ip=216.71.155.144;
- envelope-from=anthony.perard@citrix.com; helo=esa4.hc3370-68.iphmx.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Nov 2020 14:54:13 -0000
+From: Olaf Seibert <1905979@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: oseibert-sys11
+X-Launchpad-Bug-Reporter: Olaf Seibert (oseibert-sys11)
+X-Launchpad-Bug-Modifier: Olaf Seibert (oseibert-sys11)
+Message-Id: <160648885405.8173.13759191424779303608.malonedeb@soybean.canonical.com>
+Subject: [Bug 1905979] [NEW] Check if F_OFD_SETLK is supported may give wrong
+ result
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="12d09381f8e8eee3115395875b132e165fa96574"; Instance="production"
+X-Launchpad-Hash: 2f66d7592b872a06237b928b8febf1999fe36251
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,20 +69,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1905979 <1905979@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Anthony PERARD <anthony.perard@citrix.com>
-From: Anthony PERARD via <qemu-devel@nongnu.org>
 
-On Wed, Nov 25, 2020 at 03:56:34PM -0500, Eduardo Habkost wrote:
-> The function can be replaced with accel_available("xen").
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Public bug reported:
 
-Acked-by: Anthony PERARD <anthony.perard@citrix.com>
+In util/osdep.c there is a function qemu_probe_lock_ops() to check if
+file locks F_OFD_SETLK and F_OFD_GETLK (of the style "Open file
+description locks (non-POSIX)") are supported.
 
-Thanks,
+This test is done by trying a lock operation on the file /dev/null.
 
--- 
-Anthony PERARD
+This test can get a wrong result.
+
+The result is (probably) if the operating system *in general* supports
+these locks. However, it does not guarantee that the file system where
+the lock is really wanted (for instance, in caller
+raw_check_lock_bytes() in block/file-posix.c) does support these locks.
+
+(In theory it could even be that /dev/null, being a device special file,
+does not support the lock type while a plain file would.)
+
+This is in particular relevant for disk images which are stored on a
+shared file system (my particular use case is the Quobyte file system,
+which appears not to support these locks).
+
+The code as mentioned above is present in the master branch (I checked
+commit ea8208249d1082eae0444934efb3b59cd3183f05) but also for example on
+stable-2.11 commit 0982a56a551556c704dc15752dabf57b4be1c640)
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1905979
+
+Title:
+  Check if F_OFD_SETLK is supported may give wrong result
+
+Status in QEMU:
+  New
+
+Bug description:
+  In util/osdep.c there is a function qemu_probe_lock_ops() to check if
+  file locks F_OFD_SETLK and F_OFD_GETLK (of the style "Open file
+  description locks (non-POSIX)") are supported.
+
+  This test is done by trying a lock operation on the file /dev/null.
+
+  This test can get a wrong result.
+
+  The result is (probably) if the operating system *in general* supports
+  these locks. However, it does not guarantee that the file system where
+  the lock is really wanted (for instance, in caller
+  raw_check_lock_bytes() in block/file-posix.c) does support these
+  locks.
+
+  (In theory it could even be that /dev/null, being a device special
+  file, does not support the lock type while a plain file would.)
+
+  This is in particular relevant for disk images which are stored on a
+  shared file system (my particular use case is the Quobyte file system,
+  which appears not to support these locks).
+
+  The code as mentioned above is present in the master branch (I checked
+  commit ea8208249d1082eae0444934efb3b59cd3183f05) but also for example
+  on stable-2.11 commit 0982a56a551556c704dc15752dabf57b4be1c640)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1905979/+subscriptions
 
