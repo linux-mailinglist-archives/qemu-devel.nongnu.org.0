@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8072C6BC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 19:53:25 +0100 (CET)
-Received: from localhost ([::1]:49850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23472C6BCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 20:06:38 +0100 (CET)
+Received: from localhost ([::1]:56996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kiis0-00020U-Il
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 13:53:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51594)
+	id 1kij4n-0006DG-Hp
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 14:06:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiirA-0001an-EJ
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:52:32 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:33147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kiir8-0006KI-MF
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:52:32 -0500
-Received: by mail-ed1-x534.google.com with SMTP id k4so6723233edl.0
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 10:52:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=G3ytf50jM+xkoeSvot43WIac9va9mch8bp4KkHKwEKY=;
- b=Dl2j3/7LrHXo7Jl9wZ+qxkiIet71NQyt9dBEQjJ/dRVZbQZ6QyniE5+Z1cNYGMyr9t
- UXJMnAD4QcdwHHtF21QVyWBC+NLW5bWf8ThEMcqeqt1VLtG+YKD6SQZaoWFkcUFvDrJL
- 0/pqCLfB2/xnID00/yyj9RhjNP76CKEJ2EwXSty2V6/c88DczMrR1UMFYgAh2jUJy3Sk
- 3lOyb8PzUDvLUA5wDBIbksaiFQFnJapwGei7VABAHjGY6wwpVd9MU9LgpcoMliy4gMhS
- 9WILIGDJjEGvJp5Q497lG5un3fjTPZzH7K881VWtlxvnCs/HNMVuA7Ui+LFIvn4abX/u
- S1Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=G3ytf50jM+xkoeSvot43WIac9va9mch8bp4KkHKwEKY=;
- b=g8vRkk8ZdgK1r5asULEnFqyE7W8UoewOmN9wd6objYapQ6pbpuyVYNVWei6dH3j4Jm
- zbh6Rv67og95Atp3UYaqLh4jDzAaQvMtYg1Gxx+sNaqyOH2GdThVhZ+YsiG6mFX/9YQZ
- RGTpMuHNHTTDnf6pp6n/umCR5AyML+kLyt+2adbYgAwC9HeiMCkYzSc/LvvMrPivXgg9
- 8LW9FEUj2Z7T4dz2vrY5WxqmpFHxpZ84LRBUQI0F+a3excqdHgXer7dndrXuyf5Qzg3z
- 6DF3B3SjLH6F1JG4tJd3smXMv7v0QJNvH3/6csTGdS6Mj/ovcsjXoCDJGyabaixAZ2b6
- Y9QQ==
-X-Gm-Message-State: AOAM531GXW18RNZMCU/ifMQ/32JSVhT+miDSo4OQwIJGgnatk2dJOepQ
- ro5PSR6731txl67vyTf3oyXR8+76nXA0KuF8kCiGqA==
-X-Google-Smtp-Source: ABdhPJxjpOA2+JMIjq8h8LHgWUJaiZRmhYt4d7CKVZJGhCTBfQWBZkWzW0jAFyxpjskMwZpJd/4TxP7l0W25x6qnEFk=
-X-Received: by 2002:aa7:db8a:: with SMTP id u10mr9473100edt.204.1606503148690; 
- Fri, 27 Nov 2020 10:52:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20201127170836.687073-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20201127170836.687073-1-marcandre.lureau@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Nov 2020 18:52:17 +0000
-Message-ID: <CAFEAcA-56cx=F4VrHov8mDgi-=ARziVr6yiuKw8Z+rbBSvw4gA@mail.gmail.com>
-Subject: Re: [PULL 0/1] Libslirp CVE-2020-29129 CVE-2020-29130
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <info@metux.net>) id 1kiiUn-0007KP-6l
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:29:25 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:36129)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <info@metux.net>) id 1kiiUl-00073c-BC
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 13:29:24 -0500
+Received: from orion.localdomain ([95.114.158.11]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MI4gb-1kxL4L0Dnb-00FG2i; Fri, 27 Nov 2020 19:29:18 +0100
+From: "Enrico Weigelt, metux IT consult" <info@metux.net>
+To: mst@redhat.com, ehabkost@redhat.com, crosa@redhat.com,
+ qemu-devel@nongnu.org
+Subject: [PATCH 1/5] scripts: minikconf: support config titles
+Date: Fri, 27 Nov 2020 19:29:13 +0100
+Message-Id: <20201127182917.2387-1-info@metux.net>
+X-Mailer: git-send-email 2.11.0
+X-Provags-ID: V03:K1:OuaTerzzvNagYuqlNfw7vkn8/kL6ypSN/V9m8rxluxhjbMVDcS2
+ sJDwjYexfdGgP/sQCin4k7BDk1yl3uSAvIxkVWptVm5KfPBZyTfXSo9DXbQMv3kllGf26mW
+ nu0NegApLoPsK7a3e9gZedSjruO5XnvKnHTnqR5TRq7k6gwg4fZLoyVeV1rCX38l/TNYO9U
+ 7A3Djdb8IHew89q3yQoYA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3jbbhP5G9xU=:c4QcDBdJmctPXN8CJUVHEV
+ 0SrxIqyhb7fI7AnEupPrNtZQiW0GC9oG6otqigqe+DfHKCJ8R92CKuYp9Gh6s1MPuqDW1wRgR
+ eQ/eiJYBc97ZHvR5oHhEMX8wpHrb8A5IynUQt9d/MdUU1N58JyA73eKhjDbNx/QHTyHSEeaKr
+ QJr5W4TRn8B/WNEaMBAaR6cgGwWvtJLX+FqH8fbHU48X6w9tL/9wHTzwEkW26ukaWz8dfRQ/s
+ EgKXfmpG+eVb6gpg0Iw+3hjFIlZQ7Lz9yv22phZO/mR6oaghoN0nSpTQMFm+75DedknXPRXaa
+ +/PqRMj0vbMv3+kPcpC6X4BJpGal3/KXAU374QI0d72WZK09YsVFa5jx3faiIHJkFASq5qOoh
+ DtjdXvMWdkAirug5McvZjsvtUCKN98Pe2VevBSMHU4xhdZqez0FGgvkDMzMFC
+Received-SPF: none client-ip=217.72.192.75; envelope-from=info@metux.net;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 27 Nov 2020 14:04:07 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,41 +59,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Nov 2020 at 17:08, <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The following changes since commit ea8208249d1082eae0444934efb3b59cd3183f=
-05:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20201127-pull-r=
-equest' into staging (2020-11-27 11:11:43 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:elmarco/qemu.git tags/libslirp-pull-request
->
-> for you to fetch changes up to 37c0c885d19a4c2d69faed891b5c02aaffbdccfb:
->
->   slirp: update to fix CVE-2020-29129 CVE-2020-29130 (2020-11-27 20:57:11=
- +0400)
->
-> ----------------------------------------------------------------
->
-> ----------------------------------------------------------------
->
-> Marc-Andr=C3=A9 Lureau (1):
->   slirp: update to fix CVE-2020-29129 CVE-2020-29130
+Add support for config option titles, like the real kconfig does.
+Even though they're not presented anywhere yet (since minikconf
+only acts in the background), it's good to have them supported,
+so we can start adding descriptions in the Kconfig files.
 
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+---
+ scripts/minikconf.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Applied, thanks.
+diff --git a/scripts/minikconf.py b/scripts/minikconf.py
+index bcd91015d3..28c67906cb 100644
+--- a/scripts/minikconf.py
++++ b/scripts/minikconf.py
+@@ -206,6 +206,7 @@ class KconfigData:
+         self.defined_vars = set()
+         self.referenced_vars = dict()
+         self.clauses = list()
++        self.title = None
+ 
+     # semantic analysis -------------
+ 
+@@ -290,6 +291,9 @@ class KconfigData:
+         cond = (cond & var) if cond is not None else var
+         self.clauses.append(KconfigData.SelectClause(symbol, cond))
+ 
++    def do_title(self, title):
++        self.title = title
++
+     def do_imply(self, var, symbol, cond=None):
+         # "config X imply Y [if COND]" is the same as
+         # "config Y default y if X [&& COND]"
+@@ -323,6 +327,7 @@ TOK_BOOL = 15;    TOKENS[TOK_BOOL] = '"bool"';
+ TOK_IF = 16;      TOKENS[TOK_IF] = '"if"';
+ TOK_ID = 17;      TOKENS[TOK_ID] = 'identifier';
+ TOK_EOF = 18;     TOKENS[TOK_EOF] = 'end of file';
++TOK_QUOTED = 19;  TOKENS[TOK_QUOTED] = 'quoted string';
+ 
+ class KconfigParserError(Exception):
+     def __init__(self, parser, msg, tok=None):
+@@ -501,6 +506,7 @@ class KconfigParser:
+     # property: DEFAULT y_or_n condition
+     #       | DEPENDS ON expr
+     #       | SELECT var condition
++    #       | BOOL "comment"
+     #       | BOOL
+     def parse_property(self, var):
+         if self.tok == TOK_DEFAULT:
+@@ -526,6 +532,9 @@ class KconfigParser:
+             self.data.do_imply(var, symbol, cond)
+         elif self.tok == TOK_BOOL:
+             self.get_token()
++            if self.tok == TOK_QUOTED:
++                self.data.do_title(self.val)
++                self.get_token()
+         else:
+             raise KconfigParserError(self, 'Error in recursive descent?')
+ 
+@@ -645,6 +654,11 @@ class KconfigParser:
+             self.cursor = self.src.find('\n', self.cursor)
+             self.val = self.src[start:self.cursor]
+             return TOK_SOURCE
++        elif self.tok == '"':
++            start = self.cursor
++            self.cursor = self.src.find('"', self.cursor)+1
++            self.val = self.src[start:self.cursor]
++            return TOK_QUOTED;
+         elif self.tok.isalnum():
+             # identifier
+             while self.src[self.cursor].isalnum() or self.src[self.cursor] == '_':
+-- 
+2.11.0
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
 
