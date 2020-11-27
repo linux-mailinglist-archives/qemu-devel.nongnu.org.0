@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FBDF2C6670
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 14:11:47 +0100 (CET)
-Received: from localhost ([::1]:41008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93ECB2C6675
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Nov 2020 14:12:58 +0100 (CET)
+Received: from localhost ([::1]:43146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kidXN-0002co-Td
-	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 08:11:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40486)
+	id 1kidYX-0003Ys-Ly
+	for lists+qemu-devel@lfdr.de; Fri, 27 Nov 2020 08:12:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kidW0-00024q-KJ
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 08:10:20 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36302)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kidVz-0002J1-0E
- for qemu-devel@nongnu.org; Fri, 27 Nov 2020 08:10:20 -0500
-Received: by mail-wm1-x342.google.com with SMTP id f190so3466052wme.1
- for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 05:10:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=IzzGF8qH+so58eUWgTc4juPukS0ng5sEU9ebFUaHBrE=;
- b=fXYDrcCh7pkobxFR8fNhfLs35LwuiLnVxvD8B7ApqGOPh+ATOJ0+bnHoDqa6Icvxoy
- 3W63gXeWWqVwitYH9ZRCGbcNKB/Sx/VCQCTR7QoaFPlw9EMH1YeMQWH9bw754MlucxA9
- tso3BpKFOYUQVf4/g1f7mxUc/+wVMzSasmgexhNpkxej/TTtH6WMQOZ0GqFBocddrQtH
- w5b8Z3GWG+IYlBJHR/K4QnqRq9UJPQwQv5SWM5OEtb+dHomH0VnXh8QyWhvHvnktUI2x
- ddUwO61JxuVGozvQz/hajFAA1dbzlSRtHHZ9dHzhc4vahuO+4weftawe79gxervqH/vk
- 09dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=IzzGF8qH+so58eUWgTc4juPukS0ng5sEU9ebFUaHBrE=;
- b=NPcVmw3Tjw1NPBKXbno92li/NmaPoL0ZvIxgnuE4PLjrxMNjULEoi1BhmQi4YP2d7z
- PkQ+I7rHg+WwwbwZw++nmHeAGjCEiWBd62B05f4YhBwbdnoXjj6Kcd3J+Dph9Zu57PnH
- 1tIqQPNGm/NhNBnXSkCo0WX6vUxzfm0DHKYl5WcVUvGjXj8oHEdBhNgL1Y1VSnepQoIX
- uaOKaMOBG1lnq9LBj8dhgRudRkd5SWfZvWESYC8KwwkfqjSZp0legVfYVZzwVz4D8TW3
- gbnVrpzrv7Vh55G5qz+FVEQyg6dbEFICR6S6w0ioZE9SIYykosrSoCB1s4WAX1ZS5KYe
- 4D+w==
-X-Gm-Message-State: AOAM533MugRkvgZwSiIZS3scL7IOro4vfV9lq4DNk5PY+gEKrSfSW0Ve
- eHNZ9VLZqxOxm0MKZZ3BQbIQ/w==
-X-Google-Smtp-Source: ABdhPJyvpRZulvWwVNSIze88tUvomsnxwhxYq3vpjJcFpb7LbHOViCgb5XucNz3WwqbXQC5SCg8/2g==
-X-Received: by 2002:a1c:1b06:: with SMTP id b6mr8943817wmb.101.1606482613851; 
- Fri, 27 Nov 2020 05:10:13 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z19sm13337407wmk.12.2020.11.27.05.10.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 05:10:08 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 518CC1FF7E;
- Fri, 27 Nov 2020 13:10:07 +0000 (GMT)
-References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
- <20201126112915.525285-7-marcandre.lureau@redhat.com>
- <CAFEAcA_vCVbMTPsOosFfTt0eoTvdm0KKz2gh0u1AEOrifqJTWQ@mail.gmail.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 06/13] tests: remove GCC < 4 fallbacks
-In-reply-to: <CAFEAcA_vCVbMTPsOosFfTt0eoTvdm0KKz2gh0u1AEOrifqJTWQ@mail.gmail.com>
-Date: Fri, 27 Nov 2020 13:10:06 +0000
-Message-ID: <878sangd3l.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kidWn-0002gO-KR
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 08:11:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30143)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kidWl-0002l6-Uv
+ for qemu-devel@nongnu.org; Fri, 27 Nov 2020 08:11:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606482667;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=58SQBh87JGioP8qos070j/zGfjLozDlXq00sbkz0bTo=;
+ b=X+nr70JRPTNQkUb/oo12JOg98Zsn+9UIbzJyd1kyH7aU1RpWJ1iME5Wj58nOrY5qN0O1Be
+ 5pDKg8qxS/GXZoOGMqLJ/P65AqCOGz8IG+R4hBvtoeczQNGnuissiVhZr2ihuXSekaGUk+
+ Y7V+cCPVMf78qdtkB2lh3Dg4jGGE7Jc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-v505NvG6N-ebjJs0WSZpUA-1; Fri, 27 Nov 2020 08:11:05 -0500
+X-MC-Unique: v505NvG6N-ebjJs0WSZpUA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95C1C1007466
+ for <qemu-devel@nongnu.org>; Fri, 27 Nov 2020 13:11:04 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD73E10023BA;
+ Fri, 27 Nov 2020 13:11:03 +0000 (UTC)
+Date: Fri, 27 Nov 2020 14:11:02 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 34/36] vl: remove serial_max_hds
+Message-ID: <20201127141102.447abade@redhat.com>
+In-Reply-To: <20201123141435.2726558-35-pbonzini@redhat.com>
+References: <20201123141435.2726558-1-pbonzini@redhat.com>
+ <20201123141435.2726558-35-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,29 +79,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 23 Nov 2020 09:14:33 -0500
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+> serial_hd(i) is NULL if and only if i >= serial_max_hds().  Test
+> serial_hd(i) instead of bounding the loop at serial_max_hds(),
+> thus removing one more function that vl.c is expected to export.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-> On Thu, 26 Nov 2020 at 11:30, <marcandre.lureau@redhat.com> wrote:
->>
->> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>
->> Since commit efc6c07 ("configure: Add a test for the minimum compiler
->> version"), QEMU explicitely depends on GCC >=3D 4.8.
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-technically the tests/tcg tests don't depend on the same compilers as
-the main QEMU build. However as the cross compiler case is most likely
-covered by our much more modern docker images and the buildin arm-on-arm
-will re-use the host compiler this is fine.
+> ---
+>  hw/ppc/spapr.c          | 6 ++----
+>  include/sysemu/sysemu.h | 4 ----
+>  softmmu/vl.c            | 5 -----
+>  3 files changed, 2 insertions(+), 13 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 049efa0bbf..b7e0894019 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -2878,10 +2878,8 @@ static void spapr_machine_init(MachineState *machine)
+>      /* Set up VIO bus */
+>      spapr->vio_bus = spapr_vio_bus_init();
+>  
+> -    for (i = 0; i < serial_max_hds(); i++) {
+> -        if (serial_hd(i)) {
+> -            spapr_vty_create(spapr->vio_bus, serial_hd(i));
+> -        }
+> +    for (i = 0; serial_hd(i); i++) {
+> +        spapr_vty_create(spapr->vio_bus, serial_hd(i));
+>      }
+>  
+>      /* We always have at least the nvram device on VIO */
+> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> index 3dac3229ec..0e7b405d22 100644
+> --- a/include/sysemu/sysemu.h
+> +++ b/include/sysemu/sysemu.h
+> @@ -74,10 +74,6 @@ void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
+>  
+>  /* Return the Chardev for serial port i, or NULL if none */
+>  Chardev *serial_hd(int i);
+> -/* return the number of serial ports defined by the user. serial_hd(i)
+> - * will always return NULL for any i which is greater than or equal to this.
+> - */
+> -int serial_max_hds(void);
+>  
+>  /* parallel ports */
+>  
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index fce15c249a..d76f87028d 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -1439,11 +1439,6 @@ Chardev *serial_hd(int i)
+>      return NULL;
+>  }
+>  
+> -int serial_max_hds(void)
+> -{
+> -    return num_serial_hds;
+> -}
+> -
+>  static int parallel_parse(const char *devname)
+>  {
+>      static int index = 0;
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
