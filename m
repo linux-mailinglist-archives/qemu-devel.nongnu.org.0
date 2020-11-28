@@ -2,72 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B032C6FA8
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Nov 2020 15:40:47 +0100 (CET)
-Received: from localhost ([::1]:53918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D8602C7012
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Nov 2020 17:37:26 +0100 (CET)
+Received: from localhost ([::1]:47962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kj1P4-0003GN-Fh
-	for lists+qemu-devel@lfdr.de; Sat, 28 Nov 2020 09:40:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43222)
+	id 1kj3Dx-0007OQ-2C
+	for lists+qemu-devel@lfdr.de; Sat, 28 Nov 2020 11:37:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kj1Nt-0002ps-DT
- for qemu-devel@nongnu.org; Sat, 28 Nov 2020 09:39:33 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:44422)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kj1Nr-00009e-MC
- for qemu-devel@nongnu.org; Sat, 28 Nov 2020 09:39:33 -0500
-Received: by mail-ej1-x641.google.com with SMTP id m19so6025703ejl.11
- for <qemu-devel@nongnu.org>; Sat, 28 Nov 2020 06:39:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ULYQF6oNuWKz5ZfAi6jOrwuhSag20IQakTmjaOCEPr8=;
- b=dIE+rf5hTbpvrpT1bHymt2VDJR+WRY1B+RnzArYz/Pbd4r3KpcXCn95BmlanQ/OK7b
- 8kEyiPsY9GWx4OzMuI7+mJNxJ340LHcdy6T232aEPOC1uV3gyhBYquBaNlyOEhItXao9
- dbdY0w5OdCzsqebBhR1WnAdXhIcnltkHE+QK/v4MJFA/WhRY0cNyPK9mHRzAwD2MCcPJ
- bb/tnJ8V7CJOs4yEXQ3vJrQDFg4gctkMmyC48/Lt9L8vabTYODJeO4mVWQlUsAOfpJbL
- m1kJ3nNf5ZqE9IHwPcJGRZnEne4Xl3cGJQSruRbh/Ly3ms0B3FmwHdrQ1Yd+y5fYIcNE
- nQyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ULYQF6oNuWKz5ZfAi6jOrwuhSag20IQakTmjaOCEPr8=;
- b=qx6Ha6gw5dVW7ib7KpMCmU4f3zKGh1TILbUJ4NT4YH7jCcpjmizCMfn8zyvDxxOn+n
- zULyh0iGNrffcyL45Ddq0BRLldQVq8qYzJMMb7JxVaXrcrgqkPx4fflE7mt1ru4bDSfO
- kAjjBlfnUpfaZBUhihvLe7a8ii9+tX1YZ3UhDHa8Elri0C5gXlTViVbYIcaL5OluRUiu
- IirywmNY4msAkOk2MkFrdoR3qvibppn9xnKSYvDtzJajNYqmsQ+6kQHFipeWmbn+DLA2
- yci75RROu290o+kVDvaFDmbs+ItO7EV/1Yr4FhHNPNwMC5M4LzVLcJWsclfWJYUnPq0S
- 2rEA==
-X-Gm-Message-State: AOAM530Q7b0uvpTWiH/1VDB1DkDBSt0T0hnUt4aLiETIFMmjLzrX2Ytw
- NcGaSHCDq2OfwYzmCMH9iCYWzRgHSRfFBplWySDJVA==
-X-Google-Smtp-Source: ABdhPJw0S/Ct9C6K/GfkoB44kaOMvn8p2f1GHq2VpujdqB/Z662o2onDXVIskXlmctqh1QbpYumge2OYHQWPEzMhNfI=
-X-Received: by 2002:a17:906:1542:: with SMTP id
- c2mr12107004ejd.382.1606574369912; 
- Sat, 28 Nov 2020 06:39:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kj3CD-0006pr-Vm
+ for qemu-devel@nongnu.org; Sat, 28 Nov 2020 11:35:38 -0500
+Received: from mail-eopbgr60120.outbound.protection.outlook.com
+ ([40.107.6.120]:30691 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kj3C9-0005md-AT
+ for qemu-devel@nongnu.org; Sat, 28 Nov 2020 11:35:37 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jqBY5YrdParhv7T1DUAKUOKy5cK8YCLoDtPi9r7hxaCZD0+RMLrnWjVYGQa0Mk53kGBzJUdYOZ2w5ITMb4tfJx7sL2HYAGM8kFUZtL4SeMHlmtxJa4KIQU3rkJ7iU0kJCgEqe60f7TArqpwXzwVF+gbMQyN8GpYDYm5sOnE/RCsgE6THP66ZdN3GVwmtzcTlPohoknvweGTG4LkHAeZb+BX4cmkxHbcrpthZGhmW+bLGAuoLBYdZDqb7GiJhNdDxsDCcS5oam2d1rnBf4yqhRnLY3t1J9FFJe5ClJg+QJAhstA1i/uq4EeEXQPRGkqeFk3WT0EEzMLebBiPxvPHD9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pV/0nSBv5CcXm2x6oKxeHp1Rsk5pSlMTUYjcpGFBgDk=;
+ b=A8ZPn0G+7OV+z7TGyN8QAOLXIlRleG7wOpRM8qdaEZpzu6dxytZVT2Anxmw15MT3EYmnmR9VKbSwdeZTVSuWg2EgHTX9xxHWJ3I8g4biQh2HR8hf4klnad2NCTPKKIRfjGdyIpIhX9GhTH8ruqr51e9DuBaaIgnzcypGaOBzjySPqGyWSq+3FdM6mFAvAXleBvUhzhSM2Y6v2cGHQYoQSgDLdD6qpj5a/0FdQaFCzDaOt08xI83LaHrbA73Q3fIaTnUqYQtWzaW3WglmliEftDYD15tO7yReeMs9tz5/MIOyobvNHtqO2hGe8/k1meMlaSfTTnejnxSEAo9AKkEw5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pV/0nSBv5CcXm2x6oKxeHp1Rsk5pSlMTUYjcpGFBgDk=;
+ b=NWlkclau7C4JB8C4x94Vs7PSLc8huk6eOtGgZkK2QlZG29/szFHOoF9rh9xX3Cx5QlGiIc2mn7QRwDIH3b/pCVsbW1EGmmTrTdPT1cY0Ep950CErJoWAgT54ErBI9IpjoB9TluAzPYKMHQSHx6hU/8q2nrnhiJolqPjiCClfqSI=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM5PR0802MB2499.eurprd08.prod.outlook.com (2603:10a6:203:a1::7)
+ by AM6PR08MB5173.eurprd08.prod.outlook.com (2603:10a6:20b:e5::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.29; Sat, 28 Nov
+ 2020 16:35:29 +0000
+Received: from AM5PR0802MB2499.eurprd08.prod.outlook.com
+ ([fe80::bcb9:66a:2571:5b4c]) by AM5PR0802MB2499.eurprd08.prod.outlook.com
+ ([fe80::bcb9:66a:2571:5b4c%11]) with mapi id 15.20.3611.025; Sat, 28 Nov 2020
+ 16:35:29 +0000
+Subject: Re: [PATCH v4 1/6] introduce 'background-snapshot' migration
+ capability
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
+ Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+References: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
+ <20201126151734.743849-2-andrey.gruzdev@virtuozzo.com>
+ <20201127195520.GE6573@xz-x1>
+From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Message-ID: <1a742d67-9eb9-7d97-c217-0147fab17b6c@virtuozzo.com>
+Date: Sat, 28 Nov 2020 19:35:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+In-Reply-To: <20201127195520.GE6573@xz-x1>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [95.165.26.68]
+X-ClientProxiedBy: AM4PR0202CA0006.eurprd02.prod.outlook.com
+ (2603:10a6:200:89::16) To AM5PR0802MB2499.eurprd08.prod.outlook.com
+ (2603:10a6:203:a1::7)
 MIME-Version: 1.0
-References: <20201127191233.11200-1-peter.maydell@linaro.org>
- <20201127191233.11200-2-peter.maydell@linaro.org>
- <DM6PR11MB4316F7ADAF2DC8124FA0F4BD8DF70@DM6PR11MB4316.namprd11.prod.outlook.com>
-In-Reply-To: <DM6PR11MB4316F7ADAF2DC8124FA0F4BD8DF70@DM6PR11MB4316.namprd11.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 28 Nov 2020 14:39:18 +0000
-Message-ID: <CAFEAcA-c_8c5jGhEhWWAuFTtHk27zeLmN5pwzW_DQkASiYqs0A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] target/nios2: Move cpu_pic code into CPU object proper
-To: "Wu, Wentong" <wentong.wu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.64] (95.165.26.68) by
+ AM4PR0202CA0006.eurprd02.prod.outlook.com (2603:10a6:200:89::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.20 via Frontend
+ Transport; Sat, 28 Nov 2020 16:35:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c5733dec-3207-4ef2-70c7-08d893bb9dc6
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5173:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB5173836AF20422824747C1509FF70@AM6PR08MB5173.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cZqpEoYRH0k8zw+8Jvcj9vKy6SSB1JH1kBv7ir30CC03oLG0GLo+H4kb4foYV5/YFV6ZBRd/LnN4EAQl5NE1xD8JH1W166CyUIwdVL/EjCpOh4D09cbzZTOHEtcm0723FPcxgbYUPVRAyIYZ+bTHmEtHmZM576i/Zng9qJ60f/2qxAIBvu/oszxQOIOeDJl7QXNu4X2MZWgqa7YhzJ2dNmoYWIQvRIpzbHZe2WKoEyaBKGEM8JhGB59HBOx3IJQmbMWzJQXxMqbB68vnjgTQc8nSDU+SWMiqrIdYUMkiTDlE7d5YK09tfSeeB+Bb+ELSL730Alh8PUfXLb+BZi5DMP/FP4QGpbn2s/Wt72SD+9IAsb1+KLOIF95f70p4nJXB
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM5PR0802MB2499.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(39840400004)(366004)(346002)(396003)(956004)(16576012)(6916009)(2616005)(31696002)(26005)(316002)(66946007)(2906002)(8936002)(6486002)(4744005)(66556008)(66476007)(36756003)(4326008)(5660300002)(83380400001)(16526019)(186003)(44832011)(54906003)(31686004)(53546011)(52116002)(478600001)(86362001)(8676002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VlFlM2pBRGpXUGJJZHNWY2xMangwYjRwYlVUU09Sd2JYd2E3REZPSmo1dGox?=
+ =?utf-8?B?YlIxS0g4Qk93Y1dhYmR0RC96THQrY29oQW5UbHFaT2tLcStEY2Q2UmZEQ0lB?=
+ =?utf-8?B?c2hZclc0VlJpSUl4bVdianhJQ2wxOXg3VENaYnhtbGpkTlhuUFh4T3J4Y1Q3?=
+ =?utf-8?B?eFhnQ0xtRXlZelJPUFVTOWFVRzU5eWhZaysrbGl0VmdIc0NHYVZ3UWVhV1Ra?=
+ =?utf-8?B?OTMxbmF3VXBFZDRpSitLWDJCWi9jMm1sKzdrUXd2TUlPTDVBdUxsY3RUUVlN?=
+ =?utf-8?B?eDc2WEZsenBrUmZJazBwcHhmNzR5OEU5Q0M2V1B2bkRHUWlHSDJuYVU2aXkr?=
+ =?utf-8?B?RW5VU3ZZRkk4Zk5kQ2ZaMW9Qa2xxVkcxckVoWmRmOGhaSHNCVGJ5M3VMbWg0?=
+ =?utf-8?B?Wi9jN2dRTithSHNMbFc2YytYK2ZjbkUzYlNiblRUYVhGbnBmREtwbThFQWhB?=
+ =?utf-8?B?dVBoV0ZjWDhoUjVNbVRCa2NQYk9JblRBVGhPZTZiTjB2SlpFWDdmYkJnVnFM?=
+ =?utf-8?B?NW1nUGcxclJzb04rMEphN0NsT2o5UThoTXppNE5HcHlQSGdFeGwycUZSdHV6?=
+ =?utf-8?B?djdjTVdWdzVFVGQ2MllpUXZOQUFPcjRjdk1kaXA0WkMvdEFWSEpJQitHb1dp?=
+ =?utf-8?B?TTEyVE00TzFQSnlBcG9VeUFXb014bDArYXYyRWZ1YzhOYmxwM2Z6ZDIzMHJX?=
+ =?utf-8?B?eDNTRC81cmJuY2VHV3k1WTc4ZEo3d05LWkwyakJkNk85a002YXUvUjBWdkI5?=
+ =?utf-8?B?TXRlQUVBa1BZeUhDUitOQWZaRUJ3NFNUVnpheFA5TFc2TGhncDV1b2hUcndt?=
+ =?utf-8?B?TXBTUnZ3QjJQY2lSODNKQlNrSE1ucmdTVUdia3cyZXZkWnRKUWRDc2d2ckhB?=
+ =?utf-8?B?L0czclNwYU9wUHFCNUhMbjlsd2Y3V0I4RWNmMGtFS2pkWHhjOFB6czY4aFoz?=
+ =?utf-8?B?ZmhuYU1sMXhRUGhOaWVleWF3S21iVVlNb1R3OHN2RVMvSkVHZW1neFdwc3pa?=
+ =?utf-8?B?N1hCUkxHRnZLVDZDWnRmVVVoUm5MMHdZaG4wVVAzWUUxd09sT2Z3SlJWYWpv?=
+ =?utf-8?B?TFBycHRCSG9wWTFxT25jcGQwMlhGUEFDS0tjbTM5SlJUYlV5Nll1b2hjR09N?=
+ =?utf-8?B?dWNHTjQwWVg0VklvWDMwTktNZGoweGJDTVIwa3BQb21lWlBGVU04NE5vOHlt?=
+ =?utf-8?B?bkNSdXYyZ0hYVGhHNVNGYzlIL2ttaUllVzZtOVl2bytBb3FEMzl4ZEpmMERH?=
+ =?utf-8?B?SDZwdGJiaWtMUGtnZjQ0UlEvUS9xWkJaKysvdlF2ZTNSMkkybjlObURqbWxK?=
+ =?utf-8?Q?Wh7VPrXs/IguM=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5733dec-3207-4ef2-70c7-08d893bb9dc6
+X-MS-Exchange-CrossTenant-AuthSource: AM5PR0802MB2499.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2020 16:35:29.2048 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WweJxUMNcVKdMF8G90+x+Ue8VfvfyB9oj/TN4OMPX8UQDZfqMQXsLBEMYveaKYBbLYbtyzt6/bJ54QoSqXwmZE1cptSlxw11Gtb3IOQ6lm0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5173
+Received-SPF: pass client-ip=40.107.6.120;
+ envelope-from=andrey.gruzdev@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,67 +146,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Sandra Loosemore <sandra@codesourcery.com>,
- Chris Wulff <crwulff@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 28 Nov 2020 at 05:50, Wu, Wentong <wentong.wu@intel.com> wrote:
-> The code looks ok to me, and I tested the changes on Zephyr project, it w=
-orks well.
->
-> But, according https://www.intel.com/content/dam/www/programmable/us/en/p=
-dfs/literature/hb/nios2/n2sw_nii52006.pdf ,
-> The Nios II processor offers two distinct approaches to handling hardware=
- interrupts:
-> =E2=96=A0 The internal interrupt controller (IIC)
-> =E2=96=A0 The external interrupt controller (EIC) interface
->
-> We have already defined TypeInfo named "altera,iic" , and others can also=
- define EIC, so IMHO I don't think we should replace the internal interrupt=
- controller with GPIO.
+On 27.11.2020 22:55, Peter Xu wrote:
+> On Thu, Nov 26, 2020 at 06:17:29PM +0300, Andrey Gruzdev wrote:
+>> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> 
+> The patch looks good to me, but again, any commit message would be more than
+> welcomed... as long as it's not empty. :)
+> 
 
-The "altera,iic" device is what connects to these GPIO lines -- the
-single output line from the "altera,iic" device connects to the
-"IRQ" GPIO input. The code currently in cpu_pic.c is in no way
-an external-to-the-CPU device implementation:
- * it's not a device
- * it directly messes with CPUNios2State fields like irq_pending
-   and env->regs[CR_STATUS]
-It's been implemented as part of the CPU, it's just in the
-wrong place in QEMU's source code and not very cleanly
-connected to the rest of the system.
+Yep, agree. :)
 
-If we ever wanted to model an EIC, we'd need to also model the
-EIC-to-CPU interface, which seems to be moderately complicated
-(the EIC "presents one interrupt to the Nios II processor, with
-interrupt handler address and register set selection information").
-So we'd do that by modelling a suitable interface connection plus
-the EIC device, and an board model with an EIC would wire that up
-and simply not connect the NMI/IRQ GPIO lines to anything, which
-would be the equivalent of "the IIC is disabled" (or if just not
-connecting the inputs is insufficient, we'd have a QOM property
-on the CPU object for "disable the IIC", which would be an exact
-match for "to 'configure the h/w with the IIC not implemented").
-
-You have, though, prompted me to look at hw/intc/nios2_iic.c,
-which I had previously assumed was a real external interrupt controller,
-and although that is coded as a separate device, it has no
-internal state of its own -- it also is just looking directly
-at the CPUNios2State fields and register state. It's part of the
-CPU, it's just implemented in the wrong place in QEMU.
-
-So I'll spin a v2 of this series that also folds that code properly
-into the CPU object, so that the CPU object provides 32 input IRQ
-lines. That will mean we're modelling the hardware much more closely:
- * the IIC is internal to the CPU itself
- * (hypothetical) board models using an EIC will provide an
-   EIC model that connects to the CPU using an interface similar
-   to what the real h/w does
- * if necessary, QOM property for the equivalent of "configure
-   CPU with the IIC not implemented"
-
-thanks
--- PMM
+-- 
+Andrey Gruzdev, Principal Engineer
+Virtuozzo GmbH  +7-903-247-6397
+                 virtuzzo.com
 
