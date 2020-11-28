@@ -2,138 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8602C7012
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Nov 2020 17:37:26 +0100 (CET)
-Received: from localhost ([::1]:47962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E962C70A7
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Nov 2020 20:39:28 +0100 (CET)
+Received: from localhost ([::1]:39278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kj3Dx-0007OQ-2C
-	for lists+qemu-devel@lfdr.de; Sat, 28 Nov 2020 11:37:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33274)
+	id 1kj646-0005Sk-Lo
+	for lists+qemu-devel@lfdr.de; Sat, 28 Nov 2020 14:39:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kj3CD-0006pr-Vm
- for qemu-devel@nongnu.org; Sat, 28 Nov 2020 11:35:38 -0500
-Received: from mail-eopbgr60120.outbound.protection.outlook.com
- ([40.107.6.120]:30691 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1kj638-00053Y-8b
+ for qemu-devel@nongnu.org; Sat, 28 Nov 2020 14:38:26 -0500
+Received: from mailout12.inleed.net ([2a0b:dc80:cafe:112::1]:58673
+ helo=ns12.inleed.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kj3C9-0005md-AT
- for qemu-devel@nongnu.org; Sat, 28 Nov 2020 11:35:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jqBY5YrdParhv7T1DUAKUOKy5cK8YCLoDtPi9r7hxaCZD0+RMLrnWjVYGQa0Mk53kGBzJUdYOZ2w5ITMb4tfJx7sL2HYAGM8kFUZtL4SeMHlmtxJa4KIQU3rkJ7iU0kJCgEqe60f7TArqpwXzwVF+gbMQyN8GpYDYm5sOnE/RCsgE6THP66ZdN3GVwmtzcTlPohoknvweGTG4LkHAeZb+BX4cmkxHbcrpthZGhmW+bLGAuoLBYdZDqb7GiJhNdDxsDCcS5oam2d1rnBf4yqhRnLY3t1J9FFJe5ClJg+QJAhstA1i/uq4EeEXQPRGkqeFk3WT0EEzMLebBiPxvPHD9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pV/0nSBv5CcXm2x6oKxeHp1Rsk5pSlMTUYjcpGFBgDk=;
- b=A8ZPn0G+7OV+z7TGyN8QAOLXIlRleG7wOpRM8qdaEZpzu6dxytZVT2Anxmw15MT3EYmnmR9VKbSwdeZTVSuWg2EgHTX9xxHWJ3I8g4biQh2HR8hf4klnad2NCTPKKIRfjGdyIpIhX9GhTH8ruqr51e9DuBaaIgnzcypGaOBzjySPqGyWSq+3FdM6mFAvAXleBvUhzhSM2Y6v2cGHQYoQSgDLdD6qpj5a/0FdQaFCzDaOt08xI83LaHrbA73Q3fIaTnUqYQtWzaW3WglmliEftDYD15tO7yReeMs9tz5/MIOyobvNHtqO2hGe8/k1meMlaSfTTnejnxSEAo9AKkEw5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pV/0nSBv5CcXm2x6oKxeHp1Rsk5pSlMTUYjcpGFBgDk=;
- b=NWlkclau7C4JB8C4x94Vs7PSLc8huk6eOtGgZkK2QlZG29/szFHOoF9rh9xX3Cx5QlGiIc2mn7QRwDIH3b/pCVsbW1EGmmTrTdPT1cY0Ep950CErJoWAgT54ErBI9IpjoB9TluAzPYKMHQSHx6hU/8q2nrnhiJolqPjiCClfqSI=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM5PR0802MB2499.eurprd08.prod.outlook.com (2603:10a6:203:a1::7)
- by AM6PR08MB5173.eurprd08.prod.outlook.com (2603:10a6:20b:e5::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.29; Sat, 28 Nov
- 2020 16:35:29 +0000
-Received: from AM5PR0802MB2499.eurprd08.prod.outlook.com
- ([fe80::bcb9:66a:2571:5b4c]) by AM5PR0802MB2499.eurprd08.prod.outlook.com
- ([fe80::bcb9:66a:2571:5b4c%11]) with mapi id 15.20.3611.025; Sat, 28 Nov 2020
- 16:35:29 +0000
-Subject: Re: [PATCH v4 1/6] introduce 'background-snapshot' migration
- capability
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Den Lunev <den@openvz.org>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
- <20201126151734.743849-2-andrey.gruzdev@virtuozzo.com>
- <20201127195520.GE6573@xz-x1>
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-ID: <1a742d67-9eb9-7d97-c217-0147fab17b6c@virtuozzo.com>
-Date: Sat, 28 Nov 2020 19:35:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-In-Reply-To: <20201127195520.GE6573@xz-x1>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <hc981@poolhem.se>) id 1kj635-0006NA-0U
+ for qemu-devel@nongnu.org; Sat, 28 Nov 2020 14:38:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=poolhem.se; 
+ s=x;
+ h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
+ In-Reply-To:Message-Id:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=e6lMHZeogXuI713AmkRLjQyCEEeTBeJlP5XGjCJQUow=; b=quBjT+Sz4dl5E2M90n6/TTe/7s
+ mmYHYsv1sxHCI6DcimpUGfSSOMBAJ+uSDK6sYQJJKMQXMzfMcxSoeD/g5HWGsvoYA5HHR9u23eUuz
+ G71UbhI0lkVtipBLNDhGhL52O3xxMvyzonkjEHPvvta2N7uSZq6UacWngoiDhg7NZsnAOsaLNKs/h
+ cQmVhNVve4pNwSmUHIGwXUPSl+PVPtwCgy0Te01MBrgA4gq3epA5Eh9aKksH2MoEo3coVR5d/9cuJ
+ U6VWwgGppnz3PI3jKiufIyYjlHlFwrTmzUN+to/CrqFg2kl52cltsKz7rJTPUEQNXg+byrslt8c14
+ D6ba8aAw==;
+Received: from [213.115.245.47] (helo=balrog.lkp.se)
+ by ns12.inleed.net with esmtpa (Exim 4.94)
+ (envelope-from <hc981@poolhem.se>)
+ id 1kj632-00BHta-Nb; Sat, 28 Nov 2020 20:38:20 +0100
+Date: Sat, 28 Nov 2020 20:38:10 +0100
+From: Henrik Carlqvist <hc981@poolhem.se>
+To: Henrik Carlqvist <hc94@poolhem.se>
+Subject: Re: Ping2: [PATCH v2] Emulate dip switch language layout settings
+ on SUN keyboard
+Message-Id: <20201128203810.07446c6c.hc981@poolhem.se>
+In-Reply-To: <20200919194712.1ddd62cf.hc94@poolhem.se>
+References: <20200803222049.2967aeda.hc981@poolhem.se>
+ <20200919194712.1ddd62cf.hc94@poolhem.se>
+X-Mailer: Sylpheed version 0.9.7 (GTK+ 1.2.10; i686-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [95.165.26.68]
-X-ClientProxiedBy: AM4PR0202CA0006.eurprd02.prod.outlook.com
- (2603:10a6:200:89::16) To AM5PR0802MB2499.eurprd08.prod.outlook.com
- (2603:10a6:203:a1::7)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (95.165.26.68) by
- AM4PR0202CA0006.eurprd02.prod.outlook.com (2603:10a6:200:89::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.20 via Frontend
- Transport; Sat, 28 Nov 2020 16:35:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c5733dec-3207-4ef2-70c7-08d893bb9dc6
-X-MS-TrafficTypeDiagnostic: AM6PR08MB5173:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB5173836AF20422824747C1509FF70@AM6PR08MB5173.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: cZqpEoYRH0k8zw+8Jvcj9vKy6SSB1JH1kBv7ir30CC03oLG0GLo+H4kb4foYV5/YFV6ZBRd/LnN4EAQl5NE1xD8JH1W166CyUIwdVL/EjCpOh4D09cbzZTOHEtcm0723FPcxgbYUPVRAyIYZ+bTHmEtHmZM576i/Zng9qJ60f/2qxAIBvu/oszxQOIOeDJl7QXNu4X2MZWgqa7YhzJ2dNmoYWIQvRIpzbHZe2WKoEyaBKGEM8JhGB59HBOx3IJQmbMWzJQXxMqbB68vnjgTQc8nSDU+SWMiqrIdYUMkiTDlE7d5YK09tfSeeB+Bb+ELSL730Alh8PUfXLb+BZi5DMP/FP4QGpbn2s/Wt72SD+9IAsb1+KLOIF95f70p4nJXB
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM5PR0802MB2499.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(39840400004)(366004)(346002)(396003)(956004)(16576012)(6916009)(2616005)(31696002)(26005)(316002)(66946007)(2906002)(8936002)(6486002)(4744005)(66556008)(66476007)(36756003)(4326008)(5660300002)(83380400001)(16526019)(186003)(44832011)(54906003)(31686004)(53546011)(52116002)(478600001)(86362001)(8676002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VlFlM2pBRGpXUGJJZHNWY2xMangwYjRwYlVUU09Sd2JYd2E3REZPSmo1dGox?=
- =?utf-8?B?YlIxS0g4Qk93Y1dhYmR0RC96THQrY29oQW5UbHFaT2tLcStEY2Q2UmZEQ0lB?=
- =?utf-8?B?c2hZclc0VlJpSUl4bVdianhJQ2wxOXg3VENaYnhtbGpkTlhuUFh4T3J4Y1Q3?=
- =?utf-8?B?eFhnQ0xtRXlZelJPUFVTOWFVRzU5eWhZaysrbGl0VmdIc0NHYVZ3UWVhV1Ra?=
- =?utf-8?B?OTMxbmF3VXBFZDRpSitLWDJCWi9jMm1sKzdrUXd2TUlPTDVBdUxsY3RUUVlN?=
- =?utf-8?B?eDc2WEZsenBrUmZJazBwcHhmNzR5OEU5Q0M2V1B2bkRHUWlHSDJuYVU2aXkr?=
- =?utf-8?B?RW5VU3ZZRkk4Zk5kQ2ZaMW9Qa2xxVkcxckVoWmRmOGhaSHNCVGJ5M3VMbWg0?=
- =?utf-8?B?Wi9jN2dRTithSHNMbFc2YytYK2ZjbkUzYlNiblRUYVhGbnBmREtwbThFQWhB?=
- =?utf-8?B?dVBoV0ZjWDhoUjVNbVRCa2NQYk9JblRBVGhPZTZiTjB2SlpFWDdmYkJnVnFM?=
- =?utf-8?B?NW1nUGcxclJzb04rMEphN0NsT2o5UThoTXppNE5HcHlQSGdFeGwycUZSdHV6?=
- =?utf-8?B?djdjTVdWdzVFVGQ2MllpUXZOQUFPcjRjdk1kaXA0WkMvdEFWSEpJQitHb1dp?=
- =?utf-8?B?TTEyVE00TzFQSnlBcG9VeUFXb014bDArYXYyRWZ1YzhOYmxwM2Z6ZDIzMHJX?=
- =?utf-8?B?eDNTRC81cmJuY2VHV3k1WTc4ZEo3d05LWkwyakJkNk85a002YXUvUjBWdkI5?=
- =?utf-8?B?TXRlQUVBa1BZeUhDUitOQWZaRUJ3NFNUVnpheFA5TFc2TGhncDV1b2hUcndt?=
- =?utf-8?B?TXBTUnZ3QjJQY2lSODNKQlNrSE1ucmdTVUdia3cyZXZkWnRKUWRDc2d2ckhB?=
- =?utf-8?B?L0czclNwYU9wUHFCNUhMbjlsd2Y3V0I4RWNmMGtFS2pkWHhjOFB6czY4aFoz?=
- =?utf-8?B?ZmhuYU1sMXhRUGhOaWVleWF3S21iVVlNb1R3OHN2RVMvSkVHZW1neFdwc3pa?=
- =?utf-8?B?N1hCUkxHRnZLVDZDWnRmVVVoUm5MMHdZaG4wVVAzWUUxd09sT2Z3SlJWYWpv?=
- =?utf-8?B?TFBycHRCSG9wWTFxT25jcGQwMlhGUEFDS0tjbTM5SlJUYlV5Nll1b2hjR09N?=
- =?utf-8?B?dWNHTjQwWVg0VklvWDMwTktNZGoweGJDTVIwa3BQb21lWlBGVU04NE5vOHlt?=
- =?utf-8?B?bkNSdXYyZ0hYVGhHNVNGYzlIL2ttaUllVzZtOVl2bytBb3FEMzl4ZEpmMERH?=
- =?utf-8?B?SDZwdGJiaWtMUGtnZjQ0UlEvUS9xWkJaKysvdlF2ZTNSMkkybjlObURqbWxK?=
- =?utf-8?Q?Wh7VPrXs/IguM=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5733dec-3207-4ef2-70c7-08d893bb9dc6
-X-MS-Exchange-CrossTenant-AuthSource: AM5PR0802MB2499.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2020 16:35:29.2048 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WweJxUMNcVKdMF8G90+x+Ue8VfvfyB9oj/TN4OMPX8UQDZfqMQXsLBEMYveaKYBbLYbtyzt6/bJ54QoSqXwmZE1cptSlxw11Gtb3IOQ6lm0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5173
-Received-SPF: pass client-ip=40.107.6.120;
- envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Authenticated-Id: henrik@poolhem.se
+Received-SPF: none client-ip=2a0b:dc80:cafe:112::1;
+ envelope-from=hc981@poolhem.se; helo=ns12.inleed.net
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_SOFTFAIL=0.732, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -146,21 +69,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, atar4qemu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27.11.2020 22:55, Peter Xu wrote:
-> On Thu, Nov 26, 2020 at 06:17:29PM +0300, Andrey Gruzdev wrote:
->> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-> 
-> The patch looks good to me, but again, any commit message would be more than
-> welcomed... as long as it's not empty. :)
-> 
+This is really annoying, no matter how I try I am unable to submit a valid
+patch.
 
-Yep, agree. :)
+Some googling revealed that my patch had been rejected at
+https://patchew.org/QEMU/20200710201911.3a3e336c.hc981@poolhem.se/
 
--- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                 virtuzzo.com
+The apply log points to line 104 which is broken in my patch, it looks like
+this:
+
++}
++
+ static void handle_kbd_command(ESCCChannelState *s, int val)
+ {
+     trace_escc_kbd_command(val);
+@@ -751,7 +823,7 @@ static void handle_kbd_command(ESCCChannelState *s, int
+val)     case 0xf:
+         clear_queue(s);
+         put_queue(s, 0xfe);
+-        put_queue(s, 0x21); /*  en-us layout */
++        put_queue(s, sun_keyboard_layout_dip_switch());
+
+Line 104 is the line with @@ which is obviously broken as it does not only
+contain line numbers but also code as a line wrapped function declaration
+repeated from an earlier row.
+
+My original patch which I created with diff -ruN did not have this problem,
+but when I try to create my patch with git to get the Signed-off-by: the patch
+created by git gets mangled like this. Even the output from "git diff" is
+mangled like that even though my patched code looks fine.
+
+I am aware that this mailing list is not supposed to be some kind of git
+support forum, but could I please get some hint on how to submit my patch so
+that it gets accepted?
+
+Best regards Henrik
+
+On Sat, 19 Sep 2020 19:47:12 +0200
+Henrik Carlqvist <hc94@poolhem.se> wrote:
+
+> Just wanted to check that my patch hasn't been forgotten... I was hoping
+> that it would make it into some branch in git.
+> 
+> Do you want me to do any more changes to the patch or the description?
+> 
+> Best regards Henrik
+> 
+> On Mon, 3 Aug 2020 22:20:49 +0200
+> Henrik Carlqvist <hc981@poolhem.se> wrote:
+> 
+> > This is my second attempt to contribute a patch which makes the -k switch
+> > useful for sparc emulation as its value is used to emulate the dip switch
+> > in a SUN keyboard for language layout setting.
+> > 
+> > Unfortunately my glib version is too old to compile later versions of qemu
+> > so even though this patch is made from latest git I have only been able to
+> > test it myself with qemu version 4.1.1. I think and hope that this patch
+> > will compile and work also with the latest version of git as it only
+> > affects one file and there hasn't been much changes to that file since
+> > tested version 4.1.1.
+> > 
+> > Best regards Henrik
+> > 
+> > From e302b02dec32c28297ed20d852c5fba2c1682f5a Mon Sep 17 00:00:00 2001
+> > From: Henrik Carlqvist <hc1245@poolhem.se>
+> > Date: Mon, 3 Aug 2020 22:11:55 +0200
+> > Subject: [PATCH] Emulating sun keyboard language layout dip switches,
+> > taking
+> >  the value for the dip switches from the "-k" option to qemu.
+> > 
+> > SUN Type 4, 5 and 5c keyboards have dip switches to choose the language
+> > layout of the keyboard. Solaris makes an ioctl to query the value of the
+> > dipswitches and uses that value to select keyboard layout. Also the SUN
+> > bios like the one in the file ss5.bin uses this value to support at least
+> > some keyboard layouts. However, the OpenBIOS provided with qemu is
+> > hardcoded to always use an US keyboard layout.
+> > 
+> > Before this patch, qemu allways gave dip switch value 0x21 (US keyboard),
+> > this patch uses the command line switch "-k" (keyboard layout) to select
+> > dip switch value. A table is used to lookup values from arguments like:
+> > 
+> > -k fr
+> > -k es
+> > 
+> > But the patch also accepts numeric dip switch values directly to the -k
+> > switch:
+> > 
+> > -k 0x2b
+> > -k 43
+> > 
+> > Both values above are the same and select swedish keyboard as explained in
+> > table 3-15 at
+> > https://docs.oracle.com/cd/E19683-01/806-6642/new-43/index.html
+> > 
+> > Unless you want to do a full Solaris installation but happen to have
+> > access to a bios file, the easiest way to test that the patch works is to:
+> > 
+> > qemu-system-sparc -k sv -bios /path/to/ss5.bin
+> > 
+> > If you already happen to have a Solaris installation in a qemu disk image
+> > file you can easily try different keyboard layouts after this patch is
+> > applied.
+> > 
+> > Signed-off-by: Henrik Carlqvist <hc1245@poolhem.se>
+> > ---
+> >  hw/char/escc.c | 74
+> > +++++++++++++++++++++++++++++++++++++++++++++++++++++++++- 1 file changed,
+> > 73 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/char/escc.c b/hw/char/escc.c
+> > index 7d16ee8688..7287056b5f 100644
+> > --- a/hw/char/escc.c
+> > +++ b/hw/char/escc.c
+> > @@ -30,6 +30,8 @@
+> >  #include "qemu/module.h"
+> >  #include "hw/char/escc.h"
+> >  #include "ui/console.h"
+> > +#include "sysemu/sysemu.h"
+> > +#include "qemu/cutils.h"
+> >  #include "trace.h"
+> >  
+> >  /*
+> > @@ -175,6 +177,7 @@
+> >  #define R_MISC1I 14
+> >  #define R_EXTINT 15
+> >  
+> > +static unsigned char sun_keyboard_layout_dip_switch(void);
+> >  static void handle_kbd_command(ESCCChannelState *s, int val);
+> >  static int serial_can_receive(void *opaque);
+> >  static void serial_receive_byte(ESCCChannelState *s, int ch);
+> > @@ -730,6 +733,75 @@ static QemuInputHandler sunkbd_handler = {
+> >      .event = sunkbd_handle_event,
+> >  };
+> >  
+> > +static unsigned char sun_keyboard_layout_dip_switch(void)
+> > +{
+> > +    /* Return the value of the dip-switches in a SUN Type 5 keyboard */
+> > +    static unsigned char ret = 0xff;
+> > +
+> > +    if ((ret == 0xff) && keyboard_layout) {
+> > +        int i;
+> > +        struct layout_values {
+> > +            const char *lang;
+> > +            unsigned char dip;
+> > +        } languages[] =
+> > +    /* Dip values from table 3-16 Layouts for Type 4, 5, and 5c Keyboards
+> > */+            {
+> > +                {"en-us", 0x21}, /* U.S.A. (US5.kt) */
+> > +                                 /* 0x22 is some other US (US_UNIX5.kt)*/
+> > +                {"fr",    0x23}, /* France (France5.kt) */
+> > +                {"da",    0x24}, /* Denmark (Denmark5.kt) */
+> > +                {"de",    0x25}, /* Germany (Germany5.kt) */
+> > +                {"it",    0x26}, /* Italy (Italy5.kt) */
+> > +                {"nl",    0x27}, /* The Netherlands (Netherland5.kt) */
+> > +                {"no",    0x28}, /* Norway (Norway.kt) */
+> > +                {"pt",    0x29}, /* Portugal (Portugal5.kt) */
+> > +                {"es",    0x2a}, /* Spain (Spain5.kt) */
+> > +                {"sv",    0x2b}, /* Sweden (Sweden5.kt) */
+> > +                {"fr-ch", 0x2c}, /* Switzerland/French (Switzer_Fr5.kt)
+> > */+                {"de-ch", 0x2d}, /* Switzerland/German (Switzer_Ge5.kt)
+> > */+                {"en-gb", 0x2e}, /* Great Britain (UK5.kt) */
+> > +                {"ko",    0x2f}, /* Korea (Korea5.kt) */
+> > +                {"tw",    0x30}, /* Taiwan (Taiwan5.kt) */
+> > +                {"ja",    0x31}, /* Japan (Japan5.kt) */
+> > +                {"fr-ca", 0x32}, /* Canada/French (Canada_Fr5.kt) */
+> > +                {"hu",    0x33}, /* Hungary (Hungary5.kt) */
+> > +                {"pl",    0x34}, /* Poland (Poland5.kt) */
+> > +                {"cz",    0x35}, /* Czech (Czech5.kt) */
+> > +                {"ru",    0x36}, /* Russia (Russia5.kt) */
+> > +                {"lv",    0x37}, /* Latvia (Latvia5.kt) */
+> > +                {"tr",    0x38}, /* Turkey-Q5 (TurkeyQ5.kt) */
+> > +                {"gr",    0x39}, /* Greece (Greece5.kt) */
+> > +                {"ar",    0x3a}, /* Arabic (Arabic5.kt) */
+> > +                {"lt",    0x3b}, /* Lithuania (Lithuania5.kt) */
+> > +                {"nl-be", 0x3c}, /* Belgium (Belgian5.kt) */
+> > +                {"be",    0x3c}, /* Belgium (Belgian5.kt) */
+> > +            };
+> > +
+> > +        for (i = 0;
+> > +             i < sizeof(languages) / sizeof(struct layout_values);
+> > +             i++) {
+> > +            if (!strcmp(keyboard_layout, languages[i].lang)) {
+> > +                ret = languages[i].dip;
+> > +                return ret;
+> > +            }
+> > +        }
+> > +        /* Found no known language code */
+> > +
+> > +        if ((keyboard_layout[0] >= '0') && (keyboard_layout[0] <= '9')) {
+> > +            unsigned int tmp;
+> > +            /* As a fallback we also accept numeric dip switch value */
+> > +            if (!qemu_strtoui(keyboard_layout, NULL, 0, &tmp)) {
+> > +                ret = (unsigned char)tmp;
+> > +            }
+> > +        }
+> > +    }
+> > +    if (ret == 0xff) {
+> > +        /* Final fallback if keyboard_layout was not set or recognized */
+> > +        ret = 0x21; /* en-us layout */
+> > +    }
+> > +    return ret;
+> > +}
+> > +
+> >  static void handle_kbd_command(ESCCChannelState *s, int val)
+> >  {
+> >      trace_escc_kbd_command(val);
+> > @@ -751,7 +823,7 @@ static void handle_kbd_command(ESCCChannelState *s,
+> > int val)     case 0xf:
+> >          clear_queue(s);
+> >          put_queue(s, 0xfe);
+> > -        put_queue(s, 0x21); /*  en-us layout */
+> > +        put_queue(s, sun_keyboard_layout_dip_switch());
+> >          break;
+> >      default:
+> >          break;
+> > -- 
+> > 2.14.5
 
