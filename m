@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9422C7B31
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 21:42:07 +0100 (CET)
-Received: from localhost ([::1]:43520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 803202C7B32
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 21:42:10 +0100 (CET)
+Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjTWI-0000DS-6p
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 15:42:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55830)
+	id 1kjTWL-0000FL-HF
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 15:42:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kjTU2-0007Gy-La
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 15:39:46 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40444)
+ id 1kjTU3-0007I1-SL
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 15:39:47 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kjTTk-0001I4-UL
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 15:39:46 -0500
-Received: by mail-wr1-x442.google.com with SMTP id m6so12585149wrg.7
- for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 12:39:28 -0800 (PST)
+ id 1kjTTm-0001IA-3l
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 15:39:47 -0500
+Received: by mail-wr1-x443.google.com with SMTP id m6so12585197wrg.7
+ for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 12:39:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ad0c4jjqo0MMN5YLMESrd8BQ23F4DSjdkon9WAKsMB0=;
- b=vVcU7EJStD2EJSoZycUfP6WmFxf2NRoJJLdpqDfVuEAZEanLGe77AcudBBMuNQCLZc
- gn66ZDKyQrMZU+BWqvKk3ZCj3+/MWSl9euYqIP6O8670a/9/UsWoLsfnAT7m1yNy1ECN
- 7i9ME5ICjIJd3l83LdJY+XKdjIsS4QnxCm/9BOzA4uvMfy/jhNRGpoS3o56H53PM87Kt
- Yq8i5fZPaK/6R3tTMAtMa1+bN5ETyM0apIIG8uYaio8Gt68yflgLCw0ozFJaBmYZ80Mg
- n2zLYbaB8L2cPMifCYe7M3XCXO+Vaq6U0Pbs2bkh7n2LUc1fRfKArKoDGF0ygkVhmTav
- L+/Q==
+ bh=I0qwXA+9gejr5uvpg7PQ9uQgqOS7NlfKkSTdv7SC2QI=;
+ b=VFjWvij+Omnf/xjpVSDcX3JvCLOIZ+WwnfgT/8+bOoyEIyP0t4eZEaNQzyH/7dW77Q
+ CHkMiqz23k5ED5difVOEkb0s89/XJirLD4GxxsGMFH+aNY44Z8H8rpmA3s4BDhSDm/pg
+ 23xsVOOdPq+CKd8fNClwn67zwo7ZwnKOW0pAH2MWaMdt0OIExc5OWz+AnO0PgUdxcMuV
+ wAYq0JQOIyP2SLC8Wt3sfbNuAhsfZwu3/vVy19TXEyD3ccTzyeph4dDcZ52IKtP9U3mx
+ VBD+n0g+5tneEWxa/LydDbKIw6pMWENTMSy5gfB8izQVCdTnYtUUTQgdnvvfXaWfFhZi
+ Dk+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ad0c4jjqo0MMN5YLMESrd8BQ23F4DSjdkon9WAKsMB0=;
- b=aXLN+qG5WBROzXE+p33oaJtT+NR0ojYk/yEGd810L3eEQzi4e8xBxCBZ7hZSlRe0Ub
- /0/WNnlBJSPAgoR+RF+oqUgUkyMbmEQ3vM/X8JQ49/w/VvxzVyGTmFNV4JbYHMBeaMwh
- OCUxDhWXay/nfQzM81ArT4Ub51EB8vN3izWeGyVJZJrfFcXDFjR4zXlfpZFHHC+1otfD
- 0k1RPzTrzTmR+AKAGWaBjkCFF09eRnAuiCryeeU+8M4SMncvYfGcJ1DF0IhHyzekDUmv
- ZPywc6UA/mWcqRX6evY0thtCAEChi5aqsMg6NoJeNs+zFgstkhARV7+DwI5gmzKnfHaP
- K3wA==
-X-Gm-Message-State: AOAM533hxNQxTy1Q/4mfwZwIEp1M7miquANTxxLzJJrmk45wxbcjn+ZH
- 3o21T21xXwhwdf9ZTs79LGCmJTyO9NJRIA==
-X-Google-Smtp-Source: ABdhPJznYnx7e9dwHpmHGGkG/Ly4orXy/5NS16sZoFifde5QUHDFARggvhRvZVCDvEmJpo+TdrRwmg==
-X-Received: by 2002:adf:fc49:: with SMTP id e9mr24001784wrs.31.1606682367358; 
- Sun, 29 Nov 2020 12:39:27 -0800 (PST)
+ bh=I0qwXA+9gejr5uvpg7PQ9uQgqOS7NlfKkSTdv7SC2QI=;
+ b=VNqcLeRvZVn2tq3j/ktARQWFYFs4CBU0baIfXWaaO/GzXA4CZqaQFDOsbK/uDHcsH9
+ xX96AbvaVFCI9jpTIQcWrqZsgbCKTGF8tldXbxet/ziSFE7KetCSJLYZxe96acHTBVlr
+ j0clUf55P7RmyzNGrEyz22akoXsOC6FvnC5NBYE3A5Vo75/+Q+uMnSPkFUK2walRPSAN
+ ZzNXN8GzzpnwJ7xAX+XtXVEGjxjuLd1KUd2zlC4HfK1tn7b6lZpDD++ydUCOsysp+MLP
+ VU9xX/K4XbFU/LkfuzLhkrzf3oVYK0EoIEM3Jm/YDiEmawdEeIW+qwPZE+iuO+k0mERd
+ IeWA==
+X-Gm-Message-State: AOAM532nOF9KiUs3M/tSVhiyp8UAn9EPsvEcUB03knjWd2A+bg0PQB2U
+ /Ux/tCCYLxLJ2+dl8ToCOXqtWnX65OKUhw==
+X-Google-Smtp-Source: ABdhPJxNlIuspWZPxG38hY72ANKFFDCHD9VK1nzXaSyz4Vv+2tWZu1nIKP8hEyTkp5xxPOMqU3+7WQ==
+X-Received: by 2002:adf:e54f:: with SMTP id z15mr24663384wrm.159.1606682368489; 
+ Sun, 29 Nov 2020 12:39:28 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q12sm23618393wrx.86.2020.11.29.12.39.26
+ by smtp.gmail.com with ESMTPSA id q12sm23618393wrx.86.2020.11.29.12.39.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Nov 2020 12:39:26 -0800 (PST)
+ Sun, 29 Nov 2020 12:39:27 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] hw/core/loader.c: Improve reporting of ROM overlap errors
-Date: Sun, 29 Nov 2020 20:39:21 +0000
-Message-Id: <20201129203923.10622-3-peter.maydell@linaro.org>
+Subject: [PATCH 3/4] elf_ops.h: Don't truncate name of the ROM blobs we create
+Date: Sun, 29 Nov 2020 20:39:22 +0000
+Message-Id: <20201129203923.10622-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201129203923.10622-1-peter.maydell@linaro.org>
 References: <20201129203923.10622-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,135 +86,39 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In rom_check_and_register_reset() we report to the user if there is
-a "ROM region overlap". This has a couple of problems:
- * the reported information is not very easy to intepret
- * the function just prints the overlap to stderr (and relies on
-   its single callsite in vl.c to do an error_report() and exit)
- * only the first overlap encountered is diagnosed
-
-Make this function use error_report() and error_printf() and
-report a more user-friendly report with all the overlaps
-diagnosed.
-
-Sample old output:
-
-rom: requested regions overlap (rom dtb. free=0x0000000000008000, addr=0x0000000000000000)
-qemu-system-aarch64: rom check and register reset failed
-
-Sample new output:
-
-qemu-system-aarch64: Some ROM regions are overlapping
-These ROM regions might have been loaded by direct user request or by default.
-They could be BIOS/firmware images, a guest kernel, initrd or some other file loaded into guest memory.
-Check whether you intended to load all this guest code, and whether it has been built to load to the correct addresses.
-
-The following two regions overlap (in the cpu-memory-0 address space):
-  phdr #0: /home/petmay01/linaro/qemu-misc-tests/ldmia-fault.axf (addresses 0x0000000000000000 - 0x0000000000008000)
-  dtb (addresses 0x0000000000000000 - 0x0000000000100000)
-
-The following two regions overlap (in the cpu-memory-0 address space):
-  phdr #1: /home/petmay01/linaro/qemu-misc-tests/bad-psci-call.axf (addresses 0x0000000040000000 - 0x0000000040000010)
-  phdr #0: /home/petmay01/linaro/qemu-misc-tests/bp-test.elf (addresses 0x0000000040000000 - 0x0000000040000020)
+Currently the load_elf code assembles the ROM blob name into a
+local 128 byte fixed-size array. Use g_strdup_printf() instead so
+that we don't truncate the pathname if it happens to be long.
+(This matters mostly for monitor 'info roms' output and for the
+error messages if ROM blobs overlap.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-The sample output is from a completely bogus commandline where I just
-loaded multiple clashing ELF files I had to hand using -device loader.
----
- hw/core/loader.c | 48 ++++++++++++++++++++++++++++++++++++++++++------
- softmmu/vl.c     |  1 -
- 2 files changed, 42 insertions(+), 7 deletions(-)
+ include/hw/elf_ops.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/core/loader.c b/hw/core/loader.c
-index 05052ee797e..de3c319e34f 100644
---- a/hw/core/loader.c
-+++ b/hw/core/loader.c
-@@ -1175,10 +1175,42 @@ static bool roms_overlap(Rom *last_rom, Rom *this_rom)
-         last_rom->addr + last_rom->romsize > this_rom->addr;
- }
+diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
+index 6fdff3dced5..53e0152af53 100644
+--- a/include/hw/elf_ops.h
++++ b/include/hw/elf_ops.h
+@@ -330,7 +330,6 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+     uint64_t addr, low = (uint64_t)-1, high = 0;
+     GMappedFile *mapped_file = NULL;
+     uint8_t *data = NULL;
+-    char label[128];
+     int ret = ELF_LOAD_FAILED;
  
-+static const char *rom_as_name(Rom *rom)
-+{
-+    const char *name = rom->as ? rom->as->name : NULL;
-+    return name ?: "anonymous";
-+}
-+
-+static void rom_print_overlap_error_header(void)
-+{
-+    error_report("Some ROM regions are overlapping");
-+    error_printf(
-+        "These ROM regions might have been loaded by "
-+        "direct user request or by default.\n"
-+        "They could be BIOS/firmware images, a guest kernel, "
-+        "initrd or some other file loaded into guest memory.\n"
-+        "Check whether you intended to load all this guest code, and "
-+        "whether it has been built to load to the correct addresses.\n");
-+}
-+
-+static void rom_print_one_overlap_error(Rom *last_rom, Rom *rom)
-+{
-+    error_printf(
-+        "\nThe following two regions overlap (in the %s address space):\n",
-+        rom_as_name(rom));
-+    error_printf(
-+        "  %s (addresses 0x" TARGET_FMT_plx " - 0x" TARGET_FMT_plx ")\n",
-+        last_rom->name, last_rom->addr, last_rom->addr + last_rom->romsize);
-+    error_printf(
-+        "  %s (addresses 0x" TARGET_FMT_plx " - 0x" TARGET_FMT_plx ")\n",
-+        rom->name, rom->addr, rom->addr + rom->romsize);
-+}
-+
- int rom_check_and_register_reset(void)
- {
-     MemoryRegionSection section;
-     Rom *rom, *last_rom = NULL;
-+    bool found_overlap = false;
+     if (read(fd, &ehdr, sizeof(ehdr)) != sizeof(ehdr))
+@@ -544,7 +543,8 @@ static int glue(load_elf, SZ)(const char *name, int fd,
+              */
+             if (mem_size != 0) {
+                 if (load_rom) {
+-                    snprintf(label, sizeof(label), "phdr #%d: %s", i, name);
++                    g_autofree char *label =
++                        g_strdup_printf("phdr #%d: %s", i, name);
  
-     QTAILQ_FOREACH(rom, &roms, next) {
-         if (rom->fw_file) {
-@@ -1186,12 +1218,12 @@ int rom_check_and_register_reset(void)
-         }
-         if (!rom->mr) {
-             if (roms_overlap(last_rom, rom)) {
--                fprintf(stderr, "rom: requested regions overlap "
--                        "(rom %s. free=0x" TARGET_FMT_plx
--                        ", addr=0x" TARGET_FMT_plx ")\n",
--                        rom->name, last_rom->addr + last_rom->romsize,
--                        rom->addr);
--                return -1;
-+                if (!found_overlap) {
-+                    found_overlap = true;
-+                    rom_print_overlap_error_header();
-+                }
-+                rom_print_one_overlap_error(last_rom, rom);
-+                /* Keep going through the list so we report all overlaps */
-             }
-             last_rom = rom;
-         }
-@@ -1200,6 +1232,10 @@ int rom_check_and_register_reset(void)
-         rom->isrom = int128_nz(section.size) && memory_region_is_rom(section.mr);
-         memory_region_unref(section.mr);
-     }
-+    if (found_overlap) {
-+        return -1;
-+    }
-+
-     qemu_register_reset(rom_reset, NULL);
-     roms_loaded = 1;
-     return 0;
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index e6e0ad5a925..aa6fd3243d5 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -4459,7 +4459,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_run_machine_init_done_notifiers();
- 
-     if (rom_check_and_register_reset() != 0) {
--        error_report("rom check and register reset failed");
-         exit(1);
-     }
- 
+                     /*
+                      * rom_add_elf_program() takes its own reference to
 -- 
 2.20.1
 
