@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DCA2C781F
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 07:02:16 +0100 (CET)
-Received: from localhost ([::1]:40034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275012C7826
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 07:06:49 +0100 (CET)
+Received: from localhost ([::1]:42178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjFmo-00071G-Oh
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 01:02:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45064)
+	id 1kjFrE-00086B-61
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 01:06:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kjFll-0006ak-Vw
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 01:01:11 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46022)
+ id 1kjFq8-0007h6-WF
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 01:05:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:46240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kjFlf-0000P7-6G
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 01:01:08 -0500
+ id 1kjFq7-0001oC-7s
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 01:05:40 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kjFla-0002sF-VB
- for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 06:00:58 +0000
+ id 1kjFq5-0003FF-Nf
+ for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 06:05:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DF1B32E813A
- for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 06:00:58 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AE9F22E8030
+ for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 06:05:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 29 Nov 2020 05:51:42 -0000
+Date: Sun, 29 Nov 2020 06:00:05 -0000
 From: Daniel Bokser <1699567@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,14 +41,14 @@ X-Launchpad-Bug-Commenters: anatol danb91 th-huth
 X-Launchpad-Bug-Reporter: Anatol Pomozov (anatol)
 X-Launchpad-Bug-Modifier: Daniel Bokser (danb91)
 References: <149806751311.22103.16824316715266267682.malonedeb@soybean.canonical.com>
-Message-Id: <160662910228.31991.13228850470531488304.malone@chaenomeles.canonical.com>
+Message-Id: <160662960758.32597.353190671262366121.launchpad@chaenomeles.canonical.com>
 Subject: [Bug 1699567] Re: Qemu does not force SSE data alignment
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="12d09381f8e8eee3115395875b132e165fa96574"; Instance="production"
-X-Launchpad-Hash: c667cf385d86f9dac6679e897e35809369eff289
+X-Launchpad-Hash: 7593c76210a7bf0a999bcd12206c79ab5eec4c51
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,9 +73,8 @@ Reply-To: Bug 1699567 <1699567@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I am currently running into this bug on QEMU emulator version 5.1.0.
-movaps unaligned access works fine in qemu, when it should throw a GP. Like=
-wise, the same code on physical hardware throws a GP.
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
 -- =
 
