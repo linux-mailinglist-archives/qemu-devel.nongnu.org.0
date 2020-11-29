@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF8C2C7B35
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 21:45:54 +0100 (CET)
-Received: from localhost ([::1]:53890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B3F2C7B47
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 22:07:17 +0100 (CET)
+Received: from localhost ([::1]:45106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjTZx-00053P-92
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 15:45:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55838)
+	id 1kjTue-0006qg-8D
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 16:07:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kjTU4-0007IE-1u
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 15:39:48 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42209)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kjTt6-00061J-K2
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 16:05:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kjTTm-0001IE-Ve
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 15:39:47 -0500
-Received: by mail-wr1-x443.google.com with SMTP id l1so12588647wrb.9
- for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 12:39:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7CciqfkCFJWruhtp6R5XMHKgV21axKR+IckWxPTjD2k=;
- b=jOSwrIYWrOBhgVDROjHbF7HtRU/WmZ5F32ZKtoZRYH233d6gJjfqFiVjuQpbaSQF5j
- o6LCs/W4OAI9E3PEOWx5FwNvQPl42C6ss56W1t32qB5d482qDrIgDsJZmleVkFUPslVh
- 8bIzRoAue0xJirDAXpqHaxIx8yczjFHoxTiAdKI0uCr6QYOjuN4KlsyZYmotWSVKbo6o
- FbtZUEOI9QSQUBG9q/5GhjIDCGOChG9uKLSuC5afpJfSL1nWLWOb6oLqSUMIFQbJsbYT
- dru0FeG9p1XupRjlR92oLB+zodtg6zHUHfc46F72ML/cxun6dR2iAixUsblVLDEi0hcZ
- 1JKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7CciqfkCFJWruhtp6R5XMHKgV21axKR+IckWxPTjD2k=;
- b=QBsF++m17kAya4PAUtdm9R6pwgqgCaIG9eneWF7zziQZ80XyM+jmC8rmAxPA+4v5l3
- m+af/k4PxWbz3KJE3APWHZ4ggL4oDBwEaCPQMMmXECbKnjJ3el+/TmUn3COhD3ayzKnB
- M4Nxai5yl+wAGgt3FYBldZE7B0FTYQ/NaNC+5veruHbN9YU9MOllQqK+ppL5cWRlvfoX
- f5ImsjBhwfeSF7y5xesxUrlTBXX46bs+qtOBR0C2/WzeA2x5dDtspJKla6Ts0kPzqtYk
- REW+pg/U+Lg5YjhrXMGb0BCqoboSqDuSrWJEW9rDRLMwuAaLJrJ6zcfI0YBjABK+6Af/
- IclA==
-X-Gm-Message-State: AOAM53346e3jI5yqM/jJssKgSGAzu/koyRxyKk8yisgIAvsziRc42EaL
- nJhbNAANCz39lVz80WoPTTU4OwHOEljwKw==
-X-Google-Smtp-Source: ABdhPJyrtp8LhJVvj/6RkZ9UGNlmRZOjcmp1rHbjIUlXfoo/EWFco7It3tGA5F/RwtTTV055oxWsLw==
-X-Received: by 2002:a5d:4591:: with SMTP id p17mr24974652wrq.361.1606682369560; 
- Sun, 29 Nov 2020 12:39:29 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q12sm23618393wrx.86.2020.11.29.12.39.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Nov 2020 12:39:28 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] elf_ops.h: Be more verbose with ROM blob names
-Date: Sun, 29 Nov 2020 20:39:23 +0000
-Message-Id: <20201129203923.10622-5-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201129203923.10622-1-peter.maydell@linaro.org>
-References: <20201129203923.10622-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kjTt4-0001aV-78
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 16:05:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kjTt2-0002Ns-8j
+ for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 21:05:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3B2962E813A
+ for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 21:05:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 29 Nov 2020 21:00:06 -0000
+From: johannes <1906184@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux sound stuttering
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fghgfh832
+X-Launchpad-Bug-Reporter: johannes (fghgfh832)
+X-Launchpad-Bug-Modifier: johannes (fghgfh832)
+Message-Id: <160668360643.8467.1174467621705698044.malonedeb@soybean.canonical.com>
+Subject: [Bug 1906184] [NEW] Lots of stuttering/crackling in guest sound
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="12d09381f8e8eee3115395875b132e165fa96574"; Instance="production"
+X-Launchpad-Hash: 03c041d41f3ed0de512ddcdf72e55eb90c130751
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,39 +69,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1906184 <1906184@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of making the ROM blob name something like:
-  phdr #0: /home/petmay01/linaro/qemu-misc-tests/ldmia-fault.axf
-make it a little more self-explanatory for people who don't know
-ELF format details:
-  /home/petmay01/linaro/qemu-misc-tests/ldmia-fault.axf ELF program header segment 0
+Public bug reported:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-This seems nicer to me, but it's a matter of taste, so if people
-prefer the current name form we should probably leave it be.
----
- include/hw/elf_ops.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+When listening to music (e.g. with VLC) or watching Youtube on the
+guest, there's lots of stuttering and crackling in the sound.
 
-diff --git a/include/hw/elf_ops.h b/include/hw/elf_ops.h
-index 53e0152af53..8e8436831d2 100644
---- a/include/hw/elf_ops.h
-+++ b/include/hw/elf_ops.h
-@@ -544,7 +544,8 @@ static int glue(load_elf, SZ)(const char *name, int fd,
-             if (mem_size != 0) {
-                 if (load_rom) {
-                     g_autofree char *label =
--                        g_strdup_printf("phdr #%d: %s", i, name);
-+                        g_strdup_printf("%s ELF program header segment %d",
-+                                        name, i);
- 
-                     /*
-                      * rom_add_elf_program() takes its own reference to
--- 
-2.20.1
 
+Tested with the following QEMU start commands:
+
+qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+./linux/kubuntu-20.04-desktop-amd64.iso -boot d -vga virtio -soundhw hda
+-display sdl,gl=3Don
+
+qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+./linux/kubuntu-20.04-desktop-amd64.iso -boot d -vga qxl -soundhw hda
+-display sdl
+
+qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+./linux/kubuntu-20.04-desktop-amd64.iso -boot d -vga qxl -soundhw hda
+-display gtk
+
+
+If I use the following command (QXL graphics, "remote" access via SPICE ove=
+r unix socket), stuttering is not completely gone but MUCH less annoying:
+
+qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+./linux/kubuntu-20.04-desktop-amd64.iso -boot d -soundhw hda -vga qxl
+-device virtio-serial-pci -device
+virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.spice.0 -chardev
+spicevmc,id=3Dspicechannel0,name=3Dvdagent -spice
+unix,addr=3D/tmp/vm_spice.socket,disable-ticketing
+
+and this command for accessing the VM:
+remote-viewer spice+unix:///tmp/vm_spice.socket =
+
+
+
+Guest: Kubuntu 20.04 64-bit (live), but occurs with many other as well
+Host: Arch Linux, with KDE desktop
+CPU: Intel Xeon E3-1230v2 (4 cores + hyperthreading)
+RAM: 16 GB
+GPU: Nvidia GTX 980 Ti
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: linux sound stuttering
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906184
+
+Title:
+  Lots of stuttering/crackling in guest sound
+
+Status in QEMU:
+  New
+
+Bug description:
+  When listening to music (e.g. with VLC) or watching Youtube on the
+  guest, there's lots of stuttering and crackling in the sound.
+
+  =
+
+  Tested with the following QEMU start commands:
+
+  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+  ./linux/kubuntu-20.04-desktop-amd64.iso -boot d -vga virtio -soundhw
+  hda -display sdl,gl=3Don
+
+  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+  ./linux/kubuntu-20.04-desktop-amd64.iso -boot d -vga qxl -soundhw hda
+  -display sdl
+
+  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+  ./linux/kubuntu-20.04-desktop-amd64.iso -boot d -vga qxl -soundhw hda
+  -display gtk
+
+  =
+
+  If I use the following command (QXL graphics, "remote" access via SPICE o=
+ver unix socket), stuttering is not completely gone but MUCH less annoying:
+
+  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom
+  ./linux/kubuntu-20.04-desktop-amd64.iso -boot d -soundhw hda -vga qxl
+  -device virtio-serial-pci -device
+  virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.spice.0 -chardev
+  spicevmc,id=3Dspicechannel0,name=3Dvdagent -spice
+  unix,addr=3D/tmp/vm_spice.socket,disable-ticketing
+
+  and this command for accessing the VM:
+  remote-viewer spice+unix:///tmp/vm_spice.socket =
+
+
+
+  Guest: Kubuntu 20.04 64-bit (live), but occurs with many other as well
+  Host: Arch Linux, with KDE desktop
+  CPU: Intel Xeon E3-1230v2 (4 cores + hyperthreading)
+  RAM: 16 GB
+  GPU: Nvidia GTX 980 Ti
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906184/+subscriptions
 
