@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B79A2C7905
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 13:03:30 +0100 (CET)
-Received: from localhost ([::1]:40986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7E12C7907
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 13:05:27 +0100 (CET)
+Received: from localhost ([::1]:43104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjLQP-0001jN-4Q
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 07:03:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55466)
+	id 1kjLSI-0002bL-49
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 07:05:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1kjLOL-00019e-TP
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 07:01:21 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:43355)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1kjLQ9-0001tw-HV
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 07:03:13 -0500
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:35156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1kjLOJ-0000Rn-45
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 07:01:21 -0500
-Received: by mail-pl1-x644.google.com with SMTP id u2so4910347pls.10
- for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 04:01:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1kjLQ6-0000wH-1P
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 07:03:13 -0500
+Received: by mail-pf1-x441.google.com with SMTP id e8so8459845pfh.2
+ for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 04:03:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=ZHhFICyBHqbcTConxF/uKEsK0pZeKwkuoibKi97EmYs=;
- b=ZDecGCzmoihNRiKUZ2A8iWALJeSHkLVHudhHhrl9dESy3df2brwpNZsE5sWjL9Huox
- 6zV1d5WmehQDQqGr2ZDNKM5PxeicWd9028Y2W/8lzUtV/QK8MMH+SM2ebc7V38YuHL+0
- eLhPmMjofye1d5AH8qzpMRDrziv3gh88ivs4SVyKgjjkOytfxzrDaBp+cYQTY6CSFblS
- 9CXvlof+zLw3uD3v6t2+GVGCaDC819fvt92w8WNrwnk0PZk+0H3YJGIwD2M8+uhWmGRu
- SoCa/OtknOH3oDMHy2Ws0i7YhaUJue+ridRHLuLf3PEmpAe4JV9uTng652WwnGmzjR63
- b2UQ==
+ bh=85onSEFMQVSsgfMHr4SJqMdK5xl61M1oNYbWh63DPVo=;
+ b=HKebuoIb57uVqRWpZKtU6D9BdGONXDBt+Brtz0cHZ2JnEvniz1NDbFpHPgeBD81Gy1
+ KN7uLxAxVAhB4+GXCaVIs4t+yMiCfDLvjKfyWLtdJS8uUF1dP8sHxx9UFRBR5hJ/E2At
+ r/K8XuPNjDq73N5P5TmbhZES34BXZ6H43bujIZrdXEHSutnpIEAZ9meYdWtCFa1C8J3T
+ ZOQUXT57xl04o6VeadNzQgdyS5l0pLtFDI2iIb7xI6bUOa8CxiHn1kXwZkAePR+NxCw5
+ tLzKqpCe5/pSf1sw6Bad4xihNQ4igtMGV1I3t2imXs47QGB7sq1Ghhwcf9CFp3X1dS90
+ daAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ZHhFICyBHqbcTConxF/uKEsK0pZeKwkuoibKi97EmYs=;
- b=SMsbs+iy2skOIOkb+SePxjLzgtiRXOAYe8PzgYhzy5iQb6Y3IoIbwEB9jQWfBgdlkD
- xPQexCMip9HwFqErnpHacFTFWmTN7Lm31OPB09kT2c35374zx7VMCtNSkgjFqOKhLG2J
- b+9pKQ30irYTJFVCXM7hczuA9PLf+4G4ag8QlSqXScB1PSIldvOdQe1oqhsdvEvqFHAU
- N9NEEJtbSDNUU2zs85RagvxMI5UDcLopvXpflxA3Yi5UOFWk5hHRiC/Z6zh7Fu91gUA+
- 2sMoCgGa8xGNbsrhAzisNyjBH1FjX0zcl/00i03Rfiv+8Az3eRefS8T1oumEc3Y3UqcL
- TfOQ==
-X-Gm-Message-State: AOAM5300O1HulF3Wa0t+szCIp98gpDgdZn21skTT+iBVYSX9CppAJZWP
- XAP8V2bGlTZPNKm2dd6/tHnxHiWYyas=
-X-Google-Smtp-Source: ABdhPJwJ0bPoOz4eRMuGL58giL3b+TJifRv2Q/pm5YmURLQS0t46h9CkB7Zvp5JkFbpgopmCttPFxg==
-X-Received: by 2002:a17:902:a503:b029:d8:e685:3e58 with SMTP id
- s3-20020a170902a503b02900d8e6853e58mr14257942plq.68.1606651277294; 
- Sun, 29 Nov 2020 04:01:17 -0800 (PST)
+ bh=85onSEFMQVSsgfMHr4SJqMdK5xl61M1oNYbWh63DPVo=;
+ b=M9+VnDuOwH+y6x81jUZHa+9wIPFDYCGYRERT0BS2dsaCj63Ri9sAzMd6wb2ALgHXtZ
+ KMYtesNvishWXrdR8OuHVqduJEcevfRWJgkmKEh7Q8q5ZrfCBMAbAOhOa8L7/ZaB3Xks
+ 52F3shyOivAzqCUdm9N8ZSZ9xYm8IzTqOk/u3BqztR+k7gvJ5fx3duKXjEWF/kdqkgnE
+ A8tz/5Q56ODh77ASQPZttLeR3zfGq4yInN1p7RkMOxRSUHbtlz0nJtRASnOUwCaGmShF
+ fsClqtV444JnXPpZmMB7Zeql551sJYW6KW9UQZ9JMrKZylnhSG86oz0g7uKSogolUGd+
+ CHWA==
+X-Gm-Message-State: AOAM531j/x4aGFy02UDpVlRX1mBbBs2wEVEwZGFWsT+kuy7R37v/Y2oB
+ LdpVmAWAr2c4kXvevQbziKs=
+X-Google-Smtp-Source: ABdhPJy+2aIFsa6PeIT3LLSilZLEJOX3ck0j9AiaAZCsMG6mA7jO/RXDgMMWTZsyDT1Kir4F8YmapQ==
+X-Received: by 2002:a65:46c1:: with SMTP id n1mr13358797pgr.352.1606651388709; 
+ Sun, 29 Nov 2020 04:03:08 -0800 (PST)
 Received: from localhost (g115.222-224-149.ppp.wakwak.ne.jp. [222.224.149.115])
- by smtp.gmail.com with ESMTPSA id p6sm18531418pjt.13.2020.11.29.04.01.16
+ by smtp.gmail.com with ESMTPSA id z67sm12928843pfb.89.2020.11.29.04.03.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Nov 2020 04:01:16 -0800 (PST)
-Date: Sun, 29 Nov 2020 21:01:13 +0900
+ Sun, 29 Nov 2020 04:03:08 -0800 (PST)
+Date: Sun, 29 Nov 2020 21:03:05 +0900
 From: Stafford Horne <shorne@gmail.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 2/3] hw/openrisc/openrisc_sim: Abstract out "get IRQ x of
- CPU y"
-Message-ID: <20201129120113.GE3168563@lianli.shorne-pla.net>
+Subject: Re: [PATCH 3/3] target/openrisc: Move pic_cpu code into CPU object
+ proper
+Message-ID: <20201129120305.GF3168563@lianli.shorne-pla.net>
 References: <20201127225127.14770-1-peter.maydell@linaro.org>
- <20201127225127.14770-3-peter.maydell@linaro.org>
+ <20201127225127.14770-4-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201127225127.14770-3-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=shorne@gmail.com; helo=mail-pl1-x644.google.com
+In-Reply-To: <20201127225127.14770-4-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=shorne@gmail.com; helo=mail-pf1-x441.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,128 +86,202 @@ Cc: qemu-devel@nongnu.org, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 27, 2020 at 10:51:26PM +0000, Peter Maydell wrote:
-> We're about to refactor the OpenRISC pic_cpu code in a way that means
-> that just grabbing the whole qemu_irq[] array of inbound IRQs for a
-> CPU won't be possible any more.  Abstract out a function for "return
-> the qemu_irq for IRQ x input of CPU y" so we can more easily replace
-> the implementation.
+On Fri, Nov 27, 2020 at 10:51:27PM +0000, Peter Maydell wrote:
+> The openrisc code uses an old style of interrupt handling, where a
+> separate standalone set of qemu_irqs invoke a function
+> openrisc_pic_cpu_handler() which signals the interrupt to the CPU
+> proper by directly calling cpu_interrupt() and cpu_reset_interrupt().
+> Because CPU objects now inherit (indirectly) from TYPE_DEVICE, they
+> can have GPIO input lines themselves, and the neater modern way to
+> implement this is to simply have the CPU object itself provide the
+> input IRQ lines.
 > 
+> Create GPIO inputs to the OpenRISC CPU object, and make the only user
+> of cpu_openrisc_pic_init() wire up directly to those instead.
+> 
+> This allows us to delete the hw/openrisc/pic_cpu.c file entirely.
+> 
+> This fixes a trivial memory leak reported by Coverity of the IRQs
+> allocated in cpu_openrisc_pic_init().
+> 
+> Fixes: Coverity CID 1421934
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/openrisc/openrisc_sim.c | 38 +++++++++++++++++++++-----------------
->  1 file changed, 21 insertions(+), 17 deletions(-)
+>  target/openrisc/cpu.h      |  1 -
+>  hw/openrisc/openrisc_sim.c |  3 +-
+>  hw/openrisc/pic_cpu.c      | 61 --------------------------------------
+>  target/openrisc/cpu.c      | 32 ++++++++++++++++++++
+>  hw/openrisc/meson.build    |  2 +-
+>  5 files changed, 34 insertions(+), 65 deletions(-)
+>  delete mode 100644 hw/openrisc/pic_cpu.c
 > 
+> diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+> index bd42faf144f..82cbaeb4f84 100644
+> --- a/target/openrisc/cpu.h
+> +++ b/target/openrisc/cpu.h
+> @@ -293,7 +293,6 @@ typedef struct CPUOpenRISCState {
+>      uint32_t picmr;         /* Interrupt mask register */
+>      uint32_t picsr;         /* Interrupt contrl register*/
+>  #endif
+> -    void *irq[32];          /* Interrupt irq input */
+>  } CPUOpenRISCState;
+>  
+>  /**
 > diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
-> index a8adf6b70d7..75ba0f47444 100644
+> index 75ba0f47444..39f1d344ae9 100644
 > --- a/hw/openrisc/openrisc_sim.c
 > +++ b/hw/openrisc/openrisc_sim.c
-> @@ -52,8 +52,13 @@ static void main_cpu_reset(void *opaque)
->      cpu_set_pc(cs, boot_info.bootstrap_pc);
+> @@ -54,7 +54,7 @@ static void main_cpu_reset(void *opaque)
+>  
+>  static qemu_irq get_cpu_irq(OpenRISCCPU *cpus[], int cpunum, int irq_pin)
+>  {
+> -    return cpus[cpunum]->env.irq[irq_pin];
+> +    return qdev_get_gpio_in_named(DEVICE(cpus[cpunum]), "IRQ", irq_pin);
 >  }
 >  
-> +static qemu_irq get_cpu_irq(OpenRISCCPU *cpus[], int cpunum, int irq_pin)
-> +{
-> +    return cpus[cpunum]->env.irq[irq_pin];
-> +}
-> +
 >  static void openrisc_sim_net_init(hwaddr base, hwaddr descriptors,
-> -                                  int num_cpus, qemu_irq **cpu_irqs,
-> +                                  int num_cpus, OpenRISCCPU *cpus[],
->                                    int irq_pin, NICInfo *nd)
->  {
->      DeviceState *dev;
-> @@ -70,18 +75,18 @@ static void openrisc_sim_net_init(hwaddr base, hwaddr descriptors,
->          qdev_prop_set_uint32(splitter, "num-lines", num_cpus);
->          qdev_realize_and_unref(splitter, NULL, &error_fatal);
->          for (i = 0; i < num_cpus; i++) {
-> -            qdev_connect_gpio_out(splitter, i, cpu_irqs[i][irq_pin]);
-> +            qdev_connect_gpio_out(splitter, i, get_cpu_irq(cpus, i, irq_pin));
->          }
->          sysbus_connect_irq(s, 0, qdev_get_gpio_in(splitter, 0));
->      } else {
-> -        sysbus_connect_irq(s, 0, cpu_irqs[0][irq_pin]);
-> +        sysbus_connect_irq(s, 0, get_cpu_irq(cpus, 0, irq_pin));
->      }
->      sysbus_mmio_map(s, 0, base);
->      sysbus_mmio_map(s, 1, descriptors);
->  }
->  
->  static void openrisc_sim_ompic_init(hwaddr base, int num_cpus,
-> -                                    qemu_irq **cpu_irqs, int irq_pin)
-> +                                    OpenRISCCPU *cpus[], int irq_pin)
->  {
->      DeviceState *dev;
->      SysBusDevice *s;
-> @@ -93,7 +98,7 @@ static void openrisc_sim_ompic_init(hwaddr base, int num_cpus,
->      s = SYS_BUS_DEVICE(dev);
->      sysbus_realize_and_unref(s, &error_fatal);
->      for (i = 0; i < num_cpus; i++) {
-> -        sysbus_connect_irq(s, i, cpu_irqs[i][irq_pin]);
-> +        sysbus_connect_irq(s, i, get_cpu_irq(cpus, i, irq_pin));
->      }
->      sysbus_mmio_map(s, 0, base);
->  }
-> @@ -136,26 +141,24 @@ static void openrisc_sim_init(MachineState *machine)
->  {
->      ram_addr_t ram_size = machine->ram_size;
->      const char *kernel_filename = machine->kernel_filename;
-> -    OpenRISCCPU *cpu = NULL;
-> +    OpenRISCCPU *cpus[2] = {};
->      MemoryRegion *ram;
-> -    qemu_irq *cpu_irqs[2];
->      qemu_irq serial_irq;
->      int n;
->      unsigned int smp_cpus = machine->smp.cpus;
->  
->      assert(smp_cpus >= 1 && smp_cpus <= 2);
->      for (n = 0; n < smp_cpus; n++) {
-> -        cpu = OPENRISC_CPU(cpu_create(machine->cpu_type));
-> -        if (cpu == NULL) {
-> +        cpus[n] = OPENRISC_CPU(cpu_create(machine->cpu_type));
-> +        if (cpus[n] == NULL) {
+> @@ -154,7 +154,6 @@ static void openrisc_sim_init(MachineState *machine)
 >              fprintf(stderr, "Unable to find CPU definition!\n");
 >              exit(1);
 >          }
-> -        cpu_openrisc_pic_init(cpu);
-> -        cpu_irqs[n] = (qemu_irq *) cpu->env.irq;
-> +        cpu_openrisc_pic_init(cpus[n]);
+> -        cpu_openrisc_pic_init(cpus[n]);
 >  
-> -        cpu_openrisc_clock_init(cpu);
-> +        cpu_openrisc_clock_init(cpus[n]);
+>          cpu_openrisc_clock_init(cpus[n]);
 >  
-> -        qemu_register_reset(main_cpu_reset, cpu);
-> +        qemu_register_reset(main_cpu_reset, cpus[n]);
->      }
+> diff --git a/hw/openrisc/pic_cpu.c b/hw/openrisc/pic_cpu.c
+> deleted file mode 100644
+> index 36f93508309..00000000000
+> --- a/hw/openrisc/pic_cpu.c
+> +++ /dev/null
+> @@ -1,61 +0,0 @@
+> -/*
+> - * OpenRISC Programmable Interrupt Controller support.
+> - *
+> - * Copyright (c) 2011-2012 Jia Liu <proljc@gmail.com>
+> - *                         Feng Gao <gf91597@gmail.com>
+> - *
+> - * This library is free software; you can redistribute it and/or
+> - * modify it under the terms of the GNU Lesser General Public
+> - * License as published by the Free Software Foundation; either
+> - * version 2.1 of the License, or (at your option) any later version.
+> - *
+> - * This library is distributed in the hope that it will be useful,
+> - * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> - * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> - * Lesser General Public License for more details.
+> - *
+> - * You should have received a copy of the GNU Lesser General Public
+> - * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> - */
+> -
+> -#include "qemu/osdep.h"
+> -#include "hw/irq.h"
+> -#include "cpu.h"
+> -
+> -/* OpenRISC pic handler */
+> -static void openrisc_pic_cpu_handler(void *opaque, int irq, int level)
+> -{
+> -    OpenRISCCPU *cpu = (OpenRISCCPU *)opaque;
+> -    CPUState *cs = CPU(cpu);
+> -    uint32_t irq_bit;
+> -
+> -    if (irq > 31 || irq < 0) {
+> -        return;
+> -    }
+> -
+> -    irq_bit = 1U << irq;
+> -
+> -    if (level) {
+> -        cpu->env.picsr |= irq_bit;
+> -    } else {
+> -        cpu->env.picsr &= ~irq_bit;
+> -    }
+> -
+> -    if (cpu->env.picsr & cpu->env.picmr) {
+> -        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+> -    } else {
+> -        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+> -        cpu->env.picsr = 0;
+> -    }
+> -}
+> -
+> -void cpu_openrisc_pic_init(OpenRISCCPU *cpu)
+> -{
+> -    int i;
+> -    qemu_irq *qi;
+> -    qi = qemu_allocate_irqs(openrisc_pic_cpu_handler, cpu, NR_IRQS);
+> -
+> -    for (i = 0; i < NR_IRQS; i++) {
+> -        cpu->env.irq[i] = qi[i];
+> -    }
+> -}
+> diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+> index 5528c0918f4..b0bdfbe4fe2 100644
+> --- a/target/openrisc/cpu.c
+> +++ b/target/openrisc/cpu.c
+> @@ -65,6 +65,34 @@ static void openrisc_cpu_reset(DeviceState *dev)
+>  #endif
+>  }
 >  
->      ram = g_malloc(sizeof(*ram));
-> @@ -164,15 +167,16 @@ static void openrisc_sim_init(MachineState *machine)
+> +#ifndef CONFIG_USER_ONLY
+> +static void openrisc_cpu_set_irq(void *opaque, int irq, int level)
+> +{
+> +    OpenRISCCPU *cpu = (OpenRISCCPU *)opaque;
+> +    CPUState *cs = CPU(cpu);
+> +    uint32_t irq_bit;
+> +
+> +    if (irq > 31 || irq < 0) {
+> +        return;
+> +    }
+> +
+> +    irq_bit = 1U << irq;
+> +
+> +    if (level) {
+> +        cpu->env.picsr |= irq_bit;
+> +    } else {
+> +        cpu->env.picsr &= ~irq_bit;
+> +    }
+> +
+> +    if (cpu->env.picsr & cpu->env.picmr) {
+> +        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+> +    } else {
+> +        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+> +        cpu->env.picsr = 0;
+> +    }
+> +}
+> +#endif
+> +
+>  static void openrisc_cpu_realizefn(DeviceState *dev, Error **errp)
+>  {
+>      CPUState *cs = CPU(dev);
+> @@ -88,6 +116,10 @@ static void openrisc_cpu_initfn(Object *obj)
+>      OpenRISCCPU *cpu = OPENRISC_CPU(obj);
 >  
->      if (nd_table[0].used) {
->          openrisc_sim_net_init(0x92000000, 0x92000400, smp_cpus,
-> -                              cpu_irqs, 4, nd_table);
-> +                              cpus, 4, nd_table);
->      }
+>      cpu_set_cpustate_pointers(cpu);
+> +
+> +#ifndef CONFIG_USER_ONLY
+> +    qdev_init_gpio_in_named(DEVICE(cpu), openrisc_cpu_set_irq, "IRQ", NR_IRQS);
+> +#endif
+>  }
 >  
->      if (smp_cpus > 1) {
-> -        openrisc_sim_ompic_init(0x98000000, smp_cpus, cpu_irqs, 1);
-> +        openrisc_sim_ompic_init(0x98000000, smp_cpus, cpus, 1);
+>  /* CPU models */
+> diff --git a/hw/openrisc/meson.build b/hw/openrisc/meson.build
+> index 57c42558e18..947f63ee087 100644
+> --- a/hw/openrisc/meson.build
+> +++ b/hw/openrisc/meson.build
+> @@ -1,5 +1,5 @@
+>  openrisc_ss = ss.source_set()
+> -openrisc_ss.add(files('pic_cpu.c', 'cputimer.c'))
+> +openrisc_ss.add(files('cputimer.c'))
+>  openrisc_ss.add(when: 'CONFIG_OR1K_SIM', if_true: files('openrisc_sim.c'))
 >  
-> -        serial_irq = qemu_irq_split(cpu_irqs[0][2], cpu_irqs[1][2]);
-> +        serial_irq = qemu_irq_split(get_cpu_irq(cpus, 0, 2),
-> +                                    get_cpu_irq(cpus, 1, 2));
->      } else {
-> -        serial_irq = cpu_irqs[0][2];
-> +        serial_irq = get_cpu_irq(cpus, 0, 2);
->      }
->  
->      serial_mm_init(get_system_memory(), 0x90000000, 0, serial_irq,
+>  hw_arch += {'openrisc': openrisc_ss}
 > -- 
 > 2.20.1
 
-This looks good to me.
+This is nice, thanks for the patch.
 
 Reviewed-by: Stafford Horne <shorne@gmail.com>
 
-Again, if there is no problem please feel free to merge.
+Please feel free to merge.
 
