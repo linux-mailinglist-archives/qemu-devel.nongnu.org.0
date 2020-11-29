@@ -2,51 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFB12C78FD
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 12:55:38 +0100 (CET)
-Received: from localhost ([::1]:36630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DCD2C7901
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 13:01:14 +0100 (CET)
+Received: from localhost ([::1]:38840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjLIm-0007tL-NH
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 06:55:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54572)
+	id 1kjLOD-0000fn-UY
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 07:01:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjLGa-0007PS-N5
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 06:53:20 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjLGW-0006NA-5b
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 06:53:20 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0002BAC2E;
- Sun, 29 Nov 2020 11:53:12 +0000 (UTC)
-Subject: Re: [RFC v6 07/11] i386: move TCG cpu class initialization out of
- helper.c
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20201126223218.31480-1-cfontana@suse.de>
- <20201126223218.31480-8-cfontana@suse.de>
- <20201127190424.GH2271382@habkost.net>
- <c1d20b34-be23-bb42-9fc6-5395a390c037@suse.de>
- <20201127204347.GI2271382@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <297ed700-eedc-f182-2139-9776e6b9a913@suse.de>
-Date: Sun, 29 Nov 2020 12:53:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1kjLMR-0000Dj-Tq
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 06:59:23 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:42198)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1kjLMP-0008AP-Ef
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 06:59:23 -0500
+Received: by mail-pf1-x442.google.com with SMTP id 131so8431546pfb.9
+ for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 03:59:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=WY6cvZMELb0mTfjPIHMywFzcsPrOBXzOLmlABZGdTGM=;
+ b=kNpuW1kwmG0ntK1JCGkit3tyAcOxGVJC7mWaBEb+XrvfmzK1WP0V7d4YBwkZHIlhMe
+ 6manZmApjIg/qPV0Z8AoTtzEbbeAKkREphLku4xludOSiXPffFURyKQAb0yhTZuPagih
+ ouEhjH+hgCBr3Hrz+9/qEiSlRyBmMXGiHAIBt9LbDWqDdIRSfplMdHH4K1FgMAF7xTPK
+ my3djFmRHCCjjlBJN0CZ5DzTPI7nvZGdGttlRU6pn5tvoWCJACQGNaLejAc3O0Ct6fE7
+ 68nmmFJnHK3ZW+ebo/EjJnuc7pt6v3ntRnt2A6AUeAx0jwOTTWPwYA8nt1a+0H35wXJ1
+ V0fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WY6cvZMELb0mTfjPIHMywFzcsPrOBXzOLmlABZGdTGM=;
+ b=tUT5C7VV4F9nVQWHM4jefEBW629SF4yIeDuOtmwHYfXzSQT4Ud6v4IY3XwhPvfn5Ka
+ OVL1ycAZaskZER8EQqoO0xq9BWn3rA6rx5q9y7pk3qrQ2yfBeLqOy/zULPwKX8oOvFKu
+ SZsaJaORx+CwnPGvT6TlT41stKV1i14NN8aHqSt/c5BSf/Crztsym8weDNYoYWa3gD+w
+ 6kgQYF5vUAee5h3MVGASpq78CiDtPHOKd9Pf5UlfgcpsGNE8tVJUrg3y45z+PBS+/9Ql
+ M7aDZSy4u0MOuFpxCZbPil8tgWyHeQI1tgpTy0+9KadsjjrdcD0yj5Cw/alJupzP7ftc
+ ixzQ==
+X-Gm-Message-State: AOAM531GSR/aaq2jadquefhu3hhPnVOfY+wxvr6i7PgtJ8YgEya/FN+p
+ Y3gdrrRv3hJamYcdQk262Gk=
+X-Google-Smtp-Source: ABdhPJzpyWScJfkLY6Tk9JiH47FvuSbW2Ad9+G6GH/oBLjNCNAk0a+Htn21Qkzbh58XZ8V+XOzT4tA==
+X-Received: by 2002:a17:90b:1a90:: with SMTP id
+ ng16mr20514500pjb.58.1606651158756; 
+ Sun, 29 Nov 2020 03:59:18 -0800 (PST)
+Received: from localhost (g115.222-224-149.ppp.wakwak.ne.jp. [222.224.149.115])
+ by smtp.gmail.com with ESMTPSA id q6sm12490508pfu.23.2020.11.29.03.59.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 Nov 2020 03:59:18 -0800 (PST)
+Date: Sun, 29 Nov 2020 20:59:11 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 1/3] hw/openrisc/openrisc_sim: Use IRQ splitter when
+ connecting IRQ to multiple CPUs
+Message-ID: <20201129115911.GD3168563@lianli.shorne-pla.net>
+References: <20201127225127.14770-1-peter.maydell@linaro.org>
+ <20201127225127.14770-2-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201127204347.GI2271382@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201127225127.14770-2-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=shorne@gmail.com; helo=mail-pf1-x442.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,56 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, gengdongjiu@huawei.com,
- Olaf Hering <ohering@suse.de>, Stefano Stabellini <sstabellini@kernel.org>,
- Bruce Rogers <brogers@suse.com>, "Emilio G . Cota" <cota@braap.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Alex Bennee <alex.bennee@linaro.org>, Marcelo Tosatti <mtosatti@redhat.com>,
- Wenchao Wang <wenchao.wang@intel.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Jia Liu <proljc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/27/20 9:43 PM, Eduardo Habkost wrote:
-> On Fri, Nov 27, 2020 at 08:47:00PM +0100, Claudio Fontana wrote:
->> On 11/27/20 8:04 PM, Eduardo Habkost wrote:
-> [...]
->>> Maybe we should rename CPUClass.synchronize_from_tb to
->>> CPUClass.tcg_synchronize_from_tb?  Maybe we should have a
->>
->> possibly, yes.
->>
->>> separate TCGCpuOperations struct to carry TCG-specific methods?
->>
->>
->> interesting, will think about it.
+On Fri, Nov 27, 2020 at 10:51:25PM +0000, Peter Maydell wrote:
+> openrisc_sim_net_init() attempts to connect the IRQ line from the
+> ethernet device to both CPUs in an SMP configuration by simply caling
+> sysbus_connect_irq() for it twice.  This doesn't work, because the
+> second connection simply overrides the first.
 > 
-> I'm working on it at:
-> https://gitlab.com/ehabkost/qemu/-/commits/work/tcg-cpu-ops
+> Fix this by creating a TYPE_SPLIT_IRQ to split the IRQ in the SMP
+> case.
 > 
-> Feel free to reuse it, if you want to do it before your series.
-> Otherwise, I can rebase it after your series is merged.
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/openrisc/openrisc_sim.c | 13 +++++++++++--
+>  hw/openrisc/Kconfig        |  1 +
+>  2 files changed, 12 insertions(+), 2 deletions(-)
 > 
-> I didn't touch do_interrupt(), because of the aarch64 weirdness.
-> 
+> diff --git a/hw/openrisc/openrisc_sim.c b/hw/openrisc/openrisc_sim.c
+> index d752282e675..a8adf6b70d7 100644
+> --- a/hw/openrisc/openrisc_sim.c
+> +++ b/hw/openrisc/openrisc_sim.c
+> @@ -34,6 +34,7 @@
+>  #include "hw/sysbus.h"
+>  #include "sysemu/qtest.h"
+>  #include "sysemu/reset.h"
+> +#include "hw/core/split-irq.h"
+>  
+>  #define KERNEL_LOAD_ADDR 0x100
+>  
+> @@ -64,8 +65,16 @@ static void openrisc_sim_net_init(hwaddr base, hwaddr descriptors,
+>  
+>      s = SYS_BUS_DEVICE(dev);
+>      sysbus_realize_and_unref(s, &error_fatal);
+> -    for (i = 0; i < num_cpus; i++) {
+> -        sysbus_connect_irq(s, 0, cpu_irqs[i][irq_pin]);
+> +    if (num_cpus > 1) {
+> +        DeviceState *splitter = qdev_new(TYPE_SPLIT_IRQ);
+> +        qdev_prop_set_uint32(splitter, "num-lines", num_cpus);
+> +        qdev_realize_and_unref(splitter, NULL, &error_fatal);
+> +        for (i = 0; i < num_cpus; i++) {
+> +            qdev_connect_gpio_out(splitter, i, cpu_irqs[i][irq_pin]);
+> +        }
+> +        sysbus_connect_irq(s, 0, qdev_get_gpio_in(splitter, 0));
+> +    } else {
+> +        sysbus_connect_irq(s, 0, cpu_irqs[0][irq_pin]);
+>      }
+>      sysbus_mmio_map(s, 0, base);
+>      sysbus_mmio_map(s, 1, descriptors);
+> diff --git a/hw/openrisc/Kconfig b/hw/openrisc/Kconfig
+> index 6c1e86884e2..8f284f3ba04 100644
+> --- a/hw/openrisc/Kconfig
+> +++ b/hw/openrisc/Kconfig
+> @@ -3,3 +3,4 @@ config OR1K_SIM
+>      select SERIAL
+>      select OPENCORES_ETH
+>      select OMPIC
+> +    select SPLIT_IRQ
+> -- 
+> 2.20.1
 
-Hi,
 
-yes it makes sense to separate more clearly I think what is tcg only among those operations,
+This looks good to me, I don't think I ever tested networking with SMP.  Thanks
+for the fix!
 
-it is a bit tangent to my series in the sense that those methods need to be set one way or another,
-either in cc-> or in cc->tcg_ops,
+Reviewed-by: Stafford Horne <shorne@gmail.com>
 
-but yes, we could put those changes before or after the series, and I think they make sense.
-
-Ciao,
-
-Claudio
+Can you help merge the patch? I am not working a queue right now.
 
