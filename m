@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B192C70DC
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Nov 2020 22:00:34 +0100 (CET)
-Received: from localhost ([::1]:56476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DCA2C781F
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Nov 2020 07:02:16 +0100 (CET)
+Received: from localhost ([::1]:40034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kj7Ka-0003pS-Qn
-	for lists+qemu-devel@lfdr.de; Sat, 28 Nov 2020 16:00:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51466)
+	id 1kjFmo-00071G-Oh
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 01:02:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kj7JO-0002xV-Gm
- for qemu-devel@nongnu.org; Sat, 28 Nov 2020 15:59:18 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:39084)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kjFll-0006ak-Vw
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 01:01:11 -0500
+Received: from indium.canonical.com ([91.189.90.7]:46022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kj7JN-0007gC-2c
- for qemu-devel@nongnu.org; Sat, 28 Nov 2020 15:59:18 -0500
-Received: by mail-ed1-x529.google.com with SMTP id c7so1848246edv.6
- for <qemu-devel@nongnu.org>; Sat, 28 Nov 2020 12:59:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3k2dnUujf/J7aCCveXHKbnReXhCc85LZ2sr3SofDNB4=;
- b=gfN7UlCRUWLtDhm3CxCLyxWlWuB54pr0PLpFStNodkDGaW+Gbc++CK/j0PTDZYbeyz
- IsVw3SiSP3aR98A82N0SBQ0Uuc6GT8U1uILDfn7IATs9Nzm1XxGM+i16UgvInURexPcu
- +MG7hqkK76ufZ7aapEwlCz9INTBcq0Hg93qELRQ2glMbrq6cEnaZIT/L8NKOl+yP39gU
- qpy2NU9lJqHG/C12lQjliZhr8QVfUFATKR76xg2yDl/U1jQ6/l4V2dRdWD046lhj8qb/
- ajRJFl+UnVj8CdbOG+xFyUCyeBJotiMpRehxoqwBIuuCx0YBPAgWZ1uea2zIwx2SdSKG
- 9frw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3k2dnUujf/J7aCCveXHKbnReXhCc85LZ2sr3SofDNB4=;
- b=XgN8w8DwCYj6bBEez/D17rBnifxBMhlprO3zaVLEwXs/gepP0cJgV6E7XBH4SHAT91
- +2RW6bY1tu8G3z6bDXVfGeH8bv9FGlbh6ja6bXk/M3TIC7EoFFgCK9tPBLk0ElZI5raV
- WBd/vZp0G15bFPdTj7UTW74PoUvBwgiWFPNZZ81YDYbzAmTmx6K6jgmyhGeo6egujDql
- +L2NKEQ9pNzTd2Me0+xTw0BkR5xF4KpUYMayC63CLiMNnZs4YxsZLRjL9NrCRPOo+esF
- OtFYR8ESuT3dMPh6YLH8I0qqDk+uiXgDoSacxaZh5n6PwbZiLZw5mS17+ut6BpHNcxLI
- TMtQ==
-X-Gm-Message-State: AOAM532diOLyzfUGgjUUZEucvfR4LsmSSQJH8Ey4Mh/aQUfFsMJyClFN
- yLJbJUKTS17dpNpLgAp/oZR6YtVm3jX2+nv8rO5pcA==
-X-Google-Smtp-Source: ABdhPJxigKW/tM8Y9Ogsz7b6JMarUJsm8p+tLwUlYulKjnKLaPqzoS/x/q08+k+mLanYuRFVi10b8HVrWvIjbhZyniI=
-X-Received: by 2002:a05:6402:3089:: with SMTP id
- de9mr14434356edb.100.1606597155217; 
- Sat, 28 Nov 2020 12:59:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kjFlf-0000P7-6G
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 01:01:08 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kjFla-0002sF-VB
+ for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 06:00:58 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DF1B32E813A
+ for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 06:00:58 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201127154524.1902024-1-philmd@redhat.com>
-In-Reply-To: <20201127154524.1902024-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 28 Nov 2020 20:59:03 +0000
-Message-ID: <CAFEAcA-4hLY16ud+B2MRKM6RFSNM4zKRhzMb7Zm+_zDOhNwA9g@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-5.2 0/2] net: Do not accept packets with invalid
- huge size
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Sun, 29 Nov 2020 05:51:42 -0000
+From: Daniel Bokser <1699567@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anatol danb91 th-huth
+X-Launchpad-Bug-Reporter: Anatol Pomozov (anatol)
+X-Launchpad-Bug-Modifier: Daniel Bokser (danb91)
+References: <149806751311.22103.16824316715266267682.malonedeb@soybean.canonical.com>
+Message-Id: <160662910228.31991.13228850470531488304.malone@chaenomeles.canonical.com>
+Subject: [Bug 1699567] Re: Qemu does not force SSE data alignment
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="12d09381f8e8eee3115395875b132e165fa96574"; Instance="production"
+X-Launchpad-Hash: c667cf385d86f9dac6679e897e35809369eff289
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,32 +69,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Reply-To: Bug 1699567 <1699567@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Nov 2020 at 15:45, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Hi,
->
-> This is a simple attempt to avoid the following pattern:
->
->   ssize_t pkt_size =3D get_pkt_size(); // returns errno
->
->   // no check
->
->   send_packet(size_t size=3Dpkt_size); // size casted to unsigned
->                                      // -> overflow
+I am currently running into this bug on QEMU emulator version 5.1.0.
+movaps unaligned access works fine in qemu, when it should throw a GP. Like=
+wise, the same code on physical hardware throws a GP.
 
-"RFC" and "for-5.2" are not a great combination at this point :-(
-What are the consequences if we don't put this patchset in 5.2?
+-- =
 
-thanks
--- PMM
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1699567
+
+Title:
+  Qemu does not force SSE data alignment
+
+Status in QEMU:
+  New
+
+Bug description:
+  I have an OS that tries to use SSE operations. It works fine in qemu.
+  But it crashes when I try to run the OS at the host cpu using KVM.
+
+  The instruction that crahes with #GP(0) is
+   movaps ADDR,%xmm0
+
+  The documentation says ADDR has to be 16-bytes alignment otherwise #GP
+  is generated. And indeed the problem was with the data alignment.
+  After adjusting it at my side the OS works fine both with Qemu and
+  KVM.
+
+  It would be great if QEMU followed specification more closely and
+  forced SSE data alignment requirements. It will help to catch
+  alignment issues early and debug it easier.
+
+  =
+
+  $ qemu-system-x86_64 -version
+  QEMU emulator version 2.9.50 (v2.9.0-1363-g95eef1c68b)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1699567/+subscriptions
 
