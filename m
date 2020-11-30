@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE092C7D04
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:53:01 +0100 (CET)
-Received: from localhost ([::1]:38916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C318C2C7CFD
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:49:24 +0100 (CET)
+Received: from localhost ([::1]:54746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjZJE-0006WC-7x
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:53:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36040)
+	id 1kjZFj-0001Kc-S7
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:49:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2y-0001Jo-CZ
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:12 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57646)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ31-0001Sj-Bk
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:15 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2p-0004pe-Qr
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:12 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2q-0004qU-Jq
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:15 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9F908AC75;
- Mon, 30 Nov 2020 02:35:52 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 554BBAC90;
+ Mon, 30 Nov 2020 02:35:53 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,9 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v7 17/22] accel: extend AccelState and AccelClass to user-mode
-Date: Mon, 30 Nov 2020 03:35:30 +0100
-Message-Id: <20201130023535.16689-18-cfontana@suse.de>
+Subject: [RFC v7 18/22] accel: replace struct CpusAccel with AccelOpsClass
+Date: Mon, 30 Nov 2020 03:35:31 +0100
+Message-Id: <20201130023535.16689-19-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201130023535.16689-1-cfontana@suse.de>
 References: <20201130023535.16689-1-cfontana@suse.de>
@@ -68,170 +68,158 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+centralize the registration of the cpus.c module
+accelerator operations in accel/accel-softmmu.c
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- MAINTAINERS                        |  2 +-
- accel/accel-common.c               | 50 ++++++++++++++++++++++++++++++
- accel/{accel.c => accel-softmmu.c} | 27 ++--------------
- accel/accel-user.c                 | 24 ++++++++++++++
- accel/meson.build                  |  4 ++-
- accel/qtest/qtest.c                |  2 +-
- accel/tcg/meson.build              |  2 +-
- accel/tcg/tcg-all.c                |  7 ++++-
- accel/xen/xen-all.c                |  2 +-
- bsd-user/main.c                    |  7 +++--
- include/hw/boards.h                |  2 +-
- include/{sysemu => qemu}/accel.h   | 14 +++++----
- include/sysemu/hvf.h               |  2 +-
- include/sysemu/kvm.h               |  2 +-
- include/sysemu/kvm_int.h           |  2 +-
- linux-user/main.c                  |  7 +++--
- softmmu/memory.c                   |  2 +-
- softmmu/qtest.c                    |  2 +-
- softmmu/vl.c                       |  2 +-
- target/i386/hax/hax-all.c          |  2 +-
- target/i386/hvf/hvf-i386.h         |  2 +-
- target/i386/hvf/hvf.c              |  2 +-
- target/i386/hvf/x86_task.c         |  2 +-
- target/i386/whpx/whpx-all.c        |  2 +-
- 24 files changed, 119 insertions(+), 53 deletions(-)
- create mode 100644 accel/accel-common.c
- rename accel/{accel.c => accel-softmmu.c} (75%)
- create mode 100644 accel/accel-user.c
- rename include/{sysemu => qemu}/accel.h (95%)
+ MAINTAINERS                  |  3 ++-
+ accel/accel-common.c         | 11 +++++++++
+ accel/accel-softmmu.c        | 43 +++++++++++++++++++++++++++++++---
+ accel/accel-softmmu.h        | 15 ++++++++++++
+ accel/kvm/kvm-all.c          |  2 --
+ accel/kvm/kvm-cpus.c         | 26 ++++++++++++++++-----
+ accel/kvm/kvm-cpus.h         |  2 --
+ accel/qtest/qtest.c          | 23 +++++++++++++-----
+ accel/tcg/tcg-all.c          | 14 -----------
+ accel/tcg/tcg-cpus-icount.c  | 11 +--------
+ accel/tcg/tcg-cpus-icount.h  |  2 ++
+ accel/tcg/tcg-cpus-mttcg.c   | 12 +++-------
+ accel/tcg/tcg-cpus-mttcg.h   | 19 +++++++++++++++
+ accel/tcg/tcg-cpus-rr.c      |  7 ------
+ accel/tcg/tcg-cpus.c         | 43 ++++++++++++++++++++++++++++++++++
+ accel/tcg/tcg-cpus.h         |  4 ----
+ accel/xen/xen-all.c          | 22 ++++++++++++------
+ bsd-user/main.c              |  3 ++-
+ include/qemu/accel.h         |  2 ++
+ include/sysemu/accel-ops.h   | 45 ++++++++++++++++++++++++++++++++++++
+ include/sysemu/cpus.h        | 26 ++++-----------------
+ linux-user/main.c            |  1 +
+ softmmu/cpus.c               | 12 +++++-----
+ softmmu/vl.c                 |  8 +++++--
+ target/i386/hax/hax-all.c    |  3 ---
+ target/i386/hax/hax-cpus.c   | 29 +++++++++++++++++------
+ target/i386/hax/hax-cpus.h   |  2 --
+ target/i386/hvf/hvf-cpus.c   | 27 +++++++++++++++++-----
+ target/i386/hvf/hvf-cpus.h   |  2 --
+ target/i386/hvf/hvf.c        |  1 -
+ target/i386/whpx/whpx-all.c  |  2 --
+ target/i386/whpx/whpx-cpus.c | 29 +++++++++++++++++------
+ target/i386/whpx/whpx-cpus.h |  2 --
+ 33 files changed, 320 insertions(+), 133 deletions(-)
+ create mode 100644 accel/accel-softmmu.h
+ create mode 100644 accel/tcg/tcg-cpus-mttcg.h
+ create mode 100644 include/sysemu/accel-ops.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index d876f504a6..6235dd3a9f 100644
+index 6235dd3a9f..8f0e773a47 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -434,7 +434,7 @@ Overall
- M: Richard Henderson <richard.henderson@linaro.org>
+@@ -435,7 +435,8 @@ M: Richard Henderson <richard.henderson@linaro.org>
  R: Paolo Bonzini <pbonzini@redhat.com>
  S: Maintained
--F: include/sysemu/accel.h
-+F: include/qemu/accel.h
- F: accel/accel.c
+ F: include/qemu/accel.h
+-F: accel/accel.c
++F: include/sysemu/accel-ops.h
++F: accel/accel-*.c
  F: accel/Makefile.objs
  F: accel/stubs/Makefile.objs
+ 
 diff --git a/accel/accel-common.c b/accel/accel-common.c
-new file mode 100644
-index 0000000000..ddec8cb5ae
---- /dev/null
+index ddec8cb5ae..3910b7dbe0 100644
+--- a/accel/accel-common.c
 +++ b/accel/accel-common.c
-@@ -0,0 +1,50 @@
-+/*
-+ * QEMU accel class, components common to system emulation and user mode
-+ *
-+ * Copyright (c) 2003-2008 Fabrice Bellard
-+ * Copyright (c) 2014 Red Hat Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/accel.h"
-+
-+static const TypeInfo accel_type = {
-+    .name = TYPE_ACCEL,
-+    .parent = TYPE_OBJECT,
-+    .class_size = sizeof(AccelClass),
-+    .instance_size = sizeof(AccelState),
-+};
-+
-+/* Lookup AccelClass from opt_name. Returns NULL if not found */
-+AccelClass *accel_find(const char *opt_name)
-+{
-+    char *class_name = g_strdup_printf(ACCEL_CLASS_NAME("%s"), opt_name);
-+    AccelClass *ac = ACCEL_CLASS(object_class_by_name(class_name));
-+    g_free(class_name);
-+    return ac;
-+}
-+
-+static void register_accel_types(void)
-+{
-+    type_register_static(&accel_type);
-+}
-+
-+type_init(register_accel_types);
-diff --git a/accel/accel.c b/accel/accel-softmmu.c
-similarity index 75%
-rename from accel/accel.c
-rename to accel/accel-softmmu.c
-index cb555e3b06..f89da8f9d1 100644
---- a/accel/accel.c
-+++ b/accel/accel-softmmu.c
-@@ -1,5 +1,5 @@
- /*
-- * QEMU System Emulator, accelerator interfaces
-+ * QEMU accel class, system emulation components
-  *
-  * Copyright (c) 2003-2008 Fabrice Bellard
-  * Copyright (c) 2014 Red Hat Inc.
-@@ -24,28 +24,12 @@
-  */
- 
+@@ -26,6 +26,10 @@
  #include "qemu/osdep.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "hw/boards.h"
- #include "sysemu/arch_init.h"
- #include "sysemu/sysemu.h"
- #include "qom/object.h"
+ #include "qemu/accel.h"
  
--static const TypeInfo accel_type = {
--    .name = TYPE_ACCEL,
--    .parent = TYPE_OBJECT,
--    .class_size = sizeof(AccelClass),
--    .instance_size = sizeof(AccelState),
--};
--
--/* Lookup AccelClass from opt_name. Returns NULL if not found */
--AccelClass *accel_find(const char *opt_name)
--{
--    char *class_name = g_strdup_printf(ACCEL_CLASS_NAME("%s"), opt_name);
--    AccelClass *ac = ACCEL_CLASS(object_class_by_name(class_name));
--    g_free(class_name);
--    return ac;
--}
--
++#ifndef CONFIG_USER_ONLY
++#include "accel-softmmu.h"
++#endif /* !CONFIG_USER_ONLY */
++
+ static const TypeInfo accel_type = {
+     .name = TYPE_ACCEL,
+     .parent = TYPE_OBJECT,
+@@ -42,6 +46,13 @@ AccelClass *accel_find(const char *opt_name)
+     return ac;
+ }
+ 
++void accel_init_interfaces(AccelClass *ac, const char *cpu_type)
++{
++#ifndef CONFIG_USER_ONLY
++    accel_init_ops_interfaces(ac);
++#endif /* !CONFIG_USER_ONLY */
++}
++
+ static void register_accel_types(void)
+ {
+     type_register_static(&accel_type);
+diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
+index f89da8f9d1..2d15d3f2f4 100644
+--- a/accel/accel-softmmu.c
++++ b/accel/accel-softmmu.c
+@@ -26,9 +26,9 @@
+ #include "qemu/osdep.h"
+ #include "qemu/accel.h"
+ #include "hw/boards.h"
+-#include "sysemu/arch_init.h"
+-#include "sysemu/sysemu.h"
+-#include "qom/object.h"
++#include "sysemu/cpus.h"
++
++#include "accel-softmmu.h"
+ 
  int accel_init_machine(AccelState *accel, MachineState *ms)
  {
-     AccelClass *acc = ACCEL_GET_CLASS(accel);
-@@ -76,10 +60,3 @@ void accel_setup_post(MachineState *ms)
+@@ -60,3 +60,40 @@ void accel_setup_post(MachineState *ms)
          acc->setup_post(ms, accel);
      }
  }
--
--static void register_accel_types(void)
--{
--    type_register_static(&accel_type);
--}
--
--type_init(register_accel_types);
-diff --git a/accel/accel-user.c b/accel/accel-user.c
++
++/* initialize the arch-independent accel operation interfaces */
++void accel_init_ops_interfaces(AccelClass *ac)
++{
++    const char *ac_name;
++    char *ops_name;
++    AccelOpsClass *ops;
++
++    ac_name = object_class_get_name(OBJECT_CLASS(ac));
++    g_assert(ac_name != NULL);
++
++    ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
++    ops = ACCEL_OPS_CLASS(object_class_by_name(ops_name));
++    g_free(ops_name);
++
++    /*
++     * all accelerators need to define ops, providing at least a mandatory
++     * non-NULL create_vcpu_thread operation.
++     */
++    g_assert(ops != NULL);
++    if (ops->ops_init) {
++        ops->ops_init(ops);
++    }
++    cpus_register_accel(ops);
++}
++
++static const TypeInfo accel_ops_type_info = {
++    .name = TYPE_ACCEL_OPS,
++    .parent = TYPE_OBJECT,
++    .abstract = true,
++    .class_size = sizeof(AccelOpsClass),
++};
++static void accel_softmmu_register_types(void)
++{
++    type_register_static(&accel_ops_type_info);
++}
++type_init(accel_softmmu_register_types);
+diff --git a/accel/accel-softmmu.h b/accel/accel-softmmu.h
 new file mode 100644
-index 0000000000..26bdda6236
+index 0000000000..2877b5c234
 --- /dev/null
-+++ b/accel/accel-user.c
-@@ -0,0 +1,24 @@
++++ b/accel/accel-softmmu.h
+@@ -0,0 +1,15 @@
 +/*
-+ * QEMU accel class, user-mode components
++ * QEMU System Emulation accel internal functions
 + *
 + * Copyright 2020 SUSE LLC
 + *
@@ -239,379 +227,790 @@ index 0000000000..26bdda6236
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#include "qemu/osdep.h"
-+#include "qemu/accel.h"
++#ifndef ACCEL_SOFTMMU_H
++#define ACCEL_SOFTMMU_H
 +
-+AccelState *current_accel(void)
-+{
-+    static AccelState *accel;
++void accel_init_ops_interfaces(AccelClass *ac);
 +
-+    if (!accel) {
-+        AccelClass *ac = accel_find("tcg");
-+
-+        g_assert(ac != NULL);
-+        accel = ACCEL(object_new_with_class(OBJECT_CLASS(ac)));
-+    }
-+    return accel;
-+}
-diff --git a/accel/meson.build b/accel/meson.build
-index b26cca227a..b44ba30c86 100644
---- a/accel/meson.build
-+++ b/accel/meson.build
-@@ -1,4 +1,6 @@
--softmmu_ss.add(files('accel.c'))
-+specific_ss.add(files('accel-common.c'))
-+softmmu_ss.add(files('accel-softmmu.c'))
-+user_ss.add(files('accel-user.c'))
++#endif /* ACCEL_SOFTMMU_H */
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index baaa54249d..18be3cd113 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2253,8 +2253,6 @@ static int kvm_init(MachineState *ms)
+         ret = ram_block_discard_disable(true);
+         assert(!ret);
+     }
+-
+-    cpus_register_accel(&kvm_cpus);
+     return 0;
  
- subdir('qtest')
- subdir('kvm')
+ err:
+diff --git a/accel/kvm/kvm-cpus.c b/accel/kvm/kvm-cpus.c
+index d809b1e74c..fc9dda46ae 100644
+--- a/accel/kvm/kvm-cpus.c
++++ b/accel/kvm/kvm-cpus.c
+@@ -74,11 +74,25 @@ static void kvm_start_vcpu_thread(CPUState *cpu)
+                        cpu, QEMU_THREAD_JOINABLE);
+ }
+ 
+-const CpusAccel kvm_cpus = {
+-    .create_vcpu_thread = kvm_start_vcpu_thread,
++static void kvm_cpus_class_init(ObjectClass *oc, void *data)
++{
++    AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
+ 
+-    .synchronize_post_reset = kvm_cpu_synchronize_post_reset,
+-    .synchronize_post_init = kvm_cpu_synchronize_post_init,
+-    .synchronize_state = kvm_cpu_synchronize_state,
+-    .synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm,
++    ops->create_vcpu_thread = kvm_start_vcpu_thread;
++    ops->synchronize_post_reset = kvm_cpu_synchronize_post_reset;
++    ops->synchronize_post_init = kvm_cpu_synchronize_post_init;
++    ops->synchronize_state = kvm_cpu_synchronize_state;
++    ops->synchronize_pre_loadvm = kvm_cpu_synchronize_pre_loadvm;
+ };
++static const TypeInfo kvm_cpus_type_info = {
++    .name = ACCEL_OPS_NAME("kvm"),
++
++    .parent = TYPE_ACCEL_OPS,
++    .class_init = kvm_cpus_class_init,
++    .abstract = true,
++};
++static void kvm_cpus_register_types(void)
++{
++    type_register_static(&kvm_cpus_type_info);
++}
++type_init(kvm_cpus_register_types);
+diff --git a/accel/kvm/kvm-cpus.h b/accel/kvm/kvm-cpus.h
+index 3df732b816..bf0bd1bee4 100644
+--- a/accel/kvm/kvm-cpus.h
++++ b/accel/kvm/kvm-cpus.h
+@@ -12,8 +12,6 @@
+ 
+ #include "sysemu/cpus.h"
+ 
+-extern const CpusAccel kvm_cpus;
+-
+ int kvm_init_vcpu(CPUState *cpu, Error **errp);
+ int kvm_cpu_exec(CPUState *cpu);
+ void kvm_destroy_vcpu(CPUState *cpu);
 diff --git a/accel/qtest/qtest.c b/accel/qtest/qtest.c
-index b282cea5cf..b4e731cb2b 100644
+index b4e731cb2b..68d86de30f 100644
 --- a/accel/qtest/qtest.c
 +++ b/accel/qtest/qtest.c
-@@ -17,7 +17,7 @@
- #include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/config-file.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "sysemu/qtest.h"
- #include "sysemu/cpus.h"
- #include "sysemu/cpu-timers.h"
-diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
-index f39aab0a0c..424d9bb1fc 100644
---- a/accel/tcg/meson.build
-+++ b/accel/tcg/meson.build
-@@ -1,5 +1,6 @@
- tcg_ss = ss.source_set()
- tcg_ss.add(files(
-+  'tcg-all.c',
-   'cpu-exec-common.c',
-   'cpu-exec.c',
-   'tcg-runtime-gvec.c',
-@@ -13,7 +14,6 @@ tcg_ss.add(when: 'CONFIG_PLUGIN', if_true: [files('plugin-gen.c'), libdl])
- specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
+@@ -25,14 +25,8 @@
+ #include "qemu/main-loop.h"
+ #include "hw/core/cpu.h"
  
- specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
--  'tcg-all.c',
-   'cputlb.c',
-   'tcg-cpus.c',
-   'tcg-cpus-mttcg.c',
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 1ac0b76515..dcbc6970da 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -30,9 +30,12 @@
- #include "tcg/tcg.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
--#include "hw/boards.h"
-+#include "qemu/accel.h"
- #include "qapi/qapi-builtin-visit.h"
-+
-+#ifndef CONFIG_USER_ONLY
- #include "tcg-cpus.h"
-+#endif /* CONFIG_USER_ONLY */
- 
- struct TCGState {
-     AccelState parent_obj;
-@@ -110,6 +113,7 @@ static int tcg_init(MachineState *ms)
-      */
-     tcg_region_init();
- 
-+#ifndef CONFIG_USER_ONLY
-     if (mttcg_enabled) {
-         cpus_register_accel(&tcg_cpus_mttcg);
-     } else if (icount_enabled()) {
-@@ -117,6 +121,7 @@ static int tcg_init(MachineState *ms)
-     } else {
-         cpus_register_accel(&tcg_cpus_rr);
-     }
-+#endif /* CONFIG_USER_ONLY */
+-const CpusAccel qtest_cpus = {
+-    .create_vcpu_thread = dummy_start_vcpu_thread,
+-    .get_virtual_clock = qtest_get_virtual_clock,
+-};
+-
+ static int qtest_init_accel(MachineState *ms)
+ {
+-    cpus_register_accel(&qtest_cpus);
      return 0;
  }
  
+@@ -52,9 +46,26 @@ static const TypeInfo qtest_accel_type = {
+     .class_init = qtest_accel_class_init,
+ };
+ 
++static void qtest_cpus_class_init(ObjectClass *oc, void *data)
++{
++    AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
++
++    ops->create_vcpu_thread = dummy_start_vcpu_thread;
++    ops->get_virtual_clock = qtest_get_virtual_clock;
++};
++
++static const TypeInfo qtest_cpus_type_info = {
++    .name = ACCEL_OPS_NAME("qtest"),
++
++    .parent = TYPE_ACCEL_OPS,
++    .class_init = qtest_cpus_class_init,
++    .abstract = true,
++};
++
+ static void qtest_type_init(void)
+ {
+     type_register_static(&qtest_accel_type);
++    type_register_static(&qtest_cpus_type_info);
+ }
+ 
+ type_init(qtest_type_init);
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index dcbc6970da..2b86df9ba0 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -33,10 +33,6 @@
+ #include "qemu/accel.h"
+ #include "qapi/qapi-builtin-visit.h"
+ 
+-#ifndef CONFIG_USER_ONLY
+-#include "tcg-cpus.h"
+-#endif /* CONFIG_USER_ONLY */
+-
+ struct TCGState {
+     AccelState parent_obj;
+ 
+@@ -112,16 +108,6 @@ static int tcg_init(MachineState *ms)
+      * Initialize TCG regions
+      */
+     tcg_region_init();
+-
+-#ifndef CONFIG_USER_ONLY
+-    if (mttcg_enabled) {
+-        cpus_register_accel(&tcg_cpus_mttcg);
+-    } else if (icount_enabled()) {
+-        cpus_register_accel(&tcg_cpus_icount);
+-    } else {
+-        cpus_register_accel(&tcg_cpus_rr);
+-    }
+-#endif /* CONFIG_USER_ONLY */
+     return 0;
+ }
+ 
+diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
+index 9f45432275..5445b4d545 100644
+--- a/accel/tcg/tcg-cpus-icount.c
++++ b/accel/tcg/tcg-cpus-icount.c
+@@ -125,7 +125,7 @@ void icount_process_data(CPUState *cpu)
+     replay_mutex_unlock();
+ }
+ 
+-static void icount_handle_interrupt(CPUState *cpu, int mask)
++void icount_handle_interrupt(CPUState *cpu, int mask)
+ {
+     int old_mask = cpu->interrupt_request;
+ 
+@@ -136,12 +136,3 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
+         cpu_abort(cpu, "Raised interrupt while not in I/O function");
+     }
+ }
+-
+-const CpusAccel tcg_cpus_icount = {
+-    .create_vcpu_thread = rr_start_vcpu_thread,
+-    .kick_vcpu_thread = rr_kick_vcpu_thread,
+-
+-    .handle_interrupt = icount_handle_interrupt,
+-    .get_virtual_clock = icount_get,
+-    .get_elapsed_ticks = icount_get,
+-};
+diff --git a/accel/tcg/tcg-cpus-icount.h b/accel/tcg/tcg-cpus-icount.h
+index b695939dfa..d884aa2aaa 100644
+--- a/accel/tcg/tcg-cpus-icount.h
++++ b/accel/tcg/tcg-cpus-icount.h
+@@ -14,4 +14,6 @@ void icount_handle_deadline(void);
+ void icount_prepare_for_run(CPUState *cpu);
+ void icount_process_data(CPUState *cpu);
+ 
++void icount_handle_interrupt(CPUState *cpu, int mask);
++
+ #endif /* TCG_CPUS_ICOUNT_H */
+diff --git a/accel/tcg/tcg-cpus-mttcg.c b/accel/tcg/tcg-cpus-mttcg.c
+index 9c3767d260..dabf5ed42e 100644
+--- a/accel/tcg/tcg-cpus-mttcg.c
++++ b/accel/tcg/tcg-cpus-mttcg.c
+@@ -33,6 +33,7 @@
+ #include "hw/boards.h"
+ 
+ #include "tcg-cpus.h"
++#include "tcg-cpus-mttcg.h"
+ 
+ /*
+  * In the multi-threaded case each vCPU has its own thread. The TLS
+@@ -103,12 +104,12 @@ static void *mttcg_cpu_thread_fn(void *arg)
+     return NULL;
+ }
+ 
+-static void mttcg_kick_vcpu_thread(CPUState *cpu)
++void mttcg_kick_vcpu_thread(CPUState *cpu)
+ {
+     cpu_exit(cpu);
+ }
+ 
+-static void mttcg_start_vcpu_thread(CPUState *cpu)
++void mttcg_start_vcpu_thread(CPUState *cpu)
+ {
+     char thread_name[VCPU_THREAD_NAME_SIZE];
+ 
+@@ -131,10 +132,3 @@ static void mttcg_start_vcpu_thread(CPUState *cpu)
+     cpu->hThread = qemu_thread_get_handle(cpu->thread);
+ #endif
+ }
+-
+-const CpusAccel tcg_cpus_mttcg = {
+-    .create_vcpu_thread = mttcg_start_vcpu_thread,
+-    .kick_vcpu_thread = mttcg_kick_vcpu_thread,
+-
+-    .handle_interrupt = tcg_cpus_handle_interrupt,
+-};
+diff --git a/accel/tcg/tcg-cpus-mttcg.h b/accel/tcg/tcg-cpus-mttcg.h
+new file mode 100644
+index 0000000000..0af91dd3b3
+--- /dev/null
++++ b/accel/tcg/tcg-cpus-mttcg.h
+@@ -0,0 +1,19 @@
++/*
++ * QEMU TCG Multi Threaded vCPUs implementation
++ *
++ * Copyright 2020 SUSE LLC
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef TCG_CPUS_MTTCG_H
++#define TCG_CPUS_MTTCG_H
++
++/* kick MTTCG vCPU thread */
++void mttcg_kick_vcpu_thread(CPUState *cpu);
++
++/* start an mttcg vCPU thread */
++void mttcg_start_vcpu_thread(CPUState *cpu);
++
++#endif /* TCG_CPUS_MTTCG_H */
+diff --git a/accel/tcg/tcg-cpus-rr.c b/accel/tcg/tcg-cpus-rr.c
+index 0181d2e4eb..802c57bb60 100644
+--- a/accel/tcg/tcg-cpus-rr.c
++++ b/accel/tcg/tcg-cpus-rr.c
+@@ -296,10 +296,3 @@ void rr_start_vcpu_thread(CPUState *cpu)
+         cpu->created = true;
+     }
+ }
+-
+-const CpusAccel tcg_cpus_rr = {
+-    .create_vcpu_thread = rr_start_vcpu_thread,
+-    .kick_vcpu_thread = rr_kick_vcpu_thread,
+-
+-    .handle_interrupt = tcg_cpus_handle_interrupt,
+-};
+diff --git a/accel/tcg/tcg-cpus.c b/accel/tcg/tcg-cpus.c
+index e335f9f155..38a58ab271 100644
+--- a/accel/tcg/tcg-cpus.c
++++ b/accel/tcg/tcg-cpus.c
+@@ -35,6 +35,9 @@
+ #include "hw/boards.h"
+ 
+ #include "tcg-cpus.h"
++#include "tcg-cpus-mttcg.h"
++#include "tcg-cpus-rr.h"
++#include "tcg-cpus-icount.h"
+ 
+ /* common functionality among all TCG variants */
+ 
+@@ -80,3 +83,43 @@ void tcg_cpus_handle_interrupt(CPUState *cpu, int mask)
+         qatomic_set(&cpu_neg(cpu)->icount_decr.u16.high, -1);
+     }
+ }
++
++static void tcg_cpus_ops_init(AccelOpsClass *ops)
++{
++    if (qemu_tcg_mttcg_enabled()) {
++        ops->create_vcpu_thread = mttcg_start_vcpu_thread;
++        ops->kick_vcpu_thread = mttcg_kick_vcpu_thread;
++        ops->handle_interrupt = tcg_cpus_handle_interrupt;
++
++    } else if (icount_enabled()) {
++        ops->create_vcpu_thread = rr_start_vcpu_thread;
++        ops->kick_vcpu_thread = rr_kick_vcpu_thread;
++        ops->handle_interrupt = icount_handle_interrupt;
++        ops->get_virtual_clock = icount_get;
++        ops->get_elapsed_ticks = icount_get;
++
++    } else {
++        ops->create_vcpu_thread = rr_start_vcpu_thread;
++        ops->kick_vcpu_thread = rr_kick_vcpu_thread;
++        ops->handle_interrupt = tcg_cpus_handle_interrupt;
++    }
++}
++
++static void tcg_cpus_class_init(ObjectClass *oc, void *data)
++{
++    AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
++
++    ops->ops_init = tcg_cpus_ops_init;
++};
++static const TypeInfo tcg_cpus_type_info = {
++    .name = ACCEL_OPS_NAME("tcg"),
++
++    .parent = TYPE_ACCEL_OPS,
++    .class_init = tcg_cpus_class_init,
++    .abstract = true,
++};
++static void tcg_cpus_register_types(void)
++{
++    type_register_static(&tcg_cpus_type_info);
++}
++type_init(tcg_cpus_register_types);
+diff --git a/accel/tcg/tcg-cpus.h b/accel/tcg/tcg-cpus.h
+index d6893a32f8..923cbace12 100644
+--- a/accel/tcg/tcg-cpus.h
++++ b/accel/tcg/tcg-cpus.h
+@@ -14,10 +14,6 @@
+ 
+ #include "sysemu/cpus.h"
+ 
+-extern const CpusAccel tcg_cpus_mttcg;
+-extern const CpusAccel tcg_cpus_icount;
+-extern const CpusAccel tcg_cpus_rr;
+-
+ void tcg_cpus_destroy(CPUState *cpu);
+ int tcg_cpus_exec(CPUState *cpu);
+ void tcg_cpus_handle_interrupt(CPUState *cpu, int mask);
 diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
-index 878a4089d9..594aaf6b49 100644
+index 594aaf6b49..cd5aa2b96e 100644
 --- a/accel/xen/xen-all.c
 +++ b/accel/xen/xen-all.c
-@@ -15,7 +15,7 @@
- #include "hw/xen/xen-legacy-backend.h"
- #include "hw/xen/xen_pt.h"
- #include "chardev/char.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "sysemu/cpus.h"
- #include "sysemu/xen.h"
- #include "sysemu/runstate.h"
+@@ -154,10 +154,6 @@ static void xen_setup_post(MachineState *ms, AccelState *accel)
+     }
+ }
+ 
+-const CpusAccel xen_cpus = {
+-    .create_vcpu_thread = dummy_start_vcpu_thread,
+-};
+-
+ static int xen_init(MachineState *ms)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+@@ -185,9 +181,6 @@ static int xen_init(MachineState *ms)
+      * opt out of system RAM being allocated by generic code
+      */
+     mc->default_ram_id = NULL;
+-
+-    cpus_register_accel(&xen_cpus);
+-
+     return 0;
+ }
+ 
+@@ -222,9 +215,24 @@ static const TypeInfo xen_accel_type = {
+     .class_init = xen_accel_class_init,
+ };
+ 
++static void xen_cpus_class_init(ObjectClass *oc, void *data)
++{
++    AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
++
++    ops->create_vcpu_thread = dummy_start_vcpu_thread;
++};
++static const TypeInfo xen_cpus_type_info = {
++    .name = ACCEL_OPS_NAME("xen"),
++
++    .parent = TYPE_ACCEL_OPS,
++    .class_init = xen_cpus_class_init,
++    .abstract = true,
++};
++
+ static void xen_type_init(void)
+ {
+     type_register_static(&xen_accel_type);
++    type_register_static(&xen_cpus_type_info);
+ }
+ 
+ type_init(xen_type_init);
 diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 0a918e8f74..ec1f9d80a4 100644
+index ec1f9d80a4..25a757c746 100644
 --- a/bsd-user/main.c
 +++ b/bsd-user/main.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu/units.h"
-+#include "qemu/accel.h"
- #include "sysemu/tcg.h"
- #include "qemu-version.h"
- #include <machine/trap.h>
-@@ -908,8 +909,11 @@ int main(int argc, char **argv)
+@@ -908,13 +908,14 @@ int main(int argc, char **argv)
+ #endif
      }
  
++    cpu_type = parse_cpu_option(cpu_model);
      /* init tcg before creating CPUs and to get qemu_host_page_size */
--    tcg_exec_init(0);
-+    {
-+        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+     {
+         AccelClass *ac = ACCEL_GET_CLASS(current_accel());
  
-+        ac->init_machine(NULL);
-+    }
-     cpu_type = parse_cpu_option(cpu_model);
+         ac->init_machine(NULL);
++        accel_init_interfaces(ac, cpu_type);
+     }
+-    cpu_type = parse_cpu_option(cpu_model);
      cpu = cpu_create(cpu_type);
      env = cpu->env_ptr;
-@@ -988,7 +992,6 @@ int main(int argc, char **argv)
-        generating the prologue until now so that the prologue can take
-        the real value of GUEST_BASE into account.  */
-     tcg_prologue_init(tcg_ctx);
--    tcg_region_init();
- 
-     /* build Task State */
-     memset(ts, 0, sizeof(TaskState));
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index a49e3a6b44..b754504afe 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -6,7 +6,7 @@
- #include "exec/memory.h"
- #include "sysemu/hostmem.h"
- #include "sysemu/blockdev.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "qapi/qapi-types-machine.h"
- #include "qemu/module.h"
- #include "qom/object.h"
-diff --git a/include/sysemu/accel.h b/include/qemu/accel.h
-similarity index 95%
-rename from include/sysemu/accel.h
-rename to include/qemu/accel.h
-index e08b8ab8fa..fac4a18703 100644
---- a/include/sysemu/accel.h
+ #if defined(TARGET_SPARC) || defined(TARGET_PPC)
+diff --git a/include/qemu/accel.h b/include/qemu/accel.h
+index fac4a18703..68a57e040f 100644
+--- a/include/qemu/accel.h
 +++ b/include/qemu/accel.h
-@@ -20,8 +20,8 @@
-  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-  * THE SOFTWARE.
-  */
--#ifndef HW_ACCEL_H
--#define HW_ACCEL_H
-+#ifndef QEMU_ACCEL_H
-+#define QEMU_ACCEL_H
- 
- #include "qom/object.h"
- #include "exec/hwaddr.h"
-@@ -37,8 +37,8 @@ typedef struct AccelClass {
-     /*< public >*/
- 
-     const char *name;
--#ifndef CONFIG_USER_ONLY
-     int (*init_machine)(MachineState *ms);
-+#ifndef CONFIG_USER_ONLY
-     void (*setup_post)(MachineState *ms, AccelState *accel);
-     bool (*has_memory)(MachineState *ms, AddressSpace *as,
-                        hwaddr start_addr, hwaddr size);
-@@ -67,11 +67,13 @@ typedef struct AccelClass {
-     OBJECT_GET_CLASS(AccelClass, (obj), TYPE_ACCEL)
- 
+@@ -69,6 +69,8 @@ typedef struct AccelClass {
  AccelClass *accel_find(const char *opt_name);
-+AccelState *current_accel(void);
+ AccelState *current_accel(void);
+ 
++void accel_init_interfaces(AccelClass *ac, const char *cpu_type);
 +
-+#ifndef CONFIG_USER_ONLY
+ #ifndef CONFIG_USER_ONLY
  int accel_init_machine(AccelState *accel, MachineState *ms);
  
- /* Called just before os_setup_post (ie just before drop OS privs) */
- void accel_setup_post(MachineState *ms);
-+#endif /* !CONFIG_USER_ONLY */
+diff --git a/include/sysemu/accel-ops.h b/include/sysemu/accel-ops.h
+new file mode 100644
+index 0000000000..6102d2f80d
+--- /dev/null
++++ b/include/sysemu/accel-ops.h
+@@ -0,0 +1,45 @@
++/*
++ * Accelerator OPS, used for cpus.c module
++ *
++ * Copyright 2020 SUSE LLC
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef ACCEL_OPS_H
++#define ACCEL_OPS_H
++
++#include "qom/object.h"
++
++#define ACCEL_OPS_SUFFIX "-ops"
++#define TYPE_ACCEL_OPS "accel" ACCEL_OPS_SUFFIX
++#define ACCEL_OPS_NAME(name) (name "-" TYPE_ACCEL_OPS)
++
++typedef struct AccelOpsClass AccelOpsClass;
++DECLARE_CLASS_CHECKERS(AccelOpsClass, ACCEL_OPS, TYPE_ACCEL_OPS)
++
++/* cpus.c operations interface */
++struct AccelOpsClass {
++    /*< private >*/
++    ObjectClass parent_class;
++    /*< public >*/
++
++    /* initialization function called when accel is chosen */
++    void (*ops_init)(AccelOpsClass *ops);
++
++    void (*create_vcpu_thread)(CPUState *cpu); /* MANDATORY NON-NULL */
++    void (*kick_vcpu_thread)(CPUState *cpu);
++
++    void (*synchronize_post_reset)(CPUState *cpu);
++    void (*synchronize_post_init)(CPUState *cpu);
++    void (*synchronize_state)(CPUState *cpu);
++    void (*synchronize_pre_loadvm)(CPUState *cpu);
++
++    void (*handle_interrupt)(CPUState *cpu, int mask);
++
++    int64_t (*get_virtual_clock)(void);
++    int64_t (*get_elapsed_ticks)(void);
++};
++
++#endif /* ACCEL_OPS_H */
+diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
+index e8156728c6..2cd74392e0 100644
+--- a/include/sysemu/cpus.h
++++ b/include/sysemu/cpus.h
+@@ -2,30 +2,14 @@
+ #define QEMU_CPUS_H
  
--AccelState *current_accel(void);
+ #include "qemu/timer.h"
++#include "sysemu/accel-ops.h"
+ 
+-/* cpus.c */
++/* register accel-specific operations */
++void cpus_register_accel(const AccelOpsClass *i);
+ 
+-/* CPU execution threads */
++/* accel/dummy-cpus.c */
+ 
+-typedef struct CpusAccel {
+-    void (*create_vcpu_thread)(CPUState *cpu); /* MANDATORY */
+-    void (*kick_vcpu_thread)(CPUState *cpu);
 -
--#endif
-+#endif /* QEMU_ACCEL_H */
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index f893768df9..c98636bc81 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -13,7 +13,7 @@
- #ifndef HVF_H
- #define HVF_H
+-    void (*synchronize_post_reset)(CPUState *cpu);
+-    void (*synchronize_post_init)(CPUState *cpu);
+-    void (*synchronize_state)(CPUState *cpu);
+-    void (*synchronize_pre_loadvm)(CPUState *cpu);
+-
+-    void (*handle_interrupt)(CPUState *cpu, int mask);
+-
+-    int64_t (*get_virtual_clock)(void);
+-    int64_t (*get_elapsed_ticks)(void);
+-} CpusAccel;
+-
+-/* register accel-specific cpus interface implementation */
+-void cpus_register_accel(const CpusAccel *i);
+-
+-/* Create a dummy vcpu for CpusAccel->create_vcpu_thread */
++/* Create a dummy vcpu for AccelOpsClass->create_vcpu_thread */
+ void dummy_start_vcpu_thread(CPUState *);
  
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "qom/object.h"
- 
- #ifdef CONFIG_HVF
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index bb5d5cf497..739682f3c3 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -17,7 +17,7 @@
- #include "qemu/queue.h"
- #include "hw/core/cpu.h"
- #include "exec/memattrs.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "qom/object.h"
- 
- #ifdef NEED_CPU_H
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 65740806da..ccb8869f01 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -10,7 +10,7 @@
- #define QEMU_KVM_INT_H
- 
- #include "exec/memory.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "sysemu/kvm.h"
- 
- typedef struct KVMSlot
+ /* interface available for cpus accelerator threads */
 diff --git a/linux-user/main.c b/linux-user/main.c
-index 24d1eb73ad..1825d2b835 100644
+index 1825d2b835..54e59fce3a 100644
 --- a/linux-user/main.c
 +++ b/linux-user/main.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu-common.h"
- #include "qemu/units.h"
-+#include "qemu/accel.h"
- #include "sysemu/tcg.h"
- #include "qemu-version.h"
- #include <sys/syscall.h>
-@@ -703,8 +704,11 @@ int main(int argc, char **argv, char **envp)
-     cpu_type = parse_cpu_option(cpu_model);
+@@ -708,6 +708,7 @@ int main(int argc, char **argv, char **envp)
+         AccelClass *ac = ACCEL_GET_CLASS(current_accel());
  
-     /* init tcg before creating CPUs and to get qemu_host_page_size */
--    tcg_exec_init(0);
-+    {
-+        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
- 
-+        ac->init_machine(NULL);
-+    }
+         ac->init_machine(NULL);
++        accel_init_interfaces(ac, cpu_type);
+     }
      cpu = cpu_create(cpu_type);
      env = cpu->env_ptr;
-     cpu_reset(cpu);
-@@ -846,7 +850,6 @@ int main(int argc, char **argv, char **envp)
-        generating the prologue until now so that the prologue can take
-        the real value of GUEST_BASE into account.  */
-     tcg_prologue_init(tcg_ctx);
--    tcg_region_init();
+diff --git a/softmmu/cpus.c b/softmmu/cpus.c
+index e46ac68ad0..659617e7ef 100644
+--- a/softmmu/cpus.c
++++ b/softmmu/cpus.c
+@@ -127,7 +127,7 @@ void hw_error(const char *fmt, ...)
+ /*
+  * The chosen accelerator is supposed to register this.
+  */
+-static const CpusAccel *cpus_accel;
++static const AccelOpsClass *cpus_accel;
  
-     target_cpu_copy_regs(env, regs);
+ void cpu_synchronize_all_states(void)
+ {
+@@ -593,11 +593,11 @@ void cpu_remove_sync(CPUState *cpu)
+     qemu_mutex_lock_iothread();
+ }
  
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 11ca94d037..9484ae9503 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -32,7 +32,7 @@
- #include "sysemu/kvm.h"
- #include "sysemu/runstate.h"
- #include "sysemu/tcg.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "hw/boards.h"
- #include "migration/vmstate.h"
+-void cpus_register_accel(const CpusAccel *ca)
++void cpus_register_accel(const AccelOpsClass *ops)
+ {
+-    assert(ca != NULL);
+-    assert(ca->create_vcpu_thread != NULL); /* mandatory */
+-    cpus_accel = ca;
++    assert(ops != NULL);
++    assert(ops->create_vcpu_thread != NULL); /* mandatory */
++    cpus_accel = ops;
+ }
  
-diff --git a/softmmu/qtest.c b/softmmu/qtest.c
-index 7965dc9a16..130c366615 100644
---- a/softmmu/qtest.c
-+++ b/softmmu/qtest.c
-@@ -20,7 +20,7 @@
- #include "exec/ioport.h"
- #include "exec/memory.h"
- #include "hw/irq.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "sysemu/cpu-timers.h"
- #include "qemu/config-file.h"
- #include "qemu/option.h"
+ void qemu_init_vcpu(CPUState *cpu)
+@@ -617,7 +617,7 @@ void qemu_init_vcpu(CPUState *cpu)
+         cpu_address_space_init(cpu, 0, "cpu-memory", cpu->memory);
+     }
+ 
+-    /* accelerators all implement the CpusAccel interface */
++    /* accelerators all implement the AccelOpsClass */
+     g_assert(cpus_accel != NULL && cpus_accel->create_vcpu_thread != NULL);
+     cpus_accel->create_vcpu_thread(cpu);
+ 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index e6e0ad5a92..bc20c526d2 100644
+index bc20c526d2..8d65058ef1 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -40,7 +40,7 @@
+@@ -2558,7 +2558,7 @@ static bool object_create_initial(const char *type, QemuOpts *opts)
+     }
  
- #include "qemu/error-report.h"
- #include "qemu/sockets.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "hw/usb.h"
- #include "hw/isa/isa.h"
- #include "hw/scsi/scsi.h"
+     /* Memory allocation by backends needs to be done
+-     * after configure_accelerator() (due to the tcg_enabled()
++     * after do_configure_accelerator() (due to the tcg_enabled()
+      * checks at memory_region_init_*()).
+      *
+      * Also, allocation of large amounts of memory may delay
+@@ -4186,7 +4186,7 @@ void qemu_init(int argc, char **argv, char **envp)
+      *
+      * Machine compat properties: object_set_machine_compat_props().
+      * Accelerator compat props: object_set_accelerator_compat_props(),
+-     * called from configure_accelerator().
++     * called from do_configure_accelerator().
+      */
+ 
+     if (!qtest_enabled() && machine_class->deprecation_reason) {
+@@ -4322,6 +4322,10 @@ void qemu_init(int argc, char **argv, char **envp)
+         current_machine->cpu_type = parse_cpu_option(cpu_option);
+     }
+ 
++    /* cpu has been chosen, initialize the accel interfaces */
++    accel_init_interfaces(ACCEL_GET_CLASS(current_machine->accelerator),
++                          current_machine->cpu_type);
++
+     if (current_machine->ram_memdev_id) {
+         Object *backend;
+         ram_addr_t backend_size;
 diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
-index fecfe8cd6e..d7f4bb44a7 100644
+index d7f4bb44a7..ec3c426223 100644
 --- a/target/i386/hax/hax-all.c
 +++ b/target/i386/hax/hax-all.c
-@@ -28,7 +28,7 @@
- #include "exec/address-spaces.h"
+@@ -364,9 +364,6 @@ static int hax_accel_init(MachineState *ms)
+                 !ret ? "working" : "not working",
+                 !ret ? "fast virt" : "emulation");
+     }
+-    if (ret == 0) {
+-        cpus_register_accel(&hax_cpus);
+-    }
+     return ret;
+ }
  
- #include "qemu-common.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
- #include "hw/boards.h"
-diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/hvf/hvf-i386.h
-index e0edffd077..50b914fd67 100644
---- a/target/i386/hvf/hvf-i386.h
-+++ b/target/i386/hvf/hvf-i386.h
-@@ -16,7 +16,7 @@
- #ifndef HVF_I386_H
- #define HVF_I386_H
+diff --git a/target/i386/hax/hax-cpus.c b/target/i386/hax/hax-cpus.c
+index f72c85bd49..2f8424388d 100644
+--- a/target/i386/hax/hax-cpus.c
++++ b/target/i386/hax/hax-cpus.c
+@@ -74,12 +74,27 @@ static void hax_start_vcpu_thread(CPUState *cpu)
+ #endif
+ }
  
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "sysemu/hvf.h"
- #include "cpu.h"
- #include "x86.h"
+-const CpusAccel hax_cpus = {
+-    .create_vcpu_thread = hax_start_vcpu_thread,
+-    .kick_vcpu_thread = hax_kick_vcpu_thread,
++static void hax_cpus_class_init(ObjectClass *oc, void *data)
++{
++    AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
+ 
+-    .synchronize_post_reset = hax_cpu_synchronize_post_reset,
+-    .synchronize_post_init = hax_cpu_synchronize_post_init,
+-    .synchronize_state = hax_cpu_synchronize_state,
+-    .synchronize_pre_loadvm = hax_cpu_synchronize_pre_loadvm,
++    ops->create_vcpu_thread = hax_start_vcpu_thread;
++    ops->kick_vcpu_thread = hax_kick_vcpu_thread;
++
++    ops->synchronize_post_reset = hax_cpu_synchronize_post_reset;
++    ops->synchronize_post_init = hax_cpu_synchronize_post_init;
++    ops->synchronize_state = hax_cpu_synchronize_state;
++    ops->synchronize_pre_loadvm = hax_cpu_synchronize_pre_loadvm;
++};
++static const TypeInfo hax_cpus_type_info = {
++    .name = ACCEL_OPS_NAME("hax"),
++
++    .parent = TYPE_ACCEL_OPS,
++    .class_init = hax_cpus_class_init,
++    .abstract = true,
+ };
++static void hax_cpus_register_types(void)
++{
++    type_register_static(&hax_cpus_type_info);
++}
++type_init(hax_cpus_register_types);
+diff --git a/target/i386/hax/hax-cpus.h b/target/i386/hax/hax-cpus.h
+index ee8ab7a631..c7698519cd 100644
+--- a/target/i386/hax/hax-cpus.h
++++ b/target/i386/hax/hax-cpus.h
+@@ -12,8 +12,6 @@
+ 
+ #include "sysemu/cpus.h"
+ 
+-extern const CpusAccel hax_cpus;
+-
+ #include "hax-interface.h"
+ #include "hax-i386.h"
+ 
+diff --git a/target/i386/hvf/hvf-cpus.c b/target/i386/hvf/hvf-cpus.c
+index 817b3d7452..dd022a84c4 100644
+--- a/target/i386/hvf/hvf-cpus.c
++++ b/target/i386/hvf/hvf-cpus.c
+@@ -121,11 +121,26 @@ static void hvf_start_vcpu_thread(CPUState *cpu)
+                        cpu, QEMU_THREAD_JOINABLE);
+ }
+ 
+-const CpusAccel hvf_cpus = {
+-    .create_vcpu_thread = hvf_start_vcpu_thread,
++static void hvf_cpus_class_init(ObjectClass *oc, void *data)
++{
++    AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
+ 
+-    .synchronize_post_reset = hvf_cpu_synchronize_post_reset,
+-    .synchronize_post_init = hvf_cpu_synchronize_post_init,
+-    .synchronize_state = hvf_cpu_synchronize_state,
+-    .synchronize_pre_loadvm = hvf_cpu_synchronize_pre_loadvm,
++    ops->create_vcpu_thread = hvf_start_vcpu_thread;
++
++    ops->synchronize_post_reset = hvf_cpu_synchronize_post_reset;
++    ops->synchronize_post_init = hvf_cpu_synchronize_post_init;
++    ops->synchronize_state = hvf_cpu_synchronize_state;
++    ops->synchronize_pre_loadvm = hvf_cpu_synchronize_pre_loadvm;
++};
++static const TypeInfo hvf_cpus_type_info = {
++    .name = ACCEL_OPS_NAME("hvf"),
++
++    .parent = TYPE_ACCEL_OPS,
++    .class_init = hvf_cpus_class_init,
++    .abstract = true,
+ };
++static void hvf_cpus_register_types(void)
++{
++    type_register_static(&hvf_cpus_type_info);
++}
++type_init(hvf_cpus_register_types);
+diff --git a/target/i386/hvf/hvf-cpus.h b/target/i386/hvf/hvf-cpus.h
+index ced31b82c0..8f992da168 100644
+--- a/target/i386/hvf/hvf-cpus.h
++++ b/target/i386/hvf/hvf-cpus.h
+@@ -12,8 +12,6 @@
+ 
+ #include "sysemu/cpus.h"
+ 
+-extern const CpusAccel hvf_cpus;
+-
+ int hvf_init_vcpu(CPUState *);
+ int hvf_vcpu_exec(CPUState *);
+ void hvf_cpu_synchronize_state(CPUState *);
 diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
-index ed9356565c..ffc9efa40f 100644
+index ffc9efa40f..bd94bb5243 100644
 --- a/target/i386/hvf/hvf.c
 +++ b/target/i386/hvf/hvf.c
-@@ -69,7 +69,7 @@
- #include "exec/address-spaces.h"
- #include "hw/i386/apic_internal.h"
- #include "qemu/main-loop.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "target/i386/cpu.h"
+@@ -887,7 +887,6 @@ static int hvf_accel_init(MachineState *ms)
+   
+     hvf_state = s;
+     memory_listener_register(&hvf_memory_listener, &address_space_memory);
+-    cpus_register_accel(&hvf_cpus);
+     return 0;
+ }
  
- #include "hvf-cpus.h"
-diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
-index 6f04478b3a..d66dfd7669 100644
---- a/target/i386/hvf/x86_task.c
-+++ b/target/i386/hvf/x86_task.c
-@@ -28,7 +28,7 @@
- 
- #include "hw/i386/apic_internal.h"
- #include "qemu/main-loop.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "target/i386/cpu.h"
- 
- // TODO: taskswitch handling
 diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-index f4f3e33eac..ee6b606194 100644
+index ee6b606194..90adae9af7 100644
 --- a/target/i386/whpx/whpx-all.c
 +++ b/target/i386/whpx/whpx-all.c
-@@ -13,7 +13,7 @@
- #include "exec/address-spaces.h"
- #include "exec/ioport.h"
- #include "qemu-common.h"
--#include "sysemu/accel.h"
-+#include "qemu/accel.h"
- #include "sysemu/whpx.h"
+@@ -1642,8 +1642,6 @@ static int whpx_accel_init(MachineState *ms)
+ 
+     whpx_memory_init();
+ 
+-    cpus_register_accel(&whpx_cpus);
+-
+     printf("Windows Hypervisor Platform accelerator is operational\n");
+     return 0;
+ 
+diff --git a/target/i386/whpx/whpx-cpus.c b/target/i386/whpx/whpx-cpus.c
+index d9bd5a2d36..8e82974de7 100644
+--- a/target/i386/whpx/whpx-cpus.c
++++ b/target/i386/whpx/whpx-cpus.c
+@@ -85,12 +85,27 @@ static void whpx_kick_vcpu_thread(CPUState *cpu)
+     }
+ }
+ 
+-const CpusAccel whpx_cpus = {
+-    .create_vcpu_thread = whpx_start_vcpu_thread,
+-    .kick_vcpu_thread = whpx_kick_vcpu_thread,
++static void whpx_cpus_class_init(ObjectClass *oc, void *data)
++{
++    AccelOpsClass *ops = ACCEL_OPS_CLASS(oc);
+ 
+-    .synchronize_post_reset = whpx_cpu_synchronize_post_reset,
+-    .synchronize_post_init = whpx_cpu_synchronize_post_init,
+-    .synchronize_state = whpx_cpu_synchronize_state,
+-    .synchronize_pre_loadvm = whpx_cpu_synchronize_pre_loadvm,
++    ops->create_vcpu_thread = whpx_start_vcpu_thread;
++    ops->kick_vcpu_thread = whpx_kick_vcpu_thread;
++
++    ops->synchronize_post_reset = whpx_cpu_synchronize_post_reset;
++    ops->synchronize_post_init = whpx_cpu_synchronize_post_init;
++    ops->synchronize_state = whpx_cpu_synchronize_state;
++    ops->synchronize_pre_loadvm = whpx_cpu_synchronize_pre_loadvm;
++};
++static const TypeInfo whpx_cpus_type_info = {
++    .name = ACCEL_OPS_NAME("whpx"),
++
++    .parent = TYPE_ACCEL_OPS,
++    .class_init = whpx_cpus_class_init,
++    .abstract = true,
+ };
++static void whpx_cpus_register_types(void)
++{
++    type_register_static(&whpx_cpus_type_info);
++}
++type_init(whpx_cpus_register_types);
+diff --git a/target/i386/whpx/whpx-cpus.h b/target/i386/whpx/whpx-cpus.h
+index bdb367d1d0..2dee6d61ea 100644
+--- a/target/i386/whpx/whpx-cpus.h
++++ b/target/i386/whpx/whpx-cpus.h
+@@ -12,8 +12,6 @@
+ 
  #include "sysemu/cpus.h"
- #include "sysemu/runstate.h"
+ 
+-extern const CpusAccel whpx_cpus;
+-
+ int whpx_init_vcpu(CPUState *cpu);
+ int whpx_vcpu_exec(CPUState *cpu);
+ void whpx_destroy_vcpu(CPUState *cpu);
 -- 
 2.26.2
 
