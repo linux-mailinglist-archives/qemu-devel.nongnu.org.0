@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8A62C8808
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 16:33:04 +0100 (CET)
-Received: from localhost ([::1]:40032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A792C880D
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 16:34:03 +0100 (CET)
+Received: from localhost ([::1]:42668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjlAl-0007ag-QH
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 10:33:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40266)
+	id 1kjlBi-0000KG-Aq
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 10:34:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kjl9e-0006dS-Ow
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 10:31:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27466)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kjl9d-0006bd-JA
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 10:31:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kjl9b-0004eb-GK
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 10:31:54 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kjl9a-0004eh-9S
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 10:31:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606750308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M4TWgCZsg1eSTq8R9SUojc/K2qHMRL0PTpzigfL2Im8=;
- b=io7kqo7YHTwrsf30V2TgjeB1MNuZhLQOzhZ54w4Ej0qNmBuPolSd4BVIAQI59qZ+uwgy6Q
- QOFCD0KxkdU3ssGfL/ENLblimPqDZVXE+PjewrzO/DCSI5ZAPEw+uCSGdgMlSYdUOs8oh6
- prVatOcmTWRGZRy4/uJ2l2owLlD5fxQ=
+ s=mimecast20190719; t=1606750309;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=LBLTsn1CSjn5SFFZAkL+Sjb6YjVYkmH1EwbLZpyC+Y8=;
+ b=IWFmh/kGBtpCMROT4TqVl/I4t7NJuDTRb1m4eitH+Bnm9Fs0oFAH6c3ZsNprdy6T2yVjtp
+ 3vSTRmU6kd+CjcbSVbjmjoeXAV5SoRRWdIz4l8DvnTJMbjKg+eWwOp9NhK2k+LkxV0qMjE
+ +YQFu2JoxIYnBWfYjwyDBYLe3BWoVdg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-KO9-_h1FPD6mVJ4EJPi3Fg-1; Mon, 30 Nov 2020 10:31:46 -0500
-X-MC-Unique: KO9-_h1FPD6mVJ4EJPi3Fg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-41-7CX9WhKQNtK18bemegXvJg-1; Mon, 30 Nov 2020 10:31:34 -0500
+X-MC-Unique: 7CX9WhKQNtK18bemegXvJg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCEF81052081;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFA92817B86;
+ Mon, 30 Nov 2020 15:31:07 +0000 (UTC)
+Received: from redhat.com (ovpn-114-242.ams2.redhat.com [10.36.114.242])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BD7D25C1A1;
  Mon, 30 Nov 2020 15:30:54 +0000 (UTC)
-Received: from [10.3.113.230] (ovpn-113-230.phx2.redhat.com [10.3.113.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8449A5D6A8;
- Mon, 30 Nov 2020 15:30:50 +0000 (UTC)
-To: Peter Krempa <pkrempa@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20201116131011.26607-1-r.bolshakov@yadro.com>
- <20201116131011.26607-7-r.bolshakov@yadro.com>
- <20201127105059.GC1596141@redhat.com>
- <20201127112154.GA105758@angien.pipo.sk>
- <20201127114512.GE67322@SPB-NB-133.local>
- <20201127121809.GB105758@angien.pipo.sk> <87h7paoldm.fsf@dusky.pond.sub.org>
- <20201127163013.GD105758@angien.pipo.sk>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH for-6.0 6/6] qapi: Deprecate 'query-kvm'
-Message-ID: <09cae514-9ba1-6569-9d51-42d4bcc57f3c@redhat.com>
-Date: Mon, 30 Nov 2020 09:30:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Date: Mon, 30 Nov 2020 15:30:51 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
+Message-ID: <20201130153051.GG2039965@redhat.com>
+References: <20201130122538.27674-1-kwolf@redhat.com>
+ <01d32c8c-5023-6323-bed8-ede08f6ac8a3@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201127163013.GD105758@angien.pipo.sk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <01d32c8c-5023-6323-bed8-ede08f6ac8a3@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,91 +79,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, lvivier@redhat.com, thuth@redhat.com,
+ pkrempa@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/27/20 10:30 AM, Peter Krempa wrote:
-> On Fri, Nov 27, 2020 at 16:44:05 +0100, Markus Armbruster wrote:
->> Peter Krempa <pkrempa@redhat.com> writes:
->>
->>> On Fri, Nov 27, 2020 at 14:45:12 +0300, Roman Bolshakov wrote:
->>>> On Fri, Nov 27, 2020 at 12:21:54PM +0100, Peter Krempa wrote:
+On Mon, Nov 30, 2020 at 03:58:23PM +0100, Paolo Bonzini wrote:
+> On 30/11/20 13:25, Kevin Wolf wrote:
+> > This series adds a QAPI type for the properties of all user creatable
+> > QOM types and finally makes QMP object-add use the new ObjectOptions
+> > union so that QAPI introspection can be used for user creatable objects.
+> > 
+> > After this series, there is least one obvious next step that needs to be
+> > done: Change HMP and all of the command line parser to use
+> > ObjectOptions, too, so that the QAPI schema is consistently enforced in
+> > all external interfaces. I am planning to send another series to address
+> > this.
+> > 
+> > In a third step, we can try to start deduplicating and integrating things
+> > better between QAPI and the QOM implementation, e.g. by generating parts
+> > of the QOM boilerplate from the QAPI schema.
 > 
->  [...]
+> With this series it's basically pointless to have QOM properties at all.
+> Instead, you are basically having half of QEMU's backend data model into a
+> single struct.
 > 
->>> As you can see this has an issue when we have to add support for a
->>> unreleased interface, which may change during the dev cycle or plainly
->>> forget that something got deprecated as we've already added an override.
->>>
->>> This mainly comes from libvirt trying to keep on top of the changes so
->>> we refresh the QMP schema during qemu's dev cycle multiple times.
->>>
->>> Obviously the argument that we try to depend on unreleased functionality
->>> can be used, but that would be to detrement of progress IMO.
->>
->> I understand your concerns.
->>
->> We have a somewhat similar problem in QEMU: there's nothing to remind us
->> later on that the old interface still needs to be deprecated.
-> 
-> Oh, yes. That's basically the same thing.
-> 
-> The thing is that changes to the new interface are very rare, but very
-> real. Since I don't really want to increase the burden for any normal
-> scenario.
+> So the question is, are we okay with shoveling half of QEMU's backend data
+> model into a single struct?  If so, there are important consequences.
 
-Case in point: our last-minute changes to block-export-add in qemu
-commit cbad81ce.  The original deprecation of nbd-server-add occurred
-much earlier in the 5.2 devel cycle, in qemu 443127e8, and also forgot
-to tell libvirt
-(https://www.redhat.com/archives/libvir-list/2020-October/msg00855.html);
-then in my efforts to improve qemu-nbd, I made more changes to
-block-export-add, but didn't cc libvirt on v1.  We eventually got
-everything coordinated with libvirt in cc, but it did lead to some last
-minute churn in libvirt to avoid a parity mismatch between versions
-(https://www.redhat.com/archives/libvir-list/2020-October/msg01369.html).
 
-> 
-> I'd also very much like to keep libvirt pulling in snapshots of qemu's
-> capabilities/qapi schema etc throughout the development cycle. It allows
-> us to adapt faster and develop features simultaneously.
-> 
-> This unfortunately undermines my own arguments partially as libvirt
-> regularly develops features on top of unreleased qemu features so we are
-> regularly risking very similar circumstances. The small but important
-> difference though is, that releasing a broken feature is not as bad as
-> breaking an existing feature.
-> 
-> As a conclusion of the above I'd basically prefer a sort of gentleman's
-> agreement, that new APIs become 'somewhat' stable at the moment the
-> commit deprecating the old interface hits upstream.
+In theory they should have the same set of options, but nothing in
+this series will enforce that. So we're introducing the danger that
+QMP object-add will miss some property, and thus be less functional
+than the CLI -object.  If we convert CLI -object  to use the QAPI
+parser too, we eliminate that danger, but we still have the struct
+duplication.
 
-Yes, moving towards this goal makes sense.  And because we've called
-attention to the fact, I'll try harder to remember in my qapi reviews
-any time where a new interface exists _because_ it has replaced an
-interface we already marked as deprecated.
+> 1) QOM basically does not need properties anymore except for devices and
+> machines (accelerators could be converted to QAPI as well). All
+> user-creatable objects can be changed to something like chardev's "get a
+> struct and use it fill in the fields", and only leave properties to devices
+> and machines.
+> 
+> 2) User-creatable objects can have a much more flexible schema.  This means
+> there's no reason to have block device creation as its own command and
+> struct for example.
+> 
+> The problem with this series is that you are fine with deduplicating things
+> as a third step, but you cannot be sure that such deduplication is possible
+> at all.  So while I don't have any problems in principle with the
+> ObjectOptions concept, I don't think it should be committed without a clear
+> idea of how to do the third step.
 
-> 
-> The 'somewhat'-stable API would mean that any changes to the new API
-> should be consulted with libvirt so that we can either give a go-ahead
-> that we didn't adapt yet, disable the adaptation until the changes can
-> be done, or another compromise depending on what's the state.
-> 
-> I know it's hard to enforce, but probably the cheapest in terms of
-> drawbacks any other solution would be.
-> 
-> I'll probably keep notifying patchsets which implement and deprecate old
-> api at the same time to keep in mind that we need to be kept in touch,
-> but I really don't want to impose any kind of extra process to
-> development on either side.
-> 
+I feel like we should at least aim to kill the struct duplication, even if
+we ignore the bigger QOM stuff like setters/getters/constructors/etc. The
+generated structs are not far off being usable.
 
+eg for the secret object we have the QAPI schema
+
+{ 'struct': 'SecretCommonProperties',
+  'data': { '*loaded': { 'type': 'bool', 'features': ['deprecated'] },
+            '*format': 'QCryptoSecretFormat',
+            '*keyid': 'str',
+            '*iv': 'str' } }
+
+{ 'struct': 'SecretProperties',
+  'base': 'SecretCommonProperties',
+  'data': { '*data': 'str',
+            '*file': 'str' } }
+
+IIUC this will resulting in a QAPI generated flattened struct:
+
+  struct SecretProperties {
+    bool loaded;
+    QCryptoSecretFormat format;
+    char *keyid;
+    char *iv;
+    char *data;
+    char *file;
+  };
+
+vs the QOM manually written structs
+
+  struct QCryptoSecretCommon {
+    Object parent_obj;
+    uint8_t *rawdata;
+    size_t rawlen;
+    QCryptoSecretFormat format;
+    char *keyid;
+    char *iv;
+  };
+
+  struct QCryptoSecret {
+    QCryptoSecretCommon parent_obj;
+    char *data;
+    char *file;
+  };
+
+The key differences
+
+ - The parent struct is embedded, rather than flattened
+ - The "loaded" property doesn't need to exist
+ - Some extra fields are live state (rawdata, rawlen)
+
+Lets pretend we just kill "loaded" entirely, so ignore that.
+
+We could simply make QOM "Object" a well known built-in type, so
+we can reference it as a "parent". Then any struct with "Object"
+as a parent could use struct embedding rather flattening and thus
+just work.
+
+Can we invent a "state" field for fields that are internal
+only, separate from the public "data" fields.
+
+eg the secret QAPI def would only need a couple of changes:
+
+{ 'struct': 'QCryptoSecretCommon',
+  'base': 'Object',
+  'state': { 'rawdata': '*uint8_t',
+             'rawlen': 'size_t' },
+  'data': { '*format': 'QCryptoSecretFormat',
+            '*keyid': 'str',
+            '*iv': 'str' } }
+
+{ 'struct': 'QCryptoSecret',
+  'base': 'QCryptoSecretCommon',
+  'data': { '*data': 'str',
+            '*file': 'str' } }
+
+There would need to be a
+
+   void QCryptoSecretCommonFreeState(QCryptoSecretCommon *obj)
+
+method defined manually by the programmer to take care of free'ing any
+pointers in the "state".
+
+Regards,
+Daniel
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
