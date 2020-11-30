@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BAD2C8AF2
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 18:28:11 +0100 (CET)
-Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED832C8AF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 18:29:29 +0100 (CET)
+Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjmyA-0001ue-6R
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 12:28:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45764)
+	id 1kjmzQ-0002xV-Ux
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 12:29:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kjmvF-0007q8-1g
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:25:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33426)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kjmvB-0001yv-HR
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:25:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606757104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+sfWVqa+0Hrfmhn2dPiOCJ9BBdvfQd09Mmkhsc3SQ2g=;
- b=IU8rFg3Bc821RqjvhA0qvCmfaRfJxu93s6BCJmK9UmY9NYfB5Dnh+XOr9yGO0ae0hguLOf
- zzmutF+Zbun/PqEItLm991hcvJzuwrdysbAum8YStjW7mNp0re7wF6qyiIc/XpAxFnE8g/
- mc6ISTDCjmzpT65kd5w7sbPL6JY+WQ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-Vt2vGFb_MI-DBidvmQoptg-1; Mon, 30 Nov 2020 12:24:57 -0500
-X-MC-Unique: Vt2vGFb_MI-DBidvmQoptg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 514E31012770;
- Mon, 30 Nov 2020 17:24:38 +0000 (UTC)
-Received: from [10.3.113.230] (ovpn-113-230.phx2.redhat.com [10.3.113.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E26367C73;
- Mon, 30 Nov 2020 17:24:36 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <87r1ofru4z.fsf@dusky.pond.sub.org>
- <20201127101405.GA1596141@redhat.com>
- <20201127103216.GA4736@merkur.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: ImageInfo oddities regarding compression
-Message-ID: <a6630327-eda0-0f5e-1fb5-2ad4db2fd994@redhat.com>
-Date: Mon, 30 Nov 2020 11:24:35 -0600
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kjmyd-0002RD-Jk
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:28:39 -0500
+Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:48432)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kjmyb-0002X0-E6
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:28:39 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.158])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 7558521CF25;
+ Mon, 30 Nov 2020 18:28:27 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 30 Nov
+ 2020 18:28:26 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003229ac7e2-7763-4df5-a7fd-618ae33fcdb5,
+ 54E7F54749740F6D21A4FFD7F03B08EA4E155DE3) smtp.auth=clg@kaod.org
+Subject: Re: [PATCH for-6.0 v2 0/3] spapr: Address the confusion between IPI
+ numbers and vCPU ids
+To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+References: <20201130165258.744611-1-groug@kaod.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <be80ffd2-d18d-3a3a-4bcc-e5a806e417ec@kaod.org>
+Date: Mon, 30 Nov 2020 18:28:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201127103216.GA4736@merkur.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201130165258.744611-1-groug@kaod.org>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 7f1e149c-e78e-4d4f-95cb-ac8e59d62bcc
+X-Ovh-Tracer-Id: 3151112367392197600
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeitddguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejffeifeeujefhgedvvedvvdelieekfeevleejgffhudejledvgeekhfelkeeukeenucffohhmrghinheplhgruhhntghhphgrugdrnhgvthenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
+ helo=7.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,87 +69,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Reitz <mreitz@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/27/20 4:32 AM, Kevin Wolf wrote:
-
->>>    ##
->>>    # @Qcow2CompressionType:
->>>    #
->>>    # Compression type used in qcow2 image file
->>>    #
->>>    # @zlib: zlib compression, see <http://zlib.net/>
->>>    # @zstd: zstd compression, see <http://github.com/facebook/zstd>
->>>    #
->>>    # Since: 5.1
->>>    ##
->>>    { 'enum': 'Qcow2CompressionType',
->>>      'data': [ 'zlib', { 'name': 'zstd', 'if': 'defined(CONFIG_ZSTD)' } ] }
->>>
->>> Apparently, you can't have a qcow2 image without compression.  Correct?
->>>
->>> Can you imagine a use case for "without compression"?
->>
->> Yes & no. An image always has a compression type, either implicitly
->> zlib as the historical default, or explicitly as a type recorded in
->> the header.  This doesn't mean compression is used.
->>
->> There may be zero or more clusters actually using compression.
->> Typically compression will never be used, but there's still an
->> associated compression type regardless.
+On 11/30/20 5:52 PM, Greg Kurz wrote:
+> A regression was recently fixed in the sPAPR XIVE code for QEMU 5.2
+> RC3 [1]. It boiled down to a confusion between IPI numbers and vCPU
+> ids, which happen to be numerically equal in general, but are really
+> different entities that can diverge in some setups. This was causing
+> QEMU to misconfigure XIVE and to crash the guest.
 > 
-> Right, so the correct answer to "is this image compressed?" is "unknown"
-> for qcow2. Providing an answer would require checking all clusters in
-> the image for the compression flag, which is not something we want to do
-> for query-block. And even if we did that, it would still be unclear what
-> to do with a partially compressed image.
-
-If we truly need it, we could define three new autoclear bits in the
-qcow2 spec:
-
-bit 2: set if bits 3-4 are known to describe entire image
-bit 3: set any time a compressed cluster is written to the image
-bit 4: set any time an uncompressed cluster is written to the image
-
-Any edit to the image by an older qemu will clear all three bits,
-whereas new qemu would set bit 2 on image creation, and set the
-appropriate bit 3 or 4 on any cluster write, so that we then have the
-following knowledge:
-
-234
-===
-000 - image was created or modified by older qemu; we have no idea if
-clusters are written, or if compression was used, without expensive scan
-001 - image contains at least one normal cluster, but no idea if it also
-contains compressed clusters without expensive scan
-010 - image contains at least one compressed cluster, but no idea if it
-is fully compressed without expensive scan
-011 - image contains mix of normal and compressed clusters
-100 - image is newly created with no written clusters
-101 - image contains only normal clusters; compression type could be
-changed without risk
-110 - image contains only compressed clusters
-111 - image contains mix of normal and compressed clusters
-
-But I'm not sure we need it.
-
+> The confusion comes from XICS actually. Interrupt presenters in XICS
+> are identified by a "server number" which is a 1:1 mapping to vCPU
+> ids. The range of these "server numbers" is exposed to the guest in
+> the "ibm,interrupt-server-ranges" property. A xics_max_server_number()
+> helper was introduced at some point to compute the upper limit of the
+> range. When XIVE was added, commit 1a518e7693c9 renamed the helper to
+> spapr_max_server_number(). It ended up being used to size a bunch of
+> things in XIVE that are per-vCPU, such as internal END tables or
+> IPI ranges presented to the guest. The problem is that the maximum
+> "server number" can be much higher (up to 8 times) than the actual
+> number of vCPUs when the VSMT mode doesn't match the number of threads
+> per core in the guest:
 > 
-> The @compression-type only tells you what format a compressed cluster
-> uses if any compressed cluster exists in the image (or if a new
-> compressed cluster is written to it). It doesn't mean that such clusters
-> currently exist.
+>     DIV_ROUND_UP(ms->smp.max_cpus * spapr->vsmt, ms->smp.threads);
 > 
-> Kevin
-> 
-> 
+> Since QEMU 4.2, the default behavior is to set spapr->vsmt to
+> ms->smp.threads. Setups with custom VSMT settings will configure XIVE
+> to use more HW resources than needed. This is a bit unfortunate but
+> not extremely harmful, 
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Indeed. The default usage case (without vsmt) has no impact since 
+it does not fragment the XIVE VP space more than needed.
+
+> unless maybe if a lot of guests are running on the host. 
+
+We can run 4K (-2) KVM guests today on a P9 system. To reach the 
+internal limits, each should have 32 vCPUs. It's possible with a 
+lot of RAM but it's not a common scenario. 
+
+C.
+
+
+> The sizing of the IPI range is more problematic though
+> as it eventually led to [1].
+> 
+> This series first does some renaming to make it clear when we're
+> dealing with vCPU ids. It then fixes the machine code to pass
+> smp.max_cpus to XIVE where appropriate. Since these changes are
+> guest/migration visible, a machine property is added to keep the
+> existing behavior for older machine types. The series is thus based
+> on Connie's recent patch that introduces compat machines for
+> QEMU 6.0.
+> 
+> Based-on: 20201109173928.1001764-1-cohuck@redhat.com
+> 
+> Note that we still use spapr_max_vcpu_ids() when activating the
+> in-kernel irqchip because this is what both XICS-on-XIVE and XIVE
+> KVM devices expect.
+> 
+> [1] https://bugs.launchpad.net/qemu/+bug/1900241
+> 
+> v2: - comments on v1 highlighted that problems mostly come from
+>       spapr_max_server_number() which got misused over the years.
+>       Updated the cover letter accordingly.
+>     - completely new approach. Instead of messing with device properties,
+>       pass the appropriate values to the IC backend handlers.
+>     - rename a few things using the "max_vcpu_ids" wording instead of
+>       "nr_servers" and "max_server_number"
+> 
+> Greg Kurz (3):
+>   spapr: Improve naming of some vCPU id related items
+>   spapr/xive: Fix size of END table and number of claimed IPIs
+>   spapr/xive: Fix the "ibm,xive-lisn-ranges" property
+> 
+>  include/hw/ppc/spapr.h      |  3 ++-
+>  include/hw/ppc/spapr_irq.h  | 12 ++++++------
+>  include/hw/ppc/spapr_xive.h |  2 +-
+>  include/hw/ppc/xics_spapr.h |  2 +-
+>  hw/intc/spapr_xive.c        |  9 +++++----
+>  hw/intc/spapr_xive_kvm.c    |  4 ++--
+>  hw/intc/xics_kvm.c          |  4 ++--
+>  hw/intc/xics_spapr.c        | 11 ++++++-----
+>  hw/ppc/spapr.c              | 12 ++++++++----
+>  hw/ppc/spapr_irq.c          | 34 ++++++++++++++++++++++++----------
+>  10 files changed, 57 insertions(+), 36 deletions(-)
+> 
 
 
