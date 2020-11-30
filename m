@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3516B2C7CD0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:40:23 +0100 (CET)
-Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B235B2C7CE0
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:45:02 +0100 (CET)
+Received: from localhost ([::1]:42366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjZ70-00063d-8b
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:40:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35878)
+	id 1kjZBV-0004cI-No
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:45:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2c-00011c-6h
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:50 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57340)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2f-00018n-BU
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:53 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2a-0004nl-HW
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:49 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2b-0004nw-4d
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:53 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AAE5FAC75;
- Mon, 30 Nov 2020 02:35:46 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 4F820ACE0;
+ Mon, 30 Nov 2020 02:35:47 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,9 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v7 08/22] tcg: cpu_exec_{enter,exit} helpers
-Date: Mon, 30 Nov 2020 03:35:21 +0100
-Message-Id: <20201130023535.16689-9-cfontana@suse.de>
+Subject: [RFC v7 09/22] tcg: make CPUClass.cpu_exec_* optional
+Date: Mon, 30 Nov 2020 03:35:22 +0100
+Message-Id: <20201130023535.16689-10-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201130023535.16689-1-cfontana@suse.de>
 References: <20201130023535.16689-1-cfontana@suse.de>
@@ -70,74 +70,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eduardo Habkost <ehabkost@redhat.com>
 
-Move invocation of CPUClass.cpu_exec_*() to separate helpers,
-to make it easier to refactor that code later.
-
+This will let us simplify the code that initializes CPU class
+methods, when we move cpu_exec_*() to a separate struct.
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- accel/tcg/cpu-exec.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ accel/tcg/cpu-exec.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 58aea605d8..8d31145ad2 100644
+index 8d31145ad2..890b88861a 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -236,9 +236,22 @@ static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
- }
- #endif
- 
-+static void cpu_exec_enter(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    cc->cpu_exec_enter(cpu);
-+}
-+
-+static void cpu_exec_exit(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    cc->cpu_exec_exit(cpu);
-+}
-+
- void cpu_exec_step_atomic(CPUState *cpu)
+@@ -240,14 +240,18 @@ static void cpu_exec_enter(CPUState *cpu)
  {
--    CPUClass *cc = CPU_GET_CLASS(cpu);
-     TranslationBlock *tb;
-     target_ulong cs_base, pc;
-     uint32_t flags;
-@@ -257,11 +270,11 @@ void cpu_exec_step_atomic(CPUState *cpu)
- 
-         /* Since we got here, we know that parallel_cpus must be true.  */
-         parallel_cpus = false;
--        cc->cpu_exec_enter(cpu);
-+        cpu_exec_enter(cpu);
-         /* execute the generated code */
-         trace_exec_tb(tb, pc);
-         cpu_tb_exec(cpu, tb);
--        cc->cpu_exec_exit(cpu);
-+        cpu_exec_exit(cpu);
-     } else {
-         /*
-          * The mmap_lock is dropped by tb_gen_code if it runs out of
-@@ -713,7 +726,7 @@ int cpu_exec(CPUState *cpu)
- 
-     rcu_read_lock();
+     CPUClass *cc = CPU_GET_CLASS(cpu);
  
 -    cc->cpu_exec_enter(cpu);
-+    cpu_exec_enter(cpu);
++    if (cc->cpu_exec_enter) {
++        cc->cpu_exec_enter(cpu);
++    }
+ }
  
-     /* Calculate difference between guest clock and host clock.
-      * This delay includes the delay of the last cycle, so
-@@ -775,7 +788,7 @@ int cpu_exec(CPUState *cpu)
-         }
-     }
+ static void cpu_exec_exit(CPUState *cpu)
+ {
+     CPUClass *cc = CPU_GET_CLASS(cpu);
  
 -    cc->cpu_exec_exit(cpu);
-+    cpu_exec_exit(cpu);
-     rcu_read_unlock();
++    if (cc->cpu_exec_exit) {
++        cc->cpu_exec_exit(cpu);
++    }
+ }
  
-     return ret;
+ void cpu_exec_step_atomic(CPUState *cpu)
+@@ -619,7 +623,8 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
+            True when it is, and we should restart on a new TB,
+            and via longjmp via cpu_loop_exit.  */
+         else {
+-            if (cc->cpu_exec_interrupt(cpu, interrupt_request)) {
++            if (cc->cpu_exec_interrupt &&
++                cc->cpu_exec_interrupt(cpu, interrupt_request)) {
+                 if (need_replay_interrupt(interrupt_request)) {
+                     replay_interrupt();
+                 }
 -- 
 2.26.2
 
