@@ -2,48 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FC52C7D06
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:54:31 +0100 (CET)
-Received: from localhost ([::1]:46074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B29C32C7CFC
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:49:20 +0100 (CET)
+Received: from localhost ([::1]:54394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjZKg-00013t-U7
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:54:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36092)
+	id 1kjZFf-0001Bs-Q7
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:49:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ31-0001Td-Lu
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:15 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57834)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2t-0004rJ-8u
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:15 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 19FB5AE65;
- Mon, 30 Nov 2020 02:35:56 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v7 22/22] cpu: introduce cpu_accel_instance_init
-Date: Mon, 30 Nov 2020 03:35:35 +0100
-Message-Id: <20201130023535.16689-23-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201130023535.16689-1-cfontana@suse.de>
-References: <20201130023535.16689-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kjZ3W-0002DH-OT
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41056)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kjZ3O-00050l-IM
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606703795;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LXPbF801HI8B5XFFmhOLNv3JkqELVrm3HEdjQIXK4NE=;
+ b=ZaOUwgz6RwdH54dxDkRAWuGmRwLqFFUiMhTJHu19ckpj0eZioKlNf04LNn1EUCJNnRdtyj
+ XdWtLiOozoYHQuviFwhf7kQ0veQOdgLosXCvjImce2EujaBhBmCAVEhvwgyjCYqk+A3lxX
+ kSIaZclh5EwiKvjHgLuQdIfuqY5+xOI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-7Ul0asueNYG9YK99IA4HMQ-1; Sun, 29 Nov 2020 21:36:33 -0500
+X-MC-Unique: 7Ul0asueNYG9YK99IA4HMQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 834F8100C604;
+ Mon, 30 Nov 2020 02:36:32 +0000 (UTC)
+Received: from [10.72.13.173] (ovpn-13-173.pek2.redhat.com [10.72.13.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2157646;
+ Mon, 30 Nov 2020 02:36:19 +0000 (UTC)
+Subject: Re: [RFC PATCH-for-5.2 1/2] net: Do not accept packets bigger then
+ NET_BUFSIZE
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201127154524.1902024-1-philmd@redhat.com>
+ <20201127154524.1902024-2-philmd@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <733cc7a3-bbf8-7462-cbeb-34dd1229532e@redhat.com>
+Date: Mon, 30 Nov 2020 10:36:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20201127154524.1902024-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,98 +85,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
- Claudio Fontana <cfontana@suse.de>, Anthony Perard <anthony.perard@citrix.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- "Emilio G . Cota" <cota@braap.org>, Colin Xu <colin.xu@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, P J P <ppandit@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-centralize the calls to cpu->accel_cpu_interface
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- hw/core/cpu.c         | 9 +++++++++
- include/hw/core/cpu.h | 6 ++++++
- target/i386/cpu.c     | 9 ++-------
- 3 files changed, 17 insertions(+), 7 deletions(-)
+On 2020/11/27 下午11:45, Philippe Mathieu-Daudé wrote:
+> Do not allow qemu_send_packet*() and qemu_net_queue_send()
+> functions to accept packets bigger then NET_BUFSIZE.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> We have to put a limit somewhere. NET_BUFSIZE is defined as:
+>
+>   /* Maximum GSO packet size (64k) plus plenty of room for
+>    * the ethernet and virtio_net headers
+>    */
+>   #define NET_BUFSIZE (4096 + 65536)
+>
+> If we do want to accept bigger packets (i.e. multiple GSO packets
+> in a IOV), we could use INT32_MAX as limit...
 
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index b1a495a383..c6838f171c 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -252,6 +252,15 @@ void cpu_accel_realize(CPUState *cpu, Error **errp)
-     }
- }
- 
-+void cpu_accel_instance_init(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu_interface) {
-+        cc->accel_cpu_interface->cpu_instance_init(cpu);
-+    }
-+}
-+
- static void cpu_common_reset(DeviceState *dev)
- {
-     CPUState *cpu = CPU(dev);
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 403f614559..4a7d82f821 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -683,6 +683,12 @@ void cpu_reset(CPUState *cpu);
-  */
- void cpu_accel_realize(CPUState *cpu, Error **errp);
- 
-+/**
-+ * cpu_accel_instance_init:
-+ * @cpu: The CPU that needs to do accel-specific object initializations.
-+ */
-+void cpu_accel_instance_init(CPUState *cpu);
-+
- /**
-  * cpu_class_by_name:
-  * @typename: The CPU base type.
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 485f3bc97b..40c3f7c423 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -28,7 +28,6 @@
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "sysemu/hvf.h"
--#include "hw/core/accel-cpu.h"
- #include "sysemu/xen.h"
- #include "kvm/kvm_i386.h"
- #include "sev_i386.h"
-@@ -6621,8 +6620,6 @@ static void x86_cpu_initfn(Object *obj)
- {
-     X86CPU *cpu = X86_CPU(obj);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
--    CPUClass *cc = CPU_CLASS(xcc);
--
-     CPUX86State *env = &cpu->env;
-     FeatureWord w;
- 
-@@ -6680,10 +6677,8 @@ static void x86_cpu_initfn(Object *obj)
-         x86_cpu_load_model(cpu, xcc->model);
-     }
- 
--    /* if required, do the accelerator-specific cpu initialization */
--    if (cc->accel_cpu_interface) {
--        cc->accel_cpu_interface->cpu_instance_init(CPU(obj));
--    }
-+    /* if required, do accelerator-specific cpu initializations */
-+    cpu_accel_instance_init(CPU(obj));
- }
- 
- static int64_t x86_cpu_get_arch_id(CPUState *cs)
--- 
-2.26.2
+
+This looks like a complaint for:
+
+commit 25c01bd19d0e4b66f357618aeefda1ef7a41e21a
+Author: Jason Wang <jasowang@redhat.com>
+Date:   Tue Dec 4 11:53:43 2018 +0800
+
+     net: drop too large packet early
+
+which only fixes the iov version of the function.
+
+If you don't see any real bug, I suggest to merge the fix in next release.
+
+Thanks
+
+
+> ---
+>   net/net.c   | 4 ++++
+>   net/queue.c | 4 ++++
+>   2 files changed, 8 insertions(+)
+>
+> diff --git a/net/net.c b/net/net.c
+> index 6a2c3d95670..f29bfac2b11 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -644,6 +644,10 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
+>       qemu_hexdump(stdout, "net", buf, size);
+>   #endif
+>   
+> +    if (size > NET_BUFSIZE) {
+> +        return -1;
+> +    }
+> +
+>       if (sender->link_down || !sender->peer) {
+>           return size;
+>       }
+> diff --git a/net/queue.c b/net/queue.c
+> index 19e32c80fda..221a1c87961 100644
+> --- a/net/queue.c
+> +++ b/net/queue.c
+> @@ -191,6 +191,10 @@ ssize_t qemu_net_queue_send(NetQueue *queue,
+>   {
+>       ssize_t ret;
+>   
+> +    if (size > NET_BUFSIZE) {
+> +        return -1;
+> +    }
+> +
+>       if (queue->delivering || !qemu_can_send_packet(sender)) {
+>           qemu_net_queue_append(queue, sender, flags, data, size, sent_cb);
+>           return 0;
 
 
