@@ -2,92 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48312C8A7A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 18:10:10 +0100 (CET)
-Received: from localhost ([::1]:48772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD452C8A77
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 18:09:24 +0100 (CET)
+Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjmgj-0007Pe-TW
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 12:10:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40604)
+	id 1kjmfz-0006WL-8V
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 12:09:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kjmcJ-0002Ib-H7
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:05:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kjmcE-00079x-Qr
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:05:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606755928;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nQhy2f38fWjOhYs01F+4NQE57ym/7dOWJLFt0Ooijjg=;
- b=eR+MAPWnD4UyResNMvpoQLLTosFoW5aTEkNIBoOAeoW+y+cyAiYrTuthagY+7XNGR9zQs+
- vafd2sUj4djc9wcUQuMHbPI6rH90sXu2hp/dtyKSONn/lAj2hBKuQJOrzjPV50PR8IMSKR
- nq5taAN3QUAl3vCIsnIaZ6RWUYOqNVY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-f-4xs8x9OfC_vxBDhypfOQ-1; Mon, 30 Nov 2020 12:05:26 -0500
-X-MC-Unique: f-4xs8x9OfC_vxBDhypfOQ-1
-Received: by mail-wr1-f70.google.com with SMTP id 91so8543546wrk.17
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 09:05:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nQhy2f38fWjOhYs01F+4NQE57ym/7dOWJLFt0Ooijjg=;
- b=QVQJ6stUYI/FSsKgyKDAXcmIY2SvsWSY8eoNyJzp62czlo1bZcdWfwaVjj5Sf4lBv+
- wmbpDlBFN1n3fyaBZ3KFgPIhjtjYodyXmaJy/91/W3/Ks3zApC3gsKGB8KFs6+uQtgrJ
- QBNHgOK4OJ1EoHUNCIHhUYSg0BX05UTQDaP5gC0n0QbZXaG1s7KNEryfC0ELL4gLkunq
- FQfmBSveG8ivU4KU802INUW2HdW3W8h5UBjL22KJs6kExT2yBgByU6uspaF7z4reQxLG
- 34MdAMAv68QqFpu1j1K29w9nvaQrUuIysffWVdOrvwNofVXug5qsGdakvAvNG/eikyT2
- itrQ==
-X-Gm-Message-State: AOAM530EJukBzZOofzwDbi2R2ORY0FiqdBrIfwuCLbdSubQLZrCjvNri
- a7R9rkBR27F+LQ6FqLFKOc4uKT09LAQCbjbTpvqKsomN1G+EyVhBFgZVqZZ/A2qTfFyuTWWQ1AF
- vpzk7jSJOEv2DYOM=
-X-Received: by 2002:a05:600c:25c2:: with SMTP id
- 2mr8289629wml.170.1606755924836; 
- Mon, 30 Nov 2020 09:05:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwTrNdSq2L6pmhViwh09hGTIkjFA3JTGC/LcE4tnC8vs/3v+nlFpKhWyMDVdS2Gp/w2OZN1PA==
-X-Received: by 2002:a05:600c:25c2:: with SMTP id
- 2mr8289609wml.170.1606755924573; 
- Mon, 30 Nov 2020 09:05:24 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id c81sm9257508wmd.6.2020.11.30.09.05.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Nov 2020 09:05:23 -0800 (PST)
-Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
-To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
-References: <20201116131011.26607-1-r.bolshakov@yadro.com>
- <20201116131011.26607-2-r.bolshakov@yadro.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <39660a7e-7992-ebb0-a888-d3bd35cce97f@redhat.com>
-Date: Mon, 30 Nov 2020 18:05:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1kjmeJ-0005Sy-K0
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:07:39 -0500
+Received: from zangief.bwidawsk.net ([107.170.211.233]:36424
+ helo=mail.bwidawsk.net)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1kjmeH-0007qP-Ul
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:07:39 -0500
+Received: by mail.bwidawsk.net (Postfix, from userid 5001)
+ id 8820E122C68; Mon, 30 Nov 2020 09:07:35 -0800 (PST)
+Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
+ [73.37.61.164])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ by mail.bwidawsk.net (Postfix) with ESMTPSA id 060F3122C3F;
+ Mon, 30 Nov 2020 09:07:31 -0800 (PST)
+Date: Mon, 30 Nov 2020 09:07:30 -0800
+From: Ben Widawsky <ben@bwidawsk.net>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [RFC PATCH 18/25] hw/cxl/device: Add a memory device (8.2.8.5)
+Message-ID: <20201130170730.o5fkrpaubwcroz4y@mail.bwidawsk.net>
+References: <20201111054724.794888-1-ben.widawsky@intel.com>
+ <20201111054724.794888-19-ben.widawsky@intel.com>
+ <b2d95e72-51d9-72d2-b340-aefb00928a76@redhat.com>
+ <87d00hk89c.fsf@dusky.pond.sub.org>
+ <20201125165333.zn5tpwfjnwmjmcdu@intel.com>
+ <87360w39qw.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20201116131011.26607-2-r.bolshakov@yadro.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87360w39qw.fsf@dusky.pond.sub.org>
+Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
+ helo=mail.bwidawsk.net
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.398,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,65 +61,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Dan Williams <dan.j.williams@intel.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/20 2:10 PM, Roman Bolshakov wrote:
-> There's a problem for management applications to determine if certain
-> accelerators available. Generic QMP command should help with that.
+On 20-11-26 07:36:23, Markus Armbruster wrote:
+> Ben Widawsky <ben.widawsky@intel.com> writes:
 > 
-> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> ---
->  monitor/qmp-cmds.c | 15 +++++++++++++++
->  qapi/machine.json  | 19 +++++++++++++++++++
->  2 files changed, 34 insertions(+)
-...
-> +##
-> +# @query-accel:
-> +#
-> +# Returns information about an accelerator
-> +#
-> +# Returns: @KvmInfo
-> +#
-> +# Since: 6.0.0
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "query-accel", "arguments": { "name": "kvm" } }
-> +# <- { "return": { "enabled": true, "present": true } }
+> > On 20-11-13 08:47:59, Markus Armbruster wrote:
+> >> Eric Blake <eblake@redhat.com> writes:
+> >> 
+> >> > On 11/10/20 11:47 PM, Ben Widawsky wrote:
+> >> >> A CXL memory device (AKA Type 3) is a CXL component that contains some
+> >> >> combination of volatile and persistent memory. It also implements the
+> >> >> previously defined mailbox interface as well as the memory device
+> >> >> firmware interface.
+> >> >> 
+> >> >> The following example will create a 256M device in a 512M window:
+> >> >> 
+> >> >> -object "memory-backend-file,id=cxl-mem1,share,mem-path=cxl-type3,size=512M"
+> >> >> -device "cxl-type3,bus=rp0,memdev=cxl-mem1,id=cxl-pmem0,size=256M"
+> >> >> 
+> >> >> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+> >> >> ---
+> >> >
+> >> >> +++ b/qapi/machine.json
+> >> >> @@ -1394,6 +1394,7 @@
+> >> >>  { 'union': 'MemoryDeviceInfo',
+> >> >>    'data': { 'dimm': 'PCDIMMDeviceInfo',
+> >> >>              'nvdimm': 'PCDIMMDeviceInfo',
+> >> >> +            'cxl': 'PCDIMMDeviceInfo',
+> >> >>              'virtio-pmem': 'VirtioPMEMDeviceInfo',
+> >> >>              'virtio-mem': 'VirtioMEMDeviceInfo'
+> >> >>            }
+> >> >
+> >> > Missing documentation of the new data type, and the fact that it will be
+> >> > introduced in 6.0.
+> >> 
+> >> Old wish list item: improve the QAPI schema frontend to flag this.
+> >> 
+> >
+> > "Introduced in 6.0" - quite the optimist. Kidding aside, this is the area where
+> > I could use some feedback. CXL Type 3 memory devices can contain both volatile
+> > and persistent memory at the same time. As such, I think I'll need a new type to
+> > represent that, but I'd love to know how best to accomplish that.
+> 
+> We can help.  Tell us what information you want to provide in variant
+> 'cxl'.  If it's a superset of an existing variant, give us just the
+> delta.
+> 
 
-FWIW you can use 'qom-list-types' for that:
+I'm not exactly sure what the best way to do this is in QEMU, so I'm not really
+sure what to specify as the delta. A CXL memory device can have both volatile
+and persistent memory. Currently when a CXL memory device implements the
+TYPE_MEMORY_DEVICE interface. So I believe the shortest path is a
+MemoryDeviceInfo that can have two memory devices associated with it, but I
+don't know if that's the best path.
 
-{ "execute": "qom-list-types", "arguments": { "implements": "accel" } }
-{
-    "return": [
-        {
-            "name": "qtest-accel",
-            "parent": "accel"
-        },
-        {
-            "name": "tcg-accel",
-            "parent": "accel"
-        },
-        {
-            "name": "xen-accel",
-            "parent": "accel"
-        },
-        {
-            "name": "kvm-accel",
-            "parent": "accel"
-        },
-        {
-            "name": "accel",
-            "parent": "object"
-        }
-    ]
-}
 
-Which is what I use for integration tests:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg675079.html
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg675085.html
-
+> >> >                     Also, Markus has been trying to get rid of so-called
+> >> > "simple unions" in favor of "flat unions" - every time we modify an
+> >> > existing simple union, it is worth asking if it is time to first flatten
+> >> > this.
+> >> 
+> >> 0. Simple unions can be transformed into flat unions.  The
+> >> transformation can either preserve the nested wire format, or flatten
+> >> it.  See docs/devel/qapi-code-gen.txt "A simple union can always be
+> >> re-written as a flat union ..."
+> >> 
+> >> 1. No new simple unions.
+> >> 
+> >> 2. Existing simple unions that can be flattened without breaking
+> >> backward compatibility have long been flattened.
+> >> 
+> >> 3. The remaining simple unions are part of QMP, where we need to
+> >> preserve the wire format.  We could turn them into flat union preserving
+> >> the wire format.  Only worthwhile if we kill simple unions and simplify
+> >> scripts/qapi/.  Opportunity to make the flat union syntax less
+> >> cumbersome.  Not done due to lack of time.
+> >> 
+> >> 4. Kevin and I have been experimenting with ways to provide both flat
+> >> and nested wire format.  This would pave the way for orderly deprecation
+> >> of the nested wire format.  May not be practical for QMP output.
+> >> 
+> >
+> > So is there anything for me to do here?
+> 
+> No.  Extending an existing simple union is okay.
+> 
+> We should not add news ones.  We should think twice before we add new
+> uses of existing ones.
+> 
+> 
 
