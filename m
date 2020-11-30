@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 530C62C7D88
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 05:07:16 +0100 (CET)
-Received: from localhost ([::1]:53914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE0B92C7D89
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 05:07:36 +0100 (CET)
+Received: from localhost ([::1]:54438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjaT4-0007oH-SY
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 23:07:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47986)
+	id 1kjaTP-00081R-Kk
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 23:07:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kjaRW-0006oF-9t; Sun, 29 Nov 2020 23:05:38 -0500
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:37341)
+ id 1kjaRZ-0006rw-KD; Sun, 29 Nov 2020 23:05:41 -0500
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:34312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kjaRU-0001Vi-Ji; Sun, 29 Nov 2020 23:05:37 -0500
-Received: by mail-io1-xd41.google.com with SMTP id k3so2512532ioq.4;
- Sun, 29 Nov 2020 20:05:35 -0800 (PST)
+ id 1kjaRX-0001Wh-Uw; Sun, 29 Nov 2020 23:05:41 -0500
+Received: by mail-io1-xd43.google.com with SMTP id d7so1569716iok.1;
+ Sun, 29 Nov 2020 20:05:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=an0/kxvJGr8CHzaGma67N3U3miPtoKBKBFeQIvPK02E=;
- b=q1UIqqBWr8+8+tNcpvrA6WaJchoRC2GKV26ThMztTKdyMEl4h9hbhO/vRU+THFVD4i
- x1eNHFLdB9rXwCcpfsrBJjzPIVcY/3z4sWS64BWhAlaQrQLuIQPVU5c41pbohHPJ9LE8
- LTVaOqbagW7WgEslhtlO6Ql1xpxdk13sg4pS5RYF/I2cC7ou5ytbgkMZHH03qHDg/+j+
- AHcr1IXZ15fEsXDW9O7dF5j4kzBEgCWaHTgtkBsS16Re1wSv9PBbEIfCX8ynVgAB4KsM
- D6leiixHfsqEw6GENALt44OATF8yMan6I8fK5FsHmPOsbQhJua0WhKhSMqfI3TmFFjC8
- txaQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=k1CUnjUfljP81x5s+TL3hAeI4K2slELeAubuU78Kg0k=;
+ b=H6W8Yu65nOQA7J4510CRy4qYdgrp8+YfRhHW3N0yCflF9Ubl7aHy+Mmaq4zKU3BLjT
+ yVZIffDAFo6AaxkE2/AVn0CsF0sJCkgPJsTes5e3rSs0wfzzpPi98AFl/zZoe8mgFiU4
+ 8vBhBPP0ngnpsZFNRTAQjSenkiP1MgboMTWNReFS71W5sUQgilL4rkhBlRT+w8zHk9pb
+ McZ+o+hqTdJjKWI8FKvwTMrCBE+iawqMUUFy1EyBERRJnferrBFD90QmS/27wztjM706
+ cJCEorimS+fDasOa/G1yKT2sr0f3pdMFh70j5orJ4Lwls3q4kfjtAB8yEXyA/09NOVwZ
+ kYSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=an0/kxvJGr8CHzaGma67N3U3miPtoKBKBFeQIvPK02E=;
- b=BwepGGVR4xuQ+Sd25w1EeX6dp++IXHO+sOsoG5lB9lJ9lqIxfgxoAaRBKOndmiVD/S
- H7wqLj4Gcw42c2X0YQfsiWBUqCw2A8g33mzSSRJmVQ4zrQG6vQjNhqHjAJWQd3ABpdpT
- atDihF1wT1l2+5xmFSZOY4WRXpt1Aq/Imq2elJMvMm0nhIlwm/pBsud7LW3AxgUh3cBC
- UfmHdKFugUXC+KMZFgr0e5YbA088QZwB1fLh4YqkgqWMJbwDmV0pFRwiC5yFO/V56lZZ
- mqCLhD3mhSBnyzT04LmIlDTXBfgvMmKZFarpdu3iJZktsw/lFUtl9kfeWRI728/XxH6Q
- koVQ==
-X-Gm-Message-State: AOAM531Ur4EBpOtTVmf7gHvocXkg4GaF7IYU/rOoXNwNcli3SpOqdoAQ
- yxhdgSWk2VkjseakVngytwM=
-X-Google-Smtp-Source: ABdhPJwM0BVyxyZ1HMH6cL2QDvedatAHKAIhZh0x+vdqGNPlBvqzuRt8km1IlGfTr1cfWVpvMjs0rg==
-X-Received: by 2002:a5d:8446:: with SMTP id w6mr14460191ior.138.1606709135200; 
- Sun, 29 Nov 2020 20:05:35 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=k1CUnjUfljP81x5s+TL3hAeI4K2slELeAubuU78Kg0k=;
+ b=cfzKq4uK98qr9b2UcUCIgL8F2bPDKsytBS2Xivu4dHu8Qn25vHqkTQ75YUMHX3LYwS
+ yuPKLioo+aFH+F6/Lm9skkf/fD78bkE3IRGyocOTcUC28eqI2ezsW1zAKpmLKfh0D3f5
+ 4883H7F8HxY5UxdShMLnzeQdpoj6kiqXIhdksv6z+5swuZ4s3qAmYTyy2pN8qeP5UUsS
+ zUP9U55K8UbvuFYhbNOicBBDugo17hSQOHpgLoypOlj8jlyLwYVuWnEfr/OJD2zeFEsl
+ rHWrJrMFA/WHG1jCQ82A9kzaTm91YT9LRysu32XYhvOtIbQKduL72qXVWZoCGMafIbnF
+ 8WVw==
+X-Gm-Message-State: AOAM5314LCfjluWfS06bzqTO92B5gf7Y7vca9kzIeiCcMaCbiqfH2JZR
+ JbLUD4HWVj9SXGshA001drM=
+X-Google-Smtp-Source: ABdhPJz1Zp1lNvy6OTY/IQlf1ebGp6NinsAcQqIrWHe9MTGiyBQpSaDEqZ9uP95mp01DyI3gcPMh4w==
+X-Received: by 2002:a5d:8344:: with SMTP id q4mr14250390ior.38.1606709138545; 
+ Sun, 29 Nov 2020 20:05:38 -0800 (PST)
 Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
  [147.11.124.94])
- by smtp.gmail.com with ESMTPSA id p18sm2119828ile.27.2020.11.29.20.05.32
+ by smtp.gmail.com with ESMTPSA id p18sm2119828ile.27.2020.11.29.20.05.35
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 29 Nov 2020 20:05:34 -0800 (PST)
+ Sun, 29 Nov 2020 20:05:38 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <alistair@alistair23.me>,
  Jean-Christophe Dubois <jcd@tribudubois.net>,
  Peter Chubb <peter.chubb@nicta.com.au>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
-Subject: [PATCH 1/2] hw/ssi: imx_spi: Use a macro for number of chip selects
- supported
-Date: Mon, 30 Nov 2020 12:05:23 +0800
-Message-Id: <1606709124-80741-1-git-send-email-bmeng.cn@gmail.com>
+Subject: [PATCH 2/2] hw/ssi: imx_spi: Disable chip selects in imx_spi_reset()
+Date: Mon, 30 Nov 2020 12:05:24 +0800
+Message-Id: <1606709124-80741-2-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
- envelope-from=bmeng.cn@gmail.com; helo=mail-io1-xd41.google.com
+In-Reply-To: <1606709124-80741-1-git-send-email-bmeng.cn@gmail.com>
+References: <1606709124-80741-1-git-send-email-bmeng.cn@gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-io1-xd43.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,66 +82,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-Avoid using a magic number (4) everywhere for the number of chip
-selects supported.
+When a write to ECSPI_CONREG register to disable the SPI controller,
+imx_spi_reset() is called to reset the controller, during which CS
+lines should have been disabled, otherwise the state machine of any
+devices (e.g.: SPI flashes) connected to the SPI master is stuck to
+its last state and responds incorrectly to any follow-up commands.
 
+Fixes c906a3a01582: ("i.MX: Add the Freescale SPI Controller")
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+
 ---
 
- hw/ssi/imx_spi.c         | 4 ++--
- include/hw/ssi/imx_spi.h | 5 ++++-
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ hw/ssi/imx_spi.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index d8885ae..e605049 100644
+index e605049..85c172e 100644
 --- a/hw/ssi/imx_spi.c
 +++ b/hw/ssi/imx_spi.c
-@@ -361,7 +361,7 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+@@ -231,6 +231,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+ static void imx_spi_reset(DeviceState *dev)
+ {
+     IMXSPIState *s = IMX_SPI(dev);
++    int i;
  
-             /* We are in master mode */
+     DPRINTF("\n");
  
--            for (i = 0; i < 4; i++) {
-+            for (i = 0; i < ECSPI_NUM_CS; i++) {
-                 qemu_set_irq(s->cs_lines[i],
-                              i == imx_spi_selected_channel(s) ? 0 : 1);
-             }
-@@ -424,7 +424,7 @@ static void imx_spi_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+@@ -243,6 +244,10 @@ static void imx_spi_reset(DeviceState *dev)
  
--    for (i = 0; i < 4; ++i) {
-+    for (i = 0; i < ECSPI_NUM_CS; ++i) {
-         sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cs_lines[i]);
-     }
+     imx_spi_update_irq(s);
  
-diff --git a/include/hw/ssi/imx_spi.h b/include/hw/ssi/imx_spi.h
-index b82b17f..eeaf49b 100644
---- a/include/hw/ssi/imx_spi.h
-+++ b/include/hw/ssi/imx_spi.h
-@@ -77,6 +77,9 @@
- 
- #define EXTRACT(value, name) extract32(value, name##_SHIFT, name##_LENGTH)
- 
-+/* number of chip selects supported */
-+#define ECSPI_NUM_CS 4
++    for (i = 0; i < ECSPI_NUM_CS; i++) {
++        qemu_set_irq(s->cs_lines[i], 1);
++    }
 +
- #define TYPE_IMX_SPI "imx.spi"
- OBJECT_DECLARE_SIMPLE_TYPE(IMXSPIState, IMX_SPI)
- 
-@@ -89,7 +92,7 @@ struct IMXSPIState {
- 
-     qemu_irq irq;
- 
--    qemu_irq cs_lines[4];
-+    qemu_irq cs_lines[ECSPI_NUM_CS];
- 
-     SSIBus *bus;
+     s->burst_length = 0;
+ }
  
 -- 
 2.7.4
