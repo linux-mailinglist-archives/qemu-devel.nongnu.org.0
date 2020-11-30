@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6C52C89F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 17:54:59 +0100 (CET)
-Received: from localhost ([::1]:41262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA632C8A1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 17:58:13 +0100 (CET)
+Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjmS2-0007n1-BE
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 11:54:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37192)
+	id 1kjmVA-0002wr-Qw
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 11:58:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kjmQM-0005tu-Rg
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:53:14 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:32170)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kjmTT-000208-LL
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:56:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kjmQL-0004qz-95
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:53:14 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kjmTR-0005NG-Rf
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:56:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606755384;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=fB0iM0+QwDFw03OGzjyVFx3c5heeuEDBI7BQ7NX5Pww=;
+ b=fnjNTjtZknfZ2JwxKZ/GBZFc2OntfFBE29P4Y459/5N5wqEu4GJJ4ZvIa5agjMrWTfrcWy
+ C+E3D21Ur3lLIKuyj7hH1a2LDTKcs7aquDy1Xxyd6+NxNyp8WOqbfENsGYCp5/A/PYsW8I
+ 0u7XNURXtD5cLPcf7d3e5qkKP5dSajg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-IPu3jbgfN366TLEnNUoM9w-1; Mon, 30 Nov 2020 11:53:06 -0500
-X-MC-Unique: IPu3jbgfN366TLEnNUoM9w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-462-Wg0giNjMMK6SBV71pUYffA-1; Mon, 30 Nov 2020 11:56:21 -0500
+X-MC-Unique: Wg0giNjMMK6SBV71pUYffA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E0721006C9E;
- Mon, 30 Nov 2020 16:53:05 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-112-87.ams2.redhat.com [10.36.112.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5088760C64;
- Mon, 30 Nov 2020 16:53:04 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH for-6.0 v2 3/3] spapr/xive: Fix the "ibm,
- xive-lisn-ranges" property
-Date: Mon, 30 Nov 2020 17:52:58 +0100
-Message-Id: <20201130165258.744611-4-groug@kaod.org>
-In-Reply-To: <20201130165258.744611-1-groug@kaod.org>
-References: <20201130165258.744611-1-groug@kaod.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1290985818D
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 16:56:20 +0000 (UTC)
+Received: from localhost (ovpn-115-30.ams2.redhat.com [10.36.115.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B3AE76086F;
+ Mon, 30 Nov 2020 16:56:15 +0000 (UTC)
+Date: Mon, 30 Nov 2020 16:56:14 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 0/4] [RfC] fix tracing for modules
+Message-ID: <20201130165614.GB474479@stefanha-x1.localdomain>
+References: <20201124160255.28111-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20201124160255.28111-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="QTprm0S8XgL7H0Dt"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,143 +78,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The dt() callback of the sPAPR IC class has a "nr_servers"
-argument which is used by both XIVE and XICS to setup the
-"interrupt-controller" node in the DT.
+--QTprm0S8XgL7H0Dt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The machine currently passes spapr_max_server_number() to
-spapr_irq_dt(). This is perfectly fine to populate the range
-of vCPU ids in the "ibm,interrupt-server-ranges" property
-for XICS. However, this doesn't makes sense for XIVE's
-"ibm,xive-lisn-ranges" property which really expects the
-maximum number of vCPUs instead.
+On Tue, Nov 24, 2020 at 05:02:51PM +0100, Gerd Hoffmann wrote:
+> First version that actually works.  Only qxl covered for this RfC, other
+> modules will follow once the basics are hashed out.
+>=20
+> More context:
+>   https://bugzilla.redhat.com/show_bug.cgi?id=3D1898700
+>   https://bugzilla.redhat.com/show_bug.cgi?id=3D1869642
+>=20
+> take care,
+>   Gerd
+>=20
+> Gerd Hoffmann (4):
+>   meson: add trace_events_config[]
+>   meson: move up hw subdir (specifically before trace subdir)
+>   meson: add module_trace & module_trace_src
+>   meson: move qxl trace events to separate file
 
-Add a new "max_cpus" argument to spapr_irq_dt() and the
-dt() handler to convey the maximum number of vCPUs. Have
-the latest machine type to pass smp.max_cpus and sPAPR XIVE
-to use that for "ibm,xive-lisn-ranges". Older machine types
-go on with the previous behavior since this is guest visible.
+Awesome, thank you for working on this!
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- include/hw/ppc/spapr_irq.h | 4 ++--
- hw/intc/spapr_xive.c       | 3 ++-
- hw/intc/xics_spapr.c       | 3 ++-
- hw/ppc/spapr.c             | 3 ++-
- hw/ppc/spapr_irq.c         | 8 ++++++--
- 5 files changed, 14 insertions(+), 7 deletions(-)
+I noticed an issue with simpletrace: the trace file does not contain
+qxl_* TRACE_RECORD_TYPE_MAPPING records when ./configure
+--enable-modules is used. This happens because st_write_event_mapping()
+is called before the qxl module calls trace_event_register_group().
 
-diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
-index 2e53fc9e6cbb..1edf4851afa4 100644
---- a/include/hw/ppc/spapr_irq.h
-+++ b/include/hw/ppc/spapr_irq.h
-@@ -63,7 +63,7 @@ struct SpaprInterruptControllerClass {
-     void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
-     void (*print_info)(SpaprInterruptController *intc, Monitor *mon);
-     void (*dt)(SpaprInterruptController *intc, uint32_t max_vcpu_ids,
--               void *fdt, uint32_t phandle);
-+               uint32_t max_cpus, void *fdt, uint32_t phandle);
-     int (*post_load)(SpaprInterruptController *intc, int version_id);
- };
-=20
-@@ -75,7 +75,7 @@ void spapr_irq_cpu_intc_reset(struct SpaprMachineState *s=
-papr, PowerPCCPU *cpu);
- void spapr_irq_cpu_intc_destroy(struct SpaprMachineState *spapr, PowerPCCP=
-U *cpu);
- void spapr_irq_print_info(struct SpaprMachineState *spapr, Monitor *mon);
- void spapr_irq_dt(struct SpaprMachineState *spapr, uint32_t max_vcpu_ids,
--                  void *fdt, uint32_t phandle);
-+                  uint32_t max_cpus, void *fdt, uint32_t phandle);
-=20
- uint32_t spapr_irq_nr_msis(struct SpaprMachineState *spapr);
- int spapr_irq_msi_alloc(struct SpaprMachineState *spapr, uint32_t num, boo=
-l align,
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index d0a0ca822367..f9a563cd0a9b 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -670,6 +670,7 @@ static void spapr_xive_print_info(SpaprInterruptControl=
-ler *intc, Monitor *mon)
- }
-=20
- static void spapr_xive_dt(SpaprInterruptController *intc, uint32_t max_vcp=
-u_ids,
-+                          uint32_t max_cpus,
-                           void *fdt, uint32_t phandle)
- {
-     SpaprXive *xive =3D SPAPR_XIVE(intc);
-@@ -678,7 +679,7 @@ static void spapr_xive_dt(SpaprInterruptController *int=
-c, uint32_t max_vcpu_ids,
-     /* Interrupt number ranges for the IPIs */
-     uint32_t lisn_ranges[] =3D {
-         cpu_to_be32(SPAPR_IRQ_IPI),
--        cpu_to_be32(SPAPR_IRQ_IPI + max_vcpu_ids),
-+        cpu_to_be32(SPAPR_IRQ_IPI + max_cpus),
-     };
-     /*
-      * EQ size - the sizes of pages supported by the system 4K, 64K,
-diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-index 8f753a858cc2..d9f887dfd303 100644
---- a/hw/intc/xics_spapr.c
-+++ b/hw/intc/xics_spapr.c
-@@ -309,7 +309,8 @@ static void ics_spapr_realize(DeviceState *dev, Error *=
-*errp)
- }
-=20
- static void xics_spapr_dt(SpaprInterruptController *intc, uint32_t max_vcp=
-u_ids,
--                          void *fdt, uint32_t phandle)
-+                          uint32_t max_cpus, void *fdt,
-+                          uint32_t phandle)
- {
-     uint32_t interrupt_server_ranges_prop[] =3D {
-         0, cpu_to_be32(max_vcpu_ids),
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 227a926dfd48..be3b4b9119b7 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1164,7 +1164,8 @@ void *spapr_build_fdt(SpaprMachineState *spapr, bool =
-reset, size_t space)
-     _FDT(fdt_setprop_cell(fdt, 0, "#size-cells", 2));
-=20
-     /* /interrupt controller */
--    spapr_irq_dt(spapr, spapr_max_vcpu_ids(spapr), fdt, PHANDLE_INTC);
-+    spapr_irq_dt(spapr, spapr_max_vcpu_ids(spapr), machine->smp.max_cpus,
-+                 fdt, PHANDLE_INTC);
-=20
-     ret =3D spapr_dt_memory(spapr, fdt);
-     if (ret < 0) {
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 4d9ecd5d0af8..e1fd777aff62 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -272,12 +272,16 @@ void spapr_irq_print_info(SpaprMachineState *spapr, M=
-onitor *mon)
- }
-=20
- void spapr_irq_dt(SpaprMachineState *spapr, uint32_t max_vcpu_ids,
--                  void *fdt, uint32_t phandle)
-+                  uint32_t max_cpus, void *fdt, uint32_t phandle)
- {
-     SpaprInterruptControllerClass *sicc
-         =3D SPAPR_INTC_GET_CLASS(spapr->active_intc);
-=20
--    sicc->dt(spapr->active_intc, max_vcpu_ids, fdt, phandle);
-+    /* For older machine types in case they have an unusual VSMT setting *=
-/
-+    if (SPAPR_MACHINE_GET_CLASS(spapr)->pre_6_0_xive_max_cpus) {
-+        max_cpus =3D spapr_max_vcpu_ids(spapr);
-+    }
-+    sicc->dt(spapr->active_intc, max_vcpu_ids, max_cpus, fdt, phandle);
- }
-=20
- uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
---=20
-2.26.2
+(The mapping records describe the integer ID to string name mapping used
+in a simpletrace file.)
+
+You can check this using "grep -a qxl_ trace-$LAST_QEMU_PID" after
+running qemu --device qxl built with ./configure --enable-modules
+--enable-trace-backend=3Dsimple.
+
+Remove --enable-modules and the file will contain the qxl_ trace events.
+
+This means the trace file is broken because the simpletrace records
+cannot be mapped to a trace event name.
+
+One way to solve this is by modifying trace_event_register_group() to
+call into trace/simple.c (maybe with a TraceEventIter initialized to
+iterate over the newly registered trace events group?).
+
+Alternatively, simpletrace.c might be able to emit
+TRACE_RECORD_TYPE_MAPPING on demand instead of ahead of time.
+
+Stefan
+
+--QTprm0S8XgL7H0Dt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/FJC4ACgkQnKSrs4Gr
+c8htYwf/ew+0uOP25u6IwMvJ6SSfM6Px1+Yw8VqPe0nzSF0LGqt6rZdFOVL/xuE2
+9RDBnyZmYzMj0+pnjDT10nAbNRzV9tbEMzqi5xzZ2W9RaDBBjkLw7kCsK7vGa8UC
+/uTeJTeprEvmMo1IEmgwVXjPJQtGUTNhWpRN6dHk9+bUFa4yzOHFqGg3QQfwTiLe
+76sA6XBzt1GQ+QkW0R5wWQHxdtDk+23mjgUP4iYMVx1D0W2YHoFo7HKeySkVJUI5
+CfLT+ZhwIXOBznYU5cVxfLlWmIv1/EuLF8gXcDdD5PhcERvC/QHI7X4Se7uGg8I9
+GtATnSrHkRuUYqsi+q3qNSTjsDtfFw==
+=jSOM
+-----END PGP SIGNATURE-----
+
+--QTprm0S8XgL7H0Dt--
 
 
