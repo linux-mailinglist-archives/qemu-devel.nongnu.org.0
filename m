@@ -2,60 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD0F92C900B
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 22:29:30 +0100 (CET)
-Received: from localhost ([::1]:45148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEAA32C9024
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 22:42:35 +0100 (CET)
+Received: from localhost ([::1]:50142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjqjh-0002tJ-FN
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 16:29:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52526)
+	id 1kjqwM-0005wy-GI
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 16:42:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1kjqim-0002KR-6L
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 16:28:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54446)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1kjqik-0000NM-B1
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 16:28:31 -0500
-Received: from sstabellini-ThinkPad-T480s (c-24-130-65-46.hsd1.ca.comcast.net
- [24.130.65.46])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 247E62076A;
- Mon, 30 Nov 2020 21:28:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606771707;
- bh=nRkhpXnGjHJGH3BKb1G/qP5N1PKFw4d6Y40Sy/kY1ps=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=DpdC9uqks5pPHPFDx2tEwTqEET2dzNOoklp05CrqT2LJiBmmRoUqE9evb4PSG+dBM
- KZMUi6Vln0PKwwrCPqooMjAb5F/lzBougs/eR0wrGwNGLSMYsQJTHfWXDVr/nfYuaL
- IPIwgah91UgCxyobhXyX32H4UNvRQPfYEvuvlE4s=
-Date: Mon, 30 Nov 2020 13:28:25 -0800 (PST)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
-To: Anthony PERARD <anthony.perard@citrix.com>
-Subject: Re: [PATCH-for-6.0 v4 15/17] gitlab-ci: Add test for Xen (on CentOS 7)
-In-Reply-To: <20201127142407.GC2098@perard.uk.xensource.com>
-Message-ID: <alpine.DEB.2.21.2011301326110.1100@sstabellini-ThinkPad-T480s>
-References: <20201108204535.2319870-1-philmd@redhat.com>
- <20201108204535.2319870-16-philmd@redhat.com>
- <20201126173824.GB2098@perard.uk.xensource.com>
- <20201126174559.GP2271382@habkost.net>
- <20201127142407.GC2098@perard.uk.xensource.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1kjqum-0005GE-M7; Mon, 30 Nov 2020 16:40:56 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:34110
+ helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1kjquj-00020w-Ir; Mon, 30 Nov 2020 16:40:55 -0500
+Received: from Alexanders-MacBook-Air.local
+ (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
+ by csgraf.de (Postfix) with ESMTPSA id 096F93900111;
+ Mon, 30 Nov 2020 22:40:49 +0100 (CET)
+Subject: Re: [PATCH 2/8] hvf: Move common code out
+To: Peter Collingbourne <pcc@google.com>, Frank Yang <lfy@google.com>
+References: <20201126215017.41156-1-agraf@csgraf.de>
+ <20201126215017.41156-3-agraf@csgraf.de>
+ <20201127200054.GC56950@SPB-NB-133.local>
+ <392c2465-157e-e15a-0a2c-2e3faa166d22@csgraf.de>
+ <CAEkmjvUArgL+Mcvy6nUhfJrdX3OaF=U8UdWia7ZDo9GWk0VF=g@mail.gmail.com>
+ <CAEkmjvVJ5zup4NR2+DStt_NvV2cV7+7dj2=fJ3DQBkth8pAfcw@mail.gmail.com>
+ <cecd20d0-278b-0a4b-ba9c-0207504c99d7@csgraf.de>
+ <CAEkmjvVOAYP6wJyVpAtZE3d=iNOOWGZeHptQ9xJDGcTi4qQ0hQ@mail.gmail.com>
+ <CAMn1gO7jqjsqJHtSaV7F+2qmtfF-YFDJwo=O8ot2iem+Uz4Zrw@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <6975b4a3-1568-df40-8594-bfcf488ac425@csgraf.de>
+Date: Mon, 30 Nov 2020 22:40:49 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=198.145.29.99;
- envelope-from=sstabellini@kernel.org; helo=mail.kernel.org
-X-Spam_score_int: -85
-X-Spam_score: -8.6
-X-Spam_bar: --------
-X-Spam_report: (-8.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAMn1gO7jqjsqJHtSaV7F+2qmtfF-YFDJwo=O8ot2iem+Uz4Zrw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,49 +61,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Paul Durrant <paul@xen.org>,
- qemu-devel@nongnu.org, xen-devel@lists.xenproject.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Nov 2020, Anthony PERARD wrote:
-> On Thu, Nov 26, 2020 at 12:45:59PM -0500, Eduardo Habkost wrote:
-> > On Thu, Nov 26, 2020 at 05:38:24PM +0000, Anthony PERARD wrote:
-> > > Is `make check` going to do something useful with the Xen support? Or is
-> > > it going to need more work in order to test the Xen support of QEMU?
-> > > (Like starting an actual Xen guest.)
-> > 
-> > I don't think it will test Xen support, but we still want to at
-> > least check if --enable-xen doesn't break anything else.
-> 
-> That sound good.
-> 
-> > Is there any public CI system anywhere where Xen support is
-> > tested today?
-> 
-> Yes, we have osstest which regularly test Xen with QEMU from upstream.
-> Result are sent to xen-devel. But that might not be very useful for
-> qemu-devel.
-> 
-> We also have a GitLab CI which does some Xen tests, but I don't think
-> QEMU is tested there.
-> https://xenbits.xen.org/gitweb/?p=xen.git;a=blob;f=automation/gitlab-ci/test.yaml;hb=HEAD
-> https://gitlab.com/xen-project/xen/
+Hi Peter,
 
-QEMU (the version of QEMU picked by the Xen tools) is built but not used
-in the Xen Project CI-loop yet.
+On 30.11.20 22:08, Peter Collingbourne wrote:
+> On Mon, Nov 30, 2020 at 12:56 PM Frank Yang <lfy@google.com> wrote:
+>>
+>>
+>> On Mon, Nov 30, 2020 at 12:34 PM Alexander Graf <agraf@csgraf.de> wrote:
+>>> Hi Frank,
+>>>
+>>> Thanks for the update :). Your previous email nudged me into the right direction. I previously had implemented WFI through the internal timer framework which performed way worse.
+>> Cool, glad it's helping. Also, Peter found out that the main thing keeping us from just using cntpct_el0 on the host directly and compare with cval is that if we sleep, cval is going to be much < cntpct_el0 by the sleep time. If we can get either the architecture or macos to read out the sleep time then we might be able to not have to use a poll interval either!
+>>> Along the way, I stumbled over a few issues though. For starters, the signal mask for SIG_IPI was not set correctly, so while pselect() would exit, the signal would never get delivered to the thread! For a fix, check out
+>>>
+>>>    https://patchew.org/QEMU/20201130030723.78326-1-agraf@csgraf.de/20201130030723.78326-4-agraf@csgraf.de/
+>>>
+>> Thanks, we'll take a look :)
+>>
+>>> Please also have a look at my latest stab at WFI emulation. It doesn't handle WFE (that's only relevant in overcommitted scenarios). But it does handle WFI and even does something similar to hlt polling, albeit not with an adaptive threshold.
+> Sorry I'm not subscribed to qemu-devel (I'll subscribe in a bit) so
+> I'll reply to your patch here. You have:
+>
+> +                    /* Set cpu->hvf->sleeping so that we get a
+> SIG_IPI signal. */
+> +                    cpu->hvf->sleeping = true;
+> +                    smp_mb();
+> +
+> +                    /* Bail out if we received an IRQ meanwhile */
+> +                    if (cpu->thread_kicked || (cpu->interrupt_request &
+> +                        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
+> +                        cpu->hvf->sleeping = false;
+> +                        break;
+> +                    }
+> +
+> +                    /* nanosleep returns on signal, so we wake up on kick. */
+> +                    nanosleep(ts, NULL);
+>
+> and then send the signal conditional on whether sleeping is true, but
+> I think this is racy. If the signal is sent after sleeping is set to
+> true but before entering nanosleep then I think it will be ignored and
+> we will miss the wakeup. That's why in my implementation I block IPI
+> on the CPU thread at startup and then use pselect to atomically
+> unblock and begin sleeping. The signal is sent unconditionally so
+> there's no need to worry about races between actually sleeping and the
+> "we think we're sleeping" state. It may lead to an extra wakeup but
+> that's better than missing it entirely.
 
-I am extending the CI-loop with more tests [1], and I would like to have at
-least one QEMU test at some point soon. Probably something based on Xen 9pfs.
 
-[1] https://marc.info/?l=xen-devel&m=160627845825763 
+Thanks a bunch for the comment! So the trick I was using here is to 
+modify the timespec from the kick function before sending the IPI 
+signal. That way, we know that either we are inside the sleep (where the 
+signal wakes it up) or we are outside the sleep (where timespec={} will 
+make it return immediately).
+
+The only race I can think of is if nanosleep does calculations based on 
+the timespec and we happen to send the signal right there and then.
+
+The problem with blocking IPIs is basically what Frank was describing 
+earlier: How do you unset the IPI signal pending status? If the signal 
+is never delivered, how can pselect differentiate "signal from last time 
+is still pending" from "new signal because I got an IPI"?
+
+
+Alex
+
 
