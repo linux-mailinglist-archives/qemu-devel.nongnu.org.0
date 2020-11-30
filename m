@@ -2,49 +2,156 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA5A2C84EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 14:18:46 +0100 (CET)
-Received: from localhost ([::1]:47888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80CD2C84E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 14:17:53 +0100 (CET)
+Received: from localhost ([::1]:46488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjj4o-0000gz-0p
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 08:18:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59318)
+	id 1kjj3x-000060-0B
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 08:17:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1kjiyA-0004ZA-3b; Mon, 30 Nov 2020 08:11:55 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2873)
+ (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
+ id 1kjizG-0005xY-6h
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:13:03 -0500
+Received: from mga11.intel.com ([192.55.52.93]:15122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1kjixz-0007hp-GO; Mon, 30 Nov 2020 08:11:52 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cl5G20mDPz15VHM;
- Mon, 30 Nov 2020 21:11:06 +0800 (CST)
-Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.37) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 30 Nov 2020 21:11:22 +0800
-From: Keqian Zhu <zhukeqian1@huawei.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>, "Fam
- Zheng" <famz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH v2 2/2] ramlist: Resize dirty bitmap blocks after remove
- ramblock
-Date: Mon, 30 Nov 2020 21:11:04 +0800
-Message-ID: <20201130131104.10600-3-zhukeqian1@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20201130131104.10600-1-zhukeqian1@huawei.com>
-References: <20201130131104.10600-1-zhukeqian1@huawei.com>
+ (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
+ id 1kjizC-0008Br-1o
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:13:00 -0500
+IronPort-SDR: WrRs8IG+sRDEd7gbAEkkGg4Ch2ens8t7LbZU8VrLN9VC45CeT1rZ9dfpam9fnIzPDH9dMGgfma
+ xaoPt19egKSA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="169132382"
+X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="169132382"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2020 05:12:53 -0800
+IronPort-SDR: tf1kQIyQruZ9SPR/AX7jhWQbRFT5w4FN+BcyuDYtjcRQNwZcDQJT1j1nasgG78bMNX0icQgDE4
+ UlVcAwBB0jYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="334652761"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by orsmga006.jf.intel.com with ESMTP; 30 Nov 2020 05:12:52 -0800
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 30 Nov 2020 05:12:52 -0800
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 30 Nov 2020 05:12:51 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Mon, 30 Nov 2020 05:12:51 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.103)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Mon, 30 Nov 2020 05:12:51 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lo9hp0ScFay2k/6g+JBTUHuk5HE8W61TCtVoFEC/eqn1HkkZi+qMWUaUY+HQgqYXj7sA6KqPTHHTrA6IoiASWNO13ujncHoz1RDlYJXCR+ebrGtKlAh91M8yKtkOpBXx5fdHH6h/x6YOWnsHQdIjZd5pAT+kmFWDf48mZ207hrQhIXNJfEbrWfSZ2gFTFEYGjIFyrINQy/5Vi7yq6ViQk/8vRmUqoeHfVtaxI4TpAqLjQmSaJ5R6RMxi2UcyKEpmPKSQYX51cR1x/sV91rz+FaIQICRvJAoSohi/WoTFCQgBw8v1Xa819P/drhuMizPKV1uZqtD3q0dcYXLQrL2dzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7YTC6p86axECU4gVCj+7oFgc1jPgtpj7X+gohG5SY9E=;
+ b=PWBZ8tnbthDosB3g9rEtTv1KMFNDScWOCM1mjX/B60UCSw8FNg9CRcT+pAi726kQ+AzQtxVbfwK2YTp1H0FzXHlDlbr/VriOxaqXsHl35qGu7iZjW/J4ABNgVsSwLucPkjhBSddBTp/JRjp4eGAEZiiYGPl1qjucs8QTvFV1wZpsxK+LeLz9a3h8ZMRDtcc/oJDI18VvvdzanJfaKccbcH85qMAB6r5l8Ih0PMEDsu/EsDAYO1g15MBKKwGyEVgpAv8nDEbHxaTLwHWUtyHr1okBT3YSWXrRDTBAh7yvnPFfs9Rr4QosAmP9+nvVVVZgKwOqfKVqdYZWVhI0wFUxHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7YTC6p86axECU4gVCj+7oFgc1jPgtpj7X+gohG5SY9E=;
+ b=akhQB8LEDIQlGXbrEivyj8V/dism9ai4AN7sQumO1KtBihLo0eV1oP2QAkW6DZPVdHMNe3R0l6X4O15g3NIrnkcgmr8i+2Vdhe70pB3kKqXh1aDL32kC/rvHdUR6GBAwUhA+6IiXoKQGDrUBx7odzSP0cXjbRL9ET/KgtY5E9KU=
+Received: from DM6PR11MB4316.namprd11.prod.outlook.com (2603:10b6:5:205::16)
+ by DM6PR11MB3097.namprd11.prod.outlook.com (2603:10b6:5:6b::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.25; Mon, 30 Nov
+ 2020 13:12:49 +0000
+Received: from DM6PR11MB4316.namprd11.prod.outlook.com
+ ([fe80::74e4:9b56:e013:149]) by DM6PR11MB4316.namprd11.prod.outlook.com
+ ([fe80::74e4:9b56:e013:149%6]) with mapi id 15.20.3611.023; Mon, 30 Nov 2020
+ 13:12:49 +0000
+From: "Wu, Wentong" <wentong.wu@intel.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: RE: [PATCH v2 1/3] target/nios2: Move IIC code into CPU object proper
+Thread-Topic: [PATCH v2 1/3] target/nios2: Move IIC code into CPU object proper
+Thread-Index: AQHWxnbBmTrkztkwLUad1WT77MGBTqngKMUQgABHtoCAADa8QA==
+Date: Mon, 30 Nov 2020 13:12:49 +0000
+Message-ID: <DM6PR11MB431648984CCFB479C76D5C3A8DF50@DM6PR11MB4316.namprd11.prod.outlook.com>
+References: <20201129174022.26530-1-peter.maydell@linaro.org>
+ <20201129174022.26530-2-peter.maydell@linaro.org>
+ <DM6PR11MB4316328210E97BA3BB8B9F9C8DF50@DM6PR11MB4316.namprd11.prod.outlook.com>
+ <CAFEAcA8R5UqdHh6PijxH5_KOEomLo2KPY1Mm4a3kZkoArFZeZg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8R5UqdHh6PijxH5_KOEomLo2KPY1Mm4a3kZkoArFZeZg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [192.198.147.204]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 634a6be9-aab6-4da0-c80c-08d89531a310
+x-ms-traffictypediagnostic: DM6PR11MB3097:
+x-microsoft-antispam-prvs: <DM6PR11MB309745D4D685C27ABE9D58838DF50@DM6PR11MB3097.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: qajlsZNyCVt+Rw6wnz4gTAw4jwtP4KkVwfzbCETMnBnhsGdpDaOFi7eM4N6K3kF0exeqlcnHf6Gi34buQH06ahYzcdtFsjPD3diXzvWzozKWP/NAorj2m5yd76c+KojxycGuERNo7p5TRrnOHc6FH4Z7UAQv6Z7AduP1IL7Lgx1gFFdfcB9HbrnmER5zWYKS7R2Nr6Hq3ekfZAH3JcFKpRK/4sauc4cbDq9WMdfCljFMkasbiBhVyXyo5513qNvdbXB+WYz39BF1nljEEFWV+LWsrXT2ArrOcxVJhytmRgxLOgYm7QlgYrxo8g4zpO4o
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB4316.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39860400002)(136003)(396003)(376002)(346002)(86362001)(9686003)(66556008)(8676002)(7696005)(71200400001)(478600001)(26005)(76116006)(558084003)(64756008)(66446008)(66476007)(66946007)(6506007)(186003)(53546011)(54906003)(316002)(52536014)(5660300002)(33656002)(8936002)(2906002)(55016002)(4326008)(6916009);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?VE5XVzJIazdQOFVGVVNwUjJZWFNzOHY4SjY3ZmRoRzByWFQ3NEZuSFB1Q1Nz?=
+ =?utf-8?B?VG9VaVZCREY4QXVvZUxUYjJiYWVJdTZIRmtVbFBob1NSMDU2UlRhMjJudGNL?=
+ =?utf-8?B?eHFYaTU2THlzYkZWRmxPOVUxdUpHY1ZvZDlqQjBmUm56MXN3cGk1Wk9YTzlK?=
+ =?utf-8?B?amM2SDJyM3RPeXVmclQvRUc3b2licUZxTzRFUFJUandhTDhEdjYxYWJYSXo0?=
+ =?utf-8?B?VG1SZTM2bFFEcHU4TGxhN2t5M3RuSDlVYmpGNDR3QUlhbWZTbUpxU0w5UDBq?=
+ =?utf-8?B?Q2NBRWZOcm01ZVVBZjQydE41R2VaaDBNVkVKcm5mRTI1SHQ2OVpOcm04UFFp?=
+ =?utf-8?B?ZWdhRjlCRThQd3I3NWpKTGxRRUFqajNVRGQ2MkR0bFRyQXlBNG96NVppTzA2?=
+ =?utf-8?B?c3FxQ1F0VjBzWS9yVmdzbEF3bXVJNU1zK0Y4THQrS0NxSE5PTXhzRUlFblJr?=
+ =?utf-8?B?aHRQUXVCY1JmMmxpaXRNYUV1YUhUM24yM3NJRWM0dW92SVhSSVhISWFNbXZV?=
+ =?utf-8?B?cGFiVEtYUTJVcWsyakxiVm9oMDdpUVliWjVubXpyR3lmZWYxUnhiY3NmRnQ0?=
+ =?utf-8?B?TFdERjNUaENaTGlLWk5NME02ZU83OFhsMmkzeTJwU2F0NmlnR1Z5Z2NIcFFa?=
+ =?utf-8?B?MWNpVGt5Smh3Q3hEVmpkVlIyRThOU3Q4b0swVnBhSEIvNHVZNlZETk0yK2J2?=
+ =?utf-8?B?NE9zSjR1eC9SWXdFY042a0wvWmVCeGFSeGthZ29Ua2dlQlpkWlVLTFhLVkcv?=
+ =?utf-8?B?VHkzYm9pK2k5OEdQcGZ5YUJabmxLeUxZNTV4YnZHbkdpcXNJSXhDK2xEZEFV?=
+ =?utf-8?B?K2QwS01hRlU5Ymd1K1dTVkJ4dW8yemFYQkxwaEFyaGtoYnJTUitySFE1ZXlk?=
+ =?utf-8?B?ZWVFSUxoWTdzQ2dwUWFPUTJtTExCckxnckJOT0hCeHVOR3BFNmMwM1piQnoy?=
+ =?utf-8?B?cWhBYzBtazFJaTB1cFVxTFZuTGJ5SERmMDcxMUQ0VmdySEtkdGNCSmJRRnps?=
+ =?utf-8?B?cGxTdFYvV2Nnek1IcVRRK2UzdXRwbCsxVXRYNlN0bml0MTY2Q29MbWNMR3Q5?=
+ =?utf-8?B?YnNwcFJwdjNCMU5SQTJacEVyOEtTSDk1b2kzMnJuYnhpZ2VpS0hBWmhxMk1v?=
+ =?utf-8?B?S2EvK01SZ0M4SzYxSWF0TW4xN2JMVkRLNGwvdEtDeTVmNGlGVi9BZGpIaWN2?=
+ =?utf-8?B?eGhjSkNUS0Z6R2VSdDl1ZncxY1JmWDlsRlpYZGlZM2NMWVlhYjJwbXM3eHhX?=
+ =?utf-8?B?T1dlVXU4b0VTZkR1cnZlTUJBOUlwc1VUNzUyYm1OYi9CUjlyNXV2aGV0aFo5?=
+ =?utf-8?Q?2WG6HkoEzJfnk=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.37]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhukeqian1@huawei.com; helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4316.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 634a6be9-aab6-4da0-c80c-08d89531a310
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Nov 2020 13:12:49.3318 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ql15jKWiy2owm3usEtipjDVt3hW5bQfogk+G6Bs5KgT8BnNBG+5QZSA+upmb7QTCO4awxqIE8fupWqSua/Jt3w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3097
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=wentong.wu@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,96 +165,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com, qemu-arm@nongnu.org,
- Keqian Zhu <zhukeqian1@huawei.com>, qemu-devel@nongnu.org,
- kuhn.chenqun@huawei.com
+Cc: Marek Vasut <marex@denx.de>, Sandra Loosemore <sandra@codesourcery.com>,
+ Chris Wulff <crwulff@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the new "dirty_memory_resize" interface to reduce dirty bitmap
-blocks after we remove a ramblock from ramlist.
-
-This bug is found by ASAN after executing several qmp commands about
-object-add/object-del of memory-backend-ram. After applying this patch,
-the memory leak is not reported anymore.
-
-=================================================================
-==qemu-system-aarch64==1720167==ERROR: LeakSanitizer: detected memory leaks
-Direct leak of 2359296 byte(s) in 9 object(s) allocated from:
-    #0 0xfffeedf3e938 in __interceptor_calloc (/lib64/libasan.so.5+0xee938)
-    #1 0xaaaaf6f1e740 in bitmap_new /qemu/include/qemu/bitmap.h:101
-    #2 0xaaaaf6f1e81c in dirty_memory_extend ../exec.c:2212
-    #3 0xaaaaf6f22524 in ram_block_add ../exec.c:2261
-    #4 0xaaaaf6f22988 in qemu_ram_alloc_internal ../exec.c:2434
-    #5 0xaaaaf6f8ae70 in memory_region_init_ram_shared_nomigrate ../softmmu/memory.c:1513
-    #6 0xaaaaf66edee0 in ram_backend_memory_alloc ../backends/hostmem-ram.c:30
-    #7 0xaaaaf660d03c in host_memory_backend_memory_complete ../backends/hostmem.c:333
-    #8 0xaaaaf70f6968 in user_creatable_complete ../qom/object_interfaces.c:23
-    #9 0xaaaaf70f6dac in user_creatable_add_type ../qom/object_interfaces.c:93
-    #10 0xaaaaf70f7030 in user_creatable_add_dict ../qom/object_interfaces.c:134
-    #11 0xaaaaf7340174 in do_qmp_dispatch_bh ../qapi/qmp-dispatch.c:110
-    #12 0xaaaaf732da30 in aio_bh_poll ../util/async.c:164
-    #13 0xaaaaf735c9a8 in aio_dispatch ../util/aio-posix.c:381
-    #14 0xaaaaf732d2ec in aio_ctx_dispatch ../util/async.c:306
-    #15 0xfffeecb029d8 in g_main_context_dispatch (/lib64/libglib-2.0.so.0+0x529d8)
-    #16 0xaaaaf733bb78 in os_host_main_loop_wait ../util/main-loop.c:244
-    #17 0xaaaaf733beac in main_loop_wait ../util/main-loop.c:520
-    #18 0xaaaaf70802a4 in qemu_main_loop ../softmmu/vl.c:1677
-    #19 0xaaaaf655786c in main ../softmmu/main.c:50
-    #20 0xfffeec043f5c in __libc_start_main (/lib64/libc.so.6+0x23f5c)
-    #21 0xaaaaf656a198  (/qemu/build/qemu-system-aarch64+0x9ba198)
-SUMMARY: AddressSanitizer: 2359296 byte(s) leaked in 9 allocation(s).
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-
-----
-little concern:
-According to code, my bugfix can solve two problems:
-
-1. Lose reference to dirty bitmap of deleted ramblock, because the reference is
-   covered by dirty bitmap of newly added ramblock.
-2. All dirty bitmap is not freed before qemu exit.
-
-However, ASAN do not report memory leak for point 2.
-Any thoughts or explanations?
----
- softmmu/physmem.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 3e4f29f126..8c5f910677 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2132,6 +2132,8 @@ static void reclaim_ramblock(RAMBlock *block)
- 
- void qemu_ram_free(RAMBlock *block)
- {
-+    ram_addr_t old_ram_size, new_ram_size;
-+
-     if (!block) {
-         return;
-     }
-@@ -2141,12 +2143,18 @@ void qemu_ram_free(RAMBlock *block)
-     }
- 
-     qemu_mutex_lock_ramlist();
-+
-+    old_ram_size = last_ram_page();
-     QLIST_REMOVE_RCU(block, next);
-+    new_ram_size = last_ram_page();
-+    dirty_memory_resize(old_ram_size, new_ram_size);
-+
-     ram_list.mru_block = NULL;
-     /* Write list before version */
-     smp_wmb();
-     ram_list.version++;
-     call_rcu(block, reclaim_ramblock, rcu);
-+
-     qemu_mutex_unlock_ramlist();
- }
- 
--- 
-2.23.0
-
+T24gTW9uZGF5LCBOb3ZlbWJlciAzMCwgMjAyMCA1OjU0IFBNLCBQZXRlciBNYXlkZWxsIHdyb3Rl
+Og0KPiBPbiBNb24sIDMwIE5vdiAyMDIwIGF0IDA1OjQxLCBXdSwgV2VudG9uZyA8d2VudG9uZy53
+dUBpbnRlbC5jb20+IHdyb3RlOg0KPiA+IFJldmlld2VkIGFuZCB0ZXN0ZWQuDQo+IA0KPiBUaGFu
+a3MhIENhbiBJIHB1dCB0aGF0IGluIGFzIFJldmlld2VkLWJ5L1Rlc3RlZC1ieSBsaW5lcz8NCg0K
+U3VyZSBhbmQgbXkgcGxlYXN1cmUsIHRoYW5rcyBQZXRlciENCg0KPiANCj4gLS0gUE1NDQo=
 
