@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760B92C88B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 16:57:46 +0100 (CET)
-Received: from localhost ([::1]:60154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FEC2C88E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 17:05:39 +0100 (CET)
+Received: from localhost ([::1]:37632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjlYf-0000Tn-HK
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 10:57:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47822)
+	id 1kjlgI-00044F-21
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 11:05:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kjlW1-0008On-C6
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 10:55:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33776)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kjler-0003XY-OW
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:04:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kjlVz-0003EZ-PV
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 10:55:01 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kjlep-0004nY-2a
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:04:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606751699;
+ s=mimecast20190719; t=1606752245;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=A4agKHT8CqpqogblM8S12D2SHDpnL0QNIkDG74Mtnvc=;
- b=baRiCzagqlBaQUetU2WuMz9rWbxntdkkCJmI7BSnGUGeJKPam85JZ6pJJNuiLmRO3I1T8s
- p3Sds6xEI7bdbf9THhTmMnoz6nLm+JQT5/SeGp6LSiKgSFmdwZJ7IhlhxngJLCwhKcjIRR
- +nmTiSRzeqalLAlhW1j0bVprH8EcQYg=
+ bh=0yC0d9Z7Rd+t64nRRAelqYxqcxS65CSmQcAWTOKq9eM=;
+ b=QutdmuvQdC657sRToBBqz9C7D08CFobdVmriB+04Mo0h/4nz5uhISuM8fqWc3qBl4PDvRk
+ SEpk2U2yFWTbo80jct9fvjXqQyPkLWUTraPk4hdXst4xWLGIdfoDBJMtlc43IfUag+J4wV
+ YxUOVpJKjqmalLljrH39NiM+w/VZCwc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-56Y995u8OvaocTbPd6-t7A-1; Mon, 30 Nov 2020 10:54:13 -0500
-X-MC-Unique: 56Y995u8OvaocTbPd6-t7A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-473-Yet70bLeP7yaRL4Ntr4yTw-1; Mon, 30 Nov 2020 11:04:01 -0500
+X-MC-Unique: Yet70bLeP7yaRL4Ntr4yTw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59AB61084C81;
- Mon, 30 Nov 2020 15:54:12 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-117.ams2.redhat.com [10.36.114.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AB5125D6A8;
- Mon, 30 Nov 2020 15:54:09 +0000 (UTC)
-Date: Mon, 30 Nov 2020 16:54:08 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 01/18] qapi/qom: Add ObjectOptions for iothread
-Message-ID: <20201130155408.GD5078@merkur.fritz.box>
-References: <20201130122538.27674-1-kwolf@redhat.com>
- <20201130122538.27674-2-kwolf@redhat.com>
- <48386682-4637-b6e8-47c8-dd4922407146@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E99D78F4E9;
+ Mon, 30 Nov 2020 16:03:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D36A360CE7;
+ Mon, 30 Nov 2020 16:03:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 67EB7113864E; Mon, 30 Nov 2020 17:03:23 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Krempa <pkrempa@redhat.com>
+Subject: Re: [PATCH for-6.0 6/6] qapi: Deprecate 'query-kvm'
+References: <20201116131011.26607-1-r.bolshakov@yadro.com>
+ <20201116131011.26607-7-r.bolshakov@yadro.com>
+ <20201127105059.GC1596141@redhat.com>
+ <20201127112154.GA105758@angien.pipo.sk>
+ <20201127114512.GE67322@SPB-NB-133.local>
+ <20201127121809.GB105758@angien.pipo.sk>
+ <87h7paoldm.fsf@dusky.pond.sub.org>
+ <20201127163013.GD105758@angien.pipo.sk>
+ <87zh2zi4jf.fsf@dusky.pond.sub.org>
+ <20201130100901.GJ105758@angien.pipo.sk>
+Date: Mon, 30 Nov 2020 17:03:23 +0100
+In-Reply-To: <20201130100901.GJ105758@angien.pipo.sk> (Peter Krempa's message
+ of "Mon, 30 Nov 2020 11:09:01 +0100")
+Message-ID: <87zh2ybzn8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <48386682-4637-b6e8-47c8-dd4922407146@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -64,7 +75,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,61 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
+Cc: libvir-list@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 30.11.2020 um 16:00 hat Paolo Bonzini geschrieben:
-> On 30/11/20 13:25, Kevin Wolf wrote:
-> > +##
-> > +# @IothreadProperties:
-> > +#
-> > +# Properties for iothread objects.
-> > +#
-> > +# @poll-max-ns: the maximum number of nanoseconds to busy wait for events.
-> > +#               0 means polling is disabled (default: 32768 on POSIX hosts,
-> > +#               0 otherwise)
-> > +#
-> > +# @poll-grow: the multiplier used to increase the polling time when the
-> > +#             algorithm detects it is missing events due to not polling long
-> > +#             enough. 0 selects a default behaviour (default: 0)
-> > +#
-> > +# @poll-shrink: the divisor used to decrease the polling time when the
-> > +#               algorithm detects it is spending too long polling without
-> > +#               encountering events. 0 selects a default behaviour (default: 0)
-> > +#
-> > +# Since: 6.0
-> > +##
-> > +{ 'struct': 'IothreadProperties',
-> > +  'data': { '*poll-max-ns': 'int',
-> > +            '*poll-grow': 'int',
-> > +            '*poll-shrink': 'int' } }
-> > +
-> 
-> Documentation is the main advantage of the ObjectOptions concept. However,
-> please use the version where each object and property was introduced for the
-> "since" value.  Otherwise the documentation will appear to show that none of
-> these objects was available before 6.0.
-> 
-> Yes, there is no documentation at all right now for QOM objects. However,
-> wrong documentation sometimes is worse than non-existing documentation.
+Peter Krempa <pkrempa@redhat.com> writes:
 
-I think we generally use the version when the schema was introduced (so
-blockdev-add has 2.9 for most things even if they existed before in
--drive and drive_add), but I agree that your suggestion is more useful.
-And object-add isn't a new command, we're just giving it a schema now.
+> On Mon, Nov 30, 2020 at 10:21:08 +0100, Markus Armbruster wrote:
+>> Peter Krempa <pkrempa@redhat.com> writes:
+>> 
+>> > On Fri, Nov 27, 2020 at 16:44:05 +0100, Markus Armbruster wrote:
+>> >> Peter Krempa <pkrempa@redhat.com> writes:
+>
+> [...]
+>
+>> > I know it's hard to enforce, but probably the cheapest in terms of
+>> > drawbacks any other solution would be.
+>> 
+>> We can and should try.  
+>> 
+>> Can we flag problematic interface changes automatically?  Semantic
+>> changes, no.  What about changes visible in query-qmp-schema?
+>
+> I don't know the internals of qemu good enough, but from the perspective
+> of an user of 'query-qmp-schema' it might be possible but not without
+> additional tooling.
+>
+> The output of query-qmp-schema is basically unreviewable when we are
+> updating it. A small change in the schema may trigger a re-numbering of
+> the internal type names so the result is a giant messy piece of JSON
+> where it's impossible to differentiate changes from churn.
 
-So let's first discuss the general direction, but if we agree on that,
-using the version numbers where objects and properties were first
-introduced makes sense.
+A structural comparison could fare better.
 
-Maybe if maintainers can include the right version numbers in the review
-of the patch for "their" object, that would help me updating the
-patches.
+qapi-gen option -u might help:
 
-Kevin
+  -u, --unmask-non-abi-names
+                        expose non-ABI names in introspection
+
+> I've played with generating/expanding all the possibilites and thus
+> stripping the internal numbering for a tool which would simplify writing
+> the query strings (a libvirtism for querying whether the QMP schema has
+> something [1]). This tool could be used in this case to generate a fully
+> expanded and sorted list which should in most cases be append only when
+> new stuff is added. This could be then used to see whether something
+> changed when we'd store the output and compare it against the new one.
+
+Such an expansion is one way to compare structurally.  It reports
+differences for "command C, argument A.B...".  Mapping to the QAPI
+schema is straightforward.
+
+> Unfortunately that would just make query-qmp-schema dumps more
+> reviewable in libvirt though. A change in an interface would be noticed
+> only after it hits qemu upstream.
+
+Yes, implementing the comparison in the QEMU repository would be more
+useful.
+
+> [1] https://gitlab.com/libvirt/libvirt/-/blob/08ae9e5f40f8bae0c3cf48f84181884ddd310fa0/src/qemu/qemu_qapi.c#L392
+>     https://gitlab.com/libvirt/libvirt/-/blob/08ae9e5f40f8bae0c3cf48f84181884ddd310fa0/src/qemu/qemu_capabilities.c#L1512
 
 
