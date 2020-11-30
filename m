@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46462C8346
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 12:31:43 +0100 (CET)
-Received: from localhost ([::1]:33898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0B52C8377
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 12:50:06 +0100 (CET)
+Received: from localhost ([::1]:44256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjhPC-0007Yn-M9
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 06:31:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38506)
+	id 1kjhgz-0005T5-1f
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 06:50:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kjhNP-0006C4-Vh
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 06:29:51 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:45944)
+ id 1kjhfa-0004zB-P2
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 06:48:38 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:34247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kjhNN-0000Hc-76
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 06:29:51 -0500
-Received: by mail-ed1-x541.google.com with SMTP id q3so15538365edr.12
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 03:29:48 -0800 (PST)
+ id 1kjhfZ-00073O-08
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 06:48:38 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id s13so5849719ejr.1
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 03:48:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P+o5O/EdfZlNyxRTfK8vGn1ByagQrBiS+Vc7OCE/rAw=;
- b=geh7I8/l+FpGBuKIfpLVFpoygHk/X0Y2SmtWPwVKXPc8y86k0ZUr8RJe0BknhmESko
- AuOlqeKOpPba6GBkSUkGoaRu0ug/xq4b/Pc1wi98D5cc5gEpbc2v8hZv7/QQA5OSS1Sc
- dav/K2FlLufSEHyUtwR9Fi0/SQ4KKq/LnZKkU4Z9+2fMwNjYuG32BdLI8h0cpxw3Kyxu
- qlF1WntQxydEamlr1w3+a7NF6VyoIptl3J5MyhbBVn5EqmAsOLtuchrlyASoBL5zBypW
- Pqfo6e535IqerZUGEPRhh8s1d/kW9gAkogUFrQF3CRkj94XrPBCBfnrw/oABF2CesXJN
- UH/w==
+ :cc; bh=ABBfkz8bVqs6ONR2FvmsKUP1JFcLJ89RMG9fA53ncgc=;
+ b=Kx8k0j53RHVuPiVV5lcBc2/cHNopvPiTDJ2g5nnqfw7fVB2ecukFMcvNSv5IvDZiTI
+ +MCNuXZmCRx/M5u+qE4U1FNqqtHqW7EYLqHyEqQ40lDLw1ViqIxeX1QadnJY1ib0FJPl
+ E/uY7CwqBaaBkx1jBsgAa+ELyxqh61Dw1u+GAcvKCUBNUOhW78agaadQ/XXG+Kkz+Mjd
+ F2717lCh5oa21nMD84PU3McuaIxXYgaDFolcYix1pPW16rD/oWGz2blH5oHJQhPGBvXW
+ H65XA/R15ak1zvnRgOGY2jE3/oa68Claq8iFmfOQCBNs7JlkrHA3jtQYr1eTPFA+SKLR
+ qFcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=P+o5O/EdfZlNyxRTfK8vGn1ByagQrBiS+Vc7OCE/rAw=;
- b=gfHWZNvk910KTNmooOYGrsL4mRFAW8Ou5NlsMWKrjbY3LIQ3HtrC64Ktk6U766+duE
- +2D7pKfEEpsywybdaVEbjv+stVoqYWQURvjtQJaRdtaXJxkQzZ8jzLvQqvYV/q03+evS
- dY8f8XL9hKfNff/59+PkS/Y15SZ9+wBXgiRGca7VxnXVfz1B3A2xj7+MOIFcQ58qMIWG
- urY1mL+Gucgymsuum1uSTAXd0EEARcblypm3+ZFEbjJ+nzaF3YACqqdHA7fJuNQzAcaJ
- Z5OjqD2HOhgnoNir68jxtEDH4fhBSAUnHSXcWJHvw6T7eanCNfV786eqY4ttO1mdxsGW
- KwCA==
-X-Gm-Message-State: AOAM533VMXNZ6BkPhkEl9Y9ynDy79V+bUjZ9k4+pKZswGLrUGEYqxokm
- 9cX9OFJGvqZXclYSWYXKQs5y9uq7qmGk6yAbtyNwNA==
-X-Google-Smtp-Source: ABdhPJw00lHdERczMuSrSv0+52952yEO3+P+3DI7lOc3bQN+MhaGlYFFa9HuPkiFQk/JSrgie4yMvEHuyAfUWU36sMY=
-X-Received: by 2002:a05:6402:3089:: with SMTP id
- de9mr21011873edb.100.1606735787612; 
- Mon, 30 Nov 2020 03:29:47 -0800 (PST)
+ bh=ABBfkz8bVqs6ONR2FvmsKUP1JFcLJ89RMG9fA53ncgc=;
+ b=UhkUBMJoQbBHekvFwEX8vGnp6zO9ePh8yrBd+cfgkmjh6Iyc73n91MMwX5H6fy9CPE
+ m109c9erdTiOjrgT3wU8wqmB94lRWxbwJ1LL/LFDvQS46moF2aaoWLp1zc8mf0PY0PeY
+ tXa+dvu/cwS3KK9+uzevEpq4QCFVjJshT5UfFbict3EPDnkCfOi3T4Ez1M0/soakvC7a
+ J2O2vdneaJpF8/BpyouwSJbGX95fzXYcBVZLsb4ctodsE199NmJGjR0Ct6bAIz+vIaMl
+ rGLUUl8g/9Qj+BbzagflSehSubbKYuY/b8K1K8DYMQBzVdbtoz3BAr6uieIijEhHn5CQ
+ M0/g==
+X-Gm-Message-State: AOAM533/pN1vsSsPCDaUKveFypbF3G2qpj9pwLrLgApJQmI9fHRzvDZQ
+ R7xdajlgkDr8oXG8mTyaimDHmuIf3MUXIYDtOnW/kg==
+X-Google-Smtp-Source: ABdhPJyPGSSPIGKoL5TwXc4/Px5MSItdI3XaEQL7w9rGn6OAy2Jodp2myFD4+en+TUKMltGxdcz5Aoy5yEc7zLGEUbU=
+X-Received: by 2002:a17:906:d8a9:: with SMTP id
+ qc9mr20172168ejb.482.1606736914903; 
+ Mon, 30 Nov 2020 03:48:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20201124023711.1184-1-jiangkunkun@huawei.com>
-In-Reply-To: <20201124023711.1184-1-jiangkunkun@huawei.com>
+References: <1604991130-12965-1-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1604991130-12965-1-git-send-email-sai.pavan.boddu@xilinx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 Nov 2020 11:29:36 +0000
-Message-ID: <CAFEAcA_tfEO0FaTq_Ud4FE_j93O0ohx3mGKtm2GoGZDfw-ZPAQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/smmuv3: Fix up L1STD_SPAN decoding
-To: Kunkun Jiang <jiangkunkun@huawei.com>
+Date: Mon, 30 Nov 2020 11:48:23 +0000
+Message-ID: <CAFEAcA_gcuxVuA6pc7F3nWN+5hvznqwB1L_767VqjPg0Kziydw@mail.gmail.com>
+Subject: Re: [PATCH v13 0/4] Add Versal usb model
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,24 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>,
- "open list:ARM SMMU" <qemu-arm@nongnu.org>, Keqian Zhu <zhukeqian1@huawei.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- wanghaibin.wang@huawei.com
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Paul Zimmerman <pauldzim@gmail.com>, Sai Pavan Boddu <saipava@xilinx.com>,
+ Edgar Iglesias <edgari@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Nov 2020 at 02:37, Kunkun Jiang <jiangkunkun@huawei.com> wrote:
+On Tue, 10 Nov 2020 at 06:48, Sai Pavan Boddu
+<sai.pavan.boddu@xilinx.com> wrote:
 >
-> Accroding to the SMMUv3 spec, the SPAN field of Level1 Stream Table
-> Descriptor is 5 bits([4:0]).
->
-> Fixes: 9bde7f0674f(hw/arm/smmuv3: Implement translate callback)
-> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
-> ---
+> This patch series attempts to make 'hcd-xhci' an independent model so it can be used by both pci and system-bus interface.
 
+This fails "make check":
 
-Applied to target-arm.next for 6.0, thanks.
+[...]
+MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+QTEST_QEMU_IMG=./qemu-img
+G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-from-laptop/qemu/tests/dbus-vmstate-daemon.sh
+QTEST_QEMU_BINARY=./qemu-system-aarch64
+tests/qtest/device-introspect-test --tap -k
+PASS 1 qtest-aarch64/device-introspect-test /aarch64/device/introspect/list
+PASS 2 qtest-aarch64/device-introspect-test
+/aarch64/device/introspect/list-fields
+PASS 3 qtest-aarch64/device-introspect-test /aarch64/device/introspect/none
+PASS 4 qtest-aarch64/device-introspect-test /aarch64/device/introspect/abstract
+PASS 5 qtest-aarch64/device-introspect-test
+/aarch64/device/introspect/abstract-interfaces
+missing object type 'usb_dwc3'
+Broken pipe
+../../tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from
+signal 6 (Aborted) (core dumped)
+ERROR qtest-aarch64/device-introspect-test - too few tests run
+(expected 6, got 5)
 
+Probably an error in meson.build or Kconfig handling of that new device.
+
+thanks
 -- PMM
 
