@@ -2,48 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7B22C7F0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 08:48:35 +0100 (CET)
-Received: from localhost ([::1]:49144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9E22C7F5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 08:56:54 +0100 (CET)
+Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjdvF-0003AR-LF
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 02:48:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49604)
+	id 1kje3J-0005iJ-4K
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 02:56:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1kjdsZ-00025c-UB; Mon, 30 Nov 2020 02:45:47 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1kjdsY-0008Tn-A6; Mon, 30 Nov 2020 02:45:47 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3AB04AC6A;
- Mon, 30 Nov 2020 07:45:44 +0000 (UTC)
-Subject: Re: [PATCH 6/8] hvf: Use OS provided vcpu kick function
-To: Alexander Graf <agraf@csgraf.de>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20201126215017.41156-1-agraf@csgraf.de>
- <20201126215017.41156-7-agraf@csgraf.de>
- <20201126221808.GU2271382@habkost.net>
- <2281f481-d64a-1750-0bd2-e7f52b26da51@csgraf.de>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <b7e7172c-f540-cc2a-80ea-c6a338cafe01@suse.de>
-Date: Mon, 30 Nov 2020 08:45:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1kje1W-0005Bm-4r
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 02:55:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23363)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1kje1T-000365-EJ
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 02:55:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606722896;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cfYEN4na3C3FMqwMo6LNjQ8k4ZCO0qa7qNB5nkxkM6o=;
+ b=XEl7iqI3DAeA8AKUnM4dGpQ+oBDQzvSUExnupTNieRh/8JSJhihdjqSnEZkmOzYsPdOiPf
+ tN2IG2w04FGFNJ8eGeMDYbfZFWQfbpqZDVOBsWkSA9fUuth0uyWI7kCAShDXqE4k4K7xZa
+ 5MFex9szYZ6VUJLKUOLgkLgaKrjvlAw=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-uO27YCBVP_OjUdJv2xdGPw-1; Mon, 30 Nov 2020 02:54:54 -0500
+X-MC-Unique: uO27YCBVP_OjUdJv2xdGPw-1
+Received: by mail-qk1-f199.google.com with SMTP id w189so8974984qkd.6
+ for <qemu-devel@nongnu.org>; Sun, 29 Nov 2020 23:54:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cfYEN4na3C3FMqwMo6LNjQ8k4ZCO0qa7qNB5nkxkM6o=;
+ b=MxSEtbvqhBn5YVrvrkw5GdX0bNqXSEnyFcWbBRF0yg0/Mg8ngZJHup7ZHiN0kSS3b/
+ XqyPxSq9z7B4oTcVtBu0xdg9DfXhSK3wIdShpz/3OwNkbzIJ3xEK2cGQrObKGgwTZmoK
+ HQJZ5fbellVyC01sjAXvf/T0LczPpOcIzDxBPZwaKHEAEcb1JtVei+Tg7UjNKvV/+CxH
+ UiTkcok5Ouq0N0HzdnElBslbyGZh7urzSISzvN+fLirk93Bo+qW82m8qgtdbyTGh/yau
+ KhJZJ8yr1PQ1ku0Ar6FIeNzE5jvzAKpGuzL6eGcsWqoSjkEesv+vZMK2DlZ+Lf4ZCNEN
+ 2FKA==
+X-Gm-Message-State: AOAM531GOClL5JnmSG/uv/Cq7OlMfi+xAu5p4MKj83kf85sKL7xxB5MP
+ nfxBvT9n50G+2+7nCEd+Q+vNmHvHkHSeMa6Pn0NB7Txz64Q54/0DmAuYeIJsaycSs8LJprNi0PH
+ uxWWtI4wSMFi0cEm+s+Eyo5qguk0N46I=
+X-Received: by 2002:a05:620a:132d:: with SMTP id
+ p13mr21768042qkj.233.1606722894181; 
+ Sun, 29 Nov 2020 23:54:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyuzkTzTp2p3vGrFooseaaNhC8uI+tyCQrxfu6y0WFvPSKipLD0ddM5+y6Pgg0Pf6Qwpznddv7mfYMwakFsfAA=
+X-Received: by 2002:a05:620a:132d:: with SMTP id
+ p13mr21768001qkj.233.1606722893979; 
+ Sun, 29 Nov 2020 23:54:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <2281f481-d64a-1750-0bd2-e7f52b26da51@csgraf.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+References: <20201120185105.279030-1-eperezma@redhat.com>
+ <20201120185105.279030-24-eperezma@redhat.com>
+ <20201127152901.cbfu7rmewbxventr@steredhat>
+In-Reply-To: <20201127152901.cbfu7rmewbxventr@steredhat>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 30 Nov 2020 08:54:18 +0100
+Message-ID: <CAJaqyWe+u+ZPSeMr7ZLHYGbqRhH=YZxE8zrMamTQFxrSLgb3sA@mail.gmail.com>
+Subject: Re: [RFC PATCH 23/27] vhost: unmap qemu's shadow virtqueues on sw
+ live migration
+To: Stefano Garzarella <sgarzare@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,71 +94,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: kvm list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+ Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
+ Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
+ Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
+ Alex Barba <alex.barba@broadcom.com>,
+ Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
+ Rob Miller <rob.miller@broadcom.com>, Howard Cai <howard.cai@gmail.com>,
+ Parav Pandit <parav@mellanox.com>, vm <vmireyno@marvell.com>,
+ Salil Mehta <mehta.salil.lnk@gmail.com>,
+ Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jim Harford <jim.harford@broadcom.com>,
+ Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
+ Max Gurtovoy <maxgu14@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/30/20 3:42 AM, Alexander Graf wrote:
-> 
-> On 26.11.20 23:18, Eduardo Habkost wrote:
->> On Thu, Nov 26, 2020 at 10:50:15PM +0100, Alexander Graf wrote:
->>> When kicking another vCPU, we get an OS function that explicitly does that for us
->>> on Apple Silicon. That works better than the current signaling logic, let's make
->>> use of it there.
->>>
->>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
->>> ---
->>>   accel/hvf/hvf-cpus.c | 12 ++++++++++++
->>>   1 file changed, 12 insertions(+)
->>>
->>> diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
->>> index b9f674478d..74a272d2e8 100644
->>> --- a/accel/hvf/hvf-cpus.c
->>> +++ b/accel/hvf/hvf-cpus.c
->>> @@ -418,8 +418,20 @@ static void hvf_start_vcpu_thread(CPUState *cpu)
->>>                          cpu, QEMU_THREAD_JOINABLE);
->>>   }
->>>   
->>> +#ifdef __aarch64__
->>> +static void hvf_kick_vcpu_thread(CPUState *cpu)
->>> +{
->>> +    if (!qemu_cpu_is_self(cpu)) {
->>> +        hv_vcpus_exit(&cpu->hvf_fd, 1);
->>> +    }
->>> +}
->>> +#endif
->>> +
->>>   static const CpusAccel hvf_cpus = {
->>>       .create_vcpu_thread = hvf_start_vcpu_thread,
->>> +#ifdef __aarch64__
->>> +    .kick_vcpu_thread = hvf_kick_vcpu_thread,
->>> +#endif
->> Interesting.  We have considered the possibility of adding
->> arch-specific TYPE_ACCEL subclasses when discussing Claudio's,
->> series.  Here we have another arch-specific hack that could be
->> avoided if we had a TYPE_ARM_HVF_ACCEL QOM class.
-> 
-> 
-> I don't think that's necessary in this case. I don't see how you could 
-> ever have aarch64 and x86 HVF backends compiled into the same binary. 
-> The header files even have a lot of #ifdef's.
-> 
-> Either way, I've changed it to a weak function in v2. That way it's a 
-> bit easier to read.
-> 
-> 
-> Alex
-> 
-> 
+On Fri, Nov 27, 2020 at 4:29 PM Stefano Garzarella <sgarzare@redhat.com> wr=
+ote:
+>
+> On Fri, Nov 20, 2020 at 07:51:01PM +0100, Eugenio P=C3=83=C2=A9rez wrote:
+> >Since vhost does not need to access it, it has no sense to keep it
+> >mapped.
+> >
+> >Signed-off-by: Eugenio P=C3=83=C2=A9rez <eperezma@redhat.com>
+> >---
+> > hw/virtio/vhost.c | 1 +
+> > 1 file changed, 1 insertion(+)
+> >
+> >diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> >index f640d4edf0..eebfac4455 100644
+> >--- a/hw/virtio/vhost.c
+> >+++ b/hw/virtio/vhost.c
+> >@@ -1124,6 +1124,7 @@ static int vhost_sw_live_migration_start(struct vh=
+ost_dev *dev)
+> >
+> >         dev->sw_lm_shadow_vq[idx] =3D vhost_sw_lm_shadow_vq(dev, idx);
+> >         event_notifier_set_handler(&vq->masked_notifier, vhost_handle_c=
+all);
+> >+        vhost_virtqueue_memory_unmap(dev, &dev->vqs[idx], true);
+>
+> IIUC vhost_virtqueue_memory_unmap() is already called at the end of
+> vhost_virtqueue_stop(), so we can skip this call, right?
+>
 
-Ciao Alex!
+You are totally right Stefano, thanks for the catch!
 
-you're in the news, congrats for your hack!
+> >
+> >         vhost_vring_write_addr(dev->sw_lm_shadow_vq[idx], &addr);
+> >         r =3D dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
+> >-- 2.18.4
+> >
+>
 
-Ciao,
-
-Claudio
 
