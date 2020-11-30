@@ -2,80 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C397C2C8CD9
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 19:32:28 +0100 (CET)
-Received: from localhost ([::1]:38768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E74C2C8CD8
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 19:32:22 +0100 (CET)
+Received: from localhost ([::1]:38554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjnyN-0005cV-Ji
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 13:32:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33290)
+	id 1kjnyH-0005XF-FE
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 13:32:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kjntF-0008V5-Dc
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:27:09 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35383)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kjntD-0002LS-Qi
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:27:09 -0500
-Received: by mail-oi1-x243.google.com with SMTP id c80so15232490oib.2
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 10:27:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=aVmiK7TorvfAu1km5yKcUebNSfkzuShuKyPh1NbvKwc=;
- b=S82MQYDJVOJW9x8AuED6fSotwyQLzcMVOwcTm7ySiIkgLAwf2+5/wVltcCUgPA6lG6
- VQG+7bg1PAOVV5+QVXbNO5twiE49/dFlEsHWVw42qI3O0TZnhhc8YHqiV3YxfHKMB4Xd
- kgbHlJaGIcb/92w4UViRJFWqOYprHB+PtjaQ0BOyCcmjX9+LK2jJfiptRU6r/rQLTrDo
- 36QhNBZdIMKerLd0wQ3iy6g2B1ZvRVMxhJDwfwK2A7azIMGfPEuTm1UlvlFl+X+YzzkE
- 1rm48o/xX2nDTUvBw/SxhBp8X/K4XbJMt7MQr2zQdqvIs+og0m9O2Ge0K0RSOOs/bMRf
- 06gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=aVmiK7TorvfAu1km5yKcUebNSfkzuShuKyPh1NbvKwc=;
- b=gHmLMZxzvtslfa7SZk+MAuE9GRhmyP2J/vPJ7uqwlkntDxBsZZIAyOIrtyhvnvDd7Q
- TXz4WqBxTnlAH4a4RanY8EUdTeFeEVpCPYxPKv8I7ofpoS+WQ0RQSPr+lyIQqIkdaKUe
- NjRnwGl3wJwUVgBaEjyotv4FK6mINYgqty6RBsauESysXdOV8/7uKzEq3YdWOI9Po6x8
- ku7XRJMAZfkdC83ZG4nJ/q5OkQWWAA7yoUHR/7SIBKpl5QThUyuvPwhDEo6TvmQrfVdz
- y28TbgTNz7UuBoi6ESdFwyTTrm8L1acvrH9Je4Z2sGF5QEoWFpDUXEYDQmw5tnbYPGqa
- WYkg==
-X-Gm-Message-State: AOAM530zQpynnhzLhynSEHZLPCUB6LiVjuiNpcXlvsosQGeZHKXcRJdL
- D0rDSX1SSAojJfBUi6X5paISgg==
-X-Google-Smtp-Source: ABdhPJx35XfmQ9a5vAe+IluaFKd4rJMZ59HzRJDUKh2SzNneZ8PeIFFdbSMv1mDfxBHcrx6eKZ/0cA==
-X-Received: by 2002:aca:d490:: with SMTP id l138mr125899oig.102.1606760826670; 
- Mon, 30 Nov 2020 10:27:06 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id y18sm10102638ooj.20.2020.11.30.10.27.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Nov 2020 10:27:06 -0800 (PST)
-Subject: Re: [PATCH 4/4] elf_ops.h: Be more verbose with ROM blob names
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201129203923.10622-1-peter.maydell@linaro.org>
- <20201129203923.10622-5-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <66affa41-3c09-ca97-7619-7d9f45027224@linaro.org>
-Date: Mon, 30 Nov 2020 12:27:03 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <lkml@metux.net>) id 1kjnwY-0004FY-PZ
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:30:34 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:55581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lkml@metux.net>) id 1kjnwW-0002hV-Nw
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:30:34 -0500
+Received: from [192.168.1.155] ([95.115.99.253]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MjPYI-1kMFVU43FS-00kyh3 for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020
+ 19:30:31 +0100
+Subject: Re: [PATCH] python 3.5 compatibility
+To: qemu-devel@nongnu.org
+References: <20201127183619.8958-1-info@metux.net>
+ <20201130094454.GA5078@merkur.fritz.box>
+From: "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <a46b6a9e-cb72-68e8-c3f9-ef14a83fe1b9@metux.net>
+Date: Mon, 30 Nov 2020 19:30:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201129203923.10622-5-peter.maydell@linaro.org>
+In-Reply-To: <20201130094454.GA5078@merkur.fritz.box>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Wyh94jG4PRxTGeR2moDpqypYw55BBv0EwQ5CZQqIJzsp4VQStu3
+ mlG7FDKGOa+t9rPcjPdtRR3ASbhnWJt7EZZzZDZQ7hLTLyEUc/Kv2QDHQYzSOhP9RNz/g8L
+ hdIMYan+8QilkRC8LlMLC8nObF+WoU8admgAQhMVcMhBz1ZvktsKPQVZQAgq39YR4+2Ai9j
+ ZvSJd2PfyMkaTzSgiFNLA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UzP7S2o4Azg=:k3jD9+xf8j0KvcuLxTfDaT
+ wyLhHBLWfDXjYgWbuSWIANRKl/Y/UUFS6J+ZgahJu7655wOJwN32wcCs0weg9sOg98gUmuJSb
+ AnBBtAje3BmmmDyHEE2daV089GSQ8jlh7+5W3cGEXd7v7dtw10sf0vOL7cY2NqxbTXUeaVBxw
+ KsqoL9gk2phnLriVBDgLFZDkpXaU3tQwG9VKroLlrowwVrckD8NdojJbmdP8DV691ukXjTrsj
+ kKA2Y2SwAQmz9tUprK8pAyvJde3fzaeFbhSWvgjumL7RLjVgScjfM3uWO6BeuMtX33woNhgWf
+ ojybU1APAZmhK2JYmYb1ATQVGdDVqTmobIMsRyo1iF+VTa0IiV/grMqz4Gswdl5tDX5xgMDY/
+ E0tUmK6fzJ6m72UfyOVQNHYz/1kzTdVdos9tWyxpBKaZoOnXFerRXdNNR8IzL
+Received-SPF: none client-ip=212.227.126.130; envelope-from=lkml@metux.net;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,22 +66,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/29/20 2:39 PM, Peter Maydell wrote:
-> Instead of making the ROM blob name something like:
->   phdr #0: /home/petmay01/linaro/qemu-misc-tests/ldmia-fault.axf
-> make it a little more self-explanatory for people who don't know
-> ELF format details:
->   /home/petmay01/linaro/qemu-misc-tests/ldmia-fault.axf ELF program header segment 0
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
+On 30.11.20 10:44, Kevin Wolf wrote:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi,
 
-r~
+> While type hints are valuable documentation, they are more than just
+> that. They help to find and prevent avoidable bugs in the code. We are
+> actively in the process of adding them to everything in the QAPI
+> generator to improve maintainability rather than removing them.
 
+IOW: I'll have to do lots of backporting work, just to keep it running :(
+
+
+--mtx
+
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
 
