@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923CE2C7CC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:38:09 +0100 (CET)
-Received: from localhost ([::1]:44984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 486652C7CCF
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:40:22 +0100 (CET)
+Received: from localhost ([::1]:53426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjZ4q-0002ZI-01
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:38:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35818)
+	id 1kjZ6z-0005zY-9i
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:40:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2Y-0000yE-PV
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:46 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57102)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2Z-0000yL-JH
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:47 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2W-0004lZ-57
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:46 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2W-0004la-5H
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:47 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 58BE3AC75;
+ by mx2.suse.de (Postfix) with ESMTP id 587D5AC65;
  Mon, 30 Nov 2020 02:35:42 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
@@ -29,10 +29,12 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v7 00/22] i386 cleanup
-Date: Mon, 30 Nov 2020 03:35:13 +0100
-Message-Id: <20201130023535.16689-1-cfontana@suse.de>
+Subject: [RFC v7 01/22] i386: move kvm accel files into kvm/
+Date: Mon, 30 Nov 2020 03:35:14 +0100
+Message-Id: <20201130023535.16689-2-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201130023535.16689-1-cfontana@suse.de>
+References: <20201130023535.16689-1-cfontana@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
@@ -66,339 +68,318 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all, this is v7 of the i386 cleanup,
-with the most interesting patches at the end.
-
-v6 -> v7: integrate TCGCpuOperations, refactored cpu_exec_realizefn
-
-* integrate TCGCpuOperations (Eduardo)
-
-Taken some refactoring from Eduardo for Tcg-only operations on
-CPUClass.
-
-* refactored cpu_exec_realizefn
-
-The other main change is a refactoring of cpu_exec_realizefn,
-directly linked to the effort of making many cpu_exec operations
-TCG-only (Eduardo series above):
-
-cpu_exec_realizefn is actually a TCG-only thing, with the
-exception of a couple things that can be done in base cpu code.
-
-This changes all targets realizefn, so I guess I have to Cc:
-the Multiverse? (Universe was already CCed for all accelerators).
-
-
-v5 -> v6: remove MODULE_INIT_ACCEL_CPU
-
-
-instead, use a call to accel_init_interfaces().
-
-* The class lookups are now general and performed in accel/
-
-  new AccelCPUClass for new archs are supported as new
-  ones appear in the class hierarchy, no need for stubs.
-
-* Split the code a bit better
-
-
-v4 -> v5: centralized and simplified initializations
-
-I put in Cc: Emilio G. Cota, specifically because in patch 8
-I (re)moved for user-mode the call to tcg_regions_init().
-
-The call happens now inside the tcg AccelClass machine_init,
-(so earlier). This seems to work fine, but thought to get the
-author opinion on this.
-
-Rebased on "tcg-cpus: split into 3 tcg variants" series
-(queued by Richard), to avoid some code churn:
-
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04356.html
-
-
-* Extended AccelClass to user-mode.
-
-user-mode now does not call tcg_exec_init directly,
-instead it uses the tcg accel class, and its init_machine method.
-
-Since user-mode does not define or use a machine state,
-the machine is just passed as NULL.
-
-The immediate advantage is that now we can call current_accel()
-from both user mode and softmmu, so we can work out the correct
-class to use for accelerator initializations.
-
-* QOMification of CpusAccelOps
-
-simple QOMification of CpusAccelOps abstract class.
-
-* Centralized all accel_cpu_init, so only one per cpu-arch,
-  plus one for all accels will remain.
-
-  So we can expect accel_cpu_init() to be limited to:
-  
-  softmmu/cpus.c - initializes the chosen softmmu accel ops for the cpus module.
-  target/ARCH/cpu.c - initializes the chosen arch-specific cpu accelerator.
-  
-These changes are meant to address concerns/issues (Paolo):
-
-1) the use of if (tcg_enabled()) and similar in the module_init call path
-
-2) the excessive number of accel_cpu_init() to hunt down in the codebase.
-
-
-* Fixed wrong use of host_cpu_class_init (Eduardo)
-
-
-v3 -> v4: QOMification of X86CPUAccelClass
-
-
-In this version I basically QOMified X86CPUAccel, taking the
-suggestions from Eduardo as the starting point,
-but stopping just short of making it an actual QOM interface,
-using a plain abstract class, and then subclasses for the
-actual objects.
-
-Initialization is still using the existing qemu initialization
-framework (module_call_init), which is I still think is better
-than the alternatives proposed, in the current state.
-
-Possibly some improvements could be developed in the future here.
-In this case, effort should be put in keeping things extendible,
-in order not to be blocked once accelerators also become modules.
-
-Motivation and higher level steps:
-
-https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
-
-Looking forward to your comments on this proposal,
-
-Ciao,
-
-Claudio
-
-Claudio Fontana (13):
-  i386: move kvm accel files into kvm/
-  i386: move whpx accel files into whpx/
-  i386: move hax accel files into hax/
-  i386: hvf: remove stale MAINTAINERS entry for old hvf stubs
-  i386: move TCG accel files into tcg/
-  i386: move cpu dump out of helper.c into cpu-dump.c
-  i386: move TCG cpu class initialization out of helper.c
-  accel: extend AccelState and AccelClass to user-mode
-  accel: replace struct CpusAccel with AccelOpsClass
-  accel: introduce AccelCPUClass extending CPUClass
-  i386: split cpu accelerators from cpu.c, using AccelCPUClass
-  cpu-exec: refactor realizefn for all targets
-  cpu: introduce cpu_accel_instance_init
-
-Eduardo Habkost (9):
-  tcg: cpu_exec_{enter,exit} helpers
-  tcg: make CPUClass.cpu_exec_* optional
-  tcg: Make CPUClass.debug_excp_handler optional
-  cpu: Remove unnecessary noop methods
-  cpu: Introduce TCGCpuOperations struct
-  cpu: Move synchronize_from_tb() to tcg_ops
-  cpu: Move cpu_exec_* to tcg_ops
-  cpu: Move tlb_fill to tcg_ops
-  cpu: Move debug_excp_handler to tcg_ops
-
- MAINTAINERS                           |  19 +-
- accel/accel-common.c                  | 105 +++++
- accel/{accel.c => accel-softmmu.c}    |  60 +--
- accel/accel-softmmu.h                 |  15 +
- accel/accel-user.c                    |  24 ++
- accel/kvm/kvm-all.c                   |   2 -
- accel/kvm/kvm-cpus.c                  |  26 +-
- accel/kvm/kvm-cpus.h                  |   2 -
- accel/meson.build                     |   4 +-
- accel/qtest/qtest.c                   |  25 +-
- accel/tcg/cpu-exec.c                  |  86 +++-
- accel/tcg/cputlb.c                    |   6 +-
- accel/tcg/meson.build                 |   2 +-
- accel/tcg/tcg-all.c                   |  11 +-
- accel/tcg/tcg-cpus-icount.c           |  11 +-
- accel/tcg/tcg-cpus-icount.h           |   2 +
- accel/tcg/tcg-cpus-mttcg.c            |  12 +-
- accel/tcg/tcg-cpus-mttcg.h            |  19 +
- accel/tcg/tcg-cpus-rr.c               |   7 -
- accel/tcg/tcg-cpus.c                  |  43 ++
- accel/tcg/tcg-cpus.h                  |   4 -
- accel/tcg/user-exec.c                 |   6 +-
- accel/xen/xen-all.c                   |  24 +-
- bsd-user/main.c                       |  12 +-
- cpu.c                                 |  53 +--
- hw/core/cpu.c                         |  44 ++-
- hw/i386/fw_cfg.c                      |   2 +-
- hw/i386/intel_iommu.c                 |   2 +-
- hw/i386/kvm/apic.c                    |   2 +-
- hw/i386/kvm/clock.c                   |   2 +-
- hw/i386/microvm.c                     |   2 +-
- hw/i386/pc.c                          |   2 +-
- hw/i386/pc_piix.c                     |   1 +
- hw/i386/x86.c                         |   2 +-
- include/exec/cpu-all.h                |   4 +
- include/hw/boards.h                   |   2 +-
- include/hw/core/accel-cpu.h           |  25 ++
- include/hw/core/cpu.h                 |  65 ++--
- include/hw/core/tcg-cpu-ops.h         |  56 +++
- include/{sysemu => qemu}/accel.h      |  16 +-
- include/sysemu/accel-ops.h            |  45 +++
- include/sysemu/cpus.h                 |  26 +-
- include/sysemu/hvf.h                  |   2 +-
- include/sysemu/kvm.h                  |   2 +-
- include/sysemu/kvm_int.h              |   2 +-
- linux-user/main.c                     |   8 +-
- meson.build                           |   1 +
- softmmu/cpus.c                        |  12 +-
- softmmu/memory.c                      |   2 +-
- softmmu/qtest.c                       |   2 +-
- softmmu/vl.c                          |  12 +-
- target/alpha/cpu.c                    |  12 +-
- target/arm/cpu.c                      |  16 +-
- target/arm/cpu64.c                    |   2 +-
- target/arm/cpu_tcg.c                  |   2 +-
- target/avr/cpu.c                      |  13 +-
- target/cris/cpu.c                     |  20 +-
- target/hppa/cpu.c                     |  11 +-
- target/i386/cpu-dump.c                | 538 +++++++++++++++++++++++++
- target/i386/cpu.c                     | 418 ++------------------
- target/i386/cpu.h                     | 120 +-----
- target/i386/{ => hax}/hax-all.c       |   5 +-
- target/i386/{ => hax}/hax-cpus.c      |  29 +-
- target/i386/{ => hax}/hax-cpus.h      |   2 -
- target/i386/{ => hax}/hax-i386.h      |   6 +-
- target/i386/{ => hax}/hax-interface.h |   0
- target/i386/{ => hax}/hax-mem.c       |   0
- target/i386/{ => hax}/hax-posix.c     |   0
- target/i386/{ => hax}/hax-posix.h     |   0
- target/i386/{ => hax}/hax-windows.c   |   0
- target/i386/{ => hax}/hax-windows.h   |   0
- target/i386/hax/meson.build           |   7 +
- target/i386/helper-tcg.h              | 112 ++++++
- target/i386/helper.c                  | 539 +-------------------------
- target/i386/host-cpu.c                | 198 ++++++++++
- target/i386/host-cpu.h                |  19 +
- target/i386/hvf/cpu.c                 |  65 ++++
- target/i386/hvf/hvf-cpus.c            |  27 +-
- target/i386/hvf/hvf-cpus.h            |   2 -
- target/i386/hvf/hvf-i386.h            |   2 +-
- target/i386/hvf/hvf.c                 |   3 +-
- target/i386/hvf/meson.build           |   1 +
- target/i386/hvf/x86_task.c            |   2 +-
- target/i386/kvm/cpu.c                 | 148 +++++++
- target/i386/{ => kvm}/hyperv-proto.h  |   0
- target/i386/{ => kvm}/hyperv-stub.c   |   0
- target/i386/{ => kvm}/hyperv.c        |   0
- target/i386/{ => kvm}/hyperv.h        |   0
- target/i386/kvm/kvm-cpu.h             |  41 ++
- target/i386/{ => kvm}/kvm-stub.c      |   0
- target/i386/{ => kvm}/kvm.c           |   3 +-
- target/i386/{ => kvm}/kvm_i386.h      |   0
- target/i386/kvm/meson.build           |   8 +
- target/i386/kvm/trace-events          |   7 +
- target/i386/kvm/trace.h               |   1 +
- target/i386/machine.c                 |   4 +-
- target/i386/meson.build               |  39 +-
- target/i386/{ => tcg}/bpt_helper.c    |   1 +
- target/i386/{ => tcg}/cc_helper.c     |   1 +
- target/i386/tcg/cpu.c                 | 173 +++++++++
- target/i386/{ => tcg}/excp_helper.c   |   1 +
- target/i386/{ => tcg}/fpu_helper.c    |  33 +-
- target/i386/{ => tcg}/int_helper.c    |   1 +
- target/i386/{ => tcg}/mem_helper.c    |   1 +
- target/i386/tcg/meson.build           |  14 +
- target/i386/{ => tcg}/misc_helper.c   |   1 +
- target/i386/{ => tcg}/mpx_helper.c    |   1 +
- target/i386/{ => tcg}/seg_helper.c    |   1 +
- target/i386/{ => tcg}/smm_helper.c    |   2 +
- target/i386/{ => tcg}/svm_helper.c    |   1 +
- target/i386/{ => tcg}/tcg-stub.c      |   0
- target/i386/{ => tcg}/translate.c     |   1 +
- target/i386/trace-events              |   6 -
- target/i386/whpx/meson.build          |   4 +
- target/i386/{ => whpx}/whp-dispatch.h |   0
- target/i386/{ => whpx}/whpx-all.c     |   4 +-
- target/i386/{ => whpx}/whpx-cpus.c    |  29 +-
- target/i386/{ => whpx}/whpx-cpus.h    |   2 -
- target/lm32/cpu.c                     |  13 +-
- target/m68k/cpu.c                     |  10 +-
- target/microblaze/cpu.c               |  17 +-
- target/mips/cpu.c                     |  12 +-
- target/moxie/cpu.c                    |  10 +-
- target/nios2/cpu.c                    |  12 +-
- target/openrisc/cpu.c                 |  12 +-
- target/ppc/translate_init.c.inc       |  17 +-
- target/riscv/cpu.c                    |  18 +-
- target/rx/cpu.c                       |  18 +-
- target/s390x/cpu.c                    |  13 +-
- target/sh4/cpu.c                      |  12 +-
- target/sparc/cpu.c                    |  14 +-
- target/tilegx/cpu.c                   |  10 +-
- target/tricore/cpu.c                  |  10 +-
- target/unicore32/cpu.c                |  12 +-
- target/xtensa/cpu.c                   |  12 +-
- 135 files changed, 2302 insertions(+), 1540 deletions(-)
- create mode 100644 accel/accel-common.c
- rename accel/{accel.c => accel-softmmu.c} (64%)
- create mode 100644 accel/accel-softmmu.h
- create mode 100644 accel/accel-user.c
- create mode 100644 accel/tcg/tcg-cpus-mttcg.h
- create mode 100644 include/hw/core/accel-cpu.h
- create mode 100644 include/hw/core/tcg-cpu-ops.h
- rename include/{sysemu => qemu}/accel.h (94%)
- create mode 100644 include/sysemu/accel-ops.h
- create mode 100644 target/i386/cpu-dump.c
- rename target/i386/{ => hax}/hax-all.c (99%)
- rename target/i386/{ => hax}/hax-cpus.c (71%)
- rename target/i386/{ => hax}/hax-cpus.h (95%)
- rename target/i386/{ => hax}/hax-i386.h (95%)
- rename target/i386/{ => hax}/hax-interface.h (100%)
- rename target/i386/{ => hax}/hax-mem.c (100%)
- rename target/i386/{ => hax}/hax-posix.c (100%)
- rename target/i386/{ => hax}/hax-posix.h (100%)
- rename target/i386/{ => hax}/hax-windows.c (100%)
- rename target/i386/{ => hax}/hax-windows.h (100%)
- create mode 100644 target/i386/hax/meson.build
- create mode 100644 target/i386/helper-tcg.h
- create mode 100644 target/i386/host-cpu.c
- create mode 100644 target/i386/host-cpu.h
- create mode 100644 target/i386/hvf/cpu.c
- create mode 100644 target/i386/kvm/cpu.c
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ MAINTAINERS                          | 2 +-
+ hw/i386/fw_cfg.c                     | 2 +-
+ hw/i386/intel_iommu.c                | 2 +-
+ hw/i386/kvm/apic.c                   | 2 +-
+ hw/i386/kvm/clock.c                  | 2 +-
+ hw/i386/microvm.c                    | 2 +-
+ hw/i386/pc.c                         | 2 +-
+ hw/i386/x86.c                        | 2 +-
+ meson.build                          | 1 +
+ target/i386/cpu.c                    | 2 +-
+ target/i386/cpu.h                    | 2 +-
+ target/i386/helper.c                 | 2 +-
+ target/i386/{ => kvm}/hyperv-proto.h | 0
+ target/i386/{ => kvm}/hyperv-stub.c  | 0
+ target/i386/{ => kvm}/hyperv.c       | 0
+ target/i386/{ => kvm}/hyperv.h       | 0
+ target/i386/{ => kvm}/kvm-stub.c     | 0
+ target/i386/{ => kvm}/kvm.c          | 0
+ target/i386/{ => kvm}/kvm_i386.h     | 0
+ target/i386/kvm/meson.build          | 3 +++
+ target/i386/kvm/trace-events         | 7 +++++++
+ target/i386/kvm/trace.h              | 1 +
+ target/i386/machine.c                | 4 ++--
+ target/i386/meson.build              | 4 +---
+ target/i386/trace-events             | 6 ------
+ 25 files changed, 26 insertions(+), 22 deletions(-)
  rename target/i386/{ => kvm}/hyperv-proto.h (100%)
  rename target/i386/{ => kvm}/hyperv-stub.c (100%)
  rename target/i386/{ => kvm}/hyperv.c (100%)
  rename target/i386/{ => kvm}/hyperv.h (100%)
- create mode 100644 target/i386/kvm/kvm-cpu.h
  rename target/i386/{ => kvm}/kvm-stub.c (100%)
- rename target/i386/{ => kvm}/kvm.c (99%)
+ rename target/i386/{ => kvm}/kvm.c (100%)
  rename target/i386/{ => kvm}/kvm_i386.h (100%)
  create mode 100644 target/i386/kvm/meson.build
  create mode 100644 target/i386/kvm/trace-events
  create mode 100644 target/i386/kvm/trace.h
- rename target/i386/{ => tcg}/bpt_helper.c (99%)
- rename target/i386/{ => tcg}/cc_helper.c (99%)
- create mode 100644 target/i386/tcg/cpu.c
- rename target/i386/{ => tcg}/excp_helper.c (99%)
- rename target/i386/{ => tcg}/fpu_helper.c (99%)
- rename target/i386/{ => tcg}/int_helper.c (99%)
- rename target/i386/{ => tcg}/mem_helper.c (99%)
- create mode 100644 target/i386/tcg/meson.build
- rename target/i386/{ => tcg}/misc_helper.c (99%)
- rename target/i386/{ => tcg}/mpx_helper.c (99%)
- rename target/i386/{ => tcg}/seg_helper.c (99%)
- rename target/i386/{ => tcg}/smm_helper.c (99%)
- rename target/i386/{ => tcg}/svm_helper.c (99%)
- rename target/i386/{ => tcg}/tcg-stub.c (100%)
- rename target/i386/{ => tcg}/translate.c (99%)
- create mode 100644 target/i386/whpx/meson.build
- rename target/i386/{ => whpx}/whp-dispatch.h (100%)
- rename target/i386/{ => whpx}/whpx-all.c (99%)
- rename target/i386/{ => whpx}/whpx-cpus.c (73%)
- rename target/i386/{ => whpx}/whpx-cpus.h (96%)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 68bc160f41..5b3eced829 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -425,7 +425,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
+ M: Marcelo Tosatti <mtosatti@redhat.com>
+ L: kvm@vger.kernel.org
+ S: Supported
+-F: target/i386/kvm.c
++F: target/i386/kvm/
+ F: scripts/kvm/vmxcap
+ 
+ Guest CPU Cores (other accelerators)
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index e06579490c..fae1bb380f 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -21,7 +21,7 @@
+ #include "hw/timer/hpet.h"
+ #include "hw/nvram/fw_cfg.h"
+ #include "e820_memory_layout.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include CONFIG_DEVICES
+ 
+ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 70ac837733..361b6cd238 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -37,7 +37,7 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/i386/apic_internal.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
+ 
+diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
+index dd29906061..07bebc1282 100644
+--- a/hw/i386/kvm/apic.c
++++ b/hw/i386/kvm/apic.c
+@@ -17,7 +17,7 @@
+ #include "hw/pci/msi.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/kvm.h"
+-#include "target/i386/kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ 
+ static inline void kvm_apic_set_reg(struct kvm_lapic_state *kapic,
+                                     int reg_id, uint32_t val)
+diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+index 24fe5091b6..2d8a366369 100644
+--- a/hw/i386/kvm/clock.c
++++ b/hw/i386/kvm/clock.c
+@@ -20,7 +20,7 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/hw_accel.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "migration/vmstate.h"
+ #include "hw/sysbus.h"
+ #include "hw/kvm/clock.h"
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 5428448b70..3ed6adff83 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -51,7 +51,7 @@
+ 
+ #include "cpu.h"
+ #include "elf.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "hw/xen/start_info.h"
+ 
+ #define MICROVM_QBOOT_FILENAME "qboot.rom"
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 17b514d1da..299aaba8e9 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -61,7 +61,7 @@
+ #include "sysemu/qtest.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "hw/xen/xen.h"
+ #include "hw/xen/start_info.h"
+ #include "ui/qemu-spice.h"
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 5944fc44ed..88d0c70e12 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -52,7 +52,7 @@
+ #include "elf.h"
+ #include "standard-headers/asm-x86/bootparam.h"
+ #include CONFIG_DEVICES
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ 
+ #define BIOS_FILENAME "bios.bin"
+ 
+diff --git a/meson.build b/meson.build
+index e3386196ba..198298e9d8 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1467,6 +1467,7 @@ trace_events_subdirs += [
+   'target/arm',
+   'target/hppa',
+   'target/i386',
++  'target/i386/kvm',
+   'target/mips',
+   'target/ppc',
+   'target/riscv',
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 5a8c96072e..b9bd249c8f 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -30,7 +30,7 @@
+ #include "sysemu/hvf.h"
+ #include "sysemu/cpus.h"
+ #include "sysemu/xen.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "sev_i386.h"
+ 
+ #include "qemu/error-report.h"
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 88e8586f8f..9ecda75aec 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -22,7 +22,7 @@
+ 
+ #include "sysemu/tcg.h"
+ #include "cpu-qom.h"
+-#include "hyperv-proto.h"
++#include "kvm/hyperv-proto.h"
+ #include "exec/cpu-defs.h"
+ #include "qapi/qapi-types-common.h"
+ 
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 034f46bcc2..a1b3367ab2 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -24,7 +24,7 @@
+ #include "qemu/qemu-print.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "sysemu/tcg.h"
+ #include "sysemu/hw_accel.h"
+diff --git a/target/i386/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
+similarity index 100%
+rename from target/i386/hyperv-proto.h
+rename to target/i386/kvm/hyperv-proto.h
+diff --git a/target/i386/hyperv-stub.c b/target/i386/kvm/hyperv-stub.c
+similarity index 100%
+rename from target/i386/hyperv-stub.c
+rename to target/i386/kvm/hyperv-stub.c
+diff --git a/target/i386/hyperv.c b/target/i386/kvm/hyperv.c
+similarity index 100%
+rename from target/i386/hyperv.c
+rename to target/i386/kvm/hyperv.c
+diff --git a/target/i386/hyperv.h b/target/i386/kvm/hyperv.h
+similarity index 100%
+rename from target/i386/hyperv.h
+rename to target/i386/kvm/hyperv.h
+diff --git a/target/i386/kvm-stub.c b/target/i386/kvm/kvm-stub.c
+similarity index 100%
+rename from target/i386/kvm-stub.c
+rename to target/i386/kvm/kvm-stub.c
+diff --git a/target/i386/kvm.c b/target/i386/kvm/kvm.c
+similarity index 100%
+rename from target/i386/kvm.c
+rename to target/i386/kvm/kvm.c
+diff --git a/target/i386/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+similarity index 100%
+rename from target/i386/kvm_i386.h
+rename to target/i386/kvm/kvm_i386.h
+diff --git a/target/i386/kvm/meson.build b/target/i386/kvm/meson.build
+new file mode 100644
+index 0000000000..1d66559187
+--- /dev/null
++++ b/target/i386/kvm/meson.build
+@@ -0,0 +1,3 @@
++i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
++i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
++i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
+diff --git a/target/i386/kvm/trace-events b/target/i386/kvm/trace-events
+new file mode 100644
+index 0000000000..b4e2d9e4ea
+--- /dev/null
++++ b/target/i386/kvm/trace-events
+@@ -0,0 +1,7 @@
++# See docs/devel/tracing.txt for syntax documentation.
++
++# kvm.c
++kvm_x86_fixup_msi_error(uint32_t gsi) "VT-d failed to remap interrupt for GSI %" PRIu32
++kvm_x86_add_msi_route(int virq) "Adding route entry for virq %d"
++kvm_x86_remove_msi_route(int virq) "Removing route entry for virq %d"
++kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
+diff --git a/target/i386/kvm/trace.h b/target/i386/kvm/trace.h
+new file mode 100644
+index 0000000000..46b75c6942
+--- /dev/null
++++ b/target/i386/kvm/trace.h
+@@ -0,0 +1 @@
++#include "trace/trace-target_i386_kvm.h"
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 233e46bb70..1614e8c2f8 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -3,9 +3,9 @@
+ #include "exec/exec-all.h"
+ #include "hw/isa/isa.h"
+ #include "migration/cpu.h"
+-#include "hyperv.h"
++#include "kvm/hyperv.h"
+ #include "hw/i386/x86.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ 
+ #include "sysemu/kvm.h"
+ #include "sysemu/tcg.h"
+diff --git a/target/i386/meson.build b/target/i386/meson.build
+index a1a02f3e99..0209542a8a 100644
+--- a/target/i386/meson.build
++++ b/target/i386/meson.build
+@@ -18,7 +18,6 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'smm_helper.c',
+   'svm_helper.c',
+   'translate.c'), if_false: files('tcg-stub.c'))
+-i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
+ i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
+ 
+ i386_softmmu_ss = ss.source_set()
+@@ -28,8 +27,6 @@ i386_softmmu_ss.add(files(
+   'machine.c',
+   'monitor.c',
+ ))
+-i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
+-i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
+ i386_softmmu_ss.add(when: 'CONFIG_WHPX', if_true: files(
+   'whpx-all.c',
+   'whpx-cpus.c',
+@@ -42,6 +39,7 @@ i386_softmmu_ss.add(when: 'CONFIG_HAX', if_true: files(
+ i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_POSIX'], if_true: files('hax-posix.c'))
+ i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_WIN32'], if_true: files('hax-windows.c'))
+ 
++subdir('kvm')
+ subdir('hvf')
+ 
+ target_arch += {'i386': i386_ss}
+diff --git a/target/i386/trace-events b/target/i386/trace-events
+index 789c700d4a..d166f9d5e0 100644
+--- a/target/i386/trace-events
++++ b/target/i386/trace-events
+@@ -1,11 +1,5 @@
+ # See docs/devel/tracing.txt for syntax documentation.
+ 
+-# kvm.c
+-kvm_x86_fixup_msi_error(uint32_t gsi) "VT-d failed to remap interrupt for GSI %" PRIu32
+-kvm_x86_add_msi_route(int virq) "Adding route entry for virq %d"
+-kvm_x86_remove_msi_route(int virq) "Removing route entry for virq %d"
+-kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
+-
+ # sev.c
+ kvm_sev_init(void) ""
+ kvm_memcrypt_register_region(void *addr, size_t len) "addr %p len 0x%zu"
 -- 
 2.26.2
 
