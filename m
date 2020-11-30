@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8260C2C8A6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 18:06:49 +0100 (CET)
-Received: from localhost ([::1]:38562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48312C8A7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 18:10:10 +0100 (CET)
+Received: from localhost ([::1]:48772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjmdU-0002n7-B2
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 12:06:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
+	id 1kjmgj-0007Pe-TW
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 12:10:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kjmaf-0000Ly-Lw
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:03:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35328)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kjmcJ-0002Ib-H7
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:05:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kjmad-0006i6-Tr
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:03:53 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kjmcE-00079x-Qr
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 12:05:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606755830;
+ s=mimecast20190719; t=1606755928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wD0Hkk7b/XHDyFhAXl4/KLBEJtVKcg5SVxciLCeL+kE=;
- b=FjqAaaiA905WtLV+AFJGKvtkWmEz15wdiQArIL1gaeynoS0dP0qwDtzhOCPCrVnFrZEEZE
- yVNb+lHCcF/7awWyuNNZgstiiD2w9AMd+9xLBhWFjduaPS1vz+KCgzgMAqg77xZWEp5lrs
- Vx9g3/3Yl3qxEhXBDex1GHp+qZ12OEI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-FHsoxYl6Nwas0bCCxmjraQ-1; Mon, 30 Nov 2020 12:03:43 -0500
-X-MC-Unique: FHsoxYl6Nwas0bCCxmjraQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68195100F36A;
- Mon, 30 Nov 2020 17:03:42 +0000 (UTC)
-Received: from w520.home (ovpn-112-10.phx2.redhat.com [10.3.112.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9E2E35D9C2;
- Mon, 30 Nov 2020 17:03:38 +0000 (UTC)
-Date: Mon, 30 Nov 2020 10:03:37 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Shenming Lu <lushenming@huawei.com>
-Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
- right place in VFIO migration
-Message-ID: <20201130100337.4afe8eb4@w520.home>
-In-Reply-To: <ed6c0920-8a26-fafe-01a6-3021c5a92adb@huawei.com>
-References: <20201114091731.157-1-lushenming@huawei.com>
- <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
- <20201119104127.5e243efa@w520.home>
- <a7be9306-f800-0323-293e-217e2e9f6015@huawei.com>
- <20201120150146.5e5693e9@w520.home>
- <09549a98-85a0-fe4e-59fc-fdb636a4a5cd@huawei.com>
- <20201123193336.GA32690@nvidia.com>
- <20201123144622.75a18812@w520.home>
- <ed6c0920-8a26-fafe-01a6-3021c5a92adb@huawei.com>
+ bh=nQhy2f38fWjOhYs01F+4NQE57ym/7dOWJLFt0Ooijjg=;
+ b=eR+MAPWnD4UyResNMvpoQLLTosFoW5aTEkNIBoOAeoW+y+cyAiYrTuthagY+7XNGR9zQs+
+ vafd2sUj4djc9wcUQuMHbPI6rH90sXu2hp/dtyKSONn/lAj2hBKuQJOrzjPV50PR8IMSKR
+ nq5taAN3QUAl3vCIsnIaZ6RWUYOqNVY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-519-f-4xs8x9OfC_vxBDhypfOQ-1; Mon, 30 Nov 2020 12:05:26 -0500
+X-MC-Unique: f-4xs8x9OfC_vxBDhypfOQ-1
+Received: by mail-wr1-f70.google.com with SMTP id 91so8543546wrk.17
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 09:05:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nQhy2f38fWjOhYs01F+4NQE57ym/7dOWJLFt0Ooijjg=;
+ b=QVQJ6stUYI/FSsKgyKDAXcmIY2SvsWSY8eoNyJzp62czlo1bZcdWfwaVjj5Sf4lBv+
+ wmbpDlBFN1n3fyaBZ3KFgPIhjtjYodyXmaJy/91/W3/Ks3zApC3gsKGB8KFs6+uQtgrJ
+ QBNHgOK4OJ1EoHUNCIHhUYSg0BX05UTQDaP5gC0n0QbZXaG1s7KNEryfC0ELL4gLkunq
+ FQfmBSveG8ivU4KU802INUW2HdW3W8h5UBjL22KJs6kExT2yBgByU6uspaF7z4reQxLG
+ 34MdAMAv68QqFpu1j1K29w9nvaQrUuIysffWVdOrvwNofVXug5qsGdakvAvNG/eikyT2
+ itrQ==
+X-Gm-Message-State: AOAM530EJukBzZOofzwDbi2R2ORY0FiqdBrIfwuCLbdSubQLZrCjvNri
+ a7R9rkBR27F+LQ6FqLFKOc4uKT09LAQCbjbTpvqKsomN1G+EyVhBFgZVqZZ/A2qTfFyuTWWQ1AF
+ vpzk7jSJOEv2DYOM=
+X-Received: by 2002:a05:600c:25c2:: with SMTP id
+ 2mr8289629wml.170.1606755924836; 
+ Mon, 30 Nov 2020 09:05:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwTrNdSq2L6pmhViwh09hGTIkjFA3JTGC/LcE4tnC8vs/3v+nlFpKhWyMDVdS2Gp/w2OZN1PA==
+X-Received: by 2002:a05:600c:25c2:: with SMTP id
+ 2mr8289609wml.170.1606755924573; 
+ Mon, 30 Nov 2020 09:05:24 -0800 (PST)
+Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id c81sm9257508wmd.6.2020.11.30.09.05.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Nov 2020 09:05:23 -0800 (PST)
+Subject: Re: [PATCH for-6.0 1/6] qapi: Add query-accel command
+To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+References: <20201116131011.26607-1-r.bolshakov@yadro.com>
+ <20201116131011.26607-2-r.bolshakov@yadro.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <39660a7e-7992-ebb0-a888-d3bd35cce97f@redhat.com>
+Date: Mon, 30 Nov 2020 18:05:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201116131011.26607-2-r.bolshakov@yadro.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=alex.williamson@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,93 +100,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Neo Jia <cjia@nvidia.com>, Marc Zyngier <maz@kernel.org>,
- Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Nov 2020 14:56:17 +0800
-Shenming Lu <lushenming@huawei.com> wrote:
-
-> Hi,
+On 11/16/20 2:10 PM, Roman Bolshakov wrote:
+> There's a problem for management applications to determine if certain
+> accelerators available. Generic QMP command should help with that.
 > 
-> After reading everyone's opinions, we have a rough idea for this issue.
-> 
-> One key point is whether it is necessary to setup the config space before
-> the device can accept further migration data. I think it is decided by
-> the vendor driver, so we can simply ask the vendor driver about it in
-> .save_setup, which could avoid a lot of unnecessary copies and settings.
-> Once we have known the need, we can iterate the config space (before)
-> along with the device migration data in .save_live_iterate and
-> .save_live_complete_precopy, and if not needed, we can only migrate the
-> config space in .save_state.
-> 
-> Another key point is that the interrupt enabling should be after the
-> restoring of the interrupt controller (might not only interrupts).
-> My solution is to add a subflag at the beginning of the config data
-> (right after VFIO_MIG_FLAG_DEV_CONFIG_STATE) to indicate the triggered
-> actions on the dst (such as whether to enable interrupts).
-> 
-> Below is it's workflow.
-> 
-> On the save path:
-> 	In vfio_save_setup():
-> 	Ask the vendor driver if it needs the config space setup before it
-> 	can accept further migration data.
+> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> ---
+>  monitor/qmp-cmds.c | 15 +++++++++++++++
+>  qapi/machine.json  | 19 +++++++++++++++++++
+>  2 files changed, 34 insertions(+)
+...
+> +##
+> +# @query-accel:
+> +#
+> +# Returns information about an accelerator
+> +#
+> +# Returns: @KvmInfo
+> +#
+> +# Since: 6.0.0
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "query-accel", "arguments": { "name": "kvm" } }
+> +# <- { "return": { "enabled": true, "present": true } }
 
-How does "ask the vendor driver" actually work?
+FWIW you can use 'qom-list-types' for that:
 
-> 		|
-> 	In vfio_save_iterate() (pre-copy):
-> 	If *needed*, save the config space which would be setup on the dst
-> 	before the migration data, but send with a subflag to instruct not
-> 	to (such as) enable interrupts.
+{ "execute": "qom-list-types", "arguments": { "implements": "accel" } }
+{
+    "return": [
+        {
+            "name": "qtest-accel",
+            "parent": "accel"
+        },
+        {
+            "name": "tcg-accel",
+            "parent": "accel"
+        },
+        {
+            "name": "xen-accel",
+            "parent": "accel"
+        },
+        {
+            "name": "kvm-accel",
+            "parent": "accel"
+        },
+        {
+            "name": "accel",
+            "parent": "object"
+        }
+    ]
+}
 
-If not for triggering things like MSI/X configuration, isn't config
-space almost entirely virtual?  What visibility does the vendor driver
-have to the VM machine dependencies regarding device interrupt versus
-interrupt controller migration?
-
-> 		|
-> 	In vfio_save_complete_precopy() (stop-and-copy, iterable process):
-> 	The same as that in vfio_save_iterate().
-> 		|
-> 	In .save_state (stop-and-copy, non-iterable process):
-> 	If *needed*, only send a subflag to instruct to enable interrupts.
-> 	If *not needed*, save the config space and setup everything on the dst.
-
-Again, how does the vendor driver have visibility to know when the VM
-machine can enable interrupts?
-
-> 
-> Besides the above idea, we might be able to choose to let the vendor driver do
-> more: qemu just sends and writes the config data (before) along with the device
-> migration data every time, and it's up to the vendor driver to filter out/buffer
-> the received data or reorder the settings...
-
-There is no vendor driver in QEMU though, so are you suggesting that
-QEMU follows a standard protocol and the vendor driver chooses when to
-enable specific features?  For instance, QEMU would call SET_IRQS and
-the driver would return success, but defer that setup if necessary?
-That seems quite troubling as we then have ioctls that behave
-differently depending on the device state and we have no error path to
-userspace should that setup fail later.  The vendor driver does have
-its own data stream for migration, so the vendor driver could tell the
-destination version of itself what type of interrupt to use, which
-might be sufficient if we were to ignore the latency if QEMU were to
-defer interrupt setup until stop-and-copy.
-
-Is the question of when to setup device interrupts versus the interrupt
-controller state largely a machine issue within QEMU?  If so, shouldn't
-it be at QEMU's determination when to act on the config space
-information on the target?  IOW, if a vendor driver has a dependency on
-interrupt configuration, they need to include it in their own pre-copy
-data stream and decouple that dependency from userspace interrupt
-configuration via the SET_IRQS ioctl.  Is that possible?  Thanks,
-
-Alex
+Which is what I use for integration tests:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg675079.html
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg675085.html
 
 
