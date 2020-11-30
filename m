@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D49E2C7D26
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 04:11:24 +0100 (CET)
-Received: from localhost ([::1]:43616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8CE2C7D2E
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 04:13:36 +0100 (CET)
+Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjZb1-0004Kr-Gb
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 22:11:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40864)
+	id 1kjZd9-0006k1-FA
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 22:13:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kjZXF-00084Z-Kv; Sun, 29 Nov 2020 22:07:29 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:35282
+ id 1kjZXI-00086S-29; Sun, 29 Nov 2020 22:07:32 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:35290
  helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1kjZXD-00076c-KX; Sun, 29 Nov 2020 22:07:29 -0500
+ id 1kjZXD-00076d-Ko; Sun, 29 Nov 2020 22:07:31 -0500
 Received: from localhost.localdomain
  (dynamic-077-009-091-089.77.9.pool.telefonica.de [77.9.91.89])
- by csgraf.de (Postfix) with ESMTPSA id 8924E39001C1;
- Mon, 30 Nov 2020 04:07:24 +0100 (CET)
+ by csgraf.de (Postfix) with ESMTPSA id 0E1B73900384;
+ Mon, 30 Nov 2020 04:07:25 +0100 (CET)
 From: Alexander Graf <agraf@csgraf.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/8] hvf: Implement Apple Silicon Support
-Date: Mon, 30 Nov 2020 04:07:15 +0100
-Message-Id: <20201130030723.78326-1-agraf@csgraf.de>
+Subject: [PATCH v2 1/8] hvf: Add hypervisor entitlement to output binaries
+Date: Mon, 30 Nov 2020 04:07:16 +0100
+Message-Id: <20201130030723.78326-2-agraf@csgraf.de>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+In-Reply-To: <20201130030723.78326-1-agraf@csgraf.de>
+References: <20201130030723.78326-1-agraf@csgraf.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
@@ -57,89 +59,106 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that Apple Silicon is widely available, people are obviously excited
-to try and run virtualized workloads on them, such as Linux and Windows.
+In macOS 11, QEMU only gets access to Hypervisor.framework if it has the
+respective entitlement. Add an entitlement template and automatically self
+sign and apply the entitlement in the build.
 
-This patch set implements a fully functional version to get the ball
-going on that. With this applied, I can successfully run both Linux and
-Windows as guests. I am not aware of any limitations specific to
-Hypervisor.framework apart from:
+Signed-off-by: Alexander Graf <agraf@csgraf.de>
 
-  - Live migration / savevm
-  - gdbstub debugging (SP register)
-
-
-Enjoy!
-
-Alex
-
+---
 
 v1 -> v2:
 
-  - New patch: hvf: Actually set SIG_IPI mask
-  - New patch: hvf: Introduce hvf vcpu struct
-  - New patch: hvf: arm: Mark CPU as dirty on reset
-  - Removed patch: hw/arm/virt: Disable highmem when on hypervisor.framework
-  - Removed patch: arm: Synchronize CPU on PSCI on
-  - Fix build on 32bit arm
-  - Merge vcpu kick function patch into ARM enablement
-  - Implement WFI handling (allows vCPUs to sleep)
-  - Synchronize system registers (fixes OVMF crashes and reboot)
-  - Don't always call cpu_synchronize_state()
-  - Use more fine grained iothread locking
-  - Populate aa64mmfr0 from hardware
-  - Make safe to ctrl-C entitlement application
-
-Alexander Graf (8):
-  hvf: Add hypervisor entitlement to output binaries
-  hvf: Move common code out
-  hvf: Actually set SIG_IPI mask
-  hvf: Introduce hvf vcpu struct
-  arm: Set PSCI to 0.2 for HVF
-  hvf: arm: Mark CPU as dirty on reset
-  hvf: Add Apple Silicon support
-  arm: Add Hypervisor.framework build target
-
- MAINTAINERS                  |  14 +-
- accel/hvf/entitlements.plist |   8 +
- accel/hvf/hvf-all.c          |  56 ++++
- accel/hvf/hvf-cpus.c         | 483 ++++++++++++++++++++++++++++
- accel/hvf/meson.build        |   7 +
- accel/meson.build            |   1 +
- include/hw/core/cpu.h        |   3 +-
- include/sysemu/hvf_int.h     |  78 +++++
- meson.build                  |  41 ++-
- scripts/entitlement.sh       |  13 +
- target/arm/arm-powerctl.c    |   1 +
- target/arm/cpu.c             |   6 +
- target/arm/hvf/hvf.c         | 603 +++++++++++++++++++++++++++++++++++
- target/arm/hvf/meson.build   |   3 +
- target/arm/meson.build       |   2 +
- target/i386/hvf/hvf-cpus.c   | 131 --------
- target/i386/hvf/hvf-cpus.h   |  25 --
- target/i386/hvf/hvf-i386.h   |  48 +--
- target/i386/hvf/hvf.c        | 462 ++++-----------------------
- target/i386/hvf/meson.build  |   1 -
- target/i386/hvf/vmx.h        |  24 +-
- target/i386/hvf/x86.c        |  28 +-
- target/i386/hvf/x86_descr.c  |  26 +-
- target/i386/hvf/x86_emu.c    |  62 ++--
- target/i386/hvf/x86_mmu.c    |   4 +-
- target/i386/hvf/x86_task.c   |  12 +-
- target/i386/hvf/x86hvf.c     | 221 ++++++-------
- target/i386/hvf/x86hvf.h     |   2 -
- 28 files changed, 1557 insertions(+), 808 deletions(-)
+  - Make safe to ctrl-C
+---
+ accel/hvf/entitlements.plist |  8 ++++++++
+ meson.build                  | 30 ++++++++++++++++++++++++++----
+ scripts/entitlement.sh       | 13 +++++++++++++
+ 3 files changed, 47 insertions(+), 4 deletions(-)
  create mode 100644 accel/hvf/entitlements.plist
- create mode 100644 accel/hvf/hvf-all.c
- create mode 100644 accel/hvf/hvf-cpus.c
- create mode 100644 accel/hvf/meson.build
- create mode 100644 include/sysemu/hvf_int.h
  create mode 100755 scripts/entitlement.sh
- create mode 100644 target/arm/hvf/hvf.c
- create mode 100644 target/arm/hvf/meson.build
- delete mode 100644 target/i386/hvf/hvf-cpus.c
- delete mode 100644 target/i386/hvf/hvf-cpus.h
 
+diff --git a/accel/hvf/entitlements.plist b/accel/hvf/entitlements.plist
+new file mode 100644
+index 0000000000..154f3308ef
+--- /dev/null
++++ b/accel/hvf/entitlements.plist
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
++<plist version="1.0">
++<dict>
++    <key>com.apple.security.hypervisor</key>
++    <true/>
++</dict>
++</plist>
+diff --git a/meson.build b/meson.build
+index 5062407c70..2a7ff5560c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1844,9 +1844,14 @@ foreach target : target_dirs
+     }]
+   endif
+   foreach exe: execs
+-    emulators += {exe['name']:
+-         executable(exe['name'], exe['sources'],
+-               install: true,
++    exe_name = exe['name']
++    exe_sign = 'CONFIG_HVF' in config_target
++    if exe_sign
++      exe_name += '-unsigned'
++    endif
++
++    emulator = executable(exe_name, exe['sources'],
++               install: not exe_sign,
+                c_args: c_args,
+                dependencies: arch_deps + deps + exe['dependencies'],
+                objects: lib.extract_all_objects(recursive: true),
+@@ -1854,7 +1859,24 @@ foreach target : target_dirs
+                link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
+                link_args: link_args,
+                gui_app: exe['gui'])
+-    }
++
++    if exe_sign
++      exe_full = meson.current_build_dir() / exe['name']
++      emulators += {exe['name'] : custom_target(exe['name'],
++                   install: true,
++                   install_dir: get_option('bindir'),
++                   depends: emulator,
++                   output: exe['name'],
++                   command: [
++                     meson.current_source_dir() / 'scripts/entitlement.sh',
++                     meson.current_build_dir() / exe['name'] + '-unsigned',
++                     meson.current_build_dir() / exe['name'],
++                     meson.current_source_dir() / 'accel/hvf/entitlements.plist'
++                   ])
++      }
++    else
++      emulators += {exe['name']: emulator}
++    endif
+ 
+     if 'CONFIG_TRACE_SYSTEMTAP' in config_host
+       foreach stp: [
+diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
+new file mode 100755
+index 0000000000..c540fa6435
+--- /dev/null
++++ b/scripts/entitlement.sh
+@@ -0,0 +1,13 @@
++#!/bin/sh -e
++#
++# Helper script for the build process to apply entitlements
++
++SRC="$1"
++DST="$2"
++ENTITLEMENT="$3"
++
++trap 'rm "$DST.tmp"' exit
++cp -af "$SRC" "$DST.tmp"
++codesign --entitlements "$ENTITLEMENT" --force -s - "$DST.tmp"
++mv "$DST.tmp" "$DST"
++trap '' exit
 -- 
 2.24.3 (Apple Git-128)
 
