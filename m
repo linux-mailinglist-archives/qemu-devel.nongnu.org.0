@@ -2,81 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 468442C83F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 13:14:21 +0100 (CET)
-Received: from localhost ([::1]:60622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE4282C841B
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 13:29:34 +0100 (CET)
+Received: from localhost ([::1]:43680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kji4S-0005EA-CM
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 07:14:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47332)
+	id 1kjiJB-0002RW-Vl
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 07:29:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kji3O-0004o0-5l
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 07:13:14 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35086)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kji3M-0006ag-El
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 07:13:13 -0500
-Received: by mail-wr1-x441.google.com with SMTP id r3so15906685wrt.2
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 04:13:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZnwKfIqta+HRHIF5CSNCp6o5+wdXuZ0AS7HZ+QIUxs0=;
- b=e940R5UpSORXZvcXbc+FaYm+diFSeVzukmOVakOudqE6j/UKOLb8ZDmAWW5t8FXTHa
- 5oVg6uXEuAzlhspIPLAIh5gEp/RDIb/hzEYUvXckCJa2t3YGy5A/3V/ysg4ttu4XcpFs
- qR564RqO0o/UtG4q3qAPDuwnMg/ta64V/MpA6Rwr1Ck2oPaxIGMWIbTyVGvio0OmYjXh
- Jb3kwQszeAMQuhfFjmbBh/IjS3BM+vcQ9alXJtg8JpQFXfvvGJVOMv69rQLE26XAqQg2
- X9Mmzk53mYODgaNaeFgck/BEjHJ5sksRc9E69Z81YD3glHp1ooEJcQR+ALA6fdVN/uTz
- 1DCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZnwKfIqta+HRHIF5CSNCp6o5+wdXuZ0AS7HZ+QIUxs0=;
- b=V2ArA6xLz/5R0+DigbvU56ULeuUdGjYLilU7UFu5fMAdejldjTEO1P7J/TatkoFI3A
- vnYEzymqz/2zl7cC+9vZAllAwKsfysnDST0DVzhbJQ/JGaQWysKE+AhVu1TuPQ2aDapU
- 6v1KoLANejVnfvkoi1P2/IPIijvgcaE+zjHvEruoMrQI7up6EK8zJxM0PPBFCEfXAk7Q
- BtrJNKJB1mYeYLEHPmIMYyR4gqd4qUlexSW2qHIzurWvhTcO9WsSWtPljazFcKcX6J1Q
- GRAfz4Lo1piCgRKJgVeMu8AN4MvZmUlRny0DrvCtE/mYgxJFuOfKqwYyUTSMFfsuiuP+
- vhkg==
-X-Gm-Message-State: AOAM531YqCqUuZBjRuGnQBoBdb8IbKKwSn/LDQv5iHdxv74wqn109v+n
- CeGz6vAseQum9k9xgLmtgU8=
-X-Google-Smtp-Source: ABdhPJz7ttQ6MG187gJ15jibAaS+1XwY8dtsdo1XMi448IloIWnR+vwaHm8Y6QsL6W7XpIcdrF2IrQ==
-X-Received: by 2002:adf:e54f:: with SMTP id z15mr28545008wrm.159.1606738390874; 
- Mon, 30 Nov 2020 04:13:10 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id c2sm28645232wrf.68.2020.11.30.04.13.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Nov 2020 04:13:10 -0800 (PST)
-Subject: Re: [PATCH v2 1/3] target/nios2: Move IIC code into CPU object proper
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201129174022.26530-1-peter.maydell@linaro.org>
- <20201129174022.26530-2-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6ac9a9b2-f8f9-2437-c4f1-953b8c66729d@amsat.org>
-Date: Mon, 30 Nov 2020 13:13:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kjiFv-0000In-Se
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 07:26:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kjiFp-0002Ly-5y
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 07:26:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606739163;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YteyWP64KdM4YsYlYkrhaKo6YOh3N5NJJ7tDa8+LDow=;
+ b=isV68XtQbzz+W/jjKfFvi9uDJ+G9hdnZoqWB99tp6u0b59dnZZvRVkBvrAu4iwYf9XqNdD
+ 5pOmtxr5ytSzJ4dSmyUeSYSb7gVzFR4/W3dWwN1XVBFdWY08WcQ9Eru56FcwKgj4ZJ6nHI
+ gQwW+3Bbb+f+SIFuhoWV17mJHP/DhCY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-449-5153lLunOMGEdoSUcNvdyA-1; Mon, 30 Nov 2020 07:26:01 -0500
+X-MC-Unique: 5153lLunOMGEdoSUcNvdyA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD34A1084C85;
+ Mon, 30 Nov 2020 12:26:00 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-117.ams2.redhat.com [10.36.114.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 721A119C71;
+ Mon, 30 Nov 2020 12:25:47 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/18] qapi/qom: QAPIfy object-add
+Date: Mon, 30 Nov 2020 13:25:20 +0100
+Message-Id: <20201130122538.27674-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201129174022.26530-2-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,60 +73,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Sandra Loosemore <sandra@codesourcery.com>,
- Chris Wulff <crwulff@gmail.com>, Wentong Wu <wentong.wu@intel.com>
+Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, jasowang@redhat.com, armbru@redhat.com,
+ mreitz@redhat.com, kraxel@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/29/20 6:40 PM, Peter Maydell wrote:
-> The Nios2 architecture supports two different interrupt controller
-> options:
-> 
->  * The IIC (Internal Interrupt Controller) is part of the CPU itself;
->    it has 32 IRQ input lines and no NMI support.  Interrupt status is
->    queried and controlled via the CPU's ipending and istatus
->    registers.
-> 
->  * The EIC (External Interrupt Controller) interface allows the CPU
->    to connect to an external interrupt controller.  The interface
->    allows the interrupt controller to present a packet of information
->    containing:
->     - handler address
->     - interrupt level
->     - register set
->     - NMI mode
-> 
-> QEMU does not model an EIC currently.  We do model the IIC, but its
-> implementation is split across code in hw/nios2/cpu_pic.c and
-> hw/intc/nios2_iic.c.  The code in those two files has no state of its
-> own -- the IIC state is in the Nios2CPU state struct.
-> 
-> Because CPU objects now inherit (indirectly) from TYPE_DEVICE, they
-> can have GPIO input lines themselves, so we can implement the IIC
-> directly in the CPU object the same way that real hardware does.
-> 
-> Create named "IRQ" GPIO inputs to the Nios2 CPU object, and make the
-> only user of the IIC wire up directly to those instead.
-> 
-> Note that the old code had an "NMI" concept which was entirely unused
-> and also as far as I can see not architecturally correct, since only
-> the EIC has a concept of an NMI.
-> 
-> This fixes a Coverity-reported trivial memory leak of the IRQ array
-> allocated in nios2_cpu_pic_init().
-> 
-> Fixes: Coverity CID 1421916
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/nios2/cpu.h        |  1 -
->  hw/intc/nios2_iic.c       | 95 ---------------------------------------
->  hw/nios2/10m50_devboard.c | 13 +-----
->  hw/nios2/cpu_pic.c        | 31 -------------
->  target/nios2/cpu.c        | 30 +++++++++++++
->  MAINTAINERS               |  1 -
->  hw/intc/meson.build       |  1 -
->  7 files changed, 32 insertions(+), 140 deletions(-)
->  delete mode 100644 hw/intc/nios2_iic.c
+This series adds a QAPI type for the properties of all user creatable
+QOM types and finally makes QMP object-add use the new ObjectOptions
+union so that QAPI introspection can be used for user creatable objects.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+If you are in the CC list and didn't expect this series, it's probably
+because you're the maintainer of one of the objects for which I'm adding
+a QAPI schema description. Please just have a look at the specific patch
+for your object and check whether the schema and its documentation make
+sense to you. You can ignore all other patches.
+
+
+After this series, there is least one obvious next step that needs to be
+done: Change HMP and all of the command line parser to use
+ObjectOptions, too, so that the QAPI schema is consistently enforced in
+all external interfaces. I am planning to send another series to address
+this.
+
+In a third step, we can try to start deduplicating and integrating things
+better between QAPI and the QOM implementation, e.g. by generating parts
+of the QOM boilerplate from the QAPI schema.
+
+Kevin Wolf (18):
+  qapi/qom: Add ObjectOptions for iothread
+  qapi/qom: Add ObjectOptions for authz-*
+  qapi/qom: Add ObjectOptions for cryptodev-*
+  qapi/qom: Add ObjectOptions for dbus-vmstate
+  qapi/qom: Add ObjectOptions for memory-backend-*
+  qapi/qom: Add ObjectOptions for rng-*, deprecate 'opened'
+  qapi/qom: Add ObjectOptions for throttle-group
+  qapi/qom: Add ObjectOptions for secret*, deprecate 'loaded'
+  qapi/qom: Add ObjectOptions for tls-*, deprecate 'loaded'
+  qapi/qom: Add ObjectOptions for can-*
+  qapi/qom: Add ObjectOptions for colo-compare
+  qapi/qom: Add ObjectOptions for filter-*
+  qapi/qom: Add ObjectOptions for pr-manager-helper
+  qapi/qom: Add ObjectOptions for sev-guest
+  qapi/qom: Add ObjectOptions for input-*
+  tests: Drop 'props' from object-add calls
+  qapi/qom: Drop deprecated 'props' from object-add
+  qapi/qom: QAPIfy object-add
+
+ qapi/authz.json                      |  62 +++
+ qapi/block-core.json                 |  12 +
+ qapi/common.json                     |  52 +++
+ qapi/crypto.json                     | 159 +++++++
+ qapi/machine.json                    |  22 +-
+ qapi/net.json                        |  20 -
+ qapi/qom.json                        | 609 ++++++++++++++++++++++++++-
+ qapi/ui.json                         |  13 +-
+ docs/system/deprecated.rst           |  29 +-
+ include/qom/object_interfaces.h      |   7 -
+ hw/block/xen-block.c                 |  16 +-
+ monitor/misc.c                       |   2 -
+ qom/qom-qmp-cmds.c                   |  44 +-
+ tests/qtest/qmp-cmd-test.c           |  16 +-
+ tests/qtest/test-netfilter.c         |  54 ++-
+ storage-daemon/qapi/qapi-schema.json |   1 +
+ tests/qemu-iotests/087               |   8 +-
+ tests/qemu-iotests/184               |  18 +-
+ tests/qemu-iotests/218               |   2 +-
+ tests/qemu-iotests/235               |   2 +-
+ tests/qemu-iotests/245               |   4 +-
+ tests/qemu-iotests/258               |   6 +-
+ tests/qemu-iotests/258.out           |   4 +-
+ tests/qemu-iotests/295               |   2 +-
+ tests/qemu-iotests/296               |   2 +-
+ 25 files changed, 993 insertions(+), 173 deletions(-)
+
+-- 
+2.28.0
+
 
