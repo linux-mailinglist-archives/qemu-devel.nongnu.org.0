@@ -2,101 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30A02C8797
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 16:19:40 +0100 (CET)
-Received: from localhost ([::1]:60380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474662C8807
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 16:32:32 +0100 (CET)
+Received: from localhost ([::1]:38474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjkxn-0002qr-QR
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 10:19:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37004)
+	id 1kjlAE-0006wN-R9
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 10:32:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1kjkvu-0000wW-4U; Mon, 30 Nov 2020 10:17:42 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42112)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
- id 1kjkvr-0008Gh-Ut; Mon, 30 Nov 2020 10:17:41 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AUF4XnE150160; Mon, 30 Nov 2020 10:17:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=q4qOxUv82Vlz1okT0uQaPo+5wm5xH7ihGdQ6JZq/NVw=;
- b=sa9B+85k6OQFdif2AXmPQXwYJKy5+Ga/GTAOIcy+eFImMsHzG3l3nY2p8SXe1VBossCi
- 5/uwqEshKZ6DuS6XJ5av1Qco0O3y10AWOcfLZKs505nysh22BsxgZnjS54J9n7NwmHHq
- rH73XtLEaNmkTkqnhdVwSMvpf7uG6L3lcnRi7NPhjMkZVmupe1I5IXyXBz2vSYqnAoVF
- YHUpBzSt8ssqX4S7phPS2lMPbGOiSbsUpbFQrKGmiW666k5ehm46W8fBtYmCp8d83636
- bkejM1S4DbpuQwQVL1F5NJJm5FNQaS9ihZE+r0oS6Tahx+TFhFUTO9lyheBP+6UthzbB 7Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3551674ekk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Nov 2020 10:17:32 -0500
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AUF4mRx151516;
- Mon, 30 Nov 2020 10:17:32 -0500
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3551674ejk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Nov 2020 10:17:32 -0500
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AUF89Cp023688;
- Mon, 30 Nov 2020 15:17:29 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04ams.nl.ibm.com with ESMTP id 353e6825cx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Nov 2020 15:17:29 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0AUFHRZR6161056
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 30 Nov 2020 15:17:27 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3F5A75204F;
- Mon, 30 Nov 2020 15:17:27 +0000 (GMT)
-Received: from lep8c.aus.stglabs.ibm.com (unknown [9.40.192.207])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 9B45452051;
- Mon, 30 Nov 2020 15:17:25 +0000 (GMT)
-Subject: [RFC Qemu PATCH v2 2/2] spapr: nvdimm: Implement async flush hcalls
-From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-To: xiaoguangrong.eric@gmail.com, mst@redhat.com, imammedo@redhat.com,
- david@gibson.dropbear.id.au, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Date: Mon, 30 Nov 2020 09:17:24 -0600
-Message-ID: <160674940727.2492771.7855399693883710135.stgit@lep8c.aus.stglabs.ibm.com>
-In-Reply-To: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
-References: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
-User-Agent: StGit/0.19
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kjl9D-0006Ic-PZ
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 10:31:27 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34392)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kjl9B-0004YC-Jk
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 10:31:27 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kjl98-0002NE-SI
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 15:31:23 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D6E882E8173
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 15:31:17 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-30_05:2020-11-30,
- 2020-11-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- impostorscore=0 suspectscore=2 malwarescore=0 clxscore=1015
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 spamscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011300094
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 30 Nov 2020 15:25:26 -0000
+From: Richard Henderson <1699567@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anatol danb91 rth th-huth
+X-Launchpad-Bug-Reporter: Anatol Pomozov (anatol)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <149806751311.22103.16824316715266267682.malonedeb@soybean.canonical.com>
+Message-Id: <160674992680.7948.18363491375261058847.malone@soybean.canonical.com>
+Subject: [Bug 1699567] Re: Qemu does not force SSE data alignment
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="12d09381f8e8eee3115395875b132e165fa96574"; Instance="production"
+X-Launchpad-Hash: 8f48f8d74f0f5c859c77f7671a1474b723ec61c4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -105,195 +70,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: linux-nvdimm@lists.01.org, aneesh.kumar@linux.ibm.com,
- kvm-ppc@vger.kernel.org, shivaprasadbhat@gmail.com, bharata@linux.vnet.ibm.com,
- linuxppc-dev@lists.ozlabs.org
+Reply-To: Bug 1699567 <1699567@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the persistent memory beacked by a file, a cpu cache flush instruction
-is not sufficient to ensure the stores are correctly flushed to the media.
+Yep.  Long-standing bug.
 
-The patch implements the async hcalls for flush operation on demand from the
-guest kernel.
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-The device option sync-dax is by default off and enables explicit asynchronous
-flush requests from guest. It can be disabled by setting syn-dax=on.
+-- =
 
-Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
----
- hw/mem/nvdimm.c         |    1 +
- hw/ppc/spapr_nvdimm.c   |   79 +++++++++++++++++++++++++++++++++++++++++++++++
- include/hw/mem/nvdimm.h |   10 ++++++
- include/hw/ppc/spapr.h  |    3 +-
- 4 files changed, 92 insertions(+), 1 deletion(-)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1699567
 
-diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-index 03c2201b56..37a4db0135 100644
---- a/hw/mem/nvdimm.c
-+++ b/hw/mem/nvdimm.c
-@@ -220,6 +220,7 @@ static void nvdimm_write_label_data(NVDIMMDevice *nvdimm, const void *buf,
- 
- static Property nvdimm_properties[] = {
-     DEFINE_PROP_BOOL(NVDIMM_UNARMED_PROP, NVDIMMDevice, unarmed, false),
-+    DEFINE_PROP_BOOL(NVDIMM_SYNC_DAX_PROP, NVDIMMDevice, sync_dax, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-index a833a63b5e..557e36aa98 100644
---- a/hw/ppc/spapr_nvdimm.c
-+++ b/hw/ppc/spapr_nvdimm.c
-@@ -22,6 +22,7 @@
-  * THE SOFTWARE.
-  */
- #include "qemu/osdep.h"
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "hw/ppc/spapr_drc.h"
- #include "hw/ppc/spapr_nvdimm.h"
-@@ -155,6 +156,11 @@ static int spapr_dt_nvdimm(SpaprMachineState *spapr, void *fdt,
-                              "operating-system")));
-     _FDT(fdt_setprop(fdt, child_offset, "ibm,cache-flush-required", NULL, 0));
- 
-+    if (!nvdimm->sync_dax) {
-+        _FDT(fdt_setprop(fdt, child_offset, "ibm,async-flush-required",
-+                         NULL, 0));
-+    }
-+
-     return child_offset;
- }
- 
-@@ -370,6 +376,78 @@ static target_ulong h_scm_bind_mem(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     return H_SUCCESS;
- }
- 
-+typedef struct SCMAsyncFlushData {
-+    int fd;
-+    uint64_t token;
-+} SCMAsyncFlushData;
-+
-+static int flush_worker_cb(void *opaque)
-+{
-+    int ret = H_SUCCESS;
-+    SCMAsyncFlushData *req_data = opaque;
-+
-+    /* flush raw backing image */
-+    if (qemu_fdatasync(req_data->fd) < 0) {
-+        error_report("papr_scm: Could not sync nvdimm to backend file: %s",
-+                     strerror(errno));
-+        ret = H_HARDWARE;
-+    }
-+
-+    g_free(req_data);
-+
-+    return ret;
-+}
-+
-+static target_ulong h_scm_async_flush(PowerPCCPU *cpu, SpaprMachineState *spapr,
-+                                      target_ulong opcode, target_ulong *args)
-+{
-+    int ret;
-+    uint32_t drc_index = args[0];
-+    uint64_t continue_token = args[1];
-+    SpaprDrc *drc = spapr_drc_by_index(drc_index);
-+    PCDIMMDevice *dimm;
-+    HostMemoryBackend *backend = NULL;
-+    SCMAsyncFlushData *req_data = NULL;
-+
-+    if (!drc || !drc->dev ||
-+        spapr_drc_type(drc) != SPAPR_DR_CONNECTOR_TYPE_PMEM) {
-+        return H_PARAMETER;
-+    }
-+
-+    if (continue_token != 0) {
-+        ret = spapr_drc_get_async_hcall_status(drc, continue_token);
-+        if (ret == H_BUSY) {
-+            args[0] = continue_token;
-+            return H_LONG_BUSY_ORDER_1_SEC;
-+        }
-+
-+        return ret;
-+    }
-+
-+    dimm = PC_DIMM(drc->dev);
-+    backend = MEMORY_BACKEND(dimm->hostmem);
-+
-+    req_data = g_malloc0(sizeof(SCMAsyncFlushData));
-+    req_data->fd = memory_region_get_fd(&backend->mr);
-+
-+    continue_token = spapr_drc_get_new_async_hcall_token(drc);
-+    if (!continue_token) {
-+        g_free(req_data);
-+        return H_P2;
-+    }
-+    req_data->token = continue_token;
-+
-+    spapr_drc_run_async_hcall(drc, continue_token, &flush_worker_cb, req_data);
-+
-+    ret = spapr_drc_get_async_hcall_status(drc, continue_token);
-+    if (ret == H_BUSY) {
-+        args[0] = req_data->token;
-+        return ret;
-+    }
-+
-+    return ret;
-+}
-+
- static target_ulong h_scm_unbind_mem(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                                      target_ulong opcode, target_ulong *args)
- {
-@@ -486,6 +564,7 @@ static void spapr_scm_register_types(void)
-     spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
-     spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
-     spapr_register_hypercall(H_SCM_UNBIND_ALL, h_scm_unbind_all);
-+    spapr_register_hypercall(H_SCM_ASYNC_FLUSH, h_scm_async_flush);
- }
- 
- type_init(spapr_scm_register_types)
-diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
-index c699842dd0..9e8795766e 100644
---- a/include/hw/mem/nvdimm.h
-+++ b/include/hw/mem/nvdimm.h
-@@ -51,6 +51,7 @@ OBJECT_DECLARE_TYPE(NVDIMMDevice, NVDIMMClass, NVDIMM)
- #define NVDIMM_LABEL_SIZE_PROP "label-size"
- #define NVDIMM_UUID_PROP       "uuid"
- #define NVDIMM_UNARMED_PROP    "unarmed"
-+#define NVDIMM_SYNC_DAX_PROP    "sync-dax"
- 
- struct NVDIMMDevice {
-     /* private */
-@@ -85,6 +86,15 @@ struct NVDIMMDevice {
-      */
-     bool unarmed;
- 
-+    /*
-+     * On PPC64,
-+     * The 'off' value results in the async-flush-required property set
-+     * in the device tree for pseries machines. When 'off', the guest
-+     * initiates explicity flush requests to the backend device ensuring
-+     * write persistence.
-+     */
-+    bool sync_dax;
-+
-     /*
-      * The PPC64 - spapr requires each nvdimm device have a uuid.
-      */
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 2e89e36cfb..6d7110b7dc 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -535,8 +535,9 @@ struct SpaprMachineState {
- #define H_SCM_BIND_MEM          0x3EC
- #define H_SCM_UNBIND_MEM        0x3F0
- #define H_SCM_UNBIND_ALL        0x3FC
-+#define H_SCM_ASYNC_FLUSH       0x4A0
- 
--#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
-+#define MAX_HCALL_OPCODE        H_SCM_ASYNC_FLUSH
- 
- /* The hcalls above are standardized in PAPR and implemented by pHyp
-  * as well.
+Title:
+  Qemu does not force SSE data alignment
 
+Status in QEMU:
+  Confirmed
 
+Bug description:
+  I have an OS that tries to use SSE operations. It works fine in qemu.
+  But it crashes when I try to run the OS at the host cpu using KVM.
+
+  The instruction that crahes with #GP(0) is
+   movaps ADDR,%xmm0
+
+  The documentation says ADDR has to be 16-bytes alignment otherwise #GP
+  is generated. And indeed the problem was with the data alignment.
+  After adjusting it at my side the OS works fine both with Qemu and
+  KVM.
+
+  It would be great if QEMU followed specification more closely and
+  forced SSE data alignment requirements. It will help to catch
+  alignment issues early and debug it easier.
+
+  =
+
+  $ qemu-system-x86_64 -version
+  QEMU emulator version 2.9.50 (v2.9.0-1363-g95eef1c68b)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1699567/+subscriptions
 
