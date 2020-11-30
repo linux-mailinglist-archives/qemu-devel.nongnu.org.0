@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B235B2C7CE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:45:02 +0100 (CET)
-Received: from localhost ([::1]:42366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D812D2C7CE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:47:15 +0100 (CET)
+Received: from localhost ([::1]:48526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjZBV-0004cI-No
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:45:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35910)
+	id 1kjZDe-0007Cj-U2
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:47:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2f-00018n-BU
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:53 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57372)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2r-0001Fz-V7
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:09 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2b-0004nw-4d
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:53 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2l-0004o0-AT
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:05 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4F820ACE0;
- Mon, 30 Nov 2020 02:35:47 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 03041AC65;
+ Mon, 30 Nov 2020 02:35:48 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,9 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v7 09/22] tcg: make CPUClass.cpu_exec_* optional
-Date: Mon, 30 Nov 2020 03:35:22 +0100
-Message-Id: <20201130023535.16689-10-cfontana@suse.de>
+Subject: [RFC v7 10/22] tcg: Make CPUClass.debug_excp_handler optional
+Date: Mon, 30 Nov 2020 03:35:23 +0100
+Message-Id: <20201130023535.16689-11-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201130023535.16689-1-cfontana@suse.de>
 References: <20201130023535.16689-1-cfontana@suse.de>
@@ -70,48 +70,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eduardo Habkost <ehabkost@redhat.com>
 
-This will let us simplify the code that initializes CPU class
-methods, when we move cpu_exec_*() to a separate struct.
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- accel/tcg/cpu-exec.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ accel/tcg/cpu-exec.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 8d31145ad2..890b88861a 100644
+index 890b88861a..64cba89356 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -240,14 +240,18 @@ static void cpu_exec_enter(CPUState *cpu)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
+@@ -482,7 +482,9 @@ static inline void cpu_handle_debug_exception(CPUState *cpu)
+         }
+     }
  
--    cc->cpu_exec_enter(cpu);
-+    if (cc->cpu_exec_enter) {
-+        cc->cpu_exec_enter(cpu);
+-    cc->debug_excp_handler(cpu);
++    if (cc->debug_excp_handler) {
++        cc->debug_excp_handler(cpu);
 +    }
  }
  
- static void cpu_exec_exit(CPUState *cpu)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
--    cc->cpu_exec_exit(cpu);
-+    if (cc->cpu_exec_exit) {
-+        cc->cpu_exec_exit(cpu);
-+    }
- }
- 
- void cpu_exec_step_atomic(CPUState *cpu)
-@@ -619,7 +623,8 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
-            True when it is, and we should restart on a new TB,
-            and via longjmp via cpu_loop_exit.  */
-         else {
--            if (cc->cpu_exec_interrupt(cpu, interrupt_request)) {
-+            if (cc->cpu_exec_interrupt &&
-+                cc->cpu_exec_interrupt(cpu, interrupt_request)) {
-                 if (need_replay_interrupt(interrupt_request)) {
-                     replay_interrupt();
-                 }
+ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
 -- 
 2.26.2
 
