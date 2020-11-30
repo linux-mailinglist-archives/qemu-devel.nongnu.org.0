@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E209A2C8C16
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 19:06:05 +0100 (CET)
-Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ADEA2C8C29
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 19:07:49 +0100 (CET)
+Received: from localhost ([::1]:55636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjnYq-0002sp-VX
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 13:06:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55408)
+	id 1kjnaW-0004SC-Dq
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 13:07:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kjnVa-0008F0-Bp
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:02:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20379)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kjnVY-0008EQ-Nd
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:02:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kjnVT-0007Wf-Nj
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:02:41 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kjnVT-0007WT-JO
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:02:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606759355;
+ s=mimecast20190719; t=1606759354;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HJBLO45wA6NYq5dT/+jLafQoiG9p+nIz3j+RYW+mq84=;
- b=Bai1OXBDxlV1YA1/HlKbaJCVKuC96NGKmBnb5nqDZuEHavOS7EepaNvWplgfde5rYjU0Td
- JqkwOufuA5g+ZnTfK/7GajfUOEnJjaYsCZy6hx5UgFJLS61KM7eQcUr6qsvE4K/FLqWUSR
- uqih7cdissNNNURlPKAydNwTs9B3Cb0=
+ bh=Koj10X8OEKGbUD/qoTfB9mTKYbuXOXBfjkkStsf9BQY=;
+ b=iULz0F/GvQeUBNy1PA5GEBHiBgkmy6D81iJNxWLNRpwDhDZgZ3wpvZgvLe7ryOiYtE/xJM
+ YJZGOl2+FZZKmkGraF+JDbNEU53Q9XrDAIYOfRKHhfyIxwrzT0XeFzzvYJQZUzj9INMzn+
+ 4N6FitXx3M5QrKQqyQjzEawS8fmFAg0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-5XokLhnRNrKF6erCUMckxw-1; Mon, 30 Nov 2020 13:02:28 -0500
-X-MC-Unique: 5XokLhnRNrKF6erCUMckxw-1
+ us-mta-373-Hs3Vld8uMBeABDSml8WnyQ-1; Mon, 30 Nov 2020 13:02:30 -0500
+X-MC-Unique: Hs3Vld8uMBeABDSml8WnyQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CCF48030AB;
- Mon, 30 Nov 2020 18:02:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39F8A180A08A;
+ Mon, 30 Nov 2020 18:02:29 +0000 (UTC)
 Received: from gondolin.redhat.com (ovpn-113-87.ams2.redhat.com [10.36.113.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 29CBB19C71;
- Mon, 30 Nov 2020 18:02:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59C8E19D7D;
+ Mon, 30 Nov 2020 18:02:27 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] tests/acceptance: test virtio-ccw revision handling
-Date: Mon, 30 Nov 2020 19:02:14 +0100
-Message-Id: <20201130180216.15366-2-cohuck@redhat.com>
+Subject: [PATCH 2/3] tests/acceptance: verify s390x device detection
+Date: Mon, 30 Nov 2020 19:02:15 +0100
+Message-Id: <20201130180216.15366-3-cohuck@redhat.com>
 In-Reply-To: <20201130180216.15366-1-cohuck@redhat.com>
 References: <20201130180216.15366-1-cohuck@redhat.com>
 MIME-Version: 1.0
@@ -85,53 +85,34 @@ Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The max_revision prop of virtio-ccw devices can be used to force
-an older revision for compatibility handling. The easiest way to
-check this is to force a device to revision 0, which turns off
-virtio-1.
+The kernel/initrd combination does not provide the virtio-net
+driver; therefore, simply check whether the presented device type
+is indeed virtio-net for the two virtio-net-{ccw,pci} devices.
 
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- tests/acceptance/machine_s390_ccw_virtio.py | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ tests/acceptance/machine_s390_ccw_virtio.py | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-index db6352c44434..683b6e0dac2e 100644
+index 683b6e0dac2e..e203ee304264 100644
 --- a/tests/acceptance/machine_s390_ccw_virtio.py
 +++ b/tests/acceptance/machine_s390_ccw_virtio.py
-@@ -51,6 +51,10 @@ class S390CCWVirtioMachine(Test):
-                          '-initrd', initrd_path,
-                          '-append', kernel_command_line,
-                          '-device', 'virtio-net-ccw,devno=fe.1.1111',
-+                         '-device',
-+                         'virtio-rng-ccw,devno=fe.2.0000,max_revision=0',
-+                         '-device',
-+                         'virtio-rng-ccw,devno=fe.3.1234,max_revision=2',
-                          '-device', 'zpci,uid=5,target=zzz',
-                          '-device', 'virtio-net-pci,id=zzz')
-         self.vm.launch()
-@@ -60,9 +64,19 @@ class S390CCWVirtioMachine(Test):
-         # first debug shell is too early, we need to wait for device detection
-         exec_command_and_wait_for_pattern(self, 'exit', shell_ready)
- 
--        ccw_bus_id="0.1.1111"
-+        ccw_bus_ids="0.1.1111  0.2.0000  0.3.1234"
-         pci_bus_id="0005:00:00.0"
-         exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
--                                          ccw_bus_id)
-+                                          ccw_bus_ids)
-         exec_command_and_wait_for_pattern(self, 'ls /sys/bus/pci/devices/',
-                                           pci_bus_id)
-+        # check that the device at 0.2.0000 is in legacy mode, while the
-+        # device at 0.3.1234 has the virtio-1 feature bit set
-+        virtio_rng_features="0000000000000000000000000000110010000000000000000000000000000000"
-+        virtio_rng_features_legacy="0000000000000000000000000000110000000000000000000000000000000000"
+@@ -80,3 +80,14 @@ class S390CCWVirtioMachine(Test):
+         exec_command_and_wait_for_pattern(self,
+                                           'cat /sys/bus/ccw/devices/0.3.1234/virtio?/features',
+                                           virtio_rng_features)
++        # verify that we indeed have virtio-net devices (without having the
++        # virtio-net driver handy)
 +        exec_command_and_wait_for_pattern(self,
-+                                          'cat /sys/bus/ccw/devices/0.2.0000/virtio?/features',
-+                                          virtio_rng_features_legacy)
++                                          'cat /sys/bus/ccw/devices/0.1.1111/cutype',
++                                          '3832/01')
 +        exec_command_and_wait_for_pattern(self,
-+                                          'cat /sys/bus/ccw/devices/0.3.1234/virtio?/features',
-+                                          virtio_rng_features)
++                                          'cat /sys/bus/pci/devices/0005\:00\:00.0/subsystem_vendor',
++                                          '0x1af4')
++        exec_command_and_wait_for_pattern(self,
++                                          'cat /sys/bus/pci/devices/0005\:00\:00.0/subsystem_device',
++                                          '0x0001')
 -- 
 2.26.2
 
