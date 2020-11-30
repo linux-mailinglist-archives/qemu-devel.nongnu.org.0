@@ -2,93 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835002C875C
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 16:04:10 +0100 (CET)
-Received: from localhost ([::1]:47344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D8E2C8790
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 16:18:23 +0100 (CET)
+Received: from localhost ([::1]:56016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjkin-0004Z1-Fs
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 10:04:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60832)
+	id 1kjkwX-0000sr-V0
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 10:18:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kjkff-0003PT-I6
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 10:00:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56980)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kjkfb-0002bt-3O
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 10:00:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606748450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rLl//QxTM8A6fZuVx2FEPOAaU2GB3ftr0llqbIcfYI8=;
- b=Ezjvw37EOzoe0vumXceYqtmKVtlIM8TxAYMfxh+y5c9F1CIcyJf8E+t0JqmJvvirawkxoi
- gByahYjErjl87TQc8o2rusVtg9tqQrFagrNkldal30KykD46pIBCCWDiAlKnxBHIgxvTKi
- g3xGMLigJNVaszY6TZIxgopi7aKuKsM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-QuPi37AlOticlMA9EU7WiA-1; Mon, 30 Nov 2020 10:00:47 -0500
-X-MC-Unique: QuPi37AlOticlMA9EU7WiA-1
-Received: by mail-ej1-f71.google.com with SMTP id dx19so5895921ejb.7
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 07:00:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rLl//QxTM8A6fZuVx2FEPOAaU2GB3ftr0llqbIcfYI8=;
- b=LFBsHydkgMSeJARC60IxAQKWCf+EspTAkOW3t7Igubl4D7qQy///l8dDK9SIDw4Sx8
- 2wAvuymAfI8hIIG+08A13yXnGLpaE9yPI1oMp9G7zfcx3yBvvfBUNe/X8F4D7zdsqctO
- s+aaZqy8LtIvxmtp40WLHNH0hQceBt625cAsahoZsfUHLJeMvs2hk+vjCUYO+J96ncBF
- UrIG5peOeyiztnW+lw1668pjzxce5Le1Zl9ybG/7uFMmZBT0GOgrNhzZ6IgPFgChcvpF
- T0vnkvm0PKxew078fZNPlR94ouB3sbfd/Y/Mzbmw8g9s9s3Cdd7L4kbMSFBsiDMUAUio
- EgZw==
-X-Gm-Message-State: AOAM531Pdp725yRZg9A8+/qn3kOJfL0/GFd4CIhXfNUMcBOAlJ1aB2Al
- 88u1LkpRgLpHt/WbySnusavzsIuZ9eCyL6jX3R1HnGkKSYs8DWszlrjDU4ohZbcpLc1S4HlIlr1
- LJhUSjs8YXw4tm4g=
-X-Received: by 2002:a17:906:a899:: with SMTP id
- ha25mr5324931ejb.203.1606748445390; 
- Mon, 30 Nov 2020 07:00:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxRZkh1meTSmMRzG5wPZHzdrmZ/WWld71B2EJ1gJYbvEi+3oKMrRLSO82r0aqclhBL3j3lXZA==
-X-Received: by 2002:a17:906:a899:: with SMTP id
- ha25mr5324684ejb.203.1606748441806; 
- Mon, 30 Nov 2020 07:00:41 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id da9sm532957edb.13.2020.11.30.07.00.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Nov 2020 07:00:40 -0800 (PST)
-Subject: Re: [PATCH 01/18] qapi/qom: Add ObjectOptions for iothread
-To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-References: <20201130122538.27674-1-kwolf@redhat.com>
- <20201130122538.27674-2-kwolf@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <48386682-4637-b6e8-47c8-dd4922407146@redhat.com>
-Date: Mon, 30 Nov 2020 16:00:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1kjkuv-0008V1-6O; Mon, 30 Nov 2020 10:16:41 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sbhat@linux.ibm.com>)
+ id 1kjkut-0007yX-0w; Mon, 30 Nov 2020 10:16:40 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0AUEmxq8134051; Mon, 30 Nov 2020 10:16:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : from : to : cc
+ : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=pp1;
+ bh=SVunJp4tA4QxqyyebemWUkhMQjF3mk9I7QKpQCzCIYw=;
+ b=r/QIno9Xo/xO4H+mXfvE/3pHss07Yvz1UKLT38kW7GQsKEgWLm+SV1H5V13dcMRWS/4j
+ 7dcqKJ9YY8N3nr5A4Mb1l1gDM544ki/1AEl6QvejV5upE1PKjcAJh2VUcfTnq+XgXwnV
+ IGfAEn71H0pI7+oXsW0iaELAQ1Lav6H7WhJ4WtnalD06161VTybOnIEQmQo7lrhezJKO
+ 9N8k7UPzleTiUy+RLzVngePah2opW8Zg102Yy7EJ5sEyJtBMIxZHP6Oxco+WXkAjXwo7
+ EVBEvTGuAJ1ZwSl7Tr/XZhyHt7oLG7qmjEMD0a6FpKf0VeqPY8+Qik0gwjRFyyQF+vYo /g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3552u5ryrb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Nov 2020 10:16:22 -0500
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0AUEplk5146991;
+ Mon, 30 Nov 2020 10:16:21 -0500
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3552u5ryq9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Nov 2020 10:16:21 -0500
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0AUF94mW008196;
+ Mon, 30 Nov 2020 15:16:19 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 353e68a5p0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Nov 2020 15:16:19 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 0AUFGHwt62914990
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 30 Nov 2020 15:16:17 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF27AAE045;
+ Mon, 30 Nov 2020 15:16:16 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 45D6BAE051;
+ Mon, 30 Nov 2020 15:16:15 +0000 (GMT)
+Received: from lep8c.aus.stglabs.ibm.com (unknown [9.40.192.207])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 30 Nov 2020 15:16:15 +0000 (GMT)
+Subject: [RFC Qemu PATCH v2 0/2] spapr: nvdimm: Asynchronus flush hcall support
+From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+To: xiaoguangrong.eric@gmail.com, mst@redhat.com, imammedo@redhat.com,
+ david@gibson.dropbear.id.au, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Date: Mon, 30 Nov 2020 09:16:14 -0600
+Message-ID: <160674929554.2492771.17651548703390170573.stgit@lep8c.aus.stglabs.ibm.com>
+User-Agent: StGit/0.19
 MIME-Version: 1.0
-In-Reply-To: <20201130122538.27674-2-kwolf@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-30_05:2020-11-30,
+ 2020-11-30 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ lowpriorityscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0
+ impostorscore=0 priorityscore=1501 phishscore=0 adultscore=0
+ suspectscore=0 bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2011300094
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=sbhat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,48 +106,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, jasowang@redhat.com, armbru@redhat.com,
- mreitz@redhat.com, kraxel@redhat.com
+Cc: linux-nvdimm@lists.01.org, aneesh.kumar@linux.ibm.com,
+ kvm-ppc@vger.kernel.org, shivaprasadbhat@gmail.com, bharata@linux.vnet.ibm.com,
+ linuxppc-dev@lists.ozlabs.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/11/20 13:25, Kevin Wolf wrote:
-> +##
-> +# @IothreadProperties:
-> +#
-> +# Properties for iothread objects.
-> +#
-> +# @poll-max-ns: the maximum number of nanoseconds to busy wait for events.
-> +#               0 means polling is disabled (default: 32768 on POSIX hosts,
-> +#               0 otherwise)
-> +#
-> +# @poll-grow: the multiplier used to increase the polling time when the
-> +#             algorithm detects it is missing events due to not polling long
-> +#             enough. 0 selects a default behaviour (default: 0)
-> +#
-> +# @poll-shrink: the divisor used to decrease the polling time when the
-> +#               algorithm detects it is spending too long polling without
-> +#               encountering events. 0 selects a default behaviour (default: 0)
-> +#
-> +# Since: 6.0
-> +##
-> +{ 'struct': 'IothreadProperties',
-> +  'data': { '*poll-max-ns': 'int',
-> +            '*poll-grow': 'int',
-> +            '*poll-shrink': 'int' } }
-> +
+The nvdimm devices are expected to ensure write persistent during power
+failure kind of scenarios.
 
-Documentation is the main advantage of the ObjectOptions concept. 
-However, please use the version where each object and property was 
-introduced for the "since" value.  Otherwise the documentation will 
-appear to show that none of these objects was available before 6.0.
+The libpmem has architecture specific instructions like dcbf on power
+to flush the cache data to backend nvdimm device during normal writes.
 
-Yes, there is no documentation at all right now for QOM objects. 
-However, wrong documentation sometimes is worse than non-existing 
-documentation.
+Qemu - virtual nvdimm devices are memory mapped. The dcbf in the guest
+doesn't traslate to actual flush to the backend file on the host in case
+of file backed vnvdimms. This is addressed by virtio-pmem in case of x86_64
+by making asynchronous flushes.
 
-Paolo
+On PAPR, issue is addressed by adding a new hcall to
+request for an explicit asynchronous flush requests from the guest ndctl
+driver when the backend nvdimm cannot ensure write persistence with dcbf
+alone. So, the approach here is to convey when the asynchronous flush is
+required in a device tree property. The guest makes the hcall when the
+property is found, instead of relying on dcbf.
+
+The first patch adds the necessary asynchronous hcall support infrastructure
+code at the DRC level. Second patch implements the hcall using the
+infrastructure.
+
+Hcall semantics are in review and not final.
+
+A new device property sync-dax is added to the nvdimm device. When the 
+sync-dax is off(default), the asynchronous hcalls will be called.
+
+With respect to save from new qemu to restore on old qemu, having the
+sync-dax by default off(when not specified) causes IO errors in guests as
+the async-hcall would not be supported on old qemu. The new hcall
+implementation being supported only on the new  pseries machine version,
+the current machine version checks may be sufficient to prevent
+such migration. Please suggest what should be done.
+
+The below demonstration shows the map_sync behavior with sync-dax on & off.
+(https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c)
+
+The pmem0 is from nvdimm with With sync-dax=on, and pmem1 is from nvdimm with syn-dax=off, mounted as
+/dev/pmem0 on /mnt1 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
+/dev/pmem1 on /mnt2 type xfs (rw,relatime,attr2,dax=always,inode64,logbufs=8,logbsize=32k,noquota)
+
+[root@atest-guest ~]# ./mapsync /mnt1/newfile    ----> When sync-dax=off
+[root@atest-guest ~]# ./mapsync /mnt2/newfile    ----> when sync-dax=on
+Failed to mmap  with Operation not supported
+
+---
+v1 - https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg06330.html
+Changes from v1
+      - Fixed a missed-out unlock
+      - using QLIST_FOREACH instead of QLIST_FOREACH_SAFE while generating token
+
+Shivaprasad G Bhat (2):
+      spapr: drc: Add support for async hcalls at the drc level
+      spapr: nvdimm: Implement async flush hcalls
+
+
+ hw/mem/nvdimm.c            |    1
+ hw/ppc/spapr_drc.c         |  146 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/ppc/spapr_nvdimm.c      |   79 ++++++++++++++++++++++++
+ include/hw/mem/nvdimm.h    |   10 +++
+ include/hw/ppc/spapr.h     |    3 +
+ include/hw/ppc/spapr_drc.h |   25 ++++++++
+ 6 files changed, 263 insertions(+), 1 deletion(-)
+
+--
+Signature
 
 
