@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330EE2C8CBC
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 19:28:04 +0100 (CET)
-Received: from localhost ([::1]:54932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A14A2C8CCB
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 19:30:19 +0100 (CET)
+Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjnu7-0000NK-5d
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 13:28:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33036)
+	id 1kjnwI-00030S-7Q
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 13:30:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kjnsJ-000754-Ad
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:26:11 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:36022)
+ id 1kjnsr-0007yH-F3
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:26:46 -0500
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:46522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kjnsH-0002BC-Ll
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:26:11 -0500
-Received: by mail-ot1-x342.google.com with SMTP id y24so12268766otk.3
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 10:26:09 -0800 (PST)
+ id 1kjnso-0002Im-O8
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:26:44 -0500
+Received: by mail-oo1-xc41.google.com with SMTP id w9so2825466ooh.13
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 10:26:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hY10WBSX00MiSBiCWmu51+xN9j1uxrl7nY/xuRnn0iU=;
- b=NjacEqBhM864QAWV72NQTaNGAyjo6+poHe859FkRochmQg0CJbjoR/c8/e+HiwkUQl
- 4phvEjUBj6X/9FgWmx4vesEomytD8BEPvixAmOblojQ9fnrT71UawEDL5UkKb04qoZEo
- BBcu6muwoW1VPe1zCgyf5dCwDGMev5z2If1ViioPmaIF7b+IgJf/03sFX0+K09cjKWZf
- QzwJ8u6EexmFJsz6/jHwoBTmc60kiuxzYjz+nYa4oz6Sxa3pZyWEth3L9MnuFNuFy2DO
- Urora/JbfK9TaXUm3IPcUuP6/AIW6rTnDPKSSE3Wd/4NOVHqe8/cBzPyzah30L5Zj8YE
- eVQQ==
+ bh=+MDIivJ6gXfIGOMlZSKjn9E/hHXj/UQRnabnf4hMstQ=;
+ b=tQDnuCcYNV1YLs+MXhoSAMDG+RmgTMj+ZyatnHlY7ORhOt0o0SoZqvtdbzgMXE33wY
+ 6+LWP4mCav1owmodWA8riCGNNvJavpPKwKUXKPvFyRrau51gkjWf/0/fxqxrLrJIedNu
+ ObYjPD2wc0hPHvroLTtmIK6Yg7YO3H7HUF5UzLxUcnbGH2WB2gC32XpxGFBRXwy8lh8O
+ NwhIXhecrCYoAYCzY713pSPPaFM44JiKmtUDCswGh6TsEDR2pox7PDLMdpbdrG4CbTjx
+ ViVjdV3pxgV5nVaWZPw18+XEJpiLJ1FKt7UxsByeg5HbMUNyvqu5ziKf8bSwloRbt7kQ
+ rqBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hY10WBSX00MiSBiCWmu51+xN9j1uxrl7nY/xuRnn0iU=;
- b=XdXSmlKsqAd7H/qau51eprkNLL3vPELRW+SXBg1m0E2l+DepKWJtS5UDOxkKVbQE3n
- f5FIbM1T6IPAGRObky0Ourc4Md1rZqhpqy1XDb/qLtzxN0nx+m4kbi5bz+tpE84/+a1r
- aVlF/98SWHkIuK+DVEZFiQZODS1fWdDAPQosiEXmCtR3jqgZEZMdC2dZpdo3OipaFTpU
- Ld91D+ntwS3zmAuXyOe8Hc0a5i/j7juBCEoa/gqzCDja5U9MrAW08z4+lP6KkF4CU+hq
- IfXea47cs/VCvX4eEurJnoWtsmLg0s67r86PtQWNNnRs4DnepeypAXJKAVjOiHFlkAT4
- ZVIw==
-X-Gm-Message-State: AOAM533rdLyCbi2KlE890t+ItuyGnuTZ4HzEaIsCT6QBDrL/uPfdlLP9
- 5VHKDdJzqeNlD7EUg6x0rANyADLbMXzplLko
-X-Google-Smtp-Source: ABdhPJx+7wCiI5wX9FwZpeg06V5tlNdoIf/UQevkUjsCPqmJT7T6aCK1B60yxVCNsEHLmPvwWa1eGQ==
-X-Received: by 2002:a05:6830:18f8:: with SMTP id
- d24mr17636048otf.44.1606760768499; 
- Mon, 30 Nov 2020 10:26:08 -0800 (PST)
+ bh=+MDIivJ6gXfIGOMlZSKjn9E/hHXj/UQRnabnf4hMstQ=;
+ b=YcN5P68vAO9KAAg2wgxgpUTNISAp3jHLxGkc4bKK6QuS31oP+HsdlqiCmxypM5+5NX
+ /hApm695aHt+MHklRiLJ25sx+Qo5d9bTNk4vCG1IY8wNGBHrgqUa4YtIgpF2qrY0gTVG
+ nBp2aSoiobpqhoQ7QSiF7g8e2h8EmlB/e+mCwis9NIlkVk8WuRb0trzgvNtf7Rb+aQMp
+ fr0lpRjuTIFlzsPQ8NV9ivnCemxK6H0zkyD8U/W56NKrYOC8oFHZnN7ftzbWz8SL/BPK
+ sVOmNmZdI4g+z3IC6IrUma9DyCM99og1Qi0sSahfrPciJxDft7kyl2Se4NjKjInAz4wu
+ 0uvg==
+X-Gm-Message-State: AOAM530c8KX+iLn+DvC7TU1vzyr/th/fE1SMA/I1huWhio44bzytozzj
+ yYE23hM+qYm5OzU+xnWELlGC5w==
+X-Google-Smtp-Source: ABdhPJw+O6R7LifTF4brRuRqhw5lrs96jYaLqUHh2xvb1YTGPJ+cp7Cswte61cmAsuZv6pffrOGkXQ==
+X-Received: by 2002:a4a:d641:: with SMTP id y1mr16565587oos.30.1606760801540; 
+ Mon, 30 Nov 2020 10:26:41 -0800 (PST)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id y62sm9945205oia.23.2020.11.30.10.26.07
+ by smtp.gmail.com with ESMTPSA id j9sm9596881oij.44.2020.11.30.10.26.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Nov 2020 10:26:07 -0800 (PST)
-Subject: Re: [PATCH 2/4] hw/core/loader.c: Improve reporting of ROM overlap
- errors
+ Mon, 30 Nov 2020 10:26:40 -0800 (PST)
+Subject: Re: [PATCH 3/4] elf_ops.h: Don't truncate name of the ROM blobs we
+ create
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20201129203923.10622-1-peter.maydell@linaro.org>
- <20201129203923.10622-3-peter.maydell@linaro.org>
+ <20201129203923.10622-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c69e0a30-f6e3-aab8-048a-1a4129ff7dc4@linaro.org>
-Date: Mon, 30 Nov 2020 12:26:05 -0600
+Message-ID: <ebdd6138-61ab-7708-71dc-206e56287889@linaro.org>
+Date: Mon, 30 Nov 2020 12:26:38 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201129203923.10622-3-peter.maydell@linaro.org>
+In-Reply-To: <20201129203923.10622-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc41.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,39 +94,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/29/20 2:39 PM, Peter Maydell wrote:
-> In rom_check_and_register_reset() we report to the user if there is
-> a "ROM region overlap". This has a couple of problems:
->  * the reported information is not very easy to intepret
->  * the function just prints the overlap to stderr (and relies on
->    its single callsite in vl.c to do an error_report() and exit)
->  * only the first overlap encountered is diagnosed
-> 
-> Make this function use error_report() and error_printf() and
-> report a more user-friendly report with all the overlaps
-> diagnosed.
-> 
-> Sample old output:
-> 
-> rom: requested regions overlap (rom dtb. free=0x0000000000008000, addr=0x0000000000000000)
-> qemu-system-aarch64: rom check and register reset failed
-> 
-> Sample new output:
-> 
-> qemu-system-aarch64: Some ROM regions are overlapping
-> These ROM regions might have been loaded by direct user request or by default.
-> They could be BIOS/firmware images, a guest kernel, initrd or some other file loaded into guest memory.
-> Check whether you intended to load all this guest code, and whether it has been built to load to the correct addresses.
-> 
-> The following two regions overlap (in the cpu-memory-0 address space):
->   phdr #0: /home/petmay01/linaro/qemu-misc-tests/ldmia-fault.axf (addresses 0x0000000000000000 - 0x0000000000008000)
->   dtb (addresses 0x0000000000000000 - 0x0000000000100000)
-> 
-> The following two regions overlap (in the cpu-memory-0 address space):
->   phdr #1: /home/petmay01/linaro/qemu-misc-tests/bad-psci-call.axf (addresses 0x0000000040000000 - 0x0000000040000010)
->   phdr #0: /home/petmay01/linaro/qemu-misc-tests/bp-test.elf (addresses 0x0000000040000000 - 0x0000000040000020)
+> Currently the load_elf code assembles the ROM blob name into a
+> local 128 byte fixed-size array. Use g_strdup_printf() instead so
+> that we don't truncate the pathname if it happens to be long.
+> (This matters mostly for monitor 'info roms' output and for the
+> error messages if ROM blobs overlap.)
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
+>  include/hw/elf_ops.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
