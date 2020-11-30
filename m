@@ -2,52 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAA32C9024
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 22:42:35 +0100 (CET)
-Received: from localhost ([::1]:50142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FA02C9027
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 22:43:17 +0100 (CET)
+Received: from localhost ([::1]:52272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjqwM-0005wy-GI
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 16:42:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55030)
+	id 1kjqx2-0006qD-Ak
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 16:43:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kjqum-0005GE-M7; Mon, 30 Nov 2020 16:40:56 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:34110
- helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1kjquj-00020w-Ir; Mon, 30 Nov 2020 16:40:55 -0500
-Received: from Alexanders-MacBook-Air.local
- (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with ESMTPSA id 096F93900111;
- Mon, 30 Nov 2020 22:40:49 +0100 (CET)
-Subject: Re: [PATCH 2/8] hvf: Move common code out
-To: Peter Collingbourne <pcc@google.com>, Frank Yang <lfy@google.com>
-References: <20201126215017.41156-1-agraf@csgraf.de>
- <20201126215017.41156-3-agraf@csgraf.de>
- <20201127200054.GC56950@SPB-NB-133.local>
- <392c2465-157e-e15a-0a2c-2e3faa166d22@csgraf.de>
- <CAEkmjvUArgL+Mcvy6nUhfJrdX3OaF=U8UdWia7ZDo9GWk0VF=g@mail.gmail.com>
- <CAEkmjvVJ5zup4NR2+DStt_NvV2cV7+7dj2=fJ3DQBkth8pAfcw@mail.gmail.com>
- <cecd20d0-278b-0a4b-ba9c-0207504c99d7@csgraf.de>
- <CAEkmjvVOAYP6wJyVpAtZE3d=iNOOWGZeHptQ9xJDGcTi4qQ0hQ@mail.gmail.com>
- <CAMn1gO7jqjsqJHtSaV7F+2qmtfF-YFDJwo=O8ot2iem+Uz4Zrw@mail.gmail.com>
-From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <6975b4a3-1568-df40-8594-bfcf488ac425@csgraf.de>
-Date: Mon, 30 Nov 2020 22:40:49 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1kjqwA-000664-0Y
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 16:42:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1kjqw7-00024p-DR
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 16:42:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606772537;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hMrRpx7cIXLxHQXqq5HD76p5M6pt7zAw6AYdbvr5Pt8=;
+ b=Eid1vv3KDTvynaFC8ASM+s+gcpoLvfqNpr6u6/9iKfWrXP+BWYGrKtl9dU6KSMOoKNJniL
+ EQd+YflOw7So+nN7jOXrBYuOrPbkZKoHCBGb+/U6l3A4RairKS0QHeAt01vXlrV0xBnfu7
+ S54qL1nz9C9eQ46Pr+CjKClz3Ss6F5s=
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-_4Yv-edyNN6UbroGKcRG7A-1; Mon, 30 Nov 2020 16:42:15 -0500
+X-MC-Unique: _4Yv-edyNN6UbroGKcRG7A-1
+Received: by mail-vk1-f199.google.com with SMTP id s68so4400293vkb.6
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 13:42:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hMrRpx7cIXLxHQXqq5HD76p5M6pt7zAw6AYdbvr5Pt8=;
+ b=b5SKrtpyAa4on7rkDpgItzAiP+rvoIMoy8o6xYTuee5QKHlM89diFLu67Zb3z4fn/t
+ LSSoEoQH6ea8TiXHX3OZOzXZWceNJ+7FyCHJ57QRjW89ULPlbeG+NO24v1mgYI/Y+/cV
+ 3OhS8oqQ11fZckQNirhGHiXUeJ3OOcCBPi1qWkM2EiD3lLaixcOF7Zpqj1Bp4XtT393C
+ XAGWXuI0Q3h7CC9yym6RbaHh1ukpf+04esMP0gnSC10V18vVtOVWEtfv6NYHIjQsJEru
+ e2wBira+wW+CD6z7KktuqofbGJZT8S1VtSKnhwkM0SYJb7Fk5TlABJFlcR1CfXGOfG9z
+ z13g==
+X-Gm-Message-State: AOAM533mWd1s8/KDLuoclWB7mlB49YTqChV1hLaqjf/Ik2uPJD3/wOCS
+ hdmcRV8WqQqJk8vj1SUhBEmfamm/Dg6xSMkxCQhyrjAkKvMdkWk30MBMjBxg+PyTcoaDdx1aTFf
+ X2F+sydZa+vh/X3tsKDYYpM8dOCgqKVs=
+X-Received: by 2002:a1f:1b95:: with SMTP id b143mr4328024vkb.1.1606772535341; 
+ Mon, 30 Nov 2020 13:42:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwY9rPEgNBVrM0fVj95zmFo8DLMkXPDlCeCeFuI0WA0O5AjtddNe8wsZbmTZzGfSeRgkFqIPF9tkXQVknpIOp8=
+X-Received: by 2002:a1f:1b95:: with SMTP id b143mr4328018vkb.1.1606772535174; 
+ Mon, 30 Nov 2020 13:42:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMn1gO7jqjsqJHtSaV7F+2qmtfF-YFDJwo=O8ot2iem+Uz4Zrw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+References: <20201127174110.1932671-1-philmd@redhat.com>
+In-Reply-To: <20201127174110.1932671-1-philmd@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 30 Nov 2020 18:42:04 -0300
+Message-ID: <CAKJDGDYsxO4YbJLbf9gOEDfuOhxu=ybKkF-vQ5Pn+EPJHacpEA@mail.gmail.com>
+Subject: Re: [RFC PATCH-for-5.2] gitlab-ci: Do not automatically run Avocado
+ integration tests anymore
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,77 +90,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ virt-ci-maint-team <virt-ci-maint-team@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-
-On 30.11.20 22:08, Peter Collingbourne wrote:
-> On Mon, Nov 30, 2020 at 12:56 PM Frank Yang <lfy@google.com> wrote:
->>
->>
->> On Mon, Nov 30, 2020 at 12:34 PM Alexander Graf <agraf@csgraf.de> wrote:
->>> Hi Frank,
->>>
->>> Thanks for the update :). Your previous email nudged me into the right direction. I previously had implemented WFI through the internal timer framework which performed way worse.
->> Cool, glad it's helping. Also, Peter found out that the main thing keeping us from just using cntpct_el0 on the host directly and compare with cval is that if we sleep, cval is going to be much < cntpct_el0 by the sleep time. If we can get either the architecture or macos to read out the sleep time then we might be able to not have to use a poll interval either!
->>> Along the way, I stumbled over a few issues though. For starters, the signal mask for SIG_IPI was not set correctly, so while pselect() would exit, the signal would never get delivered to the thread! For a fix, check out
->>>
->>>    https://patchew.org/QEMU/20201130030723.78326-1-agraf@csgraf.de/20201130030723.78326-4-agraf@csgraf.de/
->>>
->> Thanks, we'll take a look :)
->>
->>> Please also have a look at my latest stab at WFI emulation. It doesn't handle WFE (that's only relevant in overcommitted scenarios). But it does handle WFI and even does something similar to hlt polling, albeit not with an adaptive threshold.
-> Sorry I'm not subscribed to qemu-devel (I'll subscribe in a bit) so
-> I'll reply to your patch here. You have:
+On Fri, Nov 27, 2020 at 2:41 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> +                    /* Set cpu->hvf->sleeping so that we get a
-> SIG_IPI signal. */
-> +                    cpu->hvf->sleeping = true;
-> +                    smp_mb();
-> +
-> +                    /* Bail out if we received an IRQ meanwhile */
-> +                    if (cpu->thread_kicked || (cpu->interrupt_request &
-> +                        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
-> +                        cpu->hvf->sleeping = false;
-> +                        break;
-> +                    }
-> +
-> +                    /* nanosleep returns on signal, so we wake up on kick. */
-> +                    nanosleep(ts, NULL);
+> We lately realized that the Avocado framework was not designed
+> to be regularly run on CI environments. Therefore, as of 5.2
+> we deprecate the gitlab-ci jobs using Avocado. To not disrupt
+> current users, it is possible to keep the current behavior by
+> setting the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable
+> (see [*]).
+> From now on, using these jobs (or adding new tests to them)
+> is strongly discouraged.
+
+When you say, "Avocado framework was not designed to be regularly run
+on CI environments", I feel your pain. Avocado is a really nice test
+framework, and I agree with you that running it locally is a little
+easier than running inside a CI environment. Debugging a job failure
+in the CI is not user-friendly; finding the command to reproduce a job
+failure locally is not user-friendly. I understand why you would like
+to remove the CI's acceptance tests, but I think your proposal is
+missing some arguments and some planning.
+
+If I read correctly, we share the same view that the CI and the
+software tests are two different things. Here you are proposing that
+we temporarily remove the CI's acceptance tests because it is not
+user-friendly to the devs. This does not mean the tests will be lost.
+It will be possible to run them locally or in the CI using the
+QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable.
+
 >
-> and then send the signal conditional on whether sleeping is true, but
-> I think this is racy. If the signal is sent after sleeping is set to
-> true but before entering nanosleep then I think it will be ignored and
-> we will miss the wakeup. That's why in my implementation I block IPI
-> on the CPU thread at startup and then use pselect to atomically
-> unblock and begin sleeping. The signal is sent unconditionally so
-> there's no need to worry about races between actually sleeping and the
-> "we think we're sleeping" state. It may lead to an extra wakeup but
-> that's better than missing it entirely.
+> Tests based on Avocado will be ported to new job schemes during
+> the next releases, with better documentation and templates.
 
+I understand you intend to make a more reliable and stable CI. Some
+wording on why the new job scheme will be better than what we have now
+and some planning on enabling the acceptance tests again in the CI may
+help evaluate if it is feasible or just the same as what we have
+today.
 
-Thanks a bunch for the comment! So the trick I was using here is to 
-modify the timespec from the kick function before sending the IPI 
-signal. That way, we know that either we are inside the sleep (where the 
-signal wakes it up) or we are outside the sleep (where timespec={} will 
-make it return immediately).
-
-The only race I can think of is if nanosleep does calculations based on 
-the timespec and we happen to send the signal right there and then.
-
-The problem with blocking IPIs is basically what Frank was describing 
-earlier: How do you unset the IPI signal pending status? If the signal 
-is never delivered, how can pselect differentiate "signal from last time 
-is still pending" from "new signal because I got an IPI"?
-
-
-Alex
+It would be nice to hear from other subsystem maintainers their pain
+points about using the CI and how we can improve it. I hear you that
+Avocado needs to improve its interface to be more user friendly. As an
+Avocado developer, I would also like to hear from others where we can
+improve Avocado to make it less painful for the QEMU developers'.
 
 
