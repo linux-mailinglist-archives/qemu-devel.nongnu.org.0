@@ -2,96 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABFD32C8179
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 10:54:37 +0100 (CET)
-Received: from localhost ([::1]:34198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9172C817A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 10:54:40 +0100 (CET)
+Received: from localhost ([::1]:34564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjftE-0004CD-PC
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 04:54:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44590)
+	id 1kjftH-0004LT-Mr
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 04:54:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kjfrN-0002jX-Rx
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 04:52:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22388)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kjfrK-0000cc-9P
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 04:52:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606729956;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g11VK0gTGLEg7rNzqtjLiszxokMdQuwFCxWw/RSu7b8=;
- b=FZ1EtkkTX08Wa/go7GtpU8KiOmXXoU6av3D530C5wenrw+hE1AhwjTpbZd2gS3tqOpayhV
- NUldoAS4sqguthCgWdkU9hTy9KDOAxE10Yj23Dlrg+hzg3/s+BXkXVDoIyCIQPhwoUd+Iu
- e/AZzjTqbISF9ulR4+FMNd0q39nz4ak=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-DbvYJnlHNn-AijjBvU1vAg-1; Mon, 30 Nov 2020 04:52:34 -0500
-X-MC-Unique: DbvYJnlHNn-AijjBvU1vAg-1
-Received: by mail-wm1-f71.google.com with SMTP id v5so7215248wmj.0
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 01:52:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kjfrg-0002rs-TP
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 04:53:01 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38089)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kjfra-0000i6-Fh
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 04:53:00 -0500
+Received: by mail-ej1-x641.google.com with SMTP id a16so20534729ejj.5
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 01:52:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zzQ4cnB1O7rUreryUKOOa+chKIwPtH+wE/zUOq3hVjc=;
+ b=yT/DsMWkNTTWadpHsUMMd0wD5aPC0cGywP32RERCiiDqo/wja+9frQWrRwDC+FZgD5
+ riP03ZNL/EqEcfgL3R1Sv4rg5kxIzry5X1bQwfWWDfK5SDLyp5rTi9WOECHm0zAHXahr
+ pS6ys0IrBZ0Q/vfgaFgpXSCI6Y40khKQZBBfrJFG1XrPrzJWIH+E6EGwl+kmIt8WzUqa
+ W2N7xXnYAY+vAZiiElijuYQxCL28RzcTrM9r8o629msSG/5qmKoAGh0Jg5V9yHlJLXSm
+ JvmnwAZLCX2+YpsS3/WD9U0eTScj4p9Q+0+hGshQ0H0MlwuzYIcHUq80DNjZcJf0vOFi
+ ALXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=g11VK0gTGLEg7rNzqtjLiszxokMdQuwFCxWw/RSu7b8=;
- b=sCx3tzZs7Dv7M1bIMYof4jVzlfEVrnQbigOJbxsMCOBgIoj6uJTjgnZ+vrcGYNoJuc
- a3F9CZnSoM8N7tJIGP++8+leiEbi1RuNU+6fpBUzz2NctQkkwximquTj99hqT5wkrS2P
- BfodmHeQfanAoG84PSoX2rbQXcMv6fblGwMsBK/svLnLdp5w5whk3qGCZEAm8XPffRqj
- SlWgc6j2kWPfVxOaIIMq0yxVhqdQSNFTV+YRK4yxVknpqSbXe4XmB3K9Pj0+MafmILlD
- //oBwEy1xfUg6xyA/goYN+3fxa/1kFzs37kWRBI/UzAUgTmA9iHmb6CnRHWs1r+b9c/p
- R7tQ==
-X-Gm-Message-State: AOAM5311wyO7R75ow1WH2wzPTSGyITQdvemEDe4UT2iV9jgMqvI4yqTx
- XpQiqk+QlVDPwpX2KW+4nX3JYNtGzeID/Nyygyv9z7BHPbEDKyqkA/PQr2pxjZ3AhGdDJvv3GTK
- 46j3wwpVDp9vRMAo=
-X-Received: by 2002:a1c:9c53:: with SMTP id f80mr22207704wme.19.1606729953112; 
- Mon, 30 Nov 2020 01:52:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz5U80urM9NUKyqgZJ3pW+CKFR6mlKjqm6gP1gpWLqz85XrJbkqi5GTqq2fvaBd+WhxPSLC/Q==
-X-Received: by 2002:a1c:9c53:: with SMTP id f80mr22207677wme.19.1606729952816; 
- Mon, 30 Nov 2020 01:52:32 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id q12sm25764954wrx.86.2020.11.30.01.52.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Nov 2020 01:52:32 -0800 (PST)
-Subject: Re: [RFC PATCH-for-5.2] gitlab-ci: Do not automatically run Avocado
- integration tests anymore
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <wrampazz@redhat.com>
-References: <20201127174110.1932671-1-philmd@redhat.com>
- <b08db31b-1411-6936-f737-0d6c8f98ebb8@redhat.com>
- <f32a1db5-5231-fc4d-1741-0b5ee13f618f@redhat.com>
- <9157dce0-4f5d-3f1e-ce75-3e9da9252203@redhat.com>
- <ec7e0016-7d10-49bf-0af2-69de8356bbed@redhat.com>
- <5a854d27-ac95-76ff-5014-be80239de796@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3e3809d7-8342-6578-d6aa-f1e7bccdaf95@redhat.com>
-Date: Mon, 30 Nov 2020 10:52:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zzQ4cnB1O7rUreryUKOOa+chKIwPtH+wE/zUOq3hVjc=;
+ b=QW2U0Cv/6o7DYCT4LjG4KoBNABH3Q0DV6PKE39opY06IirVeYBRe+tJnHObUY4gh1I
+ 7eND3wS+uPhJQDOo/AwwPJv89nLP+xNwWIkZVI3N6PDpNdnB3wzJlG0tWVe1NQpeSCUG
+ QtYGHNtaKgeot6Y/2noOSvEYixyun0MMHm1P4qPIzveN5AGAPgNwL8ldysWrIxvoiEeL
+ Hrh7kjf3M35mxBOk09uH4Bae9WWtVra3OI2LRQZSp3tjOvLkKi5a5X+el74OshM1p5Vf
+ lCww5JX5C4HBggTgPjvSYdQT5T1wuLab7EmX8unXf7zf0S8s6VVcPrj65L1CUwrJCoWn
+ mPEg==
+X-Gm-Message-State: AOAM531VGoWBrssbRpr4l3/y8Hz5JNBvH4nQ/8USXzZjcjWrejqz2bQi
+ QFOo4gXBJZ5EcF/e4IyBtuhgtRSuPwhL8kB9KvXZcw==
+X-Google-Smtp-Source: ABdhPJwAdlNUpSc/DsfjI6yOwWskv7s7up+BYtBI7bg1SJjhMwrzsyCwQliVAt9YSDjhWm8MxtchWsJfEP3UQXpeIiQ=
+X-Received: by 2002:a17:906:1542:: with SMTP id
+ c2mr18779243ejd.382.1606729972150; 
+ Mon, 30 Nov 2020 01:52:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <5a854d27-ac95-76ff-5014-be80239de796@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201130030723.78326-1-agraf@csgraf.de>
+ <20201130030723.78326-8-agraf@csgraf.de>
+In-Reply-To: <20201130030723.78326-8-agraf@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 30 Nov 2020 09:52:40 +0000
+Message-ID: <CAFEAcA8utMuT55R5TzV_3N1Emdu-AjSE7CJ1Oqhs0Vsc4OzEYQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] hvf: Add Apple Silicon support
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,167 +78,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- virt-ci-maint-team@redhat.com,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/30/20 10:03 AM, Thomas Huth wrote:
-> On 27/11/2020 19.46, Philippe Mathieu-Daudé wrote:
->> On 11/27/20 7:29 PM, Thomas Huth wrote:
->>> On 27/11/2020 18.57, Philippe Mathieu-Daudé wrote:
->>>> On 11/27/20 6:47 PM, Thomas Huth wrote:
->>>>> On 27/11/2020 18.41, Philippe Mathieu-Daudé wrote:
->>>>>> We lately realized that the Avocado framework was not designed
->>>>>> to be regularly run on CI environments. Therefore, as of 5.2
->>>>>> we deprecate the gitlab-ci jobs using Avocado. To not disrupt
->>>>>> current users, it is possible to keep the current behavior by
->>>>>> setting the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable
->>>>>> (see [*]).
->>>>>> From now on, using these jobs (or adding new tests to them)
->>>>>> is strongly discouraged.
->>>>>>
->>>>>> Tests based on Avocado will be ported to new job schemes during
->>>>>> the next releases, with better documentation and templates.
->>>>>
->>>>> Why should we disable the jobs by default as long as there is no replacement
->>>>> available yet?
->>>>
->>>> Why keep it enabled if it is failing randomly
->>>
->>> We can still disable single jobs if they are not stable, but that's no
->>> reason to disable all of them by default, is it?
->>>
->>>> if images hardcoded
->>>> in tests are being removed from public servers, etc...?
->>>
->>> That's independent from Avocado, you'll always have that problem if you want
->>> to test with external images, unless you mirror them into a repository on
->>> the same server (ie. gitlab), which, however, might not always be possible...
->>>
->>>> They are not disabled, they are still runnable manually or setting
->>>> QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE...
->>>
->>> And who do you think is going to set that variable? Hardly anybody, I guess.
->>
->> Does that mean nobody cares about these tests?
-> 
-> It's like with all the other tests: Most of the people do not really care
-> about them (if they are not the author of a test) unless the test fails
-> during "make check" / the gating CI of Peter. So IMHO the right way to go is
-> to finally get these in the gating CI, otherwise, if you now even disable
-> them in the gitlab-CI by default, they will bitrot completely.
+On Mon, 30 Nov 2020 at 03:07, Alexander Graf <agraf@csgraf.de> wrote:
+>
+> With Apple Silicon available to the masses, it's a good time to add support
+> for driving its virtualization extensions from QEMU.
+>
+> This patch adds all necessary architecture specific code to get basic VMs
+> working. It's still pretty raw, but definitely functional.
+>
+> Known limitations:
+>
+>   - Vtimer acknowledgement is hacky
+>   - Should implement more sysregs and fault on invalid ones then
+>   - WFI handling is missing, need to marry it with vtimer
+>
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
 
-Maybe it is up to each maintainer? Some tests are hard to reproduce,
-I'd prefer have them committed in the repository to allow someone to
-run it later and eventually fix it if it bitrot, rather than having
-pieces of code we don't know if they are tested, who use them, and
-we are scared to remove.
+> +static const struct hvf_reg_match hvf_sreg_match[] = {
+> +    { HV_SYS_REG_DBGBVR0_EL1, offsetof(CPUARMState, cp15.dbgbvr[0]) },
+> +    { HV_SYS_REG_DBGBCR0_EL1, offsetof(CPUARMState, cp15.dbgbcr[0]) },
+> +    { HV_SYS_REG_DBGWVR0_EL1, offsetof(CPUARMState, cp15.dbgwvr[0]) },
 
->>>> We realized by default Avocado runs all tests on the CI jobs,
->>>> triggering failures and complains. Developer stopped to contribute/
->>>> review integration tests because of that.
->>>
->>> Did anybody really stop contributing "acceptance" test since they were
->>> afraid of the gitlab-CI running them? That's new to me, do you have a pointer?
->>
->> No, but alternatively, how many tests were contributed / reviewed
->> last year?
-> 
-> I don't think this is related to the fact that we've seen some failures in
-> the gitlab-CI.
-> 
-> People might rather be either not aware of the "acceptance" tests yet, or
-> might be uncomfortable with Python, or might just not be interested in
-> writing tests at all.
-> 
-> Same problem also exists e.g. with the new qos-test framework since it was
-> introduced in 2018. Only very few people contributed new tests here, though
-> it is quite a powerful frameworks to test various combinations of devices.
-> 
-> I think if you want to promote a testing framework, you have to do some
-> lobby work ... advertise it in blog posts, make sure that there is proper
-> documentation and easy examples which can be used as a base for new tests, etc.
+> +};
+> +
+> +int hvf_get_registers(CPUState *cpu)
+> +{
+> +    ARMCPU *arm_cpu = ARM_CPU(cpu);
+> +    CPUARMState *env = &arm_cpu->env;
+> +    hv_return_t ret;
+> +    uint64_t val;
+> +    int i;
+> +
+> +    for (i = 0; i < ARRAY_SIZE(hvf_reg_match); i++) {
+> +        ret = hv_vcpu_get_reg(cpu->hvf->fd, hvf_reg_match[i].reg, &val);
+> +        *(uint64_t *)((void *)env + hvf_reg_match[i].offset) = val;
+> +        assert_hvf_ok(ret);
+> +    }
 
-I certainly don't want to promote any particular framework. I don't
-care what is used. What I want is to add more tests. And I would like
-developers to focus on what feature they want to test, and not on
-fixing refcount leak in the test itself.
+Please don't just blat straight into the CPU struct like this.
+Compare KVM's handling of the cpreg list (data structure set up
+in kvm_arm_init_cpreg_list() and the various write_*_to_* functions
+that use it), where we look up the cpreg by its encoding and then
+that gives us the field offset if necessary and also various flags
+including ones that say "don't sync this". You'll need to set up
+the cpreg list for migration anyway.
 
-If qos-test is sufficient to replace what we have in Python, I'm happy
-if someone port the Python tests to it.
-
-> 
->>>> We want developers be
->>>> able to contribute tests to the repository fearlessly.
->>>
->>> You can always mark your test with @skipIf(os.getenv('GITLAB_CI')) if you
->>> don't want to see it running in the gitlab-CI, so that's not a reason to be
->>> afraid.
->>
->> This was the idea here (opposite, tag jobs with 'gating-ci' to run
->> them on GitLab):
->> https://www.mail-archive.com/qemu-devel@nongnu.org/msg756464.html
-> 
-> Well, maybe you should follow-up on that series instead?
-
-OK.
-
-> 
->>>> If we don't change anything, we'll keep having CI failures due
->>>> to Avocado design issues (artifacts removed from remote servers,
->>>> etc...).
->>>
->>> I fail to see the relation between Avocado and vanishing artifacts from 3rd
->>> party servers... what do you plan to do instead if something gets (re-)moved
->>> from a server that is not under our control?
->>
->> Avocado tests and CI are orthogonal, but it will be painful to
->> fix Avocado tests with the current Avocado CI jobs.
-> 
-> Well, but we do not have any other framework in place yet which could
-> replace the current one, so simply disabling the tests now will only allow
-> more regressions to creep in, and then you'll have a hard time to get to the
-> state again where we were before.
-> 
->>>> I haven't seen any attempt on this list to improve the current
->>>> fragile situation, but better suggestions are certainly welcome.
->>>
->>> At least I am hoping that the "check-acceptance" tests will break a little
->>> bit less often once Peter uses the gitlab-CI for his gating tests, too. That
->>> will at least prevent that one of the tests gets completely broken by a new
->>> merged pull request. Of course there's still the risk that tests only fail
->>> occasionally due to new bugs, but that can also happen for all other test
->>> suites (unit, qtest, iotests, ...), too.
->>
->> Or Peter (as other users) will get grumpy at these tests because they
->> are unreliable, hard to understand what fail and debug.
-> 
-> Actually, that's true for me for all tests that are written in Python ...
-> <sarcasm>Maybe we should simply ditch all python code in the QEMU
-> repo?</sarcasm>
-
-Also true with Perl and Rust. The community is wide, hard
-to include everybody and keep people happy.
->> Thus the removal suggestion, so we can "fix" the missing Avocado parts
->> before it is used heavily.
-> 
-> Now you somewhat contradict yourself. You just claimed that there are hardly
-> any contributions to this part of the test suite, and now you're afraid that
-> it might get used too heavily before it can be replaced with something else?
-> No, sorry, that does not make much sense to me. Thus please make sure to
-> provide a better framework first before disabling the stuff that we
-> currently have.
-
-Fine, I'll follow the other alternatives:
-
-- provide a better framework,
-- do nothing.
-
-Thanks,
-
-Phil.
-
+thanks
+-- PMM
 
