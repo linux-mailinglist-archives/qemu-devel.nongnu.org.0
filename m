@@ -2,70 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAA632C8A1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 17:58:13 +0100 (CET)
-Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06782C8A1F
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 17:59:25 +0100 (CET)
+Received: from localhost ([::1]:52096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjmVA-0002wr-Qw
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 11:58:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38186)
+	id 1kjmWK-0004CT-Hv
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 11:59:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kjmTT-000208-LL
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:56:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23512)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kjmUV-000309-JG
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:57:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kjmTR-0005NG-Rf
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:56:27 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kjmUS-0005U7-T1
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:57:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606755384;
+ s=mimecast20190719; t=1606755448;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fB0iM0+QwDFw03OGzjyVFx3c5heeuEDBI7BQ7NX5Pww=;
- b=fnjNTjtZknfZ2JwxKZ/GBZFc2OntfFBE29P4Y459/5N5wqEu4GJJ4ZvIa5agjMrWTfrcWy
- C+E3D21Ur3lLIKuyj7hH1a2LDTKcs7aquDy1Xxyd6+NxNyp8WOqbfENsGYCp5/A/PYsW8I
- 0u7XNURXtD5cLPcf7d3e5qkKP5dSajg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-Wg0giNjMMK6SBV71pUYffA-1; Mon, 30 Nov 2020 11:56:21 -0500
-X-MC-Unique: Wg0giNjMMK6SBV71pUYffA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1290985818D
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 16:56:20 +0000 (UTC)
-Received: from localhost (ovpn-115-30.ams2.redhat.com [10.36.115.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3AE76086F;
- Mon, 30 Nov 2020 16:56:15 +0000 (UTC)
-Date: Mon, 30 Nov 2020 16:56:14 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 0/4] [RfC] fix tracing for modules
-Message-ID: <20201130165614.GB474479@stefanha-x1.localdomain>
-References: <20201124160255.28111-1-kraxel@redhat.com>
+ bh=yPZNKs4SeqcpIKZYOIbWiY9Y9EupZ7FqqB5RnvbAsnw=;
+ b=ZqP65hkLXPhPxlmRaAlWVSiBe+lG/mTpTO3lauLoeZqmMdhdAJ3UISfPG1xAUirRR173VZ
+ AoG9mci2MuMD6YbLVloYgNavvQS/q6UxxrucHqlpFJZTnJ/4mFvjteeHzLOLF8jDZ/La9Z
+ N44pKRVkB/U2zgMsSbqnF0egej7KG4c=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-584-xJiiXkPQMEWWBGGZv8haMQ-1; Mon, 30 Nov 2020 11:57:26 -0500
+X-MC-Unique: xJiiXkPQMEWWBGGZv8haMQ-1
+Received: by mail-ed1-f69.google.com with SMTP id bt2so7119234edb.12
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 08:57:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yPZNKs4SeqcpIKZYOIbWiY9Y9EupZ7FqqB5RnvbAsnw=;
+ b=Rz4tQ3la1ze4faVV5yYClUVwkoE+YIf2YuHBObFb3ydKLHw/AysN8ZYbJmj+fEXO/t
+ jyWNsKe/U1hsSZF2IbzoYhwFiCjPHsgzZqoxfrs74TYbGy0g8ATjHdExkIdsSDrFUYnM
+ kHZ/8Wc1AyGopK3luNzI0/AMTJxdYY7xav9NorTwJdUAJeOHAjQ6iNOUxay7HYor7lCb
+ NFkCgap453U5GkSH33VTvE0DGwMQXjiqXt+39wF67DkbxXW3IxFN03o1hK1zSeV+wRSY
+ GcTSY7OlxxP9jOdKczHcRwkHO2aW6n/nWc2UoiabI6u9ancen8QmiYVyWQL4SallZSsY
+ wGSQ==
+X-Gm-Message-State: AOAM5320d+PazM9Zfddsmpf8I1F+gtF6+/cTC180VsRntv9H4uTU5eaB
+ hd9YujdeMrH7rS8WjwH6HtKgQ/j5pPqqzpmHHufgoZrN7wC84V5JXz3/ssON2Khsvo1bTPFKmWE
+ nZcQVZZw42MG+D5U=
+X-Received: by 2002:a17:906:9452:: with SMTP id
+ z18mr19572725ejx.389.1606755444963; 
+ Mon, 30 Nov 2020 08:57:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwh7c/Ldbh42JtonZYBap8aQFXRzozYgBkJ/Q44lOTeYM1MZpTANzCn/Ah0HfCSjY0IZqD++Q==
+X-Received: by 2002:a17:906:9452:: with SMTP id
+ z18mr19572697ejx.389.1606755444704; 
+ Mon, 30 Nov 2020 08:57:24 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id v9sm1974302ejk.48.2020.11.30.08.57.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Nov 2020 08:57:23 -0800 (PST)
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20201130122538.27674-1-kwolf@redhat.com>
+ <01d32c8c-5023-6323-bed8-ede08f6ac8a3@redhat.com>
+ <20201130154605.GC5078@merkur.fritz.box>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
+Message-ID: <a9c1ebf3-ffcc-7312-ce66-a79902d1e9ba@redhat.com>
+Date: Mon, 30 Nov 2020 17:57:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201124160255.28111-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201130154605.GC5078@merkur.fritz.box>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QTprm0S8XgL7H0Dt"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,75 +103,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---QTprm0S8XgL7H0Dt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 30/11/20 16:46, Kevin Wolf wrote:
+> Am 30.11.2020 um 15:58 hat Paolo Bonzini geschrieben:
+>> With this series it's basically pointless to have QOM properties at
+>> all.
+> 
+> Not entirely, because there are still some writable properties that can
+> be changed later on.
 
-On Tue, Nov 24, 2020 at 05:02:51PM +0100, Gerd Hoffmann wrote:
-> First version that actually works.  Only qxl covered for this RfC, other
-> modules will follow once the basics are hashed out.
->=20
-> More context:
->   https://bugzilla.redhat.com/show_bug.cgi?id=3D1898700
->   https://bugzilla.redhat.com/show_bug.cgi?id=3D1869642
->=20
-> take care,
->   Gerd
->=20
-> Gerd Hoffmann (4):
->   meson: add trace_events_config[]
->   meson: move up hw subdir (specifically before trace subdir)
->   meson: add module_trace & module_trace_src
->   meson: move qxl trace events to separate file
+Are there really any (that are not bugs like opened/loaded)? That's also 
+why Eduardo and I discussed a class-wide allow_set function for his 
+field properties series.
 
-Awesome, thank you for working on this!
+> So with this in mind, I think I'm in favour of completely leaving the
+> initialisation of properties on object creation to QAPI, and only
+> providing individual setters if we actually intend to allow property
+> changes after creation.
 
-I noticed an issue with simpletrace: the trace file does not contain
-qxl_* TRACE_RECORD_TYPE_MAPPING records when ./configure
---enable-modules is used. This happens because st_write_event_mapping()
-is called before the qxl module calls trace_event_register_group().
+The main problem is that it wouldn't extend well, if at all, to machines 
+and devices.  So those would still not be integrated into the QAPI schema.
 
-(The mapping records describe the integer ID to string name mapping used
-in a simpletrace file.)
+>> So the question is, are we okay with shoveling half of QEMU's backend data
+>> model into a single struct?  If so, there are important consequences.
+> 
+> Yeah, the single struct bothers me a bit, both in the QAPI schema and in
+> the C source.
 
-You can check this using "grep -a qxl_ trace-$LAST_QEMU_PID" after
-running qemu --device qxl built with ./configure --enable-modules
---enable-trace-backend=3Dsimple.
+The single struct doesn't bother me _too much_ actually.  What bothers 
+me is that it won't be a single source of all QOM objects, only those 
+that happen to be created by object-add.  So I start to wonder if QOM as 
+it exists now is the right solution for all kind of objects:
 
-Remove --enable-modules and the file will contain the qxl_ trace events.
+- backends and other object-add types (not per-target, relatively few 
+classes and even fewer hierarchies)
 
-This means the trace file is broken because the simpletrace records
-cannot be mapped to a trace event name.
+- machine (per-target, many classes, no hierarchy)
 
-One way to solve this is by modifying trace_event_register_group() to
-call into trace/simple.c (maybe with a TraceEventIter initialized to
-iterate over the newly registered trace events group?).
+- device (can be treated as not per-target, many many classes, very few 
+hierarchies)
 
-Alternatively, simpletrace.c might be able to emit
-TRACE_RECORD_TYPE_MAPPING on demand instead of ahead of time.
+- accelerator (per-target, few classes, no hierarchy)
 
-Stefan
+- chardev (ok those are the same as the first category)
 
---QTprm0S8XgL7H0Dt
-Content-Type: application/pgp-signature; name="signature.asc"
+If QOM is the right solution, this patch goes in the wrong direction.
 
------BEGIN PGP SIGNATURE-----
+If QOM is the wrong solution, this patch is okay but then we have 
+another problem to solve. :)
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/FJC4ACgkQnKSrs4Gr
-c8htYwf/ew+0uOP25u6IwMvJ6SSfM6Px1+Yw8VqPe0nzSF0LGqt6rZdFOVL/xuE2
-9RDBnyZmYzMj0+pnjDT10nAbNRzV9tbEMzqi5xzZ2W9RaDBBjkLw7kCsK7vGa8UC
-/uTeJTeprEvmMo1IEmgwVXjPJQtGUTNhWpRN6dHk9+bUFa4yzOHFqGg3QQfwTiLe
-76sA6XBzt1GQ+QkW0R5wWQHxdtDk+23mjgUP4iYMVx1D0W2YHoFo7HKeySkVJUI5
-CfLT+ZhwIXOBznYU5cVxfLlWmIv1/EuLF8gXcDdD5PhcERvC/QHI7X4Se7uGg8I9
-GtATnSrHkRuUYqsi+q3qNSTjsDtfFw==
-=jSOM
------END PGP SIGNATURE-----
+>> The problem with this series is that you are fine with deduplicating things
+>> as a third step, but you cannot be sure that such deduplication is possible
+>> at all.  So while I don't have any problems in principle with the
+>> ObjectOptions concept, I don't think it should be committed without a clear
+>> idea of how to do the third step.
+> 
+> Do you have any specific concerns why the deduplication might not
+> possible, or just because it's uncharted territory?
 
---QTprm0S8XgL7H0Dt--
+Mostly because it's more or less the same issue that you have with 
+BlockdevOptions, with the extra complication that this series only deals 
+with the easy one of the four above categories.
+
+> Maybe if we don't want to commit to keeping the ObjectOptions schema,
+> the part that should wait is object-add and I should do the command line
+> options first? Then the schema remains an implementation detail for now
+> that is invisible in introspection.
+
+I don't see much benefit in converting _any_ of the three actually.  The 
+only good reason I see for QAPIfying this is the documentation, and the 
+promise of deduplicating QOM boilerplate.  The latter is only a promise, 
+but documentation alone is a damn good reason and it's enough to get 
+this work into a mergeable shape as soon as possible!
+
+But maybe, we could start in the opposite direction: start with the use 
+QAPI to eliminate QOM boilerplate.  Basing your work on Eduardo's field 
+properties series, you could add a new 'object' "kind" to QAPI that 
+would create an array of field properties (e.g. a macro expanding to a 
+compound literal?)
+.  Something like
+
+
++{ 'object': 'InputBarrier',
++  'data': { 'name': 'str',
++            'x-origin': 'int16',
++            'y-origin': 'int16',
++            'width': 'int16',
++            'height': 'int16' },
++  'properties': { 'server': 'str',
++                  'port': 'str' } }
+
+would create a macro QOM_InputBarrier_FIELDS defining properties for the 
+following fields of the InputBarrier struct:
+
+     gchar *name;
+     int16_t x_origin, y_origin;
+     int16_t width, height;
+
+while server and port would only appear in the documentation (or 
+alternatively you could leave them out completely, as you wish).
+The advantages would be noticeable:
+
+1) the information would be moved in the QAPI schema JSON from the 
+beginning, decoupling the conflict-heavy part from the complex question 
+of how to expose the QOM schema in the introspection data
+
+2) there would not be any more duplication than before (there would be 
+duplication between structs and QAPI schema, but not between structs and 
+C code that defines properties).
+
+3) it would be opt-in, so it doesn't put on you the burden of keeping 
+the series in sync with new objects that are added (I have one for the 
+qtest server for example).  At the same time it would be quite appealing 
+for owners of QOM code to convert their objects to field properties and 
+get documentation for free.
+
+4) we could special-case 'object' definitions and generate them in the 
+system manual as well, since they are also useful to document -object.
+
+Yes it's a huge change but you have the boring part already done.  What 
+do you think?
+
+Paolo
+
+>> In the meanwhile, of course I have no problem with deprecating the opened
+>> and loaded properties.
+> 
+> If we decide that we don't want to have the schema at all (which I hope
+> we won't decide), I can split the deprecation into separate patches.
+> 
+> Kevin
+> 
 
 
