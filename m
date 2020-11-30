@@ -2,127 +2,149 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F2102C7D91
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 05:29:02 +0100 (CET)
-Received: from localhost ([::1]:35332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3AB12C7DE8
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 06:43:28 +0100 (CET)
+Received: from localhost ([::1]:52348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjao8-00058F-L8
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 23:29:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50352)
+	id 1kjbyB-0000K2-HM
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 00:43:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1kjan7-0004iX-Hz
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 23:27:57 -0500
-Received: from de-smtp-delivery-102.mimecast.com ([51.163.158.102]:21788)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1kjan5-0000dA-1W
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 23:27:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1606710471;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yubSQK+bCmGb0bgNOyVuBzrv8B+UwMKIcSEfo0sM1+I=;
- b=R/G1Hexa+LpRgXVJsF2ksnJv/4PdE1UCtFEornVZazsrpLGKjGxvQr7VBgwuA22NzbWV9U
- R/UNu+apZ6MXjv50xnjLwbitc+ehKqf/beEuf1amhFrV3HfcOz/O0eCOiETvb98F8Nh57u
- CxEZ6SdYcE89/ifI7MwtfSP+3Kb/iqE=
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05lp2172.outbound.protection.outlook.com [104.47.17.172])
- (Using TLS) by relay.mimecast.com with ESMTP id
- de-mta-11-KOv5UJDWMJSEtm5oGzw1Hw-1; Mon, 30 Nov 2020 05:27:49 +0100
-X-MC-Unique: KOv5UJDWMJSEtm5oGzw1Hw-1
+ (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
+ id 1kjbwJ-0007qS-Tt
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 00:41:31 -0500
+Received: from mga17.intel.com ([192.55.52.151]:51467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wentong.wu@intel.com>)
+ id 1kjbwG-0000Gr-Vz
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 00:41:31 -0500
+IronPort-SDR: hkKYY/vlMGS7CCCmvJKewru5YOJ5MM+TzhKEfwm1c9NxCk+z0IER054KcEi3J7+jIcY0cZ75qD
+ HYLu3S3EPBbA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="152417335"
+X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; d="scan'208";a="152417335"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2020 21:41:21 -0800
+IronPort-SDR: cvjGXQT8vmQpL+5H/yTTXDnfUUbdQhwZaeCcYVHKhb3KaP4mRpVeyXim/t9VaksZ/bsfBHZwyv
+ pxdodo66AnZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; d="scan'208";a="344956007"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga002.jf.intel.com with ESMTP; 29 Nov 2020 21:41:20 -0800
+Received: from orsmsx607.amr.corp.intel.com (10.22.229.20) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sun, 29 Nov 2020 21:41:20 -0800
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX607.amr.corp.intel.com (10.22.229.20) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sun, 29 Nov 2020 21:41:20 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Sun, 29 Nov 2020 21:41:20 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.172)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Sun, 29 Nov 2020 21:41:17 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WCwSM7z6AWwCLFQE3WGiuVV6app6L+FCfusMdOh7FfJie4rQb3PVkO9wYexY/DuBCsdxFfHt2nJmQ2HIT4buH0aVWDurqFyuiSuJGeqsgVCKcIm/JM0ns9+xhoPGRjpUNhdnStfjnR4TT/vDWugPyk0QjiDu4ypp835QmKHZNkGnFgBYJczpk67AChOV3uLai/wJ/O+bQRPzKYRr+8ErzwCaO7NItUHNm3a1QGRVv3a07l+9lUuMtf71g6K+3HEI3oXlfF9kSYz6ZUi59i4MlV4tz9ghPGbe8qe70VzQ5qIGppr4xmGw8/pReb6VWGCs2x2GE+XXkx8R8hduoMnYhA==
+ b=ChGVtRVFeHs2LIjI1QpYgLM2GDeCYE5N9BoyrIBBY1lDxHbEPVtJTNQgU1eglscw5godoz+tcwH1fLvmtl9t62ImJZBwYo6c8cB2j2ZM5BBqEB5GLBkyIlVjQgxemx9VkgCcycBAZm7h7WcRSWKqcz0ks2tI6ntWsfskyAlCq1v11Bdc8IQIe3dTF8orKADh8lmb5YiwVv6SyQxM89JUtXolkBXnI8XoNHA/gdpEbxzWD1Ws6yzJawLBOPeKAdtHED2j8x16HFeHogyuhEn4A18racsmbiZ0Mf/93xSiKqSbHmYMdEqbgtvydM5IOrUIPkoXLaKtL2Ouqad9utZcbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k67sobDzvnbXOfYVs97bPZ6b22BxpqTry074WnEfncU=;
- b=XgLzuvUJAt06ExSPGp40Yu7CV3YqGLpD+n9biqgvSKxTeVuDzvhmn/Prugz6i02jA28U5XjcYT9V50ZbUuwxgVLy+VT5q87rIjvsjq1OAaOF7mzqj5CGaq34c2P9awRIa20z/YSER3ZARxtP3aR5aFO7pDGBTNL6c2NINQ3xAzCnrdeseOc25j5Xso+cncOUmCVP8xA8p8L2/m0HJB4rYI0x7vNaQujqVb+pzVJRHUmTpm+rXl8DmmmXKESBG4Iw7Y2rxO2/oR4k1E6hIi8lpKPGYVGU44Bk+R3i8lfXpZ84UmHYBZ6aEvWtJbeJU6+j0HK+iXzTGQaGp+Mtq+dO9Q==
+ bh=oVXz/h+GnJ9Ym8X++1aPBzF7/AWwUz+AqII9AlhbWlo=;
+ b=kxFRk68u1M2h2fyTr64v0qI9r4SfNwM/g6TGXlTCpt7HETyDaVMrqlmzEG4rnpGYJPYp0mvaMPYYDuoZ61xoEvBCkAfOixQqmTPgp0gtRpwxh4/O3OIBk6UtyrGu9qEKiwBKt4CKKWXFj/UufIP7lwAgrvkPhQ4IYx52KTywgMUs09bxRQL7RVcABYfdFTEtDTCIlPsIoYLMY1koWpixfvJRod+23q19J7iDBElMLGJst76yWoKnR4zG7bRvzdArXDPrq3HT1vMft+YB4C7YaMxHiXV7yOEBrXnu+1WkCM0osi79ZiN7g4YYZCHRnYJgC+MntN2TPgMJZWQu3Md1xw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=suse.com;
-Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
- (2603:10a6:803:16::25) by VI1PR04MB2990.eurprd04.prod.outlook.com
- (2603:10a6:802:6::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Mon, 30 Nov
- 2020 04:27:48 +0000
-Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
- ([fe80::c53b:66c3:e1dc:e5c6]) by VI1PR0402MB3744.eurprd04.prod.outlook.com
- ([fe80::c53b:66c3:e1dc:e5c6%7]) with mapi id 15.20.3611.025; Mon, 30 Nov 2020
- 04:27:48 +0000
-From: "Cho, Yu-Chen" <acho@suse.com>
-To: qemu-devel@nongnu.org
-CC: thuth@redhat.com, philmd@redhat.com, wainersm@redhat.com,
- alex.bennee@linaro.org, fam@euphon.net, cfontana@suse.de, brogers@suse.com,
- lyan@suse.co, acho@suse.com
-Subject: [PATCH v2] gitlab-ci.yml: Add openSUSE Leap 15.2 for gitlab CI/CD
-Date: Mon, 30 Nov 2020 12:26:59 +0800
-Message-ID: <20201130042659.29333-1-acho@suse.com>
-X-Mailer: git-send-email 2.29.2
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oVXz/h+GnJ9Ym8X++1aPBzF7/AWwUz+AqII9AlhbWlo=;
+ b=s1bn5W04DatfnIjxfZe9VlxGIfFJBU4VgYA22LtpXhNqS5qK47/C3zKXM2EEVjlgM0PTXGaukedHT5PyHp2TKH5WksyaAWsl77rwLRwjT2lRxSHp+0qZP/ihVevdRDKpX8uDOTt45vp1NSz9EIKfrDCxnmghgta7yCY9kNjA9u4=
+Received: from DM6PR11MB4316.namprd11.prod.outlook.com (2603:10b6:5:205::16)
+ by DM5PR11MB2026.namprd11.prod.outlook.com (2603:10b6:3:10::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.25; Mon, 30 Nov
+ 2020 05:41:16 +0000
+Received: from DM6PR11MB4316.namprd11.prod.outlook.com
+ ([fe80::74e4:9b56:e013:149]) by DM6PR11MB4316.namprd11.prod.outlook.com
+ ([fe80::74e4:9b56:e013:149%6]) with mapi id 15.20.3611.023; Mon, 30 Nov 2020
+ 05:41:16 +0000
+From: "Wu, Wentong" <wentong.wu@intel.com>
+To: Peter Maydell <peter.maydell@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v2 1/3] target/nios2: Move IIC code into CPU object proper
+Thread-Topic: [PATCH v2 1/3] target/nios2: Move IIC code into CPU object proper
+Thread-Index: AQHWxnbBmTrkztkwLUad1WT77MGBTqngKMUQ
+Date: Mon, 30 Nov 2020 05:41:16 +0000
+Message-ID: <DM6PR11MB4316328210E97BA3BB8B9F9C8DF50@DM6PR11MB4316.namprd11.prod.outlook.com>
+References: <20201129174022.26530-1-peter.maydell@linaro.org>
+ <20201129174022.26530-2-peter.maydell@linaro.org>
+In-Reply-To: <20201129174022.26530-2-peter.maydell@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [192.102.204.37]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b5174dd1-0880-4298-7884-08d894f28ea0
+x-ms-traffictypediagnostic: DM5PR11MB2026:
+x-microsoft-antispam-prvs: <DM5PR11MB202643BB01B947FE4238A88D8DF50@DM5PR11MB2026.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 8e88L5R51x7jkjuXvMh1bfqNWKgbsv4qdHIkvcL66uQcu4B/AiwFBVyploojEmhipSfpDYm71YzqJ85Xnuj9a5JHaMvx9jGaWrwxQsZGk+tp7Bp2qVtGuPLop/ZYTr+ax8tODd6EOF2+d0KcxxAqEbSsp0+RWQLxMW99iVLMikk51CpUntFXedmUxx8fa9f4NyfUf6kQbQR27NA/29B9wehUCJzAeNlFRCzV/zNuUCw8ed3OUYkv6iMSOacLkP5YKG6Zrib5xVg4x6fvD1dCXH1DRrFde/LT7mEdlpaREDRC7gRP5hDY8alYyU0uQhNRt1wpXPGW4lTbbeNKhNU1Qg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR11MB4316.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(39860400002)(396003)(346002)(376002)(8676002)(55016002)(5660300002)(316002)(186003)(9686003)(26005)(4326008)(478600001)(53546011)(6506007)(83380400001)(8936002)(71200400001)(64756008)(66446008)(86362001)(66946007)(33656002)(54906003)(7696005)(52536014)(76116006)(66476007)(66556008)(2906002)(110136005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?JgR2itvrZ/FVQcAZ6vZPthD0BFTQHGpA1Z4ylCUYTTcFKrGJ189PczkxzUpb?=
+ =?us-ascii?Q?EsTIJc/RYwS2pyudkcaYLgJd1+RSv2JVmLgn0ywVQYu2CujNN3bHZY20pXSQ?=
+ =?us-ascii?Q?jPtAIcz+AIYzsu9mTAuZlNewqiltGU6tPz2JNklQZ8TaDfhePZyiPgBxO94u?=
+ =?us-ascii?Q?OCdxwDIpbfY3ZbNOl+dRmCn/AkbTwSxYSJ6pRzM4HsxRmnAW0fsaDqci5Ffi?=
+ =?us-ascii?Q?9InBWl/H/6qxSLu2TzZZDTaTF0CltncD2hf/cWVLERGf4Z4Ga6CfBurHfrDH?=
+ =?us-ascii?Q?0KKjVtmbhbJO0ZN9YGDBS3lMpZvqQQ37hjCAKnDKM1dC8+B/Yz5zJyi+j2Gs?=
+ =?us-ascii?Q?PO2cSj7uAkmOjJgIGN8LtEObzfT/goO0/yyavO+CfniQVIaiDLw4GSIPp9Z/?=
+ =?us-ascii?Q?GnAa8xR3l+mAh1st9QugZK2kF40mweyloG/F3CKo3mRBNHNBadf003V7a2qp?=
+ =?us-ascii?Q?kUxFvi53q7jIh+TwM8/ll/joDWLw34YGqgbMl9i2yBpLxKElaQ0vgLUvpxeh?=
+ =?us-ascii?Q?Gs5af4GiCl47EeyKiMFmV9n6rLVXXx5OvBOPdgnc+B9qerJvvB2xOgxNal6x?=
+ =?us-ascii?Q?7JluNUUoOpsiKq59u4UtAFqOMw9JmrtENhpSl9obXaxZCrHMmcwdMA2WY207?=
+ =?us-ascii?Q?R+lAxsJOL4vXsZD/sq/FIyG98fIp6Pb0l53rFgCMP77/6khH4alfMrEAShbm?=
+ =?us-ascii?Q?4pgDIPaMwelQw22mS/wJY+JE8Zo0JdFIDymxVy/Os4+MRyc9Q7jpVi86pDsO?=
+ =?us-ascii?Q?kCTpKixUG1/eoG8/gJ81xmWW2Z2xxWtpjVzTtfaH2nQbf01TM5GRB5nmJNhY?=
+ =?us-ascii?Q?eTG0OYnZJaK0NX9+/bltFkZRVoqrKE5DNADO3sNTIxXBrR34twprM8oZEDtb?=
+ =?us-ascii?Q?8p/qT7SE9VczV5DJfn2QrrRotepkIzetBpkmNngFZIJWsNwoIlig+6OW+xv8?=
+ =?us-ascii?Q?j2L93iD4FB/WUw41NvTk57MGG8WZBqdFgDojS8kvawg=3D?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Originating-IP: [60.251.47.115]
-X-ClientProxiedBy: HK2PR03CA0052.apcprd03.prod.outlook.com
- (2603:1096:202:17::22) To VI1PR0402MB3744.eurprd04.prod.outlook.com
- (2603:10a6:803:16::25)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (60.251.47.115) by
- HK2PR03CA0052.apcprd03.prod.outlook.com (2603:1096:202:17::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3632.7 via Frontend Transport; Mon, 30 Nov 2020 04:27:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4733cec7-28cf-4d42-98b7-08d894e84a81
-X-MS-TrafficTypeDiagnostic: VI1PR04MB2990:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB29901D43F6EF560F2AF47C5EA0F50@VI1PR04MB2990.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gVa2b8/t3bxpblRozSv0qu+t/B7hW8H0OgZSBUkbvplkHoDo1BM9p/BiZlCvde0Ls42Z1/AHg9/lY6PW7tFgjW89Znp6PnLXYLjAu2ZgtH+nPxnk+IzUC5YEmKBf21e/akOR1TpehnKci8ZO0lPsrlF1lJ1BHVfIpWb0GdTeK08Jfz+FCg3fRPoaobqvNLFo6kBobqYxMv3xydWWqEGuUp6saF5DMJlkBn8+zSW3+D4Gw0oa055umdXm5w6Ng/JbVlpSvcHeAZomJGvI4r5QBvOSUcm/pKu+eQn0ViA8V6lBqXsFvKeRdT+ShaqQ9A9kipKamPtKSRk2U1gIKbwEQoNzuxGcpGXmVgbj8igaELjT3xWYkTiNHC8YW16nDLZw
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR0402MB3744.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(136003)(396003)(366004)(376002)(39860400002)(478600001)(6666004)(1076003)(4326008)(36756003)(2616005)(6486002)(8936002)(107886003)(956004)(6512007)(26005)(66946007)(69590400008)(66556008)(316002)(66476007)(52116002)(86362001)(2906002)(6916009)(186003)(8676002)(83380400001)(6506007)(16526019)(55236004)(5660300002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?U2GbgPf1zLdlo3KVCWCaoweHfXJRhUFEI5DXkVnqcKRuKLF3LtS/AWFkQk3/?=
- =?us-ascii?Q?GAlpXYWnKQvmr2Bsk2+asD8+JZbChspjqerdi7CllmqmLJU2UiIvKzMDtn4Q?=
- =?us-ascii?Q?QimX4DxLbVG+kJprOGvzx0UkiGJvWrT69YXRsaSX5StbrPlIrC5tpCqD7w5K?=
- =?us-ascii?Q?0cGxtTExgY0i1kZYdMgjE+4dSmwy1g9bUIDW50NA/krZkAWtFrvnAsxhxhZ+?=
- =?us-ascii?Q?pXmg5ihyCRGT1s7MAwPYJm/IE/yTBaSgkL13zDAelZzgQAvOplDTK99fm1qm?=
- =?us-ascii?Q?nt273qWYUgQhg5gMRCGLkZ4TrsBX1or/hOuJMdr+EY43tUHnno9NCo+YoVHh?=
- =?us-ascii?Q?JhhL+JKpW6y/tt94cxjptMvSy5jiDPZnY+OjNqkMglruWdksuykt40J7KzgL?=
- =?us-ascii?Q?KWuPQ71xZ4CVMOuto/nY1oE8GvJzbFjBs4NxGp9Bwn6mskiQpv1Z7aTpGR7t?=
- =?us-ascii?Q?aGQUI7N7qAmm7SzsH8hRconLa1bADvHcL4E3xrTiT+T1m2J7kQk9OeQc6ht0?=
- =?us-ascii?Q?CXZ9fkoiCFfH0T953g9wF9/HSlpT40zl7Wx7x5/L4vGNB/qBLoOoR4b/DaxY?=
- =?us-ascii?Q?8DDtuyEhRYNVWmBmzgtcS/u4I1BvP14GhbIdQa+HiiDjnB2Ph7orAUCTS4ra?=
- =?us-ascii?Q?WX9vDzgJgBoEgTaBJo1WKFPa68B07SGSRTtzXL2aRFdzDrJarptTFoV+olSD?=
- =?us-ascii?Q?J0zdsCStn4bNRZqDjBogynMSmBZJ01VSZoX0M/au0fTN86m10z/lLb57VtrK?=
- =?us-ascii?Q?uKr5UuQ3qpAxPOpKWCnQcDUnjN/+Ns/ifhneIofzhkKXT0d77fYcURIdBS8y?=
- =?us-ascii?Q?O1WFEdrR8upFQVST0w73RIUj8DNgjFmlIAbGIuuvAt85Z2VKTn31VCDiGx1X?=
- =?us-ascii?Q?Wub9nwrEjPUJNQ+e5yWdgm38xnhQdQlk12hQr/HSVv+858PCscLCQI5ZI9n/?=
- =?us-ascii?Q?QMOKfm/BL9ccyO4H0hHqYsqOVTDgPrZNXKmxXcb8d7DVg3tiGn22iP8GQ1zi?=
- =?us-ascii?Q?SPwV?=
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4733cec7-28cf-4d42-98b7-08d894e84a81
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3744.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2020 04:27:47.9434 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HzNhoDgbh+XzGRcb/s7jyiglADMO8DafmK6FOxJ/jR/7AyVhXp2sV4PjtXdLLU/V
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB2990
-Received-SPF: pass client-ip=51.163.158.102; envelope-from=acho@suse.com;
- helo=de-smtp-delivery-102.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4316.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b5174dd1-0880-4298-7884-08d894f28ea0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Nov 2020 05:41:16.8153 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VZG6fBqVChwhrsAQsRx2G26AAxRaY96WPWn7Pp+kR68uEPsR/+sA90sPDQ5S6QAmPM8tR/kuEax/R3urQ6CGxg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB2026
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=wentong.wu@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -136,140 +158,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Marek Vasut <marex@denx.de>, Sandra
+ Loosemore <sandra@codesourcery.com>, Chris Wulff <crwulff@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-Drop some package from dockerfile to make docker image more light.
+On Monday, November 30, 2020 1:40 AM, Peter Maydell wrote:
+> The Nios2 architecture supports two different interrupt controller
+> options:
+>=20
+>  * The IIC (Internal Interrupt Controller) is part of the CPU itself;
+>    it has 32 IRQ input lines and no NMI support.  Interrupt status is
+>    queried and controlled via the CPU's ipending and istatus
+>    registers.
+>=20
+>  * The EIC (External Interrupt Controller) interface allows the CPU
+>    to connect to an external interrupt controller.  The interface
+>    allows the interrupt controller to present a packet of information
+>    containing:
+>     - handler address
+>     - interrupt level
+>     - register set
+>     - NMI mode
+>=20
+> QEMU does not model an EIC currently.  We do model the IIC, but its
+> implementation is split across code in hw/nios2/cpu_pic.c and
+> hw/intc/nios2_iic.c.  The code in those two files has no state of its own=
+ -- the IIC
+> state is in the Nios2CPU state struct.
+>=20
+> Because CPU objects now inherit (indirectly) from TYPE_DEVICE, they can h=
+ave
+> GPIO input lines themselves, so we can implement the IIC directly in the =
+CPU
+> object the same way that real hardware does.
+>=20
+> Create named "IRQ" GPIO inputs to the Nios2 CPU object, and make the only
+> user of the IIC wire up directly to those instead.
+>=20
+> Note that the old code had an "NMI" concept which was entirely unused and
+> also as far as I can see not architecturally correct, since only the EIC =
+has a
+> concept of an NMI.
+>=20
+> This fixes a Coverity-reported trivial memory leak of the IRQ array alloc=
+ated in
+> nios2_cpu_pic_init().
+>=20
+> Fixes: Coverity CID 1421916
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/nios2/cpu.h        |  1 -
+>  hw/intc/nios2_iic.c       | 95 ---------------------------------------
+>  hw/nios2/10m50_devboard.c | 13 +-----
+>  hw/nios2/cpu_pic.c        | 31 -------------
+>  target/nios2/cpu.c        | 30 +++++++++++++
+>  MAINTAINERS               |  1 -
+>  hw/intc/meson.build       |  1 -
+>  7 files changed, 32 insertions(+), 140 deletions(-)  delete mode 100644
+> hw/intc/nios2_iic.c
 
-v1:
-Add build-system-opensuse jobs and opensuse-leap.docker dockerfile.
-Use openSUSE Leap 15.2 container image in the gitlab-CI.
-
-Signed-off-by: Cho, Yu-Chen <acho@suse.com>
----
- .gitlab-ci.d/containers.yml                   |  5 ++
- .gitlab-ci.yml                                | 30 +++++++++++
- tests/docker/dockerfiles/opensuse-leap.docker | 54 +++++++++++++++++++
- 3 files changed, 89 insertions(+)
- create mode 100644 tests/docker/dockerfiles/opensuse-leap.docker
-
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 892ca8d838..910754a699 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -246,3 +246,8 @@ amd64-ubuntu-container:
-   <<: *container_job_definition
-   variables:
-     NAME: ubuntu
-+
-+amd64-opensuse-leap-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: opensuse-leap
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index d0173e82b1..6a256fe07b 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -195,6 +195,36 @@ acceptance-system-centos:
-     MAKE_CHECK_ARGS: check-acceptance
-   <<: *acceptance_definition
-=20
-+build-system-opensuse:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: opensuse-leap
-+    TARGETS: s390x-softmmu x86_64-softmmu aarch64-softmmu
-+    MAKE_CHECK_ARGS: check-build
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
-+
-+check-system-opensuse:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-system-opensuse
-+      artifacts: true
-+  variables:
-+    IMAGE: opensuse-leap
-+    MAKE_CHECK_ARGS: check
-+
-+acceptance-system-opensuse:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-system-opensuse
-+      artifacts: true
-+  variables:
-+    IMAGE: opensuse-leap
-+    MAKE_CHECK_ARGS: check-acceptance
-+  <<: *acceptance_definition
-+
- build-disabled:
-   <<: *native_build_job_definition
-   variables:
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/d=
-ockerfiles/opensuse-leap.docker
-new file mode 100644
-index 0000000000..8b0d915bff
---- /dev/null
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -0,0 +1,54 @@
-+FROM opensuse/leap:15.2
-+
-+# Please keep this list sorted alphabetically
-+ENV PACKAGES \
-+    bc \
-+    brlapi-devel \
-+    bzip2 \
-+    cyrus-sasl-devel \
-+    gcc \
-+    gcc-c++ \
-+    mkisofs \
-+    gettext-runtime \
-+    git \
-+    glib2-devel \
-+    glusterfs-devel \
-+    libgnutls-devel \
-+    gtk3-devel \
-+    libaio-devel \
-+    libattr-devel \
-+    libcap-ng-devel \
-+    libepoxy-devel \
-+    libfdt-devel \
-+    libiscsi-devel \
-+    libjpeg8-devel \
-+    libpmem-devel \
-+    libpng16-devel \
-+    librbd-devel \
-+    libseccomp-devel \
-+    libssh-devel \
-+    lzo-devel \
-+    make \
-+    libSDL2_image-devel \
-+    ncurses-devel \
-+    ninja \
-+    libnuma-devel \
-+    perl \
-+    libpixman-1-0-devel \
-+    python3-base \
-+    python3-virtualenv \
-+    rdma-core-devel \
-+    libSDL2-devel \
-+    snappy-devel \
-+    libspice-server-devel \
-+    systemd-devel \
-+    systemtap-sdt-devel \
-+    usbredir-devel \
-+    virglrenderer-devel \
-+    xen-devel \
-+    vte-devel \
-+    zlib-devel
-+ENV QEMU_CONFIGURE_OPTS --python=3D/usr/bin/python3.8
-+
-+RUN zypper update -y && zypper --non-interactive install -y $PACKAGES
-+RUN rpm -q $PACKAGES | sort > /packages.txt
---=20
-2.29.2
-
+Reviewed and tested.=20
 
