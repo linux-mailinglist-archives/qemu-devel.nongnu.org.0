@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B712C820B
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 11:24:07 +0100 (CET)
-Received: from localhost ([::1]:40050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F832C821E
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 11:28:03 +0100 (CET)
+Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjgLm-00033q-GW
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 05:24:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50710)
+	id 1kjgPa-0005CD-TB
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 05:28:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kjgKI-0002an-4z
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:22:34 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53694)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kjgKG-0002Jq-H6
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:22:33 -0500
-Received: by mail-wm1-x342.google.com with SMTP id k10so11457307wmi.3
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 02:22:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wGVntoN2liXaamI1cMHbBYcL2IQ5cPw3L1dFFi7CllQ=;
- b=ljUO8XVByb95avqkx0maT4FhOmfFyLID16Ad+yciKvAV9FlwxM1nG7hBjzZA8cuZlx
- okNmYJg0UGU2YK85V6xAc0JyT18EMbDV64kWeHYv7fcGoO44GTYPm0/wZySXAFfi2w0/
- 3ajFqVbeGfmaj1/TUcFcelZDUKGmULHOVSiE4SYBH7O2bBzbz88pYEjE7SiOvivTDAVA
- SbNGgZy/X+1JlZNbSKt449mZxxyfDhrMcqFPtsc2OdJ0jC2lSlUXBPBCd4EYe73ESI58
- zahl1wc3cs6y87GLKTpcNSNe4BhLFe25OQNZrlTNLpW2Qe2NovY0+2TdCRHMOK4M2I3N
- axfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=wGVntoN2liXaamI1cMHbBYcL2IQ5cPw3L1dFFi7CllQ=;
- b=A/9SZ2CbVfSbAvjQ/fN+5bxAbY5EajCoK7GdzNEgBdIWsGbvSD1b/fzKLPIXmZoVT4
- /69GUTNTu5f/ZclNrcYvkIRa1KLSKgIrqzLWXKMFWuHXZEDDtqL4UtaepKWHc5aQtU08
- N9X+I6rcdgsI1bqNcklhkE7bXQQ26bT9DwkuL6dj9Nkv6fQowMAJmmjfMr5dlG737axP
- b2rF2Y+hnMGg+/eX5HEbpd0s4YaBYpcrQ9RL0N6MRgJsJe9sUUV3Knmt356jW/G2q+uv
- R0vDAZPkSTd0Gl5U74a45a87pIbvssUeLxQTLWNumjtZzqx7wB3S/2exDTXpMC95kzz3
- DjLg==
-X-Gm-Message-State: AOAM533jQ5rcc5Ov3qSco0P3VBtwlG70YLIor0fCDnCpzxY+nzdyVxjb
- rMu2SbxPtEJcP3nutqr4AiM=
-X-Google-Smtp-Source: ABdhPJynN2tUxs+/TleLaGuFEBQKXDVSeeLgOY9vCvk4VHILuvgkkBOXWzHYKX5DTtJB7tv18kwWkQ==
-X-Received: by 2002:a1c:ddc4:: with SMTP id u187mr22660490wmg.55.1606731751047; 
- Mon, 30 Nov 2020 02:22:31 -0800 (PST)
-Received: from localhost.localdomain (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id r21sm28649555wrc.16.2020.11.30.02.22.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Nov 2020 02:22:30 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: Huacai Chen <chenhc@lemote.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH] target/mips: Allow executing MSA instructions on
- Loongson-3A4000
-Date: Mon, 30 Nov 2020 11:22:28 +0100
-Message-Id: <20201130102228.2395100-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kjgNO-0004Cm-Px
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:25:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kjgNM-0003SQ-5R
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:25:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606731940;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WyCLL+/7Qqd39ePt3TXqX0Y3RQuylSGw67vzQWoNWfA=;
+ b=OSLkJGmjLgiaM3YFX6V/zKeF1/DWqBeNaq4pEcBI9IHcrB1/ixMkx09HhlhCYPazksLox+
+ wmUijDUg4oqUR6Nx3WFVZ4wdL83ugKgo/QqJzrhmwoHDqOSjQgT0aWg/CaRhkUUBGt2LnH
+ tJtuQSp4VVx8+yxnULmv9FkOW0NJMqM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-43-mm57XRSqNaCQ3OE2NZMYEw-1; Mon, 30 Nov 2020 05:25:35 -0500
+X-MC-Unique: mm57XRSqNaCQ3OE2NZMYEw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98D33802B4C;
+ Mon, 30 Nov 2020 10:25:34 +0000 (UTC)
+Received: from redhat.com (ovpn-114-242.ams2.redhat.com [10.36.114.242])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D48215D6A8;
+ Mon, 30 Nov 2020 10:25:25 +0000 (UTC)
+Date: Mon, 30 Nov 2020 10:25:22 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH-for-5.2] gitlab-ci: Do not automatically run Avocado
+ integration tests anymore
+Message-ID: <20201130102522.GB2039965@redhat.com>
+References: <20201127174110.1932671-1-philmd@redhat.com>
+ <b08db31b-1411-6936-f737-0d6c8f98ebb8@redhat.com>
+ <f32a1db5-5231-fc4d-1741-0b5ee13f618f@redhat.com>
+ <9157dce0-4f5d-3f1e-ce75-3e9da9252203@redhat.com>
+ <ec7e0016-7d10-49bf-0af2-69de8356bbed@redhat.com>
+ <5a854d27-ac95-76ff-5014-be80239de796@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <5a854d27-ac95-76ff-5014-be80239de796@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,52 +87,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: virt-ci-maint-team@redhat.com,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Loongson-3A4000 is a GS464V-based processor with MIPS MSA ASE:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg763059.html
+On Mon, Nov 30, 2020 at 10:03:35AM +0100, Thomas Huth wrote:
+> On 27/11/2020 19.46, Philippe Mathieu-Daudé wrote:
+> > On 11/27/20 7:29 PM, Thomas Huth wrote:
+> >> On 27/11/2020 18.57, Philippe Mathieu-Daudé wrote:
+> >>> On 11/27/20 6:47 PM, Thomas Huth wrote:
+> >>>> On 27/11/2020 18.41, Philippe Mathieu-Daudé wrote:
+> >>>>> We lately realized that the Avocado framework was not designed
+> >>>>> to be regularly run on CI environments. Therefore, as of 5.2
+> >>>>> we deprecate the gitlab-ci jobs using Avocado. To not disrupt
+> >>>>> current users, it is possible to keep the current behavior by
+> >>>>> setting the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable
+> >>>>> (see [*]).
+> >>>>> From now on, using these jobs (or adding new tests to them)
+> >>>>> is strongly discouraged.
+> >>>>>
+> >>>>> Tests based on Avocado will be ported to new job schemes during
+> >>>>> the next releases, with better documentation and templates.
+> >>>>
+> >>>> Why should we disable the jobs by default as long as there is no replacement
+> >>>> available yet?
+> >>>
+> >>> Why keep it enabled if it is failing randomly
+> >>
+> >> We can still disable single jobs if they are not stable, but that's no
+> >> reason to disable all of them by default, is it?
+> >>
+> >>> if images hardcoded
+> >>> in tests are being removed from public servers, etc...?
+> >>
+> >> That's independent from Avocado, you'll always have that problem if you want
+> >> to test with external images, unless you mirror them into a repository on
+> >> the same server (ie. gitlab), which, however, might not always be possible...
+> >>
+> >>> They are not disabled, they are still runnable manually or setting
+> >>> QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE...
+> >>
+> >> And who do you think is going to set that variable? Hardly anybody, I guess.
+> > 
+> > Does that mean nobody cares about these tests?
+> 
+> It's like with all the other tests: Most of the people do not really care
+> about them (if they are not the author of a test) unless the test fails
+> during "make check" / the gating CI of Peter. So IMHO the right way to go is
+> to finally get these in the gating CI, otherwise, if you now even disable
+> them in the gitlab-CI by default, they will bitrot completely.
 
-Commit af868995e1b correctly set the 'MSA present' bit of Config3
-register, but forgot to allow the MSA instructions decoding in
-insn_flags, so executing them triggers a 'Reserved Instruction'.
+That people don't care, and ignore it until Peter hits the failure during
+merge is a tragedy of the commons in itself.
 
-Fix by adding the ASE_MSA mask to insn_flags.
+I think we need to set expectations that caring about tests is a key part
+of every contributor's responsibility, with subsystem maintainers leading
+by example:
 
-Fixes: af868995e1b ("target/mips: Add Loongson-3 CPU definition")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-Buggy since 5.1, so probably not a big deal.
----
- target/mips/translate_init.c.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+   https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg04897.html
 
-diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
-index ea85d5c6a79..79f75ed863c 100644
---- a/target/mips/translate_init.c.inc
-+++ b/target/mips/translate_init.c.inc
-@@ -832,7 +832,7 @@ const mips_def_t mips_defs[] =
-         .mmu_type = MMU_TYPE_R4000,
-     },
-     {
--        .name = "Loongson-3A4000",
-+        .name = "Loongson-3A4000", /* GS464V-based */
-         .CP0_PRid = 0x14C000,
-         /* 64KB I-cache and d-cache. 4 way with 32 bit cache line size.  */
-         .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) | (0x2 << CP0C0_AT) |
-@@ -885,7 +885,7 @@ const mips_def_t mips_defs[] =
-         .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
-         .SEGBITS = 48,
-         .PABITS = 48,
--        .insn_flags = CPU_LOONGSON3A,
-+        .insn_flags = CPU_LOONGSON3A | ASE_MSA,
-         .mmu_type = MMU_TYPE_R4000,
-     },
-     {
+We do need tests to be reliable though when we're treating them as gating.
+
+Hiding unreliable tests behind an env variable you have to opt-in to
+setting is not going to help that. IMHO unreliable tests should be
+just disabled entirely. If someone genuinely does care about the test
+then they can fix it and re-enable it at the same time. 
+
+Regards,
+Daniel
 -- 
-2.26.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
