@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB3D2C82C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 12:02:52 +0100 (CET)
-Received: from localhost ([::1]:33500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A6E2C82D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 12:05:30 +0100 (CET)
+Received: from localhost ([::1]:39976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjgxH-00025o-9i
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 06:02:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58890)
+	id 1kjgzp-0004oK-9z
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 06:05:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kjgrt-0006kj-QQ
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:57:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50661)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kjgrv-0006mt-Ah
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:57:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kjgrr-000665-5I
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:57:17 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kjgrq-00065e-QD
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:57:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606733834;
+ s=mimecast20190719; t=1606733833;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MvCNeNeGTjGF8SPxJZozP0n7zHpwAzwX5Dfx0lMZilY=;
- b=NaC0Zi3bNBeAiVqzP4xfiJAIsXrbgdV+ls7mCnCYdei82BvpjPRDcR5uaPz3w/af3uHptZ
- lP5XmD+3fnoOCPE/njBBZjzmu7w8xnMSwOiX/1g1RmBjQOe/iWOkM2liIZ4xkZCpGqhQpt
- vLYK71xs24NAeVblcdByi35qLOeIMKA=
+ bh=9MiopA19M66V1TsNJxAYoYD/sSUIfSwppHxitNP43iE=;
+ b=Na/lfnNUOzVhDRPfTEEIN+q5Wz6jrpelPsGEvGFobVgWDslVY2tTs+gR6emjyDM3dKcfyk
+ 9AWJxdgjJRHj34JqNj+Yr//OU9xXgBecq+IJmObltXYjMIJOewXafayRHJ7EFVhb9KBagL
+ 4/ZYDqWseT2Bw/KuhINlLrvIQUz4h28=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-lEXHzzIhNTWeinrq3Xa9ag-1; Mon, 30 Nov 2020 05:57:10 -0500
-X-MC-Unique: lEXHzzIhNTWeinrq3Xa9ag-1
+ us-mta-8-A8fUPBAFNEa_Y4tqCzY9_Q-1; Mon, 30 Nov 2020 05:57:11 -0500
+X-MC-Unique: A8fUPBAFNEa_Y4tqCzY9_Q-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1135B8F4E9;
- Mon, 30 Nov 2020 10:57:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C44F1012EA0;
+ Mon, 30 Nov 2020 10:57:10 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-117.ams2.redhat.com [10.36.114.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C36C260BD9;
- Mon, 30 Nov 2020 10:57:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A30563BA7;
+ Mon, 30 Nov 2020 10:57:09 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] crypto: Fix memory leaks in set_loaded for tls-*
-Date: Mon, 30 Nov 2020 11:56:14 +0100
-Message-Id: <20201130105615.21799-4-kwolf@redhat.com>
+Subject: [PATCH 4/4] can-host: Fix crash when 'canbus' property is not set
+Date: Mon, 30 Nov 2020 11:56:15 +0100
+Message-Id: <20201130105615.21799-5-kwolf@redhat.com>
 In-Reply-To: <20201130105615.21799-1-kwolf@redhat.com>
 References: <20201130105615.21799-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -81,66 +81,36 @@ Cc: kwolf@redhat.com, jasowang@redhat.com, fnu.vikram@xilinx.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you set the loaded property to true when it was already true, the
-state is overwritten without freeing the old state first. Change the
-set_loaded callback so that it always frees the old state (which is a
-no-op if nothing was loaded) and only then load if requestsd.
+Providing the 'if' property, but not 'canbus' segfaults like this:
+
+ #0  0x0000555555b0f14d in can_bus_insert_client (bus=0x0, client=0x555556aa9af0) at ../net/can/can_core.c:88
+ #1  0x00005555559c3803 in can_host_connect (ch=0x555556aa9ac0, errp=0x7fffffffd568) at ../net/can/can_host.c:62
+ #2  0x00005555559c386a in can_host_complete (uc=0x555556aa9ac0, errp=0x7fffffffd568) at ../net/can/can_host.c:72
+ #3  0x0000555555d52de9 in user_creatable_complete (uc=0x555556aa9ac0, errp=0x7fffffffd5c8) at ../qom/object_interfaces.c:23
+
+Add the missing NULL check.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- crypto/tlscredsanon.c | 3 +--
- crypto/tlscredspsk.c  | 3 +--
- crypto/tlscredsx509.c | 3 +--
- 3 files changed, 3 insertions(+), 6 deletions(-)
+ net/can/can_host.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/crypto/tlscredsanon.c b/crypto/tlscredsanon.c
-index 30275b6847..bea5f76c55 100644
---- a/crypto/tlscredsanon.c
-+++ b/crypto/tlscredsanon.c
-@@ -123,10 +123,9 @@ qcrypto_tls_creds_anon_prop_set_loaded(Object *obj,
- {
-     QCryptoTLSCredsAnon *creds = QCRYPTO_TLS_CREDS_ANON(obj);
+diff --git a/net/can/can_host.c b/net/can/can_host.c
+index be4547d913..ba7f163d0a 100644
+--- a/net/can/can_host.c
++++ b/net/can/can_host.c
+@@ -53,6 +53,11 @@ static void can_host_connect(CanHostState *ch, Error **errp)
+     CanHostClass *chc = CAN_HOST_GET_CLASS(ch);
+     Error *local_err = NULL;
  
-+    qcrypto_tls_creds_anon_unload(creds);
-     if (value) {
-         qcrypto_tls_creds_anon_load(creds, errp);
--    } else {
--        qcrypto_tls_creds_anon_unload(creds);
-     }
- }
- 
-diff --git a/crypto/tlscredspsk.c b/crypto/tlscredspsk.c
-index e26807b899..f5a31108d1 100644
---- a/crypto/tlscredspsk.c
-+++ b/crypto/tlscredspsk.c
-@@ -192,10 +192,9 @@ qcrypto_tls_creds_psk_prop_set_loaded(Object *obj,
- {
-     QCryptoTLSCredsPSK *creds = QCRYPTO_TLS_CREDS_PSK(obj);
- 
-+    qcrypto_tls_creds_psk_unload(creds);
-     if (value) {
-         qcrypto_tls_creds_psk_load(creds, errp);
--    } else {
--        qcrypto_tls_creds_psk_unload(creds);
-     }
- }
- 
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index dd7267ccdb..ed6e1dc202 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -694,10 +694,9 @@ qcrypto_tls_creds_x509_prop_set_loaded(Object *obj,
- {
-     QCryptoTLSCredsX509 *creds = QCRYPTO_TLS_CREDS_X509(obj);
- 
-+    qcrypto_tls_creds_x509_unload(creds);
-     if (value) {
-         qcrypto_tls_creds_x509_load(creds, errp);
--    } else {
--        qcrypto_tls_creds_x509_unload(creds);
-     }
- }
- 
++    if (ch->bus == NULL) {
++        error_setg(errp, "'canbus' property not set");
++        return;
++    }
++
+     chc->connect(ch, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
 -- 
 2.28.0
 
