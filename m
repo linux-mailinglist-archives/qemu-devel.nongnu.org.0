@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AFC2C8505
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 14:24:00 +0100 (CET)
-Received: from localhost ([::1]:56056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA48F2C8520
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 14:29:04 +0100 (CET)
+Received: from localhost ([::1]:38048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjj9r-0004GJ-3p
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 08:23:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32940)
+	id 1kjjEl-0000HF-Oc
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 08:29:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kjj4x-0001uq-L4
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:18:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48144)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kjj9E-0004VD-Rl
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:23:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kjj4v-0001aT-Cx
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:18:54 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kjj9C-0002yv-Jk
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:23:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606742332;
+ s=mimecast20190719; t=1606742596;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X2gSZc1FUYiNNlrRJKwujfsK6+qtRYQ0aIoD+jT371c=;
- b=RjZw+0+o3deohBMAr41eHP6fPrkuOmXkvOlTNSQSMbkq8PuOfBO7eSJHEB2zvgNlpcmynC
- 1NRcuDfOcAb+XNBiXqPXE7G3dxnsLEK/5RuXmT0IZqANCdWKkG3Wc93KJgFp8E3SOpTws/
- LF2xAbMg79lU1vjPVDXv68gidwl4iXs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-DZk40i4DMg6jvYIy4VkT2Q-1; Mon, 30 Nov 2020 08:18:49 -0500
-X-MC-Unique: DZk40i4DMg6jvYIy4VkT2Q-1
-Received: by mail-wr1-f71.google.com with SMTP id v5so8404060wrr.0
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 05:18:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=X2gSZc1FUYiNNlrRJKwujfsK6+qtRYQ0aIoD+jT371c=;
- b=t/cku27ipbVLGvLtKNcItP4d4XxA4Z0RaT9WUq/X1F+ESf1du10A2EEKeubZaFMijd
- rl4d6KIXgyHWSoawvnVq4cevJ6SjrAWQpngnjdu+Udz1K4krv4As5RVr8CTm3yvMTlxm
- SsPeB5rDQcD3OhvSOj6z1sSGgbYHjK/grPVsVRMcG/aGFvLNeMZAmRdJ443yNEA2Brve
- 4R25D7ppE1ZZQITtIXoImSKxtavFBWR+18H0SaOLtcGqP1KAskLd/4JLopc8osIrIOau
- N32qzZBPigMh+TiM2/zUqVSU/WAIQQSWG0ncmDt8JNGIzsE8W4NYQTXhaXbjmXzyLF60
- b5uQ==
-X-Gm-Message-State: AOAM533qffudkZwQAuYXwDf0wTCV/ziF6YYGu1CDzB2N/2s2zH5w00zK
- ZvjK/2Lc2erbMCXegWtJ+c15LYx9TuDqh90kUEggw9nNn1wAECelDEZI/gMCNQSVBwQVr/TBldS
- 17IQjptpjZhrqkIs=
-X-Received: by 2002:adf:a495:: with SMTP id g21mr28062608wrb.213.1606742328586; 
- Mon, 30 Nov 2020 05:18:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzV5fa06gL9T+niLf7tp8pXQSVzX+QWJxZ2wDIiv5MObZMmUCCRqB0DXu+/if3tUBnb3iHleQ==
-X-Received: by 2002:adf:a495:: with SMTP id g21mr28062583wrb.213.1606742328356; 
- Mon, 30 Nov 2020 05:18:48 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id x10sm21487292wro.0.2020.11.30.05.18.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Nov 2020 05:18:47 -0800 (PST)
-Subject: Re: [PATCH] qom: eliminate identical functions
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20201130123708.3442032-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a778f512-85c1-8bec-6e34-86cf182fb963@redhat.com>
-Date: Mon, 30 Nov 2020 14:18:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=jU/Q7U2T8I/rS2YPDcU/8UMYzU96RGPhQwNh0MfAxLI=;
+ b=W56+CmbaeAtUZafTemDbOZmzPb7jGYm/tL68n+IGEmofhxdHk7LefBvr5yQbNDs1zxfpiK
+ xNP1SRO0B5Kh6eCC/UtqMOxnROgygDmNfprTZRhyvCSaRO75uRnYsd+9stdCBhpq/Fb/uC
+ jOv/5sLejX/hhYN1i/WuJU2RmBbrS10=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-M3w_N3xbOHase7PPjA4ZKA-1; Mon, 30 Nov 2020 08:23:12 -0500
+X-MC-Unique: M3w_N3xbOHase7PPjA4ZKA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B6FB107AD9A;
+ Mon, 30 Nov 2020 13:23:02 +0000 (UTC)
+Received: from localhost (ovpn-115-30.ams2.redhat.com [10.36.115.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 147E071C8A;
+ Mon, 30 Nov 2020 13:23:00 +0000 (UTC)
+Date: Mon, 30 Nov 2020 13:23:00 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: Proposal for a regular upstream performance testing
+Message-ID: <20201130132300.GD422962@stefanha-x1.localdomain>
+References: <3a664806-8aa3-feb4-fb30-303d303217a8@redhat.com>
+ <20201126094338.GB1122957@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201130123708.3442032-1-pbonzini@redhat.com>
+In-Reply-To: <20201126094338.GB1122957@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IDYEmSnFhs3mNXr+"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,19 +79,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com
+Cc: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>,
+ Charles Shih <cheshi@redhat.com>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/30/20 1:37 PM, Paolo Bonzini wrote:
-> Most property release functions in qom/object.c only free the opaque
-> value.  Combine all of them into a single function.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  qom/object.c | 36 +++++++-----------------------------
->  1 file changed, 7 insertions(+), 29 deletions(-)
+--IDYEmSnFhs3mNXr+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Thu, Nov 26, 2020 at 09:43:38AM +0000, Daniel P. Berrang=C3=A9 wrote:
+> On Thu, Nov 26, 2020 at 09:10:14AM +0100, Luk=C3=A1=C5=A1 Doktor wrote:
+> > Ideally the community should have a way to also issue their custom buil=
+ds
+> > in order to verify their patches so they can debug and address issues
+> > better than just commit to qemu-master.
+>=20
+> Allowing community builds certainly adds an extra dimension of complexity
+> to the problem, as you need some kind of permissions control, as you can'=
+t
+> allow any arbitrary user on the web to trigger jobs with arbitrary code,
+> as that is a significant security risk to your infra.
+
+syzkaller and other upstream CI/fuzzing systems do this, so it may be
+hard but not impossible.
+
+> I think I'd just suggest providing a mechanism for the user to easily spi=
+n
+> up performance test jobs on their own hardware. This could be as simple
+> as providing a docker container recipe that users can deploy on some
+> arbitrary machine of their choosing that contains the test rig. All they
+> should need do is provide a git ref, and then launching the container and
+> running jobs should be a single command. They can simply run the tests
+> twice, with and without the patch series in question.
+
+As soon as developers need to recreate an environment it becomes
+time-consuming and there is a risk that the issue won't be reproduced.
+That doesn't mean the system is useless - big regressions will still be
+tackled - but I think it's too much friction and we should aim to run
+community builds.
+
+> > The problem with those is that we can not simply use travis/gitlab/...
+> > machines for running those tests, because we are measuring in-guest
+> > actual performance.
+>=20
+> As mentioned above - distinguish between the CI framework, and the
+> actual test runner.
+
+Does the CI framework or the test runner handle detecting regressions
+and providing historical data? I ask because I'm not sure if GitLab CI
+provides any of this functionality or whether we'd need to write a
+custom CI tool to track and report regressions.
+
+Stefan
+
+--IDYEmSnFhs3mNXr+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/E8jMACgkQnKSrs4Gr
+c8hQIgf/Q1numMs5JblzILyWs6UsJgl40OwoP8oNtZbmBT/xslYCkeevRLGXCO5V
+k4IltZhVElhn28A8KeeCx0EOBSFpWVFWDcrsV3eRKhochGpldKoWdsKjZcdcwIaB
+RD/Dbwm9jUUa7Ty0MISNYC9CdSx/p9xfTvyO1l4QWODxPbXZ68a0C9L0wdjWh6tV
+6DlIcqHHvXy/CmL9VS7X2XcQWp1QnWLAdfCS/jec+Be5HgYWvOQdqkycNbJZLJA6
+HZ2Rq8b2mvNKxxA0WtfcDcmwDT7UMpX5R/NczpAFmdvggHZUs2YkFFNyAlEgM2GL
+r+1ZS8htNsYtZa40p3AcZPx/gaQb0w==
+=5HiT
+-----END PGP SIGNATURE-----
+
+--IDYEmSnFhs3mNXr+--
 
 
