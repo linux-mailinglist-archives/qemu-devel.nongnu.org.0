@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28FBD2C84BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 14:13:27 +0100 (CET)
-Received: from localhost ([::1]:38832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 950F52C84E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 14:17:35 +0100 (CET)
+Received: from localhost ([::1]:45636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjizc-0005GS-UP
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 08:13:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56470)
+	id 1kjj3e-0008Ar-Cy
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 08:17:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kjimL-0005UF-4N; Mon, 30 Nov 2020 07:59:41 -0500
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:42986)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kjin2-00066V-ET
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:00:24 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:43855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kjimJ-0003vZ-Ar; Mon, 30 Nov 2020 07:59:40 -0500
-Received: by mail-yb1-xb41.google.com with SMTP id 10so11264512ybx.9;
- Mon, 30 Nov 2020 04:59:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kjimx-00049I-NH
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:00:24 -0500
+Received: by mail-ej1-x643.google.com with SMTP id jx16so21039689ejb.10
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 05:00:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=D/mOHHgNKl4lazHcT4VZmAk/LWlImK4zi5pa42lJe0A=;
- b=IkG5+YJlJOLbGKOtG410MH85qDnDercbfFioJ4122eAXKLbTSW0meGLJb7pfHQrJsc
- DOfjUN60JMq2X8aaxqw6L6I0l3SVipku/dI/1niv6J7SzvuD861WSKP2q7p2A2gybGBQ
- rfsFT/qTQNPERrk8nAHAUpGpZZhvqR/9yDdjv/hdbAhPxXg/G2G+m0+VxNMdZgxaUP0B
- 35iE5AuyrxQCkDpn0/urfjVR4i15V6rYp7cEJoWAEp8100W60TScJ+oJqbPPOF9j84pN
- qucaQA55tOQXWXG69QBrzCc7FzdfsCDVe1c/cvvrRtU3koJXLBgMKAtzeqarkM+3puXJ
- zaAg==
+ :cc; bh=CPo73sHR4PRMlUPYlJHzAwKVQCvRQFhfEQOLwdmgRLg=;
+ b=Hj0gXJgaqbI7J28JoNWmJHxQBACMF625URmWKommOeQko/KEskan6JrfaYQWkGKG2z
+ V5PNhMLHK3wAy2/8kqg/dMXMd22HH9Pz7s5dFnRy6BfCexH44c2G7jHviUu5+C6NVpiY
+ liVfJanspoFCxppCHLCSSJNrkZ9vHwr2ctim/1l1K0BU7fT6p9Cv295Sx83es7tTbvi5
+ uhFVF97cRw5HbvBq5Xt30JIsZHmRHDk2PpgpkJc1UfAQgGgOfHzddoLP60XQWi0Qho3p
+ RpX9M5eFlxRrmwnxTRUtg2PPN7fHgFySy7MWh7HtUei5KiLWqcyDpF3yLygMnES+Bq15
+ UckQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=D/mOHHgNKl4lazHcT4VZmAk/LWlImK4zi5pa42lJe0A=;
- b=Z90FN1gKQiE93si9XaOeSbjefdOlraLHSQSFc7xWvut8LXTW5XTwH3xUX+osdfd6cz
- H68JEiMUv1r7AOHKB1FU/LRV03fi7wN9daJqPMitPT65nWU7foaxyuQYbXCca4bUB1XR
- oXiFPHFUo7Ic6BYdcqr8ctot27aem8UilbEoJF2xVSO1ecQMDckOzgD6xLr+rpR/FE92
- xhzDDo0a8XRTOoRg711xWSOCF5dhw4cQTVdrJGGyF8f17syONO0sYoOtgSTUZy6XiYaG
- b1hvWvdCyiOxMCvY96pCBJCWJ3oLDX6wom0QNl9p732iS0SJztwU5Z/3QF5wSGxazlFB
- LpzQ==
-X-Gm-Message-State: AOAM531OrSF9BkPQh55ANqhepQ1VrcYZfXRJkfpe/NlqwJNeEQE8McV2
- KiieRZ2+K4ZajHzW7t3tYGww4NfRHXicE3qHRBI=
-X-Google-Smtp-Source: ABdhPJy9WgkEyfxDHFAPlLPD7o0+dNllutGDd4nV5hJs8/r7W17YWMcRFlTQSLhUYPG7Yo5ZFsuSM2ePUUaw8y15+Uw=
-X-Received: by 2002:a25:db0e:: with SMTP id g14mr31022197ybf.314.1606741177846; 
- Mon, 30 Nov 2020 04:59:37 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=CPo73sHR4PRMlUPYlJHzAwKVQCvRQFhfEQOLwdmgRLg=;
+ b=bsyhLm+VZCFVvlTE23Kgzwmu+7ym+0BqkxylAP7QZqCCIuGbyU4ew4Lixog0GHShYr
+ iJkXCcuREalsvg1fZLGyifSyibTLxZrK30Qr0BYUlNxuVeglx5RpQWam1giKHWQ+6sUx
+ lNwI3aBH68J7aIqR/QFCW6RAskh8s6iZo5sPtqTOGh+HY5/9PvygKoEeqjqqsdhdUYfU
+ ff+2GE41vqOXq/Sr18jH3dt6A2jognvq/cd0SXUFb4BmwpggAVzHZhKGcULOyDbf9O0p
+ k1kKemF8qwKu1o90FYKP+QuC48fXocybhWO+SSx7bloeJ6m46ecuGF+LQ9KjtKjGLpL+
+ rVag==
+X-Gm-Message-State: AOAM530K6M8LMpGvCIptzbd6ufs4Q9rweSpgOSWbHGdOZmpjfm9ZIMYm
+ rrwvgrjlf29goFcsLRlDbVg6QDtKaYz012x/sn0rSQ==
+X-Google-Smtp-Source: ABdhPJwCyHQ1+H7NWoGrWnhhxjUettZ4UnNwP9wTWySHSeUNXoyNEhewMrUpk/1t5J8IErW0vFliYR76P6zZTADfcho=
+X-Received: by 2002:a17:906:31d2:: with SMTP id
+ f18mr3633403ejf.407.1606741217346; 
+ Mon, 30 Nov 2020 05:00:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20201117105219.1185736-1-f4bug@amsat.org>
- <20201117105219.1185736-2-f4bug@amsat.org>
- <CAEUhbmXRND_nb5oMEM4RdeAjnC2DKYzoYtyz5aJusCs2p8vo8w@mail.gmail.com>
- <CAFEAcA_CcWGjX-O+NGxE3zRv8s6fQ_vKuXWXy3Q-qQjrmBvKnw@mail.gmail.com>
-In-Reply-To: <CAFEAcA_CcWGjX-O+NGxE3zRv8s6fQ_vKuXWXy3Q-qQjrmBvKnw@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 30 Nov 2020 20:59:27 +0800
-Message-ID: <CAEUhbmW-7LZGJ=GSr2A-rQCO42uKGuMQ-2_2r463G++dtKGWiA@mail.gmail.com>
-Subject: Re: [PULL 1/1] hw/sd: Fix 2 GiB card CSD register values
-To: Peter Maydell <peter.maydell@linaro.org>
+References: <20201109030452.2197-1-fangying1@huawei.com>
+ <20201109030452.2197-11-fangying1@huawei.com>
+In-Reply-To: <20201109030452.2197-11-fangying1@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 30 Nov 2020 13:00:06 +0000
+Message-ID: <CAFEAcA-CuagYtA_9c7KrkvoBJqKnUNnT7M=C_MN1EnU4k1kAxQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 10/13] target/arm/cpu: Add cpu cache description
+ for arm
+To: Ying Fang <fangying1@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b41;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb41.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,54 +79,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Niek Linnenbank <nieklinnenbank@gmail.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Qemu-block <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Andrew Jones <drjones@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Igor Mammedov <imammedo@redhat.com>, salil.mehta@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 30, 2020 at 8:55 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
+On Mon, 9 Nov 2020 at 03:05, Ying Fang <fangying1@huawei.com> wrote:
 >
-> On Mon, 30 Nov 2020 at 12:53, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > +Peter,
-> >
-> > On Tue, Nov 17, 2020 at 6:52 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org> wrote:
-> > >
-> > > From: Bin Meng <bin.meng@windriver.com>
-> > >
-> > > Per the SD spec, to indicate a 2 GiB card, BLOCK_LEN shall be 1024
-> > > bytes, hence the READ_BL_LEN field in the CSD register shall be 10
-> > > instead of 9.
-> > >
-> > > This fixes the acceptance test error for the NetBSD 9.0 test of the
-> > > Orange Pi PC that has an expanded SD card image of 2 GiB size.
-> > >
-> > > Fixes: 6d2d4069c47e ("hw/sd: Correct the maximum size of a Standard C=
-apacity SD Memory Card")
-> > > Reported-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> > > Message-Id: <20201025152357.11865-1-bmeng.cn@gmail.com>
-> > > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > > ---
-> > >  hw/sd/sd.c | 15 +++++++++++----
-> > >  1 file changed, 11 insertions(+), 4 deletions(-)
-> > >
-> >
-> > Any chance to get this patch applied to 5.2 since it's a bug fix?
+> Add the CPUCacheInfo structure to hold cpu cache information for ARM cpus.
+> A classic three level cache topology is used here. The default cache
+> capacity is given and userspace can overwrite these values.
 >
-> It's already in -- commit 575094b786e999e5fbd0.
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
+> ---
+>  target/arm/cpu.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+>  target/arm/cpu.h | 27 +++++++++++++++++++++++++++
+>  2 files changed, 69 insertions(+)
+>
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 056319859f..f1bac7452c 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -27,6 +27,7 @@
+>  #include "qapi/visitor.h"
+>  #include "cpu.h"
+>  #include "internals.h"
+> +#include "qemu/units.h"
+>  #include "exec/exec-all.h"
+>  #include "hw/qdev-properties.h"
+>  #if !defined(CONFIG_USER_ONLY)
+> @@ -997,6 +998,45 @@ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz)
+>      return (Aff1 << ARM_AFF1_SHIFT) | Aff0;
+>  }
+>
+> +static CPUCaches default_cache_info = {
+> +    .l1d_cache = &(CPUCacheInfo) {
+> +    .type = DATA_CACHE,
+> +        .level = 1,
+> +        .size = 64 * KiB,
+> +        .line_size = 64,
+> +        .associativity = 4,
+> +        .sets = 256,
+> +        .attributes = 0x02,
+> +    },
 
-Oops, did a wrong rebase in my local tree :(
+Would it be possible to populate this structure from the
+CLIDR/CCSIDR ID register values, rather than having to
+specify the same thing in two places?
 
-Glad it's already in. Sorry Peter!
-
-Regards,
-Bin
+thanks
+-- PMM
 
