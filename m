@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FA02C9027
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 22:43:17 +0100 (CET)
-Received: from localhost ([::1]:52272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7054E2C9059
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 22:58:24 +0100 (CET)
+Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjqx2-0006qD-Ak
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 16:43:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55208)
+	id 1kjrBe-00028U-Td
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 16:58:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1kjqwA-000664-0Y
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 16:42:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43504)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1kjqw7-00024p-DR
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 16:42:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606772537;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hMrRpx7cIXLxHQXqq5HD76p5M6pt7zAw6AYdbvr5Pt8=;
- b=Eid1vv3KDTvynaFC8ASM+s+gcpoLvfqNpr6u6/9iKfWrXP+BWYGrKtl9dU6KSMOoKNJniL
- EQd+YflOw7So+nN7jOXrBYuOrPbkZKoHCBGb+/U6l3A4RairKS0QHeAt01vXlrV0xBnfu7
- S54qL1nz9C9eQ46Pr+CjKClz3Ss6F5s=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-_4Yv-edyNN6UbroGKcRG7A-1; Mon, 30 Nov 2020 16:42:15 -0500
-X-MC-Unique: _4Yv-edyNN6UbroGKcRG7A-1
-Received: by mail-vk1-f199.google.com with SMTP id s68so4400293vkb.6
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 13:42:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kjrAd-0001h0-JA
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 16:57:19 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1kjrAa-0003sM-IX
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 16:57:19 -0500
+Received: by mail-wr1-x443.google.com with SMTP id 23so18366341wrc.8
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 13:57:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version; bh=nTM2mj0qOopm26s4brKZwzKdnKbg9EHFY2HIPiFF3N0=;
+ b=JNx2V3cJwk6Vt6ifDyaHe3gPb5wyXGUlOkneSAo0xdBVVm2dCDbfUPdGX+fgc26VkG
+ 4N/84JnzD81PTFAgV9/otsbaxJSCVjaqnvwG64E/vfcqfoITRVSRW8D0hJq64XCULZG/
+ l2XUk6bqAoGJfsbWCp+ZOq1Kg3089oXJgCf6HpHEutXZo9T9Hz2M6VJ2P+Bzs1Ibt3h8
+ vURgK2W1UiyM7rYC6fyRr01qJPsicfrP8twEBdQWfKfNvjm7NblpJ8HFkrvpInEMUDew
+ gb662DGhoWOxY3gM9n1VV0xYb46f/ZFWksWtIKaFrxVhoZKrubckpVVQIQbEc5qn9RQe
+ vtdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hMrRpx7cIXLxHQXqq5HD76p5M6pt7zAw6AYdbvr5Pt8=;
- b=b5SKrtpyAa4on7rkDpgItzAiP+rvoIMoy8o6xYTuee5QKHlM89diFLu67Zb3z4fn/t
- LSSoEoQH6ea8TiXHX3OZOzXZWceNJ+7FyCHJ57QRjW89ULPlbeG+NO24v1mgYI/Y+/cV
- 3OhS8oqQ11fZckQNirhGHiXUeJ3OOcCBPi1qWkM2EiD3lLaixcOF7Zpqj1Bp4XtT393C
- XAGWXuI0Q3h7CC9yym6RbaHh1ukpf+04esMP0gnSC10V18vVtOVWEtfv6NYHIjQsJEru
- e2wBira+wW+CD6z7KktuqofbGJZT8S1VtSKnhwkM0SYJb7Fk5TlABJFlcR1CfXGOfG9z
- z13g==
-X-Gm-Message-State: AOAM533mWd1s8/KDLuoclWB7mlB49YTqChV1hLaqjf/Ik2uPJD3/wOCS
- hdmcRV8WqQqJk8vj1SUhBEmfamm/Dg6xSMkxCQhyrjAkKvMdkWk30MBMjBxg+PyTcoaDdx1aTFf
- X2F+sydZa+vh/X3tsKDYYpM8dOCgqKVs=
-X-Received: by 2002:a1f:1b95:: with SMTP id b143mr4328024vkb.1.1606772535341; 
- Mon, 30 Nov 2020 13:42:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwY9rPEgNBVrM0fVj95zmFo8DLMkXPDlCeCeFuI0WA0O5AjtddNe8wsZbmTZzGfSeRgkFqIPF9tkXQVknpIOp8=
-X-Received: by 2002:a1f:1b95:: with SMTP id b143mr4328018vkb.1.1606772535174; 
- Mon, 30 Nov 2020 13:42:15 -0800 (PST)
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version;
+ bh=nTM2mj0qOopm26s4brKZwzKdnKbg9EHFY2HIPiFF3N0=;
+ b=mY7Kc6fimdmZYR5W6QjdYCfpDf6Zkz4FwRaB8Ld9lWMadcYJSB0peiSPyU6yjWTMnp
+ nmX9IjOr4kiQEZq33p5BaniF14sNf/tEhWf5/R4XDJ+HLnAryr+h4jKIqSBpTsBOnUkg
+ 0MWi1qmM7yuJQY1HsUHHOTp8jzBORHkfiFSMgK0S/CeTOhgRlcTW/ivlbbX6hL5ZkwLh
+ i3H1ZSbkRugIhzSfmpdXdyTbu9M1ahBlSzQC9OwsDd3KcEJ/RAYl9djroIsl1kUplsIw
+ xQqcTvYAjecx2ogUxHkByPTtjdvGtvkX0UYJGGfrR0gDj9OGxGfCTDSeGYyX79bMDaoJ
+ 4fXg==
+X-Gm-Message-State: AOAM533AegAiu55yPcbQp8GCkpNbBOI3zs17c6T2kFiB0d6RPrngtepR
+ VPl0VcfShVJz/SKPY2buhpa/Ug==
+X-Google-Smtp-Source: ABdhPJxd14kQMww9GzD2jCoJgiiev9kE2hyL9J5nL1zt/L6iJ5vRD0xMZp2md/DRTPHZoLbUDqp2GA==
+X-Received: by 2002:a5d:6783:: with SMTP id v3mr30598819wru.45.1606773434135; 
+ Mon, 30 Nov 2020 13:57:14 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id p4sm30224211wrm.51.2020.11.30.13.57.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Nov 2020 13:57:13 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 307de7b6;
+ Mon, 30 Nov 2020 21:57:12 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+Subject: Re: [PATCH] qmp-shell: Sort by key when pretty-printing
+In-Reply-To: <27cc8383-89e1-5c5f-d8cf-7463810c1fd2@redhat.com>
+References: <20201013141414.18398-1-david.edmondson@oracle.com>
+ <27cc8383-89e1-5c5f-d8cf-7463810c1fd2@redhat.com>
+X-HGTTG: zarquon
+From: David Edmondson <dme@dme.org>
+Date: Mon, 30 Nov 2020 21:57:12 +0000
+Message-ID: <cunsg8qjyo7.fsf@zarquon.hh.sledj.net>
 MIME-Version: 1.0
-References: <20201127174110.1932671-1-philmd@redhat.com>
-In-Reply-To: <20201127174110.1932671-1-philmd@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 30 Nov 2020 18:42:04 -0300
-Message-ID: <CAKJDGDYsxO4YbJLbf9gOEDfuOhxu=ybKkF-vQ5Pn+EPJHacpEA@mail.gmail.com>
-Subject: Re: [RFC PATCH-for-5.2] gitlab-ci: Do not automatically run Avocado
- integration tests anymore
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: neutral client-ip=2a00:1450:4864:20::443;
+ envelope-from=dme@dme.org; helo=mail-wr1-x443.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,56 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- virt-ci-maint-team <virt-ci-maint-team@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 27, 2020 at 2:41 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Monday, 2020-11-30 at 15:56:51 -05, John Snow wrote:
+
+> On 10/13/20 10:14 AM, David Edmondson wrote:
+>> If the user selects pretty-printing (-p) the contents of any
+>> dictionaries in the output are sorted by key.
+>> 
+>> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+>> ---
+>>   scripts/qmp/qmp-shell | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
+>> index c5eef06f3f..b4d06096ab 100755
+>> --- a/scripts/qmp/qmp-shell
+>> +++ b/scripts/qmp/qmp-shell
+>> @@ -260,7 +260,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+>>           indent = None
+>>           if self._pretty:
+>>               indent = 4
+>> -        jsobj = json.dumps(qmp, indent=indent)
+>> +        jsobj = json.dumps(qmp, indent=indent, sort_keys=self._pretty)
+>>           print(str(jsobj))
+>>   
+>>       def _execute_cmd(self, cmdline):
+>> 
 >
-> We lately realized that the Avocado framework was not designed
-> to be regularly run on CI environments. Therefore, as of 5.2
-> we deprecate the gitlab-ci jobs using Avocado. To not disrupt
-> current users, it is possible to keep the current behavior by
-> setting the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable
-> (see [*]).
-> From now on, using these jobs (or adding new tests to them)
-> is strongly discouraged.
+> Hi, out of curiosity, what does this help you accomplish?
 
-When you say, "Avocado framework was not designed to be regularly run
-on CI environments", I feel your pain. Avocado is a really nice test
-framework, and I agree with you that running it locally is a little
-easier than running inside a CI environment. Debugging a job failure
-in the CI is not user-friendly; finding the command to reproduce a job
-failure locally is not user-friendly. I understand why you would like
-to remove the CI's acceptance tests, but I think your proposal is
-missing some arguments and some planning.
+When dumping a dictionary with many values, visually finding a specific
+one that is of interest is much quicker if they are sorted. Nothing more
+than that.
 
-If I read correctly, we share the same view that the CI and the
-software tests are two different things. Here you are proposing that
-we temporarily remove the CI's acceptance tests because it is not
-user-friendly to the devs. This does not mean the tests will be lost.
-It will be possible to run them locally or in the CI using the
-QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable.
-
+> I've recently been overhauling a LOT of the Python utilities we have, so 
+> I'm interested in hearing about how people use these tools and what 
+> they'd like them to do.
 >
-> Tests based on Avocado will be ported to new job schemes during
-> the next releases, with better documentation and templates.
+> --js
 
-I understand you intend to make a more reliable and stable CI. Some
-wording on why the new job scheme will be better than what we have now
-and some planning on enabling the acceptance tests again in the CI may
-help evaluate if it is feasible or just the same as what we have
-today.
-
-It would be nice to hear from other subsystem maintainers their pain
-points about using the CI and how we can improve it. I hear you that
-Avocado needs to improve its interface to be more user friendly. As an
-Avocado developer, I would also like to hear from others where we can
-improve Avocado to make it less painful for the QEMU developers'.
-
+dme.
+-- 
+I can't explain, you would not understand. This is not how I am.
 
