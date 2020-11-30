@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8812B2C89D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 17:46:47 +0100 (CET)
-Received: from localhost ([::1]:53910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87B82C89DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 17:47:46 +0100 (CET)
+Received: from localhost ([::1]:56438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjmK6-0000H8-0r
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 11:46:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34672)
+	id 1kjmL2-0001VS-1Y
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 11:47:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kjmGc-0007WW-MP
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:43:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54064)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kjmHa-0008Fj-JE
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:44:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kjmGY-0003c3-DD
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:43:08 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kjmHU-0003hK-OR
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 11:44:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606754583;
+ s=mimecast20190719; t=1606754644;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T9Y0cK1HKCxjIFbcfntXXAJWTz65qEXjogtT+NCNZPo=;
- b=awO0gTOio+x73NYWoZFRmgj2ukkfIzd05JRQ3XHEptC7V4F1kg1nQ8Mxoh9rLeMjnWIOLf
- t9+IECjC4g8N8NU+CCnYhDW/Dnfn35715LvM/txA/npk/NCCzM4EskUp/zwPIO1FqUk/LP
- 94ATF3QegeCp2HK4X6HI1rFA4PEQVO4=
+ bh=ho1evf6y8Ipc5mATWKA4lqfnfmNacT7uPKu4MhQGmk0=;
+ b=EzAipZe21XYDJ0vliOH+5YCPFwVA7sYd1R30Dt2h7gHF07p1VYfrbsF9xqhizdUGUgfvkO
+ 1NrRTHS92kFbdvkb2he590unZCroeipAz56SbxT1VKgSJT5jJLmqr9BpWrBtHc8zh6DQgv
+ CzG8leBlEPpokx0l236+y1NRWDnxmbM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-NyNh0YU0PDO5bM2Z11uQ5A-1; Mon, 30 Nov 2020 11:43:00 -0500
-X-MC-Unique: NyNh0YU0PDO5bM2Z11uQ5A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-193-NC1-QW-EM9SHAgTNLTSqCQ-1; Mon, 30 Nov 2020 11:43:59 -0500
+X-MC-Unique: NC1-QW-EM9SHAgTNLTSqCQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D15C8558E0;
- Mon, 30 Nov 2020 16:42:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4B6A80B727;
+ Mon, 30 Nov 2020 16:43:57 +0000 (UTC)
 Received: from [10.3.113.230] (ovpn-113-230.phx2.redhat.com [10.3.113.230])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ACEDA5C1C5;
- Mon, 30 Nov 2020 16:42:58 +0000 (UTC)
-Subject: Re: [PATCH v2 0/6] migration: Multi-thread compression method support
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC842189C4;
+ Mon, 30 Nov 2020 16:43:56 +0000 (UTC)
+Subject: Re: [PATCH v2 4/6] migration: Add zstd support in multi-thread
+ compression
 To: Zeyu Jin <jinzeyu@huawei.com>, quintela@redhat.com, dgilbert@redhat.com
-References: <20201127093639.2815-1-jinzeyu@huawei.com>
+References: <20201127093215.2659-1-jinzeyu@huawei.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <2ec8cee7-5330-0e87-f593-464ba789688e@redhat.com>
-Date: Mon, 30 Nov 2020 10:42:57 -0600
+Message-ID: <3bd561fd-0503-308a-e728-1509375663d2@redhat.com>
+Date: Mon, 30 Nov 2020 10:43:56 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201127093639.2815-1-jinzeyu@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201127093215.2659-1-jinzeyu@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,36 +82,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
+Cc: Ying Fang <fangying1@huawei.com>, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/27/20 3:36 AM, Zeyu Jin wrote:
-
-Meta-comment: you appear to be having problems threading your series;
-I've now seen three separate cover letters (RFC v1, v2 with no subject,
-v2 with subject) and two series where each patch was a separate thread.
-It is difficult to follow which messages are related when reading in a
-mail client that sorts by most-recently-active thread first.  You may
-want to investigate why your threading is not working, although I'd wait
-to send v3 until you have actual changes to incorporate.
-
-> Currently we have both multi-thread compression and multifd to optimize
-> live migration in Qemu. Mulit-thread compression deals with the situation
-> where network bandwith is limited but cpu resource adequate. Multifd instead
-
-Not that typos in the cover letter matter, but this should be 'bandwidth'
-
-> aims to take full advantage of network bandwith. Moreover it supports both
-> zlib and zstd compression on each channel.
+On 11/27/20 3:32 AM, Zeyu Jin wrote:
+> This patch enables zstd option in multi-thread compression.
 > 
-> In this patch series, we did some code refactoring on multi-thread compression
-> live migration and bring zstd compression method support for it.
-> 
-> Below is the test result of multi-thread compression live migration
-> with different compress methods. Test result shows that zstd outperforms
-> zlib by about 70%.
-> 
+> Signed-off-by: Zeyu Jin <jinzeyu@huawei.com>
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
+> ---
+
+> +++ b/qapi/migration.json
+> @@ -536,7 +536,7 @@
+>  #
+>  ##
+>  { 'enum': 'CompressMethod',
+> -  'data': [ 'zlib' ] }
+> +  'data': [ 'zlib', { 'name': 'zstd', 'if': 'defined(CONFIG_ZSTD)' } ] }
+
+Missing documentation of the new value, including a '(since 6.0)' marker.
 
 -- 
 Eric Blake, Principal Software Engineer
