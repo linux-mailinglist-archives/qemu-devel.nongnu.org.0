@@ -2,51 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4AF2C84FE
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 14:23:08 +0100 (CET)
-Received: from localhost ([::1]:54236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 496682C84BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 14:13:15 +0100 (CET)
+Received: from localhost ([::1]:38186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjj8z-0003RW-7J
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 08:23:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58110)
+	id 1kjizS-00050k-AL
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 08:13:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kjisM-00014R-B8; Mon, 30 Nov 2020 08:05:58 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:40625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kjisI-0005ha-Km; Mon, 30 Nov 2020 08:05:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=2ii3zZD7jNqWhPp8HQg62f2Ag3MydWhRj+hhn/NZOEQ=; 
- b=Vz1X5GqgV4/SN9rJvVAkNErDlGUpztLGFGMnPn8QidxL2licfzezrp9fBksXy03s9Naokeg7IOVe4vnRNms3fRJGl7eo4eY2UFld+r3egLMrprCtejcrOT4Fr+lwZAMbDWlkERnHZxa17sLoPWwF7DtcbgL2Mp3zGQz4r22yKDqzVTrJpQGtmbJyc24ji0vqAQYPoj5095TPPDecrC+brZpiVqdI+RYrsORgmWAK3OAGchdRxxEOUZlks3y5O4iqRIQVEyTB/f+WK71x/qJXrHc/l+ZKgzeUjjoARbivHKAoDWCcxY4E+1maINiT6si5P4OIkdsxAXl+mhapZWMfhQ==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kjirn-0004XZ-KC; Mon, 30 Nov 2020 14:05:19 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1kjirn-0001XU-Ax; Mon, 30 Nov 2020 14:05:19 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Alex Chen <alex.chen@huawei.com>, eblake@redhat.com
-Subject: Re: [PATCH] qemu-nbd: Fix a memleak in qemu_nbd_client_list()
-In-Reply-To: <20201130123651.17543-1-alex.chen@huawei.com>
-References: <20201130123651.17543-1-alex.chen@huawei.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Mon, 30 Nov 2020 14:05:19 +0100
-Message-ID: <w51v9dnatbk.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kjish-0001Ga-Il
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:06:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kjisd-00064N-Pm
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:06:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606741570;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+cQUQe+R5J9nJO78a40Wfj9NEMSXgjbnuBH4fDcF9eQ=;
+ b=B6r5dZ2qOcHgVOgttXq85PqqBfoAMyudt+aIxC3wgm0wzoI27i1bOIhlruYmZz9SNKXYaq
+ vkYG3FtEvg8QQsuzcO3zzmclbnUj611CW0zLl3ePKnP9Y0u6bqQuUaRJ7YU7o9YyVzr2Lf
+ 7GcrVOOCh8Wi/vguQ2vvsqYZFIN9mCg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-CutMxep_Nwu7IgFwroGMGA-1; Mon, 30 Nov 2020 08:06:06 -0500
+X-MC-Unique: CutMxep_Nwu7IgFwroGMGA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C622E809DDA;
+ Mon, 30 Nov 2020 13:06:04 +0000 (UTC)
+Received: from [10.36.112.89] (ovpn-112-89.ams2.redhat.com [10.36.112.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DEF260C4D;
+ Mon, 30 Nov 2020 13:06:03 +0000 (UTC)
+Subject: Re: [PATCH] hw/arm/smmuv3: Fix up L1STD_SPAN decoding
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Kunkun Jiang <jiangkunkun@huawei.com>
+References: <20201124023711.1184-1-jiangkunkun@huawei.com>
+ <CAFEAcA_tfEO0FaTq_Ud4FE_j93O0ohx3mGKtm2GoGZDfw-ZPAQ@mail.gmail.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <54899eb7-e16d-502c-4757-f24596fea446@redhat.com>
+Date: Mon, 30 Nov 2020 14:06:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA_tfEO0FaTq_Ud4FE_j93O0ohx3mGKtm2GoGZDfw-ZPAQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,19 +84,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, zhang.zhanghailiang@huawei.com
+Cc: wanghaibin.wang@huawei.com, "open list:ARM SMMU" <qemu-arm@nongnu.org>,
+ Keqian Zhu <zhukeqian1@huawei.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon 30 Nov 2020 01:36:51 PM CET, Alex Chen wrote:
-> When the qio_channel_socket_connect_sync() fails
-> we should goto 'out' label to free the 'sioc' instead of return.
->
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+Hi Kunkun, Peter,
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
+On 11/30/20 12:29 PM, Peter Maydell wrote:
+> On Tue, 24 Nov 2020 at 02:37, Kunkun Jiang <jiangkunkun@huawei.com> wrote:
+>>
+>> Accroding to the SMMUv3 spec, the SPAN field of Level1 Stream Table
+>> Descriptor is 5 bits([4:0]).
+>>
+>> Fixes: 9bde7f0674f(hw/arm/smmuv3: Implement translate callback)
+>> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+>> ---
+Acked-by: Eric Auger <eric.auger@redhat.com>
+> 
+> 
+> Applied to target-arm.next for 6.0, thanks.
+thanks and sorry for the delay
 
-Berto
+Eric
+> 
+> -- PMM
+> 
+
 
