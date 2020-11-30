@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F832C821E
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 11:28:03 +0100 (CET)
-Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480942C8240
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 11:33:20 +0100 (CET)
+Received: from localhost ([::1]:52104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjgPa-0005CD-TB
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 05:28:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51376)
+	id 1kjgUh-0000Pz-24
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 05:33:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kjgNO-0004Cm-Px
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:25:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36762)
+ id 1kjgTA-0008Lt-Sx
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:31:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kjgNM-0003SQ-5R
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:25:46 -0500
+ id 1kjgT5-0005W1-3u
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 05:31:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606731940;
+ s=mimecast20190719; t=1606732298;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WyCLL+/7Qqd39ePt3TXqX0Y3RQuylSGw67vzQWoNWfA=;
- b=OSLkJGmjLgiaM3YFX6V/zKeF1/DWqBeNaq4pEcBI9IHcrB1/ixMkx09HhlhCYPazksLox+
- wmUijDUg4oqUR6Nx3WFVZ4wdL83ugKgo/QqJzrhmwoHDqOSjQgT0aWg/CaRhkUUBGt2LnH
- tJtuQSp4VVx8+yxnULmv9FkOW0NJMqM=
+ bh=/91FSOlY3yUqQbmObw1NIAprA9AHoksqpCc1Off/rpQ=;
+ b=ICSSFxOuzUPJJvd1706laXq8b7b7GKd7jVms9ruGYKxROb5CtvCeZM/NRz/5s5UnoAO+IV
+ EKOBGReNzZGmpOvSi1QcqQZN23K9V2iQMo0Qe83du2ZyvpLajEyyulk/4Qp+tGycVYIf/5
+ C2YWswTYfvHj5QWSf9GMF3xiZokyKr8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-mm57XRSqNaCQ3OE2NZMYEw-1; Mon, 30 Nov 2020 05:25:35 -0500
-X-MC-Unique: mm57XRSqNaCQ3OE2NZMYEw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-9-kVcASHBlOsGtYB_kJyKDrg-1; Mon, 30 Nov 2020 05:31:35 -0500
+X-MC-Unique: kVcASHBlOsGtYB_kJyKDrg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 98D33802B4C;
- Mon, 30 Nov 2020 10:25:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A11EE8144E1;
+ Mon, 30 Nov 2020 10:31:34 +0000 (UTC)
 Received: from redhat.com (ovpn-114-242.ams2.redhat.com [10.36.114.242])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D48215D6A8;
- Mon, 30 Nov 2020 10:25:25 +0000 (UTC)
-Date: Mon, 30 Nov 2020 10:25:22 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0BB35D9D2;
+ Mon, 30 Nov 2020 10:31:12 +0000 (UTC)
+Date: Mon, 30 Nov 2020 10:31:09 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
 Subject: Re: [RFC PATCH-for-5.2] gitlab-ci: Do not automatically run Avocado
  integration tests anymore
-Message-ID: <20201130102522.GB2039965@redhat.com>
+Message-ID: <20201130103109.GD2039965@redhat.com>
 References: <20201127174110.1932671-1-philmd@redhat.com>
  <b08db31b-1411-6936-f737-0d6c8f98ebb8@redhat.com>
  <f32a1db5-5231-fc4d-1741-0b5ee13f618f@redhat.com>
  <9157dce0-4f5d-3f1e-ce75-3e9da9252203@redhat.com>
- <ec7e0016-7d10-49bf-0af2-69de8356bbed@redhat.com>
- <5a854d27-ac95-76ff-5014-be80239de796@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5a854d27-ac95-76ff-5014-be80239de796@redhat.com>
+In-Reply-To: <9157dce0-4f5d-3f1e-ce75-3e9da9252203@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -96,67 +94,35 @@ Cc: virt-ci-maint-team@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 30, 2020 at 10:03:35AM +0100, Thomas Huth wrote:
-> On 27/11/2020 19.46, Philippe Mathieu-Daudé wrote:
-> > On 11/27/20 7:29 PM, Thomas Huth wrote:
-> >> On 27/11/2020 18.57, Philippe Mathieu-Daudé wrote:
-> >>> On 11/27/20 6:47 PM, Thomas Huth wrote:
-> >>>> On 27/11/2020 18.41, Philippe Mathieu-Daudé wrote:
-> >>>>> We lately realized that the Avocado framework was not designed
-> >>>>> to be regularly run on CI environments. Therefore, as of 5.2
-> >>>>> we deprecate the gitlab-ci jobs using Avocado. To not disrupt
-> >>>>> current users, it is possible to keep the current behavior by
-> >>>>> setting the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable
-> >>>>> (see [*]).
-> >>>>> From now on, using these jobs (or adding new tests to them)
-> >>>>> is strongly discouraged.
-> >>>>>
-> >>>>> Tests based on Avocado will be ported to new job schemes during
-> >>>>> the next releases, with better documentation and templates.
-> >>>>
-> >>>> Why should we disable the jobs by default as long as there is no replacement
-> >>>> available yet?
+On Fri, Nov 27, 2020 at 07:29:31PM +0100, Thomas Huth wrote:
+> On 27/11/2020 18.57, Philippe Mathieu-Daudé wrote:
+> > On 11/27/20 6:47 PM, Thomas Huth wrote:
+> >> On 27/11/2020 18.41, Philippe Mathieu-Daudé wrote:
+> >>> We lately realized that the Avocado framework was not designed
+> >>> to be regularly run on CI environments. Therefore, as of 5.2
+> >>> we deprecate the gitlab-ci jobs using Avocado. To not disrupt
+> >>> current users, it is possible to keep the current behavior by
+> >>> setting the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable
+> >>> (see [*]).
+> >>> From now on, using these jobs (or adding new tests to them)
+> >>> is strongly discouraged.
 > >>>
-> >>> Why keep it enabled if it is failing randomly
+> >>> Tests based on Avocado will be ported to new job schemes during
+> >>> the next releases, with better documentation and templates.
 > >>
-> >> We can still disable single jobs if they are not stable, but that's no
-> >> reason to disable all of them by default, is it?
-> >>
-> >>> if images hardcoded
-> >>> in tests are being removed from public servers, etc...?
-> >>
-> >> That's independent from Avocado, you'll always have that problem if you want
-> >> to test with external images, unless you mirror them into a repository on
-> >> the same server (ie. gitlab), which, however, might not always be possible...
-> >>
-> >>> They are not disabled, they are still runnable manually or setting
-> >>> QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE...
-> >>
-> >> And who do you think is going to set that variable? Hardly anybody, I guess.
+> >> Why should we disable the jobs by default as long as there is no replacement
+> >> available yet?
 > > 
-> > Does that mean nobody cares about these tests?
+> > Why keep it enabled if it is failing randomly
 > 
-> It's like with all the other tests: Most of the people do not really care
-> about them (if they are not the author of a test) unless the test fails
-> during "make check" / the gating CI of Peter. So IMHO the right way to go is
-> to finally get these in the gating CI, otherwise, if you now even disable
-> them in the gitlab-CI by default, they will bitrot completely.
+> We can still disable single jobs if they are not stable, but that's no
+> reason to disable all of them by default, is it?
 
-That people don't care, and ignore it until Peter hits the failure during
-merge is a tragedy of the commons in itself.
-
-I think we need to set expectations that caring about tests is a key part
-of every contributor's responsibility, with subsystem maintainers leading
-by example:
-
-   https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg04897.html
-
-We do need tests to be reliable though when we're treating them as gating.
-
-Hiding unreliable tests behind an env variable you have to opt-in to
-setting is not going to help that. IMHO unreliable tests should be
-just disabled entirely. If someone genuinely does care about the test
-then they can fix it and re-enable it at the same time. 
+Agreed, the jobs which are known to be broken or unreliable should
+be unconditonally disabled in QEMU as a whole. This isn't specific
+to gitlab config - the qemu build makefiles/mesonfiles should disable
+the problem tests entirely, as we don't want developers wasting time
+running them locally either if they're known to be broken/unreliable.
 
 Regards,
 Daniel
