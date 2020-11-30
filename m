@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765272C8628
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 15:04:16 +0100 (CET)
-Received: from localhost ([::1]:43420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8FDF2C863C
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 15:14:55 +0100 (CET)
+Received: from localhost ([::1]:53156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjjmp-0002rl-EK
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 09:04:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42894)
+	id 1kjjx8-0007f4-CW
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 09:14:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kjjkP-0001YM-P4
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 09:01:47 -0500
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:34890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kjjkO-0007EF-1J
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 09:01:45 -0500
-Received: by mail-yb1-xb42.google.com with SMTP id o71so11491098ybc.2
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 06:01:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dfef49hhI3SpECeeCH6F8p3ZEHCbb7QKlVMMSUMXbhY=;
- b=j6yBgXUdayDayho/CZCr36KS1MYlq/2Ucj+ot/reqAp0OyL49arrJNNr2iHkJKZoZJ
- njE6XXHQs2F5BeKquLzsq40RusUQS7Qzt9Rc/agHEV5xYzqpTe1w/ouV0NjQCPkuCyc7
- NTFFpMCNF6TCKBoMwdOnEmTONLcbROL1DuT2KGhpF/fiBJnIA4fO75WSy/LXHXsX4HEB
- TSg6jfDtzJX6LTqJvh9MvtHq4laDTsqzK95h+hSggZ/lwvi36JBVVnpd5TTYRp507TEZ
- NjgkG/bvFUsACIktrII90SdP/Ga8mzmBoVjPCp7fOdZDdEtNuRv1LezzRoxSu3ZabBm1
- GuPw==
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1kjjvD-0006Vn-8q
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 09:12:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55583)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1kjjv6-0002da-EW
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 09:12:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606745566;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8bcn50rdr2fbeoIFvDhxCNkCWVdSXxSt3IumVA06wsI=;
+ b=g31NOKrM2gXLQktUs7p8igfYlL/d3BKyPcRWA2K00IPBMPHtSKVredQLunyGJUgtSHUjAu
+ 3om8TM/S0oz7oAr29iCcA5+LYkZ6+WjwVsDcjlcl/64OHoaJymSmV+pC7pYvU1ZQ/S5oao
+ wo+CC8Ya1rbthzYjfVf+Mu6/3AJc0tg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-4-g9DuS21ZPZSvu5jhZCmb8Q-1; Mon, 30 Nov 2020 09:12:40 -0500
+X-MC-Unique: g9DuS21ZPZSvu5jhZCmb8Q-1
+Received: by mail-ed1-f70.google.com with SMTP id h5so1563361edq.3
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 06:12:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=dfef49hhI3SpECeeCH6F8p3ZEHCbb7QKlVMMSUMXbhY=;
- b=kxhwRmc3aRhNEEvaOHGASL54v8yfdm4YDxErhWk21VLR9mxv4v6Z/HvzMzp5BhDYS6
- Wz3jGBZK4s0yUBjs06FMvof/gEXSZwy2+9BGDI3DITt69mO8awDsljr/JIshALhXhzSn
- Feau6TSX1aoXD86bwrDaY3e5rMHue58FzUDFTo8qqrrtK7jXdx0m4CUq0isFAPyVLDqV
- uMj8dLWDxXEJnt52D/Va+4HRRhC1TW7nCKLjP4Vrzy8gOgR5sUYDBXpaV0XJiIX2jIFr
- l2aZYsR70Vw0O8xDEeT7IwFdZNO4h0cUHNfMJ0PqmDULqeP/p4PlRHnAL43zAPbmCXoB
- CKkg==
-X-Gm-Message-State: AOAM5309rgxgk6X5k7C2zjeDsVPQPR0NbxkbOSUjQCCmwFCcIJDF2Aa7
- B7a7vffCUkA9kHPaSopwbP8XnkSOPLlwhbKI6ok=
-X-Google-Smtp-Source: ABdhPJwIBp3XFpyKgv4UKh230N9Af9Hn7+g7c0qfiIx90T4muAbC2mIuHoZnj8naZ5Sv+4QbPBcqGvCZMgbrkqrJ0U4=
-X-Received: by 2002:a25:5084:: with SMTP id
- e126mr32714556ybb.239.1606744901564; 
- Mon, 30 Nov 2020 06:01:41 -0800 (PST)
+ bh=8bcn50rdr2fbeoIFvDhxCNkCWVdSXxSt3IumVA06wsI=;
+ b=Iq+k/PO94HFXx7uJYDqiWQ43DYa2LAm80P/SOeVX9HHR8v/LVGFulEweVTeMhnpM+k
+ 0sHmKCk2xRlcJGcnucMIKU9jPJVw3ggdhQnGOeEaHgeTuWFRWNq7M1GkRs6ofQOmAc+P
+ BUywHKq9i1T0zHoTwPlwMcHgPaj1w9ONE2ZROxB6Dd3fU4AGx5IifLJx6BHA86wIiLuw
+ drQj6/l2UXOuD5jfX1xPTD0EVOIEyi3L4ayqluldttAm95WT2C6fFyBZommAoNpFMJjn
+ txDODCK3KdGaLBLnwBvwrNeFdd+lIx0LQ8kisHJ1QwK3lPx6J+wQE5bnqed4VoNKwx9B
+ jdag==
+X-Gm-Message-State: AOAM533Vqo1+4mFrgUh+YgWa1CV5ZKiZSOxxFS3c5o0HBa/HOr/GYWqC
+ Z+nlzJVypH1WcLDS35aS13NAWsD5s9WyIn4b6rFT9d5wZp86n4o+GmcLTTqzPAsQKHGgCGA0mjQ
+ eyVj1UZqRi97n2mBL2cAhCz/HxxXxoJs=
+X-Received: by 2002:a17:906:2818:: with SMTP id
+ r24mr20536249ejc.100.1606745558787; 
+ Mon, 30 Nov 2020 06:12:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwlK+oPEs8wKcWjMrjDMV7k8wuW/y8IbvRyx0YZz3D6KTeMpeofUCcl31fhYEOlUF9zfzONyY98mfosYXNFmgw=
+X-Received: by 2002:a17:906:2818:: with SMTP id
+ r24mr20536225ejc.100.1606745558420; 
+ Mon, 30 Nov 2020 06:12:38 -0800 (PST)
 MIME-Version: 1.0
-References: <1605261378-77971-1-git-send-email-bmeng.cn@gmail.com>
- <4e7e41c4-ce96-05c7-f2cf-27f926639d49@redhat.com>
- <8a814c60-7863-6f63-0f69-a909eb371d7d@redhat.com>
-In-Reply-To: <8a814c60-7863-6f63-0f69-a909eb371d7d@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 30 Nov 2020 22:01:30 +0800
-Message-ID: <CAEUhbmUUbPyLSCArqeTRRguLeHs5kW8KO4TvhZBX6ky8iLYKnA@mail.gmail.com>
-Subject: Re: [PATCH v2] target/i386: seg_helper: Correct segement selector
- nullification in the RET/IRET helper
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+References: <20201113103113.223239-1-mcascell@redhat.com>
+ <f24438ed-ee77-0583-3570-b18514292404@redhat.com>
+ <CAA8xKjX5a1cTY=Zr+XvHsixrSTiCw9FvGg1Z-=5Yw7pWV6xweA@mail.gmail.com>
+ <aef28782-aa5b-ea53-e112-1e4bf4fbd722@redhat.com>
+ <CAA8xKjUuxtGnGqgz+J=G0TZhvu-JfWjz-fjROMhYsZrBSmAGVQ@mail.gmail.com>
+ <204556ad-c6ab-2caa-aee8-3e3f7e0f60c2@redhat.com>
+ <CAA8xKjVjXeGp5irAjzT308LPq2iBeSFWPx90wVPByEZNsxaeTg@mail.gmail.com>
+ <a7f3de56-94e1-831b-fd76-9f626e55e859@redhat.com>
+In-Reply-To: <a7f3de56-94e1-831b-fd76-9f626e55e859@redhat.com>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Mon, 30 Nov 2020 15:12:27 +0100
+Message-ID: <CAA8xKjU-ewhPaea8fg7YKxGTo8Da4YK+GpxzDvJOsTWraT1Edw@mail.gmail.com>
+Subject: Re: [PATCH v2] net/e1000e_core: adjust count if RDH exceeds RDT in
+ e1000e_ring_advance()
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb42.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mcascell@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,30 +99,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: gaoning.pgn@antgroup.com, 330cjfdn@gmail.com,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Laszlo Ersek <lersek@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 16, 2020 at 8:48 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Mon, Nov 30, 2020 at 3:58 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> On 11/13/20 11:18 AM, Paolo Bonzini wrote:
-> > On 13/11/20 10:56, Bin Meng wrote:
-> ...
-> >
-> > Queued, thanks.  It would be nicer if the commit message explained how
-> > the guest can notice the difference.
 >
-> Typo "segement" -> "segment" in subject.
+> On 2020/11/27 =E4=B8=8B=E5=8D=8810:49, Mauro Matteo Cascella wrote:
+> > On Fri, Nov 27, 2020 at 6:21 AM Jason Wang <jasowang@redhat.com> wrote:
+> >>
+> >> On 2020/11/24 =E4=B8=8A=E5=8D=885:30, Mauro Matteo Cascella wrote:
+> >>> On Thu, Nov 19, 2020 at 6:57 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> >>>> On 2020/11/18 =E4=B8=8B=E5=8D=884:53, Mauro Matteo Cascella wrote:
+> >>>>> On Wed, Nov 18, 2020 at 4:56 AM Jason Wang <jasowang@redhat.com> wr=
+ote:
+> >>>>>> On 2020/11/13 =E4=B8=8B=E5=8D=886:31, Mauro Matteo Cascella wrote:
+> >>>>>>> The e1000e_write_packet_to_guest() function iterates over a set o=
+f
+> >>>>>>> receive descriptors by advancing rx descriptor head register (RDH=
+) from
+> >>>>>>> its initial value to rx descriptor tail register (RDT). The check=
+ in
+> >>>>>>> e1000e_ring_empty() is responsible for detecting whether RDH has =
+reached
+> >>>>>>> RDT, terminating the loop if that's the case. Additional checks h=
+ave
+> >>>>>>> been added in the past to deal with bogus values submitted by the=
+ guest
+> >>>>>>> to prevent possible infinite loop. This is done by "wrapping arou=
+nd" RDH
+> >>>>>>> at some point and detecting whether it assumes the original value=
+ during
+> >>>>>>> the loop.
+> >>>>>>>
+> >>>>>>> However, when e1000e is configured to use the packet split featur=
+e, RDH is
+> >>>>>>> incremented by two instead of one, as the packet split descriptor=
+s are
+> >>>>>>> 32 bytes while regular descriptors are 16 bytes. A malicious or b=
+uggy
+> >>>>>>> guest may set RDT to an odd value and transmit only null RX descr=
+iptors.
+> >>>>>>> This corner case would prevent RDH from ever matching RDT, leadin=
+g to an
+> >>>>>>> infinite loop. This patch adds a check in e1000e_ring_advance() t=
+o make sure
+> >>>>>>> RDH does not exceed RDT in a single incremental step, adjusting t=
+he count
+> >>>>>>> value accordingly.
+> >>>>>> Can this patch solve this issue in another way?
+> >>>>>>
+> >>>>>> https://patchew.org/QEMU/20201111130636.2208620-1-ppandit@redhat.c=
+om/
+> >>>>>>
+> >>>>>> Thanks
+> >>>>>>
+> >>>>> Yes, it does work nicely. Still, I think this patch is useful to av=
+oid
+> >>>>> possible inconsistent state in e1000e_ring_advance() when count > 1=
+.
+> >>>> So if RDT is odd, it looks to me the following codes in
+> >>>> e1000e_write_packet_to_guest() needs to be fixed as well.
+> >>>>
+> >>>>
+> >>>>            base =3D e1000e_ring_head_descr(core, rxi);
+> >>>>
+> >>>>            pci_dma_read(d, base, &desc, core->rx_desc_len);
+> >>>>
+> >>>> Otherwise e1000e may try to read out of descriptor ring.
+> >>> Sorry, I'm not sure I understand what you mean. Isn't the base addres=
+s
+> >>> computed from RDH? How can e1000e read out of the descriptor ring if
+> >>> RDT is odd?
+> >>>
+> >>>> Thanks
+> >>> On Thu, Nov 19, 2020 at 6:57 AM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> >>>> On 2020/11/18 =E4=B8=8B=E5=8D=884:53, Mauro Matteo Cascella wrote:
+> >>>>> On Wed, Nov 18, 2020 at 4:56 AM Jason Wang <jasowang@redhat.com> wr=
+ote:
+> >>>>>> On 2020/11/13 =E4=B8=8B=E5=8D=886:31, Mauro Matteo Cascella wrote:
+> >>>>>>> The e1000e_write_packet_to_guest() function iterates over a set o=
+f
+> >>>>>>> receive descriptors by advancing rx descriptor head register (RDH=
+) from
+> >>>>>>> its initial value to rx descriptor tail register (RDT). The check=
+ in
+> >>>>>>> e1000e_ring_empty() is responsible for detecting whether RDH has =
+reached
+> >>>>>>> RDT, terminating the loop if that's the case. Additional checks h=
+ave
+> >>>>>>> been added in the past to deal with bogus values submitted by the=
+ guest
+> >>>>>>> to prevent possible infinite loop. This is done by "wrapping arou=
+nd" RDH
+> >>>>>>> at some point and detecting whether it assumes the original value=
+ during
+> >>>>>>> the loop.
+> >>>>>>>
+> >>>>>>> However, when e1000e is configured to use the packet split featur=
+e, RDH is
+> >>>>>>> incremented by two instead of one, as the packet split descriptor=
+s are
+> >>>>>>> 32 bytes while regular descriptors are 16 bytes. A malicious or b=
+uggy
+> >>>>>>> guest may set RDT to an odd value and transmit only null RX descr=
+iptors.
+> >>>>>>> This corner case would prevent RDH from ever matching RDT, leadin=
+g to an
+> >>>>>>> infinite loop. This patch adds a check in e1000e_ring_advance() t=
+o make sure
+> >>>>>>> RDH does not exceed RDT in a single incremental step, adjusting t=
+he count
+> >>>>>>> value accordingly.
+> >>>>>> Can this patch solve this issue in another way?
+> >>>>>>
+> >>>>>> https://patchew.org/QEMU/20201111130636.2208620-1-ppandit@redhat.c=
+om/
+> >>>>>>
+> >>>>>> Thanks
+> >>>>>>
+> >>>>> Yes, it does work nicely. Still, I think this patch is useful to av=
+oid
+> >>>>> possible inconsistent state in e1000e_ring_advance() when count > 1=
+.
+> >>>> So if RDT is odd, it looks to me the following codes in
+> >>>> e1000e_write_packet_to_guest() needs to be fixed as well.
+> >>>>
+> >>>>
+> >>>>            base =3D e1000e_ring_head_descr(core, rxi);
+> >>>>
+> >>>>            pci_dma_read(d, base, &desc, core->rx_desc_len);
+> >>>>
+> >>>> Otherwise e1000e may try to read out of descriptor ring.
+> >>>>
+> >>>> Thanks
+> >>
+> >> Sorry, I meant RDH actually, when packet split descriptor is used, it
+> >> doesn't check whether DH exceeds DLEN?
+> >>
+> > When the packet split feature is used (i.e., count > 1) this patch
+> > basically sets RDH=3DRDT in case the increment would exceed RDT.
+>
+>
+> Can software set RDH to an odd value? If not, I think we are probably fin=
+e.
+>
+> Thanks
+>
 
-Thanks Philippe.
+Honestly I don't know the answer to your question, my guess is that it
+may be possible for a malicious/bogus guest to set RDH the same way as
+RDT.
 
-Paolo, please let me know if you need me to respin this patch, or you
-can fix this when applying.
+Thank you,
+--
+Mauro Matteo Cascella
+Red Hat Product Security
+PGP-Key ID: BB3410B0
 
-Regards,
-Bin
 
