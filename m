@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D8D2C802F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 09:41:23 +0100 (CET)
-Received: from localhost ([::1]:38070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A832C8034
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 09:44:04 +0100 (CET)
+Received: from localhost ([::1]:43558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjekM-00081i-KT
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 03:41:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57842)
+	id 1kjemx-0001t5-C8
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 03:44:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kjegd-00036x-6E; Mon, 30 Nov 2020 03:37:31 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2980)
+ id 1kjegh-0003J4-Q9; Mon, 30 Nov 2020 03:37:35 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kjega-0000Ro-Ve; Mon, 30 Nov 2020 03:37:30 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Ckz9l0w5VzhXqk;
- Mon, 30 Nov 2020 16:36:59 +0800 (CST)
+ id 1kjege-0000Tp-Id; Mon, 30 Nov 2020 03:37:35 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Ckz9x6LGlzhfp4;
+ Mon, 30 Nov 2020 16:37:09 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS401-HUB.china.huawei.com
  (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Mon, 30 Nov 2020
- 16:37:17 +0800
+ 16:37:19 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 03/12] vmmouse: put it into the 'input' category
-Date: Mon, 30 Nov 2020 16:36:21 +0800
-Message-ID: <20201130083630.2520597-4-ganqixin@huawei.com>
+Subject: [PATCH v2 04/12] nvdimm: put it into the 'storage' category
+Date: Mon, 30 Nov 2020 16:36:22 +0800
+Message-ID: <20201130083630.2520597-5-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201130083630.2520597-1-ganqixin@huawei.com>
 References: <20201130083630.2520597-1-ganqixin@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.175.104.175]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=ganqixin@huawei.com;
- helo=szxga05-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=ganqixin@huawei.com;
+ helo=szxga06-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,36 +56,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, zhang.zhanghailiang@huawei.com, "Michael S .
- Tsirkin" <mst@redhat.com>, Gan Qixin <ganqixin@huawei.com>,
- kuhn.chenqun@huawei.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: kuhn.chenqun@huawei.com, thuth@redhat.com, zhang.zhanghailiang@huawei.com,
+ Gan Qixin <ganqixin@huawei.com>, Xiao
+ Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The category of the vmmouse device is not set, put it into the 'input'
+The category of the nvdimm device is not set, put it into the 'storage'
 category.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 ---
- hw/i386/vmmouse.c | 1 +
+ hw/mem/nvdimm.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
-index a3556438f0..df4798f502 100644
---- a/hw/i386/vmmouse.c
-+++ b/hw/i386/vmmouse.c
-@@ -308,6 +308,7 @@ static void vmmouse_class_initfn(ObjectClass *klass, void *data)
-     dc->reset = vmmouse_reset;
-     dc->vmsd = &vmstate_vmmouse;
-     device_class_set_props(dc, vmmouse_properties);
-+    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index e1574bc07c..e30695b2ce 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -236,6 +236,7 @@ static void nvdimm_class_init(ObjectClass *oc, void *data)
+ 
+     nvc->read_label_data = nvdimm_read_label_data;
+     nvc->write_label_data = nvdimm_write_label_data;
++    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
  }
  
- static const TypeInfo vmmouse_info = {
+ static TypeInfo nvdimm_info = {
 -- 
 2.23.0
 
