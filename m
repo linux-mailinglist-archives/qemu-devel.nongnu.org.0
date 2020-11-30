@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D1872C8393
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 12:58:37 +0100 (CET)
-Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0C82C8396
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 12:59:11 +0100 (CET)
+Received: from localhost ([::1]:49588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjhpE-0007wD-Lb
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 06:58:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43620)
+	id 1kjhpm-0008Nb-Ck
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 06:59:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kjhna-0007A4-Nh
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 06:56:54 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38068)
+ id 1kjho6-0007Ty-6g
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 06:57:26 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kjhnY-0001Rl-NC
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 06:56:54 -0500
-Received: by mail-ej1-x641.google.com with SMTP id a16so21257489ejj.5
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 03:56:52 -0800 (PST)
+ id 1kjho4-0001ZP-Lw
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 06:57:25 -0500
+Received: by mail-ej1-x632.google.com with SMTP id a16so21260289ejj.5
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 03:57:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J7TdQWFyBiJllZLrTMcwK1fWX3ABOvJIPpciwspLNbg=;
- b=XmZm94vtoL0Yw4OgDupcNaldUdTPQlHNukSRz+/0pckyGIUKYVjJNn3K9+nz2jK5zJ
- sG6DojnjRp1dqHX6X0F9CSPi0rEriVzcztWneOhqz6NpyJrH4Ue6yIQrlBYXDg6srNhU
- 8jUDwUxwBX+7a4Gd7JPpwCUKtagB7kSbGtzqMAlx32F5PyM0V5t8HaSQJuVHbo5Rauha
- mxsnAKfaVpedQu3hwidzUHTGa4ktmprsqSk1+BvtCRPGkCtDoWcwjvyieqGLVKypV/a8
- hNIPmnDcVwzPb6c1TqdwaFIZhbUPzfoO1PHfjjKk4Dlk5GDOvKxTHRfIAxDCB3tofd1D
- OUxg==
+ :cc; bh=PQ7gUd1qZAxDTde/bjGFuSC0f+CnY0r52Rg1WEpw0go=;
+ b=Mm3q5n+DhsPYO18HRKItPYe2iD42UvenIlkmUtvYbWvJhLVIUhw+e4TclINW202Ea+
+ da7wF7092YSizlQITa1TuxqpsNUf4OTqTEvQXU1kWyiYUn8pqhjszLyffENkWe+9d/P+
+ s48ypoMZFKUnBQkfkh1/78aWHN7oorm5Gx954Vdhua4iy30yVi+zEU5rYA1s53kbrUkb
+ oe7a0Wgs4PVDTGhN1Rcrx2KVS3jR798oW9aS4m8mdSlx+mwUgz01ocLFS9BirbakD+Jq
+ xNRXFlePqdfI1DRABqQK1P62zqwn1RVEQI3pzRIJUxRq2gRYft235EFX5LdjajIC1i1p
+ /Iug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=J7TdQWFyBiJllZLrTMcwK1fWX3ABOvJIPpciwspLNbg=;
- b=FbFiyBFhipnkU4naMYF+oIkVMbtXpbQWT3xM0Seihbp937OtF8ODQM6iIyC9GvPHqq
- HkL0byfHw5MBsyKFpFZWp0DfRMe/miZRzFs3nvmQ9UX8h9FzBHDfplbilGjJQGd51Q66
- aKUXP/5FUhJ1u/Ta/bk4LI8uzSN8WIyeCjUUCkxUCK2qFl+yo29YrhpFUNz3Wb/OPaOt
- LLeoJr+oqotX+TGODYM+8WVdYgCaLLKdYd40HWt4lkkf5VBCZFEjwBspRDMNx05XAuF5
- NC7MiUhvIAMYtFtYdK1jchQiNXS8DcPl0v1HF4f34L5vdP1gQ7p/0Bkf449DZidvja1c
- VEwQ==
-X-Gm-Message-State: AOAM533nSqpsO8ZNtL8zc4gBo6RqOsaVww/sLqv1W4u+O+fJR584ik51
- wbTSMHiCx7BTUKCp5cOs+twTdxJEpuamFX5de+64Yw==
-X-Google-Smtp-Source: ABdhPJy5G/weFdKmp41d0VWhNpK6semr86atxkgFWcywFPmrL1ZDHIlepKigIk7UBY8OZ4pGN0dcnRtw/Li6qx4BHqs=
-X-Received: by 2002:a17:906:4bc6:: with SMTP id
- x6mr20919183ejv.4.1606737411120; 
- Mon, 30 Nov 2020 03:56:51 -0800 (PST)
+ bh=PQ7gUd1qZAxDTde/bjGFuSC0f+CnY0r52Rg1WEpw0go=;
+ b=FjUMfgndiMQEr90aEkCBgdKhP+YoXmSZ0wR3ufinLBHYwcl9Azfcozigws55VY1PSi
+ Dz4rM0I1P4gWa8KKyOI/s+AsG2xWSivZZaI0pb1l/vDIt2BIncexLInFpDEBWvgj6v3C
+ t8LZUFutBxWiEuX/TOcIs9ItrA8jK0QTiQvq7tRgO3TkZUkpGngH/wN6nYffEnuN+4ia
+ 2oK8rrW0lpCoP8XRgTaQDh7c2L628chMH5D5kxRQt0nN6KNID+FeFxcWYHnQDANoZ7tF
+ XT71CwQRKXyZ/XIqH7adHHHdY26j1Ro1g4iOH8GGT9NcNrdMshtBjYWZ0mZtROx4EcaP
+ IgRQ==
+X-Gm-Message-State: AOAM531+dxkwasedQk3693qArjRYwCpgEqljmLCjXJHL7u5yZpHkaFFQ
+ AsPD4Gul5s8sN+JyqMUwCc1Zw/7dawwLS+ftmZsRdQ==
+X-Google-Smtp-Source: ABdhPJyVMSCqQDCQOWrGxvQWVbhzfz1CJ7GkEXE0YEfk8YO7AIdhnynE8GrM+oOL6RuhDJGblwgieXhfRxxY3rt6cbA=
+X-Received: by 2002:a17:906:dc4:: with SMTP id
+ p4mr20241787eji.56.1606737441137; 
+ Mon, 30 Nov 2020 03:57:21 -0800 (PST)
 MIME-Version: 1.0
-References: <e79639f0-041e-d190-c895-0e1f24d64102@linaro.org>
- <20201124125912.1108631-1-marcin.juszkiewicz@linaro.org>
-In-Reply-To: <20201124125912.1108631-1-marcin.juszkiewicz@linaro.org>
+References: <1605728926-352690-1-git-send-email-fnu.vikram@xilinx.com>
+In-Reply-To: <1605728926-352690-1-git-send-email-fnu.vikram@xilinx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 Nov 2020 11:56:39 +0000
-Message-ID: <CAFEAcA-ZPvnf686NJEK=+A8pTZkEtMwiK2yuLz-Snha4r_92Hw@mail.gmail.com>
-Subject: Re: [PATCH] sbsa-ref: allow to use Cortex-A53/57/72 cpus
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Date: Mon, 30 Nov 2020 11:57:10 +0000
+Message-ID: <CAFEAcA9JJUmL=8NqfodcyZ5=fitf7AkBmhZdknC_ENx1jyU1hA@mail.gmail.com>
+Subject: Re: [PATCH v12 0/4] Introduce Xilinx ZynqMP CAN controller
+To: Vikram Garhwal <fnu.vikram@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,23 +77,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leif Lindholm <leif@nuviainc.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Rados=C5=82aw_Biernacki?= <rad@semihalf.com>
+Cc: francisco.iglesias@xilinx.com, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Nov 2020 at 12:59, Marcin Juszkiewicz
-<marcin.juszkiewicz@linaro.org> wrote:
+On Wed, 18 Nov 2020 at 19:48, Vikram Garhwal <fnu.vikram@xilinx.com> wrote:
 >
-> Trusted Firmware now supports A72 on sbsa-ref by default [1] so enable
-> it for QEMU as well. A53 was already enabled there.
+> Changelog:
 >
-> 1. https://review.trustedfirmware.org/c/TF-A/trusted-firmware-a/+/7117
->
-> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+> v11 -> v12:
+>     Change/add new trace events with relevant debug info.
+>     Rename val64 to val wherever appropriate.
+>     Added new error logs.
+>     Corrected xlnx_zynqmp_can_receive function checks.
 
-Applied to target-arm.next, thanks.
+Applied to target-arm.next for 6.0, thanks.
 
 -- PMM
 
