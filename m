@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3672C8530
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 14:33:02 +0100 (CET)
-Received: from localhost ([::1]:42712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 890B22C85A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 14:38:49 +0100 (CET)
+Received: from localhost ([::1]:47072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjjIa-0002Oj-A7
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 08:33:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34844)
+	id 1kjjOB-0004gh-8T
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 08:38:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kjjCE-0006hV-9a
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:26:26 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41431)
+ id 1kjjMm-0004BJ-4V
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:37:20 -0500
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:34876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kjjCC-00045k-8R
- for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:26:25 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id f23so1791501ejt.8
- for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 05:26:23 -0800 (PST)
+ id 1kjjMk-0007nH-BV
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 08:37:19 -0500
+Received: by mail-ed1-x544.google.com with SMTP id u19so14807209edx.2
+ for <qemu-devel@nongnu.org>; Mon, 30 Nov 2020 05:37:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=e+NKxKyeoqCIDEDdsuOFhamrjxI2SP9q59L9/qzoO/A=;
- b=X3XgvkxHaGnwY5wDFTuVjbBurC0VCE6pHKy0dKIQP1X+tdlMyoCe6uzv0ZbVH0p6yp
- SpUGPtEm7JDKnDVUE+YogBHFaCI5KUcyP2Fnj/VlB8mCncTjUpSePFOo7mlx4gQGIYe/
- eegdOKLBsoc9ABuN5TSJB/rlWJ8pCAoislZkr1SW61nQtJ7abkQaLcwQs6tkhcVdTCA0
- fUeYLQgzpVyt6HksE6DYu7XpkVEH37yD6XSM1TrKH75K0XT38xbEZPYqvPDOvoZdFpRF
- GzgDUikfqoTh5sboy+SelPQZ1mVgnH41/J3GjkFb5znktsvlA9haVP/I/KUhRYek8LvG
- 1YdQ==
+ :cc:content-transfer-encoding;
+ bh=5eimlhABFpXHhXcYpNOJ0M7q5cBlxjtZapM+TQ0b8xE=;
+ b=Q54Mv8Zfd4NZtRH5VznVcF3vqqakqgSfhAN0Yuc50HAt/kpLVHExq7hgNKBEA09A9m
+ /1VJVuptYGyFFKL+9spEc7z9MoI8nd/w9ar7rBAn9OiGXWoXzd+YfdTsm0R9G3LR4tcL
+ BKXYuZdTsNHhNYviTm9wq5i8bhilHvJW4ZR9AZMGMu/roK2mTECj+I2g4AaAo7as8/1h
+ gDF125krlbiBNaTa2wNwXSW3B+O4vLV52fftjP4wcrBmbbG/LrelyO7VIcZTB/FFIjcq
+ 9Us12NoOs2vcT4CzopkQwnpev1Qp3Lhe4mTo01vkIFSC61aY7YSvAyB6SySMTo66+2uX
+ sARg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=e+NKxKyeoqCIDEDdsuOFhamrjxI2SP9q59L9/qzoO/A=;
- b=IsuMNzr/8XcILp79AQbphFpBY2xa/jJJXNgnUS/vi3VFWBVuXUEo32scf415mxzmF+
- tbGmCR6T/PdcXq6SDxh8Zolf93FX0KJjMCTJTZ/HQLiipJHSo/3zfKtm15ivrDv9Jg9E
- awAxoKjwkfYhWlM7fRif6vwgfxX8oEcdawPmWEEte4Fjc30KyQA2PLk2sLSL7trk2gay
- 326asx9MXpWV7yXtAb2mL3z6zMKfZ8peiqf96YTMBagGg0p+8WnKJ2YshsUaSsIA+EUL
- 1yDBwLwhTpm9mV5ETxliChLYWkFIwM24PkVtOvf1ITmLw1dR/RpeZ3NI9xBocZHzlNzv
- AvGQ==
-X-Gm-Message-State: AOAM5338/A6w/Ex3yGSsH0pi9vC592j5S1HRJIBbO0M6Dk+3T0dYMxHW
- InYONG3bAr06MaBR4AsZnTAJOXnUmzWg+S8Ic9v+zQ==
-X-Google-Smtp-Source: ABdhPJysubEEd2miN6LQyJ8fw7dybpWKU6oBCCRbBln1S1qcUp5wxvH8ICq/Ws6i2Le9Fjm3Dr7qG891QhRJSmsL6TQ=
-X-Received: by 2002:a17:906:31d2:: with SMTP id
- f18mr3767664ejf.407.1606742782667; 
- Mon, 30 Nov 2020 05:26:22 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5eimlhABFpXHhXcYpNOJ0M7q5cBlxjtZapM+TQ0b8xE=;
+ b=hUcG4y7q5kj8OOF1YtIIt/DdoqFRnYoEtwAiAmbCCT3HKOE2K5qh+aw+g/ZUDmEdHA
+ MJWrqYQNM5UIQmpAfLj9nn1u5XdrABItm7AxLHCUmJFVYVfGRhBB0ku6wxe/9PXRWFTY
+ 0O/wdK2qIxkdtbLCEBeaN/iMiLlAYs7WWp0N6TNmPswHd0MDw6lLtnyYk6FQGTyGk4uv
+ /goN+/O2+Tq9rg1NccJpHcQ34Ls9+8s5XaXyCVVVgpL/GuVQVG8UtpoemaGZmLYalq+p
+ +w1UTVmCAdcLbrcRDDk97B+YGs+Ge0wUsjyIPEYFlvS4gftDtiaXVTn4l99GsimpFBFH
+ igsA==
+X-Gm-Message-State: AOAM53347uizuxjRLv4eF2vZxpR+5K7LRcTHMfRSADU2Q747hV8zmiU5
+ 0JmMKGx/C0QtkiivcbsblsTCZ5lPrTmLHcJweC20TQ==
+X-Google-Smtp-Source: ABdhPJx3wdeF/rxdqwfW9oNJIbghj1Y1gmjv4IVUcsoWGBZbj7ilQOVC+YfuCwPw2rgtlW+996FWWPxxVScfxN7YJz4=
+X-Received: by 2002:aa7:d5cf:: with SMTP id d15mr8629423eds.146.1606743436795; 
+ Mon, 30 Nov 2020 05:37:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20201105154208.12442-1-ganqixin@huawei.com>
- <CAFEAcA9QMBqF0Bm44q4m1d=QaPVBJodH9rwuYhGx5H6zy6ULcg@mail.gmail.com>
- <87d00qk51l.fsf@dusky.pond.sub.org>
- <CAFEAcA-_5vRbsi5fFpyLV2OyDX5TVrpAx7_Z43wqvb1zhQO_8w@mail.gmail.com>
- <37c519e4-d72b-944c-ed70-038f9c606be9@redhat.com>
- <CAFEAcA_a=vBjLM8_-KDkYfFuTLDW6cMsQ48or70uwwVusW2q7w@mail.gmail.com>
- <87zh3ufoy4.fsf@dusky.pond.sub.org>
- <CAFEAcA-3a8gYRPzk4jzv3QfLAw3tL74LoFTMy+VhXZA3QdOfPg@mail.gmail.com>
- <87mtzqsy2r.fsf@dusky.pond.sub.org>
-In-Reply-To: <87mtzqsy2r.fsf@dusky.pond.sub.org>
+References: <20201103011457.2959989-1-hskinnemoen@google.com>
+ <d41219dd-6cac-f4a4-d559-27ac9b9d9554@redhat.com>
+ <CAFEAcA-2Qf2=Qsgqw+s+E42vd-K0GJ0aNyCVnsZ-cF925GUK7A@mail.gmail.com>
+In-Reply-To: <CAFEAcA-2Qf2=Qsgqw+s+E42vd-K0GJ0aNyCVnsZ-cF925GUK7A@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 Nov 2020 13:26:11 +0000
-Message-ID: <CAFEAcA-JCLUn5BxwH71CmFB3Q+KMSK0pid8nGH9hLUokNcoLSw@mail.gmail.com>
-Subject: Re: [PATCH] scripts/checkpatch.pl: Modify the line length limit of
- the code
-To: Markus Armbruster <armbru@redhat.com>
+Date: Mon, 30 Nov 2020 13:37:05 +0000
+Message-ID: <CAFEAcA-vvCW9G0DE3cpR1wbWp4xyaaKs84-tBkX0o6hRrPJV0Q@mail.gmail.com>
+Subject: Re: [PATCH 0/3] tests/qtest: npcm7xx test fixes
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,29 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gan Qixin <ganqixin@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 9 Nov 2020 at 09:01, Markus Armbruster <armbru@redhat.com> wrote:
-> CODING_STYLE.rst: "Lines should be 80 characters; try not to make them
-> longer."  I'd like to keep the tooling we have to help us with trying
-> not to make them longer.
+On Tue, 10 Nov 2020 at 10:48, Peter Maydell <peter.maydell@linaro.org> wrot=
+e:
 >
-> If we have lost the ability to differentiate between "warning" and
-> "error", call it something else.
+> On Tue, 3 Nov 2020 at 01:52, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+> >
+> > Cc'ing Daniel (patches 1-3) & Marc-Andr=C3=A9 (2).
+> >
+> > On 11/3/20 2:14 AM, Havard Skinnemoen via wrote:
+> > > This series contains a fix for the randomness calculation in npcm7xx_=
+rng-test.
+> > > It also makes test failures fatal. The last patch would have dumped t=
+he random
+> > > data to stderr if the randomness test fails, except now that failures=
+ are
+> > > fatal, it never actually gets a chance to do that.
+> > >
+> > > It may not make sense to apply all three, but I'd definitely take (1)=
+, and I'll
+> > > leave it up to you whether to apply (2), (3) or both.
+> > >
+> > > Havard Skinnemoen (3):
+> > >   tests/qtest/npcm7xx_rng-test: count runs properly
+> > >   tests/qtest/npcm7xx: Don't call g_test_set_nonfatal_assertions
+> > >   tests/qtest/npcm7xx_rng-test: dump random data on failure
+>
+> I've applied patch 1 to target-arm.next but will wait to see
+> if anybody has an opinion about patches 2 and 3.
 
-Personally I just want checkpatch with its default arguments not
-to complain about code that we'd be happy to accept in the tree.
-It's unnecessary noise when I write and check the code locally,
-when patchew runs on the patch on the list and then when it goes
-into a pullreq. Do we need a new "be really strict" option?
+Had a brief conversation on IRC with Dan about this. The nicest
+thing to do seems to be to call g_test_set_nonfatal_assertions()
+somewhere more generic, but just at the moment there isn't a
+place for that. So for the moment I'm going to take patch 3,
+and we'll leave the g_test_set_nonfatal_assertions in the npcm7xx
+tests; as and when we make that setting more generally we can
+remove these specific calls.
 
 thanks
 -- PMM
