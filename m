@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B0B2C7CE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:46:02 +0100 (CET)
-Received: from localhost ([::1]:45230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB7F2C7D00
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:50:43 +0100 (CET)
+Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjZCT-0005mM-BS
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:46:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36134)
+	id 1kjZH0-0003ww-8G
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:50:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ34-0001bN-JD
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:18 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57772)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ33-0001YR-Gg
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:17 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2r-0004qe-W8
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:18 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2s-0004qj-Kb
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:36:17 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B3CC0ACE0;
- Mon, 30 Nov 2020 02:35:54 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 63026AE38;
+ Mon, 30 Nov 2020 02:35:55 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,10 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v7 20/22] i386: split cpu accelerators from cpu.c,
- using AccelCPUClass
-Date: Mon, 30 Nov 2020 03:35:33 +0100
-Message-Id: <20201130023535.16689-21-cfontana@suse.de>
+Subject: [RFC v7 21/22] cpu-exec: refactor realizefn for all targets
+Date: Mon, 30 Nov 2020 03:35:34 +0100
+Message-Id: <20201130023535.16689-22-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201130023535.16689-1-cfontana@suse.de>
 References: <20201130023535.16689-1-cfontana@suse.de>
@@ -69,1541 +68,949 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-i386 is the first user of AccelCPUClass, allowing to split
-cpu.c into:
+cpu_exec_realizefn and cpu_exec_unrealizefn are
+TCG-only stuff, related to accel/tcg/cpu-exec.c
 
-cpu.c            cpuid and common x86 cpu functionality
-host-cpu.c       host x86 cpu functions and "host" cpu type
-kvm/cpu.c        KVM x86 AccelCPUClass
-hvf/cpu.c        HVF x86 AccelCPUClass
-tcg/cpu.c        TCG x86 AccelCPUClass
+Introduce cpu_accel_realize to call it (for tcg-only),
+and to call the other accel-specific arch-specific
+realize functions if any are registered.
+
+The only part that is not TCG-specific is common code
+that should go in common_cpu_ code (hw/core/cpu.c)
+base realizefn and unrealizefn (cpu_list_add, cpu_list_remove).
+
+calls to cpu_exec_realizefn need not happen in each target
+target/XXX/cpu.c, these calls can be centralized,
+as part of the acceleration cpu interface,
+
+and the call to qemu_init_vcpu can also be done in the
+common cpu code.
+
+The target/XXX/cpu.c realizefn body is now:
+
+void mycpu_realizefn(DeviceState *dev, Error **errp)
+{
+    /* ... */
+    cpu_accel_realize(CPU_STATE(dev), errp);
+
+    /* ... anything that needs done pre-qemu_vcpu_init */
+
+    scc->parent_realize(dev, errp); /* does qemu_vcpu_init */
+
+    /* ... anything that needs to be done after qemu_vcpu_init */
+}
+
+Note: better do some testing for all targets for this.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- MAINTAINERS                 |   2 +-
- hw/i386/pc_piix.c           |   1 +
- target/i386/cpu.c           | 386 ++++--------------------------------
- target/i386/cpu.h           |  20 +-
- target/i386/host-cpu.c      | 198 ++++++++++++++++++
- target/i386/host-cpu.h      |  19 ++
- target/i386/hvf/cpu.c       |  65 ++++++
- target/i386/hvf/meson.build |   1 +
- target/i386/kvm/cpu.c       | 148 ++++++++++++++
- target/i386/kvm/kvm-cpu.h   |  41 ++++
- target/i386/kvm/kvm.c       |   3 +-
- target/i386/kvm/meson.build |   7 +-
- target/i386/meson.build     |   8 +-
- target/i386/tcg-cpu.c       |  71 -------
- target/i386/tcg-cpu.h       |  15 --
- target/i386/tcg/cpu.c       | 173 ++++++++++++++++
- target/i386/tcg/meson.build |   3 +-
- 17 files changed, 711 insertions(+), 450 deletions(-)
- create mode 100644 target/i386/host-cpu.c
- create mode 100644 target/i386/host-cpu.h
- create mode 100644 target/i386/hvf/cpu.c
- create mode 100644 target/i386/kvm/cpu.c
- create mode 100644 target/i386/kvm/kvm-cpu.h
- delete mode 100644 target/i386/tcg-cpu.c
- delete mode 100644 target/i386/tcg-cpu.h
- create mode 100644 target/i386/tcg/cpu.c
+ accel/tcg/cpu-exec.c            | 48 +++++++++++++++++++++++++++++
+ cpu.c                           | 53 +++------------------------------
+ hw/core/cpu.c                   | 22 ++++++++++++++
+ include/exec/cpu-all.h          |  4 +++
+ include/hw/core/cpu.h           | 12 ++++++++
+ target/alpha/cpu.c              |  5 +---
+ target/arm/cpu.c                |  6 ++--
+ target/avr/cpu.c                |  5 ++--
+ target/cris/cpu.c               |  4 +--
+ target/hppa/cpu.c               |  3 +-
+ target/i386/cpu.c               | 20 ++++---------
+ target/lm32/cpu.c               |  5 +---
+ target/m68k/cpu.c               |  4 +--
+ target/microblaze/cpu.c         |  9 ++----
+ target/mips/cpu.c               |  4 +--
+ target/moxie/cpu.c              |  6 ++--
+ target/nios2/cpu.c              |  6 ++--
+ target/openrisc/cpu.c           |  6 ++--
+ target/ppc/translate_init.c.inc |  7 ++---
+ target/riscv/cpu.c              | 10 +++----
+ target/rx/cpu.c                 | 10 +++----
+ target/s390x/cpu.c              |  5 ++--
+ target/sh4/cpu.c                |  4 +--
+ target/sparc/cpu.c              |  6 ++--
+ target/tilegx/cpu.c             |  4 +--
+ target/tricore/cpu.c            |  4 +--
+ target/unicore32/cpu.c          |  6 +---
+ target/xtensa/cpu.c             |  4 +--
+ 28 files changed, 134 insertions(+), 148 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f084d73f6b..4f3f1e8b18 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -337,7 +337,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
- M: Richard Henderson <richard.henderson@linaro.org>
- M: Eduardo Habkost <ehabkost@redhat.com>
- S: Maintained
--F: target/i386/
-+F: target/i386/tcg/
- F: tests/tcg/i386/
- F: tests/tcg/x86_64/
- F: hw/i386/
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 13d1628f13..d3f013f3a1 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -64,6 +64,7 @@
- #include "hw/hyperv/vmbus-bridge.h"
- #include "hw/mem/nvdimm.h"
- #include "hw/i386/acpi-build.h"
-+#include "kvm/kvm-cpu.h"
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index bd4ff224ee..24cd18f81b 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -40,6 +40,8 @@
+ #include "exec/cpu-all.h"
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/replay.h"
++#include "migration/vmstate.h"
++#include "sysemu/tcg.h"
  
- #define MAX_IDE_BUS 2
+ /* -icount align implementation. */
  
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 3462d0143f..27fba3b003 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -22,37 +22,24 @@
- #include "qemu/cutils.h"
- #include "qemu/bitops.h"
- #include "qemu/qemu-print.h"
--
- #include "cpu.h"
--#include "tcg-cpu.h"
- #include "helper-tcg.h"
- #include "exec/exec-all.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "sysemu/hvf.h"
--#include "sysemu/cpus.h"
-+#include "hw/core/accel-cpu.h"
- #include "sysemu/xen.h"
- #include "kvm/kvm_i386.h"
- #include "sev_i386.h"
--
--#include "qemu/error-report.h"
- #include "qemu/module.h"
--#include "qemu/option.h"
--#include "qemu/config-file.h"
--#include "qapi/error.h"
- #include "qapi/qapi-visit-machine.h"
- #include "qapi/qapi-visit-run-state.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
--#include "qapi/visitor.h"
- #include "qom/qom-qobject.h"
--#include "sysemu/arch_init.h"
- #include "qapi/qapi-commands-machine-target.h"
--
- #include "standard-headers/asm-x86/kvm_para.h"
--
--#include "sysemu/sysemu.h"
--#include "sysemu/tcg.h"
- #include "hw/qdev-properties.h"
- #include "hw/i386/topology.h"
- #ifndef CONFIG_USER_ONLY
-@@ -594,8 +581,8 @@ static CPUCacheInfo legacy_l3_cache = {
- #define INTEL_PT_CYCLE_BITMAP    0x1fff         /* Support 0,2^(0~11) */
- #define INTEL_PT_PSB_BITMAP      (0x003f << 16) /* Support 2K,4K,8K,16K,32K,64K */
- 
--static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
--                                     uint32_t vendor2, uint32_t vendor3)
-+void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-+                              uint32_t vendor2, uint32_t vendor3)
- {
-     int i;
-     for (i = 0; i < 4; i++) {
-@@ -1563,25 +1550,6 @@ void host_cpuid(uint32_t function, uint32_t count,
-         *edx = vec[3];
+@@ -801,6 +803,52 @@ int cpu_exec(CPUState *cpu)
+     return ret;
  }
  
--void host_vendor_fms(char *vendor, int *family, int *model, int *stepping)
--{
--    uint32_t eax, ebx, ecx, edx;
--
--    host_cpuid(0x0, 0, &eax, &ebx, &ecx, &edx);
--    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
--
--    host_cpuid(0x1, 0, &eax, &ebx, &ecx, &edx);
--    if (family) {
--        *family = ((eax >> 8) & 0x0F) + ((eax >> 20) & 0xFF);
--    }
--    if (model) {
--        *model = ((eax >> 4) & 0x0F) | ((eax & 0xF0000) >> 12);
--    }
--    if (stepping) {
--        *stepping = eax & 0x0F;
--    }
--}
--
- /* CPU class name definitions: */
- 
- /* Return type name for a given CPU model name
-@@ -1606,10 +1574,6 @@ static char *x86_cpu_class_get_model_name(X86CPUClass *cc)
-                      strlen(class_name) - strlen(X86_CPU_TYPE_SUFFIX));
- }
- 
--typedef struct PropValue {
--    const char *prop, *value;
--} PropValue;
--
- typedef struct X86CPUVersionDefinition {
-     X86CPUVersion version;
-     const char *alias;
-@@ -4106,31 +4070,6 @@ static X86CPUDefinition builtin_x86_defs[] = {
-     },
- };
- 
--/* KVM-specific features that are automatically added/removed
-- * from all CPU models when KVM is enabled.
-- */
--static PropValue kvm_default_props[] = {
--    { "kvmclock", "on" },
--    { "kvm-nopiodelay", "on" },
--    { "kvm-asyncpf", "on" },
--    { "kvm-steal-time", "on" },
--    { "kvm-pv-eoi", "on" },
--    { "kvmclock-stable-bit", "on" },
--    { "x2apic", "on" },
--    { "acpi", "off" },
--    { "monitor", "off" },
--    { "svm", "off" },
--    { NULL, NULL },
--};
--
--/* TCG-specific defaults that override all CPU models when using TCG
-- */
--static PropValue tcg_default_props[] = {
--    { "vme", "off" },
--    { NULL, NULL },
--};
--
--
- /*
-  * We resolve CPU model aliases using -v1 when using "-machine
-  * none", but this is just for compatibility while libvirt isn't
-@@ -4172,61 +4111,6 @@ static X86CPUVersion x86_cpu_model_resolve_version(const X86CPUModel *model)
-     return v;
- }
- 
--void x86_cpu_change_kvm_default(const char *prop, const char *value)
--{
--    PropValue *pv;
--    for (pv = kvm_default_props; pv->prop; pv++) {
--        if (!strcmp(pv->prop, prop)) {
--            pv->value = value;
--            break;
--        }
--    }
--
--    /* It is valid to call this function only for properties that
--     * are already present in the kvm_default_props table.
--     */
--    assert(pv->prop);
--}
--
--static bool lmce_supported(void)
--{
--    uint64_t mce_cap = 0;
--
--#ifdef CONFIG_KVM
--    if (kvm_ioctl(kvm_state, KVM_X86_GET_MCE_CAP_SUPPORTED, &mce_cap) < 0) {
--        return false;
--    }
--#endif
--
--    return !!(mce_cap & MCG_LMCE_P);
--}
--
--#define CPUID_MODEL_ID_SZ 48
--
--/**
-- * cpu_x86_fill_model_id:
-- * Get CPUID model ID string from host CPU.
-- *
-- * @str should have at least CPUID_MODEL_ID_SZ bytes
-- *
-- * The function does NOT add a null terminator to the string
-- * automatically.
-- */
--static int cpu_x86_fill_model_id(char *str)
--{
--    uint32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
--    int i;
--
--    for (i = 0; i < 3; i++) {
--        host_cpuid(0x80000002 + i, 0, &eax, &ebx, &ecx, &edx);
--        memcpy(str + i * 16 +  0, &eax, 4);
--        memcpy(str + i * 16 +  4, &ebx, 4);
--        memcpy(str + i * 16 +  8, &ecx, 4);
--        memcpy(str + i * 16 + 12, &edx, 4);
--    }
--    return 0;
--}
--
- static Property max_x86_cpu_properties[] = {
-     DEFINE_PROP_BOOL("migratable", X86CPU, migratable, true),
-     DEFINE_PROP_BOOL("host-cache-info", X86CPU, cache_info_passthrough, false),
-@@ -4249,61 +4133,25 @@ static void max_x86_cpu_class_init(ObjectClass *oc, void *data)
- static void max_x86_cpu_initfn(Object *obj)
- {
-     X86CPU *cpu = X86_CPU(obj);
--    CPUX86State *env = &cpu->env;
--    KVMState *s = kvm_state;
- 
-     /* We can't fill the features array here because we don't know yet if
-      * "migratable" is true or false.
-      */
-     cpu->max_features = true;
--
--    if (accel_uses_host_cpuid()) {
--        char vendor[CPUID_VENDOR_SZ + 1] = { 0 };
--        char model_id[CPUID_MODEL_ID_SZ + 1] = { 0 };
--        int family, model, stepping;
--
--        host_vendor_fms(vendor, &family, &model, &stepping);
--        cpu_x86_fill_model_id(model_id);
--
--        object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
--        object_property_set_int(OBJECT(cpu), "family", family, &error_abort);
--        object_property_set_int(OBJECT(cpu), "model", model, &error_abort);
--        object_property_set_int(OBJECT(cpu), "stepping", stepping,
--                                &error_abort);
--        object_property_set_str(OBJECT(cpu), "model-id", model_id,
--                                &error_abort);
--
--        if (kvm_enabled()) {
--            env->cpuid_min_level =
--                kvm_arch_get_supported_cpuid(s, 0x0, 0, R_EAX);
--            env->cpuid_min_xlevel =
--                kvm_arch_get_supported_cpuid(s, 0x80000000, 0, R_EAX);
--            env->cpuid_min_xlevel2 =
--                kvm_arch_get_supported_cpuid(s, 0xC0000000, 0, R_EAX);
--        } else {
--            env->cpuid_min_level =
--                hvf_get_supported_cpuid(0x0, 0, R_EAX);
--            env->cpuid_min_xlevel =
--                hvf_get_supported_cpuid(0x80000000, 0, R_EAX);
--            env->cpuid_min_xlevel2 =
--                hvf_get_supported_cpuid(0xC0000000, 0, R_EAX);
--        }
--
--        if (lmce_supported()) {
--            object_property_set_bool(OBJECT(cpu), "lmce", true, &error_abort);
--        }
--    } else {
--        object_property_set_str(OBJECT(cpu), "vendor", CPUID_VENDOR_AMD,
--                                &error_abort);
--        object_property_set_int(OBJECT(cpu), "family", 6, &error_abort);
--        object_property_set_int(OBJECT(cpu), "model", 6, &error_abort);
--        object_property_set_int(OBJECT(cpu), "stepping", 3, &error_abort);
--        object_property_set_str(OBJECT(cpu), "model-id",
--                                "QEMU TCG CPU version " QEMU_HW_VERSION,
--                                &error_abort);
--    }
--
-     object_property_set_bool(OBJECT(cpu), "pmu", true, &error_abort);
++void cpu_exec_realizefn(CPUState *cpu, Error **errp)
++{
++    static bool tcg_target_initialized;
++    CPUClass *cc = CPU_GET_CLASS(cpu);
 +
-+    /*
-+     * these defaults are used for TCG and all other accelerators
-+     * besides KVM and HVF, which overwrite these values
-+     */
-+    object_property_set_str(OBJECT(cpu), "vendor", CPUID_VENDOR_AMD,
-+                            &error_abort);
-+    object_property_set_int(OBJECT(cpu), "family", 6, &error_abort);
-+    object_property_set_int(OBJECT(cpu), "model", 6, &error_abort);
-+    object_property_set_int(OBJECT(cpu), "stepping", 3, &error_abort);
-+    object_property_set_str(OBJECT(cpu), "model-id",
-+                            "QEMU TCG CPU version " QEMU_HW_VERSION,
-+                            &error_abort);
- }
++    if (tcg_enabled() && !tcg_target_initialized) {
++        tcg_target_initialized = true;
++        cc->tcg_ops.initialize();
++    }
++    tlb_init(cpu);
++
++    qemu_plugin_vcpu_init_hook(cpu);
++
++#ifdef CONFIG_USER_ONLY
++    assert(cc->vmsd == NULL);
++#else /* !CONFIG_USER_ONLY */
++    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
++        vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
++    }
++    if (cc->vmsd != NULL) {
++        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
++    }
++
++    tcg_iommu_init_notifier_list(cpu);
++#endif /* CONFIG_USER_ONLY */
++}
++
++void cpu_exec_unrealizefn(CPUState *cpu)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    tlb_destroy(cpu);
++
++#ifdef CONFIG_USER_ONLY
++    assert(cc->vmsd == NULL);
++#else
++    if (cc->vmsd != NULL) {
++        vmstate_unregister(NULL, cc->vmsd, cpu);
++    }
++    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
++        vmstate_unregister(NULL, &vmstate_cpu_common, cpu);
++    }
++    tcg_iommu_free_notifier_list(cpu);
++#endif
++}
++
+ #ifndef CONFIG_USER_ONLY
  
- static const TypeInfo max_x86_cpu_type_info = {
-@@ -4313,31 +4161,6 @@ static const TypeInfo max_x86_cpu_type_info = {
-     .class_init = max_x86_cpu_class_init,
+ void dump_drift_info(void)
+diff --git a/cpu.c b/cpu.c
+index d02c2a17f1..a366c10181 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -124,26 +124,6 @@ const VMStateDescription vmstate_cpu_common = {
  };
- 
--#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
--static void host_x86_cpu_class_init(ObjectClass *oc, void *data)
--{
--    X86CPUClass *xcc = X86_CPU_CLASS(oc);
--
--    xcc->host_cpuid_required = true;
--    xcc->ordering = 8;
--
--#if defined(CONFIG_KVM)
--    xcc->model_description =
--        "KVM processor with all supported host features ";
--#elif defined(CONFIG_HVF)
--    xcc->model_description =
--        "HVF processor with all supported host features ";
--#endif
--}
--
--static const TypeInfo host_x86_cpu_type_info = {
--    .name = X86_CPU_TYPE_NAME("host"),
--    .parent = X86_CPU_TYPE_NAME("max"),
--    .class_init = host_x86_cpu_class_init,
--};
--
--#endif
--
- static char *feature_word_description(FeatureWordInfo *f, uint32_t bit)
- {
-     assert(f->type == CPUID_FEATURE_WORD || f->type == MSR_FEATURE_WORD);
-@@ -5063,7 +4886,7 @@ static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-     return r;
- }
- 
--static void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
-+void x86_cpu_apply_props(X86CPU *cpu, PropValue *props)
- {
-     PropValue *pv;
-     for (pv = props; pv->prop; pv++) {
-@@ -5110,8 +4933,6 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
- {
-     X86CPUDefinition *def = model->cpudef;
-     CPUX86State *env = &cpu->env;
--    const char *vendor;
--    char host_vendor[CPUID_VENDOR_SZ + 1];
-     FeatureWord w;
- 
-     /*NOTE: any property set by this function should be returned by
-@@ -5138,18 +4959,6 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
-     /* legacy-cache defaults to 'off' if CPU model provides cache info */
-     cpu->legacy_cache = !def->cache_info;
- 
--    /* Special cases not set in the X86CPUDefinition structs: */
--    /* TODO: in-kernel irqchip for hvf */
--    if (kvm_enabled()) {
--        if (!kvm_irqchip_in_kernel()) {
--            x86_cpu_change_kvm_default("x2apic", "off");
--        }
--
--        x86_cpu_apply_props(cpu, kvm_default_props);
--    } else if (tcg_enabled()) {
--        x86_cpu_apply_props(cpu, tcg_default_props);
--    }
--
-     env->features[FEAT_1_ECX] |= CPUID_EXT_HYPERVISOR;
- 
-     /* sysenter isn't supported in compatibility mode on AMD,
-@@ -5159,15 +4968,12 @@ static void x86_cpu_load_model(X86CPU *cpu, X86CPUModel *model)
-      * KVM's sysenter/syscall emulation in compatibility mode and
-      * when doing cross vendor migration
-      */
--    vendor = def->vendor;
--    if (accel_uses_host_cpuid()) {
--        uint32_t  ebx = 0, ecx = 0, edx = 0;
--        host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
--        x86_cpu_vendor_words2str(host_vendor, ebx, edx, ecx);
--        vendor = host_vendor;
--    }
- 
--    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
-+    /*
-+     * vendor property is set here but then overloaded with the
-+     * host cpu vendor for KVM and HVF.
-+     */
-+    object_property_set_str(OBJECT(cpu), "vendor", def->vendor, &error_abort);
- 
-     x86_cpu_apply_version_props(cpu, model);
- 
-@@ -6192,53 +5998,12 @@ static void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
-         apic_mmio_map_once = true;
-      }
- }
--
--static void x86_cpu_machine_done(Notifier *n, void *unused)
--{
--    X86CPU *cpu = container_of(n, X86CPU, machine_done);
--    MemoryRegion *smram =
--        (MemoryRegion *) object_resolve_path("/machine/smram", NULL);
--
--    if (smram) {
--        cpu->smram = g_new(MemoryRegion, 1);
--        memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
--                                 smram, 0, 4 * GiB);
--        memory_region_set_enabled(cpu->smram, true);
--        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->smram, 1);
--    }
--}
- #else
- static void x86_cpu_apic_realize(X86CPU *cpu, Error **errp)
- {
- }
  #endif
  
--/* Note: Only safe for use on x86(-64) hosts */
--static uint32_t x86_host_phys_bits(void)
+-void cpu_exec_unrealizefn(CPUState *cpu)
 -{
--    uint32_t eax;
--    uint32_t host_phys_bits;
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
 -
--    host_cpuid(0x80000000, 0, &eax, NULL, NULL, NULL);
--    if (eax >= 0x80000008) {
--        host_cpuid(0x80000008, 0, &eax, NULL, NULL, NULL);
--        /* Note: According to AMD doc 25481 rev 2.34 they have a field
--         * at 23:16 that can specify a maximum physical address bits for
--         * the guest that can override this value; but I've not seen
--         * anything with that set.
--         */
--        host_phys_bits = eax & 0xff;
--    } else {
--        /* It's an odd 64 bit machine that doesn't have the leaf for
--         * physical address bits; fall back to 36 that's most older
--         * Intel.
--         */
--        host_phys_bits = 36;
+-    tlb_destroy(cpu);
+-    cpu_list_remove(cpu);
+-
+-#ifdef CONFIG_USER_ONLY
+-    assert(cc->vmsd == NULL);
+-#else
+-    if (cc->vmsd != NULL) {
+-        vmstate_unregister(NULL, cc->vmsd, cpu);
 -    }
--
--    return host_phys_bits;
+-    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
+-        vmstate_unregister(NULL, &vmstate_cpu_common, cpu);
+-    }
+-    tcg_iommu_free_notifier_list(cpu);
+-#endif
 -}
 -
- static void x86_cpu_adjust_level(X86CPU *cpu, uint32_t *min, uint32_t value)
+ Property cpu_common_props[] = {
+ #ifndef CONFIG_USER_ONLY
+     /* Create a memory property for softmmu CPU object,
+@@ -159,6 +139,10 @@ Property cpu_common_props[] = {
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
++/*
++ * this code needs to be here instead of just in hw/core/cpu.c,
++ * because there we cannot really use CONFIG_USER_ONLY
++ */
+ void cpu_exec_initfn(CPUState *cpu)
  {
-     if (*min < value) {
-@@ -6515,33 +6280,22 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
+     cpu->as = NULL;
+@@ -171,35 +155,6 @@ void cpu_exec_initfn(CPUState *cpu)
+ #endif
+ }
+ 
+-void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+-{
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+-    static bool tcg_target_initialized;
+-
+-    cpu_list_add(cpu);
+-
+-    if (tcg_enabled() && !tcg_target_initialized) {
+-        tcg_target_initialized = true;
+-        cc->tcg_ops.initialize();
+-    }
+-    tlb_init(cpu);
+-
+-    qemu_plugin_vcpu_init_hook(cpu);
+-
+-#ifdef CONFIG_USER_ONLY
+-    assert(cc->vmsd == NULL);
+-#else /* !CONFIG_USER_ONLY */
+-    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
+-        vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
+-    }
+-    if (cc->vmsd != NULL) {
+-        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
+-    }
+-
+-    tcg_iommu_init_notifier_list(cpu);
+-#endif
+-}
+-
+ const char *parse_cpu_option(const char *cpu_option)
+ {
+     ObjectClass *oc;
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 994a12cb35..b1a495a383 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -238,6 +238,20 @@ void cpu_reset(CPUState *cpu)
+     trace_guest_cpu_reset(cpu);
+ }
+ 
++void cpu_accel_realize(CPUState *cpu, Error **errp)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++#ifdef CONFIG_TCG
++    /* NB: errp parameter is (still?) unused in cpu_exec_realizefn */
++    cpu_exec_realizefn(cpu, errp);
++#endif /* CONFIG_TCG */
++
++    if (cc->accel_cpu_interface) {
++        cc->accel_cpu_interface->cpu_realizefn(cpu, errp);
++    }
++}
++
+ static void cpu_common_reset(DeviceState *dev)
+ {
+     CPUState *cpu = CPU(dev);
+@@ -314,6 +328,9 @@ static void cpu_common_realizefn(DeviceState *dev, Error **errp)
+     CPUState *cpu = CPU(dev);
+     Object *machine = qdev_get_machine();
+ 
++    cpu_list_add(cpu);
++    qemu_init_vcpu(cpu);
++
+     /* qdev_get_machine() can return something that's not TYPE_MACHINE
+      * if this is one of the user-only emulators; in that case there's
+      * no need to check the ignore_memory_transaction_failures board flag.
+@@ -342,8 +359,13 @@ static void cpu_common_unrealizefn(DeviceState *dev)
+     CPUState *cpu = CPU(dev);
+     /* NOTE: latest generic point before the cpu is fully unrealized */
+     trace_fini_vcpu(cpu);
++
++#ifdef CONFIG_TCG
+     qemu_plugin_vcpu_exit_hook(cpu);
+     cpu_exec_unrealizefn(cpu);
++#endif /* CONFIG_TCG */
++
++    cpu_list_remove(cpu);
+ }
+ 
+ static void cpu_common_initfn(Object *obj)
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index 4b5408c341..ee9630da2b 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -421,6 +421,10 @@ void dump_opcount_info(void);
+ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
+                         void *ptr, target_ulong len, bool is_write);
+ 
++/*
++ * note: cpu_exec is TCG only, but we cannot wrap it in
++ * ifdef CONFIG_TCG currently due to header file mess.
++ */
+ int cpu_exec(CPUState *cpu);
+ 
+ /**
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 9f00c6635b..403f614559 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -677,6 +677,12 @@ void cpu_list_remove(CPUState *cpu);
+  */
+ void cpu_reset(CPUState *cpu);
+ 
++/**
++ * cpu_accel_realize:
++ * @cpu: The CPU whose accel cpu interface is to be realized.
++ */
++void cpu_accel_realize(CPUState *cpu, Error **errp);
++
+ /**
+  * cpu_class_by_name:
+  * @typename: The CPU base type.
+@@ -1107,9 +1113,15 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx);
+ void QEMU_NORETURN cpu_abort(CPUState *cpu, const char *fmt, ...)
+     GCC_FMT_ATTR(2, 3);
+ extern Property cpu_common_props[];
++
++/* $(top_srcdir)/cpu.c */
+ void cpu_exec_initfn(CPUState *cpu);
++
++#ifdef CONFIG_TCG
++/* accel/tcg/cpu-exec.c */
+ void cpu_exec_realizefn(CPUState *cpu, Error **errp);
+ void cpu_exec_unrealizefn(CPUState *cpu);
++#endif /* CONFIG_TCG */
+ 
+ /**
+  * target_words_bigendian:
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index 0369d5a99c..477ac70224 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -56,18 +56,15 @@ static void alpha_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
+ 
+ static void alpha_cpu_realizefn(DeviceState *dev, Error **errp)
+ {
+-    CPUState *cs = CPU(dev);
+     AlphaCPUClass *acc = ALPHA_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(CPU(dev), &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
+ 
+-    qemu_init_vcpu(cs);
+-
+     acc->parent_realize(dev, errp);
+ }
+ 
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 1553d7b53c..6432af1842 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1396,7 +1396,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+     }
+ #endif
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+@@ -1857,10 +1857,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         }
+     }
+ 
+-    qemu_init_vcpu(cs);
+-    cpu_reset(cs);
+-
+     acc->parent_realize(dev, errp);
++    cpu_reset(cs);
+ }
+ 
+ static ObjectClass *arm_cpu_class_by_name(const char *cpu_model)
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+index 699055de7c..20f7713bc4 100644
+--- a/target/avr/cpu.c
++++ b/target/avr/cpu.c
+@@ -92,15 +92,14 @@ static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
+     AVRCPUClass *mcc = AVR_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
+-    qemu_init_vcpu(cs);
+-    cpu_reset(cs);
+ 
+     mcc->parent_realize(dev, errp);
++    cpu_reset(cs);
+ }
+ 
+ static void avr_cpu_set_int(void *opaque, int irq, int level)
+diff --git a/target/cris/cpu.c b/target/cris/cpu.c
+index 9222717f3e..ad052c62fe 100644
+--- a/target/cris/cpu.c
++++ b/target/cris/cpu.c
+@@ -128,15 +128,13 @@ static void cris_cpu_realizefn(DeviceState *dev, Error **errp)
+     CRISCPUClass *ccc = CRIS_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
+ 
+     cpu_reset(cs);
+-    qemu_init_vcpu(cs);
+-
+     ccc->parent_realize(dev, errp);
+ }
+ 
+diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+index e2d79f954e..2236053c68 100644
+--- a/target/hppa/cpu.c
++++ b/target/hppa/cpu.c
+@@ -93,13 +93,12 @@ static void hppa_cpu_realizefn(DeviceState *dev, Error **errp)
+     HPPACPUClass *acc = HPPA_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
+ 
+-    qemu_init_vcpu(cs);
+     acc->parent_realize(dev, errp);
+ 
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 27fba3b003..485f3bc97b 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6280,16 +6280,16 @@ static void x86_cpu_filter_features(X86CPU *cpu, bool verbose)
  static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
  {
      CPUState *cs = CPU(dev);
-+    CPUClass *cc = CPU_GET_CLASS(cs);
+-    CPUClass *cc = CPU_GET_CLASS(cs);
      X86CPU *cpu = X86_CPU(dev);
      X86CPUClass *xcc = X86_CPU_GET_CLASS(dev);
      CPUX86State *env = &cpu->env;
      Error *local_err = NULL;
      static bool ht_warned;
  
--    if (xcc->host_cpuid_required) {
--        if (!accel_uses_host_cpuid()) {
--            g_autofree char *name = x86_cpu_class_get_model_name(xcc);
--            error_setg(&local_err, "CPU model '%s' requires KVM", name);
--            goto out;
--        }
-+    /* The accelerator realizefn needs to be called first. */
-+    if (cc->accel_cpu_interface) {
-+        cc->accel_cpu_interface->cpu_realizefn(cs, errp);
+-    /* The accelerator realizefn needs to be called first. */
+-    if (cc->accel_cpu_interface) {
+-        cc->accel_cpu_interface->cpu_realizefn(cs, errp);
++    cpu_accel_realize(cs, &local_err);
++    if (local_err != NULL) {
++        error_propagate(errp, local_err);
++        return;
      }
  
--    if (cpu->max_features && accel_uses_host_cpuid()) {
--        if (enable_cpu_pm) {
--            host_cpuid(5, 0, &cpu->mwait.eax, &cpu->mwait.ebx,
--                       &cpu->mwait.ecx, &cpu->mwait.edx);
--            env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
--            if (kvm_enabled() && kvm_has_waitpkg()) {
--                env->features[FEAT_7_0_ECX] |= CPUID_7_0_ECX_WAITPKG;
--            }
--        }
--        if (kvm_enabled() && cpu->ucode_rev == 0) {
--            cpu->ucode_rev = kvm_arch_get_supported_msr_feature(kvm_state,
--                                                                MSR_IA32_UCODE_REV);
--        }
-+    if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
-+        g_autofree char *name = x86_cpu_class_get_model_name(xcc);
-+        error_setg(&local_err, "CPU model '%s' requires KVM or HVF", name);
-+        goto out;
+     if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
+@@ -6405,13 +6405,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+         env->cache_info_amd.l3_cache = &legacy_l3_cache;
      }
  
-     if (cpu->ucode_rev == 0) {
-@@ -6593,39 +6347,7 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-      * consumer AMD devices but nothing else.
-      */
-     if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
--        if (accel_uses_host_cpuid()) {
--            uint32_t host_phys_bits = x86_host_phys_bits();
--            static bool warned;
 -
--            /* Print a warning if the user set it to a value that's not the
--             * host value.
--             */
--            if (cpu->phys_bits != host_phys_bits && cpu->phys_bits != 0 &&
--                !warned) {
--                warn_report("Host physical bits (%u)"
--                            " does not match phys-bits property (%u)",
--                            host_phys_bits, cpu->phys_bits);
--                warned = true;
--            }
+-    cpu_exec_realizefn(cs, &local_err);
+-    if (local_err != NULL) {
+-        error_propagate(errp, local_err);
+-        return;
+-    }
 -
--            if (cpu->host_phys_bits) {
--                /* The user asked for us to use the host physical bits */
--                cpu->phys_bits = host_phys_bits;
--                if (cpu->host_phys_bits_limit &&
--                    cpu->phys_bits > cpu->host_phys_bits_limit) {
--                    cpu->phys_bits = cpu->host_phys_bits_limit;
--                }
--            }
--
--            if (cpu->phys_bits &&
--                (cpu->phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
--                cpu->phys_bits < 32)) {
--                error_setg(errp, "phys-bits should be between 32 and %u "
--                                 " (but is %u)",
--                                 TARGET_PHYS_ADDR_SPACE_BITS, cpu->phys_bits);
--                return;
--            }
--        } else {
-+        if (!accel_uses_host_cpuid()) {
-             if (cpu->phys_bits && cpu->phys_bits != TCG_PHYS_ADDR_BITS) {
-                 error_setg(errp, "TCG only supports phys-bits=%u",
-                                   TCG_PHYS_ADDR_BITS);
-@@ -6633,8 +6355,8 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-             }
-         }
-         /* 0 means it was not explicitly set by the user (or by machine
--         * compat_props or by the host code above). In this case, the default
--         * is the value used by TCG (40).
-+         * compat_props or by the host code in host-cpu.c).
-+         * In this case, the default is the value used by TCG (40).
-          */
-         if (cpu->phys_bits == 0) {
-             cpu->phys_bits = TCG_PHYS_ADDR_BITS;
-@@ -6704,33 +6426,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+ #ifndef CONFIG_USER_ONLY
+     MachineState *ms = MACHINE(qdev_get_machine());
+     qemu_register_reset(x86_cpu_machine_reset_cb, cpu);
+@@ -6426,8 +6419,7 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
  
      mce_init(cpu);
  
--#ifndef CONFIG_USER_ONLY
--    if (tcg_enabled()) {
--        cpu->cpu_as_mem = g_new(MemoryRegion, 1);
--        cpu->cpu_as_root = g_new(MemoryRegion, 1);
+-    qemu_init_vcpu(cs);
 -
--        /* Outer container... */
--        memory_region_init(cpu->cpu_as_root, OBJECT(cpu), "memory", ~0ull);
--        memory_region_set_enabled(cpu->cpu_as_root, true);
--
--        /* ... with two regions inside: normal system memory with low
--         * priority, and...
--         */
--        memory_region_init_alias(cpu->cpu_as_mem, OBJECT(cpu), "memory",
--                                 get_system_memory(), 0, ~0ull);
--        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->cpu_as_mem, 0);
--        memory_region_set_enabled(cpu->cpu_as_mem, true);
--
--        cs->num_ases = 2;
--        cpu_address_space_init(cs, 0, "cpu-memory", cs->memory);
--        cpu_address_space_init(cs, 1, "cpu-smm", cpu->cpu_as_root);
--
--        /* ... SMRAM with higher priority, linked from /machine/smram.  */
--        cpu->machine_done.notify = x86_cpu_machine_done;
--        qemu_add_machine_init_done_notifier(&cpu->machine_done);
--    }
--#endif
--
-     qemu_init_vcpu(cs);
- 
++    xcc->parent_realize(dev, &local_err);
      /*
-@@ -6936,6 +6631,8 @@ static void x86_cpu_initfn(Object *obj)
+      * Most Intel and certain AMD CPUs support hyperthreading. Even though QEMU
+      * fixes this issue by adjusting CPUID_0000_0001_EBX and CPUID_8000_0008_ECX
+@@ -6454,8 +6446,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+     }
+     cpu_reset(cs);
+ 
+-    xcc->parent_realize(dev, &local_err);
+-
+ out:
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
+index bbe1405e32..fa68cd7d61 100644
+--- a/target/lm32/cpu.c
++++ b/target/lm32/cpu.c
+@@ -126,16 +126,13 @@ static void lm32_cpu_realizefn(DeviceState *dev, Error **errp)
+     LM32CPUClass *lcc = LM32_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
+ 
+     cpu_reset(cs);
+-
+-    qemu_init_vcpu(cs);
+-
+     lcc->parent_realize(dev, errp);
+ }
+ 
+diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
+index bc109faa21..9f2cd492db 100644
+--- a/target/m68k/cpu.c
++++ b/target/m68k/cpu.c
+@@ -239,7 +239,7 @@ static void m68k_cpu_realizefn(DeviceState *dev, Error **errp)
+ 
+     register_m68k_insns(&cpu->env);
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+@@ -248,8 +248,6 @@ static void m68k_cpu_realizefn(DeviceState *dev, Error **errp)
+     m68k_cpu_init_gdb(cpu);
+ 
+     cpu_reset(cs);
+-    qemu_init_vcpu(cs);
+-
+     mcc->parent_realize(dev, errp);
+ }
+ 
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index 6e660a27b8..03e317bf2e 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -145,15 +145,14 @@ static void mb_disas_set_info(CPUState *cpu, disassemble_info *info)
+ 
+ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
  {
-     X86CPU *cpu = X86_CPU(obj);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
-+    CPUClass *cc = CPU_CLASS(xcc);
-+
-     CPUX86State *env = &cpu->env;
-     FeatureWord w;
+-    CPUState *cs = CPU(dev);
+     MicroBlazeCPUClass *mcc = MICROBLAZE_CPU_GET_CLASS(dev);
+-    MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
++    MicroBlazeCPU *cpu = MICROBLAZE_CPU(dev);
+     uint8_t version_code = 0;
+     const char *version;
+     int i = 0;
+     Error *local_err = NULL;
  
-@@ -6992,6 +6689,11 @@ static void x86_cpu_initfn(Object *obj)
-     if (xcc->model) {
-         x86_cpu_load_model(cpu, xcc->model);
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(CPU(dev), &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+@@ -165,7 +164,7 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
+         return;
      }
-+
-+    /* if required, do the accelerator-specific cpu initialization */
-+    if (cc->accel_cpu_interface) {
-+        cc->accel_cpu_interface->cpu_instance_init(CPU(obj));
-+    }
+ 
+-    qemu_init_vcpu(cs);
++    mcc->parent_realize(dev, errp);
+ 
+     version = cpu->cfg.version ? cpu->cfg.version : DEFAULT_CPU_VERSION;
+     for (i = 0; mb_cpu_lookup[i].name && version; i++) {
+@@ -231,8 +230,6 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
+     cpu->cfg.mmu_tlb_access = 3;
+     cpu->cfg.mmu_zones = 16;
+     cpu->cfg.addr_mask = MAKE_64BIT_MASK(0, cpu->cfg.addr_size);
+-
+-    mcc->parent_realize(dev, errp);
  }
  
- static int64_t x86_cpu_get_arch_id(CPUState *cs)
-@@ -7248,11 +6950,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-     cc->class_by_name = x86_cpu_class_by_name;
-     cc->parse_features = x86_cpu_parse_featurestr;
-     cc->has_work = x86_cpu_has_work;
--
--#ifdef CONFIG_TCG
--    tcg_cpu_common_class_init(cc);
--#endif /* CONFIG_TCG */
--
-     cc->dump_state = x86_cpu_dump_state;
-     cc->set_pc = x86_cpu_set_pc;
-     cc->gdb_read_register = x86_cpu_gdb_read_register;
-@@ -7357,9 +7054,6 @@ static void x86_cpu_register_types(void)
+ static void mb_cpu_initfn(Object *obj)
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 02fae64ce7..dad6701b04 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -173,7 +173,7 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
      }
-     type_register_static(&max_x86_cpu_type_info);
-     type_register_static(&x86_base_cpu_type_info);
--#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
--    type_register_static(&host_x86_cpu_type_info);
--#endif
+     mips_cp0_period_set(cpu);
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+@@ -182,8 +182,6 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
+     cpu_mips_realize_env(&cpu->env);
+ 
+     cpu_reset(cs);
+-    qemu_init_vcpu(cs);
+-
+     mcc->parent_realize(dev, errp);
  }
  
- type_init(x86_cpu_register_types)
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index a0d64613dc..b3e39fc631 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1905,13 +1905,20 @@ int cpu_x86_signal_handler(int host_signum, void *pinfo,
-                            void *puc);
+diff --git a/target/moxie/cpu.c b/target/moxie/cpu.c
+index 1177d092c1..12234c32be 100644
+--- a/target/moxie/cpu.c
++++ b/target/moxie/cpu.c
+@@ -60,16 +60,14 @@ static void moxie_cpu_realizefn(DeviceState *dev, Error **errp)
+     MoxieCPUClass *mcc = MOXIE_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
  
- /* cpu.c */
-+void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-+                              uint32_t vendor2, uint32_t vendor3);
-+typedef struct PropValue {
-+    const char *prop, *value;
-+} PropValue;
-+void x86_cpu_apply_props(X86CPU *cpu, PropValue *props);
-+
-+/* cpu.c other functions (cpuid) */
- void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                    uint32_t *eax, uint32_t *ebx,
-                    uint32_t *ecx, uint32_t *edx);
- void cpu_clear_apic_feature(CPUX86State *env);
- void host_cpuid(uint32_t function, uint32_t count,
-                 uint32_t *eax, uint32_t *ebx, uint32_t *ecx, uint32_t *edx);
--void host_vendor_fms(char *vendor, int *family, int *model, int *stepping);
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
  
- /* helper.c */
- void x86_cpu_set_a20(X86CPU *cpu, int a20_state);
-@@ -2111,17 +2118,6 @@ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access);
- void apic_handle_tpr_access_report(DeviceState *d, target_ulong ip,
-                                    TPRAccess access);
+-    qemu_init_vcpu(cs);
+-    cpu_reset(cs);
+-
+     mcc->parent_realize(dev, errp);
++    cpu_reset(cs);
+ }
  
--
--/* Change the value of a KVM-specific default
-- *
-- * If value is NULL, no default will be set and the original
-- * value from the CPU model table will be kept.
-- *
-- * It is valid to call this function only for properties that
-- * are already present in the kvm_default_props table.
-- */
--void x86_cpu_change_kvm_default(const char *prop, const char *value);
--
- /* Special values for X86CPUVersion: */
+ static void moxie_cpu_initfn(Object *obj)
+diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
+index a96b74b00c..f5380f1935 100644
+--- a/target/nios2/cpu.c
++++ b/target/nios2/cpu.c
+@@ -86,16 +86,14 @@ static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
+     Nios2CPUClass *ncc = NIOS2_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
  
- /* Resolve to latest CPU version */
-diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
-new file mode 100644
-index 0000000000..3ce2bc9a84
---- /dev/null
-+++ b/target/i386/host-cpu.c
-@@ -0,0 +1,198 @@
-+/*
-+ * x86 host CPU functions, and "host" cpu type initialization
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "host-cpu.h"
-+#include "qapi/error.h"
-+#include "sysemu/sysemu.h"
-+
-+/* Note: Only safe for use on x86(-64) hosts */
-+static uint32_t host_cpu_phys_bits(void)
-+{
-+    uint32_t eax;
-+    uint32_t host_phys_bits;
-+
-+    host_cpuid(0x80000000, 0, &eax, NULL, NULL, NULL);
-+    if (eax >= 0x80000008) {
-+        host_cpuid(0x80000008, 0, &eax, NULL, NULL, NULL);
-+        /*
-+         * Note: According to AMD doc 25481 rev 2.34 they have a field
-+         * at 23:16 that can specify a maximum physical address bits for
-+         * the guest that can override this value; but I've not seen
-+         * anything with that set.
-+         */
-+        host_phys_bits = eax & 0xff;
-+    } else {
-+        /*
-+         * It's an odd 64 bit machine that doesn't have the leaf for
-+         * physical address bits; fall back to 36 that's most older
-+         * Intel.
-+         */
-+        host_phys_bits = 36;
-+    }
-+
-+    return host_phys_bits;
-+}
-+
-+static void host_cpu_enable_cpu_pm(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+
-+    host_cpuid(5, 0, &cpu->mwait.eax, &cpu->mwait.ebx,
-+               &cpu->mwait.ecx, &cpu->mwait.edx);
-+    env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
-+}
-+
-+static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
-+{
-+    uint32_t host_phys_bits = host_cpu_phys_bits();
-+    uint32_t phys_bits = cpu->phys_bits;
-+    static bool warned;
-+
-+    /*
-+     * Print a warning if the user set it to a value that's not the
-+     * host value.
-+     */
-+    if (phys_bits != host_phys_bits && phys_bits != 0 &&
-+        !warned) {
-+        warn_report("Host physical bits (%u)"
-+                    " does not match phys-bits property (%u)",
-+                    host_phys_bits, phys_bits);
-+        warned = true;
-+    }
-+
-+    if (cpu->host_phys_bits) {
-+        /* The user asked for us to use the host physical bits */
-+        phys_bits = host_phys_bits;
-+        if (cpu->host_phys_bits_limit &&
-+            phys_bits > cpu->host_phys_bits_limit) {
-+            phys_bits = cpu->host_phys_bits_limit;
-+        }
-+    }
-+
-+    if (phys_bits &&
-+        (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
-+         phys_bits < 32)) {
-+        error_setg(errp, "phys-bits should be between 32 and %u "
-+                   " (but is %u)",
-+                   TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
-+    }
-+
-+    return phys_bits;
-+}
-+
-+void host_cpu_realizefn(CPUState *cs, Error **errp)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    if (cpu->max_features && enable_cpu_pm) {
-+        host_cpu_enable_cpu_pm(cpu);
-+    }
-+    if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
-+        cpu->phys_bits = host_cpu_adjust_phys_bits(cpu, errp);
-+    }
-+}
-+
-+#define CPUID_MODEL_ID_SZ 48
-+/**
-+ * cpu_x86_fill_model_id:
-+ * Get CPUID model ID string from host CPU.
-+ *
-+ * @str should have at least CPUID_MODEL_ID_SZ bytes
-+ *
-+ * The function does NOT add a null terminator to the string
-+ * automatically.
-+ */
-+static int host_cpu_fill_model_id(char *str)
-+{
-+    uint32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
-+    int i;
-+
-+    for (i = 0; i < 3; i++) {
-+        host_cpuid(0x80000002 + i, 0, &eax, &ebx, &ecx, &edx);
-+        memcpy(str + i * 16 +  0, &eax, 4);
-+        memcpy(str + i * 16 +  4, &ebx, 4);
-+        memcpy(str + i * 16 +  8, &ecx, 4);
-+        memcpy(str + i * 16 + 12, &edx, 4);
-+    }
-+    return 0;
-+}
-+
-+void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping)
-+{
-+    uint32_t eax, ebx, ecx, edx;
-+
-+    host_cpuid(0x0, 0, &eax, &ebx, &ecx, &edx);
-+    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
-+
-+    host_cpuid(0x1, 0, &eax, &ebx, &ecx, &edx);
-+    if (family) {
-+        *family = ((eax >> 8) & 0x0F) + ((eax >> 20) & 0xFF);
-+    }
-+    if (model) {
-+        *model = ((eax >> 4) & 0x0F) | ((eax & 0xF0000) >> 12);
-+    }
-+    if (stepping) {
-+        *stepping = eax & 0x0F;
-+    }
-+}
-+
-+void host_cpu_instance_init(X86CPU *cpu)
-+{
-+    uint32_t ebx = 0, ecx = 0, edx = 0;
-+    char vendor[CPUID_VENDOR_SZ + 1];
-+
-+    host_cpuid(0, 0, NULL, &ebx, &ecx, &edx);
-+    x86_cpu_vendor_words2str(vendor, ebx, edx, ecx);
-+
-+    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
-+}
-+
-+void host_cpu_max_instance_init(X86CPU *cpu)
-+{
-+    char vendor[CPUID_VENDOR_SZ + 1] = { 0 };
-+    char model_id[CPUID_MODEL_ID_SZ + 1] = { 0 };
-+    int family, model, stepping;
-+
-+    host_cpu_vendor_fms(vendor, &family, &model, &stepping);
-+    host_cpu_fill_model_id(model_id);
-+
-+    object_property_set_str(OBJECT(cpu), "vendor", vendor, &error_abort);
-+    object_property_set_int(OBJECT(cpu), "family", family, &error_abort);
-+    object_property_set_int(OBJECT(cpu), "model", model, &error_abort);
-+    object_property_set_int(OBJECT(cpu), "stepping", stepping,
-+                            &error_abort);
-+    object_property_set_str(OBJECT(cpu), "model-id", model_id,
-+                            &error_abort);
-+}
-+
-+static void host_cpu_class_init(ObjectClass *oc, void *data)
-+{
-+    X86CPUClass *xcc = X86_CPU_CLASS(oc);
-+
-+    xcc->host_cpuid_required = true;
-+    xcc->ordering = 8;
-+    xcc->model_description =
-+        g_strdup_printf("processor with all supported host features ");
-+}
-+
-+static const TypeInfo host_cpu_type_info = {
-+    .name = X86_CPU_TYPE_NAME("host"),
-+    .parent = X86_CPU_TYPE_NAME("max"),
-+    .class_init = host_cpu_class_init,
-+};
-+
-+static void host_cpu_type_init(void)
-+{
-+    type_register_static(&host_cpu_type_info);
-+}
-+
-+type_init(host_cpu_type_init);
-diff --git a/target/i386/host-cpu.h b/target/i386/host-cpu.h
-new file mode 100644
-index 0000000000..d1f2644422
---- /dev/null
-+++ b/target/i386/host-cpu.h
-@@ -0,0 +1,19 @@
-+/*
-+ * x86 host CPU type initialization and host CPU functions
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef HOST_CPU_H
-+#define HOST_CPU_H
-+
-+void host_cpu_instance_init(X86CPU *cpu);
-+void host_cpu_max_instance_init(X86CPU *cpu);
-+void host_cpu_realizefn(CPUState *cs, Error **errp);
-+
-+void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping);
-+
-+#endif /* HOST_CPU_H */
-diff --git a/target/i386/hvf/cpu.c b/target/i386/hvf/cpu.c
-new file mode 100644
-index 0000000000..d6579571f1
---- /dev/null
-+++ b/target/i386/hvf/cpu.c
-@@ -0,0 +1,65 @@
-+/*
-+ * x86 HVF CPU type initialization
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "host-cpu.h"
-+#include "qapi/error.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/boards.h"
-+#include "sysemu/hvf.h"
-+#include "hw/core/accel-cpu.h"
-+
-+static void hvf_cpu_max_instance_init(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+
-+    host_cpu_max_instance_init(cpu);
-+
-+    env->cpuid_min_level =
-+        hvf_get_supported_cpuid(0x0, 0, R_EAX);
-+    env->cpuid_min_xlevel =
-+        hvf_get_supported_cpuid(0x80000000, 0, R_EAX);
-+    env->cpuid_min_xlevel2 =
-+        hvf_get_supported_cpuid(0xC0000000, 0, R_EAX);
-+}
-+
-+static void hvf_cpu_instance_init(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+
-+    host_cpu_instance_init(cpu);
-+
-+    /* Special cases not set in the X86CPUDefinition structs: */
-+    /* TODO: in-kernel irqchip for hvf */
-+
-+    if (cpu->max_features) {
-+        hvf_cpu_max_instance_init(cpu);
-+    }
-+}
-+
-+static void hvf_cpu_accel_class_init(ObjectClass *oc, void *data)
-+{
-+    AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
-+
-+    acc->cpu_realizefn = host_cpu_realizefn;
-+    acc->cpu_instance_init = hvf_cpu_instance_init;
-+};
-+static const TypeInfo hvf_cpu_accel_type_info = {
-+    .name = ACCEL_CPU_NAME("hvf"),
-+
-+    .parent = TYPE_ACCEL_CPU,
-+    .class_init = hvf_cpu_accel_class_init,
-+    .abstract = true,
-+};
-+static void hvf_cpu_accel_register_types(void)
-+{
-+    type_register_static(&hvf_cpu_accel_type_info);
-+}
-+type_init(hvf_cpu_accel_register_types);
-diff --git a/target/i386/hvf/meson.build b/target/i386/hvf/meson.build
-index 409c9a3f14..a7fba5724c 100644
---- a/target/i386/hvf/meson.build
-+++ b/target/i386/hvf/meson.build
-@@ -10,4 +10,5 @@ i386_softmmu_ss.add(when: [hvf, 'CONFIG_HVF'], if_true: files(
-   'x86_mmu.c',
-   'x86_task.c',
-   'x86hvf.c',
-+  'cpu.c',
- ))
-diff --git a/target/i386/kvm/cpu.c b/target/i386/kvm/cpu.c
-new file mode 100644
-index 0000000000..adc5120cf6
---- /dev/null
-+++ b/target/i386/kvm/cpu.c
-@@ -0,0 +1,148 @@
-+/*
-+ * x86 KVM CPU type initialization
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "host-cpu.h"
-+#include "kvm-cpu.h"
-+#include "qapi/error.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/boards.h"
-+
-+#include "kvm_i386.h"
-+#include "hw/core/accel-cpu.h"
-+
-+static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    /*
-+     * The realize order is important, since x86_cpu_realize() checks if
-+     * nothing else has been set by the user (or by accelerators) in
-+     * cpu->ucode_rev and cpu->phys_bits.
-+     *
-+     * realize order:
-+     * kvm_cpu -> host_cpu -> x86_cpu
-+     */
-+    if (cpu->max_features) {
-+        if (enable_cpu_pm && kvm_has_waitpkg()) {
-+            env->features[FEAT_7_0_ECX] |= CPUID_7_0_ECX_WAITPKG;
-+        }
-+        if (cpu->ucode_rev == 0) {
-+            cpu->ucode_rev =
-+                kvm_arch_get_supported_msr_feature(kvm_state,
-+                                                   MSR_IA32_UCODE_REV);
-+        }
-+    }
-+    host_cpu_realizefn(cs, errp);
-+}
-+
-+/*
-+ * KVM-specific features that are automatically added/removed
-+ * from all CPU models when KVM is enabled.
-+ */
-+static PropValue kvm_default_props[] = {
-+    { "kvmclock", "on" },
-+    { "kvm-nopiodelay", "on" },
-+    { "kvm-asyncpf", "on" },
-+    { "kvm-steal-time", "on" },
-+    { "kvm-pv-eoi", "on" },
-+    { "kvmclock-stable-bit", "on" },
-+    { "x2apic", "on" },
-+    { "acpi", "off" },
-+    { "monitor", "off" },
-+    { "svm", "off" },
-+    { NULL, NULL },
-+};
-+
-+void x86_cpu_change_kvm_default(const char *prop, const char *value)
-+{
-+    PropValue *pv;
-+    for (pv = kvm_default_props; pv->prop; pv++) {
-+        if (!strcmp(pv->prop, prop)) {
-+            pv->value = value;
-+            break;
-+        }
-+    }
-+
-+    /*
-+     * It is valid to call this function only for properties that
-+     * are already present in the kvm_default_props table.
-+     */
-+    assert(pv->prop);
-+}
-+
-+static bool lmce_supported(void)
-+{
-+    uint64_t mce_cap = 0;
-+
-+    if (kvm_ioctl(kvm_state, KVM_X86_GET_MCE_CAP_SUPPORTED, &mce_cap) < 0) {
-+        return false;
-+    }
-+    return !!(mce_cap & MCG_LMCE_P);
-+}
-+
-+static void kvm_cpu_max_instance_init(X86CPU *cpu)
-+{
-+    CPUX86State *env = &cpu->env;
-+    KVMState *s = kvm_state;
-+
-+    host_cpu_max_instance_init(cpu);
-+
-+    if (lmce_supported()) {
-+        object_property_set_bool(OBJECT(cpu), "lmce", true, &error_abort);
-+    }
-+
-+    env->cpuid_min_level =
-+        kvm_arch_get_supported_cpuid(s, 0x0, 0, R_EAX);
-+    env->cpuid_min_xlevel =
-+        kvm_arch_get_supported_cpuid(s, 0x80000000, 0, R_EAX);
-+    env->cpuid_min_xlevel2 =
-+        kvm_arch_get_supported_cpuid(s, 0xC0000000, 0, R_EAX);
-+}
-+
-+static void kvm_cpu_instance_init(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+
-+    host_cpu_instance_init(cpu);
-+
-+    if (!kvm_irqchip_in_kernel()) {
-+        x86_cpu_change_kvm_default("x2apic", "off");
-+    }
-+
-+    /* Special cases not set in the X86CPUDefinition structs: */
-+
-+    x86_cpu_apply_props(cpu, kvm_default_props);
-+
-+    if (cpu->max_features) {
-+        kvm_cpu_max_instance_init(cpu);
-+    }
-+}
-+
-+static void kvm_cpu_accel_class_init(ObjectClass *oc, void *data)
-+{
-+    AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
-+
-+    acc->cpu_realizefn = kvm_cpu_realizefn;
-+    acc->cpu_instance_init = kvm_cpu_instance_init;
-+}
-+static const TypeInfo kvm_cpu_accel_type_info = {
-+    .name = ACCEL_CPU_NAME("kvm"),
-+
-+    .parent = TYPE_ACCEL_CPU,
-+    .class_init = kvm_cpu_accel_class_init,
-+    .abstract = true,
-+};
-+static void kvm_cpu_accel_register_types(void)
-+{
-+    type_register_static(&kvm_cpu_accel_type_info);
-+}
-+type_init(kvm_cpu_accel_register_types);
-diff --git a/target/i386/kvm/kvm-cpu.h b/target/i386/kvm/kvm-cpu.h
-new file mode 100644
-index 0000000000..e858ca21e5
---- /dev/null
-+++ b/target/i386/kvm/kvm-cpu.h
-@@ -0,0 +1,41 @@
-+/*
-+ * i386 KVM CPU type and functions
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef KVM_CPU_H
-+#define KVM_CPU_H
-+
-+#ifdef CONFIG_KVM
-+/*
-+ * Change the value of a KVM-specific default
-+ *
-+ * If value is NULL, no default will be set and the original
-+ * value from the CPU model table will be kept.
-+ *
-+ * It is valid to call this function only for properties that
-+ * are already present in the kvm_default_props table.
-+ */
-+void x86_cpu_change_kvm_default(const char *prop, const char *value);
-+
-+#else /* !CONFIG_KVM */
-+
-+#define x86_cpu_change_kvm_default(a, b)
-+
-+#endif /* CONFIG_KVM */
-+
-+#endif /* KVM_CPU_H */
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a2934dda02..35c86fdba6 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -22,6 +22,7 @@
- #include "standard-headers/asm-x86/kvm_para.h"
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
  
- #include "cpu.h"
-+#include "host-cpu.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/hw_accel.h"
- #include "sysemu/kvm_int.h"
-@@ -285,7 +286,7 @@ static bool host_tsx_broken(void)
-     int family, model, stepping;\
-     char vendor[CPUID_VENDOR_SZ + 1];
+-    qemu_init_vcpu(cs);
+-    cpu_reset(cs);
+-
+     ncc->parent_realize(dev, errp);
++    cpu_reset(cs);
+ }
  
--    host_vendor_fms(vendor, &family, &model, &stepping);
-+    host_cpu_vendor_fms(vendor, &family, &model, &stepping);
+ static bool nios2_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+index e6d1c9764b..f247b3dec2 100644
+--- a/target/openrisc/cpu.c
++++ b/target/openrisc/cpu.c
+@@ -71,16 +71,14 @@ static void openrisc_cpu_realizefn(DeviceState *dev, Error **errp)
+     OpenRISCCPUClass *occ = OPENRISC_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
  
-     /* Check if we are running on a Haswell host known to have broken TSX */
-     return !strcmp(vendor, CPUID_VENDOR_INTEL) &&
-diff --git a/target/i386/kvm/meson.build b/target/i386/kvm/meson.build
-index 1d66559187..0bc3724eb3 100644
---- a/target/i386/kvm/meson.build
-+++ b/target/i386/kvm/meson.build
-@@ -1,3 +1,8 @@
- i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
--i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
-+
-+i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files(
-+  'kvm.c',
-+  'cpu.c',
-+))
-+
- i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
-diff --git a/target/i386/meson.build b/target/i386/meson.build
-index 9c20208e5a..4e6e915e7f 100644
---- a/target/i386/meson.build
-+++ b/target/i386/meson.build
-@@ -6,8 +6,12 @@ i386_ss.add(files(
-   'xsave_helper.c',
-   'cpu-dump.c',
- ))
--i386_ss.add(when: 'CONFIG_TCG', if_true: files('tcg-cpu.c'))
--i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
-+
-+i386_ss.add(when: 'CONFIG_SEV', if_true: files('host-cpu.c', 'sev.c'), if_false: files('sev-stub.c'))
-+
-+# x86 cpu type
-+i386_ss.add(when: 'CONFIG_KVM', if_true: files('host-cpu.c'))
-+i386_ss.add(when: 'CONFIG_HVF', if_true: files('host-cpu.c'))
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
  
- i386_softmmu_ss = ss.source_set()
- i386_softmmu_ss.add(files(
-diff --git a/target/i386/tcg-cpu.c b/target/i386/tcg-cpu.c
-deleted file mode 100644
-index 38ed8bf6d3..0000000000
---- a/target/i386/tcg-cpu.c
-+++ /dev/null
-@@ -1,71 +0,0 @@
--/*
-- * i386 TCG cpu class initialization
-- *
-- *  Copyright (c) 2003 Fabrice Bellard
-- *
-- * This library is free software; you can redistribute it and/or
-- * modify it under the terms of the GNU Lesser General Public
-- * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-- *
-- * This library is distributed in the hope that it will be useful,
-- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-- * Lesser General Public License for more details.
-- *
-- * You should have received a copy of the GNU Lesser General Public
-- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-- */
+-    qemu_init_vcpu(cs);
+-    cpu_reset(cs);
 -
--#include "qemu/osdep.h"
--#include "cpu.h"
--#include "tcg-cpu.h"
--#include "exec/exec-all.h"
--#include "sysemu/runstate.h"
--#include "helper-tcg.h"
+     occ->parent_realize(dev, errp);
++    cpu_reset(cs);
+ }
+ 
+ static void openrisc_cpu_initfn(Object *obj)
+diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+index e6426a96b5..66c18e54f8 100644
+--- a/target/ppc/translate_init.c.inc
++++ b/target/ppc/translate_init.c.inc
+@@ -10093,14 +10093,14 @@ static int ppc_fixup_cpu(PowerPCCPU *cpu)
+     return 0;
+ }
+ 
+-static void ppc_cpu_realize(DeviceState *dev, Error **errp)
++static void ppc_cpu_realizefn(DeviceState *dev, Error **errp)
+ {
+     CPUState *cs = CPU(dev);
+     PowerPCCPU *cpu = POWERPC_CPU(dev);
+     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+@@ -10143,7 +10143,6 @@ static void ppc_cpu_realize(DeviceState *dev, Error **errp)
+     gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
+                              pcc->gdb_num_sprs, "power-spr.xml", 0);
+ #endif
+-    qemu_init_vcpu(cs);
+ 
+     pcc->parent_realize(dev, errp);
+ 
+@@ -10894,7 +10893,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+     CPUClass *cc = CPU_CLASS(oc);
+     DeviceClass *dc = DEVICE_CLASS(oc);
+ 
+-    device_class_set_parent_realize(dc, ppc_cpu_realize,
++    device_class_set_parent_realize(dc, ppc_cpu_realizefn,
+                                     &pcc->parent_realize);
+     device_class_set_parent_unrealize(dc, ppc_cpu_unrealize,
+                                       &pcc->parent_unrealize);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 022b4271d4..fbc7cd8839 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -341,7 +341,7 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+ #endif
+ }
+ 
+-static void riscv_cpu_realize(DeviceState *dev, Error **errp)
++static void riscv_cpu_realizefn(DeviceState *dev, Error **errp)
+ {
+     CPUState *cs = CPU(dev);
+     RISCVCPU *cpu = RISCV_CPU(dev);
+@@ -352,7 +352,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     target_ulong target_misa = 0;
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+@@ -486,10 +486,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+ 
+     riscv_cpu_register_gdb_regs_for_features(cs);
+ 
+-    qemu_init_vcpu(cs);
+-    cpu_reset(cs);
 -
--#if !defined(CONFIG_USER_ONLY)
--#include "hw/i386/apic.h"
--#endif
+     mcc->parent_realize(dev, errp);
++    cpu_reset(cs);
+ }
+ 
+ static void riscv_cpu_init(Object *obj)
+@@ -532,7 +530,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+     CPUClass *cc = CPU_CLASS(c);
+     DeviceClass *dc = DEVICE_CLASS(c);
+ 
+-    device_class_set_parent_realize(dc, riscv_cpu_realize,
++    device_class_set_parent_realize(dc, riscv_cpu_realizefn,
+                                     &mcc->parent_realize);
+ 
+     device_class_set_parent_reset(dc, riscv_cpu_reset, &mcc->parent_reset);
+diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+index c815533223..0dc43506b0 100644
+--- a/target/rx/cpu.c
++++ b/target/rx/cpu.c
+@@ -105,22 +105,20 @@ static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
+     return oc;
+ }
+ 
+-static void rx_cpu_realize(DeviceState *dev, Error **errp)
++static void rx_cpu_realizefn(DeviceState *dev, Error **errp)
+ {
+     CPUState *cs = CPU(dev);
+     RXCPUClass *rcc = RX_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
+ 
+-    qemu_init_vcpu(cs);
+-    cpu_reset(cs);
 -
--/* Frob eflags into and out of the CPU temporary format.  */
+     rcc->parent_realize(dev, errp);
++    cpu_reset(cs);
+ }
+ 
+ static void rx_cpu_set_irq(void *opaque, int no, int request)
+@@ -178,7 +176,7 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
+     CPUClass *cc = CPU_CLASS(klass);
+     RXCPUClass *rcc = RX_CPU_CLASS(klass);
+ 
+-    device_class_set_parent_realize(dc, rx_cpu_realize,
++    device_class_set_parent_realize(dc, rx_cpu_realizefn,
+                                     &rcc->parent_realize);
+     device_class_set_parent_reset(dc, rx_cpu_reset,
+                                   &rcc->parent_reset);
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 04856076b3..9ff57e7692 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -223,7 +223,7 @@ static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
+     cs->cpu_index = cpu->env.core_id;
+ #endif
+ 
+-    cpu_exec_realizefn(cs, &err);
++    cpu_accel_realize(cs, &err);
+     if (err != NULL) {
+         goto out;
+     }
+@@ -232,8 +232,8 @@ static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
+     qemu_register_reset(s390_cpu_machine_reset_cb, cpu);
+ #endif
+     s390_cpu_gdb_init(cs);
+-    qemu_init_vcpu(cs);
+ 
++    scc->parent_realize(dev, &err);
+     /*
+      * KVM requires the initial CPU reset ioctl to be executed on the target
+      * CPU thread. CPU hotplug under single-threaded TCG will not work with
+@@ -246,7 +246,6 @@ static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
+         cpu_reset(cs);
+     }
+ 
+-    scc->parent_realize(dev, &err);
+ out:
+     error_propagate(errp, err);
+ }
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index 7a9019edec..cb272783ff 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -178,15 +178,13 @@ static void superh_cpu_realizefn(DeviceState *dev, Error **errp)
+     SuperHCPUClass *scc = SUPERH_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
+ 
+     cpu_reset(cs);
+-    qemu_init_vcpu(cs);
 -
--static void x86_cpu_exec_enter(CPUState *cs)
--{
--    X86CPU *cpu = X86_CPU(cs);
--    CPUX86State *env = &cpu->env;
+     scc->parent_realize(dev, errp);
+ }
+ 
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index 760e0ea92c..e924468064 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -738,9 +738,9 @@ static void sparc_cpu_realizefn(DeviceState *dev, Error **errp)
+ {
+     CPUState *cs = CPU(dev);
+     SPARCCPUClass *scc = SPARC_CPU_GET_CLASS(dev);
+-    Error *local_err = NULL;
+     SPARCCPU *cpu = SPARC_CPU(dev);
+     CPUSPARCState *env = &cpu->env;
++    Error *local_err = NULL;
+ 
+ #if defined(CONFIG_USER_ONLY)
+     if ((env->def.features & CPU_FEATURE_FLOAT)) {
+@@ -762,14 +762,12 @@ static void sparc_cpu_realizefn(DeviceState *dev, Error **errp)
+     env->version |= env->def.nwindows - 1;
+ #endif
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
+ 
+-    qemu_init_vcpu(cs);
 -
--    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
--    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
--    CC_OP = CC_OP_EFLAGS;
--    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
--}
+     scc->parent_realize(dev, errp);
+ }
+ 
+diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
+index 75b3a4bae3..d460070de8 100644
+--- a/target/tilegx/cpu.c
++++ b/target/tilegx/cpu.c
+@@ -86,15 +86,13 @@ static void tilegx_cpu_realizefn(DeviceState *dev, Error **errp)
+     TileGXCPUClass *tcc = TILEGX_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
+ 
+     cpu_reset(cs);
+-    qemu_init_vcpu(cs);
 -
--static void x86_cpu_exec_exit(CPUState *cs)
--{
--    X86CPU *cpu = X86_CPU(cs);
--    CPUX86State *env = &cpu->env;
+     tcc->parent_realize(dev, errp);
+ }
+ 
+diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
+index 89a14f81d7..147e1d1672 100644
+--- a/target/tricore/cpu.c
++++ b/target/tricore/cpu.c
+@@ -75,7 +75,7 @@ static void tricore_cpu_realizefn(DeviceState *dev, Error **errp)
+     CPUTriCoreState *env = &cpu->env;
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+@@ -93,8 +93,6 @@ static void tricore_cpu_realizefn(DeviceState *dev, Error **errp)
+         set_feature(env, TRICORE_FEATURE_13);
+     }
+     cpu_reset(cs);
+-    qemu_init_vcpu(cs);
 -
--    env->eflags = cpu_compute_eflags(env);
--}
+     tcc->parent_realize(dev, errp);
+ }
+ 
+diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
+index a57d315d2f..955b4875bc 100644
+--- a/target/unicore32/cpu.c
++++ b/target/unicore32/cpu.c
+@@ -84,18 +84,14 @@ static void uc32_any_cpu_initfn(Object *obj)
+ 
+ static void uc32_cpu_realizefn(DeviceState *dev, Error **errp)
+ {
+-    CPUState *cs = CPU(dev);
+     UniCore32CPUClass *ucc = UNICORE32_CPU_GET_CLASS(dev);
+     Error *local_err = NULL;
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(CPU(dev), &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+     }
 -
--static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
--{
--    X86CPU *cpu = X86_CPU(cs);
+-    qemu_init_vcpu(cs);
 -
--    cpu->env.eip = tb->pc - tb->cs_base;
--}
+     ucc->parent_realize(dev, errp);
+ }
+ 
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index b6f13ceb32..83ed0cb53d 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -145,7 +145,7 @@ static void xtensa_cpu_realizefn(DeviceState *dev, Error **errp)
+     xtensa_irq_init(&XTENSA_CPU(dev)->env);
+ #endif
+ 
+-    cpu_exec_realizefn(cs, &local_err);
++    cpu_accel_realize(cs, &local_err);
+     if (local_err != NULL) {
+         error_propagate(errp, local_err);
+         return;
+@@ -153,8 +153,6 @@ static void xtensa_cpu_realizefn(DeviceState *dev, Error **errp)
+ 
+     cs->gdb_num_regs = xcc->config->gdb_regmap.num_regs;
+ 
+-    qemu_init_vcpu(cs);
 -
--void tcg_cpu_common_class_init(CPUClass *cc)
--{
--    cc->do_interrupt = x86_cpu_do_interrupt;
--    cc->tcg_ops.cpu_exec_interrupt = x86_cpu_exec_interrupt;
--    cc->tcg_ops.synchronize_from_tb = x86_cpu_synchronize_from_tb;
--    cc->tcg_ops.cpu_exec_enter = x86_cpu_exec_enter;
--    cc->tcg_ops.cpu_exec_exit = x86_cpu_exec_exit;
--    cc->tcg_ops.initialize = tcg_x86_init;
--    cc->tcg_ops.tlb_fill = x86_cpu_tlb_fill;
--#ifndef CONFIG_USER_ONLY
--    cc->tcg_ops.debug_excp_handler = breakpoint_handler;
--#endif
--}
-diff --git a/target/i386/tcg-cpu.h b/target/i386/tcg-cpu.h
-deleted file mode 100644
-index 81f02e562e..0000000000
---- a/target/i386/tcg-cpu.h
-+++ /dev/null
-@@ -1,15 +0,0 @@
--/*
-- * i386 TCG CPU class initialization
-- *
-- * Copyright 2020 SUSE LLC
-- *
-- * This work is licensed under the terms of the GNU GPL, version 2 or later.
-- * See the COPYING file in the top-level directory.
-- */
--
--#ifndef TCG_CPU_H
--#define TCG_CPU_H
--
--void tcg_cpu_common_class_init(CPUClass *cc);
--
--#endif /* TCG_CPU_H */
-diff --git a/target/i386/tcg/cpu.c b/target/i386/tcg/cpu.c
-new file mode 100644
-index 0000000000..e9c8b20f0e
---- /dev/null
-+++ b/target/i386/tcg/cpu.c
-@@ -0,0 +1,173 @@
-+/*
-+ * i386 TCG cpu class initialization
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "helper-tcg.h"
-+#include "qemu/accel.h"
-+#include "hw/core/accel-cpu.h"
-+
-+#ifndef CONFIG_USER_ONLY
-+#include "sysemu/sysemu.h"
-+#include "qemu/units.h"
-+#include "exec/address-spaces.h"
-+#endif
-+
-+/* Frob eflags into and out of the CPU temporary format.  */
-+
-+static void x86_cpu_exec_enter(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-+    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
-+    CC_OP = CC_OP_EFLAGS;
-+    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
-+}
-+
-+static void x86_cpu_exec_exit(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    env->eflags = cpu_compute_eflags(env);
-+}
-+
-+static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+
-+    cpu->env.eip = tb->pc - tb->cs_base;
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+
-+static void x86_cpu_machine_done(Notifier *n, void *unused)
-+{
-+    X86CPU *cpu = container_of(n, X86CPU, machine_done);
-+    MemoryRegion *smram =
-+        (MemoryRegion *) object_resolve_path("/machine/smram", NULL);
-+
-+    if (smram) {
-+        cpu->smram = g_new(MemoryRegion, 1);
-+        memory_region_init_alias(cpu->smram, OBJECT(cpu), "smram",
-+                                 smram, 0, 4 * GiB);
-+        memory_region_set_enabled(cpu->smram, true);
-+        memory_region_add_subregion_overlap(cpu->cpu_as_root, 0,
-+                                            cpu->smram, 1);
-+    }
-+}
-+
-+static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+
-+    /*
-+     * The realize order is important, since x86_cpu_realize() checks if
-+     * nothing else has been set by the user (or by accelerators) in
-+     * cpu->ucode_rev and cpu->phys_bits, and the memory regions
-+     * initialized here are needed for the vcpu initialization.
-+     *
-+     * realize order:
-+     * tcg_cpu -> host_cpu -> x86_cpu
-+     */
-+    cpu->cpu_as_mem = g_new(MemoryRegion, 1);
-+    cpu->cpu_as_root = g_new(MemoryRegion, 1);
-+
-+    /* Outer container... */
-+    memory_region_init(cpu->cpu_as_root, OBJECT(cpu), "memory", ~0ull);
-+    memory_region_set_enabled(cpu->cpu_as_root, true);
-+
-+    /*
-+     * ... with two regions inside: normal system memory with low
-+     * priority, and...
-+     */
-+    memory_region_init_alias(cpu->cpu_as_mem, OBJECT(cpu), "memory",
-+                             get_system_memory(), 0, ~0ull);
-+    memory_region_add_subregion_overlap(cpu->cpu_as_root, 0, cpu->cpu_as_mem, 0);
-+    memory_region_set_enabled(cpu->cpu_as_mem, true);
-+
-+    cs->num_ases = 2;
-+    cpu_address_space_init(cs, 0, "cpu-memory", cs->memory);
-+    cpu_address_space_init(cs, 1, "cpu-smm", cpu->cpu_as_root);
-+
-+    /* ... SMRAM with higher priority, linked from /machine/smram.  */
-+    cpu->machine_done.notify = x86_cpu_machine_done;
-+    qemu_add_machine_init_done_notifier(&cpu->machine_done);
-+}
-+
-+#else /* CONFIG_USER_ONLY */
-+
-+static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+{
-+}
-+
-+#endif /* !CONFIG_USER_ONLY */
-+
-+
-+static void tcg_cpu_class_init(CPUClass *cc)
-+{
-+    cc->do_interrupt = x86_cpu_do_interrupt;
-+    cc->tcg_ops.cpu_exec_interrupt = x86_cpu_exec_interrupt;
-+    cc->tcg_ops.synchronize_from_tb = x86_cpu_synchronize_from_tb;
-+    cc->tcg_ops.cpu_exec_enter = x86_cpu_exec_enter;
-+    cc->tcg_ops.cpu_exec_exit = x86_cpu_exec_exit;
-+    cc->tcg_ops.initialize = tcg_x86_init;
-+    cc->tcg_ops.tlb_fill = x86_cpu_tlb_fill;
-+#ifndef CONFIG_USER_ONLY
-+    cc->tcg_ops.debug_excp_handler = breakpoint_handler;
-+#endif /* !CONFIG_USER_ONLY */
-+}
-+
-+/*
-+ * TCG-specific defaults that override all CPU models when using TCG
-+ */
-+static PropValue tcg_default_props[] = {
-+    { "vme", "off" },
-+    { NULL, NULL },
-+};
-+
-+static void tcg_cpu_instance_init(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    /* Special cases not set in the X86CPUDefinition structs: */
-+    x86_cpu_apply_props(cpu, tcg_default_props);
-+}
-+
-+static void tcg_cpu_accel_class_init(ObjectClass *oc, void *data)
-+{
-+    AccelCPUClass *acc = ACCEL_CPU_CLASS(oc);
-+
-+    acc->cpu_realizefn = tcg_cpu_realizefn;
-+    acc->cpu_class_init = tcg_cpu_class_init;
-+    acc->cpu_instance_init = tcg_cpu_instance_init;
-+}
-+static const TypeInfo tcg_cpu_accel_type_info = {
-+    .name = ACCEL_CPU_NAME("tcg"),
-+
-+    .parent = TYPE_ACCEL_CPU,
-+    .class_init = tcg_cpu_accel_class_init,
-+    .abstract = true,
-+};
-+static void tcg_cpu_accel_register_types(void)
-+{
-+    type_register_static(&tcg_cpu_accel_type_info);
-+}
-+type_init(tcg_cpu_accel_register_types);
-diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
-index 02794226c2..9e439df9c7 100644
---- a/target/i386/tcg/meson.build
-+++ b/target/i386/tcg/meson.build
-@@ -10,4 +10,5 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'seg_helper.c',
-   'smm_helper.c',
-   'svm_helper.c',
--  'translate.c'), if_false: files('tcg-stub.c'))
-+  'translate.c',
-+  'cpu.c'), if_false: files('tcg-stub.c'))
+     xcc->parent_realize(dev, errp);
+ }
+ 
 -- 
 2.26.2
 
