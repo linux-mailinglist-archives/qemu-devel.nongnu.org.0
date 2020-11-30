@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003302C8C3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 19:11:33 +0100 (CET)
-Received: from localhost ([::1]:35274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 494E52C8C48
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 19:12:26 +0100 (CET)
+Received: from localhost ([::1]:37586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjne8-0007ow-Vl
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 13:11:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57262)
+	id 1kjnez-0000SW-AQ
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 13:12:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kjnb5-0005ga-Nb; Mon, 30 Nov 2020 13:08:24 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:35181)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kjnb1-0008Ht-NS; Mon, 30 Nov 2020 13:08:22 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.128])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 60431704C0DE;
- Mon, 30 Nov 2020 19:08:14 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 30 Nov
- 2020 19:08:14 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005982b5add-ae07-4fd3-95fc-95f01fc9844d,
- 54E7F54749740F6D21A4FFD7F03B08EA4E155DE3) smtp.auth=clg@kaod.org
-Subject: Re: [PATCH for-6.0 v2 1/3] spapr: Improve naming of some vCPU id
- related items
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
-References: <20201130165258.744611-1-groug@kaod.org>
- <20201130165258.744611-2-groug@kaod.org>
- <f5bb360d-fdaa-3952-ddb7-8e1a17cd6b1d@kaod.org>
-Message-ID: <02fcded8-d373-1744-f7d6-3455ee5309cc@kaod.org>
-Date: Mon, 30 Nov 2020 19:08:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kjndX-0007uW-OZ
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:10:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56887)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kjndU-0008WT-Nb
+ for qemu-devel@nongnu.org; Mon, 30 Nov 2020 13:10:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606759851;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ltWhn7T/XmmMibXkcx9unToRFgJm5VFEYxrt91zUv9c=;
+ b=UmCkfgtaQqHx7Ckzee0Ijy5L3wfcrCV0vuQl5GX/1HXUGVRxDeNoN0Z08anzTrYt4LYeyh
+ Fh/mx/ZNCyfhk3Pc0idQZXvl3+lmzDuvkA0iYtuidxdeI+DPiX/bXwshjrdC1Zv0V60vJr
+ /ndJXofxlmP17E8ZLpAa5pFry6ik0sc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-MUvLXSBHP2aC6fwSHZW8Jg-1; Mon, 30 Nov 2020 13:10:48 -0500
+X-MC-Unique: MUvLXSBHP2aC6fwSHZW8Jg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDDC3800D55;
+ Mon, 30 Nov 2020 18:10:47 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-117.ams2.redhat.com [10.36.114.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EE1D5D9C0;
+ Mon, 30 Nov 2020 18:10:38 +0000 (UTC)
+Date: Mon, 30 Nov 2020 19:10:37 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
+Message-ID: <20201130181037.GG5078@merkur.fritz.box>
+References: <20201130122538.27674-1-kwolf@redhat.com>
+ <01d32c8c-5023-6323-bed8-ede08f6ac8a3@redhat.com>
+ <20201130154605.GC5078@merkur.fritz.box>
+ <a9c1ebf3-ffcc-7312-ce66-a79902d1e9ba@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <f5bb360d-fdaa-3952-ddb7-8e1a17cd6b1d@kaod.org>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 34b97bbe-078c-4ed0-9a15-7b2cd0f6cc2b
-X-Ovh-Tracer-Id: 3822993136647310304
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeitddguddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuhffvfhfkffgfgggjtgfgihesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeuleejgeeutdduleevffehgfefgfdujeekkeekueffheehueelgffhudfgkedtheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a9c1ebf3-ffcc-7312-ce66-a79902d1e9ba@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,363 +78,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/30/20 6:32 PM, Cédric Le Goater wrote:
-> On 11/30/20 5:52 PM, Greg Kurz wrote:
->> The machine tells the IC backend the number of vCPU ids it will be
->> exposed to, in order to:
->> - fill the "ibm,interrupt-server-ranges" property in the DT (XICS)
->> - size the VP block used by the in-kernel chip (XICS-on-XIVE, XIVE)
->>
->> The current "nr_servers" and "spapr_max_server_number" naming can
->> mislead people info thinking it is about a quantity of CPUs. Make
->> it clear this is all about vCPU ids.
+Am 30.11.2020 um 17:57 hat Paolo Bonzini geschrieben:
+> On 30/11/20 16:46, Kevin Wolf wrote:
+> > Am 30.11.2020 um 15:58 hat Paolo Bonzini geschrieben:
+> > > With this series it's basically pointless to have QOM properties at
+> > > all.
+> > 
+> > Not entirely, because there are still some writable properties that can
+> > be changed later on.
 > 
-> OK. This looks fine. 
+> Are there really any (that are not bugs like opened/loaded)? That's also why
+> Eduardo and I discussed a class-wide allow_set function for his field
+> properties series.
+
+Yes. I don't really know most objects apart from what I had to learn for
+this series, but I know at least two that actually allow this
+intentionally: iothread and throttle-group.
+
+> > So with this in mind, I think I'm in favour of completely leaving the
+> > initialisation of properties on object creation to QAPI, and only
+> > providing individual setters if we actually intend to allow property
+> > changes after creation.
 > 
-> But, XIVE does not care about vCPU ids. Only the count of vCPUs
-> is relevant. So, it would be nice to add a comment in the code 
-> that we got it wrong at some point or that XICS imposed the use
-> of max vCPU ids.
+> The main problem is that it wouldn't extend well, if at all, to
+> machines and devices.  So those would still not be integrated into the
+> QAPI schema.
 
-Which you do in the next patch,
+What do you think is the biggest difference there? Don't devices work
+the same as user creatable objects in that you first set a bunch of
+properties (which would now be done through QAPI instead) and then call
+the completion/realize method that actually makes use of them?
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+I must admit that I don't know how machine types work.
 
-Thanks,
-
-C. 
+> > > So the question is, are we okay with shoveling half of QEMU's backend data
+> > > model into a single struct?  If so, there are important consequences.
+> > 
+> > Yeah, the single struct bothers me a bit, both in the QAPI schema and in
+> > the C source.
 > 
->> Signed-off-by: Greg Kurz <groug@kaod.org>
->> ---
->>  include/hw/ppc/spapr.h      |  2 +-
->>  include/hw/ppc/spapr_irq.h  |  8 ++++----
->>  include/hw/ppc/spapr_xive.h |  2 +-
->>  include/hw/ppc/xics_spapr.h |  2 +-
->>  hw/intc/spapr_xive.c        |  8 ++++----
->>  hw/intc/spapr_xive_kvm.c    |  4 ++--
->>  hw/intc/xics_kvm.c          |  4 ++--
->>  hw/intc/xics_spapr.c        |  8 ++++----
->>  hw/ppc/spapr.c              |  8 ++++----
->>  hw/ppc/spapr_irq.c          | 18 +++++++++---------
->>  10 files changed, 32 insertions(+), 32 deletions(-)
->>
->> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->> index b7ced9faebf5..dc99d45e2852 100644
->> --- a/include/hw/ppc/spapr.h
->> +++ b/include/hw/ppc/spapr.h
->> @@ -849,7 +849,7 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize);
->>  int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **errp);
->>  void spapr_clear_pending_events(SpaprMachineState *spapr);
->>  void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr);
->> -int spapr_max_server_number(SpaprMachineState *spapr);
->> +int spapr_max_vcpu_ids(SpaprMachineState *spapr);
->>  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->>                        uint64_t pte0, uint64_t pte1);
->>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
->> diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
->> index c22a72c9e270..2e53fc9e6cbb 100644
->> --- a/include/hw/ppc/spapr_irq.h
->> +++ b/include/hw/ppc/spapr_irq.h
->> @@ -43,7 +43,7 @@ DECLARE_CLASS_CHECKERS(SpaprInterruptControllerClass, SPAPR_INTC,
->>  struct SpaprInterruptControllerClass {
->>      InterfaceClass parent;
->>  
->> -    int (*activate)(SpaprInterruptController *intc, uint32_t nr_servers,
->> +    int (*activate)(SpaprInterruptController *intc, uint32_t max_vcpu_ids,
->>                      Error **errp);
->>      void (*deactivate)(SpaprInterruptController *intc);
->>  
->> @@ -62,7 +62,7 @@ struct SpaprInterruptControllerClass {
->>      /* These methods should only be called on the active intc */
->>      void (*set_irq)(SpaprInterruptController *intc, int irq, int val);
->>      void (*print_info)(SpaprInterruptController *intc, Monitor *mon);
->> -    void (*dt)(SpaprInterruptController *intc, uint32_t nr_servers,
->> +    void (*dt)(SpaprInterruptController *intc, uint32_t max_vcpu_ids,
->>                 void *fdt, uint32_t phandle);
->>      int (*post_load)(SpaprInterruptController *intc, int version_id);
->>  };
->> @@ -74,7 +74,7 @@ int spapr_irq_cpu_intc_create(struct SpaprMachineState *spapr,
->>  void spapr_irq_cpu_intc_reset(struct SpaprMachineState *spapr, PowerPCCPU *cpu);
->>  void spapr_irq_cpu_intc_destroy(struct SpaprMachineState *spapr, PowerPCCPU *cpu);
->>  void spapr_irq_print_info(struct SpaprMachineState *spapr, Monitor *mon);
->> -void spapr_irq_dt(struct SpaprMachineState *spapr, uint32_t nr_servers,
->> +void spapr_irq_dt(struct SpaprMachineState *spapr, uint32_t max_vcpu_ids,
->>                    void *fdt, uint32_t phandle);
->>  
->>  uint32_t spapr_irq_nr_msis(struct SpaprMachineState *spapr);
->> @@ -105,7 +105,7 @@ typedef int (*SpaprInterruptControllerInitKvm)(SpaprInterruptController *,
->>  
->>  int spapr_irq_init_kvm(SpaprInterruptControllerInitKvm fn,
->>                         SpaprInterruptController *intc,
->> -                       uint32_t nr_servers,
->> +                       uint32_t max_vcpu_ids,
->>                         Error **errp);
->>  
->>  /*
->> diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
->> index 26c8d90d7196..643129b13536 100644
->> --- a/include/hw/ppc/spapr_xive.h
->> +++ b/include/hw/ppc/spapr_xive.h
->> @@ -79,7 +79,7 @@ int spapr_xive_end_to_target(uint8_t end_blk, uint32_t end_idx,
->>  /*
->>   * KVM XIVE device helpers
->>   */
->> -int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_servers,
->> +int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t max_vcpu_ids,
->>                          Error **errp);
->>  void kvmppc_xive_disconnect(SpaprInterruptController *intc);
->>  void kvmppc_xive_reset(SpaprXive *xive, Error **errp);
->> diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
->> index de752c0d2c7e..5c0e9430a964 100644
->> --- a/include/hw/ppc/xics_spapr.h
->> +++ b/include/hw/ppc/xics_spapr.h
->> @@ -35,7 +35,7 @@
->>  DECLARE_INSTANCE_CHECKER(ICSState, ICS_SPAPR,
->>                           TYPE_ICS_SPAPR)
->>  
->> -int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers,
->> +int xics_kvm_connect(SpaprInterruptController *intc, uint32_t max_vcpu_ids,
->>                       Error **errp);
->>  void xics_kvm_disconnect(SpaprInterruptController *intc);
->>  bool xics_kvm_has_broken_disconnect(void);
->> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
->> index 12dd6d3ce357..d0a0ca822367 100644
->> --- a/hw/intc/spapr_xive.c
->> +++ b/hw/intc/spapr_xive.c
->> @@ -669,7 +669,7 @@ static void spapr_xive_print_info(SpaprInterruptController *intc, Monitor *mon)
->>      spapr_xive_pic_print_info(xive, mon);
->>  }
->>  
->> -static void spapr_xive_dt(SpaprInterruptController *intc, uint32_t nr_servers,
->> +static void spapr_xive_dt(SpaprInterruptController *intc, uint32_t max_vcpu_ids,
->>                            void *fdt, uint32_t phandle)
->>  {
->>      SpaprXive *xive = SPAPR_XIVE(intc);
->> @@ -678,7 +678,7 @@ static void spapr_xive_dt(SpaprInterruptController *intc, uint32_t nr_servers,
->>      /* Interrupt number ranges for the IPIs */
->>      uint32_t lisn_ranges[] = {
->>          cpu_to_be32(SPAPR_IRQ_IPI),
->> -        cpu_to_be32(SPAPR_IRQ_IPI + nr_servers),
->> +        cpu_to_be32(SPAPR_IRQ_IPI + max_vcpu_ids),
->>      };
->>      /*
->>       * EQ size - the sizes of pages supported by the system 4K, 64K,
->> @@ -733,12 +733,12 @@ static void spapr_xive_dt(SpaprInterruptController *intc, uint32_t nr_servers,
->>  }
->>  
->>  static int spapr_xive_activate(SpaprInterruptController *intc,
->> -                               uint32_t nr_servers, Error **errp)
->> +                               uint32_t max_vcpu_ids, Error **errp)
->>  {
->>      SpaprXive *xive = SPAPR_XIVE(intc);
->>  
->>      if (kvm_enabled()) {
->> -        int rc = spapr_irq_init_kvm(kvmppc_xive_connect, intc, nr_servers,
->> +        int rc = spapr_irq_init_kvm(kvmppc_xive_connect, intc, max_vcpu_ids,
->>                                      errp);
->>          if (rc < 0) {
->>              return rc;
->> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
->> index e8667ce5f621..2a938b4429a8 100644
->> --- a/hw/intc/spapr_xive_kvm.c
->> +++ b/hw/intc/spapr_xive_kvm.c
->> @@ -716,7 +716,7 @@ static void *kvmppc_xive_mmap(SpaprXive *xive, int pgoff, size_t len,
->>   * All the XIVE memory regions are now backed by mappings from the KVM
->>   * XIVE device.
->>   */
->> -int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_servers,
->> +int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t max_vcpu_ids,
->>                          Error **errp)
->>  {
->>      SpaprXive *xive = SPAPR_XIVE(intc);
->> @@ -753,7 +753,7 @@ int kvmppc_xive_connect(SpaprInterruptController *intc, uint32_t nr_servers,
->>      if (kvm_device_check_attr(xive->fd, KVM_DEV_XIVE_GRP_CTRL,
->>                                KVM_DEV_XIVE_NR_SERVERS)) {
->>          ret = kvm_device_access(xive->fd, KVM_DEV_XIVE_GRP_CTRL,
->> -                                KVM_DEV_XIVE_NR_SERVERS, &nr_servers, true,
->> +                                KVM_DEV_XIVE_NR_SERVERS, &max_vcpu_ids, true,
->>                                  errp);
->>          if (ret < 0) {
->>              goto fail;
->> diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
->> index 570d635bcc08..74e47752185c 100644
->> --- a/hw/intc/xics_kvm.c
->> +++ b/hw/intc/xics_kvm.c
->> @@ -347,7 +347,7 @@ void ics_kvm_set_irq(ICSState *ics, int srcno, int val)
->>      }
->>  }
->>  
->> -int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers,
->> +int xics_kvm_connect(SpaprInterruptController *intc, uint32_t max_vcpu_ids,
->>                       Error **errp)
->>  {
->>      ICSState *ics = ICS_SPAPR(intc);
->> @@ -408,7 +408,7 @@ int xics_kvm_connect(SpaprInterruptController *intc, uint32_t nr_servers,
->>      if (kvm_device_check_attr(rc, KVM_DEV_XICS_GRP_CTRL,
->>                                KVM_DEV_XICS_NR_SERVERS)) {
->>          if (kvm_device_access(rc, KVM_DEV_XICS_GRP_CTRL,
->> -                              KVM_DEV_XICS_NR_SERVERS, &nr_servers, true,
->> +                              KVM_DEV_XICS_NR_SERVERS, &max_vcpu_ids, true,
->>                                &local_err)) {
->>              goto fail;
->>          }
->> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
->> index 8ae4f41459c3..8f753a858cc2 100644
->> --- a/hw/intc/xics_spapr.c
->> +++ b/hw/intc/xics_spapr.c
->> @@ -308,11 +308,11 @@ static void ics_spapr_realize(DeviceState *dev, Error **errp)
->>      spapr_register_hypercall(H_IPOLL, h_ipoll);
->>  }
->>  
->> -static void xics_spapr_dt(SpaprInterruptController *intc, uint32_t nr_servers,
->> +static void xics_spapr_dt(SpaprInterruptController *intc, uint32_t max_vcpu_ids,
->>                            void *fdt, uint32_t phandle)
->>  {
->>      uint32_t interrupt_server_ranges_prop[] = {
->> -        0, cpu_to_be32(nr_servers),
->> +        0, cpu_to_be32(max_vcpu_ids),
->>      };
->>      int node;
->>  
->> @@ -423,10 +423,10 @@ static int xics_spapr_post_load(SpaprInterruptController *intc, int version_id)
->>  }
->>  
->>  static int xics_spapr_activate(SpaprInterruptController *intc,
->> -                               uint32_t nr_servers, Error **errp)
->> +                               uint32_t max_vcpu_ids, Error **errp)
->>  {
->>      if (kvm_enabled()) {
->> -        return spapr_irq_init_kvm(xics_kvm_connect, intc, nr_servers, errp);
->> +        return spapr_irq_init_kvm(xics_kvm_connect, intc, max_vcpu_ids, errp);
->>      }
->>      return 0;
->>  }
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index 7e954bc84bed..ab59bfe941d0 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -161,7 +161,7 @@ static void pre_2_10_vmstate_unregister_dummy_icp(int i)
->>                         (void *)(uintptr_t) i);
->>  }
->>  
->> -int spapr_max_server_number(SpaprMachineState *spapr)
->> +int spapr_max_vcpu_ids(SpaprMachineState *spapr)
->>  {
->>      MachineState *ms = MACHINE(spapr);
->>  
->> @@ -1164,7 +1164,7 @@ void *spapr_build_fdt(SpaprMachineState *spapr, bool reset, size_t space)
->>      _FDT(fdt_setprop_cell(fdt, 0, "#size-cells", 2));
->>  
->>      /* /interrupt controller */
->> -    spapr_irq_dt(spapr, spapr_max_server_number(spapr), fdt, PHANDLE_INTC);
->> +    spapr_irq_dt(spapr, spapr_max_vcpu_ids(spapr), fdt, PHANDLE_INTC);
->>  
->>      ret = spapr_dt_memory(spapr, fdt);
->>      if (ret < 0) {
->> @@ -2558,7 +2558,7 @@ static void spapr_init_cpus(SpaprMachineState *spapr)
->>      if (smc->pre_2_10_has_unused_icps) {
->>          int i;
->>  
->> -        for (i = 0; i < spapr_max_server_number(spapr); i++) {
->> +        for (i = 0; i < spapr_max_vcpu_ids(spapr); i++) {
->>              /* Dummy entries get deregistered when real ICPState objects
->>               * are registered during CPU core hotplug.
->>               */
->> @@ -2709,7 +2709,7 @@ static void spapr_machine_init(MachineState *machine)
->>  
->>      /*
->>       * VSMT must be set in order to be able to compute VCPU ids, ie to
->> -     * call spapr_max_server_number() or spapr_vcpu_id().
->> +     * call spapr_max_vcpu_ids() or spapr_vcpu_id().
->>       */
->>      spapr_set_vsmt_mode(spapr, &error_fatal);
->>  
->> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
->> index a0d1e1298e1e..552e30e93036 100644
->> --- a/hw/ppc/spapr_irq.c
->> +++ b/hw/ppc/spapr_irq.c
->> @@ -72,13 +72,13 @@ void spapr_irq_msi_free(SpaprMachineState *spapr, int irq, uint32_t num)
->>  
->>  int spapr_irq_init_kvm(SpaprInterruptControllerInitKvm fn,
->>                         SpaprInterruptController *intc,
->> -                       uint32_t nr_servers,
->> +                       uint32_t max_vcpu_ids,
->>                         Error **errp)
->>  {
->>      Error *local_err = NULL;
->>  
->>      if (kvm_enabled() && kvm_kernel_irqchip_allowed()) {
->> -        if (fn(intc, nr_servers, &local_err) < 0) {
->> +        if (fn(intc, max_vcpu_ids, &local_err) < 0) {
->>              if (kvm_kernel_irqchip_required()) {
->>                  error_prepend(&local_err,
->>                                "kernel_irqchip requested but unavailable: ");
->> @@ -271,13 +271,13 @@ void spapr_irq_print_info(SpaprMachineState *spapr, Monitor *mon)
->>      sicc->print_info(spapr->active_intc, mon);
->>  }
->>  
->> -void spapr_irq_dt(SpaprMachineState *spapr, uint32_t nr_servers,
->> +void spapr_irq_dt(SpaprMachineState *spapr, uint32_t max_vcpu_ids,
->>                    void *fdt, uint32_t phandle)
->>  {
->>      SpaprInterruptControllerClass *sicc
->>          = SPAPR_INTC_GET_CLASS(spapr->active_intc);
->>  
->> -    sicc->dt(spapr->active_intc, nr_servers, fdt, phandle);
->> +    sicc->dt(spapr->active_intc, max_vcpu_ids, fdt, phandle);
->>  }
->>  
->>  uint32_t spapr_irq_nr_msis(SpaprMachineState *spapr)
->> @@ -324,7 +324,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->>      }
->>  
->>      if (spapr->irq->xive) {
->> -        uint32_t nr_servers = spapr_max_server_number(spapr);
->> +        uint32_t max_vcpu_ids = spapr_max_vcpu_ids(spapr);
->>          DeviceState *dev;
->>          int i;
->>  
->> @@ -334,7 +334,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->>           * 8 XIVE END structures per CPU. One for each available
->>           * priority
->>           */
->> -        qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
->> +        qdev_prop_set_uint32(dev, "nr-ends", max_vcpu_ids << 3);
->>          object_property_set_link(OBJECT(dev), "xive-fabric", OBJECT(spapr),
->>                                   &error_abort);
->>          sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->> @@ -342,7 +342,7 @@ void spapr_irq_init(SpaprMachineState *spapr, Error **errp)
->>          spapr->xive = SPAPR_XIVE(dev);
->>  
->>          /* Enable the CPU IPIs */
->> -        for (i = 0; i < nr_servers; ++i) {
->> +        for (i = 0; i < max_vcpu_ids; ++i) {
->>              SpaprInterruptControllerClass *sicc
->>                  = SPAPR_INTC_GET_CLASS(spapr->xive);
->>  
->> @@ -479,7 +479,7 @@ static void set_active_intc(SpaprMachineState *spapr,
->>                              SpaprInterruptController *new_intc)
->>  {
->>      SpaprInterruptControllerClass *sicc;
->> -    uint32_t nr_servers = spapr_max_server_number(spapr);
->> +    uint32_t max_vcpu_ids = spapr_max_vcpu_ids(spapr);
->>  
->>      assert(new_intc);
->>  
->> @@ -497,7 +497,7 @@ static void set_active_intc(SpaprMachineState *spapr,
->>  
->>      sicc = SPAPR_INTC_GET_CLASS(new_intc);
->>      if (sicc->activate) {
->> -        sicc->activate(new_intc, nr_servers, &error_fatal);
->> +        sicc->activate(new_intc, max_vcpu_ids, &error_fatal);
->>      }
->>  
->>      spapr->active_intc = new_intc;
->>
+> The single struct doesn't bother me _too much_ actually.  What bothers me is
+> that it won't be a single source of all QOM objects, only those that happen
+> to be created by object-add.
+
+But isn't it only natural that a list of these objects will exist in
+some way, implicitly or explicitly? object-add must somehow decide which
+object types it allows the user to create.
+
+Once we describe the object types in the schema (rather than only their
+properties), which is required if we want to generate the QOM
+boilerplate, this can possibly become implicit because then QAPI can
+know which objects implement USER_CREATABLE.
+
+> So I start to wonder if QOM as it exists now is the right solution for
+> all kind of objects:
 > 
+> - backends and other object-add types (not per-target, relatively few
+> classes and even fewer hierarchies)
+> 
+> - machine (per-target, many classes, no hierarchy)
+> 
+> - device (can be treated as not per-target, many many classes, very few
+> hierarchies)
+> 
+> - accelerator (per-target, few classes, no hierarchy)
+> 
+> - chardev (ok those are the same as the first category)
+> 
+> If QOM is the right solution, this patch goes in the wrong direction.
+> 
+> If QOM is the wrong solution, this patch is okay but then we have another
+> problem to solve. :)
+
+I think the requirements for all of them are probably similar enough
+that they can potentially be covered by a single thing.
+
+I'm also pretty sure that QOM as it exists now is not the right solution
+for any of them because it has some major shortcomings. It's too easy to
+get things wrong (like the writable properties after creation), its
+introspection is rather weak and separated from the QAPI introspection,
+it doesn't encourage documentation, and it involves quite a bit of
+boilerplate and duplicated code between class implementations.
+
+A modified QOM might be the right solution, though. I would like to
+bring QAPI and QOM together because most of these weaknesses are
+strengths of QAPI.
+
+I guess the real question is what aspects of QOM need to be changed to
+make it the right solution.
+
+> > > The problem with this series is that you are fine with deduplicating things
+> > > as a third step, but you cannot be sure that such deduplication is possible
+> > > at all.  So while I don't have any problems in principle with the
+> > > ObjectOptions concept, I don't think it should be committed without a clear
+> > > idea of how to do the third step.
+> > 
+> > Do you have any specific concerns why the deduplication might not
+> > possible, or just because it's uncharted territory?
+> 
+> Mostly because it's more or less the same issue that you have with
+> BlockdevOptions, with the extra complication that this series only deals
+> with the easy one of the four above categories.
+
+I'm not sure which exact problem with BlockdevOptions you mean. The
+reason why the block layer doesn't use BlockdevOptions everywhere is
+-drive support.
+
+> > Maybe if we don't want to commit to keeping the ObjectOptions schema,
+> > the part that should wait is object-add and I should do the command line
+> > options first? Then the schema remains an implementation detail for now
+> > that is invisible in introspection.
+> 
+> I don't see much benefit in converting _any_ of the three actually.  The
+> only good reason I see for QAPIfying this is the documentation, and the
+> promise of deduplicating QOM boilerplate.  The latter is only a promise, but
+> documentation alone is a damn good reason and it's enough to get this work
+> into a mergeable shape as soon as possible!
+
+I think having some input validation done by QAPI instead of in each QOM
+object individually is nice, too. You get it after CLI, QMP and HMP all
+go through QAPI.
+
+> But maybe, we could start in the opposite direction: start with the use QAPI
+> to eliminate QOM boilerplate.  Basing your work on Eduardo's field
+> properties series, you could add a new 'object' "kind" to QAPI that would
+> create an array of field properties (e.g. a macro expanding to a compound
+> literal?)
+
+There is a very simple reason why I don't want to start with the QAPI
+generator: John has multiple series pending that touch basically every
+part of the QAPI generator. This means not only that I need to be
+careful about merge conflict (or base my work on top of five other
+series, which feels adventurous), but also that I would be competing
+with John for Markus' reviewer capacity, further slowing things down.
+
+Well, two reasons: Also because this series for the external interface
+of the objects already exists and it's an incremental step towards your
+proposal: The types for 'properties' will already exist then and I won't
+have to convert both internal state and external interfaces at the same
+time.
+
+> .  Something like
+> 
+> 
+> +{ 'object': 'InputBarrier',
+> +  'data': { 'name': 'str',
+> +            'x-origin': 'int16',
+> +            'y-origin': 'int16',
+> +            'width': 'int16',
+> +            'height': 'int16' },
+> +  'properties': { 'server': 'str',
+> +                  'port': 'str' } }
+
+I think we have similar ideas there (see my reply to Dan), just that I
+see it as an incremental step on top of this one.
+
+> would create a macro QOM_InputBarrier_FIELDS defining properties for the
+> following fields of the InputBarrier struct:
+> 
+>     gchar *name;
+>     int16_t x_origin, y_origin;
+>     int16_t width, height;
+> 
+> while server and port would only appear in the documentation (or
+> alternatively you could leave them out completely, as you wish).
+> The advantages would be noticeable:
+> 
+> 1) the information would be moved in the QAPI schema JSON from the
+> beginning, decoupling the conflict-heavy part from the complex question of
+> how to expose the QOM schema in the introspection data
+> 
+> 2) there would not be any more duplication than before (there would be
+> duplication between structs and QAPI schema, but not between structs and C
+> code that defines properties).
+> 
+> 3) it would be opt-in, so it doesn't put on you the burden of keeping the
+> series in sync with new objects that are added (I have one for the qtest
+> server for example).  At the same time it would be quite appealing for
+> owners of QOM code to convert their objects to field properties and get
+> documentation for free.
+> 
+> 4) we could special-case 'object' definitions and generate them in the
+> system manual as well, since they are also useful to document -object.
+> 
+> Yes it's a huge change but you have the boring part already done.  What do
+> you think?
+
+Yes, I would be happy to work on something like that. Just not as the
+first step, because I think it's nothing that would help us get this
+series in a mergable state as soon as possible.
+
+Kevi
 
 
