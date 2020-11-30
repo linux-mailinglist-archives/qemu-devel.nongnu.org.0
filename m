@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBE42C7CCC
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:38:15 +0100 (CET)
-Received: from localhost ([::1]:45254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64A9F2C7CCB
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Nov 2020 03:38:14 +0100 (CET)
+Received: from localhost ([::1]:45144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjZ4w-0002fy-0c
-	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:38:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35850)
+	id 1kjZ4v-0002d9-CY
+	for lists+qemu-devel@lfdr.de; Sun, 29 Nov 2020 21:38:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2a-0000z4-By
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2a-0000zT-Kp
  for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:48 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57130)
+Received: from mx2.suse.de ([195.135.220.15]:57166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2W-0004lb-89
- for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:47 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kjZ2W-0004m9-I2
+ for qemu-devel@nongnu.org; Sun, 29 Nov 2020 21:35:48 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A2EA4AC90;
- Mon, 30 Nov 2020 02:35:42 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 5039FACBA;
+ Mon, 30 Nov 2020 02:35:43 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,9 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v7 02/22] i386: move whpx accel files into whpx/
-Date: Mon, 30 Nov 2020 03:35:15 +0100
-Message-Id: <20201130023535.16689-3-cfontana@suse.de>
+Subject: [RFC v7 03/22] i386: move hax accel files into hax/
+Date: Mon, 30 Nov 2020 03:35:16 +0100
+Message-Id: <20201130023535.16689-4-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201130023535.16689-1-cfontana@suse.de>
 References: <20201130023535.16689-1-cfontana@suse.de>
@@ -70,85 +70,139 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- MAINTAINERS                           | 5 +----
- target/i386/meson.build               | 5 +----
- target/i386/whpx/meson.build          | 4 ++++
- target/i386/{ => whpx}/whp-dispatch.h | 0
- target/i386/{ => whpx}/whpx-all.c     | 0
- target/i386/{ => whpx}/whpx-cpus.c    | 0
- target/i386/{ => whpx}/whpx-cpus.h    | 0
- 7 files changed, 6 insertions(+), 8 deletions(-)
- create mode 100644 target/i386/whpx/meson.build
- rename target/i386/{ => whpx}/whp-dispatch.h (100%)
- rename target/i386/{ => whpx}/whpx-all.c (100%)
- rename target/i386/{ => whpx}/whpx-cpus.c (100%)
- rename target/i386/{ => whpx}/whpx-cpus.h (100%)
+ MAINTAINERS                           | 2 +-
+ target/i386/{ => hax}/hax-all.c       | 0
+ target/i386/{ => hax}/hax-cpus.c      | 0
+ target/i386/{ => hax}/hax-cpus.h      | 0
+ target/i386/{ => hax}/hax-i386.h      | 6 +++---
+ target/i386/{ => hax}/hax-interface.h | 0
+ target/i386/{ => hax}/hax-mem.c       | 0
+ target/i386/{ => hax}/hax-posix.c     | 0
+ target/i386/{ => hax}/hax-posix.h     | 0
+ target/i386/{ => hax}/hax-windows.c   | 0
+ target/i386/{ => hax}/hax-windows.h   | 0
+ target/i386/hax/meson.build           | 7 +++++++
+ target/i386/meson.build               | 8 +-------
+ 13 files changed, 12 insertions(+), 11 deletions(-)
+ rename target/i386/{ => hax}/hax-all.c (100%)
+ rename target/i386/{ => hax}/hax-cpus.c (100%)
+ rename target/i386/{ => hax}/hax-cpus.h (100%)
+ rename target/i386/{ => hax}/hax-i386.h (95%)
+ rename target/i386/{ => hax}/hax-interface.h (100%)
+ rename target/i386/{ => hax}/hax-mem.c (100%)
+ rename target/i386/{ => hax}/hax-posix.c (100%)
+ rename target/i386/{ => hax}/hax-posix.h (100%)
+ rename target/i386/{ => hax}/hax-windows.c (100%)
+ rename target/i386/{ => hax}/hax-windows.h (100%)
+ create mode 100644 target/i386/hax/meson.build
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 5b3eced829..20e079f40c 100644
+index 20e079f40c..448593c904 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -451,10 +451,7 @@ F: include/sysemu/hvf.h
- WHPX CPUs
- M: Sunil Muthuswamy <sunilmut@microsoft.com>
- S: Supported
--F: target/i386/whpx-all.c
--F: target/i386/whpx-cpus.c
--F: target/i386/whp-dispatch.h
--F: accel/stubs/whpx-stub.c
-+F: target/i386/whpx/
- F: include/sysemu/whpx.h
+@@ -491,7 +491,7 @@ W: https://github.com/intel/haxm/issues
+ S: Maintained
+ F: accel/stubs/hax-stub.c
+ F: include/sysemu/hax.h
+-F: target/i386/hax-*
++F: target/i386/hax/
  
- Guest CPU Cores (Xen)
+ Hosts
+ -----
+diff --git a/target/i386/hax-all.c b/target/i386/hax/hax-all.c
+similarity index 100%
+rename from target/i386/hax-all.c
+rename to target/i386/hax/hax-all.c
+diff --git a/target/i386/hax-cpus.c b/target/i386/hax/hax-cpus.c
+similarity index 100%
+rename from target/i386/hax-cpus.c
+rename to target/i386/hax/hax-cpus.c
+diff --git a/target/i386/hax-cpus.h b/target/i386/hax/hax-cpus.h
+similarity index 100%
+rename from target/i386/hax-cpus.h
+rename to target/i386/hax/hax-cpus.h
+diff --git a/target/i386/hax-i386.h b/target/i386/hax/hax-i386.h
+similarity index 95%
+rename from target/i386/hax-i386.h
+rename to target/i386/hax/hax-i386.h
+index 48c4abe14e..efbb346238 100644
+--- a/target/i386/hax-i386.h
++++ b/target/i386/hax/hax-i386.h
+@@ -84,13 +84,13 @@ void hax_memory_init(void);
+ 
+ 
+ #ifdef CONFIG_POSIX
+-#include "target/i386/hax-posix.h"
++#include "hax-posix.h"
+ #endif
+ 
+ #ifdef CONFIG_WIN32
+-#include "target/i386/hax-windows.h"
++#include "hax-windows.h"
+ #endif
+ 
+-#include "target/i386/hax-interface.h"
++#include "hax-interface.h"
+ 
+ #endif
+diff --git a/target/i386/hax-interface.h b/target/i386/hax/hax-interface.h
+similarity index 100%
+rename from target/i386/hax-interface.h
+rename to target/i386/hax/hax-interface.h
+diff --git a/target/i386/hax-mem.c b/target/i386/hax/hax-mem.c
+similarity index 100%
+rename from target/i386/hax-mem.c
+rename to target/i386/hax/hax-mem.c
+diff --git a/target/i386/hax-posix.c b/target/i386/hax/hax-posix.c
+similarity index 100%
+rename from target/i386/hax-posix.c
+rename to target/i386/hax/hax-posix.c
+diff --git a/target/i386/hax-posix.h b/target/i386/hax/hax-posix.h
+similarity index 100%
+rename from target/i386/hax-posix.h
+rename to target/i386/hax/hax-posix.h
+diff --git a/target/i386/hax-windows.c b/target/i386/hax/hax-windows.c
+similarity index 100%
+rename from target/i386/hax-windows.c
+rename to target/i386/hax/hax-windows.c
+diff --git a/target/i386/hax-windows.h b/target/i386/hax/hax-windows.h
+similarity index 100%
+rename from target/i386/hax-windows.h
+rename to target/i386/hax/hax-windows.h
+diff --git a/target/i386/hax/meson.build b/target/i386/hax/meson.build
+new file mode 100644
+index 0000000000..77ea431b30
+--- /dev/null
++++ b/target/i386/hax/meson.build
+@@ -0,0 +1,7 @@
++i386_softmmu_ss.add(when: 'CONFIG_HAX', if_true: files(
++  'hax-all.c',
++  'hax-mem.c',
++  'hax-cpus.c',
++))
++i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_POSIX'], if_true: files('hax-posix.c'))
++i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_WIN32'], if_true: files('hax-windows.c'))
 diff --git a/target/i386/meson.build b/target/i386/meson.build
-index 0209542a8a..62cd042915 100644
+index 62cd042915..284d52ab81 100644
 --- a/target/i386/meson.build
 +++ b/target/i386/meson.build
-@@ -27,10 +27,6 @@ i386_softmmu_ss.add(files(
+@@ -27,15 +27,9 @@ i386_softmmu_ss.add(files(
    'machine.c',
    'monitor.c',
  ))
--i386_softmmu_ss.add(when: 'CONFIG_WHPX', if_true: files(
--  'whpx-all.c',
--  'whpx-cpus.c',
+-i386_softmmu_ss.add(when: 'CONFIG_HAX', if_true: files(
+-  'hax-all.c',
+-  'hax-mem.c',
+-  'hax-cpus.c',
 -))
- i386_softmmu_ss.add(when: 'CONFIG_HAX', if_true: files(
-   'hax-all.c',
-   'hax-mem.c',
-@@ -40,6 +36,7 @@ i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_POSIX'], if_true: files('hax-po
- i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_WIN32'], if_true: files('hax-windows.c'))
+-i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_POSIX'], if_true: files('hax-posix.c'))
+-i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_WIN32'], if_true: files('hax-windows.c'))
  
  subdir('kvm')
-+subdir('whpx')
++subdir('hax')
+ subdir('whpx')
  subdir('hvf')
  
- target_arch += {'i386': i386_ss}
-diff --git a/target/i386/whpx/meson.build b/target/i386/whpx/meson.build
-new file mode 100644
-index 0000000000..94a72c8efc
---- /dev/null
-+++ b/target/i386/whpx/meson.build
-@@ -0,0 +1,4 @@
-+i386_softmmu_ss.add(when: 'CONFIG_WHPX', if_true: files(
-+  'whpx-all.c',
-+  'whpx-cpus.c',
-+))
-diff --git a/target/i386/whp-dispatch.h b/target/i386/whpx/whp-dispatch.h
-similarity index 100%
-rename from target/i386/whp-dispatch.h
-rename to target/i386/whpx/whp-dispatch.h
-diff --git a/target/i386/whpx-all.c b/target/i386/whpx/whpx-all.c
-similarity index 100%
-rename from target/i386/whpx-all.c
-rename to target/i386/whpx/whpx-all.c
-diff --git a/target/i386/whpx-cpus.c b/target/i386/whpx/whpx-cpus.c
-similarity index 100%
-rename from target/i386/whpx-cpus.c
-rename to target/i386/whpx/whpx-cpus.c
-diff --git a/target/i386/whpx-cpus.h b/target/i386/whpx/whpx-cpus.h
-similarity index 100%
-rename from target/i386/whpx-cpus.h
-rename to target/i386/whpx/whpx-cpus.h
 -- 
 2.26.2
 
