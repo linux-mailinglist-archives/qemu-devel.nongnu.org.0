@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888C92C9FF3
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:38:46 +0100 (CET)
-Received: from localhost ([::1]:51298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F522CA07A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:54:33 +0100 (CET)
+Received: from localhost ([::1]:52132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk33V-000538-EN
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:38:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41936)
+	id 1kk3Im-0003ir-V5
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:54:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk309-0002ME-B1
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55927)
+ id 1kk30G-0002NW-MI
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk305-0003qG-0C
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:17 -0500
+ id 1kk304-0003pt-OZ
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606818912;
+ s=mimecast20190719; t=1606818911;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cu74eGbX1Pzti3T+9FIBrGUXU++sBJFK1SRMc5dwyjo=;
- b=cekmJKos00zu+IMgOAp2/VHFfoktPo2sl8n5s7pjpvwbbOhSKBJehpKn89vXicH/AWSp3C
- J+DcFOUQvtDcVCEqL4C+QCFG3ux3Ngrj7zCaU3r/mVStOQP3p6PDABzJNkiht29TSPFMnV
- ErkQT7OY8VeOp0UJanGP7rrRU10iWJo=
+ bh=eg1UCSP6TBFRjWh8o362r/gExEhG9FGt2zB8v+faRZc=;
+ b=Kf1aGm+UkQC7Y+e2G9z6zA/JMiroctTRJbr5Zo8Qyzjjmar9OY0raq134aN7rxBRKfgSfi
+ blSMpulH2af2wmdxDyE+zvyFvMpiDeq31drWuP6dBIRQMogCxo8Vw9pij430z4uQT7PVlw
+ ZhZ3fpydDXx+AAQXZh9Em38hJrQDbLA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-YHzHarA0MYW4Y6CwAh1k0A-1; Tue, 01 Dec 2020 05:35:09 -0500
-X-MC-Unique: YHzHarA0MYW4Y6CwAh1k0A-1
+ us-mta-447-AMG37k7NM7KFW4YgbGAxQA-1; Tue, 01 Dec 2020 05:35:09 -0500
+X-MC-Unique: AMG37k7NM7KFW4YgbGAxQA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 789EE100C600;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEEC58558EB;
  Tue,  1 Dec 2020 10:35:08 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 29A0C10023B1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99A7310023B1;
  Tue,  1 Dec 2020 10:35:08 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/32] kernel-doc: add support for ____cacheline_aligned
- attribute
-Date: Tue,  1 Dec 2020 05:34:43 -0500
-Message-Id: <20201201103502.4024573-14-pbonzini@redhat.com>
+Subject: [PATCH v2 14/32] scripts: kernel-doc: add support for typedef enum
+Date: Tue,  1 Dec 2020 05:34:44 -0500
+Message-Id: <20201201103502.4024573-15-pbonzini@redhat.com>
 In-Reply-To: <20201201103502.4024573-1-pbonzini@redhat.com>
 References: <20201201103502.4024573-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -67,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,53 +83,63 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Subroutine dump_struct uses type attributes to check if the struct
-syntax is valid. Then, it removes all attributes before using it for
-output. `____cacheline_aligned` is an attribute that is
-not included in both steps. Add it, since it is used by kernel structs.
+The PHY kernel-doc markup has gained support for documenting
+a typedef enum.
 
-Based on previous patch to add ____cacheline_aligned_in_smp.
-Motivated by patches to reorder this attribute to before the
-variable name.   Whilst we could do that in all cases, that would
-be a massive change and it is more common in the kernel to place
-this particular attribute after the variable name. A quick grep
-suggests approximately 400 instances of which 341 have this
-attribute just before a semicolon and hence after the variable name.
+However, right now the parser was not prepared for it.
 
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Lee Jones <lee.jones@linaro.org>
-Link: https://lore.kernel.org/r/20200910185415.653139-1-jic23@kernel.org
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+So, add support for parsing it.
+
+Fixes: 4069a572d423 ("net: phy: Document core PHY structures")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-13-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-14-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/kernel-doc | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 3fd6f3925e..c4c5640ded 100755
+index c4c5640ded..073f72c7da 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1113,7 +1113,7 @@ sub dump_struct($$) {
+@@ -1295,14 +1295,22 @@ sub show_warnings($$) {
+ sub dump_enum($$) {
      my $x = shift;
      my $file = shift;
++    my $members;
++
  
--    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
-+    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
- 	my $decl_type = $1;
- 	$declaration_name = $2;
- 	my $members = $3;
-@@ -1129,6 +1129,7 @@ sub dump_struct($$) {
- 	$members =~ s/\s*__packed\s*/ /gos;
- 	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
- 	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
-+	$members =~ s/\s*____cacheline_aligned/ /gos;
+     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
+     # strip #define macros inside enums
+     $x =~ s@#\s*((define|ifdef)\s+|endif)[^;]*;@@gos;
  
- 	# replace DECLARE_BITMAP
- 	$members =~ s/__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, __ETHTOOL_LINK_MODE_MASK_NBITS)/gos;
+-    if ($x =~ /enum\s+(\w*)\s*\{(.*)\}/) {
++    if ($x =~ /typedef\s+enum\s*\{(.*)\}\s*(\w*)\s*;/) {
++	$declaration_name = $2;
++	$members = $1;
++    } elsif ($x =~ /enum\s+(\w*)\s*\{(.*)\}/) {
+ 	$declaration_name = $1;
+-	my $members = $2;
++	$members = $2;
++    }
++
++    if ($declaration_name) {
+ 	my %_members;
+ 
+ 	$members =~ s/\s+$//;
+@@ -1337,8 +1345,7 @@ sub dump_enum($$) {
+ 			    'sections' => \%sections,
+ 			    'purpose' => $declaration_purpose
+ 			   });
+-    }
+-    else {
++    } else {
+ 	print STDERR "${file}:$.: error: Cannot parse enum!\n";
+ 	++$errors;
+     }
 -- 
 2.26.2
 
