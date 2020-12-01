@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6D02CA1C0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:49:57 +0100 (CET)
-Received: from localhost ([::1]:56236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C6C2CA1C8
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:52:12 +0100 (CET)
+Received: from localhost ([::1]:58858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk4AO-0001FE-F0
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:49:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33272)
+	id 1kk4CZ-0002TU-L9
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:52:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk498-0000fi-AX
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:48:38 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34220)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk496-0004m8-2H
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:48:38 -0500
-Received: by mail-ed1-x541.google.com with SMTP id y22so2813032edv.1
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 03:48:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eNbJBvCjxxSRBqn4PhMd+UKDjwN1evYqMWIzSqsrfYo=;
- b=gkAJYfbacW18D8RmBnyQWhTMl0FGastBsP+jUXcjXVQNx1bfDA3wnkfPgHrG6cO4xI
- ea9PG4GwtYBYqAw/Dtw2cetDX7DidsnmVSqk2ST9n/FsXc2QVvEuSoM+3oAHrdLyQr89
- HXvivab1f0Bx7OZUVrxZy/3aompk4vn8GiJ9Ez8n4lj0oj0PU70c8WX+5aIbZSN35ro9
- qAasaRn355p8ELLT3Qe5uSyVvNBYxL7h0Z94s8b9neuAdWRdnObdjur//8NSOIiXkzEM
- QX3KOF6gXJyvQxMFOUxorDry3GOlCQoEx18j7NHLHnczoUfPtBv/JSQhArdFXBO6LSJi
- NClg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eNbJBvCjxxSRBqn4PhMd+UKDjwN1evYqMWIzSqsrfYo=;
- b=KYzZTg0fkm+H1bvghG/pNrn60X7A9LeBEGieLXTetN6Fx7TnBpiT8BvlDd4cJ1aVGY
- /qCwldXWzcQepPUSigg01RIRzVMpgPuJ7ubHAmCsvjqpfeKAn47kXwBuixxN820+Ktzz
- T1osgooPo6RKYwfkqkZdLs5eWsCCPSygVDKipOSiXiErvUnFcBIkqUR/maGygZWY0cXf
- FRfvc/nBpmLuBJh3BfYJ+ervVjrs1cJGjkolj3K7PDr7MR1Hs+rZajvTu46IOh5V2how
- Sr0tf3qiOQAODdrFZhFzTTvmDtLoGgWFP3TtB/2ZzlSreWfyrDphui5ZL4GVjSHrXdJQ
- 5F6g==
-X-Gm-Message-State: AOAM530O9nInfVbbGALPThwD9bEyyT0Hgzc/gN2VILKBj0V25wNrojec
- iMYuiWyaQV/HE1hImU/vt1zV1PYjbgwGNgMDL68MkA==
-X-Google-Smtp-Source: ABdhPJwBkmG7ozxwSvvWNZFi+MOMS8ktr4FfGn2HiL/iGAA05ytNimxgRqwHeGV14exT6S4LiJrHxh/OX3TrNuKrnAQ=
-X-Received: by 2002:a05:6402:b35:: with SMTP id
- bo21mr2588071edb.52.1606823314418; 
- Tue, 01 Dec 2020 03:48:34 -0800 (PST)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kk4BS-0001zZ-Ve
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:51:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28153)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kk4BQ-0005as-A2
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:51:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606823458;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ay9ItD6Kzh25y4pze0iPQOTVfknUuyVxyktssHh8Ios=;
+ b=F2rhxDxGoGZVg/V+i793HglBmDFm137/eFHDSXSeoisZr2Ln30yrtEv+7mIpz0BzjOWnzs
+ qKJPFeQLG5VCFpe867JlwBe8SIyPcJpJkQSV67OdnqEk3DnC0ZD+IdXPhno0ap/l2t4BC+
+ fegTSX2f+62n45kcmzMqOIP24Yfg2/s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-CgMN2nTtMV2UUlP0nhldsA-1; Tue, 01 Dec 2020 06:50:57 -0500
+X-MC-Unique: CgMN2nTtMV2UUlP0nhldsA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 905BF817B91;
+ Tue,  1 Dec 2020 11:50:55 +0000 (UTC)
+Received: from work-vm (ovpn-115-1.ams2.redhat.com [10.36.115.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FB4F6086F;
+ Tue,  1 Dec 2020 11:50:49 +0000 (UTC)
+Date: Tue, 1 Dec 2020 11:50:47 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 01/11] memattrs: add debug attribute
+Message-ID: <20201201115047.GA15055@work-vm>
 References: <cover.1605316268.git.ashish.kalra@amd.com>
- <4393d426ae8f070c6be45ff0252bae2dca8bbd42.1605316268.git.ashish.kalra@amd.com>
-In-Reply-To: <4393d426ae8f070c6be45ff0252bae2dca8bbd42.1605316268.git.ashish.kalra@amd.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Dec 2020 11:48:23 +0000
-Message-ID: <CAFEAcA8=3ngeErUEaR-=qGQymKv5JSd-ZXz+hg7L46J_nWDUnQ@mail.gmail.com>
-Subject: Re: [PATCH 02/11] exec: Add new MemoryDebugOps.
-To: Ashish Kalra <Ashish.Kalra@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <2ba88b512ec667eff66b2ece2177330a28e657c0.1605316268.git.ashish.kalra@amd.com>
+ <CAFEAcA8eiyzUbHXQip1sT_TrT+Mfv-WG8cSMmM-w_eOFShAMzQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA8eiyzUbHXQip1sT_TrT+Mfv-WG8cSMmM-w_eOFShAMzQ@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,44 +77,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, ssg.sos.patches@amd.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Ashish Kalra <Ashish.Kalra@amd.com>, Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ ssg.sos.patches@amd.com, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Nov 2020 at 19:07, Ashish Kalra <Ashish.Kalra@amd.com> wrote:
->
-> From: Ashish Kalra <ashish.kalra@amd.com>
->
-> Introduce new MemoryDebugOps which hook into guest virtual and physical
-> memory debug interfaces such as cpu_memory_rw_debug, to allow vendor specific
-> assist/hooks for debugging and delegating accessing the guest memory.
-> This is required for example in case of AMD SEV platform where the guest
-> memory is encrypted and a SEV specific debug assist/hook will be required
-> to access the guest memory.
->
-> The MemoryDebugOps are used by cpu_memory_rw_debug() and default to
-> address_space_read and address_space_write_rom.
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Mon, 16 Nov 2020 at 19:28, Ashish Kalra <Ashish.Kalra@amd.com> wrote:
+> >
+> > From: Brijesh Singh <brijesh.singh@amd.com>
+> >
+> > From: Brijesh Singh <brijesh.singh@amd.com>
+> >
+> > Extend the MemTxAttrs to include a 'debug' flag. The flag can be used as
+> > general indicator that operation was triggered by the debugger.
+> >
+> > A subsequent patch will set the debug=1 when issuing a memory access
+> > from the gdbstub or HMP commands. This is a prerequisite to support
+> > debugging an encrypted guest. When a request with debug=1 is seen, the
+> > encryption APIs will be used to access the guest memory.
+> 
+> So, what counts as "debug" here, and why are debug requests
+> special? If "debug=1" means "can actually get at the guest memory",
+> why wouldn't every device model want to use it?
 
-This seems like a weird place to insert these hooks. Not
-all debug related accesses are going to go via
-cpu_memory_rw_debug(). For instance when the gdb stub is in
-"PhyMemMode" and all addresses from the debugger are treated as
-physical rather than virtual, gdbstub.c will call
-cpu_physical_memory_write()/_read().
+SEV has a flag that the guest-owner can set on a VM to enable debug;
+it's rare for it to be enabled; so it's not suitable for use by normal
+devices.  It's only there for debug if the guest owner allows you to.
 
-I would have expected the "oh, this is a debug access, do
-something special" to be at a lower level, so that any
-address_space_* access to the guest memory with the debug
-attribute gets the magic treatment, whether that was done
-as a direct "read this physaddr" or via cpu_memory_rw_debug()
-doing the virt-to-phys conversion first.
+Dave
 
-thanks
--- PMM
+> thanks
+> -- PMM
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
