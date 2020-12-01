@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5DA42CA9CE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 18:35:57 +0100 (CET)
-Received: from localhost ([::1]:50556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B3B52CA9AC
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 18:31:59 +0100 (CET)
+Received: from localhost ([::1]:42888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk9ZE-0003kb-NP
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 12:35:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36030)
+	id 1kk9VO-0000CV-Gs
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 12:31:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kk9J4-0004ZW-HZ
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 12:19:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37424)
+ id 1kk9J5-0004b6-3G
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 12:19:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kk9Ix-00026o-Us
+ id 1kk9J2-00026w-Vd
  for qemu-devel@nongnu.org; Tue, 01 Dec 2020 12:19:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606843147;
+ s=mimecast20190719; t=1606843148;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OZFVwfq/ENkinfiPTW21BkpJ0eYWAFlIhKHmI2Ggirg=;
- b=hH6goHwcV+/I/tm3EzGVH8ZyLNHlKfRObBCYnsl1WjlG9Ns5QL2EzeKKTaFoyO6ObYk2hp
- jrmlEvF96Shh2r8gaZD8VYhdd/6Gs4s+2mhi53Be0bSCFADl2alcJmsVrASj3+lKn36xrp
- NWnoWcBcUgJ129QBlIM6gYS6hUNX8KE=
+ bh=3+m/6/l3TEKJbrpKJkKTcfylw0lUrEzMtPxVxaCsr5M=;
+ b=dCKS9m0BXNGw0yFR+p03hMc+zZfXC8yaTTEWjaeg/6SiDF1uDbarhm66hLV0xZ+JnTstjq
+ QYCWOZaEgb5+/mzVSWV5yHZJFj+zt5n+iuXA7b4RW/5/ZoPA7/4Xu7v3HV5h2x9IU+CXYR
+ 4dJ1/wRrOHMMtS7mROMYmVjSlfwSRpw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-r3mYcm99Nbq1h83VIjdoqA-1; Tue, 01 Dec 2020 12:18:59 -0500
-X-MC-Unique: r3mYcm99Nbq1h83VIjdoqA-1
+ us-mta-182-8w8dSIoCO1Kh5HTZEMNzPQ-1; Tue, 01 Dec 2020 12:19:05 -0500
+X-MC-Unique: 8w8dSIoCO1Kh5HTZEMNzPQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF9CE805BE6;
- Tue,  1 Dec 2020 17:18:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0DA9185E480;
+ Tue,  1 Dec 2020 17:19:03 +0000 (UTC)
 Received: from fedora.redhat.com (ovpn-115-4.ams2.redhat.com [10.36.115.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0F7E5D9C2;
- Tue,  1 Dec 2020 17:18:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 638E95D9C2;
+ Tue,  1 Dec 2020 17:19:02 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/23] tests/docker: remove mingw packages from Fedora
-Date: Tue,  1 Dec 2020 17:18:13 +0000
-Message-Id: <20201201171825.2243775-12-berrange@redhat.com>
+Subject: [PATCH 14/23] tests/docker: expand centos8 package list
+Date: Tue,  1 Dec 2020 17:18:16 +0000
+Message-Id: <20201201171825.2243775-15-berrange@redhat.com>
 In-Reply-To: <20201201171825.2243775-1-berrange@redhat.com>
 References: <20201201171825.2243775-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -57,14 +57,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,51 +86,115 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are dedicated containers provide mingw packages for Fedora.
+This is the fully expanded list of build pre-requisites QEMU can
+conceivably use in any scenario.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/fedora.docker | 27 --------------------------
- 1 file changed, 27 deletions(-)
+ tests/docker/dockerfiles/centos8.docker | 64 +++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 754b381e1e..566be0ee2b 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -46,33 +46,6 @@ ENV PACKAGES \
-     libzstd-devel \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 1d10b8c263..96b231ee18 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -3,32 +3,96 @@ FROM registry.centos.org/centos:8
+ RUN dnf -y update
+ ENV PACKAGES \
+     SDL2-devel \
++    alsa-lib-devel \
++    bc \
++    brlapi-devel \
+     bzip2 \
+     bzip2-devel \
++    ca-certificates \
++    capstone-devel \
++    ccache \
++    clang \
++    cyrus-sasl-devel \
++    daxctl-devel \
+     dbus-daemon \
++    device-mapper-multipath-devel \
++    diffutils \
++    findutils \
+     gcc \
+     gcc-c++ \
+     genisoimage \
+     gettext \
+     git \
+     glib2-devel \
++    glibc-langpack-en \
++    glusterfs-api-devel \
++    gnutls-devel \
++    gtk3-devel \
++    hostname \
+     libaio-devel \
++    libasan \
++    libattr-devel \
+     libcacard-devel \
++    libcap-ng-devel \
++    libcurl-devel \
++    libdrm-devel \
+     libepoxy-devel \
++    libfdt-devel \
+     libgcrypt-devel \
++    libiscsi-devel \
++    libjpeg-devel \
++    libnfs-devel \
++    libpmem-devel \
++    libpng-devel \
++    librbd-devel \
++    libseccomp-devel \
++    libslirp-devel \
++    libssh-devel \
++    libtasn1-devel \
++    libubsan \
++    libudev-devel \
++    libusbx-devel \
++    libxml2-devel \
++    libzstd-devel \
      lzo-devel \
      make \
--    mingw32-bzip2 \
--    mingw32-curl \
--    mingw32-glib2 \
--    mingw32-gmp \
--    mingw32-gnutls \
--    mingw32-gtk3 \
--    mingw32-libjpeg-turbo \
--    mingw32-libpng \
--    mingw32-libtasn1 \
--    mingw32-nettle \
--    mingw32-nsis \
--    mingw32-pixman \
--    mingw32-pkg-config \
--    mingw32-SDL2 \
--    mingw64-bzip2 \
--    mingw64-curl \
--    mingw64-glib2 \
--    mingw64-gmp \
--    mingw64-gnutls \
--    mingw64-gtk3 \
--    mingw64-libjpeg-turbo \
--    mingw64-libpng \
--    mingw64-libtasn1 \
--    mingw64-nettle \
--    mingw64-pixman \
--    mingw64-pkg-config \
--    mingw64-SDL2 \
-     ncurses-devel \
+     mesa-libgbm-devel \
++    ncurses-devel \
      nettle-devel \
      ninja-build \
+     nmap-ncat \
++    numactl-devel \
++    openssh-clients \
++    pam-devel \
++    perl \
+     perl-Test-Harness \
+     pixman-devel \
++    pkgconfig \
++    pulseaudio-libs-devel \
+     python3 \
++    python3-PyYAML \
++    python3-numpy \
++    python3-pillow \
++    python3-pip \
++    python3-setuptools \
++    python3-sphinx \
++    python3-virtualenv \
++    python3-wheel \
+     rdma-core-devel \
++    rpm \
++    snappy-devel \
+     spice-protocol \
+     spice-server-devel \
++    systemd-devel \
++    systemtap-sdt-devel \
+     tar \
++    texinfo \
++    usbredir-devel \
++    vim-minimal \
++    virglrenderer-devel \
++    vte291-devel \
++    which \
++    xfsprogs-devel \
+     zlib-devel
+ 
+ RUN dnf install -y dnf-plugins-core && \
 -- 
 2.28.0
 
