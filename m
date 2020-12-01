@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5632CA1E2
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:58:17 +0100 (CET)
-Received: from localhost ([::1]:39538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BD12CA21B
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 13:07:31 +0100 (CET)
+Received: from localhost ([::1]:45274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk4IS-0006TJ-FT
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:58:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35394)
+	id 1kk4RO-00012g-AM
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 07:07:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk4Gv-0005xl-8s
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:56:41 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:38259)
+ id 1kk4Pe-0000Uc-Lb
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 07:05:42 -0500
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:35743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk4Gt-0007nG-Or
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:56:41 -0500
-Received: by mail-ed1-x543.google.com with SMTP id y4so2813831edy.5
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 03:56:39 -0800 (PST)
+ id 1kk4Pc-0002Qs-Px
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 07:05:42 -0500
+Received: by mail-ed1-x543.google.com with SMTP id u19so2877830edx.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 04:05:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mY7iQAlCDv3m/pSFTAcG32WtflFk1CABCP1rf+2nyJY=;
- b=N6ERR3oDzH7bAbri2CfZlwbNC3SDoBMC/1OQXau8oCo9R7bBsZLtKgE3iJoWjyiWLP
- QlbnsxR2XXXVUVnXVMJLaKWWYZqr3uTUSc3juUWI2zi/3eIKukJJsAZ7IEffIktsTi/f
- aG44fb9hrqUvdZWTodJKVoY8DkKlmu3n+dBeOeN++VO8Cc3mOqYrlqP4uh4iotK768+G
- k7BIHZLXkihW8qOkaMNCcDx41oA5JE0ylirJi7Xzf9nhsgBT9EGdnHVxYzEOvzYZFu8n
- ylzs4u/ciNj/++ii9oa4LQ+HpsVVe8GL4KAU1fLatmOJkeLyEI1XjESQxqA9PRHJacyn
- FkdQ==
+ :cc; bh=dZ8sExb6D1TJHHkVCOV6EAQsOL0RaMz69T7dbpfX3OM=;
+ b=fXpGGIQs8SwHbjw4dhjwoo46nGqeg5DOxkqINklQ3TOUNuWu24XzRsMf7/mxf1cFzH
+ MdYneBqpbJd6vRlM8hOsOSKsfCPvd9hGZxuL6lyYRThwg4+M48piLPWXlBCpsMOhfA47
+ GnAJzJe+ryvwhQxytAzEE9SfI67xFI3CpWEVPUT0JClN1i+RU5DFsGaZ6yQYFssrJOXM
+ IdlCN1H8b0R244egwcy9hESOG/aKZ10slkeF0HS/rMCzppf8QN5Jwla/kAEmSDEv0g1Q
+ DU7y3cwW/ija3T7u/pAAjC+ukJW9xXUB1olMn4Jor9na4Xxrai+oxVjmpOir8TUnrABC
+ nJ7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=mY7iQAlCDv3m/pSFTAcG32WtflFk1CABCP1rf+2nyJY=;
- b=ska/x47/cbVBV2SDPCb0BnamoobrxztT9BT8bhfWlbrgf63a5afz5fUTMLd8I1PlQ8
- BiVJ0gzkmi0R5GFOP/x6KUX5jho/JtxqWDQPN4EoCDTIc29cTdUdN94VMdNkR6yL5vPP
- +71smmI9hmOtMT6AoPnbaDiBywt1CMfkQRhJ1KUXOYngzafZ9444m5L5NYtM8odDnqk3
- UdePS9jqiKVvE9NM2mK8VmKwcd8Oj5hJKbPbxz+Xe+Mk8dTs9YIEzFL+IVH1vIQVkLj4
- cTaRbMLebAGnY+XcvS3CafpCkSHk+nEOh5Cp67w+MFaqcfwOEdvF4hEMLLx1CBvtNSUI
- kj9w==
-X-Gm-Message-State: AOAM531sM5cf56hLD2vrU34sxzAU6/mhA2bBWFg1+faju1oqcFqNIpPf
- VALFsbo6BC4aAEJ9kb6RLfaOZBobIemQUaQ0nWy9iw==
-X-Google-Smtp-Source: ABdhPJxrdT5H/NK0SSJ+6i/lEOMxEKnNt6HXsoPmsOOxIwm7ajxcGRo5LbitxkE+siXGh+yTYebFymgMdEKZugzxm5U=
-X-Received: by 2002:aa7:d915:: with SMTP id a21mr2537511edr.251.1606823798104; 
- Tue, 01 Dec 2020 03:56:38 -0800 (PST)
+ bh=dZ8sExb6D1TJHHkVCOV6EAQsOL0RaMz69T7dbpfX3OM=;
+ b=jFgOJZTonR7CreTDae6Iku/K8wJx6frQhLMVEMxV6mTF0vOh+Xr+qk88Sc6FFud2H7
+ 7suAtvwoa/hyC6v5RplTYefShUbI4szdPwQwFjaYZO5TuP6yXqdbavIFjm5iw6bR91vD
+ GNjxDVy/8QD7MlXkcmU1VL+kVsP/kZhMPQ/BvkzsNsv7wLwYVjUnQUQZJecqPRzn5FA9
+ GsGSajZuxQGiltXUfo+QRwfx+5PaZj0n7B7Y08wzBr6JTe8CUaLJfEItsIcWA/nIHRKb
+ e7QSmC+fLz0Z2LuZY7x8ciTN7GyEEy+jwPBzZuhha/DQlv36LAbphujLRCRfatSlNE+K
+ KQMw==
+X-Gm-Message-State: AOAM532TguBPFUImuc9HOd8ApvCF3oPid4QOODzZpzhvahd/zMphppe4
+ sH1mMGmXOEiM337GKP5yVcxna1Vs8ZSHTVeQanPC7Q==
+X-Google-Smtp-Source: ABdhPJyxpyeR1SDmXMFDnfu57acDSqOxPq2jB/wG3BKpbmbCQHhdjv1kxmHcygeEpB/gLMfQv/lQ4OZ8z85El5AEld4=
+X-Received: by 2002:a05:6402:3089:: with SMTP id
+ de9mr2689855edb.100.1606824335347; 
+ Tue, 01 Dec 2020 04:05:35 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1605316268.git.ashish.kalra@amd.com>
- <2ba88b512ec667eff66b2ece2177330a28e657c0.1605316268.git.ashish.kalra@amd.com>
- <CAFEAcA8eiyzUbHXQip1sT_TrT+Mfv-WG8cSMmM-w_eOFShAMzQ@mail.gmail.com>
- <20201201115047.GA15055@work-vm>
-In-Reply-To: <20201201115047.GA15055@work-vm>
+ <aa90b9f98f7314ae8c197a16e2acedbd29e16200.1605316268.git.ashish.kalra@amd.com>
+In-Reply-To: <aa90b9f98f7314ae8c197a16e2acedbd29e16200.1605316268.git.ashish.kalra@amd.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Dec 2020 11:56:26 +0000
-Message-ID: <CAFEAcA_cdixD7jvu68snUU=PN2xQow1W2goKjshfdF9jGb2dBQ@mail.gmail.com>
-Subject: Re: [PATCH 01/11] memattrs: add debug attribute
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Date: Tue, 1 Dec 2020 12:05:24 +0000
+Message-ID: <CAFEAcA8n353Zs_my_XsLv9+MS7UVo7Kx2Mm84cYrBQzAa_GHVA@mail.gmail.com>
+Subject: Re: [PATCH 06/11] monitor/i386: use debug APIs when accessing guest
+ memory
+To: Ashish Kalra <Ashish.Kalra@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2a00:1450:4864:20::543;
  envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
@@ -80,43 +80,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>,
- Ashish Kalra <Ashish.Kalra@amd.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- ssg.sos.patches@amd.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, ssg.sos.patches@amd.com,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 1 Dec 2020 at 11:51, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
+On Mon, 16 Nov 2020 at 19:29, Ashish Kalra <Ashish.Kalra@amd.com> wrote:
 >
-> * Peter Maydell (peter.maydell@linaro.org) wrote:
-> > On Mon, 16 Nov 2020 at 19:28, Ashish Kalra <Ashish.Kalra@amd.com> wrote:
-> > >
-> > > From: Brijesh Singh <brijesh.singh@amd.com>
-> > >
-> > > From: Brijesh Singh <brijesh.singh@amd.com>
-> > >
-> > > Extend the MemTxAttrs to include a 'debug' flag. The flag can be used as
-> > > general indicator that operation was triggered by the debugger.
-> > >
-> > > A subsequent patch will set the debug=1 when issuing a memory access
-> > > from the gdbstub or HMP commands. This is a prerequisite to support
-> > > debugging an encrypted guest. When a request with debug=1 is seen, the
-> > > encryption APIs will be used to access the guest memory.
-> >
-> > So, what counts as "debug" here, and why are debug requests
-> > special? If "debug=1" means "can actually get at the guest memory",
-> > why wouldn't every device model want to use it?
+> From: Brijesh Singh <brijesh.singh@amd.com>
 >
-> SEV has a flag that the guest-owner can set on a VM to enable debug;
-> it's rare for it to be enabled; so it's not suitable for use by normal
-> devices.  It's only there for debug if the guest owner allows you to.
+> Update the HMP commands to use the debug version of APIs when accessing
+> guest memory.
+>
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
+> ---
+>  monitor/misc.c        |  4 ++--
+>  softmmu/cpus.c        |  2 +-
+>  target/i386/monitor.c | 54 ++++++++++++++++++++++++-------------------
+>  3 files changed, 33 insertions(+), 27 deletions(-)
+>
+> diff --git a/monitor/misc.c b/monitor/misc.c
+> index 32e6a8c13d..7eba3a6fce 100644
+> --- a/monitor/misc.c
+> +++ b/monitor/misc.c
+> @@ -824,8 +824,8 @@ static void hmp_sum(Monitor *mon, const QDict *qdict)
+>
+>      sum = 0;
+>      for(addr = start; addr < (start + size); addr++) {
+> -        uint8_t val = address_space_ldub(&address_space_memory, addr,
+> -                                         MEMTXATTRS_UNSPECIFIED, NULL);
+> +        uint8_t val;
+> +        cpu_physical_memory_read_debug(addr, &val, 1);
+>          /* BSD sum algorithm ('sum' Unix command) */
+>          sum = (sum >> 1) | (sum << 15);
+>          sum += val;
 
-So if I do a memory transaction with debug=1 then I should expect
-that it might come back with a failure status (meaning "this VM
-doesn't permit debug") and I should handle that error ?
+Side note -- are byte-by-byte accesses to the encrypted guest
+memory noticeably higher overhead than if we asked for a
+larger buffer to be decrypted at once? If so and if anybody
+cares about hmp_sum performance we might consider having it
+work on a larger buffer at a time rather than byte-by-byte...
 
 thanks
 -- PMM
