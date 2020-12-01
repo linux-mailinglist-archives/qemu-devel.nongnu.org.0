@@ -2,79 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997BF2C9721
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 06:47:45 +0100 (CET)
-Received: from localhost ([::1]:60134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB732C9762
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 07:06:02 +0100 (CET)
+Received: from localhost ([::1]:37636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjyVs-0000D2-LC
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 00:47:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
+	id 1kjynZ-0004VW-0m
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 01:06:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kjyUV-00087i-MZ
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 00:46:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24358)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kjyUT-0004td-Mz
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 00:46:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606801576;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jSX6ST2LZIAUeOeeBMfKnkZp1UJg0esRKKUjwkqITVg=;
- b=g/LXfv2RAiqat87cAt/7Qsf2pqPF6fAQxOHYgeOjtHOtxvO2xM/iErWAorzagzvCuhVWJ2
- 4n+mAX6Pgto+fnAmw772Nspxi7A76ID7HB49K16h8H0KDvn6uYIqRbH7nApiECZZX/nNbC
- +/MxKSf+taKzncrSs/MQO9axDnKtpPU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-6IKPlKCPNeyE8fQcz8lP_Q-1; Tue, 01 Dec 2020 00:46:14 -0500
-X-MC-Unique: 6IKPlKCPNeyE8fQcz8lP_Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 244CE1E7C8;
- Tue,  1 Dec 2020 05:46:13 +0000 (UTC)
-Received: from [10.72.13.167] (ovpn-13-167.pek2.redhat.com [10.72.13.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F55460BE2;
- Tue,  1 Dec 2020 05:46:10 +0000 (UTC)
-Subject: Re: [PATCH] hw/net/dp8393x: fix integer underflow in
- dp8393x_do_transmit_packets()
-To: Mauro Matteo Cascella <mcascell@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20201124092445.658647-1-mcascell@redhat.com>
- <48d8ae85-3292-921a-f249-3b88a1141cc9@amsat.org>
- <CAA8xKjXJq00HtKNJc0HVAhXXftFHEGLj_KXaiy7M9_2WvgNRrQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <cc15cf81-aaf9-0886-b988-61b6314648b9@redhat.com>
-Date: Tue, 1 Dec 2020 13:46:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <jinzeyu@huawei.com>)
+ id 1kjym6-0003qx-FD
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 01:04:30 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jinzeyu@huawei.com>)
+ id 1kjym3-0002JZ-RD
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 01:04:30 -0500
+Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4ClWkW18bpzXhkH;
+ Tue,  1 Dec 2020 14:03:47 +0800 (CST)
+Received: from dggemi758-chm.china.huawei.com (10.1.198.144) by
+ DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Tue, 1 Dec 2020 14:04:08 +0800
+Received: from [10.174.187.211] (10.174.187.211) by
+ dggemi758-chm.china.huawei.com (10.1.198.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Tue, 1 Dec 2020 14:04:07 +0800
+Subject: Re: [PATCH v2 0/6] migration: Multi-thread compression method support
+To: Eric Blake <eblake@redhat.com>, <quintela@redhat.com>,
+ <dgilbert@redhat.com>
+References: <20201127093639.2815-1-jinzeyu@huawei.com>
+ <2ec8cee7-5330-0e87-f593-464ba789688e@redhat.com>
+From: Zeyu Jin <jinzeyu@huawei.com>
+Message-ID: <df92d5da-d38c-3b73-488e-2e69c48d2a13@huawei.com>
+Date: Tue, 1 Dec 2020 14:04:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAA8xKjXJq00HtKNJc0HVAhXXftFHEGLj_KXaiy7M9_2WvgNRrQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <2ec8cee7-5330-0e87-f593-464ba789688e@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.211]
+X-ClientProxiedBy: dggemi702-chm.china.huawei.com (10.3.20.101) To
+ dggemi758-chm.china.huawei.com (10.1.198.144)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=jinzeyu@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,115 +68,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pgn@zju.edu.cn, QEMU Developers <qemu-devel@nongnu.org>,
- Finn Thain <fthain@telegraphics.com.au>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2020/12/1 0:42, Eric Blake wrote:
+> On 11/27/20 3:36 AM, Zeyu Jin wrote:
+> 
+> Meta-comment: you appear to be having problems threading your series;
+> I've now seen three separate cover letters (RFC v1, v2 with no subject,
+> v2 with subject) and two series where each patch was a separate thread.
+> It is difficult to follow which messages are related when reading in a
+> mail client that sorts by most-recently-active thread first.  You may
+> want to investigate why your threading is not working, although I'd wait
+> to send v3 until you have actual changes to incorporate.
+> 
 
-On 2020/11/30 下午8:11, Mauro Matteo Cascella wrote:
-> On Mon, Nov 30, 2020 at 11:44 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->> +Laurent/Finn
->>
->> On 11/24/20 10:24 AM, Mauro Matteo Cascella wrote:
->>> An integer underflow could occur during packet transmission due to 'tx_len' not
->>> being updated if SONIC_TFC register is set to zero. Check for negative 'tx_len'
->>> when removing existing FCS.
->>>
->>> RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=1899722
->>> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
->>> Reported-by: Gaoning Pan <pgn@zju.edu.cn>
->>> ---
->>>   hw/net/dp8393x.c | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
->>> index 674b04b354..205c0decc5 100644
->>> --- a/hw/net/dp8393x.c
->>> +++ b/hw/net/dp8393x.c
->>> @@ -495,6 +495,10 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
->>>           } else {
->>>               /* Remove existing FCS */
->>>               tx_len -= 4;
->>> +            if (tx_len < 0) {
->>> +                SONIC_ERROR("tx_len is %d\n", tx_len);
->>> +                break;
->>> +            }
->>>           }
->>>
->>>           if (s->regs[SONIC_RCR] & (SONIC_RCR_LB1 | SONIC_RCR_LB0)) {
->>>
->> Doesn't it make more sense to check 'tx_len >= 4'
->> and skip tx/rx when 'tx_len == 0'?
->>
-> Yes, it makes sense. I thought that skipping tx/rx in case of null
-> 'tx_len' could lead to potential inconsistencies when writing the
-> status or reading the footer of the packet. but I'm not really sure. I
-> can send a new version of the patch if needed, otherwise feel free to
-> apply your changes. Thank you.
+Thank you for noticing that. It`s my mistake when sending patches.
+Everything will be fine in v3.
 
-
-I think we can go with this patch first and tweak on top consider it's 
-near the release. So:
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-Peter, do you want to merge this patch?
-
-Thanks
-
-
+>> Currently we have both multi-thread compression and multifd to optimize
+>> live migration in Qemu. Mulit-thread compression deals with the situation
+>> where network bandwith is limited but cpu resource adequate. Multifd instead
+> 
+> Not that typos in the cover letter matter, but this should be 'bandwidth'
 >
->> -- >8 --
->> @@ -488,25 +488,29 @@ static void
->> dp8393x_do_transmit_packets(dp8393xState *s)
->>               }
->>           }
+
+Yes, I will fix that.
+
+>> aims to take full advantage of network bandwith. Moreover it supports both
+>> zlib and zstd compression on each channel.
 >>
->> -        /* Handle Ethernet checksum */
->> -        if (!(s->regs[SONIC_TCR] & SONIC_TCR_CRCI)) {
->> -            /* Don't append FCS there, to look like slirp packets
->> -             * which don't have one */
->> -        } else {
->> -            /* Remove existing FCS */
->> -            tx_len -= 4;
->> +        if (tx_len >= 4) {
->> +            /* Handle Ethernet checksum */
->> +            if (!(s->regs[SONIC_TCR] & SONIC_TCR_CRCI)) {
->> +                /* Don't append FCS there, to look like slirp packets
->> +                 * which don't have one */
->> +            } else {
->> +                /* Remove existing FCS */
->> +                tx_len -= 4;
->> +            }
->>           }
+>> In this patch series, we did some code refactoring on multi-thread compression
+>> live migration and bring zstd compression method support for it.
 >>
->> -        if (s->regs[SONIC_RCR] & (SONIC_RCR_LB1 | SONIC_RCR_LB0)) {
->> -            /* Loopback */
->> -            s->regs[SONIC_TCR] |= SONIC_TCR_CRSL;
->> -            if (nc->info->can_receive(nc)) {
->> -                s->loopback_packet = 1;
->> -                nc->info->receive(nc, s->tx_buffer, tx_len);
->> +        if (tx_len > 0) {
->> +            if (s->regs[SONIC_RCR] & (SONIC_RCR_LB1 | SONIC_RCR_LB0)) {
->> +                /* Loopback */
->> +                s->regs[SONIC_TCR] |= SONIC_TCR_CRSL;
->> +                if (nc->info->can_receive(nc)) {
->> +                    s->loopback_packet = 1;
->> +                    nc->info->receive(nc, s->tx_buffer, tx_len);
->> +                }
->> +            } else {
->> +                /* Transmit packet */
->> +                qemu_send_packet(nc, s->tx_buffer, tx_len);
->>               }
->> -        } else {
->> -            /* Transmit packet */
->> -            qemu_send_packet(nc, s->tx_buffer, tx_len);
->>           }
->>           s->regs[SONIC_TCR] |= SONIC_TCR_PTX;
+>> Below is the test result of multi-thread compression live migration
+>> with different compress methods. Test result shows that zstd outperforms
+>> zlib by about 70%.
 >>
->> ---
->>
-> Regards,
+> 
 
 
