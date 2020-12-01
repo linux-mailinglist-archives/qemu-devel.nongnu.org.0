@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1692A2C9F0C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:23:30 +0100 (CET)
-Received: from localhost ([::1]:35354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCEB2C9F14
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:25:18 +0100 (CET)
+Received: from localhost ([::1]:37530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk2oi-0005s1-Ke
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:23:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37544)
+	id 1kk2qT-0006rW-D2
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:25:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kk2nt-0005Qn-OO
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:22:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kk2nq-0007j5-JD
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:22:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606818153;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xCCMudTgos4dhuSy0G/NE4sUkDdAb31Imd0X5mMOsGw=;
- b=Jv31nU6eKfHG6DhxVexfVMVTmjkOIY6j32Ov79fNH4wB5+P+2rBAsa1SeUgZQgjxOFJa/e
- psRl7louXNPaF4yOHzklD8xwNoDBgiwtgNjEF6hhcy0pTk7WRRAnK7Tsx+ufY0KT/NYQGf
- OjBwq6ACdYvriZYXBkjxuMR/q9w/9Es=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-jxevObvCOneDUF7RUJ_Fyw-1; Tue, 01 Dec 2020 05:22:30 -0500
-X-MC-Unique: jxevObvCOneDUF7RUJ_Fyw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ED34192D795;
- Tue,  1 Dec 2020 10:22:11 +0000 (UTC)
-Received: from localhost (ovpn-114-82.ams2.redhat.com [10.36.114.82])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2355660C0F;
- Tue,  1 Dec 2020 10:22:10 +0000 (UTC)
-Date: Tue, 1 Dec 2020 10:22:10 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>
-Subject: Re: Proposal for a regular upstream performance testing
-Message-ID: <20201201102210.GC567514@stefanha-x1.localdomain>
-References: <3a664806-8aa3-feb4-fb30-303d303217a8@redhat.com>
- <20201130132530.GE422962@stefanha-x1.localdomain>
- <35db4764-22c4-521b-d8ee-27ec39aebd3e@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kk2pJ-0006Pv-IP
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:24:05 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:46177)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kk2pH-0008E9-Bm
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:24:05 -0500
+Received: by mail-ed1-x542.google.com with SMTP id b2so2377358edy.13
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 02:24:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jCPKj2aWJYIHgSwBeVP05QHTz4UQSYSjNa+WzJVgECA=;
+ b=cOSPnysnRyDnWFRy8xlFBAEKTJcONWaKUYCjcsDV+upSRSEeMrBCJjvVx54eenVcvK
+ UVhWYMpJeeqy33zDJx13IHfxNNYk2U43P8YzRlf9jaw3FlAyNVXuouKl6fcMvBDtAnhs
+ idMDolrDpBqPF6IPMFw8fK5FdhpLimQkzJNirPfqcAkMp3YL2OyipTE0Z1kywwpyHnmP
+ GKR6PJzn0iGVQbgj8Oxw5p4djAOORJJAeX4E9vELszHLcwi+D0gf1kgM/89ZWO6sLlBy
+ CcOwe1Ddb65rPpaaWDR0d3/FdrcVAk+qL8EFYtwwV7t0KgYowNEKJtCFA5NIVw8FeiP6
+ Z4sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jCPKj2aWJYIHgSwBeVP05QHTz4UQSYSjNa+WzJVgECA=;
+ b=V861hlIf0PCaDuKVFn8Yna5wVJW2ZNLw8xUIpDYl7i84ph1WXak/OKWuyZmPMnwrrl
+ +1EhyzSYRN1Ettcefq0zj0GAuFAMVKSqExTA7Eq4nOGEUiWYQrVOEl35wLirvrwX0UgT
+ p+h+7N4qPQBEnZCCTLWfZkM2BTJiqwUHEyr6+KbSBTJGWkijjqxDtw7rwR+Jbm9OMo27
+ Cr42Ji5N/zkFGs5YScc15sifFNNsZZ3++Hs9qUxdDdZUjhS5NSJhD6tY56ttzJ8MypnV
+ 2UbTQG8vmwePMmLn9U/jeLp9wLD9qf7TO4IuiM38PaMfLXb8yRYhfBMk0/44c2EgYzE+
+ Wblw==
+X-Gm-Message-State: AOAM533fOrqxaoR9mOVsZI6zJgAGjKxWg55C1OaX/taD6SE1QEVcLBH4
+ +DZwsj6dXMzh6tx5BpZHNVeLG6avQVk2pKVtLU4=
+X-Google-Smtp-Source: ABdhPJw3w1k59WxW4PN8f9qF8Ri34TyZVTKXfSGfR6kKc3PMYAwTd21Us91C2nR6SxS7tVZPBQ6EZBrbemFapspVHXg=
+X-Received: by 2002:a05:6402:1155:: with SMTP id
+ g21mr2332810edw.53.1606818241536; 
+ Tue, 01 Dec 2020 02:24:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <35db4764-22c4-521b-d8ee-27ec39aebd3e@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HG+GLK89HZ1zG0kk"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201201095607.23389-1-lma@suse.com>
+In-Reply-To: <20201201095607.23389-1-lma@suse.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 1 Dec 2020 14:23:48 +0400
+Message-ID: <CAJ+F1CLS+xy5Twpi0jwCGse6BvhHYm8ijohrXgM8u0sh3vvY=w@mail.gmail.com>
+Subject: Re: [PATCH v5] qga: Correct loop count in qmp_guest_get_vcpus()
+To: Lin Ma <lma@suse.com>
+Content-Type: multipart/alternative; boundary="00000000000081667805b56486dd"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x542.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,57 +77,380 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Charles Shih <cheshi@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---HG+GLK89HZ1zG0kk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--00000000000081667805b56486dd
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 01, 2020 at 09:05:49AM +0100, Luk=C3=A1=C5=A1 Doktor wrote:
-> Dne 30. 11. 20 v 14:25 Stefan Hajnoczi napsal(a):
-> > On Thu, Nov 26, 2020 at 09:10:14AM +0100, Luk=C3=A1=C5=A1 Doktor wrote:
-> > What is the minimal environment needed for bare metal hosts?
-> >=20
->=20
-> Not sure what you mean by that. For provisioning I have a beaker plugin, =
-other plugins can be added if needed. Even without beaker one can also prov=
-ide an installed machine and skip the provisioning step. Runperf would then=
- only apply the profiles (including fetching the VM images from public sour=
-ces) and run the tests on them. Note that for certain profiles might need t=
-o reboot the machine and in such case the tested machine can not be the one=
- running run-perf, other profiles can use the current machine but it's stil=
-l not a very good idea as the additional overhead might spoil the results.
->=20
-> Note that for a very simple issue which do not require a special setup I =
-am usually just running a custom VM on my laptop and use a Localhost profil=
-e on that VM, which basically results in testing that custom-setup VM's per=
-formance. It's dirty but very fast for the first-level check.
+On Tue, Dec 1, 2020 at 1:56 PM Lin Ma <lma@suse.com> wrote:
 
-I was thinking about reprovisioning the machine to ensure each run
-starts from the same clean state. This requires reprovisioning.
+> The guest-get-vcpus returns incorrect vcpu info in case we hotunplug
+> vcpus(not
+> the last one).
+> e.g.:
+> A VM has 4 VCPUs: cpu0 + 3 hotunpluggable online vcpus(cpu1, cpu2 and
+> cpu3).
+> Hotunplug cpu2,  Now only cpu0, cpu1 and cpu3 are present & online.
+>
+> ./qmp-shell /tmp/qmp-monitor.sock
+> (QEMU) query-hotpluggable-cpus
+> {"return": [
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 3}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/peripheral/cpu3", "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 2}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/peripheral/cpu2", "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 1}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/peripheral/cpu1", "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 0}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/unattached/device[0]", "type": "host-x86_64-cpu"}
+> ]}
+>
+> (QEMU) device_del id=3Dcpu2
+> {"return": {}}
+>
+> (QEMU) query-hotpluggable-cpus
+> {"return": [
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 3}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/peripheral/cpu3", "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 2}, "vcpus-count": =
+1,
+>  "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 1}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/peripheral/cpu1", "type": "host-x86_64-cpu"},
+> {"props": {"core-id": 0, "thread-id": 0, "socket-id": 0}, "vcpus-count": =
+1,
+>  "qom-path": "/machine/unattached/device[0]", "type": "host-x86_64-cpu"}
+> ]}
+>
+> Before:
+> ./qmp-shell -N /tmp/qmp-ga.sock
+> Welcome to the QMP low-level shell!
+> Connected
+> (QEMU) guest-get-vcpus
+> {"return": [
+> {"online": true, "can-offline": false, "logical-id": 0},
+> {"online": true, "can-offline": true, "logical-id": 1}]}
+>
+> After:
+> ./qmp-shell -N /tmp/qmp-ga.sock
+> Welcome to the QMP low-level shell!
+> Connected
+> (QEMU) guest-get-vcpus
+> {"return": [
+> {"online": true, "can-offline": false, "logical-id": 0},
+> {"online": true, "can-offline": true, "logical-id": 1},
+> {"online": true, "can-offline": true, "logical-id": 3}]}
+>
+> Signed-off-by: Lin Ma <lma@suse.com>
+>
 
-Stefan
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
---HG+GLK89HZ1zG0kk
-Content-Type: application/pgp-signature; name="signature.asc"
+---
+>  qga/commands-posix.c | 43 ++++++++++++++-----------------------------
+>  1 file changed, 14 insertions(+), 29 deletions(-)
+>
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index c089e38120..f66bf84126 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -2376,24 +2376,6 @@ error:
+>      return NULL;
+>  }
+>
+> -#define SYSCONF_EXACT(name, errp) sysconf_exact((name), #name, (errp))
+> -
+> -static long sysconf_exact(int name, const char *name_str, Error **errp)
+> -{
+> -    long ret;
+> -
+> -    errno =3D 0;
+> -    ret =3D sysconf(name);
+> -    if (ret =3D=3D -1) {
+> -        if (errno =3D=3D 0) {
+> -            error_setg(errp, "sysconf(%s): value indefinite", name_str);
+> -        } else {
+> -            error_setg_errno(errp, errno, "sysconf(%s)", name_str);
+> -        }
+> -    }
+> -    return ret;
+> -}
+> -
+>  /* Transfer online/offline status between @vcpu and the guest system.
+>   *
+>   * On input either @errp or *@errp must be NULL.
+> @@ -2464,24 +2446,28 @@ static void transfer_vcpu(GuestLogicalProcessor
+> *vcpu, bool sys2vcpu,
+>
+>  GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)
+>  {
+> -    int64_t current;
+>      GuestLogicalProcessorList *head, **link;
+> -    long sc_max;
+> +    const char *cpu_dir =3D "/sys/devices/system/cpu";
+> +    const gchar *line;
+> +    g_autoptr(GDir) cpu_gdir =3D NULL;
+>      Error *local_err =3D NULL;
+>
+> -    current =3D 0;
+>      head =3D NULL;
+>      link =3D &head;
+> -    sc_max =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &local_err);
+> +    cpu_gdir =3D g_dir_open(cpu_dir, 0, NULL);
+> +
+> +    if (cpu_gdir =3D=3D NULL) {
+> +        error_setg_errno(errp, errno, "failed to list entries: %s",
+> cpu_dir);
+> +        return NULL;
+> +    }
+>
+> -    while (local_err =3D=3D NULL && current < sc_max) {
+> +    while (local_err =3D=3D NULL && (line =3D g_dir_read_name(cpu_gdir))=
+ !=3D
+> NULL) {
+>          GuestLogicalProcessor *vcpu;
+>          GuestLogicalProcessorList *entry;
+> -        int64_t id =3D current++;
+> -        char *path =3D g_strdup_printf("/sys/devices/system/cpu/cpu%"
+> PRId64 "/",
+> -                                     id);
+> -
+> -        if (g_file_test(path, G_FILE_TEST_EXISTS)) {
+> +        int64_t id;
+> +        if (sscanf(line, "cpu%ld", &id)) {
+> +            g_autofree char *path =3D
+> g_strdup_printf("/sys/devices/system/cpu/"
+> +                                                    "cpu%" PRId64 "/",
+> id);
+>              vcpu =3D g_malloc0(sizeof *vcpu);
+>              vcpu->logical_id =3D id;
+>              vcpu->has_can_offline =3D true; /* lolspeak ftw */
+> @@ -2491,7 +2477,6 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Erro=
+r
+> **errp)
+>              *link =3D entry;
+>              link =3D &entry->next;
+>          }
+> -        g_free(path);
+>      }
+>
+>      if (local_err =3D=3D NULL) {
+> --
+> 2.26.0
+>
+>
 
------BEGIN PGP SIGNATURE-----
+--=20
+Marc-Andr=C3=A9 Lureau
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/GGVEACgkQnKSrs4Gr
-c8iN+AgAvJyVq19b9PPBDIeaeTR918B+Sn2IBCeyEKH0S7bSgHmWHAxDWp8KaEhH
-H4u6ZXBhFlAjzxSIxaaL+aFK3rvESGvI5Adit+bC932ejifkxm3ljpJGbqA1PQR8
-BN4/KiUYeX/dVBEFXF8JEZuRcbmJEHTLPCbaUuICYfYNNYZYKC5rOnufUG3juJyp
-MBtDir/X7R5oO3Dl/IEIV5O0chaCOVD2kLqmr+NQRspn+7xOnXDuFQCX5xOlqVsk
-iXZdawt7YR4tDVlza0rOz+QHFQGA66QuAJQ2of2oddNvAbBcJh9Ns1h166YMsm9+
-2yjLsliuQAqzlPIkDUQnUgfl/ouYBQ==
-=VZ/k
------END PGP SIGNATURE-----
+--00000000000081667805b56486dd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---HG+GLK89HZ1zG0kk--
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 1, 2020 at 1:56 PM Lin Ma=
+ &lt;<a href=3D"mailto:lma@suse.com">lma@suse.com</a>&gt; wrote:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">The guest-get-vcpus return=
+s incorrect vcpu info in case we hotunplug vcpus(not<br>
+the last one).<br>
+e.g.:<br>
+A VM has 4 VCPUs: cpu0 + 3 hotunpluggable online vcpus(cpu1, cpu2 and cpu3)=
+.<br>
+Hotunplug cpu2,=C2=A0 Now only cpu0, cpu1 and cpu3 are present &amp; online=
+.<br>
+<br>
+./qmp-shell /tmp/qmp-monitor.sock<br>
+(QEMU) query-hotpluggable-cpus<br>
+{&quot;return&quot;: [<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 3}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/peripheral/cpu3&quot;, &quot;typ=
+e&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 2}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/peripheral/cpu2&quot;, &quot;typ=
+e&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 1}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/peripheral/cpu1&quot;, &quot;typ=
+e&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 0}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/unattached/device[0]&quot;, &quo=
+t;type&quot;: &quot;host-x86_64-cpu&quot;}<br>
+]}<br>
+<br>
+(QEMU) device_del id=3Dcpu2<br>
+{&quot;return&quot;: {}}<br>
+<br>
+(QEMU) query-hotpluggable-cpus<br>
+{&quot;return&quot;: [<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 3}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/peripheral/cpu3&quot;, &quot;typ=
+e&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 2}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;type&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 1}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/peripheral/cpu1&quot;, &quot;typ=
+e&quot;: &quot;host-x86_64-cpu&quot;},<br>
+{&quot;props&quot;: {&quot;core-id&quot;: 0, &quot;thread-id&quot;: 0, &quo=
+t;socket-id&quot;: 0}, &quot;vcpus-count&quot;: 1,<br>
+=C2=A0&quot;qom-path&quot;: &quot;/machine/unattached/device[0]&quot;, &quo=
+t;type&quot;: &quot;host-x86_64-cpu&quot;}<br>
+]}<br>
+<br>
+Before:<br>
+./qmp-shell -N /tmp/qmp-ga.sock<br>
+Welcome to the QMP low-level shell!<br>
+Connected<br>
+(QEMU) guest-get-vcpus<br>
+{&quot;return&quot;: [<br>
+{&quot;online&quot;: true, &quot;can-offline&quot;: false, &quot;logical-id=
+&quot;: 0},<br>
+{&quot;online&quot;: true, &quot;can-offline&quot;: true, &quot;logical-id&=
+quot;: 1}]}<br>
+<br>
+After:<br>
+./qmp-shell -N /tmp/qmp-ga.sock<br>
+Welcome to the QMP low-level shell!<br>
+Connected<br>
+(QEMU) guest-get-vcpus<br>
+{&quot;return&quot;: [<br>
+{&quot;online&quot;: true, &quot;can-offline&quot;: false, &quot;logical-id=
+&quot;: 0},<br>
+{&quot;online&quot;: true, &quot;can-offline&quot;: true, &quot;logical-id&=
+quot;: 1},<br>
+{&quot;online&quot;: true, &quot;can-offline&quot;: true, &quot;logical-id&=
+quot;: 3}]}<br>
+<br>
+Signed-off-by: Lin Ma &lt;<a href=3D"mailto:lma@suse.com" target=3D"_blank"=
+>lma@suse.com</a>&gt;<br></blockquote><div><br></div><div>Reviewed-by: Marc=
+-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marca=
+ndre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0qga/commands-posix.c | 43 ++++++++++++++-----------------------------=
+<br>
+=C2=A01 file changed, 14 insertions(+), 29 deletions(-)<br>
+<br>
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
+index c089e38120..f66bf84126 100644<br>
+--- a/qga/commands-posix.c<br>
++++ b/qga/commands-posix.c<br>
+@@ -2376,24 +2376,6 @@ error:<br>
+=C2=A0 =C2=A0 =C2=A0return NULL;<br>
+=C2=A0}<br>
+<br>
+-#define SYSCONF_EXACT(name, errp) sysconf_exact((name), #name, (errp))<br>
+-<br>
+-static long sysconf_exact(int name, const char *name_str, Error **errp)<br=
+>
+-{<br>
+-=C2=A0 =C2=A0 long ret;<br>
+-<br>
+-=C2=A0 =C2=A0 errno =3D 0;<br>
+-=C2=A0 =C2=A0 ret =3D sysconf(name);<br>
+-=C2=A0 =C2=A0 if (ret =3D=3D -1) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (errno =3D=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;sysconf(%=
+s): value indefinite&quot;, name_str);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &q=
+uot;sysconf(%s)&quot;, name_str);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 return ret;<br>
+-}<br>
+-<br>
+=C2=A0/* Transfer online/offline status between @vcpu and the guest system.=
+<br>
+=C2=A0 *<br>
+=C2=A0 * On input either @errp or *@errp must be NULL.<br>
+@@ -2464,24 +2446,28 @@ static void transfer_vcpu(GuestLogicalProcessor *vc=
+pu, bool sys2vcpu,<br>
+<br>
+=C2=A0GuestLogicalProcessorList *qmp_guest_get_vcpus(Error **errp)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 int64_t current;<br>
+=C2=A0 =C2=A0 =C2=A0GuestLogicalProcessorList *head, **link;<br>
+-=C2=A0 =C2=A0 long sc_max;<br>
++=C2=A0 =C2=A0 const char *cpu_dir =3D &quot;/sys/devices/system/cpu&quot;;=
+<br>
++=C2=A0 =C2=A0 const gchar *line;<br>
++=C2=A0 =C2=A0 g_autoptr(GDir) cpu_gdir =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0Error *local_err =3D NULL;<br>
+<br>
+-=C2=A0 =C2=A0 current =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0head =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0link =3D &amp;head;<br>
+-=C2=A0 =C2=A0 sc_max =3D SYSCONF_EXACT(_SC_NPROCESSORS_CONF, &amp;local_er=
+r);<br>
++=C2=A0 =C2=A0 cpu_gdir =3D g_dir_open(cpu_dir, 0, NULL);<br>
++<br>
++=C2=A0 =C2=A0 if (cpu_gdir =3D=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(errp, errno, &quot;failed to =
+list entries: %s&quot;, cpu_dir);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+-=C2=A0 =C2=A0 while (local_err =3D=3D NULL &amp;&amp; current &lt; sc_max)=
+ {<br>
++=C2=A0 =C2=A0 while (local_err =3D=3D NULL &amp;&amp; (line =3D g_dir_read=
+_name(cpu_gdir)) !=3D NULL) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GuestLogicalProcessor *vcpu;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GuestLogicalProcessorList *entry;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 int64_t id =3D current++;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *path =3D g_strdup_printf(&quot;/sys/devi=
+ces/system/cpu/cpu%&quot; PRId64 &quot;/&quot;,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0id);<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (g_file_test(path, G_FILE_TEST_EXISTS)) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 int64_t id;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (sscanf(line, &quot;cpu%ld&quot;, &amp;id))=
+ {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autofree char *path =3D g_strd=
+up_printf(&quot;/sys/devices/system/cpu/&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;cpu%&quot; PRId64 &quot;/&quot;, i=
+d);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vcpu =3D g_malloc0(sizeof *=
+vcpu);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vcpu-&gt;logical_id =3D id;=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vcpu-&gt;has_can_offline =
+=3D true; /* lolspeak ftw */<br>
+@@ -2491,7 +2477,6 @@ GuestLogicalProcessorList *qmp_guest_get_vcpus(Error =
+**errp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*link =3D entry;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0link =3D &amp;entry-&gt;nex=
+t;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(path);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (local_err =3D=3D NULL) {<br>
+-- <br>
+2.26.0<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
+--00000000000081667805b56486dd--
 
