@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860AD2CA784
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 16:56:52 +0100 (CET)
-Received: from localhost ([::1]:47170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D125B2CA78A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 17:00:19 +0100 (CET)
+Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk81L-0002Rm-Js
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 10:56:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41316)
+	id 1kk84g-0005o2-U6
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 11:00:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk80F-0001rj-BM
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:55:43 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:46425)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kk83V-0004EN-GO
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:59:06 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk80D-0007AS-O8
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:55:43 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id b2so3899126edy.13
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 07:55:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kk83O-0008MJ-2v
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:59:05 -0500
+Received: by mail-ot1-x342.google.com with SMTP id f16so2072852otl.11
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 07:58:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HneIVzRro4Qu9ShoRAcYnZlFxbEwFy4eWutfE9LxWJs=;
- b=NGlk0M5N2JLWkKhrSB3m+JFAYhluE0WDAwXlpYTknd9NazRGbPElwP/4q23/FvO2N6
- ZyBAnaeP9nkqWHsaaL69A4dLQdGM/SPhdTRtza1m9dx3EQVrM520zvgIbAOaY2facel5
- 1vXYRmJBFELn1Y/60Wx9ZBGfAlRKg+HfTq0F62xsQ2LQPmhEIOzpFyZQ/FB9G4xmvBPm
- sYT2OdCOOPqiA2otiYYS9uTjvFTUAj2bdskiLHU1KbpfUa15WdvXIxTIIGTJ8h1ln6Hz
- 7Uqvt18RbswN1iRdGul/pHdhIWrFnI2O+CJfA0QHw0ud8JLs2GZ7rC49iboUV43SwXab
- XJHQ==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=kT4blV82+ZRTD4Or5hWLVKblOjgz3AusGOV/ZjlB7tE=;
+ b=xPYmBQjAGmv55b1pI4ptH1KRkBgqrcN13czBKo7CRByhIdrSkXfDRnV2fv7SlM7494
+ 3QL6Im8wOthjf/Xcj/l42SvFJkflPf+OEY44ndIChJHkfwLKSaQ8y5MHaQv5QaoQdUVD
+ mqkdpdDqsuvLJXZpIo8VjCdN3/BRkGl8PND14Ahems4F+Tui0A+hJI9NpzG+tK3FS/CJ
+ TqhkFCnziy9RJ1nqZb+n/igKzPdkLHUcxJcMyLV7GuZUWFx43+z3GFW2TVAphxqINiSQ
+ dxAN1Ue5sxjBwDZExvqBWY19jcNGSkLXzWqdOCQ4JvkO+5f41BPSKV/bI1H3gnrk/VZ1
+ FGwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HneIVzRro4Qu9ShoRAcYnZlFxbEwFy4eWutfE9LxWJs=;
- b=m18zmlmvB/kRuNpLKYl4LndjWngPGwh4EdxmywYhP/NgmsZS35b3tPAw/No/HrS6dw
- i05v0uQffT6F7KxAalxHdCUX1W3vYTGWdYHBx4WZwT7KJePGt/RX+nJJ0LuAc6KQ9QLa
- pwGj3HhR/KrCjelZUw8G4tp79gh0OqUW+frzTWA+r61GY8uAgE3t7FeQNur8GdPI3O0X
- cQMVXNbJvNyRvNfqtFEOOj8y6NOWvzoOgTbIQrP+aJALUISXHSdmNLbgrl0TqUYeWy9h
- ldbCbX3y0Mx4ZX4yRiSM7OYI43R7EeCnzVocGFjiz4aRIh9R6N/oSz5yg48LIuD/3atp
- +vJQ==
-X-Gm-Message-State: AOAM533Tm/HyED9sS9HPW/K2aQ43dVZ/mkyRaO+tzDxNU7Xcn5mp6NGx
- /5zFv87lIsteW56536vTpg7FkQK+ZxvPfn+2QFIGYg==
-X-Google-Smtp-Source: ABdhPJzxurIMdE2NoPLLnSS1bPcY7A07OPdsksAeUcuNfNkgnS2KAjrAGlPnPQ/J8yYDQ4GZfH0Ifhl26TR2J2imEAA=
-X-Received: by 2002:a05:6402:3089:: with SMTP id
- de9mr3702358edb.100.1606838140246; 
- Tue, 01 Dec 2020 07:55:40 -0800 (PST)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kT4blV82+ZRTD4Or5hWLVKblOjgz3AusGOV/ZjlB7tE=;
+ b=hSV4Pg9DnJKJbiMV/j3yylrVxkHLPOwPVspHsoLUxiRB7R7o6H1E//l+M6MvDLQxQp
+ jRMIHZxgwhpcTh1CNRytUTXpiH1bNabd1fBtSk4shF7H0D3hxgX41gSvIf30UKS+gx+a
+ XVvnYjXK4HvJbUeaKrjfH8WS1d61XHydcEbdDPRUiUXa1HFOJGdNjJ67n6oO9Md/r6rH
+ geCqF11amEaphTwe3gLmQKPIKGi65ZRa9+8qL1Ur/wU1ZNOdbNZUcK63CAM0009Iq0OV
+ vXFzoxChRnQUV2jkGWp6vKBMAbaKorjy+k9OOlipA9hHKOWByQOR967+8jptmUpMedw8
+ t4+Q==
+X-Gm-Message-State: AOAM531mvjixh2OHTMvanvQBYjUK2wJFLRgs8OJ7lpKJDnD7j0iTxjcy
+ aO2RbhwN/OCw+WsJa4N038iXd3dgiYqT1n7z
+X-Google-Smtp-Source: ABdhPJwS1d5olJo/7QiecsZCjRi42ecKEfz6Z/nmnJSvosJwbAZ2DqQH6RHRmZlfhpL/ouv6tKOqGg==
+X-Received: by 2002:a9d:2d84:: with SMTP id g4mr2276647otb.212.1606838336594; 
+ Tue, 01 Dec 2020 07:58:56 -0800 (PST)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id r4sm21631otd.66.2020.12.01.07.58.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Dec 2020 07:58:55 -0800 (PST)
+Subject: Re: [PATCH v2 24/28] hw/intc/armv7m_nvic: Fix "return from inactive
+ handler" check
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20201119215617.29887-1-peter.maydell@linaro.org>
+ <20201119215617.29887-25-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <30bcef40-a260-91c3-0693-f017446f4916@linaro.org>
+Date: Tue, 1 Dec 2020 09:58:53 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201125040642.2339476-1-richard.henderson@linaro.org>
-In-Reply-To: <20201125040642.2339476-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Dec 2020 15:55:28 +0000
-Message-ID: <CAFEAcA9XFGbyYfcpoOVhtV_wySi9=DyMGe84C4uwYG14Z6bD6Q@mail.gmail.com>
-Subject: Re: [PATCH for-6.0 00/11] target/arm: enforce alignment
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+In-Reply-To: <20201119215617.29887-25-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,34 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Nov 2020 at 04:06, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> As reported in https://bugs.launchpad.net/bugs/1905356
->
-> Not implementing SCTLR.A, but all of the other required
-> alignment for SCTLR.A=0 in Table A3-1.
+On 11/19/20 3:56 PM, Peter Maydell wrote:
+> In commit 077d7449100d824a4 we added code to handle the v8M
+> requirement that returns from NMI or HardFault forcibly deactivate
+> those exceptions regardless of what interrupt the guest is trying to
+> deactivate.  Unfortunately this broke the handling of the "illegal
+> exception return because the returning exception number is not
+> active" check for those cases.  In the pseudocode this test is done
+> on the exception the guest asks to return from, but because our
+> implementation was doing this in armv7m_nvic_complete_irq() after the
+> new "deactivate NMI/HardFault regardless" code we ended up doing the
+> test on the VecInfo for that exception instead, which usually meant
+> failing to raise the illegal exception return fault.
+> 
+> In the case for "configurable exception targeting the opposite
+> security state" we detected the illegal-return case but went ahead
+> and deactivated the VecInfo anyway, which is wrong because that is
+> the VecInfo for the other security state.
+> 
+> Rearrange the code so that we first identify the illegal return
+> cases, then see if we really need to deactivate NMI or HardFault
+> instead, and finally do the deactivation.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/intc/armv7m_nvic.c | 59 +++++++++++++++++++++++--------------------
+>  1 file changed, 32 insertions(+), 27 deletions(-)
 
-Something in this series breaks the 'make check-acceptance'
-record-and-replay test:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
- (30/40) tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt:
-PASS (9.14 s)
- (31/40) tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_arm_virt:
-INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
-Timeout reached\nOriginal status: ERROR\n{'name':
-'31-tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_arm_virt',
-'logdir': '/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/result...
-(90.19 s)
+r~
 
-The log shows the "recording execution" apparently hanging,
-with the last output from the guest
-[    3.183662] Registering SWP/SWPB emulation handler
 
-thanks
--- PMM
 
