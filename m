@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA2C2CA053
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:50:38 +0100 (CET)
-Received: from localhost ([::1]:35182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04DFF2C9FF9
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:40:27 +0100 (CET)
+Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk3Ez-00054y-Ly
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:50:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41880)
+	id 1kk358-0007hE-1m
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:40:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk305-0002LS-FL
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28719)
+ id 1kk301-0002Dx-H5
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk301-0003os-40
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:13 -0500
+ id 1kk2zz-0003nf-T3
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606818908;
+ s=mimecast20190719; t=1606818906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uQMQmygVLLo56KizHbgMm/0357/uoLkrergt4oaKiKI=;
- b=BcLiDwi8ioyJvgIiO7sjIkk4XwJW6uilNCHt4ozI3RTfiadu5Pa3mPlYeYwqMEL1dzJ+/k
- v/v5vtpMCv3/Cu7/Y0p1pE+N3wbETe+YcbjU0yo9Zf4dkR+S/UzRmG4QvMWkQezqsCM6kB
- UY8o5nnNPewLXIRue9FhJnMqM2AZzA8=
+ bh=WZYXKzO00JVUutQHmW9BkONu+EccXzcyR5d1oJJtjkE=;
+ b=iYIpKmgORPSpcowK7EvL7HLfA/U1mdjYRFgcCUQSx/oJJ3M1NPsxFptGIaet8lhgY1uX/u
+ +XU6BsT0xh72B7Y8U7ZbkVxzEdKdNRxAsMh8o8cRfXP67yZL8wLZ6kDe8CqxIrnRNEaTXI
+ a1iNYt0YF8/hKuVavaSt3up0FeCaXew=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-QrzqBSW4Ov63hf8cappePA-1; Tue, 01 Dec 2020 05:35:04 -0500
-X-MC-Unique: QrzqBSW4Ov63hf8cappePA-1
+ us-mta-35-EM7CAT3-PACRfdnVtYkFuQ-1; Tue, 01 Dec 2020 05:35:05 -0500
+X-MC-Unique: EM7CAT3-PACRfdnVtYkFuQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85351190A7B4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E61399A242;
  Tue,  1 Dec 2020 10:35:03 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F54410023B1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FDE110013C1;
  Tue,  1 Dec 2020 10:35:03 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/32] kernel-doc: fix processing nested structs with
- attributes
-Date: Tue,  1 Dec 2020 05:34:32 -0500
-Message-Id: <20201201103502.4024573-3-pbonzini@redhat.com>
+Subject: [PATCH v2 03/32] kernel-doc: add support for
+ ____cacheline_aligned_in_smp attribute
+Date: Tue,  1 Dec 2020 05:34:33 -0500
+Message-Id: <20201201103502.4024573-4-pbonzini@redhat.com>
 In-Reply-To: <20201201103502.4024573-1-pbonzini@redhat.com>
 References: <20201201103502.4024573-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -86,42 +86,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: André Almeida <andrealmeid@collabora.com>
 
-The current regular expression for strip attributes of structs (and
-for nested ones as well) also removes all whitespaces that may
-surround the attribute. After that, the code will split structs and
-iterate for each symbol separated by comma at the end of struct
-definition (e.g. "} alias1, alias2;"). However, if the nested struct
-does not have any alias and has an attribute, it will result in a
-empty string at the closing bracket (e.g "};"). This will make the
-split return nothing and $newmember will keep uninitialized. Fix
-that, by ensuring that the attribute substitution will leave at least
-one whitespace.
+Subroutine dump_struct uses type attributes to check if the struct
+syntax is valid. Then, it removes all attributes before using it for
+output. `____cacheline_aligned_in_smp` is an attribute that is
+not included in both steps. Add it, since it is used by kernel structs.
 
 Signed-off-by: André Almeida <andrealmeid@collabora.com>
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-2-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-3-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/kernel-doc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 4fbaaa05e3..d6bdb77ceb 100755
+index d6bdb77ceb..2f421b7313 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1103,10 +1103,10 @@ sub dump_struct($$) {
- 	# strip comments:
- 	$members =~ s/\/\*.*?\*\///gos;
- 	# strip attributes
--	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)//gi;
--	$members =~ s/\s*__aligned\s*\([^;]*\)//gos;
--	$members =~ s/\s*__packed\s*//gos;
--	$members =~ s/\s*CRYPTO_MINALIGN_ATTR//gos;
-+	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
-+	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
-+	$members =~ s/\s*__packed\s*/ /gos;
-+	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
+@@ -1092,7 +1092,7 @@ sub dump_struct($$) {
+     my $x = shift;
+     my $file = shift;
+ 
+-    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
++    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
+ 	my $decl_type = $1;
+ 	$declaration_name = $2;
+ 	my $members = $3;
+@@ -1107,6 +1107,7 @@ sub dump_struct($$) {
+ 	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
+ 	$members =~ s/\s*__packed\s*/ /gos;
+ 	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
++	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
  	# replace DECLARE_BITMAP
  	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
  	# replace DECLARE_HASHTABLE
