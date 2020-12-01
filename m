@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4342C94FE
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 03:09:10 +0100 (CET)
-Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B863B2C94FF
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 03:09:48 +0100 (CET)
+Received: from localhost ([::1]:59424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kjv6L-0000yd-5B
-	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 21:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59252)
+	id 1kjv6x-0001dq-OA
+	for lists+qemu-devel@lfdr.de; Mon, 30 Nov 2020 21:09:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kjv4o-0008IL-CM; Mon, 30 Nov 2020 21:07:37 -0500
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:45313)
+ id 1kjv5G-0000LC-Cc; Mon, 30 Nov 2020 21:08:02 -0500
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:39320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kjv4l-0000fV-FV; Mon, 30 Nov 2020 21:07:33 -0500
-Received: by mail-il1-x142.google.com with SMTP id w8so138940ilg.12;
- Mon, 30 Nov 2020 18:07:30 -0800 (PST)
+ id 1kjv5D-0000i8-Ir; Mon, 30 Nov 2020 21:08:02 -0500
+Received: by mail-il1-x143.google.com with SMTP id q1so163069ilt.6;
+ Mon, 30 Nov 2020 18:07:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=5Z2hSp2O6q5Ke7suLS4q1I5G2Enjs6FUHsIRIQ8QpZo=;
- b=JvKVxTHWatw9whjeSJhIiPiS3FFoF+OVKlAT/jnadovlC7rGI4K8xQKKy750pSwApt
- DtBhHXideOVKa6UD2TQL5uFE0AmV/76ZKxuCZ1BWWlMGVR/9pJC4lDwgZLdr0MgBIYvX
- /yxCUECjxN2mU+EqB3zz3hZ0eTtYIXAFy+VeGdyQ/ditUsBCdJAwVT61iAnNkZBDfb2z
- hYed0B1NyNwCX7MKM8BdM9bpDjqVu/8aya222DIR+bGCltTJNJ7uxdOLoXKZ7zZNEBOw
- vhHttGSDX6cCKYSr+ozFgpJcB3dpk7VLPl6SV2WfolmQzM284+ExtmIqIw0jLmrmTSsa
- lOYw==
+ bh=uZN0nLXlO91+Yw50cISTLrm/8RP/MMTCyWtXb3ATsq4=;
+ b=uGvf7TWCZ52QjWpbvYNTy6oKpFlbMTJU3O7P3/ePmoVcPt7DHivYLzOgucZj+Yd5pK
+ WOOWhDIC6F+eMLCpcWKro63mgT1s3BemdVNbwl2Xj50VdgkGAzUT3/yTUi7FOEshL1n2
+ nUrX85oUlGCFeSh6LDVNcbT12p5Ntk976VPosMMnes0gn917kuwvQbGNWpgXy/IDTADl
+ npIWgcV+lWE0Hu3lyGP2u8FRxP3sXt1CDHUHxLW4o9ImtBHiEzCksk8RhWLLayqWP14L
+ WOQt6pBBTNjrLgP2zjcAmTNM/ptTFhs837lV2P6ZmH8oQv5Q85sNqMhRKGZSBOFKTwbW
+ LGjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=5Z2hSp2O6q5Ke7suLS4q1I5G2Enjs6FUHsIRIQ8QpZo=;
- b=hOcSsO2hRwH4kXr3zc54zp9W1Z5vJ1LfNPsDVq4tSAOkG9yADjp1pTz5q7MPOTaPbT
- hpuok6jMQFsXud1gN+muDgDNtSMaupLSzHYy2vo7FAgRVejR5iLJsTUJ+MIF6USmdUF7
- xSKcDq3SitQSDcRm2h772BI78k5MAYLpoXtmPXrO2KoQEknxbrVfLrDMN27r/FpXk9xv
- OHw5bpO142s2HtLCU7FBOWPlrGQo714reoMCcTbFApW4sl5yetZEkVoYDOoWlVxas0Dy
- n6ZepPbKwgPsPy/spoOT1YTlBE2mvbhZL4RFC56NZXUsi8Afdo8uS67QDfuPffflS1CM
- OcFw==
-X-Gm-Message-State: AOAM531LyI8N54b/3WqC50iB57gUQd/M1NTR8+QYw7DOm6jP68/GbHnv
- oZeP/LN6b34JmzQX1slu3IfOIYuCkrD31dINuuwjSJBwD6U=
-X-Google-Smtp-Source: ABdhPJzh3ZXehWvaSwnDc9B5Itwmeakz7c3VJgEBVVUNuNMttL65Jm/6kCIxS00K+thvNGeOtQuFXNELvB52hR+/5qE=
-X-Received: by 2002:a05:6e02:ca5:: with SMTP id 5mr670331ilg.40.1606788450156; 
- Mon, 30 Nov 2020 18:07:30 -0800 (PST)
+ bh=uZN0nLXlO91+Yw50cISTLrm/8RP/MMTCyWtXb3ATsq4=;
+ b=Y7H4xpOI/AqwTlNytWKsyGMjFmFaawJ3XvsdbbNa3mLKoQwF0WTsnY2Mm7kaaLhmZg
+ aSOZHKhcdnIFxTZ7I23Gj+Z8zAj2zeoVcLCREgSTPnB6Pv8Q38+wKcWnchRVYRxTAK1d
+ ZW3pdZOvbwpuGQgKByBas1BeQt8G3/Pzoa9oI+lfAhhCHrLz/zuqzFDbHPhAlKbQam0C
+ 3zUSYLej10IRQ8Hb6ulu1hGP2+86+hDmTFa4wyK8rU++PbLrhLU7wKBgPnKK5nFjFnAv
+ 9n/ZwgvITp94Zdzx+HtnPiRYfxl0awOshySZgMZbfHUKKXoe6pWQrbnd8odpnKhtA92x
+ 5KRw==
+X-Gm-Message-State: AOAM533VlBctwimJCRMd/uxaJZ4gdXhkjMEHumt8us0s7R+saF1NJvJK
+ UZPMc+zHNi9mEoLvEBIsrrFLdFQj1/RWZGFI2TI=
+X-Google-Smtp-Source: ABdhPJxbECXBo2VU6j0HMWuWzwIW3uVfkGOmXxu/Midz/3V9m5ZLhIC3NMcmblxbguXc4gMRpxO6rbPxgwklg/bW7PA=
+X-Received: by 2002:a92:770f:: with SMTP id s15mr625466ilc.227.1606788478247; 
+ Mon, 30 Nov 2020 18:07:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20201124094941.485767-1-f4bug@amsat.org>
- <20201124094941.485767-4-f4bug@amsat.org>
-In-Reply-To: <20201124094941.485767-4-f4bug@amsat.org>
+ <20201124094941.485767-5-f4bug@amsat.org>
+In-Reply-To: <20201124094941.485767-5-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 30 Nov 2020 17:55:13 -0800
-Message-ID: <CAKmqyKOi3KRCTdY3k1ZU=srYt8B7dzOMS9AUKAEME=9XOps8GA@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2? 3/4] hw/arm/xlnx-versal: Add SD bus QOM alias on
- the SoC
+Date: Mon, 30 Nov 2020 17:55:41 -0800
+Message-ID: <CAKmqyKNDjmKK=ZOf1h_cYK31y-A0DzgcMD7oo7ovN=35uKKkXw@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2? 4/4] hw/arm/xilinx_zynq: Add SD bus QOM alias on
+ the machine
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -88,11 +88,11 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 24, 2020 at 1:51 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+On Tue, Nov 24, 2020 at 1:50 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
 > To be able to select a particular SD bus from the command
-> line, add a QOM alias on the SoC (using an unique name).
+> line, add a QOM alias on the machine (using an unique name).
 >
 > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
@@ -102,37 +102,34 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/arm/xlnx-versal.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  hw/arm/xilinx_zynq.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
-> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-> index 12ba6c4ebae..da3ee24a5b9 100644
-> --- a/hw/arm/xlnx-versal.c
-> +++ b/hw/arm/xlnx-versal.c
-> @@ -210,6 +210,7 @@ static void versal_create_sds(Versal *s, qemu_irq *pi=
-c)
->      int i;
->
->      for (i =3D 0; i < ARRAY_SIZE(s->pmc.iou.sd); i++) {
+> diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+> index b72772bc824..6a4a1de88cf 100644
+> --- a/hw/arm/xilinx_zynq.c
+> +++ b/hw/arm/xilinx_zynq.c
+> @@ -286,6 +286,7 @@ static void zynq_init(MachineState *machine)
+>          DriveInfo *di;
+>          BlockBackend *blk;
+>          DeviceState *carddev;
 > +        g_autofree char *bus_name =3D NULL;
->          DeviceState *dev;
->          MemoryRegion *mr;
 >
-> @@ -224,6 +225,10 @@ static void versal_create_sds(Versal *s, qemu_irq *p=
-ic)
->          object_property_set_uint(OBJECT(dev), "uhs", UHS_I, &error_fatal=
-);
->          sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
+>          /* Compatible with:
+>           * - SD Host Controller Specification Version 2.0 Part A2
+> @@ -299,6 +300,11 @@ static void zynq_init(MachineState *machine)
+>          sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, hci_addr);
+>          sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[hci_irq - IRQ_OFF=
+SET]);
 >
-> +        /* Alias controller SD bus to the SoC itself */
-> +        bus_name =3D g_strdup_printf("sd-bus%d", i);
-> +        object_property_add_alias(OBJECT(s), bus_name, OBJECT(dev), "sd-=
-bus");
+> +        /* Alias controller SD bus to the machine itself */
+> +        bus_name =3D g_strdup_printf("sd-bus%d", n);
+> +        object_property_add_alias(OBJECT(machine), bus_name,
+> +                                  OBJECT(dev), "sd-bus");
 > +
->          mr =3D sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
->          memory_region_add_subregion(&s->mr_ps,
->                                      MM_PMC_SD0 + i * MM_PMC_SD0_SIZE, mr=
-);
+>          di =3D drive_get_next(IF_SD);
+>          blk =3D di ? blk_by_legacy_dinfo(di) : NULL;
+>          carddev =3D qdev_new(TYPE_SD_CARD);
 > --
 > 2.26.2
 >
