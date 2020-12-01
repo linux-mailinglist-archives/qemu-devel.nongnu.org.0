@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 386842CA03C
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:47:18 +0100 (CET)
-Received: from localhost ([::1]:52014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDE92CA034
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:47:02 +0100 (CET)
+Received: from localhost ([::1]:51378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk3Bl-0000Mk-9E
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:47:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42062)
+	id 1kk3BV-0008Vw-GQ
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:47:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk30K-0002Ob-K9
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48035)
+ id 1kk30M-0002RY-TB
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk309-0003rT-2v
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:28 -0500
+ id 1kk309-0003rQ-3A
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606818915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Wdy6f88n2LIny//0BmS54CtVFj89l1KsmAMFogQ24V4=;
- b=Klyi7VWbdhNJ1Kmfd40NDsjuzAhllLpIWIEXjQnHItLfmNTbSp8JCpgNve17YGccp5CSZ0
- TdokbL8azigPPuPgGgauQ7CGtVf+ZYIbEPGj70tGlgcNbrtuk44ZYdb7STPWcndTAeN5mT
- BKTNcqRV/aNjZxR39V3IW4C88UZawnI=
+ bh=VkXrc6iYkC+E7KRGBxIBJR/SSDGRT2IvzZaJy0Vyq68=;
+ b=TK+2mWeqXfhqO96MN5myNM+SQTQryBpysXPNldC3IvnIFbqOH7APk+ZIxtt2k5LNn1UXqR
+ TVo0MUZA1IOcRcWlgZKWxfy8fXzVFkW31A4d6YFe8zYUvZldPrcK35jYAsFBPzZ1hNe88i
+ 5phWxpzXMcFWsXecEX7VNqjKg24CXv0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-DLqle5uqOTmekhc6hGMDUw-1; Tue, 01 Dec 2020 05:35:13 -0500
-X-MC-Unique: DLqle5uqOTmekhc6hGMDUw-1
+ us-mta-385-Z9L2rRx9MxCSo5Koc8udjg-1; Tue, 01 Dec 2020 05:35:13 -0500
+X-MC-Unique: Z9L2rRx9MxCSo5Koc8udjg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFC67190A7A4;
- Tue,  1 Dec 2020 10:35:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B23E805BE4;
+ Tue,  1 Dec 2020 10:35:12 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABC8610023B0;
- Tue,  1 Dec 2020 10:35:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1720710013C1;
+ Tue,  1 Dec 2020 10:35:12 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 20/32] scripts: kernel-doc: reimplement -nofunction argument
-Date: Tue,  1 Dec 2020 05:34:50 -0500
-Message-Id: <20201201103502.4024573-21-pbonzini@redhat.com>
+Subject: [PATCH v2 21/32] scripts: kernel-doc: fix typedef identification
+Date: Tue,  1 Dec 2020 05:34:51 -0500
+Message-Id: <20201201103502.4024573-22-pbonzini@redhat.com>
 In-Reply-To: <20201201103502.4024573-1-pbonzini@redhat.com>
 References: <20201201103502.4024573-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -85,150 +85,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Right now, the build system doesn't use -nofunction, as
-it is pretty much useless, because it doesn't consider
-the other output modes (extern, internal), working only
-with all.
+Some typedef expressions are output as normal functions.
 
-Also, it is limited to exclude functions.
+As we need to be clearer about the type with Sphinx 3.x,
+detect such cases.
 
-Re-implement it in order to allow excluding any symbols from
-the document output, no matter what mode is used.
-
-The parameter was also renamed to "-nosymbol", as it express
-better its meaning.
+While here, fix a wrongly-indented block.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-20-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-21-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 44 +++++++++++++++++++++-----------------------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+ scripts/kernel-doc | 64 +++++++++++++++++++++++++++++-----------------
+ 1 file changed, 41 insertions(+), 23 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index f33a4b1cc7..35d60af834 100755
+index 35d60af834..0c31e9ad66 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -66,9 +66,8 @@ Output selection (mutually exclusive):
-   -function NAME	Only output documentation for the given function(s)
- 			or DOC: section title(s). All other functions and DOC:
- 			sections are ignored. May be specified multiple times.
--  -nofunction NAME	Do NOT output documentation for the given function(s);
--			only output documentation for the other functions and
--			DOC: sections. May be specified multiple times.
-+  -nosymbol NAME	Exclude the specified symbols from the output
-+		        documentation. May be specified multiple times.
- 
- Output selection modifiers:
-   -no-doc-sections	Do not output DOC: sections.
-@@ -288,9 +287,8 @@ my $modulename = "Kernel API";
- use constant {
-     OUTPUT_ALL          => 0, # output all symbols and doc sections
-     OUTPUT_INCLUDE      => 1, # output only specified symbols
--    OUTPUT_EXCLUDE      => 2, # output everything except specified symbols
--    OUTPUT_EXPORTED     => 3, # output exported symbols
--    OUTPUT_INTERNAL     => 4, # output non-exported symbols
-+    OUTPUT_EXPORTED     => 2, # output exported symbols
-+    OUTPUT_INTERNAL     => 3, # output non-exported symbols
- };
- my $output_selection = OUTPUT_ALL;
- my $show_not_found = 0;	# No longer used
-@@ -315,6 +313,7 @@ my $man_date = ('January', 'February', 'March', 'April', 'May', 'June',
- # CAVEAT EMPTOR!  Some of the others I localised may not want to be, which
- # could cause "use of undefined value" or other bugs.
- my ($function, %function_table, %parametertypes, $declaration_purpose);
-+my %nosymbol_table = ();
- my $declaration_start_line;
- my ($type, $declaration_name, $return_type);
- my ($newsection, $newcontents, $prototype, $brcount, %source_map);
-@@ -434,10 +433,9 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
- 	$output_selection = OUTPUT_INCLUDE;
- 	$function = shift @ARGV;
- 	$function_table{$function} = 1;
--    } elsif ($cmd eq "nofunction") { # output all except specific functions
--	$output_selection = OUTPUT_EXCLUDE;
--	$function = shift @ARGV;
--	$function_table{$function} = 1;
-+    } elsif ($cmd eq "nosymbol") { # Exclude specific symbols
-+	my $symbol = shift @ARGV;
-+	$nosymbol_table{$symbol} = 1;
-     } elsif ($cmd eq "export") { # only exported symbols
- 	$output_selection = OUTPUT_EXPORTED;
- 	%function_table = ();
-@@ -570,11 +568,11 @@ sub dump_doc_section {
-         return;
+@@ -1748,30 +1748,48 @@ sub dump_function($$) {
+ 	return;
      }
  
-+    return if (defined($nosymbol_table{$name}));
+-	my $prms = join " ", @parameterlist;
+-	check_sections($file, $declaration_name, "function", $sectcheck, $prms);
+-
+-        # This check emits a lot of warnings at the moment, because many
+-        # functions don't have a 'Return' doc section. So until the number
+-        # of warnings goes sufficiently down, the check is only performed in
+-        # verbose mode.
+-        # TODO: always perform the check.
+-        if ($verbose && !$noret) {
+-                check_return_section($file, $declaration_name, $return_type);
+-        }
++    my $prms = join " ", @parameterlist;
++    check_sections($file, $declaration_name, "function", $sectcheck, $prms);
 +
-     if (($output_selection == OUTPUT_ALL) ||
--	($output_selection == OUTPUT_INCLUDE &&
--	 defined($function_table{$name})) ||
--	($output_selection == OUTPUT_EXCLUDE &&
--	 !defined($function_table{$name})))
-+	(($output_selection == OUTPUT_INCLUDE) &&
-+	 defined($function_table{$name})))
-     {
- 	dump_section($file, $name, $contents);
- 	output_blockhead({'sectionlist' => \@sectionlist,
-@@ -800,6 +798,8 @@ sub output_blockhead_rst(%) {
-     my ($parameter, $section);
++    # This check emits a lot of warnings at the moment, because many
++    # functions don't have a 'Return' doc section. So until the number
++    # of warnings goes sufficiently down, the check is only performed in
++    # verbose mode.
++    # TODO: always perform the check.
++    if ($verbose && !$noret) {
++	    check_return_section($file, $declaration_name, $return_type);
++    }
  
-     foreach $section (@{$args{'sectionlist'}}) {
-+	next if (defined($nosymbol_table{$section}));
-+
- 	if ($output_selection != OUTPUT_INCLUDE) {
- 	    print "**$section**\n\n";
- 	}
-@@ -1115,12 +1115,14 @@ sub output_declaration {
-     my $name = shift;
-     my $functype = shift;
-     my $func = "output_${functype}_$output_mode";
-+
-+    return if (defined($nosymbol_table{$name}));
-+
-     if (($output_selection == OUTPUT_ALL) ||
- 	(($output_selection == OUTPUT_INCLUDE ||
- 	  $output_selection == OUTPUT_EXPORTED) &&
- 	 defined($function_table{$name})) ||
--	(($output_selection == OUTPUT_EXCLUDE ||
--	  $output_selection == OUTPUT_INTERNAL) &&
-+	($output_selection == OUTPUT_INTERNAL &&
- 	 !($functype eq "function" && defined($function_table{$name}))))
-     {
- 	&$func(@_);
-@@ -1301,6 +1303,8 @@ sub show_warnings($$) {
- 	my $functype = shift;
- 	my $name = shift;
- 
-+	return 0 if (defined($nosymbol_table{$name}));
-+
- 	return 1 if ($output_selection == OUTPUT_ALL);
- 
- 	if ($output_selection == OUTPUT_EXPORTED) {
-@@ -1324,13 +1328,6 @@ sub show_warnings($$) {
- 			return 0;
- 		}
- 	}
--	if ($output_selection == OUTPUT_EXCLUDE) {
--		if (!defined($function_table{$name})) {
--			return 1;
--		} else {
--			return 0;
--		}
--	}
- 	die("Please add the new output type at show_warnings()");
+-    output_declaration($declaration_name,
+-		       'function',
+-		       {'function' => $declaration_name,
+-			'module' => $modulename,
+-			'functiontype' => $return_type,
+-			'parameterlist' => \@parameterlist,
+-			'parameterdescs' => \%parameterdescs,
+-			'parametertypes' => \%parametertypes,
+-			'sectionlist' => \@sectionlist,
+-			'sections' => \%sections,
+-			'purpose' => $declaration_purpose
+-		       });
++    # The function parser can be called with a typedef parameter.
++    # Handle it.
++    if ($return_type =~ /typedef/) {
++	output_declaration($declaration_name,
++			   'function',
++			   {'function' => $declaration_name,
++			    'typedef' => 1,
++			    'module' => $modulename,
++			    'functiontype' => $return_type,
++			    'parameterlist' => \@parameterlist,
++			    'parameterdescs' => \%parameterdescs,
++			    'parametertypes' => \%parametertypes,
++			    'sectionlist' => \@sectionlist,
++			    'sections' => \%sections,
++			    'purpose' => $declaration_purpose
++			   });
++    } else {
++	output_declaration($declaration_name,
++			   'function',
++			   {'function' => $declaration_name,
++			    'module' => $modulename,
++			    'functiontype' => $return_type,
++			    'parameterlist' => \@parameterlist,
++			    'parameterdescs' => \%parameterdescs,
++			    'parametertypes' => \%parametertypes,
++			    'sectionlist' => \@sectionlist,
++			    'sections' => \%sections,
++			    'purpose' => $declaration_purpose
++			   });
++    }
  }
  
-@@ -1952,6 +1949,7 @@ sub process_export_file($) {
- 
-     while (<IN>) {
- 	if (/$export_symbol/) {
-+	    next if (defined($nosymbol_table{$2}));
- 	    $function_table{$2} = 1;
- 	}
-     }
+ sub reset_state {
 -- 
 2.26.2
 
