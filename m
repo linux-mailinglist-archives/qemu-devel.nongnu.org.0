@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676F12CA2CF
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 13:37:28 +0100 (CET)
-Received: from localhost ([::1]:40204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7AE2CA313
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 13:49:16 +0100 (CET)
+Received: from localhost ([::1]:46302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk4uN-0004qh-Fa
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 07:37:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44862)
+	id 1kk55n-0000Ya-Fz
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 07:49:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kk4t5-0004Bl-3t
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 07:36:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37176)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kk54p-0008VR-Ds
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 07:48:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kk4t2-0003vI-Po
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 07:36:06 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kk54m-0008M7-S9
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 07:48:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606826162;
+ s=mimecast20190719; t=1606826891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Q1AXBgTOwy281yRZQH03edk4lLXG48+v4F+MMyKPSig=;
- b=EgRdv0UqJETRRq4d8i/2Z5bvEn9GhrSrDSGcaqbHjlEmzP5UyILnEd9Cy3Qg53yoBlGnB/
- MGa3fvwjxYxoQO0jZVDT5SZIpbEz/tRg+bAP7Wocp6mXQKTLqcogt0ATTHmPm1aF+wFUMN
- zet1FA0oTOJWwF0AGZMsYiUxF9+jFeY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-hQ_ilX2IMCS3QWj4JqmPpw-1; Tue, 01 Dec 2020 07:36:00 -0500
-X-MC-Unique: hQ_ilX2IMCS3QWj4JqmPpw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 756631E7C5;
- Tue,  1 Dec 2020 12:35:59 +0000 (UTC)
-Received: from localhost (ovpn-114-82.ams2.redhat.com [10.36.114.82])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D84C110013BD;
- Tue,  1 Dec 2020 12:35:58 +0000 (UTC)
-Date: Tue, 1 Dec 2020 12:35:57 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: =?utf-8?B?THVrw6HFoQ==?= Doktor <ldoktor@redhat.com>
-Subject: Re: Proposal for a regular upstream performance testing
-Message-ID: <20201201123557.GD585157@stefanha-x1.localdomain>
-References: <3a664806-8aa3-feb4-fb30-303d303217a8@redhat.com>
- <20201130132530.GE422962@stefanha-x1.localdomain>
- <35db4764-22c4-521b-d8ee-27ec39aebd3e@redhat.com>
- <20201201102210.GC567514@stefanha-x1.localdomain>
- <d6b002c6-2e64-ac17-a301-9dd351fdb3a5@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6p473BSSa0ZsSCqJG0psi+PSIwcU39UTv2RU/R6V1ew=;
+ b=Ejm+JdGPl0gm+RDGRSBS4FLQXTGuNEFvQ1u4xroBuZNt+KY6kEBBMU/uYVa431LyYtT7oE
+ JAJIgnNsJYU4PVH0bZSjtrsp/43yEYm2xp3/4F1CYeLQ7AGlvpyCsYuYoYkMtnQGEB7x+M
+ qAXWCBRl99tfQ40LdhAYCeW37sO+9Bg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-40-r0lbzm49PXS43p7X9MF3KA-1; Tue, 01 Dec 2020 07:48:10 -0500
+X-MC-Unique: r0lbzm49PXS43p7X9MF3KA-1
+Received: by mail-wr1-f69.google.com with SMTP id m2so1005411wro.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 04:48:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=6p473BSSa0ZsSCqJG0psi+PSIwcU39UTv2RU/R6V1ew=;
+ b=kZmUPmgniB9WJJlTpTPVZGTOq23zm9qImLmAKpJ1bj2MQ9XC9Ch2MmpjXn8RH5ozAL
+ f9H3EXpvTPZiObuUjqok5/rQVW1KBKsupbcHVY8XYacDe56XVVlOjHAuXrnOJzW8Og60
+ 5qlwNcZUWBAA4ruKsG5TJq7pBnF75UCjpI46+l6yqXClejTox+xQsXIBQW8p8lyJ0HCb
+ haU7vXZMpZMBflnujCpU3qSH+6wGH6iT563QcqOlp1GvBTnLtb5rNvYJUhefouSHxOIt
+ KeOwAHrcZoLCy4AgbtqEt2z7B9YAX7GmKe2MuZvkWz4UGeO6AVlAvHZbr9fkaIkGEvXf
+ PqWg==
+X-Gm-Message-State: AOAM532M+rky2lB9QUCTFxGaU3NaRzrfCCVvk73GkyU/iSm+IncuViWt
+ jQt+NXphE+xe4NlFZl7m6rj4ZLACHOOnGuxoJ30qJpTNB0dHEZ6nvpQ6UKvoG9w5OBx4v9mkzN/
+ L1OYKKd3tvUhgaqk=
+X-Received: by 2002:a05:600c:242:: with SMTP id
+ 2mr2586794wmj.144.1606826888823; 
+ Tue, 01 Dec 2020 04:48:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzAeJoqWYMHJKbdv+2YabK2O5fgWYMnbcxMyydyW7070Xjz5QQVosBdWr6zty+jCeU1VFk9XA==
+X-Received: by 2002:a05:600c:242:: with SMTP id
+ 2mr2586775wmj.144.1606826888660; 
+ Tue, 01 Dec 2020 04:48:08 -0800 (PST)
+Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id o83sm2753172wme.21.2020.12.01.04.48.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 01 Dec 2020 04:48:08 -0800 (PST)
+To: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Subject: configure: --extra-cflags are passed along C++ linker via QEMU_LDFLAGS
+Message-ID: <ca9969ca-49f4-b25b-8a4d-f3b89b42d696@redhat.com>
+Date: Tue, 1 Dec 2020 13:48:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <d6b002c6-2e64-ac17-a301-9dd351fdb3a5@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HWvPVVuAAfuRc6SZ"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -82,74 +95,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Charles Shih <cheshi@redhat.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---HWvPVVuAAfuRc6SZ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Tue, Dec 01, 2020 at 01:06:35PM +0100, Luk=C3=A1=C5=A1 Doktor wrote:
-> Dne 01. 12. 20 v 11:22 Stefan Hajnoczi napsal(a):
-> > On Tue, Dec 01, 2020 at 09:05:49AM +0100, Luk=C3=A1=C5=A1 Doktor wrote:
-> > > Dne 30. 11. 20 v 14:25 Stefan Hajnoczi napsal(a):
-> > > > On Thu, Nov 26, 2020 at 09:10:14AM +0100, Luk=C3=A1=C5=A1 Doktor wr=
-ote:
-> > > > What is the minimal environment needed for bare metal hosts?
-> > > >=20
-> > >=20
-> > > Not sure what you mean by that. For provisioning I have a beaker plug=
-in, other plugins can be added if needed. Even without beaker one can also =
-provide an installed machine and skip the provisioning step. Runperf would =
-then only apply the profiles (including fetching the VM images from public =
-sources) and run the tests on them. Note that for certain profiles might ne=
-ed to reboot the machine and in such case the tested machine can not be the=
- one running run-perf, other profiles can use the current machine but it's =
-still not a very good idea as the additional overhead might spoil the resul=
-ts.
-> > >=20
-> > > Note that for a very simple issue which do not require a special setu=
-p I am usually just running a custom VM on my laptop and use a Localhost pr=
-ofile on that VM, which basically results in testing that custom-setup VM's=
- performance. It's dirty but very fast for the first-level check.
-> >=20
-> > I was thinking about reprovisioning the machine to ensure each run
-> > starts from the same clean state. This requires reprovisioning.
-> >=20
-> > Stefan
-> >=20
->=20
-> Sure, I probably shorten it unnecessary too much. In my setup I am using =
-a beaker plugin that reprovisions the machine. As for others they can eithe=
-r use beaker plugin as well or they can just prepare the machine prior to t=
-he execution as described in the previous paragraph.
+I rebased an old series I started more than 1 year ago and tried
+to build it using '../configure --extra-cflags=-Wint-conversion'
+but got:
 
-FWIW I'm not aware of anyone else taking on this work upstream. Whatever
-you can do for upstream will be the QEMU disk/network/etc preformance
-regression testing effort. Someone might show up with engineering time
-and machine resources, but the chance is low.
+cc1plus: error: command-line option ‘-Wint-conversion’ is valid for
+C/ObjC but not for C++ [-Werror]
 
-Stefan
+QEMU_CXXFLAGS are sanitized in update_cxxflags() but when linking
+with the C++ linker the C specific flags are propagated via
+QEMU_LDFLAGS:
 
---HWvPVVuAAfuRc6SZ
-Content-Type: application/pgp-signature; name="signature.asc"
+  --extra-cflags=*) QEMU_CFLAGS="$QEMU_CFLAGS $optarg"
+                    QEMU_LDFLAGS="$QEMU_LDFLAGS $optarg"
+  ;;
+  --extra-cxxflags=*) QEMU_CXXFLAGS="$QEMU_CXXFLAGS $optarg"
+  ;;
+  --extra-ldflags=*) QEMU_LDFLAGS="$QEMU_LDFLAGS $optarg"
+                     EXTRA_LDFLAGS="$optarg"
 
------BEGIN PGP SIGNATURE-----
+Maybe the change comes from commit db5adeaa84d:
+("build-sys: clean up flags included in the linker command line").
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/GOK0ACgkQnKSrs4Gr
-c8ilBAgAh5POE7o+VobDXr1FCiOZ3d4M74WFoJcn2ALak5cFi77tSc88S3XD99qj
-IuOyaxOIXvvzabSiRdVMLbJLG2KsXItc+tTtF3VJ2YohOm6s9thmrpCttaqj+fiq
-Xf8K3mPSzcsIjnE5vHMs9JlXTwVtbKrD0UpFlY99y3v/OY+PAQNA0/IYTKrdxVYO
-+96OUU2vog42M5XI8xjF4gLQsdZOdMikN4jeENtDIFd5IDVJRgoMQTvs4uKbHVGF
-NYlJvmtxAlEI8KJMyfiyZS0jDww/eR6nhlFU4UHHcB87lElgrZhHPyk3O2T2oWfO
-ZuT0+PEGk2bIXegovvMWUclheTseSg==
-=sZvy
------END PGP SIGNATURE-----
+Any suggestion where to filter EXTRA_LDFLAGS for C++?
+Should I add a filtered EXTRA_LDXXFLAGS (similar to QEMU_CXXFLAGS)?
 
---HWvPVVuAAfuRc6SZ--
+Thanks,
+
+Phil.
 
 
