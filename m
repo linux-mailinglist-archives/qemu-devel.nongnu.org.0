@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE7802CA01E
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:41:59 +0100 (CET)
-Received: from localhost ([::1]:34508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF71E2CA09C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:00:01 +0100 (CET)
+Received: from localhost ([::1]:40278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk36d-0001Rj-0B
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:41:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42040)
+	id 1kk3O4-0002Dy-Iu
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:00:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk30I-0002Nx-KT
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53621)
+ id 1kk30N-0002U9-SO
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk307-0003rC-BM
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:26 -0500
+ id 1kk308-0003rO-QO
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606818914;
+ s=mimecast20190719; t=1606818915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2xQpkPILcilVjGBJAZDcOXL4fhbJFhBizJguZe8vEgc=;
- b=Qixs/2V3Hw5OB2xsOG2qRuyErV4tODMnfg/xp0jnfh+8TvoML7ySGIK/3s7pMZq2yy3ZWq
- 0Mzh/xNqfwjyqgt3UD+m6NgoHvJ3DF9yJ3ILGSfntt9DWoHK3NGDVskrRHytffHTWneyQJ
- T6R6XjFQUy6mUVEAYqaKR1rjTcHUopc=
+ bh=YRIkoNqZeWXHR0EnZtaHGymS/XZpyIR+HCZcqdjuTu0=;
+ b=bSK2pUyhUlFdsl7qjpBofp2AwnUQTiAn6LZPZn/EcjzpFvmNKyvbf+9csPliq22OeWeuLV
+ DnGygIkzOpOej32MjORykqicLE6mPa4Phv3iR9srK2fM7g4KLfYychPA4OoxgQktA2YgK8
+ jBycid4BA98JOtY4l9dgrZ2/gh1RIvg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-XWtjqS1aP4uY8ruSGwGWxw-1; Tue, 01 Dec 2020 05:35:10 -0500
-X-MC-Unique: XWtjqS1aP4uY8ruSGwGWxw-1
+ us-mta-172-wsjMW5P2OzWJ19SuNZLWig-1; Tue, 01 Dec 2020 05:35:11 -0500
+X-MC-Unique: wsjMW5P2OzWJ19SuNZLWig-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7239805BE3;
- Tue,  1 Dec 2020 10:35:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51E2E8558E7;
+ Tue,  1 Dec 2020 10:35:10 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 881CA1042A40;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 038DD1042A40;
  Tue,  1 Dec 2020 10:35:09 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/32] Revert "kernel-doc: Use c:struct for Sphinx 3.0 and
- later"
-Date: Tue,  1 Dec 2020 05:34:46 -0500
-Message-Id: <20201201103502.4024573-17-pbonzini@redhat.com>
+Subject: [PATCH v2 17/32] scripts: kernel-doc: make it more compatible with
+ Sphinx 3.x
+Date: Tue,  1 Dec 2020 05:34:47 -0500
+Message-Id: <20201201103502.4024573-18-pbonzini@redhat.com>
 In-Reply-To: <20201201103502.4024573-1-pbonzini@redhat.com>
 References: <20201201103502.4024573-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,14 +59,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,77 +84,156 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 152d1967f650f67b7ece3a5dda77d48069d72647.
-We will replace the commit with the fix from Linux.
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+With Sphinx 3.x, the ".. c:type:" tag was changed to accept either:
+
+	.. c:type:: typedef-like declaration
+	.. c:type:: name
+
+Using it for other types (including functions) don't work anymore.
+
+So, there are newer tags for macro, enum, struct, union, and others,
+which doesn't exist on older versions.
+
+Add a check for the Sphinx version and change the produced tags
+accordingly.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-16-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-17-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/sphinx/kerneldoc.py |  1 -
- scripts/kernel-doc       | 16 +---------------
- 2 files changed, 1 insertion(+), 16 deletions(-)
+ scripts/kernel-doc | 71 ++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 65 insertions(+), 6 deletions(-)
 
-diff --git a/docs/sphinx/kerneldoc.py b/docs/sphinx/kerneldoc.py
-index 9124fcbff1..c0180e02a2 100644
---- a/docs/sphinx/kerneldoc.py
-+++ b/docs/sphinx/kerneldoc.py
-@@ -102,7 +102,6 @@ class KernelDocDirective(Directive):
-                 env.note_dependency(os.path.abspath(f))
-                 cmd += ['-export-file', f]
- 
--        cmd += ['-sphinx-version', sphinx.__version__]
-         cmd += [filename]
- 
-         try:
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index cb603532ed..60f75cd176 100755
+index 60f75cd176..771367a6ab 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -71,8 +71,6 @@ Output selection (mutually exclusive):
- 			DOC: sections. May be specified multiple times.
+@@ -271,6 +271,8 @@ if ($#ARGV == -1) {
+ }
  
- Output selection modifiers:
--  -sphinx-version VER   Generate rST syntax for the specified Sphinx version.
--                        Only works with reStructuredTextFormat.
-   -no-doc-sections	Do not output DOC: sections.
-   -enable-lineno        Enable output of #define LINENO lines. Only works with
-                         reStructuredText format.
-@@ -294,7 +292,6 @@ use constant {
- };
- my $output_selection = OUTPUT_ALL;
- my $show_not_found = 0;	# No longer used
--my $sphinx_version = "0.0"; # if not specified, assume old
+ my $kernelversion;
++my $sphinx_major;
++
+ my $dohighlight = "";
  
- my @export_file_list;
+ my $verbose = 0;
+@@ -465,6 +467,43 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
  
-@@ -460,8 +457,6 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
- 	    $enable_lineno = 1;
-     } elsif ($cmd eq 'show-not-found') {
- 	$show_not_found = 1;  # A no-op but don't fail
--    } elsif ($cmd eq 'sphinx-version') {
--        $sphinx_version = shift @ARGV;
-     } else {
- 	# Unknown argument
-         usage();
-@@ -989,16 +984,7 @@ sub output_struct_rst(%) {
+ # continue execution near EOF;
+ 
++# The C domain dialect changed on Sphinx 3. So, we need to check the
++# version in order to produce the right tags.
++sub findprog($)
++{
++	foreach(split(/:/, $ENV{PATH})) {
++		return "$_/$_[0]" if(-x "$_/$_[0]");
++	}
++}
++
++sub get_sphinx_version()
++{
++	my $ver;
++	my $major = 1;
++
++	my $cmd = "sphinx-build";
++	if (!findprog($cmd)) {
++		my $cmd = "sphinx-build3";
++		return $major if (!findprog($cmd));
++	}
++
++	open IN, "$cmd --version 2>&1 |";
++	while (<IN>) {
++		if (m/^\s*sphinx-build\s+([\d]+)\.([\d\.]+)(\+\/[\da-f]+)?$/) {
++			$major=$1;
++			last;
++		}
++		# Sphinx 1.2.x uses a different format
++		if (m/^\s*Sphinx.*\s+([\d]+)\.([\d\.]+)$/) {
++			$major=$1;
++			last;
++		}
++	}
++	close IN;
++
++	return $major;
++}
++
+ # get kernel version from env
+ sub get_kernel_version() {
+     my $version = 'unknown kernel version';
+@@ -848,7 +887,11 @@ sub output_function_rst(%) {
+     my $start = "";
+ 
+     if ($args{'typedef'}) {
+-	print ".. c:type:: ". $args{'function'} . "\n\n";
++	if ($sphinx_major < 3) {
++	    print ".. c:type:: ". $args{'function'} . "\n\n";
++	} else {
++	    print ".. c:function:: ". $args{'function'} . "\n\n";
++	}
+ 	print_lineno($declaration_start_line);
+ 	print "   **Typedef**: ";
+ 	$lineprefix = "";
+@@ -938,9 +981,14 @@ sub output_enum_rst(%) {
+     my ($parameter);
      my $oldprefix = $lineprefix;
-     my $name = $args{'type'} . " " . $args{'struct'};
+     my $count;
+-    my $name = "enum " . $args{'enum'};
  
--    # Sphinx 3.0 and up will emit warnings for "c:type:: struct Foo".
--    # It wants to see "c:struct:: Foo" (and will add the word 'struct' in
--    # the rendered output).
--    if ((split(/\./, $sphinx_version))[0] >= 3) {
--        my $sname = $name;
--        $sname =~ s/^struct //;
--        print "\n\n.. c:struct:: " . $sname . "\n\n";
--    } else {
--        print "\n\n.. c:type:: " . $name . "\n\n";
--    }
-+    print "\n\n.. c:type:: " . $name . "\n\n";
+-    print "\n\n.. c:type:: " . $name . "\n\n";
++    if ($sphinx_major < 3) {
++	my $name = "enum " . $args{'enum'};
++	print "\n\n.. c:type:: " . $name . "\n\n";
++    } else {
++	my $name = $args{'enum'};
++	print "\n\n.. c:enum:: " . $name . "\n\n";
++    }
      print_lineno($declaration_start_line);
      $lineprefix = "   ";
      output_highlight_rst($args{'purpose'});
+@@ -966,8 +1014,13 @@ sub output_typedef_rst(%) {
+     my %args = %{$_[0]};
+     my ($parameter);
+     my $oldprefix = $lineprefix;
+-    my $name = "typedef " . $args{'typedef'};
++    my $name;
+ 
++    if ($sphinx_major < 3) {
++	$name = "typedef " . $args{'typedef'};
++    } else {
++	$name = $args{'typedef'};
++    }
+     print "\n\n.. c:type:: " . $name . "\n\n";
+     print_lineno($declaration_start_line);
+     $lineprefix = "   ";
+@@ -982,9 +1035,14 @@ sub output_struct_rst(%) {
+     my %args = %{$_[0]};
+     my ($parameter);
+     my $oldprefix = $lineprefix;
+-    my $name = $args{'type'} . " " . $args{'struct'};
+ 
+-    print "\n\n.. c:type:: " . $name . "\n\n";
++    if ($sphinx_major < 3) {
++	my $name = $args{'type'} . " " . $args{'struct'};
++	print "\n\n.. c:type:: " . $name . "\n\n";
++    } else {
++	my $name = $args{'struct'};
++	print "\n\n.. c:struct:: " . $name . "\n\n";
++    }
+     print_lineno($declaration_start_line);
+     $lineprefix = "   ";
+     output_highlight_rst($args{'purpose'});
+@@ -2242,6 +2300,7 @@ sub process_file($) {
+ }
+ 
+ 
++$sphinx_major = get_sphinx_version();
+ $kernelversion = get_kernel_version();
+ 
+ # generate a sequence of code that will splice in highlighting information
 -- 
 2.26.2
 
