@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37E52CA099
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:59:32 +0100 (CET)
-Received: from localhost ([::1]:37870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F102CA098
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:59:29 +0100 (CET)
+Received: from localhost ([::1]:37526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk3Nb-0001EB-R7
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:59:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42222)
+	id 1kk3NY-000153-9Z
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:59:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk30V-0002fs-S2
+ id 1kk30V-0002f9-KN
  for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42343)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk30G-0003sf-Gt
+ id 1kk30I-0003sm-0p
  for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606818919;
@@ -25,30 +25,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lXxgg6srxt7xRfadKq9QJ/nuaQ+cvM/Ydzs2egVLJ+U=;
- b=NNgzh12PZ3j67LDTMn1kCUsBsbczoJqHAVpHv1FqRT6g49fnBJCe0isQo7NqKiNuf7WlUN
- wyGmGLYE/y0I+UbgrDHz0RMZG2bT7NbywETZY4RE0BWdeI5TEou5tC/cGXEgYp+Zh2hXS4
- 0hswp3iqXiqtKOQUUMOmBfMBHiJphUE=
+ bh=DPtg02KBbgeo/fb7I7tYDFfslZ3GmxNcSArYS7E1QLU=;
+ b=A/SQezsvkAQDaApnO1agmZd1pf4bIoJZl5iYh7oH9MjDGd2J+o/io3Sgd0KmBK2aCaWwcO
+ p968bQ+dmsK7O+t6/eGE3IAPW7TSQmLV84udFyw+epXUfm8xKojmPQXt+Dn2ezCdnc4myb
+ hfqgzImz8JgMSmMzTLPYEuK0KefgEBM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-qmQ59T9FNu-tF-vM7V1jAg-1; Tue, 01 Dec 2020 05:35:17 -0500
-X-MC-Unique: qmQ59T9FNu-tF-vM7V1jAg-1
+ us-mta-215-3nwcpq23MvGIO0JfG9UvHg-1; Tue, 01 Dec 2020 05:35:17 -0500
+X-MC-Unique: 3nwcpq23MvGIO0JfG9UvHg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81C29425CB;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB5A2425D6;
  Tue,  1 Dec 2020 10:35:16 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4047E60C0F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B65960BE5;
  Tue,  1 Dec 2020 10:35:16 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 31/32] Revert "docs: temporarily disable the kernel-doc
- extension"
-Date: Tue,  1 Dec 2020 05:35:01 -0500
-Message-Id: <20201201103502.4024573-32-pbonzini@redhat.com>
+Subject: [PATCH v2 32/32] scripts: kernel-doc: remove unnecesssary change wrt
+ Linux
+Date: Tue,  1 Dec 2020 05:35:02 -0500
+Message-Id: <20201201103502.4024573-33-pbonzini@redhat.com>
 In-Reply-To: <20201201103502.4024573-1-pbonzini@redhat.com>
 References: <20201201103502.4024573-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -84,31 +84,34 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit fd68a72875cf318f4310726f842139119c5f45d5.  We're
-done with the update of kernel-doc and we can restore kernel-doc's
-functionality.
+A comment in kernel-doc mentions QEMU's qatomic_set macro, but since
+this code originated in Linux we should just revert it and stay as close
+to the kernel's copy of the script as possible.
 
+The change was introduced (more or less unintentionally) in QEMU commit
+commit d73415a31547, which did a global search-and-replace of QEMU's
+atomic access macros.
+
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/sphinx/kerneldoc.py | 3 ---
- 1 file changed, 3 deletions(-)
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/sphinx/kerneldoc.py b/docs/sphinx/kerneldoc.py
-index 079aadced3..bf44215016 100644
---- a/docs/sphinx/kerneldoc.py
-+++ b/docs/sphinx/kerneldoc.py
-@@ -80,9 +80,6 @@ class KernelDocDirective(Directive):
-         # Tell sphinx of the dependency
-         env.note_dependency(os.path.abspath(filename))
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index b95bae3654..4b19851b2d 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1758,7 +1758,7 @@ sub dump_function($$) {
+     # If you mess with these regexps, it's a good idea to check that
+     # the following functions' documentation still comes out right:
+     # - parport_register_device (function pointer parameters)
+-    # - qatomic_set (macro)
++    # - atomic_set (macro)
+     # - pci_match_device, __copy_to_user (long return type)
  
--        # Disabled temporarily while scripts/kernel-doc is updated
--        return []
--
-         tab_width = self.options.get('tab-width', self.state.document.settings.tab_width)
- 
-         # FIXME: make this nicer and more robust against errors
+     if ($define && $prototype =~ m/^()([a-zA-Z0-9_~:]+)\s+/) {
 -- 
 2.26.2
-
 
 
