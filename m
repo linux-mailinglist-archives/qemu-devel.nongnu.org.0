@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CD52CACC2
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 20:52:37 +0100 (CET)
-Received: from localhost ([::1]:33672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366592CACE5
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 21:02:55 +0100 (CET)
+Received: from localhost ([::1]:45170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkBhU-0003hN-36
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 14:52:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46864)
+	id 1kkBrR-0001Lu-Mb
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 15:02:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konrad.wilk@oracle.com>)
- id 1kkBfa-0002uu-KW
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:50:38 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:41734)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konrad.wilk@oracle.com>)
- id 1kkBfY-0005Cr-19
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:50:38 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B1JnYVl007915;
- Tue, 1 Dec 2020 19:49:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=Q69Ey424+law/0j+BNXvZou9sOTw+IUOj+AXbRiJUio=;
- b=a3wLzYnCzH6xEwPOLC7OArH+5g8Y6clzLah49FgLGeXyQA3xHr2eajypfuKXBlSCO7wm
- 5cxOJnS3Oy/KHSxaxYDHOGZ5+WF9I3KpeVPNypQI6YqR823QWQe1hsA3GjTBcox6yBND
- NrKOuRPqT89lP3Tttzn54zkPb3Gm+92jklefMBhGi0Osj7vpd9S46Adn2C6tUT1BzHl4
- vjbS7fVHK9B1K9AmwZYcqVGBODeu3xMvIyZzV9bkpU4X+ldca522DAc2oonkEihzotFy
- okbfEoGFkNekQEJXhaugq8DXy9uKAFdogSd3zdP/KH8sfJlKb29IgAJLIIw5QPAzaI2Y Dg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 353dyqmgwt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 01 Dec 2020 19:49:54 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B1Jk6mS192892;
- Tue, 1 Dec 2020 19:47:53 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 3540eydtut-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 01 Dec 2020 19:47:53 +0000
-Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B1Jlk7f008260;
- Tue, 1 Dec 2020 19:47:46 GMT
-Received: from char.us.oracle.com (/10.152.32.25)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 01 Dec 2020 11:47:46 -0800
-Received: by char.us.oracle.com (Postfix, from userid 1000)
- id 0492E6A00D6; Tue,  1 Dec 2020 14:49:44 -0500 (EST)
-Date: Tue, 1 Dec 2020 14:49:44 -0500
-From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-To: P J P <ppandit@redhat.com>
-Subject: Re: [PATCH v1 1/1] security-process: update process information
-Message-ID: <20201201194944.GC2246@char.us.oracle.com>
-References: <20201130134907.348505-1-ppandit@redhat.com>
- <20201130134907.348505-2-ppandit@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kkBpl-0000kv-FS
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 15:01:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kkBpe-0000tR-Jv
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 15:01:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606852859;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2Xxe9ZSNt8nlXfpYxghkCByYa4R1uzrSJOXGB4MwP64=;
+ b=etH9pLS9tJCmCBk6F0yLNQne5CG6923UwjPNE9Fw99fnrJJc2jUX6vI2n1T8kQ01Gxz2j7
+ 1o4mUTHOFX656wulSn1EB1/LlD7+CcsMtj78vJqeuuyAy70RiUXD0g6qRcK2RSWcT02MOw
+ 5UbEfZnAgB85Uo/HucDRwWU803UMLmw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-fUv4qNSHMV--Z5bPUTdjSQ-1; Tue, 01 Dec 2020 15:00:57 -0500
+X-MC-Unique: fUv4qNSHMV--Z5bPUTdjSQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82C5D858182;
+ Tue,  1 Dec 2020 20:00:56 +0000 (UTC)
+Received: from work-vm (ovpn-115-1.ams2.redhat.com [10.36.115.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D59B5B4A1;
+ Tue,  1 Dec 2020 20:00:50 +0000 (UTC)
+Date: Tue, 1 Dec 2020 20:00:48 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v4 0/6] UFFD write-tracking migration/snapshots
+Message-ID: <20201201200048.GP4338@work-vm>
+References: <20201126151734.743849-1-andrey.gruzdev@virtuozzo.com>
+ <20201201070820.GO105758@angien.pipo.sk>
+ <f9c53596-912a-0b52-adfe-68afff8799dc@virtuozzo.com>
+ <20201201105300.GQ105758@angien.pipo.sk>
+ <d3b0c767-14d8-b7e7-345d-0314acb3d07e@virtuozzo.com>
+ <20201201185438.GE3277@xz-x1>
 MIME-Version: 1.0
+In-Reply-To: <20201201185438.GE3277@xz-x1>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201130134907.348505-2-ppandit@redhat.com>
-User-Agent: Mutt/1.9.1 (2017-09-22)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9822
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- malwarescore=0 phishscore=0
- suspectscore=0 bulkscore=0 spamscore=0 adultscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012010120
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9822
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- bulkscore=0
- clxscore=1011 mlxscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
- suspectscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012010120
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=konrad.wilk@oracle.com; helo=userp2130.oracle.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- URI_DOTEDU=1.999 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,128 +83,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefano Stabellini <sstabellini@kernel.org>,
- Petr Matousek <pmatouse@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Darren Kenny <darren.kenny@oracle.com>, Michael Roth <michael.roth@amd.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Andrea Arcangeli <aarcange@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Den Lunev <den@openvz.org>, Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 30, 2020 at 07:19:07PM +0530, P J P wrote:
-> From: Prasad J Pandit <pjp@fedoraproject.org>
+* Peter Xu (peterx@redhat.com) wrote:
+> On Tue, Dec 01, 2020 at 02:24:12PM +0300, Andrey Gruzdev wrote:
+> > On 01.12.2020 13:53, Peter Krempa wrote:
+> > > On Tue, Dec 01, 2020 at 11:42:18 +0300, Andrey Gruzdev wrote:
+> > > > On 01.12.2020 10:08, Peter Krempa wrote:
+> > > > > On Thu, Nov 26, 2020 at 18:17:28 +0300, Andrey Gruzdev via wrote:
+> > > > > > This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+> > > 
+> > > [...]
+> > > 
+> > > > > Note that in cases when qemu can't guarantee that the
+> > > > > background_snapshot feature will work it should not advertise it. We
+> > > > > need a way to check whether it's possible to use it, so we can replace
+> > > > > the existing --live flag with it rather than adding a new one and
+> > > > > shifting the problem of checking whether the feature works to the user.
 > 
-> We are about to introduce a qemu-security mailing list to report
-> and triage QEMU security issues.
+> Would it be fine if libvirt just try the new way first anyways?  Since if it
+> will fail, it'll fail right away on any unsupported memory types, then
+> logically the libvirt user may not even notice we've retried.
 > 
-> Update the QEMU security process web page with new mailing list
-> and triage details.
+> Previously I thought it was enough, because so far the kernel does not have a
+> specific flag showing whether such type of memory is supported.  But I don't
+> know whether it would be non-trivial for libvirt to retry like that.
 > 
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> Another solution is to let qemu test the uffd ioctls right after QEMU memory
+> setup, so we know whether background/live snapshot is supported or not with
+> current memory backends.  We should need to try this for every ramblock because
+> I think we can have different types across all the qemu ramblocks.
 
-Thank you for doing it!
+I don't think we actually do that for postcopy; we do some checks like
+checking if we have any hugepages, and if so checking for it's flags.
+But note that we do tie it into migrate_caps_check to fail if you try
+and set the capability.
 
-Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-
-with one change below.
-
-> ---
->  contribute/security-process.md | 134 ++++++++++++++++++++-------------
->  1 file changed, 80 insertions(+), 54 deletions(-)
 > 
-> Update v1: incorporate feedback from review to include more details
->   -> https://lists.nongnu.org/archive/html/qemu-devel/2020-11/msg06234.html
+> > > > > 
+> > > > 
+> > > > Hi,
+> > > > 
+> > > > May be you are using hugetlbfs as memory backend?
+> > > 
+> > > Not exactly hugepages, but I had:
+> > > 
+> > >    <memoryBacking>
+> > >      <access mode='shared'/>
+> > >    </memoryBacking>
+> > > 
+> > > which resulted into the following commandline to instantiate memory:
+> > > 
+> > > -object memory-backend-file,id=pc.ram,mem-path=/var/lib/libvirt/qemu/ram/6-upstream-bj/pc.ram,share=yes,size=33554432000,host-nodes=0,policy=bind \
+> > > 
+> > > When I've removed it I got:
+> > > 
+> > > -object memory-backend-ram,id=pc.ram,size=33554432000,host-nodes=0,policy=bind \
+> > > 
+> > > And the migration didn't fail in my quick test. I'll have a more
+> > > detailed look later, thanks for the pointer.
+> > > 
+> > 
+> > Yep, seems that current userfaultfd supports hugetlbfs and shared memory for
+> > missing pages but not for wr-protected..
 > 
-> diff --git a/contribute/security-process.md b/contribute/security-process.md
-> index 1239967..fe1bc8b 100644
-> --- a/contribute/security-process.md
-> +++ b/contribute/security-process.md
-> @@ -3,43 +3,70 @@ title: Security Process
->  permalink: /contribute/security-process/
->  ---
->  
-> -QEMU takes security very seriously, and we aim to take immediate action to
-> -address serious security-related problems that involve our product.
-> -
-> -Please report any suspected security vulnerability in QEMU to the following
-> -addresses. You can use GPG keys for respective receipients to communicate with
-> -us securely. If you do, please upload your GPG public key or supply it to us
-> -in some other way, so that we can communicate to you in a secure way, too!
-> -Please include the tag **\[QEMU-SECURITY\]** on the subject line to help us
-> -identify your message as security-related. 
-> -
-> -## QEMU Security Contact List
-> -
-> -Please copy everyone on this list:
-> -
-> - Contact Person(s)	| Contact Address		| Company	|  GPG Key  | GPG key fingerprint
-> -:-----------------------|:------------------------------|:--------------|:---------:|:--------------------
-> - Michael S. Tsirkin	| mst@redhat.com		| Red Hat Inc.	| [&#x1f511;](https://pgp.mit.edu/pks/lookup?op=vindex&search=0xC3503912AFBE8E67) | 0270 606B 6F3C DF3D 0B17 0970 C350 3912 AFBE 8E67
-> - Petr Matousek		| pmatouse@redhat.com		| Red Hat Inc.	| [&#x1f511;](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x3E786F42C44977CA) | 8107 AF16 A416 F9AF 18F3 D874 3E78 6F42 C449 77CA
-> - Stefano Stabellini	| sstabellini@kernel.org 	| Independent	| [&#x1f511;](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x894F8F4870E1AE90) | D04E 33AB A51F 67BA 07D3 0AEA 894F 8F48 70E1 AE90
-> - Security Response Team | secalert@redhat.com		| Red Hat Inc.	| [&#x1f511;](https://access.redhat.com/site/security/team/contact/#contact) |
-> - Michael Roth		| michael.roth@amd.com	| AMD		| [&#x1f511;](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x3353C9CEF108B584) | CEAC C9E1 5534 EBAB B82D 3FA0 3353 C9CE F108 B584
-> - Prasad J Pandit 	| pjp@redhat.com		| Red Hat Inc.	| [&#x1f511;](http://pool.sks-keyservers.net/pks/lookup?op=vindex&search=0xE2858B5AF050DE8D) | 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D 
-> -
-> -## How to Contact Us Securely
-> -
-> -We use GNU Privacy Guard (GnuPG or GPG) keys to secure communications. Mail
-> -sent to members of the list can be encrypted with public keys of all members
-> -of the list. We expect to change some of the keys we use from time to time.
-> -Should a key change, the previous one will be revoked.
-> -
-> -## How we respond
-> -
-> -Maintainers listed on the security reporting list operate a policy of
-> -responsible disclosure. As such they agree that any information you share with
-> -them about security issues that are not public knowledge is kept confidential
-> -within respective affiliated companies. It is not passed on to any third-party,
-> -including Xen Security Project, without your permission.
-> +Please report any suspected security issue in QEMU to the security mailing
-> +list at:
-> +
-> +* [\<qemu-security@nongnu.org\>](https://lists.gnu.org/archive/html/qemu-security/)
-> +
-> +To report an issue via [GPG](https://gnupg.org/) encrypted email, please send
-> +it to the Red Hat Product Security team at:
-> +
-> +* [\<secalert@redhat.com\>](https://access.redhat.com/security/team/contact/#contact)
-> +
-> +**Note:** after the triage, encrypted issue details shall be sent to the upstream
-> +'qemu-security' mailing list for archival purposes.
-> +
-> +## How to report an issue:
-> +
-> +* Please include as many details as possible in the issue report.
-> +  Ex:
-> +    - QEMU version, upstream commit/tag
-> +    - Host & Guest architecture x86/Arm/PPC, 32/64 bit etc.
-> +    - Affected code area/snippets
-> +    - Stack traces, crash details
-> +    - Malicious inputs/reproducer steps etc.
-> +    - Any configurations/settings required to trigger the issue.
-> +
-> +* Please share the QEMU command line used to invoke a guest VM.
-> +
-> +* Please specify whom to acknowledge for reporting this issue.
-> +
-> +## How we respond:
-> +
-> +* Process of handling security issues can be divided in two halves.
-> +
-> +  1) **Triage:**
-> +    - Examine the issue details and confirm whether the issue is genuine
-> +    - Validate if it can be misused for malicious purposes
-> +    - Determine its worst case impact and severity
-> +      [Low/Moderate/Important/Critical]
-> +
-> +  2) **Response:**
-> +    - Negotiate embargo timeline (if required, depending on severity)
-> +    - Request a CVE and open an upstream
-> +      [bug](https://bugs.launchpad.net/qemu/+bug/)
-> +      or a [GitLab](https://gitlab.com/groups/qemu-project/-/issues) issue
+> Correct.  Btw, I'm working on both of them recently.  I have a testing kernel
+> branch, but I don't think it should affect our qemu work, though, since qemu
+> should do the same irrelevant of the memory type.  We can just test with
+> anonymous memories, and as long as it works, it should work perfectly on all
+> the rest of backends (maybe even for other file-backed memory, more below).
+> 
+> > 
+> > > > I totally agree that we need somehow check that kernel and VM memory backend
+> > > > support the feature before one can enable the capability.
+> > > > Need to think about that..
+> > > 
+> > > Definitely. Also note that memory backed by memory-backend-file will be
+> > > more and more common, for cases such as virtiofs DAX sharing and
+> > > similar.
+> > > 
+> > 
+> > I see.. That needs support from kernel side, so far 'background-snapshots'
+> > are incompatible with memory-backend-file sharing.
+> 
+> Yes.  So as mentioned, shmem/hugetlbfs should be WIP, but I haven't thought
+> about the rest yet.  Maybe... it's not hard to add uffd-wp for most of the
+> file-backed memory?  Since afaict the kernel handles wr-protect in a quite
+> straightforward way (do_wp_page() for whatever backend), and uffd-wp can be the
+> first to trap all of them.  I'm not sure whether Andrea has thought about that
+> or even on how to spread the missing usage to more types of backends (maybe
+> missing is more special in that it needs to consider page caches).  So I'm
+> copying Andrea too just in case there's further input.
 
-You may want to clarify that this step in the process will not disclose the details of the
-issue to the public. 
+Some would be good; we've got requests for it to work on pmem mmaped
+devices.   You do have to be a little careful about semantics though;
+I'm not sure it's that big of a problem for the wp case, but for the
+absent case you need to worry about finding an equivalent of madvise or
+fallocate that cna punch a hole.
+
+Dave
+
+> Thanks,
+> 
+> -- 
+> Peter Xu
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
