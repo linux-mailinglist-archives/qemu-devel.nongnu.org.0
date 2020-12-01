@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D2E2CA0EA
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:08:31 +0100 (CET)
-Received: from localhost ([::1]:34936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8548A2CA0EC
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:09:45 +0100 (CET)
+Received: from localhost ([::1]:38360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk3WI-0003SY-Jc
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:08:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50230)
+	id 1kk3XU-0004w3-IB
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:09:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kk3Rl-0007qY-9C
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:03:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37645)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kk3Rg-0005Lu-6M
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:03:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606820621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lcOj7fkQipCIlpc5MBpXx4VRVwWSoBEvFgRn9IvZnQs=;
- b=VwzwycQQ0KsH3hsY6IguF00x4G8gXWsNLGWsGABkJ/9wBQVmFXupaM2HHKHW4VsGsg2SEm
- mCSY89BmeblJniBodZpSCbZMz3vaeLfNaZWeBVtbdRv1eBg7zNgfWvVux4QWvwY7pXUgZm
- KEpYs9yl1asyQcHaLCtDjo38R6EG5bE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-PTDgUR51OGqzjinoyqlbcQ-1; Tue, 01 Dec 2020 06:03:39 -0500
-X-MC-Unique: PTDgUR51OGqzjinoyqlbcQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A248B108E1A0;
- Tue,  1 Dec 2020 11:03:37 +0000 (UTC)
-Received: from work-vm (ovpn-115-1.ams2.redhat.com [10.36.115.1])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B9B75D973;
- Tue,  1 Dec 2020 11:03:04 +0000 (UTC)
-Date: Tue, 1 Dec 2020 11:03:02 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Ashish Kalra <Ashish.Kalra@amd.com>
-Subject: Re: [PATCH 01/11] memattrs: add debug attribute
-Message-ID: <20201201110302.GC4338@work-vm>
-References: <cover.1605316268.git.ashish.kalra@amd.com>
- <2ba88b512ec667eff66b2ece2177330a28e657c0.1605316268.git.ashish.kalra@amd.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kk3VT-0003gc-IZ
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:07:39 -0500
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:37928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kk3VR-0006ie-Sa
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:07:39 -0500
+Received: by mail-ed1-x541.google.com with SMTP id y4so2614510edy.5
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 03:07:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=waSweirLMmn+QizrWaAjbHQXDQi/j0PExSKCXfx00jU=;
+ b=LnijrmIXPAVZdORq4wq9ShTdF8pDsOyFrs7xRrNpAetVzfbDH2mlUyWcaXq8U6Tf3P
+ qQVjIl3NGa8TzNk1YtdkDAvZcNuVN1yODLn08qBq+jH/EtGQYmUbnLW1XM8Cq5MrnHGF
+ Nal9bw0mRt005RywzTiyPaIfP7YHlx/wCwla4DHPTXov9yBB5RWqGtHafaxr6iLLGraU
+ NiiHXlHjhU0By/8i+CQSCvePXyDNFj6G/3qFtBg3PaJJ6Vr/RLfrB7Iv7qTyxRBbnYV5
+ DSGxKBvQ3Yanoa1WBpD5VYD0tEwiAzPmxRmK4GiXn81Zfojl4JREA5SO30M2XYcvjoUf
+ DRwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=waSweirLMmn+QizrWaAjbHQXDQi/j0PExSKCXfx00jU=;
+ b=eMmrUBDkNl3blNUpR5j4foIiT/YB+br/kms2EBLp5P1IGlErkv5+QjoVIxSnaYIPID
+ 3rN5sh4kjZ5EtGfUI4kchqTVlBkKBClN9u3Q1RflevuT5Hg19MWWRsuc9FEDOK8s23Jo
+ ne405L4jrZlVBSrcGI4vpfZKEjb6uWD1JRsc8wqsJhpQdZ/ff7sFGho+i8QObsPXojMG
+ uYVgyXu+Zbzl9gvAdox7V6f2qx6QncYqV4TrX/vN+SmytJrRP4mDBNHFd8PCWAz52Erp
+ tIRiaYH1GX9DTbMcrmekh0y50rvtoZeoVk7PqHwy3+LpubrvRXrqiNtkmEH2Zh9t6IEx
+ oKQQ==
+X-Gm-Message-State: AOAM533/f2i3kcjrl3452SHe+S0Bn90aaAqgK6EEA712ZPi5vaRiHIK5
+ J7obuoxvpcajxSManEeeB6N1P9WwtkvWcVfDjblt8w==
+X-Google-Smtp-Source: ABdhPJzpgCris2ZPj4WPm/7wKOejjU3I39p2P1tufFE6wZf1wD/MyApBZMv7CZWKsDAGKC+T/RzX7HzTZ8nzx7iuAIU=
+X-Received: by 2002:a50:fa92:: with SMTP id w18mr2440767edr.44.1606820856147; 
+ Tue, 01 Dec 2020 03:07:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2ba88b512ec667eff66b2ece2177330a28e657c0.1605316268.git.ashish.kalra@amd.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201201103502.4024573-1-pbonzini@redhat.com>
+In-Reply-To: <20201201103502.4024573-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 1 Dec 2020 11:07:25 +0000
+Message-ID: <CAFEAcA9te0Xw0mDCusQLHx4tnQ2ZVXtE8euntLz_zbzNT7WifA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/32] kernel-doc: update from Linux 5.10
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,57 +76,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas.Lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
- kvm@vger.kernel.org, mst@redhat.com, mtosatti@redhat.com,
- ssg.sos.patches@amd.com, qemu-devel@nongnu.org, armbru@redhat.com,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Ashish Kalra (Ashish.Kalra@amd.com) wrote:
-> From: Brijesh Singh <brijesh.singh@amd.com>
-> 
-> From: Brijesh Singh <brijesh.singh@amd.com>
-> 
-> Extend the MemTxAttrs to include a 'debug' flag. The flag can be used as
-> general indicator that operation was triggered by the debugger.
-> 
-> A subsequent patch will set the debug=1 when issuing a memory access
-> from the gdbstub or HMP commands. This is a prerequisite to support
-> debugging an encrypted guest. When a request with debug=1 is seen, the
-> encryption APIs will be used to access the guest memory.
+On Tue, 1 Dec 2020 at 10:35, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> v1->v2: fix bisectability (by disabling kernel-doc altogether)
+>         pass Sphinx version from docs/sphinx/kerneldoc.py
+>         remove unnecessary s/atomic_/qatomic_/ difference
 
-Is this also the flag that would be used for memory dumping?
+Tested-by: Peter Maydell <peter.maydell@linaro.org>
+(build-tested on sphinx 1.6, 2.0, 2.4, 3.0, 3.2).
+It doesn't seem sensible to "review" the upstream kernel
+changes, but I think this is good to apply.
 
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
-> Signed-off-by: Ashish Kalra <ashish.kalra@amd.com>
-> ---
->  include/exec/memattrs.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/exec/memattrs.h b/include/exec/memattrs.h
-> index 95f2d20d55..c8b56389d6 100644
-> --- a/include/exec/memattrs.h
-> +++ b/include/exec/memattrs.h
-> @@ -49,6 +49,8 @@ typedef struct MemTxAttrs {
->      unsigned int target_tlb_bit0 : 1;
->      unsigned int target_tlb_bit1 : 1;
->      unsigned int target_tlb_bit2 : 1;
-> +    /* Memory access request from the debugger */
-> +    unsigned int debug:1;
+(We can update docs/sphinx/kerneldoc.py later I guess.)
 
-It might be good to clarify that this is for QEMU debug features, not
-guest side debug features (e.g. CPU debug facilities/registers)
-
-Dave
-
->  } MemTxAttrs;
->  
->  /* Bus masters which don't specify any attributes will get this,
-> -- 
-> 2.17.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+thanks
+-- PMM
 
