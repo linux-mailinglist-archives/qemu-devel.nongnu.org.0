@@ -2,61 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD5A2CACA5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 20:46:55 +0100 (CET)
-Received: from localhost ([::1]:58012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3C92CAC68
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 20:34:05 +0100 (CET)
+Received: from localhost ([::1]:43336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkBby-0001Qj-JO
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 14:46:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44344)
+	id 1kkBPX-0003FW-TD
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 14:34:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kkBaw-0000va-KT
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:45:51 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kkBal-0003XP-9Y
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:45:45 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5fc69d5e0000>; Tue, 01 Dec 2020 11:45:34 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 1 Dec
- 2020 19:45:34 +0000
-Received: from kwankhede-dev.nvidia.com (10.124.1.5) by mail.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 1 Dec 2020 19:45:31 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <quintela@redhat.com>,
- <dgilbert@redhat.com>, <pbonzini@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v2 1/1] Fix to show vfio migration stat in migration status
-Date: Wed, 2 Dec 2020 00:43:14 +0530
-Message-ID: <1606849994-10625-1-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-X-NVConfidentiality: public
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kkBK3-0007CM-3f
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:28:23 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:50790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kkBK1-0006Ek-Ki
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:28:22 -0500
+Received: by mail-wm1-x344.google.com with SMTP id c198so6132425wmd.0
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 11:28:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uPRexVPkDjCG4AyHRPKefAxhlHzd9mlDS2Ak1Dn5wzA=;
+ b=BVfHjpWkLDqM7nCQK+4Xtiz7bsQjMx04EVMZOwdAhCAOjNp+nWAmsFkkw5Q92/JARF
+ XXSS7ZRmFxuG/YcL/4hrGmg01pL91iHknZER+L2VUueypzhIdJPK26I3/w0S25DZFGpe
+ P7hCBkyB87taCA+K3iV+gRpLxhD4Fk20CzP2IcunjvSHJJ/tGy0ZFjFH1gBrKPw0EwLg
+ 2GxEVKKdfcqA+cKM1LSg4BiN3+caZJyTqUGQeUoYadsCxBuoF8N651cpMacuZ9hsCxG7
+ OvK4Ta9PlR6QgD2XNJDKJ0V6RXGR5365Wdd1XNYLNgU+tjNzkadkmcFVB4MBgPwpOzth
+ jBGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=uPRexVPkDjCG4AyHRPKefAxhlHzd9mlDS2Ak1Dn5wzA=;
+ b=XvQ0D3TwLcafbtQ1y3OneyOqJ3HQGnXa2ih/3mIC3WbCHBwqRfZyKNn7LS519Tctwo
+ 0ZfMffqBvwjDX3g244qSyCR3AFmpjH81lSx4Kf7xw60aTZdjKAYzgtJSre0E5npyW19B
+ Ky3YCUrz7XHl8eKPke5d9fpkvOGcvELWDfyUtz3Z+toa8A1QI0KArchD6EWldxtFwh7f
+ yD+ocjgMd0DdjpMZl7DCBSVBK0FgGnC6cXj/wE+sl+yyeBltGL4ga4LuJBAG1dW7FFNi
+ zCLKNcip/jyR1AFrxJmsGNO5eK8+XszIt1qYhUWzDCZOPdf3b2RET1Q5EpA2bSNapo5Q
+ Gd2Q==
+X-Gm-Message-State: AOAM530WJpjyedw7xnV2vrsW3OJ6jad865oK7nzNGLmSXuzpNUyyLpgf
+ 4kYnvNoTiBzchj++4FJZViNtCRNAVog=
+X-Google-Smtp-Source: ABdhPJx0VX9OVGWI+nH6tMZvaHLTczYXdwgza1FfNb8+2J4PRqrwXaqcyYvJZtiD+qyHF8ETCHgOHw==
+X-Received: by 2002:a7b:c015:: with SMTP id c21mr4227966wmb.79.1606850900269; 
+ Tue, 01 Dec 2020 11:28:20 -0800 (PST)
+Received: from localhost.localdomain (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id r13sm888398wrm.25.2020.12.01.11.28.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Dec 2020 11:28:19 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
+ Huacai Chen <chenhc@lemote.com>
+Subject: [PATCH v3 2/6] linux-user/elfload: Rename MIPS GET_FEATURE() as
+ GET_FEATURE_INSN()
+Date: Tue,  1 Dec 2020 20:28:03 +0100
+Message-Id: <20201201192807.1094919-3-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201201192807.1094919-1-f4bug@amsat.org>
+References: <20201201192807.1094919-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1606851934; bh=kLskcCq40vCeyrVzgaH9DU9vW8DtwcYXVYHieIeOYwo=;
- h=From:To:CC:Subject:Date:Message-ID:X-Mailer:X-NVConfidentiality:
- MIME-Version:Content-Type;
- b=TMFxNfNvthEh9Tb5/Anw2d9azq25y5X5fgB3MnSxKg8pHHzLT4z39TA/ACISLQrae
- sSk8BejpxN0ij5VCyA9Ac8aZhpnfP3d9ZRpJfHDEcmacXByQhZuYSljOkexjnmMwbF
- +Sw4669ReDbPSeuIcnAj03T9Kv4i/cdHmCi2+cIyMHKC31TOPDTISj1s+NhOFro913
- d4rsKKTBrp8P7+X15FFIuvmOZIKynwRVSvmBkxC4YlMGi6vVwYKHlzZOAmOx79mUYa
- 5XJgF1mgSVtKZUQVjMF1fLrEM6YvU2pJ49on+d70NKhbqbsoyUcAN6GDf+afPiuPc/
- Sz+16jxt5Qwxg==
-Received-SPF: pass client-ip=216.228.121.143;
- envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
-X-Spam_score_int: -85
-X-Spam_score: -8.6
-X-Spam_bar: --------
-X-Spam_report: (-8.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,148 +87,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kirti Wankhede <kwankhede@nvidia.com>, dnigam@nvidia.com,
- qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>,
+ Meng Zhuo <mengzhuo1203@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Header file where CONFIG_VFIO is defined is not included in migration.c
-file.
+We want to add macros similar to GET_FEATURE().
+As this one use the 'insn_flags' field, rename it
+GET_FEATURE_INSN().
 
-Moved populate_vfio_info() to hw/vfio/common.c file. Added its stub in
-stubs/vfio.c file. Updated header files and meson file accordingly.
-
-Fixes: 3710586caa5d ("qapi: Add VFIO devices migration stats in Migration
-stats")
-
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/vfio/common.c              | 12 +++++++++++-
- include/hw/vfio/vfio-common.h |  1 -
- include/hw/vfio/vfio.h        |  2 ++
- migration/migration.c         | 16 +---------------
- stubs/meson.build             |  1 +
- stubs/vfio.c                  |  7 +++++++
- 6 files changed, 22 insertions(+), 17 deletions(-)
- create mode 100644 stubs/vfio.c
+ linux-user/elfload.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 6ff1daa763f8..4868c0fef504 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -25,6 +25,7 @@
- #endif
- #include <linux/vfio.h>
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index aae28fd929d..0e1d7e7677c 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -989,7 +989,7 @@ enum {
  
-+#include "qapi/qapi-types-migration.h"
- #include "hw/vfio/vfio-common.h"
- #include "hw/vfio/vfio.h"
- #include "exec/address-spaces.h"
-@@ -292,7 +293,7 @@ const MemoryRegionOps vfio_region_ops = {
-  * Device state interfaces
-  */
+ #define ELF_HWCAP get_elf_hwcap()
  
--bool vfio_mig_active(void)
-+static bool vfio_mig_active(void)
- {
-     VFIOGroup *group;
-     VFIODevice *vbasedev;
-@@ -311,6 +312,15 @@ bool vfio_mig_active(void)
-     return true;
+-#define GET_FEATURE(_flag, _hwcap) \
++#define GET_FEATURE_INSN(_flag, _hwcap) \
+     do { if (cpu->env.insn_flags & (_flag)) { hwcaps |= _hwcap; } } while (0)
+ 
+ static uint32_t get_elf_hwcap(void)
+@@ -997,13 +997,13 @@ static uint32_t get_elf_hwcap(void)
+     MIPSCPU *cpu = MIPS_CPU(thread_cpu);
+     uint32_t hwcaps = 0;
+ 
+-    GET_FEATURE(ISA_MIPS32R6 | ISA_MIPS64R6, HWCAP_MIPS_R6);
+-    GET_FEATURE(ASE_MSA, HWCAP_MIPS_MSA);
++    GET_FEATURE_INSN(ISA_MIPS32R6 | ISA_MIPS64R6, HWCAP_MIPS_R6);
++    GET_FEATURE_INSN(ASE_MSA, HWCAP_MIPS_MSA);
+ 
+     return hwcaps;
  }
  
-+void populate_vfio_info(MigrationInfo *info)
-+{
-+    if (vfio_mig_active()) {
-+        info->has_vfio = true;
-+        info->vfio = g_malloc0(sizeof(*info->vfio));
-+        info->vfio->transferred = vfio_mig_bytes_transferred();
-+    }
-+}
-+
- static bool vfio_devices_all_saving(VFIOContainer *container)
- {
-     VFIOGroup *group;
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 6141162d7aea..cc47bd7d4456 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -205,7 +205,6 @@ extern const MemoryRegionOps vfio_region_ops;
- typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
- extern VFIOGroupList vfio_group_list;
+-#undef GET_FEATURE
++#undef GET_FEATURE_INSN
  
--bool vfio_mig_active(void);
- int64_t vfio_mig_bytes_transferred(void);
+ #endif /* TARGET_MIPS */
  
- #ifdef CONFIG_LINUX
-diff --git a/include/hw/vfio/vfio.h b/include/hw/vfio/vfio.h
-index 86248f54360a..d1e6f4b26f35 100644
---- a/include/hw/vfio/vfio.h
-+++ b/include/hw/vfio/vfio.h
-@@ -4,4 +4,6 @@
- bool vfio_eeh_as_ok(AddressSpace *as);
- int vfio_eeh_as_op(AddressSpace *as, uint32_t op);
- 
-+void populate_vfio_info(MigrationInfo *info);
-+
- #endif
-diff --git a/migration/migration.c b/migration/migration.c
-index 87a9b59f83f4..c164594c1d8d 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -56,10 +56,7 @@
- #include "net/announce.h"
- #include "qemu/queue.h"
- #include "multifd.h"
--
--#ifdef CONFIG_VFIO
--#include "hw/vfio/vfio-common.h"
--#endif
-+#include "hw/vfio/vfio.h"
- 
- #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
- 
-@@ -1041,17 +1038,6 @@ static void populate_disk_info(MigrationInfo *info)
-     }
- }
- 
--static void populate_vfio_info(MigrationInfo *info)
--{
--#ifdef CONFIG_VFIO
--    if (vfio_mig_active()) {
--        info->has_vfio = true;
--        info->vfio = g_malloc0(sizeof(*info->vfio));
--        info->vfio->transferred = vfio_mig_bytes_transferred();
--    }
--#endif
--}
--
- static void fill_source_migration_info(MigrationInfo *info)
- {
-     MigrationState *s = migrate_get_current();
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 82b7ba60abe5..909956674847 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -53,3 +53,4 @@ if have_system
-   stub_ss.add(files('semihost.c'))
-   stub_ss.add(files('xen-hw-stub.c'))
- endif
-+stub_ss.add(files('vfio.c'))
-diff --git a/stubs/vfio.c b/stubs/vfio.c
-new file mode 100644
-index 000000000000..9cc8753cd102
---- /dev/null
-+++ b/stubs/vfio.c
-@@ -0,0 +1,7 @@
-+#include "qemu/osdep.h"
-+#include "qapi/qapi-types-migration.h"
-+#include "hw/vfio/vfio.h"
-+
-+void populate_vfio_info(MigrationInfo *info)
-+{
-+}
 -- 
-2.7.0
+2.26.2
 
 
