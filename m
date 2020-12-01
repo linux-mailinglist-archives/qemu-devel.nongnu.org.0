@@ -2,80 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B932B2CAFDF
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 23:18:26 +0100 (CET)
-Received: from localhost ([::1]:56862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 695872CAFE7
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 23:24:19 +0100 (CET)
+Received: from localhost ([::1]:37164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkDyb-0002h1-9G
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 17:18:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33950)
+	id 1kkE4I-0006x3-0s
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 17:24:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kkDxA-0001z0-7T
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 17:16:56 -0500
-Received: from mail-oo1-xc2e.google.com ([2607:f8b0:4864:20::c2e]:37144)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kkDx8-0006Nj-0P
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 17:16:55 -0500
-Received: by mail-oo1-xc2e.google.com with SMTP id t23so799028oov.4
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 14:16:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xDh0Zx0mBv8xm9nrH4FSZIw5vJhBZ0OrId00N6Xy1QY=;
- b=sBb6OotXzvZxhfHPtuKuWtqmDmZq57FV5SLMo+yCGHZ6s51RBbWSLT8TfxmKucD7i3
- vu8c8649hJSzvHdm8nsnkBfEWxsd8rH4auBqxS5kwkDgdVNglSzb/zBNZ3xcUeJ4CERE
- UZwXsS9kK0C6BvZIxrHav8jo2Luuc207Tbdrq1lmnkilQSnq6d4ZqcfWxSc47YYRQiCs
- HmcJIlRxoWjlLCtd60xGplId1z4knUNojJfnAp/UWQTrZcl3ft8uPFuPn7FaEVV5J+6d
- A4cni1RPIBm75UeJVWU3lwKtk85yCaeiL4+ghR7LZQTzPvD2ZPvAqetJG9MUafWcx25d
- gp9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xDh0Zx0mBv8xm9nrH4FSZIw5vJhBZ0OrId00N6Xy1QY=;
- b=tRdGhUs8sklpWbweRl6cthFypb+hTyL3MNO6JprCAXAxabRABgVn+AJRbBMVokfOe4
- YJ/w02ngqv6YTBFJyewsMfn05pIfM69Gmb3iC7h279PSPm13IE/I3SC5rm5RdnFhTkZ6
- 0NdVSvxoTtl0smwYM/vxRK4YLfdZA2buczBq93sRXb5aGhTVxh9/harIlMDWHEtd/G7k
- z9vFCfwH/aH5ex3Y7UPKvjOT82mAXvDnZPC8kcQr5F/v96r0NMc3zHSdkIxeTJNJ5/2p
- Ew2DCFY0QIGrxjR7FFb43WBwHdidni3RrhxWAxoa5s+OnwOAn+5WOwUsjSaKniyuMvh4
- oOQw==
-X-Gm-Message-State: AOAM530tJjn1tYI7sM+Kk8qx7vnN4QmFvmhTBSJdgSGnk8NiTaC8wGOk
- ud5XIuHA+rSkJAIxs6klgBHUNQ==
-X-Google-Smtp-Source: ABdhPJyer4WuH6k+9QxwZY4zE0+qV0Ll3GoFozzcYhZX82dXqy2x1/3GjdBpZruOKEBwZ46q0Zl7ng==
-X-Received: by 2002:a4a:7055:: with SMTP id b21mr3475556oof.66.1606861012479; 
- Tue, 01 Dec 2020 14:16:52 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id q129sm220202oif.43.2020.12.01.14.16.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Dec 2020 14:16:51 -0800 (PST)
-Subject: Re: [PATCH 05/15] arc: TCG instruction generator and hand-definitions
-To: cupertinomiranda@gmail.com, qemu-devel@nongnu.org
-References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
- <20201111161758.9636-6-cupertinomiranda@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1b75a1e6-481c-1fe0-00b9-518b01fd53bd@linaro.org>
-Date: Tue, 1 Dec 2020 16:16:43 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kkE1x-0005Jz-7J
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 17:21:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kkE1u-0007zC-7y
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 17:21:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606861308;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AVHbILCQsLypCAGfHmK5wLqaUC5ajBuCpCOwuNfb+gQ=;
+ b=Wb5wMCrdcYh79ehHEt7ET1ipO5rB9dBVPy8E89dXhcOuW2GEi8On/RMaTSKmQiQRrHkl1d
+ 9Xl5Ni0DyrdMaVblY6yAM8IVcGQ/4n2W8WmR2tleHmSvTh4cNdCNepwJwekdBlLv4M0iGb
+ y+PAVR53Mf9QpTFv8ZRHi3lh0pyD9rw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-TiF-PWhuPfaOc3ikwwF_vA-1; Tue, 01 Dec 2020 17:21:46 -0500
+X-MC-Unique: TiF-PWhuPfaOc3ikwwF_vA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E53F3E747;
+ Tue,  1 Dec 2020 22:21:44 +0000 (UTC)
+Received: from w520.home (ovpn-112-10.phx2.redhat.com [10.3.112.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D25F5C1B4;
+ Tue,  1 Dec 2020 22:21:39 +0000 (UTC)
+Date: Tue, 1 Dec 2020 15:21:39 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Shenming Lu <lushenming@huawei.com>
+Subject: Re: [PATCH RFC] vfio: Move the saving of the config space to the
+ right place in VFIO migration
+Message-ID: <20201201152139.0a7de6aa@w520.home>
+In-Reply-To: <44d9da84-a5ae-9637-d497-e92c446d04e3@huawei.com>
+References: <20201114091731.157-1-lushenming@huawei.com>
+ <860bd707-8862-2584-6e12-67c86f092dba@nvidia.com>
+ <20201119104127.5e243efa@w520.home>
+ <a7be9306-f800-0323-293e-217e2e9f6015@huawei.com>
+ <20201120150146.5e5693e9@w520.home>
+ <09549a98-85a0-fe4e-59fc-fdb636a4a5cd@huawei.com>
+ <20201123193336.GA32690@nvidia.com>
+ <20201123144622.75a18812@w520.home>
+ <ed6c0920-8a26-fafe-01a6-3021c5a92adb@huawei.com>
+ <20201130100337.4afe8eb4@w520.home>
+ <44d9da84-a5ae-9637-d497-e92c446d04e3@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201111161758.9636-6-cupertinomiranda@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2e;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,303 +90,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudiu Zissulescu <claziss@gmail.com>,
- Shahab Vahedi <shahab.vahedi@gmail.com>, Shahab Vahedi <shahab@synopsys.com>,
- Cupertino Miranda <cmiranda@synopsys.com>, linux-snps-arc@lists.infradead.org,
- Claudiu Zissulescu <claziss@synopsys.com>
+Cc: Neo Jia <cjia@nvidia.com>, Marc Zyngier <maz@kernel.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Eric Auger <eric.auger@redhat.com>, Kirti
+ Wankhede <kwankhede@nvidia.com>, qemu-arm@nongnu.org, yuzenghui@huawei.com,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/11/20 10:17 AM, cupertinomiranda@gmail.com wrote:
-> +/*
-> + * The macro to add boiler plate code for conditional execution.
-> + * It will add tcg_gen codes only if there is a condition to
-> + * be checked (ctx->insn.cc != 0). This macro assumes that there
-> + * is a "ctx" variable of type "DisasCtxt *" in context. Remember
-> + * to pair it with CC_EPILOGUE macro.
-> + */
-> +#define CC_PROLOGUE                                   \
-> +  TCGv cc = tcg_temp_local_new();                     \
-> +  TCGLabel *done = gen_new_label();                   \
-> +  do {                                                \
-> +    if (ctx->insn.cc) {                               \
-> +        arc_gen_verifyCCFlag(ctx, cc);                \
-> +        tcg_gen_brcondi_tl(TCG_COND_NE, cc, 1, done); \
-> +    }                                                 \
-> +  } while (0)
-> +
-> +/*
-> + * The finishing counter part of CC_PROLUGE. This is supposed
-> + * to be put at the end of the function using it.
-> + */
-> +#define CC_EPILOGUE          \
-> +    if (ctx->insn.cc) {      \
-> +        gen_set_label(done); \
-> +    }                        \
-> +    tcg_temp_free(cc)
+On Tue, 1 Dec 2020 14:37:52 +0800
+Shenming Lu <lushenming@huawei.com> wrote:
 
-Why would this need to be boiler-plate?  Why would this not simply exist in
-exactly one location?
+> On 2020/12/1 1:03, Alex Williamson wrote:
+> > On Thu, 26 Nov 2020 14:56:17 +0800
+> > Shenming Lu <lushenming@huawei.com> wrote:
+> >   
+> >> Hi,
+> >>
+> >> After reading everyone's opinions, we have a rough idea for this issue.
+> >>
+> >> One key point is whether it is necessary to setup the config space before
+> >> the device can accept further migration data. I think it is decided by
+> >> the vendor driver, so we can simply ask the vendor driver about it in
+> >> .save_setup, which could avoid a lot of unnecessary copies and settings.
+> >> Once we have known the need, we can iterate the config space (before)
+> >> along with the device migration data in .save_live_iterate and
+> >> .save_live_complete_precopy, and if not needed, we can only migrate the
+> >> config space in .save_state.
+> >>
+> >> Another key point is that the interrupt enabling should be after the
+> >> restoring of the interrupt controller (might not only interrupts).
+> >> My solution is to add a subflag at the beginning of the config data
+> >> (right after VFIO_MIG_FLAG_DEV_CONFIG_STATE) to indicate the triggered
+> >> actions on the dst (such as whether to enable interrupts).
+> >>
+> >> Below is it's workflow.
+> >>
+> >> On the save path:
+> >> 	In vfio_save_setup():
+> >> 	Ask the vendor driver if it needs the config space setup before it
+> >> 	can accept further migration data.  
+> > 
+> > How does "ask the vendor driver" actually work?  
+> 
+> Maybe via a ioctl?
+> Oh, it seems that we have to ask the dst vendor driver (in vfio_load_setup)
+> and send the config data (before) along with the device migration data
+> every time?...
 
-You don't need a tcg_temp_local_new, because the cc value is not used past the
-branch.  You should free the temp immediately after the branch.
+Migration data streams are unidirectional, otherwise we break offline
+migration.  There are various ways other than an ioctl for a vendor
+driver to advertise requirements, ex. a capability on the migration
+region info, but it's not clear to me that we really need this info yet.
 
-> +void gen_goto_tb(DisasContext *ctx, int n, TCGv dest)
-> +{
-> +    tcg_gen_mov_tl(cpu_pc, dest);
-> +    tcg_gen_andi_tl(cpu_pcl, dest, 0xfffffffc);
-> +    if (ctx->base.singlestep_enabled) {
-> +        gen_helper_debug(cpu_env);
-> +    }
-> +    tcg_gen_exit_tb(NULL, 0);
+> >> 		|
+> >> 	In vfio_save_iterate() (pre-copy):
+> >> 	If *needed*, save the config space which would be setup on the dst
+> >> 	before the migration data, but send with a subflag to instruct not
+> >> 	to (such as) enable interrupts.  
+> > 
+> > If not for triggering things like MSI/X configuration, isn't config
+> > space almost entirely virtual?  What visibility does the vendor driver
+> > have to the VM machine dependencies regarding device interrupt versus
+> > interrupt controller migration?  
+> 
+> My thought is that the vendor driver only decides the order of the config
+> space setup and the receiving of the migration data, but leaves the VM
+> machine dependencies to QEMU.
 
-Missing else.  This is dead code for single-step.
+But again, config space is largely virtual, the vendor driver doesn't
+have access to it, it's only the effects of config space, like
+representing the interrupt mode and configuring it on the device or
+specific registers that QEMU writes through that the vendor driver
+sees.  So how is it that the vendor driver decides the order?  The
+vendor driver doesn't have visibility to the VM machine dependencies,
+like when the interrupt controller is sufficiently configured to enable
+device interrupts.  It seems that a vendor driver that depends on QEMU
+enabling interrupts at a specific point is inherently dependent on
+assumptions in the machine configuration.
 
-> +void arc_translate_init(void)
-> +{
-> +    int i;
-> +    static int init_not_done = 1;
-> +
-> +    if (init_not_done == 0) {
-> +        return;
-> +    }
+> >> 		|
+> >> 	In vfio_save_complete_precopy() (stop-and-copy, iterable process):
+> >> 	The same as that in vfio_save_iterate().
+> >> 		|
+> >> 	In .save_state (stop-and-copy, non-iterable process):
+> >> 	If *needed*, only send a subflag to instruct to enable interrupts.
+> >> 	If *not needed*, save the config space and setup everything on the dst.  
+> > 
+> > Again, how does the vendor driver have visibility to know when the VM
+> > machine can enable interrupts?  
+> 
+> It seems troubling if the vendor driver needs the interrupts to be enabled
+> first...
 
-Useless.  This will only be called once.
+Yes.
 
-> +#define ARC_REG_OFFS(x) offsetof(CPUARCState, x)
-> +
-> +#define NEW_ARC_REG(x) \
-> +        tcg_global_mem_new_i32(cpu_env, offsetof(CPUARCState, x), #x)
-> +
-> +    cpu_S1f = NEW_ARC_REG(macmod.S1);
-> +    cpu_S2f = NEW_ARC_REG(macmod.S2);
-> +    cpu_CSf = NEW_ARC_REG(macmod.CS);
-> +
-> +    cpu_Zf  = NEW_ARC_REG(stat.Zf);
-> +    cpu_Lf  = NEW_ARC_REG(stat.Lf);
-> +    cpu_Nf  = NEW_ARC_REG(stat.Nf);
-> +    cpu_Cf  = NEW_ARC_REG(stat.Cf);
-> +    cpu_Vf  = NEW_ARC_REG(stat.Vf);
-> +    cpu_Uf  = NEW_ARC_REG(stat.Uf);
-> +    cpu_DEf = NEW_ARC_REG(stat.DEf);
-> +    cpu_ESf = NEW_ARC_REG(stat.ESf);
-> +    cpu_AEf = NEW_ARC_REG(stat.AEf);
-> +    cpu_Hf  = NEW_ARC_REG(stat.Hf);
-> +    cpu_IEf = NEW_ARC_REG(stat.IEf);
-> +    cpu_Ef  = NEW_ARC_REG(stat.Ef);
-> +
-> +    cpu_is_delay_slot_instruction = NEW_ARC_REG(stat.is_delay_slot_instruction);
-> +
-> +    cpu_l1_Zf = NEW_ARC_REG(stat_l1.Zf);
-> +    cpu_l1_Lf = NEW_ARC_REG(stat_l1.Lf);
-> +    cpu_l1_Nf = NEW_ARC_REG(stat_l1.Nf);
-> +    cpu_l1_Cf = NEW_ARC_REG(stat_l1.Cf);
-> +    cpu_l1_Vf = NEW_ARC_REG(stat_l1.Vf);
-> +    cpu_l1_Uf = NEW_ARC_REG(stat_l1.Uf);
-> +    cpu_l1_DEf = NEW_ARC_REG(stat_l1.DEf);
-> +    cpu_l1_AEf = NEW_ARC_REG(stat_l1.AEf);
-> +    cpu_l1_Hf = NEW_ARC_REG(stat_l1.Hf);
-> +
-> +    cpu_er_Zf = NEW_ARC_REG(stat_er.Zf);
-> +    cpu_er_Lf = NEW_ARC_REG(stat_er.Lf);
-> +    cpu_er_Nf = NEW_ARC_REG(stat_er.Nf);
-> +    cpu_er_Cf = NEW_ARC_REG(stat_er.Cf);
-> +    cpu_er_Vf = NEW_ARC_REG(stat_er.Vf);
-> +    cpu_er_Uf = NEW_ARC_REG(stat_er.Uf);
-> +    cpu_er_DEf = NEW_ARC_REG(stat_er.DEf);
-> +    cpu_er_AEf = NEW_ARC_REG(stat_er.AEf);
-> +    cpu_er_Hf = NEW_ARC_REG(stat_er.Hf);
-> +
-> +    cpu_eret = NEW_ARC_REG(eret);
-> +    cpu_erbta = NEW_ARC_REG(erbta);
-> +    cpu_ecr = NEW_ARC_REG(ecr);
-> +    cpu_efa = NEW_ARC_REG(efa);
-> +    cpu_bta = NEW_ARC_REG(bta);
-> +    cpu_lps = NEW_ARC_REG(lps);
-> +    cpu_lpe = NEW_ARC_REG(lpe);
-> +    cpu_pc = NEW_ARC_REG(pc);
-> +    cpu_npc = NEW_ARC_REG(npc);
-> +
-> +    cpu_bta_l1 = NEW_ARC_REG(bta_l1);
-> +    cpu_bta_l2 = NEW_ARC_REG(bta_l2);
-> +
-> +    cpu_intvec = NEW_ARC_REG(intvec);
-> +
-> +    for (i = 0; i < 64; i++) {
-> +        char name[16];
-> +
-> +        sprintf(name, "r[%d]", i);
-> +
-> +        cpu_r[i] = tcg_global_mem_new_i32(cpu_env,
-> +                                          ARC_REG_OFFS(r[i]),
-> +                                          strdup(name));
-> +    }
-> +
-> +    cpu_gp     = cpu_r[26];
-> +    cpu_fp     = cpu_r[27];
-> +    cpu_sp     = cpu_r[28];
-> +    cpu_ilink1 = cpu_r[29];
-> +    cpu_ilink2 = cpu_r[30];
-> +    cpu_blink  = cpu_r[31];
-> +    cpu_acclo  = cpu_r[58];
-> +    cpu_acchi  = cpu_r[59];
-> +    cpu_lpc    = cpu_r[60];
-> +    cpu_limm   = cpu_r[62];
-> +    cpu_pcl    = cpu_r[63];
+> >> Besides the above idea, we might be able to choose to let the vendor driver do
+> >> more: qemu just sends and writes the config data (before) along with the device
+> >> migration data every time, and it's up to the vendor driver to filter out/buffer
+> >> the received data or reorder the settings...  
+> > 
+> > There is no vendor driver in QEMU though, so are you suggesting that
+> > QEMU follows a standard protocol and the vendor driver chooses when to
+> > enable specific features?  For instance, QEMU would call SET_IRQS and
+> > the driver would return success, but defer that setup if necessary?
+> > That seems quite troubling as we then have ioctls that behave
+> > differently depending on the device state and we have no error path to
+> > userspace should that setup fail later.  The vendor driver does have
+> > its own data stream for migration, so the vendor driver could tell the
+> > destination version of itself what type of interrupt to use, which
+> > might be sufficient if we were to ignore the latency if QEMU were to
+> > defer interrupt setup until stop-and-copy.  
+> 
+> Did you mean that we could only enable MSI-X during the iterable phase, but
+> leave the setup of these unmasked vectors to the non-iterable phase?
+> It looks good to me.
 
-You shouldn't need two pointers to these.  Either use cpu_r[PCL] (preferred) or
-#define cpu_pcl cpu_r[63].
+On x86 the vfio SET_IRQS ioctl is independent of the VM interrupt
+setup, so we could decouple configuring the device interrupts from
+plumbing them through the VM.  However, doesn't ARM64 require mapping
+an MSI doorbell page via vfio?  Where does is that configured during the
+machine load versus the device iterative phase?
 
-You could put all of these into a const static table.
+> > Is the question of when to setup device interrupts versus the interrupt
+> > controller state largely a machine issue within QEMU?  If so, shouldn't
+> > it be at QEMU's determination when to act on the config space
+> > information on the target?  
+> 
+> I think it would be simpler if ensuring the proper calling order in QEMU...
+> 
+> > IOW, if a vendor driver has a dependency on
+> > interrupt configuration, they need to include it in their own pre-copy
+> > data stream and decouple that dependency from userspace interrupt
+> > configuration via the SET_IRQS ioctl.  Is that possible?  Thanks,
+> >   
+> 
+> I don't understand what the decoupling that dependency from userspace
+> interrupt configuration means...
 
-> +static int arc_gen_INVALID(const DisasContext *ctx)
-> +{
-> +    fprintf(stderr, "invalid inst @:%08x\n", ctx->cpc);
+I mean that the vendor driver cannot depend on when QEMU calls
+SET_IRQS, the vendor specific migration stream contains any information
+the vendor driver needs about interrupt configuration such that QEMU
+can call SET_IRQS whenever it chooses.  Thanks,
 
-Never fprintf.  Raise an exception like you're supposed to.
+Alex
 
-> +/* Arrange to middle endian, used by LITTLE ENDIAN systems. */
-> +static uint32_t arc_getm32(uint32_t data)
-> +{
-> +    uint32_t value = 0;
-> +
-> +    value  = (data & 0x0000ffff) << 16;
-> +    value |= (data & 0xffff0000) >> 16;
-> +    return value;
-> +}
-
-This is ror32(data, 16).
-
-> +/* Check if OPR is a register _and_ an even numbered one. */
-> +static inline bool is_odd_numbered_register(const operand_t opr)
-
-comment s/even/odd/.
-
-> +static void add_constant_operand(enum arc_opcode_map mapping,
-> +                                 uint8_t operand_number,
-> +                                 uint32_t value)
-> +{
-> +    struct constant_operands **t = &(map_constant_operands[mapping]);
-> +    while (*t != NULL) {
-> +        t = &((*t)->next);
-> +    }
-> +    *t = (struct constant_operands *) malloc(sizeof(struct constant_operands));
-
-Use g_new, which doesn't require error checking, which is missing here.
-
-That said...
-
-> +static void init_constants(void)
-> +{
-> +#define SEMANTIC_FUNCTION(...)
-> +#define MAPPING(...)
-> +#define CONSTANT(NAME, MNEMONIC, OP_NUM, VALUE) \
-> +  add_constant_operand(MAP_##MNEMONIC##_##NAME, OP_NUM, VALUE);
-> +#include "target/arc/semfunc_mapping.def"
-> +#include "target/arc/extra_mapping.def"
-> +#undef MAPPING
-> +#undef CONSTANT
-> +#undef SEMANTIC_FUNCTION
-> +}
-
-Ew.  Yet another thing that can be done at build time.
-
-> +static TCGv arc_decode_operand(const struct arc_opcode *opcode,
-> +                               DisasContext *ctx,
-> +                               unsigned char nop,
-> +                               enum arc_opcode_map mapping)
-> +{
-> +    TCGv ret;
-> +
-> +    if (nop >= ctx->insn.n_ops) {
-> +        struct constant_operands *co = constant_entry_for(mapping, nop);
-> +        assert(co != NULL);
-> +        ret = tcg_const_local_i32(co->default_value);
-> +        return ret;
-> +    } else {
-> +        operand_t operand = ctx->insn.operands[nop];
-> +
-> +        if (operand.type & ARC_OPERAND_IR) {
-> +            ret = cpu_r[operand.value];
-> +            if (operand.value == 63) {
-> +                tcg_gen_movi_tl(cpu_pcl, ctx->pcl);
-> +            }
-> +      } else {
-
-Really bad indention.
-
-> +            int32_t limm = operand.value;
-> +            if (operand.type & ARC_OPERAND_LIMM) {
-> +                limm = ctx->insn.limm;
-> +                tcg_gen_movi_tl(cpu_limm, limm);
-> +                ret = cpu_r[62];
-> +            } else {
-> +                ret = tcg_const_local_i32(limm);
-> +            }
-> +        }
-> +    }
-> +
-> +  return ret;
-
-Why are you using locals for everything?  Is it because you have no proper
-control over your use of branching?
-
-> +    qemu_log_mask(CPU_LOG_TB_IN_ASM,
-> +                  "CPU in sleep mode, waiting for an IRQ.\n");
-
-Incorrect level at which to log this.
-
-You wanted the logging at runtime, not translate. Which suggests you'd be
-better off moving this entire function to a helper.
-
-> +/* Return from exception. */
-> +static void gen_rtie(DisasContext *ctx)
-> +{
-> +    tcg_gen_movi_tl(cpu_pc, ctx->cpc);
-> +    gen_helper_rtie(cpu_env);
-> +    tcg_gen_mov_tl(cpu_pc, cpu_pcl);
-> +    gen_goto_tb(ctx, 1, cpu_pc);
-> +}
-
-You must return to the main loop here, not goto_tb.  You must return to the
-main loop every time your interrupt mask changes, so that pending interrupts
-may be accepted.
-
-> +    val = ((val << 16) & 0xffff0000) | (val & 0xffff);
-
-  val = deposit32(val, 16, 16, val);
-
-> +static TCGv_i64 dup_limm_to_i64(int32_t limm)
-> +{
-> +    TCGv_i64 vec64 = tcg_temp_new_i64();
-> +    int64_t val = limm;
-> +    val = (val << 32) | (val & 0xffffffff);
-
-  val = deposit64(val, 32, 32, val);
-or
-  val = dup_const(val, MO_32);
-
-> +static TCGv_i64 quad_shimm_to_i64(int16_t shimm)
-> +{
-> +    TCGv_i64 vec64 = tcg_temp_new_i64();
-> +    int64_t val = shimm;
-> +    val = (val << 48) | ((val << 32) & 0x0000ffff00000000) |
-> +          ((val << 16) & 0x00000000ffff0000) | (val & 0xffff);
-
-  val = dup_const(val, MO_16);
-
-> + *    This is a truth table for XNOR(a,b):
-> + *      NOT(XOR(a,b))=XOR(XOR(a,b),1)
-
-Yes, well, XNOR = tcg_gen_eqv_tl, which is what tcg_gen_vec_sub16_i64 uses.
-Unfortunately, we only have 64-bit implementations of these generically.
-
-> +        default:
-> +            arc_debug_opcode(opcode, ctx, "No handle for map opcode");
-> +            g_assert(!"Semantic not handled: Use -d unimp to list it.");
-
-This must raise an exception, or return false, or something.
-
-
-r~
 
