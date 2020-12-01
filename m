@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60B62CA24A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 13:12:58 +0100 (CET)
-Received: from localhost ([::1]:55512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144F22CA248
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 13:12:43 +0100 (CET)
+Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk4Wf-0005T4-Oc
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 07:12:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38628)
+	id 1kk4WP-0005G4-K3
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 07:12:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk4SY-0002eh-DP
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 07:08:42 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:39807)
+ id 1kk4TE-0003Tf-Vm
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 07:09:25 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:40996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk4SW-0003Mv-Pl
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 07:08:42 -0500
-Received: by mail-ej1-x644.google.com with SMTP id pg6so3614219ejb.6
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 04:08:40 -0800 (PST)
+ id 1kk4TC-0003eO-FH
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 07:09:24 -0500
+Received: by mail-ej1-x641.google.com with SMTP id f23so3600327ejt.8
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 04:09:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/M6qTRcb7ooypOLbSQABaMQfCmtDYaK+udx98ET3zE0=;
- b=jgCyEL4GxykEGe6r0UMTPCaWikmwu2ELKKt7Sx6CWSLhNPAhlZocJgF+mBXShMebh4
- FxA9ofaFQSCqEjipdvKk1dTg02CnPU5hHUXSTwH/tG6s+atndbczLMtsbWzaXEiq7UsI
- RRmI+i+AEU6WBhrLTh4pc+CrTRxt0ykBj7qbcQ8sODFGWsSl6ptB1lr8KJXlXlQFJmae
- lD22gINGZEfCq8dtKw6LSq8Hdw+twQqVftEBoItujquzL6+8tZGzMcAqn2bdmey+Hq/A
- 93zL9ZCvfUBfrlud7VyCsY4wFpftxqyk9CSx4EwAa21jwoStddERz3Nz/Hsojtq5kj7J
- Q6Sg==
+ :cc:content-transfer-encoding;
+ bh=CMeBTBQEwpHAx+Smc+p8aQUgKA9DMdr0Nba198iIT+8=;
+ b=lDTWOQIwmOR/U91nS8an/oTglstFYo7TQeHdUucOM+r6QaanWAqC9hUxC3iGkKwxH/
+ VrvjGSGvEvxxsfZryXUJLpS/Q5bguY4I4zH80Np8Am5ps4ise7bwbIHwnbrDIFCToCWY
+ TVAbWMxrh1nEMb0Ort0KLnpp+TzBgUQzUD9Fl+NcFAgfM5aXbesIzq7dGseWH2VOiXoS
+ Rq+2nSivOMcLNe4AmPHSR6OoTzn2CxcwOnltYFKjy9G1e0rAuLH0D1znebXqA1DRY/Wu
+ vkgjGhzQLufaokAnFQOsWfYIjIasS85SKKLGrvLgC9qHBYQfsJGcSBNr/FnT0XnLe4h/
+ 4eDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/M6qTRcb7ooypOLbSQABaMQfCmtDYaK+udx98ET3zE0=;
- b=ZMWGbwuVtGiAXcQVxwHf9DTN7CY0kUw2LO1wJovQg2OjHRQgz/HxUntpIabWbe2Duj
- s80MIXUb8iMhMKsd6YAGCOtudl+usKBdP7emUivsq/qEvaeRktrh/Ug+9c8a0Kjo8Q24
- TB7NanBf/qpWEt123u9l/4P5n49dUouYobnFcm+KTRtkoG8SDCHag53sG2lhJbi1Ev0w
- eor/vFcpCSI2zkWxf6ciRETlTt78mxIZ64jLkZh9Pdnb/YpYM+J4oxeIOh5ewcsLDu7p
- lRKZnZhf5U0Rgo96wgDZAeUwM8QtLfqhUAPbLvJ9gLiI0c1i9+0Dqj6YqTM3T/jbc9Xz
- IHOg==
-X-Gm-Message-State: AOAM533tI0NVqJCwRq+/Rxli/3sW/tDFJur5SwBXDYcTyBdo8SpdHCDf
- h0no6ZCD2lhOK/GgH/hHrZ9sigreN/2dZodplZliBw==
-X-Google-Smtp-Source: ABdhPJxEiWo1Tv+TW4J5r8DZAK6hUJecW72gylq3kLnK4od8ArvYvpKXzxlfh0l7i+n56+FxpQF+Zyhy51wNrSwiYaI=
-X-Received: by 2002:a17:906:1542:: with SMTP id
- c2mr2528306ejd.382.1606824519416; 
- Tue, 01 Dec 2020 04:08:39 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CMeBTBQEwpHAx+Smc+p8aQUgKA9DMdr0Nba198iIT+8=;
+ b=R4adm2yOGDzEoQTHpoAAibK3s6iycu1oT8NEB5dQZ45lEd1TChFKsNxEqq86AZ0+jN
+ edC+RLAF2kbdNqfY15y1kcUR0ZIVoZ/Yh88Xik/T8VCqb4XnRr+nBMgg9vXRJq+HS1Qv
+ IWesTrXQRhPS2knvjEs9vhIfDyJ742r4ZBsu8SImlNeHW/y0LDpkrHBJZb6myBihJqRf
+ 6O7rbfLGk6sd22xRHxm/zYk7DMV+NQRlgxY7XKgThz2+P1bcH2cHdqfwFkXhzpU3s+lP
+ tTkmbot8IfzjIAbEjUe2VEDyA1FZ30XyKxqAqpEZWEDmQGE74uK1py8IybLLBumr1UOw
+ nE+A==
+X-Gm-Message-State: AOAM533a2E2a9SCRjSAryjZ6Il6HxH7ZD7ni0L1fF7ZVHi9eBn3WqVq8
+ JjRWzzBCm/J/7mQPSkbWc/6kf3wL+k03t0+snbgQ7A==
+X-Google-Smtp-Source: ABdhPJx3mTQn272egEVsNdVJ7xwlq/btPqXvi6Tna0vqlgO+c02ArgEwFFoBgU3jdTqrMPM0d+GwB2Vk4FzEb1v+8Y0=
+X-Received: by 2002:a17:906:2741:: with SMTP id
+ a1mr2668104ejd.85.1606824560911; 
+ Tue, 01 Dec 2020 04:09:20 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1605316268.git.ashish.kalra@amd.com>
- <eeb1393a933c5443941ae795478a7bc33f843cf1.1605316268.git.ashish.kalra@amd.com>
-In-Reply-To: <eeb1393a933c5443941ae795478a7bc33f843cf1.1605316268.git.ashish.kalra@amd.com>
+References: <20201124092445.658647-1-mcascell@redhat.com>
+ <48d8ae85-3292-921a-f249-3b88a1141cc9@amsat.org>
+ <CAA8xKjXJq00HtKNJc0HVAhXXftFHEGLj_KXaiy7M9_2WvgNRrQ@mail.gmail.com>
+ <cc15cf81-aaf9-0886-b988-61b6314648b9@redhat.com>
+In-Reply-To: <cc15cf81-aaf9-0886-b988-61b6314648b9@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Dec 2020 12:08:28 +0000
-Message-ID: <CAFEAcA8AW-jQXHeDuNHq1AHe=u8z_JtgP5gvLnz3vHvXR0uBzQ@mail.gmail.com>
-Subject: Re: [PATCH 03/11] exec: add ram_debug_ops support
-To: Ashish Kalra <Ashish.Kalra@amd.com>
+Date: Tue, 1 Dec 2020 12:09:09 +0000
+Message-ID: <CAFEAcA-Vzc2Uop8bsp73xLfrBkfjJtko7dhKDqKK4+xJfxQ7ww@mail.gmail.com>
+Subject: Re: [PATCH] hw/net/dp8393x: fix integer underflow in
+ dp8393x_do_transmit_packets()
+To: Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,51 +83,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, ssg.sos.patches@amd.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
+ Finn Thain <fthain@telegraphics.com.au>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Gaoning Pan <pgn@zju.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Nov 2020 at 19:19, Ashish Kalra <Ashish.Kalra@amd.com> wrote:
+On Tue, 1 Dec 2020 at 05:46, Jason Wang <jasowang@redhat.com> wrote:
 >
-> From: Brijesh Singh <brijesh.singh@amd.com>
 >
-> From: Brijesh Singh <brijesh.singh@amd.com>
+> On 2020/11/30 =E4=B8=8B=E5=8D=888:11, Mauro Matteo Cascella wrote:
+> > On Mon, Nov 30, 2020 at 11:44 AM Philippe Mathieu-Daud=C3=A9 <f4bug@ams=
+at.org> wrote:
+> >> +Laurent/Finn
+> >>
+> >> On 11/24/20 10:24 AM, Mauro Matteo Cascella wrote:
+> >>> An integer underflow could occur during packet transmission due to 't=
+x_len' not
+> >>> being updated if SONIC_TFC register is set to zero. Check for negativ=
+e 'tx_len'
+> >>> when removing existing FCS.
+> >>>
+> >>> RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1899722
+> >>> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> >>> Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+> >>> ---
+> >>>   hw/net/dp8393x.c | 4 ++++
+> >>>   1 file changed, 4 insertions(+)
+> >>>
+> >>> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> >>> index 674b04b354..205c0decc5 100644
+> >>> --- a/hw/net/dp8393x.c
+> >>> +++ b/hw/net/dp8393x.c
+> >>> @@ -495,6 +495,10 @@ static void dp8393x_do_transmit_packets(dp8393xS=
+tate *s)
+> >>>           } else {
+> >>>               /* Remove existing FCS */
+> >>>               tx_len -=3D 4;
+> >>> +            if (tx_len < 0) {
+> >>> +                SONIC_ERROR("tx_len is %d\n", tx_len);
+> >>> +                break;
+> >>> +            }
+> >>>           }
+> >>>
+> >>>           if (s->regs[SONIC_RCR] & (SONIC_RCR_LB1 | SONIC_RCR_LB0)) {
+> >>>
+> >> Doesn't it make more sense to check 'tx_len >=3D 4'
+> >> and skip tx/rx when 'tx_len =3D=3D 0'?
+> >>
+> > Yes, it makes sense. I thought that skipping tx/rx in case of null
+> > 'tx_len' could lead to potential inconsistencies when writing the
+> > status or reading the footer of the packet. but I'm not really sure. I
+> > can send a new version of the patch if needed, otherwise feel free to
+> > apply your changes. Thank you.
 >
-> Currently, guest memory access for debugging purposes is performed using
-> memcpy(). Extend the 'struct MemoryRegion' to include new callbacks that
-> can be used to override the use of memcpy() with something else.
 >
-> The new callbacks can be used to display the guest memory of an SEV guest
-> by registering callbacks to the SEV memory encryption/decryption APIs.
+> I think we can go with this patch first and tweak on top consider it's
+> near the release. So:
 >
-> Typical usage:
+> Acked-by: Jason Wang <jasowang@redhat.com>
 >
-> mem_read(uint8_t *dst, uint8_t *src, uint32_t len, MemTxAttrs *attrs);
-> mem_write(uint8_t *dst, uint8_t *src, uint32_t len, MemTxAttrs *attrs);
+> Peter, do you want to merge this patch?
 
-We already have a function prototype for "I need to call a function
-to do this read or write":
-    MemTxResult (*read_with_attrs)(void *opaque,
-                                   hwaddr addr,
-                                   uint64_t *data,
-                                   unsigned size,
-                                   MemTxAttrs attrs);
-    MemTxResult (*write_with_attrs)(void *opaque,
-                                    hwaddr addr,
-                                    uint64_t data,
-                                    unsigned size,
-                                    MemTxAttrs attrs);
+rc4 is due for release today, and the dp8393x is a device not
+used by any KVM platform, so this isn't a security fix. So
+we don't *need* to take it for 5.2. On the other hand this is a
+pretty small and constrained fix that won't affect anything
+except the mips jazz and m68k q800 boards.
 
-Do the prototypes for accessing guest RAM that needs decryption
-really need to be different from that?
+Applied to master for 5.2, thanks.
 
-thanks
 -- PMM
 
