@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0E32CA848
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 17:31:50 +0100 (CET)
-Received: from localhost ([::1]:44852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92ACB2CA855
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 17:36:26 +0100 (CET)
+Received: from localhost ([::1]:47938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk8ZB-0002AF-7d
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 11:31:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51718)
+	id 1kk8dd-0003pw-MD
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 11:36:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kk8Xk-0001Y8-A1
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 11:30:20 -0500
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:41237)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kk8Xi-0003nY-S9
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 11:30:20 -0500
-Received: by mail-ot1-x32e.google.com with SMTP id j21so2082379otp.8
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 08:30:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZzzWUC50TZMNaTGo82ioEJhlh7JNxEQOqJmrUcBK0yA=;
- b=BW6BwoWbNK9Lz47KIXDOqD0wcdJDGDWzrNV3lllk9FwGfpI2Xh5QIWCrfN6HeSeGdn
- jc6gIYx48nye0Q/bupeA9l8HbpvRj/UkYr065ZY0043nPsgFKMiSXFoyPVNBxOG3U0Hg
- g8duVJ4Eo/odhFIumj5AHmQABZDMz5/RWu0MT9mBxznVbPnOTvOn44EESZ6rex7R6IUd
- m2DfhWO/DlyKj/513+A436LSoP65AdATu5zGTQPjsl/ZbP2tUKQugRqx8EsQe0Wo8pEC
- mN7VuGJsa9pcgszc/kNOi628pecsI02LcjIdDu0V/FyrTSXl0wmsBvyAuJbx08aph4ft
- FUvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZzzWUC50TZMNaTGo82ioEJhlh7JNxEQOqJmrUcBK0yA=;
- b=H3vM0MJI7dMImsSgP88lR+jL4suP4U81EXzB3J6y0KqIYs5O1dUf49L2QP+b5AScIn
- FbRvkVT7pPO4gnwPX4ybVPcpnIpDsQMUzIJI8SDmwEJkCKHCP+mYmyUuVO/GXWB42jvl
- reLrl6RE4Zd8X3kzwGvSk/N+RWYf8JqwmZJjz4LX7tybrFJTHEPPxX8brQGLNiJJ+29V
- UbvoncsoJ8IW18DsEMSKsnOgnSvL7aoUf3vxNc/CnVp3xFnrgVS+uWeX5ygMA+0OxGCU
- PVlilgmslFU/qgTIRTDcDk0l8NEep314ozOLKlTJoCz2+n0o7ItiiazXck1X2nAl4RY5
- Kh+A==
-X-Gm-Message-State: AOAM533pGoFVbWF6gkeGbGW2n9/RuQ0Atv9G2k6cRf9eML9HjRbPZyiL
- zjsSCVxK4ZtUOebn+6EaHT/00A==
-X-Google-Smtp-Source: ABdhPJwJ99nDXEarAG/ukNx+6mlhca90rGtex6vmfYFuKuYFAJBc1d5wpc7m+ZkZgjSjoZrAPytyKA==
-X-Received: by 2002:a05:6830:1199:: with SMTP id
- u25mr2397404otq.323.1606840217666; 
- Tue, 01 Dec 2020 08:30:17 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id b23sm48945ooa.13.2020.12.01.08.30.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Dec 2020 08:30:16 -0800 (PST)
-Subject: Re: [PATCH 0/3] target/mips: Add some CP0/MMU missing definitions
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Huacai Chen <chenhc@lemote.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20201201132817.2863301-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <63cb8ada-0e82-abc9-3954-9474fb593be5@linaro.org>
-Date: Tue, 1 Dec 2020 10:30:14 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kk8cN-0003Eo-9y
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 11:35:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46513)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kk8cL-0005XY-Sq
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 11:35:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606840505;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0GrSepCGSoqsF8xbi1h+MTJbiRWPAP5pSVaS3+iWF2k=;
+ b=LHnkk1q/rWzRZxJxxgoKD7O4EEu5LLvpEBhYgbOmlMrGW6iuA7f11Hmee+sI4dxdLDJcPG
+ 7USv3TZkLKEMwGBfJpkvldH8NRTwTLvZ+rnYG+S9Zb9LSHPoU0WmZ1yDXbtMIB8rHg6buo
+ GvMeaaMPowkWrW07jf/5jhkouMjsoG0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-VC7woZS5OvGfcabcImlkAw-1; Tue, 01 Dec 2020 11:35:01 -0500
+X-MC-Unique: VC7woZS5OvGfcabcImlkAw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5809C100B717;
+ Tue,  1 Dec 2020 16:35:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3AB55D6AB;
+ Tue,  1 Dec 2020 16:34:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 47BF3113864E; Tue,  1 Dec 2020 17:34:55 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v11 0/7] Introduce 'yank' oob qmp command to recover
+ from hanging qemu
+References: <cover.1605439674.git.lukasstraub2@web.de>
+Date: Tue, 01 Dec 2020 17:34:55 +0100
+In-Reply-To: <cover.1605439674.git.lukasstraub2@web.de> (Lukas Straub's
+ message of "Sun, 15 Nov 2020 12:35:41 +0100")
+Message-ID: <87pn3tpjrk.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20201201132817.2863301-1-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,20 +83,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/1/20 7:28 AM, Philippe Mathieu-Daudé wrote:
-> Add some MIPS3 and R6 definitions to ease code review.
-> 
-> Philippe Mathieu-Daudé (3):
->   target/mips: Add CP0 Config0 register definitions for MIPS3 ISA
->   target/mips: Replace CP0_Config0 magic values by proper definitions
->   target/mips: Explicit Release 6 MMU types
+Lukas Straub <lukasstraub2@web.de> writes:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Hello Everyone,
+> So here is v11.
+> @Eric Blake and @Marc-Andr=C3=A9 Lureau: We still need ACKs for NBD and c=
+hardev.
 
-r~
+Once we have them, I can take the series through my tree.
+
 
