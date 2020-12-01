@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26A722CAD84
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 21:40:09 +0100 (CET)
-Received: from localhost ([::1]:40720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00D72CAD6F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 21:35:39 +0100 (CET)
+Received: from localhost ([::1]:54280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkCRU-0001wU-7E
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 15:40:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59848)
+	id 1kkCN8-00049n-Rb
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 15:35:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kkCDI-0000EZ-46
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 15:25:28 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:46078)
+ id 1kkCDK-0000L3-L5
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 15:25:30 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:55124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kkCDF-0001H5-0F
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 15:25:27 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B1KPJKl149735;
- Tue, 1 Dec 2020 20:25:19 GMT
+ id 1kkCDI-0001JQ-Cj
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 15:25:30 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B1KPIIq079156;
+ Tue, 1 Dec 2020 20:25:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references : mime-version : content-type : content-transfer-encoding;
- s=corp-2020-01-29; bh=+XaAH/2m+xOt4M9tbAvYu1uFho058HeY7VrHr67B+YQ=;
- b=zW6WIhankL2MR8xsBSynKG0M/fjG5NYnge5RYTI9PkKNSJwLuNHL4AXu/I4pnnzFHUuA
- wHF0UgQDFV3aNZ1E66emBcGPM5WXToQVPhUm/hSao4lKaa1nuoGoIMMq5rtFVtTr05RQ
- tuWNLCAWVwjUoFJNN8PiW4wIU5ryC4W+4jow35Mj5ggnZ0U8gbxJVKGk099U/fEB3bLB
- I+hw1xH12SZhxKNDYRQ+z5Vsk3v9gZZMkCxqruKrxvhi9eLMPEdzmEOZp3YOEXMoPSPX
- Rn8sPHkO4319bD0pCS7Sa9HYSXfV6ZSVNRsbH+aM18PBk6L0hfryQMB6Euz9KPSk8wM5 MA== 
+ s=corp-2020-01-29; bh=kWmdcDYjo6fbHAcUxaRY1ymyee8M2q7/c+Awh89WlQc=;
+ b=qDrOr6bznzb97OtSH7z9suRarPGI3afFkNruK3RiK7T/QGMQ/UswHxKW2b+NC55D5KnX
+ 1BR1Nl86yJc/E6VcE52Af8SjBs/Z+rMPq9yGN1N7ozKZ00cSECyA7sPxOI4Tcc2+C7iU
+ b77V9VSyGFL2SVuq0o5+C3XdIuzgmD0GAyubGERKiu9j/njeYXVGeUijwLvbWc4A+UUd
+ /bQK5DB9tm7Oe/2eEXA5GHmvJY+OTKaRLQ2s3h49dmh+g57N4N+vJqU3Eify8z0/QTsQ
+ xj0G0x4jtRSvYJR1P2UuA1sigwnYmTbdzHsb/6pJ5uf/gOzWWDhtvtLliOi4E7QK713V fQ== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 353egkmmc5-1
+ by userp2130.oracle.com with ESMTP id 353dyqmpdh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 01 Dec 2020 20:25:19 +0000
+ Tue, 01 Dec 2020 20:25:22 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B1KGIbs119917;
- Tue, 1 Dec 2020 20:23:18 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 3540asyv7v-1
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B1KGI3q119953;
+ Tue, 1 Dec 2020 20:23:22 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 3540asyv8r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 01 Dec 2020 20:23:18 +0000
+ Tue, 01 Dec 2020 20:23:22 +0000
 Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0B1KNHOG012949;
- Tue, 1 Dec 2020 20:23:17 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B1KNLqS031481;
+ Tue, 1 Dec 2020 20:23:21 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 01 Dec 2020 20:23:17 +0000
+ with ESMTP ; Tue, 01 Dec 2020 20:23:20 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v12 08/19] multi-process: define MPQemuMsg format and
- transmission functions
-Date: Tue,  1 Dec 2020 15:22:43 -0500
-Message-Id: <b9bcba65f98a763669255dd1bc6533bc8310a235.1606853298.git.jag.raman@oracle.com>
+Subject: [PATCH v12 10/19] multi-process: Associate fd of a PCIDevice with its
+ object
+Date: Tue,  1 Dec 2020 15:22:45 -0500
+Message-Id: <c3a68434b32d8f5379a9fa197e89748f54423632.1606853298.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1606853298.git.jag.raman@oracle.com>
 References: <cover.1606853298.git.jag.raman@oracle.com>
@@ -72,14 +72,14 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  engine=8.12.0-2009150000 definitions=main-2012010122
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9822
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- bulkscore=0 suspectscore=4
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1015 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012010123
-Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
- helo=aserp2120.oracle.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ bulkscore=0
+ clxscore=1015 mlxscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
+ suspectscore=4 lowpriorityscore=0 phishscore=0 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012010123
+Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
+ helo=userp2130.oracle.com
 X-Spam_score_int: -58
 X-Spam_score: -5.9
 X-Spam_bar: -----
@@ -110,111 +110,94 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Associate the file descriptor for a PCIDevice in remote process with
+DeviceState object.
 
-Defines MPQemuMsg, which is the message that is sent to the remote
-process. This message is sent over QIOChannel and is used to
-command the remote process to perform various tasks.
-Define transmission functions used by proxy and by remote.
-There are certain restrictions on where its safe to use these
-functions:
-  - From main loop in co-routine context. Will block the main loop if not in
-    co-routine context;
-  - From vCPU thread with no co-routine context and if the channel is not part
-    of the main loop handling;
-  - From IOThread within co-routine context, outside of co-routine context will
-    block IOThread;
-
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/remote/mpqemu-link.h |  60 ++++++++++
- hw/remote/mpqemu-link.c         | 242 ++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                     |   2 +
- hw/remote/meson.build           |   1 +
- 4 files changed, 305 insertions(+)
- create mode 100644 include/hw/remote/mpqemu-link.h
- create mode 100644 hw/remote/mpqemu-link.c
+ include/hw/remote/remote-obj.h |  42 +++++++++++
+ hw/remote/message.c            |   1 +
+ hw/remote/remote-obj.c         | 154 +++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                    |   2 +
+ hw/remote/meson.build          |   1 +
+ 5 files changed, 200 insertions(+)
+ create mode 100644 include/hw/remote/remote-obj.h
+ create mode 100644 hw/remote/remote-obj.c
 
-diff --git a/include/hw/remote/mpqemu-link.h b/include/hw/remote/mpqemu-link.h
+diff --git a/include/hw/remote/remote-obj.h b/include/hw/remote/remote-obj.h
 new file mode 100644
-index 0000000..2d79ff8
+index 0000000..0e95813
 --- /dev/null
-+++ b/include/hw/remote/mpqemu-link.h
-@@ -0,0 +1,60 @@
++++ b/include/hw/remote/remote-obj.h
+@@ -0,0 +1,42 @@
 +/*
-+ * Communication channel between QEMU and remote device process
++ * Copyright © 2020 Oracle and/or its affiliates.
 + *
-+ * Copyright © 2018, 2020 Oracle and/or its affiliates.
++ * This work is licensed under the terms of the GNU GPL-v2, version 2 or later.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + *
 + */
 +
-+#ifndef MPQEMU_LINK_H
-+#define MPQEMU_LINK_H
++#ifndef REMOTE_OBJECT_H
++#define REMOTE_OBJECT_H
 +
-+#include "qom/object.h"
-+#include "qemu/thread.h"
 +#include "io/channel.h"
++#include "qemu/notify.h"
 +
-+#define REMOTE_MAX_FDS 8
++#define TYPE_REMOTE_OBJECT "x-remote-object"
++#define REMOTE_OBJECT(obj) \
++    OBJECT_CHECK(RemoteObject, (obj), TYPE_REMOTE_OBJECT)
++#define REMOTE_OBJECT_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(RemoteObjectClass, (obj), TYPE_REMOTE_OBJECT)
++#define REMOTE_OBJECT_CLASS(klass) \
++    OBJECT_CLASS_CHECK(RemoteObjectClass, (klass), TYPE_REMOTE_OBJECT)
 +
-+#define MPQEMU_MSG_HDR_SIZE offsetof(MPQemuMsg, data.u64)
-+
-+/**
-+ * MPQemuCmd:
-+ *
-+ * MPQemuCmd enum type to specify the command to be executed on the remote
-+ * device.
-+ */
-+typedef enum {
-+    MPQEMU_CMD_INIT,
-+    MPQEMU_CMD_MAX,
-+} MPQemuCmd;
-+
-+/**
-+ * MPQemuMsg:
-+ * @cmd: The remote command
-+ * @size: Size of the data to be shared
-+ * @data: Structured data
-+ * @fds: File descriptors to be shared with remote device
-+ *
-+ * MPQemuMsg Format of the message sent to the remote device from QEMU.
-+ *
-+ */
 +typedef struct {
-+    int cmd;
-+    size_t size;
++    ObjectClass parent_class;
 +
-+    union {
-+        uint64_t u64;
-+    } data;
++    unsigned int nr_devs;
++    unsigned int max_devs;
++} RemoteObjectClass;
 +
-+    int fds[REMOTE_MAX_FDS];
-+    int num_fds;
-+} MPQemuMsg;
++typedef struct {
++    /* private */
++    Object parent;
 +
-+void mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp);
-+void mpqemu_msg_recv(MPQemuMsg *msg, QIOChannel *ioc, Error **errp);
++    Notifier machine_done;
 +
-+bool mpqemu_msg_valid(MPQemuMsg *msg);
++    int fd;
++    char *devid;
++    QIOChannel *ioc;
++} RemoteObject;
 +
 +#endif
-diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
+diff --git a/hw/remote/message.c b/hw/remote/message.c
+index 5d87bf4..1f2edc7 100644
+--- a/hw/remote/message.c
++++ b/hw/remote/message.c
+@@ -56,6 +56,7 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+         }
+     }
+     qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++    g_free(com);
+ 
+     return;
+ }
+diff --git a/hw/remote/remote-obj.c b/hw/remote/remote-obj.c
 new file mode 100644
-index 0000000..e535ed2
+index 0000000..3b4c0d4
 --- /dev/null
-+++ b/hw/remote/mpqemu-link.c
-@@ -0,0 +1,242 @@
++++ b/hw/remote/remote-obj.c
+@@ -0,0 +1,154 @@
 +/*
-+ * Communication channel between QEMU and remote device process
++ * Copyright © 2020 Oracle and/or its affiliates.
 + *
-+ * Copyright © 2018, 2020 Oracle and/or its affiliates.
++ * This work is licensed under the terms of the GNU GPL-v2, version 2 or later.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + *
 + */
@@ -222,257 +205,170 @@ index 0000000..e535ed2
 +#include "qemu/osdep.h"
 +#include "qemu-common.h"
 +
-+#include "qemu/module.h"
-+#include "hw/remote/mpqemu-link.h"
-+#include "qapi/error.h"
-+#include "qemu/iov.h"
++#include "hw/remote/remote-obj.h"
 +#include "qemu/error-report.h"
-+#include "qemu/main-loop.h"
++#include "qom/object_interfaces.h"
++#include "hw/qdev-core.h"
++#include "io/channel.h"
++#include "hw/qdev-core.h"
++#include "hw/remote/machine.h"
++#include "io/channel-util.h"
++#include "qapi/error.h"
++#include "sysemu/sysemu.h"
++#include "hw/pci/pci.h"
 +
-+/*
-+ * Send message over the ioc QIOChannel.
-+ * This function is safe to call from:
-+ * - From main loop in co-routine context. Will block the main loop if not in
-+ *   co-routine context;
-+ * - From vCPU thread with no co-routine context and if the channel is not part
-+ *   of the main loop handling;
-+ * - From IOThread within co-routine context, outside of co-routine context
-+ *   will block IOThread;
-+ */
-+void mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
++static void remote_object_set_fd(Object *obj, const char *str, Error **errp)
 +{
-+    bool iolock = qemu_mutex_iothread_locked();
-+    bool iothread = qemu_get_current_aio_context() == qemu_get_aio_context() ?
-+                    false : true;
-+    Error *local_err = NULL;
-+    struct iovec send[2] = {0};
-+    int *fds = NULL;
-+    size_t nfds = 0;
++    RemoteObject *o = REMOTE_OBJECT(obj);
 +
-+    send[0].iov_base = msg;
-+    send[0].iov_len = MPQEMU_MSG_HDR_SIZE;
-+
-+    send[1].iov_base = (void *)&msg->data;
-+    send[1].iov_len = msg->size;
-+
-+    if (msg->num_fds) {
-+        nfds = msg->num_fds;
-+        fds = msg->fds;
-+    }
-+    /*
-+     * Dont use in IOThread out of co-routine context as
-+     * it will block IOThread.
-+     */
-+    if (iothread) {
-+        assert(qemu_in_coroutine());
-+    }
-+    /*
-+     * Skip unlocking/locking iothread when in IOThread running
-+     * in co-routine context. Co-routine context is asserted above
-+     * for IOThread case.
-+     * Also skip this while in a co-routine in the main context.
-+     */
-+    if (iolock && !iothread && !qemu_in_coroutine()) {
-+        qemu_mutex_unlock_iothread();
-+    }
-+
-+    (void)qio_channel_writev_full_all(ioc, send, G_N_ELEMENTS(send), fds, nfds,
-+                                      &local_err);
-+
-+    if (iolock && !iothread && !qemu_in_coroutine()) {
-+        /* See above comment why skip locking here. */
-+        qemu_mutex_lock_iothread();
-+    }
-+
-+    if (errp) {
-+        error_propagate(errp, local_err);
-+    } else if (local_err) {
-+        error_report_err(local_err);
-+    }
-+
-+    return;
++    o->fd = atoi(str);
 +}
 +
-+/*
-+ * Read message from the ioc QIOChannel.
-+ * This function is safe to call from:
-+ * - From main loop in co-routine context. Will block the main loop if not in
-+ *   co-routine context;
-+ * - From vCPU thread with no co-routine context and if the channel is not part
-+ *   of the main loop handling;
-+ * - From IOThread within co-routine context, outside of co-routine context
-+ *   will block IOThread;
-+ */
-+static ssize_t mpqemu_read(QIOChannel *ioc, void *buf, size_t len, int **fds,
-+                           size_t *nfds, Error **errp)
++static void remote_object_set_devid(Object *obj, const char *str, Error **errp)
 +{
-+    struct iovec iov = { .iov_base = buf, .iov_len = len };
-+    bool iolock = qemu_mutex_iothread_locked();
-+    bool iothread = qemu_get_current_aio_context() == qemu_get_aio_context()
-+                        ? false : true;
-+    struct iovec *iovp = &iov;
-+    Error *local_err = NULL;
-+    unsigned int niov = 1;
-+    size_t *l_nfds = nfds;
-+    int **l_fds = fds;
-+    ssize_t bytes = 0;
-+    size_t size;
++    RemoteObject *o = REMOTE_OBJECT(obj);
 +
-+    size = iov.iov_len;
++    g_free(o->devid);
 +
-+    /*
-+     * Dont use in IOThread out of co-routine context as
-+     * it will block IOThread.
-+     */
-+    if (iothread) {
-+        assert(qemu_in_coroutine());
-+    }
-+
-+    while (size > 0) {
-+        bytes = qio_channel_readv_full(ioc, iovp, niov, l_fds, l_nfds,
-+                                       &local_err);
-+        if (bytes == QIO_CHANNEL_ERR_BLOCK) {
-+            /*
-+             * Skip unlocking/locking iothread when in IOThread running
-+             * in co-routine context. Co-routine context is asserted above
-+             * for IOThread case.
-+             * Also skip this while in a co-routine in the main context.
-+             */
-+            if (iolock && !iothread && !qemu_in_coroutine()) {
-+                qemu_mutex_unlock_iothread();
-+            }
-+            if (qemu_in_coroutine()) {
-+                qio_channel_yield(ioc, G_IO_IN);
-+            } else {
-+                qio_channel_wait(ioc, G_IO_IN);
-+            }
-+            /* See above comment why skip locking here. */
-+            if (iolock && !iothread && !qemu_in_coroutine()) {
-+                qemu_mutex_lock_iothread();
-+            }
-+            continue;
-+        }
-+
-+        if (bytes <= 0) {
-+            error_propagate(errp, local_err);
-+            return -EIO;
-+        }
-+
-+        l_fds = NULL;
-+        l_nfds = NULL;
-+
-+        size -= bytes;
-+
-+        (void)iov_discard_front(&iovp, &niov, bytes);
-+    }
-+
-+    return len - size;
++    o->devid = g_strdup(str);
 +}
 +
-+void mpqemu_msg_recv(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
++static void property_release_remote_object(Object *obj, const char *name,
++                                           void *opaque)
 +{
-+    Error *local_err = NULL;
-+    int *fds = NULL;
-+    size_t nfds = 0;
-+    ssize_t len;
++    Object *remote_object = OBJECT(opaque);
 +
-+    len = mpqemu_read(ioc, (void *)msg, MPQEMU_MSG_HDR_SIZE, &fds, &nfds,
-+                      &local_err);
-+    if (!local_err) {
-+        if (len == -EIO) {
-+            error_setg(&local_err, "Connection closed.");
-+            goto fail;
-+        }
-+        if (len < 0) {
-+            error_setg(&local_err, "Message length is less than 0");
-+            goto fail;
-+        }
-+        if (len != MPQEMU_MSG_HDR_SIZE) {
-+            error_setg(&local_err, "Message header corrupted");
-+            goto fail;
-+        }
-+    } else {
-+        goto fail;
-+    }
-+
-+    if (msg->size > sizeof(msg->data)) {
-+        error_setg(&local_err, "Invalid size for message");
-+        goto fail;
-+    }
-+
-+    if (mpqemu_read(ioc, (void *)&msg->data, msg->size, NULL, NULL,
-+                    &local_err) < 0) {
-+        goto fail;
-+    }
-+
-+    msg->num_fds = nfds;
-+    if (nfds > G_N_ELEMENTS(msg->fds)) {
-+        error_setg(&local_err,
-+                   "Overflow error: received %zu fds, more than max of %d fds",
-+                   nfds, REMOTE_MAX_FDS);
-+        goto fail;
-+    } else if (nfds) {
-+        memcpy(msg->fds, fds, nfds * sizeof(int));
-+    }
-+
-+fail:
-+    while (local_err && nfds) {
-+        close(fds[nfds - 1]);
-+        nfds--;
-+    }
-+
-+    g_free(fds);
-+
-+    if (errp) {
-+        error_propagate(errp, local_err);
-+    } else if (local_err) {
-+        error_report_err(local_err);
-+    }
++    object_unref(remote_object);
 +}
 +
-+bool mpqemu_msg_valid(MPQemuMsg *msg)
++static void remote_object_machine_done(Notifier *notifier, void *data)
 +{
-+    if (msg->cmd >= MPQEMU_CMD_MAX && msg->cmd < 0) {
-+        return false;
++    RemoteObject *o = container_of(notifier, RemoteObject, machine_done);
++    DeviceState *dev = NULL;
++    QIOChannel *ioc = NULL;
++    Coroutine *co = NULL;
++    RemoteCommDev *comdev = NULL;
++    Error *err = NULL;
++
++    dev = qdev_find_recursive(sysbus_get_default(), o->devid);
++    if (!dev || !object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
++        error_report("%s is not a PCI device", o->devid);
++        return;
 +    }
 +
-+    /* Verify FDs. */
-+    if (msg->num_fds >= REMOTE_MAX_FDS) {
-+        return false;
++    ioc = qio_channel_new_fd(o->fd, &err);
++    if (!ioc) {
++        error_report_err(err);
++        return;
 +    }
++    qio_channel_set_blocking(ioc, false, NULL);
 +
-+    if (msg->num_fds > 0) {
-+        for (int i = 0; i < msg->num_fds; i++) {
-+            if (fcntl(msg->fds[i], F_GETFL) == -1) {
-+                return false;
-+            }
-+        }
-+    }
++    object_property_add(OBJECT(dev), "remote-object", "object", NULL, NULL,
++                        property_release_remote_object, (void *)OBJECT(o));
++    /* co-routine should free this. */
++    comdev = g_new0(RemoteCommDev, 1);
++    *comdev = (RemoteCommDev) {
++        .ioc = ioc,
++        .dev = PCI_DEVICE(dev),
++    };
 +
-+    return true;
++    co = qemu_coroutine_create(mpqemu_remote_msg_loop_co, comdev);
++    qemu_coroutine_enter(co);
 +}
++
++static void remote_object_init(Object *obj)
++{
++    RemoteObjectClass *k = REMOTE_OBJECT_GET_CLASS(obj);
++    RemoteObject *o = REMOTE_OBJECT(obj);
++
++    if (k->nr_devs >= k->max_devs) {
++        error_report("Reached maximum number of devices: %u", k->max_devs);
++        return;
++    }
++
++    o->ioc = NULL;
++    o->fd = -1;
++    o->devid = NULL;
++
++    k->nr_devs++;
++
++    object_property_add_str(obj, "fd", NULL, remote_object_set_fd);
++    object_property_set_description(obj, "fd",
++                                    "file descriptor for the object");
++    object_property_add_str(obj, "devid", NULL, remote_object_set_devid);
++    object_property_set_description(obj, "devid",
++                                    "id of device to associate");
++
++    o->machine_done.notify = remote_object_machine_done;
++    qemu_add_machine_init_done_notifier(&o->machine_done);
++}
++
++static void remote_object_finalize(Object *obj)
++{
++    RemoteObjectClass *k = REMOTE_OBJECT_GET_CLASS(obj);
++    RemoteObject *o = REMOTE_OBJECT(obj);
++
++    if (o->ioc) {
++        qio_channel_shutdown(o->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
++        qio_channel_close(o->ioc, NULL);
++    }
++
++    object_unref(OBJECT(o->ioc));
++
++    k->nr_devs--;
++    g_free(o->devid);
++}
++
++static void remote_object_class_init(ObjectClass *klass, void *data)
++{
++    RemoteObjectClass *k = REMOTE_OBJECT_CLASS(klass);
++
++    k->max_devs = 1;
++    k->nr_devs = 0;
++}
++
++static const TypeInfo remote_object_info = {
++    .name = TYPE_REMOTE_OBJECT,
++    .parent = TYPE_OBJECT,
++    .instance_size = sizeof(RemoteObject),
++    .instance_init = remote_object_init,
++    .instance_finalize = remote_object_finalize,
++    .class_size = sizeof(RemoteObjectClass),
++    .class_init = remote_object_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_USER_CREATABLE },
++        { }
++    }
++};
++
++static void register_types(void)
++{
++    type_register_static(&remote_object_info);
++}
++
++type_init(register_types);
 diff --git a/MAINTAINERS b/MAINTAINERS
-index c45ac1d..d0c891a 100644
+index b64e4b8..aedfc27 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -3141,6 +3141,8 @@ F: hw/pci-host/remote.c
- F: include/hw/pci-host/remote.h
- F: hw/remote/machine.c
- F: include/hw/remote/machine.h
-+F: hw/remote/mpqemu-link.c
-+F: include/hw/remote/mpqemu-link.h
+@@ -3144,6 +3144,8 @@ F: include/hw/remote/machine.h
+ F: hw/remote/mpqemu-link.c
+ F: include/hw/remote/mpqemu-link.h
+ F: hw/remote/message.c
++F: include/hw/remote/remote-obj.h
++F: hw/remote/remote-obj.c
  
  Build and test automation
  -------------------------
 diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-index 197b038..a2b2fc0 100644
+index 9f5c57f..71d0a56 100644
 --- a/hw/remote/meson.build
 +++ b/hw/remote/meson.build
-@@ -1,5 +1,6 @@
- remote_ss = ss.source_set()
- 
+@@ -3,5 +3,6 @@ remote_ss = ss.source_set()
  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
-+remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('mpqemu-link.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('mpqemu-link.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
++remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
  
  softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
 -- 
