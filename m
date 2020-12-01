@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC2B2CA021
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:43:27 +0100 (CET)
-Received: from localhost ([::1]:37866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E822CA022
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:43:29 +0100 (CET)
+Received: from localhost ([::1]:38020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk382-0002pv-JS
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:43:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41822)
+	id 1kk384-0002ty-CX
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:43:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk303-0002IB-7c
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34885)
+ id 1kk303-0002J5-Pr
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk300-0003oR-RT
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:10 -0500
+ id 1kk301-0003ox-7R
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606818908;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xGyWuyk96qqKzEbfJ4PiZWk+a4+54l1Ti4T2Ca7YwMM=;
- b=Dr9ID2OPdBcvY7T2UR38bFhdBNd/0rQ2BbZBiLrOgQnQP0pxWb0GqHJij7u3Bp4KS8rSOx
- dqLFsisXMMH8vdLIrMVyqk8n6TjL4bTLfq3hQC/FX6MhEnQXX9hlg1QnNKppb1D81Nrucj
- Rn5i2hOK1RJ9TGeFkGD5hIvKL8NZrio=
+ bh=2u5vWAM3QV1XtIiQ8u3LMQS/2hhuLS683irIASUSqOA=;
+ b=bnIThSQX3dSkNO2iHLkjK1QpFfFoEw7stmlN+eQNmSkOpOHeyydjrG6eKHqb094Xlf9Tc3
+ DEyFtXJCd15ysinTB6UxZ3VL38gjVNNhVLteYwpe2+27TlV7mclACQDke/66y14JBim44N
+ iGUYbFy+ClTs2QSx06dFCgY7dshr51U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-u9KUJCYyMIKpvJRBmyKtaA-1; Tue, 01 Dec 2020 05:35:06 -0500
-X-MC-Unique: u9KUJCYyMIKpvJRBmyKtaA-1
+ us-mta-224-QeppF_ZPMFqfjCXvV6gBOg-1; Tue, 01 Dec 2020 05:35:06 -0500
+X-MC-Unique: QeppF_ZPMFqfjCXvV6gBOg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FA56190A7A1;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E24C190A7A5;
  Tue,  1 Dec 2020 10:35:05 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CAF2A10023B1;
- Tue,  1 Dec 2020 10:35:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A8DB10013C1;
+ Tue,  1 Dec 2020 10:35:05 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/32] scripts: kernel-doc: accept negation like !@var
-Date: Tue,  1 Dec 2020 05:34:36 -0500
-Message-Id: <20201201103502.4024573-7-pbonzini@redhat.com>
+Subject: [PATCH v2 07/32] scripts: kernel-doc: accept blank lines on parameter
+ description
+Date: Tue,  1 Dec 2020 05:34:37 -0500
+Message-Id: <20201201103502.4024573-8-pbonzini@redhat.com>
 In-Reply-To: <20201201103502.4024573-1-pbonzini@redhat.com>
 References: <20201201103502.4024573-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +67,8 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,66 +87,120 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On a few places, it sometimes need to indicate a negation of a
-parameter, like:
+Sphinx is very pedantic with respect to blank lines. Sometimes,
+in order to make it to properly handle something, we need to
+add a blank line. However, currently, any blank line inside a
+kernel-doc comment like:
 
-	!@fshared
+	/*
+	 * @foo: bar
+         *
+	 *       foobar
+	 *
+	 * some description
 
-This pattern happens, for example, at:
+will be considered as if "foobar" was part of the description.
 
-	kernel/futex.c
+This patch changes kernel-doc behavior. After it, foobar will
+be considered as part of the parameter text. The description
+will only be considered as such if it starts with:
 
-and it is perfectly valid. However, kernel-doc currently
-transforms it into:
+zero spaces after asterisk:
 
-	!**fshared**
+	*foo
 
-This won't do what it would be expected.
+one space after asterisk:
+	* foo
 
-Fortunately, fixing the script is a simple matter of storing
-the "!" before "@" and adding it after the bold markup, like:
+or have a explicit Description section:
 
-	**!fshared**
+	*   Description:
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/r/0314b47f8c3e1f9db00d5375a73dc3cddd8a21f2.1586881715.git.mchehab+huawei@kernel.org
+Link: https://lore.kernel.org/r/c07d2862792d75a2691d69c9eceb7b89a0164cc0.1586881715.git.mchehab+huawei@kernel.org
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-6-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-7-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/kernel-doc | 35 +++++++++++++++++++++++------------
+ 1 file changed, 23 insertions(+), 12 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 99530fb08b..e4b3cd486f 100755
+index e4b3cd486f..95f2d7adcf 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -215,6 +215,7 @@ my $type_constant = '\b``([^\`]+)``\b';
- my $type_constant2 = '\%([-_\w]+)';
- my $type_func = '(\w+)\(\)';
- my $type_param = '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
-+my $type_param_ref = '([\!]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
- my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
- my $type_fp_param2 = '\@(\w+->\S+)\(\)';  # Special RST handling for structs with func ptr params
- my $type_env = '(\$\w+)';
-@@ -239,6 +240,7 @@ my @highlights_man = (
-                       [$type_typedef, "\\\\fI\$1\\\\fP"],
-                       [$type_union, "\\\\fI\$1\\\\fP"],
-                       [$type_param, "\\\\fI\$1\\\\fP"],
-+                      [$type_param_ref, "\\\\fI\$1\$2\\\\fP"],
-                       [$type_member, "\\\\fI\$1\$2\$3\\\\fP"],
-                       [$type_fallback, "\\\\fI\$1\\\\fP"]
- 		     );
-@@ -260,7 +262,7 @@ my @highlights_rst = (
-                        [$type_union, "\\:c\\:type\\:`\$1 <\$2>`"],
-                        # in rst this can refer to any type
-                        [$type_fallback, "\\:c\\:type\\:`\$1`"],
--                       [$type_param, "**\$1**"]
-+                       [$type_param_ref, "**\$1\$2**"]
- 		      );
- my $blankline_rst = "\n";
+@@ -334,13 +334,14 @@ my $lineprefix="";
  
+ # Parser states
+ use constant {
+-    STATE_NORMAL        => 0, # normal code
+-    STATE_NAME          => 1, # looking for function name
+-    STATE_BODY_MAYBE    => 2, # body - or maybe more description
+-    STATE_BODY          => 3, # the body of the comment
+-    STATE_PROTO         => 4, # scanning prototype
+-    STATE_DOCBLOCK      => 5, # documentation block
+-    STATE_INLINE        => 6, # gathering documentation outside main block
++    STATE_NORMAL        => 0,        # normal code
++    STATE_NAME          => 1,        # looking for function name
++    STATE_BODY_MAYBE    => 2,        # body - or maybe more description
++    STATE_BODY          => 3,        # the body of the comment
++    STATE_BODY_WITH_BLANK_LINE => 4, # the body, which has a blank line
++    STATE_PROTO         => 5,        # scanning prototype
++    STATE_DOCBLOCK      => 6,        # documentation block
++    STATE_INLINE        => 7,        # gathering doc outside main block
+ };
+ my $state;
+ my $in_doc_sect;
+@@ -1987,6 +1988,12 @@ sub process_body($$) {
+ 	}
+     }
+ 
++    if ($state == STATE_BODY_WITH_BLANK_LINE && /^\s*\*\s?\S/) {
++	dump_section($file, $section, $contents);
++	$section = $section_default;
++	$contents = "";
++    }
++
+     if (/$doc_sect/i) { # case insensitive for supported section names
+ 	$newsection = $1;
+ 	$newcontents = $2;
+@@ -2040,18 +2047,21 @@ sub process_body($$) {
+ 	$state = STATE_PROTO;
+ 	$brcount = 0;
+     } elsif (/$doc_content/) {
+-	# miguel-style comment kludge, look for blank lines after
+-	# @parameter line to signify start of description
+ 	if ($1 eq "") {
+-	    if ($section =~ m/^@/ || $section eq $section_context) {
++	    if ($section eq $section_context) {
+ 		dump_section($file, $section, $contents);
+ 		$section = $section_default;
+ 		$contents = "";
+ 		$new_start_line = $.;
++		$state = STATE_BODY;
+ 	    } else {
++		if ($section ne $section_default) {
++		    $state = STATE_BODY_WITH_BLANK_LINE;
++		} else {
++		    $state = STATE_BODY;
++		}
+ 		$contents .= "\n";
+ 	    }
+-	    $state = STATE_BODY;
+ 	} elsif ($state == STATE_BODY_MAYBE) {
+ 	    # Continued declaration purpose
+ 	    chomp($declaration_purpose);
+@@ -2203,7 +2213,8 @@ sub process_file($) {
+ 	    process_normal();
+ 	} elsif ($state == STATE_NAME) {
+ 	    process_name($file, $_);
+-	} elsif ($state == STATE_BODY || $state == STATE_BODY_MAYBE) {
++	} elsif ($state == STATE_BODY || $state == STATE_BODY_MAYBE ||
++		 $state == STATE_BODY_WITH_BLANK_LINE) {
+ 	    process_body($file, $_);
+ 	} elsif ($state == STATE_INLINE) { # scanning for inline parameters
+ 	    process_inline($file, $_);
 -- 
 2.26.2
 
