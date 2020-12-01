@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2769E2CA090
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:56:48 +0100 (CET)
-Received: from localhost ([::1]:57304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088E92CA026
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:44:53 +0100 (CET)
+Received: from localhost ([::1]:42916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk3Kx-0005pp-0V
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:56:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42214)
+	id 1kk39P-0004yk-W9
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:44:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk30V-0002eL-8F
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53875)
+ id 1kk30K-0002OQ-Gv
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk30B-0003sA-TN
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:38 -0500
+ id 1kk307-0003rE-B0
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606818918;
+ s=mimecast20190719; t=1606818914;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e8hnoZGivgr313ZDbOqA0Nv2kwefhhsEAfF44TGY+aU=;
- b=GPIPmWLcAkyUdrmrrC5aWaO5TURHE+AxaZkaQGMeqv/x+RHsJruCy/LoAvjE6dLocXjFJp
- VeOwyBfPBxqLtezm13mzkHnF3biDnoDQ92zkuB8kNI34ntWrp3jRIm2QeLjNvkfun/HT2I
- TuZK//Lt7Hsjs2OLPBuvddwAS98Q018=
+ bh=aRud3jdLb9FJvuGehd6OGDqI+KIpo1xj4TsOlXShFvA=;
+ b=QyMkqeZziCNtaIwoblMX8hSMC0n6g/Or4X/lqk+1Q6VulH00amFA/qRB2qU/ku2qZTNdl4
+ 28QSoKX+Pi8zHO/1is07WcMYpi14ocnLRd6FsNBVbPdZ1rUe82zdb3P/aPb9wlY6gKPz5e
+ ATFh8n1k69zIrmKp2857fWB8QWYD51w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-EiECavmrOSe02oylLQ3oMg-1; Tue, 01 Dec 2020 05:35:12 -0500
-X-MC-Unique: EiECavmrOSe02oylLQ3oMg-1
+ us-mta-437-u6MVV40EOeGoBwyQ4XHlXQ-1; Tue, 01 Dec 2020 05:35:12 -0500
+X-MC-Unique: u6MVV40EOeGoBwyQ4XHlXQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C01D4190A7C5;
- Tue,  1 Dec 2020 10:35:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 426E6190A7C8;
+ Tue,  1 Dec 2020 10:35:11 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7206A1042A40;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E062910023BC;
  Tue,  1 Dec 2020 10:35:10 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/32] scripts: kernel-doc: use a less pedantic markup for
- funcs on Sphinx 3.x
-Date: Tue,  1 Dec 2020 05:34:48 -0500
-Message-Id: <20201201103502.4024573-19-pbonzini@redhat.com>
+Subject: [PATCH v2 19/32] scripts: kernel-doc: fix troubles with line counts
+Date: Tue,  1 Dec 2020 05:34:49 -0500
+Message-Id: <20201201103502.4024573-20-pbonzini@redhat.com>
 In-Reply-To: <20201201103502.4024573-1-pbonzini@redhat.com>
 References: <20201201103502.4024573-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,15 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,84 +85,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Unfortunately, Sphinx 3.x parser for c functions is too pedantic:
+There's currently a bug with the way kernel-doc script
+counts line numbers that can be seen with:
 
-	https://github.com/sphinx-doc/sphinx/issues/8241
+	$ ./scripts/kernel-doc -rst  -enable-lineno include/linux/math64.h >all && ./scripts/kernel-doc -rst -internal -enable-lineno include/linux/math64.h >int && diff -U0 int all
 
-While it could be relaxed with some configurations, there are
-several corner cases that it would make it hard to maintain,
-and will require teaching conf.py about several macros.
+	--- int	2020-09-28 12:58:08.927486808 +0200
+	+++ all	2020-09-28 12:58:08.905486845 +0200
+	@@ -1 +1 @@
+	-#define LINENO 27
+	+#define LINENO 26
+	@@ -3 +3 @@
+	-#define LINENO 16
+	+#define LINENO 15
+	@@ -9 +9 @@
+	-#define LINENO 17
+	+#define LINENO 16
+	...
 
-So, let's instead use the :c:macro notation. This will
-produce an output that it is not as nice as currently, but it
-should still be acceptable, and will provide cross-references,
-removing thousands of warnings when building with newer
-versions of Sphinx.
+This is happening with perl version 5.30.3, but I'm not
+so sure if this is a perl bug, or if this is due to something
+else.
+
+In any case, fixing it is easy. Basically, when "-internal"
+parameter is used, the process_export_file() function opens the
+handle "IN". This makes the line number to be incremented, as the
+handler for the main open is also "IN".
+
+Fix the problem by using a different handler for the
+main open().
+
+While here, add a missing close for it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-18-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-19-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 34 ++++++++++++++++++++++++----------
- 1 file changed, 24 insertions(+), 10 deletions(-)
+ scripts/kernel-doc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 771367a6ab..75ddd3b5e6 100755
+index 75ddd3b5e6..f33a4b1cc7 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -886,19 +886,29 @@ sub output_function_rst(%) {
-     my $oldprefix = $lineprefix;
-     my $start = "";
+@@ -2268,7 +2268,7 @@ sub process_file($) {
  
--    if ($args{'typedef'}) {
--	if ($sphinx_major < 3) {
-+    if ($sphinx_major < 3) {
-+	if ($args{'typedef'}) {
- 	    print ".. c:type:: ". $args{'function'} . "\n\n";
-+	    print_lineno($declaration_start_line);
-+	    print "   **Typedef**: ";
-+	    $lineprefix = "";
-+	    output_highlight_rst($args{'purpose'});
-+	    $start = "\n\n**Syntax**\n\n  ``";
- 	} else {
--	    print ".. c:function:: ". $args{'function'} . "\n\n";
-+	    print ".. c:function:: ";
+     $file = map_filename($orig_file);
+ 
+-    if (!open(IN,"<$file")) {
++    if (!open(IN_FILE,"<$file")) {
+ 	print STDERR "Error: Cannot open file $file\n";
+ 	++$errors;
+ 	return;
+@@ -2277,9 +2277,9 @@ sub process_file($) {
+     $. = 1;
+ 
+     $section_counter = 0;
+-    while (<IN>) {
++    while (<IN_FILE>) {
+ 	while (s/\\\s*$//) {
+-	    $_ .= <IN>;
++	    $_ .= <IN_FILE>;
  	}
--	print_lineno($declaration_start_line);
--	print "   **Typedef**: ";
--	$lineprefix = "";
--	output_highlight_rst($args{'purpose'});
--	$start = "\n\n**Syntax**\n\n  ``";
-     } else {
--	print ".. c:function:: ";
-+	print ".. c:macro:: ". $args{'function'} . "\n\n";
-+
-+	if ($args{'typedef'}) {
-+	    print_lineno($declaration_start_line);
-+	    print "   **Typedef**: ";
-+	    $lineprefix = "";
-+	    output_highlight_rst($args{'purpose'});
-+	    $start = "\n\n**Syntax**\n\n  ``";
-+	} else {
-+	    print "``";
-+	}
+ 	# Replace tabs by spaces
+         while ($_ =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {};
+@@ -2311,6 +2311,7 @@ sub process_file($) {
+ 	    print STDERR "${file}:1: warning: no structured comments found\n";
+ 	}
      }
-     if ($args{'functiontype'} ne "") {
- 	$start .= $args{'functiontype'} . " " . $args{'function'} . " (";
-@@ -925,7 +935,11 @@ sub output_function_rst(%) {
-     if ($args{'typedef'}) {
- 	print ");``\n\n";
-     } else {
--	print ")\n\n";
-+	if ($sphinx_major < 3) {
-+	    print ")\n\n";
-+	} else {
-+	    print ")``\n";
-+	}
- 	print_lineno($declaration_start_line);
- 	$lineprefix = "   ";
- 	output_highlight_rst($args{'purpose'});
++    close IN_FILE;
+ }
+ 
+ 
 -- 
 2.26.2
 
