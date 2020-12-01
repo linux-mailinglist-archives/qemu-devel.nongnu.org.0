@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A802CA0C3
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:03:37 +0100 (CET)
-Received: from localhost ([::1]:51064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7002CA0C7
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:06:09 +0100 (CET)
+Received: from localhost ([::1]:57460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk3RY-0006l9-8B
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:03:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49710)
+	id 1kk3U0-00011n-1M
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:06:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk3Q3-0005OZ-7M
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:02:03 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:45636)
+ id 1kk3QK-0005fn-96
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:02:20 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:35369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk3Q1-0004q9-75
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:02:02 -0500
-Received: by mail-ed1-x543.google.com with SMTP id q3so2545092edr.12
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 03:02:00 -0800 (PST)
+ id 1kk3QH-0004ux-34
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:02:20 -0500
+Received: by mail-ej1-x644.google.com with SMTP id f23so3274359ejk.2
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 03:02:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pbMXNo0ESLK2TC4+ZsDk8V5G8dIaJKcSo5wTxxxScHU=;
- b=A+uEEXsTZaP42tebnCDaWuDAg+6VbLQdu9tSRsRkED92XUkyiIU1pQEQJMTf3frjkl
- T0efaNtl518IOMl4+Nk6BZe4yxBp6GHvWT8JQXS7B0iJaIq8ELT3W8yzkswYnNe9G+8Z
- tXbDiUvQUnTGWHgYrDaBme8LiHjt3Gk+w+7kDXK2EtOl8Sdl22kv6JWPQD44pHQNxHNb
- lU5YS6vjqdG0QkGPAsA8wsVLI5Bh68aC4HBsFb9U8n5BxFwzUkGg/UClfFOJEnr/m1T1
- /Qtzrgq+IdkjlzSPLjWt1JghFbS3pvi0TFTQg7w9t/STSDDt+K0Dh3nkw/K9BcoEp3Nt
- DlhA==
+ :cc; bh=AX0/57Gat9N7kgfUAAkqxdQun03t9B8hNEbWW2Yfuq0=;
+ b=qiNJtAnIGdygdIVa+9VvEXswh6esIFuroHvNm62UMgQKLu5o1+wCmyw70xtPVzvMdK
+ C4t/B0cLSNgJ8AdtH7y+svNXo/4sdmB2xK83jg4QOaLf0fQugKGRaAnkEdvYVhMFfbSA
+ pCEuNjnCnZSg/uuTH8FsbGvJQvw9VHs6xEGFM+G8ahRNsw6lOCSnfCHx433wCBSDlogE
+ 9C6FlZmoCQIe3LdDL4w27ngCJnwWdVLoaZg9NVYqqMIE+WutoSUKuDne5dOXsADNKrE9
+ L+kTXWjDFqj4oND11E/pga8OXimeUHUQRzJkHcNhO7vB6tGcy43LgOWvVgYwfrJMdLDt
+ jJfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pbMXNo0ESLK2TC4+ZsDk8V5G8dIaJKcSo5wTxxxScHU=;
- b=FmhSqoXdehr/F60WcMCmbFOuDojBIu7lVJFPBVqwGLgwbr4tyXQo8htb17/KPYR/vs
- 0KZbaZHBebVdGvp02yc8oFQagOHi32khwOn9+V5NsQzI0FI7FKjQ3C1cY6Ku6janJ6Gv
- ZRRRqax1I0qzA4DlZquF2VumE47Tf3x+v9JzMThaotwgB/ssUecmqmzjNfMp6A/XX+WG
- caZUGoOnYI4ic7qrFQVZIGcyjcFGkdLVNFpk+MFQELb+rJ23sbQurLtruLYGnIICZq3d
- IyyoMD/viBqsawMnpYNe8sXzVLhTn0KyZVhQNZHIlwAwsvXmxwjDXqJ3ZGzSkPYJnEPi
- psXA==
-X-Gm-Message-State: AOAM530xEP3DHLLf/WsGM9AcqRIMpGgtQCOWJICK41/G7kihwGTyKZJc
- U20Oto7XFQXIErsX64BxFIitSxCCbuG/Looo0/7PLQ==
-X-Google-Smtp-Source: ABdhPJyxyIAGUQ2eMLcNZvZtBlUn93olrEKFKrcBqcHYKm268AclTc0SRwJszrsee0ukroB+o3NXm035f1GpS/C/OUo=
-X-Received: by 2002:a05:6402:3089:: with SMTP id
- de9mr2433772edb.100.1606820519616; 
- Tue, 01 Dec 2020 03:01:59 -0800 (PST)
+ bh=AX0/57Gat9N7kgfUAAkqxdQun03t9B8hNEbWW2Yfuq0=;
+ b=sGQdie6qqmLdIOP1unISE6U7+j1ud66VqI9JxMocbcgkzfSNi3v0okqM9HqTluC3kO
+ SszbH35Q17+P2DCE3gWp4PIYAFsq7fwGlFXZPNffxMu9DWSfRGoeLSGAR0jEfVUatWX+
+ 9L7/2mEXuOK/hmEBD0UrvTBvqjT5E5VFk6h7l0VD8hK8/XFUrOWhelvl4tMgy56DDkdi
+ j2fxAFwFIwQjjsmvu0qVvEs9vtMCPZ/x4JwHk5/cM4EZwAuv3vEtlofXV/+0UwHqwO4Y
+ VdzEMzXnNE2cGBvRbxQyo6X164gSCwkbl6ddSSG4CobHs4PwLaUGZidIqYFi32E8RYbQ
+ 9yZQ==
+X-Gm-Message-State: AOAM533Jy6BekTdqmFZgyEMApaks4xKjdFcgLiqx0e267bP7r48LWA3U
+ pRbpbiwRMp54jlbVtHz8qH323kqsZSUDQtZfqRcejQ==
+X-Google-Smtp-Source: ABdhPJz7r129i+p5BHVNTAs8/PKdXSUcJYwb1Ova9WS2+0lqB9WfgZRw6lmQ6uWE20DWuTfonEdynAf71cTEFW7doSE=
+X-Received: by 2002:a17:906:2741:: with SMTP id
+ a1mr2394939ejd.85.1606820534386; 
+ Tue, 01 Dec 2020 03:02:14 -0800 (PST)
 MIME-Version: 1.0
 References: <20201201103502.4024573-1-pbonzini@redhat.com>
- <20201201103502.4024573-2-pbonzini@redhat.com>
-In-Reply-To: <20201201103502.4024573-2-pbonzini@redhat.com>
+ <20201201103502.4024573-32-pbonzini@redhat.com>
+In-Reply-To: <20201201103502.4024573-32-pbonzini@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Dec 2020 11:01:48 +0000
-Message-ID: <CAFEAcA8xvU3Cg0gwZM10riw3znHNyxwNNJ-0bB2Johip05bh-g@mail.gmail.com>
-Subject: Re: [PATCH v2 01/32] docs: temporarily disable the kernel-doc
- extension
+Date: Tue, 1 Dec 2020 11:02:03 +0000
+Message-ID: <CAFEAcA-+==4F7rsShR+R4qhnciQowRg7VhpAVUUKevRAkDQ9Vg@mail.gmail.com>
+Subject: Re: [PATCH v2 31/32] Revert "docs: temporarily disable the kernel-doc
+ extension"
 To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,32 +85,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 1 Dec 2020 at 10:35, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Preserve bisectability while we update scripts/kernel-doc from Linux.
-> Without this patch, building with Sphinx 3 would break while we
-> revert our own Sphinx 3 support and replace it with Linux's.
+> This reverts commit fd68a72875cf318f4310726f842139119c5f45d5.  We're
+> done with the update of kernel-doc and we can restore kernel-doc's
+> functionality.
 >
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  docs/sphinx/kerneldoc.py | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/docs/sphinx/kerneldoc.py b/docs/sphinx/kerneldoc.py
-> index 3ac277d162..9124fcbff1 100644
-> --- a/docs/sphinx/kerneldoc.py
-> +++ b/docs/sphinx/kerneldoc.py
-> @@ -75,6 +75,9 @@ class KernelDocDirective(Directive):
->          # Tell sphinx of the dependency
->          env.note_dependency(os.path.abspath(filename))
->
-> +        # Disabled temporarily while scripts/kernel-doc is updated
-> +        return []
-> +
->          tab_width = self.options.get('tab-width', self.state.document.settings.tab_width)
->
->          # FIXME: make this nicer and more robust against errors
-
-Oh, this is nicer than having to comment out every use of the extension :-)
+>  docs/sphinx/kerneldoc.py | 3 ---
+>  1 file changed, 3 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
