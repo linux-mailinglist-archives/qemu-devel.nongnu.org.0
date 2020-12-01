@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088E92CA026
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:44:53 +0100 (CET)
-Received: from localhost ([::1]:42916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 386842CA03C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:47:18 +0100 (CET)
+Received: from localhost ([::1]:52014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk39P-0004yk-W9
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:44:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42060)
+	id 1kk3Bl-0000Mk-9E
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:47:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk30K-0002OQ-Gv
+ id 1kk30K-0002Ob-K9
  for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39131)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk307-0003rE-B0
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:26 -0500
+ id 1kk309-0003rT-2v
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606818914;
+ s=mimecast20190719; t=1606818915;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aRud3jdLb9FJvuGehd6OGDqI+KIpo1xj4TsOlXShFvA=;
- b=QyMkqeZziCNtaIwoblMX8hSMC0n6g/Or4X/lqk+1Q6VulH00amFA/qRB2qU/ku2qZTNdl4
- 28QSoKX+Pi8zHO/1is07WcMYpi14ocnLRd6FsNBVbPdZ1rUe82zdb3P/aPb9wlY6gKPz5e
- ATFh8n1k69zIrmKp2857fWB8QWYD51w=
+ bh=Wdy6f88n2LIny//0BmS54CtVFj89l1KsmAMFogQ24V4=;
+ b=Klyi7VWbdhNJ1Kmfd40NDsjuzAhllLpIWIEXjQnHItLfmNTbSp8JCpgNve17YGccp5CSZ0
+ TdokbL8azigPPuPgGgauQ7CGtVf+ZYIbEPGj70tGlgcNbrtuk44ZYdb7STPWcndTAeN5mT
+ BKTNcqRV/aNjZxR39V3IW4C88UZawnI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-u6MVV40EOeGoBwyQ4XHlXQ-1; Tue, 01 Dec 2020 05:35:12 -0500
-X-MC-Unique: u6MVV40EOeGoBwyQ4XHlXQ-1
+ us-mta-365-DLqle5uqOTmekhc6hGMDUw-1; Tue, 01 Dec 2020 05:35:13 -0500
+X-MC-Unique: DLqle5uqOTmekhc6hGMDUw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 426E6190A7C8;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFC67190A7A4;
  Tue,  1 Dec 2020 10:35:11 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E062910023BC;
- Tue,  1 Dec 2020 10:35:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABC8610023B0;
+ Tue,  1 Dec 2020 10:35:11 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/32] scripts: kernel-doc: fix troubles with line counts
-Date: Tue,  1 Dec 2020 05:34:49 -0500
-Message-Id: <20201201103502.4024573-20-pbonzini@redhat.com>
+Subject: [PATCH v2 20/32] scripts: kernel-doc: reimplement -nofunction argument
+Date: Tue,  1 Dec 2020 05:34:50 -0500
+Message-Id: <20201201103502.4024573-21-pbonzini@redhat.com>
 In-Reply-To: <20201201103502.4024573-1-pbonzini@redhat.com>
 References: <20201201103502.4024573-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,79 +85,150 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There's currently a bug with the way kernel-doc script
-counts line numbers that can be seen with:
+Right now, the build system doesn't use -nofunction, as
+it is pretty much useless, because it doesn't consider
+the other output modes (extern, internal), working only
+with all.
 
-	$ ./scripts/kernel-doc -rst  -enable-lineno include/linux/math64.h >all && ./scripts/kernel-doc -rst -internal -enable-lineno include/linux/math64.h >int && diff -U0 int all
+Also, it is limited to exclude functions.
 
-	--- int	2020-09-28 12:58:08.927486808 +0200
-	+++ all	2020-09-28 12:58:08.905486845 +0200
-	@@ -1 +1 @@
-	-#define LINENO 27
-	+#define LINENO 26
-	@@ -3 +3 @@
-	-#define LINENO 16
-	+#define LINENO 15
-	@@ -9 +9 @@
-	-#define LINENO 17
-	+#define LINENO 16
-	...
+Re-implement it in order to allow excluding any symbols from
+the document output, no matter what mode is used.
 
-This is happening with perl version 5.30.3, but I'm not
-so sure if this is a perl bug, or if this is due to something
-else.
-
-In any case, fixing it is easy. Basically, when "-internal"
-parameter is used, the process_export_file() function opens the
-handle "IN". This makes the line number to be incremented, as the
-handler for the main open is also "IN".
-
-Fix the problem by using a different handler for the
-main open().
-
-While here, add a missing close for it.
+The parameter was also renamed to "-nosymbol", as it express
+better its meaning.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-19-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-20-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ scripts/kernel-doc | 44 +++++++++++++++++++++-----------------------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 75ddd3b5e6..f33a4b1cc7 100755
+index f33a4b1cc7..35d60af834 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -2268,7 +2268,7 @@ sub process_file($) {
+@@ -66,9 +66,8 @@ Output selection (mutually exclusive):
+   -function NAME	Only output documentation for the given function(s)
+ 			or DOC: section title(s). All other functions and DOC:
+ 			sections are ignored. May be specified multiple times.
+-  -nofunction NAME	Do NOT output documentation for the given function(s);
+-			only output documentation for the other functions and
+-			DOC: sections. May be specified multiple times.
++  -nosymbol NAME	Exclude the specified symbols from the output
++		        documentation. May be specified multiple times.
  
-     $file = map_filename($orig_file);
- 
--    if (!open(IN,"<$file")) {
-+    if (!open(IN_FILE,"<$file")) {
- 	print STDERR "Error: Cannot open file $file\n";
- 	++$errors;
- 	return;
-@@ -2277,9 +2277,9 @@ sub process_file($) {
-     $. = 1;
- 
-     $section_counter = 0;
--    while (<IN>) {
-+    while (<IN_FILE>) {
- 	while (s/\\\s*$//) {
--	    $_ .= <IN>;
-+	    $_ .= <IN_FILE>;
- 	}
- 	# Replace tabs by spaces
-         while ($_ =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {};
-@@ -2311,6 +2311,7 @@ sub process_file($) {
- 	    print STDERR "${file}:1: warning: no structured comments found\n";
- 	}
+ Output selection modifiers:
+   -no-doc-sections	Do not output DOC: sections.
+@@ -288,9 +287,8 @@ my $modulename = "Kernel API";
+ use constant {
+     OUTPUT_ALL          => 0, # output all symbols and doc sections
+     OUTPUT_INCLUDE      => 1, # output only specified symbols
+-    OUTPUT_EXCLUDE      => 2, # output everything except specified symbols
+-    OUTPUT_EXPORTED     => 3, # output exported symbols
+-    OUTPUT_INTERNAL     => 4, # output non-exported symbols
++    OUTPUT_EXPORTED     => 2, # output exported symbols
++    OUTPUT_INTERNAL     => 3, # output non-exported symbols
+ };
+ my $output_selection = OUTPUT_ALL;
+ my $show_not_found = 0;	# No longer used
+@@ -315,6 +313,7 @@ my $man_date = ('January', 'February', 'March', 'April', 'May', 'June',
+ # CAVEAT EMPTOR!  Some of the others I localised may not want to be, which
+ # could cause "use of undefined value" or other bugs.
+ my ($function, %function_table, %parametertypes, $declaration_purpose);
++my %nosymbol_table = ();
+ my $declaration_start_line;
+ my ($type, $declaration_name, $return_type);
+ my ($newsection, $newcontents, $prototype, $brcount, %source_map);
+@@ -434,10 +433,9 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	$output_selection = OUTPUT_INCLUDE;
+ 	$function = shift @ARGV;
+ 	$function_table{$function} = 1;
+-    } elsif ($cmd eq "nofunction") { # output all except specific functions
+-	$output_selection = OUTPUT_EXCLUDE;
+-	$function = shift @ARGV;
+-	$function_table{$function} = 1;
++    } elsif ($cmd eq "nosymbol") { # Exclude specific symbols
++	my $symbol = shift @ARGV;
++	$nosymbol_table{$symbol} = 1;
+     } elsif ($cmd eq "export") { # only exported symbols
+ 	$output_selection = OUTPUT_EXPORTED;
+ 	%function_table = ();
+@@ -570,11 +568,11 @@ sub dump_doc_section {
+         return;
      }
-+    close IN_FILE;
+ 
++    return if (defined($nosymbol_table{$name}));
++
+     if (($output_selection == OUTPUT_ALL) ||
+-	($output_selection == OUTPUT_INCLUDE &&
+-	 defined($function_table{$name})) ||
+-	($output_selection == OUTPUT_EXCLUDE &&
+-	 !defined($function_table{$name})))
++	(($output_selection == OUTPUT_INCLUDE) &&
++	 defined($function_table{$name})))
+     {
+ 	dump_section($file, $name, $contents);
+ 	output_blockhead({'sectionlist' => \@sectionlist,
+@@ -800,6 +798,8 @@ sub output_blockhead_rst(%) {
+     my ($parameter, $section);
+ 
+     foreach $section (@{$args{'sectionlist'}}) {
++	next if (defined($nosymbol_table{$section}));
++
+ 	if ($output_selection != OUTPUT_INCLUDE) {
+ 	    print "**$section**\n\n";
+ 	}
+@@ -1115,12 +1115,14 @@ sub output_declaration {
+     my $name = shift;
+     my $functype = shift;
+     my $func = "output_${functype}_$output_mode";
++
++    return if (defined($nosymbol_table{$name}));
++
+     if (($output_selection == OUTPUT_ALL) ||
+ 	(($output_selection == OUTPUT_INCLUDE ||
+ 	  $output_selection == OUTPUT_EXPORTED) &&
+ 	 defined($function_table{$name})) ||
+-	(($output_selection == OUTPUT_EXCLUDE ||
+-	  $output_selection == OUTPUT_INTERNAL) &&
++	($output_selection == OUTPUT_INTERNAL &&
+ 	 !($functype eq "function" && defined($function_table{$name}))))
+     {
+ 	&$func(@_);
+@@ -1301,6 +1303,8 @@ sub show_warnings($$) {
+ 	my $functype = shift;
+ 	my $name = shift;
+ 
++	return 0 if (defined($nosymbol_table{$name}));
++
+ 	return 1 if ($output_selection == OUTPUT_ALL);
+ 
+ 	if ($output_selection == OUTPUT_EXPORTED) {
+@@ -1324,13 +1328,6 @@ sub show_warnings($$) {
+ 			return 0;
+ 		}
+ 	}
+-	if ($output_selection == OUTPUT_EXCLUDE) {
+-		if (!defined($function_table{$name})) {
+-			return 1;
+-		} else {
+-			return 0;
+-		}
+-	}
+ 	die("Please add the new output type at show_warnings()");
  }
  
+@@ -1952,6 +1949,7 @@ sub process_export_file($) {
  
+     while (<IN>) {
+ 	if (/$export_symbol/) {
++	    next if (defined($nosymbol_table{$2}));
+ 	    $function_table{$2} = 1;
+ 	}
+     }
 -- 
 2.26.2
 
