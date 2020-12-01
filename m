@@ -2,83 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B852CB0B5
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 00:17:46 +0100 (CET)
-Received: from localhost ([::1]:33272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0121B2CB0C5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 00:26:17 +0100 (CET)
+Received: from localhost ([::1]:48726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkEu0-0007XD-UU
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 18:17:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54962)
+	id 1kkF2F-0007Vb-GV
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 18:26:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kkEry-0006TH-9J
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 18:15:38 -0500
-Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:35453)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kkErp-0000DI-5q
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 18:15:37 -0500
-Received: by mail-oo1-xc43.google.com with SMTP id y3so830538ooq.2
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 15:15:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JdhBR1jya00vvW/+Hbbz7N2Ltr/qvMNqadyy9niF2xg=;
- b=BM7x8zPHo729H39aFJSkM9nRniraRoHUygwKe54pHLS4TpLSuzLPYMT7R9bVmuhxz2
- xEWwCp4y2jvRaRuVm7J7CWUhtK153dac2x1J951FJBC0PmWVCrPw87tBkR4GrPWvbFId
- ogAxH9qQ5co6mBgUIxk3x4t5KLNdJho7TXuZwOrthURXK+j131f++Y1Xp9yof8zFW2sf
- YrPKdV7ak42rxqznCwFm/qihhCGNg0HYW5LanJ9IootpdA7KiVbGPx7EYK6RtJJM0Pq7
- hY+x8m3yiwhbXXX/dL/NCyo3H5GoFOsRmnNfX6aj3VUZENmJZ56kLn0ypEkg3IKggfBb
- LVEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JdhBR1jya00vvW/+Hbbz7N2Ltr/qvMNqadyy9niF2xg=;
- b=GfNAvHJRlqraLS68c8MYHauLxkjm9YoNa1IizEtp3qlyCYrXMiZ5AkkShIDKwG7RDz
- VC5LQIjXB8B9mguZMmgzW0I3VBL8biVJ6llWOI5NuwHce1i+LurnHXqlldyelHs4FR3L
- s2PN6tMBGUiUowQ19NvdyanxzzlFfaNysQUtCTwLLXgP/rJfsjEC51zV5N6W0tI6HYnc
- TwjXmjNtc3voA+Y1PeWm4+vQkGJDCRUkVXuzdTm69832KulcjwuVQzn5JUayjSTwJPFj
- Lr8g1+mWMLVq/cq8OBMFNpKuYz2fvL/LMpWTvIEnZEF1G7TtC0+yIRsu09GUGqCNQrFM
- ai9w==
-X-Gm-Message-State: AOAM532ECKcBE7ZzgUB+cwAqoyO9eePTnOgx4XcF93U7vygjemS4kbIM
- A9erBVw1/1HfFSgGhSzXE7fNTA==
-X-Google-Smtp-Source: ABdhPJwC5tQ5dwOdEHbBvaaveUz7DONmLlfhrYLnrqEQIqElmdYLiGWi9c80L0bF+Q8dZyG2c0uBFA==
-X-Received: by 2002:a4a:9e02:: with SMTP id t2mr3580882ook.42.1606864527796;
- Tue, 01 Dec 2020 15:15:27 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id x21sm300677oov.5.2020.12.01.15.15.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Dec 2020 15:15:27 -0800 (PST)
-Subject: Re: [PATCH v3 4/6] linux-user/elfload: Introduce MIPS
- GET_FEATURE_REG_EQU() macro
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
- Huacai Chen <chenhc@lemote.com>
-References: <20201201192807.1094919-1-f4bug@amsat.org>
- <20201201192807.1094919-5-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6d221a26-7d32-936d-3421-6848bd07e84c@linaro.org>
-Date: Tue, 1 Dec 2020 17:15:24 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1kkF0X-0006oO-GM; Tue, 01 Dec 2020 18:24:29 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:54056
+ helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1kkF0K-0003J8-1w; Tue, 01 Dec 2020 18:24:29 -0500
+Received: from freeip.amazon.com
+ (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
+ by csgraf.de (Postfix) with UTF8SMTPSA id 5FAB13900438;
+ Wed,  2 Dec 2020 00:24:11 +0100 (CET)
+Subject: Re: [PATCH v2 1/2] arm/hvf: Optimize and simplify WFI handling
+To: Peter Collingbourne <pcc@google.com>
+References: <4a2d15d01087207e2fba1f55ad312727dbfc782e.1606856104.git.pcc@google.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <3aef88d7-c620-11b0-49c4-36d140d05c12@csgraf.de>
+Date: Wed, 2 Dec 2020 00:24:10 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
+ Gecko/20100101 Thunderbird/84.0
 MIME-Version: 1.0
-In-Reply-To: <20201201192807.1094919-5-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <4a2d15d01087207e2fba1f55ad312727dbfc782e.1606856104.git.pcc@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc43.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,64 +53,269 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>,
- Meng Zhuo <mengzhuo1203@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/1/20 1:28 PM, Philippe Mathieu-Daudé wrote:
-> ISA features are usually denoted in read-only bits from
-> CPU registers. Add the GET_FEATURE_REG_EQU() macro which
-> checks if a CPU register has bits set to a specific value.
-> 
-> Use the macro to check the 'Architecture Revision' level
-> of the Config0 register, which is '2' when the Release 6
-> ISA is implemented.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+On 01.12.20 22:00, Peter Collingbourne wrote:
+> Sleep on WFx until the VTIMER is due but allow ourselves to be woken
+> up on IPI.
+>
+> Signed-off-by: Peter Collingbourne <pcc@google.com>
 > ---
->  linux-user/elfload.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index b7c6d30723a..9c475fa5f70 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -7,6 +7,7 @@
->  
->  #include "qemu.h"
->  #include "disas/disas.h"
-> +#include "qemu/bitops.h"
->  #include "qemu/path.h"
->  #include "qemu/queue.h"
->  #include "qemu/guest-random.h"
-> @@ -995,17 +996,25 @@ enum {
->  #define GET_FEATURE_REG_SET(_reg, _mask, _hwcap) \
->      do { if (cpu->env._reg & (_mask)) { hwcaps |= _hwcap; } } while (0)
->  
-> +#define GET_FEATURE_REG_EQU(_reg, _start, _length, _val, _hwcap) \
-> +    do { \
-> +        if (extract32(cpu->env._reg, (_start), (_length)) == (_val)) { \
-> +            hwcaps |= _hwcap; \
-> +        } \
-> +    } while (0)
+> v2:
+> - simplify locking further
+> - wait indefinitely on disabled or masked timers
+>
+>   accel/hvf/hvf-cpus.c     |   5 +-
+>   include/sysemu/hvf_int.h |   3 +-
+>   target/arm/hvf/hvf.c     | 116 ++++++++++++++-------------------------
+>   3 files changed, 43 insertions(+), 81 deletions(-)
+>
+> diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
+> index 4360f64671..b2c8fb57f6 100644
+> --- a/accel/hvf/hvf-cpus.c
+> +++ b/accel/hvf/hvf-cpus.c
+> @@ -344,9 +344,8 @@ static int hvf_init_vcpu(CPUState *cpu)
+>       sigact.sa_handler = dummy_signal;
+>       sigaction(SIG_IPI, &sigact, NULL);
+>   
+> -    pthread_sigmask(SIG_BLOCK, NULL, &set);
+> -    sigdelset(&set, SIG_IPI);
+> -    pthread_sigmask(SIG_SETMASK, &set, NULL);
+> +    pthread_sigmask(SIG_BLOCK, NULL, &cpu->hvf->unblock_ipi_mask);
+> +    sigdelset(&cpu->hvf->unblock_ipi_mask, SIG_IPI);
+>   
+>   #ifdef __aarch64__
+>       r = hv_vcpu_create(&cpu->hvf->fd, (hv_vcpu_exit_t **)&cpu->hvf->exit, NULL);
+> diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
+> index c56baa3ae8..13adf6ea77 100644
+> --- a/include/sysemu/hvf_int.h
+> +++ b/include/sysemu/hvf_int.h
+> @@ -62,8 +62,7 @@ extern HVFState *hvf_state;
+>   struct hvf_vcpu_state {
+>       uint64_t fd;
+>       void *exit;
+> -    struct timespec ts;
+> -    bool sleeping;
+> +    sigset_t unblock_ipi_mask;
+>   };
+>   
+>   void assert_hvf_ok(hv_return_t ret);
+> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+> index 8fe10966d2..3321d48aa2 100644
+> --- a/target/arm/hvf/hvf.c
+> +++ b/target/arm/hvf/hvf.c
+> @@ -2,6 +2,7 @@
+>    * QEMU Hypervisor.framework support for Apple Silicon
+>   
+>    * Copyright 2020 Alexander Graf <agraf@csgraf.de>
+> + * Copyright 2020 Google LLC
+>    *
+>    * This work is licensed under the terms of the GNU GPL, version 2 or later.
+>    * See the COPYING file in the top-level directory.
+> @@ -18,6 +19,7 @@
+>   #include "sysemu/hw_accel.h"
+>   
+>   #include <Hypervisor/Hypervisor.h>
+> +#include <mach/mach_time.h>
+>   
+>   #include "exec/address-spaces.h"
+>   #include "hw/irq.h"
+> @@ -320,18 +322,8 @@ int hvf_arch_init_vcpu(CPUState *cpu)
+>   
+>   void hvf_kick_vcpu_thread(CPUState *cpu)
+>   {
+> -    if (cpu->hvf->sleeping) {
+> -        /*
+> -         * When sleeping, make sure we always send signals. Also, clear the
+> -         * timespec, so that an IPI that arrives between setting hvf->sleeping
+> -         * and the nanosleep syscall still aborts the sleep.
+> -         */
+> -        cpu->thread_kicked = false;
+> -        cpu->hvf->ts = (struct timespec){ };
+> -        cpus_kick_thread(cpu);
+> -    } else {
+> -        hv_vcpus_exit(&cpu->hvf->fd, 1);
+> -    }
+> +    cpus_kick_thread(cpu);
+> +    hv_vcpus_exit(&cpu->hvf->fd, 1);
+>   }
+>   
+>   static int hvf_inject_interrupts(CPUState *cpu)
+> @@ -349,6 +341,18 @@ static int hvf_inject_interrupts(CPUState *cpu)
+>       return 0;
+>   }
+>   
+> +static void hvf_wait_for_ipi(CPUState *cpu, struct timespec *ts)
+> +{
+> +    /*
+> +     * Use pselect to sleep so that other threads can IPI us while we're
+> +     * sleeping.
+> +     */
+> +    qatomic_mb_set(&cpu->thread_kicked, false);
+> +    qemu_mutex_unlock_iothread();
+> +    pselect(0, 0, 0, 0, ts, &cpu->hvf->unblock_ipi_mask);
+> +    qemu_mutex_lock_iothread();
+> +}
 > +
->  static uint32_t get_elf_hwcap(void)
->  {
->      MIPSCPU *cpu = MIPS_CPU(thread_cpu);
->      uint32_t hwcaps = 0;
->  
-> -    GET_FEATURE_INSN(ISA_MIPS32R6 | ISA_MIPS64R6, HWCAP_MIPS_R6);
-> +    GET_FEATURE_REG_EQU(CP0_Config0, CP0C0_AR, 3, 2, HWCAP_MIPS_R6);
+>   int hvf_vcpu_exec(CPUState *cpu)
+>   {
+>       ARMCPU *arm_cpu = ARM_CPU(cpu);
+> @@ -357,15 +361,11 @@ int hvf_vcpu_exec(CPUState *cpu)
+>       hv_return_t r;
+>       int ret = 0;
+>   
+> -    qemu_mutex_unlock_iothread();
+> -
+>       do {
+>           bool advance_pc = false;
+>   
+> -        qemu_mutex_lock_iothread();
+>           current_cpu = cpu;
+>           qemu_wait_io_event_common(cpu);
+> -        qemu_mutex_unlock_iothread();
+>   
+>           flush_cpu_state(cpu);
+>   
+> @@ -374,10 +374,10 @@ int hvf_vcpu_exec(CPUState *cpu)
+>           }
+>   
+>           if (cpu->halted) {
+> -            qemu_mutex_lock_iothread();
+>               return EXCP_HLT;
+>           }
+>   
+> +        qemu_mutex_unlock_iothread();
+>           assert_hvf_ok(hv_vcpu_run(cpu->hvf->fd));
+>   
+>           /* handle VMEXIT */
+> @@ -385,15 +385,14 @@ int hvf_vcpu_exec(CPUState *cpu)
+>           uint64_t syndrome = hvf_exit->exception.syndrome;
+>           uint32_t ec = syn_get_ec(syndrome);
+>   
+> +        qemu_mutex_lock_iothread();
+>           switch (exit_reason) {
+>           case HV_EXIT_REASON_EXCEPTION:
+>               /* This is the main one, handle below. */
+>               break;
+>           case HV_EXIT_REASON_VTIMER_ACTIVATED:
+> -            qemu_mutex_lock_iothread();
+>               current_cpu = cpu;
+>               qemu_set_irq(arm_cpu->gt_timer_outputs[GTIMER_VIRT], 1);
+> -            qemu_mutex_unlock_iothread();
+>               continue;
+>           case HV_EXIT_REASON_CANCELED:
+>               /* we got kicked, no exit to process */
+> @@ -413,7 +412,6 @@ int hvf_vcpu_exec(CPUState *cpu)
+>               uint32_t srt = (syndrome >> 16) & 0x1f;
+>               uint64_t val = 0;
+>   
+> -            qemu_mutex_lock_iothread();
+>               current_cpu = cpu;
+>   
+>               DPRINTF("data abort: [pc=0x%llx va=0x%016llx pa=0x%016llx isv=%x "
+> @@ -446,8 +444,6 @@ int hvf_vcpu_exec(CPUState *cpu)
+>                   hvf_set_reg(cpu, srt, val);
+>               }
+>   
+> -            qemu_mutex_unlock_iothread();
+> -
+>               advance_pc = true;
+>               break;
+>           }
+> @@ -493,68 +489,40 @@ int hvf_vcpu_exec(CPUState *cpu)
+>           case EC_WFX_TRAP:
+>               if (!(syndrome & WFX_IS_WFE) && !(cpu->interrupt_request &
+>                   (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
+> -                uint64_t cval, ctl, val, diff, now;
+> +                advance_pc = true;
+>   
+> -                /* Set up a local timer for vtimer if necessary ... */
+> -                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CTL_EL0, &ctl);
+> -                assert_hvf_ok(r);
+> -                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CVAL_EL0, &cval);
+> +                uint64_t ctl;
+> +                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CTL_EL0,
+> +                                        &ctl);
+>                   assert_hvf_ok(r);
+>   
+> -                asm volatile("mrs %0, cntvct_el0" : "=r"(val));
+> -                diff = cval - val;
+> -
+> -                now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) /
+> -                      gt_cntfrq_period_ns(arm_cpu);
+> -
+> -                /* Timer disabled or masked, just wait for long */
+>                   if (!(ctl & 1) || (ctl & 2)) {
+> -                    diff = (120 * NANOSECONDS_PER_SECOND) /
+> -                           gt_cntfrq_period_ns(arm_cpu);
+> +                    /* Timer disabled or masked, just wait for an IPI. */
+> +                    hvf_wait_for_ipi(cpu, NULL);
+> +                    break;
+>                   }
+>   
+> -                if (diff < INT64_MAX) {
+> -                    uint64_t ns = diff * gt_cntfrq_period_ns(arm_cpu);
+> -                    struct timespec *ts = &cpu->hvf->ts;
+> -
+> -                    *ts = (struct timespec){
+> -                        .tv_sec = ns / NANOSECONDS_PER_SECOND,
+> -                        .tv_nsec = ns % NANOSECONDS_PER_SECOND,
+> -                    };
+> -
+> -                    /*
+> -                     * Waking up easily takes 1ms, don't go to sleep for smaller
+> -                     * time periods than 2ms.
+> -                     */
+> -                    if (!ts->tv_sec && (ts->tv_nsec < (SCALE_MS * 2))) {
+> -                        advance_pc = true;
+> -                        break;
+> -                    }
+> -
+> -                    /* Set cpu->hvf->sleeping so that we get a SIG_IPI signal. */
+> -                    cpu->hvf->sleeping = true;
+> -                    smp_mb();
+> -
+> -                    /* Bail out if we received an IRQ meanwhile */
+> -                    if (cpu->thread_kicked || (cpu->interrupt_request &
+> -                        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
+> -                        cpu->hvf->sleeping = false;
+> -                        break;
+> -                    }
+> -
+> -                    /* nanosleep returns on signal, so we wake up on kick. */
+> -                    nanosleep(ts, NULL);
+> -
+> -                    /* Out of sleep - either naturally or because of a kick */
+> -                    cpu->hvf->sleeping = false;
+> +                uint64_t cval;
+> +                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CVAL_EL0,
+> +                                        &cval);
+> +                assert_hvf_ok(r);
+> +
+> +                int64_t ticks_to_sleep = cval - mach_absolute_time();
 
-You still get the magic 3.
 
-This is where hw/registerfields.h would come in handy.  But that is certainly a
-large change to mips' cpu.h.  So I guess this is good enough for now.
+I think you touched based on it in a previous thread, but would you mind 
+to explain again why mach_absolute_time() is the right thing to check 
+cval against? If I read the headers correctly, the cnvt_off register 
+should be 0, so cntvct should be the reference time, no?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Also, can you please split the patch into one that I can squash into my 
+existing one (remove WFI handling altogether), an individual one to 
+revive the global io lock (happy to squash too unless you think it's 
+useful to keep separate) and then this one?
 
 
-r~
+Alex
+
+
 
