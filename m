@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 194F52CAA5D
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 19:01:40 +0100 (CET)
-Received: from localhost ([::1]:59950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230052CAA86
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 19:08:27 +0100 (CET)
+Received: from localhost ([::1]:41458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk9y7-0007Vu-5H
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 13:01:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41800)
+	id 1kkA4f-0003Vu-S9
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 13:08:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kk9dR-0001v1-5b
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 12:40:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42903)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kk9dM-0005Iv-Qf
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 12:40:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606844411;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tmaW7BusmBwUBnqjl8/wvjBn3YrtTbN7RCbDd5MRSws=;
- b=CVGOhT/Y3FFN9gTCfUCYpnYqmf5sl80xLy3hRPHU2tYNF8laSR7jHXPxDaACUk8nJsrqVq
- 2P/5n/TJeWzwTh87xls+XPqhwBJvoiiIdBXfV15ILOaDJE1pU4VSTmEhhX+d2r0qtyxwrS
- L9nPnISQPxaZypCqH5G0BZHosegCbDQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-M8xO522BNz2r66UN7WS7LA-1; Tue, 01 Dec 2020 12:40:07 -0500
-X-MC-Unique: M8xO522BNz2r66UN7WS7LA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A669818C89E5;
- Tue,  1 Dec 2020 17:40:05 +0000 (UTC)
-Received: from [10.36.112.89] (ovpn-112-89.ams2.redhat.com [10.36.112.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5725D6086F;
- Tue,  1 Dec 2020 17:40:04 +0000 (UTC)
-Subject: Re: [RFC v7 09/26] vfio: Force nested if iommu requires it
-To: Kunkun Jiang <jiangkunkun@huawei.com>
-References: <c3d0f094-cffe-16c8-69fc-de7bdefc3680@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <c7681a9d-3e14-a095-e03c-3857cfef02b5@redhat.com>
-Date: Tue, 1 Dec 2020 18:40:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkA30-0002pv-D2
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 13:06:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59438)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkA2x-0000y7-VR
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 13:06:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kkA2s-00059e-K3
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 18:06:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 962C42E804A
+ for <qemu-devel@nongnu.org>; Tue,  1 Dec 2020 18:06:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <c3d0f094-cffe-16c8-69fc-de7bdefc3680@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 01 Dec 2020 17:47:14 -0000
+From: johannes <1906180@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: input keyboard
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fghgfh832 th-huth
+X-Launchpad-Bug-Reporter: johannes (fghgfh832)
+X-Launchpad-Bug-Modifier: johannes (fghgfh832)
+References: <160668110894.7596.13290289019242660849.malonedeb@soybean.canonical.com>
+Message-Id: <160684483512.23526.3892109954837542736.malone@wampee.canonical.com>
+Subject: [Bug 1906180] Re: Keyboard keys get stuck
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="08644ab21771254a8c489299c99344a1828acad8"; Instance="production"
+X-Launchpad-Hash: e1e03c8532098e297e3ad29899ecc7027aad4212
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,44 +71,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com, qemu-arm@nongnu.org, zhukeqian1@huawei.com,
- qemu-devel@nongnu.org
+Reply-To: Bug 1906180 <1906180@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kunkun,
+I've encountered this with GTK interface. I'll test if this occurs with
+SDL too.
 
-On 11/28/20 10:01 AM, Kunkun Jiang wrote:
-> Hi Eric,
->> @@ -1668,6 +1679,14 @@ static int vfio_connect_container(VFIOGroup *group, 
->> AddressSpace *as,
->>      VFIOContainer *container;
->>      int ret, fd;
->>      VFIOAddressSpace *space;
->> +    IOMMUMemoryRegion *iommu_mr;
->> +    bool nested = false;
->> +
->> +    if (as != &address_space_memory && memory_region_is_iommu(as->root)) {
->> +        iommu_mr = IOMMU_MEMORY_REGION(as->root);
->> +        memory_region_iommu_get_attr(iommu_mr, IOMMU_ATTR_VFIO_NESTED,
->> +                                     (void *)&nested);
->> +    }
->>  
->>      space = vfio_get_address_space(as);
-> Is the condition "as != &address_space_memory" needed to determine whether
-> a vIOMMU is in place? I think "memory_region_is_iommu(as->root)" is enough.
-> 
-> Looking forward to your reply.:)
+-- =
 
-Yes I think so.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906180
 
-Thank you for your report!
+Title:
+  Keyboard keys get stuck
 
-Eric
-> 
-> Thanks,
-> 
-> Kunkun Jiang
-> 
+Status in QEMU:
+  Incomplete
 
+Bug description:
+  Keyboard keys get "stuck" quite often, on certain Linux guests at
+  least, and start repeating themselves until another key is pressed.
+  This is especially noticeable with key combinations like Ctrl+V for
+  pasting. When it happens, you get the pasted text and
+  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv...
+
+  This bug has been present for quite some time but I don't remember any
+  specific version that had it first.
+
+  =
+
+  QEMU version: 5.1.0
+  Guest: Debian stable 64-bit (live), with Gnome desktop (may occur with ot=
+her Linux guests too)
+  Host: Arch Linux with KDE desktop (X11, wayland not tested); both default=
+ and hardened kernel tested
+
+  QEMU start command:
+  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom debian.iso -=
+boot d -vga std
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906180/+subscriptions
 
