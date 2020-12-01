@@ -2,67 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230052CAA86
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 19:08:27 +0100 (CET)
-Received: from localhost ([::1]:41458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50352CAA6F
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 19:04:46 +0100 (CET)
+Received: from localhost ([::1]:36056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkA4f-0003Vu-S9
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 13:08:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49524)
+	id 1kkA17-00014W-GX
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 13:04:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkA30-0002pv-D2
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 13:06:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59438)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkA2x-0000y7-VR
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 13:06:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kkA2s-00059e-K3
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 18:06:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 962C42E804A
- for <qemu-devel@nongnu.org>; Tue,  1 Dec 2020 18:06:34 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1kk9q8-0007mP-Jo
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 12:53:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29973)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1kk9q5-0007Kd-2h
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 12:53:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606845199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B/v5CnwFqSLCf8o45IvZU6vgSdzxCIcIcamKgC+cyrU=;
+ b=Nkw+c3EIbd8T6z9aAjAwkfEq+XBmet093xfmAIRYa0IxJed0BY9hiJ/d9EaZ9VU36Fzl7x
+ K41w/Cmybe4bbHEASQz4kX1xljFpe1IWCW1RCdIIdxxo87a6tWoqpsTRPtoUPdq1XUizLC
+ ASyP+k/n+jG+DGdYZ5HFNwvTR5NXrPA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-363-zvkEA75LO1KSGFbRCOM3Vw-1; Tue, 01 Dec 2020 12:53:17 -0500
+X-MC-Unique: zvkEA75LO1KSGFbRCOM3Vw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD271185E480;
+ Tue,  1 Dec 2020 17:53:15 +0000 (UTC)
+Received: from paraplu.localdomain (ovpn-115-42.ams2.redhat.com [10.36.115.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 955925D9CA;
+ Tue,  1 Dec 2020 17:53:15 +0000 (UTC)
+Received: by paraplu.localdomain (Postfix, from userid 1001)
+ id 25E103E0495; Tue,  1 Dec 2020 18:53:14 +0100 (CET)
+Date: Tue, 1 Dec 2020 18:53:14 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 00/23] tests/docker: start using libvirt-ci's "lcitool"
+ for dockerfiles
+Message-ID: <20201201175314.GA171937@paraplu.home>
+References: <20201201171825.2243775-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 01 Dec 2020 17:47:14 -0000
-From: johannes <1906180@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: input keyboard
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fghgfh832 th-huth
-X-Launchpad-Bug-Reporter: johannes (fghgfh832)
-X-Launchpad-Bug-Modifier: johannes (fghgfh832)
-References: <160668110894.7596.13290289019242660849.malonedeb@soybean.canonical.com>
-Message-Id: <160684483512.23526.3892109954837542736.malone@wampee.canonical.com>
-Subject: [Bug 1906180] Re: Keyboard keys get stuck
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="08644ab21771254a8c489299c99344a1828acad8"; Instance="production"
-X-Launchpad-Hash: e1e03c8532098e297e3ad29899ecc7027aad4212
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201201171825.2243775-1-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kchamart@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,47 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906180 <1906180@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've encountered this with GTK interface. I'll test if this occurs with
-SDL too.
+On Tue, Dec 01, 2020 at 05:18:02PM +0000, Daniel P. Berrangé wrote:
+ 
+> The same applies to package lists for VMs, Cirrus CI / Travis CI, and
+> probably more.
+> 
+> This problem is not unique to QEMU, libvirt faced the exact same issues
+> and developed a program called "lcitool" which is part of the libvirt-ci
+> git repository to reduce the burden in this area.
+> 
+>    https://gitlab.com/libvirt-ci/libvirt-ci/
 
--- =
+The above URL doesn't resolve for me; perhaps due to a typo.  This works
+for me:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906180
+    https://gitlab.com/libvirt/libvirt-ci
 
-Title:
-  Keyboard keys get stuck
+> Despite its name, this repository is not tied to libvirt, and so as well
+> as the 40+ libvirt git repos, it is also used by the libosinfo and
+> virt-viewer projects for their CI needs. The idea is that all these
+> projects can share the burden of libvirt-ci.
 
-Status in QEMU:
-  Incomplete
+[...]
 
-Bug description:
-  Keyboard keys get "stuck" quite often, on certain Linux guests at
-  least, and start repeating themselves until another key is pressed.
-  This is especially noticeable with key combinations like Ctrl+V for
-  pasting. When it happens, you get the pasted text and
-  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv...
+-- 
+/kashyap
 
-  This bug has been present for quite some time but I don't remember any
-  specific version that had it first.
-
-  =
-
-  QEMU version: 5.1.0
-  Guest: Debian stable 64-bit (live), with Gnome desktop (may occur with ot=
-her Linux guests too)
-  Host: Arch Linux with KDE desktop (X11, wayland not tested); both default=
- and hardened kernel tested
-
-  QEMU start command:
-  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom debian.iso -=
-boot d -vga std
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906180/+subscriptions
 
