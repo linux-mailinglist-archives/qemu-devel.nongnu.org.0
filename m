@@ -2,77 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82842CAFC1
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 23:11:27 +0100 (CET)
-Received: from localhost ([::1]:47288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E62872CAFC2
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 23:12:24 +0100 (CET)
+Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkDro-0006Yg-DH
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 17:11:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59872)
+	id 1kkDsm-0006um-17
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 17:12:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kkDpg-0005bD-Pk
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 17:09:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kkDpa-0003oi-Pf
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 17:09:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606860545;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=mGQYosAPpiGxcSPkqhAiLfaIC7Znf9agR7P7zPtor5c=;
- b=UnQHYl7IBQW1/kIxLhCP7DBvbWzqhN+Clk1jOj9w4cDFlh2iLo/Bf0uY3upbXVhZ5FcI1F
- cHwAAdh+UYHaPgXp4NfhZwJPPdRf/jUsJ1MNUjxAfdZ+0l3y4dv2oPCayzAEZ53EUjO0lD
- 8VMnWAo8VCr+uw/ORrCU9/KGQV+r0og=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-uYtvzPnbOm-QQi1EbNDvOw-1; Tue, 01 Dec 2020 17:09:03 -0500
-X-MC-Unique: uYtvzPnbOm-QQi1EbNDvOw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 792621005E49;
- Tue,  1 Dec 2020 22:09:02 +0000 (UTC)
-Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 272D819C47;
- Tue,  1 Dec 2020 22:08:55 +0000 (UTC)
-Date: Tue, 1 Dec 2020 17:08:54 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
-Message-ID: <20201201220854.GC3836@habkost.net>
-References: <20201130122538.27674-1-kwolf@redhat.com>
- <01d32c8c-5023-6323-bed8-ede08f6ac8a3@redhat.com>
- <20201130154605.GC5078@merkur.fritz.box>
- <a9c1ebf3-ffcc-7312-ce66-a79902d1e9ba@redhat.com>
- <20201130181037.GG5078@merkur.fritz.box>
- <65a9600f-ca8c-ef29-94d8-d9ea114e5e06@redhat.com>
- <20201201162042.GB6264@merkur.fritz.box>
- <db61f61a-1ffa-6185-10dc-3109ff111a35@redhat.com>
- <20201201193528.GC6264@merkur.fritz.box>
- <3449b5d6-d094-84c8-a0ea-4cd25364db2d@redhat.com>
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1kkDqN-0005sD-70; Tue, 01 Dec 2020 17:09:55 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:50348
+ helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1kkDqG-00041U-Op; Tue, 01 Dec 2020 17:09:54 -0500
+Received: from freeip.amazon.com
+ (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
+ by csgraf.de (Postfix) with UTF8SMTPSA id 5CA4F3900313;
+ Tue,  1 Dec 2020 23:09:45 +0100 (CET)
+Subject: Re: [PATCH] arm/hvf: Optimize and simplify WFI handling
+To: Peter Collingbourne <pcc@google.com>
+References: <20201201082142.649007-1-pcc@google.com>
+ <5b691ccb-43bb-5955-d47a-cae39c59522c@csgraf.de>
+ <CAMn1gO5i7CGet6rDVMwYf40vCMU61n7b=TTTTZzWSDbn+FGL1w@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <8cc9052b-da85-de93-9d54-d4d0730054ec@csgraf.de>
+Date: Tue, 1 Dec 2020 23:09:44 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
+ Gecko/20100101 Thunderbird/84.0
 MIME-Version: 1.0
-In-Reply-To: <3449b5d6-d094-84c8-a0ea-4cd25364db2d@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <CAMn1gO5i7CGet6rDVMwYf40vCMU61n7b=TTTTZzWSDbn+FGL1w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,175 +55,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, lvivier@redhat.com, thuth@redhat.com,
- pkrempa@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 01, 2020 at 10:23:57PM +0100, Paolo Bonzini wrote:
-> On 01/12/20 20:35, Kevin Wolf wrote:
-> > Am 01.12.2020 um 18:16 hat Paolo Bonzini geschrieben:
-> > I don't think this is actually a new things. We already have types and
-> > commands declared with things like 'if': 'defined(TARGET_S390X)'.
-> > As far as I understand, QAPI generated files are already built per
-> > target, so not compiling things into all binaries should be entirely
-> > possible.
-> 
-> There is some complication due to having different discriminators per
-> target.  So yes it should be possible.  But probably best left after objects
-> because it's so much bigger a task and because objects have a bit more
-> freedom for experimentation (less ties to other qdev-specific concepts, e.g.
-> the magic "bus" property).
-> 
-> > So maybe only the abstract base class that actually defines the machine
-> > properties (like generic-pc-machine) should be described in QAPI, and
-> > then the concrete machine types would inherit from it without being
-> > described in QAPI themselves?
-> 
-> Yes, maybe.
-> 
-> > > 1) whether to generate _all_ boilerplate or only properties
-> > 
-> > I would like to generate as much boilerplate as possible. That is, I
-> > don't want to constrain us to only properties, but at the same time, I'm
-> > not sure if it's possible to get rid of all boilerplate.
-> > 
-> > Basically, the vision I have in mind is that QAPI would generate code
-> > that is the same for most instances, and then provide an option that
-> > prevents code generation for a specific part for more complicated cases,
-> > so that the respective function can (and must) be provided in the C
-> > source.
-> 
-> Ok, so that's a bit different from what I am thinking of.  I don't care very
-> much about the internal boilerplate, only the external interface for
-> configuration.  So I don't care about type registration, dynamic cast macros
-> etc., only essentially the part that leads to ucc->complete.
-> 
-> > > 2) whether we want to introduce a separation between configuration
-> > > schema and run-time state
-> > 
-> > You mean the internal run-time state? How is this separation not already
-> > present with getter/setter functions for each property? In many cases
-> > they just directly access the run-time state, but there are other cases
-> > where they actually do things.
-> 
-> I mean moving more towards the blockdev/chardev way of doing things,
-> increasing the separation very much by having separate configuration structs
-> that have (potentially) no link to the run-time state struct.
-> 
-> > > 3) in the latter case, whether properties will survive at all---iothread and
-> > > throttle-groups don't really need them even if they're writable after
-> > > creation.
-> > 
-> > How do you define properties, i.e. at which point would they stop
-> > existing and what would be a non-property alternative?
-> 
-> Properties are only a useful concept if they have a use.  If
-> -object/object_add/object-add can do the same job without properties,
-> properties are not needed anymore.
 
-Do you mean "not needed for -object anymore"?  Properties are
-still used by internal C code (esp. board code),
--device/device_add, -machine, -cpu, and debugging commands (like
-"info qtree" and qom-list/qom-get/qom-set).
+On 01.12.20 21:03, Peter Collingbourne wrote:
+> On Tue, Dec 1, 2020 at 8:26 AM Alexander Graf <agraf@csgraf.de> wrote:
+>>
+>> On 01.12.20 09:21, Peter Collingbourne wrote:
+>>> Sleep on WFx until the VTIMER is due but allow ourselves to be woken
+>>> up on IPI.
+>>>
+>>> Signed-off-by: Peter Collingbourne <pcc@google.com>
+>>> ---
+>>> Alexander Graf wrote:
+>>>> I would love to take a patch from you here :). I'll still be stuck for a
+>>>> while with the sysreg sync rework that Peter asked for before I can look
+>>>> at WFI again.
+>>> Okay, here's a patch :) It's a relatively straightforward adaptation
+>>> of what we have in our fork, which can now boot Android to GUI while
+>>> remaining at around 4% CPU when idle.
+>>>
+>>> I'm not set up to boot a full Linux distribution at the moment so I
+>>> tested it on upstream QEMU by running a recent mainline Linux kernel
+>>> with a rootfs containing an init program that just does sleep(5)
+>>> and verified that the qemu process remains at low CPU usage during
+>>> the sleep. This was on top of your v2 plus the last patch of your v1
+>>> since it doesn't look like you have a replacement for that logic yet.
+>>
+>> How about something like this instead?
+>>
+>>
+>> Alex
+>>
+>>
+>> diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
+>> index 4360f64671..50384013ea 100644
+>> --- a/accel/hvf/hvf-cpus.c
+>> +++ b/accel/hvf/hvf-cpus.c
+>> @@ -337,16 +337,18 @@ static int hvf_init_vcpu(CPUState *cpu)
+>>        cpu->hvf = g_malloc0(sizeof(*cpu->hvf));
+>>
+>>        /* init cpu signals */
+>> -    sigset_t set;
+>>        struct sigaction sigact;
+>>
+>>        memset(&sigact, 0, sizeof(sigact));
+>>        sigact.sa_handler = dummy_signal;
+>>        sigaction(SIG_IPI, &sigact, NULL);
+>>
+>> -    pthread_sigmask(SIG_BLOCK, NULL, &set);
+>> -    sigdelset(&set, SIG_IPI);
+>> -    pthread_sigmask(SIG_SETMASK, &set, NULL);
+>> +    pthread_sigmask(SIG_BLOCK, NULL, &cpu->hvf->sigmask);
+>> +    sigdelset(&cpu->hvf->sigmask, SIG_IPI);
+>> +    pthread_sigmask(SIG_SETMASK, &cpu->hvf->sigmask, NULL);
+>> +
+>> +    pthread_sigmask(SIG_BLOCK, NULL, &cpu->hvf->sigmask_ipi);
+>> +    sigaddset(&cpu->hvf->sigmask_ipi, SIG_IPI);
+> There's no reason to unblock SIG_IPI while not in pselect and it can
+> easily lead to missed wakeups. The whole point of pselect is so that
+> you can guarantee that only one part of your program sees signals
+> without a possibility of them being missed.
 
-> 
-> Right now QOM is all about exposing properties, and having multiple
-> interfaces to set them (by picking a different visitor).  But in practice
-> most QOM objects have a lifetime that consists of 1) set properties 2) flip
-> a switch (realized/complete/open) 3) let the object live on its own.  1+2
-> are a single monitor command or CLI option; during 3 you access the object
-> through monitor commands, not properties.
 
-I agree with this, except for the word "all" in "QOM is all
-about".  QOM is also an extensively used internal QEMU API,
-including internal usage of the QOM property system.
+Hm, I think I start to agree with you here :). We can probably just 
+leave SIG_IPI masked at all times and only unmask on pselect. The worst 
+thing that will happen is a premature wakeup if we did get an IPI 
+incoming while hvf->sleeping is set, but were either not running 
+pselect() yet and bailed out or already finished pselect() execution.
 
-> 
-> > So in summary, it seems to me that the QOM way is more flexible because
-> > you can get both models out of it. Whether we actually need this
-> > flexibility I can't say.
-> 
-> I'm thinking there's no need for it, but maybe I'm overly optimistic.
-> 
-> > * Configuration options are described in the QAPI schema. This is mainly
-> >    for object creation, but runtime modifiable properties are a subset of
-> >    this.
-> > 
-> > * Properties are generated for each option. By default, the getter
-> >    just returns the value from the configuration at creation time, though
-> >    generation of it can be disabled so that it can be overridden. Also,
-> >    setters just return an error by default.
-> > 
-> > * Property setters aren't called for object creation. Instead, the
-> >    relevant ObjectOptions branch is made available to some init method.
-> > 
-> > * Runtime modifiable properties (declared as such in the schema) don't
-> >    get the default setter, so you have to provide an implementation for
-> >    them.
-> 
-> I wouldn't bother with properties at all in the QAPI schema.  Just do the
-> first and third bullet.  Declaring read-only QOM properties is trivial.
 
-I'm liking the direction this is taking.  However, I would still
-like to have a clearer and feasible plan that would work for
--device, -machine, and -cpu.
+>
+>>    #ifdef __aarch64__
+>>        r = hv_vcpu_create(&cpu->hvf->fd, (hv_vcpu_exit_t
+>> **)&cpu->hvf->exit, NULL);
+>> diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
+>> index c56baa3ae8..6e237f2db0 100644
+>> --- a/include/sysemu/hvf_int.h
+>> +++ b/include/sysemu/hvf_int.h
+>> @@ -62,8 +62,9 @@ extern HVFState *hvf_state;
+>>    struct hvf_vcpu_state {
+>>        uint64_t fd;
+>>        void *exit;
+>> -    struct timespec ts;
+>>        bool sleeping;
+>> +    sigset_t sigmask;
+>> +    sigset_t sigmask_ipi;
+>>    };
+>>
+>>    void assert_hvf_ok(hv_return_t ret);
+>> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+>> index 0c01a03725..350b845e6e 100644
+>> --- a/target/arm/hvf/hvf.c
+>> +++ b/target/arm/hvf/hvf.c
+>> @@ -320,20 +320,24 @@ int hvf_arch_init_vcpu(CPUState *cpu)
+>>
+>>    void hvf_kick_vcpu_thread(CPUState *cpu)
+>>    {
+>> -    if (cpu->hvf->sleeping) {
+>> -        /*
+>> -         * When sleeping, make sure we always send signals. Also, clear the
+>> -         * timespec, so that an IPI that arrives between setting
+>> hvf->sleeping
+>> -         * and the nanosleep syscall still aborts the sleep.
+>> -         */
+>> -        cpu->thread_kicked = false;
+>> -        cpu->hvf->ts = (struct timespec){ };
+>> +    if (qatomic_read(&cpu->hvf->sleeping)) {
+>> +        /* When sleeping, send a signal to get out of pselect */
+>>            cpus_kick_thread(cpu);
+>>        } else {
+>>            hv_vcpus_exit(&cpu->hvf->fd, 1);
+>>        }
+>>    }
+>>
+>> +static void hvf_block_sig_ipi(CPUState *cpu)
+>> +{
+>> +    pthread_sigmask(SIG_SETMASK, &cpu->hvf->sigmask_ipi, NULL);
+>> +}
+>> +
+>> +static void hvf_unblock_sig_ipi(CPUState *cpu)
+>> +{
+>> +    pthread_sigmask(SIG_SETMASK, &cpu->hvf->sigmask, NULL);
+>> +}
+>> +
+>>    static int hvf_inject_interrupts(CPUState *cpu)
+>>    {
+>>        if (cpu->interrupt_request & CPU_INTERRUPT_FIQ) {
+>> @@ -354,6 +358,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+>>        ARMCPU *arm_cpu = ARM_CPU(cpu);
+>>        CPUARMState *env = &arm_cpu->env;
+>>        hv_vcpu_exit_t *hvf_exit = cpu->hvf->exit;
+>> +    const uint32_t irq_mask = CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ;
+>>        hv_return_t r;
+>>        int ret = 0;
+>>
+>> @@ -491,8 +496,8 @@ int hvf_vcpu_exec(CPUState *cpu)
+>>                break;
+>>            }
+>>            case EC_WFX_TRAP:
+>> -            if (!(syndrome & WFX_IS_WFE) && !(cpu->interrupt_request &
+>> -                (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
+>> +            if (!(syndrome & WFX_IS_WFE) &&
+>> +                !(cpu->interrupt_request & irq_mask)) {
+>>                    uint64_t cval, ctl, val, diff, now;
+> I don't think the access to cpu->interrupt_request is safe because it
+> is done while not under the iothread lock. That's why to avoid these
+> types of issues I would prefer to hold the lock almost all of the
+> time.
 
-> 
-> > So while this series is doing only one part of the whole solution, that
-> > the second part is missing doesn't make the first part wrong.
-> 
-> Yeah, I think it's clear that for the long term we're not really disagreeing
-> (or perhaps I'm even more radical than you :)).  I'm just worried about
-> having yet another incomplete transition.
-> 
-> > One possibly nasty detail to consider there is that we sometimes declare
-> > the USER_CREATABLE interface in the base class, so ucc->complete is for
-> > the base class rather than the actually instantiated class. If we only
-> > instantiate leaf classes (I think this is true), we can move
-> > USER_CREATABLE there.
-> 
-> You can also use a while loop covering each superclass to decide how to
-> dispatch ucc->complete.  I don't care much about these details, they're
-> Simple Matter Of Programming. :)
-> 
-> > I also had in mind just passing the whole configuration struct
-> > (essentially always 'boxed': true), but you're right that individual
-> > parameters like for commands would be possible. I'm not entirely
-> > convinced that they would be better (there was a reason why we
-> > introduced 'boxed': true), but it's an option.
-> 
-> Having 'boxed': true by default would be just an implementation choice,
-> nothing to worry about.  (When I said the arguments would be the
-> configuration, having a boxed struct as the argument would fit the
-> description just as well).
-> 
-> > I was hoping that by converting object-add in this series, and the CLI
-> > options soon afterwards, it would be very obvious if you forget to
-> > change the schema because your new property just wouldn't work (at least
-> > not during creation).
-> 
-> Converting the CLI options is not entirely trivial due to -readconfig and
-> friends, so I was expecting that to last until that part of my 6.0 keyval
-> work goes in.  (It's almost ready for posting BTW,
-> https://gitlab.com/bonzini/qemu/-/commit/b59288c86c).
-> 
-> As soon as we have an idea of what we want UserCreatable to look in the end,
-> on both the QAPI side and the object implementation side.  That's also the
-> part where we have the biggest need to document the schema. With that part
-> at least roughly sketched out (no code needed), I'm okay with this series
-> going in.
-> 
-> I still don't like the triplication, but as George Michael puts it I just
-> gotta have faith---because I must admit, I'm positively surprised at the
-> ideas that came out of the discussion.
-> 
-> Paolo
-> 
 
--- 
-Eduardo
+In this branch, that's not a problem yet. On stale values, we either 
+don't sleep (which is ok), or we go into the sleep path, and reevaluate 
+cpu->interrupt_request atomically again after setting hvf->sleeping.
 
+
+>
+>>                    /* Set up a local timer for vtimer if necessary ... */
+>> @@ -515,9 +520,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+>>
+>>                    if (diff < INT64_MAX) {
+>>                        uint64_t ns = diff * gt_cntfrq_period_ns(arm_cpu);
+>> -                    struct timespec *ts = &cpu->hvf->ts;
+>> -
+>> -                    *ts = (struct timespec){
+>> +                    struct timespec ts = {
+>>                            .tv_sec = ns / NANOSECONDS_PER_SECOND,
+>>                            .tv_nsec = ns % NANOSECONDS_PER_SECOND,
+>>                        };
+>> @@ -526,27 +529,31 @@ int hvf_vcpu_exec(CPUState *cpu)
+>>                         * Waking up easily takes 1ms, don't go to sleep
+>> for smaller
+>>                         * time periods than 2ms.
+>>                         */
+>> -                    if (!ts->tv_sec && (ts->tv_nsec < (SCALE_MS * 2))) {
+>> +                    if (!ts.tv_sec && (ts.tv_nsec < (SCALE_MS * 2))) {
+>>                            advance_pc = true;
+>>                            break;
+>>                        }
+>>
+>> +                    /* block SIG_IPI for the sleep */
+>> +                    hvf_block_sig_ipi(cpu);
+>> +                    cpu->thread_kicked = false;
+>> +
+>>                        /* Set cpu->hvf->sleeping so that we get a SIG_IPI
+>> signal. */
+>> -                    cpu->hvf->sleeping = true;
+>> -                    smp_mb();
+>> +                    qatomic_set(&cpu->hvf->sleeping, true);
+> This doesn't protect against races because another thread could call
+> kvf_vcpu_kick_thread() at any time between when we return from
+> hv_vcpu_run() and when we set sleeping = true and we would miss the
+> wakeup (due to kvf_vcpu_kick_thread() seeing sleeping = false and
+> calling hv_vcpus_exit() instead of pthread_kill()). I don't think it
+> can be fixed by setting sleeping to true earlier either because no
+> matter how early you move it, there will always be a window where we
+> are going to pselect() but sleeping is false, resulting in a missed
+> wakeup.
+
+
+I don't follow. If anyone was sending us an IPI, it's because they want 
+to notify us about an update to cpu->interrupt_request, right? In that 
+case, the atomic read of that field below will catch it and bail out of 
+the sleep sequence.
+
+
+>
+> Peter
+>
+>> -                    /* Bail out if we received an IRQ meanwhile */
+>> -                    if (cpu->thread_kicked || (cpu->interrupt_request &
+>> -                        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
+>> -                        cpu->hvf->sleeping = false;
+>> +                    /* Bail out if we received a kick meanwhile */
+>> +                    if (qatomic_read(&cpu->interrupt_request) & irq_mask) {
+>> + qatomic_set(&cpu->hvf->sleeping, false);
+
+
+^^^
+
+
+Alex
+
+
+>> +                        hvf_unblock_sig_ipi(cpu);
+>>                            break;
+>>                        }
+>>
+>> -                    /* nanosleep returns on signal, so we wake up on
+>> kick. */
+>> -                    nanosleep(ts, NULL);
+>> +                    /* pselect returns on kick signal and consumes it */
+>> +                    pselect(0, 0, 0, 0, &ts, &cpu->hvf->sigmask);
+>>
+>>                        /* Out of sleep - either naturally or because of a
+>> kick */
+>> -                    cpu->hvf->sleeping = false;
+>> +                    qatomic_set(&cpu->hvf->sleeping, false);
+>> +                    hvf_unblock_sig_ipi(cpu);
+>>                    }
+>>
+>>                    advance_pc = true;
+>>
 
