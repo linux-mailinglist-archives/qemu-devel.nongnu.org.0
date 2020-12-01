@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE092C9FAC
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:36:55 +0100 (CET)
-Received: from localhost ([::1]:45794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7672C9FF5
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:39:38 +0100 (CET)
+Received: from localhost ([::1]:54668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk31i-0002Zd-E1
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:36:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41584)
+	id 1kk34L-0006SA-Rt
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:39:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kk2zU-0001Nn-UO
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:34:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56400)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kk300-0002CP-Ol
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kk2zT-0003bu-9i
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:34:36 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kk2zy-0003nO-9W
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606818874;
+ s=mimecast20190719; t=1606818905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hBA528xwRYSSjSKVEtg5kW900NXokfg/UwFhMGbUR+U=;
- b=S+0pXpxLopg1RbYXW1QH1sCHnsm9trlBglv4JMrKiAmGKPAeOikvo4ggi2MyU+ZCz5UC/X
- Gj3NRAOfadNIICLmDZSVNaSAu9ihNGFrACzc522uKWUNL/KZh7xP7+2R9hCXd6CP+x1a5v
- L9+f6LxJmAZOri3YrqyMMorzXMEKu/M=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517--PgW7q_YNNWlWdo3oZW2EA-1; Tue, 01 Dec 2020 05:34:31 -0500
-X-MC-Unique: -PgW7q_YNNWlWdo3oZW2EA-1
-Received: by mail-wm1-f69.google.com with SMTP id l5so546644wmi.4
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 02:34:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hBA528xwRYSSjSKVEtg5kW900NXokfg/UwFhMGbUR+U=;
- b=qC4YpftWbdUlvqgKTKLB/nFyBdxMbspagYoWzBtl3Nv949535UMyGwKuLUtu7zoPzs
- O5xSCQklsbV8d2S2eIq4gxSEIk8ad/8yKgFnHk3hHRV2KtOqIKgzHkZhFEJMB0HR+BrN
- H9xB79eeB+bjBMNb93hV+tJa2qPCsCTXn4sw8wmfvBqa7WdjcPjIzk2mM/eo5Fm9WCMA
- k5aYNnqSnjlUDDjeax55iexWK6eo2Fr7D/wT5GHItKENfC9GeUyVNleJKXClUDlIGE5M
- kRIns6IAzwrvyHowzNOE4qfQ/N1J+zBpLM0JgLdW4PaRQJQuuuDSSls04dytpMJfnE6k
- zwWA==
-X-Gm-Message-State: AOAM532oyRSuXy3R5cJmeFTiUHD65BFqIMTmiV0kuBzbvHth5N45WTrW
- z8WP/bB7nJ3eOFyM1D9YHXBZ0//B8GPRZUGHfAOmXcQq+ZawsOnIQwSrkHQEaEzZtZa9p7cglCt
- iZ6ur4IXh6kNctYo=
-X-Received: by 2002:a7b:cb8f:: with SMTP id m15mr1989204wmi.95.1606818870285; 
- Tue, 01 Dec 2020 02:34:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx4YqLECvFwTTiyRMcDZNkiQKYdagTNy3WQyRu5fO77xZ+HbYUdEHEtt2PcNVW105ifEMWQzg==
-X-Received: by 2002:a7b:cb8f:: with SMTP id m15mr1989173wmi.95.1606818869954; 
- Tue, 01 Dec 2020 02:34:29 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id w5sm2497821wrm.29.2020.12.01.02.34.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Dec 2020 02:34:29 -0800 (PST)
-Subject: Re: [PATCH v2] hw/nvme: Move NVMe emulation out of hw/block/ directory
-To: Klaus Jensen <its@irrelevant.dk>
-References: <20201130145238.2509405-1-philmd@redhat.com>
- <X8VblCummS/6aRMf@apples.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <741e46c7-5783-c616-c996-2ffdad733c89@redhat.com>
-Date: Tue, 1 Dec 2020 11:34:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=K3p8N4jYri23I/BabNlKZbK4bs1nk5OdMKsolwRi8eI=;
+ b=CAq9a+HG5WJ5/84f7LsSB9ELjW6hLSFEfeB2o+oMa3jotFJOa9dea3A5PZkJeztwloyYat
+ X9AJln5Ba7ptm73rv19syAMz+Vk/CyHen9bSbMfKyoa8UzsEH7Ievft7l8HyjeviD2Nebo
+ 2/ERmDn49pv22EoAUp3o2VcPFSJg+pM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-89-khiMk4FUNJaIhE4mmbWK6g-1; Tue, 01 Dec 2020 05:35:03 -0500
+X-MC-Unique: khiMk4FUNJaIhE4mmbWK6g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2B60190A7A1;
+ Tue,  1 Dec 2020 10:35:02 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6EB5910013C1;
+ Tue,  1 Dec 2020 10:35:02 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/32] kernel-doc: update from Linux 5.10
+Date: Tue,  1 Dec 2020 05:34:30 -0500
+Message-Id: <20201201103502.4024573-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <X8VblCummS/6aRMf@apples.localdomain>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,49 +76,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Keith Busch <kbusch@kernel.org>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/30/20 9:52 PM, Klaus Jensen wrote:
-> On Nov 30 15:52, Philippe Mathieu-Daudé wrote:
->> As IDE used to be, NVMe emulation is becoming an active
->> subsystem. Move it into its own namespace.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->> v2: Rebased after nvme-ns got merged in commit 8680d6e3646
->> ---
->>  meson.build                               |   1 +
->>  hw/{block/nvme.h => nvme/nvme-internal.h} |   4 +-
->>  hw/{block => nvme}/nvme-ns.h              |   0
->>  hw/{block/nvme.c => nvme/core.c}          |   2 +-
->>  hw/{block => nvme}/nvme-ns.c              |   0
->>  MAINTAINERS                               |   2 +-
->>  hw/Kconfig                                |   1 +
->>  hw/block/Kconfig                          |   5 -
->>  hw/block/meson.build                      |   1 -
->>  hw/block/trace-events                     | 132 ---------------------
->>  hw/meson.build                            |   1 +
->>  hw/nvme/Kconfig                           |   4 +
->>  hw/nvme/meson.build                       |   1 +
->>  hw/nvme/trace-events                      | 133 ++++++++++++++++++++++
->>  14 files changed, 145 insertions(+), 142 deletions(-)
->>  rename hw/{block/nvme.h => nvme/nvme-internal.h} (98%)
->>  rename hw/{block => nvme}/nvme-ns.h (100%)
->>  rename hw/{block/nvme.c => nvme/core.c} (99%)
->>  rename hw/{block => nvme}/nvme-ns.c (100%)
-> 
-> Would we want to consider renaming nvme-ns.c to namespace.c? And maybe
-> also follow up with consolidating nvme-ns.h into nvme-internal.h?
+v1->v2: fix bisectability (by disabling kernel-doc altogether)
+	pass Sphinx version from docs/sphinx/kerneldoc.py
+	remove unnecessary s/atomic_/qatomic_/ difference
 
-Yes, good idea!
+Alexander A. Klimov (1):
+  Replace HTTP links with HTTPS ones: documentation
 
-I'll respin.
+André Almeida (2):
+  kernel-doc: fix processing nested structs with attributes
+  kernel-doc: add support for ____cacheline_aligned_in_smp attribute
 
-Thanks,
+Jonathan Cameron (1):
+  kernel-doc: add support for ____cacheline_aligned attribute
 
-Phil.
+Jonathan Neuschäfer (1):
+  scripts/kernel-doc: Add support for named variable macro arguments
+
+Mauro Carvalho Chehab (19):
+  scripts: kernel-doc: proper handle @foo->bar()
+  scripts: kernel-doc: accept negation like !@var
+  scripts: kernel-doc: accept blank lines on parameter description
+  scripts/kernel-doc: parse __ETHTOOL_DECLARE_LINK_MODE_MASK
+  scripts/kernel-doc: handle function pointer prototypes
+  kernel-doc: include line numbers for function prototypes
+  scripts: kernel-doc: add support for typedef enum
+  scripts: kernel-doc: make it more compatible with Sphinx 3.x
+  scripts: kernel-doc: use a less pedantic markup for funcs on Sphinx
+    3.x
+  scripts: kernel-doc: fix troubles with line counts
+  scripts: kernel-doc: reimplement -nofunction argument
+  scripts: kernel-doc: fix typedef identification
+  scripts: kernel-doc: don't mangle with parameter list
+  scripts: kernel-doc: allow passing desired Sphinx C domain dialect
+  scripts: kernel-doc: fix line number handling
+  scripts: kernel-doc: try to use c:function if possible
+  scripts: kernel-doc: fix typedef parsing
+  scripts: kernel-doc: split typedef complex regex
+  scripts: kernel-doc: use :c:union when needed
+
+Paolo Bonzini (7):
+  docs: temporarily disable the kernel-doc extension
+  Revert "scripts/kerneldoc: For Sphinx 3 use c:macro for macros with
+    arguments"
+  Revert "kernel-doc: Use c:struct for Sphinx 3.0 and later"
+  Revert "kernel-doc: Handle function typedefs without asterisks"
+  Revert "kernel-doc: Handle function typedefs that return pointers"
+  Revert "docs: temporarily disable the kernel-doc extension"
+  scripts: kernel-doc: remove unnecesssary change wrt Linux
+
+Pierre-Louis Bossart (1):
+  scripts/kernel-doc: optionally treat warnings as errors
+
+ docs/sphinx/kerneldoc.py |   6 +-
+ scripts/kernel-doc       | 455 +++++++++++++++++++++++++++------------
+ 2 files changed, 324 insertions(+), 137 deletions(-)
+
+-- 
+2.26.2
 
 
