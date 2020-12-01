@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223952CA76A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 16:54:35 +0100 (CET)
-Received: from localhost ([::1]:44100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 860AD2CA784
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 16:56:52 +0100 (CET)
+Received: from localhost ([::1]:47170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk7z7-0000xo-Lr
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 10:54:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
+	id 1kk81L-0002Rm-Js
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 10:56:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kk7xt-0000CE-9p
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:53:17 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41770)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kk80F-0001rj-BM
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:55:43 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:46425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kk7xq-0006Fv-7p
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:53:17 -0500
-Received: by mail-ot1-x341.google.com with SMTP id j21so1950834otp.8
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 07:53:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kk80D-0007AS-O8
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:55:43 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id b2so3899126edy.13
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 07:55:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=zAXOBFFar0ef1XB2xVRkglOP08JbejR/BbShpLggLqc=;
- b=pdW9CkLVF6QdPVN+PaFGv0v4/hvxoQrsZCsNCZF0gj2sVMYjIUzNG+Na//qX7DtDgt
- ToD7UaF2jimrd9U84aVtODESg0DwzSrG6j26jh7HNi91xhLnyRkQrIc2OwkatmXcmEHm
- Ys8KwChZUkvKFnts0AZHpD/IlBiLv9bhF18DYqkFmLg+0P4GBo9L5Dxq/BXWP/UvtoEI
- 4tGjWzjgthTHfXxKKiGbmXkzQkd9hJ6splPaZu02LGzBzNt9Yq3MfOU/rOqndVI8VNcy
- aUKaaCjcXYzWOCYhads/Hh6eU12P3gJjfsofHgxsHV5E9/FB71qFOxlfC7+wJGnRcA2h
- yljw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HneIVzRro4Qu9ShoRAcYnZlFxbEwFy4eWutfE9LxWJs=;
+ b=NGlk0M5N2JLWkKhrSB3m+JFAYhluE0WDAwXlpYTknd9NazRGbPElwP/4q23/FvO2N6
+ ZyBAnaeP9nkqWHsaaL69A4dLQdGM/SPhdTRtza1m9dx3EQVrM520zvgIbAOaY2facel5
+ 1vXYRmJBFELn1Y/60Wx9ZBGfAlRKg+HfTq0F62xsQ2LQPmhEIOzpFyZQ/FB9G4xmvBPm
+ sYT2OdCOOPqiA2otiYYS9uTjvFTUAj2bdskiLHU1KbpfUa15WdvXIxTIIGTJ8h1ln6Hz
+ 7Uqvt18RbswN1iRdGul/pHdhIWrFnI2O+CJfA0QHw0ud8JLs2GZ7rC49iboUV43SwXab
+ XJHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zAXOBFFar0ef1XB2xVRkglOP08JbejR/BbShpLggLqc=;
- b=BNaTYAySxnzryteX07bj+TfK4naexKH8de1vNXkmu1VpWyBHifORQHfwfZHMz1FoRJ
- Z+ereriFE7I8ZiMqpPE3TZIsj0sc0voiXYj3OfhLoWJawgLVm4H0a13uLzzeSUOseil1
- tk0QjoDyOQIpQ/3TMPVeqFqwJaTkZXwP5o+7jaV9SomcFD8ZyJBVXZaSNZ81uRSPXWce
- 3leL6+R9Hzh3HW0uOrpJXeLpnrJi+ptmOSCljEDzbngxV7gFhDYOokzJFyB5c0mWzqXw
- GlfuE1NWB8F5J9ZGwTfxNDVm7IqBT2+nY1Hoy/dMDFx4JdXuUeC8tiad2JMsgv2APnzl
- KDrw==
-X-Gm-Message-State: AOAM533wCnXSIG3hGfk9MQab0eKI9w5gN2LqCQ9z3LywM842hECa4HP7
- tb6OuAdnTjBM652ybp4eQZ1EFTOJyjw1rVnm
-X-Google-Smtp-Source: ABdhPJzRYhlTzeGVrSxJVkp/iiE6/xjxOvoVFmf3SNfXOq2qrcsDLaIfqMgmynspAQd8zm+9SCjDQQ==
-X-Received: by 2002:a9d:505:: with SMTP id 5mr2319698otw.370.1606837992683;
- Tue, 01 Dec 2020 07:53:12 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id h64sm472904oib.33.2020.12.01.07.53.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Dec 2020 07:53:11 -0800 (PST)
-Subject: Re: [PATCH v2 23/28] target/arm: Implement CCR_S.TRD behaviour for SG
- insns
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20201119215617.29887-1-peter.maydell@linaro.org>
- <20201119215617.29887-24-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fadc03e2-d55f-4b91-ab1a-5b78aa24af24@linaro.org>
-Date: Tue, 1 Dec 2020 09:53:09 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HneIVzRro4Qu9ShoRAcYnZlFxbEwFy4eWutfE9LxWJs=;
+ b=m18zmlmvB/kRuNpLKYl4LndjWngPGwh4EdxmywYhP/NgmsZS35b3tPAw/No/HrS6dw
+ i05v0uQffT6F7KxAalxHdCUX1W3vYTGWdYHBx4WZwT7KJePGt/RX+nJJ0LuAc6KQ9QLa
+ pwGj3HhR/KrCjelZUw8G4tp79gh0OqUW+frzTWA+r61GY8uAgE3t7FeQNur8GdPI3O0X
+ cQMVXNbJvNyRvNfqtFEOOj8y6NOWvzoOgTbIQrP+aJALUISXHSdmNLbgrl0TqUYeWy9h
+ ldbCbX3y0Mx4ZX4yRiSM7OYI43R7EeCnzVocGFjiz4aRIh9R6N/oSz5yg48LIuD/3atp
+ +vJQ==
+X-Gm-Message-State: AOAM533Tm/HyED9sS9HPW/K2aQ43dVZ/mkyRaO+tzDxNU7Xcn5mp6NGx
+ /5zFv87lIsteW56536vTpg7FkQK+ZxvPfn+2QFIGYg==
+X-Google-Smtp-Source: ABdhPJzxurIMdE2NoPLLnSS1bPcY7A07OPdsksAeUcuNfNkgnS2KAjrAGlPnPQ/J8yYDQ4GZfH0Ifhl26TR2J2imEAA=
+X-Received: by 2002:a05:6402:3089:: with SMTP id
+ de9mr3702358edb.100.1606838140246; 
+ Tue, 01 Dec 2020 07:55:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201119215617.29887-24-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
+References: <20201125040642.2339476-1-richard.henderson@linaro.org>
+In-Reply-To: <20201125040642.2339476-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 1 Dec 2020 15:55:28 +0000
+Message-ID: <CAFEAcA9XFGbyYfcpoOVhtV_wySi9=DyMGe84C4uwYG14Z6bD6Q@mail.gmail.com>
+Subject: Re: [PATCH for-6.0 00/11] target/arm: enforce alignment
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,22 +77,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/20 3:56 PM, Peter Maydell wrote:
-> v8.1M introduces a new TRD flag in the CCR register, which enables
-> checking for stack frame integrity signatures on SG instructions.
-> Add the code in the SG insn implementation for the new behaviour.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/m_helper.c | 86 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 86 insertions(+)
+On Wed, 25 Nov 2020 at 04:06, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> As reported in https://bugs.launchpad.net/bugs/1905356
+>
+> Not implementing SCTLR.A, but all of the other required
+> alignment for SCTLR.A=0 in Table A3-1.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Something in this series breaks the 'make check-acceptance'
+record-and-replay test:
 
-r~
+ (30/40) tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt:
+PASS (9.14 s)
+ (31/40) tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_arm_virt:
+INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
+Timeout reached\nOriginal status: ERROR\n{'name':
+'31-tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_arm_virt',
+'logdir': '/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/result...
+(90.19 s)
 
+The log shows the "recording execution" apparently hanging,
+with the last output from the guest
+[    3.183662] Registering SWP/SWPB emulation handler
 
+thanks
+-- PMM
 
