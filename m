@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4177B2CA3E0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 14:31:49 +0100 (CET)
-Received: from localhost ([::1]:59202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39662CA3E1
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 14:31:50 +0100 (CET)
+Received: from localhost ([::1]:59308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk5ky-00044M-8J
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 08:31:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32790)
+	id 1kk5kz-000473-TT
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 08:31:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kk5hr-0002kM-Bq
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 08:28:35 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51923)
+ id 1kk5hx-0002kh-2h
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 08:28:41 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kk5hl-0006ID-CG
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 08:28:30 -0500
-Received: by mail-wm1-x342.google.com with SMTP id v14so2803239wml.1
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 05:28:26 -0800 (PST)
+ id 1kk5hq-0006K1-Gx
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 08:28:36 -0500
+Received: by mail-wm1-x343.google.com with SMTP id d3so2784287wmb.4
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 05:28:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SkU0x0PsOvuU2zhH0806drjS01R88qBbsS1X8IGmXd4=;
- b=LA/X9If1cVCFCMwkEgLppzUp/9UfevjG15I5JF7eCdbqqDE9PEumaHLJv89aznyfYk
- hoRR4feHL18uRP5ypbRZjAqhm/MqKuZRH93kFEaQtTw0+STl0pEXz0MdbtZ32HKnGML6
- zp8I9zWKKLoMYUJVDRehIKnJTTHxi86R6AMYAnOeiuPcYlmHaOnimXvs+rDyHoaJ8lfb
- fxB4S1kteycO97KharTTvReKrgq45dXsS6MphjGsWfHcE1GEFmtcU83jg3KBckzWO/eg
- I5sFNIDn+/oTlI1crmlD1bXW0GsOsWiw1UVRVwJjePy2cOxZry5gSTLUi/67miNlOZkU
- 3KFA==
+ bh=rp4xnUJtd5sl4NVBjhV9Hzwn0rVDspRr7Rk8qpU8HFs=;
+ b=jsrnKPHGJrSbQU9I/pKISqEwGFA2aC9mJ1msXv+esIjKWWclVOQQ48/i+eZH3Jm/qV
+ yZHCIB/0W0KnwrrTGPDbP/cfQHo5Ku9JLF/MvU6FrQ2tXD/0wA5M9w8EIdn499AkWpcU
+ Zi9/+MhF9QZuZPYhrTleB+tA27KU31b8OS4qTx2x0k04+UId34w1Ase+rIMqKI1Bdj9I
+ EKlH9dlXTX2vUasHmSE3kuNXAdgYtHP4OxdtlrTGslD0RsD1pKiL+2evk4seJdqzdbe3
+ nJCaNU4+ZCkMibl3dLqJWjzdilElhDgA+dc/MSjOF1z8Z27dz1JKH/2RyvXkrCaw9g0G
+ qWSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SkU0x0PsOvuU2zhH0806drjS01R88qBbsS1X8IGmXd4=;
- b=eTZK9qCoNzaC0s+WomTlAq31ajBrSdd224JwmmJG+nIrLufrU7lTJBtybQ22pzbxyh
- WAiH7Evqs+uAB6qOT8UTDVAA3ddvikE0qgN8QxM56X6w91Hqssw6hLAUZPawlg23rk8c
- R7ZL3qEahqlW+ROcdCKbTrX0hsHRFNdUAjkEMzlKwkWYjff2xxj2JoMwiN6NNPbDvlha
- zIxo1GHNSYKV6FgMUFc4u9xAnrqYl76CMrLAK7aqC8SOzFLijZ/7n9zZS9OXsJcKH2Ap
- oSDKeGpTAbezvZ7sOgKrVbfR+df/eOk88Q82ovnoSsOIkKFv19cSDQEHwheTjJ8tT40l
- Aigw==
-X-Gm-Message-State: AOAM530JjOkPc/ugNmUbiTc/qQoTox9ZuYM5TEFZhG3EQ0/DL0bv4LDC
- JHiq4c8/Oqso9zY8v7Rnt7s=
-X-Google-Smtp-Source: ABdhPJzMH4QBH1zWvlegMx2xfQw27rH86wcqPxfO889BQy68vSQ6O5s6Z+7EeQeb/TDoUFoZF+fgCQ==
-X-Received: by 2002:a05:600c:2188:: with SMTP id
- e8mr1846926wme.99.1606829305464; 
- Tue, 01 Dec 2020 05:28:25 -0800 (PST)
+ bh=rp4xnUJtd5sl4NVBjhV9Hzwn0rVDspRr7Rk8qpU8HFs=;
+ b=P48k84vu7oU+nYdSfqFv1sJRdpLslgCd891ery5BJSm8CvSomZOw0WeK6A26flkpvE
+ 7Rk95tN8yohG55HUKfOjCMG1oCPtdlM4X6b5+5iWXvukHica2vKg6E0jf+jsMo+SUVt4
+ sBqe8LgT+G0zPvUjeDGNNM8M4+WobUL7tFMwDydwwYNuQgFaclSl5i4rm1Z99aSFH3GE
+ kYQQFHiZu5TznzKZxoex+S1sYluKAn48zMi55TUMoMCPBQz+0++hOJSmtPMNZkpHT9Dg
+ +d6LtCLfeNW3VAQAaHpvq/DkhqUcuSzo+O5hcFrRTDJ2U9YVGSTCaKYCvVKUNuF4GQQo
+ 75Tg==
+X-Gm-Message-State: AOAM533mTv8xAgqVzfabn81g8shwe4cpNV2bm5ciU1bE5+stck5mseQi
+ NfZIZVUR/DSJhyJsjBTM8fY=
+X-Google-Smtp-Source: ABdhPJyAkn2+wfBkeqakUxJj80cczQukKxaQAsXINRBFWBKDZuWOOLxa2AlmpNUa9jPzDLbEZp5Vcg==
+X-Received: by 2002:a1c:4e0a:: with SMTP id g10mr2696362wmh.51.1606829310366; 
+ Tue, 01 Dec 2020 05:28:30 -0800 (PST)
 Received: from localhost.localdomain (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id x9sm3175063wru.55.2020.12.01.05.28.24
+ by smtp.gmail.com with ESMTPSA id i11sm3253089wrm.1.2020.12.01.05.28.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Dec 2020 05:28:24 -0800 (PST)
+ Tue, 01 Dec 2020 05:28:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Huacai Chen <chenhc@lemote.com>, qemu-devel@nongnu.org,
  Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 1/3] target/mips: Add CP0 Config0 register definitions for
- MIPS3 ISA
-Date: Tue,  1 Dec 2020 14:28:15 +0100
-Message-Id: <20201201132817.2863301-2-f4bug@amsat.org>
+Subject: [PATCH 2/3] target/mips: Replace CP0_Config0 magic values by proper
+ definitions
+Date: Tue,  1 Dec 2020 14:28:16 +0100
+Message-Id: <20201201132817.2863301-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201201132817.2863301-1-f4bug@amsat.org>
 References: <20201201132817.2863301-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,49 +94,57 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MIPS3 and MIPS32/64 ISA use different definitions
-for the CP0 Config0 register.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/cpu.h | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ target/mips/translate_init.c.inc | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 23f8c6f96cd..05291cee4db 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -828,7 +828,7 @@ struct CPUMIPSState {
- #define CP0EBase_WG 11
-     target_ulong CP0_CMGCRBase;
- /*
-- * CP0 Register 16
-+ * CP0 Register 16 (after Release 1)
-  */
-     int32_t CP0_Config0;
- #define CP0C0_M    31
-@@ -837,13 +837,20 @@ struct CPUMIPSState {
- #define CP0C0_MDU  20
- #define CP0C0_MM   18
- #define CP0C0_BM   16
--#define CP0C0_Impl 16    /* 24..16 */
- #define CP0C0_BE   15
- #define CP0C0_AT   13    /* 14..13 */
- #define CP0C0_AR   10    /* 12..10 */
- #define CP0C0_MT   7     /*  9..7  */
- #define CP0C0_VI   3
- #define CP0C0_K0   0     /*  2..0  */
-+/*
-+ * CP0 Register 16 (before Release 1)
-+ */
-+#define CP0C0_Impl 16    /* 24..16 */
-+#define CP0C0_IC   9     /* 11..9 */
-+#define CP0C0_DC   6     /*  8..6 */
-+#define CP0C0_IB   5
-+#define CP0C0_DB   4
-     int32_t CP0_Config1;
- #define CP0C1_M    31
- #define CP0C1_MMU  25    /* 30..25 */
+diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
+index ea85d5c6a79..4206d8f0859 100644
+--- a/target/mips/translate_init.c.inc
++++ b/target/mips/translate_init.c.inc
+@@ -495,7 +495,8 @@ const mips_def_t mips_defs[] =
+         .name = "R4000",
+         .CP0_PRid = 0x00000400,
+         /* No L2 cache, icache size 8k, dcache size 8k, uncached coherency. */
+-        .CP0_Config0 = (1 << 17) | (0x1 << 9) | (0x1 << 6) | (0x2 << CP0C0_K0),
++        .CP0_Config0 = (2 << CP0C0_Impl) | (1 << CP0C0_IC) | (1 << CP0C0_DC) |
++                       (2 << CP0C0_K0),
+         /* Note: Config1 is only used internally, the R4000 has only Config0. */
+         .CP0_Config1 = (1 << CP0C1_FP) | (47 << CP0C1_MMU),
+         .CP0_LLAddr_rw_bitmask = 0xFFFFFFFF,
+@@ -516,7 +517,8 @@ const mips_def_t mips_defs[] =
+         .name = "VR5432",
+         .CP0_PRid = 0x00005400,
+         /* No L2 cache, icache size 8k, dcache size 8k, uncached coherency. */
+-        .CP0_Config0 = (1 << 17) | (0x1 << 9) | (0x1 << 6) | (0x2 << CP0C0_K0),
++        .CP0_Config0 = (2 << CP0C0_Impl) | (1 << CP0C0_IC) | (1 << CP0C0_DC) |
++                       (2 << CP0C0_K0),
+         .CP0_Config1 = (1 << CP0C1_FP) | (47 << CP0C1_MMU),
+         .CP0_LLAddr_rw_bitmask = 0xFFFFFFFFL,
+         .CP0_LLAddr_shift = 4,
+@@ -766,8 +768,8 @@ const mips_def_t mips_defs[] =
+         .name = "Loongson-2E",
+         .CP0_PRid = 0x6302,
+         /* 64KB I-cache and d-cache. 4 way with 32 bit cache line size.  */
+-        .CP0_Config0 = (0x1<<17) | (0x1<<16) | (0x1<<11) | (0x1<<8) |
+-                       (0x1<<5) | (0x1<<4) | (0x1<<1),
++        .CP0_Config0 = (3 << CP0C0_Impl) | (4 << CP0C0_IC) | (4 << CP0C0_DC) |
++                       (1 << CP0C0_IB) | (1 << CP0C0_DB) | (0x2 << CP0C0_K0),
+         /* Note: Config1 is only used internally,
+            Loongson-2E has only Config0.  */
+         .CP0_Config1 = (1 << CP0C1_FP) | (47 << CP0C1_MMU),
+@@ -786,8 +788,8 @@ const mips_def_t mips_defs[] =
+         .name = "Loongson-2F",
+         .CP0_PRid = 0x6303,
+         /* 64KB I-cache and d-cache. 4 way with 32 bit cache line size.  */
+-        .CP0_Config0 = (0x1<<17) | (0x1<<16) | (0x1<<11) | (0x1<<8) |
+-                       (0x1<<5) | (0x1<<4) | (0x1<<1),
++        .CP0_Config0 = (3 << CP0C0_Impl) | (4 << CP0C0_IC) | (4 << CP0C0_DC) |
++                       (1 << CP0C0_IB) | (1 << CP0C0_DB) | (0x2 << CP0C0_K0),
+         /* Note: Config1 is only used internally,
+            Loongson-2F has only Config0.  */
+         .CP0_Config1 = (1 << CP0C1_FP) | (47 << CP0C1_MMU),
 -- 
 2.26.2
 
