@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522F32CA145
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:28:27 +0100 (CET)
-Received: from localhost ([::1]:50802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C3A2CA148
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:29:18 +0100 (CET)
+Received: from localhost ([::1]:54104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk3pa-0003FV-Ah
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:28:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56122)
+	id 1kk3qP-0004es-Qb
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:29:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk3nF-0001om-De
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:26:01 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:43157)
+ id 1kk3oY-00039a-VZ
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:27:22 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk3nD-00055Z-Kz
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:26:01 -0500
-Received: by mail-ed1-x543.google.com with SMTP id q16so2663344edv.10
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 03:25:59 -0800 (PST)
+ id 1kk3oX-0005lo-AJ
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:27:22 -0500
+Received: by mail-ej1-x642.google.com with SMTP id lt17so3407388ejb.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 03:27:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c8jveT3tECyJnG+7hGEVSEiGXyeEqrtrCyGUJlqtZXY=;
- b=vR0OuWeh25h/xRFL+ybVj6QvhmZ/K4ver/Rw1SzhQedVge5mrmzF71Z8kvmCn6YKAZ
- iWjiZd5dfnSISYqALQz64J2kbAc7ejaKIY6h4mu1p4mUwILYsuen3vA2filmrJ0ZTyT9
- CSm+h0yFQ9kkpMHeYj2NWE4kYD6DUlP9ghfdOHIyQVFK7v07HrGzvuAjJF7FYPpWFmvl
- fiL8LZ8nei4rjxolJv4X/9hTqEFWU/5EO8kgW8tIu8Ief49+1sJO1uQomzCa69kSdKyQ
- K7RY4cngO9iWCMqzo5mF+EwSFArJsjIzcyXgKOddqbpJTcb3hYNGLTN8Vbrc9vVFN/ng
- AI0g==
+ :cc; bh=q0Wwrvegb1qoR/YpB8x0Ur20UAQCrPkmQcYzpu0fTeQ=;
+ b=Lu/lP1a93ld4ErWH+IgY4Z5rwS6z3YrWncmXV4G0QYfT+Q6JWQDxWzuxtu3+WPXkn3
+ BrUkyVrNlOQm/w14V5OTp2lWPwoPip8wSMzS29Kgu+Umj9v0G6cwU3EN7sCHq/IyAW39
+ McJBaCE2wYsJLsScwV6G7ImyvmvAUZpzunGJaEluy7V25FAFjerjazWsdD00iXnS6lb8
+ +XHSFqKlWBLoVBCPMPKOwV+M2pctONLICB9wcTqcAiU532z/wfkUcYiM1wRuwZwlyXTf
+ BFOujBBxRS0xw5v41/GrSGZk5YOiPhsyGoyD7X4WSQFeuR7NhSG1/+EkpWiv64IJ9IMh
+ CUtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=c8jveT3tECyJnG+7hGEVSEiGXyeEqrtrCyGUJlqtZXY=;
- b=VVWtS6hb0xBJAnnpc3u6h8r8i7my8fHckNzLpNT7EECdZnCtmuiLyV9fNshWVock7I
- IGZmXWLIf0YSSlLB70VXHOK2dyPEolWHO0XPgpj9lcUEeZzs1JSNyivMmQek6yuSWUSH
- l6nGIcW8nrouuuQaNwmi2pgjtNls8EyjSfFwGMyO3mfTG1F6JGyQRZngVeYgOyfTbna5
- kwhnxu6oQ3lRjY9wWrsVYR2CmX8QLQS00LChfnTGg8JnWcdQAfZY3dxDZ5s0Zg5VmX5J
- /vPcNIKt010Jp6x4K0njMxA967QD/JhThGvGZDCNVO984m0LWlE/iZIX9wFAFko9DCeH
- YLTQ==
-X-Gm-Message-State: AOAM531LLbmYQDAT2BugkqzIjomwuUqdDzNfpomo9K29nbTf7jofNjyW
- sJG1F8qszAv5BT81JNVmrQxZkbx0X2bJRobac313zg==
-X-Google-Smtp-Source: ABdhPJwi4p+oQqMpTAvL/bHnbp+Cdw8aFojQBYNFMksK7NKQjrHCpe+fH0Y00DsMemNF4c0pyTvIjlK6uFZudCNuBss=
-X-Received: by 2002:a50:fe88:: with SMTP id d8mr2477814edt.36.1606821957956;
- Tue, 01 Dec 2020 03:25:57 -0800 (PST)
+ bh=q0Wwrvegb1qoR/YpB8x0Ur20UAQCrPkmQcYzpu0fTeQ=;
+ b=FTqSQilmSywdPUDTL1UMtgUqjowOygrZYFkcHKU7FQiwCXRqGwl1RbyhBLUPEb/UaW
+ dBLOonPY/HUtu1YPQu2MsRLMaQyQiqpDwMZqJ2FokewJVGkrtF6u9grgo2SAX0nl9pKc
+ 6K2Hf9q81VERgrr7urGyxzQpNuMNA+J6op5oyptKuqkz0HZCp4vdZTv9iPjroIaSt5et
+ ABq0PO6tL3bX28hHCqPPqeOjleT6mUMw3LlFthQsp5iI0fHg5sumqj07nG55NSG/87Ht
+ d8wed+tzaoblOUyawf2vgwA0wcw2rOp2XF3soiYzZoXyYLVMcVACCvNeGefiY6+bZGs+
+ ewPw==
+X-Gm-Message-State: AOAM531uubcg4RyuPMGTEUJUhXyn06Qo5qpePu2XFPDZl50fsajOggxB
+ 93J4uKLNup5/itc8IZaXerSh0TIBzUe2BdWhf0/L1A==
+X-Google-Smtp-Source: ABdhPJzRHjnR1n/XIN+NThzKHDiC5xqI6+OP+yBrdl/cSfi4gGapXhMgiCgk2lb0KG5HO7MJ8NQntky27t4dXc1i4hE=
+X-Received: by 2002:a17:906:4bc6:: with SMTP id x6mr2605606ejv.4.1606822039845; 
+ Tue, 01 Dec 2020 03:27:19 -0800 (PST)
 MIME-Version: 1.0
 References: <1606811915-8492-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1606811915-8492-3-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1606811915-8492-3-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1606811915-8492-4-git-send-email-sai.pavan.boddu@xilinx.com>
+In-Reply-To: <1606811915-8492-4-git-send-email-sai.pavan.boddu@xilinx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Dec 2020 11:25:46 +0000
-Message-ID: <CAFEAcA_mLWxwXf6wWbLABOVeEz=bgTQhiV4B718Z4=vBGNi-4A@mail.gmail.com>
-Subject: Re: [PATCH v14 2/4] usb: Add DWC3 model
+Date: Tue, 1 Dec 2020 11:27:08 +0000
+Message-ID: <CAFEAcA9_W3EbVdRXL118-hHqTxjkDnSJgXmMqctJdAXRf+Tb2g@mail.gmail.com>
+Subject: Re: [PATCH v14 3/4] usb: xlnx-usb-subsystem: Add xilinx usb subsystem
 To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x543.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,31 +91,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 1 Dec 2020 at 08:34, Sai Pavan Boddu <sai.pavan.boddu@xilinx.com> wrote:
 >
-> From: Vikram Garhwal <fnu.vikram@xilinx.com>
+> This model is a top level integration wrapper for hcd-dwc3 and
+> versal-usb2-ctrl-regs modules, this is used by xilinx versal soc's and
+> future xilinx usb subsystems would also be part of it.
 >
-> This patch adds skeleton model of dwc3 usb controller attached to
-> xhci-sysbus device. It defines global register space of DWC3 controller,
-> global registers control the AXI/AHB interfaces properties, external FIFO
-> support and event count support. All of which are unimplemented at
-> present,we are only supporting core reset and read of ID register.
->
-> Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
 > Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> ---
 
-
-> +typedef struct USBDWC3 {
-> +    SysBusDevice parent_obj;
-> +    MemoryRegion iomem;
-> +    MemoryRegion fifos;
-> +    XHCISysbusState sysbus_xhci;
-> +
-> +    uint32_t regs[USB_DWC3_R_MAX];
-> +    RegisterInfo regs_info[USB_DWC3_R_MAX];
-
-This device has state but is missing the VMState struct
-support for migration. Otherwise it looks OK.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
