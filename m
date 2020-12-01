@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C662CAABD
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 19:31:09 +0100 (CET)
-Received: from localhost ([::1]:33320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CF12CAAE3
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 19:38:58 +0100 (CET)
+Received: from localhost ([::1]:38096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkAQe-0004vB-HQ
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 13:31:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55726)
+	id 1kkAYB-0007Sp-IS
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 13:38:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kkAOb-0004Ox-Py
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 13:29:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31237)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kkAWd-0006yC-Eh
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 13:37:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kkAOY-00042A-Fy
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 13:29:01 -0500
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kkAWb-0005Fi-1j
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 13:37:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606847335;
+ s=mimecast20190719; t=1606847835;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=njg6IPctWBElVVsNVOr/xGIC1RDnU/exymoUsbJohWY=;
- b=DKuawUdJBhzR2IZqSYm2jonw0K9oWKZRV3ilK5u9aC6BywgAmIXQDqw0PUatfldCrlM6ul
- B9ujfxnmx9NzjZ8IzRYu1HKXpm/jm9mg7rn+RzACcrYFtvbIOLtIFSbqVYURjJNyWNLOtV
- NzGPl6KzY4vfduDtJgnQ2sz3Y/CMKoI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=yA+gJjA7k65lkI61i/SJfinHjgRSacE/Vz5y7r1hKpY=;
+ b=Bpwfiik0n/LFYJZyoh4/x9+t067stvybuyVEkcHY9bRyde3hW7oDRfzZ8OGIqdrObt3KE4
+ 3J5u6i6wt9JyZ5J41s7Z4uR+6FitplxrEasf9lvp5i6GEXUU02AXCoD5axUnkgunbOJVTm
+ AhPfKePnYI7R4Urj9d17tbUS3gv4zI0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-2ao4uNAYN5mCAf1BiJKX-w-1; Tue, 01 Dec 2020 13:28:53 -0500
-X-MC-Unique: 2ao4uNAYN5mCAf1BiJKX-w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-51-IgJ_5onwNiaSfgD7v6jCKw-1; Tue, 01 Dec 2020 13:37:13 -0500
+X-MC-Unique: IgJ_5onwNiaSfgD7v6jCKw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4860A9A22D;
- Tue,  1 Dec 2020 18:28:52 +0000 (UTC)
-Received: from localhost (ovpn-117-173.rdu2.redhat.com [10.10.117.173])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 61F4210013BD;
- Tue,  1 Dec 2020 18:28:45 +0000 (UTC)
-Date: Tue, 1 Dec 2020 13:28:43 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
-Message-ID: <20201201182843.GM2271382@habkost.net>
-References: <20201130122538.27674-1-kwolf@redhat.com>
- <01d32c8c-5023-6323-bed8-ede08f6ac8a3@redhat.com>
- <20201130154605.GC5078@merkur.fritz.box>
- <a9c1ebf3-ffcc-7312-ce66-a79902d1e9ba@redhat.com>
- <20201130181037.GG5078@merkur.fritz.box>
- <65a9600f-ca8c-ef29-94d8-d9ea114e5e06@redhat.com>
- <20201201162042.GB6264@merkur.fritz.box>
- <db61f61a-1ffa-6185-10dc-3109ff111a35@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 620C18030D8
+ for <qemu-devel@nongnu.org>; Tue,  1 Dec 2020 18:37:12 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D9AB5D9DC;
+ Tue,  1 Dec 2020 18:37:07 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] docs: set CONFDIR when running sphinx
+Date: Tue,  1 Dec 2020 22:37:04 +0400
+Message-Id: <20201201183704.299697-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <db61f61a-1ffa-6185-10dc-3109ff111a35@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -84,96 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, lvivier@redhat.com, thuth@redhat.com,
- pkrempa@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
+Cc: pbonzini@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 01, 2020 at 06:16:14PM +0100, Paolo Bonzini wrote:
-> On 01/12/20 17:20, Kevin Wolf wrote:
-[...]
-> > BlockdevOptions is about external interfaces, not about
-> > implementation details. Same thing as QOM properties are external
-> > interfaces, not implementation details. There may be fields in the
-> > internal state that correspond 1:1 to the externally visible QAPI
-> > type/QOM property, but it's not necessarily the case.
-> 
-> Right.  It may well be that we decide that, as a result of this series,
-> QOM's property interface is declared essentially a failed experiment.  I
-> wouldn't be surprised, and that's why I want to understand better where we
-> want to go.
-> 
-> For example, Eduardo is focusing specifically on external interfaces that
-> correspond 1:1 to the internal implementation.  If we decide that
-> non-1:1-mappings and checks on mandatory properties are an important part of
-> QOM, that may make large parts of his work moot.  [...]
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Whatever we decide, my first and biggest worry is to have a
-reasonable migration path for any new API.
+The default configuration path /etc/qemu can be overriden with configure
+options, and the generated documentation used to reflect it.
 
-We could describe in detail what's the API we _want_, but we also
-need a reasonable migration path for the code we already _have_.
-If a new API that requires manual conversion of existing devices,
-it will probably coexist with the existing qdev property API for
-years.
+Fixes regression introduced in commit
+f8aa24ea9a82da38370470c6bc0eaa393999edfe ("meson: sphinx-build").
 
-(Note that I haven't read this whole thread yet.)
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1902537
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ docs/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->                                            [...]  If we decide that most QOM
-> objects need no properties at all, then we don't want to move more
-> qdev-specific stuff from to QOM.
-
-I don't understand what "move more qdev-specific stuff to QOM"
-means.  I consider the QOM field property API valuable even if we
-decide the only user of the API will be legacy qdev code, because
-it separates the core mechanism (that's code that already
-existed) from qdev-specific policies.
-
-> 
-> > QAPI is already here and it's going to stay. QOM doesn't have to
-> > duplicate input validation that existing code can already perform.
-> > 
-> > I'm not sure which complexity you think I'm introducing: QAPI is already
-> > there. I'm adding the schema, which you agree is valuable documentation,
-> > so we want to have it either case. The actual change to QOM that we have
-> > in this series is this:
-> 
-> The complexity is that properties used to be split in two places, and now
-> they're split in three places.
-> 
-> It may very well be that this is a good first step to at least have classes
-> described in the QAPI schema.  But since _in the short term_ there are
-> things that the series makes worse (and has a risk of bringing things out of
-> sync), I'd like to understand the long term plan and ensure that the QAPI
-> maintainers are on board with it.
-> 
-> Can you at least add a comment to all UserCreatable classes that says "if
-> you add a property, remember to modify ... as well in the QAPI schema"?
-> 
-> > > Are there any validation bugs that you're fixing?  Is that
-> > > something that cannot be fixed elsewhere, or are you papering over bad QOM
-> > > coding?  (Again, I'm not debating that QOM properties are hard to write
-> > > correctly).
-> > 
-> > Yes, I found bugs that the QAPI schema would have prevented. They were
-> > generally about not checking whether mandatory propertes are actually
-> > set.
-> 
-> Okay, I found your series at
-> https://patchew.org/QEMU/20201130105615.21799-1-kwolf@redhat.com/ too, good
-> to know.
-> 
-> So that's another useful thing that can be chalked to this series at least
-> if -object and object_add are converted (and also, another thing against QOM
-> properties and 1:1 mappings between configuration schema and run-time
-> state).
-> 
-> Paolo
-> 
-
+diff --git a/docs/meson.build b/docs/meson.build
+index ebd85d59f9..bb8fe4c9e4 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -9,7 +9,7 @@ endif
+ # Check if tools are available to build documentation.
+ build_docs = false
+ if sphinx_build.found()
+-  SPHINX_ARGS = [sphinx_build]
++  SPHINX_ARGS = ['env', 'CONFDIR=' + qemu_confdir, sphinx_build]
+   # If we're making warnings fatal, apply this to Sphinx runs as well
+   if get_option('werror')
+     SPHINX_ARGS += [ '-W' ]
 -- 
-Eduardo
+2.29.0
 
 
