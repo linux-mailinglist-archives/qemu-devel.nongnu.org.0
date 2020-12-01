@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04DFF2C9FF9
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:40:27 +0100 (CET)
-Received: from localhost ([::1]:57714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3933F2CA028
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:45:47 +0100 (CET)
+Received: from localhost ([::1]:46330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk358-0007hE-1m
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:40:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41772)
+	id 1kk3AI-0006N6-69
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:45:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk301-0002Dx-H5
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26219)
+ id 1kk303-0002In-DI
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kk2zz-0003nf-T3
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:09 -0500
+ id 1kk300-0003oV-SD
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:35:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606818906;
+ s=mimecast20190719; t=1606818908;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WZYXKzO00JVUutQHmW9BkONu+EccXzcyR5d1oJJtjkE=;
- b=iYIpKmgORPSpcowK7EvL7HLfA/U1mdjYRFgcCUQSx/oJJ3M1NPsxFptGIaet8lhgY1uX/u
- +XU6BsT0xh72B7Y8U7ZbkVxzEdKdNRxAsMh8o8cRfXP67yZL8wLZ6kDe8CqxIrnRNEaTXI
- a1iNYt0YF8/hKuVavaSt3up0FeCaXew=
+ bh=lTbNvUmcxZxw5oB2uz5Cuhkq6SClsJLpylk8edw4H+k=;
+ b=Whf+kr2mgIDrOKliJgeKgef3XffAlMaTwgPVB8ZUbT0GZs0pjFCtjr43Wk7WvHoDNxgP0o
+ 1egpqJIbLHd5PvVW7yC73fZ/0Qsi0AgTXG/O0rMev/Xh+jKnWSKUvqJQF10TT1sWKKi41j
+ t5p6Q3rahYT/cmJxnk4jr1OlsBR69sA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-EM7CAT3-PACRfdnVtYkFuQ-1; Tue, 01 Dec 2020 05:35:05 -0500
-X-MC-Unique: EM7CAT3-PACRfdnVtYkFuQ-1
+ us-mta-591-0zsXgIfKOzyox2dgK1xjWA-1; Tue, 01 Dec 2020 05:35:05 -0500
+X-MC-Unique: 0zsXgIfKOzyox2dgK1xjWA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E61399A242;
- Tue,  1 Dec 2020 10:35:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50A8A100C61A;
+ Tue,  1 Dec 2020 10:35:04 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9FDE110013C1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C89E10013C1;
  Tue,  1 Dec 2020 10:35:03 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 03/32] kernel-doc: add support for
- ____cacheline_aligned_in_smp attribute
-Date: Tue,  1 Dec 2020 05:34:33 -0500
-Message-Id: <20201201103502.4024573-4-pbonzini@redhat.com>
+Subject: [PATCH v2 04/32] scripts/kernel-doc: Add support for named variable
+ macro arguments
+Date: Tue,  1 Dec 2020 05:34:34 -0500
+Message-Id: <20201201103502.4024573-5-pbonzini@redhat.com>
 In-Reply-To: <20201201103502.4024573-1-pbonzini@redhat.com>
 References: <20201201103502.4024573-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -84,43 +84,87 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: André Almeida <andrealmeid@collabora.com>
+From: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
 
-Subroutine dump_struct uses type attributes to check if the struct
-syntax is valid. Then, it removes all attributes before using it for
-output. `____cacheline_aligned_in_smp` is an attribute that is
-not included in both steps. Add it, since it is used by kernel structs.
+Currently, when kernel-doc encounters a macro with a named variable
+argument[1], such as this:
 
-Signed-off-by: André Almeida <andrealmeid@collabora.com>
+   #define hlist_for_each_entry_rcu(pos, head, member, cond...)
+
+... it expects the variable argument to be documented as `cond...`,
+rather than `cond`. This is semantically wrong, because the name (as
+used in the macro body) is actually `cond`.
+
+With this patch, kernel-doc will accept the name without dots (`cond`
+in the example above) in doc comments, and warn if the name with dots
+(`cond...`) is used and verbose mode[2] is enabled.
+
+The support for the `cond...` syntax can be removed later, when the
+documentation of all such macros has been switched to the new syntax.
+
+Testing this patch on top of v5.4-rc6, `make htmldocs` shows a few
+changes in log output and HTML output:
+
+ 1) The following warnings[3] are eliminated:
+
+   ./include/linux/rculist.h:374: warning:
+        Excess function parameter 'cond' description in 'list_for_each_entry_rcu'
+   ./include/linux/rculist.h:651: warning:
+        Excess function parameter 'cond' description in 'hlist_for_each_entry_rcu'
+
+ 2) For list_for_each_entry_rcu and hlist_for_each_entry_rcu, the
+    correct description is shown
+
+ 3) Named variable arguments are shown without dots
+
+[1]: https://gcc.gnu.org/onlinedocs/cpp/Variadic-Macros.html
+[2]: scripts/kernel-doc -v
+[3]: See also https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?h=dev&id=5bc4bc0d6153617eabde275285b7b5a8137fdf3c
+
+Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Tested-by: Paul E. McKenney <paulmck@kernel.org>
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-3-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-4-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ scripts/kernel-doc | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index d6bdb77ceb..2f421b7313 100755
+index 2f421b7313..0f67664165 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1092,7 +1092,7 @@ sub dump_struct($$) {
-     my $x = shift;
+@@ -1480,6 +1480,10 @@ sub push_parameter($$$$) {
+ 	      # handles unnamed variable parameters
+ 	      $param = "...";
+ 	    }
++	    elsif ($param =~ /\w\.\.\.$/) {
++	      # for named variable parameters of the form `x...`, remove the dots
++	      $param =~ s/\.\.\.$//;
++	    }
+ 	    if (!defined $parameterdescs{$param} || $parameterdescs{$param} eq "") {
+ 		$parameterdescs{$param} = "variable arguments";
+ 	    }
+@@ -1967,6 +1971,18 @@ sub process_name($$) {
+ sub process_body($$) {
      my $file = shift;
  
--    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
-+    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
- 	my $decl_type = $1;
- 	$declaration_name = $2;
- 	my $members = $3;
-@@ -1107,6 +1107,7 @@ sub dump_struct($$) {
- 	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
- 	$members =~ s/\s*__packed\s*/ /gos;
- 	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
-+	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
- 	# replace DECLARE_BITMAP
- 	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
- 	# replace DECLARE_HASHTABLE
++    # Until all named variable macro parameters are
++    # documented using the bare name (`x`) rather than with
++    # dots (`x...`), strip the dots:
++    if ($section =~ /\w\.\.\.$/) {
++	$section =~ s/\.\.\.$//;
++
++	if ($verbose) {
++	    print STDERR "${file}:$.: warning: Variable macro arguments should be documented without dots\n";
++	    ++$warnings;
++	}
++    }
++
+     if (/$doc_sect/i) { # case insensitive for supported section names
+ 	$newsection = $1;
+ 	$newcontents = $2;
 -- 
 2.26.2
 
