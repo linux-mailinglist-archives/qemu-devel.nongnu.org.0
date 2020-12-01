@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C382C9F33
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:31:03 +0100 (CET)
-Received: from localhost ([::1]:41144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD4C2C9F58
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 11:35:09 +0100 (CET)
+Received: from localhost ([::1]:43382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk2w3-0000FX-1Y
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:31:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40308)
+	id 1kk300-0001UO-4Y
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 05:35:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kk2uk-0008EU-5Q
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:29:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kk2uh-0001ro-Tj
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:29:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606818577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=29GiPUcHG6BVBGYkaOUZZRIkGMNDwmmK7/VLgAbdXA8=;
- b=NuUFUsNPixy2v6L7+W+wneSU41QGbCKP8T8rsxoN6oFpZE4ROQ49lxjRElezB5QLOgZgwc
- sThgxM98ALFyr+iRpbc7KhnxvNiiQdFO2eJUzaN9pBvzJfOYJAqcJUrGbzgk1VE2wgzAZX
- Wzs1UeEftVJlAKN1Eu00KQS1X/dUv0o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-fsoSiNuHMZKSDEHjItVKpQ-1; Tue, 01 Dec 2020 05:29:34 -0500
-X-MC-Unique: fsoSiNuHMZKSDEHjItVKpQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0D475708F;
- Tue,  1 Dec 2020 10:29:33 +0000 (UTC)
-Received: from work-vm (ovpn-115-1.ams2.redhat.com [10.36.115.1])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E6B76F439;
- Tue,  1 Dec 2020 10:29:32 +0000 (UTC)
-Date: Tue, 1 Dec 2020 10:29:30 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hmp-commands.hx: List abbreviation after command for
- cont, quit, print
-Message-ID: <20201201102930.GB4338@work-vm>
-References: <20201121151711.20783-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kk2z4-00011k-HG
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:34:10 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39074)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kk2z2-0003SZ-TI
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 05:34:10 -0500
+Received: by mail-wr1-x443.google.com with SMTP id e7so1854712wrv.6
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 02:34:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=scuISfeqiwhT+y7+PPJSkMhz1Vjs0h20UQymCtErqXQ=;
+ b=M3B+IVKogSGalBk/4owgSxBOGwIS8ouB0y38XvwLZfDgU99uMQ70F1CQyFwBkafkTN
+ MMM7xuC2KtLPjMYVBz2t2aXSL19uyUf7kahr6YO/mwiUZZb5GG+BnYBjx4UNwRt6Wbvc
+ Ivhp8mLJ7fomajJ1pNdOQdYOShQucIzoPsz4jxqVa21uBzRBCwcDsJ6qPfcZQxBrMSbw
+ euewc9K4P6/VaJNTZBklPm99hTxF80yFSWxZXg/hf7qdpCu4hzY6UoBbgtIapHth6Gwf
+ nXeoP7Z7ICqkMW8WYrAfcHjnlTwvN/QWS2Mfjn/o+hLSPDrTSwDNAW6TxYfoQmGJgixX
+ jcHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=scuISfeqiwhT+y7+PPJSkMhz1Vjs0h20UQymCtErqXQ=;
+ b=KSSkknurgcbn2fsDnu/+e6IWRlNB5YwbVUEfMCEvzC1Du2I2RUEYGUwho/DK69nU9c
+ weERtwABoaVUBUP9+e8qHwFF8bGVsduCWspecXMpirqVncT+1Jb4gQ5hY4WGwRLW8MMv
+ NdRjK2HUGrYtN5qS20UAkXXBuhx0463vbE5R3SHoRGgrhG1yYSf2k0q7bqf+mVU17ZGb
+ I9U0GKzAif3U5QZbfSnaIvrd3+0A+qN6WvhhHV+870Z5LRr/QaIsUKdwwNI+9941FjjA
+ Tuf9Gxg49ipVHHiCaVd4sRXpCYVC58ixc/Id3tRZHwrTUZSOegq8hPPuR0yNNfYaPE0y
+ cHGw==
+X-Gm-Message-State: AOAM532C532UXIETByERdOcHLtj7p7Y/TMpcxosTWDwocrnlevCUW3yN
+ LiWBqyDKnrhbcevylu1emSwFNJ93d4E=
+X-Google-Smtp-Source: ABdhPJxkIgAWYhizCNji3mL+nqtkDbk2nSBxFN2aN3oK2DYC1GJysi/mKE6MmGW2kaeG6KJrg/jtog==
+X-Received: by 2002:adf:df8e:: with SMTP id z14mr2984481wrl.406.1606818846604; 
+ Tue, 01 Dec 2020 02:34:06 -0800 (PST)
+Received: from localhost.localdomain (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id g11sm2420545wrq.7.2020.12.01.02.34.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Dec 2020 02:34:05 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] decodetree: Allow use of hex/bin format for argument field
+ values
+Date: Tue,  1 Dec 2020 11:34:04 +0100
+Message-Id: <20201201103404.2795455-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201121151711.20783-1-peter.maydell@linaro.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,99 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> We have four HMP commands which have a single-character abbreviated
-> version: cont ('c'), quit ('q'), print ('p') and help ('h').  For
-> cont, quit and print, we list the abbreviation first in the help
-> documentation and the command name.  This has the odd effect that in
-> the full 'help' command list these commands end up sorted out of
-> alphabetical order (they end up after all the other commands that
-> start with the same letter).  As it happens, the only place this
-> currently changes the order is for 'cont'.
-> 
-> Abbreviation first is also not a very logical order, and it doesn't
-> match what we use for 'help' (which is 'help|?').  Put the full
-> command name first in both the help text and the .name field for
-> cont, quit and print.
-> 
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1614609
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+ISA datasheets often use binary or hexadecimal constant values.
+By doing base conversion, we might introduce bugs. Safer is to
+copy/paste the datasheet value.
 
-Thanks; I like old bugs being fixed!
+To add support for bin/hex constants in argument field token,
+extend the re_num_ident regexp and use '0' as radix base when
+parsing the integer (to interpret it as a code literal).
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+v2: Fix regexp (Richard)
+---
+ scripts/decodetree.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  hmp-commands.hx | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index ff2d7aa8f3e..15a14ed4c7f 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -40,7 +40,7 @@ SRST
->  ERST
->  
->      {
-> -        .name       = "q|quit",
-> +        .name       = "quit|q",
->          .args_type  = "",
->          .params     = "",
->          .help       = "quit the emulator",
-> @@ -48,7 +48,7 @@ ERST
->      },
->  
->  SRST
-> -``q`` or ``quit``
-> +``quit`` or ``q``
->    Quit the emulator.
->  ERST
->  
-> @@ -400,7 +400,7 @@ SRST
->  ERST
->  
->      {
-> -        .name       = "c|cont",
-> +        .name       = "cont|c",
->          .args_type  = "",
->          .params     = "",
->          .help       = "resume emulation",
-> @@ -408,7 +408,7 @@ ERST
->      },
->  
->  SRST
-> -``c`` or ``cont``
-> +``cont`` or ``c``
->    Resume emulation.
->  ERST
->  
-> @@ -553,7 +553,7 @@ SRST
->  ERST
->  
->      {
-> -        .name       = "p|print",
-> +        .name       = "print|p",
->          .args_type  = "fmt:/,val:l",
->          .params     = "/fmt expr",
->          .help       = "print expression value (use $reg for CPU register access)",
-> @@ -561,7 +561,7 @@ ERST
->      },
->  
->  SRST
-> -``p`` or ``print/``\ *fmt* *expr*
-> +``print`` or ``p/``\ *fmt* *expr*
->    Print expression value. Only the *format* part of *fmt* is
->    used.
->  ERST
-> -- 
-> 2.20.1
-> 
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index 47aa9caf6d1..c8136073535 100644
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -50,6 +50,7 @@
+ re_fld_ident = '%[a-zA-Z0-9_]*'
+ re_fmt_ident = '@[a-zA-Z0-9_]*'
+ re_pat_ident = '[a-zA-Z0-9_]*'
++re_num_ident = '[+-]?([0-9]+|0x[0-9a-fA-F]+|0b[01]+)'
+ 
+ def error_with_file(file, lineno, *args):
+     """Print an error message from file:line and args and exit."""
+@@ -849,9 +850,9 @@ def parse_generic(lineno, parent_pat, name, toks):
+             continue
+ 
+         # 'Foo=number' sets an argument field to a constant value
+-        if re.fullmatch(re_C_ident + '=[+-]?[0-9]+', t):
++        if re.fullmatch(re_C_ident + '=' + re_num_ident, t):
+             (fname, value) = t.split('=')
+-            value = int(value)
++            value = int(value, 0)
+             flds = add_field(lineno, flds, fname, ConstField(value))
+             continue
+ 
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.26.2
 
 
