@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E02E2CABA0
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 20:19:20 +0100 (CET)
-Received: from localhost ([::1]:56040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BC692CAB9A
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 20:18:20 +0100 (CET)
+Received: from localhost ([::1]:53650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkBBH-00040T-DD
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 14:19:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37562)
+	id 1kkBAJ-0002yF-5G
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 14:18:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kkB5F-0007Xb-Pp
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:13:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28903)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kkB7j-0001qf-9f
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:15:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kkB5D-0001Xt-5S
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:13:05 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kkB7h-0002Bl-3w
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:15:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606849981;
+ s=mimecast20190719; t=1606850135;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wNOP4EzITf7o6gPphv0ph6bZP2h2ykYm0mHPu/Ig3/w=;
- b=YytwzkcXsuV3h7fJmVinG6AhIYotti/2LNbXK7G3Rf3hFL/F/9OSd0OudgoBAQfk0VCL+1
- 6IUU78JC3KjXHSxE2R73XzMm42w+gmxAJ6gGTzyQkfyC0Vy++CCWFd8jiV1CdgffJhB/37
- uV1jhTvcHnXfmVl2wICoA1StXNsUH6U=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-BjFH-Cr1PQ22zynMpfYxdw-1; Tue, 01 Dec 2020 14:13:00 -0500
-X-MC-Unique: BjFH-Cr1PQ22zynMpfYxdw-1
-Received: by mail-wm1-f69.google.com with SMTP id q17so1031154wmc.1
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 11:12:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wNOP4EzITf7o6gPphv0ph6bZP2h2ykYm0mHPu/Ig3/w=;
- b=qZ642NIyqetrv+EAviYz9iLKGXBvp3LvcmUQ9QhfWYQ3hGKLA9orG+jQsbSQ9YS/4Y
- 8fEXCB28OmePSctq1ramlWugk/wnGjARHFloSz9p6DpXoz0yVH2tubLvR25h7Qbxkjmp
- uJxwfb1qVUzi/bcY6xopgGaIwSSbLNwkWQcz55unFltFlKAxh+7YavBtivhEugmRRDdQ
- LSyKKLHGhq/Iej42+yU54P7Bvb9NLG9+2q8cOwaMXo5qkJ67GMfPK9VgsPpvUx3RZbgK
- ThFivMF+wPUWMwCr/VocSSlZeMnZzjPtSJhlloj0CqqpTkYpw7IDdMhOvw+q1amk8Syy
- 1vvg==
-X-Gm-Message-State: AOAM533UUIUG+ou95wCwMm4AwEEtdKxYSUvXcv9UrClBDAtBhAXbHBer
- pDO82XAikYYaHVlpt8rM35H7sZQBfh0J/azyyKbB+BytZzMVVoBupNriFGbnoG31vIbGkBqzokm
- QTcVMPQjRRPfeBT0=
-X-Received: by 2002:a5d:570d:: with SMTP id a13mr5674544wrv.193.1606849979065; 
- Tue, 01 Dec 2020 11:12:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzfVuQ/61xr+YZMepvynJOUU/ASUAdzH4fzV6vx+RY/DdzWraMKALBJlNeeaq8I62tNItGvvQ==
-X-Received: by 2002:a5d:570d:: with SMTP id a13mr5674522wrv.193.1606849978896; 
- Tue, 01 Dec 2020 11:12:58 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id n189sm1194775wmf.20.2020.12.01.11.12.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Dec 2020 11:12:58 -0800 (PST)
-Subject: Re: [PATCH v2 3/4] tests/qtest/fuzz-test: Add
- test_megasas_cdb_len_zero() reproducer
-To: qemu-devel@nongnu.org
-References: <20201201191026.4149955-1-philmd@redhat.com>
- <20201201191026.4149955-4-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <06296e10-18b6-609b-1a8a-1a9435c60f7e@redhat.com>
-Date: Tue, 1 Dec 2020 20:12:56 +0100
+ bh=PVXHBTb++bNIbpli1tKR7vj+tfu3MVqblKiz8Yy8Kpk=;
+ b=SlNjIKZxMs+SH+bkie5kTO2oHeFWLv8Tl7euOC4sMYSS7R+T7EgeRs+uZ24ySOzb+tv0Fr
+ 5DDtNvoE80uRoHOyVwQPReLXYqEkh1yc2dCYVjv2A9hoPyopz0MlJJNK29DBnyQsshTg9j
+ j2hZwI4/NWuwth7f6K+rFgZmdFZACPI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-iEAgRLV7PbyWvFdI_-dYCg-1; Tue, 01 Dec 2020 14:15:29 -0500
+X-MC-Unique: iEAgRLV7PbyWvFdI_-dYCg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 075EA425C8;
+ Tue,  1 Dec 2020 19:15:28 +0000 (UTC)
+Received: from [10.10.119.122] (ovpn-119-122.rdu2.redhat.com [10.10.119.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 47C0218996;
+ Tue,  1 Dec 2020 19:15:27 +0000 (UTC)
+Subject: Re: [PATCH] tests/acceptance: fix timeout for vm.wait
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+References: <160552129733.22861.2033930860605615947.stgit@pasha-ThinkPad-X280>
+ <CAP+75-W2ed_73xszEA08hqdnVRL9bGXshnGYqJGZvSjt4_D8bw@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <ce6360ce-d640-8a4a-96e8-294dd5f04f0b@redhat.com>
+Date: Tue, 1 Dec 2020 14:15:26 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201201191026.4149955-4-philmd@redhat.com>
+In-Reply-To: <CAP+75-W2ed_73xszEA08hqdnVRL9bGXshnGYqJGZvSjt4_D8bw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -99,28 +82,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Li Qiang <liq3ea@163.com>, Hannes Reinecke <hare@suse.com>,
- Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/1/20 8:10 PM, Philippe Mathieu-Daudé wrote:
-> Add a reproducer which triggers (without the previous patch):
+On 11/16/20 6:13 AM, Philippe Mathieu-Daudé wrote:
+> Cc'ing John.
 > 
->   $ make check-qtest-x86_64
->   Running test qtest-x86_64/fuzz-test
->   qemu-system-x86_64: hw/scsi/megasas.c:1679: megasas_handle_scsi: Assertion `cdb_len > 0 && scsi_cdb_length(cdb) <= cdb_len' failed.
->   tests/qtest/libqtest.c:181: kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
->   ERROR qtest-x86_64/fuzz-test - too few tests run (expected 1, got 0)
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  tests/qtest/fuzz-test.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+> On Mon, Nov 16, 2020 at 11:08 AM Pavel Dovgalyuk
+> <pavel.dovgalyuk@ispras.ru> wrote:
+>>
+>> This patch adds timeout parameter to vm.wait() calls, because the default
+>> value is just 30 seconds, and tests may last for more time.
+>>
 
-Oops this should be patch #4...
+This doesn't sound right -- the timeout isn't meant to be for the entire 
+duration of the test, the timeout is from the time of issuing a shutdown 
+command until the time the VM actually shuts down. Ideally, that should 
+not take a particularly long time in a well-behaved test.
+
+Why is it lasting longer than 30 seconds?
+How long is it actually taking, do we know?
+
+And, are you SURE you want to have *no* timeout for all of these calls? 
+(Will something else kill them if they take too long? Ideally before 
+gitlab itself kills the job for running too long?)
+
+Cleber?
+
+>> Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+>> ---
+>>   tests/acceptance/boot_linux_console.py |    8 ++++----
+>>   tests/acceptance/replay_kernel.py      |    2 +-
+>>   2 files changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+>> index cb6086ca6f..1cb8cb7a2a 100644
+>> --- a/tests/acceptance/boot_linux_console.py
+>> +++ b/tests/acceptance/boot_linux_console.py
+>> @@ -208,7 +208,7 @@ class BootLinuxConsole(LinuxKernelTest):
+>>           exec_command_and_wait_for_pattern(self, 'reboot',
+>>                                                   'reboot: Restarting system')
+>>           # Wait for VM to shut down gracefully
+>> -        self.vm.wait()
+>> +        self.vm.wait(None)
+>>
+>>       @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
+>>       def test_mips64el_malta_5KEc_cpio(self):
+>> @@ -250,7 +250,7 @@ class BootLinuxConsole(LinuxKernelTest):
+>>           exec_command_and_wait_for_pattern(self, 'reboot',
+>>                                                   'reboot: Restarting system')
+>>           # Wait for VM to shut down gracefully
+>> -        self.vm.wait()
+>> +        self.vm.wait(None)
+>>
+>>       def do_test_mips_malta32el_nanomips(self, kernel_url, kernel_hash):
+>>           kernel_path_xz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+>> @@ -725,7 +725,7 @@ class BootLinuxConsole(LinuxKernelTest):
+>>           exec_command_and_wait_for_pattern(self, 'reboot',
+>>                                                   'reboot: Restarting system')
+>>           # Wait for VM to shut down gracefully
+>> -        self.vm.wait()
+>> +        self.vm.wait(None)
+>>
+>>       @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
+>>                   'Test artifacts fetched from unreliable apt.armbian.com')
+>> @@ -778,7 +778,7 @@ class BootLinuxConsole(LinuxKernelTest):
+>>           exec_command_and_wait_for_pattern(self, 'reboot',
+>>                                                   'reboot: Restarting system')
+>>           # Wait for VM to shut down gracefully
+>> -        self.vm.wait()
+>> +        self.vm.wait(None)
+>>
+>>       @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
+>>                   'Test artifacts fetched from unreliable dl.armbian.com')
+>> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+>> index c8b043ac31..02a52b1d72 100644
+>> --- a/tests/acceptance/replay_kernel.py
+>> +++ b/tests/acceptance/replay_kernel.py
+>> @@ -60,7 +60,7 @@ class ReplayKernelBase(LinuxKernelTest):
+>>               logger.info('finished the recording with log size %s bytes'
+>>                           % os.path.getsize(replay_path))
+>>           else:
+>> -            vm.wait()
+>> +            vm.wait(None)
+>>               logger.info('successfully finished the replay')
+>>           elapsed = time.time() - start_time
+>>           logger.info('elapsed time %.2f sec' % elapsed)
+>>
+> 
 
 
