@@ -2,81 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D125B2CA78A
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 17:00:19 +0100 (CET)
-Received: from localhost ([::1]:55076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4DA2CA789
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 17:00:12 +0100 (CET)
+Received: from localhost ([::1]:54604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk84g-0005o2-U6
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 11:00:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42054)
+	id 1kk84Z-0005cL-A7
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 11:00:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kk83V-0004EN-GO
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:59:06 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44196)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kk83O-0008MJ-2v
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:59:05 -0500
-Received: by mail-ot1-x342.google.com with SMTP id f16so2072852otl.11
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 07:58:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=kT4blV82+ZRTD4Or5hWLVKblOjgz3AusGOV/ZjlB7tE=;
- b=xPYmBQjAGmv55b1pI4ptH1KRkBgqrcN13czBKo7CRByhIdrSkXfDRnV2fv7SlM7494
- 3QL6Im8wOthjf/Xcj/l42SvFJkflPf+OEY44ndIChJHkfwLKSaQ8y5MHaQv5QaoQdUVD
- mqkdpdDqsuvLJXZpIo8VjCdN3/BRkGl8PND14Ahems4F+Tui0A+hJI9NpzG+tK3FS/CJ
- TqhkFCnziy9RJ1nqZb+n/igKzPdkLHUcxJcMyLV7GuZUWFx43+z3GFW2TVAphxqINiSQ
- dxAN1Ue5sxjBwDZExvqBWY19jcNGSkLXzWqdOCQ4JvkO+5f41BPSKV/bI1H3gnrk/VZ1
- FGwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kT4blV82+ZRTD4Or5hWLVKblOjgz3AusGOV/ZjlB7tE=;
- b=hSV4Pg9DnJKJbiMV/j3yylrVxkHLPOwPVspHsoLUxiRB7R7o6H1E//l+M6MvDLQxQp
- jRMIHZxgwhpcTh1CNRytUTXpiH1bNabd1fBtSk4shF7H0D3hxgX41gSvIf30UKS+gx+a
- XVvnYjXK4HvJbUeaKrjfH8WS1d61XHydcEbdDPRUiUXa1HFOJGdNjJ67n6oO9Md/r6rH
- geCqF11amEaphTwe3gLmQKPIKGi65ZRa9+8qL1Ur/wU1ZNOdbNZUcK63CAM0009Iq0OV
- vXFzoxChRnQUV2jkGWp6vKBMAbaKorjy+k9OOlipA9hHKOWByQOR967+8jptmUpMedw8
- t4+Q==
-X-Gm-Message-State: AOAM531mvjixh2OHTMvanvQBYjUK2wJFLRgs8OJ7lpKJDnD7j0iTxjcy
- aO2RbhwN/OCw+WsJa4N038iXd3dgiYqT1n7z
-X-Google-Smtp-Source: ABdhPJwS1d5olJo/7QiecsZCjRi42ecKEfz6Z/nmnJSvosJwbAZ2DqQH6RHRmZlfhpL/ouv6tKOqGg==
-X-Received: by 2002:a9d:2d84:: with SMTP id g4mr2276647otb.212.1606838336594; 
- Tue, 01 Dec 2020 07:58:56 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id r4sm21631otd.66.2020.12.01.07.58.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Dec 2020 07:58:55 -0800 (PST)
-Subject: Re: [PATCH v2 24/28] hw/intc/armv7m_nvic: Fix "return from inactive
- handler" check
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kk83a-0004FV-V9
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:59:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kk83Z-0008Pd-Ia
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 10:59:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606838348;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=baHmn6Uii6J/Gvr1Di2CxuVEUzWqQIEY0HeaAI6Rz9I=;
+ b=T/p9NpNPLaeMee4W1jYfQALC/EmzXqfhgH9Rvh/GHzqn74qOrpPJUSTP8iYJfAcz5hTNJx
+ 4cZ27jUd33tbRRsUsUMMfc++GbmchiGFTrFjWhSLoGVIEvg13GEg7hLH9k8fohMupeB9Dr
+ h6Q7H1/SZFmhqJud1rgX+WxFRPf8hM8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-ze7wEPNFMtS3FeHVNBmjWQ-1; Tue, 01 Dec 2020 10:59:04 -0500
+X-MC-Unique: ze7wEPNFMtS3FeHVNBmjWQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A620817B8D;
+ Tue,  1 Dec 2020 15:59:03 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-117.ams2.redhat.com [10.36.112.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51D5A10013C1;
+ Tue,  1 Dec 2020 15:59:01 +0000 (UTC)
+Subject: Re: [PATCH 1/3] tests/qtest/fuzz-test: Quit test_lp1878642 once done
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20201119215617.29887-1-peter.maydell@linaro.org>
- <20201119215617.29887-25-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <30bcef40-a260-91c3-0693-f017446f4916@linaro.org>
-Date: Tue, 1 Dec 2020 09:58:53 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+References: <20201201151319.2943325-1-philmd@redhat.com>
+ <20201201151319.2943325-2-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <13abd57a-ead8-a2a8-dd9e-968b9c5a6c6e@redhat.com>
+Date: Tue, 1 Dec 2020 16:59:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201119215617.29887-25-peter.maydell@linaro.org>
+In-Reply-To: <20201201151319.2943325-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,39 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Hannes Reinecke <hare@suse.com>, qemu-block@nongnu.org,
+ Li Qiang <liq3ea@163.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/20 3:56 PM, Peter Maydell wrote:
-> In commit 077d7449100d824a4 we added code to handle the v8M
-> requirement that returns from NMI or HardFault forcibly deactivate
-> those exceptions regardless of what interrupt the guest is trying to
-> deactivate.  Unfortunately this broke the handling of the "illegal
-> exception return because the returning exception number is not
-> active" check for those cases.  In the pseudocode this test is done
-> on the exception the guest asks to return from, but because our
-> implementation was doing this in armv7m_nvic_complete_irq() after the
-> new "deactivate NMI/HardFault regardless" code we ended up doing the
-> test on the VecInfo for that exception instead, which usually meant
-> failing to raise the illegal exception return fault.
+On 01/12/2020 16.13, Philippe Mathieu-Daudé wrote:
+> Missed in fd250172842 ("qtest: add a reproducer for LP#1878642").
 > 
-> In the case for "configurable exception targeting the opposite
-> security state" we detected the illegal-return case but went ahead
-> and deactivated the VecInfo anyway, which is wrong because that is
-> the VecInfo for the other security state.
-> 
-> Rearrange the code so that we first identify the illegal return
-> cases, then see if we really need to deactivate NMI or HardFault
-> instead, and finally do the deactivation.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/intc/armv7m_nvic.c | 59 +++++++++++++++++++++++--------------------
->  1 file changed, 32 insertions(+), 27 deletions(-)
+>  tests/qtest/fuzz-test.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
+> index 9cb4c42bdea..87b72307a5b 100644
+> --- a/tests/qtest/fuzz-test.c
+> +++ b/tests/qtest/fuzz-test.c
+> @@ -45,6 +45,7 @@ static void test_lp1878642_pci_bus_get_irq_level_assert(void)
+>      qtest_outl(s, 0xcf8, 0x8400f841);
+>      qtest_outl(s, 0xcfc, 0xebed205d);
+>      qtest_outl(s, 0x5d02, 0xebed205d);
+> +    qtest_quit(s);
+>  }
+>  
+>  int main(int argc, char **argv)
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
