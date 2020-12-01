@@ -2,124 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6642F2CACCB
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 20:53:52 +0100 (CET)
-Received: from localhost ([::1]:38086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 588482CAC8C
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 20:40:09 +0100 (CET)
+Received: from localhost ([::1]:53046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkBih-0005a7-Fc
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 14:53:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46902)
+	id 1kkBVQ-0007SU-E7
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 14:40:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kkBfd-0002xR-DV
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:50:41 -0500
-Received: from mail-eopbgr770050.outbound.protection.outlook.com
- ([40.107.77.50]:55168 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kkBfa-0005Gs-UC
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:50:41 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OFDz7QwtySgWWXFsPnbi1+PzxKo82VcagIDieEhyguTIZ2p6Ng7xfkifHbg5a2cPDuD6VgmPpvjaP0FOTwhUBualbTxA85eq/NvWB9z3nxZpLHiZJ5H1kwn1vPkwsuT1TCFO49mn7mOOVgEBM3oRMfT7NS25kmhLrELu1ShmZnf3WwVRbIMmOYC3BAbKZanPdpeGm4SHEJgoOi8RkZouV2h5YMlzoVSVhESybeGKO7UYZbQcSJbrXEjkLFZkWW41fPNl+P8nmJjfhWWsFQWyGWXCuEOfy7aF/pGyD8ZxcdCiKITesRJJ0gmonhZRyhjscxn7ElsxxiRYcHr8v8VwdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=inuIv5l/z0yUoMKKfvNT6ZXZvjsyc3yx+G0OAl4UmBY=;
- b=WXAu3RhnJS55+zwo9QzI67vJP8+s52LV+kTz7ZWas4Azmirw6eIQy4OYN7DkmfBpv/MdN5eS+sTKVw2fNqTeQXd0wG1mtgmeP8dwiibK+K9nZQLVsqKNrQycL5iwMhmKkpU9oicVqqixHv82o2U2MsZmDUHJqs2D03ZRZZbCo0/90kxDd5AEY2ZKz5FpDHZKZSSpUapyZ3zaYsB4UGfzraUG0qhgD8VLHTIP028C7kyN7vVHOF3cPmaOsa7JbrCj4k7U6iP4000l+ovqHVVyjANRQfrImu5gzht3LPYRMAU+qEzZVQSKOR4qapIlAaoTaKr7q6uQZcipuATs+bFA+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=inuIv5l/z0yUoMKKfvNT6ZXZvjsyc3yx+G0OAl4UmBY=;
- b=mLlH08u6Q+3VZGOsCiTSNSVKLNOsK2GfI/Lir6g+xL/SsQj6lWfLF/3p3U4iBcQVpO9trGpov4410WvVH/WxVQijhJPUqlSMgDygDeEDB2vBNQIzva+/Se0y63g7YI23eU4CIJNsuMry2BAjOFmIGqAwHa/JrPbD27iSgaYsFZA=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
-Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
- by CH2PR12MB4309.namprd12.prod.outlook.com (2603:10b6:610:a4::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.23; Tue, 1 Dec
- 2020 19:35:33 +0000
-Received: from CH2PR12MB4133.namprd12.prod.outlook.com
- ([fe80::b965:3158:a370:d81e]) by CH2PR12MB4133.namprd12.prod.outlook.com
- ([fe80::b965:3158:a370:d81e%5]) with mapi id 15.20.3611.020; Tue, 1 Dec 2020
- 19:35:33 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Subject: [ANNOUNCE] QEMU 5.2.0-rc4 is now available
-From: Michael Roth <michael.roth@amd.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 01 Dec 2020 13:35:22 -0600
-Message-ID: <160685132294.749809.10154629983286965080@vm0>
-User-Agent: alot/0.9
-X-Originating-IP: [165.204.77.11]
-X-ClientProxiedBy: SA9PR13CA0224.namprd13.prod.outlook.com
- (2603:10b6:806:25::19) To CH2PR12MB4133.namprd12.prod.outlook.com
- (2603:10b6:610:7a::13)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkBRV-0005bB-Or
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:36:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31557)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkBRR-0000EJ-85
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 14:36:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606851360;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7MtjdTrINFP27l/jG+7XjjH07fvhFJ/R8UMvU37Nt2E=;
+ b=NWmimJdv4iE1Q4r+L9yxYp1/0vXPPn7NwOJRISVjbpx7H0APAuvQt4d0rrGP/Gqnk8yKxk
+ kY9eZm8w2Ssx0LqSixvvMXAiWALIHhnJz9XrIklWfqw7n7IUkrkOBn7YtsqyC85yhYFITP
+ Fj/C5amcpMbXG9WjY/67GUqwxOYstV4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-561-xBZ6nBR7MCCGUpbMQwqCAg-1; Tue, 01 Dec 2020 14:35:56 -0500
+X-MC-Unique: xBZ6nBR7MCCGUpbMQwqCAg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5A9C9CDC1;
+ Tue,  1 Dec 2020 19:35:55 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-112-225.ams2.redhat.com [10.36.112.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ED6619C44;
+ Tue,  1 Dec 2020 19:35:30 +0000 (UTC)
+Date: Tue, 1 Dec 2020 20:35:28 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
+Message-ID: <20201201193528.GC6264@merkur.fritz.box>
+References: <20201130122538.27674-1-kwolf@redhat.com>
+ <01d32c8c-5023-6323-bed8-ede08f6ac8a3@redhat.com>
+ <20201130154605.GC5078@merkur.fritz.box>
+ <a9c1ebf3-ffcc-7312-ce66-a79902d1e9ba@redhat.com>
+ <20201130181037.GG5078@merkur.fritz.box>
+ <65a9600f-ca8c-ef29-94d8-d9ea114e5e06@redhat.com>
+ <20201201162042.GB6264@merkur.fritz.box>
+ <db61f61a-1ffa-6185-10dc-3109ff111a35@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (165.204.77.11) by
- SA9PR13CA0224.namprd13.prod.outlook.com (2603:10b6:806:25::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3632.9 via Frontend Transport; Tue, 1 Dec 2020 19:35:31 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5f511d86-f952-4b0b-287b-08d896304465
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4309:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB4309A94AA20EE6511BD4414C95F40@CH2PR12MB4309.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3DSuFHXQwEnLJP86TDHB89Vo9cpAJFDOXEFuUCFCc59sa3fJa7inxFNeBoMHDhc9X+nJnigPEOFV1srXrCVG7It+PeStiHRoOH62jMlbyUVwQSLombsQ0DBWUylP/q2IkUUBVxg6R4t+k0M1fWAn/5Peua6EN0FOM0iU1Q//ZHkRMrY9fXtymWWpKrfdrgBgWskT0gQdf6MhwkFb342M0BJW4iVbUhzdShQmJFQkORUP6SvS0e0xWqNJPAn3od5MCU4poRWKdDHEVZYy+NEI7ArH+RCm5ThWrinvyl4RCeY/KIBoz8pKoSwOKlmta+hbyW1oXkn1s7XWNtOmIHC/CfgAAXtAks7uAfaYVcHFOk2npNoFKpNe3I6NRV0JdzJDtMadsptYdtSiD0ynuasl9Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(7916004)(366004)(52116002)(83380400001)(6916009)(9686003)(66946007)(498600001)(44832011)(8676002)(2906002)(26005)(66476007)(16526019)(966005)(6496006)(8936002)(6666004)(956004)(186003)(6486002)(86362001)(4326008)(66556008)(33716001)(5660300002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WjdrN1JRRjdkWGtpUDRBdXcwL2QwZS8xUTA0aE5JUzZpNFVOY1VHMjNBWS9N?=
- =?utf-8?B?Uyt3Sjl6RndEdjVYL2tHOUFkKzFSWk1nWlQ3U2ZldFFVZS9oc0xNcjhuQk1C?=
- =?utf-8?B?a1piRW83dGVNeVVzczg5bmI0WWZybEtwUTZWN1ZPSStUUWpZUzNvY0MxZUVi?=
- =?utf-8?B?Uk9INDBFb0FFdCtkVFdmTzlQbDJPTEFBY05pN1FmUUd4THYyL2xRL2w2U05Z?=
- =?utf-8?B?VHhKM0NoZDJ6U1VWOTJaL2Ewc1J5K2d3bU43ZmZjajR4MXlSLzd2dVdZTk5S?=
- =?utf-8?B?Y1NHT2pMNjUvcmlsUmcrRmhwVE9WZ1BDWTBlSGNibVJLY1Q3Q0c4UE1qWWhN?=
- =?utf-8?B?YU9vVG5CWnFNSUZUUHUzOUhJVUlncVBaQ3RwNEVXRjZHUG1rb0Q1QWxYNmhk?=
- =?utf-8?B?b2JXVWlvOU5NUUVSaUtycUY1ZXRPa3pRdlRDQVZtV2FBYmFjd2dCSExja1Qy?=
- =?utf-8?B?M0JnVjVpVXhmTWJoeFp1dW9zUFF6OExNVVNIdk5ZT1Y3WlFEamlYUGMrWm5r?=
- =?utf-8?B?RFdvS3B4YlVFWXlOUVM0R0xEUE1XVjJUUUNraCtnbnE0RWhlaFZRcnF6cllR?=
- =?utf-8?B?bzV1RUZ2MzVnZ2FBYWp6UWNaVmkzbDZFZ21INWhaeXNJSFJTZThHamZ2MjRn?=
- =?utf-8?B?cGNva1FzNHoxMnFEWldTcit6TUR2RHMzZUtzQXRMR0ZacU9sMzAwRUdIT09X?=
- =?utf-8?B?NmFESURWdklwVlFpMlpFWE0xSHpmM3dwRXhtOE1lRENnMXQzWi80WTRKRXZz?=
- =?utf-8?B?UHp2dms4YVpkTjZTelhvMkZaMGFPMndZU0d1LzRDc0FZT0gwRWQvT1p1bDc3?=
- =?utf-8?B?TTkwblE4TjZHUFdlaVhuVHBtVDd6V3g2R2FGNjVST0x1RkRpQ1VtdGozenQ1?=
- =?utf-8?B?TVVYY2IrQzh1aFFZTU9DQ2tPVjM1aUc3RWgzeGViR2cxZVZzYUcwaTQyejRJ?=
- =?utf-8?B?QmZjWGhmbGppcWEyNkw1SWJLNnVuc1ZqSkQ2a3ZzSE16M2I4ZEdsYm1reDFC?=
- =?utf-8?B?em1ZNisxOUFZSnVmOUpHVzVZZkRqS0Vtc0xPb3ZBMkxscXhSdDQ0bjhlYjFu?=
- =?utf-8?B?b0lGcmVHaE5EVXNGM1lDS2YrbE9LTnNGSXNKdG5wL3NYVFBUVUNRQXA0Wlp6?=
- =?utf-8?B?bDQ0cWZid3FvcWdlVG5RQ3NxdDNBVlV6UkRrY0x1Qk1jMXRZRVFPdStvRGNM?=
- =?utf-8?B?aVF1QTFlMWhLNXo5WU1vR3dLdGR1MStjc2JsQjRma0FqRjlsNTd1UXg5K216?=
- =?utf-8?B?QzdaTUdDQTdBSjlaNVhHelZoRk90RjNxRTBET1EyQ1dzdGozZjh0dU9iMGJG?=
- =?utf-8?Q?4W9G4DZTYxn+uCWqBahu/X14TzObpETD++?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f511d86-f952-4b0b-287b-08d896304465
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2020 19:35:32.9573 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 62ffvej3EdPw86XRJyGdzc/dhKO7oV+u+42qLHIAAHb91+/yCpsz+VjRapPDNWtyh90iVeV4finbwiSs6bl43A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4309
-Received-SPF: softfail client-ip=40.107.77.50;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM02-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <db61f61a-1ffa-6185-10dc-3109ff111a35@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,58 +82,298 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Am 01.12.2020 um 18:16 hat Paolo Bonzini geschrieben:
+> On 01/12/20 17:20, Kevin Wolf wrote:
+> > Am 30.11.2020 um 20:35 hat Paolo Bonzini geschrieben:
+> > > For devices it's just the practical issue that there are too many to have
+> > > something like this series.  For machine types the main issue is that the
+> > > version-specific machine types would have to be defined in one more place.
+> > 
+> > Sure, the number of devices means that we can't convert all of them at
+> > once. And we don't need to, we can make the change incrementally.
+> 
+> There's also the question that most devices are not present in all binaries.
+> So QAPI introspection would tell you what properties are supported but not
+> what devices are.  Also the marshaling/unmarshaling code for hundreds of
+> devices would bloat the QEMU executables unnecessarily (it'd all be
+> reachable from visit_DeviceOptions so it'd not be possible to compile it
+> out, even with LTO).
 
-On behalf of the QEMU Team, I'd like to announce the availability of the
-fifth release candidate for the QEMU 5.2 release.  This release is meant
-for testing purposes and should not be used in a production environment.
+I don't think this is actually a new things. We already have types and
+commands declared with things like 'if': 'defined(TARGET_S390X)'.
+As far as I understand, QAPI generated files are already built per
+target, so not compiling things into all binaries should be entirely
+possible.
 
-  http://download.qemu-project.org/qemu-5.2.0-rc4.tar.xz
-  http://download.qemu-project.org/qemu-5.2.0-rc4.tar.xz.sig
+What probably needs a solution is that an explicit 'if' in the schema
+would duplicate information that is actually defined in the build system
+configuration. So we would somehow need a common source for both.
 
-A note from the maintainer:
+> Plus the above issue with machine types.
 
-  Unfortunately we had a few late-breaking issues, so we needed another
-  release candidate. rc4 should be the last for this release cycle, and
-  we plan to release 5.2.0 on Tuesday the 8th December.
- =20
-  Note that QEMU has switched build systems so you will need
-  to install ninja to compile it. See the "Build Information"
-  section of the Changelog for more information about this change.
+As I said, I don't know the machine type code well, so I'm not really
+sure about the best way there.
 
-You can help improve the quality of the QEMU 5.2 release by testing this
-release and reporting bugs on Launchpad:
+But maybe QAPI isn't for version-specific machine types. I think they
+never have additional properties, but only different init functions. So
+their description in QAPI would be essentially empty anyway.
 
-  https://bugs.launchpad.net/qemu/
+So maybe only the abstract base class that actually defines the machine
+properties (like generic-pc-machine) should be described in QAPI, and
+then the concrete machine types would inherit from it without being
+described in QAPI themselves?
 
-The release plan, as well a documented known issues for release
-candidates, are available at:
+> > > > > The single struct doesn't bother me _too much_ actually.  What bothers me is
+> > > > > that it won't be a single source of all QOM objects, only those that happen
+> > > > > to be created by object-add.
+> > > > 
+> > > > But isn't it only natural that a list of these objects will exist in
+> > > > some way, implicitly or explicitly? object-add must somehow decide which
+> > > > object types it allows the user to create.
+> > > 
+> > > There's already one, it's objects that implement user creatable.  I don't
+> > > think having it as a QAPI enum (or discriminator) is worthwhile, and it's
+> > > one more thing that can go out of sync between the QAPI schema and the C
+> > > code.
+> > 
+> > Well, we all know that this series duplicates things. But at the same
+> > time, we also know that this isn't going to be the final state.
+> > 
+> > Once QAPI learns about QOM inheritance (which it has to if it should
+> > generate the boilerplate), it will know which objects are user creatable
+> > without a an explicitly defined separate enum.
+> > 
+> > I think it will still need to have the enum internally, but as long as
+> > it's automatically generated, that shouldn't be a big deal.
+> 
+> Right, I don't want to have the final state now but I'd like to have a
+> rough idea of the plan:
+> 
+> 1) whether to generate _all_ boilerplate or only properties
 
-  http://wiki.qemu.org/Planning/5.2
+I would like to generate as much boilerplate as possible. That is, I
+don't want to constrain us to only properties, but at the same time, I'm
+not sure if it's possible to get rid of all boilerplate.
 
-Please add entries to the ChangeLog for the 5.2 release below:
+Basically, the vision I have in mind is that QAPI would generate code
+that is the same for most instances, and then provide an option that
+prevents code generation for a specific part for more complicated cases,
+so that the respective function can (and must) be provided in the C
+source.
 
-  http://wiki.qemu.org/ChangeLog/5.2
+> 2) whether we want to introduce a separation between configuration
+> schema and run-time state
 
-Thank you to everyone involved!
+You mean the internal run-time state? How is this separation not already
+present with getter/setter functions for each property? In many cases
+they just directly access the run-time state, but there are other cases
+where they actually do things.
 
-Changes since rc3:
+Or do you mean between create-time options and properties that can be
+written at runtime? In that case, yes, I think that would be very
+desirable because mashing them together has resulted in lots of bugs.
 
-d73c46e4a8: Update version for v5.2.0-rc4 release (Peter Maydell)
-8132122889: ide: atapi: assert that the buffer pointer is in range (Paolo B=
-onzini)
-915976bd98: hw/net/dp8393x: fix integer underflow in dp8393x_do_transmit_pa=
-ckets() (Mauro Matteo Cascella)
-37c0c885d1: slirp: update to fix CVE-2020-29129 CVE-2020-29130 (Marc-Andr=
-=C3=A9 Lureau)
-24bdcc9608: nsis: Fix build for 64 bit installer (Stefan Weil)
-92ea027017: tests/docker, tests/vm: remove setuptools from images (Paolo Bo=
-nzini)
-8e84bf984a: configure: remove python pkg_resources check (Olaf Hering)
-6fc5183a65: qxl: fix segfault (Gerd Hoffmann)
-8e242b3cb4: meson: use dependency() to find libjpeg (Paolo Bonzini)
+> 3) in the latter case, whether properties will survive at all---iothread and
+> throttle-groups don't really need them even if they're writable after
+> creation.
+
+How do you define properties, i.e. at which point would they stop
+existing and what would be a non-property alternative?
+
+Outside of QOM, usually have a query-* command that returns the whole
+state rather than a single property, and possibly individual QMP
+commands to update the state.
+
+
+blockdev-reopen takes a new configuration (the same structure as
+blockdev-add) and then applies that whole new configuration to the
+existing block node. I guess this would be an alternative, though it is
+somewhat inconvenient because you have to repeat all the options that
+you don't want to change.
+
+The blockdev-reopen way has one important advantage: You can change
+multiple options at the same time when there are dependencies between
+the options so that individually changing each option would be invalid,
+but together it's possible.
+
+throttle-group needs this in QOM, and it's easily implemented: It just
+has a single 'limits' property, which is a struct and is always updated
+as a single unit.
+
+
+So in summary, it seems to me that the QOM way is more flexible because
+you can get both models out of it. Whether we actually need this
+flexibility I can't say.
+
+But there is another reason why I didn't intend to remove properties
+entirely, which is that things are a lot easier as long as you don't
+have to break external interfaces, which qom-set/get/list are.
+
+
+The way I imagined it so far is roughly like this:
+
+* Configuration options are described in the QAPI schema. This is mainly
+  for object creation, but runtime modifiable properties are a subset of
+  this.
+
+* Properties are generated for each option. By default, the getter
+  just returns the value from the configuration at creation time, though
+  generation of it can be disabled so that it can be overridden. Also,
+  setters just return an error by default.
+
+* Property setters aren't called for object creation. Instead, the
+  relevant ObjectOptions branch is made available to some init method.
+
+* Runtime modifiable properties (declared as such in the schema) don't
+  get the default setter, so you have to provide an implementation for
+  them.
+
+> These questions have a substantial effect on how to handle this series.
+> Without answers to this questions I cannot understand the long term and its
+> interaction with other long term plans for QOM.
+> 
+> > > > A modified QOM might be the right solution, though. I would like to
+> > > > bring QAPI and QOM together because most of these weaknesses are
+> > > > strengths of QAPI.
+> > > 
+> > > I agree wholeheartedly.  But your series goes to the opposite excess.
+> > > Eduardo is doing work in QOM to mitigate the issues you point out, and you
+> > > have to meet in the middle with him.  Starting with the user-visible parts
+> > > focuses on the irrelevant parts.
+> > 
+> > QAPI is first and foremost about user-visible parts, and in fact most of
+> > the problems I listed are about external interfaces.
+> 
+> Yes, but QAPI is also about interfacing with existing code.  Also, QAPI does
+> not generate only structs, it also generate C function prototypes. I'm not
+> sure whether a QOM object's more similar to the struct case (what you do
+> here) or to the QMP command case:
+> 
+> - there's a 1:1 correspondence between ObjectOptions cases and ucc->complete
+> implementations
+> 
+> - there's a registry of object types just like there's one for QMP commands.
+
+This is an interesting comparison. I never thought of likening objects
+to commands, but there is some truth to it. I certainly did envision
+objects as separate type of QAPI entities, which I guess is why I didn't
+really like Dan's suggestion to make objects an extension of structs,
+but I couldn't really express why. I think your comparison gives a good
+answer.
+
+However, this series is still not doing the wrong thing: If you think
+about commands, they don't exist without an arguments struct. Similarly,
+objects don't exist without a properties struct.
+
+So while this series is doing only one part of the whole solution, that
+the second part is missing doesn't make the first part wrong.
+
+> So another possibility could be that the QAPI generator essentially
+> generated the user_creatable_add_type function that called out to
+> user-provided functions qom_scsi_pr_helper_complete,
+> qom_throttle_group_complete, etc.  The arguments to those functions would be
+> the configuration.  That is a very interesting prospect (though one that
+> would require changes to the QAPI code generator).
+
+I was thinking of using .instance_init because it's more generic, but
+using ucc->complete (and in the long run realize for qdev) might require
+less modifications of non-user-creatable objects.
+
+One possibly nasty detail to consider there is that we sometimes declare
+the USER_CREATABLE interface in the base class, so ucc->complete is for
+the base class rather than the actually instantiated class. If we only
+instantiate leaf classes (I think this is true), we can move
+USER_CREATABLE there.
+
+I also had in mind just passing the whole configuration struct
+(essentially always 'boxed': true), but you're right that individual
+parameters like for commands would be possible. I'm not entirely
+convinced that they would be better (there was a reason why we
+introduced 'boxed': true), but it's an option.
+
+> > BlockdevOptions is about external interfaces, not about
+> > implementation details. Same thing as QOM properties are external
+> > interfaces, not implementation details. There may be fields in the
+> > internal state that correspond 1:1 to the externally visible QAPI
+> > type/QOM property, but it's not necessarily the case.
+> 
+> Right.  It may well be that we decide that, as a result of this series,
+> QOM's property interface is declared essentially a failed experiment.  I
+> wouldn't be surprised, and that's why I want to understand better where we
+> want to go.
+> 
+> For example, Eduardo is focusing specifically on external interfaces that
+> correspond 1:1 to the internal implementation.  If we decide that
+> non-1:1-mappings and checks on mandatory properties are an important part of
+> QOM, that may make large parts of his work moot.  If we decide that most QOM
+> objects need no properties at all, then we don't want to move more
+> qdev-specific stuff from to QOM.
+
+Hm, it's a good point. 1:1 properties would actually end up in generated
+code anyway, so simplifying them is maybe not that useful in the end. It
+would probably result in nicer generated code, but that's it.
+
+> > QAPI is already here and it's going to stay. QOM doesn't have to
+> > duplicate input validation that existing code can already perform.
+> > 
+> > I'm not sure which complexity you think I'm introducing: QAPI is already
+> > there. I'm adding the schema, which you agree is valuable documentation,
+> > so we want to have it either case. The actual change to QOM that we have
+> > in this series is this:
+> 
+> The complexity is that properties used to be split in two places, and now
+> they're split in three places.
+> 
+> It may very well be that this is a good first step to at least have classes
+> described in the QAPI schema.  But since _in the short term_ there are
+> things that the series makes worse (and has a risk of bringing things out of
+> sync), I'd like to understand the long term plan and ensure that the QAPI
+> maintainers are on board with it.
+> 
+> Can you at least add a comment to all UserCreatable classes that says "if
+> you add a property, remember to modify ... as well in the QAPI schema"?
+
+I was hoping that by converting object-add in this series, and the CLI
+options soon afterwards, it would be very obvious if you forget to
+change the schema because your new property just wouldn't work (at least
+not during creation).
+
+But I can add comments if you think this is still worthwhile.
+
+> > > Are there any validation bugs that you're fixing?  Is that
+> > > something that cannot be fixed elsewhere, or are you papering over bad QOM
+> > > coding?  (Again, I'm not debating that QOM properties are hard to write
+> > > correctly).
+> > 
+> > Yes, I found bugs that the QAPI schema would have prevented. They were
+> > generally about not checking whether mandatory propertes are actually
+> > set.
+> 
+> Okay, I found your series at
+> https://patchew.org/QEMU/20201130105615.21799-1-kwolf@redhat.com/ too, good
+> to know.
+
+And two more patches of the same type here:
+
+https://patchew.org/QEMU/20201117163045.307451-1-kwolf@redhat.com/
+
+> So that's another useful thing that can be chalked to this series at least
+> if -object and object_add are converted (and also, another thing against QOM
+> properties and 1:1 mappings between configuration schema and run-time
+> state).
+
+Yes. object-add is already covered by this series and -object should be
+easy, so we can have this more or less now. Getting the design right for
+QOM code generation will certainly take more time, discussion and also
+experimentation.
+
+Kevin
+
 
