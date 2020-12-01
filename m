@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85DE72CA1B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:47:09 +0100 (CET)
-Received: from localhost ([::1]:50762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6D02CA1C0
+	for <lists+qemu-devel@lfdr.de>; Tue,  1 Dec 2020 12:49:57 +0100 (CET)
+Received: from localhost ([::1]:56236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kk47g-0007L9-J0
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:47:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60348)
+	id 1kk4AO-0001FE-F0
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 06:49:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk44q-0004kv-LH
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:44:12 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:35754)
+ id 1kk498-0000fi-AX
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:48:38 -0500
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kk44o-00038S-VT
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:44:12 -0500
-Received: by mail-ej1-x644.google.com with SMTP id f23so3514611ejk.2
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 03:44:10 -0800 (PST)
+ id 1kk496-0004m8-2H
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 06:48:38 -0500
+Received: by mail-ed1-x541.google.com with SMTP id y22so2813032edv.1
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 03:48:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J/8WbJ0QbX7L8X+aJDfplrJPO+Eempayk1gs8oZ+WVk=;
- b=Sw/i1lI80YpfVf5jJookAHX9tzW2PescyXTPe+nKi5EW8D9BIeXbhcCkQAUKTH2Dyu
- /UfbOzwvKDAthAjZHfbV5MuzZaFb6jtEfFpLNV1GEv7M9OE8wDJaWVfb8jqNBNNsEc5H
- wtrJryXXEo1Z1z1SfuH0tWaJRVzgYTdbepIGqr+HpBpETHsoLG1d0ua6k5EAnIwttGYW
- m5xO3VUwb3RBNwpxu+WpMdytxIq2Ua37iB60JrDwBzaNpbtdU00iVMh6L3Tgji0NA+5i
- yVw4V+A4TSRudg8RdaaakyHIA/hKyU7vCIUqdR6xsq0n6Omo7oQZMYLz3pzI8ugq3K1q
- p6ew==
+ :cc; bh=eNbJBvCjxxSRBqn4PhMd+UKDjwN1evYqMWIzSqsrfYo=;
+ b=gkAJYfbacW18D8RmBnyQWhTMl0FGastBsP+jUXcjXVQNx1bfDA3wnkfPgHrG6cO4xI
+ ea9PG4GwtYBYqAw/Dtw2cetDX7DidsnmVSqk2ST9n/FsXc2QVvEuSoM+3oAHrdLyQr89
+ HXvivab1f0Bx7OZUVrxZy/3aompk4vn8GiJ9Ez8n4lj0oj0PU70c8WX+5aIbZSN35ro9
+ qAasaRn355p8ELLT3Qe5uSyVvNBYxL7h0Z94s8b9neuAdWRdnObdjur//8NSOIiXkzEM
+ QX3KOF6gXJyvQxMFOUxorDry3GOlCQoEx18j7NHLHnczoUfPtBv/JSQhArdFXBO6LSJi
+ NClg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=J/8WbJ0QbX7L8X+aJDfplrJPO+Eempayk1gs8oZ+WVk=;
- b=BdBqINavL2kxXrizCMXSShEIcQ96NseMHmrT/rgp+nN8zWDby1rj2lZY7GT1dZZJjY
- WOaTaf1Av8X1M84L4+t76b5HQOsEYPrRgYVAwx8jAhdmU/XJCq+iUhZR75izCsU5GO/W
- WVqIJYQ1zpUKILitOZ1FiiwAlMCCVwYg7eCh5Zd5TTg7d7ZUZGWcpoXn85egLOghgM03
- rHILsxFwb6FqaGTO+wvflf/lUSEMjMbRUGEDne08DlIoJqs1HLMmZaCWXqQhXGhvtbTD
- 0SN0KE7yUh/X3KT6vxXjRgf6p0VsLdukSUgXbDOsVtjyg+CQ/ilFM7qxIAiCXcLy1z7h
- h1ZA==
-X-Gm-Message-State: AOAM533uCa64ZeIzebUIq3GRChY5epXV794Y4MoLAWS8gJBTmJV1BaOk
- gFl7UC+D/UxFfFRocRfqfyaPOTb+ATiQMRzAI3i1yQ==
-X-Google-Smtp-Source: ABdhPJyuEDp2HeovEehyEAmUd/CclFSMhRjl70vCjfOMMoQYnYue98WSFIhAk5aIymDYvnEwXVuAPF0Dm8MaH7tvnyU=
-X-Received: by 2002:a17:906:2741:: with SMTP id
- a1mr2566040ejd.85.1606823049365; 
- Tue, 01 Dec 2020 03:44:09 -0800 (PST)
+ bh=eNbJBvCjxxSRBqn4PhMd+UKDjwN1evYqMWIzSqsrfYo=;
+ b=KYzZTg0fkm+H1bvghG/pNrn60X7A9LeBEGieLXTetN6Fx7TnBpiT8BvlDd4cJ1aVGY
+ /qCwldXWzcQepPUSigg01RIRzVMpgPuJ7ubHAmCsvjqpfeKAn47kXwBuixxN820+Ktzz
+ T1osgooPo6RKYwfkqkZdLs5eWsCCPSygVDKipOSiXiErvUnFcBIkqUR/maGygZWY0cXf
+ FRfvc/nBpmLuBJh3BfYJ+ervVjrs1cJGjkolj3K7PDr7MR1Hs+rZajvTu46IOh5V2how
+ Sr0tf3qiOQAODdrFZhFzTTvmDtLoGgWFP3TtB/2ZzlSreWfyrDphui5ZL4GVjSHrXdJQ
+ 5F6g==
+X-Gm-Message-State: AOAM530O9nInfVbbGALPThwD9bEyyT0Hgzc/gN2VILKBj0V25wNrojec
+ iMYuiWyaQV/HE1hImU/vt1zV1PYjbgwGNgMDL68MkA==
+X-Google-Smtp-Source: ABdhPJwBkmG7ozxwSvvWNZFi+MOMS8ktr4FfGn2HiL/iGAA05ytNimxgRqwHeGV14exT6S4LiJrHxh/OX3TrNuKrnAQ=
+X-Received: by 2002:a05:6402:b35:: with SMTP id
+ bo21mr2588071edb.52.1606823314418; 
+ Tue, 01 Dec 2020 03:48:34 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1605316268.git.ashish.kalra@amd.com>
- <2ba88b512ec667eff66b2ece2177330a28e657c0.1605316268.git.ashish.kalra@amd.com>
-In-Reply-To: <2ba88b512ec667eff66b2ece2177330a28e657c0.1605316268.git.ashish.kalra@amd.com>
+ <4393d426ae8f070c6be45ff0252bae2dca8bbd42.1605316268.git.ashish.kalra@amd.com>
+In-Reply-To: <4393d426ae8f070c6be45ff0252bae2dca8bbd42.1605316268.git.ashish.kalra@amd.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 1 Dec 2020 11:43:58 +0000
-Message-ID: <CAFEAcA8eiyzUbHXQip1sT_TrT+Mfv-WG8cSMmM-w_eOFShAMzQ@mail.gmail.com>
-Subject: Re: [PATCH 01/11] memattrs: add debug attribute
+Date: Tue, 1 Dec 2020 11:48:23 +0000
+Message-ID: <CAFEAcA8=3ngeErUEaR-=qGQymKv5JSd-ZXz+hg7L46J_nWDUnQ@mail.gmail.com>
+Subject: Re: [PATCH 02/11] exec: Add new MemoryDebugOps.
 To: Ashish Kalra <Ashish.Kalra@amd.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,23 +89,33 @@ Cc: Thomas Lendacky <Thomas.Lendacky@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Nov 2020 at 19:28, Ashish Kalra <Ashish.Kalra@amd.com> wrote:
+On Mon, 16 Nov 2020 at 19:07, Ashish Kalra <Ashish.Kalra@amd.com> wrote:
 >
-> From: Brijesh Singh <brijesh.singh@amd.com>
+> From: Ashish Kalra <ashish.kalra@amd.com>
 >
-> From: Brijesh Singh <brijesh.singh@amd.com>
+> Introduce new MemoryDebugOps which hook into guest virtual and physical
+> memory debug interfaces such as cpu_memory_rw_debug, to allow vendor specific
+> assist/hooks for debugging and delegating accessing the guest memory.
+> This is required for example in case of AMD SEV platform where the guest
+> memory is encrypted and a SEV specific debug assist/hook will be required
+> to access the guest memory.
 >
-> Extend the MemTxAttrs to include a 'debug' flag. The flag can be used as
-> general indicator that operation was triggered by the debugger.
->
-> A subsequent patch will set the debug=1 when issuing a memory access
-> from the gdbstub or HMP commands. This is a prerequisite to support
-> debugging an encrypted guest. When a request with debug=1 is seen, the
-> encryption APIs will be used to access the guest memory.
+> The MemoryDebugOps are used by cpu_memory_rw_debug() and default to
+> address_space_read and address_space_write_rom.
 
-So, what counts as "debug" here, and why are debug requests
-special? If "debug=1" means "can actually get at the guest memory",
-why wouldn't every device model want to use it?
+This seems like a weird place to insert these hooks. Not
+all debug related accesses are going to go via
+cpu_memory_rw_debug(). For instance when the gdb stub is in
+"PhyMemMode" and all addresses from the debugger are treated as
+physical rather than virtual, gdbstub.c will call
+cpu_physical_memory_write()/_read().
+
+I would have expected the "oh, this is a debug access, do
+something special" to be at a lower level, so that any
+address_space_* access to the guest memory with the debug
+attribute gets the magic treatment, whether that was done
+as a direct "read this physaddr" or via cpu_memory_rw_debug()
+doing the virt-to-phys conversion first.
 
 thanks
 -- PMM
