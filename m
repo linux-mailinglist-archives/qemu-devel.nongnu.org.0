@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426E62CB8D2
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:29:57 +0100 (CET)
-Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 343432CB8C0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:26:40 +0100 (CET)
+Received: from localhost ([::1]:34692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOSS-000135-5Q
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:29:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42700)
+	id 1kkOPH-0005hO-5m
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:26:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNMD-0006cX-4l
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22474)
+ id 1kkNM5-0006cD-Nl
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNM2-0006va-3g
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:20 -0500
+ id 1kkNM1-0006wg-5x
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606897146;
+ s=mimecast20190719; t=1606897147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c7e+ZXfrmPvHuDyQvt4K1RRYKmHo6qyJmE6LqHVXzv0=;
- b=IXuwJi7PrGPFCrXt29YP2mZWFbYo/xG3spQei+D5/vxw3lGVsLIL7pbPNZzXuIc68cGT9P
- jyZNnvB529RRMlEUwRV/YpdIJUHXqioSSJm6Iw1bkcSooxJNeBJQPvhJ14tJkmMB5Bo/MU
- OXnHLa0P4K87jysH9FLU3mN0FxucDVM=
+ bh=m1f6DdAT2v+ywJS2w/lHZHwG8I2CkIuiyqx6rrIAQjk=;
+ b=XFMViasep+WYMNWI60ph/Thjl+Uqllga7HGpPAmNnLA1HS6WItcfrDqyObbGUfzmzeBUgr
+ 5k6AhXUtx39usPJaVZbSgARCi7tRzY1U+ofXDsJe8OCaHBlD65KaXl0IpO1UtIBZdA6YeT
+ jkFhGtFW7HLeFHUQFb9HCNrcVhY7Tz4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-7f0me4NZOVyZ8ESnID-qyw-1; Wed, 02 Dec 2020 03:19:03 -0500
-X-MC-Unique: 7f0me4NZOVyZ8ESnID-qyw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-166-6Atep95nMcGLLm9iHc595g-1; Wed, 02 Dec 2020 03:19:05 -0500
+X-MC-Unique: 6Atep95nMcGLLm9iHc595g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 987EF100C618
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:19:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E37B41084C82
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:19:04 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2A14100238C;
- Wed,  2 Dec 2020 08:18:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 90DAB5D9C6;
+ Wed,  2 Dec 2020 08:19:04 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/15] vl: extract softmmu/globals.c
-Date: Wed,  2 Dec 2020 03:18:44 -0500
-Message-Id: <20201202081854.4126071-6-pbonzini@redhat.com>
+Subject: [PATCH 10/15] vl: make qemu_get_machine_opts static
+Date: Wed,  2 Dec 2020 03:18:49 -0500
+Message-Id: <20201202081854.4126071-11-pbonzini@redhat.com>
 In-Reply-To: <20201202081854.4126071-1-pbonzini@redhat.com>
 References: <20201202081854.4126071-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,237 +83,291 @@ Cc: imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Machine options can be retrieved as properties of the machine object.
+Encourage that by removing the "easy" accessor to machine options.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c         |  2 ++
- include/exec/cpu-common.h |  3 ++
- include/exec/exec-all.h   |  3 --
- softmmu/globals.c         | 74 +++++++++++++++++++++++++++++++++++++++
- softmmu/meson.build       |  1 +
- softmmu/vl.c              | 45 ++----------------------
- 6 files changed, 83 insertions(+), 45 deletions(-)
- create mode 100644 softmmu/globals.c
+ accel/kvm/kvm-all.c     | 11 ++++-------
+ hw/arm/boot.c           |  2 +-
+ hw/microblaze/boot.c    |  9 ++++-----
+ hw/nios2/boot.c         |  9 ++++-----
+ hw/ppc/e500.c           |  5 ++---
+ hw/ppc/spapr_nvdimm.c   |  4 ++--
+ hw/ppc/virtex_ml507.c   |  2 +-
+ hw/riscv/sifive_u.c     |  6 ++----
+ hw/riscv/virt.c         |  6 ++----
+ hw/xtensa/xtfpga.c      |  9 ++++-----
+ include/sysemu/sysemu.h |  2 --
+ softmmu/device_tree.c   |  2 +-
+ softmmu/vl.c            |  2 +-
+ 13 files changed, 28 insertions(+), 41 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 745531c9d9..5659b1f49c 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -213,6 +213,8 @@ GlobalProperty hw_compat_2_1[] = {
- };
- const size_t hw_compat_2_1_len = G_N_ELEMENTS(hw_compat_2_1);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index baaa54249d..666b9ab96c 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2013,7 +2013,6 @@ static int kvm_init(MachineState *ms)
+     const KVMCapabilityInfo *missing_cap;
+     int ret;
+     int type = 0;
+-    const char *kvm_type;
+     uint64_t dirty_log_manual_caps;
  
-+MachineState *current_machine;
-+
- static char *machine_get_kernel(Object *obj, Error **errp)
+     s = KVM_STATE(ms->accelerator);
+@@ -2069,13 +2068,11 @@ static int kvm_init(MachineState *ms)
+     }
+     s->as = g_new0(struct KVMAs, s->nr_as);
+ 
+-    kvm_type = qemu_opt_get(qemu_get_machine_opts(), "kvm-type");
+-    if (mc->kvm_type) {
++    if (object_property_find(OBJECT(current_machine), "kvm-type")) {
++        g_autofree char *kvm_type = object_property_get_str(OBJECT(current_machine),
++                                                            "kvm-type",
++                                                            &error_abort);
+         type = mc->kvm_type(ms, kvm_type);
+-    } else if (kvm_type) {
+-        ret = -EINVAL;
+-        fprintf(stderr, "Invalid argument kvm-type=%s\n", kvm_type);
+-        goto err;
+     }
+ 
+     do {
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 4d9d47ba1c..e56c42ac22 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -1299,7 +1299,7 @@ void arm_load_kernel(ARMCPU *cpu, MachineState *ms, struct arm_boot_info *info)
+     info->kernel_filename = ms->kernel_filename;
+     info->kernel_cmdline = ms->kernel_cmdline;
+     info->initrd_filename = ms->initrd_filename;
+-    info->dtb_filename = qemu_opt_get(qemu_get_machine_opts(), "dtb");
++    info->dtb_filename = ms->dtb;
+     info->dtb_limit = 0;
+ 
+     /* Load the kernel.  */
+diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
+index 6715ba2ff9..caaba1aa4c 100644
+--- a/hw/microblaze/boot.c
++++ b/hw/microblaze/boot.c
+@@ -34,6 +34,7 @@
+ #include "sysemu/device_tree.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/sysemu.h"
++#include "hw/boards.h"
+ #include "hw/loader.h"
+ #include "elf.h"
+ #include "qemu/cutils.h"
+@@ -116,16 +117,14 @@ void microblaze_load_kernel(MicroBlazeCPU *cpu, hwaddr ddr_base,
+                             const char *dtb_filename,
+                             void (*machine_cpu_reset)(MicroBlazeCPU *))
  {
-     MachineState *ms = MACHINE(obj);
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index bd5e15dd7d..5a0a2d93e0 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -105,4 +105,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length);
+-    QemuOpts *machine_opts;
+     const char *kernel_filename;
+     const char *kernel_cmdline;
+     const char *dtb_arg;
+     char *filename = NULL;
  
- #endif
+-    machine_opts = qemu_get_machine_opts();
+-    kernel_filename = qemu_opt_get(machine_opts, "kernel");
+-    kernel_cmdline = qemu_opt_get(machine_opts, "append");
+-    dtb_arg = qemu_opt_get(machine_opts, "dtb");
++    kernel_filename = current_machine->kernel_filename;
++    kernel_cmdline = current_machine->kernel_cmdline;
++    dtb_arg = current_machine->dtb;
+     /* default to pcbios dtb as passed by machine_init */
+     if (!dtb_arg && dtb_filename) {
+         filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, dtb_filename);
+diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+index 95a8697906..d9969ac148 100644
+--- a/hw/nios2/boot.c
++++ b/hw/nios2/boot.c
+@@ -39,6 +39,7 @@
+ #include "sysemu/device_tree.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/sysemu.h"
++#include "hw/boards.h"
+ #include "hw/loader.h"
+ #include "elf.h"
  
-+/* vl.c */
-+extern int singlestep;
-+
- #endif /* CPU_COMMON_H */
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 94fe05daaa..fab573da06 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -676,7 +676,4 @@ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
-                                        MemoryRegionSection *section);
- #endif
+@@ -120,16 +121,14 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base,
+                             const char *dtb_filename,
+                             void (*machine_cpu_reset)(Nios2CPU *))
+ {
+-    QemuOpts *machine_opts;
+     const char *kernel_filename;
+     const char *kernel_cmdline;
+     const char *dtb_arg;
+     char *filename = NULL;
  
--/* vl.c */
--extern int singlestep;
+-    machine_opts = qemu_get_machine_opts();
+-    kernel_filename = qemu_opt_get(machine_opts, "kernel");
+-    kernel_cmdline = qemu_opt_get(machine_opts, "append");
+-    dtb_arg = qemu_opt_get(machine_opts, "dtb");
++    kernel_filename = current_machine->kernel_filename;
++    kernel_cmdline = current_machine->kernel_cmdline;
++    dtb_arg = current_machine->dtb;
+     /* default to pcbios dtb as passed by machine_init */
+     if (!dtb_arg) {
+         filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, dtb_filename);
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 6a64eb31ab..41dad2e583 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -343,9 +343,8 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
+             pmc->pci_pio_base >> 32, pmc->pci_pio_base,
+             0x0, 0x10000,
+         };
+-    QemuOpts *machine_opts = qemu_get_machine_opts();
+-    const char *dtb_file = qemu_opt_get(machine_opts, "dtb");
+-    const char *toplevel_compat = qemu_opt_get(machine_opts, "dt_compatible");
++    const char *dtb_file = machine->dtb;
++    const char *toplevel_compat = machine->dt_compatible;
+ 
+     if (dtb_file) {
+         char *filename;
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index a833a63b5e..84715a4d78 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -38,7 +38,6 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+ {
+     const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
+     const MachineState *ms = MACHINE(hotplug_dev);
+-    const char *nvdimm_opt = qemu_opt_get(qemu_get_machine_opts(), "nvdimm");
+     g_autofree char *uuidstr = NULL;
+     QemuUUID uuid;
+     int ret;
+@@ -57,10 +56,11 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+      * ensure that, if the user sets nvdimm=off, we error out
+      * regardless of being 5.1 or newer.
+      */
+-    if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
++    if (!ms->nvdimms_state->is_enabled && ms->nvdimms_state->has_is_enabled) {
+         error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
+         return false;
+     }
++    ms->nvdimms_state->is_enabled = true;
+ 
+     if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
+                                 &error_abort) == 0) {
+diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
+index 7f1bca928c..07fe49da0d 100644
+--- a/hw/ppc/virtex_ml507.c
++++ b/hw/ppc/virtex_ml507.c
+@@ -152,7 +152,7 @@ static int xilinx_load_device_tree(hwaddr addr,
+     int r;
+     const char *dtb_filename;
+ 
+-    dtb_filename = qemu_opt_get(qemu_get_machine_opts(), "dtb");
++    dtb_filename = current_machine->dtb;
+     if (dtb_filename) {
+         fdt = load_device_tree(dtb_filename, &fdt_size);
+         if (!fdt) {
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 2f19a9cda2..e7f6dc5fb3 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -100,14 +100,12 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     int cpu;
+     uint32_t *cells;
+     char *nodename;
+-    const char *dtb_filename;
+     char ethclk_names[] = "pclk\0hclk";
+     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
+     uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
+ 
+-    dtb_filename = qemu_opt_get(qemu_get_machine_opts(), "dtb");
+-    if (dtb_filename) {
+-        fdt = s->fdt = load_device_tree(dtb_filename, &s->fdt_size);
++    if (ms->dtb) {
++        fdt = s->fdt = load_device_tree(ms->dtb, &s->fdt_size);
+         if (!fdt) {
+             error_report("load_device_tree() failed");
+             exit(1);
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 25cea7aa67..3cc18a76e7 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -181,7 +181,6 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+ {
+     void *fdt;
+     int i, cpu, socket;
+-    const char *dtb_filename;
+     MachineState *mc = MACHINE(s);
+     uint64_t addr, size;
+     uint32_t *clint_cells, *plic_cells;
+@@ -195,9 +194,8 @@ static void create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+     hwaddr flashsize = virt_memmap[VIRT_FLASH].size / 2;
+     hwaddr flashbase = virt_memmap[VIRT_FLASH].base;
+ 
+-    dtb_filename = qemu_opt_get(qemu_get_machine_opts(), "dtb");
+-    if (dtb_filename) {
+-        fdt = s->fdt = load_device_tree(dtb_filename, &s->fdt_size);
++    if (mc->dtb) {
++        fdt = s->fdt = load_device_tree(mc->dtb, &s->fdt_size);
+         if (!fdt) {
+             error_report("load_device_tree() failed");
+             exit(1);
+diff --git a/hw/xtensa/xtfpga.c b/hw/xtensa/xtfpga.c
+index b1470b88e6..7be53f1895 100644
+--- a/hw/xtensa/xtfpga.c
++++ b/hw/xtensa/xtfpga.c
+@@ -233,11 +233,10 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
+     qemu_irq *extints;
+     DriveInfo *dinfo;
+     PFlashCFI01 *flash = NULL;
+-    QemuOpts *machine_opts = qemu_get_machine_opts();
+-    const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
+-    const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
+-    const char *dtb_filename = qemu_opt_get(machine_opts, "dtb");
+-    const char *initrd_filename = qemu_opt_get(machine_opts, "initrd");
++    const char *kernel_filename = machine->kernel_filename;
++    const char *kernel_cmdline = machine->kernel_cmdline;
++    const char *dtb_filename = machine->dtb;
++    const char *initrd_filename = machine->initrd_filename;
+     const unsigned system_io_size = 224 * MiB;
+     uint32_t freq = 10000000;
+     int n;
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 9b47cdca55..e8f463ff30 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -104,8 +104,6 @@ typedef void QEMUBootSetHandler(void *opaque, const char *boot_order,
+ void qemu_register_boot_set(QEMUBootSetHandler *func, void *opaque);
+ void qemu_boot_set(const char *boot_order, Error **errp);
+ 
+-QemuOpts *qemu_get_machine_opts(void);
 -
- #endif
-diff --git a/softmmu/globals.c b/softmmu/globals.c
-new file mode 100644
-index 0000000000..e62d9cd8da
---- /dev/null
-+++ b/softmmu/globals.c
-@@ -0,0 +1,74 @@
-+/*
-+ * Global variables that (mostly) should not exist
-+ *
-+ * Copyright (c) 2003-2020 QEMU contributors
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "exec/cpu-common.h"
-+#include "hw/display/vga.h"
-+#include "hw/i386/pc.h"
-+#include "hw/i386/x86.h"
-+#include "hw/loader.h"
-+#include "hw/xen/xen.h"
-+#include "net/net.h"
-+#include "sysemu/cpus.h"
-+#include "sysemu/sysemu.h"
-+
-+enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
-+int display_opengl;
-+const char* keyboard_layout;
-+bool enable_mlock;
-+bool enable_cpu_pm;
-+int nb_nics;
-+NICInfo nd_table[MAX_NICS];
-+int autostart = 1;
-+int vga_interface_type = VGA_NONE;
-+Chardev *parallel_hds[MAX_PARALLEL_PORTS];
-+int win2k_install_hack;
-+int singlestep;
-+int fd_bootchk = 1;
-+int no_reboot;
-+int no_shutdown;
-+int graphic_rotate;
-+QEMUOptionRom option_rom[MAX_OPTION_ROMS];
-+int nb_option_roms;
-+int old_param;
-+const char *qemu_name;
-+int alt_grab;
-+int ctrl_grab;
-+unsigned int nb_prom_envs;
-+const char *prom_envs[MAX_PROM_ENVS];
-+int boot_menu;
-+bool boot_strict;
-+uint8_t *boot_splash_filedata;
-+int only_migratable; /* turn it off unless user states otherwise */
-+int icount_align_option;
-+
-+/* The bytes in qemu_uuid are in the order specified by RFC4122, _not_ in the
-+ * little-endian "wire format" described in the SMBIOS 2.6 specification.
-+ */
-+QemuUUID qemu_uuid;
-+bool qemu_uuid_set;
-+
-+uint32_t xen_domid;
-+enum xen_mode xen_mode = XEN_EMULATE;
-+bool xen_domid_restrict;
-diff --git a/softmmu/meson.build b/softmmu/meson.build
-index 2a73ebc223..e5865b97cb 100644
---- a/softmmu/meson.build
-+++ b/softmmu/meson.build
-@@ -4,6 +4,7 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
-   'cpus.c',
-   'cpu-throttle.c',
-   'datadir.c',
-+  'globals.c',
-   'physmem.c',
-   'ioport.c',
-   'rtc.c',
+ bool defaults_enabled(void);
+ 
+ void qemu_init(int argc, char **argv, char **envp);
+diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+index b335dae707..b9a3ddc518 100644
+--- a/softmmu/device_tree.c
++++ b/softmmu/device_tree.c
+@@ -526,7 +526,7 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+ 
+ void qemu_fdt_dumpdtb(void *fdt, int size)
+ {
+-    const char *dumpdtb = qemu_opt_get(qemu_get_machine_opts(), "dumpdtb");
++    const char *dumpdtb = current_machine->dumpdtb;
+ 
+     if (dumpdtb) {
+         /* Dump the dtb to a file and quit */
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 6282ae2101..685d92df5d 100644
+index 4fece1b9db..0f7222af31 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -26,6 +26,7 @@
- #include "qemu-common.h"
- #include "qemu/datadir.h"
- #include "qemu/units.h"
-+#include "exec/cpu-common.h"
- #include "hw/boards.h"
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
-@@ -67,6 +68,8 @@
- #include "qemu/log.h"
- #include "sysemu/blockdev.h"
- #include "hw/block/block.h"
-+#include "hw/i386/x86.h"
-+#include "hw/i386/pc.h"
- #include "migration/misc.h"
- #include "migration/snapshot.h"
- #include "migration/global_state.h"
-@@ -139,17 +142,8 @@ static bool preconfig_requested;
- static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
- static BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
- static bool nographic = false;
--enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
- static int mem_prealloc; /* force preallocation of physical target memory */
--int display_opengl;
--const char* keyboard_layout = NULL;
- static ram_addr_t ram_size;
--bool enable_mlock = false;
--bool enable_cpu_pm = false;
--int nb_nics;
--NICInfo nd_table[MAX_NICS];
--int autostart = 1;
--int vga_interface_type = VGA_NONE;
- static const char *vga_model = NULL;
- static DisplayOptions dpy;
- static int num_serial_hds;
-@@ -157,41 +151,10 @@ static Chardev **serial_hds;
- static const char *log_mask;
- static const char *log_file;
- static bool list_data_dirs;
--Chardev *parallel_hds[MAX_PARALLEL_PORTS];
--int win2k_install_hack = 0;
--int singlestep = 0;
--int fd_bootchk = 1;
--int no_reboot;
--int no_shutdown = 0;
--int graphic_rotate = 0;
- static const char *watchdog;
--QEMUOptionRom option_rom[MAX_OPTION_ROMS];
--int nb_option_roms;
--int old_param = 0;
--const char *qemu_name;
--int alt_grab = 0;
--int ctrl_grab = 0;
--unsigned int nb_prom_envs = 0;
--const char *prom_envs[MAX_PROM_ENVS];
--int boot_menu;
--bool boot_strict;
--uint8_t *boot_splash_filedata;
--int only_migratable; /* turn it off unless user states otherwise */
--bool wakeup_suspend_enabled;
--int icount_align_option;
- static const char *qtest_chrdev;
- static const char *qtest_log;
- 
--/* The bytes in qemu_uuid are in the order specified by RFC4122, _not_ in the
-- * little-endian "wire format" described in the SMBIOS 2.6 specification.
-- */
--QemuUUID qemu_uuid;
--bool qemu_uuid_set;
--
--uint32_t xen_domid;
--enum xen_mode xen_mode = XEN_EMULATE;
--bool xen_domid_restrict;
--
- static int has_defaults = 1;
- static int default_serial = 1;
- static int default_parallel = 1;
-@@ -799,8 +762,6 @@ static int usb_parse(const char *cmdline)
- /***********************************************************/
- /* machine registration */
- 
--MachineState *current_machine;
--
- static MachineClass *find_machine(const char *name, GSList *machines)
+@@ -481,7 +481,7 @@ static QemuOptsList qemu_fw_cfg_opts = {
+  *
+  * Returns: machine options (never null).
+  */
+-QemuOpts *qemu_get_machine_opts(void)
++static QemuOpts *qemu_get_machine_opts(void)
  {
-     GSList *el;
+     return qemu_find_opts_singleton("machine");
+ }
 -- 
 2.26.2
 
