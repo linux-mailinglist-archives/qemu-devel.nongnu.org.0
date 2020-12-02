@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E38C2CBFB8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 15:31:37 +0100 (CET)
-Received: from localhost ([::1]:43684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0729D2CBFE1
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 15:39:26 +0100 (CET)
+Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkTAO-0001sr-3Y
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 09:31:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34486)
+	id 1kkTHx-000250-4Y
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 09:39:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kkT8N-0000j5-PF
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 09:29:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35531)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kkT8M-00042m-AJ
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 09:29:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606919369;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VzrR2qgcOW3ZTogmGln9T6Ashisy6wSxN+kyP3Xb6QY=;
- b=JhG8PNT3PHbk+uIUNrE5jxzXzJrA+3AVvSAlxdza4EuszIw47WOmMG9NYbWYKl11ofnUjL
- XMC5DL90dO2h3RSKBLZiZGLsaTeAFZWAtuTXb/jQgibEdipw8sPgmnb8+oK9MLmFOXvQv+
- rrJ0BuQjBFcga6Lo9DMDfD/b7kMNqe4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-239-HLxcsvcLOHybONPV9DK5fg-1; Wed, 02 Dec 2020 09:29:24 -0500
-X-MC-Unique: HLxcsvcLOHybONPV9DK5fg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3035B1922035
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 14:29:23 +0000 (UTC)
-Received: from localhost (ovpn-114-255.ams2.redhat.com [10.36.114.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A69C81042A48;
- Wed,  2 Dec 2020 14:28:56 +0000 (UTC)
-Date: Wed, 2 Dec 2020 14:28:55 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH v2 8/8] .gitlab-ci: add build-libvhost-user
-Message-ID: <20201202142855.GJ655829@stefanha-x1.localdomain>
-References: <20201125100640.366523-1-marcandre.lureau@redhat.com>
- <20201125100640.366523-9-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kkT9p-0002Ou-6i; Wed, 02 Dec 2020 09:31:01 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:46516)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kkT9j-0004Gk-Sh; Wed, 02 Dec 2020 09:31:00 -0500
+Received: by mail-pl1-x644.google.com with SMTP id v3so1191411plz.13;
+ Wed, 02 Dec 2020 06:30:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fCSRM4U0V+4BUNqV1PmszsQ9Ls80winj6/xSCca3yME=;
+ b=YvtLzL/OogqwcIHLWa/9DYdPypsLfR+G+p4xSAGY/Fx/oBNhm7not0zH3TGdVarEXt
+ I95JKNyrjr3XX3zvwPD+w3wJFZb+hlfvkuaSBv0pUDLK5cthQru50BlI1xLmhj3QBL/K
+ qqyavvyqX65+X7j9NgJ+V35SFDT17OUkVWB6usoiM/E0kUpbaXZVpT//HFqjc3NeELQ2
+ Z1wl65/HYFmepULVBMd0GW8hM04KI3CpvToiFXuU1iFTXGLGhFKuPiDjddxGJle1Yhxt
+ 7b9jmH8zEWuKmSS+HmnJONNPXroOrZnkb6PrvideS430pUFLO5X6J6GExXhDWaQabRH8
+ 9jKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fCSRM4U0V+4BUNqV1PmszsQ9Ls80winj6/xSCca3yME=;
+ b=ouulscJLYfgRoLM7+O2o/3ytNBaVkyMmXnz83PjYeNIkq7yKcwnUWEcID/GYDMBKY7
+ z6q1EFpgybizGoMi6s62TnMBLH9ULViTzoDOK75l6QxycDVRXclvIp1t5Cf0tAqws/v4
+ ALPymdW9BEDZoSeuqGyTY2RiwvHYNrb6OT2wKQoxL7raZ+exsuitZUXJfH1Fma5I93eW
+ Q+rzRXvlcNCCRBI/5bglXE6eNt/Qx516IxPSf1z0hnEfU8L0wtXamOK2d4FtALl56X3i
+ vrR9wyWGWuU3tq6MtLhHSpt2J777+pEjyQg4E8lMRnRRPM5e+m08aLQtMGBf7vDFYS4o
+ i68g==
+X-Gm-Message-State: AOAM531LyVaf8lpKkx3zWFyvQd+R/artO7lCgRKUsbRIdI1pgWDPYRpU
+ m8C9SEaFVuum1zg0DqyldBM=
+X-Google-Smtp-Source: ABdhPJwJ7a3WKELC24PQKOjfAuxJbGi+bWU1N4sIE97BakU0FFJiLOQY0jwBJ7AGNuexwDau9agWzQ==
+X-Received: by 2002:a17:90b:a04:: with SMTP id gg4mr177287pjb.8.1606919453708; 
+ Wed, 02 Dec 2020 06:30:53 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id x26sm87958pfn.46.2020.12.02.06.30.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Dec 2020 06:30:53 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair@alistair23.me>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] hw/block: m25p80: Implement AAI-WP command support for SST
+ flashes
+Date: Wed,  2 Dec 2020 22:30:37 +0800
+Message-Id: <20201202143037.24110-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20201125100640.366523-9-marcandre.lureau@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6J7GEvtanOfV9oXA"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x644.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,42 +81,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---6J7GEvtanOfV9oXA
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-On Wed, Nov 25, 2020 at 02:06:40PM +0400, marcandre.lureau@redhat.com wrote=
-:
-> From: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
->=20
-> Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  .gitlab-ci.yml | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+Auto Address Increment (AAI) Word-Program is a special command of
+SST flashes. AAI-WP allows multiple bytes of data to be programmed
+without re-issuing the next sequential address location.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
---6J7GEvtanOfV9oXA
-Content-Type: application/pgp-signature; name="signature.asc"
+ hw/block/m25p80.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/HpKYACgkQnKSrs4Gr
-c8hVOgf/QNPoalGQZ6FABx7XE8kDzLV5Ohbg96nlXVEgUoxc/XY3TgChbvow7DeS
-SzTzN/82cIcDKw+nR9Cxv+W49U5OvAGYqWaVBGYC3U8ZfILli0HaRDFaxOzEKxKX
-MT9bNOY8/WBcEEfXcMmtP5ZkODIDtvNyjMzpsTYAEEIr4wyDM6DW3mVN2MKg6R74
-8ftg9/N/q06Vv15aKI5P0AX+jhUyy7eUqjyYy5tJlwCfQPYqLbUTBiBH2zIGhcQs
-M+Zm5/lfGNUrnkxgA6+dwXe/hdy01Y+gdPpcb4pscGU4tNneG8WDlpLo5CKZBL17
-ko7o5NrkmuFdRVwYH1Ojd0FN5D13CQ==
-=1PX+
------END PGP SIGNATURE-----
-
---6J7GEvtanOfV9oXA--
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 9b36762df9..f225d9c96d 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -359,6 +359,7 @@ typedef enum {
+     QPP_4 = 0x34,
+     RDID_90 = 0x90,
+     RDID_AB = 0xab,
++    AAI_WP = 0xad,
+ 
+     ERASE_4K = 0x20,
+     ERASE4_4K = 0x21,
+@@ -449,6 +450,7 @@ struct Flash {
+     bool four_bytes_address_mode;
+     bool reset_enable;
+     bool quad_enable;
++    bool aai_enable;
+     uint8_t ear;
+ 
+     int64_t dirty_page;
+@@ -661,6 +663,7 @@ static void complete_collecting_data(Flash *s)
+     case PP:
+     case PP4:
+     case PP4_4:
++    case AAI_WP:
+         s->state = STATE_PAGE_PROGRAM;
+         break;
+     case READ:
+@@ -1010,6 +1013,9 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+ 
+     case WRDI:
+         s->write_enable = false;
++        if (get_man(s) == MAN_SST) {
++            s->aai_enable = false;
++        }
+         break;
+     case WREN:
+         s->write_enable = true;
+@@ -1162,6 +1168,17 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+     case RSTQIO:
+         s->quad_enable = false;
+         break;
++    case AAI_WP:
++        if (get_man(s) == MAN_SST && s->write_enable) {
++            if (s->aai_enable) {
++                s->state = STATE_PAGE_PROGRAM;
++            } else {
++                s->aai_enable = true;
++                s->needed_bytes = get_addr_length(s);
++                s->state = STATE_COLLECTING_DATA;
++            }
++        }
++        break;
+     default:
+         s->pos = 0;
+         s->len = 1;
+-- 
+2.25.1
 
 
