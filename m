@@ -2,50 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5673A2CC298
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 17:42:23 +0100 (CET)
-Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE962CC2AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 17:47:08 +0100 (CET)
+Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkVCv-0000RJ-Nz
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 11:42:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44514)
+	id 1kkVHW-0003XP-3E
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 11:47:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kkVAx-0007yG-Rr; Wed, 02 Dec 2020 11:40:19 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:34785)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kkVAv-0007p5-85; Wed, 02 Dec 2020 11:40:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=jbvQ31MtiR2YaPAoLnp6Xr1mro4pcPMEoec+jonbtDs=; 
- b=mdwtIejjeOU9sehoROhcPOFBbog84kRkNVeBaJLOPdmQKPlxVS/5nzGACUkEivWF1lnFLZq4IW5Wovbc6AxnkVtWXdlnJQNVMyjVSHANr09NVoB7mx5R5XW2yW+cis16AzMlwYLAwZrk3P+sC4M3OjatJLZs8yuPWo+WemMygT8sBvd406bZxCTQ999N1ZtjEQ/Za/lRYNvrpbQsloFvabfnYLlDp1wxulxakILOIh6I/+Fe66r9wqd2nbHIetcNfdPGq5SCCZs9hANyjv/aU2DVSZh3nu5jgXi70v6A4wOi6rIjsIjxSkrHMGraUqxweuWWA89AxE9pNj1PxsWlUw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kkVAq-000556-TF; Wed, 02 Dec 2020 17:40:12 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1kkVAq-0000kg-Jo; Wed, 02 Dec 2020 17:40:12 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: Plans to bring QMP 'x-blockdev-reopen' out of experimental?
-In-Reply-To: <20201202162808.GG16765@merkur.fritz.box>
-References: <20201006091001.GA64583@paraplu>
- <w51mu0ifbuf.fsf@maestria.local.igalia.com>
- <w51k0vmf9k3.fsf@maestria.local.igalia.com>
- <20201020082333.GB4452@merkur.fritz.box>
- <w51blfctcfb.fsf@maestria.local.igalia.com>
- <20201202162808.GG16765@merkur.fritz.box>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Wed, 02 Dec 2020 17:40:12 +0100
-Message-ID: <w518sagtb4j.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1kkVBl-0000DZ-Jz
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:41:09 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:36864)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1kkVBg-00089l-Ly
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:41:09 -0500
+Received: from crumble.bar.greensocs.com (unknown [172.17.10.14])
+ by beetle.greensocs.com (Postfix) with ESMTPS id 2190D21CD4;
+ Wed,  2 Dec 2020 16:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1606927260;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=opZHA4qCLgdAN8VQ9q+MuLkIRwc2w/zJPV3w02nn1zQ=;
+ b=uBriU7rePgXpzJfbS4NzUg4gaEdnj28fFZgxCuvGzMgT/zIpJsT4+gY/s8cCrhGLPj87SC
+ qv7+VI8KYeVql4Qvzqj91tjagZQ5Nhj4ZBryneAeCGGElMDt3wKWVCYxY6RRUk+2JYbwB0
+ wxrj1l4AARkQRVYhoifMuE2WlCXCRac=
+From: Damien Hedde <damien.hedde@greensocs.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for 5.2?] hw/core/ressetable: fix reset count decrement
+Date: Wed,  2 Dec 2020 17:40:55 +0100
+Message-Id: <20201202164055.30864-1-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -64,49 +59,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Kashyap Chamarthy <kchamart@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
+ f4bug@amsat.org, Michael Peter <michael.peter@hensoldt-cyber.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 02 Dec 2020 05:28:08 PM CET, Kevin Wolf wrote:
+The reset count was only decremented if the device was in a single
+reset.
 
->> So x-blockdev-reopen sees that we want to replace the current
->> bs->file ("hd0-file") with a new one ("throttle0"). The problem here
->> is that throttle0 has hd0-file as its child, so when we check the
->> permissions on throttle0 (and its children) we get that hd0-file
->> refuses because it's already being used (although in in the process
->> of being replaced) by hd0:
->> 
->> "Conflicts with use by hd0 as 'file', which does not allow 'write, resize' on hd0-file"
->> 
-> This kind of situation isn't new, I believe some of the existing graph
-> changes (iirc in the context of block jobs) can cause the same problem.
->
-> This is essentially why some functions in the permission system take a
-> GSList *ignore_children. So I believe the right thing to do here is
-> telling the permission system that it needs to check the situation
-> without the BdrvChild that links hd0 with hd0-file.
+Also move the decrement before calling the exit phase method to fix
+problem of reset state evaluation during that call. Update the doc
+accordingly.
 
-I had tried this already and it does work when inserting the filter (we
-know that 'hd0-file' is about to be detached from the parent so we can
-put it in the list) but I don't think it's so easy if we want to remove
-the filter, i.e.
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+Fixes: 1905297 ("Zynq7000 UART clock reset initialization", 2020-11-23)
+Reported-by: Michael Peter <michael.peter@hensoldt-cyber.com>
+--
 
-   hd0 -> throttle -> hd0-file     ======>     hd0 -> hd0-file
+Hi all,
 
-In this case we get a similar error, we want to make hd0-file a child of
-hd0 but it is being used by the throttle filter.
+While looking at the bug reported by Michael and his patch. I found another
+bug. Apparently I forgot to decrement the reset count if there was several
+reset at the same time.
 
-Telling bdrv_check_update_perm() to ignore hd0's current child
-(throttle) won't solve the problem.
+This patch fixes that.
 
-> I don't know the exact stack trace of your failure, so maybe this
-> parameter isn't available yet in the place where you need it, but in
-> the core functions it exists.
+I also moved the place of the decrement: before calling the exit phase method.
+it globally fixes Michael's reported bug, as I think it will avoid some boiler
+plate code in every exit phase method we do.
 
-This is in bdrv_reopen_multiple(), in the same place where we are
-currently checking the permissions of the new backing file.
+Only other place where the reset state is checked is in the
+hw/char/cadence-uart.c so it does not have high impact.
 
-Berto
+I'm not sure if this meets the condition for 5.2 as it changes a documented
+feature. In that case we can just accept Michael solution and I'll fix the
+rest later.
+
+Here's the pointer for the bug and michael's patch.
+https://lists.nongnu.org/archive/html/qemu-devel/2020-11/msg05786.html
+https://lists.nongnu.org/archive/html/qemu-devel/2020-11/msg06105.html
+
+Damien
+---
+ docs/devel/reset.rst | 6 +++---
+ hw/core/resettable.c | 3 +--
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/docs/devel/reset.rst b/docs/devel/reset.rst
+index abea1102dc..021a7277a2 100644
+--- a/docs/devel/reset.rst
++++ b/docs/devel/reset.rst
+@@ -210,9 +210,9 @@ Polling the reset state
+ Resettable interface provides the ``resettable_is_in_reset()`` function.
+ This function returns true if the object parameter is currently under reset.
+ 
+-An object is under reset from the beginning of the *init* phase to the end of
+-the *exit* phase. During all three phases, the function will return that the
+-object is in reset.
++An object is under reset from the beginning of the *init* phase to the *exit*
++phase. During *init* and *hold* phase only, the function will return that the
++object is in reset. The state is changed just before calling the *exit* method.
+ 
+ This function may be used if the object behavior has to be adapted
+ while in reset state. For example if a device has an irq input,
+diff --git a/hw/core/resettable.c b/hw/core/resettable.c
+index 96a99ce39e..c3df75c6ba 100644
+--- a/hw/core/resettable.c
++++ b/hw/core/resettable.c
+@@ -201,12 +201,11 @@ static void resettable_phase_exit(Object *obj, void *opaque, ResetType type)
+     resettable_child_foreach(rc, obj, resettable_phase_exit, NULL, type);
+ 
+     assert(s->count > 0);
+-    if (s->count == 1) {
++    if (--s->count == 0) {
+         trace_resettable_phase_exit_exec(obj, obj_typename, !!rc->phases.exit);
+         if (rc->phases.exit && !resettable_get_tr_func(rc, obj)) {
+             rc->phases.exit(obj);
+         }
+-        s->count = 0;
+     }
+     s->exit_phase_in_progress = false;
+     trace_resettable_phase_exit_end(obj, obj_typename, s->count);
+-- 
+2.29.2
+
 
