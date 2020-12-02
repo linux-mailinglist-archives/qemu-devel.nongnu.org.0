@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FF592CB79F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:49:41 +0100 (CET)
-Received: from localhost ([::1]:38746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89722CB767
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:43:18 +0100 (CET)
+Received: from localhost ([::1]:50210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkNpU-0000QK-Js
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:49:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40238)
+	id 1kkNjJ-0001t7-VJ
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:43:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCa-000330-4e
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24811)
+ id 1kkNCb-00035J-JB
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCG-0003h3-SK
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:27 -0500
+ id 1kkNCH-0003hL-Io
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606896548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8E+/Fiz3NqLS9yQanr0Zg453gPRiB9OY5V3QQ3GVy70=;
- b=MkdK34KMHzn5DpY/+qKoOYAZKqO2d9dbG7bgRFtsg5GSW77K5K8kuUACKBbLKG2EbzGjvA
- 64QFlb31ZfAfXYKJ8gyt3U90SG2ecBvEofPvdKhipKoGfq5wezHNwdtf769UwyEK0+I70s
- aU2nMiMnxwXodXO7TdUOp/DvLkv1BFU=
+ bh=zyf8JOy3zvW0QULYrBcv9uT6KGnhNJtj9ZcY4Y4Dt7w=;
+ b=aXIZDFiHygiaIQHkiEBjr7dNLY29Kqhc4u2lBAG2tdcnI9nEEUE7NDyHfMY2mXqNx9Uuk0
+ f5dsxDVldEIJ2fiIVAhFaOZ4lIojn0bcBfvq9+G81/wXQOOAYCu6L/k5OY6S0DXFVrhvRR
+ wGYPkyyYIpbf3mI5R60Q8o9dmd7oOgg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-n-MRha-ENx2lQLQkh4zgfg-1; Wed, 02 Dec 2020 03:09:06 -0500
-X-MC-Unique: n-MRha-ENx2lQLQkh4zgfg-1
+ us-mta-482-f1WtkT9_PlSsq2b8CD49Nw-1; Wed, 02 Dec 2020 03:09:07 -0500
+X-MC-Unique: f1WtkT9_PlSsq2b8CD49Nw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A368F185E48B
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5610F8558E7
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:06 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 708D91346F
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 156D81346F
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:06 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 042/113] mips: do not use ram_size global
-Date: Wed,  2 Dec 2020 03:07:38 -0500
-Message-Id: <20201202080849.4125477-43-pbonzini@redhat.com>
+Subject: [PULL 044/113] nios2: do not use ram_size global
+Date: Wed,  2 Dec 2020 03:07:40 -0500
+Message-Id: <20201202080849.4125477-45-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,16 +56,16 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,49 +82,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the machine properties or loader parameters instead.
+Use the equivalent argument to the function instead.
 
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/mips/fuloong2e.c | 4 ++--
- hw/mips/malta.c     | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ hw/nios2/boot.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index 25b679011f..84a2132f85 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -134,14 +134,14 @@ static int64_t load_kernel(CPUMIPSState *env)
-         initrd_size = get_image_size(loaderparams.initrd_filename);
-         if (initrd_size > 0) {
-             initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
--            if (initrd_offset + initrd_size > ram_size) {
-+            if (initrd_offset + initrd_size > loaderparams.ram_size) {
-                 error_report("memory too small for initial ram disk '%s'",
-                              loaderparams.initrd_filename);
-                 exit(1);
-             }
-             initrd_size = load_image_targphys(loaderparams.initrd_filename,
-                                               initrd_offset,
--                                              ram_size - initrd_offset);
-+                                              loaderparams.ram_size - initrd_offset);
+diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+index 1df3b66c29..3cb864914b 100644
+--- a/hw/nios2/boot.c
++++ b/hw/nios2/boot.c
+@@ -181,7 +181,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base,
+         /* Not an ELF image nor an u-boot image, try a RAW image. */
+         if (kernel_size < 0) {
+             kernel_size = load_image_targphys(kernel_filename, ddr_base,
+-                                              ram_size);
++                                              ramsize);
+             boot_info.bootstrap_pc = ddr_base;
+             high = ddr_base + kernel_size;
          }
-         if (initrd_size == (target_ulong) -1) {
-             error_report("could not load initial ram disk '%s'",
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index ef369945d1..467b21849e 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -1087,7 +1087,7 @@ static int64_t load_kernel(void)
+@@ -198,11 +198,11 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base,
+ 
+             initrd_size = load_ramdisk(initrd_filename,
+                                        boot_info.initrd_start,
+-                                       ram_size - initrd_offset);
++                                       ramsize - initrd_offset);
+             if (initrd_size < 0) {
+                 initrd_size = load_image_targphys(initrd_filename,
+                                                   boot_info.initrd_start,
+-                                                  ram_size - initrd_offset);
++                                                  ramsize - initrd_offset);
              }
-             initrd_size = load_image_targphys(loaderparams.initrd_filename,
-                                               initrd_offset,
--                                              ram_size - initrd_offset);
-+                                              loaderparams.ram_size - initrd_offset);
-         }
-         if (initrd_size == (target_ulong) -1) {
-             error_report("could not load initial ram disk '%s'",
+             if (initrd_size < 0) {
+                 error_report("could not load initrd '%s'",
+@@ -216,7 +216,7 @@ void nios2_load_kernel(Nios2CPU *cpu, hwaddr ddr_base,
+ 
+         /* Device tree must be placed right after initrd (if available) */
+         boot_info.fdt = high;
+-        fdt_size = nios2_load_dtb(boot_info, ram_size, kernel_cmdline,
++        fdt_size = nios2_load_dtb(boot_info, ramsize, kernel_cmdline,
+                                   /* Preference a -dtb argument */
+                                   dtb_arg ? dtb_arg : filename);
+         high += fdt_size;
 -- 
 2.26.2
 
