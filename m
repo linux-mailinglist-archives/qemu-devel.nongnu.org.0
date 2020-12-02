@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B872CB9FD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:01:51 +0100 (CET)
-Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13C52CBA51
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:15:56 +0100 (CET)
+Received: from localhost ([::1]:52280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOxK-0003SM-HN
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:01:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53600)
+	id 1kkPAx-0003q5-QU
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:15:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkO3j-0003gz-FR
+ id 1kkO3j-0003hB-OX
  for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20807)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkO3e-0004dz-K5
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:22 -0500
+ id 1kkO3h-0004fi-HY
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606899857;
+ s=mimecast20190719; t=1606899860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w/ft4yHW6Gu6rk+/3kyhPjUQ5KEBud0S4dG0X/WbxI0=;
- b=RMoWowCj02QlEOPNy97QoFDRZ8NmUUIGy6WwuXGmpa5C/9F212eBSPtiqgcw1VZxcqAAIo
- yeRgiufKvjgTq48IXwIkv6nMmeDgf46zHlJ7sek65f5/qXa7msq3RVO8fIevltGYiNaSEL
- Fv5VaBt54UBrrxBD97HAHObnI8K1FQc=
+ bh=uiS6KOmd7H1sPc3gbqBmKtrc6fLRgZnUjSZLjTWXsJk=;
+ b=VAgJudEQbYpJL60YMLaCtHr1Goz80zU3upR6LODWU8mdAnA3sLE2GjkvMgjEQrTx3IGXuB
+ wEPG8+oGNVGkWSaTo8rJJqpdEmiTnGR/1Jt+oE96oYg/hi9UH0rmeOwHcIANJWZWzyZUdI
+ W4B5JECdLo71rDPEbZQsXs/wGCaYbBk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-zZsWiMgPPJWFsWCZKKxWeg-1; Wed, 02 Dec 2020 04:04:15 -0500
-X-MC-Unique: zZsWiMgPPJWFsWCZKKxWeg-1
+ us-mta-1-PsITYc1KN8Gf0PXttrFtWQ-1; Wed, 02 Dec 2020 04:04:17 -0500
+X-MC-Unique: PsITYc1KN8Gf0PXttrFtWQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79380922D3C;
- Wed,  2 Dec 2020 09:03:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16ABA19464B2;
+ Wed,  2 Dec 2020 09:03:42 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03A755B6AB;
- Wed,  2 Dec 2020 09:03:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 95C445D741;
+ Wed,  2 Dec 2020 09:03:41 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/28] keyval: simplify keyval_parse_one
-Date: Wed,  2 Dec 2020 04:02:44 -0500
-Message-Id: <20201202090305.4129317-8-pbonzini@redhat.com>
+Subject: [PATCH 08/28] tests: convert check-qom-proplist to keyval
+Date: Wed,  2 Dec 2020 04:02:45 -0500
+Message-Id: <20201202090305.4129317-9-pbonzini@redhat.com>
 In-Reply-To: <20201202090305.4129317-1-pbonzini@redhat.com>
 References: <20201202090305.4129317-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -84,115 +84,107 @@ Cc: kwolf@redhat.com, imammedo@redhat.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the key is NULL terminated, we can remove some of the contortions
-that were done to operate on possibly '='-terminated strings in
-keyval_parse_one.
+The command-line creation test is using QemuOpts.  Switch it to keyval,
+since all the -object command line options will follow
+qemu-storage-daemon and do the same.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/keyval.c | 27 ++++++++++-----------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
+ tests/check-qom-proplist.c | 58 +++++++++++++++++++++++++-------------
+ 1 file changed, 38 insertions(+), 20 deletions(-)
 
-diff --git a/util/keyval.c b/util/keyval.c
-index eb9b9c55ec..e7f708cd1e 100644
---- a/util/keyval.c
-+++ b/util/keyval.c
-@@ -170,11 +170,10 @@ static QObject *keyval_parse_put(QDict *cur,
-  *
-  * On return:
-  * - either NUL or the separator (comma or equal sign) is returned.
-- * - the length of the string is stored in @len.
-  * - @start is advanced to either the NUL or the first character past the
-  *   separator.
-  */
--static char keyval_fetch_string(char **start, size_t *len, bool key)
-+static char keyval_fetch_string(char **start, bool key)
- {
-     char sep;
-     char *p, *unescaped;
-@@ -197,7 +196,6 @@ static char keyval_fetch_string(char **start, size_t *len, bool key)
-     }
+diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
+index 1b76581980..8dba26fb3c 100644
+--- a/tests/check-qom-proplist.c
++++ b/tests/check-qom-proplist.c
+@@ -21,6 +21,8 @@
+ #include "qemu/osdep.h"
  
-     *unescaped = 0;
--    *len = unescaped - *start;
-     *start = p;
-     return sep;
+ #include "qapi/error.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qobject.h"
+ #include "qom/object.h"
+ #include "qemu/module.h"
+ #include "qemu/option.h"
+@@ -400,42 +402,58 @@ static void test_dummy_createlist(void)
+ 
+ static void test_dummy_createcmdl(void)
+ {
+-    QemuOpts *opts;
++    QDict *qdict;
+     DummyObject *dobj;
+     Error *err = NULL;
++    bool help;
+     const char *params = TYPE_DUMMY \
+                          ",id=dev0," \
+                          "bv=yes,sv=Hiss hiss hiss,av=platypus";
+ 
+-    qemu_add_opts(&qemu_object_opts);
+-    opts = qemu_opts_parse(&qemu_object_opts, params, true, &err);
++    qdict = keyval_parse(params, "qom-type", &help, &err);
+     g_assert(err == NULL);
+-    g_assert(opts);
++    g_assert(qdict);
++    g_assert(!help);
+ 
+-    dobj = DUMMY_OBJECT(user_creatable_add_opts(opts, &err));
++    g_assert(user_creatable_add_dict(qdict, true, &err));
+     g_assert(err == NULL);
++    qobject_unref(qdict);
++
++    dobj = DUMMY_OBJECT(object_resolve_path_component(object_get_objects_root(),
++                                                      "dev0"));
+     g_assert(dobj);
+     g_assert_cmpstr(dobj->sv, ==, "Hiss hiss hiss");
+     g_assert(dobj->bv == true);
+     g_assert(dobj->av == DUMMY_PLATYPUS);
+ 
++    qdict = keyval_parse(params, "qom-type", &help, &err);
++    g_assert(!user_creatable_add_dict(qdict, true, &err));
++    g_assert(err);
++    g_assert(object_resolve_path_component(object_get_objects_root(), "dev0")
++             == OBJECT(dobj));
++    qobject_unref(qdict);
++    error_free(err);
++    err = NULL;
++
++    qdict = keyval_parse(params, "qom-type", &help, &err);
+     user_creatable_del("dev0", &error_abort);
++    g_assert(object_resolve_path_component(object_get_objects_root(), "dev0")
++             == NULL);
+ 
+-    object_unref(OBJECT(dobj));
+-
+-    /*
+-     * cmdline-parsing via qemu_opts_parse() results in a QemuOpts entry
+-     * corresponding to the Object's ID to be added to the QemuOptsList
+-     * for objects. To avoid having this entry conflict with future
+-     * Objects using the same ID (which can happen in cases where
+-     * qemu_opts_parse() is used to parse the object params, such as
+-     * with hmp_object_add() at the time of this comment), we need to
+-     * check for this in user_creatable_del() and remove the QemuOpts if
+-     * it is present.
+-     *
+-     * The below check ensures this works as expected.
+-     */
+-    g_assert_null(qemu_opts_find(&qemu_object_opts, "dev0"));
++    g_assert(user_creatable_add_dict(qdict, true, &err));
++    g_assert(err == NULL);
++    qobject_unref(qdict);
++
++    dobj = DUMMY_OBJECT(object_resolve_path_component(object_get_objects_root(),
++                                                      "dev0"));
++    g_assert(dobj);
++    g_assert_cmpstr(dobj->sv, ==, "Hiss hiss hiss");
++    g_assert(dobj->bv == true);
++    g_assert(dobj->av == DUMMY_PLATYPUS);
++    g_assert(object_resolve_path_component(object_get_objects_root(), "dev0")
++             == OBJECT(dobj));
++
++    object_unparent(OBJECT(dobj));
  }
-@@ -219,7 +217,7 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-                               const char *implied_key, bool *help,
-                               Error **errp)
- {
--    const char *key, *key_end, *s, *end;
-+    const char *key, *s, *end;
-     const char *val = NULL;
-     char sep;
-     size_t len;
-@@ -229,8 +227,8 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-     QObject *next;
  
-     key = params;
--    sep = keyval_fetch_string(&params, &len, true);
--    if (!len) {
-+    sep = keyval_fetch_string(&params, true);
-+    if (!*key) {
-         if (sep) {
-             error_setg(errp, "Expected parameter before '%c%s'", sep, params);
-         } else {
-@@ -247,13 +245,11 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-             /* Desugar implied key */
-             val = key;
-             key = implied_key;
--            len = strlen(implied_key);
-         } else {
-             error_setg(errp, "No implicit parameter name for value '%s'", key);
-             return NULL;
-         }
-     }
--    key_end = key + len;
- 
-     /*
-      * Loop over key fragments: @s points to current fragment, it
-@@ -269,24 +265,21 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-             ret = parse_qapi_name(s, false);
-             len = ret < 0 ? 0 : ret;
-         }
--        assert(s + len <= key_end);
--        if (!len || (s + len < key_end && s[len] != '.')) {
-+        if (!len || (s[len] != '\0' && s[len] != '.')) {
-             assert(key != implied_key);
--            error_setg(errp, "Invalid parameter '%.*s'",
--                       (int)(key_end - key), key);
-+            error_setg(errp, "Invalid parameter '%s'", key);
-             return NULL;
-         }
-         if (len >= sizeof(key_in_cur)) {
-             assert(key != implied_key);
-             error_setg(errp, "Parameter%s '%.*s' is too long",
--                       s != key || s + len != key_end ? " fragment" : "",
-+                       s != key || s[len] == '.' ? " fragment" : "",
-                        (int)len, s);
-             return NULL;
-         }
- 
-         if (s != key) {
--            next = keyval_parse_put(cur, key_in_cur, NULL,
--                                    key, s - 1, errp);
-+            next = keyval_parse_put(cur, key_in_cur, NULL, key, s - 1, errp);
-             if (!next) {
-                 return NULL;
-             }
-@@ -301,9 +294,9 @@ static char *keyval_parse_one(QDict *qdict, char *params,
- 
-     if (key != implied_key) {
-         val = params;
--        keyval_fetch_string(&params, &len, false);
-+        keyval_fetch_string(&params, false);
-     }
--    if (!keyval_parse_put(cur, key_in_cur, val, key, key_end, errp)) {
-+    if (!keyval_parse_put(cur, key_in_cur, val, key, s - 1, errp)) {
-         return NULL;
-     }
-     return params;
+ static void test_dummy_badenum(void)
 -- 
 2.26.2
 
