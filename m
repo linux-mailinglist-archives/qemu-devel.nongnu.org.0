@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C8C2CBA20
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:06:55 +0100 (CET)
-Received: from localhost ([::1]:56360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9602CBA36
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:13:25 +0100 (CET)
+Received: from localhost ([::1]:45244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkP2E-0001H1-VB
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:06:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
+	id 1kkP8S-0000fS-D2
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:13:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkO45-0003y5-GK
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59188)
+ id 1kkO3j-0003gu-Dw
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkO3l-0004iC-Dp
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:44 -0500
+ id 1kkO3g-0004fP-VP
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606899864;
+ s=mimecast20190719; t=1606899860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TAP/HF9F66LTUeTlSryBoA6ja8DnM0PX+A9pe06+0kE=;
- b=GZS/l4sCsuIwTKZALxONYL2bXO8wvYWvylAIUlEZfR5260H19pKR3wbq0SWZ/k/A47sBP7
- S4RdLTN+PI8bBoSPRspg29nGpWVoghWiebOhXW98gm5/Wvo5puw7EYhS4oNbd2P+3OaeTM
- RlC+15TFfKTJQLoI/y9axVTs8mRM+wE=
+ bh=mjjxMa7niNak+4B8OwlH39bC3M6TfeZq2Z5AzWs83Pw=;
+ b=M4Lv5VBGZkLnHf/sP/oEJe8jglSjlIKCKnIxR7nQIhpLhwFtah3uITWbB0t9UOa0TlNkE+
+ AtJMdQpvJ4rVvi2cWKYI5nQJuYff9ayltDEwcvC9iDTGr+1j9c1tKa6Yn1iq60pjm4QvU3
+ K/KiVlECbrPD5x52wGWuNAqIFGd9oik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-e5oyeLlUO3SBVHtQcNwNEw-1; Wed, 02 Dec 2020 04:04:20 -0500
-X-MC-Unique: e5oyeLlUO3SBVHtQcNwNEw-1
+ us-mta-568-8NpAmqM3Ng-kavlZQjqFcg-1; Wed, 02 Dec 2020 04:04:18 -0500
+X-MC-Unique: 8NpAmqM3Ng-kavlZQjqFcg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5632C73C5;
- Wed,  2 Dec 2020 09:03:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F34C08581AA;
+ Wed,  2 Dec 2020 09:03:45 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65C9C6085A;
- Wed,  2 Dec 2020 09:03:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84A3E6085A;
+ Wed,  2 Dec 2020 09:03:45 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/28] hmp: special case help options for object_add
-Date: Wed,  2 Dec 2020 04:02:49 -0500
-Message-Id: <20201202090305.4129317-13-pbonzini@redhat.com>
+Subject: [PATCH 14/28] qemu-config: add error propagation to qemu_config_parse
+Date: Wed,  2 Dec 2020 04:02:51 -0500
+Message-Id: <20201202090305.4129317-15-pbonzini@redhat.com>
 In-Reply-To: <20201202090305.4129317-1-pbonzini@redhat.com>
 References: <20201202090305.4129317-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,91 +84,183 @@ Cc: kwolf@redhat.com, imammedo@redhat.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix "object_add help" and "object_add TYPE,help".
+This enables some simplification of vl.c via error_fatal.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qom/object_interfaces.h |  9 ++++++++-
- monitor/hmp-cmds.c              | 22 ++++++++--------------
- qom/object_interfaces.c         |  2 +-
- 3 files changed, 17 insertions(+), 16 deletions(-)
+ block/blkdebug.c           |  3 +--
+ include/qemu/config-file.h |  4 ++--
+ softmmu/vl.c               | 30 ++++++++++++------------------
+ util/qemu-config.c         | 20 ++++++++++----------
+ 4 files changed, 25 insertions(+), 32 deletions(-)
 
-diff --git a/include/qom/object_interfaces.h b/include/qom/object_interfaces.h
-index 07d5cc8832..abb23eaea3 100644
---- a/include/qom/object_interfaces.h
-+++ b/include/qom/object_interfaces.h
-@@ -149,6 +149,13 @@ typedef bool (*user_creatable_add_opts_predicate)(const char *type);
- int user_creatable_add_opts_foreach(void *opaque,
-                                     QemuOpts *opts, Error **errp);
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index 5fe6172da9..7eaa8a28bf 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -279,9 +279,8 @@ static int read_config(BDRVBlkdebugState *s, const char *filename,
+             return -errno;
+         }
  
-+/**
-+ * user_creatable_print_types:
-+ *
-+ * Prints a list of user-creatable objects to stdout or the monitor.
-+ */
-+void user_creatable_print_types(void);
-+
- /**
-  * user_creatable_print_help:
-  * @type: the QOM type to be added
-@@ -174,7 +181,7 @@ bool user_creatable_print_help(const char *type, QemuOpts *opts);
-  * no help was requested. It should only be called if we know that help is
-  * requested and it will always print some help.
-  */
--void user_creatable_print_help_from_qdict(QDict *args);
-+void user_creatable_print_help_from_qdict(const QDict *args);
- 
- /**
-  * user_creatable_del:
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 65d8ff4849..153ece8176 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1664,23 +1664,17 @@ void hmp_netdev_del(Monitor *mon, const QDict *qdict)
- void hmp_object_add(Monitor *mon, const QDict *qdict)
- {
-     Error *err = NULL;
--    QemuOpts *opts;
--    Object *obj = NULL;
- 
--    opts = qemu_opts_from_qdict(qemu_find_opts("object"), qdict, &err);
--    if (err) {
--        goto end;
-+    if (is_help_option(qdict_get_str(qdict, "qom-type"))) {
-+        user_creatable_print_types();
-+        return;
+-        ret = qemu_config_parse(f, config_groups, filename);
++        ret = qemu_config_parse(f, config_groups, filename, errp);
+         if (ret < 0) {
+-            error_setg(errp, "Could not parse blkdebug config file");
+             goto fail;
+         }
      }
--
--    obj = user_creatable_add_opts(opts, &err);
--    qemu_opts_del(opts);
--
--end:
--    hmp_handle_error(mon, err);
--
--    if (obj) {
--        object_unref(obj);
-+    if (qdict_haskey(qdict, "help")) {
-+        user_creatable_print_help_from_qdict(qdict);
-+        return;
-     }
-+    user_creatable_add_dict((QDict *)qdict, true, &err);
-+    hmp_handle_error(mon, err);
+diff --git a/include/qemu/config-file.h b/include/qemu/config-file.h
+index 7d26fe3816..da6f4690b7 100644
+--- a/include/qemu/config-file.h
++++ b/include/qemu/config-file.h
+@@ -10,9 +10,9 @@ void qemu_add_opts(QemuOptsList *list);
+ void qemu_add_drive_opts(QemuOptsList *list);
+ int qemu_global_option(const char *str);
+ 
+-int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname);
++int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error **errp);
+ 
+-int qemu_read_config_file(const char *filename);
++int qemu_read_config_file(const char *filename, Error **errp);
+ 
+ /* Parse QDict options as a replacement for a config file (allowing multiple
+    enumerated (0..(n-1)) configuration "sections") */
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 4039bf3a39..16a5cd1046 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2045,17 +2045,20 @@ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
+     return 0;
  }
  
- void hmp_getfd(Monitor *mon, const QDict *qdict)
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index 34edc3d1d8..f7dcdf18e2 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -280,7 +280,7 @@ bool user_creatable_print_help(const char *type, QemuOpts *opts)
-     return false;
+-static int qemu_read_default_config_file(void)
++static void qemu_read_default_config_file(Error **errp)
+ {
+     int ret;
++    Error *local_err = NULL;
+     g_autofree char *file = get_relocated_path(CONFIG_QEMU_CONFDIR "/qemu.conf");
+ 
+-    ret = qemu_read_config_file(file);
+-    if (ret < 0 && ret != -ENOENT) {
+-        return ret;
++    ret = qemu_read_config_file(file, &local_err);
++    if (ret < 0) {
++        if (ret == -ENOENT) {
++            error_free(local_err);
++        } else {
++            error_propagate(errp, local_err);
++        }
+     }
+-
+-    return 0;
  }
  
--void user_creatable_print_help_from_qdict(QDict *args)
-+void user_creatable_print_help_from_qdict(const QDict *args)
- {
-     const char *type = qdict_get_try_str(args, "qom-type");
+ static int qemu_set_option(const char *str)
+@@ -2586,9 +2589,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     }
  
+     if (userconfig) {
+-        if (qemu_read_default_config_file() < 0) {
+-            exit(1);
+-        }
++        qemu_read_default_config_file(&error_fatal);
+     }
+ 
+     /* second pass of option parsing */
+@@ -3284,15 +3285,8 @@ void qemu_init(int argc, char **argv, char **envp)
+                 qemu_plugin_opt_parse(optarg, &plugin_list);
+                 break;
+             case QEMU_OPTION_readconfig:
+-                {
+-                    int ret = qemu_read_config_file(optarg);
+-                    if (ret < 0) {
+-                        error_report("read config %s: %s", optarg,
+-                                     strerror(-ret));
+-                        exit(1);
+-                    }
+-                    break;
+-                }
++                qemu_read_config_file(optarg, &error_fatal);
++                break;
+             case QEMU_OPTION_spice:
+                 olist = qemu_find_opts_err("spice", NULL);
+                 if (!olist) {
+diff --git a/util/qemu-config.c b/util/qemu-config.c
+index cc5be3c779..85f20079de 100644
+--- a/util/qemu-config.c
++++ b/util/qemu-config.c
+@@ -314,7 +314,7 @@ void qemu_add_opts(QemuOptsList *list)
+ }
+ 
+ /* Returns number of config groups on success, -errno on error */
+-int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname)
++int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname, Error **errp)
+ {
+     char line[1024], group[64], id[64], arg[64], value[1024];
+     Location loc;
+@@ -339,7 +339,7 @@ int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname)
+             /* group with id */
+             list = find_list(lists, group, &local_err);
+             if (local_err) {
+-                error_report_err(local_err);
++                error_propagate(errp, local_err);
+                 goto out;
+             }
+             opts = qemu_opts_create(list, id, 1, NULL);
+@@ -350,7 +350,7 @@ int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname)
+             /* group without id */
+             list = find_list(lists, group, &local_err);
+             if (local_err) {
+-                error_report_err(local_err);
++                error_propagate(errp, local_err);
+                 goto out;
+             }
+             opts = qemu_opts_create(list, NULL, 0, &error_abort);
+@@ -362,20 +362,19 @@ int qemu_config_parse(FILE *fp, QemuOptsList **lists, const char *fname)
+             sscanf(line, " %63s = \"\"", arg) == 1) {
+             /* arg = value */
+             if (opts == NULL) {
+-                error_report("no group defined");
++                error_setg(errp, "no group defined");
+                 goto out;
+             }
+-            if (!qemu_opt_set(opts, arg, value, &local_err)) {
+-                error_report_err(local_err);
++            if (!qemu_opt_set(opts, arg, value, errp)) {
+                 goto out;
+             }
+             continue;
+         }
+-        error_report("parse error");
++        error_setg(errp, "parse error");
+         goto out;
+     }
+     if (ferror(fp)) {
+-        error_report("error reading file");
++        error_setg(errp, "error reading file");
+         goto out;
+     }
+     res = count;
+@@ -384,16 +383,17 @@ out:
+     return res;
+ }
+ 
+-int qemu_read_config_file(const char *filename)
++int qemu_read_config_file(const char *filename, Error **errp)
+ {
+     FILE *f = fopen(filename, "r");
+     int ret;
+ 
+     if (f == NULL) {
++        error_setg_errno(errp, errno, "Cannot read config file %s", filename);
+         return -errno;
+     }
+ 
+-    ret = qemu_config_parse(f, vm_config_groups, filename);
++    ret = qemu_config_parse(f, vm_config_groups, filename, errp);
+     fclose(f);
+     return ret;
+ }
 -- 
 2.26.2
 
