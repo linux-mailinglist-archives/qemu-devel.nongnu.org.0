@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 350012CC5D0
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 19:48:30 +0100 (CET)
-Received: from localhost ([::1]:50744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC842CC5D1
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 19:48:32 +0100 (CET)
+Received: from localhost ([::1]:50738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkXAz-0001K3-9P
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 13:48:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53714)
+	id 1kkXAz-0001Jw-Fw
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 13:48:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kkX7K-000537-LW
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 13:44:42 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:42412)
+ id 1kkX7Q-0005CQ-5M
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 13:44:48 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:44734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kkX7J-0002bt-8T
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 13:44:42 -0500
-Received: by mail-ej1-x644.google.com with SMTP id d17so5900055ejy.9
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 10:44:40 -0800 (PST)
+ id 1kkX7O-0002d1-Pq
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 13:44:47 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id m19so5877369ejj.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 10:44:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EfZKBB7TEk79ikaLZVaA0qdMSWTD8SEXSh/4GRS42BA=;
- b=P95A6tbhEC27Gb2iNPVIYBHFIIvucWz+VR+a4ybKvU3EiTnVdOdYajv6KzVoLOw1vi
- A5V1AmZVeBhnxduxA8gceXaEvcuEIXVge8O1e4n1GovoLkYDGjTiuil+mktQHpL9YvAA
- /BUVrienxo7FMO0jf4z1LVzfH49eNkNd8CTbt+APgo340yoKP77xI0/WAXuY39ujR0W+
- inWBo6IXm1A3Qwr5oxXmVJeFB/481K9L+0E5jiJ/j1DVjBfJFy7uLyjpVfKD+fmVNXJg
- q26FGfDnStuNY7oJYTSdkNTZ1f9UxxxdYRtnCK+Mitu15gS/DMkF21uwmDPDYy4xFL4a
- G+Xw==
+ bh=vLfle+Khrb+jNknl9qLNu4/IaRmhOoPiQ1bCWscTpa8=;
+ b=k6LA4FjKbLo1e0EZcAw8OjDx6WJRuZ5isiJf2gQbNT7J7zzMdv0z55vmdw8Q453dXO
+ 09RT0/fwoLyjryvAieQaTswBEoRM4BNXid0l0uoXhQkvZMikjylHyqYWgFG+Ikd+Iivt
+ kQDn7uSfPOKwyK96uoNxyjC6K7zfgA9HRwbrYHanRhpsoFx2OXl4JyHdu7pmOz2Zqc9U
+ rveBrE3r+RK+pZwMkUirkq9bj0hubckUDcbo88yRk9FnlMV1XOGVT+8KjivlxjaB4ZA6
+ 2yu1Agbhe0LYXfcWHa0JmCga7AUWcDETq/bh2MXTOTq89D0nnAhR4V50nFbyr2y7Klvo
+ qUJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EfZKBB7TEk79ikaLZVaA0qdMSWTD8SEXSh/4GRS42BA=;
- b=GYAyvmBJ1xtOwUussnxnUET+EWL74iyVRuatGsuR4SYRSs7J363efoIUGKteyhpjVt
- p7MLT++o0jbBe6ZsSYSKZwpy7GUnwfTSmkNmQtmMZcmgZSgsDiNpPalbXwy+8Iak8jvv
- wDwJrVNnJ0yaTjTsZk6l5wkZs65h2SBsTUa/zulAnr0yu2Azra5s9X+3g76o2nKLXfkx
- zcmUMhAWp9x7A6FpFITswaOJD5oSxZhjACkbMfyG/7ETeTYonklqNsSYSmoqo/0XJNOS
- WLpWyO/7NmWcpEvaXqGinJStnCi6VIqdJkTD9ZbaIW7C4kEx9Gg/L+vJORmP157HH5UM
- Msyg==
-X-Gm-Message-State: AOAM532cPSCDYoXzXcJr3k3U4O1+76Rnshl6NBgN+alFkdupb48t31DJ
- U4iAlCZ0qHrRjqQh8BBTRJXVZsYxa1k=
-X-Google-Smtp-Source: ABdhPJy49hwDReaOMfO3lnaEZQ3M3+pPQZ3B7DhL9efpAUnk5pW2RtqwkM/bDuoXEOF/WQE/LJCZXA==
-X-Received: by 2002:a17:906:2a19:: with SMTP id
- j25mr1082013eje.506.1606934679580; 
- Wed, 02 Dec 2020 10:44:39 -0800 (PST)
+ bh=vLfle+Khrb+jNknl9qLNu4/IaRmhOoPiQ1bCWscTpa8=;
+ b=DGjK1Q0i04lDEj6gEKiQZO9tYutgT36I9NNCrzWzNmS4d8yWxXR2/8Hmi9aI7F33rO
+ Li3O6Xc6YwAVZ4fK5cSSuUTw7Qf5JOD+4N85UAxo8WAC7dXn9YdXD6uQrVoQ9AwEgLnR
+ pRqNFCwV9VlS3Ae9n9hRrlEDgJ2cqY9KemtfaDD/KUSFSarCzTZ3NhcXEf1QpixQGDqi
+ uJsDffoJamxZyKDYFbvyk7ZxL/ZJEkV5nGCFEjQtdNEJP3Zrt5MArrjoVn+wwaZm0dW3
+ Ai0yYQHHKdplmBv5YdPQgdvRmNHNnu2DLHzm1KYeODfwJlMECIL3hPv+FFvbLfhyl+RF
+ Nd/g==
+X-Gm-Message-State: AOAM532rQxqhX9PTBWI/3rt7NebmoDcpoNKxQCb1S4RNOmeDQ9ykObXw
+ mgTiYHjfwqaf2b98gR9IetKadirx864=
+X-Google-Smtp-Source: ABdhPJxANmBj/O2gJNTPFlCEZrpLeO/u99wBmHVQ9W8gHFrDNamvLDWP6Os/K+Pwap/GKdend2V7pQ==
+X-Received: by 2002:a17:907:214d:: with SMTP id
+ rk13mr1105171ejb.501.1606934685030; 
+ Wed, 02 Dec 2020 10:44:45 -0800 (PST)
 Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id j20sm426900ejy.124.2020.12.02.10.44.38
+ by smtp.gmail.com with ESMTPSA id z2sm506002edr.47.2020.12.02.10.44.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Dec 2020 10:44:38 -0800 (PST)
+ Wed, 02 Dec 2020 10:44:44 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/9] target/mips: Simplify MSA TCG logic
-Date: Wed,  2 Dec 2020 19:44:10 +0100
-Message-Id: <20201202184415.1434484-5-f4bug@amsat.org>
+Subject: [PATCH 5/9] target/mips: Remove now unused ASE_MSA definition
+Date: Wed,  2 Dec 2020 19:44:11 +0100
+Message-Id: <20201202184415.1434484-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201202184415.1434484-1-f4bug@amsat.org>
 References: <20201202184415.1434484-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,73 +94,67 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only decode MSA opcodes if MSA is present (implemented).
-
-Now than check_msa_access() will only be called if MSA is
-present, the only way to have MIPS_HFLAG_MSA unset is if
-MSA is disabled (bit CP0C5_MSAEn cleared, see previous
-commit). Therefore we can remove the 'reserved instruction'
-exception.
+We don't use ASE_MSA anymore (replaced by ase_msa_available()
+checking MSAP bit from CP0_Config3). Remove it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/translate.c | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+ target/mips/mips-defs.h          | 1 -
+ target/mips/translate_init.c.inc | 8 ++++----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 803ffefba2c..a05c25e50b8 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -28697,13 +28697,8 @@ static inline int check_msa_access(DisasContext *ctx)
-     }
- 
-     if (unlikely(!(ctx->hflags & MIPS_HFLAG_MSA))) {
--        if (ctx->insn_flags & ASE_MSA) {
--            generate_exception_end(ctx, EXCP_MSADIS);
--            return 0;
--        } else {
--            generate_exception_end(ctx, EXCP_RI);
--            return 0;
--        }
-+        generate_exception_end(ctx, EXCP_MSADIS);
-+        return 0;
-     }
-     return 1;
- }
-@@ -30547,7 +30542,7 @@ static void gen_msa_vec(CPUMIPSState *env, DisasContext *ctx)
- static void gen_msa(CPUMIPSState *env, DisasContext *ctx)
- {
-     uint32_t opcode = ctx->opcode;
--    check_insn(ctx, ASE_MSA);
-+
-     check_msa_access(ctx);
- 
-     switch (MASK_MSA_MINOR(opcode)) {
-@@ -31194,9 +31189,10 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-         case OPC_BNZ_H:
-         case OPC_BNZ_W:
-         case OPC_BNZ_D:
--            check_insn(ctx, ASE_MSA);
--            gen_msa_branch(env, ctx, op1);
--            break;
-+            if (ase_msa_available(env)) {
-+                gen_msa_branch(env, ctx, op1);
-+                break;
-+            }
-         default:
-             MIPS_INVAL("cp1");
-             generate_exception_end(ctx, EXCP_RI);
-@@ -31385,7 +31381,9 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
- #endif
-         } else {
-             /* MDMX: Not implemented. */
--            gen_msa(env, ctx);
-+            if (ase_msa_available(env)) {
-+                gen_msa(env, ctx);
-+            }
-         }
-         break;
-     case OPC_PCREL:
+diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
+index ed6a7a9e545..805034b8956 100644
+--- a/target/mips/mips-defs.h
++++ b/target/mips/mips-defs.h
+@@ -45,7 +45,6 @@
+ #define ASE_MT            0x0000000040000000ULL
+ #define ASE_SMARTMIPS     0x0000000080000000ULL
+ #define ASE_MICROMIPS     0x0000000100000000ULL
+-#define ASE_MSA           0x0000000200000000ULL
+ /*
+  *   bits 40-51: vendor-specific base instruction sets
+  */
+diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
+index 3b069190ed8..2170f8ace6f 100644
+--- a/target/mips/translate_init.c.inc
++++ b/target/mips/translate_init.c.inc
+@@ -408,7 +408,7 @@ const mips_def_t mips_defs[] =
+         .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
+         .SEGBITS = 32,
+         .PABITS = 40,
+-        .insn_flags = CPU_MIPS32R5 | ASE_MSA,
++        .insn_flags = CPU_MIPS32R5,
+         .mmu_type = MMU_TYPE_R4000,
+     },
+     {
+@@ -719,7 +719,7 @@ const mips_def_t mips_defs[] =
+         .MSAIR = 0x03 << MSAIR_ProcID,
+         .SEGBITS = 48,
+         .PABITS = 48,
+-        .insn_flags = CPU_MIPS64R6 | ASE_MSA,
++        .insn_flags = CPU_MIPS64R6,
+         .mmu_type = MMU_TYPE_R4000,
+     },
+     {
+@@ -759,7 +759,7 @@ const mips_def_t mips_defs[] =
+         .MSAIR = 0x03 << MSAIR_ProcID,
+         .SEGBITS = 48,
+         .PABITS = 48,
+-        .insn_flags = CPU_MIPS64R6 | ASE_MSA,
++        .insn_flags = CPU_MIPS64R6,
+         .mmu_type = MMU_TYPE_R4000,
+     },
+     {
+@@ -885,7 +885,7 @@ const mips_def_t mips_defs[] =
+         .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
+         .SEGBITS = 48,
+         .PABITS = 48,
+-        .insn_flags = CPU_LOONGSON3A | ASE_MSA,
++        .insn_flags = CPU_LOONGSON3A,
+         .mmu_type = MMU_TYPE_R4000,
+     },
+     {
 -- 
 2.26.2
 
