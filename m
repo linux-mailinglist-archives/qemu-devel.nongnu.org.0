@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3B602CB3A1
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 04:58:05 +0100 (CET)
-Received: from localhost ([::1]:44550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787552CB3C5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 05:07:43 +0100 (CET)
+Received: from localhost ([::1]:48550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkJHI-0007wd-Mt
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 22:58:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44610)
+	id 1kkJQc-0001wF-05
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 23:07:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kkJEl-0006pT-1T; Tue, 01 Dec 2020 22:55:28 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45661 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kkJEg-0007XI-WF; Tue, 01 Dec 2020 22:55:26 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cm4qd0TRwz9sRK; Wed,  2 Dec 2020 14:55:08 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1606881309;
- bh=pr39beaK7K6McqYFye5BRacNNBtOpPkKrrP3VxiMzMo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TAZ2OtFS/K4qlSDCUIy7WN42qtyTAlKa6f+ciFc1ZcAznn0N43yNhHiGSEo87SVlR
- oiJI+g+h2AVPyHtEUpqFnlj6pzdQxTm3ZjwbhkppSYewIzEiQbLC9Mqi8S2bt2I79J
- 49/4PYr9VJA4zbTEICXRTAwxoZfJyh182OVvFYuU=
-Date: Wed, 2 Dec 2020 14:16:42 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] target/ppc: Remove "compat" property of server class
- POWER CPUs
-Message-ID: <20201202031642.GB7801@yekko.fritz.box>
-References: <20201201131103.897430-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kkJPD-0001SM-3z
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 23:06:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35789)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kkJP4-0003mL-HY
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 23:06:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606881965;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9b1vpXKTJDGwsicGMZzMjGoIqVfP2op5HZqCaItB1a0=;
+ b=V/lfRvT/y00EpIiH1smJM94mBm2aA5JckBPcE+ijJt8sRyDWRSsmVT/CST+Av75edqy+Ge
+ XyEPCd81/EHChMwpQ8dx8Nrz6MIhpgLAIazC0n2B0heaFjpEnNBP6y4dbhuN6P/oRnfYkO
+ KA6knCa1tVFH9mLRDdUHcEZ1uGLCzOM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-558-TfY5DdjbPJC_Yv_IzX0DdA-1; Tue, 01 Dec 2020 23:06:00 -0500
+X-MC-Unique: TfY5DdjbPJC_Yv_IzX0DdA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 277531E7C5;
+ Wed,  2 Dec 2020 04:05:59 +0000 (UTC)
+Received: from [10.72.13.145] (ovpn-13-145.pek2.redhat.com [10.72.13.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21A0860854;
+ Wed,  2 Dec 2020 04:05:53 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 4/5] virtio-net: Added eBPF RSS to virtio-net.
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+References: <20201119111305.485202-1-andrew@daynix.com>
+ <20201119111305.485202-5-andrew@daynix.com>
+ <e3c4d907-1901-52ae-5dde-0aea4780cb35@redhat.com>
+ <CAOEp5OfmRUpKZ-MNDWP=-TxKkWoAPS=n3eKV989fFiiAsRaZ4w@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <9b400fa7-a597-ba44-b661-802d8b2d105c@redhat.com>
+Date: Wed, 2 Dec 2020 12:05:51 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tjCHc7DPkfUGtrlw"
-Content-Disposition: inline
-In-Reply-To: <20201201131103.897430-1-groug@kaod.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAOEp5OfmRUpKZ-MNDWP=-TxKkWoAPS=n3eKV989fFiiAsRaZ4w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,166 +85,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---tjCHc7DPkfUGtrlw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2020/12/1 下午3:40, Yuri Benditovich wrote:
+>
+>
+> On Tue, Nov 24, 2020 at 10:49 AM Jason Wang <jasowang@redhat.com 
+> <mailto:jasowang@redhat.com>> wrote:
+>
+>
+>     On 2020/11/19 下午7:13, Andrew Melnychenko wrote:
+>     > From: Andrew <andrew@daynix.com <mailto:andrew@daynix.com>>
+>     >
+>     > When RSS is enabled the device tries to load the eBPF program
+>     > to select RX virtqueue in the TUN. If eBPF can be loaded
+>     > the RSS will function also with vhost (works with kernel 5.8 and
+>     later).
+>     > Software RSS is used as a fallback with vhost=off when eBPF
+>     can't be loaded
+>     > or when hash population requested by the guest.
+>     >
+>     > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com
+>     <mailto:yuri.benditovich@daynix.com>>
+>     > Signed-off-by: Andrew Melnychenko <andrew@daynix.com
+>     <mailto:andrew@daynix.com>>
+>     > ---
+>     >   hw/net/vhost_net.c             |   2 +
+>     >   hw/net/virtio-net.c            | 120
+>     +++++++++++++++++++++++++++++++--
+>     >   include/hw/virtio/virtio-net.h |   4 ++
+>     >   net/vhost-vdpa.c               |   2 +
+>     >   4 files changed, 124 insertions(+), 4 deletions(-)
+>     >
+>     > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>     > index 24d555e764..16124f99c3 100644
+>     > --- a/hw/net/vhost_net.c
+>     > +++ b/hw/net/vhost_net.c
+>     > @@ -71,6 +71,8 @@ static const int user_feature_bits[] = {
+>     >       VIRTIO_NET_F_MTU,
+>     >       VIRTIO_F_IOMMU_PLATFORM,
+>     >       VIRTIO_F_RING_PACKED,
+>     > +    VIRTIO_NET_F_RSS,
+>     > +    VIRTIO_NET_F_HASH_REPORT,
+>     >
+>     >       /* This bit implies RARP isn't sent by QEMU out of band */
+>     >       VIRTIO_NET_F_GUEST_ANNOUNCE,
+>     > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>     > index 277289d56e..afcc3032ec 100644
+>     > --- a/hw/net/virtio-net.c
+>     > +++ b/hw/net/virtio-net.c
+>     > @@ -698,6 +698,19 @@ static void virtio_net_set_queues(VirtIONet *n)
+>     >
+>     >   static void virtio_net_set_multiqueue(VirtIONet *n, int
+>     multiqueue);
+>     >
+>     > +static uint64_t fix_ebpf_vhost_features(uint64_t features)
+>     > +{
+>     > +    /* If vhost=on & CONFIG_EBPF doesn't set - disable RSS
+>     feature */
+>     > +    uint64_t ret = features;
+>     > +#ifndef CONFIG_EBPF
+>     > +    virtio_clear_feature(&ret, VIRTIO_NET_F_RSS);
+>     > +#endif
+>     > +    /* for now, there is no solution for populating the hash
+>     from eBPF */
+>     > +    virtio_clear_feature(&ret, VIRTIO_NET_F_HASH_REPORT);
+>
+>
+>     I think there's still some misunderstanding here.
+>
+>     When "rss" is enabled via command line, qemu can't not turn it off
+>     silently, otherwise it may break migration. Instead, qemu should
+>     disable
+>     vhost-net if eBPF can't be loaded.
+>
+>     When "hash_report" is enabled via command line, qemu should disable
+>     vhost-net unconditionally.
+>
+>
+> I agree in general with this requirement and I'm preparing an 
+> implementation of such fallback.
+>
+> The problem is that qemu already uses the mechanism of turning off 
+> host features
+> silently if they are not supported by the current vhost in kernel:
+> https://github.com/qemu/qemu/blob/b0f8c22d6d4d07f3bd2307bcc62e1660ef965472/hw/virtio/vhost.c#L1526
+>
+> Can you please comment on it and let me know how it should be modified 
+> in future?
+> I've planned to use it in next work (implementing hash report in kernel)
 
-On Tue, Dec 01, 2020 at 02:11:03PM +0100, Greg Kurz wrote:
-> This property has been deprecated since QEMU 5.0 by commit 22062e54bb68.
-> We only kept a legacy hack that internally converts "compat" into the
-> official "max-cpu-compat" property of the pseries machine type.
->=20
-> According to our deprecation policy, we could have removed it for QEMU 5.2
-> already. Do it now ; since ppc_cpu_parse_featurestr() now just calls the
-> generic parent_parse_features handler, drop it as well.
->=20
-> Users are supposed to use the "max-cpu-compat" property of the pseries
-> machine type instead.
 
-Applied, thanks.
+This looks like a bug that needs to be solved. Otherwise we break 
+migration from rss=on, vhost=off to rss=on,vhost=on.
 
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  docs/system/deprecated.rst      |  7 ----
->  target/ppc/translate_init.c.inc | 59 ---------------------------------
->  2 files changed, 66 deletions(-)
->=20
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index 565389697e84..09c8f380bc82 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -281,13 +281,6 @@ a future version of QEMU. It's unclear whether anybo=
-dy is still using
->  CPU emulation in QEMU, and there are no test images available to make
->  sure that the code is still working.
-> =20
-> -``compat`` property of server class POWER CPUs (since 5.0)
-> -''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> -
-> -The ``compat`` property used to set backwards compatibility modes for
-> -the processor has been deprecated. The ``max-cpu-compat`` property of
-> -the ``pseries`` machine type should be used instead.
-> -
->  ``lm32`` CPUs (since 5.2.0)
->  '''''''''''''''''''''''''''
-> =20
-> diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.=
-c.inc
-> index 78cc8f043b92..e4082cfde746 100644
-> --- a/target/ppc/translate_init.c.inc
-> +++ b/target/ppc/translate_init.c.inc
-> @@ -10470,63 +10470,6 @@ static ObjectClass *ppc_cpu_class_by_name(const =
-char *name)
->      return oc;
->  }
-> =20
-> -static void ppc_cpu_parse_featurestr(const char *type, char *features,
-> -                                     Error **errp)
-> -{
-> -    Object *machine =3D qdev_get_machine();
-> -    const PowerPCCPUClass *pcc =3D POWERPC_CPU_CLASS(object_class_by_nam=
-e(type));
-> -
-> -    if (!features) {
-> -        return;
-> -    }
-> -
-> -    if (object_property_find(machine, "max-cpu-compat")) {
-> -        int i;
-> -        char **inpieces;
-> -        char *s =3D features;
-> -        Error *local_err =3D NULL;
-> -        char *compat_str =3D NULL;
-> -
-> -        /*
-> -         * Backwards compatibility hack:
-> -         *
-> -         *   CPUs had a "compat=3D" property which didn't make sense for
-> -         *   anything except pseries.  It was replaced by "max-cpu-compa=
-t"
-> -         *   machine option.  This supports old command lines like
-> -         *       -cpu POWER8,compat=3Dpower7
-> -         *   By stripping the compat option and applying it to the machi=
-ne
-> -         *   before passing it on to the cpu level parser.
-> -         */
-> -        inpieces =3D g_strsplit(features, ",", 0);
-> -        *s =3D '\0';
-> -        for (i =3D 0; inpieces[i]; i++) {
-> -            if (g_str_has_prefix(inpieces[i], "compat=3D")) {
-> -                warn_report_once("CPU 'compat' property is deprecated; "
-> -                    "use max-cpu-compat machine property instead");
-> -                compat_str =3D inpieces[i];
-> -                continue;
-> -            }
-> -            if ((i !=3D 0) && (s !=3D features)) {
-> -                s =3D g_stpcpy(s, ",");
-> -            }
-> -            s =3D g_stpcpy(s, inpieces[i]);
-> -        }
-> -
-> -        if (compat_str) {
-> -            char *v =3D compat_str + strlen("compat=3D");
-> -            object_property_set_str(machine, "max-cpu-compat", v, &local=
-_err);
-> -        }
-> -        g_strfreev(inpieces);
-> -        if (local_err) {
-> -            error_propagate(errp, local_err);
-> -            return;
-> -        }
-> -    }
-> -
-> -    /* do property processing with generic handler */
-> -    pcc->parent_parse_features(type, features, errp);
-> -}
-> -
->  PowerPCCPUClass *ppc_cpu_get_family_class(PowerPCCPUClass *pcc)
->  {
->      ObjectClass *oc =3D OBJECT_CLASS(pcc);
-> @@ -10905,8 +10848,6 @@ static void ppc_cpu_class_init(ObjectClass *oc, v=
-oid *data)
->      device_class_set_parent_reset(dc, ppc_cpu_reset, &pcc->parent_reset);
-> =20
->      cc->class_by_name =3D ppc_cpu_class_by_name;
-> -    pcc->parent_parse_features =3D cc->parse_features;
-> -    cc->parse_features =3D ppc_cpu_parse_featurestr;
->      cc->has_work =3D ppc_cpu_has_work;
->      cc->do_interrupt =3D ppc_cpu_do_interrupt;
->      cc->cpu_exec_interrupt =3D ppc_cpu_exec_interrupt;
+I think you can keep the current code as is and I will try to seek a way 
+to solve the issue.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Thanks
 
---tjCHc7DPkfUGtrlw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/HBxoACgkQbDjKyiDZ
-s5LFpxAAq1jRXMaTd32AhXlcDPWbFXFfKvfTqX7am0GJYLS8mQ9HUnDgeByBZkGT
-Qd2y1XmY6crby6t8CAFnl8VdjGj7z1XgIYR5Z1x2X2ml02BRRyztN0LMdrW+J6TR
-W1tzxF5dOvs6fSURIbpSDhsGUXz+AJnLVGZNL5Igrf9UThej8L/3RVgg4DwiWsun
-smEX3M2OTVqKGR4upvVxgHsBE0bwTzpsMlb+lBQfpxqVLc6xwRJhVFZmtruf+GQI
-WYpqAcPRh2FTfmBxEhsBNFecd8/g5r9NQLCZL7HAt+NVGVya2ze6UvK7wWPpve/H
-QG34EgnJ6TL4IeCTfggfcB168h2sWqht21KdmOnb5jicf5qH6W+cAZ/F9oMPo8dZ
-Rt2w9S0P8jOhrVZJhnZF5oajw++k/u9X8cmkCypGV9hHzDJ5O75e3kE3ealiuQ+o
-1r+8qNFi2xpL+kzO/V9+tZ+4iJlQDjhw2r48FRCz8AX6cHx8zoEDhJWwQNH9ZjUf
-hDlXtsX9f8y2Ns8JdWetYnNkj8dFPwtJ/3gU8SdTiYaXDZ2iE1n38IE6V4Bir7Uq
-4ZWrnaeuYacd5Ba6Q3VRmQAxrRMdpNNkcZa38JjxbjVyQk2JHWhWxLEvRB+GgJVz
-8mteHLKvuEDwJTiKSZG5lzJtsYxOj6pOOaQN7wOR28tqqgLA6pg=
-=ITQf
------END PGP SIGNATURE-----
-
---tjCHc7DPkfUGtrlw--
 
