@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6F02CB8E2
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:31:16 +0100 (CET)
-Received: from localhost ([::1]:46422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200382CB90A
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:38:57 +0100 (CET)
+Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOTg-0002Kv-Du
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:31:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40996)
+	id 1kkObA-0003uI-45
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:38:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNDR-00045S-Vz
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24420)
+ id 1kkNDU-0004Ag-Dt
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCg-0003sH-1H
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:21 -0500
+ id 1kkNCh-0003t4-1q
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606896573;
+ s=mimecast20190719; t=1606896574;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9FsWZNmQMTzP45CGKAZDRB7a8dvrSmV62DmBnscUAZg=;
- b=ZKQO/+zcqZnCRP31hkPXZ/EwHj//mMuNyAkzVgtoWfC69mSlbDzFveErmc/rHsmGX+GJgv
- JX/fgBJNmxaBOsA/sYQwcos/Q65FB3UbaHq3gP5GcSVLMivtbLanrSSfwUhggGDrNQTFBq
- cq2eU98gOnPQvCOyNw5qQXIMBa+dbIU=
+ bh=qHV1Bw2XcvB86SinjjcaViQAYlGKdlvYVGUfC9qwTiU=;
+ b=DI640nlvFgH3512dbnta5guDvN4kJrbvt1BvxjXDsmbuTDa+qBPucwq4gQ15CBEX9nD7PL
+ JulYdky4OLWtZNrmCSTrb7mFJvYKP4VOCqNcKmgLBNNCOcvBKpz3xMDqhHMfBJj3t7MrU7
+ BINBNt30YYMiIlV+lfJ7lKgQI6OQ920=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-375-Kc03iG9oMnuLw7zOOVUFFw-1; Wed, 02 Dec 2020 03:09:31 -0500
-X-MC-Unique: Kc03iG9oMnuLw7zOOVUFFw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-123-1fRmO03YPWO_wKOqhbH9fw-1; Wed, 02 Dec 2020 03:09:32 -0500
+X-MC-Unique: 1fRmO03YPWO_wKOqhbH9fw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09DC480364D
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD84F185E48B
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:31 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C286460854
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72D4F60C17
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:31 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 109/113] scripts: kernel-doc: fix typedef parsing
-Date: Wed,  2 Dec 2020 03:08:45 -0500
-Message-Id: <20201202080849.4125477-110-pbonzini@redhat.com>
+Subject: [PULL 110/113] scripts: kernel-doc: split typedef complex regex
+Date: Wed,  2 Dec 2020 03:08:46 -0500
+Message-Id: <20201202080849.4125477-111-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,51 +84,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The include/linux/genalloc.h file defined this typedef:
-
-	typedef unsigned long (*genpool_algo_t)(unsigned long *map,unsigned long size,unsigned long start,unsigned int nr,void *data, struct gen_pool *pool, unsigned long start_addr);
-
-Because it has a type composite of two words (unsigned long),
-the parser gets the typedef name wrong:
-
-.. c:macro:: long
-
-   **Typedef**: Allocation callback function type definition
-
-Fix the regex in order to accept composite types when
-defining a typedef for a function pointer.
+The typedef regex for function prototypes are very complex.
+Split them into 3 separate regex and then join them using
+qr.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/r/328e8018041cc44f7a1684e57f8d111230761c4f.1603792384.git.mchehab+huawei@kernel.org
+Link: https://lore.kernel.org/r/3a4af999a0d62d4ab9dfae1cdefdfcad93383356.1603792384.git.mchehab+huawei@kernel.org
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-28-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-29-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ scripts/kernel-doc | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index d3a289628c..862b77686e 100755
+index 862b77686e..524fc626ed 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1434,13 +1434,14 @@ sub dump_typedef($$) {
+@@ -1427,17 +1427,21 @@ sub dump_enum($$) {
+     }
+ }
+ 
++my $typedef_type = qr { ((?:\s+[\w\*]+){1,8})\s* }x;
++my $typedef_ident = qr { \*?\s*(\w\S+)\s* }x;
++my $typedef_args = qr { \s*\((.*)\); }x;
++
++my $typedef1 = qr { typedef$typedef_type\($typedef_ident\)$typedef_args }x;
++my $typedef2 = qr { typedef$typedef_type$typedef_ident$typedef_args }x;
++
+ sub dump_typedef($$) {
+     my $x = shift;
+     my $file = shift;
+ 
      $x =~ s@/\*.*?\*/@@gos;	# strip comments.
  
-     # Parse function prototypes
--    if ($x =~ /typedef\s+(\w+)\s*\(\*\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
--	$x =~ /typedef\s+(\w+)\s*(\w\S+)\s*\s*\((.*)\);/) {
-+    if ($x =~ /typedef((?:\s+[\w\*]+){1,8})\s*\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
-+	$x =~ /typedef((?:\s+[\w\*]+\s+){1,8})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
- 
- 	# Function typedefs
+-    # Parse function prototypes
+-    if ($x =~ /typedef((?:\s+[\w\*]+){1,8})\s*\(\*?\s*(\w\S+)\s*\)\s*\((.*)\);/ ||
+-	$x =~ /typedef((?:\s+[\w\*]+\s+){1,8})\s*\*?(\w\S+)\s*\s*\((.*)\);/) {
+-
+-	# Function typedefs
++    # Parse function typedef prototypes
++    if ($x =~ $typedef1 || $x =~ $typedef2) {
  	$return_type = $1;
  	$declaration_name = $2;
  	my $args = $3;
-+	$return_type =~ s/^\s+//;
- 
- 	create_parameterlist($args, ',', $file, $declaration_name);
- 
 -- 
 2.26.2
 
