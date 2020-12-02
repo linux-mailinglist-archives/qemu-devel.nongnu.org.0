@@ -2,71 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121022CBD18
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 13:37:00 +0100 (CET)
-Received: from localhost ([::1]:41096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0835F2CBD2E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 13:44:09 +0100 (CET)
+Received: from localhost ([::1]:47382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkRNT-0006iw-5V
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 07:36:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37398)
+	id 1kkRUN-0001Fa-IZ
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 07:44:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kkRLf-0005Kf-BQ; Wed, 02 Dec 2020 07:35:09 -0500
-Received: from mout.web.de ([212.227.15.4]:47303)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kkRLa-0001WQ-Kp; Wed, 02 Dec 2020 07:35:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1606912494;
- bh=IlD6yMPjz4mmMchDwayrAp6MGLVs2d8uODALOTDmBSs=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=VrqPQXFw4A0VyD5w/Gw/4iZc0cy3PB21ly1tvCKXK3PzeUjEwi286+KiGWbLwEN03
- WpwYCd+nrgmVX2AunxwIzzub3hTLCNLy5+8OYy/8ueQAKG2t5M9naup7g+4MsPqapM
- pxSJhtyyApgOjqblwUxvworxKfRi3Y9O0+N097Hw=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.35]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0Lm4TR-1kApPb0HoX-00ZgPX; Wed, 02
- Dec 2020 13:34:54 +0100
-Date: Wed, 2 Dec 2020 13:34:36 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v11 2/7] block/nbd.c: Add yank feature
-Message-ID: <20201202133436.45df98f4@luklap>
-In-Reply-To: <aa30fc7e-5817-6986-54a7-56731e8c043f@virtuozzo.com>
-References: <cover.1605439674.git.lukasstraub2@web.de>
- <14b78aebabb64b9f2ffaac025ee3b683bd7c9167.1605439674.git.lukasstraub2@web.de>
- <aa30fc7e-5817-6986-54a7-56731e8c043f@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kkRSH-0000j8-Jn
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 07:41:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34149)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kkRSB-0003Xb-He
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 07:41:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606912906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BjDwDUKl8b6kRs4Cy15lH/e/VD3pJc+qxtXjWaH09EA=;
+ b=Zd9p2qbb4P6ArTjrVaCZLNSc1La5ixMxxqMnp5z1YoTZZ9QVr6X4cDnHAaqFd4JPiPNkMG
+ fu3z9ntQ9AMYcIQzr64M+RRhHL5jnHUPxvPjWE2Tdh4mLac+Qbxg5NzH9PvktJ90QJR2bq
+ mSEW9uO+U7NmCUAq+BtrhM+0D7NIb5c=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-19-LKAZaUluPcWDJOW4tB0WoA-1; Wed, 02 Dec 2020 07:41:45 -0500
+X-MC-Unique: LKAZaUluPcWDJOW4tB0WoA-1
+Received: by mail-ej1-f69.google.com with SMTP id f21so2970505ejf.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 04:41:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BjDwDUKl8b6kRs4Cy15lH/e/VD3pJc+qxtXjWaH09EA=;
+ b=s8HC6hB+gKmIC3gKCJ2Ib3ljBwjBupdbPMH5/kN6DysWsbhGZisKjS2C9jjjrk7U3q
+ a28VWzjhYZO1ksJ/31Y10uEkr9TM0Z6BQeL71tNDDStuMmSmUeO3kOct5PA+HxLlLRYQ
+ +m07eBdVujfEmQ3KeUKNH+WV+gP/+3lM0EEboft25fvNIO3K1zZSHlDVNNEf7rOOCf/f
+ umktA4P80o/VaG1Lza/fBkF4OwGab76jshxuYdrRISwevseH+RTOiVDPBHuvEy92Nv8T
+ OvwQGsCRMv9CDkpBjb6/ybEndTBS+5UByUhCCB82RCBUYlLKEBX//6cCnCrd7XpRzhdJ
+ zFFw==
+X-Gm-Message-State: AOAM531qDrGlfWUMSUm/iG+pZmVKDgAXujVJD3AC0hfeMrjaXwiwhNVV
+ 2x95pyPi/MNt8J8W2Av0szfG2tA0vUIoPeZkQjVe1flduZRQSnFhLCqknmsDU8wkeFO5j3qXK4U
+ Rx11kdygNWd5fapU=
+X-Received: by 2002:a50:eb97:: with SMTP id y23mr2343904edr.29.1606912904016; 
+ Wed, 02 Dec 2020 04:41:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyMaUktl1VVLZlsrZWFJvbbwmWihv99OUVsXwTo2MMBl/fDXj59A9EQpJ6Zr98l4jyocyJAQg==
+X-Received: by 2002:a50:eb97:: with SMTP id y23mr2343876edr.29.1606912903796; 
+ Wed, 02 Dec 2020 04:41:43 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id p35sm1147003edd.58.2020.12.02.04.41.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Dec 2020 04:41:43 -0800 (PST)
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20201130122538.27674-1-kwolf@redhat.com>
+ <01d32c8c-5023-6323-bed8-ede08f6ac8a3@redhat.com>
+ <20201130154605.GC5078@merkur.fritz.box>
+ <a9c1ebf3-ffcc-7312-ce66-a79902d1e9ba@redhat.com>
+ <20201130181037.GG5078@merkur.fritz.box>
+ <65a9600f-ca8c-ef29-94d8-d9ea114e5e06@redhat.com>
+ <20201201162042.GB6264@merkur.fritz.box>
+ <db61f61a-1ffa-6185-10dc-3109ff111a35@redhat.com>
+ <20201201193528.GC6264@merkur.fritz.box>
+ <3449b5d6-d094-84c8-a0ea-4cd25364db2d@redhat.com>
+ <20201202102729.GA16765@merkur.fritz.box>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
+Message-ID: <d5c0a97a-c285-b026-7ddf-71a7163404f8@redhat.com>
+Date: Wed, 2 Dec 2020 13:41:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/iyP9Ru18d0+Qdb2KHmw3dlU";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:65e0F+lTxVbfi8x2o8jtDl1jGpDz0G+4CQ6+BTbkzLy7d6jrjpv
- VrO024vfYy7xB4cvi8gw/jGNSN9W9GSSX7aqDbNTaAztOfcWdkzRvo/fEjfMIS3X36E1SPK
- HdNPQ19/Jz78jvBbGxhEpzOlcTbFe7gTp9W3aL70mhHPcAskKOvHVSAneDYDcB/y0Ue1CuT
- WnutATsDD2/+cRp7p0oWw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mFaGUJnL4fE=:nPUW0nxbl4VgbezyLE5JS7
- vjqmdsOpLZpxhA4WP2Klrd/M88fekRRQW2EAFqjITMxYRoHzM2Gl987Wz7W5DMZNt1xXZKKDa
- G3TlG+UdrkKqOwaj6egP6RP8TyJ/rGdds79/ZyCE47TbDp+o+4Y7UFuvbiGK8WuiRh1mRTaC+
- aH/Lbk47eKF+J6HbE9l0a2yDKw1TFZfogPzllr8f5hbYp9Mah9rALpQpxZ7kzAbGUAfxs8M13
- rncNZ1EdkBw/iz+1Td1mrM2pYPCtOTLeJxssH1DGdEvj/hF/YRWnn0dMcnUhbjcN0JVLUYRUZ
- RBRY80wlzzxitoz6ZsPUnLIVemh44JHbDSxCwAzcNC9OFdNxnYNoTK8jSY+fICYbxVFRydo/S
- BWoDiZ7NLH8eRDCxUWtQ+dynAL11SvhoCMznMfwGlbKfM2PSAUdvqYbairSzeURrjumYPZkIO
- AnhAYFLcIkBHxIFq+uN2xXz03xXZwrfs3WrR3QpxhfX9E07kbeROzpbbYhZziUlM6I4wStDm+
- Kw65Y/9bmd5uDcpUYItHySlV8xmjYmucsze9UkchefwxumWET5iShribO8C16PRowoPfaFDHJ
- pVnvjYXkPjd5fNeNaXX2jPWGVf6EShPi2lYKFDRg4lVXj/DdcaZU+aatz8Ij9HBtuot0tUSYE
- 6nyzTblMjvZNO3yuPkI1CUNwivxtIH6i4ECSJrbCCkBlXmTNAOnNY2xjWCFsyHtW7/0LGWHpS
- pxUjG0XeoeIalQGKV61jm/WORbKrZzriGc0+iLlIGNEgye2BfGpuySs4fplzm8l/mX8EvzdD4
- SPQxLsIFOZDbJC1jXkzzR4Lji9AkeUV089sndTSf8rbWSq3ZmgGGcSeolyXXiSMQPZkPeO0/E
- 6uD9JZSwmhlwAH4a3ByQhG3rT3eyoLP8qcKTHz+Kk=
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201202102729.GA16765@merkur.fritz.box>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,64 +109,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/iyP9Ru18d0+Qdb2KHmw3dlU
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 02/12/20 11:27, Kevin Wolf wrote:
+>> Declaring read-only QOM properties is trivial.
+> 
+> Trivial sounds like it's something the computer should be doing.
 
-On Wed, 2 Dec 2020 15:18:48 +0300
-Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+Possibly, but not necessarily.  There's always a cost to automatic code 
+generation.  If things are _too_ trivial and easy to get right, the cost 
+of automatic code generation exceeds the cost of doing things by hand.
 
-> 15.11.2020 14:36, Lukas Straub wrote:
-> > Register a yank function which shuts down the socket and sets
-> > s->state =3D NBD_CLIENT_QUIT. This is the same behaviour as if an
-> > error occured.
-> >=20
-> > Signed-off-by: Lukas Straub<lukasstraub2@web.de>
-> > Acked-by: Stefan Hajnoczi<stefanha@redhat.com> =20
->=20
-> Hi! Could I ask, what's the reason for qatomic_load_acquire access to s->=
-state? Is there same bug fixed? Or is it related somehow to new feature?
->=20
+You pretty much proved that ucc->complete is hard enough to get right, 
+that it benefits from code generation.  But I am a bit more conservative 
+about extending that to the rest of QOM.
 
-Hi,
-This is for the new feature, as the yank function runs in a separate thread.
+>> I'm just worried about having yet another incomplete transition.
+> 
+> Would you really feel at home in a QEMU without incomplete transitions?
 
-Regards,
-Lukas Straub
+One can always dream. :)
 
---=20
+> But since you had already posted RFC patches a while ago to
+> address this, I considered it solved.
 
+Yup, I posted the non-RFC today.
 
---Sig_/iyP9Ru18d0+Qdb2KHmw3dlU
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+> 1. This series (mostly for documentation and introspection)
+> 
+> 2. -object and HMP object_add (so that we get QAPI's validation, and to
+>     make sure that forgetting to update the schema means that the new
+>     options just doesn't work)
+> 
+> 3. Create a separate 'object' entity in QAPI, generate ucc->complete
+>     implementations that call a create function in the C source code with
+>     type-specific parameters (like QMP command handlers)
 
------BEGIN PGP SIGNATURE-----
+If we agree on all of these that's already a pretty good place to be in. 
+The decreasing length of the replies to the thread suggests that we are.
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl/HidwACgkQNasLKJxd
-slhWlBAAvJjP3iYwSxc65VSAHoNzO1qJbVupYlRwHqhBrpchB1UalSiqPpz1jNzP
-PiI0gq0SohKHcM3w57inWMUekQ+5+NjnIltO5ds2bPnqY3qRanQqfMlmO0r3nqbQ
-5O5063Qr+Ql9lMthJ3CmRhZQ40VHKqAwNQDFYD//aD73AGpLkoVe6RA2xNosZOK8
-ULwdUXXLsRVRCbAfyjonU+ukkcBnfArErJjgyiUJXqcoRglcICc+UqpZcvXkVELH
-iOqGEHdZEGm4KE0xorWVb4V0J8X4qiPOnSGofZn1XGlsseeX+mrmEJZiNE2DHmIe
-yWKL1KqDaJAygne8ZQxRMcsO0Af/df6Mwhlt6DLEVAXqa1TnpsxvVBrX080sQ4Bo
-MtZGCWAMNsvLPrD6rVf9REwNdcPMBc42nTKSsUc41yfEhQs1BLxCAa7UMlh80qcx
-L08n4TyyP6/e4xa0P260iXDE/WAMw4OleHknoTG6fD36a1vdrErqoR/yucbAKvmu
-M9FyKUPygc651TWUct4xR+BsXDCK7OQ+5aMDHvnv2QR4zgrQMjWsRcMCRUf3HU8Z
-SWEdx7rbgjTJb/Apd23/m2vHrxM9QXhlfX02cpj3navgxD+MuZpCWaABO4FIj997
-pAL6SNL4nCBU8ld4K+KgIGPFl7ZnN2i14weWtWporaRFLQcDP3c=
-=XtYO
------END PGP SIGNATURE-----
+I wouldn't mind an example of (3) that is hand-coded and may only work 
+for one object type (even a simple one such as iothread), to show what 
+the generated QAPI code would look like.  It's not a blocker as far as I 
+am concerned, but it would be nice.
 
---Sig_/iyP9Ru18d0+Qdb2KHmw3dlU--
+More important, Markus and John should agree with the plan before (1) is 
+committed.  That may also require the aforementioned example, but it's 
+up to them.
+
+> What's still open: Should QAPI cover run-time properties, too? Should
+> run-time properties even exist at all in the final state? What is the
+> exact QAPI representation of everything? (The last one includes that I
+> need to have a closer look at how QAPI can best be taught about
+> inheritance.)
+
+Run-time properties will exist but they will probably be cut down 
+substantially, and most of them will be read-only (they already are as 
+far as external code is concerned, i.e. they have a setter but qom-set 
+always fails because it's called too late).
+
+Paolo
+
 
