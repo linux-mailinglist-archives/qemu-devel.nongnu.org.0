@@ -2,78 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A3D2CBEDC
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 14:58:05 +0100 (CET)
-Received: from localhost ([::1]:37800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AD22CBEF8
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 15:04:02 +0100 (CET)
+Received: from localhost ([::1]:42668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkSdw-0001kq-On
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 08:58:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55194)
+	id 1kkSjh-0004B5-6D
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 09:04:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kkSbo-0000Wu-Fe
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 08:55:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kkSbm-0008Pr-JC
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 08:55:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606917349;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XcNC+Eo7XYNRRLRWgDoy6KTX+7Chk9ZmydNjBPfvHu0=;
- b=cD0UG3j1/G8/pgVJmDXovcxWXKqDyC4XkdeaR27LXqpvj0qvZP+2h117CEmfkg0nkjuPDG
- kNXe2nIEQDfLlo/UF8w5+bUic1mwixwTxYtHIWQMpN5oICikhFILEVEQN7L4xP0BpsgaV4
- 7Ox+vqvIlEeYnY6xMpVMmn+pnvkiuoQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-_e2U-hRfPCusaiDa2F5fhg-1; Wed, 02 Dec 2020 08:55:46 -0500
-X-MC-Unique: _e2U-hRfPCusaiDa2F5fhg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05A89190B2A0;
- Wed,  2 Dec 2020 13:55:45 +0000 (UTC)
-Received: from [10.72.12.105] (ovpn-12-105.pek2.redhat.com [10.72.12.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E59D60855;
- Wed,  2 Dec 2020 13:55:34 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 0/5] eBPF RSS support for virtio-net
-To: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com
-References: <20201119111305.485202-1-andrew@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <00e5b0a8-dfaa-2899-2501-cfe8249302ff@redhat.com>
-Date: Wed, 2 Dec 2020 21:55:30 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkSgs-0003Jt-Bc
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 09:01:07 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57212)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkSgk-0000Ze-Sm
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 09:01:06 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kkSgi-00082s-Od
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 14:00:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B09952E804B
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 14:00:56 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201119111305.485202-1-andrew@daynix.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 02 Dec 2020 13:55:28 -0000
+From: jinyan <1906516@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: phantom1003
+X-Launchpad-Bug-Reporter: jinyan (phantom1003)
+X-Launchpad-Bug-Modifier: jinyan (phantom1003)
+Message-Id: <160691732836.26002.10346003915035160514.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1906516] [NEW] [RISCV] sfence.vma need to end the translation
+ block
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="55c41fea591e042b8bb54e6952942f55c764435e"; Instance="production"
+X-Launchpad-Hash: 7600b6fa72559d3d670060fd8484ff01c5d16b9b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,125 +69,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, yuri.benditovich@daynix.com,
- =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1906516 <1906516@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
-On 2020/11/19 下午7:13, Andrew Melnychenko wrote:
-> This set of patches introduces the usage of eBPF for packet steering
-> and RSS hash calculation:
-> * RSS(Receive Side Scaling) is used to distribute network packets to
-> guest virtqueues by calculating packet hash
-> * Additionally adding support for the usage of RSS with vhost
->
-> The eBPF works on kernels 5.8+
-> On earlier kerneld it fails to load and the RSS feature is reported
-> only without vhost and implemented in 'in-qemu' software.
->
-> Implementation notes:
-> Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
-> Added libbpf dependency and eBPF support.
-> The eBPF program is part of the qemu and presented as an array
-> of BPF ELF file data.
-> The compilation of eBPF is not part of QEMU build and can be done
-> using provided Makefile.ebpf(need to adjust 'linuxhdrs').
-> Added changes to virtio-net and vhost, primary eBPF RSS is used.
-> 'in-qemu' RSS used in the case of hash population and as a fallback option.
-> For vhost, the hash population feature is not reported to the guest.
->
-> Please also see the documentation in PATCH 5/5.
->
-> I am sending those patches as RFC to initiate the discussions and get
-> feedback on the following points:
-> * Fallback when eBPF is not supported by the kernel
-> * Live migration to the kernel that doesn't have eBPF support
-> * Integration with current QEMU build
-> * Additional usage for eBPF for packet filtering
->
-> Known issues:
-> * hash population not supported by eBPF RSS: 'in-qemu' RSS used
-> as a fallback, also, hash population feature is not reported to guests
-> with vhost.
-> * big-endian BPF support: for now, eBPF isn't supported on
-> big-endian systems. Can be added in future if required.
-> * huge .h file with eBPF binary. The size of .h file containing
-> eBPF binary is currently ~5K lines, because the binary is built with debug information.
-> The binary without debug/BTF info can't be loaded by libbpf.
-> We're looking for possibilities to reduce the size of the .h files.
+QEMU emulator version 5.0.0
 
+sfence.vma will flush the tlb, so after this instruction, the translation b=
+lock should be end. The following code will only work in single step mode:
+```
+relocate:
+	li a0, OFFSET
 
-Adding Toke for sharing more idea from eBPF side.
+	la t0, 1f
+	add t0, t0, a0
+	csrw stvec, t0
 
-We had some discussion on the eBPF issues:
+        la t0, early_pgtbl
+	srl t0, t0, PAGE_SHIFT
+	li t1, SATP_SV39
+	or t0, t1, t0
 
-1) Whether or not to use libbpf. Toke strongly suggest to use libbpf
-2) Whether or not to use BTF. Toke confirmed that if we don't access any 
-skb metadata, BTF is not strictly required for CO-RE. But it might still 
-useful for e.g debugging.
-3) About the huge (5K lines, see patch #2 Toke). Toke confirmed that we 
-can strip debug symbols, but Yuri found some sections can't be stripped, 
-we can keep discussing here.
+        csrw satp, t0
+1:
+	sfence.vma
+	la t0, trap_s
+	csrw stvec, t0
+	ret
+```
 
-Toke, feel free to correct me if I was wrong.
+In this code, I want to relocate pc to virtual address with the OFFSET
+prefix, before writing to satp, pc run at physic address, stvec has been
+set a label 1 with a virtual prefix and virtual address has been mapping
+in early_pgtbl, after writing satp, there will throw a page fault, and
+pc will set to virtual address of label 1.
 
-Thanks
+The problem is that, in this situation, the translation block will not
+end after sfence.vma, and stvec will be set to trap_s,
 
+```
+----------------
+IN:
+Priv: 1; Virt: 0
+0x00000000800000dc:  00a080b3          add             ra,ra,a0
+0x00000000800000e0:  00007297          auipc           t0,28672        # 0x=
+800070e0
+0x00000000800000e4:  f2028293          addi            t0,t0,-224
+0x00000000800000e8:  00c2d293          srli            t0,t0,12
+0x00000000800000ec:  fff0031b          addiw           t1,zero,-1
+0x00000000800000f0:  03f31313          slli            t1,t1,63
+0x00000000800000f4:  005362b3          or              t0,t1,t0
+0x00000000800000f8:  18029073          csrrw           zero,satp,t0
 
->
-> Changes since v1:
-> * using libbpf instead of direct 'bpf' system call.
-> * added libbpf dependency to the configure/meson scripts.
-> * changed python script for eBPF .h file generation.
-> * changed eBPF program - reading L3 proto from ethernet frame.
-> * added TUNSETSTEERINGEBPF define for TUN.
-> * changed the maintainer's info.
-> * added license headers.
-> * refactored code.
->
-> Andrew (5):
->    net: Added SetSteeringEBPF method for NetClientState.
->    ebpf: Added eBPF RSS program.
->    ebpf: Added eBPF RSS loader.
->    virtio-net: Added eBPF RSS to virtio-net.
->    docs: Added eBPF RSS documentation.
->
->   MAINTAINERS                    |    7 +
->   configure                      |   33 +
->   docs/ebpf_rss.rst              |  133 +
->   ebpf/EbpfElf_to_C.py           |   36 +
->   ebpf/Makefile.ebpf             |   33 +
->   ebpf/ebpf_rss-stub.c           |   40 +
->   ebpf/ebpf_rss.c                |  186 ++
->   ebpf/ebpf_rss.h                |   44 +
->   ebpf/meson.build               |    1 +
->   ebpf/rss.bpf.c                 |  505 +++
->   ebpf/tun_rss_steering.h        | 5439 ++++++++++++++++++++++++++++++++
->   hw/net/vhost_net.c             |    2 +
->   hw/net/virtio-net.c            |  120 +-
->   include/hw/virtio/virtio-net.h |    4 +
->   include/net/net.h              |    2 +
->   meson.build                    |   11 +
->   net/tap-bsd.c                  |    5 +
->   net/tap-linux.c                |   13 +
->   net/tap-linux.h                |    1 +
->   net/tap-solaris.c              |    5 +
->   net/tap-stub.c                 |    5 +
->   net/tap.c                      |    9 +
->   net/tap_int.h                  |    1 +
->   net/vhost-vdpa.c               |    2 +
->   24 files changed, 6633 insertions(+), 4 deletions(-)
->   create mode 100644 docs/ebpf_rss.rst
->   create mode 100644 ebpf/EbpfElf_to_C.py
->   create mode 100755 ebpf/Makefile.ebpf
->   create mode 100644 ebpf/ebpf_rss-stub.c
->   create mode 100644 ebpf/ebpf_rss.c
->   create mode 100644 ebpf/ebpf_rss.h
->   create mode 100644 ebpf/meson.build
->   create mode 100644 ebpf/rss.bpf.c
->   create mode 100644 ebpf/tun_rss_steering.h
->
+----------------
+IN:
+Priv: 1; Virt: 0
+0x00000000800000fc:  12000073          sfence.vma      zero,zero
+0x0000000080000100:  00000297          auipc           t0,0            # 0x=
+80000100
+0x0000000080000104:  1c828293          addi            t0,t0,456
+0x0000000080000108:  10529073          csrrw           zero,stvec,t0
 
+riscv_raise_exception: 12
+riscv_raise_exception: 12
+riscv_raise_exception: 12
+riscv_raise_exception: 12
+...
+```
+
+So, the program will crash, and the program will work in single step mode:
+```
+----------------
+IN:
+Priv: 1; Virt: 0
+0x00000000800000f8:  18029073          csrrw           zero,satp,t0
+
+----------------
+IN:
+Priv: 1; Virt: 0
+0x00000000800000fc:  12000073          sfence.vma      zero,zero
+
+riscv_raise_exception: 12
+----------------
+IN:
+Priv: 1; Virt: 0
+0xffffffff800000fc:  12000073          sfence.vma      zero,zero
+
+----------------
+IN:
+Priv: 1; Virt: 0
+0xffffffff80000100:  00000297          auipc           t0,0            # 0x=
+ffffffff80000100
+
+```
+The pc will set to label 1, instead of trap_s.
+
+I try to patch the code in fence.i in trans_rvi.inc.c to sfence.vma:
+```
+    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
+    exit_tb(ctx);
+    ctx->base.is_jmp =3D DISAS_NORETURN;
+```
+This codes can help to end the tranlate block, since I'm not a qemu guy, I'=
+m not sure if this is a corret method.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906516
+
+Title:
+  [RISCV] sfence.vma need to end the translation block
+
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU emulator version 5.0.0
+
+  sfence.vma will flush the tlb, so after this instruction, the translation=
+ block should be end. The following code will only work in single step mode:
+  ```
+  relocate:
+  	li a0, OFFSET
+
+  	la t0, 1f
+  	add t0, t0, a0
+  	csrw stvec, t0
+
+          la t0, early_pgtbl
+  	srl t0, t0, PAGE_SHIFT
+  	li t1, SATP_SV39
+  	or t0, t1, t0
+
+          csrw satp, t0
+  1:
+  	sfence.vma
+  	la t0, trap_s
+  	csrw stvec, t0
+  	ret
+  ```
+
+  In this code, I want to relocate pc to virtual address with the OFFSET
+  prefix, before writing to satp, pc run at physic address, stvec has
+  been set a label 1 with a virtual prefix and virtual address has been
+  mapping in early_pgtbl, after writing satp, there will throw a page
+  fault, and pc will set to virtual address of label 1.
+
+  The problem is that, in this situation, the translation block will not
+  end after sfence.vma, and stvec will be set to trap_s,
+
+  ```
+  ----------------
+  IN:
+  Priv: 1; Virt: 0
+  0x00000000800000dc:  00a080b3          add             ra,ra,a0
+  0x00000000800000e0:  00007297          auipc           t0,28672        # =
+0x800070e0
+  0x00000000800000e4:  f2028293          addi            t0,t0,-224
+  0x00000000800000e8:  00c2d293          srli            t0,t0,12
+  0x00000000800000ec:  fff0031b          addiw           t1,zero,-1
+  0x00000000800000f0:  03f31313          slli            t1,t1,63
+  0x00000000800000f4:  005362b3          or              t0,t1,t0
+  0x00000000800000f8:  18029073          csrrw           zero,satp,t0
+
+  ----------------
+  IN:
+  Priv: 1; Virt: 0
+  0x00000000800000fc:  12000073          sfence.vma      zero,zero
+  0x0000000080000100:  00000297          auipc           t0,0            # =
+0x80000100
+  0x0000000080000104:  1c828293          addi            t0,t0,456
+  0x0000000080000108:  10529073          csrrw           zero,stvec,t0
+
+  riscv_raise_exception: 12
+  riscv_raise_exception: 12
+  riscv_raise_exception: 12
+  riscv_raise_exception: 12
+  ...
+  ```
+
+  So, the program will crash, and the program will work in single step mode:
+  ```
+  ----------------
+  IN:
+  Priv: 1; Virt: 0
+  0x00000000800000f8:  18029073          csrrw           zero,satp,t0
+
+  ----------------
+  IN:
+  Priv: 1; Virt: 0
+  0x00000000800000fc:  12000073          sfence.vma      zero,zero
+
+  riscv_raise_exception: 12
+  ----------------
+  IN:
+  Priv: 1; Virt: 0
+  0xffffffff800000fc:  12000073          sfence.vma      zero,zero
+
+  ----------------
+  IN:
+  Priv: 1; Virt: 0
+  0xffffffff80000100:  00000297          auipc           t0,0            # =
+0xffffffff80000100
+
+  ```
+  The pc will set to label 1, instead of trap_s.
+
+  I try to patch the code in fence.i in trans_rvi.inc.c to sfence.vma:
+  ```
+      tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
+      exit_tb(ctx);
+      ctx->base.is_jmp =3D DISAS_NORETURN;
+  ```
+  This codes can help to end the tranlate block, since I'm not a qemu guy, =
+I'm not sure if this is a corret method.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906516/+subscriptions
 
