@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB98E2CBB4E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 12:13:53 +0100 (CET)
-Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDA22CBB87
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 12:28:11 +0100 (CET)
+Received: from localhost ([::1]:44910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkQ53-0003ga-0t
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 06:13:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40298)
+	id 1kkQIr-0000qq-Sm
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 06:28:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkQ3F-00027D-BT
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 06:12:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32692)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkQ3r-00031b-DS
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 06:12:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkQ38-00065m-VV
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 06:12:00 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkQ3o-0006NE-MO
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 06:12:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606907513;
+ s=mimecast20190719; t=1606907555;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FVsOiuOpkLiYdWHX3DGRPCHlhA0cq6VqmHJNGxO0910=;
- b=FnLcFdjmvZu6JAnq3owkLJXpTHSN3d1Lb3mBuh/qM59EpPGwX/pMM0c7a1PTHHh+J64DvL
- CmrAoYH01Fi6ncyK+YXvd2Ye/4fhoT6mTxVlh8/tKjBGXHAb2sKD+z0cUaDmPUwgwEOWoh
- bsrxjKyr7YUpm+FV/DUD3AC64QnpPxk=
+ bh=hbAuA9iTipgGITFijin1R/Mw+XmN9YONmLsV2jd12lw=;
+ b=K+bZ9F60BV5wDyT7oGZEhSUb/Uq8+NDel+5dct/3uUzBAmjlDUXMFFzzw717LTJbTj+w3g
+ 4W4Gd8CdyfYuMnzk8Ii0wvFsu7mlKTYfQrwJqpkDQKuEqU4QS6/omZ6pB/kv0twb834KZP
+ g9Diffd50V5J6mzdV2eHpcI9vgPwIYM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-5B5I1OdRP6-V6FKdQumRWA-1; Wed, 02 Dec 2020 06:11:49 -0500
-X-MC-Unique: 5B5I1OdRP6-V6FKdQumRWA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-548-lDOjYFQFO0yjzIQZ1EfV_w-1; Wed, 02 Dec 2020 06:12:34 -0500
+X-MC-Unique: lDOjYFQFO0yjzIQZ1EfV_w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AC35100F340;
- Wed,  2 Dec 2020 11:11:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA1C8800D55;
+ Wed,  2 Dec 2020 11:12:32 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-113-199.ams2.redhat.com [10.36.113.199])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DC065D6AC;
- Wed,  2 Dec 2020 11:11:43 +0000 (UTC)
-Date: Wed, 2 Dec 2020 12:11:42 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 181605B4A0;
+ Wed,  2 Dec 2020 11:12:27 +0000 (UTC)
+Date: Wed, 2 Dec 2020 12:12:26 +0100
 From: Kevin Wolf <kwolf@redhat.com>
 To: Gan Qixin <ganqixin@huawei.com>
-Subject: Re: [PATCH 4/4] block/iscsi.c: Use lock guard macros
-Message-ID: <20201202111142.GC16765@merkur.fritz.box>
+Subject: Re: [PATCH 3/4] block/throttle-groups.c: Use lock guard macros
+Message-ID: <20201202111226.GD16765@merkur.fritz.box>
 References: <20201109154327.325675-1-ganqixin@huawei.com>
- <20201109154327.325675-5-ganqixin@huawei.com>
+ <20201109154327.325675-4-ganqixin@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201109154327.325675-5-ganqixin@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201109154327.325675-4-ganqixin@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,31 +84,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Am 09.11.2020 um 16:43 hat Gan Qixin geschrieben:
 > Replace manual lock()/unlock() calls with lock guard macros
-> (QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/iscsi.c.
+> (QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/throttle-groups.c.
 > 
 > Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-> ---
->  block/iscsi.c | 28 +++++++++++++---------------
->  1 file changed, 13 insertions(+), 15 deletions(-)
-> 
-> diff --git a/block/iscsi.c b/block/iscsi.c
-> index e30a7e3606..f5f657b582 100644
-> --- a/block/iscsi.c
-> +++ b/block/iscsi.c
-> @@ -322,7 +322,7 @@ iscsi_aio_cancel(BlockAIOCB *blockacb)
->      IscsiAIOCB *acb = (IscsiAIOCB *)blockacb;
->      IscsiLun *iscsilun = acb->iscsilun;
->  
-> -    qemu_mutex_lock(&iscsilun->mutex);
-> +    QEMU_LOCK_GUARD(&iscsilun->mutex);
->  
->      /* If it was cancelled or completed already, our work is done here */
->      if (acb->cancelled || acb->status != -EINPROGRESS) {
-           qemu_mutex_unlock(&iscsilun->mutex);
-           return;
-       }
 
-I don't think this qemu_mutex_unlock() is right any more now.
+> @@ -638,14 +636,14 @@ void throttle_group_detach_aio_context(ThrottleGroupMember *tgm)
+>      assert(qemu_co_queue_empty(&tgm->throttled_reqs[1]));
+>  
+>      /* Kick off next ThrottleGroupMember, if necessary */
+> -    qemu_mutex_lock(&tg->lock);
+> -    for (i = 0; i < 2; i++) {
+> -        if (timer_pending(tt->timers[i])) {
+> -            tg->any_timer_armed[i] = false;
+> -            schedule_next_request(tgm, i);
+> +     WITH_QEMU_LOCK_GUARD(&tg->lock) {
+
+Indentation is off.
+
+> +        for (i = 0; i < 2; i++) {
+> +            if (timer_pending(tt->timers[i])) {
+> +                tg->any_timer_armed[i] = false;
+> +                schedule_next_request(tgm, i);
+> +            }
+>          }
+>      }
+> -    qemu_mutex_unlock(&tg->lock);
+>  
+>      throttle_timers_detach_aio_context(tt);
+>      tgm->aio_context = NULL;
 
 Kevin
 
