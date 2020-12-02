@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E532CB89F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:23:34 +0100 (CET)
-Received: from localhost ([::1]:54180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426E62CB8D2
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:29:57 +0100 (CET)
+Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOMH-0001z5-Ow
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:23:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42592)
+	id 1kkOSS-000135-5Q
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:29:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNM2-0006au-Bm
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46655)
+ id 1kkNMD-0006cX-4l
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNLq-0006uF-Ly
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:13 -0500
+ id 1kkNM2-0006va-3g
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606897141;
+ s=mimecast20190719; t=1606897146;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8V18+2yT/4uEJiIxrnJS7dFLD3x4RWAci1n0hm9a+eM=;
- b=DOGwlppnP06PMLJo5DrjhmvY/Dr9oyBEb5gaARZ29rvjUIT27UlX1QcKwyvbDCU4gCU2Zb
- I2+otgJ5K2HjDVLyzquTqECxFGl9ZASMpF1mf/TNW3cIkvf8TrXFp1jrzbAUJd6Ph0YCcY
- 84wvAh2lHHP2aY9DB2B8aXFhWexE4gc=
+ bh=c7e+ZXfrmPvHuDyQvt4K1RRYKmHo6qyJmE6LqHVXzv0=;
+ b=IXuwJi7PrGPFCrXt29YP2mZWFbYo/xG3spQei+D5/vxw3lGVsLIL7pbPNZzXuIc68cGT9P
+ jyZNnvB529RRMlEUwRV/YpdIJUHXqioSSJm6Iw1bkcSooxJNeBJQPvhJ14tJkmMB5Bo/MU
+ OXnHLa0P4K87jysH9FLU3mN0FxucDVM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-TDRgxZuBP5qJQY0Q96-IOA-1; Wed, 02 Dec 2020 03:18:59 -0500
-X-MC-Unique: TDRgxZuBP5qJQY0Q96-IOA-1
+ us-mta-54-7f0me4NZOVyZ8ESnID-qyw-1; Wed, 02 Dec 2020 03:19:03 -0500
+X-MC-Unique: 7f0me4NZOVyZ8ESnID-qyw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C73549A22E
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:18:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 987EF100C618
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:19:02 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA21410013C1;
- Wed,  2 Dec 2020 08:18:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E2A14100238C;
+ Wed,  2 Dec 2020 08:18:59 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/15] vl: remove separate preconfig main_loop
-Date: Wed,  2 Dec 2020 03:18:41 -0500
-Message-Id: <20201202081854.4126071-3-pbonzini@redhat.com>
+Subject: [PATCH 05/15] vl: extract softmmu/globals.c
+Date: Wed,  2 Dec 2020 03:18:44 -0500
+Message-Id: <20201202081854.4126071-6-pbonzini@redhat.com>
 In-Reply-To: <20201202081854.4126071-1-pbonzini@redhat.com>
 References: <20201202081854.4126071-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -83,202 +83,237 @@ Cc: imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move post-preconfig initialization to the x-exit-preconfig.  If preconfig
-is not requested, just exit preconfig mode immediately with the QMP
-command.
-
-As a result, the preconfig loop will run with accel_setup_post
-and os_setup_post restrictions (xen_restrict, chroot, etc.)
-already done.
-
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/sysemu/runstate.h |  1 -
- monitor/qmp-cmds.c        |  9 ----
- softmmu/vl.c              | 95 +++++++++++++++++----------------------
- 3 files changed, 41 insertions(+), 64 deletions(-)
+ hw/core/machine.c         |  2 ++
+ include/exec/cpu-common.h |  3 ++
+ include/exec/exec-all.h   |  3 --
+ softmmu/globals.c         | 74 +++++++++++++++++++++++++++++++++++++++
+ softmmu/meson.build       |  1 +
+ softmmu/vl.c              | 45 ++----------------------
+ 6 files changed, 83 insertions(+), 45 deletions(-)
+ create mode 100644 softmmu/globals.c
 
-diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
-index f760094858..e557f470d4 100644
---- a/include/sysemu/runstate.h
-+++ b/include/sysemu/runstate.h
-@@ -41,7 +41,6 @@ typedef enum WakeupReason {
-     QEMU_WAKEUP_REASON_OTHER,
- } WakeupReason;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 745531c9d9..5659b1f49c 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -213,6 +213,8 @@ GlobalProperty hw_compat_2_1[] = {
+ };
+ const size_t hw_compat_2_1_len = G_N_ELEMENTS(hw_compat_2_1);
  
--void qemu_exit_preconfig_request(void);
- void qemu_system_reset_request(ShutdownCause reason);
- void qemu_system_suspend_request(void);
- void qemu_register_suspend_notifier(Notifier *notifier);
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 501a3024c7..7ced7eb3e8 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -102,15 +102,6 @@ void qmp_system_powerdown(Error **errp)
-     qemu_system_powerdown_request();
- }
- 
--void qmp_x_exit_preconfig(Error **errp)
--{
--    if (qdev_hotplug) {
--        error_setg(errp, "The command is permitted only before machine initialization");
--        return;
--    }
--    qemu_exit_preconfig_request();
--}
--
- void qmp_cont(Error **errp)
++MachineState *current_machine;
++
+ static char *machine_get_kernel(Object *obj, Error **errp)
  {
-     BlockBackend *blk;
+     MachineState *ms = MACHINE(obj);
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index bd5e15dd7d..5a0a2d93e0 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -105,4 +105,7 @@ int ram_block_discard_range(RAMBlock *rb, uint64_t start, size_t length);
+ 
+ #endif
+ 
++/* vl.c */
++extern int singlestep;
++
+ #endif /* CPU_COMMON_H */
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 94fe05daaa..fab573da06 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -676,7 +676,4 @@ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
+                                        MemoryRegionSection *section);
+ #endif
+ 
+-/* vl.c */
+-extern int singlestep;
+-
+ #endif
+diff --git a/softmmu/globals.c b/softmmu/globals.c
+new file mode 100644
+index 0000000000..e62d9cd8da
+--- /dev/null
++++ b/softmmu/globals.c
+@@ -0,0 +1,74 @@
++/*
++ * Global variables that (mostly) should not exist
++ *
++ * Copyright (c) 2003-2020 QEMU contributors
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "exec/cpu-common.h"
++#include "hw/display/vga.h"
++#include "hw/i386/pc.h"
++#include "hw/i386/x86.h"
++#include "hw/loader.h"
++#include "hw/xen/xen.h"
++#include "net/net.h"
++#include "sysemu/cpus.h"
++#include "sysemu/sysemu.h"
++
++enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
++int display_opengl;
++const char* keyboard_layout;
++bool enable_mlock;
++bool enable_cpu_pm;
++int nb_nics;
++NICInfo nd_table[MAX_NICS];
++int autostart = 1;
++int vga_interface_type = VGA_NONE;
++Chardev *parallel_hds[MAX_PARALLEL_PORTS];
++int win2k_install_hack;
++int singlestep;
++int fd_bootchk = 1;
++int no_reboot;
++int no_shutdown;
++int graphic_rotate;
++QEMUOptionRom option_rom[MAX_OPTION_ROMS];
++int nb_option_roms;
++int old_param;
++const char *qemu_name;
++int alt_grab;
++int ctrl_grab;
++unsigned int nb_prom_envs;
++const char *prom_envs[MAX_PROM_ENVS];
++int boot_menu;
++bool boot_strict;
++uint8_t *boot_splash_filedata;
++int only_migratable; /* turn it off unless user states otherwise */
++int icount_align_option;
++
++/* The bytes in qemu_uuid are in the order specified by RFC4122, _not_ in the
++ * little-endian "wire format" described in the SMBIOS 2.6 specification.
++ */
++QemuUUID qemu_uuid;
++bool qemu_uuid_set;
++
++uint32_t xen_domid;
++enum xen_mode xen_mode = XEN_EMULATE;
++bool xen_domid_restrict;
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+index 2a73ebc223..e5865b97cb 100644
+--- a/softmmu/meson.build
++++ b/softmmu/meson.build
+@@ -4,6 +4,7 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
+   'cpus.c',
+   'cpu-throttle.c',
+   'datadir.c',
++  'globals.c',
+   'physmem.c',
+   'ioport.c',
+   'rtc.c',
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ab2210bc79..abbbb83e1a 100644
+index 6282ae2101..685d92df5d 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -1151,7 +1151,6 @@ static pid_t shutdown_pid;
- static int powerdown_requested;
- static int debug_requested;
- static int suspend_requested;
--static bool preconfig_exit_requested = true;
- static WakeupReason wakeup_reason;
- static NotifierList powerdown_notifiers =
-     NOTIFIER_LIST_INITIALIZER(powerdown_notifiers);
-@@ -1238,11 +1237,6 @@ static int qemu_debug_requested(void)
-     return r;
- }
+@@ -26,6 +26,7 @@
+ #include "qemu-common.h"
+ #include "qemu/datadir.h"
+ #include "qemu/units.h"
++#include "exec/cpu-common.h"
+ #include "hw/boards.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+@@ -67,6 +68,8 @@
+ #include "qemu/log.h"
+ #include "sysemu/blockdev.h"
+ #include "hw/block/block.h"
++#include "hw/i386/x86.h"
++#include "hw/i386/pc.h"
+ #include "migration/misc.h"
+ #include "migration/snapshot.h"
+ #include "migration/global_state.h"
+@@ -139,17 +142,8 @@ static bool preconfig_requested;
+ static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+ static BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
+ static bool nographic = false;
+-enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
+ static int mem_prealloc; /* force preallocation of physical target memory */
+-int display_opengl;
+-const char* keyboard_layout = NULL;
+ static ram_addr_t ram_size;
+-bool enable_mlock = false;
+-bool enable_cpu_pm = false;
+-int nb_nics;
+-NICInfo nd_table[MAX_NICS];
+-int autostart = 1;
+-int vga_interface_type = VGA_NONE;
+ static const char *vga_model = NULL;
+ static DisplayOptions dpy;
+ static int num_serial_hds;
+@@ -157,41 +151,10 @@ static Chardev **serial_hds;
+ static const char *log_mask;
+ static const char *log_file;
+ static bool list_data_dirs;
+-Chardev *parallel_hds[MAX_PARALLEL_PORTS];
+-int win2k_install_hack = 0;
+-int singlestep = 0;
+-int fd_bootchk = 1;
+-int no_reboot;
+-int no_shutdown = 0;
+-int graphic_rotate = 0;
+ static const char *watchdog;
+-QEMUOptionRom option_rom[MAX_OPTION_ROMS];
+-int nb_option_roms;
+-int old_param = 0;
+-const char *qemu_name;
+-int alt_grab = 0;
+-int ctrl_grab = 0;
+-unsigned int nb_prom_envs = 0;
+-const char *prom_envs[MAX_PROM_ENVS];
+-int boot_menu;
+-bool boot_strict;
+-uint8_t *boot_splash_filedata;
+-int only_migratable; /* turn it off unless user states otherwise */
+-bool wakeup_suspend_enabled;
+-int icount_align_option;
+ static const char *qtest_chrdev;
+ static const char *qtest_log;
  
--void qemu_exit_preconfig_request(void)
--{
--    preconfig_exit_requested = true;
--}
+-/* The bytes in qemu_uuid are in the order specified by RFC4122, _not_ in the
+- * little-endian "wire format" described in the SMBIOS 2.6 specification.
+- */
+-QemuUUID qemu_uuid;
+-bool qemu_uuid_set;
 -
- /*
-  * Reset the VM. Issue an event unless @reason is SHUTDOWN_CAUSE_NONE.
-  */
-@@ -1464,10 +1458,6 @@ static bool main_loop_should_exit(void)
-     RunState r;
-     ShutdownCause request;
+-uint32_t xen_domid;
+-enum xen_mode xen_mode = XEN_EMULATE;
+-bool xen_domid_restrict;
+-
+ static int has_defaults = 1;
+ static int default_serial = 1;
+ static int default_parallel = 1;
+@@ -799,8 +762,6 @@ static int usb_parse(const char *cmdline)
+ /***********************************************************/
+ /* machine registration */
  
--    if (preconfig_exit_requested) {
--        preconfig_exit_requested = false;
--        return true;
--    }
-     if (qemu_debug_requested()) {
-         vm_stop(RUN_STATE_DEBUG);
-     }
-@@ -3283,6 +3273,43 @@ static void qemu_machine_creation_done(void)
-     register_global_state();
- }
- 
-+void qmp_x_exit_preconfig(Error **errp)
-+{
-+    if (qdev_hotplug) {
-+        error_setg(errp, "The command is permitted only before machine initialization");
-+        return;
-+    }
-+
-+    qemu_init_board();
-+    qemu_create_cli_devices();
-+    qemu_machine_creation_done();
-+
-+    if (loadvm) {
-+        Error *local_err = NULL;
-+        if (load_snapshot(loadvm, &local_err) < 0) {
-+            error_report_err(local_err);
-+            autostart = 0;
-+            exit(1);
-+        }
-+    }
-+    if (replay_mode != REPLAY_MODE_NONE) {
-+        replay_vmstate_init();
-+    }
-+
-+    if (incoming) {
-+        Error *local_err = NULL;
-+        if (strcmp(incoming, "defer") != 0) {
-+            qmp_migrate_incoming(incoming, &local_err);
-+            if (local_err) {
-+                error_reportf_err(local_err, "-incoming %s: ", incoming);
-+                exit(1);
-+            }
-+        }
-+    } else if (autostart) {
-+        qmp_cont(NULL);
-+    }
-+}
-+
- void qemu_init(int argc, char **argv, char **envp)
+-MachineState *current_machine;
+-
+ static MachineClass *find_machine(const char *name, GSList *machines)
  {
-     QemuOpts *opts;
-@@ -3847,7 +3874,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                 }
-                 break;
-             case QEMU_OPTION_preconfig:
--                preconfig_exit_requested = false;
-                 preconfig_requested = true;
-                 break;
-             case QEMU_OPTION_enable_kvm:
-@@ -4272,57 +4298,18 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_resolve_machine_memdev();
-     parse_numa_opts(current_machine);
- 
--    if (preconfig_requested) {
--        qemu_init_displays();
--    }
--
--    /* do monitor/qmp handling at preconfig state if requested */
--    qemu_main_loop();
--
--    qemu_init_board();
--
--    qemu_create_cli_devices();
--
--    /* initialize displays after all errors have been reported */
--    if (!preconfig_requested) {
--        qemu_init_displays();
--    }
--    qemu_machine_creation_done();
--
--    if (loadvm) {
--        Error *local_err = NULL;
--        if (load_snapshot(loadvm, &local_err) < 0) {
--            error_report_err(local_err);
--            autostart = 0;
--            exit(1);
--        }
--    }
--    if (replay_mode != REPLAY_MODE_NONE) {
--        replay_vmstate_init();
--    }
--
-     if (vmstate_dump_file) {
-         /* dump and exit */
-         dump_vmstate_json_to_file(vmstate_dump_file);
-         exit(0);
-     }
--    if (incoming) {
--        Error *local_err = NULL;
--        if (strcmp(incoming, "defer") != 0) {
--            qmp_migrate_incoming(incoming, &local_err);
--            if (local_err) {
--                error_reportf_err(local_err, "-incoming %s: ", incoming);
--                exit(1);
--            }
--        }
--    } else if (autostart) {
--        qmp_cont(NULL);
--    }
- 
-+    qemu_init_displays();
-+    if (!preconfig_requested) {
-+        qmp_x_exit_preconfig(&error_fatal);
-+    }
-     accel_setup_post(current_machine);
-     os_setup_post();
--
--    return;
- }
- 
- void qemu_cleanup(void)
+     GSList *el;
 -- 
 2.26.2
 
