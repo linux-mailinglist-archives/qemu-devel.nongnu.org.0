@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CB22CB15E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 01:16:22 +0100 (CET)
-Received: from localhost ([::1]:55170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 680622CB192
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 01:33:42 +0100 (CET)
+Received: from localhost ([::1]:58100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkFoi-0005Zi-K3
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 19:16:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44186)
+	id 1kkG5U-0000Is-Tr
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 19:33:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kkFmP-0004y2-BE
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 19:13:57 -0500
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:39278)
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1kkG49-0008F9-D9
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 19:32:17 -0500
+Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:40360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kkFmL-0002cS-5R
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 19:13:56 -0500
-Received: by mail-il1-x142.google.com with SMTP id q1so3507350ilt.6
- for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 16:13:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1kkG46-0008E4-3K
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 19:32:17 -0500
+Received: by mail-qk1-x744.google.com with SMTP id y197so3284756qkb.7
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 16:32:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ms2y6LB7pV+xBjtjWRR0tZJprFfybZJkirPgYxQNBFA=;
- b=S6P7AUgDHbwFarSRMd676g0p36P0LHqZF84Qm5XQnr8a+d++J2GF8Y5UzAhTKHYfKq
- /3+7GV+qIRle/BPj/TUrVBNZlOVjIyWRCi6p5/8lgJwnmUskGB+wn48vFgFe6WNOMN4W
- QhhIhgqDwGshoiydmQzcEWnQFMumfYqt2t9QnP/7fN2L3yzIMwDXaNT/jOmgeVZd5wYC
- +OhRUuioa8pI7now2DKxbt3Jw6wB5cV1uFW2eR7j6Y5Nfi+d9rVR2E9A6/XT5TDRUWk1
- MEeXlg3slhmR+122Z8AZAA69cHklG0vJvSmLN+xAdx1T7GWaCQR3nblCAkvu0GgPypX8
- bF+A==
+ :cc:content-transfer-encoding;
+ bh=RFB6G1mmmeBa1+gEvcJVvD35Q3AzS3d3eCRjC/0N7yc=;
+ b=E+QP3ji5MUwf4Vc5l/csfsOO+KZMfWrQGsn8EC9UWAE3/QPv+ToFNOLAMdwEP90Qd0
+ /7dRC3K1350v8U9Jdxb3smT1jgzESefnrFJubyExWb/BneG+nPzHLhumY8zW7S4IoBgE
+ a6HQW73dmB/gH1ZwEiIdFZ6EtsV+sBY11AwnbkN4pxMaljg+4nCsRtTFO76HVe9nuToC
+ 7H/lxK6IrWupOKRLi7aPPaaPFrE/IpF2mYwqshaMHsn+jwI8ImlY/Va+xl7OJ9Wx8Qza
+ p39IbVFjBH60tNDDNUzElXHYgNov4/Um8tALloorV2RmyH6fWB3Ay2XmpH7CYLGMppSH
+ rygQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ms2y6LB7pV+xBjtjWRR0tZJprFfybZJkirPgYxQNBFA=;
- b=bcOWW79G9UmTYQsfYfOZRkPReHD5M/sqXOAu4deXDLwO/dsdpRTBI2Om9UR6+AG+88
- VHKuWCMw5Ea+TWzxbsTG1GoeEHb9x7bF8nEEcc66bG+I7wFSRy58jNaDCb0cnH4+/Vk1
- 6BhYb8MY3VP4MO0ikdWpenir4FSicNTzUgw357Au5VBIeDB90DKIRxKCC7xAFGw0UZJf
- mbCJ7J8AbEVNpfVsrJ516DCSKija0tEIKGvyh37OuCCXiK32PB/6tJSI20feQChAnWhx
- I2+GY8laiILEI9P0+C6lE82vADWynAGLGBGwwzROAXvghVcI8zkXnqrDJuN2jAzSVH2p
- +paQ==
-X-Gm-Message-State: AOAM5314MUVEodls6ZL8G83OkCLeG6677t7LJsual35Xpz9mE0D1TxZj
- rbWZLK9Dk+WVBuNu6CLQYxJDK54SCL53CAja+t8lSw==
-X-Google-Smtp-Source: ABdhPJyDiJ8Q/EWcY3IPN4XVFVqDUON2wIA4gwbtVgCeVzor4tr9mouhcTubidDur4weBwyYCmmchxBPHa3JGH1A0pY=
-X-Received: by 2002:a92:990e:: with SMTP id p14mr190484ili.28.1606868029464;
- Tue, 01 Dec 2020 16:13:49 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RFB6G1mmmeBa1+gEvcJVvD35Q3AzS3d3eCRjC/0N7yc=;
+ b=Iqm9dYKqx62OcoGCt99aAe+6YMibosjEzvdzO9yJ+qzuYVeOclg6tLfpRQ/TlWk/YB
+ K+P1bGvWoQGUWoqmpDQ+J6qO9mc4iHwRJv6qaTunVJVtBvKtqYx0mWCYQQyU+oiyqs64
+ ukbQj+Kl1xXxjclx07yrlNHyYHq/h5P1ERBdyogpjAAwwgEKhhfdhf7+KZbTxYIsc9/G
+ JJ1IKrO3SK2rxuhCND02Hme2q99flBwVrOI4Q5wrNYd88Gb/jOXG4z1Gi582hfKuhwUm
+ XddrsXaEeSs6xFH3febMXIVo1chxYr/VROrX5NFNQjgVrxzicMHnA9D1jiY6oUEtJofP
+ cWEQ==
+X-Gm-Message-State: AOAM531ko/ShiKmULXFtL+pmz34/aIR1dS6X7S/J5NM9i6+d+sIVH8K4
+ WOw4Ve4VPV214i5cZPv44E5xPntO6lNQmKTtWBk=
+X-Google-Smtp-Source: ABdhPJzc9AyjFKRszQd0l76hGZYQ5mntLBdHuHgeALSDuAM/wyTJzxoyCQRrh64HJyH7UFnMCrbI905iempt6eInuWc=
+X-Received: by 2002:a37:a14a:: with SMTP id k71mr127960qke.33.1606869130552;
+ Tue, 01 Dec 2020 16:32:10 -0800 (PST)
 MIME-Version: 1.0
-References: <4a2d15d01087207e2fba1f55ad312727dbfc782e.1606856104.git.pcc@google.com>
- <d91deec6e2c68a9cf0e911251992b4d845be14ab.1606856104.git.pcc@google.com>
- <bd199d49-91a6-e14a-41c3-4a4325c8eff2@csgraf.de>
-In-Reply-To: <bd199d49-91a6-e14a-41c3-4a4325c8eff2@csgraf.de>
-From: Peter Collingbourne <pcc@google.com>
-Date: Tue, 1 Dec 2020 16:13:38 -0800
-Message-ID: <CAMn1gO73SfYxEeHf5xyp0=R3UCKnjfLEACV1JpoEHEzz4yUBtg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm/hvf: Stop setting current_cpu
-To: Alexander Graf <agraf@csgraf.de>
-Cc: Frank Yang <lfy@google.com>, Roman Bolshakov <r.bolshakov@yadro.com>, 
- Peter Maydell <peter.maydell@linaro.org>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, 
- Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20201130102228.2395100-1-f4bug@amsat.org>
+ <e59e0eee-16b1-7ed1-c5e0-30fa8781f772@linaro.org>
+In-Reply-To: <e59e0eee-16b1-7ed1-c5e0-30fa8781f772@linaro.org>
+From: chen huacai <zltjiangshi@gmail.com>
+Date: Wed, 2 Dec 2020 08:31:56 +0800
+Message-ID: <CABDp7VptGxMNiMFPSshf8U9nwrqBQC0=qHmG69=bW4MMXhEuWQ@mail.gmail.com>
+Subject: Re: [PATCH] target/mips: Allow executing MSA instructions on
+ Loongson-3A4000
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=pcc@google.com; helo=mail-il1-x142.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::744;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-qk1-x744.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,89 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-level <qemu-devel@nongnu.org>, Huacai Chen <chenhc@lemote.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 1, 2020 at 2:11 PM Alexander Graf <agraf@csgraf.de> wrote:
+Reviewed-by: Huacai Chen <chenhc@lemote.com>
+
+On Tue, Dec 1, 2020 at 2:24 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
->
-> On 01.12.20 22:00, Peter Collingbourne wrote:
-> > This variable is already being set by the generic HVF code and it's a
-> > thread-local variable so I don't see how it can be overwritten.
+> On 11/30/20 4:22 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > The Loongson-3A4000 is a GS464V-based processor with MIPS MSA ASE:
+> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg763059.html
 > >
-> > Signed-off-by: Peter Collingbourne <pcc@google.com>
->
->
-> Yikes :). Yes, absolutely!
->
-> Would you mind if I squash this straight into my patch?
-
-Sure, please go ahead.
-
-Peter
-
->
->
-> Thanks,
->
-> Alex
->
->
+> > Commit af868995e1b correctly set the 'MSA present' bit of Config3
+> > register, but forgot to allow the MSA instructions decoding in
+> > insn_flags, so executing them triggers a 'Reserved Instruction'.
+> >
+> > Fix by adding the ASE_MSA mask to insn_flags.
+> >
+> > Fixes: af868995e1b ("target/mips: Add Loongson-3 CPU definition")
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > > ---
-> >   target/arm/hvf/hvf.c | 8 --------
-> >   1 file changed, 8 deletions(-)
-> >
-> > diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-> > index 3321d48aa2..40984fcf4d 100644
-> > --- a/target/arm/hvf/hvf.c
-> > +++ b/target/arm/hvf/hvf.c
-> > @@ -364,7 +364,6 @@ int hvf_vcpu_exec(CPUState *cpu)
-> >       do {
-> >           bool advance_pc = false;
-> >
-> > -        current_cpu = cpu;
-> >           qemu_wait_io_event_common(cpu);
-> >
-> >           flush_cpu_state(cpu);
-> > @@ -391,7 +390,6 @@ int hvf_vcpu_exec(CPUState *cpu)
-> >               /* This is the main one, handle below. */
-> >               break;
-> >           case HV_EXIT_REASON_VTIMER_ACTIVATED:
-> > -            current_cpu = cpu;
-> >               qemu_set_irq(arm_cpu->gt_timer_outputs[GTIMER_VIRT], 1);
-> >               continue;
-> >           case HV_EXIT_REASON_CANCELED:
-> > @@ -412,8 +410,6 @@ int hvf_vcpu_exec(CPUState *cpu)
-> >               uint32_t srt = (syndrome >> 16) & 0x1f;
-> >               uint64_t val = 0;
-> >
-> > -            current_cpu = cpu;
-> > -
-> >               DPRINTF("data abort: [pc=0x%llx va=0x%016llx pa=0x%016llx isv=%x "
-> >                       "iswrite=%x s1ptw=%x len=%d srt=%d]\n",
-> >                       env->pc, hvf_exit->exception.virtual_address,
-> > @@ -523,7 +519,6 @@ int hvf_vcpu_exec(CPUState *cpu)
-> >               break;
-> >           case EC_AA64_HVC:
-> >               cpu_synchronize_state(cpu);
-> > -            current_cpu = cpu;
-> >               if (arm_is_psci_call(arm_cpu, EXCP_HVC)) {
-> >                   arm_handle_psci_call(arm_cpu);
-> >               } else {
-> > @@ -533,7 +528,6 @@ int hvf_vcpu_exec(CPUState *cpu)
-> >               break;
-> >           case EC_AA64_SMC:
-> >               cpu_synchronize_state(cpu);
-> > -            current_cpu = cpu;
-> >               if (arm_is_psci_call(arm_cpu, EXCP_SMC)) {
-> >                   arm_handle_psci_call(arm_cpu);
-> >               } else {
-> > @@ -561,7 +555,5 @@ int hvf_vcpu_exec(CPUState *cpu)
-> >           }
-> >       } while (ret == 0);
-> >
-> > -    current_cpu = cpu;
-> > -
-> >       return ret;
-> >   }
+> > Buggy since 5.1, so probably not a big deal.
+> > ---
+> >  target/mips/translate_init.c.inc | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> r~
+>
+
+
+--=20
+Huacai Chen
 
