@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0100C2CB8CD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:27:56 +0100 (CET)
-Received: from localhost ([::1]:38194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FF62CB84C
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:14:36 +0100 (CET)
+Received: from localhost ([::1]:57972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOQV-0007G0-2O
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:27:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40836)
+	id 1kkODb-0008KG-Jz
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:14:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNDL-0003pO-5J
+ id 1kkNDL-0003pq-Dy
  for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44528)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCZ-0003oc-Li
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:14 -0500
+ id 1kkNCZ-0003oq-Lv
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606896566;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O9hSD6aXz202BRQxQakOz7bqCncJQ7SCRZireavH59k=;
- b=b5XzYbI/+oKxo/u3ZCQ55fQoWIHceUk0bWdA+pFnOMx+PcepOF/RjuSr71cvv1cT+lPcyb
- yqHhQyGTPU/J1NmqgxTt1QEvo7yN4PCaVlluU82hlDpl+6Sh18E8R/sgXZHwDXZ9vf2sqb
- 2Dzn6PHLMs1r5jXEeIpV7osBTBUvrME=
+ bh=S1wx4TC4FJnM01CiYUL9Na+v5QgrCrPNyRPcarA1104=;
+ b=XPyZigP7y36Duwjme1Y74IedPAjzqPBdgK8CGMP+IcDnsFx6/GEmNZUvsVl0H4QQbdoihp
+ xA2hUkdOOrfx+dR+v8aZpz0aM3kozbbuLYN5DhV9VwZh7oNHVQA8dGgqNexpdw/1qF1Zjq
+ fwHto17MWJbZlY331nnOPAcdn7QsY7A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-2x65Rl16Oz6dxKw7Ov8eZw-1; Wed, 02 Dec 2020 03:09:24 -0500
-X-MC-Unique: 2x65Rl16Oz6dxKw7Ov8eZw-1
+ us-mta-165-aO9vFFSEPc6S9dRg3nnuIQ-1; Wed, 02 Dec 2020 03:09:25 -0500
+X-MC-Unique: aO9vFFSEPc6S9dRg3nnuIQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDD3E80364B
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 463E41006C81
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:24 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A22785C1B4
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0A8395C1B4
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:23 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 091/113] scripts/kernel-doc: handle function pointer prototypes
-Date: Wed,  2 Dec 2020 03:08:27 -0500
-Message-Id: <20201202080849.4125477-92-pbonzini@redhat.com>
+Subject: [PULL 092/113] scripts/kernel-doc: optionally treat warnings as errors
+Date: Wed,  2 Dec 2020 03:08:28 -0500
+Message-Id: <20201202080849.4125477-93-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,43 +82,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 
-There are some function pointer prototypes inside the net
-includes, like this one:
+The kbuild bot recently added the W=1 option, which triggered
+documentation cleanups to squelch hundreds of kernel-doc warnings.
 
-	int (*pcs_config)(struct phylink_config *config, unsigned int mode,
-			  phy_interface_t interface, const unsigned long *advertising);
+To make sure new kernel contributions don't add regressions to
+kernel-doc descriptors, this patch suggests an option to treat
+warnings as errors in CI/automated tests.
 
-There's nothing wrong using it with kernel-doc, but we need to
-add a rule for it to parse such kind of prototype.
+A -Werror command-line option is added to the kernel-doc script. When
+this option is set, the script will return the number of warnings
+found. The caller can then treat this positive return value as an
+error and stop the build.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Link: https://lore.kernel.org/r/fec520dd731a273013ae06b7653a19c7d15b9562.1592895969.git.mchehab+huawei@kernel.org
+Using this command line option is however not straightforward when the
+kernel-doc script is called from other scripts. To align with typical
+kernel compilation or documentation generation, the Werror option is
+also set by checking the KCFLAGS environment variable, or if
+KDOC_WERROR is defined, as in the following examples:
+
+KCFLAGS="-Wall -Werror" make W=1 sound/
+KCFLAGS="-Wall -Werror" make W=1 drivers/soundwire/
+KDOC_WERROR=1 make htmldocs
+
+Note that in the last example the documentation build does not stop,
+only an additional log is provided.
+
+Credits to Randy Dunlap for suggesting the use of environment variables.
+
+Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Link: https://lore.kernel.org/r/20200728162040.92467-1-pierre-louis.bossart@linux.intel.com
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-10-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-11-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 5 +++++
- 1 file changed, 5 insertions(+)
+ scripts/kernel-doc | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index e8fff6a525..1cdece23fb 100755
+index 1cdece23fb..eb635eb94c 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1801,6 +1801,11 @@ sub process_proto_function($$) {
- 	$prototype =~ s@/\*.*?\*/@@gos;	# strip comments.
- 	$prototype =~ s@[\r\n]+@ @gos; # strip newlines/cr's.
- 	$prototype =~ s@^\s+@@gos; # strip leading spaces
+@@ -83,6 +83,7 @@ Output selection modifiers:
+ Other parameters:
+   -v			Verbose output, more warnings and other information.
+   -h			Print this help.
++  -Werror		Treat warnings as errors.
+ 
+ EOF
+     print $message;
+@@ -275,6 +276,7 @@ my $kernelversion;
+ my $dohighlight = "";
+ 
+ my $verbose = 0;
++my $Werror = 0;
+ my $output_mode = "rst";
+ my $output_preformatted = 0;
+ my $no_doc_sections = 0;
+@@ -322,6 +324,18 @@ if (defined($ENV{'KBUILD_VERBOSE'})) {
+ 	$verbose = "$ENV{'KBUILD_VERBOSE'}";
+ }
+ 
++if (defined($ENV{'KDOC_WERROR'})) {
++	$Werror = "$ENV{'KDOC_WERROR'}";
++}
 +
-+	 # Handle prototypes for function pointers like:
-+	 # int (*pcs_config)(struct foo)
-+	$prototype =~ s@^(\S+\s+)\(\s*\*(\S+)\)@$1$2@gos;
++if (defined($ENV{'KCFLAGS'})) {
++	my $kcflags = "$ENV{'KCFLAGS'}";
 +
- 	if ($prototype =~ /SYSCALL_DEFINE/) {
- 		syscall_munge();
- 	}
++	if ($kcflags =~ /Werror/) {
++		$Werror = 1;
++	}
++}
++
+ # Generated docbook code is inserted in a template at a point where
+ # docbook v3.1 requires a non-zero sequence of RefEntry's; see:
+ # https://www.oasis-open.org/docbook/documentation/reference/html/refentry.html
+@@ -436,6 +450,8 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	push(@export_file_list, $file);
+     } elsif ($cmd eq "v") {
+ 	$verbose = 1;
++    } elsif ($cmd eq "Werror") {
++	$Werror = 1;
+     } elsif (($cmd eq "h") || ($cmd eq "help")) {
+ 	usage();
+     } elsif ($cmd eq 'no-doc-sections') {
+@@ -2292,4 +2308,9 @@ if ($verbose && $warnings) {
+   print STDERR "$warnings warnings\n";
+ }
+ 
+-exit($output_mode eq "none" ? 0 : $errors);
++if ($Werror && $warnings) {
++    print STDERR "$warnings warnings as Errors\n";
++    exit($warnings);
++} else {
++    exit($output_mode eq "none" ? 0 : $errors)
++}
 -- 
 2.26.2
 
