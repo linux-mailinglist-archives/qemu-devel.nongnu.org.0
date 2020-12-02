@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED0F2CBB2B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 12:01:59 +0100 (CET)
-Received: from localhost ([::1]:48266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D052CBB82
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 12:24:09 +0100 (CET)
+Received: from localhost ([::1]:40766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkPtT-0001M3-WF
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 06:01:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54414)
+	id 1kkQEx-00073E-Un
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 06:24:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkPPb-0005f0-Nq
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 05:31:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27940)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkPQV-0006BQ-JL
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 05:31:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkPPO-0007z5-SJ
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 05:31:03 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkPQT-0008NS-Jo
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 05:31:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606905049;
+ s=mimecast20190719; t=1606905116;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o/Vfe5392bdDgq3gGRD0QZjdEVEToouSfkaPvRTMJM0=;
- b=Md/pQ2mfBbS/TcxbRdrCQjYSM+qrsSG1aVwMdy526GdFDb7y2SEMkEJ4ounZ3tqG3+R5cX
- DMg0WsJsiVcngJU9QgrsMGXiKkfcx9OdCMfXHN1HeFYkWLr7gW9feYvZWSj0AGlUqagVD6
- WP2/KQ3PVA28mYFm5iI1vHG8nSINyzg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-uO-Bu0AMOOm2OWeG1eXw2A-1; Wed, 02 Dec 2020 05:30:48 -0500
-X-MC-Unique: uO-Bu0AMOOm2OWeG1eXw2A-1
-Received: by mail-wr1-f71.google.com with SMTP id f4so3068251wru.21
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 02:30:48 -0800 (PST)
+ bh=ToZelNgTpkRnm23H/fEvLQ+1ADHZeLHJJ6yEGa53Aho=;
+ b=aICPHKt+mGeELxWEwAzbj2owMZEDujDrJ4PwfGFqGLSa3GTZZp4ScfLdfsDRuPFLja+l6f
+ fty4fqNNVcMExaKbac5s6XwtepMALsIj0eq47HQ4Fnl4nZtxbmenvv5/dJSnGHW9HHi64+
+ redJHfbnch68U8F7WItD5rV8EU4V5LU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-0tfY62CaOVKNg0n1goFKMQ-1; Wed, 02 Dec 2020 05:31:55 -0500
+X-MC-Unique: 0tfY62CaOVKNg0n1goFKMQ-1
+Received: by mail-wm1-f70.google.com with SMTP id o203so2902911wmo.3
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 02:31:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=o/Vfe5392bdDgq3gGRD0QZjdEVEToouSfkaPvRTMJM0=;
- b=c9D9kA70Jp4NIwMCYKk0QP2QyjlmjkqXalMzrFnv2tERSNQDydggIkK53Fs3HdnARw
- YlSoit9GZXf25+Km70YKCDNQ0VtTkFbmbo9zv5s7OS2ocxNtq6fL2POtlnak5+doNo2P
- m/OY3ohMlt9sdJB/TViog2r8ol7sxUji+3dS36klneWBtVIzuoy91P7tt3SCrwvtGcmJ
- 5csohXVUjCvdHoWjFh2CDKPNKZigHMj4CI73E9y+BLPrQimyEjjAfzdxLI/EkIQhBi6g
- OlNf4+Fupc00bbOtP+vn3tBATc2X0GSo/ZsaNZNwcONFMLkkbXYQMWWQpoVeOfwgbOj7
- LTVA==
-X-Gm-Message-State: AOAM531+CLfPQ3ozodm5ZGdjAaILQP2wTpzEnc7jb1bpL6TdXGtOzWrt
- sKyvF4rPjGhojT/z4N5g9uLQ7yxp/NfmSHellDNz0lUKeP17oOLzqKgLrywSP/LisWFV7nzocPD
- KbgkZYJVf4dFRnUg=
-X-Received: by 2002:a05:6000:1cf:: with SMTP id
- t15mr2464373wrx.321.1606905046842; 
- Wed, 02 Dec 2020 02:30:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyclUdbVWLhq2CjPuFo11tcM0yz0bBsWUVmLZFPYxbrUvIH/PNBnzVIHJ13aXJnvkr5DO7dNQ==
-X-Received: by 2002:a05:6000:1cf:: with SMTP id
- t15mr2464342wrx.321.1606905046531; 
- Wed, 02 Dec 2020 02:30:46 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=g1l1GN0kmNOVSRgFxR1uWmmt7fhbnqJswwlIP4ZbqZo=;
+ b=GKeL2eTFoENNJOyk+dEkjKOW/Gb4IfKqNS2rxq6nZA4uFYpRGX418p8Z09ojMCP2WC
+ UGw37e/GN20WIBdJkfCo/2rKJA0XU5cdhAXfnxJ0pHv/bLwhzSIx5aMJ0akhmhCUD6Nn
+ vApX4qnEXwmKw4WZ9q4nY/xyqIbWJbURzfXVFpW+qwsjwxMqF+3GEzNA5OVGEPEAMLM8
+ qlyrxcbZbZCsBNoCW9GSIWXKwMAgoIvVvcKTThbyFHnPd8JiV/naK/iPHhmHFSEnmjvO
+ ja3NbN0vZFwzA41UAgu/5Oq8DFIXKMWjJrq5HBgoHKYKsZAJdDtpp/gPLyw/VEvuo4xb
+ 2eRw==
+X-Gm-Message-State: AOAM5330cKSJR0wNbkroJgcyzoRZ1uoz6C1C7OdADQArhTooZ1cHbNB2
+ A7ZT+a7xQhNpLHOasS4GmYYblOj/VhlDb2wBWueam4CPmJmkavEht7XoAWCfhy3//7UzrW2YZBf
+ 5Q+lK3ux7Ua3OpSY=
+X-Received: by 2002:a5d:474f:: with SMTP id o15mr2471458wrs.377.1606905113751; 
+ Wed, 02 Dec 2020 02:31:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwi2XamHdvJ5otFu+kaSXLGs0sjF9MQw7hII2GDHIu3AQ8UepKqMorHX93lHt496n2fFAtgdQ==
+X-Received: by 2002:a5d:474f:: with SMTP id o15mr2471435wrs.377.1606905113514; 
+ Wed, 02 Dec 2020 02:31:53 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id q17sm1715633wro.36.2020.12.02.02.30.44
+ by smtp.gmail.com with ESMTPSA id g192sm1499679wme.48.2020.12.02.02.31.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Dec 2020 02:30:45 -0800 (PST)
-Date: Wed, 2 Dec 2020 05:30:42 -0500
+ Wed, 02 Dec 2020 02:31:52 -0800 (PST)
+Date: Wed, 2 Dec 2020 05:31:50 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v2 00/27] Virtio net failover fixes
-Message-ID: <20201202052934-mutt-send-email-mst@kernel.org>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 01/27] migration: Network Failover can't work with a
+ paused guest
+Message-ID: <20201202053111-mutt-send-email-mst@kernel.org>
 References: <20201118083748.1328-1-quintela@redhat.com>
- <20201118035209-mutt-send-email-mst@kernel.org>
- <87r1o8ldi3.fsf@secure.mitica>
+ <20201118083748.1328-2-quintela@redhat.com>
+ <20201202050918-mutt-send-email-mst@kernel.org>
+ <20201202102718.GA2360260@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87r1o8ldi3.fsf@secure.mitica>
+In-Reply-To: <20201202102718.GA2360260@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
@@ -94,98 +97,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 02, 2020 at 11:16:04AM +0100, Juan Quintela wrote:
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > On Wed, Nov 18, 2020 at 09:37:21AM +0100, Juan Quintela wrote:
-> >> Hi
-> >> 
-> >> This is a big rework of the network failover setup.  General idea is:
-> >> * We don't cache the name of the primary/standby devices
-> >>   We have several problems there with stale pointers
-> >> * After this:
-> >> - We can always remove either the primary/standby devices without trouble
-> >> - Pluggin/unplugging works
-> >> - We go to device opts to see what the failover device are.
-> >>   Notice that we are plugging/unplugging the device, so it is not critical.
-> >> - Once there, I "fixed" managedsave for libvirt (now gives an error instead o=
-> >> f just hanging)
-> >> * Fields not cached anymore:
-> >> - primary_device_dict
-> >> - primary_device_opts
-> >> - standby_id
-> >> - primary_device_id
-> >> - primary_dev
-> >> * I renamed the should_be_hidden() callback to hide device, but if
-> >>   people preffer the old name I can leave it.
-> >> * Add (some) doc to some functions
-> >> * Remove almost 100 lines of code while fixing things.
-> >> 
-> >> Please review.
-> >
-> > OK that's great, any of this appropriate for 5.2?
-> > The memory leak fix maybe?
+On Wed, Dec 02, 2020 at 10:27:18AM +0000, Daniel P. Berrangé wrote:
+> On Wed, Dec 02, 2020 at 05:13:18AM -0500, Michael S. Tsirkin wrote:
+> > On Wed, Nov 18, 2020 at 09:37:22AM +0100, Juan Quintela wrote:
+> > > If we have a paused guest, it can't unplug the network VF device, so
+> > > we wait there forever.  Just change the code to give one error on that
+> > > case.
+> > > 
+> > > Signed-off-by: Juan Quintela <quintela@redhat.com>
+> > 
+> > It's certainly possible but it's management that created
+> > this situation after all - why do we bother to enforce
+> > a policy? It is possible that management will unpause immediately
+> > afterwards and everything will proceed smoothly.
+> > 
+> > Yes migration will not happen until guest is
+> > unpaused but the same it true of e.g. a guest that is stuck
+> > because of a bug.
 > 
-> 1st one is also a fix, current code just hangs the guest.
+> That's pretty different behaviour from how migration normally handles
+> a paused guest, which is that it is guaranteed to complete the migration
+> in as short a time as network bandwidth allows.
+> 
+> Just ignoring the situation I think will lead to surprise apps / admins,
+> because the person/entity invoking the migration is not likely to have
+> checked wether this particular guest uses net failover or not before
+> invoking - they'll just be expecting a paused migration to run fast and
+> be guaranteed to complete.
+> 
+> Regards,
+> Daniel
+
+Okay I guess. But then shouldn't we handle the reverse situation too:
+pausing guest after migration started but before device was
+unplugged?
 
 
-Hmm it does but then proceeds when you unpause so I'm not sure
-it's a good idea for 5.2. It's late in the cycle to try to
-handle management bugs ...
-
-> Rest of things .... current code fails a lot, but we are too late on the
-> cycle.
-> 
-> Later, Juan.
-> 
-> 
-> >> Later, Juan.
-> >> 
-> >> Juan Quintela (27):
-> >>   migration: Network Failover can't work with a paused guest
-> >>   failover: fix indentantion
-> >>   failover: Use always atomics for primary_should_be_hidden
-> >>   failover: primary bus is only used once, and where it is set
-> >>   failover: Remove unused parameter
-> >>   failover: Remove external partially_hotplugged property
-> >>   failover: qdev_device_add() returns err or dev set
-> >>   failover: Rename bool to failover_primary_hidden
-> >>   failover: g_strcmp0() knows how to handle NULL
-> >>   failover: Remove primary_device_opts
-> >>   failover: remove standby_id variable
-> >>   failover: Remove primary_device_dict
-> >>   failover: Remove memory leak
-> >>   failover: simplify virtio_net_find_primary()
-> >>   failover: should_be_hidden() should take a bool
-> >>   failover: Rename function to hide_device()
-> >>   failover: virtio_net_connect_failover_devices() does nothing
-> >>   failover: Rename to failover_find_primary_device()
-> >>   failover: simplify qdev_device_add() failover case
-> >>   failover: simplify qdev_device_add()
-> >>   failover: make sure that id always exist
-> >>   failover: remove failover_find_primary_device() error parameter
-> >>   failover: split failover_find_primary_device_id()
-> >>   failover: We don't need to cache primary_device_id anymore
-> >>   failover: Caller of this two functions already have primary_dev
-> >>   failover: simplify failover_unplug_primary
-> >>   failover: Remove primary_dev member
-> >> 
-> >>  include/hw/qdev-core.h         |  28 ++--
-> >>  include/hw/virtio/virtio-net.h |   9 +-
-> >>  hw/core/qdev.c                 |  19 +--
-> >>  hw/net/virtio-net.c            | 298 +++++++++++++--------------------
-> >>  migration/migration.c          |  13 ++
-> >>  softmmu/qdev-monitor.c         |  43 ++---
-> >>  6 files changed, 167 insertions(+), 243 deletions(-)
-> >> 
-> >> --=20
-> >> 2.26.2
-> >> 
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
