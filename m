@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F4F2CB836
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:11:58 +0100 (CET)
-Received: from localhost ([::1]:48622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFE72CB848
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:14:25 +0100 (CET)
+Received: from localhost ([::1]:56902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOB3-0004Mf-FQ
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:11:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40896)
+	id 1kkODQ-0007t2-K0
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:14:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNDN-0003vX-Oz
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53174)
+ id 1kkNDQ-00042E-Ew
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCd-0003rA-Fr
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:17 -0500
+ id 1kkNCf-0003rp-0H
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606896570;
+ s=mimecast20190719; t=1606896572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VkXrc6iYkC+E7KRGBxIBJR/SSDGRT2IvzZaJy0Vyq68=;
- b=Kq9DPjkp3R/XaUrjIorCSwWelzUrL3Qxht0V91cOysVx4ITgTHx0vU4CUz/yacI5NbK3RB
- rfWEJCnDXEOPzMpA2bCFpEdH3OuEIebWfB3/xqS6rPZHPK+whbtDVdDhpFjSnvn52zZ529
- liXTN8GgdnPvlJLV9skA33KyME4rkt8=
+ bh=Ukg5Y1cAgqxZBGLArhGZ7RHHMiikRdI3w0My8dsythw=;
+ b=T4a+YT11iGOWVAU8T0dFT2JUOjtsHRJm8YHMHOO2sj3D0AWOWLx2JliYFmnB9oSph2nS+V
+ xBV0Ihr/GZoMXB9qnEYkwTg6CJv7CMKOA0Iop8ivqWkIw3MM4BOf0VIypGzSFX7xkkHja7
+ FFMY3vDbBqZiCo94U/GlFJQaXBpTyVo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-uJB2yfDQNWmnMZpxoYE4XA-1; Wed, 02 Dec 2020 03:09:29 -0500
-X-MC-Unique: uJB2yfDQNWmnMZpxoYE4XA-1
+ us-mta-382-UlrWcBnZN4O6CLkRHc-x6w-1; Wed, 02 Dec 2020 03:09:30 -0500
+X-MC-Unique: UlrWcBnZN4O6CLkRHc-x6w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E9D81074641
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24535185E48B
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:29 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 230D060854
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC4FA60854
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:28 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 102/113] scripts: kernel-doc: fix typedef identification
-Date: Wed,  2 Dec 2020 03:08:38 -0500
-Message-Id: <20201202080849.4125477-103-pbonzini@redhat.com>
+Subject: [PULL 104/113] scripts: kernel-doc: allow passing desired Sphinx C
+ domain dialect
+Date: Wed,  2 Dec 2020 03:08:40 -0500
+Message-Id: <20201202080849.4125477-105-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +59,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,97 +85,156 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Some typedef expressions are output as normal functions.
+When kernel-doc is called via kerneldoc.py, there's no need to
+auto-detect the Sphinx version, as the Sphinx module already
+knows it. So, add an optional parameter to allow changing the
+Sphinx dialect.
 
-As we need to be clearer about the type with Sphinx 3.x,
-detect such cases.
+As kernel-doc can also be manually called, keep the auto-detection
+logic if the parameter was not specified. On such case, emit
+a warning if sphinx-build can't be found at PATH.
 
-While here, fix a wrongly-indented block.
+I ended using a suggestion from Joe for using a more readable
+regex, instead of using a complex one with a hidden group like:
 
+	m/^(\d+)\.(\d+)(?:\.?(\d+)?)/
+
+in order to get the optional <patch> argument.
+
+Thanks-to: Joe Perches <joe@perches.com>
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-21-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-23-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 64 +++++++++++++++++++++++++++++-----------------
- 1 file changed, 41 insertions(+), 23 deletions(-)
+ docs/sphinx/kerneldoc.py |  5 ++++
+ scripts/kernel-doc       | 51 +++++++++++++++++++++++++++++++++-------
+ 2 files changed, 48 insertions(+), 8 deletions(-)
 
+diff --git a/docs/sphinx/kerneldoc.py b/docs/sphinx/kerneldoc.py
+index c0180e02a2..079aadced3 100644
+--- a/docs/sphinx/kerneldoc.py
++++ b/docs/sphinx/kerneldoc.py
+@@ -69,6 +69,11 @@ class KernelDocDirective(Directive):
+         env = self.state.document.settings.env
+         cmd = env.config.kerneldoc_bin + ['-rst', '-enable-lineno']
+ 
++        # Pass the version string to kernel-doc, as it needs to use a different
++        # dialect, depending what the C domain supports for each specific
++        # Sphinx versions
++        cmd += ['-sphinx-version', sphinx.__version__]
++
+         filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
+         export_file_patterns = []
+ 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 35d60af834..0c31e9ad66 100755
+index 478037f736..667ad3169c 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1748,30 +1748,48 @@ sub dump_function($$) {
- 	return;
-     }
+@@ -56,6 +56,13 @@ Output format selection (mutually exclusive):
+   -rst			Output reStructuredText format.
+   -none			Do not output documentation, only warnings.
  
--	my $prms = join " ", @parameterlist;
--	check_sections($file, $declaration_name, "function", $sectcheck, $prms);
--
--        # This check emits a lot of warnings at the moment, because many
--        # functions don't have a 'Return' doc section. So until the number
--        # of warnings goes sufficiently down, the check is only performed in
--        # verbose mode.
--        # TODO: always perform the check.
--        if ($verbose && !$noret) {
--                check_return_section($file, $declaration_name, $return_type);
--        }
-+    my $prms = join " ", @parameterlist;
-+    check_sections($file, $declaration_name, "function", $sectcheck, $prms);
++Output format selection modifier (affects only ReST output):
 +
-+    # This check emits a lot of warnings at the moment, because many
-+    # functions don't have a 'Return' doc section. So until the number
-+    # of warnings goes sufficiently down, the check is only performed in
-+    # verbose mode.
-+    # TODO: always perform the check.
-+    if ($verbose && !$noret) {
-+	    check_return_section($file, $declaration_name, $return_type);
-+    }
- 
--    output_declaration($declaration_name,
--		       'function',
--		       {'function' => $declaration_name,
--			'module' => $modulename,
--			'functiontype' => $return_type,
--			'parameterlist' => \@parameterlist,
--			'parameterdescs' => \%parameterdescs,
--			'parametertypes' => \%parametertypes,
--			'sectionlist' => \@sectionlist,
--			'sections' => \%sections,
--			'purpose' => $declaration_purpose
--		       });
-+    # The function parser can be called with a typedef parameter.
-+    # Handle it.
-+    if ($return_type =~ /typedef/) {
-+	output_declaration($declaration_name,
-+			   'function',
-+			   {'function' => $declaration_name,
-+			    'typedef' => 1,
-+			    'module' => $modulename,
-+			    'functiontype' => $return_type,
-+			    'parameterlist' => \@parameterlist,
-+			    'parameterdescs' => \%parameterdescs,
-+			    'parametertypes' => \%parametertypes,
-+			    'sectionlist' => \@sectionlist,
-+			    'sections' => \%sections,
-+			    'purpose' => $declaration_purpose
-+			   });
-+    } else {
-+	output_declaration($declaration_name,
-+			   'function',
-+			   {'function' => $declaration_name,
-+			    'module' => $modulename,
-+			    'functiontype' => $return_type,
-+			    'parameterlist' => \@parameterlist,
-+			    'parameterdescs' => \%parameterdescs,
-+			    'parametertypes' => \%parametertypes,
-+			    'sectionlist' => \@sectionlist,
-+			    'sections' => \%sections,
-+			    'purpose' => $declaration_purpose
-+			   });
-+    }
++  -sphinx-version	Use the ReST C domain dialect compatible with an
++			specific Sphinx Version.
++			If not specified, kernel-doc will auto-detect using
++			the sphinx-build version found on PATH.
++
+ Output selection (mutually exclusive):
+   -export		Only output documentation for symbols that have been
+ 			exported using EXPORT_SYMBOL() or EXPORT_SYMBOL_GPL()
+@@ -270,7 +277,7 @@ if ($#ARGV == -1) {
  }
  
- sub reset_state {
+ my $kernelversion;
+-my $sphinx_major;
++my ($sphinx_major, $sphinx_minor, $sphinx_patch);
+ 
+ my $dohighlight = "";
+ 
+@@ -457,6 +464,23 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	    $enable_lineno = 1;
+     } elsif ($cmd eq 'show-not-found') {
+ 	$show_not_found = 1;  # A no-op but don't fail
++    } elsif ($cmd eq "sphinx-version") {
++	my $ver_string = shift @ARGV;
++	if ($ver_string =~ m/^(\d+)(\.\d+)?(\.\d+)?/) {
++	    $sphinx_major = $1;
++	    if (defined($2)) {
++		$sphinx_minor = substr($2,1);
++	    } else {
++		$sphinx_minor = 0;
++	    }
++	    if (defined($3)) {
++		$sphinx_patch = substr($3,1)
++	    } else {
++		$sphinx_patch = 0;
++	    }
++	} else {
++	    die "Sphinx version should either major.minor or major.minor.patch format\n";
++	}
+     } else {
+ 	# Unknown argument
+         usage();
+@@ -477,29 +501,37 @@ sub findprog($)
+ sub get_sphinx_version()
+ {
+ 	my $ver;
+-	my $major = 1;
+ 
+ 	my $cmd = "sphinx-build";
+ 	if (!findprog($cmd)) {
+ 		my $cmd = "sphinx-build3";
+-		return $major if (!findprog($cmd));
++		if (!findprog($cmd)) {
++			$sphinx_major = 1;
++			$sphinx_minor = 2;
++			$sphinx_patch = 0;
++			printf STDERR "Warning: Sphinx version not found. Using default (Sphinx version %d.%d.%d)\n",
++			       $sphinx_major, $sphinx_minor, $sphinx_patch;
++			return;
++		}
+ 	}
+ 
+ 	open IN, "$cmd --version 2>&1 |";
+ 	while (<IN>) {
+ 		if (m/^\s*sphinx-build\s+([\d]+)\.([\d\.]+)(\+\/[\da-f]+)?$/) {
+-			$major=$1;
++			$sphinx_major = $1;
++			$sphinx_minor = $2;
++			$sphinx_patch = $3;
+ 			last;
+ 		}
+ 		# Sphinx 1.2.x uses a different format
+ 		if (m/^\s*Sphinx.*\s+([\d]+)\.([\d\.]+)$/) {
+-			$major=$1;
++			$sphinx_major = $1;
++			$sphinx_minor = $2;
++			$sphinx_patch = $3;
+ 			last;
+ 		}
+ 	}
+ 	close IN;
+-
+-	return $major;
+ }
+ 
+ # get kernel version from env
+@@ -2333,7 +2365,10 @@ sub process_file($) {
+ }
+ 
+ 
+-$sphinx_major = get_sphinx_version();
++if ($output_mode eq "rst") {
++	get_sphinx_version() if (!$sphinx_major);
++}
++
+ $kernelversion = get_kernel_version();
+ 
+ # generate a sequence of code that will splice in highlighting information
 -- 
 2.26.2
 
