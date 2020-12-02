@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5282CBB63
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 12:19:37 +0100 (CET)
-Received: from localhost ([::1]:56628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB98E2CBB4E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 12:13:53 +0100 (CET)
+Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkQAa-0001cH-75
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 06:19:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37428)
+	id 1kkQ53-0003ga-0t
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 06:13:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkPv0-00031l-Kh
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 06:03:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41334)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkQ3F-00027D-BT
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 06:12:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkPuz-0002ut-0o
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 06:03:30 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkQ38-00065m-VV
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 06:12:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606907008;
+ s=mimecast20190719; t=1606907513;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zxJ3f9AkcimEoHVGFWIULEfxtXcI3G+nN2yyJC0qTJU=;
- b=MCo9EFnaA2c/zW23cLHn+J4S/HWZo/dlo3WiEwUHAxSGBi3EERcOHetKzd+w5KfKeOxr3h
- OkNpCc+s0ShxrPufpAT3dDgERSX6JT9r3VHlRymZv/rOV+/R6gb4A4gSQMe2AAoHV6diTF
- lDrDTyx72SpT5VmzhaDUxJrFlDeXTrY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-g5CwY4g0Ni63cTCCNpolhg-1; Wed, 02 Dec 2020 06:03:26 -0500
-X-MC-Unique: g5CwY4g0Ni63cTCCNpolhg-1
-Received: by mail-wr1-f69.google.com with SMTP id b12so3304590wru.15
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 03:03:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=zxJ3f9AkcimEoHVGFWIULEfxtXcI3G+nN2yyJC0qTJU=;
- b=RlXaaX8R2jmcb0bov/YA/POrTRfeorFy6a7kQUpdddaK3xd9+DsKT8pZW21zRN3hMc
- bTFd4sFNGEWHjckJURlKU8bX1vtBSk8Oocwypwtb4HnrdHuLzrXt4mU3jOKEyBi5r3/S
- I4v0LFqN03HjNMFLAQxpHLn8KVSdPbBZiWJ82DmzpV7cqDgLzyQ4EWFxvS/D/ayndzYI
- rqbK+4ykM11Efyx6uGzzNg5Le/DuiBLqt1JCWXsQHfHj6s1BrEXs/Xy1YMMbH5ukwYMr
- I3TiVLHNjxmVhPq3sWK4GILN3fPouYJqgSZiy6HCviLfWfeQbnWLZasbXs4JKPqDoKJQ
- DO7g==
-X-Gm-Message-State: AOAM533HYYb1ytfjT4WltckveD2N+BLAUioAveRik0Z2mB+QkDajCpk1
- f27p2Ejtzg3btevs1pbDb+13oNVSXe7scMWMchaTn0JJrFMrsqP9weko7/vNSULFFnyfuc5sRl8
- 1I9fQtL1g6I6l3grHVyofq4im6dJMdSZS+Vp0OCCOWhvXVdviw+70xcxwkIXJ
-X-Received: by 2002:adf:a549:: with SMTP id j9mr2716547wrb.199.1606907005498; 
- Wed, 02 Dec 2020 03:03:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwRZGmsqZ80Aj5NqXQhVY1vaZpvY1Pnn5jQ4J/5DSm7RX2LtlT1AB2jArH32E4pWvLTpG9H4Q==
-X-Received: by 2002:adf:a549:: with SMTP id j9mr2716514wrb.199.1606907005247; 
- Wed, 02 Dec 2020 03:03:25 -0800 (PST)
-Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id u26sm1665480wmm.24.2020.12.02.03.03.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Dec 2020 03:03:24 -0800 (PST)
-Date: Wed, 2 Dec 2020 06:03:23 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] memory: Skip bad range assertion if notifier is
- DEVIOTLB_UNMAP type
-Message-ID: <20201202101655.122214-7-mst@redhat.com>
-References: <20201202101655.122214-1-mst@redhat.com>
+ bh=FVsOiuOpkLiYdWHX3DGRPCHlhA0cq6VqmHJNGxO0910=;
+ b=FnLcFdjmvZu6JAnq3owkLJXpTHSN3d1Lb3mBuh/qM59EpPGwX/pMM0c7a1PTHHh+J64DvL
+ CmrAoYH01Fi6ncyK+YXvd2Ye/4fhoT6mTxVlh8/tKjBGXHAb2sKD+z0cUaDmPUwgwEOWoh
+ bsrxjKyr7YUpm+FV/DUD3AC64QnpPxk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-541-5B5I1OdRP6-V6FKdQumRWA-1; Wed, 02 Dec 2020 06:11:49 -0500
+X-MC-Unique: 5B5I1OdRP6-V6FKdQumRWA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AC35100F340;
+ Wed,  2 Dec 2020 11:11:48 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-199.ams2.redhat.com [10.36.113.199])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DC065D6AC;
+ Wed,  2 Dec 2020 11:11:43 +0000 (UTC)
+Date: Wed, 2 Dec 2020 12:11:42 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Gan Qixin <ganqixin@huawei.com>
+Subject: Re: [PATCH 4/4] block/iscsi.c: Use lock guard macros
+Message-ID: <20201202111142.GC16765@merkur.fritz.box>
+References: <20201109154327.325675-1-ganqixin@huawei.com>
+ <20201109154327.325675-5-ganqixin@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201202101655.122214-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
+In-Reply-To: <20201109154327.325675-5-ganqixin@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -96,63 +76,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Peter Xu <peterx@redhat.com>,
- Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: zhang.zhanghailiang@huawei.com, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, dnbrdsky@gmail.com,
+ stefanha@redhat.com, kuhn.chenqun@huawei.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eugenio Pérez <eperezma@redhat.com>
+Am 09.11.2020 um 16:43 hat Gan Qixin geschrieben:
+> Replace manual lock()/unlock() calls with lock guard macros
+> (QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/iscsi.c.
+> 
+> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+> ---
+>  block/iscsi.c | 28 +++++++++++++---------------
+>  1 file changed, 13 insertions(+), 15 deletions(-)
+> 
+> diff --git a/block/iscsi.c b/block/iscsi.c
+> index e30a7e3606..f5f657b582 100644
+> --- a/block/iscsi.c
+> +++ b/block/iscsi.c
+> @@ -322,7 +322,7 @@ iscsi_aio_cancel(BlockAIOCB *blockacb)
+>      IscsiAIOCB *acb = (IscsiAIOCB *)blockacb;
+>      IscsiLun *iscsilun = acb->iscsilun;
+>  
+> -    qemu_mutex_lock(&iscsilun->mutex);
+> +    QEMU_LOCK_GUARD(&iscsilun->mutex);
+>  
+>      /* If it was cancelled or completed already, our work is done here */
+>      if (acb->cancelled || acb->status != -EINPROGRESS) {
+           qemu_mutex_unlock(&iscsilun->mutex);
+           return;
+       }
 
-Device IOTLB invalidations can unmap arbitrary ranges, eiter outside of
-the memory region or even [0, ~0ULL] for all the space. The assertion
-could be hit by a guest, and rhel7 guest effectively hit it.
+I don't think this qemu_mutex_unlock() is right any more now.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20201116165506.31315-6-eperezma@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- softmmu/memory.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 6ca87e8d73..22bacbbc78 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1947,6 +1947,7 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
- {
-     IOMMUTLBEntry *entry = &event->entry;
-     hwaddr entry_end = entry->iova + entry->addr_mask;
-+    IOMMUTLBEntry tmp = *entry;
- 
-     if (event->type == IOMMU_NOTIFIER_UNMAP) {
-         assert(entry->perm == IOMMU_NONE);
-@@ -1960,10 +1961,16 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
-         return;
-     }
- 
--    assert(entry->iova >= notifier->start && entry_end <= notifier->end);
-+    if (notifier->notifier_flags & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
-+        /* Crop (iova, addr_mask) to range */
-+        tmp.iova = MAX(tmp.iova, notifier->start);
-+        tmp.addr_mask = MIN(entry_end, notifier->end) - tmp.iova;
-+    } else {
-+        assert(entry->iova >= notifier->start && entry_end <= notifier->end);
-+    }
- 
-     if (event->type & notifier->notifier_flags) {
--        notifier->notify(notifier, entry);
-+        notifier->notify(notifier, &tmp);
-     }
- }
- 
--- 
-MST
+Kevin
 
 
