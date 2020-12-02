@@ -2,140 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 348312CB27C
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 02:49:44 +0100 (CET)
-Received: from localhost ([::1]:58118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC1A2CB28B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 02:55:18 +0100 (CET)
+Received: from localhost ([::1]:33498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkHH5-0002t4-9U
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 20:49:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36170)
+	id 1kkHMT-0005WX-6E
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 20:55:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1kkHFF-00021m-F7
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 20:47:50 -0500
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:52841)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1kkHF9-0005zm-M4
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 20:47:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1606873663; x=1638409663;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=76Sh34cb6A5DhlGELz1UXs3v6fnmt88s/5ZQ6e6HTEQ=;
- b=ckLbirk6612nGEckXtHPOk/Wco7olmGgmB2caFhgo+uzOcTX3TbO3ua0
- 2m9c0G6oV7UzZLPFQSepUHH3c4uZCVbApGeWMqHKyURYHINxkvvpS3Y2Z
- 4U1/zh8wEqlkwsOCbexiv84HUBoLkmAbSd/mcPWp8zbAOG0M7azAlgPhE k=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Dec 2020 17:47:42 -0800
-X-QCInternal: smtphost
-Received: from nasanexm03e.na.qualcomm.com ([10.85.0.48])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 01 Dec 2020 17:47:41 -0800
-Received: from nasanexm03b.na.qualcomm.com (10.85.0.98) by
- nasanexm03e.na.qualcomm.com (10.85.0.48) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 1 Dec 2020 17:47:41 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
- by nasanexm03b.na.qualcomm.com (10.85.0.98) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Tue, 1 Dec 2020 17:47:41 -0800
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
- by BYAPR02MB5159.namprd02.prod.outlook.com (2603:10b6:a03:6e::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.31; Wed, 2 Dec
- 2020 01:47:40 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::eca5:4fbf:3096:fea6]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::eca5:4fbf:3096:fea6%6]) with mapi id 15.20.3611.031; Wed, 2 Dec 2020
- 01:47:40 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Alessandro Di Federico <ale.qemu@rev.ng>
-Subject: RE: [RFC PATCH v5 20/33] Hexagon (target/hexagon) generator phase 2 -
- generate header files
-Thread-Topic: [RFC PATCH v5 20/33] Hexagon (target/hexagon) generator phase 2
- - generate header files
-Thread-Index: AQHWrlEScHT1ZBMEokOv9Q3uulA68anQMQMAgBMMaeA=
-Date: Wed, 2 Dec 2020 01:47:40 +0000
-Message-ID: <BYAPR02MB488650130A2A8B0D36A137F7DEF30@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <1604016519-28065-1-git-send-email-tsimpson@quicinc.com>
- <1604016519-28065-21-git-send-email-tsimpson@quicinc.com>
- <20201119235340.418ffabf@orange>
-In-Reply-To: <20201119235340.418ffabf@orange>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: rev.ng; dkim=none (message not signed)
- header.d=none;rev.ng; dmarc=none action=none header.from=quicinc.com;
-x-originating-ip: [70.115.140.19]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 307d669f-3217-4ddc-5f8a-08d89664410b
-x-ms-traffictypediagnostic: BYAPR02MB5159:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB51592C832B45E47CCE921F31DEF30@BYAPR02MB5159.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wanbq9ob9a5lCZmEeT5jN6nz6XbC3K7LjY2sXs9+gr6Xn2kXQaT41C2Eey8jxQuDxD3rQha2cwVhRbWiL3brTkcH/91cvfcxxwevRurlHBF1BGEdG3Tzbsxc5QcG93Y4kKSQFehkf8z5o/9sTSXgOydSVziWWq1RAR8ndKPDfxLF1D9ceYHbC+LE8Zozp9yzBimMWf53r+9TtzInMbh+shV47ZDexkxzOo33rY2zda2wIs2sOaDRcmsZ2eoYhCBPY03Nmh21SWKUqLxT3CAVyg/sQQQLV8PsZ0wunP3G8K7AXb8/uRkrypXiT2BMaQls
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39840400004)(136003)(346002)(396003)(366004)(376002)(83380400001)(6506007)(7696005)(9686003)(4744005)(54906003)(76116006)(33656002)(186003)(55016002)(66556008)(66446008)(64756008)(53546011)(66946007)(66476007)(71200400001)(26005)(478600001)(86362001)(316002)(4326008)(5660300002)(2906002)(8676002)(52536014)(6916009)(8936002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?hSy/JmkBIjOQYmepbph//AHVhqcjJ9krFTQcH/d2emDUyOc6kUmzNK2XRrNh?=
- =?us-ascii?Q?ItdyKoTg6Ajwf5yn3cddJQf+cCPvEqrByKR0YlH2mLAzSTnGOLbwDdXLkdyk?=
- =?us-ascii?Q?UMB5qeLDEFQztmtne7iG+I9lv/YN4o8up5THucjfJoB7bFAtCYDW2fNSlLwD?=
- =?us-ascii?Q?uobllXhHL8PwsXfUjJMhFJ4O+69fmKOx+1zlisHxYdbEIHX7WrsnAeeiA4ZJ?=
- =?us-ascii?Q?hrfzI/l2ILyISOKkJqxaUNZNbEt4ijYr5zNo5OzWlFfk7abUN+arWB2eja9K?=
- =?us-ascii?Q?IJxY51X0adY/zP7ZRmPjWpzANiSPZ97c/LCGegTRRzIaD4n+eUmA8tC2gYd4?=
- =?us-ascii?Q?qaKfEmUwZLXpF+aQeqLKbGFFUrMkxtxy7H06rYcJV8lqQZZLAiOvr50tjM5w?=
- =?us-ascii?Q?aQyzbywIMbEEpYN+qhdC7EN71EGtZK77v+4Xzc/jS6FbsGlc24b5LxqFUc1s?=
- =?us-ascii?Q?3f2lV0u+SCM3u66cKGkUJAhZHhRJvKfhmiQoatQrFZYP0OMpJu4pPhBblHLP?=
- =?us-ascii?Q?XBriEkW4dfyjTa5Lo8RIquediEno7YitEYpscwlKSmP3PSj8XX5ErCqkX4ld?=
- =?us-ascii?Q?kvA/QCEu/k2BUkWvskMOk/IyHHnAed8qqglph1uBaqK6WmNZNpjwCqFswix6?=
- =?us-ascii?Q?ILuAW53ch0ge2jAMd3FLq992dMnPUme4NFlDhxGJFmbTQNtKyxvrfLN3/HR9?=
- =?us-ascii?Q?W9E6Lf43qX+5vCrCT4DBPaLfh5Yr7NlKBzyS2KOB2uqaW2igdk+z/jg3i3d7?=
- =?us-ascii?Q?aotFM2boo0A2/KGyp2wqZ+bnRhXI+oIJVFN4TiTTIONhsbHZElwwP8NEykus?=
- =?us-ascii?Q?T+EtidKQGevQ/OM0ZKiRWgl8ZnKwSowjtvGnT4U6EUacFQpPBAq9+8WYeUyN?=
- =?us-ascii?Q?uiHSQeXjySqnMjQxB5Z+KQBta7hRrDHxXXfGbLcL/LqtMEoiFEgBOX61Cd3e?=
- =?us-ascii?Q?jjlkvjq7VGBpbpShoaxs4WBbL93T4OyqwczPKIYywrs=3D?=
-arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=anVJXjgyj9fsDki5x0M0VXEpv0RNVVUHCiZ11WPS1h0I8Q8uCk1npsSoccpuvjsXqHyehUE0Tin/qZiMV0etkddpoh+FFozaTLBBRUg+0viE0cgU9z2zRP3umXCe6DczxZcVtuJtHkeOsI5cSBZARBrpwOz8y0vJ+Gfak64+ZAannohwWaZAIGU4/2h4sDAmkzi5nk0fxMiU4bDdDEftGA4OLwM46oaslb/nXyfLb0T10LCUcv2tM5O3kuZiaiYT0JKvJsDnYA4yeBI8DqRBMelvROSp/XTS67OPy8e3qgMRSULDQeF0g8/IUjf6x9cn3EkwKsW+hg77xH1GfQtQvw==
-arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CtcQC48RWYnpHLb7n/S6kyEUPxS8TsB0Gt291rqfTkA=;
- b=kj8fDGjjpzcyk8HzEBsyGBGpe4jaeAdpmFhdzAe2hBR4k+o0vxnilvsXGG5KZvtofhe307Qes4bu3itGmFpYK7Y/3Rp6PP+8mp7fHNHCEur3QVaRYYvjr2LuQ6PAIznhY7LWpfPFG6xOt8ygBLvHs+SjsajNWlG0SEGcXF/O/bLaeytF6UrWbWGGzmip+cvUd1wYKg6NZCf9t5XLuw+JI8CNaEJWRYybRurk0CrlWgHAMv2Dt/xJicf3CgJl5WFTk9Luxun/murnwVZaMXloo+tyy3rZ5SsfxlT06jUtIszY01vf1Tv6DuICgPK/yavEs9RI1RmPwHzr7cs68GMRNA==
-arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CtcQC48RWYnpHLb7n/S6kyEUPxS8TsB0Gt291rqfTkA=;
- b=Kv6iNxZHmN0NMurEnfqEEKyc6MexvxI9XJjganGgVHrEstARAGMRIrU8U2tKphE4rcmroZg5XvUsdeF6ZpCci1SxXAHrf0fWYdorTQt+kdBxOn2mb/gUwj3wjTbl27WA8pNhmomzg0Xln2dLkSCjYmRAePGRdWVOUNKLl0XDGA4=
-x-ms-exchange-crosstenant-authas: Internal
-x-ms-exchange-crosstenant-authsource: BYAPR02MB4886.namprd02.prod.outlook.com
-x-ms-exchange-crosstenant-network-message-id: 307d669f-3217-4ddc-5f8a-08d89664410b
-x-ms-exchange-crosstenant-originalarrivaltime: 02 Dec 2020 01:47:40.3975 (UTC)
-x-ms-exchange-crosstenant-fromentityheader: Hosted
-x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: bFkEld4mFWG5W2JRKuQQCLXobxhUM0li+c5Efdr6ygK4wSoiH49hdq8JFC3LK9Yp4np0ljrmHaBb3RzYLT8KRg==
-x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB5159
-x-originatororg: quicinc.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kkHKN-0004QO-Ht
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 20:53:07 -0500
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:35983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kkHKK-00080P-O2
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 20:53:07 -0500
+Received: by mail-il1-x142.google.com with SMTP id z10so126117ilu.3
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 17:53:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xw/6TqtXbP70qBDB3Zn4fwDBzBKi7xZOU/jPeQ/gcTE=;
+ b=YvY7gVkvC1vbj9YQcfDEZRyNCFdgc0gGItgb8KDlRRadypUcwDRJnLqqaLRRcRwA5b
+ cAkT4MuH0Cb0Z3KNBKHgXcetspK9HZNi+QhDkuAJUMHTldECRa5A6irtlnw5uTca+zzh
+ PDwJf6mzztLXJIVB2KHd310N2eFpkxUWowF9rrBCjtIgcxgKGh9QHmeRQX3z2hql9Els
+ 4qfZXQnV65JYqLKVRkOfOdPAG64/BSgMlzHt949m0omNf4GaRcf2LH6ffMHcenaJKgNs
+ xJPDSLT/N3b9ZKmaYaozjufGd/NCQVRBkyO1o9tC0pt44Xq6MB9g2/vhh8w4MxynB1eM
+ M2mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xw/6TqtXbP70qBDB3Zn4fwDBzBKi7xZOU/jPeQ/gcTE=;
+ b=ehyV0GUcsAIh/bn1kFTg3NLXO6PfLtrG9Te+m7gIJwYka+mzI/7IKa/QPEKlcq4ULS
+ 8jfq93dMfoxjy0W7odQp8gNuaBpzkMOe4GMnNaDenL8j2WzpGtAgJ8jOMMxGSr7UHCsp
+ FxErIbboil/3/nTuZA0ZMUU5xPRz0sZ5bCDkD+kt0bH651UkZheo4vNp0Urbp46+sPUK
+ 5d+m69AOzkV2DGRbj4ZVmXvrbS9bu81DF6nWJP6dHm9wkm2IrnXQ8brried/pv9Y9VIB
+ TsGdd70FgpHnZfnPZt5m0hrmoZUSqWYXcpbXnfmH2SkXq8EkRANXPc1pMiX62YEhdTbu
+ Kjxg==
+X-Gm-Message-State: AOAM530154RhdhVdz8oPCM4G1TonMdFxbmRuTXj80hpxJj8xa+Uf+M9s
+ IY93NX4kE6sPC27ZxJdBue7GPs/zLM9JfS1djAcJYw==
+X-Google-Smtp-Source: ABdhPJwij/TTjiw8Be/qbbCxRI4A42cNHqmeFBHgmE4rmkfHC7SwyWT6UjTTTXV9Lm1bgk2SR3ViEUvn1JWVf7IMYOc=
+X-Received: by 2002:a92:990e:: with SMTP id p14mr456349ili.28.1606873983341;
+ Tue, 01 Dec 2020 17:53:03 -0800 (PST)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=199.106.114.38; envelope-from=tsimpson@quicinc.com;
- helo=alexa-out-sd-01.qualcomm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <4a2d15d01087207e2fba1f55ad312727dbfc782e.1606856104.git.pcc@google.com>
+ <3aef88d7-c620-11b0-49c4-36d140d05c12@csgraf.de>
+ <CAMn1gO4pNFb338-X7JAghCBqJKarrzbQfmpB6v0fLr843fM12A@mail.gmail.com>
+ <b41352d9-26db-a232-957a-9c63fcc2db18@csgraf.de>
+In-Reply-To: <b41352d9-26db-a232-957a-9c63fcc2db18@csgraf.de>
+From: Peter Collingbourne <pcc@google.com>
+Date: Tue, 1 Dec 2020 17:52:52 -0800
+Message-ID: <CAMn1gO4ZBEZ9DvsEPjTtg-h0jO-G2NZcR++FuJa8Zzw7ZKdj_w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm/hvf: Optimize and simplify WFI handling
+To: Alexander Graf <agraf@csgraf.de>
+Cc: Frank Yang <lfy@google.com>, Roman Bolshakov <r.bolshakov@yadro.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, 
+ Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=pcc@google.com; helo=mail-il1-x142.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -148,29 +84,277 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brian Cain <bcain@quicinc.com>, "at.org@qualcomm.com" <at.org@qualcomm.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "laurent@vivier.eu" <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> -----Original Message-----
-> From: Alessandro Di Federico <ale.qemu@rev.ng>
-> Sent: Thursday, November 19, 2020 4:54 PM
-> To: Taylor Simpson <tsimpson@quicinc.com>
-> Cc: qemu-devel@nongnu.org; Brian Cain <bcain@quicinc.com>;
-> richard.henderson@linaro.org; at.org@qualcomm.com; laurent@vivier.eu
-> Subject: Re: [RFC PATCH v5 20/33] Hexagon (target/hexagon) generator
-> phase 2 - generate header files
+On Tue, Dec 1, 2020 at 5:39 PM Alexander Graf <agraf@csgraf.de> wrote:
 >
-> Taylor Simpson <tsimpson@quicinc.com> wrote:
 >
-> > +from hex_common import *
+> On 02.12.20 02:32, Peter Collingbourne wrote:
+> > On Tue, Dec 1, 2020 at 3:24 PM Alexander Graf <agraf@csgraf.de> wrote:
+> >>
+> >> On 01.12.20 22:00, Peter Collingbourne wrote:
+> >>> Sleep on WFx until the VTIMER is due but allow ourselves to be woken
+> >>> up on IPI.
+> >>>
+> >>> Signed-off-by: Peter Collingbourne <pcc@google.com>
+> >>> ---
+> >>> v2:
+> >>> - simplify locking further
+> >>> - wait indefinitely on disabled or masked timers
+> >>>
+> >>>    accel/hvf/hvf-cpus.c     |   5 +-
+> >>>    include/sysemu/hvf_int.h |   3 +-
+> >>>    target/arm/hvf/hvf.c     | 116 ++++++++++++++-------------------------
+> >>>    3 files changed, 43 insertions(+), 81 deletions(-)
+> >>>
+> >>> diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
+> >>> index 4360f64671..b2c8fb57f6 100644
+> >>> --- a/accel/hvf/hvf-cpus.c
+> >>> +++ b/accel/hvf/hvf-cpus.c
+> >>> @@ -344,9 +344,8 @@ static int hvf_init_vcpu(CPUState *cpu)
+> >>>        sigact.sa_handler = dummy_signal;
+> >>>        sigaction(SIG_IPI, &sigact, NULL);
+> >>>
+> >>> -    pthread_sigmask(SIG_BLOCK, NULL, &set);
+> >>> -    sigdelset(&set, SIG_IPI);
+> >>> -    pthread_sigmask(SIG_SETMASK, &set, NULL);
+> >>> +    pthread_sigmask(SIG_BLOCK, NULL, &cpu->hvf->unblock_ipi_mask);
+> >>> +    sigdelset(&cpu->hvf->unblock_ipi_mask, SIG_IPI);
+> >>>
+> >>>    #ifdef __aarch64__
+> >>>        r = hv_vcpu_create(&cpu->hvf->fd, (hv_vcpu_exit_t **)&cpu->hvf->exit, NULL);
+> >>> diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
+> >>> index c56baa3ae8..13adf6ea77 100644
+> >>> --- a/include/sysemu/hvf_int.h
+> >>> +++ b/include/sysemu/hvf_int.h
+> >>> @@ -62,8 +62,7 @@ extern HVFState *hvf_state;
+> >>>    struct hvf_vcpu_state {
+> >>>        uint64_t fd;
+> >>>        void *exit;
+> >>> -    struct timespec ts;
+> >>> -    bool sleeping;
+> >>> +    sigset_t unblock_ipi_mask;
+> >>>    };
+> >>>
+> >>>    void assert_hvf_ok(hv_return_t ret);
+> >>> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+> >>> index 8fe10966d2..3321d48aa2 100644
+> >>> --- a/target/arm/hvf/hvf.c
+> >>> +++ b/target/arm/hvf/hvf.c
+> >>> @@ -2,6 +2,7 @@
+> >>>     * QEMU Hypervisor.framework support for Apple Silicon
+> >>>
+> >>>     * Copyright 2020 Alexander Graf <agraf@csgraf.de>
+> >>> + * Copyright 2020 Google LLC
+> >>>     *
+> >>>     * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> >>>     * See the COPYING file in the top-level directory.
+> >>> @@ -18,6 +19,7 @@
+> >>>    #include "sysemu/hw_accel.h"
+> >>>
+> >>>    #include <Hypervisor/Hypervisor.h>
+> >>> +#include <mach/mach_time.h>
+> >>>
+> >>>    #include "exec/address-spaces.h"
+> >>>    #include "hw/irq.h"
+> >>> @@ -320,18 +322,8 @@ int hvf_arch_init_vcpu(CPUState *cpu)
+> >>>
+> >>>    void hvf_kick_vcpu_thread(CPUState *cpu)
+> >>>    {
+> >>> -    if (cpu->hvf->sleeping) {
+> >>> -        /*
+> >>> -         * When sleeping, make sure we always send signals. Also, clear the
+> >>> -         * timespec, so that an IPI that arrives between setting hvf->sleeping
+> >>> -         * and the nanosleep syscall still aborts the sleep.
+> >>> -         */
+> >>> -        cpu->thread_kicked = false;
+> >>> -        cpu->hvf->ts = (struct timespec){ };
+> >>> -        cpus_kick_thread(cpu);
+> >>> -    } else {
+> >>> -        hv_vcpus_exit(&cpu->hvf->fd, 1);
+> >>> -    }
+> >>> +    cpus_kick_thread(cpu);
+> >>> +    hv_vcpus_exit(&cpu->hvf->fd, 1);
+> >>>    }
+> >>>
+> >>>    static int hvf_inject_interrupts(CPUState *cpu)
+> >>> @@ -349,6 +341,18 @@ static int hvf_inject_interrupts(CPUState *cpu)
+> >>>        return 0;
+> >>>    }
+> >>>
+> >>> +static void hvf_wait_for_ipi(CPUState *cpu, struct timespec *ts)
+> >>> +{
+> >>> +    /*
+> >>> +     * Use pselect to sleep so that other threads can IPI us while we're
+> >>> +     * sleeping.
+> >>> +     */
+> >>> +    qatomic_mb_set(&cpu->thread_kicked, false);
+> >>> +    qemu_mutex_unlock_iothread();
+> >>> +    pselect(0, 0, 0, 0, ts, &cpu->hvf->unblock_ipi_mask);
+> >>> +    qemu_mutex_lock_iothread();
+> >>> +}
+> >>> +
+> >>>    int hvf_vcpu_exec(CPUState *cpu)
+> >>>    {
+> >>>        ARMCPU *arm_cpu = ARM_CPU(cpu);
+> >>> @@ -357,15 +361,11 @@ int hvf_vcpu_exec(CPUState *cpu)
+> >>>        hv_return_t r;
+> >>>        int ret = 0;
+> >>>
+> >>> -    qemu_mutex_unlock_iothread();
+> >>> -
+> >>>        do {
+> >>>            bool advance_pc = false;
+> >>>
+> >>> -        qemu_mutex_lock_iothread();
+> >>>            current_cpu = cpu;
+> >>>            qemu_wait_io_event_common(cpu);
+> >>> -        qemu_mutex_unlock_iothread();
+> >>>
+> >>>            flush_cpu_state(cpu);
+> >>>
+> >>> @@ -374,10 +374,10 @@ int hvf_vcpu_exec(CPUState *cpu)
+> >>>            }
+> >>>
+> >>>            if (cpu->halted) {
+> >>> -            qemu_mutex_lock_iothread();
+> >>>                return EXCP_HLT;
+> >>>            }
+> >>>
+> >>> +        qemu_mutex_unlock_iothread();
+> >>>            assert_hvf_ok(hv_vcpu_run(cpu->hvf->fd));
+> >>>
+> >>>            /* handle VMEXIT */
+> >>> @@ -385,15 +385,14 @@ int hvf_vcpu_exec(CPUState *cpu)
+> >>>            uint64_t syndrome = hvf_exit->exception.syndrome;
+> >>>            uint32_t ec = syn_get_ec(syndrome);
+> >>>
+> >>> +        qemu_mutex_lock_iothread();
+> >>>            switch (exit_reason) {
+> >>>            case HV_EXIT_REASON_EXCEPTION:
+> >>>                /* This is the main one, handle below. */
+> >>>                break;
+> >>>            case HV_EXIT_REASON_VTIMER_ACTIVATED:
+> >>> -            qemu_mutex_lock_iothread();
+> >>>                current_cpu = cpu;
+> >>>                qemu_set_irq(arm_cpu->gt_timer_outputs[GTIMER_VIRT], 1);
+> >>> -            qemu_mutex_unlock_iothread();
+> >>>                continue;
+> >>>            case HV_EXIT_REASON_CANCELED:
+> >>>                /* we got kicked, no exit to process */
+> >>> @@ -413,7 +412,6 @@ int hvf_vcpu_exec(CPUState *cpu)
+> >>>                uint32_t srt = (syndrome >> 16) & 0x1f;
+> >>>                uint64_t val = 0;
+> >>>
+> >>> -            qemu_mutex_lock_iothread();
+> >>>                current_cpu = cpu;
+> >>>
+> >>>                DPRINTF("data abort: [pc=0x%llx va=0x%016llx pa=0x%016llx isv=%x "
+> >>> @@ -446,8 +444,6 @@ int hvf_vcpu_exec(CPUState *cpu)
+> >>>                    hvf_set_reg(cpu, srt, val);
+> >>>                }
+> >>>
+> >>> -            qemu_mutex_unlock_iothread();
+> >>> -
+> >>>                advance_pc = true;
+> >>>                break;
+> >>>            }
+> >>> @@ -493,68 +489,40 @@ int hvf_vcpu_exec(CPUState *cpu)
+> >>>            case EC_WFX_TRAP:
+> >>>                if (!(syndrome & WFX_IS_WFE) && !(cpu->interrupt_request &
+> >>>                    (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
+> >>> -                uint64_t cval, ctl, val, diff, now;
+> >>> +                advance_pc = true;
+> >>>
+> >>> -                /* Set up a local timer for vtimer if necessary ... */
+> >>> -                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CTL_EL0, &ctl);
+> >>> -                assert_hvf_ok(r);
+> >>> -                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CVAL_EL0, &cval);
+> >>> +                uint64_t ctl;
+> >>> +                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CTL_EL0,
+> >>> +                                        &ctl);
+> >>>                    assert_hvf_ok(r);
+> >>>
+> >>> -                asm volatile("mrs %0, cntvct_el0" : "=r"(val));
+> >>> -                diff = cval - val;
+> >>> -
+> >>> -                now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) /
+> >>> -                      gt_cntfrq_period_ns(arm_cpu);
+> >>> -
+> >>> -                /* Timer disabled or masked, just wait for long */
+> >>>                    if (!(ctl & 1) || (ctl & 2)) {
+> >>> -                    diff = (120 * NANOSECONDS_PER_SECOND) /
+> >>> -                           gt_cntfrq_period_ns(arm_cpu);
+> >>> +                    /* Timer disabled or masked, just wait for an IPI. */
+> >>> +                    hvf_wait_for_ipi(cpu, NULL);
+> >>> +                    break;
+> >>>                    }
+> >>>
+> >>> -                if (diff < INT64_MAX) {
+> >>> -                    uint64_t ns = diff * gt_cntfrq_period_ns(arm_cpu);
+> >>> -                    struct timespec *ts = &cpu->hvf->ts;
+> >>> -
+> >>> -                    *ts = (struct timespec){
+> >>> -                        .tv_sec = ns / NANOSECONDS_PER_SECOND,
+> >>> -                        .tv_nsec = ns % NANOSECONDS_PER_SECOND,
+> >>> -                    };
+> >>> -
+> >>> -                    /*
+> >>> -                     * Waking up easily takes 1ms, don't go to sleep for smaller
+> >>> -                     * time periods than 2ms.
+> >>> -                     */
+> >>> -                    if (!ts->tv_sec && (ts->tv_nsec < (SCALE_MS * 2))) {
+> >>> -                        advance_pc = true;
+> >>> -                        break;
+> >>> -                    }
+> >>> -
+> >>> -                    /* Set cpu->hvf->sleeping so that we get a SIG_IPI signal. */
+> >>> -                    cpu->hvf->sleeping = true;
+> >>> -                    smp_mb();
+> >>> -
+> >>> -                    /* Bail out if we received an IRQ meanwhile */
+> >>> -                    if (cpu->thread_kicked || (cpu->interrupt_request &
+> >>> -                        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
+> >>> -                        cpu->hvf->sleeping = false;
+> >>> -                        break;
+> >>> -                    }
+> >>> -
+> >>> -                    /* nanosleep returns on signal, so we wake up on kick. */
+> >>> -                    nanosleep(ts, NULL);
+> >>> -
+> >>> -                    /* Out of sleep - either naturally or because of a kick */
+> >>> -                    cpu->hvf->sleeping = false;
+> >>> +                uint64_t cval;
+> >>> +                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CVAL_EL0,
+> >>> +                                        &cval);
+> >>> +                assert_hvf_ok(r);
+> >>> +
+> >>> +                int64_t ticks_to_sleep = cval - mach_absolute_time();
+> >>
+> >> I think you touched based on it in a previous thread, but would you mind
+> >> to explain again why mach_absolute_time() is the right thing to check
+> >> cval against? If I read the headers correctly, the cnvt_off register
+> >> should be 0, so cntvct should be the reference time, no?
+> > In my experiments I've found that CNTPCT_EL0 and CNTVCT_EL0 are the
+> > same when read on the host (i.e. host CNTVOFF_EL2 = 0). When we look
+> > at the guest we see that CNTPCT_EL0 corresponds to
+> > mach_absolute_time() on the host and not host CNTPCT_EL0 (if you look
+> > at XNU kernel sources you will see that mach_absolute_time() reads
+> > CNTPCT_EL0 and adds a constant corresponding to the amount of time
+> > that the machine spends asleep) so I think that what's going on at the
+> > hypervisor level is that guest CNTPOFF_EL2 is being set to the same
+> > constant to make it correspond to mach_absolute_time().
 >
-> I'd suggest to avoid `import *`.
+>
+> Yes, I can absolutely see how it's different from CNTPCT, but it should
+> be identical to CNTVCT_EL0 inside QEMU, no?
 
-OK
+Not necessarily. It's possible for the guest to observe a different
+CNTVCT_EL0 either because CNTPOFF_EL2 is set to a non-zero value or
+because the hypervisor is secretly adding the "time spent asleep"
+constant to CNTVOFF_EL2 on top of the value that we set it to via the
+API.
+
+Peter
 
