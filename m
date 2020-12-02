@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502C32CCA51
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 00:11:07 +0100 (CET)
-Received: from localhost ([::1]:52514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5452A2CCA64
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 00:16:32 +0100 (CET)
+Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkbH7-0004k8-VQ
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 18:11:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60980)
+	id 1kkbMM-0006Dv-Td
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 18:16:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kkbFt-00049H-Q3; Wed, 02 Dec 2020 18:09:49 -0500
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:40225)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kkbLM-0005gB-BG; Wed, 02 Dec 2020 18:15:28 -0500
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:38732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kkbFr-00038E-EM; Wed, 02 Dec 2020 18:09:49 -0500
-Received: by mail-yb1-xb42.google.com with SMTP id o144so251148ybg.7;
- Wed, 02 Dec 2020 15:09:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kkbLK-0003xi-1F; Wed, 02 Dec 2020 18:15:28 -0500
+Received: by mail-io1-xd41.google.com with SMTP id y5so118432iow.5;
+ Wed, 02 Dec 2020 15:15:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rSZMDtHcjbRpJTILxI+UZec+ogwAKsGuZKbVwlIQtYQ=;
- b=fDqGp4IUxfp1UA26DKqmGpf5PYjMnvO74AwHr0y0vVuGEDZMQBxEkb3BL8ljPRtZHK
- Aj8UuHqGJMlR8yM5xDsAZhfJyag/1WpM/YXqXiAe+J+e0dxEn6e5d07Ie1SytmU0ACZQ
- Eke1sTFSD7CKXtgo953GA44dOtXcAgxbjRLaYtZU6/8mf0fqoW025ZXy4YJQWg227VxQ
- jUNLKPhJaZyint6w1GpYXMxFvfiK1I4EuopjlrVwgfFM1/ASbB+rhCm7xekQjbAh2y/Z
- klwUAbxZBrzBYPWoR2rA44T5SHuUkrVuwfdHI6smFe2jzJye9kK1ZiErQr0dafQSJ5Hp
- g2ig==
+ :cc; bh=B6HQQhVx0AJbcSoL8uZVgdm1ecodMm2kvPL98lDWFJo=;
+ b=ZiCHrIGylPTMWJa5OkOQkuKD8zHwbspjceBTpwjz7SLddRNVphkaode7/UhVumlMVC
+ qCp4mWtl9jxUk6vFgnQ2is9cDczlhH+S759wJ1EbSIsKWFQYcy6CB5aCi9S0e42QzQLR
+ nqNts/GtkGXEozPY/aV7o/ZQTXol68sEtF7Jhq5bmaoG3qv1/aYHHHrWfeq0S9X0fmjQ
+ eDnSDMvRFcKiHdL/0fvt2qAEFwfkfCQkyVVuiY6r60GpOicdSVLVMPofiysxMQtLInsh
+ BwCQa3A3XEHt7p8gzOEbSRvvlvQzdOwpe2LYBSJ7FZKGZXnMu6pHDsnSfPV7BVZ2wDkR
+ nrrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rSZMDtHcjbRpJTILxI+UZec+ogwAKsGuZKbVwlIQtYQ=;
- b=QIgOvJfPPundvLdTGKCQcv1Kh79moovaiAj46SIWIwB/ik3qM60H1ix7TNq2JXrJaB
- GgE1gkTnj3eAhDYniCleKYcNqL94eIqIJSfBQo6dt37IYqQCve8ffFPHxUD4LVEevD7J
- 51OHSKW4B/Wa2a4mT2e1W7Pv36txw2QlD+36bPJETE9rxcKmuAIiLzN25OUUakYuDknI
- rtdS0VgQTm/n3JDluxFogMlRXO+tTu39/TQhefH5X5p33gCpTN91l/Y1a0OmYbNM4Mef
- HMmgHXqi0KhKDw3aBDQTnzEjRAcDQSfUVdiotSgwulUOXTNyWgl/lvYi6ua+1oaw3rio
- TVdQ==
-X-Gm-Message-State: AOAM530AgW9QPGf5CO1ZzJtv8p3CGHifgP9bProYFIYNSk1fTBsX4Jrv
- zRmIR+AoPbbYGZEKn1LsAoYkd/Vk3fW+2HSl9xU=
-X-Google-Smtp-Source: ABdhPJzMKj9+Jgi9sVkrzMhYxZ1IXiugiJDZSSAAmMQ4qZv4bbJQRgkPOMp2g0C7xHRzK031P6B8BOeZNOAemCKJP28=
-X-Received: by 2002:a25:db0e:: with SMTP id g14mr703029ybf.314.1606950586149; 
- Wed, 02 Dec 2020 15:09:46 -0800 (PST)
+ bh=B6HQQhVx0AJbcSoL8uZVgdm1ecodMm2kvPL98lDWFJo=;
+ b=nXIqmIpII7T6s70dHiSFhcElJX05KxntTUnh/fCvtZ8GxF6NvajeMaEDv6uzOia6Sz
+ soxQtsvdBY1aOfWf4ACqgi1OyNFv94+38GzptynyaxTHeuQzmi7u2Qvbsrndi+iMQvJ/
+ pfqoqRc4/YSUeydNM4mXmYXeUSZM3Z4BYSug18LVY0zwpvsvvJA4WSlaZsYfJNBPovSr
+ goHn1GDWe4dxmX3AqARxZF+v7kCChUFkzWbB9YLbRYj5siL0jr5ut8B00EeQyWGCNJ2U
+ axRtt2sKlQnmUnp+9etqSvobQyaIIQJ+Fb5l/2srk0UYje/4PEnqMeqV3qEsRvQFOJwx
+ GFtw==
+X-Gm-Message-State: AOAM530J9JVrkuTNIsXXHPuDe2jVM6146LYXjAyQr2Zixm2qvJ4BhqOF
+ nQ4pwmJtVXQK56UO4I+n6JCulSBU50Oq/6zROus=
+X-Google-Smtp-Source: ABdhPJwpqro7xxjFlue6dDEiPyFCst+/24jpllWB1YvMixNHYXAiZM09JdE6fTtwc43qlF8Z4BGI0xWdNbbvbReBKTs=
+X-Received: by 2002:a02:6c09:: with SMTP id w9mr587525jab.135.1606950924545;
+ Wed, 02 Dec 2020 15:15:24 -0800 (PST)
 MIME-Version: 1.0
 References: <1606704602-59435-1-git-send-email-bmeng.cn@gmail.com>
  <CAKmqyKOWRENRYr0iz-bX7gGmksQdtTc_uMy_iY1YNvvRFr-PLg@mail.gmail.com>
-In-Reply-To: <CAKmqyKOWRENRYr0iz-bX7gGmksQdtTc_uMy_iY1YNvvRFr-PLg@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 3 Dec 2020 07:09:35 +0800
-Message-ID: <CAEUhbmU5mGQSpVu+UXr_3qoP-M4x1pUuiLzMHU7djQE-LTrK+Q@mail.gmail.com>
+ <CAEUhbmU5mGQSpVu+UXr_3qoP-M4x1pUuiLzMHU7djQE-LTrK+Q@mail.gmail.com>
+In-Reply-To: <CAEUhbmU5mGQSpVu+UXr_3qoP-M4x1pUuiLzMHU7djQE-LTrK+Q@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 2 Dec 2020 15:14:58 -0800
+Message-ID: <CAKmqyKOgO6R1Y2qACT0H4ubmzuhKCLdgkg7AYnxM+nD5fQcX2Q@mail.gmail.com>
 Subject: Re: [PATCH] hw/block: m25p80: Fix fast read for SST flashes
-To: Alistair Francis <alistair23@gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb42.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,31 +84,38 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair@alistair23.me>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,
-
-On Thu, Dec 3, 2020 at 3:52 AM Alistair Francis <alistair23@gmail.com> wrote:
+On Wed, Dec 2, 2020 at 3:09 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> On Sun, Nov 29, 2020 at 6:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> Hi Alistair,
+>
+> On Thu, Dec 3, 2020 at 3:52 AM Alistair Francis <alistair23@gmail.com> wrote:
 > >
-> > From: Bin Meng <bin.meng@windriver.com>
+> > On Sun, Nov 29, 2020 at 6:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > From: Bin Meng <bin.meng@windriver.com>
+> > >
+> > > SST flashes require a dummy byte after the address bits.
+> > >
+> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > >
-> > SST flashes require a dummy byte after the address bits.
+> > I couldn't find a datasheet that says this... But the actual code
+> > change looks fine, so:
 > >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 >
-> I couldn't find a datasheet that says this... But the actual code
-> change looks fine, so:
+> Please find the SST25VF016B datasheet at
+> http://ww1.microchip.com/downloads/en/devicedoc/s71271_04.pdf. The
+> fast read sequence is on page 11.
+
+Ah cool. I thought it would be somewhere, I just couldn't find it.
+
+Alistair
+
 >
-
-Please find the SST25VF016B datasheet at
-http://ww1.microchip.com/downloads/en/devicedoc/s71271_04.pdf. The
-fast read sequence is on page 11.
-
-> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> > Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> >
 >
-
-Thanks!
-
-Regards,
-Bin
+> Thanks!
+>
+> Regards,
+> Bin
 
