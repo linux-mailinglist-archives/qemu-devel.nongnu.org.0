@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 781382CB85B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:17:10 +0100 (CET)
-Received: from localhost ([::1]:37162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897982CB8C9
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:27:49 +0100 (CET)
+Received: from localhost ([::1]:37876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOG5-0002zX-FV
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:17:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41000)
+	id 1kkOQO-000789-Ew
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:27:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNDS-00045t-7E
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39195)
+ id 1kkNDR-00044n-Lj
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCg-0003sM-7e
+ id 1kkNCg-0003sD-19
  for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606896573;
@@ -25,29 +25,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iUR8QomuX/Blkx1DYOhTiUT7FwKK7aUab2JpYXJFiRg=;
- b=b4x7ODwKdWF+dvqYGH94nic1YEjZJAfxxrrKZxFSZyKlov+H2Ru3mNI4/hNaN5wcj3lJap
- lCR5j0Hto/hTJBeo/08rdOZe4VvXpDBHRMlqsR0dFQQJEQDypNXIIYa85D3icfkTy1GyTo
- r9gtANcCy4LqsjqaM0ligArZjhZQejM=
+ bh=NKqe7y+mXgOFikYR5IZB9Gho5DKqxTtHmA1FFYL0kT8=;
+ b=Jh8Bp5Ch95DXbg4xQ1Ds5EtCjz59x904VOKXQ6gwx9S7JOVS9baB395eIcJryYCkHuUzZg
+ D9z8jpaZsrN1WNqHB2jWD46jYdvTgitMycUqsIExertXmREAxlv6scWSjAp2cQvbJKaMMt
+ +QgVArjjzUx6d0oGAgeKU80sigB0mk8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-P9v1zrSaMCebZJZRROHI3w-1; Wed, 02 Dec 2020 03:09:30 -0500
-X-MC-Unique: P9v1zrSaMCebZJZRROHI3w-1
+ us-mta-87-SdFJ8SwYP9ePmhfSQFi57w-1; Wed, 02 Dec 2020 03:09:30 -0500
+X-MC-Unique: SdFJ8SwYP9ePmhfSQFi57w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80D9780364D
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC1AA5708D
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:29 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 455AF60854
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A15FE60854
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:29 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 105/113] scripts: kernel-doc: fix line number handling
-Date: Wed,  2 Dec 2020 03:08:41 -0500
-Message-Id: <20201202080849.4125477-106-pbonzini@redhat.com>
+Subject: [PULL 106/113] scripts: kernel-doc: try to use c:function if possible
+Date: Wed,  2 Dec 2020 03:08:42 -0500
+Message-Id: <20201202080849.4125477-107-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,93 +84,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Address several issues related to pointing to the wrong line
-number:
+There are a few namespace clashes by using c:macro everywhere:
 
-1) ensure that line numbers will always be initialized
+basically, when using it, we can't have something like:
 
-   When section is the default (Description), the line number
-   is not initializing, producing this:
+	.. c:struct:: pwm_capture
 
-	$ ./scripts/kernel-doc --enable-lineno ./drivers/media/v4l2-core/v4l2-mem2mem.c|less
+	.. c:macro:: pwm_capture
 
-	**Description**
+So, we need to use, instead:
 
-	#define LINENO 0
-	In case of streamoff or release called on any context,
-	1] If the context is currently running, then abort job will be called
-	2] If the context is queued, then the context will be removed from
-	   the job_queue
+	.. c:function:: int pwm_capture (struct pwm_device * pwm, struct pwm_capture * result, unsigned long timeout)
 
-  Which is not right. Ensure that the line number will always
-  be there. After applied, the result now points to the right location:
+for the function declaration.
 
-	**Description**
+The kernel-doc change was proposed by Jakob Lykke Andersen here:
 
-	#define LINENO 410
-	In case of streamoff or release called on any context,
-	1] If the context is currently running, then abort job will be called
-	2] If the context is queued, then the context will be removed from
-	   the job_queue
+	https://github.com/jakobandersen/linux_docs/commit/6fd2076ec001cca7466857493cd678df4dfe4a65
 
-2) The line numbers for function prototypes are always + 1,
-   because it is taken at the line after handling the prototype.
-   Change the logic to point to the next line after the /** */
-   block;
-
-3) The "DOC:" line number should point to the same line as this
-   markup is found, and not to the next one.
-
-Probably part of the issues were due to a but that was causing
-the line number offset to be incremented by one, if --export
-were used.
+Although I did a different implementation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-24-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-25-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ scripts/kernel-doc | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 667ad3169c..98752164eb 100755
+index 98752164eb..2d56c46933 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1705,7 +1705,7 @@ sub dump_function($$) {
-     my $file = shift;
-     my $noret = 0;
+@@ -917,6 +917,7 @@ sub output_function_rst(%) {
+     my ($parameter, $section);
+     my $oldprefix = $lineprefix;
+     my $start = "";
++    my $is_macro = 0;
  
--    print_lineno($.);
-+    print_lineno($new_start_line);
+     if ($sphinx_major < 3) {
+ 	if ($args{'typedef'}) {
+@@ -926,11 +927,17 @@ sub output_function_rst(%) {
+ 	    $lineprefix = "";
+ 	    output_highlight_rst($args{'purpose'});
+ 	    $start = "\n\n**Syntax**\n\n  ``";
++	    $is_macro = 1;
+ 	} else {
+ 	    print ".. c:function:: ";
+ 	}
+     } else {
+-	print ".. c:macro:: ". $args{'function'} . "\n\n";
++	if ($args{'typedef'} || $args{'functiontype'} eq "") {
++	    $is_macro = 1;
++	    print ".. c:macro:: ". $args{'function'} . "\n\n";
++	} else {
++	    print ".. c:function:: ";
++	}
  
-     $prototype =~ s/^static +//;
-     $prototype =~ s/^extern +//;
-@@ -2033,7 +2033,7 @@ sub process_name($$) {
-     if (/$doc_block/o) {
- 	$state = STATE_DOCBLOCK;
- 	$contents = "";
--	$new_start_line = $. + 1;
-+	$new_start_line = $.;
- 
- 	if ( $1 eq "" ) {
- 	    $section = $section_intro;
-@@ -2116,6 +2116,7 @@ sub process_body($$) {
-     if ($state == STATE_BODY_WITH_BLANK_LINE && /^\s*\*\s?\S/) {
- 	dump_section($file, $section, $contents);
- 	$section = $section_default;
-+	$new_start_line = $.;
- 	$contents = "";
+ 	if ($args{'typedef'}) {
+ 	    print_lineno($declaration_start_line);
+@@ -939,7 +946,7 @@ sub output_function_rst(%) {
+ 	    output_highlight_rst($args{'purpose'});
+ 	    $start = "\n\n**Syntax**\n\n  ``";
+ 	} else {
+-	    print "``";
++	    print "``" if ($is_macro);
+ 	}
      }
- 
-@@ -2171,6 +2172,7 @@ sub process_body($$) {
- 	$prototype = "";
- 	$state = STATE_PROTO;
- 	$brcount = 0;
-+        $new_start_line = $. + 1;
-     } elsif (/$doc_content/) {
- 	if ($1 eq "") {
- 	    if ($section eq $section_context) {
+     if ($args{'functiontype'} ne "") {
+@@ -964,14 +971,12 @@ sub output_function_rst(%) {
+ 	    print $type;
+ 	}
+     }
+-    if ($args{'typedef'}) {
+-	print ");``\n\n";
++    if ($is_macro) {
++	print ")``\n\n";
+     } else {
+-	if ($sphinx_major < 3) {
+-	    print ")\n\n";
+-	} else {
+-	    print ")``\n";
+-	}
++	print ")\n\n";
++    }
++    if (!$args{'typedef'}) {
+ 	print_lineno($declaration_start_line);
+ 	$lineprefix = "   ";
+ 	output_highlight_rst($args{'purpose'});
 -- 
 2.26.2
 
