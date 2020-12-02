@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E852CC300
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 18:06:29 +0100 (CET)
-Received: from localhost ([::1]:38224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3552CC30F
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 18:09:05 +0100 (CET)
+Received: from localhost ([::1]:44480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkVaF-00082r-HS
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 12:06:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53580)
+	id 1kkVcm-0002RB-Q4
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 12:09:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkVVO-0003bv-88
+ id 1kkVVP-0003cY-LK
  for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:01:27 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55802)
+Received: from indium.canonical.com ([91.189.90.7]:55842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkVVL-0003xS-1I
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:01:25 -0500
+ id 1kkVVL-0003xy-Pw
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:01:27 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kkVVI-0002MZ-MD
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 17:01:20 +0000
+ id 1kkVVJ-0002L8-TX
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 17:01:21 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8CD442E813E
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 17:01:20 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DE19D2E8141
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 17:01:21 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 02 Dec 2020 16:49:50 -0000
+Date: Wed, 02 Dec 2020 16:50:40 -0000
 From: Simon Kaegi <1888601@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,14 +42,14 @@ X-Launchpad-Bug-Commenters: dgilbert-h jasowang skaegi
 X-Launchpad-Bug-Reporter: Simon Kaegi (skaegi)
 X-Launchpad-Bug-Modifier: Simon Kaegi (skaegi)
 References: <159547584008.11100.1316842366379773629.malonedeb@wampee.canonical.com>
-Message-Id: <160692779047.5534.9317563079593538820.malone@soybean.canonical.com>
+Message-Id: <160692784057.24680.9450017101610098069.malone@gac.canonical.com>
 Subject: [Bug 1888601] Re: QEMU v5.1.0-rc0/rc1 hang with nested virtualization
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="55c41fea591e042b8bb54e6952942f55c764435e"; Instance="production"
-X-Launchpad-Hash: effa8bee93b2d0d8a252f2d21ac58635b10fb5a2
+X-Launchpad-Hash: f93a0cc13554f281bc3c4509db16fcee8aa7208f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,9 +74,11 @@ Reply-To: Bug 1888601 <1888601@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This problem no longer occurs. I suspect it was an issue in my
-environment or possibly with the options I compiled QEMU with. This
-big/issue should be closed.
+er... This bug/issue should be closed.
+
+
+** Changed in: qemu
+       Status: New =3D> Invalid
 
 -- =
 
