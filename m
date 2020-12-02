@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFDBB2CB765
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:43:16 +0100 (CET)
-Received: from localhost ([::1]:50038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7622CB764
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:42:31 +0100 (CET)
+Received: from localhost ([::1]:47918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkNjI-0001oB-0y
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:43:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40142)
+	id 1kkNiZ-0000w7-02
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:42:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCT-0002zk-2R
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46520)
+ id 1kkNCX-00031r-3n
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCG-0003gm-8v
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:20 -0500
+ id 1kkNCG-0003gy-Nv
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606896547;
+ s=mimecast20190719; t=1606896548;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Tm7yCEMpC8IvENFSCX1OwJhZl4J8hLCYYB6gZw2aigE=;
- b=L64Hj/ZUjcNSjpb01j/kAICt0hSetVAUc/dUZxiZTvjlKUOML5nyswOaENdZ81KJEzuVwh
- k/HOoFcT4Lp5vIyxpF6ycDNWbqGS9EOVDH5GFKr47DyZL141ouBBSR91+nXbKozh8i/i8p
- wFt6bw5gs/0XbGMxmDkh2K798QER9DQ=
+ bh=pYr+k8+J57XMwCr9tgCtGOTEWedDsJ/kyaidUapX1+E=;
+ b=ezA1j/clB3gy+/gryG+WNOVyRdgce97SzOt01tUEbo2Glx6Go3JaizKYd8lvjo3B9za595
+ +2m8KyfOGV9WAOURso8waIavEOyXIFDGpDPj24Cdl6/TCIC04jczWKMs6TlgZzfKJ8QB/R
+ lPcq9Vr4rjuqB2Xcj2UccyMuPw6qdM8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-RiGFGWE5NZmFNhYKoTWgmQ-1; Wed, 02 Dec 2020 03:09:06 -0500
-X-MC-Unique: RiGFGWE5NZmFNhYKoTWgmQ-1
+ us-mta-337-NK603P9MO7O177uuBY2_sw-1; Wed, 02 Dec 2020 03:09:06 -0500
+X-MC-Unique: NK603P9MO7O177uuBY2_sw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A2991074647
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5699D8558F3
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:05 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB2641346F
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 23B5D1346F
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:05 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 040/113] m68k: do not use ram_size global
-Date: Wed,  2 Dec 2020 03:07:36 -0500
-Message-Id: <20201202080849.4125477-41-pbonzini@redhat.com>
+Subject: [PULL 041/113] microblaze: do not use ram_size global
+Date: Wed,  2 Dec 2020 03:07:37 -0500
+Message-Id: <20201202080849.4125477-42-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,78 +82,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the machine properties instead.
+Use the equivalent argument to the function instead.
 
-Cc: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/m68k/mcf5206.c       | 4 +++-
- hw/m68k/mcf5208.c       | 3 ++-
- target/m68k/m68k-semi.c | 5 +++--
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ hw/microblaze/boot.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/m68k/mcf5206.c b/hw/m68k/mcf5206.c
-index 51d2e0da1c..8708aa4480 100644
---- a/hw/m68k/mcf5206.c
-+++ b/hw/m68k/mcf5206.c
-@@ -10,6 +10,7 @@
- #include "qemu/error-report.h"
- #include "qemu/log.h"
- #include "cpu.h"
-+#include "hw/boards.h"
- #include "hw/irq.h"
- #include "hw/m68k/mcf.h"
- #include "qemu/timer.h"
-@@ -311,8 +312,9 @@ static uint64_t m5206_mbar_read(m5206_mbar_state *s,
-         /* FIXME: currently hardcoded to 128Mb.  */
-         {
-             uint32_t mask = ~0;
--            while (mask > ram_size)
-+            while (mask > current_machine->ram_size) {
-                 mask >>= 1;
-+            }
-             return mask & 0x0ffe0000;
+diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
+index 8ad3c27f2c..e1f56f83f9 100644
+--- a/hw/microblaze/boot.c
++++ b/hw/microblaze/boot.c
+@@ -170,7 +170,7 @@ void microblaze_load_kernel(MicroBlazeCPU *cpu, hwaddr ddr_base,
+         /* Not an ELF image nor an u-boot image, try a RAW image.  */
+         if (kernel_size < 0) {
+             kernel_size = load_image_targphys(kernel_filename, ddr_base,
+-                                              ram_size);
++                                              ramsize);
+             boot_info.bootstrap_pc = ddr_base;
+             high = (ddr_base + kernel_size + 3) & ~3;
          }
-     case 0x5c: return 1; /* DRAM bank 1 empty.  */
-diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-index 7c8ca5ddf6..2205145ecc 100644
---- a/hw/m68k/mcf5208.c
-+++ b/hw/m68k/mcf5208.c
-@@ -157,8 +157,9 @@ static uint64_t m5208_sys_read(void *opaque, hwaddr addr,
-         {
-             int n;
-             for (n = 0; n < 32; n++) {
--                if (ram_size < (2u << n))
-+                if (current_machine->ram_size < (2u << n)) {
-                     break;
-+                }
-             }
-             return (n - 1)  | 0x40000000;
-         }
-diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index 8e5fbfc8fa..27600e0cc0 100644
---- a/target/m68k/m68k-semi.c
-+++ b/target/m68k/m68k-semi.c
-@@ -26,6 +26,7 @@
- #else
- #include "exec/gdbstub.h"
- #include "exec/softmmu-semi.h"
-+#include "hw/boards.h"
- #endif
- #include "qemu/log.h"
+@@ -185,11 +185,11 @@ void microblaze_load_kernel(MicroBlazeCPU *cpu, hwaddr ddr_base,
  
-@@ -455,8 +456,8 @@ void do_m68k_semihosting(CPUM68KState *env, int nr)
-          * FIXME: This is wrong for boards where RAM does not start at
-          * address zero.
-          */
--        env->dregs[1] = ram_size;
--        env->aregs[7] = ram_size;
-+        env->dregs[1] = current_machine->ram_size;
-+        env->aregs[7] = current_machine->ram_size;
- #endif
-         return;
-     default:
+             initrd_size = load_ramdisk(initrd_filename,
+                                        boot_info.initrd_start,
+-                                       ram_size - initrd_offset);
++                                       ramsize - initrd_offset);
+             if (initrd_size < 0) {
+                 initrd_size = load_image_targphys(initrd_filename,
+                                                   boot_info.initrd_start,
+-                                                  ram_size - initrd_offset);
++                                                  ramsize - initrd_offset);
+             }
+             if (initrd_size < 0) {
+                 error_report("could not load initrd '%s'",
+@@ -206,7 +206,7 @@ void microblaze_load_kernel(MicroBlazeCPU *cpu, hwaddr ddr_base,
+         }
+         /* Provide a device-tree.  */
+         boot_info.fdt = boot_info.cmdline + 4096;
+-        microblaze_load_dtb(boot_info.fdt, ram_size,
++        microblaze_load_dtb(boot_info.fdt, ramsize,
+                             boot_info.initrd_start,
+                             boot_info.initrd_end,
+                             kernel_cmdline,
 -- 
 2.26.2
 
