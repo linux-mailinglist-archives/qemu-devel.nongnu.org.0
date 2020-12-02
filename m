@@ -2,56 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE58F2CC6AB
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 20:29:53 +0100 (CET)
-Received: from localhost ([::1]:58864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0C92CC700
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 20:53:21 +0100 (CET)
+Received: from localhost ([::1]:42060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkXp2-0005ut-Pr
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 14:29:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35516)
+	id 1kkYBk-0004jf-EQ
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 14:53:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kkXnX-000572-SM; Wed, 02 Dec 2020 14:28:20 -0500
-Resent-Date: Wed, 02 Dec 2020 14:28:19 -0500
-Resent-Message-Id: <E1kkXnX-000572-SM@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21731)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kkXnT-0008BF-LH; Wed, 02 Dec 2020 14:28:19 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1606937271; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=XgjDYUU44RXe3lnWCBhkaKGbKMfkBsNf4+/OL/mPCwcROwYarN4S4gpRry8YZrMiS52C5qW42gcmnVGMHn3U4OLlU1ZtPn5Pokm7+JHMf3V9QOTEYruHYLLiHr7dSWxFZIWCbFEaV4GMwfZzeTyHj416h99I/n//2MSVOys2hgg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1606937271;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Z8e+ju/b/+mDnj36+u1478I9nuwZEklHYLrlSqmbSlI=; 
- b=WZi8KL0YYoaOWF+TkBfHcGxSu9eXKHsDw87AUj6ZEyUz169lWR7PUIo1VmGr3/6DRkv3GAYCJTb748QkxB/qIbyx8oSfGUyuELuTm4CqWQg3l9S38g6UHzZD2TOGJuOOqCOHM8Qo4/JBNqTt8SdbT5nppKOGLuHZLVAVhWeYlJg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1606937269398260.577084508207;
- Wed, 2 Dec 2020 11:27:49 -0800 (PST)
-In-Reply-To: <20201202190408.2041-1-agraf@csgraf.de>
-Subject: Re: [PATCH v3 00/10] hvf: Implement Apple Silicon Support
-Message-ID: <160693726616.24523.2712621693150225719@9aeb27d8af94>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kkYAz-0003xX-GP; Wed, 02 Dec 2020 14:52:33 -0500
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:36983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kkYAx-0002oi-SE; Wed, 02 Dec 2020 14:52:33 -0500
+Received: by mail-io1-xd44.google.com with SMTP id p187so3218258iod.4;
+ Wed, 02 Dec 2020 11:52:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=t0wdGZdB/zB/vzOJCV0NV9KTxMFSduT1lCOWlTsuM44=;
+ b=s+nKjmqOkvcDfgeUeVgnfzPs3bQn7kExpvGXbOInkMl5YRFI4Hfeq2qT86JURxorjm
+ BnAMSzReoigW3GYr00lsH5AMwbe0v9eWHhKtfrvVdHmpRQPifJxFjYPiKLeGTHQ83u+g
+ 2ZVTL056g11RwlZuY69cGTqms1V+QOsaGQHx5Att627lsaoMGedLTgnm+AJj4pwpba4H
+ /2OYiWAaOTZPUy4ZByOhKHWM059yfjX4YOQrQYVOZ+EURlgdZfEYcsMfRaP9kQBMcsyV
+ 8/tSm6VS7UTve3YKJiQZa3IaiEx+31xufnCJuYSclD4buN2n16bTEHO6MDbFHXSrlffE
+ B5pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=t0wdGZdB/zB/vzOJCV0NV9KTxMFSduT1lCOWlTsuM44=;
+ b=WqQdoMbuDNTNzDdMzKDNYUfG58WNOiB7CK9qW9jYDFnkPs3iD1F4d0cjtH8Cu644yt
+ vKBUiMGyBgDQT4WQlYViTmm1x4nSZ/kzTQ9/70BBk/2PJNr2UxIKFx3VFadwwpztgfyX
+ Xw0wtWEHIHHkb2k0TiWMxLK7XJTKltG3rk/vdV3nQOCCOKPCNbwQretgibUUlMnC/5Qt
+ g/u5i07VPOe3ubaFiO0KEDnQ5xS+fC/0LzM0oJ+vJEuEL1RtFUbeYUo0U3CFaVYK0yK0
+ 13IoeWxkfv3M8ISmzDKWMX7HWlJX4CCaWZn934nZGzXLCE6tTzkiL+1mkYoA4LnILLjt
+ T31Q==
+X-Gm-Message-State: AOAM531SgxNKbzc1ACaEXtgc6/0kaGPTQMUBt5GVMUNzoMDfW3IaYzvZ
+ kdyg/dlDXrmkX2znRQYJNh4egrxNctNgfoXvX6A=
+X-Google-Smtp-Source: ABdhPJwRDuJ716hNhlZJLZLxbJXP78trtHoxMDphbUN0DzUR1pbCfxo40QLoodwXyweoRd1vBOHl6iMEFX08f2Ty3HE=
+X-Received: by 2002:a02:a419:: with SMTP id c25mr3656232jal.91.1606938749987; 
+ Wed, 02 Dec 2020 11:52:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: agraf@csgraf.de
-Date: Wed, 2 Dec 2020 11:27:49 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <1606704602-59435-1-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1606704602-59435-1-git-send-email-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 2 Dec 2020 11:40:11 -0800
+Message-ID: <CAKmqyKOWRENRYr0iz-bX7gGmksQdtTc_uMy_iY1YNvvRFr-PLg@mail.gmail.com>
+Subject: Re: [PATCH] hw/block: m25p80: Fix fast read for SST flashes
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,93 +75,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, dirty@apple.com, r.bolshakov@yadro.com,
- qemu-arm@nongnu.org, lfy@google.com, pbonzini@redhat.com, pcc@google.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIwMjE5MDQwOC4yMDQx
-LTEtYWdyYWZAY3NncmFmLmRlLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
-ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
-YXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEyMDIxOTA0MDguMjA0MS0xLWFn
-cmFmQGNzZ3JhZi5kZQpTdWJqZWN0OiBbUEFUQ0ggdjMgMDAvMTBdIGh2ZjogSW1wbGVtZW50IEFw
-cGxlIFNpbGljb24gU3VwcG9ydAoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFz
-aApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1s
-b2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBU
-cnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRz
-L2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0K
-ClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBo
-dHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAg
-ICAgcGF0Y2hldy8yMDIwMTIwMjE5MDQwOC4yMDQxLTEtYWdyYWZAY3NncmFmLmRlIC0+IHBhdGNo
-ZXcvMjAyMDEyMDIxOTA0MDguMjA0MS0xLWFncmFmQGNzZ3JhZi5kZQpTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCjRkODI3ZjMgaHZmOiBhcm06IEltcGxlbWVudCAtY3B1IGhvc3QKYmRl
-MDExMCBodmY6IGFybTogQWRkIHN1cHBvcnQgZm9yIEdJQ3YzCjVjODI0ZDcgYXJtL2h2ZjogQWRk
-IGEgV0ZJIGhhbmRsZXIKNjhmMjhjNiBhcm06IEFkZCBIeXBlcnZpc29yLmZyYW1ld29yayBidWls
-ZCB0YXJnZXQKYWU0ODgwMCBodmY6IEFkZCBBcHBsZSBTaWxpY29uIHN1cHBvcnQKY2VkMDNhNSBo
-dmY6IGFybTogTWFyayBDUFUgYXMgZGlydHkgb24gcmVzZXQKOTgzMGJmNiBhcm06IFNldCBQU0NJ
-IHRvIDAuMiBmb3IgSFZGCmIyMjE4ZGYgaHZmOiBJbnRyb2R1Y2UgaHZmIHZjcHUgc3RydWN0CjBk
-NWYwNzUgaHZmOiBNb3ZlIGNvbW1vbiBjb2RlIG91dAo2YWUzNzNhIGh2ZjogQWRkIGh5cGVydmlz
-b3IgZW50aXRsZW1lbnQgdG8gb3V0cHV0IGJpbmFyaWVzCgo9PT0gT1VUUFVUIEJFR0lOID09PQox
-LzEwIENoZWNraW5nIGNvbW1pdCA2YWUzNzNhZjM1ZDkgKGh2ZjogQWRkIGh5cGVydmlzb3IgZW50
-aXRsZW1lbnQgdG8gb3V0cHV0IGJpbmFyaWVzKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVs
-ZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxNjogCm5ldyBm
-aWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDYzIGxpbmVzIGNo
-ZWNrZWQKClBhdGNoIDEvMTAgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
-YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
-ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi8xMCBDaGVja2lu
-ZyBjb21taXQgMGQ1ZjA3NTU5ZDU2IChodmY6IE1vdmUgY29tbW9uIGNvZGUgb3V0KQpXQVJOSU5H
-OiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQg
-dXBkYXRpbmc/CiMzODogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEg
-d2FybmluZ3MsIDEwODggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8xMCBoYXMgc3R5bGUgcHJvYmxl
-bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
-dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
-SU5UQUlORVJTLgozLzEwIENoZWNraW5nIGNvbW1pdCBiMjIxOGRmOWRhYmMgKGh2ZjogSW50cm9k
-dWNlIGh2ZiB2Y3B1IHN0cnVjdCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzEz
-ODogRklMRTogdGFyZ2V0L2kzODYvaHZmL2h2Zi5jOjIxMzoKKyAgICB3dm1jcyhjcHUtPmh2Zi0+
-ZmQsIFZNQ1NfRU5UUllfQ1RMUywgY2FwMmN0cmwoaHZmX3N0YXRlLT5odmZfY2Fwcy0+dm14X2Nh
-cF9lbnRyeSwKCkVSUk9SOiAiKGZvbyopIiBzaG91bGQgYmUgIihmb28gKikiCiM3NDY6IEZJTEU6
-IHRhcmdldC9pMzg2L2h2Zi94ODZodmYuYzo4NToKKyAgICBpZiAoaHZfdmNwdV93cml0ZV9mcHN0
-YXRlKGNwdV9zdGF0ZS0+aHZmLT5mZCwgKHZvaWQqKXhzYXZlLCA0MDk2KSkgewoKRVJST1I6ICIo
-Zm9vKikiIHNob3VsZCBiZSAiKGZvbyAqKSIKIzgyNzogRklMRTogdGFyZ2V0L2kzODYvaHZmL3g4
-Nmh2Zi5jOjE2NzoKKyAgICBpZiAoaHZfdmNwdV9yZWFkX2Zwc3RhdGUoY3B1X3N0YXRlLT5odmYt
-PmZkLCAodm9pZCopeHNhdmUsIDQwOTYpKSB7Cgp0b3RhbDogMiBlcnJvcnMsIDEgd2FybmluZ3Ms
-IDk5NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzEwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
-IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
-cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
-Cgo0LzEwIENoZWNraW5nIGNvbW1pdCA5ODMwYmY2MzMzMTMgKGFybTogU2V0IFBTQ0kgdG8gMC4y
-IGZvciBIVkYpCjUvMTAgQ2hlY2tpbmcgY29tbWl0IGNlZDAzYTVmYTFlYiAoaHZmOiBhcm06IE1h
-cmsgQ1BVIGFzIGRpcnR5IG9uIHJlc2V0KQo2LzEwIENoZWNraW5nIGNvbW1pdCBhZTQ4ODAwMDdi
-MTIgKGh2ZjogQWRkIEFwcGxlIFNpbGljb24gc3VwcG9ydCkKV0FSTklORzogYXJjaGl0ZWN0dXJl
-IHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzQ3OiBGSUxFOiBhY2NlbC9odmYv
-aHZmLWNwdXMuYzo2MzoKKyNpZmRlZiBfX2FhcmNoNjRfXwoKV0FSTklORzogYXJjaGl0ZWN0dXJl
-IHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzU4OiBGSUxFOiBhY2NlbC9odmYv
-aHZmLWNwdXMuYzozNTA6CisjaWZkZWYgX19hYXJjaDY0X18KCldBUk5JTkc6IGFkZGVkLCBtb3Zl
-ZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzEx
-MTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
-cwojNTc1OiBGSUxFOiB0YXJnZXQvYXJtL2h2Zi9odmYuYzo0NjA6CisgICAgICAgIGh2X3ZjcHVf
-c2V0X3BlbmRpbmdfaW50ZXJydXB0KGNwdS0+aHZmLT5mZCwgSFZfSU5URVJSVVBUX1RZUEVfRklR
-LCB0cnVlKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM1ODA6IEZJTEU6IHRh
-cmdldC9hcm0vaHZmL2h2Zi5jOjQ2NToKKyAgICAgICAgaHZfdmNwdV9zZXRfcGVuZGluZ19pbnRl
-cnJ1cHQoY3B1LT5odmYtPmZkLCBIVl9JTlRFUlJVUFRfVFlQRV9JUlEsIHRydWUpOwoKdG90YWw6
-IDAgZXJyb3JzLCA1IHdhcm5pbmdzLCA2ODggbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi8xMCBoYXMg
-c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
-ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
-S1BBVENIIGluIE1BSU5UQUlORVJTLgo3LzEwIENoZWNraW5nIGNvbW1pdCA2OGYyOGM2MmY2ODIg
-KGFybTogQWRkIEh5cGVydmlzb3IuZnJhbWV3b3JrIGJ1aWxkIHRhcmdldCkKV0FSTklORzogYWRk
-ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
-aW5nPwojNDc6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5p
-bmdzLCAzNiBsaW5lcyBjaGVja2VkCgpQYXRjaCA3LzEwIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCjgvMTAgQ2hlY2tpbmcgY29tbWl0IDVjODI0ZDdhNGE1ZSAoYXJtL2h2ZjogQWRkIGEgV0ZJ
-IGhhbmRsZXIpCjkvMTAgQ2hlY2tpbmcgY29tbWl0IGJkZTAxMTBkOTE2MyAoaHZmOiBhcm06IEFk
-ZCBzdXBwb3J0IGZvciBHSUN2MykKMTAvMTAgQ2hlY2tpbmcgY29tbWl0IDRkODI3ZjM5YjIwNSAo
-aHZmOiBhcm06IEltcGxlbWVudCAtY3B1IGhvc3QpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBj
-b21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0
-Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAxMjAyMTkwNDA4LjIwNDEtMS1hZ3JhZkBjc2dy
-YWYuZGUvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0
-ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFz
-ZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On Sun, Nov 29, 2020 at 6:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> SST flashes require a dummy byte after the address bits.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+
+I couldn't find a datasheet that says this... But the actual code
+change looks fine, so:
+
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>
+>  hw/block/m25p80.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 483925f..9b36762 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -825,6 +825,9 @@ static void decode_fast_read_cmd(Flash *s)
+>      s->needed_bytes = get_addr_length(s);
+>      switch (get_man(s)) {
+>      /* Dummy cycles - modeled with bytes writes instead of bits */
+> +    case MAN_SST:
+> +        s->needed_bytes += 1;
+> +        break;
+>      case MAN_WINBOND:
+>          s->needed_bytes += 8;
+>          break;
+> --
+> 2.7.4
+>
+>
 
