@@ -2,47 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650152CC29A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 17:43:41 +0100 (CET)
-Received: from localhost ([::1]:38040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5673A2CC298
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 17:42:23 +0100 (CET)
+Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkVEC-00026x-Fc
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 11:43:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44958)
+	id 1kkVCv-0000RJ-Nz
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 11:42:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kkVBy-0000ZF-91
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:41:22 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:57777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kkVBv-0008EK-6l
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:41:21 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0B2Ge25j021306
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 2 Dec 2020 11:40:06 -0500
-Date: Wed, 2 Dec 2020 11:40:02 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] fuzz: Add more i386 configurations for fuzzing
-Message-ID: <20201202164002.sot3byy2jesllmlb@mozz.bu.edu>
-References: <20201123184352.242907-1-alxndr@bu.edu>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kkVAx-0007yG-Rr; Wed, 02 Dec 2020 11:40:19 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:34785)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1kkVAv-0007p5-85; Wed, 02 Dec 2020 11:40:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=jbvQ31MtiR2YaPAoLnp6Xr1mro4pcPMEoec+jonbtDs=; 
+ b=mdwtIejjeOU9sehoROhcPOFBbog84kRkNVeBaJLOPdmQKPlxVS/5nzGACUkEivWF1lnFLZq4IW5Wovbc6AxnkVtWXdlnJQNVMyjVSHANr09NVoB7mx5R5XW2yW+cis16AzMlwYLAwZrk3P+sC4M3OjatJLZs8yuPWo+WemMygT8sBvd406bZxCTQ999N1ZtjEQ/Za/lRYNvrpbQsloFvabfnYLlDp1wxulxakILOIh6I/+Fe66r9wqd2nbHIetcNfdPGq5SCCZs9hANyjv/aU2DVSZh3nu5jgXi70v6A4wOi6rIjsIjxSkrHMGraUqxweuWWA89AxE9pNj1PxsWlUw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1kkVAq-000556-TF; Wed, 02 Dec 2020 17:40:12 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1kkVAq-0000kg-Jo; Wed, 02 Dec 2020 17:40:12 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: Plans to bring QMP 'x-blockdev-reopen' out of experimental?
+In-Reply-To: <20201202162808.GG16765@merkur.fritz.box>
+References: <20201006091001.GA64583@paraplu>
+ <w51mu0ifbuf.fsf@maestria.local.igalia.com>
+ <w51k0vmf9k3.fsf@maestria.local.igalia.com>
+ <20201020082333.GB4452@merkur.fritz.box>
+ <w51blfctcfb.fsf@maestria.local.igalia.com>
+ <20201202162808.GG16765@merkur.fritz.box>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Wed, 02 Dec 2020 17:40:12 +0100
+Message-ID: <w518sagtb4j.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201123184352.242907-1-alxndr@bu.edu>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, GOOG_STO_NOIMG_HTML=2.999,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,173 +64,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Hannes Reinecke <hare@suse.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Jason Wang <jasowang@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: mreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 201123 1343, Alexander Bulekov wrote:
-> This adds configurations for fuzzing the following devices on oss-fuzz:
-> 
-> * vmxnet3
-> CC: Dmitry Fleytman <dmitry.fleytman@gmail.com>
-> * ne2k
-> * pcnet
-> * rtl8139
-> CC: Jason Wang <jasowang@redhat.com>
-> * eepro100
-> CC: Stefan Weil <sw@weilnetz.de>
-> * sdhci
-> CC: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> * ehci
-> * ohci
-> * ac97
-> * cs4231a
-> * es1370
-> * sb16
-> CC: Gerd Hoffmann <kraxel@redhat.com>
-> * megasas
-> CC: Hannes Reinecke <hare@suse.com>
-> * parallel
-> CC: Michael S. Tsirkin <mst@redhat.com>
-> CC: Paolo Bonzini <pbonzini@redhat.com>
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
-> 
-> Hello,
-> If you are CC-ed on this email, this patch will likely enable continuous
-> fuzzing for a device that you are listed under in MAINTAINERS. If this is
-> accepted, these devices will be continuously fuzzed over their PCI, PIO,
-> MMIO and DMA interfaces. The fuzzer will start qemu with the arguments
-> specified by ".args" and we will use the globs specified under
-> ".objects" to match the Object/MemoryRegion names that we should fuzz.
-> The fuzzer will find and report issues such as memory-corruptions and
-> aborts. For now, I am manually reproducing each issue and opening a
-> bug-report with a qtest-based reproducer, so the process is still quite
-> flexible.
-> 
-> The current code-coverage achieved by fuzzing using the
-> existing-configurations is available here:
-> https://storage.googleapis.com/oss-fuzz-coverage/qemu/reports/20201122/linux/src/qemu/hw/report.html
-> I am slowly trying to fill in the blanks.
-> 
-> I have little context for how useful these configurations are for
-> fuzzing. I appreciate if you can Ack/Nack them or provide feedback if
-> the devices should be configured differently.  Of course, if you think
-> we should be fuzzing some additional device configurations, you can also
-> submit a patch adding the necessary lines to this generic_fuzz_configs.h
-> file. 
-> Thanks
-> -Alex
-> 
+On Wed 02 Dec 2020 05:28:08 PM CET, Kevin Wolf wrote:
 
-Ping. We could just add all of these configurations and, later, remove
-any that produce too many useless reports.
--Alex
+>> So x-blockdev-reopen sees that we want to replace the current
+>> bs->file ("hd0-file") with a new one ("throttle0"). The problem here
+>> is that throttle0 has hd0-file as its child, so when we check the
+>> permissions on throttle0 (and its children) we get that hd0-file
+>> refuses because it's already being used (although in in the process
+>> of being replaced) by hd0:
+>> 
+>> "Conflicts with use by hd0 as 'file', which does not allow 'write, resize' on hd0-file"
+>> 
+> This kind of situation isn't new, I believe some of the existing graph
+> changes (iirc in the context of block jobs) can cause the same problem.
+>
+> This is essentially why some functions in the permission system take a
+> GSList *ignore_children. So I believe the right thing to do here is
+> telling the permission system that it needs to check the situation
+> without the BdrvChild that links hd0 with hd0-file.
 
+I had tried this already and it does work when inserting the filter (we
+know that 'hd0-file' is about to be detached from the parent so we can
+put it in the list) but I don't think it's so easy if we want to remove
+the filter, i.e.
 
->  tests/qtest/fuzz/generic_fuzz_configs.h | 80 +++++++++++++++++++++++++
->  1 file changed, 80 insertions(+)
-> 
-> diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-> index c4d925f9e6..0b1fe0f836 100644
-> --- a/tests/qtest/fuzz/generic_fuzz_configs.h
-> +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-> @@ -115,6 +115,86 @@ const generic_fuzz_config predefined_configs[] = {
->          .name = "pc-q35",
->          .args = "-machine q35",
->          .objects = "*",
-> +    },{
-> +        .name = "vmxnet3",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device vmxnet3,netdev=net0 -netdev user,id=net0",
-> +        .objects = "vmxnet3"
-> +    },{
-> +        .name = "ne2k_pci",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device ne2k_pci,netdev=net0 -netdev user,id=net0",
-> +        .objects = "ne2k*"
-> +    },{
-> +        .name = "pcnet",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device pcnet,netdev=net0 -netdev user,id=net0",
-> +        .objects = "pcnet"
-> +    },{
-> +        .name = "rtl8139",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device rtl8139,netdev=net0 -netdev user,id=net0",
-> +        .objects = "rtl8139"
-> +    },{
-> +        .name = "i82550",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device i82550,netdev=net0 -netdev user,id=net0",
-> +        .objects = "eepro*"
-> +    },{
-> +        .name = "sdhci-v3",
-> +        .args = "-nodefaults -device sdhci-pci,sd-spec-version=3 "
-> +        "-device sd-card,drive=mydrive "
-> +        "-drive if=sd,index=0,file=null-co://,format=raw,id=mydrive -nographic",
-> +        .objects = "sd*"
-> +    },{
-> +        .name = "ehci",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device ich9-usb-ehci1,bus=pcie.0,addr=1d.7,"
-> +        "multifunction=on,id=ich9-ehci-1 "
-> +        "-device ich9-usb-uhci1,bus=pcie.0,addr=1d.0,"
-> +        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=0 "
-> +        "-device ich9-usb-uhci2,bus=pcie.0,addr=1d.1,"
-> +        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=2 "
-> +        "-device ich9-usb-uhci3,bus=pcie.0,addr=1d.2,"
-> +        "multifunction=on,masterbus=ich9-ehci-1.0,firstport=4 "
-> +        "-drive if=none,id=usbcdrom,media=cdrom "
-> +        "-device usb-tablet,bus=ich9-ehci-1.0,port=1,usb_version=1 "
-> +        "-device usb-storage,bus=ich9-ehci-1.0,port=2,drive=usbcdrom",
-> +        .objects = "*usb* *hci*",
-> +    },{
-> +        .name = "ohci",
-> +        .args = "-machine q35 -nodefaults  -device pci-ohci -device usb-kbd",
-> +        .objects = "*usb* *ohci*",
-> +    },{
-> +        .name = "megaraid",
-> +        .args = "-machine q35 -nodefaults -device megasas -device scsi-cd,drive=null0 "
-> +        "-blockdev driver=null-co,read-zeroes=on,node-name=null0",
-> +        .objects = "megasas*",
-> +    },{
-> +        .name = "ac97",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device ac97,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-> +        .objects = "ac97*",
-> +    },{
-> +        .name = "cs4231a",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device cs4231a,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-> +        .objects = "cs4231a* i8257*",
-> +    },{
-> +        .name = "es1370",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device es1370,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-> +        .objects = "es1370*",
-> +    },{
-> +        .name = "sb16",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device sb16,audiodev=snd0 -audiodev none,id=snd0 -nodefaults",
-> +        .objects = "sb16* i8257*",
-> +    },{
-> +        .name = "parallel",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-parallel file:/dev/null",
-> +        .objects = "parallel*",
->      }
->  };
->  
-> -- 
-> 2.28.0
-> 
+   hd0 -> throttle -> hd0-file     ======>     hd0 -> hd0-file
+
+In this case we get a similar error, we want to make hd0-file a child of
+hd0 but it is being used by the throttle filter.
+
+Telling bdrv_check_update_perm() to ignore hd0's current child
+(throttle) won't solve the problem.
+
+> I don't know the exact stack trace of your failure, so maybe this
+> parameter isn't available yet in the place where you need it, but in
+> the core functions it exists.
+
+This is in bdrv_reopen_multiple(), in the same place where we are
+currently checking the permissions of the new backing file.
+
+Berto
 
