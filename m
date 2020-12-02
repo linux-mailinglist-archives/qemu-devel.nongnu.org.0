@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314CA2CB707
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:26:36 +0100 (CET)
-Received: from localhost ([::1]:55644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE6F2CB6B1
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:20:30 +0100 (CET)
+Received: from localhost ([::1]:38338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkNT9-0005bB-7q
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:26:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39852)
+	id 1kkNNF-0006cz-6T
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:20:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCF-0002gm-Bm
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45528)
+ id 1kkNCG-0002ko-UZ
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNC9-0003ce-NN
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:07 -0500
+ id 1kkNCB-0003eF-Fy
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606896541;
+ s=mimecast20190719; t=1606896542;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Hc2sUJNPHxm3+YyKaEs1U6FlSeXyT0qB03hKc1hWp/o=;
- b=VYoTps3eqzdRiPJxlWLNjQm7sj2kJCf1I6fj6FDIM6Vw9GEjTVaTegTphXKGLuD3W/aqDs
- QcoCj9e0hOzwtuv6vmt6X73BEeguAwA0xlomfCf8AZ94oUP2x4bVseoYOCfkGwqMZrwTFa
- uZILUfl/SGdtyeMtgnZ0VpRvKVAfkgA=
+ bh=1FGacRz1wwcbcO5MB2dhv5Li4SOEk6EK/lC/Lvo4d64=;
+ b=c6dhBniu6Ux6fkTdnyDyWX783tfSucIrD4MFjYNZARdIF16yIiDLIVvmNUKnvDs+QYxYKy
+ 8KSEWQjLAUbfxEyL3XskXpES5pIWujZgdXpvpr3ue2SOPJ9fjw0WE79+OI99ULSqxls7Ru
+ 371wH0/b4QiYs9UyF4X+aVhptPJojGI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-JtxKvuEiPteQY91AclHt-g-1; Wed, 02 Dec 2020 03:08:59 -0500
-X-MC-Unique: JtxKvuEiPteQY91AclHt-g-1
+ us-mta-457-_eXJ6j9YOraW6PrkOjB8gg-1; Wed, 02 Dec 2020 03:09:00 -0500
+X-MC-Unique: _eXJ6j9YOraW6PrkOjB8gg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7206B8558EF
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:08:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14DDC1074641
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:08:59 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 405A65C1B4
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D7F6A5C1B4
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:08:58 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 021/113] alpha: remove bios_name
-Date: Wed,  2 Dec 2020 03:07:17 -0500
-Message-Id: <20201202080849.4125477-22-pbonzini@redhat.com>
+Subject: [PULL 023/113] hppa: remove bios_name
+Date: Wed,  2 Dec 2020 03:07:19 -0500
+Message-Id: <20201202080849.4125477-24-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -86,24 +86,25 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201026143028.3034018-2-pbonzini@redhat.com>
+Message-Id: <20201026143028.3034018-5-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/alpha/dp264.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/hppa/machine.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index 4d24518d1d..c4d407a9f1 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -107,7 +107,7 @@ static void clipper_init(MachineState *machine)
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index d5164457ee..5e745d5ea9 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -213,8 +213,7 @@ static void machine_hppa_init(MachineState *machine)
         but one explicitly written for the emulation, we might as
-        well load it directly from and ELF image.  */
-     palcode_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
--                                bios_name ? bios_name : "palcode-clipper");
-+                                      machine->firmware ?: "palcode-clipper");
-     if (palcode_filename == NULL) {
-         error_report("no palcode provided");
+        well load it directly from an ELF image.  */
+     firmware_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
+-                                       bios_name ? bios_name :
+-                                       "hppa-firmware.img");
++                                       machine->firmware ?: "hppa-firmware.img");
+     if (firmware_filename == NULL) {
+         error_report("no firmware provided");
          exit(1);
 -- 
 2.26.2
