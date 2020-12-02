@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D5D2CB93E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:41:36 +0100 (CET)
-Received: from localhost ([::1]:47288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C47D2CB940
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:42:15 +0100 (CET)
+Received: from localhost ([::1]:49266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOdj-0006hg-3x
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:41:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42502)
+	id 1kkOeM-0007Um-Hr
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:42:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNLs-0006ZU-Hx
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32769)
+ id 1kkNLu-0006aF-9y
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNLq-0006tu-36
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:03 -0500
+ id 1kkNLq-0006u9-3V
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606897138;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=j0ej27u8zxwgL7LeSFqNpOuVMHclK6x3HPUz7oQDyTE=;
- b=gkGGEl2Hw1XUFBDclnuGNyTG/eEgS6MVIKk5eyzkI6b+g3pNHtajQ9mcYcR8VU+UHHObdL
- PZPdQmAP9FcHzTZv/muoTIK2pWxLjUQjg3y+/0bQcP2evLhK6Nh3KFwuFLVb6Bqp828c/4
- fNGOpyN34qao0v02bWNuyWVzmeZ3lLg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XNHqYC/GXX2ZLeTBPu9/yJlBpCsZLL0lFfrL1rfIiJI=;
+ b=Nur+yefEZp/MozNpFFhX+pk9e3XJbiKFy2QMKm2fof8od7tUeef9ShQfVt8gQVpJtF1Lhg
+ 8PGhffq+hk32QWjMmDZCzv8gL/erYOInXrAeAltTY1oOiHZmkGZqM8EJ9cecCjZCv+j469
+ 344pC4z0tewdWFB96Jn7qAEUVHRDbpw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-yZxbK-mfM1mL6nhYBWDXxA-1; Wed, 02 Dec 2020 03:18:56 -0500
-X-MC-Unique: yZxbK-mfM1mL6nhYBWDXxA-1
+ us-mta-395-wUQgwQaPOFO6p-XElcbyCQ-1; Wed, 02 Dec 2020 03:18:56 -0500
+X-MC-Unique: wUQgwQaPOFO6p-XElcbyCQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FF131084C84
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF3118558E7
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:18:55 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BB0B10013C1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B62310013C1;
  Wed,  2 Dec 2020 08:18:55 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/15] Finish cleaning up qemu_init
-Date: Wed,  2 Dec 2020 03:18:39 -0500
-Message-Id: <20201202081854.4126071-1-pbonzini@redhat.com>
+Subject: [PATCH 01/15] remove preconfig state
+Date: Wed,  2 Dec 2020 03:18:40 -0500
+Message-Id: <20201202081854.4126071-2-pbonzini@redhat.com>
+In-Reply-To: <20201202081854.4126071-1-pbonzini@redhat.com>
+References: <20201202081854.4126071-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -80,94 +83,245 @@ Cc: imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are the patches that needed another review, had some conflicts,
-or were not quite ready for the previous posting.
+The preconfig state is only used if -incoming is not specified, which
+makes the RunState state machine more tricky than it need be.  However
+there is already an equivalent condition which works even with -incoming,
+namely qdev_hotplug.  Use it instead of a separate runstate.
 
-Highlights include:
-
-- fixing the HMP prompt for -preconfig
-
-- enabling the qtest server with -object instead of -qtest
-
-- decoupling target machine code from QemuOpts
-
-Based-on: <20201202080849.4125477-1-pbonzini@redhat.com>
-
-Paolo Bonzini (15):
-  remove preconfig state
-  vl: remove separate preconfig main_loop
-  vl: allow -incoming defer with -preconfig
-  vl: extract softmmu/runstate.c
-  vl: extract softmmu/globals.c
-  vl: move all generic initialization out of vl.c
-  chardev: do not use machine_init_done
-  machine: introduce MachineInitPhase
-  machine: record whether nvdimm= was set
-  vl: make qemu_get_machine_opts static
-  qtest: add a QOM object for qtest
-  plugin: propagate errors
-  memory: allow creating MemoryRegions before accelerators
-  null-machine: do not create a default memdev
-  monitor: allow quitting while in preconfig state
-
- accel/kvm/kvm-all.c           |  11 +-
- chardev/char-mux.c            |  38 +-
- chardev/chardev-sysemu.c      |  69 ---
- chardev/meson.build           |   2 +-
- hmp-commands.hx               |   1 +
- hw/arm/boot.c                 |   2 +-
- hw/core/machine-qmp-cmds.c    |   7 +-
- hw/core/machine.c             |  56 +-
- hw/core/null-machine.c        |   2 +-
- hw/core/qdev.c                |  28 +-
- hw/microblaze/boot.c          |   9 +-
- hw/nios2/boot.c               |   9 +-
- hw/pci/pci.c                  |   2 +-
- hw/ppc/e500.c                 |   5 +-
- hw/ppc/spapr_nvdimm.c         |   4 +-
- hw/ppc/virtex_ml507.c         |   2 +-
- hw/riscv/sifive_u.c           |   6 +-
- hw/riscv/virt.c               |   6 +-
- hw/usb/core.c                 |   2 +-
- hw/virtio/virtio-iommu.c      |   2 +-
- hw/xtensa/xtfpga.c            |   9 +-
- include/chardev/char.h        |   6 +-
- include/exec/cpu-common.h     |   3 +
- include/exec/exec-all.h       |   3 -
- include/hw/mem/nvdimm.h       |   2 +-
- include/hw/qdev-core.h        |  33 +-
- include/qapi/qmp/dispatch.h   |   1 +
- include/qemu/plugin.h         |   4 +-
- include/sysemu/runstate.h     |   1 -
- include/sysemu/sysemu.h       |   7 +-
- linux-user/main.c             |   4 +-
- monitor/hmp.c                 |   7 +-
- monitor/qmp-cmds.c            |  10 -
- plugins/loader.c              |  34 +-
- qapi/control.json             |   3 +-
- qapi/qmp-dispatch.c           |   5 +-
- qapi/run-state.json           |   5 +-
- softmmu/device_tree.c         |   2 +-
- softmmu/globals.c             |  74 +++
- softmmu/memory.c              |  12 +-
- softmmu/meson.build           |   2 +
- softmmu/qdev-monitor.c        |  34 +-
- softmmu/qtest.c               | 144 ++++-
- softmmu/runstate.c            | 800 ++++++++++++++++++++++++++++
- softmmu/vl.c                  | 958 ++--------------------------------
- stubs/machine-init-done.c     |   8 -
- stubs/meson.build             |   2 +-
- stubs/qmp-command-available.c |   7 +
- tests/qtest/qmp-test.c        |   2 +-
- ui/console.c                  |   2 +-
- 50 files changed, 1312 insertions(+), 1135 deletions(-)
- delete mode 100644 chardev/chardev-sysemu.c
- create mode 100644 softmmu/globals.c
- create mode 100644 softmmu/runstate.c
- delete mode 100644 stubs/machine-init-done.c
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/core/machine-qmp-cmds.c    |  5 ++---
+ include/qapi/qmp/dispatch.h   |  1 +
+ monitor/hmp.c                 |  7 ++++---
+ monitor/qmp-cmds.c            |  5 ++---
+ qapi/qmp-dispatch.c           |  5 +----
+ qapi/run-state.json           |  5 +----
+ softmmu/qdev-monitor.c        | 12 ++++++++++++
+ softmmu/vl.c                  | 13 ++-----------
+ stubs/meson.build             |  1 +
+ stubs/qmp-command-available.c |  7 +++++++
+ tests/qtest/qmp-test.c        |  2 +-
+ 11 files changed, 34 insertions(+), 29 deletions(-)
  create mode 100644 stubs/qmp-command-available.c
 
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 5362c80a18..cb9387c5f5 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -286,9 +286,8 @@ HotpluggableCPUList *qmp_query_hotpluggable_cpus(Error **errp)
+ 
+ void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
+ {
+-    if (!runstate_check(RUN_STATE_PRECONFIG)) {
+-        error_setg(errp, "The command is permitted only in '%s' state",
+-                   RunState_str(RUN_STATE_PRECONFIG));
++    if (qdev_hotplug) {
++         error_setg(errp, "The command is permitted only before the machine has been created");
+          return;
+     }
+ 
+diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+index af8d96c570..1486cac3ef 100644
+--- a/include/qapi/qmp/dispatch.h
++++ b/include/qapi/qmp/dispatch.h
+@@ -48,6 +48,7 @@ void qmp_disable_command(QmpCommandList *cmds, const char *name);
+ void qmp_enable_command(QmpCommandList *cmds, const char *name);
+ 
+ bool qmp_command_is_enabled(const QmpCommand *cmd);
++bool qmp_command_available(const QmpCommand *cmd, Error **errp);
+ const char *qmp_command_name(const QmpCommand *cmd);
+ bool qmp_has_success_response(const QmpCommand *cmd);
+ QDict *qmp_error_response(Error *err);
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index d40f4f4391..f2fe192d69 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -24,6 +24,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include <dirent.h>
++#include "hw/qdev-core.h"
+ #include "monitor-internal.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/qdict.h"
+@@ -215,7 +216,7 @@ static bool cmd_can_preconfig(const HMPCommand *cmd)
+ 
+ static bool cmd_available(const HMPCommand *cmd)
+ {
+-    return !runstate_check(RUN_STATE_PRECONFIG) || cmd_can_preconfig(cmd);
++    return qdev_hotplug || cmd_can_preconfig(cmd);
+ }
+ 
+ static void help_cmd_dump_one(Monitor *mon,
+@@ -658,8 +659,8 @@ static const HMPCommand *monitor_parse_command(MonitorHMP *hmp_mon,
+         return NULL;
+     }
+     if (!cmd_available(cmd)) {
+-        monitor_printf(mon, "Command '%.*s' not available with -preconfig "
+-                            "until after exit_preconfig.\n",
++        monitor_printf(mon, "Command '%.*s' not available "
++                            "until machine initialization has completed.\n",
+                        (int)(p - cmdp_start), cmdp_start);
+         return NULL;
+     }
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 6299c0c8c7..501a3024c7 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -104,9 +104,8 @@ void qmp_system_powerdown(Error **errp)
+ 
+ void qmp_x_exit_preconfig(Error **errp)
+ {
+-    if (!runstate_check(RUN_STATE_PRECONFIG)) {
+-        error_setg(errp, "The command is permitted only in '%s' state",
+-                   RunState_str(RUN_STATE_PRECONFIG));
++    if (qdev_hotplug) {
++        error_setg(errp, "The command is permitted only before machine initialization");
+         return;
+     }
+     qemu_exit_preconfig_request();
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 9a2d7dd29a..0a2b20a4e4 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -167,10 +167,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+         goto out;
+     }
+ 
+-    if (runstate_check(RUN_STATE_PRECONFIG) &&
+-        !(cmd->options & QCO_ALLOW_PRECONFIG)) {
+-        error_setg(&err, "The command '%s' isn't permitted in '%s' state",
+-                   cmd->name, RunState_str(RUN_STATE_PRECONFIG));
++    if (!qmp_command_available(cmd, &err)) {
+         goto out;
+     }
+ 
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index 964c8ef391..38194b0e44 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -50,15 +50,12 @@
+ # @colo: guest is paused to save/restore VM state under colo checkpoint,
+ #        VM can not get into this state unless colo capability is enabled
+ #        for migration. (since 2.8)
+-# @preconfig: QEMU is paused before board specific init callback is executed.
+-#             The state is reachable only if the --preconfig CLI option is used.
+-#             (Since 3.0)
+ ##
+ { 'enum': 'RunState',
+   'data': [ 'debug', 'inmigrate', 'internal-error', 'io-error', 'paused',
+             'postmigrate', 'prelaunch', 'finish-migrate', 'restore-vm',
+             'running', 'save-vm', 'shutdown', 'suspended', 'watchdog',
+-            'guest-panicked', 'colo', 'preconfig' ] }
++            'guest-panicked', 'colo' ] }
+ 
+ ##
+ # @ShutdownCause:
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index d060e765da..e967d13bd0 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -25,6 +25,7 @@
+ #include "sysemu/arch_init.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-qdev.h"
++#include "qapi/qmp/dispatch.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/config-file.h"
+@@ -997,3 +998,14 @@ int qemu_global_option(const char *str)
+ 
+     return 0;
+ }
++
++bool qmp_command_available(const QmpCommand *cmd, Error **errp)
++{
++    if (!qdev_hotplug &&
++        !(cmd->options & QCO_ALLOW_PRECONFIG)) {
++        error_setg(errp, "The command '%s' is permitted only after machine initialization has completed",
++                   cmd->name);
++        return false;
++    }
++    return true;
++}
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 7146fbe219..ab2210bc79 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -557,7 +557,7 @@ static int default_driver_check(void *opaque, QemuOpts *opts, Error **errp)
+ /***********************************************************/
+ /* QEMU state */
+ 
+-static RunState current_run_state = RUN_STATE_PRECONFIG;
++static RunState current_run_state = RUN_STATE_PRELAUNCH;
+ 
+ /* We use RUN_STATE__MAX but any invalid value will do */
+ static RunState vmstop_requested = RUN_STATE__MAX;
+@@ -569,13 +569,7 @@ typedef struct {
+ } RunStateTransition;
+ 
+ static const RunStateTransition runstate_transitions_def[] = {
+-    /*     from      ->     to      */
+-    { RUN_STATE_PRECONFIG, RUN_STATE_PRELAUNCH },
+-      /* Early switch to inmigrate state to allow  -incoming CLI option work
+-       * as it used to. TODO: delay actual switching to inmigrate state to
+-       * the point after machine is built and remove this hack.
+-       */
+-    { RUN_STATE_PRECONFIG, RUN_STATE_INMIGRATE },
++    { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
+ 
+     { RUN_STATE_DEBUG, RUN_STATE_RUNNING },
+     { RUN_STATE_DEBUG, RUN_STATE_FINISH_MIGRATE },
+@@ -1471,9 +1465,6 @@ static bool main_loop_should_exit(void)
+     ShutdownCause request;
+ 
+     if (preconfig_exit_requested) {
+-        if (runstate_check(RUN_STATE_PRECONFIG)) {
+-            runstate_set(RUN_STATE_PRELAUNCH);
+-        }
+         preconfig_exit_requested = false;
+         return true;
+     }
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 82b7ba60ab..cc56c83063 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -29,6 +29,7 @@ stub_ss.add(files('pci-bus.c'))
+ stub_ss.add(files('pci-host-piix.c'))
+ stub_ss.add(files('qemu-timer-notify-cb.c'))
+ stub_ss.add(files('qmp_memory_device.c'))
++stub_ss.add(files('qmp-command-available.c'))
+ stub_ss.add(files('qtest.c'))
+ stub_ss.add(files('ram-block.c'))
+ stub_ss.add(files('ramfb.c'))
+diff --git a/stubs/qmp-command-available.c b/stubs/qmp-command-available.c
+new file mode 100644
+index 0000000000..46540af7bf
+--- /dev/null
++++ b/stubs/qmp-command-available.c
+@@ -0,0 +1,7 @@
++#include "qemu/osdep.h"
++#include "qapi/qmp/dispatch.h"
++
++bool qmp_command_available(const QmpCommand *cmd, Error **errp)
++{
++    return true;
++}
+diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
+index eb1cd8abb8..11614bf63f 100644
+--- a/tests/qtest/qmp-test.c
++++ b/tests/qtest/qmp-test.c
+@@ -295,7 +295,7 @@ static void test_qmp_preconfig(void)
+     rsp = qtest_qmp(qs, "{ 'execute': 'query-status' }");
+     ret = qdict_get_qdict(rsp, "return");
+     g_assert(ret);
+-    g_assert_cmpstr(qdict_get_try_str(ret, "status"), ==, "preconfig");
++    g_assert_cmpstr(qdict_get_try_str(ret, "status"), ==, "prelaunch");
+     qobject_unref(rsp);
+ 
+     /* exit preconfig state */
 -- 
 2.26.2
+
 
 
