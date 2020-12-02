@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFA832CB815
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:07:09 +0100 (CET)
-Received: from localhost ([::1]:33084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 229E92CB81F
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:09:10 +0100 (CET)
+Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkO6O-0005oA-U7
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:07:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40654)
+	id 1kkO8L-0000wM-3V
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:09:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkND9-0003Wi-48
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50237)
+ id 1kkND3-0003TC-KG
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCR-0003ls-3T
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:02 -0500
+ id 1kkNCR-0003ly-49
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606896558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ut9JtSPhb4amh7jnT2ADdCw3oqkoNlY0wz3NwDnvJ74=;
- b=hWu49TGVMs/U04okGp/ZlyGZgEAszOESyi4HKE2mLw4FGDlA9DHMkSCm+wQm/Z+XiJkLi9
- AHQD80vUfer2WOoZdvuFGHYUYDg27b4lAjgCoOxcMSDTNNt4QYx3iidD6gASpF37DFQkPo
- FIH/k7wyABfkfHe/Mzr50dB1g6CCih8=
+ bh=Y9qS1cxkyeyi3EauORRpX5WKTwXo+zi0c2sRfQek578=;
+ b=XK6WPGB4xXwcNho426le5AHNDUdl4AFHa5t6IPQWeRhnEbpBPm6AHyL5B4rg5iwgJtgeqq
+ z0hCdt9jwuInkQfVsRklN6vWm5csbl/NdeXGiRxv9OYB0OK9/xawJYJPz1mag0hhj2dWBR
+ sX7PDvDJniu554hbGJVmqHsl6rg8fsw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-YJ1J7-C8OpelXsVqoeyqZA-1; Wed, 02 Dec 2020 03:09:16 -0500
-X-MC-Unique: YJ1J7-C8OpelXsVqoeyqZA-1
+ us-mta-95-4lm-MdBmMpGGxWGPdarYWw-1; Wed, 02 Dec 2020 03:09:16 -0500
+X-MC-Unique: 4lm-MdBmMpGGxWGPdarYWw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60C0E1074642
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0A261006C83
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:15 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 248DD10013BD
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 811F810016F6
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:15 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 068/113] vl: separate qemu_create_machine
-Date: Wed,  2 Dec 2020 03:08:04 -0500
-Message-Id: <20201202080849.4125477-69-pbonzini@redhat.com>
+Subject: [PULL 069/113] vl: separate qemu_apply_machine_options
+Date: Wed,  2 Dec 2020 03:08:05 -0500
+Message-Id: <20201202080849.4125477-70-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,192 +82,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 113 +++++++++++++++++++++++++++------------------------
- 1 file changed, 60 insertions(+), 53 deletions(-)
+ softmmu/vl.c | 81 +++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 45 insertions(+), 36 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index d9fe9f63c0..5af52454ee 100644
+index 5af52454ee..acf09b2040 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -133,6 +133,8 @@ static const char *boot_order;
- static const char *boot_once;
- static const char *incoming;
- static const char *loadvm;
-+static ram_addr_t maxram_size;
-+static uint64_t ram_slots;
- static int display_remote;
- static int snapshot;
- static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
-@@ -2795,8 +2797,13 @@ static void qemu_create_late_backends(void)
-     qemu_semihosting_console_init();
+@@ -2704,6 +2704,49 @@ static bool object_create_early(const char *type, QemuOpts *opts)
+     return true;
  }
  
--static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
--                               MachineClass *mc)
-+static bool have_custom_ram_size(void)
++static void qemu_apply_machine_options(void)
 +{
-+    QemuOpts *opts = qemu_find_opts_singleton("memory");
-+    return !!qemu_opt_get_size(opts, "size", 0);
-+}
++    MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
++    QemuOpts *machine_opts = qemu_get_machine_opts();
++    QemuOpts *opts;
 +
-+static void set_memory_options(MachineClass *mc)
- {
-     uint64_t sz;
-     const char *mem_str;
-@@ -2846,7 +2853,7 @@ static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
- 
-     /* store value for the future use */
-     qemu_opt_set_number(opts, "size", ram_size, &error_abort);
--    *maxram_size = ram_size;
-+    maxram_size = ram_size;
- 
-     if (qemu_opt_get(opts, "maxmem")) {
-         uint64_t slots;
-@@ -2867,15 +2874,59 @@ static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
-             exit(EXIT_FAILURE);
-         }
- 
--        *maxram_size = sz;
--        *ram_slots = slots;
-+        maxram_size = sz;
-+        ram_slots = slots;
-     } else if (qemu_opt_get(opts, "slots")) {
-         error_report("invalid -m option value: missing 'maxmem' option");
-         exit(EXIT_FAILURE);
-     }
- 
-     loc_pop(&loc);
--    return !!mem_str;
-+}
++    qemu_opt_foreach(machine_opts, machine_set_property, current_machine,
++                     &error_fatal);
++    current_machine->ram_size = ram_size;
++    current_machine->maxram_size = maxram_size;
++    current_machine->ram_slots = ram_slots;
 +
-+static void qemu_create_machine(MachineClass *machine_class)
-+{
-+    object_set_machine_compat_props(machine_class->compat_props);
-+
-+    set_memory_options(machine_class);
-+
-+    current_machine = MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
-+    if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
-+        exit(0);
-+    }
-+    object_property_add_child(object_get_root(), "machine",
-+                              OBJECT(current_machine));
-+    object_property_add_child(container_get(OBJECT(current_machine),
-+                                            "/unattached"),
-+                              "sysbus", OBJECT(sysbus_get_default()));
-+
-+    if (machine_class->minimum_page_bits) {
-+        if (!set_preferred_target_page_bits(machine_class->minimum_page_bits)) {
-+            /* This would be a board error: specifying a minimum smaller than
-+             * a target's compile-time fixed setting.
-+             */
-+            g_assert_not_reached();
++    opts = qemu_opts_find(qemu_find_opts("boot-opts"), NULL);
++    if (opts) {
++        boot_order = qemu_opt_get(opts, "order");
++        if (boot_order) {
++            validate_bootdevices(boot_order, &error_fatal);
 +        }
++
++        boot_once = qemu_opt_get(opts, "once");
++        if (boot_once) {
++            validate_bootdevices(boot_once, &error_fatal);
++        }
++
++        boot_menu = qemu_opt_get_bool(opts, "menu", boot_menu);
++        boot_strict = qemu_opt_get_bool(opts, "strict", false);
 +    }
 +
-+    cpu_exec_init_all();
-+    page_size_init();
-+
-+    if (machine_class->hw_version) {
-+        qemu_set_hw_version(machine_class->hw_version);
++    if (!boot_order) {
++        boot_order = machine_class->default_boot_order;
 +    }
 +
-+    machine_smp_parse(current_machine,
-+        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
++    current_machine->boot_order = boot_order;
 +
-+    /*
-+     * Get the default machine options from the machine if it is not already
-+     * specified either by the configuration file or by the command line.
-+     */
-+    if (machine_class->default_machine_opts) {
-+        qemu_opts_set_defaults(qemu_find_opts("machine"),
-+                               machine_class->default_machine_opts, 0);
++    if (semihosting_enabled() && !semihosting_get_argc()) {
++        const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
++        const char *kernel_cmdline = qemu_opt_get(machine_opts, "append") ?: "";
++        /* fall back to the -kernel/-append */
++        semihosting_arg_fallback(kernel_filename, kernel_cmdline);
 +    }
- }
++
++}
++
+ static void qemu_create_early_backends(void)
+ {
+     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
+@@ -3448,7 +3491,7 @@ static void qemu_machine_creation_done(void)
  
- static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
-@@ -3404,10 +3455,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     const char *optarg;
-     MachineClass *machine_class;
-     bool userconfig = true;
--    ram_addr_t maxram_size;
--    uint64_t ram_slots = 0;
-     FILE *vmstate_dump_file = NULL;
--    bool have_custom_ram_size;
- 
-     qemu_add_opts(&qemu_drive_opts);
-     qemu_add_drive_opts(&qemu_legacy_drive_opts);
-@@ -4333,49 +4381,7 @@ void qemu_init(int argc, char **argv, char **envp)
- 
-     configure_rtc(qemu_find_opts_singleton("rtc"));
- 
--    machine_class = select_machine();
--    object_set_machine_compat_props(machine_class->compat_props);
--
--    have_custom_ram_size = set_memory_options(&ram_slots, &maxram_size,
--                                              machine_class);
--
--    current_machine = MACHINE(object_new_with_class(OBJECT_CLASS(machine_class)));
--    if (machine_help_func(qemu_get_machine_opts(), current_machine)) {
--        exit(0);
--    }
--    object_property_add_child(object_get_root(), "machine",
--                              OBJECT(current_machine));
--    object_property_add_child(container_get(OBJECT(current_machine),
--                                            "/unattached"),
--                              "sysbus", OBJECT(sysbus_get_default()));
--
--    if (machine_class->minimum_page_bits) {
--        if (!set_preferred_target_page_bits(machine_class->minimum_page_bits)) {
--            /* This would be a board error: specifying a minimum smaller than
--             * a target's compile-time fixed setting.
--             */
--            g_assert_not_reached();
--        }
--    }
--
--    cpu_exec_init_all();
--    page_size_init();
--
--    if (machine_class->hw_version) {
--        qemu_set_hw_version(machine_class->hw_version);
--    }
--
--    machine_smp_parse(current_machine,
--        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
--
--    /*
--     * Get the default machine options from the machine if it is not already
--     * specified either by the configuration file or by the command line.
--     */
--    if (machine_class->default_machine_opts) {
--        qemu_opts_set_defaults(qemu_find_opts("machine"),
--                               machine_class->default_machine_opts, 0);
--    }
-+    qemu_create_machine(select_machine());
- 
-     qemu_disable_default_devices();
+ void qemu_init(int argc, char **argv, char **envp)
+ {
+-    QemuOpts *opts, *machine_opts;
++    QemuOpts *opts;
+     QemuOpts *icount_opts = NULL, *accel_opts = NULL;
+     QemuOptsList *olist;
+     int optind;
+@@ -4387,12 +4430,7 @@ void qemu_init(int argc, char **argv, char **envp)
      qemu_create_default_devices();
-@@ -4410,6 +4416,7 @@ void qemu_init(int argc, char **argv, char **envp)
-      * called from configure_accelerator().
-      */
+     qemu_create_early_backends();
  
-+    machine_class = MACHINE_GET_CLASS(current_machine);
-     if (!qtest_enabled() && machine_class->deprecation_reason) {
-         error_report("Machine type '%s' is deprecated: %s",
-                      machine_class->name, machine_class->deprecation_reason);
-@@ -4470,7 +4477,7 @@ void qemu_init(int argc, char **argv, char **envp)
-             exit(EXIT_FAILURE);
-         }
-         backend_size = object_property_get_uint(backend, "size",  &error_abort);
--        if (have_custom_ram_size && backend_size != ram_size) {
-+        if (have_custom_ram_size() && backend_size != ram_size) {
-                 error_report("Size specified by -m option must match size of "
-                              "explicitly specified 'memory-backend' property");
-                 exit(EXIT_FAILURE);
+-    machine_opts = qemu_get_machine_opts();
+-    qemu_opt_foreach(machine_opts, machine_set_property, current_machine,
+-                     &error_fatal);
+-    current_machine->ram_size = ram_size;
+-    current_machine->maxram_size = maxram_size;
+-    current_machine->ram_slots = ram_slots;
++    qemu_apply_machine_options();
+ 
+     /*
+      * Note: uses machine properties such as kernel-irqchip, must run
+@@ -4428,37 +4466,8 @@ void qemu_init(int argc, char **argv, char **envp)
+      */
+     migration_object_init();
+ 
+-    opts = qemu_opts_find(qemu_find_opts("boot-opts"), NULL);
+-    if (opts) {
+-        boot_order = qemu_opt_get(opts, "order");
+-        if (boot_order) {
+-            validate_bootdevices(boot_order, &error_fatal);
+-        }
+-
+-        boot_once = qemu_opt_get(opts, "once");
+-        if (boot_once) {
+-            validate_bootdevices(boot_once, &error_fatal);
+-        }
+-
+-        boot_menu = qemu_opt_get_bool(opts, "menu", boot_menu);
+-        boot_strict = qemu_opt_get_bool(opts, "strict", false);
+-    }
+-
+-    if (!boot_order) {
+-        boot_order = machine_class->default_boot_order;
+-    }
+-
+-    if (semihosting_enabled() && !semihosting_get_argc()) {
+-        const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
+-        const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
+-        /* fall back to the -kernel/-append */
+-        semihosting_arg_fallback(kernel_filename, kernel_cmdline);
+-    }
+-
+     qemu_create_late_backends();
+ 
+-    current_machine->boot_order = boot_order;
+-
+     /* parse features once if machine provides default cpu_type */
+     current_machine->cpu_type = machine_class->default_cpu_type;
+     if (cpu_option) {
 -- 
 2.26.2
 
