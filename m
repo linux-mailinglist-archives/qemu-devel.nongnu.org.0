@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78FAF2CB27B
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 02:49:26 +0100 (CET)
-Received: from localhost ([::1]:57366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348312CB27C
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 02:49:44 +0100 (CET)
+Received: from localhost ([::1]:58118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkHGm-0002XE-VL
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 20:49:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36074)
+	id 1kkHH5-0002t4-9U
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 20:49:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1kkHEb-0001nD-T8
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 20:47:09 -0500
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:8537)
+ id 1kkHFF-00021m-F7
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 20:47:50 -0500
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:52841)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1kkHEZ-0005or-Hh
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 20:47:09 -0500
+ id 1kkHF9-0005zm-M4
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 20:47:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1606873627; x=1638409627;
+ t=1606873663; x=1638409663;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=pRcBMSAYS2gdBmV7jP40pB5kGRnvqLpi307hcWB2Rew=;
- b=EMFZa5PwM6z+kbhoM4qX9OrkOLO+hr2k11AStelYBRBLGayuuus7+mAR
- 2iuglx3x+jlwlZeGJDP3kokyl06PIeKVk8kbtx4bu23/jsnZzr35gVW9g
- CXPt70JmiRt/OyqRdmuPkEd82Yha4ufiaUlj82QX3lu2FTsmS1p02NGk5 w=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 01 Dec 2020 17:47:02 -0800
+ bh=76Sh34cb6A5DhlGELz1UXs3v6fnmt88s/5ZQ6e6HTEQ=;
+ b=ckLbirk6612nGEckXtHPOk/Wco7olmGgmB2caFhgo+uzOcTX3TbO3ua0
+ 2m9c0G6oV7UzZLPFQSepUHH3c4uZCVbApGeWMqHKyURYHINxkvvpS3Y2Z
+ 4U1/zh8wEqlkwsOCbexiv84HUBoLkmAbSd/mcPWp8zbAOG0M7azAlgPhE k=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Dec 2020 17:47:42 -0800
 X-QCInternal: smtphost
-Received: from nasanexm03c.na.qualcomm.com ([10.85.0.106])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 01 Dec 2020 17:47:02 -0800
-Received: from nasanexm03g.na.qualcomm.com (10.85.0.49) by
- nasanexm03c.na.qualcomm.com (10.85.0.106) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 1 Dec 2020 17:47:01 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
- by nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Tue, 1 Dec 2020 17:47:01 -0800
+Received: from nasanexm03e.na.qualcomm.com ([10.85.0.48])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 01 Dec 2020 17:47:41 -0800
+Received: from nasanexm03b.na.qualcomm.com (10.85.0.98) by
+ nasanexm03e.na.qualcomm.com (10.85.0.48) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 1 Dec 2020 17:47:41 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03b.na.qualcomm.com (10.85.0.98) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Tue, 1 Dec 2020 17:47:41 -0800
 Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
  by BYAPR02MB5159.namprd02.prod.outlook.com (2603:10b6:a03:6e::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.31; Wed, 2 Dec
- 2020 01:46:55 +0000
+ 2020 01:47:40 +0000
 Received: from BYAPR02MB4886.namprd02.prod.outlook.com
  ([fe80::eca5:4fbf:3096:fea6]) by BYAPR02MB4886.namprd02.prod.outlook.com
  ([fe80::eca5:4fbf:3096:fea6%6]) with mapi id 15.20.3611.031; Wed, 2 Dec 2020
- 01:46:55 +0000
+ 01:47:40 +0000
 From: Taylor Simpson <tsimpson@quicinc.com>
 To: Alessandro Di Federico <ale.qemu@rev.ng>
-Subject: RE: [RFC PATCH v5 22/33] Hexagon (target/hexagon) generater phase 4 -
- decode tree
-Thread-Topic: [RFC PATCH v5 22/33] Hexagon (target/hexagon) generater phase 4
- - decode tree
-Thread-Index: AQHWrlEE4fr7FA/ccU+oZZ7iP7Mh+6nQMQGAgBMMB9A=
-Date: Wed, 2 Dec 2020 01:46:55 +0000
-Message-ID: <BYAPR02MB4886977395FBA4233D5C340CDEF30@BYAPR02MB4886.namprd02.prod.outlook.com>
+Subject: RE: [RFC PATCH v5 20/33] Hexagon (target/hexagon) generator phase 2 -
+ generate header files
+Thread-Topic: [RFC PATCH v5 20/33] Hexagon (target/hexagon) generator phase 2
+ - generate header files
+Thread-Index: AQHWrlEScHT1ZBMEokOv9Q3uulA68anQMQMAgBMMaeA=
+Date: Wed, 2 Dec 2020 01:47:40 +0000
+Message-ID: <BYAPR02MB488650130A2A8B0D36A137F7DEF30@BYAPR02MB4886.namprd02.prod.outlook.com>
 References: <1604016519-28065-1-git-send-email-tsimpson@quicinc.com>
- <1604016519-28065-23-git-send-email-tsimpson@quicinc.com>
- <20201119235339.039ba041@orange>
-In-Reply-To: <20201119235339.039ba041@orange>
+ <1604016519-28065-21-git-send-email-tsimpson@quicinc.com>
+ <20201119235340.418ffabf@orange>
+In-Reply-To: <20201119235340.418ffabf@orange>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -70,65 +70,65 @@ authentication-results: rev.ng; dkim=none (message not signed)
  header.d=none;rev.ng; dmarc=none action=none header.from=quicinc.com;
 x-originating-ip: [70.115.140.19]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 45a4e55c-6ffb-4f81-b668-08d896642643
+x-ms-office365-filtering-correlation-id: 307d669f-3217-4ddc-5f8a-08d89664410b
 x-ms-traffictypediagnostic: BYAPR02MB5159:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB51594BEDEDA246D4FD2485C8DEF30@BYAPR02MB5159.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-microsoft-antispam-prvs: <BYAPR02MB51592C832B45E47CCE921F31DEF30@BYAPR02MB5159.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3968;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qDIvcigojpHIs0wrYF2MLFkVcdWiLoLgUiP3wBVdFgPAiPGgqCoFcFHvZmKq5AEdT/nr0asgb+Jj/V9BHUXukCyOkEYJG4Wg2WDh7vGFOzCEtWHe+xUvq/zFeVeyyAcl1npo5JjpjJSa+bxRlNJ0Q8+MPw5BSF+0sXBVtBKvQAcMIvz/h9UOC1Ekw+tvg/tXun3t0yFgNf/6e1CdXCE7R+N8wnsc1/8KATNxmbILzQhqEaeeVGEB6lUiJ7YMz7SghsW2pd30AWmyQcZjG9jnoKXG/778p13pFS3oWVKK9KUoDdeTYc2angqtpXXJ7qWK
+x-microsoft-antispam-message-info: wanbq9ob9a5lCZmEeT5jN6nz6XbC3K7LjY2sXs9+gr6Xn2kXQaT41C2Eey8jxQuDxD3rQha2cwVhRbWiL3brTkcH/91cvfcxxwevRurlHBF1BGEdG3Tzbsxc5QcG93Y4kKSQFehkf8z5o/9sTSXgOydSVziWWq1RAR8ndKPDfxLF1D9ceYHbC+LE8Zozp9yzBimMWf53r+9TtzInMbh+shV47ZDexkxzOo33rY2zda2wIs2sOaDRcmsZ2eoYhCBPY03Nmh21SWKUqLxT3CAVyg/sQQQLV8PsZ0wunP3G8K7AXb8/uRkrypXiT2BMaQls
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39840400004)(136003)(346002)(396003)(366004)(376002)(83380400001)(6506007)(7696005)(9686003)(4744005)(54906003)(76116006)(33656002)(186003)(55016002)(66556008)(66446008)(64756008)(53546011)(66946007)(66476007)(71200400001)(26005)(478600001)(86362001)(316002)(4326008)(5660300002)(2906002)(8676002)(52536014)(6916009)(107886003)(8936002);
+ SFS:(39840400004)(136003)(346002)(396003)(366004)(376002)(83380400001)(6506007)(7696005)(9686003)(4744005)(54906003)(76116006)(33656002)(186003)(55016002)(66556008)(66446008)(64756008)(53546011)(66946007)(66476007)(71200400001)(26005)(478600001)(86362001)(316002)(4326008)(5660300002)(2906002)(8676002)(52536014)(6916009)(8936002);
  DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?JMe54vtl8Hc7JLs9vSCWy9CLRAUwc63s70igVgSbRs5JWVki14xwXPXs6n5A?=
- =?us-ascii?Q?8n9AwpnqLur3hPp2MLTY5Ak3bvldJBA5gAt7UKDNteE3n5HAix5ZL4Vv7Bn4?=
- =?us-ascii?Q?JyHLRThK0uqnR/7JDwusbsXucXI+63KlryfsNSNP+73utUBqFgynXYWiDODU?=
- =?us-ascii?Q?YA9sbJfHX+3I20/lmiWNI/sDuVinQexZKYud1Fi9mpgxXAy9YyxlCBZ2LIUk?=
- =?us-ascii?Q?150RHFS/UDJlT/VyvpJQQg+a7RBMYL2cfKndkQodJdS0ljFySyFpMgWr/ltT?=
- =?us-ascii?Q?i31574Dv3ssCQiA3g43tWRXQ2S5xsqUU3ZO+R4W1GVsOvKPEuEIBRHcG9Sg6?=
- =?us-ascii?Q?i983w9CvBcGs2U0RxxKmTjHjOuN25k4gIb2iv7ad+YicXM7ekWGW+p+wwgaY?=
- =?us-ascii?Q?Tyr0HUoPmxAD1x54na3VTXQna5g4+im4tU/rylihOM221P/ZhTz+zSYuv5Z1?=
- =?us-ascii?Q?cMXOyaSj7CTAAg2/AZXfvxK/N0wq6r5jwW3HY4OGwGaJEjJ2ZJ7AoAeEJxv4?=
- =?us-ascii?Q?6Ew4TSCwX7jGnp2pWAdQhWey8pNNgXKX3lfy1ZwDBXcaUeuda5UMtbf98t5n?=
- =?us-ascii?Q?7IgXAPX+WA1IhgUR7VbrKsZrEWvOxbHI887l3Skmhq/Xbd04o7FlsZJtgEI3?=
- =?us-ascii?Q?ppkp081eDIeAuw8X/2EdcL986MGoFcyyDx93H6dZb2loONwJi2x0RD5czqEB?=
- =?us-ascii?Q?6RVR+G+e4CJvpps3IzeoL9KSHA8qDlQYwThYc9Rd7kdyZMOMuc0kHhmVzjzr?=
- =?us-ascii?Q?hN3I9OkVM7sAoPJHxbMW/dDen1sBYbD+C0i7evf6TzY99n94ynQ0LyMF76sr?=
- =?us-ascii?Q?/Fn3r7YI4/dG9r0IzQn7ykbY+2XtWeUgvK1GYS2VV2NLj9MON4xazrDjkP/S?=
- =?us-ascii?Q?xRjpz85bGwzqtw9Ag3tk4No5qZz5XD4ic/X34bxxMWIcefaLZpSPHVBcu/Ng?=
- =?us-ascii?Q?H2K14yk0yUr48PAbDic72FhaTG2CEYJhD522ctE2sdo=3D?=
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?hSy/JmkBIjOQYmepbph//AHVhqcjJ9krFTQcH/d2emDUyOc6kUmzNK2XRrNh?=
+ =?us-ascii?Q?ItdyKoTg6Ajwf5yn3cddJQf+cCPvEqrByKR0YlH2mLAzSTnGOLbwDdXLkdyk?=
+ =?us-ascii?Q?UMB5qeLDEFQztmtne7iG+I9lv/YN4o8up5THucjfJoB7bFAtCYDW2fNSlLwD?=
+ =?us-ascii?Q?uobllXhHL8PwsXfUjJMhFJ4O+69fmKOx+1zlisHxYdbEIHX7WrsnAeeiA4ZJ?=
+ =?us-ascii?Q?hrfzI/l2ILyISOKkJqxaUNZNbEt4ijYr5zNo5OzWlFfk7abUN+arWB2eja9K?=
+ =?us-ascii?Q?IJxY51X0adY/zP7ZRmPjWpzANiSPZ97c/LCGegTRRzIaD4n+eUmA8tC2gYd4?=
+ =?us-ascii?Q?qaKfEmUwZLXpF+aQeqLKbGFFUrMkxtxy7H06rYcJV8lqQZZLAiOvr50tjM5w?=
+ =?us-ascii?Q?aQyzbywIMbEEpYN+qhdC7EN71EGtZK77v+4Xzc/jS6FbsGlc24b5LxqFUc1s?=
+ =?us-ascii?Q?3f2lV0u+SCM3u66cKGkUJAhZHhRJvKfhmiQoatQrFZYP0OMpJu4pPhBblHLP?=
+ =?us-ascii?Q?XBriEkW4dfyjTa5Lo8RIquediEno7YitEYpscwlKSmP3PSj8XX5ErCqkX4ld?=
+ =?us-ascii?Q?kvA/QCEu/k2BUkWvskMOk/IyHHnAed8qqglph1uBaqK6WmNZNpjwCqFswix6?=
+ =?us-ascii?Q?ILuAW53ch0ge2jAMd3FLq992dMnPUme4NFlDhxGJFmbTQNtKyxvrfLN3/HR9?=
+ =?us-ascii?Q?W9E6Lf43qX+5vCrCT4DBPaLfh5Yr7NlKBzyS2KOB2uqaW2igdk+z/jg3i3d7?=
+ =?us-ascii?Q?aotFM2boo0A2/KGyp2wqZ+bnRhXI+oIJVFN4TiTTIONhsbHZElwwP8NEykus?=
+ =?us-ascii?Q?T+EtidKQGevQ/OM0ZKiRWgl8ZnKwSowjtvGnT4U6EUacFQpPBAq9+8WYeUyN?=
+ =?us-ascii?Q?uiHSQeXjySqnMjQxB5Z+KQBta7hRrDHxXXfGbLcL/LqtMEoiFEgBOX61Cd3e?=
+ =?us-ascii?Q?jjlkvjq7VGBpbpShoaxs4WBbL93T4OyqwczPKIYywrs=3D?=
 arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nIpCeFf/9LK/T2ttMjdNDyD9q58du97EXd/Ucaw5uBDEjrefG7mPqiTF52uv7W3ibjvHY4W7T3t65iSQN+Poo2OgTP3SFcbWGpf9oKCsVV48+HDBRXkwwC+lQT0sKmHS+VBAQBA38a+m3rQbmLa+ot5KX7Yi58QSWCctnPe9Lx+YntHHlvfKRdmGuDkxMrIl3kmLQVMySjrmMNdy8r/TcDyFPrTrGQuovuDhzHvuFJEE05KglyQZVk3gNblEBEUwZP70IIPcsC1VlE507NsWo/tCEKQT//OJY4B/i73DyB8PkCEqItPSxFs8KWPy6COx3oKwBk8J26X+4crNqcdJEA==
+ b=anVJXjgyj9fsDki5x0M0VXEpv0RNVVUHCiZ11WPS1h0I8Q8uCk1npsSoccpuvjsXqHyehUE0Tin/qZiMV0etkddpoh+FFozaTLBBRUg+0viE0cgU9z2zRP3umXCe6DczxZcVtuJtHkeOsI5cSBZARBrpwOz8y0vJ+Gfak64+ZAannohwWaZAIGU4/2h4sDAmkzi5nk0fxMiU4bDdDEftGA4OLwM46oaslb/nXyfLb0T10LCUcv2tM5O3kuZiaiYT0JKvJsDnYA4yeBI8DqRBMelvROSp/XTS67OPy8e3qgMRSULDQeF0g8/IUjf6x9cn3EkwKsW+hg77xH1GfQtQvw==
 arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=043VLqfnXIhfod9Ivci0UuBSvhg1gBBa9v/D3dJZlrE=;
- b=lQZLISZp7m4UqEQDwSOsB/4rUe0NC8hbKEZDJ0jN8VgEjJj+dcPww22I3Y8X+tG0Hikedxn2bVWmP1Plp3HQjaUAufuWRbJt9L1NsAHtM232sjOrDdad5og9Ag6LBlVUwUGRazZQJdcw7X6flHDKsVJJ25EOIq1vbt9705Vb/mc2AoCIV6snW8ntAw4ysn3HP4lkWv7Wa2gyGA5nLi22QWw8IyZiIApoULFk4lD9edqgwROJmHaHhHmjGq2GK2gKayF5bwguOGRsWcwdF4bFNHSOvmq1hXIztRIF4DjZUpmFPS+CMoxELNbHrJaU5jP4H8GEvMR4jT2EwbS9atQtNA==
+ bh=CtcQC48RWYnpHLb7n/S6kyEUPxS8TsB0Gt291rqfTkA=;
+ b=kj8fDGjjpzcyk8HzEBsyGBGpe4jaeAdpmFhdzAe2hBR4k+o0vxnilvsXGG5KZvtofhe307Qes4bu3itGmFpYK7Y/3Rp6PP+8mp7fHNHCEur3QVaRYYvjr2LuQ6PAIznhY7LWpfPFG6xOt8ygBLvHs+SjsajNWlG0SEGcXF/O/bLaeytF6UrWbWGGzmip+cvUd1wYKg6NZCf9t5XLuw+JI8CNaEJWRYybRurk0CrlWgHAMv2Dt/xJicf3CgJl5WFTk9Luxun/murnwVZaMXloo+tyy3rZ5SsfxlT06jUtIszY01vf1Tv6DuICgPK/yavEs9RI1RmPwHzr7cs68GMRNA==
 arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
  dkim=pass header.d=quicinc.com; arc=none
 dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=043VLqfnXIhfod9Ivci0UuBSvhg1gBBa9v/D3dJZlrE=;
- b=HRFHoDapJMBoQLwv7iIbM+aUL+2hZKIy4rOYVDO2AHHvVRUGIsrjbosY9X1oTu/SrsF4FLlJJ5zgWwpHdC9/NCu/gXW0ypjxlPia7I+pBEctCgHQRFdmJg/rFKFkloEnDCBrp5k7TeBps/s/wJdegCL3lUrqPfRg2+GUhdc0AOg=
+ bh=CtcQC48RWYnpHLb7n/S6kyEUPxS8TsB0Gt291rqfTkA=;
+ b=Kv6iNxZHmN0NMurEnfqEEKyc6MexvxI9XJjganGgVHrEstARAGMRIrU8U2tKphE4rcmroZg5XvUsdeF6ZpCci1SxXAHrf0fWYdorTQt+kdBxOn2mb/gUwj3wjTbl27WA8pNhmomzg0Xln2dLkSCjYmRAePGRdWVOUNKLl0XDGA4=
 x-ms-exchange-crosstenant-authas: Internal
 x-ms-exchange-crosstenant-authsource: BYAPR02MB4886.namprd02.prod.outlook.com
-x-ms-exchange-crosstenant-network-message-id: 45a4e55c-6ffb-4f81-b668-08d896642643
-x-ms-exchange-crosstenant-originalarrivaltime: 02 Dec 2020 01:46:55.4503 (UTC)
+x-ms-exchange-crosstenant-network-message-id: 307d669f-3217-4ddc-5f8a-08d89664410b
+x-ms-exchange-crosstenant-originalarrivaltime: 02 Dec 2020 01:47:40.3975 (UTC)
 x-ms-exchange-crosstenant-fromentityheader: Hosted
 x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: jjPjO4xGl8jdJxVR38HVhIh2RrlrK2qrpzvpxbKpY6KhezSf8YItl+sBVc5+oI9avmJZubj73gjpKZ1BtWu32w==
+x-ms-exchange-crosstenant-userprincipalname: bFkEld4mFWG5W2JRKuQQCLXobxhUM0li+c5Efdr6ygK4wSoiH49hdq8JFC3LK9Yp4np0ljrmHaBb3RzYLT8KRg==
 x-ms-exchange-transport-crosstenantheadersstamped: BYAPR02MB5159
 x-originatororg: quicinc.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Received-SPF: pass client-ip=199.106.114.39; envelope-from=tsimpson@quicinc.com;
- helo=alexa-out-sd-02.qualcomm.com
+Received-SPF: pass client-ip=199.106.114.38; envelope-from=tsimpson@quicinc.com;
+ helo=alexa-out-sd-01.qualcomm.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -156,36 +156,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+
 > -----Original Message-----
 > From: Alessandro Di Federico <ale.qemu@rev.ng>
 > Sent: Thursday, November 19, 2020 4:54 PM
 > To: Taylor Simpson <tsimpson@quicinc.com>
-> Cc: qemu-devel@nongnu.org; richard.henderson@linaro.org;
-> at.org@qualcomm.com; laurent@vivier.eu; Brian Cain <bcain@quicinc.com>
-> Subject: Re: [RFC PATCH v5 22/33] Hexagon (target/hexagon) generater
-> phase 4 - decode tree
+> Cc: qemu-devel@nongnu.org; Brian Cain <bcain@quicinc.com>;
+> richard.henderson@linaro.org; at.org@qualcomm.com; laurent@vivier.eu
+> Subject: Re: [RFC PATCH v5 20/33] Hexagon (target/hexagon) generator
+> phase 2 - generate header files
 >
-> Is there any specific reason why (here and elsewhere) you use
-> `StringIO` instead of writing to the file directly?
+> Taylor Simpson <tsimpson@quicinc.com> wrote:
 >
-> I'd expect something like:
+> > +from hex_common import *
 >
-> ```
-> if __name__ =3D=3D '__main__':
->     with open(sys.argv[1], 'w') as f:
->         print_tree(f, dectree_normal)
->         print_tree(f, dectree_16bit)
->         if subinsn_groupings:
->             print_tree(f, dectree_subinsn_groupings)
->         for (name, dectree_subinsn) in sorted(dectree_subinsns.items()):
->             print_tree(f, dectree_subinsn)
->         for (name, dectree_ext) in sorted(dectree_extensions.items()):
->             print_tree(f, dectree_ext)
->         print_match_info(f)
->         print_op_info(f)
-> ```
+> I'd suggest to avoid `import *`.
 
 OK
-
-
 
