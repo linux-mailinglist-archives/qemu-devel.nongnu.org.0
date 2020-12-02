@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526E52CBD5A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 13:52:51 +0100 (CET)
-Received: from localhost ([::1]:50284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E152E2CBD5B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 13:54:16 +0100 (CET)
+Received: from localhost ([::1]:52420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkRco-00039I-D6
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 07:52:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40504)
+	id 1kkReB-00041q-V3
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 07:54:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kkRbb-0002eK-2Z
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 07:51:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58393)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kkRbX-0006Fe-BN
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 07:51:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606913489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rvYL45ueIr+2LJlBw4oL/OJGPvo+lkxnLD3mteFTjnI=;
- b=cRF24irCMIGHqeFpDzjOwOyyjnokzqq6kmSBECWIMy40a9OdytnhKw13phaFBpDXui5tV4
- ARmghTSrzSv+JGMHsJdDg5MlnZqji4JpI89zteg8V33Z/Vt5Ph83b7x/A5dhhDoOa9Ge/d
- pXiypRtDvjLRhNsPfa6lJotuBukCTgU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-H8tDig22O-WW5t0DZVqSyA-1; Wed, 02 Dec 2020 07:51:26 -0500
-X-MC-Unique: H8tDig22O-WW5t0DZVqSyA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E19B7100D69F;
- Wed,  2 Dec 2020 12:51:25 +0000 (UTC)
-Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 47A7C10013C0;
- Wed,  2 Dec 2020 12:51:25 +0000 (UTC)
-Date: Wed, 2 Dec 2020 07:51:24 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
-Message-ID: <20201202125124.GD3836@habkost.net>
-References: <20201130154605.GC5078@merkur.fritz.box>
- <a9c1ebf3-ffcc-7312-ce66-a79902d1e9ba@redhat.com>
- <20201130181037.GG5078@merkur.fritz.box>
- <65a9600f-ca8c-ef29-94d8-d9ea114e5e06@redhat.com>
- <20201201162042.GB6264@merkur.fritz.box>
- <db61f61a-1ffa-6185-10dc-3109ff111a35@redhat.com>
- <20201201193528.GC6264@merkur.fritz.box>
- <3449b5d6-d094-84c8-a0ea-4cd25364db2d@redhat.com>
- <20201201220854.GC3836@habkost.net>
- <17afbbfe-209f-e4b2-e9e1-b50abe1fce3c@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kkRcd-0003Jp-SY
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 07:52:39 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39359)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kkRcV-0006Wl-Cv
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 07:52:36 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id e7so3806363wrv.6
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 04:52:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=GNsymJgB82g1y3CStBobkSjd2+AeHYjw+Ym0W5/jw2M=;
+ b=n8Yj4op9z9mqEjCX1GMw43W5nvNhCzaDxXlnpJ1gHlT/Gz2HxYPvTx9mOhyCEzN2a9
+ U+dlXbAgxqn+LwgIgN2J4TwHhjNoyd1yTHtw28FnJFYxm3FSjKEZ2bdyNl/bSExyjdvA
+ pDuaLm56ro2LAKVHGyD0Vr138lqvyw0wU6lkbRSKtF+gaNXiJ6lRAdeuO6u/We0JtANB
+ FtQa6NJ9yx+NvtZW8OIGYn9CzDdPrIt0WFv1gchckgPWFzpzcntg23KjrSapK/zZhclm
+ Dadwf4Zm8EgAyjoLkQimUiSpb2uMT+UvuHpEluqdMmc8RIt4zk+/Fl9E70/3o1GQ+j3K
+ K7ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=GNsymJgB82g1y3CStBobkSjd2+AeHYjw+Ym0W5/jw2M=;
+ b=XzOUfPvGEwtn1rsbj75pj2cEe3IW1rzYZQE9yjwaZ4q+V2CHpCjIlSVS+tTkqZHeI6
+ NBl/GyDHR5Ey1Lu+7E4UhOdovrvunvV4MvSAME4FU0wfZtfw8CTBs4ucptZonWpaO/wm
+ eySq2JpEQL0vlWAd2BR8bTxYvNbW7kcFVBfkeTmrbsBdoc+LsUaOTl/6ZI8smOY2hHcw
+ 27GT2BTCHTwvZqGuCnazbeRYlzEVhEdvu8E75pAWQd41qZYUG4QVLV82Kj9Qt4hRls+P
+ iLXo75uM64EAkc1gHhaJwUfMI4DEAkREpMfD8SIM6DArV39mbJMZlufsSPJ2orjdzX9+
+ ZGGA==
+X-Gm-Message-State: AOAM530LHtmqJJNV14QLgf/nDHoK1P5PXcEyOEmu4LKs2Jlfq1SxkctF
+ id9j7hzvt9QyTPxNpElFNGauNcvO79QyLw==
+X-Google-Smtp-Source: ABdhPJxPKiv2PbdMIHKJKA2HRG9h02eMoELwLNeTvXy/WX6TiFfO70F+sJ3miwildr9pMWIAaPqEHA==
+X-Received: by 2002:adf:e5cb:: with SMTP id a11mr3336105wrn.15.1606913548776; 
+ Wed, 02 Dec 2020 04:52:28 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id b18sm2145007wrt.54.2020.12.02.04.52.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Dec 2020 04:52:27 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 78B311FF7E;
+ Wed,  2 Dec 2020 12:52:26 +0000 (GMT)
+References: <f14c22bf-aecb-3e38-347b-1b9119ad8baa@suse.de>
+ <87v9dksbkb.fsf@linaro.org> <b39faaa4-3be7-2e05-226c-7a3e50ab75af@suse.de>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: check-tcg errors (build-user, build-user-plugins) again
+In-reply-to: <b39faaa4-3be7-2e05-226c-7a3e50ab75af@suse.de>
+Date: Wed, 02 Dec 2020 12:52:26 +0000
+Message-ID: <87pn3ss73p.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <17afbbfe-209f-e4b2-e9e1-b50abe1fce3c@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,96 +87,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, lvivier@redhat.com, thuth@redhat.com,
- pkrempa@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 02, 2020 at 10:30:11AM +0100, Paolo Bonzini wrote:
-> On 01/12/20 23:08, Eduardo Habkost wrote:
-> > > Properties are only a useful concept if they have a use.  If
-> > > -object/object_add/object-add can do the same job without properties,
-> > > properties are not needed anymore.
-> > 
-> > Do you mean "not needed for -object anymore"?  Properties are
-> > still used by internal C code (esp. board code),
-> > -device/device_add, -machine, -cpu, and debugging commands (like
-> > "info qtree" and qom-list/qom-get/qom-set).
-> 
-> Yes.
-> 
-> > > Right now QOM is all about exposing properties, and having multiple
-> > > interfaces to set them (by picking a different visitor).  But in practice
-> > > most QOM objects have a lifetime that consists of 1) set properties 2) flip
-> > > a switch (realized/complete/open) 3) let the object live on its own.  1+2
-> > > are a single monitor command or CLI option; during 3 you access the object
-> > > through monitor commands, not properties.
-> > 
-> > I agree with this, except for the word "all" in "QOM is all
-> > about".  QOM is also an extensively used internal QEMU API,
-> > including internal usage of the QOM property system.
-> 
-> Yeah, "all about exposing properties" includes internal usage.  And you're
-> right that some "phase 3" monitor commands do work at the property level
-> (mostly "info qtree", but also "qom-get" because there are some cases of
-> public run-time properties).
 
-I still disagree on the "all about" part even for internal usage.
-But this shouldn't really matter for this discussion, I guess.
+Claudio Fontana <cfontana@suse.de> writes:
 
-> 
-> > I'm liking the direction this is taking.  However, I would still
-> > like to have a clearer and feasible plan that would work for
-> > -device, -machine, and -cpu.
-> 
-> -cpu is not a problem since it's generally created with a static
-> configuration (now done with global properties, in the future it could be a
-> struct).
+> On 12/2/20 12:16 PM, Alex Benn=C3=A9e wrote:
+>>=20
+>> Claudio Fontana <cfontana@suse.de> writes:
+>>=20
+>>> Hi Alex and all,
+>>>
+>>> when trying to use check-tcg (master), I am getting often these errors:
+>>>
+>>> $ ../configure --disable-system --disable-tools
+>>>
+>>> $ make -j12 check-tcg
+>>>
+>>> ERRO[0000] cannot find mappings for user claudio: No subgid ranges foun=
+d for group "claudio" in /etc/subgid=20
+>>> ERRO[0000] cannot find mappings for user claudio: No subgid ranges foun=
+d for group "claudio" in /etc/subgid=20
+>>> ERRO[0000] cannot find mappings for user claudio: No subgid ranges foun=
+d for group "claudio" in /etc/subgid=20
+>>> Trying to pull registry.gitlab.com/qemu-project/qemu/qemu/debian11...
+>>> Trying to pull registry.gitlab.com/qemu-project/qemu/qemu/fedora-cris-c=
+ross...
+>>> Trying to pull registry.gitlab.com/qemu-project/qemu/qemu/debian10...
+>>> ERRO[0000] cannot find mappings for user claudio: No subgid ranges foun=
+d for group "claudio" in /etc/subgid=20
+>>>
+>>> [...]
+>>>   TEST    linux-test on x86_64
+>>> timeout: failed to run command =E2=80=98/home/claudio/git/qemu/build/qe=
+mu-x86_64=E2=80=99timeout: : No such file or directoryfailed to run command=
+ =E2=80=98/home/claudio/git/qemu/build/qemu-x86_64=E2=80=99
+>>>
+>>> [...]
+>>>
+>>>
+>>> Is there some pre-configuration on the host necessary to be able to
+>>> run check-tcg?
+>>=20
+>> There shouldn't be but those errors remind me of some of the tweaks I
+>> had to make to me Gentoo system when using podman (instead of docker).
+>> In the end I think I just ended up adding the lines:
+>>=20=20=20
+>>   alex:100000:65536
+>>=20
+>> to /etc/subgid and /etc/subgid-
+>>=20
+>> Marc-Andr=C3=A9 may have some better pointers as he added podman support=
+ to
+>> the builder scripts.
+>
+>
+> I did that and things seem a bit better, but still a lot of errors:
+>
+>
+> 63      ../sysdeps/x86_64/start.S: No such file or directory.
+>
+> Error: error creating build container: The following failures happened wh=
+ile trying to pull image specified by "debian:bullseye-slim" based on searc=
+h registries in /etc/containers/registries.conf:
+> * "localhost/debian:bullseye-slim": Error initializing source docker://lo=
+calhost/debian:bullseye-slim: error pinging docker registry localhost: Get =
+https://localhost/v2/: dial tcp [::1]:443: connect: connection refused
+> * "docker.io/library/debian:bullseye-slim": Error committing the finished=
+ image: error adding layer with blob "sha256:ae63fcbbc3b289e425e4c8840ccde4=
+314f4a060cbc0345e6871a28bdc72f6fe8": Error processing tar file(exit status =
+1): there might not be enough IDs available in the namespace (requested 0:4=
+2 for /etc/gshadow): lchown /etc/gshadow: invalid argument
+> Traceback (most recent call last):
+>   File "/home/claudio/git/qemu-pristine/qemu/tests/docker/docker.py", lin=
+e 709, in <module>
+>     sys.exit(main())
+>   File "/home/claudio/git/qemu-pristine/qemu/tests/docker/docker.py", lin=
+e 705, in main
+>     return args.cmdobj.run(args, argv)
+>   File "/home/claudio/git/qemu-pristine/qemu/tests/docker/docker.py", lin=
+e 501, in run
+>     extra_files_cksum=3Dcksum)
+>   File "/home/claudio/git/qemu-pristine/qemu/tests/docker/docker.py", lin=
+e 354, in build_image
+>     quiet=3Dquiet)
+>   File "/home/claudio/git/qemu-pristine/qemu/tests/docker/docker.py", lin=
+e 244, in _do_check
+>     return subprocess.check_call(self._command + cmd, **kwargs)
+>   File "/usr/lib64/python3.6/subprocess.py", line 311, in check_call
+>     raise CalledProcessError(retcode, cmd)
+>
+>
+> [...]
+> Error: error pulling image "registry.gitlab.com/qemu-project/qemu/qemu/fe=
+dora-cris-cross": unable to pull registry.gitlab.com/qemu-project/
+>
 
-It is a problem if it requires manually converting existing code
-defining CPU properties and we don't have a transition plan.
+I'm guessing this can be fixed by adding gitlab to /etc/containers/registri=
+es.conf
 
-> 
-> -machine and -device in principle could be done the same way as -object,
-> just through a different registry (_not_ a huge struct; that's an acceptable
-> stopgap for -object but that's it).  The static aka field properties would
-> remain as read-only, with defaults moved to instance_init or realize.  But
-> there would be again "triplication" with a trivial conversion:
+I'll see if I can resurrect my podman setup because it was working before
+we added the caching from gitlab.
 
-> 
-> 1) in the QAPI schema, e.g. 'num_queues': 'int16'
-> 
-> 2) in the struct, "int16_t num_queues;"
-> 
-> 3) in the realize function,
-> 
->     s->num_queues = cfg->has_num_queues ? cfg->num_queues : 8;
-> 
-> So having a mechanism for defaults in the QAPI schema would be good. Maybe
-> 'num_queues': { 'type': 'int16', 'default': '8' }?
-> 
+> [...]
+>
+>
+>
+>>=20
+>> The main difference between the images on the registry and the local
+>> versions is most add the current user so there is a clean mapping
+>> between the container user and the host file-system. It's the last step
+>> of the build so we still use the cached layers from the registry
+>> versions.
+>>=20
+>>> I see these errors in gitlab also for
+>>>
+>>> build-user
+>>> build-user-plugin
+>>>
+>>> Maybe this is what Philippe mentioned before though, that this is
+>>> expected at the moment due to a temporary Meson shortcoming?
+>>=20
+>> That is odd - I'm not seeing anything like that on the master builds:
+>>=20
+>>   https://gitlab.com/qemu-project/qemu/-/jobs/883985106
+>>   https://gitlab.com/qemu-project/qemu/-/jobs/883985113
+>>=20
+>> AFAIK GitLab is still using Docker to build it's containers (albeit with
+>> BUILDKIT enabled).
+>
+>
+> I am running again on gitlab the master branch, maybe there is something =
+I need to fix, but to do that I need to enable check-tcg successfully I thi=
+nk.
+>
+> Thanks!
+>
+> Claudio
+>
+>>=20=20=20
+>>>
+>>> Ciao,
+>>>
+>>> Claudio
+>>=20
+>>=20
 
-Would a -device conversion also involve non-user-creatable
-devices, or would we keep existing internal usage of QOM
-properties?
 
-Even if it's just for user-creatable devices, getting rid of QOM
-property usage in devices sounds like a very ambitious goal.  I'd
-like us to have a good transition plan, in addition to declaring
-what's our ideal end goal.
-
-
-> I also need to review more the part of this code with respect to the
-> application of global properties.  I wonder if there are visitor tricks that
-> we can do, so that global properties keep working but correspond to QAPI
-> fields instead of QOM properties.
-> 
-> Paolo
-> 
-
--- 
-Eduardo
-
+--=20
+Alex Benn=C3=A9e
 
