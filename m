@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BAD2CB79C
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:49:10 +0100 (CET)
-Received: from localhost ([::1]:36732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4FC2CB748
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:35:39 +0100 (CET)
+Received: from localhost ([::1]:52676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkNoz-00082c-LV
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:49:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40434)
+	id 1kkNbu-0007xG-2F
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:35:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCi-0003N0-WD
+ id 1kkNCi-0003Ml-ST
  for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23231)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCN-0003jt-37
+ id 1kkNCN-0003je-2g
  for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606896553;
@@ -25,30 +25,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eU9KOj3uIt3ukxp8s/YG41jfoeixGEbp0K0q2JH0hJM=;
- b=ddyGZYu5QvfiCOx6L1DLnO8RdqZIWInLYE405chwF3S5ay8GzK/3+ZFNds/0QzO2jNJIBb
- Oje6Vr+9kzBMYVx+MGIHNmVhLUMiAWn+d/AUnJRDDK35Gt/HN2EhXFY/hP0twsI8qzTwcY
- aX4pXgBpOQ4vubAz23NjnaD3FSa54rI=
+ bh=QMI9iwXDGFsbqKHQA+MC86cQW3cOVRmlpWZ/dSetqZo=;
+ b=SrGO4mJlS9xmYB4zQ5s09vCxR1yVL8bF5q5KGdWS9F33XIWqgz0d/k4oTll2OEB50rz0bo
+ mNnQeFFdRR/p7IkM8ETWFHNqsIOlzq1jFS2d9fayCKbQF1C4tqo7yGlnYxnGyCYjlC8M1P
+ hHvgyTbSOwkJrfKlXtAp+Y3xm5iocFU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-1GXLXV07Ppy1TlvZvKHgag-1; Wed, 02 Dec 2020 03:09:11 -0500
-X-MC-Unique: 1GXLXV07Ppy1TlvZvKHgag-1
+ us-mta-136-VIN87F0QNmO6u_HbVoqucw-1; Wed, 02 Dec 2020 03:09:11 -0500
+X-MC-Unique: VIN87F0QNmO6u_HbVoqucw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5923C1006C82
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8C351006C83
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:10 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2355B5D705
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 745CE5D705
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:10 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 055/113] vl: move various initialization routines out of
- qemu_init
-Date: Wed,  2 Dec 2020 03:07:51 -0500
-Message-Id: <20201202080849.4125477-56-pbonzini@redhat.com>
+Subject: [PULL 056/113] vl: extract qemu_init_subsystems
+Date: Wed,  2 Dec 2020 03:07:52 -0500
+Message-Id: <20201202080849.4125477-57-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,107 +82,191 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some very simple initialization routines can be nested in existing
-subsystem-level functions, do that to simplify qemu_init.
+Group a bunch of subsystem initializations that can be done right
+after command line parsing.  Remove initializations that can be done
+simply as global variable initializers.
 
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c      | 3 +++
- include/hw/qdev-core.h | 8 --------
- migration/migration.c  | 4 ++++
- softmmu/qdev-monitor.c | 6 ------
- softmmu/vl.c           | 5 -----
- 5 files changed, 7 insertions(+), 19 deletions(-)
+ softmmu/vl.c | 94 ++++++++++++++++++++++++----------------------------
+ 1 file changed, 43 insertions(+), 51 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index cd298fac13..5260155962 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -874,6 +874,9 @@ static void machine_initfn(Object *obj)
-     MachineState *ms = MACHINE(obj);
-     MachineClass *mc = MACHINE_GET_CLASS(obj);
- 
-+    container_get(obj, "/peripheral");
-+    container_get(obj, "/peripheral-anon");
-+
-     ms->dump_guest_core = true;
-     ms->mem_merge = true;
-     ms->enable_graphics = true;
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 5e737195b5..b77a2f1da7 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -785,14 +785,6 @@ BusState *sysbus_get_default(void);
- char *qdev_get_fw_dev_path(DeviceState *dev);
- char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceState *dev);
- 
--/**
-- * @qdev_machine_init
-- *
-- * Initialize platform devices before machine init.  This is a hack until full
-- * support for composition is added.
-- */
--void qdev_machine_init(void);
--
- /**
-  * device_legacy_reset:
-  *
-diff --git a/migration/migration.c b/migration/migration.c
-index 87a9b59f83..d9e94f4080 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -182,6 +182,10 @@ void migration_object_init(void)
-         error_report_err(err);
-         exit(1);
-     }
-+
-+    blk_mig_init();
-+    ram_mig_init();
-+    dirty_bitmap_mig_init();
- }
- 
- void migration_shutdown(void)
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index bf79d0bbcd..d060e765da 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -943,12 +943,6 @@ BlockBackend *blk_by_qdev_id(const char *id, Error **errp)
-     return blk;
- }
- 
--void qdev_machine_init(void)
--{
--    qdev_get_peripheral_anon();
--    qdev_get_peripheral();
--}
--
- QemuOptsList qemu_device_opts = {
-     .name = "device",
-     .implied_opt_name = "driver",
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 9caff9fe8e..8640ddd3ec 100644
+index 8640ddd3ec..41a685bb5d 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -4280,10 +4280,6 @@ void qemu_init(int argc, char **argv, char **envp)
+@@ -128,7 +128,7 @@ bool enable_mlock = false;
+ bool enable_cpu_pm = false;
+ int nb_nics;
+ NICInfo nd_table[MAX_NICS];
+-int autostart;
++int autostart = 1;
+ static enum {
+     RTC_BASE_UTC,
+     RTC_BASE_LOCALTIME,
+@@ -1228,7 +1228,8 @@ struct VMChangeStateEntry {
+     int priority;
+ };
+ 
+-static QTAILQ_HEAD(, VMChangeStateEntry) vm_change_state_head;
++static QTAILQ_HEAD(, VMChangeStateEntry) vm_change_state_head =
++    QTAILQ_HEAD_INITIALIZER(vm_change_state_head);
+ 
+ /**
+  * qemu_add_vm_change_state_handler_prio:
+@@ -2968,11 +2969,44 @@ static void qemu_maybe_daemonize(const char *pid_file)
+     qemu_add_exit_notifier(&qemu_unlink_pidfile_notifier);
+ }
+ 
++static void qemu_init_subsystems(void)
++{
++    Error *err;
++
++    os_set_line_buffering();
++
++    module_call_init(MODULE_INIT_TRACE);
++
++    qemu_init_cpu_list();
++    qemu_init_cpu_loop();
++    qemu_mutex_lock_iothread();
++
++    atexit(qemu_run_exit_notifiers);
++
++    module_call_init(MODULE_INIT_QOM);
++    module_call_init(MODULE_INIT_MIGRATION);
++
++    runstate_init();
++    precopy_infrastructure_init();
++    postcopy_infrastructure_init();
++    monitor_init_globals();
++
++    if (qcrypto_init(&err) < 0) {
++        error_reportf_err(err, "cannot initialize crypto: ");
++        exit(1);
++    }
++
++    os_setup_early_signal_handling();
++
++    bdrv_init_with_whitelist();
++    socket_init();
++}
+ 
+ void qemu_init(int argc, char **argv, char **envp)
+ {
+     int i;
+-    int snapshot, linux_boot;
++    int snapshot = 0;
++    int linux_boot;
+     const char *initrd_filename;
+     const char *kernel_filename, *kernel_cmdline;
+     const char *boot_order = NULL;
+@@ -2993,7 +3027,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     ram_addr_t maxram_size;
+     uint64_t ram_slots = 0;
+     FILE *vmstate_dump_file = NULL;
+-    Error *main_loop_err = NULL;
+     Error *err = NULL;
+     const char *mem_path = NULL;
+     bool have_custom_ram_size;
+@@ -3001,22 +3034,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+     int mem_prealloc = 0; /* force preallocation of physical target memory */
+ 
+-    os_set_line_buffering();
+-
+-    error_init(argv[0]);
+-    module_call_init(MODULE_INIT_TRACE);
+-
+-    qemu_init_cpu_list();
+-    qemu_init_cpu_loop();
+-
+-    qemu_mutex_lock_iothread();
+-
+-    atexit(qemu_run_exit_notifiers);
+-    qemu_init_exec_dir(argv[0]);
+-
+-    module_call_init(MODULE_INIT_QOM);
+-    module_call_init(MODULE_INIT_MIGRATION);
+-
+     qemu_add_opts(&qemu_drive_opts);
+     qemu_add_drive_opts(&qemu_legacy_drive_opts);
+     qemu_add_drive_opts(&qemu_common_drive_opts);
+@@ -3051,27 +3068,10 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_add_opts(&qemu_fw_cfg_opts);
+     module_call_init(MODULE_INIT_OPTS);
+ 
+-    runstate_init();
+-    precopy_infrastructure_init();
+-    postcopy_infrastructure_init();
+-    monitor_init_globals();
+-
+-    if (qcrypto_init(&err) < 0) {
+-        error_reportf_err(err, "cannot initialize crypto: ");
+-        exit(1);
+-    }
+-
+-    QTAILQ_INIT(&vm_change_state_head);
+-    os_setup_early_signal_handling();
+-
+-    cpu_option = NULL;
+-    snapshot = 0;
+-
+-    nb_nics = 0;
+-
+-    bdrv_init_with_whitelist();
++    error_init(argv[0]);
++    qemu_init_exec_dir(argv[0]);
+ 
+-    autostart = 1;
++    qemu_init_subsystems();
+ 
+     /* first pass of option parsing */
+     optind = 1;
+@@ -3952,13 +3952,10 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_process_help_options();
+     qemu_maybe_daemonize(pid_file);
+ 
+-    if (qemu_init_main_loop(&main_loop_err)) {
+-        error_report_err(main_loop_err);
+-        exit(1);
+-    }
++    qemu_init_main_loop(&error_fatal);
++    cpu_timers_init();
+ 
+     user_register_global_props();
+-
+     replay_configure(icount_opts);
+ 
+     if (incoming && !preconfig_exit_requested) {
+@@ -3995,6 +3992,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     }
+ 
+     cpu_exec_init_all();
++    page_size_init();
+ 
+     if (machine_class->hw_version) {
+         qemu_set_hw_version(machine_class->hw_version);
+@@ -4137,9 +4135,6 @@ void qemu_init(int argc, char **argv, char **envp)
          exit(1);
      }
  
--    blk_mig_init();
--    ram_mig_init();
--    dirty_bitmap_mig_init();
+-    page_size_init();
+-    socket_init();
 -
-     qemu_opts_foreach(qemu_find_opts("mon"),
-                       mon_init_func, NULL, &error_fatal);
+     qemu_opts_foreach(qemu_find_opts("object"),
+                       user_creatable_add_opts_foreach,
+                       object_create_initial, &error_fatal);
+@@ -4256,9 +4251,6 @@ void qemu_init(int argc, char **argv, char **envp)
+         semihosting_arg_fallback(kernel_filename, kernel_cmdline);
+     }
  
-@@ -4316,7 +4312,6 @@ void qemu_init(int argc, char **argv, char **envp)
-        reading from the other reads, because timer polling functions query
-        clock values from the log. */
-     replay_checkpoint(CHECKPOINT_INIT);
--    qdev_machine_init();
- 
-     current_machine->boot_order = boot_order;
- 
+-    /* initialize cpu timers and VCPU throttle modules */
+-    cpu_timers_init();
+-
+     if (default_net) {
+         QemuOptsList *net = qemu_find_opts("net");
+         qemu_opts_set(net, NULL, "type", "nic", &error_abort);
 -- 
 2.26.2
 
