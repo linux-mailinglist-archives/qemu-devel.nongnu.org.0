@@ -2,97 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1592CBE69
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 14:35:51 +0100 (CET)
-Received: from localhost ([::1]:52694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173222CBE76
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 14:38:26 +0100 (CET)
+Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkSIQ-0002zL-IR
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 08:35:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50466)
+	id 1kkSKv-0004g0-6o
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 08:38:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkSG0-0002B2-4R
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 08:33:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30370)
+ id 1kkSJH-0003sL-Ui
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 08:36:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkSFy-0005Zf-Ji
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 08:33:19 -0500
+ id 1kkSJG-0005zJ-4G
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 08:36:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606915997;
+ s=mimecast20190719; t=1606916201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZNMIbKpYxbBD+9IuDcNFh0gq7g4UQsjlYsiDAItkYQI=;
- b=L3eCLUiV+rjxgzCf2xDwF6nArAfBmIRAucSWw/4dPKCIvz7jyYDrLDDTxvjcMl9VQiwhyS
- GxsHdngmVUKlQBtsjToX064bJBxSwRLsXmLUg0MpSd3G52B4dSs2qcbHgT+pEIuYu6oLWS
- ONPd9U6/KU/32BCjYlnK/WcUz+3Md5E=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-uZcqBtkhMiu7yBCQl6hMjw-1; Wed, 02 Dec 2020 08:33:16 -0500
-X-MC-Unique: uZcqBtkhMiu7yBCQl6hMjw-1
-Received: by mail-ej1-f71.google.com with SMTP id z10so3134335eje.5
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 05:33:16 -0800 (PST)
+ bh=+S8PVutQeX1gYsliql8x8zWLlo4p1y99pWiFHhX8bkA=;
+ b=UGajTFUD+tkCRwrMMyUnx6Nw0tKGBO6KEO4nmhXuduNFurZFzLUoWox/UhugteldLNJbs7
+ 1EckhnRi6x06H5UrBWi0Wdpen0gHXozFrjDXSvsfKIb5y17xOo1WJDs0IBLfI2sNbSxMhR
+ 6IYZsVRNOHzrGgMfQI3OsDPalJ1PEAM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-398-PamxIQ_kN-GIqdC9QNdLxw-1; Wed, 02 Dec 2020 08:36:39 -0500
+X-MC-Unique: PamxIQ_kN-GIqdC9QNdLxw-1
+Received: by mail-ed1-f72.google.com with SMTP id s7so3099454eds.17
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 05:36:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IqD1KAVlz7DGV/veiuVmjO9+BAkp+fpXNiLLjXvZpoQ=;
- b=TOW6wDz+ELSHjrrwn+uEdyR6AqWok0z2U1EI0kjMhRNtUlkPl+LIu4HqftjMTmSYzQ
- y8USGWi2Chm+HHvtqoP4oOAx4bucRocSFRGhQ5pwcYjEAPmJtYqXkwqmyq/JhC1FcFsM
- 5T6NSyUc+/K1ookN84YLz+WqTrKw9d2PzOJPGOZQo+j7hjVLAhqsSWILyGpF+Y+ysaa/
- uoiCnqdaLckcvaIJq9U3V1lHkFPnz6n9nA1Yuo0ZKl0eDXyxnx/S4rvB1RP0ZOzPnc2o
- kmt4aaTtpjDV9XkEyAx36o2cPXkPE08QjVBFPMNNLfEtnranR3WmWTqettEjwAhzUTGo
- DMyA==
-X-Gm-Message-State: AOAM5334yGk2tgmfr1ak9NsMEJi7dNQeB4pyny3D00zHaFCfnFtneuth
- +S5KjnqqOxgQn8oqdwPtvVSjycHtrRlMCMxhItgiLH4UvZn/ZIc/luJdgX1lsvdRC/bUUe2oa4l
- 1/QqSDmMRxTBVHMVemmnBFcXYA2goeS4DQaea2cVr0KNA3UliQ6vOGibZAmia0ZvKiE4=
-X-Received: by 2002:a50:955b:: with SMTP id v27mr2519334eda.324.1606915989978; 
- Wed, 02 Dec 2020 05:33:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxkKwsvaeFlqXlt9WYCG4MyEWUiTdnp+ZTOQcN+JzuZiH8N8hPGzcj88iiQw9dJTNX/xUjGjA==
-X-Received: by 2002:a50:955b:: with SMTP id v27mr2519168eda.324.1606915987875; 
- Wed, 02 Dec 2020 05:33:07 -0800 (PST)
+ bh=+S8PVutQeX1gYsliql8x8zWLlo4p1y99pWiFHhX8bkA=;
+ b=AdSGl2/UKbddBa/Lf0w/3I9dMkNYzt+zpgjFdCjE5nULl7X8Kbidl+JL/mhXH4pzIB
+ mLA0fq3xE1iKmqKTLDgmaN5WfnSQmml8gPjPi/onVJMhinGBD8Y9560FmLJ73bpQWcF9
+ C+UtQPawgx07Udnv0PZx45O+vpg3ZJe8+Kp9/60+ceEeiWbC4ZuF5u3WnDtyIGu5AYcj
+ zProbkq+ZrluIOuY40Vkj4Mh00hKd1uDAG4av8Ij2avQXkq73GB6/wzWMW5awoXXFQac
+ U8DdIwXFWfkCikiBIyi7WiQ+WGSkV4K3NWE0PBFUWywrcYs1q9YjMp7tg2ol5XpAr3+t
+ n1IA==
+X-Gm-Message-State: AOAM533dLi3J55ZDILOkuagzszLLli2L7XAE1t5OFyUOu9GC7DkrbOj7
+ A4fONedyzQL38hl7b+Rb83nPqLDJ4SN5x7M8aKS7FNY0efBIt0Vrp+qKYOiHTzDU+2hnGQ1Mf5Z
+ SB6B62xrj/IldnoVZgX6Ky7jacEIs7o+RcQuhL4d7eDq1vvpZcmWfiIVtkbsExzEWW7U=
+X-Received: by 2002:a50:9f4a:: with SMTP id b68mr2549650edf.296.1606916198066; 
+ Wed, 02 Dec 2020 05:36:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy6bh3WcKhz4zbs+VnVB+vYaAzkPNLtmUidmqlQcrqGyY3J+7rTu/mIrqOXrI00lkDVzZJGBA==
+X-Received: by 2002:a50:9f4a:: with SMTP id b68mr2549612edf.296.1606916197546; 
+ Wed, 02 Dec 2020 05:36:37 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k3sm1205972ejd.36.2020.12.02.05.33.06
+ by smtp.gmail.com with ESMTPSA id f18sm1207732edt.60.2020.12.02.05.36.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Dec 2020 05:33:06 -0800 (PST)
-Subject: Re: [PATCH] ide:atapi: check io_buffer_index in
- ide_atapi_cmd_reply_end
-To: P J P <ppandit@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <20201118142745.112579-1-ppandit@redhat.com>
- <204751s9-11np-413q-q3pr-3o6os86078@erqung.pbz>
- <492170b8-8056-bd65-5150-62c6e89cb3f0@redhat.com>
- <933np1s-8p4p-o74p-rp94-517r98nop2o6@erqung.pbz>
- <a964ffea-ece6-3f33-3dd1-ee9c2b729b75@redhat.com>
- <87sg8o65ys.fsf@dusky.pond.sub.org>
- <212n55r-9n3q-8r4r-85p7-14n495r53s6n@erqung.pbz>
+ Wed, 02 Dec 2020 05:36:36 -0800 (PST)
+Subject: Re: [PATCH 24/29] migration, vl: start migration via
+ qmp_migrate_incoming
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20201027182144.3315885-1-pbonzini@redhat.com>
+ <20201027182144.3315885-25-pbonzini@redhat.com>
+ <20201120163408.7740a92f@redhat.com>
+ <0562d6fa-b619-7dc3-ef94-242a39436cfa@redhat.com>
+ <20201202131037.GF3226@work-vm>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b9550aa3-e575-179c-01f8-f06dcc702a9e@redhat.com>
-Date: Wed, 2 Dec 2020 14:33:05 +0100
+Message-ID: <3a14b300-9288-bfb8-57cd-653ebfd76e66@redhat.com>
+Date: Wed, 2 Dec 2020 14:36:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <212n55r-9n3q-8r4r-85p7-14n495r53s6n@erqung.pbz>
+In-Reply-To: <20201202131037.GF3226@work-vm>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -107,35 +104,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Wenxiang Qian <leonwxqian@gmail.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/12/20 14:17, P J P wrote:
->    Hi,
-> 
-> [doing a combined reply]
-> 
-> +-- On Tue, 1 Dec 2020, Philippe Mathieu-DaudÃ© wrote --+
-> | Is it possible to release the reproducer to the community, so we can work on
-> | a fix and test it?
-> 
-> * No, we can not release/share reproducers on a public list.
+On 02/12/20 14:10, Dr. David Alan Gilbert wrote:
+> I'm more worried about how this stops a repeated 'migrate incoming'
+> or a 'migrate_incoming' that's issued following a qemu that's been
+> started with -incoming tcp:... but which a socket hasn't yet connected
+> to.
 
-We do not need researchers to release or share reproducers though, we 
-"only" encourage people who contribute bugfixes (esp. for 
-security-sensitive issues) to add a qtest testcase.  Often the testcase 
-would have no resemblance to the original reproducer (or even always, 
-except for fuzzed issues).
+Good question, fortunately it is simply handled answer:
 
-Would that be allowed?  If not, we have a problem, because it means we 
-cannot follow the basic principle of regression testing.
+void qmp_migrate_incoming(const char *uri, Error **errp)
+{
+     Error *local_err = NULL;
+     static bool once = true;
 
-> * I've been doing the patch work out of my own interest.
+     if (!once) {
+         error_setg(errp, "The incoming migration has already been 
+started");
+         return;
+     }
+     if (!runstate_check(RUN_STATE_INMIGRATE)) {
+         error_setg(errp, "'-incoming' was not specified on the command 
+line");
+         return;
+     }
 
-Ok, that at least wasn't clear to me.  Thanks for making it clearer.
+     qemu_start_incoming_migration(uri, &local_err);
+
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+     }
+
+     once = false;
+}
+
+This patch can simplify things because every incoming migrations (no 
+matter if '-incoming defer' or '-incoming tcp:...') goes through the 
+qmp_migrate_incoming function above.
 
 Paolo
 
