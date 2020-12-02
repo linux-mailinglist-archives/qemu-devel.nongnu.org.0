@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2252F2CC44C
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 18:53:27 +0100 (CET)
-Received: from localhost ([::1]:51944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9BAB2CC467
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 18:58:19 +0100 (CET)
+Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkWJi-0007Wy-7M
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 12:53:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40394)
+	id 1kkWOQ-0001p5-A6
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 12:58:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkWHt-0006Yu-3V
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:51:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkWHr-0004Fp-G1
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:51:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606931489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VvMR0sWFDgR5yiezujeYPR/xreWHnc7psevnHYtF58w=;
- b=PGeahcGT8cODJ4/xKoUvROGrMdh8M68MolWQb22eQVYVicSNh9JkwU40Uf73iae6ujYqOs
- sGrvKQaUflWFkfVT4M6FTTNE0qGwHjTb0I91t7ho0WE4KfYooD1OxyMA+Ujs6bCWzlWJOQ
- hTkcMzj/pu5dmC9J2NaNgJLxldm4j+M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-YAdpCHD8OLaWTbGr3vRkAQ-1; Wed, 02 Dec 2020 12:51:25 -0500
-X-MC-Unique: YAdpCHD8OLaWTbGr3vRkAQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57BA6100C60C;
- Wed,  2 Dec 2020 17:51:24 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-113-199.ams2.redhat.com [10.36.113.199])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 051CA189BB;
- Wed,  2 Dec 2020 17:51:22 +0000 (UTC)
-Date: Wed, 2 Dec 2020 18:51:21 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Subject: Re: Plans to bring QMP 'x-blockdev-reopen' out of experimental?
-Message-ID: <20201202175121.GI16765@merkur.fritz.box>
-References: <20201006091001.GA64583@paraplu>
- <w51mu0ifbuf.fsf@maestria.local.igalia.com>
- <w51k0vmf9k3.fsf@maestria.local.igalia.com>
- <20201020082333.GB4452@merkur.fritz.box>
- <w51blfctcfb.fsf@maestria.local.igalia.com>
- <20201202162808.GG16765@merkur.fritz.box>
- <w518sagtb4j.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1kkWMS-0001Ff-F5
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:56:16 -0500
+Received: from mail-ua1-x934.google.com ([2607:f8b0:4864:20::934]:38321)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1kkWMO-0004uw-Lk
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:56:16 -0500
+Received: by mail-ua1-x934.google.com with SMTP id y26so751389uan.5
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 09:56:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=09INGVHMN5TakIKF2aj1Viampd28NfJylJzX8wEfJuQ=;
+ b=l7LOlrZ2/4PbQh7Ti6asUpacIAN9KUIibCULGb2zjr0aSe4G5GgkMpGnI6ZS+DtNm/
+ Tvfg+GjqVVV22RPp/BgelVBV3g3AYZ+KhXtqAtM/KPqsyGqSnV2Irsk3EDJ8olQRMa63
+ W+QfSRsygmbFcHlXk/YsNRd8pHxiYJUNshgHF7lp2LoqN8OQzi1o5mHpChQYwIRKJu0u
+ aO653/CJarqzlDCWz99oIKfPzCqpm9Uj5bWSFvrum5T8N4cLTFYWdsW4x3jRotmJVyvB
+ Urlvj7mL+F8ZSw/j59csp/QDvK2PVEDqGx7UrHcM7KdMGt4p6tsDOXmxbPS+/CSmD29G
+ ARTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=09INGVHMN5TakIKF2aj1Viampd28NfJylJzX8wEfJuQ=;
+ b=aJq+AiPxQ3reXnnOH6tiTcy2wudXrxYAL4fAxGk3lAuZ+y5+O1zgq6ysjJUvYj0WLc
+ z6mtK1+qmNm4fVb9OA45SEgSF26J4uiDiaav0/knmyoNv3/RdpIkLGDnxjp30Wzkk76c
+ xqPBZE/5/JAnekSuzwGtNHK+UtNjTvrKDXL8e08/RRtual2Ad66VoIMQJGOTXBz0q7HV
+ 0Q/+qGCKiDxv6jJSLZbXLljcAROFilCX1mE+3r2txFac33HJ8dIwesRFxVwfrGQtmdam
+ aU9HBjZGWHpnqTPj+g4JnQf2hvhYvFMIQFG4c6pIgVDHIZB9/s4ABsLVdgg3EB4ozF7t
+ qIXg==
+X-Gm-Message-State: AOAM533OlJZ2mIVWDT2S0GJKlaTc0/kG0rVR6+cf/le65STBYiOLgM+q
+ Vz/XNNGOXCpq/rhxwtPO9ICDoEKRl42WzTLo6MZDMQ==
+X-Google-Smtp-Source: ABdhPJzeOhWY+E77krW21DFAw9ons2t0kzgZT+RzwiRq0z0o1n+8CIDrFUuYkxXPMMkCL+E1PAC+T+9G0C9k6WVCV6Q=
+X-Received: by 2002:ab0:1d83:: with SMTP id l3mr2655334uak.41.1606931771333;
+ Wed, 02 Dec 2020 09:56:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <w518sagtb4j.fsf@maestria.local.igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+References: <160687065946.3791.11439184384818467145.malonedeb@soybean.canonical.com>
+ <871rg87l7h.fsf@dusky.pond.sub.org>
+ <CADPb22S+3j_zpd0iVo=MNPO8=txhYt8iicBge6=B7wFq3ZO0eQ@mail.gmail.com>
+ <CAFEAcA8j=zFdN2G43snWPo72JL+PR3F8O4wHJgL7MOSGp4yv-g@mail.gmail.com>
+In-Reply-To: <CAFEAcA8j=zFdN2G43snWPo72JL+PR3F8O4wHJgL7MOSGp4yv-g@mail.gmail.com>
+From: Doug Evans <dje@google.com>
+Date: Wed, 2 Dec 2020 09:55:35 -0800
+Message-ID: <CADPb22RPYnDvCSM+k5YF_H6aD42V0Z1jzJPXMo3VgMwakvC=kg@mail.gmail.com>
+Subject: Re: [Bug 1906463] [NEW] "-device help" does not report all devices
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000069151505b57ef509"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::934;
+ envelope-from=dje@google.com; helo=mail-ua1-x934.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,63 +80,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, mreitz@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.12.2020 um 17:40 hat Alberto Garcia geschrieben:
-> On Wed 02 Dec 2020 05:28:08 PM CET, Kevin Wolf wrote:
-> 
-> >> So x-blockdev-reopen sees that we want to replace the current
-> >> bs->file ("hd0-file") with a new one ("throttle0"). The problem here
-> >> is that throttle0 has hd0-file as its child, so when we check the
-> >> permissions on throttle0 (and its children) we get that hd0-file
-> >> refuses because it's already being used (although in in the process
-> >> of being replaced) by hd0:
-> >> 
-> >> "Conflicts with use by hd0 as 'file', which does not allow 'write, resize' on hd0-file"
-> >> 
-> > This kind of situation isn't new, I believe some of the existing graph
-> > changes (iirc in the context of block jobs) can cause the same problem.
+--00000000000069151505b57ef509
+Content-Type: text/plain; charset="UTF-8"
+
+On Wed, Dec 2, 2020 at 9:41 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Wed, 2 Dec 2020 at 16:51, Doug Evans <dje@google.com> wrote:
 > >
-> > This is essentially why some functions in the permission system take a
-> > GSList *ignore_children. So I believe the right thing to do here is
-> > telling the permission system that it needs to check the situation
-> > without the BdrvChild that links hd0 with hd0-file.
-> 
-> I had tried this already and it does work when inserting the filter (we
-> know that 'hd0-file' is about to be detached from the parent so we can
-> put it in the list) but I don't think it's so easy if we want to remove
-> the filter, i.e.
-> 
->    hd0 -> throttle -> hd0-file     ======>     hd0 -> hd0-file
-> 
-> In this case we get a similar error, we want to make hd0-file a child of
-> hd0 but it is being used by the throttle filter.
-> 
-> Telling bdrv_check_update_perm() to ignore hd0's current child
-> (throttle) won't solve the problem.
+> > Btw, if I may ask another dumb question, I get this:
+> >
+> > @ruffy:build-arm$ ./qemu-system-arm -M virt -monitor stdio
+> > Unable to init server: Could not connect: Connection refused
+> > QEMU 5.1.93 monitor - type 'help' for more information
+> > (qemu) gtk initialization failed
+> > <exit>
+> >
+> > If I add "-display none" then it works, but it's odd that it's trying to
+> initialize with gtk here ($DISPLAY isn't set, there is no X present).
+>
+> That's expected. By default we try to create a GUI window.
+> If DISPLAY is not set, then that fails, which is why
+> we print "gtk initialization failed" and exit.
+> This is the same behaviour as other GUI apps:
+>
+> $ DISPLAY= xterm
+> xterm: Xt error: Can't open display:
+> xterm: DISPLAY is not set
+>
+> $ DISPLAY= firefox
+> Unable to init server: Broadway display type not supported:
+> Error: cannot open display:
+>
+> $ DISPLAY= evince
+> Unable to init server: Could not connect: Connection refused
+> Cannot parse arguments: Cannot open display:
+>
+> If you don't want graphics you should tell QEMU you
+> don't want graphics (eg with '-display none').
+>
+> This seems to me more helpful to most users than the
+> alternative (if you know you don't want the GUI then
+> it's easy to disable it; but most non-sophisticated
+> users do want it).
+>
 
-Isn't this the very same case as removing e.g. a mirror filter from the
-chain? I'm sure we have already solved this somewhere.
 
-Hm, no, it might actually be different in that the throttle node
-survives this, so we do have to check that the resulting graph is
-valid. Do we need a combined operation to remove the throttle node from
-the graph and immediately delete it?
+Thanks. That's not unreasonable.
 
-> > I don't know the exact stack trace of your failure, so maybe this
-> > parameter isn't available yet in the place where you need it, but in
-> > the core functions it exists.
-> 
-> This is in bdrv_reopen_multiple(), in the same place where we are
-> currently checking the permissions of the new backing file.
+OTOH, all those examples don't have a non-X mode.
+As counterexamples there's emacs and gvim.
 
-Oh, it's not happening while actually changing the links, but the check
-before trying? I guess both would fail in this case anyway, but good to
-know.
+The present situation is fine, now that I understand it.
+I can write a wrapper that DTRT.
 
-Kevin
+--00000000000069151505b57ef509
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Wed, Dec 2, 2020 at 9:41 AM Peter Maydell &lt;<a href=3D"m=
+ailto:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org<=
+/a>&gt; wrote:<br></div></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Wed, 2 Dec 2020 at 16:51, Doug Evans &l=
+t;<a href=3D"mailto:dje@google.com" target=3D"_blank">dje@google.com</a>&gt=
+; wrote:<br>
+&gt;<br>
+&gt; Btw, if I may ask another dumb question, I get this:<br>
+&gt;<br>
+&gt; @ruffy:build-arm$ ./qemu-system-arm -M virt -monitor stdio<br>
+&gt; Unable to init server: Could not connect: Connection refused<br>
+&gt; QEMU 5.1.93 monitor - type &#39;help&#39; for more information<br>
+&gt; (qemu) gtk initialization failed<br>
+&gt; &lt;exit&gt;<br>
+&gt;<br>
+&gt; If I add &quot;-display none&quot; then it works, but it&#39;s odd tha=
+t it&#39;s trying to initialize with gtk here ($DISPLAY isn&#39;t set, ther=
+e is no X present).<br>
+<br>
+That&#39;s expected. By default we try to create a GUI window.<br>
+If DISPLAY is not set, then that fails, which is why<br>
+we print &quot;gtk initialization failed&quot; and exit.<br>
+This is the same behaviour as other GUI apps:<br>
+<br>
+$ DISPLAY=3D xterm<br>
+xterm: Xt error: Can&#39;t open display:<br>
+xterm: DISPLAY is not set<br>
+<br>
+$ DISPLAY=3D firefox<br>
+Unable to init server: Broadway display type not supported:<br>
+Error: cannot open display:<br>
+<br>
+$ DISPLAY=3D evince<br>
+Unable to init server: Could not connect: Connection refused<br>
+Cannot parse arguments: Cannot open display:<br>
+<br>
+If you don&#39;t want graphics you should tell QEMU you<br>
+don&#39;t want graphics (eg with &#39;-display none&#39;).<br>
+<br>
+This seems to me more helpful to most users than the<br>
+alternative (if you know you don&#39;t want the GUI then<br>
+it&#39;s easy to disable it; but most non-sophisticated<br>
+users do want it).<br></blockquote><div><br></div><div><br></div><div class=
+=3D"gmail_default" style=3D"font-size:small">Thanks. That&#39;s not unreaso=
+nable.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></di=
+v><div class=3D"gmail_default" style=3D"font-size:small">OTOH, all those ex=
+amples don&#39;t have a non-X mode.</div><div class=3D"gmail_default" style=
+=3D"font-size:small">As counterexamples there&#39;s emacs and gvim.</div><d=
+iv class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=
+=3D"gmail_default" style=3D"font-size:small">The present situation is fine,=
+ now that I understand it.</div><div class=3D"gmail_default" style=3D"font-=
+size:small">I can write a wrapper that DTRT.</div><div class=3D"gmail_defau=
+lt" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
+=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
+ize:small"></div></div></div>
+
+--00000000000069151505b57ef509--
 
