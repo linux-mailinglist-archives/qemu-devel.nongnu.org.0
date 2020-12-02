@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A92B2CBA87
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:27:50 +0100 (CET)
-Received: from localhost ([::1]:57322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A152CBA86
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:27:02 +0100 (CET)
+Received: from localhost ([::1]:54560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkPMT-0001ou-Gf
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:27:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43278)
+	id 1kkPLh-0000e5-CJ
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:27:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkOya-0006L0-On
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 05:03:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24846)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkP8c-0002Bx-6Q
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 05:13:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkOyX-0006XC-K8
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 05:03:08 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkP8X-0001tu-W2
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 05:13:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606903384;
+ s=mimecast20190719; t=1606904004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=t/WPuuZk3/erDBY0z1XJeDrk9p2q7xgo6xiXzKnFb24=;
- b=FnK/kFBPOyY3Oxe44Yw2HIxX8HBpjwwxjco88g6kYSpuaTsld3uLT8fXsNVPbjdM8Mts/b
- eCHY4jySLp9o/dOXbQ48jAm0VzdwA/KL8GLWbij4bnuPu5UwVe5zdEeVruywW2cq8ej9wx
- uMq7c4mxNqQZPFfW7oslzbx3qKXlcxU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-k6RiJWW6N4y2NDBW61A4hg-1; Wed, 02 Dec 2020 05:03:03 -0500
-X-MC-Unique: k6RiJWW6N4y2NDBW61A4hg-1
-Received: by mail-wr1-f72.google.com with SMTP id p18so2882260wro.9
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 02:03:02 -0800 (PST)
+ bh=LkiKgVKI6w4w52ww5LuVE/YLM+kYXgzi2oo7wxc930M=;
+ b=TGdCQn0cOmgmhbxmu4VioCfyqxeZk+dVwTjLAx053AMhZCxRZGEKS08KS++x4D5HHNkjo0
+ qJHaFerBqgUg6lbQ+eRzoW0VHGjoWkp8vLo+HFlCE9IVghGveN1rOvAAPBeA2p+m6uGLOH
+ xAPM6TYf4CwPpNZVqs+1jeH0QLNs0D0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-4_L_pPblOJSrJOLtxFg1nQ-1; Wed, 02 Dec 2020 05:13:23 -0500
+X-MC-Unique: 4_L_pPblOJSrJOLtxFg1nQ-1
+Received: by mail-wm1-f69.google.com with SMTP id l5so2820603wmi.4
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 02:13:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=t/WPuuZk3/erDBY0z1XJeDrk9p2q7xgo6xiXzKnFb24=;
- b=TTNTT8URmGtPh94YcHY1AG0I4FhvR5+HNLqypdPRFGhmG+t1gBOICCF83qLj681SRA
- dcoWHeK34f5OeQdYkxfOODcAkiNP+mjXscyNI9SrfByXcxqrWb3E4Ll3i/nbMthnQMlS
- zLOpgevekRVOQiVEoMF+HG/N0sPLq27qHq4txwZBcOPogp6Wvxvykfrn+G/B4Y0u4zqL
- IZNjlgRsuBuvFSV/pEigh9pDDuyAOH1UirZjVOxmbOXSKMAouHQQS1AThxGvG02yj2dz
- fAeSZRLhnK0nvgHnBjI7GO+GZPZjnvEIa2qO+cwX/GhxXhHm4Dir6B1vaLHK1cZUby68
- YPlA==
-X-Gm-Message-State: AOAM531cl9W9NMX2p9SXHENno4v+cJ+6umVYKTBQ61xvuxxm7lRtrSID
- t4KSPhale9dbGE5/OJwynhlZzVzGcRKCKD8kY/fF77WLFFlF/wAES+dd9Ct3IQlgNO13/HkKapa
- hYuzyEvo5Okhwqb0=
-X-Received: by 2002:a7b:cf37:: with SMTP id m23mr2206624wmg.37.1606903380643; 
- Wed, 02 Dec 2020 02:03:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzBS+XKMNcGyPsfQSqIXaiyj/JEpAxv+dQl1la+98Czqx0kx4XUGcDAwpoRVPM8oXKG/2PmBw==
-X-Received: by 2002:a7b:cf37:: with SMTP id m23mr2206611wmg.37.1606903380529; 
- Wed, 02 Dec 2020 02:03:00 -0800 (PST)
+ bh=LkiKgVKI6w4w52ww5LuVE/YLM+kYXgzi2oo7wxc930M=;
+ b=JBSphoKd3FmRF45DUSBYeV4hxl5ZX5r/xYlWVaTjhlbg1E3uPPk8i+eYs8PIYPZJIJ
+ XjmFxawpMUEvY0dwJY3wq3aMM+UBN/1PHkJple/DjMcM03rgb4HVRhV7lrFBCY0JI5Fy
+ PLiWsa/IurpS3xXKL3PboWFo1pNp2U3RBYLdfUHvgN08InfNygyHaGevqWYvRz2JS9PQ
+ t6o4uSgm1gg+V4zJ0mEfwhRYcDy1iDfdmrOOfLgLodNboQxF//XgdsGjvjHxUR21eutP
+ 9wPxWIlJTkEMPBxfGzG6N5TLpEaU2zuHcpxdJunEb+c2AZK4Xw4+rk2Dfh7RWGHef8o6
+ d/pQ==
+X-Gm-Message-State: AOAM531tbhZZWEUoz96H7U8WE3NNehjElEc1u5SF8KQbWRH9JHwCPA7M
+ O1eEgt5gH8Us493WutkDd31gn0DLoFYbO38s8SA3X/E787OBBKaa1mhrdplLDLZF2xjAlBSa5ZK
+ PewVSPtzkBboRAmU=
+X-Received: by 2002:a1c:f617:: with SMTP id w23mr2321410wmc.52.1606904002071; 
+ Wed, 02 Dec 2020 02:13:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz3Wfbhmh94fcjMLCCjq69bGNJTdqimigR+8DLgL9MEvZZ1+8iUpuWzW1MELiJEnvuJBiC/XQ==
+X-Received: by 2002:a1c:f617:: with SMTP id w23mr2321382wmc.52.1606904001818; 
+ Wed, 02 Dec 2020 02:13:21 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id u85sm1333701wmu.43.2020.12.02.02.02.58
+ by smtp.gmail.com with ESMTPSA id l13sm1433858wrm.24.2020.12.02.02.13.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Dec 2020 02:02:59 -0800 (PST)
-Date: Wed, 2 Dec 2020 05:02:57 -0500
+ Wed, 02 Dec 2020 02:13:21 -0800 (PST)
+Date: Wed, 2 Dec 2020 05:13:18 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2] hw/arm/virt enable support for virtio-mem
-Message-ID: <20201202050205-mutt-send-email-mst@kernel.org>
-References: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
- <5b1dff01-7e6b-78d2-d55a-20c0617c3076@redhat.com>
- <20201124181150.0000025f@Huawei.com>
- <f2cfd3cb-27c8-f25b-2b57-6dc983a25a43@redhat.com>
- <20201125145659.00004b3e@Huawei.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v2 01/27] migration: Network Failover can't work with a
+ paused guest
+Message-ID: <20201202050918-mutt-send-email-mst@kernel.org>
+References: <20201118083748.1328-1-quintela@redhat.com>
+ <20201118083748.1328-2-quintela@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201125145659.00004b3e@Huawei.com>
+In-Reply-To: <20201118083748.1328-2-quintela@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -94,19 +92,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, linuxarm@huawei.com,
- qemu-devel@nongnu.org, Auger Eric <eric.auger@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 25, 2020 at 02:56:59PM +0000, Jonathan Cameron wrote:
-> Cool.  I'll run a few more comprehensive tests then send out the
-> trivial patch to enable the kernel option + v2 of the qemu support.
+On Wed, Nov 18, 2020 at 09:37:22AM +0100, Juan Quintela wrote:
+> If we have a paused guest, it can't unplug the network VF device, so
+> we wait there forever.  Just change the code to give one error on that
+> case.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
 
-IIUC there will be another version of this patch, right?
+It's certainly possible but it's management that created
+this situation after all - why do we bother to enforce
+a policy? It is possible that management will unpause immediately
+afterwards and everything will proceed smoothly.
 
--- 
-MST
+Yes migration will not happen until guest is
+unpaused but the same it true of e.g. a guest that is stuck
+because of a bug.
+
+
+
+
+> ---
+>  migration/migration.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 87a9b59f83..d44fc880f9 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -3548,6 +3548,18 @@ static void *migration_thread(void *opaque)
+>      qemu_savevm_state_setup(s->to_dst_file);
+>  
+>      if (qemu_savevm_state_guest_unplug_pending()) {
+> +        /* if guest is paused, it can send back the wait event */
+> +        if (!runstate_is_running()) {
+> +            Error *local_err = NULL;
+> +
+> +            error_setg(&local_err, "migration: network failover and "
+> +                       "guest is paused'");
+> +            migrate_set_error(s, local_err);
+> +            error_free(local_err);
+> +            migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+> +                              MIGRATION_STATUS_FAILED);
+> +            goto end;
+> +        }
+>          migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+>                            MIGRATION_STATUS_WAIT_UNPLUG);
+>  
+> @@ -3597,6 +3609,7 @@ static void *migration_thread(void *opaque)
+>      }
+>  
+>      trace_migration_thread_after_loop();
+> +end:
+>      migration_iteration_finish(s);
+>      object_unref(OBJECT(s));
+>      rcu_unregister_thread();
+> -- 
+> 2.26.2
 
 
