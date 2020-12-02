@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B242CBAA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:38:46 +0100 (CET)
-Received: from localhost ([::1]:57222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A612CBA9B
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:34:24 +0100 (CET)
+Received: from localhost ([::1]:42652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkPX3-0005jz-TG
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:38:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54072)
+	id 1kkPSp-0007sQ-Fp
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:34:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkO48-00045r-ER
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47999)
+ id 1kkO45-0003x4-3F
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkO3o-0004iq-FT
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:48 -0500
+ id 1kkO3m-0004iw-Jf
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:04:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606899865;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bn0aEtSA7/6AIa3yXVYBo0IMB9TDOyxEVD++X/cdsI4=;
- b=BWcl4YcklQoDxHRCLnwL30yo5vOFQxk9FbF/xwFGxnBty2fn+AtgFEETxvpe4x+z1sSOKZ
- ScOfXp3wAKyuPUpqc/IsH0JKCbntBh6GB39K4H29u2wnybXpIOjwRE1WTYCy/3dalxX3D1
- QqK4dXG15mFNdEr6OS1X3NFRmNolX3A=
+ bh=qsnar4ub5kolFMrFarobPp0+6aVtrtC/dJ8hwXjykvI=;
+ b=enYtSxy+2kgRgO4cGNEtmIQBEmjVTMS7AdtEAscZpRBUKhuGsisRB5kXUU0zl/T4kvchrf
+ lHkE7lX/gIfRq2hzAVRunotkIsNzdyYQPSRt1YeY821J0L9TIPL4/YfLbn2S4OrMqFrSen
+ eqkVUWpQqE7MbY+fhU7uRIyJrEZXEt4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-t-713KDtOVa0eNeZC8F3rQ-1; Wed, 02 Dec 2020 04:04:22 -0500
-X-MC-Unique: t-713KDtOVa0eNeZC8F3rQ-1
+ us-mta-407-PMhXnnpmMRacInk4UbiqUA-1; Wed, 02 Dec 2020 04:04:21 -0500
+X-MC-Unique: PMhXnnpmMRacInk4UbiqUA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0B4DC73DC;
- Wed,  2 Dec 2020 09:03:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 639DB9248B7;
+ Wed,  2 Dec 2020 09:03:48 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 430746085A;
- Wed,  2 Dec 2020 09:03:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7A326085A;
+ Wed,  2 Dec 2020 09:03:47 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/28] qemu-option: support accept-any QemuOptsList in
- qemu_opts_absorb_qdict
-Date: Wed,  2 Dec 2020 04:02:52 -0500
-Message-Id: <20201202090305.4129317-16-pbonzini@redhat.com>
+Subject: [PATCH 18/28] qom: do not modify QDict argument in
+ user_creatable_add_dict
+Date: Wed,  2 Dec 2020 04:02:55 -0500
+Message-Id: <20201202090305.4129317-19-pbonzini@redhat.com>
 In-Reply-To: <20201202090305.4129317-1-pbonzini@redhat.com>
 References: <20201202090305.4129317-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -85,25 +85,73 @@ Cc: kwolf@redhat.com, imammedo@redhat.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+-object will process its QDicts in two steps, first for the "early" objects and
+then for the "late" objects.  If qom-type is removed by the "early" pass, the
+late pass fails.  So just create a shallow copy of the QDict in
+user_creatable_add_dict.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/qemu-option.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/qom/object_interfaces.h |  2 +-
+ qom/object_interfaces.c         | 11 +++++++----
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 40564a12eb..afba08d92e 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -1052,7 +1052,8 @@ bool qemu_opts_absorb_qdict(QemuOpts *opts, QDict *qdict, Error **errp)
-     while (entry != NULL) {
-         next = qdict_next(qdict, entry);
+diff --git a/include/qom/object_interfaces.h b/include/qom/object_interfaces.h
+index abb23eaea3..ed0d7d663b 100644
+--- a/include/qom/object_interfaces.h
++++ b/include/qom/object_interfaces.h
+@@ -102,7 +102,7 @@ Object *user_creatable_add_type(const char *type, const char *id,
+  *
+  * Returns: %true on success, %false on failure.
+  */
+-bool user_creatable_add_dict(QDict *qdict, bool keyval, Error **errp);
++bool user_creatable_add_dict(const QDict *qdict, bool keyval, Error **errp);
  
--        if (find_desc_by_name(opts->list->desc, entry->key)) {
-+        if (opts_accepts_any(opts->list) ||
-+            find_desc_by_name(opts->list->desc, entry->key)) {
-             if (!qemu_opts_from_qdict_entry(opts, entry, errp)) {
-                 return false;
-             }
+ /**
+  * user_creatable_add_opts:
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index f7dcdf18e2..80814ae7b5 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -106,24 +106,25 @@ out:
+     return obj;
+ }
+ 
+-bool user_creatable_add_dict(QDict *qdict, bool keyval, Error **errp)
++bool user_creatable_add_dict(const QDict *dict, bool keyval, Error **errp)
+ {
+     Visitor *v;
+-    Object *obj;
++    Object *obj = NULL;
++    QDict *qdict = qdict_clone_shallow(dict);
+     g_autofree char *type = NULL;
+     g_autofree char *id = NULL;
+ 
+     type = g_strdup(qdict_get_try_str(qdict, "qom-type"));
+     if (!type) {
+         error_setg(errp, QERR_MISSING_PARAMETER, "qom-type");
+-        return false;
++        goto out;
+     }
+     qdict_del(qdict, "qom-type");
+ 
+     id = g_strdup(qdict_get_try_str(qdict, "id"));
+     if (!id) {
+         error_setg(errp, QERR_MISSING_PARAMETER, "id");
+-        return false;
++        goto out;
+     }
+     qdict_del(qdict, "id");
+ 
+@@ -135,6 +136,8 @@ bool user_creatable_add_dict(QDict *qdict, bool keyval, Error **errp)
+     obj = user_creatable_add_type(type, id, qdict, v, errp);
+     visit_free(v);
+     object_unref(obj);
++out:
++    qobject_unref(qdict);
+     return !!obj;
+ }
+ 
 -- 
 2.26.2
 
