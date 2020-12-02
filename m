@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4EB2CC2BC
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 17:51:09 +0100 (CET)
-Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E852CC300
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 18:06:29 +0100 (CET)
+Received: from localhost ([::1]:38224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkVLP-00065A-6E
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 11:51:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
+	id 1kkVaF-00082r-HS
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 12:06:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1kkVJw-00057g-Jh
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:49:36 -0500
-Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33]:44560)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkVVO-0003bv-88
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:01:27 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1kkVJu-0001Yy-Ag
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:49:36 -0500
-Received: by mail-vs1-xe33.google.com with SMTP id u7so1269520vsq.11
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 08:49:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hFBaMnvRJp3xpkfuJMZXlCuPWFzFALbTrdV9H5xMTfA=;
- b=uRRXdqBb3S/vZFCRLER8IuFu57g+Dxt7yRRXCaBDFXUjJUbqpTkfrO8/bMwLBTgVCh
- l1HZy44uNjqnA9tkUCLX9vfbt8HhLRuQrPNPU8cRagrs7idTlM68wAFYcMnxM+8mK9sw
- vUBFFE0M/hOhnPqpnmHbLurTBaX5GivNlppb3k39LS33WE7yUfmMV+QsxfgUTyfAiqgP
- QoqiUkd3HzUwpFPxgwANVCTAqazT8RdadhDpG8go83h+h7lbrQ1blbJjt9JZ2h2R6Nfk
- 3Puaq8cReRXvf4roE6aXWXDv2ChxmCof10QBPuvQ4+BBgkFv120a9FVrhUnu+XG78L+9
- KsxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hFBaMnvRJp3xpkfuJMZXlCuPWFzFALbTrdV9H5xMTfA=;
- b=SyIBOj2SRwGtbEi2CsmAznNh1vbxXkrpzHtXKXQ2qfRcevFaMa+QndTiA230YCNElB
- Icq9b+rwrZUNb4pxRi+xnWFoFtjJVnxYlRAGEMek1C66RZAsORKyZ6yy6cbzr8UWLiu5
- jde2jb809i0AyHNR8zRMPAxfvc5qJyoyAx2xN0tnoCrrfGAUaDKOKYGJwIs3XhJmj9To
- ERx+x7LuupLePpxY9/Ag7XpK6moLFhvkx2Ymy0CK1YWQGX09EJPkIfji0xokPz9Qrg3r
- 3ezDHZyLTzY2RowEmPPYUSoJ/ULis9hVZuYOGmsduCMAlbc8Hl3EQVwO1dH7iUvCuHT3
- 1qGA==
-X-Gm-Message-State: AOAM533JDM+5S4y5eM21b+z1UZSFTOth8RWkTPgLaiXBVl4ie4XnGry6
- DOH0iYmhOnwJt6jUcxSmMlXRhX98N7MxG7JUp9ouNw==
-X-Google-Smtp-Source: ABdhPJwSytzaE1V1IWW4Y2nFE0mOtIr/0lo/q6eXaz6uq0bvmOaEMFuEfXxkaA/fNP8TC1uhA7zpiZl+sGrs5Ee5hwM=
-X-Received: by 2002:a05:6102:d1:: with SMTP id u17mr2482760vsp.8.1606927771986; 
- Wed, 02 Dec 2020 08:49:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkVVL-0003xS-1I
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:01:25 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kkVVI-0002MZ-MD
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 17:01:20 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8CD442E813E
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 17:01:20 +0000 (UTC)
 MIME-Version: 1.0
-References: <160687065946.3791.11439184384818467145.malonedeb@soybean.canonical.com>
- <871rg87l7h.fsf@dusky.pond.sub.org>
-In-Reply-To: <871rg87l7h.fsf@dusky.pond.sub.org>
-From: Doug Evans <dje@google.com>
-Date: Wed, 2 Dec 2020 08:48:55 -0800
-Message-ID: <CADPb22S+3j_zpd0iVo=MNPO8=txhYt8iicBge6=B7wFq3ZO0eQ@mail.gmail.com>
-Subject: Re: [Bug 1906463] [NEW] "-device help" does not report all devices
-To: Markus Armbruster <armbru@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000007be3c05b57e07b3"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
- envelope-from=dje@google.com; helo=mail-vs1-xe33.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 02 Dec 2020 16:49:50 -0000
+From: Simon Kaegi <1888601@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h jasowang skaegi
+X-Launchpad-Bug-Reporter: Simon Kaegi (skaegi)
+X-Launchpad-Bug-Modifier: Simon Kaegi (skaegi)
+References: <159547584008.11100.1316842366379773629.malonedeb@wampee.canonical.com>
+Message-Id: <160692779047.5534.9317563079593538820.malone@soybean.canonical.com>
+Subject: [Bug 1888601] Re: QEMU v5.1.0-rc0/rc1 hang with nested virtualization
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="55c41fea591e042b8bb54e6952942f55c764435e"; Instance="production"
+X-Launchpad-Hash: effa8bee93b2d0d8a252f2d21ac58635b10fb5a2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,176 +70,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1888601 <1888601@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000007be3c05b57e07b3
-Content-Type: text/plain; charset="UTF-8"
+This problem no longer occurs. I suspect it was an issue in my
+environment or possibly with the options I compiled QEMU with. This
+big/issue should be closed.
 
-On Tue, Dec 1, 2020 at 10:53 PM Markus Armbruster <armbru@redhat.com> wrote:
+-- =
 
-> Doug Evans <1906463@bugs.launchpad.net> writes:
->
-> > Public bug reported:
-> >
-> > -device help doesn't report all devices.
-> > E.g., devices that are instantiated by a board don't get printed in part
-> because they don't exist when "-device help" is processed. As an experiment
-> I deferred processing of "-device help" as long as possible and some
-> devices were still not printed, so there's more going on here.
-> >
-> > QEMU commit hash: 944fdc5e27a5b5adbb765891e8e70e88ba9a00ec
-> >
-> > Repro:
-> > $ configure --target-list=arm-softmmu
-> > $ make
-> > $ ./qemu-system-arm -device help | grep npcm7xx
-> > <empty>
-> >
-> > I'd expect to see things like npcm7xx-rng in the output.
->
-> Works as intended.
->
-> "-device help" shows the devices that are available with -device.
-> npcm7xx-rng isn't:
->
->     $ qemu-system-arm -M virt -device npcm7xx-rng
->     qemu-system-arm: -device npcm7xx-rng: Parameter 'driver' expects
-> pluggable device type
->
-> Monitor command "info qdm" shows all devices, including npcm7xx-rng:
->
->     $ qemu-system-arm -M virt -monitor stdio
->     QEMU 5.1.92 monitor - type 'help' for more information
->     (qemu) info qdm
->     [...]
->     name "npcm7xx-rng", bus System, desc "NPCM7xx Random Number
-> Generator", no-user
->     [...]
->
-> Note "no-user": it's not available with -device.
->
-> > I can imagine enumerating board-provided devices is a challenge.
-> > Still, it'd be really nice if "-device help" printed them, and having
-> > "-device $driver,help" work as well.
->
-> It works:
->
->     $ qemu-system-arm -M virt -device npcm7xx-rng,help
->     npcm7xx-rng options:
->       regs[0]=<child<qemu:memory-region>>
->
-> Hope this helps!
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1888601
 
-Thanks for the reply. It does help, but it's odd that I can't use "-device
-help" to discover a device, but once discovered I can use it to get help on
-that device.
-At least I get why now. Thanks again.
+Title:
+  QEMU v5.1.0-rc0/rc1 hang with nested virtualization
 
-Btw, if I may ask another dumb question, I get this:
+Status in QEMU:
+  Invalid
 
-@ruffy:build-arm$ ./qemu-system-arm -M virt -monitor stdio
-Unable to init server: Could not connect: Connection refused
-QEMU 5.1.93 monitor - type 'help' for more information
-(qemu) gtk initialization failed
-<exit>
+Bug description:
+  We're running Kata Containers using QEMU and with v5.1.0rc0 and rc1
+  have noticed a problem at startup where QEMu appears to hang. We are
+  not seeing this problem on our bare metal nodes and only on a VSI that
+  supports nested virtualization.
 
-If I add "-display none" then it works, but it's odd that it's trying to
-initialize with gtk here ($DISPLAY isn't set, there is no X present).
--help output says gtk is the default for -display, I'm guessing you didn't
-configure with gtk so that's why it works for you.
-Question: I'm not up on what the current state of the art is here, but
-given that $DISPLAY is unset, why not punt on gtk and default to "none" ?
-(printing a warning at startup explaining why if that helps)
+  We unfortunately see nothing at all in the QEMU logs to help
+  understand the problem and a hung process is just a guess at this
+  point.
 
---00000000000007be3c05b57e07b3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  Using git bisect we first see the problem with...
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">On Tue, Dec 1, 2020 at 10:53 PM Markus Armbruster &lt;<a href=
-=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrote:<br></div></d=
-iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Doug Evans &lt;<a href=3D"mailto:1906463@bugs.launchpad.net" target=3D=
-"_blank">1906463@bugs.launchpad.net</a>&gt; writes:<br>
-<br>
-&gt; Public bug reported:<br>
-&gt;<br>
-&gt; -device help doesn&#39;t report all devices.<br>
-&gt; E.g., devices that are instantiated by a board don&#39;t get printed i=
-n part because they don&#39;t exist when &quot;-device help&quot; is proces=
-sed. As an experiment I deferred processing of &quot;-device help&quot; as =
-long as possible and some devices were still not printed, so there&#39;s mo=
-re going on here.<br>
-&gt;<br>
-&gt; QEMU commit hash: 944fdc5e27a5b5adbb765891e8e70e88ba9a00ec<br>
-&gt;<br>
-&gt; Repro:<br>
-&gt; $ configure --target-list=3Darm-softmmu<br>
-&gt; $ make<br>
-&gt; $ ./qemu-system-arm -device help | grep npcm7xx<br>
-&gt; &lt;empty&gt;<br>
-&gt;<br>
-&gt; I&#39;d expect to see things like npcm7xx-rng in the output.<br>
-<br>
-Works as intended.<br>
-<br>
-&quot;-device help&quot; shows the devices that are available with -device.=
-<br>
-npcm7xx-rng isn&#39;t:<br>
-<br>
-=C2=A0 =C2=A0 $ qemu-system-arm -M virt -device npcm7xx-rng<br>
-=C2=A0 =C2=A0 qemu-system-arm: -device npcm7xx-rng: Parameter &#39;driver&#=
-39; expects pluggable device type<br>
-<br>
-Monitor command &quot;info qdm&quot; shows all devices, including npcm7xx-r=
-ng:<br>
-<br>
-=C2=A0 =C2=A0 $ qemu-system-arm -M virt -monitor stdio<br>
-=C2=A0 =C2=A0 QEMU 5.1.92 monitor - type &#39;help&#39; for more informatio=
-n<br>
-=C2=A0 =C2=A0 (qemu) info qdm<br>
-=C2=A0 =C2=A0 [...]<br>
-=C2=A0 =C2=A0 name &quot;npcm7xx-rng&quot;, bus System, desc &quot;NPCM7xx =
-Random Number Generator&quot;, no-user<br>
-=C2=A0 =C2=A0 [...]<br>
-<br>
-Note &quot;no-user&quot;: it&#39;s not available with -device.<br>
-<br>
-&gt; I can imagine enumerating board-provided devices is a challenge.<br>
-&gt; Still, it&#39;d be really nice if &quot;-device help&quot; printed the=
-m, and having<br>
-&gt; &quot;-device $driver,help&quot; work as well.<br>
-<br>
-It works:<br>
-<br>
-=C2=A0 =C2=A0 $ qemu-system-arm -M virt -device npcm7xx-rng,help<br>
-=C2=A0 =C2=A0 npcm7xx-rng options:<br>
-=C2=A0 =C2=A0 =C2=A0 regs[0]=3D&lt;child&lt;qemu:memory-region&gt;&gt;<br>
-<br>
-Hope this helps!<br></blockquote><div><br></div><div class=3D"gmail_default=
-" style=3D"font-size:small">Thanks for the reply. It does help, but it&#39;=
-s odd that I can&#39;t use &quot;-device help&quot; to discover a device, b=
-ut once discovered I can use it to get help on that device.</div><div class=
-=3D"gmail_default" style=3D"font-size:small">At least I get why now. Thanks=
- again.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">Btw, if I may ask=
- another dumb question, I get this:<br><br>@ruffy:build-arm$ ./qemu-system-=
-arm -M virt -monitor stdio<br>Unable to init server: Could not connect: Con=
-nection refused<br>QEMU 5.1.93 monitor - type &#39;help&#39; for more infor=
-mation<br>(qemu) gtk initialization failed</div><div class=3D"gmail_default=
-" style=3D"font-size:small">&lt;exit&gt;</div><div class=3D"gmail_default" =
-style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"f=
-ont-size:small">If I add &quot;-display none&quot; then it works, but it&#3=
-9;s odd that it&#39;s trying to initialize with gtk here ($DISPLAY isn&#39;=
-t set, there is no X present).<br>-help output says gtk is the default for =
--display, I&#39;m guessing you didn&#39;t configure with gtk so that&#39;s =
-why it works for you.<br>Question: I&#39;m not up on what the current state=
- of the art is here, but given that $DISPLAY is unset, why not punt on gtk =
-and default to &quot;none&quot; ? (printing a warning at startup explaining=
- why if that helps)</div></div></div>
+  ---
 
---00000000000007be3c05b57e07b3--
+  f19bcdfedd53ee93412d535a842a89fa27cae7f2 is the first bad commit
+  commit f19bcdfedd53ee93412d535a842a89fa27cae7f2
+  Author: Jason Wang <jasowang@redhat.com>
+  Date:   Wed Jul 1 22:55:28 2020 +0800
+
+  =C2=A0=C2=A0=C2=A0=C2=A0virtio-pci: implement queue_enabled method
+
+  =C2=A0=C2=A0=C2=A0=C2=A0With version 1, we can detect whether a queue is =
+enabled via
+  =C2=A0=C2=A0=C2=A0=C2=A0queue_enabled.
+
+  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Jason Wang <jasowang@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Cindy Lu <lulu@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Message-Id: <20200701145538.22333-5-lulu@redhat.c=
+om>
+  =C2=A0=C2=A0=C2=A0=C2=A0Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+  =C2=A0=C2=A0=C2=A0=C2=A0Acked-by: Jason Wang <jasowang@redhat.com>
+
+  =C2=A0hw/virtio/virtio-pci.c | 13 +++++++++++++
+  =C2=A01 file changed, 13 insertions(+)
+
+  ---
+
+  Reverting this commit (on top of 5.1.0-rc1) seems to work and prevent
+  the hanging.
+
+  ---
+
+  Here's how kata ends up launching qemu in our environment --
+  /opt/kata/bin/qemu-system-x86_64 -name sandbox-849df14c6065931adedb9d18bc=
+9260a6d896f1814a8c5cfa239865772f1b7a5f -uuid 6bec458e-1da7-4847-a5d7-5ab31d=
+4d2465 -machine pc,accel=3Dkvm,kernel_irqchip -cpu host,pmu=3Doff -qmp unix=
+:/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa239865772f1b7a5=
+f/qmp.sock,server,nowait -m 4096M,slots=3D10,maxmem=3D30978M -device pci-br=
+idge,bus=3Dpci.0,id=3Dpci-bridge-0,chassis_nr=3D1,shpc=3Don,addr=3D2,romfil=
+e=3D -device virtio-serial-pci,disable-modern=3Dtrue,id=3Dserial0,romfile=
+=3D -device virtconsole,chardev=3Dcharconsole0,id=3Dconsole0 -chardev socke=
+t,id=3Dcharconsole0,path=3D/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f=
+1814a8c5cfa239865772f1b7a5f/console.sock,server,nowait -device virtio-scsi-=
+pci,id=3Dscsi0,disable-modern=3Dtrue,romfile=3D -object rng-random,id=3Drng=
+0,filename=3D/dev/urandom -device virtio-rng-pci,rng=3Drng0,romfile=3D -dev=
+ice virtserialport,chardev=3Dcharch0,id=3Dchannel0,name=3Dagent.channel.0 -=
+chardev socket,id=3Dcharch0,path=3D/run/vc/vm/849df14c6065931adedb9d18bc926=
+0a6d896f1814a8c5cfa239865772f1b7a5f/kata.sock,server,nowait -chardev socket=
+,id=3Dchar-396c5c3e19e29353,path=3D/run/vc/vm/849df14c6065931adedb9d18bc926=
+0a6d896f1814a8c5cfa239865772f1b7a5f/vhost-fs.sock -device vhost-user-fs-pci=
+,chardev=3Dchar-396c5c3e19e29353,tag=3DkataShared,romfile=3D -netdev tap,id=
+=3Dnetwork-0,vhost=3Don,vhostfds=3D3:4,fds=3D5:6 -device driver=3Dvirtio-ne=
+t-pci,netdev=3Dnetwork-0,mac=3D52:ac:2d:02:1f:6f,disable-modern=3Dtrue,mq=
+=3Don,vectors=3D6,romfile=3D -global kvm-pit.lost_tick_policy=3Ddiscard -vg=
+a none -no-user-config -nodefaults -nographic -daemonize -object memory-bac=
+kend-file,id=3Ddimm1,size=3D4096M,mem-path=3D/dev/shm,share=3Don -numa node=
+,memdev=3Ddimm1 -kernel /opt/kata/share/kata-containers/vmlinuz-5.7.9-74 -i=
+nitrd /opt/kata/share/kata-containers/kata-containers-initrd_alpine_1.11.2-=
+6_agent.initrd -append tsc=3Dreliable no_timer_check rcupdate.rcu_expedited=
+=3D1 i8042.direct=3D1 i8042.dumbkbd=3D1 i8042.nopnp=3D1 i8042.noaux=3D1 nor=
+eplace-smp reboot=3Dk console=3Dhvc0 console=3Dhvc1 iommu=3Doff cryptomgr.n=
+otests net.ifnames=3D0 pci=3Dlastbus=3D0 debug panic=3D1 nr_cpus=3D4 agent.=
+use_vsock=3Dfalse scsi_mod.scan=3Dnone init=3D/usr/bin/kata-agent -pidfile =
+/run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa239865772f1b7a5f=
+/pid -D /run/vc/vm/849df14c6065931adedb9d18bc9260a6d896f1814a8c5cfa23986577=
+2f1b7a5f/qemu.log -smp 2,cores=3D1,threads=3D1,sockets=3D4,maxcpus=3D4
+
+  ---
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1888601/+subscriptions
 
