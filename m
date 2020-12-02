@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AE62CC544
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 19:35:25 +0100 (CET)
-Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99222CC531
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 19:33:39 +0100 (CET)
+Received: from localhost ([::1]:43274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkWyJ-0006cr-GW
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 13:35:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50244)
+	id 1kkWwc-0003Mr-Pp
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 13:33:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kkWuH-0001cp-Ff; Wed, 02 Dec 2020 13:31:13 -0500
-Received: from relay.sw.ru ([185.231.240.75]:49928 helo=relay3.sw.ru)
+ id 1kkWuG-0001cd-V5; Wed, 02 Dec 2020 13:31:12 -0500
+Received: from relay.sw.ru ([185.231.240.75]:49924 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kkWuB-000100-4g; Wed, 02 Dec 2020 13:31:13 -0500
+ id 1kkWuB-000101-47; Wed, 02 Dec 2020 13:31:12 -0500
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1kkWtu-00BTPZ-FQ; Wed, 02 Dec 2020 21:30:50 +0300
+ id 1kkWtu-00BTPZ-H0; Wed, 02 Dec 2020 21:30:50 +0300
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
  stefanha@redhat.com, fam@euphon.net, armbru@redhat.com, jsnow@redhat.com,
  eblake@redhat.com, den@openvz.org, vsementsov@virtuozzo.com,
  andrey.shinkevich@virtuozzo.com
-Subject: [PATCH v13 07/10] block: include supported_read_flags into BDS
- structure
-Date: Wed,  2 Dec 2020 21:30:58 +0300
-Message-Id: <1606933861-297777-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+Subject: [PATCH v13 08/10] copy-on-read: skip non-guest reads if no copy needed
+Date: Wed,  2 Dec 2020 21:30:59 +0300
+Message-Id: <1606933861-297777-9-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1606933861-297777-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1606933861-297777-1-git-send-email-andrey.shinkevich@virtuozzo.com>
@@ -57,73 +56,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 From: Andrey Shinkevich via <qemu-devel@nongnu.org>
 
-Add the new member supported_read_flags to the BlockDriverState
-structure. It will control the flags set for copy-on-read operations.
-Make the block generic layer evaluate supported read flags before they
-go to a block driver.
+If the flag BDRV_REQ_PREFETCH was set, skip idling read/write
+operations in COR-driver. It can be taken into account for the
+COR-algorithms optimization. That check is being made during the
+block stream job by the moment.
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Add the BDRV_REQ_PREFETCH flag to the supported_read_flags of the
+COR-filter.
+
+block: Modify the comment for the flag BDRV_REQ_PREFETCH as we are
+going to use it alone and pass it to the COR-filter driver for further
+processing.
+
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/io.c                | 12 ++++++++++--
- include/block/block_int.h |  4 ++++
- 2 files changed, 14 insertions(+), 2 deletions(-)
+ block/copy-on-read.c  | 14 ++++++++++----
+ include/block/block.h |  8 +++++---
+ 2 files changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index ec5e152..e28b11c 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1405,6 +1405,9 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
-     if (flags & BDRV_REQ_COPY_ON_READ) {
-         int64_t pnum;
- 
-+        /* The flag BDRV_REQ_COPY_ON_READ has reached its addressee */
-+        flags &= ~BDRV_REQ_COPY_ON_READ;
-+
-         ret = bdrv_is_allocated(bs, offset, bytes, &pnum);
-         if (ret < 0) {
-             goto out;
-@@ -1426,9 +1429,13 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
-         goto out;
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index 2cddc96..123d197 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -49,6 +49,8 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+         return -EINVAL;
      }
  
-+    if (flags & ~bs->supported_read_flags) {
-+        abort();
-+    }
++    bs->supported_read_flags = BDRV_REQ_PREFETCH;
 +
-     max_bytes = ROUND_UP(MAX(0, total_bytes - offset), align);
-     if (bytes <= max_bytes && bytes <= max_transfer) {
--        ret = bdrv_driver_preadv(bs, offset, bytes, qiov, qiov_offset, 0);
-+        ret = bdrv_driver_preadv(bs, offset, bytes, qiov, qiov_offset, flags);
-         goto out;
-     }
+     bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
+         (BDRV_REQ_FUA & bs->file->bs->supported_write_flags);
  
-@@ -1441,7 +1448,8 @@ static int coroutine_fn bdrv_aligned_preadv(BdrvChild *child,
+@@ -150,10 +152,14 @@ static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
+             }
+         }
  
-             ret = bdrv_driver_preadv(bs, offset + bytes - bytes_remaining,
-                                      num, qiov,
--                                     qiov_offset + bytes - bytes_remaining, 0);
-+                                     qiov_offset + bytes - bytes_remaining,
-+                                     flags);
-             max_bytes -= num;
-         } else {
-             num = bytes_remaining;
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index c05fa1e..247e166 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -873,6 +873,10 @@ struct BlockDriverState {
-     /* I/O Limits */
-     BlockLimits bl;
+-        ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
+-                                  local_flags);
+-        if (ret < 0) {
+-            return ret;
++        /* Skip if neither read nor write are needed */
++        if ((local_flags & (BDRV_REQ_PREFETCH | BDRV_REQ_COPY_ON_READ)) !=
++            BDRV_REQ_PREFETCH) {
++            ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
++                                      local_flags);
++            if (ret < 0) {
++                return ret;
++            }
+         }
  
-+    /*
-+     * Flags honored during pread
-+     */
-+    unsigned int supported_read_flags;
-     /* Flags honored during pwrite (so far: BDRV_REQ_FUA,
-      * BDRV_REQ_WRITE_UNCHANGED).
-      * If a driver does not support BDRV_REQ_WRITE_UNCHANGED, those
+         offset += n;
+diff --git a/include/block/block.h b/include/block/block.h
+index 81a3894..3499554 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -81,9 +81,11 @@ typedef enum {
+     BDRV_REQ_NO_FALLBACK        = 0x100,
+ 
+     /*
+-     * BDRV_REQ_PREFETCH may be used only together with BDRV_REQ_COPY_ON_READ
+-     * on read request and means that caller doesn't really need data to be
+-     * written to qiov parameter which may be NULL.
++     * BDRV_REQ_PREFETCH makes sense only in the context of copy-on-read
++     * (i.e., together with the BDRV_REQ_COPY_ON_READ flag or when a COR
++     * filter is involved), in which case it signals that the COR operation
++     * need not read the data into memory (qiov) but only ensure they are
++     * copied to the top layer (i.e., that COR operation is done).
+      */
+     BDRV_REQ_PREFETCH  = 0x200,
+     /* Mask of valid flags */
 -- 
 1.8.3.1
 
