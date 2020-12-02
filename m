@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F452CB7A5
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:49:44 +0100 (CET)
-Received: from localhost ([::1]:38880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1E62CB784
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:46:00 +0100 (CET)
+Received: from localhost ([::1]:58688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkNpX-0000Uu-Su
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:49:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40374)
+	id 1kkNlv-0005ME-Kv
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:45:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCg-0003Hg-Hi
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22915)
+ id 1kkNCe-0003CG-Em
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCK-0003jC-UV
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:34 -0500
+ id 1kkNCK-0003jJ-TS
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606896552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O5P1C07imouEoYMx9sOMbnDgvjykRU4zlLCfdwh1mSY=;
- b=a1qy7+GxW7p+9KzKIuUDUPeR0XEO45hteaVqP3c6L1J78W+idNFlm3pALu/PREUy5hjIQP
- cVuW6sP6Goebbx4VsBrVMw0+W6acJYlo3fQKCLmpmkPb8QqiXarYiqIoPNa+/4CszMCOfY
- B1G8EzvGJ9VdOnk6J1IgOu3jC0TePSE=
+ bh=5BIvQ2eZiqMBqVbDjswDQKEC6cHH3qXd59qZ8tvv6IA=;
+ b=E9JNGCQASiMBole8Pz/PBsQaT0dtYZf/GQc9364QAO/vXkwyAwBKyy9V9ilL2Bl5uXcDel
+ CyPlY3NFLkL7vuQMvS1U13yv4TpxDbMjHDBkLc0JRd4U3IHtbXWtp6T6eNV/3P6VC8B5mw
+ pqtLeO4baz79zSD2jbxsZVuDVgOJAjs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20--k2zEYWkOLyKwXfm6bcKWQ-1; Wed, 02 Dec 2020 03:09:10 -0500
-X-MC-Unique: -k2zEYWkOLyKwXfm6bcKWQ-1
+ us-mta-99-eush4CFPMbuv7SpsSrYRew-1; Wed, 02 Dec 2020 03:09:10 -0500
+X-MC-Unique: eush4CFPMbuv7SpsSrYRew-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C1FB8558EF
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACA578558F0
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:09 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 283465D705
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 77C115D705
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:09 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 052/113] vl: extract validation of -smp to machine.c
-Date: Wed,  2 Dec 2020 03:07:48 -0500
-Message-Id: <20201202080849.4125477-53-pbonzini@redhat.com>
+Subject: [PULL 053/113] vl: remove bogus check
+Date: Wed,  2 Dec 2020 03:07:49 -0500
+Message-Id: <20201202080849.4125477-54-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,95 +82,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Once smp_parse is done, the validation operates on the MachineState.
-There is no reason for that code to be in vl.c.
+There is no reason to prevent -preconfig -daemonize.  Of course if
+no monitor is defined there will be no way to start the VM,
+but that is a user error.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Tested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c   | 23 +++++++++++++++++++++++
- include/hw/boards.h |  1 +
- softmmu/vl.c        | 20 ++------------------
- 3 files changed, 26 insertions(+), 18 deletions(-)
+ softmmu/vl.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index d0408049b5..cd298fac13 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -1074,6 +1074,29 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
-     return ret;
- }
- 
-+bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
-+{
-+    MachineClass *mc = MACHINE_GET_CLASS(ms);
-+
-+    mc->smp_parse(ms, opts);
-+
-+    /* sanity-check smp_cpus and max_cpus against mc */
-+    if (ms->smp.cpus < mc->min_cpus) {
-+        error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
-+                   "supported by machine '%s' is %d",
-+                   ms->smp.cpus,
-+                   mc->name, mc->min_cpus);
-+        return false;
-+    } else if (ms->smp.max_cpus > mc->max_cpus) {
-+        error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
-+                   "supported by machine '%s' is %d",
-+                   current_machine->smp.max_cpus,
-+                   mc->name, mc->max_cpus);
-+        return false;
-+    }
-+    return true;
-+}
-+
- void machine_run_board_init(MachineState *machine)
- {
-     MachineClass *machine_class = MACHINE_GET_CLASS(machine);
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index a49e3a6b44..4537cfb5c6 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -26,6 +26,7 @@ OBJECT_DECLARE_TYPE(MachineState, MachineClass, MACHINE)
- extern MachineState *current_machine;
- 
- void machine_run_board_init(MachineState *machine);
-+bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp);
- bool machine_usb(MachineState *machine);
- int machine_phandle_start(MachineState *machine);
- bool machine_dump_guest_core(MachineState *machine);
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 3819a4abf2..69d54b27b9 100644
+index 69d54b27b9..2f2372bac7 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -3976,24 +3976,8 @@ void qemu_init(int argc, char **argv, char **envp)
-         exit(0);
+@@ -4032,12 +4032,6 @@ void qemu_init(int argc, char **argv, char **envp)
      }
  
--    machine_class->smp_parse(current_machine,
--        qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
+     if (is_daemonized()) {
+-        if (!preconfig_exit_requested) {
+-            error_report("'preconfig' and 'daemonize' options are "
+-                         "mutually exclusive");
+-            exit(EXIT_FAILURE);
+-        }
 -
--    /* sanity-check smp_cpus and max_cpus against machine_class */
--    if (current_machine->smp.cpus < machine_class->min_cpus) {
--        error_report("Invalid SMP CPUs %d. The min CPUs "
--                     "supported by machine '%s' is %d",
--                     current_machine->smp.cpus,
--                     machine_class->name, machine_class->min_cpus);
--        exit(1);
--    }
--    if (current_machine->smp.max_cpus > machine_class->max_cpus) {
--        error_report("Invalid SMP CPUs %d. The max CPUs "
--                     "supported by machine '%s' is %d",
--                     current_machine->smp.max_cpus,
--                     machine_class->name, machine_class->max_cpus);
--        exit(1);
--    }
-+    machine_smp_parse(current_machine,
-+        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
- 
-     if (mem_prealloc) {
-         char *val;
+         /* According to documentation and historically, -nographic redirects
+          * serial port, parallel port and monitor to stdio, which does not work
+          * with -daemonize.  We can redirect these to null instead, but since
 -- 
 2.26.2
 
