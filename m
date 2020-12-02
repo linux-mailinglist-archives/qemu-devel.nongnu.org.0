@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069A72CB80E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:04:02 +0100 (CET)
-Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACBD2CB81D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:09:04 +0100 (CET)
+Received: from localhost ([::1]:40404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkO3L-0001tD-OO
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:04:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40600)
+	id 1kkO8F-0000gd-ET
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:09:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkND4-0003TI-OA
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27314)
+ id 1kkND7-0003Vw-Cg
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCS-0003mK-Py
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:58 -0500
+ id 1kkNCS-0003n8-T9
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606896559;
+ s=mimecast20190719; t=1606896560;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lPtkCMrw59X+r/5tChbjmh1zpKFLCVCtXqdsXYufkW0=;
- b=ReJrb3KgCFKF2B9PKVwVsZEkjwohgYJGcvW3LRYtMHjA93kKCT4M9BZq1z6GKiSRLEsPr+
- PxE0siMSkxa+AFC8oX690ZIOEFChZotjyy3s6qICAQIz7ZqpoCigXdrkTTfvQB1Gx5zsjX
- uL3Q4tJmSnqAxQ+UTum1qeBju03NowU=
+ bh=+JE+6xeYsLHEy6YH+WMEM56L7hAsfZC9QF113GACzDs=;
+ b=jJvF6zDTdBroPmqLe5wgPLo40sTBl7LlbM+GH3Y2G8aeMuRe5GPLvvyRKEUNf87WxWcqW/
+ U6ok+iv3z6jaAzMiIBw5T6kNG48a1KmtxAFl7+WfTObUdCTp+myWvPKLnqcLYB+QTbTUtt
+ macsf8IJ3aBJu8RSTkI715oX7afl9o4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-575-i8HHR9ocO5e-dru7F2rfBA-1; Wed, 02 Dec 2020 03:09:17 -0500
-X-MC-Unique: i8HHR9ocO5e-dru7F2rfBA-1
+ us-mta-433-vwmE9_P5NtyOvQUZwr4ZeQ-1; Wed, 02 Dec 2020 03:09:18 -0500
+X-MC-Unique: vwmE9_P5NtyOvQUZwr4ZeQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C28068558EF
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AAD080364D
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:17 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8EBBC5D9C6
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 37B385D9C6
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:17 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 071/113] vl: initialize displays before preconfig loop
-Date: Wed,  2 Dec 2020 03:08:07 -0500
-Message-Id: <20201202080849.4125477-72-pbonzini@redhat.com>
+Subject: [PULL 073/113] migration, vl: start migration via qmp_migrate_incoming
+Date: Wed,  2 Dec 2020 03:08:09 -0500
+Message-Id: <20201202080849.4125477-74-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,141 +82,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Displays should be available before the monitor starts, so that
-it is possible to use the graphical console to interact with
-the monitor itself.
+Make qemu_start_incoming_migration local to migration/migration.c.
+By using the runstate instead of a separate flag, vl need not do
+anything to setup deferred incoming migration.
 
-This patch is quite ugly, but all this is temporary.  The double
-call to qemu_init_displays will go away as soon we can unify machine
-initialization between the preconfig and "normal" flows, and so will
-the preconfig_exit_requested variable (that is only preconfig_requested
-remains).
+qmp_migrate_incoming also does not need the deferred_incoming flag
+anymore, because "-incoming PROTOCOL" will clear the "once" flag
+before the main loop starts.  Therefore, later invocations of
+the migrate-incoming command will fail with the existing
+"The incoming migration has already been started" error message.
 
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 57 +++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 36 insertions(+), 21 deletions(-)
+ include/migration/misc.h |  1 -
+ migration/migration.c    | 33 ++++++++-------------------------
+ softmmu/vl.c             | 11 +++++++----
+ 3 files changed, 15 insertions(+), 30 deletions(-)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 891f959572..6a2972938d 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -137,6 +137,7 @@ static ram_addr_t maxram_size;
- static uint64_t ram_slots;
- static int display_remote;
- static int snapshot;
-+static bool preconfig_requested;
- static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
- static BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
- static bool nographic = false;
-@@ -3223,12 +3224,12 @@ static void qemu_validate_options(void)
-           }
-     }
+diff --git a/include/migration/misc.h b/include/migration/misc.h
+index 34e7d75713..bccc1b6b44 100644
+--- a/include/migration/misc.h
++++ b/include/migration/misc.h
+@@ -58,7 +58,6 @@ void dump_vmstate_json_to_file(FILE *out_fp);
+ /* migration/migration.c */
+ void migration_object_init(void);
+ void migration_shutdown(void);
+-void qemu_start_incoming_migration(const char *uri, Error **errp);
+ bool migration_is_idle(void);
+ bool migration_is_active(MigrationState *);
+ void add_migration_state_change_notifier(Notifier *notify);
+diff --git a/migration/migration.c b/migration/migration.c
+index d9e94f4080..e0dbde4091 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -118,8 +118,6 @@
+ static NotifierList migration_state_notifiers =
+     NOTIFIER_LIST_INITIALIZER(migration_state_notifiers);
  
--    if (loadvm && !preconfig_exit_requested) {
-+    if (loadvm && preconfig_requested) {
-         error_report("'preconfig' and 'loadvm' options are "
-                      "mutually exclusive");
-         exit(EXIT_FAILURE);
-     }
--    if (incoming && !preconfig_exit_requested) {
-+    if (incoming && preconfig_requested) {
-         error_report("'preconfig' and 'incoming' options are "
-                      "mutually exclusive");
-         exit(EXIT_FAILURE);
-@@ -3392,6 +3393,28 @@ static void qemu_init_subsystems(void)
-     socket_init();
+-static bool deferred_incoming;
+-
+ /* Messages sent on the return path from destination to source */
+ enum mig_rp_message_type {
+     MIG_RP_MSG_INVALID = 0,  /* Must be 0 */
+@@ -275,19 +273,6 @@ static bool migrate_late_block_activate(void)
+         MIGRATION_CAPABILITY_LATE_BLOCK_ACTIVATE];
  }
  
-+static void qemu_init_displays(void)
-+{
-+    DisplayState *ds;
-+
-+    /* init local displays */
-+    ds = init_displaystate();
-+    qemu_display_init(ds, &dpy);
-+
-+    /* must be after terminal init, SDL library changes signal handlers */
-+    os_setup_signal_handling();
-+
-+    /* init remote displays */
-+#ifdef CONFIG_VNC
-+    qemu_opts_foreach(qemu_find_opts("vnc"),
-+                      vnc_init_func, NULL, &error_fatal);
-+#endif
-+
-+    if (using_spice) {
-+        qemu_spice.display_init();
-+    }
-+}
-+
- /*
-  * Called after leaving preconfig state.  From here on runstate is
-  * RUN_STATE_PRELAUNCH or RUN_STATE_INMIGRATE.
-@@ -3450,8 +3473,6 @@ static void qemu_create_cli_devices(void)
- 
- static void qemu_machine_creation_done(void)
- {
--    DisplayState *ds;
--
-     cpu_synchronize_all_post_init();
- 
-     /* Did we create any drives that we failed to create a device for? */
-@@ -3474,23 +3495,6 @@ static void qemu_machine_creation_done(void)
-         qemu_register_reset(restore_boot_order, g_strdup(boot_order));
-     }
- 
--    /* init local displays */
--    ds = init_displaystate();
--    qemu_display_init(ds, &dpy);
--
--    /* must be after terminal init, SDL library changes signal handlers */
--    os_setup_signal_handling();
--
--    /* init remote displays */
--#ifdef CONFIG_VNC
--    qemu_opts_foreach(qemu_find_opts("vnc"),
--                      vnc_init_func, NULL, &error_fatal);
--#endif
--
--    if (using_spice) {
--        qemu_spice.display_init();
+-/*
+- * Called on -incoming with a defer: uri.
+- * The migration can be started later after any parameters have been
+- * changed.
+- */
+-static void deferred_incoming_migration(Error **errp)
+-{
+-    if (deferred_incoming) {
+-        error_setg(errp, "Incoming migration already deferred");
 -    }
+-    deferred_incoming = true;
+-}
 -
-     if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
-         exit(1);
+ /*
+  * Send a message on the return channel back to the source
+  * of the migration.
+@@ -429,16 +414,14 @@ void migrate_add_address(SocketAddress *address)
+     addrs->value = QAPI_CLONE(SocketAddress, address);
+ }
+ 
+-void qemu_start_incoming_migration(const char *uri, Error **errp)
++static void qemu_start_incoming_migration(const char *uri, Error **errp)
+ {
+     const char *p = NULL;
+ 
+     qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+-    if (!strcmp(uri, "defer")) {
+-        deferred_incoming_migration(errp);
+-    } else if (strstart(uri, "tcp:", &p) ||
+-               strstart(uri, "unix:", NULL) ||
+-               strstart(uri, "vsock:", NULL)) {
++    if (strstart(uri, "tcp:", &p) ||
++        strstart(uri, "unix:", NULL) ||
++        strstart(uri, "vsock:", NULL)) {
+         socket_start_incoming_migration(p ? p : uri, errp);
+ #ifdef CONFIG_RDMA
+     } else if (strstart(uri, "rdma:", &p)) {
+@@ -1988,14 +1971,14 @@ void qmp_migrate_incoming(const char *uri, Error **errp)
+     Error *local_err = NULL;
+     static bool once = true;
+ 
+-    if (!deferred_incoming) {
+-        error_setg(errp, "For use with '-incoming defer'");
+-        return;
+-    }
+     if (!once) {
+         error_setg(errp, "The incoming migration has already been started");
+         return;
      }
-@@ -4090,6 +4094,7 @@ void qemu_init(int argc, char **argv, char **envp)
-                 break;
-             case QEMU_OPTION_preconfig:
-                 preconfig_exit_requested = false;
-+                preconfig_requested = true;
-                 break;
-             case QEMU_OPTION_enable_kvm:
-                 olist = qemu_find_opts("machine");
-@@ -4513,11 +4518,21 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_resolve_machine_memdev();
-     parse_numa_opts(current_machine);
- 
-+    if (preconfig_requested) {
-+        qemu_init_displays();
++    if (!runstate_check(RUN_STATE_INMIGRATE)) {
++        error_setg(errp, "'-incoming' was not specified on the command line");
++        return;
 +    }
-+
-     /* do monitor/qmp handling at preconfig state if requested */
-     qemu_main_loop();
  
-     qemu_init_board();
-+
-     qemu_create_cli_devices();
-+
-+    /* initialize displays after all errors have been reported */
-+    if (!preconfig_requested) {
-+        qemu_init_displays();
-+    }
-     qemu_machine_creation_done();
+     qemu_start_incoming_migration(uri, &local_err);
  
-     if (loadvm) {
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index e65eb0c9f2..20dd0cd517 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -109,6 +109,7 @@
+ #include "qapi/qapi-visit-block-core.h"
+ #include "qapi/qapi-visit-ui.h"
+ #include "qapi/qapi-commands-block-core.h"
++#include "qapi/qapi-commands-migration.h"
+ #include "qapi/qapi-commands-run-state.h"
+ #include "qapi/qapi-commands-ui.h"
+ #include "qapi/qmp/qerror.h"
+@@ -4556,10 +4557,12 @@ void qemu_init(int argc, char **argv, char **envp)
+     }
+     if (incoming) {
+         Error *local_err = NULL;
+-        qemu_start_incoming_migration(incoming, &local_err);
+-        if (local_err) {
+-            error_reportf_err(local_err, "-incoming %s: ", incoming);
+-            exit(1);
++        if (strcmp(incoming, "defer") != 0) {
++            qmp_migrate_incoming(incoming, &local_err);
++            if (local_err) {
++                error_reportf_err(local_err, "-incoming %s: ", incoming);
++                exit(1);
++            }
+         }
+     } else if (autostart) {
+         vm_start();
 -- 
 2.26.2
 
