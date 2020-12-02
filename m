@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747D92CBAE4
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:48:00 +0100 (CET)
-Received: from localhost ([::1]:47346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574432CBAE6
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:50:09 +0100 (CET)
+Received: from localhost ([::1]:51586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkPfz-0005ZU-IW
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:47:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39944)
+	id 1kkPi4-0007OR-Bj
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:50:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkOmR-0008L1-JM
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:50:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47402)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkOsF-0006sp-5C
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:56:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkOmK-00026x-80
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:50:34 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkOsC-0004MV-6t
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:56:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606902622;
+ s=mimecast20190719; t=1606902991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bPHqVyLPpdeRR3wBXW9lPWcc3Y8IhnDcw3lNYDFSKyA=;
- b=GgpEeKA0CvOP5AQqPBVY1GwKiV8S/gOBahEVU6dMX+DT31QRwZWlUEVidUAJNsH6Wfxdsa
- MIJiWfPf1P/+26OpFzTksXQtY3P7RVEWIBqAZ0Q3zxMiQY3dzuzOFYqPub+vW89joI40mY
- 0Pn6PNnAnklE5wQ3P7yEajwLMVLUV3I=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-582-HDlyipMjOlysClOK7M8n1g-1; Wed, 02 Dec 2020 04:50:21 -0500
-X-MC-Unique: HDlyipMjOlysClOK7M8n1g-1
-Received: by mail-wm1-f70.google.com with SMTP id l5so2637361wmi.4
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 01:50:21 -0800 (PST)
+ bh=y6483IhVJ0O5EE5z0qX4vFzaVpZbprPp9WiUJ9LX9BE=;
+ b=Sjx+W9AxsFwUVBgaTxZRf4HSa0qbNa6zmzP+/wDEWqTyp7k/voEcZKe23MaTn0+Di/OzM2
+ W/0CCtGLWQ0ITV7Uwe/q1vRrY/ku8RHWm+cUJLi27QbWDuMezPg2Zr7foH00qbnjID630M
+ Jidwnvx6DJBPHdwi1PKovyUFIMN9l8I=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-VzF3eyzBNnyxMsipyK6d5g-1; Wed, 02 Dec 2020 04:56:30 -0500
+X-MC-Unique: VzF3eyzBNnyxMsipyK6d5g-1
+Received: by mail-wr1-f71.google.com with SMTP id c11so2776681wrt.12
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 01:56:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=bPHqVyLPpdeRR3wBXW9lPWcc3Y8IhnDcw3lNYDFSKyA=;
- b=hbe4bs6+/C91XZdUBJePfBOzy1dTwAtwAgBJztabwruHlVCITRhcWdBSfu8yMRPXiW
- en5MZcFCDCXJfytvol51CtAj0N6dUEpGeyelGk/ZIYsu2xHI7cWP9NcR8lU5ra+e/jNI
- 7G2YyYz0/aOKkesBAWqdnUhA7uIjpEJe90lQoRXAuga20cd73JpuDdlbeOo412OXciRm
- 01iYq1d874QI6pMn7ZOVJ+zCH+/FaFEB4sNHUTeNvYAriyPRfHZKNDqfrT4lNMcUg1Cz
- yQLGiFPrxwSBjH/M6k7ik6XdPdkRUvzUY8d0f7+y6q/T74mM6/rVqH0va+7wZCEDKw7r
- hvtw==
-X-Gm-Message-State: AOAM530Y0saweD2rm+QgztkAoFrwoy8NKlmaWLQe1Hjib2Mk4uTlpgvl
- jxV8V85biJQVojmbdyy6iXK/qvobGgbUzQiPwDbznG9PVNA07a0U/lun49XfQuejxofw96YBsEu
- 7Dv4nKvyXMFdHFyc=
-X-Received: by 2002:a5d:65ca:: with SMTP id e10mr2369875wrw.42.1606902619852; 
- Wed, 02 Dec 2020 01:50:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx5W+IoNwgLrN+fUMV5ludVf2m0XTEiTYM74DU3S/Tke3lYmIq8Bvb02xNEmouaACTOjkldWQ==
-X-Received: by 2002:a5d:65ca:: with SMTP id e10mr2369850wrw.42.1606902619651; 
- Wed, 02 Dec 2020 01:50:19 -0800 (PST)
+ bh=y6483IhVJ0O5EE5z0qX4vFzaVpZbprPp9WiUJ9LX9BE=;
+ b=Law1B5pkxA/Sa8XXXUOPCLwK3E1/D9jc6CCwJxF4Gngba1knsCPK8YCsYn6ud8n5Ee
+ KwUmTRzDRRCCv6KjtXGkEbx1YIpk03dDadDY5HpuvxG4aFHklNv1iurq0xe7Kz7ixeMn
+ qwA3MYp7CeSoJkKlQsLkAikPq5l4wOaGOiWiYHvH4+Mri2r8i9XcVyjDYYkogde70Mzc
+ qE9ofKg7+c0M9UWW+wdkOJhdB/zJCzc5+TTLEPSaP2c8UPUF1p/ChiJeP0gKZV0p92ye
+ cXQwQ/+aao1FiMb/8EJFG+2gd6yd5CXLmxFYemcdjHUTrdBd+T7Pnss3TRtdLsyOQL4M
+ m3mA==
+X-Gm-Message-State: AOAM532PbLjbzOdPqt14nTUrrbMNTiJb7TYHmUAxqja2jca/YB50lXUY
+ SHEtoMQXYONthLZbqrAWtH3Nr6ROgPFB/q4SXQBp+Rmg46utAT27xz00yyKlQJoh6Ro7C8/juXT
+ EM+5JZ5EQWG1kT84=
+X-Received: by 2002:adf:f441:: with SMTP id f1mr2367199wrp.225.1606902988727; 
+ Wed, 02 Dec 2020 01:56:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwO6Y1Eqz+MG//piWa+vfL8lNyG7iJ2MPoIS97ozOtcItBwtqA1GipObXx+lshC1zy4Pcmrog==
+X-Received: by 2002:adf:f441:: with SMTP id f1mr2367182wrp.225.1606902988593; 
+ Wed, 02 Dec 2020 01:56:28 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id d3sm1375745wrr.2.2020.12.02.01.50.17
+ by smtp.gmail.com with ESMTPSA id l24sm1497235wrb.28.2020.12.02.01.56.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Dec 2020 01:50:18 -0800 (PST)
-Date: Wed, 2 Dec 2020 04:50:15 -0500
+ Wed, 02 Dec 2020 01:56:27 -0800 (PST)
+Date: Wed, 2 Dec 2020 04:56:25 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: John Levon <john.levon@nutanix.com>
-Subject: Re: [PATCH] virtio: reset device on bad guest index in virtio_load()
-Message-ID: <20201202044937-mutt-send-email-mst@kernel.org>
-References: <20201120185103.GA442386@sent>
+To: "McMillan, Erich" <erich.mcmillan@hp.com>
+Subject: Re: [PATCH v6] hw/i386/pc: add max combined fw size as machine
+ configuration option
+Message-ID: <20201202045601-mutt-send-email-mst@kernel.org>
+References: <20200925175751.4017-1-erich.mcmillan@hp.com>
+ <20201117115329-mutt-send-email-mst@kernel.org>
+ <CS1PR8401MB03272F390100B1B88CCAC784F3E10@CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-In-Reply-To: <20201120185103.GA442386@sent>
+In-Reply-To: <CS1PR8401MB03272F390100B1B88CCAC784F3E10@CS1PR8401MB0327.NAMPRD84.PROD.OUTLOOK.COM>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,61 +93,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "lersek@redhat.com" <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 20, 2020 at 06:51:07PM +0000, John Levon wrote:
-> 
-> If we find a queue with an inconsistent guest index value, explicitly mark the
-> device as needing a reset - and broken - via virtio_error().
-> 
-> There's at least one driver implementation - the virtio-win NetKVM driver - that
-> is able to handle a VIRTIO_CONFIG_S_NEEDS_RESET notification and successfully
-> restore the device to a working state. Other implementations do not correctly
-> handle this, but as the VQ is not in a functional state anyway, this is still
-> worth doing.
-> 
-> Signed-off-by: John Levon <john.levon@nutanix.com>
-
-I tagged this for after the release. pls ping me after the release
-to help make sure it does not get lost.
-
-> ---
->  hw/virtio/virtio.c | 15 +++++++++------
->  1 file changed, 9 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index ceb58fda6c..eff35fab7c 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -3161,12 +3161,15 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
->              nheads = vring_avail_idx(&vdev->vq[i]) - vdev->vq[i].last_avail_idx;
->              /* Check it isn't doing strange things with descriptor numbers. */
->              if (nheads > vdev->vq[i].vring.num) {
-> -                qemu_log_mask(LOG_GUEST_ERROR,
-> -                              "VQ %d size 0x%x Guest index 0x%x "
-> -                              "inconsistent with Host index 0x%x: delta 0x%x",
-> -                              i, vdev->vq[i].vring.num,
-> -                              vring_avail_idx(&vdev->vq[i]),
-> -                              vdev->vq[i].last_avail_idx, nheads);
-> +                virtio_error(vdev, "VQ %d size 0x%x Guest index 0x%x "
-> +                             "inconsistent with Host index 0x%x: delta 0x%x",
-> +                             i, vdev->vq[i].vring.num,
-> +                             vring_avail_idx(&vdev->vq[i]),
-> +                             vdev->vq[i].last_avail_idx, nheads);
-> +                vdev->vq[i].used_idx = 0;
-> +                vdev->vq[i].shadow_avail_idx = 0;
-> +                vdev->vq[i].inuse = 0;
-> +                continue;
->              }
->              vdev->vq[i].used_idx = vring_used_idx(&vdev->vq[i]);
->              vdev->vq[i].shadow_avail_idx = vring_avail_idx(&vdev->vq[i]);
-> -- 
-> 2.22.3
-> 
+Could you help by rebasing this on master? Shouldn't be hard ...
+Thanks!
 
 
