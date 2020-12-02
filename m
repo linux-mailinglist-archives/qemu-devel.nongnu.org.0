@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436812CB85C
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:17:14 +0100 (CET)
-Received: from localhost ([::1]:37640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AA92CB893
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:22:20 +0100 (CET)
+Received: from localhost ([::1]:49274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOG9-0003Bf-8z
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:17:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40744)
+	id 1kkOL3-0008CE-Nd
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:22:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNDH-0003h1-90
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50882)
+ id 1kkNDJ-0003li-Ih
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35103)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCW-0003o1-Rk
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:10 -0500
+ id 1kkNCY-0003oO-Nm
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606896563;
+ s=mimecast20190719; t=1606896564;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uQMQmygVLLo56KizHbgMm/0357/uoLkrergt4oaKiKI=;
- b=it4dytpdJSK7el0uKVtdDbV7TWBeTkVzQc/MwPLNtCMBO0xq0EvZZ/h4ZIDRAKD/4utZN2
- N2qAsLhldfljRICRu3Cg1pj2QUqiy1ePKgZb8f0p2XmLqbvHdflaqKhVnEy8osKg+oJD9J
- YJgK15XkKJ00yNWBlvvtWIJgb/O8DC8=
+ bh=lTbNvUmcxZxw5oB2uz5Cuhkq6SClsJLpylk8edw4H+k=;
+ b=eOywnoPCLUdljii7nAzoim45ooon2E2hNyJrTnz5FapCVaQuqtFfSk2qt1gmckd+EQ0fDl
+ fG8q2Pw4XNg8VPLIipXcJ7Jt5KaVAqlDaP70gbIoB1zBDGuXy9EOAd91KY4ZDn7Pc05Ih5
+ FMqOkI5cqEyepUV8tN94S04aWfhDzeo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-0C1ehk3PMt-57kQ4Y85Cbg-1; Wed, 02 Dec 2020 03:09:21 -0500
-X-MC-Unique: 0C1ehk3PMt-57kQ4Y85Cbg-1
+ us-mta-26-tc4ruzKQMGq4krOPl6eW9g-1; Wed, 02 Dec 2020 03:09:22 -0500
+X-MC-Unique: tc4ruzKQMGq4krOPl6eW9g-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E29221074642
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C75A8558F3
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:21 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE42E60854
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59A4560854
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:21 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 083/113] kernel-doc: fix processing nested structs with
- attributes
-Date: Wed,  2 Dec 2020 03:08:19 -0500
-Message-Id: <20201202080849.4125477-84-pbonzini@redhat.com>
+Subject: [PULL 085/113] scripts/kernel-doc: Add support for named variable
+ macro arguments
+Date: Wed,  2 Dec 2020 03:08:21 -0500
+Message-Id: <20201202080849.4125477-86-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -83,47 +83,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: André Almeida <andrealmeid@collabora.com>
+From: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
 
-The current regular expression for strip attributes of structs (and
-for nested ones as well) also removes all whitespaces that may
-surround the attribute. After that, the code will split structs and
-iterate for each symbol separated by comma at the end of struct
-definition (e.g. "} alias1, alias2;"). However, if the nested struct
-does not have any alias and has an attribute, it will result in a
-empty string at the closing bracket (e.g "};"). This will make the
-split return nothing and $newmember will keep uninitialized. Fix
-that, by ensuring that the attribute substitution will leave at least
-one whitespace.
+Currently, when kernel-doc encounters a macro with a named variable
+argument[1], such as this:
 
-Signed-off-by: André Almeida <andrealmeid@collabora.com>
+   #define hlist_for_each_entry_rcu(pos, head, member, cond...)
+
+... it expects the variable argument to be documented as `cond...`,
+rather than `cond`. This is semantically wrong, because the name (as
+used in the macro body) is actually `cond`.
+
+With this patch, kernel-doc will accept the name without dots (`cond`
+in the example above) in doc comments, and warn if the name with dots
+(`cond...`) is used and verbose mode[2] is enabled.
+
+The support for the `cond...` syntax can be removed later, when the
+documentation of all such macros has been switched to the new syntax.
+
+Testing this patch on top of v5.4-rc6, `make htmldocs` shows a few
+changes in log output and HTML output:
+
+ 1) The following warnings[3] are eliminated:
+
+   ./include/linux/rculist.h:374: warning:
+        Excess function parameter 'cond' description in 'list_for_each_entry_rcu'
+   ./include/linux/rculist.h:651: warning:
+        Excess function parameter 'cond' description in 'hlist_for_each_entry_rcu'
+
+ 2) For list_for_each_entry_rcu and hlist_for_each_entry_rcu, the
+    correct description is shown
+
+ 3) Named variable arguments are shown without dots
+
+[1]: https://gcc.gnu.org/onlinedocs/cpp/Variadic-Macros.html
+[2]: scripts/kernel-doc -v
+[3]: See also https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?h=dev&id=5bc4bc0d6153617eabde275285b7b5a8137fdf3c
+
+Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Tested-by: Paul E. McKenney <paulmck@kernel.org>
 Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-2-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-4-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/kernel-doc | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 4fbaaa05e3..d6bdb77ceb 100755
+index 2f421b7313..0f67664165 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1103,10 +1103,10 @@ sub dump_struct($$) {
- 	# strip comments:
- 	$members =~ s/\/\*.*?\*\///gos;
- 	# strip attributes
--	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)//gi;
--	$members =~ s/\s*__aligned\s*\([^;]*\)//gos;
--	$members =~ s/\s*__packed\s*//gos;
--	$members =~ s/\s*CRYPTO_MINALIGN_ATTR//gos;
-+	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
-+	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
-+	$members =~ s/\s*__packed\s*/ /gos;
-+	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
- 	# replace DECLARE_BITMAP
- 	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
- 	# replace DECLARE_HASHTABLE
+@@ -1480,6 +1480,10 @@ sub push_parameter($$$$) {
+ 	      # handles unnamed variable parameters
+ 	      $param = "...";
+ 	    }
++	    elsif ($param =~ /\w\.\.\.$/) {
++	      # for named variable parameters of the form `x...`, remove the dots
++	      $param =~ s/\.\.\.$//;
++	    }
+ 	    if (!defined $parameterdescs{$param} || $parameterdescs{$param} eq "") {
+ 		$parameterdescs{$param} = "variable arguments";
+ 	    }
+@@ -1967,6 +1971,18 @@ sub process_name($$) {
+ sub process_body($$) {
+     my $file = shift;
+ 
++    # Until all named variable macro parameters are
++    # documented using the bare name (`x`) rather than with
++    # dots (`x...`), strip the dots:
++    if ($section =~ /\w\.\.\.$/) {
++	$section =~ s/\.\.\.$//;
++
++	if ($verbose) {
++	    print STDERR "${file}:$.: warning: Variable macro arguments should be documented without dots\n";
++	    ++$warnings;
++	}
++    }
++
+     if (/$doc_sect/i) { # case insensitive for supported section names
+ 	$newsection = $1;
+ 	$newcontents = $2;
 -- 
 2.26.2
 
