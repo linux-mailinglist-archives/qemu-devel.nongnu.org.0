@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A353F2CB96D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:45:26 +0100 (CET)
-Received: from localhost ([::1]:57768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577472CB9BD
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:54:47 +0100 (CET)
+Received: from localhost ([::1]:52740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOhR-0002e1-Kx
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:45:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42616)
+	id 1kkOqU-00049o-B0
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:54:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNM4-0006c6-6b
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36458)
+ id 1kkNMI-0006eT-1U
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNLx-0006wC-AR
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:15 -0500
+ id 1kkNM2-0006wb-4B
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:19:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606897146;
+ s=mimecast20190719; t=1606897147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/cfOY/RAHxZGNgi4BhboeDgoKBOl3i0sxf+bTPsz9Y8=;
- b=P3U5I0Lo27mHVem4zkymU+zsM06d+WsirJqy+yPzrqNTelYTY7K5plB0FQMoEItyuveHqY
- rBTjR7keafmy7wsit+jtntGcK9SE4jNBE3RygxtdiT1U12C411hzJKpXObRnEEy/TtonzV
- ynQHRQ/osTGzUpPj31ea7nSG1mETr5Y=
+ bh=iMN+JmQYLRXhSmtOPCzxlNq3OBwO3hZX/HZsdm3ZNjk=;
+ b=McrQ0vv+kiSx16o0UhoB02e19l04nv/k8jcfiSwA1X24z7R2y7rsAgmW/0mYk5/pcPKlF4
+ UzWjre26LfStDv9Ne28GTEK1ynO9u8Kkb1wiTA32kAvX+E9zTSiji7xA4LwkCCqCpgEuHj
+ X5EJ/rcEX886j1ewX+znyNW+JULJwW8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-hehybNZ1Oi-lbD5FpmWaPw-1; Wed, 02 Dec 2020 03:19:04 -0500
-X-MC-Unique: hehybNZ1Oi-lbD5FpmWaPw-1
+ us-mta-182-HJAwkM4SNFuFlOVGg9O7Qw-1; Wed, 02 Dec 2020 03:19:04 -0500
+X-MC-Unique: HJAwkM4SNFuFlOVGg9O7Qw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66168100C600
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6B809A22D
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:19:03 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2053610013C1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8170110013C1;
  Wed,  2 Dec 2020 08:19:03 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/15] chardev: do not use machine_init_done
-Date: Wed,  2 Dec 2020 03:18:46 -0500
-Message-Id: <20201202081854.4126071-8-pbonzini@redhat.com>
+Subject: [PATCH 08/15] machine: introduce MachineInitPhase
+Date: Wed,  2 Dec 2020 03:18:47 -0500
+Message-Id: <20201202081854.4126071-9-pbonzini@redhat.com>
 In-Reply-To: <20201202081854.4126071-1-pbonzini@redhat.com>
 References: <20201202081854.4126071-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,301 +83,341 @@ Cc: imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-machine_init_done is not the right flag to check when preconfig
-is taken into account; for example "./qemu-system-x86_64 -serial
-mon:stdio -preconfig" does not print the QEMU monitor header until after
-exit_preconfig.  Add back a custom bool for mux character devices.  This
-partially undoes commit c7278b4355 ("chardev: introduce chr_machine_done
-hook", 2018-03-12), cut keeps the cleaner logic using a function pointer
-in ChardevClass.
+Generalize the qdev_hotplug variable to the different phases of
+machine initialization.  We would like to allow different
+monitor commands depending on the phase.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- chardev/char-mux.c        | 38 ++++++++++++++++++---
- chardev/chardev-sysemu.c  | 69 ---------------------------------------
- chardev/meson.build       |  2 +-
- hw/core/machine.c         |  2 +-
- include/chardev/char.h    |  6 ++--
- include/sysemu/sysemu.h   |  2 --
- softmmu/vl.c              |  3 ++
- stubs/machine-init-done.c |  8 -----
- stubs/meson.build         |  1 -
- 9 files changed, 43 insertions(+), 88 deletions(-)
- delete mode 100644 chardev/chardev-sysemu.c
- delete mode 100644 stubs/machine-init-done.c
+ hw/core/machine-qmp-cmds.c |  6 +++---
+ hw/core/machine.c          |  8 +++-----
+ hw/core/qdev.c             | 16 ++++++++++++++--
+ hw/pci/pci.c               |  2 +-
+ hw/usb/core.c              |  2 +-
+ hw/virtio/virtio-iommu.c   |  2 +-
+ include/hw/qdev-core.h     | 32 +++++++++++++++++++++++++++++++-
+ monitor/hmp.c              |  2 +-
+ softmmu/qdev-monitor.c     | 24 +++++++++++++-----------
+ softmmu/vl.c               |  9 ++++-----
+ ui/console.c               |  2 +-
+ 11 files changed, 73 insertions(+), 32 deletions(-)
 
-diff --git a/chardev/char-mux.c b/chardev/char-mux.c
-index 6f980bb836..72beef29d2 100644
---- a/chardev/char-mux.c
-+++ b/chardev/char-mux.c
-@@ -33,6 +33,13 @@
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index cb9387c5f5..87f14140a3 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -286,9 +286,9 @@ HotpluggableCPUList *qmp_query_hotpluggable_cpus(Error **errp)
  
- /* MUX driver for serial I/O splitting */
- 
-+/*
-+ * Set to false by suspend_mux_open.  Open events are delayed until
-+ * resume_mux_open.  Usually suspend_mux_open is called before
-+ * command line processing and resume_mux_open afterwards.
-+ */
-+static bool muxes_opened = true;
-+
- /* Called with chr_write_lock held.  */
- static int mux_chr_write(Chardev *chr, const uint8_t *buf, int len)
+ void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
  {
-@@ -237,7 +244,7 @@ void mux_chr_send_all_event(Chardev *chr, QEMUChrEvent event)
-     MuxChardev *d = MUX_CHARDEV(chr);
-     int i;
- 
--    if (!machine_init_done) {
-+    if (!muxes_opened) {
-         return;
+-    if (qdev_hotplug) {
+-         error_setg(errp, "The command is permitted only before the machine has been created");
+-         return;
++    if (phase_check(PHASE_MACHINE_INITIALIZED)) {
++        error_setg(errp, "The command is permitted only before the machine has been created");
++        return;
      }
  
-@@ -328,7 +335,7 @@ static void qemu_chr_open_mux(Chardev *chr,
-     /* only default to opened state if we've realized the initial
-      * set of muxes
-      */
--    *be_opened = machine_init_done;
-+    *be_opened = muxes_opened;
-     qemu_chr_fe_init(&d->chr, drv, errp);
- }
- 
-@@ -360,19 +367,42 @@ static void qemu_chr_parse_mux(QemuOpts *opts, ChardevBackend *backend,
-  * mux will receive CHR_EVENT_OPENED notifications for the BE
-  * immediately.
-  */
--static int open_muxes(Chardev *chr)
-+static void open_muxes(Chardev *chr)
- {
-     /* send OPENED to all already-attached FEs */
-     mux_chr_send_all_event(chr, CHR_EVENT_OPENED);
-+
-     /*
-      * mark mux as OPENED so any new FEs will immediately receive
-      * OPENED event
-      */
-     chr->be_open = 1;
-+}
-+
-+void suspend_mux_open(void)
-+{
-+    muxes_opened = false;
-+}
-+
-+static int chardev_options_parsed_cb(Object *child, void *opaque)
-+{
-+    Chardev *chr = (Chardev *)child;
-+    ChardevClass *class = CHARDEV_GET_CLASS(chr);
-+
-+    if (!chr->be_open && class->chr_options_parsed) {
-+        class->chr_options_parsed(chr);
-+    }
- 
-     return 0;
- }
- 
-+void resume_mux_open(void)
-+{
-+    muxes_opened = true;
-+    object_child_foreach(get_chardevs_root(),
-+                         chardev_options_parsed_cb, NULL);
-+}
-+
- static void char_mux_class_init(ObjectClass *oc, void *data)
- {
-     ChardevClass *cc = CHARDEV_CLASS(oc);
-@@ -383,7 +413,7 @@ static void char_mux_class_init(ObjectClass *oc, void *data)
-     cc->chr_accept_input = mux_chr_accept_input;
-     cc->chr_add_watch = mux_chr_add_watch;
-     cc->chr_be_event = mux_chr_be_event;
--    cc->chr_machine_done = open_muxes;
-+    cc->chr_options_parsed = open_muxes;
-     cc->chr_update_read_handler = mux_chr_update_read_handlers;
- }
- 
-diff --git a/chardev/chardev-sysemu.c b/chardev/chardev-sysemu.c
-deleted file mode 100644
-index eecdc615ee..0000000000
---- a/chardev/chardev-sysemu.c
-+++ /dev/null
-@@ -1,69 +0,0 @@
--/*
-- * QEMU System Emulator
-- *
-- * Copyright (c) 2003-2008 Fabrice Bellard
-- *
-- * Permission is hereby granted, free of charge, to any person obtaining a copy
-- * of this software and associated documentation files (the "Software"), to deal
-- * in the Software without restriction, including without limitation the rights
-- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-- * copies of the Software, and to permit persons to whom the Software is
-- * furnished to do so, subject to the following conditions:
-- *
-- * The above copyright notice and this permission notice shall be included in
-- * all copies or substantial portions of the Software.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-- * THE SOFTWARE.
-- */
--
--#include "qemu/osdep.h"
--#include "sysemu/sysemu.h"
--#include "chardev/char.h"
--#include "qemu/error-report.h"
--#include "chardev-internal.h"
--
--static int chardev_machine_done_notify_one(Object *child, void *opaque)
--{
--    Chardev *chr = (Chardev *)child;
--    ChardevClass *class = CHARDEV_GET_CLASS(chr);
--
--    if (class->chr_machine_done) {
--        return class->chr_machine_done(chr);
--    }
--
--    return 0;
--}
--
--static void chardev_machine_done_hook(Notifier *notifier, void *unused)
--{
--    int ret = object_child_foreach(get_chardevs_root(),
--                                   chardev_machine_done_notify_one, NULL);
--
--    if (ret) {
--        error_report("Failed to call chardev machine_done hooks");
--        exit(1);
--    }
--}
--
--
--static Notifier chardev_machine_done_notify = {
--    .notify = chardev_machine_done_hook,
--};
--
--static void register_types(void)
--{
--    /*
--     * This must be done after machine init, since we register FEs with muxes
--     * as part of realize functions like serial_isa_realizefn when -nographic
--     * is specified.
--     */
--    qemu_add_machine_init_done_notifier(&chardev_machine_done_notify);
--}
--
--type_init(register_types);
-diff --git a/chardev/meson.build b/chardev/meson.build
-index 859d8b04d4..4e19722c5e 100644
---- a/chardev/meson.build
-+++ b/chardev/meson.build
-@@ -25,7 +25,7 @@ chardev_ss.add(when: 'CONFIG_WIN32', if_true: files(
- 
- chardev_ss = chardev_ss.apply(config_host, strict: false)
- 
--softmmu_ss.add(files('chardev-sysemu.c', 'msmouse.c', 'wctablet.c', 'testdev.c'))
-+softmmu_ss.add(files('msmouse.c', 'wctablet.c', 'testdev.c'))
- 
- chardev_modules = {}
- 
+     set_numa_options(MACHINE(qdev_get_machine()), cmd, errp);
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 025c4f9749..40876ddd8e 100644
+index 40876ddd8e..2c0bc15143 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -1176,7 +1176,7 @@ void machine_run_board_init(MachineState *machine)
+@@ -1171,17 +1171,16 @@ void machine_run_board_init(MachineState *machine)
+     }
+ 
+     machine_class->init(machine);
++    phase_advance(PHASE_MACHINE_INITIALIZED);
+ }
+ 
  static NotifierList machine_init_done_notifiers =
      NOTIFIER_LIST_INITIALIZER(machine_init_done_notifiers);
  
--bool machine_init_done;
-+static bool machine_init_done;
- 
+-static bool machine_init_done;
+-
  void qemu_add_machine_init_done_notifier(Notifier *notify)
  {
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index db42f0a8c6..4181a2784a 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -270,8 +270,7 @@ struct ChardevClass {
-     void (*chr_set_echo)(Chardev *chr, bool echo);
-     void (*chr_set_fe_open)(Chardev *chr, int fe_open);
-     void (*chr_be_event)(Chardev *s, QEMUChrEvent event);
--    /* Return 0 if succeeded, 1 if failed */
--    int (*chr_machine_done)(Chardev *chr);
-+    void (*chr_options_parsed)(Chardev *chr);
- };
+     notifier_list_add(&machine_init_done_notifiers, notify);
+-    if (machine_init_done) {
++    if (phase_check(PHASE_MACHINE_READY)) {
+         notify->notify(notify, NULL);
+     }
+ }
+@@ -1204,7 +1203,7 @@ void qdev_machine_creation_done(void)
+      * ok, initial machine setup is done, starting from now we can
+      * only create hotpluggable devices
+      */
+-    qdev_hotplug = true;
++    phase_advance(PHASE_MACHINE_READY);
+     qdev_assert_realized_properly();
  
- Chardev *qemu_chardev_new(const char *id, const char *typename,
-@@ -283,6 +282,9 @@ extern int term_escape_char;
- GSource *qemu_chr_timeout_add_ms(Chardev *chr, guint ms,
-                                  GSourceFunc func, void *private);
+     /* TODO: once all bus devices are qdevified, this should be done
+@@ -1219,7 +1218,6 @@ void qdev_machine_creation_done(void)
+      */
+     qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
  
-+void suspend_mux_open(void);
-+void resume_mux_open(void);
+-    machine_init_done = true;
+     notifier_list_notify(&machine_init_done_notifiers, NULL);
+ 
+     if (rom_check_and_register_reset() != 0) {
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index bc5df8ce69..beb35879c6 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -41,7 +41,6 @@
+ #include "migration/vmstate.h"
+ #include "trace.h"
+ 
+-bool qdev_hotplug = false;
+ static bool qdev_hot_added = false;
+ bool qdev_hot_removed = false;
+ 
+@@ -1023,7 +1022,7 @@ static void device_initfn(Object *obj)
+ {
+     DeviceState *dev = DEVICE(obj);
+ 
+-    if (qdev_hotplug) {
++    if (phase_check(PHASE_MACHINE_READY)) {
+         dev->hotplugged = 1;
+         qdev_hot_added = true;
+     }
+@@ -1267,6 +1266,19 @@ Object *qdev_get_machine(void)
+     return dev;
+ }
+ 
++static MachineInitPhase machine_phase;
 +
- /* console.c */
- void qemu_chr_parse_vc(QemuOpts *opts, ChardevBackend *backend, Error **errp);
++bool phase_check(MachineInitPhase phase)
++{
++    return machine_phase >= phase;
++}
++
++void phase_advance(MachineInitPhase phase)
++{
++    assert(machine_phase == phase - 1);
++    machine_phase = phase;
++}
++
+ static const TypeInfo device_type_info = {
+     .name = TYPE_DEVICE,
+     .parent = TYPE_OBJECT,
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 9424231542..d4349ea577 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1062,7 +1062,7 @@ static PCIDevice *do_pci_register_device(PCIDevice *pci_dev,
+     address_space_init(&pci_dev->bus_master_as,
+                        &pci_dev->bus_master_container_region, pci_dev->name);
  
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 0e7b405d22..9b47cdca55 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -16,8 +16,6 @@ extern bool qemu_uuid_set;
- void qemu_add_exit_notifier(Notifier *notify);
- void qemu_remove_exit_notifier(Notifier *notify);
+-    if (qdev_hotplug) {
++    if (phase_check(PHASE_MACHINE_READY)) {
+         pci_init_bus_master(pci_dev);
+     }
+     pci_dev->irq_state = 0;
+diff --git a/hw/usb/core.c b/hw/usb/core.c
+index 5234dcc73f..e960036f4d 100644
+--- a/hw/usb/core.c
++++ b/hw/usb/core.c
+@@ -97,7 +97,7 @@ void usb_wakeup(USBEndpoint *ep, unsigned int stream)
+     USBDevice *dev = ep->dev;
+     USBBus *bus = usb_bus_from_device(dev);
  
--extern bool machine_init_done;
--
- void qemu_run_machine_init_done_notifiers(void);
- void qemu_add_machine_init_done_notifier(Notifier *notify);
- void qemu_remove_machine_init_done_notifier(Notifier *notify);
+-    if (!qdev_hotplug) {
++    if (!phase_check(PHASE_MACHINE_READY)) {
+         /*
+          * This is machine init cold plug.  No need to wakeup anyone,
+          * all devices will be reset anyway.  And trying to wakeup can
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index fc5c75d693..8370fd80d7 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -928,7 +928,7 @@ static int virtio_iommu_set_page_size_mask(IOMMUMemoryRegion *mr,
+      * accept it. Having a different masks is possible but the guest will use
+      * sub-optimal block sizes, so warn about it.
+      */
+-    if (qdev_hotplug) {
++    if (phase_check(PHASE_MACHINE_READY)) {
+         int new_granule = ctz64(new_mask);
+         int cur_granule = ctz64(cur_mask);
+ 
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 6446846752..12612ed682 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -821,7 +821,6 @@ Object *qdev_get_machine(void);
+ /* FIXME: make this a link<> */
+ bool qdev_set_parent_bus(DeviceState *dev, BusState *bus, Error **errp);
+ 
+-extern bool qdev_hotplug;
+ extern bool qdev_hot_removed;
+ 
+ char *qdev_get_dev_path(DeviceState *dev);
+@@ -847,4 +846,35 @@ void device_listener_unregister(DeviceListener *listener);
+  */
+ bool qdev_should_hide_device(QemuOpts *opts);
+ 
++typedef enum MachineInitPhase {
++    /* current_machine is NULL.  */
++    PHASE_NO_MACHINE,
++
++    /* current_machine is not NULL, but current_machine->accel is NULL.  */
++    PHASE_MACHINE_CREATED,
++
++    /*
++     * current_machine->accel is not NULL, but the machine properties have
++     * not been validated and machine_class->init has not yet been called.
++     */
++    PHASE_ACCEL_CREATED,
++
++    /*
++     * machine_class->init has been called, thus creating any embedded
++     * devices and validating machine properties.  Devices created at
++     * this time are considered to be cold-plugged.
++     */
++    PHASE_MACHINE_INITIALIZED,
++
++    /*
++     * QEMU is ready to start CPUs and devices created at this time
++     * are considered to be hot-plugged.  The monitor is not restricted
++     * to "preconfig" commands.
++     */
++    PHASE_MACHINE_READY,
++} MachineInitPhase;
++
++extern bool phase_check(MachineInitPhase phase);
++extern void phase_advance(MachineInitPhase phase);
++
+ #endif
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index f2fe192d69..6c0b33a0b1 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -216,7 +216,7 @@ static bool cmd_can_preconfig(const HMPCommand *cmd)
+ 
+ static bool cmd_available(const HMPCommand *cmd)
+ {
+-    return qdev_hotplug || cmd_can_preconfig(cmd);
++    return phase_check(PHASE_MACHINE_READY) || cmd_can_preconfig(cmd);
+ }
+ 
+ static void help_cmd_dump_one(Monitor *mon,
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index e967d13bd0..184fe317af 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -244,7 +244,7 @@ static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
+ 
+     dc = DEVICE_CLASS(oc);
+     if (!dc->user_creatable ||
+-        (qdev_hotplug && !dc->hotpluggable)) {
++        (phase_check(PHASE_MACHINE_READY) && !dc->hotpluggable)) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "driver",
+                    "pluggable device type");
+         return NULL;
+@@ -637,7 +637,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+     }
+     hide = should_hide_device(opts);
+ 
+-    if ((hide || qdev_hotplug) && bus && !qbus_is_hotpluggable(bus)) {
++    if ((hide || phase_check(PHASE_MACHINE_READY)) && bus && !qbus_is_hotpluggable(bus)) {
+         error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
+         return NULL;
+     }
+@@ -655,15 +655,17 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
+     dev = qdev_new(driver);
+ 
+     /* Check whether the hotplug is allowed by the machine */
+-    if (qdev_hotplug && !qdev_hotplug_allowed(dev, errp)) {
+-        goto err_del_dev;
+-    }
++    if (phase_check(PHASE_MACHINE_READY)) {
++        if (!qdev_hotplug_allowed(dev, errp)) {
++            goto err_del_dev;
++        }
+ 
+-    if (!bus && qdev_hotplug && !qdev_get_machine_hotplug_handler(dev)) {
+-        /* No bus, no machine hotplug handler --> device is not hotpluggable */
+-        error_setg(errp, "Device '%s' can not be hotplugged on this machine",
+-                   driver);
+-        goto err_del_dev;
++        if (!bus && !qdev_get_machine_hotplug_handler(dev)) {
++            /* No bus, no machine hotplug handler --> device is not hotpluggable */
++            error_setg(errp, "Device '%s' can not be hotplugged on this machine",
++                       driver);
++            goto err_del_dev;
++        }
+     }
+ 
+     qdev_set_id(dev, qemu_opts_id(opts));
+@@ -1001,7 +1003,7 @@ int qemu_global_option(const char *str)
+ 
+ bool qmp_command_available(const QmpCommand *cmd, Error **errp)
+ {
+-    if (!qdev_hotplug &&
++    if (!phase_check(PHASE_MACHINE_READY) &&
+         !(cmd->options & QCO_ALLOW_PRECONFIG)) {
+         error_setg(errp, "The command '%s' is permitted only after machine initialization has completed",
+                    cmd->name);
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index d8af26c281..8e18c52f6e 100644
+index 8e18c52f6e..4fece1b9db 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -3462,6 +3462,8 @@ void qemu_init(int argc, char **argv, char **envp)
- 
-     qemu_create_machine(select_machine());
- 
-+    suspend_mux_open();
-+
-     qemu_disable_default_devices();
-     qemu_create_default_devices();
-     qemu_create_early_backends();
-@@ -3525,4 +3527,5 @@ void qemu_init(int argc, char **argv, char **envp)
+@@ -2406,10 +2406,6 @@ static void qemu_init_displays(void)
      }
-     accel_setup_post(current_machine);
-     os_setup_post();
-+    resume_mux_open();
  }
-diff --git a/stubs/machine-init-done.c b/stubs/machine-init-done.c
-deleted file mode 100644
-index cd8e81392d..0000000000
---- a/stubs/machine-init-done.c
-+++ /dev/null
-@@ -1,8 +0,0 @@
--#include "qemu/osdep.h"
--#include "sysemu/sysemu.h"
--
--bool machine_init_done = true;
--
--void qemu_add_machine_init_done_notifier(Notifier *notify)
--{
--}
-diff --git a/stubs/meson.build b/stubs/meson.build
-index cc56c83063..80b1d81a31 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -21,7 +21,6 @@ stub_ss.add(files('iothread-lock.c'))
- stub_ss.add(files('isa-bus.c'))
- stub_ss.add(files('is-daemonized.c'))
- stub_ss.add(when: 'CONFIG_LINUX_AIO', if_true: files('linux-aio.c'))
--stub_ss.add(files('machine-init-done.c'))
- stub_ss.add(files('migr-blocker.c'))
- stub_ss.add(files('monitor.c'))
- stub_ss.add(files('monitor-core.c'))
+ 
+-/*
+- * Called after leaving preconfig state.  From here on runstate is
+- * RUN_STATE_PRELAUNCH or RUN_STATE_INMIGRATE.
+- */
+ static void qemu_init_board(void)
+ {
+     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
+@@ -2424,6 +2420,7 @@ static void qemu_init_board(void)
+         exit(1);
+     }
+ 
++    /* From here on we enter MACHINE_PHASE_INITIALIZED.  */
+     machine_run_board_init(current_machine);
+ 
+     /*
+@@ -2490,7 +2487,7 @@ static void qemu_machine_creation_done(void)
+ 
+ void qmp_x_exit_preconfig(Error **errp)
+ {
+-    if (qdev_hotplug) {
++    if (phase_check(PHASE_MACHINE_INITIALIZED)) {
+         error_setg(errp, "The command is permitted only before machine initialization");
+         return;
+     }
+@@ -3469,12 +3466,14 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_create_early_backends();
+ 
+     qemu_apply_machine_options();
++    phase_advance(PHASE_MACHINE_CREATED);
+ 
+     /*
+      * Note: uses machine properties such as kernel-irqchip, must run
+      * after machine_set_property().
+      */
+     configure_accelerators(argv[0]);
++    phase_advance(PHASE_ACCEL_CREATED);
+ 
+     /*
+      * Beware, QOM objects created before this point miss global and
+diff --git a/ui/console.c b/ui/console.c
+index 53dee8e26b..89f625116d 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1345,7 +1345,7 @@ static QemuConsole *new_console(DisplayState *ds, console_type_t console_type,
+     if (QTAILQ_EMPTY(&consoles)) {
+         s->index = 0;
+         QTAILQ_INSERT_TAIL(&consoles, s, next);
+-    } else if (console_type != GRAPHIC_CONSOLE || qdev_hotplug) {
++    } else if (console_type != GRAPHIC_CONSOLE || phase_check(PHASE_MACHINE_READY)) {
+         QemuConsole *last = QTAILQ_LAST(&consoles);
+         s->index = last->index + 1;
+         QTAILQ_INSERT_TAIL(&consoles, s, next);
 -- 
 2.26.2
 
