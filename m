@@ -2,71 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5962CC73F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 20:56:48 +0100 (CET)
-Received: from localhost ([::1]:45002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6247E2CC74C
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 21:01:19 +0100 (CET)
+Received: from localhost ([::1]:50914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkYF5-0006eh-E7
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 14:56:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41142)
+	id 1kkYJR-0000uu-T8
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 15:01:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kkYDk-0005sx-Av
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 14:55:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22348)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kkYDi-000386-94
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 14:55:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606938920;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xPQXIfDx+O4iuIe2x52ltWvmCUGZo5DqCIANEz22UiE=;
- b=SAyg8TJu9DmJe+HHMmBKBCmQxWx0bAwkoqrZURr9dNsXfZxWAG9AXJ9C5X4wu4emeK6gu5
- bKQ6BVKg1BLAioq5fWA+xsdNjGjeGIdWjVyh8Lb+EIqgIWmED2R5VeZIBcLw4WY7hzQErv
- Z49f7tbAbs9VVUcfIhz8KO+/c29MSEs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-t02q2GkfPCKo-Ee2KjqORA-1; Wed, 02 Dec 2020 14:55:18 -0500
-X-MC-Unique: t02q2GkfPCKo-Ee2KjqORA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6A6E3E74B
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 19:55:17 +0000 (UTC)
-Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E7D8A5D74A;
- Wed,  2 Dec 2020 19:55:09 +0000 (UTC)
-Date: Wed, 2 Dec 2020 14:55:08 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] docs: set CONFDIR when running sphinx
-Message-ID: <20201202195508.GI3836@habkost.net>
-References: <20201201183704.299697-1-marcandre.lureau@redhat.com>
- <cca70efa-d001-f4d5-f019-5ec55b7a4349@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kkYHr-0000FT-Uk
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 14:59:39 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:18895)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kkYHo-0003cy-Lc
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 14:59:38 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 51ADB746553;
+ Wed,  2 Dec 2020 20:59:32 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 24AD574645B; Wed,  2 Dec 2020 20:59:32 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 2392E746383;
+ Wed,  2 Dec 2020 20:59:32 +0100 (CET)
+Date: Wed, 2 Dec 2020 20:59:32 +0100 (CET)
+To: Doug Evans <dje@google.com>
+Subject: Re: [DISCUSSION] How to set properties of non-pluggable devices?
+In-Reply-To: <CADPb22T6ML4hzOaa7Y1K8X-2vB6j-7=JJpYdtuDMwv+889fLpg@mail.gmail.com>
+Message-ID: <bd66adf6-32d8-6fb-5cb2-4ab8d8869d1b@eik.bme.hu>
+References: <CADPb22T6ML4hzOaa7Y1K8X-2vB6j-7=JJpYdtuDMwv+889fLpg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <cca70efa-d001-f4d5-f019-5ec55b7a4349@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,50 +55,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Wed, Dec 02, 2020 at 10:05:50AM +0100, Paolo Bonzini wrote:
-> On 01/12/20 19:37, marcandre.lureau@redhat.com wrote:
-> > From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > 
-> > The default configuration path /etc/qemu can be overriden with configure
-> > options, and the generated documentation used to reflect it.
-> > 
-> > Fixes regression introduced in commit
-> > f8aa24ea9a82da38370470c6bc0eaa393999edfe ("meson: sphinx-build").
-> > 
-> > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1902537
-> > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >   docs/meson.build | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/docs/meson.build b/docs/meson.build
-> > index ebd85d59f9..bb8fe4c9e4 100644
-> > --- a/docs/meson.build
-> > +++ b/docs/meson.build
-> > @@ -9,7 +9,7 @@ endif
-> >   # Check if tools are available to build documentation.
-> >   build_docs = false
-> >   if sphinx_build.found()
-> > -  SPHINX_ARGS = [sphinx_build]
-> > +  SPHINX_ARGS = ['env', 'CONFDIR=' + qemu_confdir, sphinx_build]
-> >     # If we're making warnings fatal, apply this to Sphinx runs as well
-> >     if get_option('werror')
-> >       SPHINX_ARGS += [ '-W' ]
-> > 
-> 
-> I can queue the patch, but I also wouldn't mind removing support for
-> /etc/qemu completely.  I'm not sure why one would use it.  Eduardo?
+Hello,
 
-I agree, and I had a series for this 3 years ago.
+On Wed, 2 Dec 2020, Doug Evans wrote:
+> Hi.
+>
+> Suppose I want to set a property of a non-pluggable device that cannot be
+> set after the device has been realized (e.g., I can't use qmp to set the
+> property after QEMU has started).
+> Being non-pluggable means I can't use "-device foo,bar=baz" on the command
+> line.
+> [But I can use "-device foo,help" to list its properties :-)  (if I also
+> specify -M bar) ]
+>
+> How do people do this?
 
-I guess I need to my keep my word and finally submit v5 of the series:
-https://lore.kernel.org/qemu-devel/20171005123414.GE4015@localhost.localdomain/
+I don't know but there's a -global option than may be what you need but I 
+never know how to use it. You may be able to find examples in the doc dir 
+or hopefully someone who knows it better will correct me.
 
--- 
-Eduardo
+Hope this helps or sorry if this is not the right answer.
 
+Regards,
+BALATON Zoltan
+
+> The device is part of a "machine" (board really), so I could add the
+> property to the machine to be passed on to the device when it's realized
+> (at least I think I can), but that doesn't feel right: The machine has lots
+> of devices -> it feels cleaner to associate the property with the device
+> and not the machine (lest the machine over time collect a myriad of random
+> properties to pass on to its devices). Things get a little complicated
+> because the machine can have multiple copies of a device: specifying the
+> device's name is insufficient.
+>
+> The device has an object path: /machine/foo/bar/device[0]. There's also
+> /.../device[1].
+> IWBN to be able to do something along the lines of:
+> -device-property /device/path[,PROP1=VALUE1,...]
+> copying the syntax used for "-object".
+>
+> It's perhaps even nicer if this could be accomplished with -device:
+> avoiding further confusion on what -device can and can't be used for (e.g.,
+> can I use -device-property to set a property that could also be set with
+> -device?).
+>
+> If what I'm asking for is reasonable and isn't doable today (I'm certainly
+> willing to believe I'm missing something), I'm happy to work on the patch
+> (with some guidance as to what would be acceptable).
+>
+> One thought that comes to mind is to use -object, store the properties
+> there, and have the machine collect them from there when realizing its
+> devices. Or is that an abuse of -object ?
+>
 
