@@ -2,117 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409FB2CC2BD
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 17:51:31 +0100 (CET)
-Received: from localhost ([::1]:47550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4EB2CC2BC
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 17:51:09 +0100 (CET)
+Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkVLm-0006d5-8R
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 11:51:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46252)
+	id 1kkVLP-00065A-6E
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 11:51:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kkVDJ-0001lh-KB
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:42:47 -0500
-Received: from mail-bn8nam11on2109.outbound.protection.outlook.com
- ([40.107.236.109]:60513 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kkVDC-0000Am-TC
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:42:41 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OJMikObSwgS87OOyoPUz6L8K/zGTN44VzyX73MKUMJDX036wUhaZVqdfCwfzBFJB7VnfN6DpW+esKSicyJyDETS7t07vHo4O4evyzsM8N+4DtT9ZMLIvaRoMN+esixbsRRAoqUphnYGD/K5O70Yb+Qv4Xv1PqUc3uSniRV/mCliF4KueVDL1nut1Z4xpc03N/8x3DpWeXDm09cjZSk1YAwXSsRPyHcMcvQ3ZZwtyT7CTJwpzokEb9XsNWtRLoUxgcrHC96LRLZxQIgaqI4FIMPgQ2kF69gFhkv4H+1gn8uWvup+j4z04UExKFBYksW1/Oq6nGy1srbmbBQ/8Izuzxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1iJ8YmrqXputn6ny4vroIyUY5LHsbjARkbrC8Lbn2AU=;
- b=Fd061e0cZcmO28vzk/Ke0DYwx9T7MWCdxo1ij7nZJ0UkZslSpH2Z0cyiJS350ciLf6UyEC09AbMg3Cj3t+YYd5U+PPcS0WvUplSToi1sU64RzWDUx011K66scXe1Rx7X9Wij5trFWe4S9DP7+cdMIMwYedCrjZ24QzeOUiQkRcL1uPWuZXs/q3xSvxTaFgHg4T5XQM5oIgu1kiOyqJsnEOu4CzTbBrsqAGUytc2aCL8uZ4De2lk4N45tQezX6woGPt4NRjhGPON82ldfB3OiDsM8b2YZ4sVg8nFPMM8izRghnyHYgZ012FgO+DaPrQiUsJ6vy3b2TjWKZDeuvHIy6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1iJ8YmrqXputn6ny4vroIyUY5LHsbjARkbrC8Lbn2AU=;
- b=jksECEe0vzfgnWoJh9EQIV9OktI9aEKnIpYPOU2rtJweVoC2iiBqH8r+zsazHcbaE7kD3AA2k666t87YbY7WiixhzoS1Ttf0CJ+manTJkxgjkwlHQCCPtMGLJUiXH063ZUOLnFi7fe6n44T9CZ271+D9lrl5i/IAzkngv/b3KFM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SA2PR03MB5756.namprd03.prod.outlook.com (2603:10b6:806:112::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.22; Wed, 2 Dec
- 2020 16:42:37 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3611.031; Wed, 2 Dec 2020
- 16:42:37 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] fuzz: avoid double-fetches by default
-Date: Wed,  2 Dec 2020 11:42:14 -0500
-Message-Id: <20201202164214.93867-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.28.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [72.93.72.163]
-X-ClientProxiedBy: MN2PR13CA0017.namprd13.prod.outlook.com
- (2603:10b6:208:160::30) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1kkVJw-00057g-Jh
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:49:36 -0500
+Received: from mail-vs1-xe33.google.com ([2607:f8b0:4864:20::e33]:44560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1kkVJu-0001Yy-Ag
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:49:36 -0500
+Received: by mail-vs1-xe33.google.com with SMTP id u7so1269520vsq.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 08:49:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hFBaMnvRJp3xpkfuJMZXlCuPWFzFALbTrdV9H5xMTfA=;
+ b=uRRXdqBb3S/vZFCRLER8IuFu57g+Dxt7yRRXCaBDFXUjJUbqpTkfrO8/bMwLBTgVCh
+ l1HZy44uNjqnA9tkUCLX9vfbt8HhLRuQrPNPU8cRagrs7idTlM68wAFYcMnxM+8mK9sw
+ vUBFFE0M/hOhnPqpnmHbLurTBaX5GivNlppb3k39LS33WE7yUfmMV+QsxfgUTyfAiqgP
+ QoqiUkd3HzUwpFPxgwANVCTAqazT8RdadhDpG8go83h+h7lbrQ1blbJjt9JZ2h2R6Nfk
+ 3Puaq8cReRXvf4roE6aXWXDv2ChxmCof10QBPuvQ4+BBgkFv120a9FVrhUnu+XG78L+9
+ KsxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hFBaMnvRJp3xpkfuJMZXlCuPWFzFALbTrdV9H5xMTfA=;
+ b=SyIBOj2SRwGtbEi2CsmAznNh1vbxXkrpzHtXKXQ2qfRcevFaMa+QndTiA230YCNElB
+ Icq9b+rwrZUNb4pxRi+xnWFoFtjJVnxYlRAGEMek1C66RZAsORKyZ6yy6cbzr8UWLiu5
+ jde2jb809i0AyHNR8zRMPAxfvc5qJyoyAx2xN0tnoCrrfGAUaDKOKYGJwIs3XhJmj9To
+ ERx+x7LuupLePpxY9/Ag7XpK6moLFhvkx2Ymy0CK1YWQGX09EJPkIfji0xokPz9Qrg3r
+ 3ezDHZyLTzY2RowEmPPYUSoJ/ULis9hVZuYOGmsduCMAlbc8Hl3EQVwO1dH7iUvCuHT3
+ 1qGA==
+X-Gm-Message-State: AOAM533JDM+5S4y5eM21b+z1UZSFTOth8RWkTPgLaiXBVl4ie4XnGry6
+ DOH0iYmhOnwJt6jUcxSmMlXRhX98N7MxG7JUp9ouNw==
+X-Google-Smtp-Source: ABdhPJwSytzaE1V1IWW4Y2nFE0mOtIr/0lo/q6eXaz6uq0bvmOaEMFuEfXxkaA/fNP8TC1uhA7zpiZl+sGrs5Ee5hwM=
+X-Received: by 2002:a05:6102:d1:: with SMTP id u17mr2482760vsp.8.1606927771986; 
+ Wed, 02 Dec 2020 08:49:31 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from stormtrooper.vrmnet (72.93.72.163) by
- MN2PR13CA0017.namprd13.prod.outlook.com (2603:10b6:208:160::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.8 via Frontend
- Transport; Wed, 2 Dec 2020 16:42:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d7f65fd1-dfd1-4f6e-5b82-08d896e14683
-X-MS-TrafficTypeDiagnostic: SA2PR03MB5756:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA2PR03MB57563E24094AC7A83A06C7F7BAF30@SA2PR03MB5756.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1Qvm3mDTdNbw5lSblor0+dUdmGYYURx/fLvuT+WzjIoBC9XXnfrwIBaFUbhjWx/POFanrjMP6RSxgbJXrqhrzNHwrCe+rmbp6nL8w0i5qSfbLRQeTRtBQe6R1mA1HgjoJj1RngHRN1yopqeFnbDMTRT5RDL093vzaqhdXBSHxEyv/Sosym+GAGG/bZ/iOliCyPGKO9AJfMiP7kfOVswgBi1CkZH6FyuNoykiXoy3zKJX3eh76PKHq4PApq/7SLbHTX/1emGso1X9g6Jd12t4Nrfn6VjSvJj+e2vieTyuaKwCxNMi1cRY4QIGdM1zBU3hBPQubLSw+UvC3fpl+o2cDQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(396003)(366004)(136003)(346002)(52116002)(186003)(66556008)(4326008)(478600001)(66946007)(6486002)(2906002)(6666004)(16526019)(8936002)(75432002)(6506007)(86362001)(1076003)(2616005)(8676002)(316002)(786003)(26005)(956004)(6916009)(5660300002)(36756003)(6512007)(66476007)(54906003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?9O+XUGq93suTPCxo0BmhA6gFwRx3aSBeWQtG53XQ6rIlHS7Rq3R1G7jbkU+s?=
- =?us-ascii?Q?Jao3FBvq+kYnzAxpgQCyoaB5HJ35uLDe0/e+05x2i2Euk0Nbxbf97BIadvic?=
- =?us-ascii?Q?HcMEF++EEhnbtdDmvgqCPhtS+StoL6IzydUVRz0/9yhFd9jPO04qJxrbA7Z/?=
- =?us-ascii?Q?MrOq+Hfx888clV7m+RvY5Ykum6IGNAb0fjwzfG+zUB7HGSePmmOPP5XWZwFN?=
- =?us-ascii?Q?p/rJeL4yoweR4pHGXt98DLiJ+EndaDJik2gsAcfZRoRTE9EVhga1apqeEs4V?=
- =?us-ascii?Q?dnKzBRGTDtO9X3JTmPwQQncDH36PEc+L4TPH1n6Vey6Kl5S+4Duld3DlIx4+?=
- =?us-ascii?Q?BhfsU4mS3tPsKjth6qKYPAYq8SO9pfpeNBv3MLhDIiwvKCXQIjDCemPzPNXp?=
- =?us-ascii?Q?oEALwlmjcKXLtycrcEbSfvU2gGLctN5fHRTxFSd29T3uVslsNeYARnspo+0P?=
- =?us-ascii?Q?RSSD+SHJ1SBtkIWML1TWE3RNrpFCMn1ItyU0hLG2o4b+jbUcBxAJ2mCTdE1g?=
- =?us-ascii?Q?fqFw8kE8CXJlT4wFJB/Bp4kDE7KqH4pIR+BGpp/nS3nvY8B2vvPfxPuQiGLC?=
- =?us-ascii?Q?4ojiYwLuy01oS2ywsBqP+2TcTGpQUauTFpQAGjU0RuOU7lvhHX3Nn1jq3vdg?=
- =?us-ascii?Q?AKlUzUaOtQHD3x1w2qDLR0K1tmVps4AZKHa0Ckkr7y6jjm+wndRnoFXw9fD0?=
- =?us-ascii?Q?Ww+LTn652U9BnoOesPgr3ourURqRQwCg8nhQvMKFqrj7VPO53H52ro3xMQyA?=
- =?us-ascii?Q?6ZvHaKt9KxZkSktxfLRRjxhsFmCrtpj6hxZFy0bepudSvGe/5C1DLujmyPxe?=
- =?us-ascii?Q?OS60KRxMunqAg3rNEfI7KtOw1yLf3kKDcUjBitxvdOQvwhmvMErY/6l3EYZz?=
- =?us-ascii?Q?PQl7B92p4jNCJvoLVfdgeCV/7Xb7Lkw97+/yakNCsTMypRea4zdahDUIMFiT?=
- =?us-ascii?Q?C9e32KGvEumAQTatoIUf7LChR8ejsLVJAHX0Af6eezQ=3D?=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7f65fd1-dfd1-4f6e-5b82-08d896e14683
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2020 16:42:37.1754 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0ZAz9fuWoP0ujFZJI6hIIg7BnPeoD//Js+yTB0oqdJibcNOGF+UtbwwtutQrg5as
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR03MB5756
-Received-SPF: pass client-ip=40.107.236.109; envelope-from=alxndr@bu.edu;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <160687065946.3791.11439184384818467145.malonedeb@soybean.canonical.com>
+ <871rg87l7h.fsf@dusky.pond.sub.org>
+In-Reply-To: <871rg87l7h.fsf@dusky.pond.sub.org>
+From: Doug Evans <dje@google.com>
+Date: Wed, 2 Dec 2020 08:48:55 -0800
+Message-ID: <CADPb22S+3j_zpd0iVo=MNPO8=txhYt8iicBge6=B7wFq3ZO0eQ@mail.gmail.com>
+Subject: Re: [Bug 1906463] [NEW] "-device help" does not report all devices
+To: Markus Armbruster <armbru@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000007be3c05b57e07b3"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e33;
+ envelope-from=dje@google.com; helo=mail-vs1-xe33.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,43 +77,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The generic fuzzer can find double-fetch bugs. However:
-* We currently have no good way of producing qemu-system reproducers for
-  double-fetch bugs. Even if we can get developers to run the binary-blob
-  reproducers with the qemu-fuzz builds, we currently don't have a minimizer for
-  these reproducers, so they are usually not easy to follow.
-* Often times the fuzzer will provide a reproducer containing a
-  double-fetch for a bug that can be reproduced without double-fetching.
+--00000000000007be3c05b57e07b3
+Content-Type: text/plain; charset="UTF-8"
 
-Until we find a way to build nice double-fetch reproducers that
-developers are willing to look at, lets tell OSS-Fuzz to avoid
-double-fetches.
+On Tue, Dec 1, 2020 at 10:53 PM Markus Armbruster <armbru@redhat.com> wrote:
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- tests/qtest/fuzz/generic_fuzz.c | 1 +
- 1 file changed, 1 insertion(+)
+> Doug Evans <1906463@bugs.launchpad.net> writes:
+>
+> > Public bug reported:
+> >
+> > -device help doesn't report all devices.
+> > E.g., devices that are instantiated by a board don't get printed in part
+> because they don't exist when "-device help" is processed. As an experiment
+> I deferred processing of "-device help" as long as possible and some
+> devices were still not printed, so there's more going on here.
+> >
+> > QEMU commit hash: 944fdc5e27a5b5adbb765891e8e70e88ba9a00ec
+> >
+> > Repro:
+> > $ configure --target-list=arm-softmmu
+> > $ make
+> > $ ./qemu-system-arm -device help | grep npcm7xx
+> > <empty>
+> >
+> > I'd expect to see things like npcm7xx-rng in the output.
+>
+> Works as intended.
+>
+> "-device help" shows the devices that are available with -device.
+> npcm7xx-rng isn't:
+>
+>     $ qemu-system-arm -M virt -device npcm7xx-rng
+>     qemu-system-arm: -device npcm7xx-rng: Parameter 'driver' expects
+> pluggable device type
+>
+> Monitor command "info qdm" shows all devices, including npcm7xx-rng:
+>
+>     $ qemu-system-arm -M virt -monitor stdio
+>     QEMU 5.1.92 monitor - type 'help' for more information
+>     (qemu) info qdm
+>     [...]
+>     name "npcm7xx-rng", bus System, desc "NPCM7xx Random Number
+> Generator", no-user
+>     [...]
+>
+> Note "no-user": it's not available with -device.
+>
+> > I can imagine enumerating board-provided devices is a challenge.
+> > Still, it'd be really nice if "-device help" printed them, and having
+> > "-device $driver,help" work as well.
+>
+> It works:
+>
+>     $ qemu-system-arm -M virt -device npcm7xx-rng,help
+>     npcm7xx-rng options:
+>       regs[0]=<child<qemu:memory-region>>
+>
+> Hope this helps!
+>
 
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index 262a963d2e..07ad690683 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -916,6 +916,7 @@ static GString *generic_fuzz_predefined_config_cmdline(FuzzTarget *t)
-     g_assert(t->opaque);
- 
-     config = t->opaque;
-+    setenv("QEMU_AVOID_DOUBLE_FETCH", "1", 1);
-     setenv("QEMU_FUZZ_ARGS", config->args, 1);
-     setenv("QEMU_FUZZ_OBJECTS", config->objects, 1);
-     return generic_fuzz_cmdline(t);
--- 
-2.28.0
+Thanks for the reply. It does help, but it's odd that I can't use "-device
+help" to discover a device, but once discovered I can use it to get help on
+that device.
+At least I get why now. Thanks again.
 
+Btw, if I may ask another dumb question, I get this:
+
+@ruffy:build-arm$ ./qemu-system-arm -M virt -monitor stdio
+Unable to init server: Could not connect: Connection refused
+QEMU 5.1.93 monitor - type 'help' for more information
+(qemu) gtk initialization failed
+<exit>
+
+If I add "-display none" then it works, but it's odd that it's trying to
+initialize with gtk here ($DISPLAY isn't set, there is no X present).
+-help output says gtk is the default for -display, I'm guessing you didn't
+configure with gtk so that's why it works for you.
+Question: I'm not up on what the current state of the art is here, but
+given that $DISPLAY is unset, why not punt on gtk and default to "none" ?
+(printing a warning at startup explaining why if that helps)
+
+--00000000000007be3c05b57e07b3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Tue, Dec 1, 2020 at 10:53 PM Markus Armbruster &lt;<a href=
+=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrote:<br></div></d=
+iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">Doug Evans &lt;<a href=3D"mailto:1906463@bugs.launchpad.net" target=3D=
+"_blank">1906463@bugs.launchpad.net</a>&gt; writes:<br>
+<br>
+&gt; Public bug reported:<br>
+&gt;<br>
+&gt; -device help doesn&#39;t report all devices.<br>
+&gt; E.g., devices that are instantiated by a board don&#39;t get printed i=
+n part because they don&#39;t exist when &quot;-device help&quot; is proces=
+sed. As an experiment I deferred processing of &quot;-device help&quot; as =
+long as possible and some devices were still not printed, so there&#39;s mo=
+re going on here.<br>
+&gt;<br>
+&gt; QEMU commit hash: 944fdc5e27a5b5adbb765891e8e70e88ba9a00ec<br>
+&gt;<br>
+&gt; Repro:<br>
+&gt; $ configure --target-list=3Darm-softmmu<br>
+&gt; $ make<br>
+&gt; $ ./qemu-system-arm -device help | grep npcm7xx<br>
+&gt; &lt;empty&gt;<br>
+&gt;<br>
+&gt; I&#39;d expect to see things like npcm7xx-rng in the output.<br>
+<br>
+Works as intended.<br>
+<br>
+&quot;-device help&quot; shows the devices that are available with -device.=
+<br>
+npcm7xx-rng isn&#39;t:<br>
+<br>
+=C2=A0 =C2=A0 $ qemu-system-arm -M virt -device npcm7xx-rng<br>
+=C2=A0 =C2=A0 qemu-system-arm: -device npcm7xx-rng: Parameter &#39;driver&#=
+39; expects pluggable device type<br>
+<br>
+Monitor command &quot;info qdm&quot; shows all devices, including npcm7xx-r=
+ng:<br>
+<br>
+=C2=A0 =C2=A0 $ qemu-system-arm -M virt -monitor stdio<br>
+=C2=A0 =C2=A0 QEMU 5.1.92 monitor - type &#39;help&#39; for more informatio=
+n<br>
+=C2=A0 =C2=A0 (qemu) info qdm<br>
+=C2=A0 =C2=A0 [...]<br>
+=C2=A0 =C2=A0 name &quot;npcm7xx-rng&quot;, bus System, desc &quot;NPCM7xx =
+Random Number Generator&quot;, no-user<br>
+=C2=A0 =C2=A0 [...]<br>
+<br>
+Note &quot;no-user&quot;: it&#39;s not available with -device.<br>
+<br>
+&gt; I can imagine enumerating board-provided devices is a challenge.<br>
+&gt; Still, it&#39;d be really nice if &quot;-device help&quot; printed the=
+m, and having<br>
+&gt; &quot;-device $driver,help&quot; work as well.<br>
+<br>
+It works:<br>
+<br>
+=C2=A0 =C2=A0 $ qemu-system-arm -M virt -device npcm7xx-rng,help<br>
+=C2=A0 =C2=A0 npcm7xx-rng options:<br>
+=C2=A0 =C2=A0 =C2=A0 regs[0]=3D&lt;child&lt;qemu:memory-region&gt;&gt;<br>
+<br>
+Hope this helps!<br></blockquote><div><br></div><div class=3D"gmail_default=
+" style=3D"font-size:small">Thanks for the reply. It does help, but it&#39;=
+s odd that I can&#39;t use &quot;-device help&quot; to discover a device, b=
+ut once discovered I can use it to get help on that device.</div><div class=
+=3D"gmail_default" style=3D"font-size:small">At least I get why now. Thanks=
+ again.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
+iv><div class=3D"gmail_default" style=3D"font-size:small">Btw, if I may ask=
+ another dumb question, I get this:<br><br>@ruffy:build-arm$ ./qemu-system-=
+arm -M virt -monitor stdio<br>Unable to init server: Could not connect: Con=
+nection refused<br>QEMU 5.1.93 monitor - type &#39;help&#39; for more infor=
+mation<br>(qemu) gtk initialization failed</div><div class=3D"gmail_default=
+" style=3D"font-size:small">&lt;exit&gt;</div><div class=3D"gmail_default" =
+style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"f=
+ont-size:small">If I add &quot;-display none&quot; then it works, but it&#3=
+9;s odd that it&#39;s trying to initialize with gtk here ($DISPLAY isn&#39;=
+t set, there is no X present).<br>-help output says gtk is the default for =
+-display, I&#39;m guessing you didn&#39;t configure with gtk so that&#39;s =
+why it works for you.<br>Question: I&#39;m not up on what the current state=
+ of the art is here, but given that $DISPLAY is unset, why not punt on gtk =
+and default to &quot;none&quot; ? (printing a warning at startup explaining=
+ why if that helps)</div></div></div>
+
+--00000000000007be3c05b57e07b3--
 
