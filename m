@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BAD2CC151
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 16:52:52 +0100 (CET)
-Received: from localhost ([::1]:44264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979902CC15D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 16:54:30 +0100 (CET)
+Received: from localhost ([::1]:48472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkUR1-0000pf-AQ
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 10:52:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57616)
+	id 1kkUSb-0002y7-KN
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 10:54:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kkUPN-00005B-K5; Wed, 02 Dec 2020 10:51:09 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:35060)
+ id 1kkUQG-00015M-Az; Wed, 02 Dec 2020 10:52:04 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:38287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kkUPI-0007O1-NL; Wed, 02 Dec 2020 10:51:09 -0500
-Received: by mail-ed1-x541.google.com with SMTP id u19so4474010edx.2;
- Wed, 02 Dec 2020 07:51:03 -0800 (PST)
+ id 1kkUQE-0007Tt-MP; Wed, 02 Dec 2020 10:52:04 -0500
+Received: by mail-ej1-x643.google.com with SMTP id a16so5081366ejj.5;
+ Wed, 02 Dec 2020 07:52:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B+VvBTRRX116/kkvC/NyWwUjZRmmOORT/n5Inx8MSw4=;
- b=n17eMVoMbXOqULx/9BhhOTFcr/JojGA+gUeV9ij2lHFzvTJxHagvevaGbOWNRuw4BI
- vMy/UbXTu5UxWFg1l6qxmboCV17x4sNSoh/1qSLE+So7fhgbtv1AXrr59Fw5gFHlQcgE
- 1I17zcEKi3LZELj4WoG62JVeIyJoFAzd9F5y/FsGRsJAgZFZ2BJJvuc1xWownacvmFny
- V9nEwGNLmhpwrGQpzLjoOUM9Z26L2Sy+N7B0SUXSHcWVXQgvrFoxF2xcMVdVbhns2blh
- k9DmX6VOQZ+kYHF3zSSitv1irSMNIvzayFP0hqvqLJzAfjPmDeRo9oBQW0XAnpcDUf7U
- STQg==
+ :cc; bh=AbuIUg60f59Y70VOAgLclTFbtP0jHqU3DUyNKMiw50M=;
+ b=FNbzuly/Sk1d5PAq0oCUBQQGJwZ+sF2Pha+v/a8e/TMF5DbTDinaCkPLMy+NIhb1GD
+ i8L/LMnjcIlUjgIfGa5Y/Kf3UEvYaXR/9cSmL69DstksqAMjR6VB59OHHXHvIW/nJf2h
+ E1EjR6487dCEezv9cfuwDYvLerJ2jM3l3ieENwL4HxdBnLUkHE1rvGiaA+zsXP+dO8MW
+ OhDC4hIY6ft1klvGj2ZU4C1tbvMeVKqKHx8D5NMFNHrDNqSJ8IPVx68RaZhgyK8zKxiU
+ 9H8i/PPPBuNS8HZenAmsWTs+sfVIjUQv3Qa6q7jM4m4RbLQR7t+/Yat4PRkUjEHjOXR1
+ 4CTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=B+VvBTRRX116/kkvC/NyWwUjZRmmOORT/n5Inx8MSw4=;
- b=VZ53ynt2f2Q1rPQhBXdVpWbNr0GMwdghDABuzqeHvRmHfeK6yMNuFqLnga/C/OFUNk
- zFzTGk4mbj0Md3vSEBYTi5MPEUuCeLN/f3CI3U11yn6SSSSvHFKlVB7so34w+wqaZLu2
- bhZ/6QKlgSXOvNprvxaftn9byS4KvARdJrR/g6wjIw7rQS1HNXcofUmkQFGBhGw8COqr
- nicOF8C17pHZd3MuCXJ9MpuWH44akqN7lHsAV2QxVuwkk9LabOQi+2RZaC9pFYM61m44
- UfbkLARTLITZEG3w1g0lBmL3DhW1FIGa/Nl8/c0FsRK2CM3BWw4iG9oj5pdfDFPz2frK
- hqFA==
-X-Gm-Message-State: AOAM531fl2kdLhs/oM7LMaEN3XHcJlFpfyL8zrNQM/ZmZcHhZfTApqVj
- 7gKw7+v6Dqw6YnA5PH3hfMC7kKPnBYJky4ThRUw=
-X-Google-Smtp-Source: ABdhPJxGmWtJRCZVJOlKYu3QprggKvpW1lftIiLN6Y7DuHdQCxIUgRjWH/MU8r6ahzP50QVrNSbKiVPhgZOEi0Imvpo=
-X-Received: by 2002:a50:a6de:: with SMTP id f30mr558306edc.30.1606924263088;
- Wed, 02 Dec 2020 07:51:03 -0800 (PST)
+ bh=AbuIUg60f59Y70VOAgLclTFbtP0jHqU3DUyNKMiw50M=;
+ b=kRH3v5gh4WNiGxjNfV6IHhCExmQYutjXmiVOI37Pd824joU6Ix+yI8n0fRo9Mi+NVa
+ lBE48NJQU/p8A2d5JEzX4vmPKYFrffeBYjaornPpK8klg/l8bCzHbLIBHnr+lx7hgGJg
+ ixQ8QdlOatKOhw4eEnlUK/VZsctCDKtSmthah29ql+0ZsgdKvbwGfMP1FYEMHP+1/Cpq
+ HryrunOq+ezp9NRllKNsEZLWRV4lOywOXwBvB0sw7f/dGgZ6H/7sPWi6a5QUgInnQN11
+ n0Wr++pE9OWF/qc637auEjcBO3yapRNdHeFkS8GNwww6dzHlOsFqHe/kS67Jq+qagFvQ
+ DbKQ==
+X-Gm-Message-State: AOAM530l4wAEgpjTqTkPfDJh295FNU0TZ+MfTab2BAxs87yxZHo7MijT
+ Ym3kJoJGXXp7CjbiPYYIlnUzNwv9kykiNQlPi88=
+X-Google-Smtp-Source: ABdhPJw3YkmDp74Nu/pdwR62wnTbPB5/0QUmTywhU0dFHsao7FnmqiPIs1VQPBpGA0LaQNrwaLV6wrU63q0SoZwmdlY=
+X-Received: by 2002:a17:906:aacd:: with SMTP id
+ kt13mr334599ejb.527.1606924320967; 
+ Wed, 02 Dec 2020 07:52:00 -0800 (PST)
 MIME-Version: 1.0
 References: <20201202152611.677753-1-stefanha@redhat.com>
- <20201202152611.677753-3-stefanha@redhat.com>
-In-Reply-To: <20201202152611.677753-3-stefanha@redhat.com>
+ <20201202152611.677753-4-stefanha@redhat.com>
+In-Reply-To: <20201202152611.677753-4-stefanha@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 2 Dec 2020 19:50:51 +0400
-Message-ID: <CAJ+F1CLrba5T02Dy1=dXSE4ye9rgHZ4r5S-mWwL-7UACeFLVuw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] contrib/vhost-user-gpu: avoid g_return_val_if()
+Date: Wed, 2 Dec 2020 19:51:49 +0400
+Message-ID: <CAJ+F1C+O-tQDhKvaYnqwHzkWH1Sj+RyVXA0R64Ykga6LPorU7g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] contrib/vhost-user-input: avoid g_return_val_if()
  input validation
 To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e1e6cf05b57d3526"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x541.google.com
+Content-Type: multipart/alternative; boundary="00000000000055109105b57d390a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,7 +87,7 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e1e6cf05b57d3526
+--00000000000055109105b57d390a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -101,24 +102,25 @@ On Wed, Dec 2, 2020 at 7:27 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 > Suggested-by: Markus Armbruster <armbru@redhat.com>
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  contrib/vhost-user-gpu/vhost-user-gpu.c | 6 +++++-
+>  contrib/vhost-user-input/main.c | 6 +++++-
 >  1 file changed, 5 insertions(+), 1 deletion(-)
 >
-> diff --git a/contrib/vhost-user-gpu/vhost-user-gpu.c
-> b/contrib/vhost-user-gpu/vhost-user-gpu.c
-> index a019d0a9ac..534bad24d1 100644
-> --- a/contrib/vhost-user-gpu/vhost-user-gpu.c
-> +++ b/contrib/vhost-user-gpu/vhost-user-gpu.c
-> @@ -1044,7 +1044,11 @@ vg_get_config(VuDev *dev, uint8_t *config, uint32_=
-t
-> len)
+> diff --git a/contrib/vhost-user-input/main.c
+> b/contrib/vhost-user-input/main.c
+> index 6020c6f33a..1d79c61200 100644
+> --- a/contrib/vhost-user-input/main.c
+> +++ b/contrib/vhost-user-input/main.c
+> @@ -212,7 +212,11 @@ static int vi_get_config(VuDev *dev, uint8_t *config=
+,
+> uint32_t len)
 >  {
->      VuGpu *g =3D container_of(dev, VuGpu, dev.parent);
+>      VuInput *vi =3D container_of(dev, VuInput, dev.parent);
 >
-> -    g_return_val_if_fail(len <=3D sizeof(struct virtio_gpu_config), -1);
-> +    if (len > sizeof(struct virtio_gpu_config)) {
+> -    g_return_val_if_fail(len <=3D sizeof(*vi->sel_config), -1);
+> +    if (len > sizeof(*vi->sel_config)) {
 > +        g_critical("%s: len %u is larger than %zu",
-> +                   __func__, len, sizeof(struct virtio_gpu_config));
+> +                   __func__, len, sizeof(*vi->sel_config));
+> +        return -1;
 >
 
 g_critical() already has __FILE__ __LINE__ and G_STRFUNC.
@@ -126,11 +128,12 @@ g_critical() already has __FILE__ __LINE__ and G_STRFUNC.
 otherwise looks good:
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-+        return -1;
+
+
 > +    }
 >
->      if (opt_virgl) {
->          g->virtio_config.num_capsets =3D vg_virgl_get_num_capsets();
+>      if (vi->sel_config) {
+>          memcpy(config, vi->sel_config, len);
 > --
 > 2.28.0
 >
@@ -139,7 +142,7 @@ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000e1e6cf05b57d3526
+--00000000000055109105b57d390a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -160,43 +163,44 @@ rget=3D"_blank">armbru@redhat.com</a>&gt;<br>
 Signed-off-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" t=
 arget=3D"_blank">stefanha@redhat.com</a>&gt;<br>
 ---<br>
-=C2=A0contrib/vhost-user-gpu/vhost-user-gpu.c | 6 +++++-<br>
+=C2=A0contrib/vhost-user-input/main.c | 6 +++++-<br>
 =C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
 <br>
-diff --git a/contrib/vhost-user-gpu/vhost-user-gpu.c b/contrib/vhost-user-g=
-pu/vhost-user-gpu.c<br>
-index a019d0a9ac..534bad24d1 100644<br>
---- a/contrib/vhost-user-gpu/vhost-user-gpu.c<br>
-+++ b/contrib/vhost-user-gpu/vhost-user-gpu.c<br>
-@@ -1044,7 +1044,11 @@ vg_get_config(VuDev *dev, uint8_t *config, uint32_t =
-len)<br>
+diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/mai=
+n.c<br>
+index 6020c6f33a..1d79c61200 100644<br>
+--- a/contrib/vhost-user-input/main.c<br>
++++ b/contrib/vhost-user-input/main.c<br>
+@@ -212,7 +212,11 @@ static int vi_get_config(VuDev *dev, uint8_t *config, =
+uint32_t len)<br>
 =C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0VuGpu *g =3D container_of(dev, VuGpu, dev.parent);<br>
+=C2=A0 =C2=A0 =C2=A0VuInput *vi =3D container_of(dev, VuInput, dev.parent);=
 <br>
--=C2=A0 =C2=A0 g_return_val_if_fail(len &lt;=3D sizeof(struct virtio_gpu_co=
-nfig), -1);<br>
-+=C2=A0 =C2=A0 if (len &gt; sizeof(struct virtio_gpu_config)) {<br>
+<br>
+-=C2=A0 =C2=A0 g_return_val_if_fail(len &lt;=3D sizeof(*vi-&gt;sel_config),=
+ -1);<br>
++=C2=A0 =C2=A0 if (len &gt; sizeof(*vi-&gt;sel_config)) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_critical(&quot;%s: len %u is larger than %zu=
 &quot;,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0__fun=
-c__, len, sizeof(struct virtio_gpu_config));<br></blockquote><div><br></div=
+c__, len, sizeof(*vi-&gt;sel_config));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br></blockquote><div><br></div><div=
 ><div>g_critical() already has __FILE__ __LINE__ and G_STRFUNC.</div><div><=
 br></div><div>otherwise looks good:</div><div>Reviewed-by: Marc-Andr=C3=A9 =
 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@=
-redhat.com</a>&gt; <br></div><div><br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+redhat.com</a>&gt; <br></div><div><br></div>=C2=A0</div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
 +=C2=A0 =C2=A0 }<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0if (opt_virgl) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g-&gt;virtio_config.num_capsets =3D vg_vi=
-rgl_get_num_capsets();<br>
+=C2=A0 =C2=A0 =C2=A0if (vi-&gt;sel_config) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0memcpy(config, vi-&gt;sel_config, len);<b=
+r>
 -- <br>
 2.28.0<br>
 <br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000e1e6cf05b57d3526--
+--00000000000055109105b57d390a--
 
