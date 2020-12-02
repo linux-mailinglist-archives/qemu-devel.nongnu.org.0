@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4EC2CC75A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 21:03:42 +0100 (CET)
-Received: from localhost ([::1]:54090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E0B2CC93D
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 22:59:42 +0100 (CET)
+Received: from localhost ([::1]:51364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkYLl-0002T9-U6
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 15:03:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42998)
+	id 1kkaA1-0002mu-7S
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 16:59:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kkYKO-0001ri-Is
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 15:02:16 -0500
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:36609)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kkYKM-0004AM-TI
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 15:02:16 -0500
-Received: by mail-il1-x141.google.com with SMTP id z10so2719589ilu.3
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 12:02:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4Tnx1/g/Fq99lzQzhHiuxAqrwBmkAdDBRHd0RGAObQo=;
- b=d1sPGZHKqba42eW1L2jtTFWkUOZtJ6a1F6rJUEuv3//R28tu9gg0Woap9yfHzQEHCS
- Eih7ldmhdE0aGhMGfuFneJmoY5pJ8hYbWWbJy/PMCoYczTEio4Qd5rZ7hxQIsMMbDmbs
- kN91pf3Dgoe6TODaByKAyeKXmXPramNCaqXNVWYYf9n6/3DAqqf2vSx6yPTSySzOlMDK
- Q/vS/VYJb6irCAgG8NPWQW9wJxsgMBaMegX7PiXUKWwMttHJrRoX87b7sh1TVxtMc5pK
- 37JbvBgprw5oihLie5e65Jr29LdhYrGoHTPTuZmwgGAnMpc3rZRI+ztA3bVgUp+zguBO
- /a5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4Tnx1/g/Fq99lzQzhHiuxAqrwBmkAdDBRHd0RGAObQo=;
- b=YVBzYUJ8SvL2lASFlTW18l7/btsYc1Pitw6QG4RGNtzmycSVkeQf1zn5agCnRSY2rW
- eEMBYZyOjx4G4VEOXwQ7Q5ZAt2D8lhWC7LlMtjhjDy51SSZq+XvjbED3ILYOKOcQw4+a
- tQdSpvuDA/QPKsxIwn5BFtUU0lK7ZdPCWugKbPBzxwoiKIaYXIWSqs69qbjgBSdrywZG
- GBy3YKtpqXKjlxzi541u6vIsXIGEEuktZQYhXC78s8VsG1UOs0lNVE0o1nAJLxusWBEN
- 07hQowtjDBoBoRw+clcQQABVPwPSws7z9WZRwMpXNLxRvNApWMUICaiUIIOPiGJGARTU
- 45Yw==
-X-Gm-Message-State: AOAM533X44YBJq7SCIwNJJIEG1g4JWK8GdjXjaTH9gciTeTgOk/7081f
- trfC2LKf9cxtsn1zLgWU+dEyYplbaNPot+Ln+v02oA==
-X-Google-Smtp-Source: ABdhPJxRsqoa3S6nbn5+342ke8/TKDkpFVG4SDo1HLiBf7+HsDTLDPVaEBf1NsoMb0Ok4CSBYDakdaK2cBsa9nWzcas=
-X-Received: by 2002:a05:6e02:f86:: with SMTP id
- v6mr2178086ilo.56.1606939333506; 
- Wed, 02 Dec 2020 12:02:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kka8P-0001mY-8Z
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 16:58:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kka8M-0002iQ-QF
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 16:58:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606946276;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=twUETrba9uJRgT/VQ7GeyVz6dQhDgtC5JKyLadd7PP0=;
+ b=VxRcLBxlMDNDwqqhJKepWjSAc2EZjH0QlBeuvaRjv1LOAyCS/CAmykVrKGUlF6J+N0kAVI
+ ZJ8io41Ow29wPEpDrjAnfwlSnahuubA2TUCTdW9NmxG6SKQjc18TMV45cuaiSZ/1PonzPg
+ z2R/wyatrXP4WNgLU/QJTkWe22V/dy0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-534-pIQdZRB0MXqrKDOMqyY-fg-1; Wed, 02 Dec 2020 16:57:54 -0500
+X-MC-Unique: pIQdZRB0MXqrKDOMqyY-fg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89B558049C8;
+ Wed,  2 Dec 2020 21:57:53 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-118-183.rdu2.redhat.com
+ [10.10.118.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A50D85C1B4;
+ Wed,  2 Dec 2020 21:57:48 +0000 (UTC)
+From: Cleber Rosa <crosa@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH-for-5.2? 0/1] Acceptance tests: bump Fedora to 32
+Date: Wed,  2 Dec 2020 16:57:46 -0500
+Message-Id: <20201202215747.2719507-1-crosa@redhat.com>
 MIME-Version: 1.0
-References: <27f51056925889c41b763b71c992f04d935157c4.1606884132.git.pcc@google.com>
- <f01281f814ceba088595917eb06d4cb21db820f1.1606884132.git.pcc@google.com>
- <23335280-d732-4bf7-af49-068e00601414@csgraf.de>
-In-Reply-To: <23335280-d732-4bf7-af49-068e00601414@csgraf.de>
-From: Peter Collingbourne <pcc@google.com>
-Date: Wed, 2 Dec 2020 12:02:02 -0800
-Message-ID: <CAMn1gO4bze4PsU6LbXAGxe3VC2xop-h=xXjdUuv4ZP0P66R01g@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] arm/hvf: Add a WFI handler
-To: Alexander Graf <agraf@csgraf.de>
-Cc: Frank Yang <lfy@google.com>, Roman Bolshakov <r.bolshakov@yadro.com>, 
- Peter Maydell <peter.maydell@linaro.org>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, 
- Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=pcc@google.com; helo=mail-il1-x141.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,50 +75,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 2, 2020 at 10:49 AM Alexander Graf <agraf@csgraf.de> wrote:
->
->
-> On 02.12.20 05:44, Peter Collingbourne wrote:
-> > Sleep on WFI until the VTIMER is due but allow ourselves to be woken
-> > up on IPI.
-> >
-> > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> > ---
-> > v3:
-> > - move the simplified locking to a separate patch
-> > - spin on sleep <2ms
-> >
-> > v2:
-> > - simplify locking further
-> > - wait indefinitely on disabled or masked timers
-> >
-> >   accel/hvf/hvf-cpus.c     |  4 +--
-> >   include/sysemu/hvf_int.h |  1 +
-> >   target/arm/hvf/hvf.c     | 56 ++++++++++++++++++++++++++++++++++++++++
-> >   3 files changed, 59 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
-> > index e613c22ad0..b2c8fb57f6 100644
-> > --- a/accel/hvf/hvf-cpus.c
-> > +++ b/accel/hvf/hvf-cpus.c
-> > @@ -344,8 +344,8 @@ static int hvf_init_vcpu(CPUState *cpu)
-> >       sigact.sa_handler = dummy_signal;
-> >       sigaction(SIG_IPI, &sigact, NULL);
-> >
-> > -    pthread_sigmask(SIG_BLOCK, NULL, &set);
-> > -    sigdelset(&set, SIG_IPI);
-> > +    pthread_sigmask(SIG_BLOCK, NULL, &cpu->hvf->unblock_ipi_mask);
-> > +    sigdelset(&cpu->hvf->unblock_ipi_mask, SIG_IPI);
->
->
-> That turns set into an unused variable, no? I'll fix it up while
-> applying though. The rest looks great, I'll push it as part of my next
-> patch set.
+I believe this may be a candidate for "right now" because the code=0D
+changes here simply sync with external infrastructure changes, that=0D
+is, the retirement of Fedora 31 from the official repository=0D
+locations).=0D
+=0D
+The following jobs contain a validation of this bump:=0D
+=0D
+ - https://gitlab.com/cleber.gnu/qemu/-/jobs/886864642#L72=0D
+ - https://gitlab.com/cleber.gnu/qemu/-/jobs/886864633#L72=0D
+=0D
+Thanks,=0D
+- Cleber.=0D
+=0D
+Cleber Rosa (1):=0D
+  Acceptance tests: bump Fedora to 32=0D
+=0D
+ tests/acceptance/boot_linux.py | 12 ++++++------=0D
+ 1 file changed, 6 insertions(+), 6 deletions(-)=0D
+=0D
+--=20=0D
+2.25.4=0D
+=0D
 
-Yes, thanks for spotting that, your fixup looks good.
-
-Peter
 
