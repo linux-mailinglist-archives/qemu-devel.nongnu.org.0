@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BE42CC241
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 17:29:37 +0100 (CET)
-Received: from localhost ([::1]:55674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF412CC299
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 17:43:16 +0100 (CET)
+Received: from localhost ([::1]:36052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkV0a-0004nD-EA
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 11:29:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38362)
+	id 1kkVDn-0001Aj-9D
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 11:43:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkUzK-0004Hf-PB
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:28:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20211)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kkUzJ-0004lr-4W
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:28:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606926494;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1fdCv6syevGoD4Um3JJ/nqHPFRgb+c1he76UUkdyuVQ=;
- b=YZkU2Y2eqbapxFZsppuQ56SHnKcfJiFsf5WffudWP5bIYNLf0shc5Hu4H/g31GvwKCkz8/
- AEwtB4vMpKe/19+UBOuBc5WvRLWWTNWn9xylioDcK79d6XiBeQpJECqK+JTCmvuSbf7Tiw
- vinxAqu87d92H1/WRVwbMWRq7G+fxgc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-p-D6BSRaOzut_S6jzNlUJQ-1; Wed, 02 Dec 2020 11:28:12 -0500
-X-MC-Unique: p-D6BSRaOzut_S6jzNlUJQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EEA9100C667;
- Wed,  2 Dec 2020 16:28:11 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-113-199.ams2.redhat.com [10.36.113.199])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22E4360855;
- Wed,  2 Dec 2020 16:28:09 +0000 (UTC)
-Date: Wed, 2 Dec 2020 17:28:08 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Subject: Re: Plans to bring QMP 'x-blockdev-reopen' out of experimental?
-Message-ID: <20201202162808.GG16765@merkur.fritz.box>
-References: <20201006091001.GA64583@paraplu>
- <w51mu0ifbuf.fsf@maestria.local.igalia.com>
- <w51k0vmf9k3.fsf@maestria.local.igalia.com>
- <20201020082333.GB4452@merkur.fritz.box>
- <w51blfctcfb.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkVBa-0008Pk-Ql
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:40:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkVBT-000849-S3
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 11:40:57 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kkVBS-0007U9-4M
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 16:40:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1E4062E8030
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 16:40:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <w51blfctcfb.fsf@maestria.local.igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 02 Dec 2020 16:31:54 -0000
+From: johannes <1906180@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: input keyboard
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange fghgfh832 th-huth
+X-Launchpad-Bug-Reporter: johannes (fghgfh832)
+X-Launchpad-Bug-Modifier: johannes (fghgfh832)
+References: <160668110894.7596.13290289019242660849.malonedeb@soybean.canonical.com>
+Message-Id: <160692671439.5947.8250262208727343013.malone@soybean.canonical.com>
+Subject: [Bug 1906180] Re: Keyboard keys get stuck
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="55c41fea591e042b8bb54e6952942f55c764435e"; Instance="production"
+X-Launchpad-Hash: 68b59e90c60d2442d5ffde48906746dc9e01085d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,99 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Kashyap Chamarthy <kchamart@redhat.com>
+Reply-To: Bug 1906180 <1906180@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 02.12.2020 um 17:12 hat Alberto Garcia geschrieben:
-> On Tue 20 Oct 2020 10:23:33 AM CEST, Kevin Wolf wrote:
-> >> I forgot to add, we still don't support changing bs->file with this
-> >> command, so I guess that would be one blocker?
-> >> 
-> >> There's no other way of inserting filter nodes, or is there?
-> >
-> > Not that I'm aware of.
-> >
-> > So yes, changing bs->file is the one thing I had in mind for
-> > implementing before we mark it stable.
-> >
-> > I'm not entirely sure if we should make some restrictions or allow
-> > arbitrary changes. If it's only about filters, we could check that the
-> > node returned by bdrv_skip_filters() stays the same. This would be
-> > almost certainly safe (if the chain is not frozen, of course).
-> >
-> > If people want to dynamically insert non-filters (maybe quorum?), it
-> > might be more restrictive than necessary, though.
-> >
-> > Other cases like inserting a qcow2 file in the chain where the old
-> > child becomes the backing file of the newly inserted node should in
-> > theory already be covered by blockdev-snapshot.
-> 
-> Hi,
-> 
-> I have been working a bit on this
+I'm running it on local desktop.
 
-Oh, nice! And you might have mentioned this just in time to stop me from
-duplicating your work. There is a strong desire from libvirt to have a
-stable blockdev-reopen in QEMU 6.0.
+-- =
 
-> and I have doubts about the following situation: let's say we have a
-> normal qcow2 image with two BDS for format (node-name "hd0") and
-> protocol ("hd0-file"):
-> 
->    hd0 -> hd0-file
-> 
-> { "execute": "blockdev-add", "arguments":
->    {'driver': 'file', 'node-name': 'hd0-file', 'filename':  'hd0.qcow2 }}
-> { "execute": "blockdev-add", "arguments":
->    {'driver': 'qcow2', 'node-name': 'hd0', 'file': 'hd0-file'}}
-> 
-> Now we want to use x-blockdev-reopen to insert a throttle filter
-> between them, so the result would be:
-> 
->    hd0 -> throttle -> hd0-file
-> 
-> First we add the filter:
-> 
-> { "execute": "object-add", "arguments":
->    { 'qom-type': 'throttle-group', 'id': 'group0',
->      'props': { 'limits': { 'iops-total': 1000 } } } }
-> { "execute": "blockdev-add", "arguments":
->    { 'driver': 'throttle', 'node-name': 'throttle0',
->      'throttle-group': 'group0', 'file': "hd0-file" } }
-> 
-> And then we insert it:
-> 
-> { "execute": "x-blockdev-reopen", "arguments":
->    {'driver': 'qcow2', 'node-name': 'hd0', 'file': 'throttle0'}}
-> 
-> So x-blockdev-reopen sees that we want to replace the current bs->file
-> ("hd0-file") with a new one ("throttle0"). The problem here is that
-> throttle0 has hd0-file as its child, so when we check the permissions on
-> throttle0 (and its children) we get that hd0-file refuses because it's
-> already being used (although in in the process of being replaced) by
-> hd0:
-> 
-> "Conflicts with use by hd0 as 'file', which does not allow 'write, resize' on hd0-file"
-> 
-> And we would get a similar problem with the reverse operation (removing
-> the filter).
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906180
 
-This kind of situation isn't new, I believe some of the existing graph
-changes (iirc in the context of block jobs) can cause the same problem.
+Title:
+  Keyboard keys get stuck
 
-This is essentially why some functions in the permission system take a
-GSList *ignore_children. So I believe the right thing to do here is
-telling the permission system that it needs to check the situation
-without the BdrvChild that links hd0 with hd0-file.
+Status in QEMU:
+  Incomplete
 
-I don't know the exact stack trace of your failure, so maybe this
-parameter isn't available yet in the place where you need it, but in the
-core functions it exists.
+Bug description:
+  Keyboard keys get "stuck" quite often, on certain Linux guests at
+  least, and start repeating themselves until another key is pressed.
+  This is especially noticeable with key combinations like Ctrl+V for
+  pasting. When it happens, you get the pasted text and
+  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv...
 
-Does this help or am I missing some details?
+  This bug has been present for quite some time but I don't remember any
+  specific version that had it first.
 
-Kevin
+  =
 
+  QEMU version: 5.1.0
+  Guest: Debian stable 64-bit (live), with Gnome desktop (may occur with ot=
+her Linux guests too)
+  Host: Arch Linux with KDE desktop (X11, wayland not tested); both default=
+ and hardened kernel tested
+
+  QEMU start command:
+  qemu-system-x86_64 -enable-kvm -m 6G -cpu host -smp 3 -cdrom debian.iso -=
+boot d -vga std
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906180/+subscriptions
 
