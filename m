@@ -2,88 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC352CBE77
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 14:38:36 +0100 (CET)
-Received: from localhost ([::1]:56224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CE92CBEB5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 14:52:29 +0100 (CET)
+Received: from localhost ([::1]:59628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkSL5-0004lg-RT
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 08:38:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51218)
+	id 1kkSYW-00077X-3c
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 08:52:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kkSJJ-0003tv-Ta
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 08:36:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43502)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kkSX3-0006g0-DQ
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 08:50:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kkSJI-0005zW-8Z
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 08:36:45 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kkSWz-0007g5-3j
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 08:50:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606916203;
+ s=mimecast20190719; t=1606917051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lkNttadaTzEzre4snH9vw0PJSqxpTEW8jJkq+FIV4eM=;
- b=JlL8B8SaafMRGVWbdK3iamp/GRK3S6XNizQ6r1GZDBR5TbOtlzWwnxmawbDiI8J1GmwWc8
- UOpHWnRcERPA0hS8v3MgtmAhHgynA/zfDrtTOUNE39U80hxO3/nNUdd+/JUbijGBg9/BoY
- PXdBMNif842KuiiaL7YCTtolagYl6qw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-c3UasKXEOn-1znmxVMjUgw-1; Wed, 02 Dec 2020 08:36:41 -0500
-X-MC-Unique: c3UasKXEOn-1znmxVMjUgw-1
-Received: by mail-wm1-f72.google.com with SMTP id a130so2604088wmf.0
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 05:36:41 -0800 (PST)
+ bh=KhSt0Vnzg0S29wT7BT/wGfOGVZZGB2FKwUhBfNYidc8=;
+ b=K9cX7uXbaGztJburAYnNjmwOINEWBocyVVk5LNRN4P/YgBK54USzBDzDqIDb/DUtuPP/Up
+ bf8TKPRGgT24TOpXrb7v7U62KVYoy2VYgvmIG7masj5hLs/XAXOpz2n6BNqCvsFzDZyCvC
+ rQCauO2AhE9BoBLl2qvSdojzS+GlhRQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-hL1Te5zINTOel0wj8oZIGg-1; Wed, 02 Dec 2020 08:50:47 -0500
+X-MC-Unique: hL1Te5zINTOel0wj8oZIGg-1
+Received: by mail-wm1-f71.google.com with SMTP id k23so3941340wmj.1
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 05:50:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=j37pp3e/Hrptkb34qGyhAuy5j4G1Ndfm6upu9VZok4s=;
- b=Ooq1i+msTfQH+scvM+//CuvinawrgBBSEqGGQ9nX0gXqGKV7BydBeXnQef2d/GkBPI
- ASsMJ3fJ87uc7cnEcsO4tNReQ1rFZDez20dL2vSF1A3GZX8/CK249fmSTSUhj+Bwl70q
- CetjgMz5P8J3AqW4F+4myKGSsdNiZReucxbJeqfpT+sJfnDPGW1r3DR+f4sabX0hNQmq
- 5XZAqogv4PVfdafTExz7ApKDQ09l2Lcz7oMc29nMDXYNSn4iwQEwJziTkDEmoU+4kJg/
- PiqFpaKmSNbF+9DeAhLajukPPBq0tA9NHaFZHhqng1EuunPU+NRah9ntv9jyeJgm0Vr/
- flXw==
-X-Gm-Message-State: AOAM53349pGFEYpCYVyBAcuzOSuKTv6cqA2Lopun73IIHGVq2O5MV5Gb
- LO06E6cKJCi+cfS7exTn+bTFBntsk1DDe1OklqHOXcKyRAXszmRXyeZslG1pbW7YWYVolZ87z6O
- PSWkv3b/zWsVFgdnv/Z9j1VwaSQa9Q+tuehgJ7igu6RW1X+uywRExiOGq5kmpWQm3
-X-Received: by 2002:a05:600c:21ce:: with SMTP id
- x14mr3184202wmj.27.1606916200132; 
- Wed, 02 Dec 2020 05:36:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzcIm3yBqve0ymsLr9w3bWTfc349tFa6n+PFrtQPatXfXQJ9fsOdw3AlkSTcd8pIGgUz014sg==
-X-Received: by 2002:a05:600c:21ce:: with SMTP id
- x14mr3184182wmj.27.1606916199944; 
- Wed, 02 Dec 2020 05:36:39 -0800 (PST)
+ bh=KhSt0Vnzg0S29wT7BT/wGfOGVZZGB2FKwUhBfNYidc8=;
+ b=Sp7QhNpDNiNV8OcUm2avKHmlskfF6wtxwifGyd1PtRaj8MyheLnP2KGwQeSfDjWccm
+ OKaewfG4nmwkZzM0JGTkQMyU+WFzuMlFkwO2V5ILftyLDna/SyYnxgZsl+5QSOEmMQHo
+ PU5tbOuLxPA6RIwOTY50FNU5oGRPOpZnPfEU5ARbORj3XhM9NOKiqnUhyvD8NwcV+J/V
+ DZfI+NEVAFMRvnhnRxXK5+8Df8qY0VulI6Veujakcn47V/HI5jXQS0WRxMLgVR8OXbaP
+ HeDBvjaZKovF+EuZzDHZGxbbYJ0zxFKYmqcz7yVhqRUxFFZ4x0B0qcqRDkYigpYydUAM
+ jTSA==
+X-Gm-Message-State: AOAM533rtwTH1FajJ3wzWkegrpz8Yw4ywu8e13qSB5cpaPVQ3jp6Hqks
+ a7yLFY8h3heH5XclC4pV96HkI/ADOYH2BitMHHh1/gHPVMDmr9VCyb/PN/B6SKlKzozgBmjH5Ci
+ pN0IqosKwPzDe7Lo=
+X-Received: by 2002:a5d:62cb:: with SMTP id o11mr3632176wrv.25.1606917046524; 
+ Wed, 02 Dec 2020 05:50:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwK5U2PS//FKElkMVSUCRJVm9ZyMczB1UtgvM9VWSMFoy7ebKIC63ERuutPjOMdLE6doQ4BZw==
+X-Received: by 2002:a5d:62cb:: with SMTP id o11mr3632146wrv.25.1606917046269; 
+ Wed, 02 Dec 2020 05:50:46 -0800 (PST)
 Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id p19sm2355165wrg.18.2020.12.02.05.36.38
+ by smtp.gmail.com with ESMTPSA id g192sm2142114wme.48.2020.12.02.05.50.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Dec 2020 05:36:39 -0800 (PST)
-Subject: Re: [PATCH] ide:atapi: check io_buffer_index in
- ide_atapi_cmd_reply_end
-To: P J P <ppandit@redhat.com>
-References: <20201118142745.112579-1-ppandit@redhat.com>
- <204751s9-11np-413q-q3pr-3o6os86078@erqung.pbz>
- <492170b8-8056-bd65-5150-62c6e89cb3f0@redhat.com>
- <933np1s-8p4p-o74p-rp94-517r98nop2o6@erqung.pbz>
- <a964ffea-ece6-3f33-3dd1-ee9c2b729b75@redhat.com>
- <87sg8o65ys.fsf@dusky.pond.sub.org>
- <212n55r-9n3q-8r4r-85p7-14n495r53s6n@erqung.pbz>
+ Wed, 02 Dec 2020 05:50:45 -0800 (PST)
+Subject: Re: [PATCH v1 1/1] security-process: update process information
+To: P J P <ppandit@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
+References: <20201130134907.348505-1-ppandit@redhat.com>
+ <20201130134907.348505-2-ppandit@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7a5db04b-8ce7-476f-41a2-667459a4b0b0@redhat.com>
-Date: Wed, 2 Dec 2020 14:36:38 +0100
+Message-ID: <d48ca955-b84e-429d-3abf-c275ff2ede52@redhat.com>
+Date: Wed, 2 Dec 2020 14:50:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <212n55r-9n3q-8r4r-85p7-14n495r53s6n@erqung.pbz>
+In-Reply-To: <20201130134907.348505-2-ppandit@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-15
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
@@ -106,41 +98,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Wenxiang Qian <leonwxqian@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: peter.maydell@linaro.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Petr Matousek <pmatouse@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Darren Kenny <darren.kenny@oracle.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/2/20 2:17 PM, P J P wrote:
-> +-- On Tue, 1 Dec 2020, Philippe Mathieu-DaudÃ© wrote --+ 
-> | Is it possible to release the reproducer to the community, so we can work on 
-> | a fix and test it?
-> 
-> * No, we can not release/share reproducers on a public list.
-> 
-> * We can request reporters to do so by their volition.
-> 
-[...]
-> 
-> * Even then, we'll need to ask reporter's permission before sharing their 
->   reproducers on a public list OR with non-members.
-> 
-> * Best is if reporters share/release reproducers themselves. Maybe we can have 
->   a public git repository and they can send a PR to include their reproducers 
->   in the repository.
+Hi Prasad,
 
-While EDK2 security workflow has its own drawbacks (inherent
-to the project), a fair part is to ask the reporter to attach
-its reproducer to the private BZ, then when the embargo expires
-the BZ becomes public (as the reproducer). Thus the community
-can look at how the bug was handled, how it was reviewed/tested,
-by who, etc.
-
-https://github.com/tianocore/tianocore.github.io/wiki/Reporting-Security-Issues
-
+On 11/30/20 2:49 PM, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
 > 
-> * That way multiple reproducers for the same issue can be held together.
+...
+> +## How we respond:
+> +
+> +* Process of handling security issues can be divided in two halves.
+> +
+
+Maybe:
+
+     0) **Acknowledge reception**
+       - A non-automated response email is sent to acknowledge the
+         reception of the request.
+         This is the starting date for the maximum **60 days** required
+         to process the issue, including bullets 1) and 2).
+
+> +  1) **Triage:**
+> +    - Examine the issue details and confirm whether the issue is genuine
+> +    - Validate if it can be misused for malicious purposes
+> +    - Determine its worst case impact and severity
+> +      [Low/Moderate/Important/Critical]
+> +
+> +  2) **Response:**
+> +    - Negotiate embargo timeline (if required, depending on severity)
+> +    - Request a CVE and open an upstream
+> +      [bug](https://bugs.launchpad.net/qemu/+bug/)
+> +      or a [GitLab](https://gitlab.com/groups/qemu-project/-/issues) issue
+> +    - Create an upstream fix patch
+
+         with the proper Buglink/CVE/Reported-by tags.
+
+       - Participate in the review process until the patch is merged.
+         Test the fix updates with the private reproducer if required.
+       - Close the upstream [bug] with 'Fix released', including the
+         commit SHA-1 of the fix.
+
+> +
+> +* Above security lists are operated by select analysts, maintainers and/or
+> +  representatives from downstream communities.
+> +
+> +* List members follow a **responsible disclosure** policy. Any non-public
+> +  information you share about security issues, is kept confidential within the
+> +  respective affiliated companies. Such information shall not be passed on to
+> +  any third parties, including Xen Security Project, without your prior
+> +  permission.
+> +
+> +* We aim to process security issues within maximum of **60 days**. That is not
+> +  to say that issues will remain private for 60 days, nope. After the triaging
+> +  step above
+> +    - If issue is found to be less severe, an upstream public bug (or an
+> +      issue) will be created immediately.
+> +    - If issue is found to be severe, an embargo process below is followed,
+> +      and public bug (or an issue) will be opened at the end of the set
+> +      embargo period.
+> +
+> +  This will allow upstream contributors to create, test and track fix patch(es).
+>  
+>  Email sent to us is read and acknowledged with a non-automated response. For
+>  issues that are complicated and require significant attention, we will open an
+
+   ^^^ You can remove that, as now covered by bullet 0).
+
+Regards,
+
+Phil.
 
 
