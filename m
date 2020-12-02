@@ -2,47 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A492CCA18
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 23:58:42 +0100 (CET)
-Received: from localhost ([::1]:49160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502C32CCA51
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 00:11:07 +0100 (CET)
+Received: from localhost ([::1]:52514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkb56-00021t-Jc
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 17:58:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58324)
+	id 1kkbH7-0004k8-VQ
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 18:11:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kkb3g-0001S5-0l; Wed, 02 Dec 2020 17:57:13 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:39804
- helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1kkb3Y-0001nK-Pn; Wed, 02 Dec 2020 17:57:11 -0500
-Received: from freeip.amazon.com
- (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with ESMTPSA id 1E18D390036D;
- Wed,  2 Dec 2020 23:57:00 +0100 (CET)
-Subject: Re: [PATCH v1 1/1] hvf: arm: Properly sync guest time on migration
-To: Frank Yang <lfy@google.com>
-References: <CAEkmjvXGccGs2QhaiLFupTDWcnp4O+qez-uj8QdbRG13UfCy2Q@mail.gmail.com>
- <2dc974cc-abe2-d034-1720-d5a2651a9042@csgraf.de>
- <CAEkmjvV-XPmBCGsOnBhZ20t6D+vbp+7pOUpDeMJL3dKAjZvErQ@mail.gmail.com>
-From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <658b1719-4635-edab-f3e2-6a9ac0bc01a1@csgraf.de>
-Date: Wed, 2 Dec 2020 23:56:59 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kkbFt-00049H-Q3; Wed, 02 Dec 2020 18:09:49 -0500
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:40225)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kkbFr-00038E-EM; Wed, 02 Dec 2020 18:09:49 -0500
+Received: by mail-yb1-xb42.google.com with SMTP id o144so251148ybg.7;
+ Wed, 02 Dec 2020 15:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rSZMDtHcjbRpJTILxI+UZec+ogwAKsGuZKbVwlIQtYQ=;
+ b=fDqGp4IUxfp1UA26DKqmGpf5PYjMnvO74AwHr0y0vVuGEDZMQBxEkb3BL8ljPRtZHK
+ Aj8UuHqGJMlR8yM5xDsAZhfJyag/1WpM/YXqXiAe+J+e0dxEn6e5d07Ie1SytmU0ACZQ
+ Eke1sTFSD7CKXtgo953GA44dOtXcAgxbjRLaYtZU6/8mf0fqoW025ZXy4YJQWg227VxQ
+ jUNLKPhJaZyint6w1GpYXMxFvfiK1I4EuopjlrVwgfFM1/ASbB+rhCm7xekQjbAh2y/Z
+ klwUAbxZBrzBYPWoR2rA44T5SHuUkrVuwfdHI6smFe2jzJye9kK1ZiErQr0dafQSJ5Hp
+ g2ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rSZMDtHcjbRpJTILxI+UZec+ogwAKsGuZKbVwlIQtYQ=;
+ b=QIgOvJfPPundvLdTGKCQcv1Kh79moovaiAj46SIWIwB/ik3qM60H1ix7TNq2JXrJaB
+ GgE1gkTnj3eAhDYniCleKYcNqL94eIqIJSfBQo6dt37IYqQCve8ffFPHxUD4LVEevD7J
+ 51OHSKW4B/Wa2a4mT2e1W7Pv36txw2QlD+36bPJETE9rxcKmuAIiLzN25OUUakYuDknI
+ rtdS0VgQTm/n3JDluxFogMlRXO+tTu39/TQhefH5X5p33gCpTN91l/Y1a0OmYbNM4Mef
+ HMmgHXqi0KhKDw3aBDQTnzEjRAcDQSfUVdiotSgwulUOXTNyWgl/lvYi6ua+1oaw3rio
+ TVdQ==
+X-Gm-Message-State: AOAM530AgW9QPGf5CO1ZzJtv8p3CGHifgP9bProYFIYNSk1fTBsX4Jrv
+ zRmIR+AoPbbYGZEKn1LsAoYkd/Vk3fW+2HSl9xU=
+X-Google-Smtp-Source: ABdhPJzMKj9+Jgi9sVkrzMhYxZ1IXiugiJDZSSAAmMQ4qZv4bbJQRgkPOMp2g0C7xHRzK031P6B8BOeZNOAemCKJP28=
+X-Received: by 2002:a25:db0e:: with SMTP id g14mr703029ybf.314.1606950586149; 
+ Wed, 02 Dec 2020 15:09:46 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAEkmjvV-XPmBCGsOnBhZ20t6D+vbp+7pOUpDeMJL3dKAjZvErQ@mail.gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------8E81D7DC2B5F2A2D3B1F9CAE"
-Content-Language: en-US
-Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001,
+References: <1606704602-59435-1-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKOWRENRYr0iz-bX7gGmksQdtTc_uMy_iY1YNvvRFr-PLg@mail.gmail.com>
+In-Reply-To: <CAKmqyKOWRENRYr0iz-bX7gGmksQdtTc_uMy_iY1YNvvRFr-PLg@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 3 Dec 2020 07:09:35 +0800
+Message-ID: <CAEUhbmU5mGQSpVu+UXr_3qoP-M4x1pUuiLzMHU7djQE-LTrK+Q@mail.gmail.com>
+Subject: Re: [PATCH] hw/block: m25p80: Fix fast read for SST flashes
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb42.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,214 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------8E81D7DC2B5F2A2D3B1F9CAE
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi Alistair,
 
-
-On 02.12.20 23:46, Frank Yang wrote:
+On Thu, Dec 3, 2020 at 3:52 AM Alistair Francis <alistair23@gmail.com> wrote:
 >
+> On Sun, Nov 29, 2020 at 6:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > SST flashes require a dummy byte after the address bits.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 >
-> On Wed, Dec 2, 2020 at 2:28 PM Alexander Graf <agraf@csgraf.de 
-> <mailto:agraf@csgraf.de>> wrote:
+> I couldn't find a datasheet that says this... But the actual code
+> change looks fine, so:
 >
+
+Please find the SST25VF016B datasheet at
+http://ww1.microchip.com/downloads/en/devicedoc/s71271_04.pdf. The
+fast read sequence is on page 11.
+
+> Acked-by: Alistair Francis <alistair.francis@wdc.com>
 >
->     On 02.12.20 23:19, Frank Yang wrote:
->>
->>     From downstream:
->>     https://android-review.googlesource.com/c/platform/external/qemu/+/1515002
->>     <https://android-review.googlesource.com/c/platform/external/qemu/+/1515002>
->>
->>     Based on v3 of Alexander Graf's patches
->>
->>     https://patchew.org/QEMU/20201202190408.2041-1-agraf@csgraf.de
->>     <https://patchew.org/QEMU/20201202190408.2041-1-agraf@csgraf.de>
->>
->>     We need to adjust CNTVOFF_EL2 so that time doesnt warp.  Even
->>     though we
->>     can set separate CNTVOFF_EL2 values per vCPU, it just is not
->>     worth the
->>     require effort to do that accurately---with individual values,
->>     even if
->>     they are a tiny bit off it can result in a lockup due to inconsistent
->>     time differences between vCPUs. So just use a global approximate
->>     value
->>     for now.
->>
->>     Not tested in upstream yet, but Android emulator snapshots work
->>     without
->>     time warp now.
->>
->>     Signed-off-by: Lingfeng Yang <lfy@google.com <mailto:lfy@google.com>>
->
->
->     If we just always make CNTV start at the same 0 as
->     QEMU_CLOCK_VIRTUAL, we should be able to just recover the offset
->     after migration by looking at QEMU_CLOCK_VIRTUAL to set CNTVOFF,
->     right?
->
->     That would end up much easier than this patch I hope.
->
->
->
-> The virtual clock interfaces/implementations in QEMU seem complex to 
-> me relative to the fix needed here and they don't seem to compute 
-> ticks with mach_absolute_time() (which in this case we want since we 
-> want to compute in timer ticks instead of having to mess with ns / 
-> cycle conversions). I do agree this patch does seem more complicated 
-> on the surface though versus "just" setting cntvoff directly to some 
-> value. Maybe we should simplify the QEMU_CLOCK_VIRTUAL implementation 
-> first to maintain CNTVOFF_EL2/CNTV using mach_absolute_time() first?
 
+Thanks!
 
-So QEMU_CLOCK_VIRTUAL calls cpu_get_clock() which just adds an offset to 
-gettimeofday(). This offset is already part of the live migration 
-stream[1]. So if you just configure CNTVOFF_EL2 based on 
-QEMU_CLOCK_VIRTUAL adjusted by the clock frequency on vcpu init, you 
-should have everything you need. You can do that on every CPU init even, 
-as the virtual clock will just be 0 on start.
-
-The only thing we need to change then is to move the WFI from a direct 
-call to mach_absolute_time() to also check the virtual clock instead. I 
-would hope that gettimeofday() calls mach_absolute_time() in the 
-background too to speed it up.
-
-
-Alex
-
-
-[1] 
-https://git.qemu.org/?p=qemu.git;a=blob;f=softmmu/cpu-timers.c;h=1eb7c675c18bda7773d4a9c549f0157c6e978a83;hb=HEAD#l229
-
-
---------------8E81D7DC2B5F2A2D3B1F9CAE
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 02.12.20 23:46, Frank Yang wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAEkmjvV-XPmBCGsOnBhZ20t6D+vbp+7pOUpDeMJL3dKAjZvErQ@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div dir="ltr"><br>
-        </div>
-        <br>
-        <div class="gmail_quote">
-          <div dir="ltr" class="gmail_attr">On Wed, Dec 2, 2020 at 2:28
-            PM Alexander Graf &lt;<a href="mailto:agraf@csgraf.de"
-              moz-do-not-send="true">agraf@csgraf.de</a>&gt; wrote:<br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px
-            0.8ex;border-left:1px solid
-            rgb(204,204,204);padding-left:1ex">
-            <div>
-              <p><br>
-              </p>
-              <div>On 02.12.20 23:19, Frank Yang wrote:<br>
-              </div>
-              <blockquote type="cite">
-                <div dir="ltr"><br>
-                  <div>From downstream: <a
-href="https://android-review.googlesource.com/c/platform/external/qemu/+/1515002"
-                      target="_blank" moz-do-not-send="true">https://android-review.googlesource.com/c/platform/external/qemu/+/1515002</a><br>
-                    <br>
-                    Based on v3 of Alexander Graf's patches<br>
-                    <br>
-                    <a
-                      href="https://patchew.org/QEMU/20201202190408.2041-1-agraf@csgraf.de"
-                      target="_blank" moz-do-not-send="true">https://patchew.org/QEMU/20201202190408.2041-1-agraf@csgraf.de</a><br>
-                    <br>
-                    We need to adjust CNTVOFF_EL2 so that time doesnt
-                    warp.  Even though we<br>
-                    can set separate CNTVOFF_EL2 values per vCPU, it
-                    just is not worth the<br>
-                    require effort to do that accurately---with
-                    individual values, even if<br>
-                    they are a tiny bit off it can result in a lockup
-                    due to inconsistent<br>
-                    time differences between vCPUs. So just use a global
-                    approximate value<br>
-                    for now.<br>
-                    <br>
-                    Not tested in upstream yet, but Android emulator
-                    snapshots work without<br>
-                    time warp now.<br>
-                    <br>
-                    Signed-off-by: Lingfeng Yang &lt;<a
-                      href="mailto:lfy@google.com" target="_blank"
-                      moz-do-not-send="true">lfy@google.com</a>&gt;<br>
-                  </div>
-                </div>
-              </blockquote>
-              <p><br>
-              </p>
-              <p>If we just always make CNTV start at the same 0 as
-                QEMU_CLOCK_VIRTUAL, we should be able to just recover
-                the offset after migration by looking at
-                QEMU_CLOCK_VIRTUAL to set CNTVOFF, right?<br>
-                <br>
-                That would end up much easier than this patch I hope.<br>
-                <br>
-                <br>
-              </p>
-            </div>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>The virtual clock interfaces/implementations in QEMU seem
-            complex to me relative to the fix needed here and they don't
-            seem to compute ticks with mach_absolute_time() (which in
-            this case we want since we want to compute in timer ticks
-            instead of having to mess with ns / cycle conversions). I do
-            agree this patch does seem more complicated on the surface
-            though versus "just" setting cntvoff directly to some value.
-            Maybe we should simplify the QEMU_CLOCK_VIRTUAL
-            implementation first to maintain CNTVOFF_EL2/CNTV using
-            mach_absolute_time() first?</div>
-        </div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>So QEMU_CLOCK_VIRTUAL calls cpu_get_clock() which just adds an
-      offset to gettimeofday(). This offset is already part of the live
-      migration stream[1]. So if you just configure CNTVOFF_EL2 based on
-      QEMU_CLOCK_VIRTUAL adjusted by the clock frequency on vcpu init,
-      you should have everything you need. You can do that on every CPU
-      init even, as the virtual clock will just be 0 on start.<br>
-      <br>
-      The only thing we need to change then is to move the WFI from a
-      direct call to mach_absolute_time() to also check the virtual
-      clock instead. I would hope that gettimeofday() calls
-      mach_absolute_time() in the background too to speed it up.<br>
-      <br>
-      <br>
-      Alex</p>
-    <p><br>
-      [1]
-<a class="moz-txt-link-freetext" href="https://git.qemu.org/?p=qemu.git;a=blob;f=softmmu/cpu-timers.c;h=1eb7c675c18bda7773d4a9c549f0157c6e978a83;hb=HEAD#l229">https://git.qemu.org/?p=qemu.git;a=blob;f=softmmu/cpu-timers.c;h=1eb7c675c18bda7773d4a9c549f0157c6e978a83;hb=HEAD#l229</a><br>
-    </p>
-  </body>
-</html>
-
---------------8E81D7DC2B5F2A2D3B1F9CAE--
+Regards,
+Bin
 
