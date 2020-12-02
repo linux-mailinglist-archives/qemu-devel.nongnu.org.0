@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8902D2CB29F
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 03:05:50 +0100 (CET)
-Received: from localhost ([::1]:46512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22122CB3A0
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 04:58:05 +0100 (CET)
+Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkHWf-0003Cn-Ig
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 21:05:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41908)
+	id 1kkJHI-0007xB-FK
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 22:58:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kkHTm-00024r-UR; Tue, 01 Dec 2020 21:02:50 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2106)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kkJEn-0006pe-0z; Tue, 01 Dec 2020 22:55:29 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:56023 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kkHTg-0003BD-Er; Tue, 01 Dec 2020 21:02:49 -0500
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Cm2K95rZmzhlSF;
- Wed,  2 Dec 2020 10:02:05 +0800 (CST)
-Received: from [10.174.187.138] (10.174.187.138) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 2 Dec 2020 10:02:18 +0800
-Message-ID: <5FC6F5AB.30300@huawei.com>
-Date: Wed, 2 Dec 2020 10:02:19 +0800
-From: Alex Chen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kkJEh-0007XM-08; Tue, 01 Dec 2020 22:55:27 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Cm4qc70Hsz9sSf; Wed,  2 Dec 2020 14:55:08 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1606881308;
+ bh=bFVVTOj+6qy6I+LlSbc1MSXgH394qnmF1nSRxIqfLAs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZBRH+EdhdOEwBbZuiJZwpAKNE6sxzgKiqp14U0bDu99235woa1RFJdu62jNiQ0/zg
+ WM751O5E7zPCXZcpWgehz7oGZjmYBuPJClqaCJS8MGpQd+QGr3sYlOfD0b+PlcfnYI
+ zodrHHMVEauKEOhwFdNY40wvH6RcfnZuU89VYUsw=
+Date: Wed, 2 Dec 2020 14:16:00 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH for-6.0 v2 0/4] spapr: Perform hotplug sanity checks at
+ pre-plug
+Message-ID: <20201202031600.GA7801@yekko.fritz.box>
+References: <20201201113728.885700-1-groug@kaod.org>
 MIME-Version: 1.0
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH] qemu-nbd: Fix a memleak in nbd_client_thread()
-References: <20201201061349.110262-1-alex.chen@huawei.com>
- <e2180a73-b2e8-4613-00dd-2850e07c2c46@redhat.com>
-In-Reply-To: <e2180a73-b2e8-4613-00dd-2850e07c2c46@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.138]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=alex.chen@huawei.com;
- helo=szxga06-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YiEDa0DAkWCtVeE4"
+Content-Disposition: inline
+In-Reply-To: <20201201113728.885700-1-groug@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,137 +58,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/12/2 4:15, Eric Blake wrote:
-> On 12/1/20 12:13 AM, Alex Chen wrote:
->> When the qio_channel_socket_connect_sync() fails
->> we should goto 'out_socket' label to free the 'sioc' instead of
->> goto 'out' label.
->> In addition, now the 'out' label is useless, delete it.
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Alex Chen <alex.chen@huawei.com>
->> ---
->>  qemu-nbd.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/qemu-nbd.c b/qemu-nbd.c
->> index 47587a709e..643b0777c0 100644
->> --- a/qemu-nbd.c
->> +++ b/qemu-nbd.c
->> @@ -275,7 +275,7 @@ static void *nbd_client_thread(void *arg)
->>                                          saddr,
->>                                          &local_error) < 0) {
->>          error_report_err(local_error);
->> -        goto out;
->> +        goto out_socket;
->>      }
->>  
->>      ret = nbd_receive_negotiate(NULL, QIO_CHANNEL(sioc),
->> @@ -325,7 +325,6 @@ out_fd:
->>      close(fd);
->>  out_socket:
->>      object_unref(OBJECT(sioc));
->> -out:
->>      g_free(info.name);
->>      kill(getpid(), SIGTERM);
->>      return (void *) EXIT_FAILURE;
->>
-> 
-> While the patch looks correct, we have a lot of duplication.  Simpler
-> might be a solution with only one exit label altogether:
-> 
 
-Thanks for your review, I will modify the patch and send patch v2 according to your suggestion.
-BTW, do I need to split this patch into two patches, one to solve the memleak and the other to optimizes the redundant code?
+--YiEDa0DAkWCtVeE4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Alex
+On Tue, Dec 01, 2020 at 12:37:24PM +0100, Greg Kurz wrote:
+> Igor recently suggested that instead of failing in spapr_drc_attach()
+> at plug time we should rather check that the DRC is attachable at
+> pre-plug time. This allows to error out before the hot-plugged device
+> is even realized and to come up with simpler plug callbacks.
+>=20
+> sPAPR currently supports hotplug of PCI devices, PHBs, CPU cores,
+> PC-DIMM/NVDIMM memory and TPM proxy devices. Some of these already
+> do sanity checks at pre-plug that are sufficient to ensure the DRC
+> are attachables. Some others don't even have a pre-plug handler.
+>=20
+> This series adds the missing pieces so that all failing conditions
+> are caught at pre-plug time instead of plug time for all devices.
+>=20
+> v2: - hopefully less fragile way of setting compat mode for hot-plugged
+>       CPUs
 
-> diff --git i/qemu-nbd.c w/qemu-nbd.c
-> index a7075c5419d7..d7bdcd0011ba 100644
-> --- i/qemu-nbd.c
-> +++ w/qemu-nbd.c
-> @@ -265,8 +265,8 @@ static void *nbd_client_thread(void *arg)
->      char *device = arg;
->      NBDExportInfo info = { .request_sizes = false, .name = g_strdup("") };
->      QIOChannelSocket *sioc;
-> -    int fd;
-> -    int ret;
-> +    int fd = -1;
-> +    int ret = EXIT_FAILURE;
->      pthread_t show_parts_thread;
->      Error *local_error = NULL;
-> 
-> @@ -278,26 +278,24 @@ static void *nbd_client_thread(void *arg)
->          goto out;
->      }
-> 
-> -    ret = nbd_receive_negotiate(NULL, QIO_CHANNEL(sioc),
-> -                                NULL, NULL, NULL, &info, &local_error);
-> -    if (ret < 0) {
-> +    if (nbd_receive_negotiate(NULL, QIO_CHANNEL(sioc),
-> +                              NULL, NULL, NULL, &info, &local_error) < 0) {
->          if (local_error) {
->              error_report_err(local_error);
->          }
-> -        goto out_socket;
-> +        goto out;
->      }
-> 
->      fd = open(device, O_RDWR);
->      if (fd < 0) {
->          /* Linux-only, we can use %m in printf.  */
->          error_report("Failed to open %s: %m", device);
-> -        goto out_socket;
-> +        goto out;
->      }
-> 
-> -    ret = nbd_init(fd, sioc, &info, &local_error);
-> -    if (ret < 0) {
-> +    if (nbd_init(fd, sioc, &info, &local_error) < 0) {
->          error_report_err(local_error);
-> -        goto out_fd;
-> +        goto out;
->      }
-> 
->      /* update partition table */
-> @@ -311,24 +309,18 @@ static void *nbd_client_thread(void *arg)
->          dup2(STDOUT_FILENO, STDERR_FILENO);
->      }
-> 
-> -    ret = nbd_client(fd);
-> -    if (ret) {
-> -        goto out_fd;
-> +    if (nbd_client(fd) == 0) {
-> +        ret = EXIT_SUCCESS;
->      }
-> -    close(fd);
-> -    object_unref(OBJECT(sioc));
-> -    g_free(info.name);
-> -    kill(getpid(), SIGTERM);
-> -    return (void *) EXIT_SUCCESS;
-> 
-> -out_fd:
-> -    close(fd);
-> -out_socket:
-> + out:
-> +    if (fd >= 0) {
-> +        close(fd);
-> +    }
->      object_unref(OBJECT(sioc));
-> -out:
->      g_free(info.name);
->      kill(getpid(), SIGTERM);
-> -    return (void *) EXIT_FAILURE;
-> +    return (void *) (intptr_t) ret;
->  }
->  #endif /* HAVE_NBD_DEVICE */
-> 
+Applied to ppc-for-6.0, thanks.
 
+>=20
+> Greg Kurz (4):
+>   spapr: Fix pre-2.10 dummy ICP hack
+>   spapr: Abort if ppc_set_compat() fails for hot-plugged CPUs
+>   spapr: Simplify error path of spapr_core_plug()
+>   spapr: spapr_drc_attach() cannot fail
+>=20
+>  include/hw/ppc/spapr_drc.h |  8 ++++++-
+>  hw/ppc/spapr.c             | 49 ++++++++++++++++++--------------------
+>  hw/ppc/spapr_drc.c         |  8 ++-----
+>  hw/ppc/spapr_nvdimm.c      |  2 +-
+>  hw/ppc/spapr_pci.c         |  2 +-
+>  5 files changed, 34 insertions(+), 35 deletions(-)
+>=20
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--YiEDa0DAkWCtVeE4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/HBu4ACgkQbDjKyiDZ
+s5LkrQ/9ED+4TeIRnsIMy7NLBBdnqB89lKbMwxTXNP3CHqqjfTJS0pGm0T6PScFj
+KycwOgbfQvuuaXo0EVZdpJaZwwBYEFuXG70UOhL7cYzfxSS612lQ8oLBVhpLrp3s
+get1BW+uLeovv/xjNkEJBosJzMsGPkEGnkeC/6w4WflFofVMX0mX1AzQpeXTvZQm
+ydZtXogVl8IzjHq2BtklLVZ7u19/z1WIhPn7ZL3pQWRZyux1vPGd4gt2lOQ0G3iH
+kMBzXlP6hKq46JUTMlRZfGWTyhSiD0Iezv9qsuIRaT/JgFRkmOFtVjqrr8tt20Tb
+ZO9urZuAwQwFqDtdPRkR+1UOiynxI089HE73WV15/jxQxWkdBQvI9h7cto1iUyPi
+AuU+RsxC36voT/7cct8GZlunEE7cwau9G23jDQi5Csg6OQk4b8O/QQQ2W4cy9A5S
+z2tBdRTdXx/EHqDtXnnd4ass2v6Adf/slVzLaoxXkJs6QydP8SKbR5bAX8Pzmv+h
+FjwBkM/X2XkLJ9sLk3VsX4oyL4Q3CsZpCpQIngSIz5dvUoDKjJ79XmAOVkf5ZeJE
+L/GoKFCbu6cHI2sPqu44bCQSRHIf3Ezi0DwSsSFewdeftqhLxhI/oS5vA4Mec5EC
+4nftc8sK+Y1vPnvuRoqo3liWquztAeQbATUbR75GumOwVc4069w=
+=8yDd
+-----END PGP SIGNATURE-----
+
+--YiEDa0DAkWCtVeE4--
 
