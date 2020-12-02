@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 787552CB3C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 05:07:43 +0100 (CET)
-Received: from localhost ([::1]:48550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F0032CB3F9
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 05:45:51 +0100 (CET)
+Received: from localhost ([::1]:34380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkJQc-0001wF-05
-	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 23:07:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46748)
+	id 1kkK1V-0002JX-Ma
+	for lists+qemu-devel@lfdr.de; Tue, 01 Dec 2020 23:45:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kkJPD-0001SM-3z
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 23:06:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35789)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kkJP4-0003mL-HY
- for qemu-devel@nongnu.org; Tue, 01 Dec 2020 23:06:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606881965;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9b1vpXKTJDGwsicGMZzMjGoIqVfP2op5HZqCaItB1a0=;
- b=V/lfRvT/y00EpIiH1smJM94mBm2aA5JckBPcE+ijJt8sRyDWRSsmVT/CST+Av75edqy+Ge
- XyEPCd81/EHChMwpQ8dx8Nrz6MIhpgLAIazC0n2B0heaFjpEnNBP6y4dbhuN6P/oRnfYkO
- KA6knCa1tVFH9mLRDdUHcEZ1uGLCzOM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-TfY5DdjbPJC_Yv_IzX0DdA-1; Tue, 01 Dec 2020 23:06:00 -0500
-X-MC-Unique: TfY5DdjbPJC_Yv_IzX0DdA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 277531E7C5;
- Wed,  2 Dec 2020 04:05:59 +0000 (UTC)
-Received: from [10.72.13.145] (ovpn-13-145.pek2.redhat.com [10.72.13.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21A0860854;
- Wed,  2 Dec 2020 04:05:53 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 4/5] virtio-net: Added eBPF RSS to virtio-net.
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <20201119111305.485202-1-andrew@daynix.com>
- <20201119111305.485202-5-andrew@daynix.com>
- <e3c4d907-1901-52ae-5dde-0aea4780cb35@redhat.com>
- <CAOEp5OfmRUpKZ-MNDWP=-TxKkWoAPS=n3eKV989fFiiAsRaZ4w@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <9b400fa7-a597-ba44-b661-802d8b2d105c@redhat.com>
-Date: Wed, 2 Dec 2020 12:05:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAOEp5OfmRUpKZ-MNDWP=-TxKkWoAPS=n3eKV989fFiiAsRaZ4w@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
+ (Exim 4.90_1) (envelope-from
+ <3mxvHXwMKCvIjWWaiiafY.WigkYgo-XYpYfhihaho.ila@flex--pcc.bounces.google.com>)
+ id 1kkJzz-00010i-Ld
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 23:44:15 -0500
+Received: from mail-qt1-x84a.google.com ([2607:f8b0:4864:20::84a]:42777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3mxvHXwMKCvIjWWaiiafY.WigkYgo-XYpYfhihaho.ila@flex--pcc.bounces.google.com>)
+ id 1kkJzx-0003NW-GG
+ for qemu-devel@nongnu.org; Tue, 01 Dec 2020 23:44:15 -0500
+Received: by mail-qt1-x84a.google.com with SMTP id n12so384576qta.9
+ for <qemu-devel@nongnu.org>; Tue, 01 Dec 2020 20:44:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=8ZWZxwgZnh+CVD/RIyNXpGFOI5LtCpzp62lZLAhve0I=;
+ b=ePzs4tAzlpaiS+sx8manrQzjYPSrf83bU6Lv75pR4iH+LI+wQm48ywKIpu+ohd9RgM
+ pBETyZ+LBP08sf0bDPwHByaGvnkY3zbu3KoSluTYk5hPPzkRxnNAFA8FMMG1iKUmsiXp
+ 6tMkFXUzpQ23bvFcBRPN/W4txe3bYCnlauaXc/tqCRbPHSLPfT2ZQ7FKi7h0spfrpexk
+ upusB6LaVblPzfiNtEkdFaHwMyNuRAxAvcuZpQBWyXEJQ6tPKo5a9TEo92Q3uPNXcVnJ
+ ZvxBuuJOoObqqr/7RLOFudFtvmVHnUlaGJuy/6RnYi70ac6SnNzieKe9Xv2gEp602OOf
+ H2Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=8ZWZxwgZnh+CVD/RIyNXpGFOI5LtCpzp62lZLAhve0I=;
+ b=s2QgjOfoJnBjGMzLA4vA8jXnXaLFq+IpCPbB4G6PszzHK9UCZVsGGzOQrChcupVmUS
+ +ky4oo39ElhfZsO/xVZYJWbNtMFox0+rU7c2xKlLQezWD/dq7Ec4tQNo18NCBO7MBssK
+ VEyVLhDo9Dqn41GsH740YGlEBhEyGx7VU/BKfE/I4ILKO4PhbTvI12D69svTfVpQdBhk
+ oC0v+R0QqnIXA9SJ2lOPlfzoIbmcB0VkJyBJwiIsnKc3G+R/eubXKdWzH/9C0ZmO0U+f
+ WyeR622aaT4rxkQdX7KqKGR616GX98TeAgutL+9Kxb0mJMunXQGdnIp2xIGCRXxvFEJO
+ lAag==
+X-Gm-Message-State: AOAM532UL6on2LWUGAmxKogTSq4/Qy0AX8h1qOxEtwr+0YA4K8e1jPnP
+ sDWbxOn9inh073hqCMUragaT7Bc=
+X-Google-Smtp-Source: ABdhPJw+n9BblFNDqot6hJ0NtdwahFdpmoPGeIzoCe9M1ygXq0rPGTb8OfxwIh54GO8xmTPzLsCmGys=
+X-Received: from pcc-desktop.svl.corp.google.com
+ ([2620:15c:2ce:0:7220:84ff:fe09:385a])
+ (user=pcc job=sendgmr) by 2002:ad4:4051:: with SMTP id
+ r17mr862800qvp.39.1606884251305; 
+ Tue, 01 Dec 2020 20:44:11 -0800 (PST)
+Date: Tue,  1 Dec 2020 20:44:05 -0800
+Message-Id: <27f51056925889c41b763b71c992f04d935157c4.1606884132.git.pcc@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+Subject: [PATCH v3 1/3] Revert "hvf: Actually set SIG_IPI mask"
+To: Alexander Graf <agraf@csgraf.de>
+Cc: Frank Yang <lfy@google.com>, Roman Bolshakov <r.bolshakov@yadro.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, 
+ Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::84a;
+ envelope-from=3mxvHXwMKCvIjWWaiiafY.WigkYgo-XYpYfhihaho.ila@flex--pcc.bounces.google.com;
+ helo=mail-qt1-x84a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,107 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Peter Collingbourne <pcc@google.com>
+From: Peter Collingbourne via <qemu-devel@nongnu.org>
 
+From: Alexander Graf <agraf@csgraf.de>
 
-On 2020/12/1 下午3:40, Yuri Benditovich wrote:
->
->
-> On Tue, Nov 24, 2020 at 10:49 AM Jason Wang <jasowang@redhat.com 
-> <mailto:jasowang@redhat.com>> wrote:
->
->
->     On 2020/11/19 下午7:13, Andrew Melnychenko wrote:
->     > From: Andrew <andrew@daynix.com <mailto:andrew@daynix.com>>
->     >
->     > When RSS is enabled the device tries to load the eBPF program
->     > to select RX virtqueue in the TUN. If eBPF can be loaded
->     > the RSS will function also with vhost (works with kernel 5.8 and
->     later).
->     > Software RSS is used as a fallback with vhost=off when eBPF
->     can't be loaded
->     > or when hash population requested by the guest.
->     >
->     > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com
->     <mailto:yuri.benditovich@daynix.com>>
->     > Signed-off-by: Andrew Melnychenko <andrew@daynix.com
->     <mailto:andrew@daynix.com>>
->     > ---
->     >   hw/net/vhost_net.c             |   2 +
->     >   hw/net/virtio-net.c            | 120
->     +++++++++++++++++++++++++++++++--
->     >   include/hw/virtio/virtio-net.h |   4 ++
->     >   net/vhost-vdpa.c               |   2 +
->     >   4 files changed, 124 insertions(+), 4 deletions(-)
->     >
->     > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
->     > index 24d555e764..16124f99c3 100644
->     > --- a/hw/net/vhost_net.c
->     > +++ b/hw/net/vhost_net.c
->     > @@ -71,6 +71,8 @@ static const int user_feature_bits[] = {
->     >       VIRTIO_NET_F_MTU,
->     >       VIRTIO_F_IOMMU_PLATFORM,
->     >       VIRTIO_F_RING_PACKED,
->     > +    VIRTIO_NET_F_RSS,
->     > +    VIRTIO_NET_F_HASH_REPORT,
->     >
->     >       /* This bit implies RARP isn't sent by QEMU out of band */
->     >       VIRTIO_NET_F_GUEST_ANNOUNCE,
->     > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->     > index 277289d56e..afcc3032ec 100644
->     > --- a/hw/net/virtio-net.c
->     > +++ b/hw/net/virtio-net.c
->     > @@ -698,6 +698,19 @@ static void virtio_net_set_queues(VirtIONet *n)
->     >
->     >   static void virtio_net_set_multiqueue(VirtIONet *n, int
->     multiqueue);
->     >
->     > +static uint64_t fix_ebpf_vhost_features(uint64_t features)
->     > +{
->     > +    /* If vhost=on & CONFIG_EBPF doesn't set - disable RSS
->     feature */
->     > +    uint64_t ret = features;
->     > +#ifndef CONFIG_EBPF
->     > +    virtio_clear_feature(&ret, VIRTIO_NET_F_RSS);
->     > +#endif
->     > +    /* for now, there is no solution for populating the hash
->     from eBPF */
->     > +    virtio_clear_feature(&ret, VIRTIO_NET_F_HASH_REPORT);
->
->
->     I think there's still some misunderstanding here.
->
->     When "rss" is enabled via command line, qemu can't not turn it off
->     silently, otherwise it may break migration. Instead, qemu should
->     disable
->     vhost-net if eBPF can't be loaded.
->
->     When "hash_report" is enabled via command line, qemu should disable
->     vhost-net unconditionally.
->
->
-> I agree in general with this requirement and I'm preparing an 
-> implementation of such fallback.
->
-> The problem is that qemu already uses the mechanism of turning off 
-> host features
-> silently if they are not supported by the current vhost in kernel:
-> https://github.com/qemu/qemu/blob/b0f8c22d6d4d07f3bd2307bcc62e1660ef965472/hw/virtio/vhost.c#L1526
->
-> Can you please comment on it and let me know how it should be modified 
-> in future?
-> I've planned to use it in next work (implementing hash report in kernel)
+This reverts commit 926a35700f0c14d6b95cbf8c3c3cce55ec7ffc3e.
 
+You can just drop patch 3 of your v2 instead of taking this commit.
+---
+ accel/hvf/hvf-cpus.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-This looks like a bug that needs to be solved. Otherwise we break 
-migration from rss=on, vhost=off to rss=on,vhost=on.
-
-I think you can keep the current code as is and I will try to seek a way 
-to solve the issue.
-
-Thanks
+diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
+index 4360f64671..e613c22ad0 100644
+--- a/accel/hvf/hvf-cpus.c
++++ b/accel/hvf/hvf-cpus.c
+@@ -346,7 +346,6 @@ static int hvf_init_vcpu(CPUState *cpu)
+ 
+     pthread_sigmask(SIG_BLOCK, NULL, &set);
+     sigdelset(&set, SIG_IPI);
+-    pthread_sigmask(SIG_SETMASK, &set, NULL);
+ 
+ #ifdef __aarch64__
+     r = hv_vcpu_create(&cpu->hvf->fd, (hv_vcpu_exit_t **)&cpu->hvf->exit, NULL);
+-- 
+2.29.2.454.gaff20da3a2-goog
 
 
