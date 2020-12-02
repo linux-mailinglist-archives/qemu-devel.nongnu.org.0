@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43F42CBAD6
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:45:08 +0100 (CET)
-Received: from localhost ([::1]:43068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150F42CBAE5
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:48:06 +0100 (CET)
+Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkPdD-0003UG-O5
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:45:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57228)
+	id 1kkPg5-0005bp-6A
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:48:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kkOFs-00049G-3o
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:16:56 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:51249)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kkOFp-0000fV-VU
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:16:55 -0500
-Received: by mail-wm1-x343.google.com with SMTP id v14so5128719wml.1
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 01:16:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=b0FuHWJGms83Rg1dMKMF60Ljln/6z/ALzb/u0yjVSVQ=;
- b=gWMvnq5QsHlrzM1GZmuDQc3TJNkL/vKCGpgTBaEk5q5ZMlortTaP2RBph/1gqDufk2
- Xi9Tt0DYTZ67BdkYS7TYd9cHjj4Hb4R1gRp9vBzMvfTKVSzrDW8sKpRRGQvyyN7q1jSe
- bjow32l+AQN619a9WGm1bSEgaE4HJrAfReIytvfT3rCHOcrxQRjIS4r8AQng0rVY7NFH
- j5YhigbNDheqRD/T71NN4XgneMvSf/lqgG0sFavthu8zJRFRKzGQVBxpTZwFEa84bFKT
- eVQ/CZ+pJFRaUy/oPc83BnqKXdiMgVy/1ud23btThEH+7JkNVc0q6GCNaog/24S1P2KG
- Llcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=b0FuHWJGms83Rg1dMKMF60Ljln/6z/ALzb/u0yjVSVQ=;
- b=lUGvjU3jLXP1rRJrpUrM6m59PnzwwpM9vhbVZ9hVyLA1gvA02UhZy2QEYuqouqVCQY
- oVKGPCA+rMc1NweJVO88HBo+yPsEyx8TIWNWb8Hig5vD2JKrgS9knXmajW2jDAz5FBoS
- U98rcZ6/zzwPc4xBdY8t8oUggAACIbswjYVtgTZqxPhFPx7auPVVwmebDSG4BYCRb3l6
- 0XYeOvPV6h+L3D2cnyNwId1rgXvCPxScTabyULZdhTnjgDARYHETL3gLv3IYEElrPRK7
- iP7+wsJQv3CYBh3OCK9ZudHbDuSB+qWFMlbN8BW1shjf3ePrwyg3te95qcetYsiPU3QE
- 1qsw==
-X-Gm-Message-State: AOAM531Ku4eX2pHOg/WfTn7ENcz4jB4ZUd2XQhhFoQGw77u9t84DAAwi
- 5/z1OeYIOWYxoeKVw5ToOcg=
-X-Google-Smtp-Source: ABdhPJx4ukEMbv9l8erXPwbD8rrSQciietN/iuIwVX92wlju6qUKm1tAYv72StF/I0eFtlbIIu1fag==
-X-Received: by 2002:a1c:ddc4:: with SMTP id u187mr2047944wmg.55.1606900611689; 
- Wed, 02 Dec 2020 01:16:51 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id g192sm1226871wme.48.2020.12.02.01.16.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Dec 2020 01:16:50 -0800 (PST)
-Subject: Re: [PATCH v3 6/6] linux-user: Add support for MIPS Loongson 2F/3E
-To: chen huacai <zltjiangshi@gmail.com>
-References: <20201201192807.1094919-1-f4bug@amsat.org>
- <20201201192807.1094919-7-f4bug@amsat.org>
- <CABDp7VqonBqH_PZGQ1e60K5-APJwNHf_UM+x8w6E28yhHeVsfg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7862974b-84e3-5390-9799-ab39250f0af4@amsat.org>
-Date: Wed, 2 Dec 2020 10:16:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kkOIY-00070t-TY
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:19:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40177)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kkOIS-0001Ud-Ns
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:19:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606900774;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qb+i8kG6P70cYE0arzYEguAiYUcfPmkaF/5mlYLMj9c=;
+ b=Pyxglm5vXKpQfX/kV/DEvOxAWK5xdyIMgygbcoZB/IlNj8E2ng7DMs7MGwSJBKfNlxLmRW
+ XGoKBBpVbkJWaTKHbhZMpCk5nmS/wRRxHFc0QaxfP2xYIh9zg8IHSXUDKFJVGM37JmtuDj
+ MPB+EnPh0sCGsvnxXWpuyBrjM6zVxfU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-3ucfDSeOOVSvl294n5S7-w-1; Wed, 02 Dec 2020 04:19:32 -0500
+X-MC-Unique: 3ucfDSeOOVSvl294n5S7-w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 468001092BB3;
+ Wed,  2 Dec 2020 09:19:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80BF05C1B4;
+ Wed,  2 Dec 2020 09:19:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 10E0E113864E; Wed,  2 Dec 2020 10:19:24 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] scripts/checkpatch.pl: Modify the line length limit of
+ the code
+References: <20201105154208.12442-1-ganqixin@huawei.com>
+ <CAFEAcA9QMBqF0Bm44q4m1d=QaPVBJodH9rwuYhGx5H6zy6ULcg@mail.gmail.com>
+ <87d00qk51l.fsf@dusky.pond.sub.org>
+ <CAFEAcA-_5vRbsi5fFpyLV2OyDX5TVrpAx7_Z43wqvb1zhQO_8w@mail.gmail.com>
+ <37c519e4-d72b-944c-ed70-038f9c606be9@redhat.com>
+ <CAFEAcA_a=vBjLM8_-KDkYfFuTLDW6cMsQ48or70uwwVusW2q7w@mail.gmail.com>
+ <87zh3ufoy4.fsf@dusky.pond.sub.org>
+ <CAFEAcA-3a8gYRPzk4jzv3QfLAw3tL74LoFTMy+VhXZA3QdOfPg@mail.gmail.com>
+ <87mtzqsy2r.fsf@dusky.pond.sub.org>
+ <CAFEAcA-JCLUn5BxwH71CmFB3Q+KMSK0pid8nGH9hLUokNcoLSw@mail.gmail.com>
+Date: Wed, 02 Dec 2020 10:19:24 +0100
+In-Reply-To: <CAFEAcA-JCLUn5BxwH71CmFB3Q+KMSK0pid8nGH9hLUokNcoLSw@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 30 Nov 2020 13:26:11 +0000")
+Message-ID: <87o8jc5zvn.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CABDp7VqonBqH_PZGQ1e60K5-APJwNHf_UM+x8w6E28yhHeVsfg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.497,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,62 +89,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- Aurelien Jarno <aurelien@aurel32.net>, Huacai Chen <chenhc@lemote.com>,
- Meng Zhuo <mengzhuo1203@gmail.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gan Qixin <ganqixin@huawei.com>,
+ "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/2/20 2:01 AM, chen huacai wrote:
-> Hi, Philippe,
-> 
-> On Wed, Dec 2, 2020 at 3:31 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Userland ELF binaries using Longsoon SIMD instructions have the
->> HWCAP_LOONGSON_MMI bit set [1].
->> Binaries compiled for Longsoon 3E [2] have the HWCAP_LOONGSON_EXT
->> bit set for the LQ / SQ instructions.
-> What is Loongson-3E? I think you want to say Loongson-3A?
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Yes =) I have been confused because I looked at the INSN_LOONGSON2E
-and INSN_LOONGSON2F definitions earlier.
+> On Mon, 9 Nov 2020 at 09:01, Markus Armbruster <armbru@redhat.com> wrote:
+>> CODING_STYLE.rst: "Lines should be 80 characters; try not to make them
+>> longer."  I'd like to keep the tooling we have to help us with trying
+>> not to make them longer.
+>>
+>> If we have lost the ability to differentiate between "warning" and
+>> "error", call it something else.
+>
+> Personally I just want checkpatch with its default arguments not
+> to complain about code that we'd be happy to accept in the tree.
 
-Are you OK with this patch if I change
-- 3E -> 3A in subject and body
-- Longsoon -> Loongson in body?
+This means losing complaints about code we don't want to accept, because
+there is a grey area where checkpatch can't be sure.
 
-As you maybe noticed, since Loongson is currently the single MIPS
-area with contributions, I am trying to strengthen it and ease its
-maintenance by adding (and running) more tests.
+CODING_STYLE.rst demands "try not to make lines longer than 80
+characters, but if you decide you need to, don't make them longer than
+90".
 
-> 
-> Huacai
->>
->> [1] commit 8e2d5831e4b ("target/mips: Legalize Loongson insn flags")
->> [2] commit af868995e1b ("target/mips: Add Loongson-3 CPU definition")
->>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  linux-user/elfload.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
->> index 2ba42d8e4bd..5a39a7dc021 100644
->> --- a/linux-user/elfload.c
->> +++ b/linux-user/elfload.c
->> @@ -1023,6 +1023,8 @@ static uint32_t get_elf_hwcap(void)
->>
->>      GET_FEATURE_REG_EQU(CP0_Config0, CP0C0_AR, 3, 2, HWCAP_MIPS_R6);
->>      GET_FEATURE_REG_SET(CP0_Config3, 1 << CP0C3_MSAP, HWCAP_MIPS_MSA);
->> +    GET_FEATURE_INSN(ASE_LMMI, HWCAP_LOONGSON_MMI);
->> +    GET_FEATURE_INSN(ASE_LEXT, HWCAP_LOONGSON_EXT);
->>
->>      return hwcaps;
->>  }
->> --
->> 2.26.2
-> 
+As long as we have this grey area where we want developers to try,
+checkpatch's job is to remind them to try.
+
+> It's unnecessary noise when I write and check the code locally,
+> when patchew runs on the patch on the list and then when it goes
+> into a pullreq.
+
+Checking locally: noise or not is up to you.
+
+Patchew: no, it's not noise here.  Patch review is exactly where the
+reminder is needed.
+
+Pull request: assuming patch review did its job, all that's left is
+noise.
+
+>                 Do we need a new "be really strict" option?
+
+No objection, as long as we stick to strict for patch review.
+
 
