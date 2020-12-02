@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A82CD2CC10A
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 16:39:52 +0100 (CET)
-Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEF42CC13E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 16:51:00 +0100 (CET)
+Received: from localhost ([::1]:41824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkUER-0004mt-IL
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 10:39:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54490)
+	id 1kkUPC-0007y1-PS
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 10:50:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kkUDK-0004ME-Lv
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 10:38:42 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52133)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kkUNn-0007Ru-Pl; Wed, 02 Dec 2020 10:49:31 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:33490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kkUDI-0005dx-Lc
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 10:38:42 -0500
-Received: by mail-wm1-x342.google.com with SMTP id v14so8437781wml.1
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 07:38:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3bVP23Fe7KdWHe37gUTAZ1T2seLh9HbpKjQASLFxBTo=;
- b=OT7LNm8pfSyHkg5Gn4+gl5m7WZevPxsuMi4xR31NJ5vga3MxZZDqjEmN1yKyLiFEBL
- nhJnSe9T5OeOkz5LZniXeNcIcqmPrsw5R9dVr0i2vnYIaC0GzCxXESNZoDIZWudKQvfO
- fQasj+cC6e9T1bb8JD7ktsqBhVMNjc/J3fxFeiX3DL1gWcQTMYI8/UW1FyYQ2oXgwoqP
- SB90NxnrxNIpZioWXg9P9kMbcTr/IiW1HgDZMvDgC+S0Fwz5tmSjpcf3W2nyLHij6LUY
- bJ5t5qGpxk8DVngvIRhAxhbWQGFIP12TAh+N/kT2zJjBoYL1u8u45BmpAeGCA5DUbT4g
- I56Q==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kkUNk-00074d-UO; Wed, 02 Dec 2020 10:49:31 -0500
+Received: by mail-ej1-x643.google.com with SMTP id 7so5114095ejm.0;
+ Wed, 02 Dec 2020 07:49:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FPyZK3RPJYro0MJgaw/JY+B2dR3rUNo58dZwN3bhadE=;
+ b=X9v8rRaJ9cPhfw1p9I7ph5VXEXAiUN1wA4z5B8PTfVxRQByZzcZywOo/dsA9M4A8fr
+ WgmjYHdOb3NRnn+P42VRA/Qhsul/xjMYaWAOqEQdvAJw3H1ROPyyAK75OwW9G4D8AJtT
+ +CJNjfjlIVUhB/fi/6nu0hrHSnNBt4fCTVtIBgD7uT4nkNUAIeq1/O8SOKGZXIeY/She
+ jB/c8vdBCGU0GmClmZLaqrEFyTa8AVw8TlT/UvmTrd/RE1Gp9gdXPGEiXnNwOYURnl9A
+ V7xRM6h8Y7U37oo34OWu3gFS1zcEslW3kQr4bYR14MfxJhhgESypozb0AOj+eAMY7f7f
+ 3U5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3bVP23Fe7KdWHe37gUTAZ1T2seLh9HbpKjQASLFxBTo=;
- b=BkPUSama9+QBRXMTmI2TIvSpLa22zNfnqbg1WIeawLz+Xm88GXrsxDcc6nPPd4s/SG
- T9yZ53HSM1rLmBmnrrE7R8sosl7CPZNFlN1jJj4oENmuzh7om2ZoCTEFsDf6HAdkJPN5
- 7QTnYtrjwDKS5Scvd5B4kiy2LHPohZdO2MLMJwGsfQpatYgBSjpf/WyDoBI+TwTJNAhK
- 9ldGIZCfi7jiCmxfQum/WPKdLyqwbyjZsGUgtjLFT1TDIqACojwrJBucH69lkuLdB9NS
- HG+s4QQbSDBYqyZoh5n6gtiqV3vtPt7C7a9f40px/EU6C2NiOTX9AE8Th6VxjR+BQ+/C
- mxQg==
-X-Gm-Message-State: AOAM5312Sq67cQ/Nz/YUdiBZgt5A3o+TnKFwiQNNDpVO6hgRCP+mzpCu
- 7h/UH/LAVT2qaFSx9NCFbFYrBQ==
-X-Google-Smtp-Source: ABdhPJy3gE2ISmv01osXj4gJcSSZBOT11G0v2rT10ArSkjbr6KN8M45J1nKytSHdp9+Wz1DbgneOGQ==
-X-Received: by 2002:a1c:b104:: with SMTP id a4mr3704455wmf.138.1606923518877; 
- Wed, 02 Dec 2020 07:38:38 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c190sm2604311wme.19.2020.12.02.07.38.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Dec 2020 07:38:37 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6A36F1FF7E;
- Wed,  2 Dec 2020 15:38:36 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] configure: add --without-default-features
-Date: Wed,  2 Dec 2020 15:38:27 +0000
-Message-Id: <20201202153827.17446-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FPyZK3RPJYro0MJgaw/JY+B2dR3rUNo58dZwN3bhadE=;
+ b=EVbYUIE73ks9seiKdPQrWVBiFvFE8NcIxwikzg/bgpv7XyYZCzFGG/Xoa0s9VeWtBS
+ I5lVdTZauOKUCV00kk/euDK2sOdf7wqcKuyVJbdHOmNF52Izys/9eNQkopKJYNBf+Ek5
+ Xk1FDjZTylubxoIHlXIeC3fgQ7rTFkZKFAYGyZtjkFjBCeZvBdSvPYeNXkT/FtuARQJQ
+ GF/xDzDXDEvVfrryxX37RL5AM4LPXgWNT/JwG4pKkRFPuMlVHNyLV9pyrWH5KoR7PHzm
+ KZhCzTYgDwtKBKptcrk1cs8oyRbqpJOMTyUe0KttOT9Gr6s4zGFWWGbXPx3RMZpIy56o
+ 6sKA==
+X-Gm-Message-State: AOAM531CemxSPGU11dVN6jAr4wKTnmI0QBU/nll0c0tw4d9TdKKDrx2U
+ COCwPF3o2CQa5/1tzIX/oARQpVlr3ZHLxiXUR3M=
+X-Google-Smtp-Source: ABdhPJyHVweoE6cdHPnM6pze3MF5rEKtHux8bN3HhRDDjGYnKOwK2BOtq1AJM5iuyyNrk4lj938/rhxnR8pf3qP74AM=
+X-Received: by 2002:a17:906:385b:: with SMTP id
+ w27mr369073ejc.109.1606924166822; 
+ Wed, 02 Dec 2020 07:49:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+References: <20201202152611.677753-1-stefanha@redhat.com>
+ <20201202152611.677753-2-stefanha@redhat.com>
+In-Reply-To: <20201202152611.677753-2-stefanha@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 2 Dec 2020 19:49:15 +0400
+Message-ID: <CAJ+F1CLx=YdYPO8kS8ATpXCuwZ0cUS0rvbb6UcOCpKB_tgNBDA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] contrib/vhost-user-blk: avoid g_return_val_if()
+ input validation
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000002501be05b57d3030"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,303 +77,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Coiby Xu <Coiby.Xu@gmail.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By default QEMU enables a lot of features if it can probe and find the
-support libraries. It also enables a bunch of features by default.
-This patch adds the ability to build --without-default-features which
-can be paired with a --without-default-devices for a barely functional
-build.
+--0000000000002501be05b57d3030
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The main use case for this is testing our build assumptions and for
-minimising the amount of stuff you build if you just want to test a
-particular feature on your relatively slow emulated test system.
+On Wed, Dec 2, 2020 at 7:26 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Do not validate input with g_return_val_if(). This API is intended for
+> checking programming errors and is compiled out with -DG_DISABLE_CHECKS.
+>
+> Use an explicit if statement for input validation so it cannot
+> accidentally be compiled out.
+>
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 ---
- configure | 161 ++++++++++++++++++++++++++++++------------------------
- 1 file changed, 89 insertions(+), 72 deletions(-)
+>  contrib/vhost-user-blk/vhost-user-blk.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/contrib/vhost-user-blk/vhost-user-blk.c
+> b/contrib/vhost-user-blk/vhost-user-blk.c
+> index dc981bf945..60e3c9ed37 100644
+> --- a/contrib/vhost-user-blk/vhost-user-blk.c
+> +++ b/contrib/vhost-user-blk/vhost-user-blk.c
+> @@ -404,7 +404,11 @@ vub_get_config(VuDev *vu_dev, uint8_t *config,
+> uint32_t len)
+>      VugDev *gdev;
+>      VubDev *vdev_blk;
+>
+> -    g_return_val_if_fail(len <=3D sizeof(struct virtio_blk_config), -1);
+> +    if (len > sizeof(struct virtio_blk_config)) {
+> +        fprintf(stderr, "Invalid get_config len %u, expected <=3D %zu\n"=
+,
+> +                len, sizeof(struct virtio_blk_config));
+> +        return -1;
+> +    }
+>
+>      gdev =3D container_of(vu_dev, VugDev, parent);
+>      vdev_blk =3D container_of(gdev, VubDev, parent);
+> --
+> 2.28.0
+>
+>
 
-diff --git a/configure b/configure
-index 18c26e0389..23fa6f9421 100755
---- a/configure
-+++ b/configure
-@@ -291,10 +291,24 @@ unset target_list_exclude
- #
- # Always add --enable-foo and --disable-foo command line args.
- # Distributions want to ensure that several features are compiled in, and it
--# is impossible without a --enable-foo that exits if a feature is not found.
-+# is impossible without a --enable-foo that exits if a feature is not
-+# found.
- 
--brlapi=""
--curl=""
-+default_feature=""
-+default_yes_feature="yes"
-+# parse CC options second
-+for opt do
-+  optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
-+  case "$opt" in
-+      --without-default-features)
-+          default_feature="no"
-+          default_yes_feature="no"
-+  ;;
-+  esac
-+done
-+
-+brlapi="$default_feature"
-+curl="$default_feature"
- iconv="auto"
- curses="auto"
- docs="auto"
-@@ -303,59 +317,59 @@ netmap="no"
- sdl="auto"
- sdl_image="auto"
- virtiofsd="auto"
--virtfs=""
-+virtfs="$default_feature"
- libudev="auto"
- mpath="auto"
- vnc="enabled"
- sparse="auto"
--vde=""
-+vde="$default_feature"
- vnc_sasl="auto"
- vnc_jpeg="auto"
- vnc_png="auto"
- xkbcommon="auto"
--xen=""
--xen_ctrl_version=""
-+xen="$default_feature"
-+xen_ctrl_version="$default_feature"
- xen_pci_passthrough="auto"
--linux_aio=""
--linux_io_uring=""
--cap_ng=""
--attr=""
--libattr=""
--xfs=""
-+linux_aio="$default_feature"
-+linux_io_uring="$default_feature"
-+cap_ng="$default_feature"
-+attr="$default_feature"
-+libattr="$default_feature"
-+xfs="$default_feature"
- tcg="enabled"
--membarrier=""
--vhost_net=""
--vhost_crypto=""
--vhost_scsi=""
--vhost_vsock=""
-+membarrier="$default_feature"
-+vhost_net="$default_feature"
-+vhost_crypto="$default_feature"
-+vhost_scsi="$default_feature"
-+vhost_vsock="$default_feature"
- vhost_user="no"
- vhost_user_blk_server="auto"
--vhost_user_fs=""
-+vhost_user_fs="$default_feature"
- kvm="auto"
- hax="auto"
- hvf="auto"
- whpx="auto"
--rdma=""
--pvrdma=""
-+rdma="$default_feature"
-+pvrdma="$default_feature"
- gprof="no"
- debug_tcg="no"
- debug="no"
- sanitizers="no"
- tsan="no"
--fortify_source=""
-+fortify_source="$default_feature"
- strip_opt="yes"
- tcg_interpreter="no"
- bigendian="no"
- mingw32="no"
- gcov="no"
--EXESUF=""
-+EXESUF="$default_feature"
- HOST_DSOSUF=".so"
- modules="no"
- module_upgrades="no"
- prefix="/usr/local"
- qemu_suffix="qemu"
- slirp="auto"
--oss_lib=""
-+oss_lib="$default_feature"
- bsd="no"
- linux="no"
- solaris="no"
-@@ -370,81 +384,81 @@ pie=""
- qom_cast_debug="yes"
- trace_backends="log"
- trace_file="trace"
--spice=""
--rbd=""
--smartcard=""
-+spice="$default_feature"
-+rbd="$default_feature"
-+smartcard="$default_feature"
- u2f="auto"
--libusb=""
--usb_redir=""
--opengl=""
-+libusb="$default_feature"
-+usb_redir="$default_feature"
-+opengl="$default_feature"
- opengl_dmabuf="no"
- cpuid_h="no"
--avx2_opt=""
-+avx2_opt="$default_feature"
- capstone="auto"
--lzo=""
--snappy=""
--bzip2=""
--lzfse=""
--zstd=""
--guest_agent=""
-+lzo="$default_feature"
-+snappy="$default_feature"
-+bzip2="$default_feature"
-+lzfse="$default_feature"
-+zstd="$default_feature"
-+guest_agent="$default_feature"
- guest_agent_with_vss="no"
- guest_agent_ntddscsi="no"
--guest_agent_msi=""
--vss_win32_sdk=""
-+guest_agent_msi="$default_feature"
-+vss_win32_sdk="$default_feature"
- win_sdk="no"
--want_tools=""
--libiscsi=""
--libnfs=""
-+want_tools="$default_feature"
-+libiscsi="$default_feature"
-+libnfs="$default_feature"
- coroutine=""
--coroutine_pool=""
-+coroutine_pool="$default_feature"
- debug_stack_usage="no"
- crypto_afalg="no"
--seccomp=""
--glusterfs=""
-+seccomp="$default_feature"
-+glusterfs="$default_feature"
- glusterfs_xlator_opt="no"
- glusterfs_discard="no"
- glusterfs_fallocate="no"
- glusterfs_zerofill="no"
- glusterfs_ftruncate_has_stat="no"
- glusterfs_iocb_has_stat="no"
--gtk=""
-+gtk="$default_feature"
- gtk_gl="no"
- tls_priority="NORMAL"
--gnutls=""
--nettle=""
-+gnutls="$default_feature"
-+nettle="$default_feature"
- nettle_xts="no"
--gcrypt=""
-+gcrypt="$default_feature"
- gcrypt_hmac="no"
- gcrypt_xts="no"
- qemu_private_xts="yes"
--auth_pam=""
--vte=""
--virglrenderer=""
--tpm=""
--libssh=""
--live_block_migration="yes"
--numa=""
-+auth_pam="$default_feature"
-+vte="$default_feature"
-+virglrenderer="$default_feature"
-+tpm="$default_feature"
-+libssh="$default_feature"
-+live_block_migration="$default_yes_feature"
-+numa="$default_feature"
- tcmalloc="no"
- jemalloc="no"
--replication="yes"
--bochs="yes"
--cloop="yes"
--dmg="yes"
--qcow1="yes"
--vdi="yes"
--vvfat="yes"
--qed="yes"
--parallels="yes"
-+replication="$default_yes_feature"
-+bochs="$default_yes_feature"
-+cloop="$default_yes_feature"
-+dmg="$default_yes_feature"
-+qcow1="$default_yes_feature"
-+vdi="$default_yes_feature"
-+vvfat="$default_yes_feature"
-+qed="$default_yes_feature"
-+parallels="$default_yes_feature"
- sheepdog="no"
--libxml2=""
-+libxml2="$default_feature"
- debug_mutex="no"
--libpmem=""
-+libpmem="$default_feature"
- default_devices="yes"
- plugins="no"
- fuzzing="no"
- rng_none="no"
--secret_keyring=""
--libdaxctl=""
-+secret_keyring="$default_feature"
-+libdaxctl="$default_feature"
- meson=""
- ninja=""
- skip_meson=no
-@@ -453,7 +467,7 @@ gettext=""
- bogus_os="no"
- malloc_trim="auto"
- 
--# parse CC options first
-+# parse CC options second
- for opt do
-   optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
-   case "$opt" in
-@@ -796,7 +810,7 @@ Linux)
-   audio_possible_drivers="oss alsa sdl pa"
-   linux="yes"
-   linux_user="yes"
--  vhost_user="yes"
-+  vhost_user="$default_yes_feature"
- ;;
- esac
- 
-@@ -940,6 +954,8 @@ for opt do
-   ;;
-   --without-default-devices) default_devices="no"
-   ;;
-+  --without-default-features) # processed above
-+  ;;
-   --enable-gprof) gprof="yes"
-   ;;
-   --enable-gcov) gcov="yes"
-@@ -1737,7 +1753,8 @@ Advanced options (experts only):
-   --gdb=GDB-path           gdb to use for gdbstub tests [$gdb_bin]
- 
- Optional features, enabled with --enable-FEATURE and
--disabled with --disable-FEATURE, default is enabled if available:
-+disabled with --disable-FEATURE, default is enabled if available
-+(unless built with --without-default-features):
- 
-   system          all system emulation targets
-   user            supported user emulation targets
--- 
-2.20.1
+--=20
+Marc-Andr=C3=A9 Lureau
 
+--0000000000002501be05b57d3030
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 2, 2020 at 7:26 PM Stefan=
+ Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com">stefanha@redhat.com</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Do =
+not validate input with g_return_val_if(). This API is intended for<br>
+checking programming errors and is compiled out with -DG_DISABLE_CHECKS.<br=
+>
+<br>
+Use an explicit if statement for input validation so it cannot<br>
+accidentally be compiled out.<br>
+<br>
+Suggested-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" ta=
+rget=3D"_blank">armbru@redhat.com</a>&gt;<br>
+Signed-off-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" t=
+arget=3D"_blank">stefanha@redhat.com</a>&gt;<br></blockquote><div><br></div=
+><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.l=
+ureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div>=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0contrib/vhost-user-blk/vhost-user-blk.c | 6 +++++-<br>
+=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-b=
+lk/vhost-user-blk.c<br>
+index dc981bf945..60e3c9ed37 100644<br>
+--- a/contrib/vhost-user-blk/vhost-user-blk.c<br>
++++ b/contrib/vhost-user-blk/vhost-user-blk.c<br>
+@@ -404,7 +404,11 @@ vub_get_config(VuDev *vu_dev, uint8_t *config, uint32_=
+t len)<br>
+=C2=A0 =C2=A0 =C2=A0VugDev *gdev;<br>
+=C2=A0 =C2=A0 =C2=A0VubDev *vdev_blk;<br>
+<br>
+-=C2=A0 =C2=A0 g_return_val_if_fail(len &lt;=3D sizeof(struct virtio_blk_co=
+nfig), -1);<br>
++=C2=A0 =C2=A0 if (len &gt; sizeof(struct virtio_blk_config)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Invalid get_config len %=
+u, expected &lt;=3D %zu\n&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len, sizeof(struct=
+ virtio_blk_config));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0gdev =3D container_of(vu_dev, VugDev, parent);<br>
+=C2=A0 =C2=A0 =C2=A0vdev_blk =3D container_of(gdev, VubDev, parent);<br>
+-- <br>
+2.28.0<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000002501be05b57d3030--
 
