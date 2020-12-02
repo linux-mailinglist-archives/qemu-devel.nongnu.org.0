@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59972CB85D
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:17:22 +0100 (CET)
-Received: from localhost ([::1]:38254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5A42CB813
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:07:01 +0100 (CET)
+Received: from localhost ([::1]:60490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkOGH-0003R7-OV
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:17:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40860)
+	id 1kkO6G-0005Sn-GG
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:07:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNDM-0003rb-4U
+ id 1kkNDM-0003st-Kr
  for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48082)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCa-0003pm-Q1
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:15 -0500
+ id 1kkNCb-0003pt-00
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606896567;
+ s=mimecast20190719; t=1606896568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eg1UCSP6TBFRjWh8o362r/gExEhG9FGt2zB8v+faRZc=;
- b=I6dNuMuYpTi7QVXKWxSOFChgh6ptpOrYfEppjA9GzMoFPdmm4+6bAQ9HLN3U+cbsWPXRad
- MIAIQBOtfgr/X+hKMVfiiP9MgZouZDwpE6GOGUfKS5ZbFimxzws7uLGgh3T5c9Ab+4maZC
- gO+55awsHkzRGXHa5l/mqmsxEtZdhAg=
+ bh=eCs0riI9kHM//7BOaTOgwbI1V82e+fKC6hbIAxErEfY=;
+ b=PQgVSZWo7fbzTSDJuCk6jTwLMhoabLaWj566FhRFa8UnPxLT9FV12jj4Y6JTbmGp8VnGh2
+ 5L3l6ceRPcc0aTa7EfFQXThKTu+aPQrS3+789Q9JGLpxRBeHETzValAJ2ZwmbEBDEhIY+g
+ j3Vjeu7BSwWtgiSQ2MwfobdrW05i+5k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-rcxgJCJLPWa-guP6gj-y7A-1; Wed, 02 Dec 2020 03:09:26 -0500
-X-MC-Unique: rcxgJCJLPWa-guP6gj-y7A-1
+ us-mta-304-fo-J25G4OBe92JwHJ0v_BQ-1; Wed, 02 Dec 2020 03:09:26 -0500
+X-MC-Unique: fo-J25G4OBe92JwHJ0v_BQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65F0D185E489
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C32648558E7
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:25 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B1515C1B4
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 87E875C1B4
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:25 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 095/113] scripts: kernel-doc: add support for typedef enum
-Date: Wed,  2 Dec 2020 03:08:31 -0500
-Message-Id: <20201202080849.4125477-96-pbonzini@redhat.com>
+Subject: [PULL 096/113] Revert "scripts/kerneldoc: For Sphinx 3 use c:macro
+ for macros with arguments"
+Date: Wed,  2 Dec 2020 03:08:32 -0500
+Message-Id: <20201202080849.4125477-97-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,63 +83,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+This reverts commit 92bb29f9b2c3d4a98eef5f0db935d4be291eec72.
+We will replace the commit with the fix from Linux.
 
-The PHY kernel-doc markup has gained support for documenting
-a typedef enum.
-
-However, right now the parser was not prepared for it.
-
-So, add support for parsing it.
-
-Fixes: 4069a572d423 ("net: phy: Document core PHY structures")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-14-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-15-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ scripts/kernel-doc | 18 +-----------------
+ 1 file changed, 1 insertion(+), 17 deletions(-)
 
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index c4c5640ded..073f72c7da 100755
+index 073f72c7da..cb603532ed 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -1295,14 +1295,22 @@ sub show_warnings($$) {
- sub dump_enum($$) {
-     my $x = shift;
-     my $file = shift;
-+    my $members;
-+
- 
-     $x =~ s@/\*.*?\*/@@gos;	# strip comments.
-     # strip #define macros inside enums
-     $x =~ s@#\s*((define|ifdef)\s+|endif)[^;]*;@@gos;
- 
--    if ($x =~ /enum\s+(\w*)\s*\{(.*)\}/) {
-+    if ($x =~ /typedef\s+enum\s*\{(.*)\}\s*(\w*)\s*;/) {
-+	$declaration_name = $2;
-+	$members = $1;
-+    } elsif ($x =~ /enum\s+(\w*)\s*\{(.*)\}/) {
- 	$declaration_name = $1;
--	my $members = $2;
-+	$members = $2;
-+    }
-+
-+    if ($declaration_name) {
- 	my %_members;
- 
- 	$members =~ s/\s+$//;
-@@ -1337,8 +1345,7 @@ sub dump_enum($$) {
- 			    'sections' => \%sections,
- 			    'purpose' => $declaration_purpose
- 			   });
--    }
--    else {
-+    } else {
- 	print STDERR "${file}:$.: error: Cannot parse enum!\n";
- 	++$errors;
+@@ -860,23 +860,7 @@ sub output_function_rst(%) {
+ 	output_highlight_rst($args{'purpose'});
+ 	$start = "\n\n**Syntax**\n\n  ``";
+     } else {
+-        if ((split(/\./, $sphinx_version))[0] >= 3) {
+-            # Sphinx 3 and later distinguish macros and functions and
+-            # complain if you use c:function with something that's not
+-            # syntactically valid as a function declaration.
+-            # We assume that anything with a return type is a function
+-            # and anything without is a macro.
+-            if ($args{'functiontype'} ne "") {
+-                print ".. c:function:: ";
+-            } else {
+-                print ".. c:macro:: ";
+-            }
+-        } else {
+-            # Older Sphinx don't support documenting macros that take
+-            # arguments with c:macro, and don't complain about the use
+-            # of c:function for this.
+-            print ".. c:function:: ";
+-        }
++	print ".. c:function:: ";
      }
+     if ($args{'functiontype'} ne "") {
+ 	$start .= $args{'functiontype'} . " " . $args{'function'} . " (";
 -- 
 2.26.2
 
