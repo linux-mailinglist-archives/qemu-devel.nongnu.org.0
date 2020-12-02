@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BCE72CB746
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:34:28 +0100 (CET)
-Received: from localhost ([::1]:47452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 498FE2CB751
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 09:36:47 +0100 (CET)
+Received: from localhost ([::1]:55936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkNal-0005nz-A9
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:34:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39940)
+	id 1kkNd0-0000pS-Al
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 03:36:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCI-0002pd-Mj
+ id 1kkNCI-0002pu-VH
  for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46597)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCB-0003eK-KH
+ id 1kkNCB-0003eQ-Mm
  for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:09:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606896542;
+ s=mimecast20190719; t=1606896543;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9m2aTFzJ2ivBro39qwIClGgVjFJ3N9HXB+CInwnTWYE=;
- b=cn4fl6bOnDUMGmfWyg8G8+vEC7dCdwyePjCsagmtBZYI6UJ3po+NVkxMS09/UCi+HZThG4
- 1a6vAz3jSPrPt4RP24OKDqsJDA+7r4mOzZ26I9cGtyC+WKWTtrFPLiKguEbLQ3ft5lFeTg
- E6WNXRY0HxpALWUKih5GAzHCo/na7NY=
+ bh=TJLCl0xz0GsndYswkP7ps4+iWH/R5HlUojS29AhufSQ=;
+ b=KVtGzJM8Ea1VoTsPBGihhMXjh3h8Q0o2hUdFAd6M2lxCWdiAK7/WxL72oUucBJ9fFDovNh
+ 4yVN2FURPI4tEZ9MaiuQozDqOrqDFtQkmzOhF6QqPnwZ8UzgEJNoMYi0QuRihI35T1cfmU
+ snsbmYhRjRR2OeBMAdtZeUQ0CYi0V5A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-s_DSBUkTNOG6t6FSsCDtEA-1; Wed, 02 Dec 2020 03:09:00 -0500
-X-MC-Unique: s_DSBUkTNOG6t6FSsCDtEA-1
+ us-mta-219-37r4pgE3PzWw33yvEieJMQ-1; Wed, 02 Dec 2020 03:09:01 -0500
+X-MC-Unique: 37r4pgE3PzWw33yvEieJMQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03B7980364D
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FE94185E489
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:00 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C67FB5C1B4
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:08:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E7B35C1B4
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:00 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 026/113] m68k: remove bios_name
-Date: Wed,  2 Dec 2020 03:07:22 -0500
-Message-Id: <20201202080849.4125477-27-pbonzini@redhat.com>
+Subject: [PULL 027/113] mips: remove bios_name
+Date: Wed,  2 Dec 2020 03:07:23 -0500
+Message-Id: <20201202080849.4125477-28-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -82,99 +82,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Acked-by: Laurent Vivier <laurent@vivier.eu>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201026143028.3034018-8-pbonzini@redhat.com>
+Message-Id: <20201026143028.3034018-9-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/m68k/mcf5208.c   | 10 +++++-----
- hw/m68k/next-cube.c |  4 +---
- hw/m68k/q800.c      |  4 +---
- 3 files changed, 7 insertions(+), 11 deletions(-)
+ hw/mips/fuloong2e.c | 6 +++---
+ hw/mips/jazz.c      | 6 +++---
+ hw/mips/malta.c     | 6 +++---
+ hw/mips/mipssim.c   | 6 +++---
+ 4 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-index d310a98e7b..7c8ca5ddf6 100644
---- a/hw/m68k/mcf5208.c
-+++ b/hw/m68k/mcf5208.c
-@@ -301,17 +301,17 @@ static void mcf5208evb_init(MachineState *machine)
-     /* 0xfc0a8000 SDRAM controller.  */
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index a9e0c2f8d3..25b679011f 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -338,7 +338,7 @@ static void mips_fuloong2e_init(MachineState *machine)
+         write_bootloader(env, memory_region_get_ram_ptr(bios), kernel_entry);
+     } else {
+         filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
+-                                  bios_name ?: FULOONG_BIOSNAME);
++                                  machine->firmware ?: FULOONG_BIOSNAME);
+         if (filename) {
+             bios_size = load_image_targphys(filename, 0x1fc00000LL,
+                                             BIOS_SIZE);
+@@ -348,8 +348,8 @@ static void mips_fuloong2e_init(MachineState *machine)
+         }
  
-     /* Load firmware */
--    if (bios_name) {
-+    if (machine->firmware) {
-         char *fn;
-         uint8_t *ptr;
- 
--        fn = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-+        fn = qemu_find_file(QEMU_FILE_TYPE_BIOS, machine->firmware);
-         if (!fn) {
--            error_report("Could not find ROM image '%s'", bios_name);
-+            error_report("Could not find ROM image '%s'", machine->firmware);
+         if ((bios_size < 0 || bios_size > BIOS_SIZE) &&
+-            bios_name && !qtest_enabled()) {
+-            error_report("Could not load MIPS bios '%s'", bios_name);
++            machine->firmware && !qtest_enabled()) {
++            error_report("Could not load MIPS bios '%s'", machine->firmware);
              exit(1);
          }
-         if (load_image_targphys(fn, 0x0, ROM_SIZE) < 8) {
--            error_report("Could not load ROM image '%s'", bios_name);
-+            error_report("Could not load ROM image '%s'", machine->firmware);
-             exit(1);
+     }
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 71448f72ac..aa95c6a3d3 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -218,7 +218,7 @@ static void mips_jazz_init(MachineState *machine,
+     memory_region_add_subregion(address_space, 0xfff00000LL, bios2);
+ 
+     /* load the BIOS image. */
+-    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name ?: BIOS_FILENAME);
++    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, machine->firmware ?: BIOS_FILENAME);
+     if (filename) {
+         bios_size = load_image_targphys(filename, 0xfff00000LL,
+                                         MAGNUM_BIOS_SIZE);
+@@ -227,8 +227,8 @@ static void mips_jazz_init(MachineState *machine,
+         bios_size = -1;
+     }
+     if ((bios_size < 0 || bios_size > MAGNUM_BIOS_SIZE)
+-        && bios_name && !qtest_enabled()) {
+-        error_report("Could not load MIPS bios '%s'", bios_name);
++        && machine->firmware && !qtest_enabled()) {
++        error_report("Could not load MIPS bios '%s'", machine->firmware);
+         exit(1);
+     }
+ 
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 9d1a3b50b7..ef369945d1 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -1333,7 +1333,7 @@ void mips_malta_init(MachineState *machine)
+         if (!dinfo) {
+             /* Load a BIOS image. */
+             filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
+-                                      bios_name ?: BIOS_FILENAME);
++                                      machine->firmware ?: BIOS_FILENAME);
+             if (filename) {
+                 bios_size = load_image_targphys(filename, FLASH_ADDRESS,
+                                                 BIOS_SIZE);
+@@ -1342,8 +1342,8 @@ void mips_malta_init(MachineState *machine)
+                 bios_size = -1;
+             }
+             if ((bios_size < 0 || bios_size > BIOS_SIZE) &&
+-                bios_name && !qtest_enabled()) {
+-                error_report("Could not load MIPS bios '%s'", bios_name);
++                machine->firmware && !qtest_enabled()) {
++                error_report("Could not load MIPS bios '%s'", machine->firmware);
+                 exit(1);
+             }
          }
-         g_free(fn);
-@@ -323,7 +323,7 @@ static void mcf5208evb_init(MachineState *machine)
- 
-     /* Load kernel.  */
-     if (!kernel_filename) {
--        if (qtest_enabled() || bios_name) {
-+        if (qtest_enabled() || machine->firmware) {
-             return;
-         }
-         error_report("Kernel image must be specified");
-diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-index e7045980b7..37bc35dfa4 100644
---- a/hw/m68k/next-cube.c
-+++ b/hw/m68k/next-cube.c
-@@ -868,6 +868,7 @@ static void next_cube_init(MachineState *machine)
-     MemoryRegion *bmapm1 = g_new(MemoryRegion, 1);
-     MemoryRegion *bmapm2 = g_new(MemoryRegion, 1);
-     MemoryRegion *sysmem = get_system_memory();
-+    const char *bios_name = machine->firmware ?: ROM_FILE;
-     NeXTState *ns = NEXT_MACHINE(machine);
-     DeviceState *dev;
- 
-@@ -924,9 +925,6 @@ static void next_cube_init(MachineState *machine)
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0x0200e000);
- 
-     /* Load ROM here */
--    if (bios_name == NULL) {
--        bios_name = ROM_FILE;
--    }
-     /* still not sure if the rom should also be mapped at 0x0*/
-     memory_region_init_rom(rom, NULL, "next.rom", 0x20000, &error_fatal);
-     memory_region_add_subregion(sysmem, 0x01000000, rom);
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index ce4b47c3e3..6ebcddcfb2 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -167,6 +167,7 @@ static void q800_init(MachineState *machine)
-     const char *kernel_filename = machine->kernel_filename;
-     const char *initrd_filename = machine->initrd_filename;
-     const char *kernel_cmdline = machine->kernel_cmdline;
-+    const char *bios_name = machine->firmware ?: MACROM_FILENAME;
-     hwaddr parameters_base;
-     CPUState *cs;
-     DeviceState *dev;
-@@ -400,9 +401,6 @@ static void q800_init(MachineState *machine)
-         rom = g_malloc(sizeof(*rom));
-         memory_region_init_rom(rom, NULL, "m68k_mac.rom", MACROM_SIZE,
-                                &error_abort);
--        if (bios_name == NULL) {
--            bios_name = MACROM_FILENAME;
--        }
-         filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-         memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
- 
+diff --git a/hw/mips/mipssim.c b/hw/mips/mipssim.c
+index aaa62a0f4b..cc9b0934b3 100644
+--- a/hw/mips/mipssim.c
++++ b/hw/mips/mipssim.c
+@@ -177,7 +177,7 @@ mips_mipssim_init(MachineState *machine)
+     /* Map the BIOS / boot exception handler. */
+     memory_region_add_subregion(address_space_mem, 0x1fc00000LL, bios);
+     /* Load a BIOS / boot exception handler image. */
+-    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name ?: BIOS_FILENAME);
++    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, machine->firmware ?: BIOS_FILENAME);
+     if (filename) {
+         bios_size = load_image_targphys(filename, 0x1fc00000LL, BIOS_SIZE);
+         g_free(filename);
+@@ -185,9 +185,9 @@ mips_mipssim_init(MachineState *machine)
+         bios_size = -1;
+     }
+     if ((bios_size < 0 || bios_size > BIOS_SIZE) &&
+-        bios_name && !qtest_enabled()) {
++        machine->firmware && !qtest_enabled()) {
+         /* Bail out if we have neither a kernel image nor boot vector code. */
+-        error_report("Could not load MIPS bios '%s'", bios_name);
++        error_report("Could not load MIPS bios '%s'", machine->firmware);
+         exit(1);
+     } else {
+         /* We have a boot vector start address. */
 -- 
 2.26.2
 
