@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE632CCA91
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 00:33:41 +0100 (CET)
-Received: from localhost ([::1]:43514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5E62CCA93
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 00:41:39 +0100 (CET)
+Received: from localhost ([::1]:51256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkbcy-0005rM-MD
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 18:33:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37796)
+	id 1kkbkg-0001QB-8n
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 18:41:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kkbbC-0004pF-B4; Wed, 02 Dec 2020 18:31:50 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:34250 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kkbb9-0005v6-VV; Wed, 02 Dec 2020 18:31:50 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 3DD6D41395;
- Wed,  2 Dec 2020 23:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1606951901;
- x=1608766302; bh=AmxaquwGD9FzSDKfsZ/KYeRRS4+wNGzeLqORBNEhud8=; b=
- YSqpMvCQTN7gdHevPJwXN1j8jUwVOQ7zpBGq+sHPx9ysHT+af32lkFBs4KDrZq3r
- eerjPrxbQxUAnp8c+T1TIy0izn4Z5n7OzdjqmN9tSgRvy7UJDt0DEsBkCXop9MNr
- 2Dc744PtJXS2GynFNZG5Kcy3A8zuQjXKmBC5igBvfoE=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NU9tQu41fgOz; Thu,  3 Dec 2020 02:31:41 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id AE6974131C;
- Thu,  3 Dec 2020 02:31:41 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 3 Dec
- 2020 02:31:41 +0300
-Date: Thu, 3 Dec 2020 02:32:00 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v3 01/10] hvf: Add hypervisor entitlement to output
- binaries
-Message-ID: <20201202233200.GA34964@SPB-NB-133.local>
-References: <20201202190408.2041-1-agraf@csgraf.de>
- <20201202190408.2041-2-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kkbjB-0000TP-Ry
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 18:40:05 -0500
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:44471)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kkbj7-0006fH-G0
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 18:40:05 -0500
+Received: by mail-il1-x141.google.com with SMTP id r17so211785ilo.11
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 15:40:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HCQoeTWvYO1I+hmnZvpQ64CnzFuDGQDDShCzJqBqbQs=;
+ b=DXlaxeIQ2Pgv2Fi8s/X+FwxC8EyTuV/u7zX4jZ0pGHpW0x0PNzRPTQa2VSXxfkbFlJ
+ 5l8sRkqhJBKv3p3u4LLRSVjFmxo3tCi1NUCiYqIWF+YThuhCSggjyzrbY9hbfq4xnxyQ
+ jeNoB72DUyGyqqzGewdbcCAkWNBy7deohnzq+WRgtz6QzN+g3Njf27LDR5jvfL7aeVS0
+ DIvf0BJ5cyrlU9tO/8CIrsgFo5hTgUb6D+50mOSBt+tZ5UIhmhhycLIy+0sGMCsPRtSP
+ ynYVCOnp+efwCxVTt0IxqNHxOPxHwhM9AfITYp+2t2O+ykDLTMljbI2vgxv3jx84xW6X
+ CbGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HCQoeTWvYO1I+hmnZvpQ64CnzFuDGQDDShCzJqBqbQs=;
+ b=nE8Hfrc9lgbnkVecZ6GHTJUlmDSwuP04Vh5ErZO8Ut904sTcf6ZjdgBRANe8CTt1xG
+ L2RLCquNk5P1GJWEaWuOMQNLIap8mCCdMf4aRPlbFti56+iBdv/dIFcO+SzWkzyn76+n
+ aoH+oJ4EssiHSPZGH2m8ymswJOVM5kgNPsUZ7E5JzSbLSawv819ouwdmXmUlKFt6Bvh/
+ eFuwZYDCIXO75ZS98vSFf8hNynCy7fxvhaYXddUmQRPJ7sVOK95vltXW1uXVul19aBFl
+ l7PocB3s+4aDaD4uLlOyhYIm3kKnDT3N4PneZEPbxxkBzfw1BvkGbooPFeVd4wd2l/j0
+ 9U/Q==
+X-Gm-Message-State: AOAM532ky9gCYbnf0tDYlVeWU+EX9R/pD08ItWT5m/RnsxU1TfbBaX2h
+ tFDOF0ikYdMPJ90ZPgg3uSv5/uDhDdtvXvM9aB2pow==
+X-Google-Smtp-Source: ABdhPJzkbbVfph7u1fcO5z7HgfrWSOmTzs4Ql9kfzpHsyXjeihiARxtJxY25fSxDmwwIb3Ub/NIxJQLa1e/o8n0p7fg=
+X-Received: by 2002:a05:6e02:f86:: with SMTP id v6mr526145ilo.56.1606952399819; 
+ Wed, 02 Dec 2020 15:39:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20201202190408.2041-2-agraf@csgraf.de>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAEkmjvXGccGs2QhaiLFupTDWcnp4O+qez-uj8QdbRG13UfCy2Q@mail.gmail.com>
+ <2dc974cc-abe2-d034-1720-d5a2651a9042@csgraf.de>
+ <CAEkmjvV-XPmBCGsOnBhZ20t6D+vbp+7pOUpDeMJL3dKAjZvErQ@mail.gmail.com>
+ <658b1719-4635-edab-f3e2-6a9ac0bc01a1@csgraf.de>
+ <CAEkmjvVYhmWY683Y2Q+Ei-_r-1avjbuyScPSf7dWvJTUH+=sJg@mail.gmail.com>
+In-Reply-To: <CAEkmjvVYhmWY683Y2Q+Ei-_r-1avjbuyScPSf7dWvJTUH+=sJg@mail.gmail.com>
+From: Peter Collingbourne <pcc@google.com>
+Date: Wed, 2 Dec 2020 15:39:48 -0800
+Message-ID: <CAMn1gO64pXt9F8BcsAugOLhrzr6jfjsayjYdwSAv+gOLo4McKA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] hvf: arm: Properly sync guest time on migration
+To: Frank Yang <lfy@google.com>
+Cc: Alexander Graf <agraf@csgraf.de>, Roman Bolshakov <r.bolshakov@yadro.com>, 
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, 
+ Cameron Esfahani <dirty@apple.com>, qemu-arm <qemu-arm@nongnu.org>, 
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=pcc@google.com; helo=mail-il1-x141.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,127 +88,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 02, 2020 at 08:03:59PM +0100, Alexander Graf wrote:
-> In macOS 11, QEMU only gets access to Hypervisor.framework if it has the
-> respective entitlement. Add an entitlement template and automatically self
-> sign and apply the entitlement in the build.
-> 
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> 
-> ---
-> 
-> v1 -> v2:
-> 
->   - Make safe to ctrl-C
-> ---
->  accel/hvf/entitlements.plist |  8 ++++++++
->  meson.build                  | 30 ++++++++++++++++++++++++++----
->  scripts/entitlement.sh       | 13 +++++++++++++
->  3 files changed, 47 insertions(+), 4 deletions(-)
->  create mode 100644 accel/hvf/entitlements.plist
->  create mode 100755 scripts/entitlement.sh
-> 
-> diff --git a/accel/hvf/entitlements.plist b/accel/hvf/entitlements.plist
-> new file mode 100644
-> index 0000000000..154f3308ef
-> --- /dev/null
-> +++ b/accel/hvf/entitlements.plist
-> @@ -0,0 +1,8 @@
-> +<?xml version="1.0" encoding="UTF-8"?>
-> +<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-> +<plist version="1.0">
-> +<dict>
-> +    <key>com.apple.security.hypervisor</key>
-> +    <true/>
-> +</dict>
-> +</plist>
-> diff --git a/meson.build b/meson.build
-> index 5062407c70..2a7ff5560c 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1844,9 +1844,14 @@ foreach target : target_dirs
->      }]
->    endif
->    foreach exe: execs
-> -    emulators += {exe['name']:
-> -         executable(exe['name'], exe['sources'],
-> -               install: true,
-> +    exe_name = exe['name']
-> +    exe_sign = 'CONFIG_HVF' in config_target
-> +    if exe_sign
-> +      exe_name += '-unsigned'
-> +    endif
-> +
-> +    emulator = executable(exe_name, exe['sources'],
-> +               install: not exe_sign,
->                 c_args: c_args,
->                 dependencies: arch_deps + deps + exe['dependencies'],
->                 objects: lib.extract_all_objects(recursive: true),
-> @@ -1854,7 +1859,24 @@ foreach target : target_dirs
->                 link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
->                 link_args: link_args,
->                 gui_app: exe['gui'])
-> -    }
-> +
-> +    if exe_sign
-> +      exe_full = meson.current_build_dir() / exe['name']
+On Wed, Dec 2, 2020 at 3:26 PM Frank Yang <lfy@google.com> wrote:
+>
+>
+>
+> On Wed, Dec 2, 2020 at 2:57 PM Alexander Graf <agraf@csgraf.de> wrote:
+>>
+>>
+>> On 02.12.20 23:46, Frank Yang wrote:
+>>
+>>
+>>
+>> On Wed, Dec 2, 2020 at 2:28 PM Alexander Graf <agraf@csgraf.de> wrote:
+>>>
+>>>
+>>> On 02.12.20 23:19, Frank Yang wrote:
+>>>
+>>>
+>>> From downstream: https://android-review.googlesource.com/c/platform/ext=
+ernal/qemu/+/1515002
+>>>
+>>> Based on v3 of Alexander Graf's patches
+>>>
+>>> https://patchew.org/QEMU/20201202190408.2041-1-agraf@csgraf.de
+>>>
+>>> We need to adjust CNTVOFF_EL2 so that time doesnt warp.  Even though we
+>>> can set separate CNTVOFF_EL2 values per vCPU, it just is not worth the
+>>> require effort to do that accurately---with individual values, even if
+>>> they are a tiny bit off it can result in a lockup due to inconsistent
+>>> time differences between vCPUs. So just use a global approximate value
+>>> for now.
+>>>
+>>> Not tested in upstream yet, but Android emulator snapshots work without
+>>> time warp now.
+>>>
+>>> Signed-off-by: Lingfeng Yang <lfy@google.com>
+>>>
+>>>
+>>> If we just always make CNTV start at the same 0 as QEMU_CLOCK_VIRTUAL, =
+we should be able to just recover the offset after migration by looking at =
+QEMU_CLOCK_VIRTUAL to set CNTVOFF, right?
+>>>
+>>> That would end up much easier than this patch I hope.
+>>>
+>>>
+>>
+>> The virtual clock interfaces/implementations in QEMU seem complex to me =
+relative to the fix needed here and they don't seem to compute ticks with m=
+ach_absolute_time() (which in this case we want since we want to compute in=
+ timer ticks instead of having to mess with ns / cycle conversions). I do a=
+gree this patch does seem more complicated on the surface though versus "ju=
+st" setting cntvoff directly to some value. Maybe we should simplify the QE=
+MU_CLOCK_VIRTUAL implementation first to maintain CNTVOFF_EL2/CNTV using ma=
+ch_absolute_time() first?
+>>
+>>
+>> So QEMU_CLOCK_VIRTUAL calls cpu_get_clock() which just adds an offset to=
+ gettimeofday(). This offset is already part of the live migration stream[1=
+]. So if you just configure CNTVOFF_EL2 based on QEMU_CLOCK_VIRTUAL adjuste=
+d by the clock frequency on vcpu init, you should have everything you need.=
+ You can do that on every CPU init even, as the virtual clock will just be =
+0 on start.
+>>
+>> The only thing we need to change then is to move the WFI from a direct c=
+all to mach_absolute_time() to also check the virtual clock instead. I woul=
+d hope that gettimeofday() calls mach_absolute_time() in the background too=
+ to speed it up.
+>>
+> Sounds plausible, but I noticed that we also have cpu_ticks_offset as par=
+t of the migration stream, and I prefer mach_absolute_time() (ticks) instea=
+d of seconds in WFI as well as it makes the calculation more accurate (tick=
+s against ticks instead of conversion between ns and ticks).
+>
+> Should we look at integrating this with cpu_ticks_offset instead?
 
-It's defined but not used.
+Seems plausible to me. As far as I can tell the intent is that
+cpu_get_host_ticks() does not increment while asleep (e.g. on x86 it
+uses RDTSC which as far as I know does not increment while asleep), so
+we could provide an implementation on Mac that calls
+mach_absolute_time().
 
-> +      emulators += {exe['name'] : custom_target(exe['name'],
-> +                   install: true,
-> +                   install_dir: get_option('bindir'),
-> +                   depends: emulator,
-> +                   output: exe['name'],
-> +                   command: [
-> +                     meson.current_source_dir() / 'scripts/entitlement.sh',
-> +                     meson.current_build_dir() / exe['name'] + '-unsigned',
-
-exe_name might be used instead of:
-exe['name'] + '-unsigned'
-
-Thanks,
-Roman
-
-> +                     meson.current_build_dir() / exe['name'],
-> +                     meson.current_source_dir() / 'accel/hvf/entitlements.plist'
-> +                   ])
-> +      }
-> +    else
-> +      emulators += {exe['name']: emulator}
-> +    endif
->  
->      if 'CONFIG_TRACE_SYSTEMTAP' in config_host
->        foreach stp: [
-> diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
-> new file mode 100755
-> index 0000000000..c540fa6435
-> --- /dev/null
-> +++ b/scripts/entitlement.sh
-> @@ -0,0 +1,13 @@
-> +#!/bin/sh -e
-> +#
-> +# Helper script for the build process to apply entitlements
-> +
-> +SRC="$1"
-> +DST="$2"
-> +ENTITLEMENT="$3"
-> +
-> +trap 'rm "$DST.tmp"' exit
-> +cp -af "$SRC" "$DST.tmp"
-> +codesign --entitlements "$ENTITLEMENT" --force -s - "$DST.tmp"
-> +mv "$DST.tmp" "$DST"
-> +trap '' exit
-> -- 
-> 2.24.3 (Apple Git-128)
-> 
+Peter
 
