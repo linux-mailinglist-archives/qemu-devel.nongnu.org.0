@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F382CBA3E
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:14:34 +0100 (CET)
-Received: from localhost ([::1]:48968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE982CBA89
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 11:29:21 +0100 (CET)
+Received: from localhost ([::1]:60284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkP9d-0002JY-9i
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:14:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54394)
+	id 1kkPNw-00034e-Lm
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 05:29:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkO5I-0005Mr-E1
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:06:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23129)
+ id 1kkO7f-0001BY-I4
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:08:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkO5E-0005MI-1I
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:06:00 -0500
+ id 1kkO7d-000670-Ud
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 04:08:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606899955;
+ s=mimecast20190719; t=1606900105;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sRO+rUsIoeZi+lw+V1WkjA81X66K1sk+AJqqNM8gfHM=;
- b=UN5jov4PAEiobWGf6jh3VF5KktzeCkKCWSH/rdav0PQOEl3hfiv/TkGWajBdyGcsRBUKMA
- y5lMPJu/PWdTPXBpFIkbmiIXODBLwve22Udx8SI7DPyJGdm3+oXeh91F0n/9bnwr6Qrroz
- 7jfLNC/6e/wUcNJRaa8KoDVREvNrAn4=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-TtrGbClPNKK9BJN1uNFumg-1; Wed, 02 Dec 2020 04:05:53 -0500
-X-MC-Unique: TtrGbClPNKK9BJN1uNFumg-1
-Received: by mail-ej1-f69.google.com with SMTP id a8so2071367ejc.19
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 01:05:52 -0800 (PST)
+ bh=653BZUSPdfKfV3dAT9AmdUOf4me4uJ33SKlQNnBl2xY=;
+ b=iE572AA0PDPF6CrUlnwCqkFk4QxTFP95AFjWF7q1wbg68o0oA5kI4hkKtd3EOlbT6XaT7B
+ pCsCO9+0lxZWhNb0ulBJL3QACOyRiEn/YWuGP1d9BOitC0tFiLDlTnkPhKy8Y3Sspgd4kO
+ 6Vgb/Jaa553aelN6Q2ByU2/Kl6CXbKw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-25-9fHpjGp-P9-DbSz3-PPkvQ-1; Wed, 02 Dec 2020 04:08:23 -0500
+X-MC-Unique: 9fHpjGp-P9-DbSz3-PPkvQ-1
+Received: by mail-ed1-f70.google.com with SMTP id b13so2128364edy.8
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 01:08:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sRO+rUsIoeZi+lw+V1WkjA81X66K1sk+AJqqNM8gfHM=;
- b=ittz8a/PP09IImE8Dm6svm/yFQ5ktkC/COGm0MZ8o4gZaAGN8Vnex3Mx7K+CHTDrtf
- GOf1zmKdEln4L2O7ofeocDaYe2w8yPa+e9kiNAfAfmYb61fkFXxahp/uWgl9GaSVonvv
- MghHRXMgTdtcSZNO3KaAWl44dlDfSdKmN3GLvJ08mmwnTzyCBii8NVKS8QqbcicO1EOj
- 8xlYG84a4nkSpBEWfTcY7+sIm/YWD9L7Zt/jTlhv4fAsbT7bS5tPIpUBB9fpGTzu5+Ds
- w0XDbNgdCeuvlgyJduz9cmLxIJGdPIwtpdV0KGPtuJooXbczKU41/SFPpLZUrFCWXn7h
- y8ig==
-X-Gm-Message-State: AOAM532qfWmh5a2MJhUzErU5lgKL3a7ETCbudsK2uorB0PDeLvo7nIPe
- fJmE4JeV93/+Gw5PychDU/Pa1+DUeZp4uaTufv4PADtk8c+rJGaoHDOu054mvKhTIcMAMEiCjui
- phiPrNLcDtGg+oHw=
-X-Received: by 2002:a17:906:d28f:: with SMTP id
- ay15mr1311578ejb.327.1606899951840; 
- Wed, 02 Dec 2020 01:05:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy1Ax3zUNmPJr9+3gP+TUiz8iQAsABVBayGcHOZx8LLU+JB7dHDDPbcts9dqa/GNJrB3IKeOg==
-X-Received: by 2002:a17:906:d28f:: with SMTP id
- ay15mr1311563ejb.327.1606899951587; 
- Wed, 02 Dec 2020 01:05:51 -0800 (PST)
+ bh=653BZUSPdfKfV3dAT9AmdUOf4me4uJ33SKlQNnBl2xY=;
+ b=MpVLmMB58u6JWfhSmXJfU44rDWjBtQu3QZo8tGL92wU5bV+RefuK5no2HALX9P1EsT
+ vGNL1jf64892Lv5MHdRbB4pdJfY6JN0I7Oxt6Rj60DRGu86ZNOP48Wltx3fwbxgScJ9U
+ 1Vq6/2iVRys2Mh4s8lIKQXMQGCH8ZS2CvZy6jU2b9ha6sp9ecvkWFFO9TQv14PeLQ/95
+ xwUC7boeCCNoYrzQ4ht7uHp+cYS+B6ZC0mzMnNoUcP6/yTDOdOWSuDhiIKC3w6Sl+i5N
+ srOOvHKraVJyFmGLNJczVOBZXcXovL+Xn/pU3NIVTjkXDQ7a2yK9gAODaTTs92+Z1OzQ
+ 7d1Q==
+X-Gm-Message-State: AOAM532SbIB62GKi/MhTIivZMJCt/tlpzh0C8owiCxxk9+7UA+HR/DeJ
+ GvMNPlkw4By67oCd0rWlYUggMOZom3h80KAPLQTmW4ieDA+jEF//nESV2RnbpJf5cBQYIbVcirE
+ 4518NbMnOBsVbEdo=
+X-Received: by 2002:a50:d888:: with SMTP id p8mr1629945edj.147.1606900102213; 
+ Wed, 02 Dec 2020 01:08:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzt5mTbJgnYTRCvoz8KzdFQikh92caoqylccd9Vagpt1ft2YVI083fssfMWoeSLFKJsvdtohQ==
+X-Received: by 2002:a50:d888:: with SMTP id p8mr1629933edj.147.1606900102041; 
+ Wed, 02 Dec 2020 01:08:22 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id b14sm721309edx.0.2020.12.02.01.05.50
+ by smtp.gmail.com with ESMTPSA id c5sm711624edm.35.2020.12.02.01.08.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Dec 2020 01:05:50 -0800 (PST)
-Subject: Re: [PATCH] docs: set CONFDIR when running sphinx
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20201201183704.299697-1-marcandre.lureau@redhat.com>
+ Wed, 02 Dec 2020 01:08:21 -0800 (PST)
+Subject: Re: [PATCH v2 32/32] scripts: kernel-doc: remove unnecesssary change
+ wrt Linux
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201201103502.4024573-1-pbonzini@redhat.com>
+ <20201201103502.4024573-33-pbonzini@redhat.com>
+ <a826644a-699a-517e-b7d6-deb81df6d878@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <cca70efa-d001-f4d5-f019-5ec55b7a4349@redhat.com>
-Date: Wed, 2 Dec 2020 10:05:50 +0100
+Message-ID: <f8869bdd-d699-8317-19c0-5170616fd6b7@redhat.com>
+Date: Wed, 2 Dec 2020 10:08:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201201183704.299697-1-marcandre.lureau@redhat.com>
+In-Reply-To: <a826644a-699a-517e-b7d6-deb81df6d878@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -102,40 +103,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/12/20 19:37, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 02/12/20 10:03, Philippe Mathieu-Daudé wrote:
+> On 12/1/20 11:35 AM, Paolo Bonzini wrote:
+>> A comment in kernel-doc mentions QEMU's qatomic_set macro, but since
+>> this code originated in Linux we should just revert it and stay as close
+>> to the kernel's copy of the script as possible.
+>>
+>> The change was introduced (more or less unintentionally) in QEMU commit
+>> commit d73415a31547, which did a global search-and-replace of QEMU's
+>> atomic access macros.
+>>
+>> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>   scripts/kernel-doc | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> The default configuration path /etc/qemu can be overriden with configure
-> options, and the generated documentation used to reflect it.
-> 
-> Fixes regression introduced in commit
-> f8aa24ea9a82da38370470c6bc0eaa393999edfe ("meson: sphinx-build").
-> 
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1902537
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->   docs/meson.build | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/docs/meson.build b/docs/meson.build
-> index ebd85d59f9..bb8fe4c9e4 100644
-> --- a/docs/meson.build
-> +++ b/docs/meson.build
-> @@ -9,7 +9,7 @@ endif
->   # Check if tools are available to build documentation.
->   build_docs = false
->   if sphinx_build.found()
-> -  SPHINX_ARGS = [sphinx_build]
-> +  SPHINX_ARGS = ['env', 'CONFDIR=' + qemu_confdir, sphinx_build]
->     # If we're making warnings fatal, apply this to Sphinx runs as well
->     if get_option('werror')
->       SPHINX_ARGS += [ '-W' ]
-> 
+> Typo "unneces[s]sary" in subject.
 
-I can queue the patch, but I also wouldn't mind removing support for 
-/etc/qemu completely.  I'm not sure why one would use it.  Eduardo?
+Oops...  I have already sent a pull request, but I'll fix it if a respin 
+is needed.
+
+Paolo
 
 
