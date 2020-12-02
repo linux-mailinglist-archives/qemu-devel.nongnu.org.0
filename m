@@ -2,70 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E802CBF76
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 15:23:03 +0100 (CET)
-Received: from localhost ([::1]:50680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2EA2CBF85
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 15:26:16 +0100 (CET)
+Received: from localhost ([::1]:58616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkT26-0000kv-Mc
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 09:23:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60884)
+	id 1kkT5D-0004AF-Pp
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 09:26:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kkT0G-0007hJ-6h
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 09:21:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26655)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kkT0E-00035I-KP
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 09:21:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606918865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8hm++9p/dO5Ue2mwQMQs7lSZfEfxn+UNKwMKZbzbfkY=;
- b=XGJinBcQzS+r1KAYVExkwJ/8bHR8wsuwGkv9kEViFP3TyLRAVRXWv/c2vAJ3AnDLUZDjD6
- Z0ALLD6nbR+ppCz4YtWUqtdvCvjLAW0tSGF2kwcC1/UxxlYotAAQ92dKU57uJNRywZGSPL
- 4finYXp749irg8XpYlPMoHXhAkmtj9A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-xL4O4nXANDGDav1cOVaohA-1; Wed, 02 Dec 2020 09:21:03 -0500
-X-MC-Unique: xL4O4nXANDGDav1cOVaohA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80A3A9CDA0
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 14:21:02 +0000 (UTC)
-Received: from localhost (ovpn-114-255.ams2.redhat.com [10.36.114.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B76F25D705;
- Wed,  2 Dec 2020 14:20:55 +0000 (UTC)
-Date: Wed, 2 Dec 2020 14:20:54 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH v2 4/8] libvhost-user: drop qemu/osdep.h dependency
-Message-ID: <20201202142054.GF655829@stefanha-x1.localdomain>
-References: <20201125100640.366523-1-marcandre.lureau@redhat.com>
- <20201125100640.366523-5-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kkT3X-0003Zk-85
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 09:24:32 -0500
+Received: from mx2.suse.de ([195.135.220.15]:42996)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kkT3V-0003OE-2O
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 09:24:30 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 0A916AB7F;
+ Wed,  2 Dec 2020 14:24:27 +0000 (UTC)
+Subject: Re: check-tcg errors (build-user, build-user-plugins) again
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <f14c22bf-aecb-3e38-347b-1b9119ad8baa@suse.de>
+ <87v9dksbkb.fsf@linaro.org> <b39faaa4-3be7-2e05-226c-7a3e50ab75af@suse.de>
+ <87pn3ss73p.fsf@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <c61bff76-c1d7-869d-4fbe-57c5d0fdd9bd@suse.de>
+Date: Wed, 2 Dec 2020 15:24:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201125100640.366523-5-marcandre.lureau@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="z0eOaCaDLjvTGF2l"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <87pn3ss73p.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,42 +56,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---z0eOaCaDLjvTGF2l
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/2/20 1:52 PM, Alex Bennée wrote:
+> 
+> Claudio Fontana <cfontana@suse.de> writes:
+> 
+>> On 12/2/20 12:16 PM, Alex Bennée wrote:
+>>>
+>>> Claudio Fontana <cfontana@suse.de> writes:
+>>>
+>>>> Hi Alex and all,
+>>>>
+>>>> when trying to use check-tcg (master), I am getting often these errors:
+>>>>
+>>>> $ ../configure --disable-system --disable-tools
+>>>>
+>>>> $ make -j12 check-tcg
+>>>>
+>>>> ERRO[0000] cannot find mappings for user claudio: No subgid ranges found for group "claudio" in /etc/subgid 
+>>>> ERRO[0000] cannot find mappings for user claudio: No subgid ranges found for group "claudio" in /etc/subgid 
+>>>> ERRO[0000] cannot find mappings for user claudio: No subgid ranges found for group "claudio" in /etc/subgid 
+>>>> Trying to pull registry.gitlab.com/qemu-project/qemu/qemu/debian11...
+>>>> Trying to pull registry.gitlab.com/qemu-project/qemu/qemu/fedora-cris-cross...
+>>>> Trying to pull registry.gitlab.com/qemu-project/qemu/qemu/debian10...
+>>>> ERRO[0000] cannot find mappings for user claudio: No subgid ranges found for group "claudio" in /etc/subgid 
+>>>>
+>>>> [...]
+>>>>   TEST    linux-test on x86_64
+>>>> timeout: failed to run command ‘/home/claudio/git/qemu/build/qemu-x86_64’timeout: : No such file or directoryfailed to run command ‘/home/claudio/git/qemu/build/qemu-x86_64’
+>>>>
+>>>> [...]
+>>>>
+>>>>
+>>>> Is there some pre-configuration on the host necessary to be able to
+>>>> run check-tcg?
+>>>
+>>> There shouldn't be but those errors remind me of some of the tweaks I
+>>> had to make to me Gentoo system when using podman (instead of docker).
+>>> In the end I think I just ended up adding the lines:
+>>>   
+>>>   alex:100000:65536
+>>>
+>>> to /etc/subgid and /etc/subgid-
+>>>
+>>> Marc-André may have some better pointers as he added podman support to
+>>> the builder scripts.
+>>
+>>
+>> I did that and things seem a bit better, but still a lot of errors:
+>>
+>>
+>> 63      ../sysdeps/x86_64/start.S: No such file or directory.
+>>
+>> Error: error creating build container: The following failures happened while trying to pull image specified by "debian:bullseye-slim" based on search registries in /etc/containers/registries.conf:
+>> * "localhost/debian:bullseye-slim": Error initializing source docker://localhost/debian:bullseye-slim: error pinging docker registry localhost: Get https://localhost/v2/: dial tcp [::1]:443: connect: connection refused
+>> * "docker.io/library/debian:bullseye-slim": Error committing the finished image: error adding layer with blob "sha256:ae63fcbbc3b289e425e4c8840ccde4314f4a060cbc0345e6871a28bdc72f6fe8": Error processing tar file(exit status 1): there might not be enough IDs available in the namespace (requested 0:42 for /etc/gshadow): lchown /etc/gshadow: invalid argument
+>> Traceback (most recent call last):
+>>   File "/home/claudio/git/qemu-pristine/qemu/tests/docker/docker.py", line 709, in <module>
+>>     sys.exit(main())
+>>   File "/home/claudio/git/qemu-pristine/qemu/tests/docker/docker.py", line 705, in main
+>>     return args.cmdobj.run(args, argv)
+>>   File "/home/claudio/git/qemu-pristine/qemu/tests/docker/docker.py", line 501, in run
+>>     extra_files_cksum=cksum)
+>>   File "/home/claudio/git/qemu-pristine/qemu/tests/docker/docker.py", line 354, in build_image
+>>     quiet=quiet)
+>>   File "/home/claudio/git/qemu-pristine/qemu/tests/docker/docker.py", line 244, in _do_check
+>>     return subprocess.check_call(self._command + cmd, **kwargs)
+>>   File "/usr/lib64/python3.6/subprocess.py", line 311, in check_call
+>>     raise CalledProcessError(retcode, cmd)
+>>
+>>
+>> [...]
+>> Error: error pulling image "registry.gitlab.com/qemu-project/qemu/qemu/fedora-cris-cross": unable to pull registry.gitlab.com/qemu-project/
+>>
+> 
+> I'm guessing this can be fixed by adding gitlab to /etc/containers/registries.conf
 
-On Wed, Nov 25, 2020 at 02:06:36PM +0400, marcandre.lureau@redhat.com wrote=
-:
-> From: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
->=20
-> Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  contrib/libvhost-user/libvhost-user-glib.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+Hi Alex, I added:
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+[registries.search]
+registries = ["docker.io", "registry.gitlab.com"]
 
---z0eOaCaDLjvTGF2l
-Content-Type: application/pgp-signature; name="signature.asc"
+I get:
 
------BEGIN PGP SIGNATURE-----
+Storing signatures
+  Error processing tar file(exit status 1): there might not be enough IDs available in the namespace (requested 0:42 for /etc/gshadow): lchown /etc/gshadow: invalid argument
+Error: error pulling image "registry.gitlab.com/qemu-project/qemu/qemu/debian11": unable to pull registry.gitlab.com/qemu-project/qemu/qemu/debian11: unable to pull image: Error committing the finished image: error adding layer with blob "sha256:ae63fcbbc3b289e425e4c8840ccde4314f4a060cbc0345e6871a28bdc72f6fe8": Error processing tar file(exit status 1): there might not be enough IDs available in the namespace (requested 0:42 for /etc/gshadow): lchown /etc/gshadow: invalid argument
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/HosYACgkQnKSrs4Gr
-c8gqIgf/UUFKApfpQS2vk7RgnPlVEAiOBrGI+nyko9nStX5MmXsQ+IWZvyRd6NGH
-jvIbxQFo1I99LafmGJ4kjBB3UgdJno3UeDcv/OY/20TGwemI8TU070Y3qw6RHH81
-fvfppNOxc5eHeJEOL4H7IVXe5xyhmBVKCpSDQS9YLlkNeMQI9DRV0GHYUxZ0RH2Z
-URPZNwj3ho5Ah71e+RCn3kRkB6WR35yCezH6kgy7RmkxFjkokN5vy9w8eHCemjD4
-WZsNR9bT4MiD0xl8+7vNG430PjRZMnq7MuxpHRKLczOYmMEv0yFQEKZpX5H7bf7V
-6pBqHhhMry7gWcAOQB7S1DGnCpZTAA==
-=mpjh
------END PGP SIGNATURE-----
+Any idea?
 
---z0eOaCaDLjvTGF2l--
+
+
+
+> 
+> I'll see if I can resurrect my podman setup because it was working before
+> we added the caching from gitlab.
+> 
+>> [...]
+>>
+>>
+>>
+>>>
+>>> The main difference between the images on the registry and the local
+>>> versions is most add the current user so there is a clean mapping
+>>> between the container user and the host file-system. It's the last step
+>>> of the build so we still use the cached layers from the registry
+>>> versions.
+>>>
+>>>> I see these errors in gitlab also for
+>>>>
+>>>> build-user
+>>>> build-user-plugin
+>>>>
+>>>> Maybe this is what Philippe mentioned before though, that this is
+>>>> expected at the moment due to a temporary Meson shortcoming?
+>>>
+>>> That is odd - I'm not seeing anything like that on the master builds:
+>>>
+>>>   https://gitlab.com/qemu-project/qemu/-/jobs/883985106
+>>>   https://gitlab.com/qemu-project/qemu/-/jobs/883985113
+>>>
+>>> AFAIK GitLab is still using Docker to build it's containers (albeit with
+>>> BUILDKIT enabled).
+>>
+>>
+>> I am running again on gitlab the master branch, maybe there is something I need to fix, but to do that I need to enable check-tcg successfully I think.
+>>
+>> Thanks!
+>>
+>> Claudio
+>>
+>>>   
+>>>>
+>>>> Ciao,
+>>>>
+>>>> Claudio
+>>>
+>>>
+> 
+> 
 
 
