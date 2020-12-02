@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD0E2CC403
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 18:43:42 +0100 (CET)
-Received: from localhost ([::1]:33570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8470E2CC41C
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 18:46:37 +0100 (CET)
+Received: from localhost ([::1]:39346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkWAH-0007VK-GR
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 12:43:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36988)
+	id 1kkWD6-0001Z3-Jq
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 12:46:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkW7c-0006Oz-VG
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:40:56 -0500
-Received: from indium.canonical.com ([91.189.90.7]:32962)
+ id 1kkW7b-0006NG-M2
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:40:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:32970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkW7Z-0002ae-Ha
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:40:56 -0500
+ id 1kkW7Z-0002aj-Hv
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 12:40:55 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kkW7X-0005nC-Ip
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 17:40:51 +0000
+ id 1kkW7Y-0005oL-9S
+ for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 17:40:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8C58B2E80DF
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 17:40:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4140F2E80E1
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 17:40:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 02 Dec 2020 17:33:59 -0000
-From: Peter Maydell <1906536@bugs.launchpad.net>
+Date: Wed, 02 Dec 2020 17:34:37 -0000
+From: Alex Coplan <1906536@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -40,9 +40,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: alecop philmd pmaydell
 X-Launchpad-Bug-Reporter: Alex Coplan (alecop)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Modifier: Alex Coplan (alecop)
 References: <160692480491.27592.13493676422712150173.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160693044080.25005.6571645582791510118.launchpad@gac.canonical.com>
+Message-Id: <160693047732.27532.16929573524978856322.malone@chaenomeles.canonical.com>
 Subject: [Bug 1906536] Re: Unable to set SVE VL to 1024 bits or above since
  7b6a2198
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="55c41fea591e042b8bb54e6952942f55c764435e"; Instance="production"
-X-Launchpad-Hash: 3288c53f77f29e11cb4e0299a14fb2748a06fafa
+X-Launchpad-Hash: 3a878be45dda4a2d6f8fb8e02842c9d7f6f02e07
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,8 +75,17 @@ Reply-To: Bug 1906536 <1906536@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: Invalid =3D> New
+Hi Philippe,
+
+I'm aware of the prctl workaround.
+
+It seems to me that this is clearly a regression in functionality. Prior
+to the change, I could test any executable with any vector length
+without having to modify the executable. Now I have to insert a prctl to
+test with 1024 or 2048-bit SVE vectors?
+
+Moreover, with this change, it's no longer possible to have the wider VL
+inherited across exec() to another QEMU instance.
 
 -- =
 
