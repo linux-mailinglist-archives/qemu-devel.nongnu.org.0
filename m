@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5A42CB813
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:07:01 +0100 (CET)
-Received: from localhost ([::1]:60490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7892CB81E
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 10:09:04 +0100 (CET)
+Received: from localhost ([::1]:40434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkO6G-0005Sn-GG
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:07:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40876)
+	id 1kkO8F-0000hO-HQ
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 04:09:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNDM-0003st-Kr
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34691)
+ id 1kkNDN-0003u1-5J
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkNCb-0003pt-00
+ id 1kkNCb-0003q4-Fi
  for qemu-devel@nongnu.org; Wed, 02 Dec 2020 03:10:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1606896568;
@@ -25,30 +25,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eCs0riI9kHM//7BOaTOgwbI1V82e+fKC6hbIAxErEfY=;
- b=PQgVSZWo7fbzTSDJuCk6jTwLMhoabLaWj566FhRFa8UnPxLT9FV12jj4Y6JTbmGp8VnGh2
- 5L3l6ceRPcc0aTa7EfFQXThKTu+aPQrS3+789Q9JGLpxRBeHETzValAJ2ZwmbEBDEhIY+g
- j3Vjeu7BSwWtgiSQ2MwfobdrW05i+5k=
+ bh=2xQpkPILcilVjGBJAZDcOXL4fhbJFhBizJguZe8vEgc=;
+ b=Mi+cdgbjdJrJtX/Wl2+mYZ/MwCBQBhQ7JB5/rWj+yp2pM6NhNskFmF4iZQODEp/hEUaU3l
+ t8oaQgbMT/wOFvITlST5GYEHJZ2qxdQvztRKLlRGxqWMzzoiVaBH6FaOeCxI/or6tShfUs
+ p0TVXJAz8FXoGwQZbZN3NDsKmrTtr2Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-fo-J25G4OBe92JwHJ0v_BQ-1; Wed, 02 Dec 2020 03:09:26 -0500
-X-MC-Unique: fo-J25G4OBe92JwHJ0v_BQ-1
+ us-mta-432-Nd8QuWQEPTyZxVdFJEKcXQ-1; Wed, 02 Dec 2020 03:09:27 -0500
+X-MC-Unique: Nd8QuWQEPTyZxVdFJEKcXQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C32648558E7
- for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 471665708D
+ for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:26 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 87E875C1B4
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E3E805C1B4
  for <qemu-devel@nongnu.org>; Wed,  2 Dec 2020 08:09:25 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 096/113] Revert "scripts/kerneldoc: For Sphinx 3 use c:macro
- for macros with arguments"
-Date: Wed,  2 Dec 2020 03:08:32 -0500
-Message-Id: <20201202080849.4125477-97-pbonzini@redhat.com>
+Subject: [PULL 097/113] Revert "kernel-doc: Use c:struct for Sphinx 3.0 and
+ later"
+Date: Wed,  2 Dec 2020 03:08:33 -0500
+Message-Id: <20201202080849.4125477-98-pbonzini@redhat.com>
 In-Reply-To: <20201202080849.4125477-1-pbonzini@redhat.com>
 References: <20201202080849.4125477-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -83,45 +83,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 92bb29f9b2c3d4a98eef5f0db935d4be291eec72.
+This reverts commit 152d1967f650f67b7ece3a5dda77d48069d72647.
 We will replace the commit with the fix from Linux.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20201117165312.118257-15-pbonzini@redhat.com>
+Message-Id: <20201117165312.118257-16-pbonzini@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/kernel-doc | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+ docs/sphinx/kerneldoc.py |  1 -
+ scripts/kernel-doc       | 16 +---------------
+ 2 files changed, 1 insertion(+), 16 deletions(-)
 
+diff --git a/docs/sphinx/kerneldoc.py b/docs/sphinx/kerneldoc.py
+index 9124fcbff1..c0180e02a2 100644
+--- a/docs/sphinx/kerneldoc.py
++++ b/docs/sphinx/kerneldoc.py
+@@ -102,7 +102,6 @@ class KernelDocDirective(Directive):
+                 env.note_dependency(os.path.abspath(f))
+                 cmd += ['-export-file', f]
+ 
+-        cmd += ['-sphinx-version', sphinx.__version__]
+         cmd += [filename]
+ 
+         try:
 diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 073f72c7da..cb603532ed 100755
+index cb603532ed..60f75cd176 100755
 --- a/scripts/kernel-doc
 +++ b/scripts/kernel-doc
-@@ -860,23 +860,7 @@ sub output_function_rst(%) {
- 	output_highlight_rst($args{'purpose'});
- 	$start = "\n\n**Syntax**\n\n  ``";
+@@ -71,8 +71,6 @@ Output selection (mutually exclusive):
+ 			DOC: sections. May be specified multiple times.
+ 
+ Output selection modifiers:
+-  -sphinx-version VER   Generate rST syntax for the specified Sphinx version.
+-                        Only works with reStructuredTextFormat.
+   -no-doc-sections	Do not output DOC: sections.
+   -enable-lineno        Enable output of #define LINENO lines. Only works with
+                         reStructuredText format.
+@@ -294,7 +292,6 @@ use constant {
+ };
+ my $output_selection = OUTPUT_ALL;
+ my $show_not_found = 0;	# No longer used
+-my $sphinx_version = "0.0"; # if not specified, assume old
+ 
+ my @export_file_list;
+ 
+@@ -460,8 +457,6 @@ while ($ARGV[0] =~ m/^--?(.*)/) {
+ 	    $enable_lineno = 1;
+     } elsif ($cmd eq 'show-not-found') {
+ 	$show_not_found = 1;  # A no-op but don't fail
+-    } elsif ($cmd eq 'sphinx-version') {
+-        $sphinx_version = shift @ARGV;
      } else {
--        if ((split(/\./, $sphinx_version))[0] >= 3) {
--            # Sphinx 3 and later distinguish macros and functions and
--            # complain if you use c:function with something that's not
--            # syntactically valid as a function declaration.
--            # We assume that anything with a return type is a function
--            # and anything without is a macro.
--            if ($args{'functiontype'} ne "") {
--                print ".. c:function:: ";
--            } else {
--                print ".. c:macro:: ";
--            }
--        } else {
--            # Older Sphinx don't support documenting macros that take
--            # arguments with c:macro, and don't complain about the use
--            # of c:function for this.
--            print ".. c:function:: ";
--        }
-+	print ".. c:function:: ";
-     }
-     if ($args{'functiontype'} ne "") {
- 	$start .= $args{'functiontype'} . " " . $args{'function'} . " (";
+ 	# Unknown argument
+         usage();
+@@ -989,16 +984,7 @@ sub output_struct_rst(%) {
+     my $oldprefix = $lineprefix;
+     my $name = $args{'type'} . " " . $args{'struct'};
+ 
+-    # Sphinx 3.0 and up will emit warnings for "c:type:: struct Foo".
+-    # It wants to see "c:struct:: Foo" (and will add the word 'struct' in
+-    # the rendered output).
+-    if ((split(/\./, $sphinx_version))[0] >= 3) {
+-        my $sname = $name;
+-        $sname =~ s/^struct //;
+-        print "\n\n.. c:struct:: " . $sname . "\n\n";
+-    } else {
+-        print "\n\n.. c:type:: " . $name . "\n\n";
+-    }
++    print "\n\n.. c:type:: " . $name . "\n\n";
+     print_lineno($declaration_start_line);
+     $lineprefix = "   ";
+     output_highlight_rst($args{'purpose'});
 -- 
 2.26.2
 
