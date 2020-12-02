@@ -2,64 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658DE2CC5E2
-	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 19:53:39 +0100 (CET)
-Received: from localhost ([::1]:37146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DECA92CC628
+	for <lists+qemu-devel@lfdr.de>; Wed,  2 Dec 2020 20:07:15 +0100 (CET)
+Received: from localhost ([::1]:47636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkXFy-0007ZI-FZ
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 13:53:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55852)
+	id 1kkXT8-00058t-U7
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 14:07:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1kkXFD-00078e-CL
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 13:52:51 -0500
-Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b]:46196)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1kkXFB-0003jB-Ha
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 13:52:51 -0500
-Received: by mail-ua1-x92b.google.com with SMTP id k12so794981uae.13
- for <qemu-devel@nongnu.org>; Wed, 02 Dec 2020 10:52:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=f8LR83ii1ijzS3Kj2N25wqMiKzKloWqa09ErwthdmFQ=;
- b=WImpiiykquRCNav72g5RWSGRjV/c9urNdVYsky97E5JpRtg1KB5b9I1mxt+YVLE5Y4
- 4ACCIRomAXHGIzY7L/lPGuCuX+TwvDXpMZWys+AZcAA28urd2nHaZvGBSVoPaPa/U2mJ
- aF4XVqFN24SeMpUZmSSJxPHZaIKYsj9BkDoMZZ+38dbiTMbe52DsPhHZgB4G/S1fBVNE
- WaWWaT0JZQXQyPEGTznPaUxlU0Uq4o3IJ2JMrMPgs4VQb2i/+EaXqxVwr6EysFwbYZzO
- Ue/UQZoBPdMtkz1jxi7kvlhHiSa+HehzpVxDS9np5nYOc9m4Cy7zNopJLhlgBcKiigxI
- xvlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=f8LR83ii1ijzS3Kj2N25wqMiKzKloWqa09ErwthdmFQ=;
- b=sAVWulE7gUQUZa4kgmWGGYe/s3u0QSawr9MIZZ3ewF4P2KXZnyhbIXQQB/SG8YoMei
- YbrpDa+TBWZFks1XSeMs0aLovLIF3chuCJvNbXEYKsge6FNfWHACJtacDKuodfjkaw1w
- t3Ab2oVwqcq7CkA4bpJREhns19y1EL9fT8eHH9UCGxAoXC+PLtAHieoE2t5nW6xwy1lO
- MXaF9gOPppkWtyNPvDHMaNP470DCuUD6oGuNHACXNZkt5yhfW8A/x08h1fwuddJ14ie6
- 2oPBjnvN3EMM1fcbgAYxSZkgJ22cpFX2UzSpSqfcbHYb36pNI6BQAv5ssEbih/TnjkCg
- JDmw==
-X-Gm-Message-State: AOAM532+fmZoNQZ97fm5/fhmHysTWB3Be7JqPP046zoiw7BE2kncpxMH
- YBaF6pl0Uxk36BYq4F/PxQ1b0J/fkc/hySCsqOAMbOjvmpGF+uLJ
-X-Google-Smtp-Source: ABdhPJzOEJcQScJ/Zv5xEXKn6DRCs2W2zt191Ts7tFaX03z5X5n1lwqWiwui4xQQvxnpwZakrAXk3oKwRw8MIb6jdjg=
-X-Received: by 2002:ab0:3b01:: with SMTP id n1mr2934107uaw.6.1606935167826;
- Wed, 02 Dec 2020 10:52:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1kkXQH-00031s-8L; Wed, 02 Dec 2020 14:04:17 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:56392
+ helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1kkXQD-0005Do-LJ; Wed, 02 Dec 2020 14:04:15 -0500
+Received: from localhost.localdomain
+ (dynamic-077-007-031-140.77.7.pool.telefonica.de [77.7.31.140])
+ by csgraf.de (Postfix) with ESMTPSA id 39567390036D;
+ Wed,  2 Dec 2020 20:04:10 +0100 (CET)
+From: Alexander Graf <agraf@csgraf.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/10] hvf: Implement Apple Silicon Support
+Date: Wed,  2 Dec 2020 20:03:58 +0100
+Message-Id: <20201202190408.2041-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-From: Doug Evans <dje@google.com>
-Date: Wed, 2 Dec 2020 10:52:11 -0800
-Message-ID: <CADPb22T6ML4hzOaa7Y1K8X-2vB6j-7=JJpYdtuDMwv+889fLpg@mail.gmail.com>
-Subject: [DISCUSSION] How to set properties of non-pluggable devices?
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000db6a4405b57fbf9e"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
- envelope-from=dje@google.com; helo=mail-ua1-x92b.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,90 +48,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-arm@nongnu.org, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000db6a4405b57fbf9e
-Content-Type: text/plain; charset="UTF-8"
+Now that Apple Silicon is widely available, people are obviously excited
+to try and run virtualized workloads on them, such as Linux and Windows.
 
-Hi.
+This patch set implements a fully functional version to get the ball
+going on that. With this applied, I can successfully run both Linux and
+Windows as guests. I am not aware of any limitations specific to
+Hypervisor.framework apart from:
 
-Suppose I want to set a property of a non-pluggable device that cannot be
-set after the device has been realized (e.g., I can't use qmp to set the
-property after QEMU has started).
-Being non-pluggable means I can't use "-device foo,bar=baz" on the command
-line.
-[But I can use "-device foo,help" to list its properties :-)  (if I also
-specify -M bar) ]
+  - Live migration / savevm
+  - gdbstub debugging (SP register)
 
-How do people do this?
 
-The device is part of a "machine" (board really), so I could add the
-property to the machine to be passed on to the device when it's realized
-(at least I think I can), but that doesn't feel right: The machine has lots
-of devices -> it feels cleaner to associate the property with the device
-and not the machine (lest the machine over time collect a myriad of random
-properties to pass on to its devices). Things get a little complicated
-because the machine can have multiple copies of a device: specifying the
-device's name is insufficient.
+Enjoy!
 
-The device has an object path: /machine/foo/bar/device[0]. There's also
-/.../device[1].
-IWBN to be able to do something along the lines of:
--device-property /device/path[,PROP1=VALUE1,...]
-copying the syntax used for "-object".
+Alex
 
-It's perhaps even nicer if this could be accomplished with -device:
-avoiding further confusion on what -device can and can't be used for (e.g.,
-can I use -device-property to set a property that could also be set with
--device?).
+v1 -> v2:
 
-If what I'm asking for is reasonable and isn't doable today (I'm certainly
-willing to believe I'm missing something), I'm happy to work on the patch
-(with some guidance as to what would be acceptable).
+  - New patch: hvf: Actually set SIG_IPI mask
+  - New patch: hvf: Introduce hvf vcpu struct
+  - New patch: hvf: arm: Mark CPU as dirty on reset
+  - Removed patch: hw/arm/virt: Disable highmem when on hypervisor.framework
+  - Removed patch: arm: Synchronize CPU on PSCI on
+  - Fix build on 32bit arm
+  - Merge vcpu kick function patch into ARM enablement
+  - Implement WFI handling (allows vCPUs to sleep)
+  - Synchronize system registers (fixes OVMF crashes and reboot)
+  - Don't always call cpu_synchronize_state()
+  - Use more fine grained iothread locking
+  - Populate aa64mmfr0 from hardware
+  - Make safe to ctrl-C entitlement application
 
-One thought that comes to mind is to use -object, store the properties
-there, and have the machine collect them from there when realizing its
-devices. Or is that an abuse of -object ?
+v2 -> v3:
 
---000000000000db6a4405b57fbf9e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  - Removed patch: hvf: Actually set SIG_IPI mask
+  - New patch: hvf: arm: Add support for GICv3
+  - New patch: hvf: arm: Implement -cpu host
+  - Advance PC on SMC
+  - Use cp list interface for sysreg syncs
+  - Do not set current_cpu
+  - Fix sysreg isread mask
+  - Move sysreg handling to functions
+  - Remove WFI logic again
+  - Revert to global iothread locking
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small"><di=
-v class=3D"gmail_default">Hi.</div><div class=3D"gmail_default"><br></div><=
-div class=3D"gmail_default">Suppose I want to set a property of a non-plugg=
-able device that cannot be set after the device has been realized (e.g., I =
-can&#39;t use qmp to set the property after QEMU has started).</div><div cl=
-ass=3D"gmail_default">Being non-pluggable means I can&#39;t use &quot;-devi=
-ce foo,bar=3Dbaz&quot; on the command line.</div><div class=3D"gmail_defaul=
-t">[But I can use &quot;-device foo,help&quot; to list its properties :-)=
-=C2=A0 (if I also specify -M bar) ]</div><div class=3D"gmail_default"><br><=
-/div><div class=3D"gmail_default">How do people do this?</div><div class=3D=
-"gmail_default"><br></div><div class=3D"gmail_default">The device is part o=
-f a &quot;machine&quot; (board really), so I could add the property to the =
-machine to be passed on to the device when it&#39;s realized (at least I th=
-ink I can), but that doesn&#39;t feel right: The machine has lots of device=
-s -&gt; it feels cleaner to associate the property with the device and not =
-the machine (lest the machine over time collect a myriad of random properti=
-es to pass on to its devices). Things get a little complicated because the =
-machine can have multiple copies of a device: specifying the device&#39;s n=
-ame is insufficient.</div><div class=3D"gmail_default"><br></div><div class=
-=3D"gmail_default">The device has an object path: /machine/foo/bar/device[0=
-]. There&#39;s also /.../device[1].</div><div class=3D"gmail_default">IWBN =
-to be able to do something along the lines of:</div><div class=3D"gmail_def=
-ault">-device-property /device/path[,PROP1=3DVALUE1,...]<br>copying the syn=
-tax used for &quot;-object&quot;.<br><br>It&#39;s perhaps even nicer if thi=
-s could be accomplished with -device: avoiding further confusion on what -d=
-evice can and can&#39;t be used for (e.g., can I use -device-property to se=
-t a property that could also be set with -device?).<br><br>If what I&#39;m =
-asking for is reasonable and isn&#39;t doable today (I&#39;m certainly will=
-ing to believe I&#39;m missing something), I&#39;m happy to work on the pat=
-ch (with some guidance as to what would be acceptable).<br><br>One thought =
-that comes to mind is to use -object, store the properties there, and have =
-the machine collect them from there when realizing its devices. Or is that =
-an abuse of -object ?<div class=3D"gmail-yj6qo"></div><div class=3D"gmail-a=
-dL"><br></div></div></div></div>
+Alexander Graf (9):
+  hvf: Add hypervisor entitlement to output binaries
+  hvf: Move common code out
+  hvf: Introduce hvf vcpu struct
+  arm: Set PSCI to 0.2 for HVF
+  hvf: arm: Mark CPU as dirty on reset
+  hvf: Add Apple Silicon support
+  arm: Add Hypervisor.framework build target
+  hvf: arm: Add support for GICv3
+  hvf: arm: Implement -cpu host
 
---000000000000db6a4405b57fbf9e--
+Peter Collingbourne (1):
+  arm/hvf: Add a WFI handler
+
+ MAINTAINERS                  |  14 +-
+ accel/hvf/entitlements.plist |   8 +
+ accel/hvf/hvf-all.c          |  56 +++
+ accel/hvf/hvf-cpus.c         | 481 ++++++++++++++++++++
+ accel/hvf/meson.build        |   7 +
+ accel/meson.build            |   1 +
+ include/hw/core/cpu.h        |   3 +-
+ include/sysemu/hvf.h         |   2 +
+ include/sysemu/hvf_int.h     |  77 ++++
+ meson.build                  |  41 +-
+ scripts/entitlement.sh       |  13 +
+ target/arm/arm-powerctl.c    |   1 +
+ target/arm/cpu.c             |  15 +-
+ target/arm/cpu.h             |   2 +
+ target/arm/hvf/hvf.c         | 857 +++++++++++++++++++++++++++++++++++
+ target/arm/hvf/meson.build   |   3 +
+ target/arm/kvm_arm.h         |   2 -
+ target/arm/meson.build       |   2 +
+ target/i386/hvf/hvf-cpus.c   | 131 ------
+ target/i386/hvf/hvf-cpus.h   |  25 -
+ target/i386/hvf/hvf-i386.h   |  48 +-
+ target/i386/hvf/hvf.c        | 462 +++----------------
+ target/i386/hvf/meson.build  |   1 -
+ target/i386/hvf/vmx.h        |  24 +-
+ target/i386/hvf/x86.c        |  28 +-
+ target/i386/hvf/x86_descr.c  |  26 +-
+ target/i386/hvf/x86_emu.c    |  62 +--
+ target/i386/hvf/x86_mmu.c    |   4 +-
+ target/i386/hvf/x86_task.c   |  12 +-
+ target/i386/hvf/x86hvf.c     | 221 ++++-----
+ target/i386/hvf/x86hvf.h     |   2 -
+ 31 files changed, 1818 insertions(+), 813 deletions(-)
+ create mode 100644 accel/hvf/entitlements.plist
+ create mode 100644 accel/hvf/hvf-all.c
+ create mode 100644 accel/hvf/hvf-cpus.c
+ create mode 100644 accel/hvf/meson.build
+ create mode 100644 include/sysemu/hvf_int.h
+ create mode 100755 scripts/entitlement.sh
+ create mode 100644 target/arm/hvf/hvf.c
+ create mode 100644 target/arm/hvf/meson.build
+ delete mode 100644 target/i386/hvf/hvf-cpus.c
+ delete mode 100644 target/i386/hvf/hvf-cpus.h
+
+-- 
+2.24.3 (Apple Git-128)
+
 
