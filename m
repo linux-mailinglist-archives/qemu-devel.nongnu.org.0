@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474592CD443
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:06:05 +0100 (CET)
-Received: from localhost ([::1]:52126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC7A2CD451
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:10:34 +0100 (CET)
+Received: from localhost ([::1]:37108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmR2-0008M9-9C
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:06:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48934)
+	id 1kkmVN-0005bC-3p
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:10:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kkmNm-00055Y-Mc
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:02:43 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:36278)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kkmNk-0004hy-Vd
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:02:42 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id b2so1639479edm.3
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 03:02:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JyH7p7tcfc9R/bG+EXYjdUOmD8KvF6LsSmuXPPT951U=;
- b=HRoia6I/Mnc8/lSCXIoFFt8RE4zjcUVld33ksYGlvfVmx5Cs36gnSIrCS6RY+IL/AT
- OvyZ9VP67ge2AkzUqOuNmcDu1sd5KahFUIR+LuePj55Tm+GOOa1Sk/uRDQ0Pzqoehitp
- FfuVXUuBTky+45kiASSX1iG7MWxkGUxj452HYJyjdjbPMH8yhBvKlucvO1RWc7U+3IEv
- PdeG0jm8tBGaMUAc5tKlj2Y6rl0er0RDhgD2UgGF24Fn1gVgei+eYNwIg2oDGeRab7i2
- ZVpb5xUShbbmcnM59sMk04VZ2JMIw5Y/oPcgtyEAArYIWrEelo+o3jGfyCgtrm1kZpm5
- IFbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JyH7p7tcfc9R/bG+EXYjdUOmD8KvF6LsSmuXPPT951U=;
- b=t0z8CuY6We933E4/RNLcLAG5q7S89vhj6cK5QX2R9+CuDnW1iJWchrLeLZb7yI0sDn
- 3KxFl4vHQkGxL0Ha8A7AXiwkBtI2SJ7PHehPC1C9E7eZvxQe7E6XUwHIz9mZYvAZB34F
- JnknXchVWmbRyqVtNLizfSKuFzOv3Pi0hWLn4YlnGwn8oDJWotMqv+6VgWixmtvmHjcZ
- 29hTzPvFnsTkFmttPQOdcHbJImEpDlerbYjY4FjVe+T0Bl+ivY8A1Fo2VFSCUFUulge1
- tAYu+EBbVHFZdi/FqMiElOC3+HO+ny+itXkaJVnhRPMSCSWWU9nMvqOYEyfhAD65h1je
- S7jQ==
-X-Gm-Message-State: AOAM533upaN6BEzgEw5q6h/XddQdECamTg3w/eVpBgrdAAaqlA3sIGmI
- isX64Tz1V5jYxNucuiSNu/5EwOPqZ2YFnhF+GAXE5g==
-X-Google-Smtp-Source: ABdhPJxlBEAVplc2eEmmeBfhE2UQ3cSSB30Vx6MTXVw/B6Ubpqe8/G2e3oJNGX48JWdMGz1Wfc5Dc6bFv83Gh6xe2fM=
-X-Received: by 2002:a50:fe88:: with SMTP id d8mr2295763edt.36.1606993359234;
- Thu, 03 Dec 2020 03:02:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmTG-0003CJ-4D
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:08:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39822)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmT8-0006dH-P8
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:08:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606993694;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UYpb16H9W4bUYbRqpMW3Fj/IByjZyRN+XOExjvaNvVQ=;
+ b=Fn4VSrR3mGTA5WbgN6Rx0TgcusW91IZt8M4HzXAMfh+6BifSjvCUe04yJ4VMkfpVOQ3X3I
+ cgDsECAyOpNFoy16GvhNR/Eu7fb5cS1UcmjjW7xfYyKoZ/9fhK8eY9vJZyTIQdh4T+QAZj
+ 1yHD5AoBuaBoZ4s8Mr/jqCG2nsfLZEE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-h57uZ9_WPnmuhtfIHdGQUQ-1; Thu, 03 Dec 2020 06:08:11 -0500
+X-MC-Unique: h57uZ9_WPnmuhtfIHdGQUQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DB8A185E489
+ for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 11:08:10 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
+ [10.36.112.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED22E5D9CA;
+ Thu,  3 Dec 2020 11:08:06 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 051C011AB8; Thu,  3 Dec 2020 12:08:06 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/9] vnc: support some new extensions.
+Date: Thu,  3 Dec 2020 12:07:56 +0100
+Message-Id: <20201203110806.13556-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20201202101655.122214-1-mst@redhat.com>
- <CAFEAcA8N1Qh0gUX8oTTPOEuq_+DRzJ+9V1RqKzVhXN+4aoBZGw@mail.gmail.com>
- <20201203054505-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20201203054505-mutt-send-email-mst@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Dec 2020 11:02:28 +0000
-Message-ID: <CAFEAcA81DAGk7TPLKpExJ40cipRXB9L1wXz7_3=0xLkcPWJgEg@mail.gmail.com>
-Subject: Re: [PULL 0/6] pc,vhost: fixes
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,30 +76,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Dec 2020 at 10:59, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Thu, Dec 03, 2020 at 10:20:03AM +0000, Peter Maydell wrote:
-> > On Wed, 2 Dec 2020 at 11:03, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > >
-> > > Patch 5 gave me pause but we do need patch 6 as
-> > > it's a guest triggerable assert, and it seemed
-> > > cleaner to just take the whole patchset than cherry-pick.
-> >
-> > Is this only "fixes a guest triggerable assert"?
->
-> My understanding is that without the patches a rhel7 guest triggers
-> the assert if started with vtd enabled and virtio-net with
-> iommu_platform=on.
->
-> https://bugs.launchpad.net/qemu/+bug/1885175
+The rfb standard keeps envolving.  While the official spec is kind of=0D
+frozen since a decade or so the community maintains an updated version=0D
+of the spec at:=0D
+=09https://github.com/rfbproto/rfbproto/=0D
+=0D
+This series adds support for two new extensions from that spec: alpha=0D
+cursor and extended desktop resize.=0D
+=0D
+alpha cursor allows a full alpha channel for the cursor image (unlike=0D
+the rich cursor extension which has only a bitmask for transparency).=0D
+=0D
+extended desktop resize makes the desktop-resize work both ways, i.e. we=0D
+can not only signal guest display resolution changes to the vnc client=0D
+but also vnc client window size changes to the guest.=0D
+=0D
+Tested with tigervnc.=0D
+=0D
+gtk-vnc (and anything building on top of it like virt-viewer and=0D
+virt-manager) has no support for these extensions.=0D
+=0D
+Gerd Hoffmann (9):=0D
+  console: allow con=3D=3DNULL in dpy_set_ui_info=0D
+  console: add check for ui_info pointer=0D
+  vnc: use enum for features=0D
+  vnc: drop unused copyrect feature=0D
+  vnc: add pseudo encodings=0D
+  vnc: add alpha cursor support=0D
+  vnc: force initial resize message=0D
+  vnc: add support for extended desktop resize=0D
+  qxl: add ui_info callback=0D
+=0D
+ ui/vnc.h         | 32 +++++++++-------=0D
+ hw/display/qxl.c | 27 ++++++++++++++=0D
+ ui/console.c     |  8 +++-=0D
+ ui/vnc.c         | 97 ++++++++++++++++++++++++++++++++++++++++++------=0D
+ 4 files changed, 138 insertions(+), 26 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
-Bug reported in June ? Is this a regression since 5.1, or
-was it this way in 5.1 as well?
-
-thanks
--- PMM
 
