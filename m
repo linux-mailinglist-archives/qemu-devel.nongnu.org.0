@@ -2,66 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732CD2CDBDA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:09:28 +0100 (CET)
-Received: from localhost ([::1]:53692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0962CDBB6
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:04:56 +0100 (CET)
+Received: from localhost ([::1]:41266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kks6h-0007m1-47
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:09:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48992)
+	id 1kks2J-0001uY-GD
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:04:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkryT-0008QG-BL
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:01:02 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53874)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkryM-0003Ws-M9
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:00:56 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kkryK-0002E1-Oh
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 17:00:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B06592E802D
- for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 17:00:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mark.rutland@arm.com>)
+ id 1kkrwj-0007bz-7o
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:59:09 -0500
+Received: from foss.arm.com ([217.140.110.172]:37932)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <mark.rutland@arm.com>) id 1kkrwe-0002mJ-Pm
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:59:08 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 24ADA11D4;
+ Thu,  3 Dec 2020 08:59:03 -0800 (PST)
+Received: from C02TD0UTHF1T.local (unknown [10.57.0.87])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 495BC3F575;
+ Thu,  3 Dec 2020 08:59:00 -0800 (PST)
+Date: Thu, 3 Dec 2020 16:58:56 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v6 0/2] MTE support for KVM guest
+Message-ID: <20201203165856.GH96754@C02TD0UTHF1T.local>
+References: <20201127152113.13099-1-steven.price@arm.com>
+ <20201203160943.GG96754@C02TD0UTHF1T.local>
+ <77e65f06-563b-3b30-ab36-9670e8cc03a4@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 03 Dec 2020 16:53:56 -0000
-From: Alexander Bulekov <1906694@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Duplicate: 1906693
-Message-Id: <20201203165348.huwzkjhtpnxkrquj@mozz.bu.edu>
-Subject: [Bug 1906694] [NEW] Assertion Failure in bdrv_co_write_req_prepare
- through megasas
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="15cd58601e77a273f7390fc4f4fcd16efe814a43"; Instance="production"
-X-Launchpad-Hash: 545ef6d73a3eb314c5540bed63698f987500df1a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <77e65f06-563b-3b30-ab36-9670e8cc03a4@arm.com>
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=mark.rutland@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,384 +55,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906694 <1906694@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Marc Zyngier <maz@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ kvmarm@lists.cs.columbia.edu, Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a duplicate of bug 1906693 ***
-    https://bugs.launchpad.net/bugs/1906693
+On Thu, Dec 03, 2020 at 04:49:49PM +0000, Steven Price wrote:
+> On 03/12/2020 16:09, Mark Rutland wrote:
+> > On Fri, Nov 27, 2020 at 03:21:11PM +0000, Steven Price wrote:
+> > > It's been a week, and I think the comments on v5 made it clear that
+> > > enforcing PROT_MTE requirements on the VMM was probably the wrong
+> > > approach. So since I've got swap working correctly without that I
+> > > thought I'd post a v6 which hopefully addresses all the comments so far.
+> > > 
+> > > This series adds support for Arm's Memory Tagging Extension (MTE) to
+> > > KVM, allowing KVM guests to make use of it. This builds on the existing
+> > > user space support already in v5.10-rc4, see [1] for an overview.
+> > 
+> > >   arch/arm64/include/asm/kvm_emulate.h       |  3 +++
+> > >   arch/arm64/include/asm/kvm_host.h          |  8 ++++++++
+> > >   arch/arm64/include/asm/pgtable.h           |  2 +-
+> > >   arch/arm64/include/asm/sysreg.h            |  3 ++-
+> > >   arch/arm64/kernel/mte.c                    | 18 +++++++++++++-----
+> > >   arch/arm64/kvm/arm.c                       |  9 +++++++++
+> > >   arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 14 ++++++++++++++
+> > >   arch/arm64/kvm/mmu.c                       | 16 ++++++++++++++++
+> > >   arch/arm64/kvm/sys_regs.c                  | 20 +++++++++++++++-----
+> > >   include/uapi/linux/kvm.h                   |  1 +
+> > >   10 files changed, 82 insertions(+), 12 deletions(-)
+> > 
+> > I note that doesn't fixup arch/arm64/kvm/inject_fault.c, where in
+> > enter_exception64() we have:
+> > 
+> > | // TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
+> > 
+> > ... and IIUC when MTE is present, TCO should be set when delivering an
+> > exception, so I believe that needs to be updated to set TCO.
+> 
+> Well spotted! As you say TCO should be set when delivering an exception, so
+> we need the following:
+> 
+> -       // TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
+> +       if (kvm_has_mte(vcpu->kvm))
+> +               new |= PSR_TCO_BIT;
 
-Public bug reported:
+Something of that sort, yes.
 
- affects qemu
- subscribe philmd@redhat.com
- subscribe kwolf@redhat.com
+It'd be worth a look for any mention of TCO or MTE in case there are
+other bits that need a fixup.
 
-=3D=3D=3D Stack Trace =3D=3D=3D
-qemu-fuzz-i386: block/io.c:1835: int bdrv_co_write_req_prepare(BdrvChild *,=
- int64_t, uint64_t, BdrvTrackedRequest *, int): Assertion `child->perm & BL=
-K_PERM_WRITE' failed.
-=3D=3D1505128=3D=3D ERROR: libFuzzer: deadly signal
-    #0 0x55a083b92cee in __sanitizer_print_stack_trace (qemu-fuzz-i386+0x79=
-3cee)
-    #1 0x55a083b6c1d1 in fuzzer::PrintStackTrace() (qemu-fuzz-i386+0x76d1d1)
-    #2 0x55a083b4f0d6 in fuzzer::Fuzzer::CrashCallback() (.part.0) (qemu-fu=
-zz-i386+0x7500d6)
-    #3 0x55a083b4f19b in fuzzer::Fuzzer::StaticCrashSignalCallback() (qemu-=
-fuzz-i386+0x75019b)
-    #4 0x7f8d24ed6a8f  (/lib64/libpthread.so.0+0x14a8f)
-    #5 0x7f8d24d079e4 in raise (/lib64/libc.so.6+0x3c9e4)
-    #6 0x7f8d24cf0894 in abort (/lib64/libc.so.6+0x25894)
-    #7 0x7f8d24cf0768 in __assert_fail_base.cold (/lib64/libc.so.6+0x25768)
-    #8 0x7f8d24cffe75 in __assert_fail (/lib64/libc.so.6+0x34e75)
-    #9 0x55a08423763f in bdrv_co_write_req_prepare block/io.c:1835:13
-    #10 0x55a0842343a8 in bdrv_aligned_pwritev block/io.c:1915:11
-    #11 0x55a084233765 in bdrv_co_pwritev_part block/io.c:2104:11
-    #12 0x55a084260d1a in blk_do_pwritev_part block/block-backend.c:1260:11
-    #13 0x55a08426163e in blk_aio_write_entry block/block-backend.c:1476:17
-    #14 0x55a0843b0d23 in coroutine_trampoline util/coroutine-ucontext.c:17=
-3:9
-    #15 0x7f8d24d1d22f  (/lib64/libc.so.6+0x5222f)
+> > Given that MTE-capable HW does that unconditionally, this is going to be
+> > a mess for big.LITTLE. :/
+> 
+> I'm not sure I follow. Either all CPUs support MTE in which this isn't a
+> problem, or the MTE feature just isn't exposed. We don't support a mix of
+> MTE and non-MTE CPUs. There are several aspects of MTE which effective mean
+> it's an all-or-nothing feature for the system.
 
-=3D=3D=3D Reproducer=3D=3D=3D
-cat << EOF | ./qemu-system-i386 -M q35 \
--device megasas-gen2 -device scsi-cd,drive=3Dnull0 \
--blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 \
--monitor none -serial none -display none \
--machine accel=3Dqtest -m 64 -qtest stdio
-outl 0xcf8 0x80001804
-outl 0xcfc 0xffffff
-outl 0xcf8 0x8000181b
-outl 0xcfc 0x7052005
-write 0x5cc0 0x1 0x03
-write 0x5cc7 0x1 0x40
-write 0x5ce0 0x1 0x0a
-write 0x5cf3 0x1 0x01
-write 0x5cf7 0x1 0x40
-write 0x5cf8 0x1 0x0a
-write 0x5cff 0x1 0x05
-write 0x5d03 0x1 0x5b
-write 0x5d06 0x1 0x4f
-write 0x5d0b 0x1 0x01
-write 0x5d0f 0x1 0x40
-write 0x5d10 0x1 0x0a
-write 0x5d17 0x1 0x05
-write 0x5d1b 0x1 0x5b
-write 0x5d1e 0x1 0x4f
-write 0x5d23 0x1 0x01
-write 0x5d27 0x1 0x40
-write 0x5d28 0x1 0x0a
-write 0x5d2f 0x1 0x05
-write 0x5d33 0x1 0x5b
-write 0x5d36 0x1 0x4f
-write 0x5d3b 0x1 0x01
-write 0x5d3f 0x1 0x40
-write 0x5d40 0x1 0x0a
-write 0x5d47 0x1 0x05
-write 0x5d4b 0x1 0x5b
-write 0x5d4e 0x1 0x4f
-write 0x5d53 0x1 0x01
-write 0x5d57 0x1 0x40
-write 0x5d58 0x1 0x0a
-write 0x5d5f 0x1 0x05
-write 0x5d63 0x1 0x5b
-write 0x5d66 0x1 0x4f
-write 0x5d6b 0x1 0x01
-write 0x5d6f 0x1 0x40
-write 0x5d70 0x1 0x0a
-write 0x5d77 0x1 0x05
-write 0x5d7b 0x1 0x5b
-write 0x5d7e 0x1 0x4f
-write 0x5d83 0x1 0x01
-write 0x5d87 0x1 0x40
-write 0x5d88 0x1 0x0a
-write 0x5d8f 0x1 0x05
-write 0x5d93 0x1 0x5b
-write 0x5d96 0x1 0x4f
-write 0x5d9b 0x1 0x01
-write 0x5d9f 0x1 0x40
-write 0x5da0 0x1 0x0a
-write 0x5da7 0x1 0x05
-write 0x5dab 0x1 0x5b
-write 0x5dae 0x1 0x4f
-write 0x5db3 0x1 0x01
-write 0x5db7 0x1 0x40
-write 0x5db8 0x1 0x0a
-write 0x5dbf 0x1 0x05
-write 0x5dc3 0x1 0x5b
-write 0x5dc6 0x1 0x4f
-write 0x5dcb 0x1 0x01
-write 0x5dcf 0x1 0x40
-write 0x5dd0 0x1 0x0a
-write 0x5dd7 0x1 0x05
-write 0x5ddb 0x1 0x5b
-write 0x5dde 0x1 0x4f
-write 0x5de3 0x1 0x01
-write 0x5de7 0x1 0x40
-write 0x5de8 0x1 0x0a
-write 0x5def 0x1 0x05
-write 0x5df3 0x1 0x5b
-write 0x5df6 0x1 0x4f
-write 0x5dfb 0x1 0x01
-write 0x5dff 0x1 0x40
-write 0x5e00 0x1 0x0a
-write 0x5e07 0x1 0x05
-write 0x5e0b 0x1 0x5b
-write 0x5e0e 0x1 0x4f
-write 0x5e13 0x1 0x01
-write 0x5e17 0x1 0x40
-write 0x5e18 0x1 0x0a
-write 0x5e1f 0x1 0x05
-write 0x5e23 0x1 0x5b
-write 0x5e26 0x1 0x4f
-write 0x5e2b 0x1 0x01
-write 0x5e2f 0x1 0x40
-write 0x5e30 0x1 0x0a
-write 0x5e37 0x1 0x05
-write 0x5e3b 0x1 0x5b
-write 0x5e3e 0x1 0x4f
-write 0x5e43 0x1 0x01
-write 0x5e47 0x1 0x40
-write 0x5e48 0x1 0x0a
-write 0x5e4f 0x1 0x05
-write 0x5e53 0x1 0x5b
-write 0x5e56 0x1 0x4f
-write 0x5e5b 0x1 0x01
-write 0x5e5f 0x1 0x40
-write 0x5e60 0x1 0x0a
-write 0x5e67 0x1 0x05
-write 0x5e6b 0x1 0x5b
-write 0x5e6e 0x1 0x4f
-write 0x5e73 0x1 0x01
-write 0x5e77 0x1 0x40
-write 0x5e78 0x1 0x0a
-write 0x5e7f 0x1 0x05
-write 0x5e83 0x1 0x5b
-write 0x5e86 0x1 0x4f
-write 0x5e8b 0x1 0x01
-write 0x5e8f 0x1 0x40
-write 0x5e90 0x1 0x0a
-write 0x5e97 0x1 0x05
-write 0x5e9b 0x1 0x5b
-write 0x5e9e 0x1 0x4f
-write 0x5ea3 0x1 0x01
-write 0x5ea7 0x1 0x40
-write 0x5ea8 0x1 0x0a
-write 0x5eaf 0x1 0x05
-write 0x5eb3 0x1 0x5b
-write 0x5eb6 0x1 0x4f
-write 0x5ebb 0x1 0x01
-write 0x5ebf 0x1 0x40
-write 0x5ec0 0x1 0x0a
-write 0x5ec7 0x1 0x05
-write 0x5ecb 0x1 0x5b
-write 0x5ece 0x1 0x4f
-write 0x5ed3 0x1 0x01
-write 0x5ed7 0x1 0x40
-write 0x5ed8 0x1 0x0a
-write 0x5edf 0x1 0x05
-write 0x5ee3 0x1 0x5b
-write 0x5ee6 0x1 0x4f
-write 0x5eeb 0x1 0x01
-write 0x5eef 0x1 0x40
-writeq 0x50000000000003b 0x15cd405b60101c8
-EOF
+So long as the host requires uniform MTE support, I agree that's not a
+problem.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+The fun is that the CPUs themselves will set TCO upon a real exception
+regardless of whether the host is aware, and on a mismatched system some
+CPUs will do that while others will not. In such a case the host and
+guest will end up seeing the SPSR TCO bit set sometimes upon exceptions
+from EL1 or EL2, and I hope that MTE-unaware CPUs ignore the bit upon
+ERET, or we're going to have significant problems.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906694
-
-Title:
-  Assertion Failure in bdrv_co_write_req_prepare through megasas
-
-Status in QEMU:
-  New
-
-Bug description:
-   affects qemu
-   subscribe philmd@redhat.com
-   subscribe kwolf@redhat.com
-
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  qemu-fuzz-i386: block/io.c:1835: int bdrv_co_write_req_prepare(BdrvChild =
-*, int64_t, uint64_t, BdrvTrackedRequest *, int): Assertion `child->perm & =
-BLK_PERM_WRITE' failed.
-  =3D=3D1505128=3D=3D ERROR: libFuzzer: deadly signal
-      #0 0x55a083b92cee in __sanitizer_print_stack_trace (qemu-fuzz-i386+0x=
-793cee)
-      #1 0x55a083b6c1d1 in fuzzer::PrintStackTrace() (qemu-fuzz-i386+0x76d1=
-d1)
-      #2 0x55a083b4f0d6 in fuzzer::Fuzzer::CrashCallback() (.part.0) (qemu-=
-fuzz-i386+0x7500d6)
-      #3 0x55a083b4f19b in fuzzer::Fuzzer::StaticCrashSignalCallback() (qem=
-u-fuzz-i386+0x75019b)
-      #4 0x7f8d24ed6a8f  (/lib64/libpthread.so.0+0x14a8f)
-      #5 0x7f8d24d079e4 in raise (/lib64/libc.so.6+0x3c9e4)
-      #6 0x7f8d24cf0894 in abort (/lib64/libc.so.6+0x25894)
-      #7 0x7f8d24cf0768 in __assert_fail_base.cold (/lib64/libc.so.6+0x2576=
-8)
-      #8 0x7f8d24cffe75 in __assert_fail (/lib64/libc.so.6+0x34e75)
-      #9 0x55a08423763f in bdrv_co_write_req_prepare block/io.c:1835:13
-      #10 0x55a0842343a8 in bdrv_aligned_pwritev block/io.c:1915:11
-      #11 0x55a084233765 in bdrv_co_pwritev_part block/io.c:2104:11
-      #12 0x55a084260d1a in blk_do_pwritev_part block/block-backend.c:1260:=
-11
-      #13 0x55a08426163e in blk_aio_write_entry block/block-backend.c:1476:=
-17
-      #14 0x55a0843b0d23 in coroutine_trampoline util/coroutine-ucontext.c:=
-173:9
-      #15 0x7f8d24d1d22f  (/lib64/libc.so.6+0x5222f)
-
-  =3D=3D=3D Reproducer=3D=3D=3D
-  cat << EOF | ./qemu-system-i386 -M q35 \
-  -device megasas-gen2 -device scsi-cd,drive=3Dnull0 \
-  -blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 \
-  -monitor none -serial none -display none \
-  -machine accel=3Dqtest -m 64 -qtest stdio
-  outl 0xcf8 0x80001804
-  outl 0xcfc 0xffffff
-  outl 0xcf8 0x8000181b
-  outl 0xcfc 0x7052005
-  write 0x5cc0 0x1 0x03
-  write 0x5cc7 0x1 0x40
-  write 0x5ce0 0x1 0x0a
-  write 0x5cf3 0x1 0x01
-  write 0x5cf7 0x1 0x40
-  write 0x5cf8 0x1 0x0a
-  write 0x5cff 0x1 0x05
-  write 0x5d03 0x1 0x5b
-  write 0x5d06 0x1 0x4f
-  write 0x5d0b 0x1 0x01
-  write 0x5d0f 0x1 0x40
-  write 0x5d10 0x1 0x0a
-  write 0x5d17 0x1 0x05
-  write 0x5d1b 0x1 0x5b
-  write 0x5d1e 0x1 0x4f
-  write 0x5d23 0x1 0x01
-  write 0x5d27 0x1 0x40
-  write 0x5d28 0x1 0x0a
-  write 0x5d2f 0x1 0x05
-  write 0x5d33 0x1 0x5b
-  write 0x5d36 0x1 0x4f
-  write 0x5d3b 0x1 0x01
-  write 0x5d3f 0x1 0x40
-  write 0x5d40 0x1 0x0a
-  write 0x5d47 0x1 0x05
-  write 0x5d4b 0x1 0x5b
-  write 0x5d4e 0x1 0x4f
-  write 0x5d53 0x1 0x01
-  write 0x5d57 0x1 0x40
-  write 0x5d58 0x1 0x0a
-  write 0x5d5f 0x1 0x05
-  write 0x5d63 0x1 0x5b
-  write 0x5d66 0x1 0x4f
-  write 0x5d6b 0x1 0x01
-  write 0x5d6f 0x1 0x40
-  write 0x5d70 0x1 0x0a
-  write 0x5d77 0x1 0x05
-  write 0x5d7b 0x1 0x5b
-  write 0x5d7e 0x1 0x4f
-  write 0x5d83 0x1 0x01
-  write 0x5d87 0x1 0x40
-  write 0x5d88 0x1 0x0a
-  write 0x5d8f 0x1 0x05
-  write 0x5d93 0x1 0x5b
-  write 0x5d96 0x1 0x4f
-  write 0x5d9b 0x1 0x01
-  write 0x5d9f 0x1 0x40
-  write 0x5da0 0x1 0x0a
-  write 0x5da7 0x1 0x05
-  write 0x5dab 0x1 0x5b
-  write 0x5dae 0x1 0x4f
-  write 0x5db3 0x1 0x01
-  write 0x5db7 0x1 0x40
-  write 0x5db8 0x1 0x0a
-  write 0x5dbf 0x1 0x05
-  write 0x5dc3 0x1 0x5b
-  write 0x5dc6 0x1 0x4f
-  write 0x5dcb 0x1 0x01
-  write 0x5dcf 0x1 0x40
-  write 0x5dd0 0x1 0x0a
-  write 0x5dd7 0x1 0x05
-  write 0x5ddb 0x1 0x5b
-  write 0x5dde 0x1 0x4f
-  write 0x5de3 0x1 0x01
-  write 0x5de7 0x1 0x40
-  write 0x5de8 0x1 0x0a
-  write 0x5def 0x1 0x05
-  write 0x5df3 0x1 0x5b
-  write 0x5df6 0x1 0x4f
-  write 0x5dfb 0x1 0x01
-  write 0x5dff 0x1 0x40
-  write 0x5e00 0x1 0x0a
-  write 0x5e07 0x1 0x05
-  write 0x5e0b 0x1 0x5b
-  write 0x5e0e 0x1 0x4f
-  write 0x5e13 0x1 0x01
-  write 0x5e17 0x1 0x40
-  write 0x5e18 0x1 0x0a
-  write 0x5e1f 0x1 0x05
-  write 0x5e23 0x1 0x5b
-  write 0x5e26 0x1 0x4f
-  write 0x5e2b 0x1 0x01
-  write 0x5e2f 0x1 0x40
-  write 0x5e30 0x1 0x0a
-  write 0x5e37 0x1 0x05
-  write 0x5e3b 0x1 0x5b
-  write 0x5e3e 0x1 0x4f
-  write 0x5e43 0x1 0x01
-  write 0x5e47 0x1 0x40
-  write 0x5e48 0x1 0x0a
-  write 0x5e4f 0x1 0x05
-  write 0x5e53 0x1 0x5b
-  write 0x5e56 0x1 0x4f
-  write 0x5e5b 0x1 0x01
-  write 0x5e5f 0x1 0x40
-  write 0x5e60 0x1 0x0a
-  write 0x5e67 0x1 0x05
-  write 0x5e6b 0x1 0x5b
-  write 0x5e6e 0x1 0x4f
-  write 0x5e73 0x1 0x01
-  write 0x5e77 0x1 0x40
-  write 0x5e78 0x1 0x0a
-  write 0x5e7f 0x1 0x05
-  write 0x5e83 0x1 0x5b
-  write 0x5e86 0x1 0x4f
-  write 0x5e8b 0x1 0x01
-  write 0x5e8f 0x1 0x40
-  write 0x5e90 0x1 0x0a
-  write 0x5e97 0x1 0x05
-  write 0x5e9b 0x1 0x5b
-  write 0x5e9e 0x1 0x4f
-  write 0x5ea3 0x1 0x01
-  write 0x5ea7 0x1 0x40
-  write 0x5ea8 0x1 0x0a
-  write 0x5eaf 0x1 0x05
-  write 0x5eb3 0x1 0x5b
-  write 0x5eb6 0x1 0x4f
-  write 0x5ebb 0x1 0x01
-  write 0x5ebf 0x1 0x40
-  write 0x5ec0 0x1 0x0a
-  write 0x5ec7 0x1 0x05
-  write 0x5ecb 0x1 0x5b
-  write 0x5ece 0x1 0x4f
-  write 0x5ed3 0x1 0x01
-  write 0x5ed7 0x1 0x40
-  write 0x5ed8 0x1 0x0a
-  write 0x5edf 0x1 0x05
-  write 0x5ee3 0x1 0x5b
-  write 0x5ee6 0x1 0x4f
-  write 0x5eeb 0x1 0x01
-  write 0x5eef 0x1 0x40
-  writeq 0x50000000000003b 0x15cd405b60101c8
-  EOF
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906694/+subscriptions
+Thanks,
+Mark.
 
