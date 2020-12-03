@@ -2,70 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC67A2CCEF8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 07:04:58 +0100 (CET)
-Received: from localhost ([::1]:48958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8892CCF42
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 07:30:40 +0100 (CET)
+Received: from localhost ([::1]:53698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkhjd-0006RQ-HQ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 01:04:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40032)
+	id 1kki8U-0002RV-RK
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 01:30:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kkhho-0005yA-IZ
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 01:03:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kkhhk-0001EU-M3
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 01:03:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606975378;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QpINCT4mgMAC9w7Tv1U04X1ZiDTm7+clT6JDjn2rrcQ=;
- b=JSSs05iSE+laHHOyoBWyqcXCK3Ht29XIoL+8ACZN48gX6KtqzJR5ucmo6hAvqTKpk2+DC5
- uY5XhDY/+ncYkpxR3e01lMrIvGulvX6961P/KANYBwSZyBMWzW1yzrGLj/DI7LiiM2EcJ/
- hMauZUGhW5a7y2YBp1jASj7qATE5CXI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-MjlIfSdPM1O2rky4XEMPnw-1; Thu, 03 Dec 2020 01:02:56 -0500
-X-MC-Unique: MjlIfSdPM1O2rky4XEMPnw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 681AB185E48B;
- Thu,  3 Dec 2020 06:02:55 +0000 (UTC)
-Received: from kaapi (unknown [10.74.9.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C96585D6AC;
- Thu,  3 Dec 2020 06:02:47 +0000 (UTC)
-Date: Thu, 3 Dec 2020 11:32:44 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v1 1/1] security-process: update process information
-In-Reply-To: <20201202123418.GH2360260@redhat.com>
-Message-ID: <15934ps9-4so0-p464-s473-3sps7s652021@erqung.pbz>
-References: <20201130134907.348505-1-ppandit@redhat.com>
- <20201130134907.348505-2-ppandit@redhat.com>
- <20201202123418.GH2360260@redhat.com>
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kki7B-0001wN-CU
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 01:29:17 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:58528)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1kki79-0001Xs-2D
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 01:29:17 -0500
+Received: from [192.168.0.92] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id A135140D3BFF;
+ Thu,  3 Dec 2020 06:29:10 +0000 (UTC)
+Subject: Re: [PATCH] tests/acceptance: fix timeout for vm.wait
+To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+References: <160552129733.22861.2033930860605615947.stgit@pasha-ThinkPad-X280>
+ <CAP+75-W2ed_73xszEA08hqdnVRL9bGXshnGYqJGZvSjt4_D8bw@mail.gmail.com>
+ <ce6360ce-d640-8a4a-96e8-294dd5f04f0b@redhat.com>
+ <f9fe07b1-78e1-76ca-3c02-d6bf77d827d8@ispras.ru>
+ <a2587552-4881-9495-e7c1-6a1934da760c@redhat.com>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <32d30a1d-51a5-b04e-19cb-e33e90b2d659@ispras.ru>
+Date: Thu, 3 Dec 2020 09:29:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed;
- boundary="-1463810047-602030364-1606975374=:373362"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <a2587552-4881-9495-e7c1-6a1934da760c@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,46 +59,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefano Stabellini <sstabellini@kernel.org>,
- Petr Matousek <pmatouse@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  QEMU Developers <qemu-devel@nongnu.org>,
- Darren Kenny <darren.kenny@oracle.com>, Michael Roth <michael.roth@amd.com>
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
----1463810047-602030364-1606975374=:373362
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+On 02.12.2020 18:22, John Snow wrote:
+> On 12/2/20 1:31 AM, Pavel Dovgalyuk wrote:
+>>>>>
+>>>>> This patch adds timeout parameter to vm.wait() calls, because the 
+>>>>> default
+>>>>> value is just 30 seconds, and tests may last for more time.
+>>>>>
+>>>
+>>> This doesn't sound right -- the timeout isn't meant to be for the 
+>>> entire duration of the test, the timeout is from the time of issuing 
+>>> a shutdown command until the time the VM actually shuts down. 
+>>> Ideally, that should not take a particularly long time in a 
+>>> well-behaved test.
+>>>
+>>> Why is it lasting longer than 30 seconds?
+>>
+>> These are complex Linux boot&execution tests.
+>> Such loading process could take more than 30 seconds.
+>> E.g., BootLinux tests have timeout of 900 seconds.
+> 
+> This timeout should only count towards the time spent *shutting down*, 
+> not the time to run the entire test. 30 seconds used to be enough time 
+> for this to happen on gitlab, if it's taking longer than that I am 
+> worried that something has gone wrong.
+> 
+> Where were the failures observed, and on what tests? Are there logs I 
+> can review?
 
-+-- On Wed, 2 Dec 2020, Daniel P. Berrangé wrote --+
-| > +    - If issue is found to be less severe, an upstream public bug (or an
-| > +      issue) will be created immediately.
-| 
-| No need to repeat "or an issue". I think it would read more clearly as
-| 
-|    - If the severity of the issue is sufficiently low, an upstream public bug
-|      may be created immediately.
+I've got your point. You were right.
+The problem was with new long-lasting record/replay tests:
 
-* Let's settle on public GitLab issues, shall we? 
-
-* Tomorrow after an issue triage if someone asks where should they create a 
-  public tracker, it's better to have one definite answer, instead of choose 
-  either LaunchPad or GitLab issues.
-
-* OR is it better to have both? ie. file a public tracker anywhere as per ones 
-  convenience?
-
-* One GitLab is good I think.
+if record:
+     cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port),
+                                   self.name)
+     vm.shutdown()
+     logger.info('finished the recording with log size %s bytes'
+                 % os.path.getsize(replay_path))
+else:
+     vm.wait(None)
+     logger.info('successfully fihished the replay')
 
 
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
----1463810047-602030364-1606975374=:373362--
+Replay phase here waits for shutdown for the whole period of Linux boot 
+and execution. We don't check any VM output and just wait for finishing
+the replay.
 
+Smaller RR tests include "self.wait_for_console_pattern" during replay 
+and therefore can't have problems with this timeout.
+
+Pavel Dovgalyuk
 
