@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17E872CD65C
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 14:07:59 +0100 (CET)
-Received: from localhost ([::1]:44058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2772CD6B2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 14:29:12 +0100 (CET)
+Received: from localhost ([::1]:53152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkoL0-0003EL-0g
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 08:07:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46222)
+	id 1kkofX-00012X-NA
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 08:29:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kko6Q-0004RY-EE
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 07:52:54 -0500
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:41081)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kko6K-0008LB-Ki
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 07:52:54 -0500
-Received: by mail-lj1-x22e.google.com with SMTP id y7so2377417lji.8
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 04:52:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FTIXK8Mp2m2AMw0jbqYrjv2kNQYnyeKPV4gyIZ7wxG8=;
- b=DHHGScHIEY4eeaYDHRrLaWRaPURzlxOs2Qt3/jxPJ6VJwmbNEg4BXXU0QyM8CcTqwy
- UJpv+4nSRYB/3838yNsBmM2+Smw4c3iQZt7wGNgkcNPDaYAFZV/QMSnmofrgQ1EEw4lK
- /oIPm5GSc0qAFxjydCMzZvqHvEsVtuQZquP5V2+LmxlzBdYDBhUi+3d4lom6WhWA0sjZ
- 0e0PBg+VjD97axM4lFdWdvX7qhzzGleU30J0k+KElA8cnB/3QwMORc8WmaTFSK8JQe2p
- jTxrUzTW+HVKKXLl3ALxZUizt+0HUEsGG50JX09tipY40Djp0necYZfByW3MT7kCfv1B
- SXPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FTIXK8Mp2m2AMw0jbqYrjv2kNQYnyeKPV4gyIZ7wxG8=;
- b=QTvd5uRgPWbPLTrG7SpzMCyJMCe6LGIfdQgh15hFOlJz2kYcdWCA+tZR2R2NMh5Hkr
- GvwDMSz8/Rnu+BTSAyjdZtiISKEco6mff/9R77xF2Nhp0BJYp0+I8sCp+rhzpiKKeUcj
- CYQGXO0skkWwdycAHCYvgzOikOALEgPUW3NxYiKTAxyT9FloougPcjnmoaRDQ6bNjn77
- 48ZZgDy+uK8Ij9FyYbMxJdUCHVwPWF+sqtDwJq6BkcZ+//vdvmZVWCkUQIO05E8tngOG
- i0G6qMt8FdcvdY4CD+GnhDBcV3Qvm0NQqBXiyIk2Qu5uqYKhPaEPTKqOkN5kzcJTefoK
- Cl9w==
-X-Gm-Message-State: AOAM531T5HvbI85Ec4pMBRziU+Se2Os7f1EWkunbkwar6qVcEiNIu+WD
- Bv38huzfFzllCDwWuEjTdEhsIQUwIir4hg==
-X-Google-Smtp-Source: ABdhPJxn1bvdWXhv3IKmZGiLEM1k3xmR58U7g0UqRt9c+jaSnwAF76IK04kNNB5wYuoxCuQzagpPEA==
-X-Received: by 2002:a05:651c:1033:: with SMTP id
- w19mr1201668ljm.55.1606999966900; 
- Thu, 03 Dec 2020 04:52:46 -0800 (PST)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id b17sm499891lfc.93.2020.12.03.04.52.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Dec 2020 04:52:46 -0800 (PST)
-From: Andrew Melnychenko <andrew@daynix.com>
-To: mst@redhat.com
-Subject: [PATCH v4 2/2] hw/virtio-pci Added AER capability.
-Date: Thu,  3 Dec 2020 15:25:17 +0200
-Message-Id: <20201203132517.220811-3-andrew@daynix.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201203132517.220811-1-andrew@daynix.com>
-References: <20201203132517.220811-1-andrew@daynix.com>
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kkod1-0000Kq-MY
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 08:26:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kkocx-0002v4-FZ
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 08:26:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607001990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=C52yRVYN2U8RBvGVsFDFB05MBK165HRvzmvFCM7qGsY=;
+ b=T1eWRKd9Zmj63CrrJ8seyC08LtT0pi0wUwaFX55tLNQ1N04r64BQdxxd7klic8KgHeTyVV
+ JCftMivqMB2NXJMd4ZOIpJGppMAaeah3zqPkQZ3xKfq1wDs1k/VRmGgp0yMRV04OzC6RD/
+ imRbu5Onzx79fKNGdS447mR7AOZAeLI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-411-FVEE0IilMd6KOAXM0ApyEA-1; Thu, 03 Dec 2020 08:26:28 -0500
+X-MC-Unique: FVEE0IilMd6KOAXM0ApyEA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 893241005E5E;
+ Thu,  3 Dec 2020 13:26:26 +0000 (UTC)
+Received: from localhost (ovpn-116-25.rdu2.redhat.com [10.10.116.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 37FF26091A;
+ Thu,  3 Dec 2020 13:26:18 +0000 (UTC)
+Date: Thu, 3 Dec 2020 14:26:17 +0100
+From: Sergio Lopez <slp@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v3 04/12] microvm: make number of virtio transports
+ runtime changeable
+Message-ID: <20201203132617.6p4kga5awiiazzpt@mhamilton>
+References: <20201203105423.10431-1-kraxel@redhat.com>
+ <20201203105423.10431-5-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::22e;
- envelope-from=andrew@daynix.com; helo=mail-lj1-x22e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201203105423.10431-5-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="adk2tu5bsypwio2p"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=slp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,87 +78,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: intel-wired-lan@lists.osuosl.org, qemu-devel@nongnu.org,
- alexander.duyck@gmail.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew <andrew@daynix.com>
+--adk2tu5bsypwio2p
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Added AER capability for virtio-pci devices.
-Also added property for devices, by default AER is disabled.
+On Thu, Dec 03, 2020 at 11:54:15AM +0100, Gerd Hoffmann wrote:
+> This will allow to increase the number of transports in
+> case we have enough irq lines available for them all.
+>=20
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  include/hw/i386/microvm.h | 2 +-
+>  hw/i386/microvm.c         | 9 +++++++--
+>  2 files changed, 8 insertions(+), 3 deletions(-)
 
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- hw/virtio/virtio-pci.c | 16 ++++++++++++++++
- hw/virtio/virtio-pci.h |  4 ++++
- 2 files changed, 20 insertions(+)
+Reviewed-by: Sergio Lopez <slp@redhat.com>
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ceaa233129..f863f69ede 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1817,6 +1817,12 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
-          */
-         pci_set_word(pci_dev->config + pos + PCI_PM_PMC, 0x3);
- 
-+        if (proxy->flags & VIRTIO_PCI_FLAG_AER) {
-+            pcie_aer_init(pci_dev, PCI_ERR_VER, last_pcie_cap_offset,
-+                          PCI_ERR_SIZEOF, NULL);
-+            last_pcie_cap_offset += PCI_ERR_SIZEOF;
-+        }
-+
-         if (proxy->flags & VIRTIO_PCI_FLAG_INIT_DEVERR) {
-             /* Init error enabling flags */
-             pcie_cap_deverr_init(pci_dev);
-@@ -1858,7 +1864,15 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
- 
- static void virtio_pci_exit(PCIDevice *pci_dev)
- {
-+    VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
-+    bool pcie_port = pci_bus_is_express(pci_get_bus(pci_dev)) &&
-+                     !pci_bus_is_root(pci_get_bus(pci_dev));
-+
-     msix_uninit_exclusive_bar(pci_dev);
-+    if (proxy->flags & VIRTIO_PCI_FLAG_AER && pcie_port &&
-+        pci_is_express(pci_dev)) {
-+        pcie_aer_exit(pci_dev);
-+    }
- }
- 
- static void virtio_pci_reset(DeviceState *qdev)
-@@ -1911,6 +1925,8 @@ static Property virtio_pci_properties[] = {
-                     VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
-     DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
-                     VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
-+    DEFINE_PROP_BIT("aer", VirtIOPCIProxy, flags,
-+                    VIRTIO_PCI_FLAG_AER_BIT, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index 06e2af12de..d7d5d403a9 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -41,6 +41,7 @@ enum {
-     VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
-     VIRTIO_PCI_FLAG_INIT_PM_BIT,
-     VIRTIO_PCI_FLAG_INIT_FLR_BIT,
-+    VIRTIO_PCI_FLAG_AER_BIT,
- };
- 
- /* Need to activate work-arounds for buggy guests at vmstate load. */
-@@ -80,6 +81,9 @@ enum {
- /* Init Function Level Reset capability */
- #define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
- 
-+/* Advanced Error Reporting capability */
-+#define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
-+
- typedef struct {
-     MSIMessage msg;
-     int virq;
--- 
-2.29.2
+--adk2tu5bsypwio2p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl/I53gACgkQ9GknjS8M
+AjXhjg/9FW3RJhlrz5pGnC61TL0WsBKbr+20q5uKo02r+vJELR3K32crrrr9adKF
+BhJPatqlDY1tt3O0CkhR5qoyGzYJPmmr4mwmSfQNA7163dY7Jm26aaCsz6+kTaPK
+DOwQGAObZeJuLCS4NcT+HFeiiusRl3nHBq53X0hcrTkg/A0f71q10N17+9K+qms8
+Fe2Bj8XfPtmmqcUy3XpQTqU7l1melLYhG6xPIstI4MXrtkteEgQrCS1Oxtdex6qb
+EmymPPlC72liGpGi3W2xsOEbsgMrC9p1loc5jnNCn2Y3kAI6C3E2nCai+iFPEhq3
+guNQKZe7Nafro3JnZhom8N32pv7I56/1c8+Ss+OEUdi4n/FeiC2Q3RR8V5Y1fygw
+txDKNU4S7NW0buo74mQyxUYariEsGp7FoanVDBmsIQBge7vs5UgEBZq3fEAF1fUS
+XRzBeOZ3D5dAM7QyO/pBxUaLR9ssJfzivN1kbv2qaLUnk0Z7NHczc4VjdslVVkJd
+5TvF3ozpAfm5WpphMo9BPenqgjTlczejyRxTHiZwbgEHLrc3mqmGMFLPKMKwzOxM
+6XuuqUzTMf2qxqaXXYo/k4QPLxlP1XnKCu6jigmu1IZRQjumenImv6O71Av68CxS
+zfOWJYKCfisyu1f1xJAQ+Y0mek5WdNlVN2eLvfvrCULObeqwzU8=
+=v7jX
+-----END PGP SIGNATURE-----
+
+--adk2tu5bsypwio2p--
 
 
