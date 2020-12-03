@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F41652CDBA8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:00:00 +0100 (CET)
-Received: from localhost ([::1]:35332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732CD2CDBDA
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:09:28 +0100 (CET)
+Received: from localhost ([::1]:53692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkrxX-000779-PC
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 11:59:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47846)
+	id 1kks6h-0007m1-47
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:09:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kkruM-0005Sn-1w
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:56:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kkruJ-0001uW-ON
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:56:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607014598;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Y/bNk1Tr0a6jnd0I2kGV/wKyaCcLWtK1b5hmPoJVrJM=;
- b=dSnHPzleiCma/bKDnqa0cUf8HJij79VZ05ExMv6Kk5Bfn+jEoaZV4Cda+LL8/eZxivnemE
- ESTogBXbQaMvv1vVHH6aOnBotuXIXhh9Ve33uoPa5//9obRUq8h+Tr1QxrjtHex3wY9ge7
- roKp5uQ3vVq+wSbSFxfgImEEDZ2L+xc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-KEb7o6WUNqqCPIjyXg3pZg-1; Thu, 03 Dec 2020 11:56:34 -0500
-X-MC-Unique: KEb7o6WUNqqCPIjyXg3pZg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F182E10CE7A8;
- Thu,  3 Dec 2020 16:56:31 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-118-183.rdu2.redhat.com
- [10.10.118.183])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 199DA1A838;
- Thu,  3 Dec 2020 16:56:30 +0000 (UTC)
-Date: Thu, 3 Dec 2020 11:56:29 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Subject: Re: [PATCH] tests/acceptance: fix timeout for vm.wait
-Message-ID: <20201203165629.GC2787993@localhost.localdomain>
-References: <160552129733.22861.2033930860605615947.stgit@pasha-ThinkPad-X280>
- <CAP+75-W2ed_73xszEA08hqdnVRL9bGXshnGYqJGZvSjt4_D8bw@mail.gmail.com>
- <ce6360ce-d640-8a4a-96e8-294dd5f04f0b@redhat.com>
- <f9fe07b1-78e1-76ca-3c02-d6bf77d827d8@ispras.ru>
- <a2587552-4881-9495-e7c1-6a1934da760c@redhat.com>
- <32d30a1d-51a5-b04e-19cb-e33e90b2d659@ispras.ru>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkryT-0008QG-BL
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:01:02 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53874)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkryM-0003Ws-M9
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:00:56 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kkryK-0002E1-Oh
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 17:00:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B06592E802D
+ for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 17:00:48 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <32d30a1d-51a5-b04e-19cb-e33e90b2d659@ispras.ru>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ABTtc+pdwF7KHXCz"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 03 Dec 2020 16:53:56 -0000
+From: Alexander Bulekov <1906694@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Duplicate: 1906693
+Message-Id: <20201203165348.huwzkjhtpnxkrquj@mozz.bu.edu>
+Subject: [Bug 1906694] [NEW] Assertion Failure in bdrv_co_write_req_prepare
+ through megasas
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="15cd58601e77a273f7390fc4f4fcd16efe814a43"; Instance="production"
+X-Launchpad-Hash: 545ef6d73a3eb314c5540bed63698f987500df1a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,108 +70,384 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1906694 <1906694@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ABTtc+pdwF7KHXCz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+*** This bug is a duplicate of bug 1906693 ***
+    https://bugs.launchpad.net/bugs/1906693
 
-On Thu, Dec 03, 2020 at 09:29:10AM +0300, Pavel Dovgalyuk wrote:
-> On 02.12.2020 18:22, John Snow wrote:
-> > On 12/2/20 1:31 AM, Pavel Dovgalyuk wrote:
-> > > > > >=20
-> > > > > > This patch adds timeout parameter to vm.wait() calls,
-> > > > > > because the default
-> > > > > > value is just 30 seconds, and tests may last for more time.
-> > > > > >=20
-> > > >=20
-> > > > This doesn't sound right -- the timeout isn't meant to be for
-> > > > the entire duration of the test, the timeout is from the time of
-> > > > issuing a shutdown command until the time the VM actually shuts
-> > > > down. Ideally, that should not take a particularly long time in
-> > > > a well-behaved test.
-> > > >=20
-> > > > Why is it lasting longer than 30 seconds?
-> > >=20
-> > > These are complex Linux boot&execution tests.
-> > > Such loading process could take more than 30 seconds.
-> > > E.g., BootLinux tests have timeout of 900 seconds.
-> >=20
-> > This timeout should only count towards the time spent *shutting down*,
-> > not the time to run the entire test. 30 seconds used to be enough time
-> > for this to happen on gitlab, if it's taking longer than that I am
-> > worried that something has gone wrong.
-> >=20
-> > Where were the failures observed, and on what tests? Are there logs I
-> > can review?
->=20
-> I've got your point. You were right.
-> The problem was with new long-lasting record/replay tests:
->
+Public bug reported:
 
-Hi Pavel,
+ affects qemu
+ subscribe philmd@redhat.com
+ subscribe kwolf@redhat.com
 
-You mean a new test you're writing based on "boot_linux.py"?
+=3D=3D=3D Stack Trace =3D=3D=3D
+qemu-fuzz-i386: block/io.c:1835: int bdrv_co_write_req_prepare(BdrvChild *,=
+ int64_t, uint64_t, BdrvTrackedRequest *, int): Assertion `child->perm & BL=
+K_PERM_WRITE' failed.
+=3D=3D1505128=3D=3D ERROR: libFuzzer: deadly signal
+    #0 0x55a083b92cee in __sanitizer_print_stack_trace (qemu-fuzz-i386+0x79=
+3cee)
+    #1 0x55a083b6c1d1 in fuzzer::PrintStackTrace() (qemu-fuzz-i386+0x76d1d1)
+    #2 0x55a083b4f0d6 in fuzzer::Fuzzer::CrashCallback() (.part.0) (qemu-fu=
+zz-i386+0x7500d6)
+    #3 0x55a083b4f19b in fuzzer::Fuzzer::StaticCrashSignalCallback() (qemu-=
+fuzz-i386+0x75019b)
+    #4 0x7f8d24ed6a8f  (/lib64/libpthread.so.0+0x14a8f)
+    #5 0x7f8d24d079e4 in raise (/lib64/libc.so.6+0x3c9e4)
+    #6 0x7f8d24cf0894 in abort (/lib64/libc.so.6+0x25894)
+    #7 0x7f8d24cf0768 in __assert_fail_base.cold (/lib64/libc.so.6+0x25768)
+    #8 0x7f8d24cffe75 in __assert_fail (/lib64/libc.so.6+0x34e75)
+    #9 0x55a08423763f in bdrv_co_write_req_prepare block/io.c:1835:13
+    #10 0x55a0842343a8 in bdrv_aligned_pwritev block/io.c:1915:11
+    #11 0x55a084233765 in bdrv_co_pwritev_part block/io.c:2104:11
+    #12 0x55a084260d1a in blk_do_pwritev_part block/block-backend.c:1260:11
+    #13 0x55a08426163e in blk_aio_write_entry block/block-backend.c:1476:17
+    #14 0x55a0843b0d23 in coroutine_trampoline util/coroutine-ucontext.c:17=
+3:9
+    #15 0x7f8d24d1d22f  (/lib64/libc.so.6+0x5222f)
 
-> if record:
->     cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port),
->                                   self.name)
->     vm.shutdown()
->     logger.info('finished the recording with log size %s bytes'
->                 % os.path.getsize(replay_path))
-> else:
->     vm.wait(None)
->     logger.info('successfully fihished the replay')
->=20
->=20
-> Replay phase here waits for shutdown for the whole period of Linux boot a=
-nd
-> execution. We don't check any VM output and just wait for finishing
-> the replay.
->
+=3D=3D=3D Reproducer=3D=3D=3D
+cat << EOF | ./qemu-system-i386 -M q35 \
+-device megasas-gen2 -device scsi-cd,drive=3Dnull0 \
+-blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 \
+-monitor none -serial none -display none \
+-machine accel=3Dqtest -m 64 -qtest stdio
+outl 0xcf8 0x80001804
+outl 0xcfc 0xffffff
+outl 0xcf8 0x8000181b
+outl 0xcfc 0x7052005
+write 0x5cc0 0x1 0x03
+write 0x5cc7 0x1 0x40
+write 0x5ce0 0x1 0x0a
+write 0x5cf3 0x1 0x01
+write 0x5cf7 0x1 0x40
+write 0x5cf8 0x1 0x0a
+write 0x5cff 0x1 0x05
+write 0x5d03 0x1 0x5b
+write 0x5d06 0x1 0x4f
+write 0x5d0b 0x1 0x01
+write 0x5d0f 0x1 0x40
+write 0x5d10 0x1 0x0a
+write 0x5d17 0x1 0x05
+write 0x5d1b 0x1 0x5b
+write 0x5d1e 0x1 0x4f
+write 0x5d23 0x1 0x01
+write 0x5d27 0x1 0x40
+write 0x5d28 0x1 0x0a
+write 0x5d2f 0x1 0x05
+write 0x5d33 0x1 0x5b
+write 0x5d36 0x1 0x4f
+write 0x5d3b 0x1 0x01
+write 0x5d3f 0x1 0x40
+write 0x5d40 0x1 0x0a
+write 0x5d47 0x1 0x05
+write 0x5d4b 0x1 0x5b
+write 0x5d4e 0x1 0x4f
+write 0x5d53 0x1 0x01
+write 0x5d57 0x1 0x40
+write 0x5d58 0x1 0x0a
+write 0x5d5f 0x1 0x05
+write 0x5d63 0x1 0x5b
+write 0x5d66 0x1 0x4f
+write 0x5d6b 0x1 0x01
+write 0x5d6f 0x1 0x40
+write 0x5d70 0x1 0x0a
+write 0x5d77 0x1 0x05
+write 0x5d7b 0x1 0x5b
+write 0x5d7e 0x1 0x4f
+write 0x5d83 0x1 0x01
+write 0x5d87 0x1 0x40
+write 0x5d88 0x1 0x0a
+write 0x5d8f 0x1 0x05
+write 0x5d93 0x1 0x5b
+write 0x5d96 0x1 0x4f
+write 0x5d9b 0x1 0x01
+write 0x5d9f 0x1 0x40
+write 0x5da0 0x1 0x0a
+write 0x5da7 0x1 0x05
+write 0x5dab 0x1 0x5b
+write 0x5dae 0x1 0x4f
+write 0x5db3 0x1 0x01
+write 0x5db7 0x1 0x40
+write 0x5db8 0x1 0x0a
+write 0x5dbf 0x1 0x05
+write 0x5dc3 0x1 0x5b
+write 0x5dc6 0x1 0x4f
+write 0x5dcb 0x1 0x01
+write 0x5dcf 0x1 0x40
+write 0x5dd0 0x1 0x0a
+write 0x5dd7 0x1 0x05
+write 0x5ddb 0x1 0x5b
+write 0x5dde 0x1 0x4f
+write 0x5de3 0x1 0x01
+write 0x5de7 0x1 0x40
+write 0x5de8 0x1 0x0a
+write 0x5def 0x1 0x05
+write 0x5df3 0x1 0x5b
+write 0x5df6 0x1 0x4f
+write 0x5dfb 0x1 0x01
+write 0x5dff 0x1 0x40
+write 0x5e00 0x1 0x0a
+write 0x5e07 0x1 0x05
+write 0x5e0b 0x1 0x5b
+write 0x5e0e 0x1 0x4f
+write 0x5e13 0x1 0x01
+write 0x5e17 0x1 0x40
+write 0x5e18 0x1 0x0a
+write 0x5e1f 0x1 0x05
+write 0x5e23 0x1 0x5b
+write 0x5e26 0x1 0x4f
+write 0x5e2b 0x1 0x01
+write 0x5e2f 0x1 0x40
+write 0x5e30 0x1 0x0a
+write 0x5e37 0x1 0x05
+write 0x5e3b 0x1 0x5b
+write 0x5e3e 0x1 0x4f
+write 0x5e43 0x1 0x01
+write 0x5e47 0x1 0x40
+write 0x5e48 0x1 0x0a
+write 0x5e4f 0x1 0x05
+write 0x5e53 0x1 0x5b
+write 0x5e56 0x1 0x4f
+write 0x5e5b 0x1 0x01
+write 0x5e5f 0x1 0x40
+write 0x5e60 0x1 0x0a
+write 0x5e67 0x1 0x05
+write 0x5e6b 0x1 0x5b
+write 0x5e6e 0x1 0x4f
+write 0x5e73 0x1 0x01
+write 0x5e77 0x1 0x40
+write 0x5e78 0x1 0x0a
+write 0x5e7f 0x1 0x05
+write 0x5e83 0x1 0x5b
+write 0x5e86 0x1 0x4f
+write 0x5e8b 0x1 0x01
+write 0x5e8f 0x1 0x40
+write 0x5e90 0x1 0x0a
+write 0x5e97 0x1 0x05
+write 0x5e9b 0x1 0x5b
+write 0x5e9e 0x1 0x4f
+write 0x5ea3 0x1 0x01
+write 0x5ea7 0x1 0x40
+write 0x5ea8 0x1 0x0a
+write 0x5eaf 0x1 0x05
+write 0x5eb3 0x1 0x5b
+write 0x5eb6 0x1 0x4f
+write 0x5ebb 0x1 0x01
+write 0x5ebf 0x1 0x40
+write 0x5ec0 0x1 0x0a
+write 0x5ec7 0x1 0x05
+write 0x5ecb 0x1 0x5b
+write 0x5ece 0x1 0x4f
+write 0x5ed3 0x1 0x01
+write 0x5ed7 0x1 0x40
+write 0x5ed8 0x1 0x0a
+write 0x5edf 0x1 0x05
+write 0x5ee3 0x1 0x5b
+write 0x5ee6 0x1 0x4f
+write 0x5eeb 0x1 0x01
+write 0x5eef 0x1 0x40
+writeq 0x50000000000003b 0x15cd405b60101c8
+EOF
 
-I'm missing why a replay be different when it comes to waiting for a
-successfull "I'm finished booting" from the guest?  Wouldn't the guest
-during the replay act just the same?
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-> Smaller RR tests include "self.wait_for_console_pattern" during replay an=
-d
-> therefore can't have problems with this timeout.
->
-> Pavel Dovgalyuk
->=20
+-- =
 
-Right.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906694
 
-Thanks,
-- Cleber.
+Title:
+  Assertion Failure in bdrv_co_write_req_prepare through megasas
 
---ABTtc+pdwF7KHXCz
-Content-Type: application/pgp-signature; name="signature.asc"
+Status in QEMU:
+  New
 
------BEGIN PGP SIGNATURE-----
+Bug description:
+   affects qemu
+   subscribe philmd@redhat.com
+   subscribe kwolf@redhat.com
 
-iQIyBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl/JGLoACgkQZX6NM6Xy
-CfNMgA/2MkmBWJlZcAP+IXbDsAv+FCNTZwJ52zmHtWbTvq+ie5LTCqmy9hiz2X1S
-MFxjzxp0PIcaAO9/Mj1f2lmIw1iZzswGQ2txl4pwdL0JlyTYGyw6MeJpdZOt+/mR
-R+scEL/3C/hEgh8SBMm8KaN5Zvx0HukYquzS9Yrq5jAo5ovTkKfBRxFhxSEk0si8
-k0wxMFRFAwp2+4BJNTdk6r/hmoyR+tyfV/jz8PhHRVLTRzcT5fjWIIfKaeWh+tyy
-pZ05JX0MLlHD6Vm3H4DiGTrbjsNhcX13GCQ56jO70uyo+BqkDjnwd9p5u1X8r+RI
-XtyB32BwUS0fh46LN1h/CdXXJ7NZV/ZcbwfCPsEgyQeF25/F9k90SyelePOfI482
-dUnD0lv9HIUtK7uSyyiq2CpcqDmXXwvOokK4jPJu8yl9e0ayG6FdxWU2T+Qw3L18
-+PvBBhWdxumpLroVAMVxoMZTK9VkM5t7iUQaVoesaYmOAxkR3tT3TmwDeWlQdmzK
-Q8F79GHIY3AFX63oG+cAXQJLhUKEnBBuLuhukxmEmaa1sdn9ag509pkJ1TCbcoy+
-5QDbNntHT97dOWSCXm+nQdSqC7660+txIEHAMyYA1Hcd2uFsH7V2keV9xxFf34DR
-iOzphygBG41GZ2UyM9kS/uQvvd/1pvSdx5KwhhVg0F/WzJGZmA==
-=ZtTt
------END PGP SIGNATURE-----
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  qemu-fuzz-i386: block/io.c:1835: int bdrv_co_write_req_prepare(BdrvChild =
+*, int64_t, uint64_t, BdrvTrackedRequest *, int): Assertion `child->perm & =
+BLK_PERM_WRITE' failed.
+  =3D=3D1505128=3D=3D ERROR: libFuzzer: deadly signal
+      #0 0x55a083b92cee in __sanitizer_print_stack_trace (qemu-fuzz-i386+0x=
+793cee)
+      #1 0x55a083b6c1d1 in fuzzer::PrintStackTrace() (qemu-fuzz-i386+0x76d1=
+d1)
+      #2 0x55a083b4f0d6 in fuzzer::Fuzzer::CrashCallback() (.part.0) (qemu-=
+fuzz-i386+0x7500d6)
+      #3 0x55a083b4f19b in fuzzer::Fuzzer::StaticCrashSignalCallback() (qem=
+u-fuzz-i386+0x75019b)
+      #4 0x7f8d24ed6a8f  (/lib64/libpthread.so.0+0x14a8f)
+      #5 0x7f8d24d079e4 in raise (/lib64/libc.so.6+0x3c9e4)
+      #6 0x7f8d24cf0894 in abort (/lib64/libc.so.6+0x25894)
+      #7 0x7f8d24cf0768 in __assert_fail_base.cold (/lib64/libc.so.6+0x2576=
+8)
+      #8 0x7f8d24cffe75 in __assert_fail (/lib64/libc.so.6+0x34e75)
+      #9 0x55a08423763f in bdrv_co_write_req_prepare block/io.c:1835:13
+      #10 0x55a0842343a8 in bdrv_aligned_pwritev block/io.c:1915:11
+      #11 0x55a084233765 in bdrv_co_pwritev_part block/io.c:2104:11
+      #12 0x55a084260d1a in blk_do_pwritev_part block/block-backend.c:1260:=
+11
+      #13 0x55a08426163e in blk_aio_write_entry block/block-backend.c:1476:=
+17
+      #14 0x55a0843b0d23 in coroutine_trampoline util/coroutine-ucontext.c:=
+173:9
+      #15 0x7f8d24d1d22f  (/lib64/libc.so.6+0x5222f)
 
---ABTtc+pdwF7KHXCz--
+  =3D=3D=3D Reproducer=3D=3D=3D
+  cat << EOF | ./qemu-system-i386 -M q35 \
+  -device megasas-gen2 -device scsi-cd,drive=3Dnull0 \
+  -blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 \
+  -monitor none -serial none -display none \
+  -machine accel=3Dqtest -m 64 -qtest stdio
+  outl 0xcf8 0x80001804
+  outl 0xcfc 0xffffff
+  outl 0xcf8 0x8000181b
+  outl 0xcfc 0x7052005
+  write 0x5cc0 0x1 0x03
+  write 0x5cc7 0x1 0x40
+  write 0x5ce0 0x1 0x0a
+  write 0x5cf3 0x1 0x01
+  write 0x5cf7 0x1 0x40
+  write 0x5cf8 0x1 0x0a
+  write 0x5cff 0x1 0x05
+  write 0x5d03 0x1 0x5b
+  write 0x5d06 0x1 0x4f
+  write 0x5d0b 0x1 0x01
+  write 0x5d0f 0x1 0x40
+  write 0x5d10 0x1 0x0a
+  write 0x5d17 0x1 0x05
+  write 0x5d1b 0x1 0x5b
+  write 0x5d1e 0x1 0x4f
+  write 0x5d23 0x1 0x01
+  write 0x5d27 0x1 0x40
+  write 0x5d28 0x1 0x0a
+  write 0x5d2f 0x1 0x05
+  write 0x5d33 0x1 0x5b
+  write 0x5d36 0x1 0x4f
+  write 0x5d3b 0x1 0x01
+  write 0x5d3f 0x1 0x40
+  write 0x5d40 0x1 0x0a
+  write 0x5d47 0x1 0x05
+  write 0x5d4b 0x1 0x5b
+  write 0x5d4e 0x1 0x4f
+  write 0x5d53 0x1 0x01
+  write 0x5d57 0x1 0x40
+  write 0x5d58 0x1 0x0a
+  write 0x5d5f 0x1 0x05
+  write 0x5d63 0x1 0x5b
+  write 0x5d66 0x1 0x4f
+  write 0x5d6b 0x1 0x01
+  write 0x5d6f 0x1 0x40
+  write 0x5d70 0x1 0x0a
+  write 0x5d77 0x1 0x05
+  write 0x5d7b 0x1 0x5b
+  write 0x5d7e 0x1 0x4f
+  write 0x5d83 0x1 0x01
+  write 0x5d87 0x1 0x40
+  write 0x5d88 0x1 0x0a
+  write 0x5d8f 0x1 0x05
+  write 0x5d93 0x1 0x5b
+  write 0x5d96 0x1 0x4f
+  write 0x5d9b 0x1 0x01
+  write 0x5d9f 0x1 0x40
+  write 0x5da0 0x1 0x0a
+  write 0x5da7 0x1 0x05
+  write 0x5dab 0x1 0x5b
+  write 0x5dae 0x1 0x4f
+  write 0x5db3 0x1 0x01
+  write 0x5db7 0x1 0x40
+  write 0x5db8 0x1 0x0a
+  write 0x5dbf 0x1 0x05
+  write 0x5dc3 0x1 0x5b
+  write 0x5dc6 0x1 0x4f
+  write 0x5dcb 0x1 0x01
+  write 0x5dcf 0x1 0x40
+  write 0x5dd0 0x1 0x0a
+  write 0x5dd7 0x1 0x05
+  write 0x5ddb 0x1 0x5b
+  write 0x5dde 0x1 0x4f
+  write 0x5de3 0x1 0x01
+  write 0x5de7 0x1 0x40
+  write 0x5de8 0x1 0x0a
+  write 0x5def 0x1 0x05
+  write 0x5df3 0x1 0x5b
+  write 0x5df6 0x1 0x4f
+  write 0x5dfb 0x1 0x01
+  write 0x5dff 0x1 0x40
+  write 0x5e00 0x1 0x0a
+  write 0x5e07 0x1 0x05
+  write 0x5e0b 0x1 0x5b
+  write 0x5e0e 0x1 0x4f
+  write 0x5e13 0x1 0x01
+  write 0x5e17 0x1 0x40
+  write 0x5e18 0x1 0x0a
+  write 0x5e1f 0x1 0x05
+  write 0x5e23 0x1 0x5b
+  write 0x5e26 0x1 0x4f
+  write 0x5e2b 0x1 0x01
+  write 0x5e2f 0x1 0x40
+  write 0x5e30 0x1 0x0a
+  write 0x5e37 0x1 0x05
+  write 0x5e3b 0x1 0x5b
+  write 0x5e3e 0x1 0x4f
+  write 0x5e43 0x1 0x01
+  write 0x5e47 0x1 0x40
+  write 0x5e48 0x1 0x0a
+  write 0x5e4f 0x1 0x05
+  write 0x5e53 0x1 0x5b
+  write 0x5e56 0x1 0x4f
+  write 0x5e5b 0x1 0x01
+  write 0x5e5f 0x1 0x40
+  write 0x5e60 0x1 0x0a
+  write 0x5e67 0x1 0x05
+  write 0x5e6b 0x1 0x5b
+  write 0x5e6e 0x1 0x4f
+  write 0x5e73 0x1 0x01
+  write 0x5e77 0x1 0x40
+  write 0x5e78 0x1 0x0a
+  write 0x5e7f 0x1 0x05
+  write 0x5e83 0x1 0x5b
+  write 0x5e86 0x1 0x4f
+  write 0x5e8b 0x1 0x01
+  write 0x5e8f 0x1 0x40
+  write 0x5e90 0x1 0x0a
+  write 0x5e97 0x1 0x05
+  write 0x5e9b 0x1 0x5b
+  write 0x5e9e 0x1 0x4f
+  write 0x5ea3 0x1 0x01
+  write 0x5ea7 0x1 0x40
+  write 0x5ea8 0x1 0x0a
+  write 0x5eaf 0x1 0x05
+  write 0x5eb3 0x1 0x5b
+  write 0x5eb6 0x1 0x4f
+  write 0x5ebb 0x1 0x01
+  write 0x5ebf 0x1 0x40
+  write 0x5ec0 0x1 0x0a
+  write 0x5ec7 0x1 0x05
+  write 0x5ecb 0x1 0x5b
+  write 0x5ece 0x1 0x4f
+  write 0x5ed3 0x1 0x01
+  write 0x5ed7 0x1 0x40
+  write 0x5ed8 0x1 0x0a
+  write 0x5edf 0x1 0x05
+  write 0x5ee3 0x1 0x5b
+  write 0x5ee6 0x1 0x4f
+  write 0x5eeb 0x1 0x01
+  write 0x5eef 0x1 0x40
+  writeq 0x50000000000003b 0x15cd405b60101c8
+  EOF
 
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906694/+subscriptions
 
