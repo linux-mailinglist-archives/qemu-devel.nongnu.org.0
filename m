@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CE92CD419
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:59:11 +0100 (CET)
-Received: from localhost ([::1]:33026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E0D2CD3C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:36:40 +0100 (CET)
+Received: from localhost ([::1]:50900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmKM-0000EZ-S0
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:59:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46878)
+	id 1kklyZ-0008MN-4c
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:36:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmG1-0003kR-32
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:54:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59714)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmFz-0001zd-6H
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:54:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606992878;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LbfH2oEDE8LU7ayrWExb27IQkTzJYPtyIURqLPh0uNY=;
- b=ZEQpvWe9qiTbOvj8FjMFC/vW5rWnqSiSw8XC//0tNvGj1vwMAz9K1w7jb7zsSd8cTWConG
- YUNHyO0BZs2EnxiML0aC7lPOoyFghTFEoklWj5dhydipJBgZhMyfLnqcTIsaPb3fD/5EgH
- lfxOe9IT0DDD2w1aICdpKwzRRADBdl0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-afa3cGK_MC2K_C5Ig4ZwVQ-1; Thu, 03 Dec 2020 05:54:36 -0500
-X-MC-Unique: afa3cGK_MC2K_C5Ig4ZwVQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6B3C805BF2;
- Thu,  3 Dec 2020 10:54:35 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
- [10.36.112.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E3CB5C1B4;
- Thu,  3 Dec 2020 10:54:35 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B9CC09DA0; Thu,  3 Dec 2020 11:54:23 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kklwn-0007D7-C5
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:34:49 -0500
+Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:35731)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kklwl-0003Bl-Fj
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:34:49 -0500
+Received: by mail-lj1-x234.google.com with SMTP id r18so2006132ljc.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 02:34:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yBtwfHxcK5xANpYrZVKPQ/ksQZGqD/6GF+EGdoIyzMo=;
+ b=HYZdZrVWky04o/0t3xEbUOT0JKA52tIh/D4ZIUiOh5XD0tnXxUDdW78WC7CUGfAI9R
+ Q6uPdpeGJ3riBghNMnG0MG+9WOwc1+p7dbQEgc8FJeFtXAac0a8WqPn6Ld+/8+uQuIKP
+ nkFe0ETnO/WTM4XtGR0zdiJ96r3gTFZMPOjGG6sCQWew3m+Pn8RvdHrSdkLq9C13pPBc
+ 46DTJ0eFyAm2ki6sk71jYQmVeKy7txIazzMfTu16e3EK8CWT+iQs3rwYwDmq6W3ekrQU
+ fdJmG2sa4Bjf7AgH7Mo0yOxMaAEdjZgVbkMOhkuhrzdrKCMEsukUAvDVfkSCiS9XwYMh
+ gNBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yBtwfHxcK5xANpYrZVKPQ/ksQZGqD/6GF+EGdoIyzMo=;
+ b=PjsgdhUC6V56hTVD1e5YdO3wApc0OL6/xEWbPckUAt5jwcQ8q+hOCaxawJatlx4Hq0
+ WSJpFiKtsCWs8LVmXdg/TEaGJK+3foJdxSaA+PRECTIVOq93yXuAMFhHvqbrxWggWDiP
+ iDRx2TQrY9EKxDS6Ech9YuWu0ENfsp0OgEQV+I+BtZpjPfqrkhFZRENmZadUy+1ScEk/
+ +xZIaJ++bPuRyIiRdY7Hy434KlUeEw+RNoR2vJC76NEYsBX4tPz/UWK0dwYkl8/iciK3
+ nY0Jf4boyol9a5T9hvqYC6vGgLU/H0h/uAtFjWaQGiRfLNX6DoNPMs5DImrUm27Sv6GM
+ OQ+g==
+X-Gm-Message-State: AOAM532Wgsz3ZAMgznFn2DDt62QCyq0jv/EZRr0BPdRet/SFouRl5HcS
+ HTm6ewCDCC9Os87H0ThHW/UXJT03muNYhQ==
+X-Google-Smtp-Source: ABdhPJzdzYm2AX/K1KUETHqXOhnzaWOq2rIfXxAckMTSDI1aLLIyafC4+itFO3PGGDtzTH0Hz/ktxg==
+X-Received: by 2002:a2e:8546:: with SMTP id u6mr918228ljj.125.1606991684902;
+ Thu, 03 Dec 2020 02:34:44 -0800 (PST)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id q129sm281361ljb.81.2020.12.03.02.34.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Dec 2020 02:34:44 -0800 (PST)
+From: andrew@daynix.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/12] tests/acpi: add ioapic2=on test for microvm
-Date: Thu,  3 Dec 2020 11:54:21 +0100
-Message-Id: <20201203105423.10431-11-kraxel@redhat.com>
-In-Reply-To: <20201203105423.10431-1-kraxel@redhat.com>
-References: <20201203105423.10431-1-kraxel@redhat.com>
+Subject: [PATCH v4 0/2] hw/virtio-pci: AER capability
+Date: Thu,  3 Dec 2020 13:07:11 +0200
+Message-Id: <20201203110713.204938-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::234;
+ envelope-from=andrew@daynix.com; helo=mail-lj1-x234.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,91 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: berrange@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-APIC table changes:
+From: Andrew Melnychenko <andrew@daynix.com>
 
- [034h 0052   1]                Subtable Type : 01 [I/O APIC]
- [035h 0053   1]                       Length : 0C
- [036h 0054   1]                  I/O Apic ID : 00
- [037h 0055   1]                     Reserved : 00
- [038h 0056   4]                      Address : FEC00000
- [03Ch 0060   4]                    Interrupt : 00000000
+Main motivation:
+According to Microsoft driver\device certification requirements
+for next version of Window Server, PCIe device must support AER.
+"Windows Server PCI Express devices are required to support
+Advanced Error Reporting [AER] as defined in
+PCI Express Base Specification version 2.1."
 
-+[040h 0064   1]                Subtable Type : 01 [I/O APIC]
-+[041h 0065   1]                       Length : 0C
-+[042h 0066   1]                  I/O Apic ID : 01
-+[043h 0067   1]                     Reserved : 00
-+[044h 0068   4]                      Address : FEC10000
-+[048h 0072   4]                    Interrupt : 00000018
+AER capability for virtio-pci is disabled by default.
+AER capability is only for PCI with PCIe interface on PCIe bus.
+During migration - device "realize" should initialize AER
+if requested by device properties.
+Fixed commit message.
 
-DSDT table changes:
+Andrew (2):
+  hw/virtio-pci Added counter for pcie capabilities offsets.
+  hw/virtio-pci Added AER capability.
 
--        Device (VR07)
-+        Device (VR23)
-         {
-             Name (_HID, "LNRO0005")  // _HID: Hardware ID
--            Name (_UID, 0x07)  // _UID: Unique ID
-+            Name (_UID, 0x17)  // _UID: Unique ID
-             Name (_CCA, One)  // _CCA: Cache Coherency Attribute
-             Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-             {
-                 Memory32Fixed (ReadWrite,
--                    0xFEB00E00,         // Address Base
-+                    0xFEB02E00,         // Address Base
-                     0x00000200,         // Address Length
-                     )
-                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
-                 {
--                    0x00000017,
-+                    0x0000002F,
-                 }
-             })
-         }
-     }
+ hw/virtio/virtio-pci.c | 20 +++++++++++++++++++-
+ hw/virtio/virtio-pci.h |  4 ++++
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- tests/qtest/bios-tables-test.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 0a0ce76ffcf9..4c4e6dd1e9cc 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1154,6 +1154,17 @@ static void test_acpi_microvm_pcie_tcg(void)
-     free_test_data(&data);
- }
- 
-+static void test_acpi_microvm_ioapic2_tcg(void)
-+{
-+    test_data data;
-+
-+    test_acpi_microvm_prepare(&data);
-+    data.variant = ".ioapic2";
-+    test_acpi_one(" -machine microvm,acpi=on,ioapic2=on,rtc=off",
-+                  &data);
-+    free_test_data(&data);
-+}
-+
- static void test_acpi_virt_tcg_numamem(void)
- {
-     test_data data = {
-@@ -1280,6 +1291,7 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/microvm", test_acpi_microvm_tcg);
-         qtest_add_func("acpi/microvm/usb", test_acpi_microvm_usb_tcg);
-         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
-+        qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
-         if (strcmp(arch, "x86_64") == 0) {
-             qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
-         }
 -- 
-2.27.0
+2.29.2
 
 
