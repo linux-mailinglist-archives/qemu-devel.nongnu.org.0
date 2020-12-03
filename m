@@ -2,89 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2E42CD2AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 10:38:15 +0100 (CET)
-Received: from localhost ([::1]:35730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5E82CD2C0
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 10:42:21 +0100 (CET)
+Received: from localhost ([::1]:39070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkl41-0008DC-Mj
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 04:38:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56312)
+	id 1kkl80-0001PM-VG
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 04:42:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kkl30-0007kZ-Ul
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 04:37:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kkl2y-000866-SJ
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 04:37:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606988226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YqUK4PX8mGZVg6MPkooa1iElcNfiXVeEOv1wCTMC9Os=;
- b=JS8tokkLLxsr/5FflgX5XlAInyDcj2L0gBH0LOcZbb5OiWTqBKfy5Te4mtDxBTuHID+UmD
- sLFtjoLx6zJ4HYIrtW13XWKBN9KLRNPGgPCoJE6HI0veYajC8usjRm8gLnoOD6awCBsre3
- ZK80Wk2W+lwOJJITCBKAwfthsHZ7l9M=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-VTIoxQAEM1aKBWxLXPL-dA-1; Thu, 03 Dec 2020 04:37:04 -0500
-X-MC-Unique: VTIoxQAEM1aKBWxLXPL-dA-1
-Received: by mail-wr1-f70.google.com with SMTP id z6so983195wrl.7
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 01:37:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YqUK4PX8mGZVg6MPkooa1iElcNfiXVeEOv1wCTMC9Os=;
- b=lWgsy4T/FdGUXHuqZzodl9+USqbPtIQ/pAQvlAwTMMqjKo7tcjp4SjG2m5A1qAEdrF
- y5hFC+00QTSNxFO2h5AE9DRa4SmM+lsKvXT8U8VbICJc2Xm4ji+lXaPjpJB/6xZbg2hU
- 6JQ6J14tiTIuKwzxrmSTd7WBpf/2dBPXcwsL2zR7z7Ny7XYHvlniC/yHmsj4VuRXDU7/
- jEtLWLHi9blJARECbRlDzUVIIEWiCUphrdYE/ML5U91LH7F1FZDAmxx6ZH2x+sOxkIDI
- 5rmyD/rXMsR6Bvm3TYU5CcQeTFsexY7xY8lJ9ZbTWQVYv7hMtJFR3LPuk7A2ycx8tGiK
- a5cg==
-X-Gm-Message-State: AOAM530dnBecnZOh6aUE9SrjpQ5T7RHeXMOOkEPH9YLa1XHCUJ3UCDa6
- 0a1FeZPcyP67n+RCVKsg/MI2PC45Oa8aTPoA2c1Sq0qhWmwaNcb0YtokKn0dfJMROMIX3MHusnD
- bwKFeue0cLFeXVnw=
-X-Received: by 2002:a5d:618c:: with SMTP id j12mr2624280wru.182.1606988223023; 
- Thu, 03 Dec 2020 01:37:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz+2Yw9N7EQZv2ahm8zF0aNPhjFva+0IFasjYhUS+KhKl+m+q6Kh96RDSsO5M+SzUzSfnijZQ==
-X-Received: by 2002:a5d:618c:: with SMTP id j12mr2624258wru.182.1606988222825; 
- Thu, 03 Dec 2020 01:37:02 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id z11sm777758wmc.39.2020.12.03.01.37.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Dec 2020 01:37:02 -0800 (PST)
-Subject: Re: [PATCH-for-5.2? 1/1] Acceptance tests: bump Fedora to 32
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20201202215747.2719507-1-crosa@redhat.com>
- <20201202215747.2719507-2-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b00dc7be-cf66-34a0-3260-2a9cfcddde77@redhat.com>
-Date: Thu, 3 Dec 2020 10:37:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kkl6v-0000pi-Tm; Thu, 03 Dec 2020 04:41:13 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:52808 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kkl6r-00015t-8x; Thu, 03 Dec 2020 04:41:13 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 05E674138D;
+ Thu,  3 Dec 2020 09:41:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1606988465;
+ x=1608802866; bh=H9lTBXR8sJtzH+gP79exGietP7xr+g+hYiSEwFBpeBQ=; b=
+ R5iG9MnSwYUgjLNoTwvJ6goQxFJg6hSu0B9cVDE3wzR5rPit5YXQN/+ijubynMHR
+ kqq3w9pYHHuW1kfei1KlCKYsn7k90KJXuq3Nx/55uXLtAn9g+WNcThZsCw8pz/Fy
+ 3CEP4ED39ylUctD6Q3Oe4+3NpfOJ1sh3cibVHOrMgko=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ygFQmOxnK4vf; Thu,  3 Dec 2020 12:41:05 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id CD3C441369;
+ Thu,  3 Dec 2020 12:41:04 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 3 Dec
+ 2020 12:41:04 +0300
+Date: Thu, 3 Dec 2020 12:41:24 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Peter Collingbourne <pcc@google.com>
+Subject: Re: [PATCH 2/8] hvf: Move common code out
+Message-ID: <20201203094124.GA7201@SPB-NB-133.local>
+References: <392c2465-157e-e15a-0a2c-2e3faa166d22@csgraf.de>
+ <CAEkmjvUArgL+Mcvy6nUhfJrdX3OaF=U8UdWia7ZDo9GWk0VF=g@mail.gmail.com>
+ <CAEkmjvVJ5zup4NR2+DStt_NvV2cV7+7dj2=fJ3DQBkth8pAfcw@mail.gmail.com>
+ <cecd20d0-278b-0a4b-ba9c-0207504c99d7@csgraf.de>
+ <CAEkmjvVOAYP6wJyVpAtZE3d=iNOOWGZeHptQ9xJDGcTi4qQ0hQ@mail.gmail.com>
+ <CAMn1gO7jqjsqJHtSaV7F+2qmtfF-YFDJwo=O8ot2iem+Uz4Zrw@mail.gmail.com>
+ <6975b4a3-1568-df40-8594-bfcf488ac425@csgraf.de>
+ <CAMn1gO5xs8RniRYm+Gnbh8S3GVah2+2Ew2V6tFL6PNuSJ7o5Hw@mail.gmail.com>
+ <4e1d93a4-9dcc-c6b6-e060-6eea39ae2f16@csgraf.de>
+ <CAMn1gO44Y4rahufveQ1dOq96nhqvGEmZ0pYci2f6BKv9kd638Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201202215747.2719507-2-crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMn1gO44Y4rahufveQ1dOq96nhqvGEmZ0pYci2f6BKv9kd638Q@mail.gmail.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,56 +84,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Alexander Graf <agraf@csgraf.de>, Claudio Fontana <cfontana@suse.de>,
+ qemu-arm@nongnu.org, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/2/20 10:57 PM, Cleber Rosa wrote:
-> Currently in use Fedora 31 has been moved out of the standard download
-> locations that are supported by the functionality provided by
-> avocado.utils.vmimage.  So right now, the boot_linux.py tests will get
-> canceled by not being able to find those specific images.
+On Mon, Nov 30, 2020 at 04:00:11PM -0800, Peter Collingbourne wrote:
+> On Mon, Nov 30, 2020 at 3:18 PM Alexander Graf <agraf@csgraf.de> wrote:
+> >
+> >
+> > On 01.12.20 00:01, Peter Collingbourne wrote:
+> > > On Mon, Nov 30, 2020 at 1:40 PM Alexander Graf <agraf@csgraf.de> wrote:
+> > >> Hi Peter,
+> > >>
+> > >> On 30.11.20 22:08, Peter Collingbourne wrote:
+> > >>> On Mon, Nov 30, 2020 at 12:56 PM Frank Yang <lfy@google.com> wrote:
+> > >>>>
+> > >>>> On Mon, Nov 30, 2020 at 12:34 PM Alexander Graf <agraf@csgraf.de> wrote:
+> > >>>>> Hi Frank,
+> > >>>>>
+> > >>>>> Thanks for the update :). Your previous email nudged me into the right direction. I previously had implemented WFI through the internal timer framework which performed way worse.
+> > >>>> Cool, glad it's helping. Also, Peter found out that the main thing keeping us from just using cntpct_el0 on the host directly and compare with cval is that if we sleep, cval is going to be much < cntpct_el0 by the sleep time. If we can get either the architecture or macos to read out the sleep time then we might be able to not have to use a poll interval either!
+> > >>>>> Along the way, I stumbled over a few issues though. For starters, the signal mask for SIG_IPI was not set correctly, so while pselect() would exit, the signal would never get delivered to the thread! For a fix, check out
+> > >>>>>
+> > >>>>>     https://patchew.org/QEMU/20201130030723.78326-1-agraf@csgraf.de/20201130030723.78326-4-agraf@csgraf.de/
+> > >>>>>
+> > >>>> Thanks, we'll take a look :)
+> > >>>>
+> > >>>>> Please also have a look at my latest stab at WFI emulation. It doesn't handle WFE (that's only relevant in overcommitted scenarios). But it does handle WFI and even does something similar to hlt polling, albeit not with an adaptive threshold.
+> > >>> Sorry I'm not subscribed to qemu-devel (I'll subscribe in a bit) so
+> > >>> I'll reply to your patch here. You have:
+> > >>>
+> > >>> +                    /* Set cpu->hvf->sleeping so that we get a
+> > >>> SIG_IPI signal. */
+> > >>> +                    cpu->hvf->sleeping = true;
+> > >>> +                    smp_mb();
+> > >>> +
+> > >>> +                    /* Bail out if we received an IRQ meanwhile */
+> > >>> +                    if (cpu->thread_kicked || (cpu->interrupt_request &
+> > >>> +                        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
+> > >>> +                        cpu->hvf->sleeping = false;
+> > >>> +                        break;
+> > >>> +                    }
+> > >>> +
+> > >>> +                    /* nanosleep returns on signal, so we wake up on kick. */
+> > >>> +                    nanosleep(ts, NULL);
+> > >>>
+> > >>> and then send the signal conditional on whether sleeping is true, but
+> > >>> I think this is racy. If the signal is sent after sleeping is set to
+> > >>> true but before entering nanosleep then I think it will be ignored and
+> > >>> we will miss the wakeup. That's why in my implementation I block IPI
+> > >>> on the CPU thread at startup and then use pselect to atomically
+> > >>> unblock and begin sleeping. The signal is sent unconditionally so
+> > >>> there's no need to worry about races between actually sleeping and the
+> > >>> "we think we're sleeping" state. It may lead to an extra wakeup but
+> > >>> that's better than missing it entirely.
+> > >>
+> > >> Thanks a bunch for the comment! So the trick I was using here is to > > >> modify the timespec from the kick function before sending the IPI
+> > >> signal. That way, we know that either we are inside the sleep (where the
+> > >> signal wakes it up) or we are outside the sleep (where timespec={} will
+> > >> make it return immediately).
+> > >>
+> > >> The only race I can think of is if nanosleep does calculations based on
+> > >> the timespec and we happen to send the signal right there and then.
+> > > Yes that's the race I was thinking of. Admittedly it's a small window
+> > > but it's theoretically possible and part of the reason why pselect was
+> > > created.
+> > >
+> > >> The problem with blocking IPIs is basically what Frank was describing
+> > >> earlier: How do you unset the IPI signal pending status? If the signal
+> > >> is never delivered, how can pselect differentiate "signal from last time
+> > >> is still pending" from "new signal because I got an IPI"?
+> > > In this case we would take the additional wakeup which should be
+> > > harmless since we will take the WFx exit again and put us in the
+> > > correct state. But that's a lot better than busy looping.
+> >
+> >
+> > I'm not sure I follow. I'm thinking of the following scenario:
+> >
+> >    - trap into WFI handler
+> >    - go to sleep with blocked SIG_IPI
+> >    - SIG_IPI arrives, pselect() exits
+> >    - signal is still pending because it's blocked
+> >    - enter guest
+> >    - trap into WFI handler
+> >    - run pselect(), but it immediate exits because SIG_IPI is still pending
+> >
+> > This was the loop I was seeing when running with SIG_IPI blocked. That's
+> > part of the reason why I switched to a different model.
 > 
-> Ideally, this would be bumped to version 33.  But, I've found issues
-> with the aarch64 images, with various systemd services failing to
-> start.  So to keep all archs consistent, I've settled on 32.
+> What I observe is that when returning from a pending signal pselect
+> consumes the signal (which is also consistent with my understanding of
+> what pselect does). That means that it doesn't matter if we take a
+> second WFx exit because once we reach the pselect in the second WFx
+> exit the signal will have been consumed by the pselect in the first
+> exit and we will just wait for the next one.
 > 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  tests/acceptance/boot_linux.py | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+
+Aha! Thanks for the explanation. So, the first WFI in the series of
+guest WFIs will likely wake up immediately? After a period without WFIs
+there must be a pending SIG_IPI...
+
+It shouldn't be a critical issue though because (as defined in D1.16.2)
+"the architecture permits a PE to leave the low-power state for any
+reason, it is permissible for a PE to treat WFI as a NOP, but this is
+not recommended for lowest power operation."
+
+BTW. I think a bit from the thread should go into the description of
+patch 8, because it's not trivial and it would really be helpful to keep
+in repo history. At least something like this (taken from an earlier
+reply in the thread):
+
+  In this implementation IPI is blocked on the CPU thread at startup and
+  pselect() is used to atomically unblock the signal and begin sleeping.
+  The signal is sent unconditionally so there's no need to worry about
+  races between actually sleeping and the "we think we're sleeping"
+  state. It may lead to an extra wakeup but that's better than missing
+  it entirely.
+
+
+Thanks,
+Roman
+
+> I don't know why things may have been going wrong in your
+> implementation but it may be related to the issue with
+> mach_absolute_time() which I posted about separately and was also
+> causing busy loops for us in some cases. Once that issue was fixed in
+> our implementation we started seeing sleep until VTIMER due work
+> properly.
 > 
-> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-> index 1da4a53d6a..0824de008e 100644
-> --- a/tests/acceptance/boot_linux.py
-> +++ b/tests/acceptance/boot_linux.py
-> @@ -42,13 +42,13 @@ class BootLinuxBase(Test):
->          vmimage.QEMU_IMG = qemu_img
->  
->          self.log.info('Downloading/preparing boot image')
-> -        # Fedora 31 only provides ppc64le images
-> +        # Fedora 32 only provides ppc64le images
->          image_arch = self.arch
->          if image_arch == 'ppc64':
->              image_arch = 'ppc64le'
->          try:
->              boot = vmimage.get(
-> -                'fedora', arch=image_arch, version='31',
-> +                'fedora', arch=image_arch, version='32',
+> >
+> >
+> > > I reckon that you could improve things a little by unblocking the
+> > > signal and then reblocking it before unlocking iothread (e.g. with a
+> > > pselect with zero time interval), which would flush any pending
+> > > signals. Since any such signal would correspond to a signal from last
+> > > time (because we still have the iothread lock) we know that any future
+> > > signals should correspond to new IPIs.
+> >
+> >
+> > Yeah, I think you actually *have* to do exactly that, because otherwise
+> > pselect() will always return after 0ns because the signal is still pending.
+> >
+> > And yes, I agree that that starts to sound a bit less racy now. But it
+> > means we can probably also just do
+> >
+> >    - WFI handler
+> >    - block SIG_IPI
+> >    - set hvf->sleeping = true
+> >    - check for pending interrupts
+> >    - pselect()
+> >    - unblock SIG_IPI
+> >
+> > which means we run with SIG_IPI unmasked by default. I don't think the
+> > number of signal mask changes is any different with that compared to
+> > running with SIG_IPI always masked, right?
+> 
 
-I already expressed my view on this (latest QEMU should be
-able to use at least f31 - which was tested - and eventually
-f33 - which is coverage extension). I'm not going to vouch
-this change. If other maintainers are happy with it, I don't
-mind this gets merged.
+P.S. Just found that Alex already raised my concern. Pending signals
+have to be consumed or there should be no pending signals to start
+sleeping on the very first WFI.
 
-BTW I don't see why this is urgent for 5.2.
-
-Phil.
-
+> And unlock/lock iothread around the pselect? I suppose that could work
+> but as I mentioned it would just be an optimization.
+> 
+> Maybe I can try to make my approach work on top of your series, or if
+> you already have a patch I can try to debug it. Let me know.
+> 
+> Peter
 
