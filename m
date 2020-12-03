@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A332CDF30
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 20:52:59 +0100 (CET)
-Received: from localhost ([::1]:49120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27B982CDF41
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 21:02:34 +0100 (CET)
+Received: from localhost ([::1]:58728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkuew-0004Sm-FM
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 14:52:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
+	id 1kkuoC-0000jl-PG
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 15:02:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1kkudK-0003nd-Km
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 14:51:18 -0500
-Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:40157)
+ (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
+ id 1kkumw-0008Jf-Q4
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 15:01:15 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cupertinomiranda@gmail.com>)
- id 1kkudJ-0002Pf-0e
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 14:51:18 -0500
-Received: by mail-yb1-xb41.google.com with SMTP id o144so3154969ybg.7
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 11:51:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <fontaine.fabrice@gmail.com>)
+ id 1kkumt-0005xV-Ml
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 15:01:14 -0500
+Received: by mail-wr1-x443.google.com with SMTP id t4so3110826wrr.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 12:01:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rEIR1NLYaGo+kjt2ducK8nxnVtozbjav/8/FNjZtfGE=;
- b=SDsVgW5HAnYlCIKKITn7zh0uJXWr4FXwlKgDwZmxuEHqeGB7iWIogc8JcW8Rzy5wZX
- FNLSbMMKxufsMagTQcLcFDUclUQfM7rFizdiG46qtkEMWA+Xm/AeqdKTHAN0vB7Apjgm
- 37+3W2rZbldDqow3X7O9DB2v2iVAMwsApRdWJ+nJYN4scJFhWFSHD4OeNtPfmzGnFC8w
- WIu4b0nRRfrRDqC+ZQGd5GIt/DL7wsEfbDkh8E+2nLMd9lCHMqgpgPlhDuJu6kDgJUbI
- 9+bJQfkOiTeyhBP/sMqudWa1e75vEGb2bok51IXNctECMo3GYyJiLIWGpFKe6HuJeISg
- Zf/g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HbdUcO2CBtCC7YZsTpVnD/9glJfq7di6btlth32kPMY=;
+ b=kF1kqpiP5XN4OKge58yZUxPviKwKrqQBJIb4QUEYPve7n+etpOhPjVB4ncCHhKayI5
+ sKQTsyO+tnjVPP3uJqV/+9hCjypk+sL+lDaeMVfaWZjJVO03bSAQpNdff1dlWb5MX1Jk
+ 2tNMppkIvRJrTOl/3XLQlFdZaWN89/MuqkULcQ8ePuxFrA6MBf0UDBmpxRNsnYW00F0q
+ gf47N5mnehzU5pqaWF7k5r1W/JiehzCz0u1MfHmxzkB/jTR42bMqLF491VrVV0XLZON3
+ drz4j69HVQKr1ciqR23N97kCtnPlHkWXtEo2c7XL9awzEkA2/XxS32d0y5yP6MB8QO+3
+ zYew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rEIR1NLYaGo+kjt2ducK8nxnVtozbjav/8/FNjZtfGE=;
- b=NmVpT/LRwvsMs0crMjW//fdfg/jPmF5wozE/7LdfhbQQWftzIyP+J6/yGOtZ8DumWY
- u5JB60YOCwYoHDg51I4Iwp4/nUOVi3dqoVDod1GdQKShhH4QPV2N7hVQlKC+zsxRV5J2
- LA4rcsQ59hgCHm3r/JR00Zhu1SDiVXgh4cm/uTvscP3n3061tBlCSOjMylsComvvqxG/
- +rP9CbLL/YKk6YnWWR5P9DrI8hdE4mKbuHU/QLyfEVbiSXVglzufsNcEoTBpJKS6HKio
- 3q3J6ZC74uK2odgxZtE4Tgn0CZvfqHfhQXuchNKlgmw5ctOVdBB3XIDxqJPtO51A12uu
- Fo1g==
-X-Gm-Message-State: AOAM532/WcPcAndRIk+2zk501NssVSaoQ/WO/ePjKI7KDC7FdNpqPJCa
- HrAD27L0fm+GPZXe6I1bEdO7EeGg598rISzHR30=
-X-Google-Smtp-Source: ABdhPJx0z866MUl5SIOgqM8j7amwVcgEOY7xGuLPGbshDce0/0LTsaT0aN84Ly2nhZVyRkQqnymIsllSiDFCAihxW3E=
-X-Received: by 2002:a25:1e43:: with SMTP id e64mr1099768ybe.273.1607025075334; 
- Thu, 03 Dec 2020 11:51:15 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HbdUcO2CBtCC7YZsTpVnD/9glJfq7di6btlth32kPMY=;
+ b=DR22tRWs+MZl/nYasPJivVZyOPXUoFPUm6mZ4X5SrSUMKZn+N+b6SzF59RpAJaaDWA
+ EGErEwO5uMdAp8sV7MF0kTalhjQPmoXFYg2Kz9S61i0VVKc/KpiaTkK3+ghNxC4iXCJ5
+ gdfGNEjmkUtiS6Q8DVV30tpE2LBiI2828etYYmSB6CK4cVSkA6Uj2DI0Ppmod3TNq1nm
+ qSIMrj2mU8T43wgCmtAwtSqnhzLk7kwfGeRF48BLNFZFvdEy728nHa6GC5V+oVSX6hM2
+ 2U+fR5PPcN6C1MGJz/sNouc12tBHSlyL8IVUiycum/rDiwlWWZ+evgc6zkrK4M/dSv2U
+ 8Aew==
+X-Gm-Message-State: AOAM532MmnXVoWztprV4mokunxuJ5HUzaGWHe/dQ6OKoeUOj4bF0sooB
+ kI1creKvBLDxEu8Cs2RRqffawq81IRV8fw==
+X-Google-Smtp-Source: ABdhPJymcxcwwxJ0Moycay3O+PD4L8nbVisq+8vNRpyOb+oFfG1fkQ2nZYZSN2xkYWbcaaiVLxvfgw==
+X-Received: by 2002:a5d:620e:: with SMTP id y14mr964856wru.111.1607025668958; 
+ Thu, 03 Dec 2020 12:01:08 -0800 (PST)
+Received: from kali.home (2a01cb0881b76d00c2afd0dfa851d2b9.ipv6.abo.wanadoo.fr.
+ [2a01:cb08:81b7:6d00:c2af:d0df:a851:d2b9])
+ by smtp.gmail.com with ESMTPSA id f23sm399517wmb.43.2020.12.03.12.01.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Dec 2020 12:01:07 -0800 (PST)
+From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4] Fix build with 64 bits time_t
+Date: Thu,  3 Dec 2020 20:58:19 +0100
+Message-Id: <20201203195819.583626-1-fontaine.fabrice@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
- <20201111161758.9636-7-cupertinomiranda@gmail.com>
- <74cfc5bd-d02c-768b-37e4-18ff8c88656b@linaro.org>
- <CAHW_PjKs5LDkrFkqSGEKgw4sL3tuyc3-n6Uo4xYfHa8=376_Ew@mail.gmail.com>
- <1dbd9a59-8e6a-ee80-f7ae-a2990a059b21@linaro.org>
- <CAHW_Pj+0Ex_PWhUzv_Fkcp2B5yOcD=p31Lu2xH+Xp9M6mAf4Vw@mail.gmail.com>
- <836f6aed-8f2a-cecc-d796-be7286333160@linaro.org>
-In-Reply-To: <836f6aed-8f2a-cecc-d796-be7286333160@linaro.org>
-From: Cupertino Miranda <cupertinomiranda@gmail.com>
-Date: Thu, 3 Dec 2020 19:51:04 +0000
-Message-ID: <CAHW_PjKChVWTiEJPCgG4G1+XwRd_QUcYLKBz+Vbnkkc_Um7g4Q@mail.gmail.com>
-Subject: Re: [PATCH 06/15] arc: TCG instruction definitions
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b41;
- envelope-from=cupertinomiranda@gmail.com; helo=mail-yb1-xb41.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=fontaine.fabrice@gmail.com; helo=mail-wr1-x443.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,56 +81,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Shahab Vahedi <shahab.vahedi@gmail.com>,
- Shahab Vahedi <shahab@synopsys.com>, Cupertino Miranda <cmiranda@synopsys.com>,
- linux-snps-arc@lists.infradead.org, Claudiu Zissulescu <claziss@synopsys.com>
+Cc: Fabrice Fontaine <fontaine.fabrice@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Seems perfectly doable, no objections.
-It will probably take me longer to integrate it in the build system
-then to get the scripts ready.
-I will start by placing the ruby tool and documentation there, and
-later on, integrate it in the build system.
+time element is deprecated on new input_event structure in kernel's
+input.h [1]
 
-Hope that you get re-motivated to review our patches. No pressure though ;-)
-Very valuable comments, lots of improvements happening here.
+This will avoid the following build failure:
 
-On Thu, Dec 3, 2020 at 7:34 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 12/3/20 10:54 AM, Cupertino Miranda wrote:
-> > Our generation tool has different levels of verbosity, expressing
-> > instruction semantics from a pattern level up to what it is shown in
-> > <semfunc.c> as comments, which is later converted to TCG format.
-> > For QEMU purposes I would say that input format should be what is
-> > shown as comments in <semfunc.c> file.
->
-> That seems reasonable.
->
-> > Also, as is, the generator is done in Ruby, and to be honest, would
-> > not be very easy to redo in some other language. Would this be
-> > considered a problem if we would include it as Ruby code ?
-> > IMO execution of these scripts should not be a step of build process
-> > but rather a development one, such that Ruby does not become a
-> > requirement to build QEmu.
->
-> It's not ideal -- I would have preferred python or C -- but I won't object.
->
-> At minimum, I would expect build system changes that detects ruby support in
-> the system, and a manual build rule that rebuilds the generated files.  This
-> build + check-in process would want documenting in target/arc/README or
-> something.  If there are any ruby packages required apart from the base
-> language, this should be documented as well (I know nothing about ruby myself,
-> just guessing based on what happens with python and perl).
->
-> Even better would be build system changes that, if ruby is installed runs the
-> generator, and only fall-back to the checked-in files if ruby is missing.
->
-> In this way, anyone who wants to modify the code generator would merely have to
-> install the ruby packages on their system, but they would not be required for a
-> non-ARC developer to build.
->
->
-> r~
+hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_status':
+hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no member named 'time'
+  198 |     if (gettimeofday(&evdev.time, NULL)) {
+      |                            ^
+
+Fixes:
+ - http://autobuild.buildroot.org/results/a538167e288c14208d557cd45446df86d3d599d5
+ - http://autobuild.buildroot.org/results/efd4474fb4b6c0ce0ab3838ce130429c51e43bbb
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=152194fe9c3f
+
+Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+---
+Changes v3 -> v4 (after review of Gerd Hoffmann):
+ - Include <sys/ioctl.h>
+
+Changes v2 -> v3 (after review of Gerd Hoffmann):
+ - Replace include on <linux/input.h> by
+   "standard-headers/linux/input.h" to try to fix build on rhel-7
+
+Changes v1 -> v2 (after review of Michael S. Tsirkin):
+ - Drop define of input_event_{sec,usec} as it is already done in
+   include/standard-headers/linux/input.h
+
+ contrib/vhost-user-input/main.c | 8 ++++++--
+ hw/input/virtio-input-host.c    | 5 ++++-
+ 2 files changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/main.c
+index 6020c6f33a..b27b12733b 100644
+--- a/contrib/vhost-user-input/main.c
++++ b/contrib/vhost-user-input/main.c
+@@ -7,13 +7,14 @@
+ #include "qemu/osdep.h"
+ 
+ #include <glib.h>
+-#include <linux/input.h>
++#include <sys/ioctl.h>
+ 
+ #include "qemu/iov.h"
+ #include "qemu/bswap.h"
+ #include "qemu/sockets.h"
+ #include "contrib/libvhost-user/libvhost-user.h"
+ #include "contrib/libvhost-user/libvhost-user-glib.h"
++#include "standard-headers/linux/input.h"
+ #include "standard-headers/linux/virtio_input.h"
+ #include "qapi/error.h"
+ 
+@@ -115,13 +116,16 @@ vi_evdev_watch(VuDev *dev, int condition, void *data)
+ static void vi_handle_status(VuInput *vi, virtio_input_event *event)
+ {
+     struct input_event evdev;
++    struct timeval tval;
+     int rc;
+ 
+-    if (gettimeofday(&evdev.time, NULL)) {
++    if (gettimeofday(&tval, NULL)) {
+         perror("vi_handle_status: gettimeofday");
+         return;
+     }
+ 
++    evdev.input_event_sec = tval.tv_sec;
++    evdev.input_event_usec = tval.tv_usec;
+     evdev.type = le16toh(event->type);
+     evdev.code = le16toh(event->code);
+     evdev.value = le32toh(event->value);
+diff --git a/hw/input/virtio-input-host.c b/hw/input/virtio-input-host.c
+index 85daf73f1a..137efba57b 100644
+--- a/hw/input/virtio-input-host.c
++++ b/hw/input/virtio-input-host.c
+@@ -193,13 +193,16 @@ static void virtio_input_host_handle_status(VirtIOInput *vinput,
+ {
+     VirtIOInputHost *vih = VIRTIO_INPUT_HOST(vinput);
+     struct input_event evdev;
++    struct timeval tval;
+     int rc;
+ 
+-    if (gettimeofday(&evdev.time, NULL)) {
++    if (gettimeofday(&tval, NULL)) {
+         perror("virtio_input_host_handle_status: gettimeofday");
+         return;
+     }
+ 
++    evdev.input_event_sec = tval.tv_sec;
++    evdev.input_event_usec = tval.tv_usec;
+     evdev.type = le16_to_cpu(event->type);
+     evdev.code = le16_to_cpu(event->code);
+     evdev.value = le32_to_cpu(event->value);
+-- 
+2.29.2
+
 
