@@ -2,76 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B572CD62F
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 13:58:15 +0100 (CET)
-Received: from localhost ([::1]:50822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0692CD64D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 14:01:23 +0100 (CET)
+Received: from localhost ([::1]:57598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkoBa-0002Jv-KY
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 07:58:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46714)
+	id 1kkoEc-0005AH-0b
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 08:01:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1kko8D-00072d-Td; Thu, 03 Dec 2020 07:54:45 -0500
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36073)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1kko8B-0000V5-Ut; Thu, 03 Dec 2020 07:54:45 -0500
-Received: by mail-lj1-x243.google.com with SMTP id a1so1060495ljq.3;
- Thu, 03 Dec 2020 04:54:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=2Ax9//epRaFnovbs6HtORAquskyrjxe/UXoEUSr2wic=;
- b=PAXIRWNcZDIPXS9XbNXXFjJswBcpIszrP24fLMtK6ZLkbahMSfH/KOBRZO+l82E9T7
- n3jLmcBE4NZqQV0uO/jOovt48szHQtfC/uGdzdLDQQodTUoteRttr6bUE3tBFlz8IfhJ
- BopTaqEu7KuHGY7x7WuntOi2IgPao/jzvZloBxti+ZL50Ns221AUnp+eqX8cwbN8qQQq
- BJV7cfRNzbxaMYuPWOGVGY6ylk8RRbMWubcdTdIo/HQveKmkq2yWrFizV2I143xuy9V6
- xpEs9ilPnN4qp3EO/LCdrEDh7xtBKeuFNmA+0aFGI/BAu8JMlFl+zASlBCzOjC/blEHK
- t4YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=2Ax9//epRaFnovbs6HtORAquskyrjxe/UXoEUSr2wic=;
- b=BKuiddyhfR2aVbnW/toN06KPKdyzBi6SqkHUFYbO6MwdldbK47w+2rV0FaTWjdYqF7
- vs132YWSjTA+2BVCBW00LQPk0dvlvq5ClyBcG9b/SNHD9r6+JQ3nPhu0WxhTXbfkhEgA
- eXiajOwW/ok3hEE0OZ4i8EsvBFIqjScLIn4O+aTVpkYxzvWo45OSDmWnZW+hQAcwidfl
- 5NfzvjL2uwRwuUTqDVrnUU3CZwbaXZ+VJqeaAylI+EQmm5xLmeQiDfM7s7xO3LervJJb
- 91CCwcL+i9diKNEGivXzrHxDP/hL8iukUgB7B7dG77gVo1vKoOfVVIaBSjHjRWUqj33t
- ENTQ==
-X-Gm-Message-State: AOAM530zbKRGQUJbcjcVkUWfF8Rjrmfe6kdSmgO3IPvPITtbxESPSJVE
- Pu3y+bYIROOYzu6+8fFyeTI=
-X-Google-Smtp-Source: ABdhPJzGG0l8paId7hrQt3mkn7N3bu75TWo92M8ZPdcZNxg9aS49kKdrFJFbY6ChvtEuNTqwy7gDLA==
-X-Received: by 2002:a2e:9f55:: with SMTP id v21mr1119568ljk.288.1607000080964; 
- Thu, 03 Dec 2020 04:54:40 -0800 (PST)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- j7sm484721lfe.165.2020.12.03.04.54.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Dec 2020 04:54:40 -0800 (PST)
-Date: Thu, 3 Dec 2020 13:54:38 +0100
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH] hw/block: m25p80: Implement AAI-WP command support for
- SST flashes
-Message-ID: <20201203125438.GB2661@fralle-msi>
-References: <20201202143037.24110-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kko1S-0004Fh-1a; Thu, 03 Dec 2020 07:47:46 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2986)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kko1P-0006td-Bj; Thu, 03 Dec 2020 07:47:45 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cmwb2025tzhm1T;
+ Thu,  3 Dec 2020 20:47:10 +0800 (CST)
+Received: from huawei.com (10.174.186.236) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Thu, 3 Dec 2020
+ 20:47:29 +0800
+From: Yifei Jiang <jiangyifei@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+Subject: [PATCH RFC v4 08/15] target/riscv: Handle KVM_EXIT_RISCV_SBI exit
+Date: Thu, 3 Dec 2020 20:46:56 +0800
+Message-ID: <20201203124703.168-9-jiangyifei@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
+In-Reply-To: <20201203124703.168-1-jiangyifei@huawei.com>
+References: <20201203124703.168-1-jiangyifei@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201202143037.24110-1-bmeng.cn@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::243;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x243.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.186.236]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=jiangyifei@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,115 +56,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-block@nongnu.org, Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: victor.zhangxiaofeng@huawei.com, sagark@eecs.berkeley.edu,
+ kvm@vger.kernel.org, libvir-list@redhat.com, kbastian@mail.uni-paderborn.de,
+ anup.patel@wdc.com, yinyipeng1@huawei.com, Alistair.Francis@wdc.com,
+ Yifei Jiang <jiangyifei@huawei.com>, kvm-riscv@lists.infradead.org,
+ palmer@dabbelt.com, dengkai1@huawei.com, wu.wubin@huawei.com,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Bin,
+Use char-fe to handle console sbi call, which implement early
+console io while apply 'earlycon=sbi' into kernel parameters.
 
-On [2020 Dec 02] Wed 22:30:37, Bin Meng wrote:
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> 
-> Auto Address Increment (AAI) Word-Program is a special command of
-> SST flashes. AAI-WP allows multiple bytes of data to be programmed
-> without re-issuing the next sequential address location.
-> 
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
->  hw/block/m25p80.c | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> index 9b36762df9..f225d9c96d 100644
-> --- a/hw/block/m25p80.c
-> +++ b/hw/block/m25p80.c
-> @@ -359,6 +359,7 @@ typedef enum {
->      QPP_4 = 0x34,
->      RDID_90 = 0x90,
->      RDID_AB = 0xab,
-> +    AAI_WP = 0xad,
->  
->      ERASE_4K = 0x20,
->      ERASE4_4K = 0x21,
-> @@ -449,6 +450,7 @@ struct Flash {
->      bool four_bytes_address_mode;
->      bool reset_enable;
->      bool quad_enable;
-> +    bool aai_enable;
+Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+---
+ target/riscv/kvm.c                 | 42 ++++++++++++++++-
+ target/riscv/sbi_ecall_interface.h | 72 ++++++++++++++++++++++++++++++
+ 2 files changed, 113 insertions(+), 1 deletion(-)
+ create mode 100644 target/riscv/sbi_ecall_interface.h
 
-We need to add above addition also into the vmstate.
+diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+index b01ff0754c..afd99b3315 100644
+--- a/target/riscv/kvm.c
++++ b/target/riscv/kvm.c
+@@ -38,6 +38,8 @@
+ #include "qemu/log.h"
+ #include "hw/loader.h"
+ #include "kvm_riscv.h"
++#include "sbi_ecall_interface.h"
++#include "chardev/char-fe.h"
+ 
+ static __u64 kvm_riscv_reg_id(__u64 type, __u64 idx)
+ {
+@@ -436,9 +438,47 @@ bool kvm_arch_stop_on_emulation_error(CPUState *cs)
+     return true;
+ }
+ 
++static int kvm_riscv_handle_sbi(struct kvm_run *run)
++{
++    int ret = 0;
++    unsigned char ch;
++    switch (run->riscv_sbi.extension_id) {
++    case SBI_EXT_0_1_CONSOLE_PUTCHAR:
++        ch = run->riscv_sbi.args[0];
++        qemu_chr_fe_write(serial_hd(0)->be, &ch, sizeof(ch));
++        break;
++    case SBI_EXT_0_1_CONSOLE_GETCHAR:
++        ret = qemu_chr_fe_read_all(serial_hd(0)->be, &ch, sizeof(ch));
++        if (ret == sizeof(ch)) {
++            run->riscv_sbi.args[0] = ch;
++        } else {
++            run->riscv_sbi.args[0] = -1;
++        }
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "%s: un-handled SBI EXIT, specific reasons is %lu\n",
++                      __func__, run->riscv_sbi.extension_id);
++        ret = -1;
++        break;
++    }
++    return ret;
++}
++
+ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+ {
+-    return 0;
++    int ret = 0;
++    switch (run->exit_reason) {
++    case KVM_EXIT_RISCV_SBI:
++        ret = kvm_riscv_handle_sbi(run);
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: un-handled exit reason %d\n",
++                      __func__, run->exit_reason);
++        ret = -1;
++        break;
++    }
++    return ret;
+ }
+ 
+ void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
+diff --git a/target/riscv/sbi_ecall_interface.h b/target/riscv/sbi_ecall_interface.h
+new file mode 100644
+index 0000000000..fb1a3fa8f2
+--- /dev/null
++++ b/target/riscv/sbi_ecall_interface.h
+@@ -0,0 +1,72 @@
++/*
++ * SPDX-License-Identifier: BSD-2-Clause
++ *
++ * Copyright (c) 2019 Western Digital Corporation or its affiliates.
++ *
++ * Authors:
++ *   Anup Patel <anup.patel@wdc.com>
++ */
++
++#ifndef __SBI_ECALL_INTERFACE_H__
++#define __SBI_ECALL_INTERFACE_H__
++
++/* clang-format off */
++
++/* SBI Extension IDs */
++#define SBI_EXT_0_1_SET_TIMER           0x0
++#define SBI_EXT_0_1_CONSOLE_PUTCHAR     0x1
++#define SBI_EXT_0_1_CONSOLE_GETCHAR     0x2
++#define SBI_EXT_0_1_CLEAR_IPI           0x3
++#define SBI_EXT_0_1_SEND_IPI            0x4
++#define SBI_EXT_0_1_REMOTE_FENCE_I      0x5
++#define SBI_EXT_0_1_REMOTE_SFENCE_VMA   0x6
++#define SBI_EXT_0_1_REMOTE_SFENCE_VMA_ASID 0x7
++#define SBI_EXT_0_1_SHUTDOWN            0x8
++#define SBI_EXT_BASE                    0x10
++#define SBI_EXT_TIME                    0x54494D45
++#define SBI_EXT_IPI                     0x735049
++#define SBI_EXT_RFENCE                  0x52464E43
++#define SBI_EXT_HSM                     0x48534D
++
++/* SBI function IDs for BASE extension*/
++#define SBI_EXT_BASE_GET_SPEC_VERSION   0x0
++#define SBI_EXT_BASE_GET_IMP_ID         0x1
++#define SBI_EXT_BASE_GET_IMP_VERSION    0x2
++#define SBI_EXT_BASE_PROBE_EXT          0x3
++#define SBI_EXT_BASE_GET_MVENDORID      0x4
++#define SBI_EXT_BASE_GET_MARCHID        0x5
++#define SBI_EXT_BASE_GET_MIMPID         0x6
++
++/* SBI function IDs for TIME extension*/
++#define SBI_EXT_TIME_SET_TIMER          0x0
++
++/* SBI function IDs for IPI extension*/
++#define SBI_EXT_IPI_SEND_IPI            0x0
++
++/* SBI function IDs for RFENCE extension*/
++#define SBI_EXT_RFENCE_REMOTE_FENCE_I       0x0
++#define SBI_EXT_RFENCE_REMOTE_SFENCE_VMA    0x1
++#define SBI_EXT_RFENCE_REMOTE_SFENCE_VMA_ASID  0x2
++#define SBI_EXT_RFENCE_REMOTE_HFENCE_GVMA   0x3
++#define SBI_EXT_RFENCE_REMOTE_HFENCE_GVMA_VMID 0x4
++#define SBI_EXT_RFENCE_REMOTE_HFENCE_VVMA   0x5
++#define SBI_EXT_RFENCE_REMOTE_HFENCE_VVMA_ASID 0x6
++
++/* SBI function IDs for HSM extension */
++#define SBI_EXT_HSM_HART_START          0x0
++#define SBI_EXT_HSM_HART_STOP           0x1
++#define SBI_EXT_HSM_HART_GET_STATUS     0x2
++
++#define SBI_HSM_HART_STATUS_STARTED     0x0
++#define SBI_HSM_HART_STATUS_STOPPED     0x1
++#define SBI_HSM_HART_STATUS_START_PENDING   0x2
++#define SBI_HSM_HART_STATUS_STOP_PENDING    0x3
++
++#define SBI_SPEC_VERSION_MAJOR_OFFSET   24
++#define SBI_SPEC_VERSION_MAJOR_MASK     0x7f
++#define SBI_SPEC_VERSION_MINOR_MASK     0xffffff
++#define SBI_EXT_VENDOR_START            0x09000000
++#define SBI_EXT_VENDOR_END              0x09FFFFFF
++/* clang-format on */
++
++#endif
+-- 
+2.19.1
 
->      uint8_t ear;
->  
->      int64_t dirty_page;
-> @@ -661,6 +663,7 @@ static void complete_collecting_data(Flash *s)
->      case PP:
->      case PP4:
->      case PP4_4:
-> +    case AAI_WP:
->          s->state = STATE_PAGE_PROGRAM;
->          break;
->      case READ:
-> @@ -1010,6 +1013,9 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-
-Since only 3 cmds are allowed while within AAI programming sequence [1] I think
-a warning migt be good have before the command switch case, similar to:
-
-if (get_man(s) == MAN_SST && s->aai_enable && !is_valid_aai_cmd(value)) {
-    qemu_log_mask(LOG_GUEST_ERROR,
-                  "M25P80: Invalid cmd within AAI programming sequence");
-}
-
->  
->      case WRDI:
->          s->write_enable = false;
-> +        if (get_man(s) == MAN_SST) {
-> +            s->aai_enable = false;
-> +        }
->          break;
->      case WREN:
->          s->write_enable = true;
-> @@ -1162,6 +1168,17 @@ static void decode_new_cmd(Flash *s, uint32_t value)
->      case RSTQIO:
->          s->quad_enable = false;
->          break;
-> +    case AAI_WP:
-> +        if (get_man(s) == MAN_SST && s->write_enable) {
-> +            if (s->aai_enable) {
-> +                s->state = STATE_PAGE_PROGRAM;
-> +            } else {
-> +                s->aai_enable = true;
-> +                s->needed_bytes = get_addr_length(s);
-> +                s->state = STATE_COLLECTING_DATA;
-> +            }
-
-Perhaps a qemu_log_mask in an 'else' could be useful here also:
-
-} else {
-    qemu_log_mask(LOG_GUEST_ERROR, "M25P80: %s"
-                  (get_man(s) == MAN_SST) ? "AAI_WP with write protect" :
-                                            "Unknown CMD: 0xAD\n");
-
-Lastly, [1] also says that the address shouldn't wrapp around when in AAI mode,
-so we need a check before doing that also I think. 
-
-Best regards,
-Francisco Iglesias
-
-[1] http://ww1.microchip.com/downloads/en/devicedoc/s71271_04.pdf
-
-> +        }
-> +        break;
->      default:
->          s->pos = 0;
->          s->len = 1;
-> -- 
-> 2.25.1
-> 
-> 
 
