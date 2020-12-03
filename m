@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603612CDAF1
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 17:17:11 +0100 (CET)
-Received: from localhost ([::1]:48044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 801DD2CDB3A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 17:30:35 +0100 (CET)
+Received: from localhost ([::1]:34260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkrI6-0003L2-FK
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 11:17:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37412)
+	id 1kkrV4-0001by-4L
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 11:30:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kkrGN-0002bb-2q
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:15:23 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44899)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kkrG8-0002zI-7C
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:15:19 -0500
-Received: by mail-ot1-x342.google.com with SMTP id f16so2217743otl.11
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 08:15:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IPPAffN4yagbi7eODeoKPenRSw5Nap2P8dgVVfXBjgo=;
- b=a8qWDflHb559fbVC2iQk1X4wrFdlY1GlAiqG80/3Mzhl3wil9h9/t9qIWRsf7ow6vc
- aiEMbNfgvClcRg82qjot02sxpZS+ojayW06KsFeFQd2EPzyg417uRLGur5hGPknJyLTn
- VeXdb9StOpT3YMP0W89G1Fwzk9IKX3RRq9ySNmFZP/iIf0g+nOWsGLG8SoB4NM7v3n0i
- Lg+W+1ak2QVHrdO3uAo/nh5L20ErRoBdYxfXB/j27crL6Qyz1t7KsJ6vDVpZ+mZWnIe3
- uIQiRUYlxLlqj4MxOOpVrMkh3tnd4C8fbX+/vhPvbgGQS1XAnk30Ha6PbMoJvhYNCoIm
- L2Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IPPAffN4yagbi7eODeoKPenRSw5Nap2P8dgVVfXBjgo=;
- b=WzE30B7KDPh2tkYjAflHq6ep6RQXjcLi5tzZMpDDINKWuzhIBYFD8wlMuGDPbzDYPT
- uMhmdRSoe1uhMm7uxtwrn7859YhXtA1uKq/V6BKAHXrVxsVknHd8Je8pN6tYlEbGdGI0
- xJ0rpIhxqcvqCyhf2fA0nOkFBPNLRdzpAIF1V7gYMez97q/SYpnu6CeGn1VzZ7it9ay+
- CnbkNykxgfr4a63/oAFfsn97qXVsT7wcXl4R5kDkObzR2OwWkSe7F8qBqmb+2nwaV4+8
- jjzGt9KaGH4hjVFLeDqpjM/+MDmahljOipItwP73gki026C+02CAX7P3qghUVwH6mVn9
- VHmQ==
-X-Gm-Message-State: AOAM533kRmpBYhKSW57iETZnnJeVrhZmgOT7ldXemFbpZRkSpBTRJWe+
- SqgvaenLMlguPmW6UpSQoxlz0tnMGAh7Tkyh
-X-Google-Smtp-Source: ABdhPJxl+1PAM1zMegRJDVOhGoeNqeKIBmMDR8AW4pyHhok6OQI5Xv3A3kQbyfHoow78qTDm9jE45Q==
-X-Received: by 2002:a05:6830:22fa:: with SMTP id
- t26mr2583260otc.343.1607012102560; 
- Thu, 03 Dec 2020 08:15:02 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id 64sm314965otu.62.2020.12.03.08.15.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Dec 2020 08:15:01 -0800 (PST)
-Subject: Re: [PATCH v2 09/28] target/arm: Implement VLDR/VSTR system register
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20201119215617.29887-1-peter.maydell@linaro.org>
- <20201119215617.29887-10-peter.maydell@linaro.org>
- <74666363-8965-279c-8b00-bf6d61d22be4@linaro.org>
- <CAFEAcA-8LR3f3ArcbK3iWRGLMRrUTwJUEmYvGYHpzMLXHMmkvA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <55ba1846-2743-ad08-603a-b6210cb8ca2d@linaro.org>
-Date: Thu, 3 Dec 2020 10:14:59 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kkrR1-0007Rs-FV
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:26:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49252)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kkrQy-0007ej-W3
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:26:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607012779;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lu43ZgU7pdzf+QYQ8+sWf+JFksxBv8ppBok2o3Z1FSI=;
+ b=acJNZOKAl127jSRwyQ1LfNdBK4mZJmer/eUaBlj733nJ2pFTbFcEJw1vBrqpWvkz6nep29
+ PprtWY66WzapDZ0En5FwCi5179UNg99+1ZCKfo75oml2EU6kCvTz6SDY765hNiCr7JqBYY
+ 7jTT5m78K10RQ6lTndzSy8rUwkgc1dg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-w0fNDd9jMo-pGP7uO2FDZw-1; Thu, 03 Dec 2020 11:26:14 -0500
+X-MC-Unique: w0fNDd9jMo-pGP7uO2FDZw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31F4E800D53;
+ Thu,  3 Dec 2020 16:26:13 +0000 (UTC)
+Received: from [10.3.112.195] (ovpn-112-195.phx2.redhat.com [10.3.112.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF6385D6AC;
+ Thu,  3 Dec 2020 16:26:11 +0000 (UTC)
+Subject: Re: [PATCH] qemu-nbd: Fix a memleak in nbd_client_thread()
+To: Alex Chen <alex.chen@huawei.com>
+References: <20201201061349.110262-1-alex.chen@huawei.com>
+ <e2180a73-b2e8-4613-00dd-2850e07c2c46@redhat.com> <5FC6F5AB.30300@huawei.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <761b7ce9-1ddf-4a92-17fc-a8148cff1bd2@redhat.com>
+Date: Thu, 3 Dec 2020 10:26:10 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-8LR3f3ArcbK3iWRGLMRrUTwJUEmYvGYHpzMLXHMmkvA@mail.gmail.com>
+In-Reply-To: <5FC6F5AB.30300@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,30 +82,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/3/20 5:39 AM, Peter Maydell wrote:
-> On Tue, 1 Dec 2020 at 13:11, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
+On 12/1/20 8:02 PM, Alex Chen wrote:
+> On 2020/12/2 4:15, Eric Blake wrote:
+
+>> While the patch looks correct, we have a lot of duplication.  Simpler
+>> might be a solution with only one exit label altogether:
 >>
->> On 11/19/20 3:55 PM, Peter Maydell wrote:
->>> +    gen_aa32_st32(s, value, addr, get_mem_index(s));
->>
->> This is MemA, so should use
->>
->>   gen_aa32_st_i32(s, value, addr, get_mem_index(s),
->>                   MO_UL | MO_ALIGN);
->>
->> a-la my patch set from last week fixing other instances.
 > 
-> Also " | s->be_data", right ?
+> Thanks for your review, I will modify the patch and send patch v2 according to your suggestion.
+> BTW, do I need to split this patch into two patches, one to solve the memleak and the other to optimizes the redundant code?
 
-Ho hum, yes.  I saw your comment on this in the alignment patch set and I'll
-think about A Better Way.
+This one seems small enough that a single patch is probably fine (that
+is, document that the patch is fixing a memory loop BY consolidating
+redundant code).
 
-
-r~
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
