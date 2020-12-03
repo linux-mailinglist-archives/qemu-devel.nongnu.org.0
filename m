@@ -2,70 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D43A2CD481
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:26:32 +0100 (CET)
-Received: from localhost ([::1]:44498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138AB2CD47C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:24:10 +0100 (CET)
+Received: from localhost ([::1]:41008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmkp-0004gj-Cj
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:26:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53846)
+	id 1kkmiX-0003EE-4w
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:24:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kkmgT-0002GU-BS; Thu, 03 Dec 2020 06:22:01 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45214)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>)
- id 1kkmgR-0002ts-7u; Thu, 03 Dec 2020 06:22:00 -0500
-Received: by mail-oi1-x242.google.com with SMTP id t205so1755677oib.12;
- Thu, 03 Dec 2020 03:21:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TkCKq3GfyecdCwe+Ob2sTC7DxC7yUIQ+ABXUM/+V/oI=;
- b=iIWPGCOd9RJ2Ve9GrzqEeRWuwT1DIxaUqLlklmEFNCMTmcbTsxODjeEjRmdwiONS7j
- cjLHK/3JvFMcfXSYCKUnsbjZrGdM53A3uBlVOiXo/GhNrYW8CaAj9PhsMle2JPBuGTvB
- ZDzF3/RS1DfxLHAQ8xJZFilPyvmzCHoGHch6iev3yV9hbVSX8m1iOXAGrSEtNDhXpVrt
- 2GOnE9f7MSazR0R6ykx2x79Xxo6PuizNMvVUz7+9oLfXX1ebFySGQ52YSBZTqXsOIVM4
- 4IRRrZVXdi0nQwBK0e3GTF0AC97WBufb5/fw6ogCrOeafvZgWoqeTOpoCrIIcihU4oJI
- LBoQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkmgS-0002FT-EF
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:22:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkmgQ-0002tp-Dd
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:22:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606994517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1GC0OfxOzXeIIXbEGJo6xURy79f2K3WHY7EGjvnYocc=;
+ b=g8BthVNx5M1WcXdtgaQX4BPbv5yp8RKZuV6MiRXHDpuWD3tIbYgyqPO2ryuNVSG3aXH6y5
+ cT3FJYvjUAmM8nXthX3ows4viIv0UXGyiIogpMi8litr6FZwkWHlReS32Fsnhln1EkXYtQ
+ CX0szA/lOVBODOXwFmXbLZJUId9QJ58=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-uF1FNNM4OGWITni1NQQTIQ-1; Thu, 03 Dec 2020 06:21:53 -0500
+X-MC-Unique: uF1FNNM4OGWITni1NQQTIQ-1
+Received: by mail-wm1-f70.google.com with SMTP id k128so1333704wme.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 03:21:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TkCKq3GfyecdCwe+Ob2sTC7DxC7yUIQ+ABXUM/+V/oI=;
- b=nPmp8tTouWQQ28D7cLEiu72KaMA/jzkCFiAeD7Vs9H/h6POZTM7g3AP9HWQMK3rSxT
- MRBzOT/7Z8SZ/9Sz1qBH893AlbaDc/9IZDXf5h6I0b1a91LeUhxZiV85hzlEbELySx8J
- wK6LCZ61xS+QVQkM4jlEEZEaXRT+wn54OyJClwYYEqFeAVHQceCaJPSFAlGtX82sR9tM
- pitfV9cvwRCCbTyw3tPokLut54YlLs4/Axyjk9soweMPiy6nNaBs03buI3AjaXqV5HSP
- cKaNZ31PAO1TzDrGbUp0Vd6/xBcrLoiTez+T5nEbN5MiRoDC+FkNdkpgnyKh31mUvasg
- hCiQ==
-X-Gm-Message-State: AOAM531rVJyAcDApwLeNT7ni5mzqif2zOhE+5IjAMYVn8dqzLjsaS3lU
- 0UFisDQEd+4LQUQmWgRctJnMTXk4KPJNHGt4wLg=
-X-Google-Smtp-Source: ABdhPJwTjN70+gaXLreP1kfjuG05AVvFuzvovljXEHrMgrmc9HSaFNFavNv+aPk6vjLfsG13n5slEJ9EiCjqDm6VRFU=
-X-Received: by 2002:a54:4d8f:: with SMTP id y15mr1488442oix.150.1606994517593; 
- Thu, 03 Dec 2020 03:21:57 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=1GC0OfxOzXeIIXbEGJo6xURy79f2K3WHY7EGjvnYocc=;
+ b=tDvUXUXlpQcGP3VuMPK1d45bK7mj9CBbxK/zUTzmJmlmapYpZHgDlcQ3+7dyD5Tk8C
+ CJoyhy2LzDfXD6l1+DdvmfGIcbTGvpWIIAmiHUFsL64hJNYWqErHEWpto894t/0yDoKA
+ 0llRxArYHvvf6/TyJtl9vUdeFydswBFHmii/XoD2yJObA/v/v0vACFVcuu5tSnWIjzqC
+ Uw5uaEcuGhnSHYjWTfEFBa5l9DW6IbpK+1iwExzywzFwefNQSh4WknX+9DVvdjStEH5h
+ ij030txPeH8XU4/sfgAKJPnJ9CBQ6rpx9XRgZxaU3fbZ7h1iYWvgOugRMGdU4Dt7FblU
+ 7ReQ==
+X-Gm-Message-State: AOAM532kGgVjaGdtCbxumiooQ5hd95J8XeqPqgBiD891BOrUVYbqGJT5
+ u4om0PlYAYU61a1Q0FYbEXrbSgzyxgAd8UKoh56CwVQAHfrGgAF6QfKls+1a8fXJUCkUF5eRGKh
+ whLYVqgkAZJaSjUo=
+X-Received: by 2002:a05:600c:224b:: with SMTP id
+ a11mr2761154wmm.97.1606994511876; 
+ Thu, 03 Dec 2020 03:21:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyeeRxUXHQP4a8Su37XEvUECjGmSGL2LSWzxiQ/uUTiPBXllGMLR0eZluRCoUsiCIibnRRjfQ==
+X-Received: by 2002:a05:600c:224b:: with SMTP id
+ a11mr2761133wmm.97.1606994511659; 
+ Thu, 03 Dec 2020 03:21:51 -0800 (PST)
+Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
+ by smtp.gmail.com with ESMTPSA id 138sm1219830wma.41.2020.12.03.03.21.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Dec 2020 03:21:50 -0800 (PST)
+Date: Thu, 3 Dec 2020 06:21:47 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 01/27] migration: Network Failover can't work with a
+ paused guest
+Message-ID: <20201203061907-mutt-send-email-mst@kernel.org>
+References: <20201202050918-mutt-send-email-mst@kernel.org>
+ <20201202102718.GA2360260@redhat.com>
+ <20201202053111-mutt-send-email-mst@kernel.org>
+ <20201202053219-mutt-send-email-mst@kernel.org>
+ <87mtywlbvq.fsf@secure.mitica>
+ <20201202105515.GD2360260@redhat.com>
+ <20201202061641-mutt-send-email-mst@kernel.org>
+ <20201202112639.GE2360260@redhat.com>
+ <20201202063656-mutt-send-email-mst@kernel.org>
+ <20201202120121.GF2360260@redhat.com>
 MIME-Version: 1.0
-References: <20201201191026.4149955-1-philmd@redhat.com>
- <20201201191026.4149955-3-philmd@redhat.com>
-In-Reply-To: <20201201191026.4149955-3-philmd@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Thu, 3 Dec 2020 19:21:21 +0800
-Message-ID: <CAKXe6SLWrP=Jg3mvasx1yF7wHJ1vvpR6+dVHqL4UM+_odbfkTg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] hw/scsi/megasas: Assert cdb_len is valid in
- megasas_handle_scsi()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
- envelope-from=liq3ea@gmail.com; helo=mail-oi1-x242.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201202120121.GF2360260@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,135 +105,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Li Qiang <liq3ea@163.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>, Hannes Reinecke <hare@suse.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Daniele Buono <dbuono@linux.vnet.ibm.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =E4=BA=8E2020=E5=B9=B412=E6=
-=9C=882=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=883:13=E5=86=99=E9=81=93=
-=EF=BC=9A
->
-> cdb_len can not be zero... (or less than 6) here, else we have a
-> out-of-bound read first in scsi_cdb_length():
->
->  71 int scsi_cdb_length(uint8_t *buf)
->  72 {
->  73     int cdb_len;
->  74
->  75     switch (buf[0] >> 5) {
+On Wed, Dec 02, 2020 at 12:01:21PM +0000, Daniel P. Berrangé wrote:
+> On Wed, Dec 02, 2020 at 06:37:46AM -0500, Michael S. Tsirkin wrote:
+> > On Wed, Dec 02, 2020 at 11:26:39AM +0000, Daniel P. Berrangé wrote:
+> > > On Wed, Dec 02, 2020 at 06:19:29AM -0500, Michael S. Tsirkin wrote:
+> > > > On Wed, Dec 02, 2020 at 10:55:15AM +0000, Daniel P. Berrangé wrote:
+> > > > > On Wed, Dec 02, 2020 at 11:51:05AM +0100, Juan Quintela wrote:
+> > > > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > > > > > On Wed, Dec 02, 2020 at 05:31:53AM -0500, Michael S. Tsirkin wrote:
+> > > > > > >> On Wed, Dec 02, 2020 at 10:27:18AM +0000, Daniel P. BerrangÃƒÂ© wrote:
+> > > > > > >> > On Wed, Dec 02, 2020 at 05:13:18AM -0500, Michael S. Tsirkin wrote:
+> > > > > > >> > > On Wed, Nov 18, 2020 at 09:37:22AM +0100, Juan Quintela wrote:
+> > > > > > >> > > > If we have a paused guest, it can't unplug the network VF device, so
+> > > > > > >> > > > we wait there forever.  Just change the code to give one error on that
+> > > > > > >> > > > case.
+> > > > > > >> > > > 
+> > > > > > >> > > > Signed-off-by: Juan Quintela <quintela@redhat.com>
+> > > > > > >> > > 
+> > > > > > >> > > It's certainly possible but it's management that created
+> > > > > > >> > > this situation after all - why do we bother to enforce
+> > > > > > >> > > a policy? It is possible that management will unpause immediately
+> > > > > > >> > > afterwards and everything will proceed smoothly.
+> > > > > > >> > > 
+> > > > > > >> > > Yes migration will not happen until guest is
+> > > > > > >> > > unpaused but the same it true of e.g. a guest that is stuck
+> > > > > > >> > > because of a bug.
+> > > > > > >> > 
+> > > > > > >> > That's pretty different behaviour from how migration normally handles
+> > > > > > >> > a paused guest, which is that it is guaranteed to complete the migration
+> > > > > > >> > in as short a time as network bandwidth allows.
+> > > > > > >> > 
+> > > > > > >> > Just ignoring the situation I think will lead to surprise apps / admins,
+> > > > > > >> > because the person/entity invoking the migration is not likely to have
+> > > > > > >> > checked wether this particular guest uses net failover or not before
+> > > > > > >> > invoking - they'll just be expecting a paused migration to run fast and
+> > > > > > >> > be guaranteed to complete.
+> > > > > > >> > 
+> > > > > > >> > Regards,
+> > > > > > >> > Daniel
+> > > > > > >> 
+> > > > > > >> Okay I guess. But then shouldn't we handle the reverse situation too:
+> > > > > > >> pausing guest after migration started but before device was
+> > > > > > >> unplugged?
+> > > > > > >> 
+> > > > > > >
+> > > > > > > Thinking of which, I have no idea how we'd handle it - fail
+> > > > > > > pausing guest until migration is cancelled?
+> > > > > > >
+> > > > > > > All this seems heavy handed to me ...
+> > > > > > 
+> > > > > > This is the minimal fix that I can think of.
+> > > > > > 
+> > > > > > Further solution would be:
+> > > > > > - Add a new migration parameter: migrate-paused
+> > > > > > - change libvirt to use the new parameter if it exist
+> > > > > > - in qemu, when we do start migration (but after we wait for the unplug
+> > > > > >   device) paused the guest before starting migration and resume it after
+> > > > > >   migration finish.
+> > > > > 
+> > > > > It would also have to handle issuing of paused after migration has
+> > > > > been started - delay the pause request until the nuplug is complete
+> > > > > is one answer.
+> > > > 
+> > > > Hmm my worry would be that pausing is one way to give cpu
+> > > > resources back to host. It's problematic if guest can delay
+> > > > that indefinitely.
+> > > 
+> > > hmm, yes, that is awkward.  Perhaps we should just report an explicit
+> > > error then.
+> > 
+> > Report an error in response to which command? Do you mean
+> > fail migration?
+> 
+> If mgt attempt to pause an existing migration that hasn't finished
+> the PCI unplug stage, then fail the pause request.
 
-Hi Philippe,
+Pause guest not migration ...
+Might be tricky ...
 
-Here I not read the spec. Just guest from your patch, this 'buf[0]>>5'
-indicates/related with the cdb length, right?
-
-So here(this patch) you  just want to ensure the 'buf[0]>>5' and the
-'cdb_len' is consistent.
-
-But I don't  think here is a 'out-of-bound' read issue.
+Let me ask this, why not just produce a warning
+that migration wan't finish until guest actually runs?
+User will then know and unpause the guest when he wants
+migration to succeed ...
 
 
-The 'buf' is from here 'cdb'.
-static int megasas_handle_scsi(MegasasState *s, MegasasCmd *cmd,
-                               int frame_cmd)
-{
-
-    cdb =3D cmd->frame->pass.cdb;
-
-'cmd->frame->pass.cdb' is an array in heap and  its data is mmaped
-from the guest.
-
-The guest can put any data in 'pass.cdb' which 'buf[0]>>5' can be 0 or
-less than 6.
-
-So every read of this 'pass.cdb'[0~15] is valid. Not an oob.
+For example, user can restrict the amount of cpu
+using cgroups to a level where almost no progress
+is made. QEMU can't detect this ....
 
 
 
+> > 
+> > > In normal cases this won't happen, as unplug will have
+> > > easily completed before the mgmt app pauses the running migration.
+> > > In broken/malicious guest cases, this at least ives mgmt a heads up
+> > > that something is wrong and they might then decide to cancel the
+> > > migration.
+> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
->  76     case 0:
->  77         cdb_len =3D 6;
->  78         break;
->
-> Then another out-of-bound read when the size returned by
-> scsi_cdb_length() is used.
-
-Where is this?
-
-So I think your intention is to ensure  'cdb_len' is consistent with
-'cdb[0]>>5'.
-
-Please correct me if I'm wrong.
-
-Thanks,
-Li Qiang
-
->
-> Figured out after reviewing:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg757937.html
->
-> And reproduced fuzzing:
->
->   qemu-fuzz-i386: hw/scsi/megasas.c:1679: int megasas_handle_scsi(Megasas=
-State *, MegasasCmd *, int):
->   Assertion `len > 0 && cdb_len >=3D len' failed.
->   =3D=3D1689590=3D=3D ERROR: libFuzzer: deadly signal
->       #8 0x7f7a5d918e75 in __assert_fail (/lib64/libc.so.6+0x34e75)
->       #9 0x55a1b95cf6d4 in megasas_handle_scsi hw/scsi/megasas.c:1679:5
->       #10 0x55a1b95cf6d4 in megasas_handle_frame hw/scsi/megasas.c:1975:2=
-4
->       #11 0x55a1b95cf6d4 in megasas_mmio_write hw/scsi/megasas.c:2132:9
->       #12 0x55a1b981972e in memory_region_write_accessor softmmu/memory.c=
-:491:5
->       #13 0x55a1b981972e in access_with_adjusted_size softmmu/memory.c:55=
-2:18
->       #14 0x55a1b981972e in memory_region_dispatch_write softmmu/memory.c=
-:1501:16
->       #15 0x55a1b97f0ab0 in flatview_write_continue softmmu/physmem.c:275=
-9:23
->       #16 0x55a1b97ec3f2 in flatview_write softmmu/physmem.c:2799:14
->       #17 0x55a1b97ec3f2 in address_space_write softmmu/physmem.c:2891:18
->       #18 0x55a1b985c7cd in cpu_outw softmmu/ioport.c:70:5
->       #19 0x55a1b99577ac in qtest_process_command softmmu/qtest.c:481:13
->
-> Inspired-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
-> Inspired-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/scsi/megasas.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-> index 1a5fc5857db..f5ad4425b5b 100644
-> --- a/hw/scsi/megasas.c
-> +++ b/hw/scsi/megasas.c
-> @@ -1667,6 +1667,7 @@ static int megasas_handle_scsi(MegasasState *s, Meg=
-asasCmd *cmd,
->  {
->      uint8_t *cdb;
->      int target_id, lun_id, cdb_len;
-> +    int len =3D -1;
->      bool is_write;
->      struct SCSIDevice *sdev =3D NULL;
->      bool is_logical =3D (frame_cmd =3D=3D MFI_CMD_LD_SCSI_IO);
-> @@ -1676,6 +1677,10 @@ static int megasas_handle_scsi(MegasasState *s, Me=
-gasasCmd *cmd,
->      lun_id =3D cmd->frame->header.lun_id;
->      cdb_len =3D cmd->frame->header.cdb_len;
->
-> +    if (cdb_len > 0) {
-> +        len =3D scsi_cdb_length(cdb);
-> +    }
-> +    assert(len > 0 && cdb_len >=3D len);
->      if (is_logical) {
->          if (target_id >=3D MFI_MAX_LD || lun_id !=3D 0) {
->              trace_megasas_scsi_target_not_present(
-> --
-> 2.26.2
->
->
 
