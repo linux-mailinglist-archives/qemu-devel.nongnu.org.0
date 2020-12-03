@@ -2,135 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5932CDEC2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 20:26:45 +0100 (CET)
-Received: from localhost ([::1]:33046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7B62CDEB5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 20:24:05 +0100 (CET)
+Received: from localhost ([::1]:54842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkuFZ-0004CZ-0D
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 14:26:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54214)
+	id 1kkuCy-0001Sc-4l
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 14:24:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kku8U-0006tT-Az; Thu, 03 Dec 2020 14:19:32 -0500
-Received: from mail-eopbgr70098.outbound.protection.outlook.com
- ([40.107.7.98]:2181 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1kku7b-0006Dd-Eq
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 14:18:31 -0500
+Received: from mail-mw2nam10on2079.outbound.protection.outlook.com
+ ([40.107.94.79]:19169 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kku8P-0008VC-62; Thu, 03 Dec 2020 14:19:22 -0500
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1kku7Z-0008Hu-MW
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 14:18:31 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ObGCz97tFTLxUhVGWq4kecElpXIezYqJK44565+CD+BZRmMkKIXCS3JtgY0P2mZkDTMXo/6B25WXtMmjb0dnpdM8lzlPqcQBafSwQby7kWrnGy1mNYFw+WtKHJ9JOJ/l9MkX498PpXG7a83/BeSI22GlvjCKDiSnrKOZ+Xz+raS2hv1HvTtgBXYkycRXA2b+LEPfN8/jFv1C+vyggBxQqDYyi+xjh6pX9ZJ4K9mFPeJcmw1SoAeDRy48SFK+snKwseCJI765vfkGK75jDGRgfHiLTSrjLOjCehhWZx9XajuyJsXj6oKMF2aa3AzLOH+fWPyvhhJyql5CchpStRm7Xg==
+ b=j5FT/BlqVxOc1ucC1x/fqruV/RQfb6PBzcs/adhl4yiLWYJZEtUY+darwzVg+yca8wsB2hU8khIeB/DgHyLFTZSETEawSmH4cOZsp+0I1fwmPhP31SlcbQd5tcIyfEISLPCixD15b3cp9Hoi4C6fgy9Saz7Ruavcf4JD17EtUhGvpg3EEY4UUJmO2VKK9gPRMgGDpB+FTvcblaWvi0WxdyvuJqdtT6emGPYtGen2uZXTRPnIVp7gCcWyQ5Zy36JojDAlSQeb6wlv7QQvbllAt3vzeQAbvPbE+SIWcw+6++WJq4kUk08cRtv5mfcAD7GlBe/AlinjvwkT0nzxyQcFqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+kkmxsZeQ6FxH2VSfzMTn2SQEdrdahkWi71XmzZJnbs=;
- b=BMZhd6qtDzv95g/c9ekRSU/Uk8BxO7N0FdAsinJOoEvi+XEr6Qa3wKPB2bpXqvqnwZMHE6Z7quZZtU7w4fH+Z+HG8J3n57fjDDj6BJFGYVYDTy71OBxyWu7okpCl+a/nelm7Mq8VEt8ntliJtAlQJ9tQtcyBz2ZLUfQMBIqHSbQHzwU656/31LcNFfZdJrQFlDTB1AB4WMg9Ms2Sr2xo9WUD3Svyd2A0QzVGnRDLu5g1umr4OXI/TUs1ESnArNL5MRtC0xYw5xQ/cZg4/sOm29P0HHecjbJ2BOcjmZZXx81HxisF7jm2disYdTaVIBAs9wIBTHeeO5EpAalUG+JgKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
+ bh=Id5tUQ2ofzA7sX6uxyfw3MYMGVzyfOOETyQ4UdzwtE0=;
+ b=HkvF5+9YgRDvwk7D/YWLS+Pl38lTDdhPpMdPrerkpYGSFhtHI1s3EMdOQYzO71/7vUj4o1g9mPlAV+7AYuTmQRX7c5fcuELd6lr/+a+eSBjWU9B+KdKz6iFtlTPF8T0uFzgZKzrDLL/o6hjf5MbrxVV2O8H7d8DvzrEBvjIbnk6Jz4/P3T/EHVMsZ8C+20nTwCr3lduMeVVbEQE4K+Q/D1YlOuQhfHDSDNOJd87NnNGTEZEkP5lhyXlZYV43+oX7eGTlFyZoRYxVoSbttlxt3OE+hoPPxwIzIq3QBLIvOIKR1bWFNZntVbpdT3XcVn0oYtyy+hoXP5SekS0mnBEDwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+kkmxsZeQ6FxH2VSfzMTn2SQEdrdahkWi71XmzZJnbs=;
- b=eJZPkqGHcEhkUZZqB3AWCWwOptcaRG9fkM+urlpviGUedy6EtxDwHtccmOghN9wSbM7dyOq+ZrHsZPXzf37Du2Liuba2QJhkm2/Qt8oE8jNh8MopSu1VqLKZZg1VFGonf74b/Y9OXOn4NYSYOTD0jyeAhLZ9Y8u3C7jUZUqTwfg=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3766.eurprd08.prod.outlook.com (2603:10a6:20b:83::32)
+ bh=Id5tUQ2ofzA7sX6uxyfw3MYMGVzyfOOETyQ4UdzwtE0=;
+ b=T68Du9oW+GHk64ZJHm8FvYSLQ/1vHeV7pcvQoIrVYHmBx3o4mqiFczxKQFuRT1My52VcI/2cIYZYjcNuRLnobvtAvfWHzWPUBYacT1oOKz8A9q09p9qElQhuR9Kp8pGFbeiQny6WfMQMKSv1z4Z/ZavTVJHQEL4Pno44bfeV1DQ=
+Received: from CY4PR22CA0073.namprd22.prod.outlook.com (2603:10b6:903:ad::11)
+ by CY4PR02MB3221.namprd02.prod.outlook.com (2603:10b6:910:7d::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.22; Thu, 3 Dec
- 2020 19:19:16 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3632.020; Thu, 3 Dec 2020
- 19:19:16 +0000
-Subject: Re: [PATCH v12 14/14] block: apply COR-filter to block-stream jobs
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
- kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, jsnow@redhat.com,
- eblake@redhat.com, den@openvz.org
-References: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1603390423-980205-15-git-send-email-andrey.shinkevich@virtuozzo.com>
- <a8405ebc-8dc3-4520-1e35-2bae6a962f79@virtuozzo.com>
- <467434b5-abaa-fdac-bfcb-844626e1d5f4@virtuozzo.com>
- <f8a956c7-c2dc-29c7-14b4-8e0d1b2ca9f8@virtuozzo.com>
- <e2547844-2820-11d8-749a-7c746536c6d1@virtuozzo.com>
- <aba98ac5-38fa-ee1c-6523-2266e71d054e@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <7f99d2a3-7088-4a4a-b2ea-c4d34370d7e2@virtuozzo.com>
-Date: Thu, 3 Dec 2020 22:19:13 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-In-Reply-To: <aba98ac5-38fa-ee1c-6523-2266e71d054e@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.91]
-X-ClientProxiedBy: AM9P191CA0030.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:21c::35) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Thu, 3 Dec
+ 2020 19:18:24 +0000
+Received: from CY1NAM02FT016.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:ad:cafe::33) by CY4PR22CA0073.outlook.office365.com
+ (2603:10b6:903:ad::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend
+ Transport; Thu, 3 Dec 2020 19:18:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ CY1NAM02FT016.mail.protection.outlook.com (10.152.75.164) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3611.27 via Frontend Transport; Thu, 3 Dec 2020 19:18:24 +0000
+Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Thu, 3 Dec 2020 11:18:23 -0800
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Thu, 3 Dec 2020 11:18:23 -0800
+Received: from [10.140.6.35] (port=54960 helo=xhdsaipava40.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <sai.pavan.boddu@xilinx.com>)
+ id 1kku7S-0006gu-Rt; Thu, 03 Dec 2020 11:18:23 -0800
+Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
+ id 9F3FE13C0138; Fri,  4 Dec 2020 00:52:51 +0530 (IST)
+From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Markus Armbruster
+ <armbru@redhat.com>, =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?=
+ <marcandre.lureau@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, "Gerd
+ Hoffmann" <kraxel@redhat.com>, Edgar Iglesias <edgari@xilinx.com>, "Francisco
+ Eduardo Iglesias" <figlesia@xilinx.com>, Alistair Francis
+ <alistair.francis@wdc.com>, Eduardo Habkost <ehabkost@redhat.com>, Ying Fang
+ <fangying1@huawei.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>, Paul Zimmerman
+ <pauldzim@gmail.com>, Sai Pavan Boddu <saipava@xilinx.com>
+Subject: [PATCH v15 0/4] Add Versal usb model
+Date: Fri, 4 Dec 2020 00:52:33 +0530
+Message-ID: <1607023357-5096-1-git-send-email-sai.pavan.boddu@xilinx.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.91) by
- AM9P191CA0030.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21c::35) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3632.17 via Frontend Transport; Thu, 3 Dec 2020 19:19:15 +0000
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 80d7ffda-93d1-4f5b-7774-08d897c05389
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3766:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3766E82E51D64DFE936F99F4C1F20@AM6PR08MB3766.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:561;
+X-MS-Office365-Filtering-Correlation-Id: 3efb5ca8-031b-498a-5a18-08d897c03492
+X-MS-TrafficTypeDiagnostic: CY4PR02MB3221:
+X-Microsoft-Antispam-PRVS: <CY4PR02MB322151E5D80C4287CAD01839CAF20@CY4PR02MB3221.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:1107;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fzYz8QVh7DPitox7vXbuMQvAP+AVhAOo6O48b7Yy+Tq/9XdOGNuaxaWo46yVHRgbWPxkeFNj+Dra/kNsuAwrciTwVwF9ZPVGdsATUrPrNy1dwaRchp+vKDpxcv1d3nfTr8Ct74jfsdjxd6QePevbwcYU1HJUfvX9R0NCISbaTyQR61iq+jIAfcmmszd8Ku+pWvlE5n4S+fbAQBSwWHaldLq0RcxJiwOiXdkdEmu5JQ5vislH/Qd7vdm1j8owpCLQEtpEjJqwO/iQhdOkvouX3ts/AJvXtiWnFsqFV709ILCAT1+7JD0GUNF2gKrqs2NTrYiIFVAomQ6t9R4Y/SUsrdS/eCc45ZReLYK18LbBU8ig4RNPtzD5v7rLrjaRO5uijC34fyBQBoblHNAATgBIG5jILHBsWZlX/G6CudS9iik=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(366004)(346002)(376002)(39840400004)(956004)(316002)(5660300002)(2616005)(16576012)(4326008)(66946007)(66476007)(36756003)(66556008)(31686004)(6486002)(83380400001)(31696002)(52116002)(2906002)(186003)(16526019)(53546011)(107886003)(86362001)(8936002)(478600001)(26005)(8676002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MExoRlNSSFFIdjRIZzRWTEZKSlIzNkIzZkFMWWJMSzZydXMyckpmdFh1R1BI?=
- =?utf-8?B?M0k2cVRlSHdCMVNSRktRTkE1NmZSeUNWcXQ2T0ZuakhONkg2ek9NYVl6R2h2?=
- =?utf-8?B?eis5NkFEWUxKcHBFb2NoUnN1ZTB3WEdCOE1qNFZrb1hRc3RYd3VXcDNSNnl4?=
- =?utf-8?B?OGpCaDErYjZxaFJQUTIvY1VETzkvczRJWXNpWDU0V1lhTkZZUDNtc2Z1MnNQ?=
- =?utf-8?B?MGhzL3pEcER4SUdtKy9qem5rQndxNGJ2bDNwKzROMWRXK2MxK3lzWmV5N05S?=
- =?utf-8?B?TWJaeEFQeTVDSnc5NGNFa2p2UHpicVIyMzVrKzRsV3FXV2wydU11ek8vblJy?=
- =?utf-8?B?enpnOGJaKzV1THNzVW9uWDFQQVZwTGNDU1NWRC9COGpYbkxsQXd0T1Nhemg3?=
- =?utf-8?B?aXZVeHd2MTJucWJsMzlObHkzYTNlNnpyM2ZuTDduV0EyNXBxKzF6WFh1bjAv?=
- =?utf-8?B?ZXg3RnRGNG5wdnBON2htaHdYZFl1M3pTRmV6bFNPT1A1RUNtcWlvSlNHbDdK?=
- =?utf-8?B?dFo0Yk1VS0U1U3dpNElaQ2VPSFoxbCtXcEVEb3Y1MDZycUpXVU51N1lFTHBB?=
- =?utf-8?B?NkNUMUI2enN3OEtoN2JEYzZsd282SUJlZUVuK1ZWdXlWZXZjbVo0dUdFYWlY?=
- =?utf-8?B?WDVPaVdZcXFBK2RSdHczV09UcHppVXA1citkRHZBSUtpclR1dnhrWTlmYURC?=
- =?utf-8?B?ZDRSeG5Ga2pTY1VyczU4eWlLNW1VRDdJN0hXbHJwc0dxK0Y3SCtRR0Z3aE9a?=
- =?utf-8?B?WnBqRjhkV1VzM1p4c0dJbU9JQ0x3anpGM1pRZzIwSTJIaXI5QXpxakMwZFRR?=
- =?utf-8?B?MzBFWk5MRE1NL1NTaHF6aXVFUXBUSEdsNUoyUXNOQmFNSW54VjlCRHMwejF4?=
- =?utf-8?B?VU9vWjQ0SVlPb0RReEt4SWNhN1dLR1dvWE1tU2RNY3dVVGFjN1ZIRFVRUWRN?=
- =?utf-8?B?TElQeU9hU09OY3JCbjlVSHlvTkYwWHNFRE9HWTdXTllPbTdMemg2WjJUOWhm?=
- =?utf-8?B?V2poei9OTS8vT2E5bGlQdHlTdjI3NzFxVWx4ZnFtNHNFWW5hYitrUkpTTkZZ?=
- =?utf-8?B?bWEzYXIxVnIyd2hKSks4a0JZSmpTd3MvSll5M1NNY0UySERON29KYmEwOGJV?=
- =?utf-8?B?MFpIeFo1Mk9GYVRSeENSYnBSR25OeEhNdjhJVGp6NGk5NWxJVGo2RERlWnBl?=
- =?utf-8?B?aDhVM1E1cXAvZnFHMWVxR1FWTWRDNVdNMnFHQjg1YTQxREhialdZNzBacEdG?=
- =?utf-8?B?N0N6a2FwQ3JwUVlZSDJOWFJWaDZ1TG92REdBVm9LZ2R3OXBrRnVhbUNjSmZS?=
- =?utf-8?Q?O2SyRJyvJlrHjQ01akjMZ9K7XBf8swp8XP?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80d7ffda-93d1-4f5b-7774-08d897c05389
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2020 19:19:16.5690 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OdRmVkJ2Uq31Rblh94/5Hphy9jCZc/8VqwGTv7w5dMTxjA7LAIz8QF4AUTHd1sE8Ms/7ssyUNgYWI84MCVcJd2v1vuJ63lVxp7/rvsnHnXA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3766
-Received-SPF: pass client-ip=40.107.7.98;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
+X-Microsoft-Antispam-Message-Info: QVKYWwizt4VAedSrpKc0I3RLkAnvN7Ic/WZ+fIMXGBwZETGJtbLq1xPWU5+iHxByPHMp9hfEw/Eq2UC+S+t8sf2WukfIs0fDFjYWfZ9MUtETJFM+sbGSkkowF5hFzBLgiJ1XDyvQ0jemk+HAU414nz5uSlKbSCpNh+z0xi6s2HhrvcOrTBYAwu168zkN1cyWmtjRzyZyxP94cdf+YJb/PpwULmsnJ3eOFn/exyjZc7KxD3ifKl9UYSxE6EqePBNN4KKpdrf8TD4rJGsA+0vjgDHWXBdSZRHrKHwEUDOlug84Blqk59802FaOfjBImecAevVzOsfKeMVYqNUE/DJXSUUOLKYpz2wgI0ss4e4xq6bAdAdFgqdxAaqoIexhICjbJOYhFVrqsUT6+OFd6b42tMXVPHIg1rY3/Q8LtY98KQzue7B8es6O6YzVrJrE1kGe
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(376002)(136003)(39860400002)(46966005)(6266002)(36906005)(82310400003)(36756003)(7416002)(83380400001)(42186006)(70586007)(70206006)(478600001)(8676002)(8936002)(110136005)(5660300002)(356005)(26005)(7636003)(4326008)(316002)(2906002)(186003)(6636002)(426003)(47076004)(6666004)(2616005)(336012)(82740400003)(921005)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2020 19:18:24.3107 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3efb5ca8-031b-498a-5a18-08d897c03492
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT016.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB3221
+Received-SPF: pass client-ip=40.107.94.79; envelope-from=saipava@xilinx.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: 11
+X-Spam_score: 1.1
 X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
+X-Spam_report: (1.1 / 5.0 requ) AC_FROM_MANY_DOTS=2.999, BAYES_00=-1.9,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -144,127 +133,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-02.12.2020 21:18, Andrey Shinkevich wrote:
-> 
-> On 27.10.2020 21:24, Andrey Shinkevich wrote:
->>
->> On 27.10.2020 20:57, Vladimir Sementsov-Ogievskiy wrote:
->>> 27.10.2020 20:48, Andrey Shinkevich wrote:
->>>>
->>>> On 27.10.2020 19:13, Vladimir Sementsov-Ogievskiy wrote:
->>>>> 22.10.2020 21:13, Andrey Shinkevich wrote:
->>>>>> This patch completes the series with the COR-filter insertion for
->>>>>> block-stream operations. Adding the filter makes it possible for copied
->>>>>> regions to be discarded in backing files during the block-stream job,
->>>>>> what will reduce the disk overuse.
->>>>>> The COR-filter insertion incurs changes in the iotests case
->>>>>> 245:test_block_stream_4 that reopens the backing chain during a
->>>>>> block-stream job. There are changes in the iotests #030 as well.
->>>>>> The iotests case 030:test_stream_parallel was deleted due to multiple
->>>>>> conflicts between the concurrent job operations over the same backing
->>>>>> chain. The base backing node for one job is the top node for another
->>>>>> job. It may change due to the filter node inserted into the backing
->>>>>> chain while both jobs are running. Another issue is that the parts of
->>>>>> the backing chain are being frozen by the running job and may not be
->>>>>> changed by the concurrent job when needed. The concept of the parallel
->>>>>> jobs with common nodes is considered vital no more.
->>>>>>
->>>>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>>>>> ---
->>>>>>   block/stream.c             | 98 ++++++++++++++++++++++++++++++----------------
->>>>>>   tests/qemu-iotests/030     | 51 +++---------------------
->>>>>>   tests/qemu-iotests/030.out |  4 +-
->>>>>>   tests/qemu-iotests/141.out |  2 +-
->>>>>>   tests/qemu-iotests/245     | 22 +++++++----
->>>>>>   5 files changed, 87 insertions(+), 90 deletions(-)
->>>>>>
->>>>>> diff --git a/block/stream.c b/block/stream.c
->>>>
->>>>
->>>> [...]
->>>>
->>>>>> +    s = block_job_create(job_id, &stream_job_driver, NULL, cor_filter_bs,
->>>>>> +                         BLK_PERM_CONSISTENT_READ,
->>>>>> +                         basic_flags | BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD,
->>>>>
->>>>> I think that BLK_PERM_GRAPH_MOD is something outdated. We have chain-feeze, what BLK_PERM_GRAPH_MOD adds to it? I don't know, and doubt that somebody knows.
->>>>>
->>>>
->>>> That is true for the commit/mirror jobs also. If we agree to remove the flag BLK_PERM_GRAPH_MOD from all these jobs, it will be made in a separate series, won't it?
->>>
->>> Hmm. At least, let's not implement new logic based on BLK_PERM_GRAPH_MOD. In original code it's only block_job_create's perm, not in shared_perm, not somewhere else.. So, if we keep it, let's keep it as is: only in perm in block_job_create, not implementing additional perm/shared_perm logic.
->>>
->>
->> With @perm=0 in the block_job_add_bdrv(&s->common, "active node"...), it won't.
->>
->>>>
->>>>>>                            speed, creation_flags, NULL, NULL, errp);
->>>>>>       if (!s) {
->>>>>>           goto fail;
->>>>>>       }
->>>>>> +    /*
->>>>>> +     * Prevent concurrent jobs trying to modify the graph structure here, we
->>>>>> +     * already have our own plans. Also don't allow resize as the image size is
->>>>>> +     * queried only at the job start and then cached.
->>>>>> +     */
->>>>>> +    if (block_job_add_bdrv(&s->common, "active node", bs,
->>>>>> +                           basic_flags | BLK_PERM_GRAPH_MOD,
->>>>>
->>>>> why not 0, like for other nodes? We don't use this BdrvChild at all, why to requre permissions?
->>>>>
->>>>
->>>> Yes, '0' s right.
->>>>
->>>>>> +                           basic_flags | BLK_PERM_WRITE, &error_abort)) {
->>>>>> +        goto fail;
->>>>>> +    }
->>>>>> +
->>>>>>       /* Block all intermediate nodes between bs and base, because 
->>>>
->>>>
->>>> [...]
->>>>
->>>>>> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
->>>>>> index dcb4b5d..0064590 100755
->>>>>> --- a/tests/qemu-iotests/030
->>>>>> +++ b/tests/qemu-iotests/030
->>>>>> @@ -227,61 +227,20 @@ class TestParallelOps(iotests.QMPTestCase):
->>>>>>           for img in self.imgs:
->>>>>>               os.remove(img)
->>>>>> -    # Test that it's possible to run several block-stream operations
->>>>>> -    # in parallel in the same snapshot chain
->>>>>> -    @unittest.skipIf(os.environ.get('QEMU_CHECK_BLOCK_AUTO'), 'disabled in CI')
->>>>>> -    def test_stream_parallel(self):
->>>>>
->>>>> Didn't we agree to add "bottom" paramter to qmp? Than this test-case can be rewritten using
->>>>> node-names and new "bottom" stream argument.
->>>>>
-> 
-> The QMP new "bottom" option is passed to the COR-driver. It is done withing the stream-job code. So, it works.
+This patch series adds dwc3 usb controller to versal SOC.
 
-Yes. But we also want "bottom" option for stream-job, and deprecate "base" option. Then we can rewrite the test using "bottom" option, all should work
+Changes for V2:
+    Make XHCIState non-qom
+    Use container_of functions for retriving pci device instance
+    Initialize the AddressSpace pointer in PATCH 1/3 itself Changes for V3:
+    Convert XHCIState to TYPE_DEVICE and register as a child of XHCIPciState.
+Changes for V4:
+    Add DWC3 usb controller
+    Add versal, usb2-reg module
+    Connect sysbus xhci to versal virt board Changes for V5:
+    Add extra info about dwc3 and usb2_regs devices in commit messages
+    Use only one irq for versal usb controller
+    Mark the unimplemented registers in dwc3 controller
+    Rebase the patches over master.
+    Move few mispalced contents from patch 2/7 to 3/7.
+    Fix the author names in the header.
+    Move the inclusion of "sysemu/dma.h" from patch 1/7 to 3/7 Changes for V6:
+    Fixed style issue in patch 7/7
+    Renamed usb2_reg model to VersalUsb2CtrlReg
+    Fixed author in headers
+Changes for V7:
+    Create a usb structure to keep things clean
+    Remove the repeated patch in the series i.e 5/7 Changes for V8:
+    Fix vmstate sturcts to support cross version migration.
+Changes for V9:
+    Added recommended changes to fix vmstate migration.
+    Fixed commit message on 3/7.
+Changes for V10:
+    use vmstate_post_load avaialble in VMStateDescription
+    tested vmstate cross migration.
+Changes for V11:
+    Removed the patches which got accepted
+    Changed object name "USB2Reg" -> "ctrl"
+    Updated Subject line on cover letter.
+Changes for V12:
+    Use reset class for usb2-ctrl-regs module
+    Move the few register update to realize
+    Marked registers which are unimplemented in regapi model
+Changs for V13:
+    Add usb subsystem for xilinx devices,
+    Memory Map xhci internally to dwc3 device,
+    Add respective changes to connect VersalUsb2 subsystem to xilinx-versal.
+Changes for V14:
+    Fix "make check" failures, by specifing right dependencies in Kconfig for
+    usb_dwc3 device.
+Changes for V15:
+    Fixed commit message in Patch 4/4, and addressed code style issues.
+    In VersalDWC3 model added vmstate struct.
 
-> 
->>>>
->>>> I guess it will not help for the whole test. Particularly, there is an issue with freezing the child link to COR-filter of the cuncurrent job, then it fails to finish first.
->>>
->>> We should not have such frozen link, as our bottom node should be above COR-filter of concurrent job.
->>>
->>>
->>
->> The bdrv_freeze_backing_chain(bs, above_base, errp) does that job. Max insisted on keeping it.
->>
->> Andrey
-> 
-> I have kept the test_stream_parallel() deleted in the coming v13 because it was agreed to make the above_base node frozen. With this, the test case can not pass. It is also true because the operations over the COR-filter node are blocked for the parallel jobs.
-> 
-> Andrey
+Sai Pavan Boddu (2):
+  usb: Add versal-usb2-ctrl-regs module
+  usb: xlnx-usb-subsystem: Add xilinx usb subsystem
 
+Vikram Garhwal (2):
+  usb: Add DWC3 model
+  arm: xlnx-versal: Connect usb to virt-versal
+
+ hw/arm/xlnx-versal-virt.c                   |  55 +++
+ hw/arm/xlnx-versal.c                        |  26 ++
+ hw/usb/Kconfig                              |  10 +
+ hw/usb/hcd-dwc3.c                           | 689 ++++++++++++++++++++++++++++
+ hw/usb/meson.build                          |   3 +
+ hw/usb/xlnx-usb-subsystem.c                 |  94 ++++
+ hw/usb/xlnx-versal-usb2-ctrl-regs.c         | 229 +++++++++
+ include/hw/arm/xlnx-versal.h                |   9 +
+ include/hw/usb/hcd-dwc3.h                   |  55 +++
+ include/hw/usb/xlnx-usb-subsystem.h         |  45 ++
+ include/hw/usb/xlnx-versal-usb2-ctrl-regs.h |  45 ++
+ 11 files changed, 1260 insertions(+)
+ create mode 100644 hw/usb/hcd-dwc3.c
+ create mode 100644 hw/usb/xlnx-usb-subsystem.c
+ create mode 100644 hw/usb/xlnx-versal-usb2-ctrl-regs.c
+ create mode 100644 include/hw/usb/hcd-dwc3.h
+ create mode 100644 include/hw/usb/xlnx-usb-subsystem.h
+ create mode 100644 include/hw/usb/xlnx-versal-usb2-ctrl-regs.h
 
 -- 
-Best regards,
-Vladimir
+2.7.4
+
 
