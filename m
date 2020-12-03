@@ -2,49 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5EB2CD380
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:31:31 +0100 (CET)
-Received: from localhost ([::1]:41566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D78272CD3DE
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:41:00 +0100 (CET)
+Received: from localhost ([::1]:35788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kklta-0004E9-K9
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:31:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39734)
+	id 1kkm2l-0005Uz-Up
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:40:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kklrf-0003ML-0I; Thu, 03 Dec 2020 05:29:31 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:45808
- helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1kklrd-0001Jq-7z; Thu, 03 Dec 2020 05:29:30 -0500
-Received: from Alexanders-Mac-mini.local
- (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with UTF8SMTPSA id 51EC13900107;
- Thu,  3 Dec 2020 11:29:27 +0100 (CET)
-Subject: Re: [PATCH v1 1/1] hvf: arm: Properly sync guest time on migration
-To: Peter Collingbourne <pcc@google.com>
-References: <CAEkmjvXGccGs2QhaiLFupTDWcnp4O+qez-uj8QdbRG13UfCy2Q@mail.gmail.com>
- <2dc974cc-abe2-d034-1720-d5a2651a9042@csgraf.de>
- <CAEkmjvV-XPmBCGsOnBhZ20t6D+vbp+7pOUpDeMJL3dKAjZvErQ@mail.gmail.com>
- <658b1719-4635-edab-f3e2-6a9ac0bc01a1@csgraf.de>
- <CAMn1gO4KNq_EBrwmHjhFzp==VdEq+ExrKQHmYfz5RKvDj1Q4GA@mail.gmail.com>
-From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <8c2ee2ff-6191-4f77-c41d-2b70801b9d99@csgraf.de>
-Date: Thu, 3 Dec 2020 11:29:27 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
- Gecko/20100101 Thunderbird/84.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kkly8-0000W5-V1
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:36:13 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:44456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kkly7-0003oF-1x
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:36:12 -0500
+Received: by mail-ej1-x630.google.com with SMTP id m19so2673424ejj.11
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 02:36:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9mI2r2RdN1QSR05rYsKuPrgryt7Ek4UrwqMt3B2tyFY=;
+ b=ETs92j3vRMMhP1vP8JfCSkk8FGdp8PYwFRbVcCYhgi2ZgVhSXg7MnkJWvOcgy+Coxm
+ hW9rTgiueoY4A6jFPYmKzzY8fuFIL/jQgOzmq/LnHzZO9lGfpQxE8yiGtY91mFuo5Vml
+ 0OGckFvW5ZH6P37HGiBHUV/zj+o8xwj5Hh/oxFQQJd1jssMvNzDWaAHPRrUpOhzgQDCK
+ tGtU+cmkuWct2ik+3gBCpZNieOovwrEOrTixacqyAV7arQQ4VoWOpSTElCC9VcyveSy4
+ VZ2dgCCTyeJ+lrLwJkkIZ5WA0BT3wueykU3hO0GvNMMjsOyRwuhMovItX1aWk/i/j5cu
+ hd4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9mI2r2RdN1QSR05rYsKuPrgryt7Ek4UrwqMt3B2tyFY=;
+ b=dirXkeQsahcA8cCdwdLZDFFOv5FOdca+2Cj0I0XptN+axHUd9WnMoTZnnTNUg2ILvi
+ i56U7XjTZkj/4evauggs6KA/onw729oGtuN3O6GZYriElbgQ5XD/6xmrrH9p6IzHdG9i
+ JbwUmcdKk1ZVIzrSWeTW14xbpPPF19Wr6yMWqAH3LoDSFlHJecxFFBniDjSzrObqgbSc
+ cFJRwJv8tbIZMJub88UaBDUypAXsPrD/Mt4wUJmjW9BWRiFG/kxasgWfW09YnmCr1rny
+ MT6TbHGNjMqSCddADLCIhoKNjB2NAlc1QI0jl0pGX+WgqUpRTn0DsGq63WZzHEOO/6uq
+ T0lg==
+X-Gm-Message-State: AOAM530tJ/XIrRjpoWgq6Ody7wiM3l4pZKrwsg8CYW6pHe3p87xKW4mH
+ GOQBVDBvpG3ROIPVIz+DpoqgZUWjMWK+yvHfvswTqw==
+X-Google-Smtp-Source: ABdhPJxbpAt+jl5WtDPsOx+CkoPE2wv96+Bxsi3tl0lkEGzAvvHGYx7IXbZmC3khOIaIwqVQAq06ViVXJVZASKp6y10=
+X-Received: by 2002:a17:906:1151:: with SMTP id
+ i17mr1983082eja.250.1606991769405; 
+ Thu, 03 Dec 2020 02:36:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMn1gO4KNq_EBrwmHjhFzp==VdEq+ExrKQHmYfz5RKvDj1Q4GA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1c1a5ad6-de90-b7af-b285-dfbee52803cc@elloe.vision>
+In-Reply-To: <1c1a5ad6-de90-b7af-b285-dfbee52803cc@elloe.vision>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Dec 2020 10:35:58 +0000
+Message-ID: <CAFEAcA_8w_Gh6tifg9ZZhF9ZxhBM5DRtOjdb07WVnuP1B6s-_A@mail.gmail.com>
+Subject: Re: qemu:handle_cpu_signal received signal outside vCPU context
+To: "Tj (Elloe Linux)" <ml.linux@elloe.vision>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,73 +77,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Claudio Fontana <cfontana@suse.de>, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 3 Dec 2020 at 10:27, Tj (Elloe Linux) <ml.linux@elloe.vision> wrote:
+>
+> We're seeing this error on Ubuntu 20.04 amd64 host and aarch64
+> qemu-aarch64-static chroot when executing 'aptitude':
+>
+> qemu:handle_cpu_signal received signal outside vCPU context
+> qemu:handle_cpu_signal received signal outside vCPU context
+>
+> Research led us to an identical issue report against qemu-m68k [0] where
+> it is reported this issue is resolved in 5.0.0+.
+>
+> Ubuntu 20.04 LTS currently ships v4.2 so I'm trying to identify the
+> commit(s) that resolved this issue so we can test a cherry-pick of the fix.
+>
+> Do you know which commit(s) addressed this?
 
-On 03.12.20 00:28, Peter Collingbourne wrote:
-> On Wed, Dec 2, 2020 at 2:57 PM Alexander Graf <agraf@csgraf.de> wrote:
->>
->> On 02.12.20 23:46, Frank Yang wrote:
->>
->>
->>
->> On Wed, Dec 2, 2020 at 2:28 PM Alexander Graf <agraf@csgraf.de> wrote:
->>>
->>> On 02.12.20 23:19, Frank Yang wrote:
->>>
->>>
->>>  From downstream: https://android-review.googlesource.com/c/platform/external/qemu/+/1515002
->>>
->>> Based on v3 of Alexander Graf's patches
->>>
->>> https://patchew.org/QEMU/20201202190408.2041-1-agraf@csgraf.de
->>>
->>> We need to adjust CNTVOFF_EL2 so that time doesnt warp.  Even though we
->>> can set separate CNTVOFF_EL2 values per vCPU, it just is not worth the
->>> require effort to do that accurately---with individual values, even if
->>> they are a tiny bit off it can result in a lockup due to inconsistent
->>> time differences between vCPUs. So just use a global approximate value
->>> for now.
->>>
->>> Not tested in upstream yet, but Android emulator snapshots work without
->>> time warp now.
->>>
->>> Signed-off-by: Lingfeng Yang <lfy@google.com>
->>>
->>>
->>> If we just always make CNTV start at the same 0 as QEMU_CLOCK_VIRTUAL, we should be able to just recover the offset after migration by looking at QEMU_CLOCK_VIRTUAL to set CNTVOFF, right?
->>>
->>> That would end up much easier than this patch I hope.
->>>
->>>
->> The virtual clock interfaces/implementations in QEMU seem complex to me relative to the fix needed here and they don't seem to compute ticks with mach_absolute_time() (which in this case we want since we want to compute in timer ticks instead of having to mess with ns / cycle conversions). I do agree this patch does seem more complicated on the surface though versus "just" setting cntvoff directly to some value. Maybe we should simplify the QEMU_CLOCK_VIRTUAL implementation first to maintain CNTVOFF_EL2/CNTV using mach_absolute_time() first?
->>
->>
->> So QEMU_CLOCK_VIRTUAL calls cpu_get_clock() which just adds an offset to gettimeofday(). This offset is already part of the live migration stream[1]. So if you just configure CNTVOFF_EL2 based on QEMU_CLOCK_VIRTUAL adjusted by the clock frequency on vcpu init, you should have everything you need. You can do that on every CPU init even, as the virtual clock will just be 0 on start.
->>
->> The only thing we need to change then is to move the WFI from a direct call to mach_absolute_time() to also check the virtual clock instead. I would hope that gettimeofday() calls mach_absolute_time() in the background too to speed it up.
-> I'm not sure that something based on gettimeofday() (or
-> clock_gettime(CLOCK_MONOTONIC) which it looks like cpu_get_clock() can
-> also call) will work. It will include time spent asleep so it won't
-> correspond to mach_absolute_time() aka guest CNTVCT_EL0.
+You might try commits 365510fb860a91 / 9fcff3a67f2be53de2d / 6bc024e713fd35e.
+Otherwise, try a git bisect to see where your test case started working
+correctly.
 
-
-It will correspond to it on launch, because we'd set the offset. 
-Afterwards, the only problem I think you're unraveling here is that we 
-would need to adjust CNTVOFF after a suspend/resume cycle to propagate 
-the time jump into the virtual machine. Which probably is not a terrible 
-idea anyway, because how else would the guest know that time has passed?
-
-
-Alex
-
-
+thanks
+-- PMM
 
