@@ -2,82 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691012CDADA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 17:09:48 +0100 (CET)
-Received: from localhost ([::1]:36216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E51EC2CDADC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 17:11:34 +0100 (CET)
+Received: from localhost ([::1]:40718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkrAw-0006Ls-WE
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 11:09:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35472)
+	id 1kkrCf-0008JX-W4
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 11:11:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kkr9N-0005mQ-97
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:08:09 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:42508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kkr9L-0000Q5-98
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:08:08 -0500
-Received: by mail-oi1-x241.google.com with SMTP id l200so2670512oig.9
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 08:08:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ST3vVZbTZBZTabxx9VqYJCrpfIwlt1a4iVUUdQqEy1U=;
- b=pLREjRpZ++zlPM/OjFFHnMidjrTU8bpHZvNf+QqvRcPyGCJReJ03XbJImrGF45GTNF
- D7c7ZWlRds1LJUpxS9Gj80eJvqeY6Zu9qfPZylPKLZLD3KIAvOdZpV/wRn4rd2tP9mcF
- oSQfH+ST2S2YMLHPfWVwkKNQ0U6GNKwh4xxBjP0frKZ5NdBa+hMde5CtU058VmB2w+Qq
- 25vbpgQUx+lfPPTmyjc2Vi37iXDuWrVd8OdEAE3a/GaRmsfI+tuO+6dCnszBLClFrHoj
- BPSjqu0W7y9yWDUcUo4RQ1vOXdO2k7PFKf7+HnLMKVVEb+QbrmerQ185n/4lZQXTsPoM
- +dYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ST3vVZbTZBZTabxx9VqYJCrpfIwlt1a4iVUUdQqEy1U=;
- b=HjEUe5snxlYb6v69FbBCK41wGmjbdJq4I6abudN2EkWF+fBbHrhkvFoD4/xRDKXQO1
- MHdfa52IMQ1Auo36xvx/8m8fdAFb5YdUMlROSeQ7e1DeMP9YYm0v9suWflXxWKvIh6gI
- AvunICITxcwVGWHhoPy07FahDkZ4fg64E3VHokUn0v+OlBeJZKu3Ry+zxzM6k585wg3o
- OVr364Hf0exgHMO0A22fvZ7hVPDQRtAz6fDpaFqupkTQPenZ1uKIhxPT3n5NPOByR2BX
- HAc3s54WzAzTXc+24U81EGi4ysa5crObhhKseFkh5H9PiEeDTGkc74Za7go1eKsMODpr
- T2Sg==
-X-Gm-Message-State: AOAM531lKYH/KqxUUp2ixBO2hSu4pfQWsoFTmSLrZn/ucE1KuXEvNp68
- zUyOBR/cU6PSi2pzrCZi4tuOxg==
-X-Google-Smtp-Source: ABdhPJwCWUUcMm3kUGi8IpedtsHQSSxeiKcmQARsv7SaGWkvFiIvJ0JvGmsvBUQOo+/DuhiN4Un/lw==
-X-Received: by 2002:aca:3145:: with SMTP id x66mr2289207oix.29.1607011685574; 
- Thu, 03 Dec 2020 08:08:05 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id r19sm317165ota.14.2020.12.03.08.08.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Dec 2020 08:08:04 -0800 (PST)
-Subject: Re: [PATCH 06/15] arc: TCG instruction definitions
-To: Cupertino Miranda <cupertinomiranda@gmail.com>
-References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
- <20201111161758.9636-7-cupertinomiranda@gmail.com>
- <74cfc5bd-d02c-768b-37e4-18ff8c88656b@linaro.org>
- <CAHW_PjKs5LDkrFkqSGEKgw4sL3tuyc3-n6Uo4xYfHa8=376_Ew@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1dbd9a59-8e6a-ee80-f7ae-a2990a059b21@linaro.org>
-Date: Thu, 3 Dec 2020 10:07:56 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <mark.rutland@arm.com>)
+ id 1kkrB5-0006vz-H4
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:09:55 -0500
+Received: from foss.arm.com ([217.140.110.172]:36874)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <mark.rutland@arm.com>) id 1kkrB3-000164-4a
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:09:54 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8F8311D4;
+ Thu,  3 Dec 2020 08:09:50 -0800 (PST)
+Received: from C02TD0UTHF1T.local (unknown [10.57.0.87])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8B4043F575;
+ Thu,  3 Dec 2020 08:09:46 -0800 (PST)
+Date: Thu, 3 Dec 2020 16:09:43 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v6 0/2] MTE support for KVM guest
+Message-ID: <20201203160943.GG96754@C02TD0UTHF1T.local>
+References: <20201127152113.13099-1-steven.price@arm.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHW_PjKs5LDkrFkqSGEKgw4sL3tuyc3-n6Uo4xYfHa8=376_Ew@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x241.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201127152113.13099-1-steven.price@arm.com>
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=mark.rutland@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,44 +53,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudiu Zissulescu <claziss@gmail.com>, qemu-devel@nongnu.org,
- Shahab Vahedi <shahab.vahedi@gmail.com>, Shahab Vahedi <shahab@synopsys.com>,
- Cupertino Miranda <cmiranda@synopsys.com>, linux-snps-arc@lists.infradead.org,
- Claudiu Zissulescu <claziss@synopsys.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Catalin Marinas <catalin.marinas@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
+ linux-arm-kernel@lists.infradead.org, Marc Zyngier <maz@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+ kvmarm@lists.cs.columbia.edu, Julien Thierry <julien.thierry.kdev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/2/20 6:55 AM, Cupertino Miranda wrote:
-> I totally understand your concerns with generated code.
+On Fri, Nov 27, 2020 at 03:21:11PM +0000, Steven Price wrote:
+> It's been a week, and I think the comments on v5 made it clear that
+> enforcing PROT_MTE requirements on the VMM was probably the wrong
+> approach. So since I've got swap working correctly without that I
+> thought I'd post a v6 which hopefully addresses all the comments so far.
 > 
-> To explain our decision, we have an internal database that we are able
-> to describe the architecture and map encoding with hw semantics, and
-> for the sake of saving us debug time generating each and every
-> instruction, we use it to generate both the TCG and instruction
-> decoding tables that you have already reviewed.
-> This tool is not only used in QEmu but through all our tools code,
-> allowing us to cross validate the content of the database.
-> 
-> Considering our situation and current state of the port, what would
-> you think is a reasonable compromise?
+> This series adds support for Arm's Memory Tagging Extension (MTE) to
+> KVM, allowing KVM guests to make use of it. This builds on the existing
+> user space support already in v5.10-rc4, see [1] for an overview.
 
-In some respects you're in the same situation as the hexagon target that's
-currently in flight on the list -- both of you are wanting to generate tcg from
-a company-specific canonical source.
+>  arch/arm64/include/asm/kvm_emulate.h       |  3 +++
+>  arch/arm64/include/asm/kvm_host.h          |  8 ++++++++
+>  arch/arm64/include/asm/pgtable.h           |  2 +-
+>  arch/arm64/include/asm/sysreg.h            |  3 ++-
+>  arch/arm64/kernel/mte.c                    | 18 +++++++++++++-----
+>  arch/arm64/kvm/arm.c                       |  9 +++++++++
+>  arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 14 ++++++++++++++
+>  arch/arm64/kvm/mmu.c                       | 16 ++++++++++++++++
+>  arch/arm64/kvm/sys_regs.c                  | 20 +++++++++++++++-----
+>  include/uapi/linux/kvm.h                   |  1 +
+>  10 files changed, 82 insertions(+), 12 deletions(-)
 
-In the case of hexagon, the target/hexagon/imported/ subdirectory contains a
-bunch of stuff exported from Qualcomm's specification.  It's not fantastically
-readable, but it's not bad.  These files are then massaged in various ways to
-produce either (1) out-of-line helpers or (2) inline tcg stuff.
+I note that doesn't fixup arch/arm64/kvm/inject_fault.c, where in
+enter_exception64() we have:
 
-Without knowing what form the Synopsys database takes, how easy would it be to
-export something mostly human-readable, which could then be processed by a tool
-that is included in the qemu source?
+| // TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
 
-Future qemu maintainence is thus on the tool, and not on the auto-generated
-code.  There's also clear separation on what needs tcg review and what's simply
-a spec update.
+... and IIUC when MTE is present, TCO should be set when delivering an
+exception, so I believe that needs to be updated to set TCO.
 
+Given that MTE-capable HW does that unconditionally, this is going to be
+a mess for big.LITTLE. :/
 
-r~
+Thanks,
+Mark.
 
