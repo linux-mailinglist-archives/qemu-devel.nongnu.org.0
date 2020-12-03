@@ -2,96 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940632CCD07
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 04:11:06 +0100 (CET)
-Received: from localhost ([::1]:56256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5A32CCD5E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 04:38:32 +0100 (CET)
+Received: from localhost ([::1]:39590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkf1N-0006aN-5Y
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 22:11:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57514)
+	id 1kkfRu-00052N-GG
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 22:38:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
- id 1kkf0b-0006AV-Io
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 22:10:17 -0500
-Received: from mga18.intel.com ([134.134.136.126]:20460)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kkfQb-0004av-27
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 22:37:09 -0500
+Received: from relay3.mymailcheap.com ([217.182.119.155]:45804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu@linux.intel.com>)
- id 1kkf0Y-0000G2-FD
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 22:10:17 -0500
-IronPort-SDR: K6b5Sm92725zTCyvPbQXjJlXmUzb6ygP53EmAT81TudeNkl+Z3gGpoBMIlzKLtK0sNj60CJ2lj
- 1G8NMyAaG9bQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9823"; a="160895510"
-X-IronPort-AV: E=Sophos;i="5.78,388,1599548400"; d="scan'208";a="160895510"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2020 19:10:11 -0800
-IronPort-SDR: Xi0yLRzp3RQXY2QuzDaUJ059HQ7ZIKxalqAur336BCcjbrjPhb1PKZ4pTH5ty9OrYYI+LFfRhy
- TTKm8O5LtieQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,388,1599548400"; d="scan'208";a="550317394"
-Received: from i7-8700.sh.intel.com ([10.239.159.153])
- by orsmga005.jf.intel.com with ESMTP; 02 Dec 2020 19:10:09 -0800
-From: Like Xu <like.xu@linux.intel.com>
-To: like.xu@intel.com, kvm@vger.kernel.org, qemu-devel@nongnu.org,
- libvir-list@redhat.com
-Subject: [Call for Presentations] FOSDEM 2021: Virt & IaaS Devroom
-Date: Thu,  3 Dec 2020 11:00:01 +0000
-Message-Id: <20201202114939.GJ918328@paraplu.home>
-X-Mailer: git-send-email 2.17.1
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99]) by
- smtp.lore.kernel.org (Postfix) with ESMTP id 5DEACC64E8A for
- <kvm@archiver.kernel.org>; Wed,  2 Dec 2020 11:51:59 +0000 (UTC)
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18]) by
- mail.kernel.org (Postfix) with ESMTP id 022952086A for
- <kvm@archiver.kernel.org>; Wed,  2 Dec 2020 11:51:58 +0000 (UTC)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand id
- S1729756AbgLBLvV (ORCPT <rfc822; kvm@archiver.kernel.org>);
- Wed, 2 Dec 2020 06:51:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25512 "EHLO
- us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK) by
- vger.kernel.org with ESMTP id S1726562AbgLBLvU (ORCPT <rfc822;
- kvm@vger.kernel.org>); Wed, 2 Dec 2020 06:51:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606909793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id: to:to:cc:mime-version:mime-version:content-type:content-type;
- bh=ZQDXqIHaIwz7hDh/GUJUdYz39C6ttyfHLyYmff3IP0w=;
- b=BhlCWJ00vgEZKbgqG9ZhVaAst5cchXAbdDt+bQrcbDMltz0r5btFDHmOWPnPMXKEJY/ZxO
- gk8fGIcaDgH0XOrpwvCakN4jJSnup9s/Mieeb+XhNLIFm0KMDxigeqj2nuTfHz06EEa0AY
- RHfcMuVzN/gmHD0iID1deV+sRgUvZ98=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281-u7Kn-zBGNZSCZjpYHDA4jQ-1; Wed, 02 Dec 2020 06:49:49 -0500
-X-MC-Unique: u7Kn-zBGNZSCZjpYHDA4jQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12]) (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits)) (No
- client certificate requested) by mimecast-mx01.redhat.com (Postfix) with
- ESMTPS id A7444817B9F; Wed,  2 Dec 2020 11:49:48 +0000 (UTC)
-Received: from paraplu.localdomain (ovpn-115-26.ams2.redhat.com
- [10.36.115.26]) by smtp.corp.redhat.com (Postfix) with ESMTPS id 84C7460BFA;
- Wed,  2 Dec 2020 11:49:41 +0000 (UTC)
-Received: by paraplu.localdomain (Postfix, from userid 1001) id D502C3E0495;
- Wed,  2 Dec 2020 12:49:39 +0100 (CET)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kkfQY-0003Vt-Ph
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 22:37:08 -0500
+Received: from filter1.mymailcheap.com (filter1.mymailcheap.com
+ [149.56.130.247])
+ by relay3.mymailcheap.com (Postfix) with ESMTPS id 7ECBD3F15F;
+ Thu,  3 Dec 2020 04:37:02 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by filter1.mymailcheap.com (Postfix) with ESMTP id C188B2A374;
+ Wed,  2 Dec 2020 22:37:01 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
+ s=default; t=1606966621;
+ bh=70YbnXa0sCfLKWQ9uffWIJYIy3lO51uB5MTk6KloPno=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=LIX5/vCvoGrRXuVIubqQHVqIi76ma7xML9wx83d6fXt3LfGB9YRIl23IBvglVHaVN
+ GpnD/6L6TCusoJOjz7473nS9CcewpOkJe3aE5LD2mODKknRtO75CzcEVj5G9sEmLzs
+ AFARWwyis8yfbrylZtCe7+kz3ArOe+sIEsRdAfYY=
+X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
+Received: from filter1.mymailcheap.com ([127.0.0.1])
+ by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id abE1zEUi6Byy; Wed,  2 Dec 2020 22:36:58 -0500 (EST)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by filter1.mymailcheap.com (Postfix) with ESMTPS;
+ Wed,  2 Dec 2020 22:36:58 -0500 (EST)
+Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
+ by mail20.mymailcheap.com (Postfix) with ESMTP id BFE214100D;
+ Thu,  3 Dec 2020 03:36:55 +0000 (UTC)
+Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="IQ8Vho6E"; 
+ dkim-atps=neutral
+AI-Spam-Status: Not processed
+Received: from [0.0.0.0] (li1861-199.members.linode.com [172.105.207.199])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id EDAF74100D;
+ Thu,  3 Dec 2020 03:36:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
+ s=default; t=1606966611;
+ bh=70YbnXa0sCfLKWQ9uffWIJYIy3lO51uB5MTk6KloPno=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=IQ8Vho6EEVoYb2ck3j7oEbuHAYh2H5KtFuNsLlz1lkYTGA4uIykm8i97JYtwSch0O
+ NAHnCrQuCYLnCzYz82FA0kgkX3Od8yQ4Pc9PQiDmjp7jOZn42T5ga+IIU3dJLUZzAm
+ +Qd5apxycTDOJKUd/R/qBussg4hEWqbMBkFRzYLU=
+Subject: Re: [PATCH 0/9] target/mips: Simplify MSA TCG logic
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201202184415.1434484-1-f4bug@amsat.org>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <b98de2d2-98db-1e34-64fd-ec0b4cafae11@flygoat.com>
+Date: Thu, 3 Dec 2020 11:36:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Precedence: bulk
-X-Mailing-List: kvm@vger.kernel.org
-Received-SPF: none client-ip=134.134.136.126;
- envelope-from=like.xu@linux.intel.com; helo=mga18.intel.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_FUTURE_06_12=1.947,
- DKIM_INVALID=0.1, DKIM_SIGNED=0.1, MAILING_LIST_MULTI=-1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201202184415.1434484-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Rspamd-Queue-Id: BFE214100D
+X-Spamd-Result: default: False [2.90 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_XBL(3.00)[172.105.207.199:received];
+ R_DKIM_ALLOW(0.00)[flygoat.com:s=default]; ARC_NA(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ R_SPF_SOFTFAIL(0.00)[~all]; ML_SERVERS(-3.10)[148.251.23.173];
+ DKIM_TRACE(0.00)[flygoat.com:+];
+ DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
+ RCVD_COUNT_TWO(0.00)[2]; MID_RHS_MATCH_FROM(0.00)[];
+ HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
+X-Rspamd-Server: mail20.mymailcheap.com
+Received-SPF: pass client-ip=217.182.119.155;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay3.mymailcheap.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -100,147 +113,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kashyap Chamarthy <kchamart@redhat.com>
-
-[Cross-posting to KVM, QEMU, and libvirt lists]
-
-The Call For Papers for FOSDEM's Virt & IaaS Devroom went out
-yesterday[1].  Here's the text (slightly formatted for readability):
-
-=======================================================================
-We are excited to announce that the call for proposals is now open for
-the Virtualization & IaaS devroom at the upcoming FOSDEM 2021, to be
-hosted virtually on February 6th 2021.
-
-This year will mark FOSDEM's 21th anniversary as one of the
-longest-running free and open source software developer events,
-attracting thousands of developers and users from all over the world.
-Due to Covid-19, FOSDEM will be held virtually this year on February 6th
-& 7th, 2021.
-
-Important Dates
----------------
-
-* Submission deadline: 20th of December
-
-* Acceptance notifications: 25th of December
-
-* Final schedule announcement: 31st of December
-
-* Recorded presentations upload deadline: 15th of January
-
-* Devroom: 6th February 2021
-
-About the Devroom
------------------
-
-The Virtualization & IaaS devroom will feature session topics such as
-open source hypervisors and virtual machine managers such as Xen
-Project, KVM, bhyve, and VirtualBox, and Infrastructure-as-a-Service
-projects such as KubeVirt, Apache CloudStack, Foreman, OpenStack, oVirt,
-QEMU and OpenNebula.
-
-This devroom will host presentations that focus on topics of shared
-interest, such as KVM; libvirt; shared storage; virtualized networking;
-cloud security; clustering and high availability; interfacing with
-multiple hypervisors; hyperconverged deployments; and scaling across
-hundreds or thousands of servers.
-
-Presentations in this devroom will be aimed at users or developers
-working on these platforms who are looking to collaborate and improve
-shared infrastructure or solve common problems. We seek topics that
-encourage dialog between projects and continued work post-FOSDEM.
-
-Submit Your Proposal
---------------------
-
-All submissions must be made via the Pentabarf event planning site[1].
-If you have not used Pentabarf before, you will need to create an
-account. If you submitted proposals for FOSDEM in previous years, you
-can use your existing account.
-
-After creating the account, select Create Event to start the submission
-process. Make sure to select Virtualization and IaaS devroom from the
-Track list. Please fill out all the required fields, and provide a
-meaningful abstract and description of your proposed session.
-
-Submission Guidelines
----------------------
-
-We expect more proposals than we can possibly accept, so it is vitally
-important that you submit your proposal on or before the deadline. Late
-submissions are unlikely to be considered.
-
-All presentation slots are 30 minutes, with 20 minutes planned for
-presentations, and 10 minutes for Q&A.
-
-All presentations will need to be pre-recorded and put into our system
-at least a couple of weeks before the event.
-
-The presentations should be uploaded by 15th of January and made
-available under Creative Commons licenses. In the Submission notes
-field, please indicate that you agree that your presentation will be
-licensed under the CC-By-SA-4.0 or CC-By-4.0 license and that you agree
-to have your presentation recorded.  For example:
-
-"If my presentation is accepted for FOSDEM, I hereby agree to license
-all recordings, slides, and other associated materials under the
-Creative Commons Attribution Share-Alike 4.0 International License.
-Sincerely, <NAME>."
-
-In the Submission notes field, please also confirm that if your talk is
-accepted, you will be able to attend the virtual FOSDEM event for the
-Q&A.  We will not consider proposals from prospective speakers who are
-unsure whether they will be able to attend the FOSDEM virtual event.
-
-If you are experiencing problems with Pentabarf, the proposal submission
-interface, or have other questions, you can email our devroom mailing
-list[2] and we will try to help you.
-
-Code of Conduct
----------------
-
-Following the release of the updated code of conduct for FOSDEM, we'd
-like to remind all speakers and attendees that all of the presentations
-and discussions in our devroom are held under the guidelines set in the
-CoC and we expect attendees, speakers, and volunteers to follow the CoC
-at all times.
-
-If you submit a proposal and it is accepted, you will be required to
-confirm that you accept the FOSDEM CoC. If you have any questions about
-the CoC or wish to have one of the devroom organizers review your
-presentation slides or any other content for CoC compliance, please
-email us and we will do our best to assist you.
-
-Call for Volunteers
--------------------
-
-We are also looking for volunteers to help run the devroom. We need
-assistance with helping speakers to record the presentation as well as
-helping with streaming and chat moderation for the devroom. Please
-contact devroom mailing list [2] for more information.
-
-Questions?
-----------
-
-If you have any questions about this devroom, please send your questions
-to our devroom mailing list. You can also subscribe to the list to
-receive updates about important dates, session announcements, and to
-connect with other attendees.
-
-See you all at FOSDEM!
-
-[1] https://penta.fosdem.org/submission/FOSDEM21 
-[2] iaas-virt-devroom at lists.fosdem.org
-=======================================================================
-
-[+] https://lists.fosdem.org/pipermail/fosdem/2020q4/003109.html
 
 
--- 
-/kashyap
+在 2020/12/3 上午2:44, Philippe Mathieu-Daudé 写道:
+> I converted MSA opcodes to decodetree. To keep the series
+> small I split it in 2, this is the non-decodetree specific
+> patches (so non-decodetree experts can review it ;) ).
+>
+> First we stop using env->insn_flags to check for MSAi
+> presence, then we restrict TCG functions to DisasContext*.
 
+Hi Philippe,
+
+For the whole series,
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+
+
+I'm just curious about how would you deal with so many condition flags
+with decodetree?
+
+Unlike other ISAs, MIPS have so many flavors, every ISA level (MIPS-III 
+R2 R5 R6)
+has it's own instructions, and in my understanding decodetree file won't 
+generate
+these switches. I was trying to do the same thing but soon find out 
+we'll have around
+20 decodertree for MIPS.
+
+Thanks.
+
+- Jiaxun
+
+>
+> Based-on: <20201130102228.2395100-1-f4bug@amsat.org>
+> "target/mips: Allow executing MSA instructions on Loongson-3A4000"
+>
+> Philippe Mathieu-Daudé (9):
+>    target/mips: Introduce ase_msa_available() helper
+>    target/mips: Simplify msa_reset()
+>    target/mips: Use CP0_Config3 to set MIPS_HFLAG_MSA
+>    target/mips: Simplify MSA TCG logic
+>    target/mips: Remove now unused ASE_MSA definition
+>    target/mips: Alias MSA vector registers on FPU scalar registers
+>    target/mips: Extract msa_translate_init() from mips_tcg_init()
+>    target/mips: Remove CPUMIPSState* argument from gen_msa*() methods
+>    target/mips: Explode gen_msa_branch() as gen_msa_BxZ_V/BxZ()
+>
+>   target/mips/internal.h           |   8 +-
+>   target/mips/mips-defs.h          |   1 -
+>   target/mips/kvm.c                |  12 +-
+>   target/mips/translate.c          | 206 ++++++++++++++++++-------------
+>   target/mips/translate_init.c.inc |  12 +-
+>   5 files changed, 138 insertions(+), 101 deletions(-)
+>
 
