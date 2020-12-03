@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3E472CDC69
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:32:31 +0100 (CET)
-Received: from localhost ([::1]:43266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF052CDC75
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:32:56 +0100 (CET)
+Received: from localhost ([::1]:44812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kksT0-0003HO-F6
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:32:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55406)
+	id 1kksTP-00044M-AY
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:32:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kksKF-0006d8-Tt
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:23:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47864)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kksKM-0006jD-9s
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:23:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kksKE-0003RR-Ak
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:23:27 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kksKG-0003Sl-Tw
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:23:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607016205;
+ s=mimecast20190719; t=1607016208;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=C4vb8odrkou8MUwdtZAVBE45IU62KUGntUxcjqpDgxU=;
- b=ArL+SbtDfMkK1PAWii5mMBRdXhG3fj7fnkylo1h21uxgM5f7ZKYYkyOIXIpzU4WERzAO2i
- 3SmRd0fKbUWBhd+xn1B0BDLUSyCnoRyAlzHCbo2gW1Pg5UZ1tXWkHwVvJW9yOO50BWI+Ow
- uFcVqPFhlXlJwOOul/u86y8XZiuUjZs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cJuOJ0YpElwIyA8jgvKL1/m4MWictfzGOeNLaNfyDow=;
+ b=gI4eSUxt05c2SlMn2P9dpw3E638HnIE1u2WPbQtC6+6FJ81ViKxXZtDGp8f3EWHj+5e9vN
+ GZZjlO7iTalctWV4S/WHfsvKlhzQyVV2uhypK2l8U646agFpb1LmngnHLABgSApMBxknt8
+ aen6xPC+nxIiCv1FapgKVz9IIrwv2oE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-GCjB_U4mOXaq11Bo_FAYEw-1; Thu, 03 Dec 2020 12:23:23 -0500
-X-MC-Unique: GCjB_U4mOXaq11Bo_FAYEw-1
+ us-mta-595-mFT4B12KNzutC4pWd_gBmg-1; Thu, 03 Dec 2020 12:23:26 -0500
+X-MC-Unique: mFT4B12KNzutC4pWd_gBmg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55484107ACE3;
- Thu,  3 Dec 2020 17:23:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 722CF107ACE4;
+ Thu,  3 Dec 2020 17:23:25 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D72E50EDD;
- Thu,  3 Dec 2020 17:23:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 319DA5B4A0;
+ Thu,  3 Dec 2020 17:23:24 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/3] block: Fix block_resize deadlock with iothreads
-Date: Thu,  3 Dec 2020 18:23:08 +0100
-Message-Id: <20201203172311.68232-1-kwolf@redhat.com>
+Subject: [PATCH 2/3] block: Fix locking in qmp_block_resize()
+Date: Thu,  3 Dec 2020 18:23:10 +0100
+Message-Id: <20201203172311.68232-3-kwolf@redhat.com>
+In-Reply-To: <20201203172311.68232-1-kwolf@redhat.com>
+References: <20201203172311.68232-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
@@ -78,21 +81,38 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The conversion of qmp_block_resize() to coroutines exposed a preexisting
-locking bug in the drain implementation that can cause deadlocks.
+The drain functions assume that we hold the AioContext lock of the
+drained block node. Make sure to actually take the lock.
 
-As it happens, fixing this bug reveals in turn that the locking in
-qmp_block_resize() itself is incomplete, too.
+Cc: qemu-stable@nongnu.org
+Fixes: eb94b81a94bce112e6b206df846c1551aaf6cab6
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ blockdev.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Kevin Wolf (3):
-  block: Simplify qmp_block_resize() error paths
-  block: Fix locking in qmp_block_resize()
-  block: Fix deadlock in bdrv_co_yield_to_drain()
-
- block/io.c | 41 ++++++++++++++++++++++++-----------------
- blockdev.c | 12 +++++++-----
- 2 files changed, 31 insertions(+), 22 deletions(-)
-
+diff --git a/blockdev.c b/blockdev.c
+index 229d2cce1b..0535a8dc9e 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2481,13 +2481,16 @@ void coroutine_fn qmp_block_resize(bool has_device, const char *device,
+         return;
+     }
+ 
++    bdrv_co_lock(bs);
+     bdrv_drained_begin(bs);
++    bdrv_co_unlock(bs);
++
+     old_ctx = bdrv_co_enter(bs);
+     blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
+     bdrv_co_leave(bs, old_ctx);
+-    bdrv_drained_end(bs);
+ 
+     bdrv_co_lock(bs);
++    bdrv_drained_end(bs);
+     blk_unref(blk);
+     bdrv_co_unlock(bs);
+ }
 -- 
 2.28.0
 
