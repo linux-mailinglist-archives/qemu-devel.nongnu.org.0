@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D272CD333
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:08:57 +0100 (CET)
-Received: from localhost ([::1]:42946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 852742CD335
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:11:00 +0100 (CET)
+Received: from localhost ([::1]:45392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kklXk-0007l0-3G
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:08:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34766)
+	id 1kklZj-0000dp-KK
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:10:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kklWx-0007LH-G4
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:08:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42408)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kklWv-00027F-Jr
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:08:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606990084;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5sM8eYP2ae3GJXLwJ38CjqvOMa2DX4rJHQE2NkFSoaY=;
- b=N+WEKsQ5pCqdZ7czsaF7G+gw05HNzTNUFahxE9XVpFsDe0yQBn2nLY9jn7BTMKiuh0+8Ri
- rG5EBs/JWiEGdbMivEx6mLnLwjaFdgYL5N9u2GhnMms+QTpZwokEHwzlSj6fjhtfgx5sk7
- GsKDOcEKmaIQVfsVBi+rUSeHBDF5xkc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-QPrXnorwNQGjBpSh2ovbUQ-1; Thu, 03 Dec 2020 05:08:02 -0500
-X-MC-Unique: QPrXnorwNQGjBpSh2ovbUQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74E99809DD4;
- Thu,  3 Dec 2020 10:08:01 +0000 (UTC)
-Received: from [10.36.113.250] (ovpn-113-250.ams2.redhat.com [10.36.113.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1827260C17;
- Thu,  3 Dec 2020 10:07:42 +0000 (UTC)
-Subject: Re: [PATCH v1 4/9] vfio: Support for RamDiscardMgr in the !vIOMMU case
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20201119153918.120976-1-david@redhat.com>
- <20201119153918.120976-5-david@redhat.com>
- <20201202162633.27cb15b6@w520.home>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <dc19808f-61f6-4ccc-1d23-12e4af1c8fec@redhat.com>
-Date: Thu, 3 Dec 2020 11:07:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kklYe-0008Op-5V
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:09:52 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43087)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kklYc-0002mK-EM
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:09:51 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id jx16so2565607ejb.10
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 02:09:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jeYClCn1RDRSmPiVYNNBkeTnMadFm3vCsSSiBhTOJoU=;
+ b=NdMVLMMcmg0jEJtzQzftQM4VY0MMyTViICgzol8mVO9mjiWEkxvgikrIUmrsMA1d1c
+ YpHnarYhttP1LAIQPo9/4ZG6MElq4obd8Xoh59+OztpgS0xcM/0wO38b1BeKmpu0EP3A
+ V1m6bPp6qS5K2vDTjo0VdKTcM6hnQSugh9PH4HPt1eZtXbMwZKqZ57xcVCNKIgG96r33
+ 5CZx8nVIybSejd73+o9oCd0327hsYj5GextvFZggpHJXhkVAr+iH8R33gE1YkawZKuNO
+ ySfDfDj3+5dPKNZGeBf21BPMqMlNXih01vqHMwIusDKX5SRs6AvO/BlQDVkGGN+dnK1n
+ Oc+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jeYClCn1RDRSmPiVYNNBkeTnMadFm3vCsSSiBhTOJoU=;
+ b=tlaUpOHTKIyR+NB/XnezgqSR0feyQJnTe4r75T07VR4OlBu1r5DS6toUfiysxypuc5
+ Kc1rOkTncElIkDA57VeQGeEtVgnd1Fn66r0Kvc+WXoko9yi97cM5LnJnN0/6KKarBb3J
+ +/ZTdqjEuSgLrRgW393L+Yh+oKtaSGhhmU5bXJTVPfhau7YSqdvnkCgNu/Cu+yAMmt5r
+ XEHcy2CECP4EcvtVFiLolPSvq8ER7mbsf93N8SE6sb3S0lRnoYmycASlVz/GjUK6fY6d
+ /bCQTQGuRF+pvqECqNOKTee2p8gYi2VO272oJhVZTQLOk4m4Rqn7r9v3Pdo/CBiaKwm9
+ qr5w==
+X-Gm-Message-State: AOAM530JaOXvQlzlIF31uRzKY76PGuxKE5Izh7C65eNeh0DxDKJf2J8p
+ ypvmgUG589C9xGIHGVJ6meRStzO0EH5LDZNqB0PZeQ==
+X-Google-Smtp-Source: ABdhPJzQE2yPSpBQ05rWd5/lCCq2XAsCQN1xCXHdgjbHryUuU1HjYx1QkMhmeNl6di208BOvNA/83r9RAJRuWhgB6Yc=
+X-Received: by 2002:a17:906:4bc6:: with SMTP id x6mr1826999ejv.4.1606990188526; 
+ Thu, 03 Dec 2020 02:09:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201202162633.27cb15b6@w520.home>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20201202215747.2719507-1-crosa@redhat.com>
+In-Reply-To: <20201202215747.2719507-1-crosa@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Dec 2020 10:09:37 +0000
+Message-ID: <CAFEAcA8o8hCBTJakir4wpE-w_bQCaMmpAiYVYyp=19fqNqmEJw@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2? 0/1] Acceptance tests: bump Fedora to 32
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,128 +76,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Luiz Capitulino <lcapitulino@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.12.20 00:26, Alex Williamson wrote:
-> On Thu, 19 Nov 2020 16:39:13 +0100
-> David Hildenbrand <david@redhat.com> wrote:
-> 
->> Implement support for RamDiscardMgr, to prepare for virtio-mem
->> support. Instead of mapping the whole memory section, we only map
->> "populated" parts and update the mapping when notified about
->> discarding/population of memory via the RamDiscardListener. Similarly, when
->> syncing the dirty bitmaps, sync only the actually mapped (populated) parts
->> by replaying via the notifier.
->>
->> Small mapping granularity is problematic for vfio, because we might run out
->> of mappings. Warn to at least make users aware that there is such a
->> limitation and that we are dealing with a setup issue e.g., of
->> virtio-mem devices.
->>
->> Using virtio-mem with vfio is still blocked via
->> ram_block_discard_disable()/ram_block_discard_require() after this patch.
->>
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Alex Williamson <alex.williamson@redhat.com>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
->> Cc: Peter Xu <peterx@redhat.com>
->> Cc: Auger Eric <eric.auger@redhat.com>
->> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
->> Cc: teawater <teawaterz@linux.alibaba.com>
->> Cc: Marek Kedzierski <mkedzier@redhat.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  hw/vfio/common.c              | 233 ++++++++++++++++++++++++++++++++++
->>  include/hw/vfio/vfio-common.h |  12 ++
->>  2 files changed, 245 insertions(+)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index c1fdbf17f2..d52e7356cb 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
-> ...
->> +static void vfio_register_ram_discard_notifier(VFIOContainer *container,
->> +                                               MemoryRegionSection *section)
->> +{
->> +    RamDiscardMgr *rdm = memory_region_get_ram_discard_mgr(section->mr);
->> +    RamDiscardMgrClass *rdmc = RAM_DISCARD_MGR_GET_CLASS(rdm);
->> +    MachineState *ms = MACHINE(qdev_get_machine());
->> +    uint64_t suggested_granularity;
->> +    VFIORamDiscardListener *vrdl;
->> +    int ret;
->> +
->> +    vrdl = g_new0(VFIORamDiscardListener, 1);
->> +    vrdl->container = container;
->> +    vrdl->mr = section->mr;
->> +    vrdl->offset_within_region = section->offset_within_region;
->> +    vrdl->offset_within_address_space = section->offset_within_address_space;
->> +    vrdl->size = int128_get64(section->size);
->> +    vrdl->granularity = rdmc->get_min_granularity(rdm, section->mr);
->> +
->> +    /* Ignore some corner cases not relevant in practice. */
->> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_region, TARGET_PAGE_SIZE));
->> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_address_space,
->> +                             TARGET_PAGE_SIZE));
->> +    g_assert(QEMU_IS_ALIGNED(vrdl->size, TARGET_PAGE_SIZE));
->> +
->> +    /*
->> +     * We assume initial RAM never has a RamDiscardMgr and that all memory
->> +     * to eventually get hotplugged later could be coordinated via a
->> +     * RamDiscardMgr ("worst case").
->> +     *
->> +     * We assume the Linux kernel is configured ("dma_entry_limit") for the
->> +     * maximum of 65535 mappings and that we can consume roughly half of that
-> 
-> 
-> s/maximum/default/
-> 
-> Deciding we should only use half of it seems arbitrary.
+On Wed, 2 Dec 2020 at 21:57, Cleber Rosa <crosa@redhat.com> wrote:
+>
+> I believe this may be a candidate for "right now" because the code
+> changes here simply sync with external infrastructure changes, that
+> is, the retirement of Fedora 31 from the official repository
+> locations).
 
-Yeah, it's sub-optimal - bad heuristic :) . What would be your
-suggestion for a better heuristic? My gut feeling would be that we
-rarely use more than 512 mappings in the system address space (e.g.,
-maximum number of DIMMs is 256).
+Strong "no" at this point in the release cycle. Only
+"this is absolutely critical because QEMU sets users'
+machines on fire" bug fixes at this point.
 
-> 
-> 
->> +     * for this purpose.
->> +     *
->> +     * In reality, we might also have RAM without a RamDiscardMgr in our device
->> +     * memory region and might be able to consume more mappings.
->> +     */
->> +    suggested_granularity = pow2ceil((ms->maxram_size - ms->ram_size) / 32768);
->> +    suggested_granularity = MAX(suggested_granularity, 1 * MiB);
->> +    if (vrdl->granularity < suggested_granularity) {
->> +        warn_report("%s: eventually problematic mapping granularity (%" PRId64
->> +                    " MiB) with coordinated discards (e.g., 'block-size' in"
->> +                    " virtio-mem). Suggested minimum granularity: %" PRId64
->> +                    " MiB", __func__, vrdl->granularity / MiB,
->> +                    suggested_granularity / MiB);
->> +    }
-> 
-> 
-> Starting w/ kernel 5.10 we have a way to get the instantaneous count of
-> available DMA mappings, so we could avoid assuming 64k when that's
-> available (see ex. s390_pci_update_dma_avail()). 
-
-Interesting, I missed that interface. Will have a look. TThanks!
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+thanks
+-- PMM
 
