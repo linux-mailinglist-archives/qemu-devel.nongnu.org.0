@@ -2,66 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F152CDA3E
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 16:40:44 +0100 (CET)
-Received: from localhost ([::1]:47666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147FD2CDA54
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 16:48:29 +0100 (CET)
+Received: from localhost ([::1]:50888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkqio-0005AZ-NJ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 10:40:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56332)
+	id 1kkqqJ-0006x7-My
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 10:48:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kkqhi-0004ic-JH
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 10:39:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22218)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kkqhe-0006Zo-Ub
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 10:39:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607009968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BJ8whF5pWOB7GFeZ1yxRhegz8L4wi5wNi8aDNDZJjtc=;
- b=Bm3htdt/mfvwVldU1d4Bwftl+YIIy5A8x6r79Ohf1CDIStmUdGukSUQk6sYplJOzWp9vVN
- rxf5NA7vHydUoR4L3VIiWW9dku5Nm4VLnwHyCNzDMK/uEDm8zwjf1HUIyFcpJVvT4chh+k
- tRgiqWi1NkDo/DoeBfxlPwzOj80XmkA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-5Di7I9EvOsiuie_Y6Vhz_A-1; Thu, 03 Dec 2020 10:39:26 -0500
-X-MC-Unique: 5Di7I9EvOsiuie_Y6Vhz_A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B937D192AB7E;
- Thu,  3 Dec 2020 15:39:25 +0000 (UTC)
-Received: from gondolin.redhat.com (ovpn-113-106.ams2.redhat.com
- [10.36.113.106])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C998160C17;
- Thu,  3 Dec 2020 15:39:20 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/acceptance: test hot(un)plug of ccw devices
-Date: Thu,  3 Dec 2020 16:39:17 +0100
-Message-Id: <20201203153917.66685-1-cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1kkqni-0006BR-SV
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 10:45:46 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:46730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1kkqng-0000Sy-78
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 10:45:46 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B3FT2gZ150184;
+ Thu, 3 Dec 2020 15:45:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=bvl/QD1qsnIQkCvv0a4+nh2yvumA/mn9LSyo8Rrs2QA=;
+ b=a2+saG2fPlIGRj53LOPq8SfuQxQ7i270uAMMILNntP99NNORUqAJIUIV2NbMFU6l6kjk
+ Up6/6GN0gydWiGI3aSicNwi13gtX4T3IGDAwiVbhJFfFfrQPiwiDK/6GMvyN2FbNV1UV
+ 7jh2jUWEIYNWKyk/z6EBy8VJXrrOfUr/cKA/EHeXxwK9MofxsOaORJvbZynG/eZf8mUA
+ tSYN+3sJJBRgiTrwYY0K36fqJMNUSzT9wxbcPNHxMs1lotIjg868mpe6szvUzJyQfDCt
+ I5FELAb75X4GHWzrM5DJamERM1IrJnnNubpUYlFFtESDIdHGvTkeYIpCzBDPtmAu1BdN IA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 353egkxm05-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 03 Dec 2020 15:45:14 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B3FQNXn159968;
+ Thu, 3 Dec 2020 15:43:13 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 3540awc499-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 03 Dec 2020 15:43:13 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B3Fh7lD007172;
+ Thu, 3 Dec 2020 15:43:07 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 03 Dec 2020 07:43:07 -0800
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id A138225213C4; Thu,  3 Dec 2020 15:43:02 +0000 (GMT)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: P J P <ppandit@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: [PATCH v2 1/1] security-process: update process information
+In-Reply-To: <20201203142902.474883-2-ppandit@redhat.com>
+References: <20201203142902.474883-1-ppandit@redhat.com>
+ <20201203142902.474883-2-ppandit@redhat.com>
+Date: Thu, 03 Dec 2020 15:43:02 +0000
+Message-ID: <m2eek66gl5.fsf@oracle.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ bulkscore=0
+ phishscore=0 mlxscore=0 adultscore=0 malwarescore=0 suspectscore=1
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012030094
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 suspectscore=1
+ phishscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1015 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012030094
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=darren.kenny@oracle.com; helo=aserp2120.oracle.com
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,49 +97,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Petr Matousek <pmatouse@redhat.com>, Prasad J Pandit <pjp@fedoraproject.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hotplug a virtio-net-ccw device, and then hotunplug it again.
+On Thursday, 2020-12-03 at 19:59:02 +0530, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+>
+> We are about to introduce a qemu-security mailing list to report
+> and triage QEMU security issues.
+>
+> Update the security process web page with new mailing list address
+> and triage details.
+>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 
-This is on top of "tests/acceptance: enhance s390x devices test"
+Thanks,
 
----
- tests/acceptance/machine_s390_ccw_virtio.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-index 53b8484f8f9c..487c25c31d3c 100644
---- a/tests/acceptance/machine_s390_ccw_virtio.py
-+++ b/tests/acceptance/machine_s390_ccw_virtio.py
-@@ -97,3 +97,17 @@ class S390CCWVirtioMachine(Test):
-         exec_command_and_wait_for_pattern(self,
-                                           'cat /sys/bus/pci/devices/000a\:00\:00.0/function_id',
-                                           '0x0000000c')
-+        # add another device
-+        self.vm.command('device_add', driver='virtio-net-ccw',
-+                        devno='fe.0.4711', id='xxx')
-+        exec_command_and_wait_for_pattern(self, 'dmesg | tail -n 1', 'CRW')
-+        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
-+                                          '0.0.4711')
-+        # and detach it again
-+        self.vm.command('device_del', id='xxx')
-+        self.vm.event_wait(name='DEVICE_DELETED',
-+                           match={'data': {'device': 'xxx'}})
-+        exec_command_and_wait_for_pattern(self, 'dmesg | tail -n 1', 'CRW')
-+        exec_command_and_wait_for_pattern(self,
-+                                          'ls /sys/bus/ccw/devices/0.0.4711',
-+                                          'No such file or directory')
--- 
-2.26.2
-
+Darren
 
