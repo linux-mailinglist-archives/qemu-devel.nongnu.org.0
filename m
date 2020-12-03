@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671FB2CDC26
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:16:21 +0100 (CET)
-Received: from localhost ([::1]:42348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C16AE2CDC44
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:19:33 +0100 (CET)
+Received: from localhost ([::1]:49354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kksDM-0006no-Hg
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:16:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51080)
+	id 1kksGS-0001hU-Rp
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:19:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1kks5J-0007a0-Tk
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:08:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33970)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1kks5G-0006YY-65
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:08:00 -0500
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
- [51.254.78.96])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5C993207AE;
- Thu,  3 Dec 2020 17:07:54 +0000 (UTC)
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
- by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
- (envelope-from <maz@kernel.org>)
- id 1kks5A-00FjC8-59; Thu, 03 Dec 2020 17:07:52 +0000
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kks6K-00009I-LO
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:09:04 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36273)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kks6I-0006t6-N7
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:09:04 -0500
+Received: by mail-oi1-x244.google.com with SMTP id x16so2935994oic.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 09:09:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lUXhP2BLApSFe26Hqd8EPuBUDi8Kp9hGIASjSzt0ujM=;
+ b=WIKcLd/OiCXi1vc0o3Fe2Li3FepJ7ZKtQgR4d0dFtqc67lDREOzGds0LbFGalFU9CA
+ 8hx0djUwjzb+qoojTmHoTP6GW/UmLJ1hZY/BTk/kzHuqIaOOBjTAh1vN54yAWe9ZTzlb
+ 6keAafoxWthce6o/2EFaafhEK9usdNpFlUyLJ0iKlmXt4lmg5Sv66w/6e1IORXxGlV+L
+ V7i1BD56Gzf3HEOdHvROnuwXOia5jNSawn037PnoPQH1Gqe4h+Ql6zzAqdZXARz7MMv3
+ WkbvqeMcd2kaYBTdn0pH7S9RDfT8ZiUxoN7USFWO11vISKsLxTTXypxMOcGGEJlQUzfM
+ uCpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lUXhP2BLApSFe26Hqd8EPuBUDi8Kp9hGIASjSzt0ujM=;
+ b=BxlgmbsLWxAfqxyVH8thTJmiUZzyG7M/WkkMJuKwW5kCOTk19XlldQqTaBt0pzTiYJ
+ aeuz+6QwaJboDj5HAX4T7KJiS7cCTMc6B7Tf6LKDb0qb/MJJbgmxXJs4VBMWAJkzfnzS
+ 4kZzaOYw8UNnuRIKxKVV/LDfPy6Um0dsnkYra9K1df6oRXM5Kn4ocGmVX6or9RfFmxFE
+ htOOX3MkwRPPYzeJtsO/Hx4wsCkEEiaVlEjtDJPOx61OceZJ2Arwlc+UZJ97XmHiazQV
+ aiAxCEucWbxEBDiYY/finBa+vkcwJpHFIw2IYo/RZ8lnikqbFN68wBOsobYW6MA4NifY
+ eC2Q==
+X-Gm-Message-State: AOAM5307UELOb5FHVId7euXIlF+Hg4tkZeG0xgoco9vUc6CsvY12eBJ3
+ 48oL+GKCyYosRGW7XSM+tTC7Rg==
+X-Google-Smtp-Source: ABdhPJzd87IgBEvNamtifDm/ZyjgyBN03fsigayNL610Fj0QqkozKvKAs43FU8o4x4JF8jDVlc6kCA==
+X-Received: by 2002:aca:dec2:: with SMTP id v185mr103992oig.6.1607015341193;
+ Thu, 03 Dec 2020 09:09:01 -0800 (PST)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id q3sm446639oij.27.2020.12.03.09.08.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Dec 2020 09:09:00 -0800 (PST)
+Subject: Re: [PATCH 1/9] target/mips: Introduce ase_msa_available() helper
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201202184415.1434484-1-f4bug@amsat.org>
+ <20201202184415.1434484-2-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b4cbe312-8dc8-d3e4-e5d2-8fe50f52e3fb@linaro.org>
+Date: Thu, 3 Dec 2020 11:08:56 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 03 Dec 2020 17:07:52 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v6 1/2] arm64: kvm: Save/restore MTE registers
-In-Reply-To: <20201127152113.13099-2-steven.price@arm.com>
-References: <20201127152113.13099-1-steven.price@arm.com>
- <20201127152113.13099-2-steven.price@arm.com>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <946b1e7b06c4d286a78cf61408e0fc8d@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
- will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
- suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
- qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
- richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
- drjones@redhat.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201202184415.1434484-2-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,65 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Andrew Jones <drjones@redhat.com>,
- Haibo Xu <Haibo.Xu@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- qemu-devel@nongnu.org, Catalin Marinas <catalin.marinas@arm.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-> diff --git a/arch/arm64/include/asm/sysreg.h 
-> b/arch/arm64/include/asm/sysreg.h
-> index e2ef4c2edf06..b6668ffa04d9 100644
-> --- a/arch/arm64/include/asm/sysreg.h
-> +++ b/arch/arm64/include/asm/sysreg.h
-> @@ -569,7 +569,8 @@
->  #define SCTLR_ELx_M	(BIT(0))
+On 12/2/20 12:44 PM, Philippe Mathieu-Daudé wrote:
+> Instead of accessing CP0_Config3 directly and checking
+> the 'MSA Present' bit, introduce an explicit helper,
+> making the code easier to read.
 > 
->  #define SCTLR_ELx_FLAGS	(SCTLR_ELx_M  | SCTLR_ELx_A | SCTLR_ELx_C | \
-> -			 SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB)
-> +			 SCTLR_ELx_SA | SCTLR_ELx_I | SCTLR_ELx_IESB | \
-> +			 SCTLR_ELx_ITFSB)
-> 
->  /* SCTLR_EL2 specific flags. */
->  #define SCTLR_EL2_RES1	((BIT(4))  | (BIT(5))  | (BIT(11)) | (BIT(16)) 
-> | \
-> diff --git a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> index cce43bfe158f..45255ba60152 100644
-> --- a/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> +++ b/arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h
-> @@ -18,6 +18,11 @@
->  static inline void __sysreg_save_common_state(struct kvm_cpu_context 
-> *ctxt)
->  {
->  	ctxt_sys_reg(ctxt, MDSCR_EL1)	= read_sysreg(mdscr_el1);
-> +	if (system_supports_mte()) {
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/mips/internal.h  |  6 ++++++
+>  target/mips/kvm.c       | 12 ++++++------
+>  target/mips/translate.c |  8 +++-----
+>  3 files changed, 15 insertions(+), 11 deletions(-)
 
-Please move the per-VM predicate to this patch so that it can be used
-not to save/restore the MTE registers if we don't need to.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> +		ctxt_sys_reg(ctxt, RGSR_EL1)	= read_sysreg_s(SYS_RGSR_EL1);
-> +		ctxt_sys_reg(ctxt, GCR_EL1)	= read_sysreg_s(SYS_GCR_EL1);
-> +		ctxt_sys_reg(ctxt, TFSRE0_EL1)	= read_sysreg_s(SYS_TFSRE0_EL1);
-> +	}
-
-Overall, I still don't understand how this is going to work once
-we have MTE in the kernel. You mentioned having the ability to
-create turn off the tag checks at times, but I don't see that
-in this patch (and I'm not sure we want that either).
-
-Thanks,
-
-         M.
--- 
-Jazz is not dead. It just smells funny...
+r~
 
