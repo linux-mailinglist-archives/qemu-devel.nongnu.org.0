@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FA72CCE71
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 06:23:11 +0100 (CET)
-Received: from localhost ([::1]:57228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C031D2CCE74
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 06:24:53 +0100 (CET)
+Received: from localhost ([::1]:60960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkh5C-0004BE-IW
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 00:23:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56436)
+	id 1kkh6q-0005jV-S2
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 00:24:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kkh3Z-0003dS-6C
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 00:21:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31614)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kkh3W-0004Rm-ON
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 00:21:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606972884;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=u8YQUqpaPChXDuKHO28KrMR4zqS+U/AxgYe4AQOoJcU=;
- b=Q0M2/PmtfQ8lpOQzqzyRX1lAkZcBnZNJPN9TvaC5Sm3oRMIqlTQ19+ueRKr3sP/gUtO3Qn
- oOa8PlqXXcOSDQ2Xzs/000yVLwshGUzWGf4P/OTq4e9Gdxw0dSdPeYPkpmE5oHCNdVSyzP
- zl335LBc1C7jgOKs3z+efRDsZcgXQoI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-4cVQI2r7OxGBEJ9q01S9qg-1; Thu, 03 Dec 2020 00:21:21 -0500
-X-MC-Unique: 4cVQI2r7OxGBEJ9q01S9qg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kkh3o-0003qC-8Q; Thu, 03 Dec 2020 00:21:44 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:40240 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kkh3m-0004WZ-4M; Thu, 03 Dec 2020 00:21:43 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 513BF41399;
+ Thu,  3 Dec 2020 05:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1606972898;
+ x=1608787299; bh=wIO0hsxD/P4OaCBVPUL7KLcbATbSClMtKE7F9HL0UXw=; b=
+ klHVuNPJfofPfhUmgAKrLsfS+gmWBwtL3vMtz9x+VFX8sZH0BoOc3T4hxcFU2prx
+ +mI0pb1SDXtSucjU/M71tfPCzy48KWqvl6d5aUW0cfvNltt5khC3+XNz5mzMSoKs
+ N/gGAMzugZaxyntxtM+uBYzQuVKPfddYrruY69u+QnU=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hByQXijqV84N; Thu,  3 Dec 2020 08:21:38 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D235D100C661;
- Thu,  3 Dec 2020 05:21:19 +0000 (UTC)
-Received: from kaapi (unknown [10.74.9.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97AAB1000232;
- Thu,  3 Dec 2020 05:21:07 +0000 (UTC)
-Date: Thu, 3 Dec 2020 10:51:03 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v1 1/1] security-process: update process information
-In-Reply-To: <d48ca955-b84e-429d-3abf-c275ff2ede52@redhat.com>
-Message-ID: <228r378q-53o2-9so-9rso-6ro87983qr38@erqung.pbz>
-References: <20201130134907.348505-1-ppandit@redhat.com>
- <20201130134907.348505-2-ppandit@redhat.com>
- <d48ca955-b84e-429d-3abf-c275ff2ede52@redhat.com>
+ by mta-01.yadro.com (Postfix) with ESMTPS id B46DA413BD;
+ Thu,  3 Dec 2020 08:21:37 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 3 Dec
+ 2020 08:21:37 +0300
+Date: Thu, 3 Dec 2020 08:21:56 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Alexander Graf <agraf@csgraf.de>
+Subject: Re: [PATCH v3 06/10] hvf: Add Apple Silicon support
+Message-ID: <20201203052156.GB82480@SPB-NB-133.local>
+References: <20201202190408.2041-1-agraf@csgraf.de>
+ <20201202190408.2041-7-agraf@csgraf.de>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed;
- boundary="-1463810047-1130521290-1606972878=:373362"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20201202190408.2041-7-agraf@csgraf.de>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,49 +76,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefano Stabellini <sstabellini@kernel.org>,
- Petr Matousek <pmatouse@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Darren Kenny <darren.kenny@oracle.com>, Michael Roth <michael.roth@amd.com>,
- =?ISO-8859-15?Q?Daniel_P_=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
----1463810047-1130521290-1606972878=:373362
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+On Wed, Dec 02, 2020 at 08:04:04PM +0100, Alexander Graf wrote:
+> With Apple Silicon available to the masses, it's a good time to add support
+> for driving its virtualization extensions from QEMU.
+> 
+> This patch adds all necessary architecture specific code to get basic VMs
+> working. It's still pretty raw, but definitely functional.
+> 
 
-+-- On Wed, 2 Dec 2020, Philippe Mathieu-Daudé wrote --+
-| Maybe:
-| 
-|      0) **Acknowledge reception**
-|        - A non-automated response email is sent to acknowledge the
-|          reception of the request.
-|          This is the starting date for the maximum **60 days** required
-|          to process the issue, including bullets 1) and 2).
-| 
-| > +    - Create an upstream fix patch
-| 
-|          with the proper Buglink/CVE/Reported-by tags.
-| 
-|        - Participate in the review process until the patch is merged.
-|          Test the fix updates with the private reproducer if required.
-|        - Close the upstream [bug] with 'Fix released', including the
-|          commit SHA-1 of the fix.
-... 
-| >  Email sent to us is read and acknowledged with a non-automated response. For
-| >  issues that are complicated and require significant attention, we will open an
-| 
-|    ^^^ You can remove that, as now covered by bullet 0).
+That's very cool, Alex!
 
-Okay, will do. Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
----1463810047-1130521290-1606972878=:373362--
+>
+> [...]
+> diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
+> index a423f629d5..e613c22ad0 100644
+> --- a/accel/hvf/hvf-cpus.c
+> +++ b/accel/hvf/hvf-cpus.c
+> @@ -60,6 +60,10 @@
+>  
+>  #include <Hypervisor/Hypervisor.h>
+>  
 
+On an older laptop with 10.15 I've noticed this causes a build failure.
+Here's layout of Hypervisor.framework on 10.15:
+
+ Hypervisor.framework find .
+ .
+ ./Versions
+ ./Versions/A
+ ./Versions/A/Hypervisor.tbd
+ ./Versions/A/Headers
+ ./Versions/A/Headers/hv_arch_vmx.h
+ ./Versions/A/Headers/hv_error.h
+ ./Versions/A/Headers/hv_types.h
+ ./Versions/A/Headers/hv.h
+ ./Versions/A/Headers/hv_arch_x86.h
+ ./Versions/A/Headers/hv_vmx.h
+ ./Versions/Current
+ ./module.map
+ ./Hypervisor.tbd
+ ./Headers
+
+The issue also exists in another patch in the series:
+  "hvf: Move common code out"
+
+> +#ifdef __aarch64__
+> +#define HV_VM_DEFAULT NULL
+> +#endif
+> +
+
+I don't see if it's used anywhere.
+
+>  /* Memory slots */
+>  
+>  struct mac_slot {
+> [...]
+>
+
+Side question. I have very little knowledge of ARM but it seems much
+leaner compared to x86 trap/emulation layer. Is it a consequence of
+load/store architecture and it's expected to be that small on ARM?
+
+I have only noticed MMIO, system registers (access to them apparently
+leads to a trap), kick and PSCI traps (which sounds somewhat similar to
+Intel MPSpec/APIC) and no system instruction traps (except WFI in the
+next patch).
+
+Thanks,
+Roman
 
