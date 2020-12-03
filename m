@@ -2,47 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834F92CD910
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 15:28:05 +0100 (CET)
-Received: from localhost ([::1]:42724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70D42CD917
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 15:28:57 +0100 (CET)
+Received: from localhost ([::1]:44062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkpaW-00006k-1A
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 09:28:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38492)
+	id 1kkpbM-0000fC-Ov
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 09:28:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kkpZ8-0007qD-IJ; Thu, 03 Dec 2020 09:26:38 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:57712
- helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1kkpZ6-0006Yw-9U; Thu, 03 Dec 2020 09:26:38 -0500
-Received: from Alexanders-Mac-mini.local
- (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with UTF8SMTPSA id 74E7F3900107;
- Thu,  3 Dec 2020 15:26:33 +0100 (CET)
-Subject: Re: [PATCH v3 06/10] hvf: Add Apple Silicon support
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20201202190408.2041-1-agraf@csgraf.de>
- <20201202190408.2041-7-agraf@csgraf.de>
- <20201203052156.GB82480@SPB-NB-133.local>
-From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <78852f5f-c0d0-fcba-e69d-cbbeca057fc0@csgraf.de>
-Date: Thu, 3 Dec 2020 15:26:33 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
- Gecko/20100101 Thunderbird/84.0
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1kkpZt-0008Ec-5X
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 09:27:25 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:59566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1kkpZn-0006lx-HO
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 09:27:24 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B3EP3oH006817;
+ Thu, 3 Dec 2020 14:27:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=ubmv6guzh4Ko/NToJ76RAl6bgxq23OGF0n7QUoKRgn8=;
+ b=Jb+0PvY3MxrhZmCEpopHSdi+YFmklq7taWwO3db4+5jUaMFwMwYdlzSKfpB6X1bpA29w
+ e8RzWoLp5qG4aQO6QS/dszU17FWu+U7EoOwXFSdAh960E0QtRtms8P0pzrbTfj0BHwAg
+ /tjkTCn50hrs4BWFB+m/aNtqAuv3/zdfTt/s5K9PENBHk/wsI2wY56uCiPVe+QfqVgTa
+ XVvJT2p+AUT07UQUir9Rns9/LoIYpo1T0kp2I0Br5z7OynWhV54IWu2oG/DRNJ/6iLtR
+ AtlvPciRYccGKhTzJiOsKaXqqKafxS3YDBXCChtJQ1HJ2MKxscqVAjfZaxGQe7ySBPFP JA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 353c2b6a1g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 03 Dec 2020 14:27:13 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B3EQOZR154422;
+ Thu, 3 Dec 2020 14:27:13 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 3540aw7knf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 03 Dec 2020 14:27:13 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B3ERBld018681;
+ Thu, 3 Dec 2020 14:27:11 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 03 Dec 2020 14:27:11 +0000
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id EB164251EB53; Thu,  3 Dec 2020 14:27:08 +0000 (GMT)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] fuzz: avoid double-fetches by default
+In-Reply-To: <20201202164214.93867-1-alxndr@bu.edu>
+References: <20201202164214.93867-1-alxndr@bu.edu>
+Date: Thu, 03 Dec 2020 14:27:08 +0000
+Message-ID: <m2k0tz55j7.fsf@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20201203052156.GB82480@SPB-NB-133.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=915
+ bulkscore=0
+ phishscore=0 mlxscore=0 adultscore=0 malwarescore=0 suspectscore=1
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012030088
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ lowpriorityscore=0
+ clxscore=1011 bulkscore=0 mlxlogscore=921 phishscore=0 malwarescore=0
+ spamscore=0 adultscore=0 mlxscore=0 priorityscore=1501 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012030088
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=darren.kenny@oracle.com; helo=aserp2130.oracle.com
+X-Spam_score_int: -58
+X-Spam_score: -5.9
+X-Spam_bar: -----
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,114 +96,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 03.12.20 06:21, Roman Bolshakov wrote:
-> On Wed, Dec 02, 2020 at 08:04:04PM +0100, Alexander Graf wrote:
->> With Apple Silicon available to the masses, it's a good time to add support
->> for driving its virtualization extensions from QEMU.
->>
->> This patch adds all necessary architecture specific code to get basic VMs
->> working. It's still pretty raw, but definitely functional.
->>
-> That's very cool, Alex!
+On Wednesday, 2020-12-02 at 11:42:14 -05, Alexander Bulekov wrote:
+> The generic fuzzer can find double-fetch bugs. However:
+> * We currently have no good way of producing qemu-system reproducers for
+>   double-fetch bugs. Even if we can get developers to run the binary-blob
+>   reproducers with the qemu-fuzz builds, we currently don't have a minimizer for
+>   these reproducers, so they are usually not easy to follow.
+> * Often times the fuzzer will provide a reproducer containing a
+>   double-fetch for a bug that can be reproduced without double-fetching.
 >
->> [...]
->> diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
->> index a423f629d5..e613c22ad0 100644
->> --- a/accel/hvf/hvf-cpus.c
->> +++ b/accel/hvf/hvf-cpus.c
->> @@ -60,6 +60,10 @@
->>   
->>   #include <Hypervisor/Hypervisor.h>
->>   
-> On an older laptop with 10.15 I've noticed this causes a build failure.
-> Here's layout of Hypervisor.framework on 10.15:
+> Until we find a way to build nice double-fetch reproducers that
+> developers are willing to look at, lets tell OSS-Fuzz to avoid
+> double-fetches.
 >
->   Hypervisor.framework find .
->   .
->   ./Versions
->   ./Versions/A
->   ./Versions/A/Hypervisor.tbd
->   ./Versions/A/Headers
->   ./Versions/A/Headers/hv_arch_vmx.h
->   ./Versions/A/Headers/hv_error.h
->   ./Versions/A/Headers/hv_types.h
->   ./Versions/A/Headers/hv.h
->   ./Versions/A/Headers/hv_arch_x86.h
->   ./Versions/A/Headers/hv_vmx.h
->   ./Versions/Current
->   ./module.map
->   ./Hypervisor.tbd
->   ./Headers
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+
+> ---
+>  tests/qtest/fuzz/generic_fuzz.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> The issue also exists in another patch in the series:
->    "hvf: Move common code out"
-
-
-Ugh, I'll try and see if I can dig out a 10.15 machine somewhere.
-
-
->
->> +#ifdef __aarch64__
->> +#define HV_VM_DEFAULT NULL
->> +#endif
->> +
-> I don't see if it's used anywhere.
-
-
-It's used in hv_vm_create() as argument. The enum that contains it is 
-hidden behind an #ifdef __x86_64__ in HVF though.
-
-
->
->>   /* Memory slots */
->>   
->>   struct mac_slot {
->> [...]
->>
-> Side question. I have very little knowledge of ARM but it seems much
-> leaner compared to x86 trap/emulation layer. Is it a consequence of
-> load/store architecture and it's expected to be that small on ARM?
-
-
-It's multiple things coming together. Early in the virtualization days 
-of KVM on ARM, we decided that KVM would only support MMIO for 
-instructions that hardware predecodes on exception. That seems to have 
-trickled down into basically all relevant OSs these days, so you can run 
-Linux, *BSD and Windows just fine without handling any instructions that 
-are not already predecoded for you.
-
-This in turn means you don't need an instruction emulator, which is most 
-of the complexity on the x86 hvf code.
-
-
-> I have only noticed MMIO, system registers (access to them apparently
-> leads to a trap), kick and PSCI traps (which sounds somewhat similar to
-> Intel MPSpec/APIC) and no system instruction traps (except WFI in the
-> next patch).
-
-
-System Registers are a bit tricky. Some of them lead to traps (as you've 
-seen), others do not and instead read/write shadow registers directly. 
-For those, we need to do the register sync.
-
-But yes, there is little to handle for an ARM guest. I was positively 
-surprised as well. To be fair though, most of the complexity in KVM ARM 
-code comes from vGIC (not available on M1), debug registers (not handled 
-here yet), PMU multiplexing (not handled) and stage2 page table 
-maintenance (done by HVF). We just wiggle ourselves out of those.
-
-
-Alex
-
-
+> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+> index 262a963d2e..07ad690683 100644
+> --- a/tests/qtest/fuzz/generic_fuzz.c
+> +++ b/tests/qtest/fuzz/generic_fuzz.c
+> @@ -916,6 +916,7 @@ static GString *generic_fuzz_predefined_config_cmdline(FuzzTarget *t)
+>      g_assert(t->opaque);
+>  
+>      config = t->opaque;
+> +    setenv("QEMU_AVOID_DOUBLE_FETCH", "1", 1);
+>      setenv("QEMU_FUZZ_ARGS", config->args, 1);
+>      setenv("QEMU_FUZZ_OBJECTS", config->objects, 1);
+>      return generic_fuzz_cmdline(t);
+> -- 
+> 2.28.0
 
