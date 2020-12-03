@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD132CDCA2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:47:31 +0100 (CET)
-Received: from localhost ([::1]:38254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE362CDCA1
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:45:54 +0100 (CET)
+Received: from localhost ([::1]:36148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkshW-0005fX-Ms
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:47:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58700)
+	id 1kksfx-0004cV-Pg
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:45:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kksXY-0007Jb-4K
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:37:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30963)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kksZ0-0008Ok-4g
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:38:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kksXT-00081V-W2
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:37:11 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kksYw-00007w-Pz
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:38:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607017026;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1607017117;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gg6+c60GryMYEu+v65AtbaWpKJVk3ib/7ZGZ1FwaLQI=;
- b=J0ev0TZF4E6Fy0hse25J/By7ht76UvebBqhlKWQjKv60acRZPGnZ1N9VnZ6fOXhQLWnfUb
- Q0ZQlwpS+FHs9uOMybieRdeWwDMOiu9q5UxBKkr+Z5ye6Mk9DSEXNrBWrm04ih9NGdfBL1
- rSMCa6idS81ftnbs3tGu49jndDU3jYk=
+ bh=aEGlcoWFOehx5SbpCPGszyvCyR/uUMBHtiiFnsCDTTo=;
+ b=Xbst/HYDAhyUgXo0XdS6cB+BtaCaQJoawM+FWA0Uk5MLep31XYdWCxP20j4sLOxiHRnyMP
+ YcxUetAZ6pvW6a7xstdS1WTQI2cwXQPtGjUPtNeSQg/Dr24JLhmc/OGGUcvQyzui6AfCnI
+ 6pSoroy6GbHtiv6QYekO9zXSIPgjAWE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-uPSlcf_RMimyYY8Naes9OA-1; Thu, 03 Dec 2020 12:37:01 -0500
-X-MC-Unique: uPSlcf_RMimyYY8Naes9OA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-506-tpjMf-5_MBerJ0sKTs1Gkw-1; Thu, 03 Dec 2020 12:38:33 -0500
+X-MC-Unique: tpjMf-5_MBerJ0sKTs1Gkw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1C88100747E;
- Thu,  3 Dec 2020 17:37:00 +0000 (UTC)
-Received: from redhat.com (ovpn-115-57.ams2.redhat.com [10.36.115.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DADFF5D9CC;
- Thu,  3 Dec 2020 17:36:52 +0000 (UTC)
-Date: Thu, 3 Dec 2020 17:36:49 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH-for-5.2? 1/1] Acceptance tests: bump Fedora to 32
-Message-ID: <20201203173649.GL2952498@redhat.com>
-References: <20201202215747.2719507-1-crosa@redhat.com>
- <20201202215747.2719507-2-crosa@redhat.com>
- <b00dc7be-cf66-34a0-3260-2a9cfcddde77@redhat.com>
- <20201203165033.GB2787993@localhost.localdomain>
- <20201203170233.GK2952498@redhat.com>
- <20201203172959.GA2792185@localhost.localdomain>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A63C48030A8;
+ Thu,  3 Dec 2020 17:38:32 +0000 (UTC)
+Received: from gondolin (ovpn-113-106.ams2.redhat.com [10.36.113.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 59FDA5D6CF;
+ Thu,  3 Dec 2020 17:38:24 +0000 (UTC)
+Date: Thu, 3 Dec 2020 18:38:21 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/acceptance: test hot(un)plug of ccw devices
+Message-ID: <20201203183821.42e57e8e.cohuck@redhat.com>
+In-Reply-To: <71a7ee0f-8ca1-e3d0-8817-e51d0cb4c02c@redhat.com>
+References: <20201203153917.66685-1-cohuck@redhat.com>
+ <71a7ee0f-8ca1-e3d0-8817-e51d0cb4c02c@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20201203172959.GA2792185@localhost.localdomain>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,70 +78,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 03, 2020 at 12:29:59PM -0500, Cleber Rosa wrote:
-> On Thu, Dec 03, 2020 at 05:02:33PM +0000, Daniel P. Berrangé wrote:
-> > I think the problem with the Fedora acceptance is that we'll be constantly
-> > chasing a moving target. Every URL we pick will go away 6-12 months later.
-> > IOW, while the acceptance test pass today, in 6 months time they'll be
-> > failing.  IOW,  switching to F32 doesn't solve the root cause, it just
-> > pushs the problem down the road for 6 months until F32 is EOL and hits
-> > the same URL change problem.
-> >
-> 
-> Just FIY, the tests will not FAIL when the images are removed from the
-> official locations.  This is what happens Today:
-> 
->    JOB ID     : e85527a9d75023070f15b833eac0f91f803afc83
->    JOB LOG    : /home/cleber/avocado/job-results/job-2020-12-03T12.21-e85527a/job.log
->     (1/1) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc_q35_kvm: CANCEL: Failed to download/prepare boot image (0.33 s)
->    RESULTS    : PASS 0 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 1
->    JOB HTML   : /home/cleber/avocado/job-results/job-2020-12-03T12.21-e85527a/results.html
->    JOB TIME   : 0.76 s
-> 
-> And *normally*, we'd have 12+ months between updates, that is from
-> Fedora 31 -> 33, 33 -> 35, etc.
-> 
-> > One way to avoid this is to *not* actually  test a current Fedora.
-> > Instead intentionally point at an EOL Fedora release whose URL has
-> > already moved to the archive site which is long term stable.
-> >
-> 
-> So the tradeoff is, a patch every 6 or 12 months, versus using a more
-> modern guest.  With other tests, such as virtiofs_submounts.py,
-> already depending on the same decision (to avoid multiple guest images
-> downloaded), I think this tradeoff decision needs more visibility.
-> 
-> IMO, the cost of such a simple patch every 6 or 12 months is very low
-> provided we'll benefit from the newer guests.
+On Thu, 3 Dec 2020 18:22:35 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-I don't think changing the OS version typically changes the level of
-coverage in aggregate.  The new OS may exercise new code paths, but
-it will stop exercising old code paths, so most of the time it'll
-be net-zero.  The ideal would be to test a representative selection
-of both old and new versions but capacity limits.
+> On 03/12/2020 16.39, Cornelia Huck wrote:
+> > Hotplug a virtio-net-ccw device, and then hotunplug it again.  
+> 
+> Good idea! ... is it also possible with a pci device?
 
-The only time there's probably a notable difference is if we need to
-access to a new type of device that the old OS doesn't have, but
-that's relatively rare.
+It should be, I guess; it's not part of my normal test workflow,
+however.
 
+> 
+> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> > ---
+> > 
+> > This is on top of "tests/acceptance: enhance s390x devices test"
+> > 
+> > ---
+> >  tests/acceptance/machine_s390_ccw_virtio.py | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
+> > 
+> > diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
+> > index 53b8484f8f9c..487c25c31d3c 100644
+> > --- a/tests/acceptance/machine_s390_ccw_virtio.py
+> > +++ b/tests/acceptance/machine_s390_ccw_virtio.py
+> > @@ -97,3 +97,17 @@ class S390CCWVirtioMachine(Test):
+> >          exec_command_and_wait_for_pattern(self,
+> >                                            'cat /sys/bus/pci/devices/000a\:00\:00.0/function_id',
+> >                                            '0x0000000c')
+> > +        # add another device
+> > +        self.vm.command('device_add', driver='virtio-net-ccw',
+> > +                        devno='fe.0.4711', id='xxx')  
+> 
+> Could we use a different id, please? xxx sounds so ... well, use your
+> imagination.
 
+It is taken straight from my usual testing workflow :) But yeah, I can
+call this net_4711 or so.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+> > +        exec_command_and_wait_for_pattern(self, 'dmesg | tail -n 1', 'CRW')  
+> 
+> That looks like it could be a little bit racy ... what if the kernel outputs
+> another log message by chance, so that tail -n 1 reports that instead.
+> 
+> I think it would be better to clear the dmesg log ("dmesg -c") before
+> plugging, and then look at all the new output of "dmesg" without using
+> "tail" afterwards.
+
+Yes, good idea. Would need to do the same dance below as well (we get a
+new crw).
+
+> 
+> > +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+> > +                                          '0.0.4711')
+> > +        # and detach it again
+> > +        self.vm.command('device_del', id='xxx')
+> > +        self.vm.event_wait(name='DEVICE_DELETED',
+> > +                           match={'data': {'device': 'xxx'}})
+> > +        exec_command_and_wait_for_pattern(self, 'dmesg | tail -n 1', 'CRW')  
+> 
+> dito
+> 
+> > +        exec_command_and_wait_for_pattern(self,
+> > +                                          'ls /sys/bus/ccw/devices/0.0.4711',
+> > +                                          'No such file or directory')
+> >   
+> 
+>  Thomas
+> 
+> 
+> PS: Another idea for a test: Looks like that initrd also has a
+> virtio-balloon driver ... we could maybe start with "-device
+> virito-balloon", then change the size of the balloon and check whether the
+> MemTotal in /proc/meminfo changed...
+
+Added to my to-test list.
+
+Thanks!
 
 
