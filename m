@@ -2,67 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 135E42CDC42
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:19:32 +0100 (CET)
-Received: from localhost ([::1]:49238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DEAE2CDBF5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:11:07 +0100 (CET)
+Received: from localhost ([::1]:57946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kksGR-0001eg-4z
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:19:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51878)
+	id 1kks8C-00019p-Qb
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:11:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kks80-00029J-Rc
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:10:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kks7y-0007dl-8K
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:10:48 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kks7w-0003rK-5g
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 17:10:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1E4052E80DE
- for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 17:10:44 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kks0T-0001ak-L4
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:03:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kks0O-0004IN-Qw
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:03:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607014974;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h8r5zJ0Hmo3VSGAnTwxONst61BIT+sVxUrlwMRr+poQ=;
+ b=etCZZy9viJwuvfqehRn525yGXXMpvtwQau+qWap9aHC+U7V852VBooCYspPXPvgAqmyuX9
+ goeVOqQcscZg0tnUNObKd/5lWu3eYsJZt5BeyppIRrwL+VjlrHVptzNeLHoM/8TtiCpbJ0
+ C+qsMBiGN+P7sNheiZW/wfl4g8W4Cbw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-8cbP2BuNPXCJHuZUQPGLWg-1; Thu, 03 Dec 2020 12:02:48 -0500
+X-MC-Unique: 8cbP2BuNPXCJHuZUQPGLWg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48FA0858180;
+ Thu,  3 Dec 2020 17:02:47 +0000 (UTC)
+Received: from redhat.com (ovpn-115-57.ams2.redhat.com [10.36.115.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4ABC527CA2;
+ Thu,  3 Dec 2020 17:02:37 +0000 (UTC)
+Date: Thu, 3 Dec 2020 17:02:33 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH-for-5.2? 1/1] Acceptance tests: bump Fedora to 32
+Message-ID: <20201203170233.GK2952498@redhat.com>
+References: <20201202215747.2719507-1-crosa@redhat.com>
+ <20201202215747.2719507-2-crosa@redhat.com>
+ <b00dc7be-cf66-34a0-3260-2a9cfcddde77@redhat.com>
+ <20201203165033.GB2787993@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 03 Dec 2020 16:59:06 -0000
-From: Alexander Bulekov <1906694@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Duplicate: 1906693
-References: <20201203165348.huwzkjhtpnxkrquj@mozz.bu.edu>
-Message-Id: <160701474694.17605.12174887693823221023.launchpad@wampee.canonical.com>
-Subject: [Bug 1906694] Re: Assertion Failure in bdrv_co_write_req_prepare
- through megasas
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="15cd58601e77a273f7390fc4f4fcd16efe814a43"; Instance="production"
-X-Launchpad-Hash: f46b1a2013d5d31490fe557756fb8d7731588b5c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201203165033.GB2787993@localhost.localdomain>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,207 +84,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906694 <1906694@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a duplicate of bug 1906693 ***
-    https://bugs.launchpad.net/bugs/1906693
+On Thu, Dec 03, 2020 at 11:50:33AM -0500, Cleber Rosa wrote:
+> On Thu, Dec 03, 2020 at 10:37:01AM +0100, Philippe Mathieu-Daudé wrote:
+> > On 12/2/20 10:57 PM, Cleber Rosa wrote:
+> > > Currently in use Fedora 31 has been moved out of the standard download
+> > > locations that are supported by the functionality provided by
+> > > avocado.utils.vmimage.  So right now, the boot_linux.py tests will get
+> > > canceled by not being able to find those specific images.
+> > > 
+> > > Ideally, this would be bumped to version 33.  But, I've found issues
+> > > with the aarch64 images, with various systemd services failing to
+> > > start.  So to keep all archs consistent, I've settled on 32.
+> > > 
+> > > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > > ---
+> > >  tests/acceptance/boot_linux.py | 12 ++++++------
+> > >  1 file changed, 6 insertions(+), 6 deletions(-)
+> > > 
+> > > diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+> > > index 1da4a53d6a..0824de008e 100644
+> > > --- a/tests/acceptance/boot_linux.py
+> > > +++ b/tests/acceptance/boot_linux.py
+> > > @@ -42,13 +42,13 @@ class BootLinuxBase(Test):
+> > >          vmimage.QEMU_IMG = qemu_img
+> > >  
+> > >          self.log.info('Downloading/preparing boot image')
+> > > -        # Fedora 31 only provides ppc64le images
+> > > +        # Fedora 32 only provides ppc64le images
+> > >          image_arch = self.arch
+> > >          if image_arch == 'ppc64':
+> > >              image_arch = 'ppc64le'
+> > >          try:
+> > >              boot = vmimage.get(
+> > > -                'fedora', arch=image_arch, version='31',
+> > > +                'fedora', arch=image_arch, version='32',
+> > 
+> > I already expressed my view on this (latest QEMU should be
+> > able to use at least f31 - which was tested - and eventually
+> > f33 - which is coverage extension). I'm not going to vouch
+> > this change. If other maintainers are happy with it, I don't
+> > mind this gets merged.
+> > 
+> > BTW I don't see why this is urgent for 5.2.
+> > 
+> > Phil.
+> > 
+> 
+> Hi Phil,
+> 
+> Are you implying that, in your opinion, QEMU (say 5.2) should somehow
+> provide compatibility with Fedora 31 because it was used during the
+> entire cycle?  I sympathize with that, but, QEMU is not really
+> advertising compatibility support with specific Linux Distros, is it?
+> 
+> And, assuming that the issues I found on the Fedora 33 aarch64 image
+> can not be worked around, would you suggest not moving to 32?  I mean,
+> I don't see a reason why QEMU shouldn't be able to use at least Fedora
+> 32, which is a currently *active* version (different from 31).
 
-** This bug has been marked a duplicate of bug 1906693
-   Assertion Failure in bdrv_co_write_req_prepare through megasas
+I think the problem with the Fedora acceptance is that we'll be constantly
+chasing a moving target. Every URL we pick will go away 6-12 months later.
+IOW, while the acceptance test pass today, in 6 months time they'll be
+failing.  IOW,  switching to F32 doesn't solve the root cause, it just
+pushs the problem down the road for 6 months until F32 is EOL and hits
+the same URL change problem.
 
--- =
+One way to avoid this is to *not* actually  test a current Fedora.
+Instead intentionally point at an EOL Fedora release whose URL has
+already moved to the archive site which is long term stable.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906694
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Title:
-  Assertion Failure in bdrv_co_write_req_prepare through megasas
-
-Status in QEMU:
-  New
-
-Bug description:
-   affects qemu
-   subscribe philmd@redhat.com
-   subscribe kwolf@redhat.com
-
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  qemu-fuzz-i386: block/io.c:1835: int bdrv_co_write_req_prepare(BdrvChild =
-*, int64_t, uint64_t, BdrvTrackedRequest *, int): Assertion `child->perm & =
-BLK_PERM_WRITE' failed.
-  =3D=3D1505128=3D=3D ERROR: libFuzzer: deadly signal
-      #0 0x55a083b92cee in __sanitizer_print_stack_trace (qemu-fuzz-i386+0x=
-793cee)
-      #1 0x55a083b6c1d1 in fuzzer::PrintStackTrace() (qemu-fuzz-i386+0x76d1=
-d1)
-      #2 0x55a083b4f0d6 in fuzzer::Fuzzer::CrashCallback() (.part.0) (qemu-=
-fuzz-i386+0x7500d6)
-      #3 0x55a083b4f19b in fuzzer::Fuzzer::StaticCrashSignalCallback() (qem=
-u-fuzz-i386+0x75019b)
-      #4 0x7f8d24ed6a8f  (/lib64/libpthread.so.0+0x14a8f)
-      #5 0x7f8d24d079e4 in raise (/lib64/libc.so.6+0x3c9e4)
-      #6 0x7f8d24cf0894 in abort (/lib64/libc.so.6+0x25894)
-      #7 0x7f8d24cf0768 in __assert_fail_base.cold (/lib64/libc.so.6+0x2576=
-8)
-      #8 0x7f8d24cffe75 in __assert_fail (/lib64/libc.so.6+0x34e75)
-      #9 0x55a08423763f in bdrv_co_write_req_prepare block/io.c:1835:13
-      #10 0x55a0842343a8 in bdrv_aligned_pwritev block/io.c:1915:11
-      #11 0x55a084233765 in bdrv_co_pwritev_part block/io.c:2104:11
-      #12 0x55a084260d1a in blk_do_pwritev_part block/block-backend.c:1260:=
-11
-      #13 0x55a08426163e in blk_aio_write_entry block/block-backend.c:1476:=
-17
-      #14 0x55a0843b0d23 in coroutine_trampoline util/coroutine-ucontext.c:=
-173:9
-      #15 0x7f8d24d1d22f  (/lib64/libc.so.6+0x5222f)
-
-  =3D=3D=3D Reproducer=3D=3D=3D
-  cat << EOF | ./qemu-system-i386 -M q35 \
-  -device megasas-gen2 -device scsi-cd,drive=3Dnull0 \
-  -blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 \
-  -monitor none -serial none -display none \
-  -machine accel=3Dqtest -m 64 -qtest stdio
-  outl 0xcf8 0x80001804
-  outl 0xcfc 0xffffff
-  outl 0xcf8 0x8000181b
-  outl 0xcfc 0x7052005
-  write 0x5cc0 0x1 0x03
-  write 0x5cc7 0x1 0x40
-  write 0x5ce0 0x1 0x0a
-  write 0x5cf3 0x1 0x01
-  write 0x5cf7 0x1 0x40
-  write 0x5cf8 0x1 0x0a
-  write 0x5cff 0x1 0x05
-  write 0x5d03 0x1 0x5b
-  write 0x5d06 0x1 0x4f
-  write 0x5d0b 0x1 0x01
-  write 0x5d0f 0x1 0x40
-  write 0x5d10 0x1 0x0a
-  write 0x5d17 0x1 0x05
-  write 0x5d1b 0x1 0x5b
-  write 0x5d1e 0x1 0x4f
-  write 0x5d23 0x1 0x01
-  write 0x5d27 0x1 0x40
-  write 0x5d28 0x1 0x0a
-  write 0x5d2f 0x1 0x05
-  write 0x5d33 0x1 0x5b
-  write 0x5d36 0x1 0x4f
-  write 0x5d3b 0x1 0x01
-  write 0x5d3f 0x1 0x40
-  write 0x5d40 0x1 0x0a
-  write 0x5d47 0x1 0x05
-  write 0x5d4b 0x1 0x5b
-  write 0x5d4e 0x1 0x4f
-  write 0x5d53 0x1 0x01
-  write 0x5d57 0x1 0x40
-  write 0x5d58 0x1 0x0a
-  write 0x5d5f 0x1 0x05
-  write 0x5d63 0x1 0x5b
-  write 0x5d66 0x1 0x4f
-  write 0x5d6b 0x1 0x01
-  write 0x5d6f 0x1 0x40
-  write 0x5d70 0x1 0x0a
-  write 0x5d77 0x1 0x05
-  write 0x5d7b 0x1 0x5b
-  write 0x5d7e 0x1 0x4f
-  write 0x5d83 0x1 0x01
-  write 0x5d87 0x1 0x40
-  write 0x5d88 0x1 0x0a
-  write 0x5d8f 0x1 0x05
-  write 0x5d93 0x1 0x5b
-  write 0x5d96 0x1 0x4f
-  write 0x5d9b 0x1 0x01
-  write 0x5d9f 0x1 0x40
-  write 0x5da0 0x1 0x0a
-  write 0x5da7 0x1 0x05
-  write 0x5dab 0x1 0x5b
-  write 0x5dae 0x1 0x4f
-  write 0x5db3 0x1 0x01
-  write 0x5db7 0x1 0x40
-  write 0x5db8 0x1 0x0a
-  write 0x5dbf 0x1 0x05
-  write 0x5dc3 0x1 0x5b
-  write 0x5dc6 0x1 0x4f
-  write 0x5dcb 0x1 0x01
-  write 0x5dcf 0x1 0x40
-  write 0x5dd0 0x1 0x0a
-  write 0x5dd7 0x1 0x05
-  write 0x5ddb 0x1 0x5b
-  write 0x5dde 0x1 0x4f
-  write 0x5de3 0x1 0x01
-  write 0x5de7 0x1 0x40
-  write 0x5de8 0x1 0x0a
-  write 0x5def 0x1 0x05
-  write 0x5df3 0x1 0x5b
-  write 0x5df6 0x1 0x4f
-  write 0x5dfb 0x1 0x01
-  write 0x5dff 0x1 0x40
-  write 0x5e00 0x1 0x0a
-  write 0x5e07 0x1 0x05
-  write 0x5e0b 0x1 0x5b
-  write 0x5e0e 0x1 0x4f
-  write 0x5e13 0x1 0x01
-  write 0x5e17 0x1 0x40
-  write 0x5e18 0x1 0x0a
-  write 0x5e1f 0x1 0x05
-  write 0x5e23 0x1 0x5b
-  write 0x5e26 0x1 0x4f
-  write 0x5e2b 0x1 0x01
-  write 0x5e2f 0x1 0x40
-  write 0x5e30 0x1 0x0a
-  write 0x5e37 0x1 0x05
-  write 0x5e3b 0x1 0x5b
-  write 0x5e3e 0x1 0x4f
-  write 0x5e43 0x1 0x01
-  write 0x5e47 0x1 0x40
-  write 0x5e48 0x1 0x0a
-  write 0x5e4f 0x1 0x05
-  write 0x5e53 0x1 0x5b
-  write 0x5e56 0x1 0x4f
-  write 0x5e5b 0x1 0x01
-  write 0x5e5f 0x1 0x40
-  write 0x5e60 0x1 0x0a
-  write 0x5e67 0x1 0x05
-  write 0x5e6b 0x1 0x5b
-  write 0x5e6e 0x1 0x4f
-  write 0x5e73 0x1 0x01
-  write 0x5e77 0x1 0x40
-  write 0x5e78 0x1 0x0a
-  write 0x5e7f 0x1 0x05
-  write 0x5e83 0x1 0x5b
-  write 0x5e86 0x1 0x4f
-  write 0x5e8b 0x1 0x01
-  write 0x5e8f 0x1 0x40
-  write 0x5e90 0x1 0x0a
-  write 0x5e97 0x1 0x05
-  write 0x5e9b 0x1 0x5b
-  write 0x5e9e 0x1 0x4f
-  write 0x5ea3 0x1 0x01
-  write 0x5ea7 0x1 0x40
-  write 0x5ea8 0x1 0x0a
-  write 0x5eaf 0x1 0x05
-  write 0x5eb3 0x1 0x5b
-  write 0x5eb6 0x1 0x4f
-  write 0x5ebb 0x1 0x01
-  write 0x5ebf 0x1 0x40
-  write 0x5ec0 0x1 0x0a
-  write 0x5ec7 0x1 0x05
-  write 0x5ecb 0x1 0x5b
-  write 0x5ece 0x1 0x4f
-  write 0x5ed3 0x1 0x01
-  write 0x5ed7 0x1 0x40
-  write 0x5ed8 0x1 0x0a
-  write 0x5edf 0x1 0x05
-  write 0x5ee3 0x1 0x5b
-  write 0x5ee6 0x1 0x4f
-  write 0x5eeb 0x1 0x01
-  write 0x5eef 0x1 0x40
-  writeq 0x50000000000003b 0x15cd405b60101c8
-  EOF
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906694/+subscriptions
 
