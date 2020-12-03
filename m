@@ -2,123 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB032CE1AA
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 23:31:48 +0100 (CET)
-Received: from localhost ([::1]:37612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1E62CE24C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 00:07:04 +0100 (CET)
+Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkx8d-0008Pz-5r
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 17:31:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40310)
+	id 1kkxgk-0000DZ-Oq
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 18:07:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kkx4e-000410-Jz; Thu, 03 Dec 2020 17:27:40 -0500
-Received: from mail-eopbgr140112.outbound.protection.outlook.com
- ([40.107.14.112]:63621 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kkxdg-0006sO-Uv; Thu, 03 Dec 2020 18:03:52 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:60212 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kkx4d-0000Cm-25; Thu, 03 Dec 2020 17:27:40 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nEuxZV+ooswdo60OHIfQ6128bL3R4+EKHTX44MTTvY+cJp6ebZlcEbQWGcRY4Xsw0aeHkpqQkiIdmbo90WT/6jG3kQwV15OkMRuwEPgE0ge9EdHGwEIKhzb61FK8Ane3VrtILiRGSUF8FXZ117J/mVvsdqOFO1r/NQFpgo8cbVy4zeZW4goXuylPZl/2uOtrlNsznTewsjE0PuPd1RWVPmLL6JfWMYUn9OZNcoVVnIy5FIAMF8cjjMK9sK1dM/o90VUsKXkNTiCI/3LG6iy6TNHSUitIox5/9jTB0KaZ/GuVolac1cxjtQ5YwW+BL2eK4H8gpm/egQhnkvsnN1Fi6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e+RTm6K7rXAajRCYKfSMY43BIZLjV4MHQ7Rysf8gBcY=;
- b=Fqx9HmA4dcX1svHYmo5HYQzsCJ+9sFCzEyIFIxnKPJjdW1ji77RQmHJ7gN+RkQPuMkPlBQcn8Q1dOqHFoW7sDG2EGYeraiigtNFhpVkn9k+hxQMQ6ps1ObPWpanTNC7SxnIUt+lGIgh49jxahsGsONiYFoOqvS8/eO6kmPfwgmuEc+d2kYUP5sckdiMK2o/xi0incdi5xqLQKEGT3e+JHEsGt45BWwUCS+qzIYIEXmSjZVJf5ICM38q+vLMoVghV782jXrjMNrTFaKahpaXDJi/ensSYd7+/GjJiU235IIjNLQtATqEYJxQLu1EO7wULHNJb6z2j5DRtG84ltYskeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e+RTm6K7rXAajRCYKfSMY43BIZLjV4MHQ7Rysf8gBcY=;
- b=XC2fCI8EfcsuOuwMbEPg1AhMAgONOFh1j0+qNErjJCNPzYDS4iYfQEsLP8Ju19V7AObnCZdmqpkflqOcwHtKgaTb8BB0W0Qw+7gyjs96J/HLf0hUL0lP552TojwrKsJQA8vy9bBhIHrmxVNpx06/hSRKGY5r3mFfOeMi8FFjQqM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5446.eurprd08.prod.outlook.com (2603:10a6:20b:107::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.20; Thu, 3 Dec
- 2020 22:27:31 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3632.020; Thu, 3 Dec 2020
- 22:27:31 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com, eblake@redhat.com, berto@igalia.com,
- den@openvz.org, vsementsov@virtuozzo.com
-Subject: [PATCH 3/4] block/io: bdrv_check_byte_request(): drop
- bdrv_is_inserted()
-Date: Fri,  4 Dec 2020 01:27:12 +0300
-Message-Id: <20201203222713.13507-4-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20201203222713.13507-1-vsementsov@virtuozzo.com>
-References: <20201203222713.13507-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.91]
-X-ClientProxiedBy: AM4PR07CA0036.eurprd07.prod.outlook.com
- (2603:10a6:205:1::49) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kkxde-0004A0-Qx; Thu, 03 Dec 2020 18:03:52 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 3CF3E413D5;
+ Thu,  3 Dec 2020 23:03:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1607036627;
+ x=1608851028; bh=MtEDsv9qLd1EMFqncsWZDnlOigSwtDR6qJ19jveVIMU=; b=
+ XS+670TOkSYKqNNbZOaNb34z1d2IyI1qwAVNJ/92/NAktWo/5IN4P6TPo5pMbLHp
+ 7ukBiIUqqr+VkgxSD5dhZAwc+JZKbWU1ytyd5Kpc3rqnvfGP1RdOBcbeORxUQhVx
+ EYQF0zkNgsaKNKaRRinMZKaT8hfPJMIrOKAYN6P/SDE=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id m76ttCrY3fkR; Fri,  4 Dec 2020 02:03:47 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 681F641399;
+ Fri,  4 Dec 2020 02:03:46 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 4 Dec
+ 2020 02:03:46 +0300
+Date: Fri, 4 Dec 2020 02:04:07 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Alexander Graf <agraf@csgraf.de>
+Subject: Re: [PATCH 2/8] hvf: Move common code out
+Message-ID: <20201203230407.GB14685@SPB-NB-133.local>
+References: <cecd20d0-278b-0a4b-ba9c-0207504c99d7@csgraf.de>
+ <CAEkmjvVOAYP6wJyVpAtZE3d=iNOOWGZeHptQ9xJDGcTi4qQ0hQ@mail.gmail.com>
+ <CAMn1gO7jqjsqJHtSaV7F+2qmtfF-YFDJwo=O8ot2iem+Uz4Zrw@mail.gmail.com>
+ <6975b4a3-1568-df40-8594-bfcf488ac425@csgraf.de>
+ <CAMn1gO5xs8RniRYm+Gnbh8S3GVah2+2Ew2V6tFL6PNuSJ7o5Hw@mail.gmail.com>
+ <4e1d93a4-9dcc-c6b6-e060-6eea39ae2f16@csgraf.de>
+ <CAMn1gO44Y4rahufveQ1dOq96nhqvGEmZ0pYci2f6BKv9kd638Q@mail.gmail.com>
+ <20201203094124.GA7201@SPB-NB-133.local>
+ <CAMn1gO6kMFLGKy4VuOL=CyP=ioGAZJmogT=y6dd=SQ82odK8_Q@mail.gmail.com>
+ <2a286418-aa8e-17b9-1be2-58b0b361dec5@csgraf.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.91) by
- AM4PR07CA0036.eurprd07.prod.outlook.com (2603:10a6:205:1::49) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.7 via Frontend Transport; Thu, 3 Dec 2020 22:27:30 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: fa10edf1-0cad-40ce-2cab-08d897da9f9a
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5446:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB54463618DEA611497B160914C1F20@AM7PR08MB5446.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: i3ipCQU0Fqs57RGzAy8oOLx/Mf3CrBV5jYfRX0OneRCm1x6itS38SDJJD0018H/Vxeqj5k0AnATfDQ/OEJML/t8Rim06gWq67pbbLukB3xo6gnay5ZfO+xhB+kgd0nQc4Gk7r0iiVl+uxgh2yrXuJxJkarth5xwx1yW0RXZ0PdKcgXnG1VYvsz6jzBVeW8Z68G1+qGH8uQ3h60PdHvXF3s1Wx38Q6BgIChZwlA5ImvfzvNpYEuCKc+9fXirS15m1NO0HKLKnGIsPbdNrjfDA+vSZHYF9PIsOGrXSrK1CowueWWI3Sb33hVlWGcn7uVjsxCwGPmHmvNTfiJuiMmtDwA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(39840400004)(396003)(366004)(136003)(4326008)(2906002)(8936002)(6916009)(2616005)(36756003)(5660300002)(52116002)(6486002)(478600001)(66946007)(66556008)(66476007)(83380400001)(86362001)(1076003)(8676002)(6512007)(316002)(6506007)(6666004)(956004)(26005)(186003)(16526019)(107886003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ocMmBuYr9rwhTspPk0bAUZRUZYn/+nlRDTDLHXKmS9khPKzVS0pUSLsUJ+IH?=
- =?us-ascii?Q?9RrNXykrcPkPOrtl7zheUqE3jeJpF3l3ilzfe44eTB080/USbfT0r5v/YHvJ?=
- =?us-ascii?Q?GI1o3M35F5MjM4KbuU0fsttyuTPDVaXr4LcLmYgAUJgG3pMKOFjX2BEYvSH+?=
- =?us-ascii?Q?jYDsB9irVfahfIqVGQ0apWsKrW2DXA6wvodx4qrxnxuwYqfT0M8LXl3RChZg?=
- =?us-ascii?Q?0LWbxYCyixnR2TY+aEguIC+Zuq13WICtGmdjnU3Ow6T0KIN2pO477jg1DbeB?=
- =?us-ascii?Q?m3v8ItOjaTTLOdG1UUYMsTwgb0ocWmAxfC6jqckDxUCryvsZqlCpQlDdzyjy?=
- =?us-ascii?Q?DVCjyQQShUmKfeZC8Bvv1YQWyxHoAzvsw5naib24fZfdUuHhMYVDoortJdst?=
- =?us-ascii?Q?9NBjkjMLClfMqnpnju7m1XY0AyiBfHR5f2shk/944a74oBmbw0QNY3JX9J6f?=
- =?us-ascii?Q?lefGGHvzeoCEPvJBhHaed432mQGrraaUpP4eWsjT+cnjIAXcVU50dvlX9Ep1?=
- =?us-ascii?Q?mqN4Gh1xDgz52KEACI9dxFY8bwQNr2YrjtXsR5w9aOq1rqPci34GXiSwWtJT?=
- =?us-ascii?Q?sFFQw6lEXODCvzflNSlvgBEmidC+mHu6lIDvUcuKCU/YyIL1jRZJEM/Ivy58?=
- =?us-ascii?Q?UGHh7oTxDWDig5d1NajREPWzWb/7ZI1mxnOnGuMf42LHM/c5aAp1k2IHRuqo?=
- =?us-ascii?Q?g1KUaWASjEAzxuOsXy6z8Hr28MRFCm3XHOZNLOZnx6cW4rh2t1slRqqhnYia?=
- =?us-ascii?Q?BA+zRe76qycMLavfj7M9BXOlKYNh/V69FDCvaGCAYb7c8iEZsvLwENeQ/llX?=
- =?us-ascii?Q?m9SCYDErT8Q7+TcHSK3iovQghdY5crLAm4PrXiFVNXNQ2kInCbTYf/7mpDOh?=
- =?us-ascii?Q?fKVNcORk9NLttyudub4y8fX65UHYXUWomDVPeAUlzeoj3fe5bPOakzGVzf+A?=
- =?us-ascii?Q?E1GgsTJGMIH2cflG3Q540xXXEFNi9LuVFCtq5b9Eu1exnbtIXAT/HNn1qV9c?=
- =?us-ascii?Q?PFoG?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa10edf1-0cad-40ce-2cab-08d897da9f9a
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2020 22:27:31.0764 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LvGIFioYLEpAHt477VfmfA7JuA2GJl4iB6Ys6wFYKBoNIhGNU/uxb1tMF/oh1tnI4ehr5RTi4eI9Rj03FCN1ei4qO4swFnTyj0SB4Iav1DQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5446
-Received-SPF: pass client-ip=40.107.14.112;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: 5
-X-Spam_score: 0.5
-X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL_CSS=3.335,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <2a286418-aa8e-17b9-1be2-58b0b361dec5@csgraf.de>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -131,109 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Claudio Fontana <cfontana@suse.de>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move bdrv_is_inserted() calls into callers.
+On Thu, Dec 03, 2020 at 11:13:35PM +0100, Alexander Graf wrote:
+> 
+> On 03.12.20 19:42, Peter Collingbourne wrote:
+> > On Thu, Dec 3, 2020 at 1:41 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+> > > On Mon, Nov 30, 2020 at 04:00:11PM -0800, Peter Collingbourne wrote:
+> > > > What I observe is that when returning from a pending signal pselect
+> > > > consumes the signal (which is also consistent with my understanding of
+> > > > what pselect does). That means that it doesn't matter if we take a
+> > > > second WFx exit because once we reach the pselect in the second WFx
+> > > > exit the signal will have been consumed by the pselect in the first
+> > > > exit and we will just wait for the next one.
+> > > > 
+> > > Aha! Thanks for the explanation. So, the first WFI in the series of
+> > > guest WFIs will likely wake up immediately? After a period without WFIs
+> > > there must be a pending SIG_IPI...
+> > > 
+> > > It shouldn't be a critical issue though because (as defined in D1.16.2)
+> > > "the architecture permits a PE to leave the low-power state for any
+> > > reason, it is permissible for a PE to treat WFI as a NOP, but this is
+> > > not recommended for lowest power operation."
+> > > 
+> > > BTW. I think a bit from the thread should go into the description of
+> > > patch 8, because it's not trivial and it would really be helpful to keep
+> > > in repo history. At least something like this (taken from an earlier
+> > > reply in the thread):
+> > > 
+> > >    In this implementation IPI is blocked on the CPU thread at startup and
+> > >    pselect() is used to atomically unblock the signal and begin sleeping.
+> > >    The signal is sent unconditionally so there's no need to worry about
+> > >    races between actually sleeping and the "we think we're sleeping"
+> > >    state. It may lead to an extra wakeup but that's better than missing
+> > >    it entirely.
+> > Okay, I'll add something like that to the next version of the patch I send out.
+> 
+> 
+> If this is the only change, I've already added it for v4. If you want me to
+> change it further, just let me know what to replace the patch description
+> with.
+> 
+> 
 
-We are going to make bdrv_check_byte_request() a clean thing.
-bdrv_is_inserted() is not about checking the request, it's about
-checking the bs. So, it should be separate.
+Thanks, Alex.
 
-With this patch we probably change error path for some failure
-scenarios. But depending on the fact that querying too big request on
-empty cdrom (or corrupted qcow2 node with no drv) will result in EIO
-and not ENOMEDIUM would be very strange. More over, we are going to
-move to 64bit requests, so larger requests will be allowed anyway.
+I'm fine with the description and all set.
 
-More over, keeping in mind that cdrom is the only driver that has
-.bdrv_is_inserted() handler it's strange that we should care so much
-about it in generic block layer, intuitively we should just do read and
-write, and cdrom driver should return correct errors if it is not
-inserted. But it's a work for another series.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/io.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
-
-diff --git a/block/io.c b/block/io.c
-index 3e91074c9f..ef75a5abb4 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -884,17 +884,12 @@ static bool coroutine_fn bdrv_wait_serialising_requests(BdrvTrackedRequest *self
-     return waited;
- }
- 
--static int bdrv_check_byte_request(BlockDriverState *bs, int64_t offset,
--                                   size_t size)
-+static int bdrv_check_byte_request(int64_t offset, size_t size)
- {
-     if (size > BDRV_REQUEST_MAX_BYTES) {
-         return -EIO;
-     }
- 
--    if (!bdrv_is_inserted(bs)) {
--        return -ENOMEDIUM;
--    }
--
-     if (offset < 0) {
-         return -EIO;
-     }
-@@ -1642,7 +1637,11 @@ int coroutine_fn bdrv_co_preadv_part(BdrvChild *child,
- 
-     trace_bdrv_co_preadv(bs, offset, bytes, flags);
- 
--    ret = bdrv_check_byte_request(bs, offset, bytes);
-+    if (!bdrv_is_inserted(bs)) {
-+        return -ENOMEDIUM;
-+    }
-+
-+    ret = bdrv_check_byte_request(offset, bytes);
-     if (ret < 0) {
-         return ret;
-     }
-@@ -2054,11 +2053,11 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
- 
-     trace_bdrv_co_pwritev(child->bs, offset, bytes, flags);
- 
--    if (!bs->drv) {
-+    if (!bdrv_is_inserted(bs)) {
-         return -ENOMEDIUM;
-     }
- 
--    ret = bdrv_check_byte_request(bs, offset, bytes);
-+    ret = bdrv_check_byte_request(offset, bytes);
-     if (ret < 0) {
-         return ret;
-     }
-@@ -3045,10 +3044,10 @@ static int coroutine_fn bdrv_co_copy_range_internal(
-     assert(!(read_flags & BDRV_REQ_NO_FALLBACK));
-     assert(!(write_flags & BDRV_REQ_NO_FALLBACK));
- 
--    if (!dst || !dst->bs) {
-+    if (!dst || !dst->bs || !bdrv_is_inserted(dst->bs)) {
-         return -ENOMEDIUM;
-     }
--    ret = bdrv_check_byte_request(dst->bs, dst_offset, bytes);
-+    ret = bdrv_check_byte_request(dst_offset, bytes);
-     if (ret) {
-         return ret;
-     }
-@@ -3056,10 +3055,10 @@ static int coroutine_fn bdrv_co_copy_range_internal(
-         return bdrv_co_pwrite_zeroes(dst, dst_offset, bytes, write_flags);
-     }
- 
--    if (!src || !src->bs) {
-+    if (!src || !src->bs || !bdrv_is_inserted(src->bs)) {
-         return -ENOMEDIUM;
-     }
--    ret = bdrv_check_byte_request(src->bs, src_offset, bytes);
-+    ret = bdrv_check_byte_request(src_offset, bytes);
-     if (ret) {
-         return ret;
-     }
--- 
-2.21.3
-
+-Roman
 
