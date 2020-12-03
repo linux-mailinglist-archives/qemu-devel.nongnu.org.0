@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63902CDCC1
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:53:56 +0100 (CET)
-Received: from localhost ([::1]:48756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38732CDCE5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:59:30 +0100 (CET)
+Received: from localhost ([::1]:51406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kksnj-0002Mn-FJ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:53:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34336)
+	id 1kkst7-0003yZ-Nc
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:59:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kksmH-0001pG-8j
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:52:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35373)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kksmE-00056y-3L
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:52:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607017940;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kr1tDwTjeY3+fe7oHraTzZSs5FYXDh5SKaP1RZZB5FQ=;
- b=eXuO+ignjJ7Oqd+56JUr7t3hlm2Qw6Op6Ae/YMB2lMLlCQ7F7xpuksZgJbbBqvxQBku90j
- 3hHNvK7qlq/Qd8ZLayqybP4btjbQnNhZf1wZMXUzbAOxdbiAAseVQnEmz/kHzkF7nThA3z
- ZGDoa3QkbjNUX9HjekGo7CMptztntNk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-RhUQnKgpNpCEDmMVky7ndQ-1; Thu, 03 Dec 2020 12:52:19 -0500
-X-MC-Unique: RhUQnKgpNpCEDmMVky7ndQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 201D71005504;
- Thu,  3 Dec 2020 17:52:18 +0000 (UTC)
-Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC44A60854;
- Thu,  3 Dec 2020 17:52:06 +0000 (UTC)
-Date: Thu, 3 Dec 2020 12:52:05 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
-Message-ID: <20201203175205.GL3836@habkost.net>
-References: <17afbbfe-209f-e4b2-e9e1-b50abe1fce3c@redhat.com>
- <20201202125124.GD3836@habkost.net>
- <69dff34f-d87b-3a8d-640f-35f6bf5db75c@redhat.com>
- <20201202135451.GE3836@habkost.net>
- <20201202151713.GE16765@merkur.fritz.box>
- <20201202160554.GG3836@habkost.net>
- <20201202173506.GH16765@merkur.fritz.box>
- <54637ad5-0662-24ea-d738-1d53e054a103@redhat.com>
- <20201203151532.GA5409@merkur.fritz.box>
- <27f30494-225c-4407-ee1c-1a996b83c8b1@redhat.com>
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1kksr5-0003PG-My
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:57:23 -0500
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:46444)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexander.duyck@gmail.com>)
+ id 1kksr3-0006xU-W7
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:57:23 -0500
+Received: by mail-io1-xd42.google.com with SMTP id 81so2931611ioc.13
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 09:57:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Iwy1nxkNzsDK41E799mE0jnVk8uV5OT9jOHPDUmDqGM=;
+ b=XoGEqufjqR3vkKZT6ohzTPHbYmQAEVrHwYWzKYVvuLrOnSG8qoPYZPMXRb/ZTV3+iM
+ RFurA0Ji6TS47Z0GDIxGe5VtthNe510Edv7GZzMEej0XHD2l787mHzOkNms2m3qDcJMr
+ zncZ3s4rmSlNTQqL1ZYTKd44SsHsjZfxo1H7x9Mf972v2F71ymXgMCjyhBZ5MAgCiZX4
+ vF575s198IrH3oNRbIzmPIJqFivvO0Wnai2nACci34alJDGINGpU2o6cPiDkjBVGGkge
+ t265fNI59yiryjJPNblz2LL95xlBbemJVqMeq+r0fdumnZI01qV7spshjQPGhwyJTbRI
+ IrIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Iwy1nxkNzsDK41E799mE0jnVk8uV5OT9jOHPDUmDqGM=;
+ b=csw3K1buSmIKyiCxZ32MNz1U2ZpDMmLwTbZj9jUQw1MhdvdlTtttDJ+i0niDzSnKYg
+ ZXEx6K0sY7CXQUgyEEN6NpjV0SfYHo+FsGyBvp5AKmKlKFepinJlZ9ESCgF62cpzhFJR
+ 9Az/we7qyA0ZtITH5QCGTypNNkjjY4ZzKJN13YNyQ2+TKFb2/ugEHkaRhCGOOlLQMX9I
+ jPdIo2FHO8PQEArGfbpJ0tPb/gfEwswxt4Ydx4qoco2AXr9jDJoSd2c/pNVDz6St6jVJ
+ 3eYVNwKyXiyGoBxdsoL+7dnxMp0LgmqJ7NC4GwL5a3JtPycs37ni+aQjp194+D1fCEvz
+ QsSw==
+X-Gm-Message-State: AOAM533PQkfKfbCxA8V106bSFOcVoDvNh3FA9kvL7IJOY/wBtTborz4o
+ WdgeziXZCm2HMUUmxeFt3YZo0w4Y/O/VTjW24kU=
+X-Google-Smtp-Source: ABdhPJwaPzSY4DqfjK75ViVJg/XJ88Har94J8tA+MecYJ1lx7QosnvxbdvszOgZKPN9eBNSFUvegAOpgiaZ4u9JdKhE=
+X-Received: by 2002:a05:6602:152:: with SMTP id
+ v18mr361343iot.187.1607018240352; 
+ Thu, 03 Dec 2020 09:57:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <27f30494-225c-4407-ee1c-1a996b83c8b1@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20201203133236.222207-1-andrew@daynix.com>
+In-Reply-To: <20201203133236.222207-1-andrew@daynix.com>
+From: Alexander Duyck <alexander.duyck@gmail.com>
+Date: Thu, 3 Dec 2020 09:57:09 -0800
+Message-ID: <CAKgT0UeoKDcDeMMG7KGMSKXP26txrwNuc73HKFPa57y=Vuo-kg@mail.gmail.com>
+Subject: Re: [PATCH v2] e1000e: Added ICR clearing by corresponding IMS bit.
+To: Andrew Melnychenko <andrew@daynix.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alexander.duyck@gmail.com; helo=mail-io1-xd42.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,46 +77,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, lvivier@redhat.com, thuth@redhat.com,
- pkrempa@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
+Cc: intel-wired-lan <intel-wired-lan@lists.osuosl.org>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 03, 2020 at 05:50:46PM +0100, Paolo Bonzini wrote:
-> On 03/12/20 16:15, Kevin Wolf wrote:
-> > I don't think this is an intermediate state like Eduardo wants to have.
-> > Creating the object, then setting properties, then realize [1] will fail
-> > after your change. But keeping it working was the whole point of the
-> > exercise.
-> 
-> With the sample code, you must remove object_class_property_set calls at the
+On Thu, Dec 3, 2020 at 5:00 AM Andrew Melnychenko <andrew@daynix.com> wrote:
+>
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
 
-Do you mean object_property_set()?
+So the bugzilla seems to be reporting that the NIC operstate is being
+misreported when qemu has configured the link down. Based on the
+description it isn't clear to me how this patch addresses that. Some
+documentation on how you reproduced the issue, and what was seen
+before and after this patch would be useful.
 
-> same time as you remove the setters.  Usually that'd be when you convert to
-> QAPI and oc->configure, but it doesn't have to be that way if there are good
-> reasons not to do so.
+> Added ICR clearing if there is IMS bit - according to the note by
 
-Having two (or more) similar but incompatible APIs to do exactly
-the same thing is a mistake we did before, and I wouldn't like us
-to repeat it.
+Should probably be "Add" instead of "Added". Same for the title of the patch.
 
-If we can keep qdev_new() + object_property_set() + realize
-working after the device is converted, we should.  I believe we
-can.
+> section 13.3.27 of the 8257X developers manual.
+>
+> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> ---
+>  hw/net/e1000e_core.c | 10 ++++++++++
+>  hw/net/trace-events  |  1 +
+>  2 files changed, 11 insertions(+)
+>
+> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> index 095c01ebc6..9705f5c52e 100644
+> --- a/hw/net/e1000e_core.c
+> +++ b/hw/net/e1000e_core.c
+> @@ -2624,6 +2624,16 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
+>          e1000e_clear_ims_bits(core, core->mac[IAM]);
+>      }
+>
+> +    /*
+> +     * PCIe* GbE Controllers Open Source Software Developer's Manual
+> +     * 13.3.27 Interrupt Cause Read Register
+> +     */
+> +    if ((core->mac[ICR] & E1000_ICR_ASSERTED) &&
+> +        (core->mac[ICR] & core->mac[IMS])) {
+> +        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR], core->mac[IMS]);
+> +        core->mac[ICR] = 0;
+> +    }
+> +
+>      trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
+>      e1000e_update_interrupt_state(core);
+>      return ret;
 
-If we can make object_new_configure() work with all (or most)
-device types before we manually convert them to the new system,
-we should.  I believe we can.
+Changes like this have historically been problematic. I am curious
+what testing had been done on this and with what drivers? Keep in mind
+that we have to support several flavors of BSD, Windows, and Linux
+with this.
 
-We may be able avoid these questions with -object because
-converting all backends at the same time is doable.  With
-devices, API usability and maintainability during the transition
-period (which could be very long) needs to be taken into account.
-
--- 
-Eduardo
-
+> diff --git a/hw/net/trace-events b/hw/net/trace-events
+> index 5db45456d9..2c3521a19c 100644
+> --- a/hw/net/trace-events
+> +++ b/hw/net/trace-events
+> @@ -237,6 +237,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
+>  e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
+>  e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
+>  e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
+> +e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
+>  e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
+>  e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
+>  e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to IMC write 0x%x"
+> --
+> 2.29.2
+>
 
