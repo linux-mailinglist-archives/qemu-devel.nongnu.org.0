@@ -2,70 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40882CD44A
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:08:22 +0100 (CET)
-Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE732CD452
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:10:48 +0100 (CET)
+Received: from localhost ([::1]:38450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmTF-0002mu-Up
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:08:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47024)
+	id 1kkmVb-0006Ax-Qg
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:10:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmGF-0003wH-3l
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:54:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32892)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmGA-00025z-Pa
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:54:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606992890;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HsAkdQedvNyjeOcNIHo1UFp8zKNKfkUJO6xO4TDi/Zg=;
- b=VNEDeOEyAMH+EdzQ9dwZcBzFTe1vusIAx76pRtfU5NQzhw8n3BxDl0hv2sEfsiMap0XIWl
- DhqXefx5/m2cNIPh41pC8NGdcAsBnNb2fvwOIXNjptWbyPrkdHHVPqcw8X6rmK9P6M16Pm
- 16Tqi+rzVO6IkWMmDWlnzw/cEX7SQqQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-7xaSkx_5M_2Ip8I3JWj4UA-1; Thu, 03 Dec 2020 05:54:48 -0500
-X-MC-Unique: 7xaSkx_5M_2Ip8I3JWj4UA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC90E1006C8D;
- Thu,  3 Dec 2020 10:54:46 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
- [10.36.112.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D86365D6BA;
- Thu,  3 Dec 2020 10:54:35 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C97C99DA2; Thu,  3 Dec 2020 11:54:23 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/12] tests/acpi: disallow updates for expected data files
-Date: Thu,  3 Dec 2020 11:54:23 +0100
-Message-Id: <20201203105423.10431-13-kraxel@redhat.com>
-In-Reply-To: <20201203105423.10431-1-kraxel@redhat.com>
-References: <20201203105423.10431-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1kkmGg-00050A-H1; Thu, 03 Dec 2020 05:55:22 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:47114
+ helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1kkmGe-0002HG-A1; Thu, 03 Dec 2020 05:55:22 -0500
+Received: from Alexanders-Mac-mini.local
+ (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
+ by csgraf.de (Postfix) with UTF8SMTPSA id AD38339000E4;
+ Thu,  3 Dec 2020 11:55:17 +0100 (CET)
+Subject: Re: [PATCH v3 05/10] hvf: arm: Mark CPU as dirty on reset
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+References: <20201202190408.2041-1-agraf@csgraf.de>
+ <20201202190408.2041-6-agraf@csgraf.de>
+ <20201203015218.GA82480@SPB-NB-133.local>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <55e5dac5-6508-da7f-3f29-05ee225b13da@csgraf.de>
+Date: Thu, 3 Dec 2020 11:55:17 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
+ Gecko/20100101 Thunderbird/84.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20201203015218.GA82480@SPB-NB-133.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,28 +55,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 191ac230b013..dfb8523c8bf4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,3 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/microvm/APIC.ioapic2",
--"tests/data/acpi/microvm/DSDT.ioapic2",
--- 
-2.27.0
+On 03.12.20 02:52, Roman Bolshakov wrote:
+> On Wed, Dec 02, 2020 at 08:04:03PM +0100, Alexander Graf wrote:
+>> When clearing internal state of a CPU, we should also make sure that HVF
+>> knows about it and can push the new values down to vcpu state.
+>>
+> I'm sorry if I'm asking something dumb. But isn't
+> cpu_synchronize_all_post_reset() is supposed to push QEMU state into HVF
+> (or any other accel) after reset?
+>
+> For x86 it used to work:
+>
+>    static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu,
+>                                                  run_on_cpu_data arg)
+>    {
+>        hvf_put_registers(cpu);                                                                                                                                                                cpu->vcpu_dirty = false;
+>    }
+
+
+Yes, it works because after the reset is done, there is no other 
+register modification happening. With the PSCI emulation code in QEMU, 
+we still do modify CPU state after reset though.
+
+Different question though: Why do we need the post_reset() call at all 
+here to push state? We would just push it on the next run anyways, 
+right? So if we don't set vcpu_dirty to false then, we wouldn't need 
+this patch here I think.
+
+
+Alex
 
 
