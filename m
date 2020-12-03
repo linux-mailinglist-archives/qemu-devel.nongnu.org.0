@@ -2,46 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE732CD452
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:10:48 +0100 (CET)
-Received: from localhost ([::1]:38450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6219B2CD45C
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:13:21 +0100 (CET)
+Received: from localhost ([::1]:46464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmVb-0006Ax-Qg
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:10:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47234)
+	id 1kkmY4-0001E1-FW
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:13:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kkmGg-00050A-H1; Thu, 03 Dec 2020 05:55:22 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:47114
- helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1kkmGe-0002HG-A1; Thu, 03 Dec 2020 05:55:22 -0500
-Received: from Alexanders-Mac-mini.local
- (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with UTF8SMTPSA id AD38339000E4;
- Thu,  3 Dec 2020 11:55:17 +0100 (CET)
-Subject: Re: [PATCH v3 05/10] hvf: arm: Mark CPU as dirty on reset
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-References: <20201202190408.2041-1-agraf@csgraf.de>
- <20201202190408.2041-6-agraf@csgraf.de>
- <20201203015218.GA82480@SPB-NB-133.local>
-From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <55e5dac5-6508-da7f-3f29-05ee225b13da@csgraf.de>
-Date: Thu, 3 Dec 2020 11:55:17 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
- Gecko/20100101 Thunderbird/84.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkmKI-0001G1-6R
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:59:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47152)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkmKE-0003US-4E
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:59:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606993140;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EysyiiScW/Fxyfgpmth1iDPP71CE0n32Ce1lMZGSun0=;
+ b=QUYAl767+xTV/8ulPyJYWBbcLwwPT38TAKQzLOCTEf8/VUcQs5FgDV8LbuZ8QcSukwSxRq
+ KHFmM1f47+xKHErZZXdaanmcTSV3HmR3YFx6plAKlTB6p62QFl3QyO+A9AFhBwc3xUdzgi
+ u43+VJaife0xwekb5dNRYRZEVq4VnSw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-MOFfwJzUO9iXl4wkqRHTOQ-1; Thu, 03 Dec 2020 05:58:57 -0500
+X-MC-Unique: MOFfwJzUO9iXl4wkqRHTOQ-1
+Received: by mail-wm1-f69.google.com with SMTP id r5so1379763wma.2
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 02:58:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=EysyiiScW/Fxyfgpmth1iDPP71CE0n32Ce1lMZGSun0=;
+ b=WSNf2tJxKNHP/Ro1eRJVZhxojcpROOYDT8aj6Nm2WO8kpbdZv2PdO8FYCGFtIxrnr6
+ 8knsBNrsrOZ2tWHEguWyuwk3/zDeoF129XiCTjaEZohZACt1q05qFV/lS7XBY/oDbU7Z
+ +wWDaWSk3EhFOACPSQSSA+OSg1DfeRSkgue6x5/NYVJBo16sNK0mXzKhHX7atc9+3JdN
+ oxCVODtOFgICKr/CLZKWHetBGd10c5Foqy+GoK5kMongYFF1cwo4+M4H0egSaSO8pFi+
+ /S4qGsJYrwdzCZGPDoDTppVfDO2Jmo+ic5codBeanCDEZuWD2MzgoLakdirlJ45f816/
+ GVzQ==
+X-Gm-Message-State: AOAM533rfZHbs3e6uCgc6fZuKhzBJEk2iiaw/ZCAZY4QJWN13qwKHNrY
+ CtbkUfk6fLJIxXnPYUfcLolaWXXCa7MfO7sWAfTAYzriIn6MCCEzVcaPFnRPOROFBZztgsMWg/E
+ /g0Thu+e8n2DSJCA=
+X-Received: by 2002:a5d:66c3:: with SMTP id k3mr3029480wrw.123.1606993136540; 
+ Thu, 03 Dec 2020 02:58:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzkx3aRdbUPAh/0MYvIhiYv4BsrVDaeTjLYJlMxXu8hBm3YUtw/IhF+L4ba/u1KOs5zTqNzxg==
+X-Received: by 2002:a5d:66c3:: with SMTP id k3mr3029465wrw.123.1606993136367; 
+ Thu, 03 Dec 2020 02:58:56 -0800 (PST)
+Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
+ by smtp.gmail.com with ESMTPSA id b200sm1055526wmb.10.2020.12.03.02.58.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Dec 2020 02:58:55 -0800 (PST)
+Date: Thu, 3 Dec 2020 05:58:53 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/6] pc,vhost: fixes
+Message-ID: <20201203054505-mutt-send-email-mst@kernel.org>
+References: <20201202101655.122214-1-mst@redhat.com>
+ <CAFEAcA8N1Qh0gUX8oTTPOEuq_+DRzJ+9V1RqKzVhXN+4aoBZGw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201203015218.GA82480@SPB-NB-133.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+In-Reply-To: <CAFEAcA8N1Qh0gUX8oTTPOEuq_+DRzJ+9V1RqKzVhXN+4aoBZGw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,44 +91,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Dec 03, 2020 at 10:20:03AM +0000, Peter Maydell wrote:
+> On Wed, 2 Dec 2020 at 11:03, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > Patch 5 gave me pause but we do need patch 6 as
+> > it's a guest triggerable assert, and it seemed
+> > cleaner to just take the whole patchset than cherry-pick.
+> 
+> Is this only "fixes a guest triggerable assert"?
 
-On 03.12.20 02:52, Roman Bolshakov wrote:
-> On Wed, Dec 02, 2020 at 08:04:03PM +0100, Alexander Graf wrote:
->> When clearing internal state of a CPU, we should also make sure that HVF
->> knows about it and can push the new values down to vcpu state.
->>
-> I'm sorry if I'm asking something dumb. But isn't
-> cpu_synchronize_all_post_reset() is supposed to push QEMU state into HVF
-> (or any other accel) after reset?
->
-> For x86 it used to work:
->
->    static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu,
->                                                  run_on_cpu_data arg)
->    {
->        hvf_put_registers(cpu);                                                                                                                                                                cpu->vcpu_dirty = false;
->    }
+My understanding is that without the patches a rhel7 guest triggers
+the assert if started with vtd enabled and virtio-net with
+iommu_platform=on.
+
+https://bugs.launchpad.net/qemu/+bug/1885175
 
 
-Yes, it works because after the reset is done, there is no other 
-register modification happening. With the PSCI emulation code in QEMU, 
-we still do modify CPU state after reset though.
+> If so, that's
+> not sufficiently important to require an rc5 at this point.
+> 
+> thanks
+> -- PMM
 
-Different question though: Why do we need the post_reset() call at all 
-here to push state? We would just push it on the next run anyways, 
-right? So if we don't set vcpu_dirty to false then, we wouldn't need 
-this patch here I think.
+For sure most people don't use vtd ...
 
-
-Alex
+-- 
+MST
 
 
