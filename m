@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC942CDC55
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:27:24 +0100 (CET)
-Received: from localhost ([::1]:38400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2AA72CDC51
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:26:21 +0100 (CET)
+Received: from localhost ([::1]:37336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kksO0-00011o-3Q
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:27:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53352)
+	id 1kksN2-0000Vv-TL
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:26:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kksDL-00088W-N5
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:16:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21749)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kksKH-0006gb-Dl
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:23:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kksDA-0001Ku-UT
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:16:16 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kksKF-0003Rc-Kb
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:23:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607015768;
+ s=mimecast20190719; t=1607016206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qQ12plZNbjdrqzCYsNpSa/yzgLRJWhC6MUBt7ifldOY=;
- b=dK6hay+OHvxqBVjCL178oM4L6YlfEXA2nECzOS16/c2tYrI/D/p7PvrrNYt7kKYyRUTmRH
- rr4ZiHjUVu/goKH/vrZkrv/wM6lZkpH4++5tCnwXlLIj8udoHsZc1Bo2cveeJUnDlvxPTd
- 12esGULmoYer1aAxAWhQ/jeWG6+SXNQ=
+ bh=3WFvJcaC3EqpqiHgXJzqCNHaLxRITJyMEzdiPt+ayJw=;
+ b=IzvIu4ArGtyglOryTFcC6fTx+Olj1cjHX/hoR3yTaAjJK6PN/vNcjCHvxM+gyAuZ9gihVn
+ ZTrJh2EJwoHwE8aDm1w+lfabcGHU30h8Nw3ghM6360c7HIqUtxgHJ7QAzqrtDKI0YKe8Us
+ mhu43zgcIHPtQi/BNNfdSP7H2l5lw98=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-KX64d0q7N-GyIsvSrvdwkA-1; Thu, 03 Dec 2020 12:16:03 -0500
-X-MC-Unique: KX64d0q7N-GyIsvSrvdwkA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-506-rK4mZqEtMymmVulttgb-7A-1; Thu, 03 Dec 2020 12:23:24 -0500
+X-MC-Unique: rK4mZqEtMymmVulttgb-7A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7785C107ACE4;
- Thu,  3 Dec 2020 17:16:02 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.35.206.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 12CBF5D6AC;
- Thu,  3 Dec 2020 17:15:58 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] Implement support for precise TSC migration
-Date: Thu,  3 Dec 2020 19:15:46 +0200
-Message-Id: <20201203171546.372686-3-mlevitsk@redhat.com>
-In-Reply-To: <20201203171546.372686-1-mlevitsk@redhat.com>
-References: <20201203171546.372686-1-mlevitsk@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD3BBAFA82;
+ Thu,  3 Dec 2020 17:23:23 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-175.ams2.redhat.com [10.36.114.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D3B163BA7;
+ Thu,  3 Dec 2020 17:23:22 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 1/3] block: Simplify qmp_block_resize() error paths
+Date: Thu,  3 Dec 2020 18:23:09 +0100
+Message-Id: <20201203172311.68232-2-kwolf@redhat.com>
+In-Reply-To: <20201203172311.68232-1-kwolf@redhat.com>
+References: <20201203172311.68232-1-kwolf@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,367 +76,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Maxim Levitsky <mlevitsk@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ stefanha@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To enable it, you need to set -accel kvm,x-precise-tsc=on,
-and have a kernel that supports this feature.
+The only thing that happens after the 'out:' label is blk_unref(blk).
+However, blk = NULL in all of the error cases, so instead of jumping to
+'out:', we can just return directly.
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- accel/kvm/kvm-all.c   |  28 +++++++++
- include/sysemu/kvm.h  |   1 +
- target/i386/cpu.h     |   1 +
- target/i386/kvm.c     | 140 +++++++++++++++++++++++++++++++++---------
- target/i386/machine.c |  19 ++++++
- 5 files changed, 161 insertions(+), 28 deletions(-)
+ blockdev.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index baaa54249d..3829f2e7a3 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -104,6 +104,8 @@ struct KVMState
-     OnOffAuto kernel_irqchip_split;
-     bool sync_mmu;
-     uint64_t manual_dirty_log_protect;
-+    /* Use KVM_GET_TSC_PRECISE/KVM_SET_TSC_PRECISE to access IA32_TSC */
-+    bool precise_tsc;
-     /* The man page (and posix) say ioctl numbers are signed int, but
-      * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
-      * unsigned, and treating them as signed here can break things */
-@@ -3194,6 +3196,24 @@ bool kvm_kernel_irqchip_split(void)
-     return kvm_state->kernel_irqchip_split == ON_OFF_AUTO_ON;
- }
+diff --git a/blockdev.c b/blockdev.c
+index fe6fb5dc1d..229d2cce1b 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2468,17 +2468,17 @@ void coroutine_fn qmp_block_resize(bool has_device, const char *device,
  
-+bool kvm_has_precise_tsc(void)
-+{
-+    return kvm_state && kvm_state->precise_tsc;
-+}
-+
-+static void kvm_set_precise_tsc(Object *obj,
-+                                bool value, Error **errp G_GNUC_UNUSED)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    s->precise_tsc = value;
-+}
-+
-+static bool kvm_get_precise_tsc(Object *obj, Error **errp G_GNUC_UNUSED)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    return s->precise_tsc;
-+}
-+
- static void kvm_accel_instance_init(Object *obj)
- {
-     KVMState *s = KVM_STATE(obj);
-@@ -3222,6 +3242,14 @@ static void kvm_accel_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, "kvm-shadow-mem",
-         "KVM shadow MMU size");
-+
-+    object_class_property_add_bool(oc, "x-precise-tsc",
-+                                   kvm_get_precise_tsc,
-+                                   kvm_set_precise_tsc);
-+
-+    object_class_property_set_description(oc, "x-precise-tsc",
-+                                          "Use precise tsc kvm API");
-+
- }
- 
- static const TypeInfo kvm_accel_type = {
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index bb5d5cf497..14eff2b1c9 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -519,6 +519,7 @@ void kvm_init_irq_routing(KVMState *s);
- bool kvm_kernel_irqchip_allowed(void);
- bool kvm_kernel_irqchip_required(void);
- bool kvm_kernel_irqchip_split(void);
-+bool kvm_has_precise_tsc(void);
- 
- /**
-  * kvm_arch_irqchip_create:
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 88e8586f8f..d2230d9735 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1460,6 +1460,7 @@ typedef struct CPUX86State {
-     uint64_t tsc_adjust;
-     uint64_t tsc_deadline;
-     uint64_t tsc_aux;
-+    uint64_t tsc_ns_timestamp;
- 
-     uint64_t xcr0;
- 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index a2934dda02..4adb7d6246 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -121,7 +121,6 @@ static int has_xsave;
- static int has_xcrs;
- static int has_pit_state2;
- static int has_exception_payload;
--
- static bool has_msr_mcg_ext_ctl;
- 
- static struct kvm_cpuid2 *cpuid_cache;
-@@ -196,31 +195,112 @@ static int kvm_get_tsc(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
--    struct {
--        struct kvm_msrs info;
--        struct kvm_msr_entry entries[1];
--    } msr_data = {};
-     int ret;
- 
-     if (env->tsc_valid) {
-         return 0;
+     if (size < 0) {
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "size", "a >0 size");
+-        goto out;
++        return;
      }
  
--    memset(&msr_data, 0, sizeof(msr_data));
--    msr_data.info.nmsrs = 1;
--    msr_data.entries[0].index = MSR_IA32_TSC;
--    env->tsc_valid = !runstate_is_running();
-+    if (kvm_has_precise_tsc()) {
-+        struct kvm_tsc_state tsc_state;
- 
--    ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, &msr_data);
--    if (ret < 0) {
--        return ret;
-+        ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_TSC_STATE, &tsc_state);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        env->tsc = tsc_state.tsc;
-+
-+        if (tsc_state.flags & KVM_TSC_STATE_TIMESTAMP_VALID) {
-+            env->tsc_ns_timestamp = tsc_state.nsec;
-+        }
-+
-+        if (tsc_state.flags & KVM_TSC_STATE_TSC_ADJUST_VALID) {
-+            env->tsc_adjust = tsc_state.tsc_adjust;
-+        }
-+
-+    } else {
-+        struct {
-+            struct kvm_msrs info;
-+            struct kvm_msr_entry entries[2];
-+        } msr_data = {
-+            .info.nmsrs = 1,
-+            .entries[0].index = MSR_IA32_TSC,
-+        };
-+
-+        if (has_msr_tsc_adjust) {
-+            msr_data.info.nmsrs++;
-+            msr_data.entries[1].index = MSR_TSC_ADJUST;
-+        }
-+
-+        ret = kvm_vcpu_ioctl(CPU(cpu), KVM_GET_MSRS, &msr_data);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        assert(ret == msr_data.info.nmsrs);
-+        env->tsc = msr_data.entries[0].data;
-+        if (has_msr_tsc_adjust) {
-+            env->tsc_adjust = msr_data.entries[1].data;
-+        }
+     if (bdrv_op_is_blocked(bs, BLOCK_OP_TYPE_RESIZE, NULL)) {
+         error_setg(errp, QERR_DEVICE_IN_USE, device);
+-        goto out;
++        return;
      }
  
--    assert(ret == 1);
--    env->tsc = msr_data.entries[0].data;
-+    env->tsc_valid = !runstate_is_running();
-     return 0;
- }
- 
-+static int kvm_set_tsc(CPUState *cs)
-+{
-+    int ret;
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    if (kvm_has_precise_tsc()) {
-+        struct kvm_tsc_state tsc_state = {
-+                .tsc = env->tsc,
-+        };
-+
-+        if (env->tsc_ns_timestamp) {
-+            tsc_state.nsec = env->tsc_ns_timestamp;
-+            tsc_state.flags |= KVM_TSC_STATE_TIMESTAMP_VALID;
-+        }
-+
-+        if (has_msr_tsc_adjust) {
-+            tsc_state.tsc_adjust = env->tsc_adjust;
-+            tsc_state.flags |= KVM_TSC_STATE_TSC_ADJUST_VALID;
-+        }
-+
-+        ret = kvm_vcpu_ioctl(CPU(cpu), KVM_SET_TSC_STATE, &tsc_state);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+    } else {
-+        struct {
-+            struct kvm_msrs info;
-+            struct kvm_msr_entry entries[2];
-+        } msr_data = {
-+            .info.nmsrs = 1,
-+            .entries[0].index = MSR_IA32_TSC,
-+            .entries[0].data = env->tsc,
-+        };
-+
-+        if (has_msr_tsc_adjust) {
-+            msr_data.info.nmsrs++;
-+            msr_data.entries[1].index = MSR_TSC_ADJUST;
-+            msr_data.entries[1].data = env->tsc_adjust;
-+        }
-+
-+        ret = kvm_vcpu_ioctl(CPU(cpu), KVM_SET_MSRS, &msr_data);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        assert(ret == msr_data.info.nmsrs);
-+    }
-+    return ret;
-+}
-+
- static inline void do_kvm_synchronize_tsc(CPUState *cpu, run_on_cpu_data arg)
- {
-     kvm_get_tsc(cpu);
-@@ -1780,6 +1860,13 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         }
+     blk = blk_new_with_bs(bs, BLK_PERM_RESIZE, BLK_PERM_ALL, errp);
+     if (!blk) {
+-        goto out;
++        return;
      }
  
-+    if (kvm_has_precise_tsc()) {
-+        if (!kvm_check_extension(cs->kvm_state, KVM_CAP_PRECISE_TSC)) {
-+            error_report("kvm: Precise TSC is not supported by the host's KVM");
-+            return -ENOTSUP;
-+        }
-+    }
-+
-     if (cpu->vmware_cpuid_freq
-         /* Guests depend on 0x40000000 to detect this feature, so only expose
-          * it if KVM exposes leaf 0x40000000. (Conflicts with Hyper-V) */
-@@ -2756,9 +2843,6 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-     if (has_msr_tsc_aux) {
-         kvm_msr_entry_add(cpu, MSR_TSC_AUX, env->tsc_aux);
-     }
--    if (has_msr_tsc_adjust) {
--        kvm_msr_entry_add(cpu, MSR_TSC_ADJUST, env->tsc_adjust);
--    }
-     if (has_msr_misc_enable) {
-         kvm_msr_entry_add(cpu, MSR_IA32_MISC_ENABLE,
-                           env->msr_ia32_misc_enable);
-@@ -2802,7 +2886,6 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-      * for normal writeback. Limit them to reset or full state updates.
-      */
-     if (level >= KVM_PUT_RESET_STATE) {
--        kvm_msr_entry_add(cpu, MSR_IA32_TSC, env->tsc);
-         kvm_msr_entry_add(cpu, MSR_KVM_SYSTEM_TIME, env->system_time_msr);
-         kvm_msr_entry_add(cpu, MSR_KVM_WALL_CLOCK, env->wall_clock_msr);
-         if (env->features[FEAT_KVM] & (1 << KVM_FEATURE_ASYNC_PF_INT)) {
-@@ -3142,9 +3225,6 @@ static int kvm_get_msrs(X86CPU *cpu)
-     if (has_msr_tsc_aux) {
-         kvm_msr_entry_add(cpu, MSR_TSC_AUX, 0);
-     }
--    if (has_msr_tsc_adjust) {
--        kvm_msr_entry_add(cpu, MSR_TSC_ADJUST, 0);
--    }
-     if (has_msr_tsc_deadline) {
-         kvm_msr_entry_add(cpu, MSR_IA32_TSCDEADLINE, 0);
-     }
-@@ -3178,10 +3258,6 @@ static int kvm_get_msrs(X86CPU *cpu)
-     if (has_msr_virt_ssbd) {
-         kvm_msr_entry_add(cpu, MSR_VIRT_SSBD, 0);
-     }
--    if (!env->tsc_valid) {
--        kvm_msr_entry_add(cpu, MSR_IA32_TSC, 0);
--        env->tsc_valid = !runstate_is_running();
--    }
+     bdrv_drained_begin(bs);
+@@ -2487,7 +2487,6 @@ void coroutine_fn qmp_block_resize(bool has_device, const char *device,
+     bdrv_co_leave(bs, old_ctx);
+     bdrv_drained_end(bs);
  
- #ifdef TARGET_X86_64
-     if (lm_capable_kernel) {
-@@ -3385,9 +3461,6 @@ static int kvm_get_msrs(X86CPU *cpu)
-         case MSR_TSC_AUX:
-             env->tsc_aux = msrs[i].data;
-             break;
--        case MSR_TSC_ADJUST:
--            env->tsc_adjust = msrs[i].data;
--            break;
-         case MSR_IA32_TSCDEADLINE:
-             env->tsc_deadline = msrs[i].data;
-             break;
-@@ -3995,6 +4068,11 @@ int kvm_arch_put_registers(CPUState *cpu, int level)
-         if (ret < 0) {
-             return ret;
-         }
-+
-+        ret = kvm_set_tsc(cpu);
-+        if (ret < 0) {
-+            return ret;
-+        }
-     }
- 
-     ret = kvm_put_tscdeadline_msr(x86_cpu);
-@@ -4064,6 +4142,12 @@ int kvm_arch_get_registers(CPUState *cs)
-     if (ret < 0) {
-         goto out;
-     }
-+
-+    ret = kvm_get_tsc(cs);
-+    if (ret < 0) {
-+        goto out;
-+    }
-+
-     ret = 0;
-  out:
-     cpu_sync_bndcs_hflags(&cpu->env);
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 233e46bb70..59b1c9be2b 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -1359,6 +1359,24 @@ static const VMStateDescription vmstate_msr_tsx_ctrl = {
-     }
- };
- 
-+
-+static bool tsc_ns_timestamp_needed(void *opaque)
-+{
-+    return kvm_has_precise_tsc();
-+}
-+
-+static const VMStateDescription vmstate_tsc_ns_timestamp = {
-+    .name = "cpu/tsc_ns_timestamp",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = tsc_ns_timestamp_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.tsc_ns_timestamp, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+
- VMStateDescription vmstate_x86_cpu = {
-     .name = "cpu",
-     .version_id = 12,
-@@ -1493,6 +1511,7 @@ VMStateDescription vmstate_x86_cpu = {
- #endif
- #ifdef CONFIG_KVM
-         &vmstate_nested_state,
-+        &vmstate_tsc_ns_timestamp,
- #endif
-         &vmstate_msr_tsx_ctrl,
-         NULL
+-out:
+     bdrv_co_lock(bs);
+     blk_unref(blk);
+     bdrv_co_unlock(bs);
 -- 
-2.26.2
+2.28.0
 
 
