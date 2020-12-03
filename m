@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B8892CCF42
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 07:30:40 +0100 (CET)
-Received: from localhost ([::1]:53698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1431A2CCFC3
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 07:48:04 +0100 (CET)
+Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kki8U-0002RV-RK
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 01:30:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45188)
+	id 1kkiPK-0004o4-Nj
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 01:48:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kki7B-0001wN-CU
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 01:29:17 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:58528)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kki79-0001Xs-2D
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 01:29:17 -0500
-Received: from [192.168.0.92] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id A135140D3BFF;
- Thu,  3 Dec 2020 06:29:10 +0000 (UTC)
-Subject: Re: [PATCH] tests/acceptance: fix timeout for vm.wait
-To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <160552129733.22861.2033930860605615947.stgit@pasha-ThinkPad-X280>
- <CAP+75-W2ed_73xszEA08hqdnVRL9bGXshnGYqJGZvSjt4_D8bw@mail.gmail.com>
- <ce6360ce-d640-8a4a-96e8-294dd5f04f0b@redhat.com>
- <f9fe07b1-78e1-76ca-3c02-d6bf77d827d8@ispras.ru>
- <a2587552-4881-9495-e7c1-6a1934da760c@redhat.com>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <32d30a1d-51a5-b04e-19cb-e33e90b2d659@ispras.ru>
-Date: Thu, 3 Dec 2020 09:29:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkiO1-0004IN-Af
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 01:46:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38360)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkiNy-0007C0-Bn
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 01:46:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606977997;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=M58hhMZueVg3WBMGfU5HlrFXe5pTf8xNFzXOaiVsByw=;
+ b=ffJKnbHOpBaKVTe8/R0vkTPpzhIFyMJn/7a9PTLFJRqwR8bCMVgpL7HnBodIfgIwbHAPQe
+ 6j+bhfK3nNO0TK1quVyTbj8c+FEUxJA1Yqf+44W7LepHxXGM0jiaFdM89xtB3v67qJi+9D
+ 1oxtrdUM7qav+6wRfFqcIOOwaJk5FMs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-463-Gtb5x-0GNyisjjLgyW6NcQ-1; Thu, 03 Dec 2020 01:46:35 -0500
+X-MC-Unique: Gtb5x-0GNyisjjLgyW6NcQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88D228030D6;
+ Thu,  3 Dec 2020 06:46:34 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
+ [10.36.112.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A94655D6AC;
+ Thu,  3 Dec 2020 06:46:30 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id AB2EC11AB8; Thu,  3 Dec 2020 07:46:29 +0100 (CET)
+Date: Thu, 3 Dec 2020 07:46:29 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
+Message-ID: <20201203064629.qbhbzzizuyebdbgd@sirius.home.kraxel.org>
+References: <20201201193528.GC6264@merkur.fritz.box>
+ <3449b5d6-d094-84c8-a0ea-4cd25364db2d@redhat.com>
+ <20201201220854.GC3836@habkost.net>
+ <17afbbfe-209f-e4b2-e9e1-b50abe1fce3c@redhat.com>
+ <20201202125124.GD3836@habkost.net>
+ <69dff34f-d87b-3a8d-640f-35f6bf5db75c@redhat.com>
+ <20201202135451.GE3836@habkost.net>
+ <20201202151713.GE16765@merkur.fritz.box>
+ <20201202160554.GG3836@habkost.net>
+ <20201202173506.GH16765@merkur.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <a2587552-4881-9495-e7c1-6a1934da760c@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+In-Reply-To: <20201202173506.GH16765@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,61 +87,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa Junior <crosa@redhat.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
+ berrange@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, libvir-list@redhat.com, armbru@redhat.com,
+ jasowang@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.12.2020 18:22, John Snow wrote:
-> On 12/2/20 1:31 AM, Pavel Dovgalyuk wrote:
->>>>>
->>>>> This patch adds timeout parameter to vm.wait() calls, because the 
->>>>> default
->>>>> value is just 30 seconds, and tests may last for more time.
->>>>>
->>>
->>> This doesn't sound right -- the timeout isn't meant to be for the 
->>> entire duration of the test, the timeout is from the time of issuing 
->>> a shutdown command until the time the VM actually shuts down. 
->>> Ideally, that should not take a particularly long time in a 
->>> well-behaved test.
->>>
->>> Why is it lasting longer than 30 seconds?
->>
->> These are complex Linux boot&execution tests.
->> Such loading process could take more than 30 seconds.
->> E.g., BootLinux tests have timeout of 900 seconds.
-> 
-> This timeout should only count towards the time spent *shutting down*, 
-> not the time to run the entire test. 30 seconds used to be enough time 
-> for this to happen on gitlab, if it's taking longer than that I am 
-> worried that something has gone wrong.
-> 
-> Where were the failures observed, and on what tests? Are there logs I 
-> can review?
+  Hi,
 
-I've got your point. You were right.
-The problem was with new long-lasting record/replay tests:
+> It would be much nicer to do the wrapper the other way round, i.e.
+> setting properties before the device is realized would update a
+> configuration struct and realize would then call .create() with that
+> struct. To me, this sounds much harder, though also a more useful state.
 
-if record:
-     cloudinit.wait_for_phone_home(('0.0.0.0', self.phone_home_port),
-                                   self.name)
-     vm.shutdown()
-     logger.info('finished the recording with log size %s bytes'
-                 % os.path.getsize(replay_path))
-else:
-     vm.wait(None)
-     logger.info('successfully fihished the replay')
+Well, in some places we already have separate config structs.  We have
+NICConf for example, which is typically used like this:
 
+	struct USBNetState {
+	   USBDevice dev;
+	   [ ... ]
+	   NICConf conf;
+	   [ ... ]
+	};
 
-Replay phase here waits for shutdown for the whole period of Linux boot 
-and execution. We don't check any VM output and just wait for finishing
-the replay.
+and
 
-Smaller RR tests include "self.wait_for_console_pattern" during replay 
-and therefore can't have problems with this timeout.
+	static Property net_properties[] = {
+	    DEFINE_NIC_PROPERTIES(USBNetState, conf),
+	    DEFINE_PROP_END_OF_LIST(),
+	};
 
-Pavel Dovgalyuk
+So I think we could:
+
+  (1) move *all* properties into structs.
+  (2) generate those structs from qapi schemas.
+  (3) generate Property lists (or functions with
+      object_class_property_add_*() calls) from qapi
+      schema.
+
+We could then convert devices one-by-one without breaking anything
+or needing two code paths essentially doing the same thing in two
+different ways.
+
+take care,
+  Gerd
+
 
