@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BC72CCBE2
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 02:53:44 +0100 (CET)
-Received: from localhost ([::1]:57758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D1382CCCD3
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 03:50:23 +0100 (CET)
+Received: from localhost ([::1]:46698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkdoV-0006Di-4d
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 20:53:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39638)
+	id 1kkehK-00015f-P9
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 21:50:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kkdmw-0005fT-3N; Wed, 02 Dec 2020 20:52:06 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:36554 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kkee5-0007t6-LQ; Wed, 02 Dec 2020 21:47:03 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48697 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kkdmt-0007HR-JI; Wed, 02 Dec 2020 20:52:05 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 0E57141386;
- Thu,  3 Dec 2020 01:52:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1606960320;
- x=1608774721; bh=cA8kL0/Kz6I6dZEXpMSUbZOIuGtKSt+iZCngSO6+0rM=; b=
- Xb+l4A/GCD+Rsf7g/zsoBuLH653qLlgVYK6CpR6UPQBk7jlq24CER0eRwrNwyGK2
- msKQcbw3n5YHZ2fOU8kbrnVeNptAqNFvPotGL76OqrRw6CMtwFiT32RHugnOHMW5
- snQ/3/wKZXjUj8Z1xlCo41Jwq6O2lIqe9lyNNHRuVqg=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yAIig5KBlows; Thu,  3 Dec 2020 04:52:00 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 5106A41333;
- Thu,  3 Dec 2020 04:51:59 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 3 Dec
- 2020 04:51:58 +0300
-Date: Thu, 3 Dec 2020 04:52:18 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v3 05/10] hvf: arm: Mark CPU as dirty on reset
-Message-ID: <20201203015218.GA82480@SPB-NB-133.local>
-References: <20201202190408.2041-1-agraf@csgraf.de>
- <20201202190408.2041-6-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kkee0-0005tX-0H; Wed, 02 Dec 2020 21:47:00 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CmgGK1LgVz9sVH; Thu,  3 Dec 2020 13:46:49 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1606963609;
+ bh=L/nABbYVA8P1p5UYH4BmatzMW3S5fRg+QYzE7+tqPxE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=T2cOaSo72W2cq6NTGOnQ05SgG+5bsYEcEH9mx/N3VIqHzJf0YdAZn+wYkZf1ecGh7
+ iy7HDEl4CBWo8BvmKaxwvHfo14UYxu4IsoaIxot71epJ1dnPZ/0I5Pr85Wo9+Ny59r
+ pOF2onScOr3q/MLSWIn95R5neo98MZhuxaPw4Mmw=
+Date: Thu, 3 Dec 2020 13:31:27 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH for-6.0] hw/ppc: Do not re-read the clock on pre_save if
+ doing savevm
+Message-ID: <20201203023127.GD7801@yekko.fritz.box>
+References: <160693010619.1111945.632640981169395440.stgit@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FFoLq8A0u+X9iRU8"
 Content-Disposition: inline
-In-Reply-To: <20201202190408.2041-6-agraf@csgraf.de>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <160693010619.1111945.632640981169395440.stgit@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,73 +58,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 02, 2020 at 08:04:03PM +0100, Alexander Graf wrote:
-> When clearing internal state of a CPU, we should also make sure that HVF
-> knows about it and can push the new values down to vcpu state.
-> 
 
-I'm sorry if I'm asking something dumb. But isn't
-cpu_synchronize_all_post_reset() is supposed to push QEMU state into HVF
-(or any other accel) after reset?
+--FFoLq8A0u+X9iRU8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For x86 it used to work:
+On Wed, Dec 02, 2020 at 06:28:26PM +0100, Greg Kurz wrote:
+> A guest with enough RAM, eg. 128G, is likely to detect savevm downtime
+> and to complain about stalled CPUs. This happens because we re-read
+> the timebase just before migrating it and we thus don't account for
+> all the time between VM stop and pre-save.
+>=20
+> A very similar situation was already addressed for live migration of
+> paused guests (commit d14f33976282). Extend the logic to do the same
+> with savevm.
+>=20
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1893787
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-  static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu,
-                                                run_on_cpu_data arg)
-  {
-      hvf_put_registers(cpu);                                                                                                                                                                cpu->vcpu_dirty = false;
-  }
+Applied to ppc-for-6.0, thanks.
 
-Thanks,
-Roman
-
-> Make sure that with HVF enabled, we tell it that it should synchronize
-> CPU state on next entry after a reset.
-> 
-> This fixes PSCI handling, because now newly pushed state such as X0 and
-> PC on remote CPU enablement also get pushed into HVF.
-> 
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
 > ---
->  target/arm/arm-powerctl.c | 1 +
->  target/arm/cpu.c          | 2 ++
->  2 files changed, 3 insertions(+)
-> 
-> diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-> index b75f813b40..a49a5b32e6 100644
-> --- a/target/arm/arm-powerctl.c
-> +++ b/target/arm/arm-powerctl.c
-> @@ -15,6 +15,7 @@
->  #include "arm-powerctl.h"
->  #include "qemu/log.h"
->  #include "qemu/main-loop.h"
-> +#include "sysemu/hw_accel.h"
->  
->  #ifndef DEBUG_ARM_POWERCTL
->  #define DEBUG_ARM_POWERCTL 0
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index db6f7c34ed..9a501ea4bd 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -411,6 +411,8 @@ static void arm_cpu_reset(DeviceState *dev)
->  #ifndef CONFIG_USER_ONLY
->      if (kvm_enabled()) {
->          kvm_arm_reset_vcpu(cpu);
-> +    } else if (hvf_enabled()) {
-> +        s->vcpu_dirty = true;
+>  hw/ppc/ppc.c |    5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+> index 1b9827207676..5cbbff1f8d0c 100644
+> --- a/hw/ppc/ppc.c
+> +++ b/hw/ppc/ppc.c
+> @@ -1027,7 +1027,8 @@ static void timebase_save(PPCTimebase *tb)
+>       */
+>      tb->guest_timebase =3D ticks + first_ppc_cpu->env.tb_env->tb_offset;
+> =20
+> -    tb->runstate_paused =3D runstate_check(RUN_STATE_PAUSED);
+> +    tb->runstate_paused =3D
+> +        runstate_check(RUN_STATE_PAUSED) || runstate_check(RUN_STATE_SAV=
+E_VM);
+>  }
+> =20
+>  static void timebase_load(PPCTimebase *tb)
+> @@ -1088,7 +1089,7 @@ static int timebase_pre_save(void *opaque)
+>  {
+>      PPCTimebase *tb =3D opaque;
+> =20
+> -    /* guest_timebase won't be overridden in case of paused guest */
+> +    /* guest_timebase won't be overridden in case of paused guest or sav=
+evm */
+>      if (!tb->runstate_paused) {
+>          timebase_save(tb);
 >      }
->  #endif
->  
-> -- 
-> 2.24.3 (Apple Git-128)
-> 
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--FFoLq8A0u+X9iRU8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/ITf0ACgkQbDjKyiDZ
+s5JdCQ//cSEiZn0ryqyr14eMh40jiSYlFc5TUGMP+LHhvTKSKpPfyFoc6Ypwk85O
+ZvKcvstwExrFl5ZwyVJXHgHgQgewvCZ8yn1c6L/+w2OJs/CC4BgwJVJkSVIjAAD6
+Whuzt2Hh6Efts+pP69RsUVMKWQyT3FPFL1pRPOhQb6HCNLbceJC4Gdfqzxfnvem3
+9bUVoR/8TO9aoTsW0/2eNj0M6OmO0SAOBumJr6Lcg+l0NQSDw416yq9STU3vmjie
+WE5q79KK0sOynx1LWaoElwQaQZC3KvZqajQslFztfhTtBNqiFd0BWHIWCfZ5CKL5
+5kNFHqcH/ORvpEk+ZpNWHdM/fcMpFSLZ805kxStj0d7poKORDCqd95CtHdhvNuxS
+L30L7x+xMBmTfZsTSxms+7lL8kC99bgb1+Yb7+dABJyMLOe5ykpwY9q/R/OGDNAI
+PkJT13LHKhONhylTIpvxL0+ySQ/U4RlFqJmIcKtnax3gRFi++nk/3orGv6QeyYGb
+08W/NWbPR75PnK7z0u7eZ6t+02XlfVQl+J5tYDsHDCWMpfB6EPdRH/Y+q8Xrg9a+
+7guUXLgiiFYeOAZa8cU8DB0fgVcX8+6e1bWgVsJyqwEyf7RVTT6eOxhCzh+k0fwv
+JV5q4K5W62bVuEYv0J4oRHBD3aTx6k8YH5mTJMEMdCPNbNgGaZ8=
+=scm0
+-----END PGP SIGNATURE-----
+
+--FFoLq8A0u+X9iRU8--
 
