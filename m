@@ -2,94 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C74F2CD4B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:41:20 +0100 (CET)
-Received: from localhost ([::1]:39296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C002CD4B7
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:41:32 +0100 (CET)
+Received: from localhost ([::1]:40832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmz9-0006fr-6h
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:41:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57986)
+	id 1kkmzL-0007LQ-5f
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:41:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkmwz-0004V2-A0
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:39:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47187)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kkmwx-00009x-Pp
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:39:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606995543;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wh1Ywp004YRx+FWiOiCZ8wji1VDS9IUoXXtWJwGle4g=;
- b=FegaNuHjNaSkVzzc2dVXYkOTc3ic6D5tE0cENqxM9cygBmLnvnx5fqq+QH3TCkbBoz2nsF
- yMoqw9+odTZMstcU6HO1jG8JHmbzgUeFlSn+UbwBwXytB/qwcQlNMY2TqYkK43WjdvirNL
- LiuK8TyyUP6EwlJU2zIlatMC6AUYAYc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-ESwGf_NoPbmHkg1j6Kz1ZA-1; Thu, 03 Dec 2020 06:39:01 -0500
-X-MC-Unique: ESwGf_NoPbmHkg1j6Kz1ZA-1
-Received: by mail-ed1-f69.google.com with SMTP id c24so829850edx.2
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 03:39:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kkmxj-0005W8-7Y
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:39:51 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:44671)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kkmxh-0000Wp-KU
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:39:50 -0500
+Received: by mail-ej1-x644.google.com with SMTP id m19so2943473ejj.11
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 03:39:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gd3rdRVQrCJq2qG72YpjmUlcWFR2YcH25MFq8ASPB/M=;
+ b=WAlLJOHwlWc1/JOUEd5KGO8Hl6tnWIL0kagUj8oeQGsdv9HAI5B//hSM5K831W8g0y
+ mXMl98MNxCBkhgxVPXn2kXZ6mR1wsdnBggThqSX3waimxTWChTQxNIaAPH2S20qmb01L
+ 2xw3pxRbXtrL0wWa6TpYrHk16jcaLo8FxYkzI/019jRMnOoHnlyvYA2Wfr5oRHb0O8mz
+ XO7sPaGKYzvEZ4kvO2Tg7iXWs04BJJdUXNzhuyRDfqA5isdUqmQTZIc7ZHEmmeWvRgJ5
+ 5HMcFbZn8HF68HEE3kz1qDOOaJbp/7CkBLskqCryxfBqVlm1sNAxNrVRNQTBVfSoQXC0
+ P9rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wh1Ywp004YRx+FWiOiCZ8wji1VDS9IUoXXtWJwGle4g=;
- b=n2JRXJKZeK/FdBrTZwV4y5KDgAJapp7fH2C1jbFHx7V+4FGtTxr+la6wpSQBChGwlW
- 6rKU+3SNVSd38q01Qkk/M2P/oM2V9hSaVoB+YDZbg842nu7/0VbjQ65OACsT7hJ7DTn2
- Caag3H25DWENIxGmIrxyheaEiWQFd2wV59mv69vjKnH1F0Pn2C4hqRfpvyIjPSDvIx0t
- SeZkxuNTHQFlwalWsa7OtAhLofZXLRSx47RZJr8LNVuWfqeD7t5SPZalACKhCynFqJGL
- BvStVR/9bTH1gUjRH3mBbrlBwhJ2vEBYQ59cvHoFO7zWcNGnjauetIwA9rfpGctsCjt/
- Fdbw==
-X-Gm-Message-State: AOAM530Dug3qXY88ODKBF2fnL4bhgehdshOMRKWr8YKvL2yJBzJAGWzl
- bn5/D9syxPZElb14MuQAQZZIsiIucIXWhKLsap3j3KLXnxRuc7vCmc13ETerlfnHhb68U8MZ8Bm
- tEZ6VCANwzJJQ0QU4Ou2kik6BU+JjHKNASwFStGIi5LD3b+c2mg0L6QAg+1TswfIV+L8=
-X-Received: by 2002:aa7:da03:: with SMTP id r3mr2420943eds.155.1606995540158; 
- Thu, 03 Dec 2020 03:39:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwTHScEcYazYHYgt85yk0ysCZo+ryv13f5MSk6OmBLOchV64ofjq4bq0q/pDlgZ99bNAp97Lg==
-X-Received: by 2002:aa7:da03:: with SMTP id r3mr2420928eds.155.1606995539968; 
- Thu, 03 Dec 2020 03:38:59 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id z26sm991246edl.71.2020.12.03.03.38.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Dec 2020 03:38:58 -0800 (PST)
-Subject: Re: [PATCH] docs: set CONFDIR when running sphinx
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20201201183704.299697-1-marcandre.lureau@redhat.com>
- <cca70efa-d001-f4d5-f019-5ec55b7a4349@redhat.com>
- <20201202195508.GI3836@habkost.net>
- <CAJ+F1CLr9Hv+w-uenYRVC_wm=uBf7_Jx5nY5gTjvWXo9O032QQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <913d605a-2e7c-7897-33af-be0e5c18b6be@redhat.com>
-Date: Thu, 3 Dec 2020 12:38:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gd3rdRVQrCJq2qG72YpjmUlcWFR2YcH25MFq8ASPB/M=;
+ b=g258aRtdySDsyJdbKdRKY3I0KcL1jE2mQDQI4b9GkRD6I4KGMABg3V0cub6Qflq7uq
+ ROKxV25CIJs6NBR/JYFJ4K+SaMDmOVAm5cYByaLemyxVLZp422HL/v2SZjDqNvlMOnOB
+ 4fA+J2RuZPBiohp5l7uVqSZVD9DOi7hcF8v0uK7i2+Jve3uOlYJwzIAlFjnMq+uBwXFc
+ hypBa/BucCWSTGDGgAC6iV9fTgbWj/HrDanX0Vz6yDkiqXx6SIfpdgEA/kc2D1AJkQx6
+ HFRpv1PEnD+V0ykBv3YMivSkYfBnnfVs1v8kP+hxEwdGZYG/uYOay8bVWj03PMi+H7YD
+ 0OWg==
+X-Gm-Message-State: AOAM532h92YvxZp3v/D7RftjA2AbTn2V70Gvwlms6jw6wL8seC/Y6VL7
+ uvV+W9iNOHUshXK9NuvvldNJYNtglcmTYZme/Br/Rw==
+X-Google-Smtp-Source: ABdhPJx6m0IJHqQ5gWoNyawTPC4otz2U3RLsIkRhA1hOaODHop0uUEvvJ3Vi1ZLgpJ1UP7ktdapvRaIVwa4B7kEQF34=
+X-Received: by 2002:a17:906:4bc6:: with SMTP id x6mr2132098ejv.4.1606995587527; 
+ Thu, 03 Dec 2020 03:39:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CLr9Hv+w-uenYRVC_wm=uBf7_Jx5nY5gTjvWXo9O032QQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20201119215617.29887-1-peter.maydell@linaro.org>
+ <20201119215617.29887-10-peter.maydell@linaro.org>
+ <74666363-8965-279c-8b00-bf6d61d22be4@linaro.org>
+In-Reply-To: <74666363-8965-279c-8b00-bf6d61d22be4@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Dec 2020 11:39:36 +0000
+Message-ID: <CAFEAcA-8LR3f3ArcbK3iWRGLMRrUTwJUEmYvGYHpzMLXHMmkvA@mail.gmail.com>
+Subject: Re: [PATCH v2 09/28] target/arm: Implement VLDR/VSTR system register
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,18 +78,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/12/20 11:28, Marc-André Lureau wrote:
-> Note that the original bug that prompted this fix is about qemu-ga 
-> configuration though.
-> 
-> Paolo, please queue the patch. thanks!
+On Tue, 1 Dec 2020 at 13:11, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 11/19/20 3:55 PM, Peter Maydell wrote:
+> > +    gen_aa32_st32(s, value, addr, get_mem_index(s));
+>
+> This is MemA, so should use
+>
+>   gen_aa32_st_i32(s, value, addr, get_mem_index(s),
+>                   MO_UL | MO_ALIGN);
+>
+> a-la my patch set from last week fixing other instances.
 
-Done.
+Also " | s->be_data", right ?
 
-Paolo
-
+thanks
+-- PMM
 
