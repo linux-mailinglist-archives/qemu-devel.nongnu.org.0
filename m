@@ -2,76 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14062CD162
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 09:39:41 +0100 (CET)
-Received: from localhost ([::1]:53742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EFF22CD1FD
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 10:03:35 +0100 (CET)
+Received: from localhost ([::1]:43966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkk9M-0004CX-PA
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 03:39:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43298)
+	id 1kkkWT-0005kY-ME
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 04:03:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1kkk7q-0003EZ-S6; Thu, 03 Dec 2020 03:38:06 -0500
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:41582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1kkk7p-0003hY-6t; Thu, 03 Dec 2020 03:38:06 -0500
-Received: by mail-lf1-x142.google.com with SMTP id r24so1514118lfm.8;
- Thu, 03 Dec 2020 00:38:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=GbGBKwDDT959OToYXEGOgBUEct9NSyrRenpQR/BPLDk=;
- b=H43LG5mWn9NDtKWRgSiPrNSX04AabvBbfJXNw60nuylU0e+DwcpG57LSJlDy4l/fiq
- VvZ45iYNr1P4vEJSBmNW7R28IQeJ4Ul1VhxB3vCXRn/eWqwq2o+rq1wB1jWcaBMChAGP
- RY7XUEspc5n4qJ0RPHQu2vU+lrzZgvQ+cMsFy8BwYXtTrEuFNB0pmhLXIVwWYad3WSWI
- NVIB1Fbui/41U8QvZZyinss9/mF936rpASb7y13y5c3jlyY3mAFpzm2m+Jjl/fBZwFQE
- 1ffA2knzzcAaQklUKqTLGZEqt1Q1tqDIrdRUb/dr/mZncLx1JU2OhoyY+9tKu3Nmli5h
- 84Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=GbGBKwDDT959OToYXEGOgBUEct9NSyrRenpQR/BPLDk=;
- b=ceKhLLmG1n/oFHtxvdDajXI6fBL57OEQzKY7l13WnC5t0mQCSDp3BjoVOO43ExjXIh
- JJVQDj1KqoU0N5sEXsujNCYCHpWPP+m8K7xrE9QXQEYnCvbE1sUcvsXEvHPFmLyzg7VY
- TRgnmAaxPDPdXWt/pIZcvulQfFH+nM5+hpEpkqLP3XzDYweCR09RwUg5EOtXuLVyteIr
- MzFseTqDvTXZlNTLvc5yOJ5xKArmthf4Qz5haNjas5YQqzV/wCctwBTxRVFK7o5+HJZU
- JuQupMQbBxSusDJJdo82nVqy937w3+kjsRPJ8NtPRkfZgwvA7jcNwMsY0XdQRDdjAuwx
- tErw==
-X-Gm-Message-State: AOAM533IRGpGp8CP9x9vdXu5dYT2BDWFtflXmTQj+0p5aKNMVWQ30nve
- cXr5DkvC3A/0ApKQx8easT0=
-X-Google-Smtp-Source: ABdhPJw1zmKJsBHHJQP8LjYYujjD9GdvQ4TvsFLKVYL8DcqdY1yntCcrFrcnHbd8TV6gZFdEXS208w==
-X-Received: by 2002:a19:f243:: with SMTP id d3mr833988lfk.534.1606984682796;
- Thu, 03 Dec 2020 00:38:02 -0800 (PST)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- x24sm257121lfc.303.2020.12.03.00.38.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Dec 2020 00:38:02 -0800 (PST)
-Date: Thu, 3 Dec 2020 09:38:00 +0100
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH] hw/block: m25p80: Fix fast read for SST flashes
-Message-ID: <20201203083759.GA2661@fralle-msi>
-References: <1606704602-59435-1-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKOWRENRYr0iz-bX7gGmksQdtTc_uMy_iY1YNvvRFr-PLg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1kkkRU-0004aR-DM
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 03:58:24 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:41436)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1kkkRR-0002kH-Q7
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 03:58:23 -0500
+Received: from [192.168.1.83] (159.196.83.79.rev.sfr.net [79.83.196.159])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id A574E21DCD;
+ Thu,  3 Dec 2020 08:58:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1606985897;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F9KkarVROo1MlIwTyS0TMfm8Idl/fhKk3LMbYpbNXk8=;
+ b=5KODJ+uzmvouzGP/yWwYVTPb1ZP5Xfdxznti9PhdluwTFH1tlbhDfCqleZskfTYmpbOfOo
+ 2z6alZtTqJ9d5xt9yfvmvC7CMnO0fy+aNA2dT2FLiS75iz4yPMrjk57QzlS4Td2xw671Qv
+ oakKxuhb0YT1lm/hW6sK2QS0KM3t9D0=
+Subject: Re: [PATCH-for 5.2?] hw/core/ressetable: fix reset count decrement
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201202164055.30864-1-damien.hedde@greensocs.com>
+ <6a34f2be-3467-b81a-956b-4472860e4d0b@amsat.org>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <24772fdf-eb83-b415-956f-52a0c056129c@greensocs.com>
+Date: Thu, 3 Dec 2020 09:58:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKmqyKOWRENRYr0iz-bX7gGmksQdtTc_uMy_iY1YNvvRFr-PLg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lf1-x142.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+In-Reply-To: <6a34f2be-3467-b81a-956b-4472860e4d0b@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,63 +67,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, michael.peter@hensoldt-cyber.systems
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin and Alistair,
-
-On [2020 Dec 02] Wed 11:40:11, Alistair Francis wrote:
-> On Sun, Nov 29, 2020 at 6:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > SST flashes require a dummy byte after the address bits.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> 
-> I couldn't find a datasheet that says this... But the actual code
-> change looks fine, so:
-> 
-> Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> 
-> Alistair
-> 
-> > ---
-> >
-> >  hw/block/m25p80.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> > index 483925f..9b36762 100644
-> > --- a/hw/block/m25p80.c
-> > +++ b/hw/block/m25p80.c
-> > @@ -825,6 +825,9 @@ static void decode_fast_read_cmd(Flash *s)
-> >      s->needed_bytes = get_addr_length(s);
-> >      switch (get_man(s)) {
-> >      /* Dummy cycles - modeled with bytes writes instead of bits */
-> > +    case MAN_SST:
-> > +        s->needed_bytes += 1;
-
-1 dummy clk cycle is modelled as 1 byte write (see the comment above), so 1
-dummy byte (8 dummy clk cycles) will need +8 above. An option could be to fall
-through to the Windbond case below instead (since it seems to operate
-likewise). 
-
-Best regards,
-Francisco Iglesias
 
 
-> > +        break;
-> >      case MAN_WINBOND:
-> >          s->needed_bytes += 8;
-> >          break;
-> > --
-> > 2.7.4
-> >
-> >
+On 12/2/20 6:10 PM, Philippe Mathieu-Daudé wrote:
+> On 12/2/20 5:40 PM, Damien Hedde wrote:
+>> The reset count was only decremented if the device was in a single
+>> reset.
+>>
+>> Also move the decrement before calling the exit phase method to fix
+>> problem of reset state evaluation during that call. Update the doc
+>> accordingly.
+>>
+>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+>> Fixes: 1905297 ("Zynq7000 UART clock reset initialization", 2020-11-23)
 > 
+
+> $ git show 1905297
+> fatal: ambiguous argument '1905297': unknown revision or path not in the
+> working tree.
+
+I put Michael's bug number there. Should I put the incriminated commit
+instead ?
+
+> 
+> Beside, typo ressetable -> resettable in subject.
+
+Thanks,
+Damien
+
+Cc'ing michael new address too
+
+> 
+>> Reported-by: Michael Peter <michael.peter@hensoldt-cyber.com>
+>> --
+>>
+>> Hi all,
+>>
+>> While looking at the bug reported by Michael and his patch. I found another
+>> bug. Apparently I forgot to decrement the reset count if there was several
+>> reset at the same time.
+>>
+>> This patch fixes that.
+>>
+>> I also moved the place of the decrement: before calling the exit phase method.
+>> it globally fixes Michael's reported bug, as I think it will avoid some boiler
+>> plate code in every exit phase method we do.
+>>
+>> Only other place where the reset state is checked is in the
+>> hw/char/cadence-uart.c so it does not have high impact.
+>>
+>> I'm not sure if this meets the condition for 5.2 as it changes a documented
+>> feature. In that case we can just accept Michael solution and I'll fix the
+>> rest later.
+>>
+>> Here's the pointer for the bug and michael's patch.
+>> https://lists.nongnu.org/archive/html/qemu-devel/2020-11/msg05786.html
+>> https://lists.nongnu.org/archive/html/qemu-devel/2020-11/msg06105.html
+>>
+>> Damien
 
