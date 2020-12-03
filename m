@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD3A32CD0A4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 08:56:27 +0100 (CET)
-Received: from localhost ([::1]:53692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 382FB2CD09D
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 08:54:08 +0100 (CET)
+Received: from localhost ([::1]:48866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkjTW-0005dN-Ro
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 02:56:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32982)
+	id 1kkjRH-0003NK-AK
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 02:54:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kkjPh-0002Hn-VU; Thu, 03 Dec 2020 02:52:29 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2107)
+ id 1kkjPh-0002HV-BI; Thu, 03 Dec 2020 02:52:29 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kkjPe-00047a-Mb; Thu, 03 Dec 2020 02:52:29 -0500
+ id 1kkjPe-00047b-MH; Thu, 03 Dec 2020 02:52:28 -0500
 Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Cmp2R1JGLzhcLy;
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Cmp2R1jmczhlmm;
  Thu,  3 Dec 2020 15:51:59 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS408-HUB.china.huawei.com
  (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Thu, 3 Dec 2020
- 15:52:12 +0800
+ 15:52:14 +0800
 From: Gan Qixin <ganqixin@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 1/4] block/accounting: Use lock guard macros
-Date: Thu, 3 Dec 2020 15:50:52 +0800
-Message-ID: <20201203075055.127773-2-ganqixin@huawei.com>
+Subject: [PATCH v2 2/4] block/curl: Use lock guard macros
+Date: Thu, 3 Dec 2020 15:50:53 +0800
+Message-ID: <20201203075055.127773-3-ganqixin@huawei.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201203075055.127773-1-ganqixin@huawei.com>
 References: <20201203075055.127773-1-ganqixin@huawei.com>
@@ -62,7 +62,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Replace manual lock()/unlock() calls with lock guard macros
-(QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/accounting.
+(QEMU_LOCK_GUARD/WITH_QEMU_LOCK_GUARD) in block/curl.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
@@ -70,58 +70,51 @@ Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Kevin Wolf <kwolf@redhat.com>
 Cc: Markus Armbruster <armbru@redhat.com>
 ---
- block/accounting.c | 32 +++++++++++++++-----------------
- 1 file changed, 15 insertions(+), 17 deletions(-)
+ block/curl.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/block/accounting.c b/block/accounting.c
-index 8d41c8a83a..2030851d79 100644
---- a/block/accounting.c
-+++ b/block/accounting.c
-@@ -199,29 +199,27 @@ static void block_account_one_io(BlockAcctStats *stats, BlockAcctCookie *cookie,
-         return;
-     }
+diff --git a/block/curl.c b/block/curl.c
+index 4f907c47be..d24a4c5897 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -564,23 +564,23 @@ static void curl_detach_aio_context(BlockDriverState *bs)
+     BDRVCURLState *s = bs->opaque;
+     int i;
  
--    qemu_mutex_lock(&stats->lock);
--
--    if (failed) {
--        stats->failed_ops[cookie->type]++;
--    } else {
--        stats->nr_bytes[cookie->type] += cookie->bytes;
--        stats->nr_ops[cookie->type]++;
--    }
-+    WITH_QEMU_LOCK_GUARD(&stats->lock) {
-+        if (failed) {
-+            stats->failed_ops[cookie->type]++;
-+        } else {
-+            stats->nr_bytes[cookie->type] += cookie->bytes;
-+            stats->nr_ops[cookie->type]++;
-+        }
- 
--    block_latency_histogram_account(&stats->latency_histogram[cookie->type],
--                                    latency_ns);
-+        block_latency_histogram_account(&stats->latency_histogram[cookie->type],
-+                                        latency_ns);
- 
--    if (!failed || stats->account_failed) {
--        stats->total_time_ns[cookie->type] += latency_ns;
--        stats->last_access_time_ns = time_ns;
-+        if (!failed || stats->account_failed) {
-+            stats->total_time_ns[cookie->type] += latency_ns;
-+            stats->last_access_time_ns = time_ns;
- 
--        QSLIST_FOREACH(s, &stats->intervals, entries) {
--            timed_average_account(&s->latency[cookie->type], latency_ns);
-+            QSLIST_FOREACH(s, &stats->intervals, entries) {
-+                timed_average_account(&s->latency[cookie->type], latency_ns);
+-    qemu_mutex_lock(&s->mutex);
+-    for (i = 0; i < CURL_NUM_STATES; i++) {
+-        if (s->states[i].in_use) {
+-            curl_clean_state(&s->states[i]);
++    WITH_QEMU_LOCK_GUARD(&s->mutex) {
++        for (i = 0; i < CURL_NUM_STATES; i++) {
++            if (s->states[i].in_use) {
++                curl_clean_state(&s->states[i]);
 +            }
++            if (s->states[i].curl) {
++                curl_easy_cleanup(s->states[i].curl);
++                s->states[i].curl = NULL;
++            }
++            g_free(s->states[i].orig_buf);
++            s->states[i].orig_buf = NULL;
          }
+-        if (s->states[i].curl) {
+-            curl_easy_cleanup(s->states[i].curl);
+-            s->states[i].curl = NULL;
++        if (s->multi) {
++            curl_multi_cleanup(s->multi);
++            s->multi = NULL;
+         }
+-        g_free(s->states[i].orig_buf);
+-        s->states[i].orig_buf = NULL;
+-    }
+-    if (s->multi) {
+-        curl_multi_cleanup(s->multi);
+-        s->multi = NULL;
      }
+-    qemu_mutex_unlock(&s->mutex);
  
--    qemu_mutex_unlock(&stats->lock);
--
-     cookie->type = BLOCK_ACCT_NONE;
+     timer_del(&s->timer);
  }
- 
 -- 
 2.27.0
 
