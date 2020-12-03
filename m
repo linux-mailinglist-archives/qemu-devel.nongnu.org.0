@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574492CD4A0
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:32:58 +0100 (CET)
-Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B04222CD49B
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:31:01 +0100 (CET)
+Received: from localhost ([::1]:51064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmr3-0000ZW-Ei
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:32:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56002)
+	id 1kkmpA-0007fn-P9
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:31:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkmp0-00085b-Qp
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:30:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkmoy-0005mN-B0
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:30:50 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kkmow-0001lc-E3
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 11:30:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3366B2E813A
- for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 11:30:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kkmnJ-0006ot-Ts
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:29:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32457)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kkmnE-00056j-Ad
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:29:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606994936;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=k+K/TXckZptIRHePfWyPczroJHF1eO2xN5LIOF+tNQM=;
+ b=FQedrUNX7ve/5Udvowyc6icE/86dSwVRFCU2iW4FOtahuGmBwiRIHl06ni+GZsnTXr5Nne
+ q5/qPVnvADeKz9a+PnUBRTusMtw8P/yb/clszYs1B6/MDSnTNP9V17QJqDVnIgN03xCVgQ
+ 4CNNUPPlXjrPqyusCsGj8hxssnFXAdo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-532-1Mtv8ALpPTun0QOny_84Lg-1; Thu, 03 Dec 2020 06:28:54 -0500
+X-MC-Unique: 1Mtv8ALpPTun0QOny_84Lg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4807D8042B5
+ for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 11:28:53 +0000 (UTC)
+Received: from redhat.com (ovpn-115-57.ams2.redhat.com [10.36.115.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 732021A838;
+ Thu,  3 Dec 2020 11:28:48 +0000 (UTC)
+Date: Thu, 3 Dec 2020 11:28:45 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 8/9] vnc: add support for extended desktop resize
+Message-ID: <20201203112845.GC2952498@redhat.com>
+References: <20201203110806.13556-1-kraxel@redhat.com>
+ <20201203110806.13556-9-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 03 Dec 2020 11:22:04 -0000
-From: Peter Maydell <1906536@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee alecop philmd pmaydell
-X-Launchpad-Bug-Reporter: Alex Coplan (alecop)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160692480491.27592.13493676422712150173.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160699452462.6662.7683154649574855297.malone@soybean.canonical.com>
-Subject: [Bug 1906536] Re: Unable to set SVE VL to 1024 bits or above since
- 7b6a2198
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="55c41fea591e042b8bb54e6952942f55c764435e"; Instance="production"
-X-Launchpad-Hash: d70cd040596ac5ecbb093715c195b286e110be2a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201203110806.13556-9-kraxel@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,63 +79,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906536 <1906536@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't think we currently do have anything else we try to preserve over
-execve-to-maybe-another-QEMU-emulated-process, no. The other approach of
-"provide a config knob equivalent to
-/proc/sys/abi/sve_default_vector_length" is probably simpler.
+On Thu, Dec 03, 2020 at 12:08:04PM +0100, Gerd Hoffmann wrote:
+> The extended desktop resize encoding adds support for (a) clients
+> sending resize requests to the server, and (b) multihead support.
+> 
+> This patch implements (a).  All resize requests are rejected by qemu.
+> Qemu can't resize the framebuffer on its own, this is in the hands of
+> the guest, so all qemu can do is forward the request to the guest.
+> Should the guest actually resize the framebuffer we can notify the vnc
+> client later with a separate message.
+> 
+> This requires support in the display device.  Works with virtio-gpu.
+> 
+> https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#extendeddesktopsize-pseudo-encoding
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  ui/vnc.h |  2 ++
+>  ui/vnc.c | 64 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 65 insertions(+), 1 deletion(-)
+> 
+> diff --git a/ui/vnc.h b/ui/vnc.h
+> index c8d3ad9ec496..77a310947bd6 100644
+> --- a/ui/vnc.h
+> +++ b/ui/vnc.h
+> @@ -442,6 +442,7 @@ enum {
+>  
+>  enum VncFeatures {
+>      VNC_FEATURE_RESIZE,
+> +    VNC_FEATURE_RESIZE_EXT,
+>      VNC_FEATURE_HEXTILE,
+>      VNC_FEATURE_POINTER_TYPE_CHANGE,
+>      VNC_FEATURE_WMVI,
+> @@ -456,6 +457,7 @@ enum VncFeatures {
+>  };
+>  
+>  #define VNC_FEATURE_RESIZE_MASK              (1 << VNC_FEATURE_RESIZE)
+> +#define VNC_FEATURE_RESIZE_EXT_MASK          (1 << VNC_FEATURE_RESIZE_EXT)
+>  #define VNC_FEATURE_HEXTILE_MASK             (1 << VNC_FEATURE_HEXTILE)
+>  #define VNC_FEATURE_POINTER_TYPE_CHANGE_MASK (1 << VNC_FEATURE_POINTER_TYPE_CHANGE)
+>  #define VNC_FEATURE_WMVI_MASK                (1 << VNC_FEATURE_WMVI)
+> diff --git a/ui/vnc.c b/ui/vnc.c
+> index bdaf384f71a4..a15132faa96f 100644
+> --- a/ui/vnc.c
+> +++ b/ui/vnc.c
+> @@ -663,10 +663,35 @@ void vnc_framebuffer_update(VncState *vs, int x, int y, int w, int h,
+>      vnc_write_s32(vs, encoding);
+>  }
+>  
+> +static void vnc_desktop_resize_ext(VncState *vs, bool reject)
+> +{
+> +    vnc_lock_output(vs);
+> +    vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
+> +    vnc_write_u8(vs, 0);
+> +    vnc_write_u16(vs, 1); /* number of rects */
+> +    vnc_framebuffer_update(vs,
+> +                           reject ? 1 : 0,
+> +                           reject ? 3 : 0,
+> +                           vs->client_width, vs->client_height,
+> +                           VNC_ENCODING_DESKTOP_RESIZE_EXT);
+> +    vnc_write_u8(vs, 1);  /* number of screens */
+> +    vnc_write_u8(vs, 0);  /* padding */
+> +    vnc_write_u8(vs, 0);  /* padding */
+> +    vnc_write_u8(vs, 0);  /* padding */
+> +    vnc_write_u32(vs, 0); /* screen id */
+> +    vnc_write_u16(vs, 0); /* screen x-pos */
+> +    vnc_write_u16(vs, 0); /* screen y-pos */
+> +    vnc_write_u16(vs, vs->client_width);
+> +    vnc_write_u16(vs, vs->client_height);
+> +    vnc_write_u32(vs, 0); /* screen flags */
+> +    vnc_unlock_output(vs);
+> +    vnc_flush(vs);
+> +}
+>  
+>  static void vnc_desktop_resize(VncState *vs, bool force)
+>  {
+> -    if (vs->ioc == NULL || !vnc_has_feature(vs, VNC_FEATURE_RESIZE)) {
+> +    if (vs->ioc == NULL || (!vnc_has_feature(vs, VNC_FEATURE_RESIZE) &&
+> +                            !vnc_has_feature(vs, VNC_FEATURE_RESIZE_EXT))) {
+>          return;
+>      }
+>      if (vs->client_width == pixman_image_get_width(vs->vd->server) &&
+> @@ -681,6 +706,12 @@ static void vnc_desktop_resize(VncState *vs, bool force)
+>             pixman_image_get_height(vs->vd->server) >= 0);
+>      vs->client_width = pixman_image_get_width(vs->vd->server);
+>      vs->client_height = pixman_image_get_height(vs->vd->server);
+> +
+> +    if (vnc_has_feature(vs, VNC_FEATURE_RESIZE_EXT)) {
+> +        vnc_desktop_resize_ext(vs, false);
+> +        return;
+> +    }
+> +
+>      vnc_lock_output(vs);
+>      vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
+>      vnc_write_u8(vs, 0);
+> @@ -2110,6 +2141,9 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
+>          case VNC_ENCODING_DESKTOPRESIZE:
+>              vs->features |= VNC_FEATURE_RESIZE_MASK;
+>              break;
+> +        case VNC_ENCODING_DESKTOP_RESIZE_EXT:
+> +            vs->features |= VNC_FEATURE_RESIZE_EXT_MASK;
 
--- =
+IIUC, we shouldn't set this flag unless all current displays adapters
+associated with the VNC server support the "ui_info" callbacks,
+otherwise the client will think it can send resize requests
+but they'll never be honoured.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906536
+> +            break;
+>          case VNC_ENCODING_POINTER_TYPE_CHANGE:
+>              vs->features |= VNC_FEATURE_POINTER_TYPE_CHANGE_MASK;
+>              break;
+> @@ -2431,6 +2465,34 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
+>              break;
+>          }
+>          break;
+> +    case VNC_MSG_CLIENT_SET_DESKTOP_SIZE:
+> +    {
+> +        size_t size;
+> +        uint8_t screens;
+> +        uint16_t width;
+> +        uint16_t height;
+> +        QemuUIInfo info;
+> +
+> +        if (len < 8) {
+> +            return 8;
+> +        }
+> +
+> +        screens = read_u8(data, 6);
+> +        size    = 8 + screens * 16;
+> +        if (len < size) {
+> +            return size;
+> +        }
+> +
+> +        width   = read_u16(data, 2);
+> +        height  = read_u16(data, 4);
+> +        vnc_desktop_resize_ext(vs, true);
+> +
+> +        memset(&info, 0, sizeof(info));
+> +        info.width = width;
+> +        info.height = height;
+> +        dpy_set_ui_info(vs->vd->dcl.con, &info);
+> +        break;
+> +    }
+>      default:
+>          VNC_DEBUG("Msg: %d\n", data[0]);
+>          vnc_client_error(vs);
+> -- 
+> 2.27.0
+> 
+> 
 
-Title:
-  Unable to set SVE VL to 1024 bits or above since 7b6a2198
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Status in QEMU:
-  New
-
-Bug description:
-  Prior to 7b6a2198e71794c851f39ac7a92d39692c786820, the QEMU option
-  sve-max-vq could be used to set the vector length of the
-  implementation. This is useful (among other reasons) for testing
-  software compiled with a fixed SVE vector length. Since this commit,
-  the vector length is capped at 512 bits.
-
-  To reproduce the issue:
-
-  $ cat rdvl.s
-  .global _start
-  _start:
-    rdvl x0, #1
-    asr x0, x0, #4
-    mov x8, #93 // exit
-    svc #0
-  $ aarch64-linux-gnu-as -march=3Darmv8.2-a+sve rdvl.s -o rdvl.o
-  $ aarch64-linux-gnu-ld rdvl.o
-  $ for vl in 1 2 4 8 16; do ../build-qemu/aarch64-linux-user/qemu-aarch64 =
--cpu max,sve-max-vq=3D$vl a.out; echo $?; done
-  1
-  2
-  4
-  4
-  4
-
-  For a QEMU built prior to the above revision, we get the output:
-  1
-  2
-  4
-  8
-  16
-
-  as expected. It seems that either the old behavior should be restored,
-  or there should be an option to force a higher vector length?
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906536/+subscriptions
 
