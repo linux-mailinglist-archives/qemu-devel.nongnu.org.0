@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8CB82CD427
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:03:00 +0100 (CET)
-Received: from localhost ([::1]:42410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195172CD431
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:04:42 +0100 (CET)
+Received: from localhost ([::1]:47896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmO3-0004Nr-GL
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:02:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46928)
+	id 1kkmPh-0006d6-3D
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:04:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmG3-0003mp-E2
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmG3-0003nx-OS
  for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:54:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55527)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmG1-00021s-OP
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmG0-00021D-Kf
  for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:54:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606992881;
+ s=mimecast20190719; t=1606992880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BvI0DbZBYX8ldgqmqWJxMYKG0LXHoLlk19yalkNF0zM=;
- b=bTVQxToCOJsqKuRXhAvcwHyzFIkJlRoVN9/LH98BRGzSoll2eJXDbhD0ZQWiGk5Sz4Ernb
- EpTOm8WYrAkC3hXjNQuGY1TkC6+CXU5Xd6C3MhScgho0xvuJghbhUewgGRimBlmyOES1Fl
- Z88ikbcF/2nZw5QvStu7S6LgeXEcnks=
+ bh=KpNmn/6BUmQ6lSEdX2T/4Z4+fgXy3ai1WfPp+IXdmUM=;
+ b=R0i12TKHfVnNwwJqbGTcMLA6fvqjRtVfu2IclcVcxz3ZcY55R/oNfDtTd9/jr9/JLjM8Ku
+ nZestxwEfuARvgACFKYSFv/BIfLpSDmhp3Ym5yDWZd+m/IZ5bLhove8WHkydFV+4xQg7FF
+ bMqsjXugmn1MdcxCeKXC+9MFmlVDqaM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-D6Jh6HVkMUyiSjKR3mhzsw-1; Thu, 03 Dec 2020 05:54:36 -0500
-X-MC-Unique: D6Jh6HVkMUyiSjKR3mhzsw-1
+ us-mta-521-ApSUmMcRMHWJ6jsKmZga-A-1; Thu, 03 Dec 2020 05:54:36 -0500
+X-MC-Unique: ApSUmMcRMHWJ6jsKmZga-A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12BF96414C;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68E20805BEE;
  Thu,  3 Dec 2020 10:54:35 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
  [10.36.112.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A0AF60854;
- Thu,  3 Dec 2020 10:54:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2BF5E60854;
+ Thu,  3 Dec 2020 10:54:35 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 637CDA1FB; Thu,  3 Dec 2020 11:54:23 +0100 (CET)
+ id 9316D9D9C; Thu,  3 Dec 2020 11:54:23 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/12] x86: rewrite gsi_handler()
-Date: Thu,  3 Dec 2020 11:54:13 +0100
-Message-Id: <20201203105423.10431-3-kraxel@redhat.com>
+Subject: [PATCH v3 06/12] microvm: drop microvm_gsi_handler()
+Date: Thu,  3 Dec 2020 11:54:17 +0100
+Message-Id: <20201203105423.10431-7-kraxel@redhat.com>
 In-Reply-To: <20201203105423.10431-1-kraxel@redhat.com>
 References: <20201203105423.10431-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -87,42 +87,47 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rewrite function to use switch() for IRQ number mapping.
-Check i8259_irq exists before raising it so the function
-also works in case no i8259 (aka pic) is present.
+With the improved gsi_handler() we don't need
+our private version any more.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/x86.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ hw/i386/microvm.c | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 5944fc44edca..b67e7b789f89 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -588,11 +588,17 @@ void gsi_handler(void *opaque, int n, int level)
-     GSIState *s = opaque;
- 
-     trace_x86_gsi_interrupt(n, level);
--    if (n < ISA_NUM_IRQS) {
--        /* Under KVM, Kernel will forward to both PIC and IOAPIC */
--        qemu_set_irq(s->i8259_irq[n], level);
-+    switch (n) {
-+    case 0 ... ISA_NUM_IRQS - 1:
-+        if (s->i8259_irq[n]) {
-+            /* Under KVM, Kernel will forward to both PIC and IOAPIC */
-+            qemu_set_irq(s->i8259_irq[n], level);
-+        }
-+        /* fall through */
-+    case ISA_NUM_IRQS ... IOAPIC_NUM_PINS - 1:
-+        qemu_set_irq(s->ioapic_irq[n], level);
-+        break;
-     }
--    qemu_set_irq(s->ioapic_irq[n], level);
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 5e4182b47464..829b376a1278 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -96,13 +96,6 @@ static void microvm_set_rtc(MicrovmMachineState *mms, ISADevice *s)
+     rtc_set_memory(s, 0x5d, val >> 16);
  }
  
- void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
+-static void microvm_gsi_handler(void *opaque, int n, int level)
+-{
+-    GSIState *s = opaque;
+-
+-    qemu_set_irq(s->ioapic_irq[n], level);
+-}
+-
+ static void create_gpex(MicrovmMachineState *mms)
+ {
+     X86MachineState *x86ms = X86_MACHINE(mms);
+@@ -163,12 +156,7 @@ static void microvm_devices_init(MicrovmMachineState *mms)
+     /* Core components */
+ 
+     gsi_state = g_malloc0(sizeof(*gsi_state));
+-    if (mms->pic == ON_OFF_AUTO_ON || mms->pic == ON_OFF_AUTO_AUTO) {
+-        x86ms->gsi = qemu_allocate_irqs(gsi_handler, gsi_state, GSI_NUM_PINS);
+-    } else {
+-        x86ms->gsi = qemu_allocate_irqs(microvm_gsi_handler,
+-                                        gsi_state, GSI_NUM_PINS);
+-    }
++    x86ms->gsi = qemu_allocate_irqs(gsi_handler, gsi_state, GSI_NUM_PINS);
+ 
+     isa_bus = isa_bus_new(NULL, get_system_memory(), get_system_io(),
+                           &error_abort);
 -- 
 2.27.0
 
