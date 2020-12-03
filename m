@@ -2,85 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D712CDDEC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 19:44:44 +0100 (CET)
-Received: from localhost ([::1]:35264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E66E2CDE85
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 20:13:03 +0100 (CET)
+Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kktar-0006wQ-Fm
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 13:44:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46934)
+	id 1kku2I-000496-2D
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 14:13:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kktYs-00066i-Od
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 13:42:40 -0500
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:45448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kktYn-0004eK-38
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 13:42:38 -0500
-Received: by mail-io1-xd36.google.com with SMTP id n4so3096267iow.12
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 10:42:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=FhMFcJN4z6PjBkBZpXE4bBsDBnX/celXMB66wWbrb4o=;
- b=Tex/enLGRIh6G92LDFx/VjfV7M+xvX2jXiE6l3+OKaGT8rhs1eNAJe92DmsHZ8jLmr
- Kn6UbUeTXJoE/nficAaStnhSQXSk9s8l0o6i5xZnWuchrxs6FWXM8idOrAAAa1VTLrFR
- Vd6CXnzTIMMixjumodK+LBoqCVi4//YEpkW5ZOVMrXcokG51kqQfCvTSJujouJoGLPg8
- TlepD7d/dzQJ3J6uLP8LFCbPX/NL/e+gm5nNtSiGkfoVjOW9E1mDu/nI/g/P/UWIT0PQ
- c9sEetMYAUnzGtnA3MxBOd740lSRdoWZcZZ/mIK5ISHRAO4aVBCnGE7M0mGY/8lkG79o
- U9lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=FhMFcJN4z6PjBkBZpXE4bBsDBnX/celXMB66wWbrb4o=;
- b=shMy1K63G8PrCZYbjyVEKIp2rFKng0nY6og7owypgGOA78bxh/3tFeYOYHK487GKGI
- BLTcz7Q2YsuBe7xc8+9wZnzI1rV37VjRoAEU/ztlnkokIKE9Kj0WvOxqv7pn53GMuMic
- UkGNBosmMI/IiIxNCBtgqVT2+8fYAvBv1WeBgNCdrIrk2cZ2uDJLTHtrtLKIeByJoQAT
- EqsnjDPZ631A+QZ5TG1jzjM5TaPhilwYeOQ0V+TdOhf6fui6VGluyolOcqO8ut0L26iu
- 3DJrbR/Jom7yAASdRc+PO6xRXvUMWZj+O7vqQDpypmiNYHgYTJUM0UUcO919av/UrYFZ
- ID4Q==
-X-Gm-Message-State: AOAM532SmYrdkxUPpMSRx1GgKRlDk6b3Bm8wfimvFiFtzmU2HhswTXy1
- nhDOH1mgkQ95sGGlMVGSd1JnhD7Wj4uY5U0f7MQNFA==
-X-Google-Smtp-Source: ABdhPJyR+PkNe4/WuljPLVWngv3k9Zd84CV6uTyHtpmimx6DWMYRlKIaBe2ABnwsDrY3Mm5ixomKNXjQ3VeHHpPeeek=
-X-Received: by 2002:a5e:da46:: with SMTP id o6mr624287iop.139.1607020951629;
- Thu, 03 Dec 2020 10:42:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kku0n-0003bW-TU; Thu, 03 Dec 2020 14:11:29 -0500
+Received: from mail-eopbgr60130.outbound.protection.outlook.com
+ ([40.107.6.130]:26854 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kku0l-00065s-4S; Thu, 03 Dec 2020 14:11:29 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X5I4FAVFcTQCkodHWIhzOU3MBIWDFgBHoKymb93VYkTs1UHZj6UqTk/EqVi5TVWAS3lXdAgfrvsDS+dVUusfsltYhaXKGooezqm/WpZcUSGrXtnf2VTSA02u14JAMgcb6MYFua68pSG5JtzZAeiJTVhkTQUBziLubX6pYvXjM7PmrLiC55xresAcFgOhnPvsDn2L3fklpCFotFALEkJRNW+RtsJ/FgUPd54aNY+3rF5GwHHgShOI3VZ50qQEcODvjgdO+FlGpS7IO402OEbl5XrR9qgjoquIzCxTm8bsAlW4LMXYVe00k0BdKsLtIa6UnRNw+ElMEk4RR94CBxqXdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uuPChI54YBMCyG7xy7e1ycZ/hGmG7hKuZN9nAQor7r0=;
+ b=GWagG/HoHm0c94VdwjhDQRtA6Tfcg8xzca5lpZpbB8FjawqSWtjBz4+XjKopyP/wz/D6hnSTC8BwV+it0BGL3U7Bi6KhzKpCJkVQvMAkzR1f0eaJr0KXBnhg4FIOzfEphTah0yag51v3OZjMyLA71m1n6KW0DxpV1TrU3SLVwIEzp4haFoMEnnFC8dr3JqvMcUl0RA3qr0W4/a/A5iAW6nRnjveYNTiw+fcYVCNdx+4ihE6v0jP60aqnlAjc17So6FcV9fG/Cpeijvt3VrN8glu1eFYGWtLmE+MIcJ5CGgohNN3jyY0hDYakf7yE+taBii3BcreJKUMjPQi+WJAmcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uuPChI54YBMCyG7xy7e1ycZ/hGmG7hKuZN9nAQor7r0=;
+ b=I1y/zyqfdeiWyw01Qp1M2VD2mRIPCzVImANHvzUfM4AgyOs/qH+Cb1lLPa/gd+BfOQow6JMTrqj3APR0IxcPpOeiT/yECBKXEDprUswEyzGSVIsp8vjjuNpAeNYnHkuieHyueNmN77T0NoMIbqqZYH1rZdM+z3lciR2JXn1KhhI=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3383.eurprd08.prod.outlook.com (2603:10a6:20b:50::29)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.31; Thu, 3 Dec
+ 2020 19:11:23 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3632.020; Thu, 3 Dec 2020
+ 19:11:23 +0000
+Subject: Re: [PATCH v13 09/10] stream: skip filters when writing backing file
+ name to QCOW2 header
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
+ stefanha@redhat.com, fam@euphon.net, armbru@redhat.com, jsnow@redhat.com,
+ eblake@redhat.com, den@openvz.org
+References: <1606933861-297777-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1606933861-297777-10-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <bc6bf274-6d50-c8f6-405f-0966a1bfcfa0@virtuozzo.com>
+Date: Thu, 3 Dec 2020 22:11:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+In-Reply-To: <1606933861-297777-10-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.91]
+X-ClientProxiedBy: AM0PR03CA0003.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <392c2465-157e-e15a-0a2c-2e3faa166d22@csgraf.de>
- <CAEkmjvUArgL+Mcvy6nUhfJrdX3OaF=U8UdWia7ZDo9GWk0VF=g@mail.gmail.com>
- <CAEkmjvVJ5zup4NR2+DStt_NvV2cV7+7dj2=fJ3DQBkth8pAfcw@mail.gmail.com>
- <cecd20d0-278b-0a4b-ba9c-0207504c99d7@csgraf.de>
- <CAEkmjvVOAYP6wJyVpAtZE3d=iNOOWGZeHptQ9xJDGcTi4qQ0hQ@mail.gmail.com>
- <CAMn1gO7jqjsqJHtSaV7F+2qmtfF-YFDJwo=O8ot2iem+Uz4Zrw@mail.gmail.com>
- <6975b4a3-1568-df40-8594-bfcf488ac425@csgraf.de>
- <CAMn1gO5xs8RniRYm+Gnbh8S3GVah2+2Ew2V6tFL6PNuSJ7o5Hw@mail.gmail.com>
- <4e1d93a4-9dcc-c6b6-e060-6eea39ae2f16@csgraf.de>
- <CAMn1gO44Y4rahufveQ1dOq96nhqvGEmZ0pYci2f6BKv9kd638Q@mail.gmail.com>
- <20201203094124.GA7201@SPB-NB-133.local>
-In-Reply-To: <20201203094124.GA7201@SPB-NB-133.local>
-From: Peter Collingbourne <pcc@google.com>
-Date: Thu, 3 Dec 2020 10:42:20 -0800
-Message-ID: <CAMn1gO6kMFLGKy4VuOL=CyP=ioGAZJmogT=y6dd=SQ82odK8_Q@mail.gmail.com>
-Subject: Re: [PATCH 2/8] hvf: Move common code out
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-Cc: Alexander Graf <agraf@csgraf.de>, Frank Yang <lfy@google.com>, 
- Peter Maydell <peter.maydell@linaro.org>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, 
- Cameron Esfahani <dirty@apple.com>, qemu-arm <qemu-arm@nongnu.org>, 
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=pcc@google.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.91) by
+ AM0PR03CA0003.eurprd03.prod.outlook.com (2603:10a6:208:14::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3632.17 via Frontend Transport; Thu, 3 Dec 2020 19:11:22 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e40471c3-dbd6-4d04-7745-08d897bf395b
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3383:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB33836D497680E95133D7CBC4C1F20@AM6PR08MB3383.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:595;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dQPMpmn24bqMCAQBwNC/zaN0FmBrdey/AzWqDQNERiSGsYpxC8aMBsvPdGvhTIsqurbm6XWk+NdwXKK22Ltto/qVEbuUVdGrljuacf1TFPO/4f0HUwAIkgQktyWHsDS/Ir0vWNB7RI6ak7QcuYV5JzuYqkbqfV+XdUR3qN4O6IUby3Pr6YPkruTV4kZ432zEYTFkHI2eVY3qrKEotnXUG3dc3KeD/wTSh8BmEeQEaS0rV8UwBbEDducVz3BpnWPrj2rQ8xGw6pJmxC3HU+jVSsMep3Tqe0dZxcfDNK7SIdLCzzX21Eey46lE6qXxeqelo79lu4IVvry3Bnt6pKc+yrZEThAObL9mOPsR+rCU2EKovkpLmNOcuBnPyYn6u8ugZjy4LpZm+5DVMv+XYefGJRAB0oAGrBdYxputQWM5TSE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(346002)(39840400004)(366004)(136003)(36756003)(31696002)(316002)(16576012)(2616005)(86362001)(956004)(5660300002)(8676002)(8936002)(6486002)(66556008)(31686004)(16526019)(83380400001)(26005)(66476007)(186003)(66946007)(4744005)(478600001)(107886003)(2906002)(52116002)(4326008)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VlYwTXZsVFgzNHJQT09VK0F0bmJsYm5URVVOSFA5TmlOcnorSmZXd05zNXRm?=
+ =?utf-8?B?ZzAvdGxJQUsyYmtzWjNkQTJTMmhoNFh3RlJxRlE3NklZazYwNTNGS285ODlq?=
+ =?utf-8?B?U2ZDV0hCUjl5VUhEN21zYlFZMFUzbFZHNHpmQ21BaEFzb2JDdHZkQlduUERx?=
+ =?utf-8?B?RVRmMmdYdzM1cjFNSDM3cEF3QmY5QTB2ZmpZczdFWVlRdmZrWW5zN2xYQUlW?=
+ =?utf-8?B?S0pVSGRiVC9sa1R1OG9aVnF1WTNYK1dnMFhnNXhGbXFYMVdtay9IRW83WStQ?=
+ =?utf-8?B?YVRQLzYzTmdKUjhXVUtsUG12ZFRyK3JsTW1WOFlFTmFGTVVJWWc0NWJjU2c5?=
+ =?utf-8?B?aVcwUzVoVU44cFUzMFo2VHBTV3B0SlNkTlJSVytVWU91cUNnSG43SjRoNDVt?=
+ =?utf-8?B?Umh0bzF6TGU5T0JLYVY1RWdmbXlRc0ozdkVMWkFrY3B2YmIydWJmT0M3RTJO?=
+ =?utf-8?B?TndWSTJ0bFJWUmk0clNBdlNOc0pvOVBXVm5FTUpnNE5ZcXMxT0dRd0dvNjFN?=
+ =?utf-8?B?ejNtSzdGbFhteUp6S0VZZ1ZPd2ZuSCt5aXd6OHl1M29rdlUxTjFtQjQ1dTVz?=
+ =?utf-8?B?SGRXamh1dWJwUFE3aFVXRDdOWnFUb0trNkdTWTVGRXhSTzY5T2REakZzMVJG?=
+ =?utf-8?B?V3VPdk5RQUNGcjU2Q1Q1YzdnWURJSmFjanoveWtCODBwTWN3NGNaeDJqZS9z?=
+ =?utf-8?B?M0tndk9ydXI5NlhJY3V2TmRKelBtZVozQUVHWTFnejVJekcwSXIvM2lwaktR?=
+ =?utf-8?B?UFFKY2loUE5IYzBVL2lneGZPZ0V5SmY3c241ckVheXNTcHprZ3ZUMytsYzZ0?=
+ =?utf-8?B?eEhiUE5GL245aWRGWE9BbVRFeUVDV3owK3ZieGt6UUxRc09VUFpwZHJZcmM4?=
+ =?utf-8?B?ZDI1MGJyeGRkRUFvZ0oyTkdzY1pLNk5CWTlMbm1LcG9ZNXhON3Q3bS9BUkR4?=
+ =?utf-8?B?NGZ4aXVRL0xUQjF5bHNZSmV6eUQ5dUNMUDNHcm5jbUdrQmFPVHpWN1loRndU?=
+ =?utf-8?B?bFZ2cTJNaEhGbVUvRjNOdldoSmxTeEhjRkxGV3k3VStESUM3aXNGc2pDcmMr?=
+ =?utf-8?B?S0JNQndxUDd6QzVpL3BJQit6MnNHd2ZocUlVcnBOUW8zc3Bpd3dpc0NXZDNY?=
+ =?utf-8?B?d3JDSVA0WXdOcm15OFZvYUJOUVpLeHVpRFVpdGxFK01PNW5rUjJiTEx1dFBq?=
+ =?utf-8?B?MzJpNzNadDIyS253RVZhbHgxMTBPby9EaGxWUkN5YWE0T1hleHpIeE9TVldC?=
+ =?utf-8?B?RkZGMzB6YkdVbHBsbi8zVGdBM1FlWmNFVjFNcTV2ZVpPWEdGZG9IWUQ5VDhn?=
+ =?utf-8?Q?NNBQWzF9oQZWsIPexgo6UxAFgDkmlpKabk?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e40471c3-dbd6-4d04-7745-08d897bf395b
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2020 19:11:23.2436 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zMuYOOkzN9Z55mWDwyv60UJwLWyOAG8R0ZjbPIQuhuuGDdMBWX6tSX7sB3kxRCS7FTbxGWfk/TaOtpncYOW6dSpXmeNixKw43HE2DyfayoI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3383
+Received-SPF: pass client-ip=40.107.6.130;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: 5
+X-Spam_score: 0.5
+X-Spam_bar: /
+X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,222 +143,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 3, 2020 at 1:41 AM Roman Bolshakov <r.bolshakov@yadro.com> wrot=
-e:
->
-> On Mon, Nov 30, 2020 at 04:00:11PM -0800, Peter Collingbourne wrote:
-> > On Mon, Nov 30, 2020 at 3:18 PM Alexander Graf <agraf@csgraf.de> wrote:
-> > >
-> > >
-> > > On 01.12.20 00:01, Peter Collingbourne wrote:
-> > > > On Mon, Nov 30, 2020 at 1:40 PM Alexander Graf <agraf@csgraf.de> wr=
-ote:
-> > > >> Hi Peter,
-> > > >>
-> > > >> On 30.11.20 22:08, Peter Collingbourne wrote:
-> > > >>> On Mon, Nov 30, 2020 at 12:56 PM Frank Yang <lfy@google.com> wrot=
-e:
-> > > >>>>
-> > > >>>> On Mon, Nov 30, 2020 at 12:34 PM Alexander Graf <agraf@csgraf.de=
-> wrote:
-> > > >>>>> Hi Frank,
-> > > >>>>>
-> > > >>>>> Thanks for the update :). Your previous email nudged me into th=
-e right direction. I previously had implemented WFI through the internal ti=
-mer framework which performed way worse.
-> > > >>>> Cool, glad it's helping. Also, Peter found out that the main thi=
-ng keeping us from just using cntpct_el0 on the host directly and compare w=
-ith cval is that if we sleep, cval is going to be much < cntpct_el0 by the =
-sleep time. If we can get either the architecture or macos to read out the =
-sleep time then we might be able to not have to use a poll interval either!
-> > > >>>>> Along the way, I stumbled over a few issues though. For starter=
-s, the signal mask for SIG_IPI was not set correctly, so while pselect() wo=
-uld exit, the signal would never get delivered to the thread! For a fix, ch=
-eck out
-> > > >>>>>
-> > > >>>>>     https://patchew.org/QEMU/20201130030723.78326-1-agraf@csgra=
-f.de/20201130030723.78326-4-agraf@csgraf.de/
-> > > >>>>>
-> > > >>>> Thanks, we'll take a look :)
-> > > >>>>
-> > > >>>>> Please also have a look at my latest stab at WFI emulation. It =
-doesn't handle WFE (that's only relevant in overcommitted scenarios). But i=
-t does handle WFI and even does something similar to hlt polling, albeit no=
-t with an adaptive threshold.
-> > > >>> Sorry I'm not subscribed to qemu-devel (I'll subscribe in a bit) =
-so
-> > > >>> I'll reply to your patch here. You have:
-> > > >>>
-> > > >>> +                    /* Set cpu->hvf->sleeping so that we get a
-> > > >>> SIG_IPI signal. */
-> > > >>> +                    cpu->hvf->sleeping =3D true;
-> > > >>> +                    smp_mb();
-> > > >>> +
-> > > >>> +                    /* Bail out if we received an IRQ meanwhile =
-*/
-> > > >>> +                    if (cpu->thread_kicked || (cpu->interrupt_re=
-quest &
-> > > >>> +                        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ)=
-)) {
-> > > >>> +                        cpu->hvf->sleeping =3D false;
-> > > >>> +                        break;
-> > > >>> +                    }
-> > > >>> +
-> > > >>> +                    /* nanosleep returns on signal, so we wake u=
-p on kick. */
-> > > >>> +                    nanosleep(ts, NULL);
-> > > >>>
-> > > >>> and then send the signal conditional on whether sleeping is true,=
- but
-> > > >>> I think this is racy. If the signal is sent after sleeping is set=
- to
-> > > >>> true but before entering nanosleep then I think it will be ignore=
-d and
-> > > >>> we will miss the wakeup. That's why in my implementation I block =
-IPI
-> > > >>> on the CPU thread at startup and then use pselect to atomically
-> > > >>> unblock and begin sleeping. The signal is sent unconditionally so
-> > > >>> there's no need to worry about races between actually sleeping an=
-d the
-> > > >>> "we think we're sleeping" state. It may lead to an extra wakeup b=
-ut
-> > > >>> that's better than missing it entirely.
-> > > >>
-> > > >> Thanks a bunch for the comment! So the trick I was using here is t=
-o > > >> modify the timespec from the kick function before sending the IPI
-> > > >> signal. That way, we know that either we are inside the sleep (whe=
-re the
-> > > >> signal wakes it up) or we are outside the sleep (where timespec=3D=
-{} will
-> > > >> make it return immediately).
-> > > >>
-> > > >> The only race I can think of is if nanosleep does calculations bas=
-ed on
-> > > >> the timespec and we happen to send the signal right there and then=
-.
-> > > > Yes that's the race I was thinking of. Admittedly it's a small wind=
-ow
-> > > > but it's theoretically possible and part of the reason why pselect =
-was
-> > > > created.
-> > > >
-> > > >> The problem with blocking IPIs is basically what Frank was describ=
-ing
-> > > >> earlier: How do you unset the IPI signal pending status? If the si=
-gnal
-> > > >> is never delivered, how can pselect differentiate "signal from las=
-t time
-> > > >> is still pending" from "new signal because I got an IPI"?
-> > > > In this case we would take the additional wakeup which should be
-> > > > harmless since we will take the WFx exit again and put us in the
-> > > > correct state. But that's a lot better than busy looping.
-> > >
-> > >
-> > > I'm not sure I follow. I'm thinking of the following scenario:
-> > >
-> > >    - trap into WFI handler
-> > >    - go to sleep with blocked SIG_IPI
-> > >    - SIG_IPI arrives, pselect() exits
-> > >    - signal is still pending because it's blocked
-> > >    - enter guest
-> > >    - trap into WFI handler
-> > >    - run pselect(), but it immediate exits because SIG_IPI is still p=
-ending
-> > >
-> > > This was the loop I was seeing when running with SIG_IPI blocked. Tha=
-t's
-> > > part of the reason why I switched to a different model.
-> >
-> > What I observe is that when returning from a pending signal pselect
-> > consumes the signal (which is also consistent with my understanding of
-> > what pselect does). That means that it doesn't matter if we take a
-> > second WFx exit because once we reach the pselect in the second WFx
-> > exit the signal will have been consumed by the pselect in the first
-> > exit and we will just wait for the next one.
-> >
->
-> Aha! Thanks for the explanation. So, the first WFI in the series of
-> guest WFIs will likely wake up immediately? After a period without WFIs
-> there must be a pending SIG_IPI...
->
-> It shouldn't be a critical issue though because (as defined in D1.16.2)
-> "the architecture permits a PE to leave the low-power state for any
-> reason, it is permissible for a PE to treat WFI as a NOP, but this is
-> not recommended for lowest power operation."
->
-> BTW. I think a bit from the thread should go into the description of
-> patch 8, because it's not trivial and it would really be helpful to keep
-> in repo history. At least something like this (taken from an earlier
-> reply in the thread):
->
->   In this implementation IPI is blocked on the CPU thread at startup and
->   pselect() is used to atomically unblock the signal and begin sleeping.
->   The signal is sent unconditionally so there's no need to worry about
->   races between actually sleeping and the "we think we're sleeping"
->   state. It may lead to an extra wakeup but that's better than missing
->   it entirely.
+02.12.2020 21:31, Andrey Shinkevich wrote:
+> Avoid writing a filter JSON file name and a filter format name to QCOW2
+> image when the backing file is being changed after the block stream
+> job. It can occur due to a concurrent commit job on the same backing
+> chain.
+> A user is still able to assign the 'backing-file' parameter for a
+> block-stream job keeping in mind the possible issue mentioned above.
+> If the user does not specify the 'backing-file' parameter, QEMU will
+> assign it automatically.
+> 
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Okay, I'll add something like that to the next version of the patch I send =
-out.
 
-Peter
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
->
->
-> Thanks,
-> Roman
->
-> > I don't know why things may have been going wrong in your
-> > implementation but it may be related to the issue with
-> > mach_absolute_time() which I posted about separately and was also
-> > causing busy loops for us in some cases. Once that issue was fixed in
-> > our implementation we started seeing sleep until VTIMER due work
-> > properly.
-> >
-> > >
-> > >
-> > > > I reckon that you could improve things a little by unblocking the
-> > > > signal and then reblocking it before unlocking iothread (e.g. with =
-a
-> > > > pselect with zero time interval), which would flush any pending
-> > > > signals. Since any such signal would correspond to a signal from la=
-st
-> > > > time (because we still have the iothread lock) we know that any fut=
-ure
-> > > > signals should correspond to new IPIs.
-> > >
-> > >
-> > > Yeah, I think you actually *have* to do exactly that, because otherwi=
-se
-> > > pselect() will always return after 0ns because the signal is still pe=
-nding.
-> > >
-> > > And yes, I agree that that starts to sound a bit less racy now. But i=
-t
-> > > means we can probably also just do
-> > >
-> > >    - WFI handler
-> > >    - block SIG_IPI
-> > >    - set hvf->sleeping =3D true
-> > >    - check for pending interrupts
-> > >    - pselect()
-> > >    - unblock SIG_IPI
-> > >
-> > > which means we run with SIG_IPI unmasked by default. I don't think th=
-e
-> > > number of signal mask changes is any different with that compared to
-> > > running with SIG_IPI always masked, right?
-> >
->
-> P.S. Just found that Alex already raised my concern. Pending signals
-> have to be consumed or there should be no pending signals to start
-> sleeping on the very first WFI.
->
-> > And unlock/lock iothread around the pselect? I suppose that could work
-> > but as I mentioned it would just be an optimization.
-> >
-> > Maybe I can try to make my approach work on top of your series, or if
-> > you already have a patch I can try to debug it. Let me know.
-> >
-> > Peter
+
+
+-- 
+Best regards,
+Vladimir
 
