@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8492CDD55
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 19:25:31 +0100 (CET)
-Received: from localhost ([::1]:51680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E3A2CDD3A
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 19:22:15 +0100 (CET)
+Received: from localhost ([::1]:46378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kktII-0000qM-8T
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 13:25:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40440)
+	id 1kktF8-0006tA-DK
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 13:22:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kktBZ-0005EE-Gy
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 13:18:33 -0500
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:34242)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kktBV-0004wy-FU
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 13:18:33 -0500
-Received: by mail-il1-x143.google.com with SMTP id x15so2820811ilq.1
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 10:18:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XouQXNk1ygjsPrcd65VhmmS5YnlV3+QZ4o5+3fbl2xc=;
- b=o+of32SIWbIQomAQomEKwsQBDyBdxZePzVg+Bobib04mecVyI7S6PGFT5ukOShQP1x
- Uo3NXYgcmePw6xFTlY0WxjVPfjqD+GZcmLe+1DhGEnPIgzQt31hb2BmkxlPY0MCqU6+9
- kOvxgz2mflgL807zKfedRdes5yEY/Q7UjkAdVYbIFmZjeDhSa1ae+9Qla2uRhCxxSwwZ
- 31tZKqHSX03hEUknoHwmsKUW+/C1WIoPSBXCl49fv4g2bmaD3levKOoy4y4W87HMrOf7
- qVibULHsxVy/eFUw2r17BmWuk4MZJ7wDwPj4Ei6dJD5r/xsSKWYWKJo5yPRwnEeLyT2k
- yK3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XouQXNk1ygjsPrcd65VhmmS5YnlV3+QZ4o5+3fbl2xc=;
- b=G9ruBtteheDheLd3jeIzRKYfVViuUZLrqHVEHTAd2cHkL4GZPM/Gx2+8M4GEa9/bpZ
- atKP8UaC19b4tWWNExO1ay5iurgp8wJq8z8dp6VKXFahyT1vHZ8fhbtZ4r4FJDKwm30j
- zhE68qo52fe5VmNyp5LKRUqNggxsf5SWTGo2s5BCn63NksyoHqBPlIqkP7vyDt1l6nMv
- g6VqOlBiWLyU+FGK5Lu4abRLZ+i4zCahAS7dmav3hiHM/j+bK19SNRpIKS859tq3F8tO
- 1bGI2j/AEHap1+m8AF5zpfAqJB/A7MLo/2Bndp7dmcmV+uwHfsYRa4G86VRaztIBQK0v
- SvUQ==
-X-Gm-Message-State: AOAM533gOOrHBYZmBqF9ZIO/pNS18LrfdT/PcILp6L2ftPVhLr8nAwP2
- M8TMyXKHqKH/mmJmdpqyHb9wkYEklAnEN8pDy0/bJA==
-X-Google-Smtp-Source: ABdhPJwiMhqjCoHe5F4vIGUf2eIoIyLgE3TpfRgz/wVC+yQIc2Hbw8lM6tw7JeN7Yfy/GaTrBHCebJu0XFFTmMSbq3Q=
-X-Received: by 2002:a92:990e:: with SMTP id p14mr478259ili.28.1607019506219;
- Thu, 03 Dec 2020 10:18:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kktCR-0005Yt-Cl
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 13:19:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kktCI-0005Bf-7B
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 13:19:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607019556;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dEJ1Z6hIhJUpT9hmhqq8gtduOvYZsIgiOj+6Q2/Zs68=;
+ b=gNuG8tG/S8OcVm2nWmGMH4wa0l+PaScVrnztIXeNcWzmcrXwl7OVeIBD4zbr23HSkbcgbq
+ HNjH6kIL/xGR7fhi0XBGOwa5pyEmLZa8KY1aqFf7uV3WLb90yC+J54PnROm9cl1PtIF/3t
+ qn2qWKwVypdmWezNrBTqnY3opuW7MT8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-505-SOVJmRTOMUy0flT9gPR-Tg-1; Thu, 03 Dec 2020 13:19:14 -0500
+X-MC-Unique: SOVJmRTOMUy0flT9gPR-Tg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B255F10054FF;
+ Thu,  3 Dec 2020 18:19:13 +0000 (UTC)
+Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BDDF10016F4;
+ Thu,  3 Dec 2020 18:19:06 +0000 (UTC)
+Date: Thu, 3 Dec 2020 13:19:05 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 00/18] qapi/qom: QAPIfy object-add
+Message-ID: <20201203181905.GN3836@habkost.net>
+References: <69dff34f-d87b-3a8d-640f-35f6bf5db75c@redhat.com>
+ <20201202135451.GE3836@habkost.net>
+ <20201202151713.GE16765@merkur.fritz.box>
+ <20201202160554.GG3836@habkost.net>
+ <20201202173506.GH16765@merkur.fritz.box>
+ <54637ad5-0662-24ea-d738-1d53e054a103@redhat.com>
+ <20201203151532.GA5409@merkur.fritz.box>
+ <27f30494-225c-4407-ee1c-1a996b83c8b1@redhat.com>
+ <20201203175205.GL3836@habkost.net>
+ <857d3595-73bc-db5a-1ccc-d18549e014f5@redhat.com>
 MIME-Version: 1.0
-References: <20201202190408.2041-1-agraf@csgraf.de>
- <20201202190408.2041-9-agraf@csgraf.de>
- <20201203103949.GC7201@SPB-NB-133.local>
-In-Reply-To: <20201203103949.GC7201@SPB-NB-133.local>
-From: Peter Collingbourne <pcc@google.com>
-Date: Thu, 3 Dec 2020 10:18:14 -0800
-Message-ID: <CAMn1gO4adJvkWDMV6e0Caigh7B3O5STq=S5P_F6SbWi58x22CQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/10] arm/hvf: Add a WFI handler
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-Cc: Alexander Graf <agraf@csgraf.de>, qemu-devel <qemu-devel@nongnu.org>, 
- qemu-arm <qemu-arm@nongnu.org>, Cameron Esfahani <dirty@apple.com>, 
- Peter Maydell <peter.maydell@linaro.org>, Eduardo Habkost <ehabkost@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, Frank Yang <lfy@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=pcc@google.com; helo=mail-il1-x143.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <857d3595-73bc-db5a-1ccc-d18549e014f5@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,192 +86,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, lvivier@redhat.com, thuth@redhat.com,
+ pkrempa@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, armbru@redhat.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 3, 2020 at 2:39 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
->
-> On Wed, Dec 02, 2020 at 08:04:06PM +0100, Alexander Graf wrote:
-> > From: Peter Collingbourne <pcc@google.com>
-> >
-> > Sleep on WFI until the VTIMER is due but allow ourselves to be woken
-> > up on IPI.
-> >
-> > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> > [agraf: Remove unused 'set' variable, always advance PC on WFX trap]
-> > Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> > ---
-> >  accel/hvf/hvf-cpus.c     |  5 ++--
-> >  include/sysemu/hvf_int.h |  1 +
-> >  target/arm/hvf/hvf.c     | 55 ++++++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 58 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
-> > index e613c22ad0..a981ccde70 100644
-> > --- a/accel/hvf/hvf-cpus.c
-> > +++ b/accel/hvf/hvf-cpus.c
-> > @@ -337,15 +337,14 @@ static int hvf_init_vcpu(CPUState *cpu)
-> >      cpu->hvf = g_malloc0(sizeof(*cpu->hvf));
-> >
-> >      /* init cpu signals */
-> > -    sigset_t set;
-> >      struct sigaction sigact;
-> >
-> >      memset(&sigact, 0, sizeof(sigact));
-> >      sigact.sa_handler = dummy_signal;
-> >      sigaction(SIG_IPI, &sigact, NULL);
-> >
-> > -    pthread_sigmask(SIG_BLOCK, NULL, &set);
-> > -    sigdelset(&set, SIG_IPI);
-> > +    pthread_sigmask(SIG_BLOCK, NULL, &cpu->hvf->unblock_ipi_mask);
-> > +    sigdelset(&cpu->hvf->unblock_ipi_mask, SIG_IPI);
-> >
-> >  #ifdef __aarch64__
-> >      r = hv_vcpu_create(&cpu->hvf->fd, (hv_vcpu_exit_t **)&cpu->hvf->exit, NULL);
-> > diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
-> > index 5f15119184..13adf6ea77 100644
-> > --- a/include/sysemu/hvf_int.h
-> > +++ b/include/sysemu/hvf_int.h
-> > @@ -62,6 +62,7 @@ extern HVFState *hvf_state;
-> >  struct hvf_vcpu_state {
-> >      uint64_t fd;
-> >      void *exit;
-> > +    sigset_t unblock_ipi_mask;
-> >  };
-> >
-> >  void assert_hvf_ok(hv_return_t ret);
-> > diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-> > index 5ecce36d4a..79aeeb237b 100644
-> > --- a/target/arm/hvf/hvf.c
-> > +++ b/target/arm/hvf/hvf.c
-> > @@ -2,6 +2,7 @@
-> >   * QEMU Hypervisor.framework support for Apple Silicon
-> >
-> >   * Copyright 2020 Alexander Graf <agraf@csgraf.de>
-> > + * Copyright 2020 Google LLC
-> >   *
-> >   * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> >   * See the COPYING file in the top-level directory.
-> > @@ -18,6 +19,7 @@
-> >  #include "sysemu/hw_accel.h"
-> >
-> >  #include <Hypervisor/Hypervisor.h>
-> > +#include <mach/mach_time.h>
-> >
-> >  #include "exec/address-spaces.h"
-> >  #include "hw/irq.h"
-> > @@ -413,6 +415,7 @@ int hvf_arch_init_vcpu(CPUState *cpu)
-> >
-> >  void hvf_kick_vcpu_thread(CPUState *cpu)
-> >  {
-> > +    cpus_kick_thread(cpu);
-> >      hv_vcpus_exit(&cpu->hvf->fd, 1);
-> >  }
-> >
-> > @@ -468,6 +471,18 @@ static int hvf_inject_interrupts(CPUState *cpu)
-> >      return 0;
-> >  }
-> >
-> > +static void hvf_wait_for_ipi(CPUState *cpu, struct timespec *ts)
-> > +{
-> > +    /*
-> > +     * Use pselect to sleep so that other threads can IPI us while we're
-> > +     * sleeping.
-> > +     */
-> > +    qatomic_mb_set(&cpu->thread_kicked, false);
-> > +    qemu_mutex_unlock_iothread();
->
-> I raised a concern earlier, but I don't for sure if a kick could be lost
-> right here. On x86 it could be lost.
+On Thu, Dec 03, 2020 at 07:10:37PM +0100, Paolo Bonzini wrote:
+> On 03/12/20 18:52, Eduardo Habkost wrote:
+> > On Thu, Dec 03, 2020 at 05:50:46PM +0100, Paolo Bonzini wrote:
+> > > On 03/12/20 16:15, Kevin Wolf wrote:
+> > > > I don't think this is an intermediate state like Eduardo wants to have.
+> > > > Creating the object, then setting properties, then realize [1] will fail
+> > > > after your change. But keeping it working was the whole point of the
+> > > > exercise.
+> > > 
+> > > With the sample code, you must remove object_class_property_set calls at the
+> > 
+> > Do you mean object_property_set()?
+> 
+> Yes.
+> 
+> > > same time as you remove the setters.  Usually that'd be when you convert to
+> > > QAPI and oc->configure, but it doesn't have to be that way if there are good
+> > > reasons not to do so.
+> > 
+> > Having two (or more) similar but incompatible APIs to do exactly
+> > the same thing is a mistake we did before, and I wouldn't like us
+> > to repeat it.
+> > 
+> > If we can keep qdev_new() + object_property_set() + realize
+> > working after the device is converted, we should.  I believe we
+> > can.
+> 
+> You can.  If you want to do that, you have to give up on removing the
+> setters; but that's not so beneficial for devices because they already use
+> static properties anyway.  They have much less boilerplate than -object
+> objects.
 
-If the signal is sent right before the pselect() it will be blocked
-i.e. left pending. With the pselect() we get an atomic unblock of
-SIG_IPI at the same time as we begin sleeping, which means that we
-will receive the signal and leave the pselect() immediately.
+Understood.
 
-I think at some point macOS had an incorrect implementation of
-pselect() where the signal mask was non-atomically set in userspace
-which could lead to the signal being missed but I checked the latest
-XNU sources and it looks like the pselect() implementation has been
-moved to the kernel.
+We can also get rid of most setters in -object backends using
+field properties.  Maybe not a necessary step, but a useful
+intermediate step in case the new API takes time to be ready.
 
-> > +    pselect(0, 0, 0, 0, ts, &cpu->hvf->unblock_ipi_mask);
-> > +    qemu_mutex_lock_iothread();
-> > +}
-> > +
-> >  int hvf_vcpu_exec(CPUState *cpu)
-> >  {
-> >      ARMCPU *arm_cpu = ARM_CPU(cpu);
-> > @@ -579,6 +594,46 @@ int hvf_vcpu_exec(CPUState *cpu)
-> >          }
-> >          case EC_WFX_TRAP:
-> >              advance_pc = true;
-> > +            if (!(syndrome & WFX_IS_WFE) && !(cpu->interrupt_request &
-> > +                (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
-> > +
-> > +                uint64_t ctl;
-> > +                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CTL_EL0,
-> > +                                        &ctl);
-> > +                assert_hvf_ok(r);
-> > +
-> > +                if (!(ctl & 1) || (ctl & 2)) {
-> > +                    /* Timer disabled or masked, just wait for an IPI. */
-> > +                    hvf_wait_for_ipi(cpu, NULL);
-> > +                    break;
-> > +                }
-> > +
-> > +                uint64_t cval;
-> > +                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CVAL_EL0,
-> > +                                        &cval);
-> > +                assert_hvf_ok(r);
-> > +
-> > +                int64_t ticks_to_sleep = cval - mach_absolute_time();
->
->
-> Apple reference recommends to use [1]:
->
->   clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
->
-> It, internally in Libc, invokes mach_absolute_time() [2].
->
-> 1. https://developer.apple.com/documentation/kernel/1462446-mach_absolute_time
-> 2. https://opensource.apple.com/source/Libc/Libc-1158.1.2/gen/clock_gettime.c.auto.html
+> 
+> > If we can make object_new_configure() work with all (or most)
+> > device types before we manually convert them to the new system,
+> > we should.  I believe we can.
+> 
+> Yup, object_new_configure() is the low-level visitor-based API and therefore
+> it supports both properties and oc->configure.
 
-I think that recommendation is because most people want to deal with
-seconds, not ticks. In our case we specifically want ticks because
-we're comparing against a ticks value from the guest, so I don't see
-the benefit of converting from ticks to seconds and back again.
+Perfect.  That part was not clear yet to me (I just skimmed to
+the example code you posted on the wiki).
 
-Peter
+> 
+> > We may be able avoid these questions with -object because
+> > converting all backends at the same time is doable.  With
+> > devices, API usability and maintainability during the transition
+> > period (which could be very long) needs to be taken into account.
+> 
+> I think we're in violent agreement. :)
+> 
+> Paolo
+> 
 
->
-> Thanks,
-> Roman
->
-> > +                if (ticks_to_sleep < 0) {
-> > +                    break;
-> > +                }
-> > +
-> > +                uint64_t seconds = ticks_to_sleep / arm_cpu->gt_cntfrq_hz;
-> > +                uint64_t nanos =
-> > +                    (ticks_to_sleep - arm_cpu->gt_cntfrq_hz * seconds) *
-> > +                    1000000000 / arm_cpu->gt_cntfrq_hz;
-> > +
-> > +                /*
-> > +                 * Don't sleep for less than 2ms. This is believed to improve
-> > +                 * latency of message passing workloads.
-> > +                 */
-> > +                if (!seconds && nanos < 2000000) {
-> > +                    break;
-> > +                }
-> > +
-> > +                struct timespec ts = { seconds, nanos };
-> > +                hvf_wait_for_ipi(cpu, &ts);
-> > +            }
-> >              break;
-> >          case EC_AA64_HVC:
-> >              cpu_synchronize_state(cpu);
-> > --
-> > 2.24.3 (Apple Git-128)
-> >
+-- 
+Eduardo
+
 
