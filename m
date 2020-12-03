@@ -2,133 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E5B2CCD62
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 04:40:40 +0100 (CET)
-Received: from localhost ([::1]:42568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FFE72CCD67
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 04:40:45 +0100 (CET)
+Received: from localhost ([::1]:42916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkfTz-0006Jx-Ce
-	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 22:40:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34660)
+	id 1kkfU4-0006VF-LO
+	for lists+qemu-devel@lfdr.de; Wed, 02 Dec 2020 22:40:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1kkfSN-0005W1-BO
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 22:38:59 -0500
-Received: from de-smtp-delivery-102.mimecast.com ([51.163.158.102]:27652)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <acho@suse.com>) id 1kkfSJ-000436-Ue
- for qemu-devel@nongnu.org; Wed, 02 Dec 2020 22:38:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1606966732;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nPTnsXLFleepKBqP6BLAKYRYmNl5zxipu0ubizN6/kM=;
- b=Gw6UcEtGJPSMvl6qQLwPohe/lfr+CibUHGJteG5ruldFArSIs5PumZU6uHokpEbAFtAinO
- u3WOu8OoVVzHuwmdF7SMG63toX95r8pYvyghY8F5A4PvM7pIWGadvSiUtj6uTLgfxtkUX6
- d4c5VJZ+RvuynUCcX9i20aPitWKpeOo=
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05lp2110.outbound.protection.outlook.com [104.47.17.110])
- (Using TLS) by relay.mimecast.com with ESMTP id
- de-mta-17-SyalyUtBOPm-ZVV7HBhBvg-1; Thu, 03 Dec 2020 04:38:50 +0100
-X-MC-Unique: SyalyUtBOPm-ZVV7HBhBvg-1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gqhEhbXqfzBDJiWPDyN8/yGoRPN/YVKZL/ccFUVBlkxmS8VTt5+EI/S/M4y5dXysXgZ3tLovlptVBnYw7VUr/F8thuyLr2yis0xzTsZnvFvtHToIypD7RJwpON8++x3DIyhcPD81P/xVQyNK3rh9PnSjQBrDJMUgaF25xpLMqG77kQhGQHY1u3b614vUraZLzz9C/H2k7zcCaBgVjOUfb3ZiUFWzoF+0ByJ9p05S2HoeXV5oQJK3CRIUgL6XgBsunRTELwaE8yX8nX5uEWbTiQo1NNPAOYy7ReiAZxRUx0Zs6+josD4KOZlMlvsUiHZEnvzrucBKyyuPSwKHz3O+ng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=23Q+wmYhgTGKcm41nidsBaRKjVQWHBWYT5uz8YrKJog=;
- b=jZi7Hiq0JJBqGyjE8IL1KcuT1Y78FfxV/zT1XIbNb3pjm1m/ENZa2RQVBTzZrNNnfcvCb7udrpFEsJHT6jqqAC0H94q7yQLP2Z2eEmLX9d9hV5gvhkXxn1U5p3onJhunmOIoaSQaJ5mSSe+zLA8Scl987gI3vFojsA92MJI7eB1CoFImisj0N8FzqSjHG1fcPXt3w2/ya+tcf1eJGNjRhaY2hSz/057YR6KbRFIplAksh25otrp46zxyDCcve8++qnhSxIkzn7D9TMv4DLJ1PekfzIh2xdo6y9y1Nqu1UQbNCVV7VJKB+x0MSqOsQW5VCD05JkDjIxX9nFU62MZs8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=suse.com;
-Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
- (2603:10a6:803:16::25) by VI1PR04MB7198.eurprd04.prod.outlook.com
- (2603:10a6:800:126::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18; Thu, 3 Dec
- 2020 03:38:48 +0000
-Received: from VI1PR0402MB3744.eurprd04.prod.outlook.com
- ([fe80::c53b:66c3:e1dc:e5c6]) by VI1PR0402MB3744.eurprd04.prod.outlook.com
- ([fe80::c53b:66c3:e1dc:e5c6%7]) with mapi id 15.20.3611.033; Thu, 3 Dec 2020
- 03:38:48 +0000
-Message-ID: <856f82016e0b36d81ba80342f2bb2e85482078f8.camel@suse.com>
-Subject: Re: [PATCH v2] gitlab-ci.yml: Add openSUSE Leap 15.2 for gitlab CI/CD
-From: AL Yu-Chen Cho <acho@suse.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kkfST-0005aL-Ju
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 22:39:05 -0500
+Received: from relay2.mymailcheap.com ([151.80.165.199]:45554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kkfSR-00048U-O6
+ for qemu-devel@nongnu.org; Wed, 02 Dec 2020 22:39:05 -0500
+Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
+ [91.134.140.82])
+ by relay2.mymailcheap.com (Postfix) with ESMTPS id A5EC73EDEC;
+ Thu,  3 Dec 2020 04:39:01 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by filter2.mymailcheap.com (Postfix) with ESMTP id 828752A6DF;
+ Thu,  3 Dec 2020 04:39:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
+ s=default; t=1606966741;
+ bh=BrT1zud3EMh1mpq1CBXrkVC+Yfu/F2BS9l1iCiJzhkQ=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=yVtdEEoJivmxBOPHSm7Jmj4TAg5VR707z3o1JDLtQyOa2Zwv4KvYSsMUgZ93vuS9n
+ 2KJ0vk0Pc/iWRc00m2cnOht931y/ejiweXVNpF2dgD5IAIoeBYHfP3jk9uFpNuTqfA
+ /tsizV1kFTjFX8g+mX58E2hzd6g/jnyOmWiKgE2g=
+X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
+Received: from filter2.mymailcheap.com ([127.0.0.1])
+ by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ud42ebzwi66W; Thu,  3 Dec 2020 04:39:00 +0100 (CET)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by filter2.mymailcheap.com (Postfix) with ESMTPS;
+ Thu,  3 Dec 2020 04:39:00 +0100 (CET)
+Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
+ by mail20.mymailcheap.com (Postfix) with ESMTP id AA1144100D;
+ Thu,  3 Dec 2020 03:38:59 +0000 (UTC)
+Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="byl6G82S"; 
+ dkim-atps=neutral
+AI-Spam-Status: Not processed
+Received: from [0.0.0.0] (li1861-199.members.linode.com [172.105.207.199])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 32E0C42237;
+ Thu,  3 Dec 2020 03:38:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
+ s=default; t=1606966733;
+ bh=BrT1zud3EMh1mpq1CBXrkVC+Yfu/F2BS9l1iCiJzhkQ=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=byl6G82SBTOg5xQ5c0kAFlRdg9EJPqICYiUuuW2ZVIs4VcP5PTbgdWqKwGRpInBax
+ a07q5+QDPd+lGE4c73I20e7URPmCPxIBa2x8q+K/wcjNoA8WNTGFzaGnoFkzU+bv2D
+ 1YCJjkJLTirMnnwXDOQ94t5i5vhNjrSWpslqMCI0=
+Subject: Re: [PATCH 0/9] target/mips: Simplify MSA TCG logic
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-CC: thuth@redhat.com, wainersm@redhat.com, alex.bennee@linaro.org,
- fam@euphon.net,  cfontana@suse.de, brogers@suse.com, lyan@suse.co, Willian
- Rampazzo <wrampazz@redhat.com>
-Date: Thu, 03 Dec 2020 11:38:36 +0800
-In-Reply-To: <3a5f46b9-c83f-e85c-dfc4-7fcaa711356b@redhat.com>
-References: <20201130042659.29333-1-acho@suse.com>
- <3a5f46b9-c83f-e85c-dfc4-7fcaa711356b@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [60.251.47.115]
-X-ClientProxiedBy: HK2PR02CA0157.apcprd02.prod.outlook.com
- (2603:1096:201:1f::17) To VI1PR0402MB3744.eurprd04.prod.outlook.com
- (2603:10a6:803:16::25)
+References: <20201202184415.1434484-1-f4bug@amsat.org>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <66b6e3b7-d13f-4224-cce4-0a8dd5fd9788@flygoat.com>
+Date: Thu, 3 Dec 2020 11:38:46 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.156.41.170] (60.251.47.115) by
- HK2PR02CA0157.apcprd02.prod.outlook.com (2603:1096:201:1f::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3632.17 via Frontend Transport; Thu, 3 Dec 2020 03:38:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9a0f659e-c213-4e6b-b9a6-08d8973cf161
-X-MS-TrafficTypeDiagnostic: VI1PR04MB7198:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB71982EA8F8B2965D3CEF87A5A0F20@VI1PR04MB7198.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EcNwKt34+BdhSMlnvPHP0uXKc1FMnqR2YknsIShi1UraWQWHLfygVYgvcKuA+mgn8VikSwfteVAVKNlE3D7CzW7Y8jXFg8MtM8hrDkpyQ1HahuHyzrogHeihuSEBpsitFjRQDBdGeWkSA4+xKFs2MzQWAGOrDSVV6KbxCy7P02sLdSESP3381CYsqrO0A7eWP1HpKyOCm063Epo1YyTj3AhzNO27/bdbxRaSKlbiITYktJgWvP8HsGd+VU0zRaMzveQFK2qt3zv829GQwwaIC0zIWw1/j5qsLNO7FhkJ33nOMp3+1VoazcPnw2KcO8mxFtYCoalhOvROJj0nuhixwvUaua2y07lltwqrer9YsmOVcHzPzz0pcYTC9mS5LojrXa9kR406dbQoHc2GhhlOJw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR0402MB3744.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(346002)(396003)(39850400004)(136003)(366004)(376002)(966005)(4001150100001)(52116002)(2906002)(26005)(2616005)(53546011)(55236004)(6666004)(956004)(186003)(16526019)(86362001)(8936002)(16576012)(316002)(83380400001)(4326008)(36756003)(5660300002)(8676002)(66476007)(6486002)(66946007)(66556008)(478600001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?RBYfOCUrpprjxhKU5Wy2cQZ4QNKzWsOuIN/C3hYhrmPXqR+qvmZJEOf8w7dp?=
- =?us-ascii?Q?lVdwhgWJjrYciuB+c5ULIcMSteEcPG/vRGjpqqNOSMZQteIdKSDnI2s78vJm?=
- =?us-ascii?Q?EbHAzS1IfReWLPigC0MwuG/lKH0lkceNJhDn85hwQRWpHwig4Tp1E+aMzc+W?=
- =?us-ascii?Q?nTMsUYkjgWf9ZilA+UTv3ubdEtCKisl3CNpxjbftxVJJiIZmEGPEWaEN8fDL?=
- =?us-ascii?Q?KJW6q88+N4cD9+pXXTMKnXz62+vlsPImvl25qYqULGhKR919Eqb+y6zJ/0li?=
- =?us-ascii?Q?MWK0sgd8WpVM/+rnCu6kO82leqG06LqlyngbkwslEP3QE3LKWqZHSeOk3zfH?=
- =?us-ascii?Q?wtLxBsaJnyL8hBZyMTkjQ0GxUmGZCR8vp+1b74dy2yAO6g6LPFSESBeFUfjQ?=
- =?us-ascii?Q?MvocTkKI93YMECvSsaHmYds09z33WBcfUIgmXCX6giYBXn8Hx6lNazolVUuU?=
- =?us-ascii?Q?/zdFlTCuvk7VkyL5srNUGJIV7TXiwmk24Q75csWcZspi8R8DnqprWulUsDT9?=
- =?us-ascii?Q?Pv5tw5dUAyjugaWiQGR9+mRXdG3U9K3xpp1IJrv8C89cD6iDHqKi7Y6Y02xs?=
- =?us-ascii?Q?0zFcGuY0gFgmSZpckIJ1UqAhpGt2dmj9Ez0xvru2N+qoomkgIhhtkr78yh30?=
- =?us-ascii?Q?VAAmcUyWPNp5CzIQQJo6OMtEJtNK31WGyez25NGFUQOj0UAOioNtN82rk5f7?=
- =?us-ascii?Q?CgljLYjLYi2uuqQaPFABhuJSRmhbIS8eMlJ4Q3+2gXFBnGcRKP9/b4pwAQay?=
- =?us-ascii?Q?sJ9SoHyWP8NE0CBGsu5jVVGcCkYEqLUmP3eFUKooiXRn8d8o5CkA8pTs8t+Z?=
- =?us-ascii?Q?nlwIrQ/x6fo6UU0hjCqoAJ/87WGBC0pKh3SCn9h3o6rVBc10jwq483934SvO?=
- =?us-ascii?Q?syqsfdB8/oT1r+nJueXLXWfCz4ifzrgyX6w3JvH5jrF9f1pD7b/BWnp7+g5t?=
- =?us-ascii?Q?kyN5RdCZHX2zSG40caOvuPFEsLYyimsja4JPL/iN6aCpaFHySxQK8zBEqxQG?=
- =?us-ascii?Q?t/x3?=
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a0f659e-c213-4e6b-b9a6-08d8973cf161
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3744.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2020 03:38:47.9858 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4QdfVgQsREILADFsaEBsq2z+NdZBsJyXdoQe1MYm/Ywz83SoLc+Pe8c1oshfatNM
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB7198
-Received-SPF: pass client-ip=51.163.158.102; envelope-from=acho@suse.com;
- helo=de-smtp-delivery-102.mimecast.com
+In-Reply-To: <20201202184415.1434484-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Rspamd-Queue-Id: AA1144100D
+X-Spamd-Result: default: False [2.90 / 10.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ R_DKIM_ALLOW(0.00)[flygoat.com:s=default]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RECEIVED_SPAMHAUS_XBL(3.00)[172.105.207.199:received];
+ MIME_GOOD(-0.10)[text/plain]; R_SPF_SOFTFAIL(0.00)[~all:c];
+ ML_SERVERS(-3.10)[148.251.23.173];
+ DKIM_TRACE(0.00)[flygoat.com:+];
+ DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
+ RCPT_COUNT_SEVEN(0.00)[8];
+ DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
+ RCVD_COUNT_TWO(0.00)[2]; MID_RHS_MATCH_FROM(0.00)[];
+ HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
+X-Rspamd-Server: mail20.mymailcheap.com
+Received-SPF: pass client-ip=151.80.165.199;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay2.mymailcheap.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -141,94 +114,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-11-30 at 10:14 +0100, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 11/30/20 5:26 AM, Cho, Yu-Chen wrote:
-> > v2:
-> > Drop some package from dockerfile to make docker image more light.
-> >=20
-> > v1:
-> > Add build-system-opensuse jobs and opensuse-leap.docker dockerfile.
-> > Use openSUSE Leap 15.2 container image in the gitlab-CI.
-> >=20
-> > Signed-off-by: Cho, Yu-Chen <acho@suse.com>
-> > ---
-> >  .gitlab-ci.d/containers.yml                   |  5 ++
-> >  .gitlab-ci.yml                                | 30 +++++++++++
-> >  tests/docker/dockerfiles/opensuse-leap.docker | 54
-> > +++++++++++++++++++
-> >  3 files changed, 89 insertions(+)
-> >  create mode 100644 tests/docker/dockerfiles/opensuse-leap.docker
-> >=20
-> > diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-
-> > ci.d/containers.yml
-> > index 892ca8d838..910754a699 100644
-> > --- a/.gitlab-ci.d/containers.yml
-> > +++ b/.gitlab-ci.d/containers.yml
-> > @@ -246,3 +246,8 @@ amd64-ubuntu-container:
-> >    <<: *container_job_definition
-> >    variables:
-> >      NAME: ubuntu
-> > +
-> > +amd64-opensuse-leap-container:
-> > +  <<: *container_job_definition
-> > +  variables:
-> > +    NAME: opensuse-leap
-> > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> > index d0173e82b1..6a256fe07b 100644
-> > --- a/.gitlab-ci.yml
-> > +++ b/.gitlab-ci.yml
-> > @@ -195,6 +195,36 @@ acceptance-system-centos:
-> >      MAKE_CHECK_ARGS: check-acceptance
-> >    <<: *acceptance_definition
-> > =20
->=20
-> What about adding in a comment who is the maintainer
-> of these jobs? Some sort of contact in case there is
-> a OpenSUSE specific issue for example.
->=20
-
-I am glad to be a maintainer or reviewer for the openSUSE specific
-issue.
 
 
-> See:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg758968.html
->=20
-> > +build-system-opensuse:
-> > +  <<: *native_build_job_definition
-> > +  variables:
-> > +    IMAGE: opensuse-leap
-> > +    TARGETS: s390x-softmmu x86_64-softmmu aarch64-softmmu
-> > +    MAKE_CHECK_ARGS: check-build
-> > +  artifacts:
-> > +    expire_in: 2 days
-> > +    paths:
-> > +      - build
-> > +
-> > +check-system-opensuse:
-> > +  <<: *native_test_job_definition
-> > +  needs:
-> > +    - job: build-system-opensuse
-> > +      artifacts: true
-> > +  variables:
-> > +    IMAGE: opensuse-leap
-> > +    MAKE_CHECK_ARGS: check
-> > +
-> > +acceptance-system-opensuse:
-> > +  <<: *native_test_job_definition
-> > +  needs:
-> > +    - job: build-system-opensuse
-> > +      artifacts: true
-> > +  variables:
-> > +    IMAGE: opensuse-leap
-> > +    MAKE_CHECK_ARGS: check-acceptance
-> > +  <<: *acceptance_definition
-> > +
-> >  build-disabled:
-> >    <<: *native_build_job_definition
-> >    variables:
+在 2020/12/3 上午2:44, Philippe Mathieu-Daudé 写道:
+> I converted MSA opcodes to decodetree. To keep the series
+> small I split it in 2, this is the non-decodetree specific
+> patches (so non-decodetree experts can review it ;) ).
+>
+> First we stop using env->insn_flags to check for MSAi
+> presence, then we restrict TCG functions to DisasContext*.
 
+Hi Philippe,
+
+For the whole series,
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+
+
+I'm just curious about how would you deal with so many condition flags
+with decodetree?
+
+Unlike other ISAs, MIPS have so many flavors, every ISA level (MIPS-III 
+R2 R5 R6)
+has it's own instructions, and in my understanding decodetree file won't 
+generate
+these switches. I was trying to do the same thing but soon find out 
+we'll have around
+20 decodetree for MIPS.
+
+Thanks.
+
+- Jiaxun
+
+>
+> Based-on: <20201130102228.2395100-1-f4bug@amsat.org>
+> "target/mips: Allow executing MSA instructions on Loongson-3A4000"
+>
+> Philippe Mathieu-Daudé (9):
+>    target/mips: Introduce ase_msa_available() helper
+>    target/mips: Simplify msa_reset()
+>    target/mips: Use CP0_Config3 to set MIPS_HFLAG_MSA
+>    target/mips: Simplify MSA TCG logic
+>    target/mips: Remove now unused ASE_MSA definition
+>    target/mips: Alias MSA vector registers on FPU scalar registers
+>    target/mips: Extract msa_translate_init() from mips_tcg_init()
+>    target/mips: Remove CPUMIPSState* argument from gen_msa*() methods
+>    target/mips: Explode gen_msa_branch() as gen_msa_BxZ_V/BxZ()
+>
+>   target/mips/internal.h           |   8 +-
+>   target/mips/mips-defs.h          |   1 -
+>   target/mips/kvm.c                |  12 +-
+>   target/mips/translate.c          | 206 ++++++++++++++++++-------------
+>   target/mips/translate_init.c.inc |  12 +-
+>   5 files changed, 138 insertions(+), 101 deletions(-)
+>
 
