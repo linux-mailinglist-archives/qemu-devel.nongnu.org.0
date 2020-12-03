@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543772CD524
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 13:06:33 +0100 (CET)
-Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682312CD529
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 13:08:01 +0100 (CET)
+Received: from localhost ([::1]:46610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kknNY-0005tW-C6
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 07:06:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35622)
+	id 1kknOy-0006y3-Ha
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 07:08:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kknLp-0004KJ-T0
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 07:04:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60014)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kknNU-0006HY-B5
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 07:06:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kknLg-0000Z3-Vw
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 07:04:44 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kknNS-0001Hw-2d
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 07:06:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606997075;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1606997185;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rk68Mb8D/LfKQPNWAoKZki+KvnlsJoZSTwnTLOwh3vE=;
- b=HYmp1cYmn8AD8teT9fJuBV3LcNuprT0PJpPfBkC30Iq/S6wHlCXGfA4mv0fmVSeaFHmVj6
- 92sJKZmAaisIvsJ8gNIMffIPZZxX7PbQszGOZHvXhtNrQmjZ4sicwMb1kgRQPj2sJz6c+z
- kxtPDOiBi+C8btrvC+gNDeepoW+zNfg=
+ bh=IwLDNw36oWF8ysSmGRV+9C3jNFdrGWeKoJ2MT3RmDWU=;
+ b=NEW9Mq6gIzANY2Y3CKykkfshkJL6tvRatJaUt4Gvhw7WvQKUJfes5mluCeNfO6QvrUaWyc
+ KWz276C6UifY621jnbXGfc1q9kTyY58+WJ9m9Z4rIH9F+EYNB/w8E4bkgK+LDJ+Bi5uQgm
+ DpxKQyPAtJNq7/BafoS+Xs7smolMO0k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-HubuYMvpO4u7Lp0dc8oMTQ-1; Thu, 03 Dec 2020 07:04:33 -0500
-X-MC-Unique: HubuYMvpO4u7Lp0dc8oMTQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-549-yjgY8818Na2MxwDGOFLgRQ-1; Thu, 03 Dec 2020 07:06:23 -0500
+X-MC-Unique: yjgY8818Na2MxwDGOFLgRQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3B7018C89E2
- for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 12:04:32 +0000 (UTC)
-Received: from work-vm (ovpn-112-127.ams2.redhat.com [10.36.112.127])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52EFA63BA7;
- Thu,  3 Dec 2020 12:04:24 +0000 (UTC)
-Date: Thu, 3 Dec 2020 12:04:22 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E42FBBBEE4
+ for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 12:06:21 +0000 (UTC)
+Received: from redhat.com (ovpn-115-57.ams2.redhat.com [10.36.115.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0716C5D6AC;
+ Thu,  3 Dec 2020 12:06:16 +0000 (UTC)
+Date: Thu, 3 Dec 2020 12:06:14 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: "Michael S. Tsirkin" <mst@redhat.com>
 Subject: Re: [PATCH v2 01/27] migration: Network Failover can't work with a
  paused guest
-Message-ID: <20201203120422.GC2919@work-vm>
+Message-ID: <20201203120614.GF2952498@redhat.com>
 References: <20201202105515.GD2360260@redhat.com>
  <20201202061641-mutt-send-email-mst@kernel.org>
  <20201202112639.GE2360260@redhat.com>
@@ -56,20 +57,20 @@ References: <20201202105515.GD2360260@redhat.com>
  <20201203061907-mutt-send-email-mst@kernel.org>
  <20201203113253.GD2952498@redhat.com>
  <20201203063452-mutt-send-email-mst@kernel.org>
- <20201203114341.GB2919@work-vm>
- <20201203070119-mutt-send-email-mst@kernel.org>
+ <20201203114512.GE2952498@redhat.com>
+ <20201203070023-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201203070119-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20201203070023-mutt-send-email-mst@kernel.org>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -90,16 +91,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
  Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Michael S. Tsirkin (mst@redhat.com) wrote:
-> On Thu, Dec 03, 2020 at 11:43:41AM +0000, Dr. David Alan Gilbert wrote:
-> > * Michael S. Tsirkin (mst@redhat.com) wrote:
+On Thu, Dec 03, 2020 at 07:01:11AM -0500, Michael S. Tsirkin wrote:
+> On Thu, Dec 03, 2020 at 11:45:12AM +0000, Daniel P. Berrangé wrote:
+> > On Thu, Dec 03, 2020 at 06:40:11AM -0500, Michael S. Tsirkin wrote:
 > > > On Thu, Dec 03, 2020 at 11:32:53AM +0000, Daniel P. Berrangé wrote:
 > > > > On Thu, Dec 03, 2020 at 06:21:47AM -0500, Michael S. Tsirkin wrote:
 > > > > > On Wed, Dec 02, 2020 at 12:01:21PM +0000, Daniel P. Berrangé wrote:
@@ -187,53 +189,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > > > > 
 > > > > A warning is going to be essentally invisible if the pause command
 > > > > succeeeds. 
-> > > > 
-> > > > Regards,
-> > > > Daniel
 > > > 
 > > > I mean the situation here isn't earth shattering, an admin
 > > > created it. Maybe he will unpause shortly
 > > > and all will be well ...
-> > > 
-> > > How about we make it possible for admin to detect that the
-> > > reason for migration not making progress is that it is
-> > > waiting for unplug? And maybe that guest is paused too?
 > > 
-> > We already know that from the state of the VM.
+> > It isn't really about the admin.  It is about countless existing mgmt apps
+> > that expect migration will always succeed if the VM is paused. The mgmt
+> > apps triggering the migraiton is not neccessarily the same as the app
+> > which introduced the use of NIC failover in the config.
+> > 
+> > eg in OpenStack Nova provides the VM config, but there are completely
+> > separate apps that are built todo automation on top of Nova which 
+> > this is liable to break. There's no human admin there to diagnose
+> > this and re-try with unpause, as all the logic is in the apps.
+> > 
+> > 
+> > Regards,
+> > Daniel
 > 
-> You don't know that migration is waiting for the guest
-> action, no.
-> 
-> This is what we care about here right?
+> So let's say pause fails. Won't this break these theoretical apps?
 
-Yes we do, the migration status should be in
-'MIGRATION_STATUS_WAIT_UNPLUG' (and that should have been notified
-as an event).
+Yes, they are broken in a way that can now actually be seen, as opposed
+to just hanging forever in migration.
 
-Dave
-
-> 
-> > > I just don't see how we can detect all cases and I am not
-> > > sure it is worth it to try and detect only some of them,
-> > > making users think they can rely on command failure to
-> > > detect them.
-> > 
-> > Another way to solve this would be to remove the unplugging from the
-> > migration layer and leave it as a problem for the management layer to do
-> > the unplug.
-> > 
-> > Dave
-> > 
-> > > 
-> > > > -- 
-> > > > |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> > > > |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> > > > |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> > > 
-> > -- 
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-> 
+Regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
