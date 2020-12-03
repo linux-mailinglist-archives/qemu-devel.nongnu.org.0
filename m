@@ -2,93 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FCF2CD300
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 10:56:52 +0100 (CET)
-Received: from localhost ([::1]:33484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DEA62CD309
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 10:57:53 +0100 (CET)
+Received: from localhost ([::1]:36808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kklM3-00036S-Qt
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 04:56:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59746)
+	id 1kklN2-0004bB-Cb
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 04:57:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kklIp-0000Jv-8V
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 04:53:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kklIm-0005Pz-QD
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 04:53:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606989207;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D1e8zv+TeVmIVK6pNXoCO7QBNSEFfKDKYjRUMHLaJZQ=;
- b=JIwLJoA55hXPpLJilerMud2Qk3AldMsIijaD0C5cYVAjw5QIhz4K1+d8fBNfQ7Fw0PrqdL
- iwQz7AOvJ2WBdIRFZdk0k7PphDuRhmYr15P2+knBNJ5mngTisB19XgS/VhPO1eoNozmmK+
- Z5FeR5jfPP0v7pn7bi/yPviO60ZRdTM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-BD026nrbN1eYAqlYHVsgLA-1; Thu, 03 Dec 2020 04:53:26 -0500
-X-MC-Unique: BD026nrbN1eYAqlYHVsgLA-1
-Received: by mail-wr1-f72.google.com with SMTP id v5so1043829wrr.0
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 01:53:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kklM6-0003lg-W1
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 04:56:55 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45265)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kklM5-0006ix-9S
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 04:56:54 -0500
+Received: by mail-wr1-x441.google.com with SMTP id t4so1195242wrr.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 01:56:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HNA3AaNstMx/05+j3j1BN4YLiTFK9KwKH5/b5NiOwSM=;
+ b=ZRbPpCN9SwYOeJESqocnzsm1eD6fkzgcPPciRQjqBp5iRMpdME7SeO6CmfsbHei0vd
+ GD1mj475zeo8KK9p/4qZTkaYk0ICi30WgmLuVRAbevJ/2LdzAwgDlzJT7v/IkO4rErUx
+ uDFuMbGQUCRYOjbWER61rPGG9/Fl3XL9zKq4vQ5kRNYqj4LkUL0BCkjaE4Ms042Aoarm
+ mgrQxtVi6KMk3tdX/bZVMl45NTR5aqg/3AQd2HrYD0SwJLuZKI3qyhIe3IoH3cFERjVu
+ fYn3qts+LNUToiXTt8HrqW7Bvuj+uNu5t9jfqJWISI75vYfaa50aFX0z7YZqjqzr752r
+ 4Oaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=D1e8zv+TeVmIVK6pNXoCO7QBNSEFfKDKYjRUMHLaJZQ=;
- b=FYgkxVrzLio5IJXM5PMsT/+1nTxglTrWoxuKATy/jJs7nd4ILTChiZCjoToqG3+ZYn
- lnQ9oruDGd5V7bI3uwxLhqceii4yirR6hpS6ZElvZRUawrxvjdWb8tqgWGw29dkg8LIO
- HA31lI/O1YRaiWMbDG213fZwL8o5iPxB+ySXZXJGlroo74m+qvqinkK4DqF5zTOfUn7f
- G8r+yvEXpWxG1EZQNQRA08nZ/VRGA1Vq2t4mfzgMqp18ZJK4dDyCeCeZoUOhpEcAqdYA
- np+jYPFY6Gqap4xTbPBjTht5LHcGxEw8g0UjECWaVruEOMUdnvdpEgprnqcrH0B90Odu
- Y2CQ==
-X-Gm-Message-State: AOAM530yrvV2nI9ghG2zAwa6HpK1EHFl6TSFUoe5efS+c1d8Nfj/qm+3
- mOymYbCME50fqmZ+fSAPnIdlpyGD+gpDuMmABiEgrzk1BunnnCgYyGu9rvhTVRvH/DnLfJ4tTAQ
- +OJkeMDSkQPmK3LE=
-X-Received: by 2002:a7b:cd90:: with SMTP id y16mr2378350wmj.115.1606989204900; 
- Thu, 03 Dec 2020 01:53:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx1WjeBIwv33KPxxN8gDXvOPNllBHg3d8jloIZ6lDhonzDqUFtu5bBEH3Ox/s//pQxBN/eYEg==
-X-Received: by 2002:a7b:cd90:: with SMTP id y16mr2378326wmj.115.1606989204702; 
- Thu, 03 Dec 2020 01:53:24 -0800 (PST)
+ bh=HNA3AaNstMx/05+j3j1BN4YLiTFK9KwKH5/b5NiOwSM=;
+ b=hWGE1JFOmp5ufxx46vIFhW0058uLildvMB48XwtZ83j6le3Mc9F3U70jLx74ZvmKT6
+ vwmeokXsX2qinPOljuMYb4OpHdGz8KoZ1rQhYNFRnb0Dmm0jjbunCzZ3t/SHLZgsEFFh
+ hqvFUhmRsi6EbgtmnXmf6Q+bzW6LoLYmCP9qCrx/apMxrtlSEg6GhtTPbaoCi5H44SHU
+ ngyGosEg022Zw/t0R83GifMoaqaE1qm+S428wyQojMe/2gp6qQ7VJEUYclUMFW8zeKuR
+ ObgWcEh3NyI8huxGh2hSPbux5AyA9LN3BPPJXohDQJsYyUJFBcOSXaqSg9kDpeDH1uO+
+ IQSw==
+X-Gm-Message-State: AOAM530gY+jzZ2BGiVjrqxhPteto1xaxFregHGRcoZbrVjBLAbGjy02M
+ okajfbLxQabbuxha6LmJP4g=
+X-Google-Smtp-Source: ABdhPJx1Oq2tFG7mE+KRtMGrXgQcU7fFJNmWZj2JkeQTIYC0Vd8mjA7oEG2hpJZLL1Fka1To6AxW+Q==
+X-Received: by 2002:a5d:5107:: with SMTP id s7mr2811994wrt.148.1606989410972; 
+ Thu, 03 Dec 2020 01:56:50 -0800 (PST)
 Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id e1sm737320wma.17.2020.12.03.01.53.23
+ by smtp.gmail.com with ESMTPSA id b4sm1072424wrr.30.2020.12.03.01.56.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Dec 2020 01:53:24 -0800 (PST)
-Subject: Re: [PATCH] scsi: allow user to set werror as report
-To: Zihao Chang <changzihao1@huawei.com>, Fam Zheng <fam@euphon.net>,
- pbonzini@redhat.com
-References: <20201103061240.1364-1-changzihao1@huawei.com>
- <33fd8330630defb91feb6c627800a3ca952a4b55.camel@euphon.net>
- <8e53dc93-2312-375e-b67e-4df1b6901890@huawei.com>
- <2130de2b-d1cd-cfb9-51ee-a775e253d4a6@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <37acb898-8d6d-725b-6b48-f6d4a2cfa9fd@redhat.com>
-Date: Thu, 3 Dec 2020 10:53:23 +0100
+ Thu, 03 Dec 2020 01:56:50 -0800 (PST)
+Subject: Re: [PATCH-for 5.2?] hw/core/ressetable: fix reset count decrement
+To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
+References: <20201202164055.30864-1-damien.hedde@greensocs.com>
+ <6a34f2be-3467-b81a-956b-4472860e4d0b@amsat.org>
+ <24772fdf-eb83-b415-956f-52a0c056129c@greensocs.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <19b44607-8675-58e8-5d3b-42a86d93dcd4@amsat.org>
+Date: Thu, 3 Dec 2020 10:56:49 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <2130de2b-d1cd-cfb9-51ee-a775e253d4a6@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <24772fdf-eb83-b415-956f-52a0c056129c@greensocs.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,69 +90,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, michael.peter@hensoldt-cyber.systems
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/3/20 3:55 AM, Zihao Chang wrote:
-> Ping? This is a fix patch which has been reviewed, whose tree should it go via?
+On 12/3/20 9:58 AM, Damien Hedde wrote:
+> On 12/2/20 6:10 PM, Philippe Mathieu-Daudé wrote:
+>> On 12/2/20 5:40 PM, Damien Hedde wrote:
+>>> The reset count was only decremented if the device was in a single
+>>> reset.
+>>>
+>>> Also move the decrement before calling the exit phase method to fix
+>>> problem of reset state evaluation during that call. Update the doc
+>>> accordingly.
+>>>
+>>> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+>>> Fixes: 1905297 ("Zynq7000 UART clock reset initialization", 2020-11-23)
+>>
+> 
+>> $ git show 1905297
+>> fatal: ambiguous argument '1905297': unknown revision or path not in the
+>> working tree.
+> 
+> I put Michael's bug number there. Should I put the incriminated commit
+> instead ?
 
-The change itself is in-between 'Block layer' and 'SCSI'
-subsystems, so either Paolo or Kevin (Cc'ing qemu-block@).
+In that case you want:
+Buglink: https://bugs.launchpad.net/qemu/+bug/1905297
 
 > 
-> Thanks
-> Zihao
+>>
+>> Beside, typo ressetable -> resettable in subject.
 > 
-> On 2020/11/3 22:03, Zihao Chang wrote:
->>
->>
->> On 2020/11/3 18:52, Fam Zheng wrote:
->>> On Tue, 2020-11-03 at 14:12 +0800, Zihao Chang wrote:
->>>> 'enospc' is the default for -drive, but qemu allows user to set
->>>> drive option werror. If werror of scsi-generic is set to 'report'
->>>> by user, qemu will not allow vm to start.
->>>>
->>>> This patch allow user to set werror as 'report' for scsi-generic.
->>>>
->>>> Signed-off-by: Zihao Chang <changzihao1@huawei.com>
->>>> ---
->>>>  hw/scsi/scsi-generic.c | 3 ++-
->>>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
->>>> index 2cb23ca891..2730e37d63 100644
->>>> --- a/hw/scsi/scsi-generic.c
->>>> +++ b/hw/scsi/scsi-generic.c
->>>> @@ -664,7 +664,8 @@ static void scsi_generic_realize(SCSIDevice *s,
->>>> Error **errp)
->>>>          return;
->>>>      }
->>>>  
->>>> -    if (blk_get_on_error(s->conf.blk, 0) !=
->>>> BLOCKDEV_ON_ERROR_ENOSPC) {
->>>> +    if (blk_get_on_error(s->conf.blk, 0) != BLOCKDEV_ON_ERROR_ENOSPC
->>>> &&
->>>> +        blk_get_on_error(s->conf.blk, 0) !=
->>>> BLOCKDEV_ON_ERROR_REPORT) {
->>>>          error_setg(errp, "Device doesn't support drive option
->>>> werror");
->>>>          return;
->>>>      }
->>>
->>> Accepting the report sounds sane to me, it matches what we actually
->>> (always) do. Is the idea to allow users to spell it out explicitly in
->>> the command line?
->>>
->> Actually, qemu supports user to spell it out explicitly in the command
->> line like "enospc", "report" & "action". This patch just allows user to
->> set werror as "report" for scsi-generic, which is a common scenario.
->>
->>> Reviewed-by: Fam Zheng <fam@euphon.net>
->>>
->>> .
->>>
+> Thanks,
+> Damien
 > 
-
+> Cc'ing michael new address too
+> 
+>>
+>>> Reported-by: Michael Peter <michael.peter@hensoldt-cyber.com>
+>>> --
+>>>
+>>> Hi all,
+>>>
+>>> While looking at the bug reported by Michael and his patch. I found another
+>>> bug. Apparently I forgot to decrement the reset count if there was several
+>>> reset at the same time.
+>>>
+>>> This patch fixes that.
+>>>
+>>> I also moved the place of the decrement: before calling the exit phase method.
+>>> it globally fixes Michael's reported bug, as I think it will avoid some boiler
+>>> plate code in every exit phase method we do.
+>>>
+>>> Only other place where the reset state is checked is in the
+>>> hw/char/cadence-uart.c so it does not have high impact.
+>>>
+>>> I'm not sure if this meets the condition for 5.2 as it changes a documented
+>>> feature. In that case we can just accept Michael solution and I'll fix the
+>>> rest later.
+>>>
+>>> Here's the pointer for the bug and michael's patch.
+>>> https://lists.nongnu.org/archive/html/qemu-devel/2020-11/msg05786.html
+>>> https://lists.nongnu.org/archive/html/qemu-devel/2020-11/msg06105.html
+>>>
+>>> Damien
+> 
 
