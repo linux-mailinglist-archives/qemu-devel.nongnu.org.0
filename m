@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4017E2CD6C8
+	by mail.lfdr.de (Postfix) with ESMTPS id 1032B2CD6C7
 	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 14:30:22 +0100 (CET)
-Received: from localhost ([::1]:56456 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:56470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkogf-0002Yv-86
+	id 1kkogf-0002ZG-0h
 	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 08:30:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54190)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kkoeo-00019Q-O5
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kkoeo-00019P-NG
  for qemu-devel@nongnu.org; Thu, 03 Dec 2020 08:28:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35034)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kkoe2-0003BW-Pe
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kkoei-0003O4-T5
  for qemu-devel@nongnu.org; Thu, 03 Dec 2020 08:28:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607002057;
+ s=mimecast20190719; t=1607002100;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=x0iDditjlW7YSjAn8R4RM+dw1MvDMHK9/9D9n1PvySY=;
- b=F83J96H/BJyBe5kLDa8IaGDHdKJmPDNj0H4/iQgo34KY/czFuB9R3Gj8w4Ju6bpOLX8XYp
- iIhp9UT8e2Oh4ACqV3o9ViTFWfSZlqRA+G4MaXsLrdcIZ3JRqjX/GjofGxoLVwxcTM9uhQ
- pjs3rApbd/zvIgPyJ1PWSOC7+A4tUJY=
+ bh=nYyfAZeFxozALRCSs0DCVvvAO56H5zu+kEuFFs5LHzQ=;
+ b=VG+CUQ2RinF/xmWydO+ufzsdI5iaQuut82hDXR6n5Btnt4T4BpLWw7aMSuEYn3IVm39GqU
+ 6HFOd7dh4kFsuIWwmfDHyfbfPojvaNjwIOaAFCykhN/tVXADFYQJ/vCZtmZkqSMTbw5Ebr
+ 8lQ6PCmBHiKQDXVXcs9OVXzIR582Lxo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-JeTMjwhiPNC06Lv7blFFPg-1; Thu, 03 Dec 2020 08:27:34 -0500
-X-MC-Unique: JeTMjwhiPNC06Lv7blFFPg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-358-lwq5ldHVOUGdIzRt_LfxBg-1; Thu, 03 Dec 2020 08:28:16 -0500
+X-MC-Unique: lwq5ldHVOUGdIzRt_LfxBg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD22E8030DD;
- Thu,  3 Dec 2020 13:27:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2988C100F7C9;
+ Thu,  3 Dec 2020 13:28:13 +0000 (UTC)
 Received: from localhost (ovpn-116-25.rdu2.redhat.com [10.10.116.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E651E110877D;
- Thu,  3 Dec 2020 13:27:20 +0000 (UTC)
-Date: Thu, 3 Dec 2020 14:27:19 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F188D2BCEE;
+ Thu,  3 Dec 2020 13:27:54 +0000 (UTC)
+Date: Thu, 3 Dec 2020 14:27:53 +0100
 From: Sergio Lopez <slp@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 05/12] microvm: make pcie irq base runtime changeable
-Message-ID: <20201203132719.6ajv3xq2t3qjaj4z@mhamilton>
+Subject: Re: [PATCH v3 06/12] microvm: drop microvm_gsi_handler()
+Message-ID: <20201203132753.vyurmo2fjvmlqrdl@mhamilton>
 References: <20201203105423.10431-1-kraxel@redhat.com>
- <20201203105423.10431-6-kraxel@redhat.com>
+ <20201203105423.10431-7-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201203105423.10431-6-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201203105423.10431-7-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vc3pnplyzpoz27bd"
+ protocol="application/pgp-signature"; boundary="4gqraoskjqfwfhw7"
 Content-Disposition: inline
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=slp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -85,44 +85,43 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---vc3pnplyzpoz27bd
+--4gqraoskjqfwfhw7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 03, 2020 at 11:54:16AM +0100, Gerd Hoffmann wrote:
-> Allows to move them in case we have enough
-> irq lines available.
+On Thu, Dec 03, 2020 at 11:54:17AM +0100, Gerd Hoffmann wrote:
+> With the improved gsi_handler() we don't need
+> our private version any more.
 >=20
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 > ---
->  include/hw/i386/microvm.h |  2 +-
->  hw/i386/microvm.c         | 11 ++++++-----
->  2 files changed, 7 insertions(+), 6 deletions(-)
+>  hw/i386/microvm.c | 14 +-------------
+>  1 file changed, 1 insertion(+), 13 deletions(-)
 
 Reviewed-by: Sergio Lopez <slp@redhat.com>
 
---vc3pnplyzpoz27bd
+--4gqraoskjqfwfhw7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl/I57YACgkQ9GknjS8M
-AjWabg/+L1QfdeF2GShqWGk5dj9e/GHqPdBjWIQLMxD1iZBMtvcxsgF5XTiVXhfH
-xS4+9uV8qUpWlQmzF/16IWW5i5YGL2RGiiDFCEkphb0MDo2Ap0bySdRIjONaK9Tr
-seyXrp6JBYDvl0OlqkV153rJtxHWV3g6WCnAoHICEijxbZNQ9ghk1SKBdcTbGFPL
-XM62KbO1oY/S+P+dhOYg59ejQP4i815tm9v6S6nxbo/VSO1pMh4umTyfBZB8mPeO
-DfEw0uNNVye2YYSOJrnRQTeWRn639SHQ2GTOrXpsDqnNu36xWyHYnXnVsHkm1eXM
-U0XNDhFLngmaiY1UUf14vgFWOwCCboaobCNCEn/A5yjEgn7dM5LA20BTvXfGzXCK
-VyrJISO7CDmgtmeYvj2iCtbpAFqdko4d2Nu0KFMe5WqpbaUMfjZi/HWYVdOcC4xO
-WqorrgADyxodA6mUXzo7NFmw9bvSeuJW/4HULbDGzi1kMu4nkoR19M+o0+4PqyM6
-taTEBmDp/pDF/WVs1UFI6ZvKsbDLyM8OJSMpp445WxRrHdGOjacMiNXEZhapKo5B
-7bGUouz68jX/R9tyN7vMqJNjedzHiarwYTCQ0EgNzELBrjb9urhqi6798bof8te2
-ZI/0MYBcLs7MjUvP3W2VH/PhcmLeQNEDIKdR+5ng33kQ12c2M1k=
-=aiFb
+iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl/I59gACgkQ9GknjS8M
+AjVt7Q/7B7aJmVdk6szxU8kAvqCgA5WwKrqlrz2f22acAfkGBLA2dDzu8rLgT2/7
+F9GZxdgDL5coz3knmmBBpbMgCygKnGoQKVY9CSY8AxN4cSF2zr+zR6zlTXPneuSo
+uFrRFCp5WsQ7wm+ZQPu0PWdplTe3Nn/v08mL6CnOXUk7dNCJbr75ptYFr5yWvwlH
+icyakSUJnatgkqc+BDiskZ6vN5rhT5E1mkemm5doYcmQoOHnrc2q9Y1nBVUv//2/
+yI69074+XVH7ES6wB+mkl/I/uQ/pU5cI96jiIpmw8wvZdfeqzRTFjKbTN+V1HsGI
+fXmHM4a1iAz1fp5+AxDdsFGxFGmJIYs19jY0wDEzH+oX3e4xHMQYtaGj47jhsbr0
+6PlWk/FjDppELWkNdYnp5NFU8Dz3S4XP0CmCHCreikydDuZAvIwvFxGbgJJ9ajNj
+MJoexzfmUqQ+p0WP5QcuymQBfXYmKCF7RSRASjWoBDgmhnuEaiollLnOaGn57n+m
+XzoUhXtSNFoYBL0aQFiDUglsOQ2BBxhKCO7SOBq4+i//cHJu1YY8Vj/BZyzlxZxO
+iIwdmNHJ8+ZbhNxYFaOcCjv5D3ZkEwyJZIC21I0+ETFeIWAgYo1Oa4KEoTdf7zPx
+2+bHRz/tzGvZfN1BdgU3/1nyT3dBGyBkWHUIFsZo8LnPZOcFUDE=
+=eBvO
 -----END PGP SIGNATURE-----
 
---vc3pnplyzpoz27bd--
+--4gqraoskjqfwfhw7--
 
 
