@@ -2,58 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D242CDDCC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 19:34:24 +0100 (CET)
-Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D712CDDEC
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 19:44:44 +0100 (CET)
+Received: from localhost ([::1]:35264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kktQs-00041e-JR
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 13:34:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
+	id 1kktar-0006wQ-Fm
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 13:44:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kktNj-0003J3-0p
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 13:31:07 -0500
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:35281)
+ (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kktYs-00066i-Od
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 13:42:40 -0500
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:45448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kktNg-00010z-2O
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 13:31:06 -0500
-Received: by mail-il1-x143.google.com with SMTP id t13so2853705ilp.2
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 10:31:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pcc@google.com>) id 1kktYn-0004eK-38
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 13:42:38 -0500
+Received: by mail-io1-xd36.google.com with SMTP id n4so3096267iow.12
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 10:42:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K5Yho5da9EWJOsmNxdtaJU8YSXrbWgZZ14TnnEviiV0=;
- b=Q3TgkuM9h6vMgFK2PZOpBaH/px9H63oCQ/Xu37Mfhcaw/QOdCBWeFi8NiY2mNivuxP
- MlZVs5C1VlTatpHfZCgC0xrNIvChTUl4Bx0lMtxTZnxqkaGEnP0A4yl+tPAPNhVtffdw
- IoVEbB/2DD19CNVuR4ZgKmmtlx0X0Yim4f4VdHSpLHEsXK+lD/QyROR0VLxJ9md6OZAp
- LFh8YkyxiSTLMIHmEQe9FZ0v+ZU4WUqNurfpM9b1FcL8P0m4mVTr91pGOXjvA632KKWL
- n+wD0M5psIULmSrksLqRraumyyqblT6nD7n1noGyLS6D8ki5t3+OH0RuTV6Yia7Oyyjc
- rV9w==
+ :cc:content-transfer-encoding;
+ bh=FhMFcJN4z6PjBkBZpXE4bBsDBnX/celXMB66wWbrb4o=;
+ b=Tex/enLGRIh6G92LDFx/VjfV7M+xvX2jXiE6l3+OKaGT8rhs1eNAJe92DmsHZ8jLmr
+ Kn6UbUeTXJoE/nficAaStnhSQXSk9s8l0o6i5xZnWuchrxs6FWXM8idOrAAAa1VTLrFR
+ Vd6CXnzTIMMixjumodK+LBoqCVi4//YEpkW5ZOVMrXcokG51kqQfCvTSJujouJoGLPg8
+ TlepD7d/dzQJ3J6uLP8LFCbPX/NL/e+gm5nNtSiGkfoVjOW9E1mDu/nI/g/P/UWIT0PQ
+ c9sEetMYAUnzGtnA3MxBOd740lSRdoWZcZZ/mIK5ISHRAO4aVBCnGE7M0mGY/8lkG79o
+ U9lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=K5Yho5da9EWJOsmNxdtaJU8YSXrbWgZZ14TnnEviiV0=;
- b=OGPiVVb+1Zhigi1vwqeXE4/EmJDWDRFFZ1igRI8Z3IEApNOzzx0vyqYT3TCnV4PkV1
- rV7Y8mjUqXUHdKMbhevMAmsmkwdJY+Vz5XqpnjDl6gNGiLakU2ebYB3TAH4LDt0/P6sb
- GtgRI4cKWC6hJmxJixfyPsy8wTTv6TAFkczbsrUqIgu9ri7VBUCs2jk4w5BnxDoP2YPe
- xQE5tlAyxc52MKe8n28MJWudjGtT01rttgJMVqqDWh1UFVzKgI/lo3ZmDFSbb47Lbn4U
- xXgu1p6BJeblXrvHN82hgQM/g/0lN0SMD0hzWfhPr2o7BlbG65GO4bItcI2HdYWA2Lwy
- UwHA==
-X-Gm-Message-State: AOAM530wyzIqqK2KYK/Er323Xj7ZBthTQzYE62NBRM9DqTOSURavuQ4f
- zEh0EssdU5O/jLiJM1ReS6xfiOgxlU1JohvQKxX0PQ==
-X-Google-Smtp-Source: ABdhPJyOB/P7KtRiw53kfsjyrwI3gXClXnulZxOIA0K1r7fkUTKfBwqSaFJQi0/OLaObCKXkmBQupsHMWwhoJL/wBzg=
-X-Received: by 2002:a92:990e:: with SMTP id p14mr551058ili.28.1607020262294;
- Thu, 03 Dec 2020 10:31:02 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FhMFcJN4z6PjBkBZpXE4bBsDBnX/celXMB66wWbrb4o=;
+ b=shMy1K63G8PrCZYbjyVEKIp2rFKng0nY6og7owypgGOA78bxh/3tFeYOYHK487GKGI
+ BLTcz7Q2YsuBe7xc8+9wZnzI1rV37VjRoAEU/ztlnkokIKE9Kj0WvOxqv7pn53GMuMic
+ UkGNBosmMI/IiIxNCBtgqVT2+8fYAvBv1WeBgNCdrIrk2cZ2uDJLTHtrtLKIeByJoQAT
+ EqsnjDPZ631A+QZ5TG1jzjM5TaPhilwYeOQ0V+TdOhf6fui6VGluyolOcqO8ut0L26iu
+ 3DJrbR/Jom7yAASdRc+PO6xRXvUMWZj+O7vqQDpypmiNYHgYTJUM0UUcO919av/UrYFZ
+ ID4Q==
+X-Gm-Message-State: AOAM532SmYrdkxUPpMSRx1GgKRlDk6b3Bm8wfimvFiFtzmU2HhswTXy1
+ nhDOH1mgkQ95sGGlMVGSd1JnhD7Wj4uY5U0f7MQNFA==
+X-Google-Smtp-Source: ABdhPJyR+PkNe4/WuljPLVWngv3k9Zd84CV6uTyHtpmimx6DWMYRlKIaBe2ABnwsDrY3Mm5ixomKNXjQ3VeHHpPeeek=
+X-Received: by 2002:a5e:da46:: with SMTP id o6mr624287iop.139.1607020951629;
+ Thu, 03 Dec 2020 10:42:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20201201082142.649007-1-pcc@google.com>
- <d932a9a0-c577-4159-0100-9c2942d279b7@csgraf.de>
- <CAMn1gO4qtzB30s3=AAdCQSyvwhNY43F_DxOji5iJuxJuKeko4g@mail.gmail.com>
- <20201203101242.GB7201@SPB-NB-133.local>
-In-Reply-To: <20201203101242.GB7201@SPB-NB-133.local>
+References: <392c2465-157e-e15a-0a2c-2e3faa166d22@csgraf.de>
+ <CAEkmjvUArgL+Mcvy6nUhfJrdX3OaF=U8UdWia7ZDo9GWk0VF=g@mail.gmail.com>
+ <CAEkmjvVJ5zup4NR2+DStt_NvV2cV7+7dj2=fJ3DQBkth8pAfcw@mail.gmail.com>
+ <cecd20d0-278b-0a4b-ba9c-0207504c99d7@csgraf.de>
+ <CAEkmjvVOAYP6wJyVpAtZE3d=iNOOWGZeHptQ9xJDGcTi4qQ0hQ@mail.gmail.com>
+ <CAMn1gO7jqjsqJHtSaV7F+2qmtfF-YFDJwo=O8ot2iem+Uz4Zrw@mail.gmail.com>
+ <6975b4a3-1568-df40-8594-bfcf488ac425@csgraf.de>
+ <CAMn1gO5xs8RniRYm+Gnbh8S3GVah2+2Ew2V6tFL6PNuSJ7o5Hw@mail.gmail.com>
+ <4e1d93a4-9dcc-c6b6-e060-6eea39ae2f16@csgraf.de>
+ <CAMn1gO44Y4rahufveQ1dOq96nhqvGEmZ0pYci2f6BKv9kd638Q@mail.gmail.com>
+ <20201203094124.GA7201@SPB-NB-133.local>
+In-Reply-To: <20201203094124.GA7201@SPB-NB-133.local>
 From: Peter Collingbourne <pcc@google.com>
-Date: Thu, 3 Dec 2020 10:30:50 -0800
-Message-ID: <CAMn1gO63SJ+4enibPWbz=MiiMwVapFf-mdDf2z4FwEhgMCNqcw@mail.gmail.com>
-Subject: Re: [PATCH] arm/hvf: Optimize and simplify WFI handling
+Date: Thu, 3 Dec 2020 10:42:20 -0800
+Message-ID: <CAMn1gO6kMFLGKy4VuOL=CyP=ioGAZJmogT=y6dd=SQ82odK8_Q@mail.gmail.com>
+Subject: Re: [PATCH 2/8] hvf: Move common code out
 To: Roman Bolshakov <r.bolshakov@yadro.com>
 Cc: Alexander Graf <agraf@csgraf.de>, Frank Yang <lfy@google.com>, 
  Peter Maydell <peter.maydell@linaro.org>, Eduardo Habkost <ehabkost@redhat.com>,
@@ -62,8 +70,9 @@ Cc: Alexander Graf <agraf@csgraf.de>, Frank Yang <lfy@google.com>,
  Cameron Esfahani <dirty@apple.com>, qemu-arm <qemu-arm@nongnu.org>, 
  Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=pcc@google.com; helo=mail-il1-x143.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=pcc@google.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -175
 X-Spam_score: -17.6
 X-Spam_bar: -----------------
@@ -71,7 +80,7 @@ X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,381 +96,222 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 3, 2020 at 2:12 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+On Thu, Dec 3, 2020 at 1:41 AM Roman Bolshakov <r.bolshakov@yadro.com> wrot=
+e:
 >
-> On Tue, Dec 01, 2020 at 10:59:50AM -0800, Peter Collingbourne wrote:
-> > On Tue, Dec 1, 2020 at 3:16 AM Alexander Graf <agraf@csgraf.de> wrote:
+> On Mon, Nov 30, 2020 at 04:00:11PM -0800, Peter Collingbourne wrote:
+> > On Mon, Nov 30, 2020 at 3:18 PM Alexander Graf <agraf@csgraf.de> wrote:
 > > >
-> > > Hi Peter,
 > > >
-> > > On 01.12.20 09:21, Peter Collingbourne wrote:
-> > > > Sleep on WFx until the VTIMER is due but allow ourselves to be woken
-> > > > up on IPI.
+> > > On 01.12.20 00:01, Peter Collingbourne wrote:
+> > > > On Mon, Nov 30, 2020 at 1:40 PM Alexander Graf <agraf@csgraf.de> wr=
+ote:
+> > > >> Hi Peter,
+> > > >>
+> > > >> On 30.11.20 22:08, Peter Collingbourne wrote:
+> > > >>> On Mon, Nov 30, 2020 at 12:56 PM Frank Yang <lfy@google.com> wrot=
+e:
+> > > >>>>
+> > > >>>> On Mon, Nov 30, 2020 at 12:34 PM Alexander Graf <agraf@csgraf.de=
+> wrote:
+> > > >>>>> Hi Frank,
+> > > >>>>>
+> > > >>>>> Thanks for the update :). Your previous email nudged me into th=
+e right direction. I previously had implemented WFI through the internal ti=
+mer framework which performed way worse.
+> > > >>>> Cool, glad it's helping. Also, Peter found out that the main thi=
+ng keeping us from just using cntpct_el0 on the host directly and compare w=
+ith cval is that if we sleep, cval is going to be much < cntpct_el0 by the =
+sleep time. If we can get either the architecture or macos to read out the =
+sleep time then we might be able to not have to use a poll interval either!
+> > > >>>>> Along the way, I stumbled over a few issues though. For starter=
+s, the signal mask for SIG_IPI was not set correctly, so while pselect() wo=
+uld exit, the signal would never get delivered to the thread! For a fix, ch=
+eck out
+> > > >>>>>
+> > > >>>>>     https://patchew.org/QEMU/20201130030723.78326-1-agraf@csgra=
+f.de/20201130030723.78326-4-agraf@csgraf.de/
+> > > >>>>>
+> > > >>>> Thanks, we'll take a look :)
+> > > >>>>
+> > > >>>>> Please also have a look at my latest stab at WFI emulation. It =
+doesn't handle WFE (that's only relevant in overcommitted scenarios). But i=
+t does handle WFI and even does something similar to hlt polling, albeit no=
+t with an adaptive threshold.
+> > > >>> Sorry I'm not subscribed to qemu-devel (I'll subscribe in a bit) =
+so
+> > > >>> I'll reply to your patch here. You have:
+> > > >>>
+> > > >>> +                    /* Set cpu->hvf->sleeping so that we get a
+> > > >>> SIG_IPI signal. */
+> > > >>> +                    cpu->hvf->sleeping =3D true;
+> > > >>> +                    smp_mb();
+> > > >>> +
+> > > >>> +                    /* Bail out if we received an IRQ meanwhile =
+*/
+> > > >>> +                    if (cpu->thread_kicked || (cpu->interrupt_re=
+quest &
+> > > >>> +                        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ)=
+)) {
+> > > >>> +                        cpu->hvf->sleeping =3D false;
+> > > >>> +                        break;
+> > > >>> +                    }
+> > > >>> +
+> > > >>> +                    /* nanosleep returns on signal, so we wake u=
+p on kick. */
+> > > >>> +                    nanosleep(ts, NULL);
+> > > >>>
+> > > >>> and then send the signal conditional on whether sleeping is true,=
+ but
+> > > >>> I think this is racy. If the signal is sent after sleeping is set=
+ to
+> > > >>> true but before entering nanosleep then I think it will be ignore=
+d and
+> > > >>> we will miss the wakeup. That's why in my implementation I block =
+IPI
+> > > >>> on the CPU thread at startup and then use pselect to atomically
+> > > >>> unblock and begin sleeping. The signal is sent unconditionally so
+> > > >>> there's no need to worry about races between actually sleeping an=
+d the
+> > > >>> "we think we're sleeping" state. It may lead to an extra wakeup b=
+ut
+> > > >>> that's better than missing it entirely.
+> > > >>
+> > > >> Thanks a bunch for the comment! So the trick I was using here is t=
+o > > >> modify the timespec from the kick function before sending the IPI
+> > > >> signal. That way, we know that either we are inside the sleep (whe=
+re the
+> > > >> signal wakes it up) or we are outside the sleep (where timespec=3D=
+{} will
+> > > >> make it return immediately).
+> > > >>
+> > > >> The only race I can think of is if nanosleep does calculations bas=
+ed on
+> > > >> the timespec and we happen to send the signal right there and then=
+.
+> > > > Yes that's the race I was thinking of. Admittedly it's a small wind=
+ow
+> > > > but it's theoretically possible and part of the reason why pselect =
+was
+> > > > created.
 > > > >
-> > > > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > > >> The problem with blocking IPIs is basically what Frank was describ=
+ing
+> > > >> earlier: How do you unset the IPI signal pending status? If the si=
+gnal
+> > > >> is never delivered, how can pselect differentiate "signal from las=
+t time
+> > > >> is still pending" from "new signal because I got an IPI"?
+> > > > In this case we would take the additional wakeup which should be
+> > > > harmless since we will take the WFx exit again and put us in the
+> > > > correct state. But that's a lot better than busy looping.
 > > >
 > > >
-> > > Thanks a bunch!
+> > > I'm not sure I follow. I'm thinking of the following scenario:
 > > >
+> > >    - trap into WFI handler
+> > >    - go to sleep with blocked SIG_IPI
+> > >    - SIG_IPI arrives, pselect() exits
+> > >    - signal is still pending because it's blocked
+> > >    - enter guest
+> > >    - trap into WFI handler
+> > >    - run pselect(), but it immediate exits because SIG_IPI is still p=
+ending
 > > >
-> > > > ---
-> > > > Alexander Graf wrote:
-> > > >> I would love to take a patch from you here :). I'll still be stuck for a
-> > > >> while with the sysreg sync rework that Peter asked for before I can look
-> > > >> at WFI again.
-> > > > Okay, here's a patch :) It's a relatively straightforward adaptation
-> > > > of what we have in our fork, which can now boot Android to GUI while
-> > > > remaining at around 4% CPU when idle.
-> > > >
-> > > > I'm not set up to boot a full Linux distribution at the moment so I
-> > > > tested it on upstream QEMU by running a recent mainline Linux kernel
-> > > > with a rootfs containing an init program that just does sleep(5)
-> > > > and verified that the qemu process remains at low CPU usage during
-> > > > the sleep. This was on top of your v2 plus the last patch of your v1
-> > > > since it doesn't look like you have a replacement for that logic yet.
-> > > >
-> > > >   accel/hvf/hvf-cpus.c     |  5 +--
-> > > >   include/sysemu/hvf_int.h |  3 +-
-> > > >   target/arm/hvf/hvf.c     | 94 +++++++++++-----------------------------
-> > > >   3 files changed, 28 insertions(+), 74 deletions(-)
-> > > >
-> > > > diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
-> > > > index 4360f64671..b2c8fb57f6 100644
-> > > > --- a/accel/hvf/hvf-cpus.c
-> > > > +++ b/accel/hvf/hvf-cpus.c
-> > > > @@ -344,9 +344,8 @@ static int hvf_init_vcpu(CPUState *cpu)
-> > > >       sigact.sa_handler = dummy_signal;
-> > > >       sigaction(SIG_IPI, &sigact, NULL);
-> > > >
-> > > > -    pthread_sigmask(SIG_BLOCK, NULL, &set);
-> > > > -    sigdelset(&set, SIG_IPI);
-> > > > -    pthread_sigmask(SIG_SETMASK, &set, NULL);
-> > > > +    pthread_sigmask(SIG_BLOCK, NULL, &cpu->hvf->unblock_ipi_mask);
-> > > > +    sigdelset(&cpu->hvf->unblock_ipi_mask, SIG_IPI);
-> > >
-> > >
-> > > What will this do to the x86 hvf implementation? We're now not
-> > > unblocking SIG_IPI again for that, right?
+> > > This was the loop I was seeing when running with SIG_IPI blocked. Tha=
+t's
+> > > part of the reason why I switched to a different model.
 > >
-> > Yes and that was the case before your patch series.
-> >
-> > > >
-> > > >   #ifdef __aarch64__
-> > > >       r = hv_vcpu_create(&cpu->hvf->fd, (hv_vcpu_exit_t **)&cpu->hvf->exit, NULL);
-> > > > diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
-> > > > index c56baa3ae8..13adf6ea77 100644
-> > > > --- a/include/sysemu/hvf_int.h
-> > > > +++ b/include/sysemu/hvf_int.h
-> > > > @@ -62,8 +62,7 @@ extern HVFState *hvf_state;
-> > > >   struct hvf_vcpu_state {
-> > > >       uint64_t fd;
-> > > >       void *exit;
-> > > > -    struct timespec ts;
-> > > > -    bool sleeping;
-> > > > +    sigset_t unblock_ipi_mask;
-> > > >   };
-> > > >
-> > > >   void assert_hvf_ok(hv_return_t ret);
-> > > > diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-> > > > index 8fe10966d2..60a361ff38 100644
-> > > > --- a/target/arm/hvf/hvf.c
-> > > > +++ b/target/arm/hvf/hvf.c
-> > > > @@ -2,6 +2,7 @@
-> > > >    * QEMU Hypervisor.framework support for Apple Silicon
-> > > >
-> > > >    * Copyright 2020 Alexander Graf <agraf@csgraf.de>
-> > > > + * Copyright 2020 Google LLC
-> > > >    *
-> > > >    * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> > > >    * See the COPYING file in the top-level directory.
-> > > > @@ -18,6 +19,7 @@
-> > > >   #include "sysemu/hw_accel.h"
-> > > >
-> > > >   #include <Hypervisor/Hypervisor.h>
-> > > > +#include <mach/mach_time.h>
-> > > >
-> > > >   #include "exec/address-spaces.h"
-> > > >   #include "hw/irq.h"
-> > > > @@ -320,18 +322,8 @@ int hvf_arch_init_vcpu(CPUState *cpu)
-> > > >
-> > > >   void hvf_kick_vcpu_thread(CPUState *cpu)
-> > > >   {
-> > > > -    if (cpu->hvf->sleeping) {
-> > > > -        /*
-> > > > -         * When sleeping, make sure we always send signals. Also, clear the
-> > > > -         * timespec, so that an IPI that arrives between setting hvf->sleeping
-> > > > -         * and the nanosleep syscall still aborts the sleep.
-> > > > -         */
-> > > > -        cpu->thread_kicked = false;
-> > > > -        cpu->hvf->ts = (struct timespec){ };
-> > > > -        cpus_kick_thread(cpu);
-> > > > -    } else {
-> > > > -        hv_vcpus_exit(&cpu->hvf->fd, 1);
-> > > > -    }
-> > > > +    cpus_kick_thread(cpu);
-> > > > +    hv_vcpus_exit(&cpu->hvf->fd, 1);
-> > >
-> > >
-> > > This means your first WFI will almost always return immediately due to a
-> > > pending signal, because there probably was an IRQ pending before on the
-> > > same CPU, no?
-> >
-> > That's right. Any approach involving the "sleeping" field would need
-> > to be implemented carefully to avoid races that may result in missed
-> > wakeups so for simplicity I just decided to send both kinds of
-> > wakeups. In particular the approach in the updated patch you sent is
-> > racy and I'll elaborate more in the reply to that patch.
-> >
-> > > >   }
-> > > >
-> > > >   static int hvf_inject_interrupts(CPUState *cpu)
-> > > > @@ -385,18 +377,19 @@ int hvf_vcpu_exec(CPUState *cpu)
-> > > >           uint64_t syndrome = hvf_exit->exception.syndrome;
-> > > >           uint32_t ec = syn_get_ec(syndrome);
-> > > >
-> > > > +        qemu_mutex_lock_iothread();
-> > >
-> > >
-> > > Is there a particular reason you're moving the iothread lock out again
-> > > from the individual bits? I would really like to keep a notion of fast
-> > > path exits.
-> >
-> > We still need to lock at least once no matter the exit reason to check
-> > the interrupts so I don't think it's worth it to try and avoid locking
-> > like this. It also makes the implementation easier to reason about and
-> > therefore more likely to be correct. In our implementation we just
-> > stay locked the whole time unless we're in hv_vcpu_run() or pselect().
+> > What I observe is that when returning from a pending signal pselect
+> > consumes the signal (which is also consistent with my understanding of
+> > what pselect does). That means that it doesn't matter if we take a
+> > second WFx exit because once we reach the pselect in the second WFx
+> > exit the signal will have been consumed by the pselect in the first
+> > exit and we will just wait for the next one.
 > >
 >
-> But does it leaves a small window for a kick loss between
-> qemu_mutex_unlock_iothread() and hv_vcpu_run()/pselect()?
+> Aha! Thanks for the explanation. So, the first WFI in the series of
+> guest WFIs will likely wake up immediately? After a period without WFIs
+> there must be a pending SIG_IPI...
 >
-> For x86 it could lose a kick between them. That was a reason for the
-> sophisticated approach to catch the kick [1] (and related discussions in
-> v1/v2/v3).  Unfortunately I can't read ARM assembly yet so I don't if
-> hv_vcpus_exit() suffers from the same issue as x86 hv_vcpu_interrupt().
+> It shouldn't be a critical issue though because (as defined in D1.16.2)
+> "the architecture permits a PE to leave the low-power state for any
+> reason, it is permissible for a PE to treat WFI as a NOP, but this is
+> not recommended for lowest power operation."
 >
-> 1. https://patchwork.kernel.org/project/qemu-devel/patch/20200729124832.79375-1-r.bolshakov@yadro.com/
+> BTW. I think a bit from the thread should go into the description of
+> patch 8, because it's not trivial and it would really be helpful to keep
+> in repo history. At least something like this (taken from an earlier
+> reply in the thread):
+>
+>   In this implementation IPI is blocked on the CPU thread at startup and
+>   pselect() is used to atomically unblock the signal and begin sleeping.
+>   The signal is sent unconditionally so there's no need to worry about
+>   races between actually sleeping and the "we think we're sleeping"
+>   state. It may lead to an extra wakeup but that's better than missing
+>   it entirely.
 
-I addressed pselect() in my other reply.
-
-It isn't on the website but the hv_vcpu.h header says this about
-hv_vcpus_exit():
-
- * @discussion
- *             If a vcpu is not running, the next time hv_vcpu_run is
-called for the corresponding
- *             vcpu, it will return immediately without entering the guest.
-
-So at least as documented I think we are okay.
+Okay, I'll add something like that to the next version of the patch I send =
+out.
 
 Peter
 
 >
+>
 > Thanks,
 > Roman
 >
-> > > >           switch (exit_reason) {
-> > > >           case HV_EXIT_REASON_EXCEPTION:
-> > > >               /* This is the main one, handle below. */
-> > > >               break;
-> > > >           case HV_EXIT_REASON_VTIMER_ACTIVATED:
-> > > > -            qemu_mutex_lock_iothread();
-> > > >               current_cpu = cpu;
-> > > >               qemu_set_irq(arm_cpu->gt_timer_outputs[GTIMER_VIRT], 1);
-> > > >               qemu_mutex_unlock_iothread();
-> > > >               continue;
-> > > >           case HV_EXIT_REASON_CANCELED:
-> > > >               /* we got kicked, no exit to process */
-> > > > +            qemu_mutex_unlock_iothread();
-> > > >               continue;
-> > > >           default:
-> > > >               assert(0);
-> > > > @@ -413,7 +406,6 @@ int hvf_vcpu_exec(CPUState *cpu)
-> > > >               uint32_t srt = (syndrome >> 16) & 0x1f;
-> > > >               uint64_t val = 0;
-> > > >
-> > > > -            qemu_mutex_lock_iothread();
-> > > >               current_cpu = cpu;
-> > > >
-> > > >               DPRINTF("data abort: [pc=0x%llx va=0x%016llx pa=0x%016llx isv=%x "
-> > > > @@ -446,8 +438,6 @@ int hvf_vcpu_exec(CPUState *cpu)
-> > > >                   hvf_set_reg(cpu, srt, val);
-> > > >               }
-> > > >
-> > > > -            qemu_mutex_unlock_iothread();
-> > > > -
-> > > >               advance_pc = true;
-> > > >               break;
-> > > >           }
-> > > > @@ -493,68 +483,36 @@ int hvf_vcpu_exec(CPUState *cpu)
-> > > >           case EC_WFX_TRAP:
-> > > >               if (!(syndrome & WFX_IS_WFE) && !(cpu->interrupt_request &
-> > > >                   (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
-> > > > -                uint64_t cval, ctl, val, diff, now;
-> > > > +                uint64_t cval;
-> > > >
-> > > > -                /* Set up a local timer for vtimer if necessary ... */
-> > > > -                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CTL_EL0, &ctl);
-> > > > -                assert_hvf_ok(r);
-> > > >                   r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CVAL_EL0, &cval);
-> > > >                   assert_hvf_ok(r);
-> > > >
-> > > > -                asm volatile("mrs %0, cntvct_el0" : "=r"(val));
-> > > > -                diff = cval - val;
-> > > > -
-> > > > -                now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) /
-> > > > -                      gt_cntfrq_period_ns(arm_cpu);
-> > > > -
-> > > > -                /* Timer disabled or masked, just wait for long */
-> > > > -                if (!(ctl & 1) || (ctl & 2)) {
-> > > > -                    diff = (120 * NANOSECONDS_PER_SECOND) /
-> > > > -                           gt_cntfrq_period_ns(arm_cpu);
-> > > > +                int64_t ticks_to_sleep = cval - mach_absolute_time();
-> > > > +                if (ticks_to_sleep < 0) {
-> > > > +                    break;
-> > >
-> > >
-> > > This will loop at 100% for Windows, which configures the vtimer as
-> > > cval=0 ctl=7, so with IRQ mask bit set.
-> >
-> > Okay, but the 120s is kind of arbitrary so we should just sleep until
-> > we get a signal. That can be done by passing null as the timespec
-> > argument to pselect().
+> > I don't know why things may have been going wrong in your
+> > implementation but it may be related to the issue with
+> > mach_absolute_time() which I posted about separately and was also
+> > causing busy loops for us in some cases. Once that issue was fixed in
+> > our implementation we started seeing sleep until VTIMER due work
+> > properly.
 > >
 > > >
 > > >
-> > > Alex
+> > > > I reckon that you could improve things a little by unblocking the
+> > > > signal and then reblocking it before unlocking iothread (e.g. with =
+a
+> > > > pselect with zero time interval), which would flush any pending
+> > > > signals. Since any such signal would correspond to a signal from la=
+st
+> > > > time (because we still have the iothread lock) we know that any fut=
+ure
+> > > > signals should correspond to new IPIs.
 > > >
 > > >
-> > > >                   }
-> > > >
-> > > > -                if (diff < INT64_MAX) {
-> > > > -                    uint64_t ns = diff * gt_cntfrq_period_ns(arm_cpu);
-> > > > -                    struct timespec *ts = &cpu->hvf->ts;
-> > > > -
-> > > > -                    *ts = (struct timespec){
-> > > > -                        .tv_sec = ns / NANOSECONDS_PER_SECOND,
-> > > > -                        .tv_nsec = ns % NANOSECONDS_PER_SECOND,
-> > > > -                    };
-> > > > -
-> > > > -                    /*
-> > > > -                     * Waking up easily takes 1ms, don't go to sleep for smaller
-> > > > -                     * time periods than 2ms.
-> > > > -                     */
-> > > > -                    if (!ts->tv_sec && (ts->tv_nsec < (SCALE_MS * 2))) {
+> > > Yeah, I think you actually *have* to do exactly that, because otherwi=
+se
+> > > pselect() will always return after 0ns because the signal is still pe=
+nding.
 > > >
+> > > And yes, I agree that that starts to sound a bit less racy now. But i=
+t
+> > > means we can probably also just do
 > > >
-> > > I put this logic here on purpose. A pselect(1 ns) easily takes 1-2ms to
-> > > return. Without logic like this, super short WFIs will hurt performance
-> > > quite badly.
+> > >    - WFI handler
+> > >    - block SIG_IPI
+> > >    - set hvf->sleeping =3D true
+> > >    - check for pending interrupts
+> > >    - pselect()
+> > >    - unblock SIG_IPI
+> > >
+> > > which means we run with SIG_IPI unmasked by default. I don't think th=
+e
+> > > number of signal mask changes is any different with that compared to
+> > > running with SIG_IPI always masked, right?
 > >
-> > I don't think that's accurate. According to this benchmark it's a few
-> > hundred nanoseconds at most.
+>
+> P.S. Just found that Alex already raised my concern. Pending signals
+> have to be consumed or there should be no pending signals to start
+> sleeping on the very first WFI.
+>
+> > And unlock/lock iothread around the pselect? I suppose that could work
+> > but as I mentioned it would just be an optimization.
 > >
-> > pcc@pac-mini /tmp> cat pselect.c
-> > #include <signal.h>
-> > #include <sys/select.h>
-> >
-> > int main() {
-> >   sigset_t mask, orig_mask;
-> >   pthread_sigmask(SIG_SETMASK, 0, &mask);
-> >   sigaddset(&mask, SIGUSR1);
-> >   pthread_sigmask(SIG_SETMASK, &mask, &orig_mask);
-> >
-> >   for (int i = 0; i != 1000000; ++i) {
-> >     struct timespec ts = { 0, 1 };
-> >     pselect(0, 0, 0, 0, &ts, &orig_mask);
-> >   }
-> > }
-> > pcc@pac-mini /tmp> time ./pselect
-> >
-> > ________________________________________________________
-> > Executed in  179.87 millis    fish           external
-> >    usr time   77.68 millis   57.00 micros   77.62 millis
-> >    sys time  101.37 millis  852.00 micros  100.52 millis
-> >
-> > Besides, all that you're really saving here is the single pselect
-> > call. There are no doubt more expensive syscalls involved in exiting
-> > and entering the VCPU that would dominate here.
+> > Maybe I can try to make my approach work on top of your series, or if
+> > you already have a patch I can try to debug it. Let me know.
 > >
 > > Peter
-> >
-> > >
-> > >
-> > > Alex
-> > >
-> > > > -                        advance_pc = true;
-> > > > -                        break;
-> > > > -                    }
-> > > > -
-> > > > -                    /* Set cpu->hvf->sleeping so that we get a SIG_IPI signal. */
-> > > > -                    cpu->hvf->sleeping = true;
-> > > > -                    smp_mb();
-> > > > -
-> > > > -                    /* Bail out if we received an IRQ meanwhile */
-> > > > -                    if (cpu->thread_kicked || (cpu->interrupt_request &
-> > > > -                        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
-> > > > -                        cpu->hvf->sleeping = false;
-> > > > -                        break;
-> > > > -                    }
-> > > > -
-> > > > -                    /* nanosleep returns on signal, so we wake up on kick. */
-> > > > -                    nanosleep(ts, NULL);
-> > > > -
-> > > > -                    /* Out of sleep - either naturally or because of a kick */
-> > > > -                    cpu->hvf->sleeping = false;
-> > > > -                }
-> > > > +                uint64_t seconds = ticks_to_sleep / arm_cpu->gt_cntfrq_hz;
-> > > > +                uint64_t nanos =
-> > > > +                    (ticks_to_sleep - arm_cpu->gt_cntfrq_hz * seconds) *
-> > > > +                    1000000000 / arm_cpu->gt_cntfrq_hz;
-> > > > +                struct timespec ts = { seconds, nanos };
-> > > > +
-> > > > +                /*
-> > > > +                 * Use pselect to sleep so that other threads can IPI us while
-> > > > +                 * we're sleeping.
-> > > > +                 */
-> > > > +                qatomic_mb_set(&cpu->thread_kicked, false);
-> > > > +                qemu_mutex_unlock_iothread();
-> > > > +                pselect(0, 0, 0, 0, &ts, &cpu->hvf->unblock_ipi_mask);
-> > > > +                qemu_mutex_lock_iothread();
-> > > >
-> > > >                   advance_pc = true;
-> > > >               }
-> > > >               break;
-> > > >           case EC_AA64_HVC:
-> > > >               cpu_synchronize_state(cpu);
-> > > > -            qemu_mutex_lock_iothread();
-> > > >               current_cpu = cpu;
-> > > >               if (arm_is_psci_call(arm_cpu, EXCP_HVC)) {
-> > > >                   arm_handle_psci_call(arm_cpu);
-> > > > @@ -562,11 +520,9 @@ int hvf_vcpu_exec(CPUState *cpu)
-> > > >                   DPRINTF("unknown HVC! %016llx", env->xregs[0]);
-> > > >                   env->xregs[0] = -1;
-> > > >               }
-> > > > -            qemu_mutex_unlock_iothread();
-> > > >               break;
-> > > >           case EC_AA64_SMC:
-> > > >               cpu_synchronize_state(cpu);
-> > > > -            qemu_mutex_lock_iothread();
-> > > >               current_cpu = cpu;
-> > > >               if (arm_is_psci_call(arm_cpu, EXCP_SMC)) {
-> > > >                   arm_handle_psci_call(arm_cpu);
-> > > > @@ -575,7 +531,6 @@ int hvf_vcpu_exec(CPUState *cpu)
-> > > >                   env->xregs[0] = -1;
-> > > >                   env->pc += 4;
-> > > >               }
-> > > > -            qemu_mutex_unlock_iothread();
-> > > >               break;
-> > > >           default:
-> > > >               cpu_synchronize_state(cpu);
-> > > > @@ -594,6 +549,7 @@ int hvf_vcpu_exec(CPUState *cpu)
-> > > >               r = hv_vcpu_set_reg(cpu->hvf->fd, HV_REG_PC, pc);
-> > > >               assert_hvf_ok(r);
-> > > >           }
-> > > > +        qemu_mutex_unlock_iothread();
-> > > >       } while (ret == 0);
-> > > >
-> > > >       qemu_mutex_lock_iothread();
 
