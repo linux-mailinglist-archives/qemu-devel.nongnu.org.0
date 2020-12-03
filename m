@@ -2,82 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C4E2CE13D
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 22:58:14 +0100 (CET)
-Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C4F92CE175
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 23:15:50 +0100 (CET)
+Received: from localhost ([::1]:45276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkwc8-0002dA-Sc
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 16:58:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33958)
+	id 1kkwtB-0006us-0S
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 17:15:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkwbD-00029a-3w
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 16:57:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkwb9-0006Tx-PQ
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 16:57:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607032629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=T4qx1azhAjfBX8YupuuibWk5k4ODm/VRqZyBDfaUn4M=;
- b=ag9r3JY9SVfFir7RYroDp9QBAQHL+Y5Wfe2Vd/EVqroTFofKAt4e09wfu4LWNfjvad9qGP
- 9RKponzT3WhRBCdIpvCkm4ezlTGuYEWzNkPCYjJsLAS2amOIsUDG4HMkSBUHF7hc69js/E
- FOQZj72FGzq2ZZA3IqOMP6WGIEup+3w=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-118-F6Qm4BiUPQqBo7vohpFBag-1; Thu, 03 Dec 2020 16:57:08 -0500
-X-MC-Unique: F6Qm4BiUPQqBo7vohpFBag-1
-Received: by mail-wr1-f71.google.com with SMTP id w17so1755044wrl.8
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 13:57:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=T4qx1azhAjfBX8YupuuibWk5k4ODm/VRqZyBDfaUn4M=;
- b=R3XT9pv0sUAqIad3Is1VpRLMD9cC2XVC5j2FQCrphtJol9h+yC3rY3o+WHGWXRN0OE
- 1jLTUul1wbxDbFCLY+b+bTOHiR0kuxosvqwTAEAJOKBV+7Y//NiVIUSoTGY5l3a2xaud
- sSqSf86q8IVuUdxmiqEA5E/fvVyTd6HQdsLlQwVwZ/DvnvK/FZqhvwv/aIbDLHJI1n3H
- IpGhh2KePgL6+WCnc8G0gebHde/zl9JC6R+O3WBZ1+K5ey14SmlfZiZ6F2qlCt5GCRqa
- mmlHKwnJf/mvPLkIlkeJSh/xPjHWil3uefI7l5DMNFLVnNIO5gCt0qoiCPtlNE9qFuW4
- Wbqg==
-X-Gm-Message-State: AOAM533BeZcwCsORk/hYv43JcHSvZ94AdQhxo/zM4ScyfiwCUrgG0+QR
- KAtIHKzc7mBgRhEqy69gAd2oizsdpG8koMRmBV+TCKIlnDnfgLv7QPsUZKld1J14lR+lnyyKoYP
- Q0LXofreAxUaheyQ=
-X-Received: by 2002:a1c:3c4:: with SMTP id 187mr818099wmd.143.1607032627075;
- Thu, 03 Dec 2020 13:57:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz1gurwG73/lEfF3CPCfcQLDcrWO+FPofMkeo+MZQ8Y6BeZutMtLbqX1izShk6f9ysZlIbYIA==
-X-Received: by 2002:a1c:3c4:: with SMTP id 187mr818089wmd.143.1607032626884;
- Thu, 03 Dec 2020 13:57:06 -0800 (PST)
-Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id d2sm923739wrn.43.2020.12.03.13.57.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Dec 2020 13:57:06 -0800 (PST)
-Date: Thu, 3 Dec 2020 16:57:03 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Andrew Melnychenko <andrew@daynix.com>
-Subject: Re: [PATCH v4 2/2] hw/virtio-pci Added AER capability.
-Message-ID: <20201203165317-mutt-send-email-mst@kernel.org>
-References: <20201203132517.220811-1-andrew@daynix.com>
- <20201203132517.220811-3-andrew@daynix.com>
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1kkwrC-00063d-El; Thu, 03 Dec 2020 17:13:46 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:52726
+ helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1kkwr8-0003Z7-DF; Thu, 03 Dec 2020 17:13:45 -0500
+Received: from Alexanders-Mac-mini.local
+ (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
+ by csgraf.de (Postfix) with UTF8SMTPSA id 4C0F439003D2;
+ Thu,  3 Dec 2020 23:13:36 +0100 (CET)
+Subject: Re: [PATCH 2/8] hvf: Move common code out
+To: Peter Collingbourne <pcc@google.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>
+References: <392c2465-157e-e15a-0a2c-2e3faa166d22@csgraf.de>
+ <CAEkmjvUArgL+Mcvy6nUhfJrdX3OaF=U8UdWia7ZDo9GWk0VF=g@mail.gmail.com>
+ <CAEkmjvVJ5zup4NR2+DStt_NvV2cV7+7dj2=fJ3DQBkth8pAfcw@mail.gmail.com>
+ <cecd20d0-278b-0a4b-ba9c-0207504c99d7@csgraf.de>
+ <CAEkmjvVOAYP6wJyVpAtZE3d=iNOOWGZeHptQ9xJDGcTi4qQ0hQ@mail.gmail.com>
+ <CAMn1gO7jqjsqJHtSaV7F+2qmtfF-YFDJwo=O8ot2iem+Uz4Zrw@mail.gmail.com>
+ <6975b4a3-1568-df40-8594-bfcf488ac425@csgraf.de>
+ <CAMn1gO5xs8RniRYm+Gnbh8S3GVah2+2Ew2V6tFL6PNuSJ7o5Hw@mail.gmail.com>
+ <4e1d93a4-9dcc-c6b6-e060-6eea39ae2f16@csgraf.de>
+ <CAMn1gO44Y4rahufveQ1dOq96nhqvGEmZ0pYci2f6BKv9kd638Q@mail.gmail.com>
+ <20201203094124.GA7201@SPB-NB-133.local>
+ <CAMn1gO6kMFLGKy4VuOL=CyP=ioGAZJmogT=y6dd=SQ82odK8_Q@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+Message-ID: <2a286418-aa8e-17b9-1be2-58b0b361dec5@csgraf.de>
+Date: Thu, 3 Dec 2020 23:13:35 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
+ Gecko/20100101 Thunderbird/84.0
 MIME-Version: 1.0
-In-Reply-To: <20201203132517.220811-3-andrew@daynix.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <CAMn1gO6kMFLGKy4VuOL=CyP=ioGAZJmogT=y6dd=SQ82odK8_Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,95 +65,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: intel-wired-lan@lists.osuosl.org, qemu-devel@nongnu.org,
- alexander.duyck@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Claudio Fontana <cfontana@suse.de>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 03, 2020 at 03:25:17PM +0200, Andrew Melnychenko wrote:
-> From: Andrew <andrew@daynix.com>
-> 
-> Added AER capability for virtio-pci devices.
-> Also added property for devices, by default AER is disabled.
-> 
-> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> ---
->  hw/virtio/virtio-pci.c | 16 ++++++++++++++++
->  hw/virtio/virtio-pci.h |  4 ++++
->  2 files changed, 20 insertions(+)
-> 
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index ceaa233129..f863f69ede 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1817,6 +1817,12 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
->           */
->          pci_set_word(pci_dev->config + pos + PCI_PM_PMC, 0x3);
->  
-> +        if (proxy->flags & VIRTIO_PCI_FLAG_AER) {
-> +            pcie_aer_init(pci_dev, PCI_ERR_VER, last_pcie_cap_offset,
-> +                          PCI_ERR_SIZEOF, NULL);
-> +            last_pcie_cap_offset += PCI_ERR_SIZEOF;
-> +        }
-> +
+
+On 03.12.20 19:42, Peter Collingbourne wrote:
+> On Thu, Dec 3, 2020 at 1:41 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+>> On Mon, Nov 30, 2020 at 04:00:11PM -0800, Peter Collingbourne wrote:
+>>> On Mon, Nov 30, 2020 at 3:18 PM Alexander Graf <agraf@csgraf.de> wrote:
+>>>>
+>>>> On 01.12.20 00:01, Peter Collingbourne wrote:
+>>>>> On Mon, Nov 30, 2020 at 1:40 PM Alexander Graf <agraf@csgraf.de> wrote:
+>>>>>> Hi Peter,
+>>>>>>
+>>>>>> On 30.11.20 22:08, Peter Collingbourne wrote:
+>>>>>>> On Mon, Nov 30, 2020 at 12:56 PM Frank Yang <lfy@google.com> wrote:
+>>>>>>>> On Mon, Nov 30, 2020 at 12:34 PM Alexander Graf <agraf@csgraf.de> wrote:
+>>>>>>>>> Hi Frank,
+>>>>>>>>>
+>>>>>>>>> Thanks for the update :). Your previous email nudged me into the right direction. I previously had implemented WFI through the internal timer framework which performed way worse.
+>>>>>>>> Cool, glad it's helping. Also, Peter found out that the main thing keeping us from just using cntpct_el0 on the host directly and compare with cval is that if we sleep, cval is going to be much < cntpct_el0 by the sleep time. If we can get either the architecture or macos to read out the sleep time then we might be able to not have to use a poll interval either!
+>>>>>>>>> Along the way, I stumbled over a few issues though. For starters, the signal mask for SIG_IPI was not set correctly, so while pselect() would exit, the signal would never get delivered to the thread! For a fix, check out
+>>>>>>>>>
+>>>>>>>>>      https://patchew.org/QEMU/20201130030723.78326-1-agraf@csgraf.de/20201130030723.78326-4-agraf@csgraf.de/
+>>>>>>>>>
+>>>>>>>> Thanks, we'll take a look :)
+>>>>>>>>
+>>>>>>>>> Please also have a look at my latest stab at WFI emulation. It doesn't handle WFE (that's only relevant in overcommitted scenarios). But it does handle WFI and even does something similar to hlt polling, albeit not with an adaptive threshold.
+>>>>>>> Sorry I'm not subscribed to qemu-devel (I'll subscribe in a bit) so
+>>>>>>> I'll reply to your patch here. You have:
+>>>>>>>
+>>>>>>> +                    /* Set cpu->hvf->sleeping so that we get a
+>>>>>>> SIG_IPI signal. */
+>>>>>>> +                    cpu->hvf->sleeping = true;
+>>>>>>> +                    smp_mb();
+>>>>>>> +
+>>>>>>> +                    /* Bail out if we received an IRQ meanwhile */
+>>>>>>> +                    if (cpu->thread_kicked || (cpu->interrupt_request &
+>>>>>>> +                        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
+>>>>>>> +                        cpu->hvf->sleeping = false;
+>>>>>>> +                        break;
+>>>>>>> +                    }
+>>>>>>> +
+>>>>>>> +                    /* nanosleep returns on signal, so we wake up on kick. */
+>>>>>>> +                    nanosleep(ts, NULL);
+>>>>>>>
+>>>>>>> and then send the signal conditional on whether sleeping is true, but
+>>>>>>> I think this is racy. If the signal is sent after sleeping is set to
+>>>>>>> true but before entering nanosleep then I think it will be ignored and
+>>>>>>> we will miss the wakeup. That's why in my implementation I block IPI
+>>>>>>> on the CPU thread at startup and then use pselect to atomically
+>>>>>>> unblock and begin sleeping. The signal is sent unconditionally so
+>>>>>>> there's no need to worry about races between actually sleeping and the
+>>>>>>> "we think we're sleeping" state. It may lead to an extra wakeup but
+>>>>>>> that's better than missing it entirely.
+>>>>>> Thanks a bunch for the comment! So the trick I was using here is to > > >> modify the timespec from the kick function before sending the IPI
+>>>>>> signal. That way, we know that either we are inside the sleep (where the
+>>>>>> signal wakes it up) or we are outside the sleep (where timespec={} will
+>>>>>> make it return immediately).
+>>>>>>
+>>>>>> The only race I can think of is if nanosleep does calculations based on
+>>>>>> the timespec and we happen to send the signal right there and then.
+>>>>> Yes that's the race I was thinking of. Admittedly it's a small window
+>>>>> but it's theoretically possible and part of the reason why pselect was
+>>>>> created.
+>>>>>
+>>>>>> The problem with blocking IPIs is basically what Frank was describing
+>>>>>> earlier: How do you unset the IPI signal pending status? If the signal
+>>>>>> is never delivered, how can pselect differentiate "signal from last time
+>>>>>> is still pending" from "new signal because I got an IPI"?
+>>>>> In this case we would take the additional wakeup which should be
+>>>>> harmless since we will take the WFx exit again and put us in the
+>>>>> correct state. But that's a lot better than busy looping.
+>>>>
+>>>> I'm not sure I follow. I'm thinking of the following scenario:
+>>>>
+>>>>     - trap into WFI handler
+>>>>     - go to sleep with blocked SIG_IPI
+>>>>     - SIG_IPI arrives, pselect() exits
+>>>>     - signal is still pending because it's blocked
+>>>>     - enter guest
+>>>>     - trap into WFI handler
+>>>>     - run pselect(), but it immediate exits because SIG_IPI is still pending
+>>>>
+>>>> This was the loop I was seeing when running with SIG_IPI blocked. That's
+>>>> part of the reason why I switched to a different model.
+>>> What I observe is that when returning from a pending signal pselect
+>>> consumes the signal (which is also consistent with my understanding of
+>>> what pselect does). That means that it doesn't matter if we take a
+>>> second WFx exit because once we reach the pselect in the second WFx
+>>> exit the signal will have been consumed by the pselect in the first
+>>> exit and we will just wait for the next one.
+>>>
+>> Aha! Thanks for the explanation. So, the first WFI in the series of
+>> guest WFIs will likely wake up immediately? After a period without WFIs
+>> there must be a pending SIG_IPI...
+>>
+>> It shouldn't be a critical issue though because (as defined in D1.16.2)
+>> "the architecture permits a PE to leave the low-power state for any
+>> reason, it is permissible for a PE to treat WFI as a NOP, but this is
+>> not recommended for lowest power operation."
+>>
+>> BTW. I think a bit from the thread should go into the description of
+>> patch 8, because it's not trivial and it would really be helpful to keep
+>> in repo history. At least something like this (taken from an earlier
+>> reply in the thread):
+>>
+>>    In this implementation IPI is blocked on the CPU thread at startup and
+>>    pselect() is used to atomically unblock the signal and begin sleeping.
+>>    The signal is sent unconditionally so there's no need to worry about
+>>    races between actually sleeping and the "we think we're sleeping"
+>>    state. It may lead to an extra wakeup but that's better than missing
+>>    it entirely.
+> Okay, I'll add something like that to the next version of the patch I send out.
 
 
-What I dislike here is that the property can be added to
-pci devices (not express) and will apparently succeed.
-Pls add code to validate and fail init.
+If this is the only change, I've already added it for v4. If you want me 
+to change it further, just let me know what to replace the patch 
+description with.
 
 
->          if (proxy->flags & VIRTIO_PCI_FLAG_INIT_DEVERR) {
->              /* Init error enabling flags */
->              pcie_cap_deverr_init(pci_dev);
-> @@ -1858,7 +1864,15 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
->  
->  static void virtio_pci_exit(PCIDevice *pci_dev)
->  {
-> +    VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
-> +    bool pcie_port = pci_bus_is_express(pci_get_bus(pci_dev)) &&
-> +                     !pci_bus_is_root(pci_get_bus(pci_dev));
-> +
->      msix_uninit_exclusive_bar(pci_dev);
-> +    if (proxy->flags & VIRTIO_PCI_FLAG_AER && pcie_port &&
-> +        pci_is_express(pci_dev)) {
-> +        pcie_aer_exit(pci_dev);
-> +    }
->  }
->  
->  static void virtio_pci_reset(DeviceState *qdev)
-> @@ -1911,6 +1925,8 @@ static Property virtio_pci_properties[] = {
->                      VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
->      DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
->                      VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
-> +    DEFINE_PROP_BIT("aer", VirtIOPCIProxy, flags,
-> +                    VIRTIO_PCI_FLAG_AER_BIT, false),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-> index 06e2af12de..d7d5d403a9 100644
-> --- a/hw/virtio/virtio-pci.h
-> +++ b/hw/virtio/virtio-pci.h
-> @@ -41,6 +41,7 @@ enum {
->      VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
->      VIRTIO_PCI_FLAG_INIT_PM_BIT,
->      VIRTIO_PCI_FLAG_INIT_FLR_BIT,
-> +    VIRTIO_PCI_FLAG_AER_BIT,
->  };
->  
->  /* Need to activate work-arounds for buggy guests at vmstate load. */
-> @@ -80,6 +81,9 @@ enum {
->  /* Init Function Level Reset capability */
->  #define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
->  
-> +/* Advanced Error Reporting capability */
-> +#define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
-> +
->  typedef struct {
->      MSIMessage msg;
->      int virq;
-> -- 
-> 2.29.2
+Alex
 
 
