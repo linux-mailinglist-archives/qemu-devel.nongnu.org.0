@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171C92CD4B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:40:04 +0100 (CET)
-Received: from localhost ([::1]:35258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD522CD4B5
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:41:04 +0100 (CET)
+Received: from localhost ([::1]:37754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmxu-0004tb-V0
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:40:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
+	id 1kkmyt-0005yk-K5
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:41:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kkmw1-0003o7-7E
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:38:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kkmvz-0008Hg-Mp
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:38:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606995483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=eRHnNZO59wpdkbQMVn0kD+5Q8Up6dtzgDRjOgxQwgsw=;
- b=NCPFbYo5nQ+eHD5gVNgrJL3J4NHLlIDq36bi01WIjkG+sJQHmNJ3wWFJQKOix961nfgA/5
- xya9Au0wtbNbi3pjRQWWXDlMYgDLumqhFaDU3eyEfk+L2mFLQsR0agHaTgZQhiM1LpCutT
- pRJyioQQut5cTSxr75DARuEwg22m5NI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-83vS2OgKNby7xlHWW38QjQ-1; Thu, 03 Dec 2020 06:37:52 -0500
-X-MC-Unique: 83vS2OgKNby7xlHWW38QjQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9688858192;
- Thu,  3 Dec 2020 11:37:50 +0000 (UTC)
-Received: from localhost (ovpn-115-46.ams2.redhat.com [10.36.115.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CAFB95C1C2;
- Thu,  3 Dec 2020 11:37:43 +0000 (UTC)
-Date: Thu, 3 Dec 2020 11:37:42 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v2 2/4] contrib/vhost-user-gpu: avoid g_return_val_if()
- input validation
-Message-ID: <20201203113742.GG689053@stefanha-x1.localdomain>
-References: <20201202152611.677753-1-stefanha@redhat.com>
- <20201202152611.677753-3-stefanha@redhat.com>
- <CAJ+F1CLrba5T02Dy1=dXSE4ye9rgHZ4r5S-mWwL-7UACeFLVuw@mail.gmail.com>
- <20201203095119.GA689053@stefanha-x1.localdomain>
- <CAJ+F1CLwvE+6BhhpDaufitOHbbYv9XDQ6Yh=iwYzzVheueXPmA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kkmx6-0004Xs-Cu
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:39:14 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:39653)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kkmx1-0000CE-R4
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:39:12 -0500
+Received: by mail-ed1-x542.google.com with SMTP id c7so1737751edv.6
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 03:39:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RbKXYjd8/Y5arVN6NTbqlnensKVNUl92Ie8cb497S/E=;
+ b=tDfhgsQve4TXQdjZKrSUJF3MVQirO/Y2EfisW/MZnaXIFL5wFFnn8st1sPOuvIbo3m
+ CF9dhz0Vs2S1IQvAWsofMRNdI6buyCke+usY0UXOXBsp+k7LPp/5l4FERHlHzCDUi1jx
+ Xlnsu8Xf0bUPOlC6oShmsEuJFc6aJ5/6MaJJKbDEP63DfCiYqe2hKza+iWkzmKyUJIP1
+ SkjOQgUJxWfzm4XPaVH3FZ7j2e1QDnpOsLjMC9/QpSS6L9eSgP8AF7i1Zn0xuERxKPPb
+ ejxzDbbXVl/+twwbwOFU89wSlMDA6f0/1HJtUUg+blQkateLpkumShbBrdaUx4XZMjPi
+ Kjfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RbKXYjd8/Y5arVN6NTbqlnensKVNUl92Ie8cb497S/E=;
+ b=bl2plWaGQeCdR0ouO40VMtW1gplPILYDX8lctkiH8M/VW6jEVSX9zppobgDxzz6a6E
+ a1HPJdQRMYiXuM1YVs5MWh2sgZkG/VzxYWN4pR7/XqZ6rIVpuBtbBSKAK1XiIwlQwfif
+ RNv3DWMXqgtN0sIuXcxsou8fyW/hSQykEnc0Kwggyzz1v/nlw9YwbcvgJ8OTlftxZPar
+ PXleJ4jN67E3msJMA49j+86vWu8xac+7qpQZ8jSHvZ1rPaU0D3llscionj8/9KHxOICe
+ DYhxeJ8hahn4nYXrPD+BvXHlHrsVwfhMHSpWZxhGydkVhp1ijjve/3swul4/KjfPTEh2
+ I8xw==
+X-Gm-Message-State: AOAM532ng6a/R1U4WmWEx4f5qwlGw6xwBfNeuOLigc6QoKkX2pLAJJgm
+ JXmsWXJ1obpXGg94koPfio6CG4YZGLfxfbiz67EnVw==
+X-Google-Smtp-Source: ABdhPJzyuWhdd8geSoaHjF9gGLM6LAwiMYNrujxFKG/T5HPH2CuJ3EKmYp22890CUg88jATCQpCXb3puDYd0Z6KxI+Q=
+X-Received: by 2002:a50:fd18:: with SMTP id i24mr2511115eds.146.1606995546039; 
+ Thu, 03 Dec 2020 03:39:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CLwvE+6BhhpDaufitOHbbYv9XDQ6Yh=iwYzzVheueXPmA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="t4apE7yKrX2dGgJC"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20201125040642.2339476-1-richard.henderson@linaro.org>
+ <20201125040642.2339476-6-richard.henderson@linaro.org>
+In-Reply-To: <20201125040642.2339476-6-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Dec 2020 11:38:54 +0000
+Message-ID: <CAFEAcA_U9XMqJmYEWm340T=MWuzUgNFZXC58vD7QimD2ny2n6w@mail.gmail.com>
+Subject: Re: [PATCH 05/11] target/arm: Enforce alignment for SRS
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,97 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Coiby Xu <Coiby.Xu@gmail.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---t4apE7yKrX2dGgJC
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 25 Nov 2020 at 04:09, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> index 4406f6a67c..b1f43bfb8f 100644
+> --- a/target/arm/translate.c
+> +++ b/target/arm/translate.c
+> @@ -5124,11 +5124,13 @@ static void gen_srs(DisasContext *s,
+>      }
+>      tcg_gen_addi_i32(addr, addr, offset);
+>      tmp = load_reg(s, 14);
+> -    gen_aa32_st32(s, tmp, addr, get_mem_index(s));
+> +    gen_aa32_st_i32(s, tmp, addr, get_mem_index(s),
+> +                    MO_UL | MO_ALIGN | s->be_data);
+>      tcg_temp_free_i32(tmp);
+>      tmp = load_cpu_field(spsr);
+>      tcg_gen_addi_i32(addr, addr, 4);
+> -    gen_aa32_st32(s, tmp, addr, get_mem_index(s));
+> +    gen_aa32_st_i32(s, tmp, addr, get_mem_index(s),
+> +                    MO_UL | MO_ALIGN | s->be_data);
 
-On Thu, Dec 03, 2020 at 02:26:08PM +0400, Marc-Andr=E9 Lureau wrote:
-> On Thu, Dec 3, 2020 at 1:52 PM Stefan Hajnoczi <stefanha@redhat.com> wrot=
-e:
->=20
-> > On Wed, Dec 02, 2020 at 07:50:51PM +0400, Marc-Andr=E9 Lureau wrote:
-> > > On Wed, Dec 2, 2020 at 7:27 PM Stefan Hajnoczi <stefanha@redhat.com>
-> > wrote:
-> > >
-> > > > Do not validate input with g_return_val_if(). This API is intended =
-for
-> > > > checking programming errors and is compiled out with
-> > -DG_DISABLE_CHECKS.
-> > > >
-> > > > Use an explicit if statement for input validation so it cannot
-> > > > accidentally be compiled out.
-> > > >
-> > > > Suggested-by: Markus Armbruster <armbru@redhat.com>
-> > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > > ---
-> > > >  contrib/vhost-user-gpu/vhost-user-gpu.c | 6 +++++-
-> > > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/contrib/vhost-user-gpu/vhost-user-gpu.c
-> > > > b/contrib/vhost-user-gpu/vhost-user-gpu.c
-> > > > index a019d0a9ac..534bad24d1 100644
-> > > > --- a/contrib/vhost-user-gpu/vhost-user-gpu.c
-> > > > +++ b/contrib/vhost-user-gpu/vhost-user-gpu.c
-> > > > @@ -1044,7 +1044,11 @@ vg_get_config(VuDev *dev, uint8_t *config,
-> > uint32_t
-> > > > len)
-> > > >  {
-> > > >      VuGpu *g =3D container_of(dev, VuGpu, dev.parent);
-> > > >
-> > > > -    g_return_val_if_fail(len <=3D sizeof(struct virtio_gpu_config)=
-, -1);
-> > > > +    if (len > sizeof(struct virtio_gpu_config)) {
-> > > > +        g_critical("%s: len %u is larger than %zu",
-> > > > +                   __func__, len, sizeof(struct virtio_gpu_config)=
-);
-> > > >
-> > >
-> > > g_critical() already has __FILE__ __LINE__ and G_STRFUNC.
-> >
-> > I did this for consistency with the logging in this source file. The
-> > other g_critical() calls in the file also print __func__.
-> >
-> >
-> >
-> I see, nevermind then. I gave rb anyway
+Having just come back to look at this as a result of reading
+a review comment from you on the v8.1M series, it's a bit
+unfortunate that we now have to remember to factor in s->be_data
+in every memory access. Previously gen_aa32_st32() got this
+right for us automatically, as well as being able to provide
+the right sized MO_UL or whatever part... Can we make the
+new API a bit less awkward ? (I suspect we're eventually
+going to want to be able to pass an enum for "always OK
+unaligned", "never OK unaligned", or "OK unaligned only
+if SCTLR.A is 0", for that matter.)
 
-Thanks! I checked now and don't see the function name printed by
-g_critical() even though G_STRFUNC is captured in the header file:
-
-** (process:693258): CRITICAL **: 11:30:18.210: test
-
-Maybe only custom log handlers can display the function name?
-
-So it seems the explicit __func__ approach is okay-ish :).
-
-Stefan
-
---t4apE7yKrX2dGgJC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/IzgYACgkQnKSrs4Gr
-c8it1AgAjsBcbdkdBkaidn4GObTaUnyR16+ojE9H14yVXxhg4xWb4APc++FrKRsZ
-/Xq/nfboUUlOX05M6clj3Sthw35ed82EU3nq1GXDONEUBVvk9CDPOvCDdxszjy+m
-7H2wSzmcS2WQlMvyJFEnUuKIJPlNpFVzgHxwfQX0be7QEQhPVxv59euK6wvDfV1T
-jt3u1sa+r11J5UDegRsoaRPILOgE03f+UfOjJ9GzjAXLBFd48vArHywT86rHymQo
-HT8O6WtjJUdiiyvNDCjMuHNtNmnhP2Br25z7/oAzh08SuuIwUUFvTORDpc1z/XLu
-3De5Lqz2aNBO0oKDT85u4xulsE4ZTQ==
-=tU79
------END PGP SIGNATURE-----
-
---t4apE7yKrX2dGgJC--
-
+thanks
+-- PMM
 
