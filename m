@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A58C2CDC36
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:16:43 +0100 (CET)
-Received: from localhost ([::1]:42600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330122CDC43
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 18:19:33 +0100 (CET)
+Received: from localhost ([::1]:49284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kksDi-0006u7-FA
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:16:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51850)
+	id 1kksGS-0001fr-97
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 12:19:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kks7p-0001l6-58
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:10:37 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46094)
+ id 1kks85-0002GW-5c
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:10:54 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:36403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kks7h-0007Uv-4E
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:10:36 -0500
-Received: by mail-ot1-x341.google.com with SMTP id w3so1785762otp.13
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 09:10:28 -0800 (PST)
+ id 1kks82-0007ek-CO
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 12:10:52 -0500
+Received: by mail-ot1-x344.google.com with SMTP id y24so2445737otk.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 09:10:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8ryNOAktagrJ7Tg3Tg77kn0s+R1SHkWLPi0JKyvY+n8=;
- b=TiykxljfXN2pTbhBmmLtkZfDhzNZblt68qTDig06qPYwyumc6UMT1dOZnuYDxex83z
- Sft3tRQ+BKVg5hLcTFpUQPKFYFWDY28rr1suHxejslL2w8uMmSI+uWWwWIMcC3mAi8d8
- Av5jacXNsa7xjHjlCV8kyrK3Fk9vkFUc1L/nCgZlgE8WFV860+1mWffw34tQjby3nC78
- L/vhR0d7Lt2aGBh+lYxjDqyHq6Kx3dNo/VXRudQcDpzeCbi1BWT+fdJZAxxV4JW4RV/+
- DLZKDD/Hdt+VVaeRwjdMJ9oQni4dhKzLtjBrV6/9nmpEKiPSxhZr1oZL+K9DisnxmdS1
- pCMQ==
+ bh=JPPNUp8ipWsWAexZlipoUMJzkuZiXqBMqIoHxwBPwdU=;
+ b=M+wzzlj/kAeU/xpmtdZ4Tg95yS6OYatcG4YPHEHL7aYZWJo++b6CWyalPwkHn8qmz5
+ XoIcKVbNVlnRDFjdgAdEKJjeT/XlCHZr3HoCjS4cgc3jNkMXd7XSLRRCAuhoLA/EA9a9
+ iQKx+AEn3n1ZlLKAW8+Z9YMlK4ZDebR2l0WTVwCHC3lXNZxY8H5S868tjrDdx67cKzQP
+ h0xdj5bissL12yAzdIUxwjAyfR40V0XphV6UY7T9u+CesD8+S+4mY74sBlKUuYqEglh3
+ m5JWPx6p8H+CnQZwvN7+PZu/Z7WPRzspQPI2FL/itVyPzaONDqEUiSQCv/ubRSWi4hbp
+ URwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8ryNOAktagrJ7Tg3Tg77kn0s+R1SHkWLPi0JKyvY+n8=;
- b=Cj5d2ESLSJMNVGtVEb59KqSw/dRbj4UYPAIeche1Ma6STcbIcAm+RRH5MUP7OhIvQv
- 6mvQfAU3nW7gUg5kRG0f9gKp0ugvFY+fmloo34VZy9skAtllje8jLRpVPRip6N8cYEMk
- vYOGwBeC5iL4mwzVC9r4KG0qr3t1FLDKj5VhIryH01g+rZhc1AZgpuugJtybA4dhDsrk
- YdnnOTWbqIEqx8AAvAeB3rqL0LQW9fWb0O1uM+9vBeWKDgDsoMli0FOuTi8dmmqqubCV
- Q+D8kt3iTDBPAOh2qS3hJRH7u/DvXV3t29Y09WU8+VJTAM1d2pG5x+imf48OgHQxAeZA
- R97g==
-X-Gm-Message-State: AOAM532ZnjnZA/7Xt4kM9j/mmUXUTM/MzFPMx/nvot3kDMG/qlQFXPRD
- cnmkgIvHgyAGvs7dEm90ZuS1qQ==
-X-Google-Smtp-Source: ABdhPJz6q4JgjeQ3DOv3qqVcxmpv5Nc/V94ZxVPHoTc9/9f04FXSYjns8g51LPmTl/sNqF7t+dIhKw==
-X-Received: by 2002:a05:6830:18eb:: with SMTP id
- d11mr128317otf.208.1607015427789; 
- Thu, 03 Dec 2020 09:10:27 -0800 (PST)
+ bh=JPPNUp8ipWsWAexZlipoUMJzkuZiXqBMqIoHxwBPwdU=;
+ b=OdtVira3EkBqgWRZT1Db1aZb+cApo8WmrqziWSmYTsePU7UwMedo0BPpidvJqO8J2t
+ UQ3Xwj9UxhXsW00s261GGTZhzCzUiVN5JG9gTsDPmbbnRADYCU264bQoyWw6Lp9dLzcY
+ glT5EUHzSStVGVNfnNnIHNjFKQ4m8VGFu1yB4CTNLC++kvkN4MqYIn2YuvYzO82X5b87
+ +rGhhG1dvJgN2TvTJZn6E7WjlGohYweloKX01Hs31Ma74A3vvoeOP+99Ft0KBiXMJz9c
+ qqldf7nPsE/VFG6jNqy0G9Za8MMmgx81YHu7+CCA3MwC0MOKriCm+fTz8fONTQAufimA
+ l1qw==
+X-Gm-Message-State: AOAM530U4ma+BB94HHLI9aus16CSVh7PDg1lO7svl/+w9syc+FHR4jWP
+ JWcLfQPpOB8M4bBSlvjvZBa8xw==
+X-Google-Smtp-Source: ABdhPJwVg9zuB8t8KHOn6UojPPtk+I9rXG9IER8xQKaBXO9P1UfJ+eFM5ep7TXAyG9kJ0A27BkyJcA==
+X-Received: by 2002:a9d:7c99:: with SMTP id q25mr100207otn.157.1607015449201; 
+ Thu, 03 Dec 2020 09:10:49 -0800 (PST)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id x66sm316179oig.56.2020.12.03.09.10.25
+ by smtp.gmail.com with ESMTPSA id v15sm356437otj.8.2020.12.03.09.10.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Dec 2020 09:10:27 -0800 (PST)
-Subject: Re: [PATCH 2/9] target/mips: Simplify msa_reset()
+ Thu, 03 Dec 2020 09:10:48 -0800 (PST)
+Subject: Re: [PATCH 3/9] target/mips: Use CP0_Config3 to set MIPS_HFLAG_MSA
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201202184415.1434484-1-f4bug@amsat.org>
- <20201202184415.1434484-3-f4bug@amsat.org>
+ <20201202184415.1434484-4-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dfb36b79-f65d-1ae7-0b35-7f3aaf985f17@linaro.org>
-Date: Thu, 3 Dec 2020 11:10:23 -0600
+Message-ID: <904ce358-d0bf-1787-216c-c71545e7c870@linaro.org>
+Date: Thu, 3 Dec 2020 11:10:44 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201202184415.1434484-3-f4bug@amsat.org>
+In-Reply-To: <20201202184415.1434484-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,20 +96,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/2/20 12:44 PM, Philippe Mathieu-Daudé wrote:
-> Call msa_reset() inconditionally, but only reset
-
-unconditionally.
-
-> the MSA registers if MSA is implemented.
+> MSA presence is expressed by the MSAP bit of CP0_Config3.
+> We don't need to check anything else.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
-> Maybe not very useful.
-
-Yeah, it's marginal, especially given one user.
-But whichever way you prefer.
+>  target/mips/internal.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
