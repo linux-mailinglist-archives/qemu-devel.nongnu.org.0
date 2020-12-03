@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B60C2CD400
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:52:24 +0100 (CET)
-Received: from localhost ([::1]:47798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5F932CD410
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:56:07 +0100 (CET)
+Received: from localhost ([::1]:53598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmDn-0002nj-Er
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:52:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45660)
+	id 1kkmHO-0005SF-P2
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:56:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kkmC9-0002B6-Ec
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:50:41 -0500
-Received: from 3.mo51.mail-out.ovh.net ([188.165.32.156]:40584)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kkmC6-0000YH-85
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:50:41 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.52])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 71C3623F7F5;
- Thu,  3 Dec 2020 11:50:33 +0100 (CET)
-Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 3 Dec 2020
- 11:50:31 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001002f60cc-006b-4ca3-891d-1998aad55bf5,
- D4304C32AB1A6EF3B20A6066E8569460ED01B025) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Thu, 3 Dec 2020 11:50:30 +0100
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH for-6.0 v2 2/3] spapr/xive: Fix size of END table and
- number of claimed IPIs
-Message-ID: <20201203115030.532d89d7@bahia.lan>
-In-Reply-To: <b3292b6e-f1a4-40d1-ff8b-f43be8748dd6@kaod.org>
-References: <20201130165258.744611-1-groug@kaod.org>
- <20201130165258.744611-3-groug@kaod.org>
- <ffc2ef57-e90f-7f07-650e-d85be0746c49@kaod.org>
- <b3292b6e-f1a4-40d1-ff8b-f43be8748dd6@kaod.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmG0-0003kD-Da
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:54:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31455)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kkmFy-0001ym-BQ
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:54:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606992877;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dV+GRl/anXcygh6NCrncdJB4+K8CbGqVcPsjrI6BLV4=;
+ b=L6b3QK9PqMB+ohgASZAfHTSti82VdQS9bg1bQjLjgYMIFO83Im5IGJ0wZB/V3mPAS14GPu
+ 4d/JnqhiIYjl/NYAK131yxxhK9FbhXADYSGKPWLMdGZVSxOkNxeOx9RDq00j5HHMkt1EPs
+ JvCg6+Y+WXKJmaaXWtK/GpTbXlH4G6c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-6W13K0mkO7OOI5KW9TOvqw-1; Thu, 03 Dec 2020 05:54:35 -0500
+X-MC-Unique: 6W13K0mkO7OOI5KW9TOvqw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 595D585818C;
+ Thu,  3 Dec 2020 10:54:34 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
+ [10.36.112.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1521B5C1B4;
+ Thu,  3 Dec 2020 10:54:24 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 524D411AB8; Thu,  3 Dec 2020 11:54:23 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/12] microvm: add second ioapic
+Date: Thu,  3 Dec 2020 11:54:11 +0100
+Message-Id: <20201203105423.10431-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: dc5c5753-2889-4e3f-87c5-0f0fc086a5c4
-X-Ovh-Tracer-Id: 14048979038103771616
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeiiedgvddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtqhertdertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedtgfelhfeiheetjeejgeevgeelkeduveekheejudfgjefffeehueeukefgfffhgeenucffohhmrghinheplhgruhhntghhphgrugdrnhgvthenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=groug@kaod.org;
- helo=3.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,73 +76,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Dec 2020 10:51:10 +0100
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
-
-> On 11/30/20 7:07 PM, C=C3=A9dric Le Goater wrote:
-> > On 11/30/20 5:52 PM, Greg Kurz wrote:
-> >> The sPAPR XIVE device has an internal ENDT table the size of
-> >> which is configurable by the machine. This table is supposed
-> >> to contain END structures for all possible vCPUs that may
-> >> enter the guest. The machine must also claim IPIs for all
-> >> possible vCPUs since this is expected by the guest.
-> >>
-> >> spapr_irq_init() takes care of that under the assumption that
-> >> spapr_max_vcpu_ids() returns the number of possible vCPUs.
-> >> This happens to be the case when the VSMT mode is set to match
-> >> the number of threads per core in the guest (default behavior).
-> >> With non-default VSMT settings, this limit is > to the number
-> >> of vCPUs. In the worst case, we can end up allocating an 8 times
-> >> bigger ENDT and claiming 8 times more IPIs than needed. But more
-> >> importantly, this creates a confusion between number of vCPUs and
-> >> vCPU ids, which can lead to subtle bugs like [1].
-> >>
-> >> Use smp.max_cpus instead of spapr_max_vcpu_ids() in
-> >> spapr_irq_init() for the latest machine type. Older machine
-> >> types continue to use spapr_max_vcpu_ids() since the size of
-> >> the ENDT is migration visible.
-> >>
-> >> [1] https://bugs.launchpad.net/qemu/+bug/1900241
-> >>
-> >> Signed-off-by: Greg Kurz <groug@kaod.org>
-> >=20
-> >=20
-> > Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
->=20
->=20
-> I gave patch 2 and 3 a little more thinking.=20
->=20
-> I don't think we need much more than patch 1 which clarifies the=20
-> nature of the values being manipulated, quantities vs. numbering.
->=20
-> The last 2 patches are adding complexity to try to optimize the=20
-> XIVE VP space in a case scenario which is not very common (vSMT).=20
-> May be it's not worth it.=20
->=20
-
-Well, the motivation isn't about optimization really since
-a non-default vSMT setting already wastes VP space because
-of the vCPU spacing. This is more about not using values
-with wrong semantics in the code to avoid confusion in
-future changes.
-
-I agree though that the extra complexity, especially the
-compat crust, might be excessive. So maybe I should just
-add comments in the code to clarify when we're using the
-wrong semantics ?
-
-> Today, we can start 4K (-2) KVM guests with 16 vCPUs each on=20
-> a witherspoon (2 socket P9) and we are far from reaching the=20
-> limits of the VP space. Available RAM is more a problem.=20
->=20
-> VP space is even bigger on P10. The width was increased to 24bit=20
-> per chip.
->=20
-> C.
+Add a second ioapic to microvm.  Gives us more IRQ lines we can=0D
+use for virtio-mmio devices.  Bump number of possible virtio-mmio=0D
+devices from 8 to 24.=0D
+=0D
+v3:=0D
+ - pick up some review tags.=0D
+ - replace magic numbers with #defines.=0D
+ - add asl changes to commit messages.=0D
+v2:=0D
+ - reorganize code a bit.=0D
+ - add ioapic2=3D option to microvm.=0D
+=0D
+Gerd Hoffmann (12):=0D
+  [testing] disable xhci msix=0D
+  x86: rewrite gsi_handler()=0D
+  x86: add support for second ioapic=0D
+  microvm: make number of virtio transports runtime changeable=0D
+  microvm: make pcie irq base runtime changeable=0D
+  microvm: drop microvm_gsi_handler()=0D
+  microvm: add second ioapic=0D
+  tests/acpi: allow updates for expected data files=0D
+  tests/acpi: add data files for ioapic2 test variant=0D
+  tests/acpi: add ioapic2=3Don test for microvm=0D
+  tests/acpi: update expected data files=0D
+  tests/acpi: disallow updates for expected data files=0D
+=0D
+ include/hw/i386/ioapic.h             |   2 +=0D
+ include/hw/i386/ioapic_internal.h    |   2 +-=0D
+ include/hw/i386/microvm.h            |   6 +-=0D
+ include/hw/i386/x86.h                |   3 +=0D
+ hw/i386/acpi-common.c                |  10 ++++=0D
+ hw/i386/microvm.c                    |  82 ++++++++++++++++++++-------=0D
+ hw/i386/x86.c                        |  35 ++++++++++--=0D
+ hw/usb/hcd-xhci-pci.c                |   2 +-=0D
+ tests/qtest/bios-tables-test.c       |  20 +++++--=0D
+ tests/data/acpi/microvm/APIC.ioapic2 | Bin 0 -> 82 bytes=0D
+ tests/data/acpi/microvm/DSDT.ioapic2 | Bin 0 -> 365 bytes=0D
+ 11 files changed, 129 insertions(+), 33 deletions(-)=0D
+ create mode 100644 tests/data/acpi/microvm/APIC.ioapic2=0D
+ create mode 100644 tests/data/acpi/microvm/DSDT.ioapic2=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
 
