@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471A02CD605
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 13:51:57 +0100 (CET)
-Received: from localhost ([::1]:57812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC3D2CD60E
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 13:52:00 +0100 (CET)
+Received: from localhost ([::1]:58026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kko5U-0001eP-AZ
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 07:51:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45188)
+	id 1kko5X-0001jy-D8
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 07:51:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1kko1T-0004KX-SM; Thu, 03 Dec 2020 07:47:47 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2819)
+ id 1kko1c-0004g4-6k; Thu, 03 Dec 2020 07:47:56 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1kko1R-0006v3-Sn; Thu, 03 Dec 2020 07:47:47 -0500
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CmwZz2FKlzkksn;
- Thu,  3 Dec 2020 20:47:07 +0800 (CST)
+ id 1kko1Y-0006xC-H5; Thu, 03 Dec 2020 07:47:55 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CmwbD3JDGz779J;
+ Thu,  3 Dec 2020 20:47:20 +0800 (CST)
 Received: from huawei.com (10.174.186.236) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Thu, 3 Dec 2020
- 20:47:36 +0800
+ 20:47:37 +0800
 From: Yifei Jiang <jiangyifei@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH RFC v4 11/15] target/riscv: Implement virtual time adjusting
- with vm state changing
-Date: Thu, 3 Dec 2020 20:46:59 +0800
-Message-ID: <20201203124703.168-12-jiangyifei@huawei.com>
+Subject: [PATCH RFC v4 12/15] target/riscv: Support virtual time context
+ synchronization
+Date: Thu, 3 Dec 2020 20:47:00 +0800
+Message-ID: <20201203124703.168-13-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20201203124703.168-1-jiangyifei@huawei.com>
 References: <20201203124703.168-1-jiangyifei@huawei.com>
@@ -37,8 +37,8 @@ Content-Transfer-Encoding: 7bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.186.236]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=jiangyifei@huawei.com; helo=szxga04-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=jiangyifei@huawei.com;
+ helo=szxga07-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -66,56 +66,51 @@ Cc: victor.zhangxiaofeng@huawei.com, sagark@eecs.berkeley.edu,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We hope that virtual time adjusts with vm state changing. When a vm
-is stopped, guest virtual time should stop counting and kvm_timer
-should be stopped. When the vm is resumed, guest virtual time should
-continue to count and kvm_timer should be restored.
+Add virtual time context description to vmstate_riscv_cpu. After cpu being
+loaded, virtual time context is updated to KVM.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
 ---
- target/riscv/kvm.c | 14 ++++++++++++++
+ target/riscv/machine.c | 14 ++++++++++++++
  1 file changed, 14 insertions(+)
 
-diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-index 79228eb726..1e16d24544 100644
---- a/target/riscv/kvm.c
-+++ b/target/riscv/kvm.c
-@@ -40,6 +40,7 @@
- #include "kvm_riscv.h"
- #include "sbi_ecall_interface.h"
- #include "chardev/char-fe.h"
-+#include "sysemu/runstate.h"
+diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+index 44d4015bd6..ef2d5395a8 100644
+--- a/target/riscv/machine.c
++++ b/target/riscv/machine.c
+@@ -138,10 +138,20 @@ static const VMStateDescription vmstate_hyper = {
+     }
+ };
  
- static __u64 kvm_riscv_reg_id(__u64 type, __u64 idx)
- {
-@@ -448,6 +449,17 @@ unsigned long kvm_arch_vcpu_id(CPUState *cpu)
-     return cpu->cpu_index;
- }
- 
-+static void kvm_riscv_vm_state_change(void *opaque, int running, RunState state)
++static int cpu_post_load(void *opaque, int version_id)
 +{
-+    CPUState *cs = opaque;
++    RISCVCPU *cpu = opaque;
++    CPURISCVState *env = &cpu->env;
 +
-+    if (running) {
-+        kvm_riscv_put_regs_timer(cs);
-+    } else {
-+        kvm_riscv_get_regs_timer(cs);
-+    }
++    env->kvm_timer_dirty = true;
++    return 0;
 +}
 +
- void kvm_arch_init_irq_routing(KVMState *s)
- {
- }
-@@ -460,6 +472,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
-     CPURISCVState *env = &cpu->env;
-     __u64 id;
+ const VMStateDescription vmstate_riscv_cpu = {
+     .name = "cpu",
+     .version_id = 1,
+     .minimum_version_id = 1,
++    .post_load = cpu_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_UINTTL_ARRAY(env.gpr, RISCVCPU, 32),
+         VMSTATE_UINT64_ARRAY(env.fpr, RISCVCPU, 32),
+@@ -185,6 +195,10 @@ const VMStateDescription vmstate_riscv_cpu = {
+         VMSTATE_UINT64(env.mtohost, RISCVCPU),
+         VMSTATE_UINT64(env.timecmp, RISCVCPU),
  
-+    qemu_add_vm_change_state_handler(kvm_riscv_vm_state_change, cs);
++        VMSTATE_UINT64(env.kvm_timer_time, RISCVCPU),
++        VMSTATE_UINT64(env.kvm_timer_compare, RISCVCPU),
++        VMSTATE_UINT64(env.kvm_timer_state, RISCVCPU),
 +
-     id = kvm_riscv_reg_id(KVM_REG_RISCV_CONFIG, KVM_REG_RISCV_CONFIG_REG(isa));
-     ret = kvm_get_one_reg(cs, id, &isa);
-     if (ret) {
+         VMSTATE_END_OF_LIST()
+     },
+     .subsections = (const VMStateDescription * []) {
 -- 
 2.19.1
 
