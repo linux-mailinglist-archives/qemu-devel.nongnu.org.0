@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1E62CD4E0
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:46:53 +0100 (CET)
-Received: from localhost ([::1]:50268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35AC2CD502
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:59:09 +0100 (CET)
+Received: from localhost ([::1]:59778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkn4W-000387-CT
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:46:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59446)
+	id 1kknGO-00004r-CD
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:59:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kkn38-0002Vj-Rj
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:45:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kkn36-0002VC-N1
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:45:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606995923;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ARJVC1fKX0i90rc1hw2tOwycxcbJLw0Q/m4edsDIP90=;
- b=he/D/ZVG0C6lBry5RvxPbawjF5Lz/OMWmj1munbLLcEM3l9dwDKkslHdi9dDFhPkTgKxE+
- pyL9z2JCd36UB1TmcfNwAogXokaDOQiQ0y+vk+1LfdkGHUONVoznxz5vBrfnKi1hvncOTd
- +LXJTZTMFgUKZzrUnGIFNbAwNWK/GrE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-RDMDEbnjMNGfbIZsl-D0fw-1; Thu, 03 Dec 2020 06:45:22 -0500
-X-MC-Unique: RDMDEbnjMNGfbIZsl-D0fw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 31898190A7AD
- for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 11:45:21 +0000 (UTC)
-Received: from redhat.com (ovpn-115-57.ams2.redhat.com [10.36.115.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 550BC1F075;
- Thu,  3 Dec 2020 11:45:15 +0000 (UTC)
-Date: Thu, 3 Dec 2020 11:45:12 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 01/27] migration: Network Failover can't work with a
- paused guest
-Message-ID: <20201203114512.GE2952498@redhat.com>
-References: <20201202053219-mutt-send-email-mst@kernel.org>
- <87mtywlbvq.fsf@secure.mitica>
- <20201202105515.GD2360260@redhat.com>
- <20201202061641-mutt-send-email-mst@kernel.org>
- <20201202112639.GE2360260@redhat.com>
- <20201202063656-mutt-send-email-mst@kernel.org>
- <20201202120121.GF2360260@redhat.com>
- <20201203061907-mutt-send-email-mst@kernel.org>
- <20201203113253.GD2952498@redhat.com>
- <20201203063452-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kknFW-00084i-Ql
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:58:14 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40925)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kknFV-0006zp-28
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:58:14 -0500
+Received: by mail-ej1-x629.google.com with SMTP id x16so3041113ejj.7
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 03:58:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/bDVoYv54VpQ3bTHC+hiMbEyAfLnOKtgQjcuIxh19Qs=;
+ b=M0gv2lpF3jyefLqwciU2p6RsDEJTqAQvAaAzv8FPID+BYCUPVelBpes+jvFmkNiZ1k
+ nAaIpNBP3Pw0QsTbiwQkyUwAnt1y2aRxOUo7wY8p88BpL3G0DYznb7cwlE5/D3JcxRDa
+ a52xQJwQJ9sa5oqxfLwVKFJhuXra3ajkSf7jOmJM6dXwqkRpBC4WBAUPcaHZsKhDK482
+ URpe2X5DsmMs//oG2o29Fb35d6HuXf6sX3wqZakNQeZz/pISVc8ROIB5ojjWgN+DmrwZ
+ N/7TohrQ5BNfkLJy3KkcpiBrot23Fztr6zVFmUEl/H1o3EMXIVbI8u+pjAp5XeLzzeOh
+ 1Q8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/bDVoYv54VpQ3bTHC+hiMbEyAfLnOKtgQjcuIxh19Qs=;
+ b=W+8fCQNZQZKmRwXr+9BqjTUeIqRMw874k2z9wxK21d29p8SdsM/qIDvwjI5tNqVm3z
+ 0H+0r928DPpEnF3rGO/b74FPnVe3wqx8xDyAR1Lp9uPIuhLhgSqliGJ0F749NpIU7+qU
+ m5x/pDaMyyMDGJH++TZzHr74R1d4tDRTx9OmMoUabxyZWSn8qvRw7eu0vFVjmI31Yu4t
+ 072AtbaVQwl8egd61cIfvCQ2Xg/7Jp5gR+5IRrYka80kHO1/s1bHPJiOah+x4uwmclwk
+ 14KT+Q4dhRSKq4QSQQH0eWbUSjUm+VHuJQoPfo53BVTFzPLIy0PzBA+3MCdurjmvVHdy
+ KfFQ==
+X-Gm-Message-State: AOAM533HVG9mxM+0kmD8rnP7W5w1ZLf2UP+8+30ZvZ7oLz8rbD9/WSTT
+ whgX9KNXgmlmIcjYuTrxtYdH5y1IqytgzguRWnEWHw==
+X-Google-Smtp-Source: ABdhPJymciFOQOLczTDsBkE1DXozfVjDe3Qh9n9WP8Fmr899Gce0xA9ABImTcl4ROL9OiDtHt+1PWC5Zt5iRIhc3wOM=
+X-Received: by 2002:a17:906:4bc6:: with SMTP id x6mr2182566ejv.4.1606996674708; 
+ Thu, 03 Dec 2020 03:57:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201203063452-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201202101655.122214-1-mst@redhat.com>
+ <CAFEAcA8N1Qh0gUX8oTTPOEuq_+DRzJ+9V1RqKzVhXN+4aoBZGw@mail.gmail.com>
+ <20201203054505-mutt-send-email-mst@kernel.org>
+ <CAFEAcA81DAGk7TPLKpExJ40cipRXB9L1wXz7_3=0xLkcPWJgEg@mail.gmail.com>
+In-Reply-To: <CAFEAcA81DAGk7TPLKpExJ40cipRXB9L1wXz7_3=0xLkcPWJgEg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Dec 2020 11:57:43 +0000
+Message-ID: <CAFEAcA9rbZnfKAk5Ug-hFM4NKNsvjZBQKq9PGHnH6HWwPv3KbA@mail.gmail.com>
+Subject: Re: [PULL 0/6] pc,vhost: fixes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,123 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 03, 2020 at 06:40:11AM -0500, Michael S. Tsirkin wrote:
-> On Thu, Dec 03, 2020 at 11:32:53AM +0000, Daniel P. Berrangé wrote:
-> > On Thu, Dec 03, 2020 at 06:21:47AM -0500, Michael S. Tsirkin wrote:
-> > > On Wed, Dec 02, 2020 at 12:01:21PM +0000, Daniel P. Berrangé wrote:
-> > > > On Wed, Dec 02, 2020 at 06:37:46AM -0500, Michael S. Tsirkin wrote:
-> > > > > On Wed, Dec 02, 2020 at 11:26:39AM +0000, Daniel P. Berrangé wrote:
-> > > > > > On Wed, Dec 02, 2020 at 06:19:29AM -0500, Michael S. Tsirkin wrote:
-> > > > > > > On Wed, Dec 02, 2020 at 10:55:15AM +0000, Daniel P. Berrangé wrote:
-> > > > > > > > On Wed, Dec 02, 2020 at 11:51:05AM +0100, Juan Quintela wrote:
-> > > > > > > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > > > > > > On Wed, Dec 02, 2020 at 05:31:53AM -0500, Michael S. Tsirkin wrote:
-> > > > > > > > > >> On Wed, Dec 02, 2020 at 10:27:18AM +0000, Daniel P. BerrangÃƒÂ© wrote:
-> > > > > > > > > >> > On Wed, Dec 02, 2020 at 05:13:18AM -0500, Michael S. Tsirkin wrote:
-> > > > > > > > > >> > > On Wed, Nov 18, 2020 at 09:37:22AM +0100, Juan Quintela wrote:
-> > > > > > > > > >> > > > If we have a paused guest, it can't unplug the network VF device, so
-> > > > > > > > > >> > > > we wait there forever.  Just change the code to give one error on that
-> > > > > > > > > >> > > > case.
-> > > > > > > > > >> > > > 
-> > > > > > > > > >> > > > Signed-off-by: Juan Quintela <quintela@redhat.com>
-> > > > > > > > > >> > > 
-> > > > > > > > > >> > > It's certainly possible but it's management that created
-> > > > > > > > > >> > > this situation after all - why do we bother to enforce
-> > > > > > > > > >> > > a policy? It is possible that management will unpause immediately
-> > > > > > > > > >> > > afterwards and everything will proceed smoothly.
-> > > > > > > > > >> > > 
-> > > > > > > > > >> > > Yes migration will not happen until guest is
-> > > > > > > > > >> > > unpaused but the same it true of e.g. a guest that is stuck
-> > > > > > > > > >> > > because of a bug.
-> > > > > > > > > >> > 
-> > > > > > > > > >> > That's pretty different behaviour from how migration normally handles
-> > > > > > > > > >> > a paused guest, which is that it is guaranteed to complete the migration
-> > > > > > > > > >> > in as short a time as network bandwidth allows.
-> > > > > > > > > >> > 
-> > > > > > > > > >> > Just ignoring the situation I think will lead to surprise apps / admins,
-> > > > > > > > > >> > because the person/entity invoking the migration is not likely to have
-> > > > > > > > > >> > checked wether this particular guest uses net failover or not before
-> > > > > > > > > >> > invoking - they'll just be expecting a paused migration to run fast and
-> > > > > > > > > >> > be guaranteed to complete.
-> > > > > > > > > >> > 
-> > > > > > > > > >> > Regards,
-> > > > > > > > > >> > Daniel
-> > > > > > > > > >> 
-> > > > > > > > > >> Okay I guess. But then shouldn't we handle the reverse situation too:
-> > > > > > > > > >> pausing guest after migration started but before device was
-> > > > > > > > > >> unplugged?
-> > > > > > > > > >> 
-> > > > > > > > > >
-> > > > > > > > > > Thinking of which, I have no idea how we'd handle it - fail
-> > > > > > > > > > pausing guest until migration is cancelled?
-> > > > > > > > > >
-> > > > > > > > > > All this seems heavy handed to me ...
-> > > > > > > > > 
-> > > > > > > > > This is the minimal fix that I can think of.
-> > > > > > > > > 
-> > > > > > > > > Further solution would be:
-> > > > > > > > > - Add a new migration parameter: migrate-paused
-> > > > > > > > > - change libvirt to use the new parameter if it exist
-> > > > > > > > > - in qemu, when we do start migration (but after we wait for the unplug
-> > > > > > > > >   device) paused the guest before starting migration and resume it after
-> > > > > > > > >   migration finish.
-> > > > > > > > 
-> > > > > > > > It would also have to handle issuing of paused after migration has
-> > > > > > > > been started - delay the pause request until the nuplug is complete
-> > > > > > > > is one answer.
-> > > > > > > 
-> > > > > > > Hmm my worry would be that pausing is one way to give cpu
-> > > > > > > resources back to host. It's problematic if guest can delay
-> > > > > > > that indefinitely.
-> > > > > > 
-> > > > > > hmm, yes, that is awkward.  Perhaps we should just report an explicit
-> > > > > > error then.
-> > > > > 
-> > > > > Report an error in response to which command? Do you mean
-> > > > > fail migration?
-> > > > 
-> > > > If mgt attempt to pause an existing migration that hasn't finished
-> > > > the PCI unplug stage, then fail the pause request.
-> > > 
-> > > Pause guest not migration ...
-> > > Might be tricky ...
-> > > 
-> > > Let me ask this, why not just produce a warning
-> > > that migration wan't finish until guest actually runs?
-> > > User will then know and unpause the guest when he wants
-> > > migration to succeed ...
-> > 
-> > A warning is going to be essentally invisible if the pause command
-> > succeeeds. 
-> 
-> I mean the situation here isn't earth shattering, an admin
-> created it. Maybe he will unpause shortly
-> and all will be well ...
+On Thu, 3 Dec 2020 at 11:02, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Thu, 3 Dec 2020 at 10:59, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Thu, Dec 03, 2020 at 10:20:03AM +0000, Peter Maydell wrote:
+> > > On Wed, 2 Dec 2020 at 11:03, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > Patch 5 gave me pause but we do need patch 6 as
+> > > > it's a guest triggerable assert, and it seemed
+> > > > cleaner to just take the whole patchset than cherry-pick.
+> > >
+> > > Is this only "fixes a guest triggerable assert"?
+> >
+> > My understanding is that without the patches a rhel7 guest triggers
+> > the assert if started with vtd enabled and virtio-net with
+> > iommu_platform=on.
+> >
+> > https://bugs.launchpad.net/qemu/+bug/1885175
+>
+> Bug reported in June ? Is this a regression since 5.1, or
+> was it this way in 5.1 as well?
 
-It isn't really about the admin.  It is about countless existing mgmt apps
-that expect migration will always succeed if the VM is paused. The mgmt
-apps triggering the migraiton is not neccessarily the same as the app
-which introduced the use of NIC failover in the config.
+MST confirmed on IRC that this isn't a regression since 5.1,
+so we'll fix it for 6.0.
 
-eg in OpenStack Nova provides the VM config, but there are completely
-separate apps that are built todo automation on top of Nova which 
-this is liable to break. There's no human admin there to diagnose
-this and re-try with unpause, as all the logic is in the apps.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
