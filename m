@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0346C2CE2FD
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 00:51:07 +0100 (CET)
-Received: from localhost ([::1]:47060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4809C2CE2FB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 00:50:54 +0100 (CET)
+Received: from localhost ([::1]:45730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkyNN-0004mW-Vp
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 18:51:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58366)
+	id 1kkyNA-0004E1-PL
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 18:50:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kkyLU-0002WS-GJ; Thu, 03 Dec 2020 18:49:08 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:57472
+ id 1kkyLS-0002W5-W7; Thu, 03 Dec 2020 18:49:07 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:57482
  helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1kkyLQ-0003Lg-Dz; Thu, 03 Dec 2020 18:49:08 -0500
+ id 1kkyLQ-0003Lj-Hc; Thu, 03 Dec 2020 18:49:06 -0500
 Received: from localhost.localdomain
  (dynamic-077-002-092-143.77.2.pool.telefonica.de [77.2.92.143])
- by csgraf.de (Postfix) with ESMTPSA id B191C39003CD;
- Fri,  4 Dec 2020 00:48:58 +0100 (CET)
+ by csgraf.de (Postfix) with ESMTPSA id 40CE339003D2;
+ Fri,  4 Dec 2020 00:48:59 +0100 (CET)
 From: Alexander Graf <agraf@csgraf.de>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/11] hvf: Add hypervisor entitlement to output binaries
-Date: Fri,  4 Dec 2020 00:48:47 +0100
-Message-Id: <20201203234857.21051-2-agraf@csgraf.de>
+Subject: [PATCH v4 02/11] hvf: x86: Remove unused definitions
+Date: Fri,  4 Dec 2020 00:48:48 +0100
+Message-Id: <20201203234857.21051-3-agraf@csgraf.de>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20201203234857.21051-1-agraf@csgraf.de>
 References: <20201203234857.21051-1-agraf@csgraf.de>
@@ -59,110 +59,49 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In macOS 11, QEMU only gets access to Hypervisor.framework if it has the
-respective entitlement. Add an entitlement template and automatically self
-sign and apply the entitlement in the build.
+The hvf i386 has a few struct and cpp definitions that are never
+used. Remove them.
 
+Suggested-by: Roman Bolshakov <r.bolshakov@yadro.com>
 Signed-off-by: Alexander Graf <agraf@csgraf.de>
-
 ---
+ target/i386/hvf/hvf-i386.h | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-v1 -> v2:
-
-  - Make safe to ctrl-C
-
-v3 -> v4:
-
-  - Remove unused exe_full variable
-  - Reuse exe_name variable
----
- accel/hvf/entitlements.plist |  8 ++++++++
- meson.build                  | 29 +++++++++++++++++++++++++----
- scripts/entitlement.sh       | 13 +++++++++++++
- 3 files changed, 46 insertions(+), 4 deletions(-)
- create mode 100644 accel/hvf/entitlements.plist
- create mode 100755 scripts/entitlement.sh
-
-diff --git a/accel/hvf/entitlements.plist b/accel/hvf/entitlements.plist
-new file mode 100644
-index 0000000000..154f3308ef
---- /dev/null
-+++ b/accel/hvf/entitlements.plist
-@@ -0,0 +1,8 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-+<plist version="1.0">
-+<dict>
-+    <key>com.apple.security.hypervisor</key>
-+    <true/>
-+</dict>
-+</plist>
-diff --git a/meson.build b/meson.build
-index e3386196ba..86d433c8a4 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1843,9 +1843,14 @@ foreach target : target_dirs
-     }]
-   endif
-   foreach exe: execs
--    emulators += {exe['name']:
--         executable(exe['name'], exe['sources'],
--               install: true,
-+    exe_name = exe['name']
-+    exe_sign = 'CONFIG_HVF' in config_target
-+    if exe_sign
-+      exe_name += '-unsigned'
-+    endif
-+
-+    emulator = executable(exe_name, exe['sources'],
-+               install: not exe_sign,
-                c_args: c_args,
-                dependencies: arch_deps + deps + exe['dependencies'],
-                objects: lib.extract_all_objects(recursive: true),
-@@ -1853,7 +1858,23 @@ foreach target : target_dirs
-                link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
-                link_args: link_args,
-                gui_app: exe['gui'])
--    }
-+
-+    if exe_sign
-+      emulators += {exe['name'] : custom_target(exe['name'],
-+                   install: true,
-+                   install_dir: get_option('bindir'),
-+                   depends: emulator,
-+                   output: exe['name'],
-+                   command: [
-+                     meson.current_source_dir() / 'scripts/entitlement.sh',
-+                     meson.current_build_dir() / exe_name,
-+                     meson.current_build_dir() / exe['name'],
-+                     meson.current_source_dir() / 'accel/hvf/entitlements.plist'
-+                   ])
-+      }
-+    else
-+      emulators += {exe['name']: emulator}
-+    endif
+diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/hvf/hvf-i386.h
+index e0edffd077..e31938e5ff 100644
+--- a/target/i386/hvf/hvf-i386.h
++++ b/target/i386/hvf/hvf-i386.h
+@@ -21,21 +21,6 @@
+ #include "cpu.h"
+ #include "x86.h"
  
-     if 'CONFIG_TRACE_SYSTEMTAP' in config_host
-       foreach stp: [
-diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
-new file mode 100755
-index 0000000000..c540fa6435
---- /dev/null
-+++ b/scripts/entitlement.sh
-@@ -0,0 +1,13 @@
-+#!/bin/sh -e
-+#
-+# Helper script for the build process to apply entitlements
-+
-+SRC="$1"
-+DST="$2"
-+ENTITLEMENT="$3"
-+
-+trap 'rm "$DST.tmp"' exit
-+cp -af "$SRC" "$DST.tmp"
-+codesign --entitlements "$ENTITLEMENT" --force -s - "$DST.tmp"
-+mv "$DST.tmp" "$DST"
-+trap '' exit
+-#define HVF_MAX_VCPU 0x10
+-
+-extern struct hvf_state hvf_global;
+-
+-struct hvf_vm {
+-    int id;
+-    struct hvf_vcpu_state *vcpus[HVF_MAX_VCPU];
+-};
+-
+-struct hvf_state {
+-    uint32_t version;
+-    struct hvf_vm *vm;
+-    uint64_t mem_quota;
+-};
+-
+ /* hvf_slot flags */
+ #define HVF_SLOT_LOG (1 << 0)
+ 
+@@ -75,7 +60,6 @@ hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
+ 
+ /* Host specific functions */
+ int hvf_inject_interrupt(CPUArchState *env, int vector);
+-int hvf_vcpu_run(struct hvf_vcpu_state *vcpu);
+ #endif
+ 
+ #endif
 -- 
 2.24.3 (Apple Git-128)
 
