@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059752CCE67
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 06:18:07 +0100 (CET)
-Received: from localhost ([::1]:54788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3FA72CCE71
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 06:23:11 +0100 (CET)
+Received: from localhost ([::1]:57228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkh0H-0002vV-Lw
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 00:18:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53044)
+	id 1kkh5C-0004BE-IW
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 00:23:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkgyW-0002D1-VD
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 00:16:16 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kkgy6-0002wt-Lf
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 00:16:16 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kkgy4-0008Ow-ET
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 05:15:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 691762E80DF
- for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 05:15:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kkh3Z-0003dS-6C
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 00:21:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31614)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kkh3W-0004Rm-ON
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 00:21:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606972884;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=u8YQUqpaPChXDuKHO28KrMR4zqS+U/AxgYe4AQOoJcU=;
+ b=Q0M2/PmtfQ8lpOQzqzyRX1lAkZcBnZNJPN9TvaC5Sm3oRMIqlTQ19+ueRKr3sP/gUtO3Qn
+ oOa8PlqXXcOSDQ2Xzs/000yVLwshGUzWGf4P/OTq4e9Gdxw0dSdPeYPkpmE5oHCNdVSyzP
+ zl335LBc1C7jgOKs3z+efRDsZcgXQoI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-4cVQI2r7OxGBEJ9q01S9qg-1; Thu, 03 Dec 2020 00:21:21 -0500
+X-MC-Unique: 4cVQI2r7OxGBEJ9q01S9qg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D235D100C661;
+ Thu,  3 Dec 2020 05:21:19 +0000 (UTC)
+Received: from kaapi (unknown [10.74.9.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 97AAB1000232;
+ Thu,  3 Dec 2020 05:21:07 +0000 (UTC)
+Date: Thu, 3 Dec 2020 10:51:03 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH v1 1/1] security-process: update process information
+In-Reply-To: <d48ca955-b84e-429d-3abf-c275ff2ede52@redhat.com>
+Message-ID: <228r378q-53o2-9so-9rso-6ro87983qr38@erqung.pbz>
+References: <20201130134907.348505-1-ppandit@redhat.com>
+ <20201130134907.348505-2-ppandit@redhat.com>
+ <d48ca955-b84e-429d-3abf-c275ff2ede52@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 03 Dec 2020 05:06:32 -0000
-From: jinyan <1906516@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: phantom1003
-X-Launchpad-Bug-Reporter: jinyan (phantom1003)
-X-Launchpad-Bug-Modifier: jinyan (phantom1003)
-References: <160691732836.26002.10346003915035160514.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160697199295.26569.16050555230951132230.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1906516] Re: [RISCV] sfence.vma need to end the translation block
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="55c41fea591e042b8bb54e6952942f55c764435e"; Instance="production"
-X-Launchpad-Hash: bc1a267c05aca87c5271636d71490f268592f584
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed;
+ boundary="-1463810047-1130521290-1606972878=:373362"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,260 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906516 <1906516@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, Stefano Stabellini <sstabellini@kernel.org>,
+ Petr Matousek <pmatouse@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Darren Kenny <darren.kenny@oracle.com>, Michael Roth <michael.roth@amd.com>,
+ =?ISO-8859-15?Q?Daniel_P_=2E_Berrang=E9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+---1463810047-1130521290-1606972878=:373362
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
-  QEMU emulator version 5.0.0
-  =
++-- On Wed, 2 Dec 2020, Philippe Mathieu-Daudé wrote --+
+| Maybe:
+| 
+|      0) **Acknowledge reception**
+|        - A non-automated response email is sent to acknowledge the
+|          reception of the request.
+|          This is the starting date for the maximum **60 days** required
+|          to process the issue, including bullets 1) and 2).
+| 
+| > +    - Create an upstream fix patch
+| 
+|          with the proper Buglink/CVE/Reported-by tags.
+| 
+|        - Participate in the review process until the patch is merged.
+|          Test the fix updates with the private reproducer if required.
+|        - Close the upstream [bug] with 'Fix released', including the
+|          commit SHA-1 of the fix.
+... 
+| >  Email sent to us is read and acknowledged with a non-automated response. For
+| >  issues that are complicated and require significant attention, we will open an
+| 
+|    ^^^ You can remove that, as now covered by bullet 0).
 
-  sfence.vma will flush the tlb, so after this instruction, the translation=
- block should be end. The following code will only work in single step mode:
-  ```
-  relocate:
-- 	li a0, OFFSET
-+ =C2=A0li a0, OFFSET
-  =
+Okay, will do. Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+---1463810047-1130521290-1606972878=:373362--
 
-- 	la t0, 1f
-- 	add t0, t0, a0
-- 	csrw stvec, t0
-+ =C2=A0la t0, 1f
-+ =C2=A0add t0, t0, a0
-+ =C2=A0csrw stvec, t0
-  =
-
--         la t0, early_pgtbl
-- 	srl t0, t0, PAGE_SHIFT
-- 	li t1, SATP_SV39
-- 	or t0, t1, t0
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0la t0, early_pgtbl
-+ =C2=A0srl t0, t0, PAGE_SHIFT
-+ =C2=A0li t1, SATP_SV39
-+ =C2=A0or t0, t1, t0
-  =
-
--         csrw satp, t0
-+ =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0csrw satp, t0
-  1:
-- 	sfence.vma
-- 	la t0, trap_s
-- 	csrw stvec, t0
-- 	ret
-+ =C2=A0sfence.vma
-+ =C2=A0la t0, trap_s
-+ =C2=A0csrw stvec, t0
-+ =C2=A0ret
-  ```
-  =
-
-  In this code, I want to relocate pc to virtual address with the OFFSET
-- prefix, before writing to satp, pc run at physic address, stvec has been
-- set a label 1 with a virtual prefix and virtual address has been mapping
-- in early_pgtbl, after writing satp, there will throw a page fault, and
-- pc will set to virtual address of label 1.
-+ prefix. Before writing to satp, pc run at physic address, stvec has been
-+ set to label 1 with a virtual prefix and virtual address has been
-+ mapping in early_pgtbl, after writing satp, qemu will throw a page
-+ fault, and pc will set to virtual address of label 1.
-  =
-
-  The problem is that, in this situation, the translation block will not
-  end after sfence.vma, and stvec will be set to trap_s,
-  =
-
-  ```
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000dc:  00a080b3          add             ra,ra,a0
-  0x00000000800000e0:  00007297          auipc           t0,28672        # =
-0x800070e0
-  0x00000000800000e4:  f2028293          addi            t0,t0,-224
-  0x00000000800000e8:  00c2d293          srli            t0,t0,12
-  0x00000000800000ec:  fff0031b          addiw           t1,zero,-1
-  0x00000000800000f0:  03f31313          slli            t1,t1,63
-  0x00000000800000f4:  005362b3          or              t0,t1,t0
-  0x00000000800000f8:  18029073          csrrw           zero,satp,t0
-  =
-
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000fc:  12000073          sfence.vma      zero,zero
-  0x0000000080000100:  00000297          auipc           t0,0            # =
-0x80000100
-  0x0000000080000104:  1c828293          addi            t0,t0,456
-  0x0000000080000108:  10529073          csrrw           zero,stvec,t0
-  =
-
-  riscv_raise_exception: 12
-  riscv_raise_exception: 12
-  riscv_raise_exception: 12
-  riscv_raise_exception: 12
-  ...
-  ```
-  =
-
-  So, the program will crash, and the program will work in single step mode:
-  ```
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000f8:  18029073          csrrw           zero,satp,t0
-  =
-
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000fc:  12000073          sfence.vma      zero,zero
-  =
-
-  riscv_raise_exception: 12
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0xffffffff800000fc:  12000073          sfence.vma      zero,zero
-  =
-
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0xffffffff80000100:  00000297          auipc           t0,0            # =
-0xffffffff80000100
-  =
-
-  ```
-  The pc will set to label 1, instead of trap_s.
-  =
-
-  I try to patch the code in fence.i in trans_rvi.inc.c to sfence.vma:
-  ```
--     tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
--     exit_tb(ctx);
--     ctx->base.is_jmp =3D DISAS_NORETURN;
-+ =C2=A0=C2=A0=C2=A0=C2=A0tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
-+ =C2=A0=C2=A0=C2=A0=C2=A0exit_tb(ctx);
-+ =C2=A0=C2=A0=C2=A0=C2=A0ctx->base.is_jmp =3D DISAS_NORETURN;
-  ```
-  This codes can help to end the tranlate block, since I'm not a qemu guy, =
-I'm not sure if this is a corret method.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906516
-
-Title:
-  [RISCV] sfence.vma need to end the translation block
-
-Status in QEMU:
-  New
-
-Bug description:
-  QEMU emulator version 5.0.0
-
-  sfence.vma will flush the tlb, so after this instruction, the translation=
- block should be end. The following code will only work in single step mode:
-  ```
-  relocate:
-  =C2=A0li a0, OFFSET
-
-  =C2=A0la t0, 1f
-  =C2=A0add t0, t0, a0
-  =C2=A0csrw stvec, t0
-
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0la t0, early_pgtbl
-  =C2=A0srl t0, t0, PAGE_SHIFT
-  =C2=A0li t1, SATP_SV39
-  =C2=A0or t0, t1, t0
-
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0csrw satp, t0
-  1:
-  =C2=A0sfence.vma
-  =C2=A0la t0, trap_s
-  =C2=A0csrw stvec, t0
-  =C2=A0ret
-  ```
-
-  In this code, I want to relocate pc to virtual address with the OFFSET
-  prefix. Before writing to satp, pc run at physic address, stvec has
-  been set to label 1 with a virtual prefix and virtual address has been
-  mapping in early_pgtbl, after writing satp, qemu will throw a page
-  fault, and pc will set to virtual address of label 1.
-
-  The problem is that, in this situation, the translation block will not
-  end after sfence.vma, and stvec will be set to trap_s,
-
-  ```
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000dc:  00a080b3          add             ra,ra,a0
-  0x00000000800000e0:  00007297          auipc           t0,28672        # =
-0x800070e0
-  0x00000000800000e4:  f2028293          addi            t0,t0,-224
-  0x00000000800000e8:  00c2d293          srli            t0,t0,12
-  0x00000000800000ec:  fff0031b          addiw           t1,zero,-1
-  0x00000000800000f0:  03f31313          slli            t1,t1,63
-  0x00000000800000f4:  005362b3          or              t0,t1,t0
-  0x00000000800000f8:  18029073          csrrw           zero,satp,t0
-
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000fc:  12000073          sfence.vma      zero,zero
-  0x0000000080000100:  00000297          auipc           t0,0            # =
-0x80000100
-  0x0000000080000104:  1c828293          addi            t0,t0,456
-  0x0000000080000108:  10529073          csrrw           zero,stvec,t0
-
-  riscv_raise_exception: 12
-  riscv_raise_exception: 12
-  riscv_raise_exception: 12
-  riscv_raise_exception: 12
-  ...
-  ```
-
-  So, the program will crash, and the program will work in single step mode:
-  ```
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000f8:  18029073          csrrw           zero,satp,t0
-
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0x00000000800000fc:  12000073          sfence.vma      zero,zero
-
-  riscv_raise_exception: 12
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0xffffffff800000fc:  12000073          sfence.vma      zero,zero
-
-  ----------------
-  IN:
-  Priv: 1; Virt: 0
-  0xffffffff80000100:  00000297          auipc           t0,0            # =
-0xffffffff80000100
-
-  ```
-  The pc will set to label 1, instead of trap_s.
-
-  I try to patch the code in fence.i in trans_rvi.inc.c to sfence.vma:
-  ```
-  =C2=A0=C2=A0=C2=A0=C2=A0tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
-  =C2=A0=C2=A0=C2=A0=C2=A0exit_tb(ctx);
-  =C2=A0=C2=A0=C2=A0=C2=A0ctx->base.is_jmp =3D DISAS_NORETURN;
-  ```
-  This codes can help to end the tranlate block, since I'm not a qemu guy, =
-I'm not sure if this is a corret method.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906516/+subscriptions
 
