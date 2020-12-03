@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E0D2CD3C1
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:36:40 +0100 (CET)
-Received: from localhost ([::1]:50900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCFF2CD3C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:36:44 +0100 (CET)
+Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kklyZ-0008MN-4c
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:36:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41192)
+	id 1kklyd-0008Rv-Aw
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:36:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kklwn-0007D7-C5
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:34:49 -0500
-Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:35731)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kklwo-0007E4-JU
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:34:50 -0500
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:34387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kklwl-0003Bl-Fj
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:34:49 -0500
-Received: by mail-lj1-x234.google.com with SMTP id r18so2006132ljc.2
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 02:34:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kklwl-0003Bo-Us
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:34:50 -0500
+Received: by mail-lf1-x141.google.com with SMTP id d8so2005439lfa.1
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 02:34:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yBtwfHxcK5xANpYrZVKPQ/ksQZGqD/6GF+EGdoIyzMo=;
- b=HYZdZrVWky04o/0t3xEbUOT0JKA52tIh/D4ZIUiOh5XD0tnXxUDdW78WC7CUGfAI9R
- Q6uPdpeGJ3riBghNMnG0MG+9WOwc1+p7dbQEgc8FJeFtXAac0a8WqPn6Ld+/8+uQuIKP
- nkFe0ETnO/WTM4XtGR0zdiJ96r3gTFZMPOjGG6sCQWew3m+Pn8RvdHrSdkLq9C13pPBc
- 46DTJ0eFyAm2ki6sk71jYQmVeKy7txIazzMfTu16e3EK8CWT+iQs3rwYwDmq6W3ekrQU
- fdJmG2sa4Bjf7AgH7Mo0yOxMaAEdjZgVbkMOhkuhrzdrKCMEsukUAvDVfkSCiS9XwYMh
- gNBA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=mwUYW1H+JzV3/GtHWdM4HHeVaxmgzWJndCsLs+sl1Ng=;
+ b=Q2SIu9sQWUTuYn44lhPLVlV9wF4y51ClOqHoHXi46UHV8cBiRkvp0hHUYvhiL0xiwV
+ H1L3kqTxDnGW1c8oBCUzTprc5PoDKEA9qNAsvsRizzBnHkEC3hU8sCcL+MDZQwiYZHt1
+ LcwRbACpykn2QbeltDuLi5cx9z54j6kbJ18xVSrgzylON7V9K0Gf+aaV3qWPd00u0254
+ DLK9WAuNXjLrXxN2njvPakg8gvOU4nq+y9iPV+4AQsybC7z2ea/3+HpFUatQyT23fPCk
+ YFi8g3thKZkFi6wk8o6btGVN7TZp2Qpjfg1XxZGNxILT8fNTh2AlhTjZDC+6raxJk5rw
+ aloQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yBtwfHxcK5xANpYrZVKPQ/ksQZGqD/6GF+EGdoIyzMo=;
- b=PjsgdhUC6V56hTVD1e5YdO3wApc0OL6/xEWbPckUAt5jwcQ8q+hOCaxawJatlx4Hq0
- WSJpFiKtsCWs8LVmXdg/TEaGJK+3foJdxSaA+PRECTIVOq93yXuAMFhHvqbrxWggWDiP
- iDRx2TQrY9EKxDS6Ech9YuWu0ENfsp0OgEQV+I+BtZpjPfqrkhFZRENmZadUy+1ScEk/
- +xZIaJ++bPuRyIiRdY7Hy434KlUeEw+RNoR2vJC76NEYsBX4tPz/UWK0dwYkl8/iciK3
- nY0Jf4boyol9a5T9hvqYC6vGgLU/H0h/uAtFjWaQGiRfLNX6DoNPMs5DImrUm27Sv6GM
- OQ+g==
-X-Gm-Message-State: AOAM532Wgsz3ZAMgznFn2DDt62QCyq0jv/EZRr0BPdRet/SFouRl5HcS
- HTm6ewCDCC9Os87H0ThHW/UXJT03muNYhQ==
-X-Google-Smtp-Source: ABdhPJzdzYm2AX/K1KUETHqXOhnzaWOq2rIfXxAckMTSDI1aLLIyafC4+itFO3PGGDtzTH0Hz/ktxg==
-X-Received: by 2002:a2e:8546:: with SMTP id u6mr918228ljj.125.1606991684902;
- Thu, 03 Dec 2020 02:34:44 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=mwUYW1H+JzV3/GtHWdM4HHeVaxmgzWJndCsLs+sl1Ng=;
+ b=ts7EMfsh2DCUNTDUfCN3+B03j64allRfl15CazfRTeai7GdEImyvyzwrxZkYh6UG7G
+ e9LB+H2yby8S4Tove6THRFitFOuwgld0BUxw6wbrBYQ1Izg+m5MszFEbUg028yRY4kXQ
+ 9/wJ+KStfhelhymOsGADatddVjY5EM/tUsHZDp8wSBZxHvcdl519TV3cwNfokDVoP+8r
+ z0QsXH8hz9XOGczD6+2X27g/jtx4EWd5LfcCZe4H3KF70UkE2MRjRuUvDNR7d2aS6bFf
+ t0VWIOZTxTX9ovOVNV2zC7R8Zix4SmqHkCpnLMr+BcLAqW4TEJIq1VhYsWRH6jskOeWz
+ ekXw==
+X-Gm-Message-State: AOAM531VKKzE6nXBJYVVgTRFPPbCHJ8JtcRXyukd9WU3ZmAgEs0/ep0N
+ z4WWdFF8u5ns7pbKlQQFd2W/PFxchBILIw==
+X-Google-Smtp-Source: ABdhPJz5FBIk7d2F1D+AV4sdUL7silgNA5r3GzSzP00IzZPCF0ES7BEWq7yv9So89XHtTB637p32VA==
+X-Received: by 2002:ac2:46f3:: with SMTP id q19mr1101289lfo.76.1606991685991; 
+ Thu, 03 Dec 2020 02:34:45 -0800 (PST)
 Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id q129sm281361ljb.81.2020.12.03.02.34.43
+ by smtp.gmail.com with ESMTPSA id q129sm281361ljb.81.2020.12.03.02.34.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Dec 2020 02:34:44 -0800 (PST)
+ Thu, 03 Dec 2020 02:34:45 -0800 (PST)
 From: andrew@daynix.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/2] hw/virtio-pci: AER capability
-Date: Thu,  3 Dec 2020 13:07:11 +0200
-Message-Id: <20201203110713.204938-1-andrew@daynix.com>
+Subject: [PATCH v4 1/2] hw/virtio-pci Added counter for pcie capabilities
+ offsets.
+Date: Thu,  3 Dec 2020 13:07:12 +0200
+Message-Id: <20201203110713.204938-2-andrew@daynix.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201203110713.204938-1-andrew@daynix.com>
+References: <20201203110713.204938-1-andrew@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::234;
- envelope-from=andrew@daynix.com; helo=mail-lj1-x234.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::141;
+ envelope-from=andrew@daynix.com; helo=mail-lf1-x141.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -82,29 +85,38 @@ Cc: berrange@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Melnychenko <andrew@daynix.com>
+From: Andrew <andrew@daynix.com>
 
-Main motivation:
-According to Microsoft driver\device certification requirements
-for next version of Window Server, PCIe device must support AER.
-"Windows Server PCI Express devices are required to support
-Advanced Error Reporting [AER] as defined in
-PCI Express Base Specification version 2.1."
+Removed hardcoded offset for ats. Added cap offset counter
+for future capabilities like AER.
 
-AER capability for virtio-pci is disabled by default.
-AER capability is only for PCI with PCIe interface on PCIe bus.
-During migration - device "realize" should initialize AER
-if requested by device properties.
-Fixed commit message.
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+---
+ hw/virtio/virtio-pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Andrew (2):
-  hw/virtio-pci Added counter for pcie capabilities offsets.
-  hw/virtio-pci Added AER capability.
-
- hw/virtio/virtio-pci.c | 20 +++++++++++++++++++-
- hw/virtio/virtio-pci.h |  4 ++++
- 2 files changed, 23 insertions(+), 1 deletion(-)
-
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 36524a5728..ceaa233129 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1798,6 +1798,7 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+ 
+     if (pcie_port && pci_is_express(pci_dev)) {
+         int pos;
++        uint16_t last_pcie_cap_offset = PCI_CONFIG_SPACE_SIZE;
+ 
+         pos = pcie_endpoint_cap_init(pci_dev, 0);
+         assert(pos > 0);
+@@ -1833,7 +1834,8 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+         }
+ 
+         if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
+-            pcie_ats_init(pci_dev, 256);
++            pcie_ats_init(pci_dev, last_pcie_cap_offset);
++            last_pcie_cap_offset += PCI_EXT_CAP_ATS_SIZEOF;
+         }
+ 
+         if (proxy->flags & VIRTIO_PCI_FLAG_INIT_FLR) {
 -- 
 2.29.2
 
