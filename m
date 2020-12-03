@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00CC62CD3D8
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 11:38:52 +0100 (CET)
-Received: from localhost ([::1]:57866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DE42CD463
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:15:06 +0100 (CET)
+Received: from localhost ([::1]:52640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkm0g-0002rm-P1
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 05:38:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41210)
+	id 1kkmZl-0003uD-Ey
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:15:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kklwp-0007GL-Tp
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:34:51 -0500
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:33836)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkmMI-0003S8-5k
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:01:10 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kklwn-0003By-5h
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 05:34:51 -0500
-Received: by mail-lj1-x242.google.com with SMTP id y16so2005379ljk.1
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 02:34:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FTIXK8Mp2m2AMw0jbqYrjv2kNQYnyeKPV4gyIZ7wxG8=;
- b=vU3GuyH/tfxOSSZULHRmFzZF81jyNUyeFUE2hC0exfWnUw0aLqjnoR6cJpHME8uwxp
- RGz4viDeqi+YAiN4mp65Pe1vsxCCZf79HElFAwmUSN8X7tGOm8VRyMte3F7/jS96yFNG
- 6qe3f2CZuGzyoHd1AD+r3YUQVI5lZeAxH7d65HCr8lq6DrIwb7hMdl893bZooaeufwPv
- c2BPDnjoLp94//fBOmvTAqnEqB9bUH12CDbQ/rqn/cNR83f5W0JHT5W1PDjueFZQBmOP
- JKpLJRTL8sE6teCC8BIUC5D45O3x5lChzNJiPrNJzkCGxQwaxV1aIQPmeDKVjcdthAcW
- /FGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FTIXK8Mp2m2AMw0jbqYrjv2kNQYnyeKPV4gyIZ7wxG8=;
- b=sJ1z5In7f0sexJS+4GSJEz1oxYAb9o1lKyShawdMO4tzd0zh3TrNka3GRqPzwWOnG0
- 41iAag74Y8VjV1GufTIUAKRm68OGIm9aVNLkXJGcJKwR621c1AXFkCQdHjO90fZR3QE/
- FKDEEqhg91OblEaZzvCqn7f1T/UFDJBZTW2In0d9+4Da+IsOt3/nb00nzfHg5wuJ4KuF
- BXxh5yypizCiCZl2poET+FpPw1GBnHKU2ldE/IL/u7ZpW+XA3quw/EODu/y6Uz6Ti9SW
- 0dGmzU6cNrwoLZAqrpHZkfOfYk5A4y5FTOyvtGE9w/v+IZ3/FiBZDOg8Z1tSigkFo/4D
- iOiw==
-X-Gm-Message-State: AOAM532RoGHuECXpPi9ITy/C5sN89ayFPOW6W/+PiNAGUBOw9Y3vxvOa
- 2DUgzAjWOs9KPIw7i8MuDyRHeVbJSyiv+g==
-X-Google-Smtp-Source: ABdhPJz794nwu0Kiw4AFEa0L71KBvDdyOoDwvy80rui1I6hp3/qOJT4ViZarri9+mUPyO6IhqPGYZA==
-X-Received: by 2002:a2e:580d:: with SMTP id m13mr1009453ljb.141.1606991687192; 
- Thu, 03 Dec 2020 02:34:47 -0800 (PST)
-Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id q129sm281361ljb.81.2020.12.03.02.34.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Dec 2020 02:34:46 -0800 (PST)
-From: andrew@daynix.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/2] hw/virtio-pci Added AER capability.
-Date: Thu,  3 Dec 2020 13:07:13 +0200
-Message-Id: <20201203110713.204938-3-andrew@daynix.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201203110713.204938-1-andrew@daynix.com>
-References: <20201203110713.204938-1-andrew@daynix.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kkmMD-0004GB-7z
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:01:09 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kkmMA-00063o-I4
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 11:01:02 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 855642E804A
+ for <qemu-devel@nongnu.org>; Thu,  3 Dec 2020 11:01:02 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::242;
- envelope-from=andrew@daynix.com; helo=mail-lj1-x242.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 03 Dec 2020 10:50:53 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1906536@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee alecop philmd pmaydell
+X-Launchpad-Bug-Reporter: Alex Coplan (alecop)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
+References: <160692480491.27592.13493676422712150173.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160699265358.26194.9115745893658720907.malone@chaenomeles.canonical.com>
+Subject: [Bug 1906536] Re: Unable to set SVE VL to 1024 bits or above since
+ 7b6a2198
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="55c41fea591e042b8bb54e6952942f55c764435e"; Instance="production"
+X-Launchpad-Hash: b0dbde78227f2a38d933f7bea8c33788a3aea241
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,86 +71,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, mst@redhat.com
+Reply-To: Bug 1906536 <1906536@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew <andrew@daynix.com>
+Are there any other examples of where linux-user tries to preserve
+execution environment details over an execve?
 
-Added AER capability for virtio-pci devices.
-Also added property for devices, by default AER is disabled.
+-- =
 
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
----
- hw/virtio/virtio-pci.c | 16 ++++++++++++++++
- hw/virtio/virtio-pci.h |  4 ++++
- 2 files changed, 20 insertions(+)
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906536
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ceaa233129..f863f69ede 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1817,6 +1817,12 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
-          */
-         pci_set_word(pci_dev->config + pos + PCI_PM_PMC, 0x3);
- 
-+        if (proxy->flags & VIRTIO_PCI_FLAG_AER) {
-+            pcie_aer_init(pci_dev, PCI_ERR_VER, last_pcie_cap_offset,
-+                          PCI_ERR_SIZEOF, NULL);
-+            last_pcie_cap_offset += PCI_ERR_SIZEOF;
-+        }
-+
-         if (proxy->flags & VIRTIO_PCI_FLAG_INIT_DEVERR) {
-             /* Init error enabling flags */
-             pcie_cap_deverr_init(pci_dev);
-@@ -1858,7 +1864,15 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
- 
- static void virtio_pci_exit(PCIDevice *pci_dev)
- {
-+    VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
-+    bool pcie_port = pci_bus_is_express(pci_get_bus(pci_dev)) &&
-+                     !pci_bus_is_root(pci_get_bus(pci_dev));
-+
-     msix_uninit_exclusive_bar(pci_dev);
-+    if (proxy->flags & VIRTIO_PCI_FLAG_AER && pcie_port &&
-+        pci_is_express(pci_dev)) {
-+        pcie_aer_exit(pci_dev);
-+    }
- }
- 
- static void virtio_pci_reset(DeviceState *qdev)
-@@ -1911,6 +1925,8 @@ static Property virtio_pci_properties[] = {
-                     VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
-     DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
-                     VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
-+    DEFINE_PROP_BIT("aer", VirtIOPCIProxy, flags,
-+                    VIRTIO_PCI_FLAG_AER_BIT, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index 06e2af12de..d7d5d403a9 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -41,6 +41,7 @@ enum {
-     VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
-     VIRTIO_PCI_FLAG_INIT_PM_BIT,
-     VIRTIO_PCI_FLAG_INIT_FLR_BIT,
-+    VIRTIO_PCI_FLAG_AER_BIT,
- };
- 
- /* Need to activate work-arounds for buggy guests at vmstate load. */
-@@ -80,6 +81,9 @@ enum {
- /* Init Function Level Reset capability */
- #define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
- 
-+/* Advanced Error Reporting capability */
-+#define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
-+
- typedef struct {
-     MSIMessage msg;
-     int virq;
--- 
-2.29.2
+Title:
+  Unable to set SVE VL to 1024 bits or above since 7b6a2198
 
+Status in QEMU:
+  New
+
+Bug description:
+  Prior to 7b6a2198e71794c851f39ac7a92d39692c786820, the QEMU option
+  sve-max-vq could be used to set the vector length of the
+  implementation. This is useful (among other reasons) for testing
+  software compiled with a fixed SVE vector length. Since this commit,
+  the vector length is capped at 512 bits.
+
+  To reproduce the issue:
+
+  $ cat rdvl.s
+  .global _start
+  _start:
+    rdvl x0, #1
+    asr x0, x0, #4
+    mov x8, #93 // exit
+    svc #0
+  $ aarch64-linux-gnu-as -march=3Darmv8.2-a+sve rdvl.s -o rdvl.o
+  $ aarch64-linux-gnu-ld rdvl.o
+  $ for vl in 1 2 4 8 16; do ../build-qemu/aarch64-linux-user/qemu-aarch64 =
+-cpu max,sve-max-vq=3D$vl a.out; echo $?; done
+  1
+  2
+  4
+  4
+  4
+
+  For a QEMU built prior to the above revision, we get the output:
+  1
+  2
+  4
+  8
+  16
+
+  as expected. It seems that either the old behavior should be restored,
+  or there should be an option to force a higher vector length?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906536/+subscriptions
 
