@@ -2,133 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCFCF2CD625
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 13:56:02 +0100 (CET)
-Received: from localhost ([::1]:42792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B572CD62F
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 13:58:15 +0100 (CET)
+Received: from localhost ([::1]:50822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kko9R-0007FG-Tw
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 07:56:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46410)
+	id 1kkoBa-0002Jv-KY
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 07:58:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kko77-0005NV-Og; Thu, 03 Dec 2020 07:53:37 -0500
-Received: from mail-vi1eur05on2099.outbound.protection.outlook.com
- ([40.107.21.99]:65120 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kko71-00005J-EZ; Thu, 03 Dec 2020 07:53:33 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PyPsX52iBlisj9E1X+3PAMXNDnKKUfIVd2RWs4dg1mkGQ9d9ESTE0KX9i2VtZkkmvg5YOZVyHOogYXI9eTFa6aN3W+CIWETJxaePJEH4V/qBjHskriSa4g47ZoBCPF5nxruJybxTF5irXckJM45xvaVC2cbOoEgBGN4Y2K/SHapZNmNHLnXeXP4D3w7DnFdVulmis647A+f8uJ+Q8CyQ4wE5Ht6uSvkUWoX6AelnvUn0ZyhxPbhOS0Db8ykhGmDvkRkGupgdYdggiB8VtBlP7dD3XzrHQcfnQLFn1fCwezpZoDgIy5uzOC+TbKsxV35qq1YdtKvG9DVKnWAnURROmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VIR0/Jbzs+a4iK9VzMyjBY4GhFBebAvJ9AVnmrdW3Hc=;
- b=Z8D5KDdUGaJd+JGDBQzfvVXWvhflSdI669YP9eLdqli0enLYtA+YP5P7J+BW//izHq+SsLe25mARzJ5D0xpO9mN/zMz/lh6i+Wy2r8bqvGgKp3dKkK8YbltvA6QGBJExs043dacHO/k94Ejh30maRGFbFui8R5USbPECZqk6GTkUGkL8zrF4n1ga4U61BjPr/MFryoKks5zafMjCcAEj/5eFXayL57/2qrBPvNIo9dPck8MwyG+6WFNy6LmZRSBpnGGzMxxTvQmf6KzwDU3eV076fB6KnUlWG2HzSWXF1KvOc+My+3O8zXyUpnQikeyOjS738+ApDdYSX+UDuyn4kg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VIR0/Jbzs+a4iK9VzMyjBY4GhFBebAvJ9AVnmrdW3Hc=;
- b=lBbHROnnI3rJ7m00Jsg4otgw2qY46FD71n3Upwn6C0rDMqIr5kdOFHslb9eYNWTwnXpuGTE9lO+Q7F7j0TfCRuc4iqglKfc14FxPYbdP/obdOLQhKd8QnBkPrWbz/gdNTX0QEjIxNTPFLWur4rEHp8GRp8UTIohTZqQT+dIPGsY=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3575.eurprd08.prod.outlook.com (2603:10a6:20b:48::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.31; Thu, 3 Dec
- 2020 12:53:27 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3632.020; Thu, 3 Dec 2020
- 12:53:27 +0000
-Subject: Re: [PATCH v13 08/10] copy-on-read: skip non-guest reads if no copy
- needed
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
- stefanha@redhat.com, fam@euphon.net, armbru@redhat.com, jsnow@redhat.com,
- eblake@redhat.com, den@openvz.org
-References: <1606933861-297777-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1606933861-297777-9-git-send-email-andrey.shinkevich@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <56a6e493-0f98-9aae-10b8-4406ca2656b0@virtuozzo.com>
-Date: Thu, 3 Dec 2020 15:53:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
-In-Reply-To: <1606933861-297777-9-git-send-email-andrey.shinkevich@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.91]
-X-ClientProxiedBy: AM0PR01CA0168.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:aa::37) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1kko8D-00072d-Td; Thu, 03 Dec 2020 07:54:45 -0500
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36073)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1kko8B-0000V5-Ut; Thu, 03 Dec 2020 07:54:45 -0500
+Received: by mail-lj1-x243.google.com with SMTP id a1so1060495ljq.3;
+ Thu, 03 Dec 2020 04:54:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=2Ax9//epRaFnovbs6HtORAquskyrjxe/UXoEUSr2wic=;
+ b=PAXIRWNcZDIPXS9XbNXXFjJswBcpIszrP24fLMtK6ZLkbahMSfH/KOBRZO+l82E9T7
+ n3jLmcBE4NZqQV0uO/jOovt48szHQtfC/uGdzdLDQQodTUoteRttr6bUE3tBFlz8IfhJ
+ BopTaqEu7KuHGY7x7WuntOi2IgPao/jzvZloBxti+ZL50Ns221AUnp+eqX8cwbN8qQQq
+ BJV7cfRNzbxaMYuPWOGVGY6ylk8RRbMWubcdTdIo/HQveKmkq2yWrFizV2I143xuy9V6
+ xpEs9ilPnN4qp3EO/LCdrEDh7xtBKeuFNmA+0aFGI/BAu8JMlFl+zASlBCzOjC/blEHK
+ t4YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=2Ax9//epRaFnovbs6HtORAquskyrjxe/UXoEUSr2wic=;
+ b=BKuiddyhfR2aVbnW/toN06KPKdyzBi6SqkHUFYbO6MwdldbK47w+2rV0FaTWjdYqF7
+ vs132YWSjTA+2BVCBW00LQPk0dvlvq5ClyBcG9b/SNHD9r6+JQ3nPhu0WxhTXbfkhEgA
+ eXiajOwW/ok3hEE0OZ4i8EsvBFIqjScLIn4O+aTVpkYxzvWo45OSDmWnZW+hQAcwidfl
+ 5NfzvjL2uwRwuUTqDVrnUU3CZwbaXZ+VJqeaAylI+EQmm5xLmeQiDfM7s7xO3LervJJb
+ 91CCwcL+i9diKNEGivXzrHxDP/hL8iukUgB7B7dG77gVo1vKoOfVVIaBSjHjRWUqj33t
+ ENTQ==
+X-Gm-Message-State: AOAM530zbKRGQUJbcjcVkUWfF8Rjrmfe6kdSmgO3IPvPITtbxESPSJVE
+ Pu3y+bYIROOYzu6+8fFyeTI=
+X-Google-Smtp-Source: ABdhPJzGG0l8paId7hrQt3mkn7N3bu75TWo92M8ZPdcZNxg9aS49kKdrFJFbY6ChvtEuNTqwy7gDLA==
+X-Received: by 2002:a2e:9f55:: with SMTP id v21mr1119568ljk.288.1607000080964; 
+ Thu, 03 Dec 2020 04:54:40 -0800 (PST)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
+ by smtp.gmail.com with ESMTPSA id
+ j7sm484721lfe.165.2020.12.03.04.54.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Dec 2020 04:54:40 -0800 (PST)
+Date: Thu, 3 Dec 2020 13:54:38 +0100
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH] hw/block: m25p80: Implement AAI-WP command support for
+ SST flashes
+Message-ID: <20201203125438.GB2661@fralle-msi>
+References: <20201202143037.24110-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.91) by
- AM0PR01CA0168.eurprd01.prod.exchangelabs.com (2603:10a6:208:aa::37) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend
- Transport; Thu, 3 Dec 2020 12:53:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9f0cd6a0-7049-410d-5067-08d8978a6d31
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3575:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3575D37CB8B586AB8CA199E0C1F20@AM6PR08MB3575.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 87AUs8ce1zdK+kf0BwlWEqDxNjaS9weABPbLqX9i/ctdFCGUZ7WV4g6puiJD9AdKkMNAPaK3kDr28GDxexd5Gfakgzg9KO5pmO6jDXbQiQ2lgu/gqwa1MCoynbyCoj4YmxveUgIR6aFRMdTB1aMOJZbKtRXstxOph0EK5W5aOdwF7MONNWdb0TOJYoI6IfGoAMJmILw83zZ0ECllVzQRGfQyAyJRnbTY0hs4yTqWmUTz/HYapUCD6DH8Hi01wsrIPKQiJR56VYIcKfBz155+GH/vT8AbGuSaBMeF2mfdmGxNdRutLdX5++EMMP5/ZuKg0LWLO0SjtFD7+KjEH1C5yi3eaj1kgNGdNwwWh0Bm+RnO/qSlusFDgiNfZdEkb7op
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39850400004)(366004)(396003)(376002)(346002)(136003)(31696002)(66476007)(8936002)(8676002)(186003)(4744005)(16526019)(66946007)(66556008)(52116002)(26005)(107886003)(6486002)(36756003)(2906002)(956004)(478600001)(16576012)(4326008)(31686004)(83380400001)(316002)(2616005)(86362001)(5660300002)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UTZtd3VBaE9GaUVOMFM2djc4aTRqQ29BSUJQRWpiaXE3d1JsWWY2amc0SnNs?=
- =?utf-8?B?b1dqTDJ5NFZra1pwazJYTnJKU3JncFU2blhKMDNSQzg4SVo4VzV2cCtXZUxS?=
- =?utf-8?B?dGZwc29NNHRvV0RVdGp0M2Y2MEdEZnAveWxyY1JlRmhFVEJsK3hSNHk2a3pG?=
- =?utf-8?B?RjQ4dGtCRm1nNjgyN2F2TUZZY3hHK05mRDJETHo1d2lQU09WbWZyVVF4QjZO?=
- =?utf-8?B?T2NTYjFVN3RnUnlkQ2FHVXpuKzMrVGJiM3h6R1JkUnVtZklrWHlKYmRLRWtw?=
- =?utf-8?B?MDFESWxnMDJKemRCV2diLzY4dW5uSlptYkpDOWszV2RQQ2hOc0Y3VWJUZUxO?=
- =?utf-8?B?RzIxTG9UZjREUnQrZmYxeTE3Ukw3blFWV1VLM05QRWN1eUZKOVAvN3BjdHNz?=
- =?utf-8?B?T2d2T3AyN04zTE16V2xPMWx6NXNRUzBOc0MxcFBMMUpZWk5zSUJrQ1NJenBp?=
- =?utf-8?B?TjRpR3VXVlpSMUNYVXlkWkRMc3dTTitlUmNoUjExSCtoRHNVRFBMaWtLL3pR?=
- =?utf-8?B?ajFiMFl5Ukg4RUxWY0duU0tlL3NVOFVZRVZpaVdncE5EcjNyUnFtM2ZqUWtN?=
- =?utf-8?B?NFhUT2ZYSDlUbWUremE0VzZmckNxT1ZyYXlocitqTjliSSttNEpNQk9aTS9Y?=
- =?utf-8?B?WDZjYm91cVJVSEs3dXNBNXdIbFhxd2p0WHlzV2x3cUhBb1E4eWY3dXBTZVBO?=
- =?utf-8?B?ck1Qa1hRamJ5Umg2UDJ6SlVxMkM2amNPYlJLU0J5bnFLaEdBQ0lXRDhjRDdB?=
- =?utf-8?B?TFdJaVNMaVphTW9IK1RrZWRQd3ZYU2JCTDJZVlMyWTBCTncwT21uQmFVQVBY?=
- =?utf-8?B?eW5iMTY4bmFXSlVZQytSNDZmRlRtaHNQVmZQZDZBNFc2eFVkaDJMVkIvUFY5?=
- =?utf-8?B?NWk2cWt2VWhTOU41YzdpOVhLVHRGWkJxMDJzQUFPSGpVMzA3UEh1aDM3ZE5M?=
- =?utf-8?B?UllQQk5DU0JVczdvcUlNT0NMbi9iTDFVeDFIRmRHN2pLejNNRkJLeDdweFdN?=
- =?utf-8?B?SFV3WlIrbk5RNXJpS2FvV1BjRmNQVGl1Q3RMZTBJUUNFWnp0bWRnYzMyNGlY?=
- =?utf-8?B?cDRvTC9EV05xY2lpa2hNRkhlZDJqdUZhQjBmQXhDaDJuaG0yTFFRMkJYRWsx?=
- =?utf-8?B?ekRKSGFzelBmc3ZSWUhqeGh2eEIrVEtMZkpmc0VTN2pYaTB5UGFiMmRlRUJh?=
- =?utf-8?B?bHcvVUdmbE1TTkFjTWNYWXhjcklvTTlqa3lPY3dpVkZtWGg0Z05WaTU4dVA1?=
- =?utf-8?B?SUp5TlhJbjlmamxOeHMrT1FyaUJIWXBQS0lwU2xwYmtHcFJPWHFIMlJocmJy?=
- =?utf-8?Q?nNaS1w6QasJfRXaqwOU05r/dwYV/bTjHXl?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f0cd6a0-7049-410d-5067-08d8978a6d31
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2020 12:53:26.9081 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JzkG4bOMISAsukNyjXPNolz5p4/U9Z62i1Hhh9Zn55aWYdOO3uFjQv4uEbFhQJlQ1FIEwXFrKWcvzZfInR0oBRFiu6A/aY1XgT7nHIXkAMM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3575
-Received-SPF: pass client-ip=40.107.21.99;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: 5
-X-Spam_score: 0.5
-X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201202143037.24110-1-bmeng.cn@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::243;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x243.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -141,27 +84,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-block@nongnu.org, Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-02.12.2020 21:30, Andrey Shinkevich wrote:
-> If the flag BDRV_REQ_PREFETCH was set, skip idling read/write
-> operations in COR-driver. It can be taken into account for the
-> COR-algorithms optimization. That check is being made during the
-> block stream job by the moment.
-> 
-> Add the BDRV_REQ_PREFETCH flag to the supported_read_flags of the
-> COR-filter.
-> 
-> block: Modify the comment for the flag BDRV_REQ_PREFETCH as we are
-> going to use it alone and pass it to the COR-filter driver for further
-> processing.
-> 
-> Signed-off-by: Andrey Shinkevich<andrey.shinkevich@virtuozzo.com>
+Hello Bin,
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On [2020 Dec 02] Wed 22:30:37, Bin Meng wrote:
+> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> 
+> Auto Address Increment (AAI) Word-Program is a special command of
+> SST flashes. AAI-WP allows multiple bytes of data to be programmed
+> without re-issuing the next sequential address location.
+> 
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+> 
+>  hw/block/m25p80.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 9b36762df9..f225d9c96d 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -359,6 +359,7 @@ typedef enum {
+>      QPP_4 = 0x34,
+>      RDID_90 = 0x90,
+>      RDID_AB = 0xab,
+> +    AAI_WP = 0xad,
+>  
+>      ERASE_4K = 0x20,
+>      ERASE4_4K = 0x21,
+> @@ -449,6 +450,7 @@ struct Flash {
+>      bool four_bytes_address_mode;
+>      bool reset_enable;
+>      bool quad_enable;
+> +    bool aai_enable;
 
--- 
+We need to add above addition also into the vmstate.
+
+>      uint8_t ear;
+>  
+>      int64_t dirty_page;
+> @@ -661,6 +663,7 @@ static void complete_collecting_data(Flash *s)
+>      case PP:
+>      case PP4:
+>      case PP4_4:
+> +    case AAI_WP:
+>          s->state = STATE_PAGE_PROGRAM;
+>          break;
+>      case READ:
+> @@ -1010,6 +1013,9 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+
+Since only 3 cmds are allowed while within AAI programming sequence [1] I think
+a warning migt be good have before the command switch case, similar to:
+
+if (get_man(s) == MAN_SST && s->aai_enable && !is_valid_aai_cmd(value)) {
+    qemu_log_mask(LOG_GUEST_ERROR,
+                  "M25P80: Invalid cmd within AAI programming sequence");
+}
+
+>  
+>      case WRDI:
+>          s->write_enable = false;
+> +        if (get_man(s) == MAN_SST) {
+> +            s->aai_enable = false;
+> +        }
+>          break;
+>      case WREN:
+>          s->write_enable = true;
+> @@ -1162,6 +1168,17 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>      case RSTQIO:
+>          s->quad_enable = false;
+>          break;
+> +    case AAI_WP:
+> +        if (get_man(s) == MAN_SST && s->write_enable) {
+> +            if (s->aai_enable) {
+> +                s->state = STATE_PAGE_PROGRAM;
+> +            } else {
+> +                s->aai_enable = true;
+> +                s->needed_bytes = get_addr_length(s);
+> +                s->state = STATE_COLLECTING_DATA;
+> +            }
+
+Perhaps a qemu_log_mask in an 'else' could be useful here also:
+
+} else {
+    qemu_log_mask(LOG_GUEST_ERROR, "M25P80: %s"
+                  (get_man(s) == MAN_SST) ? "AAI_WP with write protect" :
+                                            "Unknown CMD: 0xAD\n");
+
+Lastly, [1] also says that the address shouldn't wrapp around when in AAI mode,
+so we need a check before doing that also I think. 
+
 Best regards,
-Vladimir
+Francisco Iglesias
+
+[1] http://ww1.microchip.com/downloads/en/devicedoc/s71271_04.pdf
+
+> +        }
+> +        break;
+>      default:
+>          s->pos = 0;
+>          s->len = 1;
+> -- 
+> 2.25.1
+> 
+> 
 
