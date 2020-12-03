@@ -2,39 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3C642CD8B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 15:14:52 +0100 (CET)
-Received: from localhost ([::1]:34566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834F92CD910
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 15:28:05 +0100 (CET)
+Received: from localhost ([::1]:42724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkpNj-00045C-Qq
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 09:14:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35628)
+	id 1kkpaW-00006k-1A
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 09:28:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kkpM7-00035M-Eg; Thu, 03 Dec 2020 09:13:11 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:57032
+ id 1kkpZ8-0007qD-IJ; Thu, 03 Dec 2020 09:26:38 -0500
+Received: from mail.csgraf.de ([188.138.100.120]:57712
  helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1kkpM5-0001m2-9B; Thu, 03 Dec 2020 09:13:11 -0500
+ id 1kkpZ6-0006Yw-9U; Thu, 03 Dec 2020 09:26:38 -0500
 Received: from Alexanders-Mac-mini.local
  (ec2-3-122-114-9.eu-central-1.compute.amazonaws.com [3.122.114.9])
- by csgraf.de (Postfix) with UTF8SMTPSA id CE0B23900107;
- Thu,  3 Dec 2020 15:13:05 +0100 (CET)
-Subject: Re: [PATCH v3 05/10] hvf: arm: Mark CPU as dirty on reset
+ by csgraf.de (Postfix) with UTF8SMTPSA id 74E7F3900107;
+ Thu,  3 Dec 2020 15:26:33 +0100 (CET)
+Subject: Re: [PATCH v3 06/10] hvf: Add Apple Silicon support
 To: Roman Bolshakov <r.bolshakov@yadro.com>
 References: <20201202190408.2041-1-agraf@csgraf.de>
- <20201202190408.2041-6-agraf@csgraf.de>
- <20201203015218.GA82480@SPB-NB-133.local>
- <55e5dac5-6508-da7f-3f29-05ee225b13da@csgraf.de>
- <20201203130233.GA14685@SPB-NB-133.local>
+ <20201202190408.2041-7-agraf@csgraf.de>
+ <20201203052156.GB82480@SPB-NB-133.local>
 From: Alexander Graf <agraf@csgraf.de>
-Message-ID: <34a2334a-d1c9-68bd-7617-7319b2037d69@csgraf.de>
-Date: Thu, 3 Dec 2020 15:13:04 +0100
+Message-ID: <78852f5f-c0d0-fcba-e69d-cbbeca057fc0@csgraf.de>
+Date: Thu, 3 Dec 2020 15:26:33 +0100
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:84.0)
  Gecko/20100101 Thunderbird/84.0
 MIME-Version: 1.0
-In-Reply-To: <20201203130233.GA14685@SPB-NB-133.local>
+In-Reply-To: <20201203052156.GB82480@SPB-NB-133.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -67,51 +65,101 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 03.12.20 14:02, Roman Bolshakov wrote:
-> On Thu, Dec 03, 2020 at 11:55:17AM +0100, Alexander Graf wrote:
->> On 03.12.20 02:52, Roman Bolshakov wrote:
->>> On Wed, Dec 02, 2020 at 08:04:03PM +0100, Alexander Graf wrote:
->>>> When clearing internal state of a CPU, we should also make sure that HVF
->>>> knows about it and can push the new values down to vcpu state.
->>>>
->>> I'm sorry if I'm asking something dumb. But isn't
->>> cpu_synchronize_all_post_reset() is supposed to push QEMU state into HVF
->>> (or any other accel) after reset?
->>>
->>> For x86 it used to work:
->>>
->>>     static void do_hvf_cpu_synchronize_post_reset(CPUState *cpu,
->>>                                                   run_on_cpu_data arg)
->>>     {
->>>         hvf_put_registers(cpu);
->>>         cpu->vcpu_dirty = false;
->>>     }
+On 03.12.20 06:21, Roman Bolshakov wrote:
+> On Wed, Dec 02, 2020 at 08:04:04PM +0100, Alexander Graf wrote:
+>> With Apple Silicon available to the masses, it's a good time to add support
+>> for driving its virtualization extensions from QEMU.
 >>
->> Yes, it works because after the reset is done, there is no other register
->> modification happening. With the PSCI emulation code in QEMU, we still do
->> modify CPU state after reset though.
+>> This patch adds all necessary architecture specific code to get basic VMs
+>> working. It's still pretty raw, but definitely functional.
 >>
-> Maybe I miss something but that doesn't seem correct. Why PSCI reset is
-> split from machine reset?
+> That's very cool, Alex!
+>
+>> [...]
+>> diff --git a/accel/hvf/hvf-cpus.c b/accel/hvf/hvf-cpus.c
+>> index a423f629d5..e613c22ad0 100644
+>> --- a/accel/hvf/hvf-cpus.c
+>> +++ b/accel/hvf/hvf-cpus.c
+>> @@ -60,6 +60,10 @@
+>>   
+>>   #include <Hypervisor/Hypervisor.h>
+>>   
+> On an older laptop with 10.15 I've noticed this causes a build failure.
+> Here's layout of Hypervisor.framework on 10.15:
+>
+>   Hypervisor.framework find .
+>   .
+>   ./Versions
+>   ./Versions/A
+>   ./Versions/A/Hypervisor.tbd
+>   ./Versions/A/Headers
+>   ./Versions/A/Headers/hv_arch_vmx.h
+>   ./Versions/A/Headers/hv_error.h
+>   ./Versions/A/Headers/hv_types.h
+>   ./Versions/A/Headers/hv.h
+>   ./Versions/A/Headers/hv_arch_x86.h
+>   ./Versions/A/Headers/hv_vmx.h
+>   ./Versions/Current
+>   ./module.map
+>   ./Hypervisor.tbd
+>   ./Headers
+>
+> The issue also exists in another patch in the series:
+>    "hvf: Move common code out"
 
-Because with PSCI, you can online/offline individual CPUs, not just the 
-full system.
+
+Ugh, I'll try and see if I can dig out a 10.15 machine somewhere.
 
 
 >
->> Different question though: Why do we need the post_reset() call at all here
->> to push state?
-> My understanding that post_reset is akin to a commit of the CPU state
-> after all reset actions have been done to QEMU CPU Arch env state. i.e.
-> arch/machine reset modifies env state and then the env is pushed to
-> accel. cpu->vcpu_dirty is cleared because env is in-sync with vcpu.
+>> +#ifdef __aarch64__
+>> +#define HV_VM_DEFAULT NULL
+>> +#endif
+>> +
+> I don't see if it's used anywhere.
 
 
-I think that's only half the truth. What it semantically means is 
-"QEMU's env structure is what holds the current state." Which basically 
-translates to cpu->vcpu_dirty = true.
+It's used in hv_vm_create() as argument. The enum that contains it is 
+hidden behind an #ifdef __x86_64__ in HVF though.
 
-So all of these callbacks could literally just be that, no?
+
+>
+>>   /* Memory slots */
+>>   
+>>   struct mac_slot {
+>> [...]
+>>
+> Side question. I have very little knowledge of ARM but it seems much
+> leaner compared to x86 trap/emulation layer. Is it a consequence of
+> load/store architecture and it's expected to be that small on ARM?
+
+
+It's multiple things coming together. Early in the virtualization days 
+of KVM on ARM, we decided that KVM would only support MMIO for 
+instructions that hardware predecodes on exception. That seems to have 
+trickled down into basically all relevant OSs these days, so you can run 
+Linux, *BSD and Windows just fine without handling any instructions that 
+are not already predecoded for you.
+
+This in turn means you don't need an instruction emulator, which is most 
+of the complexity on the x86 hvf code.
+
+
+> I have only noticed MMIO, system registers (access to them apparently
+> leads to a trap), kick and PSCI traps (which sounds somewhat similar to
+> Intel MPSpec/APIC) and no system instruction traps (except WFI in the
+> next patch).
+
+
+System Registers are a bit tricky. Some of them lead to traps (as you've 
+seen), others do not and instead read/write shadow registers directly. 
+For those, we need to do the register sync.
+
+But yes, there is little to handle for an ARM guest. I was positively 
+surprised as well. To be fair though, most of the complexity in KVM ARM 
+code comes from vGIC (not available on M1), debug registers (not handled 
+here yet), PMU multiplexing (not handled) and stage2 page table 
+maintenance (done by HVF). We just wiggle ourselves out of those.
 
 
 Alex
