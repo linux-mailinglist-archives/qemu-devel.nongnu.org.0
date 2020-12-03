@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AB12CDB26
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 17:25:18 +0100 (CET)
-Received: from localhost ([::1]:52830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 603612CDAF1
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 17:17:11 +0100 (CET)
+Received: from localhost ([::1]:48044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkrPx-0005ol-5u
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 11:25:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37168)
+	id 1kkrI6-0003L2-FK
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 11:17:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kkrFL-0002LN-9a
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:14:19 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:33216)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kkrGN-0002bb-2q
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:15:23 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kkrFJ-0002md-4P
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:14:18 -0500
-Received: by mail-ej1-x642.google.com with SMTP id 7so4335717ejm.0
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 08:14:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kkrG8-0002zI-7C
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 11:15:19 -0500
+Received: by mail-ot1-x342.google.com with SMTP id f16so2217743otl.11
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 08:15:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mF0qSWz+6lBvc9Sq7KVrbzTmDoSEC/HrEwNjsh2nOTQ=;
- b=gsFbZrcXbRW56QwVacjbEbWTOpijDY+wFYhDi1IUO7nlk2y5UngqBG3+LOg+VP1Mh2
- tvbzx2dcMDKzxzOLgHscskZfrTTwhalMpDlpmnHStnPQfPUSwx5ac83iFYWuEJnVK+n3
- Gh35wpuE7g1enSL+xw7i6xn/vU9dk2JX1TYxOwx64y59kpGdKWsbm6bHvYCCdkKqOgWI
- UgTlbqIMQ/aSfHAUlhrjd/ETCdu7R9CwPzXKLqOPATG1hTJX55AANyCPl1DFu6KjuXAH
- wexkp8LhyGW+m8l1gKGCxNwSKE805wgm3utlYrhWtlSPVMB6AbFEH8JJpwuruRC7yMWY
- jk8g==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=IPPAffN4yagbi7eODeoKPenRSw5Nap2P8dgVVfXBjgo=;
+ b=a8qWDflHb559fbVC2iQk1X4wrFdlY1GlAiqG80/3Mzhl3wil9h9/t9qIWRsf7ow6vc
+ aiEMbNfgvClcRg82qjot02sxpZS+ojayW06KsFeFQd2EPzyg417uRLGur5hGPknJyLTn
+ VeXdb9StOpT3YMP0W89G1Fwzk9IKX3RRq9ySNmFZP/iIf0g+nOWsGLG8SoB4NM7v3n0i
+ Lg+W+1ak2QVHrdO3uAo/nh5L20ErRoBdYxfXB/j27crL6Qyz1t7KsJ6vDVpZ+mZWnIe3
+ uIQiRUYlxLlqj4MxOOpVrMkh3tnd4C8fbX+/vhPvbgGQS1XAnk30Ha6PbMoJvhYNCoIm
+ L2Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mF0qSWz+6lBvc9Sq7KVrbzTmDoSEC/HrEwNjsh2nOTQ=;
- b=UZLxf1LRXaFXtBe3iftKrelUGW4+yuPVkXKU57zf/Y2wKCnLfCjYV6ZQ46GYGwhJZu
- SKenieigQ1ghXlpUpQUiw4lYmL+QJaesczjPxRTASLDp/hVTAivUJ7wwPdbw0LB7LtNk
- XczWV7Cq6yJaOSNCi5XSRMaWZW/xLrAozGI9uOpspLPZdqAMGH1r4B6ap0gwDcTefRJe
- rJDDUH//PTviBd8HAKCfMraf9mhlnQicivYZxaobguVJoAdXR9c+HGIr1XnY2n9QhQzo
- I2JNZddDNS0BUaTQJ6lWOEw+oPrgTmZQ763sUKZOnsOZ50U+vhEGRK7hJxwFr7GaaSZt
- HQYw==
-X-Gm-Message-State: AOAM533CXqRFeu3W7+HLDeXU7pxiCuKUWSvlmCGQYMMffG+rDm8NMyQr
- j82206sVL3pC29vlz8ZLu/Ut8GXkQd2ZIjLDvWvNaw==
-X-Google-Smtp-Source: ABdhPJxmCc8xEXA26L1vjOYE/sX8uT9YTw9UqoFLy+WF+tvOmEVW/uGHNDDcqJrON3+N3JFel++rD9km46QJts/1aZk=
-X-Received: by 2002:a17:906:4bc6:: with SMTP id x6mr3167295ejv.4.1607012055361; 
- Thu, 03 Dec 2020 08:14:15 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IPPAffN4yagbi7eODeoKPenRSw5Nap2P8dgVVfXBjgo=;
+ b=WzE30B7KDPh2tkYjAflHq6ep6RQXjcLi5tzZMpDDINKWuzhIBYFD8wlMuGDPbzDYPT
+ uMhmdRSoe1uhMm7uxtwrn7859YhXtA1uKq/V6BKAHXrVxsVknHd8Je8pN6tYlEbGdGI0
+ xJ0rpIhxqcvqCyhf2fA0nOkFBPNLRdzpAIF1V7gYMez97q/SYpnu6CeGn1VzZ7it9ay+
+ CnbkNykxgfr4a63/oAFfsn97qXVsT7wcXl4R5kDkObzR2OwWkSe7F8qBqmb+2nwaV4+8
+ jjzGt9KaGH4hjVFLeDqpjM/+MDmahljOipItwP73gki026C+02CAX7P3qghUVwH6mVn9
+ VHmQ==
+X-Gm-Message-State: AOAM533kRmpBYhKSW57iETZnnJeVrhZmgOT7ldXemFbpZRkSpBTRJWe+
+ SqgvaenLMlguPmW6UpSQoxlz0tnMGAh7Tkyh
+X-Google-Smtp-Source: ABdhPJxl+1PAM1zMegRJDVOhGoeNqeKIBmMDR8AW4pyHhok6OQI5Xv3A3kQbyfHoow78qTDm9jE45Q==
+X-Received: by 2002:a05:6830:22fa:: with SMTP id
+ t26mr2583260otc.343.1607012102560; 
+ Thu, 03 Dec 2020 08:15:02 -0800 (PST)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id 64sm314965otu.62.2020.12.03.08.15.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Dec 2020 08:15:01 -0800 (PST)
+Subject: Re: [PATCH v2 09/28] target/arm: Implement VLDR/VSTR system register
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20201119215617.29887-1-peter.maydell@linaro.org>
+ <20201119215617.29887-10-peter.maydell@linaro.org>
+ <74666363-8965-279c-8b00-bf6d61d22be4@linaro.org>
+ <CAFEAcA-8LR3f3ArcbK3iWRGLMRrUTwJUEmYvGYHpzMLXHMmkvA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <55ba1846-2743-ad08-603a-b6210cb8ca2d@linaro.org>
+Date: Thu, 3 Dec 2020 10:14:59 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201125040642.2339476-1-richard.henderson@linaro.org>
- <CAFEAcA9XFGbyYfcpoOVhtV_wySi9=DyMGe84C4uwYG14Z6bD6Q@mail.gmail.com>
- <56701347-e0a0-ae47-8bba-f5cdff253475@redhat.com>
- <3d6d46d8-04bc-7ad8-d71e-4ce15a6e7e47@ispras.ru>
-In-Reply-To: <3d6d46d8-04bc-7ad8-d71e-4ce15a6e7e47@ispras.ru>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 3 Dec 2020 16:14:03 +0000
-Message-ID: <CAFEAcA_ATUZ+v8VE8q34mmi3pLhg3qFDHgi7mQB-JJKDEZuzaw@mail.gmail.com>
-Subject: Re: [PATCH for-6.0 00/11] target/arm: enforce alignment
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+In-Reply-To: <CAFEAcA-8LR3f3ArcbK3iWRGLMRrUTwJUEmYvGYHpzMLXHMmkvA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,58 +91,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 3 Dec 2020 at 16:10, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> wr=
-ote:
->
-> On 03.12.2020 15:30, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Cc'ing Pavel
-> >
-> > On 12/1/20 4:55 PM, Peter Maydell wrote:
-> >> On Wed, 25 Nov 2020 at 04:06, Richard Henderson
-> >> <richard.henderson@linaro.org> wrote:
-> >>>
-> >>> As reported in https://bugs.launchpad.net/bugs/1905356
-> >>>
-> >>> Not implementing SCTLR.A, but all of the other required
-> >>> alignment for SCTLR.A=3D0 in Table A3-1.
-> >>
-> >> Something in this series breaks the 'make check-acceptance'
-> >> record-and-replay test:
-> >>
-> >>   (30/40) tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_aa=
-rch64_virt:
-> >> PASS (9.14 s)
-> >>   (31/40) tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_ar=
-m_virt:
-> >> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
-> >> Timeout reached\nOriginal status: ERROR\n{'name':
-> >> '31-tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_arm_virt=
-',
-> >> 'logdir': '/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang=
-/tests/result...
-> >> (90.19 s)
-> >>
-> >> The log shows the "recording execution" apparently hanging,
-> >> with the last output from the guest
-> >> [    3.183662] Registering SWP/SWPB emulation handler
->
-> I looked through the patches and it does not seem that they can break
-> anything.
-> Could it be the same avocado/chardev socket glitch as in some previous
-> failures?
-> What happens when re-running this test?
+On 12/3/20 5:39 AM, Peter Maydell wrote:
+> On Tue, 1 Dec 2020 at 13:11, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 11/19/20 3:55 PM, Peter Maydell wrote:
+>>> +    gen_aa32_st32(s, value, addr, get_mem_index(s));
+>>
+>> This is MemA, so should use
+>>
+>>   gen_aa32_st_i32(s, value, addr, get_mem_index(s),
+>>                   MO_UL | MO_ALIGN);
+>>
+>> a-la my patch set from last week fixing other instances.
+> 
+> Also " | s->be_data", right ?
 
-I ran it a couple of times with the patchset and it failed the same
-way each time. Without is fine.
+Ho hum, yes.  I saw your comment on this in the alignment patch set and I'll
+think about A Better Way.
 
-thanks
--- PMM
+
+r~
+
 
