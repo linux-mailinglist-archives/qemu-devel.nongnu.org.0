@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4272CD442
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:05:43 +0100 (CET)
-Received: from localhost ([::1]:51014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474592CD443
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 12:06:05 +0100 (CET)
+Received: from localhost ([::1]:52126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkmQg-0007se-79
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:05:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48554)
+	id 1kkmR2-0008M9-9C
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 06:06:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkmMh-0004GY-In
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:01:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25086)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kkmMf-0004Pj-SX
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:01:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606993293;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TsS01T8NKio4LNQsbKkfvKT8zAeYDXi8ywVKqeKMlcM=;
- b=UdZWR13gKxskbBue8CENQ0/31X2ptChvzIM95HHgacoSah6uqS7Cyy4tYSS+L2AjV2U4W1
- QKTwyGISBhy01QdXtBMABxFtvpr9q8NjcGbjYfV0zRKWz6SyBOOlF6ZvOZLVmbjFtfzg2H
- 6PlYYnjWHGCbsLGqKmOVr3dO2ufYnOU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-73-vqBesju-PuqW382GO26s_w-1; Thu, 03 Dec 2020 06:01:31 -0500
-X-MC-Unique: vqBesju-PuqW382GO26s_w-1
-Received: by mail-wm1-f69.google.com with SMTP id q17so1307832wmc.1
- for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 03:01:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kkmNm-00055Y-Mc
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:02:43 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:36278)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kkmNk-0004hy-Vd
+ for qemu-devel@nongnu.org; Thu, 03 Dec 2020 06:02:42 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id b2so1639479edm.3
+ for <qemu-devel@nongnu.org>; Thu, 03 Dec 2020 03:02:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JyH7p7tcfc9R/bG+EXYjdUOmD8KvF6LsSmuXPPT951U=;
+ b=HRoia6I/Mnc8/lSCXIoFFt8RE4zjcUVld33ksYGlvfVmx5Cs36gnSIrCS6RY+IL/AT
+ OvyZ9VP67ge2AkzUqOuNmcDu1sd5KahFUIR+LuePj55Tm+GOOa1Sk/uRDQ0Pzqoehitp
+ FfuVXUuBTky+45kiASSX1iG7MWxkGUxj452HYJyjdjbPMH8yhBvKlucvO1RWc7U+3IEv
+ PdeG0jm8tBGaMUAc5tKlj2Y6rl0er0RDhgD2UgGF24Fn1gVgei+eYNwIg2oDGeRab7i2
+ ZVpb5xUShbbmcnM59sMk04VZ2JMIw5Y/oPcgtyEAArYIWrEelo+o3jGfyCgtrm1kZpm5
+ IFbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=TsS01T8NKio4LNQsbKkfvKT8zAeYDXi8ywVKqeKMlcM=;
- b=P3f+DfZpDWdwQ/p5syBuIW5Qq2ra1J7rYSiDp4G1GwTU2DHKil1XavqLi4kzNRhsC4
- L+1zrll00GnGfiXX1GC50FWOwZKKtMbr8Y9+n90FL3UrsXyLsgVDflFrBoUHtgwgrZBu
- VPlqZB1g4TJc/OpUmzM1RA1KWHC5ezng2+SH1oQIvI83Cu3smNfFRNUJ19m6bq7wEI3D
- ZZtbsw5MYkCu7o6e4yLyzP3HCeeQOxus2Fobq5gDaOGgweoxEXBn4wXr1EvOjyMcDlRn
- GH6NVKxddVcdqSksNFwSl5DEupORtLa+rpU3kL6E9ynL4XhTl8Y8/GZzKjl50d/GgVS8
- AAYw==
-X-Gm-Message-State: AOAM533xhN9s08IN5Sy9w/edjf3BNQpz3aRxNq24KFGiflze7v5TchUs
- gK7g8zz5dQe8umdxp8eGZ12fHsEZdoPwqGNExMGJTYkik8tlEx2JCTi8I4ohytlE7RSZxpys92Z
- eMUbvAKbITB3YqjU=
-X-Received: by 2002:a7b:c145:: with SMTP id z5mr2694188wmi.164.1606993290232; 
- Thu, 03 Dec 2020 03:01:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwdJuO0o1ZXJqb7tlmEifm5uD5+dwWf1PMaYanLN83njDPxNsReK66aEz7UyvaJYxwUqOoPQg==
-X-Received: by 2002:a7b:c145:: with SMTP id z5mr2694162wmi.164.1606993290035; 
- Thu, 03 Dec 2020 03:01:30 -0800 (PST)
-Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id d13sm1535706wrb.39.2020.12.03.03.01.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Dec 2020 03:01:29 -0800 (PST)
-Date: Thu, 3 Dec 2020 06:01:26 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 00/12] microvm: add second ioapic
-Message-ID: <20201203060103-mutt-send-email-mst@kernel.org>
-References: <20201203105423.10431-1-kraxel@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JyH7p7tcfc9R/bG+EXYjdUOmD8KvF6LsSmuXPPT951U=;
+ b=t0z8CuY6We933E4/RNLcLAG5q7S89vhj6cK5QX2R9+CuDnW1iJWchrLeLZb7yI0sDn
+ 3KxFl4vHQkGxL0Ha8A7AXiwkBtI2SJ7PHehPC1C9E7eZvxQe7E6XUwHIz9mZYvAZB34F
+ JnknXchVWmbRyqVtNLizfSKuFzOv3Pi0hWLn4YlnGwn8oDJWotMqv+6VgWixmtvmHjcZ
+ 29hTzPvFnsTkFmttPQOdcHbJImEpDlerbYjY4FjVe+T0Bl+ivY8A1Fo2VFSCUFUulge1
+ tAYu+EBbVHFZdi/FqMiElOC3+HO+ny+itXkaJVnhRPMSCSWWU9nMvqOYEyfhAD65h1je
+ S7jQ==
+X-Gm-Message-State: AOAM533upaN6BEzgEw5q6h/XddQdECamTg3w/eVpBgrdAAaqlA3sIGmI
+ isX64Tz1V5jYxNucuiSNu/5EwOPqZ2YFnhF+GAXE5g==
+X-Google-Smtp-Source: ABdhPJxlBEAVplc2eEmmeBfhE2UQ3cSSB30Vx6MTXVw/B6Ubpqe8/G2e3oJNGX48JWdMGz1Wfc5Dc6bFv83Gh6xe2fM=
+X-Received: by 2002:a50:fe88:: with SMTP id d8mr2295763edt.36.1606993359234;
+ Thu, 03 Dec 2020 03:02:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201203105423.10431-1-kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201202101655.122214-1-mst@redhat.com>
+ <CAFEAcA8N1Qh0gUX8oTTPOEuq_+DRzJ+9V1RqKzVhXN+4aoBZGw@mail.gmail.com>
+ <20201203054505-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20201203054505-mutt-send-email-mst@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 3 Dec 2020 11:02:28 +0000
+Message-ID: <CAFEAcA81DAGk7TPLKpExJ40cipRXB9L1wXz7_3=0xLkcPWJgEg@mail.gmail.com>
+Subject: Re: [PULL 0/6] pc,vhost: fixes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,63 +78,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 03, 2020 at 11:54:11AM +0100, Gerd Hoffmann wrote:
-> Add a second ioapic to microvm.  Gives us more IRQ lines we can
-> use for virtio-mmio devices.  Bump number of possible virtio-mmio
-> devices from 8 to 24.
+On Thu, 3 Dec 2020 at 10:59, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Thu, Dec 03, 2020 at 10:20:03AM +0000, Peter Maydell wrote:
+> > On Wed, 2 Dec 2020 at 11:03, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > > Patch 5 gave me pause but we do need patch 6 as
+> > > it's a guest triggerable assert, and it seemed
+> > > cleaner to just take the whole patchset than cherry-pick.
+> >
+> > Is this only "fixes a guest triggerable assert"?
+>
+> My understanding is that without the patches a rhel7 guest triggers
+> the assert if started with vtd enabled and virtio-net with
+> iommu_platform=on.
+>
+> https://bugs.launchpad.net/qemu/+bug/1885175
 
+Bug reported in June ? Is this a regression since 5.1, or
+was it this way in 5.1 as well?
 
-acpi things all look ok:
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-
-> v3:
->  - pick up some review tags.
->  - replace magic numbers with #defines.
->  - add asl changes to commit messages.
-> v2:
->  - reorganize code a bit.
->  - add ioapic2= option to microvm.
-> 
-> Gerd Hoffmann (12):
->   [testing] disable xhci msix
->   x86: rewrite gsi_handler()
->   x86: add support for second ioapic
->   microvm: make number of virtio transports runtime changeable
->   microvm: make pcie irq base runtime changeable
->   microvm: drop microvm_gsi_handler()
->   microvm: add second ioapic
->   tests/acpi: allow updates for expected data files
->   tests/acpi: add data files for ioapic2 test variant
->   tests/acpi: add ioapic2=on test for microvm
->   tests/acpi: update expected data files
->   tests/acpi: disallow updates for expected data files
-> 
->  include/hw/i386/ioapic.h             |   2 +
->  include/hw/i386/ioapic_internal.h    |   2 +-
->  include/hw/i386/microvm.h            |   6 +-
->  include/hw/i386/x86.h                |   3 +
->  hw/i386/acpi-common.c                |  10 ++++
->  hw/i386/microvm.c                    |  82 ++++++++++++++++++++-------
->  hw/i386/x86.c                        |  35 ++++++++++--
->  hw/usb/hcd-xhci-pci.c                |   2 +-
->  tests/qtest/bios-tables-test.c       |  20 +++++--
->  tests/data/acpi/microvm/APIC.ioapic2 | Bin 0 -> 82 bytes
->  tests/data/acpi/microvm/DSDT.ioapic2 | Bin 0 -> 365 bytes
->  11 files changed, 129 insertions(+), 33 deletions(-)
->  create mode 100644 tests/data/acpi/microvm/APIC.ioapic2
->  create mode 100644 tests/data/acpi/microvm/DSDT.ioapic2
-> 
-> -- 
-> 2.27.0
-> 
-
+thanks
+-- PMM
 
