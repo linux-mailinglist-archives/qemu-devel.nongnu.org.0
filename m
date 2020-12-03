@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F21C2CD2DC
-	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 10:51:01 +0100 (CET)
-Received: from localhost ([::1]:48566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D4D2CD2EF
+	for <lists+qemu-devel@lfdr.de>; Thu,  3 Dec 2020 10:53:15 +0100 (CET)
+Received: from localhost ([::1]:53054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kklGO-0005em-BM
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 04:51:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
+	id 1kklIX-0007jY-Kc
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 04:53:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kklF8-0005DE-IM
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 04:49:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50222)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kklF7-000406-1z
- for qemu-devel@nongnu.org; Thu, 03 Dec 2020 04:49:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606988980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gutIsYjngkuJBjWlbwBqdtMmlg8DGD9Bx9NxZ3z8cK4=;
- b=Hj9RnMAJnvxtOWu51cvX3SPTPai/YNSFWPbAFuZZQT1Wfbb6iiUbwN5UZeNIKLCMvzNgF2
- lV6co553MtSef91nuqywL+A8ObuMSRGuNBA9YPlhfMp2Ixz1+/UQGR5ueVG1qUfgIJrfko
- JQPSWOGLJ25mgmHP2SxE4bkxq1JqRjk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-AJidBIHcMwO92xCLhIrvNw-1; Thu, 03 Dec 2020 04:49:39 -0500
-X-MC-Unique: AJidBIHcMwO92xCLhIrvNw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3883101E615;
- Thu,  3 Dec 2020 09:48:41 +0000 (UTC)
-Received: from kaapi (unknown [10.74.9.11])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3C8C5B4A4;
- Thu,  3 Dec 2020 09:48:38 +0000 (UTC)
-Date: Thu, 3 Dec 2020 15:18:34 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH] ide:atapi: check io_buffer_index in
- ide_atapi_cmd_reply_end
-In-Reply-To: <7a5db04b-8ce7-476f-41a2-667459a4b0b0@redhat.com>
-Message-ID: <r42q5s1s-3s2-nn8n-4999-514p84s5s5p@erqung.pbz>
-References: <20201118142745.112579-1-ppandit@redhat.com>
- <204751s9-11np-413q-q3pr-3o6os86078@erqung.pbz>
- <492170b8-8056-bd65-5150-62c6e89cb3f0@redhat.com>
- <933np1s-8p4p-o74p-rp94-517r98nop2o6@erqung.pbz>
- <a964ffea-ece6-3f33-3dd1-ee9c2b729b75@redhat.com>
- <87sg8o65ys.fsf@dusky.pond.sub.org>
- <212n55r-9n3q-8r4r-85p7-14n495r53s6n@erqung.pbz>
- <7a5db04b-8ce7-476f-41a2-667459a4b0b0@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1kklGi-0006VX-IF; Thu, 03 Dec 2020 04:51:21 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:55163)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1kklGf-0004i6-8i; Thu, 03 Dec 2020 04:51:20 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.210])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 2C5E2777C682;
+ Thu,  3 Dec 2020 10:51:11 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 3 Dec 2020
+ 10:51:11 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0046f4f6680-9186-4946-b608-c5400be5a9e1,
+ 0AEFB2D7F5962DFD3E3C34A3E300797F3FBF43FD) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Subject: Re: [PATCH for-6.0 v2 2/3] spapr/xive: Fix size of END table and
+ number of claimed IPIs
+To: Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+References: <20201130165258.744611-1-groug@kaod.org>
+ <20201130165258.744611-3-groug@kaod.org>
+ <ffc2ef57-e90f-7f07-650e-d85be0746c49@kaod.org>
+Message-ID: <b3292b6e-f1a4-40d1-ff8b-f43be8748dd6@kaod.org>
+Date: Thu, 3 Dec 2020 10:51:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed;
- BOUNDARY="-1463810047-536978037-1606986148=:373362"
-Content-ID: <7944511p-935-4968-544p-5nssq7n498qp@erqung.pbz>
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <ffc2ef57-e90f-7f07-650e-d85be0746c49@kaod.org>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 11789dcc-8ab5-4324-af2a-a615c56c61bd
+X-Ovh-Tracer-Id: 13046646646277376992
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeiiedgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffuvfhfkffffgggjggtgfhisehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeehueejveevkefhveeftdekudeghfetfeekkeekvedugedtteduhfefveejieehnecuffhomhgrihhnpehlrghunhgthhhprggurdhnvghtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,30 +72,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Wenxiang Qian <leonwxqian@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
----1463810047-536978037-1606986148=:373362
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-Content-ID: <o8602p17-opr5-r2p3-5on8-90o7r194pp5o@erqung.pbz>
+On 11/30/20 7:07 PM, CÈdric Le Goater wrote:
+> On 11/30/20 5:52 PM, Greg Kurz wrote:
+>> The sPAPR XIVE device has an internal ENDT table the size of
+>> which is configurable by the machine. This table is supposed
+>> to contain END structures for all possible vCPUs that may
+>> enter the guest. The machine must also claim IPIs for all
+>> possible vCPUs since this is expected by the guest.
+>>
+>> spapr_irq_init() takes care of that under the assumption that
+>> spapr_max_vcpu_ids() returns the number of possible vCPUs.
+>> This happens to be the case when the VSMT mode is set to match
+>> the number of threads per core in the guest (default behavior).
+>> With non-default VSMT settings, this limit is > to the number
+>> of vCPUs. In the worst case, we can end up allocating an 8 times
+>> bigger ENDT and claiming 8 times more IPIs than needed. But more
+>> importantly, this creates a confusion between number of vCPUs and
+>> vCPU ids, which can lead to subtle bugs like [1].
+>>
+>> Use smp.max_cpus instead of spapr_max_vcpu_ids() in
+>> spapr_irq_init() for the latest machine type. Older machine
+>> types continue to use spapr_max_vcpu_ids() since the size of
+>> the ENDT is migration visible.
+>>
+>> [1] https://bugs.launchpad.net/qemu/+bug/1900241
+>>
+>> Signed-off-by: Greg Kurz <groug@kaod.org>
+> 
+> 
+> Reviewed-by: CÈdric Le Goater <clg@kaod.org>
 
-+-- On Wed, 2 Dec 2020, Philippe Mathieu-Daud√© wrote --+
-| a fair part is to ask the reporter to attach its reproducer to the private 
-| BZ,
 
-Yes, reporters sharing/releasing it is best.
+I gave patch 2 and 3 a little more thinking. 
 
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
----1463810047-536978037-1606986148=:373362--
+I don't think we need much more than patch 1 which clarifies the 
+nature of the values being manipulated, quantities vs. numbering.
 
+The last 2 patches are adding complexity to try to optimize the 
+XIVE VP space in a case scenario which is not very common (vSMT). 
+May be it's not worth it. 
+
+Today, we can start 4K (-2) KVM guests with 16 vCPUs each on 
+a witherspoon (2 socket P9) and we are far from reaching the 
+limits of the VP space. Available RAM is more a problem. 
+
+VP space is even bigger on P10. The width was increased to 24bit 
+per chip.
+
+C.
 
