@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEA02CEA22
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 09:47:47 +0100 (CET)
-Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A4082CEA89
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 10:13:42 +0100 (CET)
+Received: from localhost ([::1]:36424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kl6kk-0008OW-8r
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 03:47:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33174)
+	id 1kl79p-0004xE-54
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 04:13:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kl6jf-0007os-Q7; Fri, 04 Dec 2020 03:46:39 -0500
-Received: from 6.mo52.mail-out.ovh.net ([188.165.49.222]:45456)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kl78F-0004ME-TH; Fri, 04 Dec 2020 04:12:03 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:54003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1kl6jd-0001ze-N2; Fri, 04 Dec 2020 03:46:39 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.220])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id AA13821F7C8;
- Fri,  4 Dec 2020 09:46:32 +0100 (CET)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kl78E-0002Wu-0D; Fri, 04 Dec 2020 04:12:03 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.7])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6E2CC714F377;
+ Fri,  4 Dec 2020 10:11:57 +0100 (CET)
+Received: from kaod.org (37.59.142.96) by DAG8EX1.mxp5.local (172.16.2.71)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 4 Dec 2020
- 09:46:31 +0100
+ 10:11:56 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006e3080d3c-1119-4d23-8aaa-25c15238edcb,
- 30586E654D0A9B51F3156888DD4E4784B7453561) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
+ (GARM-96R001eb14436e-e25b-444d-b43f-f0ef48395fc1,
+ 977776E1094EFD99122EFBBE6561ABC933400753) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Fri, 4 Dec 2020 10:11:55 +0100
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
 Subject: Re: [PATCH for-6.0 v2 2/3] spapr/xive: Fix size of END table and
  number of claimed IPIs
-To: Greg Kurz <groug@kaod.org>
+Message-ID: <20201204101155.509969df@bahia.lan>
+In-Reply-To: <94ebf767-0a60-7faf-ddf5-b141b6722807@kaod.org>
 References: <20201130165258.744611-1-groug@kaod.org>
  <20201130165258.744611-3-groug@kaod.org>
  <ffc2ef57-e90f-7f07-650e-d85be0746c49@kaod.org>
  <b3292b6e-f1a4-40d1-ff8b-f43be8748dd6@kaod.org>
  <20201203115030.532d89d7@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <94ebf767-0a60-7faf-ddf5-b141b6722807@kaod.org>
-Date: Fri, 4 Dec 2020 09:46:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ <94ebf767-0a60-7faf-ddf5-b141b6722807@kaod.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201203115030.532d89d7@bahia.lan>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 63df549f-3456-4e46-ae90-47fa9731ca20
-X-Ovh-Tracer-Id: 17827499125748567008
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: dbb5db2c-90a9-405d-8d6b-c9be58f2c2e0
+X-Ovh-Tracer-Id: 18256466990982863328
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeijedguddvhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegvdeijeefvdfhudfhffeuveehledufffhvdekheelgedttddthfeigeevgefhffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
- helo=6.mo52.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeikecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,41 +78,61 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> I don't think we need much more than patch 1 which clarifies the 
->> nature of the values being manipulated, quantities vs. numbering.
->>
->> The last 2 patches are adding complexity to try to optimize the 
->> XIVE VP space in a case scenario which is not very common (vSMT). 
->> May be it's not worth it. 
->>
-> 
-> Well, the motivation isn't about optimization really since
-> a non-default vSMT setting already wastes VP space because
-> of the vCPU spacing. 
+On Fri, 4 Dec 2020 09:46:31 +0100
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-I don't see any VPs being wasted when not using vSMT. What's
-your command line ?
+> >> I don't think we need much more than patch 1 which clarifies the=20
+> >> nature of the values being manipulated, quantities vs. numbering.
+> >>
+> >> The last 2 patches are adding complexity to try to optimize the=20
+> >> XIVE VP space in a case scenario which is not very common (vSMT).=20
+> >> May be it's not worth it.=20
+> >>
+> >=20
+> > Well, the motivation isn't about optimization really since
+> > a non-default vSMT setting already wastes VP space because
+> > of the vCPU spacing.=20
+>=20
+> I don't see any VPs being wasted when not using vSMT. What's
+> your command line ?
+>=20
 
-> This is more about not using values
-> with wrong semantics in the code to avoid confusion in
-> future changes.
+I think there's confusion here. VSMT is always being used.
+When you don't specify it on the command line, the machine
+code sets it internally for you to be equal to the number
+of threads/core of the guest. Thanks to that, you get
+consecutive vCPU ids and no VP waste. Of course, you
+get the same result if you do:
 
-yes.
+-M pseries,vsmt=3DN -smp threads=3DN
 
-> I agree though that the extra complexity, especially the
-> compat crust, might be excessive. 
+If you pass different values to vsmt and threads, though,
+you get the spacing and the VP waste.
 
-It's nice and correct but it seems a bit like extra noise 
-if the default case is not wasting VPs. Let's check that 
-first. 
+> > This is more about not using values
+> > with wrong semantics in the code to avoid confusion in
+> > future changes.
+>=20
+> yes.
+>=20
+> > I agree though that the extra complexity, especially the
+> > compat crust, might be excessive.=20
+>=20
+> It's nice and correct but it seems a bit like extra noise=20
+> if the default case is not wasting VPs. Let's check that=20
+> first.=20
+>=20
+> > So maybe I should just
+> > add comments in the code to clarify when we're using the
+> > wrong semantics ?
+>=20
+> yes. I think this is enough.
+>=20
 
-> So maybe I should just
-> add comments in the code to clarify when we're using the
-> wrong semantics ?
+I'll do this in v3 then.
 
-yes. I think this is enough.
+> Thanks,
+>=20
+> C.
 
-Thanks,
-
-C.
 
