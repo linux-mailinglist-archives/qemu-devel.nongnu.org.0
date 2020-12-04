@@ -2,70 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663612CF4EC
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 20:38:36 +0100 (CET)
-Received: from localhost ([::1]:50390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8DD42CF535
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:00:40 +0100 (CET)
+Received: from localhost ([::1]:44968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klGuZ-0003Do-9h
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 14:38:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37580)
+	id 1klHFv-0005kP-Qb
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:00:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1klEdH-0007YW-Ei
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:12:37 -0500
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:36028)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1klEbc-0006lS-D7
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:12:13 -0500
-Received: by mail-oi1-x22e.google.com with SMTP id x16so6920241oic.3
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 09:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7W/tyy/845wO9IwOfj4WyncDe7nxDA17WQrzXbrEXxg=;
- b=HCzLuzIff9JyIg5GZUnQelravulSMjRBrgcHlwzurTE7CQTYX6VFjnkTHArWH834U2
- FJdl3JcWgupyL0i6MVgrq9fXCS+IOvBgOS8evXU5f4ZvJAHDmhY6U3Gx7RLJt4AsBC5l
- +Y+1WKT/YJKdfWKfpFiZ8G7p42r5zOKKSFgTqEJc8TAY8m1omLl9C8YwgVp6po2dckRB
- CblJ96CD+hzFdeDFgYCUIAOrFJphAu9JzXxg0q26Pl9esAAhVl7yE/Jp97pE1jx6UG11
- FYl/dTY5IbvqjM51XRrCvNoerkIeqhjUdN1qZzpzChGhOTQTF1cv9nAJyefL/RpcN1nT
- Vn4Q==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klEgW-0008Bl-0a
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:16:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39732)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klEdn-0007mB-5H
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:15:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607101930;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zYB0C6aF0qsTDmyydOayUIylWHJ9qMij8eh6vDumBmE=;
+ b=PeSP+LxvnkvZ/OG47UH7Xdd/1s0yFrdV3pEbDYrPLBde3lsvHEOyT5fAngjqa5Hkc+heeZ
+ v6ULzBpTeG+q2rlZN1jjQ+cIrmUHEx3ARahw1CaSVWwZpd8sjC05AITKgUmFRrH0r4nvZE
+ nJKNjpPBffq1pTsFU1lGLSlg97fNwNk=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-Y2ERDA9YPL699mw9erb3Tw-1; Fri, 04 Dec 2020 12:12:07 -0500
+X-MC-Unique: Y2ERDA9YPL699mw9erb3Tw-1
+Received: by mail-ej1-f70.google.com with SMTP id u25so2309834ejf.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 09:12:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7W/tyy/845wO9IwOfj4WyncDe7nxDA17WQrzXbrEXxg=;
- b=oQphWBHu79JkN/zi/CysGPYj6fOEmDcR8kPCaRp4zIllUm5p6eSznKOm4l9mon55xa
- omfkh7AMbOwYlVsheuFICr5nIKuJoPSfcyriC1EHfTXl4p+EMbDMim3KsYn2Uf8aRo4L
- J47DjTcQYxNVReyIOSL/Z76mF2SkA/MZCJ2K5baj5iMTSs5DYn4pOj9HepFBJu6VwctB
- pO7X5sU5+dXtyKdJOtiS/JuoqcQiIjJ7IBVkxUW398T8W9BdNPsnKUrdFqNn571nKmHa
- aThgCg+pXlPz1e6DpUFqxepnP4WGEj+fMFbNUMK7CDN1KGujbUiTadR+Q+BqQAi2kbO0
- H0Bg==
-X-Gm-Message-State: AOAM531V1DC6NSWUT/yRwUhtOxbweqSQdpFN/Wj5kvaMbGk99r16F0jT
- dkPbE6HFJAhgHlT3JmOJmfbkAUrzGilb/dU7r7rT5w==
-X-Google-Smtp-Source: ABdhPJxQpIorAjh5D5tK467V57yK2x52+TMxqKvrL19Kfb6K/K289j3KeygDiuHy6vhMKtJk6Jp6hN9NKJA7Zp+yBac=
-X-Received: by 2002:aca:383:: with SMTP id 125mr3826682oid.122.1607101812392; 
- Fri, 04 Dec 2020 09:10:12 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zYB0C6aF0qsTDmyydOayUIylWHJ9qMij8eh6vDumBmE=;
+ b=RktnF6if7yTszAHQT4ZQP88DdoFawNzRnEm2jDINgPZApyaRVSW5V9j1mgJhT0Vs63
+ M5KScMZvstXCuIqPQEjVIyWPMGPe4nugJY9WypeddyEfXkSGRXtsufrMSJEJeH3Sfc0I
+ 6wHywa2EaOIxF4s4Xios5i7iNcS2p+tJxF7KKaTCaUIJWfppRPGJCcSg/S2J9crRlhiU
+ nx+HjiNP6JfgrPkoWfw4kPn0dOf1Kr2/dTUigokKQItJftsQrBltaUJZeLxiAvrpjtbS
+ Ofn9KaYmH4ZIzjfyJ+o+kAqS6E6D+VVXqjE1MkR8gIwgeXOIllMgZ5GQdGqXQ+FqQQOl
+ prTA==
+X-Gm-Message-State: AOAM5339eK2y/eYAtS2qTNA/CQdDP00drlEHYjQi8hjKJXRQkH7RBlLI
+ EYyEOU6NWEKSVzAdyWXqVAusBUN0POXf0Sf4/LjnncHHf+hDyrE5KHcuf0paeW0ZDgt3eP5Sji4
+ beFN/Epuil8UqPes=
+X-Received: by 2002:a17:906:bcf9:: with SMTP id
+ op25mr8174519ejb.223.1607101926082; 
+ Fri, 04 Dec 2020 09:12:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxVEMTThkrfCGe/qVOjQm91C98ys9eD55FPEXakmGN0EOnUbAQmOreGlwf1AuuWfr1h8kv7ug==
+X-Received: by 2002:a17:906:bcf9:: with SMTP id
+ op25mr8174475ejb.223.1607101925800; 
+ Fri, 04 Dec 2020 09:12:05 -0800 (PST)
+Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id w17sm3761712edu.90.2020.12.04.09.12.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Dec 2020 09:12:05 -0800 (PST)
+Subject: Re: [RFC v7 13/22] cpu: Move synchronize_from_tb() to tcg_ops
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>
+References: <20201130023535.16689-1-cfontana@suse.de>
+ <20201130023535.16689-14-cfontana@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <87d91771-bdee-eece-5dcd-1649ba2be234@redhat.com>
+Date: Fri, 4 Dec 2020 18:12:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201118083044.13992-1-frank.chang@sifive.com>
- <20201118083044.13992-9-frank.chang@sifive.com>
- <299ed3c1-fcb1-aa34-a595-5f86b8466d18@linaro.org>
- <bbcbfa1c-b34d-147e-a100-cbc998512fe3@linaro.org>
-In-Reply-To: <bbcbfa1c-b34d-147e-a100-cbc998512fe3@linaro.org>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Sat, 5 Dec 2020 01:10:00 +0800
-Message-ID: <CAE_xrPi3YoUyKXvxDhdsTJkE7G__yRvfSpEHmEXj9GPKb4dQ-g@mail.gmail.com>
-Subject: Re: [RFC 08/15] target/riscv: rvb: single-bit instructions
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000a5648205b5a68cb0"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=frank.chang@sifive.com; helo=mail-oi1-x22e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201130023535.16689-14-cfontana@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,344 +106,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
+ "Emilio G . Cota" <cota@braap.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a5648205b5a68cb0
-Content-Type: text/plain; charset="UTF-8"
+On 11/30/20 3:35 AM, Claudio Fontana wrote:
+> From: Eduardo Habkost <ehabkost@redhat.com>
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> ---
+>  accel/tcg/cpu-exec.c          |  4 ++--
+>  include/hw/core/cpu.h         |  8 --------
+>  include/hw/core/tcg-cpu-ops.h | 14 +++++++++++---
+>  target/arm/cpu.c              |  2 +-
+>  target/avr/cpu.c              |  2 +-
+>  target/hppa/cpu.c             |  2 +-
+>  target/i386/tcg-cpu.c         |  2 +-
+>  target/microblaze/cpu.c       |  2 +-
+>  target/mips/cpu.c             |  2 +-
+>  target/riscv/cpu.c            |  2 +-
+>  target/rx/cpu.c               |  2 +-
+>  target/sh4/cpu.c              |  2 +-
+>  target/sparc/cpu.c            |  2 +-
+>  target/tricore/cpu.c          |  2 +-
+>  14 files changed, 24 insertions(+), 24 deletions(-)
+> 
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index 64cba89356..816ef29f68 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -192,8 +192,8 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
+>                                 TARGET_FMT_lx "] %s\n",
+>                                 last_tb->tc.ptr, last_tb->pc,
+>                                 lookup_symbol(last_tb->pc));
+> -        if (cc->synchronize_from_tb) {
+> -            cc->synchronize_from_tb(cpu, last_tb);
+> +        if (cc->tcg_ops.synchronize_from_tb) {
+> +            cc->tcg_ops.synchronize_from_tb(cpu, last_tb);
+>          } else {
+>              assert(cc->set_pc);
+>              cc->set_pc(cpu, last_tb->pc);
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index c93b08a0fb..19211cb409 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -110,13 +110,6 @@ struct TranslationBlock;
+>   *       If the target behaviour here is anything other than "set
+>   *       the PC register to the value passed in" then the target must
+>   *       also implement the synchronize_from_tb hook.
+> - * @synchronize_from_tb: Callback for synchronizing state from a TCG
+> - *       #TranslationBlock. This is called when we abandon execution
+> - *       of a TB before starting it, and must set all parts of the CPU
+> - *       state which the previous TB in the chain may not have updated.
+> - *       This always includes at least the program counter; some targets
+> - *       will need to do more. If this hook is not implemented then the
+> - *       default is to call @set_pc(tb->pc).
+>   * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
+>   *       address fault.  For system mode, if the access is valid, call
+>   *       tlb_set_page and return true; if the access is invalid, and
+> @@ -193,7 +186,6 @@ struct CPUClass {
+>      void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+>                                 Error **errp);
+>      void (*set_pc)(CPUState *cpu, vaddr value);
+> -    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
+>      bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+>                       MMUAccessType access_type, int mmu_idx,
+>                       bool probe, uintptr_t retaddr);
+> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+> index 4475ef0996..109291ac52 100644
+> --- a/include/hw/core/tcg-cpu-ops.h
+> +++ b/include/hw/core/tcg-cpu-ops.h
+> @@ -10,9 +10,6 @@
+>  #ifndef TCG_CPU_OPS_H
+>  #define TCG_CPU_OPS_H
+>  
+> -/**
+> - * struct TcgCpuOperations: TCG operations specific to a CPU class
+> - */
+>  typedef struct TcgCpuOperations {
+>      /**
+>       * @initialize: Initalize TCG state
+> @@ -20,6 +17,17 @@ typedef struct TcgCpuOperations {
+>       * Called when the first CPU is realized.
+>       */
+>      void (*initialize)(void);
+> +    /**
+> +     * @synchronize_from_tb: Synchronize state from a TCG #TranslationBlock
+> +     *
+> +     * This is called when we abandon execution of a TB before
+> +     * starting it, and must set all parts of the CPU state which
+> +     * the previous TB in the chain may not have updated. This
+> +     * will need to do more. If this hook is not implemented then
+> +     * the default is to call
+> +     * @set_pc(tb->pc).
+> +     */
+> +    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
+>  } TcgCpuOperations;
+>  
+>  #endif /* TCG_CPU_OPS_H */
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 1fa9382a7c..e29601d7db 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -2242,7 +2242,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+>      cc->cpu_exec_interrupt = arm_cpu_exec_interrupt;
+>      cc->dump_state = arm_cpu_dump_state;
+>      cc->set_pc = arm_cpu_set_pc;
+> -    cc->synchronize_from_tb = arm_cpu_synchronize_from_tb;
+> +    cc->tcg_ops.synchronize_from_tb = arm_cpu_synchronize_from_tb;
 
-On Fri, Nov 20, 2020 at 5:04 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Similar comment than previous patch, please keep cc->tcg_ops.*
+guarded withing #ifdef CONFIG_TCG.
 
-> On 11/19/20 12:35 PM, Richard Henderson wrote:
-> > On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
-> >> +static bool trans_sbset(DisasContext *ctx, arg_sbset *a)
-> >> +{
-> >> +    REQUIRE_EXT(ctx, RVB);
-> >> +    return gen_arith(ctx, a, &gen_sbset);
-> >> +}
-> >> +
-> >> +static bool trans_sbseti(DisasContext *ctx, arg_sbseti *a)
-> >> +{
-> >> +    REQUIRE_EXT(ctx, RVB);
-> >> +    return gen_arith_shamt_tl(ctx, a, &gen_sbset);
-> >> +}
-> >> +
-> >> +static bool trans_sbclr(DisasContext *ctx, arg_sbclr *a)
-> >> +{
-> >> +    REQUIRE_EXT(ctx, RVB);
-> >> +    return gen_arith(ctx, a, &gen_sbclr);
-> >> +}
-> >
-> > Coming back to my re-use of code thing, these should use gen_shift.  That
-> > handles the truncate of source2 to the shift amount.
-> >
-> >> +static bool trans_sbclri(DisasContext *ctx, arg_sbclri *a)
-> >> +{
-> >> +    REQUIRE_EXT(ctx, RVB);
-> >> +    return gen_arith_shamt_tl(ctx, a, &gen_sbclr);
-> >> +}
-> >> +
-> >> +static bool trans_sbinv(DisasContext *ctx, arg_sbinv *a)
-> >> +{
-> >> +    REQUIRE_EXT(ctx, RVB);
-> >> +    return gen_arith(ctx, a, &gen_sbinv);
-> >> +}
-> >> +
-> >> +static bool trans_sbinvi(DisasContext *ctx, arg_sbinvi *a)
-> >> +{
-> >> +    REQUIRE_EXT(ctx, RVB);
-> >> +    return gen_arith_shamt_tl(ctx, a, &gen_sbinv);
-> >> +}
-> >
-> > I think there ought to be a gen_shifti for these.
->
-> Hmm.  I just realized that gen_shifti would have a generator callback with
-> a
-> constant argument, a-la tcg_gen_shli_tl.
->
-> I don't know if it's worth duplicating gen_sbclr et al for a constant
-> argument.
->  And the sloi/sroi insns besides.  Perhaps a gen_shifti_var helper instead?
->
-> Let me know what you think, but at the moment we're left with an
-> incoherent set
-> of helpers that seem split along lines that are less than ideal.
->
->
-> r~
->
+With this change:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Thanks Richard and sorry for the late reply.....
-
-If we can have gen_shift(), gen_shifti(), gen_shiftw() and gen_shiftiw(),
-then we can eliminate the needs of:
-gen_arith_shamt_tl(), gen_sbop_shamt(), gen_sbopw_shamt()
-and gen_sbopw_common()
-and most of the *w version generators can be removed, too.
-
-For *w version, we just need to call gen_shiftw() or gen_shiftiw()
-with the reused non-*w version generator.
-For example:
-
-  static bool trans_sbclrw(DisasContext *ctx, arg_sbclrw *a)
-  {
-      REQUIRE_EXT(ctx, RVB);
-      return gen_shiftw(ctx, a, &gen_sbclr);
-  }
-
-  static bool trans_sbclriw(DisasContext *ctx, arg_sbclriw *a)
-  {
-      REQUIRE_EXT(ctx, RVB);
-      return gen_shiftiw(ctx, a, &gen_sbclr);
-  }
-
-both of which can reuse gen_sbclr() generator:
-
-  static void gen_sbclr(TCGv ret, TCGv arg1, TCGv shamt)
-  {
-      TCGv t = tcg_temp_new();
-      tcg_gen_movi_tl(t, 1);
-      tcg_gen_shl_tl(t, t, shamt);
-      tcg_gen_andc_tl(ret, arg1, t);
-      tcg_temp_free(t);
-  }
-
-The gen_shift*() I have now are as follow:
-
-  static bool gen_shift(DisasContext *ctx, arg_r *a,
-                          void(*func)(TCGv, TCGv, TCGv))
-  {
-      TCGv source1 = tcg_temp_new();
-      TCGv source2 = tcg_temp_new();
-
-      gen_get_gpr(source1, a->rs1);
-      gen_get_gpr(source2, a->rs2);
-
-      tcg_gen_andi_tl(source2, source2, TARGET_LONG_BITS - 1);
-      (*func)(source1, source1, source2);
-
-      gen_set_gpr(a->rd, source1);
-      tcg_temp_free(source1);
-      tcg_temp_free(source2);
-      return true;
-  }
-
-  static bool gen_shifti(DisasContext *ctx, arg_shift *a,
-                          void(*func)(TCGv, TCGv, TCGv))
-  {
-      TCGv source1 = tcg_temp_new();
-      TCGv source2 = tcg_temp_new();
-
-     gen_get_gpr(source1, a->rs1);
-     tcg_gen_movi_tl(source2, a->shamt);
-
-      tcg_gen_andi_tl(source2, source2, TARGET_LONG_BITS - 1);
-      (*func)(source1, source1, source2);
-
-      gen_set_gpr(a->rd, source1);
-      tcg_temp_free(source1);
-      tcg_temp_free(source2);
-      return true;
-  }
-
-  static bool gen_shiftw(DisasContext *ctx, arg_r *a,
-                          void(*func)(TCGv, TCGv, TCGv))
-  {
-      TCGv source1 = tcg_temp_new();
-      TCGv source2 = tcg_temp_new();
-
-      gen_get_gpr(source1, a->rs1);
-      gen_get_gpr(source2, a->rs2);
-
-      tcg_gen_andi_tl(source2, source2, 31);
-      (*func)(source1, source1, source2);
-      tcg_gen_ext32s_tl(source1, source1);
-
-      gen_set_gpr(a->rd, source1);
-      tcg_temp_free(source1);
-      tcg_temp_free(source2);
-      return true;
-  }
-
-  static bool gen_shiftiw(DisasContext *ctx, arg_shift *a,
-                          void(*func)(TCGv, TCGv, TCGv))
-  {
-      TCGv source1 = tcg_temp_new();
-      TCGv source2 = tcg_temp_new();
-
-     gen_get_gpr(source1, a->rs1);
-     tcg_gen_movi_tl(source2, a->shamt);
-
-     tcg_gen_andi_tl(source2, source2, 31);
-     (*func)(source1, source1, source2);
-     tcg_gen_ext32s_tl(source1, source1);
-
-      gen_set_gpr(a->rd, source1);
-      tcg_temp_free(source1);
-      tcg_temp_free(source2);
-      return true;
-  }
-
-They may be further merged as most of them are duplicate with only the
-differences of:
-gen_get_gpr(source2, a->rs2); vs. tcg_gen_movi_tl(source2, a->shamt);
-TARGET_LONG_BITS - 1 vs. 31, and
-tcg_gen_ext32s_tl(); to sign-extend the 32-bit return value for *w
-instructions
-
-Any thoughts?
-
-Frank Chang
-
---000000000000a5648205b5a68cb0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Nov 20, 2020 at 5:04 AM Richard H=
-enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hender=
-son@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">On 11/19/20 12:35 PM, Richard Hend=
-erson wrote:<br>
-&gt; On 11/18/20 12:29 AM, <a href=3D"mailto:frank.chang@sifive.com" target=
-=3D"_blank">frank.chang@sifive.com</a> wrote:<br>
-&gt;&gt; +static bool trans_sbset(DisasContext *ctx, arg_sbset *a)<br>
-&gt;&gt; +{<br>
-&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
-&gt;&gt; +=C2=A0 =C2=A0 return gen_arith(ctx, a, &amp;gen_sbset);<br>
-&gt;&gt; +}<br>
-&gt;&gt; +<br>
-&gt;&gt; +static bool trans_sbseti(DisasContext *ctx, arg_sbseti *a)<br>
-&gt;&gt; +{<br>
-&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
-&gt;&gt; +=C2=A0 =C2=A0 return gen_arith_shamt_tl(ctx, a, &amp;gen_sbset);<=
-br>
-&gt;&gt; +}<br>
-&gt;&gt; +<br>
-&gt;&gt; +static bool trans_sbclr(DisasContext *ctx, arg_sbclr *a)<br>
-&gt;&gt; +{<br>
-&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
-&gt;&gt; +=C2=A0 =C2=A0 return gen_arith(ctx, a, &amp;gen_sbclr);<br>
-&gt;&gt; +}<br>
-&gt; <br>
-&gt; Coming back to my re-use of code thing, these should use gen_shift.=C2=
-=A0 That<br>
-&gt; handles the truncate of source2 to the shift amount.<br>
-&gt; <br>
-&gt;&gt; +static bool trans_sbclri(DisasContext *ctx, arg_sbclri *a)<br>
-&gt;&gt; +{<br>
-&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
-&gt;&gt; +=C2=A0 =C2=A0 return gen_arith_shamt_tl(ctx, a, &amp;gen_sbclr);<=
-br>
-&gt;&gt; +}<br>
-&gt;&gt; +<br>
-&gt;&gt; +static bool trans_sbinv(DisasContext *ctx, arg_sbinv *a)<br>
-&gt;&gt; +{<br>
-&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
-&gt;&gt; +=C2=A0 =C2=A0 return gen_arith(ctx, a, &amp;gen_sbinv);<br>
-&gt;&gt; +}<br>
-&gt;&gt; +<br>
-&gt;&gt; +static bool trans_sbinvi(DisasContext *ctx, arg_sbinvi *a)<br>
-&gt;&gt; +{<br>
-&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
-&gt;&gt; +=C2=A0 =C2=A0 return gen_arith_shamt_tl(ctx, a, &amp;gen_sbinv);<=
-br>
-&gt;&gt; +}<br>
-&gt; <br>
-&gt; I think there ought to be a gen_shifti for these.<br>
-<br>
-Hmm.=C2=A0 I just realized that gen_shifti would have a generator callback =
-with a<br>
-constant argument, a-la tcg_gen_shli_tl.<br>
-<br>
-I don&#39;t know if it&#39;s worth duplicating gen_sbclr et al for a consta=
-nt argument.<br>
-=C2=A0And the sloi/sroi insns besides.=C2=A0 Perhaps a gen_shifti_var helpe=
-r instead?<br>
-<br>
-Let me know what you think, but at the moment we&#39;re left with an incohe=
-rent set<br>
-of helpers that seem split along lines that are less than ideal.<br>
-<br>
-<br>
-r~<br></blockquote><div><br></div><div>Thanks Richard and sorry for the lat=
-e reply.....</div><div><br></div><div>If we can have gen_shift(), gen_shift=
-i(), gen_shiftw() and gen_shiftiw(),</div><div>then we can eliminate the ne=
-eds of:</div><div>gen_arith_shamt_tl(),=C2=A0gen_sbop_shamt(), gen_sbopw_sh=
-amt() and=C2=A0gen_sbopw_common()</div><div>and most of the *w version gene=
-rators can be removed, too.</div><div><br></div><div>For *w version, we jus=
-t need to call gen_shiftw() or gen_shiftiw()</div><div>with the reused=C2=
-=A0non-*w version=C2=A0generator.</div><div>For example:</div><div><br></di=
-v><div>=C2=A0 static bool trans_sbclrw(DisasContext *ctx, arg_sbclrw *a)<br=
->=C2=A0 {<br>=C2=A0 =C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>=C2=A0 =C2=A0 =
-=C2=A0 return gen_shiftw(ctx, a, &amp;gen_sbclr);<br>=C2=A0 }<br><br>=C2=A0=
- static bool trans_sbclriw(DisasContext *ctx, arg_sbclriw *a)<br>=C2=A0 {<b=
-r>=C2=A0 =C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>=C2=A0 =C2=A0 =C2=A0 retur=
-n gen_shiftiw(ctx, a, &amp;gen_sbclr);<br>=C2=A0 }<br></div><div><br></div>=
-<div>both of which can reuse gen_sbclr() generator:</div><div><br></div><di=
-v>=C2=A0 static void gen_sbclr(TCGv ret, TCGv arg1, TCGv shamt)<br>=C2=A0 {=
-<br>=C2=A0 =C2=A0 =C2=A0 TCGv t =3D tcg_temp_new();<br>=C2=A0 =C2=A0 =C2=A0=
- tcg_gen_movi_tl(t, 1);<br>=C2=A0 =C2=A0 =C2=A0 tcg_gen_shl_tl(t, t, shamt)=
-;<br>=C2=A0 =C2=A0 =C2=A0 tcg_gen_andc_tl(ret, arg1, t);<br>=C2=A0 =C2=A0 =
-=C2=A0 tcg_temp_free(t);<br>=C2=A0 }<br></div><div><br></div><div>The gen_s=
-hift*() I have now are as follow:</div><div><br></div><div>=C2=A0 static bo=
-ol gen_shift(DisasContext *ctx, arg_r *a,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void(*func)(=
-TCGv, TCGv, TCGv))<br>=C2=A0 {<br>=C2=A0 =C2=A0 =C2=A0 TCGv source1 =3D tcg=
-_temp_new();<br>=C2=A0 =C2=A0 =C2=A0 TCGv source2 =3D tcg_temp_new();<br><b=
-r>=C2=A0 =C2=A0 =C2=A0 gen_get_gpr(source1, a-&gt;rs1);<br>=C2=A0 =C2=A0 =
-=C2=A0 gen_get_gpr(source2, a-&gt;rs2);<br><br>=C2=A0 =C2=A0 =C2=A0 tcg_gen=
-_andi_tl(source2, source2, TARGET_LONG_BITS - 1);<br>=C2=A0 =C2=A0 =C2=A0 (=
-*func)(source1, source1, source2);<br><br>=C2=A0 =C2=A0 =C2=A0 gen_set_gpr(=
-a-&gt;rd, source1);<br>=C2=A0 =C2=A0 =C2=A0 tcg_temp_free(source1);<br>=C2=
-=A0 =C2=A0 =C2=A0 tcg_temp_free(source2);<br>=C2=A0 =C2=A0 =C2=A0 return tr=
-ue;<br>=C2=A0 }<br><br>=C2=A0 static bool gen_shifti(DisasContext *ctx, arg=
-_shift *a,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void(*func)(TCGv, TCGv, TCGv))<br>=C2=A0 {<=
-br>=C2=A0 =C2=A0 =C2=A0 TCGv source1 =3D tcg_temp_new();<br>=C2=A0 =C2=A0 =
-=C2=A0 TCGv source2 =3D tcg_temp_new();<br><br>=C2=A0=C2=A0  =C2=A0 gen_get=
-_gpr(source1, a-&gt;rs1);<br>=C2=A0 =C2=A0=C2=A0  tcg_gen_movi_tl(source2, =
-a-&gt;shamt);<br><br>=C2=A0 =C2=A0 =C2=A0 tcg_gen_andi_tl(source2, source2,=
- TARGET_LONG_BITS - 1);<br>=C2=A0 =C2=A0 =C2=A0 (*func)(source1, source1, s=
-ource2);<br><br>=C2=A0 =C2=A0 =C2=A0 gen_set_gpr(a-&gt;rd, source1);<br>=C2=
-=A0 =C2=A0 =C2=A0 tcg_temp_free(source1);<br>=C2=A0 =C2=A0 =C2=A0 tcg_temp_=
-free(source2);<br>=C2=A0 =C2=A0 =C2=A0 return true;<br>=C2=A0 }<br><br>=C2=
-=A0 static bool gen_shiftw(DisasContext *ctx, arg_r *a,<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 void(*func)(TCGv, TCGv, TCGv))<br>=C2=A0 {<br>=C2=A0 =C2=A0 =C2=A0 TCGv=
- source1 =3D tcg_temp_new();<br>=C2=A0 =C2=A0 =C2=A0 TCGv source2 =3D tcg_t=
-emp_new();<br><br>=C2=A0 =C2=A0 =C2=A0 gen_get_gpr(source1, a-&gt;rs1);<br>=
-=C2=A0 =C2=A0 =C2=A0 gen_get_gpr(source2, a-&gt;rs2);<br><br>=C2=A0 =C2=A0 =
-=C2=A0 tcg_gen_andi_tl(source2, source2, 31);<br>=C2=A0 =C2=A0 =C2=A0 (*fun=
-c)(source1, source1, source2);<br>=C2=A0 =C2=A0 =C2=A0 tcg_gen_ext32s_tl(so=
-urce1, source1);<br><br>=C2=A0 =C2=A0 =C2=A0 gen_set_gpr(a-&gt;rd, source1)=
-;<br>=C2=A0 =C2=A0 =C2=A0 tcg_temp_free(source1);<br>=C2=A0 =C2=A0 =C2=A0 t=
-cg_temp_free(source2);<br>=C2=A0 =C2=A0 =C2=A0 return true;<br>=C2=A0 }<br>=
-<br>=C2=A0 static bool gen_shiftiw(DisasContext *ctx, arg_shift *a,<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 void(*func)(TCGv, TCGv, TCGv))<br>=C2=A0 {<br>=C2=A0 =C2=A0 =
-=C2=A0 TCGv source1 =3D tcg_temp_new();<br>=C2=A0 =C2=A0 =C2=A0 TCGv source=
-2 =3D tcg_temp_new();<br><br>=C2=A0 =C2=A0=C2=A0  gen_get_gpr(source1, a-&g=
-t;rs1);<br>=C2=A0=C2=A0  =C2=A0 tcg_gen_movi_tl(source2, a-&gt;shamt);<br><=
-br>=C2=A0 =C2=A0=C2=A0  tcg_gen_andi_tl(source2, source2, 31);<br>=C2=A0 =
-=C2=A0=C2=A0  (*func)(source1, source1, source2);<br>=C2=A0 =C2=A0 =C2=A0tc=
-g_gen_ext32s_tl(source1, source1);<br><br>=C2=A0 =C2=A0 =C2=A0 gen_set_gpr(=
-a-&gt;rd, source1);<br>=C2=A0 =C2=A0 =C2=A0 tcg_temp_free(source1);<br>=C2=
-=A0 =C2=A0 =C2=A0 tcg_temp_free(source2);<br>=C2=A0 =C2=A0 =C2=A0 return tr=
-ue;<br>=C2=A0 }<br></div><div><br></div><div>They may be further merged as =
-most of them are duplicate with only the differences of:</div><div>gen_get_=
-gpr(source2, a-&gt;rs2); vs.=C2=A0tcg_gen_movi_tl(source2, a-&gt;shamt);<br=
-></div><div>TARGET_LONG_BITS - 1 vs. 31, and</div><div>tcg_gen_ext32s_tl();=
- to sign-extend the 32-bit return value for *w instructions</div><div><br><=
-/div><div>Any thoughts?</div><div><br></div><div>Frank Chang</div></div></d=
-iv>
-
---000000000000a5648205b5a68cb0--
 
