@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D322D2CF6FD
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:42:19 +0100 (CET)
-Received: from localhost ([::1]:46116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F17C2CF721
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:56:16 +0100 (CET)
+Received: from localhost ([::1]:49750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klJmM-0003Va-8A
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 17:42:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47184)
+	id 1klJzq-0006D9-Uy
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 17:56:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klJku-0002lS-VL
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:40:49 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:45659)
+ id 1klJxb-0005d9-84
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:53:55 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:39801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klJko-00042U-OF
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:40:43 -0500
-Received: by mail-ed1-x543.google.com with SMTP id r5so7429403eda.12
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 14:40:41 -0800 (PST)
+ id 1klJxZ-0008Ud-8J
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:53:54 -0500
+Received: by mail-ed1-x542.google.com with SMTP id c7so7481578edv.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 14:53:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yFuZpM48mzNWDi1/O1LkUT35WuH/+Ad0bs1eLP76xjw=;
- b=jn992NARi2yX6RVBXCl//T9T4jOqKAnXHCYRnLRqrPFYpIsTLqJZFp5kDe+dWbCzKC
- Q4dGRgVGr+z/+TikJaAhD2ebdRgSOWKp+gm1LNA1vZS38U16ybpLTP+YryMirJCUfAvW
- Oq1KyhL7HYN2kkIRd+dBujP0NNNd5S0O7rY28Ff6VNXhpkuIOxakPc+Aav8/y+JPJY4d
- 6/2NYwjyUEJPgCkSgvBxltPZuCgFzI8XsdgbSoNnkUGE8z4fCwcM9EbCoop7Z5SUeJCR
- gabQlbTwFA4TiDfH8XIV4XOOCKCOx6VZ7yzNDnWV9zv1TlUOvszh4WH2AlkwzekCxTYi
- J9zQ==
+ bh=fOou7mK0Qu+I/f018YEWl9EP2eVxzfmaBKE/XryaKjY=;
+ b=G+K8eXpA50NShrNQc4lccUPRZhDp0mYelupp0t2TfGcuHpg/qrFsf6+l4mJd5N04GB
+ qbH15GnH0Cldt4kK2GhqR8PA2Dpz8qaIFWcTzhDF8YLADgvoRYmdK4mBSXvx3cSgFJue
+ d+POD7QD/Ptnxpo5nBnIG2v+LUOP/QJLTNGaha4WAwvvkQ+Rfxi62nF0DDWDozYfVyWh
+ ydvPsESRVD3C4WgonbwndEmEwOimENEdtvrjTwfiifwfZiGRT2sbyAkhaLhBM9cYnw83
+ 56Cpgg1zVlwBU29CKt/amEKwtVd6zFCJXy2YGz+NKcRE6z2/T2EJFgGreY9/KZwu8+qE
+ C84A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yFuZpM48mzNWDi1/O1LkUT35WuH/+Ad0bs1eLP76xjw=;
- b=bN74nvVvPkO5Ms2YA8UtIzcBXawb9d/p6YTQevJOkGDN/4EHp9DtyL0K8k06l4/6Gq
- oVJq47bzYZ+DKmeaiN2IGmiYeo+ACNZhQW5C+eqZqBNSZb837rCgryivJjPPF2QLS7uU
- o1qwy7ooX3LZxhPPXtckPW+62azZ3HN9fJjRaksOMA3Kmnfi1KZ83uCSTGY2Bjd3wFLq
- JoHSj0Ow/EAQpMQ6bPjBIJTcqVVX2yr9CZbXywF22NUJN+MZucPnBO/Cp2H+OO5uHBrP
- lnMEbVNJYCyA+/tVC51spq3JnqXuF8JuNoYlk2ZunfpkzL58ef/ZxhXTeljsi3EXASzZ
- 8lLg==
-X-Gm-Message-State: AOAM533ZK4ep5nTXoqqMDYTdu0l1aJBfTgtB44tsnB17wLP3C0MN0akh
- X4FOpKAWK0DkH8iHmCD8HPQ=
-X-Google-Smtp-Source: ABdhPJzympze9tyI6snkyWlCdfjmFbZCPUnQfJl2h34rcd2QwgUzg4LF92mQVV6Y40WN7i9rDWK6xw==
-X-Received: by 2002:a50:9d4f:: with SMTP id j15mr9833060edk.69.1607121640667; 
- Fri, 04 Dec 2020 14:40:40 -0800 (PST)
+ bh=fOou7mK0Qu+I/f018YEWl9EP2eVxzfmaBKE/XryaKjY=;
+ b=ry9nuacKl7MQB9Ik31ZRpCsQTZhCV3uIVh5b+QpASua71zjs4WURgxCZRiA8hQ2Kal
+ WTyQIjgwBOTAzxqKHFI5Bhovh8Lyk2LVjdsVjH3kDeShAC/0FtxG+niIAUseXcFgaNt6
+ YyLqBbOu5H+aeRckTaooN7mOPHEwNWJndmzfNoPDkYTPSxGBlyPdh08+M3j3dk16c4gN
+ wche0zJldZIPehSJEgI1AV4xKf3atObDexR+FJdGSQUgN1mEzpSnNC7OtLutTc5MPaj5
+ f7mHJNWMaO1lRskaOKFrjJrDbg/y6VM1BUFqirKhrxX3pmtThevRitwpfb945mh1Dy/P
+ 6oZg==
+X-Gm-Message-State: AOAM53286ItoKRSslIMf6xdycbwbrU+g0QbZgswNrkHOvlOm+BPpweHv
+ iq/aEEjAstx/bboLfzTqqT4=
+X-Google-Smtp-Source: ABdhPJyCtMG2T2tN8qF3DYlnpL+hWgn7L0rkCPDCteBfBJDnp1X+8kPOuQUECEjgruurm/Oro+8kGQ==
+X-Received: by 2002:aa7:d354:: with SMTP id m20mr9567371edr.195.1607122431282; 
+ Fri, 04 Dec 2020 14:53:51 -0800 (PST)
 Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id q23sm4168605edt.32.2020.12.04.14.40.39
+ by smtp.gmail.com with ESMTPSA id qh23sm3761184ejb.71.2020.12.04.14.53.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Dec 2020 14:40:39 -0800 (PST)
-Subject: Re: [PATCH 6/9] target/mips: Alias MSA vector registers on FPU scalar
- registers
+ Fri, 04 Dec 2020 14:53:50 -0800 (PST)
+Subject: Re: [PATCH 9/9] target/mips: Explode gen_msa_branch() as
+ gen_msa_BxZ_V/BxZ()
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20201202184415.1434484-1-f4bug@amsat.org>
- <20201202184415.1434484-7-f4bug@amsat.org>
- <ac68e51c-650a-55df-c050-c22a1df355b5@linaro.org>
+ <20201202184415.1434484-10-f4bug@amsat.org>
+ <42cae1ae-46aa-1207-dac7-1076b3422a7f@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f528a49d-2476-8e8f-e6e8-afc115864b1b@amsat.org>
-Date: Fri, 4 Dec 2020 23:40:38 +0100
+Message-ID: <c314aed2-9f39-89f7-c4f7-6b3e7c094996@amsat.org>
+Date: Fri, 4 Dec 2020 23:53:49 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <ac68e51c-650a-55df-c050-c22a1df355b5@linaro.org>
+In-Reply-To: <42cae1ae-46aa-1207-dac7-1076b3422a7f@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,41 +98,48 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/4/20 5:28 PM, Richard Henderson wrote:
+On 12/4/20 6:04 PM, Richard Henderson wrote:
 > On 12/2/20 12:44 PM, Philippe Mathieu-Daudé wrote:
->> Commits 863f264d10f ("add msa_reset(), global msa register") and
->> cb269f273fd ("fix multiple TCG registers covering same data")
->> removed the FPU scalar registers and replaced them by aliases to
->> the MSA vector registers.
->> While this might be the case for CPU implementing MSA, this makes
->> QEMU code incoherent for CPU not implementing it. It is simpler
->> to inverse the logic and alias the MSA vector registers on the
->> FPU scalar ones.
+>> +static bool gen_msa_BxZ(DisasContext *ctx, int df, int wt, int s16, bool if_not)
+>> +{
+>> +    check_msa_access(ctx);
+>> +
+>> +    if (ctx->hflags & MIPS_HFLAG_BMASK) {
+>> +        generate_exception_end(ctx, EXCP_RI);
+>> +        return true;
+>> +    }
+>> +
+>> +    gen_check_zero_element(bcond, df, wt);
+>> +    if (if_not) {
+>> +        tcg_gen_setcondi_tl(TCG_COND_EQ, bcond, bcond, 0);
+>> +    }
 > 
-> How does it make things incoherent?  I'm missing how the logic has actually
-> changed, as opposed to an order of assignments.
+> Since gen_check_zero_element already produces a boolean, this is better as
+> 
+>   tcg_gen_xori_tl(bcond, bcond, if_not);
+> 
+> where tcg_gen_xori_tl already contains the if.
 
-I guess my wording isn't clear.
+Ah, got it.
 
-By "incoherent" I want to say it is odd to disable MSA and have
-FPU registers displayed with MSA register names, instead of their
-proper FPU names.
+> 
+>>      case OPC_BNZ_D:
+>> -        gen_check_zero_element(bcond, df, wt);
+>> -        tcg_gen_setcondi_tl(TCG_COND_EQ, bcond, bcond, 0);
+>> +        gen_msa_BxZ(ctx, df, wt, s16, true);
+> 
+> ... oops, that'd be for a follow-up patch, to make this patch just code movement.
 
-The MIPS ISA represents the ASE as onion rings that extend an ISA.
-I'd like to model it that way, have ASE optional (and that we can
-even not compile).
-You can have CPU without FPU, CPU with FPU, CPU with MSA (you
-implicitly have a FPU). If FPU depends on MSA, we can not take the
-MSA implementation out of the equation.
+Yes, will follow. I'm tempted to inline gen_check_zero_element (actually
+move gen_msa_BxZ as gen_check_zero_element prologue/epilogue). Not sure
+gen_check_zero_element() can be reused later though.
 
-Back to the patch, instead of aliasing FPU registers to the MSA ones
-(even when MSA is absent), we now alias the MSA ones to the FPU ones
-(only when MSA is present). This is what I call the "inverted logic".
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-BTW the point of this change is simply to be able to extract the MSA
-code out of the huge translate.c.
+Thanks!
 
-Regards,
-
-Phil.
+> 
+> r~
+> 
 
