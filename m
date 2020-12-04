@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4592CF533
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 20:59:55 +0100 (CET)
-Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663612CF4EC
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 20:38:36 +0100 (CET)
+Received: from localhost ([::1]:50390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klHFC-00053B-RN
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 14:59:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37158)
+	id 1klGuZ-0003Do-9h
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 14:38:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1klEcd-0007RY-8y
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:11:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55850)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1klEbJ-0006hs-Dm
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:11:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607101800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rzMpVxE6jKylmPaHhPhHcFYH8sDW2xyDJxQ4TH6w1aI=;
- b=GyxCpormajtXwA+LqCleI972MUw2v7A0OD59fk1Ac9fPBCA9XlVojI1cgonN6MvHcJ0S+q
- rNWtYxeOij1DOpxIcvqhCH3L1rIc4Crbve6ESEjGS6mW41JlhQV7+xjs4PEHJPt+353dJO
- a1iIQ08oMda49PfnZzesvfzSejJCCN0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-82-ABI57hbuP3SLwDFI23Hkqw-1; Fri, 04 Dec 2020 12:09:54 -0500
-X-MC-Unique: ABI57hbuP3SLwDFI23Hkqw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF8211922020;
- Fri,  4 Dec 2020 17:09:53 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3DCD63BA7;
- Fri,  4 Dec 2020 17:09:52 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/8] tests/acpi: update expected files
-Date: Fri,  4 Dec 2020 12:09:37 -0500
-Message-Id: <20201204170939.1815522-7-imammedo@redhat.com>
-In-Reply-To: <20201204170939.1815522-1-imammedo@redhat.com>
-References: <20201204170939.1815522-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1klEdH-0007YW-Ei
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:12:37 -0500
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:36028)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1klEbc-0006lS-D7
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:12:13 -0500
+Received: by mail-oi1-x22e.google.com with SMTP id x16so6920241oic.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 09:10:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7W/tyy/845wO9IwOfj4WyncDe7nxDA17WQrzXbrEXxg=;
+ b=HCzLuzIff9JyIg5GZUnQelravulSMjRBrgcHlwzurTE7CQTYX6VFjnkTHArWH834U2
+ FJdl3JcWgupyL0i6MVgrq9fXCS+IOvBgOS8evXU5f4ZvJAHDmhY6U3Gx7RLJt4AsBC5l
+ +Y+1WKT/YJKdfWKfpFiZ8G7p42r5zOKKSFgTqEJc8TAY8m1omLl9C8YwgVp6po2dckRB
+ CblJ96CD+hzFdeDFgYCUIAOrFJphAu9JzXxg0q26Pl9esAAhVl7yE/Jp97pE1jx6UG11
+ FYl/dTY5IbvqjM51XRrCvNoerkIeqhjUdN1qZzpzChGhOTQTF1cv9nAJyefL/RpcN1nT
+ Vn4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7W/tyy/845wO9IwOfj4WyncDe7nxDA17WQrzXbrEXxg=;
+ b=oQphWBHu79JkN/zi/CysGPYj6fOEmDcR8kPCaRp4zIllUm5p6eSznKOm4l9mon55xa
+ omfkh7AMbOwYlVsheuFICr5nIKuJoPSfcyriC1EHfTXl4p+EMbDMim3KsYn2Uf8aRo4L
+ J47DjTcQYxNVReyIOSL/Z76mF2SkA/MZCJ2K5baj5iMTSs5DYn4pOj9HepFBJu6VwctB
+ pO7X5sU5+dXtyKdJOtiS/JuoqcQiIjJ7IBVkxUW398T8W9BdNPsnKUrdFqNn571nKmHa
+ aThgCg+pXlPz1e6DpUFqxepnP4WGEj+fMFbNUMK7CDN1KGujbUiTadR+Q+BqQAi2kbO0
+ H0Bg==
+X-Gm-Message-State: AOAM531V1DC6NSWUT/yRwUhtOxbweqSQdpFN/Wj5kvaMbGk99r16F0jT
+ dkPbE6HFJAhgHlT3JmOJmfbkAUrzGilb/dU7r7rT5w==
+X-Google-Smtp-Source: ABdhPJxQpIorAjh5D5tK467V57yK2x52+TMxqKvrL19Kfb6K/K289j3KeygDiuHy6vhMKtJk6Jp6hN9NKJA7Zp+yBac=
+X-Received: by 2002:aca:383:: with SMTP id 125mr3826682oid.122.1607101812392; 
+ Fri, 04 Dec 2020 09:10:12 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201118083044.13992-1-frank.chang@sifive.com>
+ <20201118083044.13992-9-frank.chang@sifive.com>
+ <299ed3c1-fcb1-aa34-a595-5f86b8466d18@linaro.org>
+ <bbcbfa1c-b34d-147e-a100-cbc998512fe3@linaro.org>
+In-Reply-To: <bbcbfa1c-b34d-147e-a100-cbc998512fe3@linaro.org>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Sat, 5 Dec 2020 01:10:00 +0800
+Message-ID: <CAE_xrPi3YoUyKXvxDhdsTJkE7G__yRvfSpEHmEXj9GPKb4dQ-g@mail.gmail.com>
+Subject: Re: [RFC 08/15] target/riscv: rvb: single-bit instructions
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000a5648205b5a68cb0"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=frank.chang@sifive.com; helo=mail-oi1-x22e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,295 +79,344 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lersek@redhat.com, ankur.a.arora@oracle.com, mst@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h |  21 --------------------
- tests/data/acpi/pc/DSDT                     | Bin 5060 -> 5067 bytes
- tests/data/acpi/pc/DSDT.acpihmat            | Bin 6385 -> 6392 bytes
- tests/data/acpi/pc/DSDT.bridge              | Bin 6919 -> 6926 bytes
- tests/data/acpi/pc/DSDT.cphp                | Bin 5524 -> 5531 bytes
- tests/data/acpi/pc/DSDT.dimmpxm             | Bin 6714 -> 6721 bytes
- tests/data/acpi/pc/DSDT.hpbridge            | Bin 5021 -> 5028 bytes
- tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3079 -> 3086 bytes
- tests/data/acpi/pc/DSDT.ipmikcs             | Bin 5132 -> 5139 bytes
- tests/data/acpi/pc/DSDT.memhp               | Bin 6419 -> 6426 bytes
- tests/data/acpi/pc/DSDT.numamem             | Bin 5066 -> 5073 bytes
- tests/data/acpi/pc/DSDT.roothp              | Bin 5256 -> 5263 bytes
- tests/data/acpi/q35/DSDT                    | Bin 7796 -> 7803 bytes
- tests/data/acpi/q35/DSDT.acpihmat           | Bin 9121 -> 9128 bytes
- tests/data/acpi/q35/DSDT.bridge             | Bin 7814 -> 7821 bytes
- tests/data/acpi/q35/DSDT.cphp               | Bin 8260 -> 8267 bytes
- tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9450 -> 9457 bytes
- tests/data/acpi/q35/DSDT.ipmibt             | Bin 7871 -> 7878 bytes
- tests/data/acpi/q35/DSDT.memhp              | Bin 9155 -> 9162 bytes
- tests/data/acpi/q35/DSDT.mmio64             | Bin 8927 -> 8934 bytes
- tests/data/acpi/q35/DSDT.numamem            | Bin 7802 -> 7809 bytes
- tests/data/acpi/q35/DSDT.tis                | Bin 8402 -> 8409 bytes
- 22 files changed, 21 deletions(-)
+--000000000000a5648205b5a68cb0
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index cc75f3fc46..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,22 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/pc/DSDT",
--"tests/data/acpi/q35/DSDT",
--"tests/data/acpi/q35/DSDT.tis",
--"tests/data/acpi/q35/DSDT.bridge",
--"tests/data/acpi/q35/DSDT.mmio64",
--"tests/data/acpi/q35/DSDT.ipmibt",
--"tests/data/acpi/q35/DSDT.cphp",
--"tests/data/acpi/q35/DSDT.memhp",
--"tests/data/acpi/q35/DSDT.numamem",
--"tests/data/acpi/q35/DSDT.dimmpxm",
--"tests/data/acpi/q35/DSDT.acpihmat",
--"tests/data/acpi/pc/DSDT.bridge",
--"tests/data/acpi/pc/DSDT.ipmikcs",
--"tests/data/acpi/pc/DSDT.cphp",
--"tests/data/acpi/pc/DSDT.memhp",
--"tests/data/acpi/pc/DSDT.numamem",
--"tests/data/acpi/pc/DSDT.dimmpxm",
--"tests/data/acpi/pc/DSDT.acpihmat",
--"tests/data/acpi/pc/DSDT.roothp",
--"tests/data/acpi/pc/DSDT.hpbridge",
--"tests/data/acpi/pc/DSDT.hpbrroot",
-diff --git a/tests/data/acpi/pc/DSDT b/tests/data/acpi/pc/DSDT
-index 4ca46e5a2bdb1dfab79dd8630aeeb9a386d8b30e..295819caa4a1bfafb7834b19649dac7e44d22839 100644
-GIT binary patch
-delta 76
-zcmX@2ep;Q&CD<k8v@in$<MNGMTi7@q?c;-;;-j0qCLd>uQ`HIx3J!5(P;d@#^<#AQ
-d^b2Nm4)P6SbawSJU}OMMZj1~}o1NJkc>q|H6axSN
+On Fri, Nov 20, 2020 at 5:04 AM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-delta 69
-zcmX@Deng$iCD<k8h%f^K<C%?ITi7_g?Bau+;-j0KCm&~vlT!`|3J!5(P;d@#^<#AQ
-Z^b2Nm4)P6SbawSJU}Rv~?8V;50|3}=69WJM
+> On 11/19/20 12:35 PM, Richard Henderson wrote:
+> > On 11/18/20 12:29 AM, frank.chang@sifive.com wrote:
+> >> +static bool trans_sbset(DisasContext *ctx, arg_sbset *a)
+> >> +{
+> >> +    REQUIRE_EXT(ctx, RVB);
+> >> +    return gen_arith(ctx, a, &gen_sbset);
+> >> +}
+> >> +
+> >> +static bool trans_sbseti(DisasContext *ctx, arg_sbseti *a)
+> >> +{
+> >> +    REQUIRE_EXT(ctx, RVB);
+> >> +    return gen_arith_shamt_tl(ctx, a, &gen_sbset);
+> >> +}
+> >> +
+> >> +static bool trans_sbclr(DisasContext *ctx, arg_sbclr *a)
+> >> +{
+> >> +    REQUIRE_EXT(ctx, RVB);
+> >> +    return gen_arith(ctx, a, &gen_sbclr);
+> >> +}
+> >
+> > Coming back to my re-use of code thing, these should use gen_shift.  That
+> > handles the truncate of source2 to the shift amount.
+> >
+> >> +static bool trans_sbclri(DisasContext *ctx, arg_sbclri *a)
+> >> +{
+> >> +    REQUIRE_EXT(ctx, RVB);
+> >> +    return gen_arith_shamt_tl(ctx, a, &gen_sbclr);
+> >> +}
+> >> +
+> >> +static bool trans_sbinv(DisasContext *ctx, arg_sbinv *a)
+> >> +{
+> >> +    REQUIRE_EXT(ctx, RVB);
+> >> +    return gen_arith(ctx, a, &gen_sbinv);
+> >> +}
+> >> +
+> >> +static bool trans_sbinvi(DisasContext *ctx, arg_sbinvi *a)
+> >> +{
+> >> +    REQUIRE_EXT(ctx, RVB);
+> >> +    return gen_arith_shamt_tl(ctx, a, &gen_sbinv);
+> >> +}
+> >
+> > I think there ought to be a gen_shifti for these.
+>
+> Hmm.  I just realized that gen_shifti would have a generator callback with
+> a
+> constant argument, a-la tcg_gen_shli_tl.
+>
+> I don't know if it's worth duplicating gen_sbclr et al for a constant
+> argument.
+>  And the sloi/sroi insns besides.  Perhaps a gen_shifti_var helper instead?
+>
+> Let me know what you think, but at the moment we're left with an
+> incoherent set
+> of helpers that seem split along lines that are less than ideal.
+>
+>
+> r~
+>
 
-diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
-index 35a74bce8cc152ecb615cb38c4b7f63c7c7d3ab3..0354a205657efce4957933b9da84bc599282a344 100644
-GIT binary patch
-delta 76
-zcmexp_`{IPCD<k8hXexyW6DOZEo__)uJOT6@zG6QlaI5-scHoT1&25?C^!eW`Y}3t
-d`UNvO2l<9EI=gxqFfxEBH%11g&CcxW1Oayf6qf)1
+Thanks Richard and sorry for the late reply.....
 
-delta 69
-zcmexi_|cHdCD<k8qXYv3W9LS$Eo_{gF7d%m@zG7rlaI5-$tec}1&25?C^!eW`Y}3t
-Z`UNvO2l<9EI=gxqFfy=g_F`Wr2mtgh6PEx0
+If we can have gen_shift(), gen_shifti(), gen_shiftw() and gen_shiftiw(),
+then we can eliminate the needs of:
+gen_arith_shamt_tl(), gen_sbop_shamt(), gen_sbopw_shamt()
+and gen_sbopw_common()
+and most of the *w version generators can be removed, too.
 
-diff --git a/tests/data/acpi/pc/DSDT.bridge b/tests/data/acpi/pc/DSDT.bridge
-index 803d7a8e839ea8b7ac33c4490459ddaede584269..7bdcb830b5f6bd5f4aca0528ae3dcca4e429c6fb 100644
-GIT binary patch
-delta 76
-zcmZoS>oenW33dtLlV)IGe7})v3md1SeSEM}d~}o7<l}5{s#*a-!6A+e3eEwpevHnZ
-de!+~+LB3&(&aPetj0_;kjgf(Avore<VE`Z)6NCT&
+For *w version, we just need to call gen_shiftw() or gen_shiftiw()
+with the reused non-*w version generator.
+For example:
 
-delta 69
-zcmeA(Yd7O^33dr#mu6sK6xqnNg^kn8E<V^PKDx<y@^Q8}Ipu($;1EX!1?K=)KSpOy
-YzhFk^Am1=XXIC!+Mh2G6UhGGN0d8>-ga7~l
+  static bool trans_sbclrw(DisasContext *ctx, arg_sbclrw *a)
+  {
+      REQUIRE_EXT(ctx, RVB);
+      return gen_shiftw(ctx, a, &gen_sbclr);
+  }
 
-diff --git a/tests/data/acpi/pc/DSDT.cphp b/tests/data/acpi/pc/DSDT.cphp
-index 8bab2f506409f2b025a63d8b91c7bfdaa931e626..d62a3a3e39801348b9d590343355678c38e520f7 100644
-GIT binary patch
-delta 76
-zcmbQDJzJa0CD<iowkQJwBlkwGEo_{QG4a7p@zG6QlaI5-scHoT1&25?C^!eW`Y}3t
-d`UNvO2l<9EI=gxqFfxEBH%11g&CcwBd;k*763_qu
+  static bool trans_sbclriw(DisasContext *ctx, arg_sbclriw *a)
+  {
+      REQUIRE_EXT(ctx, RVB);
+      return gen_shiftiw(ctx, a, &gen_sbclr);
+  }
 
-delta 69
-zcmbQOJw=<#CD<ioiYNmEqrpb5Eo_`#(ec4f@zG7rlaI5-$tec}1&25?C^!eW`Y}3t
-Z`UNvO2l<9EI=gxqFfy=g_F@m@0|1%I5zqht
+both of which can reuse gen_sbclr() generator:
 
-diff --git a/tests/data/acpi/pc/DSDT.dimmpxm b/tests/data/acpi/pc/DSDT.dimmpxm
-index e015b4594c96a6e0f34c0668e3383b9a91dff38e..9458d9a96aca5633cd5369f8daa4db8a2ce63b55 100644
-GIT binary patch
-delta 76
-zcmdmGa?pg!CD<jzQHp_q@##jcEo_`#0rA03@zG6QlaI5-scHoT1&25?C^!eW`Y}3t
-d`UNvO2l<9EI=gxqFfxEBH%11g&CcxKg#b-~6j}fP
+  static void gen_sbclr(TCGv ret, TCGv arg1, TCGv shamt)
+  {
+      TCGv t = tcg_temp_new();
+      tcg_gen_movi_tl(t, 1);
+      tcg_gen_shl_tl(t, t, shamt);
+      tcg_gen_andc_tl(ret, arg1, t);
+      tcg_temp_free(t);
+  }
 
-delta 69
-zcmX?Tvde_aCD<jzN{WGjQF0^K7B)`jfcRji_~<6*$;a8^<dg$~f<qh`6r2NG{TQ7+
-Z{el^tgM7mnon5^Q7#UbLd$E5P0sxn{5?TNN
+The gen_shift*() I have now are as follow:
 
-diff --git a/tests/data/acpi/pc/DSDT.hpbridge b/tests/data/acpi/pc/DSDT.hpbridge
-index 56032bcf1ba4e251f16c9028429826090531efdd..34dcfeed22bc1fb3a611b866c13232b969a982a9 100644
-GIT binary patch
-delta 76
-zcmbQMzC@kNCD<ioi7*2L<AaS{Ti7@q?c;-;;-j0qCLd>uQ`HIx3J!5(P;d@#^<#AQ
-d^b2Nm4)P6SbawSJU}OMMZj1~}o1NLCcmPEO6QBS9
+  static bool gen_shift(DisasContext *ctx, arg_r *a,
+                          void(*func)(TCGv, TCGv, TCGv))
+  {
+      TCGv source1 = tcg_temp_new();
+      TCGv source2 = tcg_temp_new();
 
-delta 69
-zcmZ3YK3AQ~CD<iot}p`wBkM-4Eo_`#cJaYZ@zG7rlaI5-$tec}1&25?C^!eW`Y}3t
-Z`UNvO2l<9EI=gxqFfy=g_F|9X0RWGK5ugA7
+      gen_get_gpr(source1, a->rs1);
+      gen_get_gpr(source2, a->rs2);
 
-diff --git a/tests/data/acpi/pc/DSDT.hpbrroot b/tests/data/acpi/pc/DSDT.hpbrroot
-index 36b0a8f2fbf93df47b66107125cd3ce01e017b92..09949201424ee98994ae650b9b76171dba6cb5cd 100644
-GIT binary patch
-delta 53
-zcmZpd=#$`b33dtL<6&T6?AXYq&Bp0yA0O-#AKm0N*^VuaQET#CHW>~^XIC#bMh2$M
-IyV!hL0ag?YtN;K2
+      tcg_gen_andi_tl(source2, source2, TARGET_LONG_BITS - 1);
+      (*func)(source1, source1, source2);
 
-delta 46
-zcmeB^XqVt}33dr#=V4%AT)UA=n~l@UE<V^PKDx<yvK?C-qw?grY%+{2n-8-2vH}1J
-Co(rr1
+      gen_set_gpr(a->rd, source1);
+      tcg_temp_free(source1);
+      tcg_temp_free(source2);
+      return true;
+  }
 
-diff --git a/tests/data/acpi/pc/DSDT.ipmikcs b/tests/data/acpi/pc/DSDT.ipmikcs
-index ca6630e39f60ebd5c056f57c4c03fdb9d5467577..60f4dde1e4d80d64eb8645218acee78daff45dc4 100644
-GIT binary patch
-delta 53
-zcmeCtn5@C&66_KpEW*IRXtj~+4;!bWeSEM}d~}o7WPbKIMy<(t>@pmT&aPf=j0{Yh
-IyV)Cg0BW`k7XSbN
+  static bool gen_shifti(DisasContext *ctx, arg_shift *a,
+                          void(*func)(TCGv, TCGv, TCGv))
+  {
+      TCGv source1 = tcg_temp_new();
+      TCGv source2 = tcg_temp_new();
 
-delta 46
-zcmbQN(WAlT66_MfBf`MI7{8J04;!bKU3{=pd~}oZWPbKIM&-$Q>@tijn<ue1@&EuE
-Ct_&9d
+     gen_get_gpr(source1, a->rs1);
+     tcg_gen_movi_tl(source2, a->shamt);
 
-diff --git a/tests/data/acpi/pc/DSDT.memhp b/tests/data/acpi/pc/DSDT.memhp
-index 43f4e114e2cc48c68c35af47303fa87c9255db40..4302ff996f74bf6a3615b7a8885c6ef21bc318d6 100644
-GIT binary patch
-delta 76
-zcmbPiG|Py~CD<iIN|J$rv2!EW7B)_I`}km|_~<6D$;a8^RJ8(vf<qh`6r2NG{TQ7+
-d{el^tgM7mnon5^Q7#Tp68zTeLW@q*bf&dUA6G#96
+      tcg_gen_andi_tl(source2, source2, TARGET_LONG_BITS - 1);
+      (*func)(source1, source1, source2);
 
-delta 69
-zcmbPbG}(yDCD<iISdxK(aqmX1Eo__)_VK|^@zG7rlaI5-$tec}1&25?C^!eW`Y}3t
-Z`UNvO2l<9EI=gxqFfy=g_F}&v2mqJ95=a05
+      gen_set_gpr(a->rd, source1);
+      tcg_temp_free(source1);
+      tcg_temp_free(source2);
+      return true;
+  }
 
-diff --git a/tests/data/acpi/pc/DSDT.numamem b/tests/data/acpi/pc/DSDT.numamem
-index ba8f7e6c33f9eb0f7a080144fcb4a27d36aa04ae..b615c14a5e0f63e36f3d75eadf9d46e4dcea13d3 100644
-GIT binary patch
-delta 76
-zcmX@5eo>vvCD<k8qA&vkqtiyNEo_|b_VK|^@zG6QlaI5-scHoT1&25?C^!eW`Y}3t
-d`UNvO2l<9EI=gxqFfxEBH%11g&CcxYJOD<J6TAQb
+  static bool gen_shiftw(DisasContext *ctx, arg_r *a,
+                          void(*func)(TCGv, TCGv, TCGv))
+  {
+      TCGv source1 = tcg_temp_new();
+      TCGv source2 = tcg_temp_new();
 
-delta 69
-zcmcbpeoCFoCD<k8lrRGWW7$ToEo__)_VK|^@zG7rlaI5-$tec}1&25?C^!eW`Y}3t
-Z`UNvO2l<9EI=gxqFfy=g_F`}60RYI}61)Ha
+      gen_get_gpr(source1, a->rs1);
+      gen_get_gpr(source2, a->rs2);
 
-diff --git a/tests/data/acpi/pc/DSDT.roothp b/tests/data/acpi/pc/DSDT.roothp
-index 18caa0765fc10adb29e01717390ead6c63cd0f3c..10a5bab1968dbf4ee844d7bcfc3876b58fdf54af 100644
-GIT binary patch
-delta 76
-zcmeCs?APRS33dtT7hzyvJiC!=3md1SeSEM}d~}o7<l}5{s#*a-!6A+e3eEwpevHnZ
-de!+~+LB3&(&aPetj0_;kjgf(AvopIZF90v!6F&d|
+      tcg_gen_andi_tl(source2, source2, 31);
+      (*func)(source1, source1, source2);
+      tcg_gen_ext32s_tl(source1, source1);
 
-delta 69
-zcmeCz?9k+L33dtT5Mf|o{Irp43md1GU3{=pd~}oZ<l}5{a>@Zg!6A+e3eEwpevHnZ
-Ye!+~+LB3&(&aPetj0`NBz1UrO0ke1#KL7v#
+      gen_set_gpr(a->rd, source1);
+      tcg_temp_free(source1);
+      tcg_temp_free(source2);
+      return true;
+  }
 
-diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
-index e7414e78563372fca4d2aab9d16c58c0ff8468f4..931afc6f626a022d368011c412f36211d1d34031 100644
-GIT binary patch
-delta 76
-zcmexj^V^2YCD<jTT8@E%@$W{i2@;%+_VK|^@zG6QlNU?GscHoT1&25?C^!eW`Y}3t
-d`UNvO2l<9EI=gxqFfxEBH%11g&GM3=tN?pc6g2<<
+  static bool gen_shiftiw(DisasContext *ctx, arg_shift *a,
+                          void(*func)(TCGv, TCGv, TCGv))
+  {
+      TCGv source1 = tcg_temp_new();
+      TCGv source2 = tcg_temp_new();
 
-delta 69
-zcmexu^TmeCCD<jTM2>-hQE4OB1PM+ryZB(I_~<6*$%`f8<dg$~f<qh`6r2NG{TQ7+
-Z{el^tgM7mnon5^Q7#UbLt4W5k0sz455;Xt-
+     gen_get_gpr(source1, a->rs1);
+     tcg_gen_movi_tl(source2, a->shamt);
 
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-index 88434da261212b15264c892976775acd5c954aea..f884ede4efbf07dddd0049b9118679d049159bdc 100644
-GIT binary patch
-delta 76
-zcmZ4JzQUc$CD<iog)##J<F1Wd6C^ktT;qeC;-j0qCNGwVQ`HIx3J!5(P;d@#^<#AQ
-d^b2Nm4)P6SbawSJU}OMMZj1~}o8={&xByR86UzVq
+     tcg_gen_andi_tl(source2, source2, 31);
+     (*func)(source1, source1, source2);
+     tcg_gen_ext32s_tl(source1, source1);
 
-delta 69
-zcmZ4CzR;b^CD<iop)vyl<Nb|X6C^l2UE+hC;-j0KCoh(WlT!`|3J!5(P;d@#^<#AQ
-Z^b2Nm4)P6SbawSJU}Rv~tR~sS1pv@863YMp
+      gen_set_gpr(a->rd, source1);
+      tcg_temp_free(source1);
+      tcg_temp_free(source2);
+      return true;
+  }
 
-diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
-index 118476ff6101e11d6b1f2d3399241d7fd1a6f634..d1ce6d9065318cd71edec489ed124c1eb22fd9b0 100644
-GIT binary patch
-delta 76
-zcmZp(?X~4{33dtTm1AIFoVJl`f&{0deSEM}d~}o7<i!$ks#*a-!6A+e3eEwpevHnZ
-de!+~+LB3&(&aPetj0_;kjgf(Av%F+FD*z{36Bqyh
+They may be further merged as most of them are duplicate with only the
+differences of:
+gen_get_gpr(source2, a->rs2); vs. tcg_gen_movi_tl(source2, a->shamt);
+TARGET_LONG_BITS - 1 vs. 31, and
+tcg_gen_ext32s_tl(); to sign-extend the 32-bit return value for *w
+instructions
 
-delta 69
-zcmeCRZL{Ta33dr-lVf0D+`W-&f&{0RU3{=pd~}oZ<i!$ka>@Zg!6A+e3eEwpevHnZ
-Ye!+~+LB3&(&aPetj0`NB)g;qd0jxa|7ytkO
+Any thoughts?
 
-diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
-index 69c5edf620529e995461ccba63b76a083f25b2b6..f5b411a54bb6942f59ed016d43c4c28a7f99eb6b 100644
-GIT binary patch
-delta 76
-zcmX@&aN2>(CD<jzTY-UrF>xc;1PM;ZnD}6)_~<6D$%`f8RJ8(vf<qh`6r2NG{TQ7+
-d{el^tgM7mnon5^Q7#Tp68zTeLW_d|fb^tYu69NDL
+Frank Chang
 
-delta 69
-zcmX@@aKwSjCD<jzMS+2Vv27#Q1PM;B==fl#_~<6*$%`f8<dg$~f<qh`6r2NG{TQ7+
-Z{el^tgM7mnon5^Q7#UbLt4XS|0|2>55&{4K
+--000000000000a5648205b5a68cb0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
-index af41acba6e0117191ad8495a30ded7b0acc4d2ca..4bb12250f9dcdb34b2c2801186746a3693398cea 100644
-GIT binary patch
-delta 76
-zcmaFm`O%ZhCD<k8qY489qufTW2@;%M0rA03@zG6QlNU?GscHoT1&25?C^!eW`Y}3t
-d`UNvO2l<9EI=gxqFfxEBH%11g&GM3`xdCnX6m9?j
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Nov 20, 2020 at 5:04 AM Richard H=
+enderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hender=
+son@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On 11/19/20 12:35 PM, Richard Hend=
+erson wrote:<br>
+&gt; On 11/18/20 12:29 AM, <a href=3D"mailto:frank.chang@sifive.com" target=
+=3D"_blank">frank.chang@sifive.com</a> wrote:<br>
+&gt;&gt; +static bool trans_sbset(DisasContext *ctx, arg_sbset *a)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
+&gt;&gt; +=C2=A0 =C2=A0 return gen_arith(ctx, a, &amp;gen_sbset);<br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt; +static bool trans_sbseti(DisasContext *ctx, arg_sbseti *a)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
+&gt;&gt; +=C2=A0 =C2=A0 return gen_arith_shamt_tl(ctx, a, &amp;gen_sbset);<=
+br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt; +static bool trans_sbclr(DisasContext *ctx, arg_sbclr *a)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
+&gt;&gt; +=C2=A0 =C2=A0 return gen_arith(ctx, a, &amp;gen_sbclr);<br>
+&gt;&gt; +}<br>
+&gt; <br>
+&gt; Coming back to my re-use of code thing, these should use gen_shift.=C2=
+=A0 That<br>
+&gt; handles the truncate of source2 to the shift amount.<br>
+&gt; <br>
+&gt;&gt; +static bool trans_sbclri(DisasContext *ctx, arg_sbclri *a)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
+&gt;&gt; +=C2=A0 =C2=A0 return gen_arith_shamt_tl(ctx, a, &amp;gen_sbclr);<=
+br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt; +static bool trans_sbinv(DisasContext *ctx, arg_sbinv *a)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
+&gt;&gt; +=C2=A0 =C2=A0 return gen_arith(ctx, a, &amp;gen_sbinv);<br>
+&gt;&gt; +}<br>
+&gt;&gt; +<br>
+&gt;&gt; +static bool trans_sbinvi(DisasContext *ctx, arg_sbinvi *a)<br>
+&gt;&gt; +{<br>
+&gt;&gt; +=C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>
+&gt;&gt; +=C2=A0 =C2=A0 return gen_arith_shamt_tl(ctx, a, &amp;gen_sbinv);<=
+br>
+&gt;&gt; +}<br>
+&gt; <br>
+&gt; I think there ought to be a gen_shifti for these.<br>
+<br>
+Hmm.=C2=A0 I just realized that gen_shifti would have a generator callback =
+with a<br>
+constant argument, a-la tcg_gen_shli_tl.<br>
+<br>
+I don&#39;t know if it&#39;s worth duplicating gen_sbclr et al for a consta=
+nt argument.<br>
+=C2=A0And the sloi/sroi insns besides.=C2=A0 Perhaps a gen_shifti_var helpe=
+r instead?<br>
+<br>
+Let me know what you think, but at the moment we&#39;re left with an incohe=
+rent set<br>
+of helpers that seem split along lines that are less than ideal.<br>
+<br>
+<br>
+r~<br></blockquote><div><br></div><div>Thanks Richard and sorry for the lat=
+e reply.....</div><div><br></div><div>If we can have gen_shift(), gen_shift=
+i(), gen_shiftw() and gen_shiftiw(),</div><div>then we can eliminate the ne=
+eds of:</div><div>gen_arith_shamt_tl(),=C2=A0gen_sbop_shamt(), gen_sbopw_sh=
+amt() and=C2=A0gen_sbopw_common()</div><div>and most of the *w version gene=
+rators can be removed, too.</div><div><br></div><div>For *w version, we jus=
+t need to call gen_shiftw() or gen_shiftiw()</div><div>with the reused=C2=
+=A0non-*w version=C2=A0generator.</div><div>For example:</div><div><br></di=
+v><div>=C2=A0 static bool trans_sbclrw(DisasContext *ctx, arg_sbclrw *a)<br=
+>=C2=A0 {<br>=C2=A0 =C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>=C2=A0 =C2=A0 =
+=C2=A0 return gen_shiftw(ctx, a, &amp;gen_sbclr);<br>=C2=A0 }<br><br>=C2=A0=
+ static bool trans_sbclriw(DisasContext *ctx, arg_sbclriw *a)<br>=C2=A0 {<b=
+r>=C2=A0 =C2=A0 =C2=A0 REQUIRE_EXT(ctx, RVB);<br>=C2=A0 =C2=A0 =C2=A0 retur=
+n gen_shiftiw(ctx, a, &amp;gen_sbclr);<br>=C2=A0 }<br></div><div><br></div>=
+<div>both of which can reuse gen_sbclr() generator:</div><div><br></div><di=
+v>=C2=A0 static void gen_sbclr(TCGv ret, TCGv arg1, TCGv shamt)<br>=C2=A0 {=
+<br>=C2=A0 =C2=A0 =C2=A0 TCGv t =3D tcg_temp_new();<br>=C2=A0 =C2=A0 =C2=A0=
+ tcg_gen_movi_tl(t, 1);<br>=C2=A0 =C2=A0 =C2=A0 tcg_gen_shl_tl(t, t, shamt)=
+;<br>=C2=A0 =C2=A0 =C2=A0 tcg_gen_andc_tl(ret, arg1, t);<br>=C2=A0 =C2=A0 =
+=C2=A0 tcg_temp_free(t);<br>=C2=A0 }<br></div><div><br></div><div>The gen_s=
+hift*() I have now are as follow:</div><div><br></div><div>=C2=A0 static bo=
+ol gen_shift(DisasContext *ctx, arg_r *a,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void(*func)(=
+TCGv, TCGv, TCGv))<br>=C2=A0 {<br>=C2=A0 =C2=A0 =C2=A0 TCGv source1 =3D tcg=
+_temp_new();<br>=C2=A0 =C2=A0 =C2=A0 TCGv source2 =3D tcg_temp_new();<br><b=
+r>=C2=A0 =C2=A0 =C2=A0 gen_get_gpr(source1, a-&gt;rs1);<br>=C2=A0 =C2=A0 =
+=C2=A0 gen_get_gpr(source2, a-&gt;rs2);<br><br>=C2=A0 =C2=A0 =C2=A0 tcg_gen=
+_andi_tl(source2, source2, TARGET_LONG_BITS - 1);<br>=C2=A0 =C2=A0 =C2=A0 (=
+*func)(source1, source1, source2);<br><br>=C2=A0 =C2=A0 =C2=A0 gen_set_gpr(=
+a-&gt;rd, source1);<br>=C2=A0 =C2=A0 =C2=A0 tcg_temp_free(source1);<br>=C2=
+=A0 =C2=A0 =C2=A0 tcg_temp_free(source2);<br>=C2=A0 =C2=A0 =C2=A0 return tr=
+ue;<br>=C2=A0 }<br><br>=C2=A0 static bool gen_shifti(DisasContext *ctx, arg=
+_shift *a,<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 void(*func)(TCGv, TCGv, TCGv))<br>=C2=A0 {<=
+br>=C2=A0 =C2=A0 =C2=A0 TCGv source1 =3D tcg_temp_new();<br>=C2=A0 =C2=A0 =
+=C2=A0 TCGv source2 =3D tcg_temp_new();<br><br>=C2=A0=C2=A0  =C2=A0 gen_get=
+_gpr(source1, a-&gt;rs1);<br>=C2=A0 =C2=A0=C2=A0  tcg_gen_movi_tl(source2, =
+a-&gt;shamt);<br><br>=C2=A0 =C2=A0 =C2=A0 tcg_gen_andi_tl(source2, source2,=
+ TARGET_LONG_BITS - 1);<br>=C2=A0 =C2=A0 =C2=A0 (*func)(source1, source1, s=
+ource2);<br><br>=C2=A0 =C2=A0 =C2=A0 gen_set_gpr(a-&gt;rd, source1);<br>=C2=
+=A0 =C2=A0 =C2=A0 tcg_temp_free(source1);<br>=C2=A0 =C2=A0 =C2=A0 tcg_temp_=
+free(source2);<br>=C2=A0 =C2=A0 =C2=A0 return true;<br>=C2=A0 }<br><br>=C2=
+=A0 static bool gen_shiftw(DisasContext *ctx, arg_r *a,<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 void(*func)(TCGv, TCGv, TCGv))<br>=C2=A0 {<br>=C2=A0 =C2=A0 =C2=A0 TCGv=
+ source1 =3D tcg_temp_new();<br>=C2=A0 =C2=A0 =C2=A0 TCGv source2 =3D tcg_t=
+emp_new();<br><br>=C2=A0 =C2=A0 =C2=A0 gen_get_gpr(source1, a-&gt;rs1);<br>=
+=C2=A0 =C2=A0 =C2=A0 gen_get_gpr(source2, a-&gt;rs2);<br><br>=C2=A0 =C2=A0 =
+=C2=A0 tcg_gen_andi_tl(source2, source2, 31);<br>=C2=A0 =C2=A0 =C2=A0 (*fun=
+c)(source1, source1, source2);<br>=C2=A0 =C2=A0 =C2=A0 tcg_gen_ext32s_tl(so=
+urce1, source1);<br><br>=C2=A0 =C2=A0 =C2=A0 gen_set_gpr(a-&gt;rd, source1)=
+;<br>=C2=A0 =C2=A0 =C2=A0 tcg_temp_free(source1);<br>=C2=A0 =C2=A0 =C2=A0 t=
+cg_temp_free(source2);<br>=C2=A0 =C2=A0 =C2=A0 return true;<br>=C2=A0 }<br>=
+<br>=C2=A0 static bool gen_shiftiw(DisasContext *ctx, arg_shift *a,<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 void(*func)(TCGv, TCGv, TCGv))<br>=C2=A0 {<br>=C2=A0 =C2=A0 =
+=C2=A0 TCGv source1 =3D tcg_temp_new();<br>=C2=A0 =C2=A0 =C2=A0 TCGv source=
+2 =3D tcg_temp_new();<br><br>=C2=A0 =C2=A0=C2=A0  gen_get_gpr(source1, a-&g=
+t;rs1);<br>=C2=A0=C2=A0  =C2=A0 tcg_gen_movi_tl(source2, a-&gt;shamt);<br><=
+br>=C2=A0 =C2=A0=C2=A0  tcg_gen_andi_tl(source2, source2, 31);<br>=C2=A0 =
+=C2=A0=C2=A0  (*func)(source1, source1, source2);<br>=C2=A0 =C2=A0 =C2=A0tc=
+g_gen_ext32s_tl(source1, source1);<br><br>=C2=A0 =C2=A0 =C2=A0 gen_set_gpr(=
+a-&gt;rd, source1);<br>=C2=A0 =C2=A0 =C2=A0 tcg_temp_free(source1);<br>=C2=
+=A0 =C2=A0 =C2=A0 tcg_temp_free(source2);<br>=C2=A0 =C2=A0 =C2=A0 return tr=
+ue;<br>=C2=A0 }<br></div><div><br></div><div>They may be further merged as =
+most of them are duplicate with only the differences of:</div><div>gen_get_=
+gpr(source2, a-&gt;rs2); vs.=C2=A0tcg_gen_movi_tl(source2, a-&gt;shamt);<br=
+></div><div>TARGET_LONG_BITS - 1 vs. 31, and</div><div>tcg_gen_ext32s_tl();=
+ to sign-extend the 32-bit return value for *w instructions</div><div><br><=
+/div><div>Any thoughts?</div><div><br></div><div>Frank Chang</div></div></d=
+iv>
 
-delta 69
-zcmez9`O1^aCD<k8l?np`W6(yf2@;&n0rA03@zG7rlNU?G$tec}1&25?C^!eW`Y}3t
-Z`UNvO2l<9EI=gxqFfy=gR+Bu<4FK%F6K((i
-
-diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
-index a650c3041ab9d6688eda843a6a2ab418e1a7ce9b..3ef8170d2a7004e3098af9e675a52174329c39ae 100644
-GIT binary patch
-delta 53
-zcmdmQd(4*0CD<k8m>dHGqv1xb+Y+3P_VK|^@zG6Qlix|iF=|crm6YLNbawS}V`O03
-JoFy5`3IMor4(k8_
-
-delta 46
-zcmX?RyWf_}CD<iozZ?StW7tNn+Y+2!cJaYZ@zG7rlix|iF)B~?m6Ty**<2_Y$_fBl
-C&<*PV
-
-diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
-index 85598ca3f68f437e8d5048e2cb9815f20b332152..7e68670cdef2f65083f0a2044eb86565f3da1f89 100644
-GIT binary patch
-delta 76
-zcmX@?e#)K8CD<k8lrjSY<AaS{6C^m@?c;-;;-j0qCNGwVQ`HIx3J!5(P;d@#^<#AQ
-e^b2Nm4)P6SbawSJU}OMMZj1~}o8={!Z~*{y-4uEN
-
-delta 69
-zcmX@*e%PJMCD<k8urdP!qsT_C2@;$R_VK|^@zG7rlNU?G$tec}1&25?C^!eW`Y}3t
-Z`UNvO2l<9EI=gxqFfy=gR+C)91pvG_5_$jt
-
-diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
-index 092fdc32628f5a145b510c2a46de8b02222b1951..462e3bd5b622b7da06b2eaf194cc55a07ce9f9f9 100644
-GIT binary patch
-delta 76
-zcmccb`plKfCD<k8nGyp7<J65@6C^m@?c;-;;-j0qCNGwVQ`HIx3J!5(P;d@#^<#AQ
-e^b2Nm4)P6SbawSJU}OMMZj1~}o8=`BZ~_2&JQSG#
-
-delta 69
-zcmaFndf%1HCD<k8z7hii<H?O&6C^kt?Bj!-;-j0KCoh(WlT!`|3J!5(P;d@#^<#AQ
-Z^b2Nm4)P6SbawSJU}Rv~tR{JY69D&n6PW-2
-
-diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
-index 899946255b9111e077e06c5f78be860e863911b9..1bfae7b803a971d47eeba3d943b83b9862f0c3cf 100644
-GIT binary patch
-delta 76
-zcmexm(`d`(66_MvD96CSIAbH%1PM-e`}km|_~<6D$%`f8RJ8(vf<qh`6r2NG{TQ7+
-d{el^tgM7mnon5^Q7#Tp68zTeLW_ihIRsckp6K?<j
-
-delta 69
-zcmZp){bj@D66_LECC9+PcxEHl1PM+D`}km|_~<6*$%`f8<dg$~f<qh`6r2NG{TQ7+
-Z{el^tgM7mnon5^Q7#UbLt4T()0szJ!5^n$i
-
-diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
-index 08802fbd12eae6ad99f03a8db9a0bc7f95e77cb4..24f390d3404640f4f2636bff54911e012f8c23c2 100644
-GIT binary patch
-delta 76
-zcmccQc+-)~CD<k8rUC;4<N1wT6C^kt?c;-;;-j0qCNGwVQ`HIx3J!5(P;d@#^<#AQ
-e^b2Nm4)P6SbawSJU}OMMZj1~}o8=`pvjYHm0~Cz_
-
-delta 69
-zcmccVc*&8=CD<k8k^%z*<Cl$G6C^mj?Bau+;-j0KCoh(WlT!`|3J!5(P;d@#^<#AQ
-Z^b2Nm4)P6SbawSJU}Rv~tR}gc9RT&z6O8}>
-
--- 
-2.27.0
-
+--000000000000a5648205b5a68cb0--
 
