@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 761BE2CEB7C
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 10:56:09 +0100 (CET)
-Received: from localhost ([::1]:49812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BD72CEBA1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 11:05:30 +0100 (CET)
+Received: from localhost ([::1]:57868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kl7ou-00007l-97
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 04:56:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48540)
+	id 1kl7xx-0004Fm-16
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 05:05:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kl7o8-0007wy-5T
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 04:55:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58996)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kl7wp-0003ob-BD
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 05:04:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kl7o5-00012O-Tj
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 04:55:19 -0500
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1kl7wn-0004UU-3v
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 05:04:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607075716;
+ s=mimecast20190719; t=1607076255;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UdkMXnDf1BrUmuc2WT5EEKE5m4sPrlR2iJn49MdYmI4=;
- b=Ek7MXFLh+mr3ySgO1N9tkH7/kfs8a7VfOS7ArC0Ut0LFMezNYi6YTCGnfJmus3T9iVkIvZ
- c4uXv2hckW9Bu/6nF4MB6kSCC2tDATlJSCoIaE41tQOsYS1jiHXc6g3JS5/Dv/Wzd9vuh+
- c3ZNEq4ZeZ0wrX40pcSdkkdjz3clvLo=
+ bh=rOR0d+S5nkznNLT3Lw47O+qWhE9Qjmmo97Ia499Wo34=;
+ b=gVMK8+VDlIlhUlRTXIQg1ckoVjvhAFr9J741HEaABW41nOgmWN7ksye8eXgvDilsNongwX
+ 3nAjZGLmimKFoAgJLRsXs6db5ZuaX4MxiUrpHIUVt6qbFKjWZQuESmBXAZdVkLBG0mUr7p
+ 1n4ymFYs3g4XVZwPN7AI357Ncgu2eX4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-gLFqwnMSMVOLR7G4z2vIsQ-1; Fri, 04 Dec 2020 04:55:15 -0500
-X-MC-Unique: gLFqwnMSMVOLR7G4z2vIsQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-522-tuj5X1zPPCmfJ77n-9UTDA-1; Fri, 04 Dec 2020 05:04:11 -0500
+X-MC-Unique: tuj5X1zPPCmfJ77n-9UTDA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 174D0107ACE3;
- Fri,  4 Dec 2020 09:55:14 +0000 (UTC)
-Received: from work-vm (ovpn-114-202.ams2.redhat.com [10.36.114.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 78A611002391;
- Fri,  4 Dec 2020 09:55:09 +0000 (UTC)
-Date: Fri, 4 Dec 2020 09:55:06 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Zenghui Yu <yuzenghui@huawei.com>
-Subject: Re: [PATCH] pcie_aer: Fix help message of pcie_aer_inject_error
- command
-Message-ID: <20201204095506.GA2883@work-vm>
-References: <20201204030953.837-1-yuzenghui@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63CB9800D53;
+ Fri,  4 Dec 2020 10:04:10 +0000 (UTC)
+Received: from kaapi (ovpn-112-166.ams2.redhat.com [10.36.112.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 348275D6BA;
+ Fri,  4 Dec 2020 10:03:56 +0000 (UTC)
+Date: Fri, 4 Dec 2020 15:33:51 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH-for-5.2 1/2] net: Do not accept packets bigger then
+ NET_BUFSIZE
+In-Reply-To: <20201127154524.1902024-2-philmd@redhat.com>
+Message-ID: <o5n678r1-r38n-3n85-64r5-83sr9qr9124q@erqung.pbz>
+References: <20201127154524.1902024-1-philmd@redhat.com>
+ <20201127154524.1902024-2-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201204030953.837-1-yuzenghui@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Content-Type: multipart/mixed;
+ BOUNDARY="-1463810047-305027910-1607075561=:373362"
+Content-ID: <qsr45n1n-6nor-ssrq-op9p-q6prr9735772@erqung.pbz>
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
@@ -79,44 +80,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com, qemu-devel@nongnu.org, mst@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Zenghui Yu (yuzenghui@huawei.com) wrote:
-> There is an interesting typo in the help message of pcie_aer_inject_error
-> command. Use 'tlp' instead of 'tlb' to match the PCIe AER term.
-> 
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+---1463810047-305027910-1607075561=:373362
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+Content-ID: <on49482s-1ros-or69-6o6-p3p24p492r4@erqung.pbz>
 
-Well spotted; thanks!
++-- On Fri, 27 Nov 2020, Philippe Mathieu-Daudé wrote --+
+| Do not allow qemu_send_packet*() and qemu_net_queue_send()
+| functions to accept packets bigger then NET_BUFSIZE.
+| 
+| We have to put a limit somewhere. NET_BUFSIZE is defined as:
+|  /* Maximum GSO packet size (64k) plus plenty of room for
+|   * the ethernet and virtio_net headers
+|   */
+|  #define NET_BUFSIZE (4096 + 65536)
+| 
+| +    if (size > NET_BUFSIZE) {
+| +        return -1;
+| +    }
+| +
 
+/usr/include/linux/if_ether.h
+  #define ETH_MIN_MTU 68        /* Min IPv4 MTU per RFC791  */                      
+  #define ETH_MAX_MTU 0xFFFFU   /* 65535, same as IP_MAX_MTU    */
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  if (size < ETH_MIN_MTU || size > ETH_MAX_MTU) {
+      return -1;
+  }
 
-> ---
->  hmp-commands.hx | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index ff2d7aa8f3..dd460eb908 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1302,8 +1302,8 @@ ERST
->  	              " -c for correctable error\n\t\t\t"
->                        "<id> = qdev device id\n\t\t\t"
->                        "<error_status> = error string or 32bit\n\t\t\t"
-> -                      "<tlb header> = 32bit x 4\n\t\t\t"
-> -                      "<tlb header prefix> = 32bit x 4",
-> +                      "<tlp header> = 32bit x 4\n\t\t\t"
-> +                      "<tlp header prefix> = 32bit x 4",
->          .cmd        = hmp_pcie_aer_inject_error,
->      },
->  
-> -- 
-> 2.19.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Should there be similar check for minimum packet size?
+
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+---1463810047-305027910-1607075561=:373362--
 
 
