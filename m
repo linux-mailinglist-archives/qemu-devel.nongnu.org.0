@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D8A2CF42A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 19:37:02 +0100 (CET)
-Received: from localhost ([::1]:43950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795B62CF445
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 19:48:04 +0100 (CET)
+Received: from localhost ([::1]:52430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klFwx-0000le-AX
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 13:37:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59506)
+	id 1klG7e-0005Ew-RC
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 13:48:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1klEUQ-0005RK-3r; Fri, 04 Dec 2020 12:03:27 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:45712 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1klETg-00045K-Fq; Fri, 04 Dec 2020 12:03:14 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 07098413F7;
- Fri,  4 Dec 2020 16:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1607100301;
- x=1608914702; bh=UbfJ/R++S0L60KE+xUkKolPpBmDX+R7YWJSa5+nlIzY=; b=
- JLGNj2uQbuKZ+MlNwTyArg9BcoXlIvjND5tOqSJFhjdaKGKaqq3+Dfu+3jZW/f5K
- WneWeZD9bsOk3qCHxyqNAi8x6V6Xmver11fAJ8o9myW5wVDKdgGULcS3JOx82qw8
- ion8YXvaKa+B4scdIwbgALRcojFMKGZ9cfPSfJN7kN0=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XOyTdGIO5xOp; Fri,  4 Dec 2020 19:45:01 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id F317F41373;
- Fri,  4 Dec 2020 19:45:00 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 4 Dec
- 2020 19:45:00 +0300
-Date: Fri, 4 Dec 2020 19:45:23 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v4 09/11] arm/hvf: Add a WFI handler
-Message-ID: <20201204164523.GH86904@SPB-NB-133.local>
-References: <20201203234857.21051-1-agraf@csgraf.de>
- <20201203234857.21051-10-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1klEWS-0005vb-0g
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:05:37 -0500
+Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:35372)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1klEVm-0004ux-30
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:05:15 -0500
+Received: by mail-oo1-xc44.google.com with SMTP id y3so1538221ooq.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 09:04:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hTPg26qSlQ0Wt4a7Q2DVHA9ywXVsdidYmAYQESPvOpc=;
+ b=yUfH4HLnaPLj/bj23j6PlInUtfkiPhPRrQfHrsd3Sw3xsdx7QwhKI4HCdD79yncGCT
+ YNwJA0jjAazJLC6oGKBKL6YoLmnoFlaTE+vmmJx50H9GXy6wheWn/Nd3r1VkKZOfO+4o
+ aw/WQoeCUQVR0nj1W5AUPlYT/9/jeoQJ5akiDwA0KdBD7CCT5Oth6nm/7E/5RO9gDnAm
+ zAO/+sJvIihd8jvDD/jeW3zlcfC9PuCG3Y4QCk6MecrBxbAZVOsvH+UacP7naqCnoigu
+ KnRd2oVIiSCtyb5S1UM+RjU8nSi3M5J6UZoX3D8Raq+u4uUf+3KaeJJ4nZ0R3EReIRsg
+ PbxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hTPg26qSlQ0Wt4a7Q2DVHA9ywXVsdidYmAYQESPvOpc=;
+ b=AdwwLL5PNgY/nfh3SbNQ/+ggxS921lPBxYWemrytF16dxx9YSNqQurWPVtP6yymoin
+ 6iaND+txglpuHUil/oiWHKfQO1k6zvtulWIosDjh5Ys/X0JiDFY759flNvR6Q+wXyfK0
+ N0WmcTF2iOxhrnjBFtWlCHqysvmJTuuLXLw7HXGuGDwMVsckBl/QSioW6sBDzhz8UArJ
+ Ar4kdy+5JEAQFFCPs8X7mpOIE6Y7+Q90Nkq/lppVauhZVKWvbE0umRFBDMhSm+LZEoqn
+ W/ASO3ZGq8YBKgPOoGg9UdKSZzwLOLam1xz4IOpIPDUwO8TnuS3bSeE1aOkcHpgK+qnu
+ Wkbg==
+X-Gm-Message-State: AOAM531p/ykVRzxwiBtZrCE2+xen8EE7Ckbfgrx6eOuCUZwYsFjK9pE1
+ i4ZjapfvW6wPDtLlhhL9H/GeeA==
+X-Google-Smtp-Source: ABdhPJy4q3B4QJYlZT7E1LAtFwmT8C+d9xLTbZiCqg4LrHUEaa160NBMRONNgpJdKcksd4W5kDflAg==
+X-Received: by 2002:a4a:e972:: with SMTP id i18mr4165976ooe.17.1607101464886; 
+ Fri, 04 Dec 2020 09:04:24 -0800 (PST)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id o63sm757962ooa.10.2020.12.04.09.04.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Dec 2020 09:04:24 -0800 (PST)
+Subject: Re: [PATCH 9/9] target/mips: Explode gen_msa_branch() as
+ gen_msa_BxZ_V/BxZ()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201202184415.1434484-1-f4bug@amsat.org>
+ <20201202184415.1434484-10-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <42cae1ae-46aa-1207-dac7-1076b3422a7f@linaro.org>
+Date: Fri, 4 Dec 2020 11:04:21 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20201203234857.21051-10-agraf@csgraf.de>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
+In-Reply-To: <20201202184415.1434484-10-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc44.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,31 +90,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 04, 2020 at 12:48:55AM +0100, Alexander Graf wrote:
-> From: Peter Collingbourne <pcc@google.com>
-> 
-> Sleep on WFI until the VTIMER is due but allow ourselves to be woken
-> up on IPI.
-> 
-> In this implementation IPI is blocked on the CPU thread at startup and
-> pselect() is used to atomically unblock the signal and begin sleeping.
-> The signal is sent unconditionally so there's no need to worry about
-> races between actually sleeping and the "we think we're sleeping"
-> state. It may lead to an extra wakeup but that's better than missing
-> it entirely.
-> 
+On 12/2/20 12:44 PM, Philippe Mathieu-Daudé wrote:
+> +static bool gen_msa_BxZ(DisasContext *ctx, int df, int wt, int s16, bool if_not)
+> +{
+> +    check_msa_access(ctx);
+> +
+> +    if (ctx->hflags & MIPS_HFLAG_BMASK) {
+> +        generate_exception_end(ctx, EXCP_RI);
+> +        return true;
+> +    }
+> +
+> +    gen_check_zero_element(bcond, df, wt);
+> +    if (if_not) {
+> +        tcg_gen_setcondi_tl(TCG_COND_EQ, bcond, bcond, 0);
+> +    }
 
-Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Since gen_check_zero_element already produces a boolean, this is better as
 
-Thanks,
-Roman
+  tcg_gen_xori_tl(bcond, bcond, if_not);
+
+where tcg_gen_xori_tl already contains the if.
+
+>      case OPC_BNZ_D:
+> -        gen_check_zero_element(bcond, df, wt);
+> -        tcg_gen_setcondi_tl(TCG_COND_EQ, bcond, bcond, 0);
+> +        gen_msa_BxZ(ctx, df, wt, s16, true);
+
+... oops, that'd be for a follow-up patch, to make this patch just code movement.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
