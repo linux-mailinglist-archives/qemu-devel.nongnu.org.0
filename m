@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB382CF582
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:21:55 +0100 (CET)
-Received: from localhost ([::1]:33796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6822CF561
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:18:28 +0100 (CET)
+Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klHaU-0000P3-Cu
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:21:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46320)
+	id 1klHX9-0005UF-5K
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:18:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1klEyD-0001qp-Ay
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:34:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32218)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1klExw-0003FN-6o
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:34:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607103211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=feE/lBMJoi301bQBnjrvPUiRMi8D/35xLx9oyJKn6Lo=;
- b=EAkOVuq3dGeF6Ar1R50skBL+zzVCkkhOBvCnR82L+K6dzwsO+3BR5lSkpk0EFlE7rgEjGj
- gcZ1haGGnOdBm4z+KubGgtWwoeSjJNTYc30XwbHsfhE3ZF/2qd7MIucyb54aJhdYxPLJWk
- S0HnPEaCoky4ScyU2kR7Lm4v+r4+gHM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-TDFcODhuPIehh_ga_3-fYQ-1; Fri, 04 Dec 2020 12:28:24 -0500
-X-MC-Unique: TDFcODhuPIehh_ga_3-fYQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E110107ACE3;
- Fri,  4 Dec 2020 17:28:22 +0000 (UTC)
-Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C4B15C22A;
- Fri,  4 Dec 2020 17:28:16 +0000 (UTC)
-Date: Fri, 4 Dec 2020 12:28:14 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [RFC v7 12/22] cpu: Introduce TCGCpuOperations struct
-Message-ID: <20201204172814.GO3836@habkost.net>
-References: <20201130023535.16689-1-cfontana@suse.de>
- <20201130023535.16689-13-cfontana@suse.de>
- <fb02985a-010f-5a68-7444-b214e97f9050@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1klExm-0001nk-Mn
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:33:57 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:40268)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1klExB-0002Yu-UD
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:33:32 -0500
+Received: by mail-oi1-x244.google.com with SMTP id p126so6961283oif.7
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 09:28:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Zix5yg8BY5Vd2yK0fKpVFjrIsiSXh3m348evVK1e0Es=;
+ b=KbmCMHmd/VejOOJK5IhwP1q6I0YvtRI0Kt7As4tuqsNfpmd/jEFouPQiIvLSOtATJJ
+ OSi3Q3Hsh7I1++6jPmEK1NmKXuH5YGXSPashDsRwOmka+fwY2wSuw39HKIj9YFWAhTWY
+ Jnq6UzO8jzxXclK8TA61w6jDO5qgyWXrstsvbxbtWIg7UXEPN90QrENThjWFbiH0UjO8
+ clH4YT6bpTyEKCi+zRtOVUk2x5bjtvEE7MLQSE6ZJBf8aYVN7PDwjAbGSXZHUjV5Dkx+
+ +ygGsM/Xz2eSEYuO/rnwzZM0h/KYHVTzZuW+D9dD+GUK6wS/+Hzq8pl01BtZ8m5Qg/4i
+ cv7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Zix5yg8BY5Vd2yK0fKpVFjrIsiSXh3m348evVK1e0Es=;
+ b=m0pW1DW2qxAQPA23pslT8iU4aN6EzoJmSf1aWgxsqDfZwLvZ9qOXbni1CKfOKiqUS+
+ eM4TmZGQqupzgfLE+Z87chygZZn4tkDB3LYiacLkOsSQSgOcJbQ4AAVaFChhE/syiRaF
+ Vfxmboo2C2a3PqOBU9eavIPHyFVy9F3irCwoBLuxb3KerNs7/EuD5sxaoMGgoIw+UQQs
+ lzxzis1HwPeuDwck1fAMoW9OENn/vuM8utpJKkdeNcLm/T/p7FvMcuv9cKFWxG1K19L2
+ 7cTUCEtgFwsmGtItCJqvrtteZQWpratsiuuUFoX74H9WKWeQ87g0AunTAHgQ1Pv9ls6Q
+ 4PfQ==
+X-Gm-Message-State: AOAM533FHBwL06fX+9ZRJE3lYdYtQqYzihIWNvmknCU51poOEXBB58R3
+ OvJJwEoZk+769ynQTG6XxyRM6X59pi9uOTsg
+X-Google-Smtp-Source: ABdhPJxBvUAgxFaQCEUJ0GlO5QSE+1rkwA6QXa16farIKMdOqUQ3Vl6seid/2o0k/6VtdDVXTkKFdA==
+X-Received: by 2002:aca:72c1:: with SMTP id p184mr4000016oic.86.1607102921294; 
+ Fri, 04 Dec 2020 09:28:41 -0800 (PST)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id 30sm127085oth.7.2020.12.04.09.28.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Dec 2020 09:28:40 -0800 (PST)
+Subject: Re: [PATCH for-6.0 00/11] target/arm: enforce alignment
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20201125040642.2339476-1-richard.henderson@linaro.org>
+ <CAFEAcA9XFGbyYfcpoOVhtV_wySi9=DyMGe84C4uwYG14Z6bD6Q@mail.gmail.com>
+ <56701347-e0a0-ae47-8bba-f5cdff253475@redhat.com>
+ <3d6d46d8-04bc-7ad8-d71e-4ce15a6e7e47@ispras.ru>
+ <CAFEAcA_ATUZ+v8VE8q34mmi3pLhg3qFDHgi7mQB-JJKDEZuzaw@mail.gmail.com>
+ <3ab6b7fb-51cf-0ec4-2c70-e86bb01dcc3f@ispras.ru>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <05e61e91-c983-4952-ee31-859961cc9120@linaro.org>
+Date: Fri, 4 Dec 2020 11:28:33 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <fb02985a-010f-5a68-7444-b214e97f9050@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <3ab6b7fb-51cf-0ec4-2c70-e86bb01dcc3f@ispras.ru>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,201 +93,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Claudio Fontana <cfontana@suse.de>,
- Anthony Perard <anthony.perard@citrix.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 04, 2020 at 06:10:49PM +0100, Philippe Mathieu-Daudé wrote:
-> On 11/30/20 3:35 AM, Claudio Fontana wrote:
-> > From: Eduardo Habkost <ehabkost@redhat.com>
-> > 
-> > The TCG-specific CPU methods will be moved to a separate struct,
-> > to make it easier to move accel-specific code outside generic CPU
-> > code in the future.  Start by moving tcg_initialize().
+On 12/4/20 12:17 AM, Pavel Dovgalyuk wrote:
+> On 03.12.2020 19:14, Peter Maydell wrote:
+>> On Thu, 3 Dec 2020 at 16:10, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> wrote:
+>>>
+>>> On 03.12.2020 15:30, Philippe Mathieu-Daudé wrote:
+>>>> Cc'ing Pavel
+>>>>
+>>>> On 12/1/20 4:55 PM, Peter Maydell wrote:
+>>>>> On Wed, 25 Nov 2020 at 04:06, Richard Henderson
+>>>>> <richard.henderson@linaro.org> wrote:
+>>>>>>
+>>>>>> As reported in https://bugs.launchpad.net/bugs/1905356
+>>>>>>
+>>>>>> Not implementing SCTLR.A, but all of the other required
+>>>>>> alignment for SCTLR.A=0 in Table A3-1.
+>>>>>
+>>>>> Something in this series breaks the 'make check-acceptance'
+>>>>> record-and-replay test:
+>>>>>
+>>>>>    (30/40)
+>>>>> tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_aarch64_virt:
+>>>>> PASS (9.14 s)
+>>>>>    (31/40)
+>>>>> tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_arm_virt:
+>>>>> INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred:
+>>>>> Timeout reached\nOriginal status: ERROR\n{'name':
+>>>>> '31-tests/acceptance/replay_kernel.py:ReplayKernelNormal.test_arm_virt',
+>>>>> 'logdir':
+>>>>> '/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang/tests/result...
+>>>>> (90.19 s)
+>>>>>
+>>>>> The log shows the "recording execution" apparently hanging,
+>>>>> with the last output from the guest
+>>>>> [    3.183662] Registering SWP/SWPB emulation handler
+>>>
+>>> I looked through the patches and it does not seem that they can break
+>>> anything.
+>>> Could it be the same avocado/chardev socket glitch as in some previous
+>>> failures?
+>>> What happens when re-running this test?
+>>
+>> I ran it a couple of times with the patchset and it failed the same
+>> way each time. Without is fine.
 > 
-> Good idea! One minor comment below.
+> I applied the patches and got no failures on my local machine.
 > 
-> > 
-> > The new CPUClass.tcg_opts field may eventually become a pointer,
-> > but keep it an embedded struct for now, to make code conversion
-> > easier.
-> > 
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> >  MAINTAINERS                     |  1 +
-> >  cpu.c                           |  2 +-
-> >  include/hw/core/cpu.h           |  9 ++++++++-
-> >  include/hw/core/tcg-cpu-ops.h   | 25 +++++++++++++++++++++++++
-> >  target/alpha/cpu.c              |  2 +-
-> >  target/arm/cpu.c                |  2 +-
-> >  target/avr/cpu.c                |  2 +-
-> >  target/cris/cpu.c               | 12 ++++++------
-> >  target/hppa/cpu.c               |  2 +-
-> >  target/i386/tcg-cpu.c           |  2 +-
-> >  target/lm32/cpu.c               |  2 +-
-> >  target/m68k/cpu.c               |  2 +-
-> >  target/microblaze/cpu.c         |  2 +-
-> >  target/mips/cpu.c               |  2 +-
-> >  target/moxie/cpu.c              |  2 +-
-> >  target/nios2/cpu.c              |  2 +-
-> >  target/openrisc/cpu.c           |  2 +-
-> >  target/ppc/translate_init.c.inc |  2 +-
-> >  target/riscv/cpu.c              |  2 +-
-> >  target/rx/cpu.c                 |  2 +-
-> >  target/s390x/cpu.c              |  2 +-
-> >  target/sh4/cpu.c                |  2 +-
-> >  target/sparc/cpu.c              |  2 +-
-> >  target/tilegx/cpu.c             |  2 +-
-> >  target/tricore/cpu.c            |  2 +-
-> >  target/unicore32/cpu.c          |  2 +-
-> >  target/xtensa/cpu.c             |  2 +-
-> >  27 files changed, 63 insertions(+), 30 deletions(-)
-> >  create mode 100644 include/hw/core/tcg-cpu-ops.h
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index f53f2678d8..d876f504a6 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -1535,6 +1535,7 @@ F: qapi/machine.json
-> >  F: qapi/machine-target.json
-> >  F: include/hw/boards.h
-> >  F: include/hw/core/cpu.h
-> > +F: include/hw/core/tcg-cpu-ops.h
-> >  F: include/hw/cpu/cluster.h
-> >  F: include/sysemu/numa.h
-> >  T: git https://github.com/ehabkost/qemu.git machine-next
-> > diff --git a/cpu.c b/cpu.c
-> > index 0be5dcb6f3..d02c2a17f1 100644
-> > --- a/cpu.c
-> > +++ b/cpu.c
-> > @@ -180,7 +180,7 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-> >  
-> >      if (tcg_enabled() && !tcg_target_initialized) {
-> >          tcg_target_initialized = true;
-> > -        cc->tcg_initialize();
-> > +        cc->tcg_ops.initialize();
-> >      }
-> >      tlb_init(cpu);
-> >  
-> > diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> > index 3d92c967ff..c93b08a0fb 100644
-> > --- a/include/hw/core/cpu.h
-> > +++ b/include/hw/core/cpu.h
-> > @@ -76,6 +76,10 @@ typedef struct CPUWatchpoint CPUWatchpoint;
-> >  
-> >  struct TranslationBlock;
-> >  
-> > +#ifdef CONFIG_TCG
-> > +#include "tcg-cpu-ops.h"
-> > +#endif /* CONFIG_TCG */
-> > +
-> >  /**
-> >   * CPUClass:
-> >   * @class_by_name: Callback to map -cpu command line model name to an
-> > @@ -221,12 +225,15 @@ struct CPUClass {
-> >  
-> >      void (*disas_set_info)(CPUState *cpu, disassemble_info *info);
-> >      vaddr (*adjust_watchpoint_address)(CPUState *cpu, vaddr addr, int len);
-> > -    void (*tcg_initialize)(void);
-> >  
-> >      const char *deprecation_note;
-> >      /* Keep non-pointer data at the end to minimize holes.  */
-> >      int gdb_num_core_regs;
-> >      bool gdb_stop_before_watchpoint;
-> > +
-> > +#ifdef CONFIG_TCG
-> > +    TcgCpuOperations tcg_ops;
-> > +#endif /* CONFIG_TCG */
-> >  };
+> Do you have any ideas on debugging this bug?
+> What does "arm-clang" means? Is the host compiler is clang?
 
-I'm not a fan of #ifdefs in struct definitions (especially in
-generic code like hw/cpu), because there's risk the same header
-generate different struct layout when used by different .c files.
-I would prefer to gradually refactor the code so that tcg_ops is
-eventually removed from CPUClass.
+I have reproduced it:
 
-This is not a dealbreaker, because both approaches are steps in
-the same direction.  But the #ifdef here makes review harder and
-has more risks of unwanted side effects.
+qemu-system-arm: /home/rth/qemu/qemu/include/tcg/tcg.h:339: get_alignment_bits:
+Assertion `(((1 << (10 - 1)) | (1 << (10 - 2)) | (1 << (10 - 3)) | (1 << (10 -
+4)) | (1 << (10 - 5)) | (1 << (10 - 6))) & ((1 << a) - 1)) == 0' failed.
+Aborted (core dumped)
 
-> >  
-> >  /*
-> > diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-> > new file mode 100644
-> > index 0000000000..4475ef0996
-> > --- /dev/null
-> > +++ b/include/hw/core/tcg-cpu-ops.h
-> > @@ -0,0 +1,25 @@
-> > +/*
-> > + * TCG-Specific operations that are not meaningful for hardware accelerators
-> > + *
-> > + * Copyright 2020 SUSE LLC
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> > + * See the COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#ifndef TCG_CPU_OPS_H
-> > +#define TCG_CPU_OPS_H
-> > +
-> > +/**
-> > + * struct TcgCpuOperations: TCG operations specific to a CPU class
-> > + */
-> > +typedef struct TcgCpuOperations {
-> > +    /**
-> > +     * @initialize: Initalize TCG state
-> > +     *
-> > +     * Called when the first CPU is realized.
-> > +     */
-> > +    void (*initialize)(void);
-> > +} TcgCpuOperations;
-> > +
-> > +#endif /* TCG_CPU_OPS_H */
-> ...
-> 
-> > diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> > index 07492e9f9a..1fa9382a7c 100644
-> > --- a/target/arm/cpu.c
-> > +++ b/target/arm/cpu.c
-> > @@ -2261,7 +2261,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-> >      cc->gdb_stop_before_watchpoint = true;
-> >      cc->disas_set_info = arm_disas_set_info;
-> >  #ifdef CONFIG_TCG
-> > -    cc->tcg_initialize = arm_translate_init;
-> > +    cc->tcg_ops.initialize = arm_translate_init;
-> 
-> This one is correctly guarded by '#ifdef CONFIG_TCG'.
-> 
-> For the other targets, can you either place it within
-> the '#ifdef CONFIG_TCG' block or if there is none, add
-> one please?
+You need --enable-debug-tcg for this assert.
 
-As a new #ifdef risks having additional unwanted side effects, I
-would prefer to do it in separate patch, just in case.
+It's incredibly stupid of avocado to report SIGABRT as a timeout.
 
-This also applies to the #ifdef Claudio added to hw/core/cpu.h
-above.  In case we really want to do it, I would do it in a
-separate patch.
 
-> 
-> With that change:
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Thanks!
-
--- 
-Eduardo
-
+r~
 
