@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04952CF6BD
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:29:25 +0100 (CET)
-Received: from localhost ([::1]:58274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732632CF6C6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:31:28 +0100 (CET)
+Received: from localhost ([::1]:33234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klJZs-0004MB-AS
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 17:29:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43718)
+	id 1klJbr-0005j3-7i
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 17:31:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klJXV-0002gB-EL
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:27:01 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:45958)
+ id 1klJX5-0002UA-Uu
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:26:32 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:39645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klJXR-00080u-F9
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:26:54 -0500
-Received: by mail-ej1-x644.google.com with SMTP id qw4so10870089ejb.12
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 14:26:51 -0800 (PST)
+ id 1klJX2-0007tJ-VQ
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:26:31 -0500
+Received: by mail-ed1-x542.google.com with SMTP id c7so7429430edv.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 14:26:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yPVQZVrJYHV9VRQKq9oG2AAR4beoTafSJ17RxMCvpOk=;
- b=Bb+fncHR/1kTHmi2VJPpS7u6w0kDJt4JaWbYIuzHTOzo6mnPEID9spQrGXNYlJ/CDg
- JfA1pJfRX1p+Qk55P0EN6vXZlRe+oxSNaP3hxfeQlsEiL/JeNLecDsidOdYWGMiebjkH
- iMixCbadpiaOZptlCTw43sQfsvAq6I2S/eczF5zDbBVd2AbLFyFEQpWEGv/qUAuUlSTO
- D7Xx1bu7S1qbdOg8EThn3ZKv0Bjnlq55u9RpfTmoRH6jahGP0Xtla0nOPb23EtnHaM8/
- Cguy3xZOpAoh737Ncj7CoDY4EE/HQmumMdBV9ck6D3OTvl7RJ/XOQMYNS9cEw6A9un9q
- 9ppA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uwKR7KS8WLPDKQzh9oQMJDJpUOQZpM1XIY1wR/MLSSQ=;
+ b=J74Y218SBxd6HFPsckkkwTa4dpLOcpe37zxyUVj7njnaAbGsKXfhBq8vm7s9sZiPqd
+ 0TeWXu8Qnlxcjb/+AGTkbSiZza2xcHSlHo9LPsz+1J3DSMCjgt3C7nztnsZ1V6ScBB70
+ RxSLmROhImJ2nkgYRux4VM9gj0ta5WU49lLxMFRWwj1FJx8BHgj+7OFG2ju5vfCFBafd
+ 7Dcga6dZ1r2+heggldpIh9tsFSxT9kutC6OF+Ghk96bV37NLnXjCFF0Z0CyWvEiOos2I
+ 59/GQ7+uZguNg0wmX7lAJbhB5lukGfyUU2LIrMmGskHx+xQdv4+AsWzuJiSFucj5s7fH
+ id7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yPVQZVrJYHV9VRQKq9oG2AAR4beoTafSJ17RxMCvpOk=;
- b=M6dtEWogViQEOsLHm71PR6AmQYOfkKk2vWo3Tg0Ut89AQcCFEtSFYOKGSUApQIQ20W
- BtyLirJlXvxDpaZrv/zebLvLbOvu8HWe6PAa1BPv9cH26gxLVoqan6PjIWXO6rg30OgQ
- Wdfnryls+jcoDoshu3bmS2gciW04BRqz5stSd4UHJyXJ8JaDlmqSI19gzSVFs/mCAiCh
- djPPaTV7oIJxyZF6KSWrAhlAb6eAqgtncvL42sQKjgL1LMWhXgVbA1ou0f9+L7VXxzM+
- yxiH3kQZBtl700Bvt4j9KLcneLzCRwrx+EaDwNl6Q9+G5/90u/5KuU2aHBKg0bKdB/L9
- 5TbA==
-X-Gm-Message-State: AOAM533g0Wvngs5uSZS6akCgQ+t6tG0xvsQbbkJte9R+Z9QPbPNuobv5
- 2pxqLp5+qj6xJpFsDiWDgIQ=
-X-Google-Smtp-Source: ABdhPJznyaEiLXNVRdJ+jnvNs6rKjbzwldBEb83ibl9Am7rdn29z6610yrZX1+X4suaKzSozg+JCfg==
-X-Received: by 2002:a17:906:7104:: with SMTP id
- x4mr9343458ejj.141.1607120811094; 
- Fri, 04 Dec 2020 14:26:51 -0800 (PST)
+ :mime-version:content-transfer-encoding;
+ bh=uwKR7KS8WLPDKQzh9oQMJDJpUOQZpM1XIY1wR/MLSSQ=;
+ b=Wb4UdC7cB1+djerVLpJrsCmf+ixINTq7S89tYDKNOoMLixYZpFc+mYiL4FBoLUsqOk
+ dEdUqAZX/XQw4bNPrHFQwD6OdPuwUKkIAjVeXqjqfQiqn3NV8IW9kZgU5JRv/TyQhczP
+ 3rWSKBtaxY15rIclh3qMF07B4pZnW/gPAlANdu5wfcfFei68rr6mHBfwc8/y24Sld7kg
+ 7GjHUEwzdm3511eCITMwBeJCASuVTuPNbDj4K5MGvZwwJHubZ7e8ORlYxsBejR6GL4/M
+ f9jbNR0N9qBKDd83YtuACGjB2hzIBMSVByhbzfJPowHyY0u5XrLqETHmQJHvWel8iHdp
+ E8pg==
+X-Gm-Message-State: AOAM533AdnlwAsHcN4dHKPIAuBN9gYqYbsok8ST1t7Fg4wZsfHFF90Ly
+ CFuAaqeJD0N+tn7LNqazkao=
+X-Google-Smtp-Source: ABdhPJy7qRj5lpRt39weatYB+Qf+cAa0u9ivQlq8FVSsskNcmnKKaoRTjSh5GB3eGQV7vJdYPvh9Fw==
+X-Received: by 2002:a50:e791:: with SMTP id b17mr9576557edn.388.1607120785221; 
+ Fri, 04 Dec 2020 14:26:25 -0800 (PST)
 Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id p22sm3896344ejx.59.2020.12.04.14.26.49
+ by smtp.gmail.com with ESMTPSA id g3sm3921763ejr.12.2020.12.04.14.26.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Dec 2020 14:26:50 -0800 (PST)
+ Fri, 04 Dec 2020 14:26:24 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH 5/5] hw/mips/malta: Rewrite CP0_MVPConf0 access using deposit()
-Date: Fri,  4 Dec 2020 23:26:22 +0100
-Message-Id: <20201204222622.2743175-6-f4bug@amsat.org>
+Subject: [PATCH 0/5] mips: Sanitize Multi-Threading ASE
+Date: Fri,  4 Dec 2020 23:26:17 +0100
+Message-Id: <20201204222622.2743175-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201204222622.2743175-1-f4bug@amsat.org>
-References: <20201204222622.2743175-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,47 +91,31 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PTC field has 8 bits, PVPE has 4. We plan to use the
-"hw/registerfields.h" API with MIPS CPU definitions
-(target/mips/cpu.h). Meanwhile we use magic 8 and 4.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-We want to move that to mips_cpu_reset() later,
-because this is not Malta specific but cpu-specific.
-However SMP 'cpus' come from MachineState ("hw/boards.h").
-So meanwhile this is early review.
----
- hw/mips/malta.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 350b92b4d79..c35fbf97272 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -24,6 +24,7 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
-+#include "qemu/bitops.h"
- #include "qemu-common.h"
- #include "cpu.h"
- #include "hw/clock.h"
-@@ -1135,8 +1136,11 @@ static void malta_mips_config(MIPSCPU *cpu)
-     CPUState *cs = CPU(cpu);
- 
-     if (ase_mt_available(env)) {
--        env->mvp->CP0_MVPConf0 |= ((smp_cpus - 1) << CP0MVPC0_PVPE) |
--                         ((smp_cpus * cs->nr_threads - 1) << CP0MVPC0_PTC);
-+        env->mvp->CP0_MVPConf0 = deposit32(env->mvp->CP0_MVPConf0,
-+                                           CP0MVPC0_PTC, 8,
-+                                           smp_cpus * cs->nr_threads - 1);
-+        env->mvp->CP0_MVPConf0 = deposit32(env->mvp->CP0_MVPConf0,
-+                                           CP0MVPC0_PVPE, 4, smp_cpus - 1);
-     }
- }
- 
--- 
-2.26.2
-
+Reviewing the MIPS code, ASE after ASE.=0D
+Time for MT ASE.=0D
+=0D
+- Introduce/use ase_mt_available() helper to check=0D
+  if MT ASE is present=0D
+- Avoid setting MT specific registers if MT ASE is absent=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (5):=0D
+  target/mips: Remove mips_def_t unused argument from mvp_init()=0D
+  target/mips: Introduce ase_mt_available() helper=0D
+  target/mips: Do not initialize MT registers if MT ASE absent=0D
+  hw/mips/malta: Do not initialize MT registers if MT ASE absent=0D
+  hw/mips/malta: Rewrite CP0_MVPConf0 access using deposit()=0D
+=0D
+ target/mips/cpu.h                |  7 +++++++=0D
+ hw/mips/cps.c                    |  3 +--=0D
+ hw/mips/malta.c                  | 10 ++++++++--=0D
+ target/mips/cp0_helper.c         |  2 +-=0D
+ target/mips/cpu.c                |  2 +-=0D
+ target/mips/helper.c             |  2 +-=0D
+ target/mips/translate.c          |  4 ++--=0D
+ target/mips/translate_init.c.inc |  6 +++++-=0D
+ 8 files changed, 26 insertions(+), 10 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
