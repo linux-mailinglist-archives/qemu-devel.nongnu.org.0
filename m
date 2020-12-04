@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC4E2CEFBB
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:33:52 +0100 (CET)
-Received: from localhost ([::1]:33176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D377C2CEFC2
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:36:57 +0100 (CET)
+Received: from localhost ([::1]:35596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klC9f-00078J-Jg
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:33:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55198)
+	id 1klCCe-0008Ks-VI
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:36:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1klC8A-0006Ea-M8
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:32:18 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:44322)
+ id 1klCBh-0007tt-6U
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:35:57 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:37403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1klC87-0006Px-D4
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:32:18 -0500
-Received: by mail-ej1-x641.google.com with SMTP id m19so8922877ejj.11
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 06:32:14 -0800 (PST)
+ id 1klCBe-0007qA-QQ
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:35:56 -0500
+Received: by mail-ej1-x642.google.com with SMTP id ga15so8996472ejb.4
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 06:35:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iFXEhQp7vCfKnBTdQx/bCFMrWiuckpBVJE3e3RqkaOw=;
- b=DGPTe+hg5Qz/K4Ilpvjxb0ttvFv84wTdmmai08TYaFF3uRd9ZYPFzTv25SAyXMc/Hx
- hqgcWYsMjlIxyD0L7wNBbBknAulYyugJLLHA7VjNVcQ69PR/ZP0mv9NDA5vdazdD3wmj
- ouNjQuuTzk/Va2gVvVZ5xt+6g1tOyECk8FQ5G5JIQAWVSZeak61dJtd9K0oHBL7K92mb
- Z54S+OD3+r7RzjeazUFrQIF4V39An55pOlL+1VT4Pt1cDMOFTb6b0hFZltGZGcYoAgQ2
- rn1sbnRxpxYyf2ZRt1tMeBFfvc48qviwMejFV3rF2UiEyCnY7fqWYuUll5CECe+klZaT
- 1Fog==
+ :cc; bh=JLBFuOO0TGNt9Qi6xHjT74wVq3NLNyRbpF8tZgtEogA=;
+ b=to/VcZyB3Z4LfhHL6ioY/EqAIK1ix9Jso/N1PV7vu0jWvqMZicN/jvXHFPa3izCxYk
+ puuuBO91Td6vtx5qRLrJxcRvocc0/OX89Wmw3gxpJAWU/+wQ1RzKDynHbGZpggDNTWOd
+ tye0alQRQK0zcCSaWGTGsXsYA3H+EVQRsPnQjXN9LExk5nmQP6onpxHo6cgswz3enf6/
+ CXbG3WwUUTcGL7Z1ioSAfdXyvs6eE40vpbL7cYj2RFnJAYtA8/YT3BLzg8er52YkBUOs
+ pjwwyTOen2kQ1znonQfFTaQZPQYAheOtwZH2PnezvufRFoPbAUZcbLrEpYH6tVq62vJQ
+ 77+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iFXEhQp7vCfKnBTdQx/bCFMrWiuckpBVJE3e3RqkaOw=;
- b=LipeYRfGWWRqrirpgfaMfGuNt63mRh+Pna6ZW7lFWgLCidcB4m/SlcEG/+J1G8cc+X
- hWaoGfQhGJyCu4eKovCHcXCG32xlqomyj60vC/WXn2eVua/3bWJfNFxwgSizOzhEa9Cz
- 4uKbP8DqfUxzEjAx5EA3+qE/E7pHUc48jCsb+kJ9frIN30EnJw2ZNtEaLq4YwlRUWWVY
- wOsWZv9PTIgOWGr16L+B47HWHNRM3EtZpm0atlPmy1vA1ZLW2MA4kIgKu+QjPlGkjX+Z
- sMIfKOtvTkTHdcoQGRvaoxvQBZut/ynljH8Uksn8CBAQeHF+ZlpSA5zyV7FfNWaLqY8N
- 9ntA==
-X-Gm-Message-State: AOAM532sxx+2D1KtMJpC1b35XVBh9T+L/BaAz2Nl7p/hB9KUkuL7qCYE
- brj0emlQ4zvcWcWsJiN9uFYZ+V6HJJE9sMzLjD8=
-X-Google-Smtp-Source: ABdhPJybGJgfhjCnZfmkMOzLLgnflMTpxWk/Yy67cRMQJxBiXue+BkkDaJwodxnRk7dSzQTlS7CYWrNrNjP+axdVRJI=
-X-Received: by 2002:a17:906:385b:: with SMTP id
- w27mr7385295ejc.109.1607092333691; 
- Fri, 04 Dec 2020 06:32:13 -0800 (PST)
+ bh=JLBFuOO0TGNt9Qi6xHjT74wVq3NLNyRbpF8tZgtEogA=;
+ b=mh4v1jSh5dt6V+O1fKWv95P4vA9NUENFwzHdiIA5tFsR2BdnemxA5HsMGOerp+aaMD
+ 9eo1ts01WurG00ZI1pJNS6ykMdn60ZmR8kjc3/vAPFQ3Fl6V+tchJM8ULlGBiz2ZrYbc
+ wPevSq4/+ZfSzB68TC7RKzHLeH59RjpWfmlGlKlHZY+8lfnUbyJX329X5t/s7lY5WMO3
+ W2wPNcl9Ck6ELJLJeMnbAZUXalwQ5wFYEeGJw00MvXzPIsqdAdrTgPsmjhQGBozMyHN1
+ tD44Yr1umci6u2B6K3y58AmUd9VrhDCkJ8e5gpNz7dIgC/itHkKcwW24JJtzllbGRO5L
+ wvbg==
+X-Gm-Message-State: AOAM532qUYwHTGESMXNihLg+3nBTkZ5k38l/Tgol8jkCNRmIwRe4OHCT
+ fVktvhAWeNLVquChH+Q49atb4fPvvWlvPvdAWHA=
+X-Google-Smtp-Source: ABdhPJxxWUGCUwNrZmIpH5081qYRHOQBasltpwGSye5ee1x5+75HcCoNU2uBNTmRpayP5u1vkjmTjG7wpxnJ2f7bMsA=
+X-Received: by 2002:a17:906:f85:: with SMTP id
+ q5mr7414286ejj.105.1607092553053; 
+ Fri, 04 Dec 2020 06:35:53 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1606853298.git.jag.raman@oracle.com>
- <52599a1edb0edfab0753688e3bf8544e036da441.1606853298.git.jag.raman@oracle.com>
-In-Reply-To: <52599a1edb0edfab0753688e3bf8544e036da441.1606853298.git.jag.raman@oracle.com>
+ <8b654f7ac999a3594f117fcf3b2da1c4cfe4cc65.1606853298.git.jag.raman@oracle.com>
+In-Reply-To: <8b654f7ac999a3594f117fcf3b2da1c4cfe4cc65.1606853298.git.jag.raman@oracle.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 4 Dec 2020 18:32:01 +0400
-Message-ID: <CAJ+F1CLUmn=LYGNYDiYjwVY-dJK6MJW=NswFUKUruGyk1h96Gw@mail.gmail.com>
-Subject: Re: [PATCH v12 05/19] multi-process: setup PCI host bridge for remote
- device
+Date: Fri, 4 Dec 2020 18:35:40 +0400
+Message-ID: <CAJ+F1CLt8ysY6er9wLEfgAcoE0rMXaX2kfjOeHGK_VKOQoudkw@mail.gmail.com>
+Subject: Re: [PATCH v12 06/19] multi-process: setup a machine object for
+ remote device process
 To: Jagannathan Raman <jag.raman@oracle.com>
-Content-Type: multipart/alternative; boundary="000000000000abc80b05b5a457ba"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x641.google.com
+Content-Type: multipart/alternative; boundary="000000000000befd6b05b5a464a8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x642.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,43 +99,59 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000abc80b05b5a457ba
+--000000000000befd6b05b5a464a8
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Wed, Dec 2, 2020 at 12:23 AM Jagannathan Raman <jag.raman@oracle.com>
 wrote:
 
-> PCI host bridge is setup for the remote device process. It is
-> implemented using remote-pcihost object. It is an extension of the PCI
-> host bridge setup by QEMU.
-> Remote-pcihost configures a PCI bus which could be used by the remote
-> PCI device to latch on to.
+> x-remote-machine object sets up various subsystems of the remote
+> device process. Instantiate PCI host bridge object and initialize RAM, IO=
+ &
+> PCI memory regions.
 >
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  include/hw/pci-host/remote.h | 30 ++++++++++++++++++
->  hw/pci-host/remote.c         | 75
+>  include/hw/pci-host/remote.h |  1 +
+>  include/hw/remote/machine.h  | 28 ++++++++++++++++++
+>  hw/remote/machine.c          | 69
 > ++++++++++++++++++++++++++++++++++++++++++++
 >  MAINTAINERS                  |  2 ++
->  hw/pci-host/Kconfig          |  3 ++
->  hw/pci-host/meson.build      |  1 +
->  hw/remote/Kconfig            |  1 +
->  6 files changed, 112 insertions(+)
->  create mode 100644 include/hw/pci-host/remote.h
->  create mode 100644 hw/pci-host/remote.c
+>  hw/meson.build               |  1 +
+>  hw/remote/meson.build        |  5 ++++
+>  6 files changed, 106 insertions(+)
+>  create mode 100644 include/hw/remote/machine.h
+>  create mode 100644 hw/remote/machine.c
+>  create mode 100644 hw/remote/meson.build
 >
 > diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h
-> new file mode 100644
-> index 0000000..bab6d3c
-> --- /dev/null
+> index bab6d3c..cc0fff4 100644
+> --- a/include/hw/pci-host/remote.h
 > +++ b/include/hw/pci-host/remote.h
-> @@ -0,0 +1,30 @@
+> @@ -25,6 +25,7 @@ typedef struct RemotePCIHost {
+>
+>      MemoryRegion *mr_pci_mem;
+>      MemoryRegion *mr_sys_io;
+> +    MemoryRegion *mr_sys_mem;
+>
+
+Why is this not part of the previous patch?
+
+ } RemotePCIHost;
+>
+>  #endif
+> diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h
+> new file mode 100644
+> index 0000000..d312972
+> --- /dev/null
+> +++ b/include/hw/remote/machine.h
+> @@ -0,0 +1,28 @@
 > +/*
-> + * PCI Host for remote device
+> + * Remote machine configuration
 > + *
 > + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
 > + *
@@ -145,59 +161,40 @@ wrote:
 > + *
 > + */
 > +
-> +#ifndef REMOTE_PCIHOST_H
-> +#define REMOTE_PCIHOST_H
+> +#ifndef REMOTE_MACHINE_H
+> +#define REMOTE_MACHINE_H
 > +
-> +#include "exec/memory.h"
-> +#include "hw/pci/pcie_host.h"
+> +#include "qom/object.h"
+> +#include "hw/boards.h"
+> +#include "hw/pci-host/remote.h"
 > +
-> +#define TYPE_REMOTE_HOST_DEVICE "remote-pcihost"
->
-
-I got confused by the following patch. Please try to be consistent.
-
-TYPE_REMOTE_PCIHOST would help.
-
-thanks
-
-+#define REMOTE_HOST_DEVICE(obj) \
-> +    OBJECT_CHECK(RemotePCIHost, (obj), TYPE_REMOTE_HOST_DEVICE)
->
-
-REMOTE_PCIHOST
-
-+
-> +typedef struct RemotePCIHost {
-> +    /*< private >*/
-> +    PCIExpressHost parent_obj;
-> +    /*< public >*/
+> +typedef struct RemoteMachineState {
+> +    MachineState parent_obj;
 > +
-> +    MemoryRegion *mr_pci_mem;
-> +    MemoryRegion *mr_sys_io;
-> +} RemotePCIHost;
+> +    RemotePCIHost *host;
+> +} RemoteMachineState;
+> +
+> +#define TYPE_REMOTE_MACHINE "x-remote-machine"
+> +#define REMOTE_MACHINE(obj) \
+> +    OBJECT_CHECK(RemoteMachineState, (obj), TYPE_REMOTE_MACHINE)
 > +
 > +#endif
-> diff --git a/hw/pci-host/remote.c b/hw/pci-host/remote.c
+> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
 > new file mode 100644
-> index 0000000..11325e2
+> index 0000000..c5658bf
 > --- /dev/null
-> +++ b/hw/pci-host/remote.c
-> @@ -0,0 +1,75 @@
+> +++ b/hw/remote/machine.c
+> @@ -0,0 +1,69 @@
 > +/*
-> + * Remote PCI host device
+> + * Machine for remote device
 > + *
-> + * Unlike PCI host devices that model physical hardware, the purpose
-> + * of this PCI host is to host multi-process QEMU devices.
-> + *
-> + * Multi-process QEMU extends the PCI host of a QEMU machine into a
-> + * remote process. Any PCI device attached to the remote process is
-> + * visible in the QEMU guest. This allows existing QEMU device models
-> + * to be reused in the remote process.
-> + *
-> + * This PCI host is purely a container for PCI devices. It's fake in the
-> + * sense that the guest never sees this PCI host and has no way of
-> + * accessing it. Its job is just to provide the environment that QEMU
-> + * PCI device models need when running in a remote process.
+> + *  This machine type is used by the remote device process in
+> multi-process
+> + *  QEMU. QEMU device models depend on parent busses, interrupt
+> controllers,
+> + *  memory regions, etc. The remote machine type offers this environment
+> so
+> + *  that QEMU device models can be used as remote devices.
 > + *
 > + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
 > + *
@@ -210,103 +207,103 @@ REMOTE_PCIHOST
 > +#include "qemu/osdep.h"
 > +#include "qemu-common.h"
 > +
-> +#include "hw/pci/pci.h"
-> +#include "hw/pci/pci_host.h"
-> +#include "hw/pci/pcie_host.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/pci-host/remote.h"
+> +#include "hw/remote/machine.h"
+> +#include "exec/address-spaces.h"
 > +#include "exec/memory.h"
+> +#include "qapi/error.h"
 > +
-> +static const char *remote_pcihost_root_bus_path(PCIHostState *host_bridg=
-e,
-> +                                                PCIBus *rootbus)
+> +static void remote_machine_init(MachineState *machine)
 > +{
-> +    return "0000:00";
+> +    MemoryRegion *system_memory, *system_io, *pci_memory;
+> +    RemoteMachineState *s =3D REMOTE_MACHINE(machine);
+> +    RemotePCIHost *rem_host;
+> +
+> +    system_memory =3D get_system_memory();
+> +    system_io =3D get_system_io();
+> +
+> +    pci_memory =3D g_new(MemoryRegion, 1);
+> +    memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
+> +
+> +    rem_host =3D REMOTE_HOST_DEVICE(qdev_new(TYPE_REMOTE_HOST_DEVICE));
+> +
+> +    rem_host->mr_pci_mem =3D pci_memory;
+> +    rem_host->mr_sys_mem =3D system_memory;
+> +    rem_host->mr_sys_io =3D system_io;
+> +
+> +    s->host =3D rem_host;
+> +
+> +    object_property_add_child(OBJECT(s), "remote-device",
+> OBJECT(rem_host));
+>
+
+"remote-pcihost" instead ?
+
++    memory_region_add_subregion_overlap(system_memory, 0x0, pci_memory,
+> -1);
+> +
+> +    qdev_realize(DEVICE(rem_host), sysbus_get_default(), &error_fatal);
 > +}
 > +
-> +static void remote_pcihost_realize(DeviceState *dev, Error **errp)
+> +static void remote_machine_class_init(ObjectClass *oc, void *data)
 > +{
-> +    PCIHostState *pci =3D PCI_HOST_BRIDGE(dev);
-> +    RemotePCIHost *s =3D REMOTE_HOST_DEVICE(dev);
+> +    MachineClass *mc =3D MACHINE_CLASS(oc);
 > +
-> +    pci->bus =3D pci_root_bus_new(DEVICE(s), "remote-pci",
-> +                                s->mr_pci_mem, s->mr_sys_io,
-> +                                0, TYPE_PCIE_BUS);
-> +}
+> +    mc->init =3D remote_machine_init;
+>
+
+Set mc->desc =3D "Experimental remote machine" ?
+
++}
 > +
-> +static void remote_pcihost_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +    PCIHostBridgeClass *hc =3D PCI_HOST_BRIDGE_CLASS(klass);
-> +
-> +    hc->root_bus_path =3D remote_pcihost_root_bus_path;
-> +    dc->realize =3D remote_pcihost_realize;
-> +
-> +    dc->user_creatable =3D false;
-> +    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-> +    dc->fw_name =3D "pci";
-> +}
-> +
-> +static const TypeInfo remote_pcihost_info =3D {
-> +    .name =3D TYPE_REMOTE_HOST_DEVICE,
-> +    .parent =3D TYPE_PCIE_HOST_BRIDGE,
-> +    .instance_size =3D sizeof(RemotePCIHost),
-> +    .class_init =3D remote_pcihost_class_init,
+> +static const TypeInfo remote_machine =3D {
+> +    .name =3D TYPE_REMOTE_MACHINE,
+> +    .parent =3D TYPE_MACHINE,
+> +    .instance_size =3D sizeof(RemoteMachineState),
+> +    .class_init =3D remote_machine_class_init,
 > +};
 > +
-> +static void remote_pcihost_register(void)
+> +static void remote_machine_register_types(void)
 > +{
-> +    type_register_static(&remote_pcihost_info);
+> +    type_register_static(&remote_machine);
 > +}
 > +
-> +type_init(remote_pcihost_register)
+> +type_init(remote_machine_register_types);
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index f615ad1..4515476 100644
+> index 4515476..c45ac1d 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -3137,6 +3137,8 @@ M: John G Johnson <john.g.johnson@oracle.com>
->  S: Maintained
->  F: docs/devel/multi-process.rst
+> @@ -3139,6 +3139,8 @@ F: docs/devel/multi-process.rst
 >  F: tests/multiprocess/multiprocess-lsi53c895a.py
-> +F: hw/pci-host/remote.c
-> +F: include/hw/pci-host/remote.h
+>  F: hw/pci-host/remote.c
+>  F: include/hw/pci-host/remote.h
+> +F: hw/remote/machine.c
+> +F: include/hw/remote/machine.h
 >
 >  Build and test automation
 >  -------------------------
-> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-> index 036a618..25cdeb2 100644
-> --- a/hw/pci-host/Kconfig
-> +++ b/hw/pci-host/Kconfig
-> @@ -60,3 +60,6 @@ config PCI_BONITO
->      select PCI
->      select UNIMP
->      bool
+> diff --git a/hw/meson.build b/hw/meson.build
+> index 010de72..e615d72 100644
+> --- a/hw/meson.build
+> +++ b/hw/meson.build
+> @@ -56,6 +56,7 @@ subdir('moxie')
+>  subdir('nios2')
+>  subdir('openrisc')
+>  subdir('ppc')
+> +subdir('remote')
+>  subdir('riscv')
+>  subdir('rx')
+>  subdir('s390x')
+> diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+> new file mode 100644
+> index 0000000..197b038
+> --- /dev/null
+> +++ b/hw/remote/meson.build
+> @@ -0,0 +1,5 @@
+> +remote_ss =3D ss.source_set()
 > +
-> +config MULTIPROCESS_HOST
-> +    bool
-> diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-> index e6d1b89..4147100 100644
-> --- a/hw/pci-host/meson.build
-> +++ b/hw/pci-host/meson.build
-> @@ -9,6 +9,7 @@ pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true:
-> files('xilinx-pcie.c'))
->  pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
->  pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
->  pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true:
-> files('xen_igd_pt.c'))
-> +pci_ss.add(when: 'CONFIG_MULTIPROCESS_HOST', if_true: files('remote.c'))
->
->  # PPC devices
->  pci_ss.add(when: 'CONFIG_PREP_PCI', if_true: files('prep.c'))
-> diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
-> index 5484446..fb6ee4a 100644
-> --- a/hw/remote/Kconfig
-> +++ b/hw/remote/Kconfig
-> @@ -1,3 +1,4 @@
->  config MULTIPROCESS
->      bool
->      depends on PCI && KVM
-> +    select MULTIPROCESS_HOST
+> +remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
+> +
+> +softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
 > --
 > 1.8.3.1
 >
@@ -315,7 +312,7 @@ e,
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000abc80b05b5a457ba
+--000000000000befd6b05b5a464a8
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -324,44 +321,58 @@ Content-Transfer-Encoding: quoted-printable
 nathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle.c=
 om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
 n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">PCI host bridge is setup for the remote device process. It is<br>
-implemented using remote-pcihost object. It is an extension of the PCI<br>
-host bridge setup by QEMU.<br>
-Remote-pcihost configures a PCI bus which could be used by the remote<br>
-PCI device to latch on to.<br>
+">x-remote-machine object sets up various subsystems of the remote<br>
+device process. Instantiate PCI host bridge object and initialize RAM, IO &=
+amp;<br>
+PCI memory regions.<br>
 <br>
-Signed-off-by: Jagannathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com=
-" target=3D"_blank">jag.raman@oracle.com</a>&gt;<br>
 Signed-off-by: John G Johnson &lt;<a href=3D"mailto:john.g.johnson@oracle.c=
 om" target=3D"_blank">john.g.johnson@oracle.com</a>&gt;<br>
+Signed-off-by: Jagannathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com=
+" target=3D"_blank">jag.raman@oracle.com</a>&gt;<br>
 Signed-off-by: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle=
 .com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
 Reviewed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" tar=
 get=3D"_blank">stefanha@redhat.com</a>&gt;<br>
 ---<br>
-=C2=A0include/hw/pci-host/remote.h | 30 ++++++++++++++++++<br>
-=C2=A0hw/pci-host/remote.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 75 ++++++++++=
+=C2=A0include/hw/pci-host/remote.h |=C2=A0 1 +<br>
+=C2=A0include/hw/remote/machine.h=C2=A0 | 28 ++++++++++++++++++<br>
+=C2=A0hw/remote/machine.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 69 ++++++++++=
 ++++++++++++++++++++++++++++++++++<br>
 =C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
 =C2=A0 |=C2=A0 2 ++<br>
-=C2=A0hw/pci-host/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 ++<br=
->
-=C2=A0hw/pci-host/meson.build=C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
-=C2=A0hw/remote/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 =
-+<br>
-=C2=A06 files changed, 112 insertions(+)<br>
-=C2=A0create mode 100644 include/hw/pci-host/remote.h<br>
-=C2=A0create mode 100644 hw/pci-host/remote.c<br>
+=C2=A0hw/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 1 +<br>
+=C2=A0hw/remote/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 ++++<br>
+=C2=A06 files changed, 106 insertions(+)<br>
+=C2=A0create mode 100644 include/hw/remote/machine.h<br>
+=C2=A0create mode 100644 hw/remote/machine.c<br>
+=C2=A0create mode 100644 hw/remote/meson.build<br>
 <br>
 diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h<br=
 >
-new file mode 100644<br>
-index 0000000..bab6d3c<br>
---- /dev/null<br>
+index bab6d3c..cc0fff4 100644<br>
+--- a/include/hw/pci-host/remote.h<br>
 +++ b/include/hw/pci-host/remote.h<br>
-@@ -0,0 +1,30 @@<br>
+@@ -25,6 +25,7 @@ typedef struct RemotePCIHost {<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0MemoryRegion *mr_pci_mem;<br>
+=C2=A0 =C2=A0 =C2=A0MemoryRegion *mr_sys_io;<br>
++=C2=A0 =C2=A0 MemoryRegion *mr_sys_mem;<br></blockquote><div><br></div><di=
+v>Why is this not part of the previous patch?</div><div> <br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+=C2=A0} RemotePCIHost;<br>
+<br>
+=C2=A0#endif<br>
+diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h<br>
+new file mode 100644<br>
+index 0000000..d312972<br>
+--- /dev/null<br>
++++ b/include/hw/remote/machine.h<br>
+@@ -0,0 +1,28 @@<br>
 +/*<br>
-+ * PCI Host for remote device<br>
++ * Remote machine configuration<br>
 + *<br>
 + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.<br>
 + *<br>
@@ -371,56 +382,41 @@ r.<br>
 + *<br>
 + */<br>
 +<br>
-+#ifndef REMOTE_PCIHOST_H<br>
-+#define REMOTE_PCIHOST_H<br>
++#ifndef REMOTE_MACHINE_H<br>
++#define REMOTE_MACHINE_H<br>
 +<br>
-+#include &quot;exec/memory.h&quot;<br>
-+#include &quot;hw/pci/pcie_host.h&quot;<br>
++#include &quot;qom/object.h&quot;<br>
++#include &quot;hw/boards.h&quot;<br>
++#include &quot;hw/pci-host/remote.h&quot;<br>
 +<br>
-+#define TYPE_REMOTE_HOST_DEVICE &quot;remote-pcihost&quot;<br></blockquote=
-><div><br></div><div>I got confused by the following patch. Please try to b=
-e consistent.</div><div><br></div><div>TYPE_REMOTE_PCIHOST would help.</div=
-><div><br></div><div>thanks</div><div><br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-+#define REMOTE_HOST_DEVICE(obj) \<br>
-+=C2=A0 =C2=A0 OBJECT_CHECK(RemotePCIHost, (obj), TYPE_REMOTE_HOST_DEVICE)<=
-br></blockquote><div><br></div><div>REMOTE_PCIHOST</div><div> <br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
++typedef struct RemoteMachineState {<br>
++=C2=A0 =C2=A0 MachineState parent_obj;<br>
 +<br>
-+typedef struct RemotePCIHost {<br>
-+=C2=A0 =C2=A0 /*&lt; private &gt;*/<br>
-+=C2=A0 =C2=A0 PCIExpressHost parent_obj;<br>
-+=C2=A0 =C2=A0 /*&lt; public &gt;*/<br>
++=C2=A0 =C2=A0 RemotePCIHost *host;<br>
++} RemoteMachineState;<br>
 +<br>
-+=C2=A0 =C2=A0 MemoryRegion *mr_pci_mem;<br>
-+=C2=A0 =C2=A0 MemoryRegion *mr_sys_io;<br>
-+} RemotePCIHost;<br>
++#define TYPE_REMOTE_MACHINE &quot;x-remote-machine&quot;<br>
++#define REMOTE_MACHINE(obj) \<br>
++=C2=A0 =C2=A0 OBJECT_CHECK(RemoteMachineState, (obj), TYPE_REMOTE_MACHINE)=
+<br>
 +<br>
 +#endif<br>
-diff --git a/hw/pci-host/remote.c b/hw/pci-host/remote.c<br>
+diff --git a/hw/remote/machine.c b/hw/remote/machine.c<br>
 new file mode 100644<br>
-index 0000000..11325e2<br>
+index 0000000..c5658bf<br>
 --- /dev/null<br>
-+++ b/hw/pci-host/remote.c<br>
-@@ -0,0 +1,75 @@<br>
++++ b/hw/remote/machine.c<br>
+@@ -0,0 +1,69 @@<br>
 +/*<br>
-+ * Remote PCI host device<br>
++ * Machine for remote device<br>
 + *<br>
-+ * Unlike PCI host devices that model physical hardware, the purpose<br>
-+ * of this PCI host is to host multi-process QEMU devices.<br>
-+ *<br>
-+ * Multi-process QEMU extends the PCI host of a QEMU machine into a<br>
-+ * remote process. Any PCI device attached to the remote process is<br>
-+ * visible in the QEMU guest. This allows existing QEMU device models<br>
-+ * to be reused in the remote process.<br>
-+ *<br>
-+ * This PCI host is purely a container for PCI devices. It&#39;s fake in t=
-he<br>
-+ * sense that the guest never sees this PCI host and has no way of<br>
-+ * accessing it. Its job is just to provide the environment that QEMU<br>
-+ * PCI device models need when running in a remote process.<br>
++ *=C2=A0 This machine type is used by the remote device process in multi-p=
+rocess<br>
++ *=C2=A0 QEMU. QEMU device models depend on parent busses, interrupt contr=
+ollers,<br>
++ *=C2=A0 memory regions, etc. The remote machine type offers this environm=
+ent so<br>
++ *=C2=A0 that QEMU device models can be used as remote devices.<br>
 + *<br>
 + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.<br>
 + *<br>
@@ -433,119 +429,111 @@ r.<br>
 +#include &quot;qemu/osdep.h&quot;<br>
 +#include &quot;qemu-common.h&quot;<br>
 +<br>
-+#include &quot;hw/pci/pci.h&quot;<br>
-+#include &quot;hw/pci/pci_host.h&quot;<br>
-+#include &quot;hw/pci/pcie_host.h&quot;<br>
-+#include &quot;hw/qdev-properties.h&quot;<br>
-+#include &quot;hw/pci-host/remote.h&quot;<br>
++#include &quot;hw/remote/machine.h&quot;<br>
++#include &quot;exec/address-spaces.h&quot;<br>
 +#include &quot;exec/memory.h&quot;<br>
++#include &quot;qapi/error.h&quot;<br>
 +<br>
-+static const char *remote_pcihost_root_bus_path(PCIHostState *host_bridge,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 PCIBus *rootbus)<br>
++static void remote_machine_init(MachineState *machine)<br>
 +{<br>
-+=C2=A0 =C2=A0 return &quot;0000:00&quot;;<br>
++=C2=A0 =C2=A0 MemoryRegion *system_memory, *system_io, *pci_memory;<br>
++=C2=A0 =C2=A0 RemoteMachineState *s =3D REMOTE_MACHINE(machine);<br>
++=C2=A0 =C2=A0 RemotePCIHost *rem_host;<br>
++<br>
++=C2=A0 =C2=A0 system_memory =3D get_system_memory();<br>
++=C2=A0 =C2=A0 system_io =3D get_system_io();<br>
++<br>
++=C2=A0 =C2=A0 pci_memory =3D g_new(MemoryRegion, 1);<br>
++=C2=A0 =C2=A0 memory_region_init(pci_memory, NULL, &quot;pci&quot;, UINT64=
+_MAX);<br>
++<br>
++=C2=A0 =C2=A0 rem_host =3D REMOTE_HOST_DEVICE(qdev_new(TYPE_REMOTE_HOST_DE=
+VICE));<br>
++<br>
++=C2=A0 =C2=A0 rem_host-&gt;mr_pci_mem =3D pci_memory;<br>
++=C2=A0 =C2=A0 rem_host-&gt;mr_sys_mem =3D system_memory;<br>
++=C2=A0 =C2=A0 rem_host-&gt;mr_sys_io =3D system_io;<br>
++<br>
++=C2=A0 =C2=A0 s-&gt;host =3D rem_host;<br>
++<br>
++=C2=A0 =C2=A0 object_property_add_child(OBJECT(s), &quot;remote-device&quo=
+t;, OBJECT(rem_host));<br></blockquote><div><br></div><div>&quot;remote-pci=
+host&quot; instead ?</div><div> <br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">
++=C2=A0 =C2=A0 memory_region_add_subregion_overlap(system_memory, 0x0, pci_=
+memory, -1);<br>
++<br>
++=C2=A0 =C2=A0 qdev_realize(DEVICE(rem_host), sysbus_get_default(), &amp;er=
+ror_fatal);<br>
 +}<br>
 +<br>
-+static void remote_pcihost_realize(DeviceState *dev, Error **errp)<br>
++static void remote_machine_class_init(ObjectClass *oc, void *data)<br>
 +{<br>
-+=C2=A0 =C2=A0 PCIHostState *pci =3D PCI_HOST_BRIDGE(dev);<br>
-+=C2=A0 =C2=A0 RemotePCIHost *s =3D REMOTE_HOST_DEVICE(dev);<br>
++=C2=A0 =C2=A0 MachineClass *mc =3D MACHINE_CLASS(oc);<br>
 +<br>
-+=C2=A0 =C2=A0 pci-&gt;bus =3D pci_root_bus_new(DEVICE(s), &quot;remote-pci=
-&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mr_pci_mem, s-&gt;mr_sys_io,<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0, TYPE_PCIE_BUS);<br>
++=C2=A0 =C2=A0 mc-&gt;init =3D remote_machine_init;<br></blockquote><div><b=
+r></div><div>Set mc-&gt;desc =3D &quot;Experimental remote machine&quot; ?<=
+/div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 +}<br>
 +<br>
-+static void remote_pcihost_class_init(ObjectClass *klass, void *data)<br>
-+{<br>
-+=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
-+=C2=A0 =C2=A0 PCIHostBridgeClass *hc =3D PCI_HOST_BRIDGE_CLASS(klass);<br>
-+<br>
-+=C2=A0 =C2=A0 hc-&gt;root_bus_path =3D remote_pcihost_root_bus_path;<br>
-+=C2=A0 =C2=A0 dc-&gt;realize =3D remote_pcihost_realize;<br>
-+<br>
-+=C2=A0 =C2=A0 dc-&gt;user_creatable =3D false;<br>
-+=C2=A0 =C2=A0 set_bit(DEVICE_CATEGORY_BRIDGE, dc-&gt;categories);<br>
-+=C2=A0 =C2=A0 dc-&gt;fw_name =3D &quot;pci&quot;;<br>
-+}<br>
-+<br>
-+static const TypeInfo remote_pcihost_info =3D {<br>
-+=C2=A0 =C2=A0 .name =3D TYPE_REMOTE_HOST_DEVICE,<br>
-+=C2=A0 =C2=A0 .parent =3D TYPE_PCIE_HOST_BRIDGE,<br>
-+=C2=A0 =C2=A0 .instance_size =3D sizeof(RemotePCIHost),<br>
-+=C2=A0 =C2=A0 .class_init =3D remote_pcihost_class_init,<br>
++static const TypeInfo remote_machine =3D {<br>
++=C2=A0 =C2=A0 .name =3D TYPE_REMOTE_MACHINE,<br>
++=C2=A0 =C2=A0 .parent =3D TYPE_MACHINE,<br>
++=C2=A0 =C2=A0 .instance_size =3D sizeof(RemoteMachineState),<br>
++=C2=A0 =C2=A0 .class_init =3D remote_machine_class_init,<br>
 +};<br>
 +<br>
-+static void remote_pcihost_register(void)<br>
++static void remote_machine_register_types(void)<br>
 +{<br>
-+=C2=A0 =C2=A0 type_register_static(&amp;remote_pcihost_info);<br>
++=C2=A0 =C2=A0 type_register_static(&amp;remote_machine);<br>
 +}<br>
 +<br>
-+type_init(remote_pcihost_register)<br>
++type_init(remote_machine_register_types);<br>
 diff --git a/MAINTAINERS b/MAINTAINERS<br>
-index f615ad1..4515476 100644<br>
+index 4515476..c45ac1d 100644<br>
 --- a/MAINTAINERS<br>
 +++ b/MAINTAINERS<br>
-@@ -3137,6 +3137,8 @@ M: John G Johnson &lt;<a href=3D"mailto:john.g.johnso=
-n@oracle.com" target=3D"_blank">john.g.johnson@oracle.com</a>&gt;<br>
-=C2=A0S: Maintained<br>
-=C2=A0F: docs/devel/multi-process.rst<br>
+@@ -3139,6 +3139,8 @@ F: docs/devel/multi-process.rst<br>
 =C2=A0F: tests/multiprocess/multiprocess-lsi53c895a.py<br>
-+F: hw/pci-host/remote.c<br>
-+F: include/hw/pci-host/remote.h<br>
+=C2=A0F: hw/pci-host/remote.c<br>
+=C2=A0F: include/hw/pci-host/remote.h<br>
++F: hw/remote/machine.c<br>
++F: include/hw/remote/machine.h<br>
 <br>
 =C2=A0Build and test automation<br>
 =C2=A0-------------------------<br>
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig<br>
-index 036a618..25cdeb2 100644<br>
---- a/hw/pci-host/Kconfig<br>
-+++ b/hw/pci-host/Kconfig<br>
-@@ -60,3 +60,6 @@ config PCI_BONITO<br>
-=C2=A0 =C2=A0 =C2=A0select PCI<br>
-=C2=A0 =C2=A0 =C2=A0select UNIMP<br>
-=C2=A0 =C2=A0 =C2=A0bool<br>
+diff --git a/hw/meson.build b/hw/meson.build<br>
+index 010de72..e615d72 100644<br>
+--- a/hw/meson.build<br>
++++ b/hw/meson.build<br>
+@@ -56,6 +56,7 @@ subdir(&#39;moxie&#39;)<br>
+=C2=A0subdir(&#39;nios2&#39;)<br>
+=C2=A0subdir(&#39;openrisc&#39;)<br>
+=C2=A0subdir(&#39;ppc&#39;)<br>
++subdir(&#39;remote&#39;)<br>
+=C2=A0subdir(&#39;riscv&#39;)<br>
+=C2=A0subdir(&#39;rx&#39;)<br>
+=C2=A0subdir(&#39;s390x&#39;)<br>
+diff --git a/hw/remote/meson.build b/hw/remote/meson.build<br>
+new file mode 100644<br>
+index 0000000..197b038<br>
+--- /dev/null<br>
++++ b/hw/remote/meson.build<br>
+@@ -0,0 +1,5 @@<br>
++remote_ss =3D ss.source_set()<br>
 +<br>
-+config MULTIPROCESS_HOST<br>
-+=C2=A0 =C2=A0 bool<br>
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build<br>
-index e6d1b89..4147100 100644<br>
---- a/hw/pci-host/meson.build<br>
-+++ b/hw/pci-host/meson.build<br>
-@@ -9,6 +9,7 @@ pci_ss.add(when: &#39;CONFIG_PCI_EXPRESS_XILINX&#39;, if_tr=
-ue: files(&#39;xilinx-pcie.c&#39;))<br>
-=C2=A0pci_ss.add(when: &#39;CONFIG_PCI_I440FX&#39;, if_true: files(&#39;i44=
-0fx.c&#39;))<br>
-=C2=A0pci_ss.add(when: &#39;CONFIG_PCI_SABRE&#39;, if_true: files(&#39;sabr=
-e.c&#39;))<br>
-=C2=A0pci_ss.add(when: &#39;CONFIG_XEN_IGD_PASSTHROUGH&#39;, if_true: files=
-(&#39;xen_igd_pt.c&#39;))<br>
-+pci_ss.add(when: &#39;CONFIG_MULTIPROCESS_HOST&#39;, if_true: files(&#39;r=
-emote.c&#39;))<br>
-<br>
-=C2=A0# PPC devices<br>
-=C2=A0pci_ss.add(when: &#39;CONFIG_PREP_PCI&#39;, if_true: files(&#39;prep.=
-c&#39;))<br>
-diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig<br>
-index 5484446..fb6ee4a 100644<br>
---- a/hw/remote/Kconfig<br>
-+++ b/hw/remote/Kconfig<br>
-@@ -1,3 +1,4 @@<br>
-=C2=A0config MULTIPROCESS<br>
-=C2=A0 =C2=A0 =C2=A0bool<br>
-=C2=A0 =C2=A0 =C2=A0depends on PCI &amp;&amp; KVM<br>
-+=C2=A0 =C2=A0 select MULTIPROCESS_HOST<br>
++remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#39;mac=
+hine.c&#39;))<br>
++<br>
++softmmu_ss.add_all(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: remote_ss=
+)<br>
 -- <br>
 1.8.3.1<br>
 <br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000abc80b05b5a457ba--
+--000000000000befd6b05b5a464a8--
 
