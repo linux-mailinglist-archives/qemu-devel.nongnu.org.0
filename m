@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA05C2CF757
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 00:14:17 +0100 (CET)
-Received: from localhost ([::1]:42374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 352AB2CF754
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 00:12:50 +0100 (CET)
+Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klKHI-0007JC-NR
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 18:14:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51892)
+	id 1klKFt-00064B-9a
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 18:12:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1klKAE-0002UU-9M
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 18:06:58 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4638)
+ id 1klKAP-0002aJ-SE
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 18:07:10 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1klKA4-0004St-2w
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 18:06:58 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ id 1klKAN-0004Wk-3q
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 18:07:09 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0B4N4Hbd170712
- for <qemu-devel@nongnu.org>; Fri, 4 Dec 2020 18:06:47 -0500
+ 0B4N6EBw007923
+ for <qemu-devel@nongnu.org>; Fri, 4 Dec 2020 18:07:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=PU+fbnUADiPI1WaQu2R7WKTvIHv60rwXN2hrq/pVSSU=;
- b=TpDHNve5a3DJTDbqXGKORvnmH+b4JL39h7GhrI9rHZfv4fzRsHHJMR2nmHZx8c64iAep
- 6N/dFWCkeKKk/VjVy7zc3BJffawcQszO93Wthtw39l+HRKbExGiUEcR9rlfLMQ1h79VJ
- nnVO+BG/lh8lbvhb/2abRFbkJBK4YxMxD19OognV0SkKzyFN9zgn3iU9+C1ljYy74hey
- ogAyO9y1EYuCRNQVLldN1rnR/LZsX6dabGw6X+BopooFRv4RiBhgvy4dr+R5cmx2UzOL
- 1lYpZe2BlZE7aVZvi5ZOZAUKM2abjsBSqbm3fDxE93x7K3rvvct8c++h7BE+t9lz3cmW tw== 
+ bh=pn3RvV+Fir36UeqqAqhL8MtO8lFI+sLT95eQEssV+kU=;
+ b=qWl19wSu8UsXTnd1CsuNJVKHlfDWMVCnwV/4JxaA5/mlwYhZ80fxj3ZgpoYa6R7E5Xgg
+ V7x213LUhX+exvGL+vUS9syE8Wcha7EhfVDmh4F9RDru61cEAKF/Dwqc0Fx6LbZ2nj8o
+ CQDmxSQzSqN0UUiaUpSFuylDwjZmBj9Q4Ay45r/+xLnmaxE9VyYkqODoBMGQMnYL4Gen
+ EwxOm9wadyBFCpSkyRL0agGHFbEi+mgJgmY82m4U5q5CGilbaRY2rsTazy6uTkju57cL
+ 2fTwSZeLETp1wVXdeLeOvQx+5Bdfq6rO5ABaHQzLX7voCm8ETOWnGoT1j9etnMCmTzdN gg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 357uqebtk6-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 357735grar-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 18:06:46 -0500
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B4N4IQx171349
- for <qemu-devel@nongnu.org>; Fri, 4 Dec 2020 18:06:46 -0500
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 18:07:04 -0500
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B4N6Y3L008386
+ for <qemu-devel@nongnu.org>; Fri, 4 Dec 2020 18:06:56 -0500
 Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
  [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 357uqebtjh-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 357735gr7k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Dec 2020 18:06:46 -0500
+ Fri, 04 Dec 2020 18:06:55 -0500
 Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B4MhDx9025338;
- Fri, 4 Dec 2020 23:06:45 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02wdc.us.ibm.com with ESMTP id 356cbf3evr-1
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B4MhC4n025328;
+ Fri, 4 Dec 2020 23:06:47 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma02wdc.us.ibm.com with ESMTP id 356cbf3evy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Dec 2020 23:06:44 +0000
+ Fri, 04 Dec 2020 23:06:47 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0B4N6iHb24904098
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0B4N6kdS6619842
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Dec 2020 23:06:44 GMT
+ Fri, 4 Dec 2020 23:06:46 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 083C26A054;
- Fri,  4 Dec 2020 23:06:44 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 38D7E6A057;
+ Fri,  4 Dec 2020 23:06:46 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 69F0A6A058;
- Fri,  4 Dec 2020 23:06:43 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A28CE6A05A;
+ Fri,  4 Dec 2020 23:06:45 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.160.122.174])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri,  4 Dec 2020 23:06:43 +0000 (GMT)
+ Fri,  4 Dec 2020 23:06:45 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/5] configure,meson: support Control-Flow Integrity
-Date: Fri,  4 Dec 2020 18:06:14 -0500
-Message-Id: <20201204230615.2392-5-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH v4 5/5] docs: Add CFI Documentation
+Date: Fri,  4 Dec 2020 18:06:15 -0500
+Message-Id: <20201204230615.2392-6-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201204230615.2392-1-dbuono@linux.vnet.ibm.com>
 References: <20201204230615.2392-1-dbuono@linux.vnet.ibm.com>
@@ -80,14 +80,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-12-04_12:2020-12-04,
+ definitions=2020-12-04_13:2020-12-04,
  2020-12-04 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- impostorscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
- adultscore=0 clxscore=1015 phishscore=0 suspectscore=1 mlxlogscore=999
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012040128
+ lowpriorityscore=0
+ mlxlogscore=999 spamscore=0 phishscore=0 clxscore=1015 priorityscore=1501
+ mlxscore=0 bulkscore=0 impostorscore=0 adultscore=0 suspectscore=1
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012040132
 Received-SPF: none client-ip=148.163.156.1;
  envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -26
@@ -114,170 +114,157 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a flag to enable/disable control flow integrity checks
-on indirect function calls.
-This feature only allows indirect function calls at runtime to functions
-with compatible signatures.
-
-This feature is only provided by LLVM/Clang, and depends on link-time
-optimization which is currently supported only with LLVM/Clang >= 6.0
-
-We also add an option to enable a debugging version of cfi, with verbose
-output in case of a CFI violation.
-
-CFI on indirect function calls does not support calls to functions in
-shared libraries (since they were not known at compile time), and such
-calls are forbidden. QEMU relies on dlopen/dlsym when using modules,
-so we make modules incompatible with CFI.
-
-All the checks are performed in meson.build. configure is only used to
-forward the flags to meson
+Document how to compile with CFI and how to maintain CFI-safe code
 
 Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 ---
- configure         | 21 ++++++++++++++++++++-
- meson.build       | 45 +++++++++++++++++++++++++++++++++++++++++++++
- meson_options.txt |  4 ++++
- 3 files changed, 69 insertions(+), 1 deletion(-)
+ docs/devel/control-flow-integrity.rst | 137 ++++++++++++++++++++++++++
+ 1 file changed, 137 insertions(+)
+ create mode 100644 docs/devel/control-flow-integrity.rst
 
-diff --git a/configure b/configure
-index fee118518b..c4e5d92167 100755
---- a/configure
-+++ b/configure
-@@ -400,6 +400,8 @@ coroutine=""
- coroutine_pool=""
- debug_stack_usage="no"
- crypto_afalg="no"
-+cfi="disabled"
-+cfi_debug="disabled"
- seccomp=""
- glusterfs=""
- glusterfs_xlator_opt="no"
-@@ -1180,6 +1182,16 @@ for opt do
-   ;;
-   --disable-safe-stack) safe_stack="no"
-   ;;
-+  --enable-cfi)
-+      cfi="enabled";
-+      lto="true";
-+  ;;
-+  --disable-cfi) cfi="disabled"
-+  ;;
-+  --enable-cfi-debug) cfi_debug="enabled"
-+  ;;
-+  --disable-cfi-debug) cfi_debug="disabled"
-+  ;;
-   --disable-curses) curses="disabled"
-   ;;
-   --enable-curses) curses="enabled"
-@@ -1760,6 +1772,13 @@ disabled with --disable-FEATURE, default is enabled if available:
-   sparse          sparse checker
-   safe-stack      SafeStack Stack Smash Protection. Depends on
-                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
-+  cfi             Enable Control-Flow Integrity for indirect function calls.
-+                  In case of a cfi violation, QEMU is terminated with SIGILL
-+                  Depends on lto and is incompatible with modules
-+                  Automatically enables Link-Time Optimization (lto)
-+  cfi-debug       In case of a cfi violation, a message containing the line that
-+                  triggered the error is written to stderr. After the error,
-+                  QEMU is still terminated with SIGILL
- 
-   gnutls          GNUTLS cryptography support
-   nettle          nettle cryptography support
-@@ -7020,7 +7039,7 @@ NINJA=$ninja $meson setup \
-         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
-         -Dvhost_user_blk_server=$vhost_user_blk_server \
--        -Db_lto=$lto \
-+        -Db_lto=$lto -Dcfi=$cfi -Dcfi_debug=$cfi_debug \
-         $cross_arg \
-         "$PWD" "$source_path"
- 
-diff --git a/meson.build b/meson.build
-index ebd1c690e0..e1ae6521e0 100644
---- a/meson.build
-+++ b/meson.build
-@@ -773,6 +773,48 @@ elif get_option('vhost_user_blk_server').disabled() or not have_system
-     have_vhost_user_blk_server = false
- endif
- 
-+if get_option('cfi').enabled()
-+  cfi_flags=[]
-+  # Check for dependency on LTO
-+  if not get_option('b_lto')
-+    error('Selected Control-Flow Integrity but LTO is disabled')
-+  endif
-+  if config_host.has_key('CONFIG_MODULES')
-+    error('Selected Control-Flow Integrity is not compatible with modules')
-+  endif
-+  # Check for cfi flags. CFI requires LTO so we can't use
-+  # get_supported_arguments, but need a more complex "compiles" which allows
-+  # custom arguments
-+  if cc.compiles('int main () { return 0; }', name: '-fsanitize=cfi-icall',
-+                 args: ['-flto', '-fsanitize=cfi-icall'] )
-+    cfi_flags += '-fsanitize=cfi-icall'
-+  else
-+    error('-fsanitize=cfi-icall is not supported by the compiler')
-+  endif
-+  if cc.compiles('int main () { return 0; }',
-+                 name: '-fsanitize-cfi-icall-generalize-pointers',
-+                 args: ['-flto', '-fsanitize=cfi-icall',
-+                        '-fsanitize-cfi-icall-generalize-pointers'] )
-+    cfi_flags += '-fsanitize-cfi-icall-generalize-pointers'
-+  else
-+    error('-fsanitize-cfi-icall-generalize-pointers is not supported by the compiler')
-+  endif
-+  if get_option('cfi_debug').enabled()
-+    if cc.compiles('int main () { return 0; }',
-+                   name: '-fno-sanitize-trap=cfi-icall',
-+                   args: ['-flto', '-fsanitize=cfi-icall',
-+                          '-fno-sanitize-trap=cfi-icall'] )
-+      cfi_flags += '-fno-sanitize-trap=cfi-icall'
-+    else
-+      error('-fno-sanitize-trap=cfi-icall is not supported by the compiler')
-+    endif
-+  endif
-+  add_project_arguments(cfi_flags, native: false, language: ['c', 'cpp',
-+                                                             'objc'])
-+  add_project_link_arguments(cfi_flags, native: false, language: ['c', 'cpp',
-+                                                                  'objc'])
-+endif
+diff --git a/docs/devel/control-flow-integrity.rst b/docs/devel/control-flow-integrity.rst
+new file mode 100644
+index 0000000000..ec54d16a42
+--- /dev/null
++++ b/docs/devel/control-flow-integrity.rst
+@@ -0,0 +1,137 @@
++============================
++Control-Flow Integrity (CFI)
++============================
 +
- #################
- # config-host.h #
- #################
-@@ -807,6 +849,7 @@ config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
- config_host_data.set('CONFIG_GETTID', has_gettid)
- config_host_data.set('CONFIG_MALLOC_TRIM', has_malloc_trim)
- config_host_data.set('CONFIG_STATX', has_statx)
-+config_host_data.set('CONFIG_CFI', get_option('cfi').enabled())
- config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
- config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
- config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
-@@ -2159,6 +2202,8 @@ if targetos == 'windows'
-   summary_info += {'QGA MSI support':   config_host.has_key('CONFIG_QGA_MSI')}
- endif
- summary_info += {'seccomp support':   config_host.has_key('CONFIG_SECCOMP')}
-+summary_info += {'cfi support':       get_option('cfi').enabled()}
-+summary_info += {'cfi debug support': get_option('cfi_debug').enabled()}
- summary_info += {'coroutine backend': config_host['CONFIG_COROUTINE_BACKEND']}
- summary_info += {'coroutine pool':    config_host['CONFIG_COROUTINE_POOL'] == '1'}
- summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
-diff --git a/meson_options.txt b/meson_options.txt
-index f6f64785fe..8d5729e450 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -35,6 +35,10 @@ option('xen_pci_passthrough', type: 'feature', value: 'auto',
-        description: 'Xen PCI passthrough support')
- option('tcg', type: 'feature', value: 'auto',
-        description: 'TCG support')
-+option('cfi', type: 'feature', value: 'auto',
-+       description: 'Control-Flow Integrity (CFI)')
-+option('cfi_debug', type: 'feature', value: 'auto',
-+       description: 'Verbose errors in case of CFI violation')
- 
- option('cocoa', type : 'feature', value : 'auto',
-        description: 'Cocoa user interface (macOS only)')
++This document describes the current control-flow integrity (CFI) mechanism in
++QEMU. How it can be enabled, its benefits and deficiencies, and how it affects
++new and existing code in QEMU
++
++Basics
++------
++
++CFI is a hardening technique that focusing on guaranteeing that indirect
++function calls have not been altered by an attacker.
++The type used in QEMU is a forward-edge control-flow integrity that ensures
++function calls performed through function pointers, always call a "compatible"
++function. A compatible function is a function with the same signature of the
++function pointer declared in the source code.
++
++This type of CFI is entirely compiler-based and relies on the compiler knowing
++the signature of every function and every function pointer used in the code.
++As of now, the only compiler that provides support for CFI is Clang.
++
++CFI is best used on production binaries, to protect against unknown attack
++vectors.
++
++In case of a CFI violation (i.e. call to a non-compatible function) QEMU will
++terminate abruptly, to stop the possible attack.
++
++Building with CFI
++-----------------
++
++NOTE: CFI requires the use of link-time optimization. Therefore, when CFI is
++selected, LTO will be automatically enabled.
++
++To build with CFI, the minimum requirement is Clang 6+. If you
++are planning to also enable fuzzing, then Clang 11+ is needed (more on this
++later).
++
++Given the use of LTO, a version of AR that supports LLVM IR is required.
++The easies way of doing this is by selecting the AR provided by LLVM::
++
++ AR=llvm-ar-9 CC=clang-9 CXX=lang++-9 /path/to/configure --enable-cfi
++
++CFI is enabled on every binary produced.
++
++If desired, an additional flag to increase the verbosity of the output in case
++of a CFI violation is offered (``--enable-debug-cfi``).
++
++Using QEMU built with CFI
++-------------------------
++
++A binary with CFI will work exactly like a standard binary. In case of a CFI
++violation, the binary will terminate with an illegal instruction signal.
++
++Incompatible code with CFI
++--------------------------
++
++As mentioned above, CFI is entirely compiler-based and therefore relies on
++compile-time knowledge of the code. This means that, while generally supported
++for most code, some specific use pattern can break CFI compatibility, and
++create false-positives. The two main patterns that can cause issues are:
++
++* Just-in-time compiled code: since such code is created at runtime, the jump
++  to the buffer containing JIT code will fail.
++
++* Libraries loaded dynamically, e.g. with dlopen/dlsym, since the library was
++  not known at compile time.
++
++Current areas of QEMU that are not entirely compatible with CFI are:
++
++1. TCG, since the idea of TCG is to pre-compile groups of instructions at
++   runtime to speed-up interpretation, quite similarly to a JIT compiler
++
++2. TCI, where the interpreter has to interpret the generic *call* operation
++
++3. Plugins, since a plugin is implemented as an external library
++
++4. Modules, since they are implemented as an external library
++
++5. Directly calling signal handlers from the QEMU source code, since the
++   signal handler may have been provided by an external library or even plugged
++   at runtime.
++
++Disabling CFI for a specific function
++-------------------------------------
++
++If you are working on function that is performing a call using an
++incompatible way, as described before, you can selectively disable CFI checks
++for such function by using the decorator ``QEMU_DISABLE_CFI`` at function
++definition, and add an explanation on why the function is not compatible
++with CFI. An example of the use of ``QEMU_DISABLE_CFI`` is provided here::
++
++	/*
++	 * Disable CFI checks.
++	 * TCG creates binary blobs at runtime, with the transformed code.
++	 * A TB is a blob of binary code, created at runtime and called with an
++	 * indirect function call. Since such function did not exist at compile time,
++	 * the CFI runtime has no way to verify its signature and would fail.
++	 * TCG is not considered a security-sensitive part of QEMU so this does not
++	 * affect the impact of CFI in environment with high security requirements
++	 */
++	QEMU_DISABLE_CFI
++	static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
++
++NOTE: CFI needs to be disabled at the **caller** function, (i.e. a compatible
++cfi function that calls a non-compatible one), since the check is performed
++when the function call is performed.
++
++CFI and fuzzing
++---------------
++
++There is generally no advantage of using CFI and fuzzing together, because
++they target different environments (production for CFI, debug for fuzzing).
++
++CFI could be used in conjunction with fuzzing to identify a broader set of
++bugs that may not end immediately in a segmentation fault or triggering
++an assertion. However, other sanitizers such as address and ub sanitizers
++can identify such bugs in a more precise way than CFI.
++
++There is, however, an interesting use case in using CFI in conjunction with
++fuzzing, that is to make sure that CFI is not triggering any false positive
++in remote-but-possible parts of the code.
++
++CFI can be enabled with fuzzing, but with some caveats:
++1. Fuzzing relies on the linker performing function wrapping at link-time.
++The standard BFD linker does not support function wrapping when LTO is
++also enabled. The workaround is to use LLVM's lld linker.
++2. Fuzzing also relies on a custom linker script, which is only supported by
++lld with version 11+.
++
++In other words, to compile with fuzzing and CFI, clang 11+ is required, and
++lld needs to be used as a linker::
++
++ AR=llvm-ar-11 CC=clang-11 CXX=lang++-11 /path/to/configure --enable-cfi \
++                           -enable-fuzzing --extra-ldflags="-fuse-ld=lld"
++
++and then, compile the fuzzers as usual.
 -- 
 2.17.1
 
