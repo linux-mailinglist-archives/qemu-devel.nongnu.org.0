@@ -2,49 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88FC2CE971
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 09:22:58 +0100 (CET)
-Received: from localhost ([::1]:34764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523E32CE964
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 09:19:56 +0100 (CET)
+Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kl6Mj-0005f3-TK
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 03:22:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53440)
+	id 1kl6Jn-0003J8-8o
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 03:19:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kl6Dz-00072A-Am; Fri, 04 Dec 2020 03:13:55 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2988)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kl6Dx-0007AE-1K; Fri, 04 Dec 2020 03:13:55 -0500
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CnQSf2V64zhmJP;
- Fri,  4 Dec 2020 16:13:22 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 4 Dec 2020
- 16:13:39 +0800
-From: Gan Qixin <ganqixin@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 3/3] s390x/cpu: Use timer_free() in the finalize function to
- avoid memleaks
-Date: Fri, 4 Dec 2020 16:12:09 +0800
-Message-ID: <20201204081209.360524-4-ganqixin@huawei.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201204081209.360524-1-ganqixin@huawei.com>
-References: <20201204081209.360524-1-ganqixin@huawei.com>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kl6HR-0001rn-Om
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 03:17:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kl6HP-00008s-H2
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 03:17:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607069845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OMu6Ts4aXegHwTfI5K4+wIFUI7ZOjwyzufO+hy2X5v0=;
+ b=YnE3+xYG2mHFEwTW+IrbbBnvl27BNZMHd1FeNUr4xniLrUm83QtjlESz2RvH+74yL/sU4Z
+ lYgibThqwDOAi1hzhBFjOxkS7eGnMulbzFmcG3U/+uIH3Ekt0zo9myXnE7yWHk2UuIATYd
+ 4A2sF2LkrB60SOQ1zOcIBr8IBCVQT40=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-507-PkCGHXBdOoW3IS7HMSFR1g-1; Fri, 04 Dec 2020 03:17:21 -0500
+X-MC-Unique: PkCGHXBdOoW3IS7HMSFR1g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3581800D53;
+ Fri,  4 Dec 2020 08:17:19 +0000 (UTC)
+Received: from gondolin (ovpn-113-97.ams2.redhat.com [10.36.113.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 700395C1CF;
+ Fri,  4 Dec 2020 08:17:09 +0000 (UTC)
+Date: Fri, 4 Dec 2020 09:17:06 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [for-6.0 v5 12/13] securable guest memory: Alter virtio default
+ properties for protected guests
+Message-ID: <20201204091706.4432dc1e.cohuck@redhat.com>
+In-Reply-To: <d739cae2-9197-76a5-1c19-057bfe832187@de.ibm.com>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <20201204054415.579042-13-david@gibson.dropbear.id.au>
+ <d739cae2-9197-76a5-1c19-057bfe832187@de.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=ganqixin@huawei.com;
- helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,58 +76,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, zhang.zhanghailiang@huawei.com,
- Gan Qixin <ganqixin@huawei.com>, Euler
- Robot <euler.robot@huawei.com>, kuhn.chenqun@huawei.com,
- david@gibson.dropbear.id.au
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com, dgilbert@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, qemu-s390x@nongnu.org, qemu-ppc@nongnu.org,
+ berrange@redhat.com, thuth@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running device-introspect-test, a memory leak occurred in the s390_cpu_initfn
-function, this patch use timer_free() in the finalize function to fix it.
+On Fri, 4 Dec 2020 09:10:36 +0100
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-ASAN shows memory leak stack:
+> On 04.12.20 06:44, David Gibson wrote:
+> > The default behaviour for virtio devices is not to use the platforms normal
+> > DMA paths, but instead to use the fact that it's running in a hypervisor
+> > to directly access guest memory.  That doesn't work if the guest's memory
+> > is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
+> > 
+> > So, if a securable guest memory mechanism is enabled, then apply the
+> > iommu_platform=on option so it will go through normal DMA mechanisms.
+> > Those will presumably have some way of marking memory as shared with
+> > the hypervisor or hardware so that DMA will work.
+> > 
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  hw/core/machine.c | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
+> > 
+> > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > index a67a27d03c..d16273d75d 100644
+> > --- a/hw/core/machine.c
+> > +++ b/hw/core/machine.c
+> > @@ -28,6 +28,8 @@
+> >  #include "hw/mem/nvdimm.h"
+> >  #include "migration/vmstate.h"
+> >  #include "exec/securable-guest-memory.h"
+> > +#include "hw/virtio/virtio.h"
+> > +#include "hw/virtio/virtio-pci.h"
+> >  
+> >  GlobalProperty hw_compat_5_1[] = {
+> >      { "vhost-scsi", "num_queues", "1"},
+> > @@ -1169,6 +1171,17 @@ void machine_run_board_init(MachineState *machine)
+> >           * areas.
+> >           */
+> >          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
+> > +
+> > +        /*
+> > +         * Virtio devices can't count on directly accessing guest
+> > +         * memory, so they need iommu_platform=on to use normal DMA
+> > +         * mechanisms.  That requires also disabling legacy virtio
+> > +         * support for those virtio pci devices which allow it.
+> > +         */
+> > +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy",
+> > +                                   "on", true);
+> > +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform",
+> > +                                   "on", false);  
+> 
+> I have not followed all the history (sorry). Should we also set iommu_platform
+> for virtio-ccw? Halil?
+> 
 
-Direct leak of 3552 byte(s) in 74 object(s) allocated from:
-    #0 0xfffeb3d4e1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
-    #1 0xfffeb36e6800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
-    #2 0xaaad51a8f9c4 in timer_new_full qemu/include/qemu/timer.h:523
-    #3 0xaaad51a8f9c4 in timer_new qemu/include/qemu/timer.h:544
-    #4 0xaaad51a8f9c4 in timer_new_ns qemu/include/qemu/timer.h:562
-    #5 0xaaad51a8f9c4 in s390_cpu_initfn qemu/target/s390x/cpu.c:304
-    #6 0xaaad51e00f58 in object_init_with_type qemu/qom/object.c:371
-    #7 0xaaad51e0406c in object_initialize_with_type qemu/qom/object.c:515
-    #8 0xaaad51e042e0 in object_new_with_type qemu/qom/object.c:729
-    #9 0xaaad51e3ff40 in qmp_device_list_properties qemu/qom/qom-qmp-cmds.c:153
-    #10 0xaaad51910518 in qdev_device_help qemu/softmmu/qdev-monitor.c:283
-    #11 0xaaad51911918 in qmp_device_add qemu/softmmu/qdev-monitor.c:801
-    #12 0xaaad51911e48 in hmp_device_add qemu/softmmu/qdev-monitor.c:916
-
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Gan Qixin <ganqixin@huawei.com>
----
-Cc: Thomas Huth <thuth@redhat.com>
----
- target/s390x/cpu.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 7b66718c44..8a734c2f8c 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -313,6 +313,11 @@ static void s390_cpu_finalize(Object *obj)
- #if !defined(CONFIG_USER_ONLY)
-     S390CPU *cpu = S390_CPU(obj);
- 
-+    timer_del(cpu->env.tod_timer);
-+    timer_free(cpu->env.tod_timer);
-+    timer_del(cpu->env.cpu_timer);
-+    timer_free(cpu->env.cpu_timer);
-+
-     qemu_unregister_reset(s390_cpu_machine_reset_cb, cpu);
-     g_free(cpu->irqstate);
- #endif
--- 
-2.27.0
+That line should add iommu_platform for all virtio devices, shouldn't
+it?
 
 
