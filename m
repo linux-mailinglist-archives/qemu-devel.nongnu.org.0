@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA63C2CEFAE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:28:33 +0100 (CET)
-Received: from localhost ([::1]:53424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30B172CEFB8
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:32:18 +0100 (CET)
+Received: from localhost ([::1]:57176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klC4W-0003XH-SX
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:28:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54056)
+	id 1klC88-0005Ls-Vh
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:32:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1klC3m-00036n-40
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:27:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1klC3j-0004rb-U2
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:27:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607092062;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=gs1SLCtFVgesAF5gmP/dFAubuvQY4e4TiLoiGMqil3Y=;
- b=BRFetrO+DiDi5zH74KAPArIlQIQmlexSF3+zEja2lF15TrAmQUOaJCAtDw/ZjBJ0atwakZ
- f9VnUt7PbznHktYhsW7AXBPKnfV2VAdYjHFg1J9pT6ItOhGtfrllfGBUdjcmOPQVVysH+E
- MipD/Zdz5RySu93bsk8Eh2EwK6WEMoo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-7OrMo1GjMGGuKiAgWyhCVA-1; Fri, 04 Dec 2020 09:27:37 -0500
-X-MC-Unique: 7OrMo1GjMGGuKiAgWyhCVA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB791107ACE3;
- Fri,  4 Dec 2020 14:27:35 +0000 (UTC)
-Received: from redhat.com (ovpn-115-10.ams2.redhat.com [10.36.115.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4124F5D9D7;
- Fri,  4 Dec 2020 14:27:29 +0000 (UTC)
-Date: Fri, 4 Dec 2020 14:27:26 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Ben Widawsky <ben.widawsky@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [RFC PATCH 00/25] Introduce CXL 2.0 Emulation
-Message-ID: <20201204142726.GM3056135@redhat.com>
-References: <20201111054724.794888-1-ben.widawsky@intel.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1klC5R-00042a-BN
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:29:29 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38878)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1klC5O-0005NZ-Q2
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:29:29 -0500
+Received: by mail-ej1-x641.google.com with SMTP id a16so8968792ejj.5
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 06:29:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=avHyNNQouFbw9NoJwg66VrLzlJSm4ZC8fTA7tsrh7VI=;
+ b=dtSKUTYtQUvUh7nJDWTjIVOoXPtarDqWNFD3fbPqqrKtT7CZzCW0I2Vi8FslA/K/zN
+ yaMuKhLagqyz6ogJb/jmlbrhJkJEnot+NHyW9Ykpw3pfUJtK6qEMTwkag5vCu1+8mjM1
+ rtezn3avDOI80FL0ZMBSRfelNH6DEL/B6gXfg8a79k2KGAJfl+wgyTnQPnns4vteWlhg
+ X1umMM/pbuSVRmdctfroxcs9mopaHhBX11lbBxFwwAm/0ZWLo92s4L0pXykRwxC6JVBX
+ MTnoLrRukkb8bUE+BsByT7njtQbC85iySIk8BUVX8Wczn6bLmDClF7W3DZ0JfRZzbp6p
+ KHpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=avHyNNQouFbw9NoJwg66VrLzlJSm4ZC8fTA7tsrh7VI=;
+ b=Onvn1/tkALWjJChkwf+5D3NhlzbsXYuNR6NJXMYdzguHowRjXPKOC+iM5UtFK0DgTR
+ dFizjE3L7Au+3TjnWYtjrbDelMOcZA5V1jQDCr/Uq9lGZ22aN0gtAUV71KL+kU+dHQfb
+ ga0ymA65xLWLFyPPycWUmUzWC0Mexjw99uuDk/7lUd7g2KbvcugrpARZQW3ajP9byZfq
+ qM9RSL0ovZlBxDClASZtntvtOTahMWx4DBOUF8xvQvPaVq8Fo7sFps8+OCZ2aYSkF41G
+ 27NO/3Yls0RQ41/Pn/s4HUboUbXKo+B9MNStmDIG7XdTmyWdHWJUOUx6071fFObyNWsk
+ aW4g==
+X-Gm-Message-State: AOAM530utPuQV1jRebGbw6r4OQxlZkT9bopmGI/O0TnHcXy+JrshmQmJ
+ LxiUjWT575gm6gkkG+6iPxXBKWEt9hu/OwxZjmM=
+X-Google-Smtp-Source: ABdhPJzvLDUHkiFG93JARQMuFwUn2eT3II0yHrs04maWPI7Ub8WmetcH6swN2kuF0tE6YA7lfM6x53sBABmpSlPCaN0=
+X-Received: by 2002:a17:906:aacd:: with SMTP id
+ kt13mr7146220ejb.527.1607092165207; 
+ Fri, 04 Dec 2020 06:29:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201111054724.794888-1-ben.widawsky@intel.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <cover.1606853298.git.jag.raman@oracle.com>
+ <52599a1edb0edfab0753688e3bf8544e036da441.1606853298.git.jag.raman@oracle.com>
+In-Reply-To: <52599a1edb0edfab0753688e3bf8544e036da441.1606853298.git.jag.raman@oracle.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 4 Dec 2020 18:29:13 +0400
+Message-ID: <CAJ+F1CLodL57kCvLoU8t-ofHF0bp_Wip540FNsw+g_26VA1wbw@mail.gmail.com>
+Subject: Re: [PATCH v12 05/19] multi-process: setup PCI host bridge for remote
+ device
+To: Jagannathan Raman <jag.raman@oracle.com>
+Content-Type: multipart/alternative; boundary="000000000000a0ecb205b5a44d84"
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x641.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,192 +79,462 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Vishal Verma <vishal.l.verma@intel.com>,
- Dan Williams <dan.j.williams@intel.com>, qemu-devel@nongnu.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Ross Lagerwall <ross.lagerwall@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just copying in the two primary QEMU maintainers for the PCI subsystem
-to bring it to their attention.
+--000000000000a0ecb205b5a44d84
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 10, 2020 at 09:46:59PM -0800, Ben Widawsky wrote:
-> Introduce emulation of Compute Express Link 2.0, which was released
-> today at https://www.computeexpresslink.org/.
-> 
-> I've pushed a branch here: https://gitlab.com/bwidawsk/qemu/-/tree/cxl-2.0
-> 
-> The emulation has been critical to get the Linux enabling started
-> (https://lore.kernel.org/linux-cxl/), it would be an ideal place to land
-> regression tests for different topology handling, and there may be applications
-> for this emulation as a way for a guest to manipulate its address space relative
-> to different performance memories. I am new to QEMU development, so please
-> forgive and point me in the right direction if I severely misinterpreted where a
-> piece of infrastructure belongs.
-> 
-> Three of the five CXL component types are emulated with some level of functionality:
-> host bridge, root port, and memory device. Upstream ports and downstream ports
-> aren't implemented (the two components needed to make up a switch).
-> 
-> CXL 2.0 is built on top of PCIe (see spec for details). As a result, much of the
-> implementation utilizes existing PCI paradigms. To implement the host bridge,
-> I've chosen to use PXB (PCI Expander Bridge). It seemed to be the most natural
-> fit even though it doesn't directly map to how hardware will work. For
-> persistent capacity of the memory device, I utilized the memory subsystem
-> (hw/mem).
-> 
-> We have 3 reasons why this work is valuable:
-> 1. OS driver development and testing
-> 2. OS driver regression testing
-> 3. Possible guest support for HDMs
-> 
-> As mentioned above there are three benefits to carrying this enabling in
-> upstream QEMU:
-> 
-> 1. Linux driver feature development benefits from emulation both due to
-> a lack of initial hardware availability, but also, as is seen with
-> NVDIMM/PMEM emulation, there is value in being able to share
-> topologies with system-software developers even after hardware is
-> available.
-> 
-> 2. The Linux kernel's unit test suite for NVDIMM/PMEM ended up injecting fake
-> resources via custom modules (nfit_test). In retrospect a QEMU emulation of
-> nfit_test capabilities would have made the test environment more portable, and
-> allowed for easier community contributions of example configurations.
-> 
-> 3. This is still being fleshed out, but in short it provides a standardized
-> mechanism for the guest to provide feedback to the host about size and placement
-> needs of the memory. After the host gives the guest a physical window mapping to
-> the CXL device, the emulated HDM decoders allow the guest a way to tell the host
-> how much it wants and where. There are likely simpler ways to do this, but
-> they'd require inventing a new interface and you'd need to have diverging driver
-> code in the guest programming of the HDM decoder vs. the host. Since we've
-> already done this work, why not use it?
-> 
-> There is quite a long list of work to do for full spec compliance, but I don't
-> believe that any of it precludes merging. Off the top of my head:
-> - Main host bridge support (WIP)
-> - Interleaving
-> - Better Tests
-> - Huge swaths of firmware functionality
-> - Hot plug support
-> - Emulating volatile capacity
-> 
-> The flow of the patches in general is to define all the data structures and
-> registers associated with the various components in a top down manner. Host
-> bridge, component, ports, devices. Then, the actual implementation is done in
-> the same order.
-> 
-> The summary is:
-> 1-8: Put infrastructure in place for emulation of the components.
-> 9-11: Create the concept of a CXL bus and plumb into PXB
-> 12-16: Implement host bridges
-> 17: Implement a root port
-> 18: Implement a memory device
-> 19: Implement HDM decoders
-> 20-24: ACPI bits
-> 25: Start working on enabling the main host bridge
-> 
-> Ben Widawsky (23):
->   hw/pci/cxl: Add a CXL component type (interface)
->   hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
->   hw/cxl/device: Introduce a CXL device (8.2.8)
->   hw/cxl/device: Implement the CAP array (8.2.8.1-2)
->   hw/cxl/device: Add device status (8.2.8.3)
->   hw/cxl/device: Implement basic mailbox (8.2.8.4)
->   hw/cxl/device: Add memory devices (8.2.8.5)
->   hw/pxb: Use a type for realizing expanders
->   hw/pci/cxl: Create a CXL bus type
->   hw/pxb: Allow creation of a CXL PXB (host bridge)
->   acpi/pci: Consolidate host bridge setup
->   hw/pci: Plumb _UID through host bridges
->   hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
->   acpi/pxb/cxl: Reserve host bridge MMIO
->   hw/pxb/cxl: Add "windows" for host bridges
->   hw/cxl/rp: Add a root port
->   hw/cxl/device: Add a memory device (8.2.8.5)
->   hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
->   acpi/cxl: Add _OSC implementation (9.14.2)
->   acpi/cxl: Create the CEDT (9.14.1)
->   Temp: acpi/cxl: Add ACPI0017 (CEDT awareness)
->   WIP: i386/cxl: Initialize a host bridge
->   qtest/cxl: Add very basic sanity tests
-> 
-> Jonathan Cameron (1):
->   Temp: Add the PCI_EXT_ID_DVSEC definition to the qemu pci_regs.h copy.
-> 
-> Vishal Verma (1):
->   acpi/cxl: Introduce a compat-driver UUID for CXL _OSC
-> 
->  MAINTAINERS                               |   6 +
->  hw/Kconfig                                |   1 +
->  hw/acpi/Kconfig                           |   5 +
->  hw/acpi/cxl.c                             | 198 +++++++++++++
->  hw/acpi/meson.build                       |   1 +
->  hw/arm/virt.c                             |   1 +
->  hw/core/machine.c                         |  26 ++
->  hw/core/numa.c                            |   3 +
->  hw/cxl/Kconfig                            |   3 +
->  hw/cxl/cxl-component-utils.c              | 192 +++++++++++++
->  hw/cxl/cxl-device-utils.c                 | 293 +++++++++++++++++++
->  hw/cxl/cxl-mailbox-utils.c                | 139 +++++++++
->  hw/cxl/meson.build                        |   5 +
->  hw/i386/acpi-build.c                      |  87 +++++-
->  hw/i386/microvm.c                         |   1 +
->  hw/i386/pc.c                              |   2 +
->  hw/mem/Kconfig                            |   5 +
->  hw/mem/cxl_type3.c                        | 334 ++++++++++++++++++++++
->  hw/mem/meson.build                        |   1 +
->  hw/meson.build                            |   1 +
->  hw/pci-bridge/Kconfig                     |   5 +
->  hw/pci-bridge/cxl_root_port.c             | 231 +++++++++++++++
->  hw/pci-bridge/meson.build                 |   1 +
->  hw/pci-bridge/pci_expander_bridge.c       | 209 +++++++++++++-
->  hw/pci-bridge/pcie_root_port.c            |   6 +-
->  hw/pci/pci.c                              |  32 ++-
->  hw/pci/pcie.c                             |  30 ++
->  hw/ppc/spapr.c                            |   2 +
->  include/hw/acpi/cxl.h                     |  27 ++
->  include/hw/boards.h                       |   2 +
->  include/hw/cxl/cxl.h                      |  30 ++
->  include/hw/cxl/cxl_component.h            | 181 ++++++++++++
->  include/hw/cxl/cxl_device.h               | 199 +++++++++++++
->  include/hw/cxl/cxl_pci.h                  | 155 ++++++++++
->  include/hw/pci/pci.h                      |  15 +
->  include/hw/pci/pci_bridge.h               |  25 ++
->  include/hw/pci/pci_bus.h                  |   8 +
->  include/hw/pci/pci_ids.h                  |   1 +
->  include/standard-headers/linux/pci_regs.h |   1 +
->  monitor/hmp-cmds.c                        |  15 +
->  qapi/machine.json                         |   1 +
->  tests/qtest/cxl-test.c                    |  93 ++++++
->  tests/qtest/meson.build                   |   4 +
->  43 files changed, 2547 insertions(+), 30 deletions(-)
->  create mode 100644 hw/acpi/cxl.c
->  create mode 100644 hw/cxl/Kconfig
->  create mode 100644 hw/cxl/cxl-component-utils.c
->  create mode 100644 hw/cxl/cxl-device-utils.c
->  create mode 100644 hw/cxl/cxl-mailbox-utils.c
->  create mode 100644 hw/cxl/meson.build
->  create mode 100644 hw/mem/cxl_type3.c
->  create mode 100644 hw/pci-bridge/cxl_root_port.c
->  create mode 100644 include/hw/acpi/cxl.h
->  create mode 100644 include/hw/cxl/cxl.h
->  create mode 100644 include/hw/cxl/cxl_component.h
->  create mode 100644 include/hw/cxl/cxl_device.h
->  create mode 100644 include/hw/cxl/cxl_pci.h
->  create mode 100644 tests/qtest/cxl-test.c
-> 
-> -- 
-> 2.29.2
-> 
-> 
+On Wed, Dec 2, 2020 at 12:23 AM Jagannathan Raman <jag.raman@oracle.com>
+wrote:
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> PCI host bridge is setup for the remote device process. It is
+> implemented using remote-pcihost object. It is an extension of the PCI
+> host bridge setup by QEMU.
+> Remote-pcihost configures a PCI bus which could be used by the remote
+> PCI device to latch on to.
+>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  include/hw/pci-host/remote.h | 30 ++++++++++++++++++
+>  hw/pci-host/remote.c         | 75
+> ++++++++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                  |  2 ++
+>  hw/pci-host/Kconfig          |  3 ++
+>  hw/pci-host/meson.build      |  1 +
+>  hw/remote/Kconfig            |  1 +
+>  6 files changed, 112 insertions(+)
+>  create mode 100644 include/hw/pci-host/remote.h
+>  create mode 100644 hw/pci-host/remote.c
+>
+> diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h
+> new file mode 100644
+> index 0000000..bab6d3c
+> --- /dev/null
+> +++ b/include/hw/pci-host/remote.h
+> @@ -0,0 +1,30 @@
+> +/*
+> + * PCI Host for remote device
+> + *
+> + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or
+> later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#ifndef REMOTE_PCIHOST_H
+> +#define REMOTE_PCIHOST_H
+> +
+> +#include "exec/memory.h"
+> +#include "hw/pci/pcie_host.h"
+> +
+> +#define TYPE_REMOTE_HOST_DEVICE "remote-pcihost"
+> +#define REMOTE_HOST_DEVICE(obj) \
+> +    OBJECT_CHECK(RemotePCIHost, (obj), TYPE_REMOTE_HOST_DEVICE)
+> +
+> +typedef struct RemotePCIHost {
+> +    /*< private >*/
+> +    PCIExpressHost parent_obj;
+> +    /*< public >*/
+> +
+> +    MemoryRegion *mr_pci_mem;
+> +    MemoryRegion *mr_sys_io;
+> +} RemotePCIHost;
+> +
+> +#endif
+> diff --git a/hw/pci-host/remote.c b/hw/pci-host/remote.c
+> new file mode 100644
+> index 0000000..11325e2
+> --- /dev/null
+> +++ b/hw/pci-host/remote.c
+> @@ -0,0 +1,75 @@
+> +/*
+> + * Remote PCI host device
+> + *
+> + * Unlike PCI host devices that model physical hardware, the purpose
+> + * of this PCI host is to host multi-process QEMU devices.
+> + *
+> + * Multi-process QEMU extends the PCI host of a QEMU machine into a
+> + * remote process. Any PCI device attached to the remote process is
+> + * visible in the QEMU guest. This allows existing QEMU device models
+> + * to be reused in the remote process.
+> + *
+> + * This PCI host is purely a container for PCI devices. It's fake in the
+> + * sense that the guest never sees this PCI host and has no way of
+> + * accessing it. Its job is just to provide the environment that QEMU
+> + * PCI device models need when running in a remote process.
+> + *
+> + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or
+> later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +
+> +#include "hw/pci/pci.h"
+> +#include "hw/pci/pci_host.h"
+> +#include "hw/pci/pcie_host.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/pci-host/remote.h"
+> +#include "exec/memory.h"
+> +
+> +static const char *remote_pcihost_root_bus_path(PCIHostState *host_bridg=
+e,
+> +                                                PCIBus *rootbus)
+> +{
+> +    return "0000:00";
+> +}
+> +
+> +static void remote_pcihost_realize(DeviceState *dev, Error **errp)
+> +{
+> +    PCIHostState *pci =3D PCI_HOST_BRIDGE(dev);
+> +    RemotePCIHost *s =3D REMOTE_HOST_DEVICE(dev);
+> +
+> +    pci->bus =3D pci_root_bus_new(DEVICE(s), "remote-pci",
+> +                                s->mr_pci_mem, s->mr_sys_io,
+> +                                0, TYPE_PCIE_BUS);
+> +}
+> +
+> +static void remote_pcihost_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +    PCIHostBridgeClass *hc =3D PCI_HOST_BRIDGE_CLASS(klass);
+> +
+> +    hc->root_bus_path =3D remote_pcihost_root_bus_path;
+> +    dc->realize =3D remote_pcihost_realize;
+> +
+> +    dc->user_creatable =3D false;
+> +    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+> +    dc->fw_name =3D "pci";
+> +}
+> +
+> +static const TypeInfo remote_pcihost_info =3D {
+> +    .name =3D TYPE_REMOTE_HOST_DEVICE,
+> +    .parent =3D TYPE_PCIE_HOST_BRIDGE,
+> +    .instance_size =3D sizeof(RemotePCIHost),
+> +    .class_init =3D remote_pcihost_class_init,
+> +};
+> +
+> +static void remote_pcihost_register(void)
+> +{
+> +    type_register_static(&remote_pcihost_info);
+> +}
+> +
+> +type_init(remote_pcihost_register)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f615ad1..4515476 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3137,6 +3137,8 @@ M: John G Johnson <john.g.johnson@oracle.com>
+>  S: Maintained
+>  F: docs/devel/multi-process.rst
+>  F: tests/multiprocess/multiprocess-lsi53c895a.py
+> +F: hw/pci-host/remote.c
+> +F: include/hw/pci-host/remote.h
+>
+>  Build and test automation
+>  -------------------------
+> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+> index 036a618..25cdeb2 100644
+> --- a/hw/pci-host/Kconfig
+> +++ b/hw/pci-host/Kconfig
+> @@ -60,3 +60,6 @@ config PCI_BONITO
+>      select PCI
+>      select UNIMP
+>      bool
+> +
+> +config MULTIPROCESS_HOST
+> +    bool
+>
 
+Why not REMOTE_PCIHOST ?
+
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+> index e6d1b89..4147100 100644
+> --- a/hw/pci-host/meson.build
+> +++ b/hw/pci-host/meson.build
+> @@ -9,6 +9,7 @@ pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true:
+> files('xilinx-pcie.c'))
+>  pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
+>  pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
+>  pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true:
+> files('xen_igd_pt.c'))
+> +pci_ss.add(when: 'CONFIG_MULTIPROCESS_HOST', if_true: files('remote.c'))
+>
+>  # PPC devices
+>  pci_ss.add(when: 'CONFIG_PREP_PCI', if_true: files('prep.c'))
+> diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
+> index 5484446..fb6ee4a 100644
+> --- a/hw/remote/Kconfig
+> +++ b/hw/remote/Kconfig
+> @@ -1,3 +1,4 @@
+>  config MULTIPROCESS
+>      bool
+>      depends on PCI && KVM
+> +    select MULTIPROCESS_HOST
+> --
+> 1.8.3.1
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000a0ecb205b5a44d84
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 2, 2020 at 12:23 AM Jagan=
+nathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com" target=3D"_blank">=
+jag.raman@oracle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">PCI host bridge is setup for the remote device process.=
+ It is<br>
+implemented using remote-pcihost object. It is an extension of the PCI<br>
+host bridge setup by QEMU.<br>
+Remote-pcihost configures a PCI bus which could be used by the remote<br>
+PCI device to latch on to.<br>
+<br>
+Signed-off-by: Jagannathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com=
+" target=3D"_blank">jag.raman@oracle.com</a>&gt;<br>
+Signed-off-by: John G Johnson &lt;<a href=3D"mailto:john.g.johnson@oracle.c=
+om" target=3D"_blank">john.g.johnson@oracle.com</a>&gt;<br>
+Signed-off-by: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle=
+.com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
+Reviewed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" tar=
+get=3D"_blank">stefanha@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0include/hw/pci-host/remote.h | 30 ++++++++++++++++++<br>
+=C2=A0hw/pci-host/remote.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 75 ++++++++++=
+++++++++++++++++++++++++++++++++++<br>
+=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 2 ++<br>
+=C2=A0hw/pci-host/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 ++<br=
+>
+=C2=A0hw/pci-host/meson.build=C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+=C2=A0hw/remote/Kconfig=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 =
++<br>
+=C2=A06 files changed, 112 insertions(+)<br>
+=C2=A0create mode 100644 include/hw/pci-host/remote.h<br>
+=C2=A0create mode 100644 hw/pci-host/remote.c<br>
+<br>
+diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h<br=
+>
+new file mode 100644<br>
+index 0000000..bab6d3c<br>
+--- /dev/null<br>
++++ b/include/hw/pci-host/remote.h<br>
+@@ -0,0 +1,30 @@<br>
++/*<br>
++ * PCI Host for remote device<br>
++ *<br>
++ * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.<br>
++ *<br>
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.<br>
++ * See the COPYING file in the top-level directory.<br>
++ *<br>
++ */<br>
++<br>
++#ifndef REMOTE_PCIHOST_H<br>
++#define REMOTE_PCIHOST_H<br>
++<br>
++#include &quot;exec/memory.h&quot;<br>
++#include &quot;hw/pci/pcie_host.h&quot;<br>
++<br>
++#define TYPE_REMOTE_HOST_DEVICE &quot;remote-pcihost&quot;<br>
++#define REMOTE_HOST_DEVICE(obj) \<br>
++=C2=A0 =C2=A0 OBJECT_CHECK(RemotePCIHost, (obj), TYPE_REMOTE_HOST_DEVICE)<=
+br>
++<br>
++typedef struct RemotePCIHost {<br>
++=C2=A0 =C2=A0 /*&lt; private &gt;*/<br>
++=C2=A0 =C2=A0 PCIExpressHost parent_obj;<br>
++=C2=A0 =C2=A0 /*&lt; public &gt;*/<br>
++<br>
++=C2=A0 =C2=A0 MemoryRegion *mr_pci_mem;<br>
++=C2=A0 =C2=A0 MemoryRegion *mr_sys_io;<br>
++} RemotePCIHost;<br>
++<br>
++#endif<br>
+diff --git a/hw/pci-host/remote.c b/hw/pci-host/remote.c<br>
+new file mode 100644<br>
+index 0000000..11325e2<br>
+--- /dev/null<br>
++++ b/hw/pci-host/remote.c<br>
+@@ -0,0 +1,75 @@<br>
++/*<br>
++ * Remote PCI host device<br>
++ *<br>
++ * Unlike PCI host devices that model physical hardware, the purpose<br>
++ * of this PCI host is to host multi-process QEMU devices.<br>
++ *<br>
++ * Multi-process QEMU extends the PCI host of a QEMU machine into a<br>
++ * remote process. Any PCI device attached to the remote process is<br>
++ * visible in the QEMU guest. This allows existing QEMU device models<br>
++ * to be reused in the remote process.<br>
++ *<br>
++ * This PCI host is purely a container for PCI devices. It&#39;s fake in t=
+he<br>
++ * sense that the guest never sees this PCI host and has no way of<br>
++ * accessing it. Its job is just to provide the environment that QEMU<br>
++ * PCI device models need when running in a remote process.<br>
++ *<br>
++ * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.<br>
++ *<br>
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.<br>
++ * See the COPYING file in the top-level directory.<br>
++ *<br>
++ */<br>
++<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qemu-common.h&quot;<br>
++<br>
++#include &quot;hw/pci/pci.h&quot;<br>
++#include &quot;hw/pci/pci_host.h&quot;<br>
++#include &quot;hw/pci/pcie_host.h&quot;<br>
++#include &quot;hw/qdev-properties.h&quot;<br>
++#include &quot;hw/pci-host/remote.h&quot;<br>
++#include &quot;exec/memory.h&quot;<br>
++<br>
++static const char *remote_pcihost_root_bus_path(PCIHostState *host_bridge,=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 PCIBus *rootbus)<br>
++{<br>
++=C2=A0 =C2=A0 return &quot;0000:00&quot;;<br>
++}<br>
++<br>
++static void remote_pcihost_realize(DeviceState *dev, Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 PCIHostState *pci =3D PCI_HOST_BRIDGE(dev);<br>
++=C2=A0 =C2=A0 RemotePCIHost *s =3D REMOTE_HOST_DEVICE(dev);<br>
++<br>
++=C2=A0 =C2=A0 pci-&gt;bus =3D pci_root_bus_new(DEVICE(s), &quot;remote-pci=
+&quot;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mr_pci_mem, s-&gt;mr_sys_io,<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0, TYPE_PCIE_BUS);<br>
++}<br>
++<br>
++static void remote_pcihost_class_init(ObjectClass *klass, void *data)<br>
++{<br>
++=C2=A0 =C2=A0 DeviceClass *dc =3D DEVICE_CLASS(klass);<br>
++=C2=A0 =C2=A0 PCIHostBridgeClass *hc =3D PCI_HOST_BRIDGE_CLASS(klass);<br>
++<br>
++=C2=A0 =C2=A0 hc-&gt;root_bus_path =3D remote_pcihost_root_bus_path;<br>
++=C2=A0 =C2=A0 dc-&gt;realize =3D remote_pcihost_realize;<br>
++<br>
++=C2=A0 =C2=A0 dc-&gt;user_creatable =3D false;<br>
++=C2=A0 =C2=A0 set_bit(DEVICE_CATEGORY_BRIDGE, dc-&gt;categories);<br>
++=C2=A0 =C2=A0 dc-&gt;fw_name =3D &quot;pci&quot;;<br>
++}<br>
++<br>
++static const TypeInfo remote_pcihost_info =3D {<br>
++=C2=A0 =C2=A0 .name =3D TYPE_REMOTE_HOST_DEVICE,<br>
++=C2=A0 =C2=A0 .parent =3D TYPE_PCIE_HOST_BRIDGE,<br>
++=C2=A0 =C2=A0 .instance_size =3D sizeof(RemotePCIHost),<br>
++=C2=A0 =C2=A0 .class_init =3D remote_pcihost_class_init,<br>
++};<br>
++<br>
++static void remote_pcihost_register(void)<br>
++{<br>
++=C2=A0 =C2=A0 type_register_static(&amp;remote_pcihost_info);<br>
++}<br>
++<br>
++type_init(remote_pcihost_register)<br>
+diff --git a/MAINTAINERS b/MAINTAINERS<br>
+index f615ad1..4515476 100644<br>
+--- a/MAINTAINERS<br>
++++ b/MAINTAINERS<br>
+@@ -3137,6 +3137,8 @@ M: John G Johnson &lt;<a href=3D"mailto:john.g.johnso=
+n@oracle.com" target=3D"_blank">john.g.johnson@oracle.com</a>&gt;<br>
+=C2=A0S: Maintained<br>
+=C2=A0F: docs/devel/multi-process.rst<br>
+=C2=A0F: tests/multiprocess/multiprocess-lsi53c895a.py<br>
++F: hw/pci-host/remote.c<br>
++F: include/hw/pci-host/remote.h<br>
+<br>
+=C2=A0Build and test automation<br>
+=C2=A0-------------------------<br>
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig<br>
+index 036a618..25cdeb2 100644<br>
+--- a/hw/pci-host/Kconfig<br>
++++ b/hw/pci-host/Kconfig<br>
+@@ -60,3 +60,6 @@ config PCI_BONITO<br>
+=C2=A0 =C2=A0 =C2=A0select PCI<br>
+=C2=A0 =C2=A0 =C2=A0select UNIMP<br>
+=C2=A0 =C2=A0 =C2=A0bool<br>
++<br>
++config MULTIPROCESS_HOST<br>
++=C2=A0 =C2=A0 bool<br></blockquote><div><br></div><div>Why not  REMOTE_PCI=
+HOST ?</div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build<br>
+index e6d1b89..4147100 100644<br>
+--- a/hw/pci-host/meson.build<br>
++++ b/hw/pci-host/meson.build<br>
+@@ -9,6 +9,7 @@ pci_ss.add(when: &#39;CONFIG_PCI_EXPRESS_XILINX&#39;, if_tr=
+ue: files(&#39;xilinx-pcie.c&#39;))<br>
+=C2=A0pci_ss.add(when: &#39;CONFIG_PCI_I440FX&#39;, if_true: files(&#39;i44=
+0fx.c&#39;))<br>
+=C2=A0pci_ss.add(when: &#39;CONFIG_PCI_SABRE&#39;, if_true: files(&#39;sabr=
+e.c&#39;))<br>
+=C2=A0pci_ss.add(when: &#39;CONFIG_XEN_IGD_PASSTHROUGH&#39;, if_true: files=
+(&#39;xen_igd_pt.c&#39;))<br>
++pci_ss.add(when: &#39;CONFIG_MULTIPROCESS_HOST&#39;, if_true: files(&#39;r=
+emote.c&#39;))<br>
+<br>
+=C2=A0# PPC devices<br>
+=C2=A0pci_ss.add(when: &#39;CONFIG_PREP_PCI&#39;, if_true: files(&#39;prep.=
+c&#39;))<br>
+diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig<br>
+index 5484446..fb6ee4a 100644<br>
+--- a/hw/remote/Kconfig<br>
++++ b/hw/remote/Kconfig<br>
+@@ -1,3 +1,4 @@<br>
+=C2=A0config MULTIPROCESS<br>
+=C2=A0 =C2=A0 =C2=A0bool<br>
+=C2=A0 =C2=A0 =C2=A0depends on PCI &amp;&amp; KVM<br>
++=C2=A0 =C2=A0 select MULTIPROCESS_HOST<br>
+-- <br>
+1.8.3.1<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
+=C3=A9 Lureau<br></div></div>
+
+--000000000000a0ecb205b5a44d84--
 
