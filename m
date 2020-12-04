@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F952CF722
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:58:14 +0100 (CET)
-Received: from localhost ([::1]:51958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F43B2CF732
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 00:02:14 +0100 (CET)
+Received: from localhost ([::1]:55286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klK1l-0007H3-5a
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 17:58:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49780)
+	id 1klK5d-0000Sf-Cm
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 18:02:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1klJyR-0005zi-Fd
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:54:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1klJyP-0000Rq-4I
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:54:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607122483;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v3+gl4WdbPtXKsRICXKxPE7bk2EupajiaPiAoXQa8RE=;
- b=Si9b+Q4Djw/FgqeY+t/jyqjf9HvG5aW4zkFxhfagnQcigN4q1g4zLV0AnlacgSdQkpP6DV
- iPqlfYk09reqRiGVsCv0nspYI2hRQ5c8EbQxHUww3y9Ypf9A+BrabGhWg6n7q2e5yk5hrX
- YQ7ew4hBCmYnVO8/zB3kzxvgnWx91bA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-FCF1_NG5PxK65nDeFtTnwg-1; Fri, 04 Dec 2020 17:54:40 -0500
-X-MC-Unique: FCF1_NG5PxK65nDeFtTnwg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E654A80ED9B;
- Fri,  4 Dec 2020 22:54:38 +0000 (UTC)
-Received: from [10.3.112.195] (ovpn-112-195.phx2.redhat.com [10.3.112.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 51B6160C04;
- Fri,  4 Dec 2020 22:54:24 +0000 (UTC)
-Subject: Re: [PATCH v2 7/7] qapi: More complex uses of QAPI_LIST_APPEND
-To: Markus Armbruster <armbru@redhat.com>
-References: <20201113011340.463563-1-eblake@redhat.com>
- <20201113011340.463563-8-eblake@redhat.com>
- <871rgpg27o.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <54de873e-53df-8ed8-291b-d0d17a96d057@redhat.com>
-Date: Fri, 4 Dec 2020 16:54:23 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1klK3T-0008IQ-Fh
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:59:59 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:35488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1klK3S-000247-0S
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:59:59 -0500
+Received: by mail-ed1-x542.google.com with SMTP id u19so7516192edx.2
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 14:59:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QBWY0gSLJ2OOvMeFl8vsP40E6Cg+fRCBYfmiDLBG1bo=;
+ b=Z3Y7FCH/yESuL9NM4eDcqX8rhsx7WARNNBbeQGe/uEDy7WM55L8xzNVtEIvs/Gg3xM
+ 7m5z2gwLPWw8o8rXId/ccY0713kTk0AtMf5ZXCTqVz0NaR8IrhXQymEz9RtksGepJ03r
+ E8f7bCD9y/70xhiaL7qjy3CYr+7OS29ZUGnCoPhImooSVJLHdSDbZFvCbab6ktZiOuad
+ Qx+jhvqTr9Dl6GhU4QeYik/uUl5Hp5m6Cw2T5yiN4udoZXlemHMbQuop7rsLx2k+9wT4
+ xDqJ/yL/CRmzO+ie5asQOWgaMLurZl18s3kt4I4d25B8dcHqZqFnekun/EtiqOH2I9tT
+ ckRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=QBWY0gSLJ2OOvMeFl8vsP40E6Cg+fRCBYfmiDLBG1bo=;
+ b=mDScXfwJbP4PWsKPN2WIb15nsc/3cpVMlrVftzZfVNgxkEyvjpF8NyZhumfEXOYCCq
+ xYtOSJIddMoHLjEzfw1GlOG7Zv+uKC6flS3TI2nPGwaO4JhUOJOwB0qGw666sK+hEyH9
+ Z2ppK9jVpF6cNaZig5lbVIC5rV/5VGpIGBEx+xHZNllaW9yBjQ/i35NLr4zU3yNVwLNQ
+ H+UcZWJf2ZJSAzRTYf4dL2tNsFoiG6eEOOUEbZgTH4JkC+Ya+5m7Xzd1f7RO5xZMHI5B
+ d/89UMieWa/ghUFM7V+78KQ+T2l80MHlmYm77A51TJsG9RAoH9x3TCQ61/cvY88AefPa
+ HzoA==
+X-Gm-Message-State: AOAM531xAP070Nel4uDZpV7PDYUbQDfdc/hKvL8p5gm37JAsCEpJ6bwH
+ WdxJBxQIQZO2/M40Ppr3v8VMPn9Y9cs=
+X-Google-Smtp-Source: ABdhPJykVD6IavRzrZjDiME+FThgqK3Gt5lyrKC5y3pjRYndt668x++cvpFNFyd6n7HMW90tfUBy/A==
+X-Received: by 2002:a50:c406:: with SMTP id v6mr7299359edf.367.1607122795754; 
+ Fri, 04 Dec 2020 14:59:55 -0800 (PST)
+Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.111])
+ by smtp.gmail.com with ESMTPSA id v24sm4387953edw.23.2020.12.04.14.59.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Dec 2020 14:59:55 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/mips: Simplify gen_msa_BxZ() 'if' condition
+Date: Fri,  4 Dec 2020 23:59:53 +0100
+Message-Id: <20201204225953.2755588-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <871rgpg27o.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,107 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:GLUSTER" <integration@gluster.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "open list:GLUSTER" <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/19/20 2:50 AM, Markus Armbruster wrote:
-> Eric Blake <eblake@redhat.com> writes:
-> 
->> These cases require a bit more thought to review; in each case, the
->> code was appending to a list, but not with a FOOList **tail variable.
+As gen_check_zero_element() already produces a boolean,
+replace 'if (x) tcg_gen_setcondi_tl()' by tcg_gen_xori_tl(x)
+which already contains the if (x).
 
->> +++ b/hw/core/machine-qmp-cmds.c
-> [...]
->> @@ -294,41 +281,31 @@ void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
->>  static int query_memdev(Object *obj, void *opaque)
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+Based-on: <20201202184415.1434484-1-f4bug@amsat.org>
+---
+ target/mips/translate.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
->>          v = qobject_input_visitor_new(host_nodes);
->> -        visit_type_uint16List(v, NULL, &m->value->host_nodes, &error_abort);
->> +        visit_type_uint16List(v, NULL, &m->host_nodes, &error_abort);
->>          visit_free(v);
->>          qobject_unref(host_nodes);
->>
->> -        m->next = *list;
->> -        *list = m;
->> +        QAPI_LIST_APPEND(list, m);
-> 
-> The old code prepends, doesn't it?
-
-Good catch, will correct and hoist this into 4/7 for v3.
-
-> 
->>      }
->>
->>      return 0;
->> diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
->> index cf0627fd01c1..1afcc29a0649 100644
->> --- a/hw/mem/memory-device.c
->> +++ b/hw/mem/memory-device.c
->> @@ -199,7 +199,7 @@ out:
->>  MemoryDeviceInfoList *qmp_memory_device_list(void)
->>  {
->>      GSList *devices = NULL, *item;
->> -    MemoryDeviceInfoList *list = NULL, *prev = NULL;
->> +    MemoryDeviceInfoList *list = NULL, **prev = &list;
-> 
-> Here, you reuse the old name for the new variable.
-
->> +++ b/hw/pci/pci.c
->> @@ -1681,41 +1681,34 @@ static PciDeviceInfoList *qmp_query_pci_devices(PCIBus *bus, int bus_num);
->>
->>  static PciMemoryRegionList *qmp_query_pci_regions(const PCIDevice *dev)
->>  {
->> -    PciMemoryRegionList *head = NULL, *cur_item = NULL;
->> +    PciMemoryRegionList *head = NULL, **tail = &head;
-> 
-> Here, you use a new and better name.
-> 
-> I'd like to encourage you to name tail pointer variables @tail
-> elsewhere, too.
-
-In v3, I will consistently rename the FOOList ** variable 'tail'.
-
->> @@ -2863,7 +2846,6 @@ qmp_guest_set_memory_blocks(GuestMemoryBlockList *mem_blks, Error **errp)
->>
->>      while (mem_blks != NULL) {
->>          GuestMemoryBlockResponse *result;
->> -        GuestMemoryBlockResponseList *entry;
->>          GuestMemoryBlock *current_mem_blk = mem_blks->value;
->>
->>          result = g_malloc0(sizeof(*result));
->> @@ -2872,11 +2854,7 @@ qmp_guest_set_memory_blocks(GuestMemoryBlockList *mem_blks, Error **errp)
->>          if (local_err) { /* should never happen */
->>              goto err;
->>          }
->> -        entry = g_malloc0(sizeof *entry);
->> -        entry->value = result;
->> -
->> -        *link = entry;
->> -        link = &entry->next;
->> +        QAPI_LIST_APPEND(link, result);
->>          mem_blks = mem_blks->next;
->>      }
->>
-> 
-> This one looks like a candidate for PATCH 6.
-
-Yes.  Will hoist.
-
-v3 will be posted soon.
-
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 8a35d4d0d03..112a5becfbb 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -28778,9 +28778,7 @@ static bool gen_msa_BxZ(DisasContext *ctx, int df, int wt, int s16, bool if_not)
+     }
+ 
+     gen_check_zero_element(bcond, df, wt);
+-    if (if_not) {
+-        tcg_gen_setcondi_tl(TCG_COND_EQ, bcond, bcond, 0);
+-    }
++    tcg_gen_xori_tl(bcond, bcond, if_not);
+ 
+     ctx->btarget = ctx->base.pc_next + (s16 << 2) + 4;
+     ctx->hflags |= MIPS_HFLAG_BC;
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.26.2
 
 
