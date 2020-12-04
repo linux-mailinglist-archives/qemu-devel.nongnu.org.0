@@ -2,67 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EA72CE8D7
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 08:53:50 +0100 (CET)
-Received: from localhost ([::1]:34472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F9D2CE924
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 09:03:19 +0100 (CET)
+Received: from localhost ([::1]:37768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kl5uW-0000Ps-T6
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 02:53:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49546)
+	id 1kl63c-0002Yn-PX
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 03:03:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kl5tC-0008KJ-HA; Fri, 04 Dec 2020 02:52:26 -0500
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:40623)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kl5tB-0008Sx-0j; Fri, 04 Dec 2020 02:52:26 -0500
-Received: by mail-yb1-xb42.google.com with SMTP id o144so4582030ybg.7;
- Thu, 03 Dec 2020 23:52:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OT2CoLBMVdso7MCswFCXmBDmViD0XcyeD2eWQ006uU0=;
- b=mis+ux8QArHQXob2JRjg1lc88shq9ECHu7NDZ1L+snZwKleUYAYbiyZjaao1RTvusz
- Uo9nAx7qMlDhvNHLRVaoGx+Ja+NoAp42JZ54oVnbBRhHHl3SYPxLngCwD6KHVjpZKIfS
- c+Rg77LkzUN4QpnU27uuOEAMZDrEwnQCHZb2fUtmqxBeZeC940ZNPevccOhh9weNgp1c
- qeHJXdyRveaPRNmq7XaBk04/Mb8SCbmkWPuvDJxX/zhnlkhXc2fusAItg0A/S0ZvBVqm
- oeWpeIFrhLFZREGVYntBSrivbI6hXtGyvi6UllKZe8zXnwZtnz2tlLjrpWtpUNINVEXX
- GX8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OT2CoLBMVdso7MCswFCXmBDmViD0XcyeD2eWQ006uU0=;
- b=G18eM+84Yl6g57WKuD052gqlHXC+tctNoS8OKTMVZ8Zpr6WFAuJSEW2H6B4eQaMXy2
- 0tYl3StR4Jb1IIiRrda5wDbzxHeISvfI9Bo4M4QNs0FCsXEmrQZRNGc2FAFoLgLa7F/n
- I9KnILka5nsSEvEeNDkB53nXnw1QEq11VsndlAbsnWxerJATOZULWUClU2dR68KKsiud
- Gs+mrCfXjyAZNFi2uFNOMk4zRN4G6Ekhg5ABN1RvVssjnhOZ9gd15oby69VS/feo7gtF
- EBtl6kLqx5wPBmvB/m5uiyCUHRDEYfffXcQ3ARo98j7wZD5IpbtBED1Au5D8xnAhbWCl
- A+tQ==
-X-Gm-Message-State: AOAM532ZE28BT2FiSMXqAE9Kb2G//rDZdCuSuZkkW1QD8wV0zwPjv3zT
- mZrkWkhTW6D7Abebd7DnpRXEWHsVaEjXAVlqZFM=
-X-Google-Smtp-Source: ABdhPJxc8kEUYl7EfOk2VsMIEiTzU0nbPItDpBidKMb1/9RmI6jynzaIid1xFLCyXjjFnC+NebeIiMlWTSRcAXWthK8=
-X-Received: by 2002:a5b:2c6:: with SMTP id h6mr4123249ybp.306.1607068343364;
- Thu, 03 Dec 2020 23:52:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1kl60T-0001YC-Sd; Fri, 04 Dec 2020 02:59:57 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2166)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1kl60R-0002Vi-4m; Fri, 04 Dec 2020 02:59:57 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CnQ8K4j1Vz6vxX;
+ Fri,  4 Dec 2020 15:59:13 +0800 (CST)
+Received: from huawei.com (10.175.104.175) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Fri, 4 Dec 2020
+ 15:59:32 +0800
+From: Gan Qixin <ganqixin@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH] ppc/e500: Free irqs array to avoid memleak
+Date: Fri, 4 Dec 2020 15:58:22 +0800
+Message-ID: <20201204075822.359832-1-ganqixin@huawei.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <1606704602-59435-1-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKOWRENRYr0iz-bX7gGmksQdtTc_uMy_iY1YNvvRFr-PLg@mail.gmail.com>
- <20201203083759.GA2661@fralle-msi>
-In-Reply-To: <20201203083759.GA2661@fralle-msi>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 4 Dec 2020 15:52:12 +0800
-Message-ID: <CAEUhbmVkF9W12o04JnYofLLWwTfnNBJDnC+_8iZvdgnyonMYag@mail.gmail.com>
-Subject: Re: [PATCH] hw/block: m25p80: Fix fast read for SST flashes
-To: Francisco Iglesias <frasse.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b42;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb42.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=ganqixin@huawei.com;
+ helo=szxga07-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,76 +54,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair23@gmail.com>
+Cc: kuhn.chenqun@huawei.com, David Gibson <david@gibson.dropbear.id.au>,
+ zhang.zhanghailiang@huawei.com, Gan Qixin <ganqixin@huawei.com>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Francisco,
+When running qom-test, a memory leak occurred in the ppce500_init function,
+this patch free irqs array to fix it.
 
-On Thu, Dec 3, 2020 at 4:38 PM Francisco Iglesias
-<frasse.iglesias@gmail.com> wrote:
->
-> Hi Bin and Alistair,
->
-> On [2020 Dec 02] Wed 11:40:11, Alistair Francis wrote:
-> > On Sun, Nov 29, 2020 at 6:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >
-> > > From: Bin Meng <bin.meng@windriver.com>
-> > >
-> > > SST flashes require a dummy byte after the address bits.
-> > >
-> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >
-> > I couldn't find a datasheet that says this... But the actual code
-> > change looks fine, so:
-> >
-> > Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > Alistair
-> >
-> > > ---
-> > >
-> > >  hw/block/m25p80.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-> > > index 483925f..9b36762 100644
-> > > --- a/hw/block/m25p80.c
-> > > +++ b/hw/block/m25p80.c
-> > > @@ -825,6 +825,9 @@ static void decode_fast_read_cmd(Flash *s)
-> > >      s->needed_bytes = get_addr_length(s);
-> > >      switch (get_man(s)) {
-> > >      /* Dummy cycles - modeled with bytes writes instead of bits */
-> > > +    case MAN_SST:
-> > > +        s->needed_bytes += 1;
->
-> 1 dummy clk cycle is modelled as 1 byte write (see the comment above), so 1
-> dummy byte (8 dummy clk cycles) will need +8 above.
+ASAN shows memory leak stack:
 
-I think you were confused by the WINBOND codes. The comments are
-correct. It is modeled with bytes instead of bits, so we should +=1.
+Direct leak of 40 byte(s) in 1 object(s) allocated from:
+    #0 0xfffc5ceee1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
+    #1 0xfffc5c806800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
+    #2 0xaaacf9999244 in ppce500_init qemu/hw/ppc/e500.c:859
+    #3 0xaaacf97434e8 in machine_run_board_init qemu/hw/core/machine.c:1134
+    #4 0xaaacf9c9475c in qemu_init qemu/softmmu/vl.c:4369
+    #5 0xaaacf94785a0 in main qemu/softmmu/main.c:49
 
-> An option could be to fall
-> through to the Windbond case below instead (since it seems to operate
-> likewise).
->
-> Best regards,
-> Francisco Iglesias
->
->
-> > > +        break;
-> > >      case MAN_WINBOND:
-> > >          s->needed_bytes += 8;
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+---
+Cc: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/ppc/e500.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Actually this is wrong. This should be corrected to +=1. I will
-prepare a patch for it.
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index ae39b9358e..74f33af88e 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -925,6 +925,7 @@ void ppce500_init(MachineState *machine)
+                                 ccsr_addr_space);
+ 
+     mpicdev = ppce500_init_mpic(pms, ccsr_addr_space, irqs);
++    g_free(irqs);
+ 
+     /* Serial */
+     if (serial_hd(0)) {
+-- 
+2.27.0
 
-> > >          break;
-> > > --
-
-Regards,
-Bin
 
