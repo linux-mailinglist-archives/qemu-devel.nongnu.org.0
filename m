@@ -2,62 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550262CF01A
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:58:31 +0100 (CET)
-Received: from localhost ([::1]:33338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AEC2CF068
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 16:09:59 +0100 (CET)
+Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klCXW-0003Mr-Bu
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:58:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60960)
+	id 1klCib-0007I6-W8
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 10:09:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1klCVQ-0002Ne-PA; Fri, 04 Dec 2020 09:56:20 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:40550 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1klCVP-0006eC-6P; Fri, 04 Dec 2020 09:56:20 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 0D90B413FF;
- Fri,  4 Dec 2020 14:56:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1607093775;
- x=1608908176; bh=MzP0IiDpMCLr9L//kmL4B7PEWosw3rCBj7QUR0sVgME=; b=
- mu8bSOCx/41acwvOKC172ptCkuMdIGJGeUyNCKn0phNjd13RR+qT34XqfCeZwJ9G
- wEZBR1ldJyYtMG74Zf8GAcry9fr4WMk3/AhDqwsOsKewx0zdShyXA7BjHBAXzSyI
- 9Ad0DvJxtrE5L2Xxt86xLZzFWHkNhejE2UtJ3HSNw70=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vSlJnY0Obs8f; Fri,  4 Dec 2020 17:56:15 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 697E641402;
- Fri,  4 Dec 2020 17:56:13 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 4 Dec
- 2020 17:56:13 +0300
-Date: Fri, 4 Dec 2020 17:56:36 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v4 05/11] arm: Set PSCI to 0.2 for HVF
-Message-ID: <20201204145636.GD86904@SPB-NB-133.local>
-References: <20201203234857.21051-1-agraf@csgraf.de>
- <20201203234857.21051-6-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1klChe-0006m4-1b; Fri, 04 Dec 2020 10:08:58 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:41312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1klChb-0002SI-Tf; Fri, 04 Dec 2020 10:08:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=AlFU2E+8U3TNC1n1bIwPKPXZjDZ0RWuyT/+YSIK0SVY=; 
+ b=Ca7Oyg8+zK1S9o8FuzHjcIGzCE+4EXM4M2ocGr8BPs0Be01b5YUIoSXILpCr0mEwBte0/WUsHNsaRrEgiNum2OHI+JXOeeWPSbcNXwtZu/0GaHOKXFiXGhelcXYwqTd43PWLdOrV2RCUTAxby2cHzQqgFWTFdhxIRcnkOtdxgOwgc+fQXtwguJ5/w4GZsX+0iKgXbgUkZk0o6vX6D5RsPh5YJ8l0VSsevEJIlEBeYF9sfTk7pgmQTP1ldprEd10hTIn5YZev2qjsQQaKz7+Js9h9UknoVrei8Viy9oQ2DK30iRYg+dy8MxtdUxZlcmlUrLn0+FNg6Tw/3nkZW+g9aw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1klChV-0002oe-2j; Fri, 04 Dec 2020 16:08:49 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1klChU-00007j-PK; Fri, 04 Dec 2020 16:08:48 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH 2/4] block/io: bdrv_refresh_limits(): use ERRP_GUARD
+In-Reply-To: <20201203222713.13507-3-vsementsov@virtuozzo.com>
+References: <20201203222713.13507-1-vsementsov@virtuozzo.com>
+ <20201203222713.13507-3-vsementsov@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 04 Dec 2020 16:08:48 +0100
+Message-ID: <w51360lr4lb.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20201203234857.21051-6-agraf@csgraf.de>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,20 +61,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 04, 2020 at 12:48:51AM +0100, Alexander Graf wrote:
-> In Hypervisor.framework, we just pass PSCI calls straight on to the QEMU emulation
-> of it. That means, if TCG is compatible with PSCI 0.2, so are we. Let's transpose
-> that fact in code too.
-> 
+On Thu 03 Dec 2020 11:27:11 PM CET, Vladimir Sementsov-Ogievskiy wrote:
+> This simplifies following commit.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+
+Berto
 
