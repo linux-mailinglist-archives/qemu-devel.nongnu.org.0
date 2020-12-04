@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23D5C2CF5CF
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:46:55 +0100 (CET)
-Received: from localhost ([::1]:55970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B02C2CF5DD
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:53:31 +0100 (CET)
+Received: from localhost ([::1]:39010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klHyg-0005Px-05
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:46:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58140)
+	id 1klI53-0002OB-QB
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:53:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klFWj-00062i-2W
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 13:09:54 -0500
-Received: from mx2.suse.de ([195.135.220.15]:53960)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1klFcA-0007G7-Fl; Fri, 04 Dec 2020 13:15:40 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:47738 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klFWI-0001QS-6Q
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 13:09:45 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id DAD0AACB5;
- Fri,  4 Dec 2020 18:09:14 +0000 (UTC)
-Subject: Re: [RFC v7 15/22] cpu: Move tlb_fill to tcg_ops
-To: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20201130023535.16689-1-cfontana@suse.de>
- <20201130023535.16689-16-cfontana@suse.de>
- <4c7fe436-7c2d-e55d-1139-8aa30e91965f@redhat.com>
- <20201204173703.GQ3836@habkost.net>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <f291ff71-0233-c8f4-7fb9-14abe47e1895@suse.de>
-Date: Fri, 4 Dec 2020 19:09:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1klFc0-0003QE-4K; Fri, 04 Dec 2020 13:15:22 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 62A68413F1;
+ Fri,  4 Dec 2020 18:15:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1607105714;
+ x=1608920115; bh=YVGyE8TlAzd8/jfGdj6zfujGWcv13xuBM4HkZSrsiqI=; b=
+ l2xUQh8wSKibMxU9ggiQlfsn0T/pwPVDHwDTdqA/38SvYxxnhYEVlKOFqyc8U7pS
+ dC/+VcHkOkjMmQ20AWJBAZd0IPOwcXfaA/TME+K6JOpwanKoAjtvLjlDPaocicjY
+ Jhh/EwoXsLlGZNX/WUtfHdIO0mGtvUdGeIaSdfOSjOM=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id i8FiuNgjj_3F; Fri,  4 Dec 2020 21:15:14 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 79A5A4139B;
+ Fri,  4 Dec 2020 21:15:13 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 4 Dec
+ 2020 21:15:13 +0300
+Date: Fri, 4 Dec 2020 21:15:36 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Peter Collingbourne <pcc@google.com>
+Subject: Re: [PATCH v3 08/10] arm/hvf: Add a WFI handler
+Message-ID: <20201204181536.GL86904@SPB-NB-133.local>
+References: <20201202190408.2041-1-agraf@csgraf.de>
+ <20201202190408.2041-9-agraf@csgraf.de>
+ <20201203103949.GC7201@SPB-NB-133.local>
+ <CAMn1gO4adJvkWDMV6e0Caigh7B3O5STq=S5P_F6SbWi58x22CQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201204173703.GQ3836@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMn1gO4adJvkWDMV6e0Caigh7B3O5STq=S5P_F6SbWi58x22CQ@mail.gmail.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,82 +78,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Emilio G . Cota" <cota@braap.org>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Alexander Graf <agraf@csgraf.de>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/4/20 6:37 PM, Eduardo Habkost wrote:
-> On Fri, Dec 04, 2020 at 06:14:07PM +0100, Philippe Mathieu-Daudé wrote:
->> On 11/30/20 3:35 AM, Claudio Fontana wrote:
->>> From: Eduardo Habkost <ehabkost@redhat.com>
->>>
->>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>> ---
->>>  accel/tcg/cputlb.c              |  6 +++---
->>>  accel/tcg/user-exec.c           |  6 +++---
->>>  include/hw/core/cpu.h           |  9 ---------
->>>  include/hw/core/tcg-cpu-ops.h   | 12 ++++++++++++
->>>  target/alpha/cpu.c              |  2 +-
->>>  target/arm/cpu.c                |  2 +-
->>>  target/avr/cpu.c                |  2 +-
->>>  target/cris/cpu.c               |  2 +-
->>>  target/hppa/cpu.c               |  2 +-
->>>  target/i386/tcg-cpu.c           |  2 +-
->>>  target/lm32/cpu.c               |  2 +-
->>>  target/m68k/cpu.c               |  2 +-
->>>  target/microblaze/cpu.c         |  2 +-
->>>  target/mips/cpu.c               |  2 +-
->>>  target/moxie/cpu.c              |  2 +-
->>>  target/nios2/cpu.c              |  2 +-
->>>  target/openrisc/cpu.c           |  2 +-
->>>  target/ppc/translate_init.c.inc |  2 +-
->>>  target/riscv/cpu.c              |  2 +-
->>>  target/rx/cpu.c                 |  2 +-
->>>  target/s390x/cpu.c              |  2 +-
->>>  target/sh4/cpu.c                |  2 +-
->>>  target/sparc/cpu.c              |  2 +-
->>>  target/tilegx/cpu.c             |  2 +-
->>>  target/tricore/cpu.c            |  2 +-
->>>  target/unicore32/cpu.c          |  2 +-
->>>  target/xtensa/cpu.c             |  2 +-
->>>  27 files changed, 41 insertions(+), 38 deletions(-)
->>
->> With cc->tcg_ops.* guarded with #ifdef CONFIG_TCG:
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Thu, Dec 03, 2020 at 10:18:14AM -0800, Peter Collingbourne wrote:
+> On Thu, Dec 3, 2020 at 2:39 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+> >
+> > On Wed, Dec 02, 2020 at 08:04:06PM +0100, Alexander Graf wrote:
+> > > From: Peter Collingbourne <pcc@google.com>
+> > >
+> > > Sleep on WFI until the VTIMER is due but allow ourselves to be woken
+> > > up on IPI.
+> > >
+> > > Signed-off-by: Peter Collingbourne <pcc@google.com>
+> > > [agraf: Remove unused 'set' variable, always advance PC on WFX trap]
+> > > Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> > > ---
+> > > +static void hvf_wait_for_ipi(CPUState *cpu, struct timespec *ts)
+> > > +{
+> > > +    /*
+> > > +     * Use pselect to sleep so that other threads can IPI us while we're
+> > > +     * sleeping.
+> > > +     */
+> > > +    qatomic_mb_set(&cpu->thread_kicked, false);
+> > > +    qemu_mutex_unlock_iothread();
+> >
+> > I raised a concern earlier, but I don't for sure if a kick could be lost
+> > right here. On x86 it could be lost.
 > 
-> Thanks!
+> If the signal is sent right before the pselect() it will be blocked
+> i.e. left pending. With the pselect() we get an atomic unblock of
+> SIG_IPI at the same time as we begin sleeping, which means that we
+> will receive the signal and leave the pselect() immediately.
 > 
-> Are the #ifdefs a hard condition for your Reviewed-by?
-> 
-> Even if we agree #ifdef CONFIG_TCG is the way to go, I don't
-> think this should block a series that's a step in the right
-> direction.  It can be done in a separate patch.
-> 
-> (Unless the lack of #ifdef introduces regressions, of course)
+> I think at some point macOS had an incorrect implementation of
+> pselect() where the signal mask was non-atomically set in userspace
+> which could lead to the signal being missed but I checked the latest
+> XNU sources and it looks like the pselect() implementation has been
+> moved to the kernel.
 > 
 
-Hi,
+Yeah, you're right here.
 
-I would add ifdefs to all targets that are not TCG-only (for now).
+> > > +    pselect(0, 0, 0, 0, ts, &cpu->hvf->unblock_ipi_mask);
+> > > +    qemu_mutex_lock_iothread();
+> > > +}
+> > > +
+> > >  int hvf_vcpu_exec(CPUState *cpu)
+> > >  {
+> > >      ARMCPU *arm_cpu = ARM_CPU(cpu);
+> > > @@ -579,6 +594,46 @@ int hvf_vcpu_exec(CPUState *cpu)
+> > >          }
+> > >          case EC_WFX_TRAP:
+> > >              advance_pc = true;
+> > > +            if (!(syndrome & WFX_IS_WFE) && !(cpu->interrupt_request &
+> > > +                (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
+> > > +
+> > > +                uint64_t ctl;
+> > > +                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CTL_EL0,
+> > > +                                        &ctl);
+> > > +                assert_hvf_ok(r);
+> > > +
+> > > +                if (!(ctl & 1) || (ctl & 2)) {
+> > > +                    /* Timer disabled or masked, just wait for an IPI. */
+> > > +                    hvf_wait_for_ipi(cpu, NULL);
+> > > +                    break;
+> > > +                }
+> > > +
+> > > +                uint64_t cval;
+> > > +                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CVAL_EL0,
+> > > +                                        &cval);
+> > > +                assert_hvf_ok(r);
+> > > +
+> > > +                int64_t ticks_to_sleep = cval - mach_absolute_time();
+> >
+> >
+> > Apple reference recommends to use [1]:
+> >
+> >   clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+> >
+> > It, internally in Libc, invokes mach_absolute_time() [2].
+> >
+> > 1. https://developer.apple.com/documentation/kernel/1462446-mach_absolute_time
+> > 2. https://opensource.apple.com/source/Libc/Libc-1158.1.2/gen/clock_gettime.c.auto.html
+> 
+> I think that recommendation is because most people want to deal with
+> seconds, not ticks. In our case we specifically want ticks because
+> we're comparing against a ticks value from the guest, so I don't see
+> the benefit of converting from ticks to seconds and back again.
+> 
 
-If a target is tcg-only, there is of course no point in adding ifdefs.
+Thanks for the clarifications, Peter.
 
-For the others, the ifdefs is something that helps us reorg the code into separate blocks,
-and then we can move them to separate .c files and remove the ifdefs.
-
-Ciao,
-
-Claudio
-
+Regards,
+Roman
 
