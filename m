@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B172CEFB8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:32:18 +0100 (CET)
-Received: from localhost ([::1]:57176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC4E2CEFBB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:33:52 +0100 (CET)
+Received: from localhost ([::1]:33176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klC88-0005Ls-Vh
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:32:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54310)
+	id 1klC9f-00078J-Jg
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:33:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1klC5R-00042a-BN
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:29:29 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38878)
+ id 1klC8A-0006Ea-M8
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:32:18 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:44322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1klC5O-0005NZ-Q2
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:29:29 -0500
-Received: by mail-ej1-x641.google.com with SMTP id a16so8968792ejj.5
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 06:29:26 -0800 (PST)
+ id 1klC87-0006Px-D4
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:32:18 -0500
+Received: by mail-ej1-x641.google.com with SMTP id m19so8922877ejj.11
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 06:32:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=avHyNNQouFbw9NoJwg66VrLzlJSm4ZC8fTA7tsrh7VI=;
- b=dtSKUTYtQUvUh7nJDWTjIVOoXPtarDqWNFD3fbPqqrKtT7CZzCW0I2Vi8FslA/K/zN
- yaMuKhLagqyz6ogJb/jmlbrhJkJEnot+NHyW9Ykpw3pfUJtK6qEMTwkag5vCu1+8mjM1
- rtezn3avDOI80FL0ZMBSRfelNH6DEL/B6gXfg8a79k2KGAJfl+wgyTnQPnns4vteWlhg
- X1umMM/pbuSVRmdctfroxcs9mopaHhBX11lbBxFwwAm/0ZWLo92s4L0pXykRwxC6JVBX
- MTnoLrRukkb8bUE+BsByT7njtQbC85iySIk8BUVX8Wczn6bLmDClF7W3DZ0JfRZzbp6p
- KHpA==
+ :cc; bh=iFXEhQp7vCfKnBTdQx/bCFMrWiuckpBVJE3e3RqkaOw=;
+ b=DGPTe+hg5Qz/K4Ilpvjxb0ttvFv84wTdmmai08TYaFF3uRd9ZYPFzTv25SAyXMc/Hx
+ hqgcWYsMjlIxyD0L7wNBbBknAulYyugJLLHA7VjNVcQ69PR/ZP0mv9NDA5vdazdD3wmj
+ ouNjQuuTzk/Va2gVvVZ5xt+6g1tOyECk8FQ5G5JIQAWVSZeak61dJtd9K0oHBL7K92mb
+ Z54S+OD3+r7RzjeazUFrQIF4V39An55pOlL+1VT4Pt1cDMOFTb6b0hFZltGZGcYoAgQ2
+ rn1sbnRxpxYyf2ZRt1tMeBFfvc48qviwMejFV3rF2UiEyCnY7fqWYuUll5CECe+klZaT
+ 1Fog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=avHyNNQouFbw9NoJwg66VrLzlJSm4ZC8fTA7tsrh7VI=;
- b=Onvn1/tkALWjJChkwf+5D3NhlzbsXYuNR6NJXMYdzguHowRjXPKOC+iM5UtFK0DgTR
- dFizjE3L7Au+3TjnWYtjrbDelMOcZA5V1jQDCr/Uq9lGZ22aN0gtAUV71KL+kU+dHQfb
- ga0ymA65xLWLFyPPycWUmUzWC0Mexjw99uuDk/7lUd7g2KbvcugrpARZQW3ajP9byZfq
- qM9RSL0ovZlBxDClASZtntvtOTahMWx4DBOUF8xvQvPaVq8Fo7sFps8+OCZ2aYSkF41G
- 27NO/3Yls0RQ41/Pn/s4HUboUbXKo+B9MNStmDIG7XdTmyWdHWJUOUx6071fFObyNWsk
- aW4g==
-X-Gm-Message-State: AOAM530utPuQV1jRebGbw6r4OQxlZkT9bopmGI/O0TnHcXy+JrshmQmJ
- LxiUjWT575gm6gkkG+6iPxXBKWEt9hu/OwxZjmM=
-X-Google-Smtp-Source: ABdhPJzvLDUHkiFG93JARQMuFwUn2eT3II0yHrs04maWPI7Ub8WmetcH6swN2kuF0tE6YA7lfM6x53sBABmpSlPCaN0=
-X-Received: by 2002:a17:906:aacd:: with SMTP id
- kt13mr7146220ejb.527.1607092165207; 
- Fri, 04 Dec 2020 06:29:25 -0800 (PST)
+ bh=iFXEhQp7vCfKnBTdQx/bCFMrWiuckpBVJE3e3RqkaOw=;
+ b=LipeYRfGWWRqrirpgfaMfGuNt63mRh+Pna6ZW7lFWgLCidcB4m/SlcEG/+J1G8cc+X
+ hWaoGfQhGJyCu4eKovCHcXCG32xlqomyj60vC/WXn2eVua/3bWJfNFxwgSizOzhEa9Cz
+ 4uKbP8DqfUxzEjAx5EA3+qE/E7pHUc48jCsb+kJ9frIN30EnJw2ZNtEaLq4YwlRUWWVY
+ wOsWZv9PTIgOWGr16L+B47HWHNRM3EtZpm0atlPmy1vA1ZLW2MA4kIgKu+QjPlGkjX+Z
+ sMIfKOtvTkTHdcoQGRvaoxvQBZut/ynljH8Uksn8CBAQeHF+ZlpSA5zyV7FfNWaLqY8N
+ 9ntA==
+X-Gm-Message-State: AOAM532sxx+2D1KtMJpC1b35XVBh9T+L/BaAz2Nl7p/hB9KUkuL7qCYE
+ brj0emlQ4zvcWcWsJiN9uFYZ+V6HJJE9sMzLjD8=
+X-Google-Smtp-Source: ABdhPJybGJgfhjCnZfmkMOzLLgnflMTpxWk/Yy67cRMQJxBiXue+BkkDaJwodxnRk7dSzQTlS7CYWrNrNjP+axdVRJI=
+X-Received: by 2002:a17:906:385b:: with SMTP id
+ w27mr7385295ejc.109.1607092333691; 
+ Fri, 04 Dec 2020 06:32:13 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1606853298.git.jag.raman@oracle.com>
  <52599a1edb0edfab0753688e3bf8544e036da441.1606853298.git.jag.raman@oracle.com>
 In-Reply-To: <52599a1edb0edfab0753688e3bf8544e036da441.1606853298.git.jag.raman@oracle.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 4 Dec 2020 18:29:13 +0400
-Message-ID: <CAJ+F1CLodL57kCvLoU8t-ofHF0bp_Wip540FNsw+g_26VA1wbw@mail.gmail.com>
+Date: Fri, 4 Dec 2020 18:32:01 +0400
+Message-ID: <CAJ+F1CLUmn=LYGNYDiYjwVY-dJK6MJW=NswFUKUruGyk1h96Gw@mail.gmail.com>
 Subject: Re: [PATCH v12 05/19] multi-process: setup PCI host bridge for remote
  device
 To: Jagannathan Raman <jag.raman@oracle.com>
-Content-Type: multipart/alternative; boundary="000000000000a0ecb205b5a44d84"
+Content-Type: multipart/alternative; boundary="000000000000abc80b05b5a457ba"
 Received-SPF: pass client-ip=2a00:1450:4864:20::641;
  envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x641.google.com
 X-Spam_score_int: -20
@@ -99,7 +99,7 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a0ecb205b5a44d84
+--000000000000abc80b05b5a457ba
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -152,9 +152,21 @@ wrote:
 > +#include "hw/pci/pcie_host.h"
 > +
 > +#define TYPE_REMOTE_HOST_DEVICE "remote-pcihost"
-> +#define REMOTE_HOST_DEVICE(obj) \
+>
+
+I got confused by the following patch. Please try to be consistent.
+
+TYPE_REMOTE_PCIHOST would help.
+
+thanks
+
++#define REMOTE_HOST_DEVICE(obj) \
 > +    OBJECT_CHECK(RemotePCIHost, (obj), TYPE_REMOTE_HOST_DEVICE)
-> +
+>
+
+REMOTE_PCIHOST
+
++
 > +typedef struct RemotePCIHost {
 > +    /*< private >*/
 > +    PCIExpressHost parent_obj;
@@ -272,11 +284,7 @@ e,
 > +
 > +config MULTIPROCESS_HOST
 > +    bool
->
-
-Why not REMOTE_PCIHOST ?
-
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+> diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
 > index e6d1b89..4147100 100644
 > --- a/hw/pci-host/meson.build
 > +++ b/hw/pci-host/meson.build
@@ -307,17 +315,16 @@ diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000a0ecb205b5a44d84
+--000000000000abc80b05b5a457ba
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
 <div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 2, 2020 at 12:23 AM Jagan=
-nathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com" target=3D"_blank">=
-jag.raman@oracle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">PCI host bridge is setup for the remote device process.=
- It is<br>
+nathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">PCI host bridge is setup for the remote device process. It is<br>
 implemented using remote-pcihost object. It is an extension of the PCI<br>
 host bridge setup by QEMU.<br>
 Remote-pcihost configures a PCI bus which could be used by the remote<br>
@@ -370,10 +377,17 @@ r.<br>
 +#include &quot;exec/memory.h&quot;<br>
 +#include &quot;hw/pci/pcie_host.h&quot;<br>
 +<br>
-+#define TYPE_REMOTE_HOST_DEVICE &quot;remote-pcihost&quot;<br>
++#define TYPE_REMOTE_HOST_DEVICE &quot;remote-pcihost&quot;<br></blockquote=
+><div><br></div><div>I got confused by the following patch. Please try to b=
+e consistent.</div><div><br></div><div>TYPE_REMOTE_PCIHOST would help.</div=
+><div><br></div><div>thanks</div><div><br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
 +#define REMOTE_HOST_DEVICE(obj) \<br>
 +=C2=A0 =C2=A0 OBJECT_CHECK(RemotePCIHost, (obj), TYPE_REMOTE_HOST_DEVICE)<=
-br>
+br></blockquote><div><br></div><div>REMOTE_PCIHOST</div><div> <br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">
 +<br>
 +typedef struct RemotePCIHost {<br>
 +=C2=A0 =C2=A0 /*&lt; private &gt;*/<br>
@@ -499,10 +513,7 @@ index 036a618..25cdeb2 100644<br>
 =C2=A0 =C2=A0 =C2=A0bool<br>
 +<br>
 +config MULTIPROCESS_HOST<br>
-+=C2=A0 =C2=A0 bool<br></blockquote><div><br></div><div>Why not  REMOTE_PCI=
-HOST ?</div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
++=C2=A0 =C2=A0 bool<br>
 diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build<br>
 index e6d1b89..4147100 100644<br>
 --- a/hw/pci-host/meson.build<br>
@@ -533,8 +544,8 @@ index 5484446..fb6ee4a 100644<br>
 -- <br>
 1.8.3.1<br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000a0ecb205b5a44d84--
+--000000000000abc80b05b5a457ba--
 
