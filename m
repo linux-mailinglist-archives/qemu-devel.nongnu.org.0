@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B02C2CF5DD
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:53:31 +0100 (CET)
-Received: from localhost ([::1]:39010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D6D2CF5B5
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:36:06 +0100 (CET)
+Received: from localhost ([::1]:60194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klI53-0002OB-QB
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:53:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32868)
+	id 1klHoD-0003WC-DF
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:36:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1klFcA-0007G7-Fl; Fri, 04 Dec 2020 13:15:40 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:47738 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1klFc0-0003QE-4K; Fri, 04 Dec 2020 13:15:22 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 62A68413F1;
- Fri,  4 Dec 2020 18:15:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1607105714;
- x=1608920115; bh=YVGyE8TlAzd8/jfGdj6zfujGWcv13xuBM4HkZSrsiqI=; b=
- l2xUQh8wSKibMxU9ggiQlfsn0T/pwPVDHwDTdqA/38SvYxxnhYEVlKOFqyc8U7pS
- dC/+VcHkOkjMmQ20AWJBAZd0IPOwcXfaA/TME+K6JOpwanKoAjtvLjlDPaocicjY
- Jhh/EwoXsLlGZNX/WUtfHdIO0mGtvUdGeIaSdfOSjOM=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id i8FiuNgjj_3F; Fri,  4 Dec 2020 21:15:14 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1klFq1-0006N8-9Q
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 13:29:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34324)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1klFpx-0007rV-0k
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 13:29:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607106583;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qs+mKh6HwOb13nWc0Lg1SmJQoC4UYBkVIzfB/AC0g4w=;
+ b=OCU5LTsjAUh2HkM71mFeH10mky/CRQ01j7ffPh5H6/C3xvSVWn8cO392sny5GShzhUKGcS
+ 2VTe32nq/VsCFvZ3jbd4fKDm5C7mycpMXCIh0qbvN7LM9tSphbKoPaS91nIsjM71n8RawV
+ kMaLW7XbwJ6hr7QALxvfogrJUDu2m9E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-90-GRg8mE7DNEm3eo1O6m7srA-1; Fri, 04 Dec 2020 13:29:39 -0500
+X-MC-Unique: GRg8mE7DNEm3eo1O6m7srA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 79A5A4139B;
- Fri,  4 Dec 2020 21:15:13 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 4 Dec
- 2020 21:15:13 +0300
-Date: Fri, 4 Dec 2020 21:15:36 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Peter Collingbourne <pcc@google.com>
-Subject: Re: [PATCH v3 08/10] arm/hvf: Add a WFI handler
-Message-ID: <20201204181536.GL86904@SPB-NB-133.local>
-References: <20201202190408.2041-1-agraf@csgraf.de>
- <20201202190408.2041-9-agraf@csgraf.de>
- <20201203103949.GC7201@SPB-NB-133.local>
- <CAMn1gO4adJvkWDMV6e0Caigh7B3O5STq=S5P_F6SbWi58x22CQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E3FA1842140;
+ Fri,  4 Dec 2020 18:29:37 +0000 (UTC)
+Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8194B27C50;
+ Fri,  4 Dec 2020 18:29:33 +0000 (UTC)
+Date: Fri, 4 Dec 2020 13:29:32 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v7 12/22] cpu: Introduce TCGCpuOperations struct
+Message-ID: <20201204182932.GR3836@habkost.net>
+References: <20201130023535.16689-1-cfontana@suse.de>
+ <20201130023535.16689-13-cfontana@suse.de>
+ <fb02985a-010f-5a68-7444-b214e97f9050@redhat.com>
+ <20201204172814.GO3836@habkost.net>
+ <28f2a43d-5148-8104-9873-1ce91be4e468@suse.de>
+ <f8682afb-6791-303a-367a-28cc46b13e66@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <f8682afb-6791-303a-367a-28cc46b13e66@suse.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMn1gO4adJvkWDMV6e0Caigh7B3O5STq=S5P_F6SbWi58x22CQ@mail.gmail.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,104 +84,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Alexander Graf <agraf@csgraf.de>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 03, 2020 at 10:18:14AM -0800, Peter Collingbourne wrote:
-> On Thu, Dec 3, 2020 at 2:39 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
-> >
-> > On Wed, Dec 02, 2020 at 08:04:06PM +0100, Alexander Graf wrote:
-> > > From: Peter Collingbourne <pcc@google.com>
-> > >
-> > > Sleep on WFI until the VTIMER is due but allow ourselves to be woken
-> > > up on IPI.
-> > >
-> > > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> > > [agraf: Remove unused 'set' variable, always advance PC on WFX trap]
-> > > Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> > > ---
-> > > +static void hvf_wait_for_ipi(CPUState *cpu, struct timespec *ts)
-> > > +{
-> > > +    /*
-> > > +     * Use pselect to sleep so that other threads can IPI us while we're
-> > > +     * sleeping.
-> > > +     */
-> > > +    qatomic_mb_set(&cpu->thread_kicked, false);
-> > > +    qemu_mutex_unlock_iothread();
-> >
-> > I raised a concern earlier, but I don't for sure if a kick could be lost
-> > right here. On x86 it could be lost.
+On Fri, Dec 04, 2020 at 07:07:09PM +0100, Claudio Fontana wrote:
+> On 12/4/20 7:04 PM, Claudio Fontana wrote:
+> > On 12/4/20 6:28 PM, Eduardo Habkost wrote:
+> >> On Fri, Dec 04, 2020 at 06:10:49PM +0100, Philippe Mathieu-Daudé wrote:
+> >>> On 11/30/20 3:35 AM, Claudio Fontana wrote:
+> >>>> From: Eduardo Habkost <ehabkost@redhat.com>
+> >>>>
+> >>>> The TCG-specific CPU methods will be moved to a separate struct,
+> >>>> to make it easier to move accel-specific code outside generic CPU
+> >>>> code in the future.  Start by moving tcg_initialize().
+> >>>
+> >>> Good idea! One minor comment below.
+> >>>
+> >>>>
+> >>>> The new CPUClass.tcg_opts field may eventually become a pointer,
+> >>>> but keep it an embedded struct for now, to make code conversion
+> >>>> easier.
+> >>>>
+> >>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> >>>> ---
+> >>>>  MAINTAINERS                     |  1 +
+> >>>>  cpu.c                           |  2 +-
+> >>>>  include/hw/core/cpu.h           |  9 ++++++++-
+> >>>>  include/hw/core/tcg-cpu-ops.h   | 25 +++++++++++++++++++++++++
+> >>>>  target/alpha/cpu.c              |  2 +-
+> >>>>  target/arm/cpu.c                |  2 +-
+> >>>>  target/avr/cpu.c                |  2 +-
+> >>>>  target/cris/cpu.c               | 12 ++++++------
+> >>>>  target/hppa/cpu.c               |  2 +-
+> >>>>  target/i386/tcg-cpu.c           |  2 +-
+> >>>>  target/lm32/cpu.c               |  2 +-
+> >>>>  target/m68k/cpu.c               |  2 +-
+> >>>>  target/microblaze/cpu.c         |  2 +-
+> >>>>  target/mips/cpu.c               |  2 +-
+> >>>>  target/moxie/cpu.c              |  2 +-
+> >>>>  target/nios2/cpu.c              |  2 +-
+> >>>>  target/openrisc/cpu.c           |  2 +-
+> >>>>  target/ppc/translate_init.c.inc |  2 +-
+> >>>>  target/riscv/cpu.c              |  2 +-
+> >>>>  target/rx/cpu.c                 |  2 +-
+> >>>>  target/s390x/cpu.c              |  2 +-
+> >>>>  target/sh4/cpu.c                |  2 +-
+> >>>>  target/sparc/cpu.c              |  2 +-
+> >>>>  target/tilegx/cpu.c             |  2 +-
+> >>>>  target/tricore/cpu.c            |  2 +-
+> >>>>  target/unicore32/cpu.c          |  2 +-
+> >>>>  target/xtensa/cpu.c             |  2 +-
+> >>>>  27 files changed, 63 insertions(+), 30 deletions(-)
+> >>>>  create mode 100644 include/hw/core/tcg-cpu-ops.h
+> >>>>
+> >>>> diff --git a/MAINTAINERS b/MAINTAINERS
+> >>>> index f53f2678d8..d876f504a6 100644
+> >>>> --- a/MAINTAINERS
+> >>>> +++ b/MAINTAINERS
+> >>>> @@ -1535,6 +1535,7 @@ F: qapi/machine.json
+> >>>>  F: qapi/machine-target.json
+> >>>>  F: include/hw/boards.h
+> >>>>  F: include/hw/core/cpu.h
+> >>>> +F: include/hw/core/tcg-cpu-ops.h
+> >>>>  F: include/hw/cpu/cluster.h
+> >>>>  F: include/sysemu/numa.h
+> >>>>  T: git https://github.com/ehabkost/qemu.git machine-next
+> >>>> diff --git a/cpu.c b/cpu.c
+> >>>> index 0be5dcb6f3..d02c2a17f1 100644
+> >>>> --- a/cpu.c
+> >>>> +++ b/cpu.c
+> >>>> @@ -180,7 +180,7 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+> >>>>  
+> >>>>      if (tcg_enabled() && !tcg_target_initialized) {
+> >>>>          tcg_target_initialized = true;
+> >>>> -        cc->tcg_initialize();
+> >>>> +        cc->tcg_ops.initialize();
+> >>>>      }
+> >>>>      tlb_init(cpu);
+> >>>>  
+> >>>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> >>>> index 3d92c967ff..c93b08a0fb 100644
+> >>>> --- a/include/hw/core/cpu.h
+> >>>> +++ b/include/hw/core/cpu.h
+> >>>> @@ -76,6 +76,10 @@ typedef struct CPUWatchpoint CPUWatchpoint;
+> >>>>  
+> >>>>  struct TranslationBlock;
+> >>>>  
+> >>>> +#ifdef CONFIG_TCG
+> >>>> +#include "tcg-cpu-ops.h"
+> >>>> +#endif /* CONFIG_TCG */
+> >>>> +
+> >>>>  /**
+> >>>>   * CPUClass:
+> >>>>   * @class_by_name: Callback to map -cpu command line model name to an
+> >>>> @@ -221,12 +225,15 @@ struct CPUClass {
+> >>>>  
+> >>>>      void (*disas_set_info)(CPUState *cpu, disassemble_info *info);
+> >>>>      vaddr (*adjust_watchpoint_address)(CPUState *cpu, vaddr addr, int len);
+> >>>> -    void (*tcg_initialize)(void);
+> >>>>  
+> >>>>      const char *deprecation_note;
+> >>>>      /* Keep non-pointer data at the end to minimize holes.  */
+> >>>>      int gdb_num_core_regs;
+> >>>>      bool gdb_stop_before_watchpoint;
+> >>>> +
+> >>>> +#ifdef CONFIG_TCG
+> >>>> +    TcgCpuOperations tcg_ops;
+> >>>> +#endif /* CONFIG_TCG */
+> >>>>  };
+> >>
+> >> I'm not a fan of #ifdefs in struct definitions (especially in
+> >> generic code like hw/cpu), because there's risk the same header
+> >> generate different struct layout when used by different .c files.
+> >> I would prefer to gradually refactor the code so that tcg_ops is
+> >> eventually removed from CPUClass.
+> >>
+> >> This is not a dealbreaker, because both approaches are steps in
+> >> the same direction.  But the #ifdef here makes review harder and
+> >> has more risks of unwanted side effects.
+> >>
+> >>>>  
+> >>>>  /*
+> >>>> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+> >>>> new file mode 100644
+> >>>> index 0000000000..4475ef0996
+> >>>> --- /dev/null
+> >>>> +++ b/include/hw/core/tcg-cpu-ops.h
+> >>>> @@ -0,0 +1,25 @@
+> >>>> +/*
+> >>>> + * TCG-Specific operations that are not meaningful for hardware accelerators
+> >>>> + *
+> >>>> + * Copyright 2020 SUSE LLC
+> >>>> + *
+> >>>> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> >>>> + * See the COPYING file in the top-level directory.
+> >>>> + */
+> >>>> +
+> >>>> +#ifndef TCG_CPU_OPS_H
+> >>>> +#define TCG_CPU_OPS_H
+> >>>> +
+> >>>> +/**
+> >>>> + * struct TcgCpuOperations: TCG operations specific to a CPU class
+> >>>> + */
+> >>>> +typedef struct TcgCpuOperations {
+> >>>> +    /**
+> >>>> +     * @initialize: Initalize TCG state
+> >>>> +     *
+> >>>> +     * Called when the first CPU is realized.
+> >>>> +     */
+> >>>> +    void (*initialize)(void);
+> >>>> +} TcgCpuOperations;
+> >>>> +
+> >>>> +#endif /* TCG_CPU_OPS_H */
+> >>> ...
+> >>>
+> >>>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> >>>> index 07492e9f9a..1fa9382a7c 100644
+> >>>> --- a/target/arm/cpu.c
+> >>>> +++ b/target/arm/cpu.c
+> >>>> @@ -2261,7 +2261,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+> >>>>      cc->gdb_stop_before_watchpoint = true;
+> >>>>      cc->disas_set_info = arm_disas_set_info;
+> >>>>  #ifdef CONFIG_TCG
+> >>>> -    cc->tcg_initialize = arm_translate_init;
+> >>>> +    cc->tcg_ops.initialize = arm_translate_init;
+> >>>
+> >>> This one is correctly guarded by '#ifdef CONFIG_TCG'.
+> >>>
+> >>> For the other targets, can you either place it within
+> >>> the '#ifdef CONFIG_TCG' block or if there is none, add
+> >>> one please?
+> >>
+> >> As a new #ifdef risks having additional unwanted side effects, I
+> >> would prefer to do it in separate patch, just in case.
+> >>
+> >> This also applies to the #ifdef Claudio added to hw/core/cpu.h
+> >> above.  In case we really want to do it, I would do it in a
+> >> separate patch.
+> > 
+> > Hi Eduardo,
+> > 
+> > yes, once things are settling we should dispose of as many #ifdefs are possible
 > 
-> If the signal is sent right before the pselect() it will be blocked
-> i.e. left pending. With the pselect() we get an atomic unblock of
-> SIG_IPI at the same time as we begin sleeping, which means that we
-> will receive the signal and leave the pselect() immediately.
 > 
-> I think at some point macOS had an incorrect implementation of
-> pselect() where the signal mask was non-atomically set in userspace
-> which could lead to the signal being missed but I checked the latest
-> XNU sources and it looks like the pselect() implementation has been
-> moved to the kernel.
+> By that I mean, as targets are adapted (arm, s390, ...) things can be refactored in a similar was as for x86,
+> so that the ifdefs disappear, and meson instead controls which pieces are built.
 > 
+> When it comes to the extra field, it was already very useful to have it #ifdef ed,
+> because it identified quite a few problem with the existing patches, ie, code that was trying to use the field even though it was not there.
+> 
+> So this step helps with finding all the right pieces to refactor away,
+> and then once things are in their proper place, we can take away the ifdef I think.
 
-Yeah, you're right here.
+That's a good point.  Grepping for CONFIG_TCG will help us find
+out cases where the code still has to be moved to a separate
+file.
 
-> > > +    pselect(0, 0, 0, 0, ts, &cpu->hvf->unblock_ipi_mask);
-> > > +    qemu_mutex_lock_iothread();
-> > > +}
-> > > +
-> > >  int hvf_vcpu_exec(CPUState *cpu)
-> > >  {
-> > >      ARMCPU *arm_cpu = ARM_CPU(cpu);
-> > > @@ -579,6 +594,46 @@ int hvf_vcpu_exec(CPUState *cpu)
-> > >          }
-> > >          case EC_WFX_TRAP:
-> > >              advance_pc = true;
-> > > +            if (!(syndrome & WFX_IS_WFE) && !(cpu->interrupt_request &
-> > > +                (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIQ))) {
-> > > +
-> > > +                uint64_t ctl;
-> > > +                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CTL_EL0,
-> > > +                                        &ctl);
-> > > +                assert_hvf_ok(r);
-> > > +
-> > > +                if (!(ctl & 1) || (ctl & 2)) {
-> > > +                    /* Timer disabled or masked, just wait for an IPI. */
-> > > +                    hvf_wait_for_ipi(cpu, NULL);
-> > > +                    break;
-> > > +                }
-> > > +
-> > > +                uint64_t cval;
-> > > +                r = hv_vcpu_get_sys_reg(cpu->hvf->fd, HV_SYS_REG_CNTV_CVAL_EL0,
-> > > +                                        &cval);
-> > > +                assert_hvf_ok(r);
-> > > +
-> > > +                int64_t ticks_to_sleep = cval - mach_absolute_time();
-> >
-> >
-> > Apple reference recommends to use [1]:
-> >
-> >   clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
-> >
-> > It, internally in Libc, invokes mach_absolute_time() [2].
-> >
-> > 1. https://developer.apple.com/documentation/kernel/1462446-mach_absolute_time
-> > 2. https://opensource.apple.com/source/Libc/Libc-1158.1.2/gen/clock_gettime.c.auto.html
-> 
-> I think that recommendation is because most people want to deal with
-> seconds, not ticks. In our case we specifically want ticks because
-> we're comparing against a ticks value from the guest, so I don't see
-> the benefit of converting from ticks to seconds and back again.
-> 
+I was probably being overly cautious about the ifdef.  CONFIG_TCG
+is not as tricky as target-specific macros that can't be used in
+any header.
 
-Thanks for the clarifications, Peter.
+-- 
+Eduardo
 
-Regards,
-Roman
 
