@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228F42CF6DB
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:36:48 +0100 (CET)
-Received: from localhost ([::1]:42142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1481A2CF6C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:33:43 +0100 (CET)
+Received: from localhost ([::1]:37546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klJh0-0001WY-Tf
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 17:36:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43678)
+	id 1klJe2-0007eK-4i
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 17:33:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klJXK-0002bR-UJ
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:26:48 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36795)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klJXG-0007yg-2k
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:26:43 -0500
-Received: by mail-ej1-x642.google.com with SMTP id lt17so10937971ejb.3
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 14:26:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0iMc1U7Wr361oFMAzFxSwxjYvRlBdQYyBbE2x1GpfLY=;
- b=cOJh4EpcQddvYd+em79PFhqU0Io2qESFHQBdQ8yxfP/tyRFNzED6DaGwchRPCMxBZi
- APM0Io94qqn7jnuD2SMX00YiQT/mDUSOv5wK0muE78vi3m9T0R/Rw+RcVOiNrAOzwx19
- B3z/SPNsijzb772pvf8CvRHOoOF2QJYtmFBIE5TBAZRDlMegEqm+s+YnP6AVz9ivAPWi
- 9lr10aKIBFtGXiUTJz30YbaDfTT2/4G4jOUnBjmj9y2/wp9A6L4g826B4fDunHibYX7u
- SyKzPuD7dB2WqkXRZ8DDCpuBHLfkkytApuuCagNvynQbS/EVAqhilSEUdfT5Pm2H+cUV
- tgAA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klJZC-0004p3-Qo
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:28:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28998)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klJZA-00008c-Gi
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:28:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607120917;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ywfLoS2R1ZNQj4sOSxq9bk871Lp78Gw1xhYE1L968Qk=;
+ b=OQBgP8M/eKLE+q99oP3SgBMhHhJzHzVRUVo5csxdWarHrEg9Za5cBgrD2FqrbpJzVSVD5T
+ xWWoQNxM7xmiP5bBQGzw/etCb6vedOgdhxVMW66qcTDRb7m/pGRhYJ1b2Zm5/vHOr0cmgz
+ TlFOvYm78sDk8yt50rBbhLrup5jrcUw=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-tITj4hEfNCGwWc7fs7Iaqg-1; Fri, 04 Dec 2020 17:28:35 -0500
+X-MC-Unique: tITj4hEfNCGwWc7fs7Iaqg-1
+Received: by mail-ej1-f69.google.com with SMTP id lw15so1106858ejb.7
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 14:28:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0iMc1U7Wr361oFMAzFxSwxjYvRlBdQYyBbE2x1GpfLY=;
- b=ic++xDmK6OIypj17k6aYXq1SkXKfFpvi9gudhuJ6R6aDozrn3c/aJjH5G035yVlh3D
- l+637DBYTyOn9nRcSvGV9iBOaQYt1l3z1noH2RtfKHJwsdZ5OgtMXO5ay6ZheiYeA+6J
- U7vi0/jHxPil/Kf8dZ6FM/459FxchT4jTnKwq8DomPt//1s/Mx8i62/46v4HsXqKa4cT
- 1oCJV9PjU3VAmH3tWDGQAnARD0a+FX3U3/P65nc939cSuVrvzVSSwumwJ25uw3OCv8BU
- FypCV/q0BLzebx6AGN0b7haFowd2HPHh44N05lckuiko6LJsaxRQz3/2xCwYgif3J6Fz
- bBYQ==
-X-Gm-Message-State: AOAM530mJ5aBmL9KDo0tUDNhEMXL9zCAC4OKOcug1T8EwcCezpPWrsye
- RDNb/OWFpBzGntuqjRMjP+g=
-X-Google-Smtp-Source: ABdhPJwig11YAraxAu9UTLlVDbDCJv8YRpFzxGkxBy7pWl080A5kCOLDwhymcIaWsk0+sFRmItMK6w==
-X-Received: by 2002:a17:906:8c7:: with SMTP id
- o7mr9538671eje.413.1607120800813; 
- Fri, 04 Dec 2020 14:26:40 -0800 (PST)
-Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ywfLoS2R1ZNQj4sOSxq9bk871Lp78Gw1xhYE1L968Qk=;
+ b=pFsCKWjJzqcOAiT3PT6H2s28PjFo1ZbwB3h9O8hPeBgHjmKEBWOfGdlErrBUCr0py5
+ MZk/4meKPj0rFyccA2ZtShFK2gQvHe5Zlf32G5XTUPEQ5zeCOYSDfBv9lMS2bORnyHLj
+ X/h7ttx4sM2rZF+hAMYQ4gbZg55oirRSsoVoT6PHW49aYasMMFi0py5Gg9rBCnzmheT6
+ wSchBVAInSdIdCO2PqXJtBN++Tq3AAsDIUedqtOG4QgbpavLqSbxJLWE5yGCik3Ng54i
+ +rhQ2qaFp18xcJRGKFLWi1hOnNm389CAvUZLF+VCgSL5ZgKIaLK35t9fYu1BdE9k71yY
+ jm9A==
+X-Gm-Message-State: AOAM532KVlqTVGKgzIUOtM8H21p9UQUh+rw2uLMaGg883EwKvXShYjFM
+ BoZ37H/1AP/dmHhqdQ/DXp5sGKzH7jyj8ACrJeHGEPu2gdXf8m0c6GPtK3NWJmcb0qDzzZ878NO
+ EQVNNbM1X1umdty0=
+X-Received: by 2002:a17:907:3f9e:: with SMTP id
+ hr30mr9157960ejc.258.1607120914437; 
+ Fri, 04 Dec 2020 14:28:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzUwrCyGC9bgCVU/rAUs0XPg8A6FTxnq9dGYQIstXtX+5OtNKt40Ol9nDteRHL7r1wj0lxZOg==
+X-Received: by 2002:a17:907:3f9e:: with SMTP id
+ hr30mr9157948ejc.258.1607120914296; 
+ Fri, 04 Dec 2020 14:28:34 -0800 (PST)
+Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id lz17sm3989348ejb.19.2020.12.04.14.26.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Dec 2020 14:26:40 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
- qemu-devel@nongnu.org
-Subject: [PATCH 3/5] target/mips: Do not initialize MT registers if MT ASE
- absent
-Date: Fri,  4 Dec 2020 23:26:20 +0100
-Message-Id: <20201204222622.2743175-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201204222622.2743175-1-f4bug@amsat.org>
-References: <20201204222622.2743175-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id b21sm4282393edr.53.2020.12.04.14.28.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Dec 2020 14:28:33 -0800 (PST)
+Subject: Re: [PATCH] block/nvme: Do not allow image creation with NVMe block
+ driver
+To: qemu-devel@nongnu.org
+References: <20201204165724.2647357-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d1deeab3-251f-5081-7d45-0092b381bc5a@redhat.com>
+Date: Fri, 4 Dec 2020 23:28:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20201204165724.2647357-1-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,38 +100,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Xueqiang Wei <xuwei@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not initialize MT-related config registers if the MT ASE
-is not present. As some functions access the 'mvp' structure,
-we still zero-allocate it.
+On 12/4/20 5:57 PM, Philippe Mathieu-Daudé wrote:
+> The NVMe driver does not support image creation.
+> The full drive has to be passed to the guest.
+> 
+> Before:
+> 
+>   $ qemu-img create -f raw nvme://0000:04:00.0/1 20G
+>   Formatting 'nvme://0000:04:00.0/1', fmt=raw size=21474836480
+> 
+>   $ qemu-img info nvme://0000:04:00.0/1
+>   image: nvme://0000:04:00.0/1
+>   file format: raw
+>   virtual size: 349 GiB (375083606016 bytes)
+>   disk size: unavailable
+> 
+> After:
+> 
+>   $ qemu-img create -f raw nvme://0000:04:00.0/1 20G
+>   qemu-img: nvme://0000:04:00.0/1: Protocol driver 'nvme' does not support image creation
+> 
+> Fixes: 5a5e7f8cd86 ("block: trickle down the fallback image creation function use to the block drivers")
+> Reported-by: Xueqiang Wei <xuwei@redhat.com>
+> Suggested-by: Max Reitz <mreitz@redhat.com>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/translate_init.c.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+Well Max didn't suggest the change but pointed me to commit 5a5e7f8cd86.
 
-diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
-index 5a926bc6df3..f72fee3b40a 100644
---- a/target/mips/translate_init.c.inc
-+++ b/target/mips/translate_init.c.inc
-@@ -993,6 +993,10 @@ static void mvp_init(CPUMIPSState *env)
- {
-     env->mvp = g_malloc0(sizeof(CPUMIPSMVPContext));
- 
-+    if (!ase_mt_available(env)) {
-+        return;
-+    }
-+
-     /* MVPConf1 implemented, TLB sharable, no gating storage support,
-        programmable cache partitioning implemented, number of allocatable
-        and shareable TLB entries, MVP has allocatable TCs, 2 VPEs
--- 
-2.26.2
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> Cc: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>  block/nvme.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/block/nvme.c b/block/nvme.c
+> index a06a188d530..73ddf837c2b 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -1515,9 +1515,6 @@ static BlockDriver bdrv_nvme = {
+>      .protocol_name            = "nvme",
+>      .instance_size            = sizeof(BDRVNVMeState),
+>  
+> -    .bdrv_co_create_opts      = bdrv_co_create_opts_simple,
+> -    .create_opts              = &bdrv_create_opts_simple,
+> -
+>      .bdrv_parse_filename      = nvme_parse_filename,
+>      .bdrv_file_open           = nvme_file_open,
+>      .bdrv_close               = nvme_close,
+> 
 
 
