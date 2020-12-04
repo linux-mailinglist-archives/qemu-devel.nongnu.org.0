@@ -2,41 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB112CE423
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 01:13:08 +0100 (CET)
-Received: from localhost ([::1]:52872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2422CE485
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 01:39:08 +0100 (CET)
+Received: from localhost ([::1]:58826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkyiX-0003BM-SM
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 19:12:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35318)
+	id 1kkz7q-0007WO-Lv
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 19:39:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kkyhL-0002jt-4U; Thu, 03 Dec 2020 19:11:43 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:42047 helo=ozlabs.org)
+ id 1kkz6W-0006yU-Ss; Thu, 03 Dec 2020 19:37:45 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45615 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kkyhG-0002fN-IU; Thu, 03 Dec 2020 19:11:42 -0500
+ id 1kkz6T-00035V-No; Thu, 03 Dec 2020 19:37:44 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CnCmW2SFpz9sT5; Fri,  4 Dec 2020 11:11:23 +1100 (AEDT)
+ id 4CnDLm3dfYz9sT5; Fri,  4 Dec 2020 11:37:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607040683;
- bh=5PVj7aTBp/UQbACl9n8leWtBs2wo9gaSe2yHYOYkkBc=;
- h=From:To:Cc:Subject:Date:From;
- b=DKzs+jlYyhQhdzS5v0CRxKAurxw2DcbzC4hwxqDeosEezxtNxj8g7pHCfLmGwFqfS
- ec5u0tKyyinQYGnTKAezBJgvGEvWN0J6/BQuRePct+CS5c5j+jMpwLcUsE+WVfZxaA
- sb2dcgE/zn2VxwvvXD/mktTzaiwQs+/2u0WZkCU4=
+ d=gibson.dropbear.id.au; s=201602; t=1607042256;
+ bh=smcrF2S9Yse2HpLNr1Yaku6BeaOgRisMTdcjJeFVXWY=;
+ h=Date:From:To:Cc:Subject:From;
+ b=pcR+akyotNe7wlrQCjnVruEGWMtc8HLmK3pYHZ5r4u3wihtXtNTn7R/odjNyN5SDl
+ DwFEO2whjBnzDZHh7UkHvKdPlxSHS3dIPyxRAIVqlMahThnbHvcaOc7IoGlOoJlRo4
+ ji8ppzkLbAtyBNZbiAEpOvTWkdaTjokv4Sm5YSno=
+Date: Fri, 4 Dec 2020 11:36:01 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org,
-	groug@kaod.org,
-	qemu-ppc@nongnu.org
-Subject: [for-6.0] MAINTAINERS: Add Greg Kurz as co-maintainer for ppc
-Date: Fri,  4 Dec 2020 11:11:13 +1100
-Message-Id: <20201204001113.271220-1-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.28.0
+To: qemu-ppc@nongnu.org
+Subject: ANNOUNCEMENT: New co-maintainer and tree move for qemu ppc target
+Message-ID: <20201204003601.GA268585@yekko.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DocE+STaALJfprDB"
+Content-Disposition: inline
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -57,134 +55,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, lvivier@redhat.com, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Greg has agreed to be co-maintainer of the ppc target and machines.
-This should avoid repeats of the problem we had in qemu-5.2 where a
-last minute fix was needed while I was on holiday.
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- MAINTAINERS | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+--DocE+STaALJfprDB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I've also applied this change to my ppc-for-6.0 branch.
+Hi folks,
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 68bc160f41..bb7e3b3203 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -272,6 +272,7 @@ F: tests/tcg/openrisc/
- 
- PowerPC TCG CPUs
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: target/ppc/
-@@ -394,6 +395,7 @@ F: target/mips/kvm.c
- 
- PPC KVM CPUs
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- S: Maintained
- F: target/ppc/kvm.c
- 
-@@ -1183,18 +1185,21 @@ PowerPC Machines
- ----------------
- 405
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/ppc405_boards.c
- 
- Bamboo
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/ppc440_bamboo.c
- 
- e500
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/e500*
-@@ -1208,6 +1213,7 @@ F: pc-bios/u-boot.e500
- 
- mpc8544ds
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/mpc8544ds.c
-@@ -1216,6 +1222,7 @@ F: hw/ppc/mpc8544_guts.c
- New World (mac99)
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
- R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/mac_newworld.c
-@@ -1235,6 +1242,7 @@ F: pc-bios/qemu_vga.ndrv
- Old World (g3beige)
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
- R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
- F: hw/ppc/mac_oldworld.c
-@@ -1248,6 +1256,8 @@ F: pc-bios/qemu_vga.ndrv
- 
- PReP
- M: Hervé Poussineau <hpoussin@reactos.org>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/ppc/prep.c
-@@ -1264,6 +1274,7 @@ F: tests/acceptance/ppc_prep_40p.py
- 
- sPAPR
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Supported
- F: hw/*/spapr*
-@@ -1281,6 +1292,7 @@ F: tests/qtest/libqos/rtas*
- PowerNV (Non-Virtualized)
- M: Cédric Le Goater <clg@kaod.org>
- M: David Gibson <david@gibson.dropbear.id.au>
-+M: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/ppc/pnv*
-@@ -1300,6 +1312,8 @@ F: hw/ppc/virtex_ml507.c
- 
- sam460ex
- M: BALATON Zoltan <balaton@eik.bme.hu>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/ppc/sam460ex.c
-@@ -2078,8 +2092,9 @@ F: tests/qtest/fw_cfg-test.c
- T: git https://github.com/philmd/qemu.git fw_cfg-next
- 
- XIVE
--M: David Gibson <david@gibson.dropbear.id.au>
- M: Cédric Le Goater <clg@kaod.org>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Supported
- F: hw/*/*xive*
--- 
-2.28.0
+Here are a couple of procedural announcements about the qemu ppc
+target.
 
+First, I'm pleased to introduce Greg Kurz as co-maintainer, he's been
+a contributor and common reviewed for the ppc target code in qemu for
+some time.  With him as co-maintainer we should have a bit more
+redundancy to handle things like urgent bugs while I'm away.  A patch
+adding him to the MAINTAINERS file is in my ppc-for-6.0 tree, so will
+be merged into mainline soon after qemu-5.2 releases.
+
+Second, I'm moving the main location of my ppc-for-XX branch from
+github[0] to gitlab[1].  This is mostly for my convenience, making it
+easier to access the gitlab CI facilities which are already used in
+mainline.  I might be updating the existing github tree from time to
+time, but don't count on it.
+
+[0] https://github.com/dgibson/qemu.git
+[1] https://gitlab.com/dgibson/qemu.git
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--DocE+STaALJfprDB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/JhG8ACgkQbDjKyiDZ
+s5LNyBAA5ib1T5vuM6u3gEygF0bkkyweTPmWLE255YCBGJ1jQRtZpgo6efPyLTSh
+G3b/cZyRMEuNSsvqS9U1qZ0bF67QBc1Rq/hy3HNWxlCczcifodxs4s3R4VCHLXXD
+SkacrfF9rTJY8zd5s+ngcmRPbJumUXvMlybNhrY9p9gSDT8MLSQjqRjzH98MV3Ph
+hfUM0dsldRKsW5qVeJR36D70/zIhrAhGoQ/SHhuSGlgVfHo3XS98DA9D4Dsbo/Op
+jNoRUtCZGwIKhFwL6AcwwByw+X54FFD//j111kndqmJlvtEA82XH5L0/La6gV/Wb
+alg1mH9EzPLdx1GW/cb4m1jXCsyautm8CBZTQ36AbiY8T1C6SBxVYJ5EYsfcyyuL
+Qj7onVGSJ6VRQQZADLKPJskbE3Wy7FD7ZKBoYAM4me1hevsVxGZZI2MNYUYwtrR6
+Bhpo1eDp8OxoLzt/rrn+iBeBGfw784Etve31aWjooxPvctv5c908cL7moci6Rw7V
+Xddv9BsLvg/54UAxfidenv7J8WBeah/z43hWtBz8vzKUAet1b7EjLiiqlyvIvjO6
+mPG9hF34oWHdmpvbxxOsZZs8nl3rITaYr7ArP2av+523Ac6U33E+M6L8Y6wYvErp
+uINliQjbreik8LncDOSulyLvyOv8RvglO6rZAEkMj9LXWXB7YOE=
+=qTM+
+-----END PGP SIGNATURE-----
+
+--DocE+STaALJfprDB--
 
