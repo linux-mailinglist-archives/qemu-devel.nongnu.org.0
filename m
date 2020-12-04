@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF822CEEDF
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 14:38:06 +0100 (CET)
-Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1692CEEE1
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 14:40:15 +0100 (CET)
+Received: from localhost ([::1]:46086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klBHh-00070y-1u
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 08:38:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41002)
+	id 1klBJm-00089E-Qx
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 08:40:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1klBGW-0006CX-55
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 08:36:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42279)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1klBHo-0007bO-JA
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 08:38:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1klBGR-0004Lz-OU
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 08:36:50 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1klBHm-0004l6-Gn
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 08:38:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607089005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pHPPUMuD+0xnj4Vv8d4/LHFFI39nnnf/Y4qj3EgIzOg=;
- b=R9zRdWfCbJaJneXuSsAlOEZlbwMHiv6dNPrsMdefCXK1LHJe1W26oRH1yi/8VwaORHVarP
- ukNg/9QtHD439GB7xQ6jAztLV+rLzkM3Mu3DKGDpFvFuXDEkw0Y8eQm7SOXr/FHJ5VCpI2
- Q3/lbzUuI41cnWQrRHQPgVwvyW+RlM0=
+ s=mimecast20190719; t=1607089089;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=BTfAAqfGFYydiE8GB27RypdJ0WvtNOLxGmn1FahWoiM=;
+ b=YeM0DxYQoipeRG7FFh9IKnQbEvogDSUnOI5/TUyF9ABYO8B8+dMGf5mUebD6KV26fNvC6f
+ HmemHFXzMiUy5anN3wbLHUpz4ipR/lpXk6NfNZDgfcT0NUH2NL/7jS37RhUUWpq8uy1YFv
+ RwOqjtClZ7fqUV7M+Es5pCvpAm54RZ8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-8Tce68exOKWN8jlUxLU1vA-1; Fri, 04 Dec 2020 08:36:43 -0500
-X-MC-Unique: 8Tce68exOKWN8jlUxLU1vA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-10--K2Ajb0_OdinZH55xakNPQ-1; Fri, 04 Dec 2020 08:38:07 -0500
+X-MC-Unique: -K2Ajb0_OdinZH55xakNPQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB1FA1937FC0;
- Fri,  4 Dec 2020 13:36:42 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-88.gru2.redhat.com
- [10.97.116.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB01C620D7;
- Fri,  4 Dec 2020 13:36:36 +0000 (UTC)
-Subject: Re: [PATCH 1/3] tests/acceptance: test virtio-ccw revision handling
-To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
-References: <20201130180216.15366-1-cohuck@redhat.com>
- <20201130180216.15366-2-cohuck@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <ac7b78a0-4ba5-5eea-4bff-85c04d783ecb@redhat.com>
-Date: Fri, 4 Dec 2020 10:36:33 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 450FB10074C0;
+ Fri,  4 Dec 2020 13:38:06 +0000 (UTC)
+Received: from redhat.com (ovpn-115-10.ams2.redhat.com [10.36.115.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52AF160C15;
+ Fri,  4 Dec 2020 13:38:01 +0000 (UTC)
+Date: Fri, 4 Dec 2020 13:37:58 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 18/23] tests/docker: auto-generate centos7 with lcitool
+Message-ID: <20201204133758.GJ3056135@redhat.com>
+References: <20201201171825.2243775-1-berrange@redhat.com>
+ <20201201171825.2243775-19-berrange@redhat.com>
+ <20201202120739.iwej4lbv7srkz4uf@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201130180216.15366-2-cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201202120739.iwej4lbv7srkz4uf@sirius.home.kraxel.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,74 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Wed, Dec 02, 2020 at 01:07:39PM +0100, Gerd Hoffmann wrote:
+>   Hi,
+> 
+> > +RUN echo 'skip_missing_names_on_install=0' >> /etc/yum.conf && \
+> > +    yum install -y epel-release && \
+> > +    yum install -y centos-release-xen-48 && \
+> > +    yum update -y && \
+> > +    yum install -y \
+> > +        SDL2-devel \
+> 
+> More a comment for lcitool I guess:  rpmbuild generates provides entries
+> for pkg-config files, so 'SDL2-devel' can be replaced with
+> 'pkgconfig(sdl2)'.  Which should work fine on any rpm-based distro, no
+> matter how the package is actually named.
+> 
+> Dunno whenever apt/deb has something simliar or whenever that actually
+> can simplify things for lcitool ...
 
-On 11/30/20 3:02 PM, Cornelia Huck wrote:
-> The max_revision prop of virtio-ccw devices can be used to force
-> an older revision for compatibility handling. The easiest way to
-> check this is to force a device to revision 0, which turns off
-> virtio-1.
->
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
->   tests/acceptance/machine_s390_ccw_virtio.py | 18 ++++++++++++++++--
->   1 file changed, 16 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-> index db6352c44434..683b6e0dac2e 100644
-> --- a/tests/acceptance/machine_s390_ccw_virtio.py
-> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
-> @@ -51,6 +51,10 @@ class S390CCWVirtioMachine(Test):
->                            '-initrd', initrd_path,
->                            '-append', kernel_command_line,
->                            '-device', 'virtio-net-ccw,devno=fe.1.1111',
-> +                         '-device',
-> +                         'virtio-rng-ccw,devno=fe.2.0000,max_revision=0',
-> +                         '-device',
-> +                         'virtio-rng-ccw,devno=fe.3.1234,max_revision=2',
->                            '-device', 'zpci,uid=5,target=zzz',
->                            '-device', 'virtio-net-pci,id=zzz')
->           self.vm.launch()
-> @@ -60,9 +64,19 @@ class S390CCWVirtioMachine(Test):
->           # first debug shell is too early, we need to wait for device detection
->           exec_command_and_wait_for_pattern(self, 'exit', shell_ready)
->   
-> -        ccw_bus_id="0.1.1111"
-> +        ccw_bus_ids="0.1.1111  0.2.0000  0.3.1234"
->           pci_bus_id="0005:00:00.0"
->           exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
-> -                                          ccw_bus_id)
-> +                                          ccw_bus_ids)
->           exec_command_and_wait_for_pattern(self, 'ls /sys/bus/pci/devices/',
->                                             pci_bus_id)
-> +        # check that the device at 0.2.0000 is in legacy mode, while the
-> +        # device at 0.3.1234 has the virtio-1 feature bit set
-> +        virtio_rng_features="0000000000000000000000000000110010000000000000000000000000000000"
-> +        virtio_rng_features_legacy="0000000000000000000000000000110000000000000000000000000000000000"
+Yeah, it might cut down the mapping size, so i filed an issue
 
-Do something like...
-
-virtio_rng_features="0000000000000000000000000000" + \
-     "110010000000000000000000000000000000"
-
-... and checkpatch should not complain.
+https://gitlab.com/libvirt/libvirt-ci/-/issues/2
 
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-
-> +        exec_command_and_wait_for_pattern(self,
-> +                                          'cat /sys/bus/ccw/devices/0.2.0000/virtio?/features',
-> +                                          virtio_rng_features_legacy)
-> +        exec_command_and_wait_for_pattern(self,
-> +                                          'cat /sys/bus/ccw/devices/0.3.1234/virtio?/features',
-> +                                          virtio_rng_features)
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
