@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795B62CF445
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 19:48:04 +0100 (CET)
-Received: from localhost ([::1]:52430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC5B2CF41D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 19:34:20 +0100 (CET)
+Received: from localhost ([::1]:41194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klG7e-0005Ew-RC
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 13:48:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60732)
+	id 1klFuM-000820-MT
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 13:34:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1klEWS-0005vb-0g
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:05:37 -0500
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:35372)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1klEVm-0004ux-30
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:05:15 -0500
-Received: by mail-oo1-xc44.google.com with SMTP id y3so1538221ooq.2
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 09:04:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hTPg26qSlQ0Wt4a7Q2DVHA9ywXVsdidYmAYQESPvOpc=;
- b=yUfH4HLnaPLj/bj23j6PlInUtfkiPhPRrQfHrsd3Sw3xsdx7QwhKI4HCdD79yncGCT
- YNwJA0jjAazJLC6oGKBKL6YoLmnoFlaTE+vmmJx50H9GXy6wheWn/Nd3r1VkKZOfO+4o
- aw/WQoeCUQVR0nj1W5AUPlYT/9/jeoQJ5akiDwA0KdBD7CCT5Oth6nm/7E/5RO9gDnAm
- zAO/+sJvIihd8jvDD/jeW3zlcfC9PuCG3Y4QCk6MecrBxbAZVOsvH+UacP7naqCnoigu
- KnRd2oVIiSCtyb5S1UM+RjU8nSi3M5J6UZoX3D8Raq+u4uUf+3KaeJJ4nZ0R3EReIRsg
- PbxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hTPg26qSlQ0Wt4a7Q2DVHA9ywXVsdidYmAYQESPvOpc=;
- b=AdwwLL5PNgY/nfh3SbNQ/+ggxS921lPBxYWemrytF16dxx9YSNqQurWPVtP6yymoin
- 6iaND+txglpuHUil/oiWHKfQO1k6zvtulWIosDjh5Ys/X0JiDFY759flNvR6Q+wXyfK0
- N0WmcTF2iOxhrnjBFtWlCHqysvmJTuuLXLw7HXGuGDwMVsckBl/QSioW6sBDzhz8UArJ
- Ar4kdy+5JEAQFFCPs8X7mpOIE6Y7+Q90Nkq/lppVauhZVKWvbE0umRFBDMhSm+LZEoqn
- W/ASO3ZGq8YBKgPOoGg9UdKSZzwLOLam1xz4IOpIPDUwO8TnuS3bSeE1aOkcHpgK+qnu
- Wkbg==
-X-Gm-Message-State: AOAM531p/ykVRzxwiBtZrCE2+xen8EE7Ckbfgrx6eOuCUZwYsFjK9pE1
- i4ZjapfvW6wPDtLlhhL9H/GeeA==
-X-Google-Smtp-Source: ABdhPJy4q3B4QJYlZT7E1LAtFwmT8C+d9xLTbZiCqg4LrHUEaa160NBMRONNgpJdKcksd4W5kDflAg==
-X-Received: by 2002:a4a:e972:: with SMTP id i18mr4165976ooe.17.1607101464886; 
- Fri, 04 Dec 2020 09:04:24 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id o63sm757962ooa.10.2020.12.04.09.04.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Dec 2020 09:04:24 -0800 (PST)
-Subject: Re: [PATCH 9/9] target/mips: Explode gen_msa_branch() as
- gen_msa_BxZ_V/BxZ()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201202184415.1434484-1-f4bug@amsat.org>
- <20201202184415.1434484-10-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <42cae1ae-46aa-1207-dac7-1076b3422a7f@linaro.org>
-Date: Fri, 4 Dec 2020 11:04:21 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1klEXp-0006dg-F7
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:07:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1klEWc-00051B-KO
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:06:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607101482;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HZCsLXtKca3nNAVY5L6E1QM442yGFMtulOgg+1asj1w=;
+ b=WkNpJkR1h7Z66oawEbdWS2+ypIJyWyJW2zkJcgQ/PbqYplfee3VpGveH2OkX2RUR39rsQQ
+ T9PCoRkB7B5yrbSx/pbWmdmrHrLlKjRGOSE+oNWRFdymOZb/o2OiDWPIGd3xptgx9vKsF+
+ DrayLFz0gNOpx2F/8GIh+yD1aJk5MtA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-143-JbAeTytJOpenl25RMLvAHw-1; Fri, 04 Dec 2020 12:04:40 -0500
+X-MC-Unique: JbAeTytJOpenl25RMLvAHw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60EB1800D55;
+ Fri,  4 Dec 2020 17:04:38 +0000 (UTC)
+Received: from gondolin (ovpn-113-97.ams2.redhat.com [10.36.113.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACD005C1C4;
+ Fri,  4 Dec 2020 17:04:25 +0000 (UTC)
+Date: Fri, 4 Dec 2020 18:04:22 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [for-6.0 v5 12/13] securable guest memory: Alter virtio default
+ properties for protected guests
+Message-ID: <20201204180422.4a7e8cfb.cohuck@redhat.com>
+In-Reply-To: <20201204054415.579042-13-david@gibson.dropbear.id.au>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <20201204054415.579042-13-david@gibson.dropbear.id.au>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20201202184415.1434484-10-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc44.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,41 +75,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
+ thuth@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/2/20 12:44 PM, Philippe Mathieu-Daudé wrote:
-> +static bool gen_msa_BxZ(DisasContext *ctx, int df, int wt, int s16, bool if_not)
-> +{
-> +    check_msa_access(ctx);
-> +
-> +    if (ctx->hflags & MIPS_HFLAG_BMASK) {
-> +        generate_exception_end(ctx, EXCP_RI);
-> +        return true;
-> +    }
-> +
-> +    gen_check_zero_element(bcond, df, wt);
-> +    if (if_not) {
-> +        tcg_gen_setcondi_tl(TCG_COND_EQ, bcond, bcond, 0);
-> +    }
+On Fri,  4 Dec 2020 16:44:14 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-Since gen_check_zero_element already produces a boolean, this is better as
+> The default behaviour for virtio devices is not to use the platforms normal
+> DMA paths, but instead to use the fact that it's running in a hypervisor
+> to directly access guest memory.  That doesn't work if the guest's memory
+> is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
+> 
+> So, if a securable guest memory mechanism is enabled, then apply the
+> iommu_platform=on option so it will go through normal DMA mechanisms.
+> Those will presumably have some way of marking memory as shared with
+> the hypervisor or hardware so that DMA will work.
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/core/machine.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 
-  tcg_gen_xori_tl(bcond, bcond, if_not);
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-where tcg_gen_xori_tl already contains the if.
-
->      case OPC_BNZ_D:
-> -        gen_check_zero_element(bcond, df, wt);
-> -        tcg_gen_setcondi_tl(TCG_COND_EQ, bcond, bcond, 0);
-> +        gen_msa_BxZ(ctx, df, wt, s16, true);
-
-... oops, that'd be for a follow-up patch, to make this patch just code movement.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
 
