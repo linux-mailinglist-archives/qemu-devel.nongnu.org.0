@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C15482CEB59
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 10:52:04 +0100 (CET)
-Received: from localhost ([::1]:42768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761BE2CEB7C
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 10:56:09 +0100 (CET)
+Received: from localhost ([::1]:49812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kl7kx-0005Ey-RL
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 04:52:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46382)
+	id 1kl7ou-00007l-97
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 04:56:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kl7jO-0004KW-Nd
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 04:50:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49448)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kl7o8-0007wy-5T
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 04:55:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kl7jM-0007YJ-QN
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 04:50:26 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kl7o5-00012O-Tj
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 04:55:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607075424;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ft/KvADNPiSTXMbQ4XO9Hd43L+YE8RFLJA/kVVbksb0=;
- b=PtTcTAcCZDc9LbDza/iynYGR+V2bcfaMoiOGSLD//M74ZYUPgqgTr+HM/2q36fm7QtVtAZ
- //KL5eqxhM5Crp+L8YvnDkACi4Y/kCT+BXz6OHQ5Bsb0+mdHnmD2KFx3cL5ZzoTnBsFc6M
- kXLFx91MvW68S/lxdpmwe76TW5VzNRA=
+ s=mimecast20190719; t=1607075716;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UdkMXnDf1BrUmuc2WT5EEKE5m4sPrlR2iJn49MdYmI4=;
+ b=Ek7MXFLh+mr3ySgO1N9tkH7/kfs8a7VfOS7ArC0Ut0LFMezNYi6YTCGnfJmus3T9iVkIvZ
+ c4uXv2hckW9Bu/6nF4MB6kSCC2tDATlJSCoIaE41tQOsYS1jiHXc6g3JS5/Dv/Wzd9vuh+
+ c3ZNEq4ZeZ0wrX40pcSdkkdjz3clvLo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-xYF4ljvZNainVXmhOc2mBA-1; Fri, 04 Dec 2020 04:50:22 -0500
-X-MC-Unique: xYF4ljvZNainVXmhOc2mBA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-122-gLFqwnMSMVOLR7G4z2vIsQ-1; Fri, 04 Dec 2020 04:55:15 -0500
+X-MC-Unique: gLFqwnMSMVOLR7G4z2vIsQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11B5310054FF;
- Fri,  4 Dec 2020 09:50:20 +0000 (UTC)
-Received: from redhat.com (ovpn-115-10.ams2.redhat.com [10.36.115.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE5DA620D7;
- Fri,  4 Dec 2020 09:50:07 +0000 (UTC)
-Date: Fri, 4 Dec 2020 09:50:05 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [for-6.0 v5 00/13] Generalize memory encryption models
-Message-ID: <20201204095005.GB3056135@redhat.com>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 174D0107ACE3;
+ Fri,  4 Dec 2020 09:55:14 +0000 (UTC)
+Received: from work-vm (ovpn-114-202.ams2.redhat.com [10.36.114.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 78A611002391;
+ Fri,  4 Dec 2020 09:55:09 +0000 (UTC)
+Date: Fri, 4 Dec 2020 09:55:06 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Zenghui Yu <yuzenghui@huawei.com>
+Subject: Re: [PATCH] pcie_aer: Fix help message of pcie_aer_inject_error
+ command
+Message-ID: <20201204095506.GA2883@work-vm>
+References: <20201204030953.837-1-yuzenghui@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20201204030953.837-1-yuzenghui@huawei.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,89 +79,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pair@us.ibm.com, cohuck@redhat.com, brijesh.singh@amd.com,
- frankja@linux.ibm.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, thuth@redhat.com,
- pbonzini@redhat.com, rth@twiddle.net, mdroth@linux.vnet.ibm.com,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: wanghaibin.wang@huawei.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 04, 2020 at 04:44:02PM +1100, David Gibson wrote:
-> A number of hardware platforms are implementing mechanisms whereby the
-> hypervisor does not have unfettered access to guest memory, in order
-> to mitigate the security impact of a compromised hypervisor.
+* Zenghui Yu (yuzenghui@huawei.com) wrote:
+> There is an interesting typo in the help message of pcie_aer_inject_error
+> command. Use 'tlp' instead of 'tlb' to match the PCIe AER term.
 > 
-> AMD's SEV implements this with in-cpu memory encryption, and Intel has
-> its own memory encryption mechanism.  POWER has an upcoming mechanism
-> to accomplish this in a different way, using a new memory protection
-> level plus a small trusted ultravisor.  s390 also has a protected
-> execution environment.
+> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+
+Well spotted; thanks!
+
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  hmp-commands.hx | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> The current code (committed or draft) for these features has each
-> platform's version configured entirely differently.  That doesn't seem
-> ideal for users, or particularly for management layers.
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index ff2d7aa8f3..dd460eb908 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -1302,8 +1302,8 @@ ERST
+>  	              " -c for correctable error\n\t\t\t"
+>                        "<id> = qdev device id\n\t\t\t"
+>                        "<error_status> = error string or 32bit\n\t\t\t"
+> -                      "<tlb header> = 32bit x 4\n\t\t\t"
+> -                      "<tlb header prefix> = 32bit x 4",
+> +                      "<tlp header> = 32bit x 4\n\t\t\t"
+> +                      "<tlp header prefix> = 32bit x 4",
+>          .cmd        = hmp_pcie_aer_inject_error,
+>      },
+>  
+> -- 
+> 2.19.1
 > 
-> AMD SEV introduces a notionally generic machine option
-> "machine-encryption", but it doesn't actually cover any cases other
-> than SEV.
-> 
-> This series is a proposal to at least partially unify configuration
-> for these mechanisms, by renaming and generalizing AMD's
-> "memory-encryption" property.  It is replaced by a
-> "securable-guest-memory" property pointing to a platform specific
-> object which configures and manages the specific details.
-
-There's no docs updated or added in this series.
-
-docs/amd-memory-encryption.txt needs an update at least, and
-there ought to be a doc added describing how this series is
-to be used for s390/ppc 
-
-
->  accel/kvm/kvm-all.c                   |  39 +------
->  accel/kvm/sev-stub.c                  |  10 +-
->  accel/stubs/kvm-stub.c                |  10 --
->  backends/meson.build                  |   1 +
->  backends/securable-guest-memory.c     |  30 +++++
->  hw/core/machine.c                     |  71 ++++++++++--
->  hw/i386/pc_sysfw.c                    |   6 +-
->  hw/ppc/meson.build                    |   1 +
->  hw/ppc/pef.c                          | 124 +++++++++++++++++++++
->  hw/ppc/spapr.c                        |  10 ++
->  hw/s390x/pv.c                         |  58 ++++++++++
->  include/exec/securable-guest-memory.h |  86 +++++++++++++++
->  include/hw/boards.h                   |   2 +-
->  include/hw/ppc/pef.h                  |  26 +++++
->  include/hw/s390x/pv.h                 |   1 +
->  include/qemu/typedefs.h               |   1 +
->  include/qom/object.h                  |   3 +-
->  include/sysemu/kvm.h                  |  17 ---
->  include/sysemu/sev.h                  |   5 +-
->  qom/object.c                          |   4 +-
->  softmmu/vl.c                          |  16 ++-
->  target/i386/kvm.c                     |  12 ++
->  target/i386/monitor.c                 |   1 -
->  target/i386/sev.c                     | 153 ++++++++++++--------------
->  target/ppc/kvm.c                      |  18 ---
->  target/ppc/kvm_ppc.h                  |   6 -
->  target/s390x/kvm.c                    |   3 +
->  27 files changed, 510 insertions(+), 204 deletions(-)
->  create mode 100644 backends/securable-guest-memory.c
->  create mode 100644 hw/ppc/pef.c
->  create mode 100644 include/exec/securable-guest-memory.h
->  create mode 100644 include/hw/ppc/pef.h
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
