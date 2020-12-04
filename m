@@ -2,41 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C322CE341
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 00:58:33 +0100 (CET)
-Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F00F2CE3CB
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 01:05:24 +0100 (CET)
+Received: from localhost ([::1]:48578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kkyUa-0006HF-Tg
-	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 18:58:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58484)
+	id 1kkybD-0000mr-0S
+	for lists+qemu-devel@lfdr.de; Thu, 03 Dec 2020 19:05:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1kkyLs-0003KL-8J; Thu, 03 Dec 2020 18:49:32 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:57586
- helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1kkyLq-0003Qj-6J; Thu, 03 Dec 2020 18:49:31 -0500
-Received: from localhost.localdomain
- (dynamic-077-002-092-143.77.2.pool.telefonica.de [77.2.92.143])
- by csgraf.de (Postfix) with ESMTPSA id 4F8B93900553;
- Fri,  4 Dec 2020 00:49:04 +0100 (CET)
-From: Alexander Graf <agraf@csgraf.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/11] hvf: arm: Implement -cpu host
-Date: Fri,  4 Dec 2020 00:48:57 +0100
-Message-Id: <20201203234857.21051-12-agraf@csgraf.de>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kkyaE-0000DS-Q5; Thu, 03 Dec 2020 19:04:22 -0500
+Resent-Date: Thu, 03 Dec 2020 19:04:22 -0500
+Resent-Message-Id: <E1kkyaE-0000DS-Q5@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21739)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kkyaB-00005L-Rc; Thu, 03 Dec 2020 19:04:22 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1607040234; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gHiPfBpmKEC8I35qqpWrwGQXVfDsRI1QPqczTNhzyF/tPWVJcuc4Yv0FIZxDB0gYaNZOzWnuQhMBVvO0zilvWQbWAtz9rcv51q5n6sLAV0QVGPnuofr0wu2NA3rFGJ9SLTsxUYbNZL2SS2DHGgF/GI2m182ZNUqz5fpEb9RUWpE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1607040234;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=yuZNEJMIGD8YDfD0nYF/TcwtObkdP+zJLgWRBZgWc5E=; 
+ b=CkTD+A+fHHRK5CYblJlCHYVrNLR3E7dydhhOx9n91Ppi7J1jVsmg/3XC02sgby/wNZSdxJPizJfleVCLO6iVv5dsjybxC/Eb2zCPsh98gsZu/+G7CQDiTycfZpGAg41fT/XS+5cvtUnK6OeTVL5oXWq5rHx+IMPfpPGyYI4utlA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1607040231900131.03371343197944;
+ Thu, 3 Dec 2020 16:03:51 -0800 (PST)
 In-Reply-To: <20201203234857.21051-1-agraf@csgraf.de>
-References: <20201203234857.21051-1-agraf@csgraf.de>
+Subject: Re: [PATCH v4 00/11] hvf: Implement Apple Silicon Support
+Message-ID: <160704022852.5436.2687604944611531475@600e7e483b3a>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: agraf@csgraf.de
+Date: Thu, 3 Dec 2020 16:03:51 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,162 +65,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-arm@nongnu.org, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, dirty@apple.com, r.bolshakov@yadro.com,
+ qemu-arm@nongnu.org, lfy@google.com, pbonzini@redhat.com, pcc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have working system register sync, we push more target CPU
-properties into the virtual machine. That might be useful in some
-situations, but is not the typical case that users want.
-
-So let's add a -cpu host option that allows them to explicitly pass all
-CPU capabilities of their host CPU into the guest.
-
-Signed-off-by: Alexander Graf <agraf@csgraf.de>
----
- include/sysemu/hvf.h |  2 ++
- target/arm/cpu.c     |  9 ++++++---
- target/arm/cpu.h     |  2 ++
- target/arm/hvf/hvf.c | 41 +++++++++++++++++++++++++++++++++++++++++
- target/arm/kvm_arm.h |  2 --
- 5 files changed, 51 insertions(+), 5 deletions(-)
-
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index f893768df9..7eb61cf094 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -19,6 +19,8 @@
- #ifdef CONFIG_HVF
- uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                                  int reg);
-+struct ARMCPU;
-+void hvf_arm_set_cpu_features_from_host(struct ARMCPU *cpu);
- extern bool hvf_allowed;
- #define hvf_enabled() (hvf_allowed)
- #else /* !CONFIG_HVF */
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 6728426551..bee804b7a8 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2273,12 +2273,16 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
- #endif
- }
- 
--#ifdef CONFIG_KVM
-+#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
- static void arm_host_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
- 
-+#ifdef CONFIG_KVM
-     kvm_arm_set_cpu_features_from_host(cpu);
-+#else
-+    hvf_arm_set_cpu_features_from_host(cpu);
-+#endif
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         aarch64_add_sve_properties(obj);
-     }
-@@ -2290,7 +2294,6 @@ static const TypeInfo host_arm_cpu_type_info = {
-     .parent = TYPE_AARCH64_CPU,
-     .instance_init = arm_host_initfn,
- };
--
- #endif
- 
- static void arm_cpu_instance_init(Object *obj)
-@@ -2349,7 +2352,7 @@ static void arm_cpu_register_types(void)
- 
-     type_register_static(&arm_cpu_type_info);
- 
--#ifdef CONFIG_KVM
-+#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
-     type_register_static(&host_arm_cpu_type_info);
- #endif
- 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e5514c8286..e54963aa8b 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2823,6 +2823,8 @@ bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync);
- #define ARM_CPU_TYPE_NAME(name) (name ARM_CPU_TYPE_SUFFIX)
- #define CPU_RESOLVING_TYPE TYPE_ARM_CPU
- 
-+#define TYPE_ARM_HOST_CPU "host-" TYPE_ARM_CPU
-+
- #define cpu_signal_handler cpu_arm_signal_handler
- #define cpu_list arm_cpu_list
- 
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index bc955c097f..87b32dc8c9 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -372,6 +372,47 @@ static uint64_t hvf_get_reg(CPUState *cpu, int rt)
-     return val;
- }
- 
-+void hvf_arm_set_cpu_features_from_host(ARMCPU *cpu)
-+{
-+    ARMISARegisters host_isar;
-+    const struct isar_regs {
-+        int reg;
-+        uint64_t *val;
-+    } regs[] = {
-+        { HV_SYS_REG_ID_AA64PFR0_EL1, &host_isar.id_aa64pfr0 },
-+        { HV_SYS_REG_ID_AA64PFR1_EL1, &host_isar.id_aa64pfr1 },
-+        { HV_SYS_REG_ID_AA64DFR0_EL1, &host_isar.id_aa64dfr0 },
-+        { HV_SYS_REG_ID_AA64DFR1_EL1, &host_isar.id_aa64dfr1 },
-+        { HV_SYS_REG_ID_AA64ISAR0_EL1, &host_isar.id_aa64isar0 },
-+        { HV_SYS_REG_ID_AA64ISAR1_EL1, &host_isar.id_aa64isar1 },
-+        { HV_SYS_REG_ID_AA64MMFR0_EL1, &host_isar.id_aa64mmfr0 },
-+        { HV_SYS_REG_ID_AA64MMFR1_EL1, &host_isar.id_aa64mmfr1 },
-+        { HV_SYS_REG_ID_AA64MMFR2_EL1, &host_isar.id_aa64mmfr2 },
-+    };
-+    hv_vcpu_t fd;
-+    hv_vcpu_exit_t *exit;
-+    int i;
-+
-+    cpu->dtb_compatible = "arm,arm-v8";
-+    cpu->env.features = (1ULL << ARM_FEATURE_V8) |
-+                        (1ULL << ARM_FEATURE_NEON) |
-+                        (1ULL << ARM_FEATURE_AARCH64) |
-+                        (1ULL << ARM_FEATURE_PMU) |
-+                        (1ULL << ARM_FEATURE_GENERIC_TIMER);
-+
-+    /* We set up a small vcpu to extract host registers */
-+
-+    assert_hvf_ok(hv_vcpu_create(&fd, &exit, NULL));
-+    for (i = 0; i < ARRAY_SIZE(regs); i++) {
-+        assert_hvf_ok(hv_vcpu_get_sys_reg(fd, regs[i].reg, regs[i].val));
-+    }
-+    assert_hvf_ok(hv_vcpu_get_sys_reg(fd, HV_SYS_REG_MIDR_EL1, &cpu->midr));
-+    assert_hvf_ok(hv_vcpu_destroy(fd));
-+
-+    cpu->isar = host_isar;
-+    cpu->reset_sctlr = 0x00c50078;
-+}
-+
- void hvf_arch_vcpu_destroy(CPUState *cpu)
- {
- }
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index eb81b7059e..081727a37e 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -214,8 +214,6 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
-  */
- void kvm_arm_destroy_scratch_host_vcpu(int *fdarray);
- 
--#define TYPE_ARM_HOST_CPU "host-" TYPE_ARM_CPU
--
- /**
-  * ARMHostCPUFeatures: information about the host CPU (identified
-  * by asking the host kernel)
--- 
-2.24.3 (Apple Git-128)
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIwMzIzNDg1Ny4yMTA1
+MS0xLWFncmFmQGNzZ3JhZi5kZS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
+bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
+bWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMjAzMjM0ODU3LjIxMDUxLTEt
+YWdyYWZAY3NncmFmLmRlClN1YmplY3Q6IFtQQVRDSCB2NCAwMC8xMV0gaHZmOiBJbXBsZW1lbnQg
+QXBwbGUgU2lsaWNvbiBTdXBwb3J0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
+YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
+LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
+IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
+dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
+PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9t
+IGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAg
+ICAgICBwYXRjaGV3LzIwMjAxMjAzMjM0ODU3LjIxMDUxLTEtYWdyYWZAY3NncmFmLmRlIC0+IHBh
+dGNoZXcvMjAyMDEyMDMyMzQ4NTcuMjEwNTEtMS1hZ3JhZkBjc2dyYWYuZGUKU3dpdGNoZWQgdG8g
+YSBuZXcgYnJhbmNoICd0ZXN0Jwo2Y2FmMjFhIGh2ZjogYXJtOiBJbXBsZW1lbnQgLWNwdSBob3N0
+CmZhMjI5OGEgaHZmOiBhcm06IEFkZCBzdXBwb3J0IGZvciBHSUN2MwozMDVmOTQyIGFybS9odmY6
+IEFkZCBhIFdGSSBoYW5kbGVyCjU2ZjZmYzcgYXJtOiBBZGQgSHlwZXJ2aXNvci5mcmFtZXdvcmsg
+YnVpbGQgdGFyZ2V0CmZiMTZlODUgaHZmOiBBZGQgQXBwbGUgU2lsaWNvbiBzdXBwb3J0CjIyM2Uw
+MmMgaHZmOiBTaW1wbGlmeSBwb3N0IHJlc2V0L2luaXQvbG9hZHZtIGhvb2tzCjAxM2UyNTAgYXJt
+OiBTZXQgUFNDSSB0byAwLjIgZm9yIEhWRgpkMTNhZWUwIGh2ZjogSW50cm9kdWNlIGh2ZiB2Y3B1
+IHN0cnVjdAplYjgyOTcxIGh2ZjogTW92ZSBjb21tb24gY29kZSBvdXQKMzgwNWEzYSBodmY6IHg4
+NjogUmVtb3ZlIHVudXNlZCBkZWZpbml0aW9ucwo0NDM3YzdmIGh2ZjogQWRkIGh5cGVydmlzb3Ig
+ZW50aXRsZW1lbnQgdG8gb3V0cHV0IGJpbmFyaWVzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzEx
+IENoZWNraW5nIGNvbW1pdCA0NDM3YzdmOTQyMDUgKGh2ZjogQWRkIGh5cGVydmlzb3IgZW50aXRs
+ZW1lbnQgdG8gb3V0cHV0IGJpbmFyaWVzKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRl
+ZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMxNjogCm5ldyBmaWxl
+IG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDYyIGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDEvMTEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
+IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
+YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi8xMSBDaGVja2luZyBj
+b21taXQgMzgwNWEzYTllNTE2IChodmY6IHg4NjogUmVtb3ZlIHVudXNlZCBkZWZpbml0aW9ucykK
+My8xMSBDaGVja2luZyBjb21taXQgZWI4Mjk3MTg0Y2EwIChodmY6IE1vdmUgY29tbW9uIGNvZGUg
+b3V0KQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5U
+QUlORVJTIG5lZWQgdXBkYXRpbmc/CiMzOTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDog
+MCBlcnJvcnMsIDEgd2FybmluZ3MsIDEwNTQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy8xMSBoYXMg
+c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
+ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
+S1BBVENIIGluIE1BSU5UQUlORVJTLgo0LzExIENoZWNraW5nIGNvbW1pdCBkMTNhZWUwN2ZjNTQg
+KGh2ZjogSW50cm9kdWNlIGh2ZiB2Y3B1IHN0cnVjdCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNo
+YXJhY3RlcnMKIzE0MDogRklMRTogdGFyZ2V0L2kzODYvaHZmL2h2Zi5jOjIxMzoKKyAgICB3dm1j
+cyhjcHUtPmh2Zi0+ZmQsIFZNQ1NfRU5UUllfQ1RMUywgY2FwMmN0cmwoaHZmX3N0YXRlLT5odmZf
+Y2Fwcy0+dm14X2NhcF9lbnRyeSwKCkVSUk9SOiAiKGZvbyopIiBzaG91bGQgYmUgIihmb28gKiki
+CiM3NDg6IEZJTEU6IHRhcmdldC9pMzg2L2h2Zi94ODZodmYuYzo4NToKKyAgICBpZiAoaHZfdmNw
+dV93cml0ZV9mcHN0YXRlKGNwdV9zdGF0ZS0+aHZmLT5mZCwgKHZvaWQqKXhzYXZlLCA0MDk2KSkg
+ewoKRVJST1I6ICIoZm9vKikiIHNob3VsZCBiZSAiKGZvbyAqKSIKIzgyOTogRklMRTogdGFyZ2V0
+L2kzODYvaHZmL3g4Nmh2Zi5jOjE2NzoKKyAgICBpZiAoaHZfdmNwdV9yZWFkX2Zwc3RhdGUoY3B1
+X3N0YXRlLT5odmYtPmZkLCAodm9pZCopeHNhdmUsIDQwOTYpKSB7Cgp0b3RhbDogMiBlcnJvcnMs
+IDEgd2FybmluZ3MsIDk5NiBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzExIGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCgo1LzExIENoZWNraW5nIGNvbW1pdCAwMTNlMjUwNjE2NmEgKGFybTogU2V0
+IFBTQ0kgdG8gMC4yIGZvciBIVkYpCjYvMTEgQ2hlY2tpbmcgY29tbWl0IDIyM2UwMmNiZmEwZiAo
+aHZmOiBTaW1wbGlmeSBwb3N0IHJlc2V0L2luaXQvbG9hZHZtIGhvb2tzKQo3LzExIENoZWNraW5n
+IGNvbW1pdCBmYjE2ZTg1YjZjYTMgKGh2ZjogQWRkIEFwcGxlIFNpbGljb24gc3VwcG9ydCkKV0FS
+TklORzogYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzQ3
+OiBGSUxFOiBhY2NlbC9odmYvaHZmLWNwdXMuYzo2MToKKyNpZmRlZiBfX2FhcmNoNjRfXwoKV0FS
+TklORzogYXJjaGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzU4
+OiBGSUxFOiBhY2NlbC9odmYvaHZmLWNwdXMuYzozMzU6CisjaWZkZWYgX19hYXJjaDY0X18KCldB
+Uk5JTkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM5
+MDogRklMRTogaW5jbHVkZS9zeXNlbXUvaHZmX2ludC5oOjE1OgorI2lmZGVmIF9fYWFyY2g2NF9f
+CgpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlO
+RVJTIG5lZWQgdXBkYXRpbmc/CiMxMTY6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzog
+bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzU3ODogRklMRTogdGFyZ2V0L2FybS9odmYvaHZmLmM6
+NDU4OgorICAgICAgICBodl92Y3B1X3NldF9wZW5kaW5nX2ludGVycnVwdChjcHUtPmh2Zi0+ZmQs
+IEhWX0lOVEVSUlVQVF9UWVBFX0ZJUSwgdHJ1ZSk7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hh
+cmFjdGVycwojNTgzOiBGSUxFOiB0YXJnZXQvYXJtL2h2Zi9odmYuYzo0NjM6CisgICAgICAgIGh2
+X3ZjcHVfc2V0X3BlbmRpbmdfaW50ZXJydXB0KGNwdS0+aHZmLT5mZCwgSFZfSU5URVJSVVBUX1RZ
+UEVfSVJRLCB0cnVlKTsKCnRvdGFsOiAwIGVycm9ycywgNiB3YXJuaW5ncywgNjkxIGxpbmVzIGNo
+ZWNrZWQKClBhdGNoIDcvMTEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYg
+YW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRo
+ZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KOC8xMSBDaGVja2lu
+ZyBjb21taXQgNTZmNmZjN2E5OTJlIChhcm06IEFkZCBIeXBlcnZpc29yLmZyYW1ld29yayBidWls
+ZCB0YXJnZXQpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMg
+TUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQ3OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRv
+dGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMzYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOC8xMSBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo5LzExIENoZWNraW5nIGNvbW1pdCAzMDVmOTQyNzJi
+MDEgKGFybS9odmY6IEFkZCBhIFdGSSBoYW5kbGVyKQoxMC8xMSBDaGVja2luZyBjb21taXQgZmEy
+Mjk4YTZmNzgwIChodmY6IGFybTogQWRkIHN1cHBvcnQgZm9yIEdJQ3YzKQoxMS8xMSBDaGVja2lu
+ZyBjb21taXQgNmNhZjIxYWE5ODc3IChodmY6IGFybTogSW1wbGVtZW50IC1jcHUgaG9zdCkKPT09
+IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
+dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDEyMDMy
+MzQ4NTcuMjEwNTEtMS1hZ3JhZkBjc2dyYWYuZGUvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1l
+c3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRw
+czovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1k
+ZXZlbEByZWRoYXQuY29t
 
