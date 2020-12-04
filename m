@@ -2,105 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA122CEFF6
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:44:52 +0100 (CET)
-Received: from localhost ([::1]:46042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E042CF00B
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:51:22 +0100 (CET)
+Received: from localhost ([::1]:50392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klCKJ-0004cd-8I
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:44:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57788)
+	id 1klCQb-0006xM-ME
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:51:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1klCIz-0003kd-U8; Fri, 04 Dec 2020 09:43:30 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5468
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1klCPH-0006Il-A1; Fri, 04 Dec 2020 09:49:59 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:40160 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1klCIx-0001sK-Na; Fri, 04 Dec 2020 09:43:29 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0B4EXMoD141257; Fri, 4 Dec 2020 09:43:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=BYw8DCBC8WrZ09Uzj7lWvHhacH0T5sgdnIIP1nwYSyQ=;
- b=Tlkm1FK3a58beV/C+6AkANRSjb0pPHn20LZ6ulfHjDF4ZMT36VUFYQ96WLmkes8NaorR
- ZQhwpEdI9IRhK3Bk0JMw125VSE0oTUG4lot7CwveXtmwySKsM+swIyJYNfAmi1uFLXro
- ucEuKQT+5Gdbgr+2yKLNnfOrcVndgLO6xJw1wrozHckJxat+0ItMC3jH86G6rmgXPydu
- eMUI41j+J8FsXeKEagTaYFvt5l/WZwL4bKMKh84eNhJ3YeJQg6KSJp35mvTtrAODVOeX
- nF5f8ail5srMnAx8gu5ZWm1F9rNEmb3wYGYcWqGXuTLA+CQ/skFC2DXH3KxNyx1NPtu1 RA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 357m8fwjaa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Dec 2020 09:43:19 -0500
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B4EXk42142979;
- Fri, 4 Dec 2020 09:43:19 -0500
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0b-001b2d01.pphosted.com with ESMTP id 357m8fwj9s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Dec 2020 09:43:19 -0500
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B4EfvwN006651;
- Fri, 4 Dec 2020 14:43:17 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma04fra.de.ibm.com with ESMTP id 353e68bard-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Dec 2020 14:43:17 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0B4EhEMd8520216
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Dec 2020 14:43:14 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 35D084C044;
- Fri,  4 Dec 2020 14:43:14 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 267C24C04E;
- Fri,  4 Dec 2020 14:43:13 +0000 (GMT)
-Received: from oc2783563651 (unknown [9.171.41.218])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri,  4 Dec 2020 14:43:13 +0000 (GMT)
-Date: Fri, 4 Dec 2020 15:43:10 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [for-6.0 v5 12/13] securable guest memory: Alter virtio default
- properties for protected guests
-Message-ID: <20201204154310.158b410e.pasic@linux.ibm.com>
-In-Reply-To: <038214d1-580d-6692-cd1e-701cd41b5cf8@de.ibm.com>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204054415.579042-13-david@gibson.dropbear.id.au>
- <d739cae2-9197-76a5-1c19-057bfe832187@de.ibm.com>
- <20201204091706.4432dc1e.cohuck@redhat.com>
- <038214d1-580d-6692-cd1e-701cd41b5cf8@de.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1klCPF-0004GQ-Ku; Fri, 04 Dec 2020 09:49:59 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id AF9F841448;
+ Fri,  4 Dec 2020 14:49:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1607093392;
+ x=1608907793; bh=QldUVOVf3+mraCRsEzt3ld+hk/iPYrp9FUN3ECLUhmo=; b=
+ pGJvA4NG8Vd/CsKalzpZSnIzrQVHJhOR7QyfV+nKAkieELU21nfHWCo1EF6HxpSR
+ HlJCQ4balnxKXGWWzB2KKPA+g1WCY+BAckdHJDRH8Ja1eOBFs3Q6DLhdz0JfXdJ+
+ zbe2evip7uqcoywud4qO2klcB0Ws4YP4KcqePN8WVEo=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id i1k4xDQPOApF; Fri,  4 Dec 2020 17:49:52 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 01FFD41447;
+ Fri,  4 Dec 2020 17:49:51 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 4 Dec
+ 2020 17:49:51 +0300
+Date: Fri, 4 Dec 2020 17:50:14 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Alexander Graf <agraf@csgraf.de>
+Subject: Re: [PATCH v4 01/11] hvf: Add hypervisor entitlement to output
+ binaries
+Message-ID: <20201204145014.GA86904@SPB-NB-133.local>
+References: <20201203234857.21051-1-agraf@csgraf.de>
+ <20201203234857.21051-2-agraf@csgraf.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-12-04_04:2020-12-04,
- 2020-12-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015
- adultscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501 phishscore=0
- lowpriorityscore=0 malwarescore=0 mlxscore=0 bulkscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012040080
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20201203234857.21051-2-agraf@csgraf.de>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,86 +77,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
- brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org, "Michael
- S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>, pbonzini@redhat.com,
- thuth@redhat.com, berrange@redhat.com, david@redhat.com, rth@twiddle.net,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 4 Dec 2020 09:29:59 +0100
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-
-> 
-> 
-> On 04.12.20 09:17, Cornelia Huck wrote:
-> > On Fri, 4 Dec 2020 09:10:36 +0100
-> > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> > 
-> >> On 04.12.20 06:44, David Gibson wrote:
-> >>> The default behaviour for virtio devices is not to use the platforms normal
-> >>> DMA paths, but instead to use the fact that it's running in a hypervisor
-> >>> to directly access guest memory.  That doesn't work if the guest's memory
-> >>> is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
-> >>>
-> >>> So, if a securable guest memory mechanism is enabled, then apply the
-> >>> iommu_platform=on option so it will go through normal DMA mechanisms.
-> >>> Those will presumably have some way of marking memory as shared with
-> >>> the hypervisor or hardware so that DMA will work.
-> >>>
-> >>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> >>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >>> ---
-> >>>  hw/core/machine.c | 13 +++++++++++++
-> >>>  1 file changed, 13 insertions(+)
-> >>>
-> >>> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> >>> index a67a27d03c..d16273d75d 100644
-> >>> --- a/hw/core/machine.c
-> >>> +++ b/hw/core/machine.c
-> >>> @@ -28,6 +28,8 @@
-> >>>  #include "hw/mem/nvdimm.h"
-> >>>  #include "migration/vmstate.h"
-> >>>  #include "exec/securable-guest-memory.h"
-> >>> +#include "hw/virtio/virtio.h"
-> >>> +#include "hw/virtio/virtio-pci.h"
-> >>>  
-> >>>  GlobalProperty hw_compat_5_1[] = {
-> >>>      { "vhost-scsi", "num_queues", "1"},
-> >>> @@ -1169,6 +1171,17 @@ void machine_run_board_init(MachineState *machine)
-> >>>           * areas.
-> >>>           */
-> >>>          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
-> >>> +
-> >>> +        /*
-> >>> +         * Virtio devices can't count on directly accessing guest
-> >>> +         * memory, so they need iommu_platform=on to use normal DMA
-> >>> +         * mechanisms.  That requires also disabling legacy virtio
-> >>> +         * support for those virtio pci devices which allow it.
-> >>> +         */
-> >>> +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy",
-> >>> +                                   "on", true);
-> >>> +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform",
-> >>> +                                   "on", false);  
-> >>
-> >> I have not followed all the history (sorry). Should we also set iommu_platform
-> >> for virtio-ccw? Halil?
-> >>
-> > 
-> > That line should add iommu_platform for all virtio devices, shouldn't
-> > it?
-> 
-> Yes, sorry. Was misreading that with the line above. 
+On Fri, Dec 04, 2020 at 12:48:47AM +0100, Alexander Graf wrote:
+> In macOS 11, QEMU only gets access to Hypervisor.framework if it has the
+> respective entitlement. Add an entitlement template and automatically self
+> sign and apply the entitlement in the build.
 > 
 
-I believe this is the best we can get. In a sense it is still a
-pessimization, but it is a big usability improvement compared to having
-to set iommu_platform manually. 
-
-Regards,
-Halil
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
 
