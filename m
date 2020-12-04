@@ -2,80 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5472CEFED
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:44:05 +0100 (CET)
-Received: from localhost ([::1]:44452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA122CEFF6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:44:52 +0100 (CET)
+Received: from localhost ([::1]:46042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klCJY-0003wd-Ku
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:44:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57704)
+	id 1klCKJ-0004cd-8I
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:44:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1klCIZ-0003P8-5D
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:43:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52281)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1klCIX-0001k7-Gm
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:43:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607092980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=83zHInYV09m0tLPY6CZbXhK9+nwBPvBDHlv8pvCnZqM=;
- b=cENCoiuRVc48dGto/x0bMRNhMC8O9jsOjTV9sBHNjXhqwJeNGMWZaJIcdqRjdCzLbKavzS
- USDK1E0EvssMH0JJIyTzZ0B+YnPOuJiB7TxBbJ7hEftGCiPObcSnv94ciAHBq0RVxaOOsS
- dgscdbN488RYLOr+reUeW0grdQ5w8IM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-VOogQP2uOFia6pCsu8SsMg-1; Fri, 04 Dec 2020 09:42:59 -0500
-X-MC-Unique: VOogQP2uOFia6pCsu8SsMg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29536107ACF7;
- Fri,  4 Dec 2020 14:42:58 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-88.gru2.redhat.com
- [10.97.116.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C56DA60C6C;
- Fri,  4 Dec 2020 14:42:47 +0000 (UTC)
-Subject: Re: [RFC PATCH-for-5.2] gitlab-ci: Do not automatically run Avocado
- integration tests anymore
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <wrampazz@redhat.com>
-References: <20201127174110.1932671-1-philmd@redhat.com>
- <b08db31b-1411-6936-f737-0d6c8f98ebb8@redhat.com>
- <f32a1db5-5231-fc4d-1741-0b5ee13f618f@redhat.com>
- <9157dce0-4f5d-3f1e-ce75-3e9da9252203@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <9c56457b-e7b7-f3d9-c2aa-e945b22aa2df@redhat.com>
-Date: Fri, 4 Dec 2020 11:42:44 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1klCIz-0003kd-U8; Fri, 04 Dec 2020 09:43:30 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5468
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1klCIx-0001sK-Na; Fri, 04 Dec 2020 09:43:29 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0B4EXMoD141257; Fri, 4 Dec 2020 09:43:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=BYw8DCBC8WrZ09Uzj7lWvHhacH0T5sgdnIIP1nwYSyQ=;
+ b=Tlkm1FK3a58beV/C+6AkANRSjb0pPHn20LZ6ulfHjDF4ZMT36VUFYQ96WLmkes8NaorR
+ ZQhwpEdI9IRhK3Bk0JMw125VSE0oTUG4lot7CwveXtmwySKsM+swIyJYNfAmi1uFLXro
+ ucEuKQT+5Gdbgr+2yKLNnfOrcVndgLO6xJw1wrozHckJxat+0ItMC3jH86G6rmgXPydu
+ eMUI41j+J8FsXeKEagTaYFvt5l/WZwL4bKMKh84eNhJ3YeJQg6KSJp35mvTtrAODVOeX
+ nF5f8ail5srMnAx8gu5ZWm1F9rNEmb3wYGYcWqGXuTLA+CQ/skFC2DXH3KxNyx1NPtu1 RA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 357m8fwjaa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Dec 2020 09:43:19 -0500
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B4EXk42142979;
+ Fri, 4 Dec 2020 09:43:19 -0500
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 357m8fwj9s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Dec 2020 09:43:19 -0500
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B4EfvwN006651;
+ Fri, 4 Dec 2020 14:43:17 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma04fra.de.ibm.com with ESMTP id 353e68bard-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Dec 2020 14:43:17 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0B4EhEMd8520216
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 4 Dec 2020 14:43:14 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 35D084C044;
+ Fri,  4 Dec 2020 14:43:14 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 267C24C04E;
+ Fri,  4 Dec 2020 14:43:13 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.171.41.218])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri,  4 Dec 2020 14:43:13 +0000 (GMT)
+Date: Fri, 4 Dec 2020 15:43:10 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [for-6.0 v5 12/13] securable guest memory: Alter virtio default
+ properties for protected guests
+Message-ID: <20201204154310.158b410e.pasic@linux.ibm.com>
+In-Reply-To: <038214d1-580d-6692-cd1e-701cd41b5cf8@de.ibm.com>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <20201204054415.579042-13-david@gibson.dropbear.id.au>
+ <d739cae2-9197-76a5-1c19-057bfe832187@de.ibm.com>
+ <20201204091706.4432dc1e.cohuck@redhat.com>
+ <038214d1-580d-6692-cd1e-701cd41b5cf8@de.ibm.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <9157dce0-4f5d-3f1e-ce75-3e9da9252203@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-12-04_04:2020-12-04,
+ 2020-12-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015
+ adultscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 malwarescore=0 mlxscore=0 bulkscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012040080
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,46 +114,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- virt-ci-maint-team@redhat.com, Cleber Rosa <crosa@redhat.com>
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org, "Michael
+ S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>, pbonzini@redhat.com,
+ thuth@redhat.com, berrange@redhat.com, david@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 4 Dec 2020 09:29:59 +0100
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-On 11/27/20 3:29 PM, Thomas Huth wrote:
-> On 27/11/2020 18.57, Philippe Mathieu-Daudé wrote:
->> On 11/27/20 6:47 PM, Thomas Huth wrote:
->>> On 27/11/2020 18.41, Philippe Mathieu-Daudé wrote:
->>>> We lately realized that the Avocado framework was not designed
->>>> to be regularly run on CI environments. Therefore, as of 5.2
->>>> we deprecate the gitlab-ci jobs using Avocado. To not disrupt
->>>> current users, it is possible to keep the current behavior by
->>>> setting the QEMU_CI_INTEGRATION_JOBS_PRE_5_2_RELEASE variable
->>>> (see [*]).
->>>>  From now on, using these jobs (or adding new tests to them)
->>>> is strongly discouraged.
->>>>
->>>> Tests based on Avocado will be ported to new job schemes during
->>>> the next releases, with better documentation and templates.
->>> Why should we disable the jobs by default as long as there is no replacement
->>> available yet?
->> Why keep it enabled if it is failing randomly
-> We can still disable single jobs if they are not stable, but that's no
-> reason to disable all of them by default, is it?
->
->> if images hardcoded
->> in tests are being removed from public servers, etc...?
-> That's independent from Avocado, you'll always have that problem if you want
-> to test with external images, unless you mirror them into a repository on
-> the same server (ie. gitlab), which, however, might not always be possible...
+> 
+> 
+> On 04.12.20 09:17, Cornelia Huck wrote:
+> > On Fri, 4 Dec 2020 09:10:36 +0100
+> > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> > 
+> >> On 04.12.20 06:44, David Gibson wrote:
+> >>> The default behaviour for virtio devices is not to use the platforms normal
+> >>> DMA paths, but instead to use the fact that it's running in a hypervisor
+> >>> to directly access guest memory.  That doesn't work if the guest's memory
+> >>> is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
+> >>>
+> >>> So, if a securable guest memory mechanism is enabled, then apply the
+> >>> iommu_platform=on option so it will go through normal DMA mechanisms.
+> >>> Those will presumably have some way of marking memory as shared with
+> >>> the hypervisor or hardware so that DMA will work.
+> >>>
+> >>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> >>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >>> ---
+> >>>  hw/core/machine.c | 13 +++++++++++++
+> >>>  1 file changed, 13 insertions(+)
+> >>>
+> >>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> >>> index a67a27d03c..d16273d75d 100644
+> >>> --- a/hw/core/machine.c
+> >>> +++ b/hw/core/machine.c
+> >>> @@ -28,6 +28,8 @@
+> >>>  #include "hw/mem/nvdimm.h"
+> >>>  #include "migration/vmstate.h"
+> >>>  #include "exec/securable-guest-memory.h"
+> >>> +#include "hw/virtio/virtio.h"
+> >>> +#include "hw/virtio/virtio-pci.h"
+> >>>  
+> >>>  GlobalProperty hw_compat_5_1[] = {
+> >>>      { "vhost-scsi", "num_queues", "1"},
+> >>> @@ -1169,6 +1171,17 @@ void machine_run_board_init(MachineState *machine)
+> >>>           * areas.
+> >>>           */
+> >>>          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
+> >>> +
+> >>> +        /*
+> >>> +         * Virtio devices can't count on directly accessing guest
+> >>> +         * memory, so they need iommu_platform=on to use normal DMA
+> >>> +         * mechanisms.  That requires also disabling legacy virtio
+> >>> +         * support for those virtio pci devices which allow it.
+> >>> +         */
+> >>> +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy",
+> >>> +                                   "on", true);
+> >>> +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform",
+> >>> +                                   "on", false);  
+> >>
+> >> I have not followed all the history (sorry). Should we also set iommu_platform
+> >> for virtio-ccw? Halil?
+> >>
+> > 
+> > That line should add iommu_platform for all virtio devices, shouldn't
+> > it?
+> 
+> Yes, sorry. Was misreading that with the line above. 
+> 
 
-Phil,
+I believe this is the best we can get. In a sense it is still a
+pessimization, but it is a big usability improvement compared to having
+to set iommu_platform manually. 
 
-on commit 89e076f37d0020bfadb you changed fetch_asset to cancel the test 
-if it cannot download a file. Is there anything else that could be done 
-to mitigate that problem until we don't have a repository mirror for the 
-files?
-
-- Wainer
-
+Regards,
+Halil
 
