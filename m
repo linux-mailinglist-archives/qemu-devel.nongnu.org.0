@@ -2,51 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7499E2CF5A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:28:33 +0100 (CET)
-Received: from localhost ([::1]:44804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 149DD2CF583
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:21:59 +0100 (CET)
+Received: from localhost ([::1]:34130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klHgu-0005Ii-HR
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:28:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32782)
+	id 1klHaY-0000Y6-4U
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:21:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klFbq-0007D9-T3
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 13:15:16 -0500
-Received: from mx2.suse.de ([195.135.220.15]:56418)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klFbc-0003Je-CA
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 13:15:10 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E140BACB5;
- Fri,  4 Dec 2020 18:14:51 +0000 (UTC)
-Subject: Re: [RFC v7 15/22] cpu: Move tlb_fill to tcg_ops
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20201130023535.16689-1-cfontana@suse.de>
- <20201130023535.16689-16-cfontana@suse.de>
- <4c7fe436-7c2d-e55d-1139-8aa30e91965f@redhat.com>
- <20201204173703.GQ3836@habkost.net>
- <6233d4db-546a-2ec3-376d-154af8ed2cdb@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <dc731d70-cf85-0735-4335-44f685343a9b@suse.de>
-Date: Fri, 4 Dec 2020 19:14:50 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1klFbt-0007DI-G0
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 13:15:19 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:36205)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1klFbn-0003MS-RE
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 13:15:13 -0500
+Received: by mail-oi1-x244.google.com with SMTP id x16so7155604oic.3
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 10:15:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Xit7dWkZ/uWg67R5ypkMG8vhmSpZMrHrrLkUOGYkvmQ=;
+ b=kwTU2ej5wtGAKMk/t/SF8HMCWQMT90z6Er7H5JjodPi/gdzGi98p/VeIPuI4ij07Dm
+ 4VRUdbDVQE1hFGYSVpAuX9p2rRAcaTO/1fhYcrKZbqIIhSkVqeQIegHcfzCfmLmbzU60
+ esWmyU3vAatDrjvne9Modl4Xv2HQRicbGf1uyk/3Luo0jk0lfWCR/NuUhuInU8yClaYF
+ OMP7acLniEQW0ctS42ZmEYsqBxn5cQckXwwcC4JmS/ITj+pJOb6jdbsNdvyoIegn7ArU
+ UDEd7tgUooi4zmfTECherwojRZ6ykhq4Vbt0/NlC7griNWmlBEmTT4Ddqg7qnMpaUWpd
+ x6Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Xit7dWkZ/uWg67R5ypkMG8vhmSpZMrHrrLkUOGYkvmQ=;
+ b=W98QR0IyFY3PTwN8Yg+WN5L/2DzV9P0HjQhIGOim/7dmp1wOUwamXO0HdN7h4vbF18
+ fjM/U8jbTs0JQtLXHS6DourxllQRD2BCEYjGIYxE16TMB7lwGP+yYd/p9AT9UDmgj/yk
+ tc8CCFXrD7jk3W9KGEnOcgI21//xJvN0Ewf0S1CwwAVgrGhtlt9aTJPpHfWxRH2NW7w9
+ UvhfDNwdluKtEVEbck1q7fvYcLBTl15YyP0GoJEe4HOKE+aDkvbqk58H/cGMuUmJkEgA
+ V/F6RrgQ/NlMBG44rhZcpUZIddZJvAFS6F0NJssnTB3P9iK4pxdxeJJrcoxOOY0lDFPm
+ 2RsA==
+X-Gm-Message-State: AOAM5317eKkGeXn69+hSy5xLCy4GlnfPsRDloa1EPIIszUexDZChQUqp
+ YJkLpm21G1iC8HVAO3Kvcrz+ZQ==
+X-Google-Smtp-Source: ABdhPJwVGvS0KlNyzMEZr8Io3h0bNxMNQr8vTAObJ3nFQlo5BijMVIWuY6ycWapMvlNTr1CF8HRDhA==
+X-Received: by 2002:aca:d514:: with SMTP id m20mr4060984oig.22.1607105703333; 
+ Fri, 04 Dec 2020 10:15:03 -0800 (PST)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id w22sm778355otq.22.2020.12.04.10.15.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Dec 2020 10:15:02 -0800 (PST)
+Subject: Re: [PATCH 7/9] target/mips: Extract msa_translate_init() from
+ mips_tcg_init()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201202184415.1434484-1-f4bug@amsat.org>
+ <20201202184415.1434484-8-f4bug@amsat.org>
+ <9a103671-d4e7-bcff-c600-931655efbd2b@linaro.org>
+ <1d04e931-015b-116f-f189-3d24e015b087@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <39c6980e-f02c-9eb2-f85e-e8bd26c0920f@linaro.org>
+Date: Fri, 4 Dec 2020 12:15:00 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <6233d4db-546a-2ec3-376d-154af8ed2cdb@redhat.com>
+In-Reply-To: <1d04e931-015b-116f-f189-3d24e015b087@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,102 +92,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Emilio G . Cota" <cota@braap.org>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, kvm@vger.kernel.org,
+ Huacai Chen <chenhc@lemote.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/4/20 7:00 PM, Philippe Mathieu-Daudé wrote:
-> On 12/4/20 6:37 PM, Eduardo Habkost wrote:
->> On Fri, Dec 04, 2020 at 06:14:07PM +0100, Philippe Mathieu-Daudé wrote:
->>> On 11/30/20 3:35 AM, Claudio Fontana wrote:
->>>> From: Eduardo Habkost <ehabkost@redhat.com>
->>>>
->>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>>> ---
->>>>  accel/tcg/cputlb.c              |  6 +++---
->>>>  accel/tcg/user-exec.c           |  6 +++---
->>>>  include/hw/core/cpu.h           |  9 ---------
->>>>  include/hw/core/tcg-cpu-ops.h   | 12 ++++++++++++
->>>>  target/alpha/cpu.c              |  2 +-
->>>>  target/arm/cpu.c                |  2 +-
->>>>  target/avr/cpu.c                |  2 +-
->>>>  target/cris/cpu.c               |  2 +-
->>>>  target/hppa/cpu.c               |  2 +-
->>>>  target/i386/tcg-cpu.c           |  2 +-
->>>>  target/lm32/cpu.c               |  2 +-
->>>>  target/m68k/cpu.c               |  2 +-
->>>>  target/microblaze/cpu.c         |  2 +-
->>>>  target/mips/cpu.c               |  2 +-
->>>>  target/moxie/cpu.c              |  2 +-
->>>>  target/nios2/cpu.c              |  2 +-
->>>>  target/openrisc/cpu.c           |  2 +-
->>>>  target/ppc/translate_init.c.inc |  2 +-
->>>>  target/riscv/cpu.c              |  2 +-
->>>>  target/rx/cpu.c                 |  2 +-
->>>>  target/s390x/cpu.c              |  2 +-
->>>>  target/sh4/cpu.c                |  2 +-
->>>>  target/sparc/cpu.c              |  2 +-
->>>>  target/tilegx/cpu.c             |  2 +-
->>>>  target/tricore/cpu.c            |  2 +-
->>>>  target/unicore32/cpu.c          |  2 +-
->>>>  target/xtensa/cpu.c             |  2 +-
->>>>  27 files changed, 41 insertions(+), 38 deletions(-)
+On 12/4/20 11:23 AM, Philippe Mathieu-Daudé wrote:
+> On 12/4/20 5:30 PM, Richard Henderson wrote:
+>> On 12/2/20 12:44 PM, Philippe Mathieu-Daudé wrote:
+>>> Extract the logic initialization of the MSA registers from
+>>> the generic initialization.
 >>>
->>> With cc->tcg_ops.* guarded with #ifdef CONFIG_TCG:
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>>  target/mips/translate.c | 35 ++++++++++++++++++++---------------
+>>>  1 file changed, 20 insertions(+), 15 deletions(-)
 >>
->> Thanks!
->>
->> Are the #ifdefs a hard condition for your Reviewed-by?
+>> Why?
 > 
-> No, as you said, this is fine as a first step, so you can
-> include them.
-> 
->> Even if we agree #ifdef CONFIG_TCG is the way to go, I don't
->> think this should block a series that's a step in the right
->> direction.  It can be done in a separate patch.
->>
->> (Unless the lack of #ifdef introduces regressions, of course)
-> 
-> I'm worried about the +system -tcg build configuration.
-> 
-> s390x is the only target testing for such regressions
-> (see "[s390x] Clang (disable-tcg)" on Travis-CI.
-> 
+> msa_wr_d[] registers are only used by MSA, so in the next series
+> that allows me to move the 'static msa_wr_d[]' in msa_translate.c,
+> without having to declare them global with extern.
 
-which exact configure options are concerned about?
+Ah, sure.
 
---disable-tcg --enable-kvm --target="*-system"?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Or something else?
-
-this is something I am testing (and found the issues).
-
-I am currently testing (and a result fixing) for each patch:
-
---disable-tcg --enable-kvm
---enable-tcg --disable-kvm
---enable-tcg --enable-kvm --enable-hax
---disable-system
-
-With targets (when compatible):
-TARGET_LIST="x86_64-softmmu,x86_64-linux-user,arm-softmmu,arm-linux-user,aarch64-softmmu,aarch64-linux-user,s390x-softmmu,s390x-linux-user"
-
-and yes, should offload much of this to CI..
-
-Ciao,
-
-Claudio
-
+r~
 
