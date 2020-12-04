@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3B62CEFDE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:41:28 +0100 (CET)
-Received: from localhost ([::1]:39916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACCF2CEFE8
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:42:39 +0100 (CET)
+Received: from localhost ([::1]:42082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klCH1-0001yL-Eo
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:41:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57010)
+	id 1klCIA-0002vL-6u
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:42:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1klCFk-0001RL-1n
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:40:08 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:39382)
+ id 1klCGW-0001rW-N0
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:40:56 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:39432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1klCFi-0000cT-7F
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:40:07 -0500
-Received: by mail-ed1-x541.google.com with SMTP id c7so6054001edv.6
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 06:40:05 -0800 (PST)
+ id 1klCGS-0000zR-7x
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:40:56 -0500
+Received: by mail-ej1-x641.google.com with SMTP id n26so9002233eju.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 06:40:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7L+cOp7Rr28XgH3I9u8syuq6ZvKSAZla9VJhW1pFxyU=;
- b=ofLcaKR9e1tai1R018QvJMouNjWgj+0s19JKuMjlQJFeyniBX/gRBrhPonJwGCI03g
- RSr9ULJjqHkvF2PKqEkbVtLpUUvb13G4R/Y5XBPeugteIjew9A2P2eZlGdu0SeF1w3OF
- FVcjLHaA6Vr28xwhPYDfrpMBGR9r4eBILvZa3Pa5Xia1p+e6FIygNdiLxgmyWmv96JoL
- hxqIk3KDY9wzUoQ9ZV9yHtmz+2XB+6p1LIsGDgqVOvFR9SnYXZ8scksdK0md0hqpB0Mp
- PBED6ZOUXU9qDzqJpSPOdfHsjPHhws3ZxJDHyjTIM/3uuYB1mCmrKnrsVlWAOHCB62Pz
- bbAw==
+ :cc; bh=XLrXOl+OXKzJtzv7IjkC1r4SVCQ7PAY3Q18A5NWuPps=;
+ b=tJX2HcbpGX9ZdKCpzbJ9gtJlV3egQB7nD5J3KbmMsp95E7xkoiZ+F7UIXEv8Im8u0Y
+ bUv0t4HBaHFSdvoTRBnXVKD9R73PBWTMSTNnlz0a8MH3WZQgcFcsKvwpuYZVXIadeZmg
+ OpcKNKDpJ1AyLcvzKOM6z9duNsb65pEUawouisxcCpg61qCMeJ8fNPJV/1LQRBxdGSoj
+ r4I/KZ0wEEQCo+WMigJPtBKkfRqj8bBXtfiNyUOiy1oeZCosUR528arHX4pQoeNwoMoM
+ OCMZ4Hq/rduQJ0liLyMI41TXul1O6U3E/S2iE8uqFRwTVBNzUBx2YnBTQTqUK308nIFI
+ 4+eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7L+cOp7Rr28XgH3I9u8syuq6ZvKSAZla9VJhW1pFxyU=;
- b=AjjWxIDVSvVcrPtDXQMpwbKsHqXWZ9jsK+bFwn0PRW7kC0sqEhkILnVLawlcG9p+mi
- 4SWz7jXEluHHJ+if2OkDeMH0RQ4r/7CI2snYsP+V3cQjwBnLxTAoSvPlxJ7LJqnz0mFC
- 1I4GCu9B7VYUX7/HjnHSCklu9MXwAwLDX02FKUeXsi1i0HQdw3Hz/9E5aKMUSv98DKu3
- Je6Dp7XT2vLs4PFsrfy+BakDTv7pyXs+Vd4mo41JlVPAeAuwv+jsTAzyJT5SvE1RkM4M
- lhAgRe7u/c1AdleXXVgJBKnjCneCakdHNxSzMNmpL/yobiceU9mrjqdX2zYWhe9+btf8
- u5lA==
-X-Gm-Message-State: AOAM532jHrI2+81QPCTkciPcfUT30EDgFpJqo9IrUKzAcrFJkcXV+5zx
- EFcxrt4y/wB1IXIr+8Q9zWYAp9Br5HujYCk+U+g=
-X-Google-Smtp-Source: ABdhPJwSdg+Y+JJdyW3p5odh0kUcBS3r/bN1se6azrvWoMD+FJjiAEDESSUTNJ/dvDtCBhn6dCIDdjkQwb+cjlfjOBU=
-X-Received: by 2002:aa7:c558:: with SMTP id s24mr7905967edr.257.1607092804291; 
- Fri, 04 Dec 2020 06:40:04 -0800 (PST)
+ bh=XLrXOl+OXKzJtzv7IjkC1r4SVCQ7PAY3Q18A5NWuPps=;
+ b=FETAkJLKiU/WQYL1z5vzg8OXvt6OPs6vlkx9qaLchxBZvWQ08U+kmHpc/UDA2aVXJy
+ 0KOtcEYRyJKpu/K09piJtu53rvQUlOZE4V5s94cNAOQ1muy531GO2VVi1kIoYvPEd/Vq
+ sO13f69TfsaJH5l2/2DMLhwImfRHBoX/zhPgeAc97ARbaghkF2Ez9cUO9HVgEiiYZIML
+ zbQJQhFDnRznFxWHOubqf+ch0heUSD0ExkQ9ItaKULAflc6oGfj3W5M7yRW9jwf+L0dF
+ CrNxvDelhiG9Y3pTwJM64Swy6e0ytDl719h9WwpgyzOWLgMQJghiRVk+7eT61lIyBLH9
+ krrg==
+X-Gm-Message-State: AOAM533wfOBNTegiyjzkt86tZkCNimthseGkDk2G+sKZ2ddvSpcCOSXA
+ gCoO/oU1A3ivLnSO5hNpJHx8Sdusvd5F/aU6WfA=
+X-Google-Smtp-Source: ABdhPJzemdaz4ZSfylISSTPddjuALK/1Hp05D7/UKLHOKHTyhv96l0zWt8grqOfnRwquy/Zex//gBp11e/ertg4YPEI=
+X-Received: by 2002:a17:906:9452:: with SMTP id
+ z18mr7470219ejx.389.1607092850973; 
+ Fri, 04 Dec 2020 06:40:50 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1602784930.git.jag.raman@oracle.com>
- <599c6eb3f07b3ef16f29ad8fda005ddecc038566.1602784930.git.jag.raman@oracle.com>
-In-Reply-To: <599c6eb3f07b3ef16f29ad8fda005ddecc038566.1602784930.git.jag.raman@oracle.com>
+References: <cover.1606853298.git.jag.raman@oracle.com>
+ <7d135ab5224ad43d0a395f31be70e20a4bd52a11.1606853298.git.jag.raman@oracle.com>
+In-Reply-To: <7d135ab5224ad43d0a395f31be70e20a4bd52a11.1606853298.git.jag.raman@oracle.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 4 Dec 2020 18:39:52 +0400
-Message-ID: <CAJ+F1CJVShip-9Vr2JSy3PYKKxwZB7uJ_6ckCbO+TpjTa2csMw@mail.gmail.com>
-Subject: Re: [PATCH v11 05/19] multi-process: add qio channel function to
- transmit
+Date: Fri, 4 Dec 2020 18:40:39 +0400
+Message-ID: <CAJ+F1CKk-RrQY=n2SVw4M699jzQYJjZWEatHJCZT7=RtboW=OQ@mail.gmail.com>
+Subject: Re: [PATCH v12 07/19] multi-process: add qio channel function to
+ transmit data and fds
 To: Jagannathan Raman <jag.raman@oracle.com>
-Content-Type: multipart/alternative; boundary="000000000000b8924b05b5a4736f"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x541.google.com
+Content-Type: multipart/alternative; boundary="00000000000080e05005b5a47603"
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x641.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,17 +99,17 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b8924b05b5a4736f
+--00000000000080e05005b5a47603
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 15, 2020 at 10:05 PM Jagannathan Raman <jag.raman@oracle.com>
+On Wed, Dec 2, 2020 at 12:23 AM Jagannathan Raman <jag.raman@oracle.com>
 wrote:
 
 > From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 >
-> The entire array of the memory regions and file handlers.
-> Will be used in the next patch.
+> Adds QIO channel functions that transmits the input iovs as well as the
+> supplied fds.
 >
 > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
@@ -120,7 +121,7 @@ wrote:
 >  2 files changed, 69 insertions(+)
 >
 > diff --git a/include/io/channel.h b/include/io/channel.h
-> index 3c04f0e..6807506 100644
+> index 4d6fe45..0aa44e1 100644
 > --- a/include/io/channel.h
 > +++ b/include/io/channel.h
 > @@ -773,5 +773,29 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
@@ -154,7 +155,7 @@ wrote:
 >
 >  #endif /* QIO_CHANNEL_H */
 > diff --git a/io/channel.c b/io/channel.c
-> index e4376eb..22c10c5 100644
+> index 93d449d..255dd46 100644
 > --- a/io/channel.c
 > +++ b/io/channel.c
 > @@ -190,6 +190,51 @@ int qio_channel_writev_all(QIOChannel *ioc,
@@ -172,9 +173,8 @@ wrote:
 Please make qio_channel_writev_all() call qio_channel_writev_full_all() to
 avoid logic duplication.
 
-thanks
 
-+    int ret =3D -1;
+> +    int ret =3D -1;
 > +    struct iovec *local_iov =3D g_new(struct iovec, niov);
 > +    struct iovec *local_iov_head =3D local_iov;
 > +    unsigned int nlocal_iov =3D niov;
@@ -224,20 +224,20 @@ thanks
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000b8924b05b5a4736f
+--00000000000080e05005b5a47603
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 15, 2020 at 10:05 PM Jaga=
-nnathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">From: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle.com" =
-target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 2, 2020 at 12:23 AM Jagan=
+nathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">From: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle.com" t=
+arget=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
 <br>
-The entire array of the memory regions and file handlers.<br>
-Will be used in the next patch.<br>
+Adds QIO channel functions that transmits the input iovs as well as the<br>
+supplied fds.<br>
 <br>
 Signed-off-by: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle=
 .com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
@@ -254,7 +254,7 @@ get=3D"_blank">stefanha@redhat.com</a>&gt;<br>
 =C2=A02 files changed, 69 insertions(+)<br>
 <br>
 diff --git a/include/io/channel.h b/include/io/channel.h<br>
-index 3c04f0e..6807506 100644<br>
+index 4d6fe45..0aa44e1 100644<br>
 --- a/include/io/channel.h<br>
 +++ b/include/io/channel.h<br>
 @@ -773,5 +773,29 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,<b=
@@ -299,7 +299,7 @@ r>
 <br>
 =C2=A0#endif /* QIO_CHANNEL_H */<br>
 diff --git a/io/channel.c b/io/channel.c<br>
-index e4376eb..22c10c5 100644<br>
+index 93d449d..255dd46 100644<br>
 --- a/io/channel.c<br>
 +++ b/io/channel.c<br>
 @@ -190,6 +190,51 @@ int qio_channel_writev_all(QIOChannel *ioc,<br>
@@ -315,11 +315,10 @@ index e4376eb..22c10c5 100644<br>
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int *fds, size_t nfds,<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Error **errp)<br>
-+{<br></blockquote><div><br></div><div>Please make qio_channel_writev_all()=
- call qio_channel_writev_full_all() to avoid logic duplication.</div><div><=
-br></div><div>thanks</div><div><br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">
++{<br></blockquote><div><br></div><div><div>Please make qio_channel_writev_=
+all() call qio_channel_writev_full_all() to avoid logic duplication.</div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 +=C2=A0 =C2=A0 int ret =3D -1;<br>
 +=C2=A0 =C2=A0 struct iovec *local_iov =3D g_new(struct iovec, niov);<br>
 +=C2=A0 =C2=A0 struct iovec *local_iov_head =3D local_iov;<br>
@@ -378,5 +377,5 @@ iov, len);<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000b8924b05b5a4736f--
+--00000000000080e05005b5a47603--
 
