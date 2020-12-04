@@ -2,92 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544B42CF750
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 00:08:58 +0100 (CET)
-Received: from localhost ([::1]:33050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A82C72CF753
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 00:12:17 +0100 (CET)
+Received: from localhost ([::1]:38748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klKC9-0003It-6B
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 18:08:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51792)
+	id 1klKFM-0005lg-LL
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 18:12:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1klK9l-0002HW-Hk
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 18:06:29 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56864)
+ id 1klK9w-0002Mz-Sr
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 18:06:40 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63516
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1klK9j-0004L1-B7
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 18:06:29 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0B4N3QVH092565
- for <qemu-devel@nongnu.org>; Fri, 4 Dec 2020 18:06:23 -0500
+ id 1klK9v-0004Pu-8s
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 18:06:40 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0B4N2M3n050247
+ for <qemu-devel@nongnu.org>; Fri, 4 Dec 2020 18:06:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-type :
+ : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=FppXVjYml4GZWEkhmQET+SVHkzUGqoG6Ie+ysZcPmis=;
- b=Vrx88SrRBqV0q6kboTBiRw9efZEkDiNBSiko3YbQBtni+uN2PwtE7bNX1lQjCOh88TKB
- Che6XYlhP3aZ5I8KXSgGj1kPCEGd7Cm7iegdjCFTrxfnUOpvftors0vLEsjaT7oOf+h+
- j0jr85m7n0NBuN6oOqu4Owf+vXMC+rYpPkVA2pJsym1zgYGjcWegL6qxaXP81EXvDN6Q
- xet1okChnt2DzDc7OHOjDcwP/tz5hHJ5CiGvCdD2Be0mW/b9q/R7zZ8V3d7Typr10pux
- YxGvuvDspbUrLqaYlYH2eKYvC7moKFhPX6u1i52/UW4SJrX4XdFyJCY+6//hdojPhR8W kw== 
+ bh=aGYsLEfjNdTpZB4vkIeKX01BF466+XYE/b0AUNSJroY=;
+ b=X84or/39Uzwg4mhdgPivmOiJnMREgtVHO3BhMPNRRJRy414gR+AnOBA1b/pyCRcYEgMo
+ TsQOwU/BBCe9+dZnsS63Dil1XG5fJNdoMbyFW1BRHA/Kpk7TVWFYP7h4NOKTawJfpnRx
+ esJAl6ZbfvpdZ1X+Xt6A1jmk+dJy3XNEjjhG48GZWOea8OW/xpPWXNrbxr14jiljDjQY
+ TK3F3VYoAHe8wQJNEsQQQgJzjixm7RXI3DyLBjn9+eZmCB9CwjxQDbL0wdugOxr/xvbn
+ S1iuoZxADHRmcyAOLxKTf4bECpBZrFpNSHL+HXJFccfpgHmNqYkLguaxW8wROgL88BJG xQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 357uq6m4hg-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 357qtgb2tj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 18:06:23 -0500
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B4N4Xr3102676
- for <qemu-devel@nongnu.org>; Fri, 4 Dec 2020 18:06:23 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 357uq6m4h4-1
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 18:06:34 -0500
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B4N2wM1053057
+ for <qemu-devel@nongnu.org>; Fri, 4 Dec 2020 18:06:30 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 357qtgb2t5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Dec 2020 18:06:23 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B4N1bON023574;
- Fri, 4 Dec 2020 23:06:22 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma02dal.us.ibm.com with ESMTP id 3569xv1shh-1
+ Fri, 04 Dec 2020 18:06:30 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B4N1eXI017499;
+ Fri, 4 Dec 2020 23:06:30 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01dal.us.ibm.com with ESMTP id 355rf8a09w-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Dec 2020 23:06:22 +0000
+ Fri, 04 Dec 2020 23:06:29 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0B4N6LIs25952640
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0B4N6S1e10093198
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Dec 2020 23:06:21 GMT
+ Fri, 4 Dec 2020 23:06:28 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4C2086A04D;
- Fri,  4 Dec 2020 23:06:21 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 7B3976A051;
+ Fri,  4 Dec 2020 23:06:28 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B7FDB6A054;
- Fri,  4 Dec 2020 23:06:20 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id E1A816A04D;
+ Fri,  4 Dec 2020 23:06:27 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.160.122.174])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri,  4 Dec 2020 23:06:20 +0000 (GMT)
+ Fri,  4 Dec 2020 23:06:27 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/5] Add support for Control-Flow Integrity
-Date: Fri,  4 Dec 2020 18:06:10 -0500
-Message-Id: <20201204230615.2392-1-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH v4 1/5] configure,meson: add option to enable LTO
+Date: Fri,  4 Dec 2020 18:06:11 -0500
+Message-Id: <20201204230615.2392-2-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201204230615.2392-1-dbuono@linux.vnet.ibm.com>
+References: <20201204230615.2392-1-dbuono@linux.vnet.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-12-04_13:2020-12-04,
+ definitions=2020-12-04_12:2020-12-04,
  2020-12-04 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0
- impostorscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0 mlxscore=0
- priorityscore=1501 adultscore=0 mlxlogscore=999 bulkscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012040132
-Received-SPF: none client-ip=148.163.156.1;
+ malwarescore=0
+ lowpriorityscore=0 spamscore=0 adultscore=0 phishscore=0 impostorscore=0
+ suspectscore=1 priorityscore=1501 mlxscore=0 clxscore=1015 mlxlogscore=765
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012040128
+Received-SPF: none client-ip=148.163.158.5;
  envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
@@ -113,65 +115,69 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds supports for Control-Flow Integrity checks
-on indirect function calls.
+This patch allows to compile QEMU with link-time optimization (LTO).
+Compilation with LTO is handled directly by meson. This patch only
+adds the option in configure and forwards the request to meson
 
-Requires the use of clang, and link-time optimizations
+Tested with all major versions of clang from 6 to 12
 
-Since it's been a month, and some of the patches are being
-merged independently, I thought of rebasing, retesting
-and sending an updated version. Also, added a documentation
-in docs/devel to explain CFI and how to handle CFI-sensitive
-code.
+Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+---
+ configure   | 7 +++++++
+ meson.build | 1 +
+ 2 files changed, 8 insertions(+)
 
-Changes in v4:
-- Removed patches to avoid clang warnings, since they are
-being merged independently and are not really necessary
-for CFI
-- Added documentation in docs/devel to explain how to
-compile with CFI, and how to disable CFI for incompatible
-functions
-
-Changes in v3:
-
-- clang 11+ warnings are now handled directly at the source,
-instead of disabling specific warnings for the whole code.
-Some more work may be needed here to polish the patch, I
-would kindly ask for a review from the corresponding
-maintainers
-- Remove configure-time checks for toolchain compatibility
-with LTO.
-- the decorator to disable cfi checks on functions has
-been renamed and moved to include/qemu/compiler.h
-- configure-time checks for cfi support and dependencies
-has been moved from configure to meson
-
-Link to v3: https://www.mail-archive.com/qemu-devel@nongnu.org/msg757930.html
-Link to v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg753675.html
-Link to v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg718786.html
-
-Daniele Buono (5):
-  configure,meson: add option to enable LTO
-  cfi: Initial support for cfi-icall in QEMU
-  check-block: enable iotests with cfi-icall
-  configure,meson: support Control-Flow Integrity
-  docs: Add CFI Documentation
-
- accel/tcg/cpu-exec.c                  |  11 +++
- configure                             |  26 +++++
- docs/devel/control-flow-integrity.rst | 137 ++++++++++++++++++++++++++
- include/qemu/compiler.h               |  12 +++
- meson.build                           |  46 +++++++++
- meson_options.txt                     |   4 +
- plugins/core.c                        |  37 +++++++
- plugins/loader.c                      |   7 ++
- tcg/tci.c                             |   7 ++
- tests/check-block.sh                  |  18 ++--
- util/main-loop.c                      |  11 +++
- util/oslib-posix.c                    |  11 +++
- 12 files changed, 320 insertions(+), 7 deletions(-)
- create mode 100644 docs/devel/control-flow-integrity.rst
-
+diff --git a/configure b/configure
+index 18c26e0389..fee118518b 100755
+--- a/configure
++++ b/configure
+@@ -242,6 +242,7 @@ host_cc="cc"
+ audio_win_int=""
+ libs_qga=""
+ debug_info="yes"
++lto="false"
+ stack_protector=""
+ safe_stack=""
+ use_containers="yes"
+@@ -1167,6 +1168,10 @@ for opt do
+   ;;
+   --disable-werror) werror="no"
+   ;;
++  --enable-lto) lto="true"
++  ;;
++  --disable-lto) lto="false"
++  ;;
+   --enable-stack-protector) stack_protector="yes"
+   ;;
+   --disable-stack-protector) stack_protector="no"
+@@ -1751,6 +1756,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   module-upgrades try to load modules from alternate paths for upgrades
+   debug-tcg       TCG debugging (default is disabled)
+   debug-info      debugging information
++  lto             Enable Link-Time Optimization.
+   sparse          sparse checker
+   safe-stack      SafeStack Stack Smash Protection. Depends on
+                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
+@@ -7014,6 +7020,7 @@ NINJA=$ninja $meson setup \
+         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server \
++        -Db_lto=$lto \
+         $cross_arg \
+         "$PWD" "$source_path"
+ 
+diff --git a/meson.build b/meson.build
+index e3386196ba..ebd1c690e0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2044,6 +2044,7 @@ summary_info += {'gprof enabled':     config_host.has_key('CONFIG_GPROF')}
+ summary_info += {'sparse enabled':    sparse.found()}
+ summary_info += {'strip binaries':    get_option('strip')}
+ summary_info += {'profiler':          config_host.has_key('CONFIG_PROFILER')}
++summary_info += {'link-time optimization (LTO)': get_option('b_lto')}
+ summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
+ if targetos == 'darwin'
+   summary_info += {'Cocoa support': config_host.has_key('CONFIG_COCOA')}
 -- 
 2.17.1
 
