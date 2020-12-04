@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54AE2CF276
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 17:58:37 +0100 (CET)
-Received: from localhost ([::1]:37890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E11652CF26F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 17:56:38 +0100 (CET)
+Received: from localhost ([::1]:58660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klEPk-0002lr-QC
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 11:58:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54124)
+	id 1klENp-000835-Rr
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 11:56:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1klEMx-0007EI-0E
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 11:55:43 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:44658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1klEMv-0002Cc-7M
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 11:55:42 -0500
-Received: by mail-oi1-x243.google.com with SMTP id y74so6805567oia.11
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 08:55:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oVQ8Jyij3kwsUSz347eZLqyy7mOWb110oe/eMlr98uE=;
- b=tTfy1CQ5SaUdqr+ddvk86+k3Ffp0BuJSM8Dz2DoAUGIo9hFES2jhPu/2QX17w6at9M
- nuN9hiPm2P/NFkxhh1Jj93rZ5UGkNun/Gqy/M4Z75SsAuA/HNuG+XUcfHuiZYpSV6f4s
- PMSzk/YIQWld3kcej8SYIWS3FE6+XytmeCv+S6254prp8pWom6Mzoi8sXrDzroNrLf8+
- yf9erVL3RMGiBPVNp6Xn5VWAHMz2G4I2STSmKOX1hnQOHaDXFHk3prTLmRGw5OaWQUKo
- NkBm44dtmbzyvT7ZxfFiwq5opJDADzV01ugHHqhUEmElooiD13O3nCjAykKwq6aVjgbq
- Gu0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oVQ8Jyij3kwsUSz347eZLqyy7mOWb110oe/eMlr98uE=;
- b=CU9ycwWbJlDYgaq/PpnCEIptJT0H+I2Q3/N5JZQioqOsYFNqRW5jmCTOMi2FVz52JM
- 33Tt7pZZt/AQugVHjyHWlGmOSHFIbRHq8TocktRN3KejP9Qoga4BjIYbnECq/+rDoUPC
- lm8tiFhYqmjvoTbd4gk2eWL4SpNOrqOIzNaGGML9Gh8AsAmGIagjZ5YW/dIUfJwok0Dk
- vXz/BCmFHgpCJkVX3o3QMEDpgVLQtolErlxjZ+KjwL7+UumS7Maf73aZy6XRPgiY5tkX
- FOQH26rstxj7BvylM6qXu7kksMbeJgZ07Z9xI/MaH/KLDILHI26RoJJgBXfDSGgvTqYq
- QneA==
-X-Gm-Message-State: AOAM531FqkGW4jNZEogtVtI9tii6N8B/oyEcMU1tDEGwaWnSpBYiPI4b
- b+fOCWSWQ6PCznFHnWLD73pQKdL3TlSoM1Xi
-X-Google-Smtp-Source: ABdhPJyzvqk46X2qIGncv4g+/pu4QXgdfdzaYNMEhkVBj/wJpZ/FACiTkQhbSHWkDLL3ShUnKl6zdQ==
-X-Received: by 2002:aca:6287:: with SMTP id w129mr3744994oib.82.1607099472937; 
- Fri, 04 Dec 2020 08:31:12 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id n3sm726000oif.42.2020.12.04.08.31.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Dec 2020 08:31:12 -0800 (PST)
-Subject: Re: [PATCH 8/9] target/mips: Remove CPUMIPSState* argument from
- gen_msa*() methods
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201202184415.1434484-1-f4bug@amsat.org>
- <20201202184415.1434484-9-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ed037c91-4dd1-8171-fbe0-32717af0ce97@linaro.org>
-Date: Fri, 4 Dec 2020 10:31:09 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1klEMU-0006UX-A2
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 11:55:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21113)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1klEMN-0001sz-TA
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 11:55:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607100903;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rFzrWi1KSGeoMojfLT0qpp9LHnIy2PJoo8pvX0jeD0o=;
+ b=ASvxpYGVYTksZM6KIAXOascwVuGw3O60652fHowobx1F/Ju3dQ0nwOviDdgRgi6ZFQjvSi
+ oN6G2yxc+TKrBFuYmxVFG3yky3f9Jj1Td+2tzJ8NUj4U5kBhNT/o3Grj72DqHg4AGR1H9Y
+ kSnpNKl3RK2ymqyAWuWs3+pJ9Ogr7To=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-z_FT5ntGOtGSUP4aLv-z3w-1; Fri, 04 Dec 2020 11:54:00 -0500
+X-MC-Unique: z_FT5ntGOtGSUP4aLv-z3w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF862BBEE1;
+ Fri,  4 Dec 2020 16:53:59 +0000 (UTC)
+Received: from toolbox.redhat.com (ovpn-112-216.rdu2.redhat.com
+ [10.10.112.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 122B660C04;
+ Fri,  4 Dec 2020 16:53:57 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] virtio-blk: Acquire context while switching them on
+ dataplane start
+Date: Fri,  4 Dec 2020 17:53:46 +0100
+Message-Id: <20201204165347.73542-2-slp@redhat.com>
+In-Reply-To: <20201204165347.73542-1-slp@redhat.com>
+References: <20201204165347.73542-1-slp@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201202184415.1434484-9-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=slp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,22 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Sergio Lopez <slp@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/2/20 12:44 PM, Philippe Mathieu-Daudé wrote:
-> The gen_msa*() methods don't use the "CPUMIPSState *env"
-> argument. Remove it to simplify.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/mips/translate.c | 57 ++++++++++++++++++++---------------------
->  1 file changed, 28 insertions(+), 29 deletions(-)
+On dataplane start, acquire the new AIO context before calling
+'blk_set_aio_context', releasing it immediately afterwards. This
+prevents reaching the AIO context attach/detach notifier functions
+without having acquired it first.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+It was also the only place where 'blk_set_aio_context' was called with
+an unprotected AIO context.
 
-r~
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+---
+ hw/block/dataplane/virtio-blk.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
+index 37499c5564..034e43cb1f 100644
+--- a/hw/block/dataplane/virtio-blk.c
++++ b/hw/block/dataplane/virtio-blk.c
+@@ -214,7 +214,9 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+     vblk->dataplane_started = true;
+     trace_virtio_blk_data_plane_start(s);
+ 
++    aio_context_acquire(s->ctx);
+     r = blk_set_aio_context(s->conf->conf.blk, s->ctx, &local_err);
++    aio_context_release(s->ctx);
+     if (r < 0) {
+         error_report_err(local_err);
+         goto fail_guest_notifiers;
+-- 
+2.26.2
+
 
