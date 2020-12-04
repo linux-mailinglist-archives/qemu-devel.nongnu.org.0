@@ -2,95 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2797F2CF5B0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:35:38 +0100 (CET)
-Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC202CF5BC
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:40:06 +0100 (CET)
+Received: from localhost ([::1]:40042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klHnk-0002sq-Il
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:35:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47214)
+	id 1klHs5-00071s-1G
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:40:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klGkR-00011v-Az
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 14:28:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klGkK-000714-LX
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 14:28:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607110078;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=15FC1l+fkDpoAmO+qXyYAUYkTcDX7yWXEiMLF2/go6o=;
- b=aCjPS/0rXDL9WS/4QFu9bOg+6BYb3rqh4ZlH9L1djDKweeAfnR+hg5gU9DscxdT2Xwyc/v
- Vuzt00eUPAs6SJ7XVvmCiuSEGIBao7woRKT1xFlz1RJRL6CMg8eon9ykOwABZ8D9cu2CfR
- uSqH3fkUXWg9UhLpq4MahXzDejmNhyU=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-cowycircMLa_WxnEERvBZA-1; Fri, 04 Dec 2020 14:27:56 -0500
-X-MC-Unique: cowycircMLa_WxnEERvBZA-1
-Received: by mail-ej1-f70.google.com with SMTP id f2so2436396ejx.22
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 11:27:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1klGsG-0003h3-DE
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 14:36:12 -0500
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:42053)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1klGs7-00010x-Oe
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 14:36:11 -0500
+Received: by mail-ot1-x32f.google.com with SMTP id 11so6315435oty.9
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 11:35:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=T2AXV+c3DJvdHbkmMgpLzzk3Tx44/QJnuXZanx9F/B0=;
+ b=cE6xx7yJOMS6WePm8OZeU41rFkqPNEugDxdA6gNDgCG++BvK9lz+Tx2QBW1I/Mw7Il
+ ShQxvwLJCGBC5MZi8nhyJHBPz04IStZgoJ6Yt6ylcZXBRkVCzaCMGhovGMcc/WB66qNc
+ IDnm5ir2H0pzInfWOkH2HLAMkxNoX8Vv75WqsgVb+o+7Yqj46+GWXD4EVRMpEfZt5+sC
+ Upd1t450Uaer4xXDHF+3QV9WKR+W74HIwGVytgDqb3CSa427KXjwIQPuIcsUfBk1VP9Y
+ dDRbltLhRZ2WyZ4jPmL+AXYXm9dHl7eLvHiFNxpKWVFyvStrRQXpeN4TD2IjCEZ2jqZs
+ sZYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=15FC1l+fkDpoAmO+qXyYAUYkTcDX7yWXEiMLF2/go6o=;
- b=Idbcm4/9+9llQB6ptzvyAOeKlbnOadk3ithNa9XOLTFaM1KIeHdA7oTLuSu2MXuvhI
- dzEukEbcZq+9McbLPfk6c0bHBvYkj7HeFpfg+TirXLMT0o33pTGbHMz5L31ZTn5veDhd
- 9+CRqVF72PWCiQIk6ZGapOlfQ+IR5hye9B0Mf0fh5fgtlJD4WrVLgE6eO/up3vpN7Ymu
- gNQAEesng82Lu0IWT0M7mzc6HeLhVdqpcd5vEBU4jdVXjOf20fQY9NI3EgMLFjF2OrUp
- IiTWMNUp3pWjeivq47yMlA4fjhyaUSmOq9RbfeT3THJ/6Ww15u/finFtHtVZDm8cplFO
- beIg==
-X-Gm-Message-State: AOAM533PXruoSyuSr3bFj5CX7xDOjaUhyhQUGkF+Y73FT5d3zcUA1Vx1
- 6V0EKWGXT7hEP+kilSBy/gcx6YU3vmX8xEUtSTO03NVwoWWs7W+pjObpu6oJ0Z9Wgr/yObDSqMe
- wOaSsJU6exdHg7dU=
-X-Received: by 2002:a05:6402:411:: with SMTP id
- q17mr9134613edv.125.1607110075447; 
- Fri, 04 Dec 2020 11:27:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzj3/cdaKRUBPFPR9GcI3FrS9nMo6NT93CjILLUMSPu+SFergwaL4WmkxLeIpLSp05YxewZfw==
-X-Received: by 2002:a05:6402:411:: with SMTP id
- q17mr9134576edv.125.1607110075235; 
- Fri, 04 Dec 2020 11:27:55 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id i13sm3752666ejc.57.2020.12.04.11.27.52
+ bh=T2AXV+c3DJvdHbkmMgpLzzk3Tx44/QJnuXZanx9F/B0=;
+ b=o7uRYoFN85a378IU7U7RAmcyUaOki7kk3FRLeFKtYVeSqq1vx8qQz11IrRwSr9xVdW
+ C2/7bh6lI0ueW55jAAzYlvdvJQ75rSOK83O8bVnM7Mb1h/Zhb1m0vo95vFcgHYoK9Ass
+ tiV92OIkJ7kkUtfZWTFKvtAFT4C8hteR9VZY3MEU4SVm5EU/pM4Hdpijtc4o1B6hvd1x
+ fSiM2UJPYSUsFmftiXV4Ba/Zuh/xVJ+AfCHwRfT9sZb8ZNf3gtI8L2lWoP9QUjmcBgUl
+ Sooc0hf/LkwlqjyqnryB8gwQCLWI0NkyqzCdsQZturgP9mslYS1ecTzab9s0U8FYA0JH
+ S8Kw==
+X-Gm-Message-State: AOAM530Kw5GNUZ8LIRObf/RUh488BBrkHEZ5daPNieS4Jxu0ivYyUuJB
+ H3X2SvYkftj+j3VMgrkdVqELww==
+X-Google-Smtp-Source: ABdhPJxLF3RO7TZUvXdhrSVhbxArjEplXzie9mDB4GoQsaLJ4BBMzqOLn2AHWPiD5lVU6tJh4dXRXA==
+X-Received: by 2002:a05:6830:1518:: with SMTP id
+ k24mr5054251otp.366.1607110558890; 
+ Fri, 04 Dec 2020 11:35:58 -0800 (PST)
+Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
+ [189.204.159.168])
+ by smtp.gmail.com with ESMTPSA id h3sm825738otq.33.2020.12.04.11.35.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Dec 2020 11:27:54 -0800 (PST)
-Subject: Re: [RFC v7 15/22] cpu: Move tlb_fill to tcg_ops
-To: Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20201130023535.16689-1-cfontana@suse.de>
- <20201130023535.16689-16-cfontana@suse.de>
- <4c7fe436-7c2d-e55d-1139-8aa30e91965f@redhat.com>
- <20201204173703.GQ3836@habkost.net>
- <6233d4db-546a-2ec3-376d-154af8ed2cdb@redhat.com>
- <dc731d70-cf85-0735-4335-44f685343a9b@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bfdb4225-2104-bee7-ea81-3e687141c1f0@redhat.com>
-Date: Fri, 4 Dec 2020 20:27:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Fri, 04 Dec 2020 11:35:58 -0800 (PST)
+Subject: Re: x86 TCG helpers clobbered registers
+To: Stephane Duverger <stephane.duverger@free.fr>, qemu-devel@nongnu.org
+References: <20201204153446.GA66154@wise>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1d246e29-b364-099f-440c-5b644087b55f@linaro.org>
+Date: Fri, 4 Dec 2020 13:35:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <dc731d70-cf85-0735-4335-44f685343a9b@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201204153446.GA66154@wise>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,135 +88,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Emilio G . Cota" <cota@braap.org>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Wenchao Wang <wenchao.wang@intel.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/4/20 7:14 PM, Claudio Fontana wrote:
-> On 12/4/20 7:00 PM, Philippe Mathieu-Daudé wrote:
->> On 12/4/20 6:37 PM, Eduardo Habkost wrote:
->>> On Fri, Dec 04, 2020 at 06:14:07PM +0100, Philippe Mathieu-Daudé wrote:
->>>> On 11/30/20 3:35 AM, Claudio Fontana wrote:
->>>>> From: Eduardo Habkost <ehabkost@redhat.com>
->>>>>
->>>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>>>> ---
->>>>>  accel/tcg/cputlb.c              |  6 +++---
->>>>>  accel/tcg/user-exec.c           |  6 +++---
->>>>>  include/hw/core/cpu.h           |  9 ---------
->>>>>  include/hw/core/tcg-cpu-ops.h   | 12 ++++++++++++
->>>>>  target/alpha/cpu.c              |  2 +-
->>>>>  target/arm/cpu.c                |  2 +-
->>>>>  target/avr/cpu.c                |  2 +-
->>>>>  target/cris/cpu.c               |  2 +-
->>>>>  target/hppa/cpu.c               |  2 +-
->>>>>  target/i386/tcg-cpu.c           |  2 +-
->>>>>  target/lm32/cpu.c               |  2 +-
->>>>>  target/m68k/cpu.c               |  2 +-
->>>>>  target/microblaze/cpu.c         |  2 +-
->>>>>  target/mips/cpu.c               |  2 +-
->>>>>  target/moxie/cpu.c              |  2 +-
->>>>>  target/nios2/cpu.c              |  2 +-
->>>>>  target/openrisc/cpu.c           |  2 +-
->>>>>  target/ppc/translate_init.c.inc |  2 +-
->>>>>  target/riscv/cpu.c              |  2 +-
->>>>>  target/rx/cpu.c                 |  2 +-
->>>>>  target/s390x/cpu.c              |  2 +-
->>>>>  target/sh4/cpu.c                |  2 +-
->>>>>  target/sparc/cpu.c              |  2 +-
->>>>>  target/tilegx/cpu.c             |  2 +-
->>>>>  target/tricore/cpu.c            |  2 +-
->>>>>  target/unicore32/cpu.c          |  2 +-
->>>>>  target/xtensa/cpu.c             |  2 +-
->>>>>  27 files changed, 41 insertions(+), 38 deletions(-)
->>>>
->>>> With cc->tcg_ops.* guarded with #ifdef CONFIG_TCG:
->>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>
->>> Thanks!
->>>
->>> Are the #ifdefs a hard condition for your Reviewed-by?
->>
->> No, as you said, this is fine as a first step, so you can
->> include them.
->>
->>> Even if we agree #ifdef CONFIG_TCG is the way to go, I don't
->>> think this should block a series that's a step in the right
->>> direction.  It can be done in a separate patch.
->>>
->>> (Unless the lack of #ifdef introduces regressions, of course)
->>
->> I'm worried about the +system -tcg build configuration.
->>
->> s390x is the only target testing for such regressions
->> (see "[s390x] Clang (disable-tcg)" on Travis-CI.
->>
+On 12/4/20 9:36 AM, Stephane Duverger wrote:
+> Hello,
 > 
-> which exact configure options are concerned about?
+> While looking at tcg/i386/tcg-target.c.inc:tcg_out_qemu_st(), I
+> discovered that the TCG generates a call to a store helper at the end
+> of the TB which is executed on TLB miss and get back to the remaining
+> translated ops. I tried to mimick this behavior around the fast path
+> (right between tcg_out_tlb_load() and tcg_out_qemu_st_direct()) to
+> filter on memory store accesses.
+
+There's your bug -- don't do that.
+
+> I know there is now TCG plugins for that purpose at TCG IR level,
+> which every tcg-target might benefit. FWIW, my design choice was more
+> led by the fact that I always work on an x86 host and plugins did not
+> exist by the time. Anyway, the point is more related to generating a
+> call to a helper at the TCG IR level (classic scenario), or later
+> during tcg-target code generation (slow path for instance).
+
+You can't just inject a call anywhere you like.  If you add it at the IR level,
+then the rest of the compiler will see it and work properly.  If you add the
+call in the middle of another operation, the compiler doesn't get to see it and
+Bad Things Happen.
+
+> The TCG when calling a helper knows that some registers will be call
+> clobbered and as such must free them. This is what I observed in
+> tcg_reg_alloc_call():
 > 
-> --disable-tcg --enable-kvm --target="*-system"?
+> /* clobber call registers */
+> for (i = 0; i < TCG_TARGET_NB_REGS; i++) {
+>     if (tcg_regset_test_reg(tcg_target_call_clobber_regs, i)) {
+>         tcg_reg_free(s, i, allocated_regs);
+>     }
+> }
 > 
-> Or something else?
-
-Basically --disable-tcg --enable-$ACCEL [--enable-$ACCEL]
-
+> But in our case (ie. INDEX_op_qemu_st_i32), the TCG code path comes
+> from:
 > 
-> this is something I am testing (and found the issues).
+> tcg_reg_alloc_op()
+>   tcg_out_op()
+>     tcg_out_qemu_st()
 > 
-> I am currently testing (and a result fixing) for each patch:
-> 
-> --disable-tcg --enable-kvm
+> Then tcg_out_tlb_load() will inject a 'jmp' to the slow path, whose
+> generated code does not seem to take care of every call clobbered
+> registers, if we look at tcg_out_qemu_st_slow_path().
 
-This one is meaningful to check the host, so I run it on:
-- x86 [ok]
-- s390x [ok]
-- aarch64 [done, waiting for your effort before respining]
-- ppc64 [done, I was postponing the series submission waiting
-         for aa64 to be merged, but I might go back to it as
-         aa64 is taking too long].
-- mips: no hardware access
+You missed
 
-> --enable-tcg --disable-kvm
-> --enable-tcg --enable-kvm --enable-hax
-> --disable-system
+>         if (def->flags & TCG_OPF_CALL_CLOBBER) {
+>             /* XXX: permit generic clobber register list ? */ 
+>             for (i = 0; i < TCG_TARGET_NB_REGS; i++) {
+>                 if (tcg_regset_test_reg(tcg_target_call_clobber_regs, i)) {
+>                     tcg_reg_free(s, i, i_allocated_regs);
+>                 }
+>             }
+>         }
 
-I also use:
+which handles this in tcg_reg_alloc_op.
 
-* --disable-tcg --disable-kvm --enable-xen
-  [x86 host works]
-  [aa64 host needs Alex Bennée patches]
 
-* --disable-tcg --disable-system --disable-user --enable-tools
+> First for an i386 (32bits) tcg-target, as expected, the helper
+> arguments are injected into the stack. I noticed that 'esp' is not
+> shifted down before stacking up the args, which might corrupt last
+> stacked words.
 
-* --disable-system --static --disable-capstone
-(experimental, not supported, don't waste time with it).
+No, we generate code for a constant esp, as if by gcc's -mno-push-args option.
+ We have reserved TCG_STATIC_CALL_ARGS_SIZE bytes of stack for the arguments
+(which is actually larger than necessary for any of the tcg targets).
 
-The most useful is --enable-tools with all accelerators disabled,
-as it quickly triggers linking errors when you miss-place a
-handler between #ifdefs.
 
-> With targets (when compatible):
-> TARGET_LIST="x86_64-softmmu,x86_64-linux-user,arm-softmmu,arm-linux-user,aarch64-softmmu,aarch64-linux-user,s390x-softmmu,s390x-linux-user"
-
-"first class KVM users" include PPC64 too.
-
-> 
-> and yes, should offload much of this to CI..
-> 
-> Ciao,
-> 
-> Claudio
-> 
-
+r~
 
