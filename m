@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2C82CF6BE
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:29:27 +0100 (CET)
-Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A04952CF6BD
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:29:25 +0100 (CET)
+Received: from localhost ([::1]:58274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klJZs-0004Nl-QL
+	id 1klJZs-0004MB-AS
 	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 17:29:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43702)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klJXP-0002dR-A1
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:26:51 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:41050)
+ id 1klJXV-0002gB-EL
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:27:01 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:45958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klJXL-0007zl-7x
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:26:49 -0500
-Received: by mail-ej1-x643.google.com with SMTP id ce23so7130445ejb.8
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 14:26:46 -0800 (PST)
+ id 1klJXR-00080u-F9
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 17:26:54 -0500
+Received: by mail-ej1-x644.google.com with SMTP id qw4so10870089ejb.12
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 14:26:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iBDSNPx6upyqlkELqBQhoWx867Jz/cWDyzTe3RAU9b8=;
- b=b9qV7og8yhStX9J0BYu/dFxAg3Q00NrrtbTgwPJSmdFVAdlb8nL+ycjlG/rD+1kEgO
- ELHB/U2AdUTnsyK5NbJa3BVcAY0AbAz3u8TmsWYHu26R6AUxlZNJnXP9ZAGsXfWs7ApK
- hTIdBbJIot6gafxr0ynz0afrtAuFfAjExVHCPPB/bewPWOJAYBdxSiJL8dx3wXIDgwEp
- 2U3jPUJuFNyiAZABFZEMCSDXpJg3XEEciXCs8BEOmILRnQgJWWLRqxkjhBVJkVvhhi+3
- Ptl6Zxw8lx3LoCuKAjJbIoaI9jzbYzen8c/oalDo1VLxC45qiA3gMGU0wGZ+siduALw4
- rVHg==
+ bh=yPVQZVrJYHV9VRQKq9oG2AAR4beoTafSJ17RxMCvpOk=;
+ b=Bb+fncHR/1kTHmi2VJPpS7u6w0kDJt4JaWbYIuzHTOzo6mnPEID9spQrGXNYlJ/CDg
+ JfA1pJfRX1p+Qk55P0EN6vXZlRe+oxSNaP3hxfeQlsEiL/JeNLecDsidOdYWGMiebjkH
+ iMixCbadpiaOZptlCTw43sQfsvAq6I2S/eczF5zDbBVd2AbLFyFEQpWEGv/qUAuUlSTO
+ D7Xx1bu7S1qbdOg8EThn3ZKv0Bjnlq55u9RpfTmoRH6jahGP0Xtla0nOPb23EtnHaM8/
+ Cguy3xZOpAoh737Ncj7CoDY4EE/HQmumMdBV9ck6D3OTvl7RJ/XOQMYNS9cEw6A9un9q
+ 9ppA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iBDSNPx6upyqlkELqBQhoWx867Jz/cWDyzTe3RAU9b8=;
- b=rlvLFdnaU9dC4RYGROBYB+8TSvVhlBF3gjuP/JenEzhhD1bxgAO9Y13HgjHoRXFVi7
- 1Xqx95ha7r+4zzPMecsKwB2lpCV7hOk8WZDwLSTQoF74iImRo2gKWi3M6DVGlq5FKQLR
- a2qoodFtVau8iH6L5JvjVixXg5+L1L4KDZ87uh0C0teLXzeWkgWko1y+1lTYSGAr+fLl
- eyS/jLrTLrGm7jcYqgOK93Q6C6gtHjBea+Rfg1Gi3gKAf6S7kU0DKiFrT6PumbJemdqM
- Xwt6wiB/bXHgS5jUP5RecSd/xV1CsMHF4VzMw/f4mACXFchwz+v4jA1GggP50p9qtAwb
- ng/g==
-X-Gm-Message-State: AOAM53368O602XKfBdm6uJOk7LkAWBrireTmpBPtJLmocqjLkbAxV87v
- kLv4FjUJn8KL40ww3xCRG6leAhi05Mc=
-X-Google-Smtp-Source: ABdhPJwc1o2SYoyGu68hmhbMc66POYC/AVJbKYqnFbpf+OyVPmtQmtC03igKeaaO6yPxqhosqZFNKA==
-X-Received: by 2002:a17:906:d19b:: with SMTP id
- c27mr9420847ejz.234.1607120806010; 
- Fri, 04 Dec 2020 14:26:46 -0800 (PST)
+ bh=yPVQZVrJYHV9VRQKq9oG2AAR4beoTafSJ17RxMCvpOk=;
+ b=M6dtEWogViQEOsLHm71PR6AmQYOfkKk2vWo3Tg0Ut89AQcCFEtSFYOKGSUApQIQ20W
+ BtyLirJlXvxDpaZrv/zebLvLbOvu8HWe6PAa1BPv9cH26gxLVoqan6PjIWXO6rg30OgQ
+ Wdfnryls+jcoDoshu3bmS2gciW04BRqz5stSd4UHJyXJ8JaDlmqSI19gzSVFs/mCAiCh
+ djPPaTV7oIJxyZF6KSWrAhlAb6eAqgtncvL42sQKjgL1LMWhXgVbA1ou0f9+L7VXxzM+
+ yxiH3kQZBtl700Bvt4j9KLcneLzCRwrx+EaDwNl6Q9+G5/90u/5KuU2aHBKg0bKdB/L9
+ 5TbA==
+X-Gm-Message-State: AOAM533g0Wvngs5uSZS6akCgQ+t6tG0xvsQbbkJte9R+Z9QPbPNuobv5
+ 2pxqLp5+qj6xJpFsDiWDgIQ=
+X-Google-Smtp-Source: ABdhPJznyaEiLXNVRdJ+jnvNs6rKjbzwldBEb83ibl9Am7rdn29z6610yrZX1+X4suaKzSozg+JCfg==
+X-Received: by 2002:a17:906:7104:: with SMTP id
+ x4mr9343458ejj.141.1607120811094; 
+ Fri, 04 Dec 2020 14:26:51 -0800 (PST)
 Received: from x1w.redhat.com (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id u5sm4278374edp.5.2020.12.04.14.26.44
+ by smtp.gmail.com with ESMTPSA id p22sm3896344ejx.59.2020.12.04.14.26.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Dec 2020 14:26:45 -0800 (PST)
+ Fri, 04 Dec 2020 14:26:50 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH 4/5] hw/mips/malta: Do not initialize MT registers if MT ASE
- absent
-Date: Fri,  4 Dec 2020 23:26:21 +0100
-Message-Id: <20201204222622.2743175-5-f4bug@amsat.org>
+Subject: [PATCH 5/5] hw/mips/malta: Rewrite CP0_MVPConf0 access using deposit()
+Date: Fri,  4 Dec 2020 23:26:22 +0100
+Message-Id: <20201204222622.2743175-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201204222622.2743175-1-f4bug@amsat.org>
 References: <20201204222622.2743175-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,30 +94,46 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not initialize MT-related config register if the MT ASE
-is not present.
+PTC field has 8 bits, PVPE has 4. We plan to use the
+"hw/registerfields.h" API with MIPS CPU definitions
+(target/mips/cpu.h). Meanwhile we use magic 8 and 4.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/malta.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+We want to move that to mips_cpu_reset() later,
+because this is not Malta specific but cpu-specific.
+However SMP 'cpus' come from MachineState ("hw/boards.h").
+So meanwhile this is early review.
+---
+ hw/mips/malta.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 9d1a3b50b7a..350b92b4d79 100644
+index 350b92b4d79..c35fbf97272 100644
 --- a/hw/mips/malta.c
 +++ b/hw/mips/malta.c
-@@ -1134,8 +1134,10 @@ static void malta_mips_config(MIPSCPU *cpu)
-     CPUMIPSState *env = &cpu->env;
+@@ -24,6 +24,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
++#include "qemu/bitops.h"
+ #include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/clock.h"
+@@ -1135,8 +1136,11 @@ static void malta_mips_config(MIPSCPU *cpu)
      CPUState *cs = CPU(cpu);
  
--    env->mvp->CP0_MVPConf0 |= ((smp_cpus - 1) << CP0MVPC0_PVPE) |
-+    if (ase_mt_available(env)) {
-+        env->mvp->CP0_MVPConf0 |= ((smp_cpus - 1) << CP0MVPC0_PVPE) |
-                          ((smp_cpus * cs->nr_threads - 1) << CP0MVPC0_PTC);
-+    }
+     if (ase_mt_available(env)) {
+-        env->mvp->CP0_MVPConf0 |= ((smp_cpus - 1) << CP0MVPC0_PVPE) |
+-                         ((smp_cpus * cs->nr_threads - 1) << CP0MVPC0_PTC);
++        env->mvp->CP0_MVPConf0 = deposit32(env->mvp->CP0_MVPConf0,
++                                           CP0MVPC0_PTC, 8,
++                                           smp_cpus * cs->nr_threads - 1);
++        env->mvp->CP0_MVPConf0 = deposit32(env->mvp->CP0_MVPConf0,
++                                           CP0MVPC0_PVPE, 4, smp_cpus - 1);
+     }
  }
  
- static void main_cpu_reset(void *opaque)
 -- 
 2.26.2
 
