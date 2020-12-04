@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFE82CF545
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:07:38 +0100 (CET)
-Received: from localhost ([::1]:55736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4BE2CF553
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:10:40 +0100 (CET)
+Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klHMf-0002Ks-8t
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:07:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40004)
+	id 1klHPb-00062j-7i
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:10:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klEhm-0008NI-8E
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:17:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43266)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klEhh-0008N3-1G
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:17:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klEf7-0008Db-W2
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:16:32 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klEf7-0008Nc-IL
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:16:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607102009;
+ s=mimecast20190719; t=1607102055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aVWLBNxW4/VDbsI4KyXQ4V5NiZ6PO3dClC4xTj8S28E=;
- b=H9MFodGzkuvG1SaC0WL3/Hb3xLlnWKRop8eag2FJatxU/HFDfc5Yb466xtA75zF0dmKiFN
- x3UN5BDpdglpjfqBkHaIkfjDxk/Wfvld1wQvjRijRM+laPUdOug5fR4TBUxG8Bv0Gfz3RU
- wR8rEgDPHs2wYPu5wcvNGmpnPNabdKM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-582-dK49k3lbPSOEGgRubBdJmw-1; Fri, 04 Dec 2020 12:13:28 -0500
-X-MC-Unique: dK49k3lbPSOEGgRubBdJmw-1
-Received: by mail-ed1-f70.google.com with SMTP id bf13so2592212edb.10
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 09:13:27 -0800 (PST)
+ bh=jOi6x5gGTIw/0jTzZRQHBvujr89FyqljaojH3q+1GKI=;
+ b=P2PQo53HbvT1tnFnBs4fLZFFbwiTQ49hzqjqs1dLc5HuMeHV0Chz2J33nEIXCjuhZUTJWq
+ KFX2kTY8qrY9y00Qd0kUPJ1f2V9lrIjEZhpOkH/mvB61GjRUDpDL9VudKp57NScXHMOSzp
+ mYNBVpReN/BYTBVd7R8tip/GETrcZBo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-1QktqiWFO_SL5hMBsyd8rQ-1; Fri, 04 Dec 2020 12:14:11 -0500
+X-MC-Unique: 1QktqiWFO_SL5hMBsyd8rQ-1
+Received: by mail-ed1-f72.google.com with SMTP id dh21so1760673edb.6
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 09:14:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=aVWLBNxW4/VDbsI4KyXQ4V5NiZ6PO3dClC4xTj8S28E=;
- b=rDCLpy/paO+mcZPMzW8u5L8Ceo6qRsd/vHQsXIlbh4JR7DQ2FM6jEpYqkJ7iDE4nsO
- If+2ta5izOvKJdGVkHsubtoSISRv1bJfaJmto5nLnJkZ+Af6vEu4ZaOay1WOKIxQ6xLz
- SVoMpJBEUC4UhXW6w3aC2SxsHGI6a4NmefYN/AOoH4hAzYWnv2RdwJ0iesTcq9xSv49I
- Ea2lARIbze5/wyUBdphKcQSrmXzewpdjzv2xZtZ4BDrbuRHaHtJeGeIV6eC6cS3f+BSJ
- ePHu06bFDL5NUvfvDS010Clbe7JnVATv2d62gGItJWfNYLY8IQKb/60n4uUzbEb483VY
- z5cA==
-X-Gm-Message-State: AOAM533jv85PiuxT6THmyDtWea6UOwiU7M2NF+ZCi/GV0ylTgn33dQGF
- 5yJaSk2Wknqb1W5J0z5JOHxWriyzlATLQg6KlcLWl/ikztGsozemGzbGuUlpn+xS5gM2yccKOh8
- IA2qBSQ8LFPhRVHo=
-X-Received: by 2002:a17:906:4944:: with SMTP id
- f4mr8215791ejt.231.1607102006603; 
- Fri, 04 Dec 2020 09:13:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxZt3JnOgHXxIMUjupVIwqDJ6IcInvyWH9ITC8Qh2Nd0tG55uGhoJikq3+JR/z4z67JiFkMyg==
-X-Received: by 2002:a17:906:4944:: with SMTP id
- f4mr8215758ejt.231.1607102006407; 
- Fri, 04 Dec 2020 09:13:26 -0800 (PST)
+ bh=jOi6x5gGTIw/0jTzZRQHBvujr89FyqljaojH3q+1GKI=;
+ b=r9QZpZQATdJ0gi08lhQgRC1rXlSeXBqaKIyySNmDitdmx1tnBW8b4YjaejUmgTlbgW
+ aru9CBZyfl2GqIIzGg5/oxXhIWqOzoesd38foFTqr50smV3OSJkC1MnVIky/NQPiSxdz
+ wlBWdhbJt1wABEqAAJE6nrJ3MsZGSotvQIj/QtRNdTsDU546GT2iCwazFpdancf8he20
+ /S0w+wZkW3lZkU4uvnjFejCsMOhP3vPOXq7eXYF7AmL5byzSCnj9inyAu7p9+HT8Ld7C
+ XGYLDJF8w1I7aVbaxMIgJpVH2m1qlX7a66EuKU4dSIny6uBGpLxCH/tRhblXoYL43ivF
+ KOjw==
+X-Gm-Message-State: AOAM531FwieVQWJcpKjGGCglD8SibpVF+Xyf15M2RXkdgkahPsBaoZX7
+ +0EqoHdoOUJ0MI/NgZNt6KKye03q5/0C/01vOspMJHBkqxzeQqoQ6/yqlDmAPYb2CAdIo+AlCOD
+ VQgIfXRkKl4SXAxE=
+X-Received: by 2002:a50:bc04:: with SMTP id j4mr8680815edh.316.1607102050351; 
+ Fri, 04 Dec 2020 09:14:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy/UyL42qcsKjXzN8c9DynpFUyZDe81RWPWDM1XJ9eEDzUQWguW6cCVRQojTyj7MVTfEeKZmw==
+X-Received: by 2002:a50:bc04:: with SMTP id j4mr8680794edh.316.1607102050216; 
+ Fri, 04 Dec 2020 09:14:10 -0800 (PST)
 Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id u15sm4086112edt.24.2020.12.04.09.13.24
+ by smtp.gmail.com with ESMTPSA id u17sm3443669eje.11.2020.12.04.09.14.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Dec 2020 09:13:25 -0800 (PST)
-Subject: Re: [RFC v7 14/22] cpu: Move cpu_exec_* to tcg_ops
+ Fri, 04 Dec 2020 09:14:09 -0800 (PST)
+Subject: Re: [RFC v7 15/22] cpu: Move tlb_fill to tcg_ops
 To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -69,14 +67,14 @@ To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>
 References: <20201130023535.16689-1-cfontana@suse.de>
- <20201130023535.16689-15-cfontana@suse.de>
+ <20201130023535.16689-16-cfontana@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <872334f0-b83f-3d7e-4d85-9a2b8e32884d@redhat.com>
-Date: Fri, 4 Dec 2020 18:13:23 +0100
+Message-ID: <4c7fe436-7c2d-e55d-1139-8aa30e91965f@redhat.com>
+Date: Fri, 4 Dec 2020 18:14:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201130023535.16689-15-cfontana@suse.de>
+In-Reply-To: <20201130023535.16689-16-cfontana@suse.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -122,140 +120,34 @@ On 11/30/20 3:35 AM, Claudio Fontana wrote:
 > 
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  accel/tcg/cpu-exec.c            | 12 ++++++------
->  include/hw/core/cpu.h           |  6 ------
->  include/hw/core/tcg-cpu-ops.h   |  9 +++++++++
->  target/alpha/cpu.c              |  3 ++-
+>  accel/tcg/cputlb.c              |  6 +++---
+>  accel/tcg/user-exec.c           |  6 +++---
+>  include/hw/core/cpu.h           |  9 ---------
+>  include/hw/core/tcg-cpu-ops.h   | 12 ++++++++++++
+>  target/alpha/cpu.c              |  2 +-
 >  target/arm/cpu.c                |  2 +-
->  target/arm/cpu64.c              |  2 +-
->  target/arm/cpu_tcg.c            |  2 +-
 >  target/avr/cpu.c                |  2 +-
 >  target/cris/cpu.c               |  2 +-
 >  target/hppa/cpu.c               |  2 +-
->  target/i386/tcg-cpu.c           |  6 +++---
+>  target/i386/tcg-cpu.c           |  2 +-
 >  target/lm32/cpu.c               |  2 +-
 >  target/m68k/cpu.c               |  2 +-
 >  target/microblaze/cpu.c         |  2 +-
 >  target/mips/cpu.c               |  2 +-
+>  target/moxie/cpu.c              |  2 +-
 >  target/nios2/cpu.c              |  2 +-
 >  target/openrisc/cpu.c           |  2 +-
->  target/ppc/translate_init.c.inc |  6 +++---
+>  target/ppc/translate_init.c.inc |  2 +-
 >  target/riscv/cpu.c              |  2 +-
 >  target/rx/cpu.c                 |  2 +-
 >  target/s390x/cpu.c              |  2 +-
 >  target/sh4/cpu.c                |  2 +-
 >  target/sparc/cpu.c              |  2 +-
 >  target/tilegx/cpu.c             |  2 +-
+>  target/tricore/cpu.c            |  2 +-
 >  target/unicore32/cpu.c          |  2 +-
 >  target/xtensa/cpu.c             |  2 +-
->  26 files changed, 43 insertions(+), 39 deletions(-)
-> 
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 816ef29f68..07ff1fa4dc 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -240,8 +240,8 @@ static void cpu_exec_enter(CPUState *cpu)
->  {
->      CPUClass *cc = CPU_GET_CLASS(cpu);
->  
-> -    if (cc->cpu_exec_enter) {
-> -        cc->cpu_exec_enter(cpu);
-> +    if (cc->tcg_ops.cpu_exec_enter) {
-> +        cc->tcg_ops.cpu_exec_enter(cpu);
->      }
->  }
->  
-> @@ -249,8 +249,8 @@ static void cpu_exec_exit(CPUState *cpu)
->  {
->      CPUClass *cc = CPU_GET_CLASS(cpu);
->  
-> -    if (cc->cpu_exec_exit) {
-> -        cc->cpu_exec_exit(cpu);
-> +    if (cc->tcg_ops.cpu_exec_exit) {
-> +        cc->tcg_ops.cpu_exec_exit(cpu);
->      }
->  }
->  
-> @@ -625,8 +625,8 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
->             True when it is, and we should restart on a new TB,
->             and via longjmp via cpu_loop_exit.  */
->          else {
-> -            if (cc->cpu_exec_interrupt &&
-> -                cc->cpu_exec_interrupt(cpu, interrupt_request)) {
-> +            if (cc->tcg_ops.cpu_exec_interrupt &&
-> +                cc->tcg_ops.cpu_exec_interrupt(cpu, interrupt_request)) {
->                  if (need_replay_interrupt(interrupt_request)) {
->                      replay_interrupt();
->                  }
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 19211cb409..538f3e6cd3 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -146,9 +146,6 @@ struct TranslationBlock;
->   * @gdb_get_dynamic_xml: Callback to return dynamically generated XML for the
->   *   gdb stub. Returns a pointer to the XML contents for the specified XML file
->   *   or NULL if the CPU doesn't have a dynamically generated content for it.
-> - * @cpu_exec_enter: Callback for cpu_exec preparation.
-> - * @cpu_exec_exit: Callback for cpu_exec cleanup.
-> - * @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec.
->   * @disas_set_info: Setup architecture specific components of disassembly info
->   * @adjust_watchpoint_address: Perform a target-specific adjustment to an
->   * address before attempting to match it against watchpoints.
-> @@ -211,9 +208,6 @@ struct CPUClass {
->      const char *gdb_core_xml_file;
->      gchar * (*gdb_arch_name)(CPUState *cpu);
->      const char * (*gdb_get_dynamic_xml)(CPUState *cpu, const char *xmlname);
-> -    void (*cpu_exec_enter)(CPUState *cpu);
-> -    void (*cpu_exec_exit)(CPUState *cpu);
-> -    bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
->  
->      void (*disas_set_info)(CPUState *cpu, disassemble_info *info);
->      vaddr (*adjust_watchpoint_address)(CPUState *cpu, vaddr addr, int len);
-> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-> index 109291ac52..e12f32919b 100644
-> --- a/include/hw/core/tcg-cpu-ops.h
-> +++ b/include/hw/core/tcg-cpu-ops.h
-> @@ -10,6 +10,9 @@
->  #ifndef TCG_CPU_OPS_H
->  #define TCG_CPU_OPS_H
->  
-> +/**
-> + * struct TcgCpuOperations: TCG operations specific to a CPU class
-> + */
->  typedef struct TcgCpuOperations {
->      /**
->       * @initialize: Initalize TCG state
-> @@ -28,6 +31,12 @@ typedef struct TcgCpuOperations {
->       * @set_pc(tb->pc).
->       */
->      void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
-> +    /** @cpu_exec_enter: Callback for cpu_exec preparation */
-> +    void (*cpu_exec_enter)(CPUState *cpu);
-> +    /** @cpu_exec_exit: Callback for cpu_exec cleanup */
-> +    void (*cpu_exec_exit)(CPUState *cpu);
-> +    /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
-> +    bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
->  } TcgCpuOperations;
->  
->  #endif /* TCG_CPU_OPS_H */
-> diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-> index d66f0351a9..4f206c154d 100644
-> --- a/target/alpha/cpu.c
-> +++ b/target/alpha/cpu.c
-> @@ -218,7 +218,6 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
->      cc->class_by_name = alpha_cpu_class_by_name;
->      cc->has_work = alpha_cpu_has_work;
->      cc->do_interrupt = alpha_cpu_do_interrupt;
-> -    cc->cpu_exec_interrupt = alpha_cpu_exec_interrupt;
->      cc->dump_state = alpha_cpu_dump_state;
->      cc->set_pc = alpha_cpu_set_pc;
->      cc->gdb_read_register = alpha_cpu_gdb_read_register;
-> @@ -234,6 +233,8 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
->      cc->tcg_ops.initialize = alpha_translate_init;
->  
->      cc->gdb_num_core_regs = 67;
-> +
-> +    cc->tcg_ops.cpu_exec_interrupt = alpha_cpu_exec_interrupt;
+>  27 files changed, 41 insertions(+), 38 deletions(-)
 
 With cc->tcg_ops.* guarded with #ifdef CONFIG_TCG:
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
