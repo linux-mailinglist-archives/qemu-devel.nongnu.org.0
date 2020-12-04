@@ -2,96 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3723E2CEF04
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 14:52:25 +0100 (CET)
-Received: from localhost ([::1]:55850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173E72CEF11
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 14:56:11 +0100 (CET)
+Received: from localhost ([::1]:36646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klBVY-0004Xn-AW
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 08:52:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44422)
+	id 1klBZC-0008Jz-3c
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 08:56:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klBTp-0003pj-Lx
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 08:50:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44495)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klBTn-0000gF-8R
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 08:50:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607089834;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+sn5rcDZl+QIXuATUZwzF5FMHKstgrHFxwSTzFxKZ+4=;
- b=PA9km2opcDIwmuX8uvt8qFU1G7qEYBPZqVI1yRUPnrFSAWDtwvq0C2OTTjRQ5RTnX7RCh5
- xNcnUF9EUIWse0zZZbuK28d97WhAeE3xj3Tkbiw3vPNNa/5wlelGzyhe6Uk/Z3o8Agcpub
- hwnKUeSjdGUJ9+0TWVFYAWJkIeEVdFM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-nDxkQF1aOrmOWQSH2zXnzQ-1; Fri, 04 Dec 2020 08:50:31 -0500
-X-MC-Unique: nDxkQF1aOrmOWQSH2zXnzQ-1
-Received: by mail-ej1-f72.google.com with SMTP id g18so2088239eje.1
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 05:50:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+sn5rcDZl+QIXuATUZwzF5FMHKstgrHFxwSTzFxKZ+4=;
- b=HtzyZH/luvtWzoBx+ioZE/Q83e1njYGQhZThZgoAcPO4+68BW51PJbxU/d7NrAtolF
- TlcH3SIOyPvujoWk6n2ueV2z3A/AoGLaPu0VblT4kjOgfRkN1hOK18eJEIzCGFCHinQ3
- PT7/1toqxAl9AoyRxRtrJ3JeyvGh/WfAFPzef0BAVu0KEXZ1mrelxf9haME7KUjw7n2K
- hQDXi8b0U4JHcfOK29WNDauxFCu2XZC4kq7Htj90v3JcZQ9nrsdd9J/1TChv9nqMZzc+
- qfWw/c8SjsSeV1sh714rtLodRn0JCfJl6d6es27aLodfkb8V4fKPVGUlyprtIfBG93bE
- M6IQ==
-X-Gm-Message-State: AOAM533sP2x21xgeoGzjaneZ1zLVUli5PSLjHqZOYrquGnJOlhmkVxZk
- TXaUKKFapWWijuJUyDRbDEciQwXgTG6g1wZ1GCffpA/EtF+ebtnOgJP79/CT2FGg1Gf1lK5ZH/b
- OCqgZU2kKeclnzf4=
-X-Received: by 2002:a05:6402:1646:: with SMTP id
- s6mr7585191edx.319.1607089829744; 
- Fri, 04 Dec 2020 05:50:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxRY8+ymMqDTt5W71PFhqaSOhHRw5L2iB6E+SJ8m/N16FtcnbuLQTD5iiHj2VGhVEkSZApKQg==
-X-Received: by 2002:a05:6402:1646:: with SMTP id
- s6mr7585167edx.319.1607089829479; 
- Fri, 04 Dec 2020 05:50:29 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id t26sm3115044eji.22.2020.12.04.05.50.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Dec 2020 05:50:28 -0800 (PST)
-Subject: Re: [PATCH 09/13] u2f-passthru: put it into the 'usb' category
-To: ganqixin <ganqixin@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-References: <20201115184903.1292715-1-ganqixin@huawei.com>
- <20201115184903.1292715-10-ganqixin@huawei.com>
- <49d4e8e3-7138-18cf-3972-c18e8275d3be@redhat.com>
- <A5B86EC83C48EF4CB2BC58BEF3A2F496065C27CD@DGGEMI525-MBS.china.huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <babff5a6-4c78-7d44-4d97-d095e627639d@redhat.com>
-Date: Fri, 4 Dec 2020 14:50:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1klBVO-0004tJ-4J; Fri, 04 Dec 2020 08:52:15 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1klBVK-0001G3-Cm; Fri, 04 Dec 2020 08:52:13 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0B4DWNbr014999; Fri, 4 Dec 2020 08:52:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=2aywq7EznNVwW00nCia64dO+HCm8E9XQxwYo7lEOtkE=;
+ b=J48rnuTPEceBt7Jt0NaF9FbT2hBslMODIl8ev01clvlA1YrrGimkeBAppZoDhxs+omje
+ jCUkUSggRNl4uE3Eoz5/0v9vl1GwvoAMHxizp6bbtY402dv0c18ezrCnpDLyO51OxVtp
+ yTz+W/mb1fHUIrfcTpkJJeQ5Mo+Kcy5d2QFHpJ0sC+jgKuWqomV/tY/IlIDyAphB3Jdy
+ ZCMwcu14d9mH/X6McnBufbbQ7LQ2Vqm3Hf3hNRGfCoWOx0ZA2J/jfMWEJpDpLA2H9MyL
+ p1dbAROAQ/xSQOOVRl7bqhmalTX4GGuZvmVEdwc40l6WXhrYru/C9DqgmLSICFDCuM4A qw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3577435akv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Dec 2020 08:52:01 -0500
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B4DWg6A015648;
+ Fri, 4 Dec 2020 08:52:01 -0500
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3577435aj9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Dec 2020 08:52:01 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B4DmDx1030498;
+ Fri, 4 Dec 2020 13:51:58 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 354fpdd2u1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 04 Dec 2020 13:51:57 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0B4DptwZ8061498
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 4 Dec 2020 13:51:55 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EBEE752059;
+ Fri,  4 Dec 2020 13:51:54 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.171.41.218])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id D67155204E;
+ Fri,  4 Dec 2020 13:51:53 +0000 (GMT)
+Date: Fri, 4 Dec 2020 14:51:52 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [for-6.0 v5 00/13] Generalize memory encryption models
+Message-ID: <20201204145152.097bb217.pasic@linux.ibm.com>
+In-Reply-To: <20201204132500.GI3056135@redhat.com>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <f2419585-4e39-1f3d-9e38-9095e26a6410@de.ibm.com>
+ <20201204140205.66e205da.cohuck@redhat.com>
+ <20201204130727.GD2883@work-vm>
+ <20201204132500.GI3056135@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <A5B86EC83C48EF4CB2BC58BEF3A2F496065C27CD@DGGEMI525-MBS.china.huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-12-04_04:2020-12-04,
+ 2020-12-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 spamscore=0
+ priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 adultscore=0 clxscore=1011 malwarescore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012040075
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,49 +109,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
- "thuth@redhat.com" <thuth@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
+ thuth@redhat.com, pbonzini@redhat.com, david@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/17/20 2:37 PM, ganqixin wrote:
->> -----Original Message-----
->> From: Philippe Mathieu-Daudé [mailto:philmd@redhat.com]
->> Sent: Monday, November 16, 2020 10:05 PM
->> To: ganqixin <ganqixin@huawei.com>; qemu-devel@nongnu.org;
->> qemu-trivial@nongnu.org; Marc-André Lureau
->> <marcandre.lureau@redhat.com>; thuth@redhat.com
->> Cc: Chenqun (kuhn) <kuhn.chenqun@huawei.com>; Zhanghailiang
->> <zhang.zhanghailiang@huawei.com>; Gerd Hoffmann <kraxel@redhat.com>;
->> Eduardo Habkost <ehabkost@redhat.com>
->> Subject: Re: [PATCH 09/13] u2f-passthru: put it into the 'usb' category
->>
->> On 11/15/20 7:48 PM, Gan Qixin wrote:
->>> The category of the u2f-passthru device is not set, put it into the 'usb'
->>> category.
->>
->> I guess we discussed this with Thomas 1 or 2 years ago but I don't remember.
->> I think it was about using set_bits() so devices can appear in multiple
->> categories.
->>
->> Gerd, do you know what is the point of the "usb" category for management
->> apps? This is a bus accepting multiple better categorized devices (display,
->> storage, input, network, sound).
->>
->> Unrelated but multiple devices are related to SECURITY.
->> Maybe it is time to introduce the DEVICE_CATEGORY_SECURITY?
-> 
-> Hi, Philippe
-> Thanks for your reply, but I'm not sure if it is appropriate to add a security category to place this device.
-> (Maybe it's because I don't know much about these device, I haven't find many safety-related devices in 'misc' category or uncategorized devices)
+On Fri, 4 Dec 2020 13:25:00 +0000
+Daniel P. Berrangé <berrange@redhat.com> wrote:
 
-What is the difference between 'misc' and 'uncategorized'?
-
+> On Fri, Dec 04, 2020 at 01:07:27PM +0000, Dr. David Alan Gilbert wrote:
+> > * Cornelia Huck (cohuck@redhat.com) wrote:
+> > > On Fri, 4 Dec 2020 09:06:50 +0100
+> > > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> > > 
+> > > > On 04.12.20 06:44, David Gibson wrote:
+> > > > > A number of hardware platforms are implementing mechanisms whereby the
+> > > > > hypervisor does not have unfettered access to guest memory, in order
+> > > > > to mitigate the security impact of a compromised hypervisor.
+> > > > > 
+> > > > > AMD's SEV implements this with in-cpu memory encryption, and Intel has
+> > > > > its own memory encryption mechanism.  POWER has an upcoming mechanism
+> > > > > to accomplish this in a different way, using a new memory protection
+> > > > > level plus a small trusted ultravisor.  s390 also has a protected
+> > > > > execution environment.
+> > > > > 
+> > > > > The current code (committed or draft) for these features has each
+> > > > > platform's version configured entirely differently.  That doesn't seem
+> > > > > ideal for users, or particularly for management layers.
+> > > > > 
+> > > > > AMD SEV introduces a notionally generic machine option
+> > > > > "machine-encryption", but it doesn't actually cover any cases other
+> > > > > than SEV.
+> > > > > 
+> > > > > This series is a proposal to at least partially unify configuration
+> > > > > for these mechanisms, by renaming and generalizing AMD's
+> > > > > "memory-encryption" property.  It is replaced by a
+> > > > > "securable-guest-memory" property pointing to a platform specific  
+> > > > 
+> > > > Can we do "securable-guest" ?
+> > > > s390x also protects registers and integrity. memory is only one piece
+> > > > of the puzzle and what we protect might differ from platform to 
+> > > > platform.
+> > > > 
+> > > 
+> > > I agree. Even technologies that currently only do memory encryption may
+> > > be enhanced with more protections later.
+> > 
+> > There's already SEV-ES patches onlist for this on the SEV side.
+> > 
+> > <sigh on haggling over the name>
+> > 
+> > Perhaps 'confidential guest' is actually what we need, since the
+> > marketing folks seem to have started labelling this whole idea
+> > 'confidential computing'.
 > 
-> Thanks,
-> Gan Qixin
+> I think we shouldn't worry about the specific name too much, as it
+> won't be visible much outside QEMU and the internals of the immediate
+> layer above such as libvirt. What matters much more is that we have
+> documentation that clearly explains what the different levels of
+> protection are for each different architecture, and/or generation of
+> architecture. Mgmt apps / end users need understand exactly what
+> kind of unicorns they are being promised for a given configuration.
 > 
+>
 
+You are probably right, but I still prefer descriptive names over
+misleading ones -- it helps with my cognitive process.
+
+Regards,
+Halil
 
