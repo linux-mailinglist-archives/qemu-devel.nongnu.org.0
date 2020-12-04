@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B2732CEE18
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 13:34:28 +0100 (CET)
-Received: from localhost ([::1]:50276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 852042CEE52
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 13:47:02 +0100 (CET)
+Received: from localhost ([::1]:56112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klAI6-0008UG-K7
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 07:34:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55888)
+	id 1klAUH-0003BX-5k
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 07:47:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1klAFh-0007wS-9f
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 07:31:57 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43850)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1klATF-0002kx-0q
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 07:45:57 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:41165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1klAFd-0007hA-NL
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 07:31:57 -0500
-Received: by mail-ot1-x341.google.com with SMTP id f12so4961756oto.10
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 04:31:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1klATD-0003vp-1l
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 07:45:56 -0500
+Received: by mail-ed1-x542.google.com with SMTP id ck29so5668196edb.8
+ for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 04:45:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bMGKxO0GTAh+hhtQxkaOzgW16TgdjtJgyJTggGMHJj8=;
- b=sUcqXK92uby01wqeKsRbsQeYh7l1yJnIMMDOBD4xg2DYuEmj8whsWGIXv47pVSuzO8
- AjfN/7+TI4J4D1hje00X9T2rwJ+PLwqRu3XvTeHa2D8YoxcOjXrBZ6G5j5tNZYMvT1mq
- W5rrShIVgyMSoet2Q1z/sX8QKa+5FTn5sEY60xpb9dBpY44OI3oRdfXDIum5OK2CBnGU
- jggxO7tSqkA/T+1WfhgUf+Fe5A8vgrmfjiospCDjjMXlhU5jnyb7IyaJAO2QtcH/bTs9
- RNhAFbD4GkDNyNxbp772Pb0oe10fylIiSbjpIyObHFzsLqTw15LLKjLH6Oys0Nnje8iZ
- rADg==
+ :cc; bh=IQTjT4Ycs6KM6RJrspJYI3YyIM4bQRedRl4f7h+QF9o=;
+ b=g7YFLIWik/Qs9prAZNB1byBopoIW4RFPg0s99Xy9T9j0g1pz3FT1dtUX4s33EO5Faf
+ 6err9Vma+4T1wkecO2gfmSJqVCLWcZKIFBlFaEXZ+EOLYVJfJ1yr6uNgFVOGok5w9Dcs
+ ENd1YtN6UgMNXc/0xffhL/SRj4TuEc+zs6GLLX+aNfxsu7DxI43x/bdxcCwuh7xafQVc
+ UXilAeKl47MPjPXcaENMaluuBjy/MfzwAunaS3nHAp0GTyjht7drtSL6HENIbCTvlqKf
+ 5KyaHtAzqjtzkmT4wGoLZtkvsgkW/fDEsFh85HuPTNfcYj6YRjEe2hOcTXtoXQCMYL8i
+ pyQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bMGKxO0GTAh+hhtQxkaOzgW16TgdjtJgyJTggGMHJj8=;
- b=cc0+oYMKEtXxQd7r5KqxeS7rWy8ojxY+AEarnVDjJ1SP3DCsJfeM/ezZkDDOmgQw1w
- 0geNQy8i1nwPN4yeBK/AB913gk3FXb9T3CSnisoDkCEGo89uRJa5B+vuQoZZbjRtxAJ5
- efIyuSddKGOLczVD6Tv0ICMnf2vg0IYHvfkwXXndmrQSD856HQ89qPvfW+Wzokwga0Is
- aEDfrkGXvRBuVcqUp4bIw/UegxFhig6yF9v7LlisU6+OCbZb7jSXfrEOKmlrjsi/js1O
- k81dGak5mnXU8Oc5LmE3nZWsETloJewWyGmQ+Fq4h0lCCwcqjuUbYjuvks6smf+azwY1
- A7Bw==
-X-Gm-Message-State: AOAM531jY1613PPhTsI00uH+W4PmWM4WffsxPZiQLdVvkKGpOnLSkKdF
- VyltYr4HaOe1a3ED21EHy0KncZ3/H3RofQkhwNx+YQ==
-X-Google-Smtp-Source: ABdhPJykFbeRZWznuzc803956s4RIahGvkyWKDad5lMcCnxSPZw1smdXFGW2+ceX3bJpaF+rulr1ZhlkohBjQJeEHig=
-X-Received: by 2002:a9d:67c7:: with SMTP id c7mr3470197otn.27.1607085112393;
- Fri, 04 Dec 2020 04:31:52 -0800 (PST)
+ bh=IQTjT4Ycs6KM6RJrspJYI3YyIM4bQRedRl4f7h+QF9o=;
+ b=gUwxb2ZQF/wkoZrfdm5H1EJ30JZcO7TbjturGHGSvGUXqeR0OP4d1yIHa2AlafmaVc
+ YSg/jnkBd8chk/1LcNy5VRNAX9Xm3RQpIvaYxUSOPM/xpHsAosSkQHVezkK/9rwvR6ZJ
+ TI6sfV6gI0+qi3GVgckB0cbcq3y1BSsxC4LOu9zP7LU+2DxzTTz/pQ4CjcpvwF+vpus7
+ qdUvqwjE+tTDApUU13jXD17XiUnZA816aXDJgx3aoZALKDdLAEPAVdcvnmJTrhXKy69H
+ q/aQroB0e58NTN0lv1CWI5qrq9gr9ZCxUUqOD3WLfHluI8VQ07V+y7ueFTvwZKSIMyp5
+ u8Ng==
+X-Gm-Message-State: AOAM530FcKlTJS9PLbxmrleF/XODtcbvYzfKjmyNDLHHSpSbvU5G33oD
+ fYmpgA6nyx8qUOQgK6Q+V8tfUj2G1wD8wqsrkok=
+X-Google-Smtp-Source: ABdhPJxh45xAcy+zXjxYmPAgft6pADUO7h37S89Tgkdch0O9UhgCw4AyndX1ommEzV7NgXIKU8E9RwCjUKctgz5iN0k=
+X-Received: by 2002:a05:6402:1155:: with SMTP id
+ g21mr7524370edw.53.1607085953470; 
+ Fri, 04 Dec 2020 04:45:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20201119111305.485202-1-andrew@daynix.com>
- <00e5b0a8-dfaa-2899-2501-cfe8249302ff@redhat.com>
- <87h7p4cmva.fsf@toke.dk>
- <CAOEp5Oe0AzZ40RK9EjNx0d2RVbteq_cR8zVhQH+_8Wm9x_TQgA@mail.gmail.com>
- <87im9h9933.fsf@toke.dk>
-In-Reply-To: <87im9h9933.fsf@toke.dk>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Fri, 4 Dec 2020 14:31:40 +0200
-Message-ID: <CAOEp5OcVPcTPFhqapEjAykhU2YzajmfmxG5MoU6Leg6Qw5TVbw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/5] eBPF RSS support for virtio-net
-To: =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000003f95c505b5a2a995"
-Received-SPF: none client-ip=2607:f8b0:4864:20::341;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-ot1-x341.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201203110806.13556-1-kraxel@redhat.com>
+ <20201203110806.13556-10-kraxel@redhat.com>
+ <20201204122020.GF3056135@redhat.com>
+In-Reply-To: <20201204122020.GF3056135@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 4 Dec 2020 16:45:41 +0400
+Message-ID: <CAJ+F1CLSxNrsXYik4u=HJav5tUdYbHVAUqBf58ym_BVbZsNfBA@mail.gmail.com>
+Subject: Re: [PATCH 9/9] qxl: add ui_info callback
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000061552405b5a2dbdd"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x542.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,392 +79,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Yan Vugenfirer <yan@daynix.com>,
- Jason Wang <jasowang@redhat.com>, Andrew Melnychenko <andrew@daynix.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003f95c505b5a2a995
+--00000000000061552405b5a2dbdd
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 4, 2020 at 12:09 PM Toke H=C3=B8iland-J=C3=B8rgensen <toke@redh=
-at.com>
+On Fri, Dec 4, 2020 at 4:21 PM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+>
 wrote:
 
-> Yuri Benditovich <yuri.benditovich@daynix.com> writes:
->
-> > On Wed, Dec 2, 2020 at 4:18 PM Toke H=C3=B8iland-J=C3=B8rgensen <toke@r=
-edhat.com>
-> > wrote:
+> On Thu, Dec 03, 2020 at 12:08:05PM +0100, Gerd Hoffmann wrote:
+> > This makes qxl respond to user interface window resizes
+> > when not using spice, so it works with gtk and vnc too.
 > >
-> >> Jason Wang <jasowang@redhat.com> writes:
-> >>
-> >> > On 2020/11/19 =E4=B8=8B=E5=8D=887:13, Andrew Melnychenko wrote:
-> >> >> This set of patches introduces the usage of eBPF for packet steerin=
-g
-> >> >> and RSS hash calculation:
-> >> >> * RSS(Receive Side Scaling) is used to distribute network packets t=
-o
-> >> >> guest virtqueues by calculating packet hash
-> >> >> * Additionally adding support for the usage of RSS with vhost
-> >> >>
-> >> >> The eBPF works on kernels 5.8+
-> >> >> On earlier kerneld it fails to load and the RSS feature is reported
-> >> >> only without vhost and implemented in 'in-qemu' software.
-> >> >>
-> >> >> Implementation notes:
-> >> >> Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program=
-.
-> >> >> Added libbpf dependency and eBPF support.
-> >> >> The eBPF program is part of the qemu and presented as an array
-> >> >> of BPF ELF file data.
-> >> >> The compilation of eBPF is not part of QEMU build and can be done
-> >> >> using provided Makefile.ebpf(need to adjust 'linuxhdrs').
-> >> >> Added changes to virtio-net and vhost, primary eBPF RSS is used.
-> >> >> 'in-qemu' RSS used in the case of hash population and as a fallback
-> >> option.
-> >> >> For vhost, the hash population feature is not reported to the guest=
-.
-> >> >>
-> >> >> Please also see the documentation in PATCH 5/5.
-> >> >>
-> >> >> I am sending those patches as RFC to initiate the discussions and g=
-et
-> >> >> feedback on the following points:
-> >> >> * Fallback when eBPF is not supported by the kernel
-> >> >> * Live migration to the kernel that doesn't have eBPF support
-> >> >> * Integration with current QEMU build
-> >> >> * Additional usage for eBPF for packet filtering
-> >> >>
-> >> >> Known issues:
-> >> >> * hash population not supported by eBPF RSS: 'in-qemu' RSS used
-> >> >> as a fallback, also, hash population feature is not reported to
-> guests
-> >> >> with vhost.
-> >> >> * big-endian BPF support: for now, eBPF isn't supported on
-> >> >> big-endian systems. Can be added in future if required.
-> >> >> * huge .h file with eBPF binary. The size of .h file containing
-> >> >> eBPF binary is currently ~5K lines, because the binary is built wit=
-h
-> >> debug information.
-> >> >> The binary without debug/BTF info can't be loaded by libbpf.
-> >> >> We're looking for possibilities to reduce the size of the .h files.
-> >> >
-> >> >
-> >> > Adding Toke for sharing more idea from eBPF side.
-> >> >
-> >> > We had some discussion on the eBPF issues:
-> >> >
-> >> > 1) Whether or not to use libbpf. Toke strongly suggest to use libbpf
-> >> > 2) Whether or not to use BTF. Toke confirmed that if we don't access
-> any
-> >> > skb metadata, BTF is not strictly required for CO-RE. But it might
-> still
-> >> > useful for e.g debugging.
-> >> > 3) About the huge (5K lines, see patch #2 Toke). Toke confirmed that
-> we
-> >> > can strip debug symbols, but Yuri found some sections can't be
-> stripped,
-> >> > we can keep discussing here.
-> >>
-> >> I just tried simply running 'strip' on a sample trivial XDP program,
-> >> which brought its size down from ~5k to ~1k and preserved the BTF
-> >> information without me having to do anything.
-> >>
+> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> > ---
+> >  hw/display/qxl.c | 27 +++++++++++++++++++++++++++
+> >  1 file changed, 27 insertions(+)
 > >
-> > With our eBPF code the numbers are slightly different:
-> > The code size without BTF: 7.5K (built without '-g')
-> > Built with '-g': 45K
-> > Stripped: 19K
-> > The difference between 7.5 and 19K still seems significant, especially
-> when
-> > we do not use any kernel structures and do not need these BTF sections
->
-> That does seem like a lot of BTF information. Did you confirm (with
-> objdump) that it's the .BTF* sections that take up these extra 12k? Do
-> you have some really complicated data structures in the file or
-> something? Got a link to the source somewhere that isn't a web mailing
-> list archive? :)
->
->
-Looks like the extra size is related to BTF: there are 4 BTF sections that
-take 12.5K
-  [ 7] .BTF              PROGBITS        0000000000000000 00144c 00175d 00
-     0   0  1
-  [ 8] .rel.BTF          REL             0000000000000000 002bb0 000040 10
-    14   7  8
-  [ 9] .BTF.ext          PROGBITS        0000000000000000 002bf0 000cd0 00
-     0   0  1
-  [10] .rel.BTF.ext      REL             0000000000000000 0038c0 000ca0 10
-    14   9  8
-
-All the sources are at:
-The branch without libbpf
-https://github.com/daynix/qemu/tree/eBPF_RFC
-The branch with libbpf
-https://github.com/daynix/qemu/tree/eBPF_RFCv2
-
-all the eBPF-related code is under qemu/ebpf directory.
-
-
-> In any case, while I do think it smells a little of premature
-> optimisation, you can of course strip the BTF information until you need
-> it. Having it around makes debugging easier (bpftool will expand your
-> map structures for you when dumping maps, and that sort of thing), but
-> it's not really essential if you don't need CO-RE.
->
-> > This is only reason to prefer non-libbpf option for this specific eBPF
->
-> You can still use libbpf without BTF. It's using BTF without libbpf that
-> tends to not work so well...
->
->
-If we build the eBPF without '-g' or strip the BTF information out of the
-object file the libbpf crashes right after issuing printout "libbpf: BTF is
-required, but is missing or corrupted".
-We did not investigate this too deeply but on the first glance it looks
-like the presence of maps automatically makes the libbpf to require BTF.
-
-
-> >> As a side note, though, instead of embedding the BPF program into a .h=
-,
-> >> you could simply ship it as a .o and load it from the file system. We =
-do
-> >> that with xdp-tools and install the bpf object files into
-> /usr/$LIB/bpf/.
-> >>
+> > diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+> > index 431c1070967a..e1df95c3e8a9 100644
+> > --- a/hw/display/qxl.c
+> > +++ b/hw/display/qxl.c
+> > @@ -1177,8 +1177,35 @@ static const QXLInterface qxl_interface =3D {
+> >      .client_monitors_config =3D interface_client_monitors_config,
+> >  };
 > >
-> > Yes, we've discussed this option and decided to go with embedding the B=
-PF
-> > https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg02157.html
+> > +static int qxl_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
+> > +{
+> > +    PCIQXLDevice *qxl =3D opaque;
+> > +    VDAgentMonitorsConfig *cfg;
+> > +    size_t size;
+> > +
+> > +    if (using_spice) {
+> > +        /* spice agent will handle display resize */
+> > +        return -1;
+> > +    }
 >
-> Right, okay. I'll note, though, that if your concern is that the BPF
-> code should always match the rest of the code base, omitting the
-> compilation if there's no Clang present seems like it could lead to
-> problems :)
->
-> Also, if you do go the embedded-bytecode route, you may want to have a
-> look at the upstream 'skeleton' concept. It takes a BPF object file and
-> automatically generates a header file that gives you direct access to
-> maps, programs and global data in C. There are some examples in
-> selftests/bpf on how to use it, but you basically just run
-> 'bpftool gen skeleton mybpf.o'.
->
->
-Indeed looks very interesting. We've missed this feature.
-Thank you very much!
-
-
-> -Toke
->
+> Does this break VNC resizes if  both  VNC + SPICE are enabled
+> but the client is connected with VNC ?
 >
 
---0000000000003f95c505b5a2a995
+Yes. I am not sure we should worry about that case much, either way.
+Perhaps it's best to handle both QEMU-originated resize and spice-agent
+based resizes, even if the former can lose details from the later for
+multiple screens.
+
+
+> > +    if (idx > 0) {
+> > +        /* supporting only single head for now */
+> > +        return -1;
+> > +    }
+> > +
+> > +    /* go fake a spice agent message */
+> > +    size =3D sizeof(VDAgentMonitorsConfig) + sizeof(VDAgentMonConfig);
+> > +    cfg =3D g_malloc0(size);
+> > +    cfg->num_of_monitors =3D 1;
+> > +    cfg->monitors[0].width =3D info->width;
+> > +    cfg->monitors[0].height =3D info->height;
+> > +    interface_client_monitors_config(&qxl->ssd.qxl, cfg);
+> > +    g_free(cfg);
+> > +    return 0;
+> > +}
+> > +
+> >  static const GraphicHwOps qxl_ops =3D {
+> >      .gfx_update  =3D qxl_hw_update,
+> > +    .ui_info     =3D qxl_ui_info,
+> >      .gfx_update_async =3D true,
+> >  };
+> >
+> > --
+> > 2.27.0
+> >
+> >
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000061552405b5a2dbdd
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 4, 2020 at 12:09 PM Toke =
-H=C3=B8iland-J=C3=B8rgensen &lt;<a href=3D"mailto:toke@redhat.com">toke@red=
-hat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">Yuri Benditovich &lt;<a href=3D"mailto:yuri.benditovich@daynix.com" =
-target=3D"_blank">yuri.benditovich@daynix.com</a>&gt; writes:<br>
-<br>
-&gt; On Wed, Dec 2, 2020 at 4:18 PM Toke H=C3=B8iland-J=C3=B8rgensen &lt;<a=
- href=3D"mailto:toke@redhat.com" target=3D"_blank">toke@redhat.com</a>&gt;<=
-br>
-&gt; wrote:<br>
-&gt;<br>
-&gt;&gt; Jason Wang &lt;<a href=3D"mailto:jasowang@redhat.com" target=3D"_b=
-lank">jasowang@redhat.com</a>&gt; writes:<br>
-&gt;&gt;<br>
-&gt;&gt; &gt; On 2020/11/19 =E4=B8=8B=E5=8D=887:13, Andrew Melnychenko wrot=
-e:<br>
-&gt;&gt; &gt;&gt; This set of patches introduces the usage of eBPF for pack=
-et steering<br>
-&gt;&gt; &gt;&gt; and RSS hash calculation:<br>
-&gt;&gt; &gt;&gt; * RSS(Receive Side Scaling) is used to distribute network=
- packets to<br>
-&gt;&gt; &gt;&gt; guest virtqueues by calculating packet hash<br>
-&gt;&gt; &gt;&gt; * Additionally adding support for the usage of RSS with v=
-host<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; The eBPF works on kernels 5.8+<br>
-&gt;&gt; &gt;&gt; On earlier kerneld it fails to load and the RSS feature i=
-s reported<br>
-&gt;&gt; &gt;&gt; only without vhost and implemented in &#39;in-qemu&#39; s=
-oftware.<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; Implementation notes:<br>
-&gt;&gt; &gt;&gt; Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eB=
-PF program.<br>
-&gt;&gt; &gt;&gt; Added libbpf dependency and eBPF support.<br>
-&gt;&gt; &gt;&gt; The eBPF program is part of the qemu and presented as an =
-array<br>
-&gt;&gt; &gt;&gt; of BPF ELF file data.<br>
-&gt;&gt; &gt;&gt; The compilation of eBPF is not part of QEMU build and can=
- be done<br>
-&gt;&gt; &gt;&gt; using provided Makefile.ebpf(need to adjust &#39;linuxhdr=
-s&#39;).<br>
-&gt;&gt; &gt;&gt; Added changes to virtio-net and vhost, primary eBPF RSS i=
-s used.<br>
-&gt;&gt; &gt;&gt; &#39;in-qemu&#39; RSS used in the case of hash population=
- and as a fallback<br>
-&gt;&gt; option.<br>
-&gt;&gt; &gt;&gt; For vhost, the hash population feature is not reported to=
- the guest.<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; Please also see the documentation in PATCH 5/5.<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; I am sending those patches as RFC to initiate the discuss=
-ions and get<br>
-&gt;&gt; &gt;&gt; feedback on the following points:<br>
-&gt;&gt; &gt;&gt; * Fallback when eBPF is not supported by the kernel<br>
-&gt;&gt; &gt;&gt; * Live migration to the kernel that doesn&#39;t have eBPF=
- support<br>
-&gt;&gt; &gt;&gt; * Integration with current QEMU build<br>
-&gt;&gt; &gt;&gt; * Additional usage for eBPF for packet filtering<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; Known issues:<br>
-&gt;&gt; &gt;&gt; * hash population not supported by eBPF RSS: &#39;in-qemu=
-&#39; RSS used<br>
-&gt;&gt; &gt;&gt; as a fallback, also, hash population feature is not repor=
-ted to guests<br>
-&gt;&gt; &gt;&gt; with vhost.<br>
-&gt;&gt; &gt;&gt; * big-endian BPF support: for now, eBPF isn&#39;t support=
-ed on<br>
-&gt;&gt; &gt;&gt; big-endian systems. Can be added in future if required.<b=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 4, 2020 at 4:21 PM Daniel=
+ P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redha=
+t.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">On Thu, Dec 03, 2020 at 12:08:05PM +0100, Gerd Hoffmann wrote:<br>
+&gt; This makes qxl respond to user interface window resizes<br>
+&gt; when not using spice, so it works with gtk and vnc too.<br>
+&gt; <br>
+&gt; Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" =
+target=3D"_blank">kraxel@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/display/qxl.c | 27 +++++++++++++++++++++++++++<br>
+&gt;=C2=A0 1 file changed, 27 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/hw/display/qxl.c b/hw/display/qxl.c<br>
+&gt; index 431c1070967a..e1df95c3e8a9 100644<br>
+&gt; --- a/hw/display/qxl.c<br>
+&gt; +++ b/hw/display/qxl.c<br>
+&gt; @@ -1177,8 +1177,35 @@ static const QXLInterface qxl_interface =3D {<b=
 r>
-&gt;&gt; &gt;&gt; * huge .h file with eBPF binary. The size of .h file cont=
-aining<br>
-&gt;&gt; &gt;&gt; eBPF binary is currently ~5K lines, because the binary is=
- built with<br>
-&gt;&gt; debug information.<br>
-&gt;&gt; &gt;&gt; The binary without debug/BTF info can&#39;t be loaded by =
-libbpf.<br>
-&gt;&gt; &gt;&gt; We&#39;re looking for possibilities to reduce the size of=
- the .h files.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Adding Toke for sharing more idea from eBPF side.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; We had some discussion on the eBPF issues:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; 1) Whether or not to use libbpf. Toke strongly suggest to use=
- libbpf<br>
-&gt;&gt; &gt; 2) Whether or not to use BTF. Toke confirmed that if we don&#=
-39;t access any<br>
-&gt;&gt; &gt; skb metadata, BTF is not strictly required for CO-RE. But it =
-might still<br>
-&gt;&gt; &gt; useful for e.g debugging.<br>
-&gt;&gt; &gt; 3) About the huge (5K lines, see patch #2 Toke). Toke confirm=
-ed that we<br>
-&gt;&gt; &gt; can strip debug symbols, but Yuri found some sections can&#39=
-;t be stripped,<br>
-&gt;&gt; &gt; we can keep discussing here.<br>
-&gt;&gt;<br>
-&gt;&gt; I just tried simply running &#39;strip&#39; on a sample trivial XD=
-P program,<br>
-&gt;&gt; which brought its size down from ~5k to ~1k and preserved the BTF<=
+&gt;=C2=A0 =C2=A0 =C2=A0 .client_monitors_config =3D interface_client_monit=
+ors_config,<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt; +static int qxl_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)<=
 br>
-&gt;&gt; information without me having to do anything.<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; With our eBPF code the numbers are slightly different:<br>
-&gt; The code size without BTF: 7.5K (built without &#39;-g&#39;)<br>
-&gt; Built with &#39;-g&#39;: 45K<br>
-&gt; Stripped: 19K<br>
-&gt; The difference between 7.5 and 19K still seems significant, especially=
- when<br>
-&gt; we do not use any kernel structures and do not need these BTF sections=
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 PCIQXLDevice *qxl =3D opaque;<br>
+&gt; +=C2=A0 =C2=A0 VDAgentMonitorsConfig *cfg;<br>
+&gt; +=C2=A0 =C2=A0 size_t size;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (using_spice) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* spice agent will handle display resize=
+ */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+<br>
+Does this break VNC resizes if=C2=A0 both=C2=A0 VNC + SPICE are enabled<br>
+but the client is connected with VNC ?<br></blockquote><div><br></div><div>=
+Yes. I am not sure we should worry about that case much, either way. Perhap=
+s it&#39;s best to handle both QEMU-originated resize and spice-agent based=
+ resizes, even if the former can lose details from the later for multiple s=
+creens.<br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">
+<br>
+&gt; +=C2=A0 =C2=A0 if (idx &gt; 0) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* supporting only single head for now */=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* go fake a spice agent message */<br>
+&gt; +=C2=A0 =C2=A0 size =3D sizeof(VDAgentMonitorsConfig) + sizeof(VDAgent=
+MonConfig);<br>
+&gt; +=C2=A0 =C2=A0 cfg =3D g_malloc0(size);<br>
+&gt; +=C2=A0 =C2=A0 cfg-&gt;num_of_monitors =3D 1;<br>
+&gt; +=C2=A0 =C2=A0 cfg-&gt;monitors[0].width =3D info-&gt;width;<br>
+&gt; +=C2=A0 =C2=A0 cfg-&gt;monitors[0].height =3D info-&gt;height;<br>
+&gt; +=C2=A0 =C2=A0 interface_client_monitors_config(&amp;qxl-&gt;ssd.qxl, =
+cfg);<br>
+&gt; +=C2=A0 =C2=A0 g_free(cfg);<br>
+&gt; +=C2=A0 =C2=A0 return 0;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 static const GraphicHwOps qxl_ops =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 .gfx_update=C2=A0 =3D qxl_hw_update,<br>
+&gt; +=C2=A0 =C2=A0 .ui_info=C2=A0 =C2=A0 =C2=A0=3D qxl_ui_info,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 .gfx_update_async =3D true,<br>
+&gt;=C2=A0 };<br>
+&gt;=C2=A0 <br>
+&gt; -- <br>
+&gt; 2.27.0<br>
+&gt; <br>
+&gt; <br>
+<br>
+Regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
 <br>
 <br>
-That does seem like a lot of BTF information. Did you confirm (with<br>
-objdump) that it&#39;s the .BTF* sections that take up these extra 12k? Do<=
-br>
-you have some really complicated data structures in the file or<br>
-something? Got a link to the source somewhere that isn&#39;t a web mailing<=
-br>
-list archive? :)<br>
-<br></blockquote><div><br></div><div>Looks like the extra size is related t=
-o BTF: there are 4 BTF sections that take 12.5K</div><div>=C2=A0 [ 7] .BTF =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PROGBITS =C2=A0 =C2=A0 =C2=
-=A0 =C2=A00000000000000000 00144c 00175d 00 =C2=A0 =C2=A0 =C2=A00 =C2=A0 0 =
-=C2=A01<br>=C2=A0 [ 8] .rel.BTF =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0REL =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0000000000000000 002bb0 000040 10 =
-=C2=A0 =C2=A0 14 =C2=A0 7 =C2=A08<br>=C2=A0 [ 9] .BTF.ext =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0PROGBITS =C2=A0 =C2=A0 =C2=A0 =C2=A00000000000000000 002bf=
-0 000cd0 00 =C2=A0 =C2=A0 =C2=A00 =C2=A0 0 =C2=A01<br>=C2=A0 [10] .rel.BTF.=
-ext =C2=A0 =C2=A0 =C2=A0REL =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 00000=
-00000000000 0038c0 000ca0 10 =C2=A0 =C2=A0 14 =C2=A0 9 =C2=A08<br></div><di=
-v><br></div><div>All the sources are at:</div><div>The branch without libbp=
-f</div><div><a href=3D"https://github.com/daynix/qemu/tree/eBPF_RFC">https:=
-//github.com/daynix/qemu/tree/eBPF_RFC</a><br></div><div>The branch with li=
-bbpf</div><div><a href=3D"https://github.com/daynix/qemu/tree/eBPF_RFCv2">h=
-ttps://github.com/daynix/qemu/tree/eBPF_RFCv2</a><br></div><div><br></div><=
-div>all the eBPF-related code is under=20
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-qemu/ebpf directory.</div><div>=C2=A0<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">
-In any case, while I do think it smells a little of premature<br>
-optimisation, you can of course strip the BTF information until you need<br=
->
-it. Having it around makes debugging easier (bpftool will expand your<br>
-map structures for you when dumping maps, and that sort of thing), but<br>
-it&#39;s not really essential if you don&#39;t need CO-RE.<br>
-<br>
-&gt; This is only reason to prefer non-libbpf option for this specific eBPF=
-<br>
-<br>
-You can still use libbpf without BTF. It&#39;s using BTF without libbpf tha=
-t<br>
-tends to not work so well...<br>
-<br></blockquote><div><div><br></div><div>If we build the eBPF without &#39=
-;-g&#39; or strip the BTF information out of the object file the libbpf cra=
-shes right after issuing printout &quot;libbpf: BTF is required, but is mis=
-sing or corrupted&quot;.<br></div></div><div>We did not investigate this to=
-o deeply but on the first glance it looks like the presence of maps automat=
-ically makes the libbpf to require BTF.</div><div>=C2=A0</div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
-&gt;&gt; As a side note, though, instead of embedding the BPF program into =
-a .h,<br>
-&gt;&gt; you could simply ship it as a .o and load it from the file system.=
- We do<br>
-&gt;&gt; that with xdp-tools and install the bpf object files into /usr/$LI=
-B/bpf/.<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; Yes, we&#39;ve discussed this option and decided to go with embedding =
-the BPF<br>
-&gt; <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg02=
-157.html" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archiv=
-e/html/qemu-devel/2020-11/msg02157.html</a><br>
-<br>
-Right, okay. I&#39;ll note, though, that if your concern is that the BPF<br=
->
-code should always match the rest of the code base, omitting the<br>
-compilation if there&#39;s no Clang present seems like it could lead to<br>
-problems :)<br>
-<br>
-Also, if you do go the embedded-bytecode route, you may want to have a<br>
-look at the upstream &#39;skeleton&#39; concept. It takes a BPF object file=
- and<br>
-automatically generates a header file that gives you direct access to<br>
-maps, programs and global data in C. There are some examples in<br>
-selftests/bpf on how to use it, but you basically just run<br>
-&#39;bpftool gen skeleton mybpf.o&#39;.<br>
-<br></blockquote><div><br></div><div>Indeed looks very interesting. We&#39;=
-ve missed this feature.</div><div>Thank you very much!</div><div>=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
--Toke<br>
-<br>
-</blockquote></div></div>
-
---0000000000003f95c505b5a2a995--
+--00000000000061552405b5a2dbdd--
 
