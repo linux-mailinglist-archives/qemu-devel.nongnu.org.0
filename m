@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A1C2CF55D
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:15:03 +0100 (CET)
-Received: from localhost ([::1]:45590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7512CF53F
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:04:56 +0100 (CET)
+Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klHTq-0001jI-2V
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:15:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40964)
+	id 1klHK2-0000N1-LZ
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:04:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1klEkK-0000AL-S9; Fri, 04 Dec 2020 12:19:55 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:46242 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1klEjW-0000zq-OK; Fri, 04 Dec 2020 12:19:39 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 4426E413EF;
- Fri,  4 Dec 2020 16:41:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1607100078;
- x=1608914479; bh=+chenhLr10LuUBvAGCBgnQJzSbfU2H/hqR0t24bg7zo=; b=
- kPyokacXcSdebzuDM/PoJ+Sght/EpxJ0U8jTYefqg/D+CGioF5R3QW+Oj2mpzo0D
- PMxDCpQavQ9LYltWoZOWAGCrx1pcODWBtCuc0nMLbVyLrO5/vhHFOMF32FLThChV
- u1imGCpt8D7WJPda35fu16ilhHXBkzxsP7y1DK48Eng=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BqpNTrOp8pbi; Fri,  4 Dec 2020 19:41:18 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1klEcg-0007T6-13
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:11:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25531)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1klEbJ-0006hX-GG
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:11:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607101799;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9+PRIhEw0Acp4vDOwexFGwxUZr8HOu8lb/nNqXfnFsg=;
+ b=QRUNDyLijQD9Vs0EPu7a5I8t1Kwfckv2yBPjedTAPZ1xC6Q+LlpKc8TeSXOmddulaoYZU1
+ uOB3Z54/x8PsVVISbe14RzyORytGMJXmBVIcLGMKzYVp4ckZm5etdsB4Vldr1YLmiYwMKZ
+ NHvEkvU93xh3l9GfiVQHq6OAjK66SBk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-_I5rEQrrPNyciUIumV3nDQ-1; Fri, 04 Dec 2020 12:09:56 -0500
+X-MC-Unique: _I5rEQrrPNyciUIumV3nDQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 05ACC41373;
- Fri,  4 Dec 2020 19:41:16 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 4 Dec
- 2020 19:41:15 +0300
-Date: Fri, 4 Dec 2020 19:41:38 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v4 07/11] hvf: Add Apple Silicon support
-Message-ID: <20201204164138.GF86904@SPB-NB-133.local>
-References: <20201203234857.21051-1-agraf@csgraf.de>
- <20201203234857.21051-8-agraf@csgraf.de>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40992107ACE4;
+ Fri,  4 Dec 2020 17:09:55 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 44F05620D7;
+ Fri,  4 Dec 2020 17:09:54 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 7/8] x86: ich9: factor out "guest_cpu_hotplug_features"
+Date: Fri,  4 Dec 2020 12:09:38 -0500
+Message-Id: <20201204170939.1815522-8-imammedo@redhat.com>
+In-Reply-To: <20201204170939.1815522-1-imammedo@redhat.com>
+References: <20201204170939.1815522-1-imammedo@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20201203234857.21051-8-agraf@csgraf.de>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,38 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: lersek@redhat.com, ankur.a.arora@oracle.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 04, 2020 at 12:48:53AM +0100, Alexander Graf wrote:
-> With Apple Silicon available to the masses, it's a good time to add support
-> for driving its virtualization extensions from QEMU.
-> 
-> This patch adds all necessary architecture specific code to get basic VMs
-> working. It's still pretty raw, but definitely functional.
-> 
-> Known limitations:
-> 
->   - Vtimer acknowledgement is hacky
->   - Should implement more sysregs and fault on invalid ones then
->   - WFI handling is missing, need to marry it with vtimer
-> 
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> 
+it will be reused by next patch to check validity of unplug
+feature.
 
-For non-ARM specific bits,
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ hw/isa/lpc_ich9.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index 087a18d04d..da80430144 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -366,6 +366,7 @@ static void smi_features_ok_callback(void *opaque)
+ {
+     ICH9LPCState *lpc = opaque;
+     uint64_t guest_features;
++    uint64_t guest_cpu_hotplug_features;
+ 
+     if (lpc->smi_features_ok) {
+         /* negotiation already complete, features locked */
+@@ -378,9 +379,12 @@ static void smi_features_ok_callback(void *opaque)
+         /* guest requests invalid features, leave @features_ok at zero */
+         return;
+     }
++
++    guest_cpu_hotplug_features = guest_features &
++                                 (BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT) |
++                                  BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT));
+     if (!(guest_features & BIT_ULL(ICH9_LPC_SMI_F_BROADCAST_BIT)) &&
+-        guest_features & (BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT) |
+-                          BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT))) {
++        guest_cpu_hotplug_features) {
+         /*
+          * cpu hot-[un]plug with SMI requires SMI broadcast,
+          * leave @features_ok at zero
+-- 
+2.27.0
 
-Can't set Tested-by because I have no ARM machine yet, but x86
-build/execution is fine on Catalina and Big Sur :)
-
-Thanks,
-Roman
 
