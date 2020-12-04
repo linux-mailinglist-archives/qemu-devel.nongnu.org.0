@@ -2,75 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769B92CEAF0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 10:33:22 +0100 (CET)
-Received: from localhost ([::1]:48124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF9E2CEAF7
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 10:35:02 +0100 (CET)
+Received: from localhost ([::1]:53744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kl7Sq-0002pw-Vo
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 04:33:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41980)
+	id 1kl7UT-0005JX-9B
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 04:35:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kl7QN-0001PX-MY
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 04:30:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kl7QK-0000cE-Sc
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 04:30:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607074243;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MglKKjnaUZNXDtCHnuWduN7A2QNExu/e3DNOaxfPfiY=;
- b=LqNdvWqHawN23Ihso0dh06iWTS80hlPGchaT11nAU2ptD34KLAVHcXqrUVHYCvTxkmFEyf
- nG+HXuCgvpmbmbWB1ZHbj6PHKLbVRP9dVc7OUhM5nYKq+tolGTWC7awMCHLxL4Zjp9xVNd
- J1FYvXzBgWtJy7oMSmgh8e6KvXjNEmk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-pOPnPDgeMUmAy3eMcMxL6A-1; Fri, 04 Dec 2020 04:30:39 -0500
-X-MC-Unique: pOPnPDgeMUmAy3eMcMxL6A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A40961800D41;
- Fri,  4 Dec 2020 09:30:37 +0000 (UTC)
-Received: from [10.36.114.254] (ovpn-114-254.ams2.redhat.com [10.36.114.254])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA3FF10016FA;
- Fri,  4 Dec 2020 09:30:32 +0000 (UTC)
-Subject: Re: [PATCH 3/3] s390x/cpu: Use timer_free() in the finalize function
- to avoid memleaks
-To: Cornelia Huck <cohuck@redhat.com>, Gan Qixin <ganqixin@huawei.com>
-References: <20201204081209.360524-1-ganqixin@huawei.com>
- <20201204081209.360524-4-ganqixin@huawei.com>
- <20201204093659.349314af.cohuck@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <273f2ea2-4775-36c4-6d50-b419bab701e3@redhat.com>
-Date: Fri, 4 Dec 2020 10:30:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kl7Qn-0001gC-RI
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 04:31:17 -0500
+Received: from relay.sw.ru ([185.231.240.75]:47036 helo=relay3.sw.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kl7Qj-0000nE-OG
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 04:31:12 -0500
+Received: from [192.168.15.22] (helo=andrey-MS-7B54.sw.ru)
+ by relay3.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1kl7Qc-00BfEl-5h; Fri, 04 Dec 2020 12:31:02 +0300
+To: qemu-devel@nongnu.org
+Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: [PATCH v5 0/4] migration: UFFD write-tracking migration/snapshots
+Date: Fri,  4 Dec 2020 12:30:59 +0300
+Message-Id: <20201204093103.9878-1-andrey.gruzdev@virtuozzo.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20201204093659.349314af.cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.495,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,77 +54,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, zhang.zhanghailiang@huawei.com,
- qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Euler Robot <euler.robot@huawei.com>, kuhn.chenqun@huawei.com,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
-On 04.12.20 09:36, Cornelia Huck wrote:
-> On Fri, 4 Dec 2020 16:12:09 +0800
-> Gan Qixin <ganqixin@huawei.com> wrote:
-> 
->> When running device-introspect-test, a memory leak occurred in the s390_cpu_initfn
->> function, this patch use timer_free() in the finalize function to fix it.
->>
->> ASAN shows memory leak stack:
->>
->> Direct leak of 3552 byte(s) in 74 object(s) allocated from:
->>     #0 0xfffeb3d4e1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
->>     #1 0xfffeb36e6800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
->>     #2 0xaaad51a8f9c4 in timer_new_full qemu/include/qemu/timer.h:523
->>     #3 0xaaad51a8f9c4 in timer_new qemu/include/qemu/timer.h:544
->>     #4 0xaaad51a8f9c4 in timer_new_ns qemu/include/qemu/timer.h:562
->>     #5 0xaaad51a8f9c4 in s390_cpu_initfn qemu/target/s390x/cpu.c:304
->>     #6 0xaaad51e00f58 in object_init_with_type qemu/qom/object.c:371
->>     #7 0xaaad51e0406c in object_initialize_with_type qemu/qom/object.c:515
->>     #8 0xaaad51e042e0 in object_new_with_type qemu/qom/object.c:729
->>     #9 0xaaad51e3ff40 in qmp_device_list_properties qemu/qom/qom-qmp-cmds.c:153
->>     #10 0xaaad51910518 in qdev_device_help qemu/softmmu/qdev-monitor.c:283
->>     #11 0xaaad51911918 in qmp_device_add qemu/softmmu/qdev-monitor.c:801
->>     #12 0xaaad51911e48 in hmp_device_add qemu/softmmu/qdev-monitor.c:916
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
->> ---
->> Cc: Thomas Huth <thuth@redhat.com>
-> 
-> [Adding missing maintainers. How did you build the cc: list?]
-> 
->> ---
->>  target/s390x/cpu.c | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
->> index 7b66718c44..8a734c2f8c 100644
->> --- a/target/s390x/cpu.c
->> +++ b/target/s390x/cpu.c
->> @@ -313,6 +313,11 @@ static void s390_cpu_finalize(Object *obj)
->>  #if !defined(CONFIG_USER_ONLY)
->>      S390CPU *cpu = S390_CPU(obj);
->>  
->> +    timer_del(cpu->env.tod_timer);
->> +    timer_free(cpu->env.tod_timer);
->> +    timer_del(cpu->env.cpu_timer);
->> +    timer_free(cpu->env.cpu_timer);
->> +
->>      qemu_unregister_reset(s390_cpu_machine_reset_cb, cpu);
->>      g_free(cpu->irqstate);
->>  #endif
-> 
-> Looks sane at first glance.
-> 
+This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
 
-Could have sworn we had these in the code at one point - but I don't
-find anything in the git history.
+Currently the only way to make (external) live VM snapshot is using existing
+dirty page logging migration mechanism. The main problem is that it tends to
+produce a lot of page duplicates while running VM goes on updating already
+saved pages. That leads to the fact that vmstate image size is commonly several
+times bigger then non-zero part of virtual machine's RSS. Time required to
+converge RAM migration and the size of snapshot image severely depend on the
+guest memory write rate, sometimes resulting in unacceptably long snapshot
+creation time and huge image size.
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+This series propose a way to solve the aforementioned problems. This is done
+by using different RAM migration mechanism based on UFFD write protection
+management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+guest RAM content using write-protection and iteratively release protection
+for memory ranges that have already been saved to the migration stream.
+At the same time we read in pending UFFD write fault events and save those
+pages out-of-order with higher priority.
+
+How to use:
+1. Enable write-tracking migration capability
+   virsh qemu-monitor-command <domain> --hmp migrate_set_capability.
+track-writes-ram on
+
+2. Start the external migration to a file
+   virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
+
+3. Wait for the migration finish and check that the migration has completed.
+state.
+
+Changes v4->v5:
+
+* 1. Refactored util/userfaultfd.c code to support features required by postcopy.
+* 2. Introduced checks for host kernel and guest memory backend compatibility
+*    to 'background-snapshot' branch in migrate_caps_check().
+* 3. Switched to using trace_xxx instead of info_report()/error_report() for
+*    cases when error message must be hidden (probing UFFD-IO) or info may be
+*    really littering output if goes to stderr.
+* 4  Added RCU_READ_LOCK_GUARDs to the code dealing with RAM block list.
+* 5. Added memory_region_ref() for each RAM block being wr-protected.
+* 6. Reused qemu_ram_block_from_host() instead of custom RAM block lookup routine.
+* 7. Refused from using specific hwaddr/ram_addr_t in favour of void */uint64_t.
+* 8. Currently dropped 'linear-scan-rate-limiting' patch. The reason is that
+*    that choosen criteria for high-latency fault detection (i.e. timestamp of
+*    UFFD event fetch) is not representative enough for this task.
+*    At the moment it looks somehow like premature optimization effort.
+* 8. Dropped some unnecessary/unused code.
+
+Andrey Gruzdev (4):
+  migration: introduce 'background-snapshot' migration capability
+  migration: introduce UFFD-WP low-level interface helpers
+  migration: support UFFD write fault processing in ram_save_iterate()
+  migration: implementation of background snapshot thread
+
+ include/exec/memory.h      |   8 +
+ include/qemu/userfaultfd.h |  35 ++++
+ migration/migration.c      | 363 ++++++++++++++++++++++++++++++++++++-
+ migration/migration.h      |   4 +
+ migration/ram.c            | 270 +++++++++++++++++++++++++++
+ migration/ram.h            |   6 +
+ migration/savevm.c         |   1 -
+ migration/savevm.h         |   2 +
+ migration/trace-events     |   2 +
+ qapi/migration.json        |   7 +-
+ util/meson.build           |   1 +
+ util/trace-events          |   9 +
+ util/userfaultfd.c         | 345 +++++++++++++++++++++++++++++++++++
+ 13 files changed, 1049 insertions(+), 4 deletions(-)
+ create mode 100644 include/qemu/userfaultfd.h
+ create mode 100644 util/userfaultfd.c
 
 -- 
-Thanks,
-
-David / dhildenb
+2.25.1
 
 
