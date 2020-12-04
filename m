@@ -2,66 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B90352CE899
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 08:27:47 +0100 (CET)
-Received: from localhost ([::1]:46436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68402CE8B2
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 08:39:55 +0100 (CET)
+Received: from localhost ([::1]:49806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kl5VK-0000XJ-Og
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 02:27:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44760)
+	id 1kl5h4-0002iF-Lr
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 02:39:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kl5SM-0008Ar-Ir; Fri, 04 Dec 2020 02:24:42 -0500
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:34464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kl5SL-0007qZ-2Q; Fri, 04 Dec 2020 02:24:42 -0500
-Received: by mail-io1-xd42.google.com with SMTP id i18so4831608ioa.1;
- Thu, 03 Dec 2020 23:24:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NEGOO7o9RDWdU9FzlaHFbV7zwMtyrmhsOxqfCouYE8w=;
- b=mQgd8Zt5lT/7rbv+VXaOiVcYDtre3rc+in9W2vmDMyBuJf3P+VJIxWJRrugTXuXZT8
- uY6H8aixL62+XTM/r+dl1PFMzK6JRafKP690bKadBBNpkMN0eXWsqHedvwuGi/Kt7qUo
- aNoj5EI5l/sZyUb28eXYhD6fCcOvNj7ulbjeWx4SRTCAHWxxsL2cbfr6Be74t1pDb/28
- /NRd3sXWS2oPfP/aCAN0WHZ5fXC04UOlgYxoRhCQf5xyM5Ru0KLqqJHeyH95VVWDZfrI
- GR/wecgxtbui6Ol4WMGmGrMCkDj8ZsTUZLyzNpg6bvw8muiOYB1SA3ZFZTfsTSP3a3pt
- nrdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NEGOO7o9RDWdU9FzlaHFbV7zwMtyrmhsOxqfCouYE8w=;
- b=OtAXT4ZUrGuNkPBJCPGslhIWIByzivNOaabe4UwziZQtRUJ6NhA4siKBCitylBZiQP
- x2tkmucHEHpP7vaCgqb7klbcWV8OWbXu26y4ZJIT8hwYSA6e/goU3PWGh6w7XF0SckJt
- aja7rMNP+9ArnD5ajxo0kRw8cyiIWuZ14kNHh5ZmLjyGWpTo2AerrOzs4lCVuq24JruN
- mHPm838vscZ29FffjBQDhpIFt12hS1At5kXKps8EL81WJYeUZ27M3IN8IeCD+xw8M0Yt
- T/+OQqwp4Ih2FOjCgSgGfUsF643qu/Uxyx294/CGnNijcgR/vyqyzk80RX3/tkQDEmkc
- h1/w==
-X-Gm-Message-State: AOAM532+5bQ72UohwoZKcRddZa4QrV0/EjBvOpbCfVKJ6VKQIiB5FUjB
- 5ttUaYKeRTVZI+I6gz/JCrYvmWiydd+L62hxAOk=
-X-Google-Smtp-Source: ABdhPJxwB2pFJAhrtXC6veI4YusAHlqJAnPD9b67BK9zebZBJDntSoHVrIIcEaBmyJytQolIirsLLq3qxA3o+cmmghA=
-X-Received: by 2002:a6b:5d07:: with SMTP id r7mr4621476iob.84.1607066679658;
- Thu, 03 Dec 2020 23:24:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kl5fC-000291-Kf; Fri, 04 Dec 2020 02:37:58 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:48627)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kl5f8-0003Wa-V7; Fri, 04 Dec 2020 02:37:58 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.132])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0628A7147E7C;
+ Fri,  4 Dec 2020 08:37:42 +0100 (CET)
+Received: from kaod.org (37.59.142.96) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 4 Dec 2020
+ 08:37:42 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001b569db9f-6a0d-41df-a981-1a48422025c8,
+ 977776E1094EFD99122EFBBE6561ABC933400753) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Fri, 4 Dec 2020 08:37:41 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [for-6.0] MAINTAINERS: Add Greg Kurz as co-maintainer for ppc
+Message-ID: <20201204083741.4e017945@bahia.lan>
+In-Reply-To: <20201204001113.271220-1-david@gibson.dropbear.id.au>
+References: <20201204001113.271220-1-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20201115184903.1292715-1-ganqixin@huawei.com>
- <20201115184903.1292715-3-ganqixin@huawei.com>
-In-Reply-To: <20201115184903.1292715-3-ganqixin@huawei.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Fri, 4 Dec 2020 08:24:28 +0100
-Message-ID: <CAM9Jb+i5tBwfzBezpHQagVvEnOO+=iuPogUzufZWXKFWQB2V-A@mail.gmail.com>
-Subject: Re: [PATCH 02/13] virtio-pmem: put it into the 'storage' category
-To: Gan Qixin <ganqixin@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd42.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 54460fae-4909-4357-b7df-05dc7776bd43
+X-Ovh-Tracer-Id: 16665007475163961638
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudeijedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfefftedvgeduuefgheeltddtieegheejhfekleduuddtffejffeuleffgfevtdeknecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,44 +67,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Qemu Developers <qemu-devel@nongnu.org>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
+Cc: aik@ozlabs.ru, peter.maydell@linaro.org, qemu-ppc@nongnu.org,
+ lvivier@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> The category of the virtio-pmem device is not set, put it into the 'storage'
-> category.
->
-> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+On Fri,  4 Dec 2020 11:11:13 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
+
+> Greg has agreed to be co-maintainer of the ppc target and machines.
+> This should avoid repeats of the problem we had in qemu-5.2 where a
+> last minute fix was needed while I was on holiday.
+>=20
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 > ---
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  hw/virtio/virtio-pmem.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
-> index ddb0125901..98b3139cd0 100644
-> --- a/hw/virtio/virtio-pmem.c
-> +++ b/hw/virtio/virtio-pmem.c
-> @@ -175,6 +175,7 @@ static void virtio_pmem_class_init(ObjectClass *klass, void *data)
->
->      vpc->fill_device_info = virtio_pmem_fill_device_info;
->      vpc->get_memory_region = virtio_pmem_get_memory_region;
-> +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
 
-Just noticed "virtio_pmem_pci_class_init" is marked as DEVICE_CATEGORY_MISC.
-So, both virtio-pmem & virtio_pmem_pci have the same device category?
+Acked-by: Greg Kurz <groug@kaod.org>
 
-Thanks,
-Pankaj
+>  MAINTAINERS | 17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+>=20
+> I've also applied this change to my ppc-for-6.0 branch.
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 68bc160f41..bb7e3b3203 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -272,6 +272,7 @@ F: tests/tcg/openrisc/
+> =20
+>  PowerPC TCG CPUs
+>  M: David Gibson <david@gibson.dropbear.id.au>
+> +M: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Maintained
+>  F: target/ppc/
+> @@ -394,6 +395,7 @@ F: target/mips/kvm.c
+> =20
+>  PPC KVM CPUs
+>  M: David Gibson <david@gibson.dropbear.id.au>
+> +M: Greg Kurz <groug@kaod.org>
+>  S: Maintained
+>  F: target/ppc/kvm.c
+> =20
+> @@ -1183,18 +1185,21 @@ PowerPC Machines
+>  ----------------
+>  405
+>  M: David Gibson <david@gibson.dropbear.id.au>
+> +M: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Odd Fixes
+>  F: hw/ppc/ppc405_boards.c
+> =20
+>  Bamboo
+>  M: David Gibson <david@gibson.dropbear.id.au>
+> +M: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Odd Fixes
+>  F: hw/ppc/ppc440_bamboo.c
+> =20
+>  e500
+>  M: David Gibson <david@gibson.dropbear.id.au>
+> +M: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Odd Fixes
+>  F: hw/ppc/e500*
+> @@ -1208,6 +1213,7 @@ F: pc-bios/u-boot.e500
+> =20
+>  mpc8544ds
+>  M: David Gibson <david@gibson.dropbear.id.au>
+> +M: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Odd Fixes
+>  F: hw/ppc/mpc8544ds.c
+> @@ -1216,6 +1222,7 @@ F: hw/ppc/mpc8544_guts.c
+>  New World (mac99)
+>  M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>  R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Odd Fixes
+>  F: hw/ppc/mac_newworld.c
+> @@ -1235,6 +1242,7 @@ F: pc-bios/qemu_vga.ndrv
+>  Old World (g3beige)
+>  M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>  R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Odd Fixes
+>  F: hw/ppc/mac_oldworld.c
+> @@ -1248,6 +1256,8 @@ F: pc-bios/qemu_vga.ndrv
+> =20
+>  PReP
+>  M: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+> +R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Maintained
+>  F: hw/ppc/prep.c
+> @@ -1264,6 +1274,7 @@ F: tests/acceptance/ppc_prep_40p.py
+> =20
+>  sPAPR
+>  M: David Gibson <david@gibson.dropbear.id.au>
+> +M: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Supported
+>  F: hw/*/spapr*
+> @@ -1281,6 +1292,7 @@ F: tests/qtest/libqos/rtas*
+>  PowerNV (Non-Virtualized)
+>  M: C=C3=A9dric Le Goater <clg@kaod.org>
+>  M: David Gibson <david@gibson.dropbear.id.au>
+> +M: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Maintained
+>  F: hw/ppc/pnv*
+> @@ -1300,6 +1312,8 @@ F: hw/ppc/virtex_ml507.c
+> =20
+>  sam460ex
+>  M: BALATON Zoltan <balaton@eik.bme.hu>
+> +R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Maintained
+>  F: hw/ppc/sam460ex.c
+> @@ -2078,8 +2092,9 @@ F: tests/qtest/fw_cfg-test.c
+>  T: git https://github.com/philmd/qemu.git fw_cfg-next
+> =20
+>  XIVE
+> -M: David Gibson <david@gibson.dropbear.id.au>
+>  M: C=C3=A9dric Le Goater <clg@kaod.org>
+> +R: David Gibson <david@gibson.dropbear.id.au>
+> +R: Greg Kurz <groug@kaod.org>
+>  L: qemu-ppc@nongnu.org
+>  S: Supported
+>  F: hw/*/*xive*
 
->  }
->
->  static TypeInfo virtio_pmem_info = {
-> --
-> 2.23.0
->
->
 
