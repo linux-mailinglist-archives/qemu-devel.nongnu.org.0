@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1AE2CF581
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:21:04 +0100 (CET)
-Received: from localhost ([::1]:59758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A1C2CF55D
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 21:15:03 +0100 (CET)
+Received: from localhost ([::1]:45590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klHZd-0007oR-UI
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:21:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42234)
+	id 1klHTq-0001jI-2V
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 15:15:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1klEnH-0000fA-HK
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:23:02 -0500
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:33732)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1klEmo-0001De-DY
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 12:22:43 -0500
-Received: by mail-ot1-x343.google.com with SMTP id b18so5917016ots.0
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 09:19:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=s/K/Z1mU174+bqILLTQa5GQtSbllWYCoyDJq8pLRWUs=;
- b=mmXBGzKPxVKZBz6+V+ztZUYe22UlZo+cKJWbcol8wKgU+vrICSzzfxb1D8ithAMckd
- n7W2JK2GzntOhFEoEmA+q4rCrpsNoNiIVXt1Oow42dZ/B6zrXb5dKo1wyGBPJ4qV9iNC
- PjLLXIAxlkc0J9BACu18lI83xRz7L858iYgxeisD3RtCbp/guCwC1D71oyjoJw22mrhx
- /T/BaY9yl0NcO8hYR9h3aZErk3vsoAYszrVXMpPdFTSBey9fnQiG3E3q7uTwfs8dq6PU
- xYmMjeiwTQP8YaCj9n4BNCkr1TKUYW/VUYQ7wdwLDSe/uy0f9eqytjXodS9u2vOQ5aIU
- 7hTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=s/K/Z1mU174+bqILLTQa5GQtSbllWYCoyDJq8pLRWUs=;
- b=lYv8iiKX01YZI8q689a9QYrePFQFJWuJ9G2IdLFER7wYlREp/nOdHUCWNXuvdiIx2/
- ML3PqkVQf5c0K8edfFp+x/mVpoBNHq2IR3KHBWDI9WL9hPqaF66TIAEm3GCcOelJneLk
- Z4OlXO7EMcbU8ayIol3K/J1Az4jqZcAgLYa59/JoWdrzBmxWxpZIJWNFSZXeuvnuxykv
- E8V5OQmukFqHNdpNXybWUrPPkdxlbkzqcfXN+DjZuRZjHIybOYhCpGUSkS6tuqmeV1wI
- WjA4JcmSgIt+lpNSMOBH+Gt30HbfuAticZbm3zoDM9oe2kaybMmpqtIEcuIlvQY/BLxu
- iuNA==
-X-Gm-Message-State: AOAM532f6kjpm+33zDnnaj1KKw9riu8Jm3ErdEpGVwFBetWxnoOmWiSL
- 1bcMYdzCa11ezHyOhjIgfHC5NCcq9XEZ4KG1
-X-Google-Smtp-Source: ABdhPJy8jHi956LTYxapRjhjvfcFUICeFKrtbEDUKfTdYkuX+/gTpCCIEdWfxJNxdp8n+XwoeXvYIw==
-X-Received: by 2002:a9d:7d92:: with SMTP id j18mr4203985otn.17.1607099339170; 
- Fri, 04 Dec 2020 08:28:59 -0800 (PST)
-Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
- [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id k20sm734786oig.35.2020.12.04.08.28.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 04 Dec 2020 08:28:58 -0800 (PST)
-Subject: Re: [PATCH 6/9] target/mips: Alias MSA vector registers on FPU scalar
- registers
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201202184415.1434484-1-f4bug@amsat.org>
- <20201202184415.1434484-7-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ac68e51c-650a-55df-c050-c22a1df355b5@linaro.org>
-Date: Fri, 4 Dec 2020 10:28:55 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1klEkK-0000AL-S9; Fri, 04 Dec 2020 12:19:55 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:46242 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1klEjW-0000zq-OK; Fri, 04 Dec 2020 12:19:39 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 4426E413EF;
+ Fri,  4 Dec 2020 16:41:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1607100078;
+ x=1608914479; bh=+chenhLr10LuUBvAGCBgnQJzSbfU2H/hqR0t24bg7zo=; b=
+ kPyokacXcSdebzuDM/PoJ+Sght/EpxJ0U8jTYefqg/D+CGioF5R3QW+Oj2mpzo0D
+ PMxDCpQavQ9LYltWoZOWAGCrx1pcODWBtCuc0nMLbVyLrO5/vhHFOMF32FLThChV
+ u1imGCpt8D7WJPda35fu16ilhHXBkzxsP7y1DK48Eng=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BqpNTrOp8pbi; Fri,  4 Dec 2020 19:41:18 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 05ACC41373;
+ Fri,  4 Dec 2020 19:41:16 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 4 Dec
+ 2020 19:41:15 +0300
+Date: Fri, 4 Dec 2020 19:41:38 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Alexander Graf <agraf@csgraf.de>
+Subject: Re: [PATCH v4 07/11] hvf: Add Apple Silicon support
+Message-ID: <20201204164138.GF86904@SPB-NB-133.local>
+References: <20201203234857.21051-1-agraf@csgraf.de>
+ <20201203234857.21051-8-agraf@csgraf.de>
 MIME-Version: 1.0
-In-Reply-To: <20201202184415.1434484-7-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x343.google.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20201203234857.21051-8-agraf@csgraf.de>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,25 +76,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/2/20 12:44 PM, Philippe Mathieu-Daudé wrote:
-> Commits 863f264d10f ("add msa_reset(), global msa register") and
-> cb269f273fd ("fix multiple TCG registers covering same data")
-> removed the FPU scalar registers and replaced them by aliases to
-> the MSA vector registers.
-> While this might be the case for CPU implementing MSA, this makes
-> QEMU code incoherent for CPU not implementing it. It is simpler
-> to inverse the logic and alias the MSA vector registers on the
-> FPU scalar ones.
+On Fri, Dec 04, 2020 at 12:48:53AM +0100, Alexander Graf wrote:
+> With Apple Silicon available to the masses, it's a good time to add support
+> for driving its virtualization extensions from QEMU.
+> 
+> This patch adds all necessary architecture specific code to get basic VMs
+> working. It's still pretty raw, but definitely functional.
+> 
+> Known limitations:
+> 
+>   - Vtimer acknowledgement is hacky
+>   - Should implement more sysregs and fault on invalid ones then
+>   - WFI handling is missing, need to marry it with vtimer
+> 
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> 
 
-How does it make things incoherent?  I'm missing how the logic has actually
-changed, as opposed to an order of assignments.
+For non-ARM specific bits,
 
+Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
 
-r~
+Can't set Tested-by because I have no ARM machine yet, but x86
+build/execution is fine on Catalina and Big Sur :)
+
+Thanks,
+Roman
 
