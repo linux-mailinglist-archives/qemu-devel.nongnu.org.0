@@ -2,119 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D852CF664
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 22:48:32 +0100 (CET)
-Received: from localhost ([::1]:37064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 388612CF64E
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 22:39:32 +0100 (CET)
+Received: from localhost ([::1]:50134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klIwJ-0006UO-H2
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 16:48:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33204)
+	id 1klIna-0007om-No
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 16:39:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1klIuE-0005pX-6k
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 16:46:22 -0500
-Received: from mail-dm6nam12on2050.outbound.protection.outlook.com
- ([40.107.243.50]:9536 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1klIkn-0006W0-FN; Fri, 04 Dec 2020 16:36:37 -0500
+Received: from mail-db8eur05on2098.outbound.protection.outlook.com
+ ([40.107.20.98]:14945 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1klIuB-0002pa-Ly
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 16:46:21 -0500
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1klIki-0007p5-Ml; Fri, 04 Dec 2020 16:36:37 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=maLWT1Nl1pip5XFcsJ6bHjYYfiF4vOoo96aW6ptPLWOeOGR0uSOYSIrdgJ0wPMA8y7Uz2uo9H8yR9u5K0hFPoYr1AQ2+FrYBrAI1O0piWr7AEGsYbTj7z3Y6D06YSYd3OlhqfcfFAF16A1UBL2LXALttU6WNu6mS+23qJbdPR8Ez8Na3QbpgAvCwihwWQGFRYmkTB+R215mVWAas4gQs1gwiVNlYX341F+L4E2G9D/pownpPp/JVhNHyojw3UYB7ZsappjBh+ob8OSl2jCqGOgGf00ELUOD34su3WFYVixE2tONupTBfCUEtmwD0PyzVxdEexvbtv/mnz0VqydX2Tg==
+ b=jxzinlqoeDOPeaPFpZTd6+KA6le0PYWy2V5DZhS63uA0ydaCs9FkGm14vFI86XpWrdHe/yYqXau/w64L0geuxQLbOxolqJrUwK+J7F61OQg7/X2HJCBSs0NwuaJUm+V29/E6l8Vg22qzXjIhl5lbQpOHzLz40PFAVJAuYLI9J8pc/0P4yWbV1BHsVXAo61GQbHPgmvdTHQsKxlyGXTSVH1h5d+oLNt3RMu93sy564d7HWUO//FFhzc3kqJpw1VdAxi0bmuPWV0dqfMJuT1Xw7Ml9RppF92BbLAxkCHxTOekATU4v/a+t0DnIGCNl/mKOSUaIVyOb4J2ekYELJHEEqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cIFI4ju2A2xkxveYfptsHT7nH2HM2YPpf9lFfk5qebQ=;
- b=jA684B2tr5CCdV5lcSa2Cp5xxi1e89oQ4mQZn+x+yPb3bmfsAqZ1YRba7QriBoZDeXgicMO4BT5QxssPCYibe17j8h8DK5+Q39wXTYE4VemoFcRRcpLnCXsHBknrQr/eFPjnS+Nirumj66mn8JQs/kXI3SWEyCWnOAjHsrYFh5w9guzdANMEO9nQDLIICAVEO4eeZTmLguW5D9AK/O0XZWBEpB51Eb9ag+PwWqvXgFOmoGPFUTIs5qHnzpUq3rXlKblqCP1ayj8v0wHttfxI9Nc21ZmrbtR+NZtOxHouSbbJV0ZhNuZahJbKpZeRf7vgSqO80q5KbX/iPbIL3q0t/g==
+ bh=r+ZZ6YZE+0NEfNBth8OFSMNWuj4QWPpuzFASe6Vaqa8=;
+ b=XVeiF8N13sFa9tiLdId8QUarQcb79BFgkl0UqumtNeauv1DWEEX4tqAomclsCAmLV6hVzqMVH/2Q76vlJ5ZlrTEwIpnBYCoqTCdkeQ2a3yhca4P/o50hkFtOi6hbi+ot1cu5mRH34PmWQf2OUDts/pry6gXVj4T1IAv0G/c5qbmjhtUTB/rdOpaTkMOS+TnB4FCMwbiW/+w+WpsZWgjXhjnkek2/6g19HRmxyKyEoxag1Xl1uM0jfpRCYX7XUK7p+G68Nk7qImyExQysWPCU53H8H7AwbOfU5/M3k/B1F3+GD5ApEL6J7iReyNM5jbOwY1VuIyzKCV/HG5g664tyOQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cIFI4ju2A2xkxveYfptsHT7nH2HM2YPpf9lFfk5qebQ=;
- b=S/rJmTAUqxwN45fLR8OIATYDn/BCGM7VlTlUVvoPfkxgmJQj3wPBg/3qtOz5mFjKqLNfpfhUIoVEpgDsAUCeCuu7LZBe+xD34pttDRNEmvpVtWis2JxGUSHK1fhHDLlzjBW7TB+kdeKmSubqlyC121phAMZcE4GtJO02tGax+rg=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
- by SA0PR12MB4431.namprd12.prod.outlook.com (2603:10b6:806:95::11)
+ bh=r+ZZ6YZE+0NEfNBth8OFSMNWuj4QWPpuzFASe6Vaqa8=;
+ b=lOo3H31XTn4DApacXNUYVpMjxzIdlFvcL+OgR5MhK/WDHVqzQGChAa8SHouPY8TN7QmLXnJB1/LI7ECkxv8/310qAKi9NhqTPa6btIv4/8XPrWMkQqSLLiDembri2LIKFOvIeDyYB3GV+tjhRijY1NLqycHbzWTQPsaHzncmu4U=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6119.eurprd08.prod.outlook.com (2603:10a6:20b:290::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.25; Fri, 4 Dec
- 2020 21:31:14 +0000
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::18a2:699:70b3:2b8a]) by SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::18a2:699:70b3:2b8a%6]) with mapi id 15.20.3632.021; Fri, 4 Dec 2020
- 21:31:14 +0000
-From: Brijesh Singh <brijesh.singh@amd.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386/sev: add the support to query the attestation
- report
-Date: Fri,  4 Dec 2020 15:31:01 -0600
-Message-Id: <20201204213101.14552-1-brijesh.singh@amd.com>
-X-Mailer: git-send-email 2.17.1
-Content-Type: text/plain
-X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: SN6PR2101CA0022.namprd21.prod.outlook.com
- (2603:10b6:805:106::32) To SN6PR12MB2718.namprd12.prod.outlook.com
- (2603:10b6:805:6f::22)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Fri, 4 Dec
+ 2020 21:36:26 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3632.021; Fri, 4 Dec 2020
+ 21:36:26 +0000
+Subject: Re: [PATCH v13 00/10] Apply COR-filter to the block-stream permanently
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, mreitz@redhat.com,
+ stefanha@redhat.com, fam@euphon.net, armbru@redhat.com, jsnow@redhat.com,
+ eblake@redhat.com, den@openvz.org
+References: <1606933861-297777-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <aa39bd4b-a5aa-47c4-c360-23970dea7bfc@virtuozzo.com>
+Date: Sat, 5 Dec 2020 00:36:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
+In-Reply-To: <1606933861-297777-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.91]
+X-ClientProxiedBy: AM4PR05CA0003.eurprd05.prod.outlook.com (2603:10a6:205::16)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from sbrijesh-desktop.amd.com (165.204.77.1) by
- SN6PR2101CA0022.namprd21.prod.outlook.com (2603:10b6:805:106::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.2 via Frontend
- Transport; Fri, 4 Dec 2020 21:31:14 +0000
+Received: from [192.168.100.5] (185.215.60.91) by
+ AM4PR05CA0003.eurprd05.prod.outlook.com (2603:10a6:205::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3632.17 via Frontend Transport; Fri, 4 Dec 2020 21:36:25 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 900d0ca3-73e0-4fa4-2a02-08d8989bed7b
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4431:
+X-MS-Office365-Filtering-Correlation-Id: f29e8854-f172-4ac3-b785-08d8989ca726
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6119:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB44316D5BC2C7DBC26BE87DDCE5F10@SA0PR12MB4431.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1051;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6119F063FAAAA141B2806D07C1F10@AS8PR08MB6119.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZEYzC0z5YTXs+gMM3lHulWrHOZMcrX2O4hZop15YmlC6BeXMyiDqdUBj5F+XiVjCMWOprkaSS7OXejA7LGDK2235O4ZSbkFqWAxzgng0MS+1rw74oeJBedsjc3wgo3BCf6XAHEOZFIA/eUINREHbPylOt4v5cVA30T0EGch+ucxU8QBedz1kO398UsNGZw+cshnjgwl6TV+BIyvnAIe6o6li1LOkyTxCJtFu9Nj2dg3WbCfpd3ZiMvi6oSU/A8kLDdux5wPmMfyos2CebYbmOB1hC6L0AdrXpcWDKZcDfMm60weLRMBOpHdBwe7pk25I
+X-Microsoft-Antispam-Message-Info: bovFmm2cTQeFjhNmNtdJ5dNvxV0TPp0w8+MTZklawJmkeaURq/qX6K5zZQcYj4rorwrv4wsmZTg5PnlQ/knG3DY8VCEiMdCfrZ1JU9oIo0cNQmJznv78Q2/Qt0m46A8HTFdWmfyR4BWc474/4mJmaH7QZjhpXC6BTyLjNbvIP9ajB2s7viksOyiP1FE1a+Y/qwaE+PqAVGLsykcB3jdnwpniCAxPcm97oXtzsxBaUgrsXwDY07sh53pEUVqbBR8k6TZ11zEtXTGcUKfuxlN0hnf+1FXhBVr1mEj5jiMxt9nmGG8W3jtUy2T8aoeyvdJBXmwnbJ/dswmIO203cBkeYIc/90DKtKJvn8jVIVgJEWTafIOSUTt9RAzsr7ZJwcVvRIfyhLmpWwzzzFGIpNBP9nXwzgNevAlj83EtieoTMys=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(376002)(136003)(39860400002)(346002)(66946007)(52116002)(6666004)(8676002)(86362001)(66556008)(5660300002)(316002)(186003)(83380400001)(44832011)(6916009)(66476007)(8936002)(2616005)(7696005)(2906002)(54906003)(36756003)(16526019)(1076003)(4326008)(6486002)(478600001)(956004)(26005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?uS5/pglLyEPF25NM8MWpHYx9bpCt9FZ3lgIiz7ibpZOfILowqlInZNM48q7g?=
- =?us-ascii?Q?znw0agHuuB6WMktl3dBKH9zSJIhKcKQQnwgLSWFXPD3DnhhRFKm0Q/HXWhOF?=
- =?us-ascii?Q?RKhmiEVW7XopN8hOH919HkuLAKmQFB+QjB25cdjfL4ryk/6MRPrGeUTEEhtZ?=
- =?us-ascii?Q?CYLUxUuU0MFfU6CujKwTGLXN0PvD9NG8tCyabRvpdrZWfF7MUtX+wHmr2CxF?=
- =?us-ascii?Q?iIEN6u1mjDEwPM+uqZcIEG9XRu1gGBgvBLn6zBm9xb0ttqdPbgga7LwhRp7P?=
- =?us-ascii?Q?RiQy+3Y9Z8FGskCsvvVRH2hb7ChEne9ktJMLhOKKc8yqRwKRwxmnIPYHFzYc?=
- =?us-ascii?Q?Hi1QqfZWPT7oIlav/lamQfv6aq4lom/9OBAE4z1/BDOYokDHgo1Quxcioede?=
- =?us-ascii?Q?65+PrwYJEyrl8vRKIfwoelYfJeumCOCIUxtqs6HHMwgopi/GgN99bpbRW9NO?=
- =?us-ascii?Q?xs9v0DCHvmEh9wiQu+TK6rwuX1DjjqYxq5UP6a0jBp3sgLLsMKKx5/DbDaP/?=
- =?us-ascii?Q?UVL7PKtL/suwM1gzD14B2lgAoN34VA66EbbQimDeH1kVoBXock6KmmILeZ6x?=
- =?us-ascii?Q?I80xj4F5Th8Mn7RNcfvPFuSgM7Bl7wUutMsJjOmCR3J4ZUqVvUDRk/fk4Pu/?=
- =?us-ascii?Q?OjtDEcA7Wm7n+q6N092oWk9JmEt1XjzRP6CjmNZC46vhxEUfnCy/ASEdbgj1?=
- =?us-ascii?Q?00XtrwnqthbjM/wZPSt6Ka8V3z9uJcrSl2QK41mp/mxrvbWZC08aHMAGUoA6?=
- =?us-ascii?Q?N2jXhWG0HcXeLs3MNGiJafYwk7O+4B2gmDHQXnApdZ29tB0C20bTVDLPrdxj?=
- =?us-ascii?Q?WIFRkoHRDyJxC9gTNcc9uSdLN2EBQELUln3ClwMs8AhdrWUlxijwJxOv4Y47?=
- =?us-ascii?Q?kM57dayhXj7+284k5YucmyzmrQ3+nQant5Su6rCR93ALRhIrNwFhhGhjrKth?=
- =?us-ascii?Q?BxyUcnhnu1EzRz9VztqFkSZzVOSyjq17DB2bIIwkvcJoem68mKzQr5uqaY/H?=
- =?us-ascii?Q?1Ick?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 900d0ca3-73e0-4fa4-2a02-08d8989bed7b
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(396003)(366004)(39840400004)(376002)(8936002)(16576012)(36756003)(4326008)(66946007)(478600001)(83380400001)(66476007)(66556008)(26005)(31696002)(6486002)(186003)(16526019)(31686004)(8676002)(5660300002)(86362001)(52116002)(2616005)(316002)(2906002)(107886003)(956004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?a0dIKy9YYnNqc1RhWm51YTVLbDI2Vmc0ZXNZdTNCQ1Q1eGM0N01jQXJqUjA2?=
+ =?utf-8?B?MmZucURoeVRYSDJmTGV6ZXRIUVVEMzF2TDVmQ3Q4a1prbS80cjFYWjkxQXNU?=
+ =?utf-8?B?UFBUZXIwWHRRYzhMbFRjWnk4aWJyeUcrcFZwUEt5V2hBbG5CUGFiVWJuWXNG?=
+ =?utf-8?B?bGpSN3ppbXVEemVqa0NwMlJqY1Q5VFpLRE9HZGpGZWo4RnYrVFhqT1VmN2VD?=
+ =?utf-8?B?SklxZ3dHL3BBcmw3NkNhTjNZWm0za3pFUTh2MVVZQ05vSGpWZlJldjQyOHBI?=
+ =?utf-8?B?bktYYnNMU3pnUHhrWEYxajY2TGZOY1JjOElrdVZaYm84K2FLTTdDbWY0NEJB?=
+ =?utf-8?B?MlM2WDJLbWVmVGRERjZQZlh6TjYzcmpJT1NtRDQ3RHNpZ2RoTzJzNlRhK082?=
+ =?utf-8?B?b3pxellnRlJxeTZRRkd6bGROc3NEamxrQnl3czVZTlJTSE54UFlCZk5PZXdz?=
+ =?utf-8?B?eGJyZVB1QkZoazNWRE9ZOXJLNHBlWHQ1OEErUzM2QmdxWnZVNnNXcTlqWWxp?=
+ =?utf-8?B?RmZkNFpQZUdHcTBhYnA4WGQ5aldza2t6MHQzT3labG9rSWVrRVp1RUU2VXU3?=
+ =?utf-8?B?c2ZEV3pMc1VyZVpVTEd1NThqVE11SkljTUpmalNJRWs4by85aitnSEd2c1kw?=
+ =?utf-8?B?dnN4L2I0NTM4NG9EblI3bHduOC9qMVJoOVY2aWdGU3RzWGdSdjQreG5WMjN2?=
+ =?utf-8?B?VFlZM2FGa1YwZnNESWIwSFUyTTlEZlZOSnRqOGFzSzdvazdzSTVndDhBV042?=
+ =?utf-8?B?UjA0R3JsY3FyeEJmQnlocnNXLzF5NVIzRG1FT2Izbmg4V1B0cDdwbVZHNXc1?=
+ =?utf-8?B?T3o4UU9KN3dZa2psdTJiWUdvU0ozZHcza0VTNzJaaklaS0RZWFpvSE5aazY3?=
+ =?utf-8?B?aytlZUptcnIvQnB2UE5uUDU2U3ZGYUNGN21sdGkwUEY3eDNiR3NheUxRTEhi?=
+ =?utf-8?B?OEZzZTFINGN5RWNIYU5wSXQ5SEpScUdWMmtBaEFPSXY1Sk1STWJUSmlIUkIy?=
+ =?utf-8?B?dmNCbHlrM1RkMW5MalI0U2RGMzRhNE9RbzhGWTMveWN5OUNoTEM3RzM4U28x?=
+ =?utf-8?B?RGp3ellJR1d5di93SEhRSVE2dUhrSEJ0aXlvN2F0cDZwNWNVRFNjdjhrbDJx?=
+ =?utf-8?B?R2Q0YXpYWjN4TXN2OXNGTWM2NGxXMnQwMlBDeFdnKzNHMmtpa0tGcDFvbDdi?=
+ =?utf-8?B?QkJoR3lnVXJPSWRaM3NtcVBkcGEzYnJMa2xLVTJFUGlvR0RNWWN5cHFqL21l?=
+ =?utf-8?B?RFk3VStRMzlzd0tIRFhsdGpKTWFmWFZOQzY4NDgwN1psdzhrYVlweWJSa2Ns?=
+ =?utf-8?Q?w9AGY2yuUah/8St/O1uRl5kDjgbQkIWENq?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f29e8854-f172-4ac3-b785-08d8989ca726
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2020 21:31:14.5809 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2020 21:36:26.2972 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VJDfbrXXlRJTz2uKSjc+E01eNpODfJ2+fqloJaMOApecGJGn64wlyM/iNHarrDneRpZIpq3RhulDVngXIEcJ6g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4431
-Received-SPF: softfail client-ip=40.107.243.50;
- envelope-from=brijesh.singh@amd.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+X-MS-Exchange-CrossTenant-UserPrincipalName: E7zEBY9Mjey3bIkhylaDJwixqaTa/rmYtxooJJ27kk0HKi1glq17WY8GA1nCJIcLTysV6xvMF1FKzDiQ41g5tZ8Rd5tcYpbFI2hTmUzIFaI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6119
+Received-SPF: pass client-ip=40.107.20.98;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -129,227 +138,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <Thomas.Lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, kvm@vger.kernel.org,
- James Bottomley <jejb@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SEV FW >= 0.23 added a new command that can be used to query the
-attestation report containing the SHA-256 digest of the guest memory
-and VMSA encrypted with the LAUNCH_UPDATE and sign it with the PEK.
+I still think we should keep dropped iotest by introducing "bottom" interface for stream job. And deprecate old interfaces.
+Patch is better than arguing, so I decided to try it myself. Now I'm close to complete v14, so, will send it soon.
 
-Note, we already have a command (LAUNCH_MEASURE) that can be used to
-query the SHA-256 digest of the guest memory encrypted through the
-LAUNCH_UPDATE. The main difference between previous and this command
-is that the report is signed with the PEK and unlike the LAUNCH_MEASURE
-command the ATTESATION_REPORT command can be called while the guest
-is running.
+02.12.2020 21:30, Andrey Shinkevich wrote:
+> The previous version 12 was discussed in the email thread:
+> Message-Id: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+> 
+> v13:
+>    02: The bdrv_remove_node() was dropped.
+>    05: Three patches with fixes were merged into one.
+>    06: Minor changes based on Vladimir's suggestions.
+>    08: Three patches with fixes were merged into one.
+>    09: The search for format_name of backing file was added.
+>    10: The flag BLK_PERM_GRAPH_MOD was removed.
+> 
+> Andrey Shinkevich (10):
+>    copy-on-read: support preadv/pwritev_part functions
+>    block: add API function to insert a node
+>    copy-on-read: add filter drop function
+>    qapi: add filter-node-name to block-stream
+>    qapi: create BlockdevOptionsCor structure for COR driver
+>    iotests: add #310 to test bottom node in COR driver
+>    block: include supported_read_flags into BDS structure
+>    copy-on-read: skip non-guest reads if no copy needed
+>    stream: skip filters when writing backing file name to QCOW2 header
+>    block: apply COR-filter to block-stream jobs
+> 
+>   block.c                        |  25 +++++++
+>   block/copy-on-read.c           | 143 +++++++++++++++++++++++++++++++++++++----
+>   block/copy-on-read.h           |  32 +++++++++
+>   block/io.c                     |  12 +++-
+>   block/monitor/block-hmp-cmds.c |   4 +-
+>   block/stream.c                 | 120 +++++++++++++++++++++++-----------
+>   blockdev.c                     |  12 ++--
+>   include/block/block.h          |  10 ++-
+>   include/block/block_int.h      |  11 +++-
+>   qapi/block-core.json           |  27 +++++++-
+>   tests/qemu-iotests/030         |  51 ++-------------
+>   tests/qemu-iotests/030.out     |   4 +-
+>   tests/qemu-iotests/141.out     |   2 +-
+>   tests/qemu-iotests/245         |  22 +++++--
+>   tests/qemu-iotests/310         | 114 ++++++++++++++++++++++++++++++++
+>   tests/qemu-iotests/310.out     |  15 +++++
+>   tests/qemu-iotests/group       |   1 +
+>   17 files changed, 484 insertions(+), 121 deletions(-)
+>   create mode 100644 block/copy-on-read.h
+>   create mode 100755 tests/qemu-iotests/310
+>   create mode 100644 tests/qemu-iotests/310.out
+> 
 
-Add a QMP interface "query-sev-attestation-report" that can be used
-to get the report encoded in base64.
 
-Cc: James Bottomley <jejb@linux.ibm.com>
-Cc: Tom Lendacky <Thomas.Lendacky@amd.com>
-Cc: Eric Blake <eblake@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: kvm@vger.kernel.org
-Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
----
- linux-headers/linux/kvm.h |  8 ++++++
- qapi/misc-target.json     | 38 +++++++++++++++++++++++++++
- target/i386/monitor.c     |  6 +++++
- target/i386/sev-stub.c    |  7 +++++
- target/i386/sev.c         | 54 +++++++++++++++++++++++++++++++++++++++
- target/i386/sev_i386.h    |  2 ++
- 6 files changed, 115 insertions(+)
-
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 56ce14ad20..6d0f8101ba 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1585,6 +1585,8 @@ enum sev_cmd_id {
- 	KVM_SEV_DBG_ENCRYPT,
- 	/* Guest certificates commands */
- 	KVM_SEV_CERT_EXPORT,
-+	/* Attestation report */
-+	KVM_SEV_GET_ATTESTATION_REPORT,
- 
- 	KVM_SEV_NR_MAX,
- };
-@@ -1637,6 +1639,12 @@ struct kvm_sev_dbg {
- 	__u32 len;
- };
- 
-+struct kvm_sev_attestation_report {
-+	__u8 mnonce[16];
-+	__u64 uaddr;
-+	__u32 len;
-+};
-+
- #define KVM_DEV_ASSIGN_ENABLE_IOMMU	(1 << 0)
- #define KVM_DEV_ASSIGN_PCI_2_3		(1 << 1)
- #define KVM_DEV_ASSIGN_MASK_INTX	(1 << 2)
-diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-index 1e561fa97b..ec6565e6ef 100644
---- a/qapi/misc-target.json
-+++ b/qapi/misc-target.json
-@@ -267,3 +267,41 @@
- ##
- { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
-   'if': 'defined(TARGET_ARM)' }
-+
-+
-+##
-+# @SevAttestationReport:
-+#
-+# The struct describes attestation report for a Secure Encrypted Virtualization
-+# feature.
-+#
-+# @data:  guest attestation report (base64 encoded)
-+#
-+#
-+# Since: 5.2
-+##
-+{ 'struct': 'SevAttestationReport',
-+  'data': { 'data': 'str'},
-+  'if': 'defined(TARGET_I386)' }
-+
-+##
-+# @query-sev-attestation-report:
-+#
-+# This command is used to get the SEV attestation report, and is supported on AMD
-+# X86 platforms only.
-+#
-+# @mnonce: a random 16 bytes of data (it will be included in report)
-+#
-+# Returns: SevAttestationReport objects.
-+#
-+# Since: 5.2
-+#
-+# Example:
-+#
-+# -> { "execute" : "query-sev-attestation-report", "arguments": { "mnonce": "aaaaaaa" } }
-+# <- { "return" : { "data": "aaaaaaaabbbddddd"} }
-+#
-+##
-+{ 'command': 'query-sev-attestation-report', 'data': { 'mnonce': 'str' },
-+  'returns': 'SevAttestationReport',
-+  'if': 'defined(TARGET_I386)' }
-diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-index 9f9e1c42f4..a4b65f330c 100644
---- a/target/i386/monitor.c
-+++ b/target/i386/monitor.c
-@@ -729,3 +729,9 @@ SevCapability *qmp_query_sev_capabilities(Error **errp)
- {
-     return sev_get_capabilities(errp);
- }
-+
-+SevAttestationReport *
-+qmp_query_sev_attestation_report(const char *mnonce, Error **errp)
-+{
-+    return sev_get_attestation_report(mnonce, errp);
-+}
-diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-index 88e3f39a1e..66d16f53d8 100644
---- a/target/i386/sev-stub.c
-+++ b/target/i386/sev-stub.c
-@@ -49,3 +49,10 @@ SevCapability *sev_get_capabilities(Error **errp)
-     error_setg(errp, "SEV is not available in this QEMU");
-     return NULL;
- }
-+
-+SevAttestationReport *
-+sev_get_attestation_report(const char *mnonce, Error **errp)
-+{
-+    error_setg(errp, "SEV is not available in this QEMU");
-+    return NULL;
-+}
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 93c4d60b82..28958fb71b 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -68,6 +68,7 @@ struct SevGuestState {
- 
- #define DEFAULT_GUEST_POLICY    0x1 /* disable debug */
- #define DEFAULT_SEV_DEVICE      "/dev/sev"
-+#define DEFAULT_ATTESATION_REPORT_BUF_SIZE      4096
- 
- static SevGuestState *sev_guest;
- static Error *sev_mig_blocker;
-@@ -490,6 +491,59 @@ out:
-     return cap;
- }
- 
-+SevAttestationReport *
-+sev_get_attestation_report(const char *mnonce, Error **errp)
-+{
-+    struct kvm_sev_attestation_report input = {};
-+    SevGuestState *sev = sev_guest;
-+    SevAttestationReport *report;
-+    guchar *data;
-+    int err = 0, ret;
-+
-+    if (!sev_enabled()) {
-+        error_setg(errp, "SEV is not enabled");
-+        return NULL;
-+    }
-+
-+    /* Verify that user provided random data length */
-+    if (strlen(mnonce) != sizeof(input.mnonce)) {
-+        error_setg(errp, "Expected mnonce data len %ld got %ld",
-+                sizeof(input.mnonce), strlen(mnonce));
-+        return NULL;
-+    }
-+
-+    /* Query the report length */
-+    ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
-+            &input, &err);
-+    if (ret < 0) {
-+        if (err != SEV_RET_INVALID_LEN) {
-+            error_setg(errp, "failed to query the attestation report length "
-+                    "ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
-+            return NULL;
-+        }
-+    }
-+
-+    data = g_malloc(input.len);
-+    input.uaddr = (unsigned long)data;
-+    memcpy(input.mnonce, mnonce, sizeof(input.mnonce));
-+
-+    /* Query the report */
-+    ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
-+            &input, &err);
-+    if (ret) {
-+        error_setg_errno(errp, errno, "Failed to get attestation report"
-+                " ret=%d fw_err=%d (%s)", ret, err, fw_error_to_str(err));
-+        goto e_free_data;
-+    }
-+
-+    report = g_new0(SevAttestationReport, 1);
-+    report->data = g_base64_encode(data, input.len);
-+
-+e_free_data:
-+    g_free(data);
-+    return report;
-+}
-+
- static int
- sev_read_file_base64(const char *filename, guchar **data, gsize *len)
- {
-diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-index 4db6960f60..e2d0774708 100644
---- a/target/i386/sev_i386.h
-+++ b/target/i386/sev_i386.h
-@@ -35,5 +35,7 @@ extern uint32_t sev_get_cbit_position(void);
- extern uint32_t sev_get_reduced_phys_bits(void);
- extern char *sev_get_launch_measurement(void);
- extern SevCapability *sev_get_capabilities(Error **errp);
-+extern SevAttestationReport *
-+sev_get_attestation_report(const char *mnonce, Error **errp);
- 
- #endif
 -- 
-2.17.1
-
+Best regards,
+Vladimir
 
