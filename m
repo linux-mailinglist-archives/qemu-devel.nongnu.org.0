@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFE52CE7CA
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 06:49:15 +0100 (CET)
-Received: from localhost ([::1]:43804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AF042CE7CF
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 06:50:25 +0100 (CET)
+Received: from localhost ([::1]:47924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kl3xy-0001x4-8n
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 00:49:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56824)
+	id 1kl3z6-0003dp-IY
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 00:50:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kl3tW-0004B4-DO; Fri, 04 Dec 2020 00:44:38 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57955 helo=ozlabs.org)
+ id 1kl3tX-0004EV-Rn; Fri, 04 Dec 2020 00:44:39 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:46815 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kl3tU-000061-IT; Fri, 04 Dec 2020 00:44:38 -0500
+ id 1kl3tV-00006I-9r; Fri, 04 Dec 2020 00:44:39 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CnM8h5R7zz9sVv; Fri,  4 Dec 2020 16:44:20 +1100 (AEDT)
+ id 4CnM8j2ctRz9sWD; Fri,  4 Dec 2020 16:44:21 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607060660;
- bh=lCwJ3O4sNiYS7HxagCxP/NpsI9RVLllMh2C+EBE4vKE=;
+ d=gibson.dropbear.id.au; s=201602; t=1607060661;
+ bh=VJ+LxQJOkUVbhfEUmAX9VA/bXYtOMYSQX40lQmDmveM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IEw6C4v8bZxI94lZhAlLyeTaiqyeRSbJP2VK4KmnizsQ4wpJIFV8F0t+kCUmUVVBZ
- fmveDgtGjDJq/JuBqzuaCQG3ZK2M448N1+Qfe4RBotNgppJ5TIjMwbb/1q9RUCl8iM
- +sx71e29CEN1FADUNXJ37lo3oJ0yueV7XLjQ2UUg=
+ b=n/hPt3e/EfOiifh/tLDcORyx4cp37QBDhJC+dZIUX84hluIDTzl9WSZvn2hpjXPci
+ iutHioNHKh8PvMKfetFpm85FIdF3HrtE9XlCKmt8JHPB0ePHauUOLRQyH6eq8Y1d0P
+ K3T3aL3fPzr4KyCGKJ9rj8SPkzOU8TG8bRBuz+E0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: pair@us.ibm.com, pbonzini@redhat.com, frankja@linux.ibm.com,
  brijesh.singh@amd.com, dgilbert@redhat.com, qemu-devel@nongnu.org
-Subject: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-Date: Fri,  4 Dec 2020 16:44:13 +1100
-Message-Id: <20201204054415.579042-12-david@gibson.dropbear.id.au>
+Subject: [for-6.0 v5 12/13] securable guest memory: Alter virtio default
+ properties for protected guests
+Date: Fri,  4 Dec 2020 16:44:14 +1100
+Message-Id: <20201204054415.579042-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201204054415.579042-1-david@gibson.dropbear.id.au>
 References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
@@ -68,45 +69,53 @@ Cc: thuth@redhat.com, cohuck@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We haven't yet implemented the fairly involved handshaking that will be
-needed to migrate PEF protected guests.  For now, just use a migration
-blocker so we get a meaningful error if someone attempts this (this is the
-same approach used by AMD SEV).
+The default behaviour for virtio devices is not to use the platforms normal
+DMA paths, but instead to use the fact that it's running in a hypervisor
+to directly access guest memory.  That doesn't work if the guest's memory
+is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
+
+So, if a securable guest memory mechanism is enabled, then apply the
+iommu_platform=on option so it will go through normal DMA mechanisms.
+Those will presumably have some way of marking memory as shared with
+the hypervisor or hardware so that DMA will work.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/ppc/pef.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/core/machine.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-index 3ae3059cfe..edc3e744ba 100644
---- a/hw/ppc/pef.c
-+++ b/hw/ppc/pef.c
-@@ -38,7 +38,11 @@ struct PefGuestState {
- };
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index a67a27d03c..d16273d75d 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -28,6 +28,8 @@
+ #include "hw/mem/nvdimm.h"
+ #include "migration/vmstate.h"
+ #include "exec/securable-guest-memory.h"
++#include "hw/virtio/virtio.h"
++#include "hw/virtio/virtio-pci.h"
  
- #ifdef CONFIG_KVM
-+static Error *pef_mig_blocker;
+ GlobalProperty hw_compat_5_1[] = {
+     { "vhost-scsi", "num_queues", "1"},
+@@ -1169,6 +1171,17 @@ void machine_run_board_init(MachineState *machine)
+          * areas.
+          */
+         machine_set_mem_merge(OBJECT(machine), false, &error_abort);
 +
- static int kvmppc_svm_init(Error **errp)
-+
-+int kvmppc_svm_init(SecurableGuestMemory *sgm, Error **errp)
- {
-     if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURABLE_GUEST)) {
-         error_setg(errp,
-@@ -54,6 +58,11 @@ static int kvmppc_svm_init(Error **errp)
-         }
++        /*
++         * Virtio devices can't count on directly accessing guest
++         * memory, so they need iommu_platform=on to use normal DMA
++         * mechanisms.  That requires also disabling legacy virtio
++         * support for those virtio pci devices which allow it.
++         */
++        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy",
++                                   "on", true);
++        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform",
++                                   "on", false);
      }
  
-+    /* add migration blocker */
-+    error_setg(&pef_mig_blocker, "PEF: Migration is not implemented");
-+    /* NB: This can fail if --only-migratable is used */
-+    migrate_add_blocker(pef_mig_blocker, &error_fatal);
-+
-     return 0;
- }
- 
+     machine_class->init(machine);
 -- 
 2.28.0
 
