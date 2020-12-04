@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D377C2CEFC2
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:36:57 +0100 (CET)
-Received: from localhost ([::1]:35596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E62E2CEFCA
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 15:39:34 +0100 (CET)
+Received: from localhost ([::1]:37748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klCCe-0008Ks-VI
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:36:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56258)
+	id 1klCFB-0000ta-NG
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 09:39:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1klCBh-0007tt-6U
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:35:57 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:37403)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1klCBe-0007qA-QQ
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:35:56 -0500
-Received: by mail-ej1-x642.google.com with SMTP id ga15so8996472ejb.4
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 06:35:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JLBFuOO0TGNt9Qi6xHjT74wVq3NLNyRbpF8tZgtEogA=;
- b=to/VcZyB3Z4LfhHL6ioY/EqAIK1ix9Jso/N1PV7vu0jWvqMZicN/jvXHFPa3izCxYk
- puuuBO91Td6vtx5qRLrJxcRvocc0/OX89Wmw3gxpJAWU/+wQ1RzKDynHbGZpggDNTWOd
- tye0alQRQK0zcCSaWGTGsXsYA3H+EVQRsPnQjXN9LExk5nmQP6onpxHo6cgswz3enf6/
- CXbG3WwUUTcGL7Z1ioSAfdXyvs6eE40vpbL7cYj2RFnJAYtA8/YT3BLzg8er52YkBUOs
- pjwwyTOen2kQ1znonQfFTaQZPQYAheOtwZH2PnezvufRFoPbAUZcbLrEpYH6tVq62vJQ
- 77+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JLBFuOO0TGNt9Qi6xHjT74wVq3NLNyRbpF8tZgtEogA=;
- b=mh4v1jSh5dt6V+O1fKWv95P4vA9NUENFwzHdiIA5tFsR2BdnemxA5HsMGOerp+aaMD
- 9eo1ts01WurG00ZI1pJNS6ykMdn60ZmR8kjc3/vAPFQ3Fl6V+tchJM8ULlGBiz2ZrYbc
- wPevSq4/+ZfSzB68TC7RKzHLeH59RjpWfmlGlKlHZY+8lfnUbyJX329X5t/s7lY5WMO3
- W2wPNcl9Ck6ELJLJeMnbAZUXalwQ5wFYEeGJw00MvXzPIsqdAdrTgPsmjhQGBozMyHN1
- tD44Yr1umci6u2B6K3y58AmUd9VrhDCkJ8e5gpNz7dIgC/itHkKcwW24JJtzllbGRO5L
- wvbg==
-X-Gm-Message-State: AOAM532qUYwHTGESMXNihLg+3nBTkZ5k38l/Tgol8jkCNRmIwRe4OHCT
- fVktvhAWeNLVquChH+Q49atb4fPvvWlvPvdAWHA=
-X-Google-Smtp-Source: ABdhPJxxWUGCUwNrZmIpH5081qYRHOQBasltpwGSye5ee1x5+75HcCoNU2uBNTmRpayP5u1vkjmTjG7wpxnJ2f7bMsA=
-X-Received: by 2002:a17:906:f85:: with SMTP id
- q5mr7414286ejj.105.1607092553053; 
- Fri, 04 Dec 2020 06:35:53 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1606853298.git.jag.raman@oracle.com>
- <8b654f7ac999a3594f117fcf3b2da1c4cfe4cc65.1606853298.git.jag.raman@oracle.com>
-In-Reply-To: <8b654f7ac999a3594f117fcf3b2da1c4cfe4cc65.1606853298.git.jag.raman@oracle.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 4 Dec 2020 18:35:40 +0400
-Message-ID: <CAJ+F1CLt8ysY6er9wLEfgAcoE0rMXaX2kfjOeHGK_VKOQoudkw@mail.gmail.com>
-Subject: Re: [PATCH v12 06/19] multi-process: setup a machine object for
- remote device process
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1klCDq-0000Tl-9e
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:38:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32204)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1klCDk-0008U4-PG
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 09:38:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607092683;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=fHXIkn7MZHfHowV2+/t0h48tUWj7TVmo3AWUafwztMo=;
+ b=hUFT7TbNSJ9uGE2NmRxoruYgDl8ScG4EqxRQa9vVSlCLooblBkVbFmq7xEhJBWwbdONEjk
+ 1VkuL94QBB0OlPo4JX4XQMs/rA9kjlRMVF53w/8K+/zdJXV5MYP/k5TzS4ku/8q71qXELl
+ S6oMXFmH7K7ggaZyC9qhGUQAX/VKWZk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-227-vCUVoozkO12nfvfL-AhZYg-1; Fri, 04 Dec 2020 09:38:01 -0500
+X-MC-Unique: vCUVoozkO12nfvfL-AhZYg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD0E2185E484;
+ Fri,  4 Dec 2020 14:37:57 +0000 (UTC)
+Received: from redhat.com (ovpn-115-10.ams2.redhat.com [10.36.115.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A631360C69;
+ Fri,  4 Dec 2020 14:37:38 +0000 (UTC)
+Date: Fri, 4 Dec 2020 14:37:35 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Jagannathan Raman <jag.raman@oracle.com>
-Content-Type: multipart/alternative; boundary="000000000000befd6b05b5a464a8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x642.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: Re: [PATCH v12 02/19] multi-process: add configure and usage
+ information
+Message-ID: <20201204143735.GN3056135@redhat.com>
+References: <cover.1606853298.git.jag.raman@oracle.com>
+ <cc6c74cba091d2735f0dbcba4b5fa28d8a780908.1606853298.git.jag.raman@oracle.com>
+MIME-Version: 1.0
+In-Reply-To: <cc6c74cba091d2735f0dbcba4b5fa28d8a780908.1606853298.git.jag.raman@oracle.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,461 +80,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Ross Lagerwall <ross.lagerwall@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
+ rth@twiddle.net, kwolf@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000befd6b05b5a464a8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Dec 2, 2020 at 12:23 AM Jagannathan Raman <jag.raman@oracle.com>
-wrote:
-
-> x-remote-machine object sets up various subsystems of the remote
-> device process. Instantiate PCI host bridge object and initialize RAM, IO=
- &
-> PCI memory regions.
->
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+On Tue, Dec 01, 2020 at 03:22:37PM -0500, Jagannathan Raman wrote:
+> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> 
+> Adds documentation explaining the command-line arguments needed
+> to use multi-process. Also adds a python script that illustrates the
+> usage.
+> 
 > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 > Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  include/hw/pci-host/remote.h |  1 +
->  include/hw/remote/machine.h  | 28 ++++++++++++++++++
->  hw/remote/machine.c          | 69
-> ++++++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                  |  2 ++
->  hw/meson.build               |  1 +
->  hw/remote/meson.build        |  5 ++++
->  6 files changed, 106 insertions(+)
->  create mode 100644 include/hw/remote/machine.h
->  create mode 100644 hw/remote/machine.c
->  create mode 100644 hw/remote/meson.build
->
-> diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h
-> index bab6d3c..cc0fff4 100644
-> --- a/include/hw/pci-host/remote.h
-> +++ b/include/hw/pci-host/remote.h
-> @@ -25,6 +25,7 @@ typedef struct RemotePCIHost {
->
->      MemoryRegion *mr_pci_mem;
->      MemoryRegion *mr_sys_io;
-> +    MemoryRegion *mr_sys_mem;
->
+>  docs/multi-process.rst                        | 66 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  tests/multiprocess/multiprocess-lsi53c895a.py | 92 +++++++++++++++++++++++++++
+>  3 files changed, 159 insertions(+)
+>  create mode 100644 docs/multi-process.rst
+>  create mode 100755 tests/multiprocess/multiprocess-lsi53c895a.py
 
-Why is this not part of the previous patch?
 
- } RemotePCIHost;
->
->  #endif
-> diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h
-> new file mode 100644
-> index 0000000..d312972
+> diff --git a/tests/multiprocess/multiprocess-lsi53c895a.py b/tests/multiprocess/multiprocess-lsi53c895a.py
+> new file mode 100755
+> index 0000000..bfe4f66
 > --- /dev/null
-> +++ b/include/hw/remote/machine.h
-> @@ -0,0 +1,28 @@
-> +/*
-> + * Remote machine configuration
-> + *
-> + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
+> +++ b/tests/multiprocess/multiprocess-lsi53c895a.py
+> @@ -0,0 +1,92 @@
+> +#!/usr/bin/env python3
 > +
-> +#ifndef REMOTE_MACHINE_H
-> +#define REMOTE_MACHINE_H
+> +import urllib.request
+> +import subprocess
+> +import argparse
+> +import socket
+> +import sys
+> +import os
 > +
-> +#include "qom/object.h"
-> +#include "hw/boards.h"
-> +#include "hw/pci-host/remote.h"
+> +arch = os.uname()[4]
+> +proc_path = os.path.join(os.getcwd(), '..', '..', 'build', arch+'-softmmu',
+> +                         'qemu-system-'+arch)
 > +
-> +typedef struct RemoteMachineState {
-> +    MachineState parent_obj;
+> +parser = argparse.ArgumentParser(description='Launcher for multi-process QEMU')
+> +parser.add_argument('--bin', required=False, help='location of QEMU binary',
+> +                    metavar='bin');
+> +args = parser.parse_args()
 > +
-> +    RemotePCIHost *host;
-> +} RemoteMachineState;
+> +if args.bin is not None:
+> +    proc_path = args.bin
 > +
-> +#define TYPE_REMOTE_MACHINE "x-remote-machine"
-> +#define REMOTE_MACHINE(obj) \
-> +    OBJECT_CHECK(RemoteMachineState, (obj), TYPE_REMOTE_MACHINE)
+> +if not os.path.isfile(proc_path):
+> +    sys.exit('QEMU binary not found')
 > +
-> +#endif
-> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
-> new file mode 100644
-> index 0000000..c5658bf
-> --- /dev/null
-> +++ b/hw/remote/machine.c
-> @@ -0,0 +1,69 @@
-> +/*
-> + * Machine for remote device
-> + *
-> + *  This machine type is used by the remote device process in
-> multi-process
-> + *  QEMU. QEMU device models depend on parent busses, interrupt
-> controllers,
-> + *  memory regions, etc. The remote machine type offers this environment
-> so
-> + *  that QEMU device models can be used as remote devices.
-> + *
-> + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
+> +kernel_path = os.path.join(os.getcwd(), 'vmlinuz')
+> +initrd_path = os.path.join(os.getcwd(), 'initrd')
 > +
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +
-> +#include "hw/remote/machine.h"
-> +#include "exec/address-spaces.h"
-> +#include "exec/memory.h"
-> +#include "qapi/error.h"
-> +
-> +static void remote_machine_init(MachineState *machine)
-> +{
-> +    MemoryRegion *system_memory, *system_io, *pci_memory;
-> +    RemoteMachineState *s =3D REMOTE_MACHINE(machine);
-> +    RemotePCIHost *rem_host;
-> +
-> +    system_memory =3D get_system_memory();
-> +    system_io =3D get_system_io();
-> +
-> +    pci_memory =3D g_new(MemoryRegion, 1);
-> +    memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
-> +
-> +    rem_host =3D REMOTE_HOST_DEVICE(qdev_new(TYPE_REMOTE_HOST_DEVICE));
-> +
-> +    rem_host->mr_pci_mem =3D pci_memory;
-> +    rem_host->mr_sys_mem =3D system_memory;
-> +    rem_host->mr_sys_io =3D system_io;
-> +
-> +    s->host =3D rem_host;
-> +
-> +    object_property_add_child(OBJECT(s), "remote-device",
-> OBJECT(rem_host));
->
+> +proxy_cmd = [ proc_path,                                                    \
+> +              '-name', 'Fedora', '-smp', '4', '-m', '2048', '-cpu', 'host', \
 
-"remote-pcihost" instead ?
+I wonder if setting 2 GB of RAM is too large for something that runs by
+default as a test.
 
-+    memory_region_add_subregion_overlap(system_memory, 0x0, pci_memory,
-> -1);
+> +              '-object', 'memory-backend-memfd,id=sysmem-file,size=2G',     \
+> +              '-numa', 'node,memdev=sysmem-file',                           \
+> +              '-kernel', kernel_path, '-initrd', initrd_path,               \
+> +              '-vnc', ':0',                                                 \
+> +              '-monitor', 'unix:/home/qemu-sock,server,nowait',             \
+> +            ]
 > +
-> +    qdev_realize(DEVICE(rem_host), sysbus_get_default(), &error_fatal);
-> +}
-> +
-> +static void remote_machine_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +
-> +    mc->init =3D remote_machine_init;
->
+> +if arch == 'x86_64':
+> +    print('Downloading images for arch x86_64')
+> +    kernel_url = 'https://dl.fedoraproject.org/pub/fedora/linux/'    \
+> +                 'releases/33/Everything/x86_64/os/images/'          \
+> +                 'pxeboot/vmlinuz'
+> +    initrd_url = 'https://dl.fedoraproject.org/pub/fedora/linux/'    \
+> +                 'releases/33/Everything/x86_64/os/images/'          \
+> +                 'pxeboot/initrd.img'
+> +    proxy_cmd.append('-machine')
+> +    proxy_cmd.append('pc,accel=kvm')
+> +    proxy_cmd.append('-append')
+> +    proxy_cmd.append('rdinit=/bin/bash console=ttyS0 console=tty0')
+> +elif arch == 'aarch64':
+> +    print('Downloading images for arch aarch64')
+> +    kernel_url = 'https://dl.fedoraproject.org/pub/fedora/linux/'    \
+> +                 'releases/33/Everything/aarch64/os/images/'         \
+> +                 'pxeboot/vmlinuz'
+> +    initrd_url = 'https://dl.fedoraproject.org/pub/fedora/linux/'    \
+> +                 'releases/33/Everything/aarch64/os/images/'         \
+> +                 'pxeboot/initrd.img'
+> +    proxy_cmd.append('-machine')
+> +    proxy_cmd.append('virt,gic-version=3')
+> +    proxy_cmd.append('-accel')
+> +    proxy_cmd.append('kvm')
+> +    proxy_cmd.append('-append')
+> +    proxy_cmd.append('rdinit=/bin/bash')
+> +else:
+> +    sys.exit('Arch %s not tested' % arch)
 
-Set mc->desc =3D "Experimental remote machine" ?
+It doens't look like you really need a full OS here. Rather than
+downloading the fairly large Fedora images, I'd suggest just using
+the kernel that exists on the host OS already in /boot, and then
+building a tiny initrd that contains just a static linked busybox.
 
-+}
-> +
-> +static const TypeInfo remote_machine =3D {
-> +    .name =3D TYPE_REMOTE_MACHINE,
-> +    .parent =3D TYPE_MACHINE,
-> +    .instance_size =3D sizeof(RemoteMachineState),
-> +    .class_init =3D remote_machine_class_init,
-> +};
-> +
-> +static void remote_machine_register_types(void)
-> +{
-> +    type_register_static(&remote_machine);
-> +}
-> +
-> +type_init(remote_machine_register_types);
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4515476..c45ac1d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3139,6 +3139,8 @@ F: docs/devel/multi-process.rst
->  F: tests/multiprocess/multiprocess-lsi53c895a.py
->  F: hw/pci-host/remote.c
->  F: include/hw/pci-host/remote.h
-> +F: hw/remote/machine.c
-> +F: include/hw/remote/machine.h
->
->  Build and test automation
->  -------------------------
-> diff --git a/hw/meson.build b/hw/meson.build
-> index 010de72..e615d72 100644
-> --- a/hw/meson.build
-> +++ b/hw/meson.build
-> @@ -56,6 +56,7 @@ subdir('moxie')
->  subdir('nios2')
->  subdir('openrisc')
->  subdir('ppc')
-> +subdir('remote')
->  subdir('riscv')
->  subdir('rx')
->  subdir('s390x')
-> diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-> new file mode 100644
-> index 0000000..197b038
-> --- /dev/null
-> +++ b/hw/remote/meson.build
-> @@ -0,0 +1,5 @@
-> +remote_ss =3D ss.source_set()
-> +
-> +remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
-> +
-> +softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
-> --
-> 1.8.3.1
->
->
+I have this helper script that could be imported into QEMU for
+this purpose:
 
---=20
-Marc-Andr=C3=A9 Lureau
+  https://gitlab.com/berrange/tiny-vm-tools/-/blob/master/make-tiny-image.py
 
---000000000000befd6b05b5a464a8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+And just skip the test if busybox doesn't exist, or if the vmlinux
+in /boot isn't accessible (Debian restricts it to root only IIRC)
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 2, 2020 at 12:23 AM Jagan=
-nathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">x-remote-machine object sets up various subsystems of the remote<br>
-device process. Instantiate PCI host bridge object and initialize RAM, IO &=
-amp;<br>
-PCI memory regions.<br>
-<br>
-Signed-off-by: John G Johnson &lt;<a href=3D"mailto:john.g.johnson@oracle.c=
-om" target=3D"_blank">john.g.johnson@oracle.com</a>&gt;<br>
-Signed-off-by: Jagannathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com=
-" target=3D"_blank">jag.raman@oracle.com</a>&gt;<br>
-Signed-off-by: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle=
-.com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
-Reviewed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" tar=
-get=3D"_blank">stefanha@redhat.com</a>&gt;<br>
----<br>
-=C2=A0include/hw/pci-host/remote.h |=C2=A0 1 +<br>
-=C2=A0include/hw/remote/machine.h=C2=A0 | 28 ++++++++++++++++++<br>
-=C2=A0hw/remote/machine.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 69 ++++++++++=
-++++++++++++++++++++++++++++++++++<br>
-=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 2 ++<br>
-=C2=A0hw/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-|=C2=A0 1 +<br>
-=C2=A0hw/remote/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 ++++<br>
-=C2=A06 files changed, 106 insertions(+)<br>
-=C2=A0create mode 100644 include/hw/remote/machine.h<br>
-=C2=A0create mode 100644 hw/remote/machine.c<br>
-=C2=A0create mode 100644 hw/remote/meson.build<br>
-<br>
-diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h<br=
->
-index bab6d3c..cc0fff4 100644<br>
---- a/include/hw/pci-host/remote.h<br>
-+++ b/include/hw/pci-host/remote.h<br>
-@@ -25,6 +25,7 @@ typedef struct RemotePCIHost {<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0MemoryRegion *mr_pci_mem;<br>
-=C2=A0 =C2=A0 =C2=A0MemoryRegion *mr_sys_io;<br>
-+=C2=A0 =C2=A0 MemoryRegion *mr_sys_mem;<br></blockquote><div><br></div><di=
-v>Why is this not part of the previous patch?</div><div> <br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
-=C2=A0} RemotePCIHost;<br>
-<br>
-=C2=A0#endif<br>
-diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h<br>
-new file mode 100644<br>
-index 0000000..d312972<br>
---- /dev/null<br>
-+++ b/include/hw/remote/machine.h<br>
-@@ -0,0 +1,28 @@<br>
-+/*<br>
-+ * Remote machine configuration<br>
-+ *<br>
-+ * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.<br>
-+ *<br>
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.<br>
-+ * See the COPYING file in the top-level directory.<br>
-+ *<br>
-+ */<br>
-+<br>
-+#ifndef REMOTE_MACHINE_H<br>
-+#define REMOTE_MACHINE_H<br>
-+<br>
-+#include &quot;qom/object.h&quot;<br>
-+#include &quot;hw/boards.h&quot;<br>
-+#include &quot;hw/pci-host/remote.h&quot;<br>
-+<br>
-+typedef struct RemoteMachineState {<br>
-+=C2=A0 =C2=A0 MachineState parent_obj;<br>
-+<br>
-+=C2=A0 =C2=A0 RemotePCIHost *host;<br>
-+} RemoteMachineState;<br>
-+<br>
-+#define TYPE_REMOTE_MACHINE &quot;x-remote-machine&quot;<br>
-+#define REMOTE_MACHINE(obj) \<br>
-+=C2=A0 =C2=A0 OBJECT_CHECK(RemoteMachineState, (obj), TYPE_REMOTE_MACHINE)=
-<br>
-+<br>
-+#endif<br>
-diff --git a/hw/remote/machine.c b/hw/remote/machine.c<br>
-new file mode 100644<br>
-index 0000000..c5658bf<br>
---- /dev/null<br>
-+++ b/hw/remote/machine.c<br>
-@@ -0,0 +1,69 @@<br>
-+/*<br>
-+ * Machine for remote device<br>
-+ *<br>
-+ *=C2=A0 This machine type is used by the remote device process in multi-p=
-rocess<br>
-+ *=C2=A0 QEMU. QEMU device models depend on parent busses, interrupt contr=
-ollers,<br>
-+ *=C2=A0 memory regions, etc. The remote machine type offers this environm=
-ent so<br>
-+ *=C2=A0 that QEMU device models can be used as remote devices.<br>
-+ *<br>
-+ * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.<br>
-+ *<br>
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.<br>
-+ * See the COPYING file in the top-level directory.<br>
-+ *<br>
-+ */<br>
-+<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;qemu-common.h&quot;<br>
-+<br>
-+#include &quot;hw/remote/machine.h&quot;<br>
-+#include &quot;exec/address-spaces.h&quot;<br>
-+#include &quot;exec/memory.h&quot;<br>
-+#include &quot;qapi/error.h&quot;<br>
-+<br>
-+static void remote_machine_init(MachineState *machine)<br>
-+{<br>
-+=C2=A0 =C2=A0 MemoryRegion *system_memory, *system_io, *pci_memory;<br>
-+=C2=A0 =C2=A0 RemoteMachineState *s =3D REMOTE_MACHINE(machine);<br>
-+=C2=A0 =C2=A0 RemotePCIHost *rem_host;<br>
-+<br>
-+=C2=A0 =C2=A0 system_memory =3D get_system_memory();<br>
-+=C2=A0 =C2=A0 system_io =3D get_system_io();<br>
-+<br>
-+=C2=A0 =C2=A0 pci_memory =3D g_new(MemoryRegion, 1);<br>
-+=C2=A0 =C2=A0 memory_region_init(pci_memory, NULL, &quot;pci&quot;, UINT64=
-_MAX);<br>
-+<br>
-+=C2=A0 =C2=A0 rem_host =3D REMOTE_HOST_DEVICE(qdev_new(TYPE_REMOTE_HOST_DE=
-VICE));<br>
-+<br>
-+=C2=A0 =C2=A0 rem_host-&gt;mr_pci_mem =3D pci_memory;<br>
-+=C2=A0 =C2=A0 rem_host-&gt;mr_sys_mem =3D system_memory;<br>
-+=C2=A0 =C2=A0 rem_host-&gt;mr_sys_io =3D system_io;<br>
-+<br>
-+=C2=A0 =C2=A0 s-&gt;host =3D rem_host;<br>
-+<br>
-+=C2=A0 =C2=A0 object_property_add_child(OBJECT(s), &quot;remote-device&quo=
-t;, OBJECT(rem_host));<br></blockquote><div><br></div><div>&quot;remote-pci=
-host&quot; instead ?</div><div> <br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-+=C2=A0 =C2=A0 memory_region_add_subregion_overlap(system_memory, 0x0, pci_=
-memory, -1);<br>
-+<br>
-+=C2=A0 =C2=A0 qdev_realize(DEVICE(rem_host), sysbus_get_default(), &amp;er=
-ror_fatal);<br>
-+}<br>
-+<br>
-+static void remote_machine_class_init(ObjectClass *oc, void *data)<br>
-+{<br>
-+=C2=A0 =C2=A0 MachineClass *mc =3D MACHINE_CLASS(oc);<br>
-+<br>
-+=C2=A0 =C2=A0 mc-&gt;init =3D remote_machine_init;<br></blockquote><div><b=
-r></div><div>Set mc-&gt;desc =3D &quot;Experimental remote machine&quot; ?<=
-/div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+}<br>
-+<br>
-+static const TypeInfo remote_machine =3D {<br>
-+=C2=A0 =C2=A0 .name =3D TYPE_REMOTE_MACHINE,<br>
-+=C2=A0 =C2=A0 .parent =3D TYPE_MACHINE,<br>
-+=C2=A0 =C2=A0 .instance_size =3D sizeof(RemoteMachineState),<br>
-+=C2=A0 =C2=A0 .class_init =3D remote_machine_class_init,<br>
-+};<br>
-+<br>
-+static void remote_machine_register_types(void)<br>
-+{<br>
-+=C2=A0 =C2=A0 type_register_static(&amp;remote_machine);<br>
-+}<br>
-+<br>
-+type_init(remote_machine_register_types);<br>
-diff --git a/MAINTAINERS b/MAINTAINERS<br>
-index 4515476..c45ac1d 100644<br>
---- a/MAINTAINERS<br>
-+++ b/MAINTAINERS<br>
-@@ -3139,6 +3139,8 @@ F: docs/devel/multi-process.rst<br>
-=C2=A0F: tests/multiprocess/multiprocess-lsi53c895a.py<br>
-=C2=A0F: hw/pci-host/remote.c<br>
-=C2=A0F: include/hw/pci-host/remote.h<br>
-+F: hw/remote/machine.c<br>
-+F: include/hw/remote/machine.h<br>
-<br>
-=C2=A0Build and test automation<br>
-=C2=A0-------------------------<br>
-diff --git a/hw/meson.build b/hw/meson.build<br>
-index 010de72..e615d72 100644<br>
---- a/hw/meson.build<br>
-+++ b/hw/meson.build<br>
-@@ -56,6 +56,7 @@ subdir(&#39;moxie&#39;)<br>
-=C2=A0subdir(&#39;nios2&#39;)<br>
-=C2=A0subdir(&#39;openrisc&#39;)<br>
-=C2=A0subdir(&#39;ppc&#39;)<br>
-+subdir(&#39;remote&#39;)<br>
-=C2=A0subdir(&#39;riscv&#39;)<br>
-=C2=A0subdir(&#39;rx&#39;)<br>
-=C2=A0subdir(&#39;s390x&#39;)<br>
-diff --git a/hw/remote/meson.build b/hw/remote/meson.build<br>
-new file mode 100644<br>
-index 0000000..197b038<br>
---- /dev/null<br>
-+++ b/hw/remote/meson.build<br>
-@@ -0,0 +1,5 @@<br>
-+remote_ss =3D ss.source_set()<br>
-+<br>
-+remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#39;mac=
-hine.c&#39;))<br>
-+<br>
-+softmmu_ss.add_all(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: remote_ss=
-)<br>
--- <br>
-1.8.3.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+> +
+> +urllib.request.urlretrieve(kernel_url, kernel_path)
+> +urllib.request.urlretrieve(initrd_url, initrd_path)
+> +
+> +proxy, remote = socket.socketpair(socket.AF_UNIX, socket.SOCK_STREAM)
+> +
+> +proxy_cmd.append('-device')
+> +proxy_cmd.append('x-pci-proxy-dev,id=lsi1,fd='+str(proxy.fileno()))
+> +
+> +remote_cmd = [ proc_path,                                                      \
+> +               '-machine', 'x-remote',                                         \
+> +               '-device', 'lsi53c895a,id=lsi1',                                \
+> +               '-object',                                                      \
+> +               'x-remote-object,id=robj1,devid=lsi1,fd='+str(remote.fileno()), \
+> +               '-display', 'none',                                             \
+> +               '-monitor', 'unix:/home/rem-sock,server,nowait',                \
+> +             ]
+> +
+> +pid = os.fork();
+> +
+> +if pid:
+> +    # In Proxy
+> +    print('Launching QEMU with Proxy object');
+> +    process = subprocess.Popen(proxy_cmd, pass_fds=[proxy.fileno()])
+> +else:
+> +    # In remote
+> +    print('Launching Remote process');
+> +    process = subprocess.Popen(remote_cmd, pass_fds=[remote.fileno(), 0, 1, 2])
 
---000000000000befd6b05b5a464a8--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
