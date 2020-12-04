@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21B82CF6B0
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:20:20 +0100 (CET)
-Received: from localhost ([::1]:41928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BB52CF6B6
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 23:27:25 +0100 (CET)
+Received: from localhost ([::1]:53288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klJR5-0005Of-QA
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 17:20:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39596)
+	id 1klJXw-0002BY-Pr
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 17:27:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1klJFv-0003fa-Lo; Fri, 04 Dec 2020 17:08:47 -0500
-Received: from mail-eopbgr10108.outbound.protection.outlook.com
- ([40.107.1.108]:31004 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ id 1klJFz-0003ji-PD; Fri, 04 Dec 2020 17:08:51 -0500
+Received: from mail-vi1eur05on2136.outbound.protection.outlook.com
+ ([40.107.21.136]:31968 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1klJFr-00024O-U9; Fri, 04 Dec 2020 17:08:47 -0500
+ id 1klJFw-00027F-UX; Fri, 04 Dec 2020 17:08:51 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gW6jUysGkFgBBtRYlvB/Ik1iYz+6qmgH62owoOa+5ElxiQhgkJe29Xt8dtOgSCFIge/fl6sR5wNvT/KXsROgWMZWIaTyjIBGm1AJmXc+CUioo9ZN0++1ODhP4/Ei0wfCoTDgzBt94ohA8zLEsoixHxfnQD1daoXrzXCaK/S/qfr1RaLsYN1NW7yJWjhmPePJ2kX3C7f84VkLDjaJRFjmxGkzWSztq44EOvSEcguIkWkibqH6z4qrDsF5uhlpIswjBBGXlsIKiKYnGDm600c/gPN0JA/9Kp4Kbb1YR+6deNHM+9yHi41NOrL95ZkUnE3Xm5PlmWdB18ovSJbCBr07Jw==
+ b=OAdeda9ewKlDE86rHhb/QEF9LFIz3DWvmdLqEFs7/DK7zKJNFM0rMy/ndCW4OLLCXgCzl0Gt6coLVTdZYnqMPJroWyODWwRExcftUx0thNyTN6vDcYXhN5ITw+U7yKkTGPrwbnN3+SEbYKN1dDPxfPlW5bKNa0WwUwyicG4Nxq8QjmenHrDQ5gMEArSe8RqYKkKcRTJcMFtdLbzs9oecjh6C+Fv5EOIrMceUsUfxWpy0nzJX8sziRELEuVNzRxwG3O8V40kjI9qv05hkjffpqnhTXPMca8tskmh1ri5QYT0b92WeLdg1ktX7dD8IUstk7Yx/l6EOpDsJfQfew14fCA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=35dbujSPCJ3TtkzoST0YH/FjsdamthGNlinRWLZiKYY=;
- b=CQvufDEspXfpCVm/Rvk284IeizYY5aWiwBUOtq7ULl9sE7wCc3zhOJPoNiuA+D9RuEhD6buCxw9OLpSA9B+9LgEL4L+RcAz4EzBRd1OFI0GzL1HrmHRRSiM34QL9kesmzcqaarXYEDb9Q/t8yG2FPp5evrS2yyigbXdv1joGl3sUakXYoH1HHMFEEuo3Q2ONqWF7umB+i+SgmmHtJnfbAQxB9hmrnNoEot6ncsVDRqPPflSykiA1EZT8bXrpDK3q9eBZ0nhyvZzdQchffQBe9NJKlpGbBQS5VtxofENaZypZWwnwe33xfDRgpswwfsrgWKQN4CblcfzgMxNBeIvWqA==
+ bh=8CkpcqzYLk184LzGCIOAvBN9VxggUzkMGCT98MeowCo=;
+ b=bm9gk4qhcep4xhNxRGG7FgUFo9cTqeA15rvoAvuRG8rh4MI5ADTCcw/7jcHrxXXnl4V/RDqrer22DOeqghvyU/rODlbg7stFyjMhwUuwge0J5cRJ26/4lnRh7eP5gZTLLdSxSytyuODf/JekWPeiEaUfIUukQcqucHGeYCCT5vhkZJkCNyvUFT3uv0hYqhi2ch7rfg/HyL5PaQb5AZz4ESLtnPxNsM+2xdK30ZfSWkSEC6xGOkCJ2lnnQXeA7F41LR5NGF0I8V7M4LOpEe/X3QDxEcKHhUd78xbTjPHlCEGstVFi/3hujHezFVPr50SQQn3E2qO/1szbWlsslJi3jQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=35dbujSPCJ3TtkzoST0YH/FjsdamthGNlinRWLZiKYY=;
- b=ET7dDtrPz2zVSZhE6Mj3xwBIppltrIf5Darl09yTSmY1dbMHpzwVhZu9j/tLJ/+QjbNh9YhnSlfa3hoOyEp0q7lAXH6tWhFp4/XZYXeWuI/xX+3Q1GmbZrsbjkjhbfCTNZjQ6hHCc9JMAbIldxyd2DVG8Nv5hUi1EZLxAwLlfoc=
+ bh=8CkpcqzYLk184LzGCIOAvBN9VxggUzkMGCT98MeowCo=;
+ b=gSJt46mLo7Ex0N/Yzc0JVNgezvJ7LAy8mS7SKSzJxTaIYsgxVErioI9K445lkpaI4XC+R5eIgkNVX1H7RgFs40YZWvIuLArgNHwKGfiaCD8tIeoc2O3p3p/fG/wy5e81/Z71gRvfLWELWi/8vc6NJuLI5N47LSjJk/wfc9uEsd8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4072.eurprd08.prod.outlook.com (2603:10a6:20b:a8::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18; Fri, 4 Dec
- 2020 22:08:25 +0000
+ 2020 22:08:26 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3632.021; Fri, 4 Dec 2020
- 22:08:25 +0000
+ 22:08:26 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  jsnow@redhat.com, fam@euphon.net, stefanha@redhat.com, mreitz@redhat.com,
  kwolf@redhat.com, den@openvz.org, andrey.shinkevich@virtuozzo.com,
  vsementsov@virtuozzo.com
-Subject: [PATCH v14 12/13] block/stream: add s->target_bs
-Date: Sat,  5 Dec 2020 01:07:57 +0300
-Message-Id: <20201204220758.2879-13-vsementsov@virtuozzo.com>
+Subject: [PATCH v14 13/13] block: apply COR-filter to block-stream jobs
+Date: Sat,  5 Dec 2020 01:07:58 +0300
+Message-Id: <20201204220758.2879-14-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20201204220758.2879-1-vsementsov@virtuozzo.com>
 References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
@@ -68,51 +68,51 @@ Received: from kvm.sw.ru (185.215.60.91) by
  AM4PR0701CA0003.eurprd07.prod.outlook.com (2603:10a6:200:42::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.7 via Frontend
- Transport; Fri, 4 Dec 2020 22:08:24 +0000
+ Transport; Fri, 4 Dec 2020 22:08:25 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f37637a9-ae33-4f41-9090-08d898a11f0f
+X-MS-Office365-Filtering-Correlation-Id: ebeec4f2-720a-4075-9601-08d898a11f9f
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4072:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB407260367401E26037B87A9AC1F10@AM6PR08MB4072.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:137;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4072FD4CEF61670B4B1FB4F4C1F10@AM6PR08MB4072.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oeAUssEEoU2cZYf/pRGYTC+PmpwCnS82o/G4bSgP2AIg8cEO4wDYcAxZXy7uYyNZi2SXB4M1/4v3Kl1qAPh7nA6HAudYCIjxZJ9iNKcxKDBQ4h5eq+3IiiVJiNldiVy9cZoS5EFOkMdjyOoSZ1K2FqUxnkIWqRf0zFpWs4+dEBi3bIYs49pAcvfDpD+27maa13xbGR3HDepdbelp+hj7xQktYwjYicutrfBbwyMsl/EhAbBUHQcK3LU+SLx9dsbFipJ0QvOAGsudS5NUwuEhihXsp2olpYpfRKAPQApcGPDIdHZ3WpyABr3HGKofeQK6NQSM0A748tO1aHC3dCRwwA==
+X-Microsoft-Antispam-Message-Info: PJYfPpfHWG5QdjaCYrBe6woSNjklDLy8UR1jqBgJIq7nSTxUSxISh8MMIFC0bh2iP90j8Usvteonbj9PLW1CzhnGmZVuMZFlV9+Hef2oYXJq865UM/D2e36WKwtwyHbFfS+bs8CEK2y+UuRvgyuZkwNrBbeNpXDgikLGtmLpIIsBspKmIMZEs+IObZ9k0S0CaKsWl/PAZaMosMBt48+CQipgLmlaqB9Dprv9iFH2jVqC7nO9uuxKcc0RalYVSUOnjljKukv8zUy5rI1EIOthiKbO29Ciss+GrXCaoG9rqXhVVSsRzS6v5TIjx/ngRFTI
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(396003)(39840400004)(376002)(346002)(366004)(66946007)(66556008)(1076003)(5660300002)(956004)(107886003)(6666004)(16526019)(26005)(66476007)(4326008)(36756003)(186003)(86362001)(6506007)(8936002)(2906002)(6916009)(52116002)(478600001)(6512007)(316002)(83380400001)(8676002)(6486002)(2616005);
+ SFS:(4636009)(136003)(396003)(39840400004)(376002)(346002)(366004)(66946007)(66556008)(1076003)(5660300002)(956004)(107886003)(6666004)(16526019)(26005)(66476007)(4326008)(36756003)(186003)(86362001)(6506007)(8936002)(2906002)(6916009)(52116002)(30864003)(478600001)(6512007)(316002)(83380400001)(8676002)(6486002)(2616005);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?VztQcnctMKThgjlHr2rs8q1D3qIYOwX3qr1qGb+Gy5/5RsLqA8ya1kK67aEs?=
- =?us-ascii?Q?omONBXoeqXHceWsMTI+ryIYL5zkkvuLa1dzqFsnpl/sYEBw8+qbvJkf8c538?=
- =?us-ascii?Q?tDfhNEiI8fkZ3CY9XaLIonmXvHSEP40GCfquuk6gMLlVKwRlTWDIVZk71DPF?=
- =?us-ascii?Q?PBlaMQXt889MDa6GOeZwnFUSNNcLJgeeH88zp9KM4u7jX6nnpkHW5GSlSYRK?=
- =?us-ascii?Q?Xc90tnNXtBJ12gE7BvAlCRJaMS9SQtbe2Ymp41jFONgbKfpLuxAUhHJGOyD/?=
- =?us-ascii?Q?bDordOKXhp8ICg1a8qeqnuaGrt+uQ9L0wKzSGqVvfpQtpCKjs+za7z/jozOm?=
- =?us-ascii?Q?u+y0CUX/WESKznSJ9JTNVw1FoNebw2I+1/Cz3ArcvMVqsHMyPwcoEFneTaQo?=
- =?us-ascii?Q?dVW6yl9Ks7vOsHDCfL+VpXv88mWJhgODoRNOO3rNMf0s8YHcWT2ytcpGPmAX?=
- =?us-ascii?Q?vGmYk9sAi5O9cdWakoUOFJgaRnIMZZp9H4lud/fNCF1LKCZP2I2qr2gm9wMm?=
- =?us-ascii?Q?HCOZ0KUz10xaJrBG4DV/uHdSOceJ/hgkJGCtCnQHtL/YWXhvCDVuX2cqeU4V?=
- =?us-ascii?Q?hUOFn0S1S92Lnv2EJl9Y4AI3h2P3JY3ZxyZJHoEtQ/MvSbpfytT29HgKMVFX?=
- =?us-ascii?Q?jT+BCqgRholiFsZW/++brpPuD20TAB1H3i7liGN0s2AfD/PA6xCaSziCPK4J?=
- =?us-ascii?Q?tYg/vgWiRdsIYr5woL8nInBP8oAgD+bAYkY3gIJ2Alq4sO8y8HuqkrxwnDrb?=
- =?us-ascii?Q?e7a+03xfPOa3nEICuD7g6LBhW2ed7+0Fjxx7HCwDNRJYpE890QnMvgpx8y27?=
- =?us-ascii?Q?SJgfG1WgxxqZBTLHSyda1N3DIisUK6whOJkIbyMmyrr0MvEB1AMtboYg9/B4?=
- =?us-ascii?Q?l69gXxyffj28hP2+n/ksm8ayPGBHQBrkNh3DZ5vcZurdDlCG6imdO/KC2EFX?=
- =?us-ascii?Q?pru/wn5kJFGstsR2/1+5CTUoR93Yww2BRZ2NZFtf6ZXn/9F7o+PTJRdhJX2s?=
- =?us-ascii?Q?R5yA?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?YgRKaSlwCkuwkHF1ABgX3Bh/P4NjcKmF39PC93MICub7FMg0IAXmA1ydPI0Y?=
+ =?us-ascii?Q?XkdQF46B0Epu9JjsiSMdeULZeI4WMgpElz0zdTezon6aDpK7wYVQd7HgmyLY?=
+ =?us-ascii?Q?7rBJ1P0qpT+BSSrnloWeUNhxYlKNxALoK7jCSiDJFw1jkeUeHqEI4Sn73hku?=
+ =?us-ascii?Q?4SLf9Di5FDJKf+1+c3yNAm48nuP7ZWSnCuw8YEPIJd2ZvFiTYdyx7HcGx8Mt?=
+ =?us-ascii?Q?UjNtwSwIc/bKxcEugcwbcOgcmofdXZbSKTAfAoo1ByjNrqdhS/NsxvnTeMTO?=
+ =?us-ascii?Q?VhgiDivz7PuuyiUvDH2kG7B559/eiQsCiFYZx0PYGYw/bve4fRcSPj+8VBQP?=
+ =?us-ascii?Q?9LpinNvIRO1FSxRmDt7Twso/kuvUpZckUweq/y96Nv5qqQGn52ITzqfMkCBW?=
+ =?us-ascii?Q?1UL3bGJESADD9wUZRl0SHTb+yFOYR1S7fcyDL3LPJ6U/WjcSc+mG5bNkW4t7?=
+ =?us-ascii?Q?HHNFHhriyi6S1QhX5kXsx1Lqn+Frex4+iNQltQ/l6EwmYxM2IpZSl0+g/XhG?=
+ =?us-ascii?Q?m4TMoHGhZIH2XVrAvB8XWjH+7of8uIx/eBVFQLVGEyKyHqNtcHGXZJkSDdk4?=
+ =?us-ascii?Q?DqxRcB/a4D2gw5/k0zLAGcYKAPsU+E7V5TE4p0qXhOdgfBADou52qYr0RGfq?=
+ =?us-ascii?Q?HnA3T7J46BuROlq8y1V0oWBgT6BgjjCJY1EU10W49K7eLJGp6FagquDih0pw?=
+ =?us-ascii?Q?xfgckCnrGdqZHJ4jVLqLC2EyISJ5MUHJ0E3Fcj3Pgv98etCpdDPpFXGGlXfH?=
+ =?us-ascii?Q?S46cpAFugWHvkYYghOvCkO+KvTo8gJz/5EWewrg0JUJ9F2xw1h4597VhI6qy?=
+ =?us-ascii?Q?j/9bLC4QaL2kXG6gBgcphDVjY9BWEZBVTK0gdIYEyg2IpmfW8BKwf6QvWHKK?=
+ =?us-ascii?Q?bh3LXEzUKZrp1cNf9R7HOAm7MiAATNoQmoGGxTT4XPgKelL0sltGPpTGEdc/?=
+ =?us-ascii?Q?FGB8kTZdtPjUPuGbqzv/GBrS2p+EdTP4y40QiIF27FmhyfgUrRiHo5ZV9A6/?=
+ =?us-ascii?Q?6EvY?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f37637a9-ae33-4f41-9090-08d898a11f0f
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebeec4f2-720a-4075-9601-08d898a11f9f
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2020 22:08:25.2539 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2020 22:08:26.3033 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PLv5rMdNwzFb4vHRsqZv6LdH2semZNPw8wgrIc4c3laIpgcuWRNY57yjz/qFMiwr+0IJlrlbxEY6meoB+pglw4ucNNrDGNw163L9oAPC8ZE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: jLTPptkrGmENlN0Ly5PvD3E98Qqkwu8hAg2TBCKbBS1wxSGCpDw7QAMV35UXyx9kymSANl8wfg/d6St/A2PAvtPD00xz0jzk7UIOUhR3lp8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4072
-Received-SPF: pass client-ip=40.107.1.108;
+Received-SPF: pass client-ip=40.107.21.136;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -136,116 +136,290 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a direct link to target bs for convenience and to simplify
-following commit which will insert COR filter above target bs.
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-This is a part of original commit written by Andrey.
+This patch completes the series with the COR-filter applied to
+block-stream operations.
 
+Adding the filter makes it possible in future implement discarding
+copied regions in backing files during the block-stream job, to reduce
+the disk overuse (we need control on permissions).
+
+Also, the filter now is smart enough to do copy-on-read with specified
+base, so we have benefit on guest reads even when doing block-stream of
+the part of the backing chain.
+
+Several iotests are slightly modified due to filter insertion.
+
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/stream.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
+ block/stream.c             | 78 ++++++++++++++++++++++++++------------
+ tests/qemu-iotests/030     |  8 ++--
+ tests/qemu-iotests/141.out |  2 +-
+ tests/qemu-iotests/245     | 20 ++++++----
+ 4 files changed, 72 insertions(+), 36 deletions(-)
 
 diff --git a/block/stream.c b/block/stream.c
-index a2744d07fe..a7fd8945ad 100644
+index a7fd8945ad..b92f7de55b 100644
 --- a/block/stream.c
 +++ b/block/stream.c
-@@ -34,6 +34,7 @@ typedef struct StreamBlockJob {
+@@ -18,8 +18,10 @@
+ #include "qapi/error.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/error-report.h"
++#include "qapi/qmp/qdict.h"
+ #include "qemu/ratelimit.h"
+ #include "sysemu/block-backend.h"
++#include "block/copy-on-read.h"
+ 
+ enum {
+     /*
+@@ -34,6 +36,7 @@ typedef struct StreamBlockJob {
      BlockJob common;
      BlockDriverState *base_overlay; /* COW overlay (stream from this) */
      BlockDriverState *above_base;   /* Node directly above the base */
-+    BlockDriverState *target_bs;
++    BlockDriverState *cor_filter_bs;
+     BlockDriverState *target_bs;
      BlockdevOnError on_error;
      char *backing_file_str;
-     bool bs_read_only;
-@@ -54,24 +55,21 @@ static void stream_abort(Job *job)
+@@ -46,8 +49,7 @@ static int coroutine_fn stream_populate(BlockBackend *blk,
+ {
+     assert(bytes < SIZE_MAX);
+ 
+-    return blk_co_preadv(blk, offset, bytes, NULL,
+-                         BDRV_REQ_COPY_ON_READ | BDRV_REQ_PREFETCH);
++    return blk_co_preadv(blk, offset, bytes, NULL, BDRV_REQ_PREFETCH);
+ }
+ 
+ static void stream_abort(Job *job)
+@@ -55,7 +57,7 @@ static void stream_abort(Job *job)
      StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
  
      if (s->chain_frozen) {
--        BlockJob *bjob = &s->common;
--        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->above_base);
-+        bdrv_unfreeze_backing_chain(s->target_bs, s->above_base);
+-        bdrv_unfreeze_backing_chain(s->target_bs, s->above_base);
++        bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
      }
  }
  
- static int stream_prepare(Job *job)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
--    BlockJob *bjob = &s->common;
--    BlockDriverState *bs = blk_bs(bjob->blk);
--    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
-+    BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
-     BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
-     BlockDriverState *base_unfiltered;
-     BlockDriverState *backing_bs;
+@@ -69,7 +71,7 @@ static int stream_prepare(Job *job)
      Error *local_err = NULL;
      int ret = 0;
  
--    bdrv_unfreeze_backing_chain(bs, s->above_base);
-+    bdrv_unfreeze_backing_chain(s->target_bs, s->above_base);
+-    bdrv_unfreeze_backing_chain(s->target_bs, s->above_base);
++    bdrv_unfreeze_backing_chain(s->cor_filter_bs, s->above_base);
      s->chain_frozen = false;
  
      if (bdrv_cow_child(unfiltered_bs)) {
-@@ -111,13 +109,12 @@ static void stream_clean(Job *job)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockJob *bjob = &s->common;
--    BlockDriverState *bs = blk_bs(bjob->blk);
- 
-     /* Reopen the image back in read-only mode if necessary */
-     if (s->bs_read_only) {
-         /* Give up write permissions before making it read-only */
-         blk_set_perm(bjob->blk, 0, BLK_PERM_ALL, &error_abort);
--        bdrv_reopen_set_read_only(bs, true, NULL);
-+        bdrv_reopen_set_read_only(s->target_bs, true, NULL);
+@@ -117,6 +119,8 @@ static void stream_clean(Job *job)
+         bdrv_reopen_set_read_only(s->target_bs, true, NULL);
      }
  
++    bdrv_cor_filter_drop(s->cor_filter_bs);
++
      g_free(s->backing_file_str);
-@@ -127,8 +124,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
- {
+ }
+ 
+@@ -125,7 +129,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
      StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
      BlockBackend *blk = s->common.blk;
--    BlockDriverState *bs = blk_bs(blk);
--    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
-+    BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
-     bool enable_cor = !bdrv_cow_child(s->base_overlay);
+     BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
+-    bool enable_cor = !bdrv_cow_child(s->base_overlay);
      int64_t len;
      int64_t offset = 0;
-@@ -141,7 +137,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         return 0;
+     uint64_t delay_ns = 0;
+@@ -143,15 +146,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
      }
+     job_progress_set_remaining(&s->common.job, len);
  
--    len = bdrv_getlength(bs);
-+    len = bdrv_getlength(s->target_bs);
-     if (len < 0) {
-         return len;
-     }
-@@ -153,7 +149,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-      * account.
-      */
-     if (enable_cor) {
--        bdrv_enable_copy_on_read(bs);
-+        bdrv_enable_copy_on_read(s->target_bs);
-     }
- 
+-    /* Turn on copy-on-read for the whole block device so that guest read
+-     * requests help us make progress.  Only do this when copying the entire
+-     * backing chain since the copy-on-read operation does not take base into
+-     * account.
+-     */
+-    if (enable_cor) {
+-        bdrv_enable_copy_on_read(s->target_bs);
+-    }
+-
      for ( ; offset < len; offset += n) {
-@@ -215,7 +211,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+         bool copy;
+         int ret;
+@@ -210,10 +204,6 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+         }
      }
  
-     if (enable_cor) {
--        bdrv_disable_copy_on_read(bs);
-+        bdrv_disable_copy_on_read(s->target_bs);
-     }
- 
+-    if (enable_cor) {
+-        bdrv_disable_copy_on_read(s->target_bs);
+-    }
+-
      /* Do not remove the backing file if an error was there but ignored. */
-@@ -330,6 +326,7 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+     return error;
+ }
+@@ -244,7 +234,9 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+     bool bs_read_only;
+     int basic_flags = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
+     BlockDriverState *base_overlay;
++    BlockDriverState *cor_filter_bs = NULL;
+     BlockDriverState *above_base;
++    QDict *opts;
+ 
+     assert(!(base && bottom));
+     assert(!(backing_file_str && bottom));
+@@ -295,17 +287,49 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+         }
+     }
+ 
+-    /* Prevent concurrent jobs trying to modify the graph structure here, we
+-     * already have our own plans. Also don't allow resize as the image size is
+-     * queried only at the job start and then cached. */
+-    s = block_job_create(job_id, &stream_job_driver, NULL, bs,
+-                         basic_flags | BLK_PERM_GRAPH_MOD,
++    opts = qdict_new();
++
++    qdict_put_str(opts, "driver", "copy-on-read");
++    qdict_put_str(opts, "file", bdrv_get_node_name(bs));
++    /* Pass the base_overlay node name as 'bottom' to COR driver */
++    qdict_put_str(opts, "bottom", base_overlay->node_name);
++    if (filter_node_name) {
++        qdict_put_str(opts, "node-name", filter_node_name);
++    }
++
++    cor_filter_bs = bdrv_insert_node(bs, opts, BDRV_O_RDWR, errp);
++    if (cor_filter_bs == NULL) {
++        goto fail;
++    }
++
++    if (!filter_node_name) {
++        cor_filter_bs->implicit = true;
++    }
++
++    if (bdrv_freeze_backing_chain(cor_filter_bs, bs, errp) < 0) {
++        bdrv_cor_filter_drop(cor_filter_bs);
++        cor_filter_bs = NULL;
++        goto fail;
++    }
++
++    s = block_job_create(job_id, &stream_job_driver, NULL, cor_filter_bs,
++                         BLK_PERM_CONSISTENT_READ,
+                          basic_flags | BLK_PERM_WRITE,
+                          speed, creation_flags, NULL, NULL, errp);
+     if (!s) {
+         goto fail;
+     }
+ 
++    /*
++     * Prevent concurrent jobs trying to modify the graph structure here, we
++     * already have our own plans. Also don't allow resize as the image size is
++     * queried only at the job start and then cached.
++     */
++    if (block_job_add_bdrv(&s->common, "active node", bs, 0,
++                           basic_flags | BLK_PERM_WRITE, &error_abort)) {
++        goto fail;
++    }
++
+     /* Block all intermediate nodes between bs and base, because they will
+      * disappear from the chain after this operation. The streaming job reads
+      * every block only once, assuming that it doesn't change, so forbid writes
+@@ -326,6 +350,7 @@ void stream_start(const char *job_id, BlockDriverState *bs,
      s->base_overlay = base_overlay;
      s->above_base = above_base;
      s->backing_file_str = g_strdup(backing_file_str);
-+    s->target_bs = bs;
++    s->cor_filter_bs = cor_filter_bs;
+     s->target_bs = bs;
      s->bs_read_only = bs_read_only;
      s->chain_frozen = true;
+@@ -339,5 +364,10 @@ fail:
+     if (bs_read_only) {
+         bdrv_reopen_set_read_only(bs, true, NULL);
+     }
+-    bdrv_unfreeze_backing_chain(bs, above_base);
++    if (cor_filter_bs) {
++        bdrv_unfreeze_backing_chain(cor_filter_bs, above_base);
++        bdrv_cor_filter_drop(cor_filter_bs);
++    } else {
++        bdrv_unfreeze_backing_chain(bs, above_base);
++    }
+ }
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index bd8cf9cff7..c576d55d07 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -278,12 +278,14 @@ class TestParallelOps(iotests.QMPTestCase):
+         self.assert_no_active_block_jobs()
  
+         # Set a speed limit to make sure that this job blocks the rest
+-        result = self.vm.qmp('block-stream', device='node4', job_id='stream-node4', base=self.imgs[1], speed=1024*1024)
++        result = self.vm.qmp('block-stream', device='node4',
++                             job_id='stream-node4', base=self.imgs[1],
++                             filter_node_name='stream-filter', speed=1024*1024)
+         self.assert_qmp(result, 'return', {})
+ 
+         result = self.vm.qmp('block-stream', device='node5', job_id='stream-node5', base=self.imgs[2])
+         self.assert_qmp(result, 'error/desc',
+-            "Node 'node4' is busy: block device is in use by block job: stream")
++            "Node 'stream-filter' is busy: block device is in use by block job: stream")
+ 
+         result = self.vm.qmp('block-stream', device='node3', job_id='stream-node3', base=self.imgs[2])
+         self.assert_qmp(result, 'error/desc',
+@@ -296,7 +298,7 @@ class TestParallelOps(iotests.QMPTestCase):
+         # block-commit should also fail if it touches nodes used by the stream job
+         result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[4], job_id='commit-node4')
+         self.assert_qmp(result, 'error/desc',
+-            "Node 'node4' is busy: block device is in use by block job: stream")
++            "Node 'stream-filter' is busy: block device is in use by block job: stream")
+ 
+         result = self.vm.qmp('block-commit', device='drive0', base=self.imgs[1], top=self.imgs[3], job_id='commit-node1')
+         self.assert_qmp(result, 'error/desc',
+diff --git a/tests/qemu-iotests/141.out b/tests/qemu-iotests/141.out
+index 08e0aecd65..028a16f365 100644
+--- a/tests/qemu-iotests/141.out
++++ b/tests/qemu-iotests/141.out
+@@ -99,7 +99,7 @@ wrote 1048576/1048576 bytes at offset 0
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "job0"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "job0"}}
+ {'execute': 'blockdev-del', 'arguments': {'node-name': 'drv0'}}
+-{"error": {"class": "GenericError", "desc": "Node drv0 is in use"}}
++{"error": {"class": "GenericError", "desc": "Node 'drv0' is busy: block device is in use by block job: stream"}}
+ {'execute': 'block-job-cancel', 'arguments': {'device': 'job0'}}
+ {"return": {}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "job0"}}
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index e60c8326d3..432e837e6c 100755
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -892,20 +892,24 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+ 
+         # hd1 <- hd0
+         result = self.vm.qmp('block-stream', conv_keys = True, job_id = 'stream0',
+-                             device = 'hd1', auto_finalize = False)
++                             device = 'hd1', filter_node_name='cor',
++                             auto_finalize = False)
+         self.assert_qmp(result, 'return', {})
+ 
+-        # We can't reopen with the original options because that would
+-        # make hd1 read-only and block-stream requires it to be read-write
+-        # (Which error message appears depends on whether the stream job is
+-        # already done with copying at this point.)
++        # We can't reopen with the original options because there is a filter
++        # inserted by stream job above hd1.
+         self.reopen(opts, {},
+-            ["Can't set node 'hd1' to r/o with copy-on-read enabled",
+-             "Cannot make block node read-only, there is a writer on it"])
++                    "Cannot change the option 'backing.backing.file.node-name'")
++
++        # We can't reopen hd1 to read-only, as block-stream requires it to be
++        # read-write
++        self.reopen(opts['backing'], {'read-only': True},
++                    "Cannot make block node read-only, there is a writer on it")
+ 
+         # We can't remove hd2 while the stream job is ongoing
+         opts['backing']['backing'] = None
+-        self.reopen(opts, {'backing.read-only': False}, "Cannot change 'backing' link from 'hd1' to 'hd2'")
++        self.reopen(opts['backing'], {'read-only': False},
++                    "Cannot change 'backing' link from 'hd1' to 'hd2'")
+ 
+         # We can detach hd1 from hd0 because it doesn't affect the stream job
+         opts['backing'] = None
 -- 
 2.21.3
 
