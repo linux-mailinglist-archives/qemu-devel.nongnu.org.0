@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818102CEEFB
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 14:49:28 +0100 (CET)
-Received: from localhost ([::1]:52750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 262792CEF07
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 14:53:41 +0100 (CET)
+Received: from localhost ([::1]:59242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klBSh-00033Q-2u
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 08:49:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43772)
+	id 1klBWm-0005yK-5Z
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 08:53:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1klBRG-0002bk-UL
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 08:47:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27784)
+ id 1klBTq-0003qb-AY
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 08:50:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1klBRF-0008C8-4y
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 08:47:58 -0500
+ id 1klBTo-0000h7-NJ
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 08:50:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607089676;
+ s=mimecast20190719; t=1607089836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=daMk273mzc5eZASCO5IJbQvgOrLxdcr0uODre63YoDM=;
- b=CQqj/+AZGzAcoOY7yat2qHhLTA1bbmAWkjbv2IQfyF9Wc8Yx/21vWLizhdi7PnLqfuPiPf
- 0dWsB8tv1uq4W14q8GrcS9jh6FBVLa5Hk4L4HQpl73S1oduc6Esra/FUDxU7tGnoESr05f
- IEz3uB7QKrhoDql/3UJcWqrGpESAeoM=
+ bh=mytihXFsFzlEFqatQXAUemCMI0bODV4Sgkqz4VTXXvA=;
+ b=WvsklRpHNM+asEmvg9lqk79IrdUVY6tHNeErkoakhCsK+M3j0l/+hYiO/urLfOq/a7wl6p
+ APhqcK9xmf+CLttqJnWIytQVB75IMnxE5Qy+eabvGfyAfnImUCJW1irm0shCxhf7UO7juz
+ 5NAQWe3z4gZmEu2gnSI9qOTMlPm5b7I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-miDG46HsMzWGR5TCU37DJQ-1; Fri, 04 Dec 2020 08:47:52 -0500
-X-MC-Unique: miDG46HsMzWGR5TCU37DJQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-565-mJ_RFuV-OPaPPjEQX83STg-1; Fri, 04 Dec 2020 08:50:32 -0500
+X-MC-Unique: mJ_RFuV-OPaPPjEQX83STg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83D8BC73B3;
- Fri,  4 Dec 2020 13:47:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55769858183;
+ Fri,  4 Dec 2020 13:50:31 +0000 (UTC)
 Received: from wainer-laptop.localdomain (ovpn-116-88.gru2.redhat.com
  [10.97.116.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5B355D6D7;
- Fri,  4 Dec 2020 13:47:37 +0000 (UTC)
-Subject: Re: [PATCH 2/3] tests/acceptance: verify s390x device detection
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A0BFB100164C;
+ Fri,  4 Dec 2020 13:50:26 +0000 (UTC)
+Subject: Re: [PATCH 3/3] tests/acceptance: test s390x zpci fid propagation
 To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 References: <20201130180216.15366-1-cohuck@redhat.com>
- <20201130180216.15366-3-cohuck@redhat.com>
+ <20201130180216.15366-4-cohuck@redhat.com>
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <0fdfd10a-36a2-2fcf-449c-adf5ccd761c4@redhat.com>
-Date: Fri, 4 Dec 2020 10:47:34 -0300
+Message-ID: <728b30ba-7fa9-3ddc-224a-f928320d8232@redhat.com>
+Date: Fri, 4 Dec 2020 10:50:23 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201130180216.15366-3-cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201130180216.15366-4-cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -93,44 +93,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 11/30/20 3:02 PM, Cornelia Huck wrote:
-> The kernel/initrd combination does not provide the virtio-net
-> driver; therefore, simply check whether the presented device type
-> is indeed virtio-net for the two virtio-net-{ccw,pci} devices.
+> Verify that a fid specified on the command line shows up correctly
+> as the function_id in the guest.
 >
 > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 > ---
->   tests/acceptance/machine_s390_ccw_virtio.py | 11 +++++++++++
->   1 file changed, 11 insertions(+)
->
-> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
-> index 683b6e0dac2e..e203ee304264 100644
-> --- a/tests/acceptance/machine_s390_ccw_virtio.py
-> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
-> @@ -80,3 +80,14 @@ class S390CCWVirtioMachine(Test):
->           exec_command_and_wait_for_pattern(self,
->                                             'cat /sys/bus/ccw/devices/0.3.1234/virtio?/features',
->                                             virtio_rng_features)
-> +        # verify that we indeed have virtio-net devices (without having the
-> +        # virtio-net driver handy)
-> +        exec_command_and_wait_for_pattern(self,
-> +                                          'cat /sys/bus/ccw/devices/0.1.1111/cutype',
-> +                                          '3832/01')
-> +        exec_command_and_wait_for_pattern(self,
-> +                                          'cat /sys/bus/pci/devices/0005\:00\:00.0/subsystem_vendor',
-> +                                          '0x1af4')
-> +        exec_command_and_wait_for_pattern(self,
-> +                                          'cat /sys/bus/pci/devices/0005\:00\:00.0/subsystem_device',
-> +                                          '0x0001')
+>   tests/acceptance/machine_s390_ccw_virtio.py | 12 +++++++++---
+>   1 file changed, 9 insertions(+), 3 deletions(-)
 
-Here I think it's ok to do...
-
-exec_command_and_wait_for_pattern(self,
-         'cat /sys/bus/ccw/devices/0.1.1111/cutype',
-         '3832/01')
-
-... so checkpatch is happy, everybody is happy.
 
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
+
+>
+> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
+> index e203ee304264..53b8484f8f9c 100644
+> --- a/tests/acceptance/machine_s390_ccw_virtio.py
+> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
+> @@ -56,7 +56,9 @@ class S390CCWVirtioMachine(Test):
+>                            '-device',
+>                            'virtio-rng-ccw,devno=fe.3.1234,max_revision=2',
+>                            '-device', 'zpci,uid=5,target=zzz',
+> -                         '-device', 'virtio-net-pci,id=zzz')
+> +                         '-device', 'virtio-net-pci,id=zzz',
+> +                         '-device', 'zpci,uid=0xa,fid=12,target=serial',
+> +                         '-device', 'virtio-serial-pci,id=serial')
+>           self.vm.launch()
+>   
+>           shell_ready = "sh: can't access tty; job control turned off"
+> @@ -65,11 +67,11 @@ class S390CCWVirtioMachine(Test):
+>           exec_command_and_wait_for_pattern(self, 'exit', shell_ready)
+>   
+>           ccw_bus_ids="0.1.1111  0.2.0000  0.3.1234"
+> -        pci_bus_id="0005:00:00.0"
+> +        pci_bus_ids="0005:00:00.0  000a:00:00.0"
+>           exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+>                                             ccw_bus_ids)
+>           exec_command_and_wait_for_pattern(self, 'ls /sys/bus/pci/devices/',
+> -                                          pci_bus_id)
+> +                                          pci_bus_ids)
+>           # check that the device at 0.2.0000 is in legacy mode, while the
+>           # device at 0.3.1234 has the virtio-1 feature bit set
+>           virtio_rng_features="0000000000000000000000000000110010000000000000000000000000000000"
+> @@ -91,3 +93,7 @@ class S390CCWVirtioMachine(Test):
+>           exec_command_and_wait_for_pattern(self,
+>                                             'cat /sys/bus/pci/devices/0005\:00\:00.0/subsystem_device',
+>                                             '0x0001')
+> +        # check fid propagation
+> +        exec_command_and_wait_for_pattern(self,
+> +                                          'cat /sys/bus/pci/devices/000a\:00\:00.0/function_id',
+> +                                          '0x0000000c')
 
 
