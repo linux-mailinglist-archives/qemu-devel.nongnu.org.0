@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4942CEDE8
-	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 13:17:35 +0100 (CET)
-Received: from localhost ([::1]:34886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A5A2CEDFE
+	for <lists+qemu-devel@lfdr.de>; Fri,  4 Dec 2020 13:22:07 +0100 (CET)
+Received: from localhost ([::1]:39116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klA1m-0000xi-6V
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 07:17:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52820)
+	id 1klA6A-00035B-8u
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 07:22:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kl9zi-0008IC-Ns
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 07:15:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36848)
+ id 1klA4f-0002Wb-9k
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 07:20:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35214)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kl9zg-0001sQ-IN
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 07:15:26 -0500
+ id 1klA4d-0003hh-Fp
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 07:20:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607084123;
+ s=mimecast20190719; t=1607084430;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=xHdHb8CCLns5X4putP5h0aiEmMAP2Hfu1yZbRmVtbik=;
- b=ZIzWzwm3ZJ0yjYKHd42+tu3N69YAadMZP77TKl3UqTfe9UO2cVeLNkAypeBHc7I4TeyaC0
- F3RfAVokcwSONjdnhvUxz9fB0HFMWwi1F+6nX3nbJFsfythuR4M+yC1LpZc6xO1PI6mIl4
- m1aZ8tHvNGAEjiOk8SUYiTekzbBTfio=
+ bh=ymnidZ9YeCDJC0uF70l3kRSfo1f7jUi4VKS7jGQOzrA=;
+ b=PPLZrBQrIMu9LVhrUMjLsvQ3CeukoRdEMK8wdcigYOTvGSOBXIAmz76o+rRcWsTU+0G90X
+ SZ/ma4ASpqKhQxkixZotHfNyVmXY8DAkQpLKGkZ65FGYSTgDmlGgSf4YHbUrDMF+1oP6Xg
+ cuftWavf+mK4fag9DZgv5YTUzkhEtEY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-ps1z1ozzPBu3VL-1KXXnTg-1; Fri, 04 Dec 2020 07:15:18 -0500
-X-MC-Unique: ps1z1ozzPBu3VL-1KXXnTg-1
+ us-mta-81-uhc2zn5sObyzm3OPNiAR8A-1; Fri, 04 Dec 2020 07:20:28 -0500
+X-MC-Unique: uhc2zn5sObyzm3OPNiAR8A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15EBABBEE1
- for <qemu-devel@nongnu.org>; Fri,  4 Dec 2020 12:15:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84C9C802B4A
+ for <qemu-devel@nongnu.org>; Fri,  4 Dec 2020 12:20:27 +0000 (UTC)
 Received: from redhat.com (ovpn-115-10.ams2.redhat.com [10.36.115.10])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 546525D9CA;
- Fri,  4 Dec 2020 12:15:13 +0000 (UTC)
-Date: Fri, 4 Dec 2020 12:15:11 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AFB5A5D9CA;
+ Fri,  4 Dec 2020 12:20:23 +0000 (UTC)
+Date: Fri, 4 Dec 2020 12:20:20 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 8/9] vnc: add support for extended desktop resize
-Message-ID: <20201204121511.GE3056135@redhat.com>
+Subject: Re: [PATCH 9/9] qxl: add ui_info callback
+Message-ID: <20201204122020.GF3056135@redhat.com>
 References: <20201203110806.13556-1-kraxel@redhat.com>
- <20201203110806.13556-9-kraxel@redhat.com>
+ <20201203110806.13556-10-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201203110806.13556-9-kraxel@redhat.com>
+In-Reply-To: <20201203110806.13556-10-kraxel@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
 X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.496,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,175 +84,63 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 03, 2020 at 12:08:04PM +0100, Gerd Hoffmann wrote:
-> The extended desktop resize encoding adds support for (a) clients
-> sending resize requests to the server, and (b) multihead support.
-> 
-> This patch implements (a).  All resize requests are rejected by qemu.
-> Qemu can't resize the framebuffer on its own, this is in the hands of
-> the guest, so all qemu can do is forward the request to the guest.
-> Should the guest actually resize the framebuffer we can notify the vnc
-> client later with a separate message.
-> 
-> This requires support in the display device.  Works with virtio-gpu.
-> 
-> https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#extendeddesktopsize-pseudo-encoding
+On Thu, Dec 03, 2020 at 12:08:05PM +0100, Gerd Hoffmann wrote:
+> This makes qxl respond to user interface window resizes
+> when not using spice, so it works with gtk and vnc too.
 > 
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  ui/vnc.h |  2 ++
->  ui/vnc.c | 64 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 65 insertions(+), 1 deletion(-)
+>  hw/display/qxl.c | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
 > 
-> diff --git a/ui/vnc.h b/ui/vnc.h
-> index c8d3ad9ec496..77a310947bd6 100644
-> --- a/ui/vnc.h
-> +++ b/ui/vnc.h
-> @@ -442,6 +442,7 @@ enum {
->  
->  enum VncFeatures {
->      VNC_FEATURE_RESIZE,
-> +    VNC_FEATURE_RESIZE_EXT,
->      VNC_FEATURE_HEXTILE,
->      VNC_FEATURE_POINTER_TYPE_CHANGE,
->      VNC_FEATURE_WMVI,
-> @@ -456,6 +457,7 @@ enum VncFeatures {
+> diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+> index 431c1070967a..e1df95c3e8a9 100644
+> --- a/hw/display/qxl.c
+> +++ b/hw/display/qxl.c
+> @@ -1177,8 +1177,35 @@ static const QXLInterface qxl_interface = {
+>      .client_monitors_config = interface_client_monitors_config,
 >  };
 >  
->  #define VNC_FEATURE_RESIZE_MASK              (1 << VNC_FEATURE_RESIZE)
-> +#define VNC_FEATURE_RESIZE_EXT_MASK          (1 << VNC_FEATURE_RESIZE_EXT)
->  #define VNC_FEATURE_HEXTILE_MASK             (1 << VNC_FEATURE_HEXTILE)
->  #define VNC_FEATURE_POINTER_TYPE_CHANGE_MASK (1 << VNC_FEATURE_POINTER_TYPE_CHANGE)
->  #define VNC_FEATURE_WMVI_MASK                (1 << VNC_FEATURE_WMVI)
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index bdaf384f71a4..a15132faa96f 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -663,10 +663,35 @@ void vnc_framebuffer_update(VncState *vs, int x, int y, int w, int h,
->      vnc_write_s32(vs, encoding);
->  }
->  
-> +static void vnc_desktop_resize_ext(VncState *vs, bool reject)
+> +static int qxl_ui_info(void *opaque, uint32_t idx, QemuUIInfo *info)
 > +{
-> +    vnc_lock_output(vs);
-> +    vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
-> +    vnc_write_u8(vs, 0);
-> +    vnc_write_u16(vs, 1); /* number of rects */
-> +    vnc_framebuffer_update(vs,
-> +                           reject ? 1 : 0,
-> +                           reject ? 3 : 0,
+> +    PCIQXLDevice *qxl = opaque;
+> +    VDAgentMonitorsConfig *cfg;
+> +    size_t size;
+> +
+> +    if (using_spice) {
+> +        /* spice agent will handle display resize */
+> +        return -1;
+> +    }
 
-So there are a number of reject reasons defined
+Does this break VNC resizes if  both  VNC + SPICE are enabled
+but the client is connected with VNC ?
 
-Code 	Description
-0 	No error
-1 	Resize is administratively prohibited
-2 	Out of resources
-3 	Invalid screen layout
-
-none of them is an ideal fit, because we are actually attempting
-to honour the request, but it is asynchronous so we can't
-confirm this to the client yet.
-
-I feel like we could propose a new reason 4 to the spec, since
-it explicitly allows for adding new reasons
-
-  "Request under consideration"
-
-to make it clear this is not actually an invalid layout.
-
-This can be useful for clients to decide how they want to
-handle the failure.
-
-> +                           vs->client_width, vs->client_height,
-> +                           VNC_ENCODING_DESKTOP_RESIZE_EXT);
-> +    vnc_write_u8(vs, 1);  /* number of screens */
-> +    vnc_write_u8(vs, 0);  /* padding */
-> +    vnc_write_u8(vs, 0);  /* padding */
-> +    vnc_write_u8(vs, 0);  /* padding */
-> +    vnc_write_u32(vs, 0); /* screen id */
-> +    vnc_write_u16(vs, 0); /* screen x-pos */
-> +    vnc_write_u16(vs, 0); /* screen y-pos */
-> +    vnc_write_u16(vs, vs->client_width);
-> +    vnc_write_u16(vs, vs->client_height);
-> +    vnc_write_u32(vs, 0); /* screen flags */
-> +    vnc_unlock_output(vs);
-> +    vnc_flush(vs);
+> +    if (idx > 0) {
+> +        /* supporting only single head for now */
+> +        return -1;
+> +    }
+> +
+> +    /* go fake a spice agent message */
+> +    size = sizeof(VDAgentMonitorsConfig) + sizeof(VDAgentMonConfig);
+> +    cfg = g_malloc0(size);
+> +    cfg->num_of_monitors = 1;
+> +    cfg->monitors[0].width = info->width;
+> +    cfg->monitors[0].height = info->height;
+> +    interface_client_monitors_config(&qxl->ssd.qxl, cfg);
+> +    g_free(cfg);
+> +    return 0;
 > +}
+> +
+>  static const GraphicHwOps qxl_ops = {
+>      .gfx_update  = qxl_hw_update,
+> +    .ui_info     = qxl_ui_info,
+>      .gfx_update_async = true,
+>  };
 >  
->  static void vnc_desktop_resize(VncState *vs, bool force)
->  {
-> -    if (vs->ioc == NULL || !vnc_has_feature(vs, VNC_FEATURE_RESIZE)) {
-> +    if (vs->ioc == NULL || (!vnc_has_feature(vs, VNC_FEATURE_RESIZE) &&
-> +                            !vnc_has_feature(vs, VNC_FEATURE_RESIZE_EXT))) {
->          return;
->      }
->      if (vs->client_width == pixman_image_get_width(vs->vd->server) &&
-> @@ -681,6 +706,12 @@ static void vnc_desktop_resize(VncState *vs, bool force)
->             pixman_image_get_height(vs->vd->server) >= 0);
->      vs->client_width = pixman_image_get_width(vs->vd->server);
->      vs->client_height = pixman_image_get_height(vs->vd->server);
-> +
-> +    if (vnc_has_feature(vs, VNC_FEATURE_RESIZE_EXT)) {
-> +        vnc_desktop_resize_ext(vs, false);
-> +        return;
-> +    }
-> +
->      vnc_lock_output(vs);
->      vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
->      vnc_write_u8(vs, 0);
-> @@ -2110,6 +2141,9 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
->          case VNC_ENCODING_DESKTOPRESIZE:
->              vs->features |= VNC_FEATURE_RESIZE_MASK;
->              break;
-> +        case VNC_ENCODING_DESKTOP_RESIZE_EXT:
-> +            vs->features |= VNC_FEATURE_RESIZE_EXT_MASK;
-> +            break;
->          case VNC_ENCODING_POINTER_TYPE_CHANGE:
->              vs->features |= VNC_FEATURE_POINTER_TYPE_CHANGE_MASK;
->              break;
-> @@ -2431,6 +2465,34 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
->              break;
->          }
->          break;
-> +    case VNC_MSG_CLIENT_SET_DESKTOP_SIZE:
-> +    {
-> +        size_t size;
-> +        uint8_t screens;
-> +        uint16_t width;
-> +        uint16_t height;
-> +        QemuUIInfo info;
-> +
-> +        if (len < 8) {
-> +            return 8;
-> +        }
-> +
-> +        screens = read_u8(data, 6);
-> +        size    = 8 + screens * 16;
-> +        if (len < size) {
-> +            return size;
-> +        }
-> +
-> +        width   = read_u16(data, 2);
-> +        height  = read_u16(data, 4);
-> +        vnc_desktop_resize_ext(vs, true);
-
-I think it is worth a comment to say why we are rejecting the request...
-
-
-> +
-> +        memset(&info, 0, sizeof(info));
-> +        info.width = width;
-> +        info.height = height;
-> +        dpy_set_ui_info(vs->vd->dcl.con, &info);
-
-...while still (attempting to) honour it.
-
-> +        break;
-> +    }
->      default:
->          VNC_DEBUG("Msg: %d\n", data[0]);
->          vnc_client_error(vs);
+> -- 
+> 2.27.0
+> 
+> 
 
 Regards,
 Daniel
