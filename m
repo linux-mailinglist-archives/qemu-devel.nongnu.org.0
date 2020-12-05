@@ -2,75 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6E42CFAC9
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 10:21:40 +0100 (CET)
-Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE392CFAED
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 11:02:54 +0100 (CET)
+Received: from localhost ([::1]:47474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klTl5-0001Rj-8o
-	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 04:21:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33088)
+	id 1klUOz-0000vF-Ai
+	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 05:02:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1klTja-0000a0-LK
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 04:20:06 -0500
-Received: from mail-pj1-x1044.google.com ([2607:f8b0:4864:20::1044]:37746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1klTjY-0003Vx-Rs
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 04:20:06 -0500
-Received: by mail-pj1-x1044.google.com with SMTP id o7so4593136pjj.2
- for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 01:20:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oqcsHqqalIa4+5alL3D6RDSc5VPFDi9I4JZ3ptjNhFg=;
- b=tq3LAduSB3Kf8DRTUOvPqULw7Bg9+ipL7KlgDj/q33fsJPNLJKMVX4eFmdgR8y2RP1
- Jbhq7piNU9LFHl71NFQxen2wczfaZN5UEUHfE4jArPh7f0j3swtWf/l4VF3dQ2RC0C+o
- 7UT2la86qz0lpNS82lmaSfuh0SuB3XSG9a1k47xVPeXOdSxzsGjOGh3u50mhRf/aoVWd
- d8qgjC5XL754jiEF85J/Tt3ao9mx9US0Lfn2tuBh5fzYqw1SYiB0EJSpWoKWJ074TOOt
- wqj0kIiSiPMjoCOIA3vOmsj+117Nk3hE3Vq7KNeDqogAZt1PQ0EsczxKyv7DDnQ8CzV4
- Z7xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oqcsHqqalIa4+5alL3D6RDSc5VPFDi9I4JZ3ptjNhFg=;
- b=FFIZ1HHyUTHXCF1GFrkNk9VW3R8eydztInLF4GJvBZq4YMx3BLnCZ9ZntvwntlDNQg
- 55EAVYfnkyC4KlkG1QZO1ebx++pVQsASU0UAjhVjYqsJg/CZaEXrjB50SW7dYZkhyMk6
- QHsi4Yfaiy8cmsBGGPYEQUrci/XC4bclDZTTucurY9ov+V1y4Zg3dMhuckbiSH0h2GD1
- 6GxIvWUy97JD2aQWIrJTZbCZBNb0DoFJ1NRl/E/caZ1yZHqLxNQfXGHnIgaMKj7pba2m
- 3swzr31JM7vwsIDv/hkKQssG20kbIQFtWW2ou3/VSnCWS2W2xMIRqUdKjAYUhB3pAjIs
- b1+g==
-X-Gm-Message-State: AOAM533Br7kpK27RnUqQS9MGxgx8X7LHdpWG/MAaAu54l6G59lFk2c6m
- Kgb5x6/RBkWSSuCa+Sh6pXo=
-X-Google-Smtp-Source: ABdhPJx9sYjwhTaI0IW4eHkJFagHy9qYLHESThXkz5NtiAXYquEjNh98OmTYtG/kaxIq/5gqlsdBFw==
-X-Received: by 2002:a17:902:22e:b029:d9:e591:7bd1 with SMTP id
- 43-20020a170902022eb02900d9e5917bd1mr7557528plc.50.1607160002571; 
- Sat, 05 Dec 2020 01:20:02 -0800 (PST)
-Received: from software.domain.org ([45.77.13.216])
- by smtp.gmail.com with ESMTPSA id s189sm7095282pfb.60.2020.12.05.01.19.56
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 05 Dec 2020 01:20:01 -0800 (PST)
-From: Huacai Chen <zltjiangshi@gmail.com>
-X-Google-Original-From: Huacai Chen <chenhuacai@kernel.org>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH] MAINTAINERS: chenhc@lemote.com -> chenhuacai@kernel.org
-Date: Sat,  5 Dec 2020 17:22:01 +0800
-Message-Id: <1607160121-9977-1-git-send-email-chenhuacai@kernel.org>
-X-Mailer: git-send-email 2.7.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1klULJ-0007Kt-Rt; Sat, 05 Dec 2020 04:59:10 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34433 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1klULG-0008AU-Kq; Sat, 05 Dec 2020 04:59:05 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Cp4ls3ZvCz9sWP; Sat,  5 Dec 2020 20:58:49 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1607162329;
+ bh=RyCVT6M+FgHjahCyt9/T9kVskYpKffc32MYnHP6H7MY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TZGHhqL1EbGSZWFKLy4UMxE+aFNIIFA6xzv9pIQzqSvqvu0TFNJ6lu6mro5L0esoY
+ 3wKVkKdTF1x0sdOLjdMKJdtvT3rFqT80Zs+P/TivU0sr0iy6IT1B3m/kahLqffSARa
+ vZWTHfBQWo1mUrS9BqTZ7eOi5ZqoEgOopJOuyeOw=
+Date: Sat, 5 Dec 2020 20:53:58 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Gan Qixin <ganqixin@huawei.com>
+Subject: Re: [PATCH] ppc/e500: Free irqs array to avoid memleak
+Message-ID: <20201205095358.GA4783@yekko.fritz.box>
+References: <20201204075822.359832-1-ganqixin@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1044;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pj1-x1044.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="NzB8fVQJ5HfG6fxh"
+Content-Disposition: inline
+In-Reply-To: <20201204075822.359832-1-ganqixin@huawei.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,76 +57,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-trivial@nongnu.org, kuhn.chenqun@huawei.com,
+ Euler Robot <euler.robot@huawei.com>, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use @kernel.org address as the main communications end point. Update the
-corresponding M-entries and .mailmap (for git shortlog translation).
 
-Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
----
- .mailmap    | 2 ++
- MAINTAINERS | 8 ++++----
- 2 files changed, 6 insertions(+), 4 deletions(-)
+--NzB8fVQJ5HfG6fxh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/.mailmap b/.mailmap
-index 663819f..a1bd659 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -49,6 +49,8 @@ Anthony Liguori <anthony@codemonkey.ws> Anthony Liguori <aliguori@us.ibm.com>
- Filip Bozuta <filip.bozuta@syrmia.com> <filip.bozuta@rt-rk.com.com>
- Frederic Konrad <konrad@adacore.com> <fred.konrad@greensocs.com>
- Greg Kurz <groug@kaod.org> <gkurz@linux.vnet.ibm.com>
-+Huacai Chen <chenhuacai@kernel.org> <chenhc@lemote.com>
-+Huacai Chen <chenhuacai@kernel.org> <chenhuacai@loongson.cn>
- James Hogan <jhogan@kernel.org> <james.hogan@imgtec.com>
- Leif Lindholm <leif@nuviainc.com> <leif.lindholm@linaro.org>
- Radoslaw Biernacki <rad@semihalf.com> <radoslaw.biernacki@linaro.org>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 68bc160..7f00e74 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -388,7 +388,7 @@ S: Maintained
- F: target/arm/kvm.c
- 
- MIPS KVM CPUs
--M: Huacai Chen <chenhc@lemote.com>
-+M: Huacai Chen <chenhuacai@kernel.org>
- S: Odd Fixes
- F: target/mips/kvm.c
- 
-@@ -1148,7 +1148,7 @@ F: hw/mips/mipssim.c
- F: hw/net/mipsnet.c
- 
- Fuloong 2E
--M: Huacai Chen <chenhc@lemote.com>
-+M: Huacai Chen <chenhuacai@kernel.org>
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- S: Odd Fixes
-@@ -1158,7 +1158,7 @@ F: hw/pci-host/bonito.c
- F: include/hw/isa/vt82c686.h
- 
- Loongson-3 virtual platforms
--M: Huacai Chen <chenhc@lemote.com>
-+M: Huacai Chen <chenhuacai@kernel.org>
- R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- S: Maintained
- F: hw/intc/loongson_liointc.c
-@@ -2851,7 +2851,7 @@ F: disas/i386.c
- MIPS TCG target
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- R: Aurelien Jarno <aurelien@aurel32.net>
--R: Huacai Chen <chenhc@lemote.com>
-+R: Huacai Chen <chenhuacai@kernel.org>
- R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Odd Fixes
--- 
-2.7.0
+On Fri, Dec 04, 2020 at 03:58:22PM +0800, Gan Qixin wrote:
+> When running qom-test, a memory leak occurred in the ppce500_init functio=
+n,
+> this patch free irqs array to fix it.
+>=20
+> ASAN shows memory leak stack:
+>=20
+> Direct leak of 40 byte(s) in 1 object(s) allocated from:
+>     #0 0xfffc5ceee1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f=
+0)
+>     #1 0xfffc5c806800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
+>     #2 0xaaacf9999244 in ppce500_init qemu/hw/ppc/e500.c:859
+>     #3 0xaaacf97434e8 in machine_run_board_init qemu/hw/core/machine.c:11=
+34
+>     #4 0xaaacf9c9475c in qemu_init qemu/softmmu/vl.c:4369
+>     #5 0xaaacf94785a0 in main qemu/softmmu/main.c:49
+>=20
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 
+Applied to ppc-for-6.0, thanks.
+
+> ---
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  hw/ppc/e500.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+> index ae39b9358e..74f33af88e 100644
+> --- a/hw/ppc/e500.c
+> +++ b/hw/ppc/e500.c
+> @@ -925,6 +925,7 @@ void ppce500_init(MachineState *machine)
+>                                  ccsr_addr_space);
+> =20
+>      mpicdev =3D ppce500_init_mpic(pms, ccsr_addr_space, irqs);
+> +    g_free(irqs);
+> =20
+>      /* Serial */
+>      if (serial_hd(0)) {
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--NzB8fVQJ5HfG6fxh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/LWLQACgkQbDjKyiDZ
+s5Kv1g//WNb3usz3sPFLXDnWQOcrx53DPuz8cCSOfaqYsc0JsPGIX3ejU3W+7O4G
+VeAcFTnKIweHjKed3QKjl8OXCCnJguvYxkRfMTNr5qUwf5R7psaJHAJOcWL8AE14
+bgds9EaFMHqLD5LK3KrfRsc30sLiOIiXA/XtqbzK3EJnSFBLn09icvReoQl79SW1
+KUndlXfvQ3kw8t+fV5/1x98/Cnaui4iTdKUzGeonsCAw/1njCS/CpD/+5z7hPdFZ
+0t7ux1haLlpOs1EZluoYOkUzgAGLwV0cItHz7AfDx0k41/aSXRWDo/YeT0ZvSv1y
+jyqPc/uzerxxYA/B3hvmtfW3/uDgh5pL3S9omixCAfyoRdIPtrRG6QN64GfGoycV
+lM9iqBkxKuTjEUgAaeMIpu7J11lfYmWTclwPwscv0tOUE+c93XYyzEtJ1s6QP4BY
+rPjKTQ9GbqAlakMVvSf43WmbfFbXhjtWblaR17jNR1dMAYlSQoRkRehbYbcJMISI
+XenAOR/Rt4iMQRgAP+CdhI3s7CwsvB9c1A8wLwmqNdJ8TpEf8JCvYW1WCJnEebiZ
+cqT2erHTe5PA9cuty1R4bw6H1RQLTUOZmR9YUW8UtEQbtVYKlUB9NOpcF7BTHT1G
+sMaxrtBTuCbkcO2wH5v+s29Uyfct3mlRsJk33V+NE2gWvfPdYg4=
+=P4rF
+-----END PGP SIGNATURE-----
+
+--NzB8fVQJ5HfG6fxh--
 
