@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5CF2CFC12
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 17:37:05 +0100 (CET)
-Received: from localhost ([::1]:53740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511172CFC17
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 17:40:01 +0100 (CET)
+Received: from localhost ([::1]:33064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klaYS-0004d6-8q
-	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 11:37:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44352)
+	id 1klabI-0007ob-Ca
+	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 11:40:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaEB-00019D-70
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:16:08 -0500
-Received: from mx2.suse.de ([195.135.220.15]:49134)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaEH-0001B8-4g
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:16:13 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaE4-0000GM-Jt
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:16:06 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaE4-0000GS-Mi
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:16:12 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E1923B1C5;
- Sat,  5 Dec 2020 16:15:44 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id C9DE0B1CA;
+ Sat,  5 Dec 2020 16:15:45 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,10 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v8 26/27] hw/core/cpu: call qemu_init_vcpu in
- cpu_common_realizefn
-Date: Sat,  5 Dec 2020 17:15:17 +0100
-Message-Id: <20201205161518.14365-27-cfontana@suse.de>
+Subject: [RFC v8 27/27] cpu: introduce cpu_accel_instance_init
+Date: Sat,  5 Dec 2020 17:15:18 +0100
+Message-Id: <20201205161518.14365-28-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201205161518.14365-1-cfontana@suse.de>
 References: <20201205161518.14365-1-cfontana@suse.de>
@@ -69,528 +68,86 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-move the call to qemu_init_vcpu inside cpu_common_realizefn,
-so it does not need to be done explicitly in each target cpu.
-
-This makes it a little bit better, but still the way realize
-is done continues to be bad; ideally the cpu_list_add would
-be done in common_cpu, and in this case we could avoid even
-more additional calls in target/xxx/cpu.c,
-
-but this cannot happen because target cpu code, plugins, etc
-now all rely on cpu->index, since no particular order was
-defined previously, so we are stuck with the freak call order
-for the target cpu realizefn.
-
-After this patch the target/xxx/cpu.c realizefn body is now:
-
-void mycpu_realizefn(DeviceState *dev, Error **errp)
-{
-    /* ... */
-    cpu_exec_realizefn(CPU_STATE(dev), errp);
-
-    /* ... anything that needs done pre-qemu_vcpu_init */
-
-    xcc->parent_realize(dev, errp); /* does qemu_vcpu_init */
-
-    /* ... anything that needs to be done after qemu_vcpu_init */
-}
-
-Note: better do some testing for all targets for this.
+centralize the calls to cpu->accel_cpu_interface
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- hw/core/cpu.c                   | 2 ++
- target/alpha/cpu.c              | 5 +----
- target/arm/cpu.c                | 4 +---
- target/avr/cpu.c                | 3 +--
- target/cris/cpu.c               | 2 --
- target/hppa/cpu.c               | 1 -
- target/i386/cpu.c               | 5 +----
- target/lm32/cpu.c               | 3 ---
- target/m68k/cpu.c               | 2 --
- target/microblaze/cpu.c         | 9 +++------
- target/mips/cpu.c               | 2 --
- target/moxie/cpu.c              | 4 +---
- target/nios2/cpu.c              | 4 +---
- target/openrisc/cpu.c           | 4 +---
- target/ppc/translate_init.c.inc | 5 ++---
- target/riscv/cpu.c              | 8 +++-----
- target/rx/cpu.c                 | 8 +++-----
- target/s390x/cpu.c              | 3 +--
- target/sh4/cpu.c                | 2 --
- target/sparc/cpu.c              | 4 +---
- target/tilegx/cpu.c             | 2 --
- target/tricore/cpu.c            | 2 --
- target/unicore32/cpu.c          | 6 +-----
- target/xtensa/cpu.c             | 2 --
- 24 files changed, 23 insertions(+), 69 deletions(-)
+ hw/core/cpu.c         | 9 +++++++++
+ include/hw/core/cpu.h | 6 ++++++
+ target/i386/cpu.c     | 9 ++-------
+ 3 files changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 1f04aab16b..f41c009e6c 100644
+index f41c009e6c..873cf5e4ef 100644
 --- a/hw/core/cpu.c
 +++ b/hw/core/cpu.c
-@@ -318,6 +318,8 @@ static void cpu_common_realizefn(DeviceState *dev, Error **errp)
-     CPUState *cpu = CPU(dev);
-     Object *machine = qdev_get_machine();
+@@ -242,6 +242,15 @@ void cpu_reset(CPUState *cpu)
+     trace_guest_cpu_reset(cpu);
+ }
  
-+    qemu_init_vcpu(cpu);
++void cpu_accel_instance_init(CPUState *cpu)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
 +
-     /* qdev_get_machine() can return something that's not TYPE_MACHINE
-      * if this is one of the user-only emulators; in that case there's
-      * no need to check the ignore_memory_transaction_failures board flag.
-diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-index 0369d5a99c..9bec7dcd6b 100644
---- a/target/alpha/cpu.c
-+++ b/target/alpha/cpu.c
-@@ -56,18 +56,15 @@ static void alpha_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
- 
- static void alpha_cpu_realizefn(DeviceState *dev, Error **errp)
++    if (cc->accel_cpu_interface) {
++        cc->accel_cpu_interface->cpu_instance_init(cpu);
++    }
++}
++
+ static void cpu_common_reset(DeviceState *dev)
  {
--    CPUState *cs = CPU(dev);
-     AlphaCPUClass *acc = ALPHA_CPU_GET_CLASS(dev);
-     Error *local_err = NULL;
+     CPUState *cpu = CPU(dev);
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index fee3a68194..0a09f0dd8b 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -677,6 +677,12 @@ void cpu_list_remove(CPUState *cpu);
+  */
+ void cpu_reset(CPUState *cpu);
  
--    cpu_exec_realizefn(cs, &local_err);
-+    cpu_exec_realizefn(CPU(dev), &local_err);
-     if (local_err != NULL) {
-         error_propagate(errp, local_err);
-         return;
-     }
- 
--    qemu_init_vcpu(cs);
--
-     acc->parent_realize(dev, errp);
- }
- 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 20cbfaea51..128a8f3e28 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1857,10 +1857,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         }
-     }
- 
--    qemu_init_vcpu(cs);
--    cpu_reset(cs);
--
-     acc->parent_realize(dev, errp);
-+    cpu_reset(cs);
- }
- 
- static ObjectClass *arm_cpu_class_by_name(const char *cpu_model)
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 699055de7c..d2b10b99d9 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -97,10 +97,9 @@ static void avr_cpu_realizefn(DeviceState *dev, Error **errp)
-         error_propagate(errp, local_err);
-         return;
-     }
--    qemu_init_vcpu(cs);
--    cpu_reset(cs);
- 
-     mcc->parent_realize(dev, errp);
-+    cpu_reset(cs);
- }
- 
- static void avr_cpu_set_int(void *opaque, int irq, int level)
-diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-index 9222717f3e..8402141184 100644
---- a/target/cris/cpu.c
-+++ b/target/cris/cpu.c
-@@ -135,8 +135,6 @@ static void cris_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
- 
-     cpu_reset(cs);
--    qemu_init_vcpu(cs);
--
-     ccc->parent_realize(dev, errp);
- }
- 
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index e2d79f954e..472c03e36b 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -99,7 +99,6 @@ static void hppa_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    qemu_init_vcpu(cs);
-     acc->parent_realize(dev, errp);
- 
- #ifndef CONFIG_USER_ONLY
++/**
++ * cpu_accel_instance_init:
++ * @cpu: The CPU that needs to do accel-specific object initializations.
++ */
++void cpu_accel_instance_init(CPUState *cpu);
++
+ /**
+  * cpu_class_by_name:
+  * @typename: The CPU base type.
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 25998c0122..aabb8edfe0 100644
+index aabb8edfe0..e2f16a1f37 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -6419,8 +6419,7 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
- 
-     mce_init(cpu);
- 
--    qemu_init_vcpu(cs);
--
-+    xcc->parent_realize(dev, &local_err);
-     /*
-      * Most Intel and certain AMD CPUs support hyperthreading. Even though QEMU
-      * fixes this issue by adjusting CPUID_0000_0001_EBX and CPUID_8000_0008_ECX
-@@ -6447,8 +6446,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
-     cpu_reset(cs);
- 
--    xcc->parent_realize(dev, &local_err);
--
- out:
-     if (local_err != NULL) {
-         error_propagate(errp, local_err);
-diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
-index bbe1405e32..72d1a51d62 100644
---- a/target/lm32/cpu.c
-+++ b/target/lm32/cpu.c
-@@ -133,9 +133,6 @@ static void lm32_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
- 
-     cpu_reset(cs);
--
--    qemu_init_vcpu(cs);
--
-     lcc->parent_realize(dev, errp);
- }
- 
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index bc109faa21..f8ea599c1c 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -248,8 +248,6 @@ static void m68k_cpu_realizefn(DeviceState *dev, Error **errp)
-     m68k_cpu_init_gdb(cpu);
- 
-     cpu_reset(cs);
--    qemu_init_vcpu(cs);
--
-     mcc->parent_realize(dev, errp);
- }
- 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 6e660a27b8..42cfc214ff 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -145,15 +145,14 @@ static void mb_disas_set_info(CPUState *cpu, disassemble_info *info)
- 
- static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
+@@ -28,7 +28,6 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/hvf.h"
+-#include "hw/core/accel-cpu.h"
+ #include "sysemu/xen.h"
+ #include "kvm/kvm_i386.h"
+ #include "sev_i386.h"
+@@ -6621,8 +6620,6 @@ static void x86_cpu_initfn(Object *obj)
  {
--    CPUState *cs = CPU(dev);
-     MicroBlazeCPUClass *mcc = MICROBLAZE_CPU_GET_CLASS(dev);
--    MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
-+    MicroBlazeCPU *cpu = MICROBLAZE_CPU(dev);
-     uint8_t version_code = 0;
-     const char *version;
-     int i = 0;
-     Error *local_err = NULL;
+     X86CPU *cpu = X86_CPU(obj);
+     X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
+-    CPUClass *cc = CPU_CLASS(xcc);
+-
+     CPUX86State *env = &cpu->env;
+     FeatureWord w;
  
--    cpu_exec_realizefn(cs, &local_err);
-+    cpu_exec_realizefn(CPU(dev), &local_err);
-     if (local_err != NULL) {
-         error_propagate(errp, local_err);
-         return;
-@@ -165,7 +164,7 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
+@@ -6680,10 +6677,8 @@ static void x86_cpu_initfn(Object *obj)
+         x86_cpu_load_model(cpu, xcc->model);
      }
  
--    qemu_init_vcpu(cs);
-+    mcc->parent_realize(dev, errp);
- 
-     version = cpu->cfg.version ? cpu->cfg.version : DEFAULT_CPU_VERSION;
-     for (i = 0; mb_cpu_lookup[i].name && version; i++) {
-@@ -231,8 +230,6 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
-     cpu->cfg.mmu_tlb_access = 3;
-     cpu->cfg.mmu_zones = 16;
-     cpu->cfg.addr_mask = MAKE_64BIT_MASK(0, cpu->cfg.addr_size);
--
--    mcc->parent_realize(dev, errp);
+-    /* if required, do the accelerator-specific cpu initialization */
+-    if (cc->accel_cpu_interface) {
+-        cc->accel_cpu_interface->cpu_instance_init(CPU(obj));
+-    }
++    /* if required, do accelerator-specific cpu initializations */
++    cpu_accel_instance_init(CPU(obj));
  }
  
- static void mb_cpu_initfn(Object *obj)
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 1f7573d319..3a457f723b 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -182,8 +182,6 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
-     cpu_mips_realize_env(&cpu->env);
- 
-     cpu_reset(cs);
--    qemu_init_vcpu(cs);
--
-     mcc->parent_realize(dev, errp);
- }
- 
-diff --git a/target/moxie/cpu.c b/target/moxie/cpu.c
-index 1177d092c1..c9a593ecd0 100644
---- a/target/moxie/cpu.c
-+++ b/target/moxie/cpu.c
-@@ -66,10 +66,8 @@ static void moxie_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    qemu_init_vcpu(cs);
--    cpu_reset(cs);
--
-     mcc->parent_realize(dev, errp);
-+    cpu_reset(cs);
- }
- 
- static void moxie_cpu_initfn(Object *obj)
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index a96b74b00c..77928ab61a 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -92,10 +92,8 @@ static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    qemu_init_vcpu(cs);
--    cpu_reset(cs);
--
-     ncc->parent_realize(dev, errp);
-+    cpu_reset(cs);
- }
- 
- static bool nios2_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index e6d1c9764b..79485285da 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -77,10 +77,8 @@ static void openrisc_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    qemu_init_vcpu(cs);
--    cpu_reset(cs);
--
-     occ->parent_realize(dev, errp);
-+    cpu_reset(cs);
- }
- 
- static void openrisc_cpu_initfn(Object *obj)
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index e83000b2fb..3155c2cedc 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -10093,7 +10093,7 @@ static int ppc_fixup_cpu(PowerPCCPU *cpu)
-     return 0;
- }
- 
--static void ppc_cpu_realize(DeviceState *dev, Error **errp)
-+static void ppc_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-     PowerPCCPU *cpu = POWERPC_CPU(dev);
-@@ -10143,7 +10143,6 @@ static void ppc_cpu_realize(DeviceState *dev, Error **errp)
-     gdb_register_coprocessor(cs, gdb_get_spr_reg, gdb_set_spr_reg,
-                              pcc->gdb_num_sprs, "power-spr.xml", 0);
- #endif
--    qemu_init_vcpu(cs);
- 
-     pcc->parent_realize(dev, errp);
- 
-@@ -10894,7 +10893,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
-     CPUClass *cc = CPU_CLASS(oc);
-     DeviceClass *dc = DEVICE_CLASS(oc);
- 
--    device_class_set_parent_realize(dc, ppc_cpu_realize,
-+    device_class_set_parent_realize(dc, ppc_cpu_realizefn,
-                                     &pcc->parent_realize);
-     device_class_set_parent_unrealize(dc, ppc_cpu_unrealize,
-                                       &pcc->parent_unrealize);
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 022b4271d4..77a1dbcb88 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -341,7 +341,7 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
- #endif
- }
- 
--static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-+static void riscv_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-     RISCVCPU *cpu = RISCV_CPU(dev);
-@@ -486,10 +486,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
- 
-     riscv_cpu_register_gdb_regs_for_features(cs);
- 
--    qemu_init_vcpu(cs);
--    cpu_reset(cs);
--
-     mcc->parent_realize(dev, errp);
-+    cpu_reset(cs);
- }
- 
- static void riscv_cpu_init(Object *obj)
-@@ -532,7 +530,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     CPUClass *cc = CPU_CLASS(c);
-     DeviceClass *dc = DEVICE_CLASS(c);
- 
--    device_class_set_parent_realize(dc, riscv_cpu_realize,
-+    device_class_set_parent_realize(dc, riscv_cpu_realizefn,
-                                     &mcc->parent_realize);
- 
-     device_class_set_parent_reset(dc, riscv_cpu_reset, &mcc->parent_reset);
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index c815533223..07a76405cd 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -105,7 +105,7 @@ static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
-     return oc;
- }
- 
--static void rx_cpu_realize(DeviceState *dev, Error **errp)
-+static void rx_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-     RXCPUClass *rcc = RX_CPU_GET_CLASS(dev);
-@@ -117,10 +117,8 @@ static void rx_cpu_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    qemu_init_vcpu(cs);
--    cpu_reset(cs);
--
-     rcc->parent_realize(dev, errp);
-+    cpu_reset(cs);
- }
- 
- static void rx_cpu_set_irq(void *opaque, int no, int request)
-@@ -178,7 +176,7 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
-     CPUClass *cc = CPU_CLASS(klass);
-     RXCPUClass *rcc = RX_CPU_CLASS(klass);
- 
--    device_class_set_parent_realize(dc, rx_cpu_realize,
-+    device_class_set_parent_realize(dc, rx_cpu_realizefn,
-                                     &rcc->parent_realize);
-     device_class_set_parent_reset(dc, rx_cpu_reset,
-                                   &rcc->parent_reset);
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 04856076b3..20b87693a1 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -232,8 +232,8 @@ static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
-     qemu_register_reset(s390_cpu_machine_reset_cb, cpu);
- #endif
-     s390_cpu_gdb_init(cs);
--    qemu_init_vcpu(cs);
- 
-+    scc->parent_realize(dev, &err);
-     /*
-      * KVM requires the initial CPU reset ioctl to be executed on the target
-      * CPU thread. CPU hotplug under single-threaded TCG will not work with
-@@ -246,7 +246,6 @@ static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
-         cpu_reset(cs);
-     }
- 
--    scc->parent_realize(dev, &err);
- out:
-     error_propagate(errp, err);
- }
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 7a9019edec..50519e1a61 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -185,8 +185,6 @@ static void superh_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
- 
-     cpu_reset(cs);
--    qemu_init_vcpu(cs);
--
-     scc->parent_realize(dev, errp);
- }
- 
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 760e0ea92c..f3e628ada9 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -738,9 +738,9 @@ static void sparc_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-     SPARCCPUClass *scc = SPARC_CPU_GET_CLASS(dev);
--    Error *local_err = NULL;
-     SPARCCPU *cpu = SPARC_CPU(dev);
-     CPUSPARCState *env = &cpu->env;
-+    Error *local_err = NULL;
- 
- #if defined(CONFIG_USER_ONLY)
-     if ((env->def.features & CPU_FEATURE_FLOAT)) {
-@@ -768,8 +768,6 @@ static void sparc_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    qemu_init_vcpu(cs);
--
-     scc->parent_realize(dev, errp);
- }
- 
-diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
-index 75b3a4bae3..d887eafe47 100644
---- a/target/tilegx/cpu.c
-+++ b/target/tilegx/cpu.c
-@@ -93,8 +93,6 @@ static void tilegx_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
- 
-     cpu_reset(cs);
--    qemu_init_vcpu(cs);
--
-     tcc->parent_realize(dev, errp);
- }
- 
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index 89a14f81d7..ac57239f87 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -93,8 +93,6 @@ static void tricore_cpu_realizefn(DeviceState *dev, Error **errp)
-         set_feature(env, TRICORE_FEATURE_13);
-     }
-     cpu_reset(cs);
--    qemu_init_vcpu(cs);
--
-     tcc->parent_realize(dev, errp);
- }
- 
-diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
-index a57d315d2f..007564bf59 100644
---- a/target/unicore32/cpu.c
-+++ b/target/unicore32/cpu.c
-@@ -84,18 +84,14 @@ static void uc32_any_cpu_initfn(Object *obj)
- 
- static void uc32_cpu_realizefn(DeviceState *dev, Error **errp)
- {
--    CPUState *cs = CPU(dev);
-     UniCore32CPUClass *ucc = UNICORE32_CPU_GET_CLASS(dev);
-     Error *local_err = NULL;
- 
--    cpu_exec_realizefn(cs, &local_err);
-+    cpu_exec_realizefn(CPU(dev), &local_err);
-     if (local_err != NULL) {
-         error_propagate(errp, local_err);
-         return;
-     }
--
--    qemu_init_vcpu(cs);
--
-     ucc->parent_realize(dev, errp);
- }
- 
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index b6f13ceb32..94f02cc659 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -153,8 +153,6 @@ static void xtensa_cpu_realizefn(DeviceState *dev, Error **errp)
- 
-     cs->gdb_num_regs = xcc->config->gdb_regmap.num_regs;
- 
--    qemu_init_vcpu(cs);
--
-     xcc->parent_realize(dev, errp);
- }
- 
+ static int64_t x86_cpu_get_arch_id(CPUState *cs)
 -- 
 2.26.2
 
