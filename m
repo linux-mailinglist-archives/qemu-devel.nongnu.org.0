@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2933B2CF944
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 05:12:20 +0100 (CET)
-Received: from localhost ([::1]:52012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4202CFA0B
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 07:47:08 +0100 (CET)
+Received: from localhost ([::1]:54658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klOvi-0002tj-NI
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 23:12:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53062)
+	id 1klRLW-0001kV-OB
+	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 01:47:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1klOuK-0002SQ-Gd
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 23:10:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44916)
+ id 1klRKC-0001Je-PC
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 01:45:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1klOuG-0003r0-SV
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 23:10:52 -0500
+ id 1klRK8-00059t-PE
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 01:45:44 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1klOuE-0003xF-VI
- for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 04:10:46 +0000
+ id 1klRK5-0006jn-Si
+ for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 06:45:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EA7172E8085
- for <qemu-devel@nongnu.org>; Sat,  5 Dec 2020 04:10:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C68282E8139
+ for <qemu-devel@nongnu.org>; Sat,  5 Dec 2020 06:45:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 05 Dec 2020 04:01:15 -0000
+Date: Sat, 05 Dec 2020 06:37:31 -0000
 From: yapkv <1906905@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -40,15 +40,16 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: yapkv
 X-Launchpad-Bug-Reporter: yapkv (yapkv)
 X-Launchpad-Bug-Modifier: yapkv (yapkv)
-Message-Id: <160714087524.10652.4920404623701840898.malonedeb@soybean.canonical.com>
-Subject: [Bug 1906905] [NEW] qemu-system-sparc stucked while booting using
+References: <160714087524.10652.4920404623701840898.malonedeb@soybean.canonical.com>
+Message-Id: <160715025133.16875.12523914182623771364.malone@wampee.canonical.com>
+Subject: [Bug 1906905] Re: qemu-system-sparc stucked while booting using
  ss20_v2.25_rom 
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="15cd58601e77a273f7390fc4f4fcd16efe814a43"; Instance="production"
-X-Launchpad-Hash: 6ba361a49e912b9676e00db59be9525db4600698
+X-Launchpad-Hash: 1413d047c427b5afe2dcc5747b45cb7721ee6334
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,24 +74,15 @@ Reply-To: Bug 1906905 <1906905@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+I have just compiled a few version from source code:
 
-I cannot boot up OBP using the current (5.1) version of qemu with
-ss20_v2.25_rom. It just stuck at "Power-ON reset" and hanged.  However
-using the previous version from 2015 I can successfully both up the OBP.
+4.1.1  worked: able to boot up with -bios ss20_v2.25.rom =
 
-qemu-system-sparc -M SS-20 -m 256 -bios ss20_v2.25.rom -nographic
+5.0.0  worked: able to boot up with -bios ss20_v2.25.rom =
 
-Power-ON Reset
+5.1.0  not working. Stuck after "Power-On Reset"
 
-(*hang)
-
-regards
-Yap KV
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+SS5.bin worked for 5.1.0
 
 -- =
 
