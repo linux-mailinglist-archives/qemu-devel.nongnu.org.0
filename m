@@ -2,105 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 352AB2CF754
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 00:12:50 +0100 (CET)
-Received: from localhost ([::1]:39486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B6F2CF8AA
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 02:37:55 +0100 (CET)
+Received: from localhost ([::1]:33494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klKFt-00064B-9a
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 18:12:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51980)
+	id 1klMWI-0001pY-Mh
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 20:37:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1klKAP-0002aJ-SE
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 18:07:10 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23090)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1klKAN-0004Wk-3q
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 18:07:09 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0B4N6EBw007923
- for <qemu-devel@nongnu.org>; Fri, 4 Dec 2020 18:07:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=pn3RvV+Fir36UeqqAqhL8MtO8lFI+sLT95eQEssV+kU=;
- b=qWl19wSu8UsXTnd1CsuNJVKHlfDWMVCnwV/4JxaA5/mlwYhZ80fxj3ZgpoYa6R7E5Xgg
- V7x213LUhX+exvGL+vUS9syE8Wcha7EhfVDmh4F9RDru61cEAKF/Dwqc0Fx6LbZ2nj8o
- CQDmxSQzSqN0UUiaUpSFuylDwjZmBj9Q4Ay45r/+xLnmaxE9VyYkqODoBMGQMnYL4Gen
- EwxOm9wadyBFCpSkyRL0agGHFbEi+mgJgmY82m4U5q5CGilbaRY2rsTazy6uTkju57cL
- 2fTwSZeLETp1wVXdeLeOvQx+5Bdfq6rO5ABaHQzLX7voCm8ETOWnGoT1j9etnMCmTzdN gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 357735grar-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 04 Dec 2020 18:07:04 -0500
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B4N6Y3L008386
- for <qemu-devel@nongnu.org>; Fri, 4 Dec 2020 18:06:56 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 357735gr7k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Dec 2020 18:06:55 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B4MhC4n025328;
- Fri, 4 Dec 2020 23:06:47 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma02wdc.us.ibm.com with ESMTP id 356cbf3evy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Dec 2020 23:06:47 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0B4N6kdS6619842
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 4 Dec 2020 23:06:46 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 38D7E6A057;
- Fri,  4 Dec 2020 23:06:46 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A28CE6A05A;
- Fri,  4 Dec 2020 23:06:45 +0000 (GMT)
-Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.160.122.174])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri,  4 Dec 2020 23:06:45 +0000 (GMT)
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/5] docs: Add CFI Documentation
-Date: Fri,  4 Dec 2020 18:06:15 -0500
-Message-Id: <20201204230615.2392-6-dbuono@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201204230615.2392-1-dbuono@linux.vnet.ibm.com>
-References: <20201204230615.2392-1-dbuono@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1klMU8-000172-Vk
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 20:35:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38134)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1klMU6-0001LW-UM
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 20:35:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1klMU5-0003rp-0I
+ for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 01:35:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F3EB12E800F
+ for <qemu-devel@nongnu.org>; Sat,  5 Dec 2020 01:35:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-12-04_13:2020-12-04,
- 2020-12-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- mlxlogscore=999 spamscore=0 phishscore=0 clxscore=1015 priorityscore=1501
- mlxscore=0 bulkscore=0 impostorscore=0 adultscore=0 suspectscore=1
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012040132
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 05 Dec 2020 01:27:34 -0000
+From: =?utf-8?q?Andreas_K=2E_H=C3=BCttel?= <1906193@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dilfridge
+X-Launchpad-Bug-Reporter: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
+ =?utf-8?q?=29?=
+References: <160669515259.21126.12178770886175022752.malonedeb@gac.canonical.com>
+Message-Id: <160713165467.30106.10281403367680402054.malone@chaenomeles.canonical.com>
+Subject: [Bug 1906193] Re: riscv32 user mode emulation: fork return values
+ broken
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="15cd58601e77a273f7390fc4f4fcd16efe814a43"; Instance="production"
+X-Launchpad-Hash: 7fc21e2bfdb165e50f920759fba1dc1263c9803b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -109,163 +72,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>
+Reply-To: Bug 1906193 <1906193@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Document how to compile with CFI and how to maintain CFI-safe code
+This is the (statically linked) binary resulting from the source; with
+it the problem can be demonstrated "standalone", without any other rv32
+libraries or a complete chroot, just running the binary with qemu-
+riscv32.
 
-Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
----
- docs/devel/control-flow-integrity.rst | 137 ++++++++++++++++++++++++++
- 1 file changed, 137 insertions(+)
- create mode 100644 docs/devel/control-flow-integrity.rst
+Generated with
 
-diff --git a/docs/devel/control-flow-integrity.rst b/docs/devel/control-flow-integrity.rst
-new file mode 100644
-index 0000000000..ec54d16a42
---- /dev/null
-+++ b/docs/devel/control-flow-integrity.rst
-@@ -0,0 +1,137 @@
-+============================
-+Control-Flow Integrity (CFI)
-+============================
-+
-+This document describes the current control-flow integrity (CFI) mechanism in
-+QEMU. How it can be enabled, its benefits and deficiencies, and how it affects
-+new and existing code in QEMU
-+
-+Basics
-+------
-+
-+CFI is a hardening technique that focusing on guaranteeing that indirect
-+function calls have not been altered by an attacker.
-+The type used in QEMU is a forward-edge control-flow integrity that ensures
-+function calls performed through function pointers, always call a "compatible"
-+function. A compatible function is a function with the same signature of the
-+function pointer declared in the source code.
-+
-+This type of CFI is entirely compiler-based and relies on the compiler knowing
-+the signature of every function and every function pointer used in the code.
-+As of now, the only compiler that provides support for CFI is Clang.
-+
-+CFI is best used on production binaries, to protect against unknown attack
-+vectors.
-+
-+In case of a CFI violation (i.e. call to a non-compatible function) QEMU will
-+terminate abruptly, to stop the possible attack.
-+
-+Building with CFI
-+-----------------
-+
-+NOTE: CFI requires the use of link-time optimization. Therefore, when CFI is
-+selected, LTO will be automatically enabled.
-+
-+To build with CFI, the minimum requirement is Clang 6+. If you
-+are planning to also enable fuzzing, then Clang 11+ is needed (more on this
-+later).
-+
-+Given the use of LTO, a version of AR that supports LLVM IR is required.
-+The easies way of doing this is by selecting the AR provided by LLVM::
-+
-+ AR=llvm-ar-9 CC=clang-9 CXX=lang++-9 /path/to/configure --enable-cfi
-+
-+CFI is enabled on every binary produced.
-+
-+If desired, an additional flag to increase the verbosity of the output in case
-+of a CFI violation is offered (``--enable-debug-cfi``).
-+
-+Using QEMU built with CFI
-+-------------------------
-+
-+A binary with CFI will work exactly like a standard binary. In case of a CFI
-+violation, the binary will terminate with an illegal instruction signal.
-+
-+Incompatible code with CFI
-+--------------------------
-+
-+As mentioned above, CFI is entirely compiler-based and therefore relies on
-+compile-time knowledge of the code. This means that, while generally supported
-+for most code, some specific use pattern can break CFI compatibility, and
-+create false-positives. The two main patterns that can cause issues are:
-+
-+* Just-in-time compiled code: since such code is created at runtime, the jump
-+  to the buffer containing JIT code will fail.
-+
-+* Libraries loaded dynamically, e.g. with dlopen/dlsym, since the library was
-+  not known at compile time.
-+
-+Current areas of QEMU that are not entirely compatible with CFI are:
-+
-+1. TCG, since the idea of TCG is to pre-compile groups of instructions at
-+   runtime to speed-up interpretation, quite similarly to a JIT compiler
-+
-+2. TCI, where the interpreter has to interpret the generic *call* operation
-+
-+3. Plugins, since a plugin is implemented as an external library
-+
-+4. Modules, since they are implemented as an external library
-+
-+5. Directly calling signal handlers from the QEMU source code, since the
-+   signal handler may have been provided by an external library or even plugged
-+   at runtime.
-+
-+Disabling CFI for a specific function
-+-------------------------------------
-+
-+If you are working on function that is performing a call using an
-+incompatible way, as described before, you can selectively disable CFI checks
-+for such function by using the decorator ``QEMU_DISABLE_CFI`` at function
-+definition, and add an explanation on why the function is not compatible
-+with CFI. An example of the use of ``QEMU_DISABLE_CFI`` is provided here::
-+
-+	/*
-+	 * Disable CFI checks.
-+	 * TCG creates binary blobs at runtime, with the transformed code.
-+	 * A TB is a blob of binary code, created at runtime and called with an
-+	 * indirect function call. Since such function did not exist at compile time,
-+	 * the CFI runtime has no way to verify its signature and would fail.
-+	 * TCG is not considered a security-sensitive part of QEMU so this does not
-+	 * affect the impact of CFI in environment with high security requirements
-+	 */
-+	QEMU_DISABLE_CFI
-+	static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
-+
-+NOTE: CFI needs to be disabled at the **caller** function, (i.e. a compatible
-+cfi function that calls a non-compatible one), since the check is performed
-+when the function call is performed.
-+
-+CFI and fuzzing
-+---------------
-+
-+There is generally no advantage of using CFI and fuzzing together, because
-+they target different environments (production for CFI, debug for fuzzing).
-+
-+CFI could be used in conjunction with fuzzing to identify a broader set of
-+bugs that may not end immediately in a segmentation fault or triggering
-+an assertion. However, other sanitizers such as address and ub sanitizers
-+can identify such bugs in a more precise way than CFI.
-+
-+There is, however, an interesting use case in using CFI in conjunction with
-+fuzzing, that is to make sure that CFI is not triggering any false positive
-+in remote-but-possible parts of the code.
-+
-+CFI can be enabled with fuzzing, but with some caveats:
-+1. Fuzzing relies on the linker performing function wrapping at link-time.
-+The standard BFD linker does not support function wrapping when LTO is
-+also enabled. The workaround is to use LLVM's lld linker.
-+2. Fuzzing also relies on a custom linker script, which is only supported by
-+lld with version 11+.
-+
-+In other words, to compile with fuzzing and CFI, clang 11+ is required, and
-+lld needs to be used as a linker::
-+
-+ AR=llvm-ar-11 CC=clang-11 CXX=lang++-11 /path/to/configure --enable-cfi \
-+                           -enable-fuzzing --extra-ldflags="-fuse-ld=lld"
-+
-+and then, compile the fuzzers as usual.
--- 
-2.17.1
+(riscv-ilp32 chroot) farino /tmp # gcc -static -o wait-test-short -g
+wait-test-short.c
 
+
+** Attachment added: "wait-test-short"
+   https://bugs.launchpad.net/qemu/+bug/1906193/+attachment/5441136/+files/=
+wait-test-short
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906193
+
+Title:
+  riscv32 user mode emulation: fork return values broken
+
+Status in QEMU:
+  New
+
+Bug description:
+  When running in a chroot with riscv32 (on x86_64; qemu git master as
+  of today):
+
+  The following short program forks; the child immediately returns with
+  exit(42). The parent checks for the return value - and obtains 40!
+
+  gcc-10.2
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  #include <stdlib.h>
+  #include <unistd.h>
+  #include <stdio.h>
+  #include <sys/wait.h>
+
+  main(c, v)
+       int c;
+       char **v;
+  {
+    pid_t pid, p;
+    int s, i, n;
+
+    s =3D 0;
+    pid =3D fork();
+    if (pid =3D=3D 0)
+      exit(42);
+
+    /* wait for the process */
+    p =3D wait(&s);
+    if (p !=3D pid)
+      exit (255);
+
+    if (WIFEXITED(s))
+    {
+       int r=3DWEXITSTATUS(s);
+       if (r!=3D42) {
+        printf("child wants to return %i (0x%X), parent received %i (0x%X),=
+ difference %i\n",42,42,r,r,r-42);
+       }
+    }
+  }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  (riscv-ilp32 chroot) farino /tmp # ./wait-test-short =
+
+  child wants to return 42 (0x2A), parent received 40 (0x28), difference -2
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  (riscv-ilp32 chroot) farino /tmp # gcc --version
+  gcc (Gentoo 10.2.0-r1 p2) 10.2.0
+  Copyright (C) 2020 Free Software Foundation, Inc.
+  Dies ist freie Software; die Kopierbedingungen stehen in den Quellen. Es
+  gibt KEINE Garantie; auch nicht f=C3=BCr MARKTG=C3=84NGIGKEIT oder F=C3=
+=9CR SPEZIELLE ZWECKE.
+
+  (riscv-ilp32 chroot) farino /tmp # ld --version
+  GNU ld (Gentoo 2.34 p6) 2.34.0
+  Copyright (C) 2020 Free Software Foundation, Inc.
+  This program is free software; you may redistribute it under the terms of
+  the GNU General Public License version 3 or (at your option) a later vers=
+ion.
+  This program has absolutely no warranty.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906193/+subscriptions
 
