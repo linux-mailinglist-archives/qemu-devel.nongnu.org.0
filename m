@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A062CFC03
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 17:28:52 +0100 (CET)
-Received: from localhost ([::1]:35234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46BFD2CFBFD
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 17:26:13 +0100 (CET)
+Received: from localhost ([::1]:54564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klaQV-00054v-LO
-	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 11:28:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44134)
+	id 1klaNw-0001GF-AB
+	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 11:26:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaDr-0000qQ-98
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:15:49 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48406)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaDt-0000td-Ir
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:15:51 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaDm-0000A2-JP
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:15:46 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaDn-0000AA-GB
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:15:49 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4EF08ADD7;
- Sat,  5 Dec 2020 16:15:31 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 37856AD07;
+ Sat,  5 Dec 2020 16:15:32 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,9 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v8 11/27] tcg: cpu_exec_{enter,exit} helpers
-Date: Sat,  5 Dec 2020 17:15:02 +0100
-Message-Id: <20201205161518.14365-12-cfontana@suse.de>
+Subject: [RFC v8 12/27] tcg: make CPUClass.cpu_exec_* optional
+Date: Sat,  5 Dec 2020 17:15:03 +0100
+Message-Id: <20201205161518.14365-13-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201205161518.14365-1-cfontana@suse.de>
 References: <20201205161518.14365-1-cfontana@suse.de>
@@ -70,75 +70,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eduardo Habkost <ehabkost@redhat.com>
 
-Move invocation of CPUClass.cpu_exec_*() to separate helpers,
-to make it easier to refactor that code later.
-
+This will let us simplify the code that initializes CPU class
+methods, when we move cpu_exec_*() to a separate struct.
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- accel/tcg/cpu-exec.c | 23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ accel/tcg/cpu-exec.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 58aea605d8..8d31145ad2 100644
+index 8d31145ad2..890b88861a 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -236,9 +236,22 @@ static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
- }
- #endif
- 
-+static void cpu_exec_enter(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    cc->cpu_exec_enter(cpu);
-+}
-+
-+static void cpu_exec_exit(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    cc->cpu_exec_exit(cpu);
-+}
-+
- void cpu_exec_step_atomic(CPUState *cpu)
+@@ -240,14 +240,18 @@ static void cpu_exec_enter(CPUState *cpu)
  {
--    CPUClass *cc = CPU_GET_CLASS(cpu);
-     TranslationBlock *tb;
-     target_ulong cs_base, pc;
-     uint32_t flags;
-@@ -257,11 +270,11 @@ void cpu_exec_step_atomic(CPUState *cpu)
- 
-         /* Since we got here, we know that parallel_cpus must be true.  */
-         parallel_cpus = false;
--        cc->cpu_exec_enter(cpu);
-+        cpu_exec_enter(cpu);
-         /* execute the generated code */
-         trace_exec_tb(tb, pc);
-         cpu_tb_exec(cpu, tb);
--        cc->cpu_exec_exit(cpu);
-+        cpu_exec_exit(cpu);
-     } else {
-         /*
-          * The mmap_lock is dropped by tb_gen_code if it runs out of
-@@ -713,7 +726,7 @@ int cpu_exec(CPUState *cpu)
- 
-     rcu_read_lock();
+     CPUClass *cc = CPU_GET_CLASS(cpu);
  
 -    cc->cpu_exec_enter(cpu);
-+    cpu_exec_enter(cpu);
++    if (cc->cpu_exec_enter) {
++        cc->cpu_exec_enter(cpu);
++    }
+ }
  
-     /* Calculate difference between guest clock and host clock.
-      * This delay includes the delay of the last cycle, so
-@@ -775,7 +788,7 @@ int cpu_exec(CPUState *cpu)
-         }
-     }
+ static void cpu_exec_exit(CPUState *cpu)
+ {
+     CPUClass *cc = CPU_GET_CLASS(cpu);
  
 -    cc->cpu_exec_exit(cpu);
-+    cpu_exec_exit(cpu);
-     rcu_read_unlock();
++    if (cc->cpu_exec_exit) {
++        cc->cpu_exec_exit(cpu);
++    }
+ }
  
-     return ret;
+ void cpu_exec_step_atomic(CPUState *cpu)
+@@ -619,7 +623,8 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
+            True when it is, and we should restart on a new TB,
+            and via longjmp via cpu_loop_exit.  */
+         else {
+-            if (cc->cpu_exec_interrupt(cpu, interrupt_request)) {
++            if (cc->cpu_exec_interrupt &&
++                cc->cpu_exec_interrupt(cpu, interrupt_request)) {
+                 if (need_replay_interrupt(interrupt_request)) {
+                     replay_interrupt();
+                 }
 -- 
 2.26.2
 
