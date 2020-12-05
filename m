@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41482CFB56
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 13:50:49 +0100 (CET)
-Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1F22CFB55
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 13:50:37 +0100 (CET)
+Received: from localhost ([::1]:49720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klX1U-0002uU-Uh
-	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 07:50:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33470)
+	id 1klX1I-0002nu-Kj
+	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 07:50:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1klWy1-0000c5-SL
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 07:47:13 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:38593)
+ id 1klWzA-0001Z6-U5
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 07:48:26 -0500
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1klWy0-0005h8-Cr
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 07:47:13 -0500
-Received: by mail-ot1-x344.google.com with SMTP id b62so8011885otc.5
- for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 04:47:11 -0800 (PST)
+ id 1klWz8-00061O-OX
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 07:48:24 -0500
+Received: by mail-ot1-x343.google.com with SMTP id o11so5322990ote.4
+ for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 04:48:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=y0i4sd4jyRSMJOAt5fSmRA1kyI+sbU2giBDSkTi2/ts=;
- b=i9BU3SGcy12FOB11lRoJFhkQUE93GdQ//gjt8erv9oZc6tUrvPur37utWiyytd08jz
- Nq6TrRDL0pwXkidrAPn43Xbygy8MeXWL88ulPXmHc/lddRIy7tP6xOphKkBiVptD4x0M
- MsFUoLSnImRXPDBWnxkgMaitqWOtvjriuVnpS4N7xch1AT8vBQp6aMwKEQax+H2uzDN1
- 4GthyjxqtuVLtwVgVbeLrqbtxTz3GSckacr53m7q5/W2Uv/bkf8p3sil4/QuzT7TNa1d
- Exf5MfxBFniuW/vPN0ggoBIWnzRnX4dIO3rqDyjM1vHqELwh1DL22uML/yWE2IwSX9mW
- 01ZA==
+ bh=neEnVOej4e7RWx5aJaIZ5LXIKuwkAelxhG6HzDeEd60=;
+ b=ZkR6VGg6V04pYcaFw67VqmMzgKe11+urBAyZfmBWA3p8aOuSKKX7SxOpxhw8DqdzfP
+ vz8FDtpMyIBjLd9Zl7ZQhfpNgzcvuI/HU17eDJAdyBdHvqxn+4bgKlZTVpYOMVMvN5FR
+ lJGLmMYgxRVwtI2bf4O5HyqWc16cQbs1n+P6Yom10bDbgzyHMFS/+wWn5fhZHp12iOR7
+ khGKWgQdO8onbUTDp/vKFSP5w0pexgZ61tcwR0ZRDPDTsSy2fZqe5oT1A1pc8yGt/43y
+ SurxDyyfHP52NCRfwaU+nSi8fyLOBJOnFhddLE3b+NW9MmGYHILDWOGqydFISYAJHFwE
+ 0NNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=y0i4sd4jyRSMJOAt5fSmRA1kyI+sbU2giBDSkTi2/ts=;
- b=kdVFr1ct2datR3JQBCScm32AUEG2iSNstt+Fx7hP8sMx/psUv4Zotf7XZfbwU3CHJ9
- iaNjS7vZkmWk9WUaCtAi1J9EDPdhsiDXu9q1P45ItU0UVfNOIpwobvI0S/uk0R/KEwhz
- wywe5RHggCaS+qXgLYr/xjJhZH8kbTdbsUGaEUSOIQK6L5moqVIiTzDb1oxXpW3dP1a/
- 8ftuMjAt4deLACMJbJoWD2qGDVTgjpgE8cXvzVJDIuum7XiITJY3j/SHWPjDZuinRf/a
- oM2oMGYX5jOXQwp8RHJLDSSaUO6IaH+4kZNNOiqpYiKQHMQqjhjugCW6wnYPriGR6U4f
- IVHw==
-X-Gm-Message-State: AOAM530jI3VnXe55rOCp6v1Ffr2zs5c/MPoce2uhd1QOT4SJrlHKGoUP
- 0192zassiNJpGno4f3CrksiMoQ==
-X-Google-Smtp-Source: ABdhPJxXZIA5RTvskfQHPX8ne7VlWQbWXqHjW+eeLH2c4O2N/w/8RTSgYvrNrZyMQ3FUB5pJOv1PJA==
-X-Received: by 2002:a9d:b8e:: with SMTP id 14mr4959869oth.316.1607172431238;
- Sat, 05 Dec 2020 04:47:11 -0800 (PST)
+ bh=neEnVOej4e7RWx5aJaIZ5LXIKuwkAelxhG6HzDeEd60=;
+ b=I0PlFJ2dkUD6TGJ2osfwNmKYlR7rl76B1CqF8MxRCUSvxNIt6kAqbdVCXZLiloUc3+
+ UEnxpsMpHP0GClcHW9Il4Qfalx/XuRIT27//BGdSwEaURi2PDNjdva3vu1gYoC/Fvyqn
+ brSLd+K8qftjIKZbKutBAFiBGmizOUWH45w4nXUZCHquIHUC/xCFA/754hebxKNho0bS
+ 0pHdaGRuLlcPU8I8SQJ6S8JbaVJZYV+H3LU6TXulBvSr/uBzkq7zEils0eHBMJp3doHf
+ VD+C9gvL6eHiosog72K6oKCsJRywXr4Q5tAEzlYgKnnXK/1Pq5k9eT0xxnJ+DY2uPx+O
+ s0QQ==
+X-Gm-Message-State: AOAM533STYCGF9cidwrk1tlzMoezEOGth8N6R92qn4ffByLbImFLDNCr
+ IBb/yv4h44e0a5uweHbsZnM/2g==
+X-Google-Smtp-Source: ABdhPJxDpzcpldJcK4jrdS9nuv8h6o1UmvrssqjEPzjxXcBkRrl5HF25HK8t0lT84W303IAadlh3+w==
+X-Received: by 2002:a9d:620f:: with SMTP id g15mr6126416otj.361.1607172501551; 
+ Sat, 05 Dec 2020 04:48:21 -0800 (PST)
 Received: from [172.24.51.127] (168.189-204-159.bestelclientes.com.mx.
  [189.204.159.168])
- by smtp.gmail.com with ESMTPSA id q127sm775359oia.18.2020.12.05.04.47.09
+ by smtp.gmail.com with ESMTPSA id u10sm1319250otj.31.2020.12.05.04.48.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Dec 2020 04:47:10 -0800 (PST)
-Subject: Re: [PATCH 2/5] target/mips: Introduce ase_mt_available() helper
+ Sat, 05 Dec 2020 04:48:20 -0800 (PST)
+Subject: Re: [PATCH 3/5] target/mips: Do not initialize MT registers if MT ASE
+ absent
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
  qemu-devel@nongnu.org
 References: <20201204222622.2743175-1-f4bug@amsat.org>
- <20201204222622.2743175-3-f4bug@amsat.org>
+ <20201204222622.2743175-4-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e394bcf8-3028-8f27-2225-df2cb68d7e26@linaro.org>
-Date: Sat, 5 Dec 2020 06:47:08 -0600
+Message-ID: <75d0934f-0c35-6faf-374c-572b182e88df@linaro.org>
+Date: Sat, 5 Dec 2020 06:48:18 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201204222622.2743175-3-f4bug@amsat.org>
+In-Reply-To: <20201204222622.2743175-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::343;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x343.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,19 +97,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/4/20 4:26 PM, Philippe Mathieu-Daudé wrote:
-> Instead of accessing CP0_Config3 directly and checking
-> the 'Multi-Threading Present' bit, introduce an helper
-> to simplify code review.
+> Do not initialize MT-related config registers if the MT ASE
+> is not present. As some functions access the 'mvp' structure,
+> we still zero-allocate it.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/cpu.h        | 7 +++++++
->  hw/mips/cps.c            | 3 +--
->  target/mips/cp0_helper.c | 2 +-
->  target/mips/cpu.c        | 2 +-
->  target/mips/helper.c     | 2 +-
->  target/mips/translate.c  | 2 +-
->  6 files changed, 12 insertions(+), 6 deletions(-)
+>  target/mips/translate_init.c.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
