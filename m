@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49212CFC0E
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 17:33:02 +0100 (CET)
-Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33EEA2CFC1A
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 17:41:51 +0100 (CET)
+Received: from localhost ([::1]:37182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klaUW-0000Z2-NA
-	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 11:33:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44180)
+	id 1klad4-0001BP-89
+	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 11:41:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaDt-0000uH-RT
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:15:51 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48582)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaE0-00010f-Bl
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:15:56 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaDq-0000BF-7d
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:15:49 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1klaDr-0000BK-3c
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:15:56 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id EE8EBAD75;
- Sat,  5 Dec 2020 16:15:34 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id D566AADD9;
+ Sat,  5 Dec 2020 16:15:35 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,14 +29,13 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v8 15/27] cpu: Introduce TCGCpuOperations struct
-Date: Sat,  5 Dec 2020 17:15:06 +0100
-Message-Id: <20201205161518.14365-16-cfontana@suse.de>
+Subject: [RFC v8 16/27] accel/tcg: split TCG-only code from cpu_exec_realizefn
+Date: Sat,  5 Dec 2020 17:15:07 +0100
+Message-Id: <20201205161518.14365-17-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201205161518.14365-1-cfontana@suse.de>
 References: <20201205161518.14365-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -63,502 +62,210 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
  Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
  Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Anthony Perard <anthony.perard@citrix.com>,
+ Claudio Fontana <cfontana@suse.de>, Anthony Perard <anthony.perard@citrix.com>,
  Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- "Emilio G . Cota" <cota@braap.org>, Claudio Fontana <cfontana@suse.de>
+ "Emilio G . Cota" <cota@braap.org>, Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
-
-The TCG-specific CPU methods will be moved to a separate struct,
-to make it easier to move accel-specific code outside generic CPU
-code in the future.  Start by moving tcg_initialize().
-
-The new CPUClass.tcg_opts field may eventually become a pointer,
-but keep it an embedded struct for now, to make code conversion
-easier.
-
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-
-[claudio: make the tcg code build for CONFIG_TCG only]
+move away TCG-only code, make it compile only on TCG.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- MAINTAINERS                     |  1 +
- cpu.c                           |  6 +++++-
- include/hw/core/cpu.h           |  9 ++++++++-
- include/hw/core/tcg-cpu-ops.h   | 25 +++++++++++++++++++++++++
- target/alpha/cpu.c              |  2 +-
- target/arm/cpu.c                |  2 +-
- target/avr/cpu.c                |  2 +-
- target/cris/cpu.c               | 12 ++++++------
- target/hppa/cpu.c               |  2 +-
- target/i386/tcg-cpu.c           |  2 +-
- target/lm32/cpu.c               |  2 +-
- target/m68k/cpu.c               |  2 +-
- target/microblaze/cpu.c         |  2 +-
- target/mips/cpu.c               |  2 +-
- target/moxie/cpu.c              |  2 +-
- target/nios2/cpu.c              |  2 +-
- target/openrisc/cpu.c           |  2 +-
- target/ppc/translate_init.c.inc |  2 +-
- target/riscv/cpu.c              |  2 +-
- target/rx/cpu.c                 |  2 +-
- target/s390x/cpu.c              |  2 +-
- target/sh4/cpu.c                |  2 +-
- target/sparc/cpu.c              |  2 +-
- target/tilegx/cpu.c             |  2 +-
- target/tricore/cpu.c            |  2 +-
- target/unicore32/cpu.c          |  2 +-
- target/xtensa/cpu.c             |  2 +-
- 27 files changed, 67 insertions(+), 30 deletions(-)
- create mode 100644 include/hw/core/tcg-cpu-ops.h
+ accel/tcg/cpu-exec.c  | 28 +++++++++++++++++
+ cpu.c                 | 70 ++++++++++++++++++++-----------------------
+ hw/core/cpu.c         |  6 +++-
+ include/hw/core/cpu.h |  8 +++++
+ 4 files changed, 74 insertions(+), 38 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f53f2678d8..d876f504a6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1535,6 +1535,7 @@ F: qapi/machine.json
- F: qapi/machine-target.json
- F: include/hw/boards.h
- F: include/hw/core/cpu.h
-+F: include/hw/core/tcg-cpu-ops.h
- F: include/hw/cpu/cluster.h
- F: include/sysemu/numa.h
- T: git https://github.com/ehabkost/qemu.git machine-next
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 64cba89356..436dfbf155 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -801,6 +801,34 @@ int cpu_exec(CPUState *cpu)
+     return ret;
+ }
+ 
++void tcg_exec_realizefn(CPUState *cpu, Error **errp)
++{
++    static bool tcg_target_initialized;
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    if (!tcg_target_initialized) {
++        tcg_target_initialized = true;
++        cc->tcg_ops.initialize();
++    }
++    tlb_init(cpu);
++    qemu_plugin_vcpu_init_hook(cpu);
++
++#ifndef CONFIG_USER_ONLY
++    tcg_iommu_init_notifier_list(cpu);
++#endif /* !CONFIG_USER_ONLY */
++}
++
++/* undo the initializations in reverse order */
++void tcg_exec_unrealizefn(CPUState *cpu)
++{
++#ifndef CONFIG_USER_ONLY
++    tcg_iommu_free_notifier_list(cpu);
++#endif /* !CONFIG_USER_ONLY */
++
++    qemu_plugin_vcpu_exit_hook(cpu);
++    tlb_destroy(cpu);
++}
++
+ #ifndef CONFIG_USER_ONLY
+ 
+ void dump_drift_info(void)
 diff --git a/cpu.c b/cpu.c
-index 0be5dcb6f3..27ad096cc4 100644
+index 27ad096cc4..5cc8f181be 100644
 --- a/cpu.c
 +++ b/cpu.c
-@@ -174,14 +174,18 @@ void cpu_exec_initfn(CPUState *cpu)
- void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+@@ -124,13 +124,35 @@ const VMStateDescription vmstate_cpu_common = {
+ };
+ #endif
+ 
++void cpu_exec_realizefn(CPUState *cpu, Error **errp)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    cpu_list_add(cpu);
++
++#ifdef CONFIG_TCG
++    /* NB: errp parameter is unused currently */
++    if (tcg_enabled()) {
++        tcg_exec_realizefn(cpu, errp);
++    }
++#endif /* CONFIG_TCG */
++
++#ifdef CONFIG_USER_ONLY
++    assert(cc->vmsd == NULL);
++#else
++    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
++        vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
++    }
++    if (cc->vmsd != NULL) {
++        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
++    }
++#endif /* CONFIG_USER_ONLY */
++}
++
+ void cpu_exec_unrealizefn(CPUState *cpu)
  {
      CPUClass *cc = CPU_GET_CLASS(cpu);
-+#ifdef CONFIG_TCG
-     static bool tcg_target_initialized;
-+#endif /* CONFIG_TCG */
  
-     cpu_list_add(cpu);
- 
-+#ifdef CONFIG_TCG
-     if (tcg_enabled() && !tcg_target_initialized) {
-         tcg_target_initialized = true;
--        cc->tcg_initialize();
-+        cc->tcg_ops.initialize();
+-    tlb_destroy(cpu);
+-    cpu_list_remove(cpu);
+-
+ #ifdef CONFIG_USER_ONLY
+     assert(cc->vmsd == NULL);
+ #else
+@@ -140,8 +162,15 @@ void cpu_exec_unrealizefn(CPUState *cpu)
+     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
+         vmstate_unregister(NULL, &vmstate_cpu_common, cpu);
      }
+-    tcg_iommu_free_notifier_list(cpu);
+ #endif
++#ifdef CONFIG_TCG
++    /* NB: errp parameter is unused currently */
++    if (tcg_enabled()) {
++        tcg_exec_unrealizefn(cpu);
++    }
 +#endif /* CONFIG_TCG */
-     tlb_init(cpu);
++
++    cpu_list_remove(cpu);
+ }
  
-     qemu_plugin_vcpu_init_hook(cpu);
+ Property cpu_common_props[] = {
+@@ -171,39 +200,6 @@ void cpu_exec_initfn(CPUState *cpu)
+ #endif
+ }
+ 
+-void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+-{
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+-#ifdef CONFIG_TCG
+-    static bool tcg_target_initialized;
+-#endif /* CONFIG_TCG */
+-
+-    cpu_list_add(cpu);
+-
+-#ifdef CONFIG_TCG
+-    if (tcg_enabled() && !tcg_target_initialized) {
+-        tcg_target_initialized = true;
+-        cc->tcg_ops.initialize();
+-    }
+-#endif /* CONFIG_TCG */
+-    tlb_init(cpu);
+-
+-    qemu_plugin_vcpu_init_hook(cpu);
+-
+-#ifdef CONFIG_USER_ONLY
+-    assert(cc->vmsd == NULL);
+-#else /* !CONFIG_USER_ONLY */
+-    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
+-        vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
+-    }
+-    if (cc->vmsd != NULL) {
+-        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
+-    }
+-
+-    tcg_iommu_init_notifier_list(cpu);
+-#endif
+-}
+-
+ const char *parse_cpu_option(const char *cpu_option)
+ {
+     ObjectClass *oc;
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 994a12cb35..1f04aab16b 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -199,6 +199,10 @@ static bool cpu_common_virtio_is_big_endian(CPUState *cpu)
+     return target_words_bigendian();
+ }
+ 
++/*
++ * XXX the following #if is always true because this is a common_ss
++ * module, so target CONFIG_* is never defined.
++ */
+ #if !defined(CONFIG_USER_ONLY)
+ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
+ {
+@@ -340,9 +344,9 @@ static void cpu_common_realizefn(DeviceState *dev, Error **errp)
+ static void cpu_common_unrealizefn(DeviceState *dev)
+ {
+     CPUState *cpu = CPU(dev);
++
+     /* NOTE: latest generic point before the cpu is fully unrealized */
+     trace_fini_vcpu(cpu);
+-    qemu_plugin_vcpu_exit_hook(cpu);
+     cpu_exec_unrealizefn(cpu);
+ }
+ 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 3d92c967ff..c93b08a0fb 100644
+index c93b08a0fb..ea648d52ad 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -76,6 +76,10 @@ typedef struct CPUWatchpoint CPUWatchpoint;
- 
- struct TranslationBlock;
+@@ -1119,10 +1119,18 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx);
+ void QEMU_NORETURN cpu_abort(CPUState *cpu, const char *fmt, ...)
+     GCC_FMT_ATTR(2, 3);
+ extern Property cpu_common_props[];
++
++/* $(top_srcdir)/cpu.c */
+ void cpu_exec_initfn(CPUState *cpu);
+ void cpu_exec_realizefn(CPUState *cpu, Error **errp);
+ void cpu_exec_unrealizefn(CPUState *cpu);
  
 +#ifdef CONFIG_TCG
-+#include "tcg-cpu-ops.h"
++/* accel/tcg/cpu-exec.c */
++void tcg_exec_realizefn(CPUState *cpu, Error **errp);
++void tcg_exec_unrealizefn(CPUState *cpu);
 +#endif /* CONFIG_TCG */
 +
  /**
-  * CPUClass:
-  * @class_by_name: Callback to map -cpu command line model name to an
-@@ -221,12 +225,15 @@ struct CPUClass {
- 
-     void (*disas_set_info)(CPUState *cpu, disassemble_info *info);
-     vaddr (*adjust_watchpoint_address)(CPUState *cpu, vaddr addr, int len);
--    void (*tcg_initialize)(void);
- 
-     const char *deprecation_note;
-     /* Keep non-pointer data at the end to minimize holes.  */
-     int gdb_num_core_regs;
-     bool gdb_stop_before_watchpoint;
-+
-+#ifdef CONFIG_TCG
-+    TcgCpuOperations tcg_ops;
-+#endif /* CONFIG_TCG */
- };
- 
- /*
-diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
-new file mode 100644
-index 0000000000..4475ef0996
---- /dev/null
-+++ b/include/hw/core/tcg-cpu-ops.h
-@@ -0,0 +1,25 @@
-+/*
-+ * TCG-Specific operations that are not meaningful for hardware accelerators
-+ *
-+ * Copyright 2020 SUSE LLC
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef TCG_CPU_OPS_H
-+#define TCG_CPU_OPS_H
-+
-+/**
-+ * struct TcgCpuOperations: TCG operations specific to a CPU class
-+ */
-+typedef struct TcgCpuOperations {
-+    /**
-+     * @initialize: Initalize TCG state
-+     *
-+     * Called when the first CPU is realized.
-+     */
-+    void (*initialize)(void);
-+} TcgCpuOperations;
-+
-+#endif /* TCG_CPU_OPS_H */
-diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-index b3fd6643e8..d66f0351a9 100644
---- a/target/alpha/cpu.c
-+++ b/target/alpha/cpu.c
-@@ -231,7 +231,7 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
-     dc->vmsd = &vmstate_alpha_cpu;
- #endif
-     cc->disas_set_info = alpha_cpu_disas_set_info;
--    cc->tcg_initialize = alpha_translate_init;
-+    cc->tcg_ops.initialize = alpha_translate_init;
- 
-     cc->gdb_num_core_regs = 67;
- }
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 07492e9f9a..1fa9382a7c 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2261,7 +2261,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_stop_before_watchpoint = true;
-     cc->disas_set_info = arm_disas_set_info;
- #ifdef CONFIG_TCG
--    cc->tcg_initialize = arm_translate_init;
-+    cc->tcg_ops.initialize = arm_translate_init;
-     cc->tlb_fill = arm_cpu_tlb_fill;
-     cc->debug_excp_handler = arm_debug_excp_handler;
-     cc->debug_check_watchpoint = arm_debug_check_watchpoint;
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 5d9c4ad5bf..94306a2aa0 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -206,7 +206,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     cc->tlb_fill = avr_cpu_tlb_fill;
-     cc->vmsd = &vms_avr_cpu;
-     cc->disas_set_info = avr_cpu_disas_set_info;
--    cc->tcg_initialize = avr_cpu_tcg_init;
-+    cc->tcg_ops.initialize = avr_cpu_tcg_init;
-     cc->synchronize_from_tb = avr_cpu_synchronize_from_tb;
-     cc->gdb_read_register = avr_cpu_gdb_read_register;
-     cc->gdb_write_register = avr_cpu_gdb_write_register;
-diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-index cff6b9eabf..4328f8e6c9 100644
---- a/target/cris/cpu.c
-+++ b/target/cris/cpu.c
-@@ -201,7 +201,7 @@ static void crisv8_cpu_class_init(ObjectClass *oc, void *data)
-     ccc->vr = 8;
-     cc->do_interrupt = crisv10_cpu_do_interrupt;
-     cc->gdb_read_register = crisv10_cpu_gdb_read_register;
--    cc->tcg_initialize = cris_initialize_crisv10_tcg;
-+    cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
- }
- 
- static void crisv9_cpu_class_init(ObjectClass *oc, void *data)
-@@ -212,7 +212,7 @@ static void crisv9_cpu_class_init(ObjectClass *oc, void *data)
-     ccc->vr = 9;
-     cc->do_interrupt = crisv10_cpu_do_interrupt;
-     cc->gdb_read_register = crisv10_cpu_gdb_read_register;
--    cc->tcg_initialize = cris_initialize_crisv10_tcg;
-+    cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
- }
- 
- static void crisv10_cpu_class_init(ObjectClass *oc, void *data)
-@@ -223,7 +223,7 @@ static void crisv10_cpu_class_init(ObjectClass *oc, void *data)
-     ccc->vr = 10;
-     cc->do_interrupt = crisv10_cpu_do_interrupt;
-     cc->gdb_read_register = crisv10_cpu_gdb_read_register;
--    cc->tcg_initialize = cris_initialize_crisv10_tcg;
-+    cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
- }
- 
- static void crisv11_cpu_class_init(ObjectClass *oc, void *data)
-@@ -234,7 +234,7 @@ static void crisv11_cpu_class_init(ObjectClass *oc, void *data)
-     ccc->vr = 11;
-     cc->do_interrupt = crisv10_cpu_do_interrupt;
-     cc->gdb_read_register = crisv10_cpu_gdb_read_register;
--    cc->tcg_initialize = cris_initialize_crisv10_tcg;
-+    cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
- }
- 
- static void crisv17_cpu_class_init(ObjectClass *oc, void *data)
-@@ -245,7 +245,7 @@ static void crisv17_cpu_class_init(ObjectClass *oc, void *data)
-     ccc->vr = 17;
-     cc->do_interrupt = crisv10_cpu_do_interrupt;
-     cc->gdb_read_register = crisv10_cpu_gdb_read_register;
--    cc->tcg_initialize = cris_initialize_crisv10_tcg;
-+    cc->tcg_ops.initialize = cris_initialize_crisv10_tcg;
- }
- 
- static void crisv32_cpu_class_init(ObjectClass *oc, void *data)
-@@ -284,7 +284,7 @@ static void cris_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_stop_before_watchpoint = true;
- 
-     cc->disas_set_info = cris_disas_set_info;
--    cc->tcg_initialize = cris_initialize_tcg;
-+    cc->tcg_ops.initialize = cris_initialize_tcg;
- }
- 
- #define DEFINE_CRIS_CPU_TYPE(cpu_model, initfn) \
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 71b6aca45d..4c778966c2 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -153,7 +153,7 @@ static void hppa_cpu_class_init(ObjectClass *oc, void *data)
- #endif
-     cc->do_unaligned_access = hppa_cpu_do_unaligned_access;
-     cc->disas_set_info = hppa_cpu_disas_set_info;
--    cc->tcg_initialize = hppa_translate_init;
-+    cc->tcg_ops.initialize = hppa_translate_init;
- 
-     cc->gdb_num_core_regs = 128;
- }
-diff --git a/target/i386/tcg-cpu.c b/target/i386/tcg-cpu.c
-index 628dd29fe7..1f2a3e881a 100644
---- a/target/i386/tcg-cpu.c
-+++ b/target/i386/tcg-cpu.c
-@@ -63,7 +63,7 @@ void tcg_cpu_common_class_init(CPUClass *cc)
-     cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
-     cc->cpu_exec_enter = x86_cpu_exec_enter;
-     cc->cpu_exec_exit = x86_cpu_exec_exit;
--    cc->tcg_initialize = tcg_x86_init;
-+    cc->tcg_ops.initialize = tcg_x86_init;
-     cc->tlb_fill = x86_cpu_tlb_fill;
- #ifndef CONFIG_USER_ONLY
-     cc->debug_excp_handler = breakpoint_handler;
-diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
-index c50ad5fa15..ef795b81a4 100644
---- a/target/lm32/cpu.c
-+++ b/target/lm32/cpu.c
-@@ -237,7 +237,7 @@ static void lm32_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_stop_before_watchpoint = true;
-     cc->debug_excp_handler = lm32_debug_excp_handler;
-     cc->disas_set_info = lm32_cpu_disas_set_info;
--    cc->tcg_initialize = lm32_translate_init;
-+    cc->tcg_ops.initialize = lm32_translate_init;
- }
- 
- #define DEFINE_LM32_CPU_TYPE(cpu_model, initfn) \
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 72c545149e..b66d86c353 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -289,7 +289,7 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
-     cc->get_phys_page_debug = m68k_cpu_get_phys_page_debug;
- #endif
-     cc->disas_set_info = m68k_cpu_disas_set_info;
--    cc->tcg_initialize = m68k_tcg_init;
-+    cc->tcg_ops.initialize = m68k_tcg_init;
- 
-     cc->gdb_num_core_regs = 18;
- 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 9b2482159d..bc10518fa3 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -335,7 +335,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_num_core_regs = 32 + 27;
- 
-     cc->disas_set_info = mb_disas_set_info;
--    cc->tcg_initialize = mb_tcg_init;
-+    cc->tcg_ops.initialize = mb_tcg_init;
- }
- 
- static const TypeInfo mb_cpu_type_info = {
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 76d50b00b4..bc48573763 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -249,7 +249,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
- #endif
-     cc->disas_set_info = mips_cpu_disas_set_info;
- #ifdef CONFIG_TCG
--    cc->tcg_initialize = mips_tcg_init;
-+    cc->tcg_ops.initialize = mips_tcg_init;
-     cc->tlb_fill = mips_cpu_tlb_fill;
- #endif
- 
-diff --git a/target/moxie/cpu.c b/target/moxie/cpu.c
-index 6e0443ccb7..224cfc8361 100644
---- a/target/moxie/cpu.c
-+++ b/target/moxie/cpu.c
-@@ -116,7 +116,7 @@ static void moxie_cpu_class_init(ObjectClass *oc, void *data)
-     cc->vmsd = &vmstate_moxie_cpu;
- #endif
-     cc->disas_set_info = moxie_cpu_disas_set_info;
--    cc->tcg_initialize = moxie_translate_init;
-+    cc->tcg_ops.initialize = moxie_translate_init;
- }
- 
- static void moxielite_initfn(Object *obj)
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 8f7011fcb9..29c9c6f634 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -205,7 +205,7 @@ static void nios2_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_read_register = nios2_cpu_gdb_read_register;
-     cc->gdb_write_register = nios2_cpu_gdb_write_register;
-     cc->gdb_num_core_regs = 49;
--    cc->tcg_initialize = nios2_tcg_init;
-+    cc->tcg_ops.initialize = nios2_tcg_init;
- }
- 
- static const TypeInfo nios2_cpu_type_info = {
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index 5528c0918f..e442f4f97c 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -166,7 +166,7 @@ static void openrisc_cpu_class_init(ObjectClass *oc, void *data)
-     dc->vmsd = &vmstate_openrisc_cpu;
- #endif
-     cc->gdb_num_core_regs = 32 + 3;
--    cc->tcg_initialize = openrisc_translate_init;
-+    cc->tcg_ops.initialize = openrisc_translate_init;
-     cc->disas_set_info = openrisc_disas_set_info;
- }
- 
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index 78cc8f043b..9a6932b774 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -10945,7 +10945,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->virtio_is_big_endian = ppc_cpu_is_big_endian;
- #endif
- #ifdef CONFIG_TCG
--    cc->tcg_initialize = ppc_translate_init;
-+    cc->tcg_ops.initialize = ppc_translate_init;
-     cc->tlb_fill = ppc_cpu_tlb_fill;
- #endif
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6a0264fc6b..a52e0ce466 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -562,7 +562,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->vmsd = &vmstate_riscv_cpu;
- #endif
- #ifdef CONFIG_TCG
--    cc->tcg_initialize = riscv_translate_init;
-+    cc->tcg_ops.initialize = riscv_translate_init;
-     cc->tlb_fill = riscv_cpu_tlb_fill;
- #endif
-     device_class_set_props(dc, riscv_cpu_properties);
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index 23ee17a701..a701a09b11 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -194,7 +194,7 @@ static void rx_cpu_class_init(ObjectClass *klass, void *data)
-     cc->gdb_write_register = rx_cpu_gdb_write_register;
-     cc->get_phys_page_debug = rx_cpu_get_phys_page_debug;
-     cc->disas_set_info = rx_cpu_disas_set_info;
--    cc->tcg_initialize = rx_translate_init;
-+    cc->tcg_ops.initialize = rx_translate_init;
-     cc->tlb_fill = rx_cpu_tlb_fill;
- 
-     cc->gdb_num_core_regs = 26;
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index 7b66718c44..697b94ff7b 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -512,7 +512,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
- #endif
-     cc->disas_set_info = s390_cpu_disas_set_info;
- #ifdef CONFIG_TCG
--    cc->tcg_initialize = s390x_translate_init;
-+    cc->tcg_ops.initialize = s390x_translate_init;
-     cc->tlb_fill = s390_cpu_tlb_fill;
- #endif
- 
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 3c68021c56..bdc5c9d90b 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -231,7 +231,7 @@ static void superh_cpu_class_init(ObjectClass *oc, void *data)
-     cc->get_phys_page_debug = superh_cpu_get_phys_page_debug;
- #endif
-     cc->disas_set_info = superh_cpu_disas_set_info;
--    cc->tcg_initialize = sh4_translate_init;
-+    cc->tcg_ops.initialize = sh4_translate_init;
- 
-     cc->gdb_num_core_regs = 59;
- 
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 701e794eac..07e48b86d1 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -879,7 +879,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->vmsd = &vmstate_sparc_cpu;
- #endif
-     cc->disas_set_info = cpu_sparc_disas_set_info;
--    cc->tcg_initialize = sparc_tcg_init;
-+    cc->tcg_ops.initialize = sparc_tcg_init;
- 
- #if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
-     cc->gdb_num_core_regs = 86;
-diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
-index 1fee87c094..cd24d0eb9d 100644
---- a/target/tilegx/cpu.c
-+++ b/target/tilegx/cpu.c
-@@ -153,7 +153,7 @@ static void tilegx_cpu_class_init(ObjectClass *oc, void *data)
-     cc->set_pc = tilegx_cpu_set_pc;
-     cc->tlb_fill = tilegx_cpu_tlb_fill;
-     cc->gdb_num_core_regs = 0;
--    cc->tcg_initialize = tilegx_tcg_init;
-+    cc->tcg_ops.initialize = tilegx_tcg_init;
- }
- 
- static const TypeInfo tilegx_cpu_type_info = {
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index 2f2e5b029f..78b2925955 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -164,7 +164,7 @@ static void tricore_cpu_class_init(ObjectClass *c, void *data)
-     cc->set_pc = tricore_cpu_set_pc;
-     cc->synchronize_from_tb = tricore_cpu_synchronize_from_tb;
-     cc->get_phys_page_debug = tricore_cpu_get_phys_page_debug;
--    cc->tcg_initialize = tricore_tcg_init;
-+    cc->tcg_ops.initialize = tricore_tcg_init;
-     cc->tlb_fill = tricore_cpu_tlb_fill;
- }
- 
-diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
-index b27fb9689f..226bf4226e 100644
---- a/target/unicore32/cpu.c
-+++ b/target/unicore32/cpu.c
-@@ -137,7 +137,7 @@ static void uc32_cpu_class_init(ObjectClass *oc, void *data)
-     cc->set_pc = uc32_cpu_set_pc;
-     cc->tlb_fill = uc32_cpu_tlb_fill;
-     cc->get_phys_page_debug = uc32_cpu_get_phys_page_debug;
--    cc->tcg_initialize = uc32_translate_init;
-+    cc->tcg_ops.initialize = uc32_translate_init;
-     dc->vmsd = &vmstate_uc32_cpu;
- }
- 
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index 88a32268a1..5a6f5bf88b 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -209,7 +209,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
- #endif
-     cc->debug_excp_handler = xtensa_breakpoint_handler;
-     cc->disas_set_info = xtensa_cpu_disas_set_info;
--    cc->tcg_initialize = xtensa_translate_init;
-+    cc->tcg_ops.initialize = xtensa_translate_init;
-     dc->vmsd = &vmstate_xtensa_cpu;
- }
- 
+  * target_words_bigendian:
+  * Returns true if the (default) endianness of the target is big endian,
 -- 
 2.26.2
 
