@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 129422CFB88
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 15:19:34 +0100 (CET)
-Received: from localhost ([::1]:36236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6E52CFBAF
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 16:17:29 +0100 (CET)
+Received: from localhost ([::1]:48074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klYPL-0000vr-Ov
-	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 09:19:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50578)
+	id 1klZJQ-0004Te-6e
+	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 10:17:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klYO0-0000NO-FF
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 09:18:08 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:46879)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1klZHf-0003eW-Kf
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 10:15:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klYNy-0001uQ-IR
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 09:18:07 -0500
-Received: by mail-ed1-x541.google.com with SMTP id b73so8852933edf.13
- for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 06:18:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XOXKNllMyG/B5Y15ZpPDro/Cl41ZpR9zzfuA3QrDbIw=;
- b=FeODeVT2H1cf+qL7xI6dEWWXpGV/FUw848N1Y6FbsG7/kmd643UkfGeyZbaVJVnrJa
- PMxeL3xI+Hb92aexMcLG+wrk+e+vuccFFzIbVDXjuOopyXkGshRq19w450wbwsGQJ7xh
- tjnlLYm8BcQMzI+iqEQVKNKdnI26/6UjnOfzlkyIlD01jFFbuDRbly4qfDiZ0Ev+PG1i
- UAb/NcFPNoiySb0w59Gm6F85lrrLrlJDAcLcnWSxPJi6r80WkWVrevFomNiNnvYwmFVY
- iXD0mgd0jYV+XN1KxwtsQ2zmDqA8EHnPsEd0KfbYZ1cUrPduXK219D1Dr56YbNCV5Q2o
- 17yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XOXKNllMyG/B5Y15ZpPDro/Cl41ZpR9zzfuA3QrDbIw=;
- b=nK0xzYIKpbTTMdxPFp8is27+QOH2KAYIrNB4GKTcKSGaFF5j87Z0lX2Rgs6rdS6Bam
- uiUKKBbuNk8ndDVN5sDuQ14OyxjNDgNt1HjdQqMoJ5DQvavLLxM0Ys4mdgMVIDzoL/A5
- O9a11X7KsSBnEs7PSc7QXXfChudCJsA9lUH1jbLom905uouSn8xB9zWf4mHngLK7XIaq
- piga26JhilGSrnvMv37bE1vk1FIiX0wUo3RvIcqvKq4kEO8H0hP2Od5ujz7h7GlwWrxC
- wQHhs/0qpWmErb4LvNrBOmZKlfRG4jhNTtuRQZZOwbh8jVnlBfxvljAJ+sLB7dkTnGGi
- wrKA==
-X-Gm-Message-State: AOAM530ciLv3h7H/wn9X+68BDTTb9pdNC89P4PzQ6chcTpKRR1nZdqBr
- DjM582/6JSZZCdmt/RXKHsA=
-X-Google-Smtp-Source: ABdhPJzjswGAUk6SklbzEALhYAOgRtztvQKXdQLcxPtWIVjSmCg/vLupNpMefvADSjXtYckUsi25sA==
-X-Received: by 2002:a05:6402:d09:: with SMTP id
- eb9mr12006865edb.71.1607177884098; 
- Sat, 05 Dec 2020 06:18:04 -0800 (PST)
-Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id ov22sm5414254ejb.23.2020.12.05.06.18.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Dec 2020 06:18:03 -0800 (PST)
-Subject: Re: [PATCH] MAINTAINERS: chenhc@lemote.com -> chenhuacai@kernel.org
-To: Huacai Chen <zltjiangshi@gmail.com>
-References: <1607160121-9977-1-git-send-email-chenhuacai@kernel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <fdc553b5-af0b-1705-7f33-a7fd2d524fb5@amsat.org>
-Date: Sat, 5 Dec 2020 15:18:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1klZHd-000539-8D
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 10:15:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1klZHb-0005kZ-Ld
+ for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 15:15:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 83E002E8136
+ for <qemu-devel@nongnu.org>; Sat,  5 Dec 2020 15:15:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1607160121-9977-1-git-send-email-chenhuacai@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x541.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 05 Dec 2020 15:09:03 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1906905@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: sparc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd yapkv
+X-Launchpad-Bug-Reporter: yapkv (yapkv)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <160714087524.10652.4920404623701840898.malonedeb@soybean.canonical.com>
+Message-Id: <20201205150903.3062711-1-f4bug@amsat.org>
+Subject: [Bug 1906905] Re: qemu-system-sparc stucked while booting using
+ ss20_v2.25_rom 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="15cd58601e77a273f7390fc4f4fcd16efe814a43"; Instance="production"
+X-Launchpad-Hash: 671acdcd000638bce4bb140322ced9de045716a4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,22 +73,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Reply-To: Bug 1906905 <1906905@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/5/20 10:22 AM, Huacai Chen wrote:
-> Use @kernel.org address as the main communications end point. Update the
-> corresponding M-entries and .mailmap (for git shortlog translation).
-> 
-> Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
-> ---
->  .mailmap    | 2 ++
->  MAINTAINERS | 8 ++++----
->  2 files changed, 6 insertions(+), 4 deletions(-)
+Per the "NCR89C105 Chip Specification" referenced in the header:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+                  Chip-level Address Map
+
+  ------------------------------------------------------------------
+  | 1D0 0000 ->   | Counter/Timers                        | W,D    |
+  |   1DF FFFF    |                                       |        |
+  ...
+
+  The address map indicated the allowed accesses at each address.
+  [...] W indicates a word access, and D indicates a double-word
+  access.
+
+The SLAVIO timer controller is implemented expecting 32-bit accesses.
+Commit a3d12d073e1 restricted the memory accesses to 32-bit, while
+the device allows 64-bit accesses.
+
+This was not an issue until commit 5d971f9e67 which reverted
+("memory: accept mismatching sizes in memory_region_access_valid").
+
+Fix by renaming .valid MemoryRegionOps as .impl, and add the valid
+access range (W -> 4, D -> 8).
+
+Since commit 21786c7e598 ("memory: Log invalid memory accesses")
+this class of bug can be quickly debugged displaying 'guest_errors'
+accesses, as:
+
+  $ qemu-system-sparc -M SS-20 -m 256 -bios ss20_v2.25_rom -serial stdio
+-d guest_errors
+
+  Power-ON Reset
+  Invalid access at addr 0x0, size 8, region 'timer-1', reason: invalid siz=
+e (min:4 max:4)
+
+  $ qemu-system-sparc -M SS-20 -m 256 -bios ss20_v2.25_rom -monitor stdio -S
+  (qemu) info mtree
+  address-space: memory
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      ...
+      0000000ff1300000-0000000ff130000f (prio 0, i/o): timer-1
+             ^^^^^^^^^                                 ^^^^^^^
+                   \ memory region base address and name /
+
+  (qemu) info qtree
+  bus: main-system-bus
+    dev: slavio_timer, id ""              <-- device type name
+      gpio-out "sysbus-irq" 17
+      num_cpus =3D 1 (0x1)
+      mmio 0000000ff1310000/0000000000000014
+      mmio 0000000ff1300000/0000000000000010 <--- base address
+      mmio 0000000ff1301000/0000000000000010
+      mmio 0000000ff1302000/0000000000000010
+      ...
+
+Reported-by: Yap KV <yapkv@yahoo.com>
+Buglink: https://bugs.launchpad.net/bugs/1906905
+Fixes: a3d12d073e1 ("slavio_timer: convert to memory API")
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+---
+Cc: Benoit Canet <benoit.canet@gmail.com>
+Cc: <1906905@bugs.launchpad.net>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+---
+ hw/timer/slavio_timer.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
+index 5b2d20cb6a5..03e33fc5926 100644
+--- a/hw/timer/slavio_timer.c
++++ b/hw/timer/slavio_timer.c
+@@ -331,6 +331,10 @@ static const MemoryRegionOps slavio_timer_mem_ops =3D {
+     .write =3D slavio_timer_mem_writel,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+     .valid =3D {
++        .min_access_size =3D 4,
++        .max_access_size =3D 8,
++    },
++    .impl =3D {
+         .min_access_size =3D 4,
+         .max_access_size =3D 4,
+     },
+-- =
+
+2.26.2
+
+
+** Changed in: qemu
+       Status: New =3D> Confirmed
+
+** Tags added: sparc
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906905
+
+Title:
+  qemu-system-sparc stucked while booting using ss20_v2.25_rom
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  I cannot boot up OBP using the current (5.1) version of qemu with
+  ss20_v2.25_rom. It just stuck at "Power-ON reset" and hanged.  However
+  using the previous version from 2015 I can successfully both up the
+  OBP.
+
+  qemu-system-sparc -M SS-20 -m 256 -bios ss20_v2.25.rom -nographic
+
+  Power-ON Reset
+
+  (*hang)
+
+  regards
+  Yap KV
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906905/+subscriptions
 
