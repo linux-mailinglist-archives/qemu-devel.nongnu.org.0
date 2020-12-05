@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FAB2CFC23
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 17:45:06 +0100 (CET)
-Received: from localhost ([::1]:47046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D372CFC15
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 17:39:22 +0100 (CET)
+Received: from localhost ([::1]:59994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klagD-0005S9-Hu
-	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 11:45:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46888)
+	id 1klaaf-0007H1-Ip
+	for lists+qemu-devel@lfdr.de; Sat, 05 Dec 2020 11:39:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klaYB-0005Bc-Ad
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:36:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54048)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klaYP-0005Wh-Uz
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:37:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klaY9-00070T-NJ
- for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:36:47 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klaYO-00075v-CH
+ for qemu-devel@nongnu.org; Sat, 05 Dec 2020 11:37:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607186203;
+ s=mimecast20190719; t=1607186219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L+WJtQG6C1q5tP6A9bzt5FebLFcEDcnk0VAn8DkxFNI=;
- b=HaKzxci3Y6+6VD0k0xPGb4ivUiJ2Vv9i+VTU5coT1190BvixAFTvSIVEnAmI2kyNPfKa2S
- RujA0cbE3jLhFwdPExIK++nTqVE1PvR7NkRCmcpq1rRUZQW722ZSQg5dby0kHEz1zqKjf3
- aCOTUpE6Y/9bncsD8qhLUZR7oNbcpPM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-479-IU9v2KOVObaW7xvzDCpCgw-1; Sat, 05 Dec 2020 11:36:42 -0500
-X-MC-Unique: IU9v2KOVObaW7xvzDCpCgw-1
-Received: by mail-ed1-f70.google.com with SMTP id cq17so195657edb.17
- for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 08:36:41 -0800 (PST)
+ bh=U5Y3WVwaLmxmJ02hdcNvrAVZLa5hbYQUi479HkVtV+A=;
+ b=izaDodPJCmyGsOHUwDlOrbfwbCXS2mpM1lZabWVW5Av4zcXP/toPrTL4PKCevz/OkkLguP
+ Bk49uRSJrZXWqvg7j7AuHYNNhFl9OrcOd7chqsvmLNGWmCzTu6fyRtqGuE0uJX+5doj3IE
+ JEmCkorVOamuITS19fbIM+rIscj6p6g=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-593-BffuLZqgN523onoXDNug1A-1; Sat, 05 Dec 2020 11:36:58 -0500
+X-MC-Unique: BffuLZqgN523onoXDNug1A-1
+Received: by mail-ed1-f71.google.com with SMTP id a9so3046501edy.8
+ for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 08:36:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=L+WJtQG6C1q5tP6A9bzt5FebLFcEDcnk0VAn8DkxFNI=;
- b=ioSxRcNGjnqJRgfDASfx3Sw/DTPmMMEIrARJFT80MBk3U1hmynwVg8xE1KYyWG43SU
- wTAGQMCmfuD/iLRoOOI5iN9LLB5BjG7BkRgS6LV4tfRXdzEznAGIywIzEh+GF5mDDMFB
- 6UuXd7r3cz+KmUHxxK2/+4aE/ycLXHBe8tN8y+p18FNgF86YphiYyX1Xm8v7kS4CVF/x
- gw7lQtaj7jbyN2xMUDiPlnv61kZ+FSKAYlrQ4gLxKqS1JzQWzlf11PQOiSXpEGc1PEn3
- cw4TmwW0d53fCcxdLyPUw0dx42/HaXAQoFZxUGjntrENgSRdqE+1iMKed5EDGrbCjKoQ
- IBqg==
-X-Gm-Message-State: AOAM53280GJGngMquUG+yGmqnvPB9mB1iOmgJ909QDS49yFLoxDzAiIV
- MH0rdzidUuiqon2ecTzJXAJ+lkxCaQqze4n/9tH1hLK8SCFSmFBo+v2GUBosT71EGIyscapkb8F
- V12OK9M9V4kIyyTY=
-X-Received: by 2002:a50:da08:: with SMTP id z8mr12795912edj.170.1607186200932; 
- Sat, 05 Dec 2020 08:36:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyE8BHnBkAi6Vhh939D72LpxyUgWHTrMgY81tm39CbfNwP2dgfpi7Mnx8lZ5DGpFmvFkOizWQ==
-X-Received: by 2002:a50:da08:: with SMTP id z8mr12795905edj.170.1607186200804; 
- Sat, 05 Dec 2020 08:36:40 -0800 (PST)
+ bh=U5Y3WVwaLmxmJ02hdcNvrAVZLa5hbYQUi479HkVtV+A=;
+ b=YLnbMy/4FOxCqL/CbjmqPWn0IOkyuhHj9hqV5AlQ7fH2L6gH98J3Ql0yFtGWsGjnUy
+ oNpaAS13YM/V8kTLtbm7Q/xwgjlTKe6o3+FIirbZJiXpAaE85bRQF1dSgqASKXfJ08+4
+ AgPse1j0lja6BSgND9y0pMaQwCjmmh4Y08+SDQWjpfa+s4ytcP8QY/4u2Q+Wf4aVq0eY
+ 6xhWTVa+Jzqq8zOmRwVAP9uFgl7jAKKw0vh4mcL/eCWYWTNygwPpr6YSQdEEeYzmbUN5
+ 7dOYuk30w1NyzSlIjtiSwC5XqhIpwxRv1lqubBZ6TjQtl0NMRUtzMiBwE2ou51MCdD+C
+ bTNg==
+X-Gm-Message-State: AOAM533Y+5qbSFKzmThagAl5E5e0mQY1WscZ7YBeQcUQikgr7qL7tH62
+ tNlIvzATV1M8XL7HVslKbBwqBupttGm9bbLcEJf+eU+whi2UvPVidCFLPldiP1EBTxmylrtMcDU
+ uK4R8QVhAsC4KQAw=
+X-Received: by 2002:a17:906:2806:: with SMTP id
+ r6mr11279537ejc.130.1607186217134; 
+ Sat, 05 Dec 2020 08:36:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz31KSsy4kJ9bEyRi53QvrPt4fWkYWnNZrGcSibrD4RnAhwadlX15dbGBV/j9usRndImP+XEw==
+X-Received: by 2002:a17:906:2806:: with SMTP id
+ r6mr11279518ejc.130.1607186216913; 
+ Sat, 05 Dec 2020 08:36:56 -0800 (PST)
 Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id u8sm5901935edr.2.2020.12.05.08.36.38
+ by smtp.gmail.com with ESMTPSA id oz19sm5887259ejb.28.2020.12.05.08.36.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 05 Dec 2020 08:36:40 -0800 (PST)
-Subject: Re: [RFC v8 12/27] tcg: make CPUClass.cpu_exec_* optional
+ Sat, 05 Dec 2020 08:36:56 -0800 (PST)
+Subject: Re: [RFC v8 13/27] tcg: Make CPUClass.debug_excp_handler optional
 To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -67,14 +69,14 @@ To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>
 References: <20201205161518.14365-1-cfontana@suse.de>
- <20201205161518.14365-13-cfontana@suse.de>
+ <20201205161518.14365-14-cfontana@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3ab3a92c-c99c-1361-b32b-950bd58a7908@redhat.com>
-Date: Sat, 5 Dec 2020 17:36:38 +0100
+Message-ID: <81379817-858e-492d-6f6f-4feada462159@redhat.com>
+Date: Sat, 5 Dec 2020 17:36:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201205161518.14365-13-cfontana@suse.de>
+In-Reply-To: <20201205161518.14365-14-cfontana@suse.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -118,16 +120,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 12/5/20 5:15 PM, Claudio Fontana wrote:
 > From: Eduardo Habkost <ehabkost@redhat.com>
 > 
-> This will let us simplify the code that initializes CPU class
-> methods, when we move cpu_exec_*() to a separate struct.
-
-[newline]
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > ---
->  accel/tcg/cpu-exec.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
+>  accel/tcg/cpu-exec.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
