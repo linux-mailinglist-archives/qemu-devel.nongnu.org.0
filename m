@@ -2,50 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B0F2CF8A6
-	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 02:35:45 +0100 (CET)
-Received: from localhost ([::1]:59590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7251D2CF919
+	for <lists+qemu-devel@lfdr.de>; Sat,  5 Dec 2020 03:57:06 +0100 (CET)
+Received: from localhost ([::1]:40990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klMUB-0000qR-IS
-	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 20:35:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49984)
+	id 1klNkv-0001YW-1o
+	for lists+qemu-devel@lfdr.de; Fri, 04 Dec 2020 21:57:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stephane.duverger@free.fr>)
- id 1klMSm-0000PA-CI
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 20:34:16 -0500
-Received: from smtp5-g21.free.fr ([212.27.42.5]:50406)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stephane.duverger@free.fr>)
- id 1klMSj-0000ix-TP
- for qemu-devel@nongnu.org; Fri, 04 Dec 2020 20:34:16 -0500
-Received: from wise (unknown [77.159.208.71])
- (Authenticated sender: stephane.duverger@free.fr)
- by smtp5-g21.free.fr (Postfix) with ESMTPSA id 13D705FEF7;
- Sat,  5 Dec 2020 02:34:05 +0100 (CET)
-Date: Sat, 5 Dec 2020 02:34:02 +0100
-From: Stephane Duverger <stephane.duverger@free.fr>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: x86 TCG helpers clobbered registers
-Message-ID: <20201205013402.GA69224@wise>
-References: <20201204153446.GA66154@wise>
- <1d246e29-b364-099f-440c-5b644087b55f@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1klNjc-000130-Uz
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 21:55:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1klNja-0000u6-RI
+ for qemu-devel@nongnu.org; Fri, 04 Dec 2020 21:55:44 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1klNjW-0000HF-PC
+ for <qemu-devel@nongnu.org>; Sat, 05 Dec 2020 02:55:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9602F2E8088
+ for <qemu-devel@nongnu.org>; Sat,  5 Dec 2020 02:55:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1d246e29-b364-099f-440c-5b644087b55f@linaro.org>
-Received-SPF: none client-ip=212.27.42.5;
- envelope-from=stephane.duverger@free.fr; helo=smtp5-g21.free.fr
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 05 Dec 2020 02:46:15 -0000
+From: Russell Morris <1906156@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: 6-u3untu-h th-huth
+X-Launchpad-Bug-Reporter: Russell Morris (6-u3untu-h)
+X-Launchpad-Bug-Modifier: Russell Morris (6-u3untu-h)
+References: <160665259684.21842.16670509730009461748.malonedeb@gac.canonical.com>
+Message-Id: <160713637515.29734.7944043235110810650.malone@chaenomeles.canonical.com>
+Subject: [Bug 1906156] Re: Host OS Reboot Required,
+ for Guest kext to Load (Fully)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="15cd58601e77a273f7390fc4f4fcd16efe814a43"; Instance="production"
+X-Launchpad-Hash: a11c29ed2f78f7caf37825141dccf7300e5c7fb6
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,93 +71,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1906156 <1906156@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 04, 2020 at 01:35:55PM -0600, Richard Henderson wrote:
+My apologies, but I'm somewhat stuck here :-(. Trying to run the latest (up=
+stream) version of QEMU, but no luck getting it to execute. I even tried se=
+tting securit_driver =3D "none", as captured here,
+https://gitlab.com/apparmor/apparmor/-/wikis/Libvirt
 
-Thank you Richard for your answer. I don't want to generate a debate,
-or defend the way I've done things initially. Really want to clarify
-these internals. Hope it will benefit to other QEMU enthusiasts.
+But no luck. Open to any suggestions.
 
-> You can't just inject a call anywhere you like.  If you add it at
-> the IR level, then the rest of the compiler will see it and work
-> properly.  If you add the call in the middle of another operation,
-> the compiler doesn't get to see it and Bad Things Happen.
+Thanks!
 
-I do understand that, and surprisingly isn't it what is done in the
-qemu slow path ? I mean, the call to the helper is not generated at IR
-level but rather injected through a 'jmp' right in the middle of
-currently generated instructions, plus code added at the end of the
-TB.
+-- =
 
-What's the difference between the way it is currently done for the
-slow path and something like:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906156
 
-static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is64)
-{ [...]
-    tcg_out_tlb_load(s, addrlo, addrhi, mem_index, opc,
-                     label_ptr, offsetof(CPUTLBEntry, addr_write));
+Title:
+  Host OS Reboot Required, for Guest kext to Load (Fully)
 
-    /* TLB Hit.  */
-    tcg_out_qemu_st_filter(s, opc, addrlo, addrhi, datalo, datahi);
-    tcg_out_qemu_st_direct(s, datalo, datahi, TCG_REG_L1, -1, 0, 0, opc);
+Status in QEMU:
+  Incomplete
 
-    /* Record the current context of a store into ldst label */
-    add_qemu_ldst_label(s, false, is64, oi, datalo, datahi, addrlo, addrhi,
-                        s->code_ptr, label_ptr);
-}
+Bug description:
+  Hi,
 
-Where:
-static void tcg_out_qemu_st_filter(TCGContext *s, MemOp opc,
-                                   TCGReg addrlo, TCGReg addrhi,
-                                   TCGReg datalo, TCGReg datahi)
-{
-  MemOp s_bits = opc & MO_SIZE;
+  Finding this one a bit odd, but I am loading a driver (kext) in a
+  macOS guest ... and it works, on the first VM (domain) startup after a
+  full / clean host OS boot (or reboot). However, if I even reboot the
+  guest OS, then the driver load fails =3D> can be "corrected" by a full
+  host OS reboot (which seems very extreme).
 
-  tcg_out_push(s, TCG_REG_L1); // used later on by tcg_out_qemu_st_direct
+  Is this a known issue, and/or is there a workaround?
 
-  tcg_out_mov(s, (s_bits == MO_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
-              tcg_target_call_iarg_regs[0], addrlo);
+  FYI, running,
+  QEMU emulator version 5.0.0 (Debian 1:5.0-5ubuntu9.1)
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
 
-  tcg_out_mov(s, (s_bits == MO_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
-              tcg_target_call_iarg_regs[1], datalo);
+  This is for a macOS guest, on a Linux host.
 
-  tcg_out_movi(s, TCG_TYPE_I32, tcg_target_call_iarg_regs[2], opc);
+  Thanks!
 
-  tcg_out_call(s, (void*)filter_store_memop);
-
-  tcg_out_pop(s, TCG_REG_L1);
-}
-
-Does the ldst_label mechanism generating slow path code at TB's end
-change something ? There is still an injected 'jne' at
-tcg_out_tlb_load() which redirects to the slow path code, whatever its
-location, like I do in-place for tcg_out_qemu_st_filter.
-
-For sure the TCG is blind at some point, but it works for the slow
-path, so it should for the filter. The TCG qemu_st_i32 op is
-
-DEF(qemu_st_i32, 0, TLADDR_ARGS + 1, 1,
-    TCG_OPF_CALL_CLOBBER | TCG_OPF_SIDE_EFFECTS)
-
-And as you stated, the tcg_reg_alloc_op() had properly managed the
-call clobbered registers. So we should be safe calling a helper from
-tcg_out_qemu_st() and arguably that's why you do so for the slow path
-?
-
-
-> > I noticed that 'esp' is not shifted down before stacking up the
-> > args, which might corrupt last stacked words.
-> 
-> No, we generate code for a constant esp, as if by gcc's
-> -mno-push-args option. We have reserved TCG_STATIC_CALL_ARGS_SIZE
-> bytes of stack for the arguments (which is actually larger than
-> necessary for any of the tcg targets).
-
-As this is done only at the TB prologue, do you mean that the TCG will
-never generate an equivalent to a push *followed* by a memory
-store/load ? Our host esp will never point to a last stacked word,
-issued by the translation of a TCG op ?
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906156/+subscriptions
 
