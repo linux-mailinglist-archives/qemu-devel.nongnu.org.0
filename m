@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F4F2D0848
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 00:56:38 +0100 (CET)
-Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBA72D0828
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 00:43:42 +0100 (CET)
+Received: from localhost ([::1]:44932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1km3tN-0005C3-H5
-	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 18:56:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34548)
+	id 1km3gr-0007rL-Jc
+	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 18:43:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1km3eI-0005xv-4E
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:41:02 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46110)
+ id 1km3eN-00065U-4M
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:41:07 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1km3eG-0007vZ-DW
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:41:01 -0500
-Received: by mail-wr1-x441.google.com with SMTP id l9so1889443wrt.13
- for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 15:41:00 -0800 (PST)
+ id 1km3eL-0007x1-FT
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:41:06 -0500
+Received: by mail-wm1-x344.google.com with SMTP id a6so10029940wmc.2
+ for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 15:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T3FlFk78pLMkupK1YI/tjtH+Hq+IGEC+koiKdnLg6D4=;
- b=Nd40X/OAaFHU7qiOSgMuQvCbYgV4L46HRjBTenvdE6K7BjJktwpHXWNVaawkhTZbhQ
- f1XDpTbKYfXjgWpc7PVXdXJcmdYjn1hMiVuHUtsfsFC65VKnFs6+HEpRYrSn9o65epuS
- 5lgBLiZgQz8UrVk5IAkyx1imzjlUXcmBxmReRL8UIury8SpVuEoBWJF+SZTJmZ9U7HVI
- AlZq61DO68FzIZgkldq06THajtSF5NmsGFoDIjYw/0xsm87uVB5OezgFTXZrItwUvXYZ
- 2WshCAmKuvvR9dfxG092CZwgXaPEVskHC3S/ioc07+Hob0/TSzoAcpYt7ZLuiEX7P6F9
- vFVQ==
+ bh=9BTcPOXtMinT5k5T7nbhCeBg4W/whtqBwxpgGRzVoyY=;
+ b=p1ImZNoX4v6fBw9lo2pGVP8nMu+w46ELoCV73YAIp/1d9sIVbh1woMrH1j3snMxYEA
+ wy0gU0kXFYAdYRyTIKgugP2PLQPbtwznDcum4hVGcexRqYkHTz93hfKB3CveJeUwSq7R
+ tZGFvjompEjCuuRkBug4qH0MUMqZYwozVdTNnf9SDNgPQHXKz0TN2XbnfrcEjpemBsmg
+ jAF4toEcpyobeg7ideT76ByL6fNJWs1HCPhgRrtJmd2aVf28aftuEqBKCGoFkfrQf9GV
+ xOOEa3yct3SlohOo70dj3INCCbJknj5kl0dy2U+XtMqQZcrP6C1PMRpiHgJLc+T9xIgg
+ MPxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=T3FlFk78pLMkupK1YI/tjtH+Hq+IGEC+koiKdnLg6D4=;
- b=N5rZTJH+JrwGitJDUyW0aq9u/Bu71r/TvbDmmGxewDNuvKT4CIswHZ5iRDoDW1ETHn
- vPShitdFSRD8SVC8RjwivBuWWwtqfECO7v0oCeSQ5B6bztJZ6F1GPu1mY9ptNMOq95u2
- fQPTk06LzIYiyt+p90BPU741aJBqEkr+ykni1kFQ8zSAsXnFvnyWT8GXQ4d12muaTxVE
- RGuAsZUv1aA0f1ROshcEgcQ8Ln5fTJmJXhi4vmDOPky5ZYQ/pMekRU9C4P62qubQHgSy
- 29gKYy02uBbyJ+p0bBDNxgC1vYqib1Af+KFwHPJUbMhE9we+MUAo+YVnyS0XGKNvKi/s
- VUvA==
-X-Gm-Message-State: AOAM530S9swJ2snUYsZXc/H7CV6tXMDd6VQvEVrIUROQXpbK3sGiqUMv
- 1sgtsbl8BdcvN2ewc9WI56oDSaIeW24=
-X-Google-Smtp-Source: ABdhPJw8IuYkegnv9iK+VaKUkUOm0Qb6xkjQ5rtQTFv+GuhbUTLtX2B/74LwkiAvEJAHYh99X9An8g==
-X-Received: by 2002:a05:6000:187:: with SMTP id
- p7mr16728218wrx.240.1607298058923; 
- Sun, 06 Dec 2020 15:40:58 -0800 (PST)
+ bh=9BTcPOXtMinT5k5T7nbhCeBg4W/whtqBwxpgGRzVoyY=;
+ b=APn6WOUhCm//KnpnMRuHQ9MEXYpZ+ryLQRNu7xlvcYxjjBYKLTWPGJAEiIh9RoHHqO
+ CSmTHjUFlp9cxMN+0uJEPBOTh8u5SfMJn/vz6v+dgaWJK/evapiHX2eRo06/ov/01F2I
+ 3o5zUO6M+UVn1miKIelgF+G/2gEgj0e5FVsRAQU073rOJM/HRBSW6wJNbbRLFQiWFMvr
+ 5q3v6MuYFtsS9vGbDMrXErRZVGJYA4amYZeQpuD1U0tPI4/Sa1+GQArpOsGlNFnnrkZu
+ 7cXwatzOL2Zh+ZWKruhikpevHSaa9PaWUxDfp0UQvjvQlGz++m9BcGdDJV9obYEF/15p
+ VQdg==
+X-Gm-Message-State: AOAM530+2+r/2yrrrtoaDiVU3d9Yu24mdr3qi4H3+yg+FNKc5NYe+09b
+ fsLu873MbAP3bJUdhu6m3wZs9AoUeqs=
+X-Google-Smtp-Source: ABdhPJyVKaO41xs/ZdGIjNsXWgL4LX7SEpCdFwq82VDdLgPrMv5YbGnDkrWWhrqsb65YgsYipg8XQw==
+X-Received: by 2002:a1c:43c6:: with SMTP id q189mr15741827wma.7.1607298063900; 
+ Sun, 06 Dec 2020 15:41:03 -0800 (PST)
 Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id v64sm12121580wme.25.2020.12.06.15.40.57
+ by smtp.gmail.com with ESMTPSA id z64sm8420316wme.10.2020.12.06.15.41.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Dec 2020 15:40:58 -0800 (PST)
+ Sun, 06 Dec 2020 15:41:03 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/19] target/mips: Fix code style for checkpatch.pl
-Date: Mon,  7 Dec 2020 00:39:43 +0100
-Message-Id: <20201206233949.3783184-14-f4bug@amsat.org>
+Subject: [PATCH 14/19] target/mips: Move mmu_init() functions to tlb_helper.c
+Date: Mon,  7 Dec 2020 00:39:44 +0100
+Message-Id: <20201206233949.3783184-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201206233949.3783184-1-f4bug@amsat.org>
 References: <20201206233949.3783184-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,64 +93,62 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to move this code, fix its style first.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/translate_init.c.inc | 36 ++++++++++++++++----------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ target/mips/internal.h           |  1 +
+ target/mips/tlb_helper.c         | 46 ++++++++++++++++++++++++++++++
+ target/mips/translate_init.c.inc | 48 --------------------------------
+ 3 files changed, 47 insertions(+), 48 deletions(-)
 
-diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
-index ea85d5c6a79..535b52b5444 100644
---- a/target/mips/translate_init.c.inc
-+++ b/target/mips/translate_init.c.inc
-@@ -932,19 +932,19 @@ void mips_cpu_list(void)
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index 76b7a85cbb3..142fa3e5007 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -218,6 +218,7 @@ void cpu_mips_start_count(CPUMIPSState *env);
+ void cpu_mips_stop_count(CPUMIPSState *env);
+ 
+ /* helper.c */
++void mmu_init(CPUMIPSState *env, const mips_def_t *def);
+ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        MMUAccessType access_type, int mmu_idx,
+                        bool probe, uintptr_t retaddr);
+diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
+index 7022be13ae4..366cc526a14 100644
+--- a/target/mips/tlb_helper.c
++++ b/target/mips/tlb_helper.c
+@@ -120,6 +120,52 @@ int r4k_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
+     return TLBRET_NOMATCH;
  }
  
- #ifndef CONFIG_USER_ONLY
--static void no_mmu_init (CPUMIPSState *env, const mips_def_t *def)
 +static void no_mmu_init(CPUMIPSState *env, const mips_def_t *def)
- {
-     env->tlb->nb_tlb = 1;
-     env->tlb->map_address = &no_mmu_map_address;
- }
- 
--static void fixed_mmu_init (CPUMIPSState *env, const mips_def_t *def)
++{
++    env->tlb->nb_tlb = 1;
++    env->tlb->map_address = &no_mmu_map_address;
++}
++
 +static void fixed_mmu_init(CPUMIPSState *env, const mips_def_t *def)
- {
-     env->tlb->nb_tlb = 1;
-     env->tlb->map_address = &fixed_mmu_map_address;
- }
- 
--static void r4k_mmu_init (CPUMIPSState *env, const mips_def_t *def)
++{
++    env->tlb->nb_tlb = 1;
++    env->tlb->map_address = &fixed_mmu_map_address;
++}
++
 +static void r4k_mmu_init(CPUMIPSState *env, const mips_def_t *def)
- {
-     env->tlb->nb_tlb = 1 + ((def->CP0_Config1 >> CP0C1_MMU) & 63);
-     env->tlb->map_address = &r4k_map_address;
-@@ -956,25 +956,25 @@ static void r4k_mmu_init (CPUMIPSState *env, const mips_def_t *def)
-     env->tlb->helper_tlbinvf = r4k_helper_tlbinvf;
- }
- 
--static void mmu_init (CPUMIPSState *env, const mips_def_t *def)
-+static void mmu_init(CPUMIPSState *env, const mips_def_t *def)
- {
-     env->tlb = g_malloc0(sizeof(CPUMIPSTLBContext));
- 
-     switch (def->mmu_type) {
--        case MMU_TYPE_NONE:
--            no_mmu_init(env, def);
--            break;
--        case MMU_TYPE_R4000:
--            r4k_mmu_init(env, def);
--            break;
--        case MMU_TYPE_FMT:
--            fixed_mmu_init(env, def);
--            break;
--        case MMU_TYPE_R3000:
--        case MMU_TYPE_R6000:
--        case MMU_TYPE_R8000:
--        default:
--            cpu_abort(env_cpu(env), "MMU type not supported\n");
++{
++    env->tlb->nb_tlb = 1 + ((def->CP0_Config1 >> CP0C1_MMU) & 63);
++    env->tlb->map_address = &r4k_map_address;
++    env->tlb->helper_tlbwi = r4k_helper_tlbwi;
++    env->tlb->helper_tlbwr = r4k_helper_tlbwr;
++    env->tlb->helper_tlbp = r4k_helper_tlbp;
++    env->tlb->helper_tlbr = r4k_helper_tlbr;
++    env->tlb->helper_tlbinv = r4k_helper_tlbinv;
++    env->tlb->helper_tlbinvf = r4k_helper_tlbinvf;
++}
++
++void mmu_init(CPUMIPSState *env, const mips_def_t *def)
++{
++    env->tlb = g_malloc0(sizeof(CPUMIPSTLBContext));
++
++    switch (def->mmu_type) {
 +    case MMU_TYPE_NONE:
 +        no_mmu_init(env, def);
 +        break;
@@ -166,9 +163,71 @@ index ea85d5c6a79..535b52b5444 100644
 +    case MMU_TYPE_R8000:
 +    default:
 +        cpu_abort(env_cpu(env), "MMU type not supported\n");
++    }
++}
++
+ static int is_seg_am_mapped(unsigned int am, bool eu, int mmu_idx)
+ {
+     /*
+diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
+index 535b52b5444..f3daf451a63 100644
+--- a/target/mips/translate_init.c.inc
++++ b/target/mips/translate_init.c.inc
+@@ -931,54 +931,6 @@ void mips_cpu_list(void)
      }
  }
- #endif /* CONFIG_USER_ONLY */
+ 
+-#ifndef CONFIG_USER_ONLY
+-static void no_mmu_init(CPUMIPSState *env, const mips_def_t *def)
+-{
+-    env->tlb->nb_tlb = 1;
+-    env->tlb->map_address = &no_mmu_map_address;
+-}
+-
+-static void fixed_mmu_init(CPUMIPSState *env, const mips_def_t *def)
+-{
+-    env->tlb->nb_tlb = 1;
+-    env->tlb->map_address = &fixed_mmu_map_address;
+-}
+-
+-static void r4k_mmu_init(CPUMIPSState *env, const mips_def_t *def)
+-{
+-    env->tlb->nb_tlb = 1 + ((def->CP0_Config1 >> CP0C1_MMU) & 63);
+-    env->tlb->map_address = &r4k_map_address;
+-    env->tlb->helper_tlbwi = r4k_helper_tlbwi;
+-    env->tlb->helper_tlbwr = r4k_helper_tlbwr;
+-    env->tlb->helper_tlbp = r4k_helper_tlbp;
+-    env->tlb->helper_tlbr = r4k_helper_tlbr;
+-    env->tlb->helper_tlbinv = r4k_helper_tlbinv;
+-    env->tlb->helper_tlbinvf = r4k_helper_tlbinvf;
+-}
+-
+-static void mmu_init(CPUMIPSState *env, const mips_def_t *def)
+-{
+-    env->tlb = g_malloc0(sizeof(CPUMIPSTLBContext));
+-
+-    switch (def->mmu_type) {
+-    case MMU_TYPE_NONE:
+-        no_mmu_init(env, def);
+-        break;
+-    case MMU_TYPE_R4000:
+-        r4k_mmu_init(env, def);
+-        break;
+-    case MMU_TYPE_FMT:
+-        fixed_mmu_init(env, def);
+-        break;
+-    case MMU_TYPE_R3000:
+-    case MMU_TYPE_R6000:
+-    case MMU_TYPE_R8000:
+-    default:
+-        cpu_abort(env_cpu(env), "MMU type not supported\n");
+-    }
+-}
+-#endif /* CONFIG_USER_ONLY */
+-
+ static void fpu_init (CPUMIPSState *env, const mips_def_t *def)
+ {
+     int i;
 -- 
 2.26.2
 
