@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA6582D0863
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 00:59:42 +0100 (CET)
-Received: from localhost ([::1]:58860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE622D0857
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 00:57:47 +0100 (CET)
+Received: from localhost ([::1]:54020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1km3wL-0000HV-Vv
-	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 18:59:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34682)
+	id 1km3uU-0006iW-5U
+	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 18:57:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1km3ec-0006M5-0M
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:41:22 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37599)
+ id 1km3eg-0006Nv-TM
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:41:26 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1km3ea-00082t-JS
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:41:21 -0500
-Received: by mail-wr1-x431.google.com with SMTP id i2so11043569wrs.4
- for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 15:41:20 -0800 (PST)
+ id 1km3ef-00084k-GN
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:41:26 -0500
+Received: by mail-wm1-x341.google.com with SMTP id a3so12054173wmb.5
+ for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 15:41:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Xm/MxUEH7jkD1QG6cSrOIpJqx9OHIRmXgkVnHFu8QuE=;
- b=KyiSOuCQWG/R8m4WJmpVDlX6Irzi5kjH0pJ+KfpX4HifpbhVAWwyPEXoqrKyeWHWSL
- p4hwddyHrcVMm0pCUDsbjd2UcHADLhNdEbUJNc6Dh0axxwiW8bhuyz+bd8UD8rgZiuf3
- F2SHdWOe7OxS6H54N0jXVa0s/0tVzpPE6A5xssnRJjV1LNVNA2snFmcjxGC3mq6AEDx+
- MafT2MUI8kkAGgXkTuOEooO7M1mrxWCCtacSYLbAT4IsEjzSpeQufSqKJxiotDruilGd
- S9mM+6XXORONzD6ICCiCD0OPInGpWiHXFOUiD1dw6RVnYKTTibdJNfjr/sJXL5ptmjHV
- mRoA==
+ bh=n+99MQGfH3ws6+hiYTWg+4rrAybzJdIAfbn40ls3kQA=;
+ b=VW7WqeZgfbUIfta173CGJdeR7dfKwzewm7EoRtrSTO3x2mRpzvi/abkbHam9G6TPmD
+ fOWKGB5uSYlElBasR+JVTRkpCVm/f4pr/gp5FexX/gdYKuhCyg4/YwWL02Y4NIVN9Qvg
+ mvAZRAGn7l76CGVBQIjCOWULmL75Jzm7VMVvtBzBZ1kYOqiiEU0U3jdanI7NTWe4+3mh
+ 1MoBYxSHGJhuoYW4J8XDLyPxiEUMMce3/BUASEjZNDYU0tBwohxoZFZy1ZGoSzAgS2Kd
+ ythIuTFf8f+DcYsKh11ijcuxb1Z71ALIS3u/xf/r8xrHnJYBiSwGVX59EedQkDDqfDh1
+ xFOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Xm/MxUEH7jkD1QG6cSrOIpJqx9OHIRmXgkVnHFu8QuE=;
- b=t2max5DKc+O8RMSR3ZWZF+V/pxyGFjA48k6tMHhr9uyaMHhr0cQ9LvlBYEZFv8t5Ul
- XCBy/AztIx+wHNlkpQN5l83LzHFALSWjFW6/WqF8Ks4BCS80wBciuwDpFSHiZUg8hOsY
- 2FS+G8avkPeMJ8+ATStsK8E4QkTfPuWj+krRoxpQaWz/fur5EXrWEh2PbbuQp6QqpTo2
- BBbw48ImPZN4X0rqJP+SvqRZtGmfaEv2ypf8VWsjUbWPg98EkV0djZjkoHTIry7tskMq
- q+Nowg9SvZghoJZoGX3/kIfqjQoW2Ztrutl5h92oh9HV5ixiklRlm52ZITt+Q/x7W/KF
- 9+SA==
-X-Gm-Message-State: AOAM530N4BDtI602m8WVx/tspYBaWwf9cnY8rIP2Zbt9Vb2ZJK1JpRJi
- DgJ9NoNmzbUy0Mld8VXaHoZn0t7oOJs=
-X-Google-Smtp-Source: ABdhPJzXt3ifQfM2cwjMdevwVqsOb/NkKyOt1a61/Zmv8kSIR8bdzs9XS/k1lZiuUpSeu/NFS7gg8g==
-X-Received: by 2002:adf:ed51:: with SMTP id u17mr16909273wro.61.1607298079086; 
- Sun, 06 Dec 2020 15:41:19 -0800 (PST)
+ bh=n+99MQGfH3ws6+hiYTWg+4rrAybzJdIAfbn40ls3kQA=;
+ b=LHFwoZhehYtUOm28e/Zd6aPZdDNcsIFIsbOng6sVynuu7rCwK1qa4dDhoIE3ok88iy
+ 4JQVUG//3FP+i1cvMIl5HsZVSTtx/KnwmW1iZSeUFpxHIcYUPo6cxPTzrYElJ7a72YII
+ SLB1vyxlOkW9X9XD4jZis33Yn7IvUmrfjjUPKf78HZiMXFEF7EOKlslq099RY5gaCdDG
+ HNTm1a/FqRCONJMDq7fzGAlqMQzW1kpdoD1PvOTJRDMQCpd9r4pWkFJcNUgI7MPu5MeY
+ lulwH11iSukywPygUh1GLV+92zcFjPFaG/V4cWDPd+i7CUOElueH+CRIMmgBgVKaqWmZ
+ MZAQ==
+X-Gm-Message-State: AOAM533VxWFGCorjftR/Z2C3uKy6b/V7yAdXodA1j+GEvRPqFuEV7/wk
+ VjfGRLYRbT757JisD8DQ8jit55VvZDg=
+X-Google-Smtp-Source: ABdhPJyjns/B798+mFTm2wm7XE4zN7sKqY5G1A3JKvnUaOePKo4NsA6M8H2M1DJdBlQYE86l4bMqfQ==
+X-Received: by 2002:a1c:7218:: with SMTP id n24mr15456149wmc.186.1607298084105; 
+ Sun, 06 Dec 2020 15:41:24 -0800 (PST)
 Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id c4sm12542853wmf.19.2020.12.06.15.41.17
+ by smtp.gmail.com with ESMTPSA id c2sm13819964wrf.68.2020.12.06.15.41.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Dec 2020 15:41:18 -0800 (PST)
+ Sun, 06 Dec 2020 15:41:23 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/19] target/mips: Rename translate_init.c as cpu-defs.c
-Date: Mon,  7 Dec 2020 00:39:47 +0100
-Message-Id: <20201206233949.3783184-18-f4bug@amsat.org>
+Subject: [RFC PATCH 18/19] target/mips: Restrict some TCG specific CPUClass
+ handlers
+Date: Mon,  7 Dec 2020 00:39:48 +0100
+Message-Id: <20201206233949.3783184-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201206233949.3783184-1-f4bug@amsat.org>
 References: <20201206233949.3783184-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,68 +90,56 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
  Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This file is not TCG specific, contains CPU definitions
-and is consumed by cpu.c. Rename it as such.
+Restrict the following CPUClass handlers to TCG:
+- do_interrupt
+- do_transaction_failed
+- do_unaligned_access
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-cpu-defs.c still contains fpu_init()/mvp_init()/msa_reset().
-They are moved out in different series (already posted).
----
- target/mips/cpu.c                                    | 11 ++++++++++-
- target/mips/{translate_init.c.inc => cpu-defs.c.inc} |  9 ---------
- 2 files changed, 10 insertions(+), 10 deletions(-)
- rename target/mips/{translate_init.c.inc => cpu-defs.c.inc} (99%)
+Cc: Claudio Fontana <cfontana@suse.de>
+
+ target/mips/cpu.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 899a746c3e5..8a4486e3ea1 100644
+index 8a4486e3ea1..03bd35b7903 100644
 --- a/target/mips/cpu.c
 +++ b/target/mips/cpu.c
-@@ -102,7 +102,16 @@ static bool mips_cpu_has_work(CPUState *cs)
-     return has_work;
- }
+@@ -483,7 +483,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
  
--#include "translate_init.c.inc"
-+#include "cpu-defs.c.inc"
-+
-+void mips_cpu_list(void)
-+{
-+    int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(mips_defs); i++) {
-+        qemu_printf("MIPS '%s'\n", mips_defs[i].name);
-+    }
-+}
+     cc->class_by_name = mips_cpu_class_by_name;
+     cc->has_work = mips_cpu_has_work;
+-    cc->do_interrupt = mips_cpu_do_interrupt;
+     cc->cpu_exec_interrupt = mips_cpu_exec_interrupt;
+     cc->dump_state = mips_cpu_dump_state;
+     cc->set_pc = mips_cpu_set_pc;
+@@ -491,8 +490,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
+     cc->gdb_read_register = mips_cpu_gdb_read_register;
+     cc->gdb_write_register = mips_cpu_gdb_write_register;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_transaction_failed = mips_cpu_do_transaction_failed;
+-    cc->do_unaligned_access = mips_cpu_do_unaligned_access;
++    cc->do_interrupt = mips_cpu_do_interrupt;
+     cc->get_phys_page_debug = mips_cpu_get_phys_page_debug;
+     cc->vmsd = &vmstate_mips_cpu;
+ #endif
+@@ -500,6 +498,10 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
+ #ifdef CONFIG_TCG
+     cc->tcg_initialize = mips_tcg_init;
+     cc->tlb_fill = mips_cpu_tlb_fill;
++#if !defined(CONFIG_USER_ONLY)
++    cc->do_unaligned_access = mips_cpu_do_unaligned_access;
++    cc->do_transaction_failed = mips_cpu_do_transaction_failed;
++#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+ #endif
  
- /* TODO QOM'ify CPU reset and remove */
- static void cpu_state_reset(CPUMIPSState *env)
-diff --git a/target/mips/translate_init.c.inc b/target/mips/cpu-defs.c.inc
-similarity index 99%
-rename from target/mips/translate_init.c.inc
-rename to target/mips/cpu-defs.c.inc
-index f3daf451a63..ad578cb8601 100644
---- a/target/mips/translate_init.c.inc
-+++ b/target/mips/cpu-defs.c.inc
-@@ -922,15 +922,6 @@ const mips_def_t mips_defs[] =
- };
- const int mips_defs_number = ARRAY_SIZE(mips_defs);
- 
--void mips_cpu_list(void)
--{
--    int i;
--
--    for (i = 0; i < ARRAY_SIZE(mips_defs); i++) {
--        qemu_printf("MIPS '%s'\n", mips_defs[i].name);
--    }
--}
--
- static void fpu_init (CPUMIPSState *env, const mips_def_t *def)
- {
-     int i;
+     cc->gdb_num_core_regs = 73;
 -- 
 2.26.2
 
