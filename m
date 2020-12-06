@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F5212D04E7
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Dec 2020 13:49:41 +0100 (CET)
-Received: from localhost ([::1]:40376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A3B2D0556
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Dec 2020 14:49:08 +0100 (CET)
+Received: from localhost ([::1]:45412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kltTv-0005e6-Ks
-	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 07:49:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43508)
+	id 1kluPS-0005L1-Kr
+	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 08:49:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kltPP-0004TH-Ry; Sun, 06 Dec 2020 07:44:59 -0500
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:40236)
+ (Exim 4.90_1) (envelope-from <pavlica.nikola@gmail.com>)
+ id 1kluNW-0004uP-PQ
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 08:47:06 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:39006)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kltPK-0006BJ-Qd; Sun, 06 Dec 2020 07:44:59 -0500
-Received: by mail-yb1-xb44.google.com with SMTP id o144so10280917ybg.7;
- Sun, 06 Dec 2020 04:44:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pavlica.nikola@gmail.com>)
+ id 1kluNT-0000H8-HF
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 08:47:06 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id e7so10068337wrv.6
+ for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 05:47:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=K+a8GLNhS5kz1ayNB+wyvyeVq/+HoG6SYkYYVIKVY/c=;
- b=aMeOiHqoWIlEFCaxZAxK537taWLP3YfLwHy9hr55Tv3/XfK/C+gOgMr0zIm7IYgTrS
- DuaGXSFleXbBusET2TL2Gr9LYyyVL3MMXAZbeJO65i0daGzKnCM8/QjGPb/iLClvi2Xt
- dk05SPvKyoiefbvMrkObf6y+C5DmP2FfFTiyBZ6D64TLDhjV+cYcdT6SoaspwmMaURqB
- sejpNooNuAB6Pz53TrqPJO3tPLB7qpIqxlt9ecd8FZupF+l8q2Fm67QvOm0TDMcNI8vd
- okm0GGeT210P/4BCUkbdztGT6oxXeUvxAI53QvTIwtFW7DEufjgUu8wF4758je3Tf5Vp
- w5Cg==
+ h=date:from:subject:to:cc:message-id:mime-version;
+ bh=fYpDLoFK4aaG9MRhnfQIMv1zWRnPUgZ88N84Erft2Es=;
+ b=qCwEuSrsorY5LntDqbTQIciz4YUDL0eipqUsxVij2yoHZfvSdmKv+DmgGPtSYNilCD
+ uNZBYq+eypWb7rAfS2gANIRMXGqkRIDPy0UfUVurDU4oz/J9ymnzc8mPdHkk84CUglIP
+ CjMZ17PMvxEeC6450SDm+rgQTaJJUbaVRrCL1LwJQYQAzHHgZ/Zq389x8a1ehc2sA5xB
+ 6uV+wXq0dKC9dCJTXv8+s4zR92QJMEE3u3eQNGU3Bt2hX3TWfFlIVjjJ48+9zOXRbmLO
+ 0S1Pop41hij5b5eLDXe4kvKATHWp+hiL/0ZF6f+u3cEMbBN/Vs6JV/cr8x/QodKZpL6p
+ 14IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=K+a8GLNhS5kz1ayNB+wyvyeVq/+HoG6SYkYYVIKVY/c=;
- b=buZixk0sW32kZ8/Ykk1PhAI4wm4rfgZcmNXHAa9NqOGb2ZvS+Vd3sTAsp2m9jvDxvO
- g1UzxGGsJueg+ZDuvWJ9BA/Lfll/Nsis4khKWSVoFr9wM6YmfVU8fi9Y5FtIaYi9pqRW
- oIAvlteuwPwZTeEBpPhZc1TxQ83e7CqW/ZvwXVIapmxtEIDZqjvc54TQKJA5IcYCQ8XY
- C/CUFsrmFT3xjay0dJ8M8KhdXLC5/H8a6zf58ZQ8ZLkrv3itzKvBAQ37xQf7GqO/0yY5
- M3jxGaWse+oT9PUTflV2vG/SUV+LjBL0F3n+Zj7Nm4BdUmnczlrEkA/i0rN71SBIvrlo
- n9/A==
-X-Gm-Message-State: AOAM530D0ycrNNCTrh7004IWngqaaAx179eKJ7jyoG1HNKClJ4OD/1dK
- Z9LWD4g6YqUyBFaaol3eJ84CaHlaMqYx89OXZgQ=
-X-Google-Smtp-Source: ABdhPJz5qrQQkWkiNP2bKMjxspW0551AxJy5859jYAV3SaADS0hWbnmO3MX4UZumVANKlo7EctyNfYKIh+He5KdL6x0=
-X-Received: by 2002:a25:bb50:: with SMTP id b16mr18111943ybk.152.1607258691399; 
- Sun, 06 Dec 2020 04:44:51 -0800 (PST)
+ h=x-gm-message-state:date:from:subject:to:cc:message-id:mime-version;
+ bh=fYpDLoFK4aaG9MRhnfQIMv1zWRnPUgZ88N84Erft2Es=;
+ b=jRl0c08g4pHIN3kStVX3i8hf+UDFoNhRuJHlGhd5r8/PXDiPATk24vYLGxcHT0uo0e
+ dQwIqcROupBxNBNsxfan5GVG7fCoLaop0J88mlGLOsJfy/0E5qIeo8+Kpfsnj6QhVae7
+ VqsI9Wr0kO227sfOXeOg1htKX5FX3l+US0QHgN3JiNPC6HplVFtqGni0FbLYNFzQzEPd
+ ojz8CI//27p/F4gvEiLP5N6Boq3JfOrIVtMzoAFqNB2SbuQ1n1tmTAZe/d297jUfLtei
+ OEbkpCeMfp8q9ubuvSNP/AMF+TsaBNKDlljyW05uBnZ2TP6nr2RmXBsPVzUiuCW+D/kL
+ d5Kg==
+X-Gm-Message-State: AOAM530SMAi0T4GY4sc5AzzDmjnjawBTJI1ov5l55bNgYKvBZOJJp30U
+ R7kqvDxn9ZhmaWUhlHNhAMGhWdaqOiNcqw==
+X-Google-Smtp-Source: ABdhPJwpEtZ4b0XKjpvf5GhickE4Z8G/df/Sq9n6TSiuGGfPh0G1Cfp+JlWoiVLBngAzA6zCbrhnTQ==
+X-Received: by 2002:adf:f0c3:: with SMTP id x3mr14568725wro.327.1607262419711; 
+ Sun, 06 Dec 2020 05:46:59 -0800 (PST)
+Received: from [192.168.100.143] ([213.91.86.150])
+ by smtp.gmail.com with ESMTPSA id z21sm9876094wmk.20.2020.12.06.05.46.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Dec 2020 05:46:59 -0800 (PST)
+Date: Sun, 06 Dec 2020 14:46:51 +0100
+From: Nikola Pavlica <pavlica.nikola@gmail.com>
+Subject: [PATCH v2 1/1] ui/gtk: Launching GTK UI with OpenGL on causes
+ =?UTF-8?Q?the=0A?= refreshrate update to not run
+To: qemu-devel <qemu-devel@nongnu.org>
+Message-Id: <3M7XKQ.PR753U54CKM21@gmail.com>
+X-Mailer: geary/3.38.1
 MIME-Version: 1.0
-References: <1607220847-24096-1-git-send-email-bmeng.cn@gmail.com>
- <1607220847-24096-3-git-send-email-bmeng.cn@gmail.com>
- <9f8cdb69-7b74-4034-223f-bfa62cb4e440@redhat.com>
-In-Reply-To: <9f8cdb69-7b74-4034-223f-bfa62cb4e440@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 6 Dec 2020 20:44:40 +0800
-Message-ID: <CAEUhbmUBeUzjPG=2-WF=UnpMnVkH3qT0FkXpgBhP==yt53UfBg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] net: checksum: Introduce fine control over checksum
- type
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b44;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb44.google.com
+Content-Type: multipart/alternative; boundary="=-/3ITVX/DVkyRqMU+fD6U"
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=pavlica.nikola@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,159 +79,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Paul Durrant <paul@xen.org>, Zhang Chen <chen.zhang@intel.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Peter Chubb <peter.chubb@nicta.com.au>, Joel Stanley <joel@jms.id.au>,
- Beniamino Galvani <b.galvani@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Philippe =?iso-8859-1?q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+--=-/3ITVX/DVkyRqMU+fD6U
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-On Sun, Dec 6, 2020 at 7:50 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> Hi Ben,
->
-> On 12/6/20 3:14 AM, Bin Meng wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > At present net_checksum_calculate() blindly calculates all types of
-> > checksums (IP, TCP, UDP). Some NICs may have a per type setting in
-> > their BDs to control what checksum should be offloaded. To support
-> > such hardware behavior, introduce a 'csum_flag' parameter to the
-> > net_checksum_calculate() API to allow fine control over what type
-> > checksum is calculated.
-> >
-> > Existing users of this API are updated accordingly.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >
-> > ---
-> >
-> >  hw/net/allwinner-sun8i-emac.c |  2 +-
-> >  hw/net/cadence_gem.c          |  2 +-
-> >  hw/net/fsl_etsec/rings.c      |  8 +++-----
-> >  hw/net/ftgmac100.c            | 10 +++++++++-
-> >  hw/net/imx_fec.c              | 15 +++------------
-> >  hw/net/virtio-net.c           |  2 +-
-> >  hw/net/xen_nic.c              |  2 +-
-> >  include/net/checksum.h        |  7 ++++++-
->
-> When sending a such API refactor, patch is easier to
-> review if you setup the scripts/git.orderfile config.
+As suggested before, I've instead copied the code to the appropriate 
+callback function so that the refresh rate gets properly updated.
 
-Sure. I thought I have done this before but apparently not on the
-machine this series was genearated :)
+Also to avoid repeating the gd_refresh_rate_millihz function, I've 
+globalized it. I hope you don't mind.
 
->
-> >  net/checksum.c                | 18 ++++++++++++++----
-> >  net/filter-rewriter.c         |  4 ++--
-> >  10 files changed, 41 insertions(+), 29 deletions(-)
-> ...
-> > diff --git a/include/net/checksum.h b/include/net/checksum.h
-> > index 05a0d27..7dec37e 100644
-> > --- a/include/net/checksum.h
-> > +++ b/include/net/checksum.h
-> > @@ -21,11 +21,16 @@
-> >  #include "qemu/bswap.h"
-> >  struct iovec;
-> >
-> > +#define CSUM_IP     0x01
->
-> IMO this is IP_HEADER,
+Signed-off-by: Nikola Pavlica (pavlica.nikola@gmail.com)
+---
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index eaeb450f91..6025a4f030 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -88,6 +88,7 @@ extern bool gtk_use_gl_area;
 
-Yes, but I believe no one will misread it, no?
+ /* ui/gtk.c */
+ void gd_update_windowsize(VirtualConsole *vc);
++int gd_refresh_rate_millihz(GtkWidget *window);
 
->
-> > +#define CSUM_TCP    0x02
-> > +#define CSUM_UDP    0x04
->
-> and these IP_PAYLOAD, regardless the payload protocol.
+ /* ui/gtk-egl.c */
+ void gd_egl_init(VirtualConsole *vc);
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index 99231a3597..a9131783f0 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -112,6 +112,14 @@ void gd_egl_update(DisplayChangeListener *dcl,
+ void gd_egl_refresh(DisplayChangeListener *dcl)
+ {
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
++    int refresh_rate_millihz;
++
++    refresh_rate_millihz = gd_refresh_rate_millihz(vc->window ? 
+vc->window :
++                                                   
+vc->gfx.drawing_area);
++    if (refresh_rate_millihz) {
++        vc->gfx.dcl.update_interval = MILLISEC_PER_SEC / 
+refresh_rate_millihz;
++    }
++
 
-We have to distinguish TCP and UDP.
+     if (!vc->gfx.esurface) {
+         gd_egl_init(vc);
+diff --git a/ui/gtk.c b/ui/gtk.c
+index a752aa22be..3b8755b746 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -752,7 +752,7 @@ static void gd_resize_event(GtkGLArea *area,
+  * If available, return the refresh rate of the display in milli-Hertz,
+  * else return 0.
+  */
+-static int gd_refresh_rate_millihz(GtkWidget *window)
++int gd_refresh_rate_millihz(GtkWidget *window)
+ {
+ #ifdef GDK_VERSION_3_22
+     GdkWindow *win = gtk_widget_get_window(window);
+-- 
+2.21.1
 
->
-> > +#define CSUM_ALL    (CSUM_IP | CSUM_TCP | CSUM_UDP)
->
-> Maybe CSUM_HEADER / CSUM_PAYLOAD / CSUM_FULL (aka RAW?).
->
-> > +
-> >  uint32_t net_checksum_add_cont(int len, uint8_t *buf, int seq);
-> >  uint16_t net_checksum_finish(uint32_t sum);
-> >  uint16_t net_checksum_tcpudp(uint16_t length, uint16_t proto,
-> >                               uint8_t *addrs, uint8_t *buf);
-> > -void net_checksum_calculate(uint8_t *data, int length);
-> > +void net_checksum_calculate(uint8_t *data, int length, int csum_flag);
-> >
-> >  static inline uint32_t
-> >  net_checksum_add(int len, uint8_t *buf)
-> > diff --git a/net/checksum.c b/net/checksum.c
-> > index dabd290..70f4eae 100644
-> > --- a/net/checksum.c
-> > +++ b/net/checksum.c
-> > @@ -57,7 +57,7 @@ uint16_t net_checksum_tcpudp(uint16_t length, uint16_=
-t proto,
-> >      return net_checksum_finish(sum);
-> >  }
-> >
-> > -void net_checksum_calculate(uint8_t *data, int length)
-> > +void net_checksum_calculate(uint8_t *data, int length, int csum_flag)
-> >  {
-> >      int mac_hdr_len, ip_len;
-> >      struct ip_header *ip;
-> > @@ -108,9 +108,11 @@ void net_checksum_calculate(uint8_t *data, int len=
-gth)
-> >      }
-> >
-> >      /* Calculate IP checksum */
-> > -    stw_he_p(&ip->ip_sum, 0);
-> > -    csum =3D net_raw_checksum((uint8_t *)ip, IP_HDR_GET_LEN(ip));
-> > -    stw_be_p(&ip->ip_sum, csum);
-> > +    if (csum_flag & CSUM_IP) {
-> > +        stw_he_p(&ip->ip_sum, 0);
-> > +        csum =3D net_raw_checksum((uint8_t *)ip, IP_HDR_GET_LEN(ip));
-> > +        stw_be_p(&ip->ip_sum, csum);
-> > +    }
-> >
-> >      if (IP4_IS_FRAGMENT(ip)) {
-> >          return; /* a fragmented IP packet */
-> > @@ -128,6 +130,10 @@ void net_checksum_calculate(uint8_t *data, int len=
-gth)
-> >      switch (ip->ip_p) {
-> >      case IP_PROTO_TCP:
-> >      {
-> > +        if (!(csum_flag & CSUM_TCP)) {
-> > +            return;
-> > +        }
-> > +
-> >          tcp_header *tcp =3D (tcp_header *)(ip + 1);
-> >
-> >          if (ip_len < sizeof(tcp_header)) {
-> > @@ -148,6 +154,10 @@ void net_checksum_calculate(uint8_t *data, int len=
-gth)
-> >      }
-> >      case IP_PROTO_UDP:
-> >      {
-> > +        if (!(csum_flag & CSUM_UDP)) {
-> > +            return;
-> > +        }
-> > +
-> >          udp_header *udp =3D (udp_header *)(ip + 1);
-> >
-> >          if (ip_len < sizeof(udp_header)) {
-> ...
 
-Regards,
-Bin
+--=-/3ITVX/DVkyRqMU+fD6U
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto"><div><span style=3D"white-space: pre-wr=
+ap;">As suggested before, I've instead copied the code to the appropriate c=
+allback function so that the refresh rate gets properly updated.</span></di=
+v><div><span style=3D"white-space: pre-wrap;"><br></span></div><div><span s=
+tyle=3D"white-space: pre-wrap;">Also to avoid repeating the gd_refresh_rate=
+_millihz function, I've globalized it. I hope you don't mind.</span></div><=
+div><span style=3D"white-space: pre-wrap;">
+Signed-off-by: Nikola Pavlica (pavlica.nikola@gmail.com)</span><span style=
+=3D"white-space: pre-wrap;">
+</span>---</div><div><div>diff --git a/include/ui/gtk.h b/include/ui/gtk.h<=
+/div><div>index eaeb450f91..6025a4f030 100644</div><div>--- a/include/ui/gt=
+k.h</div><div>+++ b/include/ui/gtk.h</div><div>@@ -88,6 +88,7 @@ extern boo=
+l gtk_use_gl_area;</div><div>&nbsp;</div><div>&nbsp;/* ui/gtk.c */</div><di=
+v>&nbsp;void gd_update_windowsize(VirtualConsole *vc);</div><div>+int gd_re=
+fresh_rate_millihz(GtkWidget *window);</div><div>&nbsp;</div><div>&nbsp;/* =
+ui/gtk-egl.c */</div><div>&nbsp;void gd_egl_init(VirtualConsole *vc);</div>=
+<div>diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c</div><div>index 99231a3597..a=
+9131783f0 100644</div><div>--- a/ui/gtk-egl.c</div><div>+++ b/ui/gtk-egl.c<=
+/div><div>@@ -112,6 +112,14 @@ void gd_egl_update(DisplayChangeListener *dc=
+l,</div><div>&nbsp;void gd_egl_refresh(DisplayChangeListener *dcl)</div><di=
+v>&nbsp;{</div><div>&nbsp; &nbsp; &nbsp;VirtualConsole *vc =3D container_of=
+(dcl, VirtualConsole, gfx.dcl);</div><div>+ &nbsp; &nbsp;int refresh_rate_m=
+illihz;</div><div>+</div><div>+ &nbsp; &nbsp;refresh_rate_millihz =3D gd_re=
+fresh_rate_millihz(vc-&gt;window ? vc-&gt;window :</div><div>+ &nbsp; &nbsp=
+; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp; vc-&gt;gfx.drawing_area);</div><div>+ &nbsp; &nbsp;if (refresh=
+_rate_millihz) {</div><div>+ &nbsp; &nbsp; &nbsp; &nbsp;vc-&gt;gfx.dcl.upda=
+te_interval =3D MILLISEC_PER_SEC / refresh_rate_millihz;</div><div>+ &nbsp;=
+ &nbsp;}</div><div>+</div><div>&nbsp;</div><div>&nbsp; &nbsp; &nbsp;if (!vc=
+-&gt;gfx.esurface) {</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;gd_egl_ini=
+t(vc);</div><div>diff --git a/ui/gtk.c b/ui/gtk.c</div><div>index a752aa22b=
+e..3b8755b746 100644</div><div>--- a/ui/gtk.c</div><div>+++ b/ui/gtk.c</div=
+><div>@@ -752,7 +752,7 @@ static void gd_resize_event(GtkGLArea *area,</div=
+><div>&nbsp; * If available, return the refresh rate of the display in mill=
+i-Hertz,</div><div>&nbsp; * else return 0.</div><div>&nbsp; */</div><div>-s=
+tatic int gd_refresh_rate_millihz(GtkWidget *window)</div><div>+int gd_refr=
+esh_rate_millihz(GtkWidget *window)</div><div>&nbsp;{</div><div>&nbsp;#ifde=
+f GDK_VERSION_3_22</div><div>&nbsp; &nbsp; &nbsp;GdkWindow *win =3D gtk_wid=
+get_get_window(window);</div></div><div><div class=3D"geary-signature"><div=
+ style=3D"caret-color: rgb(119, 119, 119); color: rgb(119, 119, 119); white=
+-space: pre-wrap;">--=20
+</div><span style=3D"caret-color: rgb(119, 119, 119); color: rgb(119, 119, =
+119); white-space: pre-wrap;">2.21.1</span></div></div></div>
+--=-/3ITVX/DVkyRqMU+fD6U--
+
 
