@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776EC2D0837
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 00:50:46 +0100 (CET)
-Received: from localhost ([::1]:33044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2E12D083E
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 00:53:10 +0100 (CET)
+Received: from localhost ([::1]:42704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1km3nh-0006KO-Hj
-	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 18:50:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34354)
+	id 1km3q1-0001ug-Aa
+	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 18:53:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1km3dt-0005ga-2M
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:40:41 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46092)
+ id 1km3dx-0005gr-Lz
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:40:45 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1km3dq-0007hi-Jl
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:40:36 -0500
-Received: by mail-wr1-x435.google.com with SMTP id l9so1888797wrt.13
- for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 15:40:34 -0800 (PST)
+ id 1km3dv-0007mO-Kc
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:40:41 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id y17so1609087wrr.10
+ for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 15:40:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Aknicxq69ir15ZLnRnKAAOwqB9N6TW01pMwQWojqcCI=;
- b=SMcwF9Y38HdM3cHw+XUBTdWjcIxdXMevhr+d3RMSQzJm7SV4btb/jzsKL6dyAT8J4N
- RF/q0qOF69NuRBYtyjFNGzlvDciWaIjIoQVXTlKFg3tNb+UMTvzOHNi8cTjrAvr38IOB
- 7gxFGtyOi+UX+l/vxT+ZZYH98m14+QNyVTZyi5LpzA4E9c7w2hx1RKB5VHo0meETNuh6
- 5BvCm5p+lwkR3annd+3tgsEfLQdKYojvFNrou4sqlExf9n+yKPonUV1PUUHYd51z2D8V
- fre8cnC9LZsoexMnX6V4/ERaQtZ9XG4ZVXhtBJRs6VxhywP0thKFBNq8kwz6b45vW5Qn
- b69g==
+ bh=m3yW7Q/kZO8O6aW6XbRUlcf0EmcrkqsX0rg11stnjUs=;
+ b=q2xge+aIvR1sBZv4AWVUi6UC4i1ICC7CvStloK6ObHRbBh/Xhnh3/ZQ8/gaPbj/imf
+ J1yZ0a82F0Hh75erzBJDt3bQ231e6t50hzFZre7FvGxZseLzrOtZIBQYRk96/9GT6s7v
+ cjrdZBpvMKAjMoH9jPG9HOJM72zVHuGnEMN1UBtdciWNQRdvFMoJE0PE8UMLXXu7WaCX
+ gaLrNNDJhQe5Nj6xlgfMov6atxHx3ShKd7NMlCfIz/1hjXQudQsgisrmluQvmocmvgG0
+ RO6RA9qBs0DPcPUtOHQl7ZqzDBYwlKDtYpppa3KD/r85zxnFz4wdat6OW5kOR0RnnVWX
+ ZyfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Aknicxq69ir15ZLnRnKAAOwqB9N6TW01pMwQWojqcCI=;
- b=oQTkfEnYF2OYMwqXkG+pTL/3tetSJ3IazK56h7ZMOhAxoVLSRLSsWpSU0dJVs1l9g/
- oAW8pyYdUsSqo3EwFZLoPG0a1y6xpQQGmCLLHFoPoeJvpZ86K3ZHD1z6ELZLhmrTaJtf
- XSVHha1CGO4f/g0ABxI1T7k4m7hyhHj14fxifRSKjZTknJOny+NNVS0DQhntPA3G0bbi
- p5HNHNtRsxIEoLg+cq6Gtq8IMD/gMVAKk+0ulhtZPgJ4VGWmZLbF7ng7lqh+jTXyXJp+
- aOdU0N14cazT+65gtVfbvXVIrNwHQyhCG++E7FMszHiUVpPsvrY19xX/Saerg7hCR9cM
- cMeA==
-X-Gm-Message-State: AOAM531x46ZrreWDWPUzZ0YSBQIYdgc1RD9DgIJ0nnkoOaaJwwBeDDG3
- g+SbZPU65VT9x7DGklcy/ou26YSL58c=
-X-Google-Smtp-Source: ABdhPJxxew9ajV5OxcxEX4k8jrJziKOpQJ8c03uGsdsLbbr/Q/8/WsepohI0sQWMGW6MqgyNb1BSYA==
-X-Received: by 2002:adf:f48c:: with SMTP id l12mr16503466wro.280.1607298032990; 
- Sun, 06 Dec 2020 15:40:32 -0800 (PST)
+ bh=m3yW7Q/kZO8O6aW6XbRUlcf0EmcrkqsX0rg11stnjUs=;
+ b=uhMB/+4Cv7EvpWZXsk598iOm2Zofjv4Y8fC+nWockGG9TsxDnP4aXfurUtmCocOO6C
+ F1ooAWpqPFhGZms78HCrA2xAFQbqHdQjvLA+Uib5FzvHcoC0gctElVirtTcAJW9F8ml8
+ MXfBtcbC7o3R7dvk40wzyyyTMiS3OzHcytHgmCnsNnZ50MKXobXya93BpMpuWOLjGYtU
+ pcVNeXzDpjjVfuGZRilr0cWOJGiEAEjyx1UnccfXKO6y6AyaCvzrmJ+L8Q/SOUMSkdZ1
+ FshBtaapnaKDFjYUJgZ6gM/8eId58NRirTyFHw79RsHIR7RoOT6wLS4pOkyskc2u/RGl
+ ykKA==
+X-Gm-Message-State: AOAM530jQl4pHHlV15GBmkR7M8/vB7KYuE3cPm9t62it2qzZVOYnCF8P
+ FgWeQFJkPHgaPhgZ7qrYcT5dM5Wuzo8=
+X-Google-Smtp-Source: ABdhPJwFcv3NFWbse7VYk8f1/MogekTdhhYhfUCC6z6eGhN/SHrc0wkos4mLTsztd6KyNRJ5ZrurGA==
+X-Received: by 2002:adf:b194:: with SMTP id q20mr5061839wra.199.1607298038017; 
+ Sun, 06 Dec 2020 15:40:38 -0800 (PST)
 Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id a12sm12721260wrq.58.2020.12.06.15.40.31
+ by smtp.gmail.com with ESMTPSA id 94sm3638043wrq.22.2020.12.06.15.40.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Dec 2020 15:40:32 -0800 (PST)
+ Sun, 06 Dec 2020 15:40:37 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/19] target/mips: Extract cpu_supports*/cpu_set* translate.c
-Date: Mon,  7 Dec 2020 00:39:38 +0100
-Message-Id: <20201206233949.3783184-9-f4bug@amsat.org>
+Subject: [PATCH 09/19] target/mips: Move mips_cpu_add_definition() from
+ helper.c to cpu.c
+Date: Mon,  7 Dec 2020 00:39:39 +0100
+Message-Id: <20201206233949.3783184-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201206233949.3783184-1-f4bug@amsat.org>
 References: <20201206233949.3783184-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,70 +94,111 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move cpu_supports*() and cpu_set_exception_base() from
-translate.c to cpu.c.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/cpu.c       | 18 ++++++++++++++++++
- target/mips/translate.c | 18 ------------------
- 2 files changed, 18 insertions(+), 18 deletions(-)
+ target/mips/cpu.c    | 33 +++++++++++++++++++++++++++++++++
+ target/mips/helper.c | 33 ---------------------------------
+ 2 files changed, 33 insertions(+), 33 deletions(-)
 
 diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 76d50b00b42..8d9ef139f07 100644
+index 8d9ef139f07..e612a7ac41a 100644
 --- a/target/mips/cpu.c
 +++ b/target/mips/cpu.c
-@@ -310,3 +310,21 @@ MIPSCPU *mips_cpu_create_with_clock(const char *cpu_type, Clock *cpu_refclk)
+@@ -30,6 +30,7 @@
+ #include "exec/exec-all.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/qdev-clock.h"
++#include "qapi/qapi-commands-machine-target.h"
  
-     return MIPS_CPU(cpu);
- }
-+
-+bool cpu_supports_cps_smp(const char *cpu_type)
-+{
-+    const MIPSCPUClass *mcc = MIPS_CPU_CLASS(object_class_by_name(cpu_type));
-+    return (mcc->cpu_def->CP0_Config3 & (1 << CP0C3_CMGCR)) != 0;
-+}
-+
-+bool cpu_supports_isa(const char *cpu_type, uint64_t isa)
-+{
-+    const MIPSCPUClass *mcc = MIPS_CPU_CLASS(object_class_by_name(cpu_type));
-+    return (mcc->cpu_def->insn_flags & isa) != 0;
-+}
-+
-+void cpu_set_exception_base(int vp_index, target_ulong address)
-+{
-+    MIPSCPU *vp = MIPS_CPU(qemu_get_cpu(vp_index));
-+    vp->env.exception_base = address;
-+}
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 346635370c4..dbb71fdaa5d 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -31766,24 +31766,6 @@ void cpu_mips_realize_env(CPUMIPSState *env)
-     mvp_init(env, env->cpu_model);
- }
- 
--bool cpu_supports_cps_smp(const char *cpu_type)
--{
--    const MIPSCPUClass *mcc = MIPS_CPU_CLASS(object_class_by_name(cpu_type));
--    return (mcc->cpu_def->CP0_Config3 & (1 << CP0C3_CMGCR)) != 0;
--}
--
--bool cpu_supports_isa(const char *cpu_type, uint64_t isa)
--{
--    const MIPSCPUClass *mcc = MIPS_CPU_CLASS(object_class_by_name(cpu_type));
--    return (mcc->cpu_def->insn_flags & isa) != 0;
--}
--
--void cpu_set_exception_base(int vp_index, target_ulong address)
--{
--    MIPSCPU *vp = MIPS_CPU(qemu_get_cpu(vp_index));
--    vp->env.exception_base = address;
--}
--
- void cpu_state_reset(CPUMIPSState *env)
+ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
  {
-     CPUState *cs = env_cpu(env);
+@@ -299,6 +300,38 @@ static void mips_cpu_register_types(void)
+ 
+ type_init(mips_cpu_register_types)
+ 
++static void mips_cpu_add_definition(gpointer data, gpointer user_data)
++{
++    ObjectClass *oc = data;
++    CpuDefinitionInfoList **cpu_list = user_data;
++    CpuDefinitionInfoList *entry;
++    CpuDefinitionInfo *info;
++    const char *typename;
++
++    typename = object_class_get_name(oc);
++    info = g_malloc0(sizeof(*info));
++    info->name = g_strndup(typename,
++                           strlen(typename) - strlen("-" TYPE_MIPS_CPU));
++    info->q_typename = g_strdup(typename);
++
++    entry = g_malloc0(sizeof(*entry));
++    entry->value = info;
++    entry->next = *cpu_list;
++    *cpu_list = entry;
++}
++
++CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
++{
++    CpuDefinitionInfoList *cpu_list = NULL;
++    GSList *list;
++
++    list = object_class_get_list(TYPE_MIPS_CPU, false);
++    g_slist_foreach(list, mips_cpu_add_definition, &cpu_list);
++    g_slist_free(list);
++
++    return cpu_list;
++}
++
+ /* Could be used by generic CPU object */
+ MIPSCPU *mips_cpu_create_with_clock(const char *cpu_type, Clock *cpu_refclk)
+ {
+diff --git a/target/mips/helper.c b/target/mips/helper.c
+index 063b65c0528..bb962a3e8cc 100644
+--- a/target/mips/helper.c
++++ b/target/mips/helper.c
+@@ -24,7 +24,6 @@
+ #include "exec/cpu_ldst.h"
+ #include "exec/log.h"
+ #include "hw/mips/cpudevs.h"
+-#include "qapi/qapi-commands-machine-target.h"
+ 
+ enum {
+     TLBRET_XI = -6,
+@@ -1497,35 +1496,3 @@ void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env,
+ 
+     cpu_loop_exit_restore(cs, pc);
+ }
+-
+-static void mips_cpu_add_definition(gpointer data, gpointer user_data)
+-{
+-    ObjectClass *oc = data;
+-    CpuDefinitionInfoList **cpu_list = user_data;
+-    CpuDefinitionInfoList *entry;
+-    CpuDefinitionInfo *info;
+-    const char *typename;
+-
+-    typename = object_class_get_name(oc);
+-    info = g_malloc0(sizeof(*info));
+-    info->name = g_strndup(typename,
+-                           strlen(typename) - strlen("-" TYPE_MIPS_CPU));
+-    info->q_typename = g_strdup(typename);
+-
+-    entry = g_malloc0(sizeof(*entry));
+-    entry->value = info;
+-    entry->next = *cpu_list;
+-    *cpu_list = entry;
+-}
+-
+-CpuDefinitionInfoList *qmp_query_cpu_definitions(Error **errp)
+-{
+-    CpuDefinitionInfoList *cpu_list = NULL;
+-    GSList *list;
+-
+-    list = object_class_get_list(TYPE_MIPS_CPU, false);
+-    g_slist_foreach(list, mips_cpu_add_definition, &cpu_list);
+-    g_slist_free(list);
+-
+-    return cpu_list;
+-}
 -- 
 2.26.2
 
