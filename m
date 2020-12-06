@@ -2,82 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B80B2D0359
-	for <lists+qemu-devel@lfdr.de>; Sun,  6 Dec 2020 12:29:56 +0100 (CET)
-Received: from localhost ([::1]:47358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5920A2D039F
+	for <lists+qemu-devel@lfdr.de>; Sun,  6 Dec 2020 12:48:13 +0100 (CET)
+Received: from localhost ([::1]:37786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1klsEl-0006ZF-1r
-	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 06:29:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60582)
+	id 1klsWR-0006NX-Qt
+	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 06:48:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klsDN-0005uT-N2
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 06:28:32 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:44500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1klsDM-0008Hc-5E
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 06:28:29 -0500
-Received: by mail-ed1-x543.google.com with SMTP id l5so10567346edq.11
- for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 03:28:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3DHs/AzSBtEOHANPILEgkMmU5MdZu+yFGJLjGHc+p+0=;
- b=WrQTn7NO4O6HI6mOlsKl/WipS1NOaxkOI8gIQTaZWgqNECsuGDInlEiAXXYZJDDLtj
- JdKnoZ0Mu2y1z2mG9iSI6YskX0BeODo1bIfDd07CCCxoZh5+QadCR0rvODqmevJevMpy
- PNx9dKYGv95rDUImKmCVwDjhg9FM+0uBUBUm6T8OHDdbAA6dxID6SDX2c2sHtkcmCfOq
- 7YbIgk0BMNtjKzHNGAV+Z44ogU1KUSdqf8HVuTCe3MUP4Cyi3n1mtksEWQkEWErwsMQy
- 7SHofpDBt9EzRmIAiybneM49IpE7PHLN23cUIQ60TbJrsB9Wg3PFuFs/5+LaWrICojnP
- R3ug==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klsRG-0003k4-SB
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 06:42:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22027)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1klsRE-0004Oz-AR
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 06:42:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607254966;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l+RRbpmFlfac/SzWPDUAkyoj5c34HRozw+UOgcejjYk=;
+ b=CnKGzLEA+Ok3UV3zqPN20BQ6odCyQ5ROX7dSozbtsidJowcyDhXZSVAnakA6oidik0qOFD
+ QwxR+B8yjqRhF2jv2mwrVp0IL2wWdL7kLOT1cCwh/ZAoO8cspF++Xofe/P5h5jo28tnKbA
+ qoqXqXPbknzZxfUpkrrbicUmnbVxkUU=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-KzoMDCK9N9qFcNTIrMPo2A-1; Sun, 06 Dec 2020 06:42:44 -0500
+X-MC-Unique: KzoMDCK9N9qFcNTIrMPo2A-1
+Received: by mail-ed1-f70.google.com with SMTP id l33so1004425ede.1
+ for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 03:42:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3DHs/AzSBtEOHANPILEgkMmU5MdZu+yFGJLjGHc+p+0=;
- b=Qs7Ck+hMmLS5Uq17t4n5KW3M/bwh8XEiNrdqBn+j91UCtUwEtyxTnlsWWULevlsvQF
- 6x/GZBCU8p1kSJ+xD3AFItl9YDtpz4UtNM5Ly7tUGjbcHhnZy13Ji9e+4iPxvvLKKEOh
- TLPY8p8kiD5mNgNcE+CY304mofCQKBqraCCB/pdklN0q/AN2hRCJiAJtkbUyYwplEZto
- tizQzDADtdL+QFQB4MFNH16179E8TEg5oYLQJQ5grzGHKXHiNbO4BFAOYX2iEy42GipO
- roLZN+etODshpoYm3soJb//s3KBZmmA7YKVZs6erMkXayZhO0T2jGT9zB/mDIsiN+toP
- mD7Q==
-X-Gm-Message-State: AOAM533MrNJ40hMnRcfO5Hu+Du4/T0Lo8SyP0iCsMndMU0OX+pYfN1M6
- 5EAC2VWUCIJjWdHQ9vPLY+4=
-X-Google-Smtp-Source: ABdhPJxkQS3e4+HjXXibjrtgbYy/PSulb3NfG514NYR/qk0cAgrPCT00PEX3zrvuiAiZEAmTFxnsNA==
-X-Received: by 2002:a05:6402:8cc:: with SMTP id
- d12mr15307020edz.0.1607254105422; 
- Sun, 06 Dec 2020 03:28:25 -0800 (PST)
+ bh=GeNv/cSD9s12rnOJ8fx5ljri4YpUa8F6LSl9cZHSjCY=;
+ b=Qa4wxQQZRpyzJBXrBbc3EnyMP7icoOnYH8dBi9iiWtFjmR/7J63jOfDWLpRfkRB2fH
+ 2OfN3Va+HDTEoCEGzvOu3ybBs5xTrWgNWvjH5kTifU+qYU1WxqxolKtqRv2SVPzLTBbb
+ So3p1UaDVOniGVfiV/Eq4EJ+HW9oiEqwW4HkJz7Kd6+YxTjTnZyyojWXamCB2V7jwIC1
+ iDSOItak2phwtgv/8BgHo/Cz5lieCpfvoPlSoFxe1BpLICmwWR4o/XSJ8Dsh0FxyhQIG
+ XhIf5MmbnYXxQt6VfefLcCutA5HsUUJyGiXYwb/xje6qCoOjZt6/mLMeHc0FODARVWG4
+ pCkg==
+X-Gm-Message-State: AOAM533ID2CgMXvufHsgSeA5bM0sK/5zMzRWS2OdMHWK1QaAuSTpC70L
+ lKJkuqwlCIFJ1lh/wm8esutolMyDeGqAYVVtD+fHoodP/dTNTEENuy5c4VLeRH0hYpTJNMldl2d
+ uilFekmimQu4nJgE=
+X-Received: by 2002:a17:906:6b82:: with SMTP id
+ l2mr14726764ejr.241.1607254963116; 
+ Sun, 06 Dec 2020 03:42:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwe3K5w6dIWQKCjntX/ZEb9ErUqQDFWFHxQw9Cejj1V7RSkDNTS7LUvBGyz6jtMNrQ4zknF9Q==
+X-Received: by 2002:a17:906:6b82:: with SMTP id
+ l2mr14726754ejr.241.1607254962893; 
+ Sun, 06 Dec 2020 03:42:42 -0800 (PST)
 Received: from [192.168.1.36] (111.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.111])
- by smtp.gmail.com with ESMTPSA id bq20sm7606624ejb.64.2020.12.06.03.28.24
+ by smtp.gmail.com with ESMTPSA id r24sm570243edc.21.2020.12.06.03.42.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 06 Dec 2020 03:28:24 -0800 (PST)
-Subject: Re: [PATCH] MAINTAINERS: chenhc@lemote.com -> chenhuacai@kernel.org
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Huacai Chen <zltjiangshi@gmail.com>
-References: <1607160121-9977-1-git-send-email-chenhuacai@kernel.org>
- <fdc553b5-af0b-1705-7f33-a7fd2d524fb5@amsat.org>
-Message-ID: <eca91ba2-2f06-d69b-2b26-c04cb4745452@amsat.org>
-Date: Sun, 6 Dec 2020 12:28:23 +0100
+ Sun, 06 Dec 2020 03:42:42 -0800 (PST)
+Subject: Re: [PATCH 1/1] ui/gtk: Launching GTK UI with OpenGL on causes the
+ refreshrate update to not run
+To: Nikola Pavlica <pavlica.nikola@gmail.com>, qemu-devel@nongnu.org
+References: <55ZWKQ.X7E8ESP709H31@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7f71dd8d-fe2f-f8f5-ac34-9a49ac4771b6@redhat.com>
+Date: Sun, 6 Dec 2020 12:42:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <fdc553b5-af0b-1705-7f33-a7fd2d524fb5@amsat.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <55ZWKQ.X7E8ESP709H31@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,26 +100,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Cc: kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/5/20 3:18 PM, Philippe Mathieu-Daudé wrote:
-> On 12/5/20 10:22 AM, Huacai Chen wrote:
->> Use @kernel.org address as the main communications end point. Update the
->> corresponding M-entries and .mailmap (for git shortlog translation).
->>
->> Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
->> ---
->>  .mailmap    | 2 ++
->>  MAINTAINERS | 8 ++++----
->>  2 files changed, 6 insertions(+), 4 deletions(-)
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Hi Nikola,
 
-Now also:
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 12/6/20 11:43 AM, Nikola Pavlica wrote:
+> I've discussed this issue back January and September. But it still
+> occurs on my machine, despite the two patches. This time, the issue is
+> that the UI refresh rate doesn't get updated when I launch QEMU with
+> gl=on. My fix for this issue is to move the code for updating the
+> refresh rate above the code that checks for OpenGL.
+> 
+> Or because OpenGL is meant to be called back with the "render" callback,
+> should we instead add the refresh 
+> rate checking code there?
+
+This is not my area, but I think you are right, the the refresh rate
+should be updated in the "render" callback.
+
+To speed things you can send another patch, and Gerd will pick the
+correct/best one :)
+
+> Anyway, regardless of method, I'm happy with any solution that just
+> fixes the issue.
+> Signed-off-by: Nikola Pavlica (pavlica.nikola@gmail.com)---
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index a752aa22be..74287edde8 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -776,18 +776,6 @@ static gboolean gd_draw_event(GtkWidget *widget,
+> cairo_t *cr, void *opaque)
+>      int fbw, fbh;
+>      int refresh_rate_millihz;
+>  
+> -#if defined(CONFIG_OPENGL)
+> -    if (vc->gfx.gls) {
+> -        if (gtk_use_gl_area) {
+> -            /* invoke render callback please */
+> -            return FALSE;
+> -        } else {
+> -            gd_egl_draw(vc);
+> -            return TRUE;
+> -        }
+> -    }
+> -#endif
+> -
+>      if (!gtk_widget_get_realized(widget)) {
+>          return FALSE;
+>      }
+> @@ -801,6 +789,18 @@ static gboolean gd_draw_event(GtkWidget *widget,
+> cairo_t *cr, void *opaque)
+>          vc->gfx.dcl.update_interval = MILLISEC_PER_SEC /
+> refresh_rate_millihz;
+>      }
+>  
+> +#if defined(CONFIG_OPENGL)
+> +    if (vc->gfx.gls) {
+> +        if (gtk_use_gl_area) {
+> +            /* invoke render callback please */
+> +            return FALSE;
+> +        } else {
+> +            gd_egl_draw(vc);
+> +            return TRUE;
+> +        }
+> +    }
+> +#endif
+> +
+>      fbw = surface_width(vc->gfx.ds);
+>      fbh = surface_height(vc->gfx.ds);
+> -- 
+> 2.21.1
+
 
