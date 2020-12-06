@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09ED82D0825
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 00:43:16 +0100 (CET)
-Received: from localhost ([::1]:42366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2768E2D0827
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 00:43:35 +0100 (CET)
+Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1km3gP-0006nk-JL
-	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 18:43:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
+	id 1km3gk-0007Wk-3t
+	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 18:43:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1km3dI-00057o-F6
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:40:00 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:54043)
+ id 1km3dL-00058M-Vi
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:40:04 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1km3dF-0007Oi-Ty
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:39:59 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id k10so10023735wmi.3
- for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 15:39:54 -0800 (PST)
+ id 1km3dH-0007Pf-6q
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 18:40:01 -0500
+Received: by mail-wm1-x344.google.com with SMTP id e25so12105439wme.0
+ for <qemu-devel@nongnu.org>; Sun, 06 Dec 2020 15:39:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5+L/UCYh+Yz8OUjrhsORCjGrNemm4sUDpLhEt7FajQo=;
- b=TYlsC723yQq4wuLZ89hIbt3GLMlvebNYw7DemJ99SzC+IyJZaxauxVxo1c8dScEjJ8
- 05QUUsRBA5/9UKGc3dPHQaTFKylQzLj109R2n/ahuP8Cl7/+e9vCp6FwqvU1x9VIWgEO
- EPT643LV0EQd9M1Ma0uydOQ25+0hgFUlrNAdZz5RHhNEHz1vzMUeusqIcfApxSfUgAY9
- y0s9JT/sKLxyaGN9Cv/Hd7SBOSJ9NEAgQUsBMkFYiWUToT7AgbDKvkaeCaDyzXFs62JW
- UlXWD4nGr60/GRa2k/tUoOi8AGuCaSD2ddAVvA+7LkWY15QC8CFYnOoNXgKa2ErxM6E9
- Djlg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=k2eeYOSwnhkGWaF7Gqxwyv5DCY5GnWH/sPRKUd7DVSw=;
+ b=lCV2tVlTBuYcB4tKKpyVcUZy/dLgDw+fUlNSeB8cvB+ESWGUKwbBTmkJ9hSkZxaaLj
+ gzZNP95EGEBFqJtamjQICHTD7pQe6Brz85Df8Miuns1r2Qmua1gMgWA7Dxfn8LAHXzwI
+ 7SkpOkiwubtSKtkoqhR4BBr5TSsCjl5kPaq7g7M7wyQ8UjYtS1uw3SsWfMr/AhL+FrlG
+ YA49GUPLOV2H3wYgykcJcK28LQcDJhoItqoP2Wi2HiAgfvpUjw7EFMpZ6/B46cxfQE0W
+ 629C1e2wy/sm6XEp9hrkrAv3qTp7Ye5JCxZUxOwTRL869MEaf/eeiJPwjSVcl840NXGm
+ zwew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=5+L/UCYh+Yz8OUjrhsORCjGrNemm4sUDpLhEt7FajQo=;
- b=TymmAzKxP5Z2BCWPF5dCdVwYZ3NCjqF5GvPxGFUDQYp82FZPdqgBNIWo3sieQhslfy
- 0aM3s+fKFC2+ktOnIZopfx8zLlugRRdYHZ/3rojqeOoRxqTC2fGDfmILHMKzp4YOsk5X
- opHV6T5Wyc+p14PALpNa9rp+c2nxucsZtq/1EGOioRIw7pGJhOXrGfDzols8do/fOQFu
- Vw+8t4ffwsrinGKaHtJZz4kFCAlb2xSH+nA+6ZhAS5g6n1In5zywPPD+wtSJ2YUOGTCX
- kSmq8AcCFh6e7S/dxdlIS91in5szT6/5aL017Ng+5BH9fTC7H7RD7F2CTSjp4gTrfHpr
- +kwg==
-X-Gm-Message-State: AOAM530QO1wp3AaksDbOdqnxSUrM3l9VJoL5vsNUrmmT3M1TnpBiGwPh
- u0RQEVVGKFN/cnnPjczxfRStkydPLnA=
-X-Google-Smtp-Source: ABdhPJx/6UZchU4OJqxY2tvT2eli1u94pvJZRHJJdINdB6SatpJ2kqxPJiiPkn1ttDuNKKFU5dXzEQ==
-X-Received: by 2002:a7b:cc12:: with SMTP id f18mr15639078wmh.110.1607297992427; 
- Sun, 06 Dec 2020 15:39:52 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=k2eeYOSwnhkGWaF7Gqxwyv5DCY5GnWH/sPRKUd7DVSw=;
+ b=JbApbFN+KTalFrz+DwTDJHJdbliEy4wiNyzOXNDzbZ7aAxtJdfoh1VxbB2iAFjHJup
+ pEru6k/v5sYHwvp6LcwTP55P+LI36y/FDvEo30Wvrp45PKEIwRJ524vL6N+ypjlFQ9HF
+ rcwtyuotSkebw03j2yvaOHUW0w8KLUymNOuH4DZZijfm7p9zlsML6XJ1VNiUH1k+lADG
+ Dak2eR1Bpl/5VoUb9wpQRPayxTvfDJ9IZvlVC6hBtkdQkrcfQt4aDYlp6GlHgnY4fAuu
+ H8Yq5CeAJGVE36ry5txrZdNs+S88XN8fG+YfgyQXUMYl+J2mICIuuRHGMD3gMiZHmWHv
+ yBNQ==
+X-Gm-Message-State: AOAM530tSwYtEfLob8wfsopRvTjdDuTGv1agmn5S0Qzy19vEFeydXyWE
+ JIAeim6UIrrMEMjBzfTKqxNttu7h5QE=
+X-Google-Smtp-Source: ABdhPJy3xT0vKlHKdf2n/udhIrOm526CJP1KpDJx6fJG7TXfFZ2bHXieBHHTpA97RbYwzkbqLswFEQ==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr15395706wmr.179.1607297997495; 
+ Sun, 06 Dec 2020 15:39:57 -0800 (PST)
 Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id z22sm11312366wml.1.2020.12.06.15.39.51
+ by smtp.gmail.com with ESMTPSA id n17sm3479198wmc.33.2020.12.06.15.39.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Dec 2020 15:39:51 -0800 (PST)
+ Sun, 06 Dec 2020 15:39:56 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/19] target/mips: Boring code reordering
-Date: Mon,  7 Dec 2020 00:39:30 +0100
-Message-Id: <20201206233949.3783184-1-f4bug@amsat.org>
+Subject: [PATCH 01/19] hw/mips: Move address translation helpers to
+ target/mips/
+Date: Mon,  7 Dec 2020 00:39:31 +0100
+Message-Id: <20201206233949.3783184-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201206233949.3783184-1-f4bug@amsat.org>
+References: <20201206233949.3783184-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,65 +94,127 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-This is not what I had plan to finish this WE but well...=0D
-at least it is done, and the following series will be=0D
-clearer/easier to review.=0D
-=0D
-There are now less dependencies on the big translate.c,=0D
-and we can almost build a KVM-only binary (without TCG).=0D
-=0D
-Yet another very boring patch series, sorry.=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (19):=0D
-  hw/mips: Move address translation helpers to target/mips/=0D
-  target/mips: Remove unused headers from translate.c=0D
-  target/mips: Remove unused headers from fpu_helper.c=0D
-  target/mips: Remove unused headers from cp0_helper.c=0D
-  target/mips: Remove unused headers from op_helper.c=0D
-  target/mips: Remove unused headers from kvm.c=0D
-  target/mips: Include "exec/memattrs.h" in 'internal.h'=0D
-  target/mips: Extract cpu_supports*/cpu_set* translate.c=0D
-  target/mips: Move mips_cpu_add_definition() from helper.c to cpu.c=0D
-  target/mips: Add !CONFIG_USER_ONLY comment after #endif=0D
-  target/mips: Extract common helpers from helper.c to common_helper.c=0D
-  target/mips: Rename helper.c as tlb_helper.c=0D
-  target/mips: Fix code style for checkpatch.pl=0D
-  target/mips: Move mmu_init() functions to tlb_helper.c=0D
-  target/mips: Move cpu definitions, reset() and realize() to cpu.c=0D
-  target/mips: Inline cpu_mips_realize_env() in mips_cpu_realizefn()=0D
-  target/mips: Rename translate_init.c as cpu-defs.c=0D
-  target/mips: Restrict some TCG specific CPUClass handlers=0D
-  target/mips: Only build TCG code when CONFIG_TCG is set=0D
-=0D
- include/hw/mips/cpudevs.h                     |   7 -=0D
- target/mips/cpu.h                             |   8 +=0D
- target/mips/internal.h                        |   6 +-=0D
- hw/mips/boston.c                              |   1 -=0D
- {hw =3D> target}/mips/addr.c                    |   2 +-=0D
- target/mips/common_helper.c                   | 178 ++++++++++=0D
- target/mips/cp0_helper.c                      |   4 +-=0D
- target/mips/cpu.c                             | 309 +++++++++++++++++-=0D
- target/mips/fpu_helper.c                      |   4 -=0D
- target/mips/kvm.c                             |   3 -=0D
- target/mips/op_helper.c                       |   4 -=0D
- target/mips/{helper.c =3D> tlb_helper.c}        | 244 +++-----------=0D
- target/mips/translate.c                       | 262 ---------------=0D
- hw/mips/meson.build                           |   2 +-=0D
- .../{translate_init.c.inc =3D> cpu-defs.c.inc}  |  57 ----=0D
- target/mips/meson.build                       |  10 +-=0D
- 16 files changed, 556 insertions(+), 545 deletions(-)=0D
- rename {hw =3D> target}/mips/addr.c (98%)=0D
- create mode 100644 target/mips/common_helper.c=0D
- rename target/mips/{helper.c =3D> tlb_helper.c} (89%)=0D
- rename target/mips/{translate_init.c.inc =3D> cpu-defs.c.inc} (96%)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Address translation is an architectural thing (not hardware
+related). Move the helpers from hw/ to target/.
+
+As physical address and KVM are specific to system mode
+emulation, restrict this file to softmmu, so it doesn't
+get compiled for user-mode emulation.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/mips/cpudevs.h  | 7 -------
+ target/mips/cpu.h          | 8 ++++++++
+ hw/mips/boston.c           | 1 -
+ {hw => target}/mips/addr.c | 2 +-
+ target/mips/translate.c    | 2 --
+ hw/mips/meson.build        | 2 +-
+ target/mips/meson.build    | 1 +
+ 7 files changed, 11 insertions(+), 12 deletions(-)
+ rename {hw => target}/mips/addr.c (98%)
+
+diff --git a/include/hw/mips/cpudevs.h b/include/hw/mips/cpudevs.h
+index 291f59281a0..f7c9728fa9f 100644
+--- a/include/hw/mips/cpudevs.h
++++ b/include/hw/mips/cpudevs.h
+@@ -5,13 +5,6 @@
+ 
+ /* Definitions for MIPS CPU internal devices.  */
+ 
+-/* addr.c */
+-uint64_t cpu_mips_kseg0_to_phys(void *opaque, uint64_t addr);
+-uint64_t cpu_mips_phys_to_kseg0(void *opaque, uint64_t addr);
+-uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr);
+-bool mips_um_ksegs_enabled(void);
+-void mips_um_ksegs_enable(void);
+-
+ /* mips_int.c */
+ void cpu_mips_irq_init_cpu(MIPSCPU *cpu);
+ 
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index 23f8c6f96cd..313e3252cbb 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -1290,6 +1290,14 @@ bool cpu_supports_cps_smp(const char *cpu_type);
+ bool cpu_supports_isa(const char *cpu_type, uint64_t isa);
+ void cpu_set_exception_base(int vp_index, target_ulong address);
+ 
++/* addr.c */
++uint64_t cpu_mips_kseg0_to_phys(void *opaque, uint64_t addr);
++uint64_t cpu_mips_phys_to_kseg0(void *opaque, uint64_t addr);
++
++uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr);
++bool mips_um_ksegs_enabled(void);
++void mips_um_ksegs_enable(void);
++
+ /* mips_int.c */
+ void cpu_mips_soft_irq(CPUMIPSState *env, int irq, int level);
+ 
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index 3d40867dc4c..91183363ff3 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -28,7 +28,6 @@
+ #include "hw/loader.h"
+ #include "hw/loader-fit.h"
+ #include "hw/mips/cps.h"
+-#include "hw/mips/cpudevs.h"
+ #include "hw/pci-host/xilinx-pcie.h"
+ #include "hw/qdev-clock.h"
+ #include "hw/qdev-properties.h"
+diff --git a/hw/mips/addr.c b/target/mips/addr.c
+similarity index 98%
+rename from hw/mips/addr.c
+rename to target/mips/addr.c
+index 2f138fe1ea8..27a6036c451 100644
+--- a/hw/mips/addr.c
++++ b/target/mips/addr.c
+@@ -21,7 +21,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "hw/mips/cpudevs.h"
++#include "cpu.h"
+ 
+ static int mips_um_ksegs;
+ 
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index c64a1bc42e1..87dc38c0683 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -28,8 +28,6 @@
+ #include "exec/exec-all.h"
+ #include "tcg/tcg-op.h"
+ #include "exec/cpu_ldst.h"
+-#include "hw/mips/cpudevs.h"
+-
+ #include "exec/helper-proto.h"
+ #include "exec/helper-gen.h"
+ #include "hw/semihosting/semihost.h"
+diff --git a/hw/mips/meson.build b/hw/mips/meson.build
+index bcdf96be69f..77b4d8f365e 100644
+--- a/hw/mips/meson.build
++++ b/hw/mips/meson.build
+@@ -1,5 +1,5 @@
+ mips_ss = ss.source_set()
+-mips_ss.add(files('addr.c', 'mips_int.c'))
++mips_ss.add(files('mips_int.c'))
+ mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
+ mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
+ mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index fa1f024e782..d980240f9e3 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -15,6 +15,7 @@
+ 
+ mips_softmmu_ss = ss.source_set()
+ mips_softmmu_ss.add(files(
++  'addr.c',
+   'cp0_timer.c',
+   'machine.c',
+   'mips-semi.c',
+-- 
+2.26.2
+
 
