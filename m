@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B15A2D11B1
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:18:54 +0100 (CET)
-Received: from localhost ([::1]:54382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA3EB2D114F
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:05:45 +0100 (CET)
+Received: from localhost ([::1]:40502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmGPl-0004Z6-CO
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:18:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57192)
+	id 1kmGD2-0006fu-BE
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:05:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmFxR-0007co-B4
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:49:39 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmFxL-0001um-W4
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:49:33 -0500
-Received: by mail-wr1-x442.google.com with SMTP id i2so12652381wrs.4
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 04:49:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ff9dudwKzr9RKp54jL9aoNOKi5jGdTwCO9eItajzqEc=;
- b=IVnn0AIhYSHv9u87ESDdqrWomo8kk0nc3fiHqKd3Z2OYvGrnNORnRLycA+wMW3OxXU
- i6lHg/g70V4/Eh1GbmzzBu+eTDo7jWQzotzY7EauYa5GbqC3MzsIhhi7cuKQwVmksCmB
- SCFksi/MAgZsjMW3PNvykh23hQWI5O3JI2IunjSWwFZd7nZ25E/+KipY7naETB1ruucA
- ag4YHhUZaKjvx9yfLwOShMakGt6M4XRKTT/Wx8J3SvYzMPAmPBwoY76mfFykRdDirogi
- cItLxdSfduTJochct1rbUPWuXGXi587JGbyqkkyPJZ4skVxEo7Y4+7JVQ/YaQnL+8i0G
- SfZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ff9dudwKzr9RKp54jL9aoNOKi5jGdTwCO9eItajzqEc=;
- b=HcydIUEEkppgumpT4PBq6sdUkl2dR4B6qKUcHGE1WjPh3DHRrRvo7IRkHWB0ZOtMMM
- EM78jmOuq1yBmtxS4WZwsAa6hUkpvGAXeuvZhsHQVDfp+SwZIB+PAzFfIfueaoyhsF4k
- w6r3tQ4VbOh8+K3tsFRSepgzUxenQ0Wdsgh0nqgCDc4PYpDldVZs80rs9syxCGFd3Ifv
- mjGglWro/HXcY38p+rg+RiaCSGC7V040+XLV2n+GdHm6VKnFmPdpsnmSoNocN1aUhMx/
- PCcNRdp+uSCf6zYfs7e73UOULKzFSR6/gxq3rTCihMWoNDhtfUkEaCPELI3Utx+qorSj
- /hig==
-X-Gm-Message-State: AOAM531ksnw/KrdxhF725OfHgbNbvCx6N03piHUr4eiypXzynjmiFOMv
- iukwSEoIR4/5KV+mIo1CRD8=
-X-Google-Smtp-Source: ABdhPJwlJ8CPD2Sept02Gb7oU5fhvYr05v1HXgF+3Qwi0gzpfCkIJhVHqwmIc3CsbfwKoxRa5ZdGEQ==
-X-Received: by 2002:adf:8184:: with SMTP id 4mr16425617wra.63.1607345369527;
- Mon, 07 Dec 2020 04:49:29 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id s13sm15034323wrt.80.2020.12.07.04.49.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Dec 2020 04:49:28 -0800 (PST)
-Subject: Re: [RFC PATCH 18/19] target/mips: Restrict some TCG specific
- CPUClass handlers
-To: Claudio Fontana <cfontana@suse.de>
-References: <20201206233949.3783184-1-f4bug@amsat.org>
- <20201206233949.3783184-19-f4bug@amsat.org>
- <88161f99-aae5-3b80-e8c6-a57d122a28c4@suse.de>
- <61618998-f854-a7df-301f-f860d9725f1d@suse.de>
- <3956df0d-a42e-f3af-d5e1-cf396ddcb795@suse.de>
- <5d11701b-31f8-cfcd-30f9-3eba62c3bab7@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <92611fa6-b3bc-51d2-f90a-995b9cc99bf4@amsat.org>
-Date: Mon, 7 Dec 2020 13:49:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmG5n-0004cu-CF
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:58:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50238)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmG5T-0004Wg-Am
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:58:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607345874;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e68U+w1dG8ClaK/r5O8bL2rOSddYYTRUgIPMdjWHdcQ=;
+ b=B+iyMFuddSy/hmMmWaPo7LTWJLBswJcmPNqhw08j76cL5wA4Ye2/HRPaDelyXubPbLbOXp
+ 9zDHLNOnvR1qJNFS2nmbDYh8to5uZMLTJJZyKQQz9/JKHzNx/zRXvcYtJBLpkNX1nNPAnj
+ A819BmBFQI9qo43vnqPxGPn76JVUjZM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-QhYxJe66O_ivvT2KaWbcYg-1; Mon, 07 Dec 2020 07:57:51 -0500
+X-MC-Unique: QhYxJe66O_ivvT2KaWbcYg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77DD61012EB0;
+ Mon,  7 Dec 2020 12:57:45 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2DCD2648A9;
+ Mon,  7 Dec 2020 12:57:43 +0000 (UTC)
+Date: Mon, 7 Dec 2020 13:57:42 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ankur Arora <ankur.a.arora@oracle.com>
+Subject: Re: [PATCH 5/8] x86: acpi: let the firmware handle pending "CPU
+ remove" events in SMM
+Message-ID: <20201207135742.5c9962f0@redhat.com>
+In-Reply-To: <533b92b0-1eae-f24d-b90b-f7f174dbf305@oracle.com>
+References: <20201204170939.1815522-1-imammedo@redhat.com>
+ <20201204170939.1815522-6-imammedo@redhat.com>
+ <533b92b0-1eae-f24d-b90b-f7f174dbf305@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <5d11701b-31f8-cfcd-30f9-3eba62c3bab7@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,57 +80,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: lersek@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/20 12:43 PM, Claudio Fontana wrote:
-> I am adding to my cleanup series the following, so this is done for all targets:
+On Sun, 6 Dec 2020 22:20:27 -0800
+Ankur Arora <ankur.a.arora@oracle.com> wrote:
 
-Great! thank you Claudio :)
+> On 2020-12-04 9:09 a.m., Igor Mammedov wrote:
+> > if firmware and QEMU negotiated CPU hotunplug support, generate
+> > _EJ0 method so that it will mark CPU for removal by firmware and
+> > pass control to it by triggering SMI.
+> > 
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> >   include/hw/acpi/cpu.h |  1 +
+> >   hw/acpi/cpu.c         | 15 +++++++++++++--
+> >   hw/i386/acpi-build.c  |  1 +
+> >   3 files changed, 15 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
+> > index d71edde456..999caaf510 100644
+> > --- a/include/hw/acpi/cpu.h
+> > +++ b/include/hw/acpi/cpu.h
+> > @@ -51,6 +51,7 @@ void cpu_hotplug_hw_init(MemoryRegion *as, Object *owner,
+> >   typedef struct CPUHotplugFeatures {
+> >       bool acpi_1_compatible;
+> >       bool has_legacy_cphp;
+> > +    bool fw_unplugs_cpu;
+> >       const char *smi_path;
+> >   } CPUHotplugFeatures;
+> >   
+> > diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+> > index 811218f673..bded2a837f 100644
+> > --- a/hw/acpi/cpu.c
+> > +++ b/hw/acpi/cpu.c
+> > @@ -341,6 +341,7 @@ const VMStateDescription vmstate_cpu_hotplug = {
+> >   #define CPU_INSERT_EVENT  "CINS"
+> >   #define CPU_REMOVE_EVENT  "CRMV"
+> >   #define CPU_EJECT_EVENT   "CEJ0"
+> > +#define CPU_FW_EJECT_EVENT "CEJF"
+> >   
+> >   void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
+> >                       hwaddr io_base,
+> > @@ -393,7 +394,10 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
+> >           aml_append(field, aml_named_field(CPU_REMOVE_EVENT, 1));  
+> 
+>    Bit 2: Device remove event, used to distinguish device for which
+>          no device eject request to OSPM was issued. Firmware must
+>          ignore this bit.
+> 
+> >           /* initiates device eject, write only */
+> >           aml_append(field, aml_named_field(CPU_EJECT_EVENT, 1));  
+> 
+>    Bit 3: reserved and should be ignored by OSPM
+> 
+> > -        aml_append(field, aml_reserved_field(4));
+> > +        aml_append(field, aml_reserved_field(1));
+> > +        /* tell firmware to do device eject, write only */
+> > +        aml_append(field, aml_named_field(CPU_FW_EJECT_EVENT, 1));
+> > +        aml_append(field, aml_reserved_field(2));  
+> 
+> Shouldn't this be instead:
+> 
+> > -        aml_append(field, aml_reserved_field(4));
+> > +        /* tell firmware to do device eject, write only */
+> > +        aml_append(field, aml_named_field(CPU_FW_EJECT_EVENT, 1));
+> > +        aml_append(field, aml_reserved_field(3));  
+> 
 
+yes, it should be this way,
+I'll fix in v2
+
+>    Bit 4: if set to 1, OSPM requests firmware to perform device eject.
+>    Bit 5-7: reserved and should be ignored by OSPM
+> 
+> Otherwise AFAICS CPU_FW_EJECT_EVENT would correspond to bit 5.
 > 
 > 
-> Author: Claudio Fontana <cfontana@suse.de>
-> Date:   Mon Dec 7 11:02:34 2020 +0100
+> Ankur
 > 
->     cpu: move do_unaligned_access to tcg_ops
->     
->     make it consistently SOFTMMU-only.
->     
->     Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> >           aml_append(field, aml_named_field(CPU_COMMAND, 8));
+> >           aml_append(cpu_ctrl_dev, field);
+> >   
+> > @@ -428,6 +432,7 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
+> >           Aml *ins_evt = aml_name("%s.%s", cphp_res_path, CPU_INSERT_EVENT);
+> >           Aml *rm_evt = aml_name("%s.%s", cphp_res_path, CPU_REMOVE_EVENT);
+> >           Aml *ej_evt = aml_name("%s.%s", cphp_res_path, CPU_EJECT_EVENT);
+> > +        Aml *fw_ej_evt = aml_name("%s.%s", cphp_res_path, CPU_FW_EJECT_EVENT);
+> >   
+> >           aml_append(cpus_dev, aml_name_decl("_HID", aml_string("ACPI0010")));
+> >           aml_append(cpus_dev, aml_name_decl("_CID", aml_eisaid("PNP0A05")));
+> > @@ -470,7 +475,13 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
+> >   
+> >               aml_append(method, aml_acquire(ctrl_lock, 0xFFFF));
+> >               aml_append(method, aml_store(idx, cpu_selector));
+> > -            aml_append(method, aml_store(one, ej_evt));
+> > +            if (opts.fw_unplugs_cpu) {
+> > +                aml_append(method, aml_store(one, fw_ej_evt));
+> > +                aml_append(method, aml_store(aml_int(OVMF_CPUHP_SMI_CMD),
+> > +                           aml_name("%s", opts.smi_path)));
+> > +            } else {
+> > +                aml_append(method, aml_store(one, ej_evt));
+> > +            }
+> >               aml_append(method, aml_release(ctrl_lock));
+> >           }
+> >           aml_append(cpus_dev, method);
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index 9036e5594c..475e76f514 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -1586,6 +1586,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >           CPUHotplugFeatures opts = {
+> >               .acpi_1_compatible = true, .has_legacy_cphp = true,
+> >               .smi_path = pm->smi_on_cpuhp ? "\\_SB.PCI0.SMI0.SMIC" : NULL,
+> > +            .fw_unplugs_cpu = pm->smi_on_cpu_unplug,
+> >           };
+> >           build_cpus_aml(dsdt, machine, opts, pm->cpu_hp_io_base,
+> >                          "\\_SB.PCI0", "\\_GPE._E02");
+> >   
 > 
-> commit 1ee8254b568a47453ab481aa206fb9fecc7c16f7
-> Author: Claudio Fontana <cfontana@suse.de>
-> Date:   Mon Dec 7 10:29:22 2020 +0100
-> 
->     cpu: move cc->transaction_failed to tcg_ops
->     
->     Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> 
-> commit 1a03124581841b5c473f879f5fd396dccde48667
-> Author: Claudio Fontana <cfontana@suse.de>
-> Date:   Mon Dec 7 10:02:07 2020 +0100
-> 
->     cpu: move cc->do_interrupt to tcg_ops
->     
->     Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> 
-> commit 6a35e8f4ee68923006bba404f1f2471038b1039c
-> Author: Claudio Fontana <cfontana@suse.de>
-> Date:   Mon Dec 7 09:31:14 2020 +0100
-> 
->     target/arm: do not use cc->do_interrupt for KVM directly
->     
->     cc->do_interrupt is a TCG callback used in accel/tcg only,
->     call instead directly the arm_cpu_do_interrupt for the
->     injection of exeptions from KVM, so that
->     
->     do_interrupt can be exported to TCG-only operations in
->     the CPUClass.
->     
->     Signed-off-by: Claudio Fontana <cfontana@suse.de>
+
 
