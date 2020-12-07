@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25BA2D1DAF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 23:48:50 +0100 (CET)
-Received: from localhost ([::1]:58298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC122D1DBE
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 23:52:30 +0100 (CET)
+Received: from localhost ([::1]:37180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmPJJ-0008Ex-Tm
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 17:48:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39948)
+	id 1kmPMr-0002rr-AR
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 17:52:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmPEg-0004m7-9d
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:44:02 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:45704)
+ id 1kmPEl-0004wy-L6
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:44:07 -0500
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:46180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmPEe-0004fD-Rh
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:44:02 -0500
-Received: by mail-ed1-x543.google.com with SMTP id r5so15503048eda.12
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 14:44:00 -0800 (PST)
+ id 1kmPEk-0004gr-6i
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:44:07 -0500
+Received: by mail-ed1-x541.google.com with SMTP id b73so15508103edf.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 14:44:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tiLrE9BtsdFPhNtY2DXHquXLU9v+7Ir7R7907jubF5Q=;
- b=IajCAjRN/jprrEGLfFvDqV5o6cm8o+06y0erRBPFmpQfqxVdoYiGhN4xMB9PF/ySx9
- Mhw9IUCxf6qZ4yeZ3tgJUeBZ3COO5HGu2MFCI9cRWzerKEUDRQoBk9PdnK9+gBkJ2Hy0
- pppaZHlzjYlbWaE8TXBwUvtIoeD3f8iUsf/pNKwLEWQag3id1DPGLw02XNjxTZJTJmht
- fcunrfWgwRTxBnmT+VuzB2dR9UiXdXQXVCg8IFz/a0uWWuVOEgi14zdrqIoRuhNLVeNO
- 2+uATZK7qhkwMZwFOevrTpOhGloy7wwnbCYuZMeXPNyhldsAIhfS7qDlWEAxEGDsHTdB
- NnPQ==
+ bh=PsgapN4DayY67PGB6PO85RVxsavx9TC/Jgo4bJ+1BLQ=;
+ b=I/CfST2viOffPmkuqmHYjl10aHRZ8hjw9+EudTwLVOPPFgJDm3R7uy64guys5rHt8Q
+ UHcKT3VBKaksntFZJmPzU94WQqEBZgTLvA2xLxsA682qfClACCfPRs+//9lIy+rDNS3q
+ TOYa1L716scB4RbG8NKTLXKf1/zlFji5qFddwzQ+Ah+7hz74eHGLVGCxhFwJQWWvB0sb
+ cVeIlTSFRSPIZQ3uVih5iABx7IEOtDtAzKNF5ZRVajXZfooLSnv1a6QzfTc13EpKbsWD
+ D77Q3wBa3O5ya2+LJymveG5zh0zQq6ImY2xQ+wMnvr8WMx1vbOzC8vQHqAMtTejaX8av
+ +jrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tiLrE9BtsdFPhNtY2DXHquXLU9v+7Ir7R7907jubF5Q=;
- b=aYrlozHXHe9Kk+rcvsMBX1/HMDx1D3ZmzR7Ndc/Aar51gmKK7K6wRnr4DRLoXDaH70
- 13jpR6TTgBGYkElXbT9V7dxvC1ti+4+4IE7cnQ2mHmwMxLpVAlVDN+aL9CAupmivRpxJ
- XSX+gQTxOvlpgvawJcJS9NToJQGRnjuun/ZcGzrkqiIScyACGD72L0cscmAlqLe0HxLL
- 1Dz1KtP/sOCGZoK3onmBYdpIvAfcSwsR4hBwz6FX0loOcB6UHD8ZoAhmIp8nrV3NAGed
- Ut7BP3nNWa6AA6mUH84fb3telZufYZAvEgHkp6pj5zmAbVL+KGCg9tkWj8YMd9VpCBxV
- LdqA==
-X-Gm-Message-State: AOAM530++gJysZH8VbksanVTisnyDRCOun9ysLXqlCNRYiRmkE8Py3ds
- mqnNz9y+OPQVN31LbzLawr/m3VDaXM8=
-X-Google-Smtp-Source: ABdhPJxbbper1U3Iq6tiWqLjM7IKdsW0rn1V1BWe4MMLSx5A1v38VSmc0TGSdivsjHX7a4HRkvEiBA==
-X-Received: by 2002:a50:8a44:: with SMTP id i62mr19173995edi.97.1607381039368; 
- Mon, 07 Dec 2020 14:43:59 -0800 (PST)
+ bh=PsgapN4DayY67PGB6PO85RVxsavx9TC/Jgo4bJ+1BLQ=;
+ b=N66OFQoldWWJ8u/BvGwrRaXUccMTPFix2FExxV6l47zRnflc+qtNUI8kdVSznQL1+m
+ W0kHAStQoOB9p9iV1kfdV+2e7lz72WY5499aCwwRDtFeS2d3zWImEoTXD1uPB+94X8Mh
+ ODWW419hrGDT1psCgny8v7uENEWNAIpflHFZ4xfNRyXxKqm/ldxv0HLxGZZjDCg8rurJ
+ JzIdb7aO6EHj1vbb6Q46seFLR6xayGMa1CQSw+SX9PSkmsI+wlwcUawxJkq1TpMmWzQm
+ tZkX4/wi5iXb2Vha767ZOdbCYY/hXP4o1cvL3Qi6VL7TMq3pnHSMJ2ppFse420Lcx+vK
+ N0IQ==
+X-Gm-Message-State: AOAM5325aZ+GQLDxg7DEfqYDgHuLbnMfaIbm5fOWpJsmTr+g3gwVGpKQ
+ cBsYA3o94Au6qozp8guOtmE5Bg+5NJQ=
+X-Google-Smtp-Source: ABdhPJxJtFeBVcCwDyOA3XcfF0Y091gEd+Wo3TWdiiKDXjjcbm0r3xxVAcbFu0sAMPvAg+3YWhN+MQ==
+X-Received: by 2002:aa7:da07:: with SMTP id r7mr22082888eds.309.1607381044698; 
+ Mon, 07 Dec 2020 14:44:04 -0800 (PST)
 Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id i26sm5515613eja.23.2020.12.07.14.43.58
+ by smtp.gmail.com with ESMTPSA id gn21sm8231238ejc.27.2020.12.07.14.44.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 14:43:58 -0800 (PST)
+ Mon, 07 Dec 2020 14:44:03 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/6] linux-user/elfload: Introduce MIPS
- GET_FEATURE_REG_EQU() macro
-Date: Mon,  7 Dec 2020 23:43:33 +0100
-Message-Id: <20201207224335.4030582-5-f4bug@amsat.org>
+Subject: [PATCH v4 5/6] linux-user/elfload: Update HWCAP bits from linux 5.7
+Date: Mon,  7 Dec 2020 23:43:34 +0100
+Message-Id: <20201207224335.4030582-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201207224335.4030582-1-f4bug@amsat.org>
 References: <20201207224335.4030582-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x541.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,73 +94,36 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ISA features are usually denoted in read-only bits from
-CPU registers. Add the GET_FEATURE_REG_EQU() macro which
-checks if a CPU register has bits set to a specific value.
-
-Use the macro to check the 'Architecture Revision' level
-of the Config0 register, which is '2' when the Release 6
-ISA is implemented.
-
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/cpu.h    |  1 +
- linux-user/elfload.c | 12 +++++++++++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ linux-user/elfload.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 23f8c6f96cd..2639b0ea06c 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -844,6 +844,7 @@ struct CPUMIPSState {
- #define CP0C0_MT   7     /*  9..7  */
- #define CP0C0_VI   3
- #define CP0C0_K0   0     /*  2..0  */
-+#define CP0C0_AR_LENGTH 3
-     int32_t CP0_Config1;
- #define CP0C1_M    31
- #define CP0C1_MMU  25    /* 30..25 */
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index b7c6d30723a..8f943f93ba7 100644
+index 8f943f93ba7..0836e72b5ac 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -7,6 +7,7 @@
+@@ -986,6 +986,19 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUMIPSState *e
+ enum {
+     HWCAP_MIPS_R6           = (1 << 0),
+     HWCAP_MIPS_MSA          = (1 << 1),
++    HWCAP_MIPS_CRC32        = (1 << 2),
++    HWCAP_MIPS_MIPS16       = (1 << 3),
++    HWCAP_MIPS_MDMX         = (1 << 4),
++    HWCAP_MIPS_MIPS3D       = (1 << 5),
++    HWCAP_MIPS_SMARTMIPS    = (1 << 6),
++    HWCAP_MIPS_DSP          = (1 << 7),
++    HWCAP_MIPS_DSP2         = (1 << 8),
++    HWCAP_MIPS_DSP3         = (1 << 9),
++    HWCAP_MIPS_MIPS16E2     = (1 << 10),
++    HWCAP_LOONGSON_MMI      = (1 << 11),
++    HWCAP_LOONGSON_EXT      = (1 << 12),
++    HWCAP_LOONGSON_EXT2     = (1 << 13),
++    HWCAP_LOONGSON_CPUCFG   = (1 << 14),
+ };
  
- #include "qemu.h"
- #include "disas/disas.h"
-+#include "qemu/bitops.h"
- #include "qemu/path.h"
- #include "qemu/queue.h"
- #include "qemu/guest-random.h"
-@@ -995,17 +996,26 @@ enum {
- #define GET_FEATURE_REG_SET(_reg, _mask, _hwcap) \
-     do { if (cpu->env._reg & (_mask)) { hwcaps |= _hwcap; } } while (0)
- 
-+#define GET_FEATURE_REG_EQU(_reg, _start, _length, _val, _hwcap) \
-+    do { \
-+        if (extract32(cpu->env._reg, (_start), (_length)) == (_val)) { \
-+            hwcaps |= _hwcap; \
-+        } \
-+    } while (0)
-+
- static uint32_t get_elf_hwcap(void)
- {
-     MIPSCPU *cpu = MIPS_CPU(thread_cpu);
-     uint32_t hwcaps = 0;
- 
--    GET_FEATURE_INSN(ISA_MIPS32R6 | ISA_MIPS64R6, HWCAP_MIPS_R6);
-+    GET_FEATURE_REG_EQU(CP0_Config0, CP0C0_AR, CP0C0_AR_LENGTH,
-+                        2, HWCAP_MIPS_R6);
-     GET_FEATURE_REG_SET(CP0_Config3, 1 << CP0C3_MSAP, HWCAP_MIPS_MSA);
- 
-     return hwcaps;
- }
- 
-+#undef GET_FEATURE_REG_EQU
- #undef GET_FEATURE_REG_SET
- #undef GET_FEATURE_INSN
- 
+ #define ELF_HWCAP get_elf_hwcap()
 -- 
 2.26.2
 
