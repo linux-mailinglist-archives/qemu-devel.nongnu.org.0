@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2B22D1785
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 18:28:40 +0100 (CET)
-Received: from localhost ([::1]:33590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 253C02D1774
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 18:24:02 +0100 (CET)
+Received: from localhost ([::1]:53654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmKJT-0002lt-IC
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 12:28:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46460)
+	id 1kmKEy-0007Xe-Up
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 12:24:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kmKFf-0000O5-5e
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:24:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kmKFd-0006uE-CU
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:24:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607361880;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=brdJqXUv8yd/aZvFP8DTs5hYQMZjkSacTtDHmtnq2AY=;
- b=ExC4FTnPOqxeHWA8T+zRoVX4WpRlqv6YDm57Ci+QjLW+uxVM2Grj+dMEFzYt5ktzrlrH3a
- b2t9FIeAfX5W/2TdgOD/4Hbu+eewMnJEI5x5Hd+iaazux40iylHNvNSlnS2epwyHZT5aJP
- aSQ/g/RID447KMwMnvz878fl7EuHYg0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-5rMxIoFqP56QTNKTkfNb5Q-1; Mon, 07 Dec 2020 12:24:37 -0500
-X-MC-Unique: 5rMxIoFqP56QTNKTkfNb5Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C62F8107ACE6;
- Mon,  7 Dec 2020 17:24:35 +0000 (UTC)
-Received: from localhost (ovpn-114-128.ams2.redhat.com [10.36.114.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4790760BE2;
- Mon,  7 Dec 2020 17:24:29 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/12] block/export: port virtio-blk read/write range check
-Date: Mon,  7 Dec 2020 17:20:30 +0000
-Message-Id: <20201207172030.251905-13-stefanha@redhat.com>
-In-Reply-To: <20201207172030.251905-1-stefanha@redhat.com>
-References: <20201207172030.251905-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmKCh-00064Z-6O
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:21:39 -0500
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:44471)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmKCf-0006bs-8c
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:21:38 -0500
+Received: by mail-ed1-x544.google.com with SMTP id p22so2501921edu.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 09:21:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lmlkXPCuHwpYDXmVHGeh8ucmUGkurYf7JRkm5hEE+bc=;
+ b=qqb7wGXsx4JY8HFnrnTA6e/cTy4P50G+5cOIABYyx52zDm4f/3m64FAoE9yAnRrQ+0
+ N5z+IrWiJ6olz9zB0XDH2f9x1LFmD6lZbsyq0motaAzNcSdMGceJBdV28FZJ2HYPgAgW
+ eNuQxfyugA6kDBldzYh/puwZncsBF3UDJ3A5VEAJoxhE8scZUl7Chzo9n4WbclGP+t1H
+ gOSaqM1CN1ALWSw8eC3KxL/s3AUZwhALal3pSwJQN3JeM3qd6wYGeslwqvIFCP4YZbZs
+ lNnb771cBu8Ux8lwnKsQn9L8fJEDOIl5PrS8t/dqm2KJPZaf7i/cB3sWEzHryRRRDpLI
+ qKZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lmlkXPCuHwpYDXmVHGeh8ucmUGkurYf7JRkm5hEE+bc=;
+ b=SvKSIqLzncg/XaPy66JHdB5jslL7/6q2rx6r/f3Q/nuTgzsTMdtTLr84ytAaOoyBpN
+ K+mJa+Nf8RghCzyesMqxBZlzWwqRfTpDRm5t9fhWmj+Bzb5dYPkHQHW5oXKed5L9VrDy
+ uYjONKjIjCOopSJw2t1XXT3Df2rlusr55UpWaNniKcf+RER9rNW837z2aKqRRDD/JlzL
+ muoOMB4ZY/5Qf1lfJYYva+FQYDGux5boGxxu3MtpgoE6S+F+ftOTVxr0t/yLrnJmiXcq
+ /Bi2OUKzPfDemiA49ZPWcJcha7YQSJzVCu2k31k5RfLoi5Crini0R+KpzBMgSwoqiuNF
+ 3KIw==
+X-Gm-Message-State: AOAM532/o/PZvPAcxiyzzeY62eal79X4bFFMT97RIbhEngDvQH+wqwub
+ QQDg9m8SX/AMRMKzVs1ampc=
+X-Google-Smtp-Source: ABdhPJxI6cVXBnypFl/CH3kLJQGSOmrv6tES0Sjj0hTqnas5IpnvdnPkTgcVkGCLiZbd+GGUkqzUJw==
+X-Received: by 2002:a05:6402:18:: with SMTP id
+ d24mr20511085edu.382.1607361695707; 
+ Mon, 07 Dec 2020 09:21:35 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id u15sm15056629edt.24.2020.12.07.09.21.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Dec 2020 09:21:34 -0800 (PST)
+Subject: Re: [PATCH 0/5] MIPS Bootloader helper
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20201207050231.2712-1-jiaxun.yang@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <401260cf-7e1d-d065-d4db-42b21946eee4@amsat.org>
+Date: Mon, 7 Dec 2020 18:21:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20201207050231.2712-1-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x544.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,47 +89,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: chenhuacai@kernel.org, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Q2hlY2sgdGhhdCB0aGUgc2VjdG9yIG51bWJlciBhbmQgYnl0ZSBjb3VudCBhcmUgdmFsaWQuCgpT
-aWduZWQtb2ZmLWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+Ci0tLQog
-YmxvY2svZXhwb3J0L3Zob3N0LXVzZXItYmxrLXNlcnZlci5jIHwgMTkgKysrKysrKysrKysrKysr
-Ky0tLQogMSBmaWxlIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpk
-aWZmIC0tZ2l0IGEvYmxvY2svZXhwb3J0L3Zob3N0LXVzZXItYmxrLXNlcnZlci5jIGIvYmxvY2sv
-ZXhwb3J0L3Zob3N0LXVzZXItYmxrLXNlcnZlci5jCmluZGV4IDkzN2JiNWU5YjQuLmRiZTNjZmI5
-ZTggMTAwNjQ0Ci0tLSBhL2Jsb2NrL2V4cG9ydC92aG9zdC11c2VyLWJsay1zZXJ2ZXIuYworKysg
-Yi9ibG9jay9leHBvcnQvdmhvc3QtdXNlci1ibGstc2VydmVyLmMKQEAgLTIwOSw2ICsyMDksOCBA
-QCBzdGF0aWMgdm9pZCBjb3JvdXRpbmVfZm4gdnVfYmxrX3ZpcnRpb19wcm9jZXNzX3JlcSh2b2lk
-ICpvcGFxdWUpCiAgICAgc3dpdGNoICh0eXBlICYgflZJUlRJT19CTEtfVF9CQVJSSUVSKSB7CiAg
-ICAgY2FzZSBWSVJUSU9fQkxLX1RfSU46CiAgICAgY2FzZSBWSVJUSU9fQkxLX1RfT1VUOiB7Cisg
-ICAgICAgIFFFTVVJT1ZlY3RvciBxaW92OworICAgICAgICBpbnQ2NF90IG9mZnNldDsKICAgICAg
-ICAgc3NpemVfdCByZXQgPSAwOwogICAgICAgICBib29sIGlzX3dyaXRlID0gdHlwZSAmIFZJUlRJ
-T19CTEtfVF9PVVQ7CiAgICAgICAgIHJlcS0+c2VjdG9yX251bSA9IGxlNjRfdG9fY3B1KHJlcS0+
-b3V0LnNlY3Rvcik7CkBAIC0yMTgsMTMgKzIyMCwyNCBAQCBzdGF0aWMgdm9pZCBjb3JvdXRpbmVf
-Zm4gdnVfYmxrX3ZpcnRpb19wcm9jZXNzX3JlcSh2b2lkICpvcGFxdWUpCiAgICAgICAgICAgICBi
-cmVhazsKICAgICAgICAgfQogCi0gICAgICAgIGludDY0X3Qgb2Zmc2V0ID0gcmVxLT5zZWN0b3Jf
-bnVtIDw8IFZJUlRJT19CTEtfU0VDVE9SX0JJVFM7Ci0gICAgICAgIFFFTVVJT1ZlY3RvciBxaW92
-OwogICAgICAgICBpZiAoaXNfd3JpdGUpIHsKICAgICAgICAgICAgIHFlbXVfaW92ZWNfaW5pdF9l
-eHRlcm5hbCgmcWlvdiwgb3V0X2lvdiwgb3V0X251bSk7Ci0gICAgICAgICAgICByZXQgPSBibGtf
-Y29fcHdyaXRldihibGssIG9mZnNldCwgcWlvdi5zaXplLCAmcWlvdiwgMCk7CiAgICAgICAgIH0g
-ZWxzZSB7CiAgICAgICAgICAgICBxZW11X2lvdmVjX2luaXRfZXh0ZXJuYWwoJnFpb3YsIGluX2lv
-diwgaW5fbnVtKTsKKyAgICAgICAgfQorCisgICAgICAgIGlmICh1bmxpa2VseSghdnVfYmxrX3Nl
-Y3RfcmFuZ2Vfb2sodmV4cCwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICByZXEtPnNlY3Rvcl9udW0sCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgcWlvdi5zaXplKSkpIHsKKyAgICAgICAgICAgIHJlcS0+aW4tPnN0YXR1cyA9IFZJ
-UlRJT19CTEtfU19JT0VSUjsKKyAgICAgICAgICAgIGJyZWFrOworICAgICAgICB9CisKKyAgICAg
-ICAgb2Zmc2V0ID0gcmVxLT5zZWN0b3JfbnVtIDw8IFZJUlRJT19CTEtfU0VDVE9SX0JJVFM7CisK
-KyAgICAgICAgaWYgKGlzX3dyaXRlKSB7CisgICAgICAgICAgICByZXQgPSBibGtfY29fcHdyaXRl
-dihibGssIG9mZnNldCwgcWlvdi5zaXplLCAmcWlvdiwgMCk7CisgICAgICAgIH0gZWxzZSB7CiAg
-ICAgICAgICAgICByZXQgPSBibGtfY29fcHJlYWR2KGJsaywgb2Zmc2V0LCBxaW92LnNpemUsICZx
-aW92LCAwKTsKICAgICAgICAgfQogICAgICAgICBpZiAocmV0ID49IDApIHsKLS0gCjIuMjguMAoK
+On 12/7/20 6:02 AM, Jiaxun Yang wrote:
+> Hi all,
+> 
+> I'm back! Now I'm also helping CIP United, the present owner of MIPS
+> in China, take care of their open-souce infrastructures.
+> 
+> Btw: I'd like to add kernel boot tests for boston and incoming loongson-virt.
+> Where should I place kernel binaries?
 
+The easiest way is a tag in git repository.
+
+See commits 89368673493 ("BootLinuxConsoleTest: Run kerneltests
+BusyBox on Malta") and 4fe986dd448 ("tests/acceptance: console
+boot tests for quanta-gsj").
+
+> 
+> Thanks.
+> 
+> Jiaxun Yang (5):
+>   hw/mips: Add a bootloader helper
+>   hw/mips/malta: Make use of bootloader helper
+>   hw/mips/fuloong2e: Make use of bootloader helper
+>   hw/mips/addr: Add translation helpers for KSEG1
+>   hw/mips/boston: Make use of bootloader helper
+> 
+>  hw/mips/addr.c            |  11 +++
+>  hw/mips/bootloader.c      | 150 ++++++++++++++++++++++++++++++++++++++
+>  hw/mips/boston.c          |  60 ++++-----------
+>  hw/mips/fuloong2e.c       |  35 ++-------
+>  hw/mips/malta.c           | 108 +++++++--------------------
+>  hw/mips/meson.build       |   2 +-
+>  include/hw/mips/cpudevs.h |  10 +++
+>  7 files changed, 216 insertions(+), 160 deletions(-)
+>  create mode 100644 hw/mips/bootloader.c
+> 
 
