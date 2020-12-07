@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E826C2D1682
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 17:40:40 +0100 (CET)
-Received: from localhost ([::1]:39588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 094322D1684
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 17:42:27 +0100 (CET)
+Received: from localhost ([::1]:43298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmJZ1-0000IY-NU
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 11:40:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
+	id 1kmJak-0001wp-3s
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 11:42:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kmJXF-0008I9-CQ
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:38:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47163)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmJXH-0008Kd-Jb
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:38:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kmJXD-0007yh-Mw
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:38:49 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmJXF-0007z7-S0
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:38:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607359126;
+ s=mimecast20190719; t=1607359129;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RGwfarZXf1O3V8eaGcTsgXNBahGU1+AXh/6eXYFVhQQ=;
- b=LOmw5dR7nCYYlYWsytcZ7vgYf21EKQczAfRjIc65EzPeBMsf/cHHPMGqoELJs+RqfM9v9D
- PqqheVEoIFam84aBEiZ7FVRU0NvZ4hcRkbYOazfAuJg8pVtSgeH9nu3mFYJu0mHUQUlgYb
- YTTzU5f7o85X/SjakPrcvUdTte5ImkM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-LkJOPK_mOCCwladCcNVeQA-1; Mon, 07 Dec 2020 11:38:45 -0500
-X-MC-Unique: LkJOPK_mOCCwladCcNVeQA-1
-Received: by mail-ej1-f71.google.com with SMTP id 3so3335181ejw.13
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 08:38:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RGwfarZXf1O3V8eaGcTsgXNBahGU1+AXh/6eXYFVhQQ=;
- b=p+GNIGVXQ9VhpIlXyOx47cdr4Cdg4njpI1aF4a1wleZC9U/Wd2b44AyK+EWBCkcjvY
- EiwQ+kMi+27RNwSp5GRF3qH7UPAtvOJ/bnXCug7+h9xx1sD61LegFbKXjdi8mEq52DeE
- NbBDjCriey6cBHNCkZQecq/z7U8Uo6i0WT0WO6Qp7XSyyPdOBX6NlkmRzR6OI715uGkS
- nzF84XW7GA5oQ5WeKAAwkA0nIlfR0exXJm8CZHii3s3V4K3LWSxGkAwsAKpjUo4A0IRI
- +cfn6ILU0HnQqv93lgZEEnkSpbZI0jKjWzxzClL+sSIUJ9LKg4VwMuGake7fo8oT8Z5N
- sogA==
-X-Gm-Message-State: AOAM530ODnRPsVof77obOXGAyi4EHCJZQarrb7FsGw+9kT6+gnf782DC
- alyI+mrRKu1Al0G3kzoY6HxGaBSu58XmgkrlCUkn9+E4lC+Ls9ZGtESw0ZdKCNzKVZlA8A85ghg
- 49U7q6oi3FyD1V9I=
-X-Received: by 2002:a50:d646:: with SMTP id c6mr1361083edj.177.1607359119159; 
- Mon, 07 Dec 2020 08:38:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyat2UGHGOx/sDk8NsX6vR53zBlducZLr6sxytq6kFZ5BeyoNo9BlF/AaYGmXWdv8t/1MU3Ng==
-X-Received: by 2002:a50:d646:: with SMTP id c6mr1360833edj.177.1607359113796; 
- Mon, 07 Dec 2020 08:38:33 -0800 (PST)
-Received: from [192.168.1.124] ([93.56.170.5])
- by smtp.gmail.com with ESMTPSA id ng1sm12085173ejb.112.2020.12.07.08.38.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Dec 2020 08:38:32 -0800 (PST)
-Subject: Re: [PATCH 10/15] vl: make qemu_get_machine_opts static
-To: Igor Mammedov <imammedo@redhat.com>
+ bh=1k3eNRJR8BcZ798+q1Spw3PwVb8Kvx4aIpO5KhBGkyY=;
+ b=UtoTd61QMrILT+z7nYyT2ilyeOkTe7BSnCbi3XZgJJNUbvVYb2o/NUi8ZplbpmWswBzzJD
+ iA6OFLSnFO5F2+HEkyErzT+c2MKMmlR74nWTvmmOvH1DJoSZIY6JjgoBo67IC+gRXetbnw
+ USY8Et4r3lTWj7CJaGzT5fJXQbnIHgg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-LHjAFTwPNUmy_5qJapK0qA-1; Mon, 07 Dec 2020 11:38:47 -0500
+X-MC-Unique: LHjAFTwPNUmy_5qJapK0qA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89359800D62
+ for <qemu-devel@nongnu.org>; Mon,  7 Dec 2020 16:38:46 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B32C01002C10;
+ Mon,  7 Dec 2020 16:38:45 +0000 (UTC)
+Date: Mon, 7 Dec 2020 17:38:43 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 13/15] memory: allow creating MemoryRegions before
+ accelerators
+Message-ID: <20201207173843.4cc85ead@redhat.com>
+In-Reply-To: <20201202081854.4126071-14-pbonzini@redhat.com>
 References: <20201202081854.4126071-1-pbonzini@redhat.com>
- <20201202081854.4126071-11-pbonzini@redhat.com>
- <20201207170728.0a39f201@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ee3b4442-2108-9a6e-5661-8aafb294fa48@redhat.com>
-Date: Mon, 7 Dec 2020 17:38:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ <20201202081854.4126071-14-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201207170728.0a39f201@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,93 +80,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/12/20 17:07, Igor Mammedov wrote:
-> On Wed,  2 Dec 2020 03:18:49 -0500
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Wed,  2 Dec 2020 03:18:52 -0500
+Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+> Compute the DIRTY_MEMORY_CODE bit in memory_region_get_dirty_log_mask
+> instead of memory_region_init_*.  This makes it possible to allocate
+> memory backend objects at any time.
 > 
->> Machine options can be retrieved as properties of the machine object.
->> Encourage that by removing the "easy" accessor to machine options.
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> ---
->>   accel/kvm/kvm-all.c     | 11 ++++-------
->>   hw/arm/boot.c           |  2 +-
->>   hw/microblaze/boot.c    |  9 ++++-----
->>   hw/nios2/boot.c         |  9 ++++-----
->>   hw/ppc/e500.c           |  5 ++---
->>   hw/ppc/spapr_nvdimm.c   |  4 ++--
->>   hw/ppc/virtex_ml507.c   |  2 +-
->>   hw/riscv/sifive_u.c     |  6 ++----
->>   hw/riscv/virt.c         |  6 ++----
->>   hw/xtensa/xtfpga.c      |  9 ++++-----
->>   include/sysemu/sysemu.h |  2 --
->>   softmmu/device_tree.c   |  2 +-
->>   softmmu/vl.c            |  2 +-
->>   13 files changed, 28 insertions(+), 41 deletions(-)
->>
-> [...]
->> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
->> index a833a63b5e..84715a4d78 100644
->> --- a/hw/ppc/spapr_nvdimm.c
->> +++ b/hw/ppc/spapr_nvdimm.c
->> @@ -38,7 +38,6 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
->>   {
->>       const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
->>       const MachineState *ms = MACHINE(hotplug_dev);
->> -    const char *nvdimm_opt = qemu_opt_get(qemu_get_machine_opts(), "nvdimm");
->>       g_autofree char *uuidstr = NULL;
->>       QemuUUID uuid;
->>       int ret;
->> @@ -57,10 +56,11 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
->>        * ensure that, if the user sets nvdimm=off, we error out
->>        * regardless of being 5.1 or newer.
->>        */
->> -    if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
->> +    if (!ms->nvdimms_state->is_enabled && ms->nvdimms_state->has_is_enabled) {
->>           error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
->>           return false;
->>       }
->> +    ms->nvdimms_state->is_enabled = true;
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  softmmu/memory.c | 12 ++++++------
+>  softmmu/vl.c     |  6 +-----
+>  2 files changed, 7 insertions(+), 11 deletions(-)
 > 
-> it looks like nvdimm is always enabled since 5.0 and there is no way to disable it
-> how about dropping 9/15 and just error out is it's not enabled, something like:
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index b7e0894019..d63f095bff 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -2668,6 +2668,7 @@ static void spapr_machine_init(MachineState *machine)
->       char *filename;
->       Error *resize_hpt_err = NULL;
-> +    if (mc->nvdimm_supported) { // by default it is always enabled
-> +        ms->nvdimms_state->is_enabled = true;
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 11ca94d037..89a4723fe5 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1548,7 +1548,6 @@ void memory_region_init_ram_shared_nomigrate(MemoryRegion *mr,
+>      mr->terminates = true;
+>      mr->destructor = memory_region_destructor_ram;
+>      mr->ram_block = qemu_ram_alloc(size, share, mr, &err);
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+>      if (err) {
+>          mr->size = int128_zero();
+>          object_unparent(OBJECT(mr));
+> @@ -1573,7 +1572,6 @@ void memory_region_init_resizeable_ram(MemoryRegion *mr,
+>      mr->destructor = memory_region_destructor_ram;
+>      mr->ram_block = qemu_ram_alloc_resizeable(size, max_size, resized,
+>                                                mr, &err);
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+>      if (err) {
+>          mr->size = int128_zero();
+>          object_unparent(OBJECT(mr));
+> @@ -1598,7 +1596,6 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+>      mr->destructor = memory_region_destructor_ram;
+>      mr->align = align;
+>      mr->ram_block = qemu_ram_alloc_from_file(size, mr, ram_flags, path, &err);
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+>      if (err) {
+>          mr->size = int128_zero();
+>          object_unparent(OBJECT(mr));
+> @@ -1622,7 +1619,6 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+>      mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
+>                                             share ? RAM_SHARED : 0,
+>                                             fd, &err);
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+>      if (err) {
+>          mr->size = int128_zero();
+>          object_unparent(OBJECT(mr));
+> @@ -1641,7 +1637,6 @@ void memory_region_init_ram_ptr(MemoryRegion *mr,
+>      mr->ram = true;
+>      mr->terminates = true;
+>      mr->destructor = memory_region_destructor_ram;
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+>  
+>      /* qemu_ram_alloc_from_ptr cannot fail with ptr != NULL.  */
+>      assert(ptr != NULL);
+> @@ -1661,7 +1656,7 @@ void memory_region_init_ram_device_ptr(MemoryRegion *mr,
+>      mr->ops = &ram_device_mem_ops;
+>      mr->opaque = mr;
+>      mr->destructor = memory_region_destructor_ram;
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+> +
+>      /* qemu_ram_alloc_from_ptr cannot fail with ptr != NULL.  */
+>      assert(ptr != NULL);
+>      mr->ram_block = qemu_ram_alloc_from_ptr(size, ptr, mr, &error_fatal);
+> @@ -1819,6 +1814,11 @@ uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
+>                               memory_region_is_iommu(mr))) {
+>          mask |= (1 << DIRTY_MEMORY_MIGRATION);
+>      }
+> +
+> +    if (tcg_enabled() && rb) {
+> +        /* TCG only cares about dirty memory logging for RAM, not IOMMU.  */
+> +        mask |= (1 << DIRTY_MEMORY_CODE);
 > +    }
->       msi_nonbroken = true;
->   
->       QLIST_INIT(&spapr->phbs);
-> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-> index a833a63b5e..b11c85dbaa 100644
-> --- a/hw/ppc/spapr_nvdimm.c
-> +++ b/hw/ppc/spapr_nvdimm.c
-> @@ -57,7 +57,7 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
->        * ensure that, if the user sets nvdimm=off, we error out
->        * regardless of being 5.1 or newer.
->        */
-> -    if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
-> +    if (!ms->nvdimms_state->is_enabled) {
->           error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
->           return false;
->       }
-> 
-> if I didn't miss something, that way we do not abuse nvdimm_opt and still
-> have nvdimm enabled by default and error out if it turns to disabled for whatever reason.
+>      return mask;
+>  }
 
-Yes, this looks correct.  I see you have already CCed Daniel and David.
+Is following also necessary?:
 
-Paolo
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 11ca94d037..f1de42e50f 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -2033,7 +2033,8 @@ void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
+     }
+ 
+     memory_region_transaction_begin();
+-    mr->dirty_log_mask = (mr->dirty_log_mask & ~mask) | (log * mask);
++    mr->dirty_log_mask = (memory_region_get_dirty_log_mask(mr) & ~mask) |
++                         (log * mask);
+     memory_region_update_pending |= mr->enabled;
+     memory_region_transaction_commit();
+ }
+
+>  
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 0f63d80472..023c16245b 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -1715,11 +1715,7 @@ static bool object_create_early(const char *type, QemuOpts *opts)
+>          return false;
+>      }
+>  
+> -    /* Memory allocation by backends needs to be done
+> -     * after configure_accelerator() (due to the tcg_enabled()
+> -     * checks at memory_region_init_*()).
+> -     *
+> -     * Also, allocation of large amounts of memory may delay
+> +    /* Allocation of large amounts of memory may delay
+>       * chardev initialization for too long, and trigger timeouts
+>       * on software that waits for a monitor socket to be created
+>       * (e.g. libvirt).
 
 
