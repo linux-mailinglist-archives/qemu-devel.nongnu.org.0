@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A5B2D1EB8
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 01:01:26 +0100 (CET)
-Received: from localhost ([::1]:56220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAFF22D1EBB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 01:02:21 +0100 (CET)
+Received: from localhost ([::1]:57672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmQRZ-0000Rl-Uc
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 19:01:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56134)
+	id 1kmQSS-000187-Kc
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 19:02:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmQMV-0004P7-PP
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:56:11 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:40512)
+ id 1kmQMd-0004XS-0T
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:56:20 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:43316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmQMT-0004Gm-9T
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:56:11 -0500
-Received: by mail-ej1-x644.google.com with SMTP id x16so22046476ejj.7
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 15:56:08 -0800 (PST)
+ id 1kmQMb-0004IN-3L
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:56:18 -0500
+Received: by mail-ed1-x542.google.com with SMTP id q16so15663367edv.10
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 15:56:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fXIIajBmYb1UTSbWfTKRq6sJ1Saykn5Ztt68M0JOMdc=;
- b=OQ0aZVig5WznsdWT71WWazlA6LanlAzD7zkuFKg5rPC09Pnk4r0TedIAM8S5PJcsJ0
- PBNo3lPkvEOQ9PfXxA3WfjKWAFc8KI+mtPvMUB1jEw4mnl7VpplxxraeHwTW8W2UE0lA
- F9Om+8mc1pX/rmEIo7w7LYTVnV1veaj2T50LeQypiWqdOSw8CR6IfMT5sDc25NGdfSAs
- l32RaOECFmLhFDuS+x75tcTAAi3QqUxEJzHDFtz1aQxvBgs1xIEH3OCIv+0tCL03b5Gj
- vD7Mg+jrp8EC6thbMGK0JZ5T9sDWm5kBm5Sg2TyPzNVfB6h6XiDGk1CpV/ZPfnBJeGNN
- otew==
+ bh=53Dvdfm15q5hV8eSzEAIt0mbwAz3z1SRdWqDZyLTyCw=;
+ b=JQtb7jU1a90twhjLZt5ZZPdmmu3yFQAsj03UgFwgNoKfcSvOqVfLlYdj0enOECfflG
+ BDbJNcKqudpTMrSmyJNG+V44zFpGWEO7fyGddISSyODBHm5XIYz56SegjjO0FOrNxjdC
+ K/Xd5JRUkstUsDejeesioCujzpRI1BGTTdWaUa2EjrybyWSwFycr9byiJbr1JXLBOZrW
+ uUgR1W1l4y09OGBYpUshdR28JlFw/UyCCPXfTdVjC362Mbx+HBL3RIwCTH3Fwsv1aXr/
+ SNSJMiuP2TiGsbTEW0cIP+HoPIiCjQvPSvTR2T3hd09vk66u2GD3V6RTs7jBzkm6eS13
+ Adpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fXIIajBmYb1UTSbWfTKRq6sJ1Saykn5Ztt68M0JOMdc=;
- b=l1cVQRlnse28PVPB3EUXju/YwpSbmVoY4apZoj6wfwCQcCW3tw/itU96EJE52d/+h4
- RfzaVDq5KI5aePkMye9aQuPZk4Ni/oFsskqSvWTE1crY1kON9hPjd72fVWscKPIhvmAS
- JpVxvtyEAMjaKNs1vWN++WWqTvMLIoWDDhoOFxFmpn+tV//lMTPSoZx92l+G8Vi2ss8s
- M5dD7bPY1YP6YMCi242jtY/GTidYGnTexMyjtNYUPAiOvKA/NmkcgpKx5lN52pvL6tVm
- Ke3GN9tn4yuYFy4B4b4I5hHaBSpAsezHXGMQutmMo3PKqicqf3gvtBd0og6crSVnYp/e
- rhEg==
-X-Gm-Message-State: AOAM530/ITE2VeOFjxxlz/ZTLUaiddwp2g4/T18jBKpYya6VR1DBEMGF
- O+wHIljDjZZ9jEe3hqpkDK0j1OteUco=
-X-Google-Smtp-Source: ABdhPJyqV/nOBCIw3MeA/Og51hKn/shzih1DJe/HHRvTMHe0yOmQ2xe4/ceBW//ESc15aqER1j2rbw==
-X-Received: by 2002:a17:907:447d:: with SMTP id
- oo21mr21376886ejb.367.1607385367893; 
- Mon, 07 Dec 2020 15:56:07 -0800 (PST)
+ bh=53Dvdfm15q5hV8eSzEAIt0mbwAz3z1SRdWqDZyLTyCw=;
+ b=CGmVxLxPUN2SibYTNwr0+wa30/usOKZK/DJABBtvP1Zs77mYZUQeoUnNJwNiEFcAwK
+ KeoEvtohUD4XfPwG5Xx0FsL8xwk3azawULC9szT/jPZ8SAyqGRYgeYP5ZP3GpcOUWoAL
+ PsX/o5sjGGXxFv7wkvWl11IkZ2LL18APhKS8tYnazKuNyygFwS5qutfl8csedLqgocK1
+ cut9zIPk018+vJ7ZWPIEm/nf6VG8EMev3Fu8cgvxnILz9yyD2YUIdk+raTQqiu/zSGbK
+ 8equz2yQtWoI6a7Y99ACDgO+g4xIzBIX+pZI8ioT7M55Nl5NnUqPNazKOA19/HgHKnNl
+ dqDw==
+X-Gm-Message-State: AOAM530PQMg0BJfHBpQE2kpO748HxYj8xgHadOnzQFGo/xxm/VP0Q8aR
+ fCjWHyECqMH6ywu1JuwmEu+5vGfYoJQ=
+X-Google-Smtp-Source: ABdhPJxplgzajb9bgrDV5yDYPoUk6SaPXNXC86rbVLE639k9Z9BJtJk9kcrIAdYSt72Rwo3bHpuR0g==
+X-Received: by 2002:aa7:c403:: with SMTP id j3mr22079182edq.217.1607385373179; 
+ Mon, 07 Dec 2020 15:56:13 -0800 (PST)
 Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id n1sm13709974ejb.2.2020.12.07.15.56.06
+ by smtp.gmail.com with ESMTPSA id f11sm13875704ejd.40.2020.12.07.15.56.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 15:56:07 -0800 (PST)
+ Mon, 07 Dec 2020 15:56:12 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/7] target/mips/fpu_helper: Remove unused headers
-Date: Tue,  8 Dec 2020 00:55:37 +0100
-Message-Id: <20201207235539.4070364-6-f4bug@amsat.org>
+Subject: [PATCH 6/7] target/mips: Declare generic FPU functions in
+ 'fpu_translate.h'
+Date: Tue,  8 Dec 2020 00:55:38 +0100
+Message-Id: <20201207235539.4070364-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201207235539.4070364-1-f4bug@amsat.org>
 References: <20201207235539.4070364-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,31 +95,108 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Some FPU translation functions / registers can be used by
+ISA / ASE / extensions out of the big translate.c file.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/fpu_helper.c | 4 ----
- 1 file changed, 4 deletions(-)
+ target/mips/fpu_translate.h | 25 +++++++++++++++++++++++++
+ target/mips/translate.c     | 14 ++++++++------
+ 2 files changed, 33 insertions(+), 6 deletions(-)
+ create mode 100644 target/mips/fpu_translate.h
 
-diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
-index 7d949cd8e3a..a3c05160b35 100644
---- a/target/mips/fpu_helper.c
-+++ b/target/mips/fpu_helper.c
-@@ -21,15 +21,11 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/main-loop.h"
- #include "cpu.h"
- #include "internal.h"
--#include "qemu/host-utils.h"
- #include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
--#include "exec/memop.h"
--#include "sysemu/kvm.h"
- #include "fpu/softfloat.h"
+diff --git a/target/mips/fpu_translate.h b/target/mips/fpu_translate.h
+new file mode 100644
+index 00000000000..430e0b77537
+--- /dev/null
++++ b/target/mips/fpu_translate.h
+@@ -0,0 +1,25 @@
++/*
++ * FPU-related MIPS translation routines.
++ *
++ *  Copyright (C) 2004-2005  Jocelyn Mayer
++ *  Copyright (c) 2006 Marius Groeger (FPU operations)
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ */
++#ifndef TARGET_MIPS_FPU_TRANSLATE_H
++#define TARGET_MIPS_FPU_TRANSLATE_H
++
++#include "exec/translator.h"
++#include "translate.h"
++
++extern TCGv_i32 fpu_fcr0, fpu_fcr31;
++extern TCGv_i64 fpu_f64[32];
++
++void gen_load_fpr64(DisasContext *ctx, TCGv_i64 t, int reg);
++void gen_store_fpr64(DisasContext *ctx, TCGv_i64 t, int reg);
++
++int get_fp_bit(int cc);
++
++void check_cp1_enabled(DisasContext *ctx);
++
++#endif
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 6614512a828..bc54eb58c70 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -40,7 +40,9 @@
+ #include "exec/log.h"
+ #include "qemu/qemu-print.h"
  #include "fpu_helper.h"
++
+ #include "translate.h"
++#include "fpu_translate.h"
  
+ enum {
+     /* indirect opcode tables */
+@@ -2496,8 +2498,8 @@ static TCGv cpu_dspctrl, btarget;
+ TCGv bcond;
+ static TCGv cpu_lladdr, cpu_llval;
+ static TCGv_i32 hflags;
+-static TCGv_i32 fpu_fcr0, fpu_fcr31;
+-static TCGv_i64 fpu_f64[32];
++TCGv_i32 fpu_fcr0, fpu_fcr31;
++TCGv_i64 fpu_f64[32];
+ static TCGv_i64 msa_wr_d[64];
+ 
+ #if defined(TARGET_MIPS64)
+@@ -2813,7 +2815,7 @@ static void gen_store_fpr32h(DisasContext *ctx, TCGv_i32 t, int reg)
+     }
+ }
+ 
+-static void gen_load_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
++void gen_load_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
+ {
+     if (ctx->hflags & MIPS_HFLAG_F64) {
+         tcg_gen_mov_i64(t, fpu_f64[reg]);
+@@ -2822,7 +2824,7 @@ static void gen_load_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
+     }
+ }
+ 
+-static void gen_store_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
++void gen_store_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
+ {
+     if (ctx->hflags & MIPS_HFLAG_F64) {
+         tcg_gen_mov_i64(fpu_f64[reg], t);
+@@ -2836,7 +2838,7 @@ static void gen_store_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
+     }
+ }
+ 
+-static inline int get_fp_bit(int cc)
++int get_fp_bit(int cc)
+ {
+     if (cc) {
+         return 24 + cc;
+@@ -2911,7 +2913,7 @@ static inline void check_cp0_enabled(DisasContext *ctx)
+     }
+ }
+ 
+-static inline void check_cp1_enabled(DisasContext *ctx)
++void check_cp1_enabled(DisasContext *ctx)
+ {
+     if (unlikely(!(ctx->hflags & MIPS_HFLAG_FPU))) {
+         generate_exception_err(ctx, EXCP_CpU, 1);
 -- 
 2.26.2
 
