@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC5D2D1C65
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 22:54:57 +0100 (CET)
-Received: from localhost ([::1]:34564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B4A92D1C80
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 22:57:42 +0100 (CET)
+Received: from localhost ([::1]:42188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmOT9-000102-S5
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 16:54:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57408)
+	id 1kmOVp-0004H5-Ga
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 16:57:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kmOOs-00076p-C9
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:50:30 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:33543)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmORN-0000wA-RB
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:53:05 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:39673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kmOOj-0003ii-MZ
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:50:30 -0500
-Received: by mail-ed1-x541.google.com with SMTP id k4so15454003edl.0
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 13:50:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wnq1iAZeGOV5Yb1O/nbPsxk67J/+sVkSv8bXFemPnAk=;
- b=iNtEiHymaFcTLL7K//ZWuHTYQAQHFiVL/6/j5Q+DyJQFMlp5qqmJWOUQvUlXnLnQVs
- NB/Bnoq99a/UKFJaMh7MX0NWf93Mv+JXNZL3q9E/tTRwDI4D2D72HhaAvGazjFvrc4fn
- Vidlcbv80Zxifb59AhUoRIV6syCyqVboxyj6qWuktGwhtwA5EX0+h51VXA4JPCJJzxU2
- JOhodeKXE7zla2+hbzozylOb9IyMAzVh84uM+pQbSMd7xBNTnsSjhKeB95XM6POv9Tsm
- oloOpM8xwJTq1e2s4K4ac3YZGTvUlXhCzckYvaLbgo7XD8H91BL33IlxQptEESs81YA5
- 3j4A==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmORM-0004ei-9K
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:53:05 -0500
+Received: by mail-ej1-x643.google.com with SMTP id n26so21688665eju.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 13:53:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MO7YPd2X9UZHaNx9TZxo4BTR/XxQyu9FkO8bk39Q+j4=;
+ b=a9G85RurMWcyAIEGHvJm0R2TIDpY17Ln57YyT4jZkI7iV0W/PJ6pWLozrtUBDkB3Hg
+ +GXRSA5UB2PTVwljQRSVERJIGL2Rb/7211ls3+Yc2BUCty7EQJ4r7EkxjtOTMCj4kkZ9
+ frqJ4+J3TnABPR20uNLECzm1gS8ZK7GYEE6YoIsxxkuzk1XiVG6jJ2aPh3PxSbq/MICj
+ nPRlDW1DTgFu11+K7HJX1bSU2PGwzOGl8+CQAE4snY3ryV+CGQkMJDuCo7eWKBL62qIs
+ FGex4VlN7CHzdrSf0wXHj8MRuRqMycRv5nF5vDIO4ZR6nAoCDZ/RtncPO6UoOvsvqh9z
+ DMKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wnq1iAZeGOV5Yb1O/nbPsxk67J/+sVkSv8bXFemPnAk=;
- b=kWYfhNlAp8h4lMHadKjeMwyYdWz+S+r7cbU/HwZHY9NJa1rq1nWoL3vyXMI3EwbB0i
- XTYTI6D7bRykhByatS2v1vclc3N8CV4Xmn8uLOLgBxo9V4AlFVcCJinT8qBvjdubZIkJ
- EH2YRr4VUVXi3ZnJ3mIJX+cqzwRklTOJOlqG5yNBPqubkZJkKYq1L7y06faBo4dOGDNr
- aNIy3QcfkbSdpj/ofJ+iPA6RHafS4zKaikR4r40Je9H687Rt03NfSEk3bElcrGA7Yu9C
- lkZFfL3hlSOR08Cg/vyY4z+dELAKJ0ltEmDXzCCcBkk6lz9UBnWo4x7N7h+q079wLVmX
- 0nPw==
-X-Gm-Message-State: AOAM530kIBgFM8kqApLS9/cW8WB7OZfr9a77CTNeuM+rFgayZBnKB0Ge
- 62WyF6wwEEUOnN3A544KV34+vh6ROPWJQ7qBBB6ybQ==
-X-Google-Smtp-Source: ABdhPJzkFa7GhQGZj4vGe0af7iGxN6+EvSC3QQJr7gi/0wGlNsa/ekgvyN+4DC1VO6FOBT02W8T9mu75g46qOkqyXac=
-X-Received: by 2002:aa7:d915:: with SMTP id a21mr21638925edr.251.1607377819550; 
- Mon, 07 Dec 2020 13:50:19 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=MO7YPd2X9UZHaNx9TZxo4BTR/XxQyu9FkO8bk39Q+j4=;
+ b=VVmFtaXdTpSaDlrsJHb5EYYQnNj7QSuoDdE2QuxgO7OTrqLEuBQIAeecitfhwEiaD+
+ EJCxalT5g6WGTUmLVrpbKciXSgoyIyUOwehqtB5GO94zr5OPKbJnKpyblN2Z/cj3A4iw
+ rjBT/oTGR0WzDhiiV4pRlKb135pCDThzM6mPg7UotHdVrBHjFdqU3ougNamdmmj4S6BQ
+ wia+TKpvm0HLFjs/PidelWvZV7uLcb88wJQlJj/0unDnQkKd/dazwmi3rhJosYrqInDk
+ dSpUj8NyqveI7O92O3eX0kJx5lckV4zLFL3IUs0I1zWce2Jsa5IADVLfZOyK8CEDUT03
+ /QjA==
+X-Gm-Message-State: AOAM532uck+0Sif7ygEnGDXzxoIpFm4VvcJZ/nCT0FL1mubZuMOkmXtE
+ NLkbPsCIA3HclGmqct7gXxQpnXseg2U=
+X-Google-Smtp-Source: ABdhPJxSdXwNhv41bhmEk9Nu8jjZJZU0iWWw/vOtfznT7ZqpoKBvJitHpc4kug5aYTEmYrlZU3kvYQ==
+X-Received: by 2002:a17:906:4756:: with SMTP id
+ j22mr21453586ejs.353.1607377979926; 
+ Mon, 07 Dec 2020 13:52:59 -0800 (PST)
+Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id f19sm13727143ejk.116.2020.12.07.13.52.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Dec 2020 13:52:59 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH 0/2] target/mips: Let cpu_supports_isa() take CPUMIPSState
+ argument
+Date: Mon,  7 Dec 2020 22:52:55 +0100
+Message-Id: <20201207215257.4004222-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201207084042.7690-1-cfontana@suse.de>
- <20201207174916.GD1289986@habkost.net>
- <CAFEAcA_UUs6NJ_JYtNEQ3VubHnvsvo1BBx6=9nVT9GO_QrDwoQ@mail.gmail.com>
- <20201207182842.GE1289986@habkost.net>
- <CAFEAcA9OWLF01hR4qzPwKWAHiDZ9RkSab8rv+0rnkyNhQjAnOg@mail.gmail.com>
- <2e2e0160-7c17-cdfd-93e0-3d2002996108@suse.de>
- <20201207212638.GI1289986@habkost.net>
-In-Reply-To: <20201207212638.GI1289986@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Dec 2020 21:50:07 +0000
-Message-ID: <CAFEAcA_CNHucoBoq9_jWw9HLc_WneYko5s42z853NVJZdLCGuQ@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: do not use cc->do_interrupt for KVM directly
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,77 +86,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Dongjiu Geng <gengdongjiu@huawei.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paul Burton <paulburton@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Dec 2020 at 21:26, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> My understanding is that there's no reason for ARM KVM to use
-> another approach, and that CPUClass.do_interrupt is not really
-> TCG-specific.
->
-> Do we have any case where the CPUClass.do_interrupt
-> implementation is really TCG-specific, or it is just a
-> coincidence that most other accelerators simply don't to call the
-> method?  It looks like the only cases where the
-> CPUClass.do_interrupt assignment is conditional on CONFIG_TCG are
-> i386 and s390x.
-
-Looking at PPC, its kvm_handle_debug() function does a
-direct call to ppc_cpu_do_interrupt(). So the code of
-its do_interrupt method must be ok-for-KVM, it's just that
-it doesn't use the method pointer. (It's doing the same thing
-Arm is -- if a debug event turns out not to be for QEMU itself,
-inject a suitable exception into the guest.)
-
-So of our 5 KVM-supporting architectures:
-
- * i386 and s390x have kernel APIs for "inject suitable
-   exception", don't need to call do_interrupt, and make
-   the cc->do_interrupt assignment only ifdef CONFIG_TCG,
-   so that the code for do_interrupt need not be compiled
-   into a KVM-only binary. (In both cases the code for the
-   function is in a source file that the meson.build puts
-   into the source list only if CONFIG_TCG)
- * ppc and arm both need to use this code even in a KVM
-   only binary. Neither of them #ifdef the cc->do_interrupt
-   assignment, because there's not much point at the moment
-   if you're not going to try to compile out the code.
-   ppc happens to do a direct function call, and arm happens
-   to go via the cc->do_interrupt pointer, but I don't
-   think there's much significance in the choice either way.
-   In both cases, the only places making the call are within
-   architecture-specific KVM code.
- * mips KVM does neither of these things, probably because it is
-   not sufficiently featureful to have run into the cases
-   where you might want to re-inject an exception and it's
-   not being sufficiently used in production for anybody to
-   have looked at minimising the amount of code in a
-   KVM-only QEMU binary for it.
-
-So in conclusion we have a basically 50:50 split between
-"use the same do_interrupt code as TCG" and "have a kernel
-API to make the kernel do the work", plus one arch that
-probably hasn't had to make the choice yet.   =C2=AF\_(=E3=83=84)_/=C2=AF
-
-> Oh, I thought you were arguing that CPUClass.do_interrupt is
-> not TCG_specific.
-
-Well, I don't think it really is TCG-specific. But as
-a pragmatic thing, if these two lines in the Arm code
-are getting in the way of stopping us from having a
-useful compile-time check that code that's not supposed
-to call this method isn't calling it, I think the balance
-maybe leans towards just making the direct function call.
-I guess it depends whether you think people are likely to
-accidentally make cc->do_interrupt calls in non-target-specific
-code that gets used by KVM (which currently would crash if that
-code path is exercised on x86 or s390x, but under the
-proposed change would become a compile error).
-
-thanks
--- PMM
+Hi Jiaxun,=0D
+=0D
+Here goes the cpu_supports_isa() helper for your bootloader API:=0D
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg764582.html=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  target/mips: Rename cpu_supports_FEAT() as cpu_type_supports_FEAT()=0D
+  target/mips: Introduce cpu_supports_isa() taking CPUMIPSState argument=0D
+=0D
+ target/mips/cpu.h       | 5 +++--=0D
+ hw/mips/boston.c        | 4 ++--=0D
+ hw/mips/malta.c         | 4 ++--=0D
+ target/mips/cpu.c       | 5 +++++=0D
+ target/mips/translate.c | 4 ++--=0D
+ 5 files changed, 14 insertions(+), 8 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
