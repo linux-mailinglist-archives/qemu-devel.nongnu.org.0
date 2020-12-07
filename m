@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10C82D1894
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 19:35:07 +0100 (CET)
-Received: from localhost ([::1]:48696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3E42D18A2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 19:37:49 +0100 (CET)
+Received: from localhost ([::1]:54186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmLLh-00059L-OU
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 13:35:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34698)
+	id 1kmLOO-0007XE-Lr
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 13:37:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmL87-0005n5-PW
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 13:20:59 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:46427)
+ id 1kmLEj-0001fd-8K
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 13:27:49 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:39356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmL83-0007e6-Nf
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 13:20:58 -0500
-Received: by mail-ej1-x643.google.com with SMTP id bo9so20781263ejb.13
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 10:20:54 -0800 (PST)
+ id 1kmLEf-0001XF-7a
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 13:27:47 -0500
+Received: by mail-ej1-x642.google.com with SMTP id n26so20877471eju.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 10:27:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eo4tALWmTsUFwFiM9EDe0yAn4fvt/rLzZfO2wrNx3Q8=;
- b=fhWR/urSJpTBq1v9tqhyev7KVCm6aV0O1G2S2/xntwOFSSNjmnO2HUltyeMdulveUF
- AOF63aQzClonbnGdfPp/e8pCqNV0Ech6ME8VE4ysZyBU2zGh5Xkcx/E3WGoxbYA0dmWk
- nVvTuQglbiM8CbH2BsmowuRs+zh1EEA1/ryeimGG1+Vb8b1MFb0wEMc/mEJWsy5D8Nhx
- EHXJlkfojmguaqxKzfcLjAE+LC+NqmXOUmErXgNRXUE7bDc0JhzNUzm5BMVf7/kTVtax
- v96NV5sO2V2ebVhZGe8h4JeM44RfYgAZf7CJFN9kgjn+fhRdfKwOg0D/LyEQ+q9wlvFW
- SVtA==
+ bh=0dGXT0I11mx+iLOOQfS18KAlwfqTzNBPlMJtf3/8VXk=;
+ b=tEmsJoG0UxxB1Bh4kO3ngn2pQQoJwrtirkayzcTTuTGo90omUgvKxyAhxOhoWuZ8ka
+ hzKAbYcEnBIvpssvtmcxMyXwQEgEjfHvXv3hvNFL+XawW92mw3qaoFY5/ZvV1oQDi3mo
+ vqfd1IPT1ZSkvtxTjiYsXg1fZN30buhe40VvGaqYCgUbh3O2ypRxra0dBNbQWKaWAilx
+ yJuUW0TWTXwGH+ds0u9LiQ/3D4ZLVNFCeyFmzuQNdiND77mK/8wXaQeCoQkY5yCEJ/Ug
+ uqtRK0ucd7ONupy5Eb2H7K+GzhzA1H/lq3uO5s77ZD+viiNvOOqOH0qdR3B9ru96OuDx
+ XGlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=eo4tALWmTsUFwFiM9EDe0yAn4fvt/rLzZfO2wrNx3Q8=;
- b=ATF9Hfdh4ZtYT4NMOMTx1Y4uthoMdvmCqI1TdZXIO5a3TFLMoMNDdgJY4MDW6QITKR
- UCOJPSakRiKbH/HNDtL2yiYWl51mKVP3iUzF3ET9xNLMIYQ7SMgIJQMMwwssyf7+5VkG
- MWaIpotYXPlZFHLQwwRYMt4yrJhFMfRQ/rHANExrFOXDRUVlpbQHVZTUG8c542tGvoCe
- 99Cu5evXFSny82erJb23vjYha/P899WKd3I4CN0TnnToOf4aLcd4abzT8cqC3PmuT5Fc
- jdDlN/JfwHsnJ6Mxyc978ct7N0GoXE1AOfgdeywjyg6sgVT7ThBOlNGwVw18b1gaApb/
- Vy7w==
-X-Gm-Message-State: AOAM532gb17MeMEdCcWzcNk6U244hMlJFSzf+xUAtstyhH6Z1oFZuvig
- WhTa57S/XYGLGCrlC0/LiZc=
-X-Google-Smtp-Source: ABdhPJylKP411HFoQrWjnNWv9pIfv2nRN4xedGj9zlzLT1ilTkV9L3st5As7zjaYwbMXyRaUHjkaJw==
-X-Received: by 2002:a17:906:a982:: with SMTP id
- jr2mr20693792ejb.292.1607365253179; 
- Mon, 07 Dec 2020 10:20:53 -0800 (PST)
+ bh=0dGXT0I11mx+iLOOQfS18KAlwfqTzNBPlMJtf3/8VXk=;
+ b=KdKYfYyapzjKnUma2vZZjf7W0v33kzXG12pWz1huwA1NUpD2CiTlyTfebrL0gaFsKK
+ sqfyleORR/dQojdG+s0L2ugX/4z+7nY/hwc6ZPoACNEQw54254Igq1SRz0AfydOX3yTZ
+ qm9CY0KkKYD6W4hsbltgxbdUoblttwMHnPFVuZev57iUe2qQliEOEd7yJM2nQ9GMMaHf
+ bvkVjb4XmyaylsuFr8a5bO+nTcRF57IEIgPwh0f2nx++DcIKOV1+k4O483e7CKukjHmE
+ zbHbU6vOvyARNfKA4VdtgqgVm7B7uQU0Az/m2MhultLsjsUCMYfZGk4fgRJDQERJglL3
+ fmVA==
+X-Gm-Message-State: AOAM533Vrssi/2NwqNGSTssbch7XAnmMaZFC5z7pVMxXC3qhp8RZ49n5
+ jsxuu7CpU6KsSGfNbfNYo4E=
+X-Google-Smtp-Source: ABdhPJxqC31tSILQnLvmzFAlC1P7ANTdZknr9eYINNMsUdZSzQwXgUpH55q6gW6VUzkcTkMDJb36Hg==
+X-Received: by 2002:a17:906:518a:: with SMTP id
+ y10mr20411024ejk.323.1607365662893; 
+ Mon, 07 Dec 2020 10:27:42 -0800 (PST)
 Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id i18sm12978177edq.79.2020.12.07.10.20.52
+ by smtp.gmail.com with ESMTPSA id f13sm13116495ejf.42.2020.12.07.10.27.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Dec 2020 10:20:52 -0800 (PST)
-Subject: Re: [PATCH 2/5] hw/mips/malta: Make use of bootloader helper
+ Mon, 07 Dec 2020 10:27:41 -0800 (PST)
+Subject: Re: [PATCH 1/5] hw/mips: Add a bootloader helper
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
 References: <20201207050231.2712-1-jiaxun.yang@flygoat.com>
- <20201207050231.2712-3-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c708725a-ee28-0ece-1858-8693a2e434c8@amsat.org>
-Date: Mon, 7 Dec 2020 19:20:51 +0100
+ <20201207050231.2712-2-jiaxun.yang@flygoat.com>
+ <bcf3aad7-7ff9-fbd5-be99-9f7d20cd614a@amsat.org>
+Message-ID: <6d26e6ba-27ee-aacb-2724-9d6b0d194e9e@amsat.org>
+Date: Mon, 7 Dec 2020 19:27:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201207050231.2712-3-jiaxun.yang@flygoat.com>
+In-Reply-To: <bcf3aad7-7ff9-fbd5-be99-9f7d20cd614a@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,78 +95,43 @@ Cc: chenhuacai@kernel.org, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/20 6:02 AM, Jiaxun Yang wrote:
-> Use bootloader helper to generate BAR setting code
-> and kernel jump.
+On 12/7/20 7:14 PM, Philippe Mathieu-Daudé wrote:
+> Hi Jiaxun,
 > 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  hw/mips/malta.c | 108 ++++++++++++------------------------------------
->  1 file changed, 26 insertions(+), 82 deletions(-)
+> On 12/7/20 6:02 AM, Jiaxun Yang wrote:
+>> Add a bootloader helper to generate simple bootloaders for kernel.
+>> It can help us reduce inline hex hack and also keep MIPS release 6
+>> compatibility easier.
 > 
+> Great idea :)
+> 
+>>
+>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>> ---
+>>  hw/mips/bootloader.c      | 150 ++++++++++++++++++++++++++++++++++++++
+>>  hw/mips/meson.build       |   2 +-
+>>  include/hw/mips/cpudevs.h |   8 ++
+>>  3 files changed, 159 insertions(+), 1 deletion(-)
+>>  create mode 100644 hw/mips/bootloader.c
 ...
-> +    /* GT64xxxx is always big endian */
->  #ifdef TARGET_WORDS_BIGENDIAN
-> -    stl_p(p++, 0x3c08c100);                  /* lui t0, 0xc100 */
-> +#define cpu_to_gt32(x) cpu_to_le32(x)
->  #else
-> -    stl_p(p++, 0x340800c1);                  /* ori t0, r0, 0x00c1 */
-> +#define cpu_to_gt32(x) cpu_to_be32(x)
->  #endif
-> -    stl_p(p++, 0xad280080);                  /* sw t0, 0x0080(t1) */
-> -#ifdef TARGET_WORDS_BIGENDIAN
-> -    stl_p(p++, 0x3c085e00);                  /* lui t0, 0x5e00 */
-> -#else
-> -    stl_p(p++, 0x3408005e);                  /* ori t0, r0, 0x005e */
-> -#endif
-> -    stl_p(p++, 0xad280088);                  /* sw t0, 0x0088(t1) */
-> +    /* Load BAR registers as done by YAMON */
-> +    /* move GT64120 registers from 0x14000000 to 0x1be00000 */
-> +    bl_gen_writel(&p, cpu_to_gt32(0xdf000000), 0xb4000068);
-
-Ideally we'd write as:
-
-    bl_gen_writel(&p, cpu_to_be32(0x1be00000 << 3),
-                  cpu_mips_phys_to_kseg1(NULL, 0x14000068));
-
-But I guess this is enough:
-
-    bl_gen_writel(&p, cpu_to_be32(0x1be00000 << 3), 0xb4000068);
-
-No need for cpu_to_gt32().
-
-From a review point of view, it would be easier to split your
-patches in 2: first use bl_gen_write_u32/u64, second convert
-bl_gen_jump_to_u32 and bl_gen_jump_kernel_u32.
-
-> +
-> +    /* setup MEM-to-PCI0 mapping */
-> +    /* setup PCI0 io window to 0x18000000-0x181fffff */
-> +    bl_gen_writel(&p, cpu_to_gt32(0xc0000000), 0xbbe00048);
-> +    bl_gen_writel(&p, cpu_to_gt32(0x40000000), 0xbbe00050);
-> +    /* setup PCI0 mem windows */
-> +    bl_gen_writel(&p, cpu_to_gt32(0x80000000), 0xbbe00058);
-> +    bl_gen_writel(&p, cpu_to_gt32(0x3f000000), 0xbbe00060);
-> +    bl_gen_writel(&p, cpu_to_gt32(0xc1000000), 0xbbe00080);
-> +    bl_gen_writel(&p, cpu_to_gt32(0x5e000000), 0xbbe00088);
-> +#undef cpu_to_gt32
->  
-> -    /* Jump to kernel code */
-> -    stl_p(p++, 0x3c1f0000 |
-> -          ((kernel_entry >> 16) & 0xffff));  /* lui ra, high(kernel_entry) */
-> -    stl_p(p++, 0x37ff0000 |
-> -          (kernel_entry & 0xffff));          /* ori ra, ra, low(kernel_entry) */
-> -    stl_p(p++, 0x03e00009);                  /* jalr ra */
-> -    stl_p(p++, 0x00000000);                  /* nop */
-> +    if (semihosting_get_argc()) {
-> +        a0 = 0;
-> +    } else {
-> +        a0 = 2;
-> +    }
-> +    bl_gen_jump_kernel(&p, ENVP_ADDR - 64, a0, ENVP_ADDR, (ENVP_ADDR + 8),
-> +                        loaderparams.ram_low_size, kernel_entry);
->  
->      /* YAMON subroutines */
->      p = (uint32_t *) (base + 0x800);
+>> +void bl_gen_writeq(uint32_t **p, uint64_t val, uint32_t addr)
 > 
+> Well, addr has to be uint64_t... else you wrap KSEG1 on 64-bit.
+
+Oops I misread addr/val.
+
+> 
+> bl_gen_write_u64?
+> 
+>> +{
+>> +    /* 64 Only */
+> 
+>        if (!cpu_supports_isa(cpu, ISA_MIPS64)) {
+>            g_assert_not_reached(); /* unsupported */
+>        }
+> 
+>> +    bl_gen_dli(p, 26, val);
+>> +    bl_gen_li(p, 27, addr);
+>> +    bl_gen_sd(p, 26, 27, 0x0);
+>> +}
 
