@@ -2,76 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC6482D1734
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 18:13:46 +0100 (CET)
-Received: from localhost ([::1]:60940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F922D1757
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 18:18:47 +0100 (CET)
+Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmK53-0006eT-Qh
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 12:13:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42720)
+	id 1kmK9t-0001qc-Kq
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 12:18:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kmK1l-0005U7-Oe
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:10:21 -0500
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:33145)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kmK1j-0004vP-Eu
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:10:21 -0500
-Received: by mail-ed1-x542.google.com with SMTP id k4so14557658edl.0
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 09:10:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KSdUiyb5ZmZGus9Y18Esm/Zi55w1Hy2x+mQSpH1tzEg=;
- b=dHJ+4IMA3X/al5s5DbkYTlY6I3LlVghULMawjnKlSJ0ze0yAdXh3fCrv3mTZJCBv5T
- COs0CvYqumyk8HnIq52h+Q2+zeuex8E3vSrshRY8sEfQFqP4k8JwSUmB2yYVZ3zRW0S2
- a4+D6euycenV66JUlcpEKePPOO4+mC63iaSxPHS8aMqUJIucKw+0jCpXS1KCQN+g8A9W
- KCjzNaQ53v7EV+5sAfnYd2YDUSVZmVsbh4yxapvRPCAQ4sCavkK1hafYGGbkjrnoFHGn
- +fTLlRh13G3GV5h3wNlQOj6l0hRVljg5R5H5HRAWUS+c2v7uertmQtRBqZLDyFw+KRWC
- w8BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KSdUiyb5ZmZGus9Y18Esm/Zi55w1Hy2x+mQSpH1tzEg=;
- b=TdugChT0jaQ+m7skM3iGl90V2TdaNCZfjRiL/TZILpNgi2nMWrvXSA5YmOftK7pOoC
- WFIrdLs3DSzqtpp5Uy6utjW0toUTHWtxv0vFmurWEx19ajGN5bYNfUne7ZBduzU6gR8s
- 60iMb/pr5iG7qj8BbKvj2QnbppkVHPOzVN9bn1fgVchM3l2yhYdrcUXO0NVfEGDqcZIi
- re+W4fyamtiG7teVsWETv/TNnoy0YhNrV3qTX26IV/3m2xZCoxQoZG2tV6K0ETjke7pP
- Q/CjeLY5LCsYbZA77JcgqUjPoJSQSgSIcnvCmVXDIAhQjMbYHaC/WaMMWgf3xq3IfJly
- NM+Q==
-X-Gm-Message-State: AOAM530Jh/lrSFR0O+DelNU+hegi8phd9mxDKxA6G2OuYaq4xyfn9sxO
- k2EvBKqsQ2IqBSQ6oWXfkzSdyvx+dqK1bPOMeeojPg==
-X-Google-Smtp-Source: ABdhPJwIY/AvBAO1IUq++8k81Pl67K5DOxG9V6nkqs+h+0gM8fHl+Ak6grDKEj8FlGUvbPzQkEzvfQ/hzY1pBXmaeoI=
-X-Received: by 2002:a05:6402:366:: with SMTP id
- s6mr9267484edw.44.1607361017612; 
- Mon, 07 Dec 2020 09:10:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kmK7C-0000EH-1n; Mon, 07 Dec 2020 12:15:58 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:51631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kmK79-0005qc-Ip; Mon, 07 Dec 2020 12:15:57 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.217])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 7D92778995B1;
+ Mon,  7 Dec 2020 18:15:51 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 7 Dec 2020
+ 18:15:50 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R0039509c62e-024a-428b-b638-0416b29ac7c9,
+ 96C53C8645D225A2EF98A9818159DE0D98C51A94) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Mon, 7 Dec 2020 18:15:47 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v11] spapr: Implement Open Firmware client interface
+Message-ID: <20201207181547.54453964@bahia.lan>
+In-Reply-To: <20201207073327.33367-1-aik@ozlabs.ru>
+References: <20201207073327.33367-1-aik@ozlabs.ru>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20201119153901.53705-1-steven.price@arm.com>
- <CAFEAcA85fiqA206FuFANKbV_3GkfY1F8Gv7MP58BgTT81bs9kA@mail.gmail.com>
- <20201119184248.4bycy6ouvaxqdiiy@kamzik.brq.redhat.com>
- <db5ad775fa7cfe7defbd78d9ca6ccfd8@kernel.org>
- <c25c297e-e9b5-ab3f-e401-c21ddd4d2ad1@arm.com>
- <CAJc+Z1H7akXwDtVvQLiGVVyZ0DfmsxyJQhE7Sno6aAO9GaafEA@mail.gmail.com>
- <46fd98a2-ee39-0086-9159-b38c406935ab@arm.com>
- <CAFEAcA_Q8RSB-zcS8+cEfvWz_0U5GLzmsf12m_7BFjX8h-1hrA@mail.gmail.com>
- <b975422f-14fd-13b3-c8ca-e8b1a68c0837@arm.com> <20201207164428.GD3135@work-vm>
-In-Reply-To: <20201207164428.GD3135@work-vm>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 7 Dec 2020 17:10:06 +0000
-Message-ID: <CAFEAcA9mq0xh1CNvw9UZoNwcOBuoVnCNcBkRDSUv7UK27qdESg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/2] MTE support for KVM guest
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: a26ca933-005a-4a84-972f-40716d763501
+X-Ovh-Tracer-Id: 7153405059215366621
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudejgedgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgihesthejfedtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptefgffffgffgkeegffetkefhhfeuleffvdehvdfgtdfhiedutedvudelgfevveetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,59 +67,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Marc Zyngier <maz@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Steven Price <steven.price@arm.com>, Haibo Xu <haibo.xu@linaro.org>,
- Catalin Marinas <catalin.marinas@arm.com>, David Gibson <dgibson@redhat.com>,
- Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
- kvmarm <kvmarm@lists.cs.columbia.edu>,
- arm-mail-list <linux-arm-kernel@lists.infradead.org>,
- Dave Martin <Dave.Martin@arm.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Dec 2020 at 16:44, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
-> * Steven Price (steven.price@arm.com) wrote:
-> > Sorry, I know I simplified it rather by saying it's similar to protected VM.
-> > Basically as I see it there are three types of memory access:
-> >
-> > 1) Debug case - has to go via a special case for decryption or ignoring the
-> > MTE tag value. Hopefully this can be abstracted in the same way.
-> >
-> > 2) Migration - for a protected VM there's likely to be a special method to
-> > allow the VMM access to the encrypted memory (AFAIK memory is usually kept
-> > inaccessible to the VMM). For MTE this again has to be special cased as we
-> > actually want both the data and the tag values.
-> >
-> > 3) Device DMA - for a protected VM it's usual to unencrypt a small area of
-> > memory (with the permission of the guest) and use that as a bounce buffer.
-> > This is possible with MTE: have an area the VMM purposefully maps with
-> > PROT_MTE. The issue is that this has a performance overhead and we can do
-> > better with MTE because it's trivial for the VMM to disable the protection
-> > for any memory.
->
-> Those all sound very similar to the AMD SEV world;  there's the special
-> case for Debug that Peter mentioned; migration is ...complicated and
-> needs special case that's still being figured out, and as I understand
-> Device DMA also uses a bounce buffer (and swiotlb in the guest to make
-> that happen).
+On Mon, 7 Dec 2020 18:33:27 +1100
+Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
 
-Mmm, but for encrypted VMs the VM has to jump through all these
-hoops because "don't let the VM directly access arbitrary guest RAM"
-is the whole point of the feature. For MTE, we don't want in general
-to be doing tag-checked accesses to guest RAM and there is nothing
-in the feature "allow guests to use MTE" that requires that the VMM's
-guest RAM accesses must do tag-checking. So we should avoid having
-a design that require us to jump through all the hoops. Even if
-it happens that handling encrypted VMs means that QEMU has to grow
-some infrastructure for carefully positioning hoops in appropriate
-places, we shouldn't use it unnecessarily... All we actually need is
-a mechanism for migrating the tags: I don't think there's ever a
-situation where you want tag-checking enabled for the VMM's accesses
-to the guest RAM.
+> The PAPR platform which describes an OS environment that's presented by
+> a combination of a hypervisor and firmware. The features it specifies
+> require collaboration between the firmware and the hypervisor.
+> 
+> Since the beginning, the runtime component of the firmware (RTAS) has
+> been implemented as a 20 byte shim which simply forwards it to
+> a hypercall implemented in qemu. The boot time firmware component is
+> SLOF - but a build that's specific to qemu, and has always needed to be
+> updated in sync with it. Even though we've managed to limit the amount
+> of runtime communication we need between qemu and SLOF, there's some,
+> and it has become increasingly awkward to handle as we've implemented
+> new features.
+> 
+> This implements a boot time OF client interface (CI) which is
+> enabled by a new "x-vof" pseries machine option (stands for "Virtual Open
+> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
+> which implements Open Firmware Client Interface (OF CI). This allows
+> using a smaller stateless firmware which does not have to manage
+> the device tree.
+> 
+> The new "vof.bin" firmware image is included with source code under
+> pc-bios/. It also includes RTAS blob.
+> 
+> This implements a handful of CI methods just to get -kernel/-initrd
+> working. In particular, this implements the device tree fetching and
+> simple memory allocator - "claim" (an OF CI memory allocator) and updates
+> "/memory@0/available" to report the client about available memory.
+> 
+> This implements changing some device tree properties which we know how
+> to deal with, the rest is ignored. To allow changes, this skips
+> fdt_pack() when x-vof=on as not packing the blob leaves some room for
+> appending.
+> 
+> In absence of SLOF, this assigns phandles to device tree nodes to make
+> device tree traversing work.
+> 
+> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
+> 
+> This adds basic instances support which are managed by a hash map
+> ihandle -> [phandle].
+> 
+> Before the guest started, the used memory is:
+> 0..4000 - the initial firmware
+> 10000..180000 - stack
+> 
+> This OF CI does not implement "interpret".
+> 
+> Unlike SLOF, this does not format uninitialized nvram. Instead, this
+> includes a disk image with pre-formatted nvram.
+> 
 
-thanks
--- PMM
+[...]
+
+> diff --git a/pc-bios/vof/nvram.bin b/pc-bios/vof/nvram.bin
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..d183901cf980a91d81c4348bb20487c7bb62a2ec
+> GIT binary patch
+> literal 16384
+> zcmeI%Jx;?g6bEpZJ8*)oSZeqZi&Z2pKnD)sI4{AHlNb4;RW}a70XPHaW57uo=-#R7
+> zKSLBhJJ0sdixY3IuY@hzo0r$OmE%T;XE9uh@s1k=AOHafKmY;|fB*y_009U<00Izz
+> z00bZa0SG_<0uX=z1Rwwb2tWV=XCbip6d#B4{{rX#XR%}$Bm^J;0SG|gWP$!?Aq=-I
+> zcT+0Ix{{?1q>9J8r+eW^JK1tYYZZMWQCUwW%0S*~w^p@wfkX-<yRFx)H*+YEt0RRd
+> zmn}6xtwbP`yp4O=>kxMAEA<~5@*g)@mb%KD5!;O~8c)>8rRQBx55=trhk#+1+T3J_
+> zaf*G4vZAduqy$qda{``6Gnc2DQg<Es<GLxL#9<Oj*zP!8ZSnwf@-j7l47!nFXQO$a
+> z^Hes6YU^_M<KsM*k~zwOSa+2g3Sx{*Eyu^XrB0FM5IJ-*?8`VvpBc4}vS(+_UKJ;=
+> xITAns0uX=z1Rwwb2tWV=5P-nt34DD||Nni|VfbXeJORuY0uX=z1R!vE0>7B^s4f5i
+> 
+> literal 0
+> HcmV?d00001
+> 
+
+So this needs an extra drive on the command line, eg:
+
+-drive file=pc-bios/vof/nvram.bin,format=raw,if=pflash
+
+Any chance this can be generated internally if the user
+didn't provide one already ?
 
