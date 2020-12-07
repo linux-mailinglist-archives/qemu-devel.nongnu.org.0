@@ -2,66 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850772D0DB8
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 11:04:37 +0100 (CET)
-Received: from localhost ([::1]:50878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F14E2D0DB1
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 11:02:37 +0100 (CET)
+Received: from localhost ([::1]:48550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmDNk-00013K-KS
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 05:04:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49916)
+	id 1kmDLo-0008Sm-Fn
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 05:02:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kmDKG-0008J3-Rx
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 05:01:00 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47322)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kmDKD-0003kL-53
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 05:01:00 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kmDKA-0000wa-9x
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 10:00:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F143E2E8144
- for <qemu-devel@nongnu.org>; Mon,  7 Dec 2020 10:00:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmDJb-0007kB-FE
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 05:00:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmDJW-0003RB-5h
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 05:00:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607335212;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jkvd7LrgfbA/3UaWz+BLuo3xobAs3RImgpzqIL+38Gs=;
+ b=QfJL7SrLO/7J5nZCqRP99ADVzZgu9TrDtsm2xGg0/N/fDS4ZCMTZO3bcceBzx9R9tY32lE
+ uMRSeGXM4ToCfnx8EMiLG0iMBqE94IRNy2X+oLzvhAPGfrjfcjreZY7+PuUr16R6yI3EB/
+ 7wonqoTO6kYgQdCW5DvBE7BeULRYVn8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318--YUbS6YDPdKf26y07RdezA-1; Mon, 07 Dec 2020 05:00:09 -0500
+X-MC-Unique: -YUbS6YDPdKf26y07RdezA-1
+Received: by mail-wm1-f70.google.com with SMTP id a205so3897522wme.9
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 02:00:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jkvd7LrgfbA/3UaWz+BLuo3xobAs3RImgpzqIL+38Gs=;
+ b=J+JyU9SCu0UuoiKZ43/MEVph2szKOtcaxp7KAJj6QDi7RiMHGMgaVSIW35V3gi1iTR
+ qWhJZcze2PoYy9IhJoc8JWMYCjnsr9i8Yc38lgfzZ5tMvYYY8x1V/Ggpo49KUy2IN4Mu
+ IaluveVUPOmF20wST3XOgfzbu61fvaAFWd7D31NVwdhiwQGUZyAC6bBXv3ZZtshNZKVI
+ 8ISxTuDdE7ADidjrY4SHkuK0muCTtg76eby73iWsudrzI14ynbcZ8uh5kn0jpchAipsl
+ km5cPXOMKZByEw5ZPiA9Qk6MIOJV/8Jw9yFIbL6yTF9RFnstIKhIAWyvIcZ4dZFh5AgD
+ 3kIA==
+X-Gm-Message-State: AOAM532O9BSiR/BjY65hrJTxg0UhxsUhij7/j2lnyNOSlw7RtGAaCaqb
+ 2FNQ7eRQOq5e40Ug9aYOhMHLGyb6nUOV4l+3ULRyRnK1DKcXEBzLf2EivrmlIYlkT0vRyo6Kfh/
+ vJsPeCrPmFiK15BY=
+X-Received: by 2002:a1c:6208:: with SMTP id w8mr17496932wmb.96.1607335207967; 
+ Mon, 07 Dec 2020 02:00:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw3EYRHSI+t9NVpsM0Mrbn468kurkRbJwfsRKh9URZe4lUy/zhC9c0UawCuc4XOtBW1JeEjjA==
+X-Received: by 2002:a1c:6208:: with SMTP id w8mr17496881wmb.96.1607335207639; 
+ Mon, 07 Dec 2020 02:00:07 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id c1sm13112995wml.8.2020.12.07.02.00.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Dec 2020 02:00:06 -0800 (PST)
+Subject: Re: [PATCH 5/8] gitlab-ci: Add KVM s390x cross-build jobs
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20201206185508.3545711-1-philmd@redhat.com>
+ <20201206185508.3545711-6-philmd@redhat.com>
+ <66d4d0ab-2bb5-1284-b08a-43c6c30f30dc@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2352c04c-829e-ea1d-0894-15fc1d06697a@redhat.com>
+Date: Mon, 7 Dec 2020 11:00:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 07 Dec 2020 09:51:35 -0000
-From: Evren <1907061@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: keyboard lag laggy minimize slow window
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: evren320
-X-Launchpad-Bug-Reporter: Evren (evren320)
-X-Launchpad-Bug-Modifier: Evren (evren320)
-Message-Id: <160733469549.5156.11028511366608269661.malonedeb@gac.canonical.com>
-Subject: [Bug 1907061] [NEW] qemu-system-x86_64 minimizing window causes
- keyboard input lag globally
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="15cd58601e77a273f7390fc4f4fcd16efe814a43"; Instance="production"
-X-Launchpad-Hash: 90c3960aa6f27fc991740f0379a59868774dc570
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <66d4d0ab-2bb5-1284-b08a-43c6c30f30dc@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,79 +99,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907061 <1907061@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, kvm@vger.kernel.org,
+ Paul Durrant <paul@xen.org>, Cornelia Huck <cohuck@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Huacai Chen <chenhc@lemote.com>, Anthony Perard <anthony.perard@citrix.com>,
+ xen-devel@lists.xenproject.org, David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 12/7/20 6:46 AM, Thomas Huth wrote:
+> On 06/12/2020 19.55, Philippe Mathieu-Daudé wrote:
+>> Cross-build s390x target with only KVM accelerator enabled.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  .gitlab-ci.d/crossbuilds-kvm-s390x.yml | 6 ++++++
+>>  .gitlab-ci.yml                         | 1 +
+>>  MAINTAINERS                            | 1 +
+>>  3 files changed, 8 insertions(+)
+>>  create mode 100644 .gitlab-ci.d/crossbuilds-kvm-s390x.yml
+>>
+>> diff --git a/.gitlab-ci.d/crossbuilds-kvm-s390x.yml b/.gitlab-ci.d/crossbuilds-kvm-s390x.yml
+>> new file mode 100644
+>> index 00000000000..1731af62056
+>> --- /dev/null
+>> +++ b/.gitlab-ci.d/crossbuilds-kvm-s390x.yml
+>> @@ -0,0 +1,6 @@
+>> +cross-s390x-kvm:
+>> +  extends: .cross_accel_build_job
+>> +  variables:
+>> +    IMAGE: debian-s390x-cross
+>> +    TARGETS: s390x-softmmu
+>> +    ACCEL_CONFIGURE_OPTS: --disable-tcg
+>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>> index 573afceb3c7..a69619d7319 100644
+>> --- a/.gitlab-ci.yml
+>> +++ b/.gitlab-ci.yml
+>> @@ -14,6 +14,7 @@ include:
+>>    - local: '/.gitlab-ci.d/crossbuilds.yml'
+>>    - local: '/.gitlab-ci.d/crossbuilds-kvm-x86.yml'
+>>    - local: '/.gitlab-ci.d/crossbuilds-kvm-arm.yml'
+>> +  - local: '/.gitlab-ci.d/crossbuilds-kvm-s390x.yml'
+> 
+> KVM code is already covered by the "cross-s390x-system" job, but an
+> additional compilation test with --disable-tcg makes sense here. I'd then
+> rather name it "cross-s390x-no-tcg" or so instead of "cross-s390x-kvm".
 
-After qemu window is minimized, it causes keyboard lag on the host for all =
-applications, pressed keys will be delayed and very laggy, typing to notepa=
-d or any other text extremely slowly appear on the screen, queue is slowly =
-processed.
-If qemu window is open back to normal size, keyboard is back to normal, eve=
-rything is back to normal and stable, this behavior i have been testing sin=
-ce several months of qemu releases, i am reporting a bit late here, not bre=
-aking but it seems important and everytime i accidently minimize qemu, i re=
-member it later and take qemu window to normal size back always, i try neve=
-r minimize it anymore.
-This problem does not occur if using -display none
-Guest OS doesn't matter for this behavior, result is always same
-I am using:
-qemu 5.1.0.0
-qemu-system-x86_64w.exe
-Windows 10 build 2004
-4K screen dpi scaling set to 150%
+As you wish. What I want is to let Gitlab users be able to build the
+equivalent "[s390x] Clang (disable-tcg)" from Travis.
 
-If requested, i can record a video to see the problem clearly, but i
-think all information i give already clear now.
+I keep using GCC toolchain because managing job coverage duplication
+is an unresolved problem.
 
-Thanks for making quality software, hope all bugs fixed
+> 
+> And while you're at it, I'd maybe rather name the new file just
+> crossbuilds-s390x.yml and also move the other s390x related jobs into it?
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+OK will do.
 
+Thanks,
 
-** Tags: keyboard lag laggy minimize slow window
+Phil.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907061
-
-Title:
-  qemu-system-x86_64 minimizing window causes keyboard input lag
-  globally
-
-Status in QEMU:
-  New
-
-Bug description:
-  After qemu window is minimized, it causes keyboard lag on the host for al=
-l applications, pressed keys will be delayed and very laggy, typing to note=
-pad or any other text extremely slowly appear on the screen, queue is slowl=
-y processed.
-  If qemu window is open back to normal size, keyboard is back to normal, e=
-verything is back to normal and stable, this behavior i have been testing s=
-ince several months of qemu releases, i am reporting a bit late here, not b=
-reaking but it seems important and everytime i accidently minimize qemu, i =
-remember it later and take qemu window to normal size back always, i try ne=
-ver minimize it anymore.
-  This problem does not occur if using -display none
-  Guest OS doesn't matter for this behavior, result is always same
-  I am using:
-  qemu 5.1.0.0
-  qemu-system-x86_64w.exe
-  Windows 10 build 2004
-  4K screen dpi scaling set to 150%
-
-  If requested, i can record a video to see the problem clearly, but i
-  think all information i give already clear now.
-
-  Thanks for making quality software, hope all bugs fixed
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907061/+subscriptions
 
