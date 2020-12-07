@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B13A2D1364
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 15:18:53 +0100 (CET)
-Received: from localhost ([::1]:34974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619102D1351
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 15:15:39 +0100 (CET)
+Received: from localhost ([::1]:55930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmHLo-0003qC-A3
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 09:18:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50472)
+	id 1kmHIg-0000hd-Dv
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 09:15:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmHBN-0002DW-5f
+ id 1kmHBN-0002Ds-AQ
  for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:08:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21737)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmHBG-0002jG-Oy
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:08:04 -0500
+ id 1kmHBL-0002jV-Fj
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:08:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607350078;
+ s=mimecast20190719; t=1607350081;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9+PRIhEw0Acp4vDOwexFGwxUZr8HOu8lb/nNqXfnFsg=;
- b=heGUxv5D7Ak9mLEkqx4iba+GT9pV7Jz3q1gSbdtQfXTxexf8N3u8NiPz5ZnMoJPUhrGXj6
- 6Z2aVFdeX51m0vJSrQCFghlDD77lTf3+MZBsT/BbZAUyfblVWDI95b9yNRcWkXFVp9l6Mk
- +nc5szBp6Qeh1MaRZX8U7qyBjc5ZfOY=
+ bh=NbPKOJFLjelxVZRXIiuFYnqLQBRH5A40D62dQ0hRETY=;
+ b=hlmOPiYwQNpKQz0M0E9PLOQ21t3Qvnt5O6SBtDR6xRHAIMv25twU0JehXJHlWwM5qBlFZP
+ awFEA6BCvxkH1hCX6RSCYngb+efJXbHOUaHcUqLPn7XV3hjBLOs4HCSpP/rh6JLlb36FNZ
+ FOFdZh2YCpXea25NWR8T3EUFh9I7XfQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-JcXZODIKODmE5_WGrqwAkQ-1; Mon, 07 Dec 2020 09:07:56 -0500
-X-MC-Unique: JcXZODIKODmE5_WGrqwAkQ-1
+ us-mta-134-YW_2uAj6N3merXeDZF4zkg-1; Mon, 07 Dec 2020 09:07:57 -0500
+X-MC-Unique: YW_2uAj6N3merXeDZF4zkg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F99718C89D9;
- Mon,  7 Dec 2020 14:07:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 702E51005504;
+ Mon,  7 Dec 2020 14:07:56 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 402C21002393;
- Mon,  7 Dec 2020 14:07:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8901A10016FF;
+ Mon,  7 Dec 2020 14:07:55 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/8] x86: ich9: factor out "guest_cpu_hotplug_features"
-Date: Mon,  7 Dec 2020 09:07:38 -0500
-Message-Id: <20201207140739.3829993-8-imammedo@redhat.com>
+Subject: [PATCH v2 8/8] x86: ich9: let firmware negotiate 'CPU hot-unplug with
+ SMI' feature
+Date: Mon,  7 Dec 2020 09:07:39 -0500
+Message-Id: <20201207140739.3829993-9-imammedo@redhat.com>
 In-Reply-To: <20201207140739.3829993-1-imammedo@redhat.com>
 References: <20201207140739.3829993-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -83,41 +84,59 @@ Cc: lersek@redhat.com, ankur.a.arora@oracle.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-it will be reused by next patch to check validity of unplug
-feature.
+Keep CPU hotunplug with SMI disabled on 5.2 and older and enable
+it by default on newer machine types.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/isa/lpc_ich9.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+v1:
+  - ensure that unplug can't be enabled without hotplug (Laszlo)
+---
+ hw/i386/pc.c      | 4 +++-
+ hw/isa/lpc_ich9.c | 8 +++++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
 
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 781523684c..6476d8d853 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -97,7 +97,9 @@
+ #include "trace.h"
+ #include CONFIG_DEVICES
+ 
+-GlobalProperty pc_compat_5_2[] = {};
++GlobalProperty pc_compat_5_2[] = {
++    { "ICH9-LPC", "x-smi-cpu-hotunplug", "off" },
++};
+ const size_t pc_compat_5_2_len = G_N_ELEMENTS(pc_compat_5_2);
+ 
+ GlobalProperty pc_compat_5_1[] = {
 diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index 087a18d04d..da80430144 100644
+index da80430144..d3145bf014 100644
 --- a/hw/isa/lpc_ich9.c
 +++ b/hw/isa/lpc_ich9.c
-@@ -366,6 +366,7 @@ static void smi_features_ok_callback(void *opaque)
- {
-     ICH9LPCState *lpc = opaque;
-     uint64_t guest_features;
-+    uint64_t guest_cpu_hotplug_features;
- 
-     if (lpc->smi_features_ok) {
-         /* negotiation already complete, features locked */
-@@ -378,9 +379,12 @@ static void smi_features_ok_callback(void *opaque)
-         /* guest requests invalid features, leave @features_ok at zero */
+@@ -392,6 +392,12 @@ static void smi_features_ok_callback(void *opaque)
          return;
      }
+ 
++    if (guest_cpu_hotplug_features ==
++        BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT)) {
++        /* cpu hot-unplug is unsupported without cpu-hotplug */
++        return;
++    }
 +
-+    guest_cpu_hotplug_features = guest_features &
-+                                 (BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT) |
-+                                  BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT));
-     if (!(guest_features & BIT_ULL(ICH9_LPC_SMI_F_BROADCAST_BIT)) &&
--        guest_features & (BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT) |
--                          BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT))) {
-+        guest_cpu_hotplug_features) {
-         /*
-          * cpu hot-[un]plug with SMI requires SMI broadcast,
-          * leave @features_ok at zero
+     /* valid feature subset requested, lock it down, report success */
+     lpc->smi_negotiated_features = guest_features;
+     lpc->smi_features_ok = 1;
+@@ -774,7 +780,7 @@ static Property ich9_lpc_properties[] = {
+     DEFINE_PROP_BIT64("x-smi-cpu-hotplug", ICH9LPCState, smi_host_features,
+                       ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT, true),
+     DEFINE_PROP_BIT64("x-smi-cpu-hotunplug", ICH9LPCState, smi_host_features,
+-                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, false),
++                      ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.27.0
 
