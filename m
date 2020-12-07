@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E602D1B4C
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 21:52:50 +0100 (CET)
-Received: from localhost ([::1]:58482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32F3B2D1AF3
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 21:47:56 +0100 (CET)
+Received: from localhost ([::1]:55816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmNV3-0005T7-EF
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 15:52:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44148)
+	id 1kmNQI-0004Ai-Oi
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 15:47:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kmNT4-0004xg-GV
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 15:50:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kmNSy-0000k5-5A
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 15:50:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kmNSw-0000io-Ck
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 20:50:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 3EE402E8137
- for <qemu-devel@nongnu.org>; Mon,  7 Dec 2020 20:50:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmNOe-0003gC-8m
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 15:46:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28137)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmNOa-0007m4-ES
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 15:46:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607373966;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8tmPzV4TXnZzEKpBFAKF2+ZMdAOTBmdxOsAZJx08V74=;
+ b=fej0RARcBAgS2zy8g2IRZ3bM2iQcNGJeJBqZ22fXE/Gga89iuZGZFBTk3lAbWaUrfAYrrQ
+ QzP2qTsJeoGb1sFnfMCvC5B3jlLuM0Xo2hsIr2mmahlk2ghkOUce3MrY5glpRh3FOSJRWe
+ sutoy7J/hydSQuyyQf8xCNbEzPv+jTc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-YiQeskj2OG2RACt1SL0CJw-1; Mon, 07 Dec 2020 15:46:02 -0500
+X-MC-Unique: YiQeskj2OG2RACt1SL0CJw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96BC6858184;
+ Mon,  7 Dec 2020 20:46:01 +0000 (UTC)
+Received: from [10.10.116.117] (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6514290A9;
+ Mon,  7 Dec 2020 20:45:57 +0000 (UTC)
+Subject: Re: runaway avocado
+To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+References: <CAFEAcA8z=vQ9E6hNKUuzk2EgH8Dpkxo=3YbnQ5iX0DYCQDr6bg@mail.gmail.com>
+ <caccebbf-e12d-ab91-d631-ae126d8cddf7@redhat.com>
+ <20201027002822.GA2265721@localhost.localdomain>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <9d355b5d-4604-669f-5336-2e136f996734@redhat.com>
+Date: Mon, 7 Dec 2020 15:45:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 07 Dec 2020 20:44:23 -0000
-From: Peter Collingbourne <1907137@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pcc-goog
-X-Launchpad-Bug-Reporter: Peter Collingbourne (pcc-goog)
-X-Launchpad-Bug-Modifier: Peter Collingbourne (pcc-goog)
-Message-Id: <160737386315.5907.11436467204976213940.malonedeb@gac.canonical.com>
-Subject: [Bug 1907137] [NEW] LDTR not properly emulated when MTE tag checks
- enabled at EL0
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: db7743320cf7c7ca091af23294096f3909e56baa
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201027002822.GA2265721@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,133 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907137 <1907137@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ avocado-devel <avocado-devel@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 10/26/20 8:28 PM, Cleber Rosa wrote:
+> On Mon, Oct 26, 2020 at 11:43:36PM +0100, Philippe Mathieu-Daudé wrote:
+>> Cc'ing avocado-devel@
+>>
+>> On 10/26/20 11:35 PM, Peter Maydell wrote:
+>>> So, I somehow ended up with this process still running on my
+>>> local machine after a (probably failed) 'make check-acceptance':
+>>>
+>>> petmay01 13710 99.7  3.7 2313448 1235780 pts/16 Sl  16:10 378:00
+>>> ./qemu-system-aarch64 -display none -vga none -chardev
+>>> socket,id=mon,path=/var/tmp/tmp5szft2yi/qemu-13290-monitor.sock -mon
+>>> chardev=mon,mode=control -machine virt -chardev
+>>> socket,id=console,path=/var/tmp/tmp5szft2yi/qemu-13290-console.sock,server,nowait
+>>> -serial chardev:console -icount
+>>> shift=7,rr=record,rrfile=/var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptance_reverse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/replay.bin,rrsnapshot=init
+>>> -net none -drive
+>>> file=/var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptance_reverse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/disk.qcow2,if=none
+>>> -kernel /home/petmay01/avocado/data/cache/by_location/a00ac4ae676ef0322126abd2f7d38f50cc9cbc95/vmlinuz
+>>> -cpu cortex-a53
+>>>
+>>> and it was continuing to log to a deleted file
+>>> /var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptance_reverse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/replay.bin
+>>>
+>>> which was steadily eating my disk space and got up to nearly 100GB
+>>> in used disk (invisible to du, of course, since it was an unlinked
+>>> file) before I finally figured out what was going on and killed it
+>>> about six hours later...
+>>>
+> 
+> Ouch!
+> 
+>>> Any suggestions for how we might improve the robustness of the
+>>> relevant test ?
+>>>
+> 
+> While this test may be less robust/reliable than others, the core
+> issue is that the automatic shutdown of the QEMU "vms" can be
+> improved.  My best guess is that this specific test ended in ERROR,
+> and (or because?) the tearDown() method failed to end these processes.
+> 
+> All tests can be improved at once by adding a second, even more
+> forceful round of shutdown.  Currently the process gets, in the worst
+> case scenario, a SIGKILL.
+> 
+> But, in addition to that, an upper layer above the test could be given
+> the responsibility to look for and clean up resouces initiated by a
+> test.  The Avocado job has hooks for running callbacks right before
+> its own process exits, but, with the new Avocado architecture (AKA "N(ext)
+> Runner") this should probably be implemented as async cleanup actions
+> that begin right after a test ends.
+> 
+> I'll give the "second more forceful round of shutdown" approach some
+> and testing, and in addition to that, open an issue to track the upper
+> layer resource cleanup on Avocado.
+> 
 
-I am trying to boot Android (just the non-GUI parts for now) under QEMU
-with MTE enabled. This can be done by following the instructions here to
-build the fvp-eng target with MTE support:
+machine.py should have a timeout that it adheres to, unless it was 
+disabled explicitly -- then I guess it can't help you.
 
-https://cs.android.com/android/platform/superproject/+/master:device/generi=
-c/goldfish/fvpbase/
+--js
 
-and launching QEMU with the following command:
-
-qemu-system-aarch64 -kernel $ANDROID_PRODUCT_OUT/kernel -initrd
-$ANDROID_PRODUCT_OUT/combined-ramdisk.img -machine virt,mte=3Don -cpu max
--drive driver=3Draw,file=3D$ANDROID_PRODUCT_OUT/system-
-qemu.img,if=3Dnone,id=3Dsystem -device virtio-blk-device,drive=3Dsystem
--append "console=3DttyAMA0 earlyprintk=3DttyAMA0
-androidboot.hardware=3Dfvpbase
-androidboot.boot_devices=3Da003e00.virtio_mmio loglevel=3D9
-printk.devkmsg=3Don buildvariant=3Deng" -m 512 -nographic -no-reboot
-
-If I do this then QEMU crashes like so:
-
-**
-ERROR:../target/arm/mte_helper.c:558:mte_check_fail: code should not be rea=
-ched
-Bail out! ERROR:../target/arm/mte_helper.c:558:mte_check_fail: code should =
-not be reached
-
-The error is caused by an MTE tag check fault from an LDTR instruction
-in __arch_copy_from_user. At this point TCF=3D0 and TCF0=3D2.
-
-I have this patch that gets me past the error but it is unclear whether
-this is the correct fix since there may be other confusion between TCF
-and TCF0 elsewhere.
-
-diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-index 153bd1e9df..aa5db4eac4 100644
---- a/target/arm/mte_helper.c
-+++ b/target/arm/mte_helper.c
-@@ -552,10 +552,8 @@ static void mte_check_fail(CPUARMState *env, uint32_t =
-desc,
-     case 0:
-         /*
-          * Tag check fail does not affect the PE.
--         * We eliminate this case by not setting MTE_ACTIVE
--         * in tb_flags, so that we never make this runtime call.
-          */
--        g_assert_not_reached();
-+        break;
- =
-
-     case 2:
-         /* Tag check fail causes asynchronous flag set.  */
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907137
-
-Title:
-  LDTR not properly emulated when MTE tag checks enabled at EL0
-
-Status in QEMU:
-  New
-
-Bug description:
-  I am trying to boot Android (just the non-GUI parts for now) under
-  QEMU with MTE enabled. This can be done by following the instructions
-  here to build the fvp-eng target with MTE support:
-
-  https://cs.android.com/android/platform/superproject/+/master:device/gene=
-ric/goldfish/fvpbase/
-
-  and launching QEMU with the following command:
-
-  qemu-system-aarch64 -kernel $ANDROID_PRODUCT_OUT/kernel -initrd
-  $ANDROID_PRODUCT_OUT/combined-ramdisk.img -machine virt,mte=3Don -cpu
-  max -drive driver=3Draw,file=3D$ANDROID_PRODUCT_OUT/system-
-  qemu.img,if=3Dnone,id=3Dsystem -device virtio-blk-device,drive=3Dsystem
-  -append "console=3DttyAMA0 earlyprintk=3DttyAMA0
-  androidboot.hardware=3Dfvpbase
-  androidboot.boot_devices=3Da003e00.virtio_mmio loglevel=3D9
-  printk.devkmsg=3Don buildvariant=3Deng" -m 512 -nographic -no-reboot
-
-  If I do this then QEMU crashes like so:
-
-  **
-  ERROR:../target/arm/mte_helper.c:558:mte_check_fail: code should not be r=
-eached
-  Bail out! ERROR:../target/arm/mte_helper.c:558:mte_check_fail: code shoul=
-d not be reached
-
-  The error is caused by an MTE tag check fault from an LDTR instruction
-  in __arch_copy_from_user. At this point TCF=3D0 and TCF0=3D2.
-
-  I have this patch that gets me past the error but it is unclear
-  whether this is the correct fix since there may be other confusion
-  between TCF and TCF0 elsewhere.
-
-  diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
-  index 153bd1e9df..aa5db4eac4 100644
-  --- a/target/arm/mte_helper.c
-  +++ b/target/arm/mte_helper.c
-  @@ -552,10 +552,8 @@ static void mte_check_fail(CPUARMState *env, uint32_=
-t desc,
-       case 0:
-           /*
-            * Tag check fail does not affect the PE.
-  -         * We eliminate this case by not setting MTE_ACTIVE
-  -         * in tb_flags, so that we never make this runtime call.
-            */
-  -        g_assert_not_reached();
-  +        break;
-   =
-
-       case 2:
-           /* Tag check fail causes asynchronous flag set.  */
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907137/+subscriptions
 
