@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F3B2D1AF3
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 21:47:56 +0100 (CET)
-Received: from localhost ([::1]:55816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322832D1B81
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 21:58:20 +0100 (CET)
+Received: from localhost ([::1]:34112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmNQI-0004Ai-Oi
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 15:47:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43588)
+	id 1kmNaN-0007PZ-9q
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 15:58:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmNOe-0003gC-8m
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 15:46:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28137)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmNOa-0007m4-ES
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 15:46:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607373966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8tmPzV4TXnZzEKpBFAKF2+ZMdAOTBmdxOsAZJx08V74=;
- b=fej0RARcBAgS2zy8g2IRZ3bM2iQcNGJeJBqZ22fXE/Gga89iuZGZFBTk3lAbWaUrfAYrrQ
- QzP2qTsJeoGb1sFnfMCvC5B3jlLuM0Xo2hsIr2mmahlk2ghkOUce3MrY5glpRh3FOSJRWe
- sutoy7J/hydSQuyyQf8xCNbEzPv+jTc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-YiQeskj2OG2RACt1SL0CJw-1; Mon, 07 Dec 2020 15:46:02 -0500
-X-MC-Unique: YiQeskj2OG2RACt1SL0CJw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96BC6858184;
- Mon,  7 Dec 2020 20:46:01 +0000 (UTC)
-Received: from [10.10.116.117] (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6514290A9;
- Mon,  7 Dec 2020 20:45:57 +0000 (UTC)
-Subject: Re: runaway avocado
-To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>
-References: <CAFEAcA8z=vQ9E6hNKUuzk2EgH8Dpkxo=3YbnQ5iX0DYCQDr6bg@mail.gmail.com>
- <caccebbf-e12d-ab91-d631-ae126d8cddf7@redhat.com>
- <20201027002822.GA2265721@localhost.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <9d355b5d-4604-669f-5336-2e136f996734@redhat.com>
-Date: Mon, 7 Dec 2020 15:45:56 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kmNYo-0006eN-F0
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 15:56:42 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:41498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kmNYm-0002g1-Nn
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 15:56:42 -0500
+Received: by mail-ed1-x542.google.com with SMTP id i24so7393481edj.8
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 12:56:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jydo/b2+ePXjDc2hq9QVa6iXvWHXPpj2/7ACQgO0n+g=;
+ b=M4WZkeeH7/L99csyEDPxq7vQRtkOiC3gWLdcoRt8/KiQ1CgIe/mRux+BT+hrKvJpD6
+ DDQIBHBsL1P7A4moQVA3+4R8liXssHIJm+yISurBEA3GdsPt7INJ2kgnbVfChBzJSOoT
+ 6BftNvlaVhaqb9u8Q2ABVR5OfRQtHzDC0sohww6y0+I+4FsRMJDVBwsCZl7pymqLtCV9
+ FUcXNcvoBm1Ozi6lFqoTNeimemwivt0KB/8jtVKyhnI4cD9sm1JwxmpH8FmuY7TnHmB+
+ 8YzqwLrt4XPnoLsi+Jw75uRRGgz2rK2fdY24Dr9kxtRRKL3o3eBloIPzdbk3WkUnvYOk
+ GFbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jydo/b2+ePXjDc2hq9QVa6iXvWHXPpj2/7ACQgO0n+g=;
+ b=ZLwZ28bIpScW9GHluhgcfB/EmU1nE/wLU8+8O8s8YiGfa0o0WxQjtOpPNksND27HjZ
+ iREogcsSTtFXxfW/NicbCYvjy3oV2S6VTVBsHaegQtS5aIXiu1AvVSxCM8/m+NLANHJv
+ Sj9vLjyyXx6KBGGxyHpk4uWkq8Q5ey9QhO+PvuXwOIV6qj+UrPnuWVS/J5yybISuxZYQ
+ Ct+7bqJy9tx/xwCa0/Zp/5nOUgJVoA+njlYNAc09AMYtRo60nPZMXs5n76F+/b/QTlVW
+ XZgyKVm0HXyNMbCpXVuba0XI0OnCrfTUtZGeWjp8UHclGDJAgFN6BLk7lAcqcYd1Nyj/
+ LR0A==
+X-Gm-Message-State: AOAM533ZEeMWrut/Mf6wsXphkUs/7rFo1vs+WxFUC+/A0QtxosoJmB26
+ 1PrSbllmjEktDWEQFJSB89ZRM6Ua9sZKHmr01S5g7g==
+X-Google-Smtp-Source: ABdhPJxkFgZFTnUGtuLBkWHVd+YnfU9IBXvaC+AaJILTu227YlD0WHFdNB9hFJBkyJIC+cJcpDDwD4r6XbBZ006JCOg=
+X-Received: by 2002:aa7:c388:: with SMTP id k8mr4862991edq.36.1607374598669;
+ Mon, 07 Dec 2020 12:56:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201027002822.GA2265721@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201207084042.7690-1-cfontana@suse.de>
+ <20201207174916.GD1289986@habkost.net>
+ <CAFEAcA_UUs6NJ_JYtNEQ3VubHnvsvo1BBx6=9nVT9GO_QrDwoQ@mail.gmail.com>
+ <20201207182842.GE1289986@habkost.net>
+In-Reply-To: <20201207182842.GE1289986@habkost.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Dec 2020 20:56:27 +0000
+Message-ID: <CAFEAcA9OWLF01hR4qzPwKWAHiDZ9RkSab8rv+0rnkyNhQjAnOg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: do not use cc->do_interrupt for KVM directly
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,73 +79,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- avocado-devel <avocado-devel@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>, Dongjiu Geng <gengdongjiu@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/20 8:28 PM, Cleber Rosa wrote:
-> On Mon, Oct 26, 2020 at 11:43:36PM +0100, Philippe Mathieu-Daudé wrote:
->> Cc'ing avocado-devel@
->>
->> On 10/26/20 11:35 PM, Peter Maydell wrote:
->>> So, I somehow ended up with this process still running on my
->>> local machine after a (probably failed) 'make check-acceptance':
->>>
->>> petmay01 13710 99.7  3.7 2313448 1235780 pts/16 Sl  16:10 378:00
->>> ./qemu-system-aarch64 -display none -vga none -chardev
->>> socket,id=mon,path=/var/tmp/tmp5szft2yi/qemu-13290-monitor.sock -mon
->>> chardev=mon,mode=control -machine virt -chardev
->>> socket,id=console,path=/var/tmp/tmp5szft2yi/qemu-13290-console.sock,server,nowait
->>> -serial chardev:console -icount
->>> shift=7,rr=record,rrfile=/var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptance_reverse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/replay.bin,rrsnapshot=init
->>> -net none -drive
->>> file=/var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptance_reverse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/disk.qcow2,if=none
->>> -kernel /home/petmay01/avocado/data/cache/by_location/a00ac4ae676ef0322126abd2f7d38f50cc9cbc95/vmlinuz
->>> -cpu cortex-a53
->>>
->>> and it was continuing to log to a deleted file
->>> /var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptance_reverse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/replay.bin
->>>
->>> which was steadily eating my disk space and got up to nearly 100GB
->>> in used disk (invisible to du, of course, since it was an unlinked
->>> file) before I finally figured out what was going on and killed it
->>> about six hours later...
->>>
-> 
-> Ouch!
-> 
->>> Any suggestions for how we might improve the robustness of the
->>> relevant test ?
->>>
-> 
-> While this test may be less robust/reliable than others, the core
-> issue is that the automatic shutdown of the QEMU "vms" can be
-> improved.  My best guess is that this specific test ended in ERROR,
-> and (or because?) the tearDown() method failed to end these processes.
-> 
-> All tests can be improved at once by adding a second, even more
-> forceful round of shutdown.  Currently the process gets, in the worst
-> case scenario, a SIGKILL.
-> 
-> But, in addition to that, an upper layer above the test could be given
-> the responsibility to look for and clean up resouces initiated by a
-> test.  The Avocado job has hooks for running callbacks right before
-> its own process exits, but, with the new Avocado architecture (AKA "N(ext)
-> Runner") this should probably be implemented as async cleanup actions
-> that begin right after a test ends.
-> 
-> I'll give the "second more forceful round of shutdown" approach some
-> and testing, and in addition to that, open an issue to track the upper
-> layer resource cleanup on Avocado.
-> 
+On Mon, 7 Dec 2020 at 18:28, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> All signs seem to indicate that CPUClass.do_interrupt is
+> TCG-specific, except for those two lines of code in
+> target/arm/kvm64.c.  The point of this patch would be to allow us
+> to separate TCG-specific code from accel-independent code later.
 
-machine.py should have a timeout that it adheres to, unless it was 
-disabled explicitly -- then I guess it can't help you.
+So it's TCG-specific except that we call it from KVM.
+That doesn't sound very TCG-specific :-)
 
---js
+> Maybe those signs are misleading us, and CPUClass.do_interrupt
+> shouldn't be TCG-specific.  If that's the case, why arm is the
+> only architecture that uses CPUClass.do_interrupt outside
+> TCG-specific code?
 
+So, the purpose of the do_interrupt method is "set the guest
+CPU state up in the way that the architecture specifies
+happens when an interrupt is taken" (set the program counter,
+set things like the syndrome register that says what type
+of exception happens, etc, etc). For TCG we obviously need
+to do this for every interrupt/exception that happens.
+For KVM, in most cases the kernel is responsible for
+delivering an exception to the guest, because it's the
+kernel that determines that it needs to do this.
+The two oddball cases[*] in target/arm are for situations
+where it is userspace code that has identified that it
+needs to deliver an exception to the guest. The kernel's
+KVM API doesn't provide a "please deliver an exception to
+the guest" function, on the grounds that userspace could
+do the work itself. So we need to do that work (setting the
+PC, setting syndrome register, etc, etc). In theory we
+could have a special version of the function for KVM
+CPUs only, but since in fact the same code works just
+fine in KVM and TCG we reuse it.
+
+I know that the macOS Hypervisor.Framework APIs are rather
+lower-level than KVM (they do less work in the kernel and
+push more of it onto userspace); it's possible that there
+we might find more situations where userspace needs to do
+"make the guest CPU take an exception"; I haven't investigated.
+
+[*] The two special cases are:
+ (1) the vcpu thread got a SIGBUS indicating a memory error,
+     and we need to deliver a synchronous external abort
+     exception to the guest to let it know about the error
+ (2) the kernel told us about a debug exception (breakpoint,
+     watchpoint, etc) but it turns out not to be for one of
+     QEMU's own gdbstub breakpoints/watchpoints, so it
+     must be one the guest itself has set up, and so we need
+     to deliver it to the guest
+
+These are fairly obscure, and it wouldn't surprise me if
+other target archs had picked a different separation of
+concerns between userspace and the kernel such that userspace
+didn't need to manually deliver an exception.
+
+thanks
+-- PMM
 
