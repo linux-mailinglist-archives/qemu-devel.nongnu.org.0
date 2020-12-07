@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C862D16CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 17:54:38 +0100 (CET)
-Received: from localhost ([::1]:36100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE362D16E5
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 17:55:35 +0100 (CET)
+Received: from localhost ([::1]:38400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmJmX-0002eB-2x
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 11:54:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38104)
+	id 1kmJnS-0003g5-7M
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 11:55:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kmJkL-0001fc-Sn
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:52:21 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:32790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kmJkK-0001lV-6Q
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:52:21 -0500
-Received: by mail-ej1-x643.google.com with SMTP id b9so10126421ejy.0
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 08:52:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=OTQRBjUe2TNjYMgJefl7n0HpBavaiUEtwmxJsr1/2t4=;
- b=erKmXltJIFGXdOQcph/EmLbnMRY6RChItOwpRyiu8mFYM+wjLN9CHS8NfD8l6oT6qJ
- 1f/szmE8g+MJAyGMfg78p8iPicMlWeScTuFEWULsmGKKsuAlilIgx6fw334H1Q6/1R2r
- qFRDGMSE6bgWNv5M5iOHiqZOmFzj+zS2s/4VInI1sJuZOADPtUs8x7MlwhR1+oGPruEG
- ydJKuWQ1H76nsoemtOULbMSmbVQAUW1rsuwvKPl4VoUrKRtyPt1353Tsr2CsusdN1oij
- t/UNHMJUgc6F8336mbycNpSenKA4XbUZoHoG4eaWiwmHcftSFe8ZoQZgiCadTLdwYC3w
- L1AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=OTQRBjUe2TNjYMgJefl7n0HpBavaiUEtwmxJsr1/2t4=;
- b=bjQX+gjDlb/oOnv13eMWeHzgRONovkvdk9KFHyx9IcwS2/wtsJ5nkP9H7BOGXtsrRj
- pzYhh5uWY+GKj7wfEQ1FO7Q0GrJvLSdL+X8eh6lVspNXZnoDMkpQ8Gv5HeAeY3XwTwtf
- tFCkKhnWYIpPOT3lxlCwJJPhPwD0y0dX4Fe6fTeAFeDK1P/FoZDd3rzkqqtTlg95z9FB
- oT4+qalrFLrmJBrczNJ28FVysyoD9eB5fLx1Irxt4ufDYddYVOkpgd72Gu1w+L/WjpDb
- DrNKwu4GBn5Kxx6BCnnNMY3qpss2/1KDkUEuKrLlg7ggQAepOGqFzxivBrNz6dNC8t8d
- S4tw==
-X-Gm-Message-State: AOAM532jD7IDtti3M6P4FAcAhZh/Gw6uyjPQmRmY/Z3FDTI4FPaa4ty9
- 2XMh61238jaxCqKof56SbZc=
-X-Google-Smtp-Source: ABdhPJycsLY1gSAtaotTfUaJl7iKx3GhozpQNix9ydMBC5YVDHoyAJwcCg7JB0Eipy1M7eJ+9OyCCg==
-X-Received: by 2002:a17:907:28d4:: with SMTP id
- en20mr19944431ejc.196.1607359938454; 
- Mon, 07 Dec 2020 08:52:18 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id q4sm10641523ejc.78.2020.12.07.08.52.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 08:52:17 -0800 (PST)
-Date: Mon, 7 Dec 2020 16:52:16 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Subject: Re: [RFC PATCH 05/27] vhost: Add hdev->dev.sw_lm_vq_handler
-Message-ID: <20201207165216.GL203660@stefanha-x1.localdomain>
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-6-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmJlZ-0002Vi-1e
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:53:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmJlU-0001uy-Ma
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:53:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607360011;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UQzqXY5wCAW494NfODbzgwSsVPSV9bvY+v477tZtBdk=;
+ b=ZT7r0mZnXZIqhlVWbjwOMZdZ0VFahc1yg4C40f+YJe59Iy0s2zxOaWQcUyJMjlOlaLGBJ9
+ iXpvGv3EkeQQwR9yJ/SuIl1aNQuXHQvkkp540yVDk5yIS5xlv42/Ivmb3+zsUtJR3j12l0
+ Pw8XGS4527O6iXEJgvEzksOTJpPLmYU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-566-OUTFYEdSNNafHc-aFNOqfA-1; Mon, 07 Dec 2020 11:53:29 -0500
+X-MC-Unique: OUTFYEdSNNafHc-aFNOqfA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDE7EE717C;
+ Mon,  7 Dec 2020 16:53:15 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 823255D9DE;
+ Mon,  7 Dec 2020 16:53:14 +0000 (UTC)
+Date: Mon, 7 Dec 2020 17:53:12 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 12/15] plugin: propagate errors
+Message-ID: <20201207175312.57617740@redhat.com>
+In-Reply-To: <20201202081854.4126071-13-pbonzini@redhat.com>
+References: <20201202081854.4126071-1-pbonzini@redhat.com>
+ <20201202081854.4126071-13-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VBq/nvTu32OVLBUP"
-Content-Disposition: inline
-In-Reply-To: <20201120185105.279030-6-eperezma@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=stefanha@gmail.com; helo=mail-ej1-x643.google.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,95 +79,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
- Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
- Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed,  2 Dec 2020 03:18:51 -0500
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
---VBq/nvTu32OVLBUP
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> qemu_finish_machine_init currently can only exit QEMU if it fails.
+> Prepare for giving it proper error propagation, and possibly for
+> adding a plugin_add monitor command that calls an accelerator
+> method.
+> 
+> While at it, make all errors from plugin_load look the same.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-On Fri, Nov 20, 2020 at 07:50:43PM +0100, Eugenio P=E9rez wrote:
-> Only virtio-net honors it.
->=20
-> Signed-off-by: Eugenio P=E9rez <eperezma@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
 > ---
->  include/hw/virtio/vhost.h |  1 +
->  hw/net/virtio-net.c       | 39 ++++++++++++++++++++++++++++-----------
->  2 files changed, 29 insertions(+), 11 deletions(-)
->=20
-> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> index 4a8bc75415..b5b7496537 100644
-> --- a/include/hw/virtio/vhost.h
-> +++ b/include/hw/virtio/vhost.h
-> @@ -83,6 +83,7 @@ struct vhost_dev {
->      bool started;
->      bool log_enabled;
->      uint64_t log_size;
-> +    VirtIOHandleOutput sw_lm_vq_handler;
-
-sw =3D=3D software?
-lm =3D=3D live migration?
-
-Maybe there is a name that is clearer. What are these virtqueues called?
-Shadow vqs? Logged vqs?
-
-Live migration is a feature that uses dirty memory logging, but other
-features may use dirty memory logging too. The name should probably not
-be associated with live migration.
-
->      Error *migration_blocker;
->      const VhostOps *vhost_ops;
->      void *opaque;
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 9179013ac4..9a69ae3598 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -2628,24 +2628,32 @@ static void virtio_net_tx_bh(void *opaque)
->      }
+>  include/qemu/plugin.h |  4 ++--
+>  linux-user/main.c     |  4 +---
+>  plugins/loader.c      | 34 +++++++++++++++++-----------------
+>  softmmu/vl.c          |  4 +---
+>  4 files changed, 21 insertions(+), 25 deletions(-)
+> 
+> diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+> index ab790ad105..841deed79c 100644
+> --- a/include/qemu/plugin.h
+> +++ b/include/qemu/plugin.h
+> @@ -45,7 +45,7 @@ static inline void qemu_plugin_add_opts(void)
 >  }
-> =20
-> -static void virtio_net_add_queue(VirtIONet *n, int index)
-> +static void virtio_net_add_queue(VirtIONet *n, int index,
-> +                                 VirtIOHandleOutput custom_handler)
+>  
+>  void qemu_plugin_opt_parse(const char *optarg, QemuPluginList *head);
+> -int qemu_plugin_load_list(QemuPluginList *head);
+> +int qemu_plugin_load_list(QemuPluginList *head, Error **errp);
+>  
+>  union qemu_plugin_cb_sig {
+>      qemu_plugin_simple_cb_t          simple;
+> @@ -199,7 +199,7 @@ static inline void qemu_plugin_opt_parse(const char *optarg,
+>      exit(1);
+>  }
+>  
+> -static inline int qemu_plugin_load_list(QemuPluginList *head)
+> +static inline int qemu_plugin_load_list(QemuPluginList *head, Error **errp)
 >  {
+>      return 0;
+>  }
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 24d1eb73ad..750a01118f 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -671,9 +671,7 @@ int main(int argc, char **argv, char **envp)
+>          exit(1);
+>      }
+>      trace_init_file();
+> -    if (qemu_plugin_load_list(&plugins)) {
+> -        exit(1);
+> -    }
+> +    qemu_plugin_load_list(&plugins, &error_fatal);
+>  
+>      /* Zero out regs */
+>      memset(regs, 0, sizeof(struct target_pt_regs));
+> diff --git a/plugins/loader.c b/plugins/loader.c
+> index 8ac5dbc20f..5cb9794fda 100644
+> --- a/plugins/loader.c
+> +++ b/plugins/loader.c
+> @@ -150,7 +150,7 @@ static uint64_t xorshift64star(uint64_t x)
+>      return x * UINT64_C(2685821657736338717);
+>  }
+>  
+> -static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
+> +static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info, Error **errp)
+>  {
+>      qemu_plugin_install_func_t install;
+>      struct qemu_plugin_ctx *ctx;
+> @@ -163,37 +163,37 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
+>  
+>      ctx->handle = g_module_open(desc->path, G_MODULE_BIND_LOCAL);
+>      if (ctx->handle == NULL) {
+> -        error_report("%s: %s", __func__, g_module_error());
+> +        error_setg(errp, "Could not load plugin %s: %s", desc->path, g_module_error());
+>          goto err_dlopen;
+>      }
+>  
+>      if (!g_module_symbol(ctx->handle, "qemu_plugin_install", &sym)) {
+> -        error_report("%s: %s", __func__, g_module_error());
+> +        error_setg(errp, "Could not load plugin %s: %s", desc->path, g_module_error());
+>          goto err_symbol;
+>      }
+>      install = (qemu_plugin_install_func_t) sym;
+>      /* symbol was found; it could be NULL though */
+>      if (install == NULL) {
+> -        error_report("%s: %s: qemu_plugin_install is NULL",
+> -                     __func__, desc->path);
+> +        error_setg(errp, "Could not load plugin %s: qemu_plugin_install is NULL",
+> +                   desc->path);
+>          goto err_symbol;
+>      }
+>  
+>      if (!g_module_symbol(ctx->handle, "qemu_plugin_version", &sym)) {
+> -        error_report("TCG plugin %s does not declare API version %s",
+> -                     desc->path, g_module_error());
+> +        error_setg(errp, "Could not load plugin %s: plugin does not declare API version %s",
+> +                   desc->path, g_module_error());
+>          goto err_symbol;
+>      } else {
+>          int version = *(int *)sym;
+>          if (version < QEMU_PLUGIN_MIN_VERSION) {
+> -            error_report("TCG plugin %s requires API version %d, but "
+> -                         "this QEMU supports only a minimum version of %d",
+> -                         desc->path, version, QEMU_PLUGIN_MIN_VERSION);
+> +            error_setg(errp, "Could not load plugin %s: plugin requires API version %d, but "
+> +                       "this QEMU supports only a minimum version of %d",
+> +                       desc->path, version, QEMU_PLUGIN_MIN_VERSION);
+>              goto err_symbol;
+>          } else if (version > QEMU_PLUGIN_VERSION) {
+> -            error_report("TCG plugin %s requires API version %d, but "
+> -                         "this QEMU supports only up to version %d",
+> -                         desc->path, version, QEMU_PLUGIN_VERSION);
+> +            error_setg(errp, "Could not load plugin %s: plugin requires API version %d, but "
+> +                       "this QEMU supports only up to version %d",
+> +                       desc->path, version, QEMU_PLUGIN_VERSION);
+>              goto err_symbol;
+>          }
+>      }
+> @@ -220,8 +220,8 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
+>      rc = install(ctx->id, info, desc->argc, desc->argv);
+>      ctx->installing = false;
+>      if (rc) {
+> -        error_report("%s: qemu_plugin_install returned error code %d",
+> -                     __func__, rc);
+> +        error_setg(errp, "Could not load plugin %s: qemu_plugin_install returned error code %d",
+> +                   desc->path, rc);
+>          /*
+>           * we cannot rely on the plugin doing its own cleanup, so
+>           * call a full uninstall if the plugin did not yet call it.
+> @@ -263,7 +263,7 @@ static void plugin_desc_free(struct qemu_plugin_desc *desc)
+>   * Note: the descriptor of each successfully installed plugin is removed
+>   * from the list given by @head.
+>   */
+> -int qemu_plugin_load_list(QemuPluginList *head)
+> +int qemu_plugin_load_list(QemuPluginList *head, Error **errp)
+>  {
+>      struct qemu_plugin_desc *desc, *next;
+>      g_autofree qemu_info_t *info = g_new0(qemu_info_t, 1);
+> @@ -283,7 +283,7 @@ int qemu_plugin_load_list(QemuPluginList *head)
+>      QTAILQ_FOREACH_SAFE(desc, head, entry, next) {
+>          int err;
+>  
+> -        err = plugin_load(desc, info);
+> +        err = plugin_load(desc, info, errp);
+>          if (err) {
+>              return err;
+>          }
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index e5f3c42049..0f63d80472 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2417,9 +2417,7 @@ static void qemu_init_board(void)
+>      }
+>  
+>      /* process plugin before CPUs are created, but once -smp has been parsed */
+> -    if (qemu_plugin_load_list(&plugin_list)) {
+> -        exit(1);
+> -    }
+> +    qemu_plugin_load_list(&plugin_list, &error_fatal);
+>  
+>      /* From here on we enter MACHINE_PHASE_INITIALIZED.  */
+>      machine_run_board_init(current_machine);
 
-We talked about the possibility of moving this into the generic vhost
-code so that devices don't need to be modified. It would be nice to hide
-this feature inside vhost.
-
---VBq/nvTu32OVLBUP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/OXb8ACgkQnKSrs4Gr
-c8h0zgf/Y8KuZmHAiJe/VBJicMVsGgLkqfkqKp7+bL8u8nU75Wm24ECd47sAbvWK
-q/BQs7t9VxQ0KBH8DJBGviwxG4bfoAtzXpSKgHRgbvd0AWHqJqfbEcKP+yZ0mKwB
-uSAsQqNU/K9DxvNiJSzzklUvKmvKPrWXwgWsP2jRKOTAxn2nvNrCO+X9sAveTmEk
-ZMfFOsHVNVxc4nJIwRsySTnpUz4ADJvzrhGk8cvjIIg/9Gq28EsYiMLWhtQymrj6
-iEIZnfg5REWv/w3KzvwqVBaBqVF/QkFk0w8naAuT+KHbr+fKZLtMVC6ebY44vqZN
-+iQr7fQg3dfy8ba7WFxyYHnVGmZMEQ==
-=GegK
------END PGP SIGNATURE-----
-
---VBq/nvTu32OVLBUP--
 
