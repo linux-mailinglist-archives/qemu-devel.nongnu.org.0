@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9E32D09FD
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 06:22:47 +0100 (CET)
-Received: from localhost ([::1]:34846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21B02D0A51
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 06:43:10 +0100 (CET)
+Received: from localhost ([::1]:38070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1km8z0-00079e-1e
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 00:22:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33188)
+	id 1km9Ij-0001Gi-D6
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 00:43:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1km8xF-0006Hq-40
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:20:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39516)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1km9HY-0000ir-AD
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:41:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1km8xA-0007vO-Tk
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:20:56 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1km9HU-0000gI-GQ
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:41:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607318451;
+ s=mimecast20190719; t=1607319711;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5i5jUUW575PHEv2nQ9iBjazPdMewihveiWGYT6cOBCc=;
- b=HfV4Ww8yr14fKlE2T0NMaxsH+ItBz57KalYIE4r5FWSAdRsIVBxFK/YqYpHhKqmfEm2Xra
- mQn9UtDHoUVnVJMyRjVeGBbB5uOjNz6wM1w8d9pTnXPJtHuigC7DpdMtGPr/5BAeiVopgY
- QQFS62rHPVJ7fxvj1PW6Ct5PGtQhQVo=
+ bh=hLuvXS3NI6D8cDyFAW5Sct9681MJ4TRf7wvMzpU1WWE=;
+ b=KUTPZe0k7q1cCJJETbf2zJqjPp0nXzm+KcrXR1rYKsmFbQ9eSqclqliSlJpCdEaA+VNbJu
+ 6QSqjH2jkADchLC+3nqTwy7AQiKQeJphvkyBB+YblFcozhCM/cvhKHxuHEVlj+IZ52YCmw
+ zKKSYboTvilOvH8fAIOWiaizBJuJq8E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-xoOH7ohQMkiOcx7_FPWO6A-1; Mon, 07 Dec 2020 00:20:49 -0500
-X-MC-Unique: xoOH7ohQMkiOcx7_FPWO6A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-332-EzR6j0tzNtSU__GG2EUBMw-1; Mon, 07 Dec 2020 00:41:47 -0500
+X-MC-Unique: EzR6j0tzNtSU__GG2EUBMw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DEF91005504;
- Mon,  7 Dec 2020 05:20:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F4CB1005513;
+ Mon,  7 Dec 2020 05:41:44 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-85.ams2.redhat.com [10.36.112.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1CF885D6AB;
- Mon,  7 Dec 2020 05:20:35 +0000 (UTC)
-Subject: Re: [PATCH 3/8] gitlab-ci: Add KVM X86 cross-build jobs
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 409601A262;
+ Mon,  7 Dec 2020 05:41:32 +0000 (UTC)
+Subject: Re: [PATCH 4/8] gitlab-ci: Add KVM ARM cross-build jobs
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20201206185508.3545711-1-philmd@redhat.com>
- <20201206185508.3545711-4-philmd@redhat.com>
+ <20201206185508.3545711-5-philmd@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <1048bbc0-7124-3564-4219-aa32ed11a35b@redhat.com>
-Date: Mon, 7 Dec 2020 06:20:34 +0100
+Message-ID: <2a75c6ea-013d-896e-8478-2312957d3ed2@redhat.com>
+Date: Mon, 7 Dec 2020 06:41:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201206185508.3545711-4-philmd@redhat.com>
+In-Reply-To: <20201206185508.3545711-5-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
  RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -95,21 +95,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 06/12/2020 19.55, Philippe Mathieu-Daudé wrote:
-> Cross-build x86 target with only KVM accelerator enabled.
+> Cross-build ARM aarch64 target with KVM and TCG accelerators enabled.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  .gitlab-ci.d/crossbuilds-kvm-x86.yml | 6 ++++++
+> later this job will build KVM-only.
+> ---
+>  .gitlab-ci.d/crossbuilds-kvm-arm.yml | 5 +++++
 >  .gitlab-ci.yml                       | 1 +
 >  MAINTAINERS                          | 1 +
->  3 files changed, 8 insertions(+)
->  create mode 100644 .gitlab-ci.d/crossbuilds-kvm-x86.yml
+>  3 files changed, 7 insertions(+)
+>  create mode 100644 .gitlab-ci.d/crossbuilds-kvm-arm.yml
+> 
+> diff --git a/.gitlab-ci.d/crossbuilds-kvm-arm.yml b/.gitlab-ci.d/crossbuilds-kvm-arm.yml
+> new file mode 100644
+> index 00000000000..c74c6fdc9fb
+> --- /dev/null
+> +++ b/.gitlab-ci.d/crossbuilds-kvm-arm.yml
+> @@ -0,0 +1,5 @@
+> +cross-arm64-kvm:
+> +  extends: .cross_accel_build_job
+> +  variables:
+> +    IMAGE: debian-arm64-cross
+> +    TARGETS: aarch64-softmmu
 
-We already have a job that tests with KVM enabled and TCG disabled in the
-main .gitlab-ci.yml file, the "build-tcg-disabled" job. So I don't quite see
-the point in adding yet another job that does pretty much the same? Did I
-miss something?
+Now that's a little bit surprising, I had expected that the KVM code is
+already compiled by the "cross-arm64-system" job ... but looking at the
+output of a corresponding pipeline, it says "KVM support: NO", see e.g.:
 
- Thomas
+https://gitlab.com/qemu-project/qemu/-/jobs/883985039#L298
+
+What's going wrong there? ... ah, well, it's because of the
+"--target-list-exclude=aarch64-softmmu" in the template :-(
+That was stupid. So instead of adding a new job, could you please simply
+replace the aarch64-softmmu there by arm-softmmu?
+
+ Thanks,
+  Thomas
 
 
