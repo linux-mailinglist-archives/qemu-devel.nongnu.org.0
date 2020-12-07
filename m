@@ -2,90 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450FF2D0DD1
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 11:12:15 +0100 (CET)
-Received: from localhost ([::1]:56446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C04F32D0DD3
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 11:13:18 +0100 (CET)
+Received: from localhost ([::1]:57672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmDV8-0003lR-Az
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 05:12:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52000)
+	id 1kmDW9-0004IP-Rb
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 05:13:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmDTK-00032f-Lx
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 05:10:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56278)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmDTH-0006oi-3l
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 05:10:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607335816;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2Ddxe4xvUIGJJMeynby9uaDyu2BewimwNMpz5+/BwHs=;
- b=O3j1fFDKRO1CMbRgpPwMJtyN9Oh4hhYVeKYjyDJuppHBXatdpHYYzdnjMGVEuCPd713Y1G
- WlbcHuD/6Kj0COS9Tv8QV0QML1cvhD/pXfidbIVGf11O3ppdArJZ9krKaFRo+oc4xAoyOC
- C7llD2Wk2qkAXmgfCH1ymEkbIks3J50=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-SQqfn9myPgOkkoiMu-KmZA-1; Mon, 07 Dec 2020 05:10:13 -0500
-X-MC-Unique: SQqfn9myPgOkkoiMu-KmZA-1
-Received: by mail-wr1-f70.google.com with SMTP id n13so4684779wrs.10
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 02:10:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2Ddxe4xvUIGJJMeynby9uaDyu2BewimwNMpz5+/BwHs=;
- b=iwKv9y4JrGHXAzamDWs31scLAhIp8daSIk1sxlPBksUxty+5LeGNVNern/K7D0D71P
- nHWG5FI9qvho7NpZQW/uiJanP84dGF4buEAXwX+YbvBQCwIq5IBmpCKnrWmxlAUl0xY+
- 6f9a2KaaSQmTim7QkWT9VknwaxZrCCu0f920o7z3SA/2VIcyl1H5VYjI7lossxCIBSwg
- jvxjNDof5azcQ25V+w8Ova8JZBxUOohHZfNPec8D9U2h63qA3D8AdDIweLzE9XcIhsEO
- kNLF38IEiuqJs+f40HGj/VK3uW0KUMCApoMzFzUn8LhUvalesSRt0NgcfeFwl8dfp6jR
- e7Jg==
-X-Gm-Message-State: AOAM5301tCf6oAv81TikUyVYlhcFns+kwMWaJm3UUpOUYt/J1z0kZZFh
- iUlMGow6F72kX9jQvNuDpyG0m1pMTFe3fcMrQZvulJ6a3WtReRoEc5kBHQXnMUC/ZEEsbN5CqiT
- z9e3sw8MWg5qcCaxRJ+ibnpOHmcNnxYYG8G/UdOr4yCUYKFbmcqnqmoiZB7JBGyD0
-X-Received: by 2002:a5d:65ca:: with SMTP id e10mr18883675wrw.42.1607335812388; 
- Mon, 07 Dec 2020 02:10:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxptT3ox+Pz5ZNsOFSVweensKf8YOstLhbVYSAg/aiOLCaAIn06pl5xA6UldXZomKJEO+Yn8A==
-X-Received: by 2002:a5d:65ca:: with SMTP id e10mr18883641wrw.42.1607335812077; 
- Mon, 07 Dec 2020 02:10:12 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id z17sm7819764wrh.88.2020.12.07.02.10.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Dec 2020 02:10:11 -0800 (PST)
-Subject: Re: [PATCH] crypto: Fix some code style problems, add spaces around
- operator
-To: shiliyang <shiliyang@huawei.com>, berrange@redhat.com
-References: <eec07863-d8fa-1ad0-5b64-4683d48478ab@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d0196f04-a286-c36b-d88e-0a3f8de8f599@redhat.com>
-Date: Mon, 7 Dec 2020 11:10:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <stephane.duverger@free.fr>)
+ id 1kmDTg-0003Pv-Sm
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 05:10:44 -0500
+Received: from smtp5-g21.free.fr ([2a01:e0c:1:1599::14]:16024)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stephane.duverger@free.fr>)
+ id 1kmDTe-000748-Pv
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 05:10:44 -0500
+Received: from wise (unknown [77.159.208.71])
+ (Authenticated sender: stephane.duverger@free.fr)
+ by smtp5-g21.free.fr (Postfix) with ESMTPSA id AE73B5FFD8;
+ Mon,  7 Dec 2020 11:10:32 +0100 (CET)
+Date: Mon, 7 Dec 2020 11:10:29 +0100
+From: Stephane Duverger <stephane.duverger@free.fr>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: x86 TCG helpers clobbered registers
+Message-ID: <20201207101029.GA96540@wise>
+References: <20201204153446.GA66154@wise>
+ <1d246e29-b364-099f-440c-5b644087b55f@linaro.org>
+ <20201205013402.GA69224@wise>
+ <5718f49e-8e17-17ae-45ec-94347f0a009d@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <eec07863-d8fa-1ad0-5b64-4683d48478ab@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, PDS_TONAME_EQ_TOLOCAL_SHORT=1.999,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5718f49e-8e17-17ae-45ec-94347f0a009d@linaro.org>
+Received-SPF: none client-ip=2a01:e0c:1:1599::14;
+ envelope-from=stephane.duverger@free.fr; helo=smtp5-g21.free.fr
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,23 +56,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/20 9:37 AM, shiliyang wrote:
-> This patch fixes error style problems found by checkpatch.pl:
-> ERROR: spaces required around that '*'
-> ERROR: space required after that ','
-> ERROR: spaces required around that '|'
+On Sat, Dec 05, 2020 at 06:38:25AM -0600, Richard Henderson wrote:
+> The difference is that the slow path is aware that there are input registers
+> that are live, containing data (addrlo, addrhi, datalo, datahi), which must be
+> stored into the arguments for the slow path call.  Those input registers (and
+> all other call-clobbered registers) are dead *after* the slow path call.
 > 
-> Signed-off-by: Liyang Shi <shiliyang@huawei.com>
-> ---
->  crypto/aes.c          | 2 +-
->  crypto/desrfb.c       | 2 +-
->  crypto/tlscredsx509.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
+> You are injecting your filter call while those input registers are still live.
+> They will be next used by the fast-path store.
+> 
+> That is a very significant difference.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Ok. That's why I saved REG_L1 (prepared by tlb_load) for both
+st/ld_direct use, plus datalo for st_direct only. I saw datahi is only
+used for MO_64 on 32bits tcg-target. And I better understand it thanks
+to you.
 
+This leads me to that simple reflection:
+
+If we want to filter on every memory accesses, *out of the fast-path*,
+the most natural place to do so would be in store_helper() and
+load_helper() from accel/tcg/cputlb.c. By doing so, every target would
+benefit from filtering, and even specific helpers using cpu_ldst
+functions would be intercepted. No ?
+
+For the remaining fast-path case, it could be interesting to generate
+it this time at IR level (tlb_load, jne to slow_path, direct
+load/store) ? Again every target would benefit from filtering without
+the need for a specific fast-path implementation in
+tcg/<arch>/tcg-target.c.inc
+
+Wouldn't it be simplier than actual mem plugin implementation, which
+generate fitler callback *after* load/store and has specific extra
+work for tracking memory accesses performed from helpers (afaiu) ?
 
