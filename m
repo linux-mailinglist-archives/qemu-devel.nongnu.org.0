@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38F42D1EB2
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 00:57:55 +0100 (CET)
-Received: from localhost ([::1]:48308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7F82D1EB3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 00:58:29 +0100 (CET)
+Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmQOA-0005bk-Qh
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 18:57:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56074)
+	id 1kmQOi-0005yG-8d
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 18:58:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmQMG-00040c-F1
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:55:56 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:40511)
+ id 1kmQMR-0004HM-9G
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:56:07 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:46698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmQMD-00047O-Re
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:55:56 -0500
-Received: by mail-ej1-x644.google.com with SMTP id x16so22045840ejj.7
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 15:55:53 -0800 (PST)
+ id 1kmQMO-0004EL-D5
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:56:06 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id b73so15656371edf.13
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 15:56:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=id6OmDgw7iWNDI7dt45hX8qgU9Twf4yyUu+1zQG1NFY=;
- b=aHsv2dYNJ008+x9hkHPl4FOfen0SZ1OFwpinszYcZJUz+aP9aeyUN1ZcOLNMeTPR50
- lI/ejL8HdgXAZsiY57Jl0QAHgMmoysWwCL0l1Tu3q5n2BHqwGYzDOVivI3p5jFxkcnCE
- ABPkRxp4fIbSxeoVy1JEPiu9fcIy99yx87VuzMAlAZ26vmcwgEAQs3XhzyV1awnZO4QV
- MaxrHcvUbDk+RaQY0ffo5n19JOVoRUoLIepHvym3qPUjzBLRH/o/K/+R/vt26JDro9Rd
- l+pAm0HYemD2BOkeugi7F/xLOSs7N4iGMsaxc5wXGRescT5+e0Owb8p+i42BUISEP28K
- 0tDw==
+ bh=2j0CQXtPFftuXNpmWEUjMSBohbrajeTcUm20t1SQymg=;
+ b=s+x4YaKiiZjShUuR0C5zkcABAbWLWGDyhwm/cU3oAGM4lL+AxAneIQRUwdPpEbUZn+
+ VmfNAu9WrUCi+GRB14a1k3jyXtuA43snLIaNgg3TGsfZohyoseA74OSdvJCA9W0Qcs51
+ 3t9J1hzv5IlS4W/J1Thgg6PDfXD3U5NlnBCv7jYD4iavSmUraw14V4OFQzw7px6VSlcg
+ zz1KHJ9Iq6BIeUATEONSgZiXrYRSOlTSS0DZ7M2/tOZz3Gkmsv0fHG69jblqHQVkSknl
+ JivGPTEP+d7YVdKPYAOFKs6ruMd9oM/J+E1e6vuRzOZf7B/oXyseemV6pxjlcuPCMqFZ
+ GK9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=id6OmDgw7iWNDI7dt45hX8qgU9Twf4yyUu+1zQG1NFY=;
- b=FXC/cHUnPSP5ovr8EVwxgrH/F24c0YZvcXlHP7JTnP74nbIv79RwNEEYW201p2i+2O
- Mx4t0PTOM4s46WOxmZUuUy4iMwF2eR7+3rBhG2tbFU2FNdRBIqMHuFlqDdsOw/Z0v8uL
- 344DN//Mg/yH+Jdt1aB3d0RQixuhT6ulav2kVT3MygYpeIHd22ZnNJhbvfL9tDkvIahx
- 9EsoeagSKy1qErCImiDSSWe7JTty0eQpZQrb3+cwZ1/sM4S2EeyRhX4JoUxi1GoYbkdd
- 6p3dNzphtCZW20FX5LHOxk0qAq/RHMSeT66I1teo64dBmn177jKyb5dJ5x7mP/rsE1HU
- wcHA==
-X-Gm-Message-State: AOAM5338q6yNfRVu75V9JNaYL+urY8xdEOKDCFHUD+yRpVLYOalJZi2c
- XrWZFY9NlJeKF1LbwC4sVVqjzaHVTb8=
-X-Google-Smtp-Source: ABdhPJxc/ZEpdrjqB80I8uVnrTgzwjQBANtrdvqXUbG5/8NG8ImZsDEWaQuhsSszKycsr6gLE2fCTA==
-X-Received: by 2002:a17:906:229a:: with SMTP id
- p26mr21204396eja.291.1607385352216; 
- Mon, 07 Dec 2020 15:55:52 -0800 (PST)
+ bh=2j0CQXtPFftuXNpmWEUjMSBohbrajeTcUm20t1SQymg=;
+ b=cXUmy/PdPz3VWWqQSP1Jo0KgFFZ3p+10VvUOJU9Ktgtt0JYBBqhu91NeySt9LXyBnQ
+ E1VCb4Xxu3Triy4/kSsiagOKn07PZmOcKXUbL7I6S+NWFZBJYIrlpK1XFvsAkPeTtDYb
+ 2yPEnDP81n5dnkWGlR+mv/EQD5j4juyEUxSP9Q538nm59USkH7wwHrGSdqLS9ErHu2ew
+ TShkm1ePSc5smeuFrksAFe/QXlY6RFPQPYuwI8IvQ8XAwlRlTQLRpFfNNKfq2Sn7+FfQ
+ 4TIyc67Z8UYaijOaie32Y0/ZKIH0DfHidpUNgj7hBKUX0h/EIwFuOOgb2ohNQoqMli3R
+ Uk/w==
+X-Gm-Message-State: AOAM531f8OpIIvbSU/w2bYO44Faqc2VWiRQTXFDanl1du8ncBLhSXuzC
+ d2in4Iha+OYtIX7kWHnTm+rrsauHvNQ=
+X-Google-Smtp-Source: ABdhPJyfXUMhXJ5q4xwg0TwkGPb6gQ77vHz1jK9BXN9heagE34hT/j+Bh5wblKdjqDraEfqGS1QDug==
+X-Received: by 2002:a05:6402:229b:: with SMTP id
+ cw27mr22087417edb.23.1607385362716; 
+ Mon, 07 Dec 2020 15:56:02 -0800 (PST)
 Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id be6sm15474616edb.29.2020.12.07.15.55.50
+ by smtp.gmail.com with ESMTPSA id b9sm13825936ejb.0.2020.12.07.15.56.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 15:55:51 -0800 (PST)
+ Mon, 07 Dec 2020 15:56:02 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] target/mips/translate: Add declarations for generic code
-Date: Tue,  8 Dec 2020 00:55:34 +0100
-Message-Id: <20201207235539.4070364-3-f4bug@amsat.org>
+Subject: [PATCH 4/7] target/mips: Extract FPU helpers to 'fpu_helper.h'
+Date: Tue,  8 Dec 2020 00:55:36 +0100
+Message-Id: <20201207235539.4070364-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201207235539.4070364-1-f4bug@amsat.org>
 References: <20201207235539.4070364-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,165 +95,263 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some CPU translation functions / registers / macros and
-definitions can be used by ISA / ASE / extensions out of
-the big translate.c file. Declare them in "translate.h".
+Extract FPU specific helpers from "internal.h" to "fpu_helper.h".
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201120210844.2625602-2-f4bug@amsat.org>
 ---
- target/mips/translate.h | 33 ++++++++++++++++++++++++++++++++
- target/mips/translate.c | 42 ++++++++++++-----------------------------
- 2 files changed, 45 insertions(+), 30 deletions(-)
+ target/mips/fpu_helper.h   | 59 ++++++++++++++++++++++++++++++++++++++
+ target/mips/internal.h     | 50 --------------------------------
+ linux-user/mips/cpu_loop.c |  1 +
+ target/mips/fpu_helper.c   |  1 +
+ target/mips/gdbstub.c      |  1 +
+ target/mips/kvm.c          |  1 +
+ target/mips/machine.c      |  1 +
+ target/mips/msa_helper.c   |  1 +
+ target/mips/op_helper.c    |  1 +
+ target/mips/translate.c    |  1 +
+ 10 files changed, 67 insertions(+), 50 deletions(-)
+ create mode 100644 target/mips/fpu_helper.h
 
-diff --git a/target/mips/translate.h b/target/mips/translate.h
-index fcda1a99001..dbf7df7ba6d 100644
---- a/target/mips/translate.h
-+++ b/target/mips/translate.h
-@@ -10,6 +10,8 @@
- 
- #include "exec/translator.h"
- 
-+#define MIPS_DEBUG_DISAS 0
+diff --git a/target/mips/fpu_helper.h b/target/mips/fpu_helper.h
+new file mode 100644
+index 00000000000..1c2d6d35a71
+--- /dev/null
++++ b/target/mips/fpu_helper.h
+@@ -0,0 +1,59 @@
++/*
++ * Helpers for emulation of FPU-related MIPS instructions.
++ *
++ *  Copyright (C) 2004-2005  Jocelyn Mayer
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ */
++#include "fpu/softfloat-helpers.h"
++#include "cpu.h"
 +
- typedef struct DisasContext {
-     DisasContextBase base;
-     target_ulong saved_pc;
-@@ -47,4 +49,35 @@ typedef struct DisasContext {
-     int gi;
- } DisasContext;
- 
-+/* MIPS major opcodes */
-+#define MASK_OP_MAJOR(op)   (op & (0x3F << 26))
++extern const FloatRoundMode ieee_rm[4];
 +
-+void generate_exception_end(DisasContext *ctx, int excp);
-+void gen_reserved_instruction(DisasContext *ctx);
-+void check_insn(DisasContext *ctx, uint64_t flags);
-+void gen_base_offset_addr(DisasContext *ctx, TCGv addr, int base, int offset);
++uint32_t float_class_s(uint32_t arg, float_status *fst);
++uint64_t float_class_d(uint64_t arg, float_status *fst);
 +
-+void gen_load_gpr(TCGv t, int reg);
-+void gen_store_gpr(TCGv t, int reg);
-+
-+extern TCGv bcond;
-+
-+#define LOG_DISAS(...)                                                        \
-+    do {                                                                      \
-+        if (MIPS_DEBUG_DISAS) {                                               \
-+            qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__);                 \
-+        }                                                                     \
-+    } while (0)
-+
-+#define MIPS_INVAL(op)                                                        \
-+    do {                                                                      \
-+        if (MIPS_DEBUG_DISAS) {                                               \
-+            qemu_log_mask(CPU_LOG_TB_IN_ASM,                                  \
-+                          TARGET_FMT_lx ": %08x Invalid %s %03x %03x %03x\n", \
-+                          ctx->base.pc_next, ctx->opcode, op,                 \
-+                          ctx->opcode >> 26, ctx->opcode & 0x3F,              \
-+                          ((ctx->opcode >> 16) & 0x1F));                      \
-+        }                                                                     \
-+    } while (0)
-+
- #endif
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index d7f5a1e8d84..46aab26b868 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -41,11 +41,6 @@
- #include "qemu/qemu-print.h"
- #include "translate.h"
- 
--#define MIPS_DEBUG_DISAS 0
--
--/* MIPS major opcodes */
--#define MASK_OP_MAJOR(op)       (op & (0x3F << 26))
--
- enum {
-     /* indirect opcode tables */
-     OPC_SPECIAL  = (0x00 << 26),
-@@ -2496,7 +2491,8 @@ enum {
- /* global register indices */
- static TCGv cpu_gpr[32], cpu_PC;
- static TCGv cpu_HI[MIPS_DSP_ACC], cpu_LO[MIPS_DSP_ACC];
--static TCGv cpu_dspctrl, btarget, bcond;
-+static TCGv cpu_dspctrl, btarget;
-+TCGv bcond;
- static TCGv cpu_lladdr, cpu_llval;
- static TCGv_i32 hflags;
- static TCGv_i32 fpu_fcr0, fpu_fcr31;
-@@ -2609,26 +2605,8 @@ static const char * const mxuregnames[] = {
- };
- #endif
- 
--#define LOG_DISAS(...)                                                        \
--    do {                                                                      \
--        if (MIPS_DEBUG_DISAS) {                                               \
--            qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__);                 \
--        }                                                                     \
--    } while (0)
--
--#define MIPS_INVAL(op)                                                        \
--    do {                                                                      \
--        if (MIPS_DEBUG_DISAS) {                                               \
--            qemu_log_mask(CPU_LOG_TB_IN_ASM,                                  \
--                          TARGET_FMT_lx ": %08x Invalid %s %03x %03x %03x\n", \
--                          ctx->base.pc_next, ctx->opcode, op,                 \
--                          ctx->opcode >> 26, ctx->opcode & 0x3F,              \
--                          ((ctx->opcode >> 16) & 0x1F));                      \
--        }                                                                     \
--    } while (0)
--
- /* General purpose registers moves. */
--static inline void gen_load_gpr(TCGv t, int reg)
-+void gen_load_gpr(TCGv t, int reg)
- {
-     if (reg == 0) {
-         tcg_gen_movi_tl(t, 0);
-@@ -2637,7 +2615,7 @@ static inline void gen_load_gpr(TCGv t, int reg)
-     }
- }
- 
--static inline void gen_store_gpr(TCGv t, int reg)
-+void gen_store_gpr(TCGv t, int reg)
- {
-     if (reg != 0) {
-         tcg_gen_mov_tl(cpu_gpr[reg], t);
-@@ -2782,11 +2760,16 @@ static inline void generate_exception(DisasContext *ctx, int excp)
-     gen_helper_0e0i(raise_exception, excp);
- }
- 
--static inline void generate_exception_end(DisasContext *ctx, int excp)
-+void generate_exception_end(DisasContext *ctx, int excp)
- {
-     generate_exception_err(ctx, excp, 0);
- }
- 
-+void gen_reserved_instruction(DisasContext *ctx)
++static inline void restore_rounding_mode(CPUMIPSState *env)
 +{
-+    generate_exception_end(ctx, EXCP_RI);
++    set_float_rounding_mode(ieee_rm[env->active_fpu.fcr31 & 3],
++                            &env->active_fpu.fp_status);
 +}
 +
- /* Floating point register moves. */
- static void gen_load_fpr32(DisasContext *ctx, TCGv_i32 t, int reg)
- {
-@@ -3016,7 +2999,7 @@ static inline void check_dsp_r3(DisasContext *ctx)
-  * This code generates a "reserved instruction" exception if the
-  * CPU does not support the instruction set corresponding to flags.
-  */
--static inline void check_insn(DisasContext *ctx, uint64_t flags)
-+void check_insn(DisasContext *ctx, uint64_t flags)
- {
-     if (unlikely(!(ctx->insn_flags & flags))) {
-         generate_exception_end(ctx, EXCP_RI);
-@@ -3393,8 +3376,7 @@ OP_LD_ATOMIC(lld, ld64);
- #endif
- #undef OP_LD_ATOMIC
++static inline void restore_flush_mode(CPUMIPSState *env)
++{
++    set_flush_to_zero((env->active_fpu.fcr31 & (1 << FCR31_FS)) != 0,
++                      &env->active_fpu.fp_status);
++}
++
++static inline void restore_snan_bit_mode(CPUMIPSState *env)
++{
++    set_snan_bit_is_one((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) == 0,
++                        &env->active_fpu.fp_status);
++}
++
++static inline void restore_fp_status(CPUMIPSState *env)
++{
++    restore_rounding_mode(env);
++    restore_flush_mode(env);
++    restore_snan_bit_mode(env);
++}
++
++/* MSA */
++
++enum CPUMIPSMSADataFormat {
++    DF_BYTE = 0,
++    DF_HALF,
++    DF_WORD,
++    DF_DOUBLE
++};
++
++static inline void restore_msa_fp_status(CPUMIPSState *env)
++{
++    float_status *status = &env->active_tc.msa_fp_status;
++    int rounding_mode = (env->active_tc.msacsr & MSACSR_RM_MASK) >> MSACSR_RM;
++    bool flush_to_zero = (env->active_tc.msacsr & MSACSR_FS_MASK) != 0;
++
++    set_float_rounding_mode(ieee_rm[rounding_mode], status);
++    set_flush_to_zero(flush_to_zero, status);
++    set_flush_inputs_to_zero(flush_to_zero, status);
++}
+diff --git a/target/mips/internal.h b/target/mips/internal.h
+index 5d8a8a1838e..6b9d1d4b93b 100644
+--- a/target/mips/internal.h
++++ b/target/mips/internal.h
+@@ -8,8 +8,6 @@
+ #ifndef MIPS_INTERNAL_H
+ #define MIPS_INTERNAL_H
  
--static void gen_base_offset_addr(DisasContext *ctx, TCGv addr,
--                                 int base, int offset)
-+void gen_base_offset_addr(DisasContext *ctx, TCGv addr, int base, int offset)
+-#include "fpu/softfloat-helpers.h"
+-
+ /*
+  * MMU types, the first four entries have the same layout as the
+  * CP0C0_MT field.
+@@ -74,13 +72,6 @@ struct mips_def_t {
+ extern const struct mips_def_t mips_defs[];
+ extern const int mips_defs_number;
+ 
+-enum CPUMIPSMSADataFormat {
+-    DF_BYTE = 0,
+-    DF_HALF,
+-    DF_WORD,
+-    DF_DOUBLE
+-};
+-
+ void mips_cpu_do_interrupt(CPUState *cpu);
+ bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ void mips_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+@@ -223,49 +214,8 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                        bool probe, uintptr_t retaddr);
+ 
+ /* op_helper.c */
+-uint32_t float_class_s(uint32_t arg, float_status *fst);
+-uint64_t float_class_d(uint64_t arg, float_status *fst);
+-
+-extern const FloatRoundMode ieee_rm[4];
+-
+ void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
+ 
+-static inline void restore_rounding_mode(CPUMIPSState *env)
+-{
+-    set_float_rounding_mode(ieee_rm[env->active_fpu.fcr31 & 3],
+-                            &env->active_fpu.fp_status);
+-}
+-
+-static inline void restore_flush_mode(CPUMIPSState *env)
+-{
+-    set_flush_to_zero((env->active_fpu.fcr31 & (1 << FCR31_FS)) != 0,
+-                      &env->active_fpu.fp_status);
+-}
+-
+-static inline void restore_snan_bit_mode(CPUMIPSState *env)
+-{
+-    set_snan_bit_is_one((env->active_fpu.fcr31 & (1 << FCR31_NAN2008)) == 0,
+-                        &env->active_fpu.fp_status);
+-}
+-
+-static inline void restore_fp_status(CPUMIPSState *env)
+-{
+-    restore_rounding_mode(env);
+-    restore_flush_mode(env);
+-    restore_snan_bit_mode(env);
+-}
+-
+-static inline void restore_msa_fp_status(CPUMIPSState *env)
+-{
+-    float_status *status = &env->active_tc.msa_fp_status;
+-    int rounding_mode = (env->active_tc.msacsr & MSACSR_RM_MASK) >> MSACSR_RM;
+-    bool flush_to_zero = (env->active_tc.msacsr & MSACSR_FS_MASK) != 0;
+-
+-    set_float_rounding_mode(ieee_rm[rounding_mode], status);
+-    set_flush_to_zero(flush_to_zero, status);
+-    set_flush_inputs_to_zero(flush_to_zero, status);
+-}
+-
+ static inline void restore_pamask(CPUMIPSState *env)
  {
-     if (base == 0) {
-         tcg_gen_movi_tl(addr, offset);
+     if (env->hflags & MIPS_HFLAG_ELPA) {
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index cfe7ba5c47d..b58dbeb83d1 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -23,6 +23,7 @@
+ #include "cpu_loop-common.h"
+ #include "elf.h"
+ #include "internal.h"
++#include "fpu_helper.h"
+ 
+ # ifdef TARGET_ABI_MIPSO32
+ #  define MIPS_SYSCALL_NUMBER_UNUSED -1
+diff --git a/target/mips/fpu_helper.c b/target/mips/fpu_helper.c
+index 501bd401a16..7d949cd8e3a 100644
+--- a/target/mips/fpu_helper.c
++++ b/target/mips/fpu_helper.c
+@@ -31,6 +31,7 @@
+ #include "exec/memop.h"
+ #include "sysemu/kvm.h"
+ #include "fpu/softfloat.h"
++#include "fpu_helper.h"
+ 
+ 
+ /* Complex FPU operations which may need stack space. */
+diff --git a/target/mips/gdbstub.c b/target/mips/gdbstub.c
+index e39f8d75cf0..f1c2a2cf6d6 100644
+--- a/target/mips/gdbstub.c
++++ b/target/mips/gdbstub.c
+@@ -21,6 +21,7 @@
+ #include "cpu.h"
+ #include "internal.h"
+ #include "exec/gdbstub.h"
++#include "fpu_helper.h"
+ 
+ int mips_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+ {
+diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+index cbd0cb8faa4..3ca3a0da93f 100644
+--- a/target/mips/kvm.c
++++ b/target/mips/kvm.c
+@@ -27,6 +27,7 @@
+ #include "kvm_mips.h"
+ #include "exec/memattrs.h"
+ #include "hw/boards.h"
++#include "fpu_helper.h"
+ 
+ #define DEBUG_KVM 0
+ 
+diff --git a/target/mips/machine.c b/target/mips/machine.c
+index 5b23e3e912a..a4ea67c2980 100644
+--- a/target/mips/machine.c
++++ b/target/mips/machine.c
+@@ -2,6 +2,7 @@
+ #include "cpu.h"
+ #include "internal.h"
+ #include "migration/cpu.h"
++#include "fpu_helper.h"
+ 
+ static int cpu_post_load(void *opaque, int version_id)
+ {
+diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+index 249f0fdad80..b89b4c44902 100644
+--- a/target/mips/msa_helper.c
++++ b/target/mips/msa_helper.c
+@@ -23,6 +23,7 @@
+ #include "exec/exec-all.h"
+ #include "exec/helper-proto.h"
+ #include "fpu/softfloat.h"
++#include "fpu_helper.h"
+ 
+ /* Data format min and max values */
+ #define DF_BITS(df) (1 << ((df) + 3))
+diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
+index 5184a1838be..72613706188 100644
+--- a/target/mips/op_helper.c
++++ b/target/mips/op_helper.c
+@@ -28,6 +28,7 @@
+ #include "exec/cpu_ldst.h"
+ #include "exec/memop.h"
+ #include "sysemu/kvm.h"
++#include "fpu_helper.h"
+ 
+ 
+ /*****************************************************************************/
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 46aab26b868..6614512a828 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -39,6 +39,7 @@
+ #include "exec/translator.h"
+ #include "exec/log.h"
+ #include "qemu/qemu-print.h"
++#include "fpu_helper.h"
+ #include "translate.h"
+ 
+ enum {
 -- 
 2.26.2
 
