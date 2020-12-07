@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A063E2D1711
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 18:03:04 +0100 (CET)
-Received: from localhost ([::1]:44184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2392C2D1732
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 18:12:20 +0100 (CET)
+Received: from localhost ([::1]:59380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmJuh-0006bz-Br
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 12:03:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39790)
+	id 1kmK3e-0005zK-Pt
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 12:12:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kmJqh-0005EW-7L
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:58:55 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:34673)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kmJqe-0002Zf-MM
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:58:55 -0500
-Received: by mail-ej1-x644.google.com with SMTP id g20so20532008ejb.1
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 08:58:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=ODFYNKTjMTwnPrK31rw4SLzGgzSU67H0O2yeRZFdhqE=;
- b=StWv8dDxId3OKQIuDuKxj9jQNu0m2dzeV78062mOPIKyxMU89QJYro/YNl6/gjoSSS
- v+t8vX/HJok65OHBMUd/BtXcUpWPE5Ub+gyBQOwt1/2u/C8p+9CU+1Mcr4dA+Y14w57i
- 45c9afhRrA+LOIgaVY/Kd651s2f0piLIcWD4/ZPGUokK04B51HiNdCtNJ238uJfgGUcE
- rw4cg4ji6epNW5tAC0WMjVbnEYY1SQjxkYzqX3FZ/JoKmSLH1MrT7IFpcIu3FPLfnUTb
- s+MZhd9GtEOIS4n+mXJNrCelojEWWRysYkGqyQ3LzTTqgH5FkkH79xzDO9SGVNseGj6i
- Q13g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ODFYNKTjMTwnPrK31rw4SLzGgzSU67H0O2yeRZFdhqE=;
- b=pU/B3IGkUr46HMEwPoOzVjCb5eVJ4mkuAx9mq8C0FWT+1cvGVAOxlA+e3sNtpeCPEH
- QIwmYnyHRZM0KALVLuIYjEQ7xtjK5PnyuBwSOiQ65+jP33HECloWXa4EiKFI+PHL2VAG
- ZvPJKb3WIHIVM/GV4yNQyy+JHVLH4akcWZSSomgXId5hr5HvZnyDT282xhBArGoM45BP
- RoNvk3Yo2Fp4lUTmUYioPHXaWRJDlM0j8ggYlC8japyPRgMwZSM0FZY0l5so0fxybv32
- Ayumbr5njwZHKbC5Zn4ms0Vk7fYrDDRZYuThpssOiag/K1e300QsdEyYA0giJ9vzRSJm
- aoFA==
-X-Gm-Message-State: AOAM532nT/M3cIDou+4aX9iM7zvJ70iyisjl1K6me8QWtLR7GaiIDUnu
- sOn2jUddJoLxbonxW9gFewQ=
-X-Google-Smtp-Source: ABdhPJzHOW+Ylwqjw+on2+NxIj8szkbB93r8R6R4oPxzlBCIMpXESI+nx/IQwtqoqUYOs2yYBcEfMQ==
-X-Received: by 2002:a17:907:447d:: with SMTP id
- oo21mr19969752ejb.367.1607360330523; 
- Mon, 07 Dec 2020 08:58:50 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id n1sm12853926ejb.2.2020.12.07.08.58.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 08:58:49 -0800 (PST)
-Date: Mon, 7 Dec 2020 16:58:48 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Subject: Re: [RFC PATCH 06/27] virtio: Add virtio_queue_get_used_notify_split
-Message-ID: <20201207165848.GM203660@stefanha-x1.localdomain>
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-7-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmJyN-0003Q3-6i
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:06:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42143)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmJyJ-0004WB-Vw
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:06:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607360807;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ojyGFDfjc+BtMgdyP6/Td1Byl+gpo0CL2ZttP/B5IBA=;
+ b=Q8iC9VK8OgeDxH77MBIc/M6b44oFrWQJyTGB/+S7lU0CkjApHkzqmhkBR3kMWR1TtC3MdG
+ Q7dPe68oqr7HtN1YG3LmgtE7pMPK8KVcWYW7bvqYfPP4SodE8sJe26C5iyF9+ATfTLzcMu
+ ee6/XssDr/0z1AFKMD0jLkxorlvUzP0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-IJEyuQQ2NtinI_4CUB-DLA-1; Mon, 07 Dec 2020 12:06:45 -0500
+X-MC-Unique: IJEyuQQ2NtinI_4CUB-DLA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E123858184
+ for <qemu-devel@nongnu.org>; Mon,  7 Dec 2020 17:06:44 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 133805D9D0;
+ Mon,  7 Dec 2020 17:06:42 +0000 (UTC)
+Date: Mon, 7 Dec 2020 18:06:41 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 13/15] memory: allow creating MemoryRegions before
+ accelerators
+Message-ID: <20201207180641.6a649b8a@redhat.com>
+In-Reply-To: <20201202081854.4126071-14-pbonzini@redhat.com>
+References: <20201202081854.4126071-1-pbonzini@redhat.com>
+ <20201202081854.4126071-14-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EOHJn1TVIJfeVXv2"
-Content-Disposition: inline
-In-Reply-To: <20201120185105.279030-7-eperezma@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=stefanha@gmail.com; helo=mail-ej1-x644.google.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,87 +80,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
- Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
- Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed,  2 Dec 2020 03:18:52 -0500
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
---EOHJn1TVIJfeVXv2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Compute the DIRTY_MEMORY_CODE bit in memory_region_get_dirty_log_mask
+> instead of memory_region_init_*.  This makes it possible to allocate
+> memory backend objects at any time.
 
-On Fri, Nov 20, 2020 at 07:50:44PM +0100, Eugenio P=E9rez wrote:
-> This function is just used for a few commits, so SW LM is developed
-> incrementally, and it is deleted after it is useful.
->=20
-> For a few commits, only the events (irqfd, eventfd) are forwarded.
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-s/eventfd/ioeventfd/ (irqfd is also an eventfd)
-
-> +bool virtio_queue_get_used_notify_split(VirtQueue *vq)
-> +{
-> +    VRingMemoryRegionCaches *caches;
-> +    hwaddr pa =3D offsetof(VRingUsed, flags);
-> +    uint16_t flags;
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  softmmu/memory.c | 12 ++++++------
+>  softmmu/vl.c     |  6 +-----
+>  2 files changed, 7 insertions(+), 11 deletions(-)
+> 
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 11ca94d037..89a4723fe5 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1548,7 +1548,6 @@ void memory_region_init_ram_shared_nomigrate(MemoryRegion *mr,
+>      mr->terminates = true;
+>      mr->destructor = memory_region_destructor_ram;
+>      mr->ram_block = qemu_ram_alloc(size, share, mr, &err);
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+>      if (err) {
+>          mr->size = int128_zero();
+>          object_unparent(OBJECT(mr));
+> @@ -1573,7 +1572,6 @@ void memory_region_init_resizeable_ram(MemoryRegion *mr,
+>      mr->destructor = memory_region_destructor_ram;
+>      mr->ram_block = qemu_ram_alloc_resizeable(size, max_size, resized,
+>                                                mr, &err);
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+>      if (err) {
+>          mr->size = int128_zero();
+>          object_unparent(OBJECT(mr));
+> @@ -1598,7 +1596,6 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+>      mr->destructor = memory_region_destructor_ram;
+>      mr->align = align;
+>      mr->ram_block = qemu_ram_alloc_from_file(size, mr, ram_flags, path, &err);
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+>      if (err) {
+>          mr->size = int128_zero();
+>          object_unparent(OBJECT(mr));
+> @@ -1622,7 +1619,6 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+>      mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
+>                                             share ? RAM_SHARED : 0,
+>                                             fd, &err);
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+>      if (err) {
+>          mr->size = int128_zero();
+>          object_unparent(OBJECT(mr));
+> @@ -1641,7 +1637,6 @@ void memory_region_init_ram_ptr(MemoryRegion *mr,
+>      mr->ram = true;
+>      mr->terminates = true;
+>      mr->destructor = memory_region_destructor_ram;
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
+>  
+>      /* qemu_ram_alloc_from_ptr cannot fail with ptr != NULL.  */
+>      assert(ptr != NULL);
+> @@ -1661,7 +1656,7 @@ void memory_region_init_ram_device_ptr(MemoryRegion *mr,
+>      mr->ops = &ram_device_mem_ops;
+>      mr->opaque = mr;
+>      mr->destructor = memory_region_destructor_ram;
+> -    mr->dirty_log_mask = tcg_enabled() ? (1 << DIRTY_MEMORY_CODE) : 0;
 > +
-> +    RCU_READ_LOCK_GUARD();
+>      /* qemu_ram_alloc_from_ptr cannot fail with ptr != NULL.  */
+>      assert(ptr != NULL);
+>      mr->ram_block = qemu_ram_alloc_from_ptr(size, ptr, mr, &error_fatal);
+> @@ -1819,6 +1814,11 @@ uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
+>                               memory_region_is_iommu(mr))) {
+>          mask |= (1 << DIRTY_MEMORY_MIGRATION);
+>      }
 > +
-> +    caches =3D vring_get_region_caches(vq);
-> +    assert(caches);
-> +    flags =3D virtio_lduw_phys_cached(vq->vdev, &caches->used, pa);
-> +    return !(VRING_USED_F_NO_NOTIFY & flags);
-> +}
+> +    if (tcg_enabled() && rb) {
+> +        /* TCG only cares about dirty memory logging for RAM, not IOMMU.  */
+> +        mask |= (1 << DIRTY_MEMORY_CODE);
+> +    }
+>      return mask;
+>  }
+>  
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 0f63d80472..023c16245b 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -1715,11 +1715,7 @@ static bool object_create_early(const char *type, QemuOpts *opts)
+>          return false;
+>      }
+>  
+> -    /* Memory allocation by backends needs to be done
+> -     * after configure_accelerator() (due to the tcg_enabled()
+> -     * checks at memory_region_init_*()).
+> -     *
+> -     * Also, allocation of large amounts of memory may delay
+> +    /* Allocation of large amounts of memory may delay
+>       * chardev initialization for too long, and trigger timeouts
+>       * on software that waits for a monitor socket to be created
+>       * (e.g. libvirt).
 
-QEMU stores the notification status:
-
-void virtio_queue_set_notification(VirtQueue *vq, int enable)
-{
-    vq->notification =3D enable; <---- here
-
-    if (!vq->vring.desc) {
-        return;
-    }
-
-    if (virtio_vdev_has_feature(vq->vdev, VIRTIO_F_RING_PACKED)) {
-        virtio_queue_packed_set_notification(vq, enable);
-    } else {
-        virtio_queue_split_set_notification(vq, enable);
-
-I'm wondering why it's necessary to fetch from guest RAM instead of
-using vq->notification? It also works for both split and packed
-queues so the code would be simpler.
-
---EOHJn1TVIJfeVXv2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/OX0gACgkQnKSrs4Gr
-c8joJwgAxP2IQdibt4q6jUVfHjl/jy+5PpzROcRTI3+NTOW7RZAtHwg1VSLc+N8N
-AGRSKiaMpsWS/ApNmdzTjrmMurFOZRjrsPVwu+UDqsd1vscYk9ZWhc3vS24gYSot
-X9Y0av+ZpV0OBKlFGpEdqaOHt7LuK/IwyZe5fXGH0CAH25+OKky7gisAMXeY9c3L
-CEusJ6PGE4fr+99IcJcefGiMPCW6QvmJQnvsq2F7ST1ArsPfhvZASZWnucmtXsNH
-YywpV+RFNQrbyiMU86CwVE99COm16dTpb1n4QHu5+4tTQa9l3wy9cKTPrrFzlUGI
-Wm8tTPQ1Njha3wNnYaoHBGcNMX0sCg==
-=RgXt
------END PGP SIGNATURE-----
-
---EOHJn1TVIJfeVXv2--
 
