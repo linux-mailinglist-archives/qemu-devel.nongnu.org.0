@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C182D182D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 19:07:02 +0100 (CET)
-Received: from localhost ([::1]:37772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 626BB2D184E
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 19:17:10 +0100 (CET)
+Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmKuc-0004jA-0G
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 13:07:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55218)
+	id 1kmL4P-0002o6-F6
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 13:17:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kmKeX-00046k-8J
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:50:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kmKeT-0002Vj-Or
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:50:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607363420;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=d6t0iwQTNxHoRe5k1be+7lkmqVTZEUhknTiWrLk++FQ=;
- b=EReiiLxuLNS1SM1H6RnY+QYnv1jUoiC+HkEcT5Jmp6CINAVVSWU+dIy3WAhyPU+jgzEaId
- /xNcad4g3ZECjQth8UeE7C5W696+b04tNEgkFzg3wrEnmIuCNJwKFhT/rpvIGO8eOV/k8K
- CYp5QllOoRRLp359RJFsJJBhow4+d1Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-oNJalwIZP0OVrH1fiYdbIA-1; Mon, 07 Dec 2020 12:50:18 -0500
-X-MC-Unique: oNJalwIZP0OVrH1fiYdbIA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50228184214E;
- Mon,  7 Dec 2020 17:50:17 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E718819C59;
- Mon,  7 Dec 2020 17:50:10 +0000 (UTC)
-Date: Mon, 7 Dec 2020 18:50:07 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH for-6.0] accel: Wire accel to /machine
-Message-ID: <20201207175007.GO105758@angien.pipo.sk>
-References: <20201207084621.23876-1-r.bolshakov@yadro.com>
- <20201207173849.GC1289986@habkost.net>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kmKyL-0006x4-Fu
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 13:10:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37456)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kmKyJ-0005e1-AT
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 13:10:53 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kmKyH-0007C3-36
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 18:10:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 15E522E8138
+ for <qemu-devel@nongnu.org>; Mon,  7 Dec 2020 18:10:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201207173849.GC1289986@habkost.net>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 07 Dec 2020 18:03:21 -0000
+From: Daniel Berrange <1905979@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange oseibert-sys11
+X-Launchpad-Bug-Reporter: Olaf Seibert (oseibert-sys11)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+References: <160648885405.8173.13759191424779303608.malonedeb@soybean.canonical.com>
+Message-Id: <160736420233.30300.758344377147534277.malone@soybean.canonical.com>
+Subject: [Bug 1905979] Re: Check if F_OFD_SETLK is supported may give wrong
+ result
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: ec778d8a938665e34fc9d33dacb4fdaaace26a4b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,51 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, libvir-list@redhat.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Reply-To: Bug 1905979 <1905979@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 07, 2020 at 12:38:49 -0500, Eduardo Habkost wrote:
-> On Mon, Dec 07, 2020 at 11:46:22AM +0300, Roman Bolshakov wrote:
-> > There's no generic way to query current accel and its properties via QOM
-> > because there's no link between an accel and current machine.
-> > 
-> > The change adds the link, i.e. if HVF is enabled the following will be
-> > available in QOM:
-> > 
-> >   (qemu) qom-get /machine/accel type
-> >   "hvf-accel"
-> > 
-> > Suggested-by: Markus Armbruster <armbru@redhat.com>
-> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > ---
-> > 
-> > Hi,
-> > 
-> > this is a follow up patch that deprecates earlier series [1].
-> > 
-> 
-> Is there a reference to the reasoning for dropping the earlier
-> approach?  Your previous approach seems preferable.
+In this thread, it is pointed out that support for OFD is provided by
+the generic VFS layer in the kernel, so there should never be a
+situation where one filesystem supports OFD and another does not support
+OFD:
 
-The gist of the discussion before was that deprecating old commands in
-the same release cycle as introducing the replacement might be
-problematic if libvirt wants to adapt ASAP and that the new command
-should be elevated to a intermediate tier of stability, where ACK from
-libvirt is needed to change it during the same release cycle
-incompatibly.
+  https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05264.html
 
-That was meant generally for any command, and was started because we had
-a similar issue recently.
+Can you say what filesystem you are using that exhibits the lack of OFD
+support, and what kernel version
 
-My intention definitely was not to change the patch itself, but more a
-process change so that we can keep cooperating on new stuff rapidly, but
-without actually breaking what we do.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1905979
+
+Title:
+  Check if F_OFD_SETLK is supported may give wrong result
+
+Status in QEMU:
+  New
+
+Bug description:
+  In util/osdep.c there is a function qemu_probe_lock_ops() to check if
+  file locks F_OFD_SETLK and F_OFD_GETLK (of the style "Open file
+  description locks (non-POSIX)") are supported.
+
+  This test is done by trying a lock operation on the file /dev/null.
+
+  This test can get a wrong result.
+
+  The result is (probably) if the operating system *in general* supports
+  these locks. However, it does not guarantee that the file system where
+  the lock is really wanted (for instance, in caller
+  raw_check_lock_bytes() in block/file-posix.c) does support these
+  locks.
+
+  (In theory it could even be that /dev/null, being a device special
+  file, does not support the lock type while a plain file would.)
+
+  This is in particular relevant for disk images which are stored on a
+  shared file system (my particular use case is the Quobyte file system,
+  which appears not to support these locks).
+
+  The code as mentioned above is present in the master branch (I checked
+  commit ea8208249d1082eae0444934efb3b59cd3183f05) but also for example
+  on stable-2.11 commit 0982a56a551556c704dc15752dabf57b4be1c640)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1905979/+subscriptions
 
