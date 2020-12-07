@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78CF2D09CF
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 05:49:25 +0100 (CET)
-Received: from localhost ([::1]:33378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5974D2D09D1
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 05:49:26 +0100 (CET)
+Received: from localhost ([::1]:33470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1km8Si-0001Rw-NY
-	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 23:49:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57318)
+	id 1km8Sj-0001UI-C5
+	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 23:49:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1km8Qk-0008Jo-Ub
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 23:47:22 -0500
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:51360)
+ id 1km8Ql-0008K0-8I
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 23:47:23 -0500
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:33597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1km8Qi-00019U-7X
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 23:47:22 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.3134118|-1; CH=green; DM=|CONTINUE|false|;
- DS=CONTINUE|ham_news_journal|0.0257363-0.000906421-0.973357;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047207; MF=zhiwei_liu@c-sky.com; NM=1;
+ id 1km8Qi-00019X-9U
+ for qemu-devel@nongnu.org; Sun, 06 Dec 2020 23:47:23 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.4178294|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_system_inform|0.0075722-0.000630961-0.991797;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=zhiwei_liu@c-sky.com; NM=1;
  PH=DS; RN=5; RT=5; SR=0; TI=SMTPD_---.J3tRDLu_1607316427; 
 Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
  fp:SMTPD_---.J3tRDLu_1607316427)
@@ -29,12 +29,14 @@ Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
  Mon, 07 Dec 2020 12:47:07 +0800
 From: LIU Zhiwei <zhiwei_liu@c-sky.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] target/arm bug fix
-Date: Mon,  7 Dec 2020 12:46:51 +0800
-Message-Id: <20201207044655.2312-1-zhiwei_liu@c-sky.com>
+Subject: [PATCH 1/4] target/arm: Fixup special cross page case for sve
+ continuous load/store
+Date: Mon,  7 Dec 2020 12:46:52 +0800
+Message-Id: <20201207044655.2312-2-zhiwei_liu@c-sky.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20201207044655.2312-1-zhiwei_liu@c-sky.com>
+References: <20201207044655.2312-1-zhiwei_liu@c-sky.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=121.197.200.217;
  envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
@@ -60,26 +62,32 @@ Cc: alex.bennee@linaro.org, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I found some bugs in target/arm.
+If the split element is also the first active element of the vector,
+mem_off_first[0] should equal to mem_off_split.
 
-The first one is about SVE first-fault or no-fault load/store.
-The second is SIMD fcmla(by element).
-The third is about CPTR_EL2.
+Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+---
+ target/arm/sve_helper.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-I am not sure I really understand this code. Please confirm the patch set and let me know if I am wrong.
-
-LIU Zhiwei (4):
-  target/arm: Fixup special cross page case for sve continuous
-    load/store
-  target/arm: Fixup contiguous first-fault and no-fault loads
-  target/arm: Fixup SIMD fcmla(by element) in 4H arrangement
-  target/arm: adjust CPTR_EL2 according to HCR_EL2.E2H
-
- target/arm/helper.c     | 55 ++++++++++++++++++++++++++++++++++-------
- target/arm/sve_helper.c | 42 ++++++++++++++++++++-----------
- target/arm/vec_helper.c |  8 ++++++
- 3 files changed, 82 insertions(+), 23 deletions(-)
-
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index 5f037c3a8f..91d1d24725 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -4282,9 +4282,10 @@ static bool sve_cont_ldst_pages(SVEContLdSt *info, SVEContFault fault,
+          * to generate faults for the second page.  For no-fault,
+          * we have work only if the second page is valid.
+          */
+-        if (info->mem_off_first[0] < info->mem_off_split) {
+-            nofault = FAULT_FIRST;
+-            have_work = false;
++        if (info->mem_off_first[0] == info->mem_off_split) {
++            if (nofault) {
++                have_work = false;
++            }
+         }
+     } else {
+         /*
 -- 
 2.23.0
 
