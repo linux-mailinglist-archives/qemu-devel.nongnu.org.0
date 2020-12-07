@@ -2,70 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C8B22D0E0B
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 11:33:43 +0100 (CET)
-Received: from localhost ([::1]:51612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A312D0E1A
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 11:36:32 +0100 (CET)
+Received: from localhost ([::1]:55788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmDpu-0006BJ-Ll
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 05:33:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56162)
+	id 1kmDsd-00088m-I9
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 05:36:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kmDmz-0004Tz-IX
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 05:30:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28850)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kmDmx-0005RZ-Ob
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 05:30:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607337039;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=vXZ2o6b8sQrKj5YTMyKVJAv4kGUSbpttOotxa8ip+Ys=;
- b=dfOC9y5596YN1dQoCUd0e6NmhgSyxyM0d/Tp61ytBQsjeW7uoDLdJnJ8Q8Krsh8Wi15qMb
- Ccx8DtSWwQ3msHVWruedac8B1mOQ8r0YPbvjZxQtxc/WdHZSXenzyWtrq+n3yM40k/rkuL
- b44QMJJ4UwQaukWp/W+OvXxneVemcCA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-tlted-6-PkSeZRk9lPxQxw-1; Mon, 07 Dec 2020 05:30:37 -0500
-X-MC-Unique: tlted-6-PkSeZRk9lPxQxw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99129107ACE4;
- Mon,  7 Dec 2020 10:30:35 +0000 (UTC)
-Received: from redhat.com (ovpn-113-137.ams2.redhat.com [10.36.113.137])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3916D5D6AB;
- Mon,  7 Dec 2020 10:30:33 +0000 (UTC)
-Date: Mon, 7 Dec 2020 10:30:27 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 0/4] User creatable object property setting fixes
-Message-ID: <20201207103027.GH3102898@redhat.com>
-References: <20201130105615.21799-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kmDpQ-0006ZE-0Z; Mon, 07 Dec 2020 05:33:12 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:23615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kmDpK-0006EV-4d; Mon, 07 Dec 2020 05:33:11 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 8877F746552;
+ Mon,  7 Dec 2020 11:33:02 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 590EA74645B; Mon,  7 Dec 2020 11:33:02 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 57EAB746383;
+ Mon,  7 Dec 2020 11:33:02 +0100 (CET)
+Date: Mon, 7 Dec 2020 11:33:02 +0100 (CET)
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH qemu v10] spapr: Implement Open Firmware client interface
+In-Reply-To: <20201207105336.7190f621@bahia.lan>
+Message-ID: <d2293129-f12e-3e4f-316a-cd6e17a21dac@eik.bme.hu>
+References: <20201013021911.28701-1-aik@ozlabs.ru>
+ <20201204193205.45d2a15a@bahia.lan>
+ <c5cf97dd-d1aa-389a-2bff-5781a6af803e@ozlabs.ru>
+ <20201207105336.7190f621@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <20201130105615.21799-1-kwolf@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 10%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,47 +56,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: jasowang@redhat.com, fnu.vikram@xilinx.com, qemu-devel@nongnu.org,
- pisa@cmp.felk.cvut.cz
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Mon, Nov 30, 2020 at 11:56:11AM +0100, Kevin Wolf wrote:
-> While writing a QAPI schema for all user creatable QOM objects, I found
-> a few problems in the existing property setting code of objects.
-> 
-> This series fixes some crashes and memory leaks related to property
-> setting in user creatable objects.
-> 
-> There are many more problems of the sort that updating a property at
-> runtime is allowed by most objects, but they aren't actually prepared to
-> handle the update, so it doesn't result in the expected behaviour. I'm
-> not trying to fix bugs of this class in this series.
-> 
-> Kevin Wolf (4):
->   crypto: Move USER_CREATABLE to secret_common base class
->   crypto: Forbid broken unloading of secrets
->   crypto: Fix memory leaks in set_loaded for tls-*
+On Mon, 7 Dec 2020, Greg Kurz wrote:
+> On Mon, 7 Dec 2020 18:33:34 +1100
+> Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+>
+> [...]
+>
+>>>> +    }
+>>>> +
+>>>> +    return offset;
+>>>> +}
+>>>> +
+>>>> +static uint32_t of_client_finddevice(const void *fdt, uint32_t nodeaddr)
+>>>> +{
+>>>> +    char *node, *unit, *part;
+>>>
+>>> If you do this:
+>>>
+>>>      g_autofree *node = NULL, *unit = NULL, *part = NULL;
+>>
+>>
+>> Did you mean
+>>         g_autofree char *node = NULL, *unit = NULL, *part = NULL;
+>> ?
+>>
+>
+> Yes. Sorry for the missing char :)
+>
+> [...]
+>
+>>>> +static uint32_t spapr_of_client_open(SpaprMachineState *spapr, const char *path)
+>>>> +{
+>>>> +    int offset;
+>>>> +    uint32_t ret = 0;
+>>>> +    SpaprOfInstance *inst = NULL;
+>>>> +    char *node, *unit, *part;
+>>>> +
+>>>> +    if (spapr->of_instance_last == 0xFFFFFFFF) {
+>>>> +        /* We do not recycle ihandles yet */
+>>>> +        goto trace_exit;
+>>>
+>>> And g_free() is passed uninitialized pointers.
+>>>
+>>> A typical use case for the g_auto magic.
+>>
+>> g_autofree, you mean?
+>>
+>
+> If you switch to g_strsplit_set(), you'd need a g_auto(GStrv). But since you
+> explained that you'd rather keep split_path() as is, then you should use
+> g_autofree indeed.
+>
+> [...]
+>
+>>
+>> Thanks! I'll repost in a sec. But I still wonder on what terms this is
+>> going to be allowed in the QEMU tree at all.
+>>
+>
+> Pros:
+>
+> This notably improves the boot time of the -kernel/-initrd experience.
+> Even if the feature isn't used in production, it can be quite useful for
+> developers.
+>
+> Cons:
+>
+> It doesn't provide a full alternative to SLOF with respect to the boot
+> loader.
+>
+> This is still a lot of code that we'll need to support, especially since
+> the changes affect paths used in production.
+>
+>
+> IMHO, unless this gets momentum in the community, and eventually
+> allows to get rid of SLOF once and for all, it seems premature to
+> merge this.
 
-I've queued these three patches
-
->   can-host: Fix crash when 'canbus' property is not set
-> 
->  crypto/secret.c         | 14 --------------
->  crypto/secret_common.c  | 21 ++++++++++++++++++---
->  crypto/secret_keyring.c | 14 --------------
->  crypto/tlscredsanon.c   |  3 +--
->  crypto/tlscredspsk.c    |  3 +--
->  crypto/tlscredsx509.c   |  3 +--
->  net/can/can_host.c      |  5 +++++
->  7 files changed, 26 insertions(+), 37 deletions(-)
+I think it's hard to gain momentum if it's kept outside of the tree 
+because few people will take the hassle to apply patch and compile it to 
+try it, compared to testing it if it's already available in master. So 
+unless it breaks something I think it would be better to merge it as an 
+experimental feature than wait for it to mature without anyone else trying 
+it apart from a few people. If it's in master more people could test it 
+and maybe even sent patches or at least reports on what's more needed that 
+does not seem to happen with patch only on the mailing list.
 
 Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+BALATON Zoltan
 
