@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11EAC2D0ABE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 07:35:26 +0100 (CET)
-Received: from localhost ([::1]:36028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310432D0ADA
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 07:45:45 +0100 (CET)
+Received: from localhost ([::1]:38472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmA7J-0006Ar-0e
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 01:35:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43494)
+	id 1kmAHI-0007kh-6D
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 01:45:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ankur.a.arora@oracle.com>)
- id 1kmA5u-0005lz-14
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 01:33:58 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:58338)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kmAFW-0007GP-NA
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 01:43:54 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:43328 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ankur.a.arora@oracle.com>)
- id 1kmA5r-00074y-JY
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 01:33:57 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B76PDH0064348;
- Mon, 7 Dec 2020 06:33:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=GjCuK9MXPzPIWUODBNnCUV+BfwpvBb2JPPK2/eK86RY=;
- b=SUrM2OZCHYr97d7tP/ZXxc3CiKMI5m2hLjjGs0u1wRPSmeGxXta/OCkjzPsDd3e4ygQ3
- AOnnGZr2IU748azUXDcdFjHRSlCs0BHTzIu58TkgbsEi7sfETbZUAwimbY++mETcGAkP
- UlzLWFVoyFiqQjF2xthT96j8nxYXnbwy/A3MqX7plbBarYtF/kltZdBvEDEKNM3JUtLi
- iRl1TVXimPUiirwKKvakTNPhC7mxnIg1Ouq8qHiR0oea6kdMIGw4x4LzEZP8gvrB4qLe
- ac5FYaMOpY4Swnv0gzGutBxwyzjgSFvtovnvTxUNIVwI1WMEwrTUdnUibkbsmAykUiJw ew== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 35825kumy0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 07 Dec 2020 06:33:53 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B76QP7C123960;
- Mon, 7 Dec 2020 06:31:53 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 358m3vyc1c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 07 Dec 2020 06:31:53 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B76Vp7J015076;
- Mon, 7 Dec 2020 06:31:52 GMT
-Received: from [10.159.238.131] (/10.159.238.131)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sun, 06 Dec 2020 22:31:51 -0800
-Subject: Re: [PATCH 2/8] acpi: cpuhp: introduce 'firmware performs eject'
- status/control bits
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20201204170939.1815522-1-imammedo@redhat.com>
- <20201204170939.1815522-3-imammedo@redhat.com>
-From: Ankur Arora <ankur.a.arora@oracle.com>
-Message-ID: <891d22af-617c-7962-4fe8-e60cd18f4df3@oracle.com>
-Date: Sun, 6 Dec 2020 22:31:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kmAFT-0002ud-S3
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 01:43:54 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 0771C412DD;
+ Mon,  7 Dec 2020 06:43:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1607323426; x=
+ 1609137827; bh=rvM3Es9nJRemg4YAwOgFeqJO7X8qG8tGvTNaYeTmOsQ=; b=i
+ 2rHS0WsPMNPgCTAxzoFwgI5TPCm7i2Vb7Rncj5CKAirkh9ao5w2Lnn+l4t3JrT5D
+ 1X2fOB70JcfCpvN8Bz13MPLZm1hxA0uoZIiU//wWE/M1P9HKi2JrsyNoCQWxB+6D
+ UvKVt9H589//6YcDy5t6N5Ac5GL1ZR7dBDFrZutgwU=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hxMUurIS_Heu; Mon,  7 Dec 2020 09:43:46 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id CF8F94125E;
+ Mon,  7 Dec 2020 09:43:45 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 7 Dec
+ 2020 09:43:45 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] tpm: tpm_spapr: Remove unused tracepoint
+Date: Mon, 7 Dec 2020 09:43:52 +0300
+Message-ID: <20201207064352.16167-1-r.bolshakov@yadro.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201204170939.1815522-3-imammedo@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9827
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- malwarescore=0 adultscore=0
- bulkscore=0 phishscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012070041
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9827
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501 mlxscore=0
- spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012070041
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=ankur.a.arora@oracle.com; helo=aserp2120.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,139 +76,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lersek@redhat.com, mst@redhat.com
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020-12-04 9:09 a.m., Igor Mammedov wrote:
-> Adds bit #4 to status/control field of CPU hotplug MMIO interface.
-> New bit will be used OSPM to mark CPUs as pending for removal by firmware,
-> when it calls _EJ0 method on CPU device node. Later on, when firmware
-> sees this bit set, it will perform CPU eject which will clear bit #4
-> as well.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> v1:
->    - rearrange status/control bits description (Laszlo)
->    - add clear bit #4 on eject
->    - drop toggling logic from bit #4, it can be only set by guest
->      and clear as part of cpu eject
->    - exclude boot CPU from remove request
->    - add trace events for new bit
-> ---
->   include/hw/acpi/cpu.h           |  1 +
->   docs/specs/acpi_cpu_hotplug.txt | 19 ++++++++++++++-----
->   hw/acpi/cpu.c                   |  9 +++++++++
->   hw/acpi/trace-events            |  2 ++
->   4 files changed, 26 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
-> index 0eeedaa491..d71edde456 100644
-> --- a/include/hw/acpi/cpu.h
-> +++ b/include/hw/acpi/cpu.h
-> @@ -22,6 +22,7 @@ typedef struct AcpiCpuStatus {
->       uint64_t arch_id;
->       bool is_inserting;
->       bool is_removing;
-> +    bool fw_remove;
->       uint32_t ost_event;
->       uint32_t ost_status;
->   } AcpiCpuStatus;
-> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
-> index 9bb22d1270..9bd59ae0da 100644
-> --- a/docs/specs/acpi_cpu_hotplug.txt
-> +++ b/docs/specs/acpi_cpu_hotplug.txt
-> @@ -56,8 +56,11 @@ read access:
->                 no device check event to OSPM was issued.
->                 It's valid only when bit 0 is set.
->              2: Device remove event, used to distinguish device for which
-> -              no device eject request to OSPM was issued.
-> -           3-7: reserved and should be ignored by OSPM
-> +              no device eject request to OSPM was issued. Firmware must
-> +              ignore this bit.
-> +           3: reserved and should be ignored by OSPM
-> +           4: if set to 1, OSPM requests firmware to perform device eject.
-> +           5-7: reserved and should be ignored by OSPM
->       [0x5-0x7] reserved
->       [0x8] Command data: (DWORD access)
->             contains 0 unless value last stored in 'Command field' is one of:
-> @@ -79,10 +82,16 @@ write access:
->                  selected CPU device
->               2: if set to 1 clears device remove event, set by OSPM
->                  after it has emitted device eject request for the
-> -               selected CPU device
-> +               selected CPU device.
->               3: if set to 1 initiates device eject, set by OSPM when it
-> -               triggers CPU device removal and calls _EJ0 method
-> -            4-7: reserved, OSPM must clear them before writing to register
-> +               triggers CPU device removal and calls _EJ0 method or by firmware
-> +               when bit #4 is set. In case bit #4 were set, it's cleared as
-> +               part of device eject.
-> +            4: if set to 1, OSPM hands over device eject to firmware.
-> +               Firmware shall issue device eject request as described above
-> +               (bit #3) and OSPM should not touch device eject bit (#3) in case
-> +               it's asked firmware to perform CPU device eject.
-> +            5-7: reserved, OSPM must clear them before writing to register
->       [0x5] Command field: (1 byte access)
->             value:
->               0: selects a CPU device with inserting/removing events and
-> diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-> index f099b50927..811218f673 100644
-> --- a/hw/acpi/cpu.c
-> +++ b/hw/acpi/cpu.c
-> @@ -71,6 +71,7 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr addr, unsigned size)
->           val |= cdev->cpu ? 1 : 0;
->           val |= cdev->is_inserting ? 2 : 0;
->           val |= cdev->is_removing  ? 4 : 0;
-> +        val |= cdev->fw_remove  ? 16 : 0;
->           trace_cpuhp_acpi_read_flags(cpu_st->selector, val);
->           break;
->       case ACPI_CPU_CMD_DATA_OFFSET_RW:
-> @@ -148,6 +149,14 @@ static void cpu_hotplug_wr(void *opaque, hwaddr addr, uint64_t data,
->               hotplug_ctrl = qdev_get_hotplug_handler(dev);
->               hotplug_handler_unplug(hotplug_ctrl, dev, NULL);
->               object_unparent(OBJECT(dev));
-> +            cdev->fw_remove = false;
-> +        } else if (data & 16) {
-> +            if (!cdev->cpu || cdev->cpu == first_cpu) {
-> +                trace_cpuhp_acpi_fw_remove_invalid_cpu(cpu_st->selector);
-> +                break;
-> +            }
-> +            trace_cpuhp_acpi_fw_remove_cpu(cpu_st->selector);
-> +            cdev->fw_remove = true;
->           }
->           break;
+Linking of qemu-system-ppc64 fails on macOS with dtrace enabled:
 
-By the time the firmware gets the MMI, cdev->is_removing == 0. So we probably
-need the cdev->fw_remove clause as well.
+  error: probe tpm_spapr_show_buffer doesn't exist
+  error: Could not register probes
+  ld: error creating dtrace DOF section for architecture x86_64
 
-@@ -168,7 +193,7 @@ static void cpu_hotplug_wr(void *opaque, hwaddr addr, uint64_t data,
+The failure is explained in 8c8ed03850208e4 ("net/colo: Match is-enabled
+probe to tracepoint"). In short, is-enabled probe can't be used without
+a matching trace probe. And for this particular case
+tpm_util_show_buffer probe should be enabled to print TPM buffer.
 
-                  do {
-                      cdev = &cpu_st->devs[iter];
--                    if (cdev->is_inserting || cdev->is_removing) {
-+                    if (cdev->is_inserting || cdev->is_removing || cdev->fw_remove) {
-                          cpu_st->selector = iter;
-                          trace_cpuhp_acpi_cpu_has_events(cpu_st->selector,
-                              cdev->is_inserting, cdev->is_removing);
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+---
+ hw/tpm/tpm_spapr.c  | 8 ++------
+ hw/tpm/trace-events | 1 -
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
+diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
+index e3775adc57..dea7b1333b 100644
+--- a/hw/tpm/tpm_spapr.c
++++ b/hw/tpm/tpm_spapr.c
+@@ -93,9 +93,7 @@ struct SpaprTpmState {
+  */
+ static void tpm_spapr_tpm_send(SpaprTpmState *s)
+ {
+-    if (trace_event_get_state_backends(TRACE_TPM_SPAPR_SHOW_BUFFER)) {
+-        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
+-    }
++    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
+ 
+     s->state = SPAPR_VTPM_STATE_EXECUTION;
+     s->cmd = (TPMBackendCmd) {
+@@ -255,9 +253,7 @@ static void tpm_spapr_request_completed(TPMIf *ti, int ret)
+     rc = spapr_vio_dma_write(&s->vdev, be32_to_cpu(crq->data),
+                              s->buffer, len);
+ 
+-    if (trace_event_get_state_backends(TRACE_TPM_SPAPR_SHOW_BUFFER)) {
+-        tpm_util_show_buffer(s->buffer, len, "From TPM");
+-    }
++    tpm_util_show_buffer(s->buffer, len, "From TPM");
+ 
+     crq->valid = SPAPR_VTPM_MSG_RESULT;
+     if (rc == H_SUCCESS) {
+diff --git a/hw/tpm/trace-events b/hw/tpm/trace-events
+index 266de17d38..6005ecb5da 100644
+--- a/hw/tpm/trace-events
++++ b/hw/tpm/trace-events
+@@ -25,7 +25,6 @@ tpm_tis_pre_save(uint8_t locty, uint32_t rw_offset) "locty: %d, rw_offset = %u"
+ tpm_ppi_memset(uint8_t *ptr, size_t size) "memset: %p %zu"
+ 
+ # tpm_spapr.c
+-tpm_spapr_show_buffer(const char *direction, size_t len, const char *buf) "direction: %s len: %zu\n%s"
+ tpm_spapr_do_crq(uint8_t raw1, uint8_t raw2) "1st 2 bytes in CRQ: 0x%02x 0x%02x"
+ tpm_spapr_do_crq_crq_result(void) "SPAPR_VTPM_INIT_CRQ_RESULT"
+ tpm_spapr_do_crq_crq_complete_result(void) "SPAPR_VTPM_INIT_CRQ_COMP_RESULT"
+-- 
+2.29.2
 
-Ankur
-
->       case ACPI_CPU_CMD_OFFSET_WR:
-> diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-> index afbc77de1c..f91ced477d 100644
-> --- a/hw/acpi/trace-events
-> +++ b/hw/acpi/trace-events
-> @@ -29,6 +29,8 @@ cpuhp_acpi_clear_inserting_evt(uint32_t idx) "idx[0x%"PRIx32"]"
->   cpuhp_acpi_clear_remove_evt(uint32_t idx) "idx[0x%"PRIx32"]"
->   cpuhp_acpi_ejecting_invalid_cpu(uint32_t idx) "0x%"PRIx32
->   cpuhp_acpi_ejecting_cpu(uint32_t idx) "0x%"PRIx32
-> +cpuhp_acpi_fw_remove_invalid_cpu(uint32_t idx) "0x%"PRIx32
-> +cpuhp_acpi_fw_remove_cpu(uint32_t idx) "0x%"PRIx32
->   cpuhp_acpi_write_ost_ev(uint32_t slot, uint32_t ev) "idx[0x%"PRIx32"] OST EVENT: 0x%"PRIx32
->   cpuhp_acpi_write_ost_status(uint32_t slot, uint32_t st) "idx[0x%"PRIx32"] OST STATUS: 0x%"PRIx32
->   
-> 
 
