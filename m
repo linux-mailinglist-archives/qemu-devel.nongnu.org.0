@@ -2,103 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640592D09EA
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 06:06:01 +0100 (CET)
-Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35C62D09F0
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 06:12:55 +0100 (CET)
+Received: from localhost ([::1]:50740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1km8im-0006fi-4r
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 00:06:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59334)
+	id 1km8pS-0001Xa-0B
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 00:12:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1km8gj-0005Ys-LM
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:03:53 -0500
-Received: from relay2.mymailcheap.com ([217.182.66.162]:47586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1km8ge-0008Vq-Ij
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:03:52 -0500
-Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
- [91.134.140.82])
- by relay2.mymailcheap.com (Postfix) with ESMTPS id A03CF3EDEC;
- Mon,  7 Dec 2020 06:03:45 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by filter2.mymailcheap.com (Postfix) with ESMTP id 7B1DB2A7C5;
- Mon,  7 Dec 2020 06:03:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
- s=default; t=1607317425;
- bh=zmMa6pi3Sb/p78/TVezdVAjqlJmjaL5ZPeE0MOt8WeY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=0LNX7FcwdvDjEKv5n6aMSgUSoM5/dnXfOyxvIhpBBjk7c2kmb3PtSW7wBFYbjBUmG
- 9bwu4RxIhvIyJVJwcSIZP5D5pUyQzW0Q6vtq+hpW5e7B0QBWWxZB7dG31KbzzYNtzb
- GP0Kryl9kEo1KdNe/trZiQmRpRKTfMbmVThEZJRo=
-X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
-Received: from filter2.mymailcheap.com ([127.0.0.1])
- by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id av8IsYcgmsVE; Mon,  7 Dec 2020 06:03:44 +0100 (CET)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
- (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1km8o9-0000xv-Ts
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:11:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1km8o4-0003jx-OO
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:11:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607317886;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qab4deHbU/VN7oqCq/ddeCw/xxFnxVTtrXJHAdanJ30=;
+ b=Wd2KUSwnCLr0XfStrF0+coXglJjXzI4yua/+Gv+o/8GdKmFNkomTSQG8Nqwj0Me2XwAM0M
+ YwCJ2w2COGhRJ8jGWgheBtEn1/bi+Xwqxj+difq0eSzhVDmCy86Ncpp31sc93amy2oDZ/q
+ nuyZLbMA25pr7OZF5koYPo6hZeEL83c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-508-v49AIyVENfWDHZqo9wU_CQ-1; Mon, 07 Dec 2020 00:11:24 -0500
+X-MC-Unique: v49AIyVENfWDHZqo9wU_CQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by filter2.mymailcheap.com (Postfix) with ESMTPS;
- Mon,  7 Dec 2020 06:03:44 +0100 (CET)
-Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
- by mail20.mymailcheap.com (Postfix) with ESMTP id 08CE44238C;
- Mon,  7 Dec 2020 05:03:44 +0000 (UTC)
-Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="cnLM22zS"; 
- dkim-atps=neutral
-AI-Spam-Status: Not processed
-Received: from strike.U-LINK.com (unknown [116.228.84.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 490B241FB1;
- Mon,  7 Dec 2020 05:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
- s=default; t=1607317405;
- bh=zmMa6pi3Sb/p78/TVezdVAjqlJmjaL5ZPeE0MOt8WeY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=cnLM22zS5Qx00zlrISv5/1q4VAxIAAPxMrHmL+AEkk9imyB6gSBZRVJUzkFxSjsHQ
- PhAQPtKYnFrrFGX0GqsSFaZhkPCYmWFlpgZ3plbq3jR/kUgeR3ndd5tumj2qxBaZuw
- k+7uREPsAhcEscwxINvqa6pfPD1QvfHojRdYTR8g=
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] hw/mips/fuloong2e: Make use of bootloader helper
-Date: Mon,  7 Dec 2020 13:02:29 +0800
-Message-Id: <20201207050231.2712-4-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201207050231.2712-1-jiaxun.yang@flygoat.com>
-References: <20201207050231.2712-1-jiaxun.yang@flygoat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CB29800D55;
+ Mon,  7 Dec 2020 05:11:22 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-85.ams2.redhat.com [10.36.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9D315D6AB;
+ Mon,  7 Dec 2020 05:11:09 +0000 (UTC)
+Subject: Re: [PATCH 1/8] gitlab-ci: Replace YAML anchors by extends
+ (cross_system_build_job)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201206185508.3545711-1-philmd@redhat.com>
+ <20201206185508.3545711-2-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <e5494ad3-a67e-0013-b48f-0fa82d67c397@redhat.com>
+Date: Mon, 7 Dec 2020 06:11:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <20201206185508.3545711-2-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 08CE44238C
-X-Spamd-Result: default: False [4.90 / 10.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- R_DKIM_ALLOW(0.00)[flygoat.com:s=default]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; R_MISSING_CHARSET(2.50)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- BROKEN_CONTENT_TYPE(1.50)[]; R_SPF_SOFTFAIL(0.00)[~all:c];
- RCPT_COUNT_FIVE(0.00)[5]; ML_SERVERS(-3.10)[148.251.23.173];
- DKIM_TRACE(0.00)[flygoat.com:+];
- DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
- MID_CONTAINS_FROM(1.00)[];
- DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
- RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
- MIME_TRACE(0.00)[0:+];
- ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
- RCVD_COUNT_TWO(0.00)[2];
- HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
-X-Rspamd-Server: mail20.mymailcheap.com
-X-Spam: Yes
-Received-SPF: pass client-ip=217.182.66.162;
- envelope-from=jiaxun.yang@flygoat.com; helo=relay2.mymailcheap.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_SORBS_WEB=1.5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,67 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhuacai@kernel.org, f4bug@amsat.org, paulburton@kernel.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-arm@nongnu.org,
+ kvm@vger.kernel.org, Paul Durrant <paul@xen.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Huacai Chen <chenhc@lemote.com>, Cornelia Huck <cohuck@redhat.com>,
+ xen-devel@lists.xenproject.org, David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use bootloader helper to generate kernel jump.
-Also move kernel jump to 0x580 to avoid collisions with exception
-vectors.
+On 06/12/2020 19.55, Philippe Mathieu-Daudé wrote:
+> 'extends' is an alternative to using YAML anchors
+> and is a little more flexible and readable. See:
+> https://docs.gitlab.com/ee/ci/yaml/#extends
+> 
+> More importantly it allows exploding YAML jobs.
+> 
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  .gitlab-ci.d/crossbuilds.yml | 40 ++++++++++++++++++------------------
+>  1 file changed, 20 insertions(+), 20 deletions(-)
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
- hw/mips/fuloong2e.c | 35 +++++------------------------------
- 1 file changed, 5 insertions(+), 30 deletions(-)
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index a9e0c2f8d3..0a4809c816 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -186,38 +186,13 @@ static void write_bootloader(CPUMIPSState *env, uint8_t *base,
-     /* Small bootloader */
-     p = (uint32_t *)base;
- 
--    /* j 0x1fc00040 */
--    stl_p(p++, 0x0bf00010);
--    /* nop */
--    stl_p(p++, 0x00000000);
-+    bl_gen_jump_to(&p, 0xbfc00580);
- 
-     /* Second part of the bootloader */
--    p = (uint32_t *)(base + 0x040);
--
--    /* lui a0, 0 */
--    stl_p(p++, 0x3c040000);
--    /* ori a0, a0, 2 */
--    stl_p(p++, 0x34840002);
--    /* lui a1, high(ENVP_ADDR) */
--    stl_p(p++, 0x3c050000 | ((ENVP_ADDR >> 16) & 0xffff));
--    /* ori a1, a0, low(ENVP_ADDR) */
--    stl_p(p++, 0x34a50000 | (ENVP_ADDR & 0xffff));
--    /* lui a2, high(ENVP_ADDR + 8) */
--    stl_p(p++, 0x3c060000 | (((ENVP_ADDR + 8) >> 16) & 0xffff));
--    /* ori a2, a2, low(ENVP_ADDR + 8) */
--    stl_p(p++, 0x34c60000 | ((ENVP_ADDR + 8) & 0xffff));
--    /* lui a3, high(env->ram_size) */
--    stl_p(p++, 0x3c070000 | (loaderparams.ram_size >> 16));
--    /* ori a3, a3, low(env->ram_size) */
--    stl_p(p++, 0x34e70000 | (loaderparams.ram_size & 0xffff));
--    /* lui ra, high(kernel_addr) */
--    stl_p(p++, 0x3c1f0000 | ((kernel_addr >> 16) & 0xffff));
--    /* ori ra, ra, low(kernel_addr) */
--    stl_p(p++, 0x37ff0000 | (kernel_addr & 0xffff));
--    /* jr ra */
--    stl_p(p++, 0x03e00008);
--    /* nop */
--    stl_p(p++, 0x00000000);
-+    p = (uint32_t *)(base + 0x580);
-+
-+    bl_gen_jump_kernel(&p, ENVP_ADDR - 64, 2, ENVP_ADDR, ENVP_ADDR + 8,
-+                        loaderparams.ram_size, kernel_addr);
- }
- 
- static void main_cpu_reset(void *opaque)
--- 
-2.29.2
 
