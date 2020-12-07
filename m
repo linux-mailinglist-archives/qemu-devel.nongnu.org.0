@@ -2,59 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB3552D1353
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 15:16:03 +0100 (CET)
-Received: from localhost ([::1]:56910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3249C2D1377
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 15:22:25 +0100 (CET)
+Received: from localhost ([::1]:41430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmHJ4-00016R-PG
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 09:16:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51548)
+	id 1kmHPE-00075u-0p
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 09:22:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kmHGJ-0008KY-4v
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:13:11 -0500
-Resent-Date: Mon, 07 Dec 2020 09:13:11 -0500
-Resent-Message-Id: <E1kmHGJ-0008KY-4v@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kmHGD-0004ZD-0a
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:13:10 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1607350374; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=MZ0YksTVLg9t5Cfl1t4UMOEkzceINlI8JP3TpnXMV2w7c2EOliearxNN7OfYzlltSAT3VDouVE5137OBCGpxr9kX/k8M91QWUhV6YWGnUIz6oJj27969i7xC+/TttVM2GHkHX2QWH5n8iglzobE612SPsBazkUTOctW0BwqHkCE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1607350374;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=WZ2Ks127gETxvuXKSCht/8gna/HpKsGYr+q1EGWYABw=; 
- b=AarMCbtlBHdv7Alxb5fewnzNoGdxegAlrzLF7Y04kwrN+RRGXDvC+U4KKpBr2/LNyuJ9RIJVf9yZS/88zhHx+wk6VcdINKzHvmMXiZ6pTlMN7VblPQfm8gZwF2A0y4NI08YhALXlAytvS7Fbfd8iplFxCjLCIdaQ4aHG60djZV4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1607350368955969.5253075870603;
- Mon, 7 Dec 2020 06:12:48 -0800 (PST)
-In-Reply-To: <20201202081854.4126071-1-pbonzini@redhat.com>
-Subject: Re: [PATCH 00/15] Finish cleaning up qemu_init
-Message-ID: <160735036775.26623.3430223324777966404@600e7e483b3a>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmHMp-0005nA-Di
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:19:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmHMm-0006fH-E6
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:19:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607350790;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bzS1gFOEscz9majXZDwzc81068rEKhCVOkV1UJwnZhM=;
+ b=BLeuBXWLdTFbtpxV1WamXK2XrkifVRpSJo1whHYrwlLb4TSbkYZvouT7qVHFqOaauPsOG/
+ HrW0Vq9LlBRG2uKaSliY/Ejel7xVd8wrbi1l6HMMUHz5XBxgqlYxtMRr/tp+JH3YNGlgDv
+ Kzc6l+hbenYEUm7U+31OyBxLE2yenfs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-271-Qc35uWfoNpyzZiiGCzFdJQ-1; Mon, 07 Dec 2020 09:19:48 -0500
+X-MC-Unique: Qc35uWfoNpyzZiiGCzFdJQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6E071007462
+ for <qemu-devel@nongnu.org>; Mon,  7 Dec 2020 14:19:47 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F2F02299B4;
+ Mon,  7 Dec 2020 14:19:46 +0000 (UTC)
+Date: Mon, 7 Dec 2020 15:19:45 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 06/15] vl: move all generic initialization out of vl.c
+Message-ID: <20201207151945.703c917f@redhat.com>
+In-Reply-To: <20201202081854.4126071-7-pbonzini@redhat.com>
+References: <20201202081854.4126071-1-pbonzini@redhat.com>
+ <20201202081854.4126071-7-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Mon, 7 Dec 2020 06:12:48 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,216 +79,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: imammedo@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIwMjA4MTg1NC40MTI2
-MDcxLTEtcGJvbnppbmlAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMjAyMDgxODU0LjQx
-MjYwNzEtMS1wYm9uemluaUByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSCAwMC8xNV0gRmluaXNo
-IGNsZWFuaW5nIHVwIHFlbXVfaW5pdAoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4v
-YmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcg
-LS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1l
-cyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3Jp
-cHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9
-PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJv
-bSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAg
-ICAgICAgcGF0Y2hldy8yMDIwMTIwMjA4MTg1NC40MTI2MDcxLTEtcGJvbnppbmlAcmVkaGF0LmNv
-bSAtPiBwYXRjaGV3LzIwMjAxMjAyMDgxODU0LjQxMjYwNzEtMS1wYm9uemluaUByZWRoYXQuY29t
-CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMDEyMDcwODQwNDIuNzY5MC0xLWNmb250
-YW5hQHN1c2UuZGUgLT4gcGF0Y2hldy8yMDIwMTIwNzA4NDA0Mi43NjkwLTEtY2ZvbnRhbmFAc3Vz
-ZS5kZQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjQ1MDgxMWYgbW9uaXRvcjogYWxs
-b3cgcXVpdHRpbmcgd2hpbGUgaW4gcHJlY29uZmlnIHN0YXRlCmRjZTNmZDUgbnVsbC1tYWNoaW5l
-OiBkbyBub3QgY3JlYXRlIGEgZGVmYXVsdCBtZW1kZXYKZTUyNDgyYSBtZW1vcnk6IGFsbG93IGNy
-ZWF0aW5nIE1lbW9yeVJlZ2lvbnMgYmVmb3JlIGFjY2VsZXJhdG9ycwplOTUxNTYyIHBsdWdpbjog
-cHJvcGFnYXRlIGVycm9ycwpjMjk4ODliIHF0ZXN0OiBhZGQgYSBRT00gb2JqZWN0IGZvciBxdGVz
-dApmNzUyNmJmIHZsOiBtYWtlIHFlbXVfZ2V0X21hY2hpbmVfb3B0cyBzdGF0aWMKNWYxZjZkMSBt
-YWNoaW5lOiByZWNvcmQgd2hldGhlciBudmRpbW09IHdhcyBzZXQKOGU2NTA0OSBtYWNoaW5lOiBp
-bnRyb2R1Y2UgTWFjaGluZUluaXRQaGFzZQo3YzRjYjFjIGNoYXJkZXY6IGRvIG5vdCB1c2UgbWFj
-aGluZV9pbml0X2RvbmUKMGYxNTk3ZiB2bDogbW92ZSBhbGwgZ2VuZXJpYyBpbml0aWFsaXphdGlv
-biBvdXQgb2YgdmwuYwpjNTVmNjllIHZsOiBleHRyYWN0IHNvZnRtbXUvZ2xvYmFscy5jCjZkZjBl
-ZWIgdmw6IGV4dHJhY3Qgc29mdG1tdS9ydW5zdGF0ZS5jCjFjNmJlYmIgdmw6IGFsbG93IC1pbmNv
-bWluZyBkZWZlciB3aXRoIC1wcmVjb25maWcKODkzNjYwZCB2bDogcmVtb3ZlIHNlcGFyYXRlIHBy
-ZWNvbmZpZyBtYWluX2xvb3AKYTAyOGQ1OCByZW1vdmUgcHJlY29uZmlnIHN0YXRlCgo9PT0gT1VU
-UFVUIEJFR0lOID09PQoxLzE1IENoZWNraW5nIGNvbW1pdCBhMDI4ZDU4YThlODMgKHJlbW92ZSBw
-cmVjb25maWcgc3RhdGUpCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25h
-bCBzdGF0ZW1lbnRzICg0LCA5KQojMjc6IEZJTEU6IGh3L2NvcmUvbWFjaGluZS1xbXAtY21kcy5j
-OjI4OToKKyAgICBpZiAocWRldl9ob3RwbHVnKSB7CisgICAgICAgICBlcnJvcl9zZXRnKGVycnAs
-ICJUaGUgY29tbWFuZCBpcyBwZXJtaXR0ZWQgb25seSBiZWZvcmUgdGhlIG1hY2hpbmUgaGFzIGJl
-ZW4gY3JlYXRlZCIpOwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMyODogRklMRTog
-aHcvY29yZS9tYWNoaW5lLXFtcC1jbWRzLmM6MjkwOgorICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJw
-LCAiVGhlIGNvbW1hbmQgaXMgcGVybWl0dGVkIG9ubHkgYmVmb3JlIHRoZSBtYWNoaW5lIGhhcyBi
-ZWVuIGNyZWF0ZWQiKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM4ODogRklM
-RTogbW9uaXRvci9xbXAtY21kcy5jOjEwODoKKyAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiVGhl
-IGNvbW1hbmQgaXMgcGVybWl0dGVkIG9ubHkgYmVmb3JlIG1hY2hpbmUgaW5pdGlhbGl6YXRpb24i
-KTsKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTUwOiBGSUxFOiBzb2Z0bW11L3Fk
-ZXYtbW9uaXRvci5jOjEwMDY6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIlRoZSBjb21tYW5k
-ICclcycgaXMgcGVybWl0dGVkIG9ubHkgYWZ0ZXIgbWFjaGluZSBpbml0aWFsaXphdGlvbiBoYXMg
-Y29tcGxldGVkIiwKCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRv
-ZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIwNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0
-Cgp0b3RhbDogMyBlcnJvcnMsIDIgd2FybmluZ3MsIDE1NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
-LzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
-cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
-c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzE1IENoZWNraW5nIGNvbW1pdCA4OTM2
-NjBkZWZlMTEgKHZsOiByZW1vdmUgc2VwYXJhdGUgcHJlY29uZmlnIG1haW5fbG9vcCkKV0FSTklO
-RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzkzOiBGSUxFOiBzb2Z0bW11L3ZsLmM6MzI3OToK
-KyAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiVGhlIGNvbW1hbmQgaXMgcGVybWl0dGVkIG9ubHkg
-YmVmb3JlIG1hY2hpbmUgaW5pdGlhbGl6YXRpb24iKTsKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJu
-aW5ncywgMTYxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMTUgaGFzIHN0eWxlIHByb2JsZW1zLCBw
-bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
-IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
-TkVSUy4KMy8xNSBDaGVja2luZyBjb21taXQgMWM2YmViYmQwMGUxICh2bDogYWxsb3cgLWluY29t
-aW5nIGRlZmVyIHdpdGggLXByZWNvbmZpZykKNC8xNSBDaGVja2luZyBjb21taXQgNmRmMGVlYjNj
-ODA0ICh2bDogZXh0cmFjdCBzb2Z0bW11L3J1bnN0YXRlLmMpCldBUk5JTkc6IGFkZGVkLCBtb3Zl
-ZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQ2
-OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxl
-YWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM0MjI6IEZJTEU6IHNvZnRtbXUvcnVuc3RhdGUu
-YzozNzI6CisgICAgICAgICAgICAvKiBUaGlzIGhhcHBlbnMgZm9yIGVnIF5DIGF0IHRoZSB0ZXJt
-aW5hbCwgc28gaXQncyB3b3J0aAoKRVJST1I6IERvbid0IHVzZSAnIycgZmxhZyBvZiBwcmludGYg
-Zm9ybWF0ICgnJSMnKSBpbiBmb3JtYXQgc3RyaW5ncywgdXNlICcweCcgcHJlZml4IGluc3RlYWQK
-IzUzMjogRklMRTogc29mdG1tdS9ydW5zdGF0ZS5jOjQ4MjoKKyAgICAgICAgICAgIHFlbXVfbG9n
-X21hc2soTE9HX0dVRVNUX0VSUk9SLCAiXG5IViBjcmFzaCBwYXJhbWV0ZXJzOiAoJSMiUFJJeDY0
-CgpFUlJPUjogRG9uJ3QgdXNlICcjJyBmbGFnIG9mIHByaW50ZiBmb3JtYXQgKCclIycpIGluIGZv
-cm1hdCBzdHJpbmdzLCB1c2UgJzB4JyBwcmVmaXggaW5zdGVhZAojNTMzOiBGSUxFOiBzb2Z0bW11
-L3J1bnN0YXRlLmM6NDgzOgorICAgICAgICAgICAgICAgICAgICAgICAgICAiICUjIlBSSXg2NCIg
-JSMiUFJJeDY0IiAlIyJQUkl4NjQiICUjIlBSSXg2NCIpXG4iLAoKRVJST1I6IERvbid0IHVzZSAn
-IycgZmxhZyBvZiBwcmludGYgZm9ybWF0ICgnJSMnKSBpbiBmb3JtYXQgc3RyaW5ncywgdXNlICcw
-eCcgcHJlZml4IGluc3RlYWQKIzUzMzogRklMRTogc29mdG1tdS9ydW5zdGF0ZS5jOjQ4MzoKKyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIiAlIyJQUkl4NjQiICUjIlBSSXg2NCIgJSMiUFJJeDY0
-IiAlIyJQUkl4NjQiKVxuIiwKCkVSUk9SOiBEb24ndCB1c2UgJyMnIGZsYWcgb2YgcHJpbnRmIGZv
-cm1hdCAoJyUjJykgaW4gZm9ybWF0IHN0cmluZ3MsIHVzZSAnMHgnIHByZWZpeCBpbnN0ZWFkCiM1
-MzM6IEZJTEU6IHNvZnRtbXUvcnVuc3RhdGUuYzo0ODM6CisgICAgICAgICAgICAgICAgICAgICAg
-ICAgICIgJSMiUFJJeDY0IiAlIyJQUkl4NjQiICUjIlBSSXg2NCIgJSMiUFJJeDY0IilcbiIsCgpF
-UlJPUjogRG9uJ3QgdXNlICcjJyBmbGFnIG9mIHByaW50ZiBmb3JtYXQgKCclIycpIGluIGZvcm1h
-dCBzdHJpbmdzLCB1c2UgJzB4JyBwcmVmaXggaW5zdGVhZAojNTMzOiBGSUxFOiBzb2Z0bW11L3J1
-bnN0YXRlLmM6NDgzOgorICAgICAgICAgICAgICAgICAgICAgICAgICAiICUjIlBSSXg2NCIgJSMi
-UFJJeDY0IiAlIyJQUkl4NjQiICUjIlBSSXg2NCIpXG4iLAoKV0FSTklORzogQmxvY2sgY29tbWVu
-dHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzY0NjogRklMRTogc29mdG1t
-dS9ydW5zdGF0ZS5jOjU5NjoKKyAgICAvKiBDYW5ub3QgY2FsbCBxZW11X3N5c3RlbV9zaHV0ZG93
-bl9yZXF1ZXN0IGRpcmVjdGx5IGJlY2F1c2UKCnRvdGFsOiA1IGVycm9ycywgMyB3YXJuaW5ncywg
-MTU4NSBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
-IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
-cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
-Cgo1LzE1IENoZWNraW5nIGNvbW1pdCBjNTVmNjllYzhiZWQgKHZsOiBleHRyYWN0IHNvZnRtbXUv
-Z2xvYmFscy5jKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
-IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM1MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpF
-UlJPUjogImZvbyogYmFyIiBzaG91bGQgYmUgImZvbyAqYmFyIgojOTI6IEZJTEU6IHNvZnRtbXUv
-Z2xvYmFscy5jOjM4OgorY29uc3QgY2hhcioga2V5Ym9hcmRfbGF5b3V0OwoKV0FSTklORzogQmxv
-Y2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzEyMDogRklM
-RTogc29mdG1tdS9nbG9iYWxzLmM6NjY6CisvKiBUaGUgYnl0ZXMgaW4gcWVtdV91dWlkIGFyZSBp
-biB0aGUgb3JkZXIgc3BlY2lmaWVkIGJ5IFJGQzQxMjIsIF9ub3RfIGluIHRoZQoKdG90YWw6IDEg
-ZXJyb3JzLCAyIHdhcm5pbmdzLCAxODQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8xNSBoYXMgc3R5
-bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
-YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
-VENIIGluIE1BSU5UQUlORVJTLgoKNi8xNSBDaGVja2luZyBjb21taXQgMGYxNTk3ZmQ2ODdhICh2
-bDogbW92ZSBhbGwgZ2VuZXJpYyBpbml0aWFsaXphdGlvbiBvdXQgb2YgdmwuYykKV0FSTklORzog
-bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzU2OiBGSUxFOiBody9jb3JlL21hY2hpbmUuYzoxMjAw
-OgorICAgICAgICBxZW11X3JlZ2lzdGVyX3Jlc2V0KHJlc3RvcmVfYm9vdF9vcmRlciwgZ19zdHJk
-dXAoY3VycmVudF9tYWNoaW5lLT5ib290X29yZGVyKSk7CgpXQVJOSU5HOiBCbG9jayBjb21tZW50
-cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNjY6IEZJTEU6IGh3L2NvcmUv
-bWFjaGluZS5jOjEyMTA6CisgICAgLyogVE9ETzogb25jZSBhbGwgYnVzIGRldmljZXMgYXJlIHFk
-ZXZpZmllZCwgdGhpcyBzaG91bGQgYmUgZG9uZQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNl
-IGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiM2NzogRklMRTogaHcvY29yZS9tYWNo
-aW5lLmM6MTIxMToKKyAgICAgKiB3aGVuIGJ1cyBpcyBjcmVhdGVkIGJ5IHFkZXYuYyAqLwoKV0FS
-TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUK
-Izg4OiBGSUxFOiBody9jb3JlL21hY2hpbmUuYzoxMjMyOgorICAgIC8qIFRoaXMgY2hlY2twb2lu
-dCBpcyByZXF1aXJlZCBieSByZXBsYXkgdG8gc2VwYXJhdGUgcHJpb3IgY2xvY2sKCldBUk5JTkc6
-IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzg5OiBGSUxFOiBody9j
-b3JlL21hY2hpbmUuYzoxMjMzOgorICAgIC8qIFRoaXMgY2hlY2twb2ludCBpcyByZXF1aXJlZCBi
-eSByZXBsYXkgdG8gc2VwYXJhdGUgcHJpb3IgY2xvY2sKKyAgICAgICByZWFkaW5nIGZyb20gdGhl
-IG90aGVyIHJlYWRzLCBiZWNhdXNlIHRpbWVyIHBvbGxpbmcgZnVuY3Rpb25zIHF1ZXJ5CgpXQVJO
-SU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUK
-IzkwOiBGSUxFOiBody9jb3JlL21hY2hpbmUuYzoxMjM0OgorICAgICAgIGNsb2NrIHZhbHVlcyBm
-cm9tIHRoZSBsb2cuICovCgp0b3RhbDogMCBlcnJvcnMsIDYgd2FybmluZ3MsIDE2NCBsaW5lcyBj
-aGVja2VkCgpQYXRjaCA2LzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjcvMTUgQ2hlY2tp
-bmcgY29tbWl0IDdjNGNiMWNhMWFkYSAoY2hhcmRldjogZG8gbm90IHVzZSBtYWNoaW5lX2luaXRf
-ZG9uZSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlO
-VEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTA5OiAKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cgp0
-b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDE0MiBsaW5lcyBjaGVja2VkCgpQYXRjaCA3LzE1
-IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
-cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
-CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjgvMTUgQ2hlY2tpbmcgY29tbWl0IDhlNjUwNDlh
-MmVhYyAobWFjaGluZTogaW50cm9kdWNlIE1hY2hpbmVJbml0UGhhc2UpCkVSUk9SOiBsaW5lIG92
-ZXIgOTAgY2hhcmFjdGVycwojMjc6IEZJTEU6IGh3L2NvcmUvbWFjaGluZS1xbXAtY21kcy5jOjI5
-MDoKKyAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiVGhlIGNvbW1hbmQgaXMgcGVybWl0dGVkIG9u
-bHkgYmVmb3JlIHRoZSBtYWNoaW5lIGhhcyBiZWVuIGNyZWF0ZWQiKTsKCldBUk5JTkc6IGxpbmUg
-b3ZlciA4MCBjaGFyYWN0ZXJzCiMyMzI6IEZJTEU6IHNvZnRtbXUvcWRldi1tb25pdG9yLmM6NjQw
-OgorICAgIGlmICgoaGlkZSB8fCBwaGFzZV9jaGVjayhQSEFTRV9NQUNISU5FX1JFQURZKSkgJiYg
-YnVzICYmICFxYnVzX2lzX2hvdHBsdWdnYWJsZShidXMpKSB7CgpXQVJOSU5HOiBsaW5lIG92ZXIg
-ODAgY2hhcmFjdGVycwojMjU0OiBGSUxFOiBzb2Z0bW11L3FkZXYtbW9uaXRvci5jOjY2NDoKKyAg
-ICAgICAgICAgIC8qIE5vIGJ1cywgbm8gbWFjaGluZSBob3RwbHVnIGhhbmRsZXIgLS0+IGRldmlj
-ZSBpcyBub3QgaG90cGx1Z2dhYmxlICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
-cwojMjU1OiBGSUxFOiBzb2Z0bW11L3FkZXYtbW9uaXRvci5jOjY2NToKKyAgICAgICAgICAgIGVy
-cm9yX3NldGcoZXJycCwgIkRldmljZSAnJXMnIGNhbiBub3QgYmUgaG90cGx1Z2dlZCBvbiB0aGlz
-IG1hY2hpbmUiLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMyNzogRklMRTog
-dWkvY29uc29sZS5jOjEzNDg6CisgICAgfSBlbHNlIGlmIChjb25zb2xlX3R5cGUgIT0gR1JBUEhJ
-Q19DT05TT0xFIHx8IHBoYXNlX2NoZWNrKFBIQVNFX01BQ0hJTkVfUkVBRFkpKSB7Cgp0b3RhbDog
-MSBlcnJvcnMsIDQgd2FybmluZ3MsIDI1MCBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzE1IGhhcyBz
-dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
-IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
-UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo5LzE1IENoZWNraW5nIGNvbW1pdCA1ZjFmNmQxZGY2ZTYg
-KG1hY2hpbmU6IHJlY29yZCB3aGV0aGVyIG52ZGltbT0gd2FzIHNldCkKMTAvMTUgQ2hlY2tpbmcg
-Y29tbWl0IGY3NTI2YmY1NGQ3OCAodmw6IG1ha2UgcWVtdV9nZXRfbWFjaGluZV9vcHRzIHN0YXRp
-YykKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMzOiBGSUxFOiBhY2NlbC9rdm0v
-a3ZtLWFsbC5jOjIwNzI6CisgICAgICAgIGdfYXV0b2ZyZWUgY2hhciAqa3ZtX3R5cGUgPSBvYmpl
-Y3RfcHJvcGVydHlfZ2V0X3N0cihPQkpFQ1QoY3VycmVudF9tYWNoaW5lKSwKCnRvdGFsOiAwIGVy
-cm9ycywgMSB3YXJuaW5ncywgMTk1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEwLzE1IGhhcyBzdHls
-ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
-bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
-Q0ggaW4gTUFJTlRBSU5FUlMuCjExLzE1IENoZWNraW5nIGNvbW1pdCBjMjk4ODliMGY4MTUgKHF0
-ZXN0OiBhZGQgYSBRT00gb2JqZWN0IGZvciBxdGVzdCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNo
-YXJhY3RlcnMKIzMzOiBGSUxFOiBzb2Z0bW11L3F0ZXN0LmM6ODU1Ogorc3RhdGljIGJvb2wgcXRl
-c3Rfc2VydmVyX3N0YXJ0KENoYXJkZXYgKmNociwgY29uc3QgY2hhciAqcXRlc3RfbG9nLCBFcnJv
-ciAqKmVycnApCgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDE5MCBsaW5lcyBjaGVja2Vk
-CgpQYXRjaCAxMS8xNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxMi8xNSBDaGVja2luZyBj
-b21taXQgZTk1MTU2MjBjMWJiIChwbHVnaW46IHByb3BhZ2F0ZSBlcnJvcnMpCkVSUk9SOiBsaW5l
-IG92ZXIgOTAgY2hhcmFjdGVycwojNjQ6IEZJTEU6IHBsdWdpbnMvbG9hZGVyLmM6MTUzOgorc3Rh
-dGljIGludCBwbHVnaW5fbG9hZChzdHJ1Y3QgcWVtdV9wbHVnaW5fZGVzYyAqZGVzYywgY29uc3Qg
-cWVtdV9pbmZvX3QgKmluZm8sIEVycm9yICoqZXJycCkKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
-aGFyYWN0ZXJzCiM3MzogRklMRTogcGx1Z2lucy9sb2FkZXIuYzoxNjY6CisgICAgICAgIGVycm9y
-X3NldGcoZXJycCwgIkNvdWxkIG5vdCBsb2FkIHBsdWdpbiAlczogJXMiLCBkZXNjLT5wYXRoLCBn
-X21vZHVsZV9lcnJvcigpKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM3OTog
-RklMRTogcGx1Z2lucy9sb2FkZXIuYzoxNzE6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNv
-dWxkIG5vdCBsb2FkIHBsdWdpbiAlczogJXMiLCBkZXNjLT5wYXRoLCBnX21vZHVsZV9lcnJvcigp
-KTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM4NzogRklMRTogcGx1Z2lucy9s
-b2FkZXIuYzoxNzc6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNvdWxkIG5vdCBsb2FkIHBs
-dWdpbiAlczogcWVtdV9wbHVnaW5faW5zdGFsbCBpcyBOVUxMIiwKCkVSUk9SOiBsaW5lIG92ZXIg
-OTAgY2hhcmFjdGVycwojOTU6IEZJTEU6IHBsdWdpbnMvbG9hZGVyLmM6MTgzOgorICAgICAgICBl
-cnJvcl9zZXRnKGVycnAsICJDb3VsZCBub3QgbG9hZCBwbHVnaW4gJXM6IHBsdWdpbiBkb2VzIG5v
-dCBkZWNsYXJlIEFQSSB2ZXJzaW9uICVzIiwKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVy
-cwojMTA0OiBGSUxFOiBwbHVnaW5zL2xvYWRlci5jOjE4OToKKyAgICAgICAgICAgIGVycm9yX3Nl
-dGcoZXJycCwgIkNvdWxkIG5vdCBsb2FkIHBsdWdpbiAlczogcGx1Z2luIHJlcXVpcmVzIEFQSSB2
-ZXJzaW9uICVkLCBidXQgIgoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxMTI6IEZJ
-TEU6IHBsdWdpbnMvbG9hZGVyLmM6MTk0OgorICAgICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAi
-Q291bGQgbm90IGxvYWQgcGx1Z2luICVzOiBwbHVnaW4gcmVxdWlyZXMgQVBJIHZlcnNpb24gJWQs
-IGJ1dCAiCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzEyNDogRklMRTogcGx1Z2lu
-cy9sb2FkZXIuYzoyMjM6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNvdWxkIG5vdCBsb2Fk
-IHBsdWdpbiAlczogcWVtdV9wbHVnaW5faW5zdGFsbCByZXR1cm5lZCBlcnJvciBjb2RlICVkIiwK
-CnRvdGFsOiA1IGVycm9ycywgMyB3YXJuaW5ncywgMTE5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEy
-LzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
-cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
-c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxMy8xNSBDaGVja2luZyBjb21taXQgZTUy
-NDgyYTJkMmFkIChtZW1vcnk6IGFsbG93IGNyZWF0aW5nIE1lbW9yeVJlZ2lvbnMgYmVmb3JlIGFj
-Y2VsZXJhdG9ycykKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBh
-IHNlcGFyYXRlIGxpbmUKIzkzOiBGSUxFOiBzb2Z0bW11L3ZsLmM6MTcxODoKKyAgICAvKiBBbGxv
-Y2F0aW9uIG9mIGxhcmdlIGFtb3VudHMgb2YgbWVtb3J5IG1heSBkZWxheQoKdG90YWw6IDAgZXJy
-b3JzLCAxIHdhcm5pbmdzLCA2NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMy8xNSBoYXMgc3R5bGUg
-cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
-ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
-IGluIE1BSU5UQUlORVJTLgoxNC8xNSBDaGVja2luZyBjb21taXQgZGNlM2ZkNTg5NWEzIChudWxs
-LW1hY2hpbmU6IGRvIG5vdCBjcmVhdGUgYSBkZWZhdWx0IG1lbWRldikKMTUvMTUgQ2hlY2tpbmcg
-Y29tbWl0IDQ1MDgxMWY4OTY2OCAobW9uaXRvcjogYWxsb3cgcXVpdHRpbmcgd2hpbGUgaW4gcHJl
-Y29uZmlnIHN0YXRlKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0
-aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
-cmcvbG9ncy8yMDIwMTIwMjA4MTg1NC40MTI2MDcxLTEtcGJvbnppbmlAcmVkaGF0LmNvbS90ZXN0
-aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0
-aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91
-ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Wed,  2 Dec 2020 03:18:45 -0500
+Paolo Bonzini <pbonzini@redhat.com> wrote:
+
+> qdev_machine_creation_done is only setting a flag now.  Extend it to
+> move more code out of vl.c.  Leave only consistency checks and gdbserver
+> processing in qemu_machine_creation_done.
+> 
+> gdbserver_start can be moved after qdev_machine_creation_done because
+> it only does listen on the socket and creates some internal data
+> structures; it does not send any data (e.g. guest state) over the socket.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  hw/core/machine.c      | 47 +++++++++++++++++++++++++++++++++++++++++-
+>  hw/core/qdev.c         | 12 +++--------
+>  include/hw/qdev-core.h |  1 +
+>  softmmu/vl.c           | 37 +--------------------------------
+>  4 files changed, 51 insertions(+), 46 deletions(-)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 5659b1f49c..025c4f9749 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -16,16 +16,21 @@
+>  #include "sysemu/replay.h"
+>  #include "qemu/units.h"
+>  #include "hw/boards.h"
+> +#include "hw/loader.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-visit-common.h"
+>  #include "qapi/visitor.h"
+>  #include "hw/sysbus.h"
+> +#include "sysemu/cpus.h"
+>  #include "sysemu/sysemu.h"
+> +#include "sysemu/reset.h"
+> +#include "sysemu/runstate.h"
+>  #include "sysemu/numa.h"
+>  #include "qemu/error-report.h"
+>  #include "sysemu/qtest.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/mem/nvdimm.h"
+> +#include "migration/global_state.h"
+>  #include "migration/vmstate.h"
+>  
+>  GlobalProperty hw_compat_5_1[] = {
+> @@ -1186,10 +1191,50 @@ void qemu_remove_machine_init_done_notifier(Notifier *notify)
+>      notifier_remove(notify);
+>  }
+>  
+> -void qemu_run_machine_init_done_notifiers(void)
+> +void qdev_machine_creation_done(void)
+>  {
+> +    cpu_synchronize_all_post_init();
+> +
+> +    if (current_machine->boot_once) {
+> +        qemu_boot_set(current_machine->boot_once, &error_fatal);
+> +        qemu_register_reset(restore_boot_order, g_strdup(current_machine->boot_order));
+> +    }
+> +
+> +    /*
+> +     * ok, initial machine setup is done, starting from now we can
+> +     * only create hotpluggable devices
+> +     */
+> +    qdev_hotplug = true;
+> +    qdev_assert_realized_properly();
+> +
+> +    /* TODO: once all bus devices are qdevified, this should be done
+> +     * when bus is created by qdev.c */
+> +    /*
+> +     * TODO: If we had a main 'reset container' that the whole system
+> +     * lived in, we could reset that using the multi-phase reset
+> +     * APIs. For the moment, we just reset the sysbus, which will cause
+> +     * all devices hanging off it (and all their child buses, recursively)
+> +     * to be reset. Note that this will *not* reset any Device objects
+> +     * which are not attached to some part of the qbus tree!
+> +     */
+> +    qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
+> +
+>      machine_init_done = true;
+>      notifier_list_notify(&machine_init_done_notifiers, NULL);
+> +
+> +    if (rom_check_and_register_reset() != 0) {
+> +        error_report("rom check and register reset failed");
+> +        exit(1);
+> +    }
+> +
+> +    replay_start();
+> +
+> +    /* This checkpoint is required by replay to separate prior clock
+> +       reading from the other reads, because timer polling functions query
+> +       clock values from the log. */
+> +    replay_checkpoint(CHECKPOINT_RESET);
+> +    qemu_system_reset(SHUTDOWN_CAUSE_NONE);
+> +    register_global_state();
+>  }
+>  
+>  static const TypeInfo machine_info = {
+> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+> index 262bca716f..bc5df8ce69 100644
+> --- a/hw/core/qdev.c
+> +++ b/hw/core/qdev.c
+> @@ -413,7 +413,7 @@ void qdev_unrealize(DeviceState *dev)
+>      object_property_set_bool(OBJECT(dev), "realized", false, &error_abort);
+>  }
+>  
+> -static int qdev_assert_realized_properly(Object *obj, void *opaque)
+> +static int qdev_assert_realized_properly_cb(Object *obj, void *opaque)
+>  {
+>      DeviceState *dev = DEVICE(object_dynamic_cast(obj, TYPE_DEVICE));
+>      DeviceClass *dc;
+> @@ -426,16 +426,10 @@ static int qdev_assert_realized_properly(Object *obj, void *opaque)
+>      return 0;
+>  }
+>  
+> -void qdev_machine_creation_done(void)
+> +void qdev_assert_realized_properly(void)
+>  {
+> -    /*
+> -     * ok, initial machine setup is done, starting from now we can
+> -     * only create hotpluggable devices
+> -     */
+> -    qdev_hotplug = true;
+> -
+>      object_child_foreach_recursive(object_get_root(),
+> -                                   qdev_assert_realized_properly, NULL);
+> +                                   qdev_assert_realized_properly_cb, NULL);
+>  }
+>  
+>  bool qdev_machine_modified(void)
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index b77a2f1da7..6446846752 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -815,6 +815,7 @@ const VMStateDescription *qdev_get_vmsd(DeviceState *dev);
+>  
+>  const char *qdev_fw_name(DeviceState *dev);
+>  
+> +void qdev_assert_realized_properly(void);
+>  Object *qdev_get_machine(void);
+>  
+>  /* FIXME: make this a link<> */
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 685d92df5d..d8af26c281 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -72,7 +72,6 @@
+>  #include "hw/i386/pc.h"
+>  #include "migration/misc.h"
+>  #include "migration/snapshot.h"
+> -#include "migration/global_state.h"
+>  #include "sysemu/tpm.h"
+>  #include "sysemu/dma.h"
+>  #include "hw/audio/soundhw.h"
+> @@ -2465,8 +2464,6 @@ static void qemu_create_cli_devices(void)
+>  
+>  static void qemu_machine_creation_done(void)
+>  {
+> -    cpu_synchronize_all_post_init();
+> -
+>      /* Did we create any drives that we failed to create a device for? */
+>      drive_check_orphaned();
+>  
+> @@ -2484,43 +2481,11 @@ static void qemu_machine_creation_done(void)
+>  
+>      qdev_prop_check_globals();
+>  
+> -    if (current_machine->boot_once) {
+> -        qemu_boot_set(current_machine->boot_once, &error_fatal);
+> -        qemu_register_reset(restore_boot_order, g_strdup(current_machine->boot_order));
+> -    }
+> -
+> -    if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+> -        exit(1);
+> -    }
+> -
+>      qdev_machine_creation_done();
+>  
+> -    /* TODO: once all bus devices are qdevified, this should be done
+> -     * when bus is created by qdev.c */
+> -    /*
+> -     * TODO: If we had a main 'reset container' that the whole system
+> -     * lived in, we could reset that using the multi-phase reset
+> -     * APIs. For the moment, we just reset the sysbus, which will cause
+> -     * all devices hanging off it (and all their child buses, recursively)
+> -     * to be reset. Note that this will *not* reset any Device objects
+> -     * which are not attached to some part of the qbus tree!
+> -     */
+> -    qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
+> -    qemu_run_machine_init_done_notifiers();
+> -
+> -    if (rom_check_and_register_reset() != 0) {
+> -        error_report("rom check and register reset failed");
+> +    if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+>          exit(1);
+>      }
+> -
+> -    replay_start();
+> -
+> -    /* This checkpoint is required by replay to separate prior clock
+> -       reading from the other reads, because timer polling functions query
+> -       clock values from the log. */
+> -    replay_checkpoint(CHECKPOINT_RESET);
+> -    qemu_system_reset(SHUTDOWN_CAUSE_NONE);
+> -    register_global_state();
+>  }
+>  
+>  void qmp_x_exit_preconfig(Error **errp)
+
 
