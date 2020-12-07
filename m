@@ -2,59 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F432D0B84
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 09:12:49 +0100 (CET)
-Received: from localhost ([::1]:58106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D212D0BDC
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 09:39:48 +0100 (CET)
+Received: from localhost ([::1]:37304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmBdY-0007Bp-G1
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 03:12:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58758)
+	id 1kmC3e-00037n-O8
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 03:39:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kmBbZ-0006WH-G8; Mon, 07 Dec 2020 03:10:45 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2242)
+ (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
+ id 1kmC1t-0002gq-Ew
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 03:37:57 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kmBbT-0000Gy-QD; Mon, 07 Dec 2020 03:10:45 -0500
-Received: from dggemi405-hub.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4CqGDy5QtXz13R0c;
- Mon,  7 Dec 2020 16:09:38 +0800 (CST)
-Received: from DGGEMI422-HUB.china.huawei.com (10.1.199.151) by
- dggemi405-hub.china.huawei.com (10.3.17.143) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Mon, 7 Dec 2020 16:10:30 +0800
-Received: from DGGEMI525-MBS.china.huawei.com ([169.254.6.228]) by
- dggemi422-hub.china.huawei.com ([10.1.199.151]) with mapi id 14.03.0487.000;
- Mon, 7 Dec 2020 16:10:20 +0800
-From: ganqixin <ganqixin@huawei.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: RE: [PATCH 3/3] s390x/cpu: Use timer_free() in the finalize
- function to avoid memleaks
-Thread-Topic: [PATCH 3/3] s390x/cpu: Use timer_free() in the finalize
- function to avoid memleaks
-Thread-Index: AQHWyhVlFFCAWnF5sUCF8CY9haDIzKnmFvuAgAU0c8A=
-Date: Mon, 7 Dec 2020 08:10:19 +0000
-Message-ID: <A5B86EC83C48EF4CB2BC58BEF3A2F496065E416F@DGGEMI525-MBS.china.huawei.com>
-References: <20201204081209.360524-1-ganqixin@huawei.com>
- <20201204081209.360524-4-ganqixin@huawei.com>
- <20201204093659.349314af.cohuck@redhat.com>
-In-Reply-To: <20201204093659.349314af.cohuck@redhat.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.185.159]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
+ id 1kmC1q-0000s4-9h
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 03:37:56 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CqGrR0FFwzM1f4;
+ Mon,  7 Dec 2020 16:36:55 +0800 (CST)
+Received: from [10.108.235.13] (10.108.235.13) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 7 Dec 2020 16:37:26 +0800
+To: <berrange@redhat.com>
+From: shiliyang <shiliyang@huawei.com>
+Subject: [PATCH] crypto: Fix some code style problems, add spaces around
+ operator
+Message-ID: <eec07863-d8fa-1ad0-5b64-4683d48478ab@huawei.com>
+Date: Mon, 7 Dec 2020 16:37:25 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.108.235.13]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255; envelope-from=ganqixin@huawei.com;
- helo=szxga08-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=shiliyang@huawei.com;
+ helo=szxga05-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,101 +59,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "thuth@redhat.com" <thuth@redhat.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- David Hildenbrand <david@redhat.com>,
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>, Richard
- Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>,
- Euler Robot <euler.robot@huawei.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
- "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
+Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Cornelia Huck [mailto:cohuck@redhat.com]
-> Sent: Friday, December 4, 2020 4:37 PM
-> To: ganqixin <ganqixin@huawei.com>
-> Cc: qemu-devel@nongnu.org; qemu-trivial@nongnu.org;
-> peter.maydell@linaro.org; thuth@redhat.com; Zhanghailiang
-> <zhang.zhanghailiang@huawei.com>; Euler Robot
-> <euler.robot@huawei.com>; Chenqun (kuhn)
-> <kuhn.chenqun@huawei.com>; david@gibson.dropbear.id.au; Richard
-> Henderson <richard.henderson@linaro.org>; David Hildenbrand
-> <david@redhat.com>; qemu-s390x@nongnu.org
-> Subject: Re: [PATCH 3/3] s390x/cpu: Use timer_free() in the finalize
-> function to avoid memleaks
->=20
-> On Fri, 4 Dec 2020 16:12:09 +0800
-> Gan Qixin <ganqixin@huawei.com> wrote:
->=20
-> > When running device-introspect-test, a memory leak occurred in the
-> > s390_cpu_initfn function, this patch use timer_free() in the finalize
-> function to fix it.
-> >
-> > ASAN shows memory leak stack:
-> >
-> > Direct leak of 3552 byte(s) in 74 object(s) allocated from:
-> >     #0 0xfffeb3d4e1f0 in __interceptor_calloc
-> (/lib64/libasan.so.5+0xee1f0)
-> >     #1 0xfffeb36e6800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
-> >     #2 0xaaad51a8f9c4 in timer_new_full
-> qemu/include/qemu/timer.h:523
-> >     #3 0xaaad51a8f9c4 in timer_new qemu/include/qemu/timer.h:544
-> >     #4 0xaaad51a8f9c4 in timer_new_ns
-> qemu/include/qemu/timer.h:562
-> >     #5 0xaaad51a8f9c4 in s390_cpu_initfn
-> qemu/target/s390x/cpu.c:304
-> >     #6 0xaaad51e00f58 in object_init_with_type
-> qemu/qom/object.c:371
-> >     #7 0xaaad51e0406c in object_initialize_with_type
-> qemu/qom/object.c:515
-> >     #8 0xaaad51e042e0 in object_new_with_type
-> qemu/qom/object.c:729
-> >     #9 0xaaad51e3ff40 in qmp_device_list_properties
-> qemu/qom/qom-qmp-cmds.c:153
-> >     #10 0xaaad51910518 in qdev_device_help
-> qemu/softmmu/qdev-monitor.c:283
-> >     #11 0xaaad51911918 in qmp_device_add
-> qemu/softmmu/qdev-monitor.c:801
-> >     #12 0xaaad51911e48 in hmp_device_add
-> > qemu/softmmu/qdev-monitor.c:916
-> >
-> > Reported-by: Euler Robot <euler.robot@huawei.com>
-> > Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-> > ---
-> > Cc: Thomas Huth <thuth@redhat.com>
->=20
-> [Adding missing maintainers. How did you build the cc: list?]
+This patch fixes error style problems found by checkpatch.pl:
+ERROR: spaces required around that '*'
+ERROR: space required after that ','
+ERROR: spaces required around that '|'
 
-Oops, It's my fault. Thanks for helping me add missing maintainers. :)
+Signed-off-by: Liyang Shi <shiliyang@huawei.com>
+---
+ crypto/aes.c          | 2 +-
+ crypto/desrfb.c       | 2 +-
+ crypto/tlscredsx509.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Gan Qixin
->=20
-> > ---
-> >  target/s390x/cpu.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c index
-> > 7b66718c44..8a734c2f8c 100644
-> > --- a/target/s390x/cpu.c
-> > +++ b/target/s390x/cpu.c
-> > @@ -313,6 +313,11 @@ static void s390_cpu_finalize(Object *obj)  #if
-> > !defined(CONFIG_USER_ONLY)
-> >      S390CPU *cpu =3D S390_CPU(obj);
-> >
-> > +    timer_del(cpu->env.tod_timer);
-> > +    timer_free(cpu->env.tod_timer);
-> > +    timer_del(cpu->env.cpu_timer);
-> > +    timer_free(cpu->env.cpu_timer);
-> > +
-> >      qemu_unregister_reset(s390_cpu_machine_reset_cb, cpu);
-> >      g_free(cpu->irqstate);
-> >  #endif
->=20
-> Looks sane at first glance.
+diff --git a/crypto/aes.c b/crypto/aes.c
+index 159800df65..56efc95196 100644
+--- a/crypto/aes.c
++++ b/crypto/aes.c
+@@ -1182,7 +1182,7 @@ int AES_set_decrypt_key(const unsigned char *userKey, const int bits,
+         rk = key->rd_key;
 
+         /* invert the order of the round keys: */
+-        for (i = 0, j = 4*(key->rounds); i < j; i += 4, j -= 4) {
++        for (i = 0, j = 4 * (key->rounds); i < j; i += 4, j -= 4) {
+                 temp = rk[i    ]; rk[i    ] = rk[j    ]; rk[j    ] = temp;
+                 temp = rk[i + 1]; rk[i + 1] = rk[j + 1]; rk[j + 1] = temp;
+                 temp = rk[i + 2]; rk[i + 2] = rk[j + 2]; rk[j + 2] = temp;
+diff --git a/crypto/desrfb.c b/crypto/desrfb.c
+index 3274c36510..675847c93b 100644
+--- a/crypto/desrfb.c
++++ b/crypto/desrfb.c
+@@ -56,7 +56,7 @@ static const unsigned char pc1[56] = {
+         13,  5, 60, 52, 44, 36, 28,	20, 12,  4, 27, 19, 11,  3 };
+
+ static const unsigned char totrot[16] = {
+-        1,2,4,6,8,10,12,14,15,17,19,21,23,25,27,28 };
++        1, 2, 4, 6, 8, 10, 12, 14, 15, 17, 19, 21, 23, 25, 27, 28 };
+
+ static const unsigned char pc2[48] = {
+         13, 16, 10, 23,  0,  4,  2, 27, 14,  5, 20,  9,
+diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
+index dd7267ccdb..c89dd62435 100644
+--- a/crypto/tlscredsx509.c
++++ b/crypto/tlscredsx509.c
+@@ -143,7 +143,7 @@ qcrypto_tls_creds_check_cert_key_usage(QCryptoTLSCredsX509 *creds,
+     if (status < 0) {
+         if (status == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
+             usage = isCA ? GNUTLS_KEY_KEY_CERT_SIGN :
+-                GNUTLS_KEY_DIGITAL_SIGNATURE|GNUTLS_KEY_KEY_ENCIPHERMENT;
++                GNUTLS_KEY_DIGITAL_SIGNATURE | GNUTLS_KEY_KEY_ENCIPHERMENT;
+         } else {
+             error_setg(errp,
+                        "Unable to query certificate %s key usage: %s",
+-- 
+2.29.1.59.gf9b6481aed
 
