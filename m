@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AB52D158F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 17:09:58 +0100 (CET)
-Received: from localhost ([::1]:51768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BDA32D1590
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 17:12:08 +0100 (CET)
+Received: from localhost ([::1]:55256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmJ5J-0005zP-5f
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 11:09:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
+	id 1kmJ7P-0007a4-5J
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 11:12:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1kmJ1Y-0002w7-OS
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:06:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1kmJ1U-000289-Jx
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:06:04 -0500
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
- [51.254.78.96])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmJ36-0004JT-GN
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:07:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41410)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmJ33-0003AJ-0q
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:07:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607357255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j5Zc5djlbTMy7EE8x7Wb7ekzFaFKfnacaLMhCgHTlkE=;
+ b=QByrNcu8NQBP8R8Jtb3lGYkugVPmQvPNOdzHooE0M93Kvwdccu3KL84Zwc2tlF2oGFHaml
+ uVcb36yAO6OfN2FiOo1c4msg1kPbeMu5gsv7CetSgf99pOnDVsl4idJHbEfzXZGcrpUCkg
+ xTmihm+1lHc+b9w+1fQH2xB5X7CXiuE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-506-T0wPhxauP4OP4bKTb3lO5A-1; Mon, 07 Dec 2020 11:07:33 -0500
+X-MC-Unique: T0wPhxauP4OP4bKTb3lO5A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3A3C623741;
- Mon,  7 Dec 2020 16:05:57 +0000 (UTC)
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
- by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
- (envelope-from <maz@kernel.org>)
- id 1kmJ1P-00GnxZ-3d; Mon, 07 Dec 2020 16:05:55 +0000
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 788EC800D53;
+ Mon,  7 Dec 2020 16:07:31 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 211F610016F5;
+ Mon,  7 Dec 2020 16:07:29 +0000 (UTC)
+Date: Mon, 7 Dec 2020 17:07:28 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 10/15] vl: make qemu_get_machine_opts static
+Message-ID: <20201207170728.0a39f201@redhat.com>
+In-Reply-To: <20201202081854.4126071-11-pbonzini@redhat.com>
+References: <20201202081854.4126071-1-pbonzini@redhat.com>
+ <20201202081854.4126071-11-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Date: Mon, 07 Dec 2020 16:05:55 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v5 0/2] MTE support for KVM guest
-In-Reply-To: <b975422f-14fd-13b3-c8ca-e8b1a68c0837@arm.com>
-References: <20201119153901.53705-1-steven.price@arm.com>
- <CAFEAcA85fiqA206FuFANKbV_3GkfY1F8Gv7MP58BgTT81bs9kA@mail.gmail.com>
- <20201119184248.4bycy6ouvaxqdiiy@kamzik.brq.redhat.com>
- <db5ad775fa7cfe7defbd78d9ca6ccfd8@kernel.org>
- <c25c297e-e9b5-ab3f-e401-c21ddd4d2ad1@arm.com>
- <CAJc+Z1H7akXwDtVvQLiGVVyZ0DfmsxyJQhE7Sno6aAO9GaafEA@mail.gmail.com>
- <46fd98a2-ee39-0086-9159-b38c406935ab@arm.com>
- <CAFEAcA_Q8RSB-zcS8+cEfvWz_0U5GLzmsf12m_7BFjX8h-1hrA@mail.gmail.com>
- <b975422f-14fd-13b3-c8ca-e8b1a68c0837@arm.com>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <0d0eb6da6a11f76d10e532c157181985@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: steven.price@arm.com, peter.maydell@linaro.org,
- haibo.xu@linaro.org, linux-kernel@vger.kernel.org, quintela@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, dgilbert@redhat.com,
- catalin.marinas@arm.com, tglx@linutronix.de, will@kernel.org,
- kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
- Dave.Martin@arm.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,81 +79,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Juan Quintela <quintela@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
- arm-mail-list <linux-arm-kernel@lists.infradead.org>,
- Haibo Xu <haibo.xu@linaro.org>, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm <kvmarm@lists.cs.columbia.edu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Dave Martin <Dave.Martin@arm.com>
+Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020-12-07 15:45, Steven Price wrote:
-> On 07/12/2020 15:27, Peter Maydell wrote:
->> On Mon, 7 Dec 2020 at 14:48, Steven Price <steven.price@arm.com> 
->> wrote:
->>> Sounds like you are making good progress - thanks for the update. 
->>> Have
->>> you thought about how the PROT_MTE mappings might work if QEMU itself
->>> were to use MTE? My worry is that we end up with MTE in a guest
->>> preventing QEMU from using MTE itself (because of the PROT_MTE
->>> mappings). I'm hoping QEMU can wrap its use of guest memory in a
->>> sequence which disables tag checking (something similar will be 
->>> needed
->>> for the "protected VM" use case anyway), but this isn't something 
->>> I've
->>> looked into.
->> 
->> It's not entirely the same as the "protected VM" case. For that
->> the patches currently on list basically special case "this is a
->> debug access (eg from gdbstub/monitor)" which then either gets
->> to go via "decrypt guest RAM for debug" or gets failed depending
->> on whether the VM has a debug-is-ok flag enabled. For an MTE
->> guest the common case will be guests doing standard DMA operations
->> to or from guest memory. The ideal API for that from QEMU's
->> point of view would be "accesses to guest RAM don't do tag
->> checks, even if tag checks are enabled for accesses QEMU does to
->> memory it has allocated itself as a normal userspace program".
-> 
-> Sorry, I know I simplified it rather by saying it's similar to
-> protected VM. Basically as I see it there are three types of memory
-> access:
-> 
-> 1) Debug case - has to go via a special case for decryption or
-> ignoring the MTE tag value. Hopefully this can be abstracted in the
-> same way.
-> 
-> 2) Migration - for a protected VM there's likely to be a special
-> method to allow the VMM access to the encrypted memory (AFAIK memory
-> is usually kept inaccessible to the VMM). For MTE this again has to be
-> special cased as we actually want both the data and the tag values.
-> 
-> 3) Device DMA - for a protected VM it's usual to unencrypt a small
-> area of memory (with the permission of the guest) and use that as a
-> bounce buffer. This is possible with MTE: have an area the VMM
-> purposefully maps with PROT_MTE. The issue is that this has a
-> performance overhead and we can do better with MTE because it's
-> trivial for the VMM to disable the protection for any memory.
-> 
-> The part I'm unsure on is how easy it is for QEMU to deal with (3)
-> without the overhead of bounce buffers. Ideally there'd already be a
-> wrapper for guest memory accesses and that could just be wrapped with
-> setting TCO during the access. I suspect the actual situation is more
-> complex though, and I'm hoping Haibo's investigations will help us
-> understand this.
+On Wed,  2 Dec 2020 03:18:49 -0500
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-What I'd really like to see is a description of how shared memory
-is, in general, supposed to work with MTE. My gut feeling is that
-it doesn't, and that you need to turn MTE off when sharing memory
-(either implicitly or explicitly).
+> Machine options can be retrieved as properties of the machine object.
+> Encourage that by removing the "easy" accessor to machine options.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  accel/kvm/kvm-all.c     | 11 ++++-------
+>  hw/arm/boot.c           |  2 +-
+>  hw/microblaze/boot.c    |  9 ++++-----
+>  hw/nios2/boot.c         |  9 ++++-----
+>  hw/ppc/e500.c           |  5 ++---
+>  hw/ppc/spapr_nvdimm.c   |  4 ++--
+>  hw/ppc/virtex_ml507.c   |  2 +-
+>  hw/riscv/sifive_u.c     |  6 ++----
+>  hw/riscv/virt.c         |  6 ++----
+>  hw/xtensa/xtfpga.c      |  9 ++++-----
+>  include/sysemu/sysemu.h |  2 --
+>  softmmu/device_tree.c   |  2 +-
+>  softmmu/vl.c            |  2 +-
+>  13 files changed, 28 insertions(+), 41 deletions(-)
+> 
+[...]
+> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+> index a833a63b5e..84715a4d78 100644
+> --- a/hw/ppc/spapr_nvdimm.c
+> +++ b/hw/ppc/spapr_nvdimm.c
+> @@ -38,7 +38,6 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+>  {
+>      const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
+>      const MachineState *ms = MACHINE(hotplug_dev);
+> -    const char *nvdimm_opt = qemu_opt_get(qemu_get_machine_opts(), "nvdimm");
+>      g_autofree char *uuidstr = NULL;
+>      QemuUUID uuid;
+>      int ret;
+> @@ -57,10 +56,11 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+>       * ensure that, if the user sets nvdimm=off, we error out
+>       * regardless of being 5.1 or newer.
+>       */
+> -    if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
+> +    if (!ms->nvdimms_state->is_enabled && ms->nvdimms_state->has_is_enabled) {
+>          error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
+>          return false;
+>      }
+> +    ms->nvdimms_state->is_enabled = true;
 
-Thanks,
+it looks like nvdimm is always enabled since 5.0 and there is no way to disable it
+how about dropping 9/15 and just error out is it's not enabled, something like:
 
-         M.
--- 
-Jazz is not dead. It just smells funny...
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index b7e0894019..d63f095bff 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2668,6 +2668,7 @@ static void spapr_machine_init(MachineState *machine)
+     char *filename;
+     Error *resize_hpt_err = NULL;
++    if (mc->nvdimm_supported) { // by default it is always enabled
++        ms->nvdimms_state->is_enabled = true;
++    }
+     msi_nonbroken = true;
+ 
+     QLIST_INIT(&spapr->phbs);
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index a833a63b5e..b11c85dbaa 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -57,7 +57,7 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+      * ensure that, if the user sets nvdimm=off, we error out
+      * regardless of being 5.1 or newer.
+      */
+-    if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
++    if (!ms->nvdimms_state->is_enabled) {
+         error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
+         return false;
+     }
+
+if I didn't miss something, that way we do not abuse nvdimm_opt and still
+have nvdimm enabled by default and error out if it turns to disabled for whatever reason.
+
+
+>      if (object_property_get_int(OBJECT(nvdimm), NVDIMM_LABEL_SIZE_PROP,
+>                                  &error_abort) == 0) {
+[...]
+
+ 
+
 
