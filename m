@@ -2,100 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F492D1231
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:35:32 +0100 (CET)
-Received: from localhost ([::1]:54484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3872E2D1232
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:35:51 +0100 (CET)
+Received: from localhost ([::1]:54784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmGfq-0000TC-Tm
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:35:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
+	id 1kmGgA-0000b4-A0
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:35:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=603cfe817=graf@amazon.de>)
- id 1kmGUZ-0000WP-W5
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:23:53 -0500
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:35998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=603cfe817=graf@amazon.de>)
- id 1kmGUQ-0003UG-7V
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:23:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
- t=1607347422; x=1638883422;
- h=subject:to:cc:references:from:message-id:date:
- mime-version:in-reply-to:content-transfer-encoding;
- bh=AKThYDO30aCQlFxaLvsXPFC2329sFZnRjeS+VWSf47s=;
- b=rAkVUuQ3mRgaNlLqZSwT3S0W/KMvtU7eCdzVLwDexKI487G91fBAf0x8
- vN1rNxygzbZM6qdEBK7ubap4cWNJlma3u7XRdjmFZmtgiG8tdBP7/ZKEs
- hxXwITzFSvepAVZDVJJZMGDOfM4u0xijcHQ1o2RxpWDi1stLAPeNAP6IC g=;
-X-IronPort-AV: E=Sophos;i="5.78,399,1599523200"; d="scan'208";a="94007336"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
- email-inbound-relay-1e-303d0b0e.us-east-1.amazon.com) ([10.47.23.38])
- by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP;
- 07 Dec 2020 13:23:30 +0000
-Received: from EX13MTAUWC002.ant.amazon.com
- (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
- by email-inbound-relay-1e-303d0b0e.us-east-1.amazon.com (Postfix) with ESMTPS
- id D9B6AA06B8; Mon,  7 Dec 2020 13:23:20 +0000 (UTC)
-Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
- EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 7 Dec 2020 13:23:20 +0000
-Received: from freeip.amazon.com (10.43.162.252) by
- EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 7 Dec 2020 13:23:09 +0000
-Subject: Re: [PATCH v2] drivers/virt: vmgenid: add vm generation id driver
-To: "Catangiu, Adrian Costin" <acatan@amazon.com>, Christian Borntraeger
- <borntraeger@de.ibm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Jann Horn
- <jannh@google.com>
-CC: Willy Tarreau <w@1wt.eu>, "MacCarthaigh, Colm" <colmmacc@amazon.com>,
- "Andy Lutomirski" <luto@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>,
- "Eric Biggers" <ebiggers@kernel.org>, "open list:DOCUMENTATION"
- <linux-doc@vger.kernel.org>, kernel list <linux-kernel@vger.kernel.org>,
- "Woodhouse, David" <dwmw@amazon.co.uk>, "bonzini@gnu.org" <bonzini@gnu.org>,
- "Singh, Balbir" <sblbir@amazon.com>, "Weiss, Radu" <raduweis@amazon.com>,
- "oridgar@gmail.com" <oridgar@gmail.com>, "ghammer@redhat.com"
- <ghammer@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Michael S. Tsirkin" <mst@redhat.com>, "Qemu
- Developers" <qemu-devel@nongnu.org>, KVM list <kvm@vger.kernel.org>, "Michal
- Hocko" <mhocko@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, "Pavel
- Machek" <pavel@ucw.cz>, Linux API <linux-api@vger.kernel.org>,
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>, linux-s390
- <linux-s390@vger.kernel.org>, "areber@redhat.com" <areber@redhat.com>, "Pavel
- Emelyanov" <ovzxemul@gmail.com>, Andrey Vagin <avagin@gmail.com>, "Mike
- Rapoport" <rppt@kernel.org>, Dmitry Safonov <0x7f454c46@gmail.com>, "Pavel
- Tikhomirov" <ptikhomirov@virtuozzo.com>, "gil@azul.com" <gil@azul.com>,
- "asmehra@redhat.com" <asmehra@redhat.com>, "dgunigun@redhat.com"
- <dgunigun@redhat.com>, "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>
-References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
- <f78a0a2f-d26a-6b50-c252-b4610e5f8273@amazon.de>
- <ded94f0f-9c60-38b3-6217-03d3c0edd613@amazon.com>
-From: Alexander Graf <graf@amazon.de>
-Message-ID: <ee2ccb9f-c689-710d-0297-63d8fc2c98dd@amazon.de>
-Date: Mon, 7 Dec 2020 14:23:06 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.5.1
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kmGeA-0007n2-DE
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:33:46 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:36453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kmGe5-000731-Ij
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:33:46 -0500
+Received: by mail-ej1-x643.google.com with SMTP id lt17so19538035ejb.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 05:33:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=L/JpPNfnFiHKMax9A7Vkh9lJzDcwEOM+xOdwJOQSOoU=;
+ b=ENt3oz4FL0ErS78YFlyME9pjD9gCocorYw+iEL55nS06QrPiJbzlxTGFIUoNL2MyzB
+ xmsS9Cp3kfApeufmCKylTohHHrTK7DQXgDRwvJ476lbdxMDr5R+Si2UFz6Gcb0ZXM0Qh
+ Ef/v7xlR/yVHhS1fvjqcGHLwTXDB/9FHlbGlcXm268PIR2YGUmlVzHVqEFNeCAZ1qSHK
+ ODy21WbWt5JiWn9VzkDU+uxhQSRSg7je3YmpmExBpBta0JuFacDwthssibmPud2kzvNr
+ lXwSDmrlGnPZGarYo2zTvHyhvY+WH0uBspYdMMghIUTUyOy+cBbdPjcmJGzAPGVC3mYm
+ yKLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=L/JpPNfnFiHKMax9A7Vkh9lJzDcwEOM+xOdwJOQSOoU=;
+ b=SRZPwNrCP5aUIE1ciiYEyEeviB4040n9EwFKGQ+It2kx3Nq605/jrnrFuzRoZQ384y
+ qUhSkEuHFwb3MqNG+xUGRMF2a3NVUn7Mm956nwY/CTrBcaqUx6BWhTh34sjsPIxf1cmE
+ FaUYZGqE1wtNoPebTVoG9aNscHwHSp/KwG41QJRRCmJGWYtYgMM2KFlMpy4Dgr7LHp7d
+ /CKzXGXtbSO4RbN+1HlWJdzCC+nbRNe+9rdEFvti5ZL9c4+FHmdOJsaDiaizLe1IqFHt
+ ikQtxE5Ehy8pZfffTQDLmTZOJZe6idmF9N4tQJGS9LITjfyjhA7hfTekXA3sh5IZkrqd
+ 8Ezg==
+X-Gm-Message-State: AOAM531dkavZeLa9vZwVeVTjP18MQw5LDAERW01J6wOTg0sGoLtEMWSJ
+ ha/ojQr7lp51bj+Rc//wKpOi+n4cWJtout/rl/g=
+X-Google-Smtp-Source: ABdhPJzuDMlicqCEj4ak5rDkI7B3w2MLjABEcRh3S91a8D91I0SOWgT0Y1kslbakiOxic/jrCZ88xy02P929Vtjl+YQ=
+X-Received: by 2002:a17:906:98d4:: with SMTP id
+ zd20mr19021404ejb.532.1607348018964; 
+ Mon, 07 Dec 2020 05:33:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <ded94f0f-9c60-38b3-6217-03d3c0edd613@amazon.com>
-Content-Language: en-US
-X-Originating-IP: [10.43.162.252]
-X-ClientProxiedBy: EX13D34UWA002.ant.amazon.com (10.43.160.245) To
- EX13D20UWC001.ant.amazon.com (10.43.162.244)
-Precedence: Bulk
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.171.184.25;
- envelope-from=prvs=603cfe817=graf@amazon.de; helo=smtp-fw-9101.amazon.com
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <cover.1606853298.git.jag.raman@oracle.com>
+ <32c713a44d3514b4f0edcd23195e25a10153c347.1606853298.git.jag.raman@oracle.com>
+In-Reply-To: <32c713a44d3514b4f0edcd23195e25a10153c347.1606853298.git.jag.raman@oracle.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 7 Dec 2020 17:33:27 +0400
+Message-ID: <CAJ+F1C+O_0Cn_9g6uv3rmjs-7Ha+ZpyAcMKzwqtgGK2xA=YBTA@mail.gmail.com>
+Subject: Re: [PATCH v12 09/19] multi-process: Initialize message handler in
+ remote device
+To: Jagannathan Raman <jag.raman@oracle.com>
+Content-Type: multipart/alternative; boundary="000000000000b36dea05b5dfdf95"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -104,97 +79,391 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Ross Lagerwall <ross.lagerwall@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CgpPbiAyNy4xMS4yMCAxODoxNywgQ2F0YW5naXUsIEFkcmlhbiBDb3N0aW4gd3JvdGU6Cj4gCj4g
-T24gMTgvMTEvMjAyMCAxMjozMCwgQWxleGFuZGVyIEdyYWYgd3JvdGU6Cj4+Cj4+Cj4+IE9uIDE2
-LjExLjIwIDE2OjM0LCBDYXRhbmdpdSwgQWRyaWFuIENvc3RpbiB3cm90ZToKPj4+IC0gRnV0dXJl
-IGltcHJvdmVtZW50cwo+Pj4KPj4+IElkZWFsbHkgd2Ugd291bGQgd2FudCB0aGUgZHJpdmVyIHRv
-IHJlZ2lzdGVyIGl0c2VsZiBiYXNlZCBvbiBkZXZpY2VzJwo+Pj4gX0NJRCBhbmQgbm90IF9ISUQs
-IGJ1dCB1bmZvcnR1bmF0ZWx5IEkgY291bGRuJ3QgZmluZCBhIHdheSB0byBkbyB0aGF0Lgo+Pj4g
-VGhlIHByb2JsZW0gaXMgdGhhdCBBQ1BJIGRldmljZSBtYXRjaGluZyBpcyBkb25lIGJ5Cj4+PiAn
-X19hY3BpX21hdGNoX2RldmljZSgpJyB3aGljaCBleGNsdXNpdmVseSBsb29rcyBhdAo+Pj4gJ2Fj
-cGlfaGFyZHdhcmVfaWQgKmh3aWQnLgo+Pj4KPj4+IFRoZXJlIGlzIGEgcGF0aCBmb3IgcGxhdGZv
-cm0gZGV2aWNlcyB0byBtYXRjaCBvbiBfQ0lEIHdoZW4gX0hJRCBpcwo+Pj4gJ1BSUDAwMDEnIC0g
-YnV0IHRoaXMgaXMgbm90IHRoZSBjYXNlIGZvciB0aGUgUWVtdSB2bWdlbmlkIGRldmljZS4KPj4+
-Cj4+PiBHdWlkYW5jZSBhbmQgaGVscCBoZXJlIHdvdWxkIGJlIGdyZWF0bHkgYXBwcmVjaWF0ZWQu
-Cj4+Cj4+IFRoYXQgb25lIGlzIHByZXR0eSBpbXBvcnRhbnQgSU1ITy4gSG93IGFib3V0IHRoZSBm
-b2xsb3dpbmcgKHByb2JhYmx5Cj4+IHByZXR0eSBtYW5nbGVkKSBwYXRjaD8gVGhhdCBzZWVtcyB0
-byB3b3JrIGZvciBtZS4gVGhlIEFDUEkgY2hhbmdlCj4+IHdvdWxkIG9idmlvdXNseSBuZWVkIHRv
-IGJlIGl0cyBvd24gc3RhbmQgYWxvbmUgY2hhbmdlIGFuZCBuZWVkcyBwcm9wZXIKPj4gYXNzZXNz
-bWVudCB3aGV0aGVyIGl0IGNvdWxkIHBvc3NpYmx5IGJyZWFrIGFueSBleGlzdGluZyBzeXN0ZW1z
-Lgo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9hY3BpL2J1cy5jIGIvZHJpdmVycy9hY3BpL2J1
-cy5jCj4+IGluZGV4IDE2ODJmOGI0NTRhMi4uNDUyNDQzZDc5ZDg3IDEwMDY0NAo+PiAtLS0gYS9k
-cml2ZXJzL2FjcGkvYnVzLmMKPj4gKysrIGIvZHJpdmVycy9hY3BpL2J1cy5jCj4+IEBAIC03NDgs
-NyArNzQ4LDcgQEAgc3RhdGljIGJvb2wgX19hY3BpX21hdGNoX2RldmljZShzdHJ1Y3QgYWNwaV9k
-ZXZpY2UKPj4gKmRldmljZSwKPj4gIMKgwqDCoMKgwqDCoMKgwqAgLyogRmlyc3QsIGNoZWNrIHRo
-ZSBBQ1BJL1BOUCBJRHMgcHJvdmlkZWQgYnkgdGhlIGNhbGxlci4gKi8KPj4gIMKgwqDCoMKgwqDC
-oMKgwqAgaWYgKGFjcGlfaWRzKSB7Cj4+ICDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZm9yIChp
-ZCA9IGFjcGlfaWRzOyBpZC0+aWRbMF0gfHwgaWQtPmNsczsgaWQrKykgewo+PiAtwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChpZC0+aWRbMF0gJiYgIXN0cmNtcCgoY2hhciAqKWlk
-LT5pZCwgaHdpZC0+aWQpKQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIChp
-ZC0+aWRbMF0gJiYgIXN0cm5jbXAoKGNoYXIgKilpZC0+aWQsIGh3aWQtPmlkLAo+PiBBQ1BJX0lE
-X0xFTiAtIDEpKQo+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBn
-b3RvIG91dF9hY3BpX21hdGNoOwo+PiAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-aWYgKGlkLT5jbHMgJiYgX19hY3BpX21hdGNoX2RldmljZV9jbHMoaWQsIGh3aWQpKQo+PiAgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBnb3RvIG91dF9hY3BpX21hdGNo
-Owo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aXJ0L3ZtZ2VuaWQuYyBiL2RyaXZlcnMvdmlydC92
-bWdlbmlkLmMKPj4gaW5kZXggNzVhNzg3ZGE4YWFkLi4wYmZhNDIyY2YwOTQgMTAwNjQ0Cj4+IC0t
-LSBhL2RyaXZlcnMvdmlydC92bWdlbmlkLmMKPj4gKysrIGIvZHJpdmVycy92aXJ0L3ZtZ2VuaWQu
-Ywo+PiBAQCAtMzU2LDcgKzM1Niw4IEBAIHN0YXRpYyB2b2lkIHZtZ2VuaWRfYWNwaV9ub3RpZnko
-c3RydWN0IGFjcGlfZGV2aWNlCj4+ICpkZXZpY2UsIHUzMiBldmVudCkKPj4gIMKgfQo+Pgo+PiAg
-wqBzdGF0aWMgY29uc3Qgc3RydWN0IGFjcGlfZGV2aWNlX2lkIHZtZ2VuaWRfaWRzW10gPSB7Cj4+
-IC3CoMKgwqAgeyJRRU1VVkdJRCIsIDB9LAo+PiArwqDCoMKgIC8qIFRoaXMgcmVhbGx5IGlzIFZN
-X0dlbl9Db3VudGVyLCBidXQgd2UgY2FuIG9ubHkgbWF0Y2ggOAo+PiBjaGFyYWN0ZXJzICovCj4+
-ICvCoMKgwqAgeyJWTV9HRU5fQyIsIDB9LAo+PiAgwqDCoMKgwqAgeyIiLCAwfSwKPj4gIMKgfTsK
-Pj4KPiAKPiBMb29rcyBsZWdpdC4gSSBjYW4gcHJvcG9zZSBhIHBhdGNoIHdpdGggaXQsIGJ1dCBo
-b3cgZG8gd2UgdmFsaWRhdGUgaXQKPiBkb2Vzbid0IGJyZWFrIGFueSBkZXZpY2VzPwoKTWFpbmx5
-IGJ5IHByb3Bvc2luZyBpdCBhbmQgc2VlaW5nIHdoYXQgdGhlIEFDUEkgbWFpbnRhaW5lcnMgc2F5
-LiBNYXliZSAKdGhleSBoYXZlIGEgYmV0dGVyIGlkZWEgZXZlbi4gQXQgbGVhc3QgdGhpcyBleHBs
-aWN0bHkgbnVkZ2VzIHRoZW0uCgo+IAo+IAo+Pj4gKzIpIEFTWU5DIHNpbXBsaWZpZWQgZXhhbXBs
-ZTo6Cj4+PiArCj4+PiArwqDCoMKgIHZvaWQgaGFuZGxlX2lvX29uX3ZtZ2VuZmQoaW50IHZtZ2Vu
-ZmQpCj4+PiArwqDCoMKgIHsKPj4+ICvCoMKgwqDCoMKgwqDCoCB1bnNpZ25lZCBnZW5pZDsKPj4+
-ICsKPj4+ICvCoMKgwqDCoMKgwqDCoCAvLyBiZWNhdXNlIG9mIFZNIGdlbmVyYXRpb24gY2hhbmdl
-LCB3ZSBuZWVkIHRvIHJlYnVpbGQgd29ybGQKPj4+ICvCoMKgwqDCoMKgwqDCoCByZXNlZWRfYXBw
-X2VudigpOwo+Pj4gKwo+Pj4gK8KgwqDCoMKgwqDCoMKgIC8vIHJlYWQgbmV3IGdlbiBJRCAtIHdl
-IG5lZWQgaXQgdG8gY29uZmlybSB3ZSd2ZSBoYW5kbGVkIHVwZGF0ZQo+Pj4gK8KgwqDCoMKgwqDC
-oMKgIHJlYWQoZmQsICZnZW5pZCwgc2l6ZW9mKGdlbmlkKSk7Cj4+Cj4+IFRoaXMgaXMgcmFjeSBp
-biBjYXNlIHR3byBjb25zZWN1dGl2ZSBzbmFwc2hvdHMgaGFwcGVuLiBUaGUgcmVhZCBuZWVkcwo+
-PiB0byBnbyBiZWZvcmUgdGhlIHJlc2VlZC4KPj4KPiBTd2l0Y2hlZCB0aGVtIGFyb3VuZCBsaWtl
-IHlvdSBzdWdnZXN0IHRvIGF2b2lkIGNvbmZ1c2lvbi4KPiAKPiBCdXQgSSBkb24ndCBzZWUgYSBw
-cm9ibGVtIHdpdGggdGhpcyByYWNlLiBUaGUgaWRlYSBoZXJlIGlzIHRvIHRyaWdnZXIKPiByZXNl
-ZWRfYXBwX2VudigpIHdoaWNoIGRvZXNuJ3QgZGVwZW5kIG9uIHRoZSBnZW5lcmF0aW9uIGNvdW50
-ZXIgdmFsdWUuCj4gV2hldGhlciBpdCBnZXRzIGluY3JlbWVudGVkIG9uY2Ugb3IgTiB0aW1lcyBp
-cyBpcnJlbGV2YW50LCB3ZSdyZSBqdXN0Cj4gaW50ZXJlc3RlZCB0aGF0IHdlIHBhdXNlIGV4ZWN1
-dGlvbiBhbmQgcmVzZWVkIGJlZm9yZSByZXN1bWluZyAoaW4KPiBiZXR3ZWVuIHRoZXNlLCB3aGV0
-aGVyIE4gb3IgTSBnZW5lcmF0aW9uIGNoYW5nZXMgaXMgdGhlIHNhbWUgdGhpbmcpLgo+IAo+Pj4g
-KzMpIE1hcHBlZCBtZW1vcnkgcG9sbGluZyBzaW1wbGlmaWVkIGV4YW1wbGU6Ogo+Pj4gKwo+Pj4g
-K8KgwqDCoCAvKgo+Pj4gK8KgwqDCoMKgICogYXBwL2xpYnJhcnkgZnVuY3Rpb24gdGhhdCBwcm92
-aWRlcyBjYWNoZWQgc2VjcmV0cwo+Pj4gK8KgwqDCoMKgICovCj4+PiArwqDCoMKgIGNoYXIgKiBz
-YWZlX2NhY2hlZF9zZWNyZXQoYXBwX2RhdGFfdCAqYXBwKQo+Pj4gK8KgwqDCoCB7Cj4+PiArwqDC
-oMKgwqDCoMKgwqAgY2hhciAqc2VjcmV0Owo+Pj4gK8KgwqDCoMKgwqDCoMKgIHZvbGF0aWxlIHVu
-c2lnbmVkICpjb25zdCBnZW5pZF9wdHIgPSBnZXRfdm1nZW5pZF9tYXBwaW5nKGFwcCk7Cj4+PiAr
-wqDCoMKgIGFnYWluOgo+Pj4gK8KgwqDCoMKgwqDCoMKgIHNlY3JldCA9IF9fY2FjaGVkX3NlY3Jl
-dChhcHApOwo+Pj4gKwoKKmdlbmlkX3B0ciA9IDEKY2FjaGVkX2dlbmlkID0gMQoKPj4+ICvCoMKg
-wqDCoMKgwqDCoCBpZiAodW5saWtlbHkoKmdlbmlkX3B0ciAhPSBhcHAtPmNhY2hlZF9nZW5pZCkp
-IHsKCipnZW5pZF9wdHIgPSAyCmNhY2hlZF9nZW5pZCA9IDEKCj4+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCAvLyByZWJ1aWxkIHdvcmxkIHRoZW4gY29uZmlybSB0aGUgZ2VuaWQgdXBkYXRlICh0
-aHJ1IHdyaXRlKQo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmVidWlsZF9jYWNoZXMoYXBw
-KTsKCmh5cGVydmlzb3IgdGFrZXMgYW5vdGhlciBzbmFwc2hvdCBkdXJpbmcgcmVidWlsZF9jYWNo
-ZXMoKS4gUmVzdW1lIHBhdGggCmJ1bXBzIGdlbmlkCgo+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgYXBwLT5jYWNoZWRfZ2VuaWQgPSAqZ2VuaWRfcHRyOwoKKmdlbmlkX3B0ciA9IDMKY2FjaGVk
-X2dlbmlkID0gMwoKPj4KPj4gVGhpcyBpcyByYWN5IGFnYWluLiBZb3UgbmVlZCB0byByZWFkIHRo
-ZSBnZW5pZCBiZWZvcmUgcmVidWlsZCBhbmQgc2V0Cj4+IGl0IGhlcmUuCj4+Cj4gSSBkb24ndCBz
-ZWUgdGhlIHJhY2UuIEdlbiBjb3VudGVyIGlzIHJlYWQgZnJvbSB2b2xhdGlsZSBtYXBwZWQgbWVt
-LCBvbgo+IGRldGVjdGVkIGNoYW5nZSB3ZSByZWJ1aWxkIHdvcmxkLCBjb25maXJtIHRoZSB1cGRh
-dGUgYmFjayB0byB0aGUgZHJpdmVyCj4gdGhlbiByZXN0YXJ0IHRoZSBsb29wLiBMb29wIHdpbGwg
-YnJlYWsgd2hlbiBubyBtb3JlIGNoYW5nZXMgaGFwcGVuLgoKU2VlIGFib3ZlLiBBZnRlciB0aGUg
-b3V0bGluZWQgY291cnNlIG9mIHRoaW5ncywgdGhlIHNuYXBzaG90IHdpbGwgCmNvbnRhaW4gZGF0
-YSB0aGF0IHdpbGwgYmUgaWRlbnRpY2FsIGJldHdlZW4gMiBzbmFwc2hvdHMuCgoKQWxleAoKCgpB
-bWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApLcmF1c2Vuc3RyLiAzOAoxMDEx
-NyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RpYW4gU2NobGFlZ2VyLCBKb25hdGhh
-biBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFybG90dGVuYnVyZyB1bnRlciBI
-UkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1JRDogREUgMjg5IDIzNyA4NzkKCgo=
+--000000000000b36dea05b5dfdf95
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi
+
+On Wed, Dec 2, 2020 at 12:23 AM Jagannathan Raman <jag.raman@oracle.com>
+wrote:
+
+> Initializes the message handler function in the remote process. It is
+> called whenever there's an event pending on QIOChannel that registers
+> this function.
+>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  include/hw/remote/machine.h |  9 +++++++
+>  hw/remote/message.c         | 61
+> +++++++++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                 |  1 +
+>  hw/remote/meson.build       |  1 +
+>  4 files changed, 72 insertions(+)
+>  create mode 100644 hw/remote/message.c
+>
+> diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h
+> index d312972..3073db6 100644
+> --- a/include/hw/remote/machine.h
+> +++ b/include/hw/remote/machine.h
+> @@ -14,6 +14,7 @@
+>  #include "qom/object.h"
+>  #include "hw/boards.h"
+>  #include "hw/pci-host/remote.h"
+> +#include "io/channel.h"
+>
+>  typedef struct RemoteMachineState {
+>      MachineState parent_obj;
+> @@ -21,8 +22,16 @@ typedef struct RemoteMachineState {
+>      RemotePCIHost *host;
+>  } RemoteMachineState;
+>
+> +/* Used to pass to co-routine device and ioc. */
+> +typedef struct RemoteCommDev {
+> +    PCIDevice *dev;
+> +    QIOChannel *ioc;
+> +} RemoteCommDev;
+> +
+>  #define TYPE_REMOTE_MACHINE "x-remote-machine"
+>  #define REMOTE_MACHINE(obj) \
+>      OBJECT_CHECK(RemoteMachineState, (obj), TYPE_REMOTE_MACHINE)
+>
+> +void coroutine_fn mpqemu_remote_msg_loop_co(void *data);
+> +
+>  #endif
+> diff --git a/hw/remote/message.c b/hw/remote/message.c
+> new file mode 100644
+> index 0000000..5d87bf4
+> --- /dev/null
+> +++ b/hw/remote/message.c
+> @@ -0,0 +1,61 @@
+> +/*
+> + * Copyright =C2=A9 2020 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL-v2, version 2 or
+> later.
+> + *
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +
+> +#include "hw/remote/machine.h"
+> +#include "io/channel.h"
+> +#include "hw/remote/mpqemu-link.h"
+> +#include "qapi/error.h"
+> +#include "sysemu/runstate.h"
+> +
+> +void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+> +{
+> +    RemoteCommDev *com =3D (RemoteCommDev *)data;
+> +    PCIDevice *pci_dev =3D NULL;
+> +
+> +    pci_dev =3D com->dev;
+> +    for (;;) {
+> +        MPQemuMsg msg =3D {0};
+> +        Error *local_err =3D NULL;
+> +
+> +        if (!com->ioc) {
+> +            error_report("ERROR: No channel available");
+> +            break;
+> +        }
+>
+
+Shouldn't this be assert() at the top?
+
+
+> +        mpqemu_msg_recv(&msg, com->ioc, &local_err);
+> +        if (local_err) {
+> +            error_report_err(local_err);
+> +            break;
+>
+
+Error handling is not consistent in this function. Could you cleanup error
+code paths so error handling & reporting is done in one place?
+
++        }
+> +
+> +        if (!mpqemu_msg_valid(&msg)) {
+> +            error_report("Received invalid message from proxy"
+> +                         "in remote process pid=3D%d", getpid());
+> +            break;
+> +        }
+> +
+> +        switch (msg.cmd) {
+> +        default:
+> +            error_setg(&local_err,
+> +                       "Unknown command (%d) received for device %s
+> (pid=3D%d)",
+> +                       msg.cmd, DEVICE(pci_dev)->id, getpid());
+> +        }
+> +
+> +        if (local_err) {
+> +            error_report_err(local_err);
+> +            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+>
+
+Presumably that error handling should be done outside of the for(;;) loop.
+
+SHUTDOWN_CAUSE_HOST_ERROR might be more appropriate in this case, or
+perhaps introduce a new ShutdownCause?
+
++            break;
+> +        }
+> +    }
+> +    qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+> +
+> +    return;
+>
+
+needless return statement
+
++}
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d0c891a..b64e4b8 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3143,6 +3143,7 @@ F: hw/remote/machine.c
+>  F: include/hw/remote/machine.h
+>  F: hw/remote/mpqemu-link.c
+>  F: include/hw/remote/mpqemu-link.h
+> +F: hw/remote/message.c
+>
+>  Build and test automation
+>  -------------------------
+> diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+> index a2b2fc0..9f5c57f 100644
+> --- a/hw/remote/meson.build
+> +++ b/hw/remote/meson.build
+> @@ -2,5 +2,6 @@ remote_ss =3D ss.source_set()
+>
+>  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
+>  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true:
+> files('mpqemu-link.c'))
+> +remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
+>
+>  softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
+> --
+> 1.8.3.1
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000b36dea05b5dfdf95
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 2, 2020 at 12:23 AM Jag=
+annathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">Initializes the message handler function in the remote process. It is<b=
+r>
+called whenever there&#39;s an event pending on QIOChannel that registers<b=
+r>
+this function.<br>
+<br>
+Signed-off-by: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle=
+.com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
+Signed-off-by: John G Johnson &lt;<a href=3D"mailto:john.g.johnson@oracle.c=
+om" target=3D"_blank">john.g.johnson@oracle.com</a>&gt;<br>
+Signed-off-by: Jagannathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com=
+" target=3D"_blank">jag.raman@oracle.com</a>&gt;<br>
+Reviewed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" tar=
+get=3D"_blank">stefanha@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0include/hw/remote/machine.h |=C2=A0 9 +++++++<br>
+=C2=A0hw/remote/message.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 61 +++++++++++=
+++++++++++++++++++++++++++++++++++<br>
+=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 1 +<br>
+=C2=A0hw/remote/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A04 files changed, 72 insertions(+)<br>
+=C2=A0create mode 100644 hw/remote/message.c<br>
+<br>
+diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h<br>
+index d312972..3073db6 100644<br>
+--- a/include/hw/remote/machine.h<br>
++++ b/include/hw/remote/machine.h<br>
+@@ -14,6 +14,7 @@<br>
+=C2=A0#include &quot;qom/object.h&quot;<br>
+=C2=A0#include &quot;hw/boards.h&quot;<br>
+=C2=A0#include &quot;hw/pci-host/remote.h&quot;<br>
++#include &quot;io/channel.h&quot;<br>
+<br>
+=C2=A0typedef struct RemoteMachineState {<br>
+=C2=A0 =C2=A0 =C2=A0MachineState parent_obj;<br>
+@@ -21,8 +22,16 @@ typedef struct RemoteMachineState {<br>
+=C2=A0 =C2=A0 =C2=A0RemotePCIHost *host;<br>
+=C2=A0} RemoteMachineState;<br>
+<br>
++/* Used to pass to co-routine device and ioc. */<br>
++typedef struct RemoteCommDev {<br>
++=C2=A0 =C2=A0 PCIDevice *dev;<br>
++=C2=A0 =C2=A0 QIOChannel *ioc;<br>
++} RemoteCommDev;<br>
++<br>
+=C2=A0#define TYPE_REMOTE_MACHINE &quot;x-remote-machine&quot;<br>
+=C2=A0#define REMOTE_MACHINE(obj) \<br>
+=C2=A0 =C2=A0 =C2=A0OBJECT_CHECK(RemoteMachineState, (obj), TYPE_REMOTE_MAC=
+HINE)<br>
+<br>
++void coroutine_fn mpqemu_remote_msg_loop_co(void *data);<br>
++<br>
+=C2=A0#endif<br>
+diff --git a/hw/remote/message.c b/hw/remote/message.c<br>
+new file mode 100644<br>
+index 0000000..5d87bf4<br>
+--- /dev/null<br>
++++ b/hw/remote/message.c<br>
+@@ -0,0 +1,61 @@<br>
++/*<br>
++ * Copyright =C2=A9 2020 Oracle and/or its affiliates.<br>
++ *<br>
++ * This work is licensed under the terms of the GNU GPL-v2, version 2 or l=
+ater.<br>
++ *<br>
++ * See the COPYING file in the top-level directory.<br>
++ *<br>
++ */<br>
++<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qemu-common.h&quot;<br>
++<br>
++#include &quot;hw/remote/machine.h&quot;<br>
++#include &quot;io/channel.h&quot;<br>
++#include &quot;hw/remote/mpqemu-link.h&quot;<br>
++#include &quot;qapi/error.h&quot;<br>
++#include &quot;sysemu/runstate.h&quot;<br>
++<br>
++void coroutine_fn mpqemu_remote_msg_loop_co(void *data)<br>
++{<br>
++=C2=A0 =C2=A0 RemoteCommDev *com =3D (RemoteCommDev *)data;<br>
++=C2=A0 =C2=A0 PCIDevice *pci_dev =3D NULL;<br>
++<br>
++=C2=A0 =C2=A0 pci_dev =3D com-&gt;dev;<br>
++=C2=A0 =C2=A0 for (;;) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 MPQemuMsg msg =3D {0};<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!com-&gt;ioc) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;ERROR: No cha=
+nnel available&quot;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>Shouldn&=
+#39;t this be assert() at the top?<br></div><div>=C2=A0</div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 mpqemu_msg_recv(&amp;msg, com-&gt;ioc, &amp;lo=
+cal_err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (local_err) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report_err(local_err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br></blockquote><div><br>=
+</div><div>Error handling is not consistent in this function. Could you cle=
+anup error code paths so error handling &amp; reporting is done in one plac=
+e?<br></div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!mpqemu_msg_valid(&amp;msg)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;Received inva=
+lid message from proxy&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&quot;in remote process pid=3D%d&quot;, getpid());<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (msg.cmd) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(&amp;local_err,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0&quot;Unknown command (%d) received for device %s (pid=3D%d)&quot=
+;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0msg.cmd, DEVICE(pci_dev)-&gt;id, getpid());<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (local_err) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report_err(local_err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_system_shutdown_request(SHU=
+TDOWN_CAUSE_GUEST_SHUTDOWN);<br></blockquote><div><br></div><div>Presumably=
+ that error handling should be done outside of the for(;;) loop.</div><div>=
+<br></div><div>SHUTDOWN_CAUSE_HOST_ERROR might be more appropriate in this =
+case, or perhaps introduce a new ShutdownCause?</div><div><br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);=
+<br>
++<br>
++=C2=A0 =C2=A0 return;<br></blockquote><div><br></div><div>needless return =
+statement<br></div><div> <br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
++}<br>
+diff --git a/MAINTAINERS b/MAINTAINERS<br>
+index d0c891a..b64e4b8 100644<br>
+--- a/MAINTAINERS<br>
++++ b/MAINTAINERS<br>
+@@ -3143,6 +3143,7 @@ F: hw/remote/machine.c<br>
+=C2=A0F: include/hw/remote/machine.h<br>
+=C2=A0F: hw/remote/mpqemu-link.c<br>
+=C2=A0F: include/hw/remote/mpqemu-link.h<br>
++F: hw/remote/message.c<br>
+<br>
+=C2=A0Build and test automation<br>
+=C2=A0-------------------------<br>
+diff --git a/hw/remote/meson.build b/hw/remote/meson.build<br>
+index a2b2fc0..9f5c57f 100644<br>
+--- a/hw/remote/meson.build<br>
++++ b/hw/remote/meson.build<br>
+@@ -2,5 +2,6 @@ remote_ss =3D ss.source_set()<br>
+<br>
+=C2=A0remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#3=
+9;machine.c&#39;))<br>
+=C2=A0remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#3=
+9;mpqemu-link.c&#39;))<br>
++remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#39;mes=
+sage.c&#39;))<br>
+<br>
+=C2=A0softmmu_ss.add_all(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: remo=
+te_ss)<br>
+-- <br>
+1.8.3.1<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000b36dea05b5dfdf95--
 
