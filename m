@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE362D16E5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 17:55:35 +0100 (CET)
-Received: from localhost ([::1]:38400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892EE2D16FD
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 17:59:10 +0100 (CET)
+Received: from localhost ([::1]:40884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmJnS-0003g5-7M
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 11:55:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38536)
+	id 1kmJqv-000512-Jj
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 11:59:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmJlZ-0002Vi-1e
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:53:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23737)
+ id 1kmJpb-0004Xx-6R
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:57:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46531)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmJlU-0001uy-Ma
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:53:36 -0500
+ id 1kmJpZ-0002U3-Os
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 11:57:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607360011;
+ s=mimecast20190719; t=1607360264;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UQzqXY5wCAW494NfODbzgwSsVPSV9bvY+v477tZtBdk=;
- b=ZT7r0mZnXZIqhlVWbjwOMZdZ0VFahc1yg4C40f+YJe59Iy0s2zxOaWQcUyJMjlOlaLGBJ9
- iXpvGv3EkeQQwR9yJ/SuIl1aNQuXHQvkkp540yVDk5yIS5xlv42/Ivmb3+zsUtJR3j12l0
- Pw8XGS4527O6iXEJgvEzksOTJpPLmYU=
+ bh=jPIK/8jZvwXPqdKQX5DSHEld8FnyPoU7U0cGDjxp0Gg=;
+ b=WVRezVg5qFzAY3YURNxqFzel9e1zyWGswCpdRQGGIkxmIzUJ1zaOU4/8Y0NNxkZsaHKH9T
+ amDuMGcj//r0jOhO0fD4BAaci5hHuhgaYnoHhv+o0hVY3fRh3Wi+var1hBRNYkb1iXugcv
+ mUOcFFWdTAe4wqEqqB1+9EX/I2JS3hE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-OUTFYEdSNNafHc-aFNOqfA-1; Mon, 07 Dec 2020 11:53:29 -0500
-X-MC-Unique: OUTFYEdSNNafHc-aFNOqfA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-510-vD7pZ2r7MVCefg5v0z9nGw-1; Mon, 07 Dec 2020 11:57:43 -0500
+X-MC-Unique: vD7pZ2r7MVCefg5v0z9nGw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDE7EE717C;
- Mon,  7 Dec 2020 16:53:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4460C804004
+ for <qemu-devel@nongnu.org>; Mon,  7 Dec 2020 16:57:42 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 823255D9DE;
- Mon,  7 Dec 2020 16:53:14 +0000 (UTC)
-Date: Mon, 7 Dec 2020 17:53:12 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C7141001B2C;
+ Mon,  7 Dec 2020 16:57:41 +0000 (UTC)
+Date: Mon, 7 Dec 2020 17:57:39 +0100
 From: Igor Mammedov <imammedo@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 12/15] plugin: propagate errors
-Message-ID: <20201207175312.57617740@redhat.com>
-In-Reply-To: <20201202081854.4126071-13-pbonzini@redhat.com>
+Subject: Re: [PATCH 11/15] qtest: add a QOM object for qtest
+Message-ID: <20201207175739.2f51f87e@redhat.com>
+In-Reply-To: <853e64f9-9a37-5214-0111-b489dc82af44@redhat.com>
 References: <20201202081854.4126071-1-pbonzini@redhat.com>
- <20201202081854.4126071-13-pbonzini@redhat.com>
+ <20201202081854.4126071-12-pbonzini@redhat.com>
+ <20201207172447.77d22d17@redhat.com>
+ <853e64f9-9a37-5214-0111-b489dc82af44@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,175 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  2 Dec 2020 03:18:51 -0500
+On Mon, 7 Dec 2020 17:43:16 +0100
 Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> qemu_finish_machine_init currently can only exit QEMU if it fails.
-> Prepare for giving it proper error propagation, and possibly for
-> adding a plugin_add monitor command that calls an accelerator
-> method.
+> On 07/12/20 17:24, Igor Mammedov wrote:
+> >> +void qtest_server_init(const char *qtest_chrdev, const char *qtest_log, Error **errp)
+> >> +{
+> >> +    Chardev *chr;
+> >> +
+> >> +    chr = qemu_chr_new("qtest", qtest_chrdev, NULL);
+> >> +
+> >> +    if (chr == NULL) {
+> >> +        error_setg(errp, "Failed to initialize device for qtest: \"%s\"",
+> >> +                   qtest_chrdev);
+> >> +        return;
+> >> +    }
+> >> +
+> >> +    qtest_server_start(chr, qtest_log, errp);  
+> > why not create qtest object here instead of trying to preserve old way,
+> > or create it directly at the place that calls qtest_server_init()?  
 > 
-> While at it, make all errors from plugin_load look the same.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Because I wasn't sure of where to put it in the QOM object tree.  So I 
+> punted and left it for later.
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+but you implicitly decided where it should be (with -object qtest),
+it goes to /objects.
+So I'd wouldn't put anywhere else to be consistent.
 
-> ---
->  include/qemu/plugin.h |  4 ++--
->  linux-user/main.c     |  4 +---
->  plugins/loader.c      | 34 +++++++++++++++++-----------------
->  softmmu/vl.c          |  4 +---
->  4 files changed, 21 insertions(+), 25 deletions(-)
 > 
-> diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
-> index ab790ad105..841deed79c 100644
-> --- a/include/qemu/plugin.h
-> +++ b/include/qemu/plugin.h
-> @@ -45,7 +45,7 @@ static inline void qemu_plugin_add_opts(void)
->  }
->  
->  void qemu_plugin_opt_parse(const char *optarg, QemuPluginList *head);
-> -int qemu_plugin_load_list(QemuPluginList *head);
-> +int qemu_plugin_load_list(QemuPluginList *head, Error **errp);
->  
->  union qemu_plugin_cb_sig {
->      qemu_plugin_simple_cb_t          simple;
-> @@ -199,7 +199,7 @@ static inline void qemu_plugin_opt_parse(const char *optarg,
->      exit(1);
->  }
->  
-> -static inline int qemu_plugin_load_list(QemuPluginList *head)
-> +static inline int qemu_plugin_load_list(QemuPluginList *head, Error **errp)
->  {
->      return 0;
->  }
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index 24d1eb73ad..750a01118f 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -671,9 +671,7 @@ int main(int argc, char **argv, char **envp)
->          exit(1);
->      }
->      trace_init_file();
-> -    if (qemu_plugin_load_list(&plugins)) {
-> -        exit(1);
-> -    }
-> +    qemu_plugin_load_list(&plugins, &error_fatal);
->  
->      /* Zero out regs */
->      memset(regs, 0, sizeof(struct target_pt_regs));
-> diff --git a/plugins/loader.c b/plugins/loader.c
-> index 8ac5dbc20f..5cb9794fda 100644
-> --- a/plugins/loader.c
-> +++ b/plugins/loader.c
-> @@ -150,7 +150,7 @@ static uint64_t xorshift64star(uint64_t x)
->      return x * UINT64_C(2685821657736338717);
->  }
->  
-> -static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
-> +static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info, Error **errp)
->  {
->      qemu_plugin_install_func_t install;
->      struct qemu_plugin_ctx *ctx;
-> @@ -163,37 +163,37 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
->  
->      ctx->handle = g_module_open(desc->path, G_MODULE_BIND_LOCAL);
->      if (ctx->handle == NULL) {
-> -        error_report("%s: %s", __func__, g_module_error());
-> +        error_setg(errp, "Could not load plugin %s: %s", desc->path, g_module_error());
->          goto err_dlopen;
->      }
->  
->      if (!g_module_symbol(ctx->handle, "qemu_plugin_install", &sym)) {
-> -        error_report("%s: %s", __func__, g_module_error());
-> +        error_setg(errp, "Could not load plugin %s: %s", desc->path, g_module_error());
->          goto err_symbol;
->      }
->      install = (qemu_plugin_install_func_t) sym;
->      /* symbol was found; it could be NULL though */
->      if (install == NULL) {
-> -        error_report("%s: %s: qemu_plugin_install is NULL",
-> -                     __func__, desc->path);
-> +        error_setg(errp, "Could not load plugin %s: qemu_plugin_install is NULL",
-> +                   desc->path);
->          goto err_symbol;
->      }
->  
->      if (!g_module_symbol(ctx->handle, "qemu_plugin_version", &sym)) {
-> -        error_report("TCG plugin %s does not declare API version %s",
-> -                     desc->path, g_module_error());
-> +        error_setg(errp, "Could not load plugin %s: plugin does not declare API version %s",
-> +                   desc->path, g_module_error());
->          goto err_symbol;
->      } else {
->          int version = *(int *)sym;
->          if (version < QEMU_PLUGIN_MIN_VERSION) {
-> -            error_report("TCG plugin %s requires API version %d, but "
-> -                         "this QEMU supports only a minimum version of %d",
-> -                         desc->path, version, QEMU_PLUGIN_MIN_VERSION);
-> +            error_setg(errp, "Could not load plugin %s: plugin requires API version %d, but "
-> +                       "this QEMU supports only a minimum version of %d",
-> +                       desc->path, version, QEMU_PLUGIN_MIN_VERSION);
->              goto err_symbol;
->          } else if (version > QEMU_PLUGIN_VERSION) {
-> -            error_report("TCG plugin %s requires API version %d, but "
-> -                         "this QEMU supports only up to version %d",
-> -                         desc->path, version, QEMU_PLUGIN_VERSION);
-> +            error_setg(errp, "Could not load plugin %s: plugin requires API version %d, but "
-> +                       "this QEMU supports only up to version %d",
-> +                       desc->path, version, QEMU_PLUGIN_VERSION);
->              goto err_symbol;
->          }
->      }
-> @@ -220,8 +220,8 @@ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
->      rc = install(ctx->id, info, desc->argc, desc->argv);
->      ctx->installing = false;
->      if (rc) {
-> -        error_report("%s: qemu_plugin_install returned error code %d",
-> -                     __func__, rc);
-> +        error_setg(errp, "Could not load plugin %s: qemu_plugin_install returned error code %d",
-> +                   desc->path, rc);
->          /*
->           * we cannot rely on the plugin doing its own cleanup, so
->           * call a full uninstall if the plugin did not yet call it.
-> @@ -263,7 +263,7 @@ static void plugin_desc_free(struct qemu_plugin_desc *desc)
->   * Note: the descriptor of each successfully installed plugin is removed
->   * from the list given by @head.
->   */
-> -int qemu_plugin_load_list(QemuPluginList *head)
-> +int qemu_plugin_load_list(QemuPluginList *head, Error **errp)
->  {
->      struct qemu_plugin_desc *desc, *next;
->      g_autofree qemu_info_t *info = g_new0(qemu_info_t, 1);
-> @@ -283,7 +283,7 @@ int qemu_plugin_load_list(QemuPluginList *head)
->      QTAILQ_FOREACH_SAFE(desc, head, entry, next) {
->          int err;
->  
-> -        err = plugin_load(desc, info);
-> +        err = plugin_load(desc, info, errp);
->          if (err) {
->              return err;
->          }
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index e5f3c42049..0f63d80472 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2417,9 +2417,7 @@ static void qemu_init_board(void)
->      }
->  
->      /* process plugin before CPUs are created, but once -smp has been parsed */
-> -    if (qemu_plugin_load_list(&plugin_list)) {
-> -        exit(1);
-> -    }
-> +    qemu_plugin_load_list(&plugin_list, &error_fatal);
->  
->      /* From here on we enter MACHINE_PHASE_INITIALIZED.  */
->      machine_run_board_init(current_machine);
+> Paolo
+> 
 
 
