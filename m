@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310432D0ADA
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 07:45:45 +0100 (CET)
-Received: from localhost ([::1]:38472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C4962D0AF7
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 08:12:51 +0100 (CET)
+Received: from localhost ([::1]:50670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmAHI-0007kh-6D
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 01:45:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44684)
+	id 1kmAhV-00061c-PF
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 02:12:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kmAFW-0007GP-NA
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 01:43:54 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:43328 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kmAZa-0004dx-Ps; Mon, 07 Dec 2020 02:04:40 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:46137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kmAFT-0002ud-S3
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 01:43:54 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 0771C412DD;
- Mon,  7 Dec 2020 06:43:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-type:content-type:content-transfer-encoding:mime-version
- :x-mailer:message-id:date:date:subject:subject:from:from
- :received:received:received; s=mta-01; t=1607323426; x=
- 1609137827; bh=rvM3Es9nJRemg4YAwOgFeqJO7X8qG8tGvTNaYeTmOsQ=; b=i
- 2rHS0WsPMNPgCTAxzoFwgI5TPCm7i2Vb7Rncj5CKAirkh9ao5w2Lnn+l4t3JrT5D
- 1X2fOB70JcfCpvN8Bz13MPLZm1hxA0uoZIiU//wWE/M1P9HKi2JrsyNoCQWxB+6D
- UvKVt9H589//6YcDy5t6N5Ac5GL1ZR7dBDFrZutgwU=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hxMUurIS_Heu; Mon,  7 Dec 2020 09:43:46 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id CF8F94125E;
- Mon,  7 Dec 2020 09:43:45 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Mon, 7 Dec
- 2020 09:43:45 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] tpm: tpm_spapr: Remove unused tracepoint
-Date: Mon, 7 Dec 2020 09:43:52 +0300
-Message-ID: <20201207064352.16167-1-r.bolshakov@yadro.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kmAZV-0003tO-90; Mon, 07 Dec 2020 02:04:38 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id E057B5C01C5;
+ Mon,  7 Dec 2020 02:04:29 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 07 Dec 2020 02:04:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=w8zFsStK2NrMmwLqUI1DR9vkw2g
+ VuQ4dVZ397/BZreQ=; b=zKONrN6gKYawtxhOmCeeqFCq3Ga3GyvLJsbeg1Sy0FL
+ rQtEbYEJnXb1QjxwRktLVp74Tpp0IZ7eXgIX2cfx3hG0GCfn3IhVRhcupVAC/AIg
+ yjVXHCDG8SJRD9cT0CkgX8cn89uwncQfywAWpdxiXuuUx+FmbDZdti5sFZna6+Zt
+ 1JXeMWV5TViAl7iHGv6JqmxPsJpwFR44H9x/ZPXpwSlL3YhZ2QbcE8PITuZ5pKOb
+ dgqq3wjxCZRcvDZyXMc/q3LANwMHMB2K5Y1rPeNzrQrOpGGRFTKBpBrFNBnrFLAT
+ Xmr03iGuSjape7KldKBLduWt8KEKVffX3wH7jMidiNw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=w8zFsS
+ tK2NrMmwLqUI1DR9vkw2gVuQ4dVZ397/BZreQ=; b=mqJP3HWaDTrQNzYsBn24yI
+ fhc9BMgIk/ae0xe6eZIa0nvQ8uJNbUSttkVlLGoCcpkqbD2IVg6TqSEYPOOwjTAX
+ 5ykWAs4JTMb7VPn5yjgV+X3P5nJ2gUsblLAuhgIYiQ+g6CxpIdXXLXnP/7SR28Gp
+ ihnmNX9vOJj752XysTelR3pIUUN74FBbYsZoZ1eIMo9DRugi4CeH2ywVDHEKqSSj
+ WANeuhcLDtoSmTuSB4iG9GfvoHTLlOG/WMj54ZD8t4KWiLvYBUsElU033n9tV0AT
+ kgXOtLoRlMCNJcFpyDZKH8vWZb4cUrPUgXNk5SkClBIEhM+qls98VDampM2b3/+A
+ ==
+X-ME-Sender: <xms:_NPNX-PAZ_jJSeyqUdNUJ8OpitQd8OQ3A4YVFOdW2TZElofVJ7oyog>
+ <xme:_NPNXxMI4kcmWcOE7n492cla7DsTN_z6zANvqAPoQZ-QrHZzTOBNhLftGVEuZBv_4
+ NofPhvf6uhb1CoLIXY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejfedgleekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpedugeefveegfeduhfeuledugfeufeetheeuhfeuffejgeelgffgtdeffeduvddt
+ veenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeektddrudeijedrleekrd
+ duledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+ ihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:_dPNXwRvrVtsE-klj3wGKlwL7EsjDtJffq3kpm50mRltPiVFrbi7Vg>
+ <xmx:_dPNXzDmRLkJmHRFLsM97jWV5aqEymJUUIkCIUU93B5UlMBcYOgupw>
+ <xmx:_dPNX_jB-HWVZgD5q0TGdmdvVfvLTbXlQqbryJTw0oTFWBkba3jknA>
+ <xmx:_dPNX4fVO1-yoliSWHSTULU_Pzht7CxOZ8zoHtmnAoaCrbEsENADxg>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8B54D108005C;
+ Mon,  7 Dec 2020 02:04:27 -0500 (EST)
+Date: Mon, 7 Dec 2020 08:04:25 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/3] hw/block/nvme: allow cmb and pmr to coexist
+Message-ID: <X83T+W3MwFWh2pBR@apples.localdomain>
+References: <20201123065927.108923-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EMfGBRTzZDscf3PX"
+Content-Disposition: inline
+In-Reply-To: <20201123065927.108923-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,68 +94,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linking of qemu-system-ppc64 fails on macOS with dtrace enabled:
 
-  error: probe tpm_spapr_show_buffer doesn't exist
-  error: Could not register probes
-  ld: error creating dtrace DOF section for architecture x86_64
+--EMfGBRTzZDscf3PX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The failure is explained in 8c8ed03850208e4 ("net/colo: Match is-enabled
-probe to tracepoint"). In short, is-enabled probe can't be used without
-a matching trace probe. And for this particular case
-tpm_util_show_buffer probe should be enabled to print TPM buffer.
+On Nov 23 07:59, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> This is a resurrection of Andrzej's series[1] from back July.
+>=20
+> Andrzej's main patch basically moved the the CMB from BAR 2 into an
+> offset in BAR 4 (located after the MSI-X table and PBA). Having an
+> offset on the CMB causes a bunch of calculations related to address
+> mapping to change.
+>=20
+> So, since I couldn't get the patch to apply cleanly I took a stab at
+> implementing the suggestion I originally came up with: simply move the
+> MSI-X table and PBA from BAR 4 into BAR 0 (up-aligned to a 4 KiB
+> boundary, after the main NVMe controller registers). This way we can
+> keep the CMB at offset zero in its own BAR and free up BAR 4 for use by
+> PMR. This makes the patch simpler and does not impact any of the
+> existing address mapping code.
+>=20
+> Andrzej, I would prefer an Ack from you, since I pretty much voided your
+> main patch.
+>=20
+>   [1]: https://lore.kernel.org/qemu-devel/20200729220107.37758-1-andrzej.=
+jakowski@linux.intel.com/
+>=20
+> CC: Andrzej Jakowski <andrzej.jakowski@linux.intel.com>
+>=20
+> Andrzej Jakowski (1):
+>   hw/block/nvme: indicate CMB support through controller capabilities
+>     register
+>=20
+> Klaus Jensen (2):
+>   hw/block/nvme: move msix table and pba to BAR 0
+>   hw/block/nvme: allow cmb and pmr to coexist
+>=20
+>  hw/block/nvme.h      |  1 +
+>  include/block/nvme.h | 10 +++++++---
+>  hw/block/nvme.c      | 42 +++++++++++++++++++++++++++++++-----------
+>  3 files changed, 39 insertions(+), 14 deletions(-)
+>=20
+> --=20
+> 2.29.2
+>=20
+>=20
 
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
----
- hw/tpm/tpm_spapr.c  | 8 ++------
- hw/tpm/trace-events | 1 -
- 2 files changed, 2 insertions(+), 7 deletions(-)
+Gentle ping on this.
 
-diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
-index e3775adc57..dea7b1333b 100644
---- a/hw/tpm/tpm_spapr.c
-+++ b/hw/tpm/tpm_spapr.c
-@@ -93,9 +93,7 @@ struct SpaprTpmState {
-  */
- static void tpm_spapr_tpm_send(SpaprTpmState *s)
- {
--    if (trace_event_get_state_backends(TRACE_TPM_SPAPR_SHOW_BUFFER)) {
--        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
--    }
-+    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
- 
-     s->state = SPAPR_VTPM_STATE_EXECUTION;
-     s->cmd = (TPMBackendCmd) {
-@@ -255,9 +253,7 @@ static void tpm_spapr_request_completed(TPMIf *ti, int ret)
-     rc = spapr_vio_dma_write(&s->vdev, be32_to_cpu(crq->data),
-                              s->buffer, len);
- 
--    if (trace_event_get_state_backends(TRACE_TPM_SPAPR_SHOW_BUFFER)) {
--        tpm_util_show_buffer(s->buffer, len, "From TPM");
--    }
-+    tpm_util_show_buffer(s->buffer, len, "From TPM");
- 
-     crq->valid = SPAPR_VTPM_MSG_RESULT;
-     if (rc == H_SUCCESS) {
-diff --git a/hw/tpm/trace-events b/hw/tpm/trace-events
-index 266de17d38..6005ecb5da 100644
---- a/hw/tpm/trace-events
-+++ b/hw/tpm/trace-events
-@@ -25,7 +25,6 @@ tpm_tis_pre_save(uint8_t locty, uint32_t rw_offset) "locty: %d, rw_offset = %u"
- tpm_ppi_memset(uint8_t *ptr, size_t size) "memset: %p %zu"
- 
- # tpm_spapr.c
--tpm_spapr_show_buffer(const char *direction, size_t len, const char *buf) "direction: %s len: %zu\n%s"
- tpm_spapr_do_crq(uint8_t raw1, uint8_t raw2) "1st 2 bytes in CRQ: 0x%02x 0x%02x"
- tpm_spapr_do_crq_crq_result(void) "SPAPR_VTPM_INIT_CRQ_RESULT"
- tpm_spapr_do_crq_crq_complete_result(void) "SPAPR_VTPM_INIT_CRQ_COMP_RESULT"
--- 
-2.29.2
+--EMfGBRTzZDscf3PX
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/N0/UACgkQTeGvMW1P
+DekvUgf/dw9hEbleRcEqjjT87XOfYrqSjNo6QMzfvqMhQIP2pcR+n/czD9zGiB4C
+x21JV1pdyu+fz3Qg1WvaOdNesfUu4JIMczE8qWyJFDm7xRMU35J597Xtp6j1upLL
+7Oq/Ctbb0tdYfHhrP4aULEF2PV4bSC1IP4nCP2DMnaV4uSyx323oeJ+021n0pe5r
+VNj49mmQ3qenQ7ZU0b36OYGxBrU83OrM/pMkdcDOI2UwQvQPpKERVOxLEk0qlqN4
+uTu9JFHNJElC9XWfU4RHcZhTtE9fP6g6gvo3IPM4YyXVlgso3eSuT562bj1x8sNk
+eI2TlFh7URUZinVdZ8afBLaVZybmOg==
+=Annz
+-----END PGP SIGNATURE-----
+
+--EMfGBRTzZDscf3PX--
 
