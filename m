@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8072D1074
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 13:20:03 +0100 (CET)
-Received: from localhost ([::1]:59616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC6C2D1048
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 13:16:40 +0100 (CET)
+Received: from localhost ([::1]:57100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmFUo-0005aD-TF
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 07:20:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39952)
+	id 1kmFRX-0004Nb-RV
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 07:16:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kmEhO-0005Ra-1A
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 06:28:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kmEhF-0005mF-Uh
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 06:28:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607340528;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+8JKFHO8OLT3518wq+kubhGyOJEwtVs2WQNbFEQS9Wo=;
- b=D8W01e4aggu1xR1Dr7CxIpZQJQEhaoSsR62hPO55xdu/8HIyZZNMeUHTl+IzMblH4/M2Mr
- WyY1TqtcDcMJKgv1rtSMqFvSI8kF+TEnl0/oGyzldID6fY1WofgFOpGry+5NihFoG4hz7L
- uBBptXk3Pcmpx4dUGqvQAAPep+02JO0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-2HUZS2fQP8yaXyN_LPs_AA-1; Mon, 07 Dec 2020 06:28:46 -0500
-X-MC-Unique: 2HUZS2fQP8yaXyN_LPs_AA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 700A81005504;
- Mon,  7 Dec 2020 11:28:45 +0000 (UTC)
-Received: from localhost (ovpn-114-128.ams2.redhat.com [10.36.114.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 066AD648A2;
- Mon,  7 Dec 2020 11:28:38 +0000 (UTC)
-Date: Mon, 7 Dec 2020 11:28:38 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Coiby Xu <coiby.xu@gmail.com>
-Subject: Re: [PATCH for-5.2 01/10] test: new qTest case to test the
- vhost-user-blk-server
-Message-ID: <20201207112838.GD203660@stefanha-x1.localdomain>
-References: <20201111124331.1393747-1-stefanha@redhat.com>
- <20201111124331.1393747-2-stefanha@redhat.com>
- <20201125082056.wcxx274zo34qmobb@Rk>
- <20201125082820.6g5umkr4dafrzsai@Rk>
+ (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1kmEhv-0005yR-G3
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 06:29:34 -0500
+Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:35639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1kmEhr-0005w9-Kd
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 06:29:31 -0500
+Received: by mail-vs1-xe43.google.com with SMTP id v8so7360297vso.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 03:29:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=smartx-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=FCwoKRZr8/+Pmet9HlmO0AEwQfMBfUQQYfr0iZK8ITQ=;
+ b=RY2PYARouwPMU+vuh0dZ9x7fQpRWZ2J4mRjouz78YnSpANV0e6WhkkBJnh92Y0+GyF
+ 8nJg80PNA5KZCAaUnVJeG+1uYEjqLUcjA4UjniNtU1Frw9RtQtKsQbDLCpw/n//Nu2ju
+ BBlSvsOutAx5TbTXMo80KauWhokNrx4zkEfcpz0LiwaXpOuJiUkyiDGEK809qiFyJPJJ
+ xLyTpYY5ftjNsNcijs5VUTApJVMlJFRNp+tv4i1xr0/YsVlNjpcSiXTvx8K/GCY1i8zT
+ bzeT/0MhApwo7hqxJYRzHiMdCwaq6DEIt4/rjPLPLWf2CCzQWbk7ixmsti0JtullInTO
+ Tbkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FCwoKRZr8/+Pmet9HlmO0AEwQfMBfUQQYfr0iZK8ITQ=;
+ b=KFsLoSDtUxxNXaVqQHDmLs3FRB7SQgl+Dm5QkQD2cqn3aPgeMILy7SFbgJooHx4V0K
+ h67/wb3D3jWNIkFZNdl5tVXB9/ZSyTn1ajWdI0gLFcRwp9iG1BGKoSGuRZtxLMwRi/MP
+ FpMsJlMBlgiVaxUZ2lfUhRTdep1RePQlCS/PGLyKkPzroLhy/Thu3eBQsX4KiHoCWUig
+ YyXCbu+1jQEswogatyqpcgP58aNBSSaMGuIxlm1z7GPglrCVT0ZMTCPSnzsOIbkR5P7i
+ JZjze+xj4/W4hJbgHZPwdTXpNNbMWDc0FkM8GWxjzFY+Cxhu5CARkhSt746JluKN59ye
+ vLWw==
+X-Gm-Message-State: AOAM531AiUKckYK2e5c0H7RUF/1sD9J9ClYFcJ2GpULuxly6E61orRsV
+ BWbMZm/UGPiB6Ho7iL2QCNCe/5VASqlI4/2jGpSflQ==
+X-Google-Smtp-Source: ABdhPJznYoxn2dxMca3mgqVUbnYu4GtSvqy6E4epsC3jCNrlACZ1I1VpFUKzMZE+m1cVyPC7DkHc5KpVpNhzoJB42F4=
+X-Received: by 2002:a67:fdcb:: with SMTP id l11mr1309112vsq.38.1607340565227; 
+ Mon, 07 Dec 2020 03:29:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201125082820.6g5umkr4dafrzsai@Rk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fOHHtNG4YXGJ0yqR"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1607077703-32344-1-git-send-email-fengli@smartx.com>
+ <20201204104016.GC4833@merkur.fritz.box>
+ <CAHckoCwJz0NTLWTpz0tApLe9qm-ZYYrE3-OmQmQCyfk4gtGUOA@mail.gmail.com>
+ <CAEK8JBAu0jStwRgD=_hNDn1cHzxPXZyvHmikUtKcriCNvHxDKA@mail.gmail.com>
+ <20201207111702.GA5281@merkur.fritz.box>
+In-Reply-To: <20201207111702.GA5281@merkur.fritz.box>
+From: Li Feng <fengli@smartx.com>
+Date: Mon, 7 Dec 2020 19:29:13 +0800
+Message-ID: <CAHckoCxidupT=RwZB6fGxV6KYbRutVDzbV3nEd1K5X1ED0sevQ@mail.gmail.com>
+Subject: Re: [PATCH] file-posix: check the use_lock
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::e43;
+ envelope-from=fengli@smartx.com; helo=mail-vs1-xe43.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,72 +80,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Feng Li <lifeng1519@gmail.com>, Kyle Zhang <kyle@smartx.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---fOHHtNG4YXGJ0yqR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Kevin,
 
-On Wed, Nov 25, 2020 at 04:28:20PM +0800, Coiby Xu wrote:
-> On Wed, Nov 25, 2020 at 04:20:56PM +0800, Coiby Xu wrote:
-> > On Wed, Nov 11, 2020 at 12:43:22PM +0000, Stefan Hajnoczi wrote:
-> > > +static void quit_storage_daemon(void *qmp_test_state)
-> > > +{
-> > > +    const char quit_str[] =3D "{ 'execute': 'quit' }";
-> > > +
-> > > +    /* Before quiting storate-daemon, quit qemu to avoid dubious mes=
-sages */
-> > > +    qobject_unref(qtest_qmp(global_qtest, quit_str));
-> > > +
-> > > +    /*
-> > > +     * Give storage-daemon enough time to wake up&terminate
-> > > +     * vu_client_trip coroutine so the Coroutine object could
-> > > +     * be cleaned up. Otherwise LeakSanitizer would complain
-> > > +     * about memory leaks.
-> > > +     */
-> > > +    g_usleep(1000);
-> >=20
-> > Your "[PATCH for-5.2 07/10] vhost-user-blk-test: fix races by using fd =
-passing"
-> > prompts to me think if there is a race condition under which 1000 ms
->                                                               ^^^^^^^
-> Sorry, I meant 1000 =CE=BCs.
+OK, thanks for your reply, I will send out the v2 patch.
 
-In the next revision vhost-user-blk-test sends a SIGTERM signal to
-qemu-storage-daemon and then calls waitpid(2). This way there is a clean
-shutdown without a sleep.
+Thanks,
+Feng Li
 
-Regarding the LeakSanitizer issue you saw, are you still able to
-reproduce it with commit f10802d2c9fd8bfd92c70f465da1a5992445157f
-("qemu-storage-daemon: add missing cleanup calls") applied? Maybe
-qemu-storage-daemon is still missing some cleanup code (e.g. to stop
-exports before terminating).
-
-Stefan
-
---fOHHtNG4YXGJ0yqR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/OEeUACgkQnKSrs4Gr
-c8jR0gf/TZsuBc3h0cJXmD/w6zsXrRBj30DXRikBT3VMrZRhyw2If+dtNWKXRdlX
-IVn8PyKpD5LYLo77wto7hmw6EsJEuvNSDnw7j5VzY/hIkX4+xdKZqgktdgv9AqqN
-WhoLhlGxvrYRP9a5A1cyTOenj62662krdxX9tNKmVVCvg7nIPc1qdIBivxN0+sYa
-hbaoy1MUsyYxovyCPGvttDuylFBak1t9CoFeKPJ2YnVZ1MNvaZEZJJPh9LnL0wwi
-YE7XR3BrPscDpeNQVfJqFXN2X61ZfVEG+PPUJYzoKEMV7j4Gao8zzNTkwsmUUcYl
-nSfzjGaI1TsSWFhJ5sUo6YwLRzUbtg==
-=YZj4
------END PGP SIGNATURE-----
-
---fOHHtNG4YXGJ0yqR--
-
+Kevin Wolf <kwolf@redhat.com> =E4=BA=8E2020=E5=B9=B412=E6=9C=887=E6=97=A5=
+=E5=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=887:17=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Am 07.12.2020 um 11:50 hat Feng Li geschrieben:
+> > Hi Kevin,
+> >
+> > I have read the 182 test, and I'm very confused about the test.
+> > I'm not familiar with the permissions and locks in the qemu.
+> > Could you give me more tips about how to complete the test?
+>
+> Hm, actually, to produce a failure, we would have to have a filesystem
+> in the host that doesn't support locks. I don't even know how to get
+> such a filesystem manually, and it's probably completely impossible in a
+> test case without root permissions.
+>
+> So maybe just add a more detailed description of the bug to the commit
+> message, and we'll have to apply it without a test.
+>
+> Kevin
+>
+> > Li Feng <fengli@smartx.com> =E4=BA=8E2020=E5=B9=B412=E6=9C=884=E6=97=A5=
+=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=886:55=E5=86=99=E9=81=93=EF=BC=9A
+> > >
+> > > Hi Kevin,
+> > > Thanks for your reply.
+> > >
+> > > In my scenario, my NFS server doesn't support the file lock.
+> > > And when I set the file.locking =3D false, the Qemu still reports:
+> > > qemu-system-x86_64: -drive
+> > > file=3D/tmp/nfs/a,format=3Draw,cache=3Dnone,aio=3Dnative,if=3Dnone,id=
+=3Ddrive-virtio-disk1,file.locking=3Don:
+> > > Failed to lock byte 100
+> > >
+> > > I will look at the iotest 182 and try to add a test.
+> > >
+> > > Thanks,
+> > > Feng Li
+> > >
+> > > Kevin Wolf <kwolf@redhat.com> =E4=BA=8E2020=E5=B9=B412=E6=9C=884=E6=
+=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=886:40=E5=86=99=E9=81=93=EF=BC=9A
+> > > >
+> > > > Am 04.12.2020 um 11:28 hat Li Feng geschrieben:
+> > > > > When setting the file.locking =3D false, we shouldn't set the loc=
+k.
+> > > > >
+> > > > > Signed-off-by: Li Feng <fengli@smartx.com>
+> > > >
+> > > > This looks right to me, but can you add a test for this scenario to
+> > > > iotest 182? This would both demonstrate the effect of the bug (I th=
+ink
+> > > > it would be that files are locked after reopen even with locking=3D=
+off?)
+> > > > and make sure that we won't have a regression later. Mentioning the
+> > > > effect in the commit message would be good, too.
+> > > >
+> > > > Kevin
+> > > >
+> > > > >  block/file-posix.c | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/block/file-posix.c b/block/file-posix.c
+> > > > > index d5fd1dbcd2..806764f7e3 100644
+> > > > > --- a/block/file-posix.c
+> > > > > +++ b/block/file-posix.c
+> > > > > @@ -3104,7 +3104,7 @@ static int raw_check_perm(BlockDriverState =
+*bs, uint64_t perm, uint64_t shared,
+> > > > >      }
+> > > > >
+> > > > >      /* Copy locks to the new fd */
+> > > > > -    if (s->perm_change_fd) {
+> > > > > +    if (s->perm_change_fd && s->use_lock) {
+> > > > >          ret =3D raw_apply_lock_bytes(NULL, s->perm_change_fd, pe=
+rm, ~shared,
+> > > > >                                     false, errp);
+> > > > >          if (ret < 0) {
+> > > > > --
+> > > > > 2.24.3
+> > > > >
+> > > >
+> >
+>
 
