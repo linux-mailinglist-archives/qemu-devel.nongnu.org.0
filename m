@@ -2,81 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFEE2D1370
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 15:20:57 +0100 (CET)
-Received: from localhost ([::1]:39270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3552D1353
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 15:16:03 +0100 (CET)
+Received: from localhost ([::1]:56910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmHNo-0005nq-7G
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 09:20:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51390)
+	id 1kmHJ4-00016R-PG
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 09:16:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kmHF4-0006rP-L1
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:11:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kmHF1-0004CB-Kp
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:11:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607350310;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PFEUth/cGI9AUGR8K5LF8ewNld0919Ky1oKlhQoWUrk=;
- b=FbgTkjqKmGfiyDZejuXCOoiR7s7gGIY28eg9r2Tcuku97Op+QKQU5+wU7U8aiZcscY0OUf
- mudaAZKiN+Ilx30R7xKbbDrYhkyjOpswiPbpPY60QDzB3jGEkzvVAuoUT0PHv//Y0DLUg9
- PlVjWuePWyYC12OxMhbtoBYiyUyDM+8=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-f_E7kRZ9OBGxO2w9Ovyy9A-1; Mon, 07 Dec 2020 09:11:48 -0500
-X-MC-Unique: f_E7kRZ9OBGxO2w9Ovyy9A-1
-Received: by mail-pf1-f197.google.com with SMTP id v138so3567688pfc.10
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 06:11:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PFEUth/cGI9AUGR8K5LF8ewNld0919Ky1oKlhQoWUrk=;
- b=aHlraBD8JZuFiWsv9x5wPpx3ScnmeH/WMSuWyOx7TCOIv2CoqDFY33hl67Bl9S2Z+i
- uLhwNJifZxdejAxJdAxwLQautgBPLJRzN3SGVtKUD0KAx+b3boJJSHg11ny8e9g4kHKk
- m98uYEUB2jqcumdBEViAmVurhC1QPBTn4B0avW2+ik6umo1YWAW3vnIGQvSR85m8tnzQ
- z995XDSV57bhPA1wb9VF+97B5H/zGtgRV+rcRGtA7UGyGMGlUx+maDg7AzTtLI7IL4u2
- t79uSIej7nBPHzCMZRPVhy1ttXUot8eM6joSnP6qiXMvjRpXBeofA9uHEWIZNI84tgmo
- nZMw==
-X-Gm-Message-State: AOAM530NHSgMDXJTXmYl6z79od7/bbyNXnUStoI+zHbKSraB78gxS2Z/
- FKVI+NbkU+LeJUn2ifWGnTbm7oElZ69aUTIh9cInzGrj+uWEdObFM4a2Ipr6mFT4hc1oDPe1AlS
- yvJJ+UUsZ+YMTBAGcP1DXGvuedrYqP2Q=
-X-Received: by 2002:a63:dc44:: with SMTP id f4mr18289976pgj.281.1607350306029; 
- Mon, 07 Dec 2020 06:11:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyAj7zoiMVUJpLTD3B9KFdgnRu9Gg4TKc5lTZpensiUkjGGbX2vfKa4N/2yYSqgt/tnR9Xh1jaTFPwLJvkptcE=
-X-Received: by 2002:a63:dc44:: with SMTP id f4mr18289962pgj.281.1607350305790; 
- Mon, 07 Dec 2020 06:11:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kmHGJ-0008KY-4v
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:13:11 -0500
+Resent-Date: Mon, 07 Dec 2020 09:13:11 -0500
+Resent-Message-Id: <E1kmHGJ-0008KY-4v@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kmHGD-0004ZD-0a
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:13:10 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1607350374; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=MZ0YksTVLg9t5Cfl1t4UMOEkzceINlI8JP3TpnXMV2w7c2EOliearxNN7OfYzlltSAT3VDouVE5137OBCGpxr9kX/k8M91QWUhV6YWGnUIz6oJj27969i7xC+/TttVM2GHkHX2QWH5n8iglzobE612SPsBazkUTOctW0BwqHkCE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1607350374;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=WZ2Ks127gETxvuXKSCht/8gna/HpKsGYr+q1EGWYABw=; 
+ b=AarMCbtlBHdv7Alxb5fewnzNoGdxegAlrzLF7Y04kwrN+RRGXDvC+U4KKpBr2/LNyuJ9RIJVf9yZS/88zhHx+wk6VcdINKzHvmMXiZ6pTlMN7VblPQfm8gZwF2A0y4NI08YhALXlAytvS7Fbfd8iplFxCjLCIdaQ4aHG60djZV4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1607350368955969.5253075870603;
+ Mon, 7 Dec 2020 06:12:48 -0800 (PST)
+In-Reply-To: <20201202081854.4126071-1-pbonzini@redhat.com>
+Subject: Re: [PATCH 00/15] Finish cleaning up qemu_init
+Message-ID: <160735036775.26623.3430223324777966404@600e7e483b3a>
 MIME-Version: 1.0
-References: <20201202081854.4126071-1-pbonzini@redhat.com>
- <20201202081854.4126071-2-pbonzini@redhat.com>
- <20201207145705.0d5e20ea@redhat.com>
-In-Reply-To: <20201207145705.0d5e20ea@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 7 Dec 2020 15:11:34 +0100
-Message-ID: <CABgObfaA72vumhcUi04wEUEmgcFrW01jFxnS_OstycV61VrLmg@mail.gmail.com>
-Subject: Re: [PATCH 01/15] remove preconfig state
-To: Igor Mammedov <imammedo@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000001b78605b5e068aa"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Mon, 7 Dec 2020 06:12:48 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,626 +67,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000001b78605b5e068aa
-Content-Type: text/plain; charset="UTF-8"
-
-Il lun 7 dic 2020, 14:57 Igor Mammedov <imammedo@redhat.com> ha scritto:
-
-> On Wed,  2 Dec 2020 03:18:40 -0500
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> > The preconfig state is only used if -incoming is not specified, which
-> > makes the RunState state machine more tricky than it need be.  However
-> > there is already an equivalent condition which works even with -incoming,
-> > namely qdev_hotplug.  Use it instead of a separate runstate.
-> >
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  hw/core/machine-qmp-cmds.c    |  5 ++---
-> >  include/qapi/qmp/dispatch.h   |  1 +
-> >  monitor/hmp.c                 |  7 ++++---
-> >  monitor/qmp-cmds.c            |  5 ++---
-> >  qapi/qmp-dispatch.c           |  5 +----
-> >  qapi/run-state.json           |  5 +----
-> >  softmmu/qdev-monitor.c        | 12 ++++++++++++
-> >  softmmu/vl.c                  | 13 ++-----------
-> >  stubs/meson.build             |  1 +
-> >  stubs/qmp-command-available.c |  7 +++++++
-> >  tests/qtest/qmp-test.c        |  2 +-
-> >  11 files changed, 34 insertions(+), 29 deletions(-)
-> >  create mode 100644 stubs/qmp-command-available.c
-> >
-> > diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-> > index 5362c80a18..cb9387c5f5 100644
-> > --- a/hw/core/machine-qmp-cmds.c
-> > +++ b/hw/core/machine-qmp-cmds.c
-> > @@ -286,9 +286,8 @@ HotpluggableCPUList
-> *qmp_query_hotpluggable_cpus(Error **errp)
-> >
-> >  void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
-> >  {
-> > -    if (!runstate_check(RUN_STATE_PRECONFIG)) {
-> > -        error_setg(errp, "The command is permitted only in '%s' state",
-> > -                   RunState_str(RUN_STATE_PRECONFIG));
-> > +    if (qdev_hotplug) {
-> it's too late for qmp_set_numa_node(), but given it's temporary
-> and patch 8/15 changes it to correct state it should be fine.
-> so
->
->   Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->
-
-It's too late according to the fine grained distinction of phases that will
-be introduced later. For the two phases that are possible with current QEMU
-(before or after preconfig) it should be indistinguishable, right?
-
-Paolo
-
-
->
-> > +         error_setg(errp, "The command is permitted only before the
-> machine has been created");
-> >           return;
-> >      }
-> >
-> > diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-> > index af8d96c570..1486cac3ef 100644
-> > --- a/include/qapi/qmp/dispatch.h
-> > +++ b/include/qapi/qmp/dispatch.h
-> > @@ -48,6 +48,7 @@ void qmp_disable_command(QmpCommandList *cmds, const
-> char *name);
-> >  void qmp_enable_command(QmpCommandList *cmds, const char *name);
-> >
-> >  bool qmp_command_is_enabled(const QmpCommand *cmd);
-> > +bool qmp_command_available(const QmpCommand *cmd, Error **errp);
-> >  const char *qmp_command_name(const QmpCommand *cmd);
-> >  bool qmp_has_success_response(const QmpCommand *cmd);
-> >  QDict *qmp_error_response(Error *err);
-> > diff --git a/monitor/hmp.c b/monitor/hmp.c
-> > index d40f4f4391..f2fe192d69 100644
-> > --- a/monitor/hmp.c
-> > +++ b/monitor/hmp.c
-> > @@ -24,6 +24,7 @@
-> >
-> >  #include "qemu/osdep.h"
-> >  #include <dirent.h>
-> > +#include "hw/qdev-core.h"
-> >  #include "monitor-internal.h"
-> >  #include "qapi/error.h"
-> >  #include "qapi/qmp/qdict.h"
-> > @@ -215,7 +216,7 @@ static bool cmd_can_preconfig(const HMPCommand *cmd)
-> >
-> >  static bool cmd_available(const HMPCommand *cmd)
-> >  {
-> > -    return !runstate_check(RUN_STATE_PRECONFIG) ||
-> cmd_can_preconfig(cmd);
-> > +    return qdev_hotplug || cmd_can_preconfig(cmd);
-> >  }
-> >
-> >  static void help_cmd_dump_one(Monitor *mon,
-> > @@ -658,8 +659,8 @@ static const HMPCommand
-> *monitor_parse_command(MonitorHMP *hmp_mon,
-> >          return NULL;
-> >      }
-> >      if (!cmd_available(cmd)) {
-> > -        monitor_printf(mon, "Command '%.*s' not available with
-> -preconfig "
-> > -                            "until after exit_preconfig.\n",
-> > +        monitor_printf(mon, "Command '%.*s' not available "
-> > +                            "until machine initialization has
-> completed.\n",
-> >                         (int)(p - cmdp_start), cmdp_start);
-> >          return NULL;
-> >      }
-> > diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> > index 6299c0c8c7..501a3024c7 100644
-> > --- a/monitor/qmp-cmds.c
-> > +++ b/monitor/qmp-cmds.c
-> > @@ -104,9 +104,8 @@ void qmp_system_powerdown(Error **errp)
-> >
-> >  void qmp_x_exit_preconfig(Error **errp)
-> >  {
-> > -    if (!runstate_check(RUN_STATE_PRECONFIG)) {
-> > -        error_setg(errp, "The command is permitted only in '%s' state",
-> > -                   RunState_str(RUN_STATE_PRECONFIG));
-> > +    if (qdev_hotplug) {
-> > +        error_setg(errp, "The command is permitted only before machine
-> initialization");
-> >          return;
-> >      }
-> >      qemu_exit_preconfig_request();
-> > diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-> > index 9a2d7dd29a..0a2b20a4e4 100644
-> > --- a/qapi/qmp-dispatch.c
-> > +++ b/qapi/qmp-dispatch.c
-> > @@ -167,10 +167,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds,
-> QObject *request,
-> >          goto out;
-> >      }
-> >
-> > -    if (runstate_check(RUN_STATE_PRECONFIG) &&
-> > -        !(cmd->options & QCO_ALLOW_PRECONFIG)) {
-> > -        error_setg(&err, "The command '%s' isn't permitted in '%s'
-> state",
-> > -                   cmd->name, RunState_str(RUN_STATE_PRECONFIG));
-> > +    if (!qmp_command_available(cmd, &err)) {
-> >          goto out;
-> >      }
-> >
-> > diff --git a/qapi/run-state.json b/qapi/run-state.json
-> > index 964c8ef391..38194b0e44 100644
-> > --- a/qapi/run-state.json
-> > +++ b/qapi/run-state.json
-> > @@ -50,15 +50,12 @@
-> >  # @colo: guest is paused to save/restore VM state under colo checkpoint,
-> >  #        VM can not get into this state unless colo capability is
-> enabled
-> >  #        for migration. (since 2.8)
-> > -# @preconfig: QEMU is paused before board specific init callback is
-> executed.
-> > -#             The state is reachable only if the --preconfig CLI option
-> is used.
-> > -#             (Since 3.0)
-> >  ##
-> >  { 'enum': 'RunState',
-> >    'data': [ 'debug', 'inmigrate', 'internal-error', 'io-error',
-> 'paused',
-> >              'postmigrate', 'prelaunch', 'finish-migrate', 'restore-vm',
-> >              'running', 'save-vm', 'shutdown', 'suspended', 'watchdog',
-> > -            'guest-panicked', 'colo', 'preconfig' ] }
-> > +            'guest-panicked', 'colo' ] }
-> >
-> >  ##
-> >  # @ShutdownCause:
-> > diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> > index d060e765da..e967d13bd0 100644
-> > --- a/softmmu/qdev-monitor.c
-> > +++ b/softmmu/qdev-monitor.c
-> > @@ -25,6 +25,7 @@
-> >  #include "sysemu/arch_init.h"
-> >  #include "qapi/error.h"
-> >  #include "qapi/qapi-commands-qdev.h"
-> > +#include "qapi/qmp/dispatch.h"
-> >  #include "qapi/qmp/qdict.h"
-> >  #include "qapi/qmp/qerror.h"
-> >  #include "qemu/config-file.h"
-> > @@ -997,3 +998,14 @@ int qemu_global_option(const char *str)
-> >
-> >      return 0;
-> >  }
-> > +
-> > +bool qmp_command_available(const QmpCommand *cmd, Error **errp)
-> > +{
-> > +    if (!qdev_hotplug &&
-> > +        !(cmd->options & QCO_ALLOW_PRECONFIG)) {
-> > +        error_setg(errp, "The command '%s' is permitted only after
-> machine initialization has completed",
-> > +                   cmd->name);
-> > +        return false;
-> > +    }
-> > +    return true;
-> > +}
-> > diff --git a/softmmu/vl.c b/softmmu/vl.c
-> > index 7146fbe219..ab2210bc79 100644
-> > --- a/softmmu/vl.c
-> > +++ b/softmmu/vl.c
-> > @@ -557,7 +557,7 @@ static int default_driver_check(void *opaque,
-> QemuOpts *opts, Error **errp)
-> >  /***********************************************************/
-> >  /* QEMU state */
-> >
-> > -static RunState current_run_state = RUN_STATE_PRECONFIG;
-> > +static RunState current_run_state = RUN_STATE_PRELAUNCH;
-> >
-> >  /* We use RUN_STATE__MAX but any invalid value will do */
-> >  static RunState vmstop_requested = RUN_STATE__MAX;
-> > @@ -569,13 +569,7 @@ typedef struct {
-> >  } RunStateTransition;
-> >
-> >  static const RunStateTransition runstate_transitions_def[] = {
-> > -    /*     from      ->     to      */
-> > -    { RUN_STATE_PRECONFIG, RUN_STATE_PRELAUNCH },
-> > -      /* Early switch to inmigrate state to allow  -incoming CLI option
-> work
-> > -       * as it used to. TODO: delay actual switching to inmigrate state
-> to
-> > -       * the point after machine is built and remove this hack.
-> > -       */
-> > -    { RUN_STATE_PRECONFIG, RUN_STATE_INMIGRATE },
-> > +    { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },
-> >
-> >      { RUN_STATE_DEBUG, RUN_STATE_RUNNING },
-> >      { RUN_STATE_DEBUG, RUN_STATE_FINISH_MIGRATE },
-> > @@ -1471,9 +1465,6 @@ static bool main_loop_should_exit(void)
-> >      ShutdownCause request;
-> >
-> >      if (preconfig_exit_requested) {
-> > -        if (runstate_check(RUN_STATE_PRECONFIG)) {
-> > -            runstate_set(RUN_STATE_PRELAUNCH);
-> > -        }
-> >          preconfig_exit_requested = false;
-> >          return true;
-> >      }
-> > diff --git a/stubs/meson.build b/stubs/meson.build
-> > index 82b7ba60ab..cc56c83063 100644
-> > --- a/stubs/meson.build
-> > +++ b/stubs/meson.build
-> > @@ -29,6 +29,7 @@ stub_ss.add(files('pci-bus.c'))
-> >  stub_ss.add(files('pci-host-piix.c'))
-> >  stub_ss.add(files('qemu-timer-notify-cb.c'))
-> >  stub_ss.add(files('qmp_memory_device.c'))
-> > +stub_ss.add(files('qmp-command-available.c'))
-> >  stub_ss.add(files('qtest.c'))
-> >  stub_ss.add(files('ram-block.c'))
-> >  stub_ss.add(files('ramfb.c'))
-> > diff --git a/stubs/qmp-command-available.c
-> b/stubs/qmp-command-available.c
-> > new file mode 100644
-> > index 0000000000..46540af7bf
-> > --- /dev/null
-> > +++ b/stubs/qmp-command-available.c
-> > @@ -0,0 +1,7 @@
-> > +#include "qemu/osdep.h"
-> > +#include "qapi/qmp/dispatch.h"
-> > +
-> > +bool qmp_command_available(const QmpCommand *cmd, Error **errp)
-> > +{
-> > +    return true;
-> > +}
-> > diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c
-> > index eb1cd8abb8..11614bf63f 100644
-> > --- a/tests/qtest/qmp-test.c
-> > +++ b/tests/qtest/qmp-test.c
-> > @@ -295,7 +295,7 @@ static void test_qmp_preconfig(void)
-> >      rsp = qtest_qmp(qs, "{ 'execute': 'query-status' }");
-> >      ret = qdict_get_qdict(rsp, "return");
-> >      g_assert(ret);
-> > -    g_assert_cmpstr(qdict_get_try_str(ret, "status"), ==, "preconfig");
-> > +    g_assert_cmpstr(qdict_get_try_str(ret, "status"), ==, "prelaunch");
-> >      qobject_unref(rsp);
-> >
-> >      /* exit preconfig state */
->
->
-
---00000000000001b78605b5e068aa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il lun 7 dic 2020, 14:57 Igor Mammedov &lt;<a href=3D"=
-mailto:imammedo@redhat.com">imammedo@redhat.com</a>&gt; ha scritto:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">On Wed,=C2=A0 2 Dec 2020 03:18:40 -0500<br=
->
-Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_blank" =
-rel=3D"noreferrer">pbonzini@redhat.com</a>&gt; wrote:<br>
-<br>
-&gt; The preconfig state is only used if -incoming is not specified, which<=
-br>
-&gt; makes the RunState state machine more tricky than it need be.=C2=A0 Ho=
-wever<br>
-&gt; there is already an equivalent condition which works even with -incomi=
-ng,<br>
-&gt; namely qdev_hotplug.=C2=A0 Use it instead of a separate runstate.<br>
-&gt; <br>
-&gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
-" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/core/machine-qmp-cmds.c=C2=A0 =C2=A0 |=C2=A0 5 ++---<br>
-&gt;=C2=A0 include/qapi/qmp/dispatch.h=C2=A0 =C2=A0|=C2=A0 1 +<br>
-&gt;=C2=A0 monitor/hmp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 7 ++++---<br>
-&gt;=C2=A0 monitor/qmp-cmds.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 5 ++---<br>
-&gt;=C2=A0 qapi/qmp-dispatch.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 5 +----<br>
-&gt;=C2=A0 qapi/run-state.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 5 +----<br>
-&gt;=C2=A0 softmmu/qdev-monitor.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 12 +++++++++=
-+++<br>
-&gt;=C2=A0 softmmu/vl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | 13 ++-----------<br>
-&gt;=C2=A0 stubs/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 1 +<br>
-&gt;=C2=A0 stubs/qmp-command-available.c |=C2=A0 7 +++++++<br>
-&gt;=C2=A0 tests/qtest/qmp-test.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<b=
-r>
-&gt;=C2=A0 11 files changed, 34 insertions(+), 29 deletions(-)<br>
-&gt;=C2=A0 create mode 100644 stubs/qmp-command-available.c<br>
-&gt; <br>
-&gt; diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c<b=
-r>
-&gt; index 5362c80a18..cb9387c5f5 100644<br>
-&gt; --- a/hw/core/machine-qmp-cmds.c<br>
-&gt; +++ b/hw/core/machine-qmp-cmds.c<br>
-&gt; @@ -286,9 +286,8 @@ HotpluggableCPUList *qmp_query_hotpluggable_cpus(E=
-rror **errp)<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 void qmp_set_numa_node(NumaOptions *cmd, Error **errp)<br>
-&gt;=C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 if (!runstate_check(RUN_STATE_PRECONFIG)) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;The command is per=
-mitted only in &#39;%s&#39; state&quot;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-RunState_str(RUN_STATE_PRECONFIG));<br>
-&gt; +=C2=A0 =C2=A0 if (qdev_hotplug) {<br>
-it&#39;s too late for qmp_set_numa_node(), but given it&#39;s temporary<br>
-and patch 8/15 changes it to correct state it should be fine.<br>
-so<br>
-<br>
-=C2=A0 Reviewed-by: Igor Mammedov &lt;<a href=3D"mailto:imammedo@redhat.com=
-" target=3D"_blank" rel=3D"noreferrer">imammedo@redhat.com</a>&gt;<br></blo=
-ckquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">It&#39;s =
-too late according to the fine grained distinction of phases that will be i=
-ntroduced later. For the two phases that are possible with current QEMU (be=
-fore or after preconfig) it should be indistinguishable, right?</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D"auto"><br></=
-div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">
-<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(errp, &quot;The command =
-is permitted only before the machine has been created&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h=
-<br>
-&gt; index af8d96c570..1486cac3ef 100644<br>
-&gt; --- a/include/qapi/qmp/dispatch.h<br>
-&gt; +++ b/include/qapi/qmp/dispatch.h<br>
-&gt; @@ -48,6 +48,7 @@ void qmp_disable_command(QmpCommandList *cmds, const=
- char *name);<br>
-&gt;=C2=A0 void qmp_enable_command(QmpCommandList *cmds, const char *name);=
-<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 bool qmp_command_is_enabled(const QmpCommand *cmd);<br>
-&gt; +bool qmp_command_available(const QmpCommand *cmd, Error **errp);<br>
-&gt;=C2=A0 const char *qmp_command_name(const QmpCommand *cmd);<br>
-&gt;=C2=A0 bool qmp_has_success_response(const QmpCommand *cmd);<br>
-&gt;=C2=A0 QDict *qmp_error_response(Error *err);<br>
-&gt; diff --git a/monitor/hmp.c b/monitor/hmp.c<br>
-&gt; index d40f4f4391..f2fe192d69 100644<br>
-&gt; --- a/monitor/hmp.c<br>
-&gt; +++ b/monitor/hmp.c<br>
-&gt; @@ -24,6 +24,7 @@<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 #include &quot;qemu/osdep.h&quot;<br>
-&gt;=C2=A0 #include &lt;dirent.h&gt;<br>
-&gt; +#include &quot;hw/qdev-core.h&quot;<br>
-&gt;=C2=A0 #include &quot;monitor-internal.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/qmp/qdict.h&quot;<br>
-&gt; @@ -215,7 +216,7 @@ static bool cmd_can_preconfig(const HMPCommand *cm=
-d)<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 static bool cmd_available(const HMPCommand *cmd)<br>
-&gt;=C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 return !runstate_check(RUN_STATE_PRECONFIG) || cmd_can_=
-preconfig(cmd);<br>
-&gt; +=C2=A0 =C2=A0 return qdev_hotplug || cmd_can_preconfig(cmd);<br>
-&gt;=C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 static void help_cmd_dump_one(Monitor *mon,<br>
-&gt; @@ -658,8 +659,8 @@ static const HMPCommand *monitor_parse_command(Mon=
-itorHMP *hmp_mon,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if (!cmd_available(cmd)) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 monitor_printf(mon, &quot;Command &#39;%.=
-*s&#39; not available with -preconfig &quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;until after exit_preconfig.\n&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 monitor_printf(mon, &quot;Command &#39;%.=
-*s&#39; not available &quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;until machine initialization has complet=
-ed.\n&quot;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0(int)(p - cmdp_start), cmdp_start);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c<br>
-&gt; index 6299c0c8c7..501a3024c7 100644<br>
-&gt; --- a/monitor/qmp-cmds.c<br>
-&gt; +++ b/monitor/qmp-cmds.c<br>
-&gt; @@ -104,9 +104,8 @@ void qmp_system_powerdown(Error **errp)<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 void qmp_x_exit_preconfig(Error **errp)<br>
-&gt;=C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 if (!runstate_check(RUN_STATE_PRECONFIG)) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;The command is per=
-mitted only in &#39;%s&#39; state&quot;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-RunState_str(RUN_STATE_PRECONFIG));<br>
-&gt; +=C2=A0 =C2=A0 if (qdev_hotplug) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;The command is per=
-mitted only before machine initialization&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 qemu_exit_preconfig_request();<br>
-&gt; diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c<br>
-&gt; index 9a2d7dd29a..0a2b20a4e4 100644<br>
-&gt; --- a/qapi/qmp-dispatch.c<br>
-&gt; +++ b/qapi/qmp-dispatch.c<br>
-&gt; @@ -167,10 +167,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, Q=
-Object *request,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 if (runstate_check(RUN_STATE_PRECONFIG) &amp;&amp;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 !(cmd-&gt;options &amp; QCO_ALLOW_PRECONF=
-IG)) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(&amp;err, &quot;The command &#=
-39;%s&#39; isn&#39;t permitted in &#39;%s&#39; state&quot;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-cmd-&gt;name, RunState_str(RUN_STATE_PRECONFIG));<br>
-&gt; +=C2=A0 =C2=A0 if (!qmp_command_available(cmd, &amp;err)) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 <br>
-&gt; diff --git a/qapi/run-state.json b/qapi/run-state.json<br>
-&gt; index 964c8ef391..38194b0e44 100644<br>
-&gt; --- a/qapi/run-state.json<br>
-&gt; +++ b/qapi/run-state.json<br>
-&gt; @@ -50,15 +50,12 @@<br>
-&gt;=C2=A0 # @colo: guest is paused to save/restore VM state under colo che=
-ckpoint,<br>
-&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 VM can not get into this state unle=
-ss colo capability is enabled<br>
-&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 for migration. (since 2.8)<br>
-&gt; -# @preconfig: QEMU is paused before board specific init callback is e=
-xecuted.<br>
-&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0The state is reachab=
-le only if the --preconfig CLI option is used.<br>
-&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(Since 3.0)<br>
-&gt;=C2=A0 ##<br>
-&gt;=C2=A0 { &#39;enum&#39;: &#39;RunState&#39;,<br>
-&gt;=C2=A0 =C2=A0 &#39;data&#39;: [ &#39;debug&#39;, &#39;inmigrate&#39;, &=
-#39;internal-error&#39;, &#39;io-error&#39;, &#39;paused&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;postmigrate&#39;,=
- &#39;prelaunch&#39;, &#39;finish-migrate&#39;, &#39;restore-vm&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;running&#39;, &#3=
-9;save-vm&#39;, &#39;shutdown&#39;, &#39;suspended&#39;, &#39;watchdog&#39;=
-,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;guest-panicked&#39;, &=
-#39;colo&#39;, &#39;preconfig&#39; ] }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;guest-panicked&#39;, &=
-#39;colo&#39; ] }<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 ##<br>
-&gt;=C2=A0 # @ShutdownCause:<br>
-&gt; diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c<br>
-&gt; index d060e765da..e967d13bd0 100644<br>
-&gt; --- a/softmmu/qdev-monitor.c<br>
-&gt; +++ b/softmmu/qdev-monitor.c<br>
-&gt; @@ -25,6 +25,7 @@<br>
-&gt;=C2=A0 #include &quot;sysemu/arch_init.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/error.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/qapi-commands-qdev.h&quot;<br>
-&gt; +#include &quot;qapi/qmp/dispatch.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/qmp/qdict.h&quot;<br>
-&gt;=C2=A0 #include &quot;qapi/qmp/qerror.h&quot;<br>
-&gt;=C2=A0 #include &quot;qemu/config-file.h&quot;<br>
-&gt; @@ -997,3 +998,14 @@ int qemu_global_option(const char *str)<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 return 0;<br>
-&gt;=C2=A0 }<br>
-&gt; +<br>
-&gt; +bool qmp_command_available(const QmpCommand *cmd, Error **errp)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 if (!qdev_hotplug &amp;&amp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 !(cmd-&gt;options &amp; QCO_ALLOW_PRECONF=
-IG)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;The command &#39;%=
-s&#39; is permitted only after machine initialization has completed&quot;,<=
-br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-cmd-&gt;name);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 return true;<br>
-&gt; +}<br>
-&gt; diff --git a/softmmu/vl.c b/softmmu/vl.c<br>
-&gt; index 7146fbe219..ab2210bc79 100644<br>
-&gt; --- a/softmmu/vl.c<br>
-&gt; +++ b/softmmu/vl.c<br>
-&gt; @@ -557,7 +557,7 @@ static int default_driver_check(void *opaque, Qemu=
-Opts *opts, Error **errp)<br>
-&gt;=C2=A0 /***********************************************************/<br=
->
-&gt;=C2=A0 /* QEMU state */<br>
-&gt;=C2=A0 <br>
-&gt; -static RunState current_run_state =3D RUN_STATE_PRECONFIG;<br>
-&gt; +static RunState current_run_state =3D RUN_STATE_PRELAUNCH;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 /* We use RUN_STATE__MAX but any invalid value will do */<br>
-&gt;=C2=A0 static RunState vmstop_requested =3D RUN_STATE__MAX;<br>
-&gt; @@ -569,13 +569,7 @@ typedef struct {<br>
-&gt;=C2=A0 } RunStateTransition;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 static const RunStateTransition runstate_transitions_def[] =3D {=
-<br>
-&gt; -=C2=A0 =C2=A0 /*=C2=A0 =C2=A0 =C2=A0from=C2=A0 =C2=A0 =C2=A0 -&gt;=C2=
-=A0 =C2=A0 =C2=A0to=C2=A0 =C2=A0 =C2=A0 */<br>
-&gt; -=C2=A0 =C2=A0 { RUN_STATE_PRECONFIG, RUN_STATE_PRELAUNCH },<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 /* Early switch to inmigrate state to allow=C2=
-=A0 -incoming CLI option work<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0* as it used to. TODO: delay actual switch=
-ing to inmigrate state to<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0* the point after machine is built and rem=
-ove this hack.<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; -=C2=A0 =C2=A0 { RUN_STATE_PRECONFIG, RUN_STATE_INMIGRATE },<br>
-&gt; +=C2=A0 =C2=A0 { RUN_STATE_PRELAUNCH, RUN_STATE_INMIGRATE },<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 { RUN_STATE_DEBUG, RUN_STATE_RUNNING },<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 { RUN_STATE_DEBUG, RUN_STATE_FINISH_MIGRATE },<br>
-&gt; @@ -1471,9 +1465,6 @@ static bool main_loop_should_exit(void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ShutdownCause request;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if (preconfig_exit_requested) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (runstate_check(RUN_STATE_PRECONFIG)) =
-{<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 runstate_set(RUN_STATE_PREL=
-AUNCH);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 preconfig_exit_requested =3D false;<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; diff --git a/stubs/meson.build b/stubs/meson.build<br>
-&gt; index 82b7ba60ab..cc56c83063 100644<br>
-&gt; --- a/stubs/meson.build<br>
-&gt; +++ b/stubs/meson.build<br>
-&gt; @@ -29,6 +29,7 @@ stub_ss.add(files(&#39;pci-bus.c&#39;))<br>
-&gt;=C2=A0 stub_ss.add(files(&#39;pci-host-piix.c&#39;))<br>
-&gt;=C2=A0 stub_ss.add(files(&#39;qemu-timer-notify-cb.c&#39;))<br>
-&gt;=C2=A0 stub_ss.add(files(&#39;qmp_memory_device.c&#39;))<br>
-&gt; +stub_ss.add(files(&#39;qmp-command-available.c&#39;))<br>
-&gt;=C2=A0 stub_ss.add(files(&#39;qtest.c&#39;))<br>
-&gt;=C2=A0 stub_ss.add(files(&#39;ram-block.c&#39;))<br>
-&gt;=C2=A0 stub_ss.add(files(&#39;ramfb.c&#39;))<br>
-&gt; diff --git a/stubs/qmp-command-available.c b/stubs/qmp-command-availab=
-le.c<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..46540af7bf<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/stubs/qmp-command-available.c<br>
-&gt; @@ -0,0 +1,7 @@<br>
-&gt; +#include &quot;qemu/osdep.h&quot;<br>
-&gt; +#include &quot;qapi/qmp/dispatch.h&quot;<br>
-&gt; +<br>
-&gt; +bool qmp_command_available(const QmpCommand *cmd, Error **errp)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 return true;<br>
-&gt; +}<br>
-&gt; diff --git a/tests/qtest/qmp-test.c b/tests/qtest/qmp-test.c<br>
-&gt; index eb1cd8abb8..11614bf63f 100644<br>
-&gt; --- a/tests/qtest/qmp-test.c<br>
-&gt; +++ b/tests/qtest/qmp-test.c<br>
-&gt; @@ -295,7 +295,7 @@ static void test_qmp_preconfig(void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 rsp =3D qtest_qmp(qs, &quot;{ &#39;execute&#39;: &=
-#39;query-status&#39; }&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ret =3D qdict_get_qdict(rsp, &quot;return&quot;);<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 g_assert(ret);<br>
-&gt; -=C2=A0 =C2=A0 g_assert_cmpstr(qdict_get_try_str(ret, &quot;status&quo=
-t;), =3D=3D, &quot;preconfig&quot;);<br>
-&gt; +=C2=A0 =C2=A0 g_assert_cmpstr(qdict_get_try_str(ret, &quot;status&quo=
-t;), =3D=3D, &quot;prelaunch&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 qobject_unref(rsp);<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 /* exit preconfig state */<br>
-<br>
-</blockquote></div></div></div>
-
---00000000000001b78605b5e068aa--
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIwMjA4MTg1NC40MTI2
+MDcxLTEtcGJvbnppbmlAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMjAyMDgxODU0LjQx
+MjYwNzEtMS1wYm9uemluaUByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSCAwMC8xNV0gRmluaXNo
+IGNsZWFuaW5nIHVwIHFlbXVfaW5pdAoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4v
+YmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcg
+LS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1l
+cyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3Jp
+cHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9
+PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJv
+bSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAg
+ICAgICAgcGF0Y2hldy8yMDIwMTIwMjA4MTg1NC40MTI2MDcxLTEtcGJvbnppbmlAcmVkaGF0LmNv
+bSAtPiBwYXRjaGV3LzIwMjAxMjAyMDgxODU0LjQxMjYwNzEtMS1wYm9uemluaUByZWRoYXQuY29t
+CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMDEyMDcwODQwNDIuNzY5MC0xLWNmb250
+YW5hQHN1c2UuZGUgLT4gcGF0Y2hldy8yMDIwMTIwNzA4NDA0Mi43NjkwLTEtY2ZvbnRhbmFAc3Vz
+ZS5kZQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjQ1MDgxMWYgbW9uaXRvcjogYWxs
+b3cgcXVpdHRpbmcgd2hpbGUgaW4gcHJlY29uZmlnIHN0YXRlCmRjZTNmZDUgbnVsbC1tYWNoaW5l
+OiBkbyBub3QgY3JlYXRlIGEgZGVmYXVsdCBtZW1kZXYKZTUyNDgyYSBtZW1vcnk6IGFsbG93IGNy
+ZWF0aW5nIE1lbW9yeVJlZ2lvbnMgYmVmb3JlIGFjY2VsZXJhdG9ycwplOTUxNTYyIHBsdWdpbjog
+cHJvcGFnYXRlIGVycm9ycwpjMjk4ODliIHF0ZXN0OiBhZGQgYSBRT00gb2JqZWN0IGZvciBxdGVz
+dApmNzUyNmJmIHZsOiBtYWtlIHFlbXVfZ2V0X21hY2hpbmVfb3B0cyBzdGF0aWMKNWYxZjZkMSBt
+YWNoaW5lOiByZWNvcmQgd2hldGhlciBudmRpbW09IHdhcyBzZXQKOGU2NTA0OSBtYWNoaW5lOiBp
+bnRyb2R1Y2UgTWFjaGluZUluaXRQaGFzZQo3YzRjYjFjIGNoYXJkZXY6IGRvIG5vdCB1c2UgbWFj
+aGluZV9pbml0X2RvbmUKMGYxNTk3ZiB2bDogbW92ZSBhbGwgZ2VuZXJpYyBpbml0aWFsaXphdGlv
+biBvdXQgb2YgdmwuYwpjNTVmNjllIHZsOiBleHRyYWN0IHNvZnRtbXUvZ2xvYmFscy5jCjZkZjBl
+ZWIgdmw6IGV4dHJhY3Qgc29mdG1tdS9ydW5zdGF0ZS5jCjFjNmJlYmIgdmw6IGFsbG93IC1pbmNv
+bWluZyBkZWZlciB3aXRoIC1wcmVjb25maWcKODkzNjYwZCB2bDogcmVtb3ZlIHNlcGFyYXRlIHBy
+ZWNvbmZpZyBtYWluX2xvb3AKYTAyOGQ1OCByZW1vdmUgcHJlY29uZmlnIHN0YXRlCgo9PT0gT1VU
+UFVUIEJFR0lOID09PQoxLzE1IENoZWNraW5nIGNvbW1pdCBhMDI4ZDU4YThlODMgKHJlbW92ZSBw
+cmVjb25maWcgc3RhdGUpCkVSUk9SOiBzdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25h
+bCBzdGF0ZW1lbnRzICg0LCA5KQojMjc6IEZJTEU6IGh3L2NvcmUvbWFjaGluZS1xbXAtY21kcy5j
+OjI4OToKKyAgICBpZiAocWRldl9ob3RwbHVnKSB7CisgICAgICAgICBlcnJvcl9zZXRnKGVycnAs
+ICJUaGUgY29tbWFuZCBpcyBwZXJtaXR0ZWQgb25seSBiZWZvcmUgdGhlIG1hY2hpbmUgaGFzIGJl
+ZW4gY3JlYXRlZCIpOwoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMyODogRklMRTog
+aHcvY29yZS9tYWNoaW5lLXFtcC1jbWRzLmM6MjkwOgorICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJw
+LCAiVGhlIGNvbW1hbmQgaXMgcGVybWl0dGVkIG9ubHkgYmVmb3JlIHRoZSBtYWNoaW5lIGhhcyBi
+ZWVuIGNyZWF0ZWQiKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM4ODogRklM
+RTogbW9uaXRvci9xbXAtY21kcy5jOjEwODoKKyAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiVGhl
+IGNvbW1hbmQgaXMgcGVybWl0dGVkIG9ubHkgYmVmb3JlIG1hY2hpbmUgaW5pdGlhbGl6YXRpb24i
+KTsKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTUwOiBGSUxFOiBzb2Z0bW11L3Fk
+ZXYtbW9uaXRvci5jOjEwMDY6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIlRoZSBjb21tYW5k
+ICclcycgaXMgcGVybWl0dGVkIG9ubHkgYWZ0ZXIgbWFjaGluZSBpbml0aWFsaXphdGlvbiBoYXMg
+Y29tcGxldGVkIiwKCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRv
+ZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzIwNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0
+Cgp0b3RhbDogMyBlcnJvcnMsIDIgd2FybmluZ3MsIDE1NSBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
+LzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
+cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
+c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzE1IENoZWNraW5nIGNvbW1pdCA4OTM2
+NjBkZWZlMTEgKHZsOiByZW1vdmUgc2VwYXJhdGUgcHJlY29uZmlnIG1haW5fbG9vcCkKV0FSTklO
+RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzkzOiBGSUxFOiBzb2Z0bW11L3ZsLmM6MzI3OToK
+KyAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiVGhlIGNvbW1hbmQgaXMgcGVybWl0dGVkIG9ubHkg
+YmVmb3JlIG1hY2hpbmUgaW5pdGlhbGl6YXRpb24iKTsKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJu
+aW5ncywgMTYxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMTUgaGFzIHN0eWxlIHByb2JsZW1zLCBw
+bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
+IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
+TkVSUy4KMy8xNSBDaGVja2luZyBjb21taXQgMWM2YmViYmQwMGUxICh2bDogYWxsb3cgLWluY29t
+aW5nIGRlZmVyIHdpdGggLXByZWNvbmZpZykKNC8xNSBDaGVja2luZyBjb21taXQgNmRmMGVlYjNj
+ODA0ICh2bDogZXh0cmFjdCBzb2Z0bW11L3J1bnN0YXRlLmMpCldBUk5JTkc6IGFkZGVkLCBtb3Zl
+ZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzQ2
+OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxl
+YWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM0MjI6IEZJTEU6IHNvZnRtbXUvcnVuc3RhdGUu
+YzozNzI6CisgICAgICAgICAgICAvKiBUaGlzIGhhcHBlbnMgZm9yIGVnIF5DIGF0IHRoZSB0ZXJt
+aW5hbCwgc28gaXQncyB3b3J0aAoKRVJST1I6IERvbid0IHVzZSAnIycgZmxhZyBvZiBwcmludGYg
+Zm9ybWF0ICgnJSMnKSBpbiBmb3JtYXQgc3RyaW5ncywgdXNlICcweCcgcHJlZml4IGluc3RlYWQK
+IzUzMjogRklMRTogc29mdG1tdS9ydW5zdGF0ZS5jOjQ4MjoKKyAgICAgICAgICAgIHFlbXVfbG9n
+X21hc2soTE9HX0dVRVNUX0VSUk9SLCAiXG5IViBjcmFzaCBwYXJhbWV0ZXJzOiAoJSMiUFJJeDY0
+CgpFUlJPUjogRG9uJ3QgdXNlICcjJyBmbGFnIG9mIHByaW50ZiBmb3JtYXQgKCclIycpIGluIGZv
+cm1hdCBzdHJpbmdzLCB1c2UgJzB4JyBwcmVmaXggaW5zdGVhZAojNTMzOiBGSUxFOiBzb2Z0bW11
+L3J1bnN0YXRlLmM6NDgzOgorICAgICAgICAgICAgICAgICAgICAgICAgICAiICUjIlBSSXg2NCIg
+JSMiUFJJeDY0IiAlIyJQUkl4NjQiICUjIlBSSXg2NCIpXG4iLAoKRVJST1I6IERvbid0IHVzZSAn
+IycgZmxhZyBvZiBwcmludGYgZm9ybWF0ICgnJSMnKSBpbiBmb3JtYXQgc3RyaW5ncywgdXNlICcw
+eCcgcHJlZml4IGluc3RlYWQKIzUzMzogRklMRTogc29mdG1tdS9ydW5zdGF0ZS5jOjQ4MzoKKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIiAlIyJQUkl4NjQiICUjIlBSSXg2NCIgJSMiUFJJeDY0
+IiAlIyJQUkl4NjQiKVxuIiwKCkVSUk9SOiBEb24ndCB1c2UgJyMnIGZsYWcgb2YgcHJpbnRmIGZv
+cm1hdCAoJyUjJykgaW4gZm9ybWF0IHN0cmluZ3MsIHVzZSAnMHgnIHByZWZpeCBpbnN0ZWFkCiM1
+MzM6IEZJTEU6IHNvZnRtbXUvcnVuc3RhdGUuYzo0ODM6CisgICAgICAgICAgICAgICAgICAgICAg
+ICAgICIgJSMiUFJJeDY0IiAlIyJQUkl4NjQiICUjIlBSSXg2NCIgJSMiUFJJeDY0IilcbiIsCgpF
+UlJPUjogRG9uJ3QgdXNlICcjJyBmbGFnIG9mIHByaW50ZiBmb3JtYXQgKCclIycpIGluIGZvcm1h
+dCBzdHJpbmdzLCB1c2UgJzB4JyBwcmVmaXggaW5zdGVhZAojNTMzOiBGSUxFOiBzb2Z0bW11L3J1
+bnN0YXRlLmM6NDgzOgorICAgICAgICAgICAgICAgICAgICAgICAgICAiICUjIlBSSXg2NCIgJSMi
+UFJJeDY0IiAlIyJQUkl4NjQiICUjIlBSSXg2NCIpXG4iLAoKV0FSTklORzogQmxvY2sgY29tbWVu
+dHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzY0NjogRklMRTogc29mdG1t
+dS9ydW5zdGF0ZS5jOjU5NjoKKyAgICAvKiBDYW5ub3QgY2FsbCBxZW11X3N5c3RlbV9zaHV0ZG93
+bl9yZXF1ZXN0IGRpcmVjdGx5IGJlY2F1c2UKCnRvdGFsOiA1IGVycm9ycywgMyB3YXJuaW5ncywg
+MTU4NSBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
+IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
+cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
+Cgo1LzE1IENoZWNraW5nIGNvbW1pdCBjNTVmNjllYzhiZWQgKHZsOiBleHRyYWN0IHNvZnRtbXUv
+Z2xvYmFscy5jKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2Vz
+IE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiM1MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpF
+UlJPUjogImZvbyogYmFyIiBzaG91bGQgYmUgImZvbyAqYmFyIgojOTI6IEZJTEU6IHNvZnRtbXUv
+Z2xvYmFscy5jOjM4OgorY29uc3QgY2hhcioga2V5Ym9hcmRfbGF5b3V0OwoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzEyMDogRklM
+RTogc29mdG1tdS9nbG9iYWxzLmM6NjY6CisvKiBUaGUgYnl0ZXMgaW4gcWVtdV91dWlkIGFyZSBp
+biB0aGUgb3JkZXIgc3BlY2lmaWVkIGJ5IFJGQzQxMjIsIF9ub3RfIGluIHRoZQoKdG90YWw6IDEg
+ZXJyb3JzLCAyIHdhcm5pbmdzLCAxODQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8xNSBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgoKNi8xNSBDaGVja2luZyBjb21taXQgMGYxNTk3ZmQ2ODdhICh2
+bDogbW92ZSBhbGwgZ2VuZXJpYyBpbml0aWFsaXphdGlvbiBvdXQgb2YgdmwuYykKV0FSTklORzog
+bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzU2OiBGSUxFOiBody9jb3JlL21hY2hpbmUuYzoxMjAw
+OgorICAgICAgICBxZW11X3JlZ2lzdGVyX3Jlc2V0KHJlc3RvcmVfYm9vdF9vcmRlciwgZ19zdHJk
+dXAoY3VycmVudF9tYWNoaW5lLT5ib290X29yZGVyKSk7CgpXQVJOSU5HOiBCbG9jayBjb21tZW50
+cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNjY6IEZJTEU6IGh3L2NvcmUv
+bWFjaGluZS5jOjEyMTA6CisgICAgLyogVE9ETzogb25jZSBhbGwgYnVzIGRldmljZXMgYXJlIHFk
+ZXZpZmllZCwgdGhpcyBzaG91bGQgYmUgZG9uZQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNl
+IGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiM2NzogRklMRTogaHcvY29yZS9tYWNo
+aW5lLmM6MTIxMToKKyAgICAgKiB3aGVuIGJ1cyBpcyBjcmVhdGVkIGJ5IHFkZXYuYyAqLwoKV0FS
+TklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUK
+Izg4OiBGSUxFOiBody9jb3JlL21hY2hpbmUuYzoxMjMyOgorICAgIC8qIFRoaXMgY2hlY2twb2lu
+dCBpcyByZXF1aXJlZCBieSByZXBsYXkgdG8gc2VwYXJhdGUgcHJpb3IgY2xvY2sKCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSAqIG9uIHN1YnNlcXVlbnQgbGluZXMKIzg5OiBGSUxFOiBody9j
+b3JlL21hY2hpbmUuYzoxMjMzOgorICAgIC8qIFRoaXMgY2hlY2twb2ludCBpcyByZXF1aXJlZCBi
+eSByZXBsYXkgdG8gc2VwYXJhdGUgcHJpb3IgY2xvY2sKKyAgICAgICByZWFkaW5nIGZyb20gdGhl
+IG90aGVyIHJlYWRzLCBiZWNhdXNlIHRpbWVyIHBvbGxpbmcgZnVuY3Rpb25zIHF1ZXJ5CgpXQVJO
+SU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUK
+IzkwOiBGSUxFOiBody9jb3JlL21hY2hpbmUuYzoxMjM0OgorICAgICAgIGNsb2NrIHZhbHVlcyBm
+cm9tIHRoZSBsb2cuICovCgp0b3RhbDogMCBlcnJvcnMsIDYgd2FybmluZ3MsIDE2NCBsaW5lcyBj
+aGVja2VkCgpQYXRjaCA2LzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjcvMTUgQ2hlY2tp
+bmcgY29tbWl0IDdjNGNiMWNhMWFkYSAoY2hhcmRldjogZG8gbm90IHVzZSBtYWNoaW5lX2luaXRf
+ZG9uZSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlO
+VEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMTA5OiAKZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0Cgp0
+b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDE0MiBsaW5lcyBjaGVja2VkCgpQYXRjaCA3LzE1
+IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJv
+cnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2Vl
+CkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjgvMTUgQ2hlY2tpbmcgY29tbWl0IDhlNjUwNDlh
+MmVhYyAobWFjaGluZTogaW50cm9kdWNlIE1hY2hpbmVJbml0UGhhc2UpCkVSUk9SOiBsaW5lIG92
+ZXIgOTAgY2hhcmFjdGVycwojMjc6IEZJTEU6IGh3L2NvcmUvbWFjaGluZS1xbXAtY21kcy5jOjI5
+MDoKKyAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiVGhlIGNvbW1hbmQgaXMgcGVybWl0dGVkIG9u
+bHkgYmVmb3JlIHRoZSBtYWNoaW5lIGhhcyBiZWVuIGNyZWF0ZWQiKTsKCldBUk5JTkc6IGxpbmUg
+b3ZlciA4MCBjaGFyYWN0ZXJzCiMyMzI6IEZJTEU6IHNvZnRtbXUvcWRldi1tb25pdG9yLmM6NjQw
+OgorICAgIGlmICgoaGlkZSB8fCBwaGFzZV9jaGVjayhQSEFTRV9NQUNISU5FX1JFQURZKSkgJiYg
+YnVzICYmICFxYnVzX2lzX2hvdHBsdWdnYWJsZShidXMpKSB7CgpXQVJOSU5HOiBsaW5lIG92ZXIg
+ODAgY2hhcmFjdGVycwojMjU0OiBGSUxFOiBzb2Z0bW11L3FkZXYtbW9uaXRvci5jOjY2NDoKKyAg
+ICAgICAgICAgIC8qIE5vIGJ1cywgbm8gbWFjaGluZSBob3RwbHVnIGhhbmRsZXIgLS0+IGRldmlj
+ZSBpcyBub3QgaG90cGx1Z2dhYmxlICovCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
+cwojMjU1OiBGSUxFOiBzb2Z0bW11L3FkZXYtbW9uaXRvci5jOjY2NToKKyAgICAgICAgICAgIGVy
+cm9yX3NldGcoZXJycCwgIkRldmljZSAnJXMnIGNhbiBub3QgYmUgaG90cGx1Z2dlZCBvbiB0aGlz
+IG1hY2hpbmUiLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMyNzogRklMRTog
+dWkvY29uc29sZS5jOjEzNDg6CisgICAgfSBlbHNlIGlmIChjb25zb2xlX3R5cGUgIT0gR1JBUEhJ
+Q19DT05TT0xFIHx8IHBoYXNlX2NoZWNrKFBIQVNFX01BQ0hJTkVfUkVBRFkpKSB7Cgp0b3RhbDog
+MSBlcnJvcnMsIDQgd2FybmluZ3MsIDI1MCBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzE1IGhhcyBz
+dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
+IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
+UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo5LzE1IENoZWNraW5nIGNvbW1pdCA1ZjFmNmQxZGY2ZTYg
+KG1hY2hpbmU6IHJlY29yZCB3aGV0aGVyIG52ZGltbT0gd2FzIHNldCkKMTAvMTUgQ2hlY2tpbmcg
+Y29tbWl0IGY3NTI2YmY1NGQ3OCAodmw6IG1ha2UgcWVtdV9nZXRfbWFjaGluZV9vcHRzIHN0YXRp
+YykKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMzOiBGSUxFOiBhY2NlbC9rdm0v
+a3ZtLWFsbC5jOjIwNzI6CisgICAgICAgIGdfYXV0b2ZyZWUgY2hhciAqa3ZtX3R5cGUgPSBvYmpl
+Y3RfcHJvcGVydHlfZ2V0X3N0cihPQkpFQ1QoY3VycmVudF9tYWNoaW5lKSwKCnRvdGFsOiAwIGVy
+cm9ycywgMSB3YXJuaW5ncywgMTk1IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEwLzE1IGhhcyBzdHls
+ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
+bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
+Q0ggaW4gTUFJTlRBSU5FUlMuCjExLzE1IENoZWNraW5nIGNvbW1pdCBjMjk4ODliMGY4MTUgKHF0
+ZXN0OiBhZGQgYSBRT00gb2JqZWN0IGZvciBxdGVzdCkKV0FSTklORzogbGluZSBvdmVyIDgwIGNo
+YXJhY3RlcnMKIzMzOiBGSUxFOiBzb2Z0bW11L3F0ZXN0LmM6ODU1Ogorc3RhdGljIGJvb2wgcXRl
+c3Rfc2VydmVyX3N0YXJ0KENoYXJkZXYgKmNociwgY29uc3QgY2hhciAqcXRlc3RfbG9nLCBFcnJv
+ciAqKmVycnApCgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDE5MCBsaW5lcyBjaGVja2Vk
+CgpQYXRjaCAxMS8xNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
+b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
+aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxMi8xNSBDaGVja2luZyBj
+b21taXQgZTk1MTU2MjBjMWJiIChwbHVnaW46IHByb3BhZ2F0ZSBlcnJvcnMpCkVSUk9SOiBsaW5l
+IG92ZXIgOTAgY2hhcmFjdGVycwojNjQ6IEZJTEU6IHBsdWdpbnMvbG9hZGVyLmM6MTUzOgorc3Rh
+dGljIGludCBwbHVnaW5fbG9hZChzdHJ1Y3QgcWVtdV9wbHVnaW5fZGVzYyAqZGVzYywgY29uc3Qg
+cWVtdV9pbmZvX3QgKmluZm8sIEVycm9yICoqZXJycCkKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
+aGFyYWN0ZXJzCiM3MzogRklMRTogcGx1Z2lucy9sb2FkZXIuYzoxNjY6CisgICAgICAgIGVycm9y
+X3NldGcoZXJycCwgIkNvdWxkIG5vdCBsb2FkIHBsdWdpbiAlczogJXMiLCBkZXNjLT5wYXRoLCBn
+X21vZHVsZV9lcnJvcigpKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM3OTog
+RklMRTogcGx1Z2lucy9sb2FkZXIuYzoxNzE6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNv
+dWxkIG5vdCBsb2FkIHBsdWdpbiAlczogJXMiLCBkZXNjLT5wYXRoLCBnX21vZHVsZV9lcnJvcigp
+KTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM4NzogRklMRTogcGx1Z2lucy9s
+b2FkZXIuYzoxNzc6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNvdWxkIG5vdCBsb2FkIHBs
+dWdpbiAlczogcWVtdV9wbHVnaW5faW5zdGFsbCBpcyBOVUxMIiwKCkVSUk9SOiBsaW5lIG92ZXIg
+OTAgY2hhcmFjdGVycwojOTU6IEZJTEU6IHBsdWdpbnMvbG9hZGVyLmM6MTgzOgorICAgICAgICBl
+cnJvcl9zZXRnKGVycnAsICJDb3VsZCBub3QgbG9hZCBwbHVnaW4gJXM6IHBsdWdpbiBkb2VzIG5v
+dCBkZWNsYXJlIEFQSSB2ZXJzaW9uICVzIiwKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVy
+cwojMTA0OiBGSUxFOiBwbHVnaW5zL2xvYWRlci5jOjE4OToKKyAgICAgICAgICAgIGVycm9yX3Nl
+dGcoZXJycCwgIkNvdWxkIG5vdCBsb2FkIHBsdWdpbiAlczogcGx1Z2luIHJlcXVpcmVzIEFQSSB2
+ZXJzaW9uICVkLCBidXQgIgoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMxMTI6IEZJ
+TEU6IHBsdWdpbnMvbG9hZGVyLmM6MTk0OgorICAgICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAi
+Q291bGQgbm90IGxvYWQgcGx1Z2luICVzOiBwbHVnaW4gcmVxdWlyZXMgQVBJIHZlcnNpb24gJWQs
+IGJ1dCAiCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzEyNDogRklMRTogcGx1Z2lu
+cy9sb2FkZXIuYzoyMjM6CisgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkNvdWxkIG5vdCBsb2Fk
+IHBsdWdpbiAlczogcWVtdV9wbHVnaW5faW5zdGFsbCByZXR1cm5lZCBlcnJvciBjb2RlICVkIiwK
+CnRvdGFsOiA1IGVycm9ycywgMyB3YXJuaW5ncywgMTE5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDEy
+LzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
+cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
+c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxMy8xNSBDaGVja2luZyBjb21taXQgZTUy
+NDgyYTJkMmFkIChtZW1vcnk6IGFsbG93IGNyZWF0aW5nIE1lbW9yeVJlZ2lvbnMgYmVmb3JlIGFj
+Y2VsZXJhdG9ycykKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBh
+IHNlcGFyYXRlIGxpbmUKIzkzOiBGSUxFOiBzb2Z0bW11L3ZsLmM6MTcxODoKKyAgICAvKiBBbGxv
+Y2F0aW9uIG9mIGxhcmdlIGFtb3VudHMgb2YgbWVtb3J5IG1heSBkZWxheQoKdG90YWw6IDAgZXJy
+b3JzLCAxIHdhcm5pbmdzLCA2NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMy8xNSBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgoxNC8xNSBDaGVja2luZyBjb21taXQgZGNlM2ZkNTg5NWEzIChudWxs
+LW1hY2hpbmU6IGRvIG5vdCBjcmVhdGUgYSBkZWZhdWx0IG1lbWRldikKMTUvMTUgQ2hlY2tpbmcg
+Y29tbWl0IDQ1MDgxMWY4OTY2OCAobW9uaXRvcjogYWxsb3cgcXVpdHRpbmcgd2hpbGUgaW4gcHJl
+Y29uZmlnIHN0YXRlKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0
+aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
+cmcvbG9ncy8yMDIwMTIwMjA4MTg1NC40MTI2MDcxLTEtcGJvbnppbmlAcmVkaGF0LmNvbS90ZXN0
+aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0
+aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91
+ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
