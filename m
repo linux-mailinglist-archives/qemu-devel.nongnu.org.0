@@ -2,49 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B162D0B9D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 09:18:32 +0100 (CET)
-Received: from localhost ([::1]:34082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C942D0B79
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 09:07:00 +0100 (CET)
+Received: from localhost ([::1]:53748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmBj5-0000g3-Vy
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 03:18:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
+	id 1kmBXv-0005EB-4k
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 03:06:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmBRD-0002cN-A5
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 03:00:04 -0500
-Received: from mx2.suse.de ([195.135.220.15]:33798)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1kmBWd-0004aZ-Gk; Mon, 07 Dec 2020 03:05:39 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmBRA-0005Ia-PJ
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 03:00:02 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CE2ECAC90;
- Mon,  7 Dec 2020 07:59:58 +0000 (UTC)
-Subject: Re: [RFC PATCH 18/19] target/mips: Restrict some TCG specific
- CPUClass handlers
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201206233949.3783184-1-f4bug@amsat.org>
- <20201206233949.3783184-19-f4bug@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <88161f99-aae5-3b80-e8c6-a57d122a28c4@suse.de>
-Date: Mon, 7 Dec 2020 08:59:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1kmBWY-00072U-KF; Mon, 07 Dec 2020 03:05:39 -0500
+Received: from dggemi405-hub.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4CqG6z3y49zVm08;
+ Mon,  7 Dec 2020 16:04:27 +0800 (CST)
+Received: from DGGEMI525-MBS.china.huawei.com ([169.254.6.228]) by
+ dggemi405-hub.china.huawei.com ([10.3.17.143]) with mapi id 14.03.0487.000;
+ Mon, 7 Dec 2020 16:05:13 +0800
+From: ganqixin <ganqixin@huawei.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org"
+ <qemu-trivial@nongnu.org>
+Subject: RE: [PATCH 09/13] u2f-passthru: put it into the 'usb' category
+Thread-Topic: [PATCH 09/13] u2f-passthru: put it into the 'usb' category
+Thread-Index: AQHWu/oMyb2Urt3Gu0q8d02Pkq8oI6nKRNcAgAIPoiCAGjZOgIAE10ZQ
+Date: Mon, 7 Dec 2020 08:05:12 +0000
+Message-ID: <A5B86EC83C48EF4CB2BC58BEF3A2F496065E4158@DGGEMI525-MBS.china.huawei.com>
+References: <20201115184903.1292715-1-ganqixin@huawei.com>
+ <20201115184903.1292715-10-ganqixin@huawei.com>
+ <49d4e8e3-7138-18cf-3972-c18e8275d3be@redhat.com>
+ <A5B86EC83C48EF4CB2BC58BEF3A2F496065C27CD@DGGEMI525-MBS.china.huawei.com>
+ <babff5a6-4c78-7d44-4d97-d095e627639d@redhat.com>
+In-Reply-To: <babff5a6-4c78-7d44-4d97-d095e627639d@redhat.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.159]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20201206233949.3783184-19-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=ganqixin@huawei.com;
+ helo=szxga01-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,69 +67,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
+ "thuth@redhat.com" <thuth@redhat.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/20 12:39 AM, Philippe Mathieu-Daudé wrote:
-> Restrict the following CPUClass handlers to TCG:
-> - do_interrupt
-
-In this patch it seems do_interrupt is changed to be CONFIG_USER_ONLY, it is not restricted to TCG.
-Was this desired, should be commented as such?
-
-Also, should the whole function then be #ifdefed out in helpers.c?
-I guess I am vouching for moving the ifndef CONFIG_USER_ONLY one line up in helpers.c.
-
-But you wanted this CONFIG_TCG-only?
-
-
-> - do_transaction_failed
-> - do_unaligned_access
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Cc: Claudio Fontana <cfontana@suse.de>
-> 
->  target/mips/cpu.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-> index 8a4486e3ea1..03bd35b7903 100644
-> --- a/target/mips/cpu.c
-> +++ b/target/mips/cpu.c
-> @@ -483,7 +483,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
->  
->      cc->class_by_name = mips_cpu_class_by_name;
->      cc->has_work = mips_cpu_has_work;
-> -    cc->do_interrupt = mips_cpu_do_interrupt;
->      cc->cpu_exec_interrupt = mips_cpu_exec_interrupt;
->      cc->dump_state = mips_cpu_dump_state;
->      cc->set_pc = mips_cpu_set_pc;
-> @@ -491,8 +490,7 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
->      cc->gdb_read_register = mips_cpu_gdb_read_register;
->      cc->gdb_write_register = mips_cpu_gdb_write_register;
->  #ifndef CONFIG_USER_ONLY
-> -    cc->do_transaction_failed = mips_cpu_do_transaction_failed;
-> -    cc->do_unaligned_access = mips_cpu_do_unaligned_access;
-> +    cc->do_interrupt = mips_cpu_do_interrupt;
->      cc->get_phys_page_debug = mips_cpu_get_phys_page_debug;
->      cc->vmsd = &vmstate_mips_cpu;
->  #endif
-> @@ -500,6 +498,10 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
->  #ifdef CONFIG_TCG
->      cc->tcg_initialize = mips_tcg_init;
->      cc->tlb_fill = mips_cpu_tlb_fill;
-> +#if !defined(CONFIG_USER_ONLY)
-> +    cc->do_unaligned_access = mips_cpu_do_unaligned_access;
-> +    cc->do_transaction_failed = mips_cpu_do_transaction_failed;
-> +#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
->  #endif
->  
->      cc->gdb_num_core_regs = 73;
-> 
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQaGlsaXBwZSBNYXRoaWV1LURh
+dWTDqSBbbWFpbHRvOnBoaWxtZEByZWRoYXQuY29tXQ0KPiBTZW50OiBGcmlkYXksIERlY2VtYmVy
+IDQsIDIwMjAgOTo1MCBQTQ0KPiBUbzogZ2FucWl4aW4gPGdhbnFpeGluQGh1YXdlaS5jb20+OyBx
+ZW11LWRldmVsQG5vbmdudS5vcmc7DQo+IHFlbXUtdHJpdmlhbEBub25nbnUub3JnDQo+IENjOiBD
+aGVucXVuIChrdWhuKSA8a3Vobi5jaGVucXVuQGh1YXdlaS5jb20+OyBaaGFuZ2hhaWxpYW5nDQo+
+IDx6aGFuZy56aGFuZ2hhaWxpYW5nQGh1YXdlaS5jb20+OyBHZXJkIEhvZmZtYW5uDQo+IDxrcmF4
+ZWxAcmVkaGF0LmNvbT47IHRodXRoQHJlZGhhdC5jb20NCj4gU3ViamVjdDogUmU6IFtQQVRDSCAw
+OS8xM10gdTJmLXBhc3N0aHJ1OiBwdXQgaXQgaW50byB0aGUgJ3VzYicgY2F0ZWdvcnkNCj4gDQo+
+IE9uIDExLzE3LzIwIDI6MzcgUE0sIGdhbnFpeGluIHdyb3RlOg0KPiA+PiAtLS0tLU9yaWdpbmFs
+IE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSBbbWFpbHRv
+OnBoaWxtZEByZWRoYXQuY29tXQ0KPiA+PiBTZW50OiBNb25kYXksIE5vdmVtYmVyIDE2LCAyMDIw
+IDEwOjA1IFBNDQo+ID4+IFRvOiBnYW5xaXhpbiA8Z2FucWl4aW5AaHVhd2VpLmNvbT47IHFlbXUt
+ZGV2ZWxAbm9uZ251Lm9yZzsNCj4gPj4gcWVtdS10cml2aWFsQG5vbmdudS5vcmc7IE1hcmMtQW5k
+csOpIEx1cmVhdQ0KPiA+PiA8bWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tPjsgdGh1dGhAcmVk
+aGF0LmNvbQ0KPiA+PiBDYzogQ2hlbnF1biAoa3VobikgPGt1aG4uY2hlbnF1bkBodWF3ZWkuY29t
+PjsgWmhhbmdoYWlsaWFuZw0KPiA+PiA8emhhbmcuemhhbmdoYWlsaWFuZ0BodWF3ZWkuY29tPjsg
+R2VyZCBIb2ZmbWFubg0KPiA8a3JheGVsQHJlZGhhdC5jb20+Ow0KPiA+PiBFZHVhcmRvIEhhYmtv
+c3QgPGVoYWJrb3N0QHJlZGhhdC5jb20+DQo+ID4+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggMDkvMTNd
+IHUyZi1wYXNzdGhydTogcHV0IGl0IGludG8gdGhlICd1c2InDQo+ID4+IGNhdGVnb3J5DQo+ID4+
+DQo+ID4+IE9uIDExLzE1LzIwIDc6NDggUE0sIEdhbiBRaXhpbiB3cm90ZToNCj4gPj4+IFRoZSBj
+YXRlZ29yeSBvZiB0aGUgdTJmLXBhc3N0aHJ1IGRldmljZSBpcyBub3Qgc2V0LCBwdXQgaXQgaW50
+byB0aGUgJ3VzYicNCj4gPj4+IGNhdGVnb3J5Lg0KPiA+Pg0KPiA+PiBJIGd1ZXNzIHdlIGRpc2N1
+c3NlZCB0aGlzIHdpdGggVGhvbWFzIDEgb3IgMiB5ZWFycyBhZ28gYnV0IEkgZG9uJ3QNCj4gcmVt
+ZW1iZXIuDQo+ID4+IEkgdGhpbmsgaXQgd2FzIGFib3V0IHVzaW5nIHNldF9iaXRzKCkgc28gZGV2
+aWNlcyBjYW4gYXBwZWFyIGluDQo+ID4+IG11bHRpcGxlIGNhdGVnb3JpZXMuDQo+ID4+DQo+ID4+
+IEdlcmQsIGRvIHlvdSBrbm93IHdoYXQgaXMgdGhlIHBvaW50IG9mIHRoZSAidXNiIiBjYXRlZ29y
+eSBmb3INCj4gPj4gbWFuYWdlbWVudCBhcHBzPyBUaGlzIGlzIGEgYnVzIGFjY2VwdGluZyBtdWx0
+aXBsZSBiZXR0ZXIgY2F0ZWdvcml6ZWQNCj4gPj4gZGV2aWNlcyAoZGlzcGxheSwgc3RvcmFnZSwg
+aW5wdXQsIG5ldHdvcmssIHNvdW5kKS4NCj4gPj4NCj4gPj4gVW5yZWxhdGVkIGJ1dCBtdWx0aXBs
+ZSBkZXZpY2VzIGFyZSByZWxhdGVkIHRvIFNFQ1VSSVRZLg0KPiA+PiBNYXliZSBpdCBpcyB0aW1l
+IHRvIGludHJvZHVjZSB0aGUgREVWSUNFX0NBVEVHT1JZX1NFQ1VSSVRZPw0KPiA+DQo+ID4gSGks
+IFBoaWxpcHBlDQo+ID4gVGhhbmtzIGZvciB5b3VyIHJlcGx5LCBidXQgSSdtIG5vdCBzdXJlIGlm
+IGl0IGlzIGFwcHJvcHJpYXRlIHRvIGFkZCBhDQo+IHNlY3VyaXR5IGNhdGVnb3J5IHRvIHBsYWNl
+IHRoaXMgZGV2aWNlLg0KPiA+IChNYXliZSBpdCdzIGJlY2F1c2UgSSBkb24ndCBrbm93IG11Y2gg
+YWJvdXQgdGhlc2UgZGV2aWNlLCBJIGhhdmVuJ3QNCj4gPiBmaW5kIG1hbnkgc2FmZXR5LXJlbGF0
+ZWQgZGV2aWNlcyBpbiAnbWlzYycgY2F0ZWdvcnkgb3IgdW5jYXRlZ29yaXplZA0KPiA+IGRldmlj
+ZXMpDQo+IA0KPiBXaGF0IGlzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gJ21pc2MnIGFuZCAndW5j
+YXRlZ29yaXplZCc/DQoNCkluIG15IG9waW5pb24sIGRldmljZXMgdGhhdCB3ZSBmb3Jnb3QgdG8g
+Y2xhc3NpZnkgd2lsbCBhcHBlYXIgaW4gInVuY2F0ZWdvcml6ZWQiIGxpc3QsIGFuZCBkZXZpY2Vz
+IHRoYXQgZG9uJ3QgaGF2ZSBhIHN1aXRhYmxlIGNhdGVnb3J5IHRvIGNob29zZSB3aWxsIGJlIHB1
+dCBpbnRvICJtaXNjIiBjYXRlZ29yeS4NCg0KPiANCj4gPg0KPiA+IFRoYW5rcywNCj4gPiBHYW4g
+UWl4aW4NCj4gPg0KDQo=
 
