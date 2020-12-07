@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D413F2D1EC4
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 01:04:50 +0100 (CET)
-Received: from localhost ([::1]:33780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD3AC2D1EC3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 01:04:37 +0100 (CET)
+Received: from localhost ([::1]:33330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmQUr-0002yw-Tg
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 19:04:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56208)
+	id 1kmQUe-0002ns-RP
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 19:04:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmQMh-0004dV-30
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:56:23 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:40707)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmQMf-0004Jp-AI
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:56:22 -0500
-Received: by mail-ed1-x541.google.com with SMTP id h16so4379022edt.7
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 15:56:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LofNBqvfhJD7QMio6KgUUyNv6uzg7DeNQo+Q00jFE2I=;
- b=V9ilVV6lgZi5jEhrlvG5bq2qZJXihvu5Rap8Giuho5NcoVtx5wF8SVX7R4Ey+tF1Su
- 0hoOTCMT7j1o0OMx9mW9IfkuYte9u0jH6Sl3ieuiPk3UCZYi2nO/0SDE+igNm/xf7qig
- hEnhJK5AKiXYDUUtUkcNZY5/ZCPHnxoDw+YcL4yF1ZUnGjlLKkL/sGSiMfWpyzFEhElU
- U9GKSif5LafjmunsEd34yIBvncKlWWiTRU1TGcTHicAa7LA1yfA/ld2PP9+rH4zjKmfP
- KLw4T3Nb8GyInwyRlLz4PGo5S/ArbykHuNRDyAaBb/A0QMLSrimVHtfdi3Qn/EEYn2D2
- Ko9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LofNBqvfhJD7QMio6KgUUyNv6uzg7DeNQo+Q00jFE2I=;
- b=dttyf/vhgW+AAwHBSvAf1ZsaQsVgrhkZlrWgzKjMG9pC7E5UmGGaqK15YiOPxt5GyX
- u6sDNRfFFfBlexDJNB6tiABP66FVDxTH4xorqjeO3pRl7RMo2SSp3nu7sm3MwpVNeT6m
- WXddq0w89dm3j0UFuvVbR3tqphVcMJD9xVNZ5CD+2evQM510k70d1WP//YqM5bcbL/45
- IVpU+sjqmEyu3u09IR2LxntedGlFLDEw+0B7M+haM5yHwPmphqNVYt2kSNPoXoK9/2od
- 22VZiv8hUwoPeBrV8j86aFXsJbwMGOmHr+u69GgWkMzsREu6Q8502x/i7fxRUwD7RyPi
- vLAQ==
-X-Gm-Message-State: AOAM5329+zVT8KJv6BhMvDE16Z2JJxkbP5FSaZJ7IOxgPnV0PzglUd5+
- JWsegh4y0Qs4tmN1AY6+7uv4T8oDCRo=
-X-Google-Smtp-Source: ABdhPJwo8rv3t94SKHKrlVXonC6gHX8VzFqw2MORP0+FE3StHXSMzEuPYYvfdr6q9EXqMExEOcmGJw==
-X-Received: by 2002:a05:6402:ca1:: with SMTP id
- cn1mr13404929edb.128.1607385378434; 
- Mon, 07 Dec 2020 15:56:18 -0800 (PST)
-Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id o3sm15757759edj.41.2020.12.07.15.56.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 15:56:17 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] target/mips: Extract FPU specific definitions to
- fpu_translate.h
-Date: Tue,  8 Dec 2020 00:55:39 +0100
-Message-Id: <20201207235539.4070364-8-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201207235539.4070364-1-f4bug@amsat.org>
-References: <20201207235539.4070364-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmQNf-0005tz-Ai
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:57:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29253)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmQNb-0004c7-GE
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 18:57:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607385438;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mjybVj2Jb0pCzPXECdZGk2RuC2qYpLldP1fNhKc5rtc=;
+ b=Vstt/lyfuI5k2KWto93cwm7IfRppWGTzOXO9WorU2LwUul65j7Bth3Rg+7I6WEWLVPd7Ym
+ 1Fvj+QHtnDuWYHAesDNHNCxfJC2VRqDOPTsORLdFgo4rPxQqPW0OGBmpw1nP2jTJWz86xR
+ gXuT3Ku8WMMjUrQpYAU33mTkKni7QVQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-ICvpgSkqN2-9MLlV3nGC0g-1; Mon, 07 Dec 2020 18:57:16 -0500
+X-MC-Unique: ICvpgSkqN2-9MLlV3nGC0g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 224C0803652
+ for <qemu-devel@nongnu.org>; Mon,  7 Dec 2020 23:57:15 +0000 (UTC)
+Received: from [10.10.116.117] (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B81260BE2;
+ Mon,  7 Dec 2020 23:57:13 +0000 (UTC)
+Subject: Re: [PATCH v2 06/11] qapi/introspect.py: add _gen_features helper
+To: Markus Armbruster <armbru@redhat.com>
+References: <20201026194251.11075-1-jsnow@redhat.com>
+ <20201026194251.11075-7-jsnow@redhat.com> <87k0ul1ydu.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <3b1186c1-c927-9d02-126b-c15d372ae97c@redhat.com>
+Date: Mon, 7 Dec 2020 18:57:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x541.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87k0ul1ydu.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,195 +81,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract FPU specific definitions that can be used by
-ISA / ASE / extensions to fpu_translate.h header.
+On 11/16/20 3:47 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> _make_tree might receive a dict or some other type.
+> 
+> Are you talking about @obj?
+> 
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/fpu_translate.h | 71 +++++++++++++++++++++++++++++++++++++
- target/mips/translate.c     | 70 ------------------------------------
- 2 files changed, 71 insertions(+), 70 deletions(-)
+Yes. It *usually* takes a dict. sometimes it doesn't.
 
-diff --git a/target/mips/fpu_translate.h b/target/mips/fpu_translate.h
-index 430e0b77537..f45314d2ec2 100644
---- a/target/mips/fpu_translate.h
-+++ b/target/mips/fpu_translate.h
-@@ -12,6 +12,77 @@
- #include "exec/translator.h"
- #include "translate.h"
- 
-+#define OPC_CP1 (0x11 << 26)
-+
-+/* Coprocessor 1 (rs field) */
-+#define MASK_CP1(op)                (MASK_OP_MAJOR(op) | (op & (0x1F << 21)))
-+
-+/* Values for the fmt field in FP instructions */
-+enum {
-+    /* 0 - 15 are reserved */
-+    FMT_S = 16,          /* single fp */
-+    FMT_D = 17,          /* double fp */
-+    FMT_E = 18,          /* extended fp */
-+    FMT_Q = 19,          /* quad fp */
-+    FMT_W = 20,          /* 32-bit fixed */
-+    FMT_L = 21,          /* 64-bit fixed */
-+    FMT_PS = 22,         /* paired single fp */
-+    /* 23 - 31 are reserved */
-+};
-+
-+enum {
-+    OPC_MFC1     = (0x00 << 21) | OPC_CP1,
-+    OPC_DMFC1    = (0x01 << 21) | OPC_CP1,
-+    OPC_CFC1     = (0x02 << 21) | OPC_CP1,
-+    OPC_MFHC1    = (0x03 << 21) | OPC_CP1,
-+    OPC_MTC1     = (0x04 << 21) | OPC_CP1,
-+    OPC_DMTC1    = (0x05 << 21) | OPC_CP1,
-+    OPC_CTC1     = (0x06 << 21) | OPC_CP1,
-+    OPC_MTHC1    = (0x07 << 21) | OPC_CP1,
-+    OPC_BC1      = (0x08 << 21) | OPC_CP1, /* bc */
-+    OPC_BC1ANY2  = (0x09 << 21) | OPC_CP1,
-+    OPC_BC1ANY4  = (0x0A << 21) | OPC_CP1,
-+    OPC_BZ_V     = (0x0B << 21) | OPC_CP1,
-+    OPC_BNZ_V    = (0x0F << 21) | OPC_CP1,
-+    OPC_S_FMT    = (FMT_S << 21) | OPC_CP1,
-+    OPC_D_FMT    = (FMT_D << 21) | OPC_CP1,
-+    OPC_E_FMT    = (FMT_E << 21) | OPC_CP1,
-+    OPC_Q_FMT    = (FMT_Q << 21) | OPC_CP1,
-+    OPC_W_FMT    = (FMT_W << 21) | OPC_CP1,
-+    OPC_L_FMT    = (FMT_L << 21) | OPC_CP1,
-+    OPC_PS_FMT   = (FMT_PS << 21) | OPC_CP1,
-+    OPC_BC1EQZ   = (0x09 << 21) | OPC_CP1,
-+    OPC_BC1NEZ   = (0x0D << 21) | OPC_CP1,
-+    OPC_BZ_B     = (0x18 << 21) | OPC_CP1,
-+    OPC_BZ_H     = (0x19 << 21) | OPC_CP1,
-+    OPC_BZ_W     = (0x1A << 21) | OPC_CP1,
-+    OPC_BZ_D     = (0x1B << 21) | OPC_CP1,
-+    OPC_BNZ_B    = (0x1C << 21) | OPC_CP1,
-+    OPC_BNZ_H    = (0x1D << 21) | OPC_CP1,
-+    OPC_BNZ_W    = (0x1E << 21) | OPC_CP1,
-+    OPC_BNZ_D    = (0x1F << 21) | OPC_CP1,
-+};
-+
-+#define MASK_CP1_FUNC(op)           (MASK_CP1(op) | (op & 0x3F))
-+#define MASK_BC1(op)                (MASK_CP1(op) | (op & (0x3 << 16)))
-+
-+enum {
-+    OPC_BC1F     = (0x00 << 16) | OPC_BC1,
-+    OPC_BC1T     = (0x01 << 16) | OPC_BC1,
-+    OPC_BC1FL    = (0x02 << 16) | OPC_BC1,
-+    OPC_BC1TL    = (0x03 << 16) | OPC_BC1,
-+};
-+
-+enum {
-+    OPC_BC1FANY2     = (0x00 << 16) | OPC_BC1ANY2,
-+    OPC_BC1TANY2     = (0x01 << 16) | OPC_BC1ANY2,
-+};
-+
-+enum {
-+    OPC_BC1FANY4     = (0x00 << 16) | OPC_BC1ANY4,
-+    OPC_BC1TANY4     = (0x01 << 16) | OPC_BC1ANY4,
-+};
-+
- extern TCGv_i32 fpu_fcr0, fpu_fcr31;
- extern TCGv_i64 fpu_f64[32];
- 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index bc54eb58c70..80c9c17819f 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -49,7 +49,6 @@ enum {
-     OPC_SPECIAL  = (0x00 << 26),
-     OPC_REGIMM   = (0x01 << 26),
-     OPC_CP0      = (0x10 << 26),
--    OPC_CP1      = (0x11 << 26),
-     OPC_CP2      = (0x12 << 26),
-     OPC_CP3      = (0x13 << 26),
-     OPC_SPECIAL2 = (0x1C << 26),
-@@ -1002,75 +1001,6 @@ enum {
-     OPC_WAIT     = 0x20 | OPC_C0,
- };
- 
--/* Coprocessor 1 (rs field) */
--#define MASK_CP1(op)                (MASK_OP_MAJOR(op) | (op & (0x1F << 21)))
--
--/* Values for the fmt field in FP instructions */
--enum {
--    /* 0 - 15 are reserved */
--    FMT_S = 16,          /* single fp */
--    FMT_D = 17,          /* double fp */
--    FMT_E = 18,          /* extended fp */
--    FMT_Q = 19,          /* quad fp */
--    FMT_W = 20,          /* 32-bit fixed */
--    FMT_L = 21,          /* 64-bit fixed */
--    FMT_PS = 22,         /* paired single fp */
--    /* 23 - 31 are reserved */
--};
--
--enum {
--    OPC_MFC1     = (0x00 << 21) | OPC_CP1,
--    OPC_DMFC1    = (0x01 << 21) | OPC_CP1,
--    OPC_CFC1     = (0x02 << 21) | OPC_CP1,
--    OPC_MFHC1    = (0x03 << 21) | OPC_CP1,
--    OPC_MTC1     = (0x04 << 21) | OPC_CP1,
--    OPC_DMTC1    = (0x05 << 21) | OPC_CP1,
--    OPC_CTC1     = (0x06 << 21) | OPC_CP1,
--    OPC_MTHC1    = (0x07 << 21) | OPC_CP1,
--    OPC_BC1      = (0x08 << 21) | OPC_CP1, /* bc */
--    OPC_BC1ANY2  = (0x09 << 21) | OPC_CP1,
--    OPC_BC1ANY4  = (0x0A << 21) | OPC_CP1,
--    OPC_BZ_V     = (0x0B << 21) | OPC_CP1,
--    OPC_BNZ_V    = (0x0F << 21) | OPC_CP1,
--    OPC_S_FMT    = (FMT_S << 21) | OPC_CP1,
--    OPC_D_FMT    = (FMT_D << 21) | OPC_CP1,
--    OPC_E_FMT    = (FMT_E << 21) | OPC_CP1,
--    OPC_Q_FMT    = (FMT_Q << 21) | OPC_CP1,
--    OPC_W_FMT    = (FMT_W << 21) | OPC_CP1,
--    OPC_L_FMT    = (FMT_L << 21) | OPC_CP1,
--    OPC_PS_FMT   = (FMT_PS << 21) | OPC_CP1,
--    OPC_BC1EQZ   = (0x09 << 21) | OPC_CP1,
--    OPC_BC1NEZ   = (0x0D << 21) | OPC_CP1,
--    OPC_BZ_B     = (0x18 << 21) | OPC_CP1,
--    OPC_BZ_H     = (0x19 << 21) | OPC_CP1,
--    OPC_BZ_W     = (0x1A << 21) | OPC_CP1,
--    OPC_BZ_D     = (0x1B << 21) | OPC_CP1,
--    OPC_BNZ_B    = (0x1C << 21) | OPC_CP1,
--    OPC_BNZ_H    = (0x1D << 21) | OPC_CP1,
--    OPC_BNZ_W    = (0x1E << 21) | OPC_CP1,
--    OPC_BNZ_D    = (0x1F << 21) | OPC_CP1,
--};
--
--#define MASK_CP1_FUNC(op)           (MASK_CP1(op) | (op & 0x3F))
--#define MASK_BC1(op)                (MASK_CP1(op) | (op & (0x3 << 16)))
--
--enum {
--    OPC_BC1F     = (0x00 << 16) | OPC_BC1,
--    OPC_BC1T     = (0x01 << 16) | OPC_BC1,
--    OPC_BC1FL    = (0x02 << 16) | OPC_BC1,
--    OPC_BC1TL    = (0x03 << 16) | OPC_BC1,
--};
--
--enum {
--    OPC_BC1FANY2     = (0x00 << 16) | OPC_BC1ANY2,
--    OPC_BC1TANY2     = (0x01 << 16) | OPC_BC1ANY2,
--};
--
--enum {
--    OPC_BC1FANY4     = (0x00 << 16) | OPC_BC1ANY4,
--    OPC_BC1TANY4     = (0x01 << 16) | OPC_BC1ANY4,
--};
--
- #define MASK_CP2(op)                (MASK_OP_MAJOR(op) | (op & (0x1F << 21)))
- 
- enum {
--- 
-2.26.2
+>>                                                      Adding features
+>> information should arguably be performed by the caller at such a time
+>> when we know the type of the object and don't have to re-interrogate it.
+> 
+> Fair enough.  There are just two such callers anyway.
+> 
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   scripts/qapi/introspect.py | 19 ++++++++++++-------
+>>   1 file changed, 12 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>> index 803288a64e7..16282f2634b 100644
+>> --- a/scripts/qapi/introspect.py
+>> +++ b/scripts/qapi/introspect.py
+>> @@ -76,16 +76,12 @@
+>>   
+>>   
+>>   def _make_tree(obj: Union[_DObject, str], ifcond: List[str],
+>> -               features: List[QAPISchemaFeature],
+>>                  extra: Optional[Annotations] = None
+>>                  ) -> TreeValue:
+>>       if extra is None:
+>>           extra = {}
+>>       if ifcond:
+>>           extra['if'] = ifcond
+>> -    if features:
+>> -        assert isinstance(obj, dict)
+>> -        obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
+>>       if extra:
+>>           return (obj, extra)
+>>       return obj
+>> @@ -221,6 +217,11 @@ def _use_type(self, typ: QAPISchemaType) -> str:
+>>               return '[' + self._use_type(typ.element_type) + ']'
+>>           return self._name(typ.name)
+>>   
+>> +    @classmethod
+>> +    def _gen_features(cls,
+>> +                      features: List[QAPISchemaFeature]) -> List[TreeValue]:
+>> +        return [_make_tree(f.name, f.ifcond) for f in features]
+>> +
+> 
+> Ignorant question: when to use @classmethod, and when to use
+> @staticmethod?
+> 
+
+Matter of taste. My preference is to just always use @classmethod, 
+because they can be extended or referenced by subclasses.
+
+@staticmethod does not take a class argument, @classmethod does. Static 
+methods therefore cannot address any other classmethods, but a 
+classmethod can.
+
+I just always reach for classmethod by default.
+
+>>       def _gen_tree(self, name: str, mtype: str, obj: _DObject,
+>>                     ifcond: List[str],
+>>                     features: Optional[List[QAPISchemaFeature]]) -> None:
+>> @@ -233,7 +234,9 @@ def _gen_tree(self, name: str, mtype: str, obj: _DObject,
+>>               name = self._name(name)
+>>           obj['name'] = name
+>>           obj['meta-type'] = mtype
+>> -        self._trees.append(_make_tree(obj, ifcond, features, extra))
+>> +        if features:
+>> +            obj['features'] = self._gen_features(features)
+>> +        self._trees.append(_make_tree(obj, ifcond, extra))
+>>   
+>>       def _gen_member(self,
+>>                       member: QAPISchemaObjectTypeMember) -> TreeValue:
+> 
+> No change when not features.  Else, you change
+> 
+>      obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
+> 
+> to
+> 
+>      obj['features'] = [_make_tree(f.name, f.ifcond) for f in features]
+> 
+
+Yep. I am consolidating the logic for (node, annotation) in so doing.
+
+> where
+> 
+>      _make_tree(f.name, f.ifcond)
+>      = (f.name, {'if': f.ifcond})       if f.ifcond
+>      = f.name                           else
+> 
+> Works, and feels less lazy.  However, the commit message did not prepare
+> me for this.  If you split this off into its own patch, you can describe
+> it properly.
+> 
+
+OK.
+
+>> @@ -243,7 +246,9 @@ def _gen_member(self,
+>>           }
+>>           if member.optional:
+>>               obj['default'] = None
+>> -        return _make_tree(obj, member.ifcond, member.features)
+>> +        if member.features:
+>> +            obj['features'] = self._gen_features(member.features)
+>> +        return _make_tree(obj, member.ifcond)
+>>   
+>>       def _gen_variants(self, tag_name: str,
+>>                         variants: List[QAPISchemaVariant]) -> _DObject:
+>> @@ -255,7 +260,7 @@ def _gen_variant(self, variant: QAPISchemaVariant) -> TreeValue:
+>>               'case': variant.name,
+>>               'type': self._use_type(variant.type)
+>>           }
+>> -        return _make_tree(obj, variant.ifcond, None)
+>> +        return _make_tree(obj, variant.ifcond)
+>>   
+>>       def visit_builtin_type(self, name: str, info: Optional[QAPISourceInfo],
+>>                              json_type: str) -> None:
 
 
