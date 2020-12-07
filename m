@@ -2,58 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7122F2D175A
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 18:19:38 +0100 (CET)
-Received: from localhost ([::1]:44086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD312D1758
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 18:19:14 +0100 (CET)
+Received: from localhost ([::1]:41158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmKAj-0003RH-GH
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 12:19:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44020)
+	id 1kmKAL-0002GU-NT
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 12:19:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kmK7C-0000EH-1n; Mon, 07 Dec 2020 12:15:58 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:51631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kmK79-0005qc-Ip; Mon, 07 Dec 2020 12:15:57 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.217])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 7D92778995B1;
- Mon,  7 Dec 2020 18:15:51 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 7 Dec 2020
- 18:15:50 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R0039509c62e-024a-428b-b638-0416b29ac7c9,
- 96C53C8645D225A2EF98A9818159DE0D98C51A94) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Mon, 7 Dec 2020 18:15:47 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v11] spapr: Implement Open Firmware client interface
-Message-ID: <20201207181547.54453964@bahia.lan>
-In-Reply-To: <20201207073327.33367-1-aik@ozlabs.ru>
-References: <20201207073327.33367-1-aik@ozlabs.ru>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmK7S-0000OB-3Y
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:16:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40643)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmK7P-0005tW-OQ
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 12:16:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607361369;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WZNhuRiz1HGV46gxIcxH7k8r/ZBQ0/jq73IAU+UAB48=;
+ b=ZG3970tycsTirKrKjkfB1wwVfkAvKkY0hdkqf/C7WQfpaXz1W/VwIs7Gf2D7Oe/GMbM5xD
+ GCKqx8T24mBdwZeePEkd6U8wfCTVQ9DFGLJOnpklCzbiaaoR9RDULjVPsNy9y670iiUKZm
+ bWPaZIcTotN+r4vttFyRIMYxMiCfyZA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-69-e0uEtmbhOL2KQ9vXQvHaNQ-1; Mon, 07 Dec 2020 12:16:08 -0500
+X-MC-Unique: e0uEtmbhOL2KQ9vXQvHaNQ-1
+Received: by mail-ej1-f71.google.com with SMTP id u10so4102941ejy.18
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 09:16:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WZNhuRiz1HGV46gxIcxH7k8r/ZBQ0/jq73IAU+UAB48=;
+ b=JU5ZXhxE1eRqgaii3DOyyOgxm+PdNMRjN8+/KN6eqC12/gs2aywJ6q8md/tqUd/IIc
+ j5rGpmkx9NXHNabToWsxMzlJ0bFZVa8EYVyAurOf36CY/6v3uRks0/XXRWmSvEc6k4R0
+ l9W8o1V7xYZlxegBOxU2y2jJrVc99yjjqAiHHaKT7wskAFVlJGfDTsaEjL5RQV6QIkB8
+ BdV+P3Ckhoe/6LD2QVc/gfs3a0k+dkC63Rnl/sWedMuNi6luTfa3dTqPwesRERzBNH9e
+ JeZMJ/h+fAFjnA5FFIrV/lEZ7qkWafLT6GWSDeBmmdSSRjhZL/d97M0cZZ1n+0B6SLOb
+ 9baQ==
+X-Gm-Message-State: AOAM533ZC3Hgf8AGGIZSq9vL/67YEt5cbaXrw0HpwKVSQ49Be99irtP4
+ oa/+OIGoV8M30HeElpTwj/4VuRGEfIuWZBDm3L3u5Ix9oJ2BfvcIp6X64AEjr76soBjgkY8uB0K
+ kUxCYQhzI84gScBc=
+X-Received: by 2002:a17:906:60d4:: with SMTP id
+ f20mr20348948ejk.156.1607361366843; 
+ Mon, 07 Dec 2020 09:16:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzzLiXLeixQnlIDfZinzLpT5iC9dXHHfBV/qCisEtWv5Bou0dy7TIvqp7w/lpw/u2tgMDgg9Q==
+X-Received: by 2002:a17:906:60d4:: with SMTP id
+ f20mr20348915ejk.156.1607361366518; 
+ Mon, 07 Dec 2020 09:16:06 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id j9sm7898396eds.66.2020.12.07.09.16.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Dec 2020 09:16:05 -0800 (PST)
+Subject: Re: [PATCH] block/nvme: Do not allow image creation with NVMe block
+ driver
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+References: <20201204165724.2647357-1-philmd@redhat.com>
+ <d1deeab3-251f-5081-7d45-0092b381bc5a@redhat.com>
+Message-ID: <06e30ac7-e667-0b4c-4777-78a5edfe4069@redhat.com>
+Date: Mon, 7 Dec 2020 18:16:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: a26ca933-005a-4a84-972f-40716d763501
-X-Ovh-Tracer-Id: 7153405059215366621
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudejgedgleekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgihesthejfedtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptefgffffgffgkeegffetkefhhfeuleffvdehvdfgtdfhiedutedvudelgfevveetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <d1deeab3-251f-5081-7d45-0092b381bc5a@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,88 +101,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Xueqiang Wei <xuwei@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Dec 2020 18:33:27 +1100
-Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+On 12/4/20 11:28 PM, Philippe Mathieu-Daudé wrote:
+> On 12/4/20 5:57 PM, Philippe Mathieu-Daudé wrote:
+>> The NVMe driver does not support image creation.
+>> The full drive has to be passed to the guest.
+>>
+>> Before:
+>>
+>>   $ qemu-img create -f raw nvme://0000:04:00.0/1 20G
+>>   Formatting 'nvme://0000:04:00.0/1', fmt=raw size=21474836480
+>>
+>>   $ qemu-img info nvme://0000:04:00.0/1
+>>   image: nvme://0000:04:00.0/1
+>>   file format: raw
+>>   virtual size: 349 GiB (375083606016 bytes)
+>>   disk size: unavailable
 
-> The PAPR platform which describes an OS environment that's presented by
-> a combination of a hypervisor and firmware. The features it specifies
-> require collaboration between the firmware and the hypervisor.
-> 
-> Since the beginning, the runtime component of the firmware (RTAS) has
-> been implemented as a 20 byte shim which simply forwards it to
-> a hypercall implemented in qemu. The boot time firmware component is
-> SLOF - but a build that's specific to qemu, and has always needed to be
-> updated in sync with it. Even though we've managed to limit the amount
-> of runtime communication we need between qemu and SLOF, there's some,
-> and it has become increasingly awkward to handle as we've implemented
-> new features.
-> 
-> This implements a boot time OF client interface (CI) which is
-> enabled by a new "x-vof" pseries machine option (stands for "Virtual Open
-> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
-> which implements Open Firmware Client Interface (OF CI). This allows
-> using a smaller stateless firmware which does not have to manage
-> the device tree.
-> 
-> The new "vof.bin" firmware image is included with source code under
-> pc-bios/. It also includes RTAS blob.
-> 
-> This implements a handful of CI methods just to get -kernel/-initrd
-> working. In particular, this implements the device tree fetching and
-> simple memory allocator - "claim" (an OF CI memory allocator) and updates
-> "/memory@0/available" to report the client about available memory.
-> 
-> This implements changing some device tree properties which we know how
-> to deal with, the rest is ignored. To allow changes, this skips
-> fdt_pack() when x-vof=on as not packing the blob leaves some room for
-> appending.
-> 
-> In absence of SLOF, this assigns phandles to device tree nodes to make
-> device tree traversing work.
-> 
-> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
-> 
-> This adds basic instances support which are managed by a hash map
-> ihandle -> [phandle].
-> 
-> Before the guest started, the used memory is:
-> 0..4000 - the initial firmware
-> 10000..180000 - stack
-> 
-> This OF CI does not implement "interpret".
-> 
-> Unlike SLOF, this does not format uninitialized nvram. Instead, this
-> includes a disk image with pre-formatted nvram.
-> 
+Maybe I should not forbid all formats... But 'raw' is kinda
+dangerous, as there is no way to enforce the next layer to
+access beside the size allocated.
 
-[...]
+Safe drive partitioning can be achieved creating namespaces,
+feature which is not yet implemented.
 
-> diff --git a/pc-bios/vof/nvram.bin b/pc-bios/vof/nvram.bin
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..d183901cf980a91d81c4348bb20487c7bb62a2ec
-> GIT binary patch
-> literal 16384
-> zcmeI%Jx;?g6bEpZJ8*)oSZeqZi&Z2pKnD)sI4{AHlNb4;RW}a70XPHaW57uo=-#R7
-> zKSLBhJJ0sdixY3IuY@hzo0r$OmE%T;XE9uh@s1k=AOHafKmY;|fB*y_009U<00Izz
-> z00bZa0SG_<0uX=z1Rwwb2tWV=XCbip6d#B4{{rX#XR%}$Bm^J;0SG|gWP$!?Aq=-I
-> zcT+0Ix{{?1q>9J8r+eW^JK1tYYZZMWQCUwW%0S*~w^p@wfkX-<yRFx)H*+YEt0RRd
-> zmn}6xtwbP`yp4O=>kxMAEA<~5@*g)@mb%KD5!;O~8c)>8rRQBx55=trhk#+1+T3J_
-> zaf*G4vZAduqy$qda{``6Gnc2DQg<Es<GLxL#9<Oj*zP!8ZSnwf@-j7l47!nFXQO$a
-> z^Hes6YU^_M<KsM*k~zwOSa+2g3Sx{*Eyu^XrB0FM5IJ-*?8`VvpBc4}vS(+_UKJ;=
-> xITAns0uX=z1Rwwb2tWV=5P-nt34DD||Nni|VfbXeJORuY0uX=z1R!vE0>7B^s4f5i
+>>
+>> After:
+>>
+>>   $ qemu-img create -f raw nvme://0000:04:00.0/1 20G
+>>   qemu-img: nvme://0000:04:00.0/1: Protocol driver 'nvme' does not support image creation
+>>
+>> Fixes: 5a5e7f8cd86 ("block: trickle down the fallback image creation function use to the block drivers")
+>> Reported-by: Xueqiang Wei <xuwei@redhat.com>
+>> Suggested-by: Max Reitz <mreitz@redhat.com>
 > 
-> literal 0
-> HcmV?d00001
+> Well Max didn't suggest the change but pointed me to commit 5a5e7f8cd86.
+> 
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> Cc: Maxim Levitsky <mlevitsk@redhat.com>
+>> ---
+>>  block/nvme.c | 3 ---
+>>  1 file changed, 3 deletions(-)
+>>
+>> diff --git a/block/nvme.c b/block/nvme.c
+>> index a06a188d530..73ddf837c2b 100644
+>> --- a/block/nvme.c
+>> +++ b/block/nvme.c
+>> @@ -1515,9 +1515,6 @@ static BlockDriver bdrv_nvme = {
+>>      .protocol_name            = "nvme",
+>>      .instance_size            = sizeof(BDRVNVMeState),
+>>  
+>> -    .bdrv_co_create_opts      = bdrv_co_create_opts_simple,
+>> -    .create_opts              = &bdrv_create_opts_simple,
+>> -
+>>      .bdrv_parse_filename      = nvme_parse_filename,
+>>      .bdrv_file_open           = nvme_file_open,
+>>      .bdrv_close               = nvme_close,
+>>
 > 
 
-So this needs an extra drive on the command line, eg:
-
--drive file=pc-bios/vof/nvram.bin,format=raw,if=pflash
-
-Any chance this can be generated internally if the user
-didn't provide one already ?
 
