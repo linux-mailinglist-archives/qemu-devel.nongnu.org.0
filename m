@@ -2,76 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3EB2D114F
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:05:45 +0100 (CET)
-Received: from localhost ([::1]:40502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC10B2D11B2
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:19:04 +0100 (CET)
+Received: from localhost ([::1]:54848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmGD2-0006fu-BE
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:05:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59172)
+	id 1kmGPv-0004kh-1u
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:19:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmG5n-0004cu-CF
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:58:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50238)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmG5T-0004Wg-Am
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:58:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607345874;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e68U+w1dG8ClaK/r5O8bL2rOSddYYTRUgIPMdjWHdcQ=;
- b=B+iyMFuddSy/hmMmWaPo7LTWJLBswJcmPNqhw08j76cL5wA4Ye2/HRPaDelyXubPbLbOXp
- 9zDHLNOnvR1qJNFS2nmbDYh8to5uZMLTJJZyKQQz9/JKHzNx/zRXvcYtJBLpkNX1nNPAnj
- A819BmBFQI9qo43vnqPxGPn76JVUjZM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-QhYxJe66O_ivvT2KaWbcYg-1; Mon, 07 Dec 2020 07:57:51 -0500
-X-MC-Unique: QhYxJe66O_ivvT2KaWbcYg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77DD61012EB0;
- Mon,  7 Dec 2020 12:57:45 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2DCD2648A9;
- Mon,  7 Dec 2020 12:57:43 +0000 (UTC)
-Date: Mon, 7 Dec 2020 13:57:42 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ankur Arora <ankur.a.arora@oracle.com>
-Subject: Re: [PATCH 5/8] x86: acpi: let the firmware handle pending "CPU
- remove" events in SMM
-Message-ID: <20201207135742.5c9962f0@redhat.com>
-In-Reply-To: <533b92b0-1eae-f24d-b90b-f7f174dbf305@oracle.com>
-References: <20201204170939.1815522-1-imammedo@redhat.com>
- <20201204170939.1815522-6-imammedo@redhat.com>
- <533b92b0-1eae-f24d-b90b-f7f174dbf305@oracle.com>
+ (Exim 4.90_1) (envelope-from <prvs=603cfe817=graf@amazon.de>)
+ id 1kmGIx-0002LA-1R
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:11:51 -0500
+Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:34022)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=603cfe817=graf@amazon.de>)
+ id 1kmGIn-0008Sn-0W
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:11:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+ t=1607346701; x=1638882701;
+ h=subject:to:cc:references:from:message-id:date:
+ mime-version:in-reply-to:content-transfer-encoding;
+ bh=50ZcZdTAoY0vWU/rWTI4tqVz+2mOhlWZv4ICxKd6nSc=;
+ b=pcxI1guh1UzBi07kz1wA5FBu9I1u6g/lVlHZwXknu/nMr6ihZZwDBn2M
+ tR6rTDqd4sUHlG7FXZXVb5Gk7O54J1ZWZoJ3co3M9uKH1i0ecxThZwsGN
+ kKmGNd7KVP16lq7MmT40amMcCmlW5doAOHaPVuymHMj2zYQ+NE8+D0Br1 A=;
+X-IronPort-AV: E=Sophos;i="5.78,399,1599523200"; d="scan'208";a="67963857"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
+ email-inbound-relay-1a-7d76a15f.us-east-1.amazon.com) ([10.43.8.2])
+ by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP;
+ 07 Dec 2020 13:11:17 +0000
+Received: from EX13MTAUWC001.ant.amazon.com
+ (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+ by email-inbound-relay-1a-7d76a15f.us-east-1.amazon.com (Postfix) with ESMTPS
+ id CB2F8A2227; Mon,  7 Dec 2020 13:11:14 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 7 Dec 2020 13:11:14 +0000
+Received: from freeip.amazon.com (10.43.161.102) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 7 Dec 2020 13:11:06 +0000
+Subject: Re: [PATCH v3] drivers/virt: vmgenid: add vm generation id driver
+To: "Catangiu, Adrian Costin" <acatan@amazon.com>, Dmitry Safonov
+ <0x7f454c46@gmail.com>
+CC: Mike Rapoport <rppt@kernel.org>, Christian Borntraeger
+ <borntraeger@de.ibm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>, Jann Horn
+ <jannh@google.com>, Willy Tarreau <w@1wt.eu>, "MacCarthaigh, Colm"
+ <colmmacc@amazon.com>, Andy Lutomirski <luto@kernel.org>, "Theodore Y. Ts'o"
+ <tytso@mit.edu>, Eric Biggers <ebiggers@kernel.org>, "open
+ list:DOCUMENTATION" <linux-doc@vger.kernel.org>, kernel list
+ <linux-kernel@vger.kernel.org>, "Woodhouse, David" <dwmw@amazon.co.uk>,
+ "bonzini@gnu.org" <bonzini@gnu.org>, "Singh, Balbir" <sblbir@amazon.com>,
+ "Weiss, Radu" <raduweis@amazon.com>, "oridgar@gmail.com" <oridgar@gmail.com>, 
+ "ghammer@redhat.com" <ghammer@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>, KVM list
+ <kvm@vger.kernel.org>, Michal Hocko <mhocko@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Pavel Machek <pavel@ucw.cz>, Linux API
+ <linux-api@vger.kernel.org>, "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+ linux-s390 <linux-s390@vger.kernel.org>, "areber@redhat.com"
+ <areber@redhat.com>, Pavel Emelyanov <ovzxemul@gmail.com>, Andrey Vagin
+ <avagin@gmail.com>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+ "gil@azul.com" <gil@azul.com>, "asmehra@redhat.com" <asmehra@redhat.com>,
+ "dgunigun@redhat.com" <dgunigun@redhat.com>, "vijaysun@ca.ibm.com"
+ <vijaysun@ca.ibm.com>, "Eric W. Biederman" <ebiederm@xmission.com>
+References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
+ <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
+ <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
+ <20201119173800.GD8537@kernel.org>
+ <1cdb6fac-0d50-3399-74a6-24c119ebbaa5@amazon.de>
+ <106f56ca-49bc-7cad-480f-4b26656e90ce@gmail.com>
+ <96625ce2-66c6-34b8-ef81-7c17c05b4c7a@amazon.com>
+From: Alexander Graf <graf@amazon.de>
+Message-ID: <145eaa0b-a118-1d80-7f2c-d73f0d3f1db0@amazon.de>
+Date: Mon, 7 Dec 2020 14:11:04 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.5.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <96625ce2-66c6-34b8-ef81-7c17c05b4c7a@amazon.com>
+Content-Language: en-US
+X-Originating-IP: [10.43.161.102]
+X-ClientProxiedBy: EX13D40UWC004.ant.amazon.com (10.43.162.175) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Precedence: Bulk
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=72.21.198.25;
+ envelope-from=prvs=603cfe817=graf@amazon.de; helo=smtp-fw-4101.amazon.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,125 +109,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lersek@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 6 Dec 2020 22:20:27 -0800
-Ankur Arora <ankur.a.arora@oracle.com> wrote:
-
-> On 2020-12-04 9:09 a.m., Igor Mammedov wrote:
-> > if firmware and QEMU negotiated CPU hotunplug support, generate
-> > _EJ0 method so that it will mark CPU for removal by firmware and
-> > pass control to it by triggering SMI.
-> > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> >   include/hw/acpi/cpu.h |  1 +
-> >   hw/acpi/cpu.c         | 15 +++++++++++++--
-> >   hw/i386/acpi-build.c  |  1 +
-> >   3 files changed, 15 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
-> > index d71edde456..999caaf510 100644
-> > --- a/include/hw/acpi/cpu.h
-> > +++ b/include/hw/acpi/cpu.h
-> > @@ -51,6 +51,7 @@ void cpu_hotplug_hw_init(MemoryRegion *as, Object *owner,
-> >   typedef struct CPUHotplugFeatures {
-> >       bool acpi_1_compatible;
-> >       bool has_legacy_cphp;
-> > +    bool fw_unplugs_cpu;
-> >       const char *smi_path;
-> >   } CPUHotplugFeatures;
-> >   
-> > diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-> > index 811218f673..bded2a837f 100644
-> > --- a/hw/acpi/cpu.c
-> > +++ b/hw/acpi/cpu.c
-> > @@ -341,6 +341,7 @@ const VMStateDescription vmstate_cpu_hotplug = {
-> >   #define CPU_INSERT_EVENT  "CINS"
-> >   #define CPU_REMOVE_EVENT  "CRMV"
-> >   #define CPU_EJECT_EVENT   "CEJ0"
-> > +#define CPU_FW_EJECT_EVENT "CEJF"
-> >   
-> >   void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-> >                       hwaddr io_base,
-> > @@ -393,7 +394,10 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-> >           aml_append(field, aml_named_field(CPU_REMOVE_EVENT, 1));  
-> 
->    Bit 2: Device remove event, used to distinguish device for which
->          no device eject request to OSPM was issued. Firmware must
->          ignore this bit.
-> 
-> >           /* initiates device eject, write only */
-> >           aml_append(field, aml_named_field(CPU_EJECT_EVENT, 1));  
-> 
->    Bit 3: reserved and should be ignored by OSPM
-> 
-> > -        aml_append(field, aml_reserved_field(4));
-> > +        aml_append(field, aml_reserved_field(1));
-> > +        /* tell firmware to do device eject, write only */
-> > +        aml_append(field, aml_named_field(CPU_FW_EJECT_EVENT, 1));
-> > +        aml_append(field, aml_reserved_field(2));  
-> 
-> Shouldn't this be instead:
-> 
-> > -        aml_append(field, aml_reserved_field(4));
-> > +        /* tell firmware to do device eject, write only */
-> > +        aml_append(field, aml_named_field(CPU_FW_EJECT_EVENT, 1));
-> > +        aml_append(field, aml_reserved_field(3));  
-> 
-
-yes, it should be this way,
-I'll fix in v2
-
->    Bit 4: if set to 1, OSPM requests firmware to perform device eject.
->    Bit 5-7: reserved and should be ignored by OSPM
-> 
-> Otherwise AFAICS CPU_FW_EJECT_EVENT would correspond to bit 5.
-> 
-> 
-> Ankur
-> 
-> >           aml_append(field, aml_named_field(CPU_COMMAND, 8));
-> >           aml_append(cpu_ctrl_dev, field);
-> >   
-> > @@ -428,6 +432,7 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-> >           Aml *ins_evt = aml_name("%s.%s", cphp_res_path, CPU_INSERT_EVENT);
-> >           Aml *rm_evt = aml_name("%s.%s", cphp_res_path, CPU_REMOVE_EVENT);
-> >           Aml *ej_evt = aml_name("%s.%s", cphp_res_path, CPU_EJECT_EVENT);
-> > +        Aml *fw_ej_evt = aml_name("%s.%s", cphp_res_path, CPU_FW_EJECT_EVENT);
-> >   
-> >           aml_append(cpus_dev, aml_name_decl("_HID", aml_string("ACPI0010")));
-> >           aml_append(cpus_dev, aml_name_decl("_CID", aml_eisaid("PNP0A05")));
-> > @@ -470,7 +475,13 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
-> >   
-> >               aml_append(method, aml_acquire(ctrl_lock, 0xFFFF));
-> >               aml_append(method, aml_store(idx, cpu_selector));
-> > -            aml_append(method, aml_store(one, ej_evt));
-> > +            if (opts.fw_unplugs_cpu) {
-> > +                aml_append(method, aml_store(one, fw_ej_evt));
-> > +                aml_append(method, aml_store(aml_int(OVMF_CPUHP_SMI_CMD),
-> > +                           aml_name("%s", opts.smi_path)));
-> > +            } else {
-> > +                aml_append(method, aml_store(one, ej_evt));
-> > +            }
-> >               aml_append(method, aml_release(ctrl_lock));
-> >           }
-> >           aml_append(cpus_dev, method);
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 9036e5594c..475e76f514 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -1586,6 +1586,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> >           CPUHotplugFeatures opts = {
-> >               .acpi_1_compatible = true, .has_legacy_cphp = true,
-> >               .smi_path = pm->smi_on_cpuhp ? "\\_SB.PCI0.SMI0.SMIC" : NULL,
-> > +            .fw_unplugs_cpu = pm->smi_on_cpu_unplug,
-> >           };
-> >           build_cpus_aml(dsdt, machine, opts, pm->cpu_hp_io_base,
-> >                          "\\_SB.PCI0", "\\_GPE._E02");
-> >   
-> 
+CgpPbiAyNy4xMS4yMCAxOToyNiwgQ2F0YW5naXUsIEFkcmlhbiBDb3N0aW4gd3JvdGU6Cj4gLSBC
+YWNrZ3JvdW5kCj4gCj4gVGhlIFZNIEdlbmVyYXRpb24gSUQgaXMgYSBmZWF0dXJlIGRlZmluZWQg
+YnkgTWljcm9zb2Z0IChwYXBlcjoKPiBodHRwOi8vZ28ubWljcm9zb2Z0LmNvbS9md2xpbmsvP0xp
+bmtJZD0yNjA3MDkpIGFuZCBzdXBwb3J0ZWQgYnkKPiBtdWx0aXBsZSBoeXBlcnZpc29yIHZlbmRv
+cnMuCj4gCj4gVGhlIGZlYXR1cmUgaXMgcmVxdWlyZWQgaW4gdmlydHVhbGl6ZWQgZW52aXJvbm1l
+bnRzIGJ5IGFwcHMgdGhhdCB3b3JrCj4gd2l0aCBsb2NhbCBjb3BpZXMvY2FjaGVzIG9mIHdvcmxk
+LXVuaXF1ZSBkYXRhIHN1Y2ggYXMgcmFuZG9tIHZhbHVlcywKPiB1dWlkcywgbW9ub3RvbmljYWxs
+eSBpbmNyZWFzaW5nIGNvdW50ZXJzLCBldGMuCj4gU3VjaCBhcHBzIGNhbiBiZSBuZWdhdGl2ZWx5
+IGFmZmVjdGVkIGJ5IFZNIHNuYXBzaG90dGluZyB3aGVuIHRoZSBWTQo+IGlzIGVpdGhlciBjbG9u
+ZWQgb3IgcmV0dXJuZWQgdG8gYW4gZWFybGllciBwb2ludCBpbiB0aW1lLgo+IAo+IFRoZSBWTSBH
+ZW5lcmF0aW9uIElEIGlzIGEgc2ltcGxlIGNvbmNlcHQgbWVhbnQgdG8gYWxsZXZpYXRlIHRoZSBp
+c3N1ZQo+IGJ5IHByb3ZpZGluZyBhIHVuaXF1ZSBJRCB0aGF0IGNoYW5nZXMgZWFjaCB0aW1lIHRo
+ZSBWTSBpcyByZXN0b3JlZAo+IGZyb20gYSBzbmFwc2hvdC4gVGhlIGh3IHByb3ZpZGVkIFVVSUQg
+dmFsdWUgY2FuIGJlIHVzZWQgdG8KPiBkaWZmZXJlbnRpYXRlIGJldHdlZW4gVk1zIG9yIGRpZmZl
+cmVudCBnZW5lcmF0aW9ucyBvZiB0aGUgc2FtZSBWTS4KPiAKPiAtIFByb2JsZW0KPiAKPiBUaGUg
+Vk0gR2VuZXJhdGlvbiBJRCBpcyBleHBvc2VkIHRocm91Z2ggYW4gQUNQSSBkZXZpY2UgYnkgbXVs
+dGlwbGUKPiBoeXBlcnZpc29yIHZlbmRvcnMgYnV0IG5laXRoZXIgdGhlIHZlbmRvcnMgb3IgdXBz
+dHJlYW0gTGludXggaGF2ZSBubwo+IGRlZmF1bHQgZHJpdmVyIGZvciBpdCBsZWF2aW5nIHVzZXJz
+IHRvIGZlbmQgZm9yIHRoZW1zZWx2ZXMuCj4gCj4gRnVydGhlcm1vcmUsIHNpbXBseSBmaW5kaW5n
+IG91dCBhYm91dCBhIFZNIGdlbmVyYXRpb24gY2hhbmdlIGlzIG9ubHkKPiB0aGUgc3RhcnRpbmcg
+cG9pbnQgb2YgYSBwcm9jZXNzIHRvIHJlbmV3IGludGVybmFsIHN0YXRlcyBvZiBwb3NzaWJseQo+
+IG11bHRpcGxlIGFwcGxpY2F0aW9ucyBhY3Jvc3MgdGhlIHN5c3RlbS4gVGhpcyBwcm9jZXNzIGNv
+dWxkIGJlbmVmaXQKPiBmcm9tIGEgZHJpdmVyIHRoYXQgcHJvdmlkZXMgYW4gaW50ZXJmYWNlIHRo
+cm91Z2ggd2hpY2ggb3JjaGVzdHJhdGlvbgo+IGNhbiBiZSBlYXNpbHkgZG9uZS4KPiAKPiAtIFNv
+bHV0aW9uCj4gCj4gVGhpcyBwYXRjaCBpcyBhIGRyaXZlciB0aGF0IGV4cG9zZXMgYSBtb25vdG9u
+aWMgaW5jcmVtZW50YWwgVmlydHVhbAo+IE1hY2hpbmUgR2VuZXJhdGlvbiB1MzIgY291bnRlciB2
+aWEgYSBjaGFyLWRldiBGUyBpbnRlcmZhY2UuIFRoZSBGUwo+IGludGVyZmFjZSBwcm92aWRlcyBz
+eW5jIGFuZCBhc3luYyBWbUdlbiBjb3VudGVyIHVwZGF0ZXMgbm90aWZpY2F0aW9ucy4KPiBJdCBh
+bHNvIHByb3ZpZGVzIFZtR2VuIGNvdW50ZXIgcmV0cmlldmFsIGFuZCBjb25maXJtYXRpb24gbWVj
+aGFuaXNtcy4KPiAKPiBUaGUgZ2VuZXJhdGlvbiBjb3VudGVyIGFuZCB0aGUgaW50ZXJmYWNlIHRo
+cm91Z2ggd2hpY2ggaXQgaXMgZXhwb3NlZAo+IGFyZSBhdmFpbGFibGUgZXZlbiB3aGVuIHRoZXJl
+IGlzIG5vIGFjcGkgZGV2aWNlIHByZXNlbnQuCj4gCj4gV2hlbiB0aGUgZGV2aWNlIGlzIHByZXNl
+bnQsIHRoZSBodyBwcm92aWRlZCBVVUlEIGlzIG5vdCBleHBvc2VkIHRvCj4gdXNlcnNwYWNlLCBp
+dCBpcyBpbnRlcm5hbGx5IHVzZWQgYnkgdGhlIGRyaXZlciB0byBrZWVwIGFjY291bnRpbmcgZm9y
+Cj4gdGhlIGV4cG9zZWQgVm1HZW4gY291bnRlci4gVGhlIGNvdW50ZXIgc3RhcnRzIGZyb20gemVy
+byB3aGVuIHRoZQo+IGRyaXZlciBpcyBpbml0aWFsaXplZCBhbmQgbW9ub3RvbmljYWxseSBpbmNy
+ZW1lbnRzIGV2ZXJ5IHRpbWUgdGhlIGh3Cj4gVVVJRCBjaGFuZ2VzICh0aGUgVk0gZ2VuZXJhdGlv
+biBjaGFuZ2VzKS4KPiBPbiBlYWNoIGh3IFVVSUQgY2hhbmdlLCB0aGUgbmV3IGh5cGVydmlzb3It
+cHJvdmlkZWQgVVVJRCBpcyBhbHNvIGZlZAo+IHRvIHRoZSBrZXJuZWwgUk5HLgo+IAo+IElmIHRo
+ZXJlIGlzIG5vIGFjcGkgdm1nZW5pZCBkZXZpY2UgcHJlc2VudCwgdGhlIGdlbmVyYXRpb24gY2hh
+bmdlcyBhcmUKPiBub3QgZHJpdmVuIGJ5IGh3IHZtZ2VuaWQgZXZlbnRzIGJ1dCBjYW4gYmUgZHJp
+dmVuIGJ5IHNvZnR3YXJlIHRocm91Z2gKPiBhIGRlZGljYXRlZCBkcml2ZXIgaW9jdGwuCj4gCj4g
+VGhpcyBwYXRjaCBidWlsZHMgb24gdG9wIG9mIE9yIElkZ2FyIDxvcmlkZ2FyQGdtYWlsLmNvbT4n
+cyBwcm9wb3NhbAo+IGh0dHBzOi8vbGttbC5vcmcvbGttbC8yMDE4LzMvMS80OTgKPiAKPiAtIEZ1
+dHVyZSBpbXByb3ZlbWVudHMKPiAKPiBJZGVhbGx5IHdlIHdvdWxkIHdhbnQgdGhlIGRyaXZlciB0
+byByZWdpc3RlciBpdHNlbGYgYmFzZWQgb24gZGV2aWNlcycKPiBfQ0lEIGFuZCBub3QgX0hJRCwg
+YnV0IHVuZm9ydHVuYXRlbHkgSSBjb3VsZG4ndCBmaW5kIGEgd2F5IHRvIGRvIHRoYXQuCj4gVGhl
+IHByb2JsZW0gaXMgdGhhdCBBQ1BJIGRldmljZSBtYXRjaGluZyBpcyBkb25lIGJ5Cj4gJ19fYWNw
+aV9tYXRjaF9kZXZpY2UoKScgd2hpY2ggZXhjbHVzaXZlbHkgbG9va3MgYXQKPiAnYWNwaV9oYXJk
+d2FyZV9pZCAqaHdpZCcuCj4gCj4gVGhlcmUgaXMgYSBwYXRoIGZvciBwbGF0Zm9ybSBkZXZpY2Vz
+IHRvIG1hdGNoIG9uIF9DSUQgd2hlbiBfSElEIGlzCj4gJ1BSUDAwMDEnIC0gYnV0IHRoaXMgaXMg
+bm90IHRoZSBjYXNlIGZvciB0aGUgUWVtdSB2bWdlbmlkIGRldmljZS4KPiAKPiBHdWlkYW5jZSBh
+bmQgaGVscCBoZXJlIHdvdWxkIGJlIGdyZWF0bHkgYXBwcmVjaWF0ZWQuCj4gCj4gU2lnbmVkLW9m
+Zi1ieTogQWRyaWFuIENhdGFuZ2l1IDxhY2F0YW5AYW1hem9uLmNvbT4KPiAKPiAtLS0KPiAKPiB2
+MSAtPiB2MjoKPiAKPiAgwqAgLSBleHBvc2UgdG8gdXNlcnNwYWNlIGEgbW9ub3RvbmljYWxseSBp
+bmNyZWFzaW5nIHUzMiBWbSBHZW4gQ291bnRlcgo+ICDCoMKgwqAgaW5zdGVhZCBvZiB0aGUgaHcg
+Vm1HZW4gVVVJRAo+ICDCoCAtIHNpbmNlIHRoZSBody9oeXBlcnZpc29yLXByb3ZpZGVkIDEyOC1i
+aXQgVVVJRCBpcyBub3QgcHVibGljCj4gIMKgwqDCoCBhbnltb3JlLCBhZGQgaXQgdG8gdGhlIGtl
+cm5lbCBSTkcgYXMgZGV2aWNlIHJhbmRvbW5lc3MKPiAgwqAgLSBpbnNlcnQgZHJpdmVyIHBhZ2Ug
+Y29udGFpbmluZyBWbSBHZW4gQ291bnRlciBpbiB0aGUgdXNlciB2bWEgaW4KPiAgwqDCoMKgIHRo
+ZSBkcml2ZXIncyBtbWFwIGhhbmRsZXIgaW5zdGVhZCBvZiB1c2luZyBhIGZhdWx0IGhhbmRsZXIK
+PiAgwqAgLSB0dXJuIGRyaXZlciBpbnRvIGEgbWlzYyBkZXZpY2UgZHJpdmVyIHRvIGF1dG8tY3Jl
+YXRlIC9kZXYvdm1nZW5pZAo+ICDCoCAtIGNoYW5nZSBpb2N0bCBhcmcgdG8gYXZvaWQgbGVha2lu
+ZyBrZXJuZWwgc3RydWN0cyB0byB1c2Vyc3BhY2UKPiAgwqAgLSB1cGRhdGUgZG9jdW1lbnRhdGlv
+bgo+ICDCoCAtIHZhcmlvdXMgbml0cwo+ICDCoCAtIHJlYmFzZSBvbiB0b3Agb2YgbGludXMgbGF0
+ZXN0Cj4gCj4gdjIgLT4gdjM6Cj4gCj4gIMKgIC0gc2VwYXJhdGUgdGhlIGNvcmUgZHJpdmVyIGxv
+Z2ljIGFuZCBpbnRlcmZhY2UsIGZyb20gdGhlIEFDUEkgZGV2aWNlLgo+ICDCoMKgwqAgVGhlIEFD
+UEkgdm1nZW5pZCBkZXZpY2UgaXMgbm93IG9uZSBwb3NzaWJsZSBiYWNrZW5kLgo+ICDCoCAtIGZp
+eCBpc3N1ZSB3aGVuIHRpbWVvdXQ9MCBpbiBWTUdFTklEX1dBSVRfV0FUQ0hFUlMKPiAgwqAgLSBh
+ZGQgbG9ja2luZyB0byBhdm9pZCByYWNlcyBiZXR3ZWVuIGZzIG9wcyBoYW5kbGVycyBhbmQgaHcg
+aXJxCj4gIMKgwqDCoCBkcml2ZW4gZ2VuZXJhdGlvbiB1cGRhdGVzCj4gIMKgIC0gY2hhbmdlIFZN
+R0VOSURfV0FJVF9XQVRDSEVSUyBpb2N0bCBzbyBpZiB0aGUgY3VycmVudCBjYWxsZXIgaXMKPiAg
+wqDCoMKgIG91dGRhdGVkIG9yIGEgZ2VuZXJhdGlvbiBjaGFuZ2UgaGFwcGVucyB3aGlsZSB3YWl0
+aW5nICh0aHVzIG1ha2luZwo+ICDCoMKgwqAgY3VycmVudCBjYWxsZXIgb3V0ZGF0ZWQpLCB0aGUg
+aW9jdGwgcmV0dXJucyAtRUlOVFIgdG8gc2lnbmFsIHRoZQo+ICDCoMKgwqAgdXNlciB0byBoYW5k
+bGUgZXZlbnQgYW5kIHJldHJ5LiBGaXhlcyBibG9ja2luZyBvbiBvbmVzZWxmLgo+ICDCoCAtIGFk
+ZCBWTUdFTklEX0ZPUkNFX0dFTl9VUERBVEUgaW9jdGwgY29uZGl0aW9uZWQgYnkKPiAgwqDCoMKg
+IENBUF9DSEVDS1BPSU5UX1JFU1RPUkUgY2FwYWJpbGl0eSwgdGhyb3VnaCB3aGljaCBzb2Z0d2Fy
+ZSBjYW4gZm9yY2UKPiAgwqDCoMKgIGdlbmVyYXRpb24gYnVtcC4KPiAtLS0KPiAgwqBEb2N1bWVu
+dGF0aW9uL3ZpcnQvdm1nZW5pZC5yc3QgfCAyNDAgKysrKysrKysrKysrKysrKysrKysrKysKPiAg
+wqBkcml2ZXJzL3ZpcnQvS2NvbmZpZ8KgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxNyArKwo+ICDC
+oGRyaXZlcnMvdmlydC9NYWtlZmlsZcKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAxICsKPiAgwqBk
+cml2ZXJzL3ZpcnQvdm1nZW5pZC5jwqDCoMKgwqDCoMKgwqDCoCB8IDQzNQo+ICsrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCj4gIMKgaW5jbHVkZS91YXBpL2xpbnV4L3Zt
+Z2VuaWQuaMKgwqAgfMKgIDE0ICsrCj4gIMKgNSBmaWxlcyBjaGFuZ2VkLCA3MDcgaW5zZXJ0aW9u
+cygrKQo+ICDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3ZpcnQvdm1nZW5pZC5y
+c3QKPiAgwqBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy92aXJ0L3ZtZ2VuaWQuYwo+ICDCoGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBpbmNsdWRlL3VhcGkvbGludXgvdm1nZW5pZC5oCj4gCgpbLi4uXQoK
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aXJ0L0tjb25maWcgYi9kcml2ZXJzL3ZpcnQvS2NvbmZp
+Zwo+IGluZGV4IDgwYzVmOWMxLi41ZDVmMzdiIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdmlydC9L
+Y29uZmlnCj4gKysrIGIvZHJpdmVycy92aXJ0L0tjb25maWcKPiBAQCAtMTMsNiArMTMsMjMgQEAg
+bWVudWNvbmZpZyBWSVJUX0RSSVZFUlMKPiAgIAo+ICDCoGlmIFZJUlRfRFJJVkVSUwo+ICAgCj4g
+K2NvbmZpZyBWTUdFTklECj4gK8KgwqDCoCB0cmlzdGF0ZSAiVmlydHVhbCBNYWNoaW5lIEdlbmVy
+YXRpb24gSUQgZHJpdmVyIgo+ICvCoMKgwqAgZGVwZW5kcyBvbiBBQ1BJCgpJIHRoaW5rIHlvdSB3
+YW50IHRvIHNwbGl0IHRoZSBLQ29uZmlnIGJpdCBpbnRvIHR3byBub3cuIE9uZSBmb3IgZ2VuZXJp
+YyAKL2Rldi92bWdlbmlkIHN1cHBvcnQgYW5kIGFub3RoZXIgb25lIGZvciBBQ1BJX1ZNR0VOSUQg
+dG8gYXV0b21hdGljYWxseSAKYnVtcCByZXZpc2lvbnMgd2hlbiB0aGUgaHlwZXJ2aXNvciBpbmRp
+Y2F0ZXMgaXQuCgpJbiBmYWN0LCB5b3UgY2FuIHByb2JhYmx5IG1ha2UgdGhpcyB0d28gc2VwYXJh
+dGUgcGF0Y2hlcyB3aXRoIHR3byAKc2VwYXJhdGUgZmlsZXMgKHJlYWQ6IGtlcm5lbCBtb2R1bGVz
+KSBldmVuLiBUaGUgZ2VuZXJpYyBjb2RlIGNhbiBqdXN0IApleHBvcnQgc3ltYm9scyB0byBidW1w
+IHRoZSBzeXN0ZW0gZ2VuaWQuCgpJJ20gYWxzbyBub3QgZnVsbHkgY29udmluY2VkIHRoYXQgY2Fs
+bGluZyB0aGUgZ2VuZXJpYyBtZWNoYW5pc20gCiJ2bWdlbmlkIiBpcyBzdGlsbCBhY2N1cmF0ZSBh
+dCB0aGlzIHBvaW50LiBDYW4geW91IHRoaW5rIG9mIGEgYmV0dGVyIApuYW1lPyAiU3lzdGVtIEdl
+bmVyYXRpb24gSUQiLCBzbyAic3lzZ2VuaWQiIG1heWJlPwoKPiArwqDCoMKgIGRlZmF1bHQgTgo+
+ICvCoMKgwqAgaGVscAo+ICvCoMKgwqAgwqAgVGhpcyBpcyBhIFZpcnR1YWwgTWFjaGluZSBHZW5l
+cmF0aW9uIElEIGRyaXZlciB3aGljaCBwcm92aWRlcwo+ICvCoMKgwqAgwqAgYSB2aXJ0dWFsIG1h
+Y2hpbmUgZ2VuZXJhdGlvbiBjb3VudGVyLiBUaGUgZHJpdmVyIGV4cG9zZXMgRlMgb3BzCj4gK8Kg
+wqDCoCDCoCBvbiAvZGV2L3ZtZ2VuaWQgdGhyb3VnaCB3aGljaCBpdCBjYW4gcHJvdmlkZSBpbmZv
+cm1hdGlvbiBhbmQKPiArwqDCoMKgIMKgIG5vdGlmaWNhdGlvbnMgb24gVk0gZ2VuZXJhdGlvbiBj
+aGFuZ2VzIHRoYXQgaGFwcGVuIG9uIHNuYXBzaG90cwo+ICvCoMKgwqAgwqAgb3IgY2xvbmluZy4K
+PiArwqDCoMKgIMKgIFRoaXMgZW5hYmxlcyBhcHBsaWNhdGlvbnMgYW5kIGxpYnJhcmllcyB0aGF0
+IHN0b3JlIG9yIGNhY2hlCj4gK8KgwqDCoCDCoCBzZW5zaXRpdmUgaW5mb3JtYXRpb24sIHRvIGtu
+b3cgdGhhdCB0aGV5IG5lZWQgdG8gcmVnZW5lcmF0ZSBpdAo+ICvCoMKgwqAgwqAgYWZ0ZXIgcHJv
+Y2VzcyBtZW1vcnkgaGFzIGJlZW4gZXhwb3NlZCB0byBwb3RlbnRpYWwgY29weWluZy4KPiArCj4g
+K8KgwqDCoCDCoCBUbyBjb21waWxlIHRoaXMgZHJpdmVyIGFzIGEgbW9kdWxlLCBjaG9vc2UgTSBo
+ZXJlOiB0aGUKPiArwqDCoMKgIMKgIG1vZHVsZSB3aWxsIGJlIGNhbGxlZCB2bWdlbmlkLgo+ICsK
+PiAgwqBjb25maWcgRlNMX0hWX01BTkFHRVIKPiAgwqDCoMKgwqAgdHJpc3RhdGUgIkZyZWVzY2Fs
+ZSBoeXBlcnZpc29yIG1hbmFnZW1lbnQgZHJpdmVyIgo+ICDCoMKgwqDCoCBkZXBlbmRzIG9uIEZT
+TF9TT0MKClsuLi5dCgo+ICvCoMKgwqAgY2FzZSBWTUdFTklEX0ZPUkNFX0dFTl9VUERBVEU6Cj4g
+K8KgwqDCoCDCoMKgwqAgaWYgKCFjaGVja3BvaW50X3Jlc3RvcmVfbnNfY2FwYWJsZShjdXJyZW50
+X3VzZXJfbnMoKSkpCj4gK8KgwqDCoCDCoMKgwqAgwqDCoMKgIHJldHVybiAtRUFDQ0VTOwo+ICvC
+oMKgwqAgwqDCoMKgIHZtZ2VuaWRfYnVtcF9nZW5lcmF0aW9uKCk7CgpJIHRoaW5rIHRoaXMgaXMg
+cmFjeSBhbmQgbmVlZHMgdG8gYmUgc2xpZ2h0bHkgZGlmZmVyZW50LiBJbWFnaW5lIHRoZSAKZm9s
+bG93aW5nOgoKICAgLSBjb250YWluZXIgaXMgcnVubmluZyB3aXRoIGdlbmlkIDUKICAgLSBJIHRh
+a2UgYSBzbmFwc2hvdCBvZiB0aGUgY29udGFpbmVyCiAgIC0gVGFyZ2V0IHN5c3RlbSBoYXMgZ2Vu
+aWQgNAogICAtIEkgcmVzdW1lIHRoZSBjb250YWluZXIKICAgLSBJIGNhbGwgdGhlIGdlbmlkIHVw
+ZGF0ZSAoZ2VuaWQgPSA1KQoKVGhlbiB0aGUgY29udGFpbmVyIHN0aWxsIHNlZXMgZ2VuaWQgNSwg
+c28gKm1heWJlKiBpdCB3b24ndCBhZGFwdCB0byB0aGUgCm5ldyBlbnZpcm9ubWVudC4gVGhpcyB3
+aWxsIGRlcGVuZCBvbiB3aGV0aGVyIHRoZSBjb250YWluZXIgZ2V0cyBlbm91Z2ggCnRpbWUgdG8g
+YWRqdXN0IHRvIGdlbmlkPTQgYmVmb3JlIHdlIGJ1bXAgaXQgdG8gNS4KCkhvdyBhYm91dCB3ZSBw
+YXNzIGEgImJ1bXAsIGJ1dCBub3QgdG8gdGhpcyB2YWx1ZSIgYXJndW1lbnQgdG8gdGhlIGlvY3Rs
+PyAKVGhlbiBpdCB3b3VsZCBsb29rIGxpa2UgdGhpczoKCiAgIC0gY29udGFpbmVyIGlzIHJ1bm5p
+bmcgd2l0aCBnZW5pZCA1CiAgIC0gSSB0YWtlIGEgc25hcHNob3Qgb2YgdGhlIGNvbnRhaW5lciBh
+bmQgaXRzIGdlbmlkICg1KQogICAtIFRhcmdldCBzeXN0ZW0gaGFzIGdlbmlkIDQKICAgLSBJIHJl
+c3VtZSB0aGUgY29udGFpbmVyCiAgIC0gSSBjYWxsIHRoZSBnZW5pZCB1cGRhdGUgd2l0aCBhdm9p
+ZD01IChzbyB3ZSBidW1wIGdlbmlkIHRvIDYpCgpOb3cgYWxsIHByb2Nlc3NlcyBpbiB0aGUgc3lz
+dGVtIHdpbGwgYWRhcHQgdG8gZ2VuaWQ9NiwgaW5jbHVkaW5nIHRoZSAKcmVzdW1lZCBjb250YWlu
+ZXIuCgoKQWxleAoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2VudGVyIEdlcm1hbnkgR21iSApLcmF1
+c2Vuc3RyLiAzOAoxMDExNyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RpYW4gU2No
+bGFlZ2VyLCBKb25hdGhhbiBXZWlzcwpFaW5nZXRyYWdlbiBhbSBBbXRzZ2VyaWNodCBDaGFybG90
+dGVuYnVyZyB1bnRlciBIUkIgMTQ5MTczIEIKU2l0ejogQmVybGluClVzdC1JRDogREUgMjg5IDIz
+NyA4NzkKCgo=
 
 
