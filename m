@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 497BF2D1C1D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 22:32:12 +0100 (CET)
-Received: from localhost ([::1]:40632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA062D1C32
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 22:34:43 +0100 (CET)
+Received: from localhost ([::1]:43272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmO78-0007KK-6N
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 16:32:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52166)
+	id 1kmO9a-00009o-Jy
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 16:34:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kmO3g-0006IY-A0
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:28:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56399)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmO56-0007MY-4L
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:30:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kmO3V-0004nm-VM
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:28:35 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmO53-0005Ip-UO
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:30:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607376503;
+ s=mimecast20190719; t=1607376600;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LgVP0d+FLAg5wz/5aumgdzP06jtil+1++3XLVONNygo=;
- b=El/cOgwzUO91tuCMiF0ftBjgXaGH3+zw7bbeDGz7ckWozYaVE5aLeiCjKLf+POZ7lCvylX
- 6Pok54X/UfwKYvOnZ9MeqSxUoWZ/WKNJwH/iac+ZShkdsXUW0kw9OAed3PyBEl75aOwMgh
- T0onln+gBhCpu3745/XmSnUr+QUbUS8=
+ bh=IAOUetvZQ+zvw3SX3Nr1f1wqkwahZYP0hBxiCfcNvTI=;
+ b=PYrSet7u0F1+sLExS/NiGQlGmeHvA+s9qc/yrUJHRU4z0i6/v5MYD0wLuMcY4ULOzay5Py
+ peHNhKTHJtLxP9QYwfFnnAARnZteUO4sAqrnfQEOmTElfFAUuHxR2SbHURziswyiSAntOG
+ RqRzedTHjKDcX1dT93V0iLtwRKvE9VU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-vpVb3jkMP0Ollct2A94ajw-1; Mon, 07 Dec 2020 16:28:19 -0500
-X-MC-Unique: vpVb3jkMP0Ollct2A94ajw-1
+ us-mta-282-mKkC2KmhM02U9yH7TNs5nw-1; Mon, 07 Dec 2020 16:29:58 -0500
+X-MC-Unique: mKkC2KmhM02U9yH7TNs5nw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 575B01005504;
- Mon,  7 Dec 2020 21:28:15 +0000 (UTC)
-Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F076D60BE2;
- Mon,  7 Dec 2020 21:28:14 +0000 (UTC)
-Date: Mon, 7 Dec 2020 16:28:14 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] target/arm: do not use cc->do_interrupt for KVM directly
-Message-ID: <20201207212814.GJ1289986@habkost.net>
-References: <20201207084042.7690-1-cfontana@suse.de>
- <20201207174916.GD1289986@habkost.net>
- <CAFEAcA_UUs6NJ_JYtNEQ3VubHnvsvo1BBx6=9nVT9GO_QrDwoQ@mail.gmail.com>
- <20201207182842.GE1289986@habkost.net>
- <CAFEAcA9OWLF01hR4qzPwKWAHiDZ9RkSab8rv+0rnkyNhQjAnOg@mail.gmail.com>
- <2e2e0160-7c17-cdfd-93e0-3d2002996108@suse.de>
- <CAFEAcA_X3Lhc0Pmea78fboTr_5kUjM4x4QbEXC2VWFXX=a98uQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFD11107ACE6
+ for <qemu-devel@nongnu.org>; Mon,  7 Dec 2020 21:29:57 +0000 (UTC)
+Received: from [10.10.116.117] (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11B1660BE2;
+ Mon,  7 Dec 2020 21:29:56 +0000 (UTC)
+Subject: Re: [PATCH v2 05/11] qapi/introspect.py: add preliminary type hint
+ annotations
+To: Cleber Rosa <crosa@redhat.com>
+References: <20201026194251.11075-1-jsnow@redhat.com>
+ <20201026194251.11075-6-jsnow@redhat.com>
+ <20201107021142.GA2208@localhost.localdomain>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <bcdf0009-127e-d1c1-986f-3c581fdd8fdb@redhat.com>
+Date: Mon, 7 Dec 2020 16:29:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_X3Lhc0Pmea78fboTr_5kUjM4x4QbEXC2VWFXX=a98uQ@mail.gmail.com>
+In-Reply-To: <20201107021142.GA2208@localhost.localdomain>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,36 +83,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Dongjiu Geng <gengdongjiu@huawei.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 07, 2020 at 09:12:34PM +0000, Peter Maydell wrote:
-> On Mon, 7 Dec 2020 at 21:06, Claudio Fontana <cfontana@suse.de> wrote:
-> > As I understand it, for the purpose of code separation,
-> > we could:
-> >
-> > 1) skip do_interrupt move to the separate tcg_ops structure, wait until KVM/ARM uses another approach (if ever)
-> > 2) do the move, and just call arm_cpu_do_interrupt() directly, since for KVM64 it is the only one that can be assigned to cc->do_interrupt().
-> >
-> > Which way would you suggest?
+On 11/6/20 9:12 PM, Cleber Rosa wrote:
+> On Mon, Oct 26, 2020 at 03:42:45PM -0400, John Snow wrote:
+>> The typing of _make_tree and friends is a bit involved, but it can be
+>> done with some stubbed out types and a bit of elbow grease. The
+>> forthcoming patches attempt to make some simplifications, but having the
+>> type hints in advance may aid in review of subsequent patches.
+>>
+>>
+>> Some notes on the abstract types used at this point, and what they
+>> represent:
+>>
+>> - TreeValue represents any object in the type tree. _make_tree is an
+>>    optional call -- not every node in the final type tree will have been
+>>    passed to _make_tree, so this type encompasses not only what is passed
+>>    to _make_tree (dicts, strings) or returned from it (dicts, strings, a
+>>    2-tuple), but any recursive value for any of the dicts passed to
+>>    _make_tree -- which includes lists, strings, integers, null constants,
+>>    and so on.
+>>
+>> - _DObject is a type alias I use to mean "A JSON-style object,
+>>    represented as a Python dict." There is no "JSON" type in Python, they
+>>    are converted natively to recursively nested dicts and lists, with
+>>    leaf values of str, int, float, None, True/False and so on. This type
+>>    structure is not possible to accurately portray in mypy yet, so a
+>>    placeholder is used.
+>>
+>>    In this case, _DObject is being used to refer to SchemaInfo-like
+>>    structures as defined in qapi/introspect.json, OR any sub-object
+>>    values they may reference. We don't have strong typing available for
+>>    those, so a generic alternative is used.
+>>
+>> - Extra refers explicitly to the dict containing "extra" information
+>>    about a node in the tree. mypy does not offer per-key typing for dicts
+>>    in Python 3.6, so this is the best we can do here.
+>>
+>> - Annotated refers to (one of) the return types of _make_tree:
+>>    It represents a 2-tuple of (TreeValue, Extra).
+>>
+>>
+>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   scripts/qapi/introspect.py | 157 ++++++++++++++++++++++++++++---------
+>>   scripts/qapi/mypy.ini      |   5 --
+>>   scripts/qapi/schema.py     |   2 +-
+>>   3 files changed, 121 insertions(+), 43 deletions(-)
+>>
+>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>> index 63f721ebfb6..803288a64e7 100644
+>> --- a/scripts/qapi/introspect.py
+>> +++ b/scripts/qapi/introspect.py
+>> @@ -10,7 +10,16 @@
+>>   See the COPYING file in the top-level directory.
+>>   """
+>>   
+>> -from typing import Optional, Sequence, cast
+>> +from typing import (
+>> +    Any,
+>> +    Dict,
+>> +    List,
+>> +    Optional,
+>> +    Sequence,
+>> +    Tuple,
+>> +    Union,
+>> +    cast,
+>> +)
+>>   
+>>   from .common import (
+>>       c_name,
+>> @@ -20,13 +29,56 @@
+>>   )
+>>   from .gen import QAPISchemaMonolithicCVisitor
+>>   from .schema import (
+>> +    QAPISchema,
+>>       QAPISchemaArrayType,
+>>       QAPISchemaBuiltinType,
+>> +    QAPISchemaEntity,
+>> +    QAPISchemaEnumMember,
+>> +    QAPISchemaFeature,
+>> +    QAPISchemaObjectType,
+>> +    QAPISchemaObjectTypeMember,
+>>       QAPISchemaType,
+>> +    QAPISchemaVariant,
+>> +    QAPISchemaVariants,
+>>   )
+>> +from .source import QAPISourceInfo
+>>   
+>>   
+>> -def _make_tree(obj, ifcond, features, extra=None):
+>> +# This module constructs a tree-like data structure that is used to
+>> +# generate the introspection information for QEMU. It behaves similarly
+>> +# to a JSON value.
+>> +#
+>> +# A complexity over JSON is that our values may or may not be annotated.
+>> +#
+>> +# Un-annotated values may be:
+>> +#     Scalar: str, bool, None.
+>> +#     Non-scalar: List, Dict
+>> +# _Value = Union[str, bool, None, Dict[str, Value], List[Value]]
 > 
-> So what's the intention here? To put tcg-only methods in their
-> own struct so that on a KVM-only QEMU they're compiled out
-> and attempts to use them are a compile error? In that case
-> I guess if Arm really is the only user of do_interrupt outside
-> TCG then we should do what this patch does and do a direct call.
+> Here (and in a few other places) you mention `_Value`, but then define it as
+> `_value` (lowercase).
+> 
 
-Oh, I thought you were arguing that CPUClass.do_interrupt is
-not TCG_specific.
+This was maybe too subtle: I didn't intend for it to be the "same" as 
+_value; this is the "idealized version". And then I went and re-used the 
+same exact name of "TreeValue", which muddied the waters.
 
-If you agree with doing what this patch does, the plan sounds
-good to me.
+Let's just err back on the side of synchronicity and say:
 
--- 
-Eduardo
+# _value = Union[str, bool, None, Dict[str, TreeValue], List[TreeValue]]
+# TreeValue = Union[_value, Annotated[_value]] 
+
+
+>> +#
+>> +# With optional annotations, the type of all values is:
+>> +# TreeValue = Union[_Value, Annotated[_Value]]
+>> +#
+>> +# Sadly, mypy does not support recursive types, so we must approximate this.
+>> +_stub = Any
+>> +_scalar = Union[str, bool, None]
+>> +_nonscalar = Union[Dict[str, _stub], List[_stub]]
+> 
+> Why not use `Any` here instead of declaring/using `_stub`?
+> 
+
+This was my way of calling visual attention to the exact places in the 
+type tree we are breaking recursion with a stubbed type.
+
+I wanted to communicate that we didn't WANT the any type, but we were 
+forced to accept a "stub" type. (Which we implement with the Any type.)
+
+>> +_value = Union[_scalar, _nonscalar]
+>> +TreeValue = Union[_value, 'Annotated']
+>> +
+> 
+> Maybe declare `Annotations` first, then `Annotated`, then *use*
+> `Annotated` proper here?
+> 
+
+As long as that doesn't lose clarity and synchronicity with the little 
+comment blurb, or cause problems later in the patch. I will see if there 
+was a reason I couldn't.
+
+Otherwise, it's not really too important to shuffle around things to 
+avoid strings; it doesn't change anything for mypy or for the runtime.
+
+> - Cleber.
+> 
+
+Thanks!
+--js
 
 
