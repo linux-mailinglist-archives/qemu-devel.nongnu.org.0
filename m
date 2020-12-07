@@ -2,50 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D212D0BDC
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 09:39:48 +0100 (CET)
-Received: from localhost ([::1]:37304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6752D0BE3
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 09:41:53 +0100 (CET)
+Received: from localhost ([::1]:39492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmC3e-00037n-O8
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 03:39:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
+	id 1kmC5g-0004B2-MU
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 03:41:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kmC1t-0002gq-Ew
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 03:37:57 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2470)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmC4q-0003lS-25
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 03:41:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:40722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kmC1q-0000s4-9h
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 03:37:56 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CqGrR0FFwzM1f4;
- Mon,  7 Dec 2020 16:36:55 +0800 (CST)
-Received: from [10.108.235.13] (10.108.235.13) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 7 Dec 2020 16:37:26 +0800
-To: <berrange@redhat.com>
-From: shiliyang <shiliyang@huawei.com>
-Subject: [PATCH] crypto: Fix some code style problems, add spaces around
- operator
-Message-ID: <eec07863-d8fa-1ad0-5b64-4683d48478ab@huawei.com>
-Date: Mon, 7 Dec 2020 16:37:25 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmC4o-00029G-Ef
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 03:40:59 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D56F4ACBA;
+ Mon,  7 Dec 2020 08:40:56 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Dongjiu Geng <gengdongjiu@huawei.com>
+Subject: [PATCH] target/arm: do not use cc->do_interrupt for KVM directly
+Date: Mon,  7 Dec 2020 09:40:42 +0100
+Message-Id: <20201207084042.7690-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.108.235.13]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=shiliyang@huawei.com;
- helo=szxga05-in.huawei.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,61 +50,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes error style problems found by checkpatch.pl:
-ERROR: spaces required around that '*'
-ERROR: space required after that ','
-ERROR: spaces required around that '|'
+cc->do_interrupt is a TCG callback used in accel/tcg only,
+call instead directly the arm_cpu_do_interrupt for the
+injection of exeptions from KVM, so that
 
-Signed-off-by: Liyang Shi <shiliyang@huawei.com>
+do_interrupt can be exported to TCG-only operations in the CPUClass.
+
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- crypto/aes.c          | 2 +-
- crypto/desrfb.c       | 2 +-
- crypto/tlscredsx509.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ target/arm/helper.c | 4 ++++
+ target/arm/kvm64.c  | 4 ++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/crypto/aes.c b/crypto/aes.c
-index 159800df65..56efc95196 100644
---- a/crypto/aes.c
-+++ b/crypto/aes.c
-@@ -1182,7 +1182,7 @@ int AES_set_decrypt_key(const unsigned char *userKey, const int bits,
-         rk = key->rd_key;
-
-         /* invert the order of the round keys: */
--        for (i = 0, j = 4*(key->rounds); i < j; i += 4, j -= 4) {
-+        for (i = 0, j = 4 * (key->rounds); i < j; i += 4, j -= 4) {
-                 temp = rk[i    ]; rk[i    ] = rk[j    ]; rk[j    ] = temp;
-                 temp = rk[i + 1]; rk[i + 1] = rk[j + 1]; rk[j + 1] = temp;
-                 temp = rk[i + 2]; rk[i + 2] = rk[j + 2]; rk[j + 2] = temp;
-diff --git a/crypto/desrfb.c b/crypto/desrfb.c
-index 3274c36510..675847c93b 100644
---- a/crypto/desrfb.c
-+++ b/crypto/desrfb.c
-@@ -56,7 +56,7 @@ static const unsigned char pc1[56] = {
-         13,  5, 60, 52, 44, 36, 28,	20, 12,  4, 27, 19, 11,  3 };
-
- static const unsigned char totrot[16] = {
--        1,2,4,6,8,10,12,14,15,17,19,21,23,25,27,28 };
-+        1, 2, 4, 6, 8, 10, 12, 14, 15, 17, 19, 21, 23, 25, 27, 28 };
-
- static const unsigned char pc2[48] = {
-         13, 16, 10, 23,  0,  4,  2, 27, 14,  5, 20,  9,
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index dd7267ccdb..c89dd62435 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -143,7 +143,7 @@ qcrypto_tls_creds_check_cert_key_usage(QCryptoTLSCredsX509 *creds,
-     if (status < 0) {
-         if (status == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
-             usage = isCA ? GNUTLS_KEY_KEY_CERT_SIGN :
--                GNUTLS_KEY_DIGITAL_SIGNATURE|GNUTLS_KEY_KEY_ENCIPHERMENT;
-+                GNUTLS_KEY_DIGITAL_SIGNATURE | GNUTLS_KEY_KEY_ENCIPHERMENT;
-         } else {
-             error_setg(errp,
-                        "Unable to query certificate %s key usage: %s",
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 38cd35c049..bebaabf525 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -9895,6 +9895,10 @@ static void handle_semihosting(CPUState *cs)
+  * Do any appropriate logging, handle PSCI calls, and then hand off
+  * to the AArch64-entry or AArch32-entry function depending on the
+  * target exception level's register width.
++ *
++ * Note: this is used for both TCG (as the do_interrupt tcg op),
++ *       and KVM to re-inject guest debug exceptions, and to
++ *       inject a Synchronous-External-Abort.
+  */
+ void arm_cpu_do_interrupt(CPUState *cs)
+ {
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index f74bac2457..2b17e4203d 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -960,7 +960,7 @@ static void kvm_inject_arm_sea(CPUState *c)
+ 
+     env->exception.syndrome = esr;
+ 
+-    cc->do_interrupt(c);
++    arm_cpu_do_interrupt(c);
+ }
+ 
+ #define AARCH64_CORE_REG(x)   (KVM_REG_ARM64 | KVM_REG_SIZE_U64 | \
+@@ -1545,7 +1545,7 @@ bool kvm_arm_handle_debug(CPUState *cs, struct kvm_debug_exit_arch *debug_exit)
+     env->exception.vaddress = debug_exit->far;
+     env->exception.target_el = 1;
+     qemu_mutex_lock_iothread();
+-    cc->do_interrupt(cs);
++    arm_cpu_do_interrupt(cs);
+     qemu_mutex_unlock_iothread();
+ 
+     return false;
 -- 
-2.29.1.59.gf9b6481aed
+2.26.2
+
 
