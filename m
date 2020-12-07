@@ -2,49 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4032D09DA
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 05:52:20 +0100 (CET)
-Received: from localhost ([::1]:39056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEBBE2D09EB
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 06:06:11 +0100 (CET)
+Received: from localhost ([::1]:43936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1km8VX-0003tb-4K
-	for lists+qemu-devel@lfdr.de; Sun, 06 Dec 2020 23:52:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57320)
+	id 1km8iw-0006r6-Sy
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 00:06:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1km8Qk-0008Jp-Ub
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 23:47:22 -0500
-Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:39142)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1km8gp-0005bi-8d
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:03:59 -0500
+Received: from relay3.mymailcheap.com ([217.182.66.161]:47145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1km8Qh-00018X-Ph
- for qemu-devel@nongnu.org; Sun, 06 Dec 2020 23:47:22 -0500
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07732064|-1; CH=green;
- DM=|CONTINUE|false|;
- DS=CONTINUE|ham_system_inform|0.531916-0.000212585-0.467872;
- FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047187; MF=zhiwei_liu@c-sky.com; NM=1;
- PH=DS; RN=5; RT=5; SR=0; TI=SMTPD_---.J3tRDLu_1607316427; 
-Received: from L-PF1D6DP4-1208.hz.ali.com(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.J3tRDLu_1607316427)
- by smtp.aliyun-inc.com(10.147.41.199);
- Mon, 07 Dec 2020 12:47:08 +0800
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1km8ge-0008Vx-J0
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:03:59 -0500
+Received: from filter1.mymailcheap.com (filter1.mymailcheap.com
+ [149.56.130.247])
+ by relay3.mymailcheap.com (Postfix) with ESMTPS id 5AC1A3F15F;
+ Mon,  7 Dec 2020 06:03:46 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by filter1.mymailcheap.com (Postfix) with ESMTP id 9ADD62A3E6;
+ Mon,  7 Dec 2020 00:03:45 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
+ s=default; t=1607317425;
+ bh=he4+ITVT+eWSjEMdmpF2I2R5NjPRB5oUE6IJxUTlBZk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=rAzidl1/WTrESLwf8Ir6HEsUjo1YED2Qx6L4S6HH6a3UGTJt5CrAzbdXJgA2oRUyt
+ JBsCxviERtxEBTyoFKE5CUiujOgOEsZCH7szSDgrePWdhJ4zu2UdR/f9Bhxc4e3B/3
+ 0bGcPjqa10TStp64CQltIiEYGOVJOYUehCvc19hA=
+X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
+Received: from filter1.mymailcheap.com ([127.0.0.1])
+ by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PkaEIuAdRqyx; Mon,  7 Dec 2020 00:03:42 -0500 (EST)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by filter1.mymailcheap.com (Postfix) with ESMTPS;
+ Mon,  7 Dec 2020 00:03:42 -0500 (EST)
+Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
+ by mail20.mymailcheap.com (Postfix) with ESMTP id 3228441FB1;
+ Mon,  7 Dec 2020 05:03:41 +0000 (UTC)
+Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="gKAXdRQl"; 
+ dkim-atps=neutral
+AI-Spam-Status: Not processed
+Received: from strike.U-LINK.com (unknown [116.228.84.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 097EF41FB1;
+ Mon,  7 Dec 2020 05:03:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
+ s=default; t=1607317397;
+ bh=he4+ITVT+eWSjEMdmpF2I2R5NjPRB5oUE6IJxUTlBZk=;
+ h=From:To:Cc:Subject:Date:From;
+ b=gKAXdRQlg4gs1CdgeA8RN/0cUUNj/u2Qb/R/cPRponjHorxPNHbyyjqH5lC9I6fzx
+ qxGD3bmPRyuWZC5dMcdKlXkjwcEaCl2xglQwK0As6i5ny7YYD8mhUIEfNFJO0WHp7q
+ EkVTx06uX6BaMHR95kF2U7PFMxbvQcE/DvBCrMa8=
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] target/arm: adjust CPTR_EL2 according to HCR_EL2.E2H
-Date: Mon,  7 Dec 2020 12:46:55 +0800
-Message-Id: <20201207044655.2312-5-zhiwei_liu@c-sky.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20201207044655.2312-1-zhiwei_liu@c-sky.com>
-References: <20201207044655.2312-1-zhiwei_liu@c-sky.com>
+Subject: [PATCH 0/5] MIPS Bootloader helper
+Date: Mon,  7 Dec 2020 13:02:26 +0800
+Message-Id: <20201207050231.2712-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=121.197.200.217;
- envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-Rspamd-Queue-Id: 3228441FB1
+X-Spamd-Result: default: False [4.90 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ ARC_NA(0.00)[]; R_DKIM_ALLOW(0.00)[flygoat.com:s=default];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ R_MISSING_CHARSET(2.50)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; BROKEN_CONTENT_TYPE(1.50)[];
+ R_SPF_SOFTFAIL(0.00)[~all]; RCPT_COUNT_FIVE(0.00)[5];
+ ML_SERVERS(-3.10)[148.251.23.173];
+ DKIM_TRACE(0.00)[flygoat.com:+];
+ DMARC_POLICY_ALLOW(0.00)[flygoat.com,none];
+ MID_CONTAINS_FROM(1.00)[];
+ DMARC_POLICY_ALLOW_WITH_FAILURES(0.00)[];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
+ RCVD_COUNT_TWO(0.00)[2];
+ HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
+X-Rspamd-Server: mail20.mymailcheap.com
+X-Spam: Yes
+Received-SPF: pass client-ip=217.182.66.161;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay3.mymailcheap.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,99 +109,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, richard.henderson@linaro.org,
- LIU Zhiwei <zhiwei_liu@c-sky.com>, peter.maydell@linaro.org
+Cc: chenhuacai@kernel.org, f4bug@amsat.org, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From DDI0487Fc_armv8_arm.pdf, the CPTR_EL2 has two kinds
-of layouts according to HCR_EL2.E2H.
+Hi all,
 
-When HCR_EL2.E2H is 1, fp_exception_el should refer to
-HCR_EL2.FPEN and sve_exception_el should refer to HCR_EL2.ZEN.
+I'm back! Now I'm also helping CIP United, the present owner of MIPS
+in China, take care of their open-souce infrastructures.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
----
- target/arm/helper.c | 55 +++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 46 insertions(+), 9 deletions(-)
+Btw: I'd like to add kernel boot tests for boston and incoming loongson-virt.
+Where should I place kernel binaries?
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 38cd35c049..6cc9f2bb50 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6147,11 +6147,30 @@ int sve_exception_el(CPUARMState *env, int el)
-      * they will be zero when EL2 is not present.
-      */
-     if (el <= 2 && !arm_is_secure_below_el3(env)) {
--        if (env->cp15.cptr_el[2] & CPTR_TZ) {
--            return 2;
--        }
--        if (env->cp15.cptr_el[2] & CPTR_TFP) {
--            return 0;
-+        /* Since we exclude secure first, we may read HCR_EL2 directly. */
-+        if (env->cp15.hcr_el2 & HCR_E2H) {
-+            int zen = extract32(env->cp15.cptr_el[2], 16, 2);
-+            switch (zen) {
-+            case 0:
-+            case 2:
-+                return 2;
-+            case 1:
-+                if (env->cp15.hcr_el2 & HCR_TGE) {
-+                    if (el == 0) {
-+                        return 2;
-+                    }
-+                }
-+                break;
-+            case 3:
-+                break;
-+            }
-+        } else {
-+            if (env->cp15.cptr_el[2] & CPTR_TZ) {
-+                return 2;
-+            }
-+            if (env->cp15.cptr_el[2] & CPTR_TFP) {
-+                return 0;
-+            }
-         }
-     }
- 
-@@ -12635,12 +12654,30 @@ int fp_exception_el(CPUARMState *env, int cur_el)
-      */
- 
-     /* CPTR_EL2 : present in v7VE or v8 */
--    if (cur_el <= 2 && extract32(env->cp15.cptr_el[2], 10, 1)
--        && !arm_is_secure_below_el3(env)) {
-+    if ((cur_el <= 2) && !arm_is_secure_below_el3(env)) {
-         /* Trap FP ops at EL2, NS-EL1 or NS-EL0 to EL2 */
--        return 2;
-+        if ((arm_hcr_el2_eff(env) & HCR_E2H) == HCR_E2H) {
-+            int fpen = extract32(env->cp15.cptr_el[2], 20, 2);
-+            switch (fpen) {
-+            case 0:
-+            case 2:
-+                return 2;
-+            case 1:
-+                if ((arm_hcr_el2_eff(env) & HCR_TGE) == HCR_TGE) {
-+                    if (cur_el == 0) {
-+                        return 2;
-+                    }
-+                }
-+                break;
-+            case 3:
-+                break;
-+            }
-+        } else {
-+            if (extract32(env->cp15.cptr_el[2], 10, 1)) {
-+                return 2;
-+            }
-+        }
-     }
--
-     /* CPTR_EL3 : present in v8 */
-     if (extract32(env->cp15.cptr_el[3], 10, 1)) {
-         /* Trap all FP ops to EL3 */
+Thanks.
+
+Jiaxun Yang (5):
+  hw/mips: Add a bootloader helper
+  hw/mips/malta: Make use of bootloader helper
+  hw/mips/fuloong2e: Make use of bootloader helper
+  hw/mips/addr: Add translation helpers for KSEG1
+  hw/mips/boston: Make use of bootloader helper
+
+ hw/mips/addr.c            |  11 +++
+ hw/mips/bootloader.c      | 150 ++++++++++++++++++++++++++++++++++++++
+ hw/mips/boston.c          |  60 ++++-----------
+ hw/mips/fuloong2e.c       |  35 ++-------
+ hw/mips/malta.c           | 108 +++++++--------------------
+ hw/mips/meson.build       |   2 +-
+ include/hw/mips/cpudevs.h |  10 +++
+ 7 files changed, 216 insertions(+), 160 deletions(-)
+ create mode 100644 hw/mips/bootloader.c
+
 -- 
-2.23.0
-
+2.29.2
 
