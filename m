@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3872E2D1232
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:35:51 +0100 (CET)
-Received: from localhost ([::1]:54784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB5F32D1296
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:54:22 +0100 (CET)
+Received: from localhost ([::1]:52026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmGgA-0000b4-A0
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:35:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40714)
+	id 1kmGy5-0003Tg-H2
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:54:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kmGeA-0007n2-DE
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:33:46 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:36453)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kmGe5-000731-Ij
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:33:46 -0500
-Received: by mail-ej1-x643.google.com with SMTP id lt17so19538035ejb.3
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 05:33:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L/JpPNfnFiHKMax9A7Vkh9lJzDcwEOM+xOdwJOQSOoU=;
- b=ENt3oz4FL0ErS78YFlyME9pjD9gCocorYw+iEL55nS06QrPiJbzlxTGFIUoNL2MyzB
- xmsS9Cp3kfApeufmCKylTohHHrTK7DQXgDRwvJ476lbdxMDr5R+Si2UFz6Gcb0ZXM0Qh
- Ef/v7xlR/yVHhS1fvjqcGHLwTXDB/9FHlbGlcXm268PIR2YGUmlVzHVqEFNeCAZ1qSHK
- ODy21WbWt5JiWn9VzkDU+uxhQSRSg7je3YmpmExBpBta0JuFacDwthssibmPud2kzvNr
- lXwSDmrlGnPZGarYo2zTvHyhvY+WH0uBspYdMMghIUTUyOy+cBbdPjcmJGzAPGVC3mYm
- yKLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L/JpPNfnFiHKMax9A7Vkh9lJzDcwEOM+xOdwJOQSOoU=;
- b=SRZPwNrCP5aUIE1ciiYEyEeviB4040n9EwFKGQ+It2kx3Nq605/jrnrFuzRoZQ384y
- qUhSkEuHFwb3MqNG+xUGRMF2a3NVUn7Mm956nwY/CTrBcaqUx6BWhTh34sjsPIxf1cmE
- FaUYZGqE1wtNoPebTVoG9aNscHwHSp/KwG41QJRRCmJGWYtYgMM2KFlMpy4Dgr7LHp7d
- /CKzXGXtbSO4RbN+1HlWJdzCC+nbRNe+9rdEFvti5ZL9c4+FHmdOJsaDiaizLe1IqFHt
- ikQtxE5Ehy8pZfffTQDLmTZOJZe6idmF9N4tQJGS9LITjfyjhA7hfTekXA3sh5IZkrqd
- 8Ezg==
-X-Gm-Message-State: AOAM531dkavZeLa9vZwVeVTjP18MQw5LDAERW01J6wOTg0sGoLtEMWSJ
- ha/ojQr7lp51bj+Rc//wKpOi+n4cWJtout/rl/g=
-X-Google-Smtp-Source: ABdhPJzuDMlicqCEj4ak5rDkI7B3w2MLjABEcRh3S91a8D91I0SOWgT0Y1kslbakiOxic/jrCZ88xy02P929Vtjl+YQ=
-X-Received: by 2002:a17:906:98d4:: with SMTP id
- zd20mr19021404ejb.532.1607348018964; 
- Mon, 07 Dec 2020 05:33:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kmGhd-0002dk-RB
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:37:25 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:56890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kmGhX-0008IK-Gs
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:37:18 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-tgZ7i0M2NUatt06dngos8g-1; Mon, 07 Dec 2020 08:37:09 -0500
+X-MC-Unique: tgZ7i0M2NUatt06dngos8g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2447858180;
+ Mon,  7 Dec 2020 13:37:07 +0000 (UTC)
+Received: from bahia.redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DCB160BE2;
+ Mon,  7 Dec 2020 13:37:04 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-6.0] spapr: Allow memory unplug to always succeed
+Date: Mon,  7 Dec 2020 14:37:04 +0100
+Message-Id: <20201207133704.952459-1-groug@kaod.org>
 MIME-Version: 1.0
-References: <cover.1606853298.git.jag.raman@oracle.com>
- <32c713a44d3514b4f0edcd23195e25a10153c347.1606853298.git.jag.raman@oracle.com>
-In-Reply-To: <32c713a44d3514b4f0edcd23195e25a10153c347.1606853298.git.jag.raman@oracle.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 7 Dec 2020 17:33:27 +0400
-Message-ID: <CAJ+F1C+O_0Cn_9g6uv3rmjs-7Ha+ZpyAcMKzwqtgGK2xA=YBTA@mail.gmail.com>
-Subject: Re: [PATCH v12 09/19] multi-process: Initialize message handler in
- remote device
-To: Jagannathan Raman <jag.raman@oracle.com>
-Content-Type: multipart/alternative; boundary="000000000000b36dea05b5dfdf95"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,391 +62,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Ross Lagerwall <ross.lagerwall@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b36dea05b5dfdf95
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It is currently impossible to hot-unplug a memory device between
+machine reset and CAS.
 
-Hi
+(qemu) device_del dimm1
+Error: Memory hot unplug not supported for this guest
 
-On Wed, Dec 2, 2020 at 12:23 AM Jagannathan Raman <jag.raman@oracle.com>
-wrote:
+This limitation was introduced in order to provide an explicit
+error path for older guests that didn't support hot-plug event
+sources (and thus memory hot-unplug).
 
-> Initializes the message handler function in the remote process. It is
-> called whenever there's an event pending on QIOChannel that registers
-> this function.
->
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  include/hw/remote/machine.h |  9 +++++++
->  hw/remote/message.c         | 61
-> +++++++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                 |  1 +
->  hw/remote/meson.build       |  1 +
->  4 files changed, 72 insertions(+)
->  create mode 100644 hw/remote/message.c
->
-> diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h
-> index d312972..3073db6 100644
-> --- a/include/hw/remote/machine.h
-> +++ b/include/hw/remote/machine.h
-> @@ -14,6 +14,7 @@
->  #include "qom/object.h"
->  #include "hw/boards.h"
->  #include "hw/pci-host/remote.h"
-> +#include "io/channel.h"
->
->  typedef struct RemoteMachineState {
->      MachineState parent_obj;
-> @@ -21,8 +22,16 @@ typedef struct RemoteMachineState {
->      RemotePCIHost *host;
->  } RemoteMachineState;
->
-> +/* Used to pass to co-routine device and ioc. */
-> +typedef struct RemoteCommDev {
-> +    PCIDevice *dev;
-> +    QIOChannel *ioc;
-> +} RemoteCommDev;
-> +
->  #define TYPE_REMOTE_MACHINE "x-remote-machine"
->  #define REMOTE_MACHINE(obj) \
->      OBJECT_CHECK(RemoteMachineState, (obj), TYPE_REMOTE_MACHINE)
->
-> +void coroutine_fn mpqemu_remote_msg_loop_co(void *data);
-> +
->  #endif
-> diff --git a/hw/remote/message.c b/hw/remote/message.c
-> new file mode 100644
-> index 0000000..5d87bf4
-> --- /dev/null
-> +++ b/hw/remote/message.c
-> @@ -0,0 +1,61 @@
-> +/*
-> + * Copyright =C2=A9 2020 Oracle and/or its affiliates.
-> + *
-> + * This work is licensed under the terms of the GNU GPL-v2, version 2 or
-> later.
-> + *
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +
-> +#include "hw/remote/machine.h"
-> +#include "io/channel.h"
-> +#include "hw/remote/mpqemu-link.h"
-> +#include "qapi/error.h"
-> +#include "sysemu/runstate.h"
-> +
-> +void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
-> +{
-> +    RemoteCommDev *com =3D (RemoteCommDev *)data;
-> +    PCIDevice *pci_dev =3D NULL;
-> +
-> +    pci_dev =3D com->dev;
-> +    for (;;) {
-> +        MPQemuMsg msg =3D {0};
-> +        Error *local_err =3D NULL;
-> +
-> +        if (!com->ioc) {
-> +            error_report("ERROR: No channel available");
-> +            break;
-> +        }
->
+The linux kernel has been supporting these since 4.11. All recent
+enough guests are thus capable of handling the removal of a memory
+device at all time, including during early boot.
 
-Shouldn't this be assert() at the top?
+Lift the limitation for the latest machine type. This means that
+trying to unplug memory from a guest that doesn't support it will
+likely just do nothing and the memory will only get removed at
+next reboot. Such older guests can still get the existing behavior
+by using an older machine type.
 
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+Based-on: 20201109173928.1001764-1-cohuck@redhat.com
+---
+ include/hw/ppc/spapr.h | 1 +
+ hw/ppc/spapr.c         | 6 +++++-
+ hw/ppc/spapr_events.c  | 3 ++-
+ 3 files changed, 8 insertions(+), 2 deletions(-)
 
-> +        mpqemu_msg_recv(&msg, com->ioc, &local_err);
-> +        if (local_err) {
-> +            error_report_err(local_err);
-> +            break;
->
-
-Error handling is not consistent in this function. Could you cleanup error
-code paths so error handling & reporting is done in one place?
-
-+        }
-> +
-> +        if (!mpqemu_msg_valid(&msg)) {
-> +            error_report("Received invalid message from proxy"
-> +                         "in remote process pid=3D%d", getpid());
-> +            break;
-> +        }
-> +
-> +        switch (msg.cmd) {
-> +        default:
-> +            error_setg(&local_err,
-> +                       "Unknown command (%d) received for device %s
-> (pid=3D%d)",
-> +                       msg.cmd, DEVICE(pci_dev)->id, getpid());
-> +        }
-> +
-> +        if (local_err) {
-> +            error_report_err(local_err);
-> +            qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
->
-
-Presumably that error handling should be done outside of the for(;;) loop.
-
-SHUTDOWN_CAUSE_HOST_ERROR might be more appropriate in this case, or
-perhaps introduce a new ShutdownCause?
-
-+            break;
-> +        }
-> +    }
-> +    qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-> +
-> +    return;
->
-
-needless return statement
-
-+}
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d0c891a..b64e4b8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3143,6 +3143,7 @@ F: hw/remote/machine.c
->  F: include/hw/remote/machine.h
->  F: hw/remote/mpqemu-link.c
->  F: include/hw/remote/mpqemu-link.h
-> +F: hw/remote/message.c
->
->  Build and test automation
->  -------------------------
-> diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-> index a2b2fc0..9f5c57f 100644
-> --- a/hw/remote/meson.build
-> +++ b/hw/remote/meson.build
-> @@ -2,5 +2,6 @@ remote_ss =3D ss.source_set()
->
->  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
->  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true:
-> files('mpqemu-link.c'))
-> +remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
->
->  softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
-> --
-> 1.8.3.1
->
->
-
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index b7ced9faebf5..7aa630350326 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -139,6 +139,7 @@ struct SpaprMachineClass {
+     hwaddr rma_limit;          /* clamp the RMA to this size */
+     bool pre_5_1_assoc_refpoints;
+     bool pre_5_2_numa_associativity;
++    bool pre_6_0_memory_unplug;
+=20
+     bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+                           uint64_t *buid, hwaddr *pio,=20
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 7e954bc84bed..f0b26b2af30d 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4044,7 +4044,8 @@ static void spapr_machine_device_unplug_request(Hotpl=
+ugHandler *hotplug_dev,
+     SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+=20
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+-        if (spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
++        if (!smc->pre_6_0_memory_unplug ||
++            spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
+             spapr_memory_unplug_request(hotplug_dev, dev, errp);
+         } else {
+             /* NOTE: this means there is a window after guest reset, prior=
+ to
+@@ -4530,8 +4531,11 @@ DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
+  */
+ static void spapr_machine_5_2_class_options(MachineClass *mc)
+ {
++    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
++
+     spapr_machine_6_0_class_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
++    smc->pre_6_0_memory_unplug =3D true;
+ }
+=20
+ DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
+diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+index 1add53547ec3..c30123177b16 100644
+--- a/hw/ppc/spapr_events.c
++++ b/hw/ppc/spapr_events.c
+@@ -659,7 +659,8 @@ static void spapr_hotplug_req_event(uint8_t hp_id, uint=
+8_t hp_action,
+         /* we should not be using count_indexed value unless the guest
+          * supports dedicated hotplug event source
+          */
+-        g_assert(spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
++        g_assert(!SPAPR_MACHINE_GET_CLASS(spapr)->pre_6_0_memory_unplug ||
++                 spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
+         hp->drc_id.count_indexed.count =3D
+             cpu_to_be32(drc_id->count_indexed.count);
+         hp->drc_id.count_indexed.index =3D
 --=20
-Marc-Andr=C3=A9 Lureau
+2.26.2
 
---000000000000b36dea05b5dfdf95
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 2, 2020 at 12:23 AM Jag=
-annathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">Initializes the message handler function in the remote process. It is<b=
-r>
-called whenever there&#39;s an event pending on QIOChannel that registers<b=
-r>
-this function.<br>
-<br>
-Signed-off-by: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle=
-.com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
-Signed-off-by: John G Johnson &lt;<a href=3D"mailto:john.g.johnson@oracle.c=
-om" target=3D"_blank">john.g.johnson@oracle.com</a>&gt;<br>
-Signed-off-by: Jagannathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com=
-" target=3D"_blank">jag.raman@oracle.com</a>&gt;<br>
-Reviewed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" tar=
-get=3D"_blank">stefanha@redhat.com</a>&gt;<br>
----<br>
-=C2=A0include/hw/remote/machine.h |=C2=A0 9 +++++++<br>
-=C2=A0hw/remote/message.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 61 +++++++++++=
-++++++++++++++++++++++++++++++++++<br>
-=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 1 +<br>
-=C2=A0hw/remote/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-=C2=A04 files changed, 72 insertions(+)<br>
-=C2=A0create mode 100644 hw/remote/message.c<br>
-<br>
-diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h<br>
-index d312972..3073db6 100644<br>
---- a/include/hw/remote/machine.h<br>
-+++ b/include/hw/remote/machine.h<br>
-@@ -14,6 +14,7 @@<br>
-=C2=A0#include &quot;qom/object.h&quot;<br>
-=C2=A0#include &quot;hw/boards.h&quot;<br>
-=C2=A0#include &quot;hw/pci-host/remote.h&quot;<br>
-+#include &quot;io/channel.h&quot;<br>
-<br>
-=C2=A0typedef struct RemoteMachineState {<br>
-=C2=A0 =C2=A0 =C2=A0MachineState parent_obj;<br>
-@@ -21,8 +22,16 @@ typedef struct RemoteMachineState {<br>
-=C2=A0 =C2=A0 =C2=A0RemotePCIHost *host;<br>
-=C2=A0} RemoteMachineState;<br>
-<br>
-+/* Used to pass to co-routine device and ioc. */<br>
-+typedef struct RemoteCommDev {<br>
-+=C2=A0 =C2=A0 PCIDevice *dev;<br>
-+=C2=A0 =C2=A0 QIOChannel *ioc;<br>
-+} RemoteCommDev;<br>
-+<br>
-=C2=A0#define TYPE_REMOTE_MACHINE &quot;x-remote-machine&quot;<br>
-=C2=A0#define REMOTE_MACHINE(obj) \<br>
-=C2=A0 =C2=A0 =C2=A0OBJECT_CHECK(RemoteMachineState, (obj), TYPE_REMOTE_MAC=
-HINE)<br>
-<br>
-+void coroutine_fn mpqemu_remote_msg_loop_co(void *data);<br>
-+<br>
-=C2=A0#endif<br>
-diff --git a/hw/remote/message.c b/hw/remote/message.c<br>
-new file mode 100644<br>
-index 0000000..5d87bf4<br>
---- /dev/null<br>
-+++ b/hw/remote/message.c<br>
-@@ -0,0 +1,61 @@<br>
-+/*<br>
-+ * Copyright =C2=A9 2020 Oracle and/or its affiliates.<br>
-+ *<br>
-+ * This work is licensed under the terms of the GNU GPL-v2, version 2 or l=
-ater.<br>
-+ *<br>
-+ * See the COPYING file in the top-level directory.<br>
-+ *<br>
-+ */<br>
-+<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;qemu-common.h&quot;<br>
-+<br>
-+#include &quot;hw/remote/machine.h&quot;<br>
-+#include &quot;io/channel.h&quot;<br>
-+#include &quot;hw/remote/mpqemu-link.h&quot;<br>
-+#include &quot;qapi/error.h&quot;<br>
-+#include &quot;sysemu/runstate.h&quot;<br>
-+<br>
-+void coroutine_fn mpqemu_remote_msg_loop_co(void *data)<br>
-+{<br>
-+=C2=A0 =C2=A0 RemoteCommDev *com =3D (RemoteCommDev *)data;<br>
-+=C2=A0 =C2=A0 PCIDevice *pci_dev =3D NULL;<br>
-+<br>
-+=C2=A0 =C2=A0 pci_dev =3D com-&gt;dev;<br>
-+=C2=A0 =C2=A0 for (;;) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 MPQemuMsg msg =3D {0};<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!com-&gt;ioc) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;ERROR: No cha=
-nnel available&quot;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>Shouldn&=
-#39;t this be assert() at the top?<br></div><div>=C2=A0</div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mpqemu_msg_recv(&amp;msg, com-&gt;ioc, &amp;lo=
-cal_err);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (local_err) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report_err(local_err);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br></blockquote><div><br>=
-</div><div>Error handling is not consistent in this function. Could you cle=
-anup error code paths so error handling &amp; reporting is done in one plac=
-e?<br></div><div> <br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!mpqemu_msg_valid(&amp;msg)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;Received inva=
-lid message from proxy&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&quot;in remote process pid=3D%d&quot;, getpid());<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (msg.cmd) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(&amp;local_err,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0&quot;Unknown command (%d) received for device %s (pid=3D%d)&quot=
-;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0msg.cmd, DEVICE(pci_dev)-&gt;id, getpid());<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (local_err) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report_err(local_err);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_system_shutdown_request(SHU=
-TDOWN_CAUSE_GUEST_SHUTDOWN);<br></blockquote><div><br></div><div>Presumably=
- that error handling should be done outside of the for(;;) loop.</div><div>=
-<br></div><div>SHUTDOWN_CAUSE_HOST_ERROR might be more appropriate in this =
-case, or perhaps introduce a new ShutdownCause?</div><div><br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);=
-<br>
-+<br>
-+=C2=A0 =C2=A0 return;<br></blockquote><div><br></div><div>needless return =
-statement<br></div><div> <br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-+}<br>
-diff --git a/MAINTAINERS b/MAINTAINERS<br>
-index d0c891a..b64e4b8 100644<br>
---- a/MAINTAINERS<br>
-+++ b/MAINTAINERS<br>
-@@ -3143,6 +3143,7 @@ F: hw/remote/machine.c<br>
-=C2=A0F: include/hw/remote/machine.h<br>
-=C2=A0F: hw/remote/mpqemu-link.c<br>
-=C2=A0F: include/hw/remote/mpqemu-link.h<br>
-+F: hw/remote/message.c<br>
-<br>
-=C2=A0Build and test automation<br>
-=C2=A0-------------------------<br>
-diff --git a/hw/remote/meson.build b/hw/remote/meson.build<br>
-index a2b2fc0..9f5c57f 100644<br>
---- a/hw/remote/meson.build<br>
-+++ b/hw/remote/meson.build<br>
-@@ -2,5 +2,6 @@ remote_ss =3D ss.source_set()<br>
-<br>
-=C2=A0remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#3=
-9;machine.c&#39;))<br>
-=C2=A0remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#3=
-9;mpqemu-link.c&#39;))<br>
-+remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#39;mes=
-sage.c&#39;))<br>
-<br>
-=C2=A0softmmu_ss.add_all(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: remo=
-te_ss)<br>
--- <br>
-1.8.3.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000b36dea05b5dfdf95--
 
