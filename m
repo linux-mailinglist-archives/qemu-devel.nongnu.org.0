@@ -2,54 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB5F32D1296
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:54:22 +0100 (CET)
-Received: from localhost ([::1]:52026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 591C42D124D
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:40:41 +0100 (CET)
+Received: from localhost ([::1]:35764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmGy5-0003Tg-H2
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:54:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41512)
+	id 1kmGkq-0004ZT-Ek
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:40:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kmGhd-0002dk-RB
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:37:25 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:56890)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kmGii-0003iJ-92
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:38:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kmGhX-0008IK-Gs
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:37:18 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kmGid-0000EC-P6
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:38:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607348301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+emTEKNZhaiY62rQ0tk28+oQfDj9k2VgCns/wB7AypI=;
+ b=MmYvECl6k4MIXBM930896RXDrKW4r/0nVtDcCTG9tG+JUPQ/u512/glBYe6odoggiOrCUj
+ LOCceMsvgsutPHmDALnebdhcAmTGo3YPKFCEbaOqtSdrWcfS0gxMZu3b5wHLMIEWXEm9ZM
+ qLP38lVlcOf1y0RH3fk70v5dJXPiY7I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-tgZ7i0M2NUatt06dngos8g-1; Mon, 07 Dec 2020 08:37:09 -0500
-X-MC-Unique: tgZ7i0M2NUatt06dngos8g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-259-xmgaiuT5OzqkKla6GzK5hw-1; Mon, 07 Dec 2020 08:38:19 -0500
+X-MC-Unique: xmgaiuT5OzqkKla6GzK5hw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2447858180;
- Mon,  7 Dec 2020 13:37:07 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1DCB160BE2;
- Mon,  7 Dec 2020 13:37:04 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD539107ACE3;
+ Mon,  7 Dec 2020 13:38:18 +0000 (UTC)
+Received: from gondolin (ovpn-113-45.ams2.redhat.com [10.36.113.45])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BCF65D9DC;
+ Mon,  7 Dec 2020 13:38:10 +0000 (UTC)
+Date: Mon, 7 Dec 2020 14:38:08 +0100
+From: Cornelia Huck <cohuck@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.0] spapr: Allow memory unplug to always succeed
-Date: Mon,  7 Dec 2020 14:37:04 +0100
-Message-Id: <20201207133704.952459-1-groug@kaod.org>
+Subject: Re: [PATCH 0/3] tests/acceptance: enhance s390x devices test
+Message-ID: <20201207143808.74dbc3c8.cohuck@redhat.com>
+In-Reply-To: <20201130180216.15366-1-cohuck@redhat.com>
+References: <20201130180216.15366-1-cohuck@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,96 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is currently impossible to hot-unplug a memory device between
-machine reset and CAS.
+On Mon, 30 Nov 2020 19:02:13 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-(qemu) device_del dimm1
-Error: Memory hot unplug not supported for this guest
+> This series builds upon the new s390x acceptance test currently
+> queued on my s390-next branch.
+> 
+> Sadly, the kernel/initrd I'm using does not have the virtio-net driver,
+> so I cannot test things like mac address specification etc. Instead,
+> I added some quick checks regarding legacy virtio and propagation of
+> device type and fid properties.
+> 
+> Next up: maybe some device plug/unplug tests; but I still need to find
+> some inspiration there.
+> 
+> [And yes, I know that checkpatch moans about long lines -- hard to avoid
+> if you use a function with a very long name.]
+> 
+> Cornelia Huck (3):
+>   tests/acceptance: test virtio-ccw revision handling
+>   tests/acceptance: verify s390x device detection
+>   tests/acceptance: test s390x zpci fid propagation
+> 
+>  tests/acceptance/machine_s390_ccw_virtio.py | 41 ++++++++++++++++++---
+>  1 file changed, 36 insertions(+), 5 deletions(-)
+> 
+> 
+> base-commit: 875a99a0354211276b6daf635427b3c52a025790
 
-This limitation was introduced in order to provide an explicit
-error path for older guests that didn't support hot-plug event
-sources (and thus memory hot-unplug).
-
-The linux kernel has been supporting these since 4.11. All recent
-enough guests are thus capable of handling the removal of a memory
-device at all time, including during early boot.
-
-Lift the limitation for the latest machine type. This means that
-trying to unplug memory from a guest that doesn't support it will
-likely just do nothing and the memory will only get removed at
-next reboot. Such older guests can still get the existing behavior
-by using an older machine type.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
-Based-on: 20201109173928.1001764-1-cohuck@redhat.com
----
- include/hw/ppc/spapr.h | 1 +
- hw/ppc/spapr.c         | 6 +++++-
- hw/ppc/spapr_events.c  | 3 ++-
- 3 files changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index b7ced9faebf5..7aa630350326 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -139,6 +139,7 @@ struct SpaprMachineClass {
-     hwaddr rma_limit;          /* clamp the RMA to this size */
-     bool pre_5_1_assoc_refpoints;
-     bool pre_5_2_numa_associativity;
-+    bool pre_6_0_memory_unplug;
-=20
-     bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
-                           uint64_t *buid, hwaddr *pio,=20
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 7e954bc84bed..f0b26b2af30d 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4044,7 +4044,8 @@ static void spapr_machine_device_unplug_request(Hotpl=
-ugHandler *hotplug_dev,
-     SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-=20
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
--        if (spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
-+        if (!smc->pre_6_0_memory_unplug ||
-+            spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
-             spapr_memory_unplug_request(hotplug_dev, dev, errp);
-         } else {
-             /* NOTE: this means there is a window after guest reset, prior=
- to
-@@ -4530,8 +4531,11 @@ DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
-  */
- static void spapr_machine_5_2_class_options(MachineClass *mc)
- {
-+    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-+
-     spapr_machine_6_0_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-+    smc->pre_6_0_memory_unplug =3D true;
- }
-=20
- DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 1add53547ec3..c30123177b16 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -659,7 +659,8 @@ static void spapr_hotplug_req_event(uint8_t hp_id, uint=
-8_t hp_action,
-         /* we should not be using count_indexed value unless the guest
-          * supports dedicated hotplug event source
-          */
--        g_assert(spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
-+        g_assert(!SPAPR_MACHINE_GET_CLASS(spapr)->pre_6_0_memory_unplug ||
-+                 spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
-         hp->drc_id.count_indexed.count =3D
-             cpu_to_be32(drc_id->count_indexed.count);
-         hp->drc_id.count_indexed.index =3D
---=20
-2.26.2
+Queued to s390-next (with some overlong lines fixed up.)
 
 
