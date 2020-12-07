@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C642D13CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 15:33:49 +0100 (CET)
-Received: from localhost ([::1]:52758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0772D13C0
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 15:31:19 +0100 (CET)
+Received: from localhost ([::1]:48522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmHaF-0003t4-Ur
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 09:33:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37828)
+	id 1kmHXm-0001zh-7D
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 09:31:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <blackbeard334@protonmail.com>)
- id 1kmCJT-0001ro-Ak
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 03:56:08 -0500
-Received: from mail-40135.protonmail.ch ([185.70.40.135]:33863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <blackbeard334@protonmail.com>)
- id 1kmCJN-0007Ag-MR
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 03:56:06 -0500
-Date: Mon, 07 Dec 2020 08:55:41 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1607331354;
- bh=jHEWUu/MbNA4KqKjpJ2LRa4ElZgNbobkCfVnxxEn0B8=;
- h=Date:To:From:Reply-To:Subject:From;
- b=ssvkP+4n9K46ojBxyeGPAofglJ232nNoZBg5Nk5FeQ3VMnaRXxJ6HUiy8Wa0zD++S
- l1Tv17aI25EoBc6k+YkXaKyi/KptMSepSPo/gQZ4ptABof3T0PYwEXKUfXl8ldAV2v
- e9VAkZ7/GbwrMDQGr29tZmfbREoTQL5FwCD0nyhM=
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-From: Mahmoud Abdelghany <blackbeard334@protonmail.com>
-Subject: [FOSDEM21][CFP] Emulator Development Room
-Message-ID: <6LjJh1pvaqybpKm9iq1GJ-UcnFj4mhM_rOMxnqV5x4pM0twcNVVpXRR9pkuj_MpqxD76_3LyVixDnan00p5IXVT_7pg0nvQYVirlErjTTuk=@protonmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmHVe-0001CV-L0
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:29:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40585)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmHVb-0001MX-Si
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 09:29:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607351337;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n6j+pHH/ihDg90vErRfLcZjLueUY828EiQOTqwKWUxg=;
+ b=HcFB5diGXA++Zt26AxsIOGVK9y8A3hwDccXCDQ/Zg913u9pjoMXofrB60+arx6HzFXYVWl
+ RlpsNSLC/URb6YCdWsSbLSnYuGS7c2yKITQozkgfsKgTt2ksu8OibzAzlllIV+8Z53OY+o
+ eJZrXidwqhRVI1vocVSi02SZ4PpttE0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-25-k94qBK2NN--vO7-10leWhg-1; Mon, 07 Dec 2020 09:28:55 -0500
+X-MC-Unique: k94qBK2NN--vO7-10leWhg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AA10107ACE6;
+ Mon,  7 Dec 2020 14:28:54 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-85.ams2.redhat.com [10.36.112.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B08F65D6AD;
+ Mon,  7 Dec 2020 14:28:48 +0000 (UTC)
+Subject: Re: [PATCH v2] tests/acceptance: test hot(un)plug of ccw devices
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
+References: <20201204121450.120730-1-cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <c3c60abd-2a38-8267-aafa-9a7534d5bf24@redhat.com>
+Date: Mon, 7 Dec 2020 15:28:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="b1_SJJaeQEPaCOJGbOTFWXuZE9tfdBVmlbyBK28rzhK6Q"
-Received-SPF: pass client-ip=185.70.40.135;
- envelope-from=blackbeard334@protonmail.com; helo=mail-40135.protonmail.ch
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- FREEMAIL_REPLYTO_END_DIGIT=0.25, HTML_MESSAGE=0.001, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201204121450.120730-1-cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 07 Dec 2020 09:32:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,48 +80,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Mahmoud Abdelghany <blackbeard334@protonmail.com>
+Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
+On 04/12/2020 13.14, Cornelia Huck wrote:
+> Hotplug a virtio-net-ccw device, and then hotunplug it again.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+> 
+> v1->v2:
+> - switch device id
+> - clear out dmesg before looking for CRW messages
+> 
+> ---
+>  tests/acceptance/machine_s390_ccw_virtio.py | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
+> index 53b8484f8f9c..83c00190621b 100644
+> --- a/tests/acceptance/machine_s390_ccw_virtio.py
+> +++ b/tests/acceptance/machine_s390_ccw_virtio.py
+> @@ -97,3 +97,19 @@ class S390CCWVirtioMachine(Test):
+>          exec_command_and_wait_for_pattern(self,
+>                                            'cat /sys/bus/pci/devices/000a\:00\:00.0/function_id',
+>                                            '0x0000000c')
+> +        # add another device
+> +        exec_command_and_wait_for_pattern(self, 'dmesg -c', ' ')
+> +        self.vm.command('device_add', driver='virtio-net-ccw',
+> +                        devno='fe.0.4711', id='net_4711')
+> +        exec_command_and_wait_for_pattern(self, 'dmesg', 'CRW')
 
---b1_SJJaeQEPaCOJGbOTFWXuZE9tfdBVmlbyBK28rzhK6Q
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+Looking at this twice, I'm a little bit afraid that this could be racy -
+what if the kernel decides to emit the line with the "CRW" just after we
+executed the dmesg command? I'd maybe use something like this instead:
 
-SGV5LAoKU28gd2UncmUgaG9zdGluZyBhbiBlbXVsYXRvciBkZXZyb29tIGF0IGZvc2RlbTIxKG9u
-bGluZSBlZGl0aW9uKSwgYW5kIHdvdWxkIHJlYWxseSBsb3ZlIGl0IGlmIEFMTCBvZiB5b3Ugc3Vi
-bWl0dGVkIHRhbGtzIDopCgpXZWxsLCBvbmx5IGhhbGYgam9raW5nLCBidXQgaGF2aW5nIGEgUUVN
-VSB0YWxrIHdvdWxkIGJlIGFtYXppbmcuCgpTbyBmZWVsIGZyZWUgdG8gc3VibWl0IGFuZC9vciBz
-cHJlYWQgdGhlIHdvcmQuCmh0dHBzOi8vZ2l0aHViLmNvbS9ibGFja2JlYXJkMzM0L2Zvc2RlbTIx
-LWVtdWxhdG9yLWRldnJvb20tY2ZwCgpSZWdhcmRzLAoKTWFobW91ZCBBYmRlbGdoYW55IC0gb24g
-YmVoYWxmIG9mIHRoZSBlbXUtZGV2cm9vbQoKU2VudCB3aXRoIFtQcm90b25NYWlsXShodHRwczov
-L3Byb3Rvbm1haWwuY29tKSBTZWN1cmUgRW1haWwu
+exec_command_and_wait_for_pattern(self,
+ 'while ! dmesg -c | grep CRW ; do sleep 1 ; done', '~ #')
 
---b1_SJJaeQEPaCOJGbOTFWXuZE9tfdBVmlbyBK28rzhK6Q
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
+> +                                          '0.0.4711')
+> +        # and detach it again
+> +        exec_command_and_wait_for_pattern(self, 'dmesg -c', ' ')
 
-PGRpdj5IZXksPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+U28gd2UncmUgaG9zdGluZyBh
-biBlbXVsYXRvciBkZXZyb29tIGF0IGZvc2RlbTIxKG9ubGluZSBlZGl0aW9uKSwgYW5kIHdvdWxk
-IHJlYWxseSBsb3ZlIGl0IGlmIEFMTCBvZiB5b3Ugc3VibWl0dGVkIHRhbGtzIDopPGJyPjwvZGl2
-PjxkaXY+PGJyPjwvZGl2PjxkaXY+V2VsbCwgb25seSBoYWxmIGpva2luZywgYnV0IGhhdmluZyBh
-IFFFTVUgdGFsayB3b3VsZCBiZSBhbWF6aW5nLjxicj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2
-PlNvIGZlZWwgZnJlZSB0byBzdWJtaXQgYW5kL29yIHNwcmVhZCB0aGUgd29yZC48YnI+PC9kaXY+
-PGRpdj48YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vYmxhY2tiZWFyZDMzNC9mb3NkZW0yMS1l
-bXVsYXRvci1kZXZyb29tLWNmcCI+aHR0cHM6Ly9naXRodWIuY29tL2JsYWNrYmVhcmQzMzQvZm9z
-ZGVtMjEtZW11bGF0b3ItZGV2cm9vbS1jZnA8L2E+PGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2Pjxk
-aXY+PGJyPjwvZGl2PjxkaXY+UmVnYXJkcyw8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5N
-YWhtb3VkIEFiZGVsZ2hhbnkgLSBvbiBiZWhhbGYgb2YgdGhlIGVtdS1kZXZyb29tPGJyPjwvZGl2
-PjxkaXY+PGJyPjwvZGl2PjxkaXYgY2xhc3M9InByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrIj48
-ZGl2IGNsYXNzPSJwcm90b25tYWlsX3NpZ25hdHVyZV9ibG9jay11c2VyIHByb3Rvbm1haWxfc2ln
-bmF0dXJlX2Jsb2NrLWVtcHR5Ij48YnI+PC9kaXY+PGRpdiBjbGFzcz0icHJvdG9ubWFpbF9zaWdu
-YXR1cmVfYmxvY2stcHJvdG9uIj5TZW50IHdpdGggPGEgaHJlZj0iaHR0cHM6Ly9wcm90b25tYWls
-LmNvbSIgdGFyZ2V0PSJfYmxhbmsiPlByb3Rvbk1haWw8L2E+IFNlY3VyZSBFbWFpbC48YnI+PC9k
-aXY+PC9kaXY+PGRpdj48YnI+PC9kaXY+
+If adapt my above change, you could also get rid of this dmesg -c here
+(since it's done in the while loop already)
 
+> +        self.vm.command('device_del', id='net_4711')
+> +        self.vm.event_wait(name='DEVICE_DELETED',
+> +                           match={'data': {'device': 'net_4711'}})
+> +        exec_command_and_wait_for_pattern(self, 'dmesg', 'CRW')
 
---b1_SJJaeQEPaCOJGbOTFWXuZE9tfdBVmlbyBK28rzhK6Q--
+dito
+
+> +        exec_command_and_wait_for_pattern(self,
+> +                                          'ls /sys/bus/ccw/devices/0.0.4711',
+> +                                          'No such file or directory')
+
+With my suggestion applied:
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
