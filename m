@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EAA92D1C39
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 22:38:14 +0100 (CET)
-Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC5D2D1C65
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 22:54:57 +0100 (CET)
+Received: from localhost ([::1]:34564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmOCz-0002SU-4u
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 16:38:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54050)
+	id 1kmOT9-000102-S5
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 16:54:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1kmOAQ-0001AI-5D
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:35:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54554)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1kmOAL-0007FP-DU
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:35:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607376927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mU8RUMs7oWEoUJIA99T6jby7D0JBGuHBlC/3z8LD+3g=;
- b=DeXJODVwUJnQ9FbWCDVI1601gCOmhGrNOQgv/nxGe6tkJlZDsa84iTLxrwkMMuF97rda6Q
- di2UIQpywJF1hoDRWicycsWGJ1Dmn6ianxlkopdiexo5Wh9dPY4O6gNQ004gnuQnG9qIv6
- zae3baiajYPHNyeUVkhq8sf5g7b0LCA=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-gdIS96DoMVaGyBo17b_TyQ-1; Mon, 07 Dec 2020 16:35:25 -0500
-X-MC-Unique: gdIS96DoMVaGyBo17b_TyQ-1
-Received: by mail-ua1-f70.google.com with SMTP id 1so3558986uaz.21
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 13:35:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kmOOs-00076p-C9
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:50:30 -0500
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:33543)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kmOOj-0003ii-MZ
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:50:30 -0500
+Received: by mail-ed1-x541.google.com with SMTP id k4so15454003edl.0
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 13:50:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=wnq1iAZeGOV5Yb1O/nbPsxk67J/+sVkSv8bXFemPnAk=;
+ b=iNtEiHymaFcTLL7K//ZWuHTYQAQHFiVL/6/j5Q+DyJQFMlp5qqmJWOUQvUlXnLnQVs
+ NB/Bnoq99a/UKFJaMh7MX0NWf93Mv+JXNZL3q9E/tTRwDI4D2D72HhaAvGazjFvrc4fn
+ Vidlcbv80Zxifb59AhUoRIV6syCyqVboxyj6qWuktGwhtwA5EX0+h51VXA4JPCJJzxU2
+ JOhodeKXE7zla2+hbzozylOb9IyMAzVh84uM+pQbSMd7xBNTnsSjhKeB95XM6POv9Tsm
+ oloOpM8xwJTq1e2s4K4ac3YZGTvUlXhCzckYvaLbgo7XD8H91BL33IlxQptEESs81YA5
+ 3j4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=mU8RUMs7oWEoUJIA99T6jby7D0JBGuHBlC/3z8LD+3g=;
- b=ctW0DZBHJhVk57sG5a8zL9gxQtiRMDmLssOdcQR0g3HXyoQ3C7ZA2iStmk98fgrdSe
- XOIqsCgMmq4qOYyTnIuSctXlLyxLDwut2HJWcK3o+9RqEr9g4npf0EcWEU2Tz4WUuSbv
- AbicMbWHdENFZ0t+EwWjRdsF2rbWrBp5OlEYUbjGgOsPcP0aJ9Tjq5qkMAdDnKNhlbJJ
- PA8IbokRQ35UIMtE66rwAqO9rPO/KHNFjFe8AiM5rKB9PF0X4MZaguQ4FwtZ2QOcXSVK
- Ry56HiLiMhvkq9vq2rdKjr/nNf05Kd8K4bSJqm1nOR7LOsRN0eDNYg64vHqejynx2hF7
- 26kw==
-X-Gm-Message-State: AOAM533gw3jKdvjZ+lZ0n7QC3XwZWv/++ykL1FqAOornoz75tFoKs6T4
- gaLpuspT4bPsbsvGia4fDGus/LT2a1CcswpyvSww8zpVWkPj8t64GlFd6Wcztkvr+7yqeihZMS1
- nprdjf9SpBwNy/AY95vULalLasvd/pTc=
-X-Received: by 2002:a05:6102:394:: with SMTP id
- m20mr2455115vsq.50.1607376925479; 
- Mon, 07 Dec 2020 13:35:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyNC9HWA9mTky90jzz/vXAiJWirfADilu0ecJjn/wj9viVYdnJpTIBeEU3g1NfxwSklJA/nAsyCBruU+5Q3f1Y=
-X-Received: by 2002:a05:6102:394:: with SMTP id
- m20mr2455105vsq.50.1607376925293; 
- Mon, 07 Dec 2020 13:35:25 -0800 (PST)
+ bh=wnq1iAZeGOV5Yb1O/nbPsxk67J/+sVkSv8bXFemPnAk=;
+ b=kWYfhNlAp8h4lMHadKjeMwyYdWz+S+r7cbU/HwZHY9NJa1rq1nWoL3vyXMI3EwbB0i
+ XTYTI6D7bRykhByatS2v1vclc3N8CV4Xmn8uLOLgBxo9V4AlFVcCJinT8qBvjdubZIkJ
+ EH2YRr4VUVXi3ZnJ3mIJX+cqzwRklTOJOlqG5yNBPqubkZJkKYq1L7y06faBo4dOGDNr
+ aNIy3QcfkbSdpj/ofJ+iPA6RHafS4zKaikR4r40Je9H687Rt03NfSEk3bElcrGA7Yu9C
+ lkZFfL3hlSOR08Cg/vyY4z+dELAKJ0ltEmDXzCCcBkk6lz9UBnWo4x7N7h+q079wLVmX
+ 0nPw==
+X-Gm-Message-State: AOAM530kIBgFM8kqApLS9/cW8WB7OZfr9a77CTNeuM+rFgayZBnKB0Ge
+ 62WyF6wwEEUOnN3A544KV34+vh6ROPWJQ7qBBB6ybQ==
+X-Google-Smtp-Source: ABdhPJzkFa7GhQGZj4vGe0af7iGxN6+EvSC3QQJr7gi/0wGlNsa/ekgvyN+4DC1VO6FOBT02W8T9mu75g46qOkqyXac=
+X-Received: by 2002:aa7:d915:: with SMTP id a21mr21638925edr.251.1607377819550; 
+ Mon, 07 Dec 2020 13:50:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20201207200737.5090-1-alex.bennee@linaro.org>
-In-Reply-To: <20201207200737.5090-1-alex.bennee@linaro.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 7 Dec 2020 18:35:14 -0300
-Message-ID: <CAKJDGDbdHXPAKUXpJFXufs6ip0LNikacvBstdyxr4v3kv8ox=w@mail.gmail.com>
-Subject: Re: [RFC PATCH] python: add __repr__ to ConsoleSocket to aid debugging
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20201207084042.7690-1-cfontana@suse.de>
+ <20201207174916.GD1289986@habkost.net>
+ <CAFEAcA_UUs6NJ_JYtNEQ3VubHnvsvo1BBx6=9nVT9GO_QrDwoQ@mail.gmail.com>
+ <20201207182842.GE1289986@habkost.net>
+ <CAFEAcA9OWLF01hR4qzPwKWAHiDZ9RkSab8rv+0rnkyNhQjAnOg@mail.gmail.com>
+ <2e2e0160-7c17-cdfd-93e0-3d2002996108@suse.de>
+ <20201207212638.GI1289986@habkost.net>
+In-Reply-To: <20201207212638.GI1289986@habkost.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 7 Dec 2020 21:50:07 +0000
+Message-ID: <CAFEAcA_CNHucoBoq9_jWw9HLc_WneYko5s42z853NVJZdLCGuQ@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: do not use cc->do_interrupt for KVM directly
+To: Eduardo Habkost <ehabkost@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,55 +84,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Dongjiu Geng <gengdongjiu@huawei.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 7, 2020 at 5:10 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
+On Mon, 7 Dec 2020 at 21:26, Eduardo Habkost <ehabkost@redhat.com> wrote:
+> My understanding is that there's no reason for ARM KVM to use
+> another approach, and that CPUClass.do_interrupt is not really
+> TCG-specific.
 >
-> While attempting to debug some console weirdness I thought it would be
-> worth making it easier to see what it had inside.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  python/qemu/console_socket.py | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.p=
-y
-> index f060d79e06..77966d1fe9 100644
-> --- a/python/qemu/console_socket.py
-> +++ b/python/qemu/console_socket.py
-> @@ -45,6 +45,14 @@ class ConsoleSocket(socket.socket):
->          if drain:
->              self._drain_thread =3D self._thread_start()
->
-> +    def __repr__(self):
-> +        s =3D super(ConsoleSocket, self).__repr__()
-> +        s =3D s.rstrip(">")
-> +        s +=3D ", logfile=3D%s" % (self._logfile)
-> +        s +=3D ", drain_thread=3D%s" % (self._drain_thread)
-> +        s +=3D ">"
+> Do we have any case where the CPUClass.do_interrupt
+> implementation is really TCG-specific, or it is just a
+> coincidence that most other accelerators simply don't to call the
+> method?  It looks like the only cases where the
+> CPUClass.do_interrupt assignment is conditional on CONFIG_TCG are
+> i386 and s390x.
 
-We could use something more pythonic for this file. Instead of 3
-string concatenations, my suggestion is to go with string formatting,
-like:
+Looking at PPC, its kvm_handle_debug() function does a
+direct call to ppc_cpu_do_interrupt(). So the code of
+its do_interrupt method must be ok-for-KVM, it's just that
+it doesn't use the method pointer. (It's doing the same thing
+Arm is -- if a debug event turns out not to be for QEMU itself,
+inject a suitable exception into the guest.)
 
-s =3D "%s,  logfile=3D%s, drain_thread=3D%s>" % (s, self._logfile, self._dr=
-ain_thread)
+So of our 5 KVM-supporting architectures:
 
-As str is immutable in Python, it avoids unnecessary copies.
+ * i386 and s390x have kernel APIs for "inject suitable
+   exception", don't need to call do_interrupt, and make
+   the cc->do_interrupt assignment only ifdef CONFIG_TCG,
+   so that the code for do_interrupt need not be compiled
+   into a KVM-only binary. (In both cases the code for the
+   function is in a source file that the meson.build puts
+   into the source list only if CONFIG_TCG)
+ * ppc and arm both need to use this code even in a KVM
+   only binary. Neither of them #ifdef the cc->do_interrupt
+   assignment, because there's not much point at the moment
+   if you're not going to try to compile out the code.
+   ppc happens to do a direct function call, and arm happens
+   to go via the cc->do_interrupt pointer, but I don't
+   think there's much significance in the choice either way.
+   In both cases, the only places making the call are within
+   architecture-specific KVM code.
+ * mips KVM does neither of these things, probably because it is
+   not sufficiently featureful to have run into the cases
+   where you might want to re-inject an exception and it's
+   not being sufficiently used in production for anybody to
+   have looked at minimising the amount of code in a
+   KVM-only QEMU binary for it.
 
-> +        return s
-> +
->      def _drain_fn(self) -> None:
->          """Drains the socket and runs while the socket is open."""
->          while self._open:
-> --
-> 2.20.1
->
->
+So in conclusion we have a basically 50:50 split between
+"use the same do_interrupt code as TCG" and "have a kernel
+API to make the kernel do the work", plus one arch that
+probably hasn't had to make the choice yet.   =C2=AF\_(=E3=83=84)_/=C2=AF
 
+> Oh, I thought you were arguing that CPUClass.do_interrupt is
+> not TCG_specific.
+
+Well, I don't think it really is TCG-specific. But as
+a pragmatic thing, if these two lines in the Arm code
+are getting in the way of stopping us from having a
+useful compile-time check that code that's not supposed
+to call this method isn't calling it, I think the balance
+maybe leans towards just making the direct function call.
+I guess it depends whether you think people are likely to
+accidentally make cc->do_interrupt calls in non-target-specific
+code that gets used by KVM (which currently would crash if that
+code path is exercised on x86 or s390x, but under the
+proposed change would become a compile error).
+
+thanks
+-- PMM
 
