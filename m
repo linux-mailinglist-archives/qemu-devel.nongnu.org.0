@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99722D11F5
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:28:57 +0100 (CET)
-Received: from localhost ([::1]:43244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD192D124B
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:40:25 +0100 (CET)
+Received: from localhost ([::1]:35294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmGZV-0003vC-0B
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:28:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36198)
+	id 1kmGkZ-0004Nj-1I
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:40:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmGMj-0004Hn-NE
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:15:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59436)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmFuN-0006Yv-3w
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:46:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmGMY-0001Aq-M3
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 08:15:45 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmFuC-00016b-8B
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:46:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607346931;
+ s=mimecast20190719; t=1607345174;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R0x/t12SaUJO2Fk00rNBDpsAQee1BNuzclT5nFRV5W4=;
- b=hDDXTieIHZZkaFqpDDrWrlZF4vH4hW1anY0uUJPiDJLlRhZlUrJfGTujnJ7XbuJuSCRgbP
- GD4G7eMbbacRvu4jCbkHIr+ZMnjt/6lM0uRrFQYNwcI/ZDybSfyUmn8pEYMmJO11Siux9R
- 6Qvy+YZDT7KkRDILDe5EsOTepGpRv5U=
+ bh=tyOz5Tc9PqhiNlZWIQPWc0O+She1E1/qQZR6bIJl32A=;
+ b=OdGR1+eRT2ixn5viD6dt9HLVUz7sjIQhnmM8BiFgW9SD/bgwOmyJPky8zWxoB6CUJ4ip+P
+ FXQUV95rq773T2t2YXl2eBOtli7t+heivkLTGmmaTYyoyOacwHurzLaBhmtfX/G3oHtuDW
+ M+2i/rYWNZYayQ7a8IzFuf58b2vWv6M=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-RlT62XxmNSC2tL6vJFX2HA-1; Mon, 07 Dec 2020 08:15:30 -0500
-X-MC-Unique: RlT62XxmNSC2tL6vJFX2HA-1
-Received: by mail-wr1-f70.google.com with SMTP id m2so4844794wro.1
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 05:15:29 -0800 (PST)
+ us-mta-68-Z746MSLtPKu5UnSzG3GIhw-1; Mon, 07 Dec 2020 07:46:12 -0500
+X-MC-Unique: Z746MSLtPKu5UnSzG3GIhw-1
+Received: by mail-wr1-f70.google.com with SMTP id w17so4758634wrp.11
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 04:46:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=R0x/t12SaUJO2Fk00rNBDpsAQee1BNuzclT5nFRV5W4=;
- b=IWawsxNmktBr7CdLCAcPnjrmMk8umezOhjJ8/s2Fi/4ZzmJEWDxzdtY26ULb/aDL9K
- f3d0ZMy4xEifSsf6eYxax7oSr55rxn69NBZWrgn37Z8zPo82dwIICgKxyXS3a90C9k2r
- JUOx5gDz8+lyXhKWWeUyTfdafcazmdX8c1vXAHzw5EX/ML4sFtdLtSrtAE9MOOrZ5MP8
- RCPLgXNBotBbHRtRME41os/JjpuJ0rgq8/lLfo6rAU6BatvDuSDCEnFMq0vwJyaUHDBd
- y0dIm0Y13wZwczmHulz0CbbIMxTkGLhc0nF3cRWNyOA1ypakjj3WEkLYN3fr03Bqrgk4
- P2/w==
-X-Gm-Message-State: AOAM530r/IKTPXwS/UXq05GNry8qfRFTRjfp3xllv8rVpMB6buoGbc+L
- 4skeAVRYxLRHq2r6yGR/bDiaHRWIjRzJIz6ofTVP7orVN6HRK3jx3GpZU0nzycaBuSwsv/NSwAe
- TFkxlKgJ7lLUCkXCzBbTIchuG00CGG63ybMVCiyx8WC6l1apzgTFZT6/vMycQXYUo
-X-Received: by 2002:adf:fdcc:: with SMTP id i12mr1638526wrs.317.1607346928637; 
- Mon, 07 Dec 2020 05:15:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx/E42Mjl9lrV3uJy+mcMKaCC0ghVf2euOZZfgnjWsjT11kOCMnAwQ1c7Ca2DexAj4PkQkYFw==
-X-Received: by 2002:adf:fdcc:: with SMTP id i12mr1638484wrs.317.1607346928431; 
- Mon, 07 Dec 2020 05:15:28 -0800 (PST)
-Received: from localhost.localdomain (101.red-88-21-206.staticip.rima-tde.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tyOz5Tc9PqhiNlZWIQPWc0O+She1E1/qQZR6bIJl32A=;
+ b=AfPAuc9QDrCO7oiyyND5zGEEF6fyihQFcUrEbCEJr0uwq6q6Fey/0EMLEeN4IWEOdg
+ OeJyPRPxx91E1UOrfBuY7iBrzEmj+VtqieThzXJbBfvBFntrUrI1/hSgEkarhKRNMijN
+ coPzqUhANEl5CaqPV1E/XaLEO0bMRHgi36Sazxfj3htUKYUPwkQXDPR9pHwpOyNIwVET
+ MWFVpLkH23aXc/TTLcXzrx+lcns9E4gx4dxpotE7AgvcI0Es+xX3cnQYLI6rrHanPunV
+ 03EDbEGgNF2Rf2dGNAnEOu5UBZwkHmfSHUrbK84qNJO/yD9I9Pp2n0la3xiqqF3vuQ9F
+ 8qAw==
+X-Gm-Message-State: AOAM530VaqEJRu/sbcKhetBylTi1Gxm5j1ILMEE7n8RNWAPsls4fUeZH
+ V01v8IIXOPCz/DAWYSy9Bx16VhU5pfNfS/aBXgD1N01/p2TamkjunTfwTYcPkkbSRwnv7GRb/fZ
+ DlhRqcDMh/9yjYoE=
+X-Received: by 2002:a1c:9d8b:: with SMTP id
+ g133mr18420816wme.189.1607345170872; 
+ Mon, 07 Dec 2020 04:46:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxp1cQ0YqyVCzSrPnn6i9/5M4B45ElmdNAkkARQoGv3NPSs4feaDlLXpquqrHa2sqmKk3jUew==
+X-Received: by 2002:a1c:9d8b:: with SMTP id
+ g133mr18420802wme.189.1607345170698; 
+ Mon, 07 Dec 2020 04:46:10 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id a62sm7862008wmh.40.2020.12.07.05.15.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 05:15:27 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/5] gitlab-ci: Add KVM s390x cross-build jobs
-Date: Mon,  7 Dec 2020 14:15:02 +0100
-Message-Id: <20201207131503.3858889-5-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201207131503.3858889-1-philmd@redhat.com>
-References: <20201207131503.3858889-1-philmd@redhat.com>
+ by smtp.gmail.com with ESMTPSA id h20sm13745748wmb.29.2020.12.07.04.46.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Dec 2020 04:46:10 -0800 (PST)
+Subject: Re: [PATCH v2 5/5] gitlab-ci: Add Xen cross-build jobs
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20201207112353.3814480-1-philmd@redhat.com>
+ <20201207112353.3814480-6-philmd@redhat.com>
+ <9bfd1ed4-baa2-ece8-5b96-ec8fc7a8c547@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c335d1f5-e8cb-a9c2-9718-822dc0248fda@redhat.com>
+Date: Mon, 7 Dec 2020 13:46:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <9bfd1ed4-baa2-ece8-5b96-ec8fc7a8c547@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -79,7 +86,7 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,52 +100,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>,
+Cc: Marcelo Tosatti <mtosatti@redhat.com>, kvm@vger.kernel.org,
+ Paul Durrant <paul@xen.org>, Cornelia Huck <cohuck@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Stefano Stabellini <sstabellini@kernel.org>,
  Claudio Fontana <cfontana@suse.de>, Willian Rampazzo <wrampazz@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Anthony Perard <anthony.perard@citrix.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cross-build s390x target with only KVM accelerator enabled.
+On 12/7/20 12:51 PM, Thomas Huth wrote:
+> On 07/12/2020 12.23, Philippe Mathieu-Daudé wrote:
+>> Cross-build ARM and X86 targets with only Xen accelerator enabled.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  .gitlab-ci.d/crossbuilds.yml | 15 +++++++++++++++
+>>  1 file changed, 15 insertions(+)
+>>
+>> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+>> index 7a94a66b4b3..31f10f1e145 100644
+>> --- a/.gitlab-ci.d/crossbuilds.yml
+>> +++ b/.gitlab-ci.d/crossbuilds.yml
+>> @@ -135,3 +135,18 @@ cross-win64-system:
+>>    extends: .cross_system_build_job
+>>    variables:
+>>      IMAGE: fedora-win64-cross
+>> +
+>> +cross-amd64-xen:
+>> +  extends: .cross_accel_build_job
+>> +  variables:
+>> +    IMAGE: debian-amd64-cross
+>> +    ACCEL: xen
+>> +    TARGETS: i386-softmmu,x86_64-softmmu
+>> +    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+>> +
+>> +cross-arm64-xen:
+>> +  extends: .cross_accel_build_job
+>> +  variables:
+>> +    IMAGE: debian-arm64-cross
+>> +    ACCEL: xen
+>> +    TARGETS: aarch64-softmmu
+> Could you please simply replace aarch64-softmmu by arm-softmmu in the
+> target-list-exclude statement in this file instead of adding a new job for
+> arm64? That should have the same results and will spare us one job...
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- .gitlab-ci.d/crossbuilds.yml | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Ah, I now see my mistake, this is not the job I wanted to add,
+I probably messed during rebase. I'll respin with the proper
+xen-only config.
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index b59516301f4..51896bbc9fb 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -1,4 +1,3 @@
--
- .cross_system_build_job:
-   stage: build
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-@@ -120,6 +119,12 @@ cross-s390x-user:
-   variables:
-     IMAGE: debian-s390x-cross
- 
-+cross-s390x-kvm-only:
-+  extends: .cross_accel_build_job
-+  variables:
-+    IMAGE: debian-s390x-cross
-+    ACCEL_CONFIGURE_OPTS: --disable-tcg
-+
- cross-win32-system:
-   extends: .cross_system_build_job
-   variables:
--- 
-2.26.2
+> 
+>  Thanks,
+>   Thomas
+> 
 
 
