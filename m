@@ -2,72 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11AC32D1B98
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 22:05:09 +0100 (CET)
-Received: from localhost ([::1]:40748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F3B2D1BEF
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 22:22:26 +0100 (CET)
+Received: from localhost ([::1]:59708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmNgy-00028g-3O
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 16:05:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46206)
+	id 1kmNxh-0002wN-9U
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 16:22:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmNeW-0001Bh-3Y
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:02:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmNeT-0004d0-I1
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:02:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607374949;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kYkdnpQAroHrBV+Z7JwuA/j+zFSvDi5QKLecYRVbKdA=;
- b=POO5BzYnweZxEjZzAEIVJNqHmm78yw0XOuhtVo+DmnweyhMr8w/frOxxWadAH0mW8ndiW6
- rP4StGA9UmoZb+mtdFVAlhaHhxYa8l98y0dGAa6Fh6o9+dk0RK6fJkc2+jDbhkfv30a2RE
- UwQ6K1dQABoUav76MwJEn4hcN/BoySY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-Rpudpto2P6ia5ovKZppO9Q-1; Mon, 07 Dec 2020 16:02:25 -0500
-X-MC-Unique: Rpudpto2P6ia5ovKZppO9Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E72DA8144E2;
- Mon,  7 Dec 2020 21:02:23 +0000 (UTC)
-Received: from [10.10.116.117] (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E9D85D6AB;
- Mon,  7 Dec 2020 21:02:22 +0000 (UTC)
-Subject: Re: [RFC PATCH] python: add __repr__ to ConsoleSocket to aid debugging
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20201207200737.5090-1-alex.bennee@linaro.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <092ecec7-d4a3-f345-7619-dab4c9a43f69@redhat.com>
-Date: Mon, 7 Dec 2020 16:02:22 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1kmNv6-0001vt-Pp
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:19:47 -0500
+Received: from mail-co1nam11on2138.outbound.protection.outlook.com
+ ([40.107.220.138]:40993 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1kmNuz-0001iQ-Qh
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 16:19:44 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NIg3vJ4dscqN8k5Syl9lkRTJCUu8hz39ZYvBds3EzGqw+dFFnLKGb5gBCwKWllIFSgLnoNftPqqGnaD35sYYd/QzJOY5U7SNrliIN9k5KsA3fpI5bmxpco5ttpYCPN7WalLGu+8upIuAIFGtpuwNIRdXcMHfoKKGj06ApHtkedaU0Wk5yFiD+ekoD6UyNZTtur5Wbm12tI3lOV7M8sDlZaLQVM98sroqHaBMYhVAHE5gxEowXqIVUVhbbGOU0NFHjCzLhNvj7C4rwJz+A4huEK0v8bLrPtUXKvis92nIx63Pnbt/V8rfG2TJZG/u0pz5Vuqlp2XVIo8Y4iJhBUcyzg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mLpQrYmj5psyZUMtnatc+iM7WKUUqwEjRozhRJ8ciQ4=;
+ b=CCpdFnpA73V7gYjf8wSWdWVs3pL3AZ+NZnEy14X5jJsMKzK83DOAh9V4JlzLJh/1zPe9ffWHx7lPA5zku94UnlwGNC10ySqOwgGoznvP9ipo841HS/PiT8QnA6iAqDQfAPEAcHDsfKw0lTFDKqEurT48dnHI5VWRQEfWjoYhjBwMF8FWMReL98nWgFvrxzODGBn0Usz+JKaZALNuxTfmAPnDPjw0mpEf4rd2qD78CxoyaxPSO9fS880xbTqVqstpfKNbhMj1ZdLn1ddv0qhqs23gOijFYzMeJHj4skh0JyY0fWu2ecDbZ+R0KgxgQ6lkwlZODecjyuXmMyM7AykKVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mLpQrYmj5psyZUMtnatc+iM7WKUUqwEjRozhRJ8ciQ4=;
+ b=QzkRRhwkjb6ys4IrgWyl208//codmQeIHY2rThV9YDpXdWmi1BPqALEPnAZzau1WKvuiKfBY57mCD2KoqdspCXay3kR9rFnstqJpQ6hbIq+9n/ydIBMhjpenIbKiP0oOHOnFxTx/kaG0zp9v8FGaySilwbpGF5SNQSkxcJl24K0=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
+ SN6PR01MB4352.prod.exchangelabs.com (2603:10b6:805:e6::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3632.21; Mon, 7 Dec 2020 21:04:32 +0000
+Received: from SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::882b:7534:1246:a8d9]) by SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::882b:7534:1246:a8d9%5]) with mapi id 15.20.3632.021; Mon, 7 Dec 2020
+ 21:04:31 +0000
+Date: Mon, 7 Dec 2020 16:03:24 -0500
+From: Aaron Lindsay <aaron@os.amperecomputing.com>
+To: qemu-devel@nongnu.org
+Cc: cota@braap.org, alex.bennee@linaro.org, richard.henderson@linaro.org
+Subject: Plugin Register Accesses
+Message-ID: <X86YnHhHMpQBr2/G@strawberry.localdomain>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Originating-IP: [68.73.113.219]
+X-ClientProxiedBy: BL0PR03CA0014.namprd03.prod.outlook.com
+ (2603:10b6:208:2d::27) To SN6PR01MB4304.prod.exchangelabs.com
+ (2603:10b6:805:a6::23)
 MIME-Version: 1.0
-In-Reply-To: <20201207200737.5090-1-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from strawberry.localdomain (68.73.113.219) by
+ BL0PR03CA0014.namprd03.prod.outlook.com (2603:10b6:208:2d::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3632.17 via Frontend Transport; Mon, 7 Dec 2020 21:04:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 96a33ac1-cf99-430b-1a86-08d89af3b18c
+X-MS-TrafficTypeDiagnostic: SN6PR01MB4352:
+X-Microsoft-Antispam-PRVS: <SN6PR01MB43521280A596859CE0FFA7EC8ACE0@SN6PR01MB4352.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: sz8v8UihoElfjtxfhq3TkDZJ1Hb25dhqaBAb0k0f42Rj/qanYwE7yIcCNxpmWjmQAYGPpJi242yPhMjdTOqSFR+XNa0yf4xush5z379lhOfk0+chXGjMyCIWC0rRpcFH6O18szZTy9KJ/dWsB67mvKOkd6hBQFpw7usjVuICvZUkRD2ZFsAYM3A8TBJpJQPh+fuHbIzoQCtUc037vktw1Hjcwn+bEL5HoerAWRDqIfsb8BjG4R4jRAKWrFzqbapw6cJaGwAC28xHzwbIFBq5G7sNyGQOWM9dNbrC5LhTFF8X2CB3MaORhSY9T8nRpr2F
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(136003)(346002)(366004)(39840400004)(2906002)(66946007)(83380400001)(8936002)(956004)(6506007)(52116002)(6666004)(6916009)(478600001)(316002)(8676002)(86362001)(66476007)(4326008)(4744005)(186003)(66556008)(3480700007)(26005)(55016002)(16526019)(9686003)(7696005)(7116003)(5660300002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?M0sun2wQ1e+8LG7/y3T3J+8zxbJyYEWQM6Xpd1fmkGt0hws9ypg26Rclb01i?=
+ =?us-ascii?Q?5rBRPeD4TQQt6gPs8SBYyeOtsERrO9OIOauthWVDN3ZIopGYyfSVC0Wk2M3+?=
+ =?us-ascii?Q?Mmvbu4x1MtI0CWi6Jhh01PU2m5sz2gt1+SKwpY/x6kh8zftyWXodtrOBef5L?=
+ =?us-ascii?Q?5LgmfHG8eWTDOftVBdR0JuCN0+wTbcUiLRXoxkwjuGziKeWDykAQGGLGu0eZ?=
+ =?us-ascii?Q?qyB1rCITaauF9vtwK/I+xX26ePQWVEHXBlz5bG9H6IiIjWYf2nGsfZQNcegJ?=
+ =?us-ascii?Q?ZxrPjytN9KM5eh2ZNzPnZ9htlD/FB4hyhM5QNXDbQzAH3K0jp/disrpgrI0p?=
+ =?us-ascii?Q?y21lcEG3x26k1q6294G6ris7fYHh0yZZDZZpnWLsYuiyPWLLIK6wSidcMAJK?=
+ =?us-ascii?Q?Kg0rxlYKpb5wj3TEylDG8dvG+Y01rQpaaip4vavOa2ApltKH84wC/ecqO0HM?=
+ =?us-ascii?Q?C3BDFVVptH9Ij0AV/MT8AEAJstEso1PVGWbYBEuNombf9mD50irS5UZa3ixb?=
+ =?us-ascii?Q?vny9bhgyVBtMDQ3Zc6mIkKVsGM5v6WDqFQx5hkrvvQfV+n6/h/r3QdJIfJdF?=
+ =?us-ascii?Q?kWWuOpCCy2MPL1ewwrFZzBfsSKpM9Ydb1O/zO8jcFAbAFYtSNHrnQo0ZKNI8?=
+ =?us-ascii?Q?LIck6HKvHw5o0zP4CgnvuEYsw33wmFsUp7dfDGzemphforFIcoL5ILwPqBre?=
+ =?us-ascii?Q?Lp599kHl1r3xaiNx1ZrpoRBGvCV2LPty8wslZPODgUCTS0ZAL7rbpGSOgWHS?=
+ =?us-ascii?Q?0JevxGRuPMsyyperDojoN/8pV1m9oQ7t+UL2GV/QD2t6M6HOV4Anyl8gI4vs?=
+ =?us-ascii?Q?dIcp/4spOmCXzjgMBf3tnul75GnB4y3toURxuFfZDjZoAjtCv7C1a3xhY7Bt?=
+ =?us-ascii?Q?W7Rp8aSPD22+xjPnErxILNJk0fnEn6J+bNdRfU12xEzdiqaXbayLVZ6TazkX?=
+ =?us-ascii?Q?icWjv2UP5mdHFqsEgt/nXSZB7BERoVrHh61k8YIvbz7TEdQFpjEj7dSpryvM?=
+ =?us-ascii?Q?ENt7?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2020 21:04:31.5826 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96a33ac1-cf99-430b-1a86-08d89af3b18c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GfCaYCs2DDHkCl9n1sdLC3d/EHSRu8KSi54Jm117JZ4Rsi7J1p89ryhWPi6HqleGO0PEv4Apsocd29MbeGLw46RT5xMHYOwPxrTh709O8oA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB4352
+Received-SPF: pass client-ip=40.107.220.138;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,46 +127,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/20 3:07 PM, Alex Bennée wrote:
-> While attempting to debug some console weirdness I thought it would be
-> worth making it easier to see what it had inside.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   python/qemu/console_socket.py | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-> index f060d79e06..77966d1fe9 100644
-> --- a/python/qemu/console_socket.py
-> +++ b/python/qemu/console_socket.py
-> @@ -45,6 +45,14 @@ class ConsoleSocket(socket.socket):
->           if drain:
->               self._drain_thread = self._thread_start()
->   
-> +    def __repr__(self):
+I'm trying to migrate to using the new plugin interface. I see the
+following in include/qemu/qemu-plugin.h:
 
-def __repr__(self) -> str:
+> enum qemu_plugin_cb_flags {
+>     QEMU_PLUGIN_CB_NO_REGS, /* callback does not access the CPU's regs */
+>     QEMU_PLUGIN_CB_R_REGS,  /* callback reads the CPU's regs */
+>     QEMU_PLUGIN_CB_RW_REGS, /* callback reads and writes the CPU's regs */
+> };
 
-> +        s = super(ConsoleSocket, self).__repr__()
+But I don't see a way to access registers in callbacks. Am I missing
+something?
 
-Use python3-style super(): super().__repr__()
-
-> +        s = s.rstrip(">")
-> +        s += ", logfile=%s" % (self._logfile)
-> +        s += ", drain_thread=%s" % (self._drain_thread)
-> +        s += ">"
-> +        return s
-> +
-
-Reviewed-by: John Snow <jsnow@redhat.com>
-
-feel free to take this through your testing tree.
-
---js
-
+-Aaron
 
