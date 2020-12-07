@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC122D1DBE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 23:52:30 +0100 (CET)
-Received: from localhost ([::1]:37180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9FF2D1DB0
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 23:49:19 +0100 (CET)
+Received: from localhost ([::1]:59422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmPMr-0002rr-AR
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 17:52:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39960)
+	id 1kmPJm-0000GQ-Iv
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 17:49:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmPEl-0004wy-L6
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:44:07 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:46180)
+ id 1kmPEt-00050z-Nt
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:44:16 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:41469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmPEk-0004gr-6i
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:44:07 -0500
-Received: by mail-ed1-x541.google.com with SMTP id b73so15508103edf.13
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 14:44:05 -0800 (PST)
+ id 1kmPEs-0004ib-9Y
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:44:15 -0500
+Received: by mail-ej1-x641.google.com with SMTP id ce23so18100464ejb.8
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 14:44:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PsgapN4DayY67PGB6PO85RVxsavx9TC/Jgo4bJ+1BLQ=;
- b=I/CfST2viOffPmkuqmHYjl10aHRZ8hjw9+EudTwLVOPPFgJDm3R7uy64guys5rHt8Q
- UHcKT3VBKaksntFZJmPzU94WQqEBZgTLvA2xLxsA682qfClACCfPRs+//9lIy+rDNS3q
- TOYa1L716scB4RbG8NKTLXKf1/zlFji5qFddwzQ+Ah+7hz74eHGLVGCxhFwJQWWvB0sb
- cVeIlTSFRSPIZQ3uVih5iABx7IEOtDtAzKNF5ZRVajXZfooLSnv1a6QzfTc13EpKbsWD
- D77Q3wBa3O5ya2+LJymveG5zh0zQq6ImY2xQ+wMnvr8WMx1vbOzC8vQHqAMtTejaX8av
- +jrw==
+ bh=ebX6EqR8iV+mywCcc9nVlxDVQFJHaCVIYwiIj4Zd7QM=;
+ b=Oriq1RjC0ujDCiVlQZA7KuSM8Uu3hud48XW9Exnen8UoJkUvQXn8mk3Hm2ePUva9oh
+ oEUzQjVF0r6uB/nJMU4WG54N2QfwkTZLR9xCIOMbtsmHh5IoKb+h3TLTfCcX5zE2nxur
+ rJwGbGnimZZsVA7EoCSsRD44eQRlg15/Fn/+zZNX1UYXIA6lx/FPKQpKriWN977Ut/Zh
+ 3K508JDVEPMHl6fWMAkaa1i54evLS4uAjagrPR01xtV7MU7MGQNtWUCAY/R6n5TojuHD
+ SwmfiJ4Ndjglwyd196J4yzR36ZCEiurQ7b/nuOe33OUwDwsjbB0UO5cL1iB0oIuvvgUA
+ RObA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PsgapN4DayY67PGB6PO85RVxsavx9TC/Jgo4bJ+1BLQ=;
- b=N66OFQoldWWJ8u/BvGwrRaXUccMTPFix2FExxV6l47zRnflc+qtNUI8kdVSznQL1+m
- W0kHAStQoOB9p9iV1kfdV+2e7lz72WY5499aCwwRDtFeS2d3zWImEoTXD1uPB+94X8Mh
- ODWW419hrGDT1psCgny8v7uENEWNAIpflHFZ4xfNRyXxKqm/ldxv0HLxGZZjDCg8rurJ
- JzIdb7aO6EHj1vbb6Q46seFLR6xayGMa1CQSw+SX9PSkmsI+wlwcUawxJkq1TpMmWzQm
- tZkX4/wi5iXb2Vha767ZOdbCYY/hXP4o1cvL3Qi6VL7TMq3pnHSMJ2ppFse420Lcx+vK
- N0IQ==
-X-Gm-Message-State: AOAM5325aZ+GQLDxg7DEfqYDgHuLbnMfaIbm5fOWpJsmTr+g3gwVGpKQ
- cBsYA3o94Au6qozp8guOtmE5Bg+5NJQ=
-X-Google-Smtp-Source: ABdhPJxJtFeBVcCwDyOA3XcfF0Y091gEd+Wo3TWdiiKDXjjcbm0r3xxVAcbFu0sAMPvAg+3YWhN+MQ==
-X-Received: by 2002:aa7:da07:: with SMTP id r7mr22082888eds.309.1607381044698; 
- Mon, 07 Dec 2020 14:44:04 -0800 (PST)
+ bh=ebX6EqR8iV+mywCcc9nVlxDVQFJHaCVIYwiIj4Zd7QM=;
+ b=VmoOD+O9owAqFEo0CKz7pHyQ2PjYAiN7iQworCdMxtxEw4nur6ml2vlNYVuWC+KNxY
+ YrluMcyJjZj7NhvpYlDOTnH34IImmJGJR/GMhWmM2W0+gmsY+PxXLZw1EKn2bJJOu81D
+ 1JqnkYEtLkzeMmScpYlTGwil3IC29MJNcuFFTfHJXY+Q4JdyvxKU94BZv+uivzTdhSN3
+ xAGPZVN0gLo/3RDEfDTWSPOlt1jnfysI3HTvNyZwdQTHYKBuUFOMKOMrPYZ1vbrGq2/u
+ 5DJKCgVzOEOq0gV3J+tKFLNT0NqwrGwST2W9jTesAccc8yAVpekJyiNAqPgQoYFEwK9k
+ kSEw==
+X-Gm-Message-State: AOAM532l6nCAbj1FSsDnQlkvOjvExaGf69h+1tCqeyKR555yZcW0xRy+
+ FjEbMZ2hmHoNsoThZMsMmRUaaX5+k6A=
+X-Google-Smtp-Source: ABdhPJy34bJrANzmK4xqXXK2kIzqAvRkQDXfKqEH3VucBRmwYbhsaiAvSxu1yLc3/y+KXOhEp7RmPw==
+X-Received: by 2002:a17:906:9605:: with SMTP id
+ s5mr20994359ejx.179.1607381049838; 
+ Mon, 07 Dec 2020 14:44:09 -0800 (PST)
 Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id gn21sm8231238ejc.27.2020.12.07.14.44.03
+ by smtp.gmail.com with ESMTPSA id r7sm14951863edv.39.2020.12.07.14.44.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 14:44:03 -0800 (PST)
+ Mon, 07 Dec 2020 14:44:09 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/6] linux-user/elfload: Update HWCAP bits from linux 5.7
-Date: Mon,  7 Dec 2020 23:43:34 +0100
-Message-Id: <20201207224335.4030582-6-f4bug@amsat.org>
+Subject: [PATCH v4 6/6] linux-user: Add support for MIPS Loongson 2F/3A
+Date: Mon,  7 Dec 2020 23:43:35 +0100
+Message-Id: <20201207224335.4030582-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201207224335.4030582-1-f4bug@amsat.org>
 References: <20201207224335.4030582-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x541.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,36 +95,33 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Userland ELF binaries using Loongson SIMD instructions have the
+HWCAP_LOONGSON_MMI bit set [1].
+Binaries compiled for LLoongson 3A [2] have the HWCAP_LOONGSON_EXT
+bit set for the LQ / SQ instructions.
+
+[1] commit 8e2d5831e4b ("target/mips: Legalize Loongson insn flags")
+[2] commit af868995e1b ("target/mips: Add Loongson-3 CPU definition")
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/elfload.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ linux-user/elfload.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 8f943f93ba7..0836e72b5ac 100644
+index 0836e72b5ac..a64050713f2 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -986,6 +986,19 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs, const CPUMIPSState *e
- enum {
-     HWCAP_MIPS_R6           = (1 << 0),
-     HWCAP_MIPS_MSA          = (1 << 1),
-+    HWCAP_MIPS_CRC32        = (1 << 2),
-+    HWCAP_MIPS_MIPS16       = (1 << 3),
-+    HWCAP_MIPS_MDMX         = (1 << 4),
-+    HWCAP_MIPS_MIPS3D       = (1 << 5),
-+    HWCAP_MIPS_SMARTMIPS    = (1 << 6),
-+    HWCAP_MIPS_DSP          = (1 << 7),
-+    HWCAP_MIPS_DSP2         = (1 << 8),
-+    HWCAP_MIPS_DSP3         = (1 << 9),
-+    HWCAP_MIPS_MIPS16E2     = (1 << 10),
-+    HWCAP_LOONGSON_MMI      = (1 << 11),
-+    HWCAP_LOONGSON_EXT      = (1 << 12),
-+    HWCAP_LOONGSON_EXT2     = (1 << 13),
-+    HWCAP_LOONGSON_CPUCFG   = (1 << 14),
- };
+@@ -1024,6 +1024,8 @@ static uint32_t get_elf_hwcap(void)
+     GET_FEATURE_REG_EQU(CP0_Config0, CP0C0_AR, CP0C0_AR_LENGTH,
+                         2, HWCAP_MIPS_R6);
+     GET_FEATURE_REG_SET(CP0_Config3, 1 << CP0C3_MSAP, HWCAP_MIPS_MSA);
++    GET_FEATURE_INSN(ASE_LMMI, HWCAP_LOONGSON_MMI);
++    GET_FEATURE_INSN(ASE_LEXT, HWCAP_LOONGSON_EXT);
  
- #define ELF_HWCAP get_elf_hwcap()
+     return hwcaps;
+ }
 -- 
 2.26.2
 
