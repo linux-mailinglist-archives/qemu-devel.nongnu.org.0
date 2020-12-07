@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90FB02D1163
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:08:23 +0100 (CET)
-Received: from localhost ([::1]:43150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B15A2D11B1
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 14:18:54 +0100 (CET)
+Received: from localhost ([::1]:54382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmGFa-0007o1-IW
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:08:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57060)
+	id 1kmGPl-0004Z6-CO
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 08:18:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmFx4-0007Ro-FS
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:49:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44200)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmFwt-0001ly-68
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:49:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607345342;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CGrmReUySzhAOkAEmfV3DyRwu7HtQ0vo+6ZquhPUYVA=;
- b=F1kuxI0PUHb5kF1lY5wv9kkMelfgaOgWwKWhYCL3bsyB1gvx18RtomPOHdGzXExeO1qbd1
- 8udr1fRefaxWN1YQdOjdjUEfETckTIZErNSMzmsk4Q1y3XHpNleIVDsrPP7TAiAmHIgpsI
- NiaM84eqqsUgIU2shOY2WWNzoE/gCC8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-x2kqJ-KQNsuykpyaAWlDYQ-1; Mon, 07 Dec 2020 07:49:00 -0500
-X-MC-Unique: x2kqJ-KQNsuykpyaAWlDYQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D614C1E7D3;
- Mon,  7 Dec 2020 12:48:59 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D088C5C3E0;
- Mon,  7 Dec 2020 12:48:50 +0000 (UTC)
-Date: Mon, 7 Dec 2020 13:48:48 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ankur Arora <ankur.a.arora@oracle.com>
-Subject: Re: [PATCH 2/8] acpi: cpuhp: introduce 'firmware performs eject'
- status/control bits
-Message-ID: <20201207134848.796901f6@redhat.com>
-In-Reply-To: <8e0d95ec-2a49-5c7e-7ed0-dde807a8c028@oracle.com>
-References: <20201204170939.1815522-1-imammedo@redhat.com>
- <20201204170939.1815522-3-imammedo@redhat.com>
- <891d22af-617c-7962-4fe8-e60cd18f4df3@oracle.com>
- <8e0d95ec-2a49-5c7e-7ed0-dde807a8c028@oracle.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmFxR-0007co-B4
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:49:39 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmFxL-0001um-W4
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 07:49:33 -0500
+Received: by mail-wr1-x442.google.com with SMTP id i2so12652381wrs.4
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 04:49:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Ff9dudwKzr9RKp54jL9aoNOKi5jGdTwCO9eItajzqEc=;
+ b=IVnn0AIhYSHv9u87ESDdqrWomo8kk0nc3fiHqKd3Z2OYvGrnNORnRLycA+wMW3OxXU
+ i6lHg/g70V4/Eh1GbmzzBu+eTDo7jWQzotzY7EauYa5GbqC3MzsIhhi7cuKQwVmksCmB
+ SCFksi/MAgZsjMW3PNvykh23hQWI5O3JI2IunjSWwFZd7nZ25E/+KipY7naETB1ruucA
+ ag4YHhUZaKjvx9yfLwOShMakGt6M4XRKTT/Wx8J3SvYzMPAmPBwoY76mfFykRdDirogi
+ cItLxdSfduTJochct1rbUPWuXGXi587JGbyqkkyPJZ4skVxEo7Y4+7JVQ/YaQnL+8i0G
+ SfZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ff9dudwKzr9RKp54jL9aoNOKi5jGdTwCO9eItajzqEc=;
+ b=HcydIUEEkppgumpT4PBq6sdUkl2dR4B6qKUcHGE1WjPh3DHRrRvo7IRkHWB0ZOtMMM
+ EM78jmOuq1yBmtxS4WZwsAa6hUkpvGAXeuvZhsHQVDfp+SwZIB+PAzFfIfueaoyhsF4k
+ w6r3tQ4VbOh8+K3tsFRSepgzUxenQ0Wdsgh0nqgCDc4PYpDldVZs80rs9syxCGFd3Ifv
+ mjGglWro/HXcY38p+rg+RiaCSGC7V040+XLV2n+GdHm6VKnFmPdpsnmSoNocN1aUhMx/
+ PCcNRdp+uSCf6zYfs7e73UOULKzFSR6/gxq3rTCihMWoNDhtfUkEaCPELI3Utx+qorSj
+ /hig==
+X-Gm-Message-State: AOAM531ksnw/KrdxhF725OfHgbNbvCx6N03piHUr4eiypXzynjmiFOMv
+ iukwSEoIR4/5KV+mIo1CRD8=
+X-Google-Smtp-Source: ABdhPJwlJ8CPD2Sept02Gb7oU5fhvYr05v1HXgF+3Qwi0gzpfCkIJhVHqwmIc3CsbfwKoxRa5ZdGEQ==
+X-Received: by 2002:adf:8184:: with SMTP id 4mr16425617wra.63.1607345369527;
+ Mon, 07 Dec 2020 04:49:29 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id s13sm15034323wrt.80.2020.12.07.04.49.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 07 Dec 2020 04:49:28 -0800 (PST)
+Subject: Re: [RFC PATCH 18/19] target/mips: Restrict some TCG specific
+ CPUClass handlers
+To: Claudio Fontana <cfontana@suse.de>
+References: <20201206233949.3783184-1-f4bug@amsat.org>
+ <20201206233949.3783184-19-f4bug@amsat.org>
+ <88161f99-aae5-3b80-e8c6-a57d122a28c4@suse.de>
+ <61618998-f854-a7df-301f-f860d9725f1d@suse.de>
+ <3956df0d-a42e-f3af-d5e1-cf396ddcb795@suse.de>
+ <5d11701b-31f8-cfcd-30f9-3eba62c3bab7@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <92611fa6-b3bc-51d2-f90a-995b9cc99bf4@amsat.org>
+Date: Mon, 7 Dec 2020 13:49:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <5d11701b-31f8-cfcd-30f9-3eba62c3bab7@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,267 +94,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lersek@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
+ Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Dec 2020 00:47:13 -0800
-Ankur Arora <ankur.a.arora@oracle.com> wrote:
+On 12/7/20 12:43 PM, Claudio Fontana wrote:
+> I am adding to my cleanup series the following, so this is done for all targets:
 
-> On 2020-12-06 10:31 p.m., Ankur Arora wrote:
-> > On 2020-12-04 9:09 a.m., Igor Mammedov wrote: =20
-> >> Adds bit #4 to status/control field of CPU hotplug MMIO interface.
-> >> New bit will be used OSPM to mark CPUs as pending for removal by firmw=
-are,
-> >> when it calls _EJ0 method on CPU device node. Later on, when firmware
-> >> sees this bit set, it will perform CPU eject which will clear bit #4
-> >> as well.
-> >>
-> >> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> >> ---
-> >> v1:
-> >> =C2=A0=C2=A0 - rearrange status/control bits description (Laszlo)
-> >> =C2=A0=C2=A0 - add clear bit #4 on eject
-> >> =C2=A0=C2=A0 - drop toggling logic from bit #4, it can be only set by =
-guest
-> >> =C2=A0=C2=A0=C2=A0=C2=A0 and clear as part of cpu eject
-> >> =C2=A0=C2=A0 - exclude boot CPU from remove request
-> >> =C2=A0=C2=A0 - add trace events for new bit
-> >> ---
-> >> =C2=A0 include/hw/acpi/cpu.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> >> =C2=A0 docs/specs/acpi_cpu_hotplug.txt | 19 ++++++++++++++-----
-> >> =C2=A0 hw/acpi/cpu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 ++++=
-+++++
-> >> =C2=A0 hw/acpi/trace-events=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 ++
-> >> =C2=A0 4 files changed, 26 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
-> >> index 0eeedaa491..d71edde456 100644
-> >> --- a/include/hw/acpi/cpu.h
-> >> +++ b/include/hw/acpi/cpu.h
-> >> @@ -22,6 +22,7 @@ typedef struct AcpiCpuStatus {
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint64_t arch_id;
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool is_inserting;
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool is_removing;
-> >> +=C2=A0=C2=A0=C2=A0 bool fw_remove;
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint32_t ost_event;
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint32_t ost_status;
-> >> =C2=A0 } AcpiCpuStatus;
-> >> diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hot=
-plug.txt
-> >> index 9bb22d1270..9bd59ae0da 100644
-> >> --- a/docs/specs/acpi_cpu_hotplug.txt
-> >> +++ b/docs/specs/acpi_cpu_hotplug.txt
-> >> @@ -56,8 +56,11 @@ read access:
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 no device check event to OSPM was issued.
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 It's valid only when bit 0 is set.
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 2: Device remove event, used to distinguish device for which
-> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 no device eject request to OSPM was issued.
-> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3-7: res=
-erved and should be ignored by OSPM
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 no device eject request to OSPM was issued. Firmware must
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 ignore this bit.
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3: reser=
-ved and should be ignored by OSPM
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4: if se=
-t to 1, OSPM requests firmware to perform device eject.
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 5-7: res=
-erved and should be ignored by OSPM
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [0x5-0x7] reserved
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [0x8] Command data: (DWORD access)
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 con=
-tains 0 unless value last stored in 'Command field' is one of:
-> >> @@ -79,10 +82,16 @@ write access:
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 selected CPU device
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 2: if set to 1 clears device remove event, set by OSPM
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 after it has emitted device eject request for t=
-he
-> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 selected CPU device
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 selected CPU device.
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 3: if set to 1 initiates device eject, set by OSPM when it
-> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 triggers CPU device removal and calls _EJ0 method
-> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4-=
-7: reserved, OSPM must clear them before writing to register
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 triggers CPU device removal and calls _EJ0 method or by fir=
-mware
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 when bit #4 is set. In case bit #4 were set, it's cleared a=
-s
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 part of device eject. =20
->=20
-> So I spent some time testing my OVMF series alongside this.
-> Just sent out the code on the EDK2 list.
->=20
-> To do the eject, I'm setting bit#3 after queuing up the processor
-> for removal (via RemoveProcessor()).
->=20
-> This means, however, that the unplug in QEMU would happen before the
-> real firmware unplug (which'll happen in SmmCpuUpdate()).
->=20
-> Clearly, the right place for eject would be either in the appropriate
-> APHandler() or in the BSPHandler() after all the APs have been waited
-> for but from my reading of related code I don't see any infrastructure
-> for doing this (admittedly, I don't know the EDK2 source well enough
-> so it's likely I missed something.)
->=20
-> The other possibility might be to do it in the _EJ0 method itself
-> after we return from the SMI:
->=20
-> @@ -479,9 +515,8 @@ void build_cpus_aml(Aml *table, MachineState *machine=
-, CPUHotplugFeatures opts,
->                   aml_append(method, aml_store(one, fw_ej_evt));
->                   aml_append(method, aml_store(aml_int(OVMF_CPUHP_SMI_CMD=
-),
->                              aml_name("%s", opts.smi_path)));
-> -            } else {
-> -                aml_append(method, aml_store(one, ej_evt));
-> -            }
-> +           }
-> +            aml_append(method, aml_store(one, ej_evt));
->               aml_append(method, aml_release(ctrl_lock));
->=20
-> This seems to work but it is possible I'm missing something here.
+Great! thank you Claudio :)
 
-theoretically this leaves unaccounted CPU on fw side,
-what if SMM is entered again before CPU is ejected or OS doesn't eject it o=
-n purpose?
-
-I'd prefer firmware to remove CPU before returning from SMM.
-
-
->=20
->=20
-> Opinions?
->=20
-> Ankur
->=20
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 4:=
- if set to 1, OSPM hands over device eject to firmware.
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 Firmware shall issue device eject request as described abov=
-e
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 (bit #3) and OSPM should not touch device eject bit (#3) in=
- case
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 it's asked firmware to perform CPU device eject.
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 5-=
-7: reserved, OSPM must clear them before writing to register
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [0x5] Command field: (1 byte access)
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val=
-ue:
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 0: selects a CPU device with inserting/removing events and
-> >> diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
-> >> index f099b50927..811218f673 100644
-> >> --- a/hw/acpi/cpu.c
-> >> +++ b/hw/acpi/cpu.c
-> >> @@ -71,6 +71,7 @@ static uint64_t cpu_hotplug_rd(void *opaque, hwaddr =
-addr, unsigned size)
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val |=3D cdev->=
-cpu ? 1 : 0;
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val |=3D cdev->=
-is_inserting ? 2 : 0;
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val |=3D cdev->=
-is_removing=C2=A0 ? 4 : 0;
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val |=3D cdev->fw_remove=
-=C2=A0 ? 16 : 0;
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 trace_cpuhp_acp=
-i_read_flags(cpu_st->selector, val);
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case ACPI_CPU_CMD_DATA_OFFSET_RW:
-> >> @@ -148,6 +149,14 @@ static void cpu_hotplug_wr(void *opaque, hwaddr a=
-ddr, uint64_t data,
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 hotplug_ctrl =3D qdev_get_hotplug_handler(dev);
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 hotplug_handler_unplug(hotplug_ctrl, dev, NULL);
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 object_unparent(OBJECT(dev));
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cd=
-ev->fw_remove =3D false;
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else if (data & 16) {
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if=
- (!cdev->cpu || cdev->cpu =3D=3D first_cpu) {
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 trace_cpuhp_acpi_fw_remove_invalid_cpu(cpu_st->select=
-or);
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 break;
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tr=
-ace_cpuhp_acpi_fw_remove_cpu(cpu_st->selector);
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cd=
-ev->fw_remove =3D true;
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break; =20
-> >=20
-> > By the time the firmware gets the MMI, cdev->is_removing =3D=3D 0. So w=
-e probably
-> > need the cdev->fw_remove clause as well.
-> >=20
-> > @@ -168,7 +193,7 @@ static void cpu_hotplug_wr(void *opaque, hwaddr add=
-r, uint64_t data,
-> >=20
-> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 do {
-> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cdev =3D &cpu_st->devs[=
-iter];
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (cdev->is_inserting || cde=
-v->is_removing) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (cdev->is_inserting || cde=
-v->is_removing || cdev->fw_remove) {
-> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- cpu_st->selector =3D iter;
-> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- trace_cpuhp_acpi_cpu_has_events(cpu_st->selector,
-> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 cdev->is_inserting, cdev->is_removing);
-> >=20
-> >=20
-> > Ankur
-> >  =20
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case ACPI_CPU_CMD_OFFSET_WR:
-> >> diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-> >> index afbc77de1c..f91ced477d 100644
-> >> --- a/hw/acpi/trace-events
-> >> +++ b/hw/acpi/trace-events
-> >> @@ -29,6 +29,8 @@ cpuhp_acpi_clear_inserting_evt(uint32_t idx) "idx[0x=
-%"PRIx32"]"
-> >> =C2=A0 cpuhp_acpi_clear_remove_evt(uint32_t idx) "idx[0x%"PRIx32"]"
-> >> =C2=A0 cpuhp_acpi_ejecting_invalid_cpu(uint32_t idx) "0x%"PRIx32
-> >> =C2=A0 cpuhp_acpi_ejecting_cpu(uint32_t idx) "0x%"PRIx32
-> >> +cpuhp_acpi_fw_remove_invalid_cpu(uint32_t idx) "0x%"PRIx32
-> >> +cpuhp_acpi_fw_remove_cpu(uint32_t idx) "0x%"PRIx32
-> >> =C2=A0 cpuhp_acpi_write_ost_ev(uint32_t slot, uint32_t ev) "idx[0x%"PR=
-Ix32"] OST EVENT: 0x%"PRIx32
-> >> =C2=A0 cpuhp_acpi_write_ost_status(uint32_t slot, uint32_t st) "idx[0x=
-%"PRIx32"] OST STATUS: 0x%"PRIx32
-> >> =20
->=20
-
+> 
+> 
+> Author: Claudio Fontana <cfontana@suse.de>
+> Date:   Mon Dec 7 11:02:34 2020 +0100
+> 
+>     cpu: move do_unaligned_access to tcg_ops
+>     
+>     make it consistently SOFTMMU-only.
+>     
+>     Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> 
+> commit 1ee8254b568a47453ab481aa206fb9fecc7c16f7
+> Author: Claudio Fontana <cfontana@suse.de>
+> Date:   Mon Dec 7 10:29:22 2020 +0100
+> 
+>     cpu: move cc->transaction_failed to tcg_ops
+>     
+>     Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> 
+> commit 1a03124581841b5c473f879f5fd396dccde48667
+> Author: Claudio Fontana <cfontana@suse.de>
+> Date:   Mon Dec 7 10:02:07 2020 +0100
+> 
+>     cpu: move cc->do_interrupt to tcg_ops
+>     
+>     Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> 
+> commit 6a35e8f4ee68923006bba404f1f2471038b1039c
+> Author: Claudio Fontana <cfontana@suse.de>
+> Date:   Mon Dec 7 09:31:14 2020 +0100
+> 
+>     target/arm: do not use cc->do_interrupt for KVM directly
+>     
+>     cc->do_interrupt is a TCG callback used in accel/tcg only,
+>     call instead directly the arm_cpu_do_interrupt for the
+>     injection of exeptions from KVM, so that
+>     
+>     do_interrupt can be exported to TCG-only operations in
+>     the CPUClass.
+>     
+>     Signed-off-by: Claudio Fontana <cfontana@suse.de>
 
