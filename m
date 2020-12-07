@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B832D1D5D
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 23:34:43 +0100 (CET)
-Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4D32D1D9E
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 23:45:25 +0100 (CET)
+Received: from localhost ([::1]:51416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmP5d-0001tj-QP
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 17:34:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37698)
+	id 1kmPG0-0005KU-ED
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 17:45:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmP2x-0000ms-FV
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:31:55 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:38108)
+ id 1kmPEM-0004JR-Ca
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:43:42 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:35425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmP2j-0000XG-4z
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:31:55 -0500
-Received: by mail-ej1-x644.google.com with SMTP id a16so21843177ejj.5
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 14:31:40 -0800 (PST)
+ id 1kmPEK-0004Xg-2s
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 17:43:42 -0500
+Received: by mail-ed1-x542.google.com with SMTP id u19so15565201edx.2
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 14:43:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NOVVsnA5ve3D+g78JaZMEzfPQOXOMxvSwAuq/Diw3qE=;
- b=lwFaToeOwEYkqcWm6i2/PkutpJiPMe//a9MGHHbcby1CJ9mB+x0Us1BFRZJ62IHoSB
- WkIgUIs0QFrAjXXxjBTfxvjSBJ9I6n1IEdX0HQo2j8vj19ETZbKf/ZEqG9IYlXGkmG3i
- h03nZUEEn5R9ZGDqwD9ndmFax/W/JzQZgqdMDDIOSA/3204XcMnPrANUTdUAnWYtYi2k
- 9pACOIWh/D0sBjESIpukMWOp+hw5wlTXuvNFMpDUGBajfdFHQEgiYRMu+uNzptWZzDOI
- XX6qHkSV2TWBr1OqZk7RBgo//5ZtHubZOpHh2f7+MJTRWsvOsryj8aV7DCCEH7QD9prI
- hZeA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Mf1Wa9KDa2VUvjT5m3UpRlECGfdLuvfBq6zDpItkeSs=;
+ b=L2K/0gPBQxH3HuLUYWHP6q8zMd0+O2I37qLBsC7L9m6WajqCQ2xTZ7o1KpFwIgGnOa
+ popgBnR74K7dg0FknaieZBdxRz25Cn1ZvMZhQn9gARjQVhQUWVWVzDD8p7eN8Y0F2m8P
+ JDR2OuETyN/wepEu8AKXcVTDG+50C/AwY7Mb5jKaN5SCXj3uXM4hIwDnky9utsMWdCz2
+ l07mdzk3fR5mhfgjMsWwViN4okVtaM6frbVubIQUGUmvQqR2LXBoCSbsxCWWLCnTFvqu
+ zXeSEdNeLMUJWopHEaNQ+pxE2+PT+sPYNLNDcuFmVTTkEpnZpFyKbF4ixJYVAcGr2DGA
+ oKug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NOVVsnA5ve3D+g78JaZMEzfPQOXOMxvSwAuq/Diw3qE=;
- b=U/ZgWq4E1CMIfWTr+dSn1OX+7xzVP0GFNLzZlEqT57te6+3c8xtQRoVqam2Nl4CSIZ
- lyRQ6DBhDHYlytQWkkrqcG/fwZ6mSWXOHiOG4++L+aBKpz6L4OMwe/T3/W+M4Wqi2dTN
- MyucOZlV/uN1C66k/nKhJvSsQfhuEfO+VvmRk5F6WSCGG9rhxY6EVIQGpC5lV7wQaQDc
- mX1imdPpmd2qHUVd47eQEDkYVFmrKZ2LhZ2M821QtCIbOlvzVrQAUyJSUexWfRqTmhg/
- C7KFa7/7K6dZNO7ksbn+otqRWFG5JvGQxYgm9cPCsMQDpGyINHZ4pcZ7Qxzgng4Xg6ve
- w7wg==
-X-Gm-Message-State: AOAM530aJ923+Nu8joRa3NbmUDV9l/LQKEfdfHkiI1UllET5xV2pcknv
- 0yr7wOeJVx+19xA5uZKYsOI=
-X-Google-Smtp-Source: ABdhPJzd0r28fSAXlWlg5mBqcVqFeKykVXALUZkXPsgghqJUqmBMkiLeItCjKsqzzvPGbXT1kGbkmg==
-X-Received: by 2002:a17:907:961b:: with SMTP id
- gb27mr20425468ejc.313.1607380299571; 
- Mon, 07 Dec 2020 14:31:39 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Mf1Wa9KDa2VUvjT5m3UpRlECGfdLuvfBq6zDpItkeSs=;
+ b=tvZ8Jj0Fct0HUaJuSu3tQ2bjkKiTXruH76ULZ+Eb3JiIJjJleNrjVxU16ldP5CZXBG
+ 3eIYE+b0yrhZhyEG9u2h7U8YUIxpfKZ4lupU059yXU41UiLMDClGRQdDmy9kXQOUTSIr
+ M3vYtJYfW98K0yy/6Bs3/LpxY3id7qe/+ksgjeNpQyzud4WKz+7735hvMF2dLE88BlP3
+ WR9ZioQljBPnNoDqD799dbA6yuDsI/xSHY36292x5EDcY20zIMiAFamtSnYlS7CG7TcJ
+ pOU67YjOgeetdEaO1Cpr1BZZd07I8vyR7oWrEiClg2xdgAaas3sJUpPLVuklLokQ5CZR
+ uLaQ==
+X-Gm-Message-State: AOAM533TF4GinKpnfSmgCcAxu/rAtAbjs+W+5FwLkn9Iwp0mYC+9zER/
+ JrXqPeheFn+2Se3tISJ/Dhc+OwozRtU=
+X-Google-Smtp-Source: ABdhPJy+TBll84JJMSI8VYgiveJMKqJHK8YQUPvwlw08zttL0Z07LEzXld9diMF4RlPDPaL8N+qeGg==
+X-Received: by 2002:aa7:dc4b:: with SMTP id g11mr22894253edu.379.1607381018313; 
+ Mon, 07 Dec 2020 14:43:38 -0800 (PST)
+Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id q5sm13679937ejr.89.2020.12.07.14.31.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Dec 2020 14:31:38 -0800 (PST)
-Subject: Re: [PATCH 0/3] target/mips: Add some CP0/MMU missing definitions
-To: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20201201132817.2863301-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <42443b61-e1e5-5361-bc93-e203533ae1b2@amsat.org>
-Date: Mon, 7 Dec 2020 23:31:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by smtp.gmail.com with ESMTPSA id i2sm15061843edk.93.2020.12.07.14.43.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Dec 2020 14:43:37 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/6] linux-user: Rework get_elf_hwcap() and support MIPS
+ Loongson 2F/3A
+Date: Mon,  7 Dec 2020 23:43:29 +0100
+Message-Id: <20201207224335.4030582-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201201132817.2863301-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,24 +85,46 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/1/20 2:28 PM, Philippe Mathieu-Daudé wrote:
-> Add some MIPS3 and R6 definitions to ease code review.
-> 
-> Philippe Mathieu-Daudé (3):
->   target/mips: Add CP0 Config0 register definitions for MIPS3 ISA
->   target/mips: Replace CP0_Config0 magic values by proper definitions
->   target/mips: Explicit Release 6 MMU types
-> 
->  target/mips/cpu.h                | 11 +++++++++--
->  target/mips/internal.h           |  9 +++++----
->  target/mips/translate_init.c.inc | 14 ++++++++------
->  3 files changed, 22 insertions(+), 12 deletions(-)
-
-Thanks, applied to mips-next.
-
+Series now fully reviewed.=0D
+=0D
+Since v3:=0D
+- Add CP0C0_AR_LENGTH definition (Richard)=0D
+- Fixed 3E -> 3A, Longsoon -> Loongson typos (Huacai)=0D
+=0D
+Since v2:=0D
+- Use extract32() in GET_FEATURE_REG_EQU (rth)=0D
+=0D
+Introduce the GET_FEATURE_REG_SET() and GET_FEATURE_REG_EQU()=0D
+macros to check if an instruction set is supported by a CPU=0D
+using CP0 read-only bits (instead of QEMU insn_flags which=0D
+is not always coherent - we might remove it soon).=0D
+=0D
+Use these macros to test for MSA ASE and Release 6.=0D
+=0D
+Update the ELF HWCAP bits and set the Loongson instructions=0D
+so we can run 2F/3A userland binaries.=0D
+=0D
+Supersedes: <20201201192807.1094919-1-f4bug@amsat.org>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  linux-user/elfload: Move GET_FEATURE macro out of get_elf_hwcap() body=0D
+  linux-user/elfload: Rename MIPS GET_FEATURE() as GET_FEATURE_INSN()=0D
+  linux-user/elfload: Introduce MIPS GET_FEATURE_REG_SET() macro=0D
+  linux-user/elfload: Introduce MIPS GET_FEATURE_REG_EQU() macro=0D
+  linux-user/elfload: Update HWCAP bits from linux 5.7=0D
+  linux-user: Add support for MIPS Loongson 2F/3A=0D
+=0D
+ target/mips/cpu.h    |  1 +=0D
+ linux-user/elfload.c | 43 ++++++++++++++++++++++++++++++++++++-------=0D
+ 2 files changed, 37 insertions(+), 7 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
