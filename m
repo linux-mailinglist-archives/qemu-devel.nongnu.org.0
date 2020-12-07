@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D929A2D09EE
-	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 06:07:54 +0100 (CET)
-Received: from localhost ([::1]:48268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640592D09EA
+	for <lists+qemu-devel@lfdr.de>; Mon,  7 Dec 2020 06:06:01 +0100 (CET)
+Received: from localhost ([::1]:43592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1km8kc-0000Ci-0J
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 00:07:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59366)
+	id 1km8im-0006fi-4r
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 00:06:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1km8gv-0005fx-Vp
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:04:06 -0500
-Received: from relay4.mymailcheap.com ([137.74.199.117]:46795)
+ id 1km8gj-0005Ys-LM
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:03:53 -0500
+Received: from relay2.mymailcheap.com ([217.182.66.162]:47586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1km8ge-0008VW-IZ
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:04:05 -0500
+ id 1km8ge-0008Vq-Ij
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 00:03:52 -0500
 Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
  [91.134.140.82])
- by relay4.mymailcheap.com (Postfix) with ESMTPS id B7F093F1CF;
- Mon,  7 Dec 2020 06:03:44 +0100 (CET)
+ by relay2.mymailcheap.com (Postfix) with ESMTPS id A03CF3EDEC;
+ Mon,  7 Dec 2020 06:03:45 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by filter2.mymailcheap.com (Postfix) with ESMTP id 84AB02A7C5;
- Mon,  7 Dec 2020 06:03:44 +0100 (CET)
+ by filter2.mymailcheap.com (Postfix) with ESMTP id 7B1DB2A7C5;
+ Mon,  7 Dec 2020 06:03:45 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
- s=default; t=1607317424;
- bh=vat0YG0Ko72WZjJSiCXittmkMV6Bshp7q44AfzVmbTE=;
+ s=default; t=1607317425;
+ bh=zmMa6pi3Sb/p78/TVezdVAjqlJmjaL5ZPeE0MOt8WeY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=a3G/k1M9EXhATgIAfPSY6ijkqtsCx5F13uuZla0xEa/wl/OsaMoUZYNBWxRfB/RQr
- 5U4QymZd112k1WlVcjKUVyOXpHTAiObB1nmrzc9+WVJgluZMd850vO8miG4t1Va+s4
- b17+HeQ+PoU0ai6R+8XZilfwy7Q8XnGVFZXj4wlg=
+ b=0LNX7FcwdvDjEKv5n6aMSgUSoM5/dnXfOyxvIhpBBjk7c2kmb3PtSW7wBFYbjBUmG
+ 9bwu4RxIhvIyJVJwcSIZP5D5pUyQzW0Q6vtq+hpW5e7B0QBWWxZB7dG31KbzzYNtzb
+ GP0Kryl9kEo1KdNe/trZiQmRpRKTfMbmVThEZJRo=
 X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
 Received: from filter2.mymailcheap.com ([127.0.0.1])
  by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xP_1vwia0hfz; Mon,  7 Dec 2020 06:03:43 +0100 (CET)
+ with ESMTP id av8IsYcgmsVE; Mon,  7 Dec 2020 06:03:44 +0100 (CET)
 Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
  (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  by filter2.mymailcheap.com (Postfix) with ESMTPS;
- Mon,  7 Dec 2020 06:03:43 +0100 (CET)
+ Mon,  7 Dec 2020 06:03:44 +0100 (CET)
 Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
- by mail20.mymailcheap.com (Postfix) with ESMTP id E27CD4226B;
- Mon,  7 Dec 2020 05:03:42 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTP id 08CE44238C;
+ Mon,  7 Dec 2020 05:03:44 +0000 (UTC)
 Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
- unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="bIEbQ8sN"; 
+ unprotected) header.d=flygoat.com header.i=@flygoat.com header.b="cnLM22zS"; 
  dkim-atps=neutral
 AI-Spam-Status: Not processed
 Received: from strike.U-LINK.com (unknown [116.228.84.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
  SHA256) (No client certificate requested)
- by mail20.mymailcheap.com (Postfix) with ESMTPSA id 8127641FB1;
- Mon,  7 Dec 2020 05:03:20 +0000 (UTC)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id 490B241FB1;
+ Mon,  7 Dec 2020 05:03:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=flygoat.com;
- s=default; t=1607317402;
- bh=vat0YG0Ko72WZjJSiCXittmkMV6Bshp7q44AfzVmbTE=;
+ s=default; t=1607317405;
+ bh=zmMa6pi3Sb/p78/TVezdVAjqlJmjaL5ZPeE0MOt8WeY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bIEbQ8sNBDsRM7V0RA2U2hiUtXWdDNfN3OwZa3oTVYKOx9aVBRewb8LzyrRwJnC6b
- eu+TrkzcHcYEp/GBuFX6yWE6C7tk961MgQ28HYYpBd6eoPdVL9g2SiO41eGJMJvxs6
- XObHguoMw/yzzW/i5/Hlf7QJ849yx5AxlztYDDCk=
+ b=cnLM22zS5Qx00zlrISv5/1q4VAxIAAPxMrHmL+AEkk9imyB6gSBZRVJUzkFxSjsHQ
+ PhAQPtKYnFrrFGX0GqsSFaZhkPCYmWFlpgZ3plbq3jR/kUgeR3ndd5tumj2qxBaZuw
+ k+7uREPsAhcEscwxINvqa6pfPD1QvfHojRdYTR8g=
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] hw/mips/malta: Make use of bootloader helper
-Date: Mon,  7 Dec 2020 13:02:28 +0800
-Message-Id: <20201207050231.2712-3-jiaxun.yang@flygoat.com>
+Subject: [PATCH 3/5] hw/mips/fuloong2e: Make use of bootloader helper
+Date: Mon,  7 Dec 2020 13:02:29 +0800
+Message-Id: <20201207050231.2712-4-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201207050231.2712-1-jiaxun.yang@flygoat.com>
 References: <20201207050231.2712-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: E27CD4226B
+X-Rspamd-Queue-Id: 08CE44238C
 X-Spamd-Result: default: False [4.90 / 10.00]; ARC_NA(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[];
  R_DKIM_ALLOW(0.00)[flygoat.com:s=default]; FROM_HAS_DN(0.00)[];
@@ -91,14 +91,14 @@ X-Spamd-Result: default: False [4.90 / 10.00]; ARC_NA(0.00)[];
  HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1]
 X-Rspamd-Server: mail20.mymailcheap.com
 X-Spam: Yes
-Received-SPF: pass client-ip=137.74.199.117;
- envelope-from=jiaxun.yang@flygoat.com; helo=relay4.mymailcheap.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=217.182.66.162;
+ envelope-from=jiaxun.yang@flygoat.com; helo=relay2.mymailcheap.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,148 +115,63 @@ Cc: chenhuacai@kernel.org, f4bug@amsat.org, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use bootloader helper to generate BAR setting code
-and kernel jump.
+Use bootloader helper to generate kernel jump.
+Also move kernel jump to 0x580 to avoid collisions with exception
+vectors.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- hw/mips/malta.c | 108 ++++++++++++------------------------------------
- 1 file changed, 26 insertions(+), 82 deletions(-)
+ hw/mips/fuloong2e.c | 35 +++++------------------------------
+ 1 file changed, 5 insertions(+), 30 deletions(-)
 
-diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-index 9d1a3b50b7..e9767e8744 100644
---- a/hw/mips/malta.c
-+++ b/hw/mips/malta.c
-@@ -841,14 +841,12 @@ static void write_bootloader_nanomips(uint8_t *base, int64_t run_addr,
- static void write_bootloader(uint8_t *base, int64_t run_addr,
-                              int64_t kernel_entry)
- {
--    uint32_t *p;
-+    uint32_t *p, a0;
- 
+diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+index a9e0c2f8d3..0a4809c816 100644
+--- a/hw/mips/fuloong2e.c
++++ b/hw/mips/fuloong2e.c
+@@ -186,38 +186,13 @@ static void write_bootloader(CPUMIPSState *env, uint8_t *base,
      /* Small bootloader */
      p = (uint32_t *)base;
  
--    stl_p(p++, 0x08000000 |                  /* j 0x1fc00580 */
--                 ((run_addr + 0x580) & 0x0fffffff) >> 2);
--    stl_p(p++, 0x00000000);                  /* nop */
-+    bl_gen_jump_to(&p, run_addr + 0x580);
+-    /* j 0x1fc00040 */
+-    stl_p(p++, 0x0bf00010);
+-    /* nop */
+-    stl_p(p++, 0x00000000);
++    bl_gen_jump_to(&p, 0xbfc00580);
  
-     /* YAMON service vector */
-     stl_p(base + 0x500, run_addr + 0x0580);  /* start: */
-@@ -869,88 +867,34 @@ static void write_bootloader(uint8_t *base, int64_t run_addr,
      /* Second part of the bootloader */
-     p = (uint32_t *) (base + 0x580);
- 
--    if (semihosting_get_argc()) {
--        /* Preserve a0 content as arguments have been passed */
--        stl_p(p++, 0x00000000);              /* nop */
--    } else {
--        stl_p(p++, 0x24040002);              /* addiu a0, zero, 2 */
--    }
+-    p = (uint32_t *)(base + 0x040);
 -
--    /* lui sp, high(ENVP_ADDR) */
--    stl_p(p++, 0x3c1d0000 | (((ENVP_ADDR - 64) >> 16) & 0xffff));
--    /* ori sp, sp, low(ENVP_ADDR) */
--    stl_p(p++, 0x37bd0000 | ((ENVP_ADDR - 64) & 0xffff));
+-    /* lui a0, 0 */
+-    stl_p(p++, 0x3c040000);
+-    /* ori a0, a0, 2 */
+-    stl_p(p++, 0x34840002);
 -    /* lui a1, high(ENVP_ADDR) */
 -    stl_p(p++, 0x3c050000 | ((ENVP_ADDR >> 16) & 0xffff));
--    /* ori a1, a1, low(ENVP_ADDR) */
+-    /* ori a1, a0, low(ENVP_ADDR) */
 -    stl_p(p++, 0x34a50000 | (ENVP_ADDR & 0xffff));
 -    /* lui a2, high(ENVP_ADDR + 8) */
 -    stl_p(p++, 0x3c060000 | (((ENVP_ADDR + 8) >> 16) & 0xffff));
 -    /* ori a2, a2, low(ENVP_ADDR + 8) */
 -    stl_p(p++, 0x34c60000 | ((ENVP_ADDR + 8) & 0xffff));
--    /* lui a3, high(ram_low_size) */
--    stl_p(p++, 0x3c070000 | (loaderparams.ram_low_size >> 16));
--    /* ori a3, a3, low(ram_low_size) */
--    stl_p(p++, 0x34e70000 | (loaderparams.ram_low_size & 0xffff));
--
--    /* Load BAR registers as done by YAMON */
--    stl_p(p++, 0x3c09b400);                  /* lui t1, 0xb400 */
--
--#ifdef TARGET_WORDS_BIGENDIAN
--    stl_p(p++, 0x3c08df00);                  /* lui t0, 0xdf00 */
--#else
--    stl_p(p++, 0x340800df);                  /* ori t0, r0, 0x00df */
--#endif
--    stl_p(p++, 0xad280068);                  /* sw t0, 0x0068(t1) */
--
--    stl_p(p++, 0x3c09bbe0);                  /* lui t1, 0xbbe0 */
--
--#ifdef TARGET_WORDS_BIGENDIAN
--    stl_p(p++, 0x3c08c000);                  /* lui t0, 0xc000 */
--#else
--    stl_p(p++, 0x340800c0);                  /* ori t0, r0, 0x00c0 */
--#endif
--    stl_p(p++, 0xad280048);                  /* sw t0, 0x0048(t1) */
--#ifdef TARGET_WORDS_BIGENDIAN
--    stl_p(p++, 0x3c084000);                  /* lui t0, 0x4000 */
--#else
--    stl_p(p++, 0x34080040);                  /* ori t0, r0, 0x0040 */
--#endif
--    stl_p(p++, 0xad280050);                  /* sw t0, 0x0050(t1) */
--
--#ifdef TARGET_WORDS_BIGENDIAN
--    stl_p(p++, 0x3c088000);                  /* lui t0, 0x8000 */
--#else
--    stl_p(p++, 0x34080080);                  /* ori t0, r0, 0x0080 */
--#endif
--    stl_p(p++, 0xad280058);                  /* sw t0, 0x0058(t1) */
--#ifdef TARGET_WORDS_BIGENDIAN
--    stl_p(p++, 0x3c083f00);                  /* lui t0, 0x3f00 */
--#else
--    stl_p(p++, 0x3408003f);                  /* ori t0, r0, 0x003f */
--#endif
--    stl_p(p++, 0xad280060);                  /* sw t0, 0x0060(t1) */
--
-+    /* GT64xxxx is always big endian */
- #ifdef TARGET_WORDS_BIGENDIAN
--    stl_p(p++, 0x3c08c100);                  /* lui t0, 0xc100 */
-+#define cpu_to_gt32(x) cpu_to_le32(x)
- #else
--    stl_p(p++, 0x340800c1);                  /* ori t0, r0, 0x00c1 */
-+#define cpu_to_gt32(x) cpu_to_be32(x)
- #endif
--    stl_p(p++, 0xad280080);                  /* sw t0, 0x0080(t1) */
--#ifdef TARGET_WORDS_BIGENDIAN
--    stl_p(p++, 0x3c085e00);                  /* lui t0, 0x5e00 */
--#else
--    stl_p(p++, 0x3408005e);                  /* ori t0, r0, 0x005e */
--#endif
--    stl_p(p++, 0xad280088);                  /* sw t0, 0x0088(t1) */
-+    /* Load BAR registers as done by YAMON */
-+    /* move GT64120 registers from 0x14000000 to 0x1be00000 */
-+    bl_gen_writel(&p, cpu_to_gt32(0xdf000000), 0xb4000068);
+-    /* lui a3, high(env->ram_size) */
+-    stl_p(p++, 0x3c070000 | (loaderparams.ram_size >> 16));
+-    /* ori a3, a3, low(env->ram_size) */
+-    stl_p(p++, 0x34e70000 | (loaderparams.ram_size & 0xffff));
+-    /* lui ra, high(kernel_addr) */
+-    stl_p(p++, 0x3c1f0000 | ((kernel_addr >> 16) & 0xffff));
+-    /* ori ra, ra, low(kernel_addr) */
+-    stl_p(p++, 0x37ff0000 | (kernel_addr & 0xffff));
+-    /* jr ra */
+-    stl_p(p++, 0x03e00008);
+-    /* nop */
+-    stl_p(p++, 0x00000000);
++    p = (uint32_t *)(base + 0x580);
 +
-+    /* setup MEM-to-PCI0 mapping */
-+    /* setup PCI0 io window to 0x18000000-0x181fffff */
-+    bl_gen_writel(&p, cpu_to_gt32(0xc0000000), 0xbbe00048);
-+    bl_gen_writel(&p, cpu_to_gt32(0x40000000), 0xbbe00050);
-+    /* setup PCI0 mem windows */
-+    bl_gen_writel(&p, cpu_to_gt32(0x80000000), 0xbbe00058);
-+    bl_gen_writel(&p, cpu_to_gt32(0x3f000000), 0xbbe00060);
-+    bl_gen_writel(&p, cpu_to_gt32(0xc1000000), 0xbbe00080);
-+    bl_gen_writel(&p, cpu_to_gt32(0x5e000000), 0xbbe00088);
-+#undef cpu_to_gt32
++    bl_gen_jump_kernel(&p, ENVP_ADDR - 64, 2, ENVP_ADDR, ENVP_ADDR + 8,
++                        loaderparams.ram_size, kernel_addr);
+ }
  
--    /* Jump to kernel code */
--    stl_p(p++, 0x3c1f0000 |
--          ((kernel_entry >> 16) & 0xffff));  /* lui ra, high(kernel_entry) */
--    stl_p(p++, 0x37ff0000 |
--          (kernel_entry & 0xffff));          /* ori ra, ra, low(kernel_entry) */
--    stl_p(p++, 0x03e00009);                  /* jalr ra */
--    stl_p(p++, 0x00000000);                  /* nop */
-+    if (semihosting_get_argc()) {
-+        a0 = 0;
-+    } else {
-+        a0 = 2;
-+    }
-+    bl_gen_jump_kernel(&p, ENVP_ADDR - 64, a0, ENVP_ADDR, (ENVP_ADDR + 8),
-+                        loaderparams.ram_low_size, kernel_entry);
- 
-     /* YAMON subroutines */
-     p = (uint32_t *) (base + 0x800);
+ static void main_cpu_reset(void *opaque)
 -- 
 2.29.2
 
