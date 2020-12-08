@@ -2,102 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 659592D2C0D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:33:01 +0100 (CET)
-Received: from localhost ([::1]:57488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1A8D2D2C25
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:43:44 +0100 (CET)
+Received: from localhost ([::1]:34344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmd6y-0001c9-9H
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:33:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40874)
+	id 1kmdHL-0004DX-99
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:43:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kmd4C-0000P5-8l; Tue, 08 Dec 2020 08:30:08 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25962)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kmdFp-0003W4-QD; Tue, 08 Dec 2020 08:42:10 -0500
+Received: from mail-vi1eur05on2107.outbound.protection.outlook.com
+ ([40.107.21.107]:29920 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kmd4A-0003oN-4J; Tue, 08 Dec 2020 08:30:07 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0B8D2R04000953; Tue, 8 Dec 2020 08:30:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=gY4P3MA99igFyjeznby+PF0AJrprYGI9uz4W0ghA2Qg=;
- b=FbKkANi83N1I1yS35GtvPF8CRp7Ez+/OIFr3tMY6eidY0Z981UyZsowx79SQZ2Wjhf3t
- jPY9WL5LMuzQ673vnL/TSi0ah3hYrprIJOtU7y5WLBr2QJkkEr5A8BIEOCCQjnSyJwI7
- WK90MNhSRRcCOVJEQZafSTGKhpbfDwFZC5h2dF+O/WEofG0R5IpKJe/sXblHcPj4TUY9
- mspEXbIHlWIRc3FDNS5NpFoEhxVo19zJk30TKxF6lN/l0LK03FpAzvS8ALWD1KSzE76x
- hw01DLWvkTuJiT3AWJnDxkiRLkCIfpI6lJu+TksMhYe3Gw2BEU7mhdKQT7+cICQgsfo+ Gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 359wwdjfp3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Dec 2020 08:30:02 -0500
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B8D2VQu001073;
- Tue, 8 Dec 2020 08:30:02 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 359wwdjfmp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Dec 2020 08:30:02 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B8DQv49031457;
- Tue, 8 Dec 2020 13:30:00 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06ams.nl.ibm.com with ESMTP id 3581fhkkuc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Dec 2020 13:30:00 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0B8DTvOQ9568826
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 8 Dec 2020 13:29:57 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CBD21A405B;
- Tue,  8 Dec 2020 13:29:57 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 756D4A4054;
- Tue,  8 Dec 2020 13:29:57 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.37.89])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  8 Dec 2020 13:29:57 +0000 (GMT)
-Subject: Re: [PATCH] s390x: pv: Fence additional unavailable SCLP facilities
- for PV guests
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20201204083655.27946-1-frankja@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <1c42abcc-b28e-4b6a-d363-ff6daf7b7883@de.ibm.com>
-Date: Tue, 8 Dec 2020 14:29:57 +0100
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kmdFm-0008Ea-PD; Tue, 08 Dec 2020 08:42:09 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZaH0fAGhgruxPXS0QEdN4UBvbpMMDkfWF81QI7RgiSCBuo1gtPRrBg4JZp03X8tTCVyZ/pbKUwAxzISmE+a+16woDGL6x9Icl9sl9fjswe+jpreRccHVNUg9Lz6SDEr1tqh/2iacrQ8M/1R1fGGOIzDZuk6rJNtexrvJf8cAlInoEjYRMB0EleZlamDbilwMwRbmv41W3jPFFJfEz5ttzokIDs1NZSiHICBFjXlMue66p38l/tqOsQABpoCbuZLz2ciATGJuecF1ZbPX/fuBMbPMZ8gGXK1P0wBmW7r+Z0IpKxeuFBY+OXt9ya9hHK7O4peKOaaNij+wGbWbfTM2FA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=laprLwo+4PPyWVxOVRCeE5oHEh3hBPFUy/+8L+oA+UY=;
+ b=RWH+QAZGMAsnbyaqGneVJzyCGrFHczkiZm0NalQrPEfsgQmQuof4zPnzxMSBcCb+Utzs6hQENVfL2IlSX3ndd7BtfbK7CklXOGyEqjmBaHCzfo0ip5Ey27d2fOD92Vq6BACBwudF4n0pkpMescOzCM8JBAJ8uEfzSB4NbjvSSqhu+821ZC5NKX4W94H+zdW4wsJ9m6zUNlUEugkPU8gikguQMew5FzIrPBgC+aGKnAfhgNLr+an+itGpBIfSF1ol/KmrJJ838YROLbu7bphF2rwp33wpcIMATrwFCTzXgkN40nG2jxtZkPadJgExE0UVimXtBXeJo28GkoqHWO9tvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=laprLwo+4PPyWVxOVRCeE5oHEh3hBPFUy/+8L+oA+UY=;
+ b=fqy44zmNdcY6cMf2kMb+NiOAZIafp5AURzAssQegoEMSg3Tdd/+yFfIo5ZXIhoNivsz/FRYQQqdpieodfmnleLnOSl4nhbQib3zJSIUdSj1uBiDCDma0j75iMzN97jMnBqmAVEZhKPJt1P5PQn8juQubHZT0SEX8hKU9mlLq8yY=
+Authentication-Results: huawei.com; dkim=none (message not signed)
+ header.d=none;huawei.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
+ by VI1PR08MB3792.eurprd08.prod.outlook.com (2603:10a6:803:bf::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Tue, 8 Dec
+ 2020 13:42:00 +0000
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::44c9:5ac7:5302:7179]) by VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::44c9:5ac7:5302:7179%4]) with mapi id 15.20.3632.023; Tue, 8 Dec 2020
+ 13:42:00 +0000
+Subject: Re: [PATCH v2] qemu-nbd: Fix a memleak in nbd_client_thread()
+To: Alex Chen <alex.chen@huawei.com>, eblake@redhat.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ zhang.zhanghailiang@huawei.com
+References: <20201203135855.70136-1-alex.chen@huawei.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <71e57a20-1a4f-5931-25df-b2740b3a5834@virtuozzo.com>
+Date: Tue, 8 Dec 2020 16:41:58 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-In-Reply-To: <20201204083655.27946-1-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
+ Thunderbird/78.5.1
+In-Reply-To: <20201203135855.70136-1-alex.chen@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-TM-AS-GCONF: 00
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+X-Originating-IP: [185.215.60.91]
+X-ClientProxiedBy: AM0PR07CA0001.eurprd07.prod.outlook.com
+ (2603:10a6:208:ac::14) To VI1PR08MB5503.eurprd08.prod.outlook.com
+ (2603:10a6:803:137::19)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-08_09:2020-12-08,
- 2020-12-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxscore=0
- malwarescore=0 spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
- suspectscore=0 impostorscore=0 adultscore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012080079
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.91) by
+ AM0PR07CA0001.eurprd07.prod.outlook.com (2603:10a6:208:ac::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3654.8 via Frontend Transport; Tue, 8 Dec 2020 13:41:59 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 796f84fe-d9fb-40c5-4278-08d89b7f09f9
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3792:
+X-Microsoft-Antispam-PRVS: <VI1PR08MB37929CB9DCD84EBA724E686DC1CD0@VI1PR08MB3792.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1775;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EoDl2QvorguQYQ5tmwT33CqetjWHq724DEt9D7YuFp6u5y4lgY84lLSDingLKxCnZCm3EYI0rqfwsJ/qz+jegzUD76bbt+k4Gjx+a+zcG2WatgwmyI0b0IQzKDlxlOGRrWuU0Hq7866dhCCKvGz6Dw70STbj4fc9U+sITUOk3ybRoBdnIpVFQMux6NIXD3jdw6vuN1PyweiaT4yKnQLdBFDz99C3ni+/t+trWL2ixH1kdWdCgDQ6UA43Nlm9alUBL2iJ9/Uprc2d/16i5RrQpxSLFmUyKXRAhaYpKZwkxXP5xm5MW5sUO/0Ixj0egUSIWF9jL7bZqH4s+BvXAZhod76kZH2vuNK/OUbvvJZqpgYiPchTKA2QH0PMMWNQGAKKwsRDGDdiyK7TdQm9u3+BeTUY81yNVcD8XpZZPgF1lmZfIEKiNugwHrvfNi+nriB4
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(376002)(346002)(31686004)(26005)(8676002)(4326008)(2906002)(186003)(31696002)(34490700003)(52116002)(36756003)(66556008)(16576012)(508600001)(5660300002)(83380400001)(66946007)(16526019)(86362001)(956004)(66476007)(2616005)(6486002)(8936002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZStaQnZ4Q1FQTXduRHZPd250Tkpjby9xc3N2Nk9TVFNwME9VL1Zrd1ZPYnFP?=
+ =?utf-8?B?M1AwN3doZkNqTjBBK01qN3BiTEd6L2RTVElzd2tBbVN0WEUwVDdJSUU3dmMx?=
+ =?utf-8?B?cGpPVEdzayswRmEvZVB4R3VvcEZtN1NvU01Sc25QbHBQbERKT0QrSTJFTlI5?=
+ =?utf-8?B?bEQ5ekdKcmZYMjJ0QmZXZnk0bm5SN1U5cU5WdkFjamVtSk9yN0QxYnNBWVB5?=
+ =?utf-8?B?K0kyUkNwNE0yK284d1RpSWZyWXJFRmpnSE5TTTR0eTdveTBJTEZWMTkwWTJZ?=
+ =?utf-8?B?TmhkRDdIOFhFL1VsSWk2K3BWaWE5c3hncUMxb3c5a0YwMDdVQ0Ircmcvdm1C?=
+ =?utf-8?B?ejVERFJXcVhrajJTRHg4RXE2bkFZdmhXbmFOK1VyMUczMlVMUnQzYWNWUUtG?=
+ =?utf-8?B?ZFYvTkdmalBXWkd5U21vTXJkUEMvd0o5R0kva29zNTdIMUc3RDhtSzZaNlZn?=
+ =?utf-8?B?YlZJZHl2bnE3SGd1ZEF5em1HdGltamh5dkxnd0xEU0U2T3JhRkRqc2N2cFRI?=
+ =?utf-8?B?UjFqNTY0WkwzTS91YUcyR21Kd20ybWV0MHdyNHJTMkE3RG9yZnRUK1d1WEcx?=
+ =?utf-8?B?VWNMOWFnKzFSc1ZmOGlRcHUwemRlMlk3QVUyOC92NnhNc0k2ZWsxaVV1MTgz?=
+ =?utf-8?B?a2dNc0xNOEFwVXk1Z1JhM1BtQUl1cTRmYUxHeDQ3U0pna0xic3NJRFdCcDRW?=
+ =?utf-8?B?VmkvZEVTZDd4bFdUVVZLYnVjWkJTbEN3ZkdGbDNxc25Gb1dSU1ZrVElKeklj?=
+ =?utf-8?B?bTNMOXVxdFIrVW9VOFViekRiUzhBUDF0OXp4U1p5SVR0LzdyeTd3RjNFUmwr?=
+ =?utf-8?B?NnVPVDl1WmFSSDRSUDZnUHFGY1VPMWZtRnYzZXl5TnFKSlRJaFAyamtOM1VB?=
+ =?utf-8?B?ZmZFVVprQ3ZVWG43SndhcjIybFN2NkZERUVQYXJlYUZtNVIwS2R0UWplMHk3?=
+ =?utf-8?B?bDJWcUhVVmVKTVd6cndRRVFidGZ0MFowMllseUhvUGlXeUUzN0JHczdwWUI4?=
+ =?utf-8?B?VXhSd1NlQ1BLVTFWMm5KZWJWUXhwZXV0UnYxbU51a29zNUJ5TUlzVWo3Lzhh?=
+ =?utf-8?B?aU1JcU1sYnh4WWxwNWZGenRKSWw1UWhCbTNmNXRNSllEM0hMcjBmOU5PRjJ0?=
+ =?utf-8?B?UVhaaGxKS2VUd3h1UzRCVFpDVS9EbE9FTDRKZTA1a2I2cnM0eEV2QTJmbDBa?=
+ =?utf-8?B?blBRd2JaaW1rdVdoRU1PYzVtZzdwckxJODQ4NVQzZldmVGRYS2pMMDh6WnMx?=
+ =?utf-8?B?YklqTnZlSm5aeHpZRTlxU0hUNmJCYVJ2bENGL3kwY0Y4ZFdVU0VVNkwwZGhr?=
+ =?utf-8?Q?1g+UwKlc39zeE3V5NQFa4Qkl0vEdiKl/bh?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 796f84fe-d9fb-40c5-4278-08d89b7f09f9
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 13:42:00.5169 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NNkRc6cNFSbfaMWQyhe8lA+XHySVI1/uwSRSQK/aN53T1Xdy+VzXoLKthZJ5DcMTHqbrdOTqyCLv1aniaPHajYTiW+LzoPf1KzSzZ2SvWAs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3792
+Received-SPF: pass client-ip=40.107.21.107;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,113 +136,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 04.12.20 09:36, Janosch Frank wrote:
-> There's no VSIE support for a protected guest, so let's better not
-> advertise it and its support facilities.
+03.12.2020 16:58, Alex Chen wrote:
+> When the qio_channel_socket_connect_sync() fails
+> we should goto 'out_socket' label to free the 'sioc' instead of
+> goto 'out' label.
+> In addition, there's a lot of redundant code in the successful branch
+> and the error branch, optimize it.
 > 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-
-Looks sane. Assuming that all features that depend on SIE are named S390_FEAT_SIE_*
-this should take care of everything. (i compared to gen-facilities.c)
-
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 > ---
-> CI:
-> https://gitlab.com/frankja/qemu/-/pipelines/224881703
-> ---
->  target/s390x/cpu_features.c | 38 ++++++++++++++++++++++++++++++++++++-
->  target/s390x/cpu_models.c   | 24 +++++++++++++++++++++--
->  2 files changed, 59 insertions(+), 3 deletions(-)
+>   qemu-nbd.c | 38 +++++++++++++++-----------------------
+>   1 file changed, 15 insertions(+), 23 deletions(-)
 > 
-> diff --git a/target/s390x/cpu_features.c b/target/s390x/cpu_features.c
-> index 42fe0bf4ca..7d7ea8e3b8 100644
-> --- a/target/s390x/cpu_features.c
-> +++ b/target/s390x/cpu_features.c
-> @@ -107,8 +107,44 @@ void s390_fill_feat_block(const S390FeatBitmap features, S390FeatType type,
->          feat = find_next_bit(features, S390_FEAT_MAX, feat + 1);
->      }
->  
-> -    if (type == S390_FEAT_TYPE_SCLP_FAC134 && s390_is_pv()) {
-> +    if (!s390_is_pv()) {
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * Some facilities are not available for CPUs in protected mode:
-> +     * - All SIE facilities because SIE is not available
-> +     * - DIAG318
-> +     *
-> +     * As VMs can move in and out of protected mode the CPU model
-> +     * doesn't protect us from that problem because it is only
-> +     * validated at the start of the VM.
-> +     */
-> +    switch (type) {
-> +    case S390_FEAT_TYPE_SCLP_CPU:
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_F2)->bit, data);
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_SKEY)->bit, data);
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_GPERE)->bit, data);
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_SIIF)->bit, data);
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_SIGPIF)->bit, data);
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_IB)->bit, data);
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_CEI)->bit, data);
-> +        break;
-> +    case S390_FEAT_TYPE_SCLP_CONF_CHAR:
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_KSS)->bit, data);
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_GSLS)->bit, data);
-> +        break;
-> +    case S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT:
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_64BSCAO)->bit, data);
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_CMMA)->bit, data);
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_PFMFI)->bit, data);
-> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_IBS)->bit, data);
-> +        break;
-> +    case S390_FEAT_TYPE_SCLP_FAC134:
->          clear_be_bit(s390_feat_def(S390_FEAT_DIAG_318)->bit, data);
-> +        break;
-> +    default:
-> +        return;
->      }
->  }
->  
-> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-> index b5abff8bef..51feb71546 100644
-> --- a/target/s390x/cpu_models.c
-> +++ b/target/s390x/cpu_models.c
-> @@ -239,8 +239,28 @@ bool s390_has_feat(S390Feat feat)
->          }
->          return 0;
->      }
-> -    if (feat == S390_FEAT_DIAG_318 && s390_is_pv()) {
-> -        return false;
-> +
-> +    if (s390_is_pv()) {
-> +        switch (feat) {
-> +        case S390_FEAT_DIAG_318:
-> +        case S390_FEAT_SIE_F2:
-> +        case S390_FEAT_SIE_SKEY:
-> +        case S390_FEAT_SIE_GPERE:
-> +        case S390_FEAT_SIE_SIIF:
-> +        case S390_FEAT_SIE_SIGPIF:
-> +        case S390_FEAT_SIE_IB:
-> +        case S390_FEAT_SIE_CEI:
-> +        case S390_FEAT_SIE_KSS:
-> +        case S390_FEAT_SIE_GSLS:
-> +        case S390_FEAT_SIE_64BSCAO:
-> +        case S390_FEAT_SIE_CMMA:
-> +        case S390_FEAT_SIE_PFMFI:
-> +        case S390_FEAT_SIE_IBS:
-> +            return false;
-> +            break;
-> +        default:
-> +            break;
-> +        }
->      }
->      return test_bit(feat, cpu->model->features);
->  }
-> 
+> diff --git a/qemu-nbd.c b/qemu-nbd.c
+> index a7075c5419..9583ee1af6 100644
+> --- a/qemu-nbd.c
+> +++ b/qemu-nbd.c
+> @@ -265,8 +265,8 @@ static void *nbd_client_thread(void *arg)
+>       char *device = arg;
+>       NBDExportInfo info = { .request_sizes = false, .name = g_strdup("") };
+>       QIOChannelSocket *sioc;
+> -    int fd;
+> -    int ret;
+> +    int fd = -1;
+> +    int ret = EXIT_FAILURE;
+>       pthread_t show_parts_thread;
+>       Error *local_error = NULL;
+>   
+> @@ -278,26 +278,24 @@ static void *nbd_client_thread(void *arg)
+>           goto out;
+>       }
+>   
+> -    ret = nbd_receive_negotiate(NULL, QIO_CHANNEL(sioc),
+> -                                NULL, NULL, NULL, &info, &local_error);
+> -    if (ret < 0) {
+> +    if (nbd_receive_negotiate(NULL, QIO_CHANNEL(sioc),
+> +                              NULL, NULL, NULL, &info, &local_error) < 0) {
+>           if (local_error) {
+>               error_report_err(local_error);
+>           }
+> -        goto out_socket;
+> +        goto out;
+>       }
+>   
+>       fd = open(device, O_RDWR);
+>       if (fd < 0) {
+>           /* Linux-only, we can use %m in printf.  */
+>           error_report("Failed to open %s: %m", device);
+> -        goto out_socket;
+> +        goto out;
+>       }
+>   
+> -    ret = nbd_init(fd, sioc, &info, &local_error);
+> -    if (ret < 0) {
+> +    if (nbd_init(fd, sioc, &info, &local_error) < 0) {
+>           error_report_err(local_error);
+> -        goto out_fd;
+> +        goto out;
+>       }
+>   
+>       /* update partition table */
+> @@ -311,24 +309,18 @@ static void *nbd_client_thread(void *arg)
+>           dup2(STDOUT_FILENO, STDERR_FILENO);
+>       }
+>   
+> -    ret = nbd_client(fd);
+> -    if (ret) {
+> -        goto out_fd;
+> +    if (nbd_client(fd) == 0) {
+> +        ret = EXIT_SUCCESS;
+
+It's not obvious that nbd_client() returns 0 on success, it calls ioctl(), which may return something positive in theory..
+
+So, with s/==/>=/, or with just
+
+if (nbd_client(fd) < 0) {
+   goto out;
+}
+
+ret = EXIT_SUCCESS;
+
+
+(which is good common pattern I think)
+
+:
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+-- 
+Best regards,
+Vladimir
 
