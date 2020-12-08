@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E02B2D221C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 05:32:39 +0100 (CET)
-Received: from localhost ([::1]:36134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6EA12D2254
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 05:53:50 +0100 (CET)
+Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmUg2-0007Js-9a
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 23:32:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50524)
+	id 1kmV0X-0002Wr-HR
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 23:53:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kmUdk-0006Op-B9; Mon, 07 Dec 2020 23:30:17 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54689 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kmUdh-0007eH-Ao; Mon, 07 Dec 2020 23:30:15 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CqnKG2cGGz9sWQ; Tue,  8 Dec 2020 15:30:10 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607401810;
- bh=gg/Qhy3c0ZdwVsRLHsNmbdRNzvxojHQFcJnFQfjHe74=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mM1pVtDV4LsXtUVGtSJAEgOCH++Z96PrL4mpZImzOq3kagANzzfVSQ3YeUa9K21BY
- YSJLBAoWMR5TwEVox3pjvjMRT+iCC0C1Z8XF+lm9eDWRpR6a1OnkdEhiChlRSorhRN
- 5rCOylYqDXDd9GupSZ/o6lF2Kr8XXFHD0749XBHQ=
-Date: Tue, 8 Dec 2020 15:30:04 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH for-6.0] spapr: Allow memory unplug to always succeed
-Message-ID: <20201208043004.GE2555@yekko.fritz.box>
-References: <20201207133704.952459-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kmUyg-0001mB-4S
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 23:51:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25955)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kmUyb-0000eM-4W
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 23:51:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607403106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HEAi0bA+j9UTD7cHRAZIOvytKYmXsVCI2IduNES6nrQ=;
+ b=bgh2pkPD0bMvrLrQAmpc7UHb+CSWME0+hhlKMIOsd/k2On8n5UBGChJ2rOfynXyE1D101s
+ fqJxrcyHXxdyek5XNM/Iifz7RoCXlXR1Ljl1sAveph0+dqhfC5aOylUtZCCFR16KDmXNXk
+ a9KuE+5KW9srKf8W8ahZBOta/pn5pR0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-68-OO7MZNoJPX2Ate4ALvQk3A-1; Mon, 07 Dec 2020 23:51:44 -0500
+X-MC-Unique: OO7MZNoJPX2Ate4ALvQk3A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 605F9107ACE4
+ for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 04:51:43 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-30.ams2.redhat.com
+ [10.36.112.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0E4227C27;
+ Tue,  8 Dec 2020 04:51:35 +0000 (UTC)
+Subject: Re: [PATCH 0/3] virtiofsd: Fix lo_flush() and inode->posix_lock init
+To: Vivek Goyal <vgoyal@redhat.com>, qemu-devel@nongnu.org
+References: <20201207183021.22752-1-vgoyal@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <861a96f9-34fa-cd1f-4bbf-4a3506c9afa2@redhat.com>
+Date: Tue, 8 Dec 2020 05:51:34 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BQPnanjtCNWHyqYD"
-Content-Disposition: inline
-In-Reply-To: <20201207133704.952459-1-groug@kaod.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201207183021.22752-1-vgoyal@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,132 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: virtio-fs@redhat.com, mszeredi@redhat.com, dgilbert@redhat.com,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Vivek,
 
---BQPnanjtCNWHyqYD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/07/20 19:30, Vivek Goyal wrote:
+> Laszlo is writing a virtiofs client for OVMF and noticed that if he
+> sends fuse FLUSH command for directory object, virtiofsd crashes.
+> virtiofsd does not expect a FLUSH arriving for a directory object.
+> 
+> This patch series has one of the patches which fixes that. It also
+> has couple of posix lock fixes as a result of lo_flush() related debugging.
+> 
+> Vivek Goyal (3):
+>   virtiofsd: Set up posix_lock hash table for root inode
+>   virtiofsd: Disable posix_lock hash table if remote locks are not
+>     enabled
+>   virtiofsd: Check file type in lo_flush()
+> 
+>  tools/virtiofsd/passthrough_ll.c | 54 +++++++++++++++++++++++---------
+>  1 file changed, 39 insertions(+), 15 deletions(-)
+> 
 
-On Mon, Dec 07, 2020 at 02:37:04PM +0100, Greg Kurz wrote:
-> It is currently impossible to hot-unplug a memory device between
-> machine reset and CAS.
->=20
-> (qemu) device_del dimm1
-> Error: Memory hot unplug not supported for this guest
->=20
-> This limitation was introduced in order to provide an explicit
-> error path for older guests that didn't support hot-plug event
-> sources (and thus memory hot-unplug).
->=20
-> The linux kernel has been supporting these since 4.11. All recent
-> enough guests are thus capable of handling the removal of a memory
-> device at all time, including during early boot.
->=20
-> Lift the limitation for the latest machine type. This means that
-> trying to unplug memory from a guest that doesn't support it will
-> likely just do nothing and the memory will only get removed at
-> next reboot. Such older guests can still get the existing behavior
-> by using an older machine type.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+I put back the (wrong) FLUSH for the root dir into my code temporarily, to reproduce the crash (it does, with v5.2.0-rc4).
 
-Looks like this conflicts with something I've added to for-6.0
-recently.  Can you rebase and resend, please.
+Then I applied your series [*], and retested.
 
-> ---
-> Based-on: 20201109173928.1001764-1-cohuck@redhat.com
-> ---
->  include/hw/ppc/spapr.h | 1 +
->  hw/ppc/spapr.c         | 6 +++++-
->  hw/ppc/spapr_events.c  | 3 ++-
->  3 files changed, 8 insertions(+), 2 deletions(-)
->=20
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index b7ced9faebf5..7aa630350326 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -139,6 +139,7 @@ struct SpaprMachineClass {
->      hwaddr rma_limit;          /* clamp the RMA to this size */
->      bool pre_5_1_assoc_refpoints;
->      bool pre_5_2_numa_associativity;
-> +    bool pre_6_0_memory_unplug;
-> =20
->      bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
->                            uint64_t *buid, hwaddr *pio,=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 7e954bc84bed..f0b26b2af30d 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4044,7 +4044,8 @@ static void spapr_machine_device_unplug_request(Hot=
-plugHandler *hotplug_dev,
->      SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-> =20
->      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-> -        if (spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
-> +        if (!smc->pre_6_0_memory_unplug ||
-> +            spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
->              spapr_memory_unplug_request(hotplug_dev, dev, errp);
->          } else {
->              /* NOTE: this means there is a window after guest reset, pri=
-or to
-> @@ -4530,8 +4531,11 @@ DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
->   */
->  static void spapr_machine_5_2_class_options(MachineClass *mc)
->  {
-> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-> +
->      spapr_machine_6_0_class_options(mc);
->      compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-> +    smc->pre_6_0_memory_unplug =3D true;
->  }
-> =20
->  DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index 1add53547ec3..c30123177b16 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -659,7 +659,8 @@ static void spapr_hotplug_req_event(uint8_t hp_id, ui=
-nt8_t hp_action,
->          /* we should not be using count_indexed value unless the guest
->           * supports dedicated hotplug event source
->           */
-> -        g_assert(spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
-> +        g_assert(!SPAPR_MACHINE_GET_CLASS(spapr)->pre_6_0_memory_unplug =
-||
-> +                 spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
->          hp->drc_id.count_indexed.count =3D
->              cpu_to_be32(drc_id->count_indexed.count);
->          hp->drc_id.count_indexed.index =3D
+[*] I'm unsure about the email you sent in response to 1/3, namely <https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg01504.html>; I ignored that when applying the patches.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Indeed now I get a graceful -EBADF:
 
---BQPnanjtCNWHyqYD
-Content-Type: application/pgp-signature; name="signature.asc"
+[13316825985314] [ID: 00000004] unique: 60, opcode: FLUSH (25), nodeid: 1, insize: 64, pid: 1
+[13316825993517] [ID: 00000004]    unique: 60, error: -9 (Bad file descriptor), outsize: 16
 
------BEGIN PGP SIGNATURE-----
+For whichever patch in the series my testing is relevant:
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/PATQACgkQbDjKyiDZ
-s5KSFRAA4KbCFwmHI9qLF1900NzI1FfhLZhwlh4Jt92LOQC9DXQtAKV/7cF9Zvs/
-XMMSg/dHj9K7ff+APliFugTlhXP0lrH0hZ4deHwa7NAg8NiBRM7cLDQUtK4VciuJ
-WLN03NDIuUvP9mm+B+fKDgDIdHN914URJHtVCzrHmPjt6QY8OdCO7GXRGGM1FqOY
-b6Khs27xCWNo99AaqC0H+NM7h/IBBmCyNz2IQ34PJrbjyvcNirDhpY1Ii+cfFfLc
-wAZ826UzjQKvSzy8gx2ztRpdG4XYtJVukeGgKbhghoDsiXGL36V69qtdctPy+IdI
-aOeDlDL99pkqbJ91vAKBd6iMoZh2zOdC+Z0Vs7eABDIOssPpOuvpYYfPSB6Ws+TX
-GhoXZuohBVE9w7V5x/uIo/r5WmRD7O9naHSqRoQpuQ0kY2WndCoR80ufy0QIQcC+
-RvemyY/TJlkudnhW/EHlo/aJuwIdE9q54S8DB/Ofuq6t3Az3zeOtK/XPwNPsYM/c
-iRP1KNDcp62vS925EXAoZtxFtuhaqJSGabc/1yIkDvlLzF0DJZNFyOVH5+EFTCpx
-WAvdvt5/qIkxQJrnmRRvlsokiu2miE7SAppAqqg7kohdg8VsJZoFxKt/6ohwfLCw
-cSQGT/QVafJPsWRwouEDdI03KYaOhd96lNXK1zB44DBlY/vdsms=
-=73wH
------END PGP SIGNATURE-----
+Tested-by: Laszlo Ersek <lersek@redhat.com>
 
---BQPnanjtCNWHyqYD--
+(I'm having some difficulty figuring out which patch(es) should carry my T-b.
+
+- I think I didn't really test patch#2 with the above, so that one should likely not get the T-b
+
+- I think patch#3 is what I really tested.
+
+- But, if that's the case, doesn't patch#3 make the fix in patch#1 untestable, in my scenario? I believe the code is no longer reached in lo_flush(), due to patch#3, where the change from patch#1 would matter. Patch#1 seems correct, and the last paragraph of its commit message relevant, but I think my testing currently only covered patch#3.
+
+I'll let you decide where to apply my T-b.)
+
+Thanks!
+Laszlo
+
 
