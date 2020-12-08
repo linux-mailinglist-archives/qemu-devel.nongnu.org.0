@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9BDD2D35CB
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:12:54 +0100 (CET)
-Received: from localhost ([::1]:38590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D03F2D3634
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:27:11 +0100 (CET)
+Received: from localhost ([::1]:38684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmlE5-00066k-J7
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:12:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50586)
+	id 1kmlRu-0001cP-3Z
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:27:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmktT-0004DY-GE
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:51:39 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:40648)
+ id 1kmkvP-0006p5-0i
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:53:35 -0500
+Received: from mail-oo1-xc43.google.com ([2607:f8b0:4864:20::c43]:44608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmktR-00076R-7G
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:51:35 -0500
-Received: by mail-ot1-x342.google.com with SMTP id j12so206836ota.7
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 13:51:32 -0800 (PST)
+ id 1kmkvM-0007eP-DF
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:53:34 -0500
+Received: by mail-oo1-xc43.google.com with SMTP id n20so738981ooq.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 13:53:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AcB7iPZH/6gryYNKiOK9LRk4ALwhtVZ0H0FlNoQ7ZeM=;
- b=KKXYPzgWdCnzpXrMlF0qNwOlBtZ80Lwvr1FLdadhrZ3zw1T06gxyPoQUgtPfQHGFKU
- gr3OWw5YDnqmK+/IcPsY//PFz1oLHgyIqPaq8Bz5GrA6Uj3pUyuazUzc/fcHmdWRxlP7
- AgPhTVevF+ST5iI/WZFAy8q3Wq4OW9uTtLbglpYofILXu04qGN5ViEurZBq5JjSCksHZ
- y557HsxE5UQTD7dTy3iFsJzW2s4VJ18M46sUBWRaWo3kQQuO+vmvKh3v7IGG9ScwmgZj
- XYzYDKzyh9zayLi9XPD70hAPXgP/4SFIMB6EdADRAuUHNHAMgpx/j7VnVMnFg+Vhswbt
- QBow==
+ bh=NStUY/qLk9bu6L+y0GrWZhiL3GnQYL84Qz+hTcrhUBU=;
+ b=iGYD/ijLzODNWCUcr1z62gKp332+R5ij3BuEbr04mj/Nk8eeZsNG5L5by0MJWkopAZ
+ p1M0Sy6rDiQfyVoxIbBFHSx67H1P2PL/voYDNQLiwXuCWJISosUY8We+zAdOeSZldEfJ
+ U2174otlSp7Oy5tnTVCb5yDz4H5KMHHyxpo365KUtxX0+IZ5AdDTf3sZ6CnbEhwnT3aV
+ S/XyGjgXUknzbP5d4G6bB2Nzd0A1aR/7BPTXc0uqE4czX/bE7KiwheuAIprucxY+VPBq
+ t2CF3pJvNMRc1PxSbY2JZrY26stdvPMkUFHIGe1pR685BV115AnY1uR4TxdSf9nh+C6J
+ m7jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AcB7iPZH/6gryYNKiOK9LRk4ALwhtVZ0H0FlNoQ7ZeM=;
- b=MOvxriFjv1Qo28pSfeTMrB/8sv4edD4uWOa/2gCow3MwM0pbbm4EWkGV4Dz74orPiM
- G0PQtuccBN4KYuxmD5sbvr2jctA9ZKCBqQPXq6Vohpp67sH764jZj91V+9tPJ8xPAvug
- 07Ze706diR5cJr1JcwC5++EugnTjirj7xlTR9Ed9MvE+Qv4vt0nb+rqDs/BfhASS2S/x
- 7CwRTesn1L/rOU1tWTH7/kXifgTpCYMhD5VN01uxJlkcWfpUiS+5afHZyXfpeoBVJ578
- Q0ueJ95ApoXMzXsy1ELXZFQYfc9svenTLZfc4ccBIrCIlQZI6QyqYnxN9TM0UZ7+jWzk
- wyQg==
-X-Gm-Message-State: AOAM530r3tObTE3vFcyQanUVjvwmGGvaSfZpVTVbrTjXkigw2l3O1ZRp
- nSwaAwMGV4P4EkLLMtRYdmnrhw==
-X-Google-Smtp-Source: ABdhPJw0iO65IFT6OUZQO2aiSQQcVDqIgAXdoz+mis7CW4sQQA1tfICMbjhUCuMC/BvCcx8xe1hrJw==
-X-Received: by 2002:a9d:6317:: with SMTP id q23mr74231otk.251.1607464292083;
- Tue, 08 Dec 2020 13:51:32 -0800 (PST)
+ bh=NStUY/qLk9bu6L+y0GrWZhiL3GnQYL84Qz+hTcrhUBU=;
+ b=VH1wQ+g17YZlqkw1ghtdIVb9JePVm0bsrR4i/ak0a81Tyi9CBuN0Ko50HNHzDmki99
+ 5leGWpOPoN+bVt2pIEgRy2UxPr1NOv+7mvxnUKGvIp2gJFE6FMETUSE/prsUKGGlMPax
+ sfQQvpFXaTlMGMBfI+lO6UEKXvryRCKr/HWbOLhNw8mTAIrjrqhh0biwPKYATROni93n
+ s14Evf7TCROmMaqeKGLqmBb/iEXL7LwtFAPwL2V6FvLTQWu5ScYQ5e+g/I54q6f8Mbgf
+ VxjPs717//xPsPnaI32Bah0XnJ6XtUXS6z2hdG7sLtQ10XaDQxG1FPR8fNdIjPNK26tl
+ 4IGw==
+X-Gm-Message-State: AOAM531xFh37kQ5HHgJwTEKDfjl1Bv9IYxJYjoFsM2o+mErHH613HulB
+ mCpL/We5f8Qw+NeQbybIt4/caQ==
+X-Google-Smtp-Source: ABdhPJyEKfCiY0bGmx6HepSAva6E5lZxzE8O7K/xAi7N4YY1wjhs/wYc7SiQ2pHrj6mGa+53CRBZsA==
+X-Received: by 2002:a4a:d043:: with SMTP id x3mr20993oor.19.1607464411181;
+ Tue, 08 Dec 2020 13:53:31 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id k63sm13525oia.14.2020.12.08.13.51.30
+ by smtp.gmail.com with ESMTPSA id b91sm14253otc.13.2020.12.08.13.53.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 13:51:31 -0800 (PST)
-Subject: Re: [PATCH 07/19] target/mips: Include "exec/memattrs.h" in
- 'internal.h'
+ Tue, 08 Dec 2020 13:53:30 -0800 (PST)
+Subject: Re: [PATCH 08/19] target/mips: Extract cpu_supports*/cpu_set*
+ translate.c
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201206233949.3783184-1-f4bug@amsat.org>
- <20201206233949.3783184-8-f4bug@amsat.org>
+ <20201206233949.3783184-9-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <62ff83ec-fdc4-61dc-6309-c68e3efda2db@linaro.org>
-Date: Tue, 8 Dec 2020 15:51:29 -0600
+Message-ID: <c7adb225-43bb-21be-fd43-3985554301d9@linaro.org>
+Date: Tue, 8 Dec 2020 15:53:28 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201206233949.3783184-8-f4bug@amsat.org>
+In-Reply-To: <20201206233949.3783184-9-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c43;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc43.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,14 +97,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/6/20 5:39 PM, Philippe Mathieu-Daudé wrote:
-> mips_cpu_do_transaction_failed() requires MemTxAttrs
-> and MemTxResult declarations.
+> Move cpu_supports*() and cpu_set_exception_base() from
+> translate.c to cpu.c.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/internal.h | 1 +
->  target/mips/kvm.c      | 1 -
->  2 files changed, 1 insertion(+), 1 deletion(-)
+>  target/mips/cpu.c       | 18 ++++++++++++++++++
+>  target/mips/translate.c | 18 ------------------
+>  2 files changed, 18 insertions(+), 18 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
