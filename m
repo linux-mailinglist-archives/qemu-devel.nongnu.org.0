@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E4F2D3299
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:23:54 +0100 (CET)
-Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9915E2D329B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:27:26 +0100 (CET)
+Received: from localhost ([::1]:43780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmiaX-000476-3s
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:23:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43940)
+	id 1kmidx-0007Cx-L5
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:27:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
- id 1kmiS7-0007su-R6
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:15:14 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:48648)
+ id 1kmiTy-0000HR-Tg
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:17:08 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:38712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
- id 1kmiS1-0007Tk-Jy
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:15:11 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8J9IVP098393;
- Tue, 8 Dec 2020 19:15:00 GMT
+ id 1kmiTu-0007om-VY
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:17:06 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8J9J4k107124;
+ Tue, 8 Dec 2020 19:17:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=WpBu+h6zx2OWrB4QyP0nWA4cWe8kbsktFYEr6Jg3Qd8=;
- b=MvK61hJZVGzIKbFHJSgWfgHnlSRndDF6VAOSEF90aVLvDsxaSTpYS3YRZVzmt/2rDgCw
- AciiFdkVJQpxNhXDDT7YhjWH4kn7TWFo5ifg3V9BefzP3b/LPdeAece0iKS9E7YfL4dN
- eMg9iVSsvIGJnHBTSRFvrxqswN3NxJhd90bw/k7Bc1XLaFGPEYfwzRz6rbUzL+PL0shf
- kxu0pkEJa9s41e99ruf6xl1ceGj8pOtVZOJVelv1awpmb3ATWsCCyC+eGoEEZ5wTb3jI
- T106JaYoiynnuu+zm/sLEZZt/rS9FmSdL+w/5Z1HGtm7H8yvvZo+TlfQAd7yYm1RGaAq Tg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 35825m4jtx-1
+ bh=hEapBxrb93rMy2MDuYbpH09EASrOKbuHVY2y3SczyCA=;
+ b=M4Q5ImuyFU4a/GVoDKXEQU5dkqiytNRHjTVZTAGbXSp2dmWz+hE1wQcW6YL8E2hdH5sr
+ DMenb4Wjh+46zsL6pKJRtyFkfSfM9LhCTbP93rrpIAoqGR3DGUrGrAqpm4+OZ9EaGRqh
+ uolOE/ras2BGdMzRJu54A0pQZPdeXFXs9iNzRNjogKX6iR6Z5mnAj2CEcDJhhrMGSKy9
+ VJej5GagcGGQ3es71rhP38XmYURtv3ig8RCwc4tgjqwC/jr4TaG7FqEDE/uvbDsMbN9b
+ H8DJg0CoFT5jJOuuAVJstGp5oCo7ouexYWS6p0kYZavWPEMs0SO22NqMvxU/Ppmb+3i+ Nw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 357yqbvp10-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 08 Dec 2020 19:15:00 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8JAV1L140299;
+ Tue, 08 Dec 2020 19:17:01 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8JAeGs015803;
  Tue, 8 Dec 2020 19:15:00 GMT
 Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 358m3y5wjw-1
+ by userp3020.oracle.com with ESMTP id 358kytcvb8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 08 Dec 2020 19:15:00 +0000
 Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B8JEwIH028391;
- Tue, 8 Dec 2020 19:14:59 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B8JExew028398;
+ Tue, 8 Dec 2020 19:15:00 GMT
 Received: from ban25x6uut148.us.oracle.com (/10.153.73.148)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 08 Dec 2020 11:14:58 -0800
+ with ESMTP ; Tue, 08 Dec 2020 11:14:59 -0800
 From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] qmp: Allow setting -action parameters on the fly
-Date: Tue,  8 Dec 2020 14:14:49 -0500
-Message-Id: <1607454890-3339-4-git-send-email-alejandro.j.jimenez@oracle.com>
+Subject: [PATCH 4/4] qtest/pvpanic: Test panic option that allows VM to
+ continue
+Date: Tue,  8 Dec 2020 14:14:50 -0500
+Message-Id: <1607454890-3339-5-git-send-email-alejandro.j.jimenez@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1607454890-3339-1-git-send-email-alejandro.j.jimenez@oracle.com>
 References: <1607454890-3339-1-git-send-email-alejandro.j.jimenez@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- malwarescore=0 adultscore=0
- bulkscore=0 phishscore=0 suspectscore=1 mlxscore=0 mlxlogscore=999
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 mlxscore=0
+ malwarescore=0 suspectscore=1 mlxlogscore=999 bulkscore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2012080117
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
- adultscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501 mlxscore=0
- spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012080117
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=alejandro.j.jimenez@oracle.com; helo=aserp2120.oracle.com
+ mlxlogscore=999
+ clxscore=1015 malwarescore=0 bulkscore=0 phishscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012080117
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=alejandro.j.jimenez@oracle.com; helo=aserp2130.oracle.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -96,88 +97,68 @@ Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add QMP commands to allow for the behaviors specified by the
--action event=action command line option to be set at runtime,
-mimicking the watchdog-set-action QMP command.
+Test the scenario where the -action panic=none parameter is used to
+signal that the VM must continue executing after a guest panic
+occurs.
 
 Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
 Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
 ---
- qapi/run-state.json       | 27 +++++++++++++++++++++++++++
- softmmu/runstate-action.c |  6 +++---
- 2 files changed, 30 insertions(+), 3 deletions(-)
+ tests/qtest/pvpanic-test.c | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 27b62ce..de27516 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -451,6 +451,33 @@
- { 'command': 'watchdog-set-action', 'data' : {'action': 'WatchdogAction'} }
+diff --git a/tests/qtest/pvpanic-test.c b/tests/qtest/pvpanic-test.c
+index 016b32e..6dcad2d 100644
+--- a/tests/qtest/pvpanic-test.c
++++ b/tests/qtest/pvpanic-test.c
+@@ -11,13 +11,36 @@
+ #include "libqos/libqtest.h"
+ #include "qapi/qmp/qdict.h"
  
- ##
-+# @reboot-set-action:
-+#
-+# Set reboot action
-+#
-+# Since: 6.0
-+##
-+{ 'command': 'reboot-set-action', 'data' : {'action': 'RebootAction'} }
++static void test_panic_nopause(void)
++{
++    uint8_t val;
++    QDict *response, *data;
++    QTestState *qts;
 +
-+##
-+# @shutdown-set-action:
-+#
-+# Set shutdown action
-+#
-+# Since: 6.0
-+##
-+{ 'command': 'shutdown-set-action', 'data' : {'action': 'ShutdownAction'} }
++    qts = qtest_init("-device pvpanic -action panic=none");
 +
-+##
-+# @panic-set-action:
-+#
-+# Set panic action
-+#
-+# Since: 6.0
-+##
-+{ 'command': 'panic-set-action', 'data' : {'action': 'PanicAction'} }
++    val = qtest_inb(qts, 0x505);
++    g_assert_cmpuint(val, ==, 3);
 +
-+##
- # @GUEST_PANICKED:
- #
- # Emitted when guest OS panic is detected
-diff --git a/softmmu/runstate-action.c b/softmmu/runstate-action.c
-index 9c92595..aef23b8 100644
---- a/softmmu/runstate-action.c
-+++ b/softmmu/runstate-action.c
-@@ -29,7 +29,7 @@ static void runstate_action_help(void)
-  * Set the internal state to react to a guest reboot event
-  * as specified by the action parameter.
-  */
--static void qmp_reboot_set_action(RebootAction act, Error **errp)
-+void qmp_reboot_set_action(RebootAction act, Error **errp)
++    qtest_outb(qts, 0x505, 0x1);
++
++    response = qtest_qmp_eventwait_ref(qts, "GUEST_PANICKED");
++    g_assert(qdict_haskey(response, "data"));
++    data = qdict_get_qdict(response, "data");
++    g_assert(qdict_haskey(data, "action"));
++    g_assert_cmpstr(qdict_get_str(data, "action"), ==, "run");
++    qobject_unref(response);
++
++    qtest_quit(qts);
++}
++
+ static void test_panic(void)
  {
-     switch (act) {
-     case REBOOT_ACTION_NONE:
-@@ -47,7 +47,7 @@ static void qmp_reboot_set_action(RebootAction act, Error **errp)
-  * Set the internal state to react to a guest shutdown event
-  * as specified by the action parameter.
-  */
--static void qmp_shutdown_set_action(ShutdownAction act, Error **errp)
-+void qmp_shutdown_set_action(ShutdownAction act, Error **errp)
- {
-     switch (act) {
-     case SHUTDOWN_ACTION_PAUSE:
-@@ -65,7 +65,7 @@ static void qmp_shutdown_set_action(ShutdownAction act, Error **errp)
-  * Set the internal state to react to a guest panic event
-  * as specified by the action parameter.
-  */
--static void qmp_panic_set_action(PanicAction action, Error **errp)
-+void qmp_panic_set_action(PanicAction action, Error **errp)
- {
-     switch (action) {
-     case PANIC_ACTION_NONE:
+     uint8_t val;
+     QDict *response, *data;
+     QTestState *qts;
+ 
+-    qts = qtest_init("-device pvpanic");
++    qts = qtest_init("-device pvpanic -action panic=pause");
+ 
+     val = qtest_inb(qts, 0x505);
+     g_assert_cmpuint(val, ==, 3);
+@@ -40,6 +63,7 @@ int main(int argc, char **argv)
+ 
+     g_test_init(&argc, &argv, NULL);
+     qtest_add_func("/pvpanic/panic", test_panic);
++    qtest_add_func("/pvpanic/panic-nopause", test_panic_nopause);
+ 
+     ret = g_test_run();
+ 
 -- 
 1.8.3.1
 
