@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE4662D1ECD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 01:14:17 +0100 (CET)
-Received: from localhost ([::1]:42354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213E52D1EEB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 01:23:29 +0100 (CET)
+Received: from localhost ([::1]:46760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmQdz-0006v3-Fu
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 19:14:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59962)
+	id 1kmQmt-0000mO-Le
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 19:23:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmQcA-0006Ui-Ng
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 19:12:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32658)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmQl6-0000IR-Bf
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 19:21:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmQc8-0001OB-TD
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 19:12:22 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kmQl2-0004JM-KD
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 19:21:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607386339;
+ s=mimecast20190719; t=1607386891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7bOX26qlUdzowRQpYn5ukc4ANeM6X//okrmLTiA2xzA=;
- b=A6nDj3mRaDmsSUERQqFi8W5QIs3335kCQsXyVM0QhqgbicW59BBXOM0u+z616Y1zrXVusN
- nAFu0RmSfbOlt+H277s/SAQdJamP5T/qwRS2SsJSWY3AzVHnYOa9HFgmWqixqaWwG7Dew8
- ivahX3/Yulmm6bEkC6CyuW+j+QMne+I=
+ bh=b200TLGAgfznP8G5dj/Zz/GfdFGRQTLP/th9gnezFI8=;
+ b=cOkXWhq3c/cWLh9iR34vtMrheIUJVsq/kAmrrhRES7dvmD9Osl+NLeSv4cHslpjo2QV13k
+ szbLAhKm4bEU3Wt8L5EW8XRxbf6VcvXltOK4zCgNcKk7vsXZ8mFZuV9hG3MKF1iyd7Yn+q
+ mCl5vO2gOcRLYXoz0L7YHL0N6tRHT40=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-Hynm012zOiK7B3gjDRj8Kg-1; Mon, 07 Dec 2020 19:12:18 -0500
-X-MC-Unique: Hynm012zOiK7B3gjDRj8Kg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-189-pF5tEtUuOrirb8RdvdfHrA-1; Mon, 07 Dec 2020 19:21:29 -0500
+X-MC-Unique: pF5tEtUuOrirb8RdvdfHrA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26A369CDA2
- for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 00:12:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C08B802B56
+ for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 00:21:28 +0000 (UTC)
 Received: from [10.10.116.117] (ovpn-116-117.rdu2.redhat.com [10.10.116.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 92A215C1A1;
- Tue,  8 Dec 2020 00:12:16 +0000 (UTC)
-Subject: Re: [PATCH v2 08/11] qapi/introspect.py: replace 'extra' dict with
- 'comment' argument
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FFD15D719;
+ Tue,  8 Dec 2020 00:21:27 +0000 (UTC)
+Subject: Re: [PATCH v2 09/11] qapi/introspect.py: create a typed 'Annotated'
+ data strutcure
 To: Markus Armbruster <armbru@redhat.com>
 References: <20201026194251.11075-1-jsnow@redhat.com>
- <20201026194251.11075-9-jsnow@redhat.com> <875z651v8h.fsf@dusky.pond.sub.org>
+ <20201026194251.11075-10-jsnow@redhat.com>
+ <87y2j1zk35.fsf@dusky.pond.sub.org>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <41e0e0e8-e7ac-173e-c3bb-33a2ee9d26f8@redhat.com>
-Date: Mon, 7 Dec 2020 19:12:16 -0500
+Message-ID: <b27f7930-d86b-8357-84e4-7daef00023d7@redhat.com>
+Date: Mon, 7 Dec 2020 19:21:26 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <875z651v8h.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <87y2j1zk35.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -60,14 +61,14 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,81 +88,267 @@ Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/20 4:55 AM, Markus Armbruster wrote:
+On 11/16/20 5:12 AM, Markus Armbruster wrote:
 > John Snow <jsnow@redhat.com> writes:
 > 
->> This is only used to pass in a dictionary with a comment already set, so
->> skip the runaround and just accept the comment.
+>> This replaces _make_tree with Annotated(). By creating it as a generic
+>> container, we can more accurately describe the exact nature of this
+>> particular value. i.e., each Annotated object is actually an
+>> Annotated<T>, describing its contained value.
 >>
+>> This adds stricter typing to Annotated nodes and extra annotated
+>> information.
+> 
+> Inhowfar?
+> 
+
+The Generic[T] trick lets us express the type of the annotated node 
+itself, which is more specific than Tuple[_something, ...etc...] and 
+this type can be preserved when we peel the annotations off.
+
+It's not super crucial, but like you say, the big benefit is the field 
+names and strict types for the special-purpose structure.
+
+>>               It also replaces a check of "isinstance tuple" with the
+>> much more explicit "isinstance Annotated" which is guaranteed not to
+>> break if a tuple is accidentally introduced into the type tree. (Perhaps
+>> as a result of a bad conversion from a list.)
+> 
+> Sure this is worth writing home about?  Such accidents seem quite
+> unlikely.
+> 
+
+We all have our phobias. I find "isinstance(x, 
+extremely_common_stdlib_type)" to be extremely fragile and likely to 
+frustrate.
+
+Maybe what's unlikely is anyone editing this code ever again. You've 
+mentioned wanting to look into changing how the schema information is 
+stored in QEMU before, so a lot of this might not matter for too much 
+longer, who knows.
+
+> For me, the commit's benefit is making the structure of the annotated
+> tree node more explicit (your first paragraph, I guess).  It's a bit of
+> a pattern in developing Python code: we start with a Tuple because it's
+> terse and easy, then things get more complex, terse becomes too terse,
+> and we're replacing the Tuple with a class.
+> 
+
+Yep.
+
 >> Signed-off-by: John Snow <jsnow@redhat.com>
 >> ---
->>   scripts/qapi/introspect.py | 17 ++++++++---------
->>   1 file changed, 8 insertions(+), 9 deletions(-)
+>>   scripts/qapi/introspect.py | 97 +++++++++++++++++++-------------------
+>>   1 file changed, 48 insertions(+), 49 deletions(-)
 >>
 >> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
->> index ef469b6c06e..a0978cb3adb 100644
+>> index a0978cb3adb..a261e402d69 100644
 >> --- a/scripts/qapi/introspect.py
 >> +++ b/scripts/qapi/introspect.py
->> @@ -76,12 +76,11 @@
+>> @@ -13,12 +13,13 @@
+>>   from typing import (
+>>       Any,
+>>       Dict,
+>> +    Generic,
+>> +    Iterable,
+>>       List,
+>>       Optional,
+>>       Sequence,
+>> -    Tuple,
+>> +    TypeVar,
+>>       Union,
+>> -    cast,
+>>   )
+>>   
+>>   from .common import (
+>> @@ -63,50 +64,48 @@
+>>   _scalar = Union[str, bool, None]
+>>   _nonscalar = Union[Dict[str, _stub], List[_stub]]
+>>   _value = Union[_scalar, _nonscalar]
+>> -TreeValue = Union[_value, 'Annotated']
+>> +TreeValue = Union[_value, 'Annotated[_value]']
+>>   
+>>   # This is just an alias for an object in the structure described above:
+>>   _DObject = Dict[str, object]
+>>   
+>> -# Represents the annotations themselves:
+>> -Annotations = Dict[str, object]
+>>   
+>> -# Represents an annotated node (of some kind).
+>> -Annotated = Tuple[_value, Annotations]
+>> +_AnnoType = TypeVar('_AnnoType', bound=TreeValue)
 >>   
 >>   
->>   def _make_tree(obj: Union[_DObject, str], ifcond: List[str],
->> -               extra: Optional[Annotations] = None
->> -               ) -> Annotated:
->> -    if extra is None:
->> -        extra = {}
->> -    if ifcond:
->> -        extra['if'] = ifcond
->> +               comment: Optional[str] = None) -> Annotated:
->> +    extra: Annotations = {
->> +        'if': ifcond,
->> +        'comment': comment,
->> +    }
+>> -def _make_tree(obj: Union[_DObject, str], ifcond: List[str],
+>> -               comment: Optional[str] = None) -> Annotated:
+>> -    extra: Annotations = {
+>> -        'if': ifcond,
+>> -        'comment': comment,
+>> -    }
+>> -    return (obj, extra)
+>> +class Annotated(Generic[_AnnoType]):
+>> +    """
+>> +    Annotated generally contains a SchemaInfo-like type (as a dict),
+>> +    But it also used to wrap comments/ifconds around scalar leaf values,
+>> +    for the benefit of features and enums.
+>> +    """
+>> +    # Remove after 3.7 adds @dataclass:
+>> +    # pylint: disable=too-few-public-methods
+>> +    def __init__(self, value: _AnnoType, ifcond: Iterable[str],
+>> +                 comment: Optional[str] = None):
+>> +        self.value = value
+>> +        self.comment: Optional[str] = comment
+>> +        self.ifcond: Sequence[str] = tuple(ifcond)
+>>   
+>>   
+>> -def _tree_to_qlit(obj: TreeValue,
+>> -                  level: int = 0,
+>> +def _tree_to_qlit(obj: TreeValue, level: int = 0,
+>>                     suppress_first_indent: bool = False) -> str:
+>>   
+>>       def indent(level: int) -> str:
+>>           return level * 4 * ' '
+>>   
+>> -    if isinstance(obj, tuple):
+>> -        ifobj, extra = obj
+>> -        ifcond = cast(Optional[Sequence[str]], extra.get('if'))
+>> -        comment = extra.get('comment')
+>> -
+>> +    if isinstance(obj, Annotated):
+>>           msg = "Comments and Conditionals not implemented for dict values"
+>> -        assert not (suppress_first_indent and (ifcond or comment)), msg
+>> +        assert not (suppress_first_indent and (obj.comment or obj.ifcond)), msg
+>>   
+>>           ret = ''
+>> -        if comment:
+>> -            ret += indent(level) + '/* %s */\n' % comment
+>> -        if ifcond:
+>> -            ret += gen_if(ifcond)
+>> -        ret += _tree_to_qlit(ifobj, level, suppress_first_indent)
+>> -        if ifcond:
+>> -            ret += '\n' + gen_endif(ifcond)
+>> +        if obj.comment:
+>> +            ret += indent(level) + '/* %s */\n' % obj.comment
+>> +        if obj.ifcond:
+>> +            ret += gen_if(obj.ifcond)
+>> +        ret += _tree_to_qlit(obj.value, level, suppress_first_indent)
+>> +        if obj.ifcond:
+>> +            ret += '\n' + gen_endif(obj.ifcond)
+>>           return ret
+>>   
+>>       ret = ''
+>> @@ -153,7 +152,7 @@ def __init__(self, prefix: str, unmask: bool):
+>>               ' * QAPI/QMP schema introspection', __doc__)
+>>           self._unmask = unmask
+>>           self._schema: Optional[QAPISchema] = None
+>> -        self._trees: List[Annotated] = []
+>> +        self._trees: List[Annotated[_DObject]] = []
+>>           self._used_types: List[QAPISchemaType] = []
+>>           self._name_map: Dict[str, str] = {}
+>>           self._genc.add(mcgen('''
+>> @@ -219,10 +218,9 @@ def _use_type(self, typ: QAPISchemaType) -> str:
+>>           return self._name(typ.name)
+>>   
+>>       @classmethod
+>> -    def _gen_features(cls,
+>> -                      features: List[QAPISchemaFeature]
+>> -                      ) -> List[Annotated]:
+>> -        return [_make_tree(f.name, f.ifcond) for f in features]
+>> +    def _gen_features(
+>> +            cls, features: List[QAPISchemaFeature]) -> List[Annotated[str]]:
 > 
-> Works because _tree_to_qlit() treats 'if': None, 'comment': None exactly
-> like absent 'if', 'comment'.  Mentioning this in the commit message
-> wouldn't hurt.
+> Indent this way from the start for lesser churn.
+> 
+
+OK
+
+>> +        return [Annotated(f.name, f.ifcond) for f in features]
+>>   
+>>       def _gen_tree(self, name: str, mtype: str, obj: _DObject,
+>>                     ifcond: List[str],
+>> @@ -238,10 +236,10 @@ def _gen_tree(self, name: str, mtype: str, obj: _DObject,
+>>           obj['meta-type'] = mtype
+>>           if features:
+>>               obj['features'] = self._gen_features(features)
+>> -        self._trees.append(_make_tree(obj, ifcond, comment))
+>> +        self._trees.append(Annotated(obj, ifcond, comment))
+>>   
+>>       def _gen_member(self,
+>> -                    member: QAPISchemaObjectTypeMember) -> Annotated:
+>> +                    member: QAPISchemaObjectTypeMember) -> Annotated[_DObject]:
+> 
+> Long line.  Ty hanging indent.
+> 
+
+OK. Admittedly, I hate hanging the return argument, I think it looks 
+bad. Worst part of python types. :(
+
+>>           obj: _DObject = {
+>>               'name': member.name,
+>>               'type': self._use_type(member.type)
+>> @@ -250,19 +248,19 @@ def _gen_member(self,
+>>               obj['default'] = None
+>>           if member.features:
+>>               obj['features'] = self._gen_features(member.features)
+>> -        return _make_tree(obj, member.ifcond)
+>> +        return Annotated(obj, member.ifcond)
+>>   
+>>       def _gen_variants(self, tag_name: str,
+>>                         variants: List[QAPISchemaVariant]) -> _DObject:
+>>           return {'tag': tag_name,
+>>                   'variants': [self._gen_variant(v) for v in variants]}
+>>   
+>> -    def _gen_variant(self, variant: QAPISchemaVariant) -> Annotated:
+>> +    def _gen_variant(self, variant: QAPISchemaVariant) -> Annotated[_DObject]:
+>>           obj: _DObject = {
+>>               'case': variant.name,
+>>               'type': self._use_type(variant.type)
+>>           }
+>> -        return _make_tree(obj, variant.ifcond)
+>> +        return Annotated(obj, variant.ifcond)
+>>   
+>>       def visit_builtin_type(self, name: str, info: Optional[QAPISourceInfo],
+>>                              json_type: str) -> None:
+>> @@ -272,10 +270,11 @@ def visit_enum_type(self, name: str, info: QAPISourceInfo,
+>>                           ifcond: List[str], features: List[QAPISchemaFeature],
+>>                           members: List[QAPISchemaEnumMember],
+>>                           prefix: Optional[str]) -> None:
+>> -        self._gen_tree(name, 'enum',
+>> -                       {'values': [_make_tree(m.name, m.ifcond, None)
+>> -                                   for m in members]},
+>> -                       ifcond, features)
+>> +        self._gen_tree(
+>> +            name, 'enum',
+>> +            {'values': [Annotated(m.name, m.ifcond) for m in members]},
+>> +            ifcond, features
+>> +        )
+>>   
+>>       def visit_array_type(self, name: str, info: Optional[QAPISourceInfo],
+>>                            ifcond: List[str],
+>> @@ -300,12 +299,12 @@ def visit_alternate_type(self, name: str, info: QAPISourceInfo,
+>>                                ifcond: List[str],
+>>                                features: List[QAPISchemaFeature],
+>>                                variants: QAPISchemaVariants) -> None:
+>> -        self._gen_tree(name, 'alternate',
+>> -                       {'members': [
+>> -                           _make_tree({'type': self._use_type(m.type)},
+>> -                                      m.ifcond, None)
+>> -                           for m in variants.variants]},
+>> -                       ifcond, features)
+>> +        self._gen_tree(
+>> +            name, 'alternate',
+>> +            {'members': [Annotated({'type': self._use_type(m.type)}, m.ifcond)
+> 
+> Long line.  Try breaking the line before m.ifcond, or before Annotated.
 > 
 
 OK.
 
-> We create even more dicts now.  Okay.
-> 
-
-It's just shuffling around where this dict is made, I don't think we 
-create more in total.
-
->>       return (obj, extra)
+>> +                         for m in variants.variants]},
+>> +            ifcond, features
+>> +        )
 >>   
->>   
->> @@ -228,18 +227,18 @@ def _gen_features(cls,
->>       def _gen_tree(self, name: str, mtype: str, obj: _DObject,
->>                     ifcond: List[str],
->>                     features: Optional[List[QAPISchemaFeature]]) -> None:
->> -        extra: Optional[Annotations] = None
->> +        comment: Optional[str] = None
->>           if mtype not in ('command', 'event', 'builtin', 'array'):
->>               if not self._unmask:
->>                   # Output a comment to make it easy to map masked names
->>                   # back to the source when reading the generated output.
->> -                extra = {'comment': '"%s" = %s' % (self._name(name), name)}
->> +                comment = f'"{self._name(name)}" = {name}'
-> 
-> Drive-by modernization, fine with me.  Aside: many more opportunities; a
-> systematic hunt is called for.  Not now.
-> 
-
-It happened because of line-length limits, admittedly.
-
->>               name = self._name(name)
->>           obj['name'] = name
->>           obj['meta-type'] = mtype
->>           if features:
->>               obj['features'] = self._gen_features(features)
->> -        self._trees.append(_make_tree(obj, ifcond, extra))
->> +        self._trees.append(_make_tree(obj, ifcond, comment))
->>   
->>       def _gen_member(self,
->>                       member: QAPISchemaObjectTypeMember) -> Annotated:
+>>       def visit_command(self, name: str, info: QAPISourceInfo, ifcond: List[str],
+>>                         features: List[QAPISchemaFeature],
 
 
