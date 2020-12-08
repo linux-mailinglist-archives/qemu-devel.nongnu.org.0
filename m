@@ -2,59 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07002D3270
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:54:49 +0100 (CET)
-Received: from localhost ([::1]:50564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A98D92D3277
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:58:45 +0100 (CET)
+Received: from localhost ([::1]:60416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmi8O-0002Ea-N6
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:54:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33676)
+	id 1kmiCC-0006RZ-La
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:58:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kmhfs-0004np-TP
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:25:20 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:44529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kmhfq-0000Tc-9Y
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:25:20 -0500
-Received: from [192.168.100.1] ([82.252.152.214]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mt6x5-1jtEZN27a5-00tW6n; Tue, 08 Dec 2020 19:25:12 +0100
-To: Matteo Croce <mcroce@linux.microsoft.com>
-References: <20201208001727.17433-1-mcroce@linux.microsoft.com>
- <f37589e0-90d9-a5f0-a5a9-423c583c675d@vivier.eu>
- <CAFnufp1QkXMxMwVksczL8jSHET2zwLSgv4Lm34MgqWd5jyYTNA@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH] linux-user: add option to chroot before emulation
-Message-ID: <5b7460b5-922e-3208-0c8a-161baf8b9c55@vivier.eu>
-Date: Tue, 8 Dec 2020 19:25:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmhpS-0003Eu-L0
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:35:14 -0500
+Received: from mail-oi1-f180.google.com ([209.85.167.180]:35267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmhpQ-0001WW-DZ
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:35:14 -0500
+Received: by mail-oi1-f180.google.com with SMTP id s2so10964714oij.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:35:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ECYhv0HdEqAA4hvDfOlc1eUdDVUikLV2SPOarY0ohHc=;
+ b=tz+ul+MgWQHkBFnb6RwvxHPcc8qIfZKdtJ9hc46P0jefQO+Ol3yzRMmoJOznjpxwDp
+ HD48SLrGBXxHSzrnGs9obEfRmjqXTCIHmM8ZsvRQD80DevzkgbdKjvlsaq1oSVAFpVBU
+ R7lEZD4nJzDM3VBV3E+vewecfrqEWvrVXq4uDxyhS4gnfNkKTxpMd5fce1KFM/P8301O
+ afoMBZPcuAwdms4nd0hkgVcP4V/wLunaWq3IOhYeHHUonU7J1XI7QmqSP3FP7Pl/OgeJ
+ OcDcyd8MIcf7EsRc7PLplEslII1zbBhYyd7mYQvXgNKQoYuV59jSbeSyTF9DgNExfe4e
+ PuRQ==
+X-Gm-Message-State: AOAM530VSRDE6hQvusE9xoG0Uw+6hrcxj9tN3ireIkanBkfBarVhT9xa
+ TQJEa1cmWPS+eXhgMjKJ4qG2QhDEeJtmEjXDZ5E=
+X-Google-Smtp-Source: ABdhPJywG/e9nv3r9kjEPP6LFWk7bybRWZz3kIweUvpqnToJFbITBvVVTF0rFPW1ALLhCcPlrx8tnaZnscNtlgGiz6U=
+X-Received: by 2002:aca:5cc1:: with SMTP id q184mr3845094oib.46.1607452511251; 
+ Tue, 08 Dec 2020 10:35:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFnufp1QkXMxMwVksczL8jSHET2zwLSgv4Lm34MgqWd5jyYTNA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:NpoyxS4+gj60NiMO5/Ny0hEXcQ718XFxocQjZ1v/tCSX+hNq6mH
- RnqTTGH/9/089z0bgPRbHxxbzAOOhSiwcD7yxhUWE6EpLPut3n410MXm6/48+JifUyvYkky
- 4I5YExPKfSvJG1/Uew+T0j/03BlsajXFD+E+pzsJmd8HNQdp3UnUINkhzOl4ayZtfPLkbXl
- MDMexgKQG7Whqwol/gAVw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GNJiJhEH+cI=:dXqZ5R/qeEl0VxY5c8rArQ
- XHZ2VMjRWCFUVxTNOoomURcBQDbtRmXKh+dGKo4gVo2FQZlHcQVW56yM7AqiMY6qQecK13F8B
- vuIsouFo0ok5f2GnTQ4IIm/vcEDbIgeAP1Wbd4/7XWx3O2nQdUt0zv7UPcPhDaA/dz1JarhID
- jIW8aN2b0EFd0vQtVWclzHM7qrij2BtJESQsaPdZTO/iiU1F/v5l3JLZp0MqZOMQeCkcloWk+
- ufZy/CKHfzxvoh9JAdtTp0CWkg4crozubgs4zIPzQujHLexDjHXm2VGvAky/BES1vVmw+mmrK
- QHZzMGPka0YWgiF+iAJLMMuu7MrLkQRLE2tlfMCBlhadq99g8QoqzqnTcz154F8gKsEFQmBfh
- faPHJXgvOtBaemKFoXV5QW2/isrp7bqnky522H8IANlet5hvOZFw/+oNqWJL64j7lUlPb9bkV
- c7kFhLoZEw==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20201124134557.569388-1-f4bug@amsat.org>
+ <5bcade19-de8c-8521-f77c-599e3c9d40a0@linaro.org>
+ <e983c95c-5713-3b5b-0c3c-e0d6bf8244c6@amsat.org>
+In-Reply-To: <e983c95c-5713-3b5b-0c3c-e0d6bf8244c6@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Tue, 8 Dec 2020 19:34:59 +0100
+Message-ID: <CAAdtpL7zG6Ocbv0ChjQUArGkmTEegzC5AW5O3DjiDxFK7oEMWg@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2?] target/mips/translate: Check R6 reserved
+ encoding for Load Linked Word
+To: Richard Henderson <richard.henderson@linaro.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.167.180;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-oi1-f180.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,63 +73,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Maciej W . Rozycki" <macro@linux-mips.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/12/2020 à 17:04, Matteo Croce a écrit :
-> On Tue, Dec 8, 2020 at 9:21 AM Laurent Vivier <laurent@vivier.eu> wrote:
->>
->> Le 08/12/2020 à 01:17, Matteo Croce a écrit :
->>> From: Matteo Croce <mcroce@microsoft.com>
->>>
->>> Add a '-c' option which does a chroot() just before starting the
->>> emulation. This is useful when the static QEMU user binary can't
->>> be copied into the target root filesystem, e.g. if it's readonly.
->>
->> Did you try to use the binfmt_misc 'F' flag (fix binary)?
->>
->> https://www.kernel.org/doc/Documentation/admin-guide/binfmt-misc.rst
->>
->> ``F`` - fix binary
->>
->> The usual behaviour of binfmt_misc is to spawn the
->> binary lazily when the misc format file is invoked.  However,
->> this doesn``t work very well in the face of mount namespaces and
->> changeroots, so the ``F`` mode opens the binary as soon as the
->> emulation is installed and uses the opened image to spawn the
->> emulator, meaning it is always available once installed,
->> regardless of how the environment changes.
->>
->> This can be configured with scripts/qemu-binfmt-conf.sh and
->> "--persistent yes"" option
->>
-> 
-> Yes, this works too.
-> Basically it's the same trick, open the binary early and then emulate.
-> The only difference is that with binfmt emulation the procfs open
-> still fails:
-> 
-> # strace -feopenat chroot debian /bin/true 2>&1 |grep /proc/sys
-> [pid  9359] openat(AT_FDCWD, "/proc/sys/vm/mmap_min_addr", O_RDONLY) =
-> -1 ENOENT (No such file or directory)
-> 
-> vs
-> 
-> # strace -feopenat qemu-aarch64 -c debian /bin/true 2>&1 |grep /proc/sys
-> [pid  9348] openat(AT_FDCWD, "/proc/sys/vm/mmap_min_addr", O_RDONLY) = 3
-> 
+On Tue, Nov 24, 2020 at 5:15 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+> On 11/24/20 4:59 PM, Richard Henderson wrote:
+> > On 11/24/20 5:45 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> >> Release 6 recoded the 'Load Linked Word' using SPECIAL3 opcode,
+> >> this opcode (0b110000) is now reserved.
+> >>
+> >> Ref: A.2 Instruction Bit Encoding Tables:
+> >>
+> >>   "6Rm instructions signal a Reserved Instruction exception
+> >>    when executed by a Release 6 implementation."
+> >>
+> >> The check was added in commit 4368b29a26e ("target-mips: move
+> >> LL and SC instructions") but got lost during latter refactor
+> >> in commit d9224450208 ("target-mips: Tighten ISA level checks").
+> >
+> > I think git blame is confused here -- d9224450208 isn't the one that br=
+oke
+> > things.  The patch has:
+> >
+> >
+> > +    case OPC_LL: /* Load and stores */
+> > +        check_insn(ctx, ISA_MIPS2);
+> > +        /* Fallthrough */
+> > +    case OPC_LWL:
+> >      case OPC_LWR:
+> > -    case OPC_LL:
+> >          check_insn_opc_removed(ctx, ISA_MIPS32R6);
+> > +         /* Fallthrough */
+>
+> Sorry I have been confused by the /* Fallthrough */ ...
+>
+> The check is below.
+>
+> Self-NAck then.
 
-If you want to have the /proc mounted earlier you can use "unshare".
-
-something like:
-
-unshare --mount-proc -R debian /bin/true
-
-There is also the "-L" option, something like:
-
-qemu-aarch64 -L debian debian/bin/true
+Duh I hit that again, read the patch again, looks correct. I guess
+I got confused myself reviewing the offending patch...
+So I'm applying this patch to mips-next queue, using
+Fixes: d9224450208 ("target-mips: Tighten ISA level checks")
 
 Thanks,
-Laurent
+
+Phil.
 
