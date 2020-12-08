@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BFDE2D3492
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:59:25 +0100 (CET)
-Received: from localhost ([::1]:42152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457702D3409
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:42:13 +0100 (CET)
+Received: from localhost ([::1]:52754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmk4y-0001mw-52
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:59:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52694)
+	id 1kmjoK-0007Vs-8I
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:42:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiz5-0001WA-Gt
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:49:15 -0500
-Received: from mx2.suse.de ([195.135.220.15]:43766)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmizE-0001Zm-EY
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:49:24 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiyz-0000xY-NB
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:49:15 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiz6-0000zg-Cy
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:49:23 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 73288ADAA;
- Tue,  8 Dec 2020 19:48:58 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 339C2ADD5;
+ Tue,  8 Dec 2020 19:49:02 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,9 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v9 17/32] accel/tcg: split TCG-only code from cpu_exec_realizefn
-Date: Tue,  8 Dec 2020 20:48:24 +0100
-Message-Id: <20201208194839.31305-18-cfontana@suse.de>
+Subject: [RFC v9 21/32] cpu: Move debug_excp_handler to tcg_ops
+Date: Tue,  8 Dec 2020 20:48:28 +0100
+Message-Id: <20201208194839.31305-22-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201208194839.31305-1-cfontana@suse.de>
 References: <20201208194839.31305-1-cfontana@suse.de>
@@ -62,210 +62,139 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
  Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
  Cameron Esfahani <dirty@apple.com>, haxm-team@intel.com,
- Claudio Fontana <cfontana@suse.de>, Anthony Perard <anthony.perard@citrix.com>,
+ Colin Xu <colin.xu@intel.com>, Anthony Perard <anthony.perard@citrix.com>,
  Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- "Emilio G . Cota" <cota@braap.org>, Colin Xu <colin.xu@intel.com>
+ "Emilio G . Cota" <cota@braap.org>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-move away TCG-only code, make it compile only on TCG.
+From: Eduardo Habkost <ehabkost@redhat.com>
 
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- accel/tcg/cpu-exec.c  | 28 +++++++++++++++++
- cpu.c                 | 70 ++++++++++++++++++++-----------------------
- hw/core/cpu.c         |  6 +++-
- include/hw/core/cpu.h |  8 +++++
- 4 files changed, 74 insertions(+), 38 deletions(-)
+ accel/tcg/cpu-exec.c          | 4 ++--
+ include/hw/core/cpu.h         | 2 --
+ include/hw/core/tcg-cpu-ops.h | 2 ++
+ target/arm/cpu.c              | 2 +-
+ target/i386/tcg-cpu.c         | 2 +-
+ target/lm32/cpu.c             | 2 +-
+ target/s390x/cpu.c            | 2 +-
+ target/xtensa/cpu.c           | 2 +-
+ 8 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 64cba89356..436dfbf155 100644
+index edb349835e..343ae427a0 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -801,6 +801,34 @@ int cpu_exec(CPUState *cpu)
-     return ret;
- }
- 
-+void tcg_exec_realizefn(CPUState *cpu, Error **errp)
-+{
-+    static bool tcg_target_initialized;
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (!tcg_target_initialized) {
-+        tcg_target_initialized = true;
-+        cc->tcg_ops.initialize();
-+    }
-+    tlb_init(cpu);
-+    qemu_plugin_vcpu_init_hook(cpu);
-+
-+#ifndef CONFIG_USER_ONLY
-+    tcg_iommu_init_notifier_list(cpu);
-+#endif /* !CONFIG_USER_ONLY */
-+}
-+
-+/* undo the initializations in reverse order */
-+void tcg_exec_unrealizefn(CPUState *cpu)
-+{
-+#ifndef CONFIG_USER_ONLY
-+    tcg_iommu_free_notifier_list(cpu);
-+#endif /* !CONFIG_USER_ONLY */
-+
-+    qemu_plugin_vcpu_exit_hook(cpu);
-+    tlb_destroy(cpu);
-+}
-+
- #ifndef CONFIG_USER_ONLY
- 
- void dump_drift_info(void)
-diff --git a/cpu.c b/cpu.c
-index 27ad096cc4..5cc8f181be 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -124,13 +124,35 @@ const VMStateDescription vmstate_cpu_common = {
- };
- #endif
- 
-+void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    cpu_list_add(cpu);
-+
-+#ifdef CONFIG_TCG
-+    /* NB: errp parameter is unused currently */
-+    if (tcg_enabled()) {
-+        tcg_exec_realizefn(cpu, errp);
-+    }
-+#endif /* CONFIG_TCG */
-+
-+#ifdef CONFIG_USER_ONLY
-+    assert(cc->vmsd == NULL);
-+#else
-+    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-+        vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
-+    }
-+    if (cc->vmsd != NULL) {
-+        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
-+    }
-+#endif /* CONFIG_USER_ONLY */
-+}
-+
- void cpu_exec_unrealizefn(CPUState *cpu)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
--    tlb_destroy(cpu);
--    cpu_list_remove(cpu);
--
- #ifdef CONFIG_USER_ONLY
-     assert(cc->vmsd == NULL);
- #else
-@@ -140,8 +162,15 @@ void cpu_exec_unrealizefn(CPUState *cpu)
-     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-         vmstate_unregister(NULL, &vmstate_cpu_common, cpu);
+@@ -482,8 +482,8 @@ static inline void cpu_handle_debug_exception(CPUState *cpu)
+         }
      }
--    tcg_iommu_free_notifier_list(cpu);
- #endif
-+#ifdef CONFIG_TCG
-+    /* NB: errp parameter is unused currently */
-+    if (tcg_enabled()) {
-+        tcg_exec_unrealizefn(cpu);
-+    }
-+#endif /* CONFIG_TCG */
-+
-+    cpu_list_remove(cpu);
- }
  
- Property cpu_common_props[] = {
-@@ -171,39 +200,6 @@ void cpu_exec_initfn(CPUState *cpu)
- #endif
- }
- 
--void cpu_exec_realizefn(CPUState *cpu, Error **errp)
--{
--    CPUClass *cc = CPU_GET_CLASS(cpu);
--#ifdef CONFIG_TCG
--    static bool tcg_target_initialized;
--#endif /* CONFIG_TCG */
--
--    cpu_list_add(cpu);
--
--#ifdef CONFIG_TCG
--    if (tcg_enabled() && !tcg_target_initialized) {
--        tcg_target_initialized = true;
--        cc->tcg_ops.initialize();
--    }
--#endif /* CONFIG_TCG */
--    tlb_init(cpu);
--
--    qemu_plugin_vcpu_init_hook(cpu);
--
--#ifdef CONFIG_USER_ONLY
--    assert(cc->vmsd == NULL);
--#else /* !CONFIG_USER_ONLY */
--    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
--        vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
--    }
--    if (cc->vmsd != NULL) {
--        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
--    }
--
--    tcg_iommu_init_notifier_list(cpu);
--#endif
--}
--
- const char *parse_cpu_option(const char *cpu_option)
- {
-     ObjectClass *oc;
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 994a12cb35..1f04aab16b 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -199,6 +199,10 @@ static bool cpu_common_virtio_is_big_endian(CPUState *cpu)
-     return target_words_bigendian();
- }
- 
-+/*
-+ * XXX the following #if is always true because this is a common_ss
-+ * module, so target CONFIG_* is never defined.
-+ */
- #if !defined(CONFIG_USER_ONLY)
- GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
- {
-@@ -340,9 +344,9 @@ static void cpu_common_realizefn(DeviceState *dev, Error **errp)
- static void cpu_common_unrealizefn(DeviceState *dev)
- {
-     CPUState *cpu = CPU(dev);
-+
-     /* NOTE: latest generic point before the cpu is fully unrealized */
-     trace_fini_vcpu(cpu);
--    qemu_plugin_vcpu_exit_hook(cpu);
-     cpu_exec_unrealizefn(cpu);
+-    if (cc->debug_excp_handler) {
+-        cc->debug_excp_handler(cpu);
++    if (cc->tcg_ops.debug_excp_handler) {
++        cc->tcg_ops.debug_excp_handler(cpu);
+     }
  }
  
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index c93b08a0fb..ea648d52ad 100644
+index c82ef261c6..f438abb785 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -1119,10 +1119,18 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx);
- void QEMU_NORETURN cpu_abort(CPUState *cpu, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
- extern Property cpu_common_props[];
-+
-+/* $(top_srcdir)/cpu.c */
- void cpu_exec_initfn(CPUState *cpu);
- void cpu_exec_realizefn(CPUState *cpu, Error **errp);
- void cpu_exec_unrealizefn(CPUState *cpu);
+@@ -121,7 +121,6 @@ struct TranslationBlock;
+  * @gdb_write_register: Callback for letting GDB write a register.
+  * @debug_check_watchpoint: Callback: return true if the architectural
+  *       watchpoint whose address has matched should really fire.
+- * @debug_excp_handler: Callback for handling debug exceptions.
+  * @write_elf64_note: Callback for writing a CPU-specific ELF note to a
+  * 64-bit VM coredump.
+  * @write_elf32_qemunote: Callback for writing a CPU- and QEMU-specific ELF
+@@ -184,7 +183,6 @@ struct CPUClass {
+     int (*gdb_read_register)(CPUState *cpu, GByteArray *buf, int reg);
+     int (*gdb_write_register)(CPUState *cpu, uint8_t *buf, int reg);
+     bool (*debug_check_watchpoint)(CPUState *cpu, CPUWatchpoint *wp);
+-    void (*debug_excp_handler)(CPUState *cpu);
  
-+#ifdef CONFIG_TCG
-+/* accel/tcg/cpu-exec.c */
-+void tcg_exec_realizefn(CPUState *cpu, Error **errp);
-+void tcg_exec_unrealizefn(CPUState *cpu);
-+#endif /* CONFIG_TCG */
-+
- /**
-  * target_words_bigendian:
-  * Returns true if the (default) endianness of the target is big endian,
+     int (*write_elf64_note)(WriteCoreDumpFunction f, CPUState *cpu,
+                             int cpuid, void *opaque);
+diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+index 2ea94acca0..dbbc64418c 100644
+--- a/include/hw/core/tcg-cpu-ops.h
++++ b/include/hw/core/tcg-cpu-ops.h
+@@ -49,6 +49,8 @@ typedef struct TcgCpuOperations {
+     bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+                      MMUAccessType access_type, int mmu_idx,
+                      bool probe, uintptr_t retaddr);
++    /** @debug_excp_handler: Callback for handling debug exceptions */
++    void (*debug_excp_handler)(CPUState *cpu);
+ } TcgCpuOperations;
+ 
+ #endif /* TCG_CPU_OPS_H */
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 0dac097367..20cbfaea51 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2263,7 +2263,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     cc->tcg_ops.cpu_exec_interrupt = arm_cpu_exec_interrupt;
+     cc->tcg_ops.synchronize_from_tb = arm_cpu_synchronize_from_tb;
+     cc->tcg_ops.tlb_fill = arm_cpu_tlb_fill;
+-    cc->debug_excp_handler = arm_debug_excp_handler;
++    cc->tcg_ops.debug_excp_handler = arm_debug_excp_handler;
+     cc->debug_check_watchpoint = arm_debug_check_watchpoint;
+     cc->do_unaligned_access = arm_cpu_do_unaligned_access;
+ #if !defined(CONFIG_USER_ONLY)
+diff --git a/target/i386/tcg-cpu.c b/target/i386/tcg-cpu.c
+index 8606dd6a3e..38ed8bf6d3 100644
+--- a/target/i386/tcg-cpu.c
++++ b/target/i386/tcg-cpu.c
+@@ -66,6 +66,6 @@ void tcg_cpu_common_class_init(CPUClass *cc)
+     cc->tcg_ops.initialize = tcg_x86_init;
+     cc->tcg_ops.tlb_fill = x86_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+-    cc->debug_excp_handler = breakpoint_handler;
++    cc->tcg_ops.debug_excp_handler = breakpoint_handler;
+ #endif
+ }
+diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
+index 76dc728858..bbe1405e32 100644
+--- a/target/lm32/cpu.c
++++ b/target/lm32/cpu.c
+@@ -235,7 +235,7 @@ static void lm32_cpu_class_init(ObjectClass *oc, void *data)
+ #endif
+     cc->gdb_num_core_regs = 32 + 7;
+     cc->gdb_stop_before_watchpoint = true;
+-    cc->debug_excp_handler = lm32_debug_excp_handler;
++    cc->tcg_ops.debug_excp_handler = lm32_debug_excp_handler;
+     cc->disas_set_info = lm32_cpu_disas_set_info;
+     cc->tcg_ops.initialize = lm32_translate_init;
+ }
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 6cd2b30192..04856076b3 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -506,7 +506,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
+     cc->write_elf64_note = s390_cpu_write_elf64_note;
+ #ifdef CONFIG_TCG
+     cc->tcg_ops.cpu_exec_interrupt = s390_cpu_exec_interrupt;
+-    cc->debug_excp_handler = s390x_cpu_debug_excp_handler;
++    cc->tcg_ops.debug_excp_handler = s390x_cpu_debug_excp_handler;
+     cc->do_unaligned_access = s390x_cpu_do_unaligned_access;
+ #endif
+ #endif
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index e764dbeb73..b6f13ceb32 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -207,7 +207,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
+     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
+     cc->do_transaction_failed = xtensa_cpu_do_transaction_failed;
+ #endif
+-    cc->debug_excp_handler = xtensa_breakpoint_handler;
++    cc->tcg_ops.debug_excp_handler = xtensa_breakpoint_handler;
+     cc->disas_set_info = xtensa_cpu_disas_set_info;
+     cc->tcg_ops.initialize = xtensa_translate_init;
+     dc->vmsd = &vmstate_xtensa_cpu;
 -- 
 2.26.2
 
