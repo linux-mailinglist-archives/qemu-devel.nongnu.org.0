@@ -2,56 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E902D2063
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 02:55:50 +0100 (CET)
-Received: from localhost ([::1]:52672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952412D2076
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 03:05:53 +0100 (CET)
+Received: from localhost ([::1]:57112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmSEH-0006PR-KS
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 20:55:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46802)
+	id 1kmSO0-0000Rg-4x
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 21:05:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kmSCp-0005ve-Ee; Mon, 07 Dec 2020 20:54:19 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43995 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kmSCl-0000cL-PN; Mon, 07 Dec 2020 20:54:19 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CqjsF5WlBz9sWF; Tue,  8 Dec 2020 12:54:09 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607392449;
- bh=AexoOEEhA6+9jjhuMsVG1acI2Ih+hqkNZX3YsplyDNM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YJ0bk6rfBb49iGteqQ1UAWkGLCiwtME7vCXkRZ10rUMxYHzGztB1qrtXeY5RFURnZ
- JiEIrhPnvEqqxwgdEAQqlwUy1NrUmLl6MC3J3Hw6rzX47PjPms6zH6zFCdHtsngnq6
- QUc0l8b8VcI7PL4DycdGWwkAYnpTJZEZtIBIYgu0=
-Date: Tue, 8 Dec 2020 12:54:03 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [for-6.0 v5 12/13] securable guest memory: Alter virtio default
- properties for protected guests
-Message-ID: <20201208015403.GB2555@yekko.fritz.box>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204054415.579042-13-david@gibson.dropbear.id.au>
- <d739cae2-9197-76a5-1c19-057bfe832187@de.ibm.com>
- <20201204091706.4432dc1e.cohuck@redhat.com>
- <038214d1-580d-6692-cd1e-701cd41b5cf8@de.ibm.com>
- <20201204154310.158b410e.pasic@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <technoboy85@gmail.com>)
+ id 1kmQhD-0007fx-GV
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 19:17:35 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:36206)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <technoboy85@gmail.com>)
+ id 1kmQhB-0002zJ-N5
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 19:17:35 -0500
+Received: by mail-ed1-f66.google.com with SMTP id b2so15752137edm.3
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 16:17:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2smWY3oYsuTtzL43PsXNtmYVPputxJkErMBPTf/suzw=;
+ b=MsvlhwRIEzb+mQbyWGEg3s/MSbbjY2D5jmGOLXJu7PoKvY+8wyHXaawqRmQKVuDZ/D
+ uWeQhbdQZP6O1FlWqh5OgPOaGOXpRQFPizGeUqsGbjksTdYJ8lKms016kvafxnqam5im
+ sClWXfMFgZXB/5osp0MSSlCJUGol40mSgELcbHKPYbRfTYzi6IkxilDDYzxNx3ax4pOz
+ /g7ZGU7/oAfUUGgQVVFEPBNA6WwElUUcGgQ1aEJXrbMHClKBlE+l9DyRqkb7oicPnXLJ
+ HZFEMnwSectLazR4d/mp5cYt2xzxkMg9pPBMN4h3DkwSFXs5kg4Cwe9Lrpj0gKmV+3SP
+ Zc3A==
+X-Gm-Message-State: AOAM531r2eRy7NJHXg2SzJfQkEP+H6QbT6TgWZH0w7vDRI1sE0Hrbgv0
+ xVRaUSi1H9eHifVkmTXT+3racISG5NM86tcx
+X-Google-Smtp-Source: ABdhPJzKqtY9h9vIH4+oN11vTJRnx2nqJgov1SKCQJKgPnjuSHIEgbBtE9namIuA5541GNNxue6iOg==
+X-Received: by 2002:a50:bc06:: with SMTP id j6mr23395822edh.150.1607386650933; 
+ Mon, 07 Dec 2020 16:17:30 -0800 (PST)
+Received: from msft-t490s.teknoraver.net
+ (net-37-182-2-234.cust.vodafonedsl.it. [37.182.2.234])
+ by smtp.gmail.com with ESMTPSA id r11sm3538673edt.58.2020.12.07.16.17.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Dec 2020 16:17:30 -0800 (PST)
+From: Matteo Croce <mcroce@linux.microsoft.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: add option to chroot before emulation
+Date: Tue,  8 Dec 2020 01:17:27 +0100
+Message-Id: <20201208001727.17433-1-mcroce@linux.microsoft.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bCsyhTFzCvuiizWE"
-Content-Disposition: inline
-In-Reply-To: <20201204154310.158b410e.pasic@linux.ibm.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=209.85.208.66; envelope-from=technoboy85@gmail.com;
+ helo=mail-ed1-f66.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 07 Dec 2020 21:04:05 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,135 +73,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
- brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, pbonzini@redhat.com,
- thuth@redhat.com, berrange@redhat.com, david@redhat.com, rth@twiddle.net,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Matteo Croce <mcroce@microsoft.com>
 
---bCsyhTFzCvuiizWE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add a '-c' option which does a chroot() just before starting the
+emulation. This is useful when the static QEMU user binary can't
+be copied into the target root filesystem, e.g. if it's readonly.
 
-On Fri, Dec 04, 2020 at 03:43:10PM +0100, Halil Pasic wrote:
-> On Fri, 4 Dec 2020 09:29:59 +0100
-> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->=20
-> > On 04.12.20 09:17, Cornelia Huck wrote:
-> > > On Fri, 4 Dec 2020 09:10:36 +0100
-> > > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> > >=20
-> > >> On 04.12.20 06:44, David Gibson wrote:
-> > >>> The default behaviour for virtio devices is not to use the platform=
-s normal
-> > >>> DMA paths, but instead to use the fact that it's running in a hyper=
-visor
-> > >>> to directly access guest memory.  That doesn't work if the guest's =
-memory
-> > >>> is protected from hypervisor access, such as with AMD's SEV or POWE=
-R's PEF.
-> > >>>
-> > >>> So, if a securable guest memory mechanism is enabled, then apply the
-> > >>> iommu_platform=3Don option so it will go through normal DMA mechani=
-sms.
-> > >>> Those will presumably have some way of marking memory as shared with
-> > >>> the hypervisor or hardware so that DMA will work.
-> > >>>
-> > >>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > >>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > >>> ---
-> > >>>  hw/core/machine.c | 13 +++++++++++++
-> > >>>  1 file changed, 13 insertions(+)
-> > >>>
-> > >>> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > >>> index a67a27d03c..d16273d75d 100644
-> > >>> --- a/hw/core/machine.c
-> > >>> +++ b/hw/core/machine.c
-> > >>> @@ -28,6 +28,8 @@
-> > >>>  #include "hw/mem/nvdimm.h"
-> > >>>  #include "migration/vmstate.h"
-> > >>>  #include "exec/securable-guest-memory.h"
-> > >>> +#include "hw/virtio/virtio.h"
-> > >>> +#include "hw/virtio/virtio-pci.h"
-> > >>> =20
-> > >>>  GlobalProperty hw_compat_5_1[] =3D {
-> > >>>      { "vhost-scsi", "num_queues", "1"},
-> > >>> @@ -1169,6 +1171,17 @@ void machine_run_board_init(MachineState *ma=
-chine)
-> > >>>           * areas.
-> > >>>           */
-> > >>>          machine_set_mem_merge(OBJECT(machine), false, &error_abort=
-);
-> > >>> +
-> > >>> +        /*
-> > >>> +         * Virtio devices can't count on directly accessing guest
-> > >>> +         * memory, so they need iommu_platform=3Don to use normal =
-DMA
-> > >>> +         * mechanisms.  That requires also disabling legacy virtio
-> > >>> +         * support for those virtio pci devices which allow it.
-> > >>> +         */
-> > >>> +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legac=
-y",
-> > >>> +                                   "on", true);
-> > >>> +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_plat=
-form",
-> > >>> +                                   "on", false); =20
-> > >>
-> > >> I have not followed all the history (sorry). Should we also set iomm=
-u_platform
-> > >> for virtio-ccw? Halil?
-> > >>
-> > >=20
-> > > That line should add iommu_platform for all virtio devices, shouldn't
-> > > it?
-> >=20
-> > Yes, sorry. Was misreading that with the line above.=20
-> >=20
->=20
-> I believe this is the best we can get. In a sense it is still a
-> pessimization,
+Move some code which accesses /proc/sys/vm/mmap_min_addr before
+the chroot, otherwise it would fail.
 
-I'm not really clear on what you're getting at here.
+Signed-off-by: Matteo Croce <mcroce@microsoft.com>
+---
+ linux-user/main.c | 128 +++++++++++++++++++++++++++-------------------
+ 1 file changed, 75 insertions(+), 53 deletions(-)
 
-> but it is a big usability improvement compared to having
-> to set iommu_platform manually.=20
->=20
-> Regards,
-> Halil
->=20
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 24d1eb73ad..4788e4b5bc 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -60,6 +60,7 @@ static const char *seed_optarg;
+ unsigned long mmap_min_addr;
+ unsigned long guest_base;
+ bool have_guest_base;
++static const char *qemu_chroot;
+ 
+ /*
+  * Used to implement backwards-compatibility for the `-strace`, and
+@@ -304,6 +305,11 @@ static void handle_arg_pagesize(const char *arg)
+     }
+ }
+ 
++static void handle_arg_chroot(const char *arg)
++{
++    qemu_chroot = arg;
++}
++
+ static void handle_arg_seed(const char *arg)
+ {
+     seed_optarg = arg;
+@@ -450,6 +456,8 @@ static const struct qemu_argument arg_table[] = {
+      "logfile",     "write logs to 'logfile' (default stderr)"},
+     {"p",          "QEMU_PAGESIZE",    true,  handle_arg_pagesize,
+      "pagesize",   "set the host page size to 'pagesize'"},
++    {"c",          "QEMU_CHROOT",      true,  handle_arg_chroot,
++     "chroot",     "chroot to 'chroot' before starting emulation"},
+     {"singlestep", "QEMU_SINGLESTEP",  false, handle_arg_singlestep,
+      "",           "run in singlestep mode"},
+     {"strace",     "QEMU_STRACE",      false, handle_arg_strace,
+@@ -688,6 +696,73 @@ int main(int argc, char **argv, char **envp)
+ 
+     init_qemu_uname_release();
+ 
++    /*
++     * Read in mmap_min_addr kernel parameter.  This value is used
++     * When loading the ELF image to determine whether guest_base
++     * is needed.  It is also used in mmap_find_vma.
++     */
++    {
++        FILE *fp;
++
++        if ((fp = fopen("/proc/sys/vm/mmap_min_addr", "r")) != NULL) {
++            unsigned long tmp;
++            if (fscanf(fp, "%lu", &tmp) == 1 && tmp != 0) {
++                mmap_min_addr = tmp;
++                qemu_log_mask(CPU_LOG_PAGE, "host mmap_min_addr=0x%lx\n",
++                              mmap_min_addr);
++            }
++            fclose(fp);
++        }
++    }
++
++    /*
++     * We prefer to not make NULL pointers accessible to QEMU.
++     * If we're in a chroot with no /proc, fall back to 1 page.
++     */
++    if (mmap_min_addr == 0) {
++        mmap_min_addr = qemu_host_page_size;
++        qemu_log_mask(CPU_LOG_PAGE,
++                      "host mmap_min_addr=0x%lx (fallback)\n",
++                      mmap_min_addr);
++    }
++
++    /*
++     * Prepare copy of argv vector for target.
++     */
++    target_argc = argc - optind;
++    target_argv = calloc(target_argc + 1, sizeof (char *));
++    if (target_argv == NULL) {
++        (void) fprintf(stderr, "Unable to allocate memory for target_argv\n");
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * If argv0 is specified (using '-0' switch) we replace
++     * argv[0] pointer with the given one.
++     */
++    i = 0;
++    if (argv0 != NULL) {
++        target_argv[i++] = strdup(argv0);
++    }
++    for (; i < target_argc; i++) {
++        target_argv[i] = strdup(argv[optind + i]);
++    }
++    target_argv[target_argc] = NULL;
++
++    /*
++     * Change root if requested wuth '-c'
++     */
++    if (qemu_chroot) {
++        if (chroot(qemu_chroot) < 0) {
++            error_report("chroot failed");
++            exit(1);
++        }
++        if (chdir("/")) {
++            error_report("not able to chdir to /: %s", strerror(errno));
++            exit(1);
++        }
++    }
++
+     execfd = qemu_getauxval(AT_EXECFD);
+     if (execfd == 0) {
+         execfd = open(exec_path, O_RDONLY);
+@@ -746,59 +821,6 @@ int main(int argc, char **argv, char **envp)
+     target_environ = envlist_to_environ(envlist, NULL);
+     envlist_free(envlist);
+ 
+-    /*
+-     * Read in mmap_min_addr kernel parameter.  This value is used
+-     * When loading the ELF image to determine whether guest_base
+-     * is needed.  It is also used in mmap_find_vma.
+-     */
+-    {
+-        FILE *fp;
+-
+-        if ((fp = fopen("/proc/sys/vm/mmap_min_addr", "r")) != NULL) {
+-            unsigned long tmp;
+-            if (fscanf(fp, "%lu", &tmp) == 1 && tmp != 0) {
+-                mmap_min_addr = tmp;
+-                qemu_log_mask(CPU_LOG_PAGE, "host mmap_min_addr=0x%lx\n",
+-                              mmap_min_addr);
+-            }
+-            fclose(fp);
+-        }
+-    }
+-
+-    /*
+-     * We prefer to not make NULL pointers accessible to QEMU.
+-     * If we're in a chroot with no /proc, fall back to 1 page.
+-     */
+-    if (mmap_min_addr == 0) {
+-        mmap_min_addr = qemu_host_page_size;
+-        qemu_log_mask(CPU_LOG_PAGE,
+-                      "host mmap_min_addr=0x%lx (fallback)\n",
+-                      mmap_min_addr);
+-    }
+-
+-    /*
+-     * Prepare copy of argv vector for target.
+-     */
+-    target_argc = argc - optind;
+-    target_argv = calloc(target_argc + 1, sizeof (char *));
+-    if (target_argv == NULL) {
+-        (void) fprintf(stderr, "Unable to allocate memory for target_argv\n");
+-        exit(EXIT_FAILURE);
+-    }
+-
+-    /*
+-     * If argv0 is specified (using '-0' switch) we replace
+-     * argv[0] pointer with the given one.
+-     */
+-    i = 0;
+-    if (argv0 != NULL) {
+-        target_argv[i++] = strdup(argv0);
+-    }
+-    for (; i < target_argc; i++) {
+-        target_argv[i] = strdup(argv[optind + i]);
+-    }
+-    target_argv[target_argc] = NULL;
+-
+     ts = g_new0(TaskState, 1);
+     init_task_state(ts);
+     /* build Task State */
+-- 
+2.28.0
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---bCsyhTFzCvuiizWE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/O3LkACgkQbDjKyiDZ
-s5IRxQ//cmGUbtEIT1HBgw1z4WsymknaXfK7BFJcNdIpLJmKZqe+XQjynq2EWLh5
-wIbQneKKyRlZo1WlurkAvMgOexL1g4JujE/eUBGLQ1Itrf3zG6+eLbsUijFhTCxs
-VdyNP6sVyijEZ3yTqb3It0UnT6spNszYO0SwWY6/b1K/7m1hJ6c5M1I8fwYtlOpx
-FsYiErMGpYLP2d9zWLgbKfwGmv6K6joCireNmYMsf+IDK5qdxDDou3WnEuTZte2f
-m1g9wlQQPDmDD7+k2x1gkMXgiIUXtsm0stEsdCiwe27PWLWaNSJFo98EqDRxcX32
-Qe1PIvjQuLQQxI/UqHaX2u8me1LShhwvrMPzSRYEC+fmglSi5VnyJVNwEs0XIxeg
-TNt9KROHKyC9c9r7oCcp40mzmS3YcngOuTxHsX8+5x3Xtix9r4Xv14dwzwF1mGRT
-e0wL7sD4FZKIVNkjA4+tAQ5allBPY1pwZIRsC1LTp2jGaxI2jSLwA8eksHCps+0U
-5hA8pHqR8rROloq88rtyVU5mJXXp7nORoT5w4GtSivl8v+DGC3x/+VR8YKnE6OLq
-h7S4fyyysVSe1towkrOGJdCNw6vvN/u4emrVG28dISre75GcAuh3sdSsxgOI+GlL
-Q/5e5ZCsOvtyejOInniCi7c1EPrzpoKSQijvVMpvJgOu9MynBZc=
-=JfQj
------END PGP SIGNATURE-----
-
---bCsyhTFzCvuiizWE--
 
