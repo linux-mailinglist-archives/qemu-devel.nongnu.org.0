@@ -2,74 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA61E2D2994
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 12:12:34 +0100 (CET)
-Received: from localhost ([::1]:40728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8911E2D29B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 12:25:45 +0100 (CET)
+Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmav4-0008LJ-1X
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 06:12:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39166)
+	id 1kmb7m-0002aN-3n
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 06:25:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmatj-0007vb-V5
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 06:11:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23011)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmati-0004ZO-2t
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 06:11:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607425869;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8rtpuf3ahQAFEjgKm+X3ChB4IQrwyFfG2+2TRAgCGuY=;
- b=HIweCgnMXLKcrMsWCzhAQTEciqqJLRv+0t29hmOgb7Fkcu/fRtevCVDyVnoBZ0xLU4gMHa
- NlGsa3FiHSBcYWXZZXEbNlqLUeuCPwz6Nmp7da8G2Npr9SO2w25/8OScJJUddzmmC9PeLO
- lmCk09FKT/0eYOGynCbroAHorXJvNyk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-aGywE1xhN3SfGrtvvaCPZA-1; Tue, 08 Dec 2020 06:11:07 -0500
-X-MC-Unique: aGywE1xhN3SfGrtvvaCPZA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CDE7802B45
- for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 11:11:05 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7610519D80;
- Tue,  8 Dec 2020 11:11:04 +0000 (UTC)
-Date: Tue, 8 Dec 2020 12:11:02 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 11/15] qtest: add a QOM object for qtest
-Message-ID: <20201208121102.349b46ca@redhat.com>
-In-Reply-To: <CABgObfbdZdmWETOVr8=-19pSFc_b02zNKr4ZzbkHKT-qRTwNVg@mail.gmail.com>
-References: <20201202081854.4126071-1-pbonzini@redhat.com>
- <20201202081854.4126071-12-pbonzini@redhat.com>
- <20201207172447.77d22d17@redhat.com>
- <853e64f9-9a37-5214-0111-b489dc82af44@redhat.com>
- <20201207175739.2f51f87e@redhat.com>
- <CABgObfbdZdmWETOVr8=-19pSFc_b02zNKr4ZzbkHKT-qRTwNVg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kmb60-00023a-7O; Tue, 08 Dec 2020 06:23:52 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:25736)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kmb5x-0000OD-JJ; Tue, 08 Dec 2020 06:23:51 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 02FFA746558;
+ Tue,  8 Dec 2020 12:23:44 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id CBDDC746557; Tue,  8 Dec 2020 12:23:43 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id CAD8C746383;
+ Tue,  8 Dec 2020 12:23:43 +0100 (CET)
+Date: Tue, 8 Dec 2020 12:23:43 +0100 (CET)
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Subject: Re: [PATCH qemu v11] spapr: Implement Open Firmware client interface
+In-Reply-To: <8ebff33c-8eba-17b4-b3ac-e5ba7bd2b8f9@ozlabs.ru>
+Message-ID: <384f5d48-7c3d-40d7-1d6-fc64d960303a@eik.bme.hu>
+References: <20201207073327.33367-1-aik@ozlabs.ru>
+ <14ffa53d-30cf-2f5f-d7e-90774bfe8eed@eik.bme.hu>
+ <8ebff33c-8eba-17b4-b3ac-e5ba7bd2b8f9@ozlabs.ru>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-119515438-1607426623=:47735"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,60 +56,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Mon, 7 Dec 2020 18:22:55 +0100
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> Il lun 7 dic 2020, 17:57 Igor Mammedov <imammedo@redhat.com> ha scritto:
-> 
-> > On Mon, 7 Dec 2020 17:43:16 +0100
-> > Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >  
-> > > On 07/12/20 17:24, Igor Mammedov wrote:  
-> > > >> +void qtest_server_init(const char *qtest_chrdev, const char  
-> > *qtest_log, Error **errp)  
-> > > >> +{
-> > > >> +    Chardev *chr;
-> > > >> +
-> > > >> +    chr = qemu_chr_new("qtest", qtest_chrdev, NULL);
-> > > >> +
-> > > >> +    if (chr == NULL) {
-> > > >> +        error_setg(errp, "Failed to initialize device for qtest:  
-> > \"%s\"",  
-> > > >> +                   qtest_chrdev);
-> > > >> +        return;
-> > > >> +    }
-> > > >> +
-> > > >> +    qtest_server_start(chr, qtest_log, errp);  
-> > > > why not create qtest object here instead of trying to preserve old way,
-> > > > or create it directly at the place that calls qtest_server_init()?  
-> > >
-> > > Because I wasn't sure of where to put it in the QOM object tree.  So I
-> > > punted and left it for later.  
-> >
-> > but you implicitly decided where it should be (with -object qtest),
-> > it goes to /objects.
-> > So I'd wouldn't put anywhere else to be consistent.
-> >  
-> 
-> No, /objects is for stuff created with -object exclusively. I suppose I
-> could have the "well-known path" be /machine/qtest, and it would be either
-> a child (for -qtest) or a link to /objects/some-id (for -object qtest).
-> Should I implement that (as a separate patch on top of this one)?
-yes
+--3866299591-119515438-1607426623=:47735
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-> 
-> Paolo
-> 
-> 
-> 
-> > >
-> > > Paolo
-> > >  
-> >
-> >  
+On Tue, 8 Dec 2020, Alexey Kardashevskiy wrote:
+> On 07/12/2020 22:48, BALATON Zoltan wrote:
+>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>>> index 2e89e36cfbdc..048bf49592aa 100644
+>>> --- a/include/hw/ppc/spapr.h
+>>> +++ b/include/hw/ppc/spapr.h
+>>> @@ -175,6 +175,13 @@ struct SpaprMachineState {
+>>>     long kernel_size;
+>>>     bool kernel_le;
+>>>     uint64_t kernel_addr;
+>>> +    bool vof; /* Virtual Open Firmware */
+>>> +    uint32_t rtas_base;
+>>> +    GArray *claimed; /* array of SpaprOfClaimed */
+>>> +    uint64_t claimed_base;
+>>> +    GHashTable *of_instances; /* ihandle -> SpaprOfInstance */
+>>> +    uint32_t of_instance_last;
+>>> +    char *bootargs;
+>> 
+>> Are these really state for vof so is it better to place them in a separate 
+>> of_state struct instead of adding to the machine state? I'm not interested 
+>> in spapr but interested in using vof as a replacement firmware for other 
+>> machines so clear separation of what is spapr specific and what is vof 
+>> specific would help me (and maybe also other reviewers to tell how much 
+>> impact this really has on spapr which seems to be a concern of Greg).
+>
+> This is a very good point, I'll separate VOF from the rest, may be even at 
+> QOM level. I was also thinking of adding a pseries-vof machine type but this 
+> is probably an overkill.
+>
+> Out of curiosity - how are you going to use this VOF anyway, for what machine 
+> type?
 
+https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+
+It is basically working now, can boot MorphOS (and also AmigaOS but that 
+has no display driver for VGA so can't be seen such as some Linux versions 
+for the machine too which have the same problem) but to be able to 
+upstream it I'll need to clean it up and have some firmware to avoid 
+needing a non-distributable ROM image. VOF might be the simplest way for 
+this to just get the Amiga like bootloaders and Linux start which only 
+need some CI fuctions.
+
+Regards,
+BALATON Zoltan
+--3866299591-119515438-1607426623=:47735--
 
