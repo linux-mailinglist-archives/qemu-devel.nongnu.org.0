@@ -2,128 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A8D2D2C25
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:43:44 +0100 (CET)
-Received: from localhost ([::1]:34344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8633F2D2C2D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:48:28 +0100 (CET)
+Received: from localhost ([::1]:39072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmdHL-0004DX-99
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:43:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
+	id 1kmdLv-0006Lb-CA
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:48:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kmdFp-0003W4-QD; Tue, 08 Dec 2020 08:42:10 -0500
-Received: from mail-vi1eur05on2107.outbound.protection.outlook.com
- ([40.107.21.107]:29920 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kmdFm-0008Ea-PD; Tue, 08 Dec 2020 08:42:09 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZaH0fAGhgruxPXS0QEdN4UBvbpMMDkfWF81QI7RgiSCBuo1gtPRrBg4JZp03X8tTCVyZ/pbKUwAxzISmE+a+16woDGL6x9Icl9sl9fjswe+jpreRccHVNUg9Lz6SDEr1tqh/2iacrQ8M/1R1fGGOIzDZuk6rJNtexrvJf8cAlInoEjYRMB0EleZlamDbilwMwRbmv41W3jPFFJfEz5ttzokIDs1NZSiHICBFjXlMue66p38l/tqOsQABpoCbuZLz2ciATGJuecF1ZbPX/fuBMbPMZ8gGXK1P0wBmW7r+Z0IpKxeuFBY+OXt9ya9hHK7O4peKOaaNij+wGbWbfTM2FA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=laprLwo+4PPyWVxOVRCeE5oHEh3hBPFUy/+8L+oA+UY=;
- b=RWH+QAZGMAsnbyaqGneVJzyCGrFHczkiZm0NalQrPEfsgQmQuof4zPnzxMSBcCb+Utzs6hQENVfL2IlSX3ndd7BtfbK7CklXOGyEqjmBaHCzfo0ip5Ey27d2fOD92Vq6BACBwudF4n0pkpMescOzCM8JBAJ8uEfzSB4NbjvSSqhu+821ZC5NKX4W94H+zdW4wsJ9m6zUNlUEugkPU8gikguQMew5FzIrPBgC+aGKnAfhgNLr+an+itGpBIfSF1ol/KmrJJ838YROLbu7bphF2rwp33wpcIMATrwFCTzXgkN40nG2jxtZkPadJgExE0UVimXtBXeJo28GkoqHWO9tvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=laprLwo+4PPyWVxOVRCeE5oHEh3hBPFUy/+8L+oA+UY=;
- b=fqy44zmNdcY6cMf2kMb+NiOAZIafp5AURzAssQegoEMSg3Tdd/+yFfIo5ZXIhoNivsz/FRYQQqdpieodfmnleLnOSl4nhbQib3zJSIUdSj1uBiDCDma0j75iMzN97jMnBqmAVEZhKPJt1P5PQn8juQubHZT0SEX8hKU9mlLq8yY=
-Authentication-Results: huawei.com; dkim=none (message not signed)
- header.d=none;huawei.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
- by VI1PR08MB3792.eurprd08.prod.outlook.com (2603:10a6:803:bf::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Tue, 8 Dec
- 2020 13:42:00 +0000
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::44c9:5ac7:5302:7179]) by VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::44c9:5ac7:5302:7179%4]) with mapi id 15.20.3632.023; Tue, 8 Dec 2020
- 13:42:00 +0000
-Subject: Re: [PATCH v2] qemu-nbd: Fix a memleak in nbd_client_thread()
-To: Alex Chen <alex.chen@huawei.com>, eblake@redhat.com
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- zhang.zhanghailiang@huawei.com
-References: <20201203135855.70136-1-alex.chen@huawei.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <71e57a20-1a4f-5931-25df-b2740b3a5834@virtuozzo.com>
-Date: Tue, 8 Dec 2020 16:41:58 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-In-Reply-To: <20201203135855.70136-1-alex.chen@huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.91]
-X-ClientProxiedBy: AM0PR07CA0001.eurprd07.prod.outlook.com
- (2603:10a6:208:ac::14) To VI1PR08MB5503.eurprd08.prod.outlook.com
- (2603:10a6:803:137::19)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kmdJI-0005K1-1T
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:45:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58478)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kmdJE-00010U-IE
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:45:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607435138;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=9ZWpGQT6ZWiH5cc7k/AB5bI1iC8XOrqw2Yr0lncP7mg=;
+ b=iammYDy0/z99AsZyEeT0sPXp2rcs1PK/sGg81Up6uF1gdrSx1dJEdG5Psv6yKttKtT7kz2
+ NDURZANc0lwGJ4JYTc0+W/LA2PpAkGnGa2nqnsgsJh9OxnQjKXG7ZRAntuXmMJFjdpRO+C
+ PLWd7JRBz+pqNqTGbZ6I2JkSYdaaI2g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-sITEjmWgPbqXp5SqLlwgXg-1; Tue, 08 Dec 2020 08:45:26 -0500
+X-MC-Unique: sITEjmWgPbqXp5SqLlwgXg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 433F3180A0A4;
+ Tue,  8 Dec 2020 13:45:25 +0000 (UTC)
+Received: from redhat.com (ovpn-113-15.ams2.redhat.com [10.36.113.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E82C55C1BB;
+ Tue,  8 Dec 2020 13:45:22 +0000 (UTC)
+Date: Tue, 8 Dec 2020 13:45:19 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Li Feng <fengli@smartx.com>
+Subject: Re: [PATCH] file-posix: detect the lock using the real file
+Message-ID: <20201208134519.GJ3136942@redhat.com>
+References: <1607432377-87084-1-git-send-email-fengli@smartx.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.91) by
- AM0PR07CA0001.eurprd07.prod.outlook.com (2603:10a6:208:ac::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.8 via Frontend Transport; Tue, 8 Dec 2020 13:41:59 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 796f84fe-d9fb-40c5-4278-08d89b7f09f9
-X-MS-TrafficTypeDiagnostic: VI1PR08MB3792:
-X-Microsoft-Antispam-PRVS: <VI1PR08MB37929CB9DCD84EBA724E686DC1CD0@VI1PR08MB3792.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1775;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EoDl2QvorguQYQ5tmwT33CqetjWHq724DEt9D7YuFp6u5y4lgY84lLSDingLKxCnZCm3EYI0rqfwsJ/qz+jegzUD76bbt+k4Gjx+a+zcG2WatgwmyI0b0IQzKDlxlOGRrWuU0Hq7866dhCCKvGz6Dw70STbj4fc9U+sITUOk3ybRoBdnIpVFQMux6NIXD3jdw6vuN1PyweiaT4yKnQLdBFDz99C3ni+/t+trWL2ixH1kdWdCgDQ6UA43Nlm9alUBL2iJ9/Uprc2d/16i5RrQpxSLFmUyKXRAhaYpKZwkxXP5xm5MW5sUO/0Ixj0egUSIWF9jL7bZqH4s+BvXAZhod76kZH2vuNK/OUbvvJZqpgYiPchTKA2QH0PMMWNQGAKKwsRDGDdiyK7TdQm9u3+BeTUY81yNVcD8XpZZPgF1lmZfIEKiNugwHrvfNi+nriB4
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(376002)(346002)(31686004)(26005)(8676002)(4326008)(2906002)(186003)(31696002)(34490700003)(52116002)(36756003)(66556008)(16576012)(508600001)(5660300002)(83380400001)(66946007)(16526019)(86362001)(956004)(66476007)(2616005)(6486002)(8936002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZStaQnZ4Q1FQTXduRHZPd250Tkpjby9xc3N2Nk9TVFNwME9VL1Zrd1ZPYnFP?=
- =?utf-8?B?M1AwN3doZkNqTjBBK01qN3BiTEd6L2RTVElzd2tBbVN0WEUwVDdJSUU3dmMx?=
- =?utf-8?B?cGpPVEdzayswRmEvZVB4R3VvcEZtN1NvU01Sc25QbHBQbERKT0QrSTJFTlI5?=
- =?utf-8?B?bEQ5ekdKcmZYMjJ0QmZXZnk0bm5SN1U5cU5WdkFjamVtSk9yN0QxYnNBWVB5?=
- =?utf-8?B?K0kyUkNwNE0yK284d1RpSWZyWXJFRmpnSE5TTTR0eTdveTBJTEZWMTkwWTJZ?=
- =?utf-8?B?TmhkRDdIOFhFL1VsSWk2K3BWaWE5c3hncUMxb3c5a0YwMDdVQ0Ircmcvdm1C?=
- =?utf-8?B?ejVERFJXcVhrajJTRHg4RXE2bkFZdmhXbmFOK1VyMUczMlVMUnQzYWNWUUtG?=
- =?utf-8?B?ZFYvTkdmalBXWkd5U21vTXJkUEMvd0o5R0kva29zNTdIMUc3RDhtSzZaNlZn?=
- =?utf-8?B?YlZJZHl2bnE3SGd1ZEF5em1HdGltamh5dkxnd0xEU0U2T3JhRkRqc2N2cFRI?=
- =?utf-8?B?UjFqNTY0WkwzTS91YUcyR21Kd20ybWV0MHdyNHJTMkE3RG9yZnRUK1d1WEcx?=
- =?utf-8?B?VWNMOWFnKzFSc1ZmOGlRcHUwemRlMlk3QVUyOC92NnhNc0k2ZWsxaVV1MTgz?=
- =?utf-8?B?a2dNc0xNOEFwVXk1Z1JhM1BtQUl1cTRmYUxHeDQ3U0pna0xic3NJRFdCcDRW?=
- =?utf-8?B?VmkvZEVTZDd4bFdUVVZLYnVjWkJTbEN3ZkdGbDNxc25Gb1dSU1ZrVElKeklj?=
- =?utf-8?B?bTNMOXVxdFIrVW9VOFViekRiUzhBUDF0OXp4U1p5SVR0LzdyeTd3RjNFUmwr?=
- =?utf-8?B?NnVPVDl1WmFSSDRSUDZnUHFGY1VPMWZtRnYzZXl5TnFKSlRJaFAyamtOM1VB?=
- =?utf-8?B?ZmZFVVprQ3ZVWG43SndhcjIybFN2NkZERUVQYXJlYUZtNVIwS2R0UWplMHk3?=
- =?utf-8?B?bDJWcUhVVmVKTVd6cndRRVFidGZ0MFowMllseUhvUGlXeUUzN0JHczdwWUI4?=
- =?utf-8?B?VXhSd1NlQ1BLVTFWMm5KZWJWUXhwZXV0UnYxbU51a29zNUJ5TUlzVWo3Lzhh?=
- =?utf-8?B?aU1JcU1sYnh4WWxwNWZGenRKSWw1UWhCbTNmNXRNSllEM0hMcjBmOU5PRjJ0?=
- =?utf-8?B?UVhaaGxKS2VUd3h1UzRCVFpDVS9EbE9FTDRKZTA1a2I2cnM0eEV2QTJmbDBa?=
- =?utf-8?B?blBRd2JaaW1rdVdoRU1PYzVtZzdwckxJODQ4NVQzZldmVGRYS2pMMDh6WnMx?=
- =?utf-8?B?YklqTnZlSm5aeHpZRTlxU0hUNmJCYVJ2bENGL3kwY0Y4ZFdVU0VVNkwwZGhr?=
- =?utf-8?Q?1g+UwKlc39zeE3V5NQFa4Qkl0vEdiKl/bh?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 796f84fe-d9fb-40c5-4278-08d89b7f09f9
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 13:42:00.5169 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NNkRc6cNFSbfaMWQyhe8lA+XHySVI1/uwSRSQK/aN53T1Xdy+VzXoLKthZJ5DcMTHqbrdOTqyCLv1aniaPHajYTiW+LzoPf1KzSzZ2SvWAs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3792
-Received-SPF: pass client-ip=40.107.21.107;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <1607432377-87084-1-git-send-email-fengli@smartx.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -136,99 +78,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, lifeng1519@gmail.com,
+ "open list:raw" <qemu-block@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, kyle@smartx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-03.12.2020 16:58, Alex Chen wrote:
-> When the qio_channel_socket_connect_sync() fails
-> we should goto 'out_socket' label to free the 'sioc' instead of
-> goto 'out' label.
-> In addition, there's a lot of redundant code in the successful branch
-> and the error branch, optimize it.
+On Tue, Dec 08, 2020 at 08:59:37PM +0800, Li Feng wrote:
+> This patch addresses this issue:
+> When accessing a volume on an NFS filesystem without supporting the file lock,
+> tools, like qemu-img, will complain "Failed to lock byte 100".
 > 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+> In the original code, the qemu_has_ofd_lock will test the lock on the
+> "/dev/null" pseudo-file. Actually, the file.locking is per-drive property,
+> which depends on the underlay filesystem.
+
+IIUC, the problem you're describing is one of whether the filesystem
+supports fcntl locking at all, which is indeed a per-FS check.
+
+The QEMU code being changed though is just about detecting whether
+the host OS supports OFD to not, which is supposed to be a kernel
+level feature applied  universally to all FS types.
+
+> 
+> In this patch, make the 'qemu_has_ofd_lock' with a filename be more generic
+> and reasonable.
+> 
+> Signed-off-by: Li Feng <fengli@smartx.com>
 > ---
->   qemu-nbd.c | 38 +++++++++++++++-----------------------
->   1 file changed, 15 insertions(+), 23 deletions(-)
+>  block/file-posix.c         | 32 +++++++++++++++-------------
+>  include/qemu/osdep.h       |  2 +-
+>  tests/test-image-locking.c |  2 +-
+>  util/osdep.c               | 43 ++++++++++++++++++++++++--------------
+>  4 files changed, 47 insertions(+), 32 deletions(-)
 > 
-> diff --git a/qemu-nbd.c b/qemu-nbd.c
-> index a7075c5419..9583ee1af6 100644
-> --- a/qemu-nbd.c
-> +++ b/qemu-nbd.c
-> @@ -265,8 +265,8 @@ static void *nbd_client_thread(void *arg)
->       char *device = arg;
->       NBDExportInfo info = { .request_sizes = false, .name = g_strdup("") };
->       QIOChannelSocket *sioc;
-> -    int fd;
-> -    int ret;
-> +    int fd = -1;
-> +    int ret = EXIT_FAILURE;
->       pthread_t show_parts_thread;
->       Error *local_error = NULL;
->   
-> @@ -278,26 +278,24 @@ static void *nbd_client_thread(void *arg)
->           goto out;
->       }
->   
-> -    ret = nbd_receive_negotiate(NULL, QIO_CHANNEL(sioc),
-> -                                NULL, NULL, NULL, &info, &local_error);
-> -    if (ret < 0) {
-> +    if (nbd_receive_negotiate(NULL, QIO_CHANNEL(sioc),
-> +                              NULL, NULL, NULL, &info, &local_error) < 0) {
->           if (local_error) {
->               error_report_err(local_error);
->           }
-> -        goto out_socket;
-> +        goto out;
->       }
->   
->       fd = open(device, O_RDWR);
->       if (fd < 0) {
->           /* Linux-only, we can use %m in printf.  */
->           error_report("Failed to open %s: %m", device);
-> -        goto out_socket;
-> +        goto out;
->       }
->   
-> -    ret = nbd_init(fd, sioc, &info, &local_error);
-> -    if (ret < 0) {
-> +    if (nbd_init(fd, sioc, &info, &local_error) < 0) {
->           error_report_err(local_error);
-> -        goto out_fd;
-> +        goto out;
->       }
->   
->       /* update partition table */
-> @@ -311,24 +309,18 @@ static void *nbd_client_thread(void *arg)
->           dup2(STDOUT_FILENO, STDERR_FILENO);
->       }
->   
-> -    ret = nbd_client(fd);
-> -    if (ret) {
-> -        goto out_fd;
-> +    if (nbd_client(fd) == 0) {
-> +        ret = EXIT_SUCCESS;
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 806764f7e3..03be1b188c 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -595,7 +595,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>      switch (locking) {
+>      case ON_OFF_AUTO_ON:
+>          s->use_lock = true;
+> -        if (!qemu_has_ofd_lock()) {
+> +        if (!qemu_has_ofd_lock(filename)) {
+>              warn_report("File lock requested but OFD locking syscall is "
+>                          "unavailable, falling back to POSIX file locks");
+>              error_printf("Due to the implementation, locks can be lost "
+> @@ -606,7 +606,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>          s->use_lock = false;
+>          break;
+>      case ON_OFF_AUTO_AUTO:
+> -        s->use_lock = qemu_has_ofd_lock();
+> +        s->use_lock = qemu_has_ofd_lock(filename);
+>          break;
+>      default:
+>          abort();
+> @@ -2388,6 +2388,7 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
+>      int fd;
+>      uint64_t perm, shared;
+>      int result = 0;
+> +    bool use_lock;
+>  
+>      /* Validate options and set default values */
+>      assert(options->driver == BLOCKDEV_DRIVER_FILE);
+> @@ -2428,19 +2429,22 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
+>      perm = BLK_PERM_WRITE | BLK_PERM_RESIZE;
+>      shared = BLK_PERM_ALL & ~BLK_PERM_RESIZE;
+>  
+> -    /* Step one: Take locks */
+> -    result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
+> -    if (result < 0) {
+> -        goto out_close;
+> -    }
+> +    use_lock = qemu_has_ofd_lock(file_opts->filename);
+> +    if (use_lock) {
+> +        /* Step one: Take locks */
+> +        result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
+> +        if (result < 0) {
+> +            goto out_close;
+> +        }
+>  
+> -    /* Step two: Check that nobody else has taken conflicting locks */
+> -    result = raw_check_lock_bytes(fd, perm, shared, errp);
+> -    if (result < 0) {
+> -        error_append_hint(errp,
+> -                          "Is another process using the image [%s]?\n",
+> -                          file_opts->filename);
+> -        goto out_unlock;
+> +        /* Step two: Check that nobody else has taken conflicting locks */
+> +        result = raw_check_lock_bytes(fd, perm, shared, errp);
+> +        if (result < 0) {
+> +            error_append_hint(errp,
+> +                              "Is another process using the image [%s]?\n",
+> +                              file_opts->filename);
+> +            goto out_unlock;
+> +        }
+>      }
+>  
+>      /* Clear the file by truncating it to 0 */
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index f9ec8c84e9..349adad465 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -512,7 +512,7 @@ int qemu_dup(int fd);
+>  int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
+>  int qemu_unlock_fd(int fd, int64_t start, int64_t len);
+>  int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
+> -bool qemu_has_ofd_lock(void);
+> +bool qemu_has_ofd_lock(const char *filename);
+>  #endif
+>  
+>  #if defined(__HAIKU__) && defined(__i386__)
+> diff --git a/tests/test-image-locking.c b/tests/test-image-locking.c
+> index ba057bd66c..3e80246081 100644
+> --- a/tests/test-image-locking.c
+> +++ b/tests/test-image-locking.c
+> @@ -149,7 +149,7 @@ int main(int argc, char **argv)
+>  
+>      g_test_init(&argc, &argv, NULL);
+>  
+> -    if (qemu_has_ofd_lock()) {
+> +    if (qemu_has_ofd_lock(NULL)) {
+>          g_test_add_func("/image-locking/basic", test_image_locking_basic);
+>          g_test_add_func("/image-locking/set-perm-abort", test_set_perm_abort);
+>      }
+> diff --git a/util/osdep.c b/util/osdep.c
+> index 66d01b9160..e7e502edd1 100644
+> --- a/util/osdep.c
+> +++ b/util/osdep.c
+> @@ -42,6 +42,7 @@ extern int madvise(char *, size_t, int);
+>  static bool fips_enabled = false;
+>  
+>  static const char *hw_version = QEMU_HW_VERSION;
+> +static const char *null_device = "/dev/null";
+>  
+>  int socket_set_cork(int fd, int v)
+>  {
+> @@ -187,11 +188,10 @@ static int qemu_parse_fdset(const char *param)
+>      return qemu_parse_fd(param);
+>  }
+>  
+> -static void qemu_probe_lock_ops(void)
+> +static void qemu_probe_lock_ops_fd(int fd)
+>  {
+>      if (fcntl_op_setlk == -1) {
+>  #ifdef F_OFD_SETLK
+> -        int fd;
+>          int ret;
+>          struct flock fl = {
+>              .l_whence = SEEK_SET,
+> @@ -200,17 +200,7 @@ static void qemu_probe_lock_ops(void)
+>              .l_type   = F_WRLCK,
+>          };
+>  
+> -        fd = open("/dev/null", O_RDWR);
+> -        if (fd < 0) {
+> -            fprintf(stderr,
+> -                    "Failed to open /dev/null for OFD lock probing: %s\n",
+> -                    strerror(errno));
+> -            fcntl_op_setlk = F_SETLK;
+> -            fcntl_op_getlk = F_GETLK;
+> -            return;
+> -        }
+>          ret = fcntl(fd, F_OFD_GETLK, &fl);
+> -        close(fd);
+>          if (!ret) {
+>              fcntl_op_setlk = F_OFD_SETLK;
+>              fcntl_op_getlk = F_OFD_GETLK;
+> @@ -225,9 +215,30 @@ static void qemu_probe_lock_ops(void)
+>      }
+>  }
+>  
+> -bool qemu_has_ofd_lock(void)
+> +static void qemu_probe_lock_ops(const char *filename)
+> +{
+> +    int fd;
+> +    if (filename) {
+> +        fd = open(filename, O_RDWR);
+> +    } else {
+> +        fd = open(null_device, O_RDONLY);
+> +    }
+> +    if (fd < 0) {
+> +        fprintf(stderr,
+> +                "Failed to open %s for OFD lock probing: %s\n",
+> +                filename ? filename : null_device,
+> +                strerror(errno));
+> +        fcntl_op_setlk = F_SETLK;
+> +        fcntl_op_getlk = F_GETLK;
+> +        return;
+> +    }
+> +    qemu_probe_lock_ops_fd(fd);
+> +    close(fd);
+> +}
+> +
 
-It's not obvious that nbd_client() returns 0 on success, it calls ioctl(), which may return something positive in theory..
+This method now does a test whose results will vary based on the
+filename passed in, but it is updating a global variable to say
+whether to use OFD locks.  This is looks badly broken when using
+files across different filesystems.
 
-So, with s/==/>=/, or with just
+IMHO the raw_co_create method just needs to use a dedicated method
+to check whether fcntl locks are supposed, and all this broken
+refactoring of the OFD check should be removed.
 
-if (nbd_client(fd) < 0) {
-   goto out;
-}
+> +bool qemu_has_ofd_lock(const char *filename)
+>  {
+> -    qemu_probe_lock_ops();
+> +    qemu_probe_lock_ops(filename);
+>  #ifdef F_OFD_SETLK
+>      return fcntl_op_setlk == F_OFD_SETLK;
+>  #else
+> @@ -244,7 +255,7 @@ static int qemu_lock_fcntl(int fd, int64_t start, int64_t len, int fl_type)
+>          .l_len    = len,
+>          .l_type   = fl_type,
+>      };
+> -    qemu_probe_lock_ops();
+> +    qemu_probe_lock_ops_fd(fd);
+>      do {
+>          ret = fcntl(fd, fcntl_op_setlk, &fl);
+>      } while (ret == -1 && errno == EINTR);
+> @@ -270,7 +281,7 @@ int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
+>          .l_len    = len,
+>          .l_type   = exclusive ? F_WRLCK : F_RDLCK,
+>      };
+> -    qemu_probe_lock_ops();
+> +    qemu_probe_lock_ops_fd(fd);
+>      ret = fcntl(fd, fcntl_op_getlk, &fl);
+>      if (ret == -1) {
+>          return -errno;
+> -- 
+> 2.24.3
+> 
+> 
 
-ret = EXIT_SUCCESS;
-
-
-(which is good common pattern I think)
-
-:
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
+Regards,
+Daniel
 -- 
-Best regards,
-Vladimir
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
