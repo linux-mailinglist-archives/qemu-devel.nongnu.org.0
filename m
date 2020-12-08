@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E49B2D3295
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:17:21 +0100 (CET)
-Received: from localhost ([::1]:54436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511642D3298
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:22:21 +0100 (CET)
+Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmiUB-0007go-Ke
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:17:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35346)
+	id 1kmiZ2-0002Fc-6S
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:22:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmhpZ-0003MG-Ny
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:35:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47391)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmhry-0004kK-IR
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:37:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kmhpU-0001Wk-Ji
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:35:21 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmhrr-0001qF-DV
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:37:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607452515;
+ s=mimecast20190719; t=1607452661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6HUq7ZNpMYi7nmiBML8Tiyok224d5GBTwlZlKY35ZJ4=;
- b=T+GxZ2W+R+Yv9gG40zrqzXfpehribgG0susGppmC8hF8/cgVQfu0DmN/hL4yP97pUYxZT4
- moQmxzanYBGJ5DOqJWH3bmioXT7yZls5npH2jeYFo5LchmPfvM0Xzbwya9oK2Xh1QhsOA2
- HQHB+vFGixgssgBq3CJJFpWuJbfNhEQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-573-5Tul-eUcPLSYf2JxNGZjJw-1; Tue, 08 Dec 2020 13:35:12 -0500
-X-MC-Unique: 5Tul-eUcPLSYf2JxNGZjJw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 637F9190A7A0;
- Tue,  8 Dec 2020 18:35:11 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.65])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1574110016F6;
- Tue,  8 Dec 2020 18:35:06 +0000 (UTC)
-Date: Tue, 8 Dec 2020 19:35:05 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2] ppc/spapr: cleanup -machine pseries,nvdimm=X handling
-Message-ID: <20201208193505.46529337@redhat.com>
-In-Reply-To: <16474f79-93b1-e21c-124a-91e20894e47c@gmail.com>
-References: <20201208110532.4099624-1-imammedo@redhat.com>
- <20201208164606.4109134-1-imammedo@redhat.com>
- <16474f79-93b1-e21c-124a-91e20894e47c@gmail.com>
+ bh=QGtyrbM4rPScpm3jjA9KpDwetPNSHDI0wX14JeqeWEI=;
+ b=YRNj69y0kngx1qyDGXtdUbEbG9qItd2tNuqZ9BT6eo2Wo7ffr+q+eG0PbxkP5jOQGYlfRb
+ LemF05vraY3es611b3AFxOjqW3NGfQ5hb/GwLv8qYe7SnbWgyGlXUpAj28Zn167zmn97sX
+ dF5K1wsstUO8X3SfLcUFR3c9qUN0734=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-379-ofB-1ztOP9-mI1rVO8-C6Q-1; Tue, 08 Dec 2020 13:37:39 -0500
+X-MC-Unique: ofB-1ztOP9-mI1rVO8-C6Q-1
+Received: by mail-wr1-f72.google.com with SMTP id y5so2555319wrs.15
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:37:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QGtyrbM4rPScpm3jjA9KpDwetPNSHDI0wX14JeqeWEI=;
+ b=doeGohlVT2tsb1yA7fkizJ66PAPFsiTiFr2jZ+Df2gMlrV+kK1fOKONmPGFe86Gxno
+ HM4eQrnbpISpII1XBL1PoG1HkZdccKeYpTTZoWY5wRg3sTUDI4K496Kc8urdkA5ZDJ5z
+ jA2VzFpyY4Sq915JxY5jA55rn+83ZWOokU3CZqPiWDD7AhhGqEyd2BUFH8JSKn/V6Q36
+ d97+5mYeLF5nys0NXzn9nzAwjWjJzKSUe1UPX6DQyRemxpa8rlY2MioBA05rZspYocBV
+ PS3NNT6W1n4KA8uJstZ5NIoG/3qM1EGLjA5U3bHIbkrMksa+na7sAKkvjwfD8u43NqVp
+ uESw==
+X-Gm-Message-State: AOAM533A/KNLBgVXrRnz6iyIlOlgKZAIB6t+myf+BY4Hqf2X7ZZgomci
+ 664wAnMaWzpeII6YzNRavRHbNNov/dcesLfN+yRqXPXRPChUf5NqaZ+Xl3YEOxoYkzZDCsSrzHr
+ 37oGegeIvxnaQF1Y=
+X-Received: by 2002:a1c:4156:: with SMTP id o83mr4994645wma.178.1607452658616; 
+ Tue, 08 Dec 2020 10:37:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyGsJl9X4EFwHzJeJFR41E6vathjIrYkvEEJ4A+T4HekEIrfQtkwhrqz6LUPXe1O2j6xy6BFg==
+X-Received: by 2002:a1c:4156:: with SMTP id o83mr4994629wma.178.1607452658356; 
+ Tue, 08 Dec 2020 10:37:38 -0800 (PST)
+Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
+ by smtp.gmail.com with ESMTPSA id y6sm4995485wmg.39.2020.12.08.10.37.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Dec 2020 10:37:37 -0800 (PST)
+Date: Tue, 8 Dec 2020 13:37:35 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: andrew@daynix.com
+Subject: Re: [PATCH v4 2/2] hw/virtio-pci Added AER capability.
+Message-ID: <20201208133524-mutt-send-email-mst@kernel.org>
+References: <20201203110713.204938-1-andrew@daynix.com>
+ <20201203110713.204938-3-andrew@daynix.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201203110713.204938-3-andrew@daynix.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,158 +91,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: berrange@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Dec 2020 14:24:22 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On Thu, Dec 03, 2020 at 01:07:13PM +0200, andrew@daynix.com wrote:
+> From: Andrew <andrew@daynix.com>
+> 
+> Added AER capability for virtio-pci devices.
+> Also added property for devices, by default AER is disabled.
+> 
+> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> ---
+>  hw/virtio/virtio-pci.c | 16 ++++++++++++++++
+>  hw/virtio/virtio-pci.h |  4 ++++
+>  2 files changed, 20 insertions(+)
+> 
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index ceaa233129..f863f69ede 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1817,6 +1817,12 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+>           */
+>          pci_set_word(pci_dev->config + pos + PCI_PM_PMC, 0x3);
+>  
+> +        if (proxy->flags & VIRTIO_PCI_FLAG_AER) {
+> +            pcie_aer_init(pci_dev, PCI_ERR_VER, last_pcie_cap_offset,
+> +                          PCI_ERR_SIZEOF, NULL);
+> +            last_pcie_cap_offset += PCI_ERR_SIZEOF;
+> +        }
+> +
+>          if (proxy->flags & VIRTIO_PCI_FLAG_INIT_DEVERR) {
+>              /* Init error enabling flags */
+>              pcie_cap_deverr_init(pci_dev);
 
-> On 12/8/20 1:46 PM, Igor Mammedov wrote:
-> > Since NVDIMM support was introduced on pseries machine,
-> > it ignored machine's nvdimm=on|off option and effectively
-> > was always enabled on machines that support NVDIMM.
-> > Later on commit
-> >    (28f5a716212 ppc/spapr_nvdimm: do not enable support with 'nvdimm=off')
-> > makes QEMU error out in case user explicitly set 'nvdimm=off'
-> > on CLI by peeking at machine_opts.
-> > 
-> > However that's a workaround and leaves 'nvdimms_state->is_enabled'
-> > in inconsistent state (false) when it should be set true
-> > by default.
-> > 
-> > Instead of using on machine_opts, set default to true for pseries
-> > machine in initfn time. If user sets manually 'nvdimm=off'
-> > it will overwrite default value to false and QEMU will error
-> > as expected without need to peek into machine_opts.
-> > 
-> > That way pseries will have, nvdimm enabled by default and  
-> 
-> nit: extra ',' here
-> 
-> > will honor user provided 'nvdimm=on|off'.  
-> 
-> I believe it's plausible to add a:
-> 
-> Fixes: 28f5a716212 ("ppc/spapr_nvdimm: do not enable support with 'nvdimm=off'")
-> 
-> To indicate that this is amending my commit you mentioned up there.
-> 
-> 
-> > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---  
-> 
-> Thanks for taking the time patching this up. Tested on top of Patch 08 in a
-> Power 9 host and it works as intended.
-> 
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> 
-> 
-> ps: I'm assuming that that this is deprecating Paolo's patch:
-> 
-> "[PATCH 09/15] machine: record whether nvdimm= was set"
-> 
-> and also the chunks of Patch 10/15 that are changing spapr_nvdimm.c. If that's
-> not the case, let me know and I'll re-test.
+My only issue here is that if requested for a non express device,
+it will assert instead of a graceful failure.
+Can be fixed as a patch on top though.
 
-yes, it does deprecate those.
-And it is based on this series, so I'd expect Paolo to incorporate it,
-to avoid churn/conflicts.
-
-> 
-> 
-> 
-> Thanks,
-> 
-> 
-> DHB
-> 
-> 
-> 
-> > CC: danielhb413@gmail.com
-> > CC: david@gibson.dropbear.id.au
-> > CC: pbonzini@redhat.com
-> > 
-> > v2:
-> >    - simplify a bit more by using spapr_instance_init() to set
-> >      default value instead of doing it in generic machine code
-> > 
-> > PS:
-> > Patch should be applied on top of:
-> >    [PATCH 08/15] machine: introduce MachineInitPhase
-> > ---
-> >   hw/ppc/spapr.c        | 13 +++++++++++++
-> >   hw/ppc/spapr_nvdimm.c | 14 +-------------
-> >   2 files changed, 14 insertions(+), 13 deletions(-)
-> > 
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index b7e0894019..803a6f52a2 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -3267,6 +3267,19 @@ static void spapr_instance_init(Object *obj)
-> >   {
-> >       SpaprMachineState *spapr = SPAPR_MACHINE(obj);
-> >       SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
-> > +    MachineState *ms = MACHINE(spapr);
-> > +    MachineClass *mc = MACHINE_GET_CLASS(ms);
-> > +
-> > +    /*
-> > +     * NVDIMM support went live in 5.1 without considering that, in
-> > +     * other archs, the user needs to enable NVDIMM support with the
-> > +     * 'nvdimm' machine option and the default behavior is NVDIMM
-> > +     * support disabled. It is too late to roll back to the standard
-> > +     * behavior without breaking 5.1 guests.
-> > +     */
-> > +    if (mc->nvdimm_supported) {
-> > +        ms->nvdimms_state->is_enabled = true;
-> > +    }
-> >   
-> >       spapr->htab_fd = -1;
-> >       spapr->use_hotplug_event_source = true;
-> > diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-> > index a833a63b5e..66cd3dc13f 100644
-> > --- a/hw/ppc/spapr_nvdimm.c
-> > +++ b/hw/ppc/spapr_nvdimm.c
-> > @@ -27,10 +27,8 @@
-> >   #include "hw/ppc/spapr_nvdimm.h"
-> >   #include "hw/mem/nvdimm.h"
-> >   #include "qemu/nvdimm-utils.h"
-> > -#include "qemu/option.h"
-> >   #include "hw/ppc/fdt.h"
-> >   #include "qemu/range.h"
-> > -#include "sysemu/sysemu.h"
-> >   #include "hw/ppc/spapr_numa.h"
-> >   
-> >   bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-> > @@ -38,7 +36,6 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-> >   {
-> >       const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
-> >       const MachineState *ms = MACHINE(hotplug_dev);
-> > -    const char *nvdimm_opt = qemu_opt_get(qemu_get_machine_opts(), "nvdimm");
-> >       g_autofree char *uuidstr = NULL;
-> >       QemuUUID uuid;
-> >       int ret;
-> > @@ -48,16 +45,7 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
-> >           return false;
-> >       }
-> >   
-> > -    /*
-> > -     * NVDIMM support went live in 5.1 without considering that, in
-> > -     * other archs, the user needs to enable NVDIMM support with the
-> > -     * 'nvdimm' machine option and the default behavior is NVDIMM
-> > -     * support disabled. It is too late to roll back to the standard
-> > -     * behavior without breaking 5.1 guests. What we can do is to
-> > -     * ensure that, if the user sets nvdimm=off, we error out
-> > -     * regardless of being 5.1 or newer.
-> > -     */
-> > -    if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
-> > +    if (!ms->nvdimms_state->is_enabled) {
-> >           error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
-> >           return false;
-> >       }
-> >   
-> 
+> @@ -1858,7 +1864,15 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+>  
+>  static void virtio_pci_exit(PCIDevice *pci_dev)
+>  {
+> +    VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
+> +    bool pcie_port = pci_bus_is_express(pci_get_bus(pci_dev)) &&
+> +                     !pci_bus_is_root(pci_get_bus(pci_dev));
+> +
+>      msix_uninit_exclusive_bar(pci_dev);
+> +    if (proxy->flags & VIRTIO_PCI_FLAG_AER && pcie_port &&
+> +        pci_is_express(pci_dev)) {
+> +        pcie_aer_exit(pci_dev);
+> +    }
+>  }
+>  
+>  static void virtio_pci_reset(DeviceState *qdev)
+> @@ -1911,6 +1925,8 @@ static Property virtio_pci_properties[] = {
+>                      VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
+>      DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
+>                      VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
+> +    DEFINE_PROP_BIT("aer", VirtIOPCIProxy, flags,
+> +                    VIRTIO_PCI_FLAG_AER_BIT, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
+> index 06e2af12de..d7d5d403a9 100644
+> --- a/hw/virtio/virtio-pci.h
+> +++ b/hw/virtio/virtio-pci.h
+> @@ -41,6 +41,7 @@ enum {
+>      VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
+>      VIRTIO_PCI_FLAG_INIT_PM_BIT,
+>      VIRTIO_PCI_FLAG_INIT_FLR_BIT,
+> +    VIRTIO_PCI_FLAG_AER_BIT,
+>  };
+>  
+>  /* Need to activate work-arounds for buggy guests at vmstate load. */
+> @@ -80,6 +81,9 @@ enum {
+>  /* Init Function Level Reset capability */
+>  #define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
+>  
+> +/* Advanced Error Reporting capability */
+> +#define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
+> +
+>  typedef struct {
+>      MSIMessage msg;
+>      int virq;
+> -- 
+> 2.29.2
 
 
