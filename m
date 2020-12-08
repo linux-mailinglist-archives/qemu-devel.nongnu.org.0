@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E12492D24BF
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 08:41:46 +0100 (CET)
-Received: from localhost ([::1]:41946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6EF2D24BE
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 08:41:26 +0100 (CET)
+Received: from localhost ([::1]:41678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmXd3-0001N9-Vf
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 02:41:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51216)
+	id 1kmXcj-0001A2-Gq
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 02:41:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kmXbF-0000Pd-TL
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 02:39:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kmXbD-00014F-ME
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 02:39:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607413190;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7u3rJWN1zJpyEPN6bZp5h775XSvBd8X32HlLtMftlKc=;
- b=L1Xq6U2HU6yNd43nThHhweaX3r2xgy1nVWZI0++xcRfYP9zDRICf1OT+XuaGnS1D8QDc3A
- OQGEX1tWwgEA9J3afg6eDh15I6bBAX1ZgsoQ5k7ulpPMiAf2j1lVa+PUYP4T6pb95FQtjk
- AWcZlcx+uvn/oXPjrO+aqWzePiPBWgc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-483-N6fTKGRaM5qu1uQmx2KlCg-1; Tue, 08 Dec 2020 02:39:48 -0500
-X-MC-Unique: N6fTKGRaM5qu1uQmx2KlCg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kmXbD-0000NP-8Q
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 02:39:51 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:45146 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kmXbA-00012E-VI
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 02:39:50 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 906064128A;
+ Tue,  8 Dec 2020 07:39:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-transfer-encoding:content-disposition
+ :content-type:content-type:mime-version:references:message-id
+ :subject:subject:from:from:date:date:received:received:received;
+ s=mta-01; t=1607413184; x=1609227585; bh=rsAAEpchu7eNm4NCPQuQvB
+ WsCm4kXDvArbPh2XPJJ8Y=; b=q8dMJ7x4P+qV3f+h9bpNYUusagbH8LMFNsqAzm
+ t5gS4fYrnf29UDPoKRIVSPiEtxcqIHouHs9//OWp0B6vw+fOx8x+GuqydjGsHaD1
+ 3IkvTV5FlMlt0usbQF8iFQOmNqbF9lBp+X/bt2EArIiSuCQ7hDAR3v05vUmOuWMr
+ dTDAw=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id StcH35Zg_FnI; Tue,  8 Dec 2020 10:39:44 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 968D68014C1
- for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 07:39:47 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-194.ams2.redhat.com
- [10.36.112.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF67710016DB;
- Tue,  8 Dec 2020 07:39:37 +0000 (UTC)
-From: Laszlo Ersek <lersek@redhat.com>
-To: qemu-devel@nongnu.org,
-	virtio-fs@redhat.com
-Subject: [PATCH] virtiofsd: update FUSE_FORGET comment on "lo_inode.nlookup"
-Date: Tue,  8 Dec 2020 08:39:36 +0100
-Message-Id: <20201208073936.8629-1-lersek@redhat.com>
+ by mta-01.yadro.com (Postfix) with ESMTPS id A3E6041281;
+ Tue,  8 Dec 2020 10:39:44 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 8 Dec
+ 2020 10:39:44 +0300
+Date: Tue, 8 Dec 2020 10:40:16 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH for-6.0] accel: Wire accel to /machine
+Message-ID: <X88t4CKMyDfhvdyb@SPB-NB-133.local>
+References: <20201207084621.23876-1-r.bolshakov@yadro.com>
+ <20201207174419.GP3102898@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201207174419.GP3102898@redhat.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,32 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miklos Szeredi <mszeredi@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ Richard@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ libvir-list@redhat.com,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>, Fontana <cfontana@suse.de>, Markus@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TWlrbG9zIGNvbmZpcm1zIGl0J3MgKm9ubHkqIHRoZSBGVVNFX0ZPUkdFVCByZXF1ZXN0IHRoYXQg
-dGhlIGNsaWVudCBjYW4KdXNlIGZvciBkZWNyZW1lbnRpbmcgImxvX2lub2RlLm5sb29rdXAiLgoK
-Q2M6ICJEci4gRGF2aWQgQWxhbiBHaWxiZXJ0IiA8ZGdpbGJlcnRAcmVkaGF0LmNvbT4KQ2M6IE1p
-a2xvcyBTemVyZWRpIDxtc3plcmVkaUByZWRoYXQuY29tPgpDYzogU3RlZmFuIEhham5vY3ppIDxz
-dGVmYW5oYUByZWRoYXQuY29tPgpGaXhlczogMTIyMmYwMTU1NThmYzM0Y2VhMDJhYTNhNWE5MmRl
-NjA4YzgyY2VjOApTaWduZWQtb2ZmLWJ5OiBMYXN6bG8gRXJzZWsgPGxlcnNla0ByZWRoYXQuY29t
-PgotLS0KIHRvb2xzL3ZpcnRpb2ZzZC9wYXNzdGhyb3VnaF9sbC5jIHwgMiArLQogMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvdG9vbHMv
-dmlydGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMgYi90b29scy92aXJ0aW9mc2QvcGFzc3Rocm91Z2hf
-bGwuYwppbmRleCAwNjU0M2IyMGRjYmIuLmQzYmU2ODBlOTJjMyAxMDA2NDQKLS0tIGEvdG9vbHMv
-dmlydGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMKKysrIGIvdG9vbHMvdmlydGlvZnNkL3Bhc3N0aHJv
-dWdoX2xsLmMKQEAgLTExMyw3ICsxMTMsNyBAQCBzdHJ1Y3QgbG9faW5vZGUgewogICAgICAqIFRo
-aXMgY291bnRlciBrZWVwcyB0aGUgaW5vZGUgYWxpdmUgZHVyaW5nIHRoZSBGVVNFIHNlc3Npb24u
-CiAgICAgICogSW5jcmVtZW50ZWQgd2hlbiB0aGUgRlVTRSBpbm9kZSBudW1iZXIgaXMgc2VudCBp
-biBhIHJlcGx5CiAgICAgICogKEZVU0VfTE9PS1VQLCBGVVNFX1JFQURESVJQTFVTLCBldGMpLiAg
-RGVjcmVtZW50ZWQgd2hlbiBhbiBpbm9kZSBpcwotICAgICAqIHJlbGVhc2VkIGJ5IHJlcXVlc3Rz
-IGxpa2UgRlVTRV9GT1JHRVQsIEZVU0VfUk1ESVIsIEZVU0VfUkVOQU1FLCBldGMuCisgICAgICog
-cmVsZWFzZWQgYnkgYSBGVVNFX0ZPUkdFVCByZXF1ZXN0LgogICAgICAqCiAgICAgICogTm90ZSB0
-aGF0IHRoaXMgdmFsdWUgaXMgdW50cnVzdGVkIGJlY2F1c2UgdGhlIGNsaWVudCBjYW4gbWFuaXB1
-bGF0ZQogICAgICAqIGl0IGFyYml0cmFyaWx5IHVzaW5nIEZVU0VfRk9SR0VUIHJlcXVlc3RzLgot
-LSAKMi4xOS4xLjMuZzMwMjQ3YWE1ZDIwMQoK
+On Mon, Dec 07, 2020 at 05:44:19PM +0000, Daniel P. Berrangé wrote:
+> On Mon, Dec 07, 2020 at 11:46:22AM +0300, Roman Bolshakov wrote:
+> > An outstanding issue is whether management applications can rely on the
+> > value of /machine/accel/type and output of qom-list-types command [2][3]
+> > to get current and present accels?
+> > 
+> > i.e. would it be ok if libvirt assumes that everything up to the first
+> > dash in the accel type is the name of the accel (as specified via -M
+> > accel=ACCEL flag) when it performs QEMU probing?
+> 
+> Hmm, I think it is not nice - we shouldn't have to parse the
+> accel type names - IMHO typenames should be considered arbitrary
+> opaque strings, even if they'll not be expected to change.
+> 
 
+Thanks Daniel. I'll then send v2 of ad-hoc QMP/HMP query. By the way, do
+we need the HMP query if we get accel in QOM?
+
+Regards,
+Roman
 
