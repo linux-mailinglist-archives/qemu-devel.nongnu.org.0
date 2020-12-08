@@ -2,109 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91B22D25B3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:19:40 +0100 (CET)
-Received: from localhost ([::1]:36206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341FC2D25B4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:19:52 +0100 (CET)
+Received: from localhost ([::1]:36934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmYDj-0004M2-Rb
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:19:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58434)
+	id 1kmYDv-0004dy-70
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:19:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kmYCC-0003Kf-JP; Tue, 08 Dec 2020 03:18:04 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41088
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kmYC9-0001vg-Jz; Tue, 08 Dec 2020 03:18:03 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0B8828od019774; Tue, 8 Dec 2020 03:17:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=mXuFQVw+gv8Cjt7TBTV5Y1fu2I+MlrP43Kjv5G519yM=;
- b=b1KzXZmlqFMENb1rL7SaMIezeWRiniSRLQTCwzR8YgCe+pPKbBeAQYCLh0WdCnVs7v0g
- 773KiQqehIojCPlibzACdq6nfWgOQGZKB0x7qf5ofcxr0CNXHMm/gj2B+9BcHcaY4AHl
- MYoY3ZExUswwchYSXRSjMCI013P7wFmHj9qDV/FJGVHC1kgjtQJ6RYtKRBHVOM/sP8/6
- FTtS/L2MWBpMkNUbYiCJfYrifb741dq0AZxDQ4u8LZeRJJpE+/LX3x8whHDgHe1JwcXN
- m0YBfLIoklmVdVtAolMosC9aUt+jR8is3hKqoPcXK68++Prjq2Mur/jY3aw0IfwFaziG NA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 359qrpeyya-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Dec 2020 03:17:50 -0500
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B88GshY083620;
- Tue, 8 Dec 2020 03:17:50 -0500
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 359qrpeyxr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Dec 2020 03:17:50 -0500
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B88C3dE009880;
- Tue, 8 Dec 2020 08:17:48 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03fra.de.ibm.com with ESMTP id 3581u8mxvw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 08 Dec 2020 08:17:48 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 0B88GUPE51183894
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 8 Dec 2020 08:16:30 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6E52CA405B;
- Tue,  8 Dec 2020 08:16:30 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 03F9BA4062;
- Tue,  8 Dec 2020 08:16:29 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.37.89])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue,  8 Dec 2020 08:16:28 +0000 (GMT)
-Subject: Re: [for-6.0 v5 12/13] securable guest memory: Alter virtio default
- properties for protected guests
-To: David Gibson <david@gibson.dropbear.id.au>,
- Halil Pasic <pasic@linux.ibm.com>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204054415.579042-13-david@gibson.dropbear.id.au>
- <d739cae2-9197-76a5-1c19-057bfe832187@de.ibm.com>
- <20201204091706.4432dc1e.cohuck@redhat.com>
- <038214d1-580d-6692-cd1e-701cd41b5cf8@de.ibm.com>
- <20201204154310.158b410e.pasic@linux.ibm.com>
- <20201208015403.GB2555@yekko.fritz.box>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <54a86780-4ee2-089c-397a-83601ec1daec@de.ibm.com>
-Date: Tue, 8 Dec 2020 09:16:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kmYC8-0003H4-UH
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:18:00 -0500
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kmYC7-0001vf-7P
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:18:00 -0500
+Received: by mail-ed1-x541.google.com with SMTP id dk8so13764550edb.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 00:17:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=BiHatFn29jpCwDDhBSm+X0xUHoMKEAQw9eUj4sTBRlM=;
+ b=mQzGDDBdkuRnj6sxJrdTG4VLsqwKNasQhPknV11+Pb27T5zHd8ND5cE/Djp3nCtC+X
+ mRSuXJy8UnNQ9MPbDTV9NREs531651euPnlM6X1VV7T1aHhD4lOcB52TgpOijuJoWcmC
+ LAWGMzcGgHB0S3Cdol4KEUXm9GqEoBhja1U4G0EWt+WfEMJAmJtXktow0Z6fRyjZfsLT
+ rxrLLDJDJMhbscND2z2sjN5ThDAG/+oBWMTE8MK0SvpE5hCJvvQNPI5xDni+TxqIOxMo
+ izM4EHrGKVv0m8M2uMTlXlZEfiSnZgExpNv/mQB6dODNYagN4wkxZ6xve+BbCqCOnrSB
+ fjzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BiHatFn29jpCwDDhBSm+X0xUHoMKEAQw9eUj4sTBRlM=;
+ b=MZKuGvhRdgdMQaeTlbtZX0YLKq3TDKlshtKuPO/r967sCCxHM2FfO6r0T82RqxmigG
+ 3jzW86SKNhtS7VyrEun6R5+tiY05qKNjVUeMuS40sHYwAW1hveZnFVrqbzoTiCUT+/eh
+ /BvrimBCYDLv4hRLt7IGtRSlkCjPMfd7jQF5uPc33wB6YOs+mSBzNnhDZQZXKFjWulUr
+ m1jIfG1QI09bfYX0hvtq2/HFeipMs7m8bxaLxfGeeIE1PYbJd5w8krfxm0r9Bzr3/7R0
+ Y6/8HAsqCsYPhOUhTBiLVjzuRzu1zO/ZXEhRDyg+4Uoru04OqVfz9TnmwnUREMNxGzn8
+ i/ZQ==
+X-Gm-Message-State: AOAM5319PJbJ4kZ1fUowgxRQIm46JrUyjYOV17AFbaDW/diWshWFopt8
+ Qy+ydYsKXPwdf3QAYyr6ncQ=
+X-Google-Smtp-Source: ABdhPJyHh0yxa7w8t9BjtnS6Zimgt4s5lHthEFOAPhZNJnJ55BjwATBi4HezVl7QtEVqO0Z0JSV7Pg==
+X-Received: by 2002:aa7:d459:: with SMTP id q25mr23378343edr.279.1607415477826; 
+ Tue, 08 Dec 2020 00:17:57 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id ch30sm16327737edb.8.2020.12.08.00.17.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Dec 2020 00:17:56 -0800 (PST)
+Date: Tue, 8 Dec 2020 08:17:55 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Subject: Re: [RFC PATCH 10/27] vhost: Allocate shadow vring
+Message-ID: <20201208081755.GS203660@stefanha-x1.localdomain>
+References: <20201120185105.279030-1-eperezma@redhat.com>
+ <20201120185105.279030-11-eperezma@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201208015403.GB2555@yekko.fritz.box>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-08_03:2020-12-04,
- 2020-12-08 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxscore=0
- suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0 adultscore=0
- mlxlogscore=999 impostorscore=0 spamscore=0 malwarescore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012080046
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="E1BPhOSoTthPQdPL"
+Content-Disposition: inline
+In-Reply-To: <20201120185105.279030-11-eperezma@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=stefanha@gmail.com; helo=mail-ed1-x541.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,90 +84,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
- brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-ppc@nongnu.org,
- pbonzini@redhat.com, thuth@redhat.com, berrange@redhat.com, david@redhat.com,
- rth@twiddle.net, mdroth@linux.vnet.ibm.com,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
+ Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
+ Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
+ Alex Barba <alex.barba@broadcom.com>,
+ Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
+ Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
+ vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
+ Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jim Harford <jim.harford@broadcom.com>,
+ Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
+ Max Gurtovoy <maxgu14@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--E1BPhOSoTthPQdPL
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 08.12.20 02:54, David Gibson wrote:
-> On Fri, Dec 04, 2020 at 03:43:10PM +0100, Halil Pasic wrote:
->> On Fri, 4 Dec 2020 09:29:59 +0100
->> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->>
->>> On 04.12.20 09:17, Cornelia Huck wrote:
->>>> On Fri, 4 Dec 2020 09:10:36 +0100
->>>> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->>>>
->>>>> On 04.12.20 06:44, David Gibson wrote:
->>>>>> The default behaviour for virtio devices is not to use the platforms normal
->>>>>> DMA paths, but instead to use the fact that it's running in a hypervisor
->>>>>> to directly access guest memory.  That doesn't work if the guest's memory
->>>>>> is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
->>>>>>
->>>>>> So, if a securable guest memory mechanism is enabled, then apply the
->>>>>> iommu_platform=on option so it will go through normal DMA mechanisms.
->>>>>> Those will presumably have some way of marking memory as shared with
->>>>>> the hypervisor or hardware so that DMA will work.
->>>>>>
->>>>>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
->>>>>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->>>>>> ---
->>>>>>  hw/core/machine.c | 13 +++++++++++++
->>>>>>  1 file changed, 13 insertions(+)
->>>>>>
->>>>>> diff --git a/hw/core/machine.c b/hw/core/machine.c
->>>>>> index a67a27d03c..d16273d75d 100644
->>>>>> --- a/hw/core/machine.c
->>>>>> +++ b/hw/core/machine.c
->>>>>> @@ -28,6 +28,8 @@
->>>>>>  #include "hw/mem/nvdimm.h"
->>>>>>  #include "migration/vmstate.h"
->>>>>>  #include "exec/securable-guest-memory.h"
->>>>>> +#include "hw/virtio/virtio.h"
->>>>>> +#include "hw/virtio/virtio-pci.h"
->>>>>>  
->>>>>>  GlobalProperty hw_compat_5_1[] = {
->>>>>>      { "vhost-scsi", "num_queues", "1"},
->>>>>> @@ -1169,6 +1171,17 @@ void machine_run_board_init(MachineState *machine)
->>>>>>           * areas.
->>>>>>           */
->>>>>>          machine_set_mem_merge(OBJECT(machine), false, &error_abort);
->>>>>> +
->>>>>> +        /*
->>>>>> +         * Virtio devices can't count on directly accessing guest
->>>>>> +         * memory, so they need iommu_platform=on to use normal DMA
->>>>>> +         * mechanisms.  That requires also disabling legacy virtio
->>>>>> +         * support for those virtio pci devices which allow it.
->>>>>> +         */
->>>>>> +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy",
->>>>>> +                                   "on", true);
->>>>>> +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform",
->>>>>> +                                   "on", false);  
->>>>>
->>>>> I have not followed all the history (sorry). Should we also set iommu_platform
->>>>> for virtio-ccw? Halil?
->>>>>
->>>>
->>>> That line should add iommu_platform for all virtio devices, shouldn't
->>>> it?
->>>
->>> Yes, sorry. Was misreading that with the line above. 
->>>
->>
->> I believe this is the best we can get. In a sense it is still a
->> pessimization,
-> 
-> I'm not really clear on what you're getting at here.
+On Fri, Nov 20, 2020 at 07:50:48PM +0100, Eugenio P=E9rez wrote:
+> Signed-off-by: Eugenio P=E9rez <eperezma@redhat.com>
+> ---
+>  hw/virtio/vhost-sw-lm-ring.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/virtio/vhost-sw-lm-ring.c b/hw/virtio/vhost-sw-lm-ring.c
+> index cbf53965cd..cd7b5ba772 100644
+> --- a/hw/virtio/vhost-sw-lm-ring.c
+> +++ b/hw/virtio/vhost-sw-lm-ring.c
+> @@ -16,8 +16,11 @@
+>  #include "qemu/event_notifier.h"
+> =20
+>  typedef struct VhostShadowVirtqueue {
+> +    struct vring vring;
+>      EventNotifier hdev_notifier;
+>      VirtQueue *vq;
+> +
+> +    vring_desc_t descs[];
+>  } VhostShadowVirtqueue;
 
-I think Halils point is that somebody might come up with a solution where things would
-work even without iommu_platform. But as he said, still the best setting we can get
-to cover all cases.
+Looking at later patches I see that this is the vhost hdev vring state,
+not the VirtIODevice vring state. That makes more sense.
+
+--E1BPhOSoTthPQdPL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/PNrMACgkQnKSrs4Gr
+c8hJxQf/Xue75u7nedZDTV1CqmKKp32KUzPMlA5zalyXvgqpXIivVnQ97AKeTHt9
+vwLbUTVRNrC+5TVoAsyAlBeqFCRzwcdOdxIBFfqHE8bbND4mV+98ka4xPEwwFYQG
+zxbcGPKnGwvdUP/ZYk4l/qK2EUwAmqXBq9v9XiBzciMBptG+CVNCOppv4SqaWhdn
+IdTLT2m0KevNzqTvF6jOy6zA4BSoKYOZENTh20MSqWEILqCREtS/VkHCiqVW4DuJ
+653E63sKml4j2uCGj25Tvs0JV6B+yDDf5jyz97B4qW8ur8cGbxmklBjXrlUSaBfI
+m9FnQX/MGv39h7gG9BRaDnGfk7DyMQ==
+=d+Ix
+-----END PGP SIGNATURE-----
+
+--E1BPhOSoTthPQdPL--
 
