@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF8B2D32FB
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:09:47 +0100 (CET)
-Received: from localhost ([::1]:57962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9856D2D3301
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:12:55 +0100 (CET)
+Received: from localhost ([::1]:38070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmjIw-0007DK-CY
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:09:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49180)
+	id 1kmjLw-0002IK-UD
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:12:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmilP-0005SK-C4
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:35:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40073)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmilV-0005eN-1j
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:35:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmilN-00050g-Ct
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:35:07 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmilT-00053p-4m
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:35:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607456103;
+ s=mimecast20190719; t=1607456110;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=fWdn60YXLAPyXZe/D6icm9/1W6OTKOnwy4q/Y4bmQPM=;
- b=dBD6y+7qTb1kAZYiaYAf/zLP1PXKNBgiz3tkq5/B1JVurEGefZ3EPdBUgSiY/uq56x9Ajy
- uThdrGC4nVkypRI/+ePiJk5kMG+J5xMaCwnmC32LScj/Cm3AO0Ql3GmpdkVqJGlbuJFiUT
- mQqOV4extSbdqfyfzv+A/0/cE2rWK7A=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-176-YYG6PVNHOQqpJXneYtZPmw-1; Tue, 08 Dec 2020 14:35:01 -0500
-X-MC-Unique: YYG6PVNHOQqpJXneYtZPmw-1
-Received: by mail-wr1-f69.google.com with SMTP id y5so2616742wrs.15
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:35:00 -0800 (PST)
+ bh=G9tzgdRg6V4aRBxWpzbtFZdDzKG4IFZ/VhXBU8iZDCI=;
+ b=SdElqgPlR1LeElFS58Aj7uP4b6d0/yCz9DEFqUI9moI0t7iuP6c7r0Uk5RxjBtU7cb/pim
+ aOasPvgMfsojRmTNzgBi889wVWeuX7uVQ0gMi51gDo9I8LW+T4GpzE9qaublmQGvvBjkNI
+ beH+CPjRglq6MO3Sil2OGLoSL3ZsvUQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-uiW0zXXEOyeGC1X5aryR8g-1; Tue, 08 Dec 2020 14:35:08 -0500
+X-MC-Unique: uiW0zXXEOyeGC1X5aryR8g-1
+Received: by mail-wr1-f72.google.com with SMTP id r11so4694433wrs.23
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:35:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=fWdn60YXLAPyXZe/D6icm9/1W6OTKOnwy4q/Y4bmQPM=;
- b=GEoKNjrPqMvzV2FkSY9ehNhlPOJik3xuhEackqvpbTXhxvEhmR29Jio1To7EQFp9au
- v7kgpHHBR8sMQoN4LjvVkoJBov+nzz3RfRumJUaQVCLpwl3kDqZMqHgqbvXkfKytQkfm
- ZXKjK3DwYQmi8L1Yqyyeqm05570wYJo9asjNWX290JB0C3ohq1hxCrxMyp3pElFxIgvG
- ISgcWvrC3D2FXkFchgeNZn4pYPkBTApzlfN/H1YZZpxyVUonsTuKLNC1O4B4Ekn5PIXP
- DFpJ/Dv/SY7V3mukmLryGnRMTD6KmGyOwvJcK3OZL8U6U0mjFZCkoJgJbud6VxpOXeZc
- cVJQ==
-X-Gm-Message-State: AOAM532jy5BqYBv6X2FHW2q+cw+Yjg+IiKyu56vBu0N+q2veSJjo5iQw
- XzJzwqvHZcV4/HDJg0ldwkR1AE636bxd0ahlpDAgUqB1zwM04Q36rBWnQTr5mckNQsX1OS2kgz3
- yGwld1UzomPAVWHgkkDfjOhMtgkQ4mQD07EAnNdiRerXYHT8HoWd3ll2ndy9A
-X-Received: by 2002:adf:f881:: with SMTP id u1mr26209721wrp.103.1607456099311; 
- Tue, 08 Dec 2020 11:34:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxXTi4Ogak4jeMvmhpuAGueB7TJtWnR4qxkVGh7qO62haI8E3x5iSp1syxMVOZTpmTXtYUFbw==
-X-Received: by 2002:adf:f881:: with SMTP id u1mr26209699wrp.103.1607456099087; 
- Tue, 08 Dec 2020 11:34:59 -0800 (PST)
+ bh=G9tzgdRg6V4aRBxWpzbtFZdDzKG4IFZ/VhXBU8iZDCI=;
+ b=Fvkc7wT25YWPJKvenqCvY9PZN7C7VB9LUcJAc4rwaXY6kkvvKip18ApX23KOw38m83
+ 1+opvqOTecOVWb4vA3IO7xbHoANSTUkACHWb59K1zrbukcWSz+RLp6RfEsE9tya0mFpH
+ dP+phijULzrwAnGY+D53g/FA5ZT1lhdjzBmprBOpEMZupDE4qe9Ifx7LMhSzEdXOJGnw
+ ob1G3YkCYwWcCZRODrB4+d6NT5tvlsBJte432Y5HIiaiNzoqb++R5vRIc0x7ijtvTTaB
+ jt0TY0FEpwwbIMnuG6M9g2iUZgA3LSu9T//34uJtW495iCMoDUaWf9KaJrywGcQ4inRB
+ adXw==
+X-Gm-Message-State: AOAM533E/X3U5lFcM2I4FZwVw1EMVwiKw4EtQzXjVSq7YKUY4gwLZ3eF
+ 4joR+R+L9TZhfHS9Op4VES6CbOR2ijhAPZHz98W0Hqahg3djg1vojkTtBkxuEmKgEG5FRzGHjeH
+ azECRokqsLo1oRB4rf6vvEujPd9Mh5VzCWR/0Zwxu4baLaFlLNn7gmKJQ0GES
+X-Received: by 2002:adf:f5c5:: with SMTP id k5mr7324119wrp.286.1607456106745; 
+ Tue, 08 Dec 2020 11:35:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzj5iXAbAXdS1fKYrzk0pU6JUduD/7ybq6WvWVC/gkfgqjGJLE4VmMcr0IHMG8ROEuUGPvo+A==
+X-Received: by 2002:adf:f5c5:: with SMTP id k5mr7324106wrp.286.1607456106577; 
+ Tue, 08 Dec 2020 11:35:06 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id c190sm5120608wme.19.2020.12.08.11.34.57
+ by smtp.gmail.com with ESMTPSA id x9sm21621655wru.55.2020.12.08.11.35.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 11:34:58 -0800 (PST)
-Date: Tue, 8 Dec 2020 14:34:55 -0500
+ Tue, 08 Dec 2020 11:35:05 -0800 (PST)
+Date: Tue, 8 Dec 2020 14:35:02 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/66] failover: Remove primary_device_opts
-Message-ID: <20201208193307.646726-26-mst@redhat.com>
+Subject: [PULL 27/66] failover: Remove primary_device_dict
+Message-ID: <20201208193307.646726-28-mst@redhat.com>
 References: <20201208193307.646726-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201208193307.646726-1-mst@redhat.com>
@@ -99,89 +99,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Juan Quintela <quintela@redhat.com>
 
-It was really only used once, in failover_add_primary().  Just search
-for it on global opts when it is needed.
+It was only used once.  And we have there opts->id, so no need for it.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20201118083748.1328-11-quintela@redhat.com>
+Message-Id: <20201118083748.1328-13-quintela@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
  include/hw/virtio/virtio-net.h |  1 -
- hw/net/virtio-net.c            | 21 +++++----------------
- 2 files changed, 5 insertions(+), 17 deletions(-)
+ hw/net/virtio-net.c            | 17 ++++-------------
+ 2 files changed, 4 insertions(+), 14 deletions(-)
 
 diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-index ca68be759f..7159e6c0a0 100644
+index a055f39dd6..fe353d8299 100644
 --- a/include/hw/virtio/virtio-net.h
 +++ b/include/hw/virtio/virtio-net.h
 @@ -202,7 +202,6 @@ struct VirtIONet {
      AnnounceTimer announce_timer;
      bool needs_vnet_hdr_swap;
      bool mtu_bypass_backend;
--    QemuOpts *primary_device_opts;
-     QDict *primary_device_dict;
+-    QDict *primary_device_dict;
      DeviceState *primary_dev;
      char *primary_device_id;
+     /* primary failover device is hidden*/
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index e334f05352..2a99b0e0f6 100644
+index 953d5c2bc8..6e5a56a230 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -791,17 +791,17 @@ static inline uint64_t virtio_net_supported_guest_offloads(VirtIONet *n)
- static void failover_add_primary(VirtIONet *n, Error **errp)
- {
-     Error *err = NULL;
-+    QemuOpts *opts;
- 
-     if (n->primary_dev) {
-         return;
+@@ -3186,28 +3186,21 @@ static int virtio_net_primary_should_be_hidden(DeviceListener *listener,
+     if (!device_opts) {
+         return -1;
      }
- 
--    n->primary_device_opts = qemu_opts_find(qemu_find_opts("device"),
--                                            n->primary_device_id);
--    if (n->primary_device_opts) {
--        n->primary_dev = qdev_device_add(n->primary_device_opts, &err);
-+    opts = qemu_opts_find(qemu_find_opts("device"), n->primary_device_id);
-+    if (opts) {
-+        n->primary_dev = qdev_device_add(opts, &err);
-         if (err) {
--            qemu_opts_del(n->primary_device_opts);
-+            qemu_opts_del(opts);
-         }
+-    n->primary_device_dict = qemu_opts_to_qdict(device_opts,
+-                                                n->primary_device_dict);
+     standby_id = qemu_opt_get(device_opts, "failover_pair_id");
+     if (g_strcmp0(standby_id, n->netclient_name) == 0) {
+         match_found = true;
      } else {
-         error_setg(errp, "Primary device not found");
-@@ -856,7 +856,6 @@ static DeviceState *virtio_connect_failover_devices(VirtIONet *n, Error **errp)
-     prim_dev = virtio_net_find_primary(n, &err);
-     if (prim_dev) {
-         n->primary_device_id = g_strdup(prim_dev->id);
--        n->primary_device_opts = prim_dev->opts;
-     } else {
-         error_propagate(errp, err);
-     }
-@@ -3113,14 +3112,6 @@ static bool failover_replug_primary(VirtIONet *n, Error **errp)
-     if (!pdev->partially_hotplugged) {
-         return true;
-     }
--    if (!n->primary_device_opts) {
--        n->primary_device_opts = qemu_opts_from_qdict(qemu_find_opts("device"),
--                                                      n->primary_device_dict,
--                                                      errp);
--        if (!n->primary_device_opts) {
--            return false;
--        }
--    }
-     primary_bus = n->primary_dev->parent_bus;
-     if (!primary_bus) {
-         error_setg(errp, "virtio_net: couldn't find primary bus");
-@@ -3211,8 +3202,6 @@ static int virtio_net_primary_should_be_hidden(DeviceListener *listener,
+         match_found = false;
+         hide = false;
+-        n->primary_device_dict = NULL;
          goto out;
      }
  
--    n->primary_device_opts = device_opts;
--
      /* failover_primary_hidden is set during feature negotiation */
      hide = qatomic_read(&n->failover_primary_hidden);
+-
+-    if (n->primary_device_dict) {
+-        g_free(n->primary_device_id);
+-        n->primary_device_id = g_strdup(qdict_get_try_str(
+-                                            n->primary_device_dict, "id"));
+-        if (!n->primary_device_id) {
+-            warn_report("primary_device_id not set");
+-        }
++    g_free(n->primary_device_id);
++    n->primary_device_id = g_strdup(device_opts->id);
++    if (!n->primary_device_id) {
++        warn_report("primary_device_id not set");
+     }
  
+ out:
+@@ -3396,8 +3389,6 @@ static void virtio_net_device_unrealize(DeviceState *dev)
+     if (n->failover) {
+         device_listener_unregister(&n->primary_listener);
+         g_free(n->primary_device_id);
+-        qobject_unref(n->primary_device_dict);
+-        n->primary_device_dict = NULL;
+     }
+ 
+     max_queues = n->multiqueue ? n->max_queues : 1;
 -- 
 MST
 
