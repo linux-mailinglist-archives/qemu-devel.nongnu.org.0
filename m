@@ -2,67 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9222D28BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 11:22:37 +0100 (CET)
-Received: from localhost ([::1]:46076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF312D28EC
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 11:31:12 +0100 (CET)
+Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kma8i-0004m8-2p
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 05:22:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56826)
+	id 1kmaH0-0006bc-U2
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 05:31:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kma75-0004Fi-8i
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 05:20:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56980)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kma71-0003Xb-ST
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 05:20:55 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kma6z-00038r-NC
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:20:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 708B32E813B
- for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 10:20:49 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1kmaFI-00069l-Ie; Tue, 08 Dec 2020 05:29:25 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30736)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1kmaFG-0006S5-QX; Tue, 08 Dec 2020 05:29:24 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0B8A3lW5110977; Tue, 8 Dec 2020 05:29:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type; s=pp1; bh=/q+AtQG9CkQbyFwRmsw9IzYWCkRqtptX3eCtXxdIT5A=;
+ b=nKn2BBxt8W2CAdsn8VxIO7iz3pV2nNwF3Y6f9s91bATmcBDsazQdfaAf/AXzFAiweFc5
+ FkeyWnrKeckngg07Gf55DQLx7WX+L180FMqMJz49z5uADJ1Ein+wIfurr1XMmVEhd8M/
+ MgZG/pqxaCl+axqbvNYSFcgUUkvc5JBwqA6WIJhuE86ZUfSPsE2XwHk4CiwjzjBf0/eh
+ uyk7Zr4HzflYj3sq2H/6apXSgzW95b0wmAE8FuV/QcY/qs+wDVGf738nDel5P2A2JuOb
+ tdCa8ZhZx6OorF/mQvE1ANEwd8mT4bx5WU99pJFUTXIYlASJbsIi+D/eZoVnvVPxQNCV cg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 359wwde4rv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Dec 2020 05:29:11 -0500
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B89Wbvv110964;
+ Tue, 8 Dec 2020 05:29:10 -0500
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 359wwde4pu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Dec 2020 05:29:09 -0500
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B8ASf4M010097;
+ Tue, 8 Dec 2020 10:29:02 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04ams.nl.ibm.com with ESMTP id 3583svkbun-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Dec 2020 10:29:02 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0B8ASxaf41419212
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 8 Dec 2020 10:28:59 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 770334C040;
+ Tue,  8 Dec 2020 10:28:59 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7D0704C044;
+ Tue,  8 Dec 2020 10:28:58 +0000 (GMT)
+Received: from oc2783563651 (unknown [9.171.56.90])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue,  8 Dec 2020 10:28:58 +0000 (GMT)
+Date: Tue, 8 Dec 2020 11:28:29 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [for-6.0 v5 12/13] securable guest memory: Alter virtio default
+ properties for protected guests
+Message-ID: <20201208112829.0f8fcdf4.pasic@linux.ibm.com>
+In-Reply-To: <20201208015403.GB2555@yekko.fritz.box>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <20201204054415.579042-13-david@gibson.dropbear.id.au>
+ <d739cae2-9197-76a5-1c19-057bfe832187@de.ibm.com>
+ <20201204091706.4432dc1e.cohuck@redhat.com>
+ <038214d1-580d-6692-cd1e-701cd41b5cf8@de.ibm.com>
+ <20201204154310.158b410e.pasic@linux.ibm.com>
+ <20201208015403.GB2555@yekko.fritz.box>
+Organization: IBM
+X-Mailer: Claws Mail 3.11.1 (GTK+ 2.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 08 Dec 2020 10:12:58 -0000
-From: Olaf Seibert <1905979@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange oseibert-sys11
-X-Launchpad-Bug-Reporter: Olaf Seibert (oseibert-sys11)
-X-Launchpad-Bug-Modifier: Olaf Seibert (oseibert-sys11)
-References: <160648885405.8173.13759191424779303608.malonedeb@soybean.canonical.com>
-Message-Id: <160742237815.11405.4221783153777957521.malone@wampee.canonical.com>
-Subject: [Bug 1905979] Re: Check if F_OFD_SETLK is supported may give wrong
- result
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 290977e4119b6172a63e18ce21dbe6da30323119
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ boundary="Sig_/.IV=x5r6L.IjUJN6uZ=6R+3"; protocol="application/pgp-signature"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-08_06:2020-12-08,
+ 2020-12-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
+ suspectscore=0 impostorscore=0 adultscore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012080059
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,88 +114,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905979 <1905979@bugs.launchpad.net>
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, pbonzini@redhat.com,
+ thuth@redhat.com, berrange@redhat.com, david@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Interesting. Thanks for the link.
+--Sig_/.IV=x5r6L.IjUJN6uZ=6R+3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-The file system we are using is the Quobyte file system (2.24.1) (https://w=
-ww.quobyte.com/), which works via FUSE. =
+On Tue, 8 Dec 2020 12:54:03 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-We've had problems with OFD locks with this file system in the past, so my =
-first thought, seeing the error in comment #1, was that those would be to b=
-lame.
+> > > >>> +         * Virtio devices can't count on directly accessing guest
+> > > >>> +         * memory, so they need iommu_platform=3Don to use norma=
+l DMA
+> > > >>> +         * mechanisms.  That requires also disabling legacy virt=
+io
+> > > >>> +         * support for those virtio pci devices which allow it.
+> > > >>> +         */
+> > > >>> +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-leg=
+acy",
+> > > >>> +                                   "on", true);
+> > > >>> +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_pl=
+atform",
+> > > >>> +                                   "on", false);   =20
+> > > >>
+> > > >> I have not followed all the history (sorry). Should we also set io=
+mmu_platform
+> > > >> for virtio-ccw? Halil?
+> > > >> =20
+> > > >=20
+> > > > That line should add iommu_platform for all virtio devices, shouldn=
+'t
+> > > > it? =20
+> > >=20
+> > > Yes, sorry. Was misreading that with the line above.=20
+> > >  =20
+> >=20
+> > I believe this is the best we can get. In a sense it is still a
+> > pessimization, =20
+>=20
+> I'm not really clear on what you're getting at here.
 
-But if the OFD locks are not really handled by the file system, I'm not
-sure how that explains the OFD lock issues we had in the past. I don't
-suppose this changed in the last year or so. Just now I made a little
-test program (basically copying qemu_lock_fd_test() and
-qemu_probe_lock_ops() from qemu) to double-check, and indeed right now
-it seems that the OFD locks *are* working on the Quobyte file system. Or
-at least qemu_lock_fd_test() doesn't return an error.
+By pessimiziation, I mean that we are going to indicate
+_F_PLATFORM_ACCESS even if it isn't necessary, because the guest never
+opted in for confidential/memory protection/memory encryption. We have
+discussed this before, and I don't see a better solution that works for
+everybody.
 
-So now I'm back to square one on diagnosing the observed error. It
-occurred in an installation of Openstack Ussuri installed on Ubuntu
-18.04 Bionic using the Ubuntu Cloud Archive for packaging. The Cloud
-Archive has backports of the latest Qemu to earlier Ubuntu versions. The
-exact qemu version was http://ubuntu-
-cloud.archive.canonical.com/ubuntu/pool/main/q/qemu/qemu_4.2-3ubuntu6.7~clo=
-ud0_amd64.deb
-.
+Regards,
+Halil
 
-Annoyingly I have not been able to locate the git repo from which the
-Ubuntu Cloud Archive creates its packages (containing the patches and
-build changes for backports); all I can find is version 4.2-3ubuntu6.7
-(without ~cloud0) which is for Ubuntu 20.04 Focal.
+--Sig_/.IV=x5r6L.IjUJN6uZ=6R+3
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-For now we're working around it by downgrading Qemu to the normal Bionic
-version (2.11+dfsg-1ubuntu7.33)
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-You wouldn't happen to know where the Ubuntu Cloud Archive stores exact
-files it creates its packages from? (I have already asked on
-stackoverflow without success so far:
-https://stackoverflow.com/questions/65146846/from-which-git-repos-does-
-the-ubuntu-cloud-archive-compile-its-packages)
+iQIcBAEBAgAGBQJfz1VnAAoJEA0vhuyXGx0A09UP+wX7WpVWpLrQfblOQAcnGs4e
+66Zacg4YfrzkEAR+VGlKQt27C7IB3w+7qSrkxqNO/kZeI2aa+Uc9VGZ9CZJKMy6a
+1NnVSSqR6VtJ6Q2eLU7CRacm/Mmb2Dw1VHKxWjupXpvCviGzclCs/32XiL8U+3ss
+iuZpH7GPI0Che7OEEhGVyXmzPZ+p7NPMlm4CRtwDC6lCbZ8lQjcaBnR8hAPjHFbx
+rL0yp+nIKweFnFE88h5OYXFx5cdlmfqzp1Btk38VksTdgMfZ2JOYnX5DEYPE9Dkw
+zjGqQdcpfdjXyUSWq4h7dsmU1JGxhSzU3a5lGLBXoreXEL+/K/bRI/J4+uU7/8nt
+Y6QifkpHBPUkGgIuu7+ja7Sn20qQNlug33XKzHYpFINN2ehLPQJn6zMkq2NLda4/
+LIXrjShVSMwVLtGGDujHWRR17clFyIFPZ2+BCAC7sXQnsYw5otC/e9aj+54kzeE2
+gd2Tj4TUwUeAyYEenmHh84buTBtXxAB911t2pddqQDSL2+UeyG283qlgzDlgG1AJ
+kxYqJcwadcAwwU4zT4JtUMxCJFOs4nqhU32v2qlarrWDNkG0vRF95fQ1Sm8okYRM
+/9voXbA/gbWrVmNT/kC8n8oT7HPKkAatst//Yg91KITZoFJlD5/brV5bQs+o0VGU
+1tZYPudJTC2Pg8VBMjoS
+=GE8Q
+-----END PGP SIGNATURE-----
 
--- =
+--Sig_/.IV=x5r6L.IjUJN6uZ=6R+3--
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905979
-
-Title:
-  Check if F_OFD_SETLK is supported may give wrong result
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  In util/osdep.c there is a function qemu_probe_lock_ops() to check if
-  file locks F_OFD_SETLK and F_OFD_GETLK (of the style "Open file
-  description locks (non-POSIX)") are supported.
-
-  This test is done by trying a lock operation on the file /dev/null.
-
-  This test can get a wrong result.
-
-  The result is (probably) if the operating system *in general* supports
-  these locks. However, it does not guarantee that the file system where
-  the lock is really wanted (for instance, in caller
-  raw_check_lock_bytes() in block/file-posix.c) does support these
-  locks.
-
-  (In theory it could even be that /dev/null, being a device special
-  file, does not support the lock type while a plain file would.)
-
-  This is in particular relevant for disk images which are stored on a
-  shared file system (my particular use case is the Quobyte file system,
-  which appears not to support these locks).
-
-  The code as mentioned above is present in the master branch (I checked
-  commit ea8208249d1082eae0444934efb3b59cd3183f05) but also for example
-  on stable-2.11 commit 0982a56a551556c704dc15752dabf57b4be1c640)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905979/+subscriptions
 
