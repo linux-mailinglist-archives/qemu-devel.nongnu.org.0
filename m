@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 593E82D360A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:19:24 +0100 (CET)
-Received: from localhost ([::1]:48294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 008A12D3609
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:19:00 +0100 (CET)
+Received: from localhost ([::1]:47328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmlKN-00021H-DA
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:19:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55392)
+	id 1kmlJy-0001cH-Pz
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:18:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kmlAA-0002ge-Cm; Tue, 08 Dec 2020 17:08:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50688)
+ id 1kmlEl-0007W1-Sk; Tue, 08 Dec 2020 17:13:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kmlA7-0004bt-1h; Tue, 08 Dec 2020 17:08:49 -0500
-Date: Wed, 9 Dec 2020 07:08:37 +0900
+ id 1kmlEh-0006HI-M6; Tue, 08 Dec 2020 17:13:35 -0500
+Date: Wed, 9 Dec 2020 07:13:27 +0900
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607465323;
- bh=B/mD0kAm/v4yKfxmXoaorzQOJF4SAgSQLb/ldrujh9I=;
+ s=k20201202; t=1607465609;
+ bh=ZMzTn1vrpeGTc0Wwki4I0oe6BP0vhc0k/tHzrdRR5kI=;
  h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=Vj4iIxpTToBmGkcVACFDJE2q/RSHpetdd1fJ1IawFtHXOhHMULoV925/DR1//yWX1
- AuqBvdvAGRNC/8uTFU0wGy7w/zd2LWfmM6vkASPO9a7/tqt2fBQSPh2oOpvkLaIPAF
- WToofchjNaS9XiQegLUjk7LAdMUJVNnR4Gn6dyIUsgtzBZM9sQPIWd3UfOwOphCCfG
- fbcLuRwU3UZoNRN4S53W4nVNs3UXzuFmK2WpS3FPzxpJTL3Nc/3/Wk/pXDqilYqm5N
- MdjX3upjMuHTPcsXfVqlmUn0Bx95i8THHHOtItD7n008Rd9Jg7J9YKpoqDZyXYexro
- W864olfphbu2g==
+ b=AM9mxFe6Hwz31Tfz8wROZvoAyDsHHtzY5B9OvBQJB3DtxgXo2oolUmGdo1BCKypeN
+ MaRd0QVDm2DG4uhQiC6BQXVd7Q/Suu02wlwOF4vK1OpBUhfuHASKMXik2KJPuDoY3n
+ G4xVNtI8d5UwpJyzIuYdhl6Y0VyVdLexRYkJnfzadokP11qSgziaXWUROVkWqVSv/x
+ n5orV1N0LcXNorqMDWHCaMuvi3OBfeh0MwN00Rrmo7dbFISs3fk+M8xFPkGeg+ZEmn
+ cWR90UsFKZdbSKoL2W7RAWnKUz4qWzqnulMFMNz+AaM9VDdZ5ZfiJZIoBniNNWoLoq
+ /19GY/VAm6asQ==
 From: Keith Busch <kbusch@kernel.org>
 To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH] hw/block/nvme: fix bad clearing of CAP
-Message-ID: <20201208220837.GG27155@redsun51.ssa.fujisawa.hgst.com>
-References: <20201208091658.41820-1-its@irrelevant.dk>
+Subject: Re: [PATCH v3 2/2] hw/block/nvme: add simple copy command
+Message-ID: <20201208221327.GH27155@redsun51.ssa.fujisawa.hgst.com>
+References: <20201208083339.29792-1-its@irrelevant.dk>
+ <20201208083339.29792-3-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201208091658.41820-1-its@irrelevant.dk>
+In-Reply-To: <20201208083339.29792-3-its@irrelevant.dk>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
  helo=mail.kernel.org
@@ -64,39 +65,46 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 08, 2020 at 10:16:58AM +0100, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Commit 37712e00b1f0 ("hw/block/nvme: factor out pmr setup") changed the
-> control flow such that the CAP register is erronously cleared after
-> nvme_init_pmr() has configured it. Since the entire NvmeCtrl structure
-> is zero-filled initially, there is no need for the explicit clearing, so
-> just remove it.
-> 
-> Fixes: 37712e00b1f0 ("hw/block/nvme: factor out pmr setup")
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+On Tue, Dec 08, 2020 at 09:33:39AM +0100, Klaus Jensen wrote:
+> +static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
+> +{
 
-Oops, nice catch.
+<snip>
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+> +    for (i = 0; i < nr; i++) {
+> +        uint32_t _nlb = le16_to_cpu(range[i].nlb) + 1;
+> +        if (_nlb > le16_to_cpu(ns->id_ns.mssrl)) {
+> +            return NVME_CMD_SIZE_LIMIT | NVME_DNR;
+> +        }
+> +
+> +        nlb += _nlb;
+> +    }
+> +
+> +    if (nlb > le32_to_cpu(ns->id_ns.mcl)) {
+> +        return NVME_CMD_SIZE_LIMIT | NVME_DNR;
+> +    }
+> +
+> +    bounce = bouncep = g_malloc(nvme_l2b(ns, nlb));
+> +
+> +    for (i = 0; i < nr; i++) {
+> +        uint64_t slba = le64_to_cpu(range[i].slba);
+> +        uint32_t nlb = le16_to_cpu(range[i].nlb) + 1;
+> +
+> +        status = nvme_check_bounds(ns, slba, nlb);
+> +        if (status) {
+> +            trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
+> +            goto free_bounce;
+> +        }
+> +
+> +        if (NVME_ERR_REC_DULBE(ns->features.err_rec)) {
+> +            status = nvme_check_dulbe(ns, slba, nlb);
+> +            if (status) {
+> +                goto free_bounce;
+> +            }
+> +        }
+> +    }
 
-> ---
->  hw/block/nvme.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 8814201364c1..28416b18a5c0 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -3040,7 +3040,6 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
->      id->psd[0].enlat = cpu_to_le32(0x10);
->      id->psd[0].exlat = cpu_to_le32(0x4);
->  
-> -    n->bar.cap = 0;
->      NVME_CAP_SET_MQES(n->bar.cap, 0x7ff);
->      NVME_CAP_SET_CQR(n->bar.cap, 1);
->      NVME_CAP_SET_TO(n->bar.cap, 0xf);
-> -- 
-> 2.29.2
-> 
+Only comment I have is that these two for-loops look like they can be
+collaped into one, which also simplifies how you account for the bounce
+buffer when error'ing out. 
 
