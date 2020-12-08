@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008A12D3609
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:19:00 +0100 (CET)
-Received: from localhost ([::1]:47328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BCA2D361A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:23:14 +0100 (CET)
+Received: from localhost ([::1]:58544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmlJy-0001cH-Pz
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:18:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56706)
+	id 1kmlO6-0006Mh-01
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:23:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kmlEl-0007W1-Sk; Tue, 08 Dec 2020 17:13:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kmlEh-0006HI-M6; Tue, 08 Dec 2020 17:13:35 -0500
-Date: Wed, 9 Dec 2020 07:13:27 +0900
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607465609;
- bh=ZMzTn1vrpeGTc0Wwki4I0oe6BP0vhc0k/tHzrdRR5kI=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=AM9mxFe6Hwz31Tfz8wROZvoAyDsHHtzY5B9OvBQJB3DtxgXo2oolUmGdo1BCKypeN
- MaRd0QVDm2DG4uhQiC6BQXVd7Q/Suu02wlwOF4vK1OpBUhfuHASKMXik2KJPuDoY3n
- G4xVNtI8d5UwpJyzIuYdhl6Y0VyVdLexRYkJnfzadokP11qSgziaXWUROVkWqVSv/x
- n5orV1N0LcXNorqMDWHCaMuvi3OBfeh0MwN00Rrmo7dbFISs3fk+M8xFPkGeg+ZEmn
- cWR90UsFKZdbSKoL2W7RAWnKUz4qWzqnulMFMNz+AaM9VDdZ5ZfiJZIoBniNNWoLoq
- /19GY/VAm6asQ==
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v3 2/2] hw/block/nvme: add simple copy command
-Message-ID: <20201208221327.GH27155@redsun51.ssa.fujisawa.hgst.com>
-References: <20201208083339.29792-1-its@irrelevant.dk>
- <20201208083339.29792-3-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kmlFe-000854-BW; Tue, 08 Dec 2020 17:14:30 -0500
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:39131)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kmlFZ-0006XB-TP; Tue, 08 Dec 2020 17:14:30 -0500
+Received: by mail-io1-xd42.google.com with SMTP id d9so100790iob.6;
+ Tue, 08 Dec 2020 14:14:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vDhpagymtzefWB/r5VG7ra2ZItwjDxoOaj88vM8lSpI=;
+ b=adGqN+ZpghBajeFeRhtFx0ax7BS/LkHFIdwKeAM/RHXsWoXGNnUz8ZGllSSV+vCDgl
+ 6/9giI894+si87qHAT4cCqwIOhk5+8FduLyNNVwvZ0OJh1iIXMF+w6CPil5i0wm33U1z
+ wz1oGKfNzC60mb6ynMq12+Px24H146uiAgNetslNE3nJ5YZLgacM5Epdr7zMqN2dnnY0
+ J0Zc4nnrnJyl9XukXY7KEYbpdT90UhiO36Y36TLdBJZpQyfu6mOEhRRf3+f3vg1PQziY
+ ERKib6Zjvg189Z/Kp50um5pxo7Nm2Pg7EVT5cBxkwVjlw8SSf4yTD6HglUdXc5g6KFGd
+ x0XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vDhpagymtzefWB/r5VG7ra2ZItwjDxoOaj88vM8lSpI=;
+ b=YZSGxi1luVgWZLtFafg0oJ5TukqCjw1GQPWlvB2evKtnaUq1U3Af3y8x7gvquadd/6
+ aK57zKeQa5Pe3eSsmcoLR2z+8gUQ93SRIkPfwQaSfy2sJoaEjI5kW5S+a1aE5bFtTTwm
+ hNBPdocqdmhoYWZgURGVk/sXI21Fbl2k4zcdEmJfIkEQ2pOpZNPevNVK3njHWNX1G5Co
+ k+CN3/zPq5y9P2W16V5kMG6s5W1LoMOfjS9Ijacf+4BefNl5lq5m9UnYmm73R4fVlDt6
+ EdEuikOtngYGx+QvjoTNvJ1Z8+LblmpvSAc+KmIxSTztMrHJW4is1AjawECz5Av70Jqm
+ ZX7w==
+X-Gm-Message-State: AOAM532QDWrx+JY/V9ryRRW13iH2fPwSFJeQ2KY/8s0RApVUSflXCmci
+ sk4fozsX/51vSMCT6dFoDBsNjp971Gcfjh2hQ/M=
+X-Google-Smtp-Source: ABdhPJxaoNHS+3cxjoivZFinPoi/B19lNAFgA0xdURtMwzg4Zm45evCCCE49Hz9dImEMzTZCna0lA1oW/PQKBc9OqpI=
+X-Received: by 2002:a02:5148:: with SMTP id s69mr29004326jaa.8.1607465662194; 
+ Tue, 08 Dec 2020 14:14:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201208083339.29792-3-its@irrelevant.dk>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <20201203124703.168-1-jiangyifei@huawei.com>
+ <20201203124703.168-4-jiangyifei@huawei.com>
+In-Reply-To: <20201203124703.168-4-jiangyifei@huawei.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 8 Dec 2020 14:13:56 -0800
+Message-ID: <CAKmqyKNE1JU3KJscNfg78dGW9Avs2nvTVt-qr417g5noTbCAYQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v4 03/15] target/riscv: Implement function
+ kvm_arch_init_vcpu
+To: Yifei Jiang <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,51 +77,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: kvm-riscv@lists.infradead.org, Anup Patel <anup.patel@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "open list:Overall" <kvm@vger.kernel.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, libvir-list@redhat.com,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, yinyipeng <yinyipeng1@huawei.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, "Wubin \(H\)" <wu.wubin@huawei.com>,
+ "dengkai \(A\)" <dengkai1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 08, 2020 at 09:33:39AM +0100, Klaus Jensen wrote:
-> +static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
+On Thu, Dec 3, 2020 at 4:55 AM Yifei Jiang <jiangyifei@huawei.com> wrote:
+>
+> Get isa info from kvm while kvm init.
+>
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+> ---
+>  target/riscv/kvm.c | 27 ++++++++++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+> index 8c386d9acf..86660ba81b 100644
+> --- a/target/riscv/kvm.c
+> +++ b/target/riscv/kvm.c
+> @@ -38,6 +38,18 @@
+>  #include "qemu/log.h"
+>  #include "hw/loader.h"
+>
+> +static __u64 kvm_riscv_reg_id(__u64 type, __u64 idx)
 > +{
+> +    __u64 id = KVM_REG_RISCV | type | idx;
+> +
+> +#if defined(TARGET_RISCV32)
+> +    id |= KVM_REG_SIZE_U32;
+> +#elif defined(TARGET_RISCV64)
+> +    id |= KVM_REG_SIZE_U64;
+> +#endif
 
-<snip>
+There is a series on list (I'll send a v2 out later today) that starts
+to remove these #ifdef for the RISC-V XLEN. Next time you rebase it
+would be great if you can use that and hopefully remove this.
 
-> +    for (i = 0; i < nr; i++) {
-> +        uint32_t _nlb = le16_to_cpu(range[i].nlb) + 1;
-> +        if (_nlb > le16_to_cpu(ns->id_ns.mssrl)) {
-> +            return NVME_CMD_SIZE_LIMIT | NVME_DNR;
-> +        }
-> +
-> +        nlb += _nlb;
-> +    }
-> +
-> +    if (nlb > le32_to_cpu(ns->id_ns.mcl)) {
-> +        return NVME_CMD_SIZE_LIMIT | NVME_DNR;
-> +    }
-> +
-> +    bounce = bouncep = g_malloc(nvme_l2b(ns, nlb));
-> +
-> +    for (i = 0; i < nr; i++) {
-> +        uint64_t slba = le64_to_cpu(range[i].slba);
-> +        uint32_t nlb = le16_to_cpu(range[i].nlb) + 1;
-> +
-> +        status = nvme_check_bounds(ns, slba, nlb);
-> +        if (status) {
-> +            trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-> +            goto free_bounce;
-> +        }
-> +
-> +        if (NVME_ERR_REC_DULBE(ns->features.err_rec)) {
-> +            status = nvme_check_dulbe(ns, slba, nlb);
-> +            if (status) {
-> +                goto free_bounce;
-> +            }
-> +        }
-> +    }
+Alistair
 
-Only comment I have is that these two for-loops look like they can be
-collaped into one, which also simplifies how you account for the bounce
-buffer when error'ing out. 
+> +    return id;
+> +}
+> +
+>  const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+>      KVM_CAP_LAST_INFO
+>  };
+> @@ -79,7 +91,20 @@ void kvm_arch_init_irq_routing(KVMState *s)
+>
+>  int kvm_arch_init_vcpu(CPUState *cs)
+>  {
+> -    return 0;
+> +    int ret = 0;
+> +    target_ulong isa;
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    CPURISCVState *env = &cpu->env;
+> +    __u64 id;
+> +
+> +    id = kvm_riscv_reg_id(KVM_REG_RISCV_CONFIG, KVM_REG_RISCV_CONFIG_REG(isa));
+> +    ret = kvm_get_one_reg(cs, id, &isa);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +    env->misa = isa;
+> +
+> +    return ret;
+>  }
+>
+>  int kvm_arch_msi_data_to_gsi(uint32_t data)
+> --
+> 2.19.1
+>
+>
 
