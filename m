@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A799C2D3584
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 22:46:46 +0100 (CET)
-Received: from localhost ([::1]:34948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E4A2D35A6
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 22:55:46 +0100 (CET)
+Received: from localhost ([::1]:60882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmkon-0004wd-D4
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 16:46:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37952)
+	id 1kmkxV-00082m-Vm
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 16:55:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmk3x-0001SJ-LT
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 15:58:21 -0500
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:35369)
+ id 1kmk9p-00088H-Hk
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:04:25 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:46255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmk3u-0006XX-Vr
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 15:58:21 -0500
-Received: by mail-oi1-x242.google.com with SMTP id s2so23774oij.2
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 12:58:17 -0800 (PST)
+ id 1kmk9m-0008VT-DA
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:04:25 -0500
+Received: by mail-oi1-x242.google.com with SMTP id k2so20917004oic.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 13:04:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Jc2fNaB9iBbLq5Bw09h7LczamNIsg/8yspf7XFHNItc=;
- b=j20tSan1us34zFbkVE8LDVX2U6Gx4TsX3j9SV7SGx6v/7mDIh41+AffJ/2jT2kvuji
- RkcXflbzcaQ+PP7TeOoB5G/8PVNUCEHXPaDtsULnSN7AhG0l9jJtlUdsutwTvuamCltL
- /5qlRedU2TQ42oy3eE8QfFDYhO/X4RsjCevcTDHbsyvTZROMWtRjOFqw5T32t6gA/Y65
- 7L6ugqICmuSJF/2xeIejf2Ij4QLXRmrR00YAn2biRlDEE9kSciM6J0vs/AZ0dnugfkcl
- qOuDIoqRcWqRyIxz/OJYSXnWTGnbRzxXvLJC5ShPVlouULyFefydfjrLYYE27jPmH3Ka
- Dxew==
+ bh=iXihmzK9lAlZvW8uKEFpJT0zEvm0irx64j4KcxO0Ocw=;
+ b=o/iafnMcLJoUp9rjsRj71YMK1S7UMkz7Fq0R+1Wxfulv6J60zq04RC4HSwFaysXnMf
+ zwzgYgmPaNHCfLQiI4M2++zFxhBKS9GJjBVGi7OnKnZAGl5a23J/042/thSEhWNujI4M
+ OV1CGYMQDkiNQONg0pYNvEuZ8IHC+W/N9fcZBqQNz7ODi4EbTdhZLz3iDXHAeqg9UfF/
+ fTXVeUF/ZwUW5z6Ddp4HNIp0zBlLlnDRF1xLgPymkUfCpzfBufCua/rRKcBQjZVClo/z
+ B78v7OQFeXNab4zTV8Me5t5yBA2Y0pCDI8ZP8IgAvoolLQ+UezdL9kBpZGvd7oI0cxoz
+ Onog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Jc2fNaB9iBbLq5Bw09h7LczamNIsg/8yspf7XFHNItc=;
- b=NE7KlKdLb09zmQDmWzqTOGLKokRWJuJ5KkaqvqUnnNsL5A+8X0yWe7o0ERrXLM65bN
- coenusT/bYQ0iLa43aVju62JVcDcOaI+JvVTuMg28WlGYggftvyO3v0MzX/8F8bMzMCp
- AvUWOoS2sEn1sFNxOqvvPnWRQA+FGXsIMZP+a9TpaoXCLJiU/W+OZa1zwDJxrdx9vh6f
- twDoDgNPbHWWIarjNoKBVeZkdo6338inuZeMsyHzVYw+ICJZ1lYrIsnYHfF3X9U2YQwb
- tXb4LLtyfAdgHMbE/MB84VF9K4wYUxjdjEm7K0zqRu4PBDYm+DdA7eEkAomJClWuSh89
- p0vg==
-X-Gm-Message-State: AOAM5309gU4/ek3P+TMURycQxFaysEFaW+QE7vyS+Jy1ZPVGms4/yEcC
- xisGtB/Ngt26+vjmTGIoKBLcCQ==
-X-Google-Smtp-Source: ABdhPJxATayP+wdWa+NCw+MKNHI0BQmrRIAPYxjI6psO9Y/LJbDTgwy0r5vNCtksopcluLKkk3H9Cw==
-X-Received: by 2002:aca:383:: with SMTP id 125mr4151956oid.122.1607461096750; 
- Tue, 08 Dec 2020 12:58:16 -0800 (PST)
+ bh=iXihmzK9lAlZvW8uKEFpJT0zEvm0irx64j4KcxO0Ocw=;
+ b=JvY4ZvN9BZYNvlK1RCVY06ffv4epHmZI95IKN9dtcW+viRXr8X51hcVe/VS+oL1OyQ
+ 7UYQ+3pak609C6A+UiBXnmHcPopOXRII7xA2cT2r7d+F1ZYNQAj/mh8B0wjX5DHG9A6C
+ nucy//yPxYkxqe8aTZK3PtIqMnsx7MPDNl573vvcXdWtnAsiRxm1FaHfMq8hTLJXOmSJ
+ WWq0aqttRKLLIMz4eSeBLZleb6Js733D/eSpSXbGWC7xyTOmf2zabsf8gwc3VzYsGCIF
+ WVfKfCmIyOzfVHm4jji9qqtU3NWLONMI1MgM/23JTMTCBR+jI/glSjOW+Kqm3kwsDl4F
+ Y+2Q==
+X-Gm-Message-State: AOAM533/83BzSXFdF4SHCrvaFaKCO1uO09wvKp/H53M3+J83aE2a9ToM
+ Ml5TIweZuORcr6OR16Q/r7RNyw==
+X-Google-Smtp-Source: ABdhPJyCospKak0di40fkF9W2sz8Tik55pSV8ZCwn3nl7RVYsSXj3uVitmaczSdOqcvPMBRnN9PEHw==
+X-Received: by 2002:aca:edd7:: with SMTP id l206mr4163894oih.99.1607461461156; 
+ Tue, 08 Dec 2020 13:04:21 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id o21sm2330589otj.1.2020.12.08.12.58.15
+ by smtp.gmail.com with ESMTPSA id s9sm3655168otb.6.2020.12.08.13.04.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 12:58:16 -0800 (PST)
-Subject: Re: [PATCH 4/4] target/arm: adjust CPTR_EL2 according to HCR_EL2.E2H
+ Tue, 08 Dec 2020 13:04:20 -0800 (PST)
+Subject: Re: [PATCH 3/4] target/arm: Fixup SIMD fcmla(by element) in 4H
+ arrangement
 To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
 References: <20201207044655.2312-1-zhiwei_liu@c-sky.com>
- <20201207044655.2312-5-zhiwei_liu@c-sky.com>
+ <20201207044655.2312-4-zhiwei_liu@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5ca1763f-9676-20f1-b3be-710d2f2ac41b@linaro.org>
-Date: Tue, 8 Dec 2020 14:58:12 -0600
+Message-ID: <689477ae-0758-01d4-f0e2-d4024537527d@linaro.org>
+Date: Tue, 8 Dec 2020 15:04:16 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201207044655.2312-5-zhiwei_liu@c-sky.com>
+In-Reply-To: <20201207044655.2312-4-zhiwei_liu@c-sky.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
  envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x242.google.com
 X-Spam_score_int: -20
@@ -93,118 +94,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/6/20 10:46 PM, LIU Zhiwei wrote:
-> From DDI0487Fc_armv8_arm.pdf, the CPTR_EL2 has two kinds
-> of layouts according to HCR_EL2.E2H.
+> For SIMD fcmla(by element), if the number of elements is less than
+> the number of elements within one segment，i.e. 4H arrangement,
+> we should not calculate the entire segment.
 > 
-> When HCR_EL2.E2H is 1, fp_exception_el should refer to
-> HCR_EL2.FPEN and sve_exception_el should refer to HCR_EL2.ZEN.
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 > ---
->  target/arm/helper.c | 55 +++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 46 insertions(+), 9 deletions(-)
+>  target/arm/vec_helper.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 38cd35c049..6cc9f2bb50 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -6147,11 +6147,30 @@ int sve_exception_el(CPUARMState *env, int el)
->       * they will be zero when EL2 is not present.
->       */
->      if (el <= 2 && !arm_is_secure_below_el3(env)) {
-> -        if (env->cp15.cptr_el[2] & CPTR_TZ) {
-> -            return 2;
-> -        }
-> -        if (env->cp15.cptr_el[2] & CPTR_TFP) {
-> -            return 0;
-> +        /* Since we exclude secure first, we may read HCR_EL2 directly. */
-> +        if (env->cp15.hcr_el2 & HCR_E2H) {
-
-We have already pulled the correct value into a local variable here: hcr_el2.
-No need for the comment.
-
-> +            int zen = extract32(env->cp15.cptr_el[2], 16, 2);
-> +            switch (zen) {
-> +            case 0:
-> +            case 2:
-> +                return 2;
-> +            case 1:
-> +                if (env->cp15.hcr_el2 & HCR_TGE) {
-
-Likewise.
-
-> +                    if (el == 0) {
-> +                        return 2;
-> +                    }
-> +                }
-> +                break;
-> +            case 3:
-> +                break;
-> +            }
-> +        } else {
-> +            if (env->cp15.cptr_el[2] & CPTR_TZ) {
-> +                return 2;
-> +            }
-> +            if (env->cp15.cptr_el[2] & CPTR_TFP) {
-> +                return 0;
-> +            }
->          }
->      }
+> diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+> index 7174030377..44b8165323 100644
+> --- a/target/arm/vec_helper.c
+> +++ b/target/arm/vec_helper.c
+> @@ -544,6 +544,10 @@ void HELPER(gvec_fcmlah_idx)(void *vd, void *vn, void *vm,
+>      neg_real <<= 15;
+>      neg_imag <<= 15;
 >  
-> @@ -12635,12 +12654,30 @@ int fp_exception_el(CPUARMState *env, int cur_el)
->       */
+> +    /* Adjust eltspersegment for simd 4H */
+> +    if (eltspersegment > elements) {
+> +        eltspersegment = elements;
+> +    }
+
+Ok.  Maybe better to fold this back to the initialization using MIN.
+
+>      for (i = 0; i < elements; i += eltspersegment) {
+>          float16 mr = m[H2(i + 2 * index + 0)];
+>          float16 mi = m[H2(i + 2 * index + 1)];
+> @@ -610,6 +614,10 @@ void HELPER(gvec_fcmlas_idx)(void *vd, void *vn, void *vm,
+>      neg_real <<= 31;
+>      neg_imag <<= 31;
 >  
->      /* CPTR_EL2 : present in v7VE or v8 */
-> -    if (cur_el <= 2 && extract32(env->cp15.cptr_el[2], 10, 1)
-> -        && !arm_is_secure_below_el3(env)) {
-> +    if ((cur_el <= 2) && !arm_is_secure_below_el3(env)) {
->          /* Trap FP ops at EL2, NS-EL1 or NS-EL0 to EL2 */
-> -        return 2;
-> +        if ((arm_hcr_el2_eff(env) & HCR_E2H) == HCR_E2H) {
+> +    /* Adjust eltspersegment for simd 4H */
+> +    if (eltspersegment > elements) {
+> +        eltspersegment = elements;
+> +    }
 
-There is a prior use of arm_hcr_el2_eff in this function.  It should be called
-once and stored in a local variable, just like in sve_exception_el.
+Incorrect: this function only computes 4S.
 
-No need for == in testing a single bit.
-
-> +            int fpen = extract32(env->cp15.cptr_el[2], 20, 2);
-> +            switch (fpen) {
-> +            case 0:
-> +            case 2:
-> +                return 2;
-> +            case 1:
-> +                if ((arm_hcr_el2_eff(env) & HCR_TGE) == HCR_TGE) {
-
-Likewise.
-
-> +                    if (cur_el == 0) {
-> +                        return 2;
-> +                    }
-> +                }
-> +                break;
-> +            case 3:
-> +                break;
-> +            }
-> +        } else {
-> +            if (extract32(env->cp15.cptr_el[2], 10, 1)) {
-
-Use CPTR_TFP.
-
-> +                return 2;
-> +            }
-> +        }
->      }
-> -
-
-Whitespace removal.
-
->      /* CPTR_EL3 : present in v8 */
->      if (extract32(env->cp15.cptr_el[3], 10, 1)) {
->          /* Trap all FP ops to EL3 */
+>      for (i = 0; i < elements; i += eltspersegment) {
+>          float32 mr = m[H4(i + 2 * index + 0)];
+>          float32 mi = m[H4(i + 2 * index + 1)];
 > 
-
-Would you also change this to use CPTR_TFP please?
 
 
 r~
