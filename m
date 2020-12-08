@@ -2,46 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6CAD2D221A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 05:30:52 +0100 (CET)
-Received: from localhost ([::1]:33718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E02B2D221C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 05:32:39 +0100 (CET)
+Received: from localhost ([::1]:36134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmUeJ-0006Bw-UZ
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 23:30:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50254)
+	id 1kmUg2-0007Js-9a
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 23:32:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kmUbE-0004Be-Gn; Mon, 07 Dec 2020 23:27:40 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40113 helo=ozlabs.org)
+ id 1kmUdk-0006Op-B9; Mon, 07 Dec 2020 23:30:17 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54689 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kmUb6-0006MT-RW; Mon, 07 Dec 2020 23:27:40 -0500
+ id 1kmUdh-0007eH-Ao; Mon, 07 Dec 2020 23:30:15 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CqnFt0gnCz9sW0; Tue,  8 Dec 2020 15:27:14 +1100 (AEDT)
+ id 4CqnKG2cGGz9sWQ; Tue,  8 Dec 2020 15:30:10 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607401634;
- bh=mLyOVhZ4oR5+tNvzHEh2SyeDztIphEHMovVY51ggypE=;
+ d=gibson.dropbear.id.au; s=201602; t=1607401810;
+ bh=gg/Qhy3c0ZdwVsRLHsNmbdRNzvxojHQFcJnFQfjHe74=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=otGoUEr3F0jJHjzIxwnmjcR/tXCYQC2ipuLDclv8VzbiVgvpfU5F5eRLIYtg3mdaR
- RM3hjKME3yJn/yUcBMAL1ZeV26OnYJYCEf2TFfQBdvYBp1uEsslbMMYjsOSb7meJsV
- eceQkRMNUelGTQi0VrNCFDbimXn86KdQKWr1S+MM=
-Date: Tue, 8 Dec 2020 13:57:28 +1100
+ b=mM1pVtDV4LsXtUVGtSJAEgOCH++Z96PrL4mpZImzOq3kagANzzfVSQ3YeUa9K21BY
+ YSJLBAoWMR5TwEVox3pjvjMRT+iCC0C1Z8XF+lm9eDWRpR6a1OnkdEhiChlRSorhRN
+ 5rCOylYqDXDd9GupSZ/o6lF2Kr8XXFHD0749XBHQ=
+Date: Tue, 8 Dec 2020 15:30:04 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [for-6.0 v5 00/13] Generalize memory encryption models
-Message-ID: <20201208025728.GD2555@yekko.fritz.box>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <f2419585-4e39-1f3d-9e38-9095e26a6410@de.ibm.com>
- <20201204140205.66e205da.cohuck@redhat.com>
- <20201204130727.GD2883@work-vm>
- <20201204141229.688b11e4.cohuck@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH for-6.0] spapr: Allow memory unplug to always succeed
+Message-ID: <20201208043004.GE2555@yekko.fritz.box>
+References: <20201207133704.952459-1-groug@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ylS2wUBXLOxYXZFQ"
+ protocol="application/pgp-signature"; boundary="BQPnanjtCNWHyqYD"
 Content-Disposition: inline
-In-Reply-To: <20201204141229.688b11e4.cohuck@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20201207133704.952459-1-groug@kaod.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -61,95 +57,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
- thuth@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ylS2wUBXLOxYXZFQ
+--BQPnanjtCNWHyqYD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 04, 2020 at 02:12:29PM +0100, Cornelia Huck wrote:
-> On Fri, 4 Dec 2020 13:07:27 +0000
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+On Mon, Dec 07, 2020 at 02:37:04PM +0100, Greg Kurz wrote:
+> It is currently impossible to hot-unplug a memory device between
+> machine reset and CAS.
 >=20
-> > * Cornelia Huck (cohuck@redhat.com) wrote:
-> > > On Fri, 4 Dec 2020 09:06:50 +0100
-> > > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> > >  =20
-> > > > On 04.12.20 06:44, David Gibson wrote: =20
-> > > > > A number of hardware platforms are implementing mechanisms whereb=
-y the
-> > > > > hypervisor does not have unfettered access to guest memory, in or=
-der
-> > > > > to mitigate the security impact of a compromised hypervisor.
-> > > > >=20
-> > > > > AMD's SEV implements this with in-cpu memory encryption, and Inte=
-l has
-> > > > > its own memory encryption mechanism.  POWER has an upcoming mecha=
-nism
-> > > > > to accomplish this in a different way, using a new memory protect=
-ion
-> > > > > level plus a small trusted ultravisor.  s390 also has a protected
-> > > > > execution environment.
-> > > > >=20
-> > > > > The current code (committed or draft) for these features has each
-> > > > > platform's version configured entirely differently.  That doesn't=
- seem
-> > > > > ideal for users, or particularly for management layers.
-> > > > >=20
-> > > > > AMD SEV introduces a notionally generic machine option
-> > > > > "machine-encryption", but it doesn't actually cover any cases oth=
-er
-> > > > > than SEV.
-> > > > >=20
-> > > > > This series is a proposal to at least partially unify configurati=
-on
-> > > > > for these mechanisms, by renaming and generalizing AMD's
-> > > > > "memory-encryption" property.  It is replaced by a
-> > > > > "securable-guest-memory" property pointing to a platform specific=
-   =20
-> > > >=20
-> > > > Can we do "securable-guest" ?
-> > > > s390x also protects registers and integrity. memory is only one pie=
-ce
-> > > > of the puzzle and what we protect might differ from platform to=20
-> > > > platform.
-> > > >  =20
-> > >=20
-> > > I agree. Even technologies that currently only do memory encryption m=
-ay
-> > > be enhanced with more protections later. =20
-> >=20
-> > There's already SEV-ES patches onlist for this on the SEV side.
-> >=20
-> > <sigh on haggling over the name>
-> >=20
-> > Perhaps 'confidential guest' is actually what we need, since the
-> > marketing folks seem to have started labelling this whole idea
-> > 'confidential computing'.
+> (qemu) device_del dimm1
+> Error: Memory hot unplug not supported for this guest
+>=20
+> This limitation was introduced in order to provide an explicit
+> error path for older guests that didn't support hot-plug event
+> sources (and thus memory hot-unplug).
+>=20
+> The linux kernel has been supporting these since 4.11. All recent
+> enough guests are thus capable of handling the removal of a memory
+> device at all time, including during early boot.
+>=20
+> Lift the limitation for the latest machine type. This means that
+> trying to unplug memory from a guest that doesn't support it will
+> likely just do nothing and the memory will only get removed at
+> next reboot. Such older guests can still get the existing behavior
+> by using an older machine type.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-That's not a bad idea, much as I usually hate marketing terms.  But it
-does seem to be becoming a general term for this style of thing, and
-it doesn't overlap too badly with other terms ("secure" and
-"protected" are also used for hypervisor-from-guest and
-guest-from-guest protection).
+Looks like this conflicts with something I've added to for-6.0
+recently.  Can you rebase and resend, please.
 
-> It's more like a 'possibly confidential guest', though.
-
-Hmm.  What about "Confidential Guest Facility" or "Confidential Guest
-Mechanism"?  The implication being that the facility is there, whether
-or not the guest actually uses it.
+> ---
+> Based-on: 20201109173928.1001764-1-cohuck@redhat.com
+> ---
+>  include/hw/ppc/spapr.h | 1 +
+>  hw/ppc/spapr.c         | 6 +++++-
+>  hw/ppc/spapr_events.c  | 3 ++-
+>  3 files changed, 8 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index b7ced9faebf5..7aa630350326 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -139,6 +139,7 @@ struct SpaprMachineClass {
+>      hwaddr rma_limit;          /* clamp the RMA to this size */
+>      bool pre_5_1_assoc_refpoints;
+>      bool pre_5_2_numa_associativity;
+> +    bool pre_6_0_memory_unplug;
+> =20
+>      bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+>                            uint64_t *buid, hwaddr *pio,=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 7e954bc84bed..f0b26b2af30d 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4044,7 +4044,8 @@ static void spapr_machine_device_unplug_request(Hot=
+plugHandler *hotplug_dev,
+>      SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+> =20
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+> -        if (spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
+> +        if (!smc->pre_6_0_memory_unplug ||
+> +            spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
+>              spapr_memory_unplug_request(hotplug_dev, dev, errp);
+>          } else {
+>              /* NOTE: this means there is a window after guest reset, pri=
+or to
+> @@ -4530,8 +4531,11 @@ DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
+>   */
+>  static void spapr_machine_5_2_class_options(MachineClass *mc)
+>  {
+> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+> +
+>      spapr_machine_6_0_class_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
+> +    smc->pre_6_0_memory_unplug =3D true;
+>  }
+> =20
+>  DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index 1add53547ec3..c30123177b16 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -659,7 +659,8 @@ static void spapr_hotplug_req_event(uint8_t hp_id, ui=
+nt8_t hp_action,
+>          /* we should not be using count_indexed value unless the guest
+>           * supports dedicated hotplug event source
+>           */
+> -        g_assert(spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
+> +        g_assert(!SPAPR_MACHINE_GET_CLASS(spapr)->pre_6_0_memory_unplug =
+||
+> +                 spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
+>          hp->drc_id.count_indexed.count =3D
+>              cpu_to_be32(drc_id->count_indexed.count);
+>          hp->drc_id.count_indexed.index =3D
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -157,25 +164,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ylS2wUBXLOxYXZFQ
+--BQPnanjtCNWHyqYD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/O65gACgkQbDjKyiDZ
-s5K/UA/+IsN6RwpL+fkyBxLWOZDGgN+J2SzXhKj69pySp0MURKke9NxwOk+eGLA0
-kzp7GMc4DMKivbwu7WIWbE0J/sAGpBURt8EJUegobAdWAGqaaAsjBADsgpSXRqK2
-qP2GXt0SzNowq3oE3oHDsWKC2URhiyk28pWYqWQ1UwTqJFQOi2+7+jK1KqFMGadP
-u3B1IM01wpa6WFxhZe8U1VQP2Xe5xvMwK95f0HFsaXlWSP4iOHArJbTXgNPkCJPR
-WAbS1cIVsns7g5qs+4kIxSkVeHzstx5wnd5IB1AfCkrSrJIbsxw1KErZkTPnWvqc
-bTm09YN0H2pNwUTKxjnpbdxMdrI5oh3BDW5ZozIc7Q7c/wgxg5yQygDhTln2egiU
-I63P/yXLC1vWQGOwQ9ajf73xxzV8CkJmiL/f7tqAXYq6YyilDYh0yZkd1z1s4Jop
-DRtoQnFImaH7AI0T15ss188NCAkicODrBTO7Xziuv9BQLGEx1kFMatsk3CwE0dfU
-Fyr/w2wpEWze42MHfO35yrR8YAdC0RhcHs3WOdc/w3XVoGjPS8zOj16NTSQnRgHj
-2Ul+EcqqUhIiNGlN4pZTsLV6i/IA1W4lOjsmwkczN7VRxDVf/HYtMjVzgAgJaElY
-vLnLkH94h5xcWW9BFdixZUGq0KYFIAsoGzP+46TZr3gup6mUdYE=
-=WW47
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/PATQACgkQbDjKyiDZ
+s5KSFRAA4KbCFwmHI9qLF1900NzI1FfhLZhwlh4Jt92LOQC9DXQtAKV/7cF9Zvs/
+XMMSg/dHj9K7ff+APliFugTlhXP0lrH0hZ4deHwa7NAg8NiBRM7cLDQUtK4VciuJ
+WLN03NDIuUvP9mm+B+fKDgDIdHN914URJHtVCzrHmPjt6QY8OdCO7GXRGGM1FqOY
+b6Khs27xCWNo99AaqC0H+NM7h/IBBmCyNz2IQ34PJrbjyvcNirDhpY1Ii+cfFfLc
+wAZ826UzjQKvSzy8gx2ztRpdG4XYtJVukeGgKbhghoDsiXGL36V69qtdctPy+IdI
+aOeDlDL99pkqbJ91vAKBd6iMoZh2zOdC+Z0Vs7eABDIOssPpOuvpYYfPSB6Ws+TX
+GhoXZuohBVE9w7V5x/uIo/r5WmRD7O9naHSqRoQpuQ0kY2WndCoR80ufy0QIQcC+
+RvemyY/TJlkudnhW/EHlo/aJuwIdE9q54S8DB/Ofuq6t3Az3zeOtK/XPwNPsYM/c
+iRP1KNDcp62vS925EXAoZtxFtuhaqJSGabc/1yIkDvlLzF0DJZNFyOVH5+EFTCpx
+WAvdvt5/qIkxQJrnmRRvlsokiu2miE7SAppAqqg7kohdg8VsJZoFxKt/6ohwfLCw
+cSQGT/QVafJPsWRwouEDdI03KYaOhd96lNXK1zB44DBlY/vdsms=
+=73wH
 -----END PGP SIGNATURE-----
 
---ylS2wUBXLOxYXZFQ--
+--BQPnanjtCNWHyqYD--
 
