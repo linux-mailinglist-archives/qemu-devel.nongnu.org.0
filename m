@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2B02D3276
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:57:25 +0100 (CET)
-Received: from localhost ([::1]:57610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FAF12D3261
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:51:24 +0100 (CET)
+Received: from localhost ([::1]:39598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmiAu-0005JB-4G
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:57:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59892)
+	id 1kmi55-00065M-KV
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:51:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kmhWy-0005JZ-3y
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:16:09 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38691)
+ id 1kmhX0-0005L3-OG
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:16:12 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kmhWr-0007w4-7D
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:16:07 -0500
-Received: by mail-wr1-x443.google.com with SMTP id r7so5963126wrc.5
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:16:00 -0800 (PST)
+ id 1kmhWt-0007wB-Th
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:16:10 -0500
+Received: by mail-wr1-x441.google.com with SMTP id r14so1531568wrn.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:16:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SwadCJ02g06YVmm9WBr3OA6H8xYCnuJ8Eyeb77/KvE4=;
- b=BUc1NOklc4kh6Uy7ShIfNvT/fw/u2Py0Iw8IgOwo9zwtWmwbdakX+ntiGZSfl4k8Jm
- xXnefgnV9y4SdEygu6Z2pZ6BKzhvZzLer/7lCTe6TaGvSlCj6EHrbexMEG3cD4EaOtKY
- zGWZtf7ErHf6GuzmmCr8OwpGQbtaRReBb+7d++b0cdgfvV8267RG3Bv2J39X3MZrep2F
- MNQMymlZ2LlJXr2FHcsMDsga2IBdskWsjk9NkCN4xs7Z+nrpRdMJfywNU3iPOVS+4KfX
- bile6e7e8ZtcxpmIAu3vGQazR1v33+Iy+CSWDtnaAeCnuc5QXtTUx4x0jS7KR4v5ouo1
- q2SA==
+ bh=UemC5541VEYHf/BEklXFjK6XVs4Wljvyr7YjA/NgPRE=;
+ b=oDin9NQ5bjhtkP71wlYo3TFHoeVgTLvAwVdz70K03gZxR3k8aHx9mDe/+1QSzRlczp
+ U/UA1phAYfVYHcIEr5LahsDE9gmCqLbG0Xu08NQkcvnAzNXFtkasNoFcpgTQ9L+v02Kv
+ 3q9k56BDRKQygYVuUR5cGmHSU1k7rYoSkLTWj0zweEXc31+oUvJDT9NdxoV7Xk9EYTBP
+ gPP48sSbwSh140aYlCwKy7ZoG2rJ7XGiY1IuoJ99asCmAgboqrkmvOvQ6yokf9nJMsEb
+ 9wSnJG51sm/HyA91i3U+NpBwswqS7KbuAyLFtQ4FVt4grYHBK41j69F/qYWIBVXbqNAE
+ WztQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SwadCJ02g06YVmm9WBr3OA6H8xYCnuJ8Eyeb77/KvE4=;
- b=IyORiSCrci/RA5SaLTifWBhfgrDvvwaFOWdHKDjSYDlDVMZohcHTpj5GcUIBqpzKe1
- Ofw34D6NP/HKxCztLir8pfK5+cP60JbKs9iEXvQ5hlkTSI8KdlIDppVowqmryUbHj3cl
- Zn7s50xOovT8FzNtfgux63GyFhKVlXxNvJJzq0V9fCKuLbO2Jl8KsqVRKp8sm+FVGo0O
- zOYx7aObrxGjOavTGXAb9xsIFeeYM3eqKHpTmjQ7UeT1PauDile2N2BhlHnOUIjvgu4k
- fqqDwHi4p7wSr0jN0nsEOfaftfTgXD+x6ot+HdTDeasPB1dXE1T3/tTCR/gWnkDoiM/l
- gOOQ==
-X-Gm-Message-State: AOAM531WuT6Fb7og1BKtzvieWmQ/Qj0rPJpBEGUKrViiKd6rVbPJVg1e
- SbnBmWMQG0yaBV3n+hD72dXrZFDmbdbleQ==
-X-Google-Smtp-Source: ABdhPJxZKMfGz8TRUAQVXYLhYh32JScuhaPq87clcsfkJ6mqime8WcBlaKLETc62zm0ssrIZ92dMKw==
-X-Received: by 2002:adf:fa0c:: with SMTP id m12mr26712057wrr.222.1607451359039; 
- Tue, 08 Dec 2020 10:15:59 -0800 (PST)
+ bh=UemC5541VEYHf/BEklXFjK6XVs4Wljvyr7YjA/NgPRE=;
+ b=aMhAzMxHZEiJDHoaVyr6qnCTMDE4XRa2zjrdfVfh0mjGG0gikJIsvZBzdkR3oRSyQ7
+ +8kvXenk2pz0iGiMQr+V/kb4WioaS3oSq6XMpEQcrh9XJVz3pcnfEJXtsj27nn0MJPGv
+ enVsMSgnGkPHWYisBOaCvlvjIIyeNln02sFuSrelNZP0K1W4vkIVdD0t7HqsaotGoZBO
+ hW6W3HkSNNqAsbkZpB0dZHhRjsInBD0BFuqm1T8+wALrNUFLCZi/vl7rNzr+T8BC5Nxp
+ ojFaX607BrxdMpQwYQjxeHTNbSX6+BQkFIvUeQ1T4VCB6J8pCpWCpeuYbR++USVM3kOO
+ Egow==
+X-Gm-Message-State: AOAM5339pWVcMsLhbRin5teA6V3qLVGH7jOxfrjUNRWekno/CUDBRt+I
+ RGqWf4kU2vaPpQCUwdqQPRGCZwEgGBuiEg==
+X-Google-Smtp-Source: ABdhPJx0uGvjUh28BqCCwbaK/jSrZnfNTq+MJVUAX2bGweZQ+dXXOd49beXG+OKQdqIYs3XUFnM3qQ==
+X-Received: by 2002:a5d:4604:: with SMTP id t4mr25757550wrq.411.1607451360086; 
+ Tue, 08 Dec 2020 10:16:00 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id u12sm4978873wmu.28.2020.12.08.10.15.57
+ by smtp.gmail.com with ESMTPSA id u12sm4978873wmu.28.2020.12.08.10.15.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 10:15:58 -0800 (PST)
+ Tue, 08 Dec 2020 10:15:59 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] target/mips: Don't use clock_get_ns() in clock period
- calculation
-Date: Tue,  8 Dec 2020 18:15:52 +0000
-Message-Id: <20201208181554.435-3-peter.maydell@linaro.org>
+Subject: [PATCH 3/4] clock: Remove clock_get_ns()
+Date: Tue,  8 Dec 2020 18:15:53 +0000
+Message-Id: <20201208181554.435-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201208181554.435-1-peter.maydell@linaro.org>
 References: <20201208181554.435-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,36 +89,74 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the MIPS code uses the old clock_get_ns() API to
-calculate a time length in nanoseconds:
- cpu->cp0_count_rate * clock_get_ns(MIPS_CPU(cpu)->clock)
-
-This relies on the clock having a period which is an exact number
-of nanoseconds.
-
-Switch to the new clock_ticks_to_ns() function, which does the
-multiplication internally at a higher precision.
+Remove the now-unused clock_get_ns() API and the CLOCK_PERIOD_TO_NS()
+macro that only it was using.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/mips/cpu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ docs/devel/clocks.rst | 17 +++++++++++++----
+ include/hw/clock.h    |  6 ------
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 76d50b00b42..de15ec6068a 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -147,8 +147,8 @@ static void mips_cp0_period_set(MIPSCPU *cpu)
- {
-     CPUMIPSState *env = &cpu->env;
+diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
+index aebeedbb95e..9a93d1361b4 100644
+--- a/docs/devel/clocks.rst
++++ b/docs/devel/clocks.rst
+@@ -238,8 +238,17 @@ object during device instance init. For example:
+ Fetching clock frequency/period
+ -------------------------------
  
--    env->cp0_count_ns = cpu->cp0_count_rate
--                        * clock_get_ns(MIPS_CPU(cpu)->clock);
-+    env->cp0_count_ns = clock_ticks_to_ns(MIPS_CPU(cpu)->clock,
-+                                          cpu->cp0_count_rate);
-     assert(env->cp0_count_ns);
+-To get the current state of a clock, use the functions ``clock_get()``,
+-``clock_get_ns()`` or ``clock_get_hz()``.
++To get the current state of a clock, use the functions ``clock_get()``
++or ``clock_get_hz()``.
++
++``clock_get()`` returns the period of the clock in its fully precise
++internal representation, as an unsigned 64-bit integer in units of
++2^-32 nanoseconds. (For many purposes ``clock_ticks_to_ns()`` will
++be more convenient; see the section below on expiry deadlines.)
++
++``clock_get_hz()`` returns the frequency of the clock, rounded to the
++next lowest integer. This implies some inaccuracy due to the rounding,
++so be cautious about using it in calculations.
+ 
+ It is also possible to register a callback on clock frequency changes.
+ Here is an example:
+@@ -254,8 +263,8 @@ Here is an example:
+          */
+ 
+         /* do something with the new period */
+-        fprintf(stdout, "device new period is %" PRIu64 "ns\n",
+-                        clock_get_ns(dev->my_clk_input));
++        fprintf(stdout, "device new period is %" PRIu64 "* 2^-32 ns\n",
++                        clock_get(dev->my_clk_input));
+     }
+ 
+ Calculating expiry deadlines
+diff --git a/include/hw/clock.h b/include/hw/clock.h
+index a9425d9fb14..9c0b1eb4c3f 100644
+--- a/include/hw/clock.h
++++ b/include/hw/clock.h
+@@ -39,7 +39,6 @@ typedef void ClockCallback(void *opaque);
+  * macro helpers to convert to hertz / nanosecond
+  */
+ #define CLOCK_PERIOD_FROM_NS(ns) ((ns) * (CLOCK_PERIOD_1SEC / 1000000000llu))
+-#define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_PERIOD_1SEC / 1000000000llu))
+ #define CLOCK_PERIOD_FROM_HZ(hz) (((hz) != 0) ? CLOCK_PERIOD_1SEC / (hz) : 0u)
+ #define CLOCK_PERIOD_TO_HZ(per) (((per) != 0) ? CLOCK_PERIOD_1SEC / (per) : 0u)
+ 
+@@ -214,11 +213,6 @@ static inline unsigned clock_get_hz(Clock *clk)
+     return CLOCK_PERIOD_TO_HZ(clock_get(clk));
  }
  
+-static inline unsigned clock_get_ns(Clock *clk)
+-{
+-    return CLOCK_PERIOD_TO_NS(clock_get(clk));
+-}
+-
+ /**
+  * clock_ticks_to_ns:
+  * @clk: the clock to query
 -- 
 2.20.1
 
