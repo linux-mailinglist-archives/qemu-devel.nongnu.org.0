@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2933D2D3296
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:19:31 +0100 (CET)
-Received: from localhost ([::1]:57830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94602D329A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:25:53 +0100 (CET)
+Received: from localhost ([::1]:40140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmiWI-0000qM-7F
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:19:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43494)
+	id 1kmicS-0005bk-Py
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:25:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmiPc-0006oz-PL
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:12:36 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmiPb-0007Iw-5l
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:12:36 -0500
-Received: by mail-ed1-x532.google.com with SMTP id q16so18703360edv.10
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:12:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vXhiX8+F42dDe1lb9JT0aJw3nxuWJ8le2dxYEIZywEg=;
- b=MQ/W0YRgWHQG8F5gM+xNvHh0HZQd1dUwreI+P2p0ufpCw/y2q/6ij8aHGMmXfutKDZ
- MXCACyyZBmfXC2F2Sw29hfX5oShm913JS8wMKwMMtyxDF0H2SLyg08YqQkeqQAIlJRLw
- kfG+x19NTc7WZoD4nCx/GMM2IJQjd7RH/6lVRiSgR7FYGAiY3Pdcx/Gr6hdqFNAs5GRf
- maUbjV32jOa9GKr9ph2+7KrXncU783Wrjh1/dj3Z8EMX03vCQqE8EtSXu8Y9V6Jf7S2p
- 7cwq96dUTnooeZ+tPvj+u0OphDr2BCSKuSb1zgcIOgSGKS3Xy88ZOY7pzey6TmjPEOOp
- trQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vXhiX8+F42dDe1lb9JT0aJw3nxuWJ8le2dxYEIZywEg=;
- b=U93rsCuI+ZzMALkgwYStXZNHVGF7UK5d6s0wv/QPOQcYJzwMPW3DXv157NnFxl1jxm
- 9Q0dG+7jvdyq8ub4LybYd2xONOhUuxZVN/gD6psyGzun0zAVN8u5ZT6+1ZXbsUC+42jK
- LyC2Si1GzItRvK5UlchPG9tFFrhJpLiNFwcYG7q57B7yGRdV1HsYTR4gSrKvbszPsxSF
- NugGtipeFmuFNlJY63Kstd5qhuyCyKXzdQoBLhjdadR4ZNJ9sSkFH4vvOvJkB3s9KOyE
- 8e0xZLGIzKARKdiRg7qOX1IMGKt5ZJWQQ9fypeN6Hiukc//xlBWCp+hxygYR7QKsdLVY
- 3KqQ==
-X-Gm-Message-State: AOAM533b4r5egUxLiZGqpJJ8cgSRMdmEiN8ZcZYuMesZBjfV7DU4+gQd
- 8sBN3sn891dyhOXier0yWls=
-X-Google-Smtp-Source: ABdhPJxX343uXDWX74FAdEBkzRb3buIR+ae8aICW5ykq+ukRAUACVULLos6/iUtCUxF78fnKryaL+Q==
-X-Received: by 2002:a50:f9cc:: with SMTP id a12mr11486833edq.335.1607454753476; 
- Tue, 08 Dec 2020 11:12:33 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id n7sm18294205edb.34.2020.12.08.11.12.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 11:12:32 -0800 (PST)
-Subject: Re: [PATCH-for-5.2?] target/mips/translate: Check R6 reserved
- encoding for Load Linked Word
-To: "Maciej W. Rozycki" <macro@linux-mips.org>
-References: <20201124134557.569388-1-f4bug@amsat.org>
- <5bcade19-de8c-8521-f77c-599e3c9d40a0@linaro.org>
- <e983c95c-5713-3b5b-0c3c-e0d6bf8244c6@amsat.org>
- <CAAdtpL7zG6Ocbv0ChjQUArGkmTEegzC5AW5O3DjiDxFK7oEMWg@mail.gmail.com>
- <alpine.LFD.2.21.2012081838061.2104409@eddie.linux-mips.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f6b6e6a4-717a-dfbb-59fb-a23d7fc6345d@amsat.org>
-Date: Tue, 8 Dec 2020 20:12:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.21.2012081838061.2104409@eddie.linux-mips.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
+ id 1kmiSA-0007tB-Vy
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:15:17 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:51938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
+ id 1kmiS1-0007TX-K2
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:15:14 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8J9xwr029391;
+ Tue, 8 Dec 2020 19:14:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=UwHmdZtWvx7zCKunOoRSHkvbiY16FLCLUGXZNXruGiQ=;
+ b=gk8zn+bhxtXKPrKNTtbe9VYHXAHCEgowsZv4OImAHGFk218n4qMerkjSVnyhzJMausj3
+ l4qMYZP8qUon9sg4IvPJkpSnZwkfyF5x4okpghKn7gdO5IETVrzGo/h6JXV6DcahBqim
+ P7cscmwSbpOxTAVdNO99BypG2H/IGdt3JB5vCjAGDEvA5Qbg00Rx+/m6x4tEQg6pSPQt
+ RdpMXWa731F3osGAVa68Kr2I+1+V4gjfhKwqpbtVLIjHp3PTUM5/NfmHHEN/But1sn8f
+ SXkod+PSfmS9FRGquoCG1mb/srEXI+aNAbuPX/ovmxtPZRIsA0rBs2dsnNLzviWjq95A ww== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 3581mqvh97-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 08 Dec 2020 19:14:58 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8JAeGr015803;
+ Tue, 8 Dec 2020 19:14:58 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 358kytcva6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 08 Dec 2020 19:14:58 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B8JEvfd028385;
+ Tue, 8 Dec 2020 19:14:57 GMT
+Received: from ban25x6uut148.us.oracle.com (/10.153.73.148)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 08 Dec 2020 11:14:56 -0800
+From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] Add a new -action parameter
+Date: Tue,  8 Dec 2020 14:14:46 -0500
+Message-Id: <1607454890-3339-1-git-send-email-alejandro.j.jimenez@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=999 bulkscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012080117
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ clxscore=1015 malwarescore=0 priorityscore=1501 adultscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 impostorscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012080117
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=alejandro.j.jimenez@oracle.com; helo=userp2130.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,46 +90,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/8/20 7:43 PM, Maciej W. Rozycki wrote:
-> On Tue, 8 Dec 2020, Philippe Mathieu-Daudé wrote:
-> 
->> Duh I hit that again, read the patch again, looks correct. I guess
->> I got confused myself reviewing the offending patch...
->> So I'm applying this patch to mips-next queue, using
->> Fixes: d9224450208 ("target-mips: Tighten ISA level checks")
-> 
->  What's wrong with current code?  What I can see is:
-> 
->     case OPC_LL: /* Load and stores */
->         check_insn(ctx, ISA_MIPS2);
->         if (ctx->insn_flags & INSN_R5900) {
->             check_insn_opc_user_only(ctx, INSN_R5900);
->         }
->         /* Fallthrough */
->     case OPC_LWL:
->     case OPC_LWR:
->         check_insn_opc_removed(ctx, ISA_MIPS32R6);
->          /* Fallthrough */
->     case OPC_LB:
->     case OPC_LH:
->     case OPC_LW:
->     case OPC_LWPC:
->     case OPC_LBU:
->     case OPC_LHU:
->          gen_ld(ctx, op, rt, rs, imm);
->          break;
-> 
-> which looks absolutely right to me: LL is accepted with MIPS2--MIPS32R5 
-> (including R5900 in user emulation only), LWL/LWR are accepted with 
-> MIPS1--MIPS32R5 and the remaining loads are accepted everywhere.  What 
-> else do you need?
+This is a follow up to the proposal to add a "-no-panicstop" option to QEMU that would allow us to
+control whether the VM is paused or allowed to continue running without intervention from a management layer
+when a guest panic occurs. See the inital thread and replies for details:
 
-I am clearly bleary-eyed... Sorry. Patch dropped.
+https://lore.kernel.org/qemu-devel/1601606494-1154-1-git-send-email-alejandro.j.jimenez@oracle.com/
+
+From that discussion came a request for a generic mechanism to group options like -no-shutdown, -no-reboot, etc,
+that specify an action taken by QEMU in response to a guest event (reboot, shutdown, panic, and watchdog
+expiration are the current options). The existing options would translate to the new option, like:
+
+* -no-reboot --> "-action reboot=shutdown"
+* -no-shutdown --> "-action shutdown=pause"
+
+Please share any questions or comments.
+
+Regards,
+Alejandro
+
+Alejandro Jimenez (4):
+  vl: Add an -action option to respond to guest events
+  vl: Add option to avoid stopping VM upon guest panic
+  qmp: Allow setting -action parameters on the fly
+  qtest/pvpanic: Test panic option that allows VM to continue
+
+ MAINTAINERS                      |   2 +
+ include/sysemu/runstate-action.h |  16 ++++
+ include/sysemu/sysemu.h          |   2 +
+ qapi/run-state.json              | 140 +++++++++++++++++++++++++++++++++++
+ qemu-options.hx                  |  25 +++++++
+ softmmu/meson.build              |   1 +
+ softmmu/runstate-action.c        | 153 +++++++++++++++++++++++++++++++++++++++
+ softmmu/vl.c                     |  44 ++++++++++-
+ tests/qtest/pvpanic-test.c       |  26 ++++++-
+ 9 files changed, 404 insertions(+), 5 deletions(-)
+ create mode 100644 include/sysemu/runstate-action.h
+ create mode 100644 softmmu/runstate-action.c
+
+-- 
+1.8.3.1
+
 
