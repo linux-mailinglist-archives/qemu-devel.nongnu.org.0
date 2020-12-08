@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8911E2D29B8
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 12:25:45 +0100 (CET)
-Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F792D29E4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 12:42:28 +0100 (CET)
+Received: from localhost ([::1]:50178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmb7m-0002aN-3n
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 06:25:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41820)
+	id 1kmbNy-0005bZ-M2
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 06:42:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kmb60-00023a-7O; Tue, 08 Dec 2020 06:23:52 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:25736)
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1kmbMh-00058n-U3
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 06:41:07 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kmb5x-0000OD-JJ; Tue, 08 Dec 2020 06:23:51 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 02FFA746558;
- Tue,  8 Dec 2020 12:23:44 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CBDDC746557; Tue,  8 Dec 2020 12:23:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CAD8C746383;
- Tue,  8 Dec 2020 12:23:43 +0100 (CET)
-Date: Tue, 8 Dec 2020 12:23:43 +0100 (CET)
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v11] spapr: Implement Open Firmware client interface
-In-Reply-To: <8ebff33c-8eba-17b4-b3ac-e5ba7bd2b8f9@ozlabs.ru>
-Message-ID: <384f5d48-7c3d-40d7-1d6-fc64d960303a@eik.bme.hu>
-References: <20201207073327.33367-1-aik@ozlabs.ru>
- <14ffa53d-30cf-2f5f-d7e-90774bfe8eed@eik.bme.hu>
- <8ebff33c-8eba-17b4-b3ac-e5ba7bd2b8f9@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
+ id 1kmbMc-0006pG-KA
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 06:41:07 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CqysJ52Tfzkn5p;
+ Tue,  8 Dec 2020 19:40:04 +0800 (CST)
+Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.185.179) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 8 Dec 2020 19:40:37 +0800
+From: Zenghui Yu <yuzenghui@huawei.com>
+To: <qemu-devel@nongnu.org>, <pbonzini@redhat.com>
+Subject: [PATCH] kvm: Take into account the unaligned section size when
+ preparing bitmap
+Date: Tue, 8 Dec 2020 19:40:13 +0800
+Message-ID: <20201208114013.875-1-yuzenghui@huawei.com>
+X-Mailer: git-send-email 2.23.0.windows.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-119515438-1607426623=:47735"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.185.179]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=yuzenghui@huawei.com;
+ helo=szxga04-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,62 +57,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The kernel KVM_CLEAR_DIRTY_LOG interface has align requirement on both the
+start and the size of the given range of pages. We have been careful to
+handle the unaligned cases when performing CLEAR on one slot. But it seems
+that we forget to take the unaligned *size* case into account when
+preparing bitmap for the interface, and we may end up clearing dirty status
+for pages outside of [start, start + size).
 
---3866299591-119515438-1607426623=:47735
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+If the size is unaligned, let's go through the slow path to manipulate a
+temp bitmap for the interface so that we won't bother with those unaligned
+bits at the end of bitmap.
 
-On Tue, 8 Dec 2020, Alexey Kardashevskiy wrote:
-> On 07/12/2020 22:48, BALATON Zoltan wrote:
->>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->>> index 2e89e36cfbdc..048bf49592aa 100644
->>> --- a/include/hw/ppc/spapr.h
->>> +++ b/include/hw/ppc/spapr.h
->>> @@ -175,6 +175,13 @@ struct SpaprMachineState {
->>>     long kernel_size;
->>>     bool kernel_le;
->>>     uint64_t kernel_addr;
->>> +    bool vof; /* Virtual Open Firmware */
->>> +    uint32_t rtas_base;
->>> +    GArray *claimed; /* array of SpaprOfClaimed */
->>> +    uint64_t claimed_base;
->>> +    GHashTable *of_instances; /* ihandle -> SpaprOfInstance */
->>> +    uint32_t of_instance_last;
->>> +    char *bootargs;
->> 
->> Are these really state for vof so is it better to place them in a separate 
->> of_state struct instead of adding to the machine state? I'm not interested 
->> in spapr but interested in using vof as a replacement firmware for other 
->> machines so clear separation of what is spapr specific and what is vof 
->> specific would help me (and maybe also other reviewers to tell how much 
->> impact this really has on spapr which seems to be a concern of Greg).
->
-> This is a very good point, I'll separate VOF from the rest, may be even at 
-> QOM level. I was also thinking of adding a pseries-vof machine type but this 
-> is probably an overkill.
->
-> Out of curiosity - how are you going to use this VOF anyway, for what machine 
-> type?
+I don't think this can happen in practice since the upper layer would
+provide us with the alignment guarantee. I'm not sure if kvm-all could rely
+on it. And this patch is mainly intended to address correctness of the
+specific algorithm used inside kvm_log_clear_one_slot().
 
-https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+---
+ accel/kvm/kvm-all.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-It is basically working now, can boot MorphOS (and also AmigaOS but that 
-has no display driver for VGA so can't be seen such as some Linux versions 
-for the machine too which have the same problem) but to be able to 
-upstream it I'll need to clean it up and have some firmware to avoid 
-needing a non-distributable ROM image. VOF might be the simplest way for 
-this to just get the Amiga like bootloaders and Linux start which only 
-need some CI fuctions.
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index bed2455ca5..05d323ba1f 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -747,7 +747,7 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+     assert(bmap_start % BITS_PER_LONG == 0);
+     /* We should never do log_clear before log_sync */
+     assert(mem->dirty_bmap);
+-    if (start_delta) {
++    if (start_delta || bmap_npages - size / psize) {
+         /* Slow path - we need to manipulate a temp bitmap */
+         bmap_clear = bitmap_new(bmap_npages);
+         bitmap_copy_with_src_offset(bmap_clear, mem->dirty_bmap,
+@@ -760,7 +760,10 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
+         bitmap_clear(bmap_clear, 0, start_delta);
+         d.dirty_bitmap = bmap_clear;
+     } else {
+-        /* Fast path - start address aligns well with BITS_PER_LONG */
++        /*
++         * Fast path - both start and size align well with BITS_PER_LONG
++         * (or the end of memory slot)
++         */
+         d.dirty_bitmap = mem->dirty_bmap + BIT_WORD(bmap_start);
+     }
+ 
+-- 
+2.19.1
 
-Regards,
-BALATON Zoltan
---3866299591-119515438-1607426623=:47735--
 
