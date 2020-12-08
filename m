@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833C92D324D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:42:43 +0100 (CET)
-Received: from localhost ([::1]:49198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80B42D324E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:43:18 +0100 (CET)
+Received: from localhost ([::1]:50778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmhwg-0006gi-It
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:42:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59350)
+	id 1kmhxF-0007KC-Vc
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:43:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kmhUp-0003So-JD
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:13:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33047)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kmhUn-0007bX-AA
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:13:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607451232;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Z8ScYZxMUH9OKQcFJcbkchgt+Ov9QwhPN3v928qAEo4=;
- b=SlFsdJbsIE4qHtNnoEvving6d6kyAKz7NDT6CmdzSqeyVUdO6oQjndFMoDOqkHsvNGk+6h
- 5J81sZmR5BpgZiU/tkSz61vPXY+ee0xq4gFPdFUiwNOONYh5AFGsGCMEF0QGKzMrRU0I0b
- Y82yRupXrtJeu83uHE/AB2SMHkOgnb0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-nLE2l4XKOXCC-Nr7SAeA-g-1; Tue, 08 Dec 2020 13:13:47 -0500
-X-MC-Unique: nLE2l4XKOXCC-Nr7SAeA-g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A430619251A4
- for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 18:13:45 +0000 (UTC)
-Received: from redhat.com (ovpn-113-15.ams2.redhat.com [10.36.113.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A7E0C5C22A;
- Tue,  8 Dec 2020 18:13:31 +0000 (UTC)
-Date: Tue, 8 Dec 2020 18:13:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 8/9] vnc: add support for extended desktop resize
-Message-ID: <20201208181328.GW3136942@redhat.com>
-References: <20201208115737.18581-1-kraxel@redhat.com>
- <20201208115737.18581-9-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kmhWv-0005IQ-7K
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:16:05 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kmhWq-0007vs-6d
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:16:04 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id i9so1631793wrc.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:15:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YMyVntgTVDQgB/DwHPOgVcoS8NgeRLdXH3fFwhmO8Fs=;
+ b=VlCpK2QT66K9VLJBFw6Yiie96rePDcmQ51F5yBLTyBl2TZESLzp4pUMPx5BEnArQv4
+ NTv8NZSqP/lDbgEGkEnRDj9fvDJoldlUJ+y9pVpOJlXE2mGkWEAKjBGfhvmf8C18jf5l
+ V+9p+AnSQJNTA2PBsZi8E/eVRyc4GDh2G0cGvgpmQ9C52oS30WGJj9Nvfy2elxTxmkuv
+ dZO1uVWE3CdJ0y/ToJcvDL1JuuPrG9WXDY2DoktN5JNb9Ml5KPTre/9TOZs19xQhai7L
+ WxLseHO6eCs/3Q4ZCHlz6NcMdU/nGIfwEuvojgDoXV1gwzFgfhqKabiFTlzowneqyj15
+ ItFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YMyVntgTVDQgB/DwHPOgVcoS8NgeRLdXH3fFwhmO8Fs=;
+ b=jCJVnxSzVDt2+rAtBriBvPlXYpfSBtDq8yZWkpntQNctroaFNsl5k0MCWUjSsQ9M9E
+ MItFSLJa4SJDwcLHPKKsswECGCf1v8qyFYwZJzElB7PEJG2NOKRWwx3m+sh+pRSepFjA
+ 7HSUFEeNOkkAWitghsLb6yDX3P9y32EewlrguS6YQsc6+wPK5wlTuVdgro168gs3SLAQ
+ JUlENkbtDnCPzrDB3N7//ndDSdGkr4bDteQjjMOhTEfGpXvCIJdY/97RRks4OFz7Iqlq
+ w0y9BHSdGX58MCXaKM8so9x6wTIZtZ0n7CWXvNmAgsCYv/jxw39LOJtdcsffQB9L56U3
+ 57aw==
+X-Gm-Message-State: AOAM532XAVkjDwGKGBnZVX/E0TQuoWaa/3dIMo6sPEIeUtz0UC7Cy101
+ jvPWzA0Jz1nEBlE4cIf+9WbBWJwF4PQe7g==
+X-Google-Smtp-Source: ABdhPJzRhPTTnJa/ITX/cnw9HhC8CM6DLk+4EAg38rohtkZq7Pt5zqdYfhM1ZoOAHf6DjkDj/2tzJA==
+X-Received: by 2002:adf:9b9b:: with SMTP id d27mr23964096wrc.125.1607451356603; 
+ Tue, 08 Dec 2020 10:15:56 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id u12sm4978873wmu.28.2020.12.08.10.15.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Dec 2020 10:15:55 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] clock: Get rid of clock_get_ns()
+Date: Tue,  8 Dec 2020 18:15:50 +0000
+Message-Id: <20201208181554.435-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201208115737.18581-9-kraxel@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,190 +80,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Luc Michel <luc.michel@greensocs.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 08, 2020 at 12:57:36PM +0100, Gerd Hoffmann wrote:
-> The extended desktop resize encoding adds support for (a) clients
-> sending resize requests to the server, and (b) multihead support.
-> 
-> This patch implements (a).  All resize requests are rejected by qemu.
-> Qemu can't resize the framebuffer on its own, this is in the hands of
-> the guest, so all qemu can do is forward the request to the guest.
-> Should the guest actually resize the framebuffer we can notify the vnc
-> client later with a separate message.
-> 
-> This requires support in the display device.  Works with virtio-gpu.
-> 
-> https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#extendeddesktopsize-pseudo-encoding
+This patchseries makes some changes to the clock API:
+ * Remove clock_get_ns()
+ * Add clock_ticks_to_ns() to return number of nanoseconds
+   it will take the clock to tick N times
+ * clock_display_freq() to return prettily-formatted string
+   for showing humans the approximate clock frequency
 
-The spec says
+This is based on discussions we had about these APIs a little while
+back.  The core driver here is that the clock objects internally
+store the period in units of 2^-32 ns, so both clock_get_ns() and
+clock_get_hz() are inherently returning a rounded-off result, which
+can be badly inaccurate for fast clocks or if you want to multiply it
+by a large tick count.
 
-   "The server must send an ExtendedDesktopSize rectangle in response 
-    to a FramebufferUpdateRequest with incremental set to zero, assuming
-    the client has requested the ExtendedDesktopSize pseudo-encoding 
-    using the SetEncodings message. This requirement is needed so that
-    the client has a reliable way of fetching the initial screen 
-    configuration, and to determine if the server supports the 
-    SetDesktopSize message.
+Ideally I'd like to get rid of clock_get_hz() as well, but
+that looks trickier than handling clock_get_ns().
 
-    A consequence of this is that a client must not respond to an
-    ExtendedDesktopSize rectangle by sending a FramebufferUpdateRequest
-    with incremental set to zero. Doing so would make the system go into
-    an infinite loop."
+Patch 4 borrows a lot of the concept from one of Philippe's that he
+sent out previously.
 
-Historically gtk-vnc always sets incremental=0 after a resize message,
-so it should trigger an infinite loop. This doesn't happen with QEMU's
-impl, so I think QEMU isn't correctly following the sec here. IIUC,
-tt needs to force send an ExtendedDesktopSize message every time
-incremental=0, not merely when a resize happens.
+NB: tested with 'make check' and 'make check-acceptance' only.
 
-Having said that, I find this part of the spec rather crazy. I dont
-see why clients need more than the first ExtendedDesktopSize message
-in order to detect the feature, rather than after every single
-incremental=0 update request.
+thanks
+-- PMM
 
-None the less the spec says we should get an infinite loop and with
-my intentional attempt to cause this, QEMU doesn't play ball.
+Peter Maydell (4):
+  clock: Introduce clock_ticks_to_ns()
+  target/mips: Don't use clock_get_ns() in clock period calculation
+  clock: Remove clock_get_ns()
+  clock: Define and use new clock_display_freq()
 
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  ui/vnc.h |  2 ++
->  ui/vnc.c | 64 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 65 insertions(+), 1 deletion(-)
-> 
-> diff --git a/ui/vnc.h b/ui/vnc.h
-> index c8d3ad9ec496..77a310947bd6 100644
-> --- a/ui/vnc.h
-> +++ b/ui/vnc.h
-> @@ -442,6 +442,7 @@ enum {
->  
->  enum VncFeatures {
->      VNC_FEATURE_RESIZE,
-> +    VNC_FEATURE_RESIZE_EXT,
->      VNC_FEATURE_HEXTILE,
->      VNC_FEATURE_POINTER_TYPE_CHANGE,
->      VNC_FEATURE_WMVI,
-> @@ -456,6 +457,7 @@ enum VncFeatures {
->  };
->  
->  #define VNC_FEATURE_RESIZE_MASK              (1 << VNC_FEATURE_RESIZE)
-> +#define VNC_FEATURE_RESIZE_EXT_MASK          (1 << VNC_FEATURE_RESIZE_EXT)
->  #define VNC_FEATURE_HEXTILE_MASK             (1 << VNC_FEATURE_HEXTILE)
->  #define VNC_FEATURE_POINTER_TYPE_CHANGE_MASK (1 << VNC_FEATURE_POINTER_TYPE_CHANGE)
->  #define VNC_FEATURE_WMVI_MASK                (1 << VNC_FEATURE_WMVI)
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index bdaf384f71a4..094ba6cd14cb 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -663,10 +663,35 @@ void vnc_framebuffer_update(VncState *vs, int x, int y, int w, int h,
->      vnc_write_s32(vs, encoding);
->  }
->  
-> +static void vnc_desktop_resize_ext(VncState *vs, int reject_reason)
-> +{
-> +    vnc_lock_output(vs);
-> +    vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
-> +    vnc_write_u8(vs, 0);
-> +    vnc_write_u16(vs, 1); /* number of rects */
-> +    vnc_framebuffer_update(vs,
-> +                           reject_reason ? 1 : 0,
-> +                           reject_reason,
-> +                           vs->client_width, vs->client_height,
-> +                           VNC_ENCODING_DESKTOP_RESIZE_EXT);
-> +    vnc_write_u8(vs, 1);  /* number of screens */
-> +    vnc_write_u8(vs, 0);  /* padding */
-> +    vnc_write_u8(vs, 0);  /* padding */
-> +    vnc_write_u8(vs, 0);  /* padding */
-> +    vnc_write_u32(vs, 0); /* screen id */
-> +    vnc_write_u16(vs, 0); /* screen x-pos */
-> +    vnc_write_u16(vs, 0); /* screen y-pos */
-> +    vnc_write_u16(vs, vs->client_width);
-> +    vnc_write_u16(vs, vs->client_height);
-> +    vnc_write_u32(vs, 0); /* screen flags */
-> +    vnc_unlock_output(vs);
-> +    vnc_flush(vs);
-> +}
->  
->  static void vnc_desktop_resize(VncState *vs, bool force)
->  {
-> -    if (vs->ioc == NULL || !vnc_has_feature(vs, VNC_FEATURE_RESIZE)) {
-> +    if (vs->ioc == NULL || (!vnc_has_feature(vs, VNC_FEATURE_RESIZE) &&
-> +                            !vnc_has_feature(vs, VNC_FEATURE_RESIZE_EXT))) {
->          return;
->      }
->      if (vs->client_width == pixman_image_get_width(vs->vd->server) &&
-> @@ -681,6 +706,12 @@ static void vnc_desktop_resize(VncState *vs, bool force)
->             pixman_image_get_height(vs->vd->server) >= 0);
->      vs->client_width = pixman_image_get_width(vs->vd->server);
->      vs->client_height = pixman_image_get_height(vs->vd->server);
-> +
-> +    if (vnc_has_feature(vs, VNC_FEATURE_RESIZE_EXT)) {
-> +        vnc_desktop_resize_ext(vs, 0);
-> +        return;
-> +    }
-> +
->      vnc_lock_output(vs);
->      vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
->      vnc_write_u8(vs, 0);
-> @@ -2110,6 +2141,9 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
->          case VNC_ENCODING_DESKTOPRESIZE:
->              vs->features |= VNC_FEATURE_RESIZE_MASK;
->              break;
-> +        case VNC_ENCODING_DESKTOP_RESIZE_EXT:
-> +            vs->features |= VNC_FEATURE_RESIZE_EXT_MASK;
-> +            break;
->          case VNC_ENCODING_POINTER_TYPE_CHANGE:
->              vs->features |= VNC_FEATURE_POINTER_TYPE_CHANGE_MASK;
->              break;
-> @@ -2431,6 +2465,34 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
->              break;
->          }
->          break;
-> +    case VNC_MSG_CLIENT_SET_DESKTOP_SIZE:
-> +    {
-> +        size_t size;
-> +        uint8_t screens;
-> +
-> +        if (len < 8) {
-> +            return 8;
-> +        }
-> +
-> +        screens = read_u8(data, 6);
-> +        size    = 8 + screens * 16;
-> +        if (len < size) {
-> +            return size;
-> +        }
-> +
-> +        if (dpy_ui_info_supported(vs->vd->dcl.con)) {
-> +            QemuUIInfo info;
-> +            memset(&info, 0, sizeof(info));
-> +            info.width = read_u16(data, 2);
-> +            info.height = read_u16(data, 4);
-> +            dpy_set_ui_info(vs->vd->dcl.con, &info);
-> +            vnc_desktop_resize_ext(vs, 4 /* Request forwarded */);
-> +        } else {
-> +            vnc_desktop_resize_ext(vs, 3 /* Invalid screen layout */);
-> +        }
-> +
-> +        break;
-> +    }
->      default:
->          VNC_DEBUG("Msg: %d\n", data[0]);
->          vnc_client_error(vs);
-> -- 
-> 2.27.0
-> 
-> 
+ docs/devel/clocks.rst  | 37 +++++++++++++++++++++++++++++++++----
+ include/hw/clock.h     | 41 ++++++++++++++++++++++++++++++++++++++---
+ hw/core/clock.c        |  6 ++++++
+ softmmu/qdev-monitor.c |  6 +++---
+ target/mips/cpu.c      |  4 ++--
+ 5 files changed, 82 insertions(+), 12 deletions(-)
 
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.20.1
 
 
