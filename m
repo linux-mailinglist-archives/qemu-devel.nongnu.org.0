@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292B82D235A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 06:52:53 +0100 (CET)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09792D23F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 07:54:03 +0100 (CET)
+Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmVvf-0003JJ-OL
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 00:52:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33192)
+	id 1kmWss-0005St-Cv
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 01:54:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kmVtp-0002Z4-RU
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 00:50:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55181)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kmVtn-0003Z8-Az
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 00:50:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607406654;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ItesgZKA2nD/xUa2XNEu0eqFuyuHd9edR9sJmEeeyII=;
- b=CiplvzyRibiV1iArCIYrbDyxxL8kTJdki2ZDjg0vX7fjc2LNj3Ij706/54RpShbpOsGb6e
- Bq8qC4py5BIlxJa0jObkgMjWu5tet0meFAAZ7x/U6ZzVq2QIvIMj87UBYoJLX4KnqnjWwh
- ENNdm3r6Dbu5rdZCanBpMw/kdVuFSj0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-547-RoNy10e1OFOrjNdiuDIBFw-1; Tue, 08 Dec 2020 00:50:52 -0500
-X-MC-Unique: RoNy10e1OFOrjNdiuDIBFw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 813C28049C1
- for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 05:50:51 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-30.ams2.redhat.com
- [10.36.112.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89C925D9DE;
- Tue,  8 Dec 2020 05:50:44 +0000 (UTC)
-From: Laszlo Ersek <lersek@redhat.com>
-To: qemu-devel@nongnu.org,
-	virtio-fs@redhat.com
-Subject: [PATCH] virtiofsd: make the debug log timestamp on stderr more
- human-readable
-Date: Tue,  8 Dec 2020 06:50:43 +0100
-Message-Id: <20201208055043.31548-1-lersek@redhat.com>
+ (Exim 4.90_1) (envelope-from <tu.guoyi@h3c.com>) id 1kmWro-00051u-7N
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 01:52:56 -0500
+Received: from smtp.h3c.com ([60.191.123.50]:58148 helo=h3cspam02-ex.h3c.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tu.guoyi@h3c.com>) id 1kmWrl-0004rm-7h
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 01:52:55 -0500
+Received: from DAG2EX03-BASE.srv.huawei-3com.com ([10.8.0.66])
+ by h3cspam02-ex.h3c.com with ESMTP id 0B86qUPb061394;
+ Tue, 8 Dec 2020 14:52:30 +0800 (GMT-8)
+ (envelope-from tu.guoyi@h3c.com)
+Received: from localhost.localdomain (10.125.33.161) by
+ DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Tue, 8 Dec 2020 14:52:32 +0800
+From: Tuguoyi <tu.guoyi@h3c.com>
+To: Juan Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>
+Subject: [PATCH 0/2] savevm: Delete stale snapshots in save_snapshot()
+Date: Tue, 8 Dec 2020 14:53:34 +0800
+Message-ID: <1607410416-13563-1-git-send-email-tu.guoyi@h3c.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -3
-X-Spam_score: -0.4
-X-Spam_bar: /
-X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.125.33.161]
+X-ClientProxiedBy: BJSMTP01-EX.srv.huawei-3com.com (10.63.20.132) To
+ DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66)
+X-DNSRBL: 
+X-MAIL: h3cspam02-ex.h3c.com 0B86qUPb061394
+Received-SPF: pass client-ip=60.191.123.50; envelope-from=tu.guoyi@h3c.com;
+ helo=h3cspam02-ex.h3c.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,102 +59,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: tuguoyi@outlook.com, qemu-devel@nongnu.org, Tuguoyi <tu.guoyi@h3c.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlIGN1cnJlbnQgdGltZXN0YW1wIGZvcm1hdCBkb2Vzbid0IGhlbHAgbWUgdmlzdWFsbHkgbm90
-aWNlIHNtYWxsIGp1bXBzCmluIHRpbWUgKCJzbWFsbCIgYXMgZGVmaW5lZCBvbiBodW1hbiBzY2Fs
-ZSwgc3VjaCBhcyBhIGZldyBzZWNvbmRzIG9yIGEgZmV3CnRlbiBzZWNvbmRzKS4gUmVwbGFjZSBp
-dCB3aXRoIGEgbG9jYWwgdGltZSBmb3JtYXQgd2hlcmUgc3VjaCBkaWZmZXJlbmNlcwpzdGFuZCBv
-dXQuCgpCZWZvcmU6Cgo+IFsxMzMxNjgyNjc3MDMzN10gW0lEOiAwMDAwMDAwNF0gdW5pcXVlOiA2
-Miwgb3Bjb2RlOiBSRUxFQVNFRElSICgyOSksIG5vZGVpZDogMSwgaW5zaXplOiA2NCwgcGlkOiAx
-Cj4gWzEzMzE2ODI2Nzc4MTc1XSBbSUQ6IDAwMDAwMDA0XSAgICB1bmlxdWU6IDYyLCBzdWNjZXNz
-LCBvdXRzaXplOiAxNgo+IFsxMzMxNjgyNjc4MTE1Nl0gW0lEOiAwMDAwMDAwNF0gdmlydGlvX3Nl
-bmRfbXNnOiBlbGVtIDA6IHdpdGggMSBpbiBkZXNjIG9mIGxlbmd0aCAxNgo+IFsxNTEzODI3OTMx
-NzkyN10gW0lEOiAwMDAwMDAwMV0gdmlydGlvX2xvb3A6IEdvdCBWVSBldmVudAo+IFsxNTEzODI3
-OTUwNDg4NF0gW0lEOiAwMDAwMDAwMV0gZnZfcXVldWVfc2V0X3N0YXJ0ZWQ6IHFpZHg9MSBzdGFy
-dGVkPTAKPiBbMTUxMzgyNzk1MTkwMzRdIFtJRDogMDAwMDAwMDNdIGZ2X3F1ZXVlX3RocmVhZDog
-a2lsbCBldmVudCBvbiBxdWV1ZSAxIC0gcXVpdHRpbmcKPiBbMTUxMzgyODA4NzY0NjNdIFtJRDog
-MDAwMDAwMDFdIGZ2X3JlbW92ZV93YXRjaDogVE9ETyEgZmQ9OQo+IFsxNTEzODI4MDg5NzM4MV0g
-W0lEOiAwMDAwMDAwMV0gdmlydGlvX2xvb3A6IFdhaXRpbmcgZm9yIFZVIGV2ZW50Cj4gWzE1MTM4
-MjgwOTQ2ODM0XSBbSUQ6IDAwMDAwMDAxXSB2aXJ0aW9fbG9vcDogR290IFZVIGV2ZW50Cj4gWzE1
-MTM4MjgxMTc1NDIxXSBbSUQ6IDAwMDAwMDAxXSB2aXJ0aW9fbG9vcDogV2FpdGluZyBmb3IgVlUg
-ZXZlbnQKPiBbMTUxMzgyODExODIzODddIFtJRDogMDAwMDAwMDFdIHZpcnRpb19sb29wOiBHb3Qg
-VlUgZXZlbnQKPiBbMTUxMzgyODExODk0NzRdIFtJRDogMDAwMDAwMDFdIHZpcnRpb19sb29wOiBX
-YWl0aW5nIGZvciBWVSBldmVudAo+IFsxNTEzODMwOTMyMTkzNl0gW0lEOiAwMDAwMDAwMV0gdmly
-dGlvX2xvb3A6IFVuZXhwZWN0ZWQgcG9sbCByZXZlbnRzIDExCj4gWzE1MTM4MzA5NDM0MTUwXSBb
-SUQ6IDAwMDAwMDAxXSB2aXJ0aW9fbG9vcDogRXhpdAoKKE5vdGljZSBob3cgeW91IGRvbid0IChl
-YXNpbHkpIG5vdGljZSB0aGUgZ2FwIGluIHRpbWUgYWZ0ZXIKInZpcnRpb19zZW5kX21zZyIsIGFu
-ZCBlc3BlY2lhbGx5IHRoZSBhbW91bnQgb2YgdGltZSBwYXNzZWQgaXMgaGFyZCB0bwplc3RpbWF0
-ZS4pCgpBZnRlcjoKCj4gWzIwMjAtMTItMDggMDY6NDM6MjIuNTgrMDEwMF0gW0lEOiAwMDAwMDAw
-NF0gdW5pcXVlOiA1MSwgb3Bjb2RlOiBSRUxFQVNFRElSICgyOSksIG5vZGVpZDogMSwgaW5zaXpl
-OiA2NCwgcGlkOiAxCj4gWzIwMjAtMTItMDggMDY6NDM6MjIuNTgrMDEwMF0gW0lEOiAwMDAwMDAw
-NF0gICAgdW5pcXVlOiA1MSwgc3VjY2Vzcywgb3V0c2l6ZTogMTYKPiBbMjAyMC0xMi0wOCAwNjo0
-MzoyMi41OCswMTAwXSBbSUQ6IDAwMDAwMDA0XSB2aXJ0aW9fc2VuZF9tc2c6IGVsZW0gMDogd2l0
-aCAxIGluIGRlc2Mgb2YgbGVuZ3RoIDE2Cj4gWzIwMjAtMTItMDggMDY6NDM6MjkuMzQrMDEwMF0g
-W0lEOiAwMDAwMDAwMV0gdmlydGlvX2xvb3A6IEdvdCBWVSBldmVudAo+IFsyMDIwLTEyLTA4IDA2
-OjQzOjI5LjM0KzAxMDBdIFtJRDogMDAwMDAwMDFdIGZ2X3F1ZXVlX3NldF9zdGFydGVkOiBxaWR4
-PTEgc3RhcnRlZD0wCj4gWzIwMjAtMTItMDggMDY6NDM6MjkuMzQrMDEwMF0gW0lEOiAwMDAwMDAw
-M10gZnZfcXVldWVfdGhyZWFkOiBraWxsIGV2ZW50IG9uIHF1ZXVlIDEgLSBxdWl0dGluZwo+IFsy
-MDIwLTEyLTA4IDA2OjQzOjI5LjM0KzAxMDBdIFtJRDogMDAwMDAwMDFdIGZ2X3JlbW92ZV93YXRj
-aDogVE9ETyEgZmQ9OQo+IFsyMDIwLTEyLTA4IDA2OjQzOjI5LjM0KzAxMDBdIFtJRDogMDAwMDAw
-MDFdIHZpcnRpb19sb29wOiBXYWl0aW5nIGZvciBWVSBldmVudAo+IFsyMDIwLTEyLTA4IDA2OjQz
-OjI5LjM0KzAxMDBdIFtJRDogMDAwMDAwMDFdIHZpcnRpb19sb29wOiBHb3QgVlUgZXZlbnQKPiBb
-MjAyMC0xMi0wOCAwNjo0MzoyOS4zNCswMTAwXSBbSUQ6IDAwMDAwMDAxXSB2aXJ0aW9fbG9vcDog
-V2FpdGluZyBmb3IgVlUgZXZlbnQKPiBbMjAyMC0xMi0wOCAwNjo0MzoyOS4zNCswMTAwXSBbSUQ6
-IDAwMDAwMDAxXSB2aXJ0aW9fbG9vcDogR290IFZVIGV2ZW50Cj4gWzIwMjAtMTItMDggMDY6NDM6
-MjkuMzQrMDEwMF0gW0lEOiAwMDAwMDAwMV0gdmlydGlvX2xvb3A6IFdhaXRpbmcgZm9yIFZVIGV2
-ZW50Cj4gWzIwMjAtMTItMDggMDY6NDM6MjkuMzcrMDEwMF0gW0lEOiAwMDAwMDAwMV0gdmlydGlv
-X2xvb3A6IFVuZXhwZWN0ZWQgcG9sbCByZXZlbnRzIDExCj4gWzIwMjAtMTItMDggMDY6NDM6Mjku
-MzcrMDEwMF0gW0lEOiAwMDAwMDAwMV0gdmlydGlvX2xvb3A6IEV4aXQKCkNjOiAiRHIuIERhdmlk
-IEFsYW4gR2lsYmVydCIgPGRnaWxiZXJ0QHJlZGhhdC5jb20+CkNjOiBTdGVmYW4gSGFqbm9jemkg
-PHN0ZWZhbmhhQHJlZGhhdC5jb20+ClNpZ25lZC1vZmYtYnk6IExhc3psbyBFcnNlayA8bGVyc2Vr
-QHJlZGhhdC5jb20+Ci0tLQogdG9vbHMvdmlydGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMgfCAzMSAr
-KysrKysrKysrKysrKysrKysrKysrKysrKystLS0tCiAxIGZpbGUgY2hhbmdlZCwgMjcgaW5zZXJ0
-aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS90b29scy92aXJ0aW9mc2QvcGFz
-c3Rocm91Z2hfbGwuYyBiL3Rvb2xzL3ZpcnRpb2ZzZC9wYXNzdGhyb3VnaF9sbC5jCmluZGV4IDQ4
-YTEwOWQzZjY4Mi4uMDY1NDNiMjBkY2JiIDEwMDY0NAotLS0gYS90b29scy92aXJ0aW9mc2QvcGFz
-c3Rocm91Z2hfbGwuYworKysgYi90b29scy92aXJ0aW9mc2QvcGFzc3Rocm91Z2hfbGwuYwpAQCAt
-MzMxMSwxOCArMzMxMSwzOCBAQCBzdGF0aWMgdm9pZCBzZXR1cF9ub2ZpbGVfcmxpbWl0KHVuc2ln
-bmVkIGxvbmcgcmxpbWl0X25vZmlsZSkKIHN0YXRpYyB2b2lkIGxvZ19mdW5jKGVudW0gZnVzZV9s
-b2dfbGV2ZWwgbGV2ZWwsIGNvbnN0IGNoYXIgKmZtdCwgdmFfbGlzdCBhcCkKIHsKICAgICBnX2F1
-dG9mcmVlIGNoYXIgKmxvY2FsZm10ID0gTlVMTDsKKyAgICBzdHJ1Y3QgdGltZXNwZWMgdHM7Cisg
-ICAgc3RydWN0IHRtIHRtOworICAgIGNoYXIgc2VjX2ZtdFtzaXplb2YgIjIwMjAtMTItMDcgMTg6
-MTc6NTQiXTsKKyAgICBjaGFyIHpvbmVfZm10W3NpemVvZiAiKzAxMDAiXTsKIAogICAgIGlmIChj
-dXJyZW50X2xvZ19sZXZlbCA8IGxldmVsKSB7CiAgICAgICAgIHJldHVybjsKICAgICB9CiAKICAg
-ICBpZiAoY3VycmVudF9sb2dfbGV2ZWwgPT0gRlVTRV9MT0dfREVCVUcpIHsKLSAgICAgICAgaWYg
-KCF1c2Vfc3lzbG9nKSB7Ci0gICAgICAgICAgICBsb2NhbGZtdCA9IGdfc3RyZHVwX3ByaW50Zigi
-WyUiIFBSSWQ2NCAiXSBbSUQ6ICUwOGxkXSAlcyIsCi0gICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBnZXRfY2xvY2soKSwgc3lzY2FsbChfX05SX2dldHRpZCksIGZtdCk7Ci0g
-ICAgICAgIH0gZWxzZSB7CisgICAgICAgIGlmICh1c2Vfc3lzbG9nKSB7CisgICAgICAgICAgICAv
-KiBubyB0aW1lc3RhbXAgbmVlZGVkICovCiAgICAgICAgICAgICBsb2NhbGZtdCA9IGdfc3RyZHVw
-X3ByaW50ZigiW0lEOiAlMDhsZF0gJXMiLCBzeXNjYWxsKF9fTlJfZ2V0dGlkKSwKICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZtdCk7CisgICAgICAgIH0gZWxzZSB7Cisg
-ICAgICAgICAgICAvKiB0cnkgZm9ybWF0dGluZyBhIGJyb2tlbi1kb3duIHRpbWVzdGFtcCAqLwor
-ICAgICAgICAgICAgaWYgKGNsb2NrX2dldHRpbWUoQ0xPQ0tfUkVBTFRJTUUsICZ0cykgIT0gLTEg
-JiYKKyAgICAgICAgICAgICAgICBsb2NhbHRpbWVfcigmdHMudHZfc2VjLCAmdG0pICE9IE5VTEwg
-JiYKKyAgICAgICAgICAgICAgICBzdHJmdGltZShzZWNfZm10LCBzaXplb2Ygc2VjX2ZtdCwgIiVZ
-LSVtLSVkICVIOiVNOiVTIiwKKyAgICAgICAgICAgICAgICAgICAgICAgICAmdG0pICE9IDAgJiYK
-KyAgICAgICAgICAgICAgICBzdHJmdGltZSh6b25lX2ZtdCwgc2l6ZW9mIHpvbmVfZm10LCAiJXoi
-LCAmdG0pICE9IDApIHsKKyAgICAgICAgICAgICAgICBsb2NhbGZtdCA9IGdfc3RyZHVwX3ByaW50
-ZigiWyVzLiUwMmxkJXNdIFtJRDogJTA4bGRdICVzIiwKKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBzZWNfZm10LAorICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIHRzLnR2X25zZWMgLyAoMTBMICogMTAwMCAqIDEwMDApLAorICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHpvbmVfZm10LCBzeXNjYWxsKF9f
-TlJfZ2V0dGlkKSwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBm
-bXQpOworICAgICAgICAgICAgfSBlbHNlIHsKKyAgICAgICAgICAgICAgICAvKiBmYWxsIGJhY2sg
-dG8gYSBmbGF0IHRpbWVzdGFtcCAqLworICAgICAgICAgICAgICAgIGxvY2FsZm10ID0gZ19zdHJk
-dXBfcHJpbnRmKCJbJSIgUFJJZDY0ICJdIFtJRDogJTA4bGRdICVzIiwKKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBnZXRfY2xvY2soKSwgc3lzY2FsbChfX05SX2dl
-dHRpZCksCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZm10KTsK
-KyAgICAgICAgICAgIH0KICAgICAgICAgfQogICAgICAgICBmbXQgPSBsb2NhbGZtdDsKICAgICB9
-CkBAIC0zNDUyLDYgKzM0NzIsOSBAQCBpbnQgbWFpbihpbnQgYXJnYywgY2hhciAqYXJndltdKQog
-ICAgIHN0cnVjdCBsb19tYXBfZWxlbSAqcmVzZXJ2ZV9lbGVtOwogICAgIGludCByZXQgPSAtMTsK
-IAorICAgIC8qIEluaXRpYWxpemUgdGltZSBjb252ZXJzaW9uIGluZm9ybWF0aW9uIGZvciBsb2Nh
-bHRpbWVfcigpLiAqLworICAgIHR6c2V0KCk7CisKICAgICAvKiBEb24ndCBtYXNrIGNyZWF0aW9u
-IG1vZGUsIGtlcm5lbCBhbHJlYWR5IGRpZCB0aGF0ICovCiAgICAgdW1hc2soMCk7CiAKLS0gCjIu
-MTkuMS4zLmczMDI0N2FhNWQyMDEKCg==
+These two patches just clear dead code and delete stale snapshots
+in case of error in save_snapshot()
+
+Tuguoyi (2):
+  savevm: Remove dead code in save_snapshot()
+  savevm: Delete snapshots just created in case of error
+
+ migration/savevm.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+-- 
+2.7.4
 
 
