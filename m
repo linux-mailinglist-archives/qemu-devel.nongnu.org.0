@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3360F2D361E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:24:02 +0100 (CET)
-Received: from localhost ([::1]:60620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CAE2D35C7
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:05:46 +0100 (CET)
+Received: from localhost ([::1]:51582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmlOr-0007GZ-6o
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:24:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50046)
+	id 1kml7B-00080I-Ep
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:05:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmkr8-0000rN-Qy
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:49:11 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44546)
+ id 1kmksF-0002Jk-1q
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:50:19 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:34034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmkr5-0006C9-Gq
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:49:10 -0500
-Received: by mail-oi1-x244.google.com with SMTP id y74so121149oia.11
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 13:49:07 -0800 (PST)
+ id 1kmksD-0006Vg-6x
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:50:18 -0500
+Received: by mail-oi1-x244.google.com with SMTP id s75so194270oih.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 13:50:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=N+xIHqu2+gRNiZKfWeew6jfBHxjpySrralGLj5BRwOw=;
- b=QUzV3ocabQNZmYipeyaTTZjVvE4B49fqvdxF9uSQmarRP546BlrG7CAPFHrpemRzKl
- jn6MQL5GvlyAIHCeO8/s9AY69UP4aqdm0mJXVnrUP3CsBUzjUOlDtjXAkdxVL/iR98M4
- KgiaW+vy9G8fBnyCfovTVU857yR3QqCo9pk2x1DjTSYkHkr1LIX0JRygJozF3YsX7wjJ
- 9Z+7KG9YjlUU0KYxAjXylCsgfTmuetinUl6XLNVHtzf2T6cMbHnW2DHmedmPQAo2JwA/
- rCP3/mK6/ImYn9vjNtPypv8jrN+BJEt8b6+4Xnh489Phjb6avXbdVN3xMyV2E/cRzFNS
- guvA==
+ bh=pxqZFKpCxt1YMmCRnRmZFTodNYlQR/RONK9lMwj2jVU=;
+ b=zQsbgGjWu6V+B5JVuOMuDSb5iEFt9eGLaCETCMHJ4Y4LiwqkIM4bpvJpoyjgswnSvh
+ VFNrxj3Enfx7IaHU3w3zhToIokBVbDMqBRo9UsibkOas7+y7WEghw7LpHZ3y+Gi2vYmn
+ TgWdrwWsIrs09dxVpWdxQRFqSeqWDe0xmejWRYd08kcbT7b0y+KHP18wNQJnSI7Nq6RF
+ cU4TeqKQpE/uP1aXL5YJ31MJfO9h2XyvTlmhpzWUsgDL3V4Q7u91W6Jgln4ookg2Hgeq
+ nbEGvNE1/oggaTiREELMDLOux8IHwJF7WYXV8wS1prTkRdTg0t/QQL/t2EVPcwPISMq2
+ uWNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=N+xIHqu2+gRNiZKfWeew6jfBHxjpySrralGLj5BRwOw=;
- b=KPZPfODaSfUJ+AFnOuuOt4LqKO4jl0rfVu90llcPoMAB3KOWV9ChufBI3+aenf44GI
- uOLu2oNBQW1jV5rJAVxEh/M5uMV5W+DlBoApSKZqnOnwqDsNqCJI9TlS91joo4i7apZI
- 4Gr4MYEZb9I8x+7YFxlnZo9P7cvaGh5oFfCDFu8Ay6SAmAoIwTWEiXdfxh8F9aTrDboR
- q/91l2pd4K0UqGRckRw91IOWYTe0AOfG54/rv5d2y7iUlikrP8qy+xS/WS88nluqoOv1
- G5SWfmZ43te1SV4oZABSVZ2y1SVX6lBIlSptnPlIWxj+PlvStJjEfNXe1XineF4ZByeb
- 5pTA==
-X-Gm-Message-State: AOAM532N8a6LOySRnO2gaVHIApRSDPxZU17iGIjxHG0CTgPIxSS2h1Pu
- mWMsa5r1ocFqhGXoFfLYpGtDMQ==
-X-Google-Smtp-Source: ABdhPJw7DajjHwECgxki4hidw33aMmAf2Yprs7V3t9hpev8RNtNV8+lt3MEsc0RCBZ7mRNqTZzLEDw==
-X-Received: by 2002:a05:6808:650:: with SMTP id
- z16mr4351402oih.50.1607464146325; 
- Tue, 08 Dec 2020 13:49:06 -0800 (PST)
+ bh=pxqZFKpCxt1YMmCRnRmZFTodNYlQR/RONK9lMwj2jVU=;
+ b=Qo0O4So9DKGQLodZnuzr/p6Ak8JO9KroYMzCI4llXfvAwLp9Uv2SdIAV7HTuhxH1+4
+ P7mB5xZo3336kLBXYp34B5dz+sJv/cqBmo3L3unGgJHTEiBqmz+rAS+GYpiVGYfN/hjc
+ bApsj+2tq9HewcW6vGSiIJYBlTuw0EGn19D/EUDXVl2tAsbYlW9ldMT4ILgJXKjTaZM6
+ aMhVmylNhyry+nkqdk+go5sNB1G+CkJ5nMpZcLkFrDE2kdgrq0M2FiPDvWIa5xof1hsa
+ YxXODvTcxSqNFDP/oUvsKPet+4RnCdclVjMfr3TEtNmnp00Hbz+mQDq7v7THr0MoLj3j
+ FFyw==
+X-Gm-Message-State: AOAM5311+giA5uSpbK0C2OcUrfDp54U9r+pTAn8YyyyCyX79KuzEOMB7
+ AaaED3nfl3ReFcr04vbSVuvcuw==
+X-Google-Smtp-Source: ABdhPJyOnKjKPWWhZgg3fUUBpi/TPH0TvxU3LEnX8ziNkxQYFhzUdC0YQlrp+RhoLJXoD77tBSCu6A==
+X-Received: by 2002:aca:4c4f:: with SMTP id z76mr4460421oia.1.1607464212745;
+ Tue, 08 Dec 2020 13:50:12 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id k3sm52714oor.19.2020.12.08.13.49.04
+ by smtp.gmail.com with ESMTPSA id x20sm50652oov.33.2020.12.08.13.50.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 13:49:05 -0800 (PST)
-Subject: Re: [PATCH 03/19] target/mips: Remove unused headers from fpu_helper.c
+ Tue, 08 Dec 2020 13:50:12 -0800 (PST)
+Subject: Re: [PATCH 04/19] target/mips: Remove unused headers from cp0_helper.c
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201206233949.3783184-1-f4bug@amsat.org>
- <20201206233949.3783184-4-f4bug@amsat.org>
+ <20201206233949.3783184-5-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ebcbe6d1-5142-6a4a-5133-ad81ab2dabbf@linaro.org>
-Date: Tue, 8 Dec 2020 15:49:03 -0600
+Message-ID: <94c54de7-0a03-2f4e-122f-c921e772be7c@linaro.org>
+Date: Tue, 8 Dec 2020 15:50:09 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201206233949.3783184-4-f4bug@amsat.org>
+In-Reply-To: <20201206233949.3783184-5-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -97,10 +96,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/6/20 5:39 PM, Philippe Mathieu-Daudé wrote:
+> Remove unused headers and add missing "qemu/log.h" since
+> qemu_log() is called.
+> 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/fpu_helper.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  target/mips/cp0_helper.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
