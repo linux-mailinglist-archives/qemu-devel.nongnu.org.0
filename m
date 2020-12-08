@@ -2,124 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AAE72D3407
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:41:37 +0100 (CET)
-Received: from localhost ([::1]:50856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03542D340C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:44:29 +0100 (CET)
+Received: from localhost ([::1]:59510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmjnk-0006dM-Cb
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:41:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51854)
+	id 1kmjqW-0001tn-S7
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:44:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1kmivE-0006OE-Mr
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:45:17 -0500
-Received: from mail-bn7nam10on2099.outbound.protection.outlook.com
- ([40.107.92.99]:40832 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiyc-0000aR-T9
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:48:46 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
- id 1kmivC-0008Ev-OP
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:45:16 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NUKC5ICH57qsDOGyOkLkqjXvZCpArP4cjQNknA4oh5urg+YCRojwbfE9rP5+QiWPVzE7OklF1O99LwLwMzrxfoZJzDUHpf9My23jWi5FWrJIXrmjmkG7qNeTEHRQz0WYsyi/nRpTJezzJE3Ii0UuRTE1k6kjA/yPA05c31QK00pyPqMDZNo7D/PvI3k3dMOP5qk+uedsRnKLVA8+4WbY6q+VAWDU1ZE3ulzo/ajksp3XI4mox0GQ9lODIomI3rf3juB3cEU1isGfhmImjb6C5k+sdbKY6tkoaliHrXAf5d8LhDdfACCeugLyEwupl6PNzwBtFzGnMEFZF9n7Z2Xg0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i3nEtOQTeOsY2+Wlg8hl4UWqaf+gJ4Iw0fXzD4oAPAg=;
- b=JDe+CZSlc8FnxjFwmdkdLMdKeo815UXLBrvG2O87Yq7raDf1sUNgtmt6YOz29D8jPbSM/PUtNrBZowGS35T6pEIzccN8d5O1JfRwkKAf1C9d2nNRR1XgNhnAFplOtiaCTR1hddmysTNGXYrK3TAP+9HR62ujb5NYvitWQef37A2Tva8yeEC9wExyMn6C371DvHRAxpdncy8oLMWWRSTiR5HyGU+Iz98BoHbKo81ZEiLBIlNgQTvgNCgipKD4pIp1IUnDe3R5claYE4Ap6rWzGU/kLhBUtVWyByEehoqjHRewR4G838xPyefmCIPVqj64YmFeog3hiDSmiATO8lVYGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i3nEtOQTeOsY2+Wlg8hl4UWqaf+gJ4Iw0fXzD4oAPAg=;
- b=JSUOMb9f0WghT/OZ8XN8h9wJlTpH6rnVMLWVzXOY2ZBCkwykp13IPXPIxphoML46nQOhWEZkt57yR/w1kuVtAU2Lhre1Xs2w/6gGUNjJ58wi356qoTg+zxvvX/jwlnhKx4zqb3UvNRrwgnDdJ04vgzHUykDO051w0EIIRihj904=
-Authentication-Results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
- SN6PR01MB4399.prod.exchangelabs.com (2603:10b6:805:f0::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3632.19; Tue, 8 Dec 2020 19:45:11 +0000
-Received: from SN6PR01MB4304.prod.exchangelabs.com
- ([fe80::882b:7534:1246:a8d9]) by SN6PR01MB4304.prod.exchangelabs.com
- ([fe80::882b:7534:1246:a8d9%5]) with mapi id 15.20.3632.021; Tue, 8 Dec 2020
- 19:45:11 +0000
-Date: Tue, 8 Dec 2020 14:44:08 -0500
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, cota@braap.org, richard.henderson@linaro.org
-Subject: Re: Plugin Register Accesses
-Message-ID: <X8/XiLMe/a+L2v6p@strawberry.localdomain>
-References: <X86YnHhHMpQBr2/G@strawberry.localdomain>
- <87a6uoh2fp.fsf@linaro.org>
- <X8+R05CCriFWT6G+@strawberry.localdomain>
- <871rg0gogo.fsf@linaro.org>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <871rg0gogo.fsf@linaro.org>
-X-Originating-IP: [68.73.113.219]
-X-ClientProxiedBy: MN2PR02CA0006.namprd02.prod.outlook.com
- (2603:10b6:208:fc::19) To SN6PR01MB4304.prod.exchangelabs.com
- (2603:10b6:805:a6::23)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiya-0000rS-5V
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:48:46 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 6B211AD35;
+ Tue,  8 Dec 2020 19:48:42 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: [RFC v9 00/22] i386 cleanup
+Date: Tue,  8 Dec 2020 20:48:07 +0100
+Message-Id: <20201208194839.31305-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from strawberry.localdomain (68.73.113.219) by
- MN2PR02CA0006.namprd02.prod.outlook.com (2603:10b6:208:fc::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Tue, 8 Dec 2020 19:45:10 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b1f90a4e-00ea-4c22-7743-08d89bb1c697
-X-MS-TrafficTypeDiagnostic: SN6PR01MB4399:
-X-Microsoft-Antispam-PRVS: <SN6PR01MB4399AB037E1B6FBAE350AE558ACD0@SN6PR01MB4399.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AGTmVl/5eP+szHVq5Aa/bBT3Qi5tzGqtbrnXl4jK3x4Y2/uYHmAnEWOt1w68WsI6S8A51tpaoeto01no1465MjaqXhQZZ438m4qucAzAlXFjY3PnSV13FqcAFJ5beE/BRkrGjm2jKM5norwvEDqDe+USSi5ZNss28I596n6S3TgEdEwEzx3dIq7mqUDZN5kzUdJwdr1TZvmNcf/4fZNfa/3Khs2RFsQDXjuCud0nVNLzSRiMV/kznyDDhQMf00nlziQyNVvt+kvPsr+O4MvlUX2b6UDfu2ObAC730MJGqauqHrRcXyBlqNQGQwDCw+HssLa0I8BKrwSFZsODlKT3wQpkhT+31EC0N7r0i+sXp9bQylfq+fAAuLXiF0j+yt6I
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(366004)(376002)(3480700007)(4326008)(7696005)(66946007)(66574015)(52116002)(8936002)(66556008)(2906002)(9686003)(956004)(6916009)(16526019)(7116003)(55016002)(6506007)(83380400001)(86362001)(508600001)(34490700003)(26005)(66476007)(5660300002)(186003)(8676002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?iso-8859-1?Q?M+mT2uZd6CKpWo6lYvS7WsWcypohsFCZUPL1mozbUXTZpe2ODXtQCDteJT?=
- =?iso-8859-1?Q?2JtMW0tF1PDOiXMHRKXIm3mrtz4GCMLFfXiofJ3g4mpVwjpJB11MIRP8s0?=
- =?iso-8859-1?Q?tavv6madI5tZCqPu9Q8xkB5ez91kfFIN2T1vqZ/Q3hId0LQ5Q3YwObhMFH?=
- =?iso-8859-1?Q?acri0f/jtXuS/NKJwwNyNoiclBX1LJEHG8frjaC+Xk5uyfq8j0jiVq4ePp?=
- =?iso-8859-1?Q?wr88Fj497uNYzr1nqON1IT8GmrE6F4nfnS4cLgJpVrD1CQknDJsuylNunY?=
- =?iso-8859-1?Q?q5w/+wxVSIMm9INsAALTUsqYLDk0aHGLd3GwFr8U+ehWs1fPikjS8M41KX?=
- =?iso-8859-1?Q?RQyHIPa1z1UdDEUhWMNeHL8MFiC0g4+Cu2d2dyJtk7UYu5yNFNgdHpJ9aL?=
- =?iso-8859-1?Q?H4zVnpAwt4O9Kvbk6SnK79UyA4HmwKv7jT5TTsrS1jkhRNMXmkBcEZ8pD/?=
- =?iso-8859-1?Q?/omuCgdzIYw/m9Wqs0cEo3pNMKbD0L1xsd07tpUBkSdu3X5P9J16hMN/k+?=
- =?iso-8859-1?Q?dS7U1uQwZ0VBVTQN3NZt97S6Pm1/QSwaUSFiqsKwN7vQ0w5SZxzjkuuHEN?=
- =?iso-8859-1?Q?CiSKNSqH4jdow/KEowBX1fKTEPMYzAluSHkQFSZN0D2GM2CDQaDw7jK2hz?=
- =?iso-8859-1?Q?ItCuHVpHcPXWgtWvdoxBWigUoCqFpTk4lAm0eI7aYoSC7kq+8iijB+VZcL?=
- =?iso-8859-1?Q?sqe0eFh4GlwG6AFlHWFgF/uxNyKL8iPhudFweWsVyEEPF9d2svzqAOlFxM?=
- =?iso-8859-1?Q?NzOextT0DG7tOv+FK9l60pGdlz4TpoDSDn9PZFlmN7f5behbU1pJqpa1B0?=
- =?iso-8859-1?Q?pE+KGAuixWzLQwx/Wgl/qZ54zxkfqk+1OhB2m6AS3kCwCP8wTOIyTaTFbO?=
- =?iso-8859-1?Q?0Pi46UK1UH6ruBuA7NDChNoLK+TDUznaAI/r2vk+WtDLxPKgEdaNj2D7Vb?=
- =?iso-8859-1?Q?chGlKN8bUjBallAaXrvqgADYWDb3oND/U8qzjW4yUZXCn+0ZhoN/oC5t64?=
- =?iso-8859-1?Q?EoyBGGaSVSt9Gv8OpKF83cTl1bVXiZFmDn1evL?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 19:45:11.3858 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1f90a4e-00ea-4c22-7743-08d89bb1c697
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JDl3OSRBXAZ+Quujb2R/Nfj2wy20Z0n4QHI6AznExwEsK4sttq+47TJ1sBA00Xo/+bpKHdq/zj7+JFR4FBkqecyfnWEuLkE5JF+Tq25xaD4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB4399
-Received-SPF: pass client-ip=40.107.92.99;
- envelope-from=aaron@os.amperecomputing.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,66 +56,400 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Claudio Fontana <cfontana@suse.de>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Aaron Lindsay <aaron@os.amperecomputing.com>
-From: Aaron Lindsay via <qemu-devel@nongnu.org>
 
-On Dec 08 17:56, Alex Bennée wrote:
-> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
-> > On Dec 08 12:17, Alex Bennée wrote:
-> >> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
-> >>   Memory is a little trickier because you can't know at any point if a
-> >>   given virtual address is actually mapped to real memory. The safest way
-> >>   would be to extend the existing memory tracking code to save the values
-> >>   saved/loaded from a given address. However if you had register access
-> >>   you could probably achieve the same thing after the fact by examining
-> >>   the opcode and pulling the values from the registers.
-> >
-> > What if memory reads were requested by `qemu_plugin_hwaddr` instead of
-> > by virtual address? `qemu_plugin_get_hwaddr()` is already exposed, and I
-> > would expect being able to successfully get a `qemu_plugin_hwaddr` in a
-> > callback would mean it is currently mapped. Am I overlooking
-> > something?
-> 
-> We can't re-run the transaction - there may have been a change to the
-> memory layout that instruction caused (see tlb_plugin_lookup and the
-> interaction with io_writex).
+v8 -> v9: move additional methods to CPUClass->tcg_ops
 
-To make sure I understand, your concern is that such a memory access
-would be made against the state from *after* the instruction's execution
-rather than before (and that my `qemu_plugin_hwaddr` would be a
-reference to before)?
+do_unaligned_access, transaction_failed and do_interrupt.
 
-> However I think we can expand the options for memory instrumentation
-> to cache the read or written value.
+do_interrupt is a bit tricky, as the same code is reused
+(albeit not usually directly) for KVM under certain odd conditions.
 
-Would this include any non-software accesses as well (i.e. page table
-reads made by hardware on architectures which support doing so)? I
-suspect you're going to tell me that this is hard to do without exposing
-QEMU/TCG internals, but I'll ask anyway!
+Change arm, as the only user of do_interrupt callback for KVM,
+to instead call the target function directly arm_do_interrupt.
 
-> > I think I might actually prefer a plugin memory access interface be in
-> > the physical address space - it seems like it might allow you to get
-> > more mileage out of one interface without having to support accesses by
-> > virtual and physical address separately.
-> >
-> > Or, even if that won't work for whatever reason, it seems reasonable for
-> > a plugin call accessing memory by virtual address to fail in the case
-> > where it's not mapped. As long as that failure case is well-documented
-> > and easy to distinguish from others within a plugin, why not?
-> 
-> Hmmm I'm not sure - I don't want to expose internal implementation
-> details to the plugins because we don't want plugins to rely on them.
+v7 -> v8: add missing CONFIG_TCGs, fix bugs
 
-Ohhh, was your "you can't know [...] mapped to real memory" discussing
-whether it was currently mapped on the *host*?
+* add the prerequisite patches for "3 tcg" at the beginning of the
+  series for convenience (already reviewed, queued by RH).
 
-I assumed you were discussing whether it was mapped from the guest's
-point of view, and therefore expected that whether a guest VA was mapped
-was a function of the guest code being executed, and not of the TCG
-implementation. I confess I'm not that familiar with how QEMU handles
-memory internally.
+* add CONFIG_TCG to TCGCpuOperations and tcg_ops variable use
 
--Aaron
+* reduce the scope of the realizefn refactoring, do not
+  introduce a separate cpu_accel_realize, and instead use the
+  existing cpu_exec_realizefn, there is not enough benefit
+  to introduce a new function.
+
+* fix bugs in user mode due to attempt to move the tcg_region_init()
+  early, so it could be done just once in tcg_init() for both
+  softmmu and user mode. Unfortunately it needs to remain deferred
+  for user mode, as it needs to be done after prologue init and
+  after the GUEST_BASE has been set.
+
+v6 -> v7: integrate TCGCpuOperations, refactored cpu_exec_realizefn
+
+* integrate TCGCpuOperations (Eduardo)
+
+Taken some refactoring from Eduardo for Tcg-only operations on
+CPUClass.
+
+* refactored cpu_exec_realizefn
+
+The other main change is a refactoring of cpu_exec_realizefn,
+directly linked to the effort of making many cpu_exec operations
+TCG-only (Eduardo series above):
+
+cpu_exec_realizefn is actually a TCG-only thing, with the
+exception of a couple things that can be done in base cpu code.
+
+This changes all targets realizefn, so I guess I have to Cc:
+the Multiverse? (Universe was already CCed for all accelerators).
+
+
+v5 -> v6: remove MODULE_INIT_ACCEL_CPU
+
+
+instead, use a call to accel_init_interfaces().
+
+* The class lookups are now general and performed in accel/
+
+  new AccelCPUClass for new archs are supported as new
+  ones appear in the class hierarchy, no need for stubs.
+
+* Split the code a bit better
+
+
+v4 -> v5: centralized and simplified initializations
+
+I put in Cc: Emilio G. Cota, specifically because in patch 8
+I (re)moved for user-mode the call to tcg_regions_init().
+
+The call happens now inside the tcg AccelClass machine_init,
+(so earlier). This seems to work fine, but thought to get the
+author opinion on this.
+
+Rebased on "tcg-cpus: split into 3 tcg variants" series
+(queued by Richard), to avoid some code churn:
+
+
+https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04356.html
+
+
+* Extended AccelClass to user-mode.
+
+user-mode now does not call tcg_exec_init directly,
+instead it uses the tcg accel class, and its init_machine method.
+
+Since user-mode does not define or use a machine state,
+the machine is just passed as NULL.
+
+The immediate advantage is that now we can call current_accel()
+from both user mode and softmmu, so we can work out the correct
+class to use for accelerator initializations.
+
+* QOMification of CpusAccelOps
+
+simple QOMification of CpusAccelOps abstract class.
+
+* Centralized all accel_cpu_init, so only one per cpu-arch,
+  plus one for all accels will remain.
+
+  So we can expect accel_cpu_init() to be limited to:
+  
+  softmmu/cpus.c - initializes the chosen softmmu accel ops for the cpus module.
+  target/ARCH/cpu.c - initializes the chosen arch-specific cpu accelerator.
+  
+These changes are meant to address concerns/issues (Paolo):
+
+1) the use of if (tcg_enabled()) and similar in the module_init call path
+
+2) the excessive number of accel_cpu_init() to hunt down in the codebase.
+
+
+* Fixed wrong use of host_cpu_class_init (Eduardo)
+
+
+v3 -> v4: QOMification of X86CPUAccelClass
+
+
+In this version I basically QOMified X86CPUAccel, taking the
+suggestions from Eduardo as the starting point,
+but stopping just short of making it an actual QOM interface,
+using a plain abstract class, and then subclasses for the
+actual objects.
+
+Initialization is still using the existing qemu initialization
+framework (module_call_init), which is I still think is better
+than the alternatives proposed, in the current state.
+
+Possibly some improvements could be developed in the future here.
+In this case, effort should be put in keeping things extendible,
+in order not to be blocked once accelerators also become modules.
+
+Motivation and higher level steps:
+
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
+
+Looking forward to your comments on this proposal,
+
+Ciao,
+
+Claudio
+
+
+Claudio Fontana (23):
+  accel/tcg: split CpusAccel into three TCG variants
+  accel/tcg: split tcg_start_vcpu_thread
+  accel/tcg: rename tcg-cpus functions to match module name
+  i386: move kvm accel files into kvm/
+  i386: move whpx accel files into whpx/
+  i386: move hax accel files into hax/
+  i386: hvf: remove stale MAINTAINERS entry for old hvf stubs
+  i386: move TCG accel files into tcg/
+  i386: move cpu dump out of helper.c into cpu-dump.c
+  i386: move TCG cpu class initialization out of helper.c
+  target/riscv: remove CONFIG_TCG, as it is always TCG
+  accel/tcg: split TCG-only code from cpu_exec_realizefn
+  target/arm: do not use cc->do_interrupt for KVM directly
+  cpu: move cc->do_interrupt to tcg_ops
+  cpu: move cc->transaction_failed to tcg_ops
+  cpu: move do_unaligned_access to tcg_ops
+  accel: extend AccelState and AccelClass to user-mode
+  accel: replace struct CpusAccel with AccelOpsClass
+  accel: introduce AccelCPUClass extending CPUClass
+  i386: split cpu accelerators from cpu.c, using AccelCPUClass
+  cpu: call AccelCPUClass::cpu_realizefn in cpu_exec_realizefn
+  hw/core/cpu: call qemu_init_vcpu in cpu_common_realizefn
+  cpu: introduce cpu_accel_instance_init
+
+Eduardo Habkost (9):
+  tcg: cpu_exec_{enter,exit} helpers
+  tcg: make CPUClass.cpu_exec_* optional
+  tcg: Make CPUClass.debug_excp_handler optional
+  cpu: Remove unnecessary noop methods
+  cpu: Introduce TCGCpuOperations struct
+  cpu: Move synchronize_from_tb() to tcg_ops
+  cpu: Move cpu_exec_* to tcg_ops
+  cpu: Move tlb_fill to tcg_ops
+  cpu: Move debug_excp_handler to tcg_ops
+
+ MAINTAINERS                           |  19 +-
+ accel/accel-common.c                  | 105 +++++
+ accel/{accel.c => accel-softmmu.c}    |  60 +--
+ accel/accel-softmmu.h                 |  15 +
+ accel/accel-user.c                    |  24 ++
+ accel/kvm/kvm-all.c                   |   2 -
+ accel/kvm/kvm-cpus.c                  |  26 +-
+ accel/kvm/kvm-cpus.h                  |   2 -
+ accel/meson.build                     |   4 +-
+ accel/qtest/qtest.c                   |  25 +-
+ accel/tcg/cpu-exec.c                  |  70 +++-
+ accel/tcg/cputlb.c                    |   6 +-
+ accel/tcg/meson.build                 |   9 +-
+ accel/tcg/tcg-all.c                   |  14 +-
+ accel/tcg/tcg-cpus-icount.c           | 138 +++++++
+ accel/tcg/tcg-cpus-icount.h           |  19 +
+ accel/tcg/tcg-cpus-mttcg.c            | 134 +++++++
+ accel/tcg/tcg-cpus-mttcg.h            |  19 +
+ accel/tcg/tcg-cpus-rr.c               | 298 ++++++++++++++
+ accel/tcg/tcg-cpus-rr.h               |  21 +
+ accel/tcg/tcg-cpus.c                  | 539 +++-----------------------
+ accel/tcg/tcg-cpus.h                  |   8 +-
+ accel/tcg/user-exec.c                 |   6 +-
+ accel/xen/xen-all.c                   |  24 +-
+ bsd-user/main.c                       |  11 +-
+ cpu.c                                 |  71 ++--
+ hw/core/cpu.c                         |  30 +-
+ hw/i386/fw_cfg.c                      |   2 +-
+ hw/i386/intel_iommu.c                 |   2 +-
+ hw/i386/kvm/apic.c                    |   2 +-
+ hw/i386/kvm/clock.c                   |   2 +-
+ hw/i386/microvm.c                     |   2 +-
+ hw/i386/pc.c                          |   2 +-
+ hw/i386/pc_piix.c                     |   1 +
+ hw/i386/x86.c                         |   2 +-
+ hw/mips/jazz.c                        |   4 +-
+ include/hw/boards.h                   |   2 +-
+ include/hw/core/accel-cpu.h           |  25 ++
+ include/hw/core/cpu.h                 |  92 ++---
+ include/hw/core/tcg-cpu-ops.h         |  75 ++++
+ include/{sysemu => qemu}/accel.h      |  16 +-
+ include/sysemu/accel-ops.h            |  45 +++
+ include/sysemu/cpus.h                 |  26 +-
+ include/sysemu/hvf.h                  |   2 +-
+ include/sysemu/kvm.h                  |   2 +-
+ include/sysemu/kvm_int.h              |   2 +-
+ linux-user/main.c                     |   7 +-
+ meson.build                           |   1 +
+ softmmu/cpus.c                        |  12 +-
+ softmmu/icount.c                      |   2 +-
+ softmmu/memory.c                      |   2 +-
+ softmmu/qtest.c                       |   2 +-
+ softmmu/vl.c                          |   8 +-
+ target/alpha/cpu.c                    |  18 +-
+ target/arm/cpu.c                      |  26 +-
+ target/arm/cpu64.c                    |   5 +-
+ target/arm/cpu_tcg.c                  |   8 +-
+ target/arm/helper.c                   |   4 +
+ target/arm/kvm64.c                    |   4 +-
+ target/avr/cpu.c                      |  13 +-
+ target/avr/helper.c                   |   4 +-
+ target/cris/cpu.c                     |  30 +-
+ target/cris/helper.c                  |   4 +-
+ target/hppa/cpu.c                     |  15 +-
+ target/i386/cpu-dump.c                | 537 +++++++++++++++++++++++++
+ target/i386/cpu.c                     | 418 ++------------------
+ target/i386/cpu.h                     | 120 +-----
+ target/i386/{ => hax}/hax-all.c       |   5 +-
+ target/i386/{ => hax}/hax-cpus.c      |  29 +-
+ target/i386/{ => hax}/hax-cpus.h      |   2 -
+ target/i386/{ => hax}/hax-i386.h      |   6 +-
+ target/i386/{ => hax}/hax-interface.h |   0
+ target/i386/{ => hax}/hax-mem.c       |   0
+ target/i386/{ => hax}/hax-posix.c     |   0
+ target/i386/{ => hax}/hax-posix.h     |   0
+ target/i386/{ => hax}/hax-windows.c   |   0
+ target/i386/{ => hax}/hax-windows.h   |   0
+ target/i386/hax/meson.build           |   7 +
+ target/i386/helper-tcg.h              | 112 ++++++
+ target/i386/helper.c                  | 539 +-------------------------
+ target/i386/host-cpu.c                | 198 ++++++++++
+ target/i386/host-cpu.h                |  19 +
+ target/i386/hvf/cpu.c                 |  65 ++++
+ target/i386/hvf/hvf-cpus.c            |  27 +-
+ target/i386/hvf/hvf-cpus.h            |   2 -
+ target/i386/hvf/hvf-i386.h            |   2 +-
+ target/i386/hvf/hvf.c                 |   3 +-
+ target/i386/hvf/meson.build           |   1 +
+ target/i386/hvf/x86_task.c            |   2 +-
+ target/i386/kvm/cpu.c                 | 148 +++++++
+ target/i386/{ => kvm}/hyperv-proto.h  |   0
+ target/i386/{ => kvm}/hyperv-stub.c   |   0
+ target/i386/{ => kvm}/hyperv.c        |   0
+ target/i386/{ => kvm}/hyperv.h        |   0
+ target/i386/kvm/kvm-cpu.h             |  41 ++
+ target/i386/{ => kvm}/kvm-stub.c      |   0
+ target/i386/{ => kvm}/kvm.c           |   3 +-
+ target/i386/{ => kvm}/kvm_i386.h      |   0
+ target/i386/kvm/meson.build           |   8 +
+ target/i386/kvm/trace-events          |   7 +
+ target/i386/kvm/trace.h               |   1 +
+ target/i386/machine.c                 |   4 +-
+ target/i386/meson.build               |  39 +-
+ target/i386/{ => tcg}/bpt_helper.c    |   1 +
+ target/i386/{ => tcg}/cc_helper.c     |   1 +
+ target/i386/tcg/cpu.c                 | 173 +++++++++
+ target/i386/{ => tcg}/excp_helper.c   |   1 +
+ target/i386/{ => tcg}/fpu_helper.c    |  33 +-
+ target/i386/{ => tcg}/int_helper.c    |   1 +
+ target/i386/{ => tcg}/mem_helper.c    |   1 +
+ target/i386/tcg/meson.build           |  14 +
+ target/i386/{ => tcg}/misc_helper.c   |   1 +
+ target/i386/{ => tcg}/mpx_helper.c    |   1 +
+ target/i386/{ => tcg}/seg_helper.c    |   1 +
+ target/i386/{ => tcg}/smm_helper.c    |   2 +
+ target/i386/{ => tcg}/svm_helper.c    |   1 +
+ target/i386/{ => tcg}/tcg-stub.c      |   0
+ target/i386/{ => tcg}/translate.c     |   1 +
+ target/i386/trace-events              |   6 -
+ target/i386/whpx/meson.build          |   4 +
+ target/i386/{ => whpx}/whp-dispatch.h |   0
+ target/i386/{ => whpx}/whpx-all.c     |   4 +-
+ target/i386/{ => whpx}/whpx-cpus.c    |  29 +-
+ target/i386/{ => whpx}/whpx-cpus.h    |   2 -
+ target/lm32/cpu.c                     |  13 +-
+ target/m68k/cpu.c                     |  12 +-
+ target/microblaze/cpu.c               |  23 +-
+ target/mips/cpu.c                     |  21 +-
+ target/moxie/cpu.c                    |  10 +-
+ target/nios2/cpu.c                    |  14 +-
+ target/openrisc/cpu.c                 |  12 +-
+ target/ppc/translate_init.c.inc       |  23 +-
+ target/riscv/cpu.c                    |  25 +-
+ target/rx/cpu.c                       |  18 +-
+ target/s390x/cpu.c                    |  15 +-
+ target/sh4/cpu.c                      |  14 +-
+ target/sparc/cpu.c                    |  18 +-
+ target/tilegx/cpu.c                   |  10 +-
+ target/tricore/cpu.c                  |   8 +-
+ target/unicore32/cpu.c                |  14 +-
+ target/xtensa/cpu.c                   |  16 +-
+ 141 files changed, 3007 insertions(+), 2051 deletions(-)
+ create mode 100644 accel/accel-common.c
+ rename accel/{accel.c => accel-softmmu.c} (64%)
+ create mode 100644 accel/accel-softmmu.h
+ create mode 100644 accel/accel-user.c
+ create mode 100644 accel/tcg/tcg-cpus-icount.c
+ create mode 100644 accel/tcg/tcg-cpus-icount.h
+ create mode 100644 accel/tcg/tcg-cpus-mttcg.c
+ create mode 100644 accel/tcg/tcg-cpus-mttcg.h
+ create mode 100644 accel/tcg/tcg-cpus-rr.c
+ create mode 100644 accel/tcg/tcg-cpus-rr.h
+ create mode 100644 include/hw/core/accel-cpu.h
+ create mode 100644 include/hw/core/tcg-cpu-ops.h
+ rename include/{sysemu => qemu}/accel.h (94%)
+ create mode 100644 include/sysemu/accel-ops.h
+ create mode 100644 target/i386/cpu-dump.c
+ rename target/i386/{ => hax}/hax-all.c (99%)
+ rename target/i386/{ => hax}/hax-cpus.c (71%)
+ rename target/i386/{ => hax}/hax-cpus.h (95%)
+ rename target/i386/{ => hax}/hax-i386.h (95%)
+ rename target/i386/{ => hax}/hax-interface.h (100%)
+ rename target/i386/{ => hax}/hax-mem.c (100%)
+ rename target/i386/{ => hax}/hax-posix.c (100%)
+ rename target/i386/{ => hax}/hax-posix.h (100%)
+ rename target/i386/{ => hax}/hax-windows.c (100%)
+ rename target/i386/{ => hax}/hax-windows.h (100%)
+ create mode 100644 target/i386/hax/meson.build
+ create mode 100644 target/i386/helper-tcg.h
+ create mode 100644 target/i386/host-cpu.c
+ create mode 100644 target/i386/host-cpu.h
+ create mode 100644 target/i386/hvf/cpu.c
+ create mode 100644 target/i386/kvm/cpu.c
+ rename target/i386/{ => kvm}/hyperv-proto.h (100%)
+ rename target/i386/{ => kvm}/hyperv-stub.c (100%)
+ rename target/i386/{ => kvm}/hyperv.c (100%)
+ rename target/i386/{ => kvm}/hyperv.h (100%)
+ create mode 100644 target/i386/kvm/kvm-cpu.h
+ rename target/i386/{ => kvm}/kvm-stub.c (100%)
+ rename target/i386/{ => kvm}/kvm.c (99%)
+ rename target/i386/{ => kvm}/kvm_i386.h (100%)
+ create mode 100644 target/i386/kvm/meson.build
+ create mode 100644 target/i386/kvm/trace-events
+ create mode 100644 target/i386/kvm/trace.h
+ rename target/i386/{ => tcg}/bpt_helper.c (99%)
+ rename target/i386/{ => tcg}/cc_helper.c (99%)
+ create mode 100644 target/i386/tcg/cpu.c
+ rename target/i386/{ => tcg}/excp_helper.c (99%)
+ rename target/i386/{ => tcg}/fpu_helper.c (99%)
+ rename target/i386/{ => tcg}/int_helper.c (99%)
+ rename target/i386/{ => tcg}/mem_helper.c (99%)
+ create mode 100644 target/i386/tcg/meson.build
+ rename target/i386/{ => tcg}/misc_helper.c (99%)
+ rename target/i386/{ => tcg}/mpx_helper.c (99%)
+ rename target/i386/{ => tcg}/seg_helper.c (99%)
+ rename target/i386/{ => tcg}/smm_helper.c (99%)
+ rename target/i386/{ => tcg}/svm_helper.c (99%)
+ rename target/i386/{ => tcg}/tcg-stub.c (100%)
+ rename target/i386/{ => tcg}/translate.c (99%)
+ create mode 100644 target/i386/whpx/meson.build
+ rename target/i386/{ => whpx}/whp-dispatch.h (100%)
+ rename target/i386/{ => whpx}/whpx-all.c (99%)
+ rename target/i386/{ => whpx}/whpx-cpus.c (73%)
+ rename target/i386/{ => whpx}/whpx-cpus.h (96%)
+
+-- 
+2.26.2
+
 
