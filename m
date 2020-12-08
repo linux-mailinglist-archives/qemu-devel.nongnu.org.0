@@ -2,81 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B352D3667
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:44:45 +0100 (CET)
-Received: from localhost ([::1]:49624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3632D366F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:48:02 +0100 (CET)
+Received: from localhost ([::1]:56504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmliu-0001t4-A3
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:44:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56202)
+	id 1kmlm5-0004uf-RL
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:48:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmlD1-0005zJ-AJ
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:11:47 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41115)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmlCy-0005kh-H0
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:11:47 -0500
-Received: by mail-ot1-x342.google.com with SMTP id x13so255293oto.8
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 14:11:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=b2C+HWDM43GOsU1SRUMnDSewUrX0ur8On93MW/ehQ2s=;
- b=AcjOBK/rmhGFw8hp5XO1ilO86Pt7OUam1wVa/jIeRSpLmwc1ZKmGTi5hGesRj9b1ra
- jyTR265P3Uu9xwydMd2HvJaP47ZHp4OmtU20U6XQ4Znm3ZzJgXgV9lSXLZFlbf8zpKCb
- vIFlYik0Lv2h2FC2tpy52LQ/fNfP4m6UReBDXjDf2SX9zzRI2PXQJXpxiHPb269apekq
- wjuD+rVnMYhP/2RgqKZStxUqJ3vooypyftjoEGHbrs3PVg26Ly1O1O6AzaIxJUwU+SGq
- AE5qGuYu/CAK3lBmHxisyyB+KcH1Vwq/DFXGG0QFCs7JCj+Q4MIsQvS86a02SuwMSsdF
- PTdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=b2C+HWDM43GOsU1SRUMnDSewUrX0ur8On93MW/ehQ2s=;
- b=mWLdqNxOVCqPqZHFCCLNozPDhVZrDn6rz05MWonF3GSWnLZ4kp8HQP0YJPtanoyq/O
- pk+OB8+DIinxBf7mnWtcEC6fl7VOwcKgGFFg+qEg1Euld1ZPG6tXXsnszZ6cdXpq9Gfp
- Tym5uM8D8tne2/4hqPU8bPI7g3c8TNQRlHVD3nYF51LUj3TEgJnEoglsXGNewCwI4J0Y
- Tf322MC4akitObVelkD/qK8LuCoo/y4ptddi/ANM/35yeQ0HHoP3SWrfpFuzVIeu3xh+
- dzw/GVUQusEwJbesFbj2dbQKGn+o0jlHeSFnTH4wfqNKMb5BDJWk4G4rESaREJ+D8fED
- Xk5g==
-X-Gm-Message-State: AOAM532iou6RMa+OMy7tURs77x7zX3ju+lNFPGoP1uyrKjvlu6bsWONz
- dzkhrgHbUad3Hmuvc0e1LRwlZw==
-X-Google-Smtp-Source: ABdhPJxkEDlh4O1scIg1AjQvG5hEe0Xiqb+MWnH5kdFDAGyeJYI/qHa9N9rZ75RDIWv5GZHERR1zpg==
-X-Received: by 2002:a05:6830:1352:: with SMTP id
- r18mr153887otq.73.1607465503236; 
- Tue, 08 Dec 2020 14:11:43 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id t203sm20829oib.34.2020.12.08.14.11.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 14:11:42 -0800 (PST)
-Subject: Re: [PATCH 13/19] target/mips: Fix code style for checkpatch.pl
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201206233949.3783184-1-f4bug@amsat.org>
- <20201206233949.3783184-14-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ba22f3db-9afb-b4e1-5c19-1d9f5ff000fd@linaro.org>
-Date: Tue, 8 Dec 2020 16:11:40 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kmlFM-0007r5-SN; Tue, 08 Dec 2020 17:14:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54266)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kmlFK-0006Qz-KL; Tue, 08 Dec 2020 17:14:12 -0500
+Date: Wed, 9 Dec 2020 07:14:05 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607465648;
+ bh=Z6bKGKjOzobP1unjWY2K5UhTaqpw5zb1YIBIbiapQj4=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dzAzqRPxh0yVNFog5/vzElJayeqGXLE9KNEtXf9whMzyIYn38tDEpfDCij5rwavqI
+ IcOJ7gO83E6ipmSKP6y6izkObVgDFm6F0Wro5dx2e1gB2NMAdsypQO1anUK365VPGH
+ xYl+7Hm6Q1MaIOn+99kwRH6gd0n+ylMyoVMq4UF4+cOI0d359nllLj+97kWZLdZeU/
+ O0yj8S6MB3/q1ZbbPgTqm7TUOV1/sWVdFpukcOfeZOC9lbGG+ok8PnWK+WnTuCI9Qv
+ v0p7Wkdbw/8g1nbRloPbNS6n0SCn4BljHgM0itV46iDvVdLz6SOFXMSGhVWrhl3b02
+ um6zs0KzxOqxg==
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v2] hw/block/nvme: add compare command
+Message-ID: <20201208221405.GI27155@redsun51.ssa.fujisawa.hgst.com>
+References: <20201126185605.539311-1-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20201206233949.3783184-14-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201126185605.539311-1-its@irrelevant.dk>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,21 +59,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Minwoo Im <minwoo.im.dev@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/6/20 5:39 PM, Philippe Mathieu-Daudé wrote:
-> We are going to move this code, fix its style first.
+On Thu, Nov 26, 2020 at 07:56:05PM +0100, Klaus Jensen wrote:
+> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/mips/translate_init.c.inc | 36 ++++++++++++++++----------------
->  1 file changed, 18 insertions(+), 18 deletions(-)
+> Add the Compare command.
+> 
+> This implementation uses a bounce buffer to read in the data from
+> storage and then compare with the host supplied buffer.
+> 
+> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> [k.jensen: rebased]
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Looks good.
 
-r~
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
