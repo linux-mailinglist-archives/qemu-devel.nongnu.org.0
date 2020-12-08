@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69A4B2D2BB8
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:15:08 +0100 (CET)
-Received: from localhost ([::1]:40002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048D22D2BC8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:19:06 +0100 (CET)
+Received: from localhost ([::1]:46808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmcpf-0001jJ-EN
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:15:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36040)
+	id 1kmctU-0004lA-R4
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:19:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmchg-0006ZS-09
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:06:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58283)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmclu-0000YR-Pw
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:11:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmchd-00047F-FA
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:06:51 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmclr-0005U5-F3
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:11:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607432808;
+ s=mimecast20190719; t=1607433066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YRpL7uFBrwvGFZPSrl1zteHccg6Rj/NkJHGCmfydzMk=;
- b=eDQT7tTrUaTucDElfN6EmnckAajdBrRnvW13C/qdXf1VmOMCVo4dy5g2u0F6kTV6ih/qhn
- 3tAd0L9FaYEUzYp/F0BUlti7xovBKtGApWsOpMit7GclTAmZLxT9j4RWcwLbwnDMW46Dr0
- rS89c766v9JHps0yPR7QV0mWud5Lp3g=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-7dAlb1QOMvSaWD6vgn1Uew-1; Tue, 08 Dec 2020 08:06:46 -0500
-X-MC-Unique: 7dAlb1QOMvSaWD6vgn1Uew-1
-Received: by mail-ej1-f71.google.com with SMTP id 2so5089904ejv.4
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 05:06:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YRpL7uFBrwvGFZPSrl1zteHccg6Rj/NkJHGCmfydzMk=;
- b=XShXp7fxTvef+kV3hUYqgQpMjY8yCq+UDuqXtjPzJRmsxMPBf2qSjScqLEouQF0Vhf
- UCtrrGpZw3JFua4PsRvu/RRjr+RYZas19eyZhtQLoYxeuQbpoVMuobUU0g3nEoK95T6J
- SRSAsfB3gFthwufvI+Zsvdu7IMtU3df4bdqDr+lGZ8E/vgcJRGuRedo3+Naacw5VhMlf
- AXmlPVtVRinut+VYHofqyejSYC1QUdjGd7Y/BTOqf8cI08g2bVtS0upjQeRvOi+WU6hd
- rb1tHfTdghSjHZyA8DpROgPQne8da1aAT88kRDa2JyhwjZ3BVVnpAh/9dJ2g5+XQR38Y
- rx9g==
-X-Gm-Message-State: AOAM533Lqf6UDHmW4dV9n0/T+d6/5Ny0/HQj+zlyRxfKdKSXGs0xp3mK
- WXPgHEKfW8Bx38ehKqpfJY/NENBxhqTeOu4znBmH6r8ogvCMWqn5ZoUg6iWQnVXWSBe1/EcXIcP
- 6kJavIfjtSU0XXTw=
-X-Received: by 2002:a50:d5c4:: with SMTP id g4mr23710180edj.334.1607432805201; 
- Tue, 08 Dec 2020 05:06:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJynhb8WrpeUn2Agv3MSJgU14xSBd+SRe6zXgTBZ6ZLnJAve2iITs1ldEoEAYIc7C/5HMKZD5A==
-X-Received: by 2002:a50:d5c4:: with SMTP id g4mr23710167edj.334.1607432805036; 
- Tue, 08 Dec 2020 05:06:45 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id cb21sm16966917edb.57.2020.12.08.05.06.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 05:06:44 -0800 (PST)
-Subject: Re: [PATCH] hw/input: expand trace info reported for ps2 device
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201208115934.3163238-1-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7c36372d-010e-0b8a-7f70-15b8b4bbcaba@redhat.com>
-Date: Tue, 8 Dec 2020 14:06:43 +0100
+ bh=rEtHXsvTR6uWa3IMx4m8/Acx3l/Z7YwRZI9J/1ZYt4Q=;
+ b=BPY1kdKlM2XiBTW8cbTE/FkjzjL0iCYFuf+aC96j8TqN8XLze2HZ09kAei5qKrIF2WYHtl
+ y8x2HpFFwhK9uGpuWgfRDUkHstSlsTc1gFEayqx1azNCoIm/jjDas40ozu7P2yzeIvnM6c
+ ojwNtE6BIxPD3thC+5jNuN+MrhA1j2M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-344-70Y3A0Y0N5CW3-OeKcqWWQ-1; Tue, 08 Dec 2020 08:11:04 -0500
+X-MC-Unique: 70Y3A0Y0N5CW3-OeKcqWWQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5ABDC1006C85;
+ Tue,  8 Dec 2020 13:11:03 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-38.ams2.redhat.com [10.36.112.38])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C02285D9DD;
+ Tue,  8 Dec 2020 13:10:56 +0000 (UTC)
+Subject: Re: [PATCH v3] tests/acceptance: test hot(un)plug of ccw devices
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20201208122843.147186-1-cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <dc13ec34-3524-a590-2d38-2f471e15b282@redhat.com>
+Date: Tue, 8 Dec 2020 14:10:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201208115934.3163238-1-berrange@redhat.com>
+In-Reply-To: <20201208122843.147186-1-cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,34 +81,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/8/20 12:59 PM, Daniel P. Berrangé wrote:
-> It is interesting to know if the PS2 keyboard is in translated mode, and
-> which of the three scancode sets are in use.
+On 08/12/2020 13.28, Cornelia Huck wrote:
+> Hotplug a virtio-net-ccw device, and then hotunplug it again.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 > ---
->  hw/input/ps2.c        | 2 +-
->  hw/input/trace-events | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> v2->v3:
+> - do the dmesg cleanout and waiting for messages properly [Thomas]
 > 
-> diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-> index 72cdb80ae1..237956aca2 100644
-> --- a/hw/input/ps2.c
-> +++ b/hw/input/ps2.c
-> @@ -293,7 +293,7 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
->      qcode = qemu_input_key_value_to_qcode(key->key);
->  
->      mod = ps2_modifier_bit(qcode);
-> -    trace_ps2_keyboard_event(s, qcode, key->down, mod, s->modifiers);
-> +    trace_ps2_keyboard_event(s, qcode, key->down, mod, s->modifiers, s->scancode_set, s->translate);
+> Wainer: I dropped your r-b, as there had been too many changes for
+>         me to be comfortable with retaining it
+> 
+> ---
+>  tests/acceptance/machine_s390_ccw_virtio.py | 24 +++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
 
-Long line...
-
-Anyway,
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
