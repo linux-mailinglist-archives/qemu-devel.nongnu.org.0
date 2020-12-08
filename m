@@ -2,70 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751D02D2580
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:15:47 +0100 (CET)
-Received: from localhost ([::1]:55972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C82A2D258E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:17:48 +0100 (CET)
+Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmY9y-0000jy-Hx
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:15:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57322)
+	id 1kmYBv-0002GF-9y
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:17:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kmY6z-0007cz-VF
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:12:41 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:47192 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kmY6w-0007i5-88
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:12:41 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 72840412DD;
- Tue,  8 Dec 2020 08:12:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1607415155;
- x=1609229556; bh=RVyBMD4cqMg2GjhQnGK8JPbI29pUdLIX4vzUJfF1NKQ=; b=
- FDsa7gMh/7nIF0BRYgX7LutDxbWQdil+CqonAR58OLbktqVNnTsb+XeTy19L1fRB
- 9wMVVOl9X3xk44017M3KLWKhOMBus79vkAluJQIv/pE1K3oWhmhTw8zXBwHmbxae
- LF0+VjfSCdcWlRbEKDYFyPKp7M/vtwma9vKYhhnqexs=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZIkrezja5Jim; Tue,  8 Dec 2020 11:12:35 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 61E2141256;
- Tue,  8 Dec 2020 11:12:35 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 8 Dec
- 2020 11:12:35 +0300
-Date: Tue, 8 Dec 2020 11:13:07 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Peter Krempa <pkrempa@redhat.com>
-Subject: Re: [PATCH for-6.0] accel: Wire accel to /machine
-Message-ID: <X881k+IdAzs5O1yQ@SPB-NB-133.local>
-References: <20201207084621.23876-1-r.bolshakov@yadro.com>
- <20201207173849.GC1289986@habkost.net>
- <20201207175007.GO105758@angien.pipo.sk>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kmY83-0008F8-Qs
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:13:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kmY80-0008Eo-W1
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:13:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607415223;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gQ3YYnYCSeNJFntjBuzvC1itaJ45prWp1eyYiNm6Xic=;
+ b=huLhZgyZxLfcLBVwCdO+tVhMNdxP0SJtwqlfONm9e6yr+6l3376PYmz1KeF7A5unZkA0kY
+ uDZf25BTbtoVEo72NodYUciL+vjHmPq45muDQObKyFkyqWfsxFG5NmKmIR4InRzeP1bhaJ
+ bRAooE8V4AfTqyMtHpRpBIXOwYstVGA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-8-N4CPErPuKbVxQHthVWAA-1; Tue, 08 Dec 2020 03:13:41 -0500
+X-MC-Unique: 8-N4CPErPuKbVxQHthVWAA-1
+Received: by mail-ed1-f71.google.com with SMTP id u17so2310645edi.18
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 00:13:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gQ3YYnYCSeNJFntjBuzvC1itaJ45prWp1eyYiNm6Xic=;
+ b=jAYIHTDpmiYLzb+OKXd3uoGvlQbJqZ7yX+b6duxN/I/UuXGGDFaw6rDwujKDNrwxO6
+ 6KStHvWxxFx7JrqsKnWbyPA64tiLdbgz382+txDdRhGLPhiTUGS2iihzdw1MXnZbSWTX
+ O0DLNtgA7TmGzLKixyCPudn4+MRkJPe6fCyY6SyicF80i2hHDUrmzhiKDyKn1cnsAoOs
+ iXFM6CKraqI0SMkLocyFVx+oPzaQCBRy+HIpY3GJGius02OayD62n8FsGw+Kto7suXAv
+ AZV3c/o0bdU0/1SVXFHCjM+ewYHv8WmGHThPpuOkcPJyhq3SJ4pta7yGpCTHLj4lVYWv
+ EwkQ==
+X-Gm-Message-State: AOAM531JYkWzHoo83UB6GarkjOQKVhjxJ+Saw8KaFL4QQ3javVkxp5bj
+ e1ETZBatam5PCuQCfH0IDjqVAzjTKd3GnrkCkBS9mUwPhwgEBXlHoTdwZBptGCVwLEoFbQkgcJm
+ 6fbAARCxdO81yrDI=
+X-Received: by 2002:a17:906:1294:: with SMTP id
+ k20mr21867817ejb.404.1607415220699; 
+ Tue, 08 Dec 2020 00:13:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzj/ijd45z1O15en0IKvIzLqx+1oQ/8mZpEgv4IAKZYBYptv2/cHsRJqyPoHdN3ifLA9jaVTg==
+X-Received: by 2002:a17:906:1294:: with SMTP id
+ k20mr21867807ejb.404.1607415220485; 
+ Tue, 08 Dec 2020 00:13:40 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id e10sm15272841ejl.70.2020.12.08.00.13.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Dec 2020 00:13:39 -0800 (PST)
+Subject: Re: [PATCH 10/15] vl: make qemu_get_machine_opts static
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20201202081854.4126071-1-pbonzini@redhat.com>
+ <20201202081854.4126071-11-pbonzini@redhat.com>
+ <d0ee4dd3-36c3-adae-13f7-2ea436a9a042@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <61c99f88-c160-0539-4ff2-a2815cf17bd7@redhat.com>
+Date: Tue, 8 Dec 2020 09:13:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20201207175007.GO105758@angien.pipo.sk>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
+In-Reply-To: <d0ee4dd3-36c3-adae-13f7-2ea436a9a042@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,60 +103,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- libvir-list@redhat.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: imammedo@redhat.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 07, 2020 at 06:50:07PM +0100, Peter Krempa wrote:
-> On Mon, Dec 07, 2020 at 12:38:49 -0500, Eduardo Habkost wrote:
-> > On Mon, Dec 07, 2020 at 11:46:22AM +0300, Roman Bolshakov wrote:
-> > > There's no generic way to query current accel and its properties via QOM
-> > > because there's no link between an accel and current machine.
-> > > 
-> > > The change adds the link, i.e. if HVF is enabled the following will be
-> > > available in QOM:
-> > > 
-> > >   (qemu) qom-get /machine/accel type
-> > >   "hvf-accel"
-> > > 
-> > > Suggested-by: Markus Armbruster <armbru@redhat.com>
-> > > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> > > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > > ---
-> > > 
-> > > Hi,
-> > > 
-> > > this is a follow up patch that deprecates earlier series [1].
-> > > 
-> > 
-> > Is there a reference to the reasoning for dropping the earlier
-> > approach?  Your previous approach seems preferable.
+On 08/12/20 03:16, Daniel Henrique Barboza wrote:
+> 2) find a way to make object_property_get_str() to return kvm_type =
+>  NULL if the 'kvm_type' option is absent  and keep spapr code
+> untouched. I don't have the knowledge to assess how hard this would
+> be.
 > 
-> The gist of the discussion before was that deprecating old commands in
-> the same release cycle as introducing the replacement might be
-> problematic if libvirt wants to adapt ASAP and that the new command
-> should be elevated to a intermediate tier of stability, where ACK from
-> libvirt is needed to change it during the same release cycle
-> incompatibly.
+> 3) I can change the pseries logic to add an explicit default value
+> for kvm_type=NULL or kvm_type='' (i.e. no user input is given). We're
+> already doing that in a sense, but it's not exposed to the user. I
+> would call it 'auto' and expose it to the user as default value if no
+> kvm_type is explictly set. This would enhance user experience a bit
+> and avoid having to deal with a scenario where kvm_type=(blank) is a
+> valid input.
 > 
-> That was meant generally for any command, and was started because we had
-> a similar issue recently.
 > 
-> My intention definitely was not to change the patch itself, but more a
-> process change so that we can keep cooperating on new stuff rapidly, but
-> without actually breaking what we do.
-> 
+> David, if you think (3) is tolerable let me know and I can send a
+> patch. IMO this change adds a bit of value regardless of Paolo's
+> change.
 
-Thanks Peter,
+Yes, I agree that (3) is a good idea.  If you send a patch I can 
+integrate it in the series.
 
-I'll drop deprecation patch in v2 of query-accel QMP command.
+Paolo
 
-Ragards,
-Roman
 
