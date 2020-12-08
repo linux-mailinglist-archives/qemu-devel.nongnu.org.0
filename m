@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59152D29E7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 12:45:25 +0100 (CET)
-Received: from localhost ([::1]:52478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C632D2A13
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 12:57:59 +0100 (CET)
+Received: from localhost ([::1]:57552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmbQp-0006fh-ON
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 06:45:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46790)
+	id 1kmbcz-0001Bz-QL
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 06:57:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kmbP4-0006CF-Hm
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 06:43:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kmbP2-00083q-5P
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 06:43:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607427810;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HOYehiiLglSp6LdTKF7rNCRxYPx/TwUJvyB+/Fza0ok=;
- b=RIy29VmbnVHfTZX2zLBo04gfw4oIRcxjPoEFc3g4YAwMXi6DY90KQwW2+ECiQt5jmdo950
- nlScpG/3viOCJkxNC1sH8xhKHxbRKSrKijhObfqi9HSAPYkdofbyrdg1Y+gqwx2zynJBmr
- bF/qDxxljO3TpC4qLVjPhWRcCHtjXRc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-RBJZ-Xq1PhCHvsESio6Ekg-1; Tue, 08 Dec 2020 06:43:28 -0500
-X-MC-Unique: RBJZ-Xq1PhCHvsESio6Ekg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F8D8802B46;
- Tue,  8 Dec 2020 11:43:27 +0000 (UTC)
-Received: from gondolin (ovpn-113-5.ams2.redhat.com [10.36.113.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4B2C60BF1;
- Tue,  8 Dec 2020 11:43:21 +0000 (UTC)
-Date: Tue, 8 Dec 2020 12:43:19 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] tests/acceptance: test hot(un)plug of ccw devices
-Message-ID: <20201208124319.01dc60ba.cohuck@redhat.com>
-In-Reply-To: <5ef2b665-3f21-bff2-5f16-649d0b5a2d7c@redhat.com>
-References: <20201204121450.120730-1-cohuck@redhat.com>
- <c3c60abd-2a38-8267-aafa-9a7534d5bf24@redhat.com>
- <20201207173039.0678eef3.cohuck@redhat.com>
- <960b49b9-337f-429d-907e-f3548d1b5b80@redhat.com>
- <5ef2b665-3f21-bff2-5f16-649d0b5a2d7c@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kmbaK-0000XG-8Y
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 06:55:12 -0500
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:36011)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kmbaH-00047V-N0
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 06:55:11 -0500
+Received: by mail-ed1-x544.google.com with SMTP id b2so17278584edm.3
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 03:55:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=X+iN4NkWVZ09Qa9uPl6jUeIlD4RKeLgsGqFTUUOEgyI=;
+ b=RAZ13yoJqz1G8XTd1Jl6SQBDZVUP9YrE3+5Fkk2W+uRzN4JBkkdawG/NEp/vCeoJ9Y
+ mlVXWIdjPDyFwXLec4ux1nKF69RpCzlWTlhBwhWpSz8zUmo/8MyDRnUDhxsO4mVqSUCl
+ z0trVR94nHjfrbHr3rInjf00gTPiN+eEf/rMalzN/i9IoeNT6Gb3NspaoQQnuakrnBpH
+ JTlqjhUYaqKuqfQBNO4cBFsp2NHEqSdsC1lqjMXQ5EQY/IK+bfrkeT7jB0Tu7Hd5vSqQ
+ c+qxXVaBAb9RtvjTOu4Lkik0ESpj6Hs1cAVBZGNIO7hqY7hQZeRqbZXhqVdYl+F765d1
+ yA3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X+iN4NkWVZ09Qa9uPl6jUeIlD4RKeLgsGqFTUUOEgyI=;
+ b=EIJZfnrY0kOfOk7Lf/nxmuorpinmwW9r54o8oq9zvXrbE8DYr5PLr5rRVpkBH3jBiV
+ eV2sCX0dMaCDln2zWFEwEvT4Fky//vd6kCgGCvDZPK+SJQRJdrBhyxMcfcJOtC1lYjCW
+ lxgpsvMMRi23YMkPspIK84zvTD48yVw67vonZnxniu3LX4pfB8TNXxywLv9FcpZAI6IK
+ wjJjYvw3B1ecgBlaypKBBZ8pxX8Q4vW8VFUvw/Ss8nQqAe8iKrxjEcDZQTyM4GfGkP0v
+ A3jo25BzJ7cmYjh306c8NPVLsHO5qbwP2Lh3pCXe41upm/bXiVtYw4uH0iB6a5UtuLeA
+ O0GA==
+X-Gm-Message-State: AOAM53124WTER1HI6uCQSLM1l6BCqpKFri777Pg5Lydr57eP53vAuXO1
+ DTQajWmkE2owH55i1EqxZzQ6zSPIQ33oD957fhE=
+X-Google-Smtp-Source: ABdhPJxIIZK1Stl5vkpOx7s8ML3FpW3rd3CCNyMugqPhMLnxWVw1NhaMgKfKyQlzCBpqQSBUMxjhdzDdrZ/8Bt0tsyY=
+X-Received: by 2002:a05:6402:1155:: with SMTP id
+ g21mr24984239edw.53.1607428507498; 
+ Tue, 08 Dec 2020 03:55:07 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <cover.1606853298.git.jag.raman@oracle.com>
+ <8609dbecb51f77d45edc1add4b6ccc27b1886a05.1606853298.git.jag.raman@oracle.com>
+In-Reply-To: <8609dbecb51f77d45edc1add4b6ccc27b1886a05.1606853298.git.jag.raman@oracle.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 8 Dec 2020 15:54:55 +0400
+Message-ID: <CAJ+F1CKv-UqQa+rRiQbSB9QdReUjzLJ+cKPOWpKxcjaLEezsog@mail.gmail.com>
+Subject: Re: [PATCH v12 11/19] multi-process: setup memory manager for remote
+ device
+To: Jagannathan Raman <jag.raman@oracle.com>
+Content-Type: multipart/alternative; boundary="00000000000030fd0705b5f29d34"
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x544.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,72 +79,561 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Ross Lagerwall <ross.lagerwall@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 7 Dec 2020 19:40:36 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+--00000000000030fd0705b5f29d34
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On 07/12/2020 17.34, Thomas Huth wrote:
-> > On 07/12/2020 17.30, Cornelia Huck wrote:  
-> >> On Mon, 7 Dec 2020 15:28:47 +0100
-> >> Thomas Huth <thuth@redhat.com> wrote:
-> >>  
-> >>> On 04/12/2020 13.14, Cornelia Huck wrote:  
-> >>>> Hotplug a virtio-net-ccw device, and then hotunplug it again.
-> >>>>
-> >>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> >>>> ---  
-> >  
-> [...]
-> >>>> +        exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
-> >>>> +                                          '0.0.4711')
-> >>>> +        # and detach it again
-> >>>> +        exec_command_and_wait_for_pattern(self, 'dmesg -c', ' ')    
-> >>>
-> >>> If adapt my above change, you could also get rid of this dmesg -c here
-> >>> (since it's done in the while loop already)  
-> >>
-> >> I don't think so (there are two CRWs posted, and the loop might have
-> >> caught the first one only.)  
-> > 
-> > Oh, you're right. So let's better be safe than sorry and keep this dmesg -c.  
-> 
-> Ok, as we had to discover during some testing, it's a bad idea to only wait
-> for ' ' after the 'dmesg -c' since it matches too early, so that the device
-> gets added while the dmesg command is still running.
-> 
-> The following code is working for me instead:
-> 
->          # add another device
->          exec_command_and_wait_for_pattern(self,
->                      'dmesg -c > /dev/null; echo dm-clear\ 1', 'dm-clear 1')
->          self.vm.command('device_add', driver='virtio-net-ccw',
->                          devno='fe.0.4711', id='net_4711')
->          exec_command_and_wait_for_pattern(self,
->                          'while ! (dmesg -c | grep CRW) ; do sleep 1 ; done',
->                          'CRW reports')
->          exec_command_and_wait_for_pattern(self, 'ls /sys/bus/ccw/devices/',
->                                            '0.0.4711')
->          # and detach it again
->          exec_command_and_wait_for_pattern(self,
->                      'dmesg -c > /dev/null; echo dm-clear\ 2', 'dm-clear 2')
->          self.vm.command('device_del', id='net_4711')
->          self.vm.event_wait(name='DEVICE_DELETED',
->                             match={'data': {'device': 'net_4711'}})
->          exec_command_and_wait_for_pattern(self,
->                          'while ! (dmesg -c | grep CRW) ; do sleep 1 ; done',
->                          'CRW reports')
->          exec_command_and_wait_for_pattern(self,
->                                            'ls /sys/bus/ccw/devices/0.0.4711',
->                                            'No such file or directory')
+On Wed, Dec 2, 2020 at 12:23 AM Jagannathan Raman <jag.raman@oracle.com>
+wrote:
 
-Thanks for tracking this down, this works for me as well. I'll send a
-v3.
+> SyncSysMemMsg message format is defined. It is used to send
+> file descriptors of the RAM regions to remote device.
+> RAM on the remote device is configured with a set of file descriptors.
+> Old RAM regions are deleted and new regions, each with an fd, is
+> added to the RAM.
+>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  include/hw/remote/memory.h      | 19 ++++++++++++++
+>  include/hw/remote/mpqemu-link.h | 13 +++++++++
+>  hw/remote/memory.c              | 58
+> +++++++++++++++++++++++++++++++++++++++++
+>  hw/remote/mpqemu-link.c         | 11 ++++++++
+>  MAINTAINERS                     |  2 ++
+>  hw/remote/meson.build           |  2 ++
+>  6 files changed, 105 insertions(+)
+>  create mode 100644 include/hw/remote/memory.h
+>  create mode 100644 hw/remote/memory.c
+>
+> diff --git a/include/hw/remote/memory.h b/include/hw/remote/memory.h
+> new file mode 100644
+> index 0000000..4fd548e
+> --- /dev/null
+> +++ b/include/hw/remote/memory.h
+> @@ -0,0 +1,19 @@
+> +/*
+> + * Memory manager for remote device
+> + *
+> + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or
+> later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#ifndef REMOTE_MEMORY_H
+> +#define REMOTE_MEMORY_H
+> +
+> +#include "exec/hwaddr.h"
+> +#include "hw/remote/mpqemu-link.h"
+> +
+> +void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp);
+> +
+> +#endif
+> diff --git a/include/hw/remote/mpqemu-link.h
+> b/include/hw/remote/mpqemu-link.h
+> index 2d79ff8..070ac77 100644
+> --- a/include/hw/remote/mpqemu-link.h
+> +++ b/include/hw/remote/mpqemu-link.h
+> @@ -14,6 +14,7 @@
+>  #include "qom/object.h"
+>  #include "qemu/thread.h"
+>  #include "io/channel.h"
+> +#include "exec/hwaddr.h"
+>
+>  #define REMOTE_MAX_FDS 8
+>
+> @@ -24,12 +25,22 @@
+>   *
+>   * MPQemuCmd enum type to specify the command to be executed on the remo=
+te
+>   * device.
+> + *
+> + * SYNC_SYSMEM      Shares QEMU's RAM with remote device's RAM
+>
 
+My understanding is that it's deliberately a private protocol between qemu
+and remote host processes, so that it can break anytime. And in the future
+it will be vfio-user based. Correct? It would be worth to leave a note
+about it somewhere.
+
+  */
+>  typedef enum {
+>      MPQEMU_CMD_INIT,
+> +    SYNC_SYSMEM,
+> +    RET_MSG,
+>      MPQEMU_CMD_MAX,
+>  } MPQemuCmd;
+>
+> +typedef struct {
+> +    hwaddr gpas[REMOTE_MAX_FDS];
+> +    uint64_t sizes[REMOTE_MAX_FDS];
+> +    off_t offsets[REMOTE_MAX_FDS];
+> +} SyncSysmemMsg;
+> +
+>  /**
+>   * MPQemuMsg:
+>   * @cmd: The remote command
+> @@ -40,12 +51,14 @@ typedef enum {
+>   * MPQemuMsg Format of the message sent to the remote device from QEMU.
+>   *
+>   */
+> +
+>  typedef struct {
+>      int cmd;
+>      size_t size;
+>
+>      union {
+>          uint64_t u64;
+> +        SyncSysmemMsg sync_sysmem;
+>      } data;
+>
+>      int fds[REMOTE_MAX_FDS];
+> diff --git a/hw/remote/memory.c b/hw/remote/memory.c
+> new file mode 100644
+> index 0000000..6d1e830
+> --- /dev/null
+> +++ b/hw/remote/memory.c
+> @@ -0,0 +1,58 @@
+> +/*
+> + * Memory manager for remote device
+> + *
+> + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or
+> later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +
+> +#include "hw/remote/memory.h"
+> +#include "exec/address-spaces.h"
+> +#include "exec/ram_addr.h"
+> +#include "qapi/error.h"
+> +
+> +void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
+> +{
+> +    SyncSysmemMsg *sysmem_info =3D &msg->data.sync_sysmem;
+> +    MemoryRegion *sysmem, *subregion, *next;
+> +    static unsigned int suffix;
+> +    Error *local_err =3D NULL;
+> +    char *name;
+> +    int region;
+> +
+> +    sysmem =3D get_system_memory();
+> +
+> +    memory_region_transaction_begin();
+>
+
+It looks like this transaction business isn't really helping here. Both
+del_subregion and add_subregion already handle it.
+
++
+> +    QTAILQ_FOREACH_SAFE(subregion, &sysmem->subregions, subregions_link,
+> next) {
+> +        if (subregion->ram) {
+> +            memory_region_del_subregion(sysmem, subregion);
+> +            object_unparent(OBJECT(subregion));
+> +        }
+> +    }
+> +
+> +    for (region =3D 0; region < msg->num_fds; region++) {
+> +        subregion =3D g_new(MemoryRegion, 1);
+> +        name =3D g_strdup_printf("remote-mem-%u", suffix++);
+> +        memory_region_init_ram_from_fd(subregion, NULL,
+> +                                       name, sysmem_info->sizes[region],
+> +                                       true, msg->fds[region],
+> +                                       sysmem_info->offsets[region],
+> +                                       &local_err);
+> +        g_free(name);
+>
+
+We are quite happily using g_auto these days
+
+
+> +        if (local_err) {
+> +            error_propagate(errp, local_err);
+>
+
+here that would help prevent leaking subregion.
+
+And ERRP_GUARD could also help remove local_err and error_propagate
+
++            break;
+> +        }
+> +
+> +        memory_region_add_subregion(sysmem, sysmem_info->gpas[region],
+> +                                    subregion);
+> +    }
+> +
+> +    memory_region_transaction_commit();
+> +}
+> diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
+> index e535ed2..bbd9df3 100644
+> --- a/hw/remote/mpqemu-link.c
+> +++ b/hw/remote/mpqemu-link.c
+> @@ -238,5 +238,16 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
+>          }
+>      }
+>
+> +     /* Verify message specific fields. */
+> +    switch (msg->cmd) {
+> +    case SYNC_SYSMEM:
+> +        if (msg->num_fds =3D=3D 0 || msg->size !=3D sizeof(SyncSysmemMsg=
+)) {
+> +            return false;
+> +        }
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+>      return true;
+>  }
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index aedfc27..24cb36e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3146,6 +3146,8 @@ F: include/hw/remote/mpqemu-link.h
+>  F: hw/remote/message.c
+>  F: include/hw/remote/remote-obj.h
+>  F: hw/remote/remote-obj.c
+> +F: include/hw/remote/memory.h
+> +F: hw/remote/memory.c
+>
+>  Build and test automation
+>  -------------------------
+> diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+> index 71d0a56..64da16c 100644
+> --- a/hw/remote/meson.build
+> +++ b/hw/remote/meson.build
+> @@ -5,4 +5,6 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true:
+> files('mpqemu-link.c'))
+>  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
+>  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'=
+))
+>
+> +specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
+> +
+>  softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
+> --
+> 1.8.3.1
+>
+>
+I can't comment much on the overall approach. That looks very
+straightforward to me, I would be surprised if there are not underlying
+subtleties. Again, is this only experimental until a vfio-user
+implementation emerge? If not, having unit tests would be important (if not
+required).
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000030fd0705b5f29d34
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 2, 2020 at 12:23 AM Jagan=
+nathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">SyncSysMemMsg message format is defined. It is used to send<br>
+file descriptors of the RAM regions to remote device.<br>
+RAM on the remote device is configured with a set of file descriptors.<br>
+Old RAM regions are deleted and new regions, each with an fd, is<br>
+added to the RAM.<br>
+<br>
+Signed-off-by: Jagannathan Raman &lt;<a href=3D"mailto:jag.raman@oracle.com=
+" target=3D"_blank">jag.raman@oracle.com</a>&gt;<br>
+Signed-off-by: John G Johnson &lt;<a href=3D"mailto:john.g.johnson@oracle.c=
+om" target=3D"_blank">john.g.johnson@oracle.com</a>&gt;<br>
+Signed-off-by: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle=
+.com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
+Reviewed-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" tar=
+get=3D"_blank">stefanha@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0include/hw/remote/memory.h=C2=A0 =C2=A0 =C2=A0 | 19 ++++++++++++++<br=
+>
+=C2=A0include/hw/remote/mpqemu-link.h | 13 +++++++++<br>
+=C2=A0hw/remote/memory.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =
+58 +++++++++++++++++++++++++++++++++++++++++<br>
+=C2=A0hw/remote/mpqemu-link.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 11 +++++++=
++<br>
+=C2=A0MAINTAINERS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 ++<br>
+=C2=A0hw/remote/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0=
+ 2 ++<br>
+=C2=A06 files changed, 105 insertions(+)<br>
+=C2=A0create mode 100644 include/hw/remote/memory.h<br>
+=C2=A0create mode 100644 hw/remote/memory.c<br>
+<br>
+diff --git a/include/hw/remote/memory.h b/include/hw/remote/memory.h<br>
+new file mode 100644<br>
+index 0000000..4fd548e<br>
+--- /dev/null<br>
++++ b/include/hw/remote/memory.h<br>
+@@ -0,0 +1,19 @@<br>
++/*<br>
++ * Memory manager for remote device<br>
++ *<br>
++ * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.<br>
++ *<br>
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.<br>
++ * See the COPYING file in the top-level directory.<br>
++ *<br>
++ */<br>
++<br>
++#ifndef REMOTE_MEMORY_H<br>
++#define REMOTE_MEMORY_H<br>
++<br>
++#include &quot;exec/hwaddr.h&quot;<br>
++#include &quot;hw/remote/mpqemu-link.h&quot;<br>
++<br>
++void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp);<br>
++<br>
++#endif<br>
+diff --git a/include/hw/remote/mpqemu-link.h b/include/hw/remote/mpqemu-lin=
+k.h<br>
+index 2d79ff8..070ac77 100644<br>
+--- a/include/hw/remote/mpqemu-link.h<br>
++++ b/include/hw/remote/mpqemu-link.h<br>
+@@ -14,6 +14,7 @@<br>
+=C2=A0#include &quot;qom/object.h&quot;<br>
+=C2=A0#include &quot;qemu/thread.h&quot;<br>
+=C2=A0#include &quot;io/channel.h&quot;<br>
++#include &quot;exec/hwaddr.h&quot;<br>
+<br>
+=C2=A0#define REMOTE_MAX_FDS 8<br>
+<br>
+@@ -24,12 +25,22 @@<br>
+=C2=A0 *<br>
+=C2=A0 * MPQemuCmd enum type to specify the command to be executed on the r=
+emote<br>
+=C2=A0 * device.<br>
++ *<br>
++ * SYNC_SYSMEM=C2=A0 =C2=A0 =C2=A0 Shares QEMU&#39;s RAM with remote devic=
+e&#39;s RAM<br></blockquote><div><br></div><div>My understanding is that it=
+&#39;s deliberately a private protocol between qemu and remote host process=
+es, so that it can break anytime. And in the future it will be vfio-user ba=
+sed. Correct? It would be worth to leave a note about it somewhere.<br></di=
+v><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 */<br>
+=C2=A0typedef enum {<br>
+=C2=A0 =C2=A0 =C2=A0MPQEMU_CMD_INIT,<br>
++=C2=A0 =C2=A0 SYNC_SYSMEM,<br>
++=C2=A0 =C2=A0 RET_MSG,<br>
+=C2=A0 =C2=A0 =C2=A0MPQEMU_CMD_MAX,<br>
+=C2=A0} MPQemuCmd;<br>
+<br>
++typedef struct {<br>
++=C2=A0 =C2=A0 hwaddr gpas[REMOTE_MAX_FDS];<br>
++=C2=A0 =C2=A0 uint64_t sizes[REMOTE_MAX_FDS];<br>
++=C2=A0 =C2=A0 off_t offsets[REMOTE_MAX_FDS];<br>
++} SyncSysmemMsg;<br>
++<br>
+=C2=A0/**<br>
+=C2=A0 * MPQemuMsg:<br>
+=C2=A0 * @cmd: The remote command<br>
+@@ -40,12 +51,14 @@ typedef enum {<br>
+=C2=A0 * MPQemuMsg Format of the message sent to the remote device from QEM=
+U.<br>
+=C2=A0 *<br>
+=C2=A0 */<br>
++<br>
+=C2=A0typedef struct {<br>
+=C2=A0 =C2=A0 =C2=A0int cmd;<br>
+=C2=A0 =C2=A0 =C2=A0size_t size;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0union {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t u64;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 SyncSysmemMsg sync_sysmem;<br>
+=C2=A0 =C2=A0 =C2=A0} data;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0int fds[REMOTE_MAX_FDS];<br>
+diff --git a/hw/remote/memory.c b/hw/remote/memory.c<br>
+new file mode 100644<br>
+index 0000000..6d1e830<br>
+--- /dev/null<br>
++++ b/hw/remote/memory.c<br>
+@@ -0,0 +1,58 @@<br>
++/*<br>
++ * Memory manager for remote device<br>
++ *<br>
++ * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.<br>
++ *<br>
++ * This work is licensed under the terms of the GNU GPL, version 2 or late=
+r.<br>
++ * See the COPYING file in the top-level directory.<br>
++ *<br>
++ */<br>
++<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qemu-common.h&quot;<br>
++<br>
++#include &quot;hw/remote/memory.h&quot;<br>
++#include &quot;exec/address-spaces.h&quot;<br>
++#include &quot;exec/ram_addr.h&quot;<br>
++#include &quot;qapi/error.h&quot;<br>
++<br>
++void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 SyncSysmemMsg *sysmem_info =3D &amp;msg-&gt;data.sync_sysmem=
+;<br>
++=C2=A0 =C2=A0 MemoryRegion *sysmem, *subregion, *next;<br>
++=C2=A0 =C2=A0 static unsigned int suffix;<br>
++=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
++=C2=A0 =C2=A0 char *name;<br>
++=C2=A0 =C2=A0 int region;<br>
++<br>
++=C2=A0 =C2=A0 sysmem =3D get_system_memory();<br>
++<br>
++=C2=A0 =C2=A0 memory_region_transaction_begin();<br></blockquote><div><br>=
+</div><div>It looks like this transaction business isn&#39;t really helping=
+ here. Both=C2=A0 del_subregion and add_subregion already handle it.</div><=
+div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++<br>
++=C2=A0 =C2=A0 QTAILQ_FOREACH_SAFE(subregion, &amp;sysmem-&gt;subregions, s=
+ubregions_link, next) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (subregion-&gt;ram) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_region_del_subregion(sysm=
+em, subregion);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 object_unparent(OBJECT(subregion=
+));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 for (region =3D 0; region &lt; msg-&gt;num_fds; region++) {<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 subregion =3D g_new(MemoryRegion, 1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D g_strdup_printf(&quot;remote-mem-%u&q=
+uot;, suffix++);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_region_init_ram_from_fd(subregion, NULL=
+,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name, sys=
+mem_info-&gt;sizes[region],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0true, msg=
+-&gt;fds[region],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sysmem_in=
+fo-&gt;offsets[region],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;loca=
+l_err);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(name);<br>
+</blockquote><div><div><br></div><div>We are quite happily using g_auto the=
+se days<br></div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (local_err) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err)=
+;<br></blockquote><div><br></div><div>here that would help prevent leaking =
+subregion.</div><div><br></div><div>And ERRP_GUARD could also help remove l=
+ocal_err and error_propagate<br></div><div><br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 memory_region_add_subregion(sysmem, sysmem_inf=
+o-&gt;gpas[region],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 subregion);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 memory_region_transaction_commit();<br>
++}<br>
+diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c<br>
+index e535ed2..bbd9df3 100644<br>
+--- a/hw/remote/mpqemu-link.c<br>
++++ b/hw/remote/mpqemu-link.c<br>
+@@ -238,5 +238,16 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0/* Verify message specific fields. */<br>
++=C2=A0 =C2=A0 switch (msg-&gt;cmd) {<br>
++=C2=A0 =C2=A0 case SYNC_SYSMEM:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (msg-&gt;num_fds =3D=3D 0 || msg-&gt;size !=
+=3D sizeof(SyncSysmemMsg)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0return true;<br>
+=C2=A0}<br>
+diff --git a/MAINTAINERS b/MAINTAINERS<br>
+index aedfc27..24cb36e 100644<br>
+--- a/MAINTAINERS<br>
++++ b/MAINTAINERS<br>
+@@ -3146,6 +3146,8 @@ F: include/hw/remote/mpqemu-link.h<br>
+=C2=A0F: hw/remote/message.c<br>
+=C2=A0F: include/hw/remote/remote-obj.h<br>
+=C2=A0F: hw/remote/remote-obj.c<br>
++F: include/hw/remote/memory.h<br>
++F: hw/remote/memory.c<br>
+<br>
+=C2=A0Build and test automation<br>
+=C2=A0-------------------------<br>
+diff --git a/hw/remote/meson.build b/hw/remote/meson.build<br>
+index 71d0a56..64da16c 100644<br>
+--- a/hw/remote/meson.build<br>
++++ b/hw/remote/meson.build<br>
+@@ -5,4 +5,6 @@ remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true:=
+ files(&#39;mpqemu-link.c&#39;))<br>
+=C2=A0remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#3=
+9;message.c&#39;))<br>
+=C2=A0remote_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#3=
+9;remote-obj.c&#39;))<br>
+<br>
++specific_ss.add(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: files(&#39;m=
+emory.c&#39;))<br>
++<br>
+=C2=A0softmmu_ss.add_all(when: &#39;CONFIG_MULTIPROCESS&#39;, if_true: remo=
+te_ss)<br>
+-- <br>
+1.8.3.1<br>
+<br>
+</blockquote></div><div><br></div><div>I can&#39;t comment much on the over=
+all approach. That looks very straightforward to me, I would be surprised i=
+f there are not underlying subtleties. Again, is this only experimental unt=
+il a vfio-user implementation emerge? If not, having unit tests would be im=
+portant (if not required).<br></div><br>-- <br><div dir=3D"ltr" class=3D"gm=
+ail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000030fd0705b5f29d34--
 
