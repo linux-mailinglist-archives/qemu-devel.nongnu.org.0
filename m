@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0842D2551
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:03:50 +0100 (CET)
-Received: from localhost ([::1]:49320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F6752D2592
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:18:14 +0100 (CET)
+Received: from localhost ([::1]:57428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmXyO-0005tM-LU
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:03:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55660)
+	id 1kmYCK-0001Ri-Pf
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:18:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kmXx0-0005S6-Bs
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:02:22 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:35829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kmXwx-0002kZ-Qy
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:02:22 -0500
-Received: by mail-ej1-x643.google.com with SMTP id f23so23357475ejk.2
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 00:02:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jq4IWX7m6dyYGopqISV8hPn9tv4rRwmEFj58Ije/uCo=;
- b=swQkeVldqVXOWZmwbnYi+N3OWqK7zuF2C1CL12AYmiJW1FAnW8IjI0sCw8PPfFltMK
- f4uWRDh3G6h7bi0HljaKMbPfx8eCxDmCwac7I82iple1NDyAz3nsvuo1+vuwlgdJhFKs
- u+Ra8juo1M6+ouNekQ0XMJw2mVwCd3fSAS9rgGeOtbnr7bHjVdeI5uDDtgg+LPQq+/gT
- AayqbRAk7+ccX/gK0Wz/LxNuhYx8vdgkVVUARuN/PK/H7nuXvzt6zHiN7U93Pv+sbudO
- yW7q7NoTyCp+uTDfqeabqXzVd6jqRFq4wm/8KXupFOlwrYm552lypA8gIAONhfgceWFG
- 7rHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jq4IWX7m6dyYGopqISV8hPn9tv4rRwmEFj58Ije/uCo=;
- b=N0UIb6rbMBQKBhyGwx4676Z/iCzcycuBkqxOQi7zOp2/IUvN5FxEhetSdaf8wAj3x9
- gub+losI27PXtPTDCvZ36vmsuTu2ukxPzIVENcAMMJD0GK/FDwZeStKZgqbzrLbXjK9c
- FWdpUtNABQmZEwkdmTFqzxNlGn//72HQPhQNOeK715hkS93/VigkADbIW1LmUzokyr7J
- bEbM2zJIrm4NGm5yJrEcgHvjwY32XezW7r3lFLROYkky3i3a/wo8H3JJjllzNkopoN4z
- h0Iq7w4dxR94EmgVanQ80kyGAJ90tMXhgt0lJ6uD6IuylLHOvboLc324sNxRy8PN5cgd
- PMEA==
-X-Gm-Message-State: AOAM532kKjFKcoQ+m6k9dRew9LkvxIeAtT8hhDIIY6Vkt4gi1oXAkyoc
- ej88oIT7Kn7rxZB/adm7CbhdGYJqu6ADqOmKTOg=
-X-Google-Smtp-Source: ABdhPJxVeK1Jt9HvpnKZaq2V5YVfnvELpU/dXolkB08nxpUVnm+0I+mRHdzVyzA5vlcFHfAWRHWMTOnDdNxe79RHRRw=
-X-Received: by 2002:a17:906:3e02:: with SMTP id
- k2mr22584551eji.92.1607414537918; 
- Tue, 08 Dec 2020 00:02:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kmY60-0007Ed-0o; Tue, 08 Dec 2020 03:11:40 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:33071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kmY5v-0007CN-Cf; Tue, 08 Dec 2020 03:11:39 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 918FC2C9;
+ Tue,  8 Dec 2020 03:11:26 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 08 Dec 2020 03:11:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=jvPj3hK/hLnNUn04EftjTq/UZKP
+ moQ7jU5+VKGYvXKg=; b=b0gkJCy2tt46EuWnSZTYawPgwPM0MR8pGKDfawwe9xV
+ 5LrWt5LQCkDQhV1TxtuLgwkBbcQLn9V6i7Pc+ab8VyQWZkfQ4uypoB4uuUfk0yQQ
+ DreOyfaJvEio5b3la23N7dF3/0TSvOWEJlMMHXyLJCO8GKSSUAQHVSJj+WO+XelS
+ Bch64CY4qiUtaGUCE7MNlRbgRB9knL2mbuiVIy7akyTJmtNOxsZnfE0xnTvyARFd
+ ReurL1eby/s3vEIeHGBfHrXUCavc+g09xMYhbL0syr2ilEKTZwNN7oIoT5YyeWVf
+ hBNGJIEnfMUMWkcT/SI3Ue7WEpsjM/yMWGlT+gpmieQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=jvPj3h
+ K/hLnNUn04EftjTq/UZKPmoQ7jU5+VKGYvXKg=; b=B+JJGi6sNNIi6hwViHMpdg
+ riKgO2qCcWrb4Z+4IiO2qlfzzBLAyZOc5c/Yb84k2lOKsDATFL2fvB2UujPwmMfE
+ r8d3tjAWyuNQw9WYoNh9nlHliuR3Hp4o1nKfjkE+RyCdIw5gy+HXgTabG5uUC1ID
+ Piv7+I14H6dNH119iCUdB86RMWcJW4RJVbVvZZVyi3q3DWwbzheAej51KILBoogU
+ KC+jAtD8v59gIMLMshgmKWjIKYdnTRhJFv5HVbMkHCvmcpMq5pRoIvYdwYJ5bVa/
+ nYFQ3cyU1hkX7p7aAUSFm8hJ77RSTbXdb2GT3jdiuI+cQvDypaCqJiAi5cr1hotw
+ ==
+X-ME-Sender: <xms:LTXPX7whDZAVYG-0wm6Av0p5ynFUMkhpTcsAgtFJ7hvUEV3nK6iQpg>
+ <xme:LTXPXzRhLIv_VrLjqjXvm52eDxjRjV-OELCqa8B7y_-xxg9x1FSFC2K3dLwwOywoJ
+ 5LVRiyd4VQuHPIbRcY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejhedguddukecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
+ ffeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:LTXPX1VzisxAR_uIoOWRKl4RUg3gWJcIF2ks9pGx-zJpbSSqRVgfvw>
+ <xmx:LTXPX1jl0MfSGXKKZO5SjJoyC6ITzIa5PWdUftUt-rEXY5dTgICWHA>
+ <xmx:LTXPX9B6YrseAw4xES7PaQtunw_sNThJ3vbCL6qywdlOgLmHaKhZlg>
+ <xmx:LjXPX_1tNiIWmLZVJO9MJhhrMYZGqSweiBk18KORqAR2l9k8D7LaBg>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 299EF108005B;
+ Tue,  8 Dec 2020 03:11:23 -0500 (EST)
+Date: Tue, 8 Dec 2020 09:11:20 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH v2] hw/block/nvme: add compare command
+Message-ID: <X881KPFtT/Ibecdq@apples.localdomain>
+References: <20201126185605.539311-1-its@irrelevant.dk>
+ <CAA7jztcYwDm3-T4mhbWYOsPn+5-ko6j4Qd2ge7DVLgAf7GfKAw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201203110806.13556-1-kraxel@redhat.com>
- <20201203110806.13556-8-kraxel@redhat.com>
- <CAJ+F1C+UFScS8_+fzRniYwKepxv4FQr0=TFTGsBhg22kfw7zRA@mail.gmail.com>
- <20201208065740.njrxpvnjkofhpmxg@sirius.home.kraxel.org>
-In-Reply-To: <20201208065740.njrxpvnjkofhpmxg@sirius.home.kraxel.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 8 Dec 2020 12:02:04 +0400
-Message-ID: <CAJ+F1CLW7Vxc81h8TOrkT6J_HMnes43Xyx47yVagjz=eCYepxA@mail.gmail.com>
-Subject: Re: [PATCH 7/9] vnc: force initial resize message
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000008a1e0f05b5ef5c1e"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GdL32WNeYiwNuqZY"
+Content-Disposition: inline
+In-Reply-To: <CAA7jztcYwDm3-T4mhbWYOsPn+5-ko6j4Qd2ge7DVLgAf7GfKAw@mail.gmail.com>
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,145 +94,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008a1e0f05b5ef5c1e
-Content-Type: text/plain; charset="UTF-8"
+
+--GdL32WNeYiwNuqZY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi
-
-On Tue, Dec 8, 2020 at 10:57 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
-
-> On Fri, Dec 04, 2020 at 03:57:23PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
+On Nov 27 07:21, Minwoo Im wrote:
+> Hello,
+>=20
+> On Fri, Nov 27, 2020 at 3:56 AM Klaus Jensen <its@irrelevant.dk> wrote:
 > >
-> > On Thu, Dec 3, 2020 at 3:12 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 > >
-> > > The vnc server should send desktop resize notifications unconditional=
-ly
-> > > on a new client connect, for feature negotiation reasons.  Add a bool
-> > > flag to vnc_desktop_resize() to force sending the message even in cas=
-e
-> > > there is no size change.
-> > >
-> > > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> > >
+> > Add the Compare command.
 > >
-> > In principle, this looks harmless. But the spec says:
+> > This implementation uses a bounce buffer to read in the data from
+> > storage and then compare with the host supplied buffer.
 > >
-> > "The server should only send a *DesktopSize* pseudo-rectangle when an
-> > actual change of the framebuffer dimensions has occurred. Some clients
-> > respond to a *DesktopSize* pseudo-rectangle in a way that could send th=
-e
-> > system into an infinite loop if the server sent out the pseudo-rectangl=
-e
-> > for anything other than an actual change."
-> > (
-> >
-> https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#server-sema=
-ntics
-> > )
-> >
-> > I can't say if sending desktop resize during the initial SetEncoding
-> phase
-> > is really compliant with the specification. Also, it's unclear to me if
-> the
-> > client is allowed to SetEncoding multiple times (in which there would b=
-e
-> no
-> > dimension change occurring).
-> >
-> > What did you fix with this? Is it worth a clarification in the
-> > specification?
->
-> Well, for ExtendedDesktopResize the spec explicitly asked for this.
-> But, yes, for DesktopResize this is not needed.  But it also shouldn't
-> cause much trouble.  It is sent before any actual display updates, so
-> concerns whenever the client should consider the screen content invalid
-> or not are moot.
->
-> I could squash this into patch #8 and do it for ExtendedDesktopResize
-> only ...
->
+> > Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> > [k.jensen: rebased]
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>=20
+>=20
+> Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+>=20
 
-Ok, it's probably fine (dunno), you could also capture that in the commit
-message, or as code comment.
+Thanks, applied to nvme-next.
 
+--GdL32WNeYiwNuqZY
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-Marc-Andr=C3=A9 Lureau
+-----BEGIN PGP SIGNATURE-----
 
---0000000000008a1e0f05b5ef5c1e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/PNSEACgkQTeGvMW1P
+DelSlggAtkVE8UEi39HVEmxuF3gZp/qNpmradI2w+905aLg6Zs/oRXILVs3SVQDj
+TkK3QRbtZ+CtSGV0AYwtJ+ieaEKtNk0hAHLrIxzFVvCyG7+as4jGWxcz74fbR5YS
+jHLX+rnEU/yZOAVyGcv3LB07Fi0uskgzcpEiptQg7QrtCOYFOmWq4aa5dpVYM5ms
+EpXtJZatzBGHAYEK5ZnuXIWRpUgJckFOtDRj0K+Y62RaXENqxwyVF1+fTs891iXA
+7huXsjlfS2GKPuLUQpbXyLH/J3ny5/nCDRsKvFshNP2o//ulDSnSFbAsjBS2Epxy
+/tUQGuqwztQD99pY0RTuvA69WCGyEQ==
+=zIu2
+-----END PGP SIGNATURE-----
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 8, 2020 at 10:57 AM Ger=
-d Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri=
-, Dec 04, 2020 at 03:57:23PM +0400, Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt; Hi<br>
-&gt; <br>
-&gt; On Thu, Dec 3, 2020 at 3:12 PM Gerd Hoffmann &lt;<a href=3D"mailto:kra=
-xel@redhat.com" target=3D"_blank">kraxel@redhat.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; The vnc server should send desktop resize notifications unconditi=
-onally<br>
-&gt; &gt; on a new client connect, for feature negotiation reasons.=C2=A0 A=
-dd a bool<br>
-&gt; &gt; flag to vnc_desktop_resize() to force sending the message even in=
- case<br>
-&gt; &gt; there is no size change.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.=
-com" target=3D"_blank">kraxel@redhat.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; In principle, this looks harmless. But the spec says:<br>
-&gt; <br>
-&gt; &quot;The server should only send a *DesktopSize* pseudo-rectangle whe=
-n an<br>
-&gt; actual change of the framebuffer dimensions has occurred. Some clients=
-<br>
-&gt; respond to a *DesktopSize* pseudo-rectangle in a way that could send t=
-he<br>
-&gt; system into an infinite loop if the server sent out the pseudo-rectang=
-le<br>
-&gt; for anything other than an actual change.&quot;<br>
-&gt; (<br>
-&gt; <a href=3D"https://github.com/rfbproto/rfbproto/blob/master/rfbproto.r=
-st#server-semantics" rel=3D"noreferrer" target=3D"_blank">https://github.co=
-m/rfbproto/rfbproto/blob/master/rfbproto.rst#server-semantics</a><br>
-&gt; )<br>
-&gt; <br>
-&gt; I can&#39;t say if sending desktop resize during the initial SetEncodi=
-ng phase<br>
-&gt; is really compliant with the specification. Also, it&#39;s unclear to =
-me if the<br>
-&gt; client is allowed to SetEncoding multiple times (in which there would =
-be no<br>
-&gt; dimension change occurring).<br>
-&gt; <br>
-&gt; What did you fix with this? Is it worth a clarification in the<br>
-&gt; specification?<br>
-<br>
-Well, for ExtendedDesktopResize the spec explicitly asked for this.<br>
-But, yes, for DesktopResize this is not needed.=C2=A0 But it also shouldn&#=
-39;t<br>
-cause much trouble.=C2=A0 It is sent before any actual display updates, so<=
-br>
-concerns whenever the client should consider the screen content invalid<br>
-or not are moot.<br>
-<br>
-I could squash this into patch #8 and do it for ExtendedDesktopResize<br>
-only ...<br></blockquote><div><br></div><div>Ok, it&#39;s probably fine (du=
-nno), you could also capture that in the commit message, or as code comment=
-.</div></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000008a1e0f05b5ef5c1e--
+--GdL32WNeYiwNuqZY--
 
