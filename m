@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EDF2D3691
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:58:35 +0100 (CET)
-Received: from localhost ([::1]:57360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 006D12D3693
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:59:53 +0100 (CET)
+Received: from localhost ([::1]:60594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmlwI-0000QE-F5
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:58:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38698)
+	id 1kmlxZ-0001kv-0n
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:59:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmlrC-0004vs-NV
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:53:19 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:34719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmlr7-0003Bd-KL
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:53:18 -0500
-Received: by mail-ot1-x344.google.com with SMTP id a109so395141otc.1
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 14:53:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SFXsQ+ZL8smNF6MNBjq1JJdyJ4Nb7UXN76z2bTOG1U8=;
- b=QnMlTkuF6/WYt/hgzZVCUjDYQZQwTJhKKdFXCR7+n9hTKAo+F2AEjWM0wUoW/ezzcA
- oUwIgtDt67Hc6DlIF/z2M04PNXOcWZ+26GZ+2hchx40/zBtq0BXNRJaJsnptDR6UO+0+
- f1IkoG2tlYJuCIRm9UPI4OiBtlc3omNRaRiRJMAHMLwRaFt7CTVytXOdjq/sXnSj+hFJ
- DsMXayBAPY2Icy8JtDc6x2zp8h0aCSbkmPMtFlIvhXhLcR3gbP+SdWTughzgiFx65g6/
- I2/2gKcSU819Hf9BJ74oLORso/TdAog1oNPthRC5k++Qbymh7A3lVW28FYCM4KegTJ5k
- 3L4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SFXsQ+ZL8smNF6MNBjq1JJdyJ4Nb7UXN76z2bTOG1U8=;
- b=cEY98kiZEm5S/XgfElqk4g0Ya/VVBRdbtBJdLpbyZA2Hs5a1x8g7X2TV5D/Z//jiF2
- t2sNKVcyPGVKgGl0VORqXnabslGUfphx34QXfY/UwT1XIuri+NlTa7U7RH1ufUvSP4Pt
- wUbfn2ZHtkuTedg9NIoaOyYUOtpi928RCUcMJmM0GBTPZsWdVgFSuDAVC9zSTeNaOyeJ
- JiltDeEYfsCADZBGS95v+HzGAFqvMZoNnofU3RMP26cadATtnD6e88AZwpHVvdU/6KLN
- LsgIKrPLYk3i8JA2hN+8gw6jPrNS0PutcpbT1DXHp7VMgqHI/5MHrDeYBhAiTnpphWQs
- mRCQ==
-X-Gm-Message-State: AOAM533sYdJsblAV7tGrWKqguatebIapeV96zi2FYZvQoIyGis1rQz3B
- 0v36jb6zn6vJml8rz779ZZX8eQ==
-X-Google-Smtp-Source: ABdhPJzkRgh3xjn5OOZwFA+d+SVbrXddo4DcMH4bvBElqVZEudzwmZ2fOoE+obKd9dv3PXL4s0KoOw==
-X-Received: by 2002:a9d:6414:: with SMTP id h20mr328025otl.28.1607467992432;
- Tue, 08 Dec 2020 14:53:12 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id q18sm88770ood.35.2020.12.08.14.53.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 14:53:11 -0800 (PST)
-Subject: Re: [PATCH 1/7] target/mips/translate: Extract DisasContext structure
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201207235539.4070364-1-f4bug@amsat.org>
- <20201207235539.4070364-2-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <030912c0-ec70-9b24-5466-e2d3e8f62dab@linaro.org>
-Date: Tue, 8 Dec 2020 16:53:09 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=6040d5def=alistair.francis@wdc.com>)
+ id 1kmlu5-0007kf-Hu; Tue, 08 Dec 2020 17:56:17 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:43219)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=6040d5def=alistair.francis@wdc.com>)
+ id 1kmlu3-00047S-Pg; Tue, 08 Dec 2020 17:56:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1607468176; x=1639004176;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=5TzJ0MhdBNXGaUoQfYSd1oKvkSekJTFdwh70MrGYcFk=;
+ b=Tg70nm2gCgVD3gzqMWrpbo14SwUseDaf+fsGZjnghqDtX4ZbDTIk0ULm
+ qU5B9jFttSBoPQDICRjCe04vHCpoHK6tAJfgeLhdRszilc0jeJ3YAw7ir
+ JgruG++lnbaJfLOGvkskZ3LFK5lruQVMzdqqBxjFaE4sWoDpAqQDsyqL+
+ 2ByY4QWBQ+8K6g/RgRUDIpnbASLE7ZB3n7yRwM0Kvm7CeELU1aRhq7QyZ
+ qsx+KVudboT8Ot4VEg+x+cF5hhztl4PLmEHOm14he0vHtKK/ghWKqLL2F
+ LV5z6PkoWY+/PucRKAd++JkaZDDFQH2raYqk+17YwvxqAMhHOIKXkfTDv Q==;
+IronPort-SDR: u0vLWBxlv5gLyn874P4N4Q3emgRgsNiCmHFKl6qp0VfxMgRZdeFwkOOCy52q1n3auN8fnSCkbm
+ 2U6Wo9OJFjlXLRY9JIYWwyDEyHsqKJjPGI4OV1xckwWUlsSmXiql6tYY8YptUynoP5bRcC21k7
+ GcB/sx0RiiLFypLwcM5Y9qZLlDk2iaj0b3C5dUzgsAOvnF0UyDERNZ4z9TqaqNgNvHrnwXsjSU
+ aWiCun4H7y/yr/WKi7Jotxu7TC39oeUWzBcw2yNIJC7PvbIvLE1doCDrpHl0khBHxUfXL8EgwW
+ ATo=
+X-IronPort-AV: E=Sophos;i="5.78,404,1599494400"; d="scan'208";a="155938394"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Dec 2020 06:56:15 +0800
+IronPort-SDR: dMeK0WUt/5zJJXWkTcm4SWGFm8rd3IrOqUy70t/N/qBz+7fmBnfNUf1yRZG2YJlQyiIiEn+oIJ
+ pIozVgixn1ATLVa8WJbQZFxZrHRBS7na8=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2020 14:41:41 -0800
+IronPort-SDR: i6B+HVGyUCQmK8o+8L/WOYtO9NK5TG6k02/5whtpN9SUBQUK2OmnXoPNNmPi8Q1FsMy2zC55oT
+ hCTmvIjw2b/g==
+WDCIronportException: Internal
+Received: from usa001386.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.61.239])
+ by uls-op-cesaip02.wdc.com with ESMTP; 08 Dec 2020 14:56:15 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 02/15] target/riscv: Add a TYPE_RISCV_CPU_BASE CPU
+Date: Tue,  8 Dec 2020 14:56:14 -0800
+Message-Id: <d37d5968c8e15c1b3c7b2b8e5c134d43ebcfa708.1607467819.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1607467819.git.alistair.francis@wdc.com>
+References: <cover.1607467819.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20201207235539.4070364-2-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=6040d5def=alistair.francis@wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,26 +84,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
- Huacai Chen <chenhuacai@kernel.org>, Laurent Vivier <laurent@vivier.eu>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/20 5:55 PM, Philippe Mathieu-Daudé wrote:
-> Extract DisasContext to a new 'translate.h' header so
-> different translation files (ISA, ASE, extensions)
-> can use it.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/mips/translate.h | 50 +++++++++++++++++++++++++++++++++++++++++
->  target/mips/translate.c | 38 +------------------------------
->  2 files changed, 51 insertions(+), 37 deletions(-)
->  create mode 100644 target/mips/translate.h
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Bin Meng <bin.meng@windriver.com>
+---
+ target/riscv/cpu.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index c0a326c843..9c064f3094 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -44,6 +44,12 @@
+ #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
+ #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
+ 
++#if defined(TARGET_RISCV32)
++# define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
++#elif defined(TARGET_RISCV64)
++# define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE64
++#endif
++
+ #define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
+ #define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
+ 
+-- 
+2.29.2
 
 
