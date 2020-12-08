@@ -2,86 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6752D2592
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:18:14 +0100 (CET)
-Received: from localhost ([::1]:57428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B14502D256F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:13:58 +0100 (CET)
+Received: from localhost ([::1]:52916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmYCK-0001Ri-Pf
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:18:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57214)
+	id 1kmY8D-0007rB-8C
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:13:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kmY60-0007Ed-0o; Tue, 08 Dec 2020 03:11:40 -0500
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:33071)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kmY5m-00079a-TY
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:11:26 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:47076 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kmY5v-0007CN-Cf; Tue, 08 Dec 2020 03:11:39 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 918FC2C9;
- Tue,  8 Dec 2020 03:11:26 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 08 Dec 2020 03:11:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=jvPj3hK/hLnNUn04EftjTq/UZKP
- moQ7jU5+VKGYvXKg=; b=b0gkJCy2tt46EuWnSZTYawPgwPM0MR8pGKDfawwe9xV
- 5LrWt5LQCkDQhV1TxtuLgwkBbcQLn9V6i7Pc+ab8VyQWZkfQ4uypoB4uuUfk0yQQ
- DreOyfaJvEio5b3la23N7dF3/0TSvOWEJlMMHXyLJCO8GKSSUAQHVSJj+WO+XelS
- Bch64CY4qiUtaGUCE7MNlRbgRB9knL2mbuiVIy7akyTJmtNOxsZnfE0xnTvyARFd
- ReurL1eby/s3vEIeHGBfHrXUCavc+g09xMYhbL0syr2ilEKTZwNN7oIoT5YyeWVf
- hBNGJIEnfMUMWkcT/SI3Ue7WEpsjM/yMWGlT+gpmieQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=jvPj3h
- K/hLnNUn04EftjTq/UZKPmoQ7jU5+VKGYvXKg=; b=B+JJGi6sNNIi6hwViHMpdg
- riKgO2qCcWrb4Z+4IiO2qlfzzBLAyZOc5c/Yb84k2lOKsDATFL2fvB2UujPwmMfE
- r8d3tjAWyuNQw9WYoNh9nlHliuR3Hp4o1nKfjkE+RyCdIw5gy+HXgTabG5uUC1ID
- Piv7+I14H6dNH119iCUdB86RMWcJW4RJVbVvZZVyi3q3DWwbzheAej51KILBoogU
- KC+jAtD8v59gIMLMshgmKWjIKYdnTRhJFv5HVbMkHCvmcpMq5pRoIvYdwYJ5bVa/
- nYFQ3cyU1hkX7p7aAUSFm8hJ77RSTbXdb2GT3jdiuI+cQvDypaCqJiAi5cr1hotw
- ==
-X-ME-Sender: <xms:LTXPX7whDZAVYG-0wm6Av0p5ynFUMkhpTcsAgtFJ7hvUEV3nK6iQpg>
- <xme:LTXPXzRhLIv_VrLjqjXvm52eDxjRjV-OELCqa8B7y_-xxg9x1FSFC2K3dLwwOywoJ
- 5LVRiyd4VQuHPIbRcY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejhedguddukecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:LTXPX1VzisxAR_uIoOWRKl4RUg3gWJcIF2ks9pGx-zJpbSSqRVgfvw>
- <xmx:LTXPX1jl0MfSGXKKZO5SjJoyC6ITzIa5PWdUftUt-rEXY5dTgICWHA>
- <xmx:LTXPX9B6YrseAw4xES7PaQtunw_sNThJ3vbCL6qywdlOgLmHaKhZlg>
- <xmx:LjXPX_1tNiIWmLZVJO9MJhhrMYZGqSweiBk18KORqAR2l9k8D7LaBg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 299EF108005B;
- Tue,  8 Dec 2020 03:11:23 -0500 (EST)
-Date: Tue, 8 Dec 2020 09:11:20 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH v2] hw/block/nvme: add compare command
-Message-ID: <X881KPFtT/Ibecdq@apples.localdomain>
-References: <20201126185605.539311-1-its@irrelevant.dk>
- <CAA7jztcYwDm3-T4mhbWYOsPn+5-ko6j4Qd2ge7DVLgAf7GfKAw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kmY5j-00079Z-8w
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:11:26 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 030FB412DD;
+ Tue,  8 Dec 2020 08:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1607415079;
+ x=1609229480; bh=T3g2nlmMPDzNMlArYe79OmHTllProz0SUTaWZJlmc6M=; b=
+ LgiNUNVUlrB9eAxLbpYbOmgnsTjoNHUkWMzb88w677g75QTyhdWtsHMNaLFA05m7
+ wE/ToOqCP3CA4SXnnE8OiTF7ek0JIkj/Z/s0ylCA4rNfWaVBnJzyjadPbTEKbIwO
+ en42z7p7eloPbCh4F4eikqPJwPT2Usq3iVVshThAAj4=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QT2BXZqHOGke; Tue,  8 Dec 2020 11:11:19 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 2836541254;
+ Tue,  8 Dec 2020 11:11:18 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 8 Dec
+ 2020 11:11:17 +0300
+Date: Tue, 8 Dec 2020 11:11:50 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH for-6.0] accel: Wire accel to /machine
+Message-ID: <X881RoBRgh026MK5@SPB-NB-133.local>
+References: <20201207084621.23876-1-r.bolshakov@yadro.com>
+ <20201207173849.GC1289986@habkost.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GdL32WNeYiwNuqZY"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <CAA7jztcYwDm3-T4mhbWYOsPn+5-ko6j4Qd2ge7DVLgAf7GfKAw@mail.gmail.com>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20201207173849.GC1289986@habkost.net>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,55 +78,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ libvir-list@redhat.com,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Dec 07, 2020 at 12:38:49PM -0500, Eduardo Habkost wrote:
+> On Mon, Dec 07, 2020 at 11:46:22AM +0300, Roman Bolshakov wrote:
+> > There's no generic way to query current accel and its properties via QOM
+> > because there's no link between an accel and current machine.
+> > 
+> > The change adds the link, i.e. if HVF is enabled the following will be
+> > available in QOM:
+> > 
+> >   (qemu) qom-get /machine/accel type
+> >   "hvf-accel"
+> > 
+> > Suggested-by: Markus Armbruster <armbru@redhat.com>
+> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> > ---
+> > 
+> > Hi,
+> > 
+> > this is a follow up patch that deprecates earlier series [1].
+> > 
+> 
+> Is there a reference to the reasoning for dropping the earlier
+> approach?  Your previous approach seems preferable.
+> 
 
---GdL32WNeYiwNuqZY
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Okay I wasn't sure about that :) It's clear now from your and Daniel's
+response that a documented QMP method is preferable for public API.
 
-On Nov 27 07:21, Minwoo Im wrote:
-> Hello,
->=20
-> On Fri, Nov 27, 2020 at 3:56 AM Klaus Jensen <its@irrelevant.dk> wrote:
-> >
-> > From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> >
-> > Add the Compare command.
-> >
-> > This implementation uses a bounce buffer to read in the data from
-> > storage and then compare with the host supplied buffer.
-> >
-> > Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> > [k.jensen: rebased]
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->=20
->=20
-> Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
->=20
+> but we need a commit message that doesn't make people think the
+> `qom-get` command above will always work.
+> 
 
-Thanks, applied to nvme-next.
+How about the one below:
 
---GdL32WNeYiwNuqZY
-Content-Type: application/pgp-signature; name="signature.asc"
+accel: Wire accel to /machine
 
------BEGIN PGP SIGNATURE-----
+An accel is a property of a machine but it's not reflected in QOM. An
+ownership between machine and accel is also not expressed.
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/PNSEACgkQTeGvMW1P
-DelSlggAtkVE8UEi39HVEmxuF3gZp/qNpmradI2w+905aLg6Zs/oRXILVs3SVQDj
-TkK3QRbtZ+CtSGV0AYwtJ+ieaEKtNk0hAHLrIxzFVvCyG7+as4jGWxcz74fbR5YS
-jHLX+rnEU/yZOAVyGcv3LB07Fi0uskgzcpEiptQg7QrtCOYFOmWq4aa5dpVYM5ms
-EpXtJZatzBGHAYEK5ZnuXIWRpUgJckFOtDRj0K+Y62RaXENqxwyVF1+fTs891iXA
-7huXsjlfS2GKPuLUQpbXyLH/J3ny5/nCDRsKvFshNP2o//ulDSnSFbAsjBS2Epxy
-/tUQGuqwztQD99pY0RTuvA69WCGyEQ==
-=zIu2
------END PGP SIGNATURE-----
+The change adds the link, i.e. if HVF is enabled the following will be
+available in QOM:
 
---GdL32WNeYiwNuqZY--
+  (qemu) qom-get /machine/accel type
+  "hvf-accel"
+
+Note that management applications shouldn't rely on the type as it may
+change in future at QEMU's discretion.
+
+---
+Regards,
+Roman
 
