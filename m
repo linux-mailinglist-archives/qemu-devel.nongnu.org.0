@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BD02D3527
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 22:24:28 +0100 (CET)
-Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9FF2D350B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 22:17:51 +0100 (CET)
+Received: from localhost ([::1]:53674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmkTD-0000Id-JY
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 16:24:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56210)
+	id 1kmkMo-0002C6-JJ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 16:17:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=604abd949=dmitry.fomichev@wdc.com>)
- id 1kmjDu-0002OA-Qm; Tue, 08 Dec 2020 15:04:34 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:42896)
+ id 1kmjDw-0002Pd-92; Tue, 08 Dec 2020 15:04:36 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:42903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=604abd949=dmitry.fomichev@wdc.com>)
- id 1kmjDs-000629-P6; Tue, 08 Dec 2020 15:04:34 -0500
+ id 1kmjDt-00062i-9G; Tue, 08 Dec 2020 15:04:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1607458844; x=1638994844;
+ t=1607458845; x=1638994845;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+v9W57PMsdL/aempgbqFy3DHU0gTHA8DKGNqfzjXIN8=;
- b=mP0y2uhUL1NtkaIFY3Ekdm1sMKgvnkDuE2GMSVcYGwaNcljIRLJpIPqv
- WROVsZzcBQDeuU2sGQQYGsLC6PWB8Mb/UXE/T6A437FXC67xHInvD0HaJ
- 75spy52CfldzdS6nB+BXQKVtjvDWagHKJGQ+UFjzpg7OmdMDTEI+pNcV5
- nB8F8v5jtqRhXovRAMSlmHZhro3rlglZp1aJH9UMI6LrOwbsgQ+HtWKdH
- ykXvPsfdqya/HWvJKJSm7rs1zrWXFU82VOdiHUdRXgnS47CzRjiVAYovy
- KMoRtY4fxocs51G5q+Obe2BjtoF26rTwRuysflGMxavEVA/7JYAJLtYhR w==;
-IronPort-SDR: izRADeXg/lP6PvPPb6drXxDRpRgRVHMi8u6brPo3EpyRzxxB+CpAJnzZ8dl6DAo5wqkUwS+Dhc
- SpRUZ4u+KwslUEjGPLaj4in5G4Vrq20LvHQyPj1JHlVa/efkp2WZGwlbbZVTgD+J95Kn1p0uYk
- XtZ0COr3dbe2Eu+PTLcBq6ZaKT3v4iEz8GAsprIOslhTHgWjP7Av1xeRGMEoT96t8kJVCsMokC
- W2OSq5v+i6IGnYdRRXBEZEvQfgIyToIbFf8xYqvyTlXddMsw2ATVbaqd5InXHbTfVLQ5+ZManY
- ruE=
-X-IronPort-AV: E=Sophos;i="5.78,403,1599494400"; d="scan'208";a="258433451"
+ bh=+rshqe8t84JiuEYHtk4GKvUqvXSusfBr4811+sR55Tw=;
+ b=mGsKKDMH+cdiVbMR1QdR16YFIIcM9Wp/1D5lO8OpImlKwxXUz1bVNilo
+ xHjzHVvgUvx3p5VEqLy0eqWkMORqv2EI4S4izFwCsb6qLt57EF4U9XkT+
+ /WuNghKR2ZjkHIMyvoDANcFsXydDMBIf3ca2PDqPq+ggLE1az2Zk1g6rb
+ BZ4JbKDE05Guzity6l89EEH4VXXvlqyzbybSG8SNTJHgPN+5zgobGxuBP
+ xYK4b4+MKkI+lOR5KqILBMPkANZHe1nT5vVHnsbdD8r8tPwPd9kAFxjES
+ 8bWQi/eXmIreDuN06+29LPmi9qLI085OlezMExuKzrlGQSuLdMTfDSyiC Q==;
+IronPort-SDR: oVPDmWlKpBJfTwurPsN79zZuZgq1893P0gB3ryWujCnQZ4T5Ynqs5DzB+I7Pzy83OZD8rPycXl
+ K2/yqdRS0noMHpHBSNXvKJT339kxYv9CSlIfU6aFQP6h23TCSV9otfAcUVPDTsDzyvdfKEzhsl
+ 9+fdtk/Ax3BzLA7RR1fe5AqDkuv0FdyJr+2+wZPYW+YCOwcGd2lhc2DA9EbbsA5IByIrPMMsrG
+ xhwKiLN6uWwC+xwp+i8HCpbbwSPnOGaxkOKFDGOYV3NBw9vfFJ23HMKvwM0jasnGVI4P1N8z8J
+ 1JY=
+X-IronPort-AV: E=Sophos;i="5.78,403,1599494400"; d="scan'208";a="258433456"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 09 Dec 2020 04:20:29 +0800
-IronPort-SDR: 9vUYP8Zfn6Alx8lDdySGcQy55Ve1HqZijh91b1yLXd5Iu33GcjNHo33WoKzaPLUP5yrG12CBGZ
- DjC0aNImIBYMaAhxQf0mUfocUBpx8Rhhg=
+ by ob1.hgst.iphmx.com with ESMTP; 09 Dec 2020 04:20:33 +0800
+IronPort-SDR: BtD/lsDPDTh2hAMuY3ux5T1YThOOYTty82pDKdD7hveRpYpecprjQd+b3ti08GkwXdTstJX6rS
+ WRkyQvl1OVD11b7x/cAl0xBTqdwpRkXCs=
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2020 11:48:22 -0800
-IronPort-SDR: s8WMawC3LVpttSOt1ik+ZLk4Qc/f6r21qZ5bULO6Jp7xbww9DYYKueI9YQs0xtOHd8i9wodZ9r
- QvJht1ZZBr0w==
+ 08 Dec 2020 11:48:25 -0800
+IronPort-SDR: IaAMr3M7gdAmDhAPSvJRQa5X8F3wrh+xiDGwgO75kNNX6AiHmsEu05Tlh1vD4GIPfHY90rxEil
+ mRddXq02whEg==
 WDCIronportException: Internal
 Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 08 Dec 2020 12:04:21 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 08 Dec 2020 12:04:23 -0800
 From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 To: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Max Reitz <mreitz@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
  Fam Zheng <fam@euphon.net>
-Subject: [PATCH v11 04/13] hw/block/nvme: Combine nvme_write_zeroes() and
- nvme_write()
-Date: Wed,  9 Dec 2020 05:04:01 +0900
-Message-Id: <20201208200410.27900-5-dmitry.fomichev@wdc.com>
+Subject: [PATCH v11 05/13] hw/block/nvme: Add Commands Supported and Effects
+ log
+Date: Wed,  9 Dec 2020 05:04:02 +0900
+Message-Id: <20201208200410.27900-6-dmitry.fomichev@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201208200410.27900-1-dmitry.fomichev@wdc.com>
 References: <20201208200410.27900-1-dmitry.fomichev@wdc.com>
@@ -94,143 +94,276 @@ Cc: Niklas Cassel <niklas.cassel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move write processing to nvme_do_write() that now handles both WRITE
-and WRITE ZEROES. Both nvme_write() and nvme_write_zeroes() become
-inline helper functions.
+This log page becomes necessary to implement to allow checking for
+Zone Append command support in Zoned Namespace Command Set.
+
+This commit adds the code to report this log page for NVM Command
+Set only. The parts that are specific to zoned operation will be
+added later in the series.
+
+All incoming admin and i/o commands are now only processed if their
+corresponding support bits are set in this log. This provides an
+easy way to control what commands to support and what not to
+depending on set CC.CSS.
 
 Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 Reviewed-by: Niklas Cassel <Niklas.Cassel@wdc.com>
-Acked-by: Klaus Jensen <its@irrelevant.dk>
 ---
- hw/block/nvme.c       | 78 ++++++++++++++++++++-----------------------
- hw/block/trace-events |  1 -
- 2 files changed, 36 insertions(+), 43 deletions(-)
+ hw/block/nvme-ns.h    |  1 +
+ include/block/nvme.h  | 19 +++++++++
+ hw/block/nvme.c       | 96 +++++++++++++++++++++++++++++++++++++++----
+ hw/block/trace-events |  1 +
+ 4 files changed, 108 insertions(+), 9 deletions(-)
 
+diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+index aeca810fc7..bdeaf1c0de 100644
+--- a/hw/block/nvme-ns.h
++++ b/hw/block/nvme-ns.h
+@@ -30,6 +30,7 @@ typedef struct NvmeNamespace {
+     int32_t      bootindex;
+     int64_t      size;
+     NvmeIdNs     id_ns;
++    const uint32_t *iocs;
+ 
+     NvmeNamespaceParams params;
+ 
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index e95ff6ca9b..422c98a297 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -746,10 +746,27 @@ enum NvmeSmartWarn {
+     NVME_SMART_FAILED_VOLATILE_MEDIA  = 1 << 4,
+ };
+ 
++typedef struct NvmeEffectsLog {
++    uint32_t    acs[256];
++    uint32_t    iocs[256];
++    uint8_t     resv[2048];
++} NvmeEffectsLog;
++
++enum {
++    NVME_CMD_EFF_CSUPP      = 1 << 0,
++    NVME_CMD_EFF_LBCC       = 1 << 1,
++    NVME_CMD_EFF_NCC        = 1 << 2,
++    NVME_CMD_EFF_NIC        = 1 << 3,
++    NVME_CMD_EFF_CCC        = 1 << 4,
++    NVME_CMD_EFF_CSE_MASK   = 3 << 16,
++    NVME_CMD_EFF_UUID_SEL   = 1 << 19,
++};
++
+ enum NvmeLogIdentifier {
+     NVME_LOG_ERROR_INFO     = 0x01,
+     NVME_LOG_SMART_INFO     = 0x02,
+     NVME_LOG_FW_SLOT_INFO   = 0x03,
++    NVME_LOG_CMD_EFFECTS    = 0x05,
+ };
+ 
+ typedef struct QEMU_PACKED NvmePSD {
+@@ -862,6 +879,7 @@ enum NvmeIdCtrlFrmw {
+ 
+ enum NvmeIdCtrlLpa {
+     NVME_LPA_NS_SMART = 1 << 0,
++    NVME_LPA_CSE      = 1 << 1,
+     NVME_LPA_EXTENDED = 1 << 2,
+ };
+ 
+@@ -1070,6 +1088,7 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeErrorLog) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeFwSlotInfoLog) != 512);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSmartLog) != 512);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeEffectsLog) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrl) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNs) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeSglDescriptor) != 16);
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 897c2d04e5..986917dabf 100644
+index 986917dabf..0b047f2069 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1128,32 +1128,7 @@ invalid:
-     return status | NVME_DNR;
- }
+@@ -112,6 +112,28 @@ static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
+     [NVME_TIMESTAMP]                = NVME_FEAT_CAP_CHANGE,
+ };
  
--static uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
--{
--    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
--    NvmeNamespace *ns = req->ns;
--    uint64_t slba = le64_to_cpu(rw->slba);
--    uint32_t nlb = (uint32_t)le16_to_cpu(rw->nlb) + 1;
--    uint64_t offset = nvme_l2b(ns, slba);
--    uint32_t count = nvme_l2b(ns, nlb);
--    uint16_t status;
--
--    trace_pci_nvme_write_zeroes(nvme_cid(req), nvme_nsid(ns), slba, nlb);
--
--    status = nvme_check_bounds(n, ns, slba, nlb);
--    if (status) {
--        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
--        return status;
++static const uint32_t nvme_cse_acs[256] = {
++    [NVME_ADM_CMD_DELETE_SQ]        = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_CREATE_SQ]        = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_GET_LOG_PAGE]     = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_DELETE_CQ]        = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_CREATE_CQ]        = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_IDENTIFY]         = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_ABORT]            = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_SET_FEATURES]     = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_GET_FEATURES]     = NVME_CMD_EFF_CSUPP,
++    [NVME_ADM_CMD_ASYNC_EV_REQ]     = NVME_CMD_EFF_CSUPP,
++};
++
++static const uint32_t nvme_cse_iocs_none[256];
++
++static const uint32_t nvme_cse_iocs_nvm[256] = {
++    [NVME_CMD_FLUSH]                = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
++    [NVME_CMD_WRITE_ZEROES]         = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
++    [NVME_CMD_WRITE]                = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
++    [NVME_CMD_READ]                 = NVME_CMD_EFF_CSUPP,
++};
++
+ static void nvme_process_sq(void *opaque);
+ 
+ static uint16_t nvme_cid(NvmeRequest *req)
+@@ -1203,10 +1225,6 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+     trace_pci_nvme_io_cmd(nvme_cid(req), nsid, nvme_sqid(req),
+                           req->cmd.opcode, nvme_io_opc_str(req->cmd.opcode));
+ 
+-    if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_ADMIN_ONLY) {
+-        return NVME_INVALID_OPCODE | NVME_DNR;
 -    }
 -
--    block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
--                     BLOCK_ACCT_WRITE);
--    req->aiocb = blk_aio_pwrite_zeroes(req->ns->blkconf.blk, offset, count,
--                                       BDRV_REQ_MAY_UNMAP, nvme_rw_cb, req);
--    return NVME_NO_COMPLETE;
--}
--
--static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req)
-+static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool wrz)
- {
-     NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-     NvmeNamespace *ns = req->ns;
-@@ -1167,10 +1142,12 @@ static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req)
-     trace_pci_nvme_write(nvme_cid(req), nvme_io_opc_str(rw->opcode),
-                          nvme_nsid(ns), nlb, data_size, slba);
- 
--    status = nvme_check_mdts(n, data_size);
--    if (status) {
--        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
--        goto invalid;
-+    if (!wrz) {
-+        status = nvme_check_mdts(n, data_size);
-+        if (status) {
-+            trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
-+            goto invalid;
-+        }
+     if (!nvme_nsid_valid(n, nsid)) {
+         return NVME_INVALID_NSID | NVME_DNR;
+     }
+@@ -1216,6 +1234,11 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+         return NVME_INVALID_FIELD | NVME_DNR;
      }
  
-     status = nvme_check_bounds(n, ns, slba, nlb);
-@@ -1179,21 +1156,28 @@ static uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req)
-         goto invalid;
-     }
- 
--    status = nvme_map_dptr(n, data_size, req);
--    if (status) {
--        goto invalid;
--    }
--
-     data_offset = nvme_l2b(ns, slba);
- 
--    block_acct_start(blk_get_stats(blk), &req->acct, data_size,
--                     BLOCK_ACCT_WRITE);
--    if (req->qsg.sg) {
--        req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
--                                   BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-+    if (!wrz) {
-+        status = nvme_map_dptr(n, data_size, req);
-+        if (status) {
-+            goto invalid;
-+        }
++    if (!(req->ns->iocs[req->cmd.opcode] & NVME_CMD_EFF_CSUPP)) {
++        trace_pci_nvme_err_invalid_opc(req->cmd.opcode);
++        return NVME_INVALID_OPCODE | NVME_DNR;
++    }
 +
-+        block_acct_start(blk_get_stats(blk), &req->acct, data_size,
-+                         BLOCK_ACCT_WRITE);
-+        if (req->qsg.sg) {
-+            req->aiocb = dma_blk_write(blk, &req->qsg, data_offset,
-+                                       BDRV_SECTOR_SIZE, nvme_rw_cb, req);
-+        } else {
-+            req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
-+                                         nvme_rw_cb, req);
-+        }
-     } else {
--        req->aiocb = blk_aio_pwritev(blk, data_offset, &req->iov, 0,
--                                     nvme_rw_cb, req);
-+        block_acct_start(blk_get_stats(blk), &req->acct, 0, BLOCK_ACCT_WRITE);
-+        req->aiocb = blk_aio_pwrite_zeroes(blk, data_offset, data_size,
-+                                           BDRV_REQ_MAY_UNMAP, nvme_rw_cb,
-+                                           req);
+     switch (req->cmd.opcode) {
+     case NVME_CMD_FLUSH:
+         return nvme_flush(n, req);
+@@ -1228,8 +1251,7 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+     case NVME_CMD_DSM:
+         return nvme_dsm(n, req);
+     default:
+-        trace_pci_nvme_err_invalid_opc(req->cmd.opcode);
+-        return NVME_INVALID_OPCODE | NVME_DNR;
++        assert(false);
      }
-     return NVME_NO_COMPLETE;
- 
-@@ -1202,6 +1186,16 @@ invalid:
-     return status | NVME_DNR;
  }
  
-+static inline uint16_t nvme_write(NvmeCtrl *n, NvmeRequest *req)
+@@ -1466,6 +1488,37 @@ static uint16_t nvme_error_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+                     DMA_DIRECTION_FROM_DEVICE, req);
+ }
+ 
++static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint32_t buf_len,
++                                 uint64_t off, NvmeRequest *req)
 +{
-+    return nvme_do_write(n, req, false);
++    NvmeEffectsLog log = {};
++    const uint32_t *src_iocs = NULL;
++    uint32_t trans_len;
++
++    if (off >= sizeof(log)) {
++        trace_pci_nvme_err_invalid_log_page_offset(off, sizeof(log));
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
++    switch (NVME_CC_CSS(n->bar.cc)) {
++    case NVME_CC_CSS_NVM:
++        src_iocs = nvme_cse_iocs_nvm;
++    case NVME_CC_CSS_ADMIN_ONLY:
++        break;
++    }
++
++    memcpy(log.acs, nvme_cse_acs, sizeof(nvme_cse_acs));
++
++    if (src_iocs) {
++        memcpy(log.iocs, src_iocs, sizeof(log.iocs));
++    }
++
++    trans_len = MIN(sizeof(log) - off, buf_len);
++
++    return nvme_dma(n, ((uint8_t *)&log) + off, trans_len,
++                    DMA_DIRECTION_FROM_DEVICE, req);
 +}
 +
-+static inline uint16_t nvme_write_zeroes(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    return nvme_do_write(n, req, true);
-+}
-+
- static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
  {
-     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
+     NvmeCmd *cmd = &req->cmd;
+@@ -1509,6 +1562,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
+         return nvme_smart_info(n, rae, len, off, req);
+     case NVME_LOG_FW_SLOT_INFO:
+         return nvme_fw_log_info(n, len, off, req);
++    case NVME_LOG_CMD_EFFECTS:
++        return nvme_cmd_effects(n, len, off, req);
+     default:
+         trace_pci_nvme_err_invalid_log_page(nvme_cid(req), lid);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -2131,6 +2186,11 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+     trace_pci_nvme_admin_cmd(nvme_cid(req), nvme_sqid(req), req->cmd.opcode,
+                              nvme_adm_opc_str(req->cmd.opcode));
+ 
++    if (!(nvme_cse_acs[req->cmd.opcode] & NVME_CMD_EFF_CSUPP)) {
++        trace_pci_nvme_err_invalid_admin_opc(req->cmd.opcode);
++        return NVME_INVALID_OPCODE | NVME_DNR;
++    }
++
+     switch (req->cmd.opcode) {
+     case NVME_ADM_CMD_DELETE_SQ:
+         return nvme_del_sq(n, req);
+@@ -2153,8 +2213,7 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+     case NVME_ADM_CMD_ASYNC_EV_REQ:
+         return nvme_aer(n, req);
+     default:
+-        trace_pci_nvme_err_invalid_admin_opc(req->cmd.opcode);
+-        return NVME_INVALID_OPCODE | NVME_DNR;
++        assert(false);
+     }
+ }
+ 
+@@ -2254,6 +2313,23 @@ static void nvme_ctrl_shutdown(NvmeCtrl *n)
+     }
+ }
+ 
++static void nvme_select_ns_iocs(NvmeCtrl *n)
++{
++    NvmeNamespace *ns;
++    int i;
++
++    for (i = 1; i <= n->num_namespaces; i++) {
++        ns = nvme_ns(n, i);
++        if (!ns) {
++            continue;
++        }
++        ns->iocs = nvme_cse_iocs_none;
++        if (NVME_CC_CSS(n->bar.cc) != NVME_CC_CSS_ADMIN_ONLY) {
++            ns->iocs = nvme_cse_iocs_nvm;
++        }
++    }
++}
++
+ static int nvme_start_ctrl(NvmeCtrl *n)
+ {
+     uint32_t page_bits = NVME_CC_MPS(n->bar.cc) + 12;
+@@ -2352,6 +2428,8 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+ 
+     QTAILQ_INIT(&n->aer_queue);
+ 
++    nvme_select_ns_iocs(n);
++
+     return 0;
+ }
+ 
+@@ -2959,7 +3037,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->acl = 3;
+     id->aerl = n->params.aerl;
+     id->frmw = (NVME_NUM_FW_SLOTS << 1) | NVME_FRMW_SLOT1_RO;
+-    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_EXTENDED;
++    id->lpa = NVME_LPA_NS_SMART | NVME_LPA_CSE | NVME_LPA_EXTENDED;
+ 
+     /* recommended default value (~70 C) */
+     id->wctemp = cpu_to_le16(NVME_TEMPERATURE_WARNING);
 diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 6233f801e1..02a7c3044c 100644
+index 02a7c3044c..22e0108c9d 100644
 --- a/hw/block/trace-events
 +++ b/hw/block/trace-events
-@@ -43,7 +43,6 @@ pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opna
- pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
- pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
--pci_nvme_write_zeroes(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
- pci_nvme_block_status(int64_t offset, int64_t bytes, int64_t pnum, int ret, bool zeroed) "offset %"PRId64" bytes %"PRId64" pnum %"PRId64" ret 0x%x zeroed %d"
- pci_nvme_dsm(uint16_t cid, uint32_t nsid, uint32_t nr, uint32_t attr) "cid %"PRIu16" nsid %"PRIu32" nr %"PRIu32" attr 0x%"PRIx32""
- pci_nvme_dsm_deallocate(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
+@@ -106,6 +106,7 @@ pci_nvme_err_invalid_prp2_align(uint64_t prp2) "PRP2 is not page aligned: 0x%"PR
+ pci_nvme_err_invalid_opc(uint8_t opc) "invalid opcode 0x%"PRIx8""
+ pci_nvme_err_invalid_admin_opc(uint8_t opc) "invalid admin opcode 0x%"PRIx8""
+ pci_nvme_err_invalid_lba_range(uint64_t start, uint64_t len, uint64_t limit) "Invalid LBA start=%"PRIu64" len=%"PRIu64" limit=%"PRIu64""
++pci_nvme_err_invalid_log_page_offset(uint64_t ofs, uint64_t size) "must be <= %"PRIu64", got %"PRIu64""
+ pci_nvme_err_invalid_del_sq(uint16_t qid) "invalid submission queue deletion, sid=%"PRIu16""
+ pci_nvme_err_invalid_create_sq_cqid(uint16_t cqid) "failed creating submission queue, invalid cqid=%"PRIu16""
+ pci_nvme_err_invalid_create_sq_sqid(uint16_t sqid) "failed creating submission queue, invalid sqid=%"PRIu16""
 -- 
 2.28.0
 
