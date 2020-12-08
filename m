@@ -2,86 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9DD2D33FA
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:29:45 +0100 (CET)
-Received: from localhost ([::1]:53128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD82F2D33F1
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:28:45 +0100 (CET)
+Received: from localhost ([::1]:50122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmjcG-0003nx-9L
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:29:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50492)
+	id 1kmjbI-0002Wr-DV
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:28:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmio7-0008DF-IL
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:37:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmio5-000622-1J
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:37:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607456272;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NfyJIWm9NTNXJoxhCiducqmGoodXPdSLT7zCKbR/FRw=;
- b=Kuk8tNPs9nwuKs37Hz6qnkRdwPRD+z8KxKW8QlSmdRICqCV9iWHGPwvaG73nTaBTyg99YZ
- fCvK8/ahM2q61alh2qvn+aIog1K3v/HBakSOyYbPP3SMhgft9dglk58G+7ebb6F6x0CIWG
- /OLI89jwvdblxESiacvIUJbylgvZdOg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-Q9ukITgpMRi_jGhjkBQusA-1; Tue, 08 Dec 2020 14:37:50 -0500
-X-MC-Unique: Q9ukITgpMRi_jGhjkBQusA-1
-Received: by mail-wm1-f72.google.com with SMTP id k128so1272824wme.7
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:37:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NfyJIWm9NTNXJoxhCiducqmGoodXPdSLT7zCKbR/FRw=;
- b=pVa082xQLjiykkYLnLxYX6N92LotZfXvmww6HHUWVIltk7qv5wqh0U4jmxuOKZCIxd
- /MzFM7dkxy8ASxYBb6zTmpcTxkqPALhR3GRLP/gRLhjnh9ecgEL2dPhBrdjkgLrymJmx
- jQhqNk94glL8gyV7tZg+OMl9uri7cGh8aBZOuIQrRTC5t75NC4ia4+vAdJhrtKECZLyU
- 43OJtpME4dprntg2vD0pHcC9VhD7/FIZV9QN8UMit2JON2P70fO7kwQPDOwtzBRoAQ4K
- Z3vmqayh7re9+kNikhKHzedka92HL6zn350cELsfqI7jGGsSrOW+6YaBmtTzrHiMQniN
- Zb+g==
-X-Gm-Message-State: AOAM531EmS5POk/pqeVJKt5d+KSJuj5DLQhAYAUjoDBmmK88B7B4JSOE
- zg+JKVcP2ydYOqGVxnjgVfGVc/MtibxSZkEYyadnj654z0OAFvleY8Kk+TJYhq/p44bZroBSG/K
- 3T3BB1J5JKQr19/iSWh4jJPuPvcUWqv4Q2q0wd0W2bJhDyyyT3LziHCpHUJrh
-X-Received: by 2002:a05:600c:2255:: with SMTP id
- a21mr5321120wmm.122.1607456268993; 
- Tue, 08 Dec 2020 11:37:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzQ++BzOhkJSgBGQqBtEHOZDbONyRAHGWQfKR7bpce5HPcFzbg1+amxhZx/qNk22ghLxRJTDA==
-X-Received: by 2002:a05:600c:2255:: with SMTP id
- a21mr5321109wmm.122.1607456268758; 
- Tue, 08 Dec 2020 11:37:48 -0800 (PST)
-Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id m81sm5250533wmf.29.2020.12.08.11.37.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 11:37:48 -0800 (PST)
-Date: Tue, 8 Dec 2020 14:37:45 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 66/66] hw/virtio-pci Added AER capability.
-Message-ID: <20201208193307.646726-67-mst@redhat.com>
-References: <20201208193307.646726-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiyf-0000fe-5v
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:48:49 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43164)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiyc-0000s2-CP
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:48:48 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 29E89AD71;
+ Tue,  8 Dec 2020 19:48:45 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: [RFC v9 03/32] accel/tcg: rename tcg-cpus functions to match module
+ name
+Date: Tue,  8 Dec 2020 20:48:10 +0100
+Message-Id: <20201208194839.31305-4-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201208194839.31305-1-cfontana@suse.de>
+References: <20201208194839.31305-1-cfontana@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20201208193307.646726-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,89 +59,446 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew <andrew@daynix.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Claudio Fontana <cfontana@suse.de>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew <andrew@daynix.com>
-
-Added AER capability for virtio-pci devices.
-Also added property for devices, by default AER is disabled.
-
-Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-Message-Id: <20201203110713.204938-3-andrew@daynix.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/virtio/virtio-pci.h |  4 ++++
- hw/virtio/virtio-pci.c | 16 ++++++++++++++++
- 2 files changed, 20 insertions(+)
+ accel/tcg/tcg-cpus-icount.c | 24 ++++++------
+ accel/tcg/tcg-cpus-icount.h |  6 +--
+ accel/tcg/tcg-cpus-mttcg.c  | 10 ++---
+ accel/tcg/tcg-cpus-rr.c     | 74 ++++++++++++++++++-------------------
+ accel/tcg/tcg-cpus-rr.h     |  2 +-
+ accel/tcg/tcg-cpus.c        |  6 +--
+ accel/tcg/tcg-cpus.h        |  6 +--
+ 7 files changed, 64 insertions(+), 64 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index 06e2af12de..d7d5d403a9 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -41,6 +41,7 @@ enum {
-     VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
-     VIRTIO_PCI_FLAG_INIT_PM_BIT,
-     VIRTIO_PCI_FLAG_INIT_FLR_BIT,
-+    VIRTIO_PCI_FLAG_AER_BIT,
- };
+diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
+index 82dbe2cacf..9f45432275 100644
+--- a/accel/tcg/tcg-cpus-icount.c
++++ b/accel/tcg/tcg-cpus-icount.c
+@@ -36,7 +36,7 @@
+ #include "tcg-cpus-icount.h"
+ #include "tcg-cpus-rr.h"
  
- /* Need to activate work-arounds for buggy guests at vmstate load. */
-@@ -80,6 +81,9 @@ enum {
- /* Init Function Level Reset capability */
- #define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
- 
-+/* Advanced Error Reporting capability */
-+#define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
-+
- typedef struct {
-     MSIMessage msg;
-     int virq;
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index ceaa233129..f863f69ede 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1817,6 +1817,12 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
-          */
-         pci_set_word(pci_dev->config + pos + PCI_PM_PMC, 0x3);
- 
-+        if (proxy->flags & VIRTIO_PCI_FLAG_AER) {
-+            pcie_aer_init(pci_dev, PCI_ERR_VER, last_pcie_cap_offset,
-+                          PCI_ERR_SIZEOF, NULL);
-+            last_pcie_cap_offset += PCI_ERR_SIZEOF;
-+        }
-+
-         if (proxy->flags & VIRTIO_PCI_FLAG_INIT_DEVERR) {
-             /* Init error enabling flags */
-             pcie_cap_deverr_init(pci_dev);
-@@ -1858,7 +1864,15 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
- 
- static void virtio_pci_exit(PCIDevice *pci_dev)
+-static int64_t tcg_get_icount_limit(void)
++static int64_t icount_get_limit(void)
  {
-+    VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
-+    bool pcie_port = pci_bus_is_express(pci_get_bus(pci_dev)) &&
-+                     !pci_bus_is_root(pci_get_bus(pci_dev));
-+
-     msix_uninit_exclusive_bar(pci_dev);
-+    if (proxy->flags & VIRTIO_PCI_FLAG_AER && pcie_port &&
-+        pci_is_express(pci_dev)) {
-+        pcie_aer_exit(pci_dev);
-+    }
+     int64_t deadline;
+ 
+@@ -68,37 +68,37 @@ static int64_t tcg_get_icount_limit(void)
+     }
  }
  
- static void virtio_pci_reset(DeviceState *qdev)
-@@ -1911,6 +1925,8 @@ static Property virtio_pci_properties[] = {
-                     VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
-     DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
-                     VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
-+    DEFINE_PROP_BIT("aer", VirtIOPCIProxy, flags,
-+                    VIRTIO_PCI_FLAG_AER_BIT, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
+-static void notify_aio_contexts(void)
++static void icount_notify_aio_contexts(void)
+ {
+     /* Wake up other AioContexts.  */
+     qemu_clock_notify(QEMU_CLOCK_VIRTUAL);
+     qemu_clock_run_timers(QEMU_CLOCK_VIRTUAL);
+ }
  
+-void handle_icount_deadline(void)
++void icount_handle_deadline(void)
+ {
+     assert(qemu_in_vcpu_thread());
+     int64_t deadline = qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRTUAL,
+                                                   QEMU_TIMER_ATTR_ALL);
+ 
+     if (deadline == 0) {
+-        notify_aio_contexts();
++        icount_notify_aio_contexts();
+     }
+ }
+ 
+-void prepare_icount_for_run(CPUState *cpu)
++void icount_prepare_for_run(CPUState *cpu)
+ {
+     int insns_left;
+ 
+     /*
+-     * These should always be cleared by process_icount_data after
++     * These should always be cleared by icount_process_data after
+      * each vCPU execution. However u16.high can be raised
+-     * asynchronously by cpu_exit/cpu_interrupt/tcg_handle_interrupt
++     * asynchronously by cpu_exit/cpu_interrupt/tcg_cpus_handle_interrupt
+      */
+     g_assert(cpu_neg(cpu)->icount_decr.u16.low == 0);
+     g_assert(cpu->icount_extra == 0);
+ 
+-    cpu->icount_budget = tcg_get_icount_limit();
++    cpu->icount_budget = icount_get_limit();
+     insns_left = MIN(0xffff, cpu->icount_budget);
+     cpu_neg(cpu)->icount_decr.u16.low = insns_left;
+     cpu->icount_extra = cpu->icount_budget - insns_left;
+@@ -106,11 +106,11 @@ void prepare_icount_for_run(CPUState *cpu)
+     replay_mutex_lock();
+ 
+     if (cpu->icount_budget == 0 && replay_has_checkpoint()) {
+-        notify_aio_contexts();
++        icount_notify_aio_contexts();
+     }
+ }
+ 
+-void process_icount_data(CPUState *cpu)
++void icount_process_data(CPUState *cpu)
+ {
+     /* Account for executed instructions */
+     icount_update(cpu);
+@@ -129,7 +129,7 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
+ {
+     int old_mask = cpu->interrupt_request;
+ 
+-    tcg_handle_interrupt(cpu, mask);
++    tcg_cpus_handle_interrupt(cpu, mask);
+     if (qemu_cpu_is_self(cpu) &&
+         !cpu->can_do_io
+         && (mask & ~old_mask) != 0) {
+@@ -139,7 +139,7 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
+ 
+ const CpusAccel tcg_cpus_icount = {
+     .create_vcpu_thread = rr_start_vcpu_thread,
+-    .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
++    .kick_vcpu_thread = rr_kick_vcpu_thread,
+ 
+     .handle_interrupt = icount_handle_interrupt,
+     .get_virtual_clock = icount_get,
+diff --git a/accel/tcg/tcg-cpus-icount.h b/accel/tcg/tcg-cpus-icount.h
+index cbcf76b413..b695939dfa 100644
+--- a/accel/tcg/tcg-cpus-icount.h
++++ b/accel/tcg/tcg-cpus-icount.h
+@@ -10,8 +10,8 @@
+ #ifndef TCG_CPUS_ICOUNT_H
+ #define TCG_CPUS_ICOUNT_H
+ 
+-void handle_icount_deadline(void);
+-void prepare_icount_for_run(CPUState *cpu);
+-void process_icount_data(CPUState *cpu);
++void icount_handle_deadline(void);
++void icount_prepare_for_run(CPUState *cpu);
++void icount_process_data(CPUState *cpu);
+ 
+ #endif /* TCG_CPUS_ICOUNT_H */
+diff --git a/accel/tcg/tcg-cpus-mttcg.c b/accel/tcg/tcg-cpus-mttcg.c
+index f2b892a380..9c3767d260 100644
+--- a/accel/tcg/tcg-cpus-mttcg.c
++++ b/accel/tcg/tcg-cpus-mttcg.c
+@@ -40,7 +40,7 @@
+  * current CPUState for a given thread.
+  */
+ 
+-static void *tcg_cpu_thread_fn(void *arg)
++static void *mttcg_cpu_thread_fn(void *arg)
+ {
+     CPUState *cpu = arg;
+ 
+@@ -66,7 +66,7 @@ static void *tcg_cpu_thread_fn(void *arg)
+         if (cpu_can_run(cpu)) {
+             int r;
+             qemu_mutex_unlock_iothread();
+-            r = tcg_cpu_exec(cpu);
++            r = tcg_cpus_exec(cpu);
+             qemu_mutex_lock_iothread();
+             switch (r) {
+             case EXCP_DEBUG:
+@@ -97,7 +97,7 @@ static void *tcg_cpu_thread_fn(void *arg)
+         qemu_wait_io_event(cpu);
+     } while (!cpu->unplug || cpu_can_run(cpu));
+ 
+-    qemu_tcg_destroy_vcpu(cpu);
++    tcg_cpus_destroy(cpu);
+     qemu_mutex_unlock_iothread();
+     rcu_unregister_thread();
+     return NULL;
+@@ -124,7 +124,7 @@ static void mttcg_start_vcpu_thread(CPUState *cpu)
+     snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
+              cpu->cpu_index);
+ 
+-    qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
++    qemu_thread_create(cpu->thread, thread_name, mttcg_cpu_thread_fn,
+                        cpu, QEMU_THREAD_JOINABLE);
+ 
+ #ifdef _WIN32
+@@ -136,5 +136,5 @@ const CpusAccel tcg_cpus_mttcg = {
+     .create_vcpu_thread = mttcg_start_vcpu_thread,
+     .kick_vcpu_thread = mttcg_kick_vcpu_thread,
+ 
+-    .handle_interrupt = tcg_handle_interrupt,
++    .handle_interrupt = tcg_cpus_handle_interrupt,
+ };
+diff --git a/accel/tcg/tcg-cpus-rr.c b/accel/tcg/tcg-cpus-rr.c
+index f3b262bec7..0181d2e4eb 100644
+--- a/accel/tcg/tcg-cpus-rr.c
++++ b/accel/tcg/tcg-cpus-rr.c
+@@ -37,7 +37,7 @@
+ #include "tcg-cpus-icount.h"
+ 
+ /* Kick all RR vCPUs */
+-void qemu_cpu_kick_rr_cpus(CPUState *unused)
++void rr_kick_vcpu_thread(CPUState *unused)
+ {
+     CPUState *cpu;
+ 
+@@ -58,62 +58,62 @@ void qemu_cpu_kick_rr_cpus(CPUState *unused)
+  * idleness is complete.
+  */
+ 
+-static QEMUTimer *tcg_kick_vcpu_timer;
+-static CPUState *tcg_current_rr_cpu;
++static QEMUTimer *rr_kick_vcpu_timer;
++static CPUState *rr_current_cpu;
+ 
+ #define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
+ 
+-static inline int64_t qemu_tcg_next_kick(void)
++static inline int64_t rr_next_kick_time(void)
+ {
+     return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + TCG_KICK_PERIOD;
+ }
+ 
+ /* Kick the currently round-robin scheduled vCPU to next */
+-static void qemu_cpu_kick_rr_next_cpu(void)
++static void rr_kick_next_cpu(void)
+ {
+     CPUState *cpu;
+     do {
+-        cpu = qatomic_mb_read(&tcg_current_rr_cpu);
++        cpu = qatomic_mb_read(&rr_current_cpu);
+         if (cpu) {
+             cpu_exit(cpu);
+         }
+-    } while (cpu != qatomic_mb_read(&tcg_current_rr_cpu));
++    } while (cpu != qatomic_mb_read(&rr_current_cpu));
+ }
+ 
+-static void kick_tcg_thread(void *opaque)
++static void rr_kick_thread(void *opaque)
+ {
+-    timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
+-    qemu_cpu_kick_rr_next_cpu();
++    timer_mod(rr_kick_vcpu_timer, rr_next_kick_time());
++    rr_kick_next_cpu();
+ }
+ 
+-static void start_tcg_kick_timer(void)
++static void rr_start_kick_timer(void)
+ {
+-    if (!tcg_kick_vcpu_timer && CPU_NEXT(first_cpu)) {
+-        tcg_kick_vcpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+-                                           kick_tcg_thread, NULL);
++    if (!rr_kick_vcpu_timer && CPU_NEXT(first_cpu)) {
++        rr_kick_vcpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
++                                           rr_kick_thread, NULL);
+     }
+-    if (tcg_kick_vcpu_timer && !timer_pending(tcg_kick_vcpu_timer)) {
+-        timer_mod(tcg_kick_vcpu_timer, qemu_tcg_next_kick());
++    if (rr_kick_vcpu_timer && !timer_pending(rr_kick_vcpu_timer)) {
++        timer_mod(rr_kick_vcpu_timer, rr_next_kick_time());
+     }
+ }
+ 
+-static void stop_tcg_kick_timer(void)
++static void rr_stop_kick_timer(void)
+ {
+-    if (tcg_kick_vcpu_timer && timer_pending(tcg_kick_vcpu_timer)) {
+-        timer_del(tcg_kick_vcpu_timer);
++    if (rr_kick_vcpu_timer && timer_pending(rr_kick_vcpu_timer)) {
++        timer_del(rr_kick_vcpu_timer);
+     }
+ }
+ 
+-static void qemu_tcg_rr_wait_io_event(void)
++static void rr_wait_io_event(void)
+ {
+     CPUState *cpu;
+ 
+     while (all_cpu_threads_idle()) {
+-        stop_tcg_kick_timer();
++        rr_stop_kick_timer();
+         qemu_cond_wait_iothread(first_cpu->halt_cond);
+     }
+ 
+-    start_tcg_kick_timer();
++    rr_start_kick_timer();
+ 
+     CPU_FOREACH(cpu) {
+         qemu_wait_io_event_common(cpu);
+@@ -124,13 +124,13 @@ static void qemu_tcg_rr_wait_io_event(void)
+  * Destroy any remaining vCPUs which have been unplugged and have
+  * finished running
+  */
+-static void deal_with_unplugged_cpus(void)
++static void rr_deal_with_unplugged_cpus(void)
+ {
+     CPUState *cpu;
+ 
+     CPU_FOREACH(cpu) {
+         if (cpu->unplug && !cpu_can_run(cpu)) {
+-            qemu_tcg_destroy_vcpu(cpu);
++            tcg_cpus_destroy(cpu);
+             break;
+         }
+     }
+@@ -144,7 +144,7 @@ static void deal_with_unplugged_cpus(void)
+  * elsewhere.
+  */
+ 
+-static void *tcg_rr_cpu_thread_fn(void *arg)
++static void *rr_cpu_thread_fn(void *arg)
+ {
+     CPUState *cpu = arg;
+ 
+@@ -171,7 +171,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+         }
+     }
+ 
+-    start_tcg_kick_timer();
++    rr_start_kick_timer();
+ 
+     cpu = first_cpu;
+ 
+@@ -190,7 +190,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+              * Run the timers here.  This is much more efficient than
+              * waking up the I/O thread and waiting for completion.
+              */
+-            handle_icount_deadline();
++            icount_handle_deadline();
+         }
+ 
+         replay_mutex_unlock();
+@@ -201,7 +201,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+ 
+         while (cpu && cpu_work_list_empty(cpu) && !cpu->exit_request) {
+ 
+-            qatomic_mb_set(&tcg_current_rr_cpu, cpu);
++            qatomic_mb_set(&rr_current_cpu, cpu);
+             current_cpu = cpu;
+ 
+             qemu_clock_enable(QEMU_CLOCK_VIRTUAL,
+@@ -212,11 +212,11 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+ 
+                 qemu_mutex_unlock_iothread();
+                 if (icount_enabled()) {
+-                    prepare_icount_for_run(cpu);
++                    icount_prepare_for_run(cpu);
+                 }
+-                r = tcg_cpu_exec(cpu);
++                r = tcg_cpus_exec(cpu);
+                 if (icount_enabled()) {
+-                    process_icount_data(cpu);
++                    icount_process_data(cpu);
+                 }
+                 qemu_mutex_lock_iothread();
+ 
+@@ -240,7 +240,7 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+         } /* while (cpu && !cpu->exit_request).. */
+ 
+         /* Does not need qatomic_mb_set because a spurious wakeup is okay.  */
+-        qatomic_set(&tcg_current_rr_cpu, NULL);
++        qatomic_set(&rr_current_cpu, NULL);
+ 
+         if (cpu && cpu->exit_request) {
+             qatomic_mb_set(&cpu->exit_request, 0);
+@@ -254,8 +254,8 @@ static void *tcg_rr_cpu_thread_fn(void *arg)
+             qemu_notify_event();
+         }
+ 
+-        qemu_tcg_rr_wait_io_event();
+-        deal_with_unplugged_cpus();
++        rr_wait_io_event();
++        rr_deal_with_unplugged_cpus();
+     }
+ 
+     rcu_unregister_thread();
+@@ -279,7 +279,7 @@ void rr_start_vcpu_thread(CPUState *cpu)
+         /* share a single thread for all cpus with TCG */
+         snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
+         qemu_thread_create(cpu->thread, thread_name,
+-                           tcg_rr_cpu_thread_fn,
++                           rr_cpu_thread_fn,
+                            cpu, QEMU_THREAD_JOINABLE);
+ 
+         single_tcg_halt_cond = cpu->halt_cond;
+@@ -299,7 +299,7 @@ void rr_start_vcpu_thread(CPUState *cpu)
+ 
+ const CpusAccel tcg_cpus_rr = {
+     .create_vcpu_thread = rr_start_vcpu_thread,
+-    .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
++    .kick_vcpu_thread = rr_kick_vcpu_thread,
+ 
+-    .handle_interrupt = tcg_handle_interrupt,
++    .handle_interrupt = tcg_cpus_handle_interrupt,
+ };
+diff --git a/accel/tcg/tcg-cpus-rr.h b/accel/tcg/tcg-cpus-rr.h
+index 2e5943eda9..54f6ae6e86 100644
+--- a/accel/tcg/tcg-cpus-rr.h
++++ b/accel/tcg/tcg-cpus-rr.h
+@@ -13,7 +13,7 @@
+ #define TCG_KICK_PERIOD (NANOSECONDS_PER_SECOND / 10)
+ 
+ /* Kick all RR vCPUs. */
+-void qemu_cpu_kick_rr_cpus(CPUState *unused);
++void rr_kick_vcpu_thread(CPUState *unused);
+ 
+ /* start the round robin vcpu thread */
+ void rr_start_vcpu_thread(CPUState *cpu);
+diff --git a/accel/tcg/tcg-cpus.c b/accel/tcg/tcg-cpus.c
+index 86fd09545a..e335f9f155 100644
+--- a/accel/tcg/tcg-cpus.c
++++ b/accel/tcg/tcg-cpus.c
+@@ -38,12 +38,12 @@
+ 
+ /* common functionality among all TCG variants */
+ 
+-void qemu_tcg_destroy_vcpu(CPUState *cpu)
++void tcg_cpus_destroy(CPUState *cpu)
+ {
+     cpu_thread_signal_destroyed(cpu);
+ }
+ 
+-int tcg_cpu_exec(CPUState *cpu)
++int tcg_cpus_exec(CPUState *cpu)
+ {
+     int ret;
+ #ifdef CONFIG_PROFILER
+@@ -64,7 +64,7 @@ int tcg_cpu_exec(CPUState *cpu)
+ }
+ 
+ /* mask must never be zero, except for A20 change call */
+-void tcg_handle_interrupt(CPUState *cpu, int mask)
++void tcg_cpus_handle_interrupt(CPUState *cpu, int mask)
+ {
+     g_assert(qemu_mutex_iothread_locked());
+ 
+diff --git a/accel/tcg/tcg-cpus.h b/accel/tcg/tcg-cpus.h
+index b7ca954e13..d6893a32f8 100644
+--- a/accel/tcg/tcg-cpus.h
++++ b/accel/tcg/tcg-cpus.h
+@@ -18,8 +18,8 @@ extern const CpusAccel tcg_cpus_mttcg;
+ extern const CpusAccel tcg_cpus_icount;
+ extern const CpusAccel tcg_cpus_rr;
+ 
+-void qemu_tcg_destroy_vcpu(CPUState *cpu);
+-int tcg_cpu_exec(CPUState *cpu);
+-void tcg_handle_interrupt(CPUState *cpu, int mask);
++void tcg_cpus_destroy(CPUState *cpu);
++int tcg_cpus_exec(CPUState *cpu);
++void tcg_cpus_handle_interrupt(CPUState *cpu, int mask);
+ 
+ #endif /* TCG_CPUS_H */
 -- 
-MST
+2.26.2
 
 
