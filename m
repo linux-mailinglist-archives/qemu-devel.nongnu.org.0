@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7992D2B9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:06:23 +0100 (CET)
-Received: from localhost ([::1]:57916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69A4B2D2BB8
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:15:08 +0100 (CET)
+Received: from localhost ([::1]:40002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmch9-0005Wb-RZ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:06:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35296)
+	id 1kmcpf-0001jJ-EN
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:15:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmcdx-0004am-P4; Tue, 08 Dec 2020 08:03:03 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:37337)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmcdt-0002un-5n; Tue, 08 Dec 2020 08:02:59 -0500
-Received: by mail-ej1-x642.google.com with SMTP id ga15so24493784ejb.4;
- Tue, 08 Dec 2020 05:02:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gZHePaR4+ED3PddaODEQm8Rl8Nv3dyhABKquZ1ASO54=;
- b=WwyBeFMVITS/0ValuIM/zOSjdZyJ6DcOS8ECvafcCo3rVYNENr57Z95+Cn7OMnyGWD
- wXaaWQnr1PXJBwTBwSMRBBuieMypn/W2JVyHuXbIRi9Ln/+HF9AaviErzOOeRt8EAr8K
- Kbzm6ENXo6f5o15vMwJBn9AGRolqH2SU1qY9wTVU7nzh5bVLK4F+k+fJBrHCvcBsmKTn
- 7zqGFHSctUhODDxyOeTSMh/MOH4Lk/+CIMwaHT3WbyutKoo6evxQBbxk0dhEdo0v057x
- 892UjSFIShRjXVAlLrjQlIoj7aHUgDfN2MPEa/WYGRlOVBAXdtahbwDWzWPFcOzdPgHV
- nDZA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmchg-0006ZS-09
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:06:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58283)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmchd-00047F-FA
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:06:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607432808;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YRpL7uFBrwvGFZPSrl1zteHccg6Rj/NkJHGCmfydzMk=;
+ b=eDQT7tTrUaTucDElfN6EmnckAajdBrRnvW13C/qdXf1VmOMCVo4dy5g2u0F6kTV6ih/qhn
+ 3tAd0L9FaYEUzYp/F0BUlti7xovBKtGApWsOpMit7GclTAmZLxT9j4RWcwLbwnDMW46Dr0
+ rS89c766v9JHps0yPR7QV0mWud5Lp3g=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-431-7dAlb1QOMvSaWD6vgn1Uew-1; Tue, 08 Dec 2020 08:06:46 -0500
+X-MC-Unique: 7dAlb1QOMvSaWD6vgn1Uew-1
+Received: by mail-ej1-f71.google.com with SMTP id 2so5089904ejv.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 05:06:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gZHePaR4+ED3PddaODEQm8Rl8Nv3dyhABKquZ1ASO54=;
- b=frmlj0ZTNTy4+YJd0kaUMDhTkDzTEktqvJ242vnNKQMvUu4Ztx7/NO7CiJVMTWv0xi
- DTLRGGRZW2i/Z8G9J4yCINqT5UFUHaFSYNqT0UvyP6MnpbpMXLQ62O5ji8QS7DIRjz6u
- MSndhgQqtuonKtReXmSA/az+v1azYbFIswDNWcDmHrvwCO6QXkamEURERL74VKh5f6p7
- tE3vJZ8KYO7iOW6SlXjP4C8lj+UfwfZctNuBFa3Uy/4W51Nv7kWeW/Ly9CCAAajV9xCh
- clVNg33OAc1k3m//m9iWTZ01RWsLlVyci9QDU9YbKMM6BHR3dm+wJsUgl+SM/rkveZht
- 0MzA==
-X-Gm-Message-State: AOAM530HU8KOos2i6hd1sCo76NoLE8o+0bKIQwYMXeSE4rizDaCcxtcI
- fNDOXsAzBjjXqd3/ZpShtROivooWYRc=
-X-Google-Smtp-Source: ABdhPJwBuDlVXfVUYVDbxixuRDM1XpP18PABzer4grm/1IARL/wZLJTbZW4IgceEL3/YRkp/1vj32A==
-X-Received: by 2002:a17:906:c007:: with SMTP id
- e7mr22622964ejz.511.1607432574566; 
- Tue, 08 Dec 2020 05:02:54 -0800 (PST)
+ bh=YRpL7uFBrwvGFZPSrl1zteHccg6Rj/NkJHGCmfydzMk=;
+ b=XShXp7fxTvef+kV3hUYqgQpMjY8yCq+UDuqXtjPzJRmsxMPBf2qSjScqLEouQF0Vhf
+ UCtrrGpZw3JFua4PsRvu/RRjr+RYZas19eyZhtQLoYxeuQbpoVMuobUU0g3nEoK95T6J
+ SRSAsfB3gFthwufvI+Zsvdu7IMtU3df4bdqDr+lGZ8E/vgcJRGuRedo3+Naacw5VhMlf
+ AXmlPVtVRinut+VYHofqyejSYC1QUdjGd7Y/BTOqf8cI08g2bVtS0upjQeRvOi+WU6hd
+ rb1tHfTdghSjHZyA8DpROgPQne8da1aAT88kRDa2JyhwjZ3BVVnpAh/9dJ2g5+XQR38Y
+ rx9g==
+X-Gm-Message-State: AOAM533Lqf6UDHmW4dV9n0/T+d6/5Ny0/HQj+zlyRxfKdKSXGs0xp3mK
+ WXPgHEKfW8Bx38ehKqpfJY/NENBxhqTeOu4znBmH6r8ogvCMWqn5ZoUg6iWQnVXWSBe1/EcXIcP
+ 6kJavIfjtSU0XXTw=
+X-Received: by 2002:a50:d5c4:: with SMTP id g4mr23710180edj.334.1607432805201; 
+ Tue, 08 Dec 2020 05:06:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJynhb8WrpeUn2Agv3MSJgU14xSBd+SRe6zXgTBZ6ZLnJAve2iITs1ldEoEAYIc7C/5HMKZD5A==
+X-Received: by 2002:a50:d5c4:: with SMTP id g4mr23710167edj.334.1607432805036; 
+ Tue, 08 Dec 2020 05:06:45 -0800 (PST)
 Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id ca4sm11149435edb.80.2020.12.08.05.02.53
+ by smtp.gmail.com with ESMTPSA id cb21sm16966917edb.57.2020.12.08.05.06.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 05:02:53 -0800 (PST)
-Subject: Re: [PATCH 1/5] target/arm: fix typo in cpu.h ID_AA64PFR1 field name
-To: Leif Lindholm <leif@nuviainc.com>, qemu-arm@nongnu.org
-References: <20201208122306.8933-1-leif@nuviainc.com>
- <20201208122306.8933-2-leif@nuviainc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <44678b67-e574-2443-6db1-d0540ed9ce92@amsat.org>
-Date: Tue, 8 Dec 2020 14:02:52 +0100
+ Tue, 08 Dec 2020 05:06:44 -0800 (PST)
+Subject: Re: [PATCH] hw/input: expand trace info reported for ps2 device
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201208115934.3163238-1-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7c36372d-010e-0b8a-7f70-15b8b4bbcaba@redhat.com>
+Date: Tue, 8 Dec 2020 14:06:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201208122306.8933-2-leif@nuviainc.com>
+In-Reply-To: <20201208115934.3163238-1-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,21 +98,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/8/20 1:23 PM, Leif Lindholm wrote:
-> SBSS -> SSBS
-
-For Speculative Store Bypassing State.
-
+On 12/8/20 12:59 PM, Daniel P. Berrangé wrote:
+> It is interesting to know if the PS2 keyboard is in translated mode, and
+> which of the three scancode sets are in use.
 > 
-> Signed-off-by: Leif Lindholm <leif@nuviainc.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  target/arm/cpu.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/input/ps2.c        | 2 +-
+>  hw/input/trace-events | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+> index 72cdb80ae1..237956aca2 100644
+> --- a/hw/input/ps2.c
+> +++ b/hw/input/ps2.c
+> @@ -293,7 +293,7 @@ static void ps2_keyboard_event(DeviceState *dev, QemuConsole *src,
+>      qcode = qemu_input_key_value_to_qcode(key->key);
+>  
+>      mod = ps2_modifier_bit(qcode);
+> -    trace_ps2_keyboard_event(s, qcode, key->down, mod, s->modifiers);
+> +    trace_ps2_keyboard_event(s, qcode, key->down, mod, s->modifiers, s->scancode_set, s->translate);
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Long line...
+
+Anyway,
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 
