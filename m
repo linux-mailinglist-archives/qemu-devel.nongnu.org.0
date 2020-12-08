@@ -2,76 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31412D26D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 10:05:03 +0100 (CET)
-Received: from localhost ([::1]:42062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 902AA2D2742
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 10:16:33 +0100 (CET)
+Received: from localhost ([::1]:48748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmYve-0003rD-ET
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 04:05:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39646)
+	id 1kmZ6m-0007Di-ND
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 04:16:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kmYti-0003P7-Tg
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 04:03:02 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:46884)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kmYtg-0000xZ-L7
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 04:03:02 -0500
-Received: by mail-ej1-x643.google.com with SMTP id bo9so23471671ejb.13
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 01:02:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=heOnO8xtoXTUu7nkg7Tr0zoCny6XJ7I7y8VFkwKx3YI=;
- b=NAcUA4g6FpMBOE1Xlxt2Q1ElVyu7anh6kb/qyZlxlLM2F5boiqCY7XXrG73lLkjkTO
- G24s2g422BaJZe7uWJWbXmCoKCwFQGB7nP3ln4yb+t0aO74TxgVEvBrAK+i6Lg6p4ZRx
- 4o+Nc01KscoeDYfhWOgT8Jke8eZgxT/e8fyJ9To8vxOA6OyyIKLwsBuznaAOAmwlcGmo
- 1BePba9ADIsphBcP16NjyMjxqjyGLJLp4qwcAPlebCigeVxX5uR6f5HANjd0HIzTIgBH
- veF5YLY0e8cNXIPT+nO7CAqZ86TDl6IKWGH5eimx+JDkHCnAQWSJJQMO9G74fjFcjVhX
- t/GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=heOnO8xtoXTUu7nkg7Tr0zoCny6XJ7I7y8VFkwKx3YI=;
- b=ePz82UswA0eg61pCjdox9lzVocWoZMEqZ6JgjwpSZUfg3k0SKVQFnxNtTyTzjtsiew
- cXOhimz1rUIkjHKqxDQ4PfqG9JB2ufVWgfY/EkZQsP9ryW3NXCz6nMTokkt7Ba+BG1vB
- onN0OlXga5F0ompjVFNAcqrn4T4FgyvynJ4qYwyljq2fXQ0ocwV0/4A1UFE+53kUlB5I
- 5qkWRXKT5ZenDs9KDOld9xcYuS1K1yTa2DHWNFjKAu74XV8TOGoHHm+8A94GAxc3wklg
- eFptUUYxt5uALXgGeTG60xtRpojyBypQ1UPkS8oZ1HJH+lbKhZa1sgZ0hU13vZ0PN5BW
- 3vlQ==
-X-Gm-Message-State: AOAM5303ywYyPO0jTji3n3Kcc6C7g4vH5lDru4RIfHJ0qnniStSLR4qs
- 65+l+aBuwKNbEx/XUyWJyBM=
-X-Google-Smtp-Source: ABdhPJwwqplxjiYTxGvk+CUu6nv9Om15+cCcDhpuWLQyJld3SKfxflSD8GOU2YNR5fW6/sN9mUvT0g==
-X-Received: by 2002:a17:906:4d52:: with SMTP id
- b18mr21499156ejv.405.1607418174634; 
- Tue, 08 Dec 2020 01:02:54 -0800 (PST)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id x16sm6694407ejb.38.2020.12.08.01.02.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 01:02:53 -0800 (PST)
-Date: Tue, 8 Dec 2020 09:02:52 +0000
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Subject: Re: [RFC PATCH 24/27] vhost: iommu changes
-Message-ID: <20201208090252.GW203660@stefanha-x1.localdomain>
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-25-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kmZ5C-0006co-FZ
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 04:14:54 -0500
+Received: from 4.mo51.mail-out.ovh.net ([188.165.42.229]:49338)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kmZ5A-0004tL-6v
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 04:14:54 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.7])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 3A529240DBC;
+ Tue,  8 Dec 2020 10:06:21 +0100 (CET)
+Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 8 Dec 2020
+ 10:06:10 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005fe8bf47e-cbb1-49aa-92bb-416239970c77,
+ 17D40A658B0D6C300559F39EE9B5E954A2DF46D1) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Tue, 8 Dec 2020 10:06:09 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH for-6.0] spapr: Allow memory unplug to always succeed
+Message-ID: <20201208100609.5fcc604a@bahia.lan>
+In-Reply-To: <20201208043004.GE2555@yekko.fritz.box>
+References: <20201207133704.952459-1-groug@kaod.org>
+ <20201208043004.GE2555@yekko.fritz.box>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pEAjBjStGYT6H+Py"
-Content-Disposition: inline
-In-Reply-To: <20201120185105.279030-25-eperezma@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=stefanha@gmail.com; helo=mail-ej1-x643.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; boundary="Sig_/NmXCFx8eODNYV3iugKJVIiY";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 09b186b6-ff8f-4ea6-8a28-b52d3f48f2bb
+X-Ovh-Tracer-Id: 4756645634320996829
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudejhedguddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtghisehgtderreertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelgffgfeeugedugeekveeiveevjeffhfduvdegffetkeeiveeufefgledtgfeiteenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=groug@kaod.org;
+ helo=4.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,82 +68,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
- Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
- Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---pEAjBjStGYT6H+Py
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--Sig_/NmXCFx8eODNYV3iugKJVIiY
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 20, 2020 at 07:51:02PM +0100, Eugenio P=E9rez wrote:
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index eebfac4455..cb44b9997f 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -1109,6 +1109,10 @@ static int vhost_sw_live_migration_start(struct vh=
-ost_dev *dev)
-> =20
->      assert(dev->vhost_ops->vhost_set_vring_enable);
->      dev->vhost_ops->vhost_set_vring_enable(dev, false);
-> +    if (vhost_dev_has_iommu(dev)) {
-> +        r =3D vhost_backend_invalidate_device_iotlb(dev, 0, -1ULL);
-> +        assert(r =3D=3D 0);
-> +    }
-> =20
->      for (idx =3D 0; idx < dev->nvqs; ++idx) {
->          struct vhost_virtqueue *vq =3D &dev->vqs[idx];
-> @@ -1269,6 +1273,19 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev,=
- uint64_t iova, int write)
-> =20
->      trace_vhost_iotlb_miss(dev, 1);
-> =20
-> +    if (dev->sw_lm_enabled) {
-> +        uaddr =3D iova;
-> +        len =3D 4096;
-> +        ret =3D vhost_backend_update_device_iotlb(dev, iova, uaddr, len,
-> +                                                IOMMU_RW);
+On Tue, 8 Dec 2020 15:30:04 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-It would be nice to look up the available memory so
-vhost_backend_update_device_iotlb() can be called with a much bigger
-[uaddr, uaddr+len) range. This will reduce the number of iotlb misses.
+> On Mon, Dec 07, 2020 at 02:37:04PM +0100, Greg Kurz wrote:
+> > It is currently impossible to hot-unplug a memory device between
+> > machine reset and CAS.
+> >=20
+> > (qemu) device_del dimm1
+> > Error: Memory hot unplug not supported for this guest
+> >=20
+> > This limitation was introduced in order to provide an explicit
+> > error path for older guests that didn't support hot-plug event
+> > sources (and thus memory hot-unplug).
+> >=20
+> > The linux kernel has been supporting these since 4.11. All recent
+> > enough guests are thus capable of handling the removal of a memory
+> > device at all time, including during early boot.
+> >=20
+> > Lift the limitation for the latest machine type. This means that
+> > trying to unplug memory from a guest that doesn't support it will
+> > likely just do nothing and the memory will only get removed at
+> > next reboot. Such older guests can still get the existing behavior
+> > by using an older machine type.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+>=20
+> Looks like this conflicts with something I've added to for-6.0
+> recently.  Can you rebase and resend, please.
+>=20
 
-Will vIOMMU be required for this feature? If not, then the vring needs
-to be added to the vhost memory regions because vhost will not send QEMU
-iotlb misses.
+I'm not quite sure what for-6.0 you're talking about. Despite
+you're recent announcement about moving to gitlab, it seems
+that the branch at github is the most up to date.
 
---pEAjBjStGYT6H+Py
-Content-Type: application/pgp-signature; name="signature.asc"
+gitlab:
+- HEAD is "xive: Add trace events"
+- Date: 26 Nov, 2020
+
+github:
+- HEAD is "MAINTAINERS: Add Greg Kurz as co-maintainer for ppc"
+- Date: Dec 4, 2020
+
+I've thus based this patch on github. Also, this is based on Connie's
+"hw: add compat machines for 6.0" patch...
+
+> > ---
+> > Based-on: 20201109173928.1001764-1-cohuck@redhat.com
+
+... maybe I should have made it more clear than just
+mentioning the message id ?
+
+I think I'll just wait for Connie's patch to get merged and I'll repost aft=
+er
+you've rebased ppc-for-6.0.
+
+> > ---
+> >  include/hw/ppc/spapr.h | 1 +
+> >  hw/ppc/spapr.c         | 6 +++++-
+> >  hw/ppc/spapr_events.c  | 3 ++-
+> >  3 files changed, 8 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> > index b7ced9faebf5..7aa630350326 100644
+> > --- a/include/hw/ppc/spapr.h
+> > +++ b/include/hw/ppc/spapr.h
+> > @@ -139,6 +139,7 @@ struct SpaprMachineClass {
+> >      hwaddr rma_limit;          /* clamp the RMA to this size */
+> >      bool pre_5_1_assoc_refpoints;
+> >      bool pre_5_2_numa_associativity;
+> > +    bool pre_6_0_memory_unplug;
+> > =20
+> >      bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+> >                            uint64_t *buid, hwaddr *pio,=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 7e954bc84bed..f0b26b2af30d 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -4044,7 +4044,8 @@ static void spapr_machine_device_unplug_request(H=
+otplugHandler *hotplug_dev,
+> >      SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+> > =20
+> >      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+> > -        if (spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
+> > +        if (!smc->pre_6_0_memory_unplug ||
+> > +            spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
+> >              spapr_memory_unplug_request(hotplug_dev, dev, errp);
+> >          } else {
+> >              /* NOTE: this means there is a window after guest reset, p=
+rior to
+> > @@ -4530,8 +4531,11 @@ DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
+> >   */
+> >  static void spapr_machine_5_2_class_options(MachineClass *mc)
+> >  {
+> > +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+> > +
+> >      spapr_machine_6_0_class_options(mc);
+> >      compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_le=
+n);
+> > +    smc->pre_6_0_memory_unplug =3D true;
+> >  }
+> > =20
+> >  DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
+> > diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> > index 1add53547ec3..c30123177b16 100644
+> > --- a/hw/ppc/spapr_events.c
+> > +++ b/hw/ppc/spapr_events.c
+> > @@ -659,7 +659,8 @@ static void spapr_hotplug_req_event(uint8_t hp_id, =
+uint8_t hp_action,
+> >          /* we should not be using count_indexed value unless the guest
+> >           * supports dedicated hotplug event source
+> >           */
+> > -        g_assert(spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
+> > +        g_assert(!SPAPR_MACHINE_GET_CLASS(spapr)->pre_6_0_memory_unplu=
+g ||
+> > +                 spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
+> >          hp->drc_id.count_indexed.count =3D
+> >              cpu_to_be32(drc_id->count_indexed.count);
+> >          hp->drc_id.count_indexed.index =3D
+>=20
+
+
+--Sig_/NmXCFx8eODNYV3iugKJVIiY
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/PQTwACgkQnKSrs4Gr
-c8g3Ggf/ezALRa8CClAoD8oR71XoA1kVIcse2cg110kSgP3P6FQZ4K8P3eagY4KQ
-MZOEBk/dhIcMAMUhqDGhKvCOgFzp4rxXGLJWWpVRqWXnyt+3pbt+qbRN1K6Mnw5m
-yYr0IR/vdzG0tDl7Oy5n5igf8gbTiNAiO82jgonHy6KLiw8vhEqB/fdBVQOjorQn
-4QbiOck2C58BSE+8G7iXFHCJWtoQd0O3zIgxDGsecDrDZYIP3RKcpd3EQfXUKDgc
-8pESaRJsNfEfiM485waNw2fA9C4cV9tkWe9qup607f1Hgj6qw+1/Wboy+y4A86B2
-0RfBLz7wh4oXLsoYnD1JLzTW2e3qXw==
-=ebuW
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl/PQgEACgkQcdTV5YIv
+c9bCvw//VTmV+g3PNMPvK9DdsXZKoIDXxwgamuymlMSLVeQHZU3zvnaKyxLqwsyh
+jZV4oU9TiHE+RWw43TTPSf/wrMXiFS8PKXEsFJ9bOsJ8Roa4U0FBc/tW+8dmfCCs
+Iwa9TURfPrARmJPAndPKajGR7VcmcrRBYenlgY2Ivgl/7RPy8j/GOQkXEB+taXXH
+X0+7C3pD5XxBnW6RyeMJGitWqnBtVccpWuy3U9RGVzTLPac2vJE2zchwUlPyXolQ
+046EqlRFEk40TOuMpWSV7iTuoey1ElpOyR1MIyBYTjNPK2k9oAwNdxMNs582V12s
+i4/j++ehge3o03DVkrcP17GbWOk07gXWVzir/mF0gdqDr7Q482u3bE5p6igj68aX
+J1G+2+l6xinnO9XAtMma0qhUK1LWQD5V/zLb4NAL9fNefckXpIYlRKJOVNUhajHJ
+icLv27Z5UPcCvJo5pvzq3vyxn8haRrW9e03hNcIP5UzdKv5msC0Ye4nCHUTFALJs
+gEiB5kr61lrDF79P5ypPDamYvm56eH+iGDZL1GtRMwWB13OJL26HCZX9572l+ij3
+g1dkOtD/ESpHxSptBC6Q4OFH6jGb/inLgTIfte/52/0Ic1X9+iQsVlKzVVe1PGRZ
+rIYsYa0dxx878e7bkjMnA7S9ikN5Q5aQCKhynK/V1Qbk/U6xLPY=
+=EVTp
 -----END PGP SIGNATURE-----
 
---pEAjBjStGYT6H+Py--
+--Sig_/NmXCFx8eODNYV3iugKJVIiY--
 
