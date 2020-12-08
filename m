@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EB32D3708
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 00:42:50 +0100 (CET)
-Received: from localhost ([::1]:56864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639EB2D3715
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 00:45:55 +0100 (CET)
+Received: from localhost ([::1]:60076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmmd7-0003E9-VN
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 18:42:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52720)
+	id 1kmmg6-0004nZ-E3
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 18:45:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmmbs-0002h2-M7
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 18:41:32 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46099)
+ id 1kmmdi-0003ow-DG
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 18:43:26 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmmbr-0002z7-40
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 18:41:32 -0500
-Received: by mail-ot1-x344.google.com with SMTP id w3so431312otp.13
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 15:41:30 -0800 (PST)
+ id 1kmmdf-0003YT-9k
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 18:43:26 -0500
+Received: by mail-ot1-x344.google.com with SMTP id d8so474835otq.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 15:43:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Awgv4YwNfy4EbGDM22LiLUFsX4bK0j3zfxf+y6KHOmQ=;
- b=e3EjRS8BByo9LVGj6tNAQCEnBLbooRo9LdKaUne2HyR1mt1B0JTSD92A1lAaYASgcW
- m1C/hP7HS/25hQJpjlZzj2QPyVEd0vlXpfMTxgIpt5xhs4fRN8Re9bGyVU6EJyMT+wPW
- C6hXVLpKHnIzhSgR28eDEJrLYkOI1Cuq9Y7tr9MTa9rYt7j2UuK3iauWrhe5OtvisL/A
- nDLooVg7aZq0L/1TKD4k7zZORDuK2wwl1IPzUddvfZbiuMuC/PID6vtwzlOnRlA14Ief
- oh6LZP6T9TgSCATzV6jSFsNoVttgw2ao+Me/8nHtaNH3NhlgCBjBSjAmhzzMl2irYd/r
- TZnA==
+ bh=8a+ZvOKZ4jjdJfj6EkFo4Gs8Ey7HjcA7YKrJqNhd6WA=;
+ b=HNxaw8FsfsU15ZFftWz2F4GWquMkm7epjsH2xvZJkdnyy3P4DcVc0toELF1gw7qayd
+ oIFhyeS1JXCWDNz70tK7+XIO7HCSMrSKa43sQejSarOkhQqEjZFVqfwQwHncngSFrqmh
+ IIe5gXBzLXuabke4l2rbMIcTZ3w3y9Ana+OZOrJSBXbMAiPWUzsA0ssOLoM6/EZEmWPS
+ l+63yigNzk4AOdZCxILjwQDE4rj3RY2sRiTYxvCie9RbxB166Up3iad6Kcg8CdMO3eon
+ tz3kaOE3bpwBUblR8ABva8eE/5fEqsXqKo5oLOFwWaM+3+3XQ1RD7k+mqY4vWpd+rHWo
+ hBHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Awgv4YwNfy4EbGDM22LiLUFsX4bK0j3zfxf+y6KHOmQ=;
- b=iX/9ezQN0ZrKxczged/Ijnwvm5blb+ylkGkWEPcza12hikeLZZ6PIvIq8mUS57wYtR
- IKRlSlp619JZgvQJmXbvlUmjCrqmjxs5lb+aFk0P2rJ4th6f4me057nY20M/h3z0CVy+
- mdzhxEl0vxDEcDE0yAsEr1jM5Y37aekDcFJCbUAQ2Wyl+Sho6Wpo1IRFQ6rghJgpOD69
- CtVTRUrGlnLbcud6n+t6o0NqQwS3j74q5gjzpWFEMJVR9GXHpa7HwY+ee6HeN77+l5tY
- SKmvhZBa40qLGmlcZHurvmyMLGX9fFtznXLHHjryx4+3bHLcGF/ZVIcu3oKVZlCTGAon
- NNng==
-X-Gm-Message-State: AOAM532evyOBTyzrA8fXyJIAR3U2Dds7cacffxKW/z+HUC+/+xpLvzjZ
- DDVQVzzczTOO7c5/+BJlx5tnHg==
-X-Google-Smtp-Source: ABdhPJzLpxom4eBWR26ifD/IN7iCtKwSCrzlN/Pqn/PfMk7RrajimKw9j4/yPWTjorzBY3LRxmIi3Q==
-X-Received: by 2002:a05:6830:1bd9:: with SMTP id
- v25mr442604ota.81.1607470889877; 
- Tue, 08 Dec 2020 15:41:29 -0800 (PST)
+ bh=8a+ZvOKZ4jjdJfj6EkFo4Gs8Ey7HjcA7YKrJqNhd6WA=;
+ b=qKwlMnpCRDuWsT+Scfp3RS00ERd9XOdypvdY3tIKbt2RsmVws/kizUUaK3E39za5RT
+ amJbO8fh/Qa+XesOGZsuvsrZDUY+7PB89XVYqkDhleDKeozwKwEmFPrCE3L592TvTwhR
+ ZPGT5e+uWTwB2FtRYRalqQz1vMsOhFKAT3zFc8iHB6/f1K76pzNkikzmNMIbN7tNC+Vz
+ fE2JCCXPVdV9uMgbl6PI/wV7xIjhIj3cTV9mNm5TLmgAR7RuLWUql5IZRihLbydmTQo5
+ Pqs+jNzqI0JNTVw3ObPSpCF0FIvJfkA2yy59WBf9VOw5sZLvHl/ISgqvvZ2eT6zNJRhu
+ YG5w==
+X-Gm-Message-State: AOAM532lkWVAR7s/NYLMGzlh6TcIgt4PCwUf64WA5egFjc0BleL6bYLb
+ 4GBxpeiL0t2oRsEribn+dOSWDg==
+X-Google-Smtp-Source: ABdhPJwmfsoM4GRzok1vC/QeTOXymVxYJtnQv2pGwSrJDYo9oJ6rVMH/nGD2BHln17Jgb4VrmQKiBw==
+X-Received: by 2002:a9d:1d05:: with SMTP id m5mr458084otm.324.1607471002094;
+ Tue, 08 Dec 2020 15:43:22 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id q77sm120955ooq.15.2020.12.08.15.41.28
+ by smtp.gmail.com with ESMTPSA id k20sm77401oig.35.2020.12.08.15.43.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 15:41:29 -0800 (PST)
-Subject: Re: [PATCH 2/4] target/mips: Don't use clock_get_ns() in clock period
- calculation
+ Tue, 08 Dec 2020 15:43:21 -0800 (PST)
+Subject: Re: [PATCH 3/4] clock: Remove clock_get_ns()
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20201208181554.435-1-peter.maydell@linaro.org>
- <20201208181554.435-3-peter.maydell@linaro.org>
+ <20201208181554.435-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <58e9d3ff-17ff-b3b6-33ea-20229a23a9c3@linaro.org>
-Date: Tue, 8 Dec 2020 17:41:27 -0600
+Message-ID: <bc32fa4b-9c26-5e6f-5d36-70849e59796e@linaro.org>
+Date: Tue, 8 Dec 2020 17:43:19 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201208181554.435-3-peter.maydell@linaro.org>
+In-Reply-To: <20201208181554.435-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -98,20 +96,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/8/20 12:15 PM, Peter Maydell wrote:
-> Currently the MIPS code uses the old clock_get_ns() API to
-> calculate a time length in nanoseconds:
->  cpu->cp0_count_rate * clock_get_ns(MIPS_CPU(cpu)->clock)
-> 
-> This relies on the clock having a period which is an exact number
-> of nanoseconds.
-> 
-> Switch to the new clock_ticks_to_ns() function, which does the
-> multiplication internally at a higher precision.
+> Remove the now-unused clock_get_ns() API and the CLOCK_PERIOD_TO_NS()
+> macro that only it was using.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/mips/cpu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  docs/devel/clocks.rst | 17 +++++++++++++----
+>  include/hw/clock.h    |  6 ------
+>  2 files changed, 13 insertions(+), 10 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
