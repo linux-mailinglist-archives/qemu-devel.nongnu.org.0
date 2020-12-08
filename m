@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C7E2D2D62
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 15:43:47 +0100 (CET)
-Received: from localhost ([::1]:34736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E622F2D2D70
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 15:47:08 +0100 (CET)
+Received: from localhost ([::1]:39014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmeDS-0007bm-Uv
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 09:43:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59444)
+	id 1kmeGh-00014z-W9
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 09:47:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kmeAx-0006IG-BH
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 09:41:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28505)
+ id 1kmeEo-0000Ys-PS
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 09:45:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kmeAv-0003vm-7U
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 09:41:11 -0500
+ id 1kmeEm-0005Dg-CO
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 09:45:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607438468;
+ s=mimecast20190719; t=1607438707;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=om9pj/+e9N2FnryRxQFWL4U1OslAShS0OLLrwi11/vM=;
- b=KVsfNcfg5WbBEgEXUZDTlF8TEB5kfNnTv54v6pl1M4G56f6p5iqkh4L5Da0YLgrvx9enkc
- b1qTPnH4cSTz7RSQLpL9WyVcmGUe4SPiyzlltqVdri3d5BDcq5TrQVm42Tk0kn0mfwgI+i
- ixu1S0RQ4kIURTkzXv87c6hshM9Qn5A=
+ bh=s9oN9gt4lW9274AHon/YZ/eyIWoxnEgHuWhKwA7kIkI=;
+ b=MwWxZg7+UmBREQYXeJWnXfofZZgaT5MoQvxtGDOEF81JdAV91VPOrfFs4gCbAFCbx7Kd58
+ 8BqTJgl9Td69A3vLDUZiz20cewx1YlQftL9ERKwsI7p0iEadbq9QMUS8qvCYabBnXTRBlt
+ 1nDq6k3s0QZ6qGp0BsWOp60Tv41MnNY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-i1hFHkEdORGiKsZmCuVgxA-1; Tue, 08 Dec 2020 09:41:06 -0500
-X-MC-Unique: i1hFHkEdORGiKsZmCuVgxA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-195-mW2Rhdx9MZSiMLhDJR2mAA-1; Tue, 08 Dec 2020 09:45:05 -0500
+X-MC-Unique: mW2Rhdx9MZSiMLhDJR2mAA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A6A81922032
- for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 14:41:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52F04107AD29
+ for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 14:45:04 +0000 (UTC)
 Received: from redhat.com (ovpn-113-15.ams2.redhat.com [10.36.113.15])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B5A95D9DD;
- Tue,  8 Dec 2020 14:41:00 +0000 (UTC)
-Date: Tue, 8 Dec 2020 14:40:57 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D0081F418;
+ Tue,  8 Dec 2020 14:45:00 +0000 (UTC)
+Date: Tue, 8 Dec 2020 14:44:57 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 1/9] console: drop qemu_console_get_ui_info
-Message-ID: <20201208144057.GL3136942@redhat.com>
+Subject: Re: [PATCH v2 2/9] console: allow con==NULL in dpy_{get,
+ set}_ui_info and dpy_ui_info_supported
+Message-ID: <20201208144457.GM3136942@redhat.com>
 References: <20201208115737.18581-1-kraxel@redhat.com>
- <20201208115737.18581-2-kraxel@redhat.com>
+ <20201208115737.18581-3-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201208115737.18581-2-kraxel@redhat.com>
+In-Reply-To: <20201208115737.18581-3-kraxel@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,14 +88,13 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 08, 2020 at 12:57:29PM +0100, Gerd Hoffmann wrote:
-> Unused and duplicate (there is dpy_get_ui_info).
+On Tue, Dec 08, 2020 at 12:57:30PM +0100, Gerd Hoffmann wrote:
+> Use active_console in that case like we do in many other places.
 > 
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
->  include/ui/console.h | 1 -
->  ui/console.c         | 6 ------
->  2 files changed, 7 deletions(-)
+>  ui/console.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
