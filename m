@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB542D3081
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 18:05:37 +0100 (CET)
-Received: from localhost ([::1]:60732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4FD2D308A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 18:09:20 +0100 (CET)
+Received: from localhost ([::1]:40416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmgQi-0004A1-SN
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 12:05:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37494)
+	id 1kmgUJ-00089F-5i
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 12:09:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kmg3B-0005s8-SB
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:41:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25234)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmg82-0000lH-8i
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:46:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kmg35-0005Uh-SK
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:41:17 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kmg80-00071j-1j
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:46:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607445670;
+ s=mimecast20190719; t=1607445973;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qfGCWQUsVRDvTQCbbBZJ06I0LBuOMnjVOrqrwhzY7wc=;
- b=CHFVxVu7XqjArJRVu+QXSBAx1wODqLuVv1fohrtiJwhbJYG5I8BttNJZCPzbNLtOMNbiTK
- zf8AbLsE/FxYIL5LycRAWz2H5gtY8HT1Iqxn7YQJ6eCx4TTJfZkCwZSaDjmd6nFiqjY1Bb
- hBSOoRG0JuDxoKcilUyyNR85X8F6Om4=
+ bh=wuDaBLBKSNDnZmjEVJ3ifOWBEnuNh7fStX/OzA5OCbU=;
+ b=bF4e0oeqsNLV0NEMmdW27l6+NHbOL9KG7/sHo0WX9Rlx2Ksfv++PKIPd6dyTpZuWLW/lLn
+ pASB4AWhpOZjCSauDQl0pMPzsEGd/P4ISvRvRF5PdvP/I5Z1t9Gfwb1x2vHQUJY7UJ6qzV
+ u96f6/pkAg2IBw3uIMAvFmuLvqo2KLw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-cEcZ1e5VOkCvfBQY6deCKw-1; Tue, 08 Dec 2020 11:41:07 -0500
-X-MC-Unique: cEcZ1e5VOkCvfBQY6deCKw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-477-yFfBOUMFMje9-lhMR6GZnQ-1; Tue, 08 Dec 2020 11:46:11 -0500
+X-MC-Unique: yFfBOUMFMje9-lhMR6GZnQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC85019611D0;
- Tue,  8 Dec 2020 16:40:24 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-113-236.ams2.redhat.com [10.36.113.236])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DA8C5D6AB;
- Tue,  8 Dec 2020 16:40:21 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB6D9107AD29;
+ Tue,  8 Dec 2020 16:46:09 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CB8560BE2;
+ Tue,  8 Dec 2020 16:46:08 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/10] vfio: Disable only uncoordinated discards
-Date: Tue,  8 Dec 2020 17:39:50 +0100
-Message-Id: <20201208163950.29617-11-david@redhat.com>
-In-Reply-To: <20201208163950.29617-1-david@redhat.com>
-References: <20201208163950.29617-1-david@redhat.com>
+Subject: [PATCH v2] ppc/spapr: cleanup -machine pseries,nvdimm=X handling
+Date: Tue,  8 Dec 2020 11:46:06 -0500
+Message-Id: <20201208164606.4109134-1-imammedo@redhat.com>
+In-Reply-To: <20201208110532.4099624-1-imammedo@redhat.com>
+References: <20201208110532.4099624-1-imammedo@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,93 +79,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: pbonzini@redhat.com, danielhb413@gmail.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We support coordinated discarding of RAM using the RamDiscardMgr. Let's
-unlock support for coordinated discards, keeping uncoordinated discards
-(e.g., via virtio-balloon) disabled.
+Since NVDIMM support was introduced on pseries machine,
+it ignored machine's nvdimm=on|off option and effectively
+was always enabled on machines that support NVDIMM.
+Later on commit
+  (28f5a716212 ppc/spapr_nvdimm: do not enable support with 'nvdimm=off')
+makes QEMU error out in case user explicitly set 'nvdimm=off'
+on CLI by peeking at machine_opts.
 
-This unlocks virtio-mem + vfio. Note that vfio used via "nvme://" by the
-block layer has to be implemented/unlocked separately. For now,
-virtio-mem only supports x86-64 - spapr IOMMUs are not tested/affected.
+However that's a workaround and leaves 'nvdimms_state->is_enabled'
+in inconsistent state (false) when it should be set true
+by default.
 
-Note: The block size of a virtio-mem device has to be set to sane sizes,
-depending on the maximum hotplug size - to not run out of vfio mappings.
-The default virtio-mem block size is usually in the range of a couple of
-MBs. The maximum number of mapping is 64k, shared with other users.
-Assume you want to hotplug 256GB using virtio-mem - the block size would
-have to be set to at least 8 MiB (resulting in 32768 separate mappings).
+Instead of using on machine_opts, set default to true for pseries
+machine in initfn time. If user sets manually 'nvdimm=off'
+it will overwrite default value to false and QEMU will error
+as expected without need to peek into machine_opts.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Auger Eric <eric.auger@redhat.com>
-Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-Cc: teawater <teawaterz@linux.alibaba.com>
-Cc: Marek Kedzierski <mkedzier@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
+That way pseries will have, nvdimm enabled by default and
+will honor user provided 'nvdimm=on|off'.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/vfio/common.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+CC: danielhb413@gmail.com
+CC: david@gibson.dropbear.id.au
+CC: pbonzini@redhat.com
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 57c83a2f14..3ce5e26bab 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -1974,8 +1974,10 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-      * new memory, it will not yet set ram_block_discard_set_required() and
-      * therefore, neither stops us here or deals with the sudden memory
-      * consumption of inflated memory.
-+     *
-+     * We do support discarding of memory coordinated via the RamDiscardMgr.
-      */
--    ret = ram_block_discard_disable(true);
-+    ret = ram_block_uncoordinated_discard_disable(true);
-     if (ret) {
-         error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
-         return ret;
-@@ -2155,7 +2157,7 @@ close_fd_exit:
-     close(fd);
+v2:
+  - simplify a bit more by using spapr_instance_init() to set
+    default value instead of doing it in generic machine code
+
+PS:
+Patch should be applied on top of:
+  [PATCH 08/15] machine: introduce MachineInitPhase
+---
+ hw/ppc/spapr.c        | 13 +++++++++++++
+ hw/ppc/spapr_nvdimm.c | 14 +-------------
+ 2 files changed, 14 insertions(+), 13 deletions(-)
+
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index b7e0894019..803a6f52a2 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3267,6 +3267,19 @@ static void spapr_instance_init(Object *obj)
+ {
+     SpaprMachineState *spapr = SPAPR_MACHINE(obj);
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
++    MachineState *ms = MACHINE(spapr);
++    MachineClass *mc = MACHINE_GET_CLASS(ms);
++
++    /*
++     * NVDIMM support went live in 5.1 without considering that, in
++     * other archs, the user needs to enable NVDIMM support with the
++     * 'nvdimm' machine option and the default behavior is NVDIMM
++     * support disabled. It is too late to roll back to the standard
++     * behavior without breaking 5.1 guests.
++     */
++    if (mc->nvdimm_supported) {
++        ms->nvdimms_state->is_enabled = true;
++    }
  
- put_space_exit:
--    ram_block_discard_disable(false);
-+    ram_block_uncoordinated_discard_disable(false);
-     vfio_put_address_space(space);
+     spapr->htab_fd = -1;
+     spapr->use_hotplug_event_source = true;
+diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+index a833a63b5e..66cd3dc13f 100644
+--- a/hw/ppc/spapr_nvdimm.c
++++ b/hw/ppc/spapr_nvdimm.c
+@@ -27,10 +27,8 @@
+ #include "hw/ppc/spapr_nvdimm.h"
+ #include "hw/mem/nvdimm.h"
+ #include "qemu/nvdimm-utils.h"
+-#include "qemu/option.h"
+ #include "hw/ppc/fdt.h"
+ #include "qemu/range.h"
+-#include "sysemu/sysemu.h"
+ #include "hw/ppc/spapr_numa.h"
  
-     return ret;
-@@ -2277,7 +2279,7 @@ void vfio_put_group(VFIOGroup *group)
+ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+@@ -38,7 +36,6 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+ {
+     const MachineClass *mc = MACHINE_GET_CLASS(hotplug_dev);
+     const MachineState *ms = MACHINE(hotplug_dev);
+-    const char *nvdimm_opt = qemu_opt_get(qemu_get_machine_opts(), "nvdimm");
+     g_autofree char *uuidstr = NULL;
+     QemuUUID uuid;
+     int ret;
+@@ -48,16 +45,7 @@ bool spapr_nvdimm_validate(HotplugHandler *hotplug_dev, NVDIMMDevice *nvdimm,
+         return false;
      }
  
-     if (!group->ram_block_discard_allowed) {
--        ram_block_discard_disable(false);
-+        ram_block_uncoordinated_discard_disable(false);
+-    /*
+-     * NVDIMM support went live in 5.1 without considering that, in
+-     * other archs, the user needs to enable NVDIMM support with the
+-     * 'nvdimm' machine option and the default behavior is NVDIMM
+-     * support disabled. It is too late to roll back to the standard
+-     * behavior without breaking 5.1 guests. What we can do is to
+-     * ensure that, if the user sets nvdimm=off, we error out
+-     * regardless of being 5.1 or newer.
+-     */
+-    if (!ms->nvdimms_state->is_enabled && nvdimm_opt) {
++    if (!ms->nvdimms_state->is_enabled) {
+         error_setg(errp, "nvdimm device found but 'nvdimm=off' was set");
+         return false;
      }
-     vfio_kvm_device_del_group(group);
-     vfio_disconnect_container(group);
-@@ -2331,7 +2333,7 @@ int vfio_get_device(VFIOGroup *group, const char *name,
- 
-         if (!group->ram_block_discard_allowed) {
-             group->ram_block_discard_allowed = true;
--            ram_block_discard_disable(false);
-+            ram_block_uncoordinated_discard_disable(false);
-         }
-     }
- 
 -- 
-2.28.0
+2.27.0
 
 
