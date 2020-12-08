@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A092D3408
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:42:12 +0100 (CET)
-Received: from localhost ([::1]:52800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BA42D340D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:44:45 +0100 (CET)
+Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmjoJ-0007Ws-U9
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:42:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52418)
+	id 1kmjqm-0002UF-Ma
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:44:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiye-0000eP-KP
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:48:48 -0500
-Received: from mx2.suse.de ([195.135.220.15]:43124)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiyf-0000hW-TQ
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:48:49 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiyb-0000rt-G5
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:48:48 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmiyd-0000sp-9G
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:48:49 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2E44EAD07;
- Tue,  8 Dec 2020 19:48:44 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 0A5BBACF4;
+ Tue,  8 Dec 2020 19:48:46 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,9 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [RFC v9 02/32] accel/tcg: split tcg_start_vcpu_thread
-Date: Tue,  8 Dec 2020 20:48:09 +0100
-Message-Id: <20201208194839.31305-3-cfontana@suse.de>
+Subject: [RFC v9 04/32] i386: move kvm accel files into kvm/
+Date: Tue,  8 Dec 2020 20:48:11 +0100
+Message-Id: <20201208194839.31305-5-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201208194839.31305-1-cfontana@suse.de>
 References: <20201208194839.31305-1-cfontana@suse.de>
@@ -68,293 +68,318 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-after the initial split into 3 tcg variants, we proceed to also
-split tcg_start_vcpu_thread.
-
-We actually split it in 2 this time, since the icount variant
-just uses the round robin function.
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tcg-all.c         |  5 ++++
- accel/tcg/tcg-cpus-icount.c |  2 +-
- accel/tcg/tcg-cpus-mttcg.c  | 29 +++++++++++++++++--
- accel/tcg/tcg-cpus-mttcg.h  | 21 --------------
- accel/tcg/tcg-cpus-rr.c     | 39 +++++++++++++++++++++++--
- accel/tcg/tcg-cpus-rr.h     |  3 +-
- accel/tcg/tcg-cpus.c        | 58 -------------------------------------
- accel/tcg/tcg-cpus.h        |  1 -
- 8 files changed, 71 insertions(+), 87 deletions(-)
- delete mode 100644 accel/tcg/tcg-cpus-mttcg.h
+ MAINTAINERS                          | 2 +-
+ hw/i386/fw_cfg.c                     | 2 +-
+ hw/i386/intel_iommu.c                | 2 +-
+ hw/i386/kvm/apic.c                   | 2 +-
+ hw/i386/kvm/clock.c                  | 2 +-
+ hw/i386/microvm.c                    | 2 +-
+ hw/i386/pc.c                         | 2 +-
+ hw/i386/x86.c                        | 2 +-
+ meson.build                          | 1 +
+ target/i386/cpu.c                    | 2 +-
+ target/i386/cpu.h                    | 2 +-
+ target/i386/helper.c                 | 2 +-
+ target/i386/{ => kvm}/hyperv-proto.h | 0
+ target/i386/{ => kvm}/hyperv-stub.c  | 0
+ target/i386/{ => kvm}/hyperv.c       | 0
+ target/i386/{ => kvm}/hyperv.h       | 0
+ target/i386/{ => kvm}/kvm-stub.c     | 0
+ target/i386/{ => kvm}/kvm.c          | 0
+ target/i386/{ => kvm}/kvm_i386.h     | 0
+ target/i386/kvm/meson.build          | 3 +++
+ target/i386/kvm/trace-events         | 7 +++++++
+ target/i386/kvm/trace.h              | 1 +
+ target/i386/machine.c                | 4 ++--
+ target/i386/meson.build              | 4 +---
+ target/i386/trace-events             | 6 ------
+ 25 files changed, 26 insertions(+), 22 deletions(-)
+ rename target/i386/{ => kvm}/hyperv-proto.h (100%)
+ rename target/i386/{ => kvm}/hyperv-stub.c (100%)
+ rename target/i386/{ => kvm}/hyperv.c (100%)
+ rename target/i386/{ => kvm}/hyperv.h (100%)
+ rename target/i386/{ => kvm}/kvm-stub.c (100%)
+ rename target/i386/{ => kvm}/kvm.c (100%)
+ rename target/i386/{ => kvm}/kvm_i386.h (100%)
+ create mode 100644 target/i386/kvm/meson.build
+ create mode 100644 target/i386/kvm/trace-events
+ create mode 100644 target/i386/kvm/trace.h
 
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index e42a028043..1ac0b76515 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -105,6 +105,11 @@ static int tcg_init(MachineState *ms)
-     tcg_exec_init(s->tb_size * 1024 * 1024);
-     mttcg_enabled = s->mttcg_enabled;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 68bc160f41..5b3eced829 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -425,7 +425,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
+ M: Marcelo Tosatti <mtosatti@redhat.com>
+ L: kvm@vger.kernel.org
+ S: Supported
+-F: target/i386/kvm.c
++F: target/i386/kvm/
+ F: scripts/kvm/vmxcap
  
-+    /*
-+     * Initialize TCG regions
-+     */
-+    tcg_region_init();
+ Guest CPU Cores (other accelerators)
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index e06579490c..fae1bb380f 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -21,7 +21,7 @@
+ #include "hw/timer/hpet.h"
+ #include "hw/nvram/fw_cfg.h"
+ #include "e820_memory_layout.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include CONFIG_DEVICES
+ 
+ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 70ac837733..361b6cd238 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -37,7 +37,7 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/i386/apic_internal.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
+ 
+diff --git a/hw/i386/kvm/apic.c b/hw/i386/kvm/apic.c
+index dd29906061..07bebc1282 100644
+--- a/hw/i386/kvm/apic.c
++++ b/hw/i386/kvm/apic.c
+@@ -17,7 +17,7 @@
+ #include "hw/pci/msi.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/kvm.h"
+-#include "target/i386/kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ 
+ static inline void kvm_apic_set_reg(struct kvm_lapic_state *kapic,
+                                     int reg_id, uint32_t val)
+diff --git a/hw/i386/kvm/clock.c b/hw/i386/kvm/clock.c
+index 24fe5091b6..2d8a366369 100644
+--- a/hw/i386/kvm/clock.c
++++ b/hw/i386/kvm/clock.c
+@@ -20,7 +20,7 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/hw_accel.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "migration/vmstate.h"
+ #include "hw/sysbus.h"
+ #include "hw/kvm/clock.h"
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+index 5428448b70..3ed6adff83 100644
+--- a/hw/i386/microvm.c
++++ b/hw/i386/microvm.c
+@@ -51,7 +51,7 @@
+ 
+ #include "cpu.h"
+ #include "elf.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "hw/xen/start_info.h"
+ 
+ #define MICROVM_QBOOT_FILENAME "qboot.rom"
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 17b514d1da..299aaba8e9 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -61,7 +61,7 @@
+ #include "sysemu/qtest.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "hw/xen/xen.h"
+ #include "hw/xen/start_info.h"
+ #include "ui/qemu-spice.h"
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 5944fc44ed..88d0c70e12 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -52,7 +52,7 @@
+ #include "elf.h"
+ #include "standard-headers/asm-x86/bootparam.h"
+ #include CONFIG_DEVICES
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ 
+ #define BIOS_FILENAME "bios.bin"
+ 
+diff --git a/meson.build b/meson.build
+index e3386196ba..198298e9d8 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1467,6 +1467,7 @@ trace_events_subdirs += [
+   'target/arm',
+   'target/hppa',
+   'target/i386',
++  'target/i386/kvm',
+   'target/mips',
+   'target/ppc',
+   'target/riscv',
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 5a8c96072e..b9bd249c8f 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -30,7 +30,7 @@
+ #include "sysemu/hvf.h"
+ #include "sysemu/cpus.h"
+ #include "sysemu/xen.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #include "sev_i386.h"
+ 
+ #include "qemu/error-report.h"
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 88e8586f8f..9ecda75aec 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -22,7 +22,7 @@
+ 
+ #include "sysemu/tcg.h"
+ #include "cpu-qom.h"
+-#include "hyperv-proto.h"
++#include "kvm/hyperv-proto.h"
+ #include "exec/cpu-defs.h"
+ #include "qapi/qapi-types-common.h"
+ 
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 034f46bcc2..a1b3367ab2 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -24,7 +24,7 @@
+ #include "qemu/qemu-print.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "sysemu/tcg.h"
+ #include "sysemu/hw_accel.h"
+diff --git a/target/i386/hyperv-proto.h b/target/i386/kvm/hyperv-proto.h
+similarity index 100%
+rename from target/i386/hyperv-proto.h
+rename to target/i386/kvm/hyperv-proto.h
+diff --git a/target/i386/hyperv-stub.c b/target/i386/kvm/hyperv-stub.c
+similarity index 100%
+rename from target/i386/hyperv-stub.c
+rename to target/i386/kvm/hyperv-stub.c
+diff --git a/target/i386/hyperv.c b/target/i386/kvm/hyperv.c
+similarity index 100%
+rename from target/i386/hyperv.c
+rename to target/i386/kvm/hyperv.c
+diff --git a/target/i386/hyperv.h b/target/i386/kvm/hyperv.h
+similarity index 100%
+rename from target/i386/hyperv.h
+rename to target/i386/kvm/hyperv.h
+diff --git a/target/i386/kvm-stub.c b/target/i386/kvm/kvm-stub.c
+similarity index 100%
+rename from target/i386/kvm-stub.c
+rename to target/i386/kvm/kvm-stub.c
+diff --git a/target/i386/kvm.c b/target/i386/kvm/kvm.c
+similarity index 100%
+rename from target/i386/kvm.c
+rename to target/i386/kvm/kvm.c
+diff --git a/target/i386/kvm_i386.h b/target/i386/kvm/kvm_i386.h
+similarity index 100%
+rename from target/i386/kvm_i386.h
+rename to target/i386/kvm/kvm_i386.h
+diff --git a/target/i386/kvm/meson.build b/target/i386/kvm/meson.build
+new file mode 100644
+index 0000000000..1d66559187
+--- /dev/null
++++ b/target/i386/kvm/meson.build
+@@ -0,0 +1,3 @@
++i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
++i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
++i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
+diff --git a/target/i386/kvm/trace-events b/target/i386/kvm/trace-events
+new file mode 100644
+index 0000000000..b4e2d9e4ea
+--- /dev/null
++++ b/target/i386/kvm/trace-events
+@@ -0,0 +1,7 @@
++# See docs/devel/tracing.txt for syntax documentation.
 +
-     if (mttcg_enabled) {
-         cpus_register_accel(&tcg_cpus_mttcg);
-     } else if (icount_enabled()) {
-diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
-index d3af3afb6d..82dbe2cacf 100644
---- a/accel/tcg/tcg-cpus-icount.c
-+++ b/accel/tcg/tcg-cpus-icount.c
-@@ -138,7 +138,7 @@ static void icount_handle_interrupt(CPUState *cpu, int mask)
- }
++# kvm.c
++kvm_x86_fixup_msi_error(uint32_t gsi) "VT-d failed to remap interrupt for GSI %" PRIu32
++kvm_x86_add_msi_route(int virq) "Adding route entry for virq %d"
++kvm_x86_remove_msi_route(int virq) "Removing route entry for virq %d"
++kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
+diff --git a/target/i386/kvm/trace.h b/target/i386/kvm/trace.h
+new file mode 100644
+index 0000000000..46b75c6942
+--- /dev/null
++++ b/target/i386/kvm/trace.h
+@@ -0,0 +1 @@
++#include "trace/trace-target_i386_kvm.h"
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index 233e46bb70..1614e8c2f8 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -3,9 +3,9 @@
+ #include "exec/exec-all.h"
+ #include "hw/isa/isa.h"
+ #include "migration/cpu.h"
+-#include "hyperv.h"
++#include "kvm/hyperv.h"
+ #include "hw/i386/x86.h"
+-#include "kvm_i386.h"
++#include "kvm/kvm_i386.h"
  
- const CpusAccel tcg_cpus_icount = {
--    .create_vcpu_thread = tcg_start_vcpu_thread,
-+    .create_vcpu_thread = rr_start_vcpu_thread,
-     .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
+ #include "sysemu/kvm.h"
+ #include "sysemu/tcg.h"
+diff --git a/target/i386/meson.build b/target/i386/meson.build
+index a1a02f3e99..0209542a8a 100644
+--- a/target/i386/meson.build
++++ b/target/i386/meson.build
+@@ -18,7 +18,6 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'smm_helper.c',
+   'svm_helper.c',
+   'translate.c'), if_false: files('tcg-stub.c'))
+-i386_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
+ i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
  
-     .handle_interrupt = icount_handle_interrupt,
-diff --git a/accel/tcg/tcg-cpus-mttcg.c b/accel/tcg/tcg-cpus-mttcg.c
-index dac724fc85..f2b892a380 100644
---- a/accel/tcg/tcg-cpus-mttcg.c
-+++ b/accel/tcg/tcg-cpus-mttcg.c
-@@ -33,7 +33,6 @@
- #include "hw/boards.h"
+ i386_softmmu_ss = ss.source_set()
+@@ -28,8 +27,6 @@ i386_softmmu_ss.add(files(
+   'machine.c',
+   'monitor.c',
+ ))
+-i386_softmmu_ss.add(when: 'CONFIG_HYPERV', if_true: files('hyperv.c'), if_false: files('hyperv-stub.c'))
+-i386_softmmu_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
+ i386_softmmu_ss.add(when: 'CONFIG_WHPX', if_true: files(
+   'whpx-all.c',
+   'whpx-cpus.c',
+@@ -42,6 +39,7 @@ i386_softmmu_ss.add(when: 'CONFIG_HAX', if_true: files(
+ i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_POSIX'], if_true: files('hax-posix.c'))
+ i386_softmmu_ss.add(when: ['CONFIG_HAX', 'CONFIG_WIN32'], if_true: files('hax-windows.c'))
  
- #include "tcg-cpus.h"
--#include "tcg-cpus-mttcg.h"
++subdir('kvm')
+ subdir('hvf')
  
- /*
-  * In the multi-threaded case each vCPU has its own thread. The TLS
-@@ -41,7 +40,7 @@
-  * current CPUState for a given thread.
-  */
+ target_arch += {'i386': i386_ss}
+diff --git a/target/i386/trace-events b/target/i386/trace-events
+index 789c700d4a..d166f9d5e0 100644
+--- a/target/i386/trace-events
++++ b/target/i386/trace-events
+@@ -1,11 +1,5 @@
+ # See docs/devel/tracing.txt for syntax documentation.
  
--void *tcg_cpu_thread_fn(void *arg)
-+static void *tcg_cpu_thread_fn(void *arg)
- {
-     CPUState *cpu = arg;
- 
-@@ -109,8 +108,32 @@ static void mttcg_kick_vcpu_thread(CPUState *cpu)
-     cpu_exit(cpu);
- }
- 
-+static void mttcg_start_vcpu_thread(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+
-+    g_assert(tcg_enabled());
-+
-+    parallel_cpus = (current_machine->smp.max_cpus > 1);
-+
-+    cpu->thread = g_malloc0(sizeof(QemuThread));
-+    cpu->halt_cond = g_malloc0(sizeof(QemuCond));
-+    qemu_cond_init(cpu->halt_cond);
-+
-+    /* create a thread per vCPU with TCG (MTTCG) */
-+    snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
-+             cpu->cpu_index);
-+
-+    qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
-+                       cpu, QEMU_THREAD_JOINABLE);
-+
-+#ifdef _WIN32
-+    cpu->hThread = qemu_thread_get_handle(cpu->thread);
-+#endif
-+}
-+
- const CpusAccel tcg_cpus_mttcg = {
--    .create_vcpu_thread = tcg_start_vcpu_thread,
-+    .create_vcpu_thread = mttcg_start_vcpu_thread,
-     .kick_vcpu_thread = mttcg_kick_vcpu_thread,
- 
-     .handle_interrupt = tcg_handle_interrupt,
-diff --git a/accel/tcg/tcg-cpus-mttcg.h b/accel/tcg/tcg-cpus-mttcg.h
-deleted file mode 100644
-index d1bd771f49..0000000000
---- a/accel/tcg/tcg-cpus-mttcg.h
-+++ /dev/null
-@@ -1,21 +0,0 @@
--/*
-- * QEMU TCG Multi Threaded vCPUs implementation
-- *
-- * Copyright 2020 SUSE LLC
-- *
-- * This work is licensed under the terms of the GNU GPL, version 2 or later.
-- * See the COPYING file in the top-level directory.
-- */
+-# kvm.c
+-kvm_x86_fixup_msi_error(uint32_t gsi) "VT-d failed to remap interrupt for GSI %" PRIu32
+-kvm_x86_add_msi_route(int virq) "Adding route entry for virq %d"
+-kvm_x86_remove_msi_route(int virq) "Removing route entry for virq %d"
+-kvm_x86_update_msi_routes(int num) "Updated %d MSI routes"
 -
--#ifndef TCG_CPUS_MTTCG_H
--#define TCG_CPUS_MTTCG_H
--
--/*
-- * In the multi-threaded case each vCPU has its own thread. The TLS
-- * variable current_cpu can be used deep in the code to find the
-- * current CPUState for a given thread.
-- */
--
--void *tcg_cpu_thread_fn(void *arg);
--
--#endif /* TCG_CPUS_MTTCG_H */
-diff --git a/accel/tcg/tcg-cpus-rr.c b/accel/tcg/tcg-cpus-rr.c
-index ad50a3765f..f3b262bec7 100644
---- a/accel/tcg/tcg-cpus-rr.c
-+++ b/accel/tcg/tcg-cpus-rr.c
-@@ -144,7 +144,7 @@ static void deal_with_unplugged_cpus(void)
-  * elsewhere.
-  */
- 
--void *tcg_rr_cpu_thread_fn(void *arg)
-+static void *tcg_rr_cpu_thread_fn(void *arg)
- {
-     CPUState *cpu = arg;
- 
-@@ -262,8 +262,43 @@ void *tcg_rr_cpu_thread_fn(void *arg)
-     return NULL;
- }
- 
-+void rr_start_vcpu_thread(CPUState *cpu)
-+{
-+    char thread_name[VCPU_THREAD_NAME_SIZE];
-+    static QemuCond *single_tcg_halt_cond;
-+    static QemuThread *single_tcg_cpu_thread;
-+
-+    g_assert(tcg_enabled());
-+    parallel_cpus = false;
-+
-+    if (!single_tcg_cpu_thread) {
-+        cpu->thread = g_malloc0(sizeof(QemuThread));
-+        cpu->halt_cond = g_malloc0(sizeof(QemuCond));
-+        qemu_cond_init(cpu->halt_cond);
-+
-+        /* share a single thread for all cpus with TCG */
-+        snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
-+        qemu_thread_create(cpu->thread, thread_name,
-+                           tcg_rr_cpu_thread_fn,
-+                           cpu, QEMU_THREAD_JOINABLE);
-+
-+        single_tcg_halt_cond = cpu->halt_cond;
-+        single_tcg_cpu_thread = cpu->thread;
-+#ifdef _WIN32
-+        cpu->hThread = qemu_thread_get_handle(cpu->thread);
-+#endif
-+    } else {
-+        /* we share the thread */
-+        cpu->thread = single_tcg_cpu_thread;
-+        cpu->halt_cond = single_tcg_halt_cond;
-+        cpu->thread_id = first_cpu->thread_id;
-+        cpu->can_do_io = 1;
-+        cpu->created = true;
-+    }
-+}
-+
- const CpusAccel tcg_cpus_rr = {
--    .create_vcpu_thread = tcg_start_vcpu_thread,
-+    .create_vcpu_thread = rr_start_vcpu_thread,
-     .kick_vcpu_thread = qemu_cpu_kick_rr_cpus,
- 
-     .handle_interrupt = tcg_handle_interrupt,
-diff --git a/accel/tcg/tcg-cpus-rr.h b/accel/tcg/tcg-cpus-rr.h
-index 1936fd16ab..2e5943eda9 100644
---- a/accel/tcg/tcg-cpus-rr.h
-+++ b/accel/tcg/tcg-cpus-rr.h
-@@ -15,6 +15,7 @@
- /* Kick all RR vCPUs. */
- void qemu_cpu_kick_rr_cpus(CPUState *unused);
- 
--void *tcg_rr_cpu_thread_fn(void *arg);
-+/* start the round robin vcpu thread */
-+void rr_start_vcpu_thread(CPUState *cpu);
- 
- #endif /* TCG_CPUS_RR_H */
-diff --git a/accel/tcg/tcg-cpus.c b/accel/tcg/tcg-cpus.c
-index f2b9bbf99e..86fd09545a 100644
---- a/accel/tcg/tcg-cpus.c
-+++ b/accel/tcg/tcg-cpus.c
-@@ -35,67 +35,9 @@
- #include "hw/boards.h"
- 
- #include "tcg-cpus.h"
--#include "tcg-cpus-mttcg.h"
--#include "tcg-cpus-rr.h"
- 
- /* common functionality among all TCG variants */
- 
--void tcg_start_vcpu_thread(CPUState *cpu)
--{
--    char thread_name[VCPU_THREAD_NAME_SIZE];
--    static QemuCond *single_tcg_halt_cond;
--    static QemuThread *single_tcg_cpu_thread;
--    static int tcg_region_inited;
--
--    assert(tcg_enabled());
--    /*
--     * Initialize TCG regions--once. Now is a good time, because:
--     * (1) TCG's init context, prologue and target globals have been set up.
--     * (2) qemu_tcg_mttcg_enabled() works now (TCG init code runs before the
--     *     -accel flag is processed, so the check doesn't work then).
--     */
--    if (!tcg_region_inited) {
--        tcg_region_inited = 1;
--        tcg_region_init();
--        parallel_cpus = qemu_tcg_mttcg_enabled() && current_machine->smp.max_cpus > 1;
--    }
--
--    if (qemu_tcg_mttcg_enabled() || !single_tcg_cpu_thread) {
--        cpu->thread = g_malloc0(sizeof(QemuThread));
--        cpu->halt_cond = g_malloc0(sizeof(QemuCond));
--        qemu_cond_init(cpu->halt_cond);
--
--        if (qemu_tcg_mttcg_enabled()) {
--            /* create a thread per vCPU with TCG (MTTCG) */
--            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "CPU %d/TCG",
--                 cpu->cpu_index);
--
--            qemu_thread_create(cpu->thread, thread_name, tcg_cpu_thread_fn,
--                               cpu, QEMU_THREAD_JOINABLE);
--
--        } else {
--            /* share a single thread for all cpus with TCG */
--            snprintf(thread_name, VCPU_THREAD_NAME_SIZE, "ALL CPUs/TCG");
--            qemu_thread_create(cpu->thread, thread_name,
--                               tcg_rr_cpu_thread_fn,
--                               cpu, QEMU_THREAD_JOINABLE);
--
--            single_tcg_halt_cond = cpu->halt_cond;
--            single_tcg_cpu_thread = cpu->thread;
--        }
--#ifdef _WIN32
--        cpu->hThread = qemu_thread_get_handle(cpu->thread);
--#endif
--    } else {
--        /* For non-MTTCG cases we share the thread */
--        cpu->thread = single_tcg_cpu_thread;
--        cpu->halt_cond = single_tcg_halt_cond;
--        cpu->thread_id = first_cpu->thread_id;
--        cpu->can_do_io = 1;
--        cpu->created = true;
--    }
--}
--
- void qemu_tcg_destroy_vcpu(CPUState *cpu)
- {
-     cpu_thread_signal_destroyed(cpu);
-diff --git a/accel/tcg/tcg-cpus.h b/accel/tcg/tcg-cpus.h
-index 279ba72e1f..b7ca954e13 100644
---- a/accel/tcg/tcg-cpus.h
-+++ b/accel/tcg/tcg-cpus.h
-@@ -18,7 +18,6 @@ extern const CpusAccel tcg_cpus_mttcg;
- extern const CpusAccel tcg_cpus_icount;
- extern const CpusAccel tcg_cpus_rr;
- 
--void tcg_start_vcpu_thread(CPUState *cpu);
- void qemu_tcg_destroy_vcpu(CPUState *cpu);
- int tcg_cpu_exec(CPUState *cpu);
- void tcg_handle_interrupt(CPUState *cpu, int mask);
+ # sev.c
+ kvm_sev_init(void) ""
+ kvm_memcrypt_register_region(void *addr, size_t len) "addr %p len 0x%zu"
 -- 
 2.26.2
 
