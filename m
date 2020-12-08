@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A486B2D32C3
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:43:39 +0100 (CET)
-Received: from localhost ([::1]:46402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E829E2D32CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:49:07 +0100 (CET)
+Received: from localhost ([::1]:57234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmite-0003xx-LT
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:43:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48864)
+	id 1kmiyw-00008e-UJ
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:49:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmikb-00052L-No
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:34:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57238)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmikZ-00050l-QY
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:34:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmikU-0004jS-S9
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:34:17 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmikV-0004kV-2M
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:34:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607456046;
+ s=mimecast20190719; t=1607456049;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bcDsWwFf1VSLW/JLtS3fVtqy9UgBR89UFwruerLljvk=;
- b=gelANe75yxtCkefr3Zt2jZrgq1n4bn/aW9IxszbnbjnaZST3kDEJlYDh7SC4GXinA3xej/
- yBbEapZibTTjh9Uqe3egk3jc+ugLnnqqGScGVMJMCf8NwryJXWMYNAC51is+1PTtPQegZJ
- oyqoNVfVVEDr3gQarV7fbPXsSrFPRMQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-dt9Ps8a6PkCQHwzHoIh_Mw-1; Tue, 08 Dec 2020 14:34:04 -0500
-X-MC-Unique: dt9Ps8a6PkCQHwzHoIh_Mw-1
-Received: by mail-wr1-f70.google.com with SMTP id r11so4693345wrs.23
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:34:04 -0800 (PST)
+ bh=sBbYqATIAnCNBcAAt91kqKRHx/wGJ4fEyCpCv6h89HQ=;
+ b=KN3doU87QKLSHGZ49zlUKdcLWCp1vtFYLCqWvSF3AjblSF37CYfB2Qr5AIbUX5QHkLICM3
+ kCqKkE5xdyhIiyMM97lyH2JuUag3RpCFxbmiWC97JR3T6W/OyIvb07EfY1rkm27OR7iTcC
+ yaN4uF85vXiWKQ97NMCOY92i1hLwy4k=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-oVhCh8MDNourpgw94_ApVg-1; Tue, 08 Dec 2020 14:34:07 -0500
+X-MC-Unique: oVhCh8MDNourpgw94_ApVg-1
+Received: by mail-wm1-f69.google.com with SMTP id d16so948218wmd.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:34:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=bcDsWwFf1VSLW/JLtS3fVtqy9UgBR89UFwruerLljvk=;
- b=psDt8BH703XvAQuuGuhi0sf2qXaa0Llb8iQPSQxlN6wjgMb4uOkB7m2vUlQUpDspYh
- Aw6gEkDt31PPsbh9qrB0ZkahF4fHkYkNv9TDTVQPP9X/yx8dib5gcoktoFS39dGRd2De
- CqIB538sBSpVtfCooJW8ViKBlqjRjob/O5mZJih9wWAbikX2Lt6GHJIspuOIyStF7jmt
- 9s6Ev293LOQc+T7nQeommnvD41INMspoT4mtadQyVI19a88feJrsBwQFobSOl8BvZ0P9
- w/8mJxPF2HaMDeQ6zotR7C9tVKqkSJZ8WZ4ERRLKQuXZ8LM5ATm+bGHKEjweX6ezerD+
- rRKw==
-X-Gm-Message-State: AOAM530pW28QO1yj768aMYeMCfGcFCmf36wZGGPgy25Byrf2DPe9fMus
- /VpgbsepflIKsC7cbX85c8AUKnUg6rudCujrwQ5l0kGsdE++8FhFtFvlSmGWTgzNr/Wi7TYR07t
- 2X2fb3IKH7ze03T6B4HiIrpODTx9UNT8tdpdOB7wE7waaMw0sEWxORT4bdX8f
-X-Received: by 2002:a7b:cf30:: with SMTP id m16mr5110817wmg.145.1607456043039; 
- Tue, 08 Dec 2020 11:34:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwC1UWeAh12Gc2314UzpOvuaqhw8/INQeFNxiF1w0SQ3iDctAFtwBMpbIdpfOhFBp0wZZIQ7A==
-X-Received: by 2002:a7b:cf30:: with SMTP id m16mr5110803wmg.145.1607456042838; 
- Tue, 08 Dec 2020 11:34:02 -0800 (PST)
+ bh=sBbYqATIAnCNBcAAt91kqKRHx/wGJ4fEyCpCv6h89HQ=;
+ b=Ybr0idmZe2nGlNdoADTCspu0Rf4Owq/X07L8G+rQYodKKIXVuRlVYVRCA3H+J+wwqq
+ 3Wx54pJDSeKsvAP7xm/mN/pOon2hrzJJ5EMLdkiciojwqEcBy75ccbCvwLXL18ZjuUWY
+ x/U0KSpvc0bE2HhLyku8vuO9hIKoJrPuq9sOMI6LhirBhj6u0XnyzLcCRUKqHnBY0s6M
+ tz6F2KXIWJSRpu0Fy/BHap+v0ulzdaDdynT77llXshuV223SyKXBjGWU1OlnkW58xP1s
+ S2wVbJjX/SwCF70t9GVrEMtrRyk5FS993AJYIep8cVJc5b6opDptWC+vjLgF1gl8EyaI
+ Z46w==
+X-Gm-Message-State: AOAM533HzaWLPf/RjQFm749j+sZHay74EWBu4jDKuYXpKwugBft7OI+6
+ 5QP38GFgcjxsoNSQZmSLPXfpMrQiTibeIF6DnrSi+iET7x2xXAtog7hkm1Z3DhKdKHPCDNCSndW
+ wM1Ay3MPc79fkFyfgvsNmEP1cBQmLS4xjJDhfQXKHezqciMYg3bXhTR8o8kUf
+X-Received: by 2002:a1c:7f93:: with SMTP id a141mr5160297wmd.132.1607456045789; 
+ Tue, 08 Dec 2020 11:34:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy0uc1jhIjUuXn9fvAg6VQ8kiMV/KF2txYEitKptj4DIZRSxHexKPGW3EhOMJkYRmOi19Fixg==
+X-Received: by 2002:a1c:7f93:: with SMTP id a141mr5160274wmd.132.1607456045465; 
+ Tue, 08 Dec 2020 11:34:05 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id s1sm16850471wrv.97.2020.12.08.11.34.01
+ by smtp.gmail.com with ESMTPSA id e17sm11589349wrw.84.2020.12.08.11.34.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 11:34:02 -0800 (PST)
-Date: Tue, 8 Dec 2020 14:34:00 -0500
+ Tue, 08 Dec 2020 11:34:04 -0800 (PST)
+Date: Tue, 8 Dec 2020 14:34:02 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/66] virtio: reset device on bad guest index in virtio_load()
-Message-ID: <20201208193307.646726-8-mst@redhat.com>
+Subject: [PULL 08/66] acpi/gpex: Extract two APIs from acpi_dsdt_add_pci
+Message-ID: <20201208193307.646726-9-mst@redhat.com>
 References: <20201208193307.646726-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201208193307.646726-1-mst@redhat.com>
@@ -92,56 +92,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- John Levon <john.levon@nutanix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Yubo Miao <miaoyubo@huawei.com>,
+ Jiahui Cen <cenjiahui@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Levon <john.levon@nutanix.com>
+From: Yubo Miao <miaoyubo@huawei.com>
 
-If we find a queue with an inconsistent guest index value, explicitly mark the
-device as needing a reset - and broken - via virtio_error().
+Extract two APIs acpi_dsdt_add_pci_route_table and
+acpi_dsdt_add_pci_osc from acpi_dsdt_add_pci. The first
+API is used to specify the pci route table and the second
+API is used to declare the operation system capabilities.
+These two APIs would be used to specify the pxb-pcie in DSDT.
 
-There's at least one driver implementation - the virtio-win NetKVM driver - that
-is able to handle a VIRTIO_CONFIG_S_NEEDS_RESET notification and successfully
-restore the device to a working state. Other implementations do not correctly
-handle this, but as the VQ is not in a functional state anyway, this is still
-worth doing.
-
-Signed-off-by: John Levon <john.levon@nutanix.com>
-Message-Id: <20201120185103.GA442386@sent>
+Signed-off-by: Yubo Miao <miaoyubo@huawei.com>
+Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+Message-Id: <20201119014841.7298-2-cenjiahui@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ hw/pci-host/gpex-acpi.c | 112 ++++++++++++++++++++++------------------
+ 1 file changed, 63 insertions(+), 49 deletions(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index ceb58fda6c..eff35fab7c 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3161,12 +3161,15 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
-             nheads = vring_avail_idx(&vdev->vq[i]) - vdev->vq[i].last_avail_idx;
-             /* Check it isn't doing strange things with descriptor numbers. */
-             if (nheads > vdev->vq[i].vring.num) {
--                qemu_log_mask(LOG_GUEST_ERROR,
--                              "VQ %d size 0x%x Guest index 0x%x "
--                              "inconsistent with Host index 0x%x: delta 0x%x",
--                              i, vdev->vq[i].vring.num,
--                              vring_avail_idx(&vdev->vq[i]),
--                              vdev->vq[i].last_avail_idx, nheads);
-+                virtio_error(vdev, "VQ %d size 0x%x Guest index 0x%x "
-+                             "inconsistent with Host index 0x%x: delta 0x%x",
-+                             i, vdev->vq[i].vring.num,
-+                             vring_avail_idx(&vdev->vq[i]),
-+                             vdev->vq[i].last_avail_idx, nheads);
-+                vdev->vq[i].used_idx = 0;
-+                vdev->vq[i].shadow_avail_idx = 0;
-+                vdev->vq[i].inuse = 0;
-+                continue;
-             }
-             vdev->vq[i].used_idx = vring_used_idx(&vdev->vq[i]);
-             vdev->vq[i].shadow_avail_idx = vring_avail_idx(&vdev->vq[i]);
+diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+index dbb350a837..32a9f2796d 100644
+--- a/hw/pci-host/gpex-acpi.c
++++ b/hw/pci-host/gpex-acpi.c
+@@ -2,21 +2,11 @@
+ #include "hw/acpi/aml-build.h"
+ #include "hw/pci-host/gpex.h"
+ 
+-void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
++static void acpi_dsdt_add_pci_route_table(Aml *dev, uint32_t irq)
+ {
+-    int nr_pcie_buses = cfg->ecam.size / PCIE_MMCFG_SIZE_MIN;
+-    Aml *method, *crs, *ifctx, *UUID, *ifctx1, *elsectx, *buf;
++    Aml *method, *crs;
+     int i, slot_no;
+ 
+-    Aml *dev = aml_device("%s", "PCI0");
+-    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
+-    aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
+-    aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
+-    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
+-    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+-    aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
+-    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+-
+     /* Declare the PCI Routing Table. */
+     Aml *rt_pkg = aml_varpackage(PCI_SLOT_MAX * PCI_NUM_PINS);
+     for (slot_no = 0; slot_no < PCI_SLOT_MAX; slot_no++) {
+@@ -34,7 +24,7 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+ 
+     /* Create GSI link device */
+     for (i = 0; i < PCI_NUM_PINS; i++) {
+-        uint32_t irqs = cfg->irq + i;
++        uint32_t irqs = irq + i;
+         Aml *dev_gsi = aml_device("GSI%d", i);
+         aml_append(dev_gsi, aml_name_decl("_HID", aml_string("PNP0C0F")));
+         aml_append(dev_gsi, aml_name_decl("_UID", aml_int(i)));
+@@ -52,43 +42,11 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+         aml_append(dev_gsi, method);
+         aml_append(dev, dev_gsi);
+     }
++}
+ 
+-    method = aml_method("_CBA", 0, AML_NOTSERIALIZED);
+-    aml_append(method, aml_return(aml_int(cfg->ecam.base)));
+-    aml_append(dev, method);
+-
+-    Aml *rbuf = aml_resource_template();
+-    aml_append(rbuf,
+-        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+-                            0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
+-                            nr_pcie_buses));
+-    if (cfg->mmio32.size) {
+-        aml_append(rbuf,
+-                   aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+-                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
+-                                    cfg->mmio32.base,
+-                                    cfg->mmio32.base + cfg->mmio32.size - 1,
+-                                    0x0000,
+-                                    cfg->mmio32.size));
+-    }
+-    if (cfg->pio.size) {
+-        aml_append(rbuf,
+-                   aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+-                                AML_ENTIRE_RANGE, 0x0000, 0x0000,
+-                                cfg->pio.size - 1,
+-                                cfg->pio.base,
+-                                cfg->pio.size));
+-    }
+-    if (cfg->mmio64.size) {
+-        aml_append(rbuf,
+-                   aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+-                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
+-                                    cfg->mmio64.base,
+-                                    cfg->mmio64.base + cfg->mmio64.size - 1,
+-                                    0x0000,
+-                                    cfg->mmio64.size));
+-    }
+-    aml_append(dev, aml_name_decl("_CRS", rbuf));
++static void acpi_dsdt_add_pci_osc(Aml *dev)
++{
++    Aml *method, *UUID, *ifctx, *ifctx1, *elsectx, *buf;
+ 
+     /* Declare an _OSC (OS Control Handoff) method */
+     aml_append(dev, aml_name_decl("SUPP", aml_int(0)));
+@@ -160,6 +118,62 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+     buf = aml_buffer(1, byte_list);
+     aml_append(method, aml_return(buf));
+     aml_append(dev, method);
++}
++
++void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
++{
++    int nr_pcie_buses = cfg->ecam.size / PCIE_MMCFG_SIZE_MIN;
++    Aml *method, *crs, *dev, *rbuf;
++
++    dev = aml_device("%s", "PCI0");
++    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
++    aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
++    aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
++    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
++    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
++    aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
++    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
++
++    acpi_dsdt_add_pci_route_table(dev, cfg->irq);
++
++    method = aml_method("_CBA", 0, AML_NOTSERIALIZED);
++    aml_append(method, aml_return(aml_int(cfg->ecam.base)));
++    aml_append(dev, method);
++
++    rbuf = aml_resource_template();
++    aml_append(rbuf,
++        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
++                            0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
++                            nr_pcie_buses));
++    if (cfg->mmio32.size) {
++        aml_append(rbuf,
++                   aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
++                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
++                                    cfg->mmio32.base,
++                                    cfg->mmio32.base + cfg->mmio32.size - 1,
++                                    0x0000,
++                                    cfg->mmio32.size));
++    }
++    if (cfg->pio.size) {
++        aml_append(rbuf,
++                   aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
++                                AML_ENTIRE_RANGE, 0x0000, 0x0000,
++                                cfg->pio.size - 1,
++                                cfg->pio.base,
++                                cfg->pio.size));
++    }
++    if (cfg->mmio64.size) {
++        aml_append(rbuf,
++                   aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
++                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
++                                    cfg->mmio64.base,
++                                    cfg->mmio64.base + cfg->mmio64.size - 1,
++                                    0x0000,
++                                    cfg->mmio64.size));
++    }
++    aml_append(dev, aml_name_decl("_CRS", rbuf));
++
++    acpi_dsdt_add_pci_osc(dev);
+ 
+     Aml *dev_res0 = aml_device("%s", "RES0");
+     aml_append(dev_res0, aml_name_decl("_HID", aml_string("PNP0C02")));
 -- 
 MST
 
