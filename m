@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2492F2D36C3
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 00:16:25 +0100 (CET)
-Received: from localhost ([::1]:42400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A602D36CD
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 00:18:12 +0100 (CET)
+Received: from localhost ([::1]:44822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmmDY-0000uk-6t
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 18:16:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39806)
+	id 1kmmFH-00025N-GV
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 18:18:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6040d5def=alistair.francis@wdc.com>)
- id 1kmluP-00086Q-9s; Tue, 08 Dec 2020 17:56:37 -0500
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:31149)
+ id 1kmluT-00089E-3u; Tue, 08 Dec 2020 17:56:41 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:31153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6040d5def=alistair.francis@wdc.com>)
- id 1kmluN-0004Ed-0A; Tue, 08 Dec 2020 17:56:37 -0500
+ id 1kmluQ-0004FJ-Dj; Tue, 08 Dec 2020 17:56:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1607468194; x=1639004194;
+ t=1607468198; x=1639004198;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MHa1GnDebIQgBXx8Add4PvqiAFA7dwxIKpm/+VpY/2Q=;
- b=R2kfSA9QgLWGwKBcNJhR5S1jlBPT9PQcpYj/AXn0pym5/jUUsAjj6k0+
- VzbREtRqZzGOFKH0TQz0SGmUp1QKj49nS6xXSwRBNEhgiGZBjn9QWu+Ls
- 8/LflvG0iVvKVn1Po57CyK5UVHvdW4hnPK9BOdvKBXn0+RbXLzlJEGzUo
- PXIORxpl5eazLDBUdXFzpdTqQ1922F8k6MxnjoCL35FQdYrPMXe4gEi0O
- urH7WDqeZ1+8n+WtdPeshCyqTv2leZiAZsda9WV26e7NHtXFGiVquF/l9
- NvFKa/dQ7kurNHZzknwXicpUcfaKkGFdRq/ccc1Q+Q/iLm7p9wjP0DHKI Q==;
-IronPort-SDR: bQqAri7I+hNvNuOYgRGay9FNwLQ/0aPXFvbHQd6TolzMRK81evgWBi72lyrLqVdvk41Vw9XTM7
- BHNP+TPeJERuuQLMpi48xIc2Y3b/BT67yQkVm0WMP/yKzDBJsrr+TThDOLKAiHdCl2vfhO9jw7
- posJq4+2jmLNEMF8DZV0G5hScFtzsfT5WoxPfmhQx03tnsNMp4iAsQvjy3/XL+/XZIGSEZgDIL
- G1K/jSI1tUTX3Xdg5qd30nYFlNP8qOkAcIkuiJ47lknvS0Y22qqp/2QILsQkzBGVksmwG50A8h
- tI0=
-X-IronPort-AV: E=Sophos;i="5.78,404,1599494400"; d="scan'208";a="154713826"
+ bh=OJ/IIk5KdshSCa6Fmwp0UBqjFWeip0nA/Om1IZzFIUI=;
+ b=Ao2oF3IsL7KpTSFLkIUhHXDV+kXpHrqNpUTjiZ9jnThdH/IMg8xYZXZc
+ Kn8fwXkTdHFAH3Wg0pSbd7QZ8N06uQhcVNlLCOx23+b/trT3iav4d2SHp
+ E/TdbayPBP5aIqRX6q/geBsTgBGdX+1pX9lPRAApYl4ScHaVoDolxSKTR
+ QFzy9TEZumTx63SQjBCdqOpJZGEVlB5knZDNxUBKbW9Ac8za7I1aM5Ivq
+ ymmsM5GL1eCRj48+r04cHFBem9wzyDqBILs9jTFJtsQCdOuIP7FeQcRsJ
+ o67nrbYnEfoqg6AeY70XIw3AuIIiEpR6YfYzWnJBCYvcx9iBk28+JdltR A==;
+IronPort-SDR: /eMRE1CqSMvPFDRTRU/Sj0J0oMxndmU8LG5YXqxEaPJ4Wv32JWqyEnrXmamvxKBdwVxg5fnI0I
+ 8/i5QTHMdFdeMxRrUsPd5961zHfpsUlpwkLgnExO+yhPQNFpqPIIGiO/DWRry7eraW6wGicPQn
+ Q2FgXiKWco53Uh6/ypitIPN55qW+5J/313m5rtksghez5xv8wsgon7E8fZbTiIPrNKWrUjtPud
+ N5LfJTxbY5oN1Fd+FrZKtG3MPBGugJAGAqKG2wVJkOAjYnvmDirnDhKHHQPth1kpJTY4HrYbPn
+ ZPk=
+X-IronPort-AV: E=Sophos;i="5.78,404,1599494400"; d="scan'208";a="154713828"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 09 Dec 2020 06:56:33 +0800
-IronPort-SDR: 3rJfl0/mdK+DtoA0m/gJ7vT+VuuNIyRKfi/pQldn2/PsZHWw6yTu9lHIccov9aND6eH/FeHOfa
- +8HQkixgO0XH5a5q0ieJirvCJ+zVBtOQE=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Dec 2020 06:56:36 +0800
+IronPort-SDR: LVMctHY0GqXs1AP3DXzpid5BDS7zkhh2XQa1khfcexefk2/jS5NAP5vm7gRx9rg3yj2dF+NMyj
+ bXrVEK0ikLtw+WWUqI2lTcpbrWveNNkKg=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2020 14:42:01 -0800
-IronPort-SDR: RtMsNJo4DVQ5Dkmow1G+M+EvzEW02my6ACrSFD+O60e6isK8eSr4YUvlERpT4SbuECT9Lc+eA+
- 6Zna2s/4Kqhw==
+ 08 Dec 2020 14:42:03 -0800
+IronPort-SDR: f37FOfNOm15KjScB3a9tFMbQlj7457ZfH25tJ01egJdjQ0tz9Ul3LNsWF1irmHix8aZGqJr11J
+ bqdxKbRN21Bw==
 WDCIronportException: Internal
 Received: from usa001386.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.61.239])
- by uls-op-cesaip02.wdc.com with ESMTP; 08 Dec 2020 14:56:34 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 08 Dec 2020 14:56:36 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v2 09/15] target/riscv: fpu_helper: Match function defs in
- HELPER macros
-Date: Tue,  8 Dec 2020 14:56:33 -0800
-Message-Id: <1b78dbf9afd11bc9e47ce112a0096521a744133c.1607467819.git.alistair.francis@wdc.com>
+Subject: [PATCH v2 10/15] target/riscv: Add a riscv_cpu_is_32bit() helper
+ function
+Date: Tue,  8 Dec 2020 14:56:36 -0800
+Message-Id: <22761a83664e100f962532cfa82b25d1a0a89ba3.1607467819.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1607467819.git.alistair.francis@wdc.com>
 References: <cover.1607467819.git.alistair.francis@wdc.com>
@@ -90,80 +90,47 @@ Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The helper functions defined in helper.h specify that the argument is of
-type target_long. Let's change the implementation to match the header
-definition.
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Bin Meng <bin.meng@windriver.com>
 ---
- target/riscv/fpu_helper.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ target/riscv/cpu.h | 2 ++
+ target/riscv/cpu.c | 9 +++++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index bb346a8249..507d7fe7fa 100644
---- a/target/riscv/fpu_helper.c
-+++ b/target/riscv/fpu_helper.c
-@@ -224,13 +224,13 @@ target_ulong helper_fcvt_wu_s(CPURISCVState *env, uint64_t rs1)
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 9c064f3094..6339e84819 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -384,6 +384,8 @@ FIELD(TB_FLAGS, VILL, 8, 1)
+ /* Is a Hypervisor instruction load/store allowed? */
+ FIELD(TB_FLAGS, HLSX, 9, 1)
+ 
++bool riscv_cpu_is_32bit(CPURISCVState *env);
++
+ /*
+  * A simplification for VLMAX
+  * = (1 << LMUL) * VLEN / (8 * (1 << SEW))
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 6a0264fc6b..32a6916b8a 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -108,6 +108,15 @@ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
+     }
  }
  
- #if defined(TARGET_RISCV64)
--uint64_t helper_fcvt_l_s(CPURISCVState *env, uint64_t rs1)
-+target_ulong helper_fcvt_l_s(CPURISCVState *env, uint64_t rs1)
++bool riscv_cpu_is_32bit(CPURISCVState *env)
++{
++    if (env->misa & RV64) {
++        return false;
++    }
++
++    return true;
++}
++
+ static void set_misa(CPURISCVState *env, target_ulong misa)
  {
-     float32 frs1 = check_nanbox_s(rs1);
-     return float32_to_int64(frs1, &env->fp_status);
- }
- 
--uint64_t helper_fcvt_lu_s(CPURISCVState *env, uint64_t rs1)
-+target_ulong helper_fcvt_lu_s(CPURISCVState *env, uint64_t rs1)
- {
-     float32 frs1 = check_nanbox_s(rs1);
-     return float32_to_uint64(frs1, &env->fp_status);
-@@ -248,12 +248,12 @@ uint64_t helper_fcvt_s_wu(CPURISCVState *env, target_ulong rs1)
- }
- 
- #if defined(TARGET_RISCV64)
--uint64_t helper_fcvt_s_l(CPURISCVState *env, uint64_t rs1)
-+uint64_t helper_fcvt_s_l(CPURISCVState *env, target_ulong rs1)
- {
-     return nanbox_s(int64_to_float32(rs1, &env->fp_status));
- }
- 
--uint64_t helper_fcvt_s_lu(CPURISCVState *env, uint64_t rs1)
-+uint64_t helper_fcvt_s_lu(CPURISCVState *env, target_ulong rs1)
- {
-     return nanbox_s(uint64_to_float32(rs1, &env->fp_status));
- }
-@@ -337,12 +337,12 @@ target_ulong helper_fcvt_wu_d(CPURISCVState *env, uint64_t frs1)
- }
- 
- #if defined(TARGET_RISCV64)
--uint64_t helper_fcvt_l_d(CPURISCVState *env, uint64_t frs1)
-+target_ulong helper_fcvt_l_d(CPURISCVState *env, uint64_t frs1)
- {
-     return float64_to_int64(frs1, &env->fp_status);
- }
- 
--uint64_t helper_fcvt_lu_d(CPURISCVState *env, uint64_t frs1)
-+target_ulong helper_fcvt_lu_d(CPURISCVState *env, uint64_t frs1)
- {
-     return float64_to_uint64(frs1, &env->fp_status);
- }
-@@ -359,12 +359,12 @@ uint64_t helper_fcvt_d_wu(CPURISCVState *env, target_ulong rs1)
- }
- 
- #if defined(TARGET_RISCV64)
--uint64_t helper_fcvt_d_l(CPURISCVState *env, uint64_t rs1)
-+uint64_t helper_fcvt_d_l(CPURISCVState *env, target_ulong rs1)
- {
-     return int64_to_float64(rs1, &env->fp_status);
- }
- 
--uint64_t helper_fcvt_d_lu(CPURISCVState *env, uint64_t rs1)
-+uint64_t helper_fcvt_d_lu(CPURISCVState *env, target_ulong rs1)
- {
-     return uint64_to_float64(rs1, &env->fp_status);
- }
+     env->misa_mask = env->misa = misa;
 -- 
 2.29.2
 
