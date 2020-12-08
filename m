@@ -2,59 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 891152D2046
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 02:48:33 +0100 (CET)
-Received: from localhost ([::1]:50406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E902D2063
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 02:55:50 +0100 (CET)
+Received: from localhost ([::1]:52672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmS7E-0004yI-K5
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 20:48:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45816)
+	id 1kmSEH-0006PR-KS
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 20:55:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tu.guoyi@h3c.com>) id 1kmS5a-0004Y2-8n
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 20:46:50 -0500
-Received: from smtp.h3c.com ([60.191.123.50]:52111 helo=h3cspam02-ex.h3c.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kmSCp-0005ve-Ee; Mon, 07 Dec 2020 20:54:19 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43995 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tu.guoyi@h3c.com>) id 1kmS5O-0006f6-SA
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 20:46:50 -0500
-Received: from DAG2EX07-IDC.srv.huawei-3com.com ([10.8.0.70])
- by h3cspam02-ex.h3c.com with ESMTP id 0B81kOVR001368;
- Tue, 8 Dec 2020 09:46:24 +0800 (GMT-8)
- (envelope-from tu.guoyi@h3c.com)
-Received: from DAG2EX03-BASE.srv.huawei-3com.com (10.8.0.66) by
- DAG2EX07-IDC.srv.huawei-3com.com (10.8.0.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 8 Dec 2020 09:46:25 +0800
-Received: from DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074])
- by DAG2EX03-BASE.srv.huawei-3com.com ([fe80::5d18:e01c:bbbd:c074%7])
- with mapi id 15.01.2106.002; Tue, 8 Dec 2020 09:46:25 +0800
-From: Tuguoyi <tu.guoyi@h3c.com>
-To: Juan Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>
-Subject: [PATCH v3] migration: Don't allow migration if vm is in POSTMIGRATE
-Thread-Topic: [PATCH v3] migration: Don't allow migration if vm is in
- POSTMIGRATE
-Thread-Index: AdbNA412vEo+hmt0TmuQR+h7GaeR1g==
-Date: Tue, 8 Dec 2020 01:46:25 +0000
-Message-ID: <6b704294ad2e405781c38fb38d68c744@h3c.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.125.108.131]
-x-sender-location: DAG2
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kmSCl-0000cL-PN; Mon, 07 Dec 2020 20:54:19 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CqjsF5WlBz9sWF; Tue,  8 Dec 2020 12:54:09 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1607392449;
+ bh=AexoOEEhA6+9jjhuMsVG1acI2Ih+hqkNZX3YsplyDNM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YJ0bk6rfBb49iGteqQ1UAWkGLCiwtME7vCXkRZ10rUMxYHzGztB1qrtXeY5RFURnZ
+ JiEIrhPnvEqqxwgdEAQqlwUy1NrUmLl6MC3J3Hw6rzX47PjPms6zH6zFCdHtsngnq6
+ QUc0l8b8VcI7PL4DycdGWwkAYnpTJZEZtIBIYgu0=
+Date: Tue, 8 Dec 2020 12:54:03 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [for-6.0 v5 12/13] securable guest memory: Alter virtio default
+ properties for protected guests
+Message-ID: <20201208015403.GB2555@yekko.fritz.box>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <20201204054415.579042-13-david@gibson.dropbear.id.au>
+ <d739cae2-9197-76a5-1c19-057bfe832187@de.ibm.com>
+ <20201204091706.4432dc1e.cohuck@redhat.com>
+ <038214d1-580d-6692-cd1e-701cd41b5cf8@de.ibm.com>
+ <20201204154310.158b410e.pasic@linux.ibm.com>
 MIME-Version: 1.0
-X-DNSRBL: 
-X-MAIL: h3cspam02-ex.h3c.com 0B81kOVR001368
-Received-SPF: pass client-ip=60.191.123.50; envelope-from=tu.guoyi@h3c.com;
- helo=h3cspam02-ex.h3c.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="bCsyhTFzCvuiizWE"
+Content-Disposition: inline
+In-Reply-To: <20201204154310.158b410e.pasic@linux.ibm.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,61 +63,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, pbonzini@redhat.com,
+ thuth@redhat.com, berrange@redhat.com, david@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlIGZvbGxvd2luZyBzdGVwcyB3aWxsIGNhdXNlIHFlbXUgYXNzZXJ0aW9uIGZhaWx1cmU6DQot
-IHBhdXNlIHZtIGJ5IGV4ZWN1dGluZyAndmlyc2ggc3VzcGVuZCcNCi0gY3JlYXRlIGV4dGVybmFs
-IHNuYXBzaG90IG9mIG1lbW9yeSBhbmQgZGlzayB1c2luZyAndmlyc2ggc25hcHNob3QtY3JlYXRl
-LWFzJw0KLSBkb2luZyB0aGUgYWJvdmUgb3BlcmF0aW9uIGFnYWluIHdpbGwgY2F1c2UgcWVtdSBj
-cmFzaA0KDQpUaGUgYmFja3RyYWNlIGxvb2tzIGxpa2U6DQojMCAgMHgwMDAwN2ZiZjk1OGM1YzM3
-IGluIHJhaXNlICgpIGZyb20gL2xpYi94ODZfNjQtbGludXgtZ251L2xpYmMuc28uNg0KIzEgIDB4
-MDAwMDdmYmY5NThjOTAyOCBpbiBhYm9ydCAoKSBmcm9tIC9saWIveDg2XzY0LWxpbnV4LWdudS9s
-aWJjLnNvLjYNCiMyICAweDAwMDA3ZmJmOTU4YmViZjYgaW4gPz8gKCkgZnJvbSAvbGliL3g4Nl82
-NC1saW51eC1nbnUvbGliYy5zby42DQojMyAgMHgwMDAwN2ZiZjk1OGJlY2EyIGluIF9fYXNzZXJ0
-X2ZhaWwgKCkgZnJvbSAvbGliL3g4Nl82NC1saW51eC1nbnUvbGliYy5zby42DQojNCAgMHgwMDAw
-NTVjYThkZWNkMzlkIGluIGJkcnZfaW5hY3RpdmF0ZV9yZWN1cnNlIChicz0weDU1Y2E5MGM4MDQw
-MCkgYXQgL2J1aWxkL3FlbXUtNS4wL2Jsb2NrLmM6NTcyNA0KIzUgIDB4MDAwMDU1Y2E4ZGVjZTk2
-NyBpbiBiZHJ2X2luYWN0aXZhdGVfYWxsICgpIGF0IC9idWlsZC8vcWVtdS01LjAvYmxvY2suYzo1
-NzkyDQojNiAgMHgwMDAwNTVjYThkZTU1MzlkIGluIHFlbXVfc2F2ZXZtX3N0YXRlX2NvbXBsZXRl
-X3ByZWNvcHlfbm9uX2l0ZXJhYmxlIChpbmFjdGl2YXRlX2Rpc2tzPXRydWUsIGluX3Bvc3Rjb3B5
-PWZhbHNlLCBmPTB4NTVjYTkwNzA0NGIwKQ0KICAgIGF0IC9idWlsZC9xZW11LTUuMC9taWdyYXRp
-b24vc2F2ZXZtLmM6MTQwMQ0KIzcgIHFlbXVfc2F2ZXZtX3N0YXRlX2NvbXBsZXRlX3ByZWNvcHkg
-KGY9MHg1NWNhOTA3MDQ0YjAsIGl0ZXJhYmxlX29ubHk9aXRlcmFibGVfb25seUBlbnRyeT1mYWxz
-ZSwgaW5hY3RpdmF0ZV9kaXNrcz1pbmFjdGl2YXRlX2Rpc2tzQGVudHJ5PXRydWUpDQogICAgYXQg
-L2J1aWxkL3FlbXUtNS4wL21pZ3JhdGlvbi9zYXZldm0uYzoxNDUzDQojOCAgMHgwMDAwNTVjYThk
-ZTRmNTgxIGluIG1pZ3JhdGlvbl9jb21wbGV0aW9uIChzPTB4NTVjYThmNjRkOWYwKSBhdCAvYnVp
-bGQvcWVtdS01LjAvbWlncmF0aW9uL21pZ3JhdGlvbi5jOjI5NDENCiM5ICBtaWdyYXRpb25faXRl
-cmF0aW9uX3J1biAocz0weDU1Y2E4ZjY0ZDlmMCkgYXQgL2J1aWxkL3FlbXUtNS4wL21pZ3JhdGlv
-bi9taWdyYXRpb24uYzozMjk1DQojMTAgbWlncmF0aW9uX3RocmVhZCAob3BhcXVlPW9wYXF1ZUBl
-bnRyeT0weDU1Y2E4ZjY0ZDlmMCkgYXQgL2J1aWxkL3FlbXUtNS4wL21pZ3JhdGlvbi9taWdyYXRp
-b24uYzozNDU5DQojMTEgMHgwMDAwNTVjYThkZmM2NzE2IGluIHFlbXVfdGhyZWFkX3N0YXJ0IChh
-cmdzPTxvcHRpbWl6ZWQgb3V0PikgYXQgL2J1aWxkL3FlbXUtNS4wL3V0aWwvcWVtdS10aHJlYWQt
-cG9zaXguYzo1MTkNCiMxMiAweDAwMDA3ZmJmOTVjNWYxODQgaW4gc3RhcnRfdGhyZWFkICgpIGZy
-b20gL2xpYi94ODZfNjQtbGludXgtZ251L2xpYnB0aHJlYWQuc28uMA0KIzEzIDB4MDAwMDdmYmY5
-NTk4Y2JlZCBpbiBjbG9uZSAoKSBmcm9tIC9saWIveDg2XzY0LWxpbnV4LWdudS9saWJjLnNvLjYN
-Cg0KV2hlbiB0aGUgZmlyc3QgbWlncmF0aW9uIGNvbXBsZXRlcywgYnMtPm9wZW5fZmxhZ3Mgd2ls
-bCBzZXQgQkRSVl9PX0lOQUNUSVZFDQpmbGFnIGJ5IGJkcnZfaW5hY3RpdmF0ZV9hbGwoKSwgYW5k
-IGR1cmluZyB0aGUgc2Vjb25kIG1pZ3JhdGlvbiB0aGUNCmJkcnZfaW5hY3RpdmF0ZV9yZWN1cnNl
-IGFzc2VydCB0aGF0IHRoZSBicy0+b3Blbl9mbGFncyBpcyBhbHJlYWR5DQpCRFJWX09fSU5BQ1RJ
-VkUgZW5hYmxlZCB3aGljaCBjYXVzZSBjcmFzaC4NCg0KQXMgVmxhZGltaXIgc3VnZ2VzdGVkLCB0
-aGlzIHBhdGNoIG1ha2VzIG1pZ3JhdGVfcHJlcGFyZSBjaGVjayB0aGUgc3RhdGUgb2Ygdm0gYW5k
-DQpyZXR1cm4gZXJyb3IgaWYgaXQgaXMgaW4gUlVOX1NUQVRFX1BPU1RNSUdSQVRFIHN0YXRlLg0K
-DQpTaWduZWQtb2ZmLWJ5OiBUdWd1b3lpIDx0dS5ndW95aUBoM2MuY29tPg0KLS0tDQogbWlncmF0
-aW9uL21pZ3JhdGlvbi5jIHwgNiArKysrKysNCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25z
-KCspDQoNCmRpZmYgLS1naXQgYS9taWdyYXRpb24vbWlncmF0aW9uLmMgYi9taWdyYXRpb24vbWln
-cmF0aW9uLmMNCmluZGV4IDg3YTliNTkuLjVlMzM5NjIgMTAwNjQ0DQotLS0gYS9taWdyYXRpb24v
-bWlncmF0aW9uLmMNCisrKyBiL21pZ3JhdGlvbi9taWdyYXRpb24uYw0KQEAgLTIxMTUsNiArMjEx
-NSwxMiBAQCBzdGF0aWMgYm9vbCBtaWdyYXRlX3ByZXBhcmUoTWlncmF0aW9uU3RhdGUgKnMsIGJv
-b2wgYmxrLCBib29sIGJsa19pbmMsDQogICAgICAgICByZXR1cm4gZmFsc2U7DQogICAgIH0NCiAN
-CisgICAgaWYgKHJ1bnN0YXRlX2NoZWNrKFJVTl9TVEFURV9QT1NUTUlHUkFURSkpIHsNCisgICAg
-ICAgIGVycm9yX3NldGcoZXJycCwgIkNhbid0IG1pZ3JhdGUgdGhlIHZtIHRoYXQgd2FzIHBhdXNl
-ZCBkdWUgdG8gIg0KKyAgICAgICAgICAgICAgICAgICAicHJldmlvdXMgbWlncmF0aW9uIik7DQor
-ICAgICAgICByZXR1cm4gZmFsc2U7DQorICAgIH0NCisNCiAgICAgaWYgKG1pZ3JhdGlvbl9pc19i
-bG9ja2VkKGVycnApKSB7DQogICAgICAgICByZXR1cm4gZmFsc2U7DQogICAgIH0NCi0tIA0KMi43
-LjQNCg0KW1BhdGNoIHYyXTogaHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11
-LWRldmVsLzIwMjAtMTIvbXNnMDEzMTguaHRtbA0KW1BhdGNoIHYxXTogaHR0cHM6Ly9saXN0cy5n
-bnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMjAtMTEvbXNnMDU5NTAuaHRtbA0K
+
+--bCsyhTFzCvuiizWE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Dec 04, 2020 at 03:43:10PM +0100, Halil Pasic wrote:
+> On Fri, 4 Dec 2020 09:29:59 +0100
+> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+>=20
+> > On 04.12.20 09:17, Cornelia Huck wrote:
+> > > On Fri, 4 Dec 2020 09:10:36 +0100
+> > > Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> > >=20
+> > >> On 04.12.20 06:44, David Gibson wrote:
+> > >>> The default behaviour for virtio devices is not to use the platform=
+s normal
+> > >>> DMA paths, but instead to use the fact that it's running in a hyper=
+visor
+> > >>> to directly access guest memory.  That doesn't work if the guest's =
+memory
+> > >>> is protected from hypervisor access, such as with AMD's SEV or POWE=
+R's PEF.
+> > >>>
+> > >>> So, if a securable guest memory mechanism is enabled, then apply the
+> > >>> iommu_platform=3Don option so it will go through normal DMA mechani=
+sms.
+> > >>> Those will presumably have some way of marking memory as shared with
+> > >>> the hypervisor or hardware so that DMA will work.
+> > >>>
+> > >>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > >>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > >>> ---
+> > >>>  hw/core/machine.c | 13 +++++++++++++
+> > >>>  1 file changed, 13 insertions(+)
+> > >>>
+> > >>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > >>> index a67a27d03c..d16273d75d 100644
+> > >>> --- a/hw/core/machine.c
+> > >>> +++ b/hw/core/machine.c
+> > >>> @@ -28,6 +28,8 @@
+> > >>>  #include "hw/mem/nvdimm.h"
+> > >>>  #include "migration/vmstate.h"
+> > >>>  #include "exec/securable-guest-memory.h"
+> > >>> +#include "hw/virtio/virtio.h"
+> > >>> +#include "hw/virtio/virtio-pci.h"
+> > >>> =20
+> > >>>  GlobalProperty hw_compat_5_1[] =3D {
+> > >>>      { "vhost-scsi", "num_queues", "1"},
+> > >>> @@ -1169,6 +1171,17 @@ void machine_run_board_init(MachineState *ma=
+chine)
+> > >>>           * areas.
+> > >>>           */
+> > >>>          machine_set_mem_merge(OBJECT(machine), false, &error_abort=
+);
+> > >>> +
+> > >>> +        /*
+> > >>> +         * Virtio devices can't count on directly accessing guest
+> > >>> +         * memory, so they need iommu_platform=3Don to use normal =
+DMA
+> > >>> +         * mechanisms.  That requires also disabling legacy virtio
+> > >>> +         * support for those virtio pci devices which allow it.
+> > >>> +         */
+> > >>> +        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legac=
+y",
+> > >>> +                                   "on", true);
+> > >>> +        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_plat=
+form",
+> > >>> +                                   "on", false); =20
+> > >>
+> > >> I have not followed all the history (sorry). Should we also set iomm=
+u_platform
+> > >> for virtio-ccw? Halil?
+> > >>
+> > >=20
+> > > That line should add iommu_platform for all virtio devices, shouldn't
+> > > it?
+> >=20
+> > Yes, sorry. Was misreading that with the line above.=20
+> >=20
+>=20
+> I believe this is the best we can get. In a sense it is still a
+> pessimization,
+
+I'm not really clear on what you're getting at here.
+
+> but it is a big usability improvement compared to having
+> to set iommu_platform manually.=20
+>=20
+> Regards,
+> Halil
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--bCsyhTFzCvuiizWE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/O3LkACgkQbDjKyiDZ
+s5IRxQ//cmGUbtEIT1HBgw1z4WsymknaXfK7BFJcNdIpLJmKZqe+XQjynq2EWLh5
+wIbQneKKyRlZo1WlurkAvMgOexL1g4JujE/eUBGLQ1Itrf3zG6+eLbsUijFhTCxs
+VdyNP6sVyijEZ3yTqb3It0UnT6spNszYO0SwWY6/b1K/7m1hJ6c5M1I8fwYtlOpx
+FsYiErMGpYLP2d9zWLgbKfwGmv6K6joCireNmYMsf+IDK5qdxDDou3WnEuTZte2f
+m1g9wlQQPDmDD7+k2x1gkMXgiIUXtsm0stEsdCiwe27PWLWaNSJFo98EqDRxcX32
+Qe1PIvjQuLQQxI/UqHaX2u8me1LShhwvrMPzSRYEC+fmglSi5VnyJVNwEs0XIxeg
+TNt9KROHKyC9c9r7oCcp40mzmS3YcngOuTxHsX8+5x3Xtix9r4Xv14dwzwF1mGRT
+e0wL7sD4FZKIVNkjA4+tAQ5allBPY1pwZIRsC1LTp2jGaxI2jSLwA8eksHCps+0U
+5hA8pHqR8rROloq88rtyVU5mJXXp7nORoT5w4GtSivl8v+DGC3x/+VR8YKnE6OLq
+h7S4fyyysVSe1towkrOGJdCNw6vvN/u4emrVG28dISre75GcAuh3sdSsxgOI+GlL
+Q/5e5ZCsOvtyejOInniCi7c1EPrzpoKSQijvVMpvJgOu9MynBZc=
+=JfQj
+-----END PGP SIGNATURE-----
+
+--bCsyhTFzCvuiizWE--
 
