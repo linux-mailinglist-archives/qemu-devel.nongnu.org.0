@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874D02D2B29
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 13:36:38 +0100 (CET)
-Received: from localhost ([::1]:33082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22BF12D2B13
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 13:33:57 +0100 (CET)
+Received: from localhost ([::1]:55694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmcEP-0002JV-KD
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 07:36:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55452)
+	id 1kmcBo-0008J8-4W
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 07:33:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kmc4f-00028K-6q
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:26:34 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:39040)
+ id 1kmc6C-0003PZ-RM
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:28:08 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:44126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kmc4b-0006wR-V6
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:26:31 -0500
-Received: by mail-ej1-x643.google.com with SMTP id n26so24296519eju.6
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 04:26:29 -0800 (PST)
+ id 1kmc6B-0007S7-9D
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:28:08 -0500
+Received: by mail-ej1-x642.google.com with SMTP id m19so24272594ejj.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 04:28:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HcUeWQDfhqgwPmk9UoYoXuWQ7boS7OoO2ua5xOfKLKE=;
- b=EOE+FjL0EwIlWRO+SJq/sWGmK4/qwZ4LzLZ7Ktwshyp8cQGC6AZRimVcTbazdYTLIr
- XT2v5AvSzAKd35s2kEgPprba58PrDlhdlf9Dn/Rq6paK82HTZPU2YAwGIDLFYkYw/GhZ
- kBHthh7g9jt9YrSb2q/Yqa+1Aak8geIaWk8+8x1Y00UxQVjNqE91htfZaAAw1yqkY4yn
- 39U/S5CF+a0bMs+hR5PgmhWKEA4iU5iwn5KAQUUTU9qdcQ8zWt5Tt0JsYohT55GKWrTf
- 81PmxcZcbS3ooMNpsmLQmiH5G996CFsJbolRcTVLFcW3G8zOr40SpKHDLqshu3rBiG5P
- DQvg==
+ :cc; bh=yIa5sdX5xHVjy/msXiLoy/v/y66LMSnO0fJz3iTFpyQ=;
+ b=LlothcZw23UY7yu++gZmsVcBGecnSAhF5B/onRWZPHp11H46re2ZTnEn8RGSCGim5o
+ aJV0/gim2Emjm/WxyFqh5TG2ccHqwnwicstGlqXPrah+BOdAPrws2pvXe/QcYcNAGAv2
+ sddCueMhNdqZCWwyLA4wDdVfW7AITkjN1EF9bxe09ob2VB8NRdwVEvxXOI7OBldzRzQN
+ Q/ZAorykw98F8AyLl+WdNNyatIahQ2hgSA6YPHeosXFl2KZhWjNLm7Gp1dIAZOt0cLYb
+ 6thwzu1fCOt+EKLVVx8jzCiZll2UyV0X3KgwBdmLmipxLsJ3P1l+Tng+r3GntFTzC4PL
+ 9INg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HcUeWQDfhqgwPmk9UoYoXuWQ7boS7OoO2ua5xOfKLKE=;
- b=XPEKkYtu7GLI1vjFVmAaGEHoHw4BpVH8vSFlPJp49EGhT3TlKpNyc+C8ZymOo1BYcQ
- 5JPJKt6lRAFw+yd5tpSK6sPYVx0oSGc21gfxP3mKXSQcAT7l4HHyQ+ksdHLuVjGj3sjH
- 4d3kKYyQGkDizdOY7hKIwYCMgad2MyeZFb7GM06g3EsdE6HdLucLttkxYdOeeokXQbIW
- B65KaPnL1sb33wzpin0YpxQ8cRE5502rsE2aA+0aSWmLTOM+w0ZNfkxj9eGRLBby9shN
- fhR9e5K94OTBq7A3SHTHLm4h31Fr/CW/XA7gHH5d7t5cWD6F3GzcKqF2/FP068/B6Kyf
- wqCw==
-X-Gm-Message-State: AOAM533fSRNUUZihf1x4F/pHFxqnzQMDtGyW/7ba0CUm734kE/XsA+gt
- kNT4CAhGKjiEbogNPiPdrgmM+ryHRvM2CWLijYQ=
-X-Google-Smtp-Source: ABdhPJx4C+YEOTTvjckGPHelTdwSzLct55akt/eUnVsqdYhYXZXeDox40MIBQEalhH4W5JOV/Piei6NB83PpAMcqE1c=
-X-Received: by 2002:a17:906:30d2:: with SMTP id
- b18mr1757098ejb.109.1607430388177; 
- Tue, 08 Dec 2020 04:26:28 -0800 (PST)
+ bh=yIa5sdX5xHVjy/msXiLoy/v/y66LMSnO0fJz3iTFpyQ=;
+ b=eRqOiCqHJfEA+dx33UHW+L6ognVdIxIUnPSGMB0B2NIzw+gd2QDTtfDhIIb4cbUOg8
+ 76cMacOdWCyILaUIDS1Hb8Jx3EEXGvHqj97cx2nuucmpAGK7zTKh1bQU1tbHhFv9dcb9
+ 6NiwZ+TcJvm9lfYjoudJW76HxrqW8DbbYx3pGcNBeY3cQYg/3UvhUl3xRbC93lvC+vpA
+ FVZiDcKSS6ggyFrxYQrX+zJxNRobfmkBKevdD87+tsgF+I/mYRwlLRvElKC2MDzD+Zh4
+ Rt1iEJKXbn/cV3oVBZAIXsSnWT4BkQ7M9v1LK5Xza7j/OJzsXzuqZYhmIcNWvfJ3Aaj/
+ p71Q==
+X-Gm-Message-State: AOAM531fZjYASedcuDHKEa5Uh/8UGV9zOc3x/NNxt8gSfmqFMW/sXJpd
+ 85t1hwloqN3zKjfRbknLkonl06cxSS1wB4vsVYo=
+X-Google-Smtp-Source: ABdhPJywX5XjKMy+gixmGNhXyhqY67fNy+ztQehNADRIzlD4W6Pxu/lvCxk37xWtlcUA0T3HZHPAx+zwQQkLvG7pLx8=
+X-Received: by 2002:a17:906:9452:: with SMTP id
+ z18mr23289078ejx.389.1607430484975; 
+ Tue, 08 Dec 2020 04:28:04 -0800 (PST)
 MIME-Version: 1.0
 References: <20201208115737.18581-1-kraxel@redhat.com>
- <20201208115737.18581-3-kraxel@redhat.com>
-In-Reply-To: <20201208115737.18581-3-kraxel@redhat.com>
+ <20201208115737.18581-2-kraxel@redhat.com>
+In-Reply-To: <20201208115737.18581-2-kraxel@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 8 Dec 2020 16:26:15 +0400
-Message-ID: <CAJ+F1C+WNBuF7jf2vVhbLpUUqcgOXtRf5dCHmOP7nT=MDJnQnw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/9] console: allow con==NULL in dpy_{get, set}_ui_info
- and dpy_ui_info_supported
+Date: Tue, 8 Dec 2020 16:27:51 +0400
+Message-ID: <CAJ+F1C+Jt26TZU_2KQidsxmFdjVqY0q+3wzr3-f-JW8=_YSEdw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/9] console: drop qemu_console_get_ui_info
 To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000049dff005b5f30da2"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
+Content-Type: multipart/alternative; boundary="0000000000000ee63705b5f31320"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x642.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,57 +82,54 @@ Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000049dff005b5f30da2
+--0000000000000ee63705b5f31320
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 8, 2020 at 3:59 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Tue, Dec 8, 2020 at 4:02 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> Use active_console in that case like we do in many other places.
+> Unused and duplicate (there is dpy_get_ui_info).
 >
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 >
 
- Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+:)
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 ---
->  ui/console.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+>  include/ui/console.h | 1 -
+>  ui/console.c         | 6 ------
+>  2 files changed, 7 deletions(-)
 >
+> diff --git a/include/ui/console.h b/include/ui/console.h
+> index e7303d8b98a8..5dd21976a376 100644
+> --- a/include/ui/console.h
+> +++ b/include/ui/console.h
+> @@ -390,7 +390,6 @@ bool qemu_console_is_gl_blocked(QemuConsole *con);
+>  char *qemu_console_get_label(QemuConsole *con);
+>  int qemu_console_get_index(QemuConsole *con);
+>  uint32_t qemu_console_get_head(QemuConsole *con);
+> -QemuUIInfo *qemu_console_get_ui_info(QemuConsole *con);
+>  int qemu_console_get_width(QemuConsole *con, int fallback);
+>  int qemu_console_get_height(QemuConsole *con, int fallback);
+>  /* Return the low-level window id for the console */
 > diff --git a/ui/console.c b/ui/console.c
-> index f995639e45f6..30e70be555db 100644
+> index 53dee8e26b17..f995639e45f6 100644
 > --- a/ui/console.c
 > +++ b/ui/console.c
-> @@ -1544,19 +1544,27 @@ static void dpy_set_ui_info_timer(void *opaque)
->
->  bool dpy_ui_info_supported(QemuConsole *con)
->  {
-> +    if (con =3D=3D NULL) {
-> +        con =3D active_console;
-> +    }
-> +
->      return con->hw_ops->ui_info !=3D NULL;
+> @@ -2122,12 +2122,6 @@ uint32_t qemu_console_get_head(QemuConsole *con)
+>      return con ? con->head : -1;
 >  }
 >
->  const QemuUIInfo *dpy_get_ui_info(const QemuConsole *con)
->  {
+> -QemuUIInfo *qemu_console_get_ui_info(QemuConsole *con)
+> -{
 > -    assert(con !=3D NULL);
-> +    if (con =3D=3D NULL) {
-> +        con =3D active_console;
-> +    }
->
->      return &con->ui_info;
->  }
->
->  int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info)
+> -    return &con->ui_info;
+> -}
+> -
+>  int qemu_console_get_width(QemuConsole *con, int fallback)
 >  {
-> -    assert(con !=3D NULL);
-> +    if (con =3D=3D NULL) {
-> +        con =3D active_console;
-> +    }
->
->      if (!dpy_ui_info_supported(con)) {
->          return -1;
+>      if (con =3D=3D NULL) {
 > --
 > 2.27.0
 >
@@ -143,68 +139,63 @@ On Tue, Dec 8, 2020 at 3:59 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000049dff005b5f30da2
+--0000000000000ee63705b5f31320
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 8, 2020 at 3:59 PM Gerd H=
-offmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank">kraxel@r=
-edhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Use active_console in that case like we do in many other places.=
-<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 8, 2020 at 4:02 PM Gerd H=
+offmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Unused an=
+d duplicate (there is dpy_get_ui_info).<br>
 <br>
 Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
-t=3D"_blank">kraxel@redhat.com</a>&gt;<br></blockquote><div>=C2=A0</div><di=
-v>=C2=A0Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre=
-.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt; <br></div><div><br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
+t=3D"_blank">kraxel@redhat.com</a>&gt;<br></blockquote><div><br></div><div>=
+:)<br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:=
+marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br>=
+</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0ui/console.c | 12 ++++++++++--<br>
-=C2=A01 file changed, 10 insertions(+), 2 deletions(-)<br>
+=C2=A0include/ui/console.h | 1 -<br>
+=C2=A0ui/console.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 6 ------<br>
+=C2=A02 files changed, 7 deletions(-)<br>
 <br>
+diff --git a/include/ui/console.h b/include/ui/console.h<br>
+index e7303d8b98a8..5dd21976a376 100644<br>
+--- a/include/ui/console.h<br>
++++ b/include/ui/console.h<br>
+@@ -390,7 +390,6 @@ bool qemu_console_is_gl_blocked(QemuConsole *con);<br>
+=C2=A0char *qemu_console_get_label(QemuConsole *con);<br>
+=C2=A0int qemu_console_get_index(QemuConsole *con);<br>
+=C2=A0uint32_t qemu_console_get_head(QemuConsole *con);<br>
+-QemuUIInfo *qemu_console_get_ui_info(QemuConsole *con);<br>
+=C2=A0int qemu_console_get_width(QemuConsole *con, int fallback);<br>
+=C2=A0int qemu_console_get_height(QemuConsole *con, int fallback);<br>
+=C2=A0/* Return the low-level window id for the console */<br>
 diff --git a/ui/console.c b/ui/console.c<br>
-index f995639e45f6..30e70be555db 100644<br>
+index 53dee8e26b17..f995639e45f6 100644<br>
 --- a/ui/console.c<br>
 +++ b/ui/console.c<br>
-@@ -1544,19 +1544,27 @@ static void dpy_set_ui_info_timer(void *opaque)<br>
-<br>
-=C2=A0bool dpy_ui_info_supported(QemuConsole *con)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 if (con =3D=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 con =3D active_console;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0return con-&gt;hw_ops-&gt;ui_info !=3D NULL;<br>
+@@ -2122,12 +2122,6 @@ uint32_t qemu_console_get_head(QemuConsole *con)<br>
+=C2=A0 =C2=A0 =C2=A0return con ? con-&gt;head : -1;<br>
 =C2=A0}<br>
 <br>
-=C2=A0const QemuUIInfo *dpy_get_ui_info(const QemuConsole *con)<br>
-=C2=A0{<br>
+-QemuUIInfo *qemu_console_get_ui_info(QemuConsole *con)<br>
+-{<br>
 -=C2=A0 =C2=A0 assert(con !=3D NULL);<br>
-+=C2=A0 =C2=A0 if (con =3D=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 con =3D active_console;<br>
-+=C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return &amp;con-&gt;ui_info;<br>
-=C2=A0}<br>
-<br>
-=C2=A0int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info)<br>
+-=C2=A0 =C2=A0 return &amp;con-&gt;ui_info;<br>
+-}<br>
+-<br>
+=C2=A0int qemu_console_get_width(QemuConsole *con, int fallback)<br>
 =C2=A0{<br>
--=C2=A0 =C2=A0 assert(con !=3D NULL);<br>
-+=C2=A0 =C2=A0 if (con =3D=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 con =3D active_console;<br>
-+=C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (!dpy_ui_info_supported(con)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
+=C2=A0 =C2=A0 =C2=A0if (con =3D=3D NULL) {<br>
 -- <br>
 2.27.0<br>
 <br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
-=C3=A9 Lureau<br></div></div>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000049dff005b5f30da2--
+--0000000000000ee63705b5f31320--
 
