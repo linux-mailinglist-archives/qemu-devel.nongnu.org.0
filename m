@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638112D3241
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:36:30 +0100 (CET)
-Received: from localhost ([::1]:40680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4212D323D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:35:15 +0100 (CET)
+Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmhqf-0002oS-Db
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:36:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58396)
+	id 1kmhpS-00024Z-6A
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:35:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmhPq-0005i8-0S
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:08:47 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38872)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kmhJF-00088h-3Z
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:01:57 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmhPn-00078a-QT
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:08:45 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id r7so5941473wrc.5
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:08:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kmhJD-0006Pf-4M
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:01:56 -0500
+Received: by mail-ot1-x344.google.com with SMTP id 11so16602563oty.9
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:01:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=C+0a+19DL9hMQsJHYjPOIlyzYLRZWv2DXohL6MQ3Fp0=;
- b=sNFTBkxghxpKqV6YHGLKR1kwr5gCY+nFFdehkoF694ENPyvVOi7j1jOzk1Y343zcnO
- S4t2NEj0dqq+c99sF+/uCXgMG+Gwj4OorEPOeuUTJyvY1IEbV5DGF5l4M8hbdsGNFaKl
- nQBRaPwv5W2SJ8MXPHr7PuoW4IMj/M5kAzOTzz0vgv9hngrQescoCJJoagjOxPkEKWVc
- pV8s/QRnPnf4NNDFxsZ06J3XvTsplzyXvKzFWlT+ljUzSvxNUFEUVzpXMIWr9N87nVuI
- 4gNVf8BT0QN7O4ye5nwS25I0dNL8x4HZrCf0NPJ8pD+yK3WRdYN258RYiK6WwIAbGedQ
- uGmQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=p4ZvDwBTziZmZdqk805FY1f/U8VtmHM73z1nIW++Hok=;
+ b=XPnZ76HdHl6ih/rkKOb/3fSqNXGxRbgSyDIPnSd5FZuFged9ULPhs7zggMjClJggrP
+ jsHRNdSn3lw6yIfZG6pwOQjpky7kmRfUAmjLwF7kzHxM+eI+rKLDkE2eKjeSIWPk8zkD
+ UHIIabOwX0aTNeTVDkLgDjwBtm+05Y94okTXRclDFcpjjIvcVK+sz8GAJmarvnOwizgQ
+ AvH8ZBUQgnhg9w1UZVrL14iPwDCSyn6lXWGeKELdfe+VdJRrRyNZHoxo4v42kwckYQZB
+ GzuMhzGIupYMPaDCxpdQTOj7ul50L6U1ktS/+KxVcSZi71352DuTfkU6BMs9WeF075bE
+ lI1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=C+0a+19DL9hMQsJHYjPOIlyzYLRZWv2DXohL6MQ3Fp0=;
- b=Q77D3lOPXMVi7qGhEXNKDjjpo3CpoW82cB7BviKGFnE5rmiPbodNyE/Tcpk46rE5FC
- lFCU6DZqbVRHnc/8MPDdh65pzmrk1XcO2S2P4wRzVPjLjLXey0TAdKIYaqrBcizo1raR
- LDyDUHoBikYYJEqFvwBsFcZsy6BkdEBf0fcrd7T7s0Ckya1GDs0EQdbuiIqc2B0zIuz4
- SW5AMxzaGHSuHkfmlE69bcX2dG8FkfmQ0FpIzzhyWL1+aG4ib61jq8gYZNqwKm5GYLMs
- 8ipyn8/9wg56WzHe78EqXEmvwOVT+Iffm7QK5D6wwUkKbD4MhQW3nLQz0raPX2t5Do2A
- 8mGg==
-X-Gm-Message-State: AOAM532nOgS+9GqFTLtoAX9Gn0xDdmUrboXvGz/iL9sx6yr4+SEXPWmn
- TdtHM7IoJs7TKFuYdLKsm6DdXA==
-X-Google-Smtp-Source: ABdhPJxYx8uZC3t9ww8tpXR8w230dNYHn4HYBsEeSlIaWN3t5OmeEV/LSrYRH4mWIm82dAzzX4w01A==
-X-Received: by 2002:adf:e944:: with SMTP id m4mr22274315wrn.21.1607450921850; 
- Tue, 08 Dec 2020 10:08:41 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n14sm4818176wmi.1.2020.12.08.10.08.40
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=p4ZvDwBTziZmZdqk805FY1f/U8VtmHM73z1nIW++Hok=;
+ b=GD80+TZKxTuygML6jgHq21QQxJJTY0/+xfnWxiy9h6TQpV6WsBfIzJ8h1F8zTwjlr3
+ zGwIL6/OrJyFj5NUKCUHI9qMk8LqrdYTZasemR4Yw2ssbhs/E//5FGvZAUoTQViIq3zH
+ URQ4tAiLKGQkLUZ4sbLKl7oerN/Id9DKq/3ddOptocPTzSsKvyCcjjQ/M7x72WdD20sP
+ 0Ne6VHoGSq8lgUGCFbP6bq/xYoxHdUeU5HZ82L4rO/35LhofoYmZRRBY5cbowcgz34Kz
+ J/1YjgOoMeDDfvGH6lQ9uJhuR+ZgUe7E0l9rgCKeFt01ruI8bE0SqdWrtNGUrSeEhmoV
+ 4uPw==
+X-Gm-Message-State: AOAM531ztDgcRyYVmzNy/DeOoHwOLPGg/A40P29b9F8R51fs0l80V56n
+ CikDMpsxErauA/lAG47leB4G579MaTRLr901
+X-Google-Smtp-Source: ABdhPJyo1aje1yK7SbzdWDAQj7uNKiyTpNUmI+K/bmYI3neVRbafRoP/paxi4tdJUX7/1S0KqtxwSw==
+X-Received: by 2002:a05:6830:90f:: with SMTP id
+ v15mr13881486ott.223.1607450513685; 
+ Tue, 08 Dec 2020 10:01:53 -0800 (PST)
+Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id k20sm3886805oig.35.2020.12.08.10.01.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 10:08:40 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A79511FF7E;
- Tue,  8 Dec 2020 18:08:39 +0000 (GMT)
-References: <X86YnHhHMpQBr2/G@strawberry.localdomain>
- <87a6uoh2fp.fsf@linaro.org> <X8+R05CCriFWT6G+@strawberry.localdomain>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: Re: Plugin Register Accesses
-Date: Tue, 08 Dec 2020 17:56:33 +0000
-In-reply-to: <X8+R05CCriFWT6G+@strawberry.localdomain>
-Message-ID: <871rg0gogo.fsf@linaro.org>
+ Tue, 08 Dec 2020 10:01:51 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 17/24] target/arm: Use finalize_memop for aa64 gpr
+ load/store
+Date: Tue,  8 Dec 2020 12:01:11 -0600
+Message-Id: <20201208180118.157911-18-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201208180118.157911-1-richard.henderson@linaro.org>
+References: <20201208180118.157911-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,124 +85,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cota@braap.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In the case of gpr load, merge the size and is_signed arguments;
+otherwise, simply convert size to memop.
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/translate-a64.c | 78 ++++++++++++++++----------------------
+ 1 file changed, 33 insertions(+), 45 deletions(-)
 
-> On Dec 08 12:17, Alex Benn=C3=A9e wrote:
->> Aaron Lindsay <aaron@os.amperecomputing.com> writes:
->>=20
->> > I'm trying to migrate to using the new plugin interface. I see the
->> > following in include/qemu/qemu-plugin.h:
->> >
->> >> enum qemu_plugin_cb_flags {
->> >>     QEMU_PLUGIN_CB_NO_REGS, /* callback does not access the CPU's reg=
-s */
->> >>     QEMU_PLUGIN_CB_R_REGS,  /* callback reads the CPU's regs */
->> >>     QEMU_PLUGIN_CB_RW_REGS, /* callback reads and writes the CPU's re=
-gs */
->> >> };
->> >
->> > But I don't see a way to access registers in callbacks. Am I missing
->> > something?
->>=20
->> No - while those symbols do inform the TCG to not try and optimise
->> the register file we don't yet have an API for the plugins for reading
->> (or writing) the CPU registers.
->>=20
->> There has been discussion about this before, I'll quote what I said
->> off-list to someone else who asked:
->>=20
->>   > Has there been any clarification or softening of the position that=20
->>   > exposing register and memory contents to the QEMU plugin would provi=
-de a=20
->>   > way to circumvent the GPL of QEMU?
->>=20
->>   I don't think implementing read only access would be a problem and
->>   should probably be a first step anyway.
->
-> That seems reasonable to me. For the time being, at least, I am most
-> interested in read-only access.
->
->>   For registers I think there needs to be some re-factoring of QEMU's
->>   internals to do it cleanly. Currently we have each front-end providing
->>   hooks to the gdbstub as well as building up their own regid and xml to
->>   be consumed by it. We probably want a architectural neutral central
->>   repository that the front ends can register their registers (sic) and
->>   helpers with. This would then provide hooks for gdbstub to cleanly
->>   generate XML as well as an interface point for the plugin infrastructu=
-re
->>   (and probably whatever the HMP uses as well).
->
-> In a previous incarnation, I was proxying calls to the plugin API
-> directly through to gdb_read_register() in gdbstub.c and therefore using
-> gdb as the point of commonality. I'm not saying it's ideal but... it
-> works? One downside is that you have to know 'out-of-band' which integer
-> value corresponds to the register you want to query for your
-> architecture, though it hasn't been a significant issue for me.
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 2e3fdfdf6b..d34ec892c6 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -880,19 +880,19 @@ static void gen_adc_CC(int sf, TCGv_i64 dest, TCGv_i64 t0, TCGv_i64 t1)
+  * Store from GPR register to memory.
+  */
+ static void do_gpr_st_memidx(DisasContext *s, TCGv_i64 source,
+-                             TCGv_i64 tcg_addr, int size, int memidx,
++                             TCGv_i64 tcg_addr, MemOp memop, int memidx,
+                              bool iss_valid,
+                              unsigned int iss_srt,
+                              bool iss_sf, bool iss_ar)
+ {
+-    g_assert(size <= 3);
+-    tcg_gen_qemu_st_i64(source, tcg_addr, memidx, s->be_data + size);
++    memop = finalize_memop(s, memop);
++    tcg_gen_qemu_st_i64(source, tcg_addr, memidx, memop);
+ 
+     if (iss_valid) {
+         uint32_t syn;
+ 
+         syn = syn_data_abort_with_iss(0,
+-                                      size,
++                                      (memop & MO_SIZE),
+                                       false,
+                                       iss_srt,
+                                       iss_sf,
+@@ -903,37 +903,28 @@ static void do_gpr_st_memidx(DisasContext *s, TCGv_i64 source,
+ }
+ 
+ static void do_gpr_st(DisasContext *s, TCGv_i64 source,
+-                      TCGv_i64 tcg_addr, int size,
++                      TCGv_i64 tcg_addr, MemOp memop,
+                       bool iss_valid,
+                       unsigned int iss_srt,
+                       bool iss_sf, bool iss_ar)
+ {
+-    do_gpr_st_memidx(s, source, tcg_addr, size, get_mem_index(s),
++    do_gpr_st_memidx(s, source, tcg_addr, memop, get_mem_index(s),
+                      iss_valid, iss_srt, iss_sf, iss_ar);
+ }
+ 
+ /*
+  * Load from memory to GPR register
+  */
+-static void do_gpr_ld_memidx(DisasContext *s,
+-                             TCGv_i64 dest, TCGv_i64 tcg_addr,
+-                             int size, bool is_signed,
+-                             bool extend, int memidx,
++static void do_gpr_ld_memidx(DisasContext *s, TCGv_i64 dest, TCGv_i64 tcg_addr,
++                             MemOp memop, bool extend, int memidx,
+                              bool iss_valid, unsigned int iss_srt,
+                              bool iss_sf, bool iss_ar)
+ {
+-    MemOp memop = s->be_data + size;
+-
+-    g_assert(size <= 3);
+-
+-    if (is_signed) {
+-        memop += MO_SIGN;
+-    }
+-
++    memop = finalize_memop(s, memop);
+     tcg_gen_qemu_ld_i64(dest, tcg_addr, memidx, memop);
+ 
+-    if (extend && is_signed) {
+-        g_assert(size < 3);
++    if (extend && (memop & MO_SIGN)) {
++        g_assert((memop & MO_SIZE) <= MO_32);
+         tcg_gen_ext32u_i64(dest, dest);
+     }
+ 
+@@ -941,8 +932,8 @@ static void do_gpr_ld_memidx(DisasContext *s,
+         uint32_t syn;
+ 
+         syn = syn_data_abort_with_iss(0,
+-                                      size,
+-                                      is_signed,
++                                      (memop & MO_SIZE),
++                                      (memop & MO_SIGN) != 0,
+                                       iss_srt,
+                                       iss_sf,
+                                       iss_ar,
+@@ -951,14 +942,12 @@ static void do_gpr_ld_memidx(DisasContext *s,
+     }
+ }
+ 
+-static void do_gpr_ld(DisasContext *s,
+-                      TCGv_i64 dest, TCGv_i64 tcg_addr,
+-                      int size, bool is_signed, bool extend,
++static void do_gpr_ld(DisasContext *s, TCGv_i64 dest, TCGv_i64 tcg_addr,
++                      MemOp memop, bool extend,
+                       bool iss_valid, unsigned int iss_srt,
+                       bool iss_sf, bool iss_ar)
+ {
+-    do_gpr_ld_memidx(s, dest, tcg_addr, size, is_signed, extend,
+-                     get_mem_index(s),
++    do_gpr_ld_memidx(s, dest, tcg_addr, memop, extend, get_mem_index(s),
+                      iss_valid, iss_srt, iss_sf, iss_ar);
+ }
+ 
+@@ -2687,7 +2676,7 @@ static void disas_ldst_excl(DisasContext *s, uint32_t insn)
+         }
+         clean_addr = gen_mte_check1(s, cpu_reg_sp(s, rn),
+                                     false, rn != 31, size);
+-        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, false, false, true, rt,
++        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, false, true, rt,
+                   disas_ldst_compute_iss_sf(size, false, 0), is_lasr);
+         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
+         return;
+@@ -2800,8 +2789,8 @@ static void disas_ld_lit(DisasContext *s, uint32_t insn)
+         /* Only unsigned 32bit loads target 32bit registers.  */
+         bool iss_sf = opc != 0;
+ 
+-        do_gpr_ld(s, tcg_rt, clean_addr, size, is_signed, false,
+-                  true, rt, iss_sf, false);
++        do_gpr_ld(s, tcg_rt, clean_addr, size + is_signed * MO_SIGN,
++                  false, true, rt, iss_sf, false);
+     }
+     tcg_temp_free_i64(clean_addr);
+ }
+@@ -2960,11 +2949,11 @@ static void disas_ldst_pair(DisasContext *s, uint32_t insn)
+             /* Do not modify tcg_rt before recognizing any exception
+              * from the second load.
+              */
+-            do_gpr_ld(s, tmp, clean_addr, size, is_signed, false,
+-                      false, 0, false, false);
++            do_gpr_ld(s, tmp, clean_addr, size + is_signed * MO_SIGN,
++                      false, false, 0, false, false);
+             tcg_gen_addi_i64(clean_addr, clean_addr, 1 << size);
+-            do_gpr_ld(s, tcg_rt2, clean_addr, size, is_signed, false,
+-                      false, 0, false, false);
++            do_gpr_ld(s, tcg_rt2, clean_addr, size + is_signed * MO_SIGN,
++                      false, false, 0, false, false);
+ 
+             tcg_gen_mov_i64(tcg_rt, tmp);
+             tcg_temp_free_i64(tmp);
+@@ -3095,8 +3084,8 @@ static void disas_ldst_reg_imm9(DisasContext *s, uint32_t insn,
+             do_gpr_st_memidx(s, tcg_rt, clean_addr, size, memidx,
+                              iss_valid, rt, iss_sf, false);
+         } else {
+-            do_gpr_ld_memidx(s, tcg_rt, clean_addr, size,
+-                             is_signed, is_extended, memidx,
++            do_gpr_ld_memidx(s, tcg_rt, clean_addr, size + is_signed * MO_SIGN,
++                             is_extended, memidx,
+                              iss_valid, rt, iss_sf, false);
+         }
+     }
+@@ -3200,9 +3189,8 @@ static void disas_ldst_reg_roffset(DisasContext *s, uint32_t insn,
+             do_gpr_st(s, tcg_rt, clean_addr, size,
+                       true, rt, iss_sf, false);
+         } else {
+-            do_gpr_ld(s, tcg_rt, clean_addr, size,
+-                      is_signed, is_extended,
+-                      true, rt, iss_sf, false);
++            do_gpr_ld(s, tcg_rt, clean_addr, size + is_signed * MO_SIGN,
++                      is_extended, true, rt, iss_sf, false);
+         }
+     }
+ }
+@@ -3285,8 +3273,8 @@ static void disas_ldst_reg_unsigned_imm(DisasContext *s, uint32_t insn,
+             do_gpr_st(s, tcg_rt, clean_addr, size,
+                       true, rt, iss_sf, false);
+         } else {
+-            do_gpr_ld(s, tcg_rt, clean_addr, size, is_signed, is_extended,
+-                      true, rt, iss_sf, false);
++            do_gpr_ld(s, tcg_rt, clean_addr, size + is_signed * MO_SIGN,
++                      is_extended, true, rt, iss_sf, false);
+         }
+     }
+ }
+@@ -3373,7 +3361,7 @@ static void disas_ldst_atomic(DisasContext *s, uint32_t insn,
+          * full load-acquire (we only need "load-acquire processor consistent"),
+          * but we choose to implement them as full LDAQ.
+          */
+-        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, false, false,
++        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, false,
+                   true, rt, disas_ldst_compute_iss_sf(size, false, 0), true);
+         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
+         return;
+@@ -3446,7 +3434,7 @@ static void disas_ldst_pac(DisasContext *s, uint32_t insn,
+                                 is_wback || rn != 31, size);
+ 
+     tcg_rt = cpu_reg(s, rt);
+-    do_gpr_ld(s, tcg_rt, clean_addr, size, /* is_signed */ false,
++    do_gpr_ld(s, tcg_rt, clean_addr, size,
+               /* extend */ false, /* iss_valid */ !is_wback,
+               /* iss_srt */ rt, /* iss_sf */ true, /* iss_ar */ false);
+ 
+@@ -3531,8 +3519,8 @@ static void disas_ldst_ldapr_stlr(DisasContext *s, uint32_t insn)
+          * Load-AcquirePC semantics; we implement as the slightly more
+          * restrictive Load-Acquire.
+          */
+-        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size, is_signed, extend,
+-                  true, rt, iss_sf, true);
++        do_gpr_ld(s, cpu_reg(s, rt), clean_addr, size + is_signed * MO_SIGN,
++                  extend, true, rt, iss_sf, true);
+         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
+     }
+ }
+-- 
+2.25.1
 
-Certainly workable for a private branch but I don't want to merge
-anything like that upstream. As far as I can see there are a number of
-consumers of register information:
-
-  - plugins
-  - gdbstub
-  - monitor (info registers)
-  - -d LOG_CPU logging
-
-so rather than have them all have their hooks into every front-end I can
-see a case for consolidation.
-
-For the plugin case providing an introspection helper to get a handle on
-the register makes sense and would be less painful than teachning
-plugins about gdb regids which can and do move around with new system
-registers.
-
-  qemu_plugin_reg_t *handle =3D qemu_plugin_find_register("x2")
-
-if we document the handle as usable across calls this can be done on
-start-up. Then it would be:
-
-  uint64_t val =3D qemu_plugin_read_register(cpu_index, handle);
-
->>   Memory is a little trickier because you can't know at any point if a
->>   given virtual address is actually mapped to real memory. The safest way
->>   would be to extend the existing memory tracking code to save the values
->>   saved/loaded from a given address. However if you had register access
->>   you could probably achieve the same thing after the fact by examining
->>   the opcode and pulling the values from the registers.
->
-> What if memory reads were requested by `qemu_plugin_hwaddr` instead of
-> by virtual address? `qemu_plugin_get_hwaddr()` is already exposed, and I
-> would expect being able to successfully get a `qemu_plugin_hwaddr` in a
-> callback would mean it is currently mapped. Am I overlooking
-> something?
-
-We can't re-run the transaction - there may have been a change to the
-memory layout that instruction caused (see tlb_plugin_lookup and the
-interaction with io_writex). However I think we can expand the options
-for memory instrumentation to cache the read or written value.
-
-> I think I might actually prefer a plugin memory access interface be in
-> the physical address space - it seems like it might allow you to get
-> more mileage out of one interface without having to support accesses by
-> virtual and physical address separately.
->
-> Or, even if that won't work for whatever reason, it seems reasonable for
-> a plugin call accessing memory by virtual address to fail in the case
-> where it's not mapped. As long as that failure case is well-documented
-> and easy to distinguish from others within a plugin, why not?
-
-Hmmm I'm not sure - I don't want to expose internal implementation
-details to the plugins because we don't want plugins to rely on them.
-
->
-> -Aaron
-
-
---=20
-Alex Benn=C3=A9e
 
