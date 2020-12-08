@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796E62D3671
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:49:59 +0100 (CET)
-Received: from localhost ([::1]:33972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120822D3677
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:51:27 +0100 (CET)
+Received: from localhost ([::1]:39410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmlny-0007KB-Fr
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:49:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57462)
+	id 1kmlpO-0001CE-1G
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:51:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmlGz-0000W3-1X
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:15:53 -0500
-Received: from mx2.suse.de ([195.135.220.15]:38452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmlGw-00075n-0u
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:15:52 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9FCC1AC55;
- Tue,  8 Dec 2020 22:15:45 +0000 (UTC)
-Subject: Re: [RFC v9 00/22] i386 cleanup
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>
-References: <20201208194839.31305-1-cfontana@suse.de>
- <6395fe61-fe47-6d36-dd12-f523e66c75ec@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <98b0c5fc-54cb-8e11-5cd9-ab3da978e664@suse.de>
-Date: Tue, 8 Dec 2020 23:15:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kmlKh-0003lj-8w; Tue, 08 Dec 2020 17:19:44 -0500
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:42905)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kmlKV-0008Kf-O1; Tue, 08 Dec 2020 17:19:43 -0500
+Received: by mail-il1-x143.google.com with SMTP id 2so13832888ilg.9;
+ Tue, 08 Dec 2020 14:19:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5n/UUXaHq0iBzNlfehRV+4jrAiMw9Uiq5jnerbk9+OM=;
+ b=SjRoOBO+mbYBbbe490SytVD6BK6JX0Gt23O/SsNY8XDw6+wzS09GP8Pzlkq66xeLmk
+ C0me7Wi85EePsIYyjL3DWtIG1nZkgM3HnulVJaCM3CDtcO14KFKLv5gEwdG0rrGN048W
+ rn4aa8a/KaPL5vjNWDzhKOzNSvy4CuyIn+evRqEX7LtSSypC6DyNcqVh5ZGuVhda7n6o
+ clMbIqiw167PYvmdcBwM/D/hpak5uliuZFOa5kc4asap0EgtvEayKNGXlJ0PwN8Z407z
+ VyB4y279itvuu7+IEFvse+081gbcts5oUYwIAh+yIEpexsKYsNzMM3JIUoPrVAJwdxWc
+ tMzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5n/UUXaHq0iBzNlfehRV+4jrAiMw9Uiq5jnerbk9+OM=;
+ b=qqhQyvHmQqpxsdirmj1qLnwqKEqf+CAkGWvfAJs/V2VDxDHRDW8c9n85gVkZPYtBtV
+ 2grBKk+1qXoDUa97Sfbtf5szzvVIw0bLjYMxbHnWOfxUNbIywySDeHgG7hliin52hQQt
+ dD/MLYjTE4eix4azY4npbC1LcxcFyzdd01h0dcrOQXayulFGDUW23pJ7lsZYw+S1dnrT
+ rlSpV+Ct6fgEGaUvRnP2mL+7WNxNBwTJEGoTYYYrfHUbJDKho9+x/liRgjX8J09A2h9P
+ MtWhGW68drUzqBVnrZi48oqZW3akDpF81uYz54dg5IDUVdKQYRPwrs1KpPKeUDEyTmW9
+ xjYA==
+X-Gm-Message-State: AOAM530W8dQzAZLyGNJuJAqgbxMzx2JTgTiWW0zYsefSY8e+b0Tbhrfv
+ 8xUr9MGI0GaPmCB/O+2jXlRIf/TnIH4NA6LdTSc=
+X-Google-Smtp-Source: ABdhPJzsf7ki9b9KRsWeMXsqH3tB0epnSqLCoxSPpu3ohd3vcIuIBpdHNER0NfoteEg9LS/zwaiePi5A7YNwQdxVL+M=
+X-Received: by 2002:a92:490d:: with SMTP id w13mr3268ila.227.1607465970106;
+ Tue, 08 Dec 2020 14:19:30 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6395fe61-fe47-6d36-dd12-f523e66c75ec@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201203124703.168-1-jiangyifei@huawei.com>
+ <20201203124703.168-7-jiangyifei@huawei.com>
+In-Reply-To: <20201203124703.168-7-jiangyifei@huawei.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 8 Dec 2020 14:19:04 -0800
+Message-ID: <CAKmqyKO4vsY90DnVVp6wgAvSquoW0auFRr3LLfSHrCqXV6vWcg@mail.gmail.com>
+Subject: Re: [PATCH RFC v4 06/15] target/riscv: Support start kernel directly
+ by KVM
+To: Yifei Jiang <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,186 +77,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, "Emilio G . Cota" <cota@braap.org>,
- haxm-team@intel.com, Cameron Esfahani <dirty@apple.com>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, Colin Xu <colin.xu@intel.com>
+Cc: kvm-riscv@lists.infradead.org, Anup Patel <anup.patel@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "open list:Overall" <kvm@vger.kernel.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, libvir-list@redhat.com,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, yinyipeng <yinyipeng1@huawei.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, "Wubin \(H\)" <wu.wubin@huawei.com>,
+ "dengkai \(A\)" <dengkai1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/8/20 9:00 PM, Philippe Mathieu-Daudé wrote:
-> On 12/8/20 8:48 PM, Claudio Fontana wrote:
->> v8 -> v9: move additional methods to CPUClass->tcg_ops
->>
->> do_unaligned_access, transaction_failed and do_interrupt.
->>
->> do_interrupt is a bit tricky, as the same code is reused
->> (albeit not usually directly) for KVM under certain odd conditions.
->>
->> Change arm, as the only user of do_interrupt callback for KVM,
->> to instead call the target function directly arm_do_interrupt.
-> 
-> Please use scripts/git.orderfile for such refactors please ;)
+On Thu, Dec 3, 2020 at 4:58 AM Yifei Jiang <jiangyifei@huawei.com> wrote:
+>
+> Get kernel and fdt start address in virt.c, and pass them to KVM
+> when cpu reset. In addition, add kvm_riscv.h to place riscv specific
+> interface.
 
-Aye aye!
-If you'd like me to respin now, just let me know.
+This doesn't seem right. Why do we need to do this? Other
+architectures don't seem to do this.
 
-Ciao,
+Writing to the CPU from the board like this looks fishy and probably
+breaks some QOM rules.
 
-Claudio
+Alistair
 
-> 
-> ...
-> 
->>  MAINTAINERS                           |  19 +-
->>  accel/accel-common.c                  | 105 +++++
->>  accel/{accel.c => accel-softmmu.c}    |  60 +--
->>  accel/accel-softmmu.h                 |  15 +
->>  accel/accel-user.c                    |  24 ++
->>  accel/kvm/kvm-all.c                   |   2 -
->>  accel/kvm/kvm-cpus.c                  |  26 +-
->>  accel/kvm/kvm-cpus.h                  |   2 -
->>  accel/meson.build                     |   4 +-
->>  accel/qtest/qtest.c                   |  25 +-
->>  accel/tcg/cpu-exec.c                  |  70 +++-
->>  accel/tcg/cputlb.c                    |   6 +-
->>  accel/tcg/meson.build                 |   9 +-
->>  accel/tcg/tcg-all.c                   |  14 +-
->>  accel/tcg/tcg-cpus-icount.c           | 138 +++++++
->>  accel/tcg/tcg-cpus-icount.h           |  19 +
->>  accel/tcg/tcg-cpus-mttcg.c            | 134 +++++++
->>  accel/tcg/tcg-cpus-mttcg.h            |  19 +
->>  accel/tcg/tcg-cpus-rr.c               | 298 ++++++++++++++
->>  accel/tcg/tcg-cpus-rr.h               |  21 +
->>  accel/tcg/tcg-cpus.c                  | 539 +++-----------------------
->>  accel/tcg/tcg-cpus.h                  |   8 +-
->>  accel/tcg/user-exec.c                 |   6 +-
->>  accel/xen/xen-all.c                   |  24 +-
->>  bsd-user/main.c                       |  11 +-
->>  cpu.c                                 |  71 ++--
->>  hw/core/cpu.c                         |  30 +-
->>  hw/i386/fw_cfg.c                      |   2 +-
->>  hw/i386/intel_iommu.c                 |   2 +-
->>  hw/i386/kvm/apic.c                    |   2 +-
->>  hw/i386/kvm/clock.c                   |   2 +-
->>  hw/i386/microvm.c                     |   2 +-
->>  hw/i386/pc.c                          |   2 +-
->>  hw/i386/pc_piix.c                     |   1 +
->>  hw/i386/x86.c                         |   2 +-
->>  hw/mips/jazz.c                        |   4 +-
->>  include/hw/boards.h                   |   2 +-
->>  include/hw/core/accel-cpu.h           |  25 ++
->>  include/hw/core/cpu.h                 |  92 ++---
->>  include/hw/core/tcg-cpu-ops.h         |  75 ++++
->>  include/{sysemu => qemu}/accel.h      |  16 +-
->>  include/sysemu/accel-ops.h            |  45 +++
->>  include/sysemu/cpus.h                 |  26 +-
->>  include/sysemu/hvf.h                  |   2 +-
->>  include/sysemu/kvm.h                  |   2 +-
->>  include/sysemu/kvm_int.h              |   2 +-
->>  linux-user/main.c                     |   7 +-
->>  meson.build                           |   1 +
->>  softmmu/cpus.c                        |  12 +-
->>  softmmu/icount.c                      |   2 +-
->>  softmmu/memory.c                      |   2 +-
->>  softmmu/qtest.c                       |   2 +-
->>  softmmu/vl.c                          |   8 +-
->>  target/alpha/cpu.c                    |  18 +-
->>  target/arm/cpu.c                      |  26 +-
->>  target/arm/cpu64.c                    |   5 +-
->>  target/arm/cpu_tcg.c                  |   8 +-
->>  target/arm/helper.c                   |   4 +
->>  target/arm/kvm64.c                    |   4 +-
->>  target/avr/cpu.c                      |  13 +-
->>  target/avr/helper.c                   |   4 +-
->>  target/cris/cpu.c                     |  30 +-
->>  target/cris/helper.c                  |   4 +-
->>  target/hppa/cpu.c                     |  15 +-
->>  target/i386/cpu-dump.c                | 537 +++++++++++++++++++++++++
->>  target/i386/cpu.c                     | 418 ++------------------
->>  target/i386/cpu.h                     | 120 +-----
->>  target/i386/{ => hax}/hax-all.c       |   5 +-
->>  target/i386/{ => hax}/hax-cpus.c      |  29 +-
->>  target/i386/{ => hax}/hax-cpus.h      |   2 -
->>  target/i386/{ => hax}/hax-i386.h      |   6 +-
->>  target/i386/{ => hax}/hax-interface.h |   0
->>  target/i386/{ => hax}/hax-mem.c       |   0
->>  target/i386/{ => hax}/hax-posix.c     |   0
->>  target/i386/{ => hax}/hax-posix.h     |   0
->>  target/i386/{ => hax}/hax-windows.c   |   0
->>  target/i386/{ => hax}/hax-windows.h   |   0
->>  target/i386/hax/meson.build           |   7 +
->>  target/i386/helper-tcg.h              | 112 ++++++
->>  target/i386/helper.c                  | 539 +-------------------------
->>  target/i386/host-cpu.c                | 198 ++++++++++
->>  target/i386/host-cpu.h                |  19 +
->>  target/i386/hvf/cpu.c                 |  65 ++++
->>  target/i386/hvf/hvf-cpus.c            |  27 +-
->>  target/i386/hvf/hvf-cpus.h            |   2 -
->>  target/i386/hvf/hvf-i386.h            |   2 +-
->>  target/i386/hvf/hvf.c                 |   3 +-
->>  target/i386/hvf/meson.build           |   1 +
->>  target/i386/hvf/x86_task.c            |   2 +-
->>  target/i386/kvm/cpu.c                 | 148 +++++++
->>  target/i386/{ => kvm}/hyperv-proto.h  |   0
->>  target/i386/{ => kvm}/hyperv-stub.c   |   0
->>  target/i386/{ => kvm}/hyperv.c        |   0
->>  target/i386/{ => kvm}/hyperv.h        |   0
->>  target/i386/kvm/kvm-cpu.h             |  41 ++
->>  target/i386/{ => kvm}/kvm-stub.c      |   0
->>  target/i386/{ => kvm}/kvm.c           |   3 +-
->>  target/i386/{ => kvm}/kvm_i386.h      |   0
->>  target/i386/kvm/meson.build           |   8 +
->>  target/i386/kvm/trace-events          |   7 +
->>  target/i386/kvm/trace.h               |   1 +
->>  target/i386/machine.c                 |   4 +-
->>  target/i386/meson.build               |  39 +-
->>  target/i386/{ => tcg}/bpt_helper.c    |   1 +
->>  target/i386/{ => tcg}/cc_helper.c     |   1 +
->>  target/i386/tcg/cpu.c                 | 173 +++++++++
->>  target/i386/{ => tcg}/excp_helper.c   |   1 +
->>  target/i386/{ => tcg}/fpu_helper.c    |  33 +-
->>  target/i386/{ => tcg}/int_helper.c    |   1 +
->>  target/i386/{ => tcg}/mem_helper.c    |   1 +
->>  target/i386/tcg/meson.build           |  14 +
->>  target/i386/{ => tcg}/misc_helper.c   |   1 +
->>  target/i386/{ => tcg}/mpx_helper.c    |   1 +
->>  target/i386/{ => tcg}/seg_helper.c    |   1 +
->>  target/i386/{ => tcg}/smm_helper.c    |   2 +
->>  target/i386/{ => tcg}/svm_helper.c    |   1 +
->>  target/i386/{ => tcg}/tcg-stub.c      |   0
->>  target/i386/{ => tcg}/translate.c     |   1 +
->>  target/i386/trace-events              |   6 -
->>  target/i386/whpx/meson.build          |   4 +
->>  target/i386/{ => whpx}/whp-dispatch.h |   0
->>  target/i386/{ => whpx}/whpx-all.c     |   4 +-
->>  target/i386/{ => whpx}/whpx-cpus.c    |  29 +-
->>  target/i386/{ => whpx}/whpx-cpus.h    |   2 -
->>  target/lm32/cpu.c                     |  13 +-
->>  target/m68k/cpu.c                     |  12 +-
->>  target/microblaze/cpu.c               |  23 +-
->>  target/mips/cpu.c                     |  21 +-
->>  target/moxie/cpu.c                    |  10 +-
->>  target/nios2/cpu.c                    |  14 +-
->>  target/openrisc/cpu.c                 |  12 +-
->>  target/ppc/translate_init.c.inc       |  23 +-
->>  target/riscv/cpu.c                    |  25 +-
->>  target/rx/cpu.c                       |  18 +-
->>  target/s390x/cpu.c                    |  15 +-
->>  target/sh4/cpu.c                      |  14 +-
->>  target/sparc/cpu.c                    |  18 +-
->>  target/tilegx/cpu.c                   |  10 +-
->>  target/tricore/cpu.c                  |   8 +-
->>  target/unicore32/cpu.c                |  14 +-
->>  target/xtensa/cpu.c                   |  16 +-
->>  141 files changed, 3007 insertions(+), 2051 deletions(-)
-> ...
-> 
-> 
-
+>
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+> ---
+>  hw/riscv/virt.c          |  8 ++++++++
+>  target/riscv/cpu.c       |  4 ++++
+>  target/riscv/cpu.h       |  3 +++
+>  target/riscv/kvm.c       | 15 +++++++++++++++
+>  target/riscv/kvm_riscv.h | 24 ++++++++++++++++++++++++
+>  5 files changed, 54 insertions(+)
+>  create mode 100644 target/riscv/kvm_riscv.h
+>
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 25cea7aa67..47b7018193 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -42,6 +42,7 @@
+>  #include "sysemu/sysemu.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci-host/gpex.h"
+> +#include "sysemu/kvm.h"
+>
+>  #if defined(TARGET_RISCV32)
+>  # define BIOS_FILENAME "opensbi-riscv32-generic-fw_dynamic.bin"
+> @@ -511,6 +512,7 @@ static void virt_machine_init(MachineState *machine)
+>      uint64_t kernel_entry;
+>      DeviceState *mmio_plic, *virtio_plic, *pcie_plic;
+>      int i, j, base_hartid, hart_count;
+> +    CPUState *cs;
+>
+>      /* Check socket count limit */
+>      if (VIRT_SOCKETS_MAX < riscv_socket_count(machine)) {
+> @@ -660,6 +662,12 @@ static void virt_machine_init(MachineState *machine)
+>                                virt_memmap[VIRT_MROM].size, kernel_entry,
+>                                fdt_load_addr, s->fdt);
+>
+> +    for (cs = first_cpu; cs; cs = CPU_NEXT(cs)) {
+> +        RISCVCPU *riscv_cpu = RISCV_CPU(cs);
+> +        riscv_cpu->env.kernel_addr = kernel_entry;
+> +        riscv_cpu->env.fdt_addr = fdt_load_addr;
+> +    }
+> +
+>      /* SiFive Test MMIO device */
+>      sifive_test_create(memmap[VIRT_TEST].base);
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 6a0264fc6b..faee98a58c 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -29,6 +29,7 @@
+>  #include "hw/qdev-properties.h"
+>  #include "migration/vmstate.h"
+>  #include "fpu/softfloat-helpers.h"
+> +#include "kvm_riscv.h"
+>
+>  /* RISC-V CPU definitions */
+>
+> @@ -330,6 +331,9 @@ static void riscv_cpu_reset(DeviceState *dev)
+>      cs->exception_index = EXCP_NONE;
+>      env->load_res = -1;
+>      set_default_nan_mode(1, &env->fp_status);
+> +#ifdef CONFIG_KVM
+> +    kvm_riscv_reset_vcpu(cpu);
+> +#endif
+>  }
+>
+>  static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index c0a326c843..ad1c90f798 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -233,6 +233,9 @@ struct CPURISCVState {
+>
+>      /* Fields from here on are preserved across CPU reset. */
+>      QEMUTimer *timer; /* Internal timer */
+> +
+> +    hwaddr kernel_addr;
+> +    hwaddr fdt_addr;
+>  };
+>
+>  OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
+> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+> index 8b206ce99c..6250ca0c7d 100644
+> --- a/target/riscv/kvm.c
+> +++ b/target/riscv/kvm.c
+> @@ -37,6 +37,7 @@
+>  #include "hw/irq.h"
+>  #include "qemu/log.h"
+>  #include "hw/loader.h"
+> +#include "kvm_riscv.h"
+>
+>  static __u64 kvm_riscv_reg_id(__u64 type, __u64 idx)
+>  {
+> @@ -439,3 +440,17 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>  {
+>      return 0;
+>  }
+> +
+> +void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
+> +{
+> +    CPURISCVState *env = &cpu->env;
+> +
+> +    if (!kvm_enabled()) {
+> +        return;
+> +    }
+> +    env->pc = cpu->env.kernel_addr;
+> +    env->gpr[10] = kvm_arch_vcpu_id(CPU(cpu)); /* a0 */
+> +    env->gpr[11] = cpu->env.fdt_addr;          /* a1 */
+> +    env->satp = 0;
+> +}
+> +
+> diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
+> new file mode 100644
+> index 0000000000..f38c82bf59
+> --- /dev/null
+> +++ b/target/riscv/kvm_riscv.h
+> @@ -0,0 +1,24 @@
+> +/*
+> + * QEMU KVM support -- RISC-V specific functions.
+> + *
+> + * Copyright (c) 2020 Huawei Technologies Co., Ltd
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef QEMU_KVM_RISCV_H
+> +#define QEMU_KVM_RISCV_H
+> +
+> +void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
+> +
+> +#endif
+> --
+> 2.19.1
+>
+>
 
