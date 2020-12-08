@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1A62D31B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:06:29 +0100 (CET)
-Received: from localhost ([::1]:35884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2912D31D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:13:33 +0100 (CET)
+Received: from localhost ([::1]:54612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmhNc-0001uZ-Sf
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:06:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56864)
+	id 1kmhUS-0001WD-A8
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:13:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmhIw-0007aZ-Pp
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:01:38 -0500
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:38726)
+ id 1kmhIx-0007cZ-U4
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:01:39 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:37230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmhIr-0006Lq-KP
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:01:38 -0500
-Received: by mail-oi1-x243.google.com with SMTP id o25so20325614oie.5
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:01:33 -0800 (PST)
+ id 1kmhIs-0006M8-Um
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:01:39 -0500
+Received: by mail-oi1-x242.google.com with SMTP id l207so17414004oib.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:01:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vv1BLXikhvXOC7shYMx2SJNp4mEHjfewjMXNyOaAtsI=;
- b=LQtZumpoD4FiWXM+q8BthmPzMJA1ijwPSx8M4BsEQprSIptE+9PXw3NGxCRhk/8Qjw
- FRgNaLgOhz3zie1nUQTYxqT7mXZrBubfc8SqyIQorCEglxo+KIiHP7sA4L/v4rFt4sIO
- OSAP82Z4AJj5da3x6tM1Yzd+Im0Ha7hTNCxs/NOpxfl6jNj9//RGNFO7n0MjcSUkVKpA
- dpVUsbSOmtM9UZkvag3TxkuVFRUDM72+hg8vL1WvdNR9EGBVnhSAHsvbfy6Zs00onhiY
- Psx+gNjOLUTX/qwZeGco2JMgf9yksqyxWrbmqWI2vFFsTZZZthqLT3x+FKGPHJQ/KhEu
- MXlQ==
+ bh=WUfNI6lSQTHtTIy/R3dj+quaDZ+MrAap7g+O0IjmyH8=;
+ b=XP8TVatDueQeXKCgPRZA8Y4OOTa2lT8MrzBY2MU3P44NYgOWuUOcebfowwALjA6vKl
+ FmAzAf2BeRwnTqKVP178WlnDXg2l0GaNR70B+ac4I8jIHS0IXswM1wloVKU5FvioAGAq
+ eSakmxEvtyMUVzvDPYkp+maQOBctI83QeVh2c2z2IdG6lZjPNqKNwA0T+oyXFJSHpO3Y
+ SAmi9d+8TADd4Odt8moOjqlaPYa8C1BuV0Q7+J6cZlBhO8IxIQ6DakIgucfql69Bhjoh
+ VryqozlkKjfDH5POZogG71JqiQgT282ZUg6ghEmCDk/aSGYpIxDHKZBI3p0uVLw4JWuh
+ 48Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vv1BLXikhvXOC7shYMx2SJNp4mEHjfewjMXNyOaAtsI=;
- b=rcPfjk0eYEmoUCDroI+NXkA9glqAzOyYqJHJBm4l8cJQADpIZyx+TNE2hXX+xJRsWW
- E7btMNwsiwismZpD0VVd9qVgQojrUg5/eEIH3g8BHfbzRWovhv0nvb0UckKuhavRbzU5
- vGeEv6/xPM54JevWM8X48gKVoVyR+/SLL/9yAk5Fjxr9BCeVLAO6QA6O7YlisQEWcYNX
- vHzvRXKRgPr2onwd9M2MTOPmi0ZPrSCaJt2bQxYotbxu0EGiavrONBbl+Yb211KuDImi
- KwkRtD3W71YDmFber1FFFHFnI7hQBHY9o6fvrJt9FDZAIvIP9rZfVfHQ87+4T3HdlIcU
- gjJw==
-X-Gm-Message-State: AOAM533IQDD09MPdvhYWtphuT3F1mDtltE2P/8Z8nzTn6YSEplJOLqQp
- An9xfSXS50JKVeQpOnDbsJM/Bp9lXfnBk3Iq
-X-Google-Smtp-Source: ABdhPJwFwOzh0i2EuoHA6nsUBsmoTfQcyPpIDQKFm0EGOggP98kLYwfMXzNRN2xhmh1jENp5opDYcQ==
-X-Received: by 2002:aca:f1c1:: with SMTP id p184mr3745605oih.54.1607450492148; 
- Tue, 08 Dec 2020 10:01:32 -0800 (PST)
+ bh=WUfNI6lSQTHtTIy/R3dj+quaDZ+MrAap7g+O0IjmyH8=;
+ b=VGf3o1NBZWsFFyISM4XZwgJkvA+hAbT0ZOPGHbamq0pipkzO4ia6FHWSUE2QuyAUpn
+ 9UFkXWxtw35ELsHE/QdMnmcEs75dhb269Tzq1v/hvzsnCT3IKaYT9s73jbMocUPoPBUP
+ Q0N583y1T/tRdZeX3pmWNSyWB4KJIDlHR9fSSB2/q+72L/G5Tcd0Yu2YrnxRNBym6QQS
+ mtDlZUM9hQuGjQgUuU3Pxtyb0z+tTDHgojXITmA+ptI0vL5+PvG626/KzW/e5HvHmzWd
+ yNtOeXaBe3N5nIQzkLm0gICEFxhVWtprvkNucEGDAz95VowRr/XHQuHJB6+e3ASqXMBR
+ OXXg==
+X-Gm-Message-State: AOAM531roQCXrNCy16t6YrITVYBCjMwLF1ne8yAKi6okaZB8/eaiSPcd
+ b6YrXp9BSl6r30Xs5398iAMX69jL/AvzoNkz
+X-Google-Smtp-Source: ABdhPJxiDf5mI80rEtfScP+BGF/CCFhPZkQUy1oz5f9rtiwDalci+5YtGubL9cghpYAPUh2HrvqgWA==
+X-Received: by 2002:aca:3ad6:: with SMTP id h205mr3700619oia.119.1607450493653; 
+ Tue, 08 Dec 2020 10:01:33 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id k20sm3886805oig.35.2020.12.08.10.01.30
+ by smtp.gmail.com with ESMTPSA id k20sm3886805oig.35.2020.12.08.10.01.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 10:01:31 -0800 (PST)
+ Tue, 08 Dec 2020 10:01:32 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/24] target/arm: Enforce word alignment for LDRD/STRD
-Date: Tue,  8 Dec 2020 12:01:01 -0600
-Message-Id: <20201208180118.157911-8-richard.henderson@linaro.org>
+Subject: [PATCH v2 08/24] target/arm: Enforce alignment for LDA/LDAH/STL/STLH
+Date: Tue,  8 Dec 2020 12:01:02 -0600
+Message-Id: <20201208180118.157911-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201208180118.157911-1-richard.henderson@linaro.org>
 References: <20201208180118.157911-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x242.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,80 +87,33 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1905356
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ target/arm/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index f6007c23a6..9ca06cb373 100644
+index 9ca06cb373..1bfa209884 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -6468,13 +6468,13 @@ static bool trans_LDRD_rr(DisasContext *s, arg_ldst_rr *a)
-     addr = op_addr_rr_pre(s, a);
- 
-     tmp = tcg_temp_new_i32();
--    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL);
-+    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN);
-     store_reg(s, a->rt, tmp);
- 
-     tcg_gen_addi_i32(addr, addr, 4);
- 
-     tmp = tcg_temp_new_i32();
--    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL);
-+    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN);
-     store_reg(s, a->rt + 1, tmp);
- 
-     /* LDRD w/ base writeback is undefined if the registers overlap.  */
-@@ -6497,13 +6497,13 @@ static bool trans_STRD_rr(DisasContext *s, arg_ldst_rr *a)
-     addr = op_addr_rr_pre(s, a);
- 
+@@ -6876,7 +6876,7 @@ static bool op_stl(DisasContext *s, arg_STL *a, MemOp mop)
+     addr = load_reg(s, a->rn);
      tmp = load_reg(s, a->rt);
--    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL);
-+    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN);
+     tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
+-    gen_aa32_st_i32(s, tmp, addr, get_mem_index(s), mop);
++    gen_aa32_st_i32(s, tmp, addr, get_mem_index(s), mop | MO_ALIGN);
+     disas_set_da_iss(s, mop, a->rt | ISSIsAcqRel | ISSIsWrite);
+ 
      tcg_temp_free_i32(tmp);
+@@ -7032,7 +7032,7 @@ static bool op_lda(DisasContext *s, arg_LDA *a, MemOp mop)
  
-     tcg_gen_addi_i32(addr, addr, 4);
- 
-     tmp = load_reg(s, a->rt + 1);
--    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL);
-+    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN);
-     tcg_temp_free_i32(tmp);
- 
-     op_addr_rr_post(s, a, addr, -4);
-@@ -6605,13 +6605,13 @@ static bool op_ldrd_ri(DisasContext *s, arg_ldst_ri *a, int rt2)
-     addr = op_addr_ri_pre(s, a);
- 
+     addr = load_reg(s, a->rn);
      tmp = tcg_temp_new_i32();
--    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL);
-+    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN);
-     store_reg(s, a->rt, tmp);
+-    gen_aa32_ld_i32(s, tmp, addr, get_mem_index(s), mop);
++    gen_aa32_ld_i32(s, tmp, addr, get_mem_index(s), mop | MO_ALIGN);
+     disas_set_da_iss(s, mop, a->rt | ISSIsAcqRel);
+     tcg_temp_free_i32(addr);
  
-     tcg_gen_addi_i32(addr, addr, 4);
- 
-     tmp = tcg_temp_new_i32();
--    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL);
-+    gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN);
-     store_reg(s, rt2, tmp);
- 
-     /* LDRD w/ base writeback is undefined if the registers overlap.  */
-@@ -6644,13 +6644,13 @@ static bool op_strd_ri(DisasContext *s, arg_ldst_ri *a, int rt2)
-     addr = op_addr_ri_pre(s, a);
- 
-     tmp = load_reg(s, a->rt);
--    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL);
-+    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN);
-     tcg_temp_free_i32(tmp);
- 
-     tcg_gen_addi_i32(addr, addr, 4);
- 
-     tmp = load_reg(s, rt2);
--    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL);
-+    gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN);
-     tcg_temp_free_i32(tmp);
- 
-     op_addr_ri_post(s, a, addr, -4);
 -- 
 2.25.1
 
