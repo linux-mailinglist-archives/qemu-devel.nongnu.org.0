@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACCE52D2DEF
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 16:12:55 +0100 (CET)
-Received: from localhost ([::1]:49696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE0F2D2E02
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 16:17:43 +0100 (CET)
+Received: from localhost ([::1]:60054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmefe-00019M-KN
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 10:12:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56320)
+	id 1kmekI-0005Ym-Av
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 10:17:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhouyang789@huawei.com>)
- id 1kmc7Z-0005F4-NA; Tue, 08 Dec 2020 07:29:33 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2887)
+ id 1kmc7U-00057P-Vz; Tue, 08 Dec 2020 07:29:29 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhouyang789@huawei.com>)
- id 1kmc7X-0007tg-RN; Tue, 08 Dec 2020 07:29:33 -0500
+ id 1kmc7S-0007ol-C8; Tue, 08 Dec 2020 07:29:28 -0500
 Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CqzxQ5z8Yz15Yr3;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CqzxQ5cSzz15Ynw;
  Tue,  8 Dec 2020 20:28:42 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS404-HUB.china.huawei.com
  (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Tue, 8 Dec 2020
- 20:29:03 +0800
+ 20:29:04 +0800
 From: "zhouyang (T)" <zhouyang789@huawei.com>
 To: <alex.bennee@linaro.org>
-Subject: [PATCH 3/5] contrib: Add spaces around operator
-Date: Tue, 8 Dec 2020 20:21:32 +0800
-Message-ID: <20201208122134.3308101-4-zhouyang789@huawei.com>
+Subject: [PATCH 4/5] contrib: space required after that ','
+Date: Tue, 8 Dec 2020 20:21:33 +0800
+Message-ID: <20201208122134.3308101-5-zhouyang789@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201208122134.3308101-1-zhouyang789@huawei.com>
 References: <20201208122134.3308101-1-zhouyang789@huawei.com>
@@ -64,26 +64,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 I found some style problems while check the code using checkpatch.pl.
 This commit fixs the issue below:
-ERROR: spaces required around that '*'
+ERROR: space required after that ','
 
 Signed-off-by: zhouyang (T) <zhouyang789@huawei.com>
 ---
- contrib/ivshmem-server/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ contrib/plugins/howvec.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/contrib/ivshmem-server/main.c b/contrib/ivshmem-server/main.c
-index ee08c4ced0..224dbeb547 100644
---- a/contrib/ivshmem-server/main.c
-+++ b/contrib/ivshmem-server/main.c
-@@ -17,7 +17,7 @@
- #define IVSHMEM_SERVER_DEFAULT_PID_FILE       "/var/run/ivshmem-server.pid"
- #define IVSHMEM_SERVER_DEFAULT_UNIX_SOCK_PATH "/tmp/ivshmem_socket"
- #define IVSHMEM_SERVER_DEFAULT_SHM_PATH       "ivshmem"
--#define IVSHMEM_SERVER_DEFAULT_SHM_SIZE       (4*1024*1024)
-+#define IVSHMEM_SERVER_DEFAULT_SHM_SIZE       (4 * 1024 * 1024)
- #define IVSHMEM_SERVER_DEFAULT_N_VECTORS      1
+diff --git a/contrib/plugins/howvec.c b/contrib/plugins/howvec.c
+index 2f892da17d..9d6fa33297 100644
+--- a/contrib/plugins/howvec.c
++++ b/contrib/plugins/howvec.c
+@@ -68,7 +68,7 @@ static InsnClassExecCount aarch64_insn_classes[] = {
+     { "Reserved",            "res",    0x1e000000, 0x00000000, COUNT_CLASS},
+     /* Data Processing Immediate */
+     { "  PCrel addr",        "pcrel",  0x1f000000, 0x10000000, COUNT_CLASS},
+-    { "  Add/Sub (imm,tags)","asit",   0x1f800000, 0x11800000, COUNT_CLASS},
++    { "  Add/Sub (imm,tags)", "asit",   0x1f800000, 0x11800000, COUNT_CLASS},
+     { "  Add/Sub (imm)",     "asi",    0x1f000000, 0x11000000, COUNT_CLASS},
+     { "  Logical (imm)",     "logi",   0x1f800000, 0x12000000, COUNT_CLASS},
+     { "  Move Wide (imm)",   "movwi",  0x1f800000, 0x12800000, COUNT_CLASS},
+@@ -91,17 +91,17 @@ static InsnClassExecCount aarch64_insn_classes[] = {
+     { "Branches",            "branch", 0x1c000000, 0x14000000, COUNT_CLASS},
+     /* Loads and Stores */
+     { "  AdvSimd ldstmult",  "advlsm", 0xbfbf0000, 0x0c000000, COUNT_CLASS},
+-    { "  AdvSimd ldstmult++","advlsmp",0xbfb00000, 0x0c800000, COUNT_CLASS},
++    { "  AdvSimd ldstmult++", "advlsmp", 0xbfb00000, 0x0c800000, COUNT_CLASS},
+     { "  AdvSimd ldst",      "advlss", 0xbf9f0000, 0x0d000000, COUNT_CLASS},
+-    { "  AdvSimd ldst++",    "advlssp",0xbf800000, 0x0d800000, COUNT_CLASS},
++    { "  AdvSimd ldst++",    "advlssp", 0xbf800000, 0x0d800000, COUNT_CLASS},
+     { "  ldst excl",         "ldstx",  0x3f000000, 0x08000000, COUNT_CLASS},
+     { "    Prefetch",        "prfm",   0xff000000, 0xd8000000, COUNT_CLASS},
+     { "  Load Reg (lit)",    "ldlit",  0x1b000000, 0x18000000, COUNT_CLASS},
+-    { "  ldst noalloc pair", "ldstnap",0x3b800000, 0x28000000, COUNT_CLASS},
++    { "  ldst noalloc pair", "ldstnap", 0x3b800000, 0x28000000, COUNT_CLASS},
+     { "  ldst pair",         "ldstp",  0x38000000, 0x28000000, COUNT_CLASS},
+     { "  ldst reg",          "ldstr",  0x3b200000, 0x38000000, COUNT_CLASS},
+     { "  Atomic ldst",       "atomic", 0x3b200c00, 0x38200000, COUNT_CLASS},
+-    { "  ldst reg (reg off)","ldstro", 0x3b200b00, 0x38200800, COUNT_CLASS},
++    { "  ldst reg (reg off)", "ldstro", 0x3b200b00, 0x38200800, COUNT_CLASS},
+     { "  ldst reg (pac)",    "ldstpa", 0x3b200200, 0x38200800, COUNT_CLASS},
+     { "  ldst reg (imm)",    "ldsti",  0x3b000000, 0x39000000, COUNT_CLASS},
+     { "Loads & Stores",      "ldst",   0x0a000000, 0x08000000, COUNT_CLASS},
+@@ -202,7 +202,7 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
  
- /* used to quit on signal SIGTERM */
+     counts = g_hash_table_get_values(insns);
+     if (counts && g_list_next(counts)) {
+-        g_string_append_printf(report,"Individual Instructions:\n");
++        g_string_append_printf(report, "Individual Instructions:\n");
+         counts = g_list_sort(counts, cmp_exec_count);
+ 
+         for (i = 0; i < limit && g_list_next(counts);
 -- 
 2.23.0
 
