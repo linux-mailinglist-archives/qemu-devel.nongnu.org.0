@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639772D32CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:51:45 +0100 (CET)
-Received: from localhost ([::1]:35382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207BF2D32CB
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:49:49 +0100 (CET)
+Received: from localhost ([::1]:58742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmj1U-0002sk-DH
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:51:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48944)
+	id 1kmizc-0000m3-4M
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:49:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmikr-0005B1-Ai
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:34:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50363)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmiku-0005FP-2h
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:34:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmikp-0004s3-4f
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:34:33 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmikq-0004sT-1t
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:34:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607456069;
+ s=mimecast20190719; t=1607456071;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RXU9oHUsBTnreSZxooPdG4q/TIo+LgrSLDWhpXXsVuM=;
- b=C9+NprYJcGyBu3iGn393P0Udide0pZVQ77jyCw4FWK8PwWXvvwvspvrAga67vFJ0arRSiG
- 4FzZlbwpcXWMmgq3Ll53nxwWJHx0La8WyVJmEi8J3pVjCipQTIlQ7KW8e1+LHnYHfKrwJD
- iDSbe4XxhpPcNfNu6UapGWjf2nQcwLw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-6PcB6vBGMjSYjh_t9CDl9g-1; Tue, 08 Dec 2020 14:34:27 -0500
-X-MC-Unique: 6PcB6vBGMjSYjh_t9CDl9g-1
-Received: by mail-wr1-f70.google.com with SMTP id b5so6568183wrp.3
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:34:26 -0800 (PST)
+ bh=WHE7KFDKGldERbfBu/1KjueHDoBVCOeK90uoPSHzyjk=;
+ b=W+7ICiOIHEAOLNCvXl7LHklAMHrI/hibwe0SrDhJQR7cpfmmfLdsvv/CWILKCmckRyn0F+
+ Ow1uiN2AH5hqiW4mh8IC5G+EKGADX/uump06iGeOKND104BRudCGTgchT2/Csn6vF1nzMg
+ xSBYl/dUjwhRpSAsPwdS8YrTDn89aGA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-mKsQoEdFMIWM7laxXAv33Q-1; Tue, 08 Dec 2020 14:34:29 -0500
+X-MC-Unique: mKsQoEdFMIWM7laxXAv33Q-1
+Received: by mail-wm1-f69.google.com with SMTP id k23so1285085wmj.1
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:34:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=RXU9oHUsBTnreSZxooPdG4q/TIo+LgrSLDWhpXXsVuM=;
- b=qEnhmG7VV5HhZafgWIYczxqawmbprZRPGgCj0YUOVxJG3Hmdnn71ac+6O+WaBT02KY
- zLvxYIUhIr7CgHcK1WzNmCXmoVDsZ8P20tzBZ64uc+8P6aAW35JgtTed9evpVWSrwymN
- 57EUWOXztLN+1Luls7kCMUS0hhUgF7BhXyAYcsONcRzJJ9hJyw7Xe+s5pMFZlDqAicc1
- nQIa9b2/rWLaNZ6LYe8wi64ULGmenRcKjSMlKBYbIHnof201kGLAcM/ZidW11czkawKz
- lzZFcw5q4PsD1oPPOcgJd9ZPadWE56LkYmMxky7bniPCkmHg6gzX2lmpJNAGKzWbFZaX
- Yb1Q==
-X-Gm-Message-State: AOAM530QMOQoB2xvpCPy6hLWOfujs7oBq7rnh8IkR/Kk2t8iH8CIMuYg
- G28acpiTML8HA4rLoqbZkhdLH/eCNPKf+S2Q2rHrFJxolNnCeU3DzSpoZl6Th6dJbQ+2f+TxaV3
- H46AeXLOILqayjFRRRqnhX6tBTeahiEtaJSU8IIcT+uILHw18quGg00Id6Nzw
-X-Received: by 2002:adf:e710:: with SMTP id c16mr24487083wrm.295.1607456064954; 
- Tue, 08 Dec 2020 11:34:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy9ibSnOhkxIpNY0Scl/fgQf2huaqzcKy4hcGsPc4lvGHWBY5Bwfq6WBew7YLOan4h9bcyXew==
-X-Received: by 2002:adf:e710:: with SMTP id c16mr24487064wrm.295.1607456064763; 
- Tue, 08 Dec 2020 11:34:24 -0800 (PST)
+ bh=WHE7KFDKGldERbfBu/1KjueHDoBVCOeK90uoPSHzyjk=;
+ b=d9RsmMHiG53XUxvB5f+PR9RlwQ4QQDh9Z/6UaCZtRDsGxNA72M6WaFj/yY7NRdQWTc
+ JsDflo+IAF8Vb1itJ15t+DHQRaetdEP/LRsYIJYmvc+MOTUgin7qdgQ3iRVL8e4kUMr1
+ eOdNH1q9+Iv694M0zcto94sTbrbhO/6LARabWVsTVUBxjh8ygwf2UYN7ifZQsmktJ2Om
+ PR+J7plskrm/8QZpyHSqZq/DGe/DG9bXF0sjtf0z6HSCC0LB+6zU+BBaK/V1iDfupELv
+ cE8BAkO4VglnyXU2YxEpZHUv/sA4nKl1/eR5vBbochF9yhNYz97L4dWCi0JXGtyBRVcR
+ uRCA==
+X-Gm-Message-State: AOAM530li/IZMZskm6AAqVPoxnPqUk2ARCthc2yoJ/sIHmpUXRUtGFDx
+ +CDBQ/fGGroz34pz1mZPkMbu4gdXKDb1H0iCcfD9lF/0Qo3Vq4vZ2K9C3X7wZeTDov9F+lOGuLw
+ g5oDp/1D9QqBNMzk2MH+B+C/IlZy9zlBuZah+J4xD51iLkA+9/+tosXSkuwBu
+X-Received: by 2002:a05:6000:12c3:: with SMTP id
+ l3mr25168124wrx.112.1607456067696; 
+ Tue, 08 Dec 2020 11:34:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwTbu3pSILCSGpCSm8hXCrXkmDpxrYIp/i+3MUtEJuN8Fg5tJ+TUzUWmcIahX+PZ4DnU69cbQ==
+X-Received: by 2002:a05:6000:12c3:: with SMTP id
+ l3mr25168099wrx.112.1607456067433; 
+ Tue, 08 Dec 2020 11:34:27 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id s133sm5295233wmf.38.2020.12.08.11.34.23
+ by smtp.gmail.com with ESMTPSA id e16sm11656976wra.94.2020.12.08.11.34.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 11:34:24 -0800 (PST)
-Date: Tue, 8 Dec 2020 14:34:22 -0500
+ Tue, 08 Dec 2020 11:34:26 -0800 (PST)
+Date: Tue, 8 Dec 2020 14:34:24 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/66] unit-test: The files changed.
-Message-ID: <20201208193307.646726-15-mst@redhat.com>
+Subject: [PULL 15/66] unit-test: Add testcase for pxb
+Message-ID: <20201208193307.646726-16-mst@redhat.com>
 References: <20201208193307.646726-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201208193307.646726-1-mst@redhat.com>
@@ -99,153 +101,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yubo Miao <miaoyubo@huawei.com>
 
-The unit-test is seperated into three patches:
-1. The files changed and list in bios-tables-test-allowed-diff.h
-2. The unit-test
-3. The binary file and clear bios-tables-test-allowed-diff.h
-
-The ASL diff would also be listed.
-Sice there are 1000+lines diff, some changes would be omitted.
-
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x000014BB (5307)
-+ *     Length           0x00001E7A (7802)
-  *     Revision         0x02
-- *     Checksum         0xD1
-+ *     Checksum         0x57
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-
-+        Device (PC80)
-+        {
-+            Name (_HID, "PNP0A08" /* PCI Express Bus */)  // _HID: Hardware ID
-+            Name (_CID, "PNP0A03" /* PCI Bus */)  // _CID: Compatible ID
-+            Name (_ADR, Zero)  // _ADR: Address
-+            Name (_CCA, One)  // _CCA: Cache Coherency Attribute
-+            Name (_SEG, Zero)  // _SEG: PCI Segment
-+            Name (_BBN, 0x80)  // _BBN: BIOS Bus Number
-+            Name (_UID, 0x80)  // _UID: Unique ID
-+            Name (_STR, Unicode ("pxb Device"))  // _STR: Description String
-+            Name (_PRT, Package (0x80)  // _PRT: PCI Routing Table
-+            {
-+                Package (0x04)
-+                {
-+                    0xFFFF,
-+                    Zero,
-+                    GSI0,
-+                    Zero
-+                },
-+
-
-Packages are omitted.
-
-+                Package (0x04)
-+                {
-+                    0x001FFFFF,
-+                    0x03,
-+                    GSI2,
-+                    Zero
-+                }
-+            })
-+            Device (GSI0)
-+            {
-+                Name (_HID, "PNP0C0F" /* PCI Interrupt Link Device */)  // _HID: Hardware ID
-+                Name (_UID, Zero)  // _UID: Unique ID
-+                Name (_PRS, ResourceTemplate ()  // _PRS: Possible Resource Settings
-+                {
-+                    Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
-+                    {
-+                        0x00000023,
-+                    }
-+                })
-+                Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-+                {
-+                    Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
-+                    {
-+                        0x00000023,
-+                    }
-+                })
-+                Method (_SRS, 1, NotSerialized)  // _SRS: Set Resource Settings
-+                {
-+                }
-+            }
-
-GSI1,2,3 are omitted.
-
-+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-+            {
-+                WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
-+                    0x0000,             // Granularity
-+                    0x0080,             // Range Minimum
-+                    0x0080,             // Range Maximum
-+                    0x0000,             // Translation Offset
-+                    0x0001,             // Length
-+                    ,, )
-+            })
-+            Name (SUPP, Zero)
-+            Name (CTRL, Zero)
-+            Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
-+            {
-+                CreateDWordField (Arg3, Zero, CDW1)
-+                If ((Arg0 == ToUUID ("33db4d5b-1ff7-401c-9657-7441c03dd766") /* PCI Host Bridge Device */))
-+                {
-+                    CreateDWordField (Arg3, 0x04, CDW2)
-+                    CreateDWordField (Arg3, 0x08, CDW3)
-+                    SUPP = CDW2 /* \_SB_.PC80._OSC.CDW2 */
-+                    CTRL = CDW3 /* \_SB_.PC80._OSC.CDW3 */
-+                    CTRL &= 0x1F
-+                    If ((Arg1 != One))
-+                    {
-+                        CDW1 |= 0x08
-+                    }
-+
-+                    If ((CDW3 != CTRL))
-+                    {
-+                        CDW1 |= 0x10
-+                    }
-+
-+                    CDW3 = CTRL /* \_SB_.PC80.CTRL */
-+                    Return (Arg3)
-+                }
-+                Else
-+                {
-+                    CDW1 |= 0x04
-+                    Return (Arg3)
-+                }
-+            }
-
-DSM is are omitted
-
-         Device (PCI0)
-         {
-             Name (_HID, "PNP0A08" /* PCI Express Bus */)  // _HID: Hardware ID
-                     WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
-                         0x0000,             // Granularity
-                         0x0000,             // Range Minimum
--                        0x00FF,             // Range Maximum
-+                        0x007F,             // Range Maximum
-                         0x0000,             // Translation Offset
--                        0x0100,             // Length
-+                        0x0080,             // Length
+Add testcase for pxb to make sure the ACPI table is correct for guest.
 
 Signed-off-by: Yubo Miao <miaoyubo@huawei.com>
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
-Message-Id: <20201119014841.7298-8-cenjiahui@huawei.com>
+Message-Id: <20201119014841.7298-9-cenjiahui@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/bios-tables-test.c | 58 ++++++++++++++++++++++++++++++----
+ 1 file changed, 52 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..90c53925fc 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,2 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/DSDT.pxb",
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index f23a5335a8..64a9a772ee 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -671,12 +671,21 @@ static void test_acpi_one(const char *params, test_data *data)
+          * TODO: convert '-drive if=pflash' to new syntax (see e33763be7cd3)
+          * when arm/virt boad starts to support it.
+          */
+-        args = g_strdup_printf("-machine %s %s -accel tcg -nodefaults -nographic "
+-            "-drive if=pflash,format=raw,file=%s,readonly "
+-            "-drive if=pflash,format=raw,file=%s,snapshot=on -cdrom %s %s",
+-            data->machine, data->tcg_only ? "" : "-accel kvm",
+-            data->uefi_fl1, data->uefi_fl2, data->cd, params ? params : "");
+-
++        if (data->cd) {
++            args = g_strdup_printf("-machine %s %s -accel tcg "
++                "-nodefaults -nographic "
++                "-drive if=pflash,format=raw,file=%s,readonly "
++                "-drive if=pflash,format=raw,file=%s,snapshot=on -cdrom %s %s",
++                data->machine, data->tcg_only ? "" : "-accel kvm",
++                data->uefi_fl1, data->uefi_fl2, data->cd, params ? params : "");
++        } else {
++            args = g_strdup_printf("-machine %s %s -accel tcg "
++                "-nodefaults -nographic "
++                "-drive if=pflash,format=raw,file=%s,readonly "
++                "-drive if=pflash,format=raw,file=%s,snapshot=on %s",
++                data->machine, data->tcg_only ? "" : "-accel kvm",
++                data->uefi_fl1, data->uefi_fl2, params ? params : "");
++        }
+     } else {
+         args = g_strdup_printf("-machine %s %s -accel tcg "
+             "-net none -display none %s "
+@@ -1176,6 +1185,40 @@ static void test_acpi_virt_tcg_numamem(void)
+ 
+ }
+ 
++#ifdef CONFIG_PXB
++static void test_acpi_virt_tcg_pxb(void)
++{
++    test_data data = {
++        .machine = "virt",
++        .tcg_only = true,
++        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
++        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
++        .ram_start = 0x40000000ULL,
++        .scan_len = 128ULL * 1024 * 1024,
++    };
++    /*
++     * While using -cdrom, the cdrom would auto plugged into pxb-pcie,
++     * the reason is the bus of pxb-pcie is also root bus, it would lead
++     * to the error only PCI/PCIE bridge could plug onto pxb.
++     * Therefore,thr cdrom is defined and plugged onto the scsi controller
++     * to solve the conflicts.
++     */
++    data.variant = ".pxb";
++    test_acpi_one(" -device pcie-root-port,chassis=1,id=pci.1"
++                  " -device virtio-scsi-pci,id=scsi0,bus=pci.1"
++                  " -drive file="
++                  "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2,"
++                  "if=none,media=cdrom,id=drive-scsi0-0-0-1,readonly=on"
++                  " -device scsi-cd,bus=scsi0.0,scsi-id=0,"
++                  "drive=drive-scsi0-0-0-1,id=scsi0-0-0-1,bootindex=1"
++                  " -cpu cortex-a57"
++                  " -device pxb-pcie,bus_nr=128",
++                  &data);
++
++    free_test_data(&data);
++}
++#endif
++
+ static void test_acpi_tcg_acpi_hmat(const char *machine)
+ {
+     test_data data;
+@@ -1287,6 +1330,9 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+         qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
++#ifdef CONFIG_PXB
++        qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
++#endif
+     }
+     ret = g_test_run();
+     boot_sector_cleanup(disk);
 -- 
 MST
 
