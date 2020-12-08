@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6EF2D24BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 08:41:26 +0100 (CET)
-Received: from localhost ([::1]:41678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0859F2D24EF
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 08:52:12 +0100 (CET)
+Received: from localhost ([::1]:46322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmXcj-0001A2-Gq
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 02:41:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51186)
+	id 1kmXn8-0003nW-S5
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 02:52:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kmXbD-0000NP-8Q
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 02:39:51 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:45146 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kmXbA-00012E-VI
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 02:39:50 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 906064128A;
- Tue,  8 Dec 2020 07:39:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-transfer-encoding:content-disposition
- :content-type:content-type:mime-version:references:message-id
- :subject:subject:from:from:date:date:received:received:received;
- s=mta-01; t=1607413184; x=1609227585; bh=rsAAEpchu7eNm4NCPQuQvB
- WsCm4kXDvArbPh2XPJJ8Y=; b=q8dMJ7x4P+qV3f+h9bpNYUusagbH8LMFNsqAzm
- t5gS4fYrnf29UDPoKRIVSPiEtxcqIHouHs9//OWp0B6vw+fOx8x+GuqydjGsHaD1
- 3IkvTV5FlMlt0usbQF8iFQOmNqbF9lBp+X/bt2EArIiSuCQ7hDAR3v05vUmOuWMr
- dTDAw=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id StcH35Zg_FnI; Tue,  8 Dec 2020 10:39:44 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id A3E6041281;
- Tue,  8 Dec 2020 10:39:44 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 8 Dec
- 2020 10:39:44 +0300
-Date: Tue, 8 Dec 2020 10:40:16 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH for-6.0] accel: Wire accel to /machine
-Message-ID: <X88t4CKMyDfhvdyb@SPB-NB-133.local>
-References: <20201207084621.23876-1-r.bolshakov@yadro.com>
- <20201207174419.GP3102898@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kmXka-0002wb-Ej
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 02:49:33 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:45625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kmXkU-0005JM-GS
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 02:49:30 -0500
+Received: by mail-ej1-x642.google.com with SMTP id qw4so23252116ejb.12
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 23:49:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=4rL1+j26gkB7erofiOGo8PnZet2HWoJP4KemX2vffbo=;
+ b=EDZMPhB73I4Mii/KMuvj6gb1rjF6rQhkVObEQc/NoDsHeQZTSxwA2e/GP7Pnvb3I+A
+ si3AFq87uNTZi5nfPLxcC5rpMAajc3QRFs5InP8m5fUEso0JIWK8DDjes8rRetBU2CWe
+ LB1adPwqtLY5XkmAnu+Zq+TK4HNLClKKtDUiPbwrB2SJnih9h+h0y1kDdis7Y0YiJBGC
+ XevX7TfA0Smdinf8Dgxp08b/QEYj/wbTh+Ug3CZSOoNDBsc++XkF56aEDLqr4zpVQZYG
+ O+YI9vFRSbhaqQ3YOoh7Dkvb/YUlARxRcbn3Rv+50G2rKgxOxrePJFkOiE5MPzTpIuRb
+ idRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4rL1+j26gkB7erofiOGo8PnZet2HWoJP4KemX2vffbo=;
+ b=YfcKnoZwaK3K400pWD3dTJEvuw6XFL5W64G8oTuaLwexpCxBLD4FgRxm27pCPkPUXc
+ rvKRxmTu50Al1DK1CvSePwoW2DzfgbRKWHCQHMnwKaTv5f6pnNz5X8C3VeSEmrtGbaw4
+ QGyaD3HEJ+jPabnUgXWrc3ngHL5aAyzahzCE4bh2agRxABwpAQQS0WLfVS7i5q6vAlgX
+ vkR73szBmthS0IFzStUeEugTAWivhw5gO4dbfy1wN271ArmRUnozfasuJJCJDMfPfADs
+ i0xgVcy5enluqCxj7EX3kqzDKXimIc1RNPQ9LukXJ6ZkVEWHLcmK0tNy979xCXVCJcHU
+ nqCg==
+X-Gm-Message-State: AOAM53060RInCz+ExuaBEVsV3L4bnrJhQkn11Fhc8krmKMqglia50usM
+ sT1YwFBoHsb/kLXZfVhUWU4=
+X-Google-Smtp-Source: ABdhPJxV3CSSLGGO1bLrsbPIe+eLOQhH8ex4ooVemMOpVQnhueMjPvGB0QMQd8PYfPB4UtiMSuYLTw==
+X-Received: by 2002:a17:906:144e:: with SMTP id
+ q14mr11118182ejc.150.1607413763062; 
+ Mon, 07 Dec 2020 23:49:23 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id i2sm16262086edk.93.2020.12.07.23.49.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Dec 2020 23:49:21 -0800 (PST)
+Date: Tue, 8 Dec 2020 07:49:20 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Subject: Re: [RFC PATCH 10/27] vhost: Allocate shadow vring
+Message-ID: <20201208074920.GQ203660@stefanha-x1.localdomain>
+References: <20201120185105.279030-1-eperezma@redhat.com>
+ <20201120185105.279030-11-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="90KBcPA0h13nTGdQ"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201207174419.GP3102898@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
+In-Reply-To: <20201120185105.279030-11-eperezma@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=stefanha@gmail.com; helo=mail-ej1-x642.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,35 +85,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Richard@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- libvir-list@redhat.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Fontana <cfontana@suse.de>, Markus@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio@redhat.com
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
+ Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
+ Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
+ Alex Barba <alex.barba@broadcom.com>,
+ Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
+ Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
+ vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
+ Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jim Harford <jim.harford@broadcom.com>,
+ Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
+ Max Gurtovoy <maxgu14@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 07, 2020 at 05:44:19PM +0000, Daniel P. Berrangé wrote:
-> On Mon, Dec 07, 2020 at 11:46:22AM +0300, Roman Bolshakov wrote:
-> > An outstanding issue is whether management applications can rely on the
-> > value of /machine/accel/type and output of qom-list-types command [2][3]
-> > to get current and present accels?
-> > 
-> > i.e. would it be ok if libvirt assumes that everything up to the first
-> > dash in the accel type is the name of the accel (as specified via -M
-> > accel=ACCEL flag) when it performs QEMU probing?
-> 
-> Hmm, I think it is not nice - we shouldn't have to parse the
-> accel type names - IMHO typenames should be considered arbitrary
-> opaque strings, even if they'll not be expected to change.
-> 
 
-Thanks Daniel. I'll then send v2 of ad-hoc QMP/HMP query. By the way, do
-we need the HMP query if we get accel in QOM?
+--90KBcPA0h13nTGdQ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Regards,
-Roman
+On Fri, Nov 20, 2020 at 07:50:48PM +0100, Eugenio P=E9rez wrote:
+> Signed-off-by: Eugenio P=E9rez <eperezma@redhat.com>
+> ---
+>  hw/virtio/vhost-sw-lm-ring.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/virtio/vhost-sw-lm-ring.c b/hw/virtio/vhost-sw-lm-ring.c
+> index cbf53965cd..cd7b5ba772 100644
+> --- a/hw/virtio/vhost-sw-lm-ring.c
+> +++ b/hw/virtio/vhost-sw-lm-ring.c
+> @@ -16,8 +16,11 @@
+>  #include "qemu/event_notifier.h"
+> =20
+>  typedef struct VhostShadowVirtqueue {
+> +    struct vring vring;
+>      EventNotifier hdev_notifier;
+>      VirtQueue *vq;
+> +
+> +    vring_desc_t descs[];
+>  } VhostShadowVirtqueue;
+
+VhostShadowVirtqueue is starting to look like VirtQueue. Can the shadow
+vq code simply use the VirtIODevice's VirtQueues instead of duplicating
+this?
+
+What I mean is:
+
+1. Disable the vhost hdev vq and sync the avail index back to the
+   VirtQueue.
+2. Move the irq fd to the VirtQueue as its guest notifier.
+3. Install the shadow_vq_handler() as the VirtQueue's handle_output
+   function.
+4. Move the call fd to the VirtQueue as its host notifier.
+
+Now we can process requests from the VirtIODevice's VirtQueue using
+virtqueue_pop() and friends. We're also in sync and ready for vmstate
+save/load.
+
+--90KBcPA0h13nTGdQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/PMAAACgkQnKSrs4Gr
+c8gavQgAw1mEua4Bu1as46tr75SMdL7OZIjXLc7U/7ipGFzF/CpY2dWW+pn/fmuo
+Hti2GT73HxO/dNY0bQBdAlSt3khiO7ACSjUB9rd6+xz6YUlak8q6I3OyITFHSxT6
+pJFrKX6oaOoVSkM127eYJ90cGqnJrAiWXjdlabuRXaW542cksyu4sRmUzaOiPATi
+rCJRf4A9PGRpyuLouwi2iFUemk/M+JHp7xP1RA4TcNFF1POdTLL6Pz3u4tnLR0hs
+O1/EQRfEPmXnMlW3ZHQdGm/Wzlvw09Z1So19n6Xhzst8cOzVXqtwA995/LbUugXr
+eF5QMy92/O8yaVSwkQfQ6/ejnSWA1w==
+=j5kK
+-----END PGP SIGNATURE-----
+
+--90KBcPA0h13nTGdQ--
 
