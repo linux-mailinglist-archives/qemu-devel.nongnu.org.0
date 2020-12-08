@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E772D1F56
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 01:49:39 +0100 (CET)
-Received: from localhost ([::1]:42202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC0F2D1F5B
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 01:50:28 +0100 (CET)
+Received: from localhost ([::1]:43308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmRCE-0003hl-Ta
-	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 19:49:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36552)
+	id 1kmRD1-0004AR-HI
+	for lists+qemu-devel@lfdr.de; Mon, 07 Dec 2020 19:50:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmR0d-0003os-7j
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 19:37:39 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:40227)
+ id 1kmR0f-0003pd-CK
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 19:37:42 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:39619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmR0X-0001EL-8m
- for qemu-devel@nongnu.org; Mon, 07 Dec 2020 19:37:34 -0500
-Received: by mail-ed1-x533.google.com with SMTP id h16so4458309edt.7
- for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 16:37:32 -0800 (PST)
+ id 1kmR0c-0001FE-OO
+ for qemu-devel@nongnu.org; Mon, 07 Dec 2020 19:37:40 -0500
+Received: by mail-ej1-x644.google.com with SMTP id n26so22156400eju.6
+ for <qemu-devel@nongnu.org>; Mon, 07 Dec 2020 16:37:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p4PZklhHw+Sb6s6FhLRnOXfQjuCQxkl6HaSQzV1xL0k=;
- b=AocFYn/OeGLM5fAC++aIXp7BCu8C9tkHnnrVydtHXjs6E9fqhW56MWeIdDpPSowXnh
- PV2RQSHQNoMECkD1X3IqwzibgIBqV+DAiBg6Zvx/m9a469QWHABV5DRTGfuSLIzIxBxw
- 6oYo4MT19IbFUB6nLNTVsDhOkyVhlOpk02GGZe1vSBalHyHsNHtC0HuERHzFR1OcxgKZ
- Et/5gZ3Ndh5LjkIk1UJF52eeNIglF6cICMxjpI2FhxmOPFRIS9Sxwjmt/vTEIms5IyYi
- gjNnLCiZwTvYOVfD35TXWZLz5qZttQdB/gh8SfUYZjLomSLZdLKcJfIpW0Q8irzgXpmi
- n0DQ==
+ bh=QCW46ctbFpbEr1flyhvkcp2iVdNnukjjxtvYS//elDE=;
+ b=hRTzVOiwtLffpf/RB7ghUL25ihR0Uvam5D62dW66XbHPy0j5iT/gmx2TYpCtUUV8RV
+ /8RnWh30kChkM+V6dKTLQ0SSo1d2seXpsn91guMlLd92p4TSPrFgA+bz/pynqzI2/MeL
+ tWYAIuZUZZ5BLUpojkZcT6VBLgt2037KKcNenD6inTqK8dpOTn+z8qdti54qIvEdKEcG
+ y/u6tgRwPl28LvACxoLiNg1LN+PAKhGQeyPfKG3+Yoa91TvXsk5Tuu9CXU/HlGiN6FNQ
+ P2YOIYFAQRu6Sia4QBJfqia35WObvqtb0c6/+ncGgPrOGfzgvZXmEbDlE1AIQ0UKdEP4
+ 4kag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=p4PZklhHw+Sb6s6FhLRnOXfQjuCQxkl6HaSQzV1xL0k=;
- b=CEuEPXJSkkYKWDH7UAO0eDbcNERmtsyr8zdZCSF+g6b+GR8gqUnJ8UzZzbVJU6SGiz
- wCkaeJ5ZH1L5pgaCr/9rTKWiUbsWYPVPeoA+gklSX5Db87li4vkqFpxZ3+5r7pQ4K0jS
- MA81XYqMpFeXDsQQ6f8CPzlCHd6eecWa+9WBHuywZDMhkCoQci/5BIi2VVcsRS6prOqY
- BBN+7Itc0k6Dm3HKSWKIX5Jhcf4mZzGV/g0jqjJ86HiWgRORZG5NqS7LVP+Ov/nzDHyv
- h+cOBRoTW76p0P0dVB035uF5M8M83/Yh9sBvtpFoq025DgfAHmSUsod/6KpD95L5dopT
- c1ug==
-X-Gm-Message-State: AOAM530K3bKXnegbF51XVi/XyCQF+tDDr1t2327KcxzEUHmfOegu1rFN
- IKymGT8BWjH+V7B+u9dpnBOIAlaoR90=
-X-Google-Smtp-Source: ABdhPJwAnXIX7aszxc3Sf9KqxOLgCmeV/WG207FQq1EpZP60tAeQRn9j0oicEGIuDOZQOGynRjz0dw==
-X-Received: by 2002:aa7:d6c9:: with SMTP id x9mr21868250edr.96.1607387851347; 
- Mon, 07 Dec 2020 16:37:31 -0800 (PST)
+ bh=QCW46ctbFpbEr1flyhvkcp2iVdNnukjjxtvYS//elDE=;
+ b=qaqHYocS+4pAbeLqUc+AANg7Oji8X2vSSX1yIAXYUIj1MxDEw/oSKtVzy86/LVO6dh
+ 8BvQTtbuFH4FmdUsGOHlg9TRWKZRQ9GKPh9wtljMMy/CSnj58KDqbEkD/heESQIYjnSh
+ ZfONVRf5Z0hFMNM4juBfeict64J8TRpBSLTOG2OK8hX75srClfysmGEngehcIPpJ8z+d
+ 84TS1ea3bVMUb553tXvhZKmGBfYKSuIBxMO+4EHkImtED0AWgKkoZKP2GwtrD4Pm2UCi
+ 7JlaYOAIBTyrzgAuEKvS0tuDBrxQAuvPHVuQl2SuygZHOCGTy7Ml9od3V8fY7YVAAwWw
+ BINw==
+X-Gm-Message-State: AOAM533gmrAXNH8xRBLfDzmSMXD7EZx9X+DWueRrfJcOmzQn1YRZdesb
+ beM7C8+uJCgfIk0DWLa5nv4cDJyYrPs=
+X-Google-Smtp-Source: ABdhPJxWDv5KOtm3SwbxMT5bDcGrNzprFe9keLmkkknepOZtlOGbFAoR/ZG9joxns8mGd53tXugD0Q==
+X-Received: by 2002:a17:906:17d1:: with SMTP id
+ u17mr21748427eje.229.1607387856511; 
+ Mon, 07 Dec 2020 16:37:36 -0800 (PST)
 Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id c12sm15438706edw.55.2020.12.07.16.37.30
+ by smtp.gmail.com with ESMTPSA id n16sm15448302edq.62.2020.12.07.16.37.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 16:37:30 -0800 (PST)
+ Mon, 07 Dec 2020 16:37:35 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/17] target/mips: Remove now unused ASE_MSA definition
-Date: Tue,  8 Dec 2020 01:36:50 +0100
-Message-Id: <20201208003702.4088927-6-f4bug@amsat.org>
+Subject: [PATCH 06/17] target/mips: Alias MSA vector registers on FPU scalar
+ registers
+Date: Tue,  8 Dec 2020 01:36:51 +0100
+Message-Id: <20201208003702.4088927-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201208003702.4088927-1-f4bug@amsat.org>
 References: <20201208003702.4088927-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,69 +95,52 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't use ASE_MSA anymore (replaced by ase_msa_available()
-checking MSAP bit from CP0_Config3). Remove it.
+Commits 863f264d10f ("add msa_reset(), global msa register") and
+cb269f273fd ("fix multiple TCG registers covering same data")
+removed the FPU scalar registers and replaced them by aliases to
+the MSA vector registers.
+While this might be the case for CPU implementing MSA, this makes
+QEMU code incoherent for CPU not implementing it. It is simpler
+to inverse the logic and alias the MSA vector registers on the
+FPU scalar ones.
 
 Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/mips-defs.h          | 1 -
- target/mips/translate_init.c.inc | 8 ++++----
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ target/mips/translate.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
-index ed6a7a9e545..805034b8956 100644
---- a/target/mips/mips-defs.h
-+++ b/target/mips/mips-defs.h
-@@ -45,7 +45,6 @@
- #define ASE_MT            0x0000000040000000ULL
- #define ASE_SMARTMIPS     0x0000000080000000ULL
- #define ASE_MICROMIPS     0x0000000100000000ULL
--#define ASE_MSA           0x0000000200000000ULL
- /*
-  *   bits 40-51: vendor-specific base instruction sets
-  */
-diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
-index 3c9ec7e940a..f6752d00afe 100644
---- a/target/mips/translate_init.c.inc
-+++ b/target/mips/translate_init.c.inc
-@@ -408,7 +408,7 @@ const mips_def_t mips_defs[] =
-         .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
-         .SEGBITS = 32,
-         .PABITS = 40,
--        .insn_flags = CPU_MIPS32R5 | ASE_MSA,
-+        .insn_flags = CPU_MIPS32R5,
-         .mmu_type = MMU_TYPE_R4000,
-     },
-     {
-@@ -721,7 +721,7 @@ const mips_def_t mips_defs[] =
-         .MSAIR = 0x03 << MSAIR_ProcID,
-         .SEGBITS = 48,
-         .PABITS = 48,
--        .insn_flags = CPU_MIPS64R6 | ASE_MSA,
-+        .insn_flags = CPU_MIPS64R6,
-         .mmu_type = MMU_TYPE_R4000,
-     },
-     {
-@@ -761,7 +761,7 @@ const mips_def_t mips_defs[] =
-         .MSAIR = 0x03 << MSAIR_ProcID,
-         .SEGBITS = 48,
-         .PABITS = 48,
--        .insn_flags = CPU_MIPS64R6 | ASE_MSA,
-+        .insn_flags = CPU_MIPS64R6,
-         .mmu_type = MMU_TYPE_R4000,
-     },
-     {
-@@ -887,7 +887,7 @@ const mips_def_t mips_defs[] =
-         .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
-         .SEGBITS = 48,
-         .PABITS = 48,
--        .insn_flags = CPU_LOONGSON3A | ASE_MSA,
-+        .insn_flags = CPU_LOONGSON3A,
-         .mmu_type = MMU_TYPE_R4000,
-     },
-     {
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index da0cb98df09..95d07e837c0 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -31561,16 +31561,20 @@ void mips_tcg_init(void)
+                                         offsetof(CPUMIPSState,
+                                                  active_tc.gpr[i]),
+                                         regnames[i]);
+-
+     for (i = 0; i < 32; i++) {
+         int off = offsetof(CPUMIPSState, active_fpu.fpr[i].wr.d[0]);
+-        msa_wr_d[i * 2] =
+-                tcg_global_mem_new_i64(cpu_env, off, msaregnames[i * 2]);
++
++        fpu_f64[i] = tcg_global_mem_new_i64(cpu_env, off, fregnames[i]);
++    }
++    /* MSA */
++    for (i = 0; i < 32; i++) {
++        int off = offsetof(CPUMIPSState, active_fpu.fpr[i].wr.d[0]);
++
+         /*
+-         * The scalar floating-point unit (FPU) registers are mapped on
+-         * the MSA vector registers.
++         * The MSA vector registers are mapped on the
++         * scalar floating-point unit (FPU) registers.
+          */
+-        fpu_f64[i] = msa_wr_d[i * 2];
++        msa_wr_d[i * 2] = fpu_f64[i];
+         off = offsetof(CPUMIPSState, active_fpu.fpr[i].wr.d[1]);
+         msa_wr_d[i * 2 + 1] =
+                 tcg_global_mem_new_i64(cpu_env, off, msaregnames[i * 2 + 1]);
 -- 
 2.26.2
 
