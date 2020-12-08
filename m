@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A241E2D367B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:52:48 +0100 (CET)
-Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD612D367C
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:55:04 +0100 (CET)
+Received: from localhost ([::1]:48660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmlqh-0003GL-Mi
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:52:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58746)
+	id 1kmlst-00052b-RM
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:55:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kmlNK-0006h0-36; Tue, 08 Dec 2020 17:22:27 -0500
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:36915)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kmlRx-0002ru-D0
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:27:13 -0500
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:40789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kmlNG-0000pD-Sg; Tue, 08 Dec 2020 17:22:24 -0500
-Received: by mail-il1-x141.google.com with SMTP id k8so16953614ilr.4;
- Tue, 08 Dec 2020 14:22:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sZi46PwDTCiNBxYN28eeYZtMufiT2lSdKRPtnPp2uBA=;
- b=NgF2ekg1k+9cO6s6Cj4qgZNZwesh5RVJ+yitVQ53jq9S4JnMEY1fAvKafFG6f2OP63
- zken1A5kvTmK+Ez35UygQMQPvHbemFUpT0ogHeO6SrlEx0oveiKGAuYzY5ief4uI0DYr
- l0b729ZZqdOLrpC5gNI8L9fNUIg2kRM64RAn5lVuoKy8b7qQk0bQZncY/OBhrgY+vugd
- GWW7TGAeH7rOxn7AnXSO+3pJhxvgGpdykrXBCI/+1xRQ1o5DF+2mlN8N30S1lPxedGJ9
- JG2Ct20Jr7ZdERUodYOTo8239xhBa1+Qpi7Xe9dngL2NSXPkZp45OdAj/cdyP6dnA3gO
- BBDw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kmlRv-0002Vd-Eg
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:27:13 -0500
+Received: by mail-ot1-x341.google.com with SMTP id j12so299613ota.7
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 14:27:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=JdV5HFH1CsNDl8vIK1ZMy6muRFwgCtO/GfwxqVPAO6k=;
+ b=dme4hkrQJfiveN1lvkRdeWn40skS4aHHpI8VfYAvn86cZs35lSVRHqksAtSNtW/OX0
+ lXEe8+Y0/U/qbuwiJPpwpDo+rfTEtm+Ngq3+IjfBZm8DHI7cA9vM6T4tE4sL5QdfPA1u
+ W0ZT5t/5apfRuymh4Utt231BvhrKzcqecYDrp7qqchPuLKa/K8N6xvzLKRniKgktHGuA
+ fBiDIhnGU5663W7STpmboEmAUGJ62SKXBsE/RFDTktu73rkqMUh3D7iE++FH3AosM6MD
+ v6HwISR3yrDIwNq6sLmEgiIZ94ZCdg2Oiw8wPhAa8sMpcLdmf3IsAyXcYALS6MBvFvKn
+ tyEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sZi46PwDTCiNBxYN28eeYZtMufiT2lSdKRPtnPp2uBA=;
- b=DKPyxLsYDq6IPilSfe3+SrZvFqj4Hp+c1SIcp3tmkWjgoP6HIUMgt7fT0OcYQjB4iS
- Q0vYSMtB04dlhBZ5Ut0NmLvCDb7wJtnBjANY2tReOBJ8BqSlUatg7WieylcAJEMYvDki
- fOUQMBYxWXzTv5RkiIK2FY7Tab1sEGSSe8TPcYfbK3qLvW/mMvlV5cyhc0PA5KrXBQP/
- Z9hfDdzgaKshGTRVryeLAZ8TIxJIZ86CycieFnOdeQjyZdmVqHjyP/1Z2JvehRlzo5jq
- KGUEKolZezsJ2g1TgbKjduLwGJYpv21EO3+f+gEjiYKci+xst0aixlwurZ0ITFt4M5XO
- Q+hA==
-X-Gm-Message-State: AOAM532rFRoLEKBIvMiY5/iUOrb5sY7rD7oM9z6U46wu1vGGv+UjnkD/
- TBYLZb0/Nix3+d0ZL2o4gPaUW5AepY8xt57fNxs=
-X-Google-Smtp-Source: ABdhPJzhK+ClKrZDoSlIkxZpVfST+Oc77Aa3SIyIhTTwL7rDp0p10RRz2lBvAiWVB5rWGydt52vrwgvJbbDyIX/y0cA=
-X-Received: by 2002:a92:490d:: with SMTP id w13mr12021ila.227.1607466141348;
- Tue, 08 Dec 2020 14:22:21 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JdV5HFH1CsNDl8vIK1ZMy6muRFwgCtO/GfwxqVPAO6k=;
+ b=sLIbmOFKG1+A1Bhh9L1M3hYatLK0CsxYlUfmNUwq72dgfuQuzuYMe5U2w9bvriENrA
+ Hty5quW5yIkQZL+WGCLyjLU1nSgvYXGI0O4LBmSa2wKKcTD3AkkUYJhBVJL4cYEKv14G
+ un+F8gqGwBRv9ezVdbbpvVeqfnvDIkwG26SnwzBRumqrRTZ8meDe+/rnLb4mfOY/KZAb
+ sOfv/2VS/kNXVhiXQzhBW86fTf8mHK0+VUW16ZxSvf+5GPok3+SCeh6OJNA6k4H72Bnv
+ HIfwN+RdrBJumY2U2xdiajGbFrY3n1jzfyiYCWjCa1ISDpZZ01MvRXHEficUp1LUO777
+ vW1A==
+X-Gm-Message-State: AOAM531NJNSHAV4HkeDk2SrtMceFp5asYLulIMBgT9fn7k7ma+OtlL9D
+ +FT58hQyQxqvCxcKqcD/0hGY2Q==
+X-Google-Smtp-Source: ABdhPJwCzNQPWH8lhh+t1Zw+YvMtu6ySnRpW66Zw4EkvBTtFFLjlC2hJLH/tvUSamr7kWfKqLghI8w==
+X-Received: by 2002:a9d:7a48:: with SMTP id z8mr243937otm.146.1607466430169;
+ Tue, 08 Dec 2020 14:27:10 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id l132sm32412oia.23.2020.12.08.14.27.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Dec 2020 14:27:09 -0800 (PST)
+Subject: Re: [PATCH 15/19] target/mips: Move cpu definitions, reset() and
+ realize() to cpu.c
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201206233949.3783184-1-f4bug@amsat.org>
+ <20201206233949.3783184-16-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <849b84a5-ee3d-daf1-4de2-cb5942eecbd0@linaro.org>
+Date: Tue, 8 Dec 2020 16:27:06 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201203124703.168-1-jiangyifei@huawei.com>
- <20201203124703.168-10-jiangyifei@huawei.com>
-In-Reply-To: <20201203124703.168-10-jiangyifei@huawei.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 8 Dec 2020 14:21:55 -0800
-Message-ID: <CAKmqyKMDWzBf29MgG7BsGTmweH7ZCRVqwCCqC620QoO776=cww@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 09/15] target/riscv: Add host cpu type
-To: Yifei Jiang <jiangyifei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <20201206233949.3783184-16-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,79 +90,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm-riscv@lists.infradead.org, Anup Patel <anup.patel@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "open list:Overall" <kvm@vger.kernel.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, libvir-list@redhat.com,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, yinyipeng <yinyipeng1@huawei.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, "Wubin \(H\)" <wu.wubin@huawei.com>,
- "dengkai \(A\)" <dengkai1@huawei.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
+ Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 3, 2020 at 4:55 AM Yifei Jiang <jiangyifei@huawei.com> wrote:
->
-> Currently, host cpu is inherited simply.
->
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+On 12/6/20 5:39 PM, Philippe Mathieu-Daudé wrote:
+> Nothing TCG specific there, move to common cpu code.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/riscv/cpu.c | 6 ++++++
->  target/riscv/cpu.h | 1 +
->  2 files changed, 7 insertions(+)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index faee98a58c..439dc89ee7 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -186,6 +186,10 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
->
->  #endif
->
-> +static void riscv_host_cpu_init(Object *obj)
-> +{
-> +}
-> +
->  static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
->  {
->      ObjectClass *oc;
-> @@ -641,10 +645,12 @@ static const TypeInfo riscv_cpu_type_infos[] = {
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rvxx_sifive_e_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rvxx_sifive_u_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_HOST,             riscv_host_cpu_init),
->  #elif defined(TARGET_RISCV64)
->      DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rvxx_sifive_e_cpu_init),
->      DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rvxx_sifive_u_cpu_init),
-> +    DEFINE_CPU(TYPE_RISCV_CPU_HOST,             riscv_host_cpu_init),
+>  target/mips/internal.h  |   4 -
+>  target/mips/cpu.c       | 243 ++++++++++++++++++++++++++++++++++++++++
+>  target/mips/translate.c | 240 ---------------------------------------
+>  3 files changed, 243 insertions(+), 244 deletions(-)
 
-Shouldn't this only be included if KVM is configured? Also it should
-be shared between RV32 and RV64.
+I see translate_init.c.inc is handled later.
 
-Alistair
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
->  #endif
->  };
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index ad1c90f798..4288898019 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -43,6 +43,7 @@
->  #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
->  #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
->  #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
-> +#define TYPE_RISCV_CPU_HOST             RISCV_CPU_TYPE_NAME("host")
->
->  #define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
->  #define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
-> --
-> 2.19.1
->
->
+r~
 
