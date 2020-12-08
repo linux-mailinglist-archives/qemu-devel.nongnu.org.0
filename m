@@ -2,130 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4662D2E9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 16:50:25 +0100 (CET)
-Received: from localhost ([::1]:49846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733342D2EB5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 16:55:38 +0100 (CET)
+Received: from localhost ([::1]:56516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmfFw-0001Vn-D6
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 10:50:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52776)
+	id 1kmfKz-0004Sj-8K
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 10:55:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kmfDw-0000HC-1m; Tue, 08 Dec 2020 10:48:20 -0500
-Received: from mail-db8eur05on2122.outbound.protection.outlook.com
- ([40.107.20.122]:13312 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kmfDX-0002nE-9h; Tue, 08 Dec 2020 10:48:19 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gqaufufh6syJMMPifaGSBH6uqsLPXrHCfgNi9djI0EqDdMevLgDQyr47NkjOEWeyjzgYxvLkB3L82ZptctWZR8H2QSvuB45Y7UptGJH+NTec4Exv8MZrNmegUs4J7xrSxULPBcmXxvxvIXCCJc3/L7vqDj5pVr2UqMcvRg/jolz6O+pdq+fItwlIkzkBllULwkPk87OQq2VX7BloBQHpJsoFGiGV8QvP8r6KOC0ZU2iZySrIhjta+DoVZnhgdsNOoQWS60REhCJlevHz8xSpIT1yFttw+lshUcAGuO6nxpUJUdkxG1fFCXzlsJblLrrDGffya7oi/OsxmEs8Xp/OeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ejIrDnpFU8WsHerVDAlGeu8f/z4SxUmH5QE7nNu1UAE=;
- b=IgT0oFX+6VNWfEX/3YvQG6gXWlpVxfYgOyQw+B+Vs4ToPxWdkzUUC8iKgUJJjRnMXAlCBGlr8spynD4buZ8vHWFO0L7VdpmOrab34Nrew8+JC+m7ScgjgtAXWdy4j7Yjvj79B4WzQJxqtlHKIsjMAaaqIhlltr2OnA5DuEKGTbsVExwO7yCqOWy9q1Uwgh5A7nOmma9TJAktAzXEfzKXmJ3E/kZg0hfgcRIhSxwEtEFiYNwwn+XSj5ll5G8iWnEdEXTKmwEhn35m0Wh0xAzZ/yqNVM+v3bZvpDsTvGJzZLHBrcslv8NhwPFxVItIytO+LgRDhl3AybEkyGQ0Y730pw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ejIrDnpFU8WsHerVDAlGeu8f/z4SxUmH5QE7nNu1UAE=;
- b=UW/hUyJHqPWdsbimpD9wh2Y0uVGTeFG9JKN6HVMallJs0rmjiw8RkH6ynsjazpAwY8ZAHrVVoxHQWYIkTO2MUQv9DEiG/w7VkhprTQ6rpujzS3zNdge4qviHJR3Hlf3yhtceaYI0iTcCwQ5ANdDhqRNU7uLuemfAS0L9FcQxS7k=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
- by VI1PR0801MB1854.eurprd08.prod.outlook.com (2603:10a6:800:5c::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.21; Tue, 8 Dec
- 2020 15:47:50 +0000
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::44c9:5ac7:5302:7179]) by VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::44c9:5ac7:5302:7179%4]) with mapi id 15.20.3632.023; Tue, 8 Dec 2020
- 15:47:50 +0000
-Subject: Re: [PATCH v3 2/2] block: qcow2: remove the created file on
- initialization error
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
-References: <20201208142159.492489-1-mlevitsk@redhat.com>
- <20201208142159.492489-3-mlevitsk@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <87338c70-225e-d238-3a68-acd811716aba@virtuozzo.com>
-Date: Tue, 8 Dec 2020 18:47:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-In-Reply-To: <20201208142159.492489-3-mlevitsk@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.91]
-X-ClientProxiedBy: AM0PR10CA0029.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:17c::39) To VI1PR08MB5503.eurprd08.prod.outlook.com
- (2603:10a6:803:137::19)
+ (Exim 4.90_1) (envelope-from <erich.mcmillan@hp.com>)
+ id 1kmfJD-0003ul-Jw
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 10:53:47 -0500
+Received: from us-smtp-delivery-162.mimecast.com ([216.205.24.162]:56916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <erich.mcmillan@hp.com>)
+ id 1kmfJ9-0004tS-EM
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 10:53:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com;
+ s=mimecast20180716; t=1607442821;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=r73GKTt29gImGgtWQnItmpV7IWG2WGJZmlhlsZqEIg8=;
+ b=Itd1aR7uVa5tB2YR1Xrk4k8pQ+WwV6KYOSbSpdtqpe6X/b5ZyEwZ8JDJb5ibqYF+m8hIxq
+ D6GClcBV4L2H2kSrivvLCgJclAjSeH/8X5qw34+lDqBD3nMfV7/i3pxKHENOz+to7qZjnS
+ HYJ2HPyk63rlyeUz4StK5rxrtHstjWY=
+Received: from g2t4623.austin.hp.com (g2t4623.austin.hp.com [15.73.212.78])
+ (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-539-JVP0Wgg3NJScyiDhs-W5jQ-1; Tue, 08 Dec 2020 10:53:40 -0500
+X-MC-Unique: JVP0Wgg3NJScyiDhs-W5jQ-1
+Received: from g1t6215.austin.hpicorp.net (g1t6215.austin.hpicorp.net
+ [15.67.1.191])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by g2t4623.austin.hp.com (Postfix) with ESMTPS id 4E712101;
+ Tue,  8 Dec 2020 15:53:39 +0000 (UTC)
+Received: from MCMILLAN13.auth.hpicorp.net (unknown [15.75.1.251])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by g1t6215.austin.hpicorp.net (Postfix) with ESMTPS id 08116B8;
+ Tue,  8 Dec 2020 15:53:38 +0000 (UTC)
+From: erich.mcmillan@hp.com
+To: qemu-devel@nongnu.org
+Cc: dgilbert@redhat.com, mst@redhat.com, marcel.apfelbaum@gmail.com,
+ imammedo@redhat.com, kraxel@redhat.com,
+ Erich-McMillan <erich.mcmillan@hp.com>
+Subject: [PATCH v7] hw/i386/pc: add max combined fw size as machine
+ configuration option
+Date: Tue,  8 Dec 2020 09:53:38 -0600
+Message-Id: <20201208155338.14-1-erich.mcmillan@hp.com>
+X-Mailer: git-send-email 2.29.2.windows.3
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.91) by
- AM0PR10CA0029.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::39) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend
- Transport; Tue, 8 Dec 2020 15:47:49 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b0169906-c962-44d9-aca0-08d89b909e00
-X-MS-TrafficTypeDiagnostic: VI1PR0801MB1854:
-X-Microsoft-Antispam-PRVS: <VI1PR0801MB1854C013341F101498D70311C1CD0@VI1PR0801MB1854.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iDFMyCOUbgPLQmFG2DU4O79ZgsPlK2KomOz9tIJ4E+kSSaPD1rxVGLwWmSnQT57URa2UNpfNQh4C1JyvXJ1XKgMd+k4AWDnALCIu2tidtPVmZiCYAVhSNlzBNBxOT/0mqz1fkmJxVMJAZ0wzxktIHDWbvSusTfMvAuSjkUh4zOcPfTizseQHZarZbmdGZrlqPupXed5mGEWLvb6FXKAP9LKLyHSSE7u6QwGeeI6Rvx+vWuAn8A1e6w4qY3MB7+ntM/hX3a4ip9H9iinsqiLLGmE9UmfmqaN94zdrL7ZtEF+xcPW4iOteQmrnl37t8is3ihcNXzRnhnnsF1Pqigr6l3e6icEF7jrIo+dWrpkTG+GSgP/A8zNzV97EPDH9i0Aa9jCmtKiY3QV9kvOM9sR2NVc4x+lUSUteINQcY7ViaAGl51fSyxjcvkTyE46/c/xf
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(376002)(136003)(16576012)(16526019)(66476007)(186003)(26005)(508600001)(956004)(5660300002)(31696002)(66946007)(34490700003)(54906003)(4326008)(66556008)(2906002)(6486002)(83380400001)(2616005)(8676002)(86362001)(52116002)(31686004)(8936002)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bGZBeFFBdHF5cDBYRmUwYjNJalgxVFg1aEtiTzdKRG1HaG05SGdwa0pZajhI?=
- =?utf-8?B?RG04R1JWUnRqZUNPc2hjenNKMERwV3BkZ3YzUTh4dTRFTHRjYXA1bVZoc0dt?=
- =?utf-8?B?YUREYUlZSE1xb29JUnozNGZpQmZ6b0VwWTlXQ3ZkRFJhaTlBWWE2NS84cFE5?=
- =?utf-8?B?cWRUdWZQZzVLQkdQQXJLa0t1VFkrMUN4TWxRL2VkTGtYTU93MjQ0MVpXL0t4?=
- =?utf-8?B?RUI3emZVWkRraGwzRTRTSWhVU1RMQXZpR21CelJtM1g3TVdvVFhES3hDRzlP?=
- =?utf-8?B?eHZITnpVbldaTHBKUG9HQ3UzcjM4Q0JncmtjZkVQU1dkaDNJRTREQWN2ZVRw?=
- =?utf-8?B?V25HQUFmb0FkZkRQVnhKNUlmTU95SGU5dGNSNm0vbk5zaUJ6dHR3YkRGSFZw?=
- =?utf-8?B?M05jQk0xbFFCSGs4d1JEUGRtdVRLQzljN1VSbjlzYUdpN0RkOE9ZVEpSdy8x?=
- =?utf-8?B?UGlSQXJqVkxDZGl3TU1FN1pSY0pONjdMRnpTRDJCM0VpeExOYWVQZXFSVEVV?=
- =?utf-8?B?cTJyTEwrZWQzOEhqOHZKSWFRbE5EZ2paVW1XdDVjSmlPRDNBWlFsdUk5bDg4?=
- =?utf-8?B?T2RwNVo2aTUyNzFteFVEbWtPbDJBdWx1NUNoS04vU09XMUcwUjcwK0VFcldr?=
- =?utf-8?B?OXNWM1A1L2JiKzNtcW1HOGxaOXdJa1U5MCtUaWRRbXVLc3F3VmRhS2lIVzhv?=
- =?utf-8?B?akFGVDlkT0VJWVdzKzNUNFNkK25waG9GTWFxOVV6SlRUZ3BpNlprSjZreklZ?=
- =?utf-8?B?MUdBc2hHMmVyTUtZdENmVGszZWY0K1g5cUJiZTNrd05hTmNaekN4T3dNNDRo?=
- =?utf-8?B?VVhRYnJ2WHJvYkduZEdTUW9VWkp1TEllaFpqeGx6WTJUV0NCWXFvZU9tcVFm?=
- =?utf-8?B?ZitFY2pVRlZyby9BcGdmbGNUVXkzd2l6Q2ZUSStnNnNadGtmRVFhWUE5Z3BY?=
- =?utf-8?B?S3U4QWx5UnAxVlZMbkk0N2JObkRSK213K3ZUcDFQZnFqMEY4N2FGa0NlQWFM?=
- =?utf-8?B?MGNlUGJaeUN3ZHZDbURsOWZTNFd3blpXQjdsTjMxQ3VBQmRDWmFkWi9LZnF3?=
- =?utf-8?B?QkRpVXVBdGNoY0pVSGlUR2JuWlpxY3JKSEJ4VCtzcTZSTGRKc2pJVFJWNTdI?=
- =?utf-8?B?SXdkMjdvSjhPR1Rubk50Z25lWFNQQU55UUFva0EydUU4TXFLdWtqV1dCdm9v?=
- =?utf-8?B?YWMzWm8xbHhKN0kzR3RyT2g3WmRVc1Q1TU4zVnRVemUwQ2RUNVZlckQ5R2tl?=
- =?utf-8?B?dDBCejEwZG1CY2dPcVE2ZXg4a1htMFFmbzhDTzJKRTZyL1EzYXJ5SnBlVkI5?=
- =?utf-8?Q?knHpY5CBEtaH90Q92pQKgRzlXs3568GeSZ?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 15:47:50.0718 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0169906-c962-44d9-aca0-08d89b909e00
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cBRuMLtKhBxc3F6N0HCXGgiWrBKSRC3/qIY7nnNvYsMQlR6TeQ3yOtppGEElKK37sDoEMsO44WD0TMKBics9mVp+1E5r0ZzjYftxwVJOrQg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0801MB1854
-Received-SPF: pass client-ip=40.107.20.122;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA62A171 smtp.mailfrom=erich.mcmillan@hp.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: hp.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.162;
+ envelope-from=erich.mcmillan@hp.com; helo=us-smtp-delivery-162.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -142,51 +84,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-08.12.2020 17:21, Maxim Levitsky wrote:
-> If the qcow initialization fails, we should remove the file if it was
-> already created, to avoid leaving stale files around.
-> 
-> We already do this for luks raw images.
-> 
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->   block/qcow2.c | 13 +++++++++++++
->   1 file changed, 13 insertions(+)
-> 
-> diff --git a/block/qcow2.c b/block/qcow2.c
-> index 3a90ef2786..3bc2096b72 100644
-> --- a/block/qcow2.c
-> +++ b/block/qcow2.c
-> @@ -3848,6 +3848,19 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
->       /* Create the qcow2 image (format layer) */
->       ret = qcow2_co_create(create_options, errp);
->       if (ret < 0) {
-> +
-> +        Error *local_delete_err = NULL;
-> +        int r_del = bdrv_co_delete_file(bs, &local_delete_err);
-> +        /*
-> +         * ENOTSUP will happen if the block driver doesn't support
-> +         * the 'bdrv_co_delete_file' interface. This is a predictable
-> +         * scenario and shouldn't be reported back to the user.
-> +         */
-> +        if ((r_del < 0) && (r_del != -ENOTSUP)) {
-> +            error_report_err(local_delete_err);
-> +        } else {
-> +            error_free(local_delete_err);
-> +        }
->           goto finish;
->       }
->   
-> 
+From: Erich-McMillan <erich.mcmillan@hp.com>
 
-Hi!
+At Hewlett Packard Inc. we have a need for increased fw size to enable test=
+ing of our custom fw.
 
-As I understand, qcow2_co_create is a new interface and qcow2_co_create_opts() is old, and now works as a wrapper on qcow2_co_create.
+Rebase v6 patch to d73c46e4
 
-I think it's better to do the cleanup in qcow2_co_create, to bring the feature both to new and old interface in the same way.
+Signed-off-by: Erich McMillan <erich.mcmillan@hp.com>
+---=0D
+=0D
+Changes since v6:=0D
+=0D
+     Rebase v6 onto d73c46e4=0D
 
+ hw/i386/pc.c         | 51 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/i386/pc_sysfw.c   | 15 +++----------
+ include/hw/i386/pc.h |  2 ++
+ 3 files changed, 56 insertions(+), 12 deletions(-)
 
--- 
-Best regards,
-Vladimir
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 17b514d1da..7c83c13ff9 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1582,6 +1582,50 @@ static void pc_machine_set_max_ram_below_4g(Object *=
+obj, Visitor *v,
+     pcms->max_ram_below_4g =3D value;
+ }
+=20
++static void pc_machine_get_max_fw_size(Object *obj, Visitor *v,
++                                       const char *name, void *opaque,
++                                       Error **errp)
++{
++    PCMachineState *pcms =3D PC_MACHINE(obj);
++    uint64_t value =3D pcms->max_fw_size;
++
++    visit_type_size(v, name, &value, errp);
++}
++
++static void pc_machine_set_max_fw_size(Object *obj, Visitor *v,
++                                       const char *name, void *opaque,
++                                       Error **errp)
++{
++    PCMachineState *pcms =3D PC_MACHINE(obj);
++    Error *error =3D NULL;
++    uint64_t value;
++
++    visit_type_size(v, name, &value, &error);
++    if (error) {
++        error_propagate(errp, error);
++        return;
++    }
++
++    /*
++    * We don't have a theoretically justifiable exact lower bound on the b=
+ase
++    * address of any flash mapping. In practice, the IO-APIC MMIO range is
++    * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leaving =
+free
++    * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to =
+8MB in
++    * size.
++    */
++    if (value > 16 * MiB) {
++        error_setg(errp,
++                   "User specified max allowed firmware size %" PRIu64 " i=
+s "
++                   "greater than 16MiB. If combined firwmare size exceeds =
+"
++                   "16MiB the system may not boot, or experience intermitt=
+ent"
++                   "stability issues.",
++                   value);
++        return;
++    }
++
++    pcms->max_fw_size =3D value;
++}
++
+ static void pc_machine_initfn(Object *obj)
+ {
+     PCMachineState *pcms =3D PC_MACHINE(obj);
+@@ -1597,6 +1641,7 @@ static void pc_machine_initfn(Object *obj)
+     pcms->smbus_enabled =3D true;
+     pcms->sata_enabled =3D true;
+     pcms->pit_enabled =3D true;
++    pcms->max_fw_size =3D 8 * MiB;
+ #ifdef CONFIG_HPET
+     pcms->hpet_enabled =3D true;
+ #endif
+@@ -1723,6 +1768,12 @@ static void pc_machine_class_init(ObjectClass *oc, v=
+oid *data)
+=20
+     object_class_property_add_bool(oc, "hpet",
+         pc_machine_get_hpet, pc_machine_set_hpet);
++
++    object_class_property_add(oc, PC_MACHINE_MAX_FW_SIZE, "size",
++        pc_machine_get_max_fw_size, pc_machine_set_max_fw_size,
++        NULL, NULL);
++    object_class_property_set_description(oc, PC_MACHINE_MAX_FW_SIZE,
++        "Maximum combined firmware size");
+ }
+=20
+ static const TypeInfo pc_machine_info =3D {
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index b6c0822fe3..f8bd3a8b85 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -39,15 +39,6 @@
+ #include "hw/block/flash.h"
+ #include "sysemu/kvm.h"
+=20
+-/*
+- * We don't have a theoretically justifiable exact lower bound on the base
+- * address of any flash mapping. In practice, the IO-APIC MMIO range is
+- * [0xFEE00000..0xFEE01000] -- see IO_APIC_DEFAULT_ADDRESS --, leaving fre=
+e
+- * only 18MB-4KB below 4G. For now, restrict the cumulative mapping to 8MB=
+ in
+- * size.
+- */
+-#define FLASH_SIZE_LIMIT (8 * MiB)
+-
+ #define FLASH_SECTOR_SIZE 4096
+=20
+ static void pc_isa_bios_init(MemoryRegion *rom_memory,
+@@ -140,7 +131,7 @@ void pc_system_flash_cleanup_unused(PCMachineState *pcm=
+s)
+  * Stop at the first pcms->flash[0] lacking a block backend.
+  * Set each flash's size from its block backend.  Fatal error if the
+  * size isn't a non-zero multiple of 4KiB, or the total size exceeds
+- * FLASH_SIZE_LIMIT.
++ * pcms->max_fw_size.
+  *
+  * If pcms->flash[0] has a block backend, its memory is passed to
+  * pc_isa_bios_init().  Merging several flash devices for isa-bios is
+@@ -182,10 +173,10 @@ static void pc_system_flash_map(PCMachineState *pcms,
+         }
+         if ((hwaddr)size !=3D size
+             || total_size > HWADDR_MAX - size
+-            || total_size + size > FLASH_SIZE_LIMIT) {
++            || total_size + size > pcms->max_fw_size) {
+             error_report("combined size of system firmware exceeds "
+                          "%" PRIu64 " bytes",
+-                         FLASH_SIZE_LIMIT);
++                         pcms->max_fw_size);
+             exit(1);
+         }
+=20
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 911e460097..9f44decb65 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -44,6 +44,7 @@ typedef struct PCMachineState {
+     bool sata_enabled;
+     bool pit_enabled;
+     bool hpet_enabled;
++    uint64_t max_fw_size;
+=20
+     /* NUMA information: */
+     uint64_t numa_nodes;
+@@ -60,6 +61,7 @@ typedef struct PCMachineState {
+ #define PC_MACHINE_SMBUS            "smbus"
+ #define PC_MACHINE_SATA             "sata"
+ #define PC_MACHINE_PIT              "pit"
++#define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
+=20
+ /**
+  * PCMachineClass:
+--=20
+2.25.1
+
 
