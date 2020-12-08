@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89DA22D2922
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 11:43:53 +0100 (CET)
-Received: from localhost ([::1]:54558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937F42D2940
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 11:52:26 +0100 (CET)
+Received: from localhost ([::1]:58580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmaTH-00011F-V5
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 05:43:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33150)
+	id 1kmabZ-0003Gu-Dt
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 05:52:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kmaR6-0000PX-4W
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 05:41:36 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60498)
+ id 1kmaa4-0002mK-HN
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 05:50:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:33286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kmaQy-0002da-Vo
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 05:41:35 -0500
+ id 1kmaZy-0005xm-Ay
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 05:50:52 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kmaQu-0005I7-1h
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:41:24 +0000
+ id 1kmaZw-00067z-9i
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:50:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0700E2E81C0
- for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 10:41:21 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 481E82E804E
+ for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 10:50:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 08 Dec 2020 10:30:51 -0000
-From: Daniel Berrange <1905979@bugs.launchpad.net>
+Date: Tue, 08 Dec 2020 10:39:28 -0000
+From: Olaf Seibert <1905979@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -40,9 +40,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: berrange oseibert-sys11
 X-Launchpad-Bug-Reporter: Olaf Seibert (oseibert-sys11)
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+X-Launchpad-Bug-Modifier: Olaf Seibert (oseibert-sys11)
 References: <160648885405.8173.13759191424779303608.malonedeb@soybean.canonical.com>
-Message-Id: <160742345107.4842.3626358028004194952.malone@gac.canonical.com>
+Message-Id: <160742396887.16241.10967363115037474319.malone@chaenomeles.canonical.com>
 Subject: [Bug 1905979] Re: Check if F_OFD_SETLK is supported may give wrong
  result
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: e0a1134082956b8308e4bc37db17904607bb21a7
+X-Launchpad-Hash: 05c87bdaee659a61f66013af9a89a0775460a3b4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,9 +75,8 @@ Reply-To: Bug 1905979 <1905979@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Look in the same directory as that .deb link above - the the files
-ending in orig.tar.gz (upstream source) and files ending in
-debian.tar.xz (downstream modifications)
+The kernel version is Linux hostname 4.15.0-124-generic #127-Ubuntu SMP
+Fri Nov 6 10:54:43 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
 
 -- =
 
