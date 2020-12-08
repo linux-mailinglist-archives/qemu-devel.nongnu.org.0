@@ -2,98 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E23AB2D2BDE
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:29:04 +0100 (CET)
-Received: from localhost ([::1]:53178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 659592D2C0D
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:33:01 +0100 (CET)
+Received: from localhost ([::1]:57488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmd39-00081E-Cw
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:29:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40274)
+	id 1kmd6y-0001c9-9H
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:33:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmd24-0007bI-BY
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:27:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53845)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kmd21-0002yi-GD
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:27:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607434072;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8li1gQRD1ZYo3ACILf/FwOdiRVsfmEcVnFc7r4uhfGk=;
- b=f1/gm1JRO2H7EYNSby7XReXOcts3zkWSG5GdPTYpt31eAyF+zt0O3+ohxcWRMH3Lu2aRB3
- j5yp98x58dCAESsRRfzFMljgr4IWxOAyvlMWS4d+IIEEyeF24r4fTm4W69Q3BYxH1uCqjm
- vbcMdopmfBf0Xd8nTdnfHrs8sInJcug=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-7XxMlhlfNByjZAIktA-HxQ-1; Tue, 08 Dec 2020 08:27:49 -0500
-X-MC-Unique: 7XxMlhlfNByjZAIktA-HxQ-1
-Received: by mail-ed1-f70.google.com with SMTP id l33so3975979ede.1
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 05:27:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8li1gQRD1ZYo3ACILf/FwOdiRVsfmEcVnFc7r4uhfGk=;
- b=KRCMiY7pDlRe8TURLM78yFfiwNlwneVWayxFinzCSfX8uWKe+mPOJ3qmBLjw+adnlL
- am23QANnX7egdvCkSUNwXSiW/s0rs+0QclBJSeHDMq5r1pCXzURSojH+pYLIx7XjuzQ6
- 9DfS+21C/1wpFBI3BUvO7UJM0Eimia24BlPmrZDR55chbK2ckJYQZqWOYqwYzZM/UYcb
- BiO4m36HJAt30P8R7nFu5w0xfrDKCpgZYVu0zpZAgkltr1LUcMrhwN3gCKNjgHuyfeLc
- PJW/9zbUteBjbDdq5iILMEb5Wmve2PT/5vReR7UBafYHuQAZa4NnxxZGCfdNIWekkw9y
- 4Itg==
-X-Gm-Message-State: AOAM5328nojcYG46DvelssW/GWmkAPcQR/2cFMy7SnIJS8JsRc2yaBbG
- Bd5Jk5OXuv72LNHXSwDMqZjW16uJsVlc4pWleKJUPZbAi8J456qPOdQb9IMSXxtWC1w045Ms6cK
- jQHVECfjtIR3suxQ=
-X-Received: by 2002:a17:906:4756:: with SMTP id
- j22mr23969362ejs.353.1607434067954; 
- Tue, 08 Dec 2020 05:27:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxu3F4E6WfiePOypjYYdsq9hht5OBcAquMg75FNaBu1o47RZWsscYrYLjS9tc7ugbEE/bmNfQ==
-X-Received: by 2002:a17:906:4756:: with SMTP id
- j22mr23969346ejs.353.1607434067751; 
- Tue, 08 Dec 2020 05:27:47 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id j10sm17262992edj.97.2020.12.08.05.27.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 05:27:46 -0800 (PST)
-Subject: Re: [PATCH] target/arm: do not use cc->do_interrupt for KVM directly
-To: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20201207084042.7690-1-cfontana@suse.de>
- <20201207174916.GD1289986@habkost.net>
- <CAFEAcA_UUs6NJ_JYtNEQ3VubHnvsvo1BBx6=9nVT9GO_QrDwoQ@mail.gmail.com>
- <20201207182842.GE1289986@habkost.net>
- <CAFEAcA9OWLF01hR4qzPwKWAHiDZ9RkSab8rv+0rnkyNhQjAnOg@mail.gmail.com>
- <2e2e0160-7c17-cdfd-93e0-3d2002996108@suse.de>
- <20201207212638.GI1289986@habkost.net>
- <CAFEAcA_CNHucoBoq9_jWw9HLc_WneYko5s42z853NVJZdLCGuQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d3113905-fd76-28ee-8e6a-7a8dd5d3a3ee@redhat.com>
-Date: Tue, 8 Dec 2020 14:27:45 +0100
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kmd4C-0000P5-8l; Tue, 08 Dec 2020 08:30:08 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kmd4A-0003oN-4J; Tue, 08 Dec 2020 08:30:07 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0B8D2R04000953; Tue, 8 Dec 2020 08:30:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=gY4P3MA99igFyjeznby+PF0AJrprYGI9uz4W0ghA2Qg=;
+ b=FbKkANi83N1I1yS35GtvPF8CRp7Ez+/OIFr3tMY6eidY0Z981UyZsowx79SQZ2Wjhf3t
+ jPY9WL5LMuzQ673vnL/TSi0ah3hYrprIJOtU7y5WLBr2QJkkEr5A8BIEOCCQjnSyJwI7
+ WK90MNhSRRcCOVJEQZafSTGKhpbfDwFZC5h2dF+O/WEofG0R5IpKJe/sXblHcPj4TUY9
+ mspEXbIHlWIRc3FDNS5NpFoEhxVo19zJk30TKxF6lN/l0LK03FpAzvS8ALWD1KSzE76x
+ hw01DLWvkTuJiT3AWJnDxkiRLkCIfpI6lJu+TksMhYe3Gw2BEU7mhdKQT7+cICQgsfo+ Gg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 359wwdjfp3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Dec 2020 08:30:02 -0500
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B8D2VQu001073;
+ Tue, 8 Dec 2020 08:30:02 -0500
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 359wwdjfmp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Dec 2020 08:30:02 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B8DQv49031457;
+ Tue, 8 Dec 2020 13:30:00 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 3581fhkkuc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Dec 2020 13:30:00 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0B8DTvOQ9568826
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 8 Dec 2020 13:29:57 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CBD21A405B;
+ Tue,  8 Dec 2020 13:29:57 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 756D4A4054;
+ Tue,  8 Dec 2020 13:29:57 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.37.89])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  8 Dec 2020 13:29:57 +0000 (GMT)
+Subject: Re: [PATCH] s390x: pv: Fence additional unavailable SCLP facilities
+ for PV guests
+To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20201204083655.27946-1-frankja@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <1c42abcc-b28e-4b6a-d363-ff6daf7b7883@de.ibm.com>
+Date: Tue, 8 Dec 2020 14:29:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_CNHucoBoq9_jWw9HLc_WneYko5s42z853NVJZdLCGuQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201204083655.27946-1-frankja@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-08_09:2020-12-08,
+ 2020-12-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
+ suspectscore=0 impostorscore=0 adultscore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012080079
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,89 +111,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dongjiu Geng <gengdongjiu@huawei.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Claudio Fontana <cfontana@suse.de>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-s390x@nongnu.org, cohuck@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/20 10:50 PM, Peter Maydell wrote:
-> On Mon, 7 Dec 2020 at 21:26, Eduardo Habkost <ehabkost@redhat.com> wrote:
->> My understanding is that there's no reason for ARM KVM to use
->> another approach, and that CPUClass.do_interrupt is not really
->> TCG-specific.
->>
->> Do we have any case where the CPUClass.do_interrupt
->> implementation is really TCG-specific, or it is just a
->> coincidence that most other accelerators simply don't to call the
->> method?  It looks like the only cases where the
->> CPUClass.do_interrupt assignment is conditional on CONFIG_TCG are
->> i386 and s390x.
-> 
-> Looking at PPC, its kvm_handle_debug() function does a
-> direct call to ppc_cpu_do_interrupt(). So the code of
-> its do_interrupt method must be ok-for-KVM, it's just that
-> it doesn't use the method pointer. (It's doing the same thing
-> Arm is -- if a debug event turns out not to be for QEMU itself,
-> inject a suitable exception into the guest.)
-> 
-> So of our 5 KVM-supporting architectures:
-> 
->  * i386 and s390x have kernel APIs for "inject suitable
->    exception", don't need to call do_interrupt, and make
->    the cc->do_interrupt assignment only ifdef CONFIG_TCG,
->    so that the code for do_interrupt need not be compiled
->    into a KVM-only binary. (In both cases the code for the
->    function is in a source file that the meson.build puts
->    into the source list only if CONFIG_TCG)
->  * ppc and arm both need to use this code even in a KVM
->    only binary. Neither of them #ifdef the cc->do_interrupt
->    assignment, because there's not much point at the moment
->    if you're not going to try to compile out the code.
->    ppc happens to do a direct function call, and arm happens
->    to go via the cc->do_interrupt pointer, but I don't
->    think there's much significance in the choice either way.
->    In both cases, the only places making the call are within
->    architecture-specific KVM code.
->  * mips KVM does neither of these things, probably because it is
->    not sufficiently featureful to have run into the cases
->    where you might want to re-inject an exception and it's
->    not being sufficiently used in production for anybody to
->    have looked at minimising the amount of code in a
->    KVM-only QEMU binary for it.
-> 
-> So in conclusion we have a basically 50:50 split between
-> "use the same do_interrupt code as TCG" and "have a kernel
-> API to make the kernel do the work", plus one arch that
-> probably hasn't had to make the choice yet.   ¯\_(ツ)_/¯
 
-Why not introduce KVMCpuOperations similar to TCGCpuOperations
-Claudio is introducing, and declare the do_interrupt(CPUState*)
-in both structures?
 
-Then we can assign the same handler to both fields, TCG keeps
-calling cc->tcg->do_interrupt(), KVM calls cc->kvm->do_interrupt().
-This allow building with a particular accelerator, while staying
-compliant with the current 50:50 split...
+On 04.12.20 09:36, Janosch Frank wrote:
+> There's no VSIE support for a protected guest, so let's better not
+> advertise it and its support facilities.
+> 
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 
-> 
->> Oh, I thought you were arguing that CPUClass.do_interrupt is
->> not TCG_specific.
-> 
-> Well, I don't think it really is TCG-specific. But as
-> a pragmatic thing, if these two lines in the Arm code
-> are getting in the way of stopping us from having a
-> useful compile-time check that code that's not supposed
-> to call this method isn't calling it, I think the balance
-> maybe leans towards just making the direct function call.
-> I guess it depends whether you think people are likely to
-> accidentally make cc->do_interrupt calls in non-target-specific
-> code that gets used by KVM (which currently would crash if that
-> code path is exercised on x86 or s390x, but under the
-> proposed change would become a compile error).
-> 
-> thanks
-> -- PMM
-> 
+Looks sane. Assuming that all features that depend on SIE are named S390_FEAT_SIE_*
+this should take care of everything. (i compared to gen-facilities.c)
 
+> ---
+> CI:
+> https://gitlab.com/frankja/qemu/-/pipelines/224881703
+> ---
+>  target/s390x/cpu_features.c | 38 ++++++++++++++++++++++++++++++++++++-
+>  target/s390x/cpu_models.c   | 24 +++++++++++++++++++++--
+>  2 files changed, 59 insertions(+), 3 deletions(-)
+> 
+> diff --git a/target/s390x/cpu_features.c b/target/s390x/cpu_features.c
+> index 42fe0bf4ca..7d7ea8e3b8 100644
+> --- a/target/s390x/cpu_features.c
+> +++ b/target/s390x/cpu_features.c
+> @@ -107,8 +107,44 @@ void s390_fill_feat_block(const S390FeatBitmap features, S390FeatType type,
+>          feat = find_next_bit(features, S390_FEAT_MAX, feat + 1);
+>      }
+>  
+> -    if (type == S390_FEAT_TYPE_SCLP_FAC134 && s390_is_pv()) {
+> +    if (!s390_is_pv()) {
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * Some facilities are not available for CPUs in protected mode:
+> +     * - All SIE facilities because SIE is not available
+> +     * - DIAG318
+> +     *
+> +     * As VMs can move in and out of protected mode the CPU model
+> +     * doesn't protect us from that problem because it is only
+> +     * validated at the start of the VM.
+> +     */
+> +    switch (type) {
+> +    case S390_FEAT_TYPE_SCLP_CPU:
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_F2)->bit, data);
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_SKEY)->bit, data);
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_GPERE)->bit, data);
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_SIIF)->bit, data);
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_SIGPIF)->bit, data);
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_IB)->bit, data);
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_CEI)->bit, data);
+> +        break;
+> +    case S390_FEAT_TYPE_SCLP_CONF_CHAR:
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_KSS)->bit, data);
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_GSLS)->bit, data);
+> +        break;
+> +    case S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT:
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_64BSCAO)->bit, data);
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_CMMA)->bit, data);
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_PFMFI)->bit, data);
+> +        clear_be_bit(s390_feat_def(S390_FEAT_SIE_IBS)->bit, data);
+> +        break;
+> +    case S390_FEAT_TYPE_SCLP_FAC134:
+>          clear_be_bit(s390_feat_def(S390_FEAT_DIAG_318)->bit, data);
+> +        break;
+> +    default:
+> +        return;
+>      }
+>  }
+>  
+> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+> index b5abff8bef..51feb71546 100644
+> --- a/target/s390x/cpu_models.c
+> +++ b/target/s390x/cpu_models.c
+> @@ -239,8 +239,28 @@ bool s390_has_feat(S390Feat feat)
+>          }
+>          return 0;
+>      }
+> -    if (feat == S390_FEAT_DIAG_318 && s390_is_pv()) {
+> -        return false;
+> +
+> +    if (s390_is_pv()) {
+> +        switch (feat) {
+> +        case S390_FEAT_DIAG_318:
+> +        case S390_FEAT_SIE_F2:
+> +        case S390_FEAT_SIE_SKEY:
+> +        case S390_FEAT_SIE_GPERE:
+> +        case S390_FEAT_SIE_SIIF:
+> +        case S390_FEAT_SIE_SIGPIF:
+> +        case S390_FEAT_SIE_IB:
+> +        case S390_FEAT_SIE_CEI:
+> +        case S390_FEAT_SIE_KSS:
+> +        case S390_FEAT_SIE_GSLS:
+> +        case S390_FEAT_SIE_64BSCAO:
+> +        case S390_FEAT_SIE_CMMA:
+> +        case S390_FEAT_SIE_PFMFI:
+> +        case S390_FEAT_SIE_IBS:
+> +            return false;
+> +            break;
+> +        default:
+> +            break;
+> +        }
+>      }
+>      return test_bit(feat, cpu->model->features);
+>  }
+> 
 
