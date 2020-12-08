@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85ABE2D269A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:51:36 +0100 (CET)
-Received: from localhost ([::1]:38164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31412D26D7
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 10:05:03 +0100 (CET)
+Received: from localhost ([::1]:42062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmYid-0001RM-In
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:51:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37362)
+	id 1kmYve-0003rD-ET
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 04:05:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kmYhK-0000tn-M0
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:50:14 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37691)
+ id 1kmYti-0003P7-Tg
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 04:03:02 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:46884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kmYhJ-0004vC-23
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:50:14 -0500
-Received: by mail-ej1-x641.google.com with SMTP id ga15so23520009ejb.4
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 00:50:12 -0800 (PST)
+ id 1kmYtg-0000xZ-L7
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 04:03:02 -0500
+Received: by mail-ej1-x643.google.com with SMTP id bo9so23471671ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 01:02:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=TZXwYDaCWS7e1DN18P4hTw8qRki8SYJYAh/bIEvt7VA=;
- b=FZ0lHPANfEWsj+/iVtzHykLTQO6ijRLMLun67MC83GxuH1p2GZvrYjVFI3LNftNYmi
- /WF/Ppj7Wq5wn6x5qlhZ7poOpmvIzR9WmdgY8pxNF30wGY0Co7IAbS2881d+bH0E6Byn
- bpioRfSGZZ4HMfmUGGDYIBx8I9lWUbAfa90kVnGyoX+TsCLBzuOSbLyiDTiWf1LMert8
- UgTYEKxN95dU+dYig9SnYr/1zjEk7X1WFDFui6Zn9YsLNmnCV9FZ9w0tvEVe2ihnVf8w
- L9O0G22F2V+wSKewS6KowfEZDIuF/m1OLAcCf+VIX9oZBeQmp9GyjwPdaUayPjCGVMO+
- P38w==
+ bh=heOnO8xtoXTUu7nkg7Tr0zoCny6XJ7I7y8VFkwKx3YI=;
+ b=NAcUA4g6FpMBOE1Xlxt2Q1ElVyu7anh6kb/qyZlxlLM2F5boiqCY7XXrG73lLkjkTO
+ G24s2g422BaJZe7uWJWbXmCoKCwFQGB7nP3ln4yb+t0aO74TxgVEvBrAK+i6Lg6p4ZRx
+ 4o+Nc01KscoeDYfhWOgT8Jke8eZgxT/e8fyJ9To8vxOA6OyyIKLwsBuznaAOAmwlcGmo
+ 1BePba9ADIsphBcP16NjyMjxqjyGLJLp4qwcAPlebCigeVxX5uR6f5HANjd0HIzTIgBH
+ veF5YLY0e8cNXIPT+nO7CAqZ86TDl6IKWGH5eimx+JDkHCnAQWSJJQMO9G74fjFcjVhX
+ t/GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=TZXwYDaCWS7e1DN18P4hTw8qRki8SYJYAh/bIEvt7VA=;
- b=PzAFvH/THVwXltDfMnBy1AfjDGQJxxFIuwiGkY/+nM3CHeZ8yWqroDyNC/5UDsgGeO
- uLVBDCZOdwA8KJ62oFf7jLnbnA9rljZSWVN8P2BOM4SIYShrxThULLx0FIlwgZPu3hly
- wMBl3eQQ1HaJWcAqvS++I358Z9YaCUDhPWa8nXY8QzNS6nUCd+SNbkhEEC6X63VGFS5a
- ASTxFtqpYnddj7vLWD1+SJ1O4zKI+sQVWd+HzG8OJrJBDo4KWXp1xyQeBishO7nmpPFd
- THWdLENDl6rqmr06UWLA6q4d7B3STReTXJK/Or9Kppf6vvC8O6Gxp+oCK4SDq2COUSmU
- 36kg==
-X-Gm-Message-State: AOAM531Q3nx7UfG+9bw6MLMJqVMXHgTpFjfySSiFyJByTfe7QiHU+f2i
- MQr7vJ9zsG9oJGUXO9lUbKg=
-X-Google-Smtp-Source: ABdhPJww+kwZb8018JvYoa53FIBJf92vPUO/fyV4DEOGl5s9UG9EkjlxM/dxQWfVsgIsKRCS5yIpUg==
-X-Received: by 2002:a17:906:3c11:: with SMTP id
- h17mr21899491ejg.20.1607417411619; 
- Tue, 08 Dec 2020 00:50:11 -0800 (PST)
+ bh=heOnO8xtoXTUu7nkg7Tr0zoCny6XJ7I7y8VFkwKx3YI=;
+ b=ePz82UswA0eg61pCjdox9lzVocWoZMEqZ6JgjwpSZUfg3k0SKVQFnxNtTyTzjtsiew
+ cXOhimz1rUIkjHKqxDQ4PfqG9JB2ufVWgfY/EkZQsP9ryW3NXCz6nMTokkt7Ba+BG1vB
+ onN0OlXga5F0ompjVFNAcqrn4T4FgyvynJ4qYwyljq2fXQ0ocwV0/4A1UFE+53kUlB5I
+ 5qkWRXKT5ZenDs9KDOld9xcYuS1K1yTa2DHWNFjKAu74XV8TOGoHHm+8A94GAxc3wklg
+ eFptUUYxt5uALXgGeTG60xtRpojyBypQ1UPkS8oZ1HJH+lbKhZa1sgZ0hU13vZ0PN5BW
+ 3vlQ==
+X-Gm-Message-State: AOAM5303ywYyPO0jTji3n3Kcc6C7g4vH5lDru4RIfHJ0qnniStSLR4qs
+ 65+l+aBuwKNbEx/XUyWJyBM=
+X-Google-Smtp-Source: ABdhPJwwqplxjiYTxGvk+CUu6nv9Om15+cCcDhpuWLQyJld3SKfxflSD8GOU2YNR5fW6/sN9mUvT0g==
+X-Received: by 2002:a17:906:4d52:: with SMTP id
+ b18mr21499156ejv.405.1607418174634; 
+ Tue, 08 Dec 2020 01:02:54 -0800 (PST)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id d6sm14878522ejy.114.2020.12.08.00.50.10
+ by smtp.gmail.com with ESMTPSA id x16sm6694407ejb.38.2020.12.08.01.02.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 00:50:10 -0800 (PST)
-Date: Tue, 8 Dec 2020 08:50:09 +0000
+ Tue, 08 Dec 2020 01:02:53 -0800 (PST)
+Date: Tue, 8 Dec 2020 09:02:52 +0000
 From: Stefan Hajnoczi <stefanha@gmail.com>
 To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Subject: Re: [RFC PATCH 20/27] vhost: Return used buffers
-Message-ID: <20201208085009.GV203660@stefanha-x1.localdomain>
+Subject: Re: [RFC PATCH 24/27] vhost: iommu changes
+Message-ID: <20201208090252.GW203660@stefanha-x1.localdomain>
 References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-21-eperezma@redhat.com>
+ <20201120185105.279030-25-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YnIutncTLXsDZs5t"
+ protocol="application/pgp-signature"; boundary="pEAjBjStGYT6H+Py"
 Content-Disposition: inline
-In-Reply-To: <20201120185105.279030-21-eperezma@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=stefanha@gmail.com; helo=mail-ej1-x641.google.com
+In-Reply-To: <20201120185105.279030-25-eperezma@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=stefanha@gmail.com; helo=mail-ej1-x643.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,50 +106,61 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---YnIutncTLXsDZs5t
+--pEAjBjStGYT6H+Py
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 20, 2020 at 07:50:58PM +0100, Eugenio P=E9rez wrote:
-> @@ -1028,6 +1061,7 @@ static int vhost_sw_live_migration_start(struct vho=
-st_dev *dev)
+On Fri, Nov 20, 2020 at 07:51:02PM +0100, Eugenio P=E9rez wrote:
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index eebfac4455..cb44b9997f 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -1109,6 +1109,10 @@ static int vhost_sw_live_migration_start(struct vh=
+ost_dev *dev)
+> =20
+>      assert(dev->vhost_ops->vhost_set_vring_enable);
+>      dev->vhost_ops->vhost_set_vring_enable(dev, false);
+> +    if (vhost_dev_has_iommu(dev)) {
+> +        r =3D vhost_backend_invalidate_device_iotlb(dev, 0, -1ULL);
+> +        assert(r =3D=3D 0);
+> +    }
 > =20
 >      for (idx =3D 0; idx < dev->nvqs; ++idx) {
 >          struct vhost_virtqueue *vq =3D &dev->vqs[idx];
-> +        unsigned num =3D virtio_queue_get_num(dev->vdev, idx);
->          struct vhost_vring_addr addr =3D {
->              .index =3D idx,
->          };
-> @@ -1044,6 +1078,12 @@ static int vhost_sw_live_migration_start(struct vh=
-ost_dev *dev)
->          r =3D dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
->          assert(r =3D=3D 0);
+> @@ -1269,6 +1273,19 @@ int vhost_device_iotlb_miss(struct vhost_dev *dev,=
+ uint64_t iova, int write)
 > =20
-> +        r =3D vhost_backend_update_device_iotlb(dev, addr.used_user_addr,
-> +                                              addr.used_user_addr,
-> +                                              sizeof(vring_used_elem_t) =
-* num,
-> +                                              IOMMU_RW);
+>      trace_vhost_iotlb_miss(dev, 1);
+> =20
+> +    if (dev->sw_lm_enabled) {
+> +        uaddr =3D iova;
+> +        len =3D 4096;
+> +        ret =3D vhost_backend_update_device_iotlb(dev, iova, uaddr, len,
+> +                                                IOMMU_RW);
 
-I don't remember seeing iotlb setup for the rest of the vring or guest
-memory. Maybe this should go into a single patch so it's easy to review
-the iova space layout.
+It would be nice to look up the available memory so
+vhost_backend_update_device_iotlb() can be called with a much bigger
+[uaddr, uaddr+len) range. This will reduce the number of iotlb misses.
 
---YnIutncTLXsDZs5t
+Will vIOMMU be required for this feature? If not, then the vring needs
+to be added to the vhost memory regions because vhost will not send QEMU
+iotlb misses.
+
+--pEAjBjStGYT6H+Py
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/PPkEACgkQnKSrs4Gr
-c8jbGwf+OqBpKYq3vRs1xwb03191eAU1RZXGSRe283/ocJlVX8EMuoRMZPbbEXgt
-+OqCILt/QQuvQloLfm23ggS9XXUgKfQSPG16bFM0RE6j5lDUqDWESbduxFWxWl5k
-YAZhTPElTlaGeJbRpW4Ls2bqKSIkd77wtZu+AdPGGfr6IiZxE2rC3Rut3qhzl6A4
-C2dhtR3TPweeG5bL8ls6tv3t9+J0n4tap8b93aX920+9ksgj1uYEZNjRk6jEWiMG
-2vy5eEgE/SJcaNSFafSgYQGGscP3nAHCcwgkUs7MjiGyVXiMNi0xDGunPdQ1R/f/
-/Sto7Mj12OlDF0kbMRUuNi5FfF3wOA==
-=vcmP
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/PQTwACgkQnKSrs4Gr
+c8g3Ggf/ezALRa8CClAoD8oR71XoA1kVIcse2cg110kSgP3P6FQZ4K8P3eagY4KQ
+MZOEBk/dhIcMAMUhqDGhKvCOgFzp4rxXGLJWWpVRqWXnyt+3pbt+qbRN1K6Mnw5m
+yYr0IR/vdzG0tDl7Oy5n5igf8gbTiNAiO82jgonHy6KLiw8vhEqB/fdBVQOjorQn
+4QbiOck2C58BSE+8G7iXFHCJWtoQd0O3zIgxDGsecDrDZYIP3RKcpd3EQfXUKDgc
+8pESaRJsNfEfiM485waNw2fA9C4cV9tkWe9qup607f1Hgj6qw+1/Wboy+y4A86B2
+0RfBLz7wh4oXLsoYnD1JLzTW2e3qXw==
+=ebuW
 -----END PGP SIGNATURE-----
 
---YnIutncTLXsDZs5t--
+--pEAjBjStGYT6H+Py--
 
