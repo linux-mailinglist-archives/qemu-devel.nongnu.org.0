@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199632D2680
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:44:13 +0100 (CET)
-Received: from localhost ([::1]:34802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85ABE2D269A
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:51:36 +0100 (CET)
+Received: from localhost ([::1]:38164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmYbU-0007zd-5y
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:44:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35750)
+	id 1kmYid-0001RM-In
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:51:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kmYZQ-00078C-Nw
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:42:04 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:43654)
+ id 1kmYhK-0000tn-M0
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:50:14 -0500
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kmYZO-00029J-OJ
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:42:04 -0500
-Received: by mail-ed1-x543.google.com with SMTP id q16so16682456edv.10
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 00:42:01 -0800 (PST)
+ id 1kmYhJ-0004vC-23
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:50:14 -0500
+Received: by mail-ej1-x641.google.com with SMTP id ga15so23520009ejb.4
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 00:50:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=dv5042T5Xl5anFxys9y89AYgrw+q8hp4hTeeMVqbfNM=;
- b=Wff6CoaMW3uX4r9WwTxFp+jpDE9pAduxRRSz4rVxEnS3miF+JZ5aS9POcaEvPBDpQz
- xXbitemYl5dTVKfKNkNxEU7WDwvcrfENEAVtPFtR9Cn0auNaRG8YJ9LDw41E/bwIBDos
- no7fegFtVm8SeEp8tLDpXgwXQ2mKUfL1Zymw1sn3DINpWzHt4irS9t/LQ6zXzsxRjiYL
- ZXw+AP9aHRwBDaRb8jHEcqgoWOnUV5aJpV64PykkpG0XMVbj8bXQtwVmroIefb/pSfyO
- 2NR0mGnXYp/Nm1p1ydo3umt/7Juo4vr31PatUjq6dSribOltlKSB8LIlq0LSOK758U/H
- 3zLA==
+ bh=TZXwYDaCWS7e1DN18P4hTw8qRki8SYJYAh/bIEvt7VA=;
+ b=FZ0lHPANfEWsj+/iVtzHykLTQO6ijRLMLun67MC83GxuH1p2GZvrYjVFI3LNftNYmi
+ /WF/Ppj7Wq5wn6x5qlhZ7poOpmvIzR9WmdgY8pxNF30wGY0Co7IAbS2881d+bH0E6Byn
+ bpioRfSGZZ4HMfmUGGDYIBx8I9lWUbAfa90kVnGyoX+TsCLBzuOSbLyiDTiWf1LMert8
+ UgTYEKxN95dU+dYig9SnYr/1zjEk7X1WFDFui6Zn9YsLNmnCV9FZ9w0tvEVe2ihnVf8w
+ L9O0G22F2V+wSKewS6KowfEZDIuF/m1OLAcCf+VIX9oZBeQmp9GyjwPdaUayPjCGVMO+
+ P38w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=dv5042T5Xl5anFxys9y89AYgrw+q8hp4hTeeMVqbfNM=;
- b=GHDPTjW1fu8PpAUqTSnos+2mMsbOfpSgcfXZQP0isE7syA/XyaHhMYgnpdI0ZmFHDJ
- sdpuBFfvIVIXGYone1Qpq74EKPKOG6iPsm91G8pJD+jVRymgXEMXqek5tpA2XvjaIoD4
- G7kp+/jXK8NfTGoqMl1QYvwzKAr/Gh7IFJAhEHBxTLYHb+H2XHMDaoXKVtxkbRM3RFDM
- bhWQOx6QE4I2LTB5iQ3zixg28rBkHH4HPfv55yrRL+PNgeIwIFBHt7TryiZAvhifNoHC
- KbMAtuNsAn6jaNT9RVYDCZHYzXRk5Pd8+DlVlKhJs94SlPeQR0jv3Msqxn33BRjPpFdu
- XLzw==
-X-Gm-Message-State: AOAM532atVI4i+P6Ix60ACL8lBlXuLYi74yD1p2fmD9nN5MnvWQai0sF
- 4APfSxA9JsC5roHL/8IyHPM=
-X-Google-Smtp-Source: ABdhPJxKX9FUD+oYHW+oUA4G+bzORQxT3oENR+iOmlg23ZJuzgV75RiXV2XUS+CIPltJfjfZPeW9YQ==
-X-Received: by 2002:a05:6402:a45:: with SMTP id
- bt5mr23987529edb.130.1607416920727; 
- Tue, 08 Dec 2020 00:42:00 -0800 (PST)
+ bh=TZXwYDaCWS7e1DN18P4hTw8qRki8SYJYAh/bIEvt7VA=;
+ b=PzAFvH/THVwXltDfMnBy1AfjDGQJxxFIuwiGkY/+nM3CHeZ8yWqroDyNC/5UDsgGeO
+ uLVBDCZOdwA8KJ62oFf7jLnbnA9rljZSWVN8P2BOM4SIYShrxThULLx0FIlwgZPu3hly
+ wMBl3eQQ1HaJWcAqvS++I358Z9YaCUDhPWa8nXY8QzNS6nUCd+SNbkhEEC6X63VGFS5a
+ ASTxFtqpYnddj7vLWD1+SJ1O4zKI+sQVWd+HzG8OJrJBDo4KWXp1xyQeBishO7nmpPFd
+ THWdLENDl6rqmr06UWLA6q4d7B3STReTXJK/Or9Kppf6vvC8O6Gxp+oCK4SDq2COUSmU
+ 36kg==
+X-Gm-Message-State: AOAM531Q3nx7UfG+9bw6MLMJqVMXHgTpFjfySSiFyJByTfe7QiHU+f2i
+ MQr7vJ9zsG9oJGUXO9lUbKg=
+X-Google-Smtp-Source: ABdhPJww+kwZb8018JvYoa53FIBJf92vPUO/fyV4DEOGl5s9UG9EkjlxM/dxQWfVsgIsKRCS5yIpUg==
+X-Received: by 2002:a17:906:3c11:: with SMTP id
+ h17mr21899491ejg.20.1607417411619; 
+ Tue, 08 Dec 2020 00:50:11 -0800 (PST)
 Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id m1sm13292254ejg.41.2020.12.08.00.41.59
+ by smtp.gmail.com with ESMTPSA id d6sm14878522ejy.114.2020.12.08.00.50.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 00:41:59 -0800 (PST)
-Date: Tue, 8 Dec 2020 08:41:58 +0000
+ Tue, 08 Dec 2020 00:50:10 -0800 (PST)
+Date: Tue, 8 Dec 2020 08:50:09 +0000
 From: Stefan Hajnoczi <stefanha@gmail.com>
 To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Subject: Re: [RFC PATCH 18/27] vhost: add vhost_vring_poll_rcu
-Message-ID: <20201208084158.GU203660@stefanha-x1.localdomain>
+Subject: Re: [RFC PATCH 20/27] vhost: Return used buffers
+Message-ID: <20201208085009.GV203660@stefanha-x1.localdomain>
 References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-19-eperezma@redhat.com>
+ <20201120185105.279030-21-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sDhuxz86kt5qlkuV"
+ protocol="application/pgp-signature"; boundary="YnIutncTLXsDZs5t"
 Content-Disposition: inline
-In-Reply-To: <20201120185105.279030-19-eperezma@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=stefanha@gmail.com; helo=mail-ed1-x543.google.com
+In-Reply-To: <20201120185105.279030-21-eperezma@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=stefanha@gmail.com; helo=mail-ej1-x641.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,35 +106,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---sDhuxz86kt5qlkuV
+--YnIutncTLXsDZs5t
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 20, 2020 at 07:50:56PM +0100, Eugenio P=E9rez wrote:
-> @@ -83,6 +89,18 @@ void vhost_vring_set_notification_rcu(VhostShadowVirtq=
-ueue *vq, bool enable)
->      smp_mb();
->  }
+On Fri, Nov 20, 2020 at 07:50:58PM +0100, Eugenio P=E9rez wrote:
+> @@ -1028,6 +1061,7 @@ static int vhost_sw_live_migration_start(struct vho=
+st_dev *dev)
 > =20
-> +bool vhost_vring_poll_rcu(VhostShadowVirtqueue *vq)
+>      for (idx =3D 0; idx < dev->nvqs; ++idx) {
+>          struct vhost_virtqueue *vq =3D &dev->vqs[idx];
+> +        unsigned num =3D virtio_queue_get_num(dev->vdev, idx);
+>          struct vhost_vring_addr addr =3D {
+>              .index =3D idx,
+>          };
+> @@ -1044,6 +1078,12 @@ static int vhost_sw_live_migration_start(struct vh=
+ost_dev *dev)
+>          r =3D dev->vhost_ops->vhost_set_vring_addr(dev, &addr);
+>          assert(r =3D=3D 0);
+> =20
+> +        r =3D vhost_backend_update_device_iotlb(dev, addr.used_user_addr,
+> +                                              addr.used_user_addr,
+> +                                              sizeof(vring_used_elem_t) =
+* num,
+> +                                              IOMMU_RW);
 
-A name like "more_used" is clearer than "poll".
+I don't remember seeing iotlb setup for the rest of the vring or guest
+memory. Maybe this should go into a single patch so it's easy to review
+the iova space layout.
 
---sDhuxz86kt5qlkuV
+--YnIutncTLXsDZs5t
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/PPFYACgkQnKSrs4Gr
-c8i/SQf/TvTgWv3whWVp5Emvh9/XNPEraByggX/NHutQ/7KU68p2ij7mFjVhwXoA
-S6Cga7m5aygc3dDUoTF2rsp1uhontJMnUxLtq7glV2eUFpg/DqxfwBjU9uAYziyo
-yqr4PaBlhgqJbNO9lsLXpwHX+KZwGDDsm+eiAPgOsKVltCQaHMCE3LETr3MX6JwU
-ZHwC9DSppMxi7LXWqiTiHMwP006UxKxQQQfHiUpYYkZQ2qBpNpGXfQoebtyDgbUm
-/lb3vNSJzsqrusZvv7j1LMVXFjPnpGdsry9w9q+ia9B68VPFQJp9CYwJxVIBA3DS
-mOsdXqFq6+bwjli4YUG16be6Oc3rOg==
-=k8Qa
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/PPkEACgkQnKSrs4Gr
+c8jbGwf+OqBpKYq3vRs1xwb03191eAU1RZXGSRe283/ocJlVX8EMuoRMZPbbEXgt
++OqCILt/QQuvQloLfm23ggS9XXUgKfQSPG16bFM0RE6j5lDUqDWESbduxFWxWl5k
+YAZhTPElTlaGeJbRpW4Ls2bqKSIkd77wtZu+AdPGGfr6IiZxE2rC3Rut3qhzl6A4
+C2dhtR3TPweeG5bL8ls6tv3t9+J0n4tap8b93aX920+9ksgj1uYEZNjRk6jEWiMG
+2vy5eEgE/SJcaNSFafSgYQGGscP3nAHCcwgkUs7MjiGyVXiMNi0xDGunPdQ1R/f/
+/Sto7Mj12OlDF0kbMRUuNi5FfF3wOA==
+=vcmP
 -----END PGP SIGNATURE-----
 
---sDhuxz86kt5qlkuV--
+--YnIutncTLXsDZs5t--
 
