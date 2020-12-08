@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6902D3304
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:14:04 +0100 (CET)
-Received: from localhost ([::1]:42812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98A2F2D3302
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:13:15 +0100 (CET)
+Received: from localhost ([::1]:38458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmjN5-0004HK-61
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:14:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50044)
+	id 1kmjMI-0002Rq-Mm
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:13:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmin1-0007Be-OC
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:36:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60197)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmin2-0007D3-73
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:36:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmimk-0005gR-Pe
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmimu-0005ia-Hn
  for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:36:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607456190;
+ s=mimecast20190719; t=1607456199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bSoNUC7DG0wIijNBJsdQD+7RaOmhy7cd4bQD51mQOZk=;
- b=NEGwGLjy0wsaT9sFB1cuTtTSy0awpFM4mK4xPwtPm57MUJeCo7eFNIGV9b18h4Cb4eAjYi
- RicyTU4L3adyee0/9beMxapcTAHmEW+14EwHfpINR01w1InZZd7smLnSz0mZDLiPrK5+S9
- mLdwaduDOlJcJ8eyz6yu+6S9FcZ1MTg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-V3QMUcc1PA-R4NVQYbwbjg-1; Tue, 08 Dec 2020 14:36:28 -0500
-X-MC-Unique: V3QMUcc1PA-R4NVQYbwbjg-1
-Received: by mail-wr1-f71.google.com with SMTP id n13so6616004wrs.10
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:36:27 -0800 (PST)
+ bh=sHE/uRm8PGtDDHGDXS1NURqOE/Q/b84pUZq/OaljFlE=;
+ b=GVO8TDn8cdHoWkNXp61RdrftIX5zvWuIRE1DKBAUCTeetS9F3QIcq/O+vxcBKwBdTFHW7B
+ ZI8RelXSGYSHlFf/gKJczMFcHWgsJ3hiJiHLK0JIJpF3MkRek1F5kXtF+n/EHH5cHoCHd/
+ PxWXFaB25YlQPtwjbQqmQic9yppo43o=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-po6ON_sDMESq76Y4xKT07Q-1; Tue, 08 Dec 2020 14:36:37 -0500
+X-MC-Unique: po6ON_sDMESq76Y4xKT07Q-1
+Received: by mail-wr1-f69.google.com with SMTP id o17so39640wra.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:36:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=bSoNUC7DG0wIijNBJsdQD+7RaOmhy7cd4bQD51mQOZk=;
- b=dSQ35MEyAP5fnkl3Txaw/t16teG74s4auc4QYStajyIEKbirTAZ1alyiBuVRKZJ2zA
- 4wxnk5W+KUTt7NwmIi8Qxy62vvCzVRHnbEsvkaS/kMbK/J3vBiZsQGfi/wu3EGPZi0ww
- 43uc4qUY5sMgwibPvcDMOheLlhEnrbRrijtzktKIWpz8FHCrhVJYNElRRFL2sFE/o/vZ
- RhNaJpSFuGwL3axGH+ZwDVkJ9CkTADC36TJmZW3kJ4wevQbfoBXGv+CfRvBCDvH3VMf9
- j8mE6wXf3VvQE6AwNVxpvU0zvX5roCcluQOfn2yvVDrIEE/q8oPTl6chtEla1MnkqKqj
- 81Bg==
-X-Gm-Message-State: AOAM533cQKucTBPq6qS2RuycGT4mvDLh4vS12E7xSjsdlVY0HQQD+Q+X
- CcC4ff1SZYMKQ0XpBV5JRf8J/o1dGgfkU9gPe/cjayOuFyCBLQrKbWaWZuPRFaIi240l0vyAjXw
- utg+opZnprNotf6gPulUXW+RR5vpDxMANLplvBcMUzmpbm5eeLrqPwEpHzQib
-X-Received: by 2002:a1c:f002:: with SMTP id a2mr5160758wmb.101.1607456186285; 
- Tue, 08 Dec 2020 11:36:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzw5ApoGMaYJHfh3QE9sLMH2I3MzqeNnYw7kKeA8nUFM8bSyC5hmywdLtJQTwfokDOT7Hb/Iw==
-X-Received: by 2002:a1c:f002:: with SMTP id a2mr5160741wmb.101.1607456186075; 
- Tue, 08 Dec 2020 11:36:26 -0800 (PST)
+ bh=sHE/uRm8PGtDDHGDXS1NURqOE/Q/b84pUZq/OaljFlE=;
+ b=fUInwRX+Q2tSYJWwQ8HwXsnBHhw90Kh9AgNMlY/6hK4qi5+hhDt1gjXQvtjn2wS5Nw
+ tJcKTXFPjBKyoZPZFaRrHsWbKiriN1v8YRPJsEA/0Lu3wvTTVijPxWeXuMJRuEnNuZKx
+ uaaugT1e8dNfBGG7aew2rp0OQSZg7HGFerCDlwiJTVjA9duoH5fI1j7eYeY6ipg6WJHd
+ HG0EhPLek55it+cZM4EYe0hDTimb4iafiK3ep8BrZA438Z1Wp+x0FZvFJbSLZ+Ni2Vvn
+ XgAvKT24fw4xnm/Xc9F8n/9JMOItLjWqf5FedM71olKnCIM5DboWd2kPR/7rU2q+gq7f
+ fPOQ==
+X-Gm-Message-State: AOAM533qpBramq4ZwWx6I9ks1cEBWd+o+P1Z8NDwXd4u6BjDKskIcksO
+ ni+pjR9K/SK80Dd2ffB8kbSUcOQauTRAlrSIp3l30evHmzP/VGCXkUsr0CEVUsU5bFLRXvxx6hh
+ B7u/jGL0x094lqX2kZucJBmzjgPUYjezDsD0DEIokAFUPyxrE+7INlD5ll7a9
+X-Received: by 2002:adf:eac7:: with SMTP id o7mr7497392wrn.23.1607456196267;
+ Tue, 08 Dec 2020 11:36:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwY2geD7CVv+y0rOqeVmJdjs46bydUpKmSyAxpogRCJeC8Hbb/27iGYEn5MF4gUJvVIzrVSpw==
+X-Received: by 2002:adf:eac7:: with SMTP id o7mr7497370wrn.23.1607456196004;
+ Tue, 08 Dec 2020 11:36:36 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id u66sm5003252wmg.30.2020.12.08.11.36.23
+ by smtp.gmail.com with ESMTPSA id a13sm12850635wrt.96.2020.12.08.11.36.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 11:36:25 -0800 (PST)
-Date: Tue, 8 Dec 2020 14:36:21 -0500
+ Tue, 08 Dec 2020 11:36:35 -0800 (PST)
+Date: Tue, 8 Dec 2020 14:36:31 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 45/66] libvhost-user: replace qemu/memfd.h usage
-Message-ID: <20201208193307.646726-46-mst@redhat.com>
+Subject: [PULL 47/66] libvhost-user: drop qemu/osdep.h dependency
+Message-ID: <20201208193307.646726-48-mst@redhat.com>
 References: <20201208193307.646726-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201208193307.646726-1-mst@redhat.com>
@@ -74,14 +74,14 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,114 +95,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Coiby Xu <coiby.xu@gmail.com>,
+ Johannes Berg <johannes.berg@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Undo the damage from commit 5f9ff1eff3 ("libvhost-user: Support tracking
-inflight I/O in shared memory") which introduced glib dependency through
-osdep.h inclusion.
-
-libvhost-user.c tries to stay free from glib usage.
-
-Use glibc memfd_create directly when available (assumed so when
-MFD_ALLOW_SEALING is defined). A following commit will make the project
-standalone and check for memfd API at configure time, instead of a
-panic at runtime.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201125100640.366523-3-marcandre.lureau@redhat.com>
+Message-Id: <20201125100640.366523-5-marcandre.lureau@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- contrib/libvhost-user/libvhost-user.c | 50 +++++++++++++++++++++++----
- 1 file changed, 43 insertions(+), 7 deletions(-)
+ contrib/libvhost-user/libvhost-user-glib.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 1c1cfbf1e7..54aabd1878 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -42,8 +42,6 @@
- #endif
+diff --git a/contrib/libvhost-user/libvhost-user-glib.c b/contrib/libvhost-user/libvhost-user-glib.c
+index 0df2ec9271..efc9d814e3 100644
+--- a/contrib/libvhost-user/libvhost-user-glib.c
++++ b/contrib/libvhost-user/libvhost-user-glib.c
+@@ -12,10 +12,16 @@
+  * later.  See the COPYING file in the top-level directory.
+  */
  
- #include "qemu/atomic.h"
 -#include "qemu/osdep.h"
--#include "qemu/memfd.h"
+-
+ #include "libvhost-user-glib.h"
  
- #include "libvhost-user.h"
- 
-@@ -1615,11 +1613,45 @@ vu_inflight_queue_size(uint16_t queue_size)
-            sizeof(uint16_t), INFLIGHT_ALIGNMENT);
- }
- 
-+#ifdef MFD_ALLOW_SEALING
-+static void *
-+memfd_alloc(const char *name, size_t size, unsigned int flags, int *fd)
-+{
-+    void *ptr;
-+    int ret;
-+
-+    *fd = memfd_create(name, MFD_ALLOW_SEALING);
-+    if (*fd < 0) {
-+        return NULL;
-+    }
-+
-+    ret = ftruncate(*fd, size);
-+    if (ret < 0) {
-+        close(*fd);
-+        return NULL;
-+    }
-+
-+    ret = fcntl(*fd, F_ADD_SEALS, flags);
-+    if (ret < 0) {
-+        close(*fd);
-+        return NULL;
-+    }
-+
-+    ptr = mmap(0, size, PROT_READ | PROT_WRITE, MAP_SHARED, *fd, 0);
-+    if (ptr == MAP_FAILED) {
-+        close(*fd);
-+        return NULL;
-+    }
-+
-+    return ptr;
-+}
++#ifndef container_of
++#define container_of(ptr, type, member)              \
++    __extension__({                                  \
++        void *__mptr = (void *)(ptr);                \
++        ((type *)(__mptr - offsetof(type, member))); \
++    })
 +#endif
 +
- static bool
- vu_get_inflight_fd(VuDev *dev, VhostUserMsg *vmsg)
- {
--    int fd;
--    void *addr;
-+    int fd = -1;
-+    void *addr = NULL;
-     uint64_t mmap_size;
-     uint16_t num_queues, queue_size;
+ /* glib event loop integration for libvhost-user and misc callbacks */
  
-@@ -1637,9 +1669,13 @@ vu_get_inflight_fd(VuDev *dev, VhostUserMsg *vmsg)
- 
-     mmap_size = vu_inflight_queue_size(queue_size) * num_queues;
- 
--    addr = qemu_memfd_alloc("vhost-inflight", mmap_size,
--                            F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL,
--                            &fd, NULL);
-+#ifdef MFD_ALLOW_SEALING
-+    addr = memfd_alloc("vhost-inflight", mmap_size,
-+                       F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL,
-+                       &fd);
-+#else
-+    vu_panic(dev, "Not implemented: memfd support is missing");
-+#endif
- 
-     if (!addr) {
-         vu_panic(dev, "Failed to alloc vhost inflight area");
+ G_STATIC_ASSERT((int)G_IO_IN == (int)VU_WATCH_IN);
 -- 
 MST
 
