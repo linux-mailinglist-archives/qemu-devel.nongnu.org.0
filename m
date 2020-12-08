@@ -2,83 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BC6D2D3621
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:25:01 +0100 (CET)
-Received: from localhost ([::1]:35308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE9B2D35CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:10:13 +0100 (CET)
+Received: from localhost ([::1]:60520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmlPo-00005t-EU
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:25:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44648)
+	id 1kmlBV-0003Qz-2t
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:10:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmkNy-0004WS-4u
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:19:02 -0500
-Received: from mail-oo1-xc35.google.com ([2607:f8b0:4864:20::c35]:35030)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmkNv-00055O-B0
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:19:00 -0500
-Received: by mail-oo1-xc35.google.com with SMTP id s1so1117168oon.2
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 13:18:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oEbp8XIFc0TWpCJp6TP5hH+/y1SX+fxWecNXtN+yOqw=;
- b=sDn+DDse+7UKNNMYUUD6OLPm2PszSYj6kHeDT6Yc3o/niDYUacsb+VcttcZYI2BK04
- CFm/Rvq1tRO76eDhhEu8nuYcggLJ395pcLvRBfx+r8NdzJJ6OZCcFsNHYiLwrGk7u4E3
- wC4XApRqkpVRSEPRYsiyx04GlJ7wmOkwjVOM73FR2SheAcA454FVjQHLc+1etV5U0nMg
- InCVVLUcI9RLakdT3+TtIil6/5knK0hzVc+w6Q1za2h5w7lbbtK1jaLBf4Gw52AT6PiM
- eZ6Qtk/4iOfHaC/F0mmkthVhuEcchsdE21SHp56iHx4/bzcvXmRaGTeF4BC438anaRFL
- TE7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oEbp8XIFc0TWpCJp6TP5hH+/y1SX+fxWecNXtN+yOqw=;
- b=FtfVdJ2idHHkiMb7kCpdVa8KYpGI/xRopWrHfCvdSOKPMzp2svCR/U3gX0ivXjvuri
- 0rdwej3+TwlQb9O0m0RviDYaZ3Eivs2WeUkPXWlxYKCPoaTAZv5o7CcJTKBrEEa+/Brz
- h3GCbw5YSm3NpqD+cDWiPkynC7UtH2rXQjndGhiJiU5xMIFJ/uoBJgjNvhInAGp3Z1Wq
- YHaqhBMFkfYNyYh1Dgc3aaWLOAWyOZ8jj6qBllWXR660qlvUbm54KnZqvd2hy2hAyqB7
- OWth32sjkW4HeG3Fo4OBoZM8N1C+QANw0ndMDfRZExsIztvv6YMwCmvttUXUh5RjB6AC
- QRuQ==
-X-Gm-Message-State: AOAM530OjDi7aL8oBramKtt1obfLqiHEJHn1BYuUGOs0SW/jlEbacvat
- zGGIS9VlWRpHN+CNAPtFo09AZQ==
-X-Google-Smtp-Source: ABdhPJxcdHxnO0udZm3oTT6H9sX9z2WQzN1Zt6fSBf4wFdMxF5fCRssTzE0X7OAG5x+BUd0T3a0Vjw==
-X-Received: by 2002:a4a:d396:: with SMTP id i22mr9050427oos.55.1607462337064; 
- Tue, 08 Dec 2020 13:18:57 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id 100sm3920713otm.27.2020.12.08.13.18.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 13:18:56 -0800 (PST)
-Subject: Re: x86 TCG helpers clobbered registers
-To: Stephane Duverger <stephane.duverger@free.fr>, qemu-devel@nongnu.org
-References: <20201204153446.GA66154@wise>
- <1d246e29-b364-099f-440c-5b644087b55f@linaro.org>
- <20201205013402.GA69224@wise>
- <5718f49e-8e17-17ae-45ec-94347f0a009d@linaro.org>
- <20201207101029.GA96540@wise>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4ee3b75a-c778-3cf5-2516-9c9290d96b44@linaro.org>
-Date: Tue, 8 Dec 2020 15:18:54 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kmkPg-00064e-6g
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:20:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kmkPc-0005ki-6J
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:20:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607462441;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GwpIEFbHR59Oa4qhxqvT3X738JeKDGXi+IAILCkKjZ0=;
+ b=MNF35G/z8fh82YVwS4zURfzm8wy9UtU22obTBPcL7w3VVlCiNWRoM9gYC/787OhfuAYHYE
+ JYO1RN3qJtZ7+5S/Au7BAcE5FNnJtLV3jkZobai+MwvPCtGHRMFCMzJXXZ76qFdJHPfqyR
+ Ip0LeKWfjCk1GJHDUJQoddYiCzXqxic=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-526-CMoRmnxVMCOIoG9VU4tguw-1; Tue, 08 Dec 2020 16:20:40 -0500
+X-MC-Unique: CMoRmnxVMCOIoG9VU4tguw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92776107B471
+ for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 21:20:34 +0000 (UTC)
+Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C29F5D9DD;
+ Tue,  8 Dec 2020 21:20:33 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] smbios: entry-point-type option
+Date: Tue,  8 Dec 2020 16:20:23 -0500
+Message-Id: <20201208212023.1560846-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201207101029.GA96540@wise>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c35;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc35.google.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,41 +75,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/7/20 4:10 AM, Stephane Duverger wrote:
-> This leads me to that simple reflection:
-> 
-> If we want to filter on every memory accesses, *out of the fast-path*,
-> the most natural place to do so would be in store_helper() and
-> load_helper() from accel/tcg/cputlb.c. By doing so, every target would
-> benefit from filtering, and even specific helpers using cpu_ldst
-> functions would be intercepted. No ?
-> 
-> For the remaining fast-path case, it could be interesting to generate
-> it this time at IR level (tlb_load, jne to slow_path, direct
-> load/store) ? Again every target would benefit from filtering without
-> the need for a specific fast-path implementation in
-> tcg/<arch>/tcg-target.c.inc
-> 
-> Wouldn't it be simplier than actual mem plugin implementation, which
-> generate fitler callback *after* load/store and has specific extra
-> work for tracking memory accesses performed from helpers (afaiu) ?
-> 
+Add command-line option that lets the SMBIOS entry point type to
+be configured.
 
-As for modifying store_helper(), the reason not to do it there is that it
-misses the fast-path cases.
+SMBIOS 3.0 support is necessary to allow us to support more
+than 720 VCPUs in x86_64, due to SMBIOS 2.1 table size limits.
 
-As for modifying the fast path cases, the code is quite delicate, and you run
-into problems with live registers.  Which could be worked around in each
-backend, but... why?
+Note that it's still up to firmware to decide whether to generate
+SMBIOS 2.1 and/or 3.0 entry points for the guest, using the
+information contained in etc/smbios/smbios-anchor.  OVMF, for
+example, is able to generate both entry points, depending on the
+value of PcdSmbiosEntryPointProvideMethod.
 
-Which naturally suggests separate instrumentation separate from the above,
-which is exactly what we do.  So, no, I don't think it would be simpler any
-other way.
+The SMBIOS 3.0 entry point won't be enabled by default because it
+is not supported yet by Seabios.  This may be changed once
+Seabios starts supporting SMBIOS 3.0 entry points.
 
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+Laszlo, Philippe: do you know how exactly the value of
+PcdSmbiosEntryPointProvideMethod is chosen when running OVMF?
+---
+ hw/smbios/smbios.c | 39 +++++++++++++++++++++++++++++++++++++--
+ qemu-options.hx    | 16 +++++++++++++++-
+ 2 files changed, 52 insertions(+), 3 deletions(-)
 
-r~
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 6a3d39793b..ed5cf7fa9a 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -62,6 +62,7 @@ size_t smbios_tables_len;
+ unsigned smbios_table_max;
+ unsigned smbios_table_cnt;
+ static SmbiosEntryPointType smbios_ep_type = SMBIOS_ENTRY_POINT_21;
++static bool smbios_ep_type_set;
+ 
+ static SmbiosEntryPoint ep;
+ 
+@@ -139,6 +140,15 @@ static const QemuOptDesc qemu_smbios_file_opts[] = {
+     { /* end of list */ }
+ };
+ 
++static const QemuOptDesc qemu_smbios_entry_point_opts[] = {
++    {
++        .name = "entry-point-type",
++        .type = QEMU_OPT_STRING,
++        .help = "SMBIOS Entry Point type (2.1 or 3.0)",
++    },
++    { /* end of list */ }
++};
++
+ static const QemuOptDesc qemu_smbios_type0_opts[] = {
+     {
+         .name = "type",
+@@ -797,7 +807,9 @@ void smbios_set_defaults(const char *manufacturer, const char *product,
+     smbios_have_defaults = true;
+     smbios_legacy = legacy_mode;
+     smbios_uuid_encoded = uuid_encoded;
+-    smbios_ep_type = ep_type;
++    if (!smbios_ep_type_set) {
++        smbios_ep_type = ep_type;
++    }
+ 
+     /* drop unwanted version of command-line file blob(s) */
+     if (smbios_legacy) {
+@@ -1232,5 +1244,28 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+         }
+     }
+ 
+-    error_setg(errp, "Must specify type= or file=");
++    val = qemu_opt_get(opts, "entry-point-type");
++    if (val) {
++        if (!qemu_opts_validate(opts, qemu_smbios_entry_point_opts, errp)) {
++            return;
++        }
++
++        if (smbios_ep_type_set) {
++            error_setg(errp, "entry-point-type can't be set twice");
++            return;
++        }
++
++        if (!strcmp(val, "2.1")) {
++            smbios_ep_type = SMBIOS_ENTRY_POINT_21;
++            smbios_ep_type_set = true;
++        } else if (!strcmp(val, "3.0")) {
++            smbios_ep_type = SMBIOS_ENTRY_POINT_30;
++            smbios_ep_type_set = true;
++        } else {
++            error_setg(errp, "Invalid entry point type: %s", val);
++        }
++        return;
++    }
++
++    error_setg(errp, "Must specify type=, file=, or entry-point-type=");
+ }
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 104632ea34..d2a973f8a7 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2294,7 +2294,9 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+     "                specify SMBIOS type 11 fields\n"
+     "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
+     "               [,asset=str][,part=str][,speed=%d]\n"
+-    "                specify SMBIOS type 17 fields\n",
++    "                specify SMBIOS type 17 fields\n"
++    "-smbios entry-point-type=2.1|3.0\n"
++    "                specify SMBIOS entry point type\n",
+     QEMU_ARCH_I386 | QEMU_ARCH_ARM)
+ SRST
+ ``-smbios file=binary``
+@@ -2356,6 +2358,18 @@ SRST
+ 
+ ``-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str][,asset=str][,part=str][,speed=%d]``
+     Specify SMBIOS type 17 fields
++
++``-smbios entry-point-type=2.1|3.0``
++    Specify SMBIOS entry point type
++
++    SMBIOS 3.0 allows the total size of SMBIOS tables to be much
++    larger, but note that Seabios for x86 does not support SMBIOS
++    3.0 (as of Seabios v1.14.0).
++
++    Note that this option only affects the SMBIOS data exposed
++    through fw_cfg.  It's still up to the firmware to generate
++    the actual SMBIOS entry point(s) seen by the guest operating
++    system.
+ ERST
+ 
+ DEFHEADING()
+-- 
+2.28.0
+
 
