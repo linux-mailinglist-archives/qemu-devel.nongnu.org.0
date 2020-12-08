@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C142D2B24
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 13:35:02 +0100 (CET)
-Received: from localhost ([::1]:59186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 874D02D2B29
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 13:36:38 +0100 (CET)
+Received: from localhost ([::1]:33082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmcCr-0001KJ-DZ
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 07:35:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54866)
+	id 1kmcEP-0002JV-KD
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 07:36:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kmc1c-0007Uc-Cz
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:23:28 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:33403)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kmc4f-00028K-6q
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:26:34 -0500
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:39040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kmc1a-0005ny-Uk
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:23:24 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id p4so7877359pfg.0
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 04:23:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4To1lOqbPeaIwjsmu5T7HJ8KFKE967ZWQg/TXbDDY6w=;
- b=OWF7Tv6dKs/dnSx9NZQ/micjrTN5w/OTc75K2zZpmwtBbC5q86uFhXF73W6qzPbHb/
- i5kEvHZnVliqL9gkBmvIocGdxPYTyH7LvXrWH3m43a69vzzO8llEdrB71OqDnbropjft
- gVYBs+Lz6S8V00hxz59BqLu394L3CFHfyXgvT0ONhwr//kKbA+53E4IfnEGTTFF2MsZY
- f0jMbbvHBfH9fvKF8YxN9iG5Ksyjcng4Eq6ch5d+kHTN4ou/J7v/E+udAmwfaSQ+xrq4
- iFGchnpVMpECHvw4Mqq8k/ZdhJsE+kQwckL20LWBEBPrY0YjVq7L0UFe9FFXaUCLw80Z
- OSeA==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kmc4b-0006wR-V6
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:26:31 -0500
+Received: by mail-ej1-x643.google.com with SMTP id n26so24296519eju.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 04:26:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HcUeWQDfhqgwPmk9UoYoXuWQ7boS7OoO2ua5xOfKLKE=;
+ b=EOE+FjL0EwIlWRO+SJq/sWGmK4/qwZ4LzLZ7Ktwshyp8cQGC6AZRimVcTbazdYTLIr
+ XT2v5AvSzAKd35s2kEgPprba58PrDlhdlf9Dn/Rq6paK82HTZPU2YAwGIDLFYkYw/GhZ
+ kBHthh7g9jt9YrSb2q/Yqa+1Aak8geIaWk8+8x1Y00UxQVjNqE91htfZaAAw1yqkY4yn
+ 39U/S5CF+a0bMs+hR5PgmhWKEA4iU5iwn5KAQUUTU9qdcQ8zWt5Tt0JsYohT55GKWrTf
+ 81PmxcZcbS3ooMNpsmLQmiH5G996CFsJbolRcTVLFcW3G8zOr40SpKHDLqshu3rBiG5P
+ DQvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4To1lOqbPeaIwjsmu5T7HJ8KFKE967ZWQg/TXbDDY6w=;
- b=bgRXfEz4lkYwhjAgGpPB5IJQ2SGnKQvl1mwejTHZ/SOCd0Rf4Mi1yrlEpFo9bH0IdV
- hB7jamKAVBVTE25DVvPSRcVyKxQg8prAlR3JO3w1+QLNVxpb1raxljmW++HK7nn7z8i1
- Amc1VbCJIdKQH1s8dRl+48dBFihQQkVdJveQZ27oA0a6QWNF3Z9oEJN8de5slaFj/1f8
- ARz+NhjbFksg4iMM72Y3XMnCgTVW2qjMiyp38ty7DpboH+JSsBMtfeZWiuqFPuQG70wj
- rzIVkQmco1HzPYudyj1J1ccIw64AfK3Z62uUaQdzfm3l5GKxKCYvWVAQaZK7lXYne9XA
- /r5w==
-X-Gm-Message-State: AOAM532AOb6y379isSpyKrc7NBrF87mUJ4glUBUlNXXp1LrP61INsx1Q
- UQ4i5oih8Ic0ngGfEozUhX2gEg==
-X-Google-Smtp-Source: ABdhPJyuNlsf8urGw98q/CaBW2foI4gxQCYvRBt9nRuFnLa3Oub1Y3jwjVCDAr8y8DjKjiPFzT5O8A==
-X-Received: by 2002:a63:28c4:: with SMTP id
- o187mr11092740pgo.137.1607430201786; 
- Tue, 08 Dec 2020 04:23:21 -0800 (PST)
-Received: from leonardo.ba.nuviainc.com
- (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net. [82.27.183.148])
- by smtp.gmail.com with ESMTPSA id b2sm3472377pff.79.2020.12.08.04.23.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 04:23:21 -0800 (PST)
-From: Leif Lindholm <leif@nuviainc.com>
-To: qemu-arm@nongnu.org
-Subject: [PATCH 5/5] target/arm: add aarch32 ID register fields to cpu.h
-Date: Tue,  8 Dec 2020 12:23:06 +0000
-Message-Id: <20201208122306.8933-6-leif@nuviainc.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201208122306.8933-1-leif@nuviainc.com>
-References: <20201208122306.8933-1-leif@nuviainc.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HcUeWQDfhqgwPmk9UoYoXuWQ7boS7OoO2ua5xOfKLKE=;
+ b=XPEKkYtu7GLI1vjFVmAaGEHoHw4BpVH8vSFlPJp49EGhT3TlKpNyc+C8ZymOo1BYcQ
+ 5JPJKt6lRAFw+yd5tpSK6sPYVx0oSGc21gfxP3mKXSQcAT7l4HHyQ+ksdHLuVjGj3sjH
+ 4d3kKYyQGkDizdOY7hKIwYCMgad2MyeZFb7GM06g3EsdE6HdLucLttkxYdOeeokXQbIW
+ B65KaPnL1sb33wzpin0YpxQ8cRE5502rsE2aA+0aSWmLTOM+w0ZNfkxj9eGRLBby9shN
+ fhR9e5K94OTBq7A3SHTHLm4h31Fr/CW/XA7gHH5d7t5cWD6F3GzcKqF2/FP068/B6Kyf
+ wqCw==
+X-Gm-Message-State: AOAM533fSRNUUZihf1x4F/pHFxqnzQMDtGyW/7ba0CUm734kE/XsA+gt
+ kNT4CAhGKjiEbogNPiPdrgmM+ryHRvM2CWLijYQ=
+X-Google-Smtp-Source: ABdhPJx4C+YEOTTvjckGPHelTdwSzLct55akt/eUnVsqdYhYXZXeDox40MIBQEalhH4W5JOV/Piei6NB83PpAMcqE1c=
+X-Received: by 2002:a17:906:30d2:: with SMTP id
+ b18mr1757098ejb.109.1607430388177; 
+ Tue, 08 Dec 2020 04:26:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=leif@nuviainc.com; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+References: <20201208115737.18581-1-kraxel@redhat.com>
+ <20201208115737.18581-3-kraxel@redhat.com>
+In-Reply-To: <20201208115737.18581-3-kraxel@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 8 Dec 2020 16:26:15 +0400
+Message-ID: <CAJ+F1C+WNBuF7jf2vVhbLpUUqcgOXtRf5dCHmOP7nT=MDJnQnw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/9] console: allow con==NULL in dpy_{get, set}_ui_info
+ and dpy_ui_info_supported
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000049dff005b5f30da2"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,95 +79,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add entries present in ARM DDI 0487F.c (August 2020).
+--00000000000049dff005b5f30da2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Leif Lindholm <leif@nuviainc.com>
+On Tue, Dec 8, 2020 at 3:59 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+> Use active_console in that case like we do in many other places.
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>
+
+ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 ---
- target/arm/cpu.h | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+>  ui/console.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/ui/console.c b/ui/console.c
+> index f995639e45f6..30e70be555db 100644
+> --- a/ui/console.c
+> +++ b/ui/console.c
+> @@ -1544,19 +1544,27 @@ static void dpy_set_ui_info_timer(void *opaque)
+>
+>  bool dpy_ui_info_supported(QemuConsole *con)
+>  {
+> +    if (con =3D=3D NULL) {
+> +        con =3D active_console;
+> +    }
+> +
+>      return con->hw_ops->ui_info !=3D NULL;
+>  }
+>
+>  const QemuUIInfo *dpy_get_ui_info(const QemuConsole *con)
+>  {
+> -    assert(con !=3D NULL);
+> +    if (con =3D=3D NULL) {
+> +        con =3D active_console;
+> +    }
+>
+>      return &con->ui_info;
+>  }
+>
+>  int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info)
+>  {
+> -    assert(con !=3D NULL);
+> +    if (con =3D=3D NULL) {
+> +        con =3D active_console;
+> +    }
+>
+>      if (!dpy_ui_info_supported(con)) {
+>          return -1;
+> --
+> 2.27.0
+>
+>
+>
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 2a12a5ce92..b37a74348d 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1800,6 +1800,8 @@ FIELD(ID_ISAR6, DP, 4, 4)
- FIELD(ID_ISAR6, FHM, 8, 4)
- FIELD(ID_ISAR6, SB, 12, 4)
- FIELD(ID_ISAR6, SPECRES, 16, 4)
-+FIELD(ID_ISAR6, BF16, 20, 4)
-+FIELD(ID_ISAR6, I8MM, 24, 4)
- 
- FIELD(ID_MMFR0, VMSA, 0, 4)
- FIELD(ID_MMFR0, PMSA, 4, 4)
-@@ -1810,6 +1812,24 @@ FIELD(ID_MMFR0, AUXREG, 20, 4)
- FIELD(ID_MMFR0, FCSE, 24, 4)
- FIELD(ID_MMFR0, INNERSHR, 28, 4)
- 
-+FIELD(ID_MMFR1, L1HVDVA, 0, 4)
-+FIELD(ID_MMFR1, L1UNIVA, 4, 4)
-+FIELD(ID_MMFR1, L1HVDSW, 8, 4)
-+FIELD(ID_MMFR1, L1UNISW, 12, 4)
-+FIELD(ID_MMFR1, L1HVD, 16, 4)
-+FIELD(ID_MMFR1, L1UNI, 20, 4)
-+FIELD(ID_MMFR1, L1TSTCLN, 24, 4)
-+FIELD(ID_MMFR1, BPRED, 28, 4)
-+
-+FIELD(ID_MMFR2, L1HVDFG, 0, 4)
-+FIELD(ID_MMFR2, L1HVDBG, 4, 4)
-+FIELD(ID_MMFR2, L1HVDRNG, 8, 4)
-+FIELD(ID_MMFR2, HVDTLB, 12, 4)
-+FIELD(ID_MMFR2, UNITLB, 16, 4)
-+FIELD(ID_MMFR2, MEMBARR, 20, 4)
-+FIELD(ID_MMFR2, WFISTALL, 24, 4)
-+FIELD(ID_MMFR2, HWACCFLG, 28, 4)
-+
- FIELD(ID_MMFR3, CMAINTVA, 0, 4)
- FIELD(ID_MMFR3, CMAINTSW, 4, 4)
- FIELD(ID_MMFR3, BPMAINT, 8, 4)
-@@ -1828,6 +1848,17 @@ FIELD(ID_MMFR4, LSM, 20, 4)
- FIELD(ID_MMFR4, CCIDX, 24, 4)
- FIELD(ID_MMFR4, EVT, 28, 4)
- 
-+FIELD(ID_MMFR5, ETS, 0, 4)
-+
-+FIELD(ID_PFR0, STATE0, 0, 4)
-+FIELD(ID_PFR0, STATE1, 4, 4)
-+FIELD(ID_PFR0, STATE2, 8, 4)
-+FIELD(ID_PFR0, STATE3, 12, 4)
-+FIELD(ID_PFR0, CSV2, 16, 4)
-+FIELD(ID_PFR0, AMU, 20, 4)
-+FIELD(ID_PFR0, DIT, 24, 4)
-+FIELD(ID_PFR0, RAS, 28, 4)
-+
- FIELD(ID_PFR1, PROGMOD, 0, 4)
- FIELD(ID_PFR1, SECURITY, 4, 4)
- FIELD(ID_PFR1, MPROGMOD, 8, 4)
-@@ -1837,6 +1868,10 @@ FIELD(ID_PFR1, SEC_FRAC, 20, 4)
- FIELD(ID_PFR1, VIRT_FRAC, 24, 4)
- FIELD(ID_PFR1, GIC, 28, 4)
- 
-+FIELD(ID_PFR2, CSV3, 0, 4)
-+FIELD(ID_PFR2, SSBS, 4, 4)
-+FIELD(ID_PFR2, RAS_FRAC, 8, 4)
-+
- FIELD(ID_AA64ISAR0, AES, 4, 4)
- FIELD(ID_AA64ISAR0, SHA1, 8, 4)
- FIELD(ID_AA64ISAR0, SHA2, 12, 4)
-@@ -1951,6 +1986,8 @@ FIELD(ID_DFR0, MPROFDBG, 20, 4)
- FIELD(ID_DFR0, PERFMON, 24, 4)
- FIELD(ID_DFR0, TRACEFILT, 28, 4)
- 
-+FIELD(ID_DFR1, MTPMU, 0, 4)
-+
- FIELD(DBGDIDR, SE_IMP, 12, 1)
- FIELD(DBGDIDR, NSUHD_IMP, 14, 1)
- FIELD(DBGDIDR, VERSION, 16, 4)
--- 
-2.20.1
+--=20
+Marc-Andr=C3=A9 Lureau
 
+--00000000000049dff005b5f30da2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 8, 2020 at 3:59 PM Gerd H=
+offmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank">kraxel@r=
+edhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Use active_console in that case like we do in many other places.=
+<br>
+<br>
+Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
+t=3D"_blank">kraxel@redhat.com</a>&gt;<br></blockquote><div>=C2=A0</div><di=
+v>=C2=A0Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre=
+.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt; <br></div><div><br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0ui/console.c | 12 ++++++++++--<br>
+=C2=A01 file changed, 10 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/ui/console.c b/ui/console.c<br>
+index f995639e45f6..30e70be555db 100644<br>
+--- a/ui/console.c<br>
++++ b/ui/console.c<br>
+@@ -1544,19 +1544,27 @@ static void dpy_set_ui_info_timer(void *opaque)<br>
+<br>
+=C2=A0bool dpy_ui_info_supported(QemuConsole *con)<br>
+=C2=A0{<br>
++=C2=A0 =C2=A0 if (con =3D=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 con =3D active_console;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0return con-&gt;hw_ops-&gt;ui_info !=3D NULL;<br>
+=C2=A0}<br>
+<br>
+=C2=A0const QemuUIInfo *dpy_get_ui_info(const QemuConsole *con)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 assert(con !=3D NULL);<br>
++=C2=A0 =C2=A0 if (con =3D=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 con =3D active_console;<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0return &amp;con-&gt;ui_info;<br>
+=C2=A0}<br>
+<br>
+=C2=A0int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 assert(con !=3D NULL);<br>
++=C2=A0 =C2=A0 if (con =3D=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 con =3D active_console;<br>
++=C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (!dpy_ui_info_supported(con)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
+-- <br>
+2.27.0<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=
+=C3=A9 Lureau<br></div></div>
+
+--00000000000049dff005b5f30da2--
 
