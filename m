@@ -2,80 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF4C2D2E5C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 16:36:55 +0100 (CET)
-Received: from localhost ([::1]:40132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 160C32D2E66
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 16:37:30 +0100 (CET)
+Received: from localhost ([::1]:41330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmf2s-00056F-Ln
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 10:36:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47626)
+	id 1kmf3R-0005bn-6N
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 10:37:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kmez1-00020N-Hr; Tue, 08 Dec 2020 10:32:56 -0500
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:36378)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kmeyx-0005x4-Ln; Tue, 08 Dec 2020 10:32:55 -0500
-Received: by mail-qk1-x744.google.com with SMTP id 186so2329309qkj.3;
- Tue, 08 Dec 2020 07:32:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OSWCbx0UDjfSHSrPGok7MnZBJ27WjhdPKZvieRP8kFo=;
- b=kE3WrHpvtYWoNEePzTyAzT2JX68ESUkEAGn+cr/BGl9vZS+JhjZysY3f8eF6zgZWdY
- LNY6P+xlZO5EZBfIT7ZbCMlEQAJ5XtAL2iqGMaEJU22QgfopfbPWyNOhf+8KIzNTJl/y
- WmfVkkzktJPRYl0mfmU3a7NE5bBIap3O66T6Ub+xFZ6wvucpJkS4dNcjmPrYX252hpVk
- Pz3+9wcyhzjtHuwI1BD9ZG52qnT6TZnW1JK5OG3rrWUZJLAVhiv3oKoDsYRmq66gasmM
- sYqZP8eLOCeLRANAVKJXKYhikGtlB2YpkMiSOyEUWvVWbpsXtcaaLInjDpBMIk8Lh1EM
- EHgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OSWCbx0UDjfSHSrPGok7MnZBJ27WjhdPKZvieRP8kFo=;
- b=Wa4q97ZgpAMikBEmxza5EqTvEB+yO4iBbaGj8kUcaPrXWqf1SEOe4PAvEGarWJSWgQ
- S3IdLEyns6iF0j7SYfZktc8Bk6Xmo0PzTGzXHbAufwHp50xfz8+U6inMhWG6cUu7W25F
- p4xlAzbh46IUYNnhwHQ4koISD+Q5NdXTmC2IBMgL5me4bGYUiyuGilI/qIvLEqvuly0h
- Q0AsF9txUK6A1RPjdTSnPN8MMhHtUYMR0RkPp7BZLog/66IPUYkD97PkXFAESt6b2NGe
- cT4r7RfzOcgGhM5sTbr04DcBWkGNMYP/U0vV47lgBHFjrKHyyObAEHng/Pmm3BalFiHq
- gR2w==
-X-Gm-Message-State: AOAM533F9Qm/gw0zQNHBEv7Wfsc6qYz44+6TjJVGqYN5ebDEeivZvsZp
- Y71TcvjmTxig2aayI/uvljY=
-X-Google-Smtp-Source: ABdhPJxEh/H+mM/y/AMdWKs32pFCav7+Y8ofQyWtTNxmV9JrYILr7BRUfiyD9bOoQOq7H0b8hBBTHg==
-X-Received: by 2002:a05:620a:227:: with SMTP id
- u7mr8492621qkm.256.1607441570315; 
- Tue, 08 Dec 2020 07:32:50 -0800 (PST)
-Received: from ?IPv6:2804:431:c7c7:c1a:69c1:2b22:e880:fc49?
- ([2804:431:c7c7:c1a:69c1:2b22:e880:fc49])
- by smtp.gmail.com with ESMTPSA id l22sm14840133qke.118.2020.12.08.07.32.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 07:32:49 -0800 (PST)
-Subject: Re: [PATCH 1/1] spapr.c: set a 'kvm-type' default value instead of
- relying on NULL
-To: Greg Kurz <groug@kaod.org>
-References: <20201208134536.1012045-1-danielhb413@gmail.com>
- <20201208153309.78825861@bahia.lan>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <d142b41a-69c2-77de-861e-e68c3c0459b4@gmail.com>
-Date: Tue, 8 Dec 2020 12:32:46 -0300
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kmezi-0002T2-Bp; Tue, 08 Dec 2020 10:33:41 -0500
+Received: from mail-eopbgr70127.outbound.protection.outlook.com
+ ([40.107.7.127]:59785 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kmezc-00069c-DH; Tue, 08 Dec 2020 10:33:37 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YCZkISTSStRnh8KXFcY+O+CDca8Q2v4tu6X0QET1ZcYC5A1xSefa5C5WEmeTzm3zxwR2qLu/rDvRaPK9QJjtTwXcMUcVEDh3FNNIHIp84+DKPrOAui2513ciUCNxYMz60QhKlUrx0oIrRReLwJa07XDUvofwU+bHYmrfCPKt192u9EVhmmsSbgVDh5ARfMY2fV/V8T2h88ByEezeMU9+ePWK/paO8+UmLy3n88SamisVf0ZcuiQ/hpqhgpHhOPMfca+9JS9m9YI+JCwAHsR+0mqN4y2rIKCH6lB0uOkEhOUA/XZWh0AhJecc809x+0ome5hLR2dJ4P8jzyfNmZvzow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pVktBGdui+3PjQEfqZMocc2SGdZRl2f/m+LEkUsP/co=;
+ b=VLkTAxK0BrDl3IXvZ2rA+/beVvPSchPDh9jP8frkTaCqcSMrTONZcwZf96JsuKzGkJlQ4MFuJEiXvl5AYAwV5WZ1mX1F0IvYt22w8btxd651LZ52Zn/CB93NrmeWPkfUbKwrBcTPr46qb7LBWb6NjutZH7LXXJe9BR49q7IsbePbEwFzo7bj2jV3NbqcCJtIMa0+LiDWa/bFLuU3owLxFJzwBe9AjC9RdQjPsbFFBBsdee26gOIqtFVymy9HI4iRlzqabzBj1a+9CNwerxMYlAYJuR+bF1llJzIhQkyq33VX2R3wv4Q1YtNyfFmLcvGI68GBT59UsKOq65IOgF4/7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pVktBGdui+3PjQEfqZMocc2SGdZRl2f/m+LEkUsP/co=;
+ b=BMfnkpCvXq+BdmySrxkcIOSAl5d5DBNzPjuv/Z0bqTg39mAW0YgQPyG+xdBfFUfZSuHGEOBKYwh4S3S7cyO/mPbZE3OKaQscw1utQpItRo0RtxF3NstV7TrMdqYn8wmMa/896WvVtb/ybVOuX4E0aZuJQ9+viugqE+NYTpp/o60=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
+ by VI1PR08MB4269.eurprd08.prod.outlook.com (2603:10a6:803:f5::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.21; Tue, 8 Dec
+ 2020 15:33:27 +0000
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::44c9:5ac7:5302:7179]) by VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::44c9:5ac7:5302:7179%4]) with mapi id 15.20.3632.023; Tue, 8 Dec 2020
+ 15:33:27 +0000
+Subject: Re: [PATCH 3/3] block: Fix deadlock in bdrv_co_yield_to_drain()
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org, stefanha@redhat.com,
+ mreitz@redhat.com
+References: <20201203172311.68232-1-kwolf@redhat.com>
+ <20201203172311.68232-4-kwolf@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <c8856d43-a039-6bd5-a0cf-bacc26d6dd64@virtuozzo.com>
+Date: Tue, 8 Dec 2020 18:33:25 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <20201208153309.78825861@bahia.lan>
+ Thunderbird/78.5.1
+In-Reply-To: <20201203172311.68232-4-kwolf@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::744;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x744.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Originating-IP: [185.215.60.91]
+X-ClientProxiedBy: FRYP281CA0005.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::15)
+ To VI1PR08MB5503.eurprd08.prod.outlook.com
+ (2603:10a6:803:137::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.91) by
+ FRYP281CA0005.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3654.8 via Frontend Transport; Tue, 8 Dec 2020 15:33:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ba16921b-2cc9-4f5f-3542-08d89b8e9bac
+X-MS-TrafficTypeDiagnostic: VI1PR08MB4269:
+X-Microsoft-Antispam-PRVS: <VI1PR08MB426918E9F55A2F77316E4AB5C1CD0@VI1PR08MB4269.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NtOu5hDgaYr/Tdly8JgAyP6XUzPfejBhGeGsN6SyWNaSh6GZwC7QZUYtFtFdgyODoqOTupYk7pRm4ihoU3AVjSZ1Ivis3y4m2G9jx1CVZ/9NqWJbHyX4fKhdj2Tm8+us+wTnakVIjVmljBeVGpF424JdmKd4CUvGpX/R+PLkuVc9RG9UDRBHJfqLCZp1GcKWlb1S3TBWwQFhz37bU+lJjLXw/YGERm1TktOnfTjfGXNhkWHNjxqOr24rl//empbaKiPvsTW73Lpy8GZk5ohjTWu/pN/dH/+JBzZjhD0oay5QN1WINjbdijsgHSSbI5P87/01SNDxFdERR8jfBKQ4l95E7imbrh7BiRcs3wLTHDrqYHH3A2Z+272uxoqiSiK90Arma6ojXm10wgEb1IDM2vT79X1d/R18zXgmE5xaE2LOEi6Jb85iZEdWY8LcvHZcYBlg2DaJ4fNnQ56PrAGtEmY2V6aIv5sKDpJ14UYWwCT+Ly1V7UoWyKVKosZWHmKIWTQgjE2u3vFCTXp+dGBBfw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(346002)(136003)(6486002)(8676002)(66476007)(31686004)(8936002)(36756003)(4326008)(966005)(52116002)(31696002)(16526019)(5660300002)(86362001)(956004)(83380400001)(26005)(186003)(66556008)(2616005)(34490700003)(16576012)(508600001)(2906002)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?STZYMkwva05LVWtaMVlKNDQ5N2E5UXE4T24xd2tUMEhpaDdWdVdkTEZpOE5v?=
+ =?utf-8?B?RHZBVG5NWTU5NVREbXFxNm5INXkwcThQTFlqV3BIRVliT1YrZjQ4NXRtbXJu?=
+ =?utf-8?B?K2xCQzYwS3RESjVMb2pjTXpaY20weFhPaUVmY3EzZkxGVlpJeGp3S0kyNFU5?=
+ =?utf-8?B?WmVWMG5waUZjeGYxUzl3aEF4b0tFNHlDZ2dNYlRRN0ZCWFZMUDFpRGtmUkRQ?=
+ =?utf-8?B?RTlVU0VUWHgralNuWUFEMnQzVzVTRUkrTklVTDh6VW1xQ01GWkhWVSs5MVo3?=
+ =?utf-8?B?N0VSWHFKcS95aTdCUWhvT3RyU1hNVzRZajNwWGRNUHlIWjFGT29VU3FFb2xl?=
+ =?utf-8?B?SnJnS01kRndRMVEwRlcxYXBBbVNPUkdQbUVxeG00ZzE4SzJjcDUvckxTT2lT?=
+ =?utf-8?B?VXJmS0M0RFFhT3pLamxRbnJFYzJjN1ZoSk9aK3o3UWNhaGxubHlQNGszTGpZ?=
+ =?utf-8?B?M1hIV1FvdUNnSVFMeklFQkxUMHI4UFhFSDRRNUV5aXNZNlBBRlM3M0JaSy9y?=
+ =?utf-8?B?OFZsdlg5aldKQ1EwRWd6aDMrelBqbU1reklzalB4OGEzajArTitUOU52L2gx?=
+ =?utf-8?B?clcvSDRQTG9SeFBwZnhIT1RHRTVKUEc2cnVVaGFmSk9raEhPMTJoZ1hqQUhH?=
+ =?utf-8?B?YytxTkhBVStLNWJYTENPR1JSNnNZNUw2Mk9MSzJXUXQrdHNzQ0M5eHRrcGpM?=
+ =?utf-8?B?V3FRMUttdEw0eThGdVpjVTNyWnlKcEordStyWHlhSHVySldTR0hZdHVhazZN?=
+ =?utf-8?B?WDdPeW1URDFmc3dUbFozbGlRR0ZwOWJYalRhWkwrYXUxbGpESkUvQWNrQ1RU?=
+ =?utf-8?B?ZmsxR09JcEZaMTlFRlI2V3hUN2x2WEtsak5jZm9YcHdIWldRaEt0L0RyZnBI?=
+ =?utf-8?B?SmhvRVIvVDN1dmZIRVVEYjZ3Y0w0cDcraTRQRWdJaHRKR2RtTVA5cUlPVUJn?=
+ =?utf-8?B?SnROamNWeWxYY05vemNRdDdlUWIxUFNTbGoxSXQvNnFObXFSRTZnR2M3blNp?=
+ =?utf-8?B?NjY5TE01cTA4NEljb2F5N0I4cm9BTTVvMForaVdXSG53aUhIa2FmdU0xZzJl?=
+ =?utf-8?B?VHB0WU8raGtIZU90bHYzblAyRjdDTTZYRVVxTGE5dy9MZGRCaVdQTlJvSFov?=
+ =?utf-8?B?Q2lEd1dBZWtMWUFud2M2VE85K0RibGUyWjRmMldUd1RrSDQ1Z1pOL2NLdXNl?=
+ =?utf-8?B?Q0hEL09JWW5YVVVWcld4RnAyR25EK3c4bXlMVTNPMVlOSCtaMjVhNi8ydFU4?=
+ =?utf-8?B?N1V5TmJ1TU1uMHRMdlJZTEdHRy9wLzNKajc2OGhtelJJV3hlSnlMbFJGSmhs?=
+ =?utf-8?Q?T/weduqHXlLUqzkoo2oO078EkUHhNvgLqE?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 15:33:27.0936 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba16921b-2cc9-4f5f-3542-08d89b8e9bac
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 89/fCroqHU/NpS305yfgd6L63Uqg5rOd8m/9gM+StaKZYkSIzhQhk21p04Dd7Rcp/7hEqHLRZQ6sJoeCxHDNvwvUg/RdJuvFRorcVLnNSsM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4269
+Received-SPF: pass client-ip=40.107.7.127;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,161 +137,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12/8/20 11:33 AM, Greg Kurz wrote:
-> Hi Daniel,
+03.12.2020 20:23, Kevin Wolf wrote:
+> If bdrv_co_yield_to_drain() is called for draining a block node that
+> runs in a different AioContext, it keeps that AioContext locked while it
+> yields and schedules a BH in the AioContext to do the actual drain.
 > 
-> On Tue,  8 Dec 2020 10:45:36 -0300
-> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> As long as executing the BH is the very next thing the event loop of the
+
+s/thing the event/thing in the event/
+
+(I've reread several times to understand :)
+
+> node's AioContext, this actually happens to work, but when it tries to
+> execute something else that wants to take the AioContext lock, it will
+> deadlock. (In the bug report, this other thing is a virtio-scsi device
+> running virtio_scsi_data_plane_handle_cmd().)
 > 
->> spapr_kvm_type() is considering 'vm_type=NULL' as a valid input, where
->> the function returns 0. This is relying on the current QEMU machine
->> options handling logic, where the absence of the 'kvm-type' option
->> will be reflected as 'vm_type=NULL' in this function.
->>
->> This is not robust, and will break if QEMU options code decides to propagate
->> something else in the case mentioned above (e.g. an empty string instead
->> of NULL).
->>
->> Let's avoid this entirely by setting a non-NULL default value in case of
->> no user input for 'kvm-type'. spapr_kvm_type() was changed to handle 3 fixed
->> values of kvm-type: "HV", "PR" and, if no kvm-type was set by the user,
->> DEFAULT_KVM_TYPE. This allows us always be predictable regardless of any
->> enhancements/changes made in QEMU options mechanics.
->>
->> While we're at it, let's also document in 'kvm-type' description what
->> happens if the user does not set this option. This information is based
->> on how the pseries kernel handles the KVM_CREATE_VM ioctl(), where the
->> default value '0' makes the kernel choose an available KVM module to
->> use, giving precedence to kvm_hv. This logic is described in the kernel
->> source file arch/powerpc/kvm/powerpc.c, function kvm_arch_init_vm().
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>
->> The case I mentioned in the second paragraph is happening when we try to
->> execute a pseries guest with '--enable-kvm' using Paolo's patch
->> "vl: make qemu_get_machine_opts static" [1]:
->>
->> $ sudo ./ppc64-softmmu/qemu-system-ppc64 -nographic -nodefaults -machine pseries --enable-kvm
->> qemu-system-ppc64: Unknown kvm-type specified ''
->>
->> This happens due to the differences between how qemu_opt_get() and
->> object_property_get_str() works when there is no 'kvm-type' specified.
->> See [2] for more info about the issue found.
->>
->>
->> [1] https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg00471.html
->> [2] https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg01578.html
->>
->>
->>   hw/ppc/spapr.c | 19 +++++++++++++++++--
->>   1 file changed, 17 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index b7e0894019..32d938dc6a 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -3021,9 +3021,10 @@ static void spapr_machine_init(MachineState *machine)
->>       qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
->>   }
->>   
->> +#define DEFAULT_KVM_TYPE "auto"
->>   static int spapr_kvm_type(MachineState *machine, const char *vm_type)
->>   {
->> -    if (!vm_type) {
->> +    if (!strcmp(vm_type, DEFAULT_KVM_TYPE)) {
->>           return 0;
->>       }
->>   
->> @@ -3131,6 +3132,16 @@ static char *spapr_get_kvm_type(Object *obj, Error **errp)
->>   {
->>       SpaprMachineState *spapr = SPAPR_MACHINE(obj);
->>   
->> +    /*
->> +     * In case the user didn't set 'kvm-type', return DEFAULT_KVM_TYPE
->> +     * instead of NULL. This allows us to be more predictable with what
->> +     * is expected to happen in spapr_kvm_type(), since we can stop relying
->> +     * on receiving a 'NULL' parameter as a valid input there.
->> +     */
+> Instead, always drop the AioContext lock across the yield and reacquire
+> it only when the coroutine is reentered. The BH needs to unconditionally
+> take the lock for itself now.
 > 
-> Returning what is obviously a default value is straightforward enough
-> that is doesn't need to a comment IMHO.
+> This fixes the 'block_resize' QMP command on a block node that runs in
+> an iothread.
 > 
->> +    if (!spapr->kvm_type) {
->> +        return g_strdup(DEFAULT_KVM_TYPE);
->> +    }
->> +
->>       return g_strdup(spapr->kvm_type);
-> 
-> Alternatively you could simply do:
-> 
->      return g_strdup(spapr->kvm_type ? spapr->kvm_type : DEFAULT_KVM_TYPE);
+> Cc: qemu-stable@nongnu.org
+> Fixes: eb94b81a94bce112e6b206df846c1551aaf6cab6
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1903511
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 
-Got it. I'll update it in v2.
+I don't feel myself good enough in aio contexts acquiring and switching, to see any side effects. At least I don't see any obvious mistakes, so my weak:
 
-> 
->>   }
->>   
->> @@ -3273,7 +3284,11 @@ static void spapr_instance_init(Object *obj)
->>       object_property_add_str(obj, "kvm-type",
->>                               spapr_get_kvm_type, spapr_set_kvm_type);
->>       object_property_set_description(obj, "kvm-type",
->> -                                    "Specifies the KVM virtualization mode (HV, PR)");
->> +                                    "Specifies the KVM virtualization mode (HV, PR)."
-> 
-> Why not documenting "auto" as a valid option as well ?
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
+Note, I looked through the callers:
 
-This was my first idea but I got cold feet about it. I got afraid that
-exposing the default 'auto' option might misled users into believing that
-we're adding a new configuration option, even thought it's just the
-same behavior users are dealing with for 7+ years. I chose to use the
-'auto' value as an internal default that isn't documented . Granted, this
-also means that we have now a hidden 'kvm-type=auto' setting, so yeah.
+bdrv_do_drained_begin/end should be ok, as their normal usage is to start/end drained section under acquired aio context, so it seems correct to temporary release the context. Still I didn't check all drained sections in the code.
 
-If there is a consensus that exposing the "auto" default is the right
-thing to do in this case I'll just go ahead and expose it.
+bdrv_drain_all_begin seems OK too (we just wait until everything is drained, not bad to temporary release the lock). Still I don't see any call of it from coroutine context.
 
-
-
-> 
-> While here you could maybe convert HV and PR to lowercase in order to
-> have a prettier "hv, pr, auto" set of valid values in the help string.
-> You'd need to convert the related checks in spapr_kvm_type() to still
-> check for the uppercase versions for compatibility, eg. by using
-> g_ascii_strcasecmp().
-
-Roger that.
-
-> 
->> +                                    " If not specified, defaults to any available KVM"
->> +                                    " module loaded in the host. In case both kvm_hv"
->> +                                    " and kvm_pr are loaded, kvm_hv takes precedence.");
->> +
-> 
-> s/If not specified/If 'auto'/ and mention 'auto' as being the default value.
-
-
-As I said above, I'll happily mention the 'auto' default if we can agree
-that this will not lead to user confusion thinking this is a new option and
-so on.
-
-
-Thanks,
-
-
-DHB
-
-> 
->>       object_property_add_bool(obj, "modern-hotplug-events",
->>                               spapr_get_modern_hotplug_events,
->>                               spapr_set_modern_hotplug_events);
-> 
+-- 
+Best regards,
+Vladimir
 
