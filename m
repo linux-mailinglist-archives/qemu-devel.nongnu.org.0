@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF48D2D366B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:46:34 +0100 (CET)
-Received: from localhost ([::1]:53628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B352D3667
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:44:45 +0100 (CET)
+Received: from localhost ([::1]:49624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmlkf-0003Y5-NR
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:46:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55900)
+	id 1kmliu-0001t4-A3
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:44:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kmlBn-00054m-Uu
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:10:32 -0500
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:39282)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kmlD1-0005zJ-AJ
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:11:47 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kmlBl-0005IS-4N
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:10:31 -0500
-Received: by mail-il1-x143.google.com with SMTP id q1so16930123ilt.6
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 14:10:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q3f02N6G82r1ZKsxSvYTr7dT4gSK3kLqPX7QGpUL9lM=;
- b=gL6MRNs7K/yRHVr13PHTDGOIAliHYjw6jaMnvOeig+ADqSYr22Ibbv2Eb3Q0MqcAra
- 3ZfxJvpufzZudT4s7MnQjq7qMK5O8eyQZfJAhgrmYYK9mBAGMLDEFvKkw0OpRDDNe1YC
- h8B7rLTqgUHS1DOm+L7e08l0PZ6tROYrY77+alNkDGojZJGbj7/KnaYHo9QxyGgCIfbM
- HktUDx6KEtwESWcNCvTTUQ2/jO2EcglGqa7yWm6sJO2GAYownfLA8LrkltxYse7i16Qt
- a1pTnacLm+5BEr1jUnc6Ry8kWtkLDtl2Bn8UHM270CXKYAXW7sBXrXZ5r1/yT/6KR2Ko
- aCOw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kmlCy-0005kh-H0
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 17:11:47 -0500
+Received: by mail-ot1-x342.google.com with SMTP id x13so255293oto.8
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 14:11:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=b2C+HWDM43GOsU1SRUMnDSewUrX0ur8On93MW/ehQ2s=;
+ b=AcjOBK/rmhGFw8hp5XO1ilO86Pt7OUam1wVa/jIeRSpLmwc1ZKmGTi5hGesRj9b1ra
+ jyTR265P3Uu9xwydMd2HvJaP47ZHp4OmtU20U6XQ4Znm3ZzJgXgV9lSXLZFlbf8zpKCb
+ vIFlYik0Lv2h2FC2tpy52LQ/fNfP4m6UReBDXjDf2SX9zzRI2PXQJXpxiHPb269apekq
+ wjuD+rVnMYhP/2RgqKZStxUqJ3vooypyftjoEGHbrs3PVg26Ly1O1O6AzaIxJUwU+SGq
+ AE5qGuYu/CAK3lBmHxisyyB+KcH1Vwq/DFXGG0QFCs7JCj+Q4MIsQvS86a02SuwMSsdF
+ PTdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q3f02N6G82r1ZKsxSvYTr7dT4gSK3kLqPX7QGpUL9lM=;
- b=gCu31yrc+QSi3oyZAXILdkfXjn1c3u4dwcA6clejegkfJNE+AYBne2EQEokGsRy2QQ
- P+a5XurcinxwIRD8vz1vTzQpnBVKc5qoHZhELfpe6oAI0u22XOU5CV0I8UyGmBRTPNsk
- dr2J59h6cvWQQxaMDPzi64iR3q328S5qbURa3n90CodIVgyRgc946jpI6/uRNf9qoVSD
- 7Y+udA9q54MhW2fjfPkGl30MVQ24e/qcL0DDxwNZ88YxC+nNvcJERrxK2JWW3OfzbKgh
- P6EIfYOqVV2fj2eBL8r9U5s+be37rI4o8ZxxkWbp+2MHB7I+PjAIMngK/NxB9SQB1t7f
- 0eDA==
-X-Gm-Message-State: AOAM533yxHj5ac7YOef32AYRp74vDwtDgU/IyCV6hiJTjuT4Wwf73juW
- EkTAlVlzmDEBIzvBzpDqWaOLLO3fn76dzxpupms=
-X-Google-Smtp-Source: ABdhPJwsAjFgNxGVWyK37wpHbUD2mOX3OwvwMDZkHmd55heL+WNpmg0rhtDtpYrexFLYnzOewOsQDQEIoPsNfp8mCpw=
-X-Received: by 2002:a92:5eda:: with SMTP id f87mr28141601ilg.131.1607465427774; 
- Tue, 08 Dec 2020 14:10:27 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=b2C+HWDM43GOsU1SRUMnDSewUrX0ur8On93MW/ehQ2s=;
+ b=mWLdqNxOVCqPqZHFCCLNozPDhVZrDn6rz05MWonF3GSWnLZ4kp8HQP0YJPtanoyq/O
+ pk+OB8+DIinxBf7mnWtcEC6fl7VOwcKgGFFg+qEg1Euld1ZPG6tXXsnszZ6cdXpq9Gfp
+ Tym5uM8D8tne2/4hqPU8bPI7g3c8TNQRlHVD3nYF51LUj3TEgJnEoglsXGNewCwI4J0Y
+ Tf322MC4akitObVelkD/qK8LuCoo/y4ptddi/ANM/35yeQ0HHoP3SWrfpFuzVIeu3xh+
+ dzw/GVUQusEwJbesFbj2dbQKGn+o0jlHeSFnTH4wfqNKMb5BDJWk4G4rESaREJ+D8fED
+ Xk5g==
+X-Gm-Message-State: AOAM532iou6RMa+OMy7tURs77x7zX3ju+lNFPGoP1uyrKjvlu6bsWONz
+ dzkhrgHbUad3Hmuvc0e1LRwlZw==
+X-Google-Smtp-Source: ABdhPJxkEDlh4O1scIg1AjQvG5hEe0Xiqb+MWnH5kdFDAGyeJYI/qHa9N9rZ75RDIWv5GZHERR1zpg==
+X-Received: by 2002:a05:6830:1352:: with SMTP id
+ r18mr153887otq.73.1607465503236; 
+ Tue, 08 Dec 2020 14:11:43 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id t203sm20829oib.34.2020.12.08.14.11.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Dec 2020 14:11:42 -0800 (PST)
+Subject: Re: [PATCH 13/19] target/mips: Fix code style for checkpatch.pl
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201206233949.3783184-1-f4bug@amsat.org>
+ <20201206233949.3783184-14-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ba22f3db-9afb-b4e1-5c19-1d9f5ff000fd@linaro.org>
+Date: Tue, 8 Dec 2020 16:11:40 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201208194839.31305-1-cfontana@suse.de>
- <20201208194839.31305-17-cfontana@suse.de>
-In-Reply-To: <20201208194839.31305-17-cfontana@suse.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 8 Dec 2020 14:10:01 -0800
-Message-ID: <CAKmqyKMZA3FEdXKx0L1sRHN+tRhvyE7Pyg4cLzMSueQZFgfxaA@mail.gmail.com>
-Subject: Re: [RFC v9 16/32] target/riscv: remove CONFIG_TCG,
- as it is always TCG
-To: Claudio Fontana <cfontana@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <20201206233949.3783184-14-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,57 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm@vger.kernel.org,
+ Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 8, 2020 at 12:52 PM Claudio Fontana <cfontana@suse.de> wrote:
->
-> for now only TCG is allowed as an accelerator for riscv,
-> so remove the CONFIG_TCG use.
->
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 12/6/20 5:39 PM, Philippe Mathieu-Daudé wrote:
+> We are going to move this code, fix its style first.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/riscv/cpu.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index a52e0ce466..27dd1645c9 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -561,10 +561,9 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
->      /* For now, mark unmigratable: */
->      cc->vmsd = &vmstate_riscv_cpu;
->  #endif
-> -#ifdef CONFIG_TCG
->      cc->tcg_ops.initialize = riscv_translate_init;
->      cc->tlb_fill = riscv_cpu_tlb_fill;
-> -#endif
-> +
->      device_class_set_props(dc, riscv_cpu_properties);
->  }
->
-> --
-> 2.26.2
->
->
+>  target/mips/translate_init.c.inc | 36 ++++++++++++++++----------------
+>  1 file changed, 18 insertions(+), 18 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
