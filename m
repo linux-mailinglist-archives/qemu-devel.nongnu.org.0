@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098C82D360B
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:20:33 +0100 (CET)
-Received: from localhost ([::1]:50516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3360F2D361E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 23:24:02 +0100 (CET)
+Received: from localhost ([::1]:60620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmlLU-0002wK-2B
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:20:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
+	id 1kmlOr-0007GZ-6o
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 17:24:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmkoi-0006GA-BM
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:46:40 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:41021)
+ id 1kmkr8-0000rN-Qy
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:49:11 -0500
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmkog-0005XH-Io
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:46:39 -0500
-Received: by mail-ot1-x341.google.com with SMTP id x13so189265oto.8
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 13:46:37 -0800 (PST)
+ id 1kmkr5-0006C9-Gq
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 16:49:10 -0500
+Received: by mail-oi1-x244.google.com with SMTP id y74so121149oia.11
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 13:49:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oty0wPSO21B92v+ceSRVXFqtyP7fp7aR2WeEKcmjgpE=;
- b=A6rzuDVMJjuhXbPneHmHFW7qT8EWEn9cndw0i57ZR6Ol4Eypncz972umaqmvRE95EA
- mNlAMFwhG74tex3DJVMvLyD3vF+CvL8y0Pbaaex9XRzN+miSsdDKISbn1cfZqcI0FM1G
- Cdn7htEcdZNZ2sSmIAWdvRxOLlVoTNNEQB3miB2Q5M7KM9q+5va/hk9wpYgo9qtTdU4d
- f2ZtkFFKAMbiwuWoNbMCeVvf8ybDgh/9NUnLMhT6HDScn/yfYpLE6ca4vW3uwUKafO0T
- 8um2o1GuXrOvluQz3mGMX7BJtX5RcOJ0CM8RuElMv7cAYASfuWPv2DV6/KCGUStv8GD3
- 7E/Q==
+ bh=N+xIHqu2+gRNiZKfWeew6jfBHxjpySrralGLj5BRwOw=;
+ b=QUzV3ocabQNZmYipeyaTTZjVvE4B49fqvdxF9uSQmarRP546BlrG7CAPFHrpemRzKl
+ jn6MQL5GvlyAIHCeO8/s9AY69UP4aqdm0mJXVnrUP3CsBUzjUOlDtjXAkdxVL/iR98M4
+ KgiaW+vy9G8fBnyCfovTVU857yR3QqCo9pk2x1DjTSYkHkr1LIX0JRygJozF3YsX7wjJ
+ 9Z+7KG9YjlUU0KYxAjXylCsgfTmuetinUl6XLNVHtzf2T6cMbHnW2DHmedmPQAo2JwA/
+ rCP3/mK6/ImYn9vjNtPypv8jrN+BJEt8b6+4Xnh489Phjb6avXbdVN3xMyV2E/cRzFNS
+ guvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oty0wPSO21B92v+ceSRVXFqtyP7fp7aR2WeEKcmjgpE=;
- b=iqxI9o+7jrjD4PN6HErlXOfXly9jMOfr+8JQbk74g4HMhmsD7aFYBCBZuoWmkUBI5i
- IE/SIT/bzBdS2f0P2OEbW+1yATU2dRMmTsJs87ufogylnOpa61EX1Fa9rAkKNT8VZfcy
- hgLj+s1GHfk9czs+aPFqXoHiIlp7Z5oDVfnxWpeNISF7Z7Fg4NxFsw0Hzim69qnsg6OR
- 9mtgEr0ek2vNYTDPid0ZMMx6Q814JgV/KQjr+Afs3oLwLIJ6zYkrWrX2kdaYHbEsXs0B
- fpwkZ5LkFQpnuliRIFMpSwgajTqFXX8ZtSM1V2w3M6OBLsMPyfICGbPfmKnRZ02yPA8b
- 6UpA==
-X-Gm-Message-State: AOAM532pEL3NbQol02JlNjoXXrshCl16xnQLuORtRcA9wji+0hjguqd5
- 7OyTQGRQYFH7L/Hpc8GfNBqHnA==
-X-Google-Smtp-Source: ABdhPJx4jeU+EBSjliJjH96Xla46A3J91fakYZhPMpDfl55wM6KiAlcSFlDlF5YhMKC3GzvQJj8PxA==
-X-Received: by 2002:a9d:2ab:: with SMTP id 40mr94611otl.280.1607463996134;
- Tue, 08 Dec 2020 13:46:36 -0800 (PST)
+ bh=N+xIHqu2+gRNiZKfWeew6jfBHxjpySrralGLj5BRwOw=;
+ b=KPZPfODaSfUJ+AFnOuuOt4LqKO4jl0rfVu90llcPoMAB3KOWV9ChufBI3+aenf44GI
+ uOLu2oNBQW1jV5rJAVxEh/M5uMV5W+DlBoApSKZqnOnwqDsNqCJI9TlS91joo4i7apZI
+ 4Gr4MYEZb9I8x+7YFxlnZo9P7cvaGh5oFfCDFu8Ay6SAmAoIwTWEiXdfxh8F9aTrDboR
+ q/91l2pd4K0UqGRckRw91IOWYTe0AOfG54/rv5d2y7iUlikrP8qy+xS/WS88nluqoOv1
+ G5SWfmZ43te1SV4oZABSVZ2y1SVX6lBIlSptnPlIWxj+PlvStJjEfNXe1XineF4ZByeb
+ 5pTA==
+X-Gm-Message-State: AOAM532N8a6LOySRnO2gaVHIApRSDPxZU17iGIjxHG0CTgPIxSS2h1Pu
+ mWMsa5r1ocFqhGXoFfLYpGtDMQ==
+X-Google-Smtp-Source: ABdhPJw7DajjHwECgxki4hidw33aMmAf2Yprs7V3t9hpev8RNtNV8+lt3MEsc0RCBZ7mRNqTZzLEDw==
+X-Received: by 2002:a05:6808:650:: with SMTP id
+ z16mr4351402oih.50.1607464146325; 
+ Tue, 08 Dec 2020 13:49:06 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id m81sm4660oib.37.2020.12.08.13.46.34
+ by smtp.gmail.com with ESMTPSA id k3sm52714oor.19.2020.12.08.13.49.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 13:46:35 -0800 (PST)
-Subject: Re: [PATCH 01/19] hw/mips: Move address translation helpers to
- target/mips/
+ Tue, 08 Dec 2020 13:49:05 -0800 (PST)
+Subject: Re: [PATCH 03/19] target/mips: Remove unused headers from fpu_helper.c
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201206233949.3783184-1-f4bug@amsat.org>
- <20201206233949.3783184-2-f4bug@amsat.org>
+ <20201206233949.3783184-4-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <89d90ad5-d638-bdeb-c004-c84002e16d51@linaro.org>
-Date: Tue, 8 Dec 2020 15:46:33 -0600
+Message-ID: <ebcbe6d1-5142-6a4a-5133-ad81ab2dabbf@linaro.org>
+Date: Tue, 8 Dec 2020 15:49:03 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201206233949.3783184-2-f4bug@amsat.org>
+In-Reply-To: <20201206233949.3783184-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x341.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x244.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,24 +97,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/6/20 5:39 PM, Philippe Mathieu-Daudé wrote:
-> Address translation is an architectural thing (not hardware
-> related). Move the helpers from hw/ to target/.
-> 
-> As physical address and KVM are specific to system mode
-> emulation, restrict this file to softmmu, so it doesn't
-> get compiled for user-mode emulation.
-> 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  include/hw/mips/cpudevs.h  | 7 -------
->  target/mips/cpu.h          | 8 ++++++++
->  hw/mips/boston.c           | 1 -
->  {hw => target}/mips/addr.c | 2 +-
->  target/mips/translate.c    | 2 --
->  hw/mips/meson.build        | 2 +-
->  target/mips/meson.build    | 1 +
->  7 files changed, 11 insertions(+), 12 deletions(-)
->  rename {hw => target}/mips/addr.c (98%)
+>  target/mips/fpu_helper.c | 4 ----
+>  1 file changed, 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
