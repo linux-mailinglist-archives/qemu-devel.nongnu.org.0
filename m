@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C445D2D3282
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:03:51 +0100 (CET)
-Received: from localhost ([::1]:40302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2933D2D3296
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:19:31 +0100 (CET)
+Received: from localhost ([::1]:57830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmiH8-0001VS-SV
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:03:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36458)
+	id 1kmiWI-0000qM-7F
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:19:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmhvu-0007B1-TO
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:41:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56146)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmhvs-0002KH-Ow
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:41:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607452912;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=34uuOK/3FRVFfUegIUptne0NmxFFM9vhLXaDGBp2TxI=;
- b=iFvio6zCU6nn/f8Ibh/mxzV+XsfDB9H9efHWt/pnKBklByNhXB8iR1ULt8zPaxvOeK4LfJ
- EhtBOUVlG2OEjXJXq5U+ln59uD6Y9akCiifQE1UkJBKkVRaSPQBX0Rt8XPHTRzu7wHbF9Q
- 9dam8ONzBY4Xexrc0gsH9gsUvVP63rQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-llXLUjkFPp6bur3W0ArP9g-1; Tue, 08 Dec 2020 13:41:49 -0500
-X-MC-Unique: llXLUjkFPp6bur3W0ArP9g-1
-Received: by mail-wr1-f71.google.com with SMTP id q18so1102940wrc.20
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:41:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmiPc-0006oz-PL
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:12:36 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43309)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmiPb-0007Iw-5l
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:12:36 -0500
+Received: by mail-ed1-x532.google.com with SMTP id q16so18703360edv.10
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:12:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vXhiX8+F42dDe1lb9JT0aJw3nxuWJ8le2dxYEIZywEg=;
+ b=MQ/W0YRgWHQG8F5gM+xNvHh0HZQd1dUwreI+P2p0ufpCw/y2q/6ij8aHGMmXfutKDZ
+ MXCACyyZBmfXC2F2Sw29hfX5oShm913JS8wMKwMMtyxDF0H2SLyg08YqQkeqQAIlJRLw
+ kfG+x19NTc7WZoD4nCx/GMM2IJQjd7RH/6lVRiSgR7FYGAiY3Pdcx/Gr6hdqFNAs5GRf
+ maUbjV32jOa9GKr9ph2+7KrXncU783Wrjh1/dj3Z8EMX03vCQqE8EtSXu8Y9V6Jf7S2p
+ 7cwq96dUTnooeZ+tPvj+u0OphDr2BCSKuSb1zgcIOgSGKS3Xy88ZOY7pzey6TmjPEOOp
+ trQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=34uuOK/3FRVFfUegIUptne0NmxFFM9vhLXaDGBp2TxI=;
- b=LeqEmnbumV48iOdgcMdM2u/+XYov9WVFs0pDeNL73BTlj5wOxKQvjy9y0lvZ/eCgJM
- Q1rDmBx6I+mbzOFFfBqQgRl+H/e2o3pBm0tGPrvm3c7V62cvtPleRyiriOWfSKJX5/9o
- 0EI8BzMv4s0ve0qFvn041oDv6NkGuWId3LkqA2PZPUjBJSTRI9PTUbvZQy/UMGKEev4y
- rTd4b3EpmuWeWOzIp167EYwkWkPNEerjo5jRjmUKndoqWMtivOtlB3t/cMWGgBOlOMES
- 29d9ASIhiL8DGwlfwDsz0SiexoJ6JXNTT06vs/g+TkGwLr1IQO+oi+JqU7SdLMkcqqD/
- BtnQ==
-X-Gm-Message-State: AOAM5307ijcwaSTmP6JKRqHI/0n/EEblqsunK82YYzx+vZ+Ku9VpEXvc
- 5Dm2R7/WWy+MPpyuweIDpnr0qaOPpc7iznjQXhNXVjyPzynvJFm+zC6YJxuxXHpjMsZDAdsM+Xu
- HANofSM7YkD9dldo=
-X-Received: by 2002:adf:9b98:: with SMTP id d24mr9461347wrc.240.1607452907642; 
- Tue, 08 Dec 2020 10:41:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwrjrck6U6T25iZjMDwH+2lprploJ6e9ZEQvSghIDjZXzjlMRbqmCiYoFPDlIuL224B93dV1w==
-X-Received: by 2002:adf:9b98:: with SMTP id d24mr9461337wrc.240.1607452907465; 
- Tue, 08 Dec 2020 10:41:47 -0800 (PST)
-Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id 90sm21900022wrl.60.2020.12.08.10.41.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 10:41:46 -0800 (PST)
-Date: Tue, 8 Dec 2020 13:41:44 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-Subject: Re: [PATCH v4] Fix build with 64 bits time_t
-Message-ID: <20201208134133-mutt-send-email-mst@kernel.org>
-References: <20201203195819.583626-1-fontaine.fabrice@gmail.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vXhiX8+F42dDe1lb9JT0aJw3nxuWJ8le2dxYEIZywEg=;
+ b=U93rsCuI+ZzMALkgwYStXZNHVGF7UK5d6s0wv/QPOQcYJzwMPW3DXv157NnFxl1jxm
+ 9Q0dG+7jvdyq8ub4LybYd2xONOhUuxZVN/gD6psyGzun0zAVN8u5ZT6+1ZXbsUC+42jK
+ LyC2Si1GzItRvK5UlchPG9tFFrhJpLiNFwcYG7q57B7yGRdV1HsYTR4gSrKvbszPsxSF
+ NugGtipeFmuFNlJY63Kstd5qhuyCyKXzdQoBLhjdadR4ZNJ9sSkFH4vvOvJkB3s9KOyE
+ 8e0xZLGIzKARKdiRg7qOX1IMGKt5ZJWQQ9fypeN6Hiukc//xlBWCp+hxygYR7QKsdLVY
+ 3KqQ==
+X-Gm-Message-State: AOAM533b4r5egUxLiZGqpJJ8cgSRMdmEiN8ZcZYuMesZBjfV7DU4+gQd
+ 8sBN3sn891dyhOXier0yWls=
+X-Google-Smtp-Source: ABdhPJxX343uXDWX74FAdEBkzRb3buIR+ae8aICW5ykq+ukRAUACVULLos6/iUtCUxF78fnKryaL+Q==
+X-Received: by 2002:a50:f9cc:: with SMTP id a12mr11486833edq.335.1607454753476; 
+ Tue, 08 Dec 2020 11:12:33 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id n7sm18294205edb.34.2020.12.08.11.12.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Dec 2020 11:12:32 -0800 (PST)
+Subject: Re: [PATCH-for-5.2?] target/mips/translate: Check R6 reserved
+ encoding for Load Linked Word
+To: "Maciej W. Rozycki" <macro@linux-mips.org>
+References: <20201124134557.569388-1-f4bug@amsat.org>
+ <5bcade19-de8c-8521-f77c-599e3c9d40a0@linaro.org>
+ <e983c95c-5713-3b5b-0c3c-e0d6bf8244c6@amsat.org>
+ <CAAdtpL7zG6Ocbv0ChjQUArGkmTEegzC5AW5O3DjiDxFK7oEMWg@mail.gmail.com>
+ <alpine.LFD.2.21.2012081838061.2104409@eddie.linux-mips.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f6b6e6a4-717a-dfbb-59fb-a23d7fc6345d@amsat.org>
+Date: Tue, 8 Dec 2020 20:12:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201203195819.583626-1-fontaine.fabrice@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <alpine.LFD.2.21.2012081838061.2104409@eddie.linux-mips.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,110 +93,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 03, 2020 at 08:58:19PM +0100, Fabrice Fontaine wrote:
-> time element is deprecated on new input_event structure in kernel's
-> input.h [1]
+On 12/8/20 7:43 PM, Maciej W. Rozycki wrote:
+> On Tue, 8 Dec 2020, Philippe Mathieu-Daudé wrote:
 > 
-> This will avoid the following build failure:
+>> Duh I hit that again, read the patch again, looks correct. I guess
+>> I got confused myself reviewing the offending patch...
+>> So I'm applying this patch to mips-next queue, using
+>> Fixes: d9224450208 ("target-mips: Tighten ISA level checks")
 > 
-> hw/input/virtio-input-host.c: In function 'virtio_input_host_handle_status':
-> hw/input/virtio-input-host.c:198:28: error: 'struct input_event' has no member named 'time'
->   198 |     if (gettimeofday(&evdev.time, NULL)) {
->       |                            ^
+>  What's wrong with current code?  What I can see is:
 > 
-> Fixes:
->  - http://autobuild.buildroot.org/results/a538167e288c14208d557cd45446df86d3d599d5
->  - http://autobuild.buildroot.org/results/efd4474fb4b6c0ce0ab3838ce130429c51e43bbb
+>     case OPC_LL: /* Load and stores */
+>         check_insn(ctx, ISA_MIPS2);
+>         if (ctx->insn_flags & INSN_R5900) {
+>             check_insn_opc_user_only(ctx, INSN_R5900);
+>         }
+>         /* Fallthrough */
+>     case OPC_LWL:
+>     case OPC_LWR:
+>         check_insn_opc_removed(ctx, ISA_MIPS32R6);
+>          /* Fallthrough */
+>     case OPC_LB:
+>     case OPC_LH:
+>     case OPC_LW:
+>     case OPC_LWPC:
+>     case OPC_LBU:
+>     case OPC_LHU:
+>          gen_ld(ctx, op, rt, rs, imm);
+>          break;
 > 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=152194fe9c3f
-> 
-> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+> which looks absolutely right to me: LL is accepted with MIPS2--MIPS32R5 
+> (including R5900 in user emulation only), LWL/LWR are accepted with 
+> MIPS1--MIPS32R5 and the remaining loads are accepted everywhere.  What 
+> else do you need?
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-Gerd pls feel free to merge.
-
-> ---
-> Changes v3 -> v4 (after review of Gerd Hoffmann):
->  - Include <sys/ioctl.h>
-> 
-> Changes v2 -> v3 (after review of Gerd Hoffmann):
->  - Replace include on <linux/input.h> by
->    "standard-headers/linux/input.h" to try to fix build on rhel-7
-> 
-> Changes v1 -> v2 (after review of Michael S. Tsirkin):
->  - Drop define of input_event_{sec,usec} as it is already done in
->    include/standard-headers/linux/input.h
-> 
->  contrib/vhost-user-input/main.c | 8 ++++++--
->  hw/input/virtio-input-host.c    | 5 ++++-
->  2 files changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/main.c
-> index 6020c6f33a..b27b12733b 100644
-> --- a/contrib/vhost-user-input/main.c
-> +++ b/contrib/vhost-user-input/main.c
-> @@ -7,13 +7,14 @@
->  #include "qemu/osdep.h"
->  
->  #include <glib.h>
-> -#include <linux/input.h>
-> +#include <sys/ioctl.h>
->  
->  #include "qemu/iov.h"
->  #include "qemu/bswap.h"
->  #include "qemu/sockets.h"
->  #include "contrib/libvhost-user/libvhost-user.h"
->  #include "contrib/libvhost-user/libvhost-user-glib.h"
-> +#include "standard-headers/linux/input.h"
->  #include "standard-headers/linux/virtio_input.h"
->  #include "qapi/error.h"
->  
-> @@ -115,13 +116,16 @@ vi_evdev_watch(VuDev *dev, int condition, void *data)
->  static void vi_handle_status(VuInput *vi, virtio_input_event *event)
->  {
->      struct input_event evdev;
-> +    struct timeval tval;
->      int rc;
->  
-> -    if (gettimeofday(&evdev.time, NULL)) {
-> +    if (gettimeofday(&tval, NULL)) {
->          perror("vi_handle_status: gettimeofday");
->          return;
->      }
->  
-> +    evdev.input_event_sec = tval.tv_sec;
-> +    evdev.input_event_usec = tval.tv_usec;
->      evdev.type = le16toh(event->type);
->      evdev.code = le16toh(event->code);
->      evdev.value = le32toh(event->value);
-> diff --git a/hw/input/virtio-input-host.c b/hw/input/virtio-input-host.c
-> index 85daf73f1a..137efba57b 100644
-> --- a/hw/input/virtio-input-host.c
-> +++ b/hw/input/virtio-input-host.c
-> @@ -193,13 +193,16 @@ static void virtio_input_host_handle_status(VirtIOInput *vinput,
->  {
->      VirtIOInputHost *vih = VIRTIO_INPUT_HOST(vinput);
->      struct input_event evdev;
-> +    struct timeval tval;
->      int rc;
->  
-> -    if (gettimeofday(&evdev.time, NULL)) {
-> +    if (gettimeofday(&tval, NULL)) {
->          perror("virtio_input_host_handle_status: gettimeofday");
->          return;
->      }
->  
-> +    evdev.input_event_sec = tval.tv_sec;
-> +    evdev.input_event_usec = tval.tv_usec;
->      evdev.type = le16_to_cpu(event->type);
->      evdev.code = le16_to_cpu(event->code);
->      evdev.value = le32_to_cpu(event->value);
-> -- 
-> 2.29.2
-
+I am clearly bleary-eyed... Sorry. Patch dropped.
 
