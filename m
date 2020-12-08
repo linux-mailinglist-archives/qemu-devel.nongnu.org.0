@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE212D31C0
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:09:48 +0100 (CET)
-Received: from localhost ([::1]:44634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F612D31F4
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:18:20 +0100 (CET)
+Received: from localhost ([::1]:36756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmhQq-0005hV-07
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:09:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56942)
+	id 1kmhZ5-0005zH-O5
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:18:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmhIz-0007dk-3d
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:01:41 -0500
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:33212)
+ id 1kmhJ0-0007fd-Gr
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:01:42 -0500
+Received: from mail-oo1-xc41.google.com ([2607:f8b0:4864:20::c41]:40855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kmhIx-0006Mw-6k
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:01:40 -0500
-Received: by mail-ot1-x342.google.com with SMTP id b18so16651451ots.0
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:01:38 -0800 (PST)
+ id 1kmhIz-0006NS-30
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:01:42 -0500
+Received: by mail-oo1-xc41.google.com with SMTP id 9so1551466ooy.7
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:01:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8zjW4PjT9eWoc73I7yU10h5NKHpQH6qDD0fJsI6BkIQ=;
- b=tc1DJmUX2oSWl1IMBWjyQPLBSJXxAwOxVLwAZ2kJzZxHaQ7/syeEAEYNFdQrYT0VmV
- JKlJ+kD480Se3eZhlDavlXUIxI/ojcQkAdGAc4whWv5X+m1Ha733mKKNS0LPLkuBFjN9
- xFOFtrSdatP1Kz5cdJKoNgTk6/yZBlEEKcTqyKXKupdG0uSa8rZoqGlBUe43EpP1D58A
- 4Yn7qEgplxLiP5ksPUDOX+H44Jo9COsOclZdhkwTNCBmDCQf1bsKuxXfyU51Qa0ajcKk
- OCtec1sgTt9dD7c1r8IkPm8esl4ZezC7EHQna76EzQ6FKv3tUJBYk57LW46oocQebOME
- Zj+g==
+ bh=7eYNYi6nRqgOF9U1+OBQOhH564yszaE/ArldGpU6S2Q=;
+ b=tQNwyo7r0z6wULhVOktBLG7Y8qLwEnzk1uU9wbIPFv+Pfw8ucbNNDvFTvVzTW8umbS
+ 6EzKyp/lAeVa4A19uJ5qvticHaDwUACwQY0t1U773b1DZnkfJtnKmMyjSePIL1ZHBKtm
+ M0+N3dwSetsgr38wvO/nCY4yI4/7FHKz3TLGA9B+8nP95phRMHDP1MDfNUueJ0q+n7R4
+ 2M/c+E+IKF4cHI4I/dfY7rgp4l/rb6RpgdPODkrELOjHRIu9StcKld17KI7ATONoW1sa
+ fRkZeirVPOKJrfheyXinULlnJ6f/9RJ/o4AhvoxDYzDBuV7yhR+zrn1lR1VJpJN1eyxb
+ WoAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8zjW4PjT9eWoc73I7yU10h5NKHpQH6qDD0fJsI6BkIQ=;
- b=DFPqPjmDtbKSK8QbJvPABHJ+CvZkZFT0h0RH9uJ7mYSfKXh+GcQZbCI94qIX3RoZM0
- 2IKwQQg3PGHdydMtyVwqRvHmXs7M1m4YhrQvUqGaNGRKsqXIEoL9x3ck5iqgEpIWCcue
- jc61C635ghACXkTFg+gyIRQOlchBxdXjLHcBjGNE3YyUoVktzuMiUZCfdAnP36LCBf4k
- OJQBM+mjzlGnVcnbGzsIKRMQP7rASycsIZh29BdIQGHNcTY4fZl1KrAzYWBRXzPw97J6
- fduvMkJ0pA/a8PpSR4IdLWleWxn59leriLu2c2BrNqguzbohKdDQkzR6s0Pd6z9I17Ob
- Yj9A==
-X-Gm-Message-State: AOAM533OzDQ/+SA/fI1AXgAxMgiBGXdMDbg6NQdtiaJ9X/812ways1uD
- 8Yqh9dw/Xp6IuB2pnWU8tkjYBMeeFYWJ8+sP
-X-Google-Smtp-Source: ABdhPJzbPWO5ejriEO09/Mv/pe3+QmO1L0uGYz5QVgtGB+DlvyKnKchB3K0wBGLdD1mME4/jdJfarw==
-X-Received: by 2002:a9d:4b03:: with SMTP id q3mr3978761otf.88.1607450497801;
- Tue, 08 Dec 2020 10:01:37 -0800 (PST)
+ bh=7eYNYi6nRqgOF9U1+OBQOhH564yszaE/ArldGpU6S2Q=;
+ b=UPffeb75j4k3wVP/2J+b7mVR42iB2SjpImt3ZQf4/ZVPNZ8ZFtJiOpthNh7CNLB9zG
+ ypXxDa7MrfnZfiAK/8Pc2eplAozyMikwIKJH3GCION6GMTTK1XvkQq/WOJm32USivzJJ
+ DB/ms4dyGkKyZDq8GthdCYfG33G4xZb7rIV0tYToq6S7psYgZ8aND3F2H1ampymWkJzE
+ qcKGcm3alQuI/ZWF7BdePc8JmN/orfkuF6cRT+0ChRqMQinL1Tb74k7E/HKw73QEs6iw
+ xwz80shyb8KdawS6AmH4MOTpnUl/+RUnUnJN4eXXsxkevRujqybY5ce+CHr3D1MM1+eD
+ g9wA==
+X-Gm-Message-State: AOAM532PyZEsfWA54TNULgdnDhUC23o0xb5BzGCq+guvlNx+FbmBqbMK
+ 3W/5c95e1esjrwYYFeQrMgHbKQW72RCW6n8R
+X-Google-Smtp-Source: ABdhPJzwD82+AId6JSOCwM96wEH9d0p/9HXqDcIXrateGw78sLWGXLR3kTKTADLVbU/WGU+hyoRZPg==
+X-Received: by 2002:a4a:9c48:: with SMTP id c8mr17342328ook.84.1607450499646; 
+ Tue, 08 Dec 2020 10:01:39 -0800 (PST)
 Received: from localhost.localdomain (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id k20sm3886805oig.35.2020.12.08.10.01.36
+ by smtp.gmail.com with ESMTPSA id k20sm3886805oig.35.2020.12.08.10.01.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 10:01:37 -0800 (PST)
+ Tue, 08 Dec 2020 10:01:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/24] target/arm: Enforce alignment for RFE
-Date: Tue,  8 Dec 2020 12:01:04 -0600
-Message-Id: <20201208180118.157911-11-richard.henderson@linaro.org>
+Subject: [PATCH v2 11/24] target/arm: Enforce alignment for SRS
+Date: Tue,  8 Dec 2020 12:01:05 -0600
+Message-Id: <20201208180118.157911-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201208180118.157911-1-richard.henderson@linaro.org>
 References: <20201208180118.157911-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c41;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc41.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,22 +93,23 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 6c76bc521d..a8bedbb45f 100644
+index a8bedbb45f..c7e01ea73a 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -8259,10 +8259,10 @@ static bool trans_RFE(DisasContext *s, arg_RFE *a)
- 
-     /* Load PC into tmp and CPSR into tmp2.  */
-     t1 = tcg_temp_new_i32();
--    gen_aa32_ld32u(s, t1, addr, get_mem_index(s));
-+    gen_aa32_ld_i32(s, t1, addr, get_mem_index(s), MO_UL | MO_ALIGN);
+@@ -5134,11 +5134,11 @@ static void gen_srs(DisasContext *s,
+     }
+     tcg_gen_addi_i32(addr, addr, offset);
+     tmp = load_reg(s, 14);
+-    gen_aa32_st32(s, tmp, addr, get_mem_index(s));
++    gen_aa32_st_i32(s, tmp, addr, get_mem_index(s), MO_UL | MO_ALIGN);
+     tcg_temp_free_i32(tmp);
+     tmp = load_cpu_field(spsr);
      tcg_gen_addi_i32(addr, addr, 4);
-     t2 = tcg_temp_new_i32();
--    gen_aa32_ld32u(s, t2, addr, get_mem_index(s));
-+    gen_aa32_ld_i32(s, t2, addr, get_mem_index(s), MO_UL | MO_ALIGN);
- 
-     if (a->w) {
-         /* Base writeback.  */
+-    gen_aa32_st32(s, tmp, addr, get_mem_index(s));
++    gen_aa32_st_i32(s, tmp, addr, get_mem_index(s), MO_UL | MO_ALIGN);
+     tcg_temp_free_i32(tmp);
+     if (writeback) {
+         switch (amode) {
 -- 
 2.25.1
 
