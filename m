@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32FD2D3323
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:24:46 +0100 (CET)
-Received: from localhost ([::1]:39600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438362D3326
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 21:26:30 +0100 (CET)
+Received: from localhost ([::1]:44486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmjXR-0006Xw-MB
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:24:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50458)
+	id 1kmjZ7-00005o-AX
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 15:26:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kminz-00087D-My
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:37:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29340)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmio3-0008BM-Mh
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:37:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kminy-0005z9-4H
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:37:47 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kmio1-00060h-RW
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:37:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607456265;
+ s=mimecast20190719; t=1607456269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IXfUWibUDD3qvFBeOlmCILSH/5yiUugL3d2LfLjhcv4=;
- b=TTPIqbq7Cd7Y5CYIDGlm2yyZjVHz/vW6X4j5Xw1E5eDIRO4VWGxv0qDHuYOwsxolo8TAIw
- PZ6HseuXjEfV4BY/iMUc7AQQCDMrNWFAZ8sod+o+x2N+37OAGeCZBq5K6+4cyGWZRDCnBO
- 08K7rot8joT4agUC/28wSdakcJThAMk=
+ bh=dSzwVw/hkV56GLy5TZF/v4GucSr1UWG0d48xB0yK0m8=;
+ b=Lt6yE8QsrkCpdXkVkoKzdJ38oO07IQLMkx9FEdorrX1L4VwW47ANqbDxmdTRoS7Ja1xkhU
+ i+qpvd6Gzv5PmWbshORiW8CXSYM9gnhzZfFMamjYIqLfK6JGUoIKsPKwyMOP224hTzNjXa
+ A+pH+aW+4Dvod4PpBzlVrvYyjQwDMWs=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-95eyzux2OgK7xn3YEKKttA-1; Tue, 08 Dec 2020 14:37:43 -0500
-X-MC-Unique: 95eyzux2OgK7xn3YEKKttA-1
-Received: by mail-wr1-f70.google.com with SMTP id q18so1163081wrc.20
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:37:43 -0800 (PST)
+ us-mta-564-RRICeIEnPn2l3wNbmQpFog-1; Tue, 08 Dec 2020 14:37:47 -0500
+X-MC-Unique: RRICeIEnPn2l3wNbmQpFog-1
+Received: by mail-wr1-f70.google.com with SMTP id r11so4697286wrs.23
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 11:37:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=IXfUWibUDD3qvFBeOlmCILSH/5yiUugL3d2LfLjhcv4=;
- b=Ku0CWAXYdndpYoPFlompjEWnXTDcrrwdDgJudqPkQwLkLKM2pyWUDS3F6J41NV7shk
- MUfMVtuGnvfh2+BAekA2xSdkQ/gDaEFbZx8Uj6ElwZa2DUKvk6FsLS2EZssPE1JvOWaG
- F6paUyqZOqzqznzHUEGGF1/1JnZK2YNxMVHmebZWbswaQtujtCjTZ75s6xVcyXXj7Y4F
- e2/428AxGtEsn4cX1GNSQx+MEJWPPK8u1v+IebvWQqLmA0RZf8xIM5II5iNdCTcUGgK4
- jSiJMjFY6PembDuEBFjP4hPlAxxQk/L0T8YYPHTJvc6d15yaEHNeS0GBBF3QF2CES1RX
- 2SoQ==
-X-Gm-Message-State: AOAM531LSOhYWNY/96fMmbQil0xo6B2UmvRVzagRpFcOzfokRQC7Sy9K
- KrTdRBn1uE63ydxKNrr2TpUtmg+nhPgXAkUhe1xR1LPq1/OOn4nQY8hFuck3aZ4GHwlbX0WXOoa
- +pM0XbDcBdTFfGsYCJiyRNVRmnHdmQyvN/9FhyiTZZh2O88zQCO8zcNbN1Q66
-X-Received: by 2002:a1c:b402:: with SMTP id d2mr5147739wmf.38.1607456261887;
- Tue, 08 Dec 2020 11:37:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxMjx0QrQwuz38tBf1zjDgcapKTn4cCfU3L/H8NThVvTQpW0lQ9vSo2gH91GyFkxbeWS7B0Kg==
-X-Received: by 2002:a1c:b402:: with SMTP id d2mr5147723wmf.38.1607456261685;
- Tue, 08 Dec 2020 11:37:41 -0800 (PST)
+ bh=dSzwVw/hkV56GLy5TZF/v4GucSr1UWG0d48xB0yK0m8=;
+ b=E/Fdb8kCuCOVAFdqaQJMtPeQyBfsXEb9N/8MQLktNFwXLBlsnmw123cV5giz6Jz8cZ
+ zHuUmdBsUQHzHtbujMJc0Sebp1z7mj2Q8n3jhUk5vmE1NJh3Y5CJD1Y9rMMdvjd/JjrZ
+ iT1MaYLUB4DnP4V07qiHdF0bAeJwxYUxmZuq99lp6UmF7zfDhMmKYMSaRN7T8oUyFYDw
+ Zm13clktZH5M7v3sN6dHt571RyRqWof73acasVtNOxhSqkH5znd0oLNlvcZ1xSYM0tzO
+ I1MFTfQzO/Cmeog2eyoI1c+2FkzabA9q1hfsqDhcss6yqRDZiA306ORt3LB11QGcVsK0
+ HRtA==
+X-Gm-Message-State: AOAM53109TiUgsO6NLyAyDFRttzfNC0pavg1mhMynE+uVQfU8sAdiTNc
+ FuuEKJhCfIOvHsLAiQscwarbg26kAUOQUFcm+6TWLSfpfEyfPZp+GXSB9uPQeM5byKRTAMqa/dS
+ 2CUHvvbOGRGJN1+sIKIcbWsuicnS9IjHp/vKoxZ+k/7Ta4AQnLxPS15FLlfZn
+X-Received: by 2002:adf:ed12:: with SMTP id a18mr26519265wro.5.1607456265567; 
+ Tue, 08 Dec 2020 11:37:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz0Ljky2ukm72d7uy4g1XsLfZID54Kgw8SKpnlrqj3LrQ7GeW/RKuLX1gVWe7ZT4fgzn5fMog==
+X-Received: by 2002:adf:ed12:: with SMTP id a18mr26519250wro.5.1607456265381; 
+ Tue, 08 Dec 2020 11:37:45 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id c4sm5507627wmf.19.2020.12.08.11.37.39
+ by smtp.gmail.com with ESMTPSA id d9sm14505771wrc.87.2020.12.08.11.37.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 11:37:41 -0800 (PST)
-Date: Tue, 8 Dec 2020 14:37:37 -0500
+ Tue, 08 Dec 2020 11:37:44 -0800 (PST)
+Date: Tue, 8 Dec 2020 14:37:41 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 64/66] pcie_aer: Fix help message of pcie_aer_inject_error
- command
-Message-ID: <20201208193307.646726-65-mst@redhat.com>
+Subject: [PULL 65/66] hw/virtio-pci Added counter for pcie capabilities
+ offsets.
+Message-ID: <20201208193307.646726-66-mst@redhat.com>
 References: <20201208193307.646726-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201208193307.646726-1-mst@redhat.com>
@@ -93,40 +93,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, Peter Maydell <peter.maydell@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew <andrew@daynix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zenghui Yu <yuzenghui@huawei.com>
+From: Andrew <andrew@daynix.com>
 
-There is an interesting typo in the help message of pcie_aer_inject_error
-command. Use 'tlp' instead of 'tlb' to match the PCIe AER term.
+Removed hardcoded offset for ats. Added cap offset counter
+for future capabilities like AER.
 
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-Message-Id: <20201204030953.837-1-yuzenghui@huawei.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+Message-Id: <20201203110713.204938-2-andrew@daynix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hmp-commands.hx | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index ff2d7aa8f3..dd460eb908 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1302,8 +1302,8 @@ ERST
- 	              " -c for correctable error\n\t\t\t"
-                       "<id> = qdev device id\n\t\t\t"
-                       "<error_status> = error string or 32bit\n\t\t\t"
--                      "<tlb header> = 32bit x 4\n\t\t\t"
--                      "<tlb header prefix> = 32bit x 4",
-+                      "<tlp header> = 32bit x 4\n\t\t\t"
-+                      "<tlp header prefix> = 32bit x 4",
-         .cmd        = hmp_pcie_aer_inject_error,
-     },
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 36524a5728..ceaa233129 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1798,6 +1798,7 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
  
+     if (pcie_port && pci_is_express(pci_dev)) {
+         int pos;
++        uint16_t last_pcie_cap_offset = PCI_CONFIG_SPACE_SIZE;
+ 
+         pos = pcie_endpoint_cap_init(pci_dev, 0);
+         assert(pos > 0);
+@@ -1833,7 +1834,8 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+         }
+ 
+         if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
+-            pcie_ats_init(pci_dev, 256);
++            pcie_ats_init(pci_dev, last_pcie_cap_offset);
++            last_pcie_cap_offset += PCI_EXT_CAP_ATS_SIZEOF;
+         }
+ 
+         if (proxy->flags & VIRTIO_PCI_FLAG_INIT_FLR) {
 -- 
 MST
 
