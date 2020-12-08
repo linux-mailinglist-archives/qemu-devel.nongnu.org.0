@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE232D2FCE
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 17:37:17 +0100 (CET)
-Received: from localhost ([::1]:48418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E02B2D2FC5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 17:35:24 +0100 (CET)
+Received: from localhost ([::1]:45154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmfzI-0002QC-D3
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 11:37:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35016)
+	id 1kmfxT-0000uh-Bk
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 11:35:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmft0-0007jB-UB
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:30:48 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:42934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmfsy-0001yY-FM
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:30:46 -0500
-Received: by mail-ej1-x643.google.com with SMTP id d17so25402016ejy.9
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 08:30:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=O6d8/sZG3A5xoCVUYV5vAwfGwQR5n1cU4F9BmRSseSk=;
- b=BBxVb3vGtsOOtw1311vylJ0YOChBxANfKrMdmycMi3OAvUTVGMpZ8SxbJIsm+sVepb
- AdGNKypDNFvmwhAwK5Q0GK00Ya9hCOCShhZPg+ZZQQOtIrw0vxUlDmORxCdcviIsi2S0
- 9n1ErNx8knmMJesNRhL8zfo7fdLRwmWAWV6foEgmJYOcAyQNgfuM7m4u1FC/RjE/ztRx
- kD2vpyEHGiMzUKCuVh9ix2rcIqJ6WIy5GBKBkRZKRidGk72i03dnLpJ6Qok2fgXXLcpE
- gHAFrJ5HwX6wIUBNEs0JoBm4bYbxM0/Smq7CVrlYhfC9exhpmPwj4bQzyE8Igmrwm0cP
- z2eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=O6d8/sZG3A5xoCVUYV5vAwfGwQR5n1cU4F9BmRSseSk=;
- b=PIUw8iMB6TfHdB9gsHsmSK4vSKwMUMRpUVdVw1Sbs8qda4RlZkL9+qu1DHHfEQ2cOW
- xLMoKtXR3h1TIfprl4beips8Py7gRt6w5mbnfixJqnxxdDEWUfnmdkHU42jz8SpQXOtP
- ZKcTIrz9HyzQxVXFzrosxvBqcE43hQP9tLGRpy582sH4L6M70ZckWjLbx5QVVbXdv14Z
- i58dubabSkVk1sPnxPBeqxmznSfI1wXndwmbqKW0eMAYLJZTtRKOqZnfpaPvQXC/7Czk
- 8q8RjH+TuVFki0cLHx5ginTu1ddtozN3NGxnY+LxbEbfh9tDhk+kNo4Qn3eRzySG38xp
- 0mKA==
-X-Gm-Message-State: AOAM532z/8RLB5muu1WZhy9t+iBvLxqN6F1ro1ghyGzIvLsLbqPeZlgX
- jsSFUPnKO0XtG7myT1z3Q+o=
-X-Google-Smtp-Source: ABdhPJwNNItsXNMXYvb17v+JQzXFi1XmjmQaADDh0N9cTR9eyEJQ3Z3KTUIRhwUpmN3smg77Pjv7ZA==
-X-Received: by 2002:a17:906:8354:: with SMTP id
- b20mr23948190ejy.397.1607445041952; 
- Tue, 08 Dec 2020 08:30:41 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id t26sm16081856eji.22.2020.12.08.08.30.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 08:30:41 -0800 (PST)
-Subject: Re: [PATCH 00/17] target/mips: Convert MSA ASE to decodetree
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-References: <20201208003702.4088927-1-f4bug@amsat.org>
- <CAAdtpL69-8DEYb2832fcZosNjMogPGt1a9HNT7NdLVvnbKZBFQ@mail.gmail.com>
-Message-ID: <489ecbec-ca9e-85a2-b0c9-508319a25288@amsat.org>
-Date: Tue, 8 Dec 2020 17:30:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kmftE-0007sM-Uv
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:31:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34370)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kmftA-000259-Ld
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:30:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607445055;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zTUjzM5gqH1fG+qW3jFZKtlutKE8PaPYqw+LGUokGgY=;
+ b=PSdfIUORLHCOTLA5NjGLMsgH1RUikhe1SsDVq+e2iMFbcVAqaD9QieeYpv1sqBA4lI/o28
+ 3jHJNxzDAcdGJJzWjODNcdlYkBiTyH31SKJ7yvXt7mDtVglZu1rUnlzRuymQZePAKlxEAj
+ tLvQz54MaKtYgZxsGrF+wsszhtuxRqo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-381-cKhCkLJbOcqhotINb5yyTg-1; Tue, 08 Dec 2020 11:30:53 -0500
+X-MC-Unique: cKhCkLJbOcqhotINb5yyTg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A0071083EBF;
+ Tue,  8 Dec 2020 16:30:48 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-17.ams2.redhat.com [10.36.113.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 19C4460877;
+ Tue,  8 Dec 2020 16:30:46 +0000 (UTC)
+Date: Tue, 8 Dec 2020 17:30:45 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 2/3] block: Fix locking in qmp_block_resize()
+Message-ID: <20201208163045.GB6392@merkur.fritz.box>
+References: <20201203172311.68232-1-kwolf@redhat.com>
+ <20201203172311.68232-3-kwolf@redhat.com>
+ <b0ad26a7-7db2-86bd-7001-f360ccf3b20e@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAdtpL69-8DEYb2832fcZosNjMogPGt1a9HNT7NdLVvnbKZBFQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <b0ad26a7-7db2-86bd-7001-f360ccf3b20e@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,32 +77,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, kvm <kvm@vger.kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: mreitz@redhat.com, stefanha@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/8/20 1:39 AM, Philippe Mathieu-Daudé wrote:
-> On Tue, Dec 8, 2020 at 1:37 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Finally, we use decodetree with the MIPS target.
->>
->> Starting easy with the MSA ASE. 2700+ lines extracted
->> from helper.h and translate.c, now built as an new
->> object: mod-msa_translate.o.
->>
->> While the diff stat is positive by 86 lines, we actually
->> (re)moved code, but added (C) notices.
->>
->> The most interesting patches are the 2 last ones.
->>
->> Please review,
+Am 08.12.2020 um 15:46 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 03.12.2020 20:23, Kevin Wolf wrote:
+> > The drain functions assume that we hold the AioContext lock of the
+> > drained block node. Make sure to actually take the lock.
+> > 
+> > Cc: qemu-stable@nongnu.org
+> > Fixes: eb94b81a94bce112e6b206df846c1551aaf6cab6
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >   blockdev.c | 5 ++++-
+> >   1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/blockdev.c b/blockdev.c
+> > index 229d2cce1b..0535a8dc9e 100644
+> > --- a/blockdev.c
+> > +++ b/blockdev.c
+> > @@ -2481,13 +2481,16 @@ void coroutine_fn qmp_block_resize(bool has_device, const char *device,
+> >           return;
+> >       }
+> > +    bdrv_co_lock(bs);
+> >       bdrv_drained_begin(bs);
+> > +    bdrv_co_unlock(bs);
+> > +
+> >       old_ctx = bdrv_co_enter(bs);
+> >       blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
+> >       bdrv_co_leave(bs, old_ctx);
+> > -    bdrv_drained_end(bs);
+> >       bdrv_co_lock(bs);
+> > +    bdrv_drained_end(bs);
+> >       blk_unref(blk);
+> >       bdrv_co_unlock(bs);
+> >   }
+> > 
 > 
-> I forgot to mention, only 4/17 patches miss review!
-> - 11, 14, 16, 17
+> Can't we just do
+> 
+>     old_ctx = bdrv_co_enter(bs);
+> 
+>     bdrv_drained_begin(bs);
+>     blk_truncate(blk, size, false, PREALLOC_MODE_OFF, 0, errp);
+>     bdrv_drained_end(bs);
+>     blk_unref(blk);
+> 
+>     bdrv_co_leave(bs, old_ctx);
+> 
+> 
+> ? This way we have one acquire/release section instead of three in a
+> row.. But then we probably need addition bdrv_ref/bdrv_unref, to not
+> crash with final bdrv_co_leave after blk_unref.
 
-Full series available here:
-https://gitlab.com/philmd/qemu/-/tags/20201208003702.4088927-1-f4bug@amsat.org
+That was my first attempt, but bdrv_co_enter()/leave() increase
+bs->in_flight, so the drain would deadlock.
+
+> Also, preexisting, but it seems not good that coroutine_fn
+> qmp_block_resize is called from non-coroutine hmp_block_resize()
+
+hmp_block_resize() is actually in coroutine context, commit eb94b81a
+only forgot to add a coroutine_fn marker to it.
+
+> anyway:
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+Thanks!
+
+Kevin
+
 
