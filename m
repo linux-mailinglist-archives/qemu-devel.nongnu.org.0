@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7981C2D3578
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 22:42:03 +0100 (CET)
-Received: from localhost ([::1]:54722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202052D35A5
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 22:54:56 +0100 (CET)
+Received: from localhost ([::1]:58718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmkkE-0001FC-G8
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 16:42:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34238)
+	id 1kmkwh-00079v-58
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 16:54:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmjkT-0004ng-LW
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 15:38:13 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:38657)
+ id 1kmjkY-0004xw-CQ
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 15:38:18 -0500
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:38011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kmjkR-0008QM-6B
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 15:38:12 -0500
-Received: by mail-ej1-x643.google.com with SMTP id a16so26546774ejj.5
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 12:38:10 -0800 (PST)
+ id 1kmjkW-0008Tb-1f
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 15:38:18 -0500
+Received: by mail-ed1-x542.google.com with SMTP id cw27so18981334edb.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 12:38:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RX7vZR6NmEoSxmyjaPaQ8kLGatYp3mbCez7jAhGtSPk=;
- b=KrhVvzw5GZmr0NvJdaGuhbYl5CwAwoFnxe3iFmxw1EDRZdR7neubAUypRhFvgCjHTT
- 0rJN8hFmk4OTBNmYDrf0Ll3OIOspPvWreAOZzOiSOf5D5y477QOvMv/ShjTylQb6/QkT
- xAprVbJ4yEy5N86cPboV3YA/AGfI2R2qluenL8PsyHbchWRSPfzwGAMILiywooNQYRBm
- vx5H2f2VE+r8zOd9QzoqvXTwimkO1U68HaMajSDJ0ywlCm0IqWmJ6mpFudZV993sQwGX
- o2QIOEPPKGZvX9/GaQY5QoBqkBsREdqw2Q1bfZ/8ar2hp3D03YBbbZ23ZjVoyJv8it9K
- UnGw==
+ bh=uGmxq2xzRtTYRUJyvWqJtHGIaXfE5t1ze+OMIppltBo=;
+ b=QelRjUSJV+xeneYtpREupdVGxwtYfBA/LFwifkTUNVBHNFI0LsEbD06qHdgM+lWTsw
+ +Qf4RbfFCF5DJcyLy3E6di5s9aEXqKtSIBCU6Piix6451ixUlm1Yo/hTS4e8U329xpTS
+ 5jvhkKAPBdQTC/K6NCjb33AVdlzDSHWtjl6zmiS5kqExkxGkXY5JCPfSvPdwPFmkR2CD
+ oUu5+nJQqSamggxDKhSlWQJBnwxQkcpRzS042MzqIuASWqfpoo1XQ8SEAaPeKSvM0uLK
+ sPgo2SF9jsMy4z9xQnN0P0ixJ48gDiQi1jAquJ6Pu52tc/8uA5SpsYvpI8lhAlwy5OKv
+ md/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RX7vZR6NmEoSxmyjaPaQ8kLGatYp3mbCez7jAhGtSPk=;
- b=HMq+divLu56dovjY6opCpE8KN4qYwY98AB9cdWeAaQA8Z3NonSYVvQDlDQMt/3L1dJ
- FIi3UF4OntfqlUhyfkLMU+boBIl4qOBXXRGwwIRgCjjh/9qwP++ISSQ+WG8Ta7myxIUI
- tYoCTubTutUicyXobr5jFV4dgYnc4+BQSJJrMl0Mw5y+RSSQ7egVYVHJPgk/IufjdIht
- g8F4GK551Cy6hQ9s1M+QiotipNM2V079mp1FgJz9rTPfH4ss57Y9Dsx2heFQ5dh92xdO
- +zs6UyMdk+1Ef8PNvt2nTDbiJ7Ll+Rkx5pcX2/0Tq3D2q+HFDhE3Etjhrlvu4Fyiyp9v
- /Tlw==
-X-Gm-Message-State: AOAM530FUSOTNU2SnBGNf7TNmto/X/x73vj7nWKG7i1r4LCWISVgWfnE
- DsmSqzd7BbPZIOMWRwgPHaaUTGmsP3E=
-X-Google-Smtp-Source: ABdhPJxtteNaPyGqVvf7sPNrv9mnhdrN9AEXbFGZB/FfhVzYcDaDx8vuK6/lw689zkgQVbkxvJgmag==
-X-Received: by 2002:a17:907:28d4:: with SMTP id
- en20mr25079744ejc.196.1607459889128; 
- Tue, 08 Dec 2020 12:38:09 -0800 (PST)
+ bh=uGmxq2xzRtTYRUJyvWqJtHGIaXfE5t1ze+OMIppltBo=;
+ b=eqqJ0xtLF0ZNZw0bZxnmRnYf3I+u9rXa6anJLOf0O/oCGrDZ9Axg78gmF/6fQjISjE
+ ZaaoXW5UKLG0iX8dzB+lSZLGVuJishtCyScMyWnDwIZ++gaCTqkusapIvvjSB3+2+7cl
+ eYbj60TDS2Bmq6BRz6zZAVfBMxQLjlPCUrR/x7/AXfAMKaXil+Xe8l1QEfFk5sL82B6J
+ oUxDAv8g92JE76d97cLV3DoFAK5QEIti4/7kD5DrL6W5UkebF8zgU39m4RBOFBZRUHeJ
+ GCbvFYD2g2Upcet+Snk4G0oZi9C41jl+iLtYIRlEopQB57HyMzRAJPi9oGKMUxHTTjYV
+ nCWA==
+X-Gm-Message-State: AOAM530Tbg7VRqeACFISsjNqxbVjrWD2QrFCGze5GJwL/F426TZy8nR3
+ /DNFY5Q8xkkoeMY98ehqlarxzj6Aj3A=
+X-Google-Smtp-Source: ABdhPJx70D7BRNckR2uVvsAKvVCnqMqmQrZDYnko37NiuV3II0GXFmpbf7YX3krNjgke3EOycN897Q==
+X-Received: by 2002:a50:e0c9:: with SMTP id j9mr26153237edl.380.1607459894258; 
+ Tue, 08 Dec 2020 12:38:14 -0800 (PST)
 Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id m7sm17411451eji.118.2020.12.08.12.38.07
+ by smtp.gmail.com with ESMTPSA id x6sm344411edl.67.2020.12.08.12.38.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 12:38:08 -0800 (PST)
+ Tue, 08 Dec 2020 12:38:13 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/13] target/mips: Convert Rel6 LLD/SCD opcodes to decodetree
-Date: Tue,  8 Dec 2020 21:37:03 +0100
-Message-Id: <20201208203704.243704-13-f4bug@amsat.org>
+Subject: [PATCH 13/13] target/mips: Convert Rel6 LL/SC opcodes to decodetree
+Date: Tue,  8 Dec 2020 21:37:04 +0100
+Message-Id: <20201208203704.243704-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201208203704.243704-1-f4bug@amsat.org>
 References: <20201208203704.243704-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,7 +92,7 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-LLD/SCD opcodes have been removed from the Release 6.
+LL/SC opcodes have been removed from the Release 6.
 Add a single decodetree entry for the opcodes, triggering
 Reserved Instruction if ever used.
 
@@ -101,41 +100,41 @@ Remove unreachable check_insn_opc_removed() calls.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/isa-mips64r6.decode | 3 +++
+ target/mips/isa-mips32r6.decode | 2 ++
  target/mips/translate.c         | 2 --
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/mips/isa-mips64r6.decode b/target/mips/isa-mips64r6.decode
-index 8c3fc5dae9c..609b8958d25 100644
---- a/target/mips/isa-mips64r6.decode
-+++ b/target/mips/isa-mips64r6.decode
-@@ -21,3 +21,6 @@ REMOVED             011010 ----- ----- ----------------     # LDL
- REMOVED             011011 ----- ----- ----------------     # LDR
- REMOVED             101100 ----- ----- ----------------     # SDL
- REMOVED             101101 ----- ----- ----------------     # SDR
-+
-+REMOVED             110100 ----- ----- ----------------     # LLD
-+REMOVED             111100 ----- ----- ----------------     # SCD
+diff --git a/target/mips/isa-mips32r6.decode b/target/mips/isa-mips32r6.decode
+index 3ec50704cf2..489c20aa4e9 100644
+--- a/target/mips/isa-mips32r6.decode
++++ b/target/mips/isa-mips32r6.decode
+@@ -31,4 +31,6 @@ REMOVED             101010 ----- ----- ----------------     # SWL
+ REMOVED             101110 ----- ----- ----------------     # SWR
+ 
+ REMOVED             101111 ----- ----- ----------------     # CACHE
++REMOVED             110000 ----- ----- ----------------     # LL
+ REMOVED             110011 ----- ----- ----------------     # PREF
++REMOVED             111000 ----- ----- ----------------     # SC
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index aeba8efeb17..009301c9ceb 100644
+index 009301c9ceb..90a6dfcd2b3 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -28918,7 +28918,6 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
+@@ -28632,7 +28632,6 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
          if (ctx->insn_flags & INSN_R5900) {
              check_insn_opc_user_only(ctx, INSN_R5900);
          }
 -        check_insn_opc_removed(ctx, ISA_MIPS32R6);
-         /* fall through */
-     case OPC_LDL:
-     case OPC_LDR:
-@@ -28936,7 +28935,6 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-         gen_st(ctx, op, rt, rs, imm);
-         break;
-     case OPC_SCD:
--        check_insn_opc_removed(ctx, ISA_MIPS32R6);
-         check_insn(ctx, ISA_MIPS3);
+         /* Fallthrough */
+     case OPC_LWL:
+     case OPC_LWR:
+@@ -28653,7 +28652,6 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
+          break;
+     case OPC_SC:
+         check_insn(ctx, ISA_MIPS2);
+-         check_insn_opc_removed(ctx, ISA_MIPS32R6);
          if (ctx->insn_flags & INSN_R5900) {
              check_insn_opc_user_only(ctx, INSN_R5900);
+         }
 -- 
 2.26.2
 
