@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94602D329A
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:25:53 +0100 (CET)
-Received: from localhost ([::1]:40140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A402D3297
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 20:19:59 +0100 (CET)
+Received: from localhost ([::1]:58570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmicS-0005bk-Py
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:25:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43942)
+	id 1kmiWk-00018t-N7
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 14:19:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
- id 1kmiSA-0007tB-Vy
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:15:17 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:51938)
+ id 1kmiS6-0007rd-9H
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:15:11 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:51940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
- id 1kmiS1-0007TX-K2
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:15:14 -0500
+ id 1kmiS1-0007TY-Jd
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 14:15:09 -0500
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8J9xwr029391;
- Tue, 8 Dec 2020 19:14:58 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8J9wdI029371;
+ Tue, 8 Dec 2020 19:14:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id; s=corp-2020-01-29;
- bh=UwHmdZtWvx7zCKunOoRSHkvbiY16FLCLUGXZNXruGiQ=;
- b=gk8zn+bhxtXKPrKNTtbe9VYHXAHCEgowsZv4OImAHGFk218n4qMerkjSVnyhzJMausj3
- l4qMYZP8qUon9sg4IvPJkpSnZwkfyF5x4okpghKn7gdO5IETVrzGo/h6JXV6DcahBqim
- P7cscmwSbpOxTAVdNO99BypG2H/IGdt3JB5vCjAGDEvA5Qbg00Rx+/m6x4tEQg6pSPQt
- RdpMXWa731F3osGAVa68Kr2I+1+V4gjfhKwqpbtVLIjHp3PTUM5/NfmHHEN/But1sn8f
- SXkod+PSfmS9FRGquoCG1mb/srEXI+aNAbuPX/ovmxtPZRIsA0rBs2dsnNLzviWjq95A ww== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 3581mqvh97-1
+ subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
+ bh=QARxm3Je5pKxqTTQOw/5OsgTlH0FU6BpWGtrXezWHu8=;
+ b=CYfqM21GO1exWFLNYDcr1UHp2iJFCWRdBZpyDGE+Owgkosliz4HMiygeAJ42nqh8qB4W
+ pPSSI3ddI+EHT/bcKBYAzbbW4mgSuDqVM6WIPINp78OvdLMw1UgGcBuNfGtd9bjFUWoT
+ v6KTYoPgvMaZ5jF8xuruJAz8FO0W1gHNxxLQZVE/YBB60T4ptxhTxlaA6IbKWVQdmoOa
+ n3j9D1scLnzufNd0u3Z5I3kQkfd8vNfBOeJ/v/ww7JvUnhUzYtK+CANOCpOCL6qw2dhJ
+ m0HcnYi/vwD6PAPpyLH5LPgd5dXN7uA3HbA7lcHUuXe9pcOFFQDh6Jq8TyNMal9aGnos RQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 3581mqvh98-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 08 Dec 2020 19:14:58 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8JAeGr015803;
+ Tue, 08 Dec 2020 19:14:59 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B8JAVj4140213;
  Tue, 8 Dec 2020 19:14:58 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 358kytcva6-1
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 358m3y5wje-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 08 Dec 2020 19:14:58 +0000
 Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B8JEvfd028385;
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B8JEvaH017802;
  Tue, 8 Dec 2020 19:14:57 GMT
 Received: from ban25x6uut148.us.oracle.com (/10.153.73.148)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 08 Dec 2020 11:14:56 -0800
+ with ESMTP ; Tue, 08 Dec 2020 11:14:57 -0800
 From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] Add a new -action parameter
-Date: Tue,  8 Dec 2020 14:14:46 -0500
-Message-Id: <1607454890-3339-1-git-send-email-alejandro.j.jimenez@oracle.com>
+Subject: [PATCH 1/4] vl: Add an -action option to respond to guest events
+Date: Tue,  8 Dec 2020 14:14:47 -0500
+Message-Id: <1607454890-3339-2-git-send-email-alejandro.j.jimenez@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1607454890-3339-1-git-send-email-alejandro.j.jimenez@oracle.com>
+References: <1607454890-3339-1-git-send-email-alejandro.j.jimenez@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- spamscore=0 mlxscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=999 bulkscore=0 phishscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 adultscore=0
+ bulkscore=0 phishscore=0 suspectscore=1 mlxscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2012080117
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
  mlxlogscore=999
  clxscore=1015 malwarescore=0 priorityscore=1501 adultscore=0
  lowpriorityscore=0 phishscore=0 spamscore=0 impostorscore=0 mlxscore=0
@@ -94,43 +96,452 @@ Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a follow up to the proposal to add a "-no-panicstop" option to QEMU that would allow us to
-control whether the VM is paused or allowed to continue running without intervention from a management layer
-when a guest panic occurs. See the inital thread and replies for details:
+Several command line options currently in use are meant to modify
+the behavior of QEMU in response to certain guest events like:
+-no-reboot, -no-shutdown, -watchdog-action.
 
-https://lore.kernel.org/qemu-devel/1601606494-1154-1-git-send-email-alejandro.j.jimenez@oracle.com/
+These can be grouped into a single option of the form:
 
-From that discussion came a request for a generic mechanism to group options like -no-shutdown, -no-reboot, etc,
-that specify an action taken by QEMU in response to a guest event (reboot, shutdown, panic, and watchdog
-expiration are the current options). The existing options would translate to the new option, like:
+-action event=action
 
-* -no-reboot --> "-action reboot=shutdown"
-* -no-shutdown --> "-action shutdown=pause"
+Which can be used to specify the existing options above in the
+following format:
 
-Please share any questions or comments.
+-action reboot=none|shutdown
+-action shutdown=poweroff|pause
+-action watchdog=reset|shutdown|poweroff|pause|debug|none|inject-nmi
 
-Regards,
-Alejandro
+This is done in preparation for adding yet another option of this
+type, which modifies the QEMU behavior when a guest panic occurs.
 
-Alejandro Jimenez (4):
-  vl: Add an -action option to respond to guest events
-  vl: Add option to avoid stopping VM upon guest panic
-  qmp: Allow setting -action parameters on the fly
-  qtest/pvpanic: Test panic option that allows VM to continue
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+---
  MAINTAINERS                      |   2 +
- include/sysemu/runstate-action.h |  16 ++++
- include/sysemu/sysemu.h          |   2 +
- qapi/run-state.json              | 140 +++++++++++++++++++++++++++++++++++
- qemu-options.hx                  |  25 +++++++
+ include/sysemu/runstate-action.h |  16 +++++
+ include/sysemu/sysemu.h          |   1 +
+ qapi/run-state.json              |  88 ++++++++++++++++++++++++++
+ qemu-options.hx                  |  22 +++++++
  softmmu/meson.build              |   1 +
- softmmu/runstate-action.c        | 153 +++++++++++++++++++++++++++++++++++++++
- softmmu/vl.c                     |  44 ++++++++++-
- tests/qtest/pvpanic-test.c       |  26 ++++++-
- 9 files changed, 404 insertions(+), 5 deletions(-)
+ softmmu/runstate-action.c        | 131 +++++++++++++++++++++++++++++++++++++++
+ softmmu/vl.c                     |  30 ++++++++-
+ 8 files changed, 290 insertions(+), 1 deletion(-)
  create mode 100644 include/sysemu/runstate-action.h
  create mode 100644 softmmu/runstate-action.c
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 68bc160..7dcc4bd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2332,6 +2332,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
+ S: Maintained
+ F: include/qemu/main-loop.h
+ F: include/sysemu/runstate.h
++F: include/sysemu/runstate-action.h
+ F: util/main-loop.c
+ F: util/qemu-timer.c
+ F: softmmu/vl.c
+@@ -2340,6 +2341,7 @@ F: softmmu/cpus.c
+ F: softmmu/cpu-throttle.c
+ F: softmmu/cpu-timers.c
+ F: softmmu/icount.c
++F: softmmu/runstate-action.c
+ F: qapi/run-state.json
+ 
+ Read, Copy, Update (RCU)
+diff --git a/include/sysemu/runstate-action.h b/include/sysemu/runstate-action.h
+new file mode 100644
+index 0000000..f545ab3
+--- /dev/null
++++ b/include/sysemu/runstate-action.h
+@@ -0,0 +1,16 @@
++/*
++ * Copyright (c) 2020 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#ifndef RUNSTATE_ACTION_H
++#define RUNSTATE_ACTION_H
++
++/* in softmmu/runstate-action.c */
++int process_runstate_actions(void *opaque, QemuOpts *opts, Error **errp);
++int runstate_action_parse(QemuOptsList *opts_list, const char *optarg);
++
++#endif /* RUNSTATE_ACTION_H */
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 817ff4c..5480e61 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -43,6 +43,7 @@ extern int win2k_install_hack;
+ extern int alt_grab;
+ extern int ctrl_grab;
+ extern int graphic_rotate;
++extern int no_reboot;
+ extern int no_shutdown;
+ extern int old_param;
+ extern int boot_menu;
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index 964c8ef..6b033c1 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -329,6 +329,94 @@
+             'inject-nmi' ] }
+ 
+ ##
++# @RunStateEventType:
++#
++# An enumeration of Run State event types
++#
++# @reboot: Guest reboot
++#
++# @shutdown: Guest shutdown
++#
++# @watchdog: A watchdog device's timer has expired
++#
++# Since: 6.0
++##
++{ 'enum': 'RunStateEventType',
++  'data': [ 'reboot', 'shutdown', 'watchdog' ] }
++
++##
++# @RunStateAction:
++#
++# Describes a guest event and the subsequent action that is taken
++# by QEMU when such event takes place.
++#
++# Since: 6.0
++##
++{ 'union': 'RunStateAction',
++  'base': { 'event': 'RunStateEventType' },
++  'discriminator': 'event',
++  'data': {
++    'reboot': 'RunStateRebootAction',
++    'shutdown': 'RunStateShutdownAction',
++    'watchdog': 'RunStateWatchdogAction' } }
++
++##
++# @RunStateRebootAction:
++#
++# @action: Action taken by QEMU when guest reboots
++#
++# Since: 6.0
++##
++{ 'struct': 'RunStateRebootAction',
++  'data': { 'action': 'RebootAction' } }
++
++##
++# @RebootAction:
++#
++# Possible QEMU actions upon guest reboot
++#
++# @none: Reset the VM
++#
++# @shutdown: Shutdown the VM and exit
++#
++# Since: 6.0
++##
++{ 'enum': 'RebootAction',
++  'data': [ 'none', 'shutdown' ] }
++
++##
++# @RunStateShutdownAction:
++#
++# @action: Action taken by QEMU when guest shuts down
++#
++# Since: 6.0
++##
++{ 'struct': 'RunStateShutdownAction',
++  'data': { 'action': 'ShutdownAction' } }
++
++##
++# @ShutdownAction:
++#
++# @pause: pause the VM
++#
++# @poweroff: Shutdown the VM and exit
++#
++# Since: 6.0
++##
++{ 'enum': 'ShutdownAction',
++  'data': [ 'pause', 'poweroff' ] }
++
++##
++# @RunStateWatchdogAction:
++#
++# @action: Action taken by QEMU when watchdog device timer expires
++#
++# Since: 6.0
++##
++{ 'struct': 'RunStateWatchdogAction',
++  'data': { 'action': 'WatchdogAction' } }
++
++##
+ # @watchdog-set-action:
+ #
+ # Set watchdog action
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 104632e..a0d50f0 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3894,6 +3894,28 @@ SRST
+     changes to the disk image.
+ ERST
+ 
++DEF("action", HAS_ARG, QEMU_OPTION_action,
++    "-action reboot=none|shutdown\n"
++    "                   action when guest reboots [default=none]\n"
++    "-action shutdown=poweroff|pause\n"
++    "                   action when guest shuts down [default=poweroff]\n"
++    "-action watchdog=reset|shutdown|poweroff|inject-nmi|pause|debug|none\n"
++    "                   action when watchdog fires [default=reset]\n",
++    QEMU_ARCH_ALL)
++SRST
++``-action event=action``
++    The action parameter serves to modify QEMU's default behavior when
++    certain guest events occur. It provides a generic method for specifying the
++    same behaviors that are modified by the ``-no-reboot`` and ``-no-shutdown``
++    parameters.
++
++    Examples:
++
++    ``-action reboot=shutdown,shutdown=pause``
++    ``-watchdog i6300esb -action watchdog=pause``
++
++ERST
++
+ DEF("loadvm", HAS_ARG, QEMU_OPTION_loadvm, \
+     "-loadvm [tag|id]\n" \
+     "                start right away with a saved state (loadvm in monitor)\n",
+diff --git a/softmmu/meson.build b/softmmu/meson.build
+index 8f7210b..8ad586e 100644
+--- a/softmmu/meson.build
++++ b/softmmu/meson.build
+@@ -10,6 +10,7 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: [files(
+   'qtest.c',
+   'vl.c',
+   'cpu-timers.c',
++  'runstate-action.c',
+ )])
+ 
+ specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: [files(
+diff --git a/softmmu/runstate-action.c b/softmmu/runstate-action.c
+new file mode 100644
+index 0000000..bbbbc07
+--- /dev/null
++++ b/softmmu/runstate-action.c
+@@ -0,0 +1,131 @@
++/*
++ * Copyright (c) 2020 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/runstate-action.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/watchdog.h"
++#include "qemu/config-file.h"
++#include "qapi/error.h"
++#include "qemu/option_int.h"
++#include "qapi/qapi-commands-run-state.h"
++
++static void runstate_action_help(void)
++{
++    int idx;
++
++    printf("Events for which an action can be specified:\n");
++    for (idx = 0; idx < RUN_STATE_EVENT_TYPE__MAX; idx++) {
++        printf("%10s\n", RunStateEventType_str(idx));
++    }
++}
++
++/*
++ * Set the internal state to react to a guest reboot event
++ * as specified by the action parameter.
++ */
++static void qmp_reboot_set_action(RebootAction act, Error **errp)
++{
++    switch (act) {
++    case REBOOT_ACTION_NONE:
++        no_reboot = 0;
++        break;
++    case REBOOT_ACTION_SHUTDOWN:
++        no_reboot = 1;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++/*
++ * Set the internal state to react to a guest shutdown event
++ * as specified by the action parameter.
++ */
++static void qmp_shutdown_set_action(ShutdownAction act, Error **errp)
++{
++    switch (act) {
++    case SHUTDOWN_ACTION_PAUSE:
++        no_shutdown = 1;
++        break;
++    case SHUTDOWN_ACTION_POWEROFF:
++        no_shutdown = 0;
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++/*
++ * Process an event|action pair and set the appropriate internal
++ * state if event and action are valid.
++ */
++static int set_runstate_action(void *opaque, const char *event,
++                                const char *action, Error **errp)
++{
++    int event_idx, act_idx;
++
++    event_idx = qapi_enum_parse(&RunStateEventType_lookup, event, -1, errp);
++
++    switch (event_idx) {
++    case RUN_STATE_EVENT_TYPE_REBOOT:
++        act_idx = qapi_enum_parse(&RebootAction_lookup, action, -1, errp);
++        qmp_reboot_set_action(act_idx, NULL);
++        break;
++    case RUN_STATE_EVENT_TYPE_SHUTDOWN:
++        act_idx = qapi_enum_parse(&ShutdownAction_lookup, action, -1, errp);
++        qmp_shutdown_set_action(act_idx, NULL);
++        break;
++    case RUN_STATE_EVENT_TYPE_WATCHDOG:
++        if (select_watchdog_action(action) == -1) {
++            error_report("unknown watchdog action parameter");
++            exit(1);
++        }
++        break;
++    default:
++        /*
++         * The event and action types are checked for validity in the calls to
++         * qapi_enum_parse(), which will cause an exit if the requested event or
++         * action are invalid, since error_fatal is used as the error parameter.
++         * This case is unreachable unless those conditions change.
++         */
++        g_assert_not_reached();
++    }
++
++    return 0;
++}
++
++/*
++ * Parse provided -action arguments from cmdline.
++ */
++int runstate_action_parse(QemuOptsList *opts_list, const char *optarg)
++{
++    QemuOpts *opts;
++
++    if (!strcmp(optarg, "help")) {
++        runstate_action_help();
++        return -1;
++    }
++
++    opts = qemu_opts_parse_noisily(opts_list, optarg, false);
++    if (!opts) {
++        return -1;
++    }
++    return 0;
++}
++
++/*
++ * Process all the -action parameters parsed from cmdline.
++ */
++int process_runstate_actions(void *opaque, QemuOpts *opts, Error **errp)
++{
++    if (qemu_opt_foreach(opts, set_runstate_action, NULL, errp)) {
++        return -1;
++    }
++    return 0;
++}
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index e6e0ad5..2b1583e 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -34,6 +34,7 @@
+ #include "qemu/uuid.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/runstate.h"
++#include "sysemu/runstate-action.h"
+ #include "sysemu/seccomp.h"
+ #include "sysemu/tcg.h"
+ #include "sysemu/xen.h"
+@@ -147,7 +148,7 @@ Chardev *parallel_hds[MAX_PARALLEL_PORTS];
+ int win2k_install_hack = 0;
+ int singlestep = 0;
+ int fd_bootchk = 1;
+-static int no_reboot;
++int no_reboot;
+ int no_shutdown = 0;
+ int graphic_rotate = 0;
+ const char *watchdog;
+@@ -506,6 +507,21 @@ static QemuOptsList qemu_fw_cfg_opts = {
+     },
+ };
+ 
++static QemuOptsList qemu_action_opts = {
++    .name = "action",
++    /*
++     * When lists are merged, the location is set to the first use of the
++     * option. If a subsequent option has an invalid parameter, the error msg
++     * will display the wrong location. Avoid this by not merging the lists.
++     */
++    .merge_lists = false,
++    .head = QTAILQ_HEAD_INITIALIZER(qemu_action_opts.head),
++    .desc = {
++        /* Validation is done when processing the runstate actions */
++        { }
++    },
++};
++
+ /**
+  * Get machine options
+  *
+@@ -2948,6 +2964,7 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_add_opts(&qemu_icount_opts);
+     qemu_add_opts(&qemu_semihosting_config_opts);
+     qemu_add_opts(&qemu_fw_cfg_opts);
++    qemu_add_opts(&qemu_action_opts);
+     module_call_init(MODULE_INIT_OPTS);
+ 
+     runstate_init();
+@@ -3420,6 +3437,12 @@ void qemu_init(int argc, char **argv, char **envp)
+                 }
+                 watchdog = optarg;
+                 break;
++            case QEMU_OPTION_action:
++                if (runstate_action_parse(qemu_find_opts("action"),
++                                            optarg) < 0) {
++                    exit(1);
++                }
++                break;
+             case QEMU_OPTION_watchdog_action:
+                 if (select_watchdog_action(optarg) == -1) {
+                     error_report("unknown -watchdog-action parameter");
+@@ -3902,6 +3925,11 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_opts_foreach(qemu_find_opts("name"),
+                       parse_name, NULL, &error_fatal);
+ 
++    if (qemu_opts_foreach(qemu_find_opts("action"),
++                        process_runstate_actions, NULL, &error_fatal)) {
++        exit(1);
++    }
++
+ #ifndef _WIN32
+     qemu_opts_foreach(qemu_find_opts("add-fd"),
+                       parse_add_fd, NULL, &error_fatal);
 -- 
 1.8.3.1
 
