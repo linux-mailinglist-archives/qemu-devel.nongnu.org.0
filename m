@@ -2,94 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C82A2D258E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:17:48 +0100 (CET)
-Received: from localhost ([::1]:59400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065D92D2590
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:18:06 +0100 (CET)
+Received: from localhost ([::1]:60290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmYBv-0002GF-9y
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:17:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57532)
+	id 1kmYCD-0002cP-3Y
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:18:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kmY83-0008F8-Qs
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:13:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kmY80-0008Eo-W1
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:13:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607415223;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gQ3YYnYCSeNJFntjBuzvC1itaJ45prWp1eyYiNm6Xic=;
- b=huLhZgyZxLfcLBVwCdO+tVhMNdxP0SJtwqlfONm9e6yr+6l3376PYmz1KeF7A5unZkA0kY
- uDZf25BTbtoVEo72NodYUciL+vjHmPq45muDQObKyFkyqWfsxFG5NmKmIR4InRzeP1bhaJ
- bRAooE8V4AfTqyMtHpRpBIXOwYstVGA=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-8-N4CPErPuKbVxQHthVWAA-1; Tue, 08 Dec 2020 03:13:41 -0500
-X-MC-Unique: 8-N4CPErPuKbVxQHthVWAA-1
-Received: by mail-ed1-f71.google.com with SMTP id u17so2310645edi.18
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 00:13:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kmYAf-0001cJ-0P
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:16:30 -0500
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:39346)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kmYAb-000184-1B
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:16:28 -0500
+Received: by mail-ej1-x644.google.com with SMTP id n26so23367899eju.6
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 00:16:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=0MZ4ych3emYAu7+Q9yW/YIpRfM16QACSHELWSs2rWrA=;
+ b=kF3j152eFYRZ/AwAwWDl/8sH1FPpTecOhMACHlnX2wSwpOpc27L5GyoUZDH2EvCMwK
+ y9wdK63uwUY50RL+FKK/zFY7ENKQWtMei9T/F0e5Or8fI038x1kXF1sF1iwFXCgopmSZ
+ AJOEaH2ql+No+qeGgAULvXiz+Aa5U0IxKDHTifUL42IzuKIBSNaQ/pZhZmfPEU7UhTou
+ jF99BF0DppWSjdEFpvFU6Dcpd/2h1jWuRu8A5cPwUhFScGvhBsorFjDslWEVtkJS4M21
+ tXsRydYs0Zv/Xh41I5eXCNNTkCFv+auW8eCgzL3yGUKOt5Y6+a+UpjbWfn52hfDkrVvE
+ N6wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gQ3YYnYCSeNJFntjBuzvC1itaJ45prWp1eyYiNm6Xic=;
- b=jAYIHTDpmiYLzb+OKXd3uoGvlQbJqZ7yX+b6duxN/I/UuXGGDFaw6rDwujKDNrwxO6
- 6KStHvWxxFx7JrqsKnWbyPA64tiLdbgz382+txDdRhGLPhiTUGS2iihzdw1MXnZbSWTX
- O0DLNtgA7TmGzLKixyCPudn4+MRkJPe6fCyY6SyicF80i2hHDUrmzhiKDyKn1cnsAoOs
- iXFM6CKraqI0SMkLocyFVx+oPzaQCBRy+HIpY3GJGius02OayD62n8FsGw+Kto7suXAv
- AZV3c/o0bdU0/1SVXFHCjM+ewYHv8WmGHThPpuOkcPJyhq3SJ4pta7yGpCTHLj4lVYWv
- EwkQ==
-X-Gm-Message-State: AOAM531JYkWzHoo83UB6GarkjOQKVhjxJ+Saw8KaFL4QQ3javVkxp5bj
- e1ETZBatam5PCuQCfH0IDjqVAzjTKd3GnrkCkBS9mUwPhwgEBXlHoTdwZBptGCVwLEoFbQkgcJm
- 6fbAARCxdO81yrDI=
-X-Received: by 2002:a17:906:1294:: with SMTP id
- k20mr21867817ejb.404.1607415220699; 
- Tue, 08 Dec 2020 00:13:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzj/ijd45z1O15en0IKvIzLqx+1oQ/8mZpEgv4IAKZYBYptv2/cHsRJqyPoHdN3ifLA9jaVTg==
-X-Received: by 2002:a17:906:1294:: with SMTP id
- k20mr21867807ejb.404.1607415220485; 
- Tue, 08 Dec 2020 00:13:40 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id e10sm15272841ejl.70.2020.12.08.00.13.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Dec 2020 00:13:39 -0800 (PST)
-Subject: Re: [PATCH 10/15] vl: make qemu_get_machine_opts static
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20201202081854.4126071-1-pbonzini@redhat.com>
- <20201202081854.4126071-11-pbonzini@redhat.com>
- <d0ee4dd3-36c3-adae-13f7-2ea436a9a042@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <61c99f88-c160-0539-4ff2-a2815cf17bd7@redhat.com>
-Date: Tue, 8 Dec 2020 09:13:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0MZ4ych3emYAu7+Q9yW/YIpRfM16QACSHELWSs2rWrA=;
+ b=NBXX53EsYvi1GmsYXKs8cYnWYiL4YGbhGx6+dzZCgvVy2OG7U6Z7KyVQKpfgJfJmw4
+ ycfyxcrA0yt6WUD5VQNWXux8Irknq4ebR1iX26p3nsrodlnXy8e7l7CYedLg2fYi+lCp
+ 33r3rHvf0Jo1A3jJwmM7PqAen9IANi923yKcWVjRuG8FKh14ws3ZXaGVr70gj0sagTsc
+ MQr7nIDaUbaf5ZZsQj4+Qp6QKxR7r/aehciABsEgACHEHXO7WEa2u6NKc6VkoY7ZCSBh
+ IQDjOB9mmGw1CCDE/68bfdrYENomgyBZplXc1jKcgtQmTANx80OEdKKg6qlSxqXgBr6/
+ Fwwg==
+X-Gm-Message-State: AOAM530ZbHxpI4W27WypLVtZ9SCgqrJ4UqPBtkLtI3b4aZszMBaEpucM
+ 3Dc7OFlR89SVsptgsYb2fdI=
+X-Google-Smtp-Source: ABdhPJxyWbI55Jd6qYICL2uwX+696K8Y0xIltzoZqUUzlSQ/rT8zc0suMehmzBTJUlToBddDlIP13Q==
+X-Received: by 2002:a17:906:3294:: with SMTP id
+ 20mr22572710ejw.239.1607415383508; 
+ Tue, 08 Dec 2020 00:16:23 -0800 (PST)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id z26sm16339109edl.71.2020.12.08.00.16.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Dec 2020 00:16:22 -0800 (PST)
+Date: Tue, 8 Dec 2020 08:16:21 +0000
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
+Subject: Re: [RFC PATCH 13/27] vhost: Send buffers to device
+Message-ID: <20201208081621.GR203660@stefanha-x1.localdomain>
+References: <20201120185105.279030-1-eperezma@redhat.com>
+ <20201120185105.279030-14-eperezma@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d0ee4dd3-36c3-adae-13f7-2ea436a9a042@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="chReQkDOePndSGWY"
+Content-Disposition: inline
+In-Reply-To: <20201120185105.279030-14-eperezma@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=stefanha@gmail.com; helo=mail-ej1-x644.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,32 +85,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
+ Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
+ Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
+ Alex Barba <alex.barba@broadcom.com>,
+ Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
+ Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
+ vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
+ Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Jim Harford <jim.harford@broadcom.com>,
+ Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
+ Max Gurtovoy <maxgu14@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/12/20 03:16, Daniel Henrique Barboza wrote:
-> 2) find a way to make object_property_get_str() to return kvm_type =
->  NULL if the 'kvm_type' option is absent  and keep spapr code
-> untouched. I don't have the knowledge to assess how hard this would
-> be.
-> 
-> 3) I can change the pseries logic to add an explicit default value
-> for kvm_type=NULL or kvm_type='' (i.e. no user input is given). We're
-> already doing that in a sense, but it's not exposed to the user. I
-> would call it 'auto' and expose it to the user as default value if no
-> kvm_type is explictly set. This would enhance user experience a bit
-> and avoid having to deal with a scenario where kvm_type=(blank) is a
-> valid input.
-> 
-> 
-> David, if you think (3) is tolerable let me know and I can send a
-> patch. IMO this change adds a bit of value regardless of Paolo's
-> change.
 
-Yes, I agree that (3) is a good idea.  If you send a patch I can 
-integrate it in the series.
+--chReQkDOePndSGWY
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On Fri, Nov 20, 2020 at 07:50:51PM +0100, Eugenio P=E9rez wrote:
+> -static inline bool vhost_vring_should_kick(VhostShadowVirtqueue *vq)
+> +static bool vhost_vring_should_kick_rcu(VhostShadowVirtqueue *vq)
 
+"vhost_vring_" is a confusing name. This is not related to
+vhost_virtqueue or the vhost_vring_* structs.
+
+vhost_shadow_vq_should_kick_rcu()?
+
+>  {
+> -    return virtio_queue_get_used_notify_split(vq->vq);
+> +    VirtIODevice *vdev =3D vq->vdev;
+> +    vq->num_added =3D 0;
+
+I'm surprised that a bool function modifies state. Is this assignment
+intentional?
+
+> +/* virtqueue_add:
+> + * @vq: The #VirtQueue
+> + * @elem: The #VirtQueueElement
+
+The copy-pasted doc comment doesn't match this function.
+
+> +int vhost_vring_add(VhostShadowVirtqueue *vq, VirtQueueElement *elem)
+> +{
+> +    int host_head =3D vhost_vring_add_split(vq, elem);
+> +    if (vq->ring_id_maps[host_head]) {
+> +        g_free(vq->ring_id_maps[host_head]);
+> +    }
+
+VirtQueueElement is freed lazily? Is there a reason for this approach? I
+would have expected it to be freed when the used element is process by
+the kick fd handler.
+
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index 9352c56bfa..304e0baa61 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -956,8 +956,34 @@ static void handle_sw_lm_vq(VirtIODevice *vdev, Virt=
+Queue *vq)
+>      uint16_t idx =3D virtio_get_queue_index(vq);
+> =20
+>      VhostShadowVirtqueue *svq =3D hdev->sw_lm_shadow_vq[idx];
+> +    VirtQueueElement *elem;
+> =20
+> -    vhost_vring_kick(svq);
+> +    /*
+> +     * Make available all buffers as possible.
+> +     */
+> +    do {
+> +        if (virtio_queue_get_notification(vq)) {
+> +            virtio_queue_set_notification(vq, false);
+> +        }
+> +
+> +        while (true) {
+> +            int r;
+> +            if (virtio_queue_full(vq)) {
+> +                break;
+> +            }
+
+Why is this check necessary? The guest cannot provide more descriptors
+than there is ring space. If that happens somehow then it's a driver
+error that is already reported in virtqueue_pop() below.
+
+I wonder if you added this because the vring implementation above
+doesn't support indirect descriptors? It's easy to exhaust the vhost
+hdev vring while there is still room in the VirtIODevice's VirtQueue
+vring.
+
+--chReQkDOePndSGWY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/PNlUACgkQnKSrs4Gr
+c8i9Uwf+KL98CWZdfBbfOzMa4z1SurHdDzNVHmvessTG6JChYGBDqPsIWpD7BZkb
+xT/Qq67zwsCyUzrAlmFN90vPucMpqvB21DfXXv4MpjBWS5X0yjwwMQFktulDW/0y
+TYJd7mplqyRUC8UV0yzv4U7N9RH15oZ8fyZ0KvYwXhlLgjsfBZAPXekHrVU+Ir1W
+5Lx5C+/+h0ocxFTU2ycn4y0flbIvYZXtGf5y9dX3g48JH0R8D81d7qXamsRAA1Cw
+uYhOsTVIDTpLWPuT6gJXu8ibk2Zc8tFcBul+5G1XfMNWAaUkZqsQmzGpOl2p3DZK
+XuOZqG530TE0w0AtfRTsiDrsjWfvjw==
+=TPSt
+-----END PGP SIGNATURE-----
+
+--chReQkDOePndSGWY--
 
