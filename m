@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DDF2D30B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 18:13:36 +0100 (CET)
-Received: from localhost ([::1]:49916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF6002D3078
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 18:04:12 +0100 (CET)
+Received: from localhost ([::1]:57730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmgYR-0003q3-2Y
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 12:13:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
+	id 1kmgPL-0002j4-Fa
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 12:04:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kmgI6-000648-Ar
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:56:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21046)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kmgJL-00070a-1f
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:57:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kmgI3-0002BC-Vn
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:56:41 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1kmgJI-0002g0-4d
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 11:57:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607446598;
+ s=mimecast20190719; t=1607446675;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gCIkrUks90VDpUvLecRVukrKiaxVUxY/GxI2sp+JV4c=;
- b=S5JldStAA9EpSFiJDNA7OIcfXHEUyahtREQQw/zCvLmxxCiSXlf37sUC0eWl+2RH7FVaiR
- RBQyvrkrk2UcbQVkidfeJxycm2nScGD2IJX3/7bGWkwzsMHua3yUECpo8oYZFcmPU+x68q
- w4dwQrbs11KM5+gwOKiC/uWi/GPrXlI=
+ bh=emUhub5ZcelmZKUodwT7ETznqLzH0PmVzF9N4PVrqSM=;
+ b=fqLdIChPdLzSo5h+oN38WTQXmsuXkAhOnKvupphH6RPQRt0yNQJhU+2D8lhpmjeYSUQxVP
+ 4oVOcOvlDkxr/ldpbBmMa6E/k1ZsSH1vqdmVBog5Fskqsrd1f6RUAEtEmgdjYWI391IA7C
+ oZARNFHXZwj5dJKu8QbUU+iz2V8mMyc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-olWQ9fstOBaxXvsZQZ7FhA-1; Tue, 08 Dec 2020 11:56:35 -0500
-X-MC-Unique: olWQ9fstOBaxXvsZQZ7FhA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-290-ZjJTswkGNyaUkOHNejY9UA-1; Tue, 08 Dec 2020 11:57:53 -0500
+X-MC-Unique: ZjJTswkGNyaUkOHNejY9UA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACA808049F4
- for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 16:56:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13E0880EDA9
+ for <qemu-devel@nongnu.org>; Tue,  8 Dec 2020 16:57:26 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-116-241.rdu2.redhat.com [10.10.116.241])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B2A510074E0;
- Tue,  8 Dec 2020 16:56:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D72866E521;
+ Tue,  8 Dec 2020 16:57:25 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 885FD220BCF; Tue,  8 Dec 2020 11:56:10 -0500 (EST)
-Date: Tue, 8 Dec 2020 11:56:10 -0500
+ id 6AF42220BCF; Tue,  8 Dec 2020 11:57:25 -0500 (EST)
+Date: Tue, 8 Dec 2020 11:57:25 -0500
 From: Vivek Goyal <vgoyal@redhat.com>
 To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH] virtiofsd: update FUSE_FORGET comment on
- "lo_inode.nlookup"
-Message-ID: <20201208165610.GA20722@redhat.com>
-References: <20201208073936.8629-1-lersek@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: make the debug log timestamp on
+ stderr more human-readable
+Message-ID: <20201208165725.GB20722@redhat.com>
+References: <20201208055043.31548-1-lersek@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201208073936.8629-1-lersek@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201208055043.31548-1-lersek@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,41 +82,121 @@ Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 08, 2020 at 08:39:36AM +0100, Laszlo Ersek wrote:
-> Miklos confirms it's *only* the FUSE_FORGET request that the client can
-> use for decrementing "lo_inode.nlookup".
-> 
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Cc: Miklos Szeredi <mszeredi@redhat.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Fixes: 1222f015558fc34cea02aa3a5a92de608c82cec8
-> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+On Tue, Dec 08, 2020 at 06:50:43AM +0100, Laszlo Ersek wrote:
+> The current timestamp format doesn't help me visually notice small jumps
+> in time ("small" as defined on human scale, such as a few seconds or a few
+> ten seconds). Replace it with a local time format where such differences
+> stand out.
 
-Looks correct. unref_inode() calls in lo_rmdir() lo_rename() are dropping
-->nlookup they have taken internally during the function execution.
-
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+Switching to a human readable time stamp makes sense. That seems much
+more helpful for debugging, IMHO.
 
 Thanks
 Vivek
 
+> 
+> Before:
+> 
+> > [13316826770337] [ID: 00000004] unique: 62, opcode: RELEASEDIR (29), nodeid: 1, insize: 64, pid: 1
+> > [13316826778175] [ID: 00000004]    unique: 62, success, outsize: 16
+> > [13316826781156] [ID: 00000004] virtio_send_msg: elem 0: with 1 in desc of length 16
+> > [15138279317927] [ID: 00000001] virtio_loop: Got VU event
+> > [15138279504884] [ID: 00000001] fv_queue_set_started: qidx=1 started=0
+> > [15138279519034] [ID: 00000003] fv_queue_thread: kill event on queue 1 - quitting
+> > [15138280876463] [ID: 00000001] fv_remove_watch: TODO! fd=9
+> > [15138280897381] [ID: 00000001] virtio_loop: Waiting for VU event
+> > [15138280946834] [ID: 00000001] virtio_loop: Got VU event
+> > [15138281175421] [ID: 00000001] virtio_loop: Waiting for VU event
+> > [15138281182387] [ID: 00000001] virtio_loop: Got VU event
+> > [15138281189474] [ID: 00000001] virtio_loop: Waiting for VU event
+> > [15138309321936] [ID: 00000001] virtio_loop: Unexpected poll revents 11
+> > [15138309434150] [ID: 00000001] virtio_loop: Exit
+> 
+> (Notice how you don't (easily) notice the gap in time after
+> "virtio_send_msg", and especially the amount of time passed is hard to
+> estimate.)
+> 
+> After:
+> 
+> > [2020-12-08 06:43:22.58+0100] [ID: 00000004] unique: 51, opcode: RELEASEDIR (29), nodeid: 1, insize: 64, pid: 1
+> > [2020-12-08 06:43:22.58+0100] [ID: 00000004]    unique: 51, success, outsize: 16
+> > [2020-12-08 06:43:22.58+0100] [ID: 00000004] virtio_send_msg: elem 0: with 1 in desc of length 16
+> > [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Got VU event
+> > [2020-12-08 06:43:29.34+0100] [ID: 00000001] fv_queue_set_started: qidx=1 started=0
+> > [2020-12-08 06:43:29.34+0100] [ID: 00000003] fv_queue_thread: kill event on queue 1 - quitting
+> > [2020-12-08 06:43:29.34+0100] [ID: 00000001] fv_remove_watch: TODO! fd=9
+> > [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Waiting for VU event
+> > [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Got VU event
+> > [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Waiting for VU event
+> > [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Got VU event
+> > [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Waiting for VU event
+> > [2020-12-08 06:43:29.37+0100] [ID: 00000001] virtio_loop: Unexpected poll revents 11
+> > [2020-12-08 06:43:29.37+0100] [ID: 00000001] virtio_loop: Exit
+> 
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  tools/virtiofsd/passthrough_ll.c | 31 +++++++++++++++++++++++++++----
+>  1 file changed, 27 insertions(+), 4 deletions(-)
 > 
 > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 06543b20dcbb..d3be680e92c3 100644
+> index 48a109d3f682..06543b20dcbb 100644
 > --- a/tools/virtiofsd/passthrough_ll.c
 > +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -113,7 +113,7 @@ struct lo_inode {
->       * This counter keeps the inode alive during the FUSE session.
->       * Incremented when the FUSE inode number is sent in a reply
->       * (FUSE_LOOKUP, FUSE_READDIRPLUS, etc).  Decremented when an inode is
-> -     * released by requests like FUSE_FORGET, FUSE_RMDIR, FUSE_RENAME, etc.
-> +     * released by a FUSE_FORGET request.
->       *
->       * Note that this value is untrusted because the client can manipulate
->       * it arbitrarily using FUSE_FORGET requests.
+> @@ -3311,18 +3311,38 @@ static void setup_nofile_rlimit(unsigned long rlimit_nofile)
+>  static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
+>  {
+>      g_autofree char *localfmt = NULL;
+> +    struct timespec ts;
+> +    struct tm tm;
+> +    char sec_fmt[sizeof "2020-12-07 18:17:54"];
+> +    char zone_fmt[sizeof "+0100"];
+>  
+>      if (current_log_level < level) {
+>          return;
+>      }
+>  
+>      if (current_log_level == FUSE_LOG_DEBUG) {
+> -        if (!use_syslog) {
+> -            localfmt = g_strdup_printf("[%" PRId64 "] [ID: %08ld] %s",
+> -                                       get_clock(), syscall(__NR_gettid), fmt);
+> -        } else {
+> +        if (use_syslog) {
+> +            /* no timestamp needed */
+>              localfmt = g_strdup_printf("[ID: %08ld] %s", syscall(__NR_gettid),
+>                                         fmt);
+> +        } else {
+> +            /* try formatting a broken-down timestamp */
+> +            if (clock_gettime(CLOCK_REALTIME, &ts) != -1 &&
+> +                localtime_r(&ts.tv_sec, &tm) != NULL &&
+> +                strftime(sec_fmt, sizeof sec_fmt, "%Y-%m-%d %H:%M:%S",
+> +                         &tm) != 0 &&
+> +                strftime(zone_fmt, sizeof zone_fmt, "%z", &tm) != 0) {
+> +                localfmt = g_strdup_printf("[%s.%02ld%s] [ID: %08ld] %s",
+> +                                           sec_fmt,
+> +                                           ts.tv_nsec / (10L * 1000 * 1000),
+> +                                           zone_fmt, syscall(__NR_gettid),
+> +                                           fmt);
+> +            } else {
+> +                /* fall back to a flat timestamp */
+> +                localfmt = g_strdup_printf("[%" PRId64 "] [ID: %08ld] %s",
+> +                                           get_clock(), syscall(__NR_gettid),
+> +                                           fmt);
+> +            }
+>          }
+>          fmt = localfmt;
+>      }
+> @@ -3452,6 +3472,9 @@ int main(int argc, char *argv[])
+>      struct lo_map_elem *reserve_elem;
+>      int ret = -1;
+>  
+> +    /* Initialize time conversion information for localtime_r(). */
+> +    tzset();
+> +
+>      /* Don't mask creation mode, kernel already did that */
+>      umask(0);
+>  
 > -- 
 > 2.19.1.3.g30247aa5d201
 > 
