@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FAF12D3261
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:51:24 +0100 (CET)
-Received: from localhost ([::1]:39598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930A62D3255
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:46:55 +0100 (CET)
+Received: from localhost ([::1]:59228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmi55-00065M-KV
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:51:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59916)
+	id 1kmi0k-0002MF-I9
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:46:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kmhX0-0005L3-OG
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:16:12 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33197)
+ id 1kmhWw-0005Iy-N2
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:16:07 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kmhWt-0007wB-Th
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:16:10 -0500
-Received: by mail-wr1-x441.google.com with SMTP id r14so1531568wrn.0
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:16:01 -0800 (PST)
+ id 1kmhWu-0007wI-HM
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:16:06 -0500
+Received: by mail-wr1-x429.google.com with SMTP id r14so1531613wrn.0
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:16:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UemC5541VEYHf/BEklXFjK6XVs4Wljvyr7YjA/NgPRE=;
- b=oDin9NQ5bjhtkP71wlYo3TFHoeVgTLvAwVdz70K03gZxR3k8aHx9mDe/+1QSzRlczp
- U/UA1phAYfVYHcIEr5LahsDE9gmCqLbG0Xu08NQkcvnAzNXFtkasNoFcpgTQ9L+v02Kv
- 3q9k56BDRKQygYVuUR5cGmHSU1k7rYoSkLTWj0zweEXc31+oUvJDT9NdxoV7Xk9EYTBP
- gPP48sSbwSh140aYlCwKy7ZoG2rJ7XGiY1IuoJ99asCmAgboqrkmvOvQ6yokf9nJMsEb
- 9wSnJG51sm/HyA91i3U+NpBwswqS7KbuAyLFtQ4FVt4grYHBK41j69F/qYWIBVXbqNAE
- WztQ==
+ bh=rsusvVmbp8UtSIK1LPtaov69Vpog2i9qOUwwDMskU2I=;
+ b=h2ATfoOfy+TtIs6mm776iESpSRHVWTZ9OCtpa/Rb2BGWsVFL7fU4/2KNuemzORIpkX
+ 8WtDp7+z7EGEmVX2mrwEL9smse3P8N6VhoPb1IVmp5yB5W12ScYrDTlTydmB5WprOuh/
+ 8vZIybbxHBOK12AXmcMZCZKkPDWCl7Al6Q6aPLdNqOjp97O5gFttEuwGdmv9SoPzllEe
+ pcHo3gspjfb9Hx+T0kv75OOmIuztlEvD7cOIosJGs01XfXxWR56h1ME6kCZ3UIcrmO9R
+ D9mdJNthUDhuNEtoChLPN02j8Atd7aWzcGEYnHozi9ER6cW5Hb/bL8v4QODiWBRv645z
+ omCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UemC5541VEYHf/BEklXFjK6XVs4Wljvyr7YjA/NgPRE=;
- b=aMhAzMxHZEiJDHoaVyr6qnCTMDE4XRa2zjrdfVfh0mjGG0gikJIsvZBzdkR3oRSyQ7
- +8kvXenk2pz0iGiMQr+V/kb4WioaS3oSq6XMpEQcrh9XJVz3pcnfEJXtsj27nn0MJPGv
- enVsMSgnGkPHWYisBOaCvlvjIIyeNln02sFuSrelNZP0K1W4vkIVdD0t7HqsaotGoZBO
- hW6W3HkSNNqAsbkZpB0dZHhRjsInBD0BFuqm1T8+wALrNUFLCZi/vl7rNzr+T8BC5Nxp
- ojFaX607BrxdMpQwYQjxeHTNbSX6+BQkFIvUeQ1T4VCB6J8pCpWCpeuYbR++USVM3kOO
- Egow==
-X-Gm-Message-State: AOAM5339pWVcMsLhbRin5teA6V3qLVGH7jOxfrjUNRWekno/CUDBRt+I
- RGqWf4kU2vaPpQCUwdqQPRGCZwEgGBuiEg==
-X-Google-Smtp-Source: ABdhPJx0uGvjUh28BqCCwbaK/jSrZnfNTq+MJVUAX2bGweZQ+dXXOd49beXG+OKQdqIYs3XUFnM3qQ==
-X-Received: by 2002:a5d:4604:: with SMTP id t4mr25757550wrq.411.1607451360086; 
- Tue, 08 Dec 2020 10:16:00 -0800 (PST)
+ bh=rsusvVmbp8UtSIK1LPtaov69Vpog2i9qOUwwDMskU2I=;
+ b=DGNHEwtwnUlCT4o98dLD4ijv21F8cZ3/NrFXWVeJo89et5xIedg7bi9an+sMPY4ct3
+ MzbbphCaqCHohi9A90TMTfl0i2SR/WaOwhimwHMCMefn8B4S8JhrKex/tT8Gapo/4Lve
+ XsclFf1jp8ciNHi6ZmUXDtFECeMu2sJswlokuvp7ctXXsguFOnvfmgWqaWCKOutFep1d
+ jKEfu6xZTKjv7iS7FQoYdwNXJirh+FvljSkZs6n5YVITDft2XJqr/AxexDVFhvJ5nCEt
+ AHiQRdr2+w67g/57ghICKteATDc9xbKVUhC6jOPnY+L8+LbRlHvc4U9VgcwXhTkUqy6G
+ z5CA==
+X-Gm-Message-State: AOAM530xZvpQNn6gK4ZkWvaXkNfBModz3eRFElE/cw72ua5zF+OkPzwv
+ UnvadfftqQFkV2WWqKdyLbqpeuUDNR4SFQ==
+X-Google-Smtp-Source: ABdhPJx4cBKQMUYUxJRttpZJJdyw+ZuXFGXNfImKdemxxc6qeVdfNqKbNtL9aFSmcMmDQVxDNK/ltw==
+X-Received: by 2002:adf:9525:: with SMTP id 34mr3378591wrs.389.1607451361253; 
+ Tue, 08 Dec 2020 10:16:01 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id u12sm4978873wmu.28.2020.12.08.10.15.59
+ by smtp.gmail.com with ESMTPSA id u12sm4978873wmu.28.2020.12.08.10.16.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 10:15:59 -0800 (PST)
+ Tue, 08 Dec 2020 10:16:00 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] clock: Remove clock_get_ns()
-Date: Tue,  8 Dec 2020 18:15:53 +0000
-Message-Id: <20201208181554.435-4-peter.maydell@linaro.org>
+Subject: [PATCH 4/4] clock: Define and use new clock_display_freq()
+Date: Tue,  8 Dec 2020 18:15:54 +0000
+Message-Id: <20201208181554.435-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201208181554.435-1-peter.maydell@linaro.org>
 References: <20201208181554.435-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,74 +89,118 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the now-unused clock_get_ns() API and the CLOCK_PERIOD_TO_NS()
-macro that only it was using.
+It's common to want to print a human-readable indication of a clock's
+frequency. Provide a utility function in the clock API to return a
+string which is a displayable representation of the frequency,
+and use it in qdev-monitor.c.
+
+Before:
+
+  (qemu) info qtree
+  [...]
+  dev: xilinx,zynq_slcr, id ""
+    clock-in "ps_clk" freq_hz=3.333333e+07
+    mmio 00000000f8000000/0000000000001000
+
+After:
+
+  dev: xilinx,zynq_slcr, id ""
+    clock-in "ps_clk" freq_hz=33.3 MHz
+    mmio 00000000f8000000/0000000000001000
+
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/devel/clocks.rst | 17 +++++++++++++----
- include/hw/clock.h    |  6 ------
- 2 files changed, 13 insertions(+), 10 deletions(-)
+This is based on Philippe's patch
+"qdev-monitor: Display frequencies scaled to SI unit"
+but I have abstracted out the "prettified string" into the clock API.
+---
+ docs/devel/clocks.rst  |  5 +++++
+ include/hw/clock.h     | 12 ++++++++++++
+ hw/core/clock.c        |  6 ++++++
+ softmmu/qdev-monitor.c |  6 +++---
+ 4 files changed, 26 insertions(+), 3 deletions(-)
 
 diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
-index aebeedbb95e..9a93d1361b4 100644
+index 9a93d1361b4..cf8067542a1 100644
 --- a/docs/devel/clocks.rst
 +++ b/docs/devel/clocks.rst
-@@ -238,8 +238,17 @@ object during device instance init. For example:
- Fetching clock frequency/period
- -------------------------------
- 
--To get the current state of a clock, use the functions ``clock_get()``,
--``clock_get_ns()`` or ``clock_get_hz()``.
-+To get the current state of a clock, use the functions ``clock_get()``
-+or ``clock_get_hz()``.
-+
-+``clock_get()`` returns the period of the clock in its fully precise
-+internal representation, as an unsigned 64-bit integer in units of
-+2^-32 nanoseconds. (For many purposes ``clock_ticks_to_ns()`` will
-+be more convenient; see the section below on expiry deadlines.)
-+
-+``clock_get_hz()`` returns the frequency of the clock, rounded to the
-+next lowest integer. This implies some inaccuracy due to the rounding,
-+so be cautious about using it in calculations.
- 
- It is also possible to register a callback on clock frequency changes.
- Here is an example:
-@@ -254,8 +263,8 @@ Here is an example:
-          */
- 
-         /* do something with the new period */
--        fprintf(stdout, "device new period is %" PRIu64 "ns\n",
--                        clock_get_ns(dev->my_clk_input));
-+        fprintf(stdout, "device new period is %" PRIu64 "* 2^-32 ns\n",
-+                        clock_get(dev->my_clk_input));
+@@ -267,6 +267,11 @@ Here is an example:
+                         clock_get(dev->my_clk_input));
      }
  
++If you are only interested in the frequency for displaying it to
++humans (for instance in debugging), use ``clock_display_freq()``,
++which returns a prettified string-representation, e.g. "33.3 MHz".
++The caller must free the string with g_free() after use.
++
  Calculating expiry deadlines
+ ----------------------------
+ 
 diff --git a/include/hw/clock.h b/include/hw/clock.h
-index a9425d9fb14..9c0b1eb4c3f 100644
+index 9c0b1eb4c3f..7bc9afb0800 100644
 --- a/include/hw/clock.h
 +++ b/include/hw/clock.h
-@@ -39,7 +39,6 @@ typedef void ClockCallback(void *opaque);
-  * macro helpers to convert to hertz / nanosecond
-  */
- #define CLOCK_PERIOD_FROM_NS(ns) ((ns) * (CLOCK_PERIOD_1SEC / 1000000000llu))
--#define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_PERIOD_1SEC / 1000000000llu))
- #define CLOCK_PERIOD_FROM_HZ(hz) (((hz) != 0) ? CLOCK_PERIOD_1SEC / (hz) : 0u)
- #define CLOCK_PERIOD_TO_HZ(per) (((per) != 0) ? CLOCK_PERIOD_1SEC / (per) : 0u)
- 
-@@ -214,11 +213,6 @@ static inline unsigned clock_get_hz(Clock *clk)
-     return CLOCK_PERIOD_TO_HZ(clock_get(clk));
+@@ -252,4 +252,16 @@ static inline bool clock_is_enabled(const Clock *clk)
+     return clock_get(clk) != 0;
  }
  
--static inline unsigned clock_get_ns(Clock *clk)
--{
--    return CLOCK_PERIOD_TO_NS(clock_get(clk));
--}
--
- /**
-  * clock_ticks_to_ns:
-  * @clk: the clock to query
++/**
++ * clock_display_freq: return human-readable representation of clock frequency
++ * @clk: clock
++ *
++ * Return a string which has a human-readable representation of the
++ * clock's frequency, e.g. "33.3 MHz". This is intended for debug
++ * and display purposes.
++ *
++ * The caller is responsible for freeing the string with g_free().
++ */
++char *clock_display_freq(Clock *clk);
++
+ #endif /* QEMU_HW_CLOCK_H */
+diff --git a/hw/core/clock.c b/hw/core/clock.c
+index 8c6af223e7c..76b5f468b6e 100644
+--- a/hw/core/clock.c
++++ b/hw/core/clock.c
+@@ -12,6 +12,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu/cutils.h"
+ #include "hw/clock.h"
+ #include "trace.h"
+ 
+@@ -111,6 +112,11 @@ static void clock_disconnect(Clock *clk)
+     QLIST_REMOVE(clk, sibling);
+ }
+ 
++char *clock_display_freq(Clock *clk)
++{
++    return freq_to_str(clock_get_hz(clk));
++}
++
+ static void clock_initfn(Object *obj)
+ {
+     Clock *clk = CLOCK(obj);
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index bf79d0bbcd9..6263d600026 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -747,11 +747,11 @@ static void qdev_print(Monitor *mon, DeviceState *dev, int indent)
+         }
+     }
+     QLIST_FOREACH(ncl, &dev->clocks, node) {
+-        qdev_printf("clock-%s%s \"%s\" freq_hz=%e\n",
++        g_autofree char *freq_str = clock_display_freq(ncl->clock);
++        qdev_printf("clock-%s%s \"%s\" freq_hz=%s\n",
+                     ncl->output ? "out" : "in",
+                     ncl->alias ? " (alias)" : "",
+-                    ncl->name,
+-                    CLOCK_PERIOD_TO_HZ(1.0 * clock_get(ncl->clock)));
++                    ncl->name, freq_str);
+     }
+     class = object_get_class(OBJECT(dev));
+     do {
 -- 
 2.20.1
 
