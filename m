@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232342D2C2E
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:48:30 +0100 (CET)
-Received: from localhost ([::1]:39090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 365DA2D2C3E
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 14:54:05 +0100 (CET)
+Received: from localhost ([::1]:46906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmdLx-0006M5-6Y
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:48:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44998)
+	id 1kmdRL-0001Nf-PO
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 08:54:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kmdJW-0005NY-8b; Tue, 08 Dec 2020 08:46:01 -0500
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:33968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1kmdJT-0001AN-7g; Tue, 08 Dec 2020 08:45:58 -0500
-Received: by mail-qt1-x841.google.com with SMTP id 7so11929439qtp.1;
- Tue, 08 Dec 2020 05:45:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=I8chbzLh3QwfWevV+kcPem8Kys4KxWjcAD/H6h20cpQ=;
- b=cqqQYvnR9F/kp/VsvToLDoP3AePf7dJWD2PQNqVowy2dMHxnb17DOZ0X5gZQK6owIO
- UlQsS8qnRkO9kzEKN6F3Gju+HCmcTY+hahKgyt32WpUT9PSVQ2uKN9ILojKfEL3GKKdu
- UJETERR9Gm1RQ+VwXi0sxXGNn2sPVXGFyKAmggBUDITw5D1YQsah6cWcnRCLTkBNVP2s
- DeeR62+9cFGK4fmdrTP0D4SPf4EGI3TpuvAbawTX8fAm7iBRBmi7HwZFLKNanMpJm41u
- baEQMtgd26WET3SBd7JbOOe8f0Cpn5v8T0m71XXDSC/gUVM8717tNWbMviK5tJpBtl0Q
- SzxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=I8chbzLh3QwfWevV+kcPem8Kys4KxWjcAD/H6h20cpQ=;
- b=QTtNHvvyAVbWvthodGj6/lQedUSp3HD2EKzZApTbEUEcd8Jd//+gwA7zbWyTad6Sfv
- i+Ll5NDtKOsPgi/H9Mo3+qaHYiBvBVc59nEzlxEgqHhn5tQ9Pu8MCa8AwzveScPkjXpZ
- qAp+m702xZaE3KaHJpqxangwRsasAHmEPpxaMt0silJtRJ406UDbmH29B6lG71nGlZ5S
- EtFWS1eQfyslM1R9eXPHw+Aia2sbmEAHaYrR8vem3C/RBJmw0o7hmVFNfvV2BU/5X7k6
- 4XFfylaD4CYdsIzbrmVjtXjz3sFSNSzsOT0niOkrLD6L5UJ8Tj3M0LGLZqu3w4HdApqv
- YtrQ==
-X-Gm-Message-State: AOAM531rfAJ08s2dzcYu0AoZeUur1s/JEQfdLc8lr9G3ms3+AzVgdP5y
- NclFNt9c8rYIZsm37rkwP33JUoya5BM=
-X-Google-Smtp-Source: ABdhPJy4dbUZ0H12pbT11Cf9AjDg2xZe3d8BZJumeZNrqSr0ldU8egiPfopP/YpX0u5Fei7o4y7jEQ==
-X-Received: by 2002:ac8:7604:: with SMTP id t4mr29502549qtq.366.1607435153234; 
- Tue, 08 Dec 2020 05:45:53 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:c1a:69c1:2b22:e880:fc49])
- by smtp.gmail.com with ESMTPSA id p128sm5504996qka.56.2020.12.08.05.45.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 05:45:52 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] spapr.c: set a 'kvm-type' default value instead of
- relying on NULL
-Date: Tue,  8 Dec 2020 10:45:36 -0300
-Message-Id: <20201208134536.1012045-1-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmdP9-0000MQ-AY
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:51:47 -0500
+Received: from mx2.suse.de ([195.135.220.15]:55568)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmdP5-0003JQ-9E
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 08:51:45 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id BC822AC94;
+ Tue,  8 Dec 2020 13:51:40 +0000 (UTC)
+Subject: Re: [PATCH] target/arm: do not use cc->do_interrupt for KVM directly
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20201207084042.7690-1-cfontana@suse.de>
+ <20201207174916.GD1289986@habkost.net>
+ <CAFEAcA_UUs6NJ_JYtNEQ3VubHnvsvo1BBx6=9nVT9GO_QrDwoQ@mail.gmail.com>
+ <20201207182842.GE1289986@habkost.net>
+ <CAFEAcA9OWLF01hR4qzPwKWAHiDZ9RkSab8rv+0rnkyNhQjAnOg@mail.gmail.com>
+ <2e2e0160-7c17-cdfd-93e0-3d2002996108@suse.de>
+ <20201207212638.GI1289986@habkost.net>
+ <CAFEAcA_CNHucoBoq9_jWw9HLc_WneYko5s42z853NVJZdLCGuQ@mail.gmail.com>
+ <d3113905-fd76-28ee-8e6a-7a8dd5d3a3ee@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <b1ef6c6c-1803-a877-b4b7-a12b82288160@suse.de>
+Date: Tue, 8 Dec 2020 14:51:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <d3113905-fd76-28ee-8e6a-7a8dd5d3a3ee@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::841;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x841.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,102 +64,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Dongjiu Geng <gengdongjiu@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-spapr_kvm_type() is considering 'vm_type=NULL' as a valid input, where
-the function returns 0. This is relying on the current QEMU machine
-options handling logic, where the absence of the 'kvm-type' option
-will be reflected as 'vm_type=NULL' in this function.
+On 12/8/20 2:27 PM, Philippe Mathieu-Daudé wrote:
+> On 12/7/20 10:50 PM, Peter Maydell wrote:
+>> On Mon, 7 Dec 2020 at 21:26, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>>> My understanding is that there's no reason for ARM KVM to use
+>>> another approach, and that CPUClass.do_interrupt is not really
+>>> TCG-specific.
+>>>
+>>> Do we have any case where the CPUClass.do_interrupt
+>>> implementation is really TCG-specific, or it is just a
+>>> coincidence that most other accelerators simply don't to call the
+>>> method?  It looks like the only cases where the
+>>> CPUClass.do_interrupt assignment is conditional on CONFIG_TCG are
+>>> i386 and s390x.
+>>
+>> Looking at PPC, its kvm_handle_debug() function does a
+>> direct call to ppc_cpu_do_interrupt(). So the code of
+>> its do_interrupt method must be ok-for-KVM, it's just that
+>> it doesn't use the method pointer. (It's doing the same thing
+>> Arm is -- if a debug event turns out not to be for QEMU itself,
+>> inject a suitable exception into the guest.)
+>>
+>> So of our 5 KVM-supporting architectures:
+>>
+>>  * i386 and s390x have kernel APIs for "inject suitable
+>>    exception", don't need to call do_interrupt, and make
+>>    the cc->do_interrupt assignment only ifdef CONFIG_TCG,
+>>    so that the code for do_interrupt need not be compiled
+>>    into a KVM-only binary. (In both cases the code for the
+>>    function is in a source file that the meson.build puts
+>>    into the source list only if CONFIG_TCG)
+>>  * ppc and arm both need to use this code even in a KVM
+>>    only binary. Neither of them #ifdef the cc->do_interrupt
+>>    assignment, because there's not much point at the moment
+>>    if you're not going to try to compile out the code.
+>>    ppc happens to do a direct function call, and arm happens
+>>    to go via the cc->do_interrupt pointer, but I don't
+>>    think there's much significance in the choice either way.
+>>    In both cases, the only places making the call are within
+>>    architecture-specific KVM code.
+>>  * mips KVM does neither of these things, probably because it is
+>>    not sufficiently featureful to have run into the cases
+>>    where you might want to re-inject an exception and it's
+>>    not being sufficiently used in production for anybody to
+>>    have looked at minimising the amount of code in a
+>>    KVM-only QEMU binary for it.
+>>
+>> So in conclusion we have a basically 50:50 split between
+>> "use the same do_interrupt code as TCG" and "have a kernel
+>> API to make the kernel do the work", plus one arch that
+>> probably hasn't had to make the choice yet.   ¯\_(ツ)_/¯
+> 
+> Why not introduce KVMCpuOperations similar to TCGCpuOperations
+> Claudio is introducing, and declare the do_interrupt(CPUState*)
+> in both structures?
+> 
+> Then we can assign the same handler to both fields, TCG keeps
+> calling cc->tcg->do_interrupt(), KVM calls cc->kvm->do_interrupt().
+> This allow building with a particular accelerator, while staying
+> compliant with the current 50:50 split...
 
-This is not robust, and will break if QEMU options code decides to propagate
-something else in the case mentioned above (e.g. an empty string instead
-of NULL).
 
-Let's avoid this entirely by setting a non-NULL default value in case of
-no user input for 'kvm-type'. spapr_kvm_type() was changed to handle 3 fixed
-values of kvm-type: "HV", "PR" and, if no kvm-type was set by the user,
-DEFAULT_KVM_TYPE. This allows us always be predictable regardless of any
-enhancements/changes made in QEMU options mechanics.
+Hi Philippe,
 
-While we're at it, let's also document in 'kvm-type' description what
-happens if the user does not set this option. This information is based
-on how the pseries kernel handles the KVM_CREATE_VM ioctl(), where the
-default value '0' makes the kernel choose an available KVM module to
-use, giving precedence to kvm_hv. This logic is described in the kernel
-source file arch/powerpc/kvm/powerpc.c, function kvm_arch_init_vm().
+in principle interesting, but KVMCpuOperations would end up currently containing do_interrupt only..
+seems a bit overkill for just one method.
+Or where you thinking of ways to refactor current kvm code to use methods in CPUClass similarly to what Tcg does?
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
+Ciao,
 
-The case I mentioned in the second paragraph is happening when we try to
-execute a pseries guest with '--enable-kvm' using Paolo's patch 
-"vl: make qemu_get_machine_opts static" [1]:
-
-$ sudo ./ppc64-softmmu/qemu-system-ppc64 -nographic -nodefaults -machine pseries --enable-kvm
-qemu-system-ppc64: Unknown kvm-type specified '' 
-
-This happens due to the differences between how qemu_opt_get() and
-object_property_get_str() works when there is no 'kvm-type' specified.
-See [2] for more info about the issue found.
+Claudio
 
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg00471.html
-[2] https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg01578.html 
-
-
- hw/ppc/spapr.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index b7e0894019..32d938dc6a 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3021,9 +3021,10 @@ static void spapr_machine_init(MachineState *machine)
-     qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
- }
- 
-+#define DEFAULT_KVM_TYPE "auto"
- static int spapr_kvm_type(MachineState *machine, const char *vm_type)
- {
--    if (!vm_type) {
-+    if (!strcmp(vm_type, DEFAULT_KVM_TYPE)) {
-         return 0;
-     }
- 
-@@ -3131,6 +3132,16 @@ static char *spapr_get_kvm_type(Object *obj, Error **errp)
- {
-     SpaprMachineState *spapr = SPAPR_MACHINE(obj);
- 
-+    /*
-+     * In case the user didn't set 'kvm-type', return DEFAULT_KVM_TYPE
-+     * instead of NULL. This allows us to be more predictable with what
-+     * is expected to happen in spapr_kvm_type(), since we can stop relying
-+     * on receiving a 'NULL' parameter as a valid input there.
-+     */
-+    if (!spapr->kvm_type) {
-+        return g_strdup(DEFAULT_KVM_TYPE);
-+    }
-+
-     return g_strdup(spapr->kvm_type);
- }
- 
-@@ -3273,7 +3284,11 @@ static void spapr_instance_init(Object *obj)
-     object_property_add_str(obj, "kvm-type",
-                             spapr_get_kvm_type, spapr_set_kvm_type);
-     object_property_set_description(obj, "kvm-type",
--                                    "Specifies the KVM virtualization mode (HV, PR)");
-+                                    "Specifies the KVM virtualization mode (HV, PR)."
-+                                    " If not specified, defaults to any available KVM"
-+                                    " module loaded in the host. In case both kvm_hv"
-+                                    " and kvm_pr are loaded, kvm_hv takes precedence.");
-+
-     object_property_add_bool(obj, "modern-hotplug-events",
-                             spapr_get_modern_hotplug_events,
-                             spapr_set_modern_hotplug_events);
--- 
-2.26.2
+> 
+>>
+>>> Oh, I thought you were arguing that CPUClass.do_interrupt is
+>>> not TCG_specific.
+>>
+>> Well, I don't think it really is TCG-specific. But as
+>> a pragmatic thing, if these two lines in the Arm code
+>> are getting in the way of stopping us from having a
+>> useful compile-time check that code that's not supposed
+>> to call this method isn't calling it, I think the balance
+>> maybe leans towards just making the direct function call.
+>> I guess it depends whether you think people are likely to
+>> accidentally make cc->do_interrupt calls in non-target-specific
+>> code that gets used by KVM (which currently would crash if that
+>> code path is exercised on x86 or s390x, but under the
+>> proposed change would become a compile error).
+>>
+>> thanks
+>> -- PMM
+>>
+> 
 
 
