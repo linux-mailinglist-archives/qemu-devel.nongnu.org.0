@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C3F12D326C
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:52:39 +0100 (CET)
-Received: from localhost ([::1]:44590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223DA2D3236
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 19:33:35 +0100 (CET)
+Received: from localhost ([::1]:35540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmi6I-0008Dd-6P
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:52:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58608)
+	id 1kmhnq-0000ed-2y
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 13:33:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kmhQW-0006VQ-CB
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:09:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21252)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kmhQU-0007C2-0h
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:09:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607450965;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=J8xoHRGWFgMoTdCdKue9oQPoWPNvBzntXBkTL51+L/g=;
- b=YcG/PqOfeP/+DUVBgFPycRyPHxroIBozZEOmcIzVMl++Nnm6QGhXmypSBf18U0s5FZV4ZM
- ZFcLh4JkbS285r1Lpq9JgzLLAjaGtKXTWMd+Rv6R/uRWIr/Pz7tMlzievF41xO3jat9r8h
- Cck+XNbYuDy+g+t4/BXmu0PILGKJkyc=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-554oJXusPVqVV4FAzpBj6Q-1; Tue, 08 Dec 2020 13:09:22 -0500
-X-MC-Unique: 554oJXusPVqVV4FAzpBj6Q-1
-Received: by mail-qt1-f198.google.com with SMTP id z8so14542419qti.17
- for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:09:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kmhS3-0000Ll-0W
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:11:03 -0500
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:34909)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kmhS0-0007Qq-Cg
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 13:11:02 -0500
+Received: by mail-ot1-x334.google.com with SMTP id i6so10563179otr.2
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 10:10:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kG18JKu3V0ysFLtfiJSCcfYcXq6e3oR0WypJay0rVzg=;
+ b=VKUVQfLFTfrjJ+yaToNr1e8Yjbl1SbQFxHcsiLT+I6phFa3JeeE51DpvjjAPlMET0B
+ soEq1fdQp5ni/oUWzneeXluDzfvezuZzGdblmYMSZWusIb2NVAv45G8Xxp0t8nd1psq3
+ w3UHsbSeN1WhlwKVHe4LfCkgeBhamGvQr35ZqEHlbevWfcuyyAUFiMyXLMrEqtDQhTqg
+ A8VurvL1hd4HfuSCzbLDtCMf7PmBNIeSXLuNmX1bfOtkRN6A3q1mWCK6FN3dVhaTPSTj
+ HWd23JJ8mCuaBksCzlH6QVCIw0qWKOj22g/+GvViqLwCv/axOPj2lZD0uH3BXIun6oj+
+ eAmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=J8xoHRGWFgMoTdCdKue9oQPoWPNvBzntXBkTL51+L/g=;
- b=HLo8tFG6I5AKBk0jqBHzpFtrZnCLzinj5C3ajoG9RKxoi/rUgtikYI4LRlpCs0+n5g
- ET00yI8lA5ki2xfEULkMCLivqjqT0CpwCH5GqvAnGXiHQGz2UEzo8ojegj7lXZ4Srvc6
- e+Kuh+pvCWCc5TjEQGtCKM3irln8EqD6eApRuA95e4fFH+N4nBXnOI8NpSPUMHG/t050
- +Whm20AiSSINVybA8pTBTPKU6oRyiZ08cTU2xNgAEof3NXjS3ESGPwqcXE1e18ElXa3C
- anME2g740K04AVNLYUmhWX79smjtyxve8CLify7n4Zota8ca4sFGJIvWmYkaYa2nWcnq
- 227g==
-X-Gm-Message-State: AOAM532QbLO3FKGQXyg7NMzfqCvl58HKhBbdGoDCVwqb6qwUh1zazhpe
- AaSVy2zHiKXcORISsFpLI6BUNNQ7D3Khi8vMFeFRZ9dQEXphJUbdjX3NPaVmDX+XON1xG9rNhEL
- 6Q5rMvnVYi66QbHA=
-X-Received: by 2002:a0c:abc8:: with SMTP id k8mr28492031qvb.14.1607450961918; 
- Tue, 08 Dec 2020 10:09:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx6Gx7zS4se+61QWmy6hVoCrQaSyPT/mCOP78NN0Efnwi50nu9NbCEQkZ1HpP8LJmqCvAtK3A==
-X-Received: by 2002:a0c:abc8:: with SMTP id k8mr28492004qvb.14.1607450961699; 
- Tue, 08 Dec 2020 10:09:21 -0800 (PST)
-Received: from xz-x1 ([142.126.83.202])
- by smtp.gmail.com with ESMTPSA id z186sm14525973qke.100.2020.12.08.10.09.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 10:09:21 -0800 (PST)
-Date: Tue, 8 Dec 2020 13:09:19 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v5 3/4] migration: support UFFD write fault processing in
- ram_save_iterate()
-Message-ID: <20201208180919.GC21402@xz-x1>
-References: <20201204093103.9878-1-andrey.gruzdev@virtuozzo.com>
- <20201204093103.9878-4-andrey.gruzdev@virtuozzo.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kG18JKu3V0ysFLtfiJSCcfYcXq6e3oR0WypJay0rVzg=;
+ b=X0m+UYno/hkFH2vPbIY2FSVonDP+Xt/1Va2zYOthnPqP+IzNedW3E7ETPvfMuJkCWr
+ MAJhpdN27Yumcwf2JoTc/mQcCWhFY1duXEVpzH4Acgkb0tUDN2lMhiEzJ12plP0LZD2o
+ jiK3qey4FiT/boWY+8kXIFaszRsftUyK9mD3fdxAc2LOpbuU5NmDeh/RaDTN9HpXz8T1
+ On+yHAX4CC4Gw7DmwwM4yFkLsbkZrcj7TTHioCpNEEJCM+TkGsOFowd64Nhh5tQYUbpm
+ HVkLEp9DjTN4yPXNk97gfwI8cAh9TZsaX2gBXV8RCS/0aLQIBHxhKOyUr+A3ftak7GJS
+ q3KQ==
+X-Gm-Message-State: AOAM530b6XBTe3G/94kT7QQVHjvUWF23AO19rR3E/SvfshnC/O/qL204
+ ++5Eo87x97BgKw1ilUmg9apT7CAjLrGAJmMr
+X-Google-Smtp-Source: ABdhPJwKFzq1eGEOxI49rd8uxDUuR0EF7RAz5vqCYTvAdIkDI+5MakisJl06YByorZ7zbGti/y3HFw==
+X-Received: by 2002:a05:6830:22f9:: with SMTP id
+ t25mr18151615otc.14.1607451058836; 
+ Tue, 08 Dec 2020 10:10:58 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id r25sm1543743otp.23.2020.12.08.10.10.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 08 Dec 2020 10:10:58 -0800 (PST)
+Subject: Re: Why do we have both CONFIG_SOFTMMU and CONFIG_USER_ONLY?
+To: Claudio Fontana <cfontana@suse.de>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <5176c935-2df0-e300-b1cf-67c7014e5d73@suse.de>
+ <CAFEAcA9xLZCmjmBnPUN52wSDYdk2qd14RFXPyU0vWeW53Vg5aA@mail.gmail.com>
+ <08bd879e-66db-0fe0-522d-0a378f36f763@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <23e8d691-ac1f-8203-dd47-cd19dfb4c40e@linaro.org>
+Date: Tue, 8 Dec 2020 12:10:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201204093103.9878-4-andrey.gruzdev@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <08bd879e-66db-0fe0-522d-0a378f36f763@suse.de>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,38 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 04, 2020 at 12:31:02PM +0300, Andrey Gruzdev wrote:
-> In this particular implementation the same single migration
-> thread is responsible for both normal linear dirty page
-> migration and procesing UFFD page fault events.
+On 12/7/20 5:56 AM, Claudio Fontana wrote:
+> On 12/7/20 12:50 PM, Peter Maydell wrote:
+>> On Mon, 7 Dec 2020 at 11:39, Claudio Fontana <cfontana@suse.de> wrote:
+>>>
+>>> As in Subject,
+>>>
+>>> am I understanding correctly that the one or the other is redundant?
+>>>
+>>> Should we keep only one of them?
+>>
+>> I think that perhaps the idea at one point was that we
+>> might have a version of linux-user which used a softmmu
+>> (this would allow better control of the guest's view of
+>> its address space, so guest mmap() to fixed addresses
+>> would work better, for instance). But nobody's ever actually
+>> tried to implement that, so I imagine that if we ever did
+>> we'd find that some CONFIG_SOFTMMU and some CONFIG_USER_ONLY
+>> defines were the wrong way around...
+>>
+>> thanks
+>> -- PMM
+>>
 > 
-> Processing write faults includes reading UFFD file descriptor,
-> finding respective RAM block and saving faulting page to
-> the migration stream. After page has been saved, write protection
-> can be removed. Since asynchronous version of qemu_put_buffer()
-> is expected to be used to save pages, we also have to flush
-> migraion stream prior to un-protecting saved memory range.
+> Hi Peter,
 > 
-> Write protection is being removed for any previously protected
-> memory chunk that has hit the migration stream. That's valid
-> for pages from linear page scan along with write fault pages.
+> thanks for the background,
 > 
-> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> indeed I am seeing some of these cases, target/XXX/cpu.c is protecting code with #ifndef CONFIG_USER_ONLY,
+> 
+> but the header files in include/hw/core/cpu.h and others use #ifdef CONFIG_SOFTMMU.
 
-I still think the ram_save_host_page_pre/post are a bit odd; but I think it's
-good enough (at least Dave/Juan didn't complain yet, so I guess it's ok).
+In an ideal future in which linux-user could use softmmu, I would have softmmu
+be a runtime option rather than a compile-time option.  The option would merely
+affect how TCG generates code.
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+So while in that ideal future only CONFIG_USER_ONLY would remain, in an ideal
+present CONFIG_SOFTMMU would mark those places where a runtime check should be
+added.
 
-Thanks,
+But the present is not ideal, and system-ness (or non-user-only-ness) and
+actual mmu emulation are often confused.  Cleanups welcome.  ;-)
 
--- 
-Peter Xu
 
+r~
 
