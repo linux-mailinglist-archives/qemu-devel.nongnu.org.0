@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026752D25BD
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:22:31 +0100 (CET)
-Received: from localhost ([::1]:40756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BD02D25C3
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 09:23:30 +0100 (CET)
+Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmYGS-0006LT-V7
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:22:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58812)
+	id 1kmYHR-0007C8-SU
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 03:23:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kmYE7-0005PT-2Z
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:20:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kmYE3-0002kQ-JQ
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:20:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607415597;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Gdr/p0ARaLnBGXFbgpHS/zgPQ800EfpHeH298wzNMS8=;
- b=e0ahWAKCpeDSuXOsptYWW4iAtxGWYcgnT0Ugk5FoZp0jYp2aT1filbCqQbDMzfs32zOASv
- O3SLKEpnyFybGu+LNfzwIZLDOIfURAzKjH9sltPWsHT/MG6hnbBAEdJysGpKNkQfmnaMZH
- t8R2acHyfbPD30KMnSW8GHcaj44LpHA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-585-ivXFV40JPACM7tNSIIcK7w-1; Tue, 08 Dec 2020 03:19:55 -0500
-X-MC-Unique: ivXFV40JPACM7tNSIIcK7w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03468C299;
- Tue,  8 Dec 2020 08:19:54 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 435565D9E4;
- Tue,  8 Dec 2020 08:19:45 +0000 (UTC)
-Date: Tue, 8 Dec 2020 09:19:42 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: Re: [PATCH for-6.0] accel: Wire accel to /machine
-Message-ID: <20201208081942.GP105758@angien.pipo.sk>
-References: <20201207084621.23876-1-r.bolshakov@yadro.com>
- <20201207173849.GC1289986@habkost.net>
- <20201207175007.GO105758@angien.pipo.sk>
- <X881k+IdAzs5O1yQ@SPB-NB-133.local>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kmYFS-0006Ky-7A
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:21:26 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:35349)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kmYFP-0003Mq-Uf
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 03:21:26 -0500
+Received: from [192.168.100.1] ([82.252.152.214]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MCayD-1kuUKE3lMh-009f1j; Tue, 08 Dec 2020 09:21:18 +0100
+To: Matteo Croce <mcroce@linux.microsoft.com>, qemu-devel@nongnu.org
+References: <20201208001727.17433-1-mcroce@linux.microsoft.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] linux-user: add option to chroot before emulation
+Message-ID: <f37589e0-90d9-a5f0-a5a9-423c583c675d@vivier.eu>
+Date: Tue, 8 Dec 2020 09:21:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <X881k+IdAzs5O1yQ@SPB-NB-133.local>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201208001727.17433-1-mcroce@linux.microsoft.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:6FvXMq9X29OyXTvMr3NmZPCtSP6oYP3Z7hlsbIS+3DioFKn8/f2
+ qEQMFJ9LvMGNUPomFHycg29lXfc2EqmZcgfhlvjFT736lL9JULjC+ceu7bAYPnS85TbK9gL
+ f0BNoute/+Gvbbs2gg+sESCwS/SfBFPz9jq42VWWlNgwsZ5Qrv+vQpqhS24PUdoUufpy2zv
+ OffriD05Di01cDSwWK4zg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/CdxOJ75c+o=:tibKlP87YXpJ+kZvx4Trw7
+ eX9crzAMLAqNtOzqku0ej0rJZQhT/KrVsMJKx+gikP9K4r9kaqa8awaxg+IKSEa50x3sLzPfd
+ 7MvYrTmoiUWpdE9/fpCUPOK/y9iTUj6INqK4CjD8izedyGSrNH2NhSL6cwBfMAjFxiuXsUjUe
+ R2IS2OgkIJhN9Wbc3Psd18aKJkhXi7gjBycBziaYi5h+bFcgo/J/QSyfHl0O35p69ordRrMnD
+ /+e5uVbi7IV1rXnduOnqmsnCeEJZi6h1f5gDShPTLukv6Pown7P2RxKVYOSJQXv6KD2WFHrOF
+ V+0D8LRaViup2DbpkQkkezjd8JxscZo2AbjEIY7nAG2VqzScJr8gZFDxE3K4rU3zTcVUzgLTz
+ hpaIjbKGUqTAuavbGC81przt6VYZBzsQjHdHCFGA1ctB+4vjhmWOG1gzMAtwAf17C1dXL2ZQ5
+ nI4U/vPRHg==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,80 +65,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- libvir-list@redhat.com,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 08, 2020 at 11:13:07 +0300, Roman Bolshakov wrote:
-> On Mon, Dec 07, 2020 at 06:50:07PM +0100, Peter Krempa wrote:
-> > On Mon, Dec 07, 2020 at 12:38:49 -0500, Eduardo Habkost wrote:
-> > > On Mon, Dec 07, 2020 at 11:46:22AM +0300, Roman Bolshakov wrote:
-> > > > There's no generic way to query current accel and its properties via QOM
-> > > > because there's no link between an accel and current machine.
-> > > > 
-> > > > The change adds the link, i.e. if HVF is enabled the following will be
-> > > > available in QOM:
-> > > > 
-> > > >   (qemu) qom-get /machine/accel type
-> > > >   "hvf-accel"
-> > > > 
-> > > > Suggested-by: Markus Armbruster <armbru@redhat.com>
-> > > > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> > > > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > > > ---
-> > > > 
-> > > > Hi,
-> > > > 
-> > > > this is a follow up patch that deprecates earlier series [1].
-> > > > 
-> > > 
-> > > Is there a reference to the reasoning for dropping the earlier
-> > > approach?  Your previous approach seems preferable.
-> > 
-> > The gist of the discussion before was that deprecating old commands in
-> > the same release cycle as introducing the replacement might be
-> > problematic if libvirt wants to adapt ASAP and that the new command
-> > should be elevated to a intermediate tier of stability, where ACK from
-> > libvirt is needed to change it during the same release cycle
-> > incompatibly.
-> > 
-> > That was meant generally for any command, and was started because we had
-> > a similar issue recently.
-> > 
-> > My intention definitely was not to change the patch itself, but more a
-> > process change so that we can keep cooperating on new stuff rapidly, but
-> > without actually breaking what we do.
-> > 
+Le 08/12/2020 à 01:17, Matteo Croce a écrit :
+> From: Matteo Croce <mcroce@microsoft.com>
 > 
-> Thanks Peter,
+> Add a '-c' option which does a chroot() just before starting the
+> emulation. This is useful when the static QEMU user binary can't
+> be copied into the target root filesystem, e.g. if it's readonly.
+
+Did you try to use the binfmt_misc 'F' flag (fix binary)?
+
+https://www.kernel.org/doc/Documentation/admin-guide/binfmt-misc.rst
+
+``F`` - fix binary
+
+The usual behaviour of binfmt_misc is to spawn the
+binary lazily when the misc format file is invoked.  However,
+this doesn``t work very well in the face of mount namespaces and
+changeroots, so the ``F`` mode opens the binary as soon as the
+emulation is installed and uses the opened image to spawn the
+emulator, meaning it is always available once installed,
+regardless of how the environment changes.
+
+This can be configured with scripts/qemu-binfmt-conf.sh and
+"--persistent yes"" option
+
+Thanks,
+Laurent
 > 
-> I'll drop deprecation patch in v2 of query-accel QMP command.
-
-Actually In the discussion my stance is that you can deprecate the
-old command itself, but starting from that point any semantic changes to
-query-accel must be consulted with libvirt as if query-accel was already
-released.
-
-We do want to develop the use of the new command as soon as possible,
-because that's beneficial to both sides and can actually show a design
-problem in the replacement command, so having us replace it before qemu
-releases it is good.
-
-On the other hand once libvirt takes the replacement, we must be
-involved in any changes to the command due to de-synced release
-shchedules so that there isn't a libvirt which e.g. didnt work.
-
-I specifically don't want to derail any of this collaboration, I just
-want to enhance it by all parties knowingly agreeing to the "gentleman's
-agreement" since complicating the process would actually be detremental.
-
-The thing is that the command may be changed if we know about it and
-e.g. didn't yet commit the replacement. We just need to communicate.
+> Move some code which accesses /proc/sys/vm/mmap_min_addr before
+> the chroot, otherwise it would fail.
+> 
+> Signed-off-by: Matteo Croce <mcroce@microsoft.com>
+> ---
+>  linux-user/main.c | 128 +++++++++++++++++++++++++++-------------------
+>  1 file changed, 75 insertions(+), 53 deletions(-)
+> 
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 24d1eb73ad..4788e4b5bc 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -60,6 +60,7 @@ static const char *seed_optarg;
+>  unsigned long mmap_min_addr;
+>  unsigned long guest_base;
+>  bool have_guest_base;
+> +static const char *qemu_chroot;
+>  
+>  /*
+>   * Used to implement backwards-compatibility for the `-strace`, and
+> @@ -304,6 +305,11 @@ static void handle_arg_pagesize(const char *arg)
+>      }
+>  }
+>  
+> +static void handle_arg_chroot(const char *arg)
+> +{
+> +    qemu_chroot = arg;
+> +}
+> +
+>  static void handle_arg_seed(const char *arg)
+>  {
+>      seed_optarg = arg;
+> @@ -450,6 +456,8 @@ static const struct qemu_argument arg_table[] = {
+>       "logfile",     "write logs to 'logfile' (default stderr)"},
+>      {"p",          "QEMU_PAGESIZE",    true,  handle_arg_pagesize,
+>       "pagesize",   "set the host page size to 'pagesize'"},
+> +    {"c",          "QEMU_CHROOT",      true,  handle_arg_chroot,
+> +     "chroot",     "chroot to 'chroot' before starting emulation"},
+>      {"singlestep", "QEMU_SINGLESTEP",  false, handle_arg_singlestep,
+>       "",           "run in singlestep mode"},
+>      {"strace",     "QEMU_STRACE",      false, handle_arg_strace,
+> @@ -688,6 +696,73 @@ int main(int argc, char **argv, char **envp)
+>  
+>      init_qemu_uname_release();
+>  
+> +    /*
+> +     * Read in mmap_min_addr kernel parameter.  This value is used
+> +     * When loading the ELF image to determine whether guest_base
+> +     * is needed.  It is also used in mmap_find_vma.
+> +     */
+> +    {
+> +        FILE *fp;
+> +
+> +        if ((fp = fopen("/proc/sys/vm/mmap_min_addr", "r")) != NULL) {
+> +            unsigned long tmp;
+> +            if (fscanf(fp, "%lu", &tmp) == 1 && tmp != 0) {
+> +                mmap_min_addr = tmp;
+> +                qemu_log_mask(CPU_LOG_PAGE, "host mmap_min_addr=0x%lx\n",
+> +                              mmap_min_addr);
+> +            }
+> +            fclose(fp);
+> +        }
+> +    }
+> +
+> +    /*
+> +     * We prefer to not make NULL pointers accessible to QEMU.
+> +     * If we're in a chroot with no /proc, fall back to 1 page.
+> +     */
+> +    if (mmap_min_addr == 0) {
+> +        mmap_min_addr = qemu_host_page_size;
+> +        qemu_log_mask(CPU_LOG_PAGE,
+> +                      "host mmap_min_addr=0x%lx (fallback)\n",
+> +                      mmap_min_addr);
+> +    }
+> +
+> +    /*
+> +     * Prepare copy of argv vector for target.
+> +     */
+> +    target_argc = argc - optind;
+> +    target_argv = calloc(target_argc + 1, sizeof (char *));
+> +    if (target_argv == NULL) {
+> +        (void) fprintf(stderr, "Unable to allocate memory for target_argv\n");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * If argv0 is specified (using '-0' switch) we replace
+> +     * argv[0] pointer with the given one.
+> +     */
+> +    i = 0;
+> +    if (argv0 != NULL) {
+> +        target_argv[i++] = strdup(argv0);
+> +    }
+> +    for (; i < target_argc; i++) {
+> +        target_argv[i] = strdup(argv[optind + i]);
+> +    }
+> +    target_argv[target_argc] = NULL;
+> +
+> +    /*
+> +     * Change root if requested wuth '-c'
+> +     */
+> +    if (qemu_chroot) {
+> +        if (chroot(qemu_chroot) < 0) {
+> +            error_report("chroot failed");
+> +            exit(1);
+> +        }
+> +        if (chdir("/")) {
+> +            error_report("not able to chdir to /: %s", strerror(errno));
+> +            exit(1);
+> +        }
+> +    }
+> +
+>      execfd = qemu_getauxval(AT_EXECFD);
+>      if (execfd == 0) {
+>          execfd = open(exec_path, O_RDONLY);
+> @@ -746,59 +821,6 @@ int main(int argc, char **argv, char **envp)
+>      target_environ = envlist_to_environ(envlist, NULL);
+>      envlist_free(envlist);
+>  
+> -    /*
+> -     * Read in mmap_min_addr kernel parameter.  This value is used
+> -     * When loading the ELF image to determine whether guest_base
+> -     * is needed.  It is also used in mmap_find_vma.
+> -     */
+> -    {
+> -        FILE *fp;
+> -
+> -        if ((fp = fopen("/proc/sys/vm/mmap_min_addr", "r")) != NULL) {
+> -            unsigned long tmp;
+> -            if (fscanf(fp, "%lu", &tmp) == 1 && tmp != 0) {
+> -                mmap_min_addr = tmp;
+> -                qemu_log_mask(CPU_LOG_PAGE, "host mmap_min_addr=0x%lx\n",
+> -                              mmap_min_addr);
+> -            }
+> -            fclose(fp);
+> -        }
+> -    }
+> -
+> -    /*
+> -     * We prefer to not make NULL pointers accessible to QEMU.
+> -     * If we're in a chroot with no /proc, fall back to 1 page.
+> -     */
+> -    if (mmap_min_addr == 0) {
+> -        mmap_min_addr = qemu_host_page_size;
+> -        qemu_log_mask(CPU_LOG_PAGE,
+> -                      "host mmap_min_addr=0x%lx (fallback)\n",
+> -                      mmap_min_addr);
+> -    }
+> -
+> -    /*
+> -     * Prepare copy of argv vector for target.
+> -     */
+> -    target_argc = argc - optind;
+> -    target_argv = calloc(target_argc + 1, sizeof (char *));
+> -    if (target_argv == NULL) {
+> -        (void) fprintf(stderr, "Unable to allocate memory for target_argv\n");
+> -        exit(EXIT_FAILURE);
+> -    }
+> -
+> -    /*
+> -     * If argv0 is specified (using '-0' switch) we replace
+> -     * argv[0] pointer with the given one.
+> -     */
+> -    i = 0;
+> -    if (argv0 != NULL) {
+> -        target_argv[i++] = strdup(argv0);
+> -    }
+> -    for (; i < target_argc; i++) {
+> -        target_argv[i] = strdup(argv[optind + i]);
+> -    }
+> -    target_argv[target_argc] = NULL;
+> -
+>      ts = g_new0(TaskState, 1);
+>      init_task_state(ts);
+>      /* build Task State */
+> 
 
 
