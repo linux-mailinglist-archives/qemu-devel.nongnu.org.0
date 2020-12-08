@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BCB2D2AB7
-	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 13:28:28 +0100 (CET)
-Received: from localhost ([::1]:43516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F33612D2B0F
+	for <lists+qemu-devel@lfdr.de>; Tue,  8 Dec 2020 13:32:44 +0100 (CET)
+Received: from localhost ([::1]:52418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmc6W-0003B6-1E
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 07:28:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55100)
+	id 1kmcAd-0006xm-Vz
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 07:32:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kmc36-0000YV-Py
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:24:56 -0500
-Resent-Date: Tue, 08 Dec 2020 07:24:56 -0500
-Resent-Message-Id: <E1kmc36-0000YV-Py@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kmc32-0006E0-Ul
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:24:56 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1607430284; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=enSXYEv0LGDQCu02S4Tl/D7AFAIqJa4m7r8jGJpEzrYWzPk2+E2TDq5IOZ2JXGQsaS1DIYXxONcm2P3uycA2m1yNtxNeuuUbtc6VLaM/rFLS/Ti0cy6zAnCJvpzEQoRJnyCOSZ57gnV4FX2GMG0Nt0sw9N7EEMzyWplURnCTSIg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1607430284;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=evl7WLwXeiNa/7bag2CHU35yqDZ8QByFLFcdjVj8SCg=; 
- b=cIGdiSWJHhtkPdsFgAjQyivznKCb2KQWpkG/GkyIpmKbXbWY0p/YLrV2xMERLc59zfGj/60tearOkVCukqZtOef5z718VoqRxShv7Dzg9Flcjq4t1GCpXjHKc359/cw4L4QtgwqGtgjPL0bs87mU6cQ90Q5CFD2aYpTm9q1ga+8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1607430281790637.167849569087;
- Tue, 8 Dec 2020 04:24:41 -0800 (PST)
-In-Reply-To: <20201208115934.3163238-1-berrange@redhat.com>
-Subject: Re: [PATCH] hw/input: expand trace info reported for ps2 device
-Message-ID: <160743028066.3144.3050305791016015080@600e7e483b3a>
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kmc1a-0007S4-E8
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:23:22 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:38601)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kmc1Z-0005nE-0F
+ for qemu-devel@nongnu.org; Tue, 08 Dec 2020 07:23:22 -0500
+Received: by mail-pg1-x532.google.com with SMTP id e2so3711667pgi.5
+ for <qemu-devel@nongnu.org>; Tue, 08 Dec 2020 04:23:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=VJyK9Dku6QtLgbsw5adpDcTstA66S59krX4mFmun8KU=;
+ b=J5VJH565XkS9uzlkCcwXEGZoYvCD71vyT6mmtn0IvTtRMCVkgOhS4NO1QCRcqpeZ74
+ 1bv8JO2DWzF75K4KAxs1SpHMKofdTwMkNwHWdxusGyW0RRdwqhhBqhBSKZ98+7Kcsfed
+ zhBk6DA/HJ+A4xwX/shsfmsueJ52e2ENHYDO007n1e1AHeMOyjpPQLqaPg1LZD4Uje1t
+ Gn198lPqMYZ2aA5hXtMN1ZX5KlNfpSs0cwi5pWxOB8vMcp8byg/cxFNBSQkYSBe3e7/G
+ UT2tW65MCAExD6FMFn2YTCqn2BlAGkH3GQpwbcNiHuQns1Ur65VQajzj1mtryThaFM6z
+ uoiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=VJyK9Dku6QtLgbsw5adpDcTstA66S59krX4mFmun8KU=;
+ b=af2RjJ9k3Bcn/0Q0iWkkKom21YTGLUooEkUPAZIL1yWdBy4/HmOmiD/Ylopr9lH+Rg
+ XwgH3dQMQBop4Y9SuHp24ojdqOl5+agBm/Fy3pn0WQnym/xgue0cyyQv9kJPcLs74rGA
+ U9CUPxcaVu+BRfKhuhZXVXvr4AryJFECdkZpQyPPLGJQXw+fFQKhygdlxWvFXneGAh8B
+ Yt96U7TMYKL2y/GIXBMGCDof4sOav5RjRe9ppVIzstdyimF4w9DGN+Ws/j4zRAuvKa0t
+ czoVy62lfThQ5U76z2lZuF6pOmdl9QGKl7B/EZ1lPGqAwc01MUwEf/s4bYbqWzmSBkmV
+ 4VEQ==
+X-Gm-Message-State: AOAM531VXnq7cBcUHrMjI2AdSdceiqFyynbrYQ0+bPF8mTFi45ZCwvxx
+ 0yipXF3uSyvq7rEIefrGcK0qTg==
+X-Google-Smtp-Source: ABdhPJw7egUgXbAJ5yuH8V4j3QhHXvLgN7s7lfZ1hcwQjX5B3cONUfNuKLb/slEcMhTYKVr7erQpmA==
+X-Received: by 2002:a17:90b:4b0a:: with SMTP id
+ lx10mr4102627pjb.128.1607430199842; 
+ Tue, 08 Dec 2020 04:23:19 -0800 (PST)
+Received: from leonardo.ba.nuviainc.com
+ (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net. [82.27.183.148])
+ by smtp.gmail.com with ESMTPSA id b2sm3472377pff.79.2020.12.08.04.23.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Dec 2020 04:23:19 -0800 (PST)
+From: Leif Lindholm <leif@nuviainc.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCH 4/5] target/arm: add aarch64 ID register fields to cpu.h
+Date: Tue,  8 Dec 2020 12:23:05 +0000
+Message-Id: <20201208122306.8933-5-leif@nuviainc.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201208122306.8933-1-leif@nuviainc.com>
+References: <20201208122306.8933-1-leif@nuviainc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: berrange@redhat.com
-Date: Tue, 8 Dec 2020 04:24:41 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=leif@nuviainc.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,39 +82,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIwODExNTkzNC4zMTYz
-MjM4LTEtYmVycmFuZ2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjAxMjA4MTE1OTM0LjMx
-NjMyMzgtMS1iZXJyYW5nZUByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSF0gaHcvaW5wdXQ6IGV4
-cGFuZCB0cmFjZSBpbmZvIHJlcG9ydGVkIGZvciBwczIgZGV2aWNlCgo9PT0gVEVTVCBTQ1JJUFQg
-QkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBl
-eGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGht
-IGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0g
-VEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdm
-NDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVt
-dQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAxMjA4MTE1OTM0LjMxNjMyMzgtMS1i
-ZXJyYW5nZUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMDEyMDgxMTU5MzQuMzE2MzIzOC0xLWJl
-cnJhbmdlQHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwplZjRlYWJm
-IGh3L2lucHV0OiBleHBhbmQgdHJhY2UgaW5mbyByZXBvcnRlZCBmb3IgcHMyIGRldmljZQoKPT09
-IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMyMjogRklM
-RTogaHcvaW5wdXQvcHMyLmM6Mjk2OgorICAgIHRyYWNlX3BzMl9rZXlib2FyZF9ldmVudChzLCBx
-Y29kZSwga2V5LT5kb3duLCBtb2QsIHMtPm1vZGlmaWVycywgcy0+c2NhbmNvZGVfc2V0LCBzLT50
-cmFuc2xhdGUpOwoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNiBsaW5lcyBjaGVja2Vk
-CgpDb21taXQgZWY0ZWFiZjdiOTU0IChody9pbnB1dDogZXhwYW5kIHRyYWNlIGluZm8gcmVwb3J0
-ZWQgZm9yIHBzMiBkZXZpY2UpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQg
-RU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cg
-aXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjAxMjA4MTE1OTM0LjMx
-NjMyMzgtMS1iZXJyYW5nZUByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNz
-YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
-Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
-ZWxAcmVkaGF0LmNvbQ==
+Add entries present in ARM DDI 0487F.c (August 2020).
+
+Signed-off-by: Leif Lindholm <leif@nuviainc.com>
+---
+ target/arm/cpu.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 5e9e8061f7..2a12a5ce92 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1863,6 +1863,9 @@ FIELD(ID_AA64ISAR1, GPI, 28, 4)
+ FIELD(ID_AA64ISAR1, FRINTTS, 32, 4)
+ FIELD(ID_AA64ISAR1, SB, 36, 4)
+ FIELD(ID_AA64ISAR1, SPECRES, 40, 4)
++FIELD(ID_AA64ISAR1, BF16, 44, 4)
++FIELD(ID_AA64ISAR1, DGH, 48, 4)
++FIELD(ID_AA64ISAR1, I8MM, 52, 4)
+ 
+ FIELD(ID_AA64PFR0, EL0, 0, 4)
+ FIELD(ID_AA64PFR0, EL1, 4, 4)
+@@ -1873,11 +1876,18 @@ FIELD(ID_AA64PFR0, ADVSIMD, 20, 4)
+ FIELD(ID_AA64PFR0, GIC, 24, 4)
+ FIELD(ID_AA64PFR0, RAS, 28, 4)
+ FIELD(ID_AA64PFR0, SVE, 32, 4)
++FIELD(ID_AA64PFR0, SEL2, 36, 4)
++FIELD(ID_AA64PFR0, MPAM, 40, 4)
++FIELD(ID_AA64PFR0, AMU, 44, 4)
++FIELD(ID_AA64PFR0, DIT, 48, 4)
++FIELD(ID_AA64PFR0, CSV2, 56, 4)
++FIELD(ID_AA64PFR0, CSV3, 60, 4)
+ 
+ FIELD(ID_AA64PFR1, BT, 0, 4)
+ FIELD(ID_AA64PFR1, SSBS, 4, 4)
+ FIELD(ID_AA64PFR1, MTE, 8, 4)
+ FIELD(ID_AA64PFR1, RAS_FRAC, 12, 4)
++FIELD(ID_AA64PFR1, MPAM_FRAC, 16, 4)
+ 
+ FIELD(ID_AA64MMFR0, PARANGE, 0, 4)
+ FIELD(ID_AA64MMFR0, ASIDBITS, 4, 4)
+@@ -1891,6 +1901,8 @@ FIELD(ID_AA64MMFR0, TGRAN16_2, 32, 4)
+ FIELD(ID_AA64MMFR0, TGRAN64_2, 36, 4)
+ FIELD(ID_AA64MMFR0, TGRAN4_2, 40, 4)
+ FIELD(ID_AA64MMFR0, EXS, 44, 4)
++FIELD(ID_AA64MMFR0, FGT, 56, 4)
++FIELD(ID_AA64MMFR0, ECV, 60, 4)
+ 
+ FIELD(ID_AA64MMFR1, HAFDBS, 0, 4)
+ FIELD(ID_AA64MMFR1, VMIDBITS, 4, 4)
+@@ -1900,6 +1912,8 @@ FIELD(ID_AA64MMFR1, LO, 16, 4)
+ FIELD(ID_AA64MMFR1, PAN, 20, 4)
+ FIELD(ID_AA64MMFR1, SPECSEI, 24, 4)
+ FIELD(ID_AA64MMFR1, XNX, 28, 4)
++FIELD(ID_AA64MMFR1, TWED, 32, 4)
++FIELD(ID_AA64MMFR1, ETS, 36, 4)
+ 
+ FIELD(ID_AA64MMFR2, CNP, 0, 4)
+ FIELD(ID_AA64MMFR2, UAO, 4, 4)
+@@ -1926,6 +1940,7 @@ FIELD(ID_AA64DFR0, CTX_CMPS, 28, 4)
+ FIELD(ID_AA64DFR0, PMSVER, 32, 4)
+ FIELD(ID_AA64DFR0, DOUBLELOCK, 36, 4)
+ FIELD(ID_AA64DFR0, TRACEFILT, 40, 4)
++FIELD(ID_AA64DFR0, MTPMU, 48, 4)
+ 
+ FIELD(ID_DFR0, COPDBG, 0, 4)
+ FIELD(ID_DFR0, COPSDBG, 4, 4)
+-- 
+2.20.1
+
 
