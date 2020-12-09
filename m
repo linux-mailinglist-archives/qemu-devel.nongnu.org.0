@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245092D3FEA
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 11:34:31 +0100 (CET)
-Received: from localhost ([::1]:36192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D2B2D4007
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 11:35:47 +0100 (CET)
+Received: from localhost ([::1]:38350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmwnm-00010f-Kn
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 05:34:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43348)
+	id 1kmwp0-0001vq-P4
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 05:35:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmwm6-0000Ys-28
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:32:46 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:38803)
+ id 1kmwnS-0001Al-Vf
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:34:12 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53555)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmwm2-0005Td-V4
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:32:45 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id g185so1102690wmf.3
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 02:32:42 -0800 (PST)
+ id 1kmwnO-0005x5-KF
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:34:10 -0500
+Received: by mail-wm1-x332.google.com with SMTP id k10so988036wmi.3
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 02:34:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=GlrmZWy5axuG5hkD4J5q/S/bRE1qRvPTUIfuEVtfV0E=;
- b=TZkb+cXFRUeQRBGkm5Clykvg3uzc9yoj4zqTzytpq5Vnh9XcNjuPkmejUProaG5xnI
- 5C7xeX3+TJXx8zxhUoJ+eh/ShLF5h8qY+dLIsi1MQwp7mQUnD9jaB3n99bSVdlz5tOPb
- RP2xVRGOWWhpJJmjnl8Etl4I03ii8/6kN5/LgT549tcuMc5wSP7Eq/5RB4cKKHRR08E8
- onq7ZuxEfRMuYwMp8kV2qjZnQoWv8Hh0jdeoQDyTaQ1GbHwjggvwDwss6X8KFLGFZitK
- xKjTCQBvV8zCmoxSoXW47ZXF05HUZiRicewwedXrLcwkBd6OfRZkfz1WlzwmzVgbuzld
- vbfg==
+ bh=L7sslWqrC1oov/0bd+F+Y3h7ZxNZ02YSaEWzCKDCuNY=;
+ b=VUl/XVK4h8rPKW9x0UcXbRpaU60oP4H5pajPrP70E6KTTqSs3niwbKfAjsAmREmvpe
+ WIFJp11xc2vx3i3OwIidHCdfzpHgAPLyg04ivOeLs5Q8iSsufLOXkaU8UaB4y1GgH76M
+ ERCaWJmg0ZYt8P5yD9vSDmFcxLES8efmRuwrmlP4lBwCybP26GrWGa0P7d3m/z+lErOC
+ HMsIsTYP4ecAyFlFVZK3kU9Vn6vNWk+G97G2XIPZcpU9+UthUQ6rZJZIccoRyVNNy0ad
+ jsk4GSUwyibyxWIRrNZ/j2J8s09bzpnYQOAfKTMILQ9OLw/1vNkcAp6M2SXb4Y9DVsMy
+ Hk+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=GlrmZWy5axuG5hkD4J5q/S/bRE1qRvPTUIfuEVtfV0E=;
- b=krT3ALhu6Y9NhuS09Ixs3E4n3C2KWN/GTv7SdpWXXEJ8HxZRnnkcpflZOILErdEjQB
- hcKqU9vxXvIWU8KxiJsX0LHarOIJfzG5aa6oFvwz8YaRdUoAJUF1LRmVaIaowKtmbDP8
- XnqpniXCm2+0oY06mGmTT1PkvlbgIfzd7L7GfCzHFr2AhTFNe5zYNikvEE0BNDUqWoJr
- JYWbLzdFSzYcniICb5X/R+xpqDVBLsSAlImi42rAv0vq/CVq9zriSdGW919Xw/9dYr6k
- tiCuvBouqssSaseMTmVwIQVjYfljYl7FHR0+OSES3H8EAH/ZGSQdzrZ5ULt/H53D13B4
- eJ2g==
-X-Gm-Message-State: AOAM531FLxOVq9nU5hyDq5GJlPOhdb1ZHL27rb4NN/q5ZahPg09jBl3U
- 1cX6UTydPNjidKFB8RfMmPpXfA==
-X-Google-Smtp-Source: ABdhPJz97Te6tEpFHs4n97j8KGEAdlocv1QxBSEC2QRaGLGipw4sknO8pZ/qznY2Tztye8h58JIJpg==
-X-Received: by 2002:a1c:5447:: with SMTP id p7mr2021279wmi.116.1607509961256; 
- Wed, 09 Dec 2020 02:32:41 -0800 (PST)
+ bh=L7sslWqrC1oov/0bd+F+Y3h7ZxNZ02YSaEWzCKDCuNY=;
+ b=KbLOHEuy3UisylxMbwMXA2/Gr2392EVTVRAOIMqYFKc1jeohC9r1cBgz3L6YZP2731
+ S0fEHNK83SmzsSw1bwFF/bjt/Cht2vtEN+OwT1hdLTI+DmemhiR4GqwdU0pWVpjsnXa7
+ nrCN8mYiLVP7GKQ42P4/W+wKRuYrnBpN2WIvWnChrQGGdLZdh6nkH7PcTDV/OIGPWa6W
+ P7Mc/KA/YNECVmQSsEDHnttRUbn9W6WeevaJTyI3K0BycaomV3g1F9j3ji1fGF0cJfIW
+ 71r1gg56vRqKzvsPO6C6KSqHaX4Tu0/wEiLbq/RMAbvwBvLuUjYsoabctvlZIQ2W8Ujy
+ h+NA==
+X-Gm-Message-State: AOAM532fJ5MchsX3V+Z8Ut/ETlt7ciuuYtMDsI8l4DSuGg0CC5xivhE5
+ G0WnPJsV4KBnK+UwBekNGQbjkA==
+X-Google-Smtp-Source: ABdhPJzvSbFYDFXBm58NywU3819/34mcu38IiZZlROkze3oCZ7DvPpcXKj+nketPjgCKGUmTlg1WAA==
+X-Received: by 2002:a1c:41c5:: with SMTP id o188mr2017855wma.18.1607510045145; 
+ Wed, 09 Dec 2020 02:34:05 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h204sm2497023wme.17.2020.12.09.02.32.40
+ by smtp.gmail.com with ESMTPSA id j2sm2645466wrt.35.2020.12.09.02.34.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 02:32:40 -0800 (PST)
+ Wed, 09 Dec 2020 02:34:03 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 618CB1FF7E;
- Wed,  9 Dec 2020 10:32:39 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id D14731FF7E;
+ Wed,  9 Dec 2020 10:34:02 +0000 (GMT)
 References: <20201208194839.31305-1-cfontana@suse.de>
- <20201208194839.31305-11-cfontana@suse.de>
+ <20201208194839.31305-12-cfontana@suse.de>
 User-agent: mu4e 1.5.7; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v9 10/32] i386: move TCG cpu class initialization out of
- helper.c
-Date: Wed, 09 Dec 2020 10:23:58 +0000
-In-reply-to: <20201208194839.31305-11-cfontana@suse.de>
-Message-ID: <87360ffewo.fsf@linaro.org>
+Subject: Re: [RFC v9 11/32] tcg: cpu_exec_{enter,exit} helpers
+Date: Wed, 09 Dec 2020 10:33:57 +0000
+In-reply-to: <20201208194839.31305-12-cfontana@suse.de>
+Message-ID: <87zh2ne09x.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,113 +107,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Claudio Fontana <cfontana@suse.de> writes:
 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->  target/i386/cpu.c             |  33 ++++------
->  target/i386/cpu.h             |  97 ++---------------------------
->  target/i386/helper-tcg.h      | 112 ++++++++++++++++++++++++++++++++++
->  target/i386/helper.c          |  23 -------
->  target/i386/meson.build       |   1 +
->  target/i386/tcg-cpu.c         |  71 +++++++++++++++++++++
->  target/i386/tcg-cpu.h         |  15 +++++
->  target/i386/tcg/bpt_helper.c  |   1 +
->  target/i386/tcg/cc_helper.c   |   1 +
->  target/i386/tcg/excp_helper.c |   1 +
->  target/i386/tcg/fpu_helper.c  |  33 +++++-----
->  target/i386/tcg/int_helper.c  |   1 +
->  target/i386/tcg/mem_helper.c  |   1 +
->  target/i386/tcg/misc_helper.c |   1 +
->  target/i386/tcg/mpx_helper.c  |   1 +
->  target/i386/tcg/seg_helper.c  |   1 +
->  target/i386/tcg/smm_helper.c  |   2 +
->  target/i386/tcg/svm_helper.c  |   1 +
->  target/i386/tcg/translate.c   |   1 +
->  19 files changed, 244 insertions(+), 153 deletions(-)
->  create mode 100644 target/i386/helper-tcg.h
->  create mode 100644 target/i386/tcg-cpu.c
->  create mode 100644 target/i386/tcg-cpu.h
+> From: Eduardo Habkost <ehabkost@redhat.com>
 >
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index b9bd249c8f..3462d0143f 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -24,6 +24,8 @@
->  #include "qemu/qemu-print.h"
->=20=20
->  #include "cpu.h"
-> +#include "tcg-cpu.h"
-> +#include "helper-tcg.h"
->  #include "exec/exec-all.h"
->  #include "sysemu/kvm.h"
->  #include "sysemu/reset.h"
-> @@ -1495,7 +1497,8 @@ static inline uint64_t x86_cpu_xsave_components(X86=
-CPU *cpu)
->             cpu->env.features[FEAT_XSAVE_COMP_LO];
->  }
->=20=20
-> -const char *get_register_name_32(unsigned int reg)
-> +/* Return name of 32-bit register, from a R_* constant */
-> +static const char *get_register_name_32(unsigned int reg)
->  {
->      if (reg >=3D CPU_NB_REGS32) {
->          return NULL;
-> @@ -7012,13 +7015,6 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr val=
-ue)
->      cpu->env.eip =3D value;
->  }
->=20=20
-> -static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *=
-tb)
-> -{
-> -    X86CPU *cpu =3D X86_CPU(cs);
-> -
-> -    cpu->env.eip =3D tb->pc - tb->cs_base;
-> -}
-> -
->  int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
->  {
->      X86CPU *cpu =3D X86_CPU(cs);
-> @@ -7252,17 +7248,18 @@ static void x86_cpu_common_class_init(ObjectClass=
- *oc, void *data)
->      cc->class_by_name =3D x86_cpu_class_by_name;
->      cc->parse_features =3D x86_cpu_parse_featurestr;
->      cc->has_work =3D x86_cpu_has_work;
-> +
->  #ifdef CONFIG_TCG
-> -    cc->do_interrupt =3D x86_cpu_do_interrupt;
-> -    cc->cpu_exec_interrupt =3D x86_cpu_exec_interrupt;
-> -#endif
-> +    tcg_cpu_common_class_init(cc);
+> Move invocation of CPUClass.cpu_exec_*() to separate helpers,
+> to make it easier to refactor that code later.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 
-Are we likely to have clashing names here as other arches get converted?
-tcg_x86_cpu_common_class_init or x86_cpu_common_class_init?
-
-<snip>
-> diff --git a/target/i386/tcg-cpu.c b/target/i386/tcg-cpu.c
-> new file mode 100644
-> index 0000000000..628dd29fe7
-> --- /dev/null
-> +++ b/target/i386/tcg-cpu.c
-> @@ -0,0 +1,71 @@
-<snip>
-> +
-> +void tcg_cpu_common_class_init(CPUClass *cc)
-> +{
-> +    cc->do_interrupt =3D x86_cpu_do_interrupt;
-> +    cc->cpu_exec_interrupt =3D x86_cpu_exec_interrupt;
-> +    cc->synchronize_from_tb =3D x86_cpu_synchronize_from_tb;
-> +    cc->cpu_exec_enter =3D x86_cpu_exec_enter;
-> +    cc->cpu_exec_exit =3D x86_cpu_exec_exit;
-> +    cc->tcg_initialize =3D tcg_x86_init;
-> +    cc->tlb_fill =3D x86_cpu_tlb_fill;
-> +#ifndef CONFIG_USER_ONLY
-> +    cc->debug_excp_handler =3D breakpoint_handler;
-> +#endif
-> +}
-
-Oh I see this moves down to target/i386/tcg/ eventually. Maybe we should
-just create the new file in place so it's easier to follow the changes
-as we convert to a proper abstracted class?
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
