@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B252F2D3F42
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 10:57:14 +0100 (CET)
-Received: from localhost ([::1]:48340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638ED2D3F50
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 10:58:21 +0100 (CET)
+Received: from localhost ([::1]:50766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmwDh-0005oF-PG
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 04:57:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34366)
+	id 1kmwEm-0006mK-EE
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 04:58:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmw6D-0005Oj-4E
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:49:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28034)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmw69-0005NU-Qd
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:49:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmw67-0007QW-0l
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:49:28 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmw67-0007Qg-1E
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:49:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607507359;
+ s=mimecast20190719; t=1607507361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f/LONfY0wLYM507v7mLDSvKiGE6HWwmxphGx6MMord0=;
- b=BVJan7JxvmGBPxTNfRcOuclzp6EpEf6rxilNzhGCAbaY0tYSPk3hY2qNpCvMSXzLSGgBSB
- sTH9drI+ugb1D8YTtpPynRfvXVLm4qz3lwB06mUftzPZ7gFtxnfcuZyA4H4weZm8IfIfwQ
- VPP8S6aD6KX49M+1SibxbRzlSDKBtd8=
+ bh=nLGCmnPiwzTOGxMpIv3CrD+KsQctZ3kDi1bwndaDXFk=;
+ b=TbdIQxTf489ysDqp57sYvJVuy8EL64poqRpsTwYy/t7Oet1mw4g1zNCRdPKFTnuloxFssZ
+ wnf/1XuTAUUp8MC2GVRxb87HsVJwgmUFmFXD6CIt8AkPYH4NhUuQcl4cjh2JItos1UE7yq
+ AmDiXOl9R/cKCWMjuWLbZtfwKsmJmRE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-xbrQsPmkPPyt-09faMBt-Q-1; Wed, 09 Dec 2020 04:49:17 -0500
-X-MC-Unique: xbrQsPmkPPyt-09faMBt-Q-1
+ us-mta-19-LErt0xMVMIGptFkwAZ61Ow-1; Wed, 09 Dec 2020 04:49:19 -0500
+X-MC-Unique: LErt0xMVMIGptFkwAZ61Ow-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97ABD1005513;
- Wed,  9 Dec 2020 09:49:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E0EB802ED7;
+ Wed,  9 Dec 2020 09:49:18 +0000 (UTC)
 Received: from thuth.com (ovpn-112-183.ams2.redhat.com [10.36.112.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7FF3F5C234;
- Wed,  9 Dec 2020 09:49:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 007305C234;
+ Wed,  9 Dec 2020 09:49:16 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 10/13] gitlab-ci: Update 'build-disabled' to cover all
- configurable options
-Date: Wed,  9 Dec 2020 10:48:53 +0100
-Message-Id: <20201209094856.17788-11-thuth@redhat.com>
+Subject: [PULL 11/13] gitlab-ci: Move user-static test across to gitlab
+Date: Wed,  9 Dec 2020 10:48:54 +0100
+Message-Id: <20201209094856.17788-12-thuth@redhat.com>
 In-Reply-To: <20201209094856.17788-1-thuth@redhat.com>
 References: <20201209094856.17788-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,69 +83,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Add these missing options to the 'build-disabled' job:
-  --disable-auth-pam             (commit 8953caf3cd38)
-  --disable-gcrypt               (commit 91bfcdb01d48)
-  --disable-keyring              (commit 54e7aac05624)
-  --disable-libudev              (commit 5c53015a480b)
-  --disable-opengl               (commit da076ffed6b9)
-  --disable-sparse               (commit 03b4fe7de226)
+Similarly to commit 8cdb2cef3f1, move the user-static test to GitLab.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-[thuth: Dropped the unnecessary hunk with --disable-vhost-user-blk-server]
-Message-Id: <20201108204535.2319870-7-philmd@redhat.com>
+Message-Id: <20201108204535.2319870-11-philmd@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .gitlab-ci.yml | 7 +++++++
+ .travis.yml    | 5 -----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index d2cd5d9386..8f72a2630d 100644
+index 8f72a2630d..7381c7858d 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -201,6 +201,7 @@ build-disabled:
-     IMAGE: fedora
-     CONFIGURE_ARGS:
-       --disable-attr
-+      --disable-auth-pam
-       --disable-avx2
-       --disable-bochs
-       --disable-brlapi
-@@ -213,15 +214,18 @@ build-disabled:
-       --disable-curses
-       --disable-dmg
-       --disable-docs
-+      --disable-gcrypt
-       --disable-glusterfs
-       --disable-gnutls
-       --disable-gtk
-       --disable-guest-agent
-       --disable-iconv
-+      --disable-keyring
-       --disable-kvm
-       --disable-libiscsi
-       --disable-libpmem
-       --disable-libssh
-+      --disable-libudev
-       --disable-libusb
-       --disable-libxml2
-       --disable-linux-aio
-@@ -231,6 +235,7 @@ build-disabled:
-       --disable-mpath
-       --disable-nettle
-       --disable-numa
-+      --disable-opengl
-       --disable-parallels
-       --disable-pie
-       --disable-qcow1
-@@ -245,6 +250,7 @@ build-disabled:
-       --disable-slirp
-       --disable-smartcard
-       --disable-snappy
-+      --disable-sparse
-       --disable-spice
-       --disable-strip
-       --disable-tpm
+@@ -304,6 +304,13 @@ build-user:
+     CONFIGURE_ARGS: --disable-tools --disable-system
+     MAKE_CHECK_ARGS: check-tcg
+ 
++build-user-static:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: debian-all-test-cross
++    CONFIGURE_ARGS: --disable-tools --disable-system --static
++    MAKE_CHECK_ARGS: check-tcg
++
+ # Only build the softmmu targets we have check-tcg tests for
+ build-some-softmmu:
+   <<: *native_build_job_definition
+diff --git a/.travis.yml b/.travis.yml
+index 1f80bdb624..12828f351c 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -119,11 +119,6 @@ after_script:
+ 
+ jobs:
+   include:
+-    - name: "GCC static (user)"
+-      env:
+-        - CONFIG="--disable-system --static"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-
+     # Just build tools and run minimal unit and softfloat checks
+     - name: "GCC check-unit and check-softfloat"
+       env:
 -- 
 2.18.4
 
