@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3F82D4009
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 11:38:48 +0100 (CET)
-Received: from localhost ([::1]:41314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DF02D401D
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 11:40:46 +0100 (CET)
+Received: from localhost ([::1]:45642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmwrv-0003I6-Os
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 05:38:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44284)
+	id 1kmwtq-0005C4-0u
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 05:40:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmwq7-0002X7-34
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:36:55 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43498)
+ id 1kmwqa-0002f3-7r
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:37:25 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmwq4-00073M-Pq
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:36:54 -0500
-Received: by mail-wr1-x430.google.com with SMTP id y17so1159004wrr.10
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 02:36:52 -0800 (PST)
+ id 1kmwqS-0007AC-LT
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:37:24 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id y23so1122423wmi.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 02:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=ZVtNJ7kgztn8PaTehCEIUJkFU9GLDIAUz1vCrggm1yk=;
- b=sAYAbboqlXSNWJTCtzAYakF3Ym6VphrMP3rkxhkGdXuPDu90UT1wh6lKeYT74HSYGj
- VGj2wl/QSLkECtopvPDJ4Jncgob8kUEItdYTPMQ9dLJKaXoSnUDE8sDNIT/21VyCEA9d
- 98tCmsaNhZjpWSavDAnnqDjEXIyo9bZUrQ+4a3uH22EONo/0dQeM1W8WbiTKoXIPPn4P
- Wyd3MwbzqjsRliEynYC3VwUTkKPB7a6os8vN7WuUNCVEtwsWFIlxTPfpXW9dxZ8nKDCr
- ARgCmYQstJnh/re8vPa53XfG4pAO5bjXv5q/HbuqFR/3kNw6pcvP5M1bVmRPu6ex50rF
- bCyQ==
+ bh=U0TWIVHPQ7j4KXnKzm7OBKVxRoFmUdtxX4Qv8HQplTE=;
+ b=DVZM/8srB8tXBiHH7NeCDnwPmrXKn0HKUYCxw0LoUdfTpfTu98IfbvCHvphILYl+EO
+ pISxnEQeulileHqQzu4llI2hL8zreI7Tmf1TQTSw6qF8q0uQSMLdQvchiJsihAaPChwh
+ +x1yoeEW3/yvSj9DR6vY85WJ5ZifrSEtD3w8Wv9GKLHMnC94Nids2cGxavISC1gq73Oq
+ widZHJ8kKPJUWwICNfVxfUauH5MKKBTxSerKpKsivWhoC2Bg4pNFClh25PYuaj1DmRt/
+ 999Iau0w+v6P9sTl7Kjwt6Q0C6S4uzfBB69GdkX6FbQ+nltdxm2HL1lkKFV6BEu5XC/6
+ 3H1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ZVtNJ7kgztn8PaTehCEIUJkFU9GLDIAUz1vCrggm1yk=;
- b=lAtLgMeZOIyMzIrdChO7Nlc9xIiG6DWwMhwIfFw6zRLuG+3zwZ0IvJwNpssybRFCpW
- PVVT1igCwYTiUcnMMjXo7vjgLo8zTZCvZ97dEz79wr71kEG9R8iVdvn0xuFH052DAWyG
- WlSoz4lEABlgjdNl0Bw+YauDGEDm6dTcT6JgmiT0PmM3QS/su86/91uWORiYDDh4G6tS
- NdnYw+d/oCMEGCG2Sqvgd3r+rIt0CS0cLbM4sFZCc+VpsLaYw4C+XHEl5YBygw0kRi1n
- owg3DvR+7/TqLHpSa3eBnxcAXqrbMdx8NyR9CJ8HmVc9HI8ZR12oceeG7frProOFJErv
- O+6A==
-X-Gm-Message-State: AOAM533ms8W9vRQt9IU83ZUF/Yv7FNTViSLogRUUOd4NC7Q3SpiWBJgY
- /0lyNWY2LWmsevmWIcpz3LWaYg==
-X-Google-Smtp-Source: ABdhPJzLrRqJYGbhdq4X97N1tYuXDr6T/8cST/g5MY9qCUwxGffjP4jW5LplWH1g4DjmHBLJy1Ri0Q==
-X-Received: by 2002:a05:6000:1152:: with SMTP id d18mr59685wrx.6.1607510211008; 
- Wed, 09 Dec 2020 02:36:51 -0800 (PST)
+ bh=U0TWIVHPQ7j4KXnKzm7OBKVxRoFmUdtxX4Qv8HQplTE=;
+ b=L1QMR/1h6FRUXh6C3wF2xjwMV9dX+k+xgW0JD6Rvzdpn2tQU6N0gS2D4mkoQ3zOPL+
+ EzZ8lEWcY6LZrRhU+PhUO5FQKnQqoEJw8HnBb+TJJEg7zX9G1fy6ZuvjKhYnLQDcXJY1
+ 3dMyKXNlCl8COnlBCKxt82Pwz4JbqyAraTpcvlCGnZDTDkQ5dWjOUDBJU9kyFHcCXFwy
+ 0g67XifIxU9fNFUJCafCb6zB2kaGehzG+l6p6ai5EGxd/qflshXx2xf34BlJKn/95Vuj
+ zmEstbWFbYSz9mEJhPDCqDOaB1Q6KJUSdAzv66NTQ/j2GPJ3nBZUeiIq4Fi+doyb8fY3
+ i59A==
+X-Gm-Message-State: AOAM531LPBtf2lBEIk5wH6OVPB72BmI0YyH8XKeILMKAxfBWIZAxpQ0X
+ Nnf5uOQD7dGRfAj+xE+o+tygug==
+X-Google-Smtp-Source: ABdhPJwfeetmVDmPm4dwAWv9vGZr+DGxmH4UlQ3GfO9o0pr7GdF6VHKei+cRJfVzae8pRLHIUfgbxA==
+X-Received: by 2002:a7b:ca47:: with SMTP id m7mr1996645wml.153.1607510232789; 
+ Wed, 09 Dec 2020 02:37:12 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x17sm2471964wro.40.2020.12.09.02.36.49
+ by smtp.gmail.com with ESMTPSA id d187sm2734748wmd.8.2020.12.09.02.37.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 02:36:49 -0800 (PST)
+ Wed, 09 Dec 2020 02:37:11 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 32BE21FF7E;
- Wed,  9 Dec 2020 10:36:49 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id CD8EC1FF7E;
+ Wed,  9 Dec 2020 10:37:10 +0000 (GMT)
 References: <20201208194839.31305-1-cfontana@suse.de>
- <20201208194839.31305-13-cfontana@suse.de>
+ <20201208194839.31305-14-cfontana@suse.de>
 User-agent: mu4e 1.5.7; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v9 12/32] tcg: make CPUClass.cpu_exec_* optional
-Date: Wed, 09 Dec 2020 10:36:44 +0000
-In-reply-to: <20201208194839.31305-13-cfontana@suse.de>
-Message-ID: <87wnxre05a.fsf@linaro.org>
+Subject: Re: [RFC v9 13/32] tcg: Make CPUClass.debug_excp_handler optional
+Date: Wed, 09 Dec 2020 10:37:05 +0000
+In-reply-to: <20201208194839.31305-14-cfontana@suse.de>
+Message-ID: <87tusve04p.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -109,8 +109,6 @@ Claudio Fontana <cfontana@suse.de> writes:
 
 > From: Eduardo Habkost <ehabkost@redhat.com>
 >
-> This will let us simplify the code that initializes CPU class
-> methods, when we move cpu_exec_*() to a separate struct.
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
 
