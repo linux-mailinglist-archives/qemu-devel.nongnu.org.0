@@ -2,48 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60EB2D3F96
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 11:11:30 +0100 (CET)
-Received: from localhost ([::1]:41320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0392D3FC0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 11:18:30 +0100 (CET)
+Received: from localhost ([::1]:48980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmwRV-0006kL-Mn
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 05:11:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38266)
+	id 1kmwYH-0001rZ-6m
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 05:18:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kmwOU-00058W-GW
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:08:22 -0500
-Received: from relay.sw.ru ([185.231.240.75]:33396 helo=relay3.sw.ru)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kmwOR-000560-TW; Wed, 09 Dec 2020 05:08:20 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:56597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kmwOO-0005Ub-0z
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:08:22 -0500
-Received: from [192.168.15.226] (helo=andrey-MS-7B54.sw.ru)
- by relay3.sw.ru with esmtp (Exim 4.94)
- (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kmwO9-00CNgH-B6; Wed, 09 Dec 2020 13:08:01 +0300
-To: qemu-devel@nongnu.org
-Cc: Den Lunev <den@openvz.org>, Eric Blake <eblake@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Peter Xu <peterx@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: [PATCH v6 4/4] migration: implementation of background snapshot thread
-Date: Wed,  9 Dec 2020 13:08:11 +0300
-Message-Id: <20201209100811.190316-5-andrey.gruzdev@virtuozzo.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201209100811.190316-1-andrey.gruzdev@virtuozzo.com>
-References: <20201209100811.190316-1-andrey.gruzdev@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kmwOP-0005Vl-SM; Wed, 09 Dec 2020 05:08:19 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id B35665C0363;
+ Wed,  9 Dec 2020 05:08:16 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 09 Dec 2020 05:08:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=ZMjNLh7woJd0lufCPS1iP/inNoX
+ rShkqWXtS4bu7ZfI=; b=gdB/1czkUstKDqJxwBOtqtBWCQFKvCsxWmgl+cXEXzr
+ +HRQuCRHcuKggl4O+fOgrMq6iqaay72uvEGWr8VWA0k9OLGcrhbpj5c6zMEPj2WY
+ XifAagwao7p2w1triG8HSy5mvez6cN/hXLrZOc4G2J+PcTcHdhR/D1/9TRy4ITKm
+ 9lEuVp6tFZjXllOyyF7+UMjuQbj0h+94X5tg0tYktYI2mrBYZsuXM3ObU3/t0kuP
+ LlmIe/qS1YSPx4MSpTgmFNnUH7YrWHZPbN9iZPsGSPGlf7nOLvTc9Kqxj+Y9aL8c
+ hWwNP8GHpU31t5yMIufSzxUv4X3OSAK1fOH/9u6qDjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ZMjNLh
+ 7woJd0lufCPS1iP/inNoXrShkqWXtS4bu7ZfI=; b=fgjFB24jHCus2IK41cYM8l
+ FPBghU67Oq82/4muRssttF/s7Wz8oHKZn7WYscQUYgtwgHCgbVoj9GM+W7UU7wIZ
+ Ga45lBRcJAZifhJs7HZ3PHjnzqVCwsbqU4UqcnW311kS/jlTL/32r7wQbcBrFAAV
+ sxert68MpPYQ3gwj6w+llT5uFC8Knpo6gVlH6ZFsjU0xpKwayKbspS4mviPxE3HZ
+ MthxXiXJt5Ltp+6OZPZtkM2m6kIY0dMw+F6BgyB7E+GKJKkT+u9NMTBhwku73Ou4
+ tTKPkLZ/p3FTSxn0oMQ7tCHkbpMGiApLI15zyfksrhPTD9sXIl/8qgxYo8P8ZaVg
+ ==
+X-ME-Sender: <xms:D6LQX4_6ViwvAEKTrZ0ofFALKetke8JgGxcwEdT13FL3DOwk81g2AA>
+ <xme:D6LQXwqqbmym-a9A6o4Td1zoauz-Cwy33mGVJbzP8ccGHqOImAdZmrd9mi03SASLf
+ pcn5kpCrVQ2hWI0X0w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejkedgudefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:D6LQX65XQKapO2hR5SjgMVtF5ifVAHI9mmwxTwp-HRQYWHxvaz6NDg>
+ <xmx:D6LQXwOWPhLOpiy358lsq1lFj2si9I_KywU63bzxDl2kFYUBQQXPhg>
+ <xmx:D6LQX8OaL_NFWL2ruBQTeIDj1qV2AaYZaYJD9z6gHAyAn9rLyRrBFQ>
+ <xmx:EKLQX1xc2ALHgTeYR5_mPh4U5QjwP3txRe9kcAroKQ_iN2UCgd98Gw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3E3FE108005F;
+ Wed,  9 Dec 2020 05:08:14 -0500 (EST)
+Date: Wed, 9 Dec 2020 11:08:12 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v3 2/2] hw/block/nvme: add simple copy command
+Message-ID: <X9CiDI0rYJ0pEBdr@apples.localdomain>
+References: <20201208083339.29792-1-its@irrelevant.dk>
+ <20201208083339.29792-3-its@irrelevant.dk>
+ <20201208221327.GH27155@redsun51.ssa.fujisawa.hgst.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=185.231.240.75;
- envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URG_BIZ=0.573 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IuOrKQReSEMix4y+"
+Content-Disposition: inline
+In-Reply-To: <20201208221327.GH27155@redsun51.ssa.fujisawa.hgst.com>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,383 +95,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
-Introducing implementation of 'background' snapshot thread
-which in overall follows the logic of precopy migration
-while internally utilizes completely different mechanism
-to 'freeze' vmstate at the start of snapshot creation.
 
-This mechanism is based on userfault_fd with wr-protection
-support and is Linux-specific.
+--IuOrKQReSEMix4y+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Acked-by: Peter Xu <peterx@redhat.com>
----
- migration/migration.c | 247 +++++++++++++++++++++++++++++++++++++++++-
- migration/migration.h |   3 +
- migration/ram.c       |   2 +
- migration/savevm.c    |   1 -
- migration/savevm.h    |   2 +
- 5 files changed, 252 insertions(+), 3 deletions(-)
+On Dec  9 07:13, Keith Busch wrote:
+> On Tue, Dec 08, 2020 at 09:33:39AM +0100, Klaus Jensen wrote:
+> > +static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
+> > +{
+>=20
+> <snip>
+>=20
+> > +    for (i =3D 0; i < nr; i++) {
+> > +        uint32_t _nlb =3D le16_to_cpu(range[i].nlb) + 1;
+> > +        if (_nlb > le16_to_cpu(ns->id_ns.mssrl)) {
+> > +            return NVME_CMD_SIZE_LIMIT | NVME_DNR;
+> > +        }
+> > +
+> > +        nlb +=3D _nlb;
+> > +    }
+> > +
+> > +    if (nlb > le32_to_cpu(ns->id_ns.mcl)) {
+> > +        return NVME_CMD_SIZE_LIMIT | NVME_DNR;
+> > +    }
+> > +
+> > +    bounce =3D bouncep =3D g_malloc(nvme_l2b(ns, nlb));
+> > +
+> > +    for (i =3D 0; i < nr; i++) {
+> > +        uint64_t slba =3D le64_to_cpu(range[i].slba);
+> > +        uint32_t nlb =3D le16_to_cpu(range[i].nlb) + 1;
+> > +
+> > +        status =3D nvme_check_bounds(ns, slba, nlb);
+> > +        if (status) {
+> > +            trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.=
+nsze);
+> > +            goto free_bounce;
+> > +        }
+> > +
+> > +        if (NVME_ERR_REC_DULBE(ns->features.err_rec)) {
+> > +            status =3D nvme_check_dulbe(ns, slba, nlb);
+> > +            if (status) {
+> > +                goto free_bounce;
+> > +            }
+> > +        }
+> > +    }
+>=20
+> Only comment I have is that these two for-loops look like they can be
+> collaped into one, which also simplifies how you account for the bounce
+> buffer when error'ing out.=20
+>=20
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 5d642c5c23..d0ac7619a8 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2026,6 +2026,7 @@ void migrate_init(MigrationState *s)
-      * locks.
-      */
-     s->cleanup_bh = 0;
-+    s->vm_start_bh = 0;
-     s->to_dst_file = NULL;
-     s->state = MIGRATION_STATUS_NONE;
-     s->rp_state.from_dst_file = NULL;
-@@ -3224,6 +3225,50 @@ fail:
-                       MIGRATION_STATUS_FAILED);
- }
- 
-+/**
-+ * bg_migration_completion: Used by bg_migration_thread when after all the
-+ *   RAM has been saved. The caller 'breaks' the loop when this returns.
-+ *
-+ * @s: Current migration state
-+ */
-+static void bg_migration_completion(MigrationState *s)
-+{
-+    int current_active_state = s->state;
-+
-+    /*
-+     * Stop tracking RAM writes - un-protect memory, un-register UFFD
-+     * memory ranges, flush kernel wait queues and wake up threads
-+     * waiting for write fault to be resolved.
-+     */
-+    ram_write_tracking_stop();
-+
-+    if (s->state == MIGRATION_STATUS_ACTIVE) {
-+        /*
-+         * By this moment we have RAM content saved into the migration stream.
-+         * The next step is to flush the non-RAM content (device state)
-+         * right after the ram content. The device state has been stored into
-+         * the temporary buffer before RAM saving started.
-+         */
-+        qemu_put_buffer(s->to_dst_file, s->bioc->data, s->bioc->usage);
-+        qemu_fflush(s->to_dst_file);
-+    } else if (s->state == MIGRATION_STATUS_CANCELLING) {
-+        goto fail;
-+    }
-+
-+    if (qemu_file_get_error(s->to_dst_file)) {
-+        trace_migration_completion_file_err();
-+        goto fail;
-+    }
-+
-+    migrate_set_state(&s->state, current_active_state,
-+                      MIGRATION_STATUS_COMPLETED);
-+    return;
-+
-+fail:
-+    migrate_set_state(&s->state, current_active_state,
-+                      MIGRATION_STATUS_FAILED);
-+}
-+
- bool migrate_colo_enabled(void)
- {
-     MigrationState *s = migrate_get_current();
-@@ -3564,6 +3609,47 @@ static void migration_iteration_finish(MigrationState *s)
-     qemu_mutex_unlock_iothread();
- }
- 
-+static void bg_migration_iteration_finish(MigrationState *s)
-+{
-+    qemu_mutex_lock_iothread();
-+    switch (s->state) {
-+    case MIGRATION_STATUS_COMPLETED:
-+        migration_calculate_complete(s);
-+        break;
-+
-+    case MIGRATION_STATUS_ACTIVE:
-+    case MIGRATION_STATUS_FAILED:
-+    case MIGRATION_STATUS_CANCELLED:
-+    case MIGRATION_STATUS_CANCELLING:
-+        break;
-+
-+    default:
-+        /* Should not reach here, but if so, forgive the VM. */
-+        error_report("%s: Unknown ending state %d", __func__, s->state);
-+        break;
-+    }
-+
-+    migrate_fd_cleanup_schedule(s);
-+    qemu_mutex_unlock_iothread();
-+}
-+
-+/*
-+ * Return true if continue to the next iteration directly, false
-+ * otherwise.
-+ */
-+static MigIterateState bg_migration_iteration_run(MigrationState *s)
-+{
-+    int res;
-+
-+    res = qemu_savevm_state_iterate(s->to_dst_file, false);
-+    if (res > 0) {
-+        bg_migration_completion(s);
-+        return MIG_ITERATE_BREAK;
-+    }
-+
-+    return MIG_ITERATE_RESUME;
-+}
-+
- void migration_make_urgent_request(void)
- {
-     qemu_sem_post(&migrate_get_current()->rate_limit_sem);
-@@ -3711,6 +3797,157 @@ static void *migration_thread(void *opaque)
-     return NULL;
- }
- 
-+static void bg_migration_vm_start_bh(void *opaque)
-+{
-+    MigrationState *s = opaque;
-+
-+    qemu_bh_delete(s->vm_start_bh);
-+    s->vm_start_bh = NULL;
-+
-+    vm_start();
-+    s->downtime = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) - s->downtime_start;
-+}
-+
-+/**
-+ * Background snapshot thread, based on live migration code.
-+ * This is an alternative implementation of live migration mechanism
-+ * introduced specifically to support background snapshots.
-+ *
-+ * It takes advantage of userfault_fd write protection mechanism introduced
-+ * in v5.7 kernel. Compared to existing dirty page logging migration much
-+ * lesser stream traffic is produced resulting in smaller snapshot images,
-+ * simply cause of no page duplicates can get into the stream.
-+ *
-+ * Another key point is that generated vmstate stream reflects machine state
-+ * 'frozen' at the beginning of snapshot creation compared to dirty page logging
-+ * mechanism, which effectively results in that saved snapshot is the state of VM
-+ * at the end of the process.
-+ */
-+static void *bg_migration_thread(void *opaque)
-+{
-+    MigrationState *s = opaque;
-+    int64_t setup_start;
-+    MigThrError thr_error;
-+    QEMUFile *fb;
-+    bool early_fail = true;
-+
-+    rcu_register_thread();
-+    object_ref(OBJECT(s));
-+
-+    qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
-+
-+    setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-+    /*
-+     * We want to save vmstate for the moment when migration has been
-+     * initiated but also we want to save RAM content while VM is running.
-+     * The RAM content should appear first in the vmstate. So, we first
-+     * stash the non-RAM part of the vmstate to the temporary buffer,
-+     * then write RAM part of the vmstate to the migration stream
-+     * with vCPUs running and, finally, write stashed non-RAM part of
-+     * the vmstate from the buffer to the migration stream.
-+     */
-+    s->bioc = qio_channel_buffer_new(128 * 1024);
-+    qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
-+    fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
-+    object_unref(OBJECT(s->bioc));
-+
-+    update_iteration_initial_status(s);
-+
-+    qemu_savevm_state_header(s->to_dst_file);
-+    qemu_savevm_state_setup(s->to_dst_file);
-+
-+    if (qemu_savevm_state_guest_unplug_pending()) {
-+        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-+                          MIGRATION_STATUS_WAIT_UNPLUG);
-+
-+        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
-+               qemu_savevm_state_guest_unplug_pending()) {
-+            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
-+        }
-+
-+        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
-+                          MIGRATION_STATUS_ACTIVE);
-+    }
-+    s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
-+
-+    migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-+                      MIGRATION_STATUS_ACTIVE);
-+    trace_migration_thread_setup_complete();
-+    s->downtime_start = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+
-+    qemu_mutex_lock_iothread();
-+
-+    if (global_state_store()) {
-+        goto fail;
-+    }
-+    /* Forcibly stop VM before saving state of vCPUs and devices */
-+    if (vm_stop_force_state(RUN_STATE_PAUSED)) {
-+        goto fail;
-+    }
-+    /*
-+     * Put vCPUs in sync with shadow context structures, then
-+     * save their state to channel-buffer along with devices.
-+     */
-+    cpu_synchronize_all_states();
-+    if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
-+        goto fail;
-+    }
-+    /* Now initialize UFFD context and start tracking RAM writes */
-+    if (ram_write_tracking_start()) {
-+        goto fail;
-+    }
-+    early_fail = false;
-+
-+    /*
-+     * Start VM from BH handler to avoid write-fault lock here.
-+     * UFFD-WP protection for the whole RAM is already enabled so
-+     * calling VM state change notifiers from vm_start() would initiate
-+     * writes to virtio VQs memory which is in write-protected region.
-+     */
-+    s->vm_start_bh = qemu_bh_new(bg_migration_vm_start_bh, s);
-+    qemu_bh_schedule(s->vm_start_bh);
-+
-+    qemu_mutex_unlock_iothread();
-+
-+    while (migration_is_active(s)) {
-+        MigIterateState iter_state = bg_migration_iteration_run(s);
-+        if (iter_state == MIG_ITERATE_SKIP) {
-+            continue;
-+        } else if (iter_state == MIG_ITERATE_BREAK) {
-+            break;
-+        }
-+
-+        /*
-+         * Try to detect any kind of failures, and see whether we
-+         * should stop the migration now.
-+         */
-+        thr_error = migration_detect_error(s);
-+        if (thr_error == MIG_THR_ERR_FATAL) {
-+            /* Stop migration */
-+            break;
-+        }
-+
-+        migration_update_counters(s, qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
-+    }
-+
-+    trace_migration_thread_after_loop();
-+
-+fail:
-+    if (early_fail) {
-+        migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
-+                MIGRATION_STATUS_FAILED);
-+        qemu_mutex_unlock_iothread();
-+    }
-+
-+    bg_migration_iteration_finish(s);
-+
-+    qemu_fclose(fb);
-+    object_unref(OBJECT(s));
-+    rcu_unregister_thread();
-+
-+    return NULL;
-+}
-+
- void migrate_fd_connect(MigrationState *s, Error *error_in)
- {
-     Error *local_err = NULL;
-@@ -3774,8 +4011,14 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
-         migrate_fd_cleanup(s);
-         return;
-     }
--    qemu_thread_create(&s->thread, "live_migration", migration_thread, s,
--                       QEMU_THREAD_JOINABLE);
-+
-+    if (migrate_background_snapshot()) {
-+        qemu_thread_create(&s->thread, "background_snapshot",
-+                bg_migration_thread, s, QEMU_THREAD_JOINABLE);
-+    } else {
-+        qemu_thread_create(&s->thread, "live_migration",
-+                migration_thread, s, QEMU_THREAD_JOINABLE);
-+    }
-     s->migration_thread_running = true;
- }
- 
-diff --git a/migration/migration.h b/migration/migration.h
-index f40338cfbf..0723955cd7 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -20,6 +20,7 @@
- #include "qemu/thread.h"
- #include "qemu/coroutine_int.h"
- #include "io/channel.h"
-+#include "io/channel-buffer.h"
- #include "net/announce.h"
- #include "qom/object.h"
- 
-@@ -147,8 +148,10 @@ struct MigrationState {
- 
-     /*< public >*/
-     QemuThread thread;
-+    QEMUBH *vm_start_bh;
-     QEMUBH *cleanup_bh;
-     QEMUFile *to_dst_file;
-+    QIOChannelBuffer *bioc;
-     /*
-      * Protects to_dst_file pointer.  We need to make sure we won't
-      * yield or hang during the critical section, since this lock will
-diff --git a/migration/ram.c b/migration/ram.c
-index 72c932709a..559170df13 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1471,6 +1471,7 @@ static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
-     page_address = (void *) uffd_msg.arg.pagefault.address;
-     bs = qemu_ram_block_from_host(page_address, false, offset);
-     assert(bs && (bs->flags & RAM_UF_WRITEPROTECT) != 0);
-+
-     return bs;
- }
- #endif /* CONFIG_LINUX */
-@@ -1836,6 +1837,7 @@ static void ram_save_host_page_post(RAMState *rs, PageSearchStatus *pss,
-         /* Un-protect memory range. */
-         res = uffd_change_protection(rs->uffdio_fd, page_address, run_length,
-                 false, false);
-+
-         /* We don't want to override existing error from ram_save_host_page(). */
-         if (res < 0 && *res_override >= 0) {
-             *res_override = res;
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 5f937a2762..62d5f8a869 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1352,7 +1352,6 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
-     return 0;
- }
- 
--static
- int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-                                                     bool in_postcopy,
-                                                     bool inactivate_disks)
-diff --git a/migration/savevm.h b/migration/savevm.h
-index ba64a7e271..aaee2528ed 100644
---- a/migration/savevm.h
-+++ b/migration/savevm.h
-@@ -64,5 +64,7 @@ int qemu_loadvm_state(QEMUFile *f);
- void qemu_loadvm_state_cleanup(void);
- int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
- int qemu_load_device_state(QEMUFile *f);
-+int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-+        bool in_postcopy, bool inactivate_disks);
- 
- #endif
--- 
-2.25.1
+Yeah. And the shadowing of nlb is not good either. I'll fix it up.
 
+--IuOrKQReSEMix4y+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/QogkACgkQTeGvMW1P
+DenK1ggAxYs3zU6ajqwIkrIshK0+qkG+ZO5mfv1xPyllBrMONo9JftrI456PTxG/
+zLk83fdPWEPKsUHztnOUTrGhhlgZYOx5tYl2F8rnQynoHEEzopmVy3UC/dO9olgU
+m5OamWjpjPQu76TSElIXvTuLzhS94mjybIDayJyRm1W42jmesAfosopcfXRKnSMs
+s3DzMyMEPy8f8bLRIS4pc3uZ+RgpiwjCaFvkqg7LWHJtV6LgYZ568zJJMVoa3H8d
+mQRbbXlW+8tpxa3x91T7oYTlsR1Qi1LeRCphlhrNitvcMwpy6FynpElOuDPyi2gd
+GNWjliEcG7o76OtnOYw57MTohkbYmg==
+=VhRR
+-----END PGP SIGNATURE-----
+
+--IuOrKQReSEMix4y+--
 
