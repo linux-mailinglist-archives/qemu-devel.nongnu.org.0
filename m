@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4296B2D4ACA
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:46:42 +0100 (CET)
-Received: from localhost ([::1]:49292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0FC2D4AEF
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:50:39 +0100 (CET)
+Received: from localhost ([::1]:58006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn5Q8-0003hM-MX
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:46:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33926)
+	id 1kn5Ty-0007QK-Os
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:50:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kn4WP-00052U-99
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:49:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59220)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kn4WN-00045H-6j
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:49:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607539742;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2ZdtDVnVSLorYMf0VwrM99dH6Rak2Bc4C+97zOEHdxY=;
- b=OnNniVY8/pADg5bhmkfgdzo8Xlg04yazL6ma77dje9HHqASpIpN6eYPK9x8quFaH/XJjtF
- 4BNHKdUZ73ChYmE8XJ4c3nG90Q+/SdaV7g8Vcczm/WlC1tVDDGK8eKVWWov5s4MtoGLtZa
- x7RhJ+tfXIv4Fz+LRXVoCHav0zI1Ikg=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-EHvYAAiSMYmUNNsVxHIp8A-1; Wed, 09 Dec 2020 13:49:00 -0500
-X-MC-Unique: EHvYAAiSMYmUNNsVxHIp8A-1
-Received: by mail-qt1-f200.google.com with SMTP id f17so1924002qtl.15
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:49:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1kn4Yj-00076n-A1
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:51:30 -0500
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:40697)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1kn4Yh-0004x0-Nf
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:51:29 -0500
+Received: by mail-io1-xd42.google.com with SMTP id r9so2695755ioo.7
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:51:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6FLeCYhF1dNhRIFet9DSj48YiEpydkRS9PCgrsqW1vs=;
+ b=ZINO15jFpHUDmaMIAEmiQEx6VLTOJanLLM1efd17w2y+0XZQ/Aq5jW52CSxVotB3IR
+ nYoERS6m6/bHJEnCgp3VnD4sQJokOGw5i38yA2tDcRs0Pa4+OqyPTrbnGdgPbAe47wbG
+ zOe1xjvI6J+I8BKB9LsYXLkIKBIipZvKwcyA5VoyYtLmIrud5dWF4PP13K0pDSkruK6r
+ Zb+2MmbdwQrHkBkS81I2xHcEDRSspkhlaUYV7mGD2pyXAj5R76dvWQhh0doUYSzel5Q2
+ xyudLCmug00MtKZC62LU2c7AHQEQpXPwsntX47hATXAORwU9eZ2yl3QP887ymKMjZx0m
+ 9JlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2ZdtDVnVSLorYMf0VwrM99dH6Rak2Bc4C+97zOEHdxY=;
- b=sH5JPGcZmmyP51xgApX3h3JCax23/sRnwjc7wG/ZAtsnA+/tBkRLD9dlJxb5cjf499
- N0nE29CMDDV2V1IjznGPnVpwRhCKN9QqCY5oy3VTyQdQkjVZ/Qdm7TO/Y0PoYNHb7YSx
- mq2WbuOTuM5ykv3CLZk1/+pRazQVbK5vXCG9MVtLgR/1kUwYG7ZpwguYp6NdJPQVdtYP
- mDsvtzC3gb2MKtDHl9RD+JKMBJ5yjHsDci9JwPg4xj2dbOwPa5izGotoXVdoI9EVUuP9
- sWj2dXsZbAWretekpcN/ANF5hWzkAc8TqjGjOMJMHxAv1jIgWF8CUTwvVkBwTeaS0hWR
- OE0Q==
-X-Gm-Message-State: AOAM533ihcc6HDWUYebilCY/cILJHl6nAsMgXIBhWdR/9eOju5RlsXUs
- HpnT7cNPfLs0QQXK+T6XWQnlA+oVM9yPbS8Qh64Eg5e7gepuhd3OaNCrube5j5yRp5xMI/9eJ15
- PGo88/1o/meervb+Mc4PyQzdZpFxvWPg=
-X-Received: by 2002:ac8:e06:: with SMTP id a6mr4783870qti.384.1607539740288;
- Wed, 09 Dec 2020 10:49:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzUDRcl0vkOdfin0XBAKi1xojbc8ggj/scgMp3QAm6uN/Gb1T8m4oXNBcerz4NAW0ctj6nhIRule5lH9IWXXNI=
-X-Received: by 2002:ac8:e06:: with SMTP id a6mr4783839qti.384.1607539740115;
- Wed, 09 Dec 2020 10:49:00 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=6FLeCYhF1dNhRIFet9DSj48YiEpydkRS9PCgrsqW1vs=;
+ b=i1Jttyc/wOvRnCjphjxqpCiuTnbwkowTO7ac+MxQiLl65U1T/OsmeelW8bNyBUFqjh
+ /KwOO2mrBGMyfN/O2tmifT86fbOL7EQ7zzN3baVU9y4v5iPjEXKm5XJjKIDR3sZeuuZe
+ A7AL0joVtbHaZlg3PWuZkMoRYRucoqUiM1O3GLoGe8dUojeRBe5q60QIVwBYM+OzTSZj
+ VyEcGawbkwlqVyaIM5nO9xiejYD+uj3vwtw9hJooXey3PfYiPnNlQQa4i9/0eeBRH2VO
+ 7XOQcp9C/N+qqcJmtK9SNftE/HGiZq1fBoyAbzN4Yk8F4RDTDywtzA4rY8XaJcz2kH6v
+ hp6w==
+X-Gm-Message-State: AOAM5311fekTR54DC25epRP/4ezoImJiu5YBFY443SATHWJDNr8gfOec
+ hKzrVhPQIgkUoTxBbUt+loTfXfCL9U3TPMouDLU=
+X-Google-Smtp-Source: ABdhPJy0PPAj+gRn+U0x4/NQW1p9qkGvBEwZztC63mGUbA6QzapitRoHJ4oVNQWF23ialhp1iJgZpKgD6RqH2V95M+U=
+X-Received: by 2002:a02:b70d:: with SMTP id g13mr4928119jam.46.1607539886680; 
+ Wed, 09 Dec 2020 10:51:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-19-eperezma@redhat.com>
- <20201208084158.GU203660@stefanha-x1.localdomain>
-In-Reply-To: <20201208084158.GU203660@stefanha-x1.localdomain>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 9 Dec 2020 19:48:24 +0100
-Message-ID: <CAJaqyWeMp=k_1CmWoywE+EiAC5ZYZyX=ieYZgqxFui-Z1Q-+Nw@mail.gmail.com>
-Subject: Re: [RFC PATCH 18/27] vhost: add vhost_vring_poll_rcu
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20201208163950.29617-1-david@redhat.com>
+ <20201208163950.29617-10-david@redhat.com>
+In-Reply-To: <20201208163950.29617-10-david@redhat.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Wed, 9 Dec 2020 19:51:15 +0100
+Message-ID: <CAM9Jb+jCXpx3vwXj4AGxVtHt8Cw6RbXafRmd8Er_KTXyyux7iA@mail.gmail.com>
+Subject: Re: [PATCH v2 09/10] virtio-mem: Require only coordinated discards
+To: David Hildenbrand <david@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd42.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,40 +77,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
- Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
- Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: Marek Kedzierski <mkedzier@redhat.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 8, 2020 at 9:42 AM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> We implement the RamDiscardMgr interface and only require coordinated
+> discarding of RAM to work.
 >
-> On Fri, Nov 20, 2020 at 07:50:56PM +0100, Eugenio P=C3=A9rez wrote:
-> > @@ -83,6 +89,18 @@ void vhost_vring_set_notification_rcu(VhostShadowVir=
-tqueue *vq, bool enable)
-> >      smp_mb();
-> >  }
-> >
-> > +bool vhost_vring_poll_rcu(VhostShadowVirtqueue *vq)
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Auger Eric <eric.auger@redhat.com>
+> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+> Cc: teawater <teawaterz@linux.alibaba.com>
+> Cc: Marek Kedzierski <mkedzier@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/virtio/virtio-mem.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> A name like "more_used" is clearer than "poll".
+> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+> index f419a758f3..99d0712195 100644
+> --- a/hw/virtio/virtio-mem.c
+> +++ b/hw/virtio/virtio-mem.c
+> @@ -687,7 +687,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+>          return;
+>      }
+>
+> -    if (ram_block_discard_require(true)) {
+> +    if (ram_block_coordinated_discard_require(true)) {
+>          error_setg(errp, "Discarding RAM is disabled");
+>          return;
+>      }
+> @@ -695,7 +695,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+>      ret = ram_block_discard_range(rb, 0, qemu_ram_get_used_length(rb));
+>      if (ret) {
+>          error_setg_errno(errp, -ret, "Unexpected error discarding RAM");
+> -        ram_block_discard_require(false);
+> +        ram_block_coordinated_discard_require(false);
+>          return;
+>      }
+>
+> @@ -738,7 +738,7 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
+>      virtio_del_queue(vdev, 0);
+>      virtio_cleanup(vdev);
+>      g_free(vmem->bitmap);
+> -    ram_block_discard_require(false);
+> +    ram_block_coordinated_discard_require(false);
+>  }
+>
+>  static int virtio_mem_discard_range_cb(const VirtIOMEM *vmem, void *arg,
 
-I agree, I will rename.
-
-Thanks!
-
+Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
 
