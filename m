@@ -2,45 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12EAD2D41E7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 13:19:07 +0100 (CET)
-Received: from localhost ([::1]:32862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF9D2D420B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 13:21:33 +0100 (CET)
+Received: from localhost ([::1]:35598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmyQx-0002EW-Vf
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 07:19:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
+	id 1kmyTM-0003W4-W4
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 07:21:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1kmyPt-0001bl-E9
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 07:17:57 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:45524)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1kmyS9-00030i-5S
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 07:20:17 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:45542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1kmyPq-0001gC-CZ
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 07:17:57 -0500
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1kmyRc-0002P0-DJ
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 07:20:16 -0500
 X-Footer: a2FtcC5kZQ==
 Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Wed, 9 Dec 2020 13:17:41 +0100
-Received: (qmail 25607 invoked from network); 9 Dec 2020 12:17:43 -0000
-Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
- (relay@kamp.de@::ffff:172.21.12.60)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
- 9 Dec 2020 12:17:43 -0000
-Received: by lieven-pc (Postfix, from userid 1060)
- id 3483613D863; Wed,  9 Dec 2020 13:17:43 +0100 (CET)
+ for qemu-devel@nongnu.org; Wed, 9 Dec 2020 13:19:40 +0100
+Received: (qmail 25619 invoked from network); 9 Dec 2020 12:19:41 -0000
+Received: from ac85.vpn.kamp-intra.net (HELO ?172.20.250.85?)
+ (pl@kamp.de@::ffff:172.20.250.85)
+ by submission.kamp.de with ESMTPS (AES128-SHA encrypted) ESMTPA;
+ 9 Dec 2020 12:19:41 -0000
+Subject: Re: qemu 6.0 rbd driver rewrite
 From: Peter Lieven <pl@kamp.de>
-To: qemu-block@nongnu.org
-Subject: [PATCH] block/nfs: fix int overflow in nfs_client_open_qdict
-Date: Wed,  9 Dec 2020 13:17:35 +0100
-Message-Id: <20201209121735.16437-1-pl@kamp.de>
-X-Mailer: git-send-email 2.17.1
+To: dillaman@redhat.com, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
+References: <92e0ea53-59e1-7ca0-dd0a-e4f350a6e032@kamp.de>
+Message-ID: <db284cf5-b7a8-7cab-29e3-38980c0839b2@kamp.de>
+Date: Wed, 9 Dec 2020 13:19:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <92e0ea53-59e1-7ca0-dd0a-e4f350a6e032@kamp.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
  helo=kerio.kamp.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,36 +59,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-stable@nongnu.org, Peter Lieven <pl@kamp.de>,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: Christian Theune <ct@flyingcircus.io>, qemu block <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nfs_client_open returns the file size in sectors. This effectively
-makes it impossible to open files larger than 1TB.
+Am 01.12.20 um 13:40 schrieb Peter Lieven:
+> Hi,
+>
+>
+> i would like to submit a series for 6.0 which will convert the aio hooks to native coroutine hooks and add write zeroes support.
+>
+> The aio routines are nowadays just an emulation on top of coroutines which add additional overhead.
+>
+> For this I would like to lift the minimum librbd requirement to luminous release to get rid of the ifdef'ry in the code.
+>
+>
+> Any objections?
+>
+>
+> Best,
+>
+> Peter
+>
 
-Fixes: a1a42af422d46812f1f0cebe6b230c20409a3731
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Peter Lieven <pl@kamp.de>
----
- block/nfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Kindly pinging as the 6.0 dev tree is now open. Also cc'ing qemu-devel which I accidently forgot.
 
-diff --git a/block/nfs.c b/block/nfs.c
-index 77905f516d..8c1968bb41 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -592,7 +592,7 @@ static int64_t nfs_client_open_qdict(NFSClient *client, QDict *options,
-                                      int flags, int open_flags, Error **errp)
- {
-     BlockdevOptionsNfs *opts;
--    int ret;
-+    int64_t ret;
- 
-     opts = nfs_options_qdict_to_qapi(options, errp);
-     if (opts == NULL) {
--- 
-2.17.1
+
+Peter
 
 
 
