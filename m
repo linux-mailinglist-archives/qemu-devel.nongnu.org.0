@@ -2,65 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4162D3E9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 10:24:03 +0100 (CET)
-Received: from localhost ([::1]:53560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C35342D3E5C
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 10:19:59 +0100 (CET)
+Received: from localhost ([::1]:47478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmvha-0007kG-5I
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 04:24:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55564)
+	id 1kmvde-0004zr-Lg
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 04:19:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kmveO-0006FX-Va
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:20:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:36096)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmvbA-00044T-QY
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:17:24 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kmveM-00066O-6h
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:20:44 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kmveJ-0001z1-4V
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 09:20:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 20D312E8137
- for <qemu-devel@nongnu.org>; Wed,  9 Dec 2020 09:20:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kmvb8-00055r-Jv
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:17:24 -0500
+Received: by mail-wm1-x343.google.com with SMTP id g25so492934wmh.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 01:17:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DhEexIPrt7u69AggAVnat5k7tJsbULtT8rgXthgK4NI=;
+ b=UY3JgWi9uEqcUQn2dQ03bjRaI7V8TuWWCJoQHjis3I7TBft5Gg05tUmLSNDm5NeQNF
+ zaMfvqlkUR4Vyv8EqQbacGLasBfoYY5pJrjJ59HNctP4A1vSMveCPXRJNSYz8O8Ajp9X
+ /FA5sWZfX7hv5PeqqZelWsS8sCjJXop92eQInE5kTTADL0dBQW94Rd6zibWIqAcfmxEZ
+ 4K9gor63LqfG+1xijbV2i+DrDGYa28O7HK/0eEb5qwJaNGYxZepbOM2ztk/k+RlOaUBW
+ KvwrdkfYCS190cbUAmSUTx10FYGmRJSs8VsW5p1xwIW3+7ejgErfPdWGE9NPv+J9JZwk
+ Kobw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DhEexIPrt7u69AggAVnat5k7tJsbULtT8rgXthgK4NI=;
+ b=N7XQyDexPvX9LemexAuW66xl0g4kwXJf5n3NNXPfYBRW3iXayAqxDaO1W1omX99CJk
+ hCGOc8H30pn4QBQC6zrXg7/1shi5+Jw30pA7x5NM4mNnFnZ4LhA2lfVCCwRMc6MZJvai
+ vueILAI4wUx4X+MX88h5dftsJzScN56uEm5c21LDyba5Lma3ALpuOLZUmJoWEOj5ssX+
+ AsK3H1ROtgiWWfEbMK5ILsKDF3pFjp3e5jQpS5d2it/zKv0OGHLrsbnbezDgRx62RhD2
+ dd6soaWm5w1xOShZhki/Qd4Hfpc7ECbYw4VV9guSwPbk+Vw5lCPE7lrXTSuEZI5o84Z2
+ 2byQ==
+X-Gm-Message-State: AOAM530zodKNFKUK7B2BSAjanq252KfiSP6mPZHzZ/snLKnYJxeHY1hU
+ X8QLzXAl277bLu5SOMVPuoY=
+X-Google-Smtp-Source: ABdhPJzIQyl2m3bRnpnQP/Mwp+WL2VZKtevGkn9HkLgfGEt6UOlC5UhJsiPrXCBqpKLzZgsQrXUOAw==
+X-Received: by 2002:a1c:c254:: with SMTP id s81mr1690532wmf.132.1607505441021; 
+ Wed, 09 Dec 2020 01:17:21 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id h98sm2442236wrh.69.2020.12.09.01.17.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Dec 2020 01:17:20 -0800 (PST)
+Subject: Re: [PATCH 14/17] target/mips: Declare gen_msa/_branch() in
+ 'translate.h'
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20201208003702.4088927-1-f4bug@amsat.org>
+ <20201208003702.4088927-15-f4bug@amsat.org>
+ <45ab33e0-f00e-097a-74fb-4c7c42e29e33@linaro.org>
+ <b0cf35c4-a086-b704-5710-0f05bf7921bb@linaro.org>
+ <58a0d6c4-fc01-3932-52b9-9deb13b43c51@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1d2a6f44-1eab-2e92-01c2-703a2ee5bd50@amsat.org>
+Date: Wed, 9 Dec 2020 10:17:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 09 Dec 2020 09:13:32 -0000
-From: John Paul Adrian Glaubitz <1907427@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: glaubitz
-X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
-X-Launchpad-Bug-Modifier: John Paul Adrian Glaubitz (glaubitz)
-Message-Id: <160750521215.10480.16469807239042219779.malonedeb@wampee.canonical.com>
-Subject: [Bug 1907427] [NEW] Build on sparc64 fails with "undefined reference
- to `fdt_check_full'"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: cc8c9830a75af928faa3e0327a2e6be70f61e6af
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <58a0d6c4-fc01-3932-52b9-9deb13b43c51@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,143 +93,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907427 <1907427@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Hi Richard,
 
-Trying to build QEMU on sparc64 fails with:
+On 12/9/20 1:03 AM, Richard Henderson wrote:
+> On 12/8/20 6:01 PM, Richard Henderson wrote:
+>> On 12/8/20 5:56 PM, Richard Henderson wrote:
+>>> On 12/7/20 6:36 PM, Philippe Mathieu-Daudé wrote:
+>>>> Make gen_msa() and gen_msa_branch() public declarations
+>>>> so we can keep calling them once extracted from the big
+>>>> translate.c in the next commit.
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> ---
+>>>>  target/mips/translate.h | 2 ++
+>>>>  target/mips/translate.c | 4 ++--
+>>>>  2 files changed, 4 insertions(+), 2 deletions(-)
+>>>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>
+>> Actually, I think this should be dropped, and two other patches rearranged.
+> 
+> Actually, nevermind, you already get the right result in the end; there's no
+> point re-rearranging.
 
-[4648/8435] c++  -o qemu-system-ppc64 qemu-system-ppc64.p/softmmu_main.c.o =
-libcommon.fa.p/ui_vnc-auth-sasl.c.o libcommon.fa.p/migration_colo-failover.=
-c.o libcommon.fa.p/hw_input_vhost-user-input.c.o libcommon.fa.p/replay_repl=
-ay-random.c.o libcommon.fa.p/hw_9pfs_codir.c.o libcommon.fa.p/hw_display_ed=
-id-region.c.o libcommon.fa.p/hw_net_vhost_net.c.o libcommon.fa.p/hw_isa_i82=
-378.c.o libcommon.fa.p/backends_rng-egd.c.o libcommon.fa.p/hw_usb_core.c.o =
-libcommon.fa.p/hw_pci-bridge_i82801b11.c.o libcommon.fa.p/net_tap.c.o libco=
-mmon.fa.p/hw_ipack_ipack.c.o libcommon.fa.p/hw_scsi_mptconfig.c.o libcommon=
-.fa.p/hw_usb_libhw.c.o libcommon.fa.p/hw_display_sm501.c.o libcommon.fa.p/h=
-w_net_rocker_rocker_world.c.o libcommon.fa.p/fsdev_qemu-fsdev.c.o libcommon=
-.fa.p/backends_tpm_tpm_util.c.o libcommon.fa.p/net_tap-linux.c.o libcommon.=
-fa.p/hw_net_rocker_rocker_fp.c.o libcommon.fa.p/hw_usb_dev-uas.c.o libcommo=
-n.fa.p/hw_net_fsl_etsec_miim.c.o libcommon.fa.p/net_queue.c.o libcommon.fa.=
-p/hw_isa_isa-superio.c.o libcommon.fa.p/migration_global_state.c.o libcommo=
-n.fa.p/backends_rng-random.c.o libcommon.fa.p/hw_ipmi_ipmi_bmc_extern.c.o l=
-ibcommon.fa.p/migration_postcopy-ram.c.o libcommon.fa.p/hw_scsi_megasas.c.o=
- libcommon.fa.p/hw_acpi_acpi-stub.c.o libcommon.fa.p/hw_nvram_mac_nvram.c.o=
- libcommon.fa.p/hw_net_pcnet-pci.c.o libcommon.fa.p/cpus-common.c.o libcomm=
-on.fa.p/hw_core_qdev-properties-system.c.o libcommon.fa.p/migration_colo.c.=
-o libcommon.fa.p/ui_spice-module.c.o libcommon.fa.p/hw_usb_hcd-ehci-pci.c.o=
- libcommon.fa.p/migration_exec.c.o libcommon.fa.p/hw_input_adb-kbd.c.o libc=
-ommon.fa.p/hw_timer_xilinx_timer.c.o libcommon.fa.p/hw_cpu_core.c.o libcomm=
-on.fa.p/chardev_msmouse.c.o libcommon.fa.p/migration_socket.c.o libcommon.f=
-a.p/hw_9pfs_9p-synth.c.o libcommon.fa.p/backends_dbus-vmstate.c.o libcommon=
-.fa.p/net_colo-compare.c.o libcommon.fa.p/hw_misc_macio_cuda.c.o libcommon.=
-fa.p/hw_audio_intel-hda.c.o libcommon.fa.p/audio_audio_legacy.c.o
-(...)
-libio.fa libchardev.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,relr=
-o -Wl,-z,now -m64 -g -O2 -fdebug-prefix-map=3D/<<PKGBUILDDIR>>=3D. -fstack-=
-protector-strong -Wformat -Werror=3Dformat-security -Wdate-time -D_FORTIFY_=
-SOURCE=3D2 -Wl,-z,relro -Wl,--as-needed -fstack-protector-strong libmigrati=
-on.fa -Wl,--start-group libqemuutil.a contrib/libvhost-user/libvhost-user.a=
- libqmp.fa libhwcore.fa libblockdev.fa libblock.fa libcrypto.fa libauthz.fa=
- libqom.fa libio.fa libchardev.fa @block.syms @qemu.syms /usr/lib/gcc/sparc=
-64-linux-gnu/10/../../../sparc64-linux-gnu/libfdt.so /usr/lib/sparc64-linux=
--gnu/libcapstone.so -lepoxy -lgbm /usr/lib/sparc64-linux-gnu/libpixman-1.so=
- /usr/lib/sparc64-linux-gnu/libz.so /usr/lib/sparc64-linux-gnu/libslirp.so =
-/usr/lib/sparc64-linux-gnu/libglib-2.0.so -lrdmacm -libverbs -libumad -lgio=
--2.0 -lgobject-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 /usr/lib/g=
-cc/sparc64-linux-gnu/10/../../../sparc64-linux-gnu/libsasl2.so @block.syms =
--lusb-1.0 /lib/sparc64-linux-gnu/libudev.so /usr/lib/sparc64-linux-gnu/libp=
-ng16.so -lvdeplug /usr/lib/sparc64-linux-gnu/libjpeg.so -pthread -luring -l=
-gnutls -lutil -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -l=
-glib-2.0 -lm -Wl,--export-dynamic -lgmodule-2.0 -lglib-2.0 -laio -luring -l=
-gnutls -lnettle -lstdc++ -Wl,--end-group
-/usr/bin/ld: libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_hcall.c.o: in function=
- `h_update_dt':
-./b/qemu/../../hw/ppc/spapr_hcall.c:1966: undefined reference to `fdt_check=
-_full'
-collect2: error: ld returned 1 exit status
+I'm interested in looking at your idea to see if I can follow it
+for the next conversions after the MSA ASE. The criteria I'm using
+is (in this order):
 
-Full build log available at:
-https://buildd.debian.org/status/fetch.php?pkg=3Dqemu&arch=3Dsparc64&ver=3D=
-1%3A5.2%2Bdfsg-1&stamp=3D1607502300&raw=3D0
+- keep bisectability working
+- keep patches trivial enough to review
+- avoid moving things twice
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+In a previous version I tried to directly pass from
 
--- =
+static void gen_msa(DisasContext *ctx) ...
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907427
+to:
 
-Title:
-  Build on sparc64 fails with "undefined reference to `fdt_check_full'"
+static bool trans_MSA(DisasContext *ctx, arg_MSA *a) ...
 
-Status in QEMU:
-  New
+without declaring the intermediate 'void gen_msa(DisasContext)'
+in "translate.h" (this patch). The result was less trivial to
+review, so I went back to using an intermediate patch for
+simplicity.
 
-Bug description:
-  Trying to build QEMU on sparc64 fails with:
+Is that what you were thinking about?
 
-  [4648/8435] c++  -o qemu-system-ppc64 qemu-system-ppc64.p/softmmu_main.c.=
-o libcommon.fa.p/ui_vnc-auth-sasl.c.o libcommon.fa.p/migration_colo-failove=
-r.c.o libcommon.fa.p/hw_input_vhost-user-input.c.o libcommon.fa.p/replay_re=
-play-random.c.o libcommon.fa.p/hw_9pfs_codir.c.o libcommon.fa.p/hw_display_=
-edid-region.c.o libcommon.fa.p/hw_net_vhost_net.c.o libcommon.fa.p/hw_isa_i=
-82378.c.o libcommon.fa.p/backends_rng-egd.c.o libcommon.fa.p/hw_usb_core.c.=
-o libcommon.fa.p/hw_pci-bridge_i82801b11.c.o libcommon.fa.p/net_tap.c.o lib=
-common.fa.p/hw_ipack_ipack.c.o libcommon.fa.p/hw_scsi_mptconfig.c.o libcomm=
-on.fa.p/hw_usb_libhw.c.o libcommon.fa.p/hw_display_sm501.c.o libcommon.fa.p=
-/hw_net_rocker_rocker_world.c.o libcommon.fa.p/fsdev_qemu-fsdev.c.o libcomm=
-on.fa.p/backends_tpm_tpm_util.c.o libcommon.fa.p/net_tap-linux.c.o libcommo=
-n.fa.p/hw_net_rocker_rocker_fp.c.o libcommon.fa.p/hw_usb_dev-uas.c.o libcom=
-mon.fa.p/hw_net_fsl_etsec_miim.c.o libcommon.fa.p/net_queue.c.o libcommon.f=
-a.p/hw_isa_isa-superio.c.o libcommon.fa.p/migration_global_state.c.o libcom=
-mon.fa.p/backends_rng-random.c.o libcommon.fa.p/hw_ipmi_ipmi_bmc_extern.c.o=
- libcommon.fa.p/migration_postcopy-ram.c.o libcommon.fa.p/hw_scsi_megasas.c=
-.o libcommon.fa.p/hw_acpi_acpi-stub.c.o libcommon.fa.p/hw_nvram_mac_nvram.c=
-.o libcommon.fa.p/hw_net_pcnet-pci.c.o libcommon.fa.p/cpus-common.c.o libco=
-mmon.fa.p/hw_core_qdev-properties-system.c.o libcommon.fa.p/migration_colo.=
-c.o libcommon.fa.p/ui_spice-module.c.o libcommon.fa.p/hw_usb_hcd-ehci-pci.c=
-.o libcommon.fa.p/migration_exec.c.o libcommon.fa.p/hw_input_adb-kbd.c.o li=
-bcommon.fa.p/hw_timer_xilinx_timer.c.o libcommon.fa.p/hw_cpu_core.c.o libco=
-mmon.fa.p/chardev_msmouse.c.o libcommon.fa.p/migration_socket.c.o libcommon=
-.fa.p/hw_9pfs_9p-synth.c.o libcommon.fa.p/backends_dbus-vmstate.c.o libcomm=
-on.fa.p/net_colo-compare.c.o libcommon.fa.p/hw_misc_macio_cuda.c.o libcommo=
-n.fa.p/hw_audio_intel-hda.c.o libcommon.fa.p/audio_audio_legacy.c.o
-  (...)
-  libio.fa libchardev.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,re=
-lro -Wl,-z,now -m64 -g -O2 -fdebug-prefix-map=3D/<<PKGBUILDDIR>>=3D. -fstac=
-k-protector-strong -Wformat -Werror=3Dformat-security -Wdate-time -D_FORTIF=
-Y_SOURCE=3D2 -Wl,-z,relro -Wl,--as-needed -fstack-protector-strong libmigra=
-tion.fa -Wl,--start-group libqemuutil.a contrib/libvhost-user/libvhost-user=
-.a libqmp.fa libhwcore.fa libblockdev.fa libblock.fa libcrypto.fa libauthz.=
-fa libqom.fa libio.fa libchardev.fa @block.syms @qemu.syms /usr/lib/gcc/spa=
-rc64-linux-gnu/10/../../../sparc64-linux-gnu/libfdt.so /usr/lib/sparc64-lin=
-ux-gnu/libcapstone.so -lepoxy -lgbm /usr/lib/sparc64-linux-gnu/libpixman-1.=
-so /usr/lib/sparc64-linux-gnu/libz.so /usr/lib/sparc64-linux-gnu/libslirp.s=
-o /usr/lib/sparc64-linux-gnu/libglib-2.0.so -lrdmacm -libverbs -libumad -lg=
-io-2.0 -lgobject-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 /usr/lib=
-/gcc/sparc64-linux-gnu/10/../../../sparc64-linux-gnu/libsasl2.so @block.sym=
-s -lusb-1.0 /lib/sparc64-linux-gnu/libudev.so /usr/lib/sparc64-linux-gnu/li=
-bpng16.so -lvdeplug /usr/lib/sparc64-linux-gnu/libjpeg.so -pthread -luring =
--lgnutls -lutil -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 =
--lglib-2.0 -lm -Wl,--export-dynamic -lgmodule-2.0 -lglib-2.0 -laio -luring =
--lgnutls -lnettle -lstdc++ -Wl,--end-group
-  /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_hcall.c.o: in functi=
-on `h_update_dt':
-  ./b/qemu/../../hw/ppc/spapr_hcall.c:1966: undefined reference to `fdt_che=
-ck_full'
-  collect2: error: ld returned 1 exit status
+Thanks,
 
-  Full build log available at:
-  https://buildd.debian.org/status/fetch.php?pkg=3Dqemu&arch=3Dsparc64&ver=
-=3D1%3A5.2%2Bdfsg-1&stamp=3D1607502300&raw=3D0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907427/+subscriptions
+Phil.
 
