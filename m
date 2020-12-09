@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5D72D4A01
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:24:13 +0100 (CET)
-Received: from localhost ([::1]:56604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88D02D49F8
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:19:11 +0100 (CET)
+Received: from localhost ([::1]:44784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn54O-0007lz-Eg
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:24:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53320)
+	id 1kn4zW-0002YZ-NN
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:19:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3vu-0004qI-QJ
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:11:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47861)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3w1-0004tP-IG
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:11:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3vs-0000d3-3T
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:11:22 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3vz-0000f5-Oq
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:11:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607537479;
+ s=mimecast20190719; t=1607537486;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DbpWHn7kujA8od1bySqWm905L7EHYrNPshpti/pX4Go=;
- b=VunjWWtEYeKxtLLUjweuIjnj51c0V7HFavEcQNiyiKIQofOA5MpbPZSkQVBs10W3nKxVjg
- +nMziB1W0ieMFbW4qtWSgZbJ1BKXVsUsbyOgbiSYeB7gZlVE1Ljn5LOkpHF28rrYxHOEmM
- i98Mjyia09yDPjwHM6NSAHbx5qIvlws=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-Y50n4L3NMrusg4BROOL-Tg-1; Wed, 09 Dec 2020 13:11:16 -0500
-X-MC-Unique: Y50n4L3NMrusg4BROOL-Tg-1
-Received: by mail-wr1-f69.google.com with SMTP id v5so965820wrr.0
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:11:16 -0800 (PST)
+ bh=rCTXiBiz0IVDGz/6PAJRoYm80wXw7KG34Wn42GEidrE=;
+ b=AAtZ6znfT2P/1o5gebYe6U92DsvaxVNwNGplsItZeah+uXSj/KwwScRcqWDLvbFAhm8nbv
+ +bLE8vpfhRbYsad79SH1Th70ehBHdoqwFL0d255tknRz5MLPivc6PTvzWmW6DKyGgyj+xD
+ hmIDnAo+UvVrv8Vk2WrB2DcEovyCfj4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-426-xQFlPUlmM46rzy0LARsfKg-1; Wed, 09 Dec 2020 13:11:24 -0500
+X-MC-Unique: xQFlPUlmM46rzy0LARsfKg-1
+Received: by mail-wr1-f70.google.com with SMTP id y5so952728wrs.15
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:11:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=DbpWHn7kujA8od1bySqWm905L7EHYrNPshpti/pX4Go=;
- b=OaKn29mg20ApcYdrCSWh35KF40dCdUy532Vu5cvLddnhVl/FFG8mI+HLO0xsJnR7pZ
- VZ9MT5zChaWfEx8xNlXvHxyw1YOF/QfkBzewf7wbRsgzScuMdhsdh2b/1JfCZLCigT6e
- D2D4xCrec6vR3OBZwR7FWvB/dNyZDsBfnKl/Np0Y9KBldjSwNNN6LC+/LOcorXlLqfPc
- kU8f70Imu58AUsLoizpy+HHPRe+NVgfOj9osZB9pxUAcMeLb7LYgUJiGa5yCRhI0cShI
- m3cfSlt3LTI59071g+4aeg6nb36HSpYgYD+rrq962S/9nCvnLkp/jghITuwtj9KP1qEo
- 2XPQ==
-X-Gm-Message-State: AOAM532myGwza+3MprvbVzPWLCD6XwCaZKftuwqVqD1w3xVT0wUVSZ7Y
- utXnY03+AKi8OkWIbPg5xc7mG6Cp/Nr5ABHBWcV4w/825vbD7uLLbF8a/JGGvWkFuqi5Z7pT7r0
- oaeoRlQ1wh9GWM4QRn6Nablv4P4B/Y9uEKw4b7IFb1HO/xJkZjaUZ867ljTjx
-X-Received: by 2002:a7b:c751:: with SMTP id w17mr3973954wmk.121.1607537474689; 
- Wed, 09 Dec 2020 10:11:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxqB9tf2aNw4uPO7No4SgU/Z5irL2wDQfIPKn+mkT1StYIfpDrzTRnMq9PA7y5psakz+aO0pg==
-X-Received: by 2002:a7b:c751:: with SMTP id w17mr3973922wmk.121.1607537474404; 
- Wed, 09 Dec 2020 10:11:14 -0800 (PST)
+ bh=rCTXiBiz0IVDGz/6PAJRoYm80wXw7KG34Wn42GEidrE=;
+ b=uIw4IlEjgNpC7sQmHMY66T6pPA7rG0IpsX/mllc6WhG53RbMesI/zBjX4dTj5agc4F
+ qfEjpFN6ca31P9btW6IHQHhK4rtSv2lSQ1FwIHOzHtoTQyqsF0VTBhTVDbzOjJ+flTbc
+ a/1SoBU3DXC1iy+Pp35EsKTSrxcSmlMmAPQ8Wy3kvkE4YExq4jUcHzlB5GILFKI8/cBG
+ 0qtLN7XvCPrIBE/jNrKSC2+Bs6vw/HY0vAxyjLWT8isfVBxXbAex0Qi36NX030ckVJWb
+ b2KA6cXcsanX0oPr3LTaNJ7aXqr2whwNxWu9x1IgYBcMm6Squm7cHbjIli2N1fZo3fFA
+ gEVQ==
+X-Gm-Message-State: AOAM532uG6S5yBLDQeSY/MZRwDMu9SO4QPvsjqENkpuuDddMt+AxP3x3
+ 5/QxlBELlvtKzdx3trKm3BsVnRCNy1cjm7u/Xf56pWbx+Pv8umzUDc+OIYZUAQbmb4cqT8qfjf4
+ kO3kxt1+GSyr/K/sGUwO1UJGJTmSbdZPXZrDA1spVyNli3S5AFoB5NtSKi95K
+X-Received: by 2002:a1c:98cc:: with SMTP id a195mr4087627wme.150.1607537481861; 
+ Wed, 09 Dec 2020 10:11:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxQXwDAdHhL0L1wVMy/JGE4z82dnOH8GigKPc63jiWSLrawvAWeydAg3T8WKo3SM4tY6BU92w==
+X-Received: by 2002:a1c:98cc:: with SMTP id a195mr4087592wme.150.1607537481579; 
+ Wed, 09 Dec 2020 10:11:21 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id n126sm4875202wmn.21.2020.12.09.10.11.12
+ by smtp.gmail.com with ESMTPSA id d9sm5112287wrc.87.2020.12.09.10.11.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 10:11:13 -0800 (PST)
-Date: Wed, 9 Dec 2020 13:11:10 -0500
+ Wed, 09 Dec 2020 10:11:20 -0800 (PST)
+Date: Wed, 9 Dec 2020 13:11:14 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 58/65] tests/acpi: allow expected files change
-Message-ID: <20201209180546.721296-59-mst@redhat.com>
+Subject: [PULL v2 59/65] x86: acpi: let the firmware handle pending "CPU
+ remove" events in SMM
+Message-ID: <20201209180546.721296-60-mst@redhat.com>
 References: <20201209180546.721296-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201209180546.721296-1-mst@redhat.com>
@@ -93,58 +94,98 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Change that will be introduced by following patch:
-
-@@ -557,6 +557,7 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPCDSDT", 0x00000001)
-                 CINS,   1,
-                 CRMV,   1,
-                 CEJ0,   1,
-+                CEJF,   1,
-                 Offset (0x05),
-                 CCMD,   8
-             }
+if firmware and QEMU negotiated CPU hotunplug support, generate
+_EJ0 method so that it will mark CPU for removal by firmware and
+pass control to it by triggering SMI.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20201207140739.3829993-5-imammedo@redhat.com>
+Message-Id: <20201207140739.3829993-6-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ include/hw/acpi/cpu.h |  1 +
+ hw/acpi/cpu.c         | 14 ++++++++++++--
+ hw/i386/acpi-build.c  |  1 +
+ 3 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..cc75f3fc46 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,22 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/DSDT",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.tis",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.bridge",
-+"tests/data/acpi/pc/DSDT.ipmikcs",
-+"tests/data/acpi/pc/DSDT.cphp",
-+"tests/data/acpi/pc/DSDT.memhp",
-+"tests/data/acpi/pc/DSDT.numamem",
-+"tests/data/acpi/pc/DSDT.dimmpxm",
-+"tests/data/acpi/pc/DSDT.acpihmat",
-+"tests/data/acpi/pc/DSDT.roothp",
-+"tests/data/acpi/pc/DSDT.hpbridge",
-+"tests/data/acpi/pc/DSDT.hpbrroot",
+diff --git a/include/hw/acpi/cpu.h b/include/hw/acpi/cpu.h
+index d71edde456..999caaf510 100644
+--- a/include/hw/acpi/cpu.h
++++ b/include/hw/acpi/cpu.h
+@@ -51,6 +51,7 @@ void cpu_hotplug_hw_init(MemoryRegion *as, Object *owner,
+ typedef struct CPUHotplugFeatures {
+     bool acpi_1_compatible;
+     bool has_legacy_cphp;
++    bool fw_unplugs_cpu;
+     const char *smi_path;
+ } CPUHotplugFeatures;
+ 
+diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+index 1293204438..6350caa765 100644
+--- a/hw/acpi/cpu.c
++++ b/hw/acpi/cpu.c
+@@ -342,6 +342,7 @@ const VMStateDescription vmstate_cpu_hotplug = {
+ #define CPU_INSERT_EVENT  "CINS"
+ #define CPU_REMOVE_EVENT  "CRMV"
+ #define CPU_EJECT_EVENT   "CEJ0"
++#define CPU_FW_EJECT_EVENT "CEJF"
+ 
+ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
+                     hwaddr io_base,
+@@ -394,7 +395,9 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
+         aml_append(field, aml_named_field(CPU_REMOVE_EVENT, 1));
+         /* initiates device eject, write only */
+         aml_append(field, aml_named_field(CPU_EJECT_EVENT, 1));
+-        aml_append(field, aml_reserved_field(4));
++        /* tell firmware to do device eject, write only */
++        aml_append(field, aml_named_field(CPU_FW_EJECT_EVENT, 1));
++        aml_append(field, aml_reserved_field(3));
+         aml_append(field, aml_named_field(CPU_COMMAND, 8));
+         aml_append(cpu_ctrl_dev, field);
+ 
+@@ -429,6 +432,7 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
+         Aml *ins_evt = aml_name("%s.%s", cphp_res_path, CPU_INSERT_EVENT);
+         Aml *rm_evt = aml_name("%s.%s", cphp_res_path, CPU_REMOVE_EVENT);
+         Aml *ej_evt = aml_name("%s.%s", cphp_res_path, CPU_EJECT_EVENT);
++        Aml *fw_ej_evt = aml_name("%s.%s", cphp_res_path, CPU_FW_EJECT_EVENT);
+ 
+         aml_append(cpus_dev, aml_name_decl("_HID", aml_string("ACPI0010")));
+         aml_append(cpus_dev, aml_name_decl("_CID", aml_eisaid("PNP0A05")));
+@@ -471,7 +475,13 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
+ 
+             aml_append(method, aml_acquire(ctrl_lock, 0xFFFF));
+             aml_append(method, aml_store(idx, cpu_selector));
+-            aml_append(method, aml_store(one, ej_evt));
++            if (opts.fw_unplugs_cpu) {
++                aml_append(method, aml_store(one, fw_ej_evt));
++                aml_append(method, aml_store(aml_int(OVMF_CPUHP_SMI_CMD),
++                           aml_name("%s", opts.smi_path)));
++            } else {
++                aml_append(method, aml_store(one, ej_evt));
++            }
+             aml_append(method, aml_release(ctrl_lock));
+         }
+         aml_append(cpus_dev, method);
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 44c9da5112..f18b71dea9 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1293,6 +1293,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         CPUHotplugFeatures opts = {
+             .acpi_1_compatible = true, .has_legacy_cphp = true,
+             .smi_path = pm->smi_on_cpuhp ? "\\_SB.PCI0.SMI0.SMIC" : NULL,
++            .fw_unplugs_cpu = pm->smi_on_cpu_unplug,
+         };
+         build_cpus_aml(dsdt, machine, opts, pm->cpu_hp_io_base,
+                        "\\_SB.PCI0", "\\_GPE._E02");
 -- 
 MST
 
