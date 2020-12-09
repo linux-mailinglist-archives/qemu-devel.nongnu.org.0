@@ -2,97 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAC82D4523
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 16:10:41 +0100 (CET)
-Received: from localhost ([::1]:48424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED952D455C
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 16:27:55 +0100 (CET)
+Received: from localhost ([::1]:33850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn172-0003FD-N4
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 10:10:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59948)
+	id 1kn1Ni-0001do-IJ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 10:27:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kn12z-00017U-JV
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:06:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kn12x-0001Sc-SG
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:06:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607526387;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cMXzNhxU8DshPYOzcQqD5LW4o6ZktIrGWtgq9rC2Gxw=;
- b=ik19Vihw54KbFY2ykwT8ly8P2sF+TkXMBc2f56m43axp80UwN6sfx92PdDPcd8blj7j/JB
- D+uxn0TLIY+wg/gp55xLL30J2DpCQMTt5sTKQtvBQuVQyEa1OCmjuhtencXy8GmDMNsVaU
- R6MOhIvJbwOBNMVBeR++0Naz606ycGg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-cnbOJMzTPGW_gVZ_I9-ICA-1; Wed, 09 Dec 2020 10:06:25 -0500
-X-MC-Unique: cnbOJMzTPGW_gVZ_I9-ICA-1
-Received: by mail-wr1-f71.google.com with SMTP id q18so762870wrc.20
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 07:06:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kn1Ln-0000sq-Ny
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:25:56 -0500
+Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:44825)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kn1Ll-00086P-0q
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:25:55 -0500
+Received: by mail-oo1-xc44.google.com with SMTP id n20so458300ooq.11
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 07:25:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=viI5vrk7EiAHTVvmvfnKMG6eoEpdfqILmVpNFtfqTCE=;
+ b=H5ZUdumapfaNqCxjpCmTLZV+kdGTBBz2I2QEO8VQZklWt98f47yYhl259OjErEFpx7
+ 4+nz94Y6vbpLlcOxYRLQjbEbBXOJChXPr5sblIn9IHgw1R0vG6RzyiUmJmSL5488iIK3
+ gEP76I5Vcfzf3e26ImBtFqbt+N6+3167Z/EGL5ZeF2co26oOOCtjqh7NvttGXB9OCjeO
+ m46hF0dy09fsh9D6JRKIpo63W5t8p863iZAKs+IXaDhc60A6N+lVvuh8gqIh9/emjWig
+ yLpb53oCCdA52lONk8daHuefb24chRYKn83HK9lKPCqv822LEgzKnYHucnpIC55AR0eu
+ SDCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cMXzNhxU8DshPYOzcQqD5LW4o6ZktIrGWtgq9rC2Gxw=;
- b=BudjNbT92oaFCBoP9zSLlCdJk4rJPq3Oy37KVUH4cvlPFOZz1dAXywMrPEX4K72mil
- 1RvtCcMxyfBDX98umtURGxhaQlaoNSQXqK8Dvp6B0UlgVCKGC29BouvJjecM6vkzWf1E
- s7fBBPcMqpROHW4X9bjVmGm4u4C6ERBfNV52MByrRaKHevYxS1u7YZ4s5NCvWFvNHt71
- g1hBmdtU2Mfg6bsUutP4Wm+uQ+/s2weNYTNDu6V6hfk7IlTz/Lf8uhmee5VjWw409w+D
- lAQTXkbKkrSOhVWZUFXAVG9HDD+eyqDMiw198XWorjDKGB12k2AkHP+FCDsOeYR38Bpg
- Iz3g==
-X-Gm-Message-State: AOAM530sX1eZZHNIULr2ZQsotCNrE4K9HvTZ0A81SgAa/CEhCfbGBmua
- NyZ0JFhIJfm2XE8U6IuZ+cCX/7UFXJJW9H4nGXsfhVYGj7XUeeBPRbvR8jCsx5clhnkzidq9dBM
- bZXbMwzsGqWNctdY=
-X-Received: by 2002:a5d:6749:: with SMTP id l9mr3230820wrw.395.1607526383535; 
- Wed, 09 Dec 2020 07:06:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwig2NiwucMH7di6Vxck+DXz0s0wecdF71UqaaG5RTC6tcvJcjrnRKsQNEbGX8bWkZfmS0z5Q==
-X-Received: by 2002:a5d:6749:: with SMTP id l9mr3230779wrw.395.1607526383259; 
- Wed, 09 Dec 2020 07:06:23 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id a18sm4096753wrr.20.2020.12.09.07.06.21
+ bh=viI5vrk7EiAHTVvmvfnKMG6eoEpdfqILmVpNFtfqTCE=;
+ b=k2Zz8E/PLwk1+AtE4rBSabkxz4zhV987E3YqNkZSJ6nMOQMsHD3D7ySHgn+mUuQlQV
+ HxS9g65UtKOg1YGlle9sG9+tG5HwKJDrdjXCuQgaSR1wo0eMX8JIDUT3jQTdkcULcMT3
+ e6FGBFylrjUqyps6y8h6J2rC/9bJhd/G84VvuXDiPVCvAqSqOAGPrFaUwosMNpW2y11+
+ sGMm3c2joQW4dabNmOxeW+MfQ4oOtYZIuUy96euqbcO8sQbqqdvJvoQ/Gj6Cha3JbL0P
+ /d/Id4n8brMYO536VgsV2sOPiYamb20DKRg3DXX0Uqp121xsJKQzhEOmZejyIZoUUlCq
+ WVpw==
+X-Gm-Message-State: AOAM530NTbIVcheP909v+Zi+7RrPYOJoim0k2yNgNLQr/1lwLEPbguYn
+ kHfhpDCvCf4jNbJPQOofWigc6g==
+X-Google-Smtp-Source: ABdhPJxnvhlcBvObCgsIhXmcR2XwH2a7ygUMj0YUwqB7r+6uJ3ezWUuw89eCiIYnVtTVM/tGMfD2XA==
+X-Received: by 2002:a4a:9502:: with SMTP id m2mr2233955ooi.93.1607527550647;
+ Wed, 09 Dec 2020 07:25:50 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id 11sm433334oty.65.2020.12.09.07.25.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Dec 2020 07:06:22 -0800 (PST)
-Subject: Re: [RFC v9 18/32] cpu: Move synchronize_from_tb() to tcg_ops
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>
-References: <20201208194839.31305-1-cfontana@suse.de>
- <20201208194839.31305-19-cfontana@suse.de>
- <d027f556-9588-ece3-8f45-50f1afc2e096@redhat.com>
- <37148d19-cf6f-2555-c5d4-b0926c77ac48@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4f38f7c8-fc47-77c5-87fb-7ba8099bf453@redhat.com>
-Date: Wed, 9 Dec 2020 16:06:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Wed, 09 Dec 2020 07:25:49 -0800 (PST)
+Subject: Re: [PATCH 14/17] target/mips: Declare gen_msa/_branch() in
+ 'translate.h'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201208003702.4088927-1-f4bug@amsat.org>
+ <20201208003702.4088927-15-f4bug@amsat.org>
+ <45ab33e0-f00e-097a-74fb-4c7c42e29e33@linaro.org>
+ <b0cf35c4-a086-b704-5710-0f05bf7921bb@linaro.org>
+ <58a0d6c4-fc01-3932-52b9-9deb13b43c51@linaro.org>
+ <1d2a6f44-1eab-2e92-01c2-703a2ee5bd50@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d5f0d2ad-065e-e4bf-9eaf-1d8450aa4726@linaro.org>
+Date: Wed, 9 Dec 2020 09:25:46 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <37148d19-cf6f-2555-c5d4-b0926c77ac48@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1d2a6f44-1eab-2e92-01c2-703a2ee5bd50@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc44.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,48 +94,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Dario Faggioli <dfaggioli@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, haxm-team@intel.com,
- Cameron Esfahani <dirty@apple.com>, Anthony Perard <anthony.perard@citrix.com>,
- Bruce Rogers <brogers@suse.com>, Olaf Hering <ohering@suse.de>,
- Colin Xu <colin.xu@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/9/20 3:33 PM, Claudio Fontana wrote:
-> Hi Philippe,
+On 12/9/20 3:17 AM, Philippe Mathieu-Daudé wrote:
+> Hi Richard,
 > 
-> On 12/9/20 10:27 AM, Philippe Mathieu-Daudé wrote:
->> On 12/8/20 8:48 PM, Claudio Fontana wrote:
->>> From: Eduardo Habkost <ehabkost@redhat.com>
->>>
->>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>> [claudio: wrapped in CONFIG_TCG]
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->> ...
->>> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
->>> index 4475ef0996..109291ac52 100644
->>> --- a/include/hw/core/tcg-cpu-ops.h
->>> +++ b/include/hw/core/tcg-cpu-ops.h
->>> @@ -10,9 +10,6 @@
->>>  #ifndef TCG_CPU_OPS_H
->>>  #define TCG_CPU_OPS_H
->>
->> Missing for TranslationBlock:
->>
->>   #include "hw/core/cpu.h"
+> On 12/9/20 1:03 AM, Richard Henderson wrote:
+> In a previous version I tried to directly pass from
 > 
+> static void gen_msa(DisasContext *ctx) ...
 > 
-> this file though is only included from hw/core/cpu.h itself under CONFIG_TCG..
+> to:
+> 
+> static bool trans_MSA(DisasContext *ctx, arg_MSA *a) ...
+> 
+> without declaring the intermediate 'void gen_msa(DisasContext)'
+> in "translate.h" (this patch). The result was less trivial to
+> review, so I went back to using an intermediate patch for
+> simplicity.
+> 
+> Is that what you were thinking about?
 
-1/ we never know how it will be included, includes should
-   be self-contained IMO.
+Yes, exactly that.
 
-2/ my editor isn't that smart and can't figure out the types.
 
+r~
 
