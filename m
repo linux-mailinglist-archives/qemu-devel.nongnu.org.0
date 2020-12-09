@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF6D2D4A11
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:27:30 +0100 (CET)
-Received: from localhost ([::1]:36722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9114A2D4A08
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:26:26 +0100 (CET)
+Received: from localhost ([::1]:34588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn57Z-0002xD-2i
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:27:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53374)
+	id 1kn56X-0001wV-Ip
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:26:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3w7-00053e-3X
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:11:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34736)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3wO-0005MB-UV
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:11:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3w5-0000h2-BE
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:11:34 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3wM-0000mc-Dm
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:11:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607537492;
+ s=mimecast20190719; t=1607537509;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=mZUQSSm1IlD4lFJVF8AvCKDdkoRkM4eh9etogMBBR1A=;
- b=XWqWRyjK3XbM2/LBeh7rVaGNuSENX5rpShYg2Y7Q3NUZ8clgSwxrotqf1nrSGlSQrj1ZEr
- kmBjAufoiMr3Z2pt42op78pkbISVb5p0PU2hpvzeoBV89CO2bxg4LNAXU37K+1GP77mABZ
- r1EbHVU9y4N9VZYKZgP62WomOVCjAeg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-oqUw2xX8MOOxBFrZ7w6TDg-1; Wed, 09 Dec 2020 13:11:30 -0500
-X-MC-Unique: oqUw2xX8MOOxBFrZ7w6TDg-1
-Received: by mail-wr1-f72.google.com with SMTP id x10so964809wrs.2
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:11:30 -0800 (PST)
+ bh=IXfUWibUDD3qvFBeOlmCILSH/5yiUugL3d2LfLjhcv4=;
+ b=CHHVIe5CPHq0ZTPQ6yVi1zCsoliOIAlHnjmpZZaSZo9Y6DfQzkp8m3ru3I9mZd/+5sPYrX
+ PVrLWPvZuyTNBqMojniNvBwHlnpTyKsatq7oj9g3/QPWdjDqV/nMm7gEJrXLRnDYqpZFAm
+ tqcC0CI7nYX7LEEShV4YvGETrseF+Dg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174-3Fgvh8O5NuG7pN-3CnTx2g-1; Wed, 09 Dec 2020 13:11:47 -0500
+X-MC-Unique: 3Fgvh8O5NuG7pN-3CnTx2g-1
+Received: by mail-wm1-f71.google.com with SMTP id u123so640927wmu.5
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:11:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=mZUQSSm1IlD4lFJVF8AvCKDdkoRkM4eh9etogMBBR1A=;
- b=jFQVFtcgnkNZwfziibjBmV1XechkgAWE//LmzDlG51BeS+RB9VWb8bp+cI2EKSR8ip
- IwC5eS0tMWSYDAw2Fvam3ud7OVtPcby6CW3Tpa8Dd2GfyOM7ihoR6f4jm1ovSohJHfWg
- VwcS5mP0FIp/CwswFNnWveJjjez4eWW3caJfhSDT8+tkQkeIZy8z2g5yvOZZxVOaIqY8
- Ue2VyZ5A3WVRcjv6CnRZFDEEgG6pklWa2VX/84FmCjFQDEKAFB7MNvQ9JjPnZWSgCHBs
- BEYgCb35PB+fMpbL+vWBVNVotnEjoP/X1BweO15KG1NFnAFFjS06desq2CpzECP+QrY+
- 9SxA==
-X-Gm-Message-State: AOAM530hRM7ZNN2wiE/EQINJ5lW9pPsGRC9ZZ2ENBvZVQNfvolfws+32
- F4Y7QsQlcT9IQcgPIPyUAq/j6NWEIUjzuNIfMoEhS+QQj7h8ruj15lNLAAJT7PEXZCppFYK6UM3
- nKjisTJW2+Y7K1+sD2D9GCwLsk83Eb3BXQlM4gjrpVZJpQaFq/Q4puXxz8L4D
-X-Received: by 2002:adf:f84b:: with SMTP id d11mr4059603wrq.216.1607537489166; 
- Wed, 09 Dec 2020 10:11:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy+6ENLCWSQjBIuClPB3Rac5gtUoFvRJzm5EXWmDQKFMI7FNDvjVDRWPF4VfA+mG2c7bPhWQA==
-X-Received: by 2002:adf:f84b:: with SMTP id d11mr4059570wrq.216.1607537488815; 
- Wed, 09 Dec 2020 10:11:28 -0800 (PST)
+ bh=IXfUWibUDD3qvFBeOlmCILSH/5yiUugL3d2LfLjhcv4=;
+ b=Kgj6o9qZrBRBqfoSUyr5reVy1p9Fc+3OCQjDop9kcp9H0NhUpkBH41YfDQd39CoXss
+ Bx0ocMM/HA9asj+TAaX9y2Mzuy5Dw5OnHOQrFZOGsOBSnRpxgl4+If4tj4ptNJ+3CBlY
+ BeGVl+b5H9+lZ1sOC75tkYL8T4ogRrRdVz7ZGx4qietxkcYQ9mb3nrixnEGlW6VRwpOy
+ ahxmaOiyEbOsyC/McygwssYbsyaDsjOpKNJpQQhGWzPM+Fs+MfVsPRmwEXOusP/Nbyzk
+ NpNNng96FwGKJqAKhzHCftIJj3YDcqpA+yDs+3ZsPMt+4wosyR6I8BuBRH/saLCdFJBA
+ frxw==
+X-Gm-Message-State: AOAM530/UkHzCGNkG49dNlU7FRpWX20rDh0N4/Ec4HwZNoehOp7Axa5M
+ PPEA0jctNuazJWlmXzpkw0siAbeRU0zOWeeHyU+Oti6jeyLLyfMVkb3aoIHyMJbWC6Q88WbnlCo
+ uH0f9B/UpfAORrNqNf3qSWPvXuH22L5fyazf82MJkY6PzxkwwlHm9OpaSzq+I
+X-Received: by 2002:adf:e64b:: with SMTP id b11mr3981491wrn.257.1607537506000; 
+ Wed, 09 Dec 2020 10:11:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzzxpwI4ETyf/9VAJua3fWTwOmtWHjN4lD7+HL2SOedA+edgndCCOtv3pDueztMkkhP2vFHAA==
+X-Received: by 2002:adf:e64b:: with SMTP id b11mr3981476wrn.257.1607537505844; 
+ Wed, 09 Dec 2020 10:11:45 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id b73sm4957441wmb.0.2020.12.09.10.11.27
+ by smtp.gmail.com with ESMTPSA id t16sm5016125wri.42.2020.12.09.10.11.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 10:11:28 -0800 (PST)
-Date: Wed, 9 Dec 2020 13:11:26 -0500
+ Wed, 09 Dec 2020 10:11:45 -0800 (PST)
+Date: Wed, 9 Dec 2020 13:11:36 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 61/65] x86: ich9: factor out "guest_cpu_hotplug_features"
-Message-ID: <20201209180546.721296-62-mst@redhat.com>
+Subject: [PULL v2 63/65] pcie_aer: Fix help message of pcie_aer_inject_error
+ command
+Message-ID: <20201209180546.721296-64-mst@redhat.com>
 References: <20201209180546.721296-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201209180546.721296-1-mst@redhat.com>
@@ -92,51 +93,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Zenghui Yu <yuzenghui@huawei.com>
 
-it will be reused by next patch to check validity of unplug
-feature.
+There is an interesting typo in the help message of pcie_aer_inject_error
+command. Use 'tlp' instead of 'tlb' to match the PCIe AER term.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20201207140739.3829993-8-imammedo@redhat.com>
+Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+Message-Id: <20201204030953.837-1-yuzenghui@huawei.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/isa/lpc_ich9.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ hmp-commands.hx | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index 087a18d04d..da80430144 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -366,6 +366,7 @@ static void smi_features_ok_callback(void *opaque)
- {
-     ICH9LPCState *lpc = opaque;
-     uint64_t guest_features;
-+    uint64_t guest_cpu_hotplug_features;
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index ff2d7aa8f3..dd460eb908 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1302,8 +1302,8 @@ ERST
+ 	              " -c for correctable error\n\t\t\t"
+                       "<id> = qdev device id\n\t\t\t"
+                       "<error_status> = error string or 32bit\n\t\t\t"
+-                      "<tlb header> = 32bit x 4\n\t\t\t"
+-                      "<tlb header prefix> = 32bit x 4",
++                      "<tlp header> = 32bit x 4\n\t\t\t"
++                      "<tlp header prefix> = 32bit x 4",
+         .cmd        = hmp_pcie_aer_inject_error,
+     },
  
-     if (lpc->smi_features_ok) {
-         /* negotiation already complete, features locked */
-@@ -378,9 +379,12 @@ static void smi_features_ok_callback(void *opaque)
-         /* guest requests invalid features, leave @features_ok at zero */
-         return;
-     }
-+
-+    guest_cpu_hotplug_features = guest_features &
-+                                 (BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT) |
-+                                  BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT));
-     if (!(guest_features & BIT_ULL(ICH9_LPC_SMI_F_BROADCAST_BIT)) &&
--        guest_features & (BIT_ULL(ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT) |
--                          BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT))) {
-+        guest_cpu_hotplug_features) {
-         /*
-          * cpu hot-[un]plug with SMI requires SMI broadcast,
-          * leave @features_ok at zero
 -- 
 MST
 
