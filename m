@@ -2,68 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4212D44A1
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 15:45:58 +0100 (CET)
-Received: from localhost ([::1]:39344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 018BC2D44A0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 15:45:56 +0100 (CET)
+Received: from localhost ([::1]:39198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn0j7-0002yW-P0
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 09:45:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46938)
+	id 1kn0j5-0002ut-34
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 09:45:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kn0bi-0004iy-4G
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:38:19 -0500
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:42011)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kn0bY-0006qi-J8
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:38:17 -0500
-Received: by mail-ed1-x544.google.com with SMTP id v22so1792781edt.9
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 06:38:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tY2pRoJSA4IwRutKjYqnf5Amsud2MNeJ+2hsIo6YyPU=;
- b=QWLwOkawVaAQgyz2u+OM+8s1TBItXRRbIa+D4TzJBXWfs3Nzod0Tai4t3tFHjaV4yi
- 3Apsu8VBofu/P0zMthLHUGXnTlwFN2iDVrfi5PnA99/SXUnto6scb9VEbqcOhZrchsRF
- EPYkJKWDg2zGRFgD2dWd9LYqEu5PfjHlbuV5BS8F7jMLGC9yvE79aT3AiL0pMJNeGM++
- /Xf5mrElmAuiJOD7UjmoxFisRQ02gtVI3TirmOv7G53e/S2nxT2cp9pP/38vW+S4/A8z
- ELhZFt3jeYVjZPf29C8LAEyqhhiMzREUL2Wrl/bsBEW1OMDS4j8W9vjB1FVTQBQaq1F9
- ByCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tY2pRoJSA4IwRutKjYqnf5Amsud2MNeJ+2hsIo6YyPU=;
- b=FqsBxsIYg1a1q+gxllpTgmoyhm//uqj0EmRfcEEuitcfHmPe/VbCY+jtjn1REZDOQP
- 7KnHYOez7Bq7RRqrl+KDl8fa13mGEXkYpBo1UBrjiPc/yuSbrP75DKGXVwdPS1UMASQ+
- lRIKBdjYwUWqD7uIsMYm0i/wiDH0GRhIKtIuYMgbFcqgKtZi93d2S49GAn8sZHfnhMMC
- aYkRoADHFg+QxvzZn2M8P7W/aQ8hIwJsZyl4EIap1y4EIPVnjcuKWzjiW7epGscrJXUi
- rGtFLbWpAGl4bNXHhfIHCXoabV0rJt4XiDNJ63ekrEHENRFFwa2LDofz+v4mHQn8bebY
- 8bzg==
-X-Gm-Message-State: AOAM531lSP1ujsMt1fXdA9Nbr+JItcB/8h6ISxV9o0QNsutQ5ImJhBBS
- lpFROVITYMVR10SLftn+R955s8MCnQyjOH4OOP4wBg==
-X-Google-Smtp-Source: ABdhPJwpB9Gc9Kn5SMC6kxnFjdxCmwOjBfkw86LrTgTicl3JrkDc3ZM47yfX4k0ZfuL4/vufcTiud5mZ7q9MPf/bBhY=
-X-Received: by 2002:a05:6402:1383:: with SMTP id
- b3mr2261542edv.100.1607524686952; 
- Wed, 09 Dec 2020 06:38:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kn0bw-0004xV-BY
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:38:33 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48250)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kn0bs-000707-KJ
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:38:32 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id C4EC0AD2B;
+ Wed,  9 Dec 2020 14:38:26 +0000 (UTC)
+Subject: Re: [RFC v9 20/32] cpu: Move tlb_fill to tcg_ops
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201208194839.31305-1-cfontana@suse.de>
+ <20201208194839.31305-21-cfontana@suse.de> <87czzjdxsx.fsf@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <ff41bd99-c5e8-c517-f7b0-5ab26a9a0e73@suse.de>
+Date: Wed, 9 Dec 2020 15:38:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201208193307.646726-1-mst@redhat.com>
-In-Reply-To: <20201208193307.646726-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Dec 2020 14:37:55 +0000
-Message-ID: <CAFEAcA_F7F_FHFmKvDbcrKE=5cr7-3KqBbTti1kA2N+xQPX=Kg@mail.gmail.com>
-Subject: Re: [PULL 00/66] pc,pci,virtio: fixes, cleanups
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87czzjdxsx.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,67 +55,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Dec 2020 at 19:33, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit 553032db17440f8de011390e5a1cfddd13751b0b:
->
->   Update version for v5.2.0 release (2020-12-08 15:55:19 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to 023e57b93a24f2e7901cf460a45cb5058fa23549:
->
->   hw/virtio-pci Added AER capability. (2020-12-08 13:48:58 -0500)
->
-> ----------------------------------------------------------------
-> pc,pci,virtio: fixes, cleanups
->
-> Lots of fixes, cleanups.
-> CPU hot-unplug improvements.
-> A new AER property for virtio devices, adding a dummy AER capability.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+On 12/9/20 12:26 PM, Alex Bennée wrote:
+> 
+> Claudio Fontana <cfontana@suse.de> writes:
+> 
+>> From: Eduardo Habkost <ehabkost@redhat.com>
+>>
+>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>> [claudio: wrapped in CONFIG_TCG]
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  accel/tcg/cputlb.c              |  6 +++---
+>>  accel/tcg/user-exec.c           |  6 +++---
+>>  include/hw/core/cpu.h           |  9 ---------
+>>  include/hw/core/tcg-cpu-ops.h   | 12 ++++++++++++
+>>  target/alpha/cpu.c              |  2 +-
+>>  target/arm/cpu.c                |  2 +-
+>>  target/avr/cpu.c                |  2 +-
+>>  target/cris/cpu.c               |  2 +-
+>>  target/hppa/cpu.c               |  2 +-
+>>  target/i386/tcg-cpu.c           |  2 +-
+>>  target/lm32/cpu.c               |  2 +-
+>>  target/m68k/cpu.c               |  2 +-
+>>  target/microblaze/cpu.c         |  2 +-
+>>  target/mips/cpu.c               |  2 +-
+>>  target/moxie/cpu.c              |  2 +-
+>>  target/nios2/cpu.c              |  2 +-
+>>  target/openrisc/cpu.c           |  2 +-
+>>  target/ppc/translate_init.c.inc |  2 +-
+>>  target/riscv/cpu.c              |  2 +-
+>>  target/rx/cpu.c                 |  2 +-
+>>  target/s390x/cpu.c              |  2 +-
+>>  target/sh4/cpu.c                |  2 +-
+>>  target/sparc/cpu.c              |  2 +-
+>>  target/tilegx/cpu.c             |  2 +-
+>>  target/tricore/cpu.c            |  2 +-
+>>  target/unicore32/cpu.c          |  2 +-
+>>  target/xtensa/cpu.c             |  2 +-
+>>  27 files changed, 41 insertions(+), 38 deletions(-)
+>>
+>> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+>> index 42ab79c1a5..2dc71b5528 100644
+>> --- a/accel/tcg/cputlb.c
+>> +++ b/accel/tcg/cputlb.c
+>> @@ -1286,7 +1286,7 @@ static void tlb_fill(CPUState *cpu, target_ulong addr, int size,
+>>       * This is not a probe, so only valid return is success; failure
+>>       * should result in exception + longjmp to the cpu loop.
+>>       */
+>> -    ok = cc->tlb_fill(cpu, addr, size, access_type, mmu_idx, false, retaddr);
+>> +    ok = cc->tcg_ops.tlb_fill(cpu, addr, size, access_type, mmu_idx, false, retaddr);
+>>      assert(ok);
+>>  }
+>>  
+>> @@ -1557,8 +1557,8 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>>              CPUState *cs = env_cpu(env);
+>>              CPUClass *cc = CPU_GET_CLASS(cs);
+>>  
+>> -            if (!cc->tlb_fill(cs, addr, fault_size, access_type,
+>> -                              mmu_idx, nonfault, retaddr)) {
+>> +            if (!cc->tcg_ops.tlb_fill(cs, addr, fault_size, access_type,
+>> +                                      mmu_idx, nonfault, retaddr)) {
+>>                  /* Non-faulting page table read failed.  */
+>>                  *phost = NULL;
+>>                  return TLB_INVALID_MASK;
+>> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+>> index 4ebe25461a..7f53992251 100644
+>> --- a/accel/tcg/user-exec.c
+>> +++ b/accel/tcg/user-exec.c
+>> @@ -186,7 +186,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+>>      clear_helper_retaddr();
+>>  
+>>      cc = CPU_GET_CLASS(cpu);
+>> -    cc->tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc);
+>> +    cc->tcg_ops.tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc);
+>>      g_assert_not_reached();
+>>  }
+>>  
+>> @@ -216,8 +216,8 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
+>>          } else {
+>>              CPUState *cpu = env_cpu(env);
+>>              CPUClass *cc = CPU_GET_CLASS(cpu);
+>> -            cc->tlb_fill(cpu, addr, fault_size, access_type,
+>> -                         MMU_USER_IDX, false, ra);
+>> +            cc->tcg_ops.tlb_fill(cpu, addr, fault_size, access_type,
+>> +                                 MMU_USER_IDX, false, ra);
+>>              g_assert_not_reached();
+>>          }
+>>      }
+>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+>> index 52142e9094..c82ef261c6 100644
+>> --- a/include/hw/core/cpu.h
+>> +++ b/include/hw/core/cpu.h
+>> @@ -110,12 +110,6 @@ struct TranslationBlock;
+>>   *       If the target behaviour here is anything other than "set
+>>   *       the PC register to the value passed in" then the target must
+>>   *       also implement the synchronize_from_tb hook.
+>> - * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
+>> - *       address fault.  For system mode, if the access is valid, call
+>> - *       tlb_set_page and return true; if the access is invalid, and
+>> - *       probe is true, return false; otherwise raise an exception and
+>> - *       do not return.  For user-only mode, always raise an exception
+>> - *       and do not return.
+>>   * @get_phys_page_debug: Callback for obtaining a physical address.
+>>   * @get_phys_page_attrs_debug: Callback for obtaining a physical address and the
+>>   *       associated memory transaction attributes to use for the access.
+>> @@ -183,9 +177,6 @@ struct CPUClass {
+>>      void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+>>                                 Error **errp);
+>>      void (*set_pc)(CPUState *cpu, vaddr value);
+>> -    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+>> -                     MMUAccessType access_type, int mmu_idx,
+>> -                     bool probe, uintptr_t retaddr);
+>>      hwaddr (*get_phys_page_debug)(CPUState *cpu, vaddr addr);
+>>      hwaddr (*get_phys_page_attrs_debug)(CPUState *cpu, vaddr addr,
+>>                                          MemTxAttrs *attrs);
+>> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+>> index e12f32919b..2ea94acca0 100644
+>> --- a/include/hw/core/tcg-cpu-ops.h
+>> +++ b/include/hw/core/tcg-cpu-ops.h
+>> @@ -37,6 +37,18 @@ typedef struct TcgCpuOperations {
+>>      void (*cpu_exec_exit)(CPUState *cpu);
+>>      /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
+>>      bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
+>> +    /**
+>> +     * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
+>> +     *
+>> +     * For system mode, if the access is valid, call tlb_set_page
+>> +     * and return true; if the access is invalid, and probe is
+>> +     * true, return false; otherwise raise an exception and do
+>> +     * not return.  For user-only mode, always raise an exception
+>> +     * and do not return.
+>> +     */
+>> +    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+>> +                     MMUAccessType access_type, int mmu_idx,
+>> +                     bool probe, uintptr_t retaddr);
+> 
+> As per previous patch, here is a chance to clean-up the comment.
 
-Fails to compile on ppc64:
+
+Could you provide the text? I think you understand this better than I do...
 
 
-Run-time dependency capstone found: NO (tried pkgconfig)
-Configuring capstone-defs.h using configuration
-Run-time dependency slirp found: NO (tried pkgconfig)
-Configuring libslirp-version.h using configuration
-Library fdt found: YES
-Configuring config-host.h using configuration
-Program scripts/hxtool found: YES
-Program scripts/shaderinclude.pl found: YES
-Program scripts/qapi-gen.py found: YES
-Program scripts/qemu-version.sh found: YES
+> 
+> Otherwise:
+> 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> 
 
-|Executing subproject libvhost-user method meson
-|
-|Project name: libvhost-user
-|Project version: undefined
-|C compiler for the host machine: cc (gcc 4.8.5 "cc (GCC) 4.8.5
-20150623 (Red Hat 4.8.5-39)")
-|C linker for the host machine: cc ld.bfd 2.27-43
-|Run-time dependency glib-2.0 found: YES 2.56.1
+Thanks!
 
-../../subprojects/libvhost-user/meson.build:12:7: ERROR: C symbol
-memfd_create not found in header sys/mman.h
-
-A full log can be found at /home/pm215/qemu/build/all/meson-logs/meson-log.txt
-FAILED: build.ninja
-/usr/bin/python3 /home/pm215/qemu/meson/meson.py --internal regenerate
-/home/pm215/qemu /home/pm215/qemu/build/all --backend ninja
-ninja: error: rebuilding 'build.ninja': subcommand failed
-make: *** [run-ninja] Error 1
-make: Leaving directory `/home/pm215/qemu/build/all'
-
-thanks
--- PMM
+Claudio
 
