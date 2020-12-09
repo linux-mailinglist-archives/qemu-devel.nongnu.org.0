@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C792D4C3F
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 21:55:53 +0100 (CET)
-Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 957B72D4C8B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 22:11:50 +0100 (CET)
+Received: from localhost ([::1]:32886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn6V6-0003tG-Cz
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 15:55:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32812)
+	id 1kn6kX-0003s8-4x
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 16:11:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kn6TV-0003Gy-Af
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 15:54:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57043)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kn6iE-0002lI-6X
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 16:09:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kn6TT-00044p-Sa
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 15:54:13 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kn6i4-0007Yi-RU
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 16:09:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607547251;
+ s=mimecast20190719; t=1607548153;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PFSVsnIwhoaZUZkC48sLGxLmJxwAj3aCUeATQewBCR4=;
- b=LCpH1zKrjx79c1ZshZOgFa0BDBG/S/RKJJFAnYVJMxTXjo14fJ8Wn1mkXJkN3w9zYBDTEM
- FLh+XoftI9SeTgUPJuBqBhASBkcKHf1/kLTdtCiG6bWfNsUA9EqjBVaVSwX7g5+oYHdbnV
- FhrZJi18jYo28S8+izkkVSvgtvetRHc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-wlC-KE9iMyWZomuTQD2uww-1; Wed, 09 Dec 2020 15:54:07 -0500
-X-MC-Unique: wlC-KE9iMyWZomuTQD2uww-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C737801ADB;
- Wed,  9 Dec 2020 20:54:06 +0000 (UTC)
-Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 884BA6064B;
- Wed,  9 Dec 2020 20:54:05 +0000 (UTC)
-Date: Wed, 9 Dec 2020 15:54:04 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 1/6] spapr: Add an "spapr" property to sPAPR CPU core
-Message-ID: <20201209205404.GY1289986@habkost.net>
-References: <20201209170052.1431440-1-groug@kaod.org>
- <20201209170052.1431440-2-groug@kaod.org>
- <de3d6170-3e28-ce78-41a3-59eca3cb6b67@redhat.com>
- <20201209184225.1b544523@bahia.lan>
- <d0f7cde7-c550-4a6c-8730-c3422002516c@redhat.com>
- <b8474a48-5dcd-343e-ef29-531c628b2ff2@redhat.com>
- <20201209182617.GV1289986@habkost.net>
- <20201209212436.2f7a1b6f@bahia.lan>
+ bh=RiaBUL5k4dMly9+omfwucdEG2CvRbzD1wN56fc/RXOE=;
+ b=f20UxxdGrFBDKFnIUPIr1QswhcIUanswDlI8R0y7EqeIMJNIMgCvuGmRb+VGnuJniQntz1
+ 8+zNCqVctKNyHF8Tt3/Ke5FpIuHDOR6xAFIsSp0OTqWK2HC0QSnKL2Bk8CN2sMsZ9bRg4l
+ jGWCgtqWRVOKGSpiTA1XnEpFSepV/8Y=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-RSuJjQWyMAGu0l08y41m8Q-1; Wed, 09 Dec 2020 16:09:10 -0500
+X-MC-Unique: RSuJjQWyMAGu0l08y41m8Q-1
+Received: by mail-qv1-f69.google.com with SMTP id h1so2211981qvr.7
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 13:09:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=RiaBUL5k4dMly9+omfwucdEG2CvRbzD1wN56fc/RXOE=;
+ b=W3aSszZoA13SPaSmApcNklthHShTUwlSnmF1FxwW4VLDNl2tGEzmRyEFbKu9SeURdp
+ WbL1AO4i/o7K5vScQ/P4g0hqUnCyhpRllFOFNV+giTuVnb+qCclQlIbKuDfZaxggX7KY
+ IGL1X4Ej/NthwXsmszSOJQeXx5x0VgQ6LFpPTbJVKaycgICbVBSw9ynqFhTLLBH7ozK1
+ I2BjaQLKjqBRtHqD2X8xUlqt5yFc+aFRhCx6j8Wh71D0q8e5DMcpChrzkuj9Mwe7Ilrh
+ EN/WW32uQoqjweqCHhypXq9/LK/dIDKZG46yxSOF0NmZLHEaHk1b/7hxcf9/wsDaXix1
+ O8Pw==
+X-Gm-Message-State: AOAM530XxabCkZxcs1onBZZ4B3vp4/iYlJs//v7En5ZrB7Ov55W3/Ihz
+ TzcUSaUOty5ufTpmgBwi0e2d5oQvaFtyMtIPBYZARbieYcaY9l6S6rMFExuxYLwb5J7zvwLT4DD
+ q06hL8GbqUfDDANg=
+X-Received: by 2002:a0c:bf0f:: with SMTP id m15mr5054411qvi.23.1607548149615; 
+ Wed, 09 Dec 2020 13:09:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzKZuGFpl1daSb5ILNFa4veh5w9Fw+x4CFDzimF0yQw1i9otHc7dpVfpAPn9sCbbdJ3arZnYw==
+X-Received: by 2002:a0c:bf0f:: with SMTP id m15mr5054390qvi.23.1607548149327; 
+ Wed, 09 Dec 2020 13:09:09 -0800 (PST)
+Received: from xz-x1 ([142.126.83.202])
+ by smtp.gmail.com with ESMTPSA id w15sm1667315qta.95.2020.12.09.13.09.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Dec 2020 13:09:08 -0800 (PST)
+Date: Wed, 9 Dec 2020 16:09:07 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Zenghui Yu <yuzenghui@huawei.com>
+Subject: Re: [PATCH] kvm: Take into account the unaligned section size when
+ preparing bitmap
+Message-ID: <20201209210907.GA3211@xz-x1>
+References: <20201208114013.875-1-yuzenghui@huawei.com>
+ <20201208151654.GA6432@xz-x1>
+ <bb4bcc8b-1d36-9529-d7cd-4d93162d092f@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201209212436.2f7a1b6f@bahia.lan>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <bb4bcc8b-1d36-9529-d7cd-4d93162d092f@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -73,7 +80,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,65 +93,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 09, 2020 at 09:24:36PM +0100, Greg Kurz wrote:
-> On Wed, 9 Dec 2020 13:26:17 -0500
-> Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Wed, Dec 09, 2020 at 10:33:41AM +0800, Zenghui Yu wrote:
+> Hi Peter,
 > 
-> > On Wed, Dec 09, 2020 at 07:11:40PM +0100, Philippe Mathieu-Daudé wrote:
-> > [...]
-> > > >>>> @@ -200,7 +199,7 @@ static void spapr_cpu_core_reset(DeviceState *dev)
-> > > >>>>      int i;
-> > > >>>>  
-> > > >>>>      for (i = 0; i < cc->nr_threads; i++) {
-> > > >>>> -        spapr_reset_vcpu(sc->threads[i]);
-> > > >>>> +        spapr_reset_vcpu(sc->threads[i], sc->spapr);
-> > > >>>
-> > > >>> Why reset() needs access to the machine state, don't
-> > > >>> you have it in realize()?
-> > > >>>
-> > > >>
-> > > >> This is for the vCPU threads of the sPAPR CPU core. They don't have the
-> > > >> link to the machine state.
-> > > > 
-> > > > They are created by spapr_create_vcpu() + spapr_realize_vcpu() in
-> > > > spapr_cpu_core_realize(), which has sc->spapr set... Am I missing
-> > > > something?
-> > > 
-> > > Anyhow, from a QOM design point of view, resetfn() is not the correct
-> > > place to set a property IMHO, so Cc'ing Eduardo.
-> > 
-> > This patch is not setting the property on resetfn(), it is
-> > setting it on CPU core pre_plug().
-> > 
-> > This is more complex than simply using qdev_get_machine() and I
-> > don't see why it would be better, but I don't think it's wrong.
-> > 
+> Thanks for having a look at it.
 > 
-> The reference to the machine state is basically needed to
-> setup/reset/teardown interrupt presenters in the IRQ chip
-> backend. It is a bit unfortunate to express this dependency
-> at realize(), reset() and unrealize(). Maybe having an
-> "irq_chip" property linked to the IRQ chip backend would
-> make more sense ?
+> On 2020/12/8 23:16, Peter Xu wrote:
+> > Hi, Zenghui,
+> > 
+> > On Tue, Dec 08, 2020 at 07:40:13PM +0800, Zenghui Yu wrote:
+> > > The kernel KVM_CLEAR_DIRTY_LOG interface has align requirement on both the
+> > > start and the size of the given range of pages. We have been careful to
+> > > handle the unaligned cases when performing CLEAR on one slot. But it seems
+> > > that we forget to take the unaligned *size* case into account when
+> > > preparing bitmap for the interface, and we may end up clearing dirty status
+> > > for pages outside of [start, start + size).
+> > 
+> > Thanks for the patch, though my understanding is that this is not a bug.
+> > 
+> > Please have a look at kvm_memslot_init_dirty_bitmap() where we'll allocate the
+> > dirty bitmap to be aligned to 8 bytes (assuming that's the possible max of the
+> > value sizeof(unsigned long)).  That exactly covers 64 pages.
+> > 
+> > So here as long as start_delta==0 (so the value of "bmap_npages - size / psize"
+> > won't really matter a lot, imho), then we'll definitely have KVMSlot.dirty_bmap
+> > long enough to cover the range we'd like to clear.
 > 
+> I agree.  But actually I'm not saying that KVMSlot.dirty_bmap is not
+> long enough.  What I was having in mind is something like:
+> 
+>     // psize = qemu_real_host_page_size;
+>     // slot.start_addr = 0;
+>     // slot.memory_size = 64 * psize;
+> 
+>     kvm_log_clear_one_slot(slot, as, 0 * psize, 32 * psize);   --> [1]
+>     kvm_log_clear_one_slot(slot, as, 32 * psize, 32 * psize);  --> [2]
+> 
+> So the @size is not aligned with 64 pages.  Before this patch, we'll
+> clear dirty status for all pages(0-63) through [1].  It looks to me that
+> this violates the caller's expectation since we only want to clear
+> pages(0-31).
 
-Considering that the spapr_irq_*() functions get a
-SpaprMachineState argument and deal with two interrupt
-controllers, maybe you won't be able to save what you need in a
-single irq_chip field?
+Now I see; I think you're right. :)
 
-I don't have a strong opinion here.  It feels weird to me to save
-a reference to the global machine object that is always
-available, but I don't think that's a problem if you believe the
-resulting code looks better.
+> 
+> As I said, I don't think this will happen in practice -- the migration
+> code should always provide us with a 64-page aligned section (right?).
+
+Yes, migration is the major consumer, and that should be guaranteed indeed, see
+CLEAR_BITMAP_SHIFT_MIN.
+
+Not sure about VGA - that should try to do log clear even without migration,
+but I guess that satisfies the 64-page alignment too, since it's not a huge
+number (256KB).  The VGA buffer size could be related to screen resolution,
+then N*1024*768 could still guarantee a safe use of the fast path.
+
+> I'm just thinking about the correctness of the specific algorithm used
+> by kvm_log_clear_one_slot().
+
+Yeah, then I think it's okay to have this, just in case someday we'll hit it.
+
+Acked-by: Peter Xu <peterx@redhat.com>
+
+(It would be nicer if above example could be squashed into commit message)
+
+Thanks,
 
 -- 
-Eduardo
+Peter Xu
 
 
