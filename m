@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4712D4A83
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:38:51 +0100 (CET)
-Received: from localhost ([::1]:59586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A631A2D4A66
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:36:26 +0100 (CET)
+Received: from localhost ([::1]:53258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn5IY-0004XY-Dq
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:38:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54630)
+	id 1kn5GD-0001lq-Kq
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:36:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kn41H-0000n5-RT
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:16:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kn41F-0002PN-Q1
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:16:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607537811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s4OK1dYkvfk9o/g6aLkp1UJT4221LqFkOiHQXDay2BE=;
- b=VZECYWqEtYyd5xbZrmWyrTZje9Iub7cwZ5KoxbgHC8oV2uDWAPa+vwEFAfScrovw8t3YIo
- b6/ZxJka3liSamQlJZCg/h0SEE2ERajL3guDBqmHo4ar17O0uWkaOVz+b47udhFWwvf4q/
- UIvj6cuwLqV5BMjh7R6m/baVOWlQC4U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-qIVaS0wXP3Gd43yMZVkmDQ-1; Wed, 09 Dec 2020 13:16:47 -0500
-X-MC-Unique: qIVaS0wXP3Gd43yMZVkmDQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD0A1C742A
- for <qemu-devel@nongnu.org>; Wed,  9 Dec 2020 18:16:46 +0000 (UTC)
-Received: from localhost (ovpn-120-147.rdu2.redhat.com [10.10.120.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DF075C8AD;
- Wed,  9 Dec 2020 18:16:27 +0000 (UTC)
-Date: Wed, 9 Dec 2020 13:16:26 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH] smbios: entry-point-type option
-Message-ID: <20201209181626.GU1289986@habkost.net>
-References: <20201208212023.1560846-1-ehabkost@redhat.com>
- <20201209094225.GE3214234@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kn44B-0003fd-Mt
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:19:55 -0500
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:46977)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kn449-0003Gv-Qt
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:19:55 -0500
+Received: by mail-ot1-x342.google.com with SMTP id w3so2285451otp.13
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:19:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4R1AzvvOJbaQck2xWcevzmy70mGRQXD9TCQoJxgt0rQ=;
+ b=NqVGdO+URjtfVU0ddZfQsH5viGB6JsFmSZOks3fU+dFVAikG9gp54t/jA7Bqoqj0Nm
+ qrMVKXQh1uXTHNZWgvuaTvT+nVf+FT6Rrouhn8IIB0JqFunCYNmD1QRaotja9jKeoSOJ
+ Ikv1Y8erDMeKetf+4z5aAQofFGRvTG9GFO9CXqng7ItAuGgNMbMneSTOTu7i5xXjITnY
+ fCCe5hQ+petg2E2swOc7jjU0AERlMZi9nlTOOUFfaYezAng44pj7zp1SPxxM4TTHXeXP
+ yzNMg2pQ/+5J0NJomSt6rvr5C6eA4fbZMT8zcyuERoGuA/ia16e6eOIK8l3794h2BGEL
+ HuTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4R1AzvvOJbaQck2xWcevzmy70mGRQXD9TCQoJxgt0rQ=;
+ b=XaIA6GevmzCkz1I52lMbm+UFC+WM+9SA8+AS4KrXV3oYXasec10O/RIbAAtMf3ATSd
+ mjCt5slKwnQuOsMitAD4hldCheLgfcobRwOgiMXNpWkEfzOYvcC8IyX7CixHiK4ixTot
+ lF8SVfG75Lmy0vh6+ONMIjA1ffcMCO71qv0vQDtn0HUGq5k0mpdh/gXK8hpNydvn791F
+ VwLTZ2mMhjQnY5qTvZa/JGJtpzbTPIHUwmgPjtjTn9VTmmgWKfAIoM7tRgMhC6LdV+ak
+ 01DwbEkOwAFMMKfp6rQK0g5R24DZ2xwx10VkGIKKkUVPZgZUulWGfCSOMBYVDku8viRJ
+ 6YWw==
+X-Gm-Message-State: AOAM532AerLNddhPQOgN1Ouv8Yibktx0bZ045KENzwIHYwabWCFM+ykg
+ rHzW0Mu9IIZFg2eIEddhcwUd+A==
+X-Google-Smtp-Source: ABdhPJwXm6Zlp6aYxs1g/um5aXpEbiwoUwhSeMBeUhnrDIocRc4CAMoz667+wrP77ZqL7pbn1XDSTw==
+X-Received: by 2002:a05:6830:1d71:: with SMTP id
+ l17mr2907557oti.269.1607537991663; 
+ Wed, 09 Dec 2020 10:19:51 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id u15sm445566oiv.28.2020.12.09.10.19.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Dec 2020 10:19:51 -0800 (PST)
+Subject: Re: [PATCH v1 2/6] gitlab: include aarch64-softmmu and ppc64-softmmu
+ cross-system-build
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20201209170059.20742-1-alex.bennee@linaro.org>
+ <20201209170059.20742-3-alex.bennee@linaro.org>
+ <69b5c2c5-1065-6713-d1d8-396a63c0bf99@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8c1f3dab-cb95-c5d8-cd0b-cbef76c86986@linaro.org>
+Date: Wed, 9 Dec 2020 12:19:46 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201209094225.GE3214234@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <69b5c2c5-1065-6713-d1d8-396a63c0bf99@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::342;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x342.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,77 +92,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Laszlo Ersek <lersek@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 09, 2020 at 09:42:25AM +0000, Daniel P. Berrangé wrote:
-> On Tue, Dec 08, 2020 at 04:20:23PM -0500, Eduardo Habkost wrote:
-> > Add command-line option that lets the SMBIOS entry point type to
-> > be configured.
-> > 
-> > SMBIOS 3.0 support is necessary to allow us to support more
-> > than 720 VCPUs in x86_64, due to SMBIOS 2.1 table size limits.
-> > 
-> > Note that it's still up to firmware to decide whether to generate
-> > SMBIOS 2.1 and/or 3.0 entry points for the guest, using the
-> > information contained in etc/smbios/smbios-anchor.  OVMF, for
-> > example, is able to generate both entry points, depending on the
-> > value of PcdSmbiosEntryPointProvideMethod.
-> > 
-> > The SMBIOS 3.0 entry point won't be enabled by default because it
-> > is not supported yet by Seabios.  This may be changed once
-> > Seabios starts supporting SMBIOS 3.0 entry points.
-> > 
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> > Laszlo, Philippe: do you know how exactly the value of
-> > PcdSmbiosEntryPointProvideMethod is chosen when running OVMF?
+On 12/9/20 11:08 AM, Thomas Huth wrote:
+> On 09/12/2020 18.00, Alex Bennée wrote:
+>> Otherwise we miss coverage of KVM support in the cross build. To
+>> balance it out add cris-softmmu and ppc-softmmu to the exclude list
+>> which do get coverage elsewhere.
 > 
-> Laszlo proides alot of detail in my original proposal for
-> selecting SMBIOS entry point here:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg03347.html
+> Could you maybe add arm-softmmu to the exclude list? It's a subset of
+> aarch64-softmmu, so we should not lose much if we exclude it here.
 
-Thanks!
+Indeed, arm32 kvm has already been dropped, so arm-softmmu is a strict subset
+of aarch64-softmmu.
 
-> 
-[...]
-> > diff --git a/qemu-options.hx b/qemu-options.hx
-> > index 104632ea34..d2a973f8a7 100644
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
-> > @@ -2294,7 +2294,9 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
-> >      "                specify SMBIOS type 11 fields\n"
-> >      "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
-> >      "               [,asset=str][,part=str][,speed=%d]\n"
-> > -    "                specify SMBIOS type 17 fields\n",
-> > +    "                specify SMBIOS type 17 fields\n"
-> > +    "-smbios entry-point-type=2.1|3.0\n"
-> > +    "                specify SMBIOS entry point type\n",
-> 
-> My previous patch:
-> 
->   https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg03027.html
-> 
-> exposed the entry point version as a property on the PC machine
-> rather than the -smbios arg, principally because it is the machin
-> setup code that currently defines what version is used via the calls
-> to smbios_set_defaults().
-> 
-> IIUC from Laszlo's reply,  SMBIOS 2.1 is not valid for AArch64
-> at all - they only support 3.0.  So there's a small benefit from
-> configuring this against the PC machine types, because it prevents
-> ability to select 2.1 for ARM SMBIOS which would be invalid.
 
-Good point.  It would also make it easier to change the machine
-type default in the future.
-
-I will submit something based on your patches, instead.
-
--- 
-Eduardo
-
+r~
 
