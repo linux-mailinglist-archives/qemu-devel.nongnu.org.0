@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9C12D4AFA
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:51:53 +0100 (CET)
-Received: from localhost ([::1]:33820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D432D4AB0
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:43:34 +0100 (CET)
+Received: from localhost ([::1]:44236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn5V9-0000im-Uq
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:51:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58542)
+	id 1kn5N7-0001cH-QM
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:43:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kn4G8-00073T-Fm
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:32:18 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50660)
+ id 1kn4IL-0000tK-AM
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:34:33 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kn4G2-0007Ic-5j
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:32:16 -0500
-Received: by mail-wm1-x341.google.com with SMTP id c198so2407742wmd.0
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:32:06 -0800 (PST)
+ id 1kn4IH-0007yG-VO
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:34:32 -0500
+Received: by mail-wr1-x441.google.com with SMTP id 91so2839236wrj.7
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:34:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=ORhm3lwx7IH34F9CgG+1ipqf35s5BA6vDP7NqCNvrIA=;
- b=FZaItdHpYx6ptXa//qmyDoAZvyCndLHWGN4ufZpGRZNmDDUOh8Ri1KXp+NlGVY+ZBw
- 7z8ioXQRya78ttWIIsxo12pzYjAl1V8kw5ySgYxslQPe5D1J1wWLPVUZk8QBxApd3jPo
- Elk7xsJ//l++W5sxRqB2oBAtwO7ZMSun+E9qRf1/YzCNDUpZCiko0Z65zMwTvQSvtxX6
- Tam/yjkySabkK9NDyHdRsDNyE5ll4l+CxRB0eK03BGNXARSsaRlrJ2j27SKybCyBOP6z
- IFu/D4pCT2riWHJyXugg/hxyOKe6xggRtbjd2QEkU5r+olpoNpivZ1P7030Zo2yjDOWL
- 9Hpg==
+ bh=aqMZV1melTRW+dD9HVS7RhIoOojRAokaAgOOsHPSxWA=;
+ b=LEzXyMWhWf5iKkyqRxpSwjY0VMK3A0sN/crqz01KJfPxw8d3w+y97ncZDK6o/mXeDS
+ iEdJt18o0uwSRoAbHqTSU0vqx3W6uSwUkZIV1CNRmVCG1q9O4k1Gr1sLOfquGW0fW5m0
+ TaOXnUvmshRff7A1nyNKPZX7iuPuZFUDGjzTe2eMU29Ytag9kXqoXw+gJHOfmxfzrWgf
+ EFmnRyYjp3AipDVkaGL8bmrx67lNv/4+mbiihuF3dgmIu5BLWB1scHRg4GpcJJ/UR4tN
+ hPSuxgUazeUO2hva8i2RMbpmj1QZzKwLc2LUVUGwcUx2VcC6nxj605yVz+ednSoaucjt
+ UEUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ORhm3lwx7IH34F9CgG+1ipqf35s5BA6vDP7NqCNvrIA=;
- b=X8FCTscK8m92+4mmU5WBwxsCJZvkv+md2YkzocXo9s6vpythoDcg0o7ubT0o5WEOJa
- e3u3uAtskWWY/YEu1OIWGt+lPj+YnStlsGlMJoYPxfm14pfKeTLaaM3/XRd4665OnjsK
- 1jkw3k/7OogYcPgdib5Wxc4ErP9eaMsDdyokmE/9s6DanZpDqhRKXVb5hgJYpWklnjbV
- 2CoqGKajPtD7h+v3IM/PCv2VnXRdGJLXk+BjFqA6qL8OOJ0hA+YPNSDiKyG66jMiYC/P
- MXA5Ut03nAAnwb3/7k5Trpm3Qd1ViqHE7kdDFs1+VuyEp8GHA2peCfGIeqqwM1wDUoOV
- oUtA==
-X-Gm-Message-State: AOAM532amisVJaZJZL7Kxg/Uesy7B+V2fKQT3ja8tR166vrjhbI7/5xc
- MbjFvetzVn3LYWOvrPU5269alg==
-X-Google-Smtp-Source: ABdhPJzevbCAtGLWPRyhO9Fsa7SwHUCRa24GAfYMYZ5Lv75G3XAF07Sx5VzN3cyBkbd2dhMbSHpaJw==
-X-Received: by 2002:a1c:67c5:: with SMTP id b188mr4184830wmc.147.1607538725254; 
- Wed, 09 Dec 2020 10:32:05 -0800 (PST)
+ bh=aqMZV1melTRW+dD9HVS7RhIoOojRAokaAgOOsHPSxWA=;
+ b=iXCDvE6jmwjzIz4sNVmRUrHY4iLps7/cgG4wrJgTvLYi5DKvsQPQ/klcSiSzn3iYIb
+ J/f5hYDzEr6a1FOb4ZwO4P1vF1BUv8Fm15b20LjaUCouRloLOtOdNjt5Ld6OxVepW932
+ D/b1AvFruazRJ7Oc5zUCqzhNqtv/preoazo2neG1HWqRgK+tbY947r0lcqbg1M21IUYG
+ CKzmqSXikGCyDyxpfqPnYHuLJlBJnuuJ6g+I4e23jnel7D3wZF/TicK2zY+xmoIcqa0S
+ bWeLD3D1UXjYqQx0WcckJMEINEIWf2R9glbXJZFuOFVwCQhxo5bS1SstTk8AkuUIjY98
+ g3aw==
+X-Gm-Message-State: AOAM533YI38k/v2SneCpzTZGj6dV6eyOJJS2/iZ5/pxrLE97EDUM+7Zj
+ uz6DiPMaBrvw3iVZ0arTf6vOSw==
+X-Google-Smtp-Source: ABdhPJz4r1MJgXPwF0fB8E0ExJPVja9Wpfhics5AkxTjYdI7WdoHkw1UiPxrMJ2fgIue1uOzj/uQpQ==
+X-Received: by 2002:adf:f98b:: with SMTP id f11mr4258776wrr.235.1607538867820; 
+ Wed, 09 Dec 2020 10:34:27 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r82sm4851253wma.18.2020.12.09.10.32.03
+ by smtp.gmail.com with ESMTPSA id l1sm4805572wrq.64.2020.12.09.10.34.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 10:32:03 -0800 (PST)
+ Wed, 09 Dec 2020 10:34:26 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 26D831FF7E;
- Wed,  9 Dec 2020 18:32:03 +0000 (GMT)
-References: <20201208194839.31305-1-cfontana@suse.de>
- <20201208194839.31305-28-cfontana@suse.de> <87sg8fcf3z.fsf@linaro.org>
- <b9ee5a3a-3160-1e6e-f03b-9dd538e672b6@suse.de>
+ by zen.linaroharston (Postfix) with ESMTP id 2522D1FF7E;
+ Wed,  9 Dec 2020 18:34:26 +0000 (GMT)
+References: <20201209170059.20742-1-alex.bennee@linaro.org>
+ <20201209170059.20742-7-alex.bennee@linaro.org>
+ <0d1a0b59-ecbc-208f-8eb7-0aa323930cd9@redhat.com>
 User-agent: mu4e 1.5.7; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v9 27/32] accel: replace struct CpusAccel with AccelOpsClass
-Date: Wed, 09 Dec 2020 18:30:30 +0000
-In-reply-to: <b9ee5a3a-3160-1e6e-f03b-9dd538e672b6@suse.de>
-Message-ID: <87blf2de58.fsf@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v1 6/6] gitlab: add --without-default-features build
+Date: Wed, 09 Dec 2020 18:32:19 +0000
+In-reply-to: <0d1a0b59-ecbc-208f-8eb7-0aa323930cd9@redhat.com>
+Message-ID: <878sa6de19.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,102 +88,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, f4bug@amsat.org,
+ cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Claudio Fontana <cfontana@suse.de> writes:
+Thomas Huth <thuth@redhat.com> writes:
 
-> On 12/9/20 1:54 PM, Alex Benn=C3=A9e wrote:
+> On 09/12/2020 18.00, Alex Benn=C3=A9e wrote:
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  .gitlab-ci.yml | 7 +++++++
+>>  1 file changed, 7 insertions(+)
 >>=20
->> Claudio Fontana <cfontana@suse.de> writes:
->>=20
->>> centralize the registration of the cpus.c module
->>> accelerator operations in accel/accel-softmmu.c
->>>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> <snip>
->>> diff --git a/accel/tcg/tcg-cpus.c b/accel/tcg/tcg-cpus.c
->>> index e335f9f155..38a58ab271 100644
->>> --- a/accel/tcg/tcg-cpus.c
->>> +++ b/accel/tcg/tcg-cpus.c
->>> @@ -35,6 +35,9 @@
->>>  #include "hw/boards.h"
->>>=20=20
->>>  #include "tcg-cpus.h"
->>> +#include "tcg-cpus-mttcg.h"
->>> +#include "tcg-cpus-rr.h"
->>> +#include "tcg-cpus-icount.h"
->>>=20=20
->>>  /* common functionality among all TCG variants */
->>>=20=20
->>> @@ -80,3 +83,43 @@ void tcg_cpus_handle_interrupt(CPUState *cpu, int ma=
-sk)
->>>          qatomic_set(&cpu_neg(cpu)->icount_decr.u16.high, -1);
->>>      }
->>>  }
->>> +
->>> +static void tcg_cpus_ops_init(AccelOpsClass *ops)
->>> +{
->>> +    if (qemu_tcg_mttcg_enabled()) {
->>> +        ops->create_vcpu_thread =3D mttcg_start_vcpu_thread;
->>> +        ops->kick_vcpu_thread =3D mttcg_kick_vcpu_thread;
->>> +        ops->handle_interrupt =3D tcg_cpus_handle_interrupt;
->>> +
->>> +    } else if (icount_enabled()) {
->>> +        ops->create_vcpu_thread =3D rr_start_vcpu_thread;
->>> +        ops->kick_vcpu_thread =3D rr_kick_vcpu_thread;
->>> +        ops->handle_interrupt =3D icount_handle_interrupt;
->>> +        ops->get_virtual_clock =3D icount_get;
->>> +        ops->get_elapsed_ticks =3D icount_get;
->>> +
->>> +    } else {
->>> +        ops->create_vcpu_thread =3D rr_start_vcpu_thread;
->>> +        ops->kick_vcpu_thread =3D rr_kick_vcpu_thread;
->>> +        ops->handle_interrupt =3D tcg_cpus_handle_interrupt;
->>> +    }
->>> +}
->>=20
->> Aren't we going backwards here by having a global function aware of the
->> different accelerator types rather than encapsulating this is the
->> particular accelerator machinery?
->>=20
->> <snip>
->>=20
+>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>> index 878d114d40..f87584ca8f 100644
+>> --- a/.gitlab-ci.yml
+>> +++ b/.gitlab-ci.yml
+>> @@ -441,6 +441,13 @@ build-without-default-devices:
+>>      IMAGE: debian-amd64
+>>      CONFIGURE_ARGS: --without-default-devices --disable-user
+>>=20=20
+>> +build-without-default-features:
+>> +  <<: *native_build_job_definition
+>> +  variables:
+>> +    IMAGE: centos8
+>> +    CONFIGURE_ARGS: --without-default-devices --without-default-feature=
+s --disable-user
+>> +    MAKE_CHECK_ARGS: check-unit
 >
-> Now I got your point.
->
-> The ideal would be to have three classes. One called tcg-mttcg, one tcg-i=
-count, one tcg-rr.
-> The problem: backward compatibility I think, since currently we have only=
- one accel, "tcg".
->
-> But, hmm maybe fixable, I'll take a look.
+> I wonder whether we'd rather want to check without
+> "--without-default-devices" here to see whether all code compiles fine wi=
+th
+> "--without-default-features" ... ?
 
-Yeah I was wondering if we were going to have subclasses for each "type"
-of TCG. But now I'm wondering if that even makes sense. Will we ever
-want to built a TCG enabled binary that say doesn't do icount? Maybe
-not - having a single AccelOpsClass which runs in 3 modes will probably
-do for now.
+Yeah at the moment the full-fat without everything doesn't achieve much.
+So how about I swap the IMAGE around with the previous build and drop
+the --without-default-devices?
 
 >
-> Thanks!
->
-> Claudio
+>  Thomas
 
 
 --=20
