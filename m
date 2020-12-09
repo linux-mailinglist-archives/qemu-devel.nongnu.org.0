@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708242D4459
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 15:31:37 +0100 (CET)
-Received: from localhost ([::1]:39612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2492D4476
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 15:36:21 +0100 (CET)
+Received: from localhost ([::1]:46216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn0VC-0007SW-M7
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 09:31:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41744)
+	id 1kn0Zo-00021L-LK
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 09:36:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kn0NX-0004Aj-25
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:23:39 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39718)
+ id 1kn0O1-0004MJ-1I
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:24:09 -0500
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:46610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kn0NT-0001fu-2l
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:23:37 -0500
-Received: by mail-ot1-x344.google.com with SMTP id d8so1486805otq.6
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 06:23:34 -0800 (PST)
+ id 1kn0Nq-0001le-VA
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:24:08 -0500
+Received: by mail-oi1-x243.google.com with SMTP id k2so1836006oic.13
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 06:23:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tTA1IsTePYgWBdPx8ZpBk1dZ/WLITOHitvV89Vv4cK8=;
- b=eEMeJIf65WDmKi1a2IMyImAncMn91rnSXwgZ75dvh6Lm1LPygqlUUGu0p3a3qZKw61
- d4w0sque1DWrby9tBt/3JUOACHTy6sBcQs2inJTd1jj/PUlCObXfMOqoPgtDnnH+5ESl
- ndoCj4ARJCd/Lr2GftJIRSl4E4quGzuhsgFpEghSAKgz9hrYjXVzFl48t/qQf0gxxdHY
- P5NyB44oc45VcNSnD9c9LYDlNYOoSR3PGdFWPg3pAO52Dabjtr9JjlKSp/g4S9v1SW+8
- CU5MX15lVXWXp9eNQ86w2f3HCJT03OAOif7cnZhTPR7E6JKkKw+3YDzJzlE3w5v7Ym17
- DIXA==
+ bh=vZdWJAcV41vdG3ksKO9Zry/LiS54zDvD5zWjOEGt7W8=;
+ b=yoqJ3I4ti0eQlkXnhFkXZfjuYspKtstbetSEil0d7O3NBhZtAvcVvsxI+EzVf52N3g
+ HwMnfBa49dHvXzhvWTrLQcFuO1TijZi4snisi0E+Cfa4zMmIMGdSx1oEI5OlMOPS/G5R
+ bxQpKs6Ma/krw7Jr0OFGYbTAnBhYTQks9gB+jUWX1Bp1P/6inkAva04rywHyjyvRDkYO
+ b3yx0jd7RhampcocnqcmwY8jJBcfc9HwNdANqNcskLJUWNgiNA5QW/uFqv3iL/4bRCDD
+ wrwK/+zKx9p5gza6w1eZhz0tcfwUVQfZnFImSg3QUgSUnQxnOPRKf0J//NTtoJN6skgm
+ QpFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tTA1IsTePYgWBdPx8ZpBk1dZ/WLITOHitvV89Vv4cK8=;
- b=PcQ1tUN+0hjqFjnBhkUhpdlVsmusgGhUU8cy0Zbw2h2BoszCtqSINjOCLxYPzojW4W
- tQHHyLx8NxGAijrkG4GqguJ4fbWfZGCnjzTraDZ66AAMr41+lVNNrNBzHvRhoZ0W+h9Z
- 7g4+dhKw8sLxNiYcsw9NgfLR1wkb+XJ4VnpN5FA7wLaEexzkgXqZda38IeNF5eyoxPcu
- +rzRV39T96SkZdjjjJJozAsS9EG6xjid8KIgJkqOQX7US2rGSrEc7ZejhFc4BAxvDlao
- 3hNzw9+GkidMY4Rr9/uTbbJOQIDlrTYn2OuYiAuYqeGuH6SIES6N0eS/ff8p1qNhXaXh
- NQ5g==
-X-Gm-Message-State: AOAM532rIHj/2cipkyDBOkWXDZKf+0jxS6Ryk3UpJ0DYT6NRHlybcs9B
- a7JRAHmuxed8LuHEbxDAAhJrrQ==
-X-Google-Smtp-Source: ABdhPJwsxcQjXsWwKjz03k94ARr21LEW8PrwIgjUvL49fqEXXL834KabVeCpGCGM8L3gfnEEAQ1G1A==
-X-Received: by 2002:a05:6830:90f:: with SMTP id
- v15mr1900791ott.223.1607523813903; 
- Wed, 09 Dec 2020 06:23:33 -0800 (PST)
+ bh=vZdWJAcV41vdG3ksKO9Zry/LiS54zDvD5zWjOEGt7W8=;
+ b=VMPr/jJ4u7U/pZALrYRLOG86f/711iVLsULKHe8ekGF+RRs6e6ZzqLyUzFQohVIlyy
+ /AcIHAk5//Sa29X/wPPfvFcHukEvpoQs7CClXjXUR70j/oZPehmUCXT4G9AQ47vim9VX
+ x63pav4DpOX4hv0Wbj1Y+FeryrLcm+wulKCu3OMqK5g+qA6krjFBAV58MYTccGC9nhEG
+ gChzh76IA8B+gvj56JxDPCtK5e1uAq5Qqm6+GtJrz9IAV3YuT5kHYtRbgals1ppIp77b
+ 8rt1wAQbUgM2IWbCbUVMIoMxutsaj0P3XiatN/F3NsQOhs97oysqzf6yXFRk4o7LSn4r
+ 7OHw==
+X-Gm-Message-State: AOAM5308/9blASirDtO0ef9b7kc7PhQ4cxWimf0pLBFi7EGMJ9kI/ly2
+ 7swxmdLxIJJL+qnvi2x9qy4zxg==
+X-Google-Smtp-Source: ABdhPJxbMIhK8L2wEHMl3z2ubAVPsHApxhWLx1OnmbPK3MghlD04APBYGz8jBmxu+erGGpUu9Vpk1A==
+X-Received: by 2002:aca:bd0b:: with SMTP id n11mr1823182oif.11.1607523837769; 
+ Wed, 09 Dec 2020 06:23:57 -0800 (PST)
 Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
  [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id b91sm407342otc.13.2020.12.09.06.23.32
+ by smtp.gmail.com with ESMTPSA id s189sm335312oia.7.2020.12.09.06.23.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Dec 2020 06:23:32 -0800 (PST)
-Subject: Re: [PATCH 06/13] target/mips: Convert Rel6 Special2 opcode to
- decodetree
+ Wed, 09 Dec 2020 06:23:57 -0800 (PST)
+Subject: Re: [PATCH 07/13] target/mips: Convert Rel6 COP1X opcode to decodetree
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20201208203704.243704-1-f4bug@amsat.org>
- <20201208203704.243704-7-f4bug@amsat.org>
+ <20201208203704.243704-8-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5b83b1c3-4e1e-9c68-3320-33c406962c21@linaro.org>
-Date: Wed, 9 Dec 2020 08:23:30 -0600
+Message-ID: <ac1ab228-8e45-daa6-0570-ca85c415eb2e@linaro.org>
+Date: Wed, 9 Dec 2020 08:23:54 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201208203704.243704-7-f4bug@amsat.org>
+In-Reply-To: <20201208203704.243704-8-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::243;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x243.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,18 +95,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/8/20 2:36 PM, Philippe Mathieu-Daudé wrote:
-> Special2 opcode have been removed from the Release 6.
-> Add a single decodetree entry for all the opcode class,
-> triggering Reserved Instruction if ever used.
+> COP1x opcode has been removed from the Release 6.
+> Add a single decodetree entry for it, triggering
+> Reserved Instruction if ever used.
 > 
 > Remove unreachable check_insn_opc_removed() call.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/isa-mips32r6.decode       | 2 ++
->  target/mips/isa-mips_rel6_translate.c | 7 +++++++
->  target/mips/translate.c               | 2 --
->  3 files changed, 9 insertions(+), 2 deletions(-)
+>  target/mips/isa-mips32r6.decode | 2 ++
+>  target/mips/translate.c         | 1 -
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
