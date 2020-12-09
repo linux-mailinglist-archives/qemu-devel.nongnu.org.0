@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217792D4A10
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:27:01 +0100 (CET)
-Received: from localhost ([::1]:36272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0802D4A1F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:30:14 +0100 (CET)
+Received: from localhost ([::1]:43256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn575-0002ke-Pg
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:26:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53502)
+	id 1kn5AD-0005j8-US
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:30:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3wU-0005Oh-Gs
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:12:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36255)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3wb-0005PS-Lv
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:12:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3wQ-0000ng-CO
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:11:58 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3wY-0000q3-Bj
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:12:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607537512;
+ s=mimecast20190719; t=1607537521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8nPRkjSHKPRfmK7HdWbx1E1TQS6U/DqNOGXcP9rxsMI=;
- b=B99omGekDL452roqc8aS4zAHp1ENO02InTkdqRCAuz8rPxCgrM8yCIwtkdVA56196uf/2g
- Gz13d0zl2gTrEwTx7cx7UPele4GSUBqPzbEB64qYMhGGei+wosdICE73nElVSfP44DZMlx
- nXGHHZ1IPFfFx/vo0NI3+hV0FUv3Qek=
+ bh=ldhJvkXwpC1AJIX4EnOROCgga2KEj6qRDx4npB7g4RI=;
+ b=hp6vAAFsSqCayyXbV5B/zlcuB7+cXDDg649SvnUxKarcmdoDGdItRI9kFzl+mMtMJOiFt4
+ vcLzVgiLzK63mw/jBqZpgRKj5uNM+Bq01OmgQxBNMCaltbfacmx6FOlQm64kDQtV3uW5bS
+ bqRZMdn1x4NebkjufSed/wFm9dLYj1c=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-905onueaPO-WCKdS1-_hZA-1; Wed, 09 Dec 2020 13:11:50 -0500
-X-MC-Unique: 905onueaPO-WCKdS1-_hZA-1
-Received: by mail-wm1-f69.google.com with SMTP id u123so640956wmu.5
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:11:49 -0800 (PST)
+ us-mta-546-J0ZY2GidNrCsiyTpeeVGlA-1; Wed, 09 Dec 2020 13:11:58 -0500
+X-MC-Unique: J0ZY2GidNrCsiyTpeeVGlA-1
+Received: by mail-wm1-f69.google.com with SMTP id q17so643446wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:11:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=8nPRkjSHKPRfmK7HdWbx1E1TQS6U/DqNOGXcP9rxsMI=;
- b=mZ1HHD2f4mH8K63lVXhU/P14jPnomPXg8Z6lj+WxPMCWxpx2b5Fcizt2OQqCMsHnn6
- xu+VE+cSRaN2o7NWPx6094w4bC/KYmhCyDigEDcpMgrOCcm/8Gjo7SdHsoZ+JOGEyeay
- yixosTluC8jI34a9tPOJHSp1ecs4vgyNZnG9ynSxIHkvyTJFpFEZRRFrrs7+GtuXhluW
- tHZvM5HnyeI4fQjfVbtjuqoSqlg1x7H04XwEI6PtUeVBSVx+Or/3tpSKxVFcG/zk59hq
- uzsOmsAiveeUi2IMYVp7GLHiGcn2DNivqgHCYWg2nv0tuU0qhDJvS+pCleo2W5Mp0K5A
- /d2Q==
-X-Gm-Message-State: AOAM531z1GrGdaFtHDgIZsyUD53rzNo5PeLVsOGpZ/+TDcDYNSEjlxw4
- nX1reJgB6iJgTWt2fEgWBgvAtHQccOrKb7xTp79bF4yo0XWkoWDw0w5yOwRMV5QO7bO4lH/Nos8
- BnndGKV4RFGHbVcq7BgxEMF/DY2Lww9bCdC/FxQFHlD//0mBKKF0LXmzu4wH6
-X-Received: by 2002:a1c:7f90:: with SMTP id a138mr4148419wmd.61.1607537508517; 
- Wed, 09 Dec 2020 10:11:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwP1kZgEj5DQXyzg/fkLScNhUY2HKzGx9R0OYAdcrW5JoJ4toeiu9rxn7RLyumcxsISNbU6vw==
-X-Received: by 2002:a1c:7f90:: with SMTP id a138mr4148399wmd.61.1607537508335; 
- Wed, 09 Dec 2020 10:11:48 -0800 (PST)
+ bh=ldhJvkXwpC1AJIX4EnOROCgga2KEj6qRDx4npB7g4RI=;
+ b=JMNjeU+jcEWU4ebawclSOotg22b1o8NQf40R4psJiXJIwXIALjz4DGiwMQTnodRB2C
+ VLZ+660tKo52ev60//xpUC+yoiVZVqwWgVm2wMWozo9MQWjXIw0jFzjQTsvJBiri+Axn
+ DsmCMFMP78X+eztP2XUK6UcWi7ulfxgpuhUFXWvcVjMtryB4ALfddg+3iHAeYZ+Ib5cP
+ /Y0r76qucFFQDaoaQ/TRTzBrWzkHakwCDHBTq6Kn5Y5vcpn9MSy4M7mCfThe2V5Fht1V
+ mttkLRuQ2WkNikDEmuIRok1jw1z99dnCHkwPFCCj/N//QZAJGUZatoNZ7zVxkL3XXSZ4
+ E5nw==
+X-Gm-Message-State: AOAM530E6VAIedVXPClJXE8KZ/42OZR46ugJHr0vVMNRxqHXhpilI/zc
+ rDZuLyw1LWgpiYTZ96Qf2DiGLyP5xURSgEMAM6eLQnu12aoyjGW7J72tmd6kmyO8BOCnaOqRACN
+ Uani0sKHL/WnIIRxrMvqelFh5Q9PoTuammilllQbqgjr3n0oj6g/04HxNSsQv
+X-Received: by 2002:a1c:df0a:: with SMTP id w10mr4146225wmg.114.1607537516736; 
+ Wed, 09 Dec 2020 10:11:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+vPKivbyaEdUQj1bnsLdYd7uHDMl1JNl5V2xwP3NaoWBJN4ZTmuS5EJbdxOiBPTXgI2yi+A==
+X-Received: by 2002:a1c:df0a:: with SMTP id w10mr4146196wmg.114.1607537516444; 
+ Wed, 09 Dec 2020 10:11:56 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id q4sm4639862wmc.2.2020.12.09.10.11.47
+ by smtp.gmail.com with ESMTPSA id d16sm5389254wrw.17.2020.12.09.10.11.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 10:11:47 -0800 (PST)
-Date: Wed, 9 Dec 2020 13:11:46 -0500
+ Wed, 09 Dec 2020 10:11:55 -0800 (PST)
+Date: Wed, 9 Dec 2020 13:11:48 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 64/65] hw/virtio-pci Added counter for pcie capabilities
- offsets.
-Message-ID: <20201209180546.721296-65-mst@redhat.com>
+Subject: [PULL v2 65/65] hw/virtio-pci Added AER capability.
+Message-ID: <20201209180546.721296-66-mst@redhat.com>
 References: <20201209180546.721296-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201209180546.721296-1-mst@redhat.com>
@@ -100,39 +99,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Melnychenko <andrew@daynix.com>
 
-Removed hardcoded offset for ats. Added cap offset counter
-for future capabilities like AER.
+Added AER capability for virtio-pci devices.
+Also added property for devices, by default AER is disabled.
 
 Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-Message-Id: <20201203110713.204938-2-andrew@daynix.com>
+Message-Id: <20201203110713.204938-3-andrew@daynix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-pci.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/virtio/virtio-pci.h |  4 ++++
+ hw/virtio/virtio-pci.c | 16 ++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
+diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
+index 06e2af12de..d7d5d403a9 100644
+--- a/hw/virtio/virtio-pci.h
++++ b/hw/virtio/virtio-pci.h
+@@ -41,6 +41,7 @@ enum {
+     VIRTIO_PCI_FLAG_INIT_LNKCTL_BIT,
+     VIRTIO_PCI_FLAG_INIT_PM_BIT,
+     VIRTIO_PCI_FLAG_INIT_FLR_BIT,
++    VIRTIO_PCI_FLAG_AER_BIT,
+ };
+ 
+ /* Need to activate work-arounds for buggy guests at vmstate load. */
+@@ -80,6 +81,9 @@ enum {
+ /* Init Function Level Reset capability */
+ #define VIRTIO_PCI_FLAG_INIT_FLR (1 << VIRTIO_PCI_FLAG_INIT_FLR_BIT)
+ 
++/* Advanced Error Reporting capability */
++#define VIRTIO_PCI_FLAG_AER (1 << VIRTIO_PCI_FLAG_AER_BIT)
++
+ typedef struct {
+     MSIMessage msg;
+     int virq;
 diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 36524a5728..ceaa233129 100644
+index ceaa233129..f863f69ede 100644
 --- a/hw/virtio/virtio-pci.c
 +++ b/hw/virtio/virtio-pci.c
-@@ -1798,6 +1798,7 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+@@ -1817,6 +1817,12 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
+          */
+         pci_set_word(pci_dev->config + pos + PCI_PM_PMC, 0x3);
  
-     if (pcie_port && pci_is_express(pci_dev)) {
-         int pos;
-+        uint16_t last_pcie_cap_offset = PCI_CONFIG_SPACE_SIZE;
++        if (proxy->flags & VIRTIO_PCI_FLAG_AER) {
++            pcie_aer_init(pci_dev, PCI_ERR_VER, last_pcie_cap_offset,
++                          PCI_ERR_SIZEOF, NULL);
++            last_pcie_cap_offset += PCI_ERR_SIZEOF;
++        }
++
+         if (proxy->flags & VIRTIO_PCI_FLAG_INIT_DEVERR) {
+             /* Init error enabling flags */
+             pcie_cap_deverr_init(pci_dev);
+@@ -1858,7 +1864,15 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
  
-         pos = pcie_endpoint_cap_init(pci_dev, 0);
-         assert(pos > 0);
-@@ -1833,7 +1834,8 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
-         }
+ static void virtio_pci_exit(PCIDevice *pci_dev)
+ {
++    VirtIOPCIProxy *proxy = VIRTIO_PCI(pci_dev);
++    bool pcie_port = pci_bus_is_express(pci_get_bus(pci_dev)) &&
++                     !pci_bus_is_root(pci_get_bus(pci_dev));
++
+     msix_uninit_exclusive_bar(pci_dev);
++    if (proxy->flags & VIRTIO_PCI_FLAG_AER && pcie_port &&
++        pci_is_express(pci_dev)) {
++        pcie_aer_exit(pci_dev);
++    }
+ }
  
-         if (proxy->flags & VIRTIO_PCI_FLAG_ATS) {
--            pcie_ats_init(pci_dev, 256);
-+            pcie_ats_init(pci_dev, last_pcie_cap_offset);
-+            last_pcie_cap_offset += PCI_EXT_CAP_ATS_SIZEOF;
-         }
+ static void virtio_pci_reset(DeviceState *qdev)
+@@ -1911,6 +1925,8 @@ static Property virtio_pci_properties[] = {
+                     VIRTIO_PCI_FLAG_INIT_PM_BIT, true),
+     DEFINE_PROP_BIT("x-pcie-flr-init", VirtIOPCIProxy, flags,
+                     VIRTIO_PCI_FLAG_INIT_FLR_BIT, true),
++    DEFINE_PROP_BIT("aer", VirtIOPCIProxy, flags,
++                    VIRTIO_PCI_FLAG_AER_BIT, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
-         if (proxy->flags & VIRTIO_PCI_FLAG_INIT_FLR) {
 -- 
 MST
 
