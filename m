@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E532D38DC
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 03:35:29 +0100 (CET)
-Received: from localhost ([::1]:57830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABBC2D38FC
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 03:50:58 +0100 (CET)
+Received: from localhost ([::1]:34268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmpKC-00042f-7D
-	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 21:35:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
+	id 1kmpZA-0006pV-Ts
+	for lists+qemu-devel@lfdr.de; Tue, 08 Dec 2020 21:50:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1kmpIy-0003Ty-Ah
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 21:34:13 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2989)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kmpXh-0006G4-Mb; Tue, 08 Dec 2020 21:49:25 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1kmpIj-0002Xh-U8
- for qemu-devel@nongnu.org; Tue, 08 Dec 2020 21:34:10 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CrLgx0B23zhnb7;
- Wed,  9 Dec 2020 10:33:17 +0800 (CST)
-Received: from [10.174.185.179] (10.174.185.179) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 9 Dec 2020 10:33:42 +0800
-Subject: Re: [PATCH] kvm: Take into account the unaligned section size when
- preparing bitmap
-To: Peter Xu <peterx@redhat.com>
-References: <20201208114013.875-1-yuzenghui@huawei.com>
- <20201208151654.GA6432@xz-x1>
-From: Zenghui Yu <yuzenghui@huawei.com>
-Message-ID: <bb4bcc8b-1d36-9529-d7cd-4d93162d092f@huawei.com>
-Date: Wed, 9 Dec 2020 10:33:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kmpXf-0008Et-1T; Tue, 08 Dec 2020 21:49:25 -0500
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4CrM1Z707Bz534s;
+ Wed,  9 Dec 2020 10:48:34 +0800 (CST)
+Received: from DGGEMM424-HUB.china.huawei.com (10.1.198.41) by
+ DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Wed, 9 Dec 2020 10:49:06 +0800
+Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.162]) by
+ dggemm424-hub.china.huawei.com ([10.1.198.41]) with mapi id 14.03.0487.000;
+ Wed, 9 Dec 2020 10:48:59 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org"
+ <qemu-trivial@nongnu.org>
+Subject: RE: [PATCH RESEND v2 0/7] some memleak trivial patchs
+Thread-Topic: [PATCH RESEND v2 0/7] some memleak trivial patchs
+Thread-Index: AQHWqQOAYexAkoH4WUOcMVYmxKZpOamv9+ywgD5fZnA=
+Date: Wed, 9 Dec 2020 02:48:59 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83BADE398@dggemm531-mbx.china.huawei.com>
+References: <20201023061218.2080844-1-kuhn.chenqun@huawei.com> 
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.149]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20201208151654.GA6432@xz-x1>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.179]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=yuzenghui@huawei.com;
- helo=szxga05-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,102 +63,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, wanghaibin.wang@huawei.com
+Cc: "lvivier@redhat.com" <lvivier@redhat.com>,
+ Pannengyuan <pannengyuan@huawei.com>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>, ganqixin <ganqixin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-
-Thanks for having a look at it.
-
-On 2020/12/8 23:16, Peter Xu wrote:
-> Hi, Zenghui,
-> 
-> On Tue, Dec 08, 2020 at 07:40:13PM +0800, Zenghui Yu wrote:
->> The kernel KVM_CLEAR_DIRTY_LOG interface has align requirement on both the
->> start and the size of the given range of pages. We have been careful to
->> handle the unaligned cases when performing CLEAR on one slot. But it seems
->> that we forget to take the unaligned *size* case into account when
->> preparing bitmap for the interface, and we may end up clearing dirty status
->> for pages outside of [start, start + size).
-> 
-> Thanks for the patch, though my understanding is that this is not a bug.
-> 
-> Please have a look at kvm_memslot_init_dirty_bitmap() where we'll allocate the
-> dirty bitmap to be aligned to 8 bytes (assuming that's the possible max of the
-> value sizeof(unsigned long)).  That exactly covers 64 pages.
-> 
-> So here as long as start_delta==0 (so the value of "bmap_npages - size / psize"
-> won't really matter a lot, imho), then we'll definitely have KVMSlot.dirty_bmap
-> long enough to cover the range we'd like to clear.
-
-I agree.  But actually I'm not saying that KVMSlot.dirty_bmap is not
-long enough.  What I was having in mind is something like:
-
-     // psize = qemu_real_host_page_size;
-     // slot.start_addr = 0;
-     // slot.memory_size = 64 * psize;
-
-     kvm_log_clear_one_slot(slot, as, 0 * psize, 32 * psize);   --> [1]
-     kvm_log_clear_one_slot(slot, as, 32 * psize, 32 * psize);  --> [2]
-
-So the @size is not aligned with 64 pages.  Before this patch, we'll
-clear dirty status for all pages(0-63) through [1].  It looks to me that
-this violates the caller's expectation since we only want to clear
-pages(0-31).
-
-As I said, I don't think this will happen in practice -- the migration
-code should always provide us with a 64-page aligned section (right?).
-I'm just thinking about the correctness of the specific algorithm used
-by kvm_log_clear_one_slot().
-
-Or maybe I had missed some other points obvious ;-) ?
-
-
-Thanks,
-Zenghui
-
-> Note that the size of KVMSlot.dirty_bmap can be bigger than the actually size
-> of the kvm memslot, however since kvm_memslot_init_dirty_bitmap() initialized
-> it to all zero so the extra bits will always be zero for the whole lifecycle of
-> the vm/bitmap.
-> 
-> Thanks,
-> 
->>
->> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
->> ---
->>   accel/kvm/kvm-all.c | 7 +++++--
->>   1 file changed, 5 insertions(+), 2 deletions(-)
->>
->> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
->> index bed2455ca5..05d323ba1f 100644
->> --- a/accel/kvm/kvm-all.c
->> +++ b/accel/kvm/kvm-all.c
->> @@ -747,7 +747,7 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
->>       assert(bmap_start % BITS_PER_LONG == 0);
->>       /* We should never do log_clear before log_sync */
->>       assert(mem->dirty_bmap);
->> -    if (start_delta) {
->> +    if (start_delta || bmap_npages - size / psize) {
->>           /* Slow path - we need to manipulate a temp bitmap */
->>           bmap_clear = bitmap_new(bmap_npages);
->>           bitmap_copy_with_src_offset(bmap_clear, mem->dirty_bmap,
->> @@ -760,7 +760,10 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
->>           bitmap_clear(bmap_clear, 0, start_delta);
->>           d.dirty_bitmap = bmap_clear;
->>       } else {
->> -        /* Fast path - start address aligns well with BITS_PER_LONG */
->> +        /*
->> +         * Fast path - both start and size align well with BITS_PER_LONG
->> +         * (or the end of memory slot)
->> +         */
->>           d.dirty_bitmap = mem->dirty_bmap + BIT_WORD(bmap_start);
->>       }
->>   
->> -- 
->> 2.19.1
->>
->>
-> 
+S2luZGx5IHBpbmchDQoNCkhpIGFsbCwNCiAgVGhpcyBzZXJpZXMgaGFzIGJlZW4gc3VuayBmb3Ig
+YSBsb25nIHRpbWUuDQpDb3VsZCBzb21lb25lIHBpY2sgdGhlbSB1cKO/DQoNClNpeCBwYXRjaGVz
+IGFyZSBzdW5rIGhlcmU6DQogICBxZ2EvY2hhbm5lbC1wb3NpeDogUGx1ZyBtZW1vcnkgbGVhayBp
+biBnYV9jaGFubmVsX3dyaXRlX2FsbCgpDQogICBlbGYyZG1wL3FlbXVfZWxmOiBQbHVnIG1lbWxl
+YWsgaW4gUUVNVV9FbGZfaW5pdA0KICAgZWxmMmRtcC9wZGI6IFBsdWcgbWVtbGVhayBpbiBwZGJf
+aW5pdF9mcm9tX2ZpbGUNCiAgIG1pZ3JhdGlvbi9jb2xvOiBQbHVnIG1lbWxlYWtzIGluIGNvbG9f
+cHJvY2Vzc19pbmNvbWluZ190aHJlYWQNCiAgIGJsb2NrZGV2OiBGaXggYSBtZW1sZWFrIGluIGRy
+aXZlX2JhY2t1cF9wcmVwYXJlKCkNCiAgIGJsb2NrL2ZpbGUtcG9zaXg6IGZpeCBhIHBvc3NpYmxl
+IHVuZGVmaW5lZCBiZWhhdmlvcg0KDQpUaGFua3MsDQpDaGVuIFF1bg0KDQo+IC0tLS0tT3JpZ2lu
+YWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IENoZW5xdW4gKGt1aG4pDQo+IFNlbnQ6IEZyaWRheSwg
+T2N0b2JlciAzMCwgMjAyMCA2OjIzIFBNDQo+IFRvOiBxZW11LWRldmVsQG5vbmdudS5vcmc7IHFl
+bXUtdHJpdmlhbEBub25nbnUub3JnDQo+IENjOiBQYW5uZW5neXVhbiA8cGFubmVuZ3l1YW5AaHVh
+d2VpLmNvbT47IGx2aXZpZXJAcmVkaGF0LmNvbTsNCj4gWmhhbmdoYWlsaWFuZyA8emhhbmcuemhh
+bmdoYWlsaWFuZ0BodWF3ZWkuY29tPjsgZ2FucWl4aW4NCj4gPGdhbnFpeGluQGh1YXdlaS5jb20+
+DQo+IFN1YmplY3Q6IFJFOiBbUEFUQ0ggUkVTRU5EIHYyIDAvN10gc29tZSBtZW1sZWFrIHRyaXZp
+YWwgcGF0Y2hzDQo+IA0KPiBQaW5nIQ0KPiANCj4gSGkgYWxsLA0KPiAgIFRoZSBwYXRjaGUyIH43
+IGhhdmUgYmVlbiByZXZpZXdlZCBmb3Igc29tZSB0aW1lLg0KPiBDb3VsZCBzb21lb25lIHBsZWFz
+ZSBwaWNrIGl0IHVwo78NCj4gDQo+IFRoYW5rcywNCj4gQ2hlbiBRdW4NCj4gDQo+ID4gLS0tLS1P
+cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBDaGVucXVuIChrdWhuKQ0KPiA+IFNlbnQ6
+IEZyaWRheSwgT2N0b2JlciAyMywgMjAyMCAyOjEyIFBNDQo+ID4gVG86IHFlbXUtZGV2ZWxAbm9u
+Z251Lm9yZzsgcWVtdS10cml2aWFsQG5vbmdudS5vcmcNCj4gPiBDYzogUGFubmVuZ3l1YW4gPHBh
+bm5lbmd5dWFuQGh1YXdlaS5jb20+OyBsdml2aWVyQHJlZGhhdC5jb207DQo+ID4gWmhhbmdoYWls
+aWFuZyA8emhhbmcuemhhbmdoYWlsaWFuZ0BodWF3ZWkuY29tPjsgZ2FucWl4aW4NCj4gPiA8Z2Fu
+cWl4aW5AaHVhd2VpLmNvbT47IENoZW5xdW4gKGt1aG4pIDxrdWhuLmNoZW5xdW5AaHVhd2VpLmNv
+bT4NCj4gPiBTdWJqZWN0OiBbUEFUQ0ggUkVTRU5EIHYyIDAvN10gc29tZSBtZW1sZWFrIHRyaXZp
+YWwgcGF0Y2hzDQo+ID4NCj4gPiBIaSBhbGwsDQo+ID4NCj4gPiAgIEhlcmUgYXJlIHNvbWUgbWVt
+b3J5IGxlYWsgcGF0Y2hlcyByZXBvcnRlZCBieSBFdWxlclJvYm90Lg0KPiA+IFNvbWUgcGF0Y2gg
+c3VibWlzc2lvbnMgaGF2ZSBiZWVuIHVuYXR0ZW5kZWQgZm9yIGEgd2hpbGUgYW5kIEkgcmVzZW5k
+DQo+IHRoZW0uDQo+ID4NCj4gPiBUaGFua3MsDQo+ID4gQ2hlbiBRdW4NCj4gPg0KPiA+DQo+ID4g
+Q2hlbiBRdW4gKDEpOg0KPiA+ICAgdGVzdHMvbWlncmF0aW9uOiBmaXggbWVtbGVhayBpbiB3YWl0
+X2NvbW1hbmQvd2FpdF9jb21tYW5kX2ZkDQo+ID4NCj4gPiBQYW4gTmVuZ3l1YW4gKDYpOg0KPiA+
+ICAgcWdhL2NoYW5uZWwtcG9zaXg6IFBsdWcgbWVtb3J5IGxlYWsgaW4gZ2FfY2hhbm5lbF93cml0
+ZV9hbGwoKQ0KPiA+ICAgZWxmMmRtcC9xZW11X2VsZjogUGx1ZyBtZW1sZWFrIGluIFFFTVVfRWxm
+X2luaXQNCj4gPiAgIGVsZjJkbXAvcGRiOiBQbHVnIG1lbWxlYWsgaW4gcGRiX2luaXRfZnJvbV9m
+aWxlDQo+ID4gICBtaWdyYXRpb24vY29sbzogUGx1ZyBtZW1sZWFrcyBpbiBjb2xvX3Byb2Nlc3Nf
+aW5jb21pbmdfdGhyZWFkDQo+ID4gICBibG9ja2RldjogRml4IGEgbWVtbGVhayBpbiBkcml2ZV9i
+YWNrdXBfcHJlcGFyZSgpDQo+ID4gICBibG9jay9maWxlLXBvc2l4OiBmaXggYSBwb3NzaWJsZSB1
+bmRlZmluZWQgYmVoYXZpb3INCj4gPg0KPiA+ICBibG9jay9maWxlLXBvc2l4LmMgICAgICAgICAg
+ICAgIHwgIDIgKy0NCj4gPiAgYmxvY2tkZXYuYyAgICAgICAgICAgICAgICAgICAgICB8ICAxICsN
+Cj4gPiAgY29udHJpYi9lbGYyZG1wL3BkYi5jICAgICAgICAgICB8ICAxICsNCj4gPiAgY29udHJp
+Yi9lbGYyZG1wL3FlbXVfZWxmLmMgICAgICB8ICAxICsNCj4gPiAgbWlncmF0aW9uL2NvbG8uYyAg
+ICAgICAgICAgICAgICB8ICA1ICsrKystDQo+ID4gIHFnYS9jaGFubmVsLXBvc2l4LmMgICAgICAg
+ICAgICAgfCAgNiArKysrKy0NCj4gPiAgdGVzdHMvcXRlc3QvbWlncmF0aW9uLWhlbHBlcnMuYyB8
+IDE2ICsrKysrKysrKysrKy0tLS0NCj4gPiAgNyBmaWxlcyBjaGFuZ2VkLCAyNSBpbnNlcnRpb25z
+KCspLCA3IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gLS0NCj4gPiAyLjIzLjANCg0K
 
