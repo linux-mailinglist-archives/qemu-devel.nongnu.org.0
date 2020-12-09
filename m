@@ -2,52 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0313D2D3D24
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 09:12:59 +0100 (CET)
-Received: from localhost ([::1]:53506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCF32D3D8F
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 09:35:19 +0100 (CET)
+Received: from localhost ([::1]:35576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmuao-0005sM-0l
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 03:12:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41626)
+	id 1kmuwQ-0003HI-Kf
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 03:35:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1kmuYZ-0003j2-Rw; Wed, 09 Dec 2020 03:10:39 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2888)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kmuv7-0002dR-Vy
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:33:57 -0500
+Received: from 3.mo51.mail-out.ovh.net ([188.165.32.156]:50919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1kmuYX-00075m-9j; Wed, 09 Dec 2020 03:10:39 -0500
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CrV8S2HQwz15YxT;
- Wed,  9 Dec 2020 16:10:00 +0800 (CST)
-Received: from DESKTOP-7FEPK9S.china.huawei.com (10.174.187.219) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 9 Dec 2020 16:10:25 +0800
-From: Shenming Lu <lushenming@huawei.com>
-To: Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
- <kwankhede@nvidia.com>, Cornelia Huck <cohuck@redhat.com>, "Dr . David Alan
- Gilbert" <dgilbert@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [RFC PATCH v2 3/3] vfio: Avoid disabling and enabling vectors
- repeatedly in VFIO migration
-Date: Wed, 9 Dec 2020 16:09:19 +0800
-Message-ID: <20201209080919.156-4-lushenming@huawei.com>
-X-Mailer: git-send-email 2.27.0.windows.1
-In-Reply-To: <20201209080919.156-1-lushenming@huawei.com>
-References: <20201209080919.156-1-lushenming@huawei.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kmuv4-0006xV-OH
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:33:57 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.183])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id AF737240B8B;
+ Wed,  9 Dec 2020 09:33:38 +0100 (CET)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 9 Dec 2020
+ 09:33:36 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R00683016755-4cd7-4a58-9314-76cd7bd62976,
+ F89B705946B58AFC48376D7414C518838B559611) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 3/3] net: checksum: Introduce fine control over checksum
+ type
+To: Bin Meng <bmeng.cn@gmail.com>, <qemu-devel@nongnu.org>
+References: <1607220847-24096-1-git-send-email-bmeng.cn@gmail.com>
+ <1607220847-24096-3-git-send-email-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <adb845f8-8623-988f-cb11-148ec4cc2f4b@kaod.org>
+Date: Wed, 9 Dec 2020 09:33:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.219]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=lushenming@huawei.com; helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1607220847-24096-3-git-send-email-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 481ee65c-d874-4de9-800e-f6db287e3d47
+X-Ovh-Tracer-Id: 10079618919775570899
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudejjedguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefudeltdfhtddtieevudduveehffeutedvueeuleduiedvgffgueduhfehgfejheenucffohhmrghinhepohhffhhlohgrugdrnhgvthdpghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepsghmvghnghdrtghnsehgmhgrihhlrdgtohhm
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=clg@kaod.org;
+ helo=3.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,96 +71,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
- Marc Zyngier <maz@kernel.org>, qemu-devel@nongnu.org, lushenming@huawei.com,
- qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, Paul Durrant <paul@xen.org>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Beniamino Galvani <b.galvani@gmail.com>,
+ Zhang Chen <chen.zhang@intel.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>, Joel Stanley <joel@jms.id.au>,
+ qemu-arm@nongnu.org, xen-devel@lists.xenproject.org,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Different from the normal situation when the guest starts, we can
-know the max unmasked vetctor (at the beginning) after msix_load()
-in VFIO migration. So in order to avoid ineffectively disabling and
-enabling vectors repeatedly, let's allocate all needed vectors first
-and then enable these unmasked vectors one by one without disabling.
+Hello !
 
-Signed-off-by: Shenming Lu <lushenming@huawei.com>
----
- hw/pci/msix.c         | 17 +++++++++++++++++
- hw/vfio/pci.c         | 10 ++++++++--
- include/hw/pci/msix.h |  2 ++
- 3 files changed, 27 insertions(+), 2 deletions(-)
+> diff --git a/hw/net/ftgmac100.c b/hw/net/ftgmac100.c
+> index 782ff19..fbae1f1 100644
+> --- a/hw/net/ftgmac100.c
+> +++ b/hw/net/ftgmac100.c
+> @@ -573,7 +573,15 @@ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
+>              }
+>  
+>              if (flags & FTGMAC100_TXDES1_IP_CHKSUM) {
+> -                net_checksum_calculate(s->frame, frame_size);
+> +                /*
+> +                 * TODO:
+> +                 * FTGMAC100_TXDES1_IP_CHKSUM seems to be only for IP checksum,
+> +                 * however previous net_checksum_calculate() did not calculate
+> +                 * IP checksum at all. Passing CSUM_ALL for now until someone
+> +                 * who is familar with this MAC to figure out what should be
+> +                 * properly added for TCP/UDP checksum offload.
+> +                 */
+> +                net_checksum_calculate(s->frame, frame_size, CSUM_ALL);
+>              }
+>              /* Last buffer in frame.  */
+>              qemu_send_packet(qemu_get_queue(s->nic), s->frame, frame_size);
 
-diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-index 67e34f34d6..bf291d3ff8 100644
---- a/hw/pci/msix.c
-+++ b/hw/pci/msix.c
-@@ -557,6 +557,23 @@ unsigned int msix_nr_vectors_allocated(const PCIDevice *dev)
-     return dev->msix_entries_nr;
- }
- 
-+int msix_get_max_unmasked_vector(PCIDevice *dev)
+
+You can test your changes using the HOWTO Joel provided here : 
+
+  https://github.com/openbmc/qemu/wiki/Usage
+
+Please also check the Linux driver  :
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/ethernet/faraday/ftgmac100.c#n685
+
+That said, something like the change below should be more appropriate.
+
+Thanks,
+
+C. 
+
++static int ftgmac100_convert_csum_flag(uint32_t flags)
 +{
-+    int max_unmasked_vector = -1;
-+    int vector;
++    int csum = 0;
 +
-+    if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
-+        (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
-+        for (vector = 0; vector < dev->msix_entries_nr; vector++) {
-+            if (!msix_is_masked(dev, vector)) {
-+                max_unmasked_vector = vector;
-+            }
-+        }
++    if (flags & FTGMAC100_TXDES1_IP_CHKSUM) {
++        csum |= CSUM_IP;
 +    }
-+
-+    return max_unmasked_vector;
++    if (flags & FTGMAC100_TXDES1_TCP_CHKSUM) {
++        csum |= CSUM_TCP;
++    }
++    if (flags & FTGMAC100_TXDES1_UDP_CHKSUM) {
++        csum |= CSUM_UDP;
++    }
++    return csum;
 +}
 +
- static int msix_set_notifier_for_vector(PCIDevice *dev, unsigned int vector)
+ static void ftgmac100_do_tx(FTGMAC100State *s, uint32_t tx_ring,
+                             uint32_t tx_descriptor)
  {
-     MSIMessage msg;
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 51dc373695..e755ed2514 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -568,6 +568,9 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
+@@ -602,6 +618,7 @@ static void ftgmac100_do_tx(FTGMAC100Sta
+         ptr += len;
+         frame_size += len;
+         if (bd.des0 & FTGMAC100_TXDES0_LTS) {
++            int csum = ftgmac100_convert_csum_flag(flags);
  
- static void vfio_msix_enable(VFIOPCIDevice *vdev)
- {
-+    int max_unmasked_vector = msix_get_max_unmasked_vector(&vdev->pdev);
-+    unsigned int used_vector = MAX(max_unmasked_vector, 0);
-+
-     vfio_disable_interrupts(vdev);
+             /* Check for VLAN */
+             if (flags & FTGMAC100_TXDES1_INS_VLANTAG &&
+@@ -610,16 +627,8 @@ static void ftgmac100_do_tx(FTGMAC100Sta
+                                             FTGMAC100_TXDES1_VLANTAG_CI(flags));
+             }
  
-     vdev->msi_vectors = g_new0(VFIOMSIVector, vdev->msix->entries);
-@@ -586,9 +589,12 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
-      * triggering to userspace, then immediately release the vector, leaving
-      * the physical device with no vectors enabled, but MSI-X enabled, just
-      * like the guest view.
-+     * If there are unmasked vectors (such as in migration) which will be
-+     * enabled soon, we can allocate them here to avoid ineffectively disabling
-+     * and enabling vectors repeatedly later.
-      */
--    vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
--    vfio_msix_vector_release(&vdev->pdev, 0);
-+    vfio_msix_vector_do_use(&vdev->pdev, used_vector, NULL, NULL);
-+    vfio_msix_vector_release(&vdev->pdev, used_vector);
- 
-     if (msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_use,
-                                   vfio_msix_vector_release, NULL)) {
-diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
-index 4c4a60c739..4bfb463fa6 100644
---- a/include/hw/pci/msix.h
-+++ b/include/hw/pci/msix.h
-@@ -23,6 +23,8 @@ void msix_uninit_exclusive_bar(PCIDevice *dev);
- 
- unsigned int msix_nr_vectors_allocated(const PCIDevice *dev);
- 
-+int msix_get_max_unmasked_vector(PCIDevice *dev);
-+
- void msix_save(PCIDevice *dev, QEMUFile *f);
- void msix_load(PCIDevice *dev, QEMUFile *f);
- 
--- 
-2.19.1
-
+-            if (flags & FTGMAC100_TXDES1_IP_CHKSUM) {
+-                /*
+-                 * TODO:
+-                 * FTGMAC100_TXDES1_IP_CHKSUM seems to be only for IP checksum,
+-                 * however previous net_checksum_calculate() did not calculate
+-                 * IP checksum at all. Passing CSUM_ALL for now until someone
+-                 * who is familar with this MAC to figure out what should be
+-                 * properly added for TCP/UDP checksum offload.
+-                 */
+-                net_checksum_calculate(s->frame, frame_size, CSUM_ALL);
++            if (csum) {
++                net_checksum_calculate(s->frame, frame_size, csum);
+             }
+             /* Last buffer in frame.  */
+             qemu_send_packet(qemu_get_queue(s->nic), s->frame, frame_size);
 
