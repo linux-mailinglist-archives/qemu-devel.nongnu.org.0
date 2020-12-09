@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DF92D3DF2
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 09:54:35 +0100 (CET)
-Received: from localhost ([::1]:50098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3BD2D3DF3
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 09:54:40 +0100 (CET)
+Received: from localhost ([::1]:50232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmvF4-0001da-LY
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 03:54:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48222)
+	id 1kmvF9-0001gw-0v
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 03:54:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kmvAh-0000Ez-9A
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:50:03 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:46542)
+ id 1kmvAt-0000K7-Lg
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:50:15 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:46572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kmvAf-00043N-7k
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:50:03 -0500
+ id 1kmvAr-00048A-Ta
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:50:15 -0500
 Received: from [192.168.61.100] (lfbn-lyo-1-447-149.w2-7.abo.wanadoo.fr
  [2.7.4.149])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 20E3D21CD2;
- Wed,  9 Dec 2020 08:49:58 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 91D3E21CD2;
+ Wed,  9 Dec 2020 08:50:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1607503798;
+ s=mail; t=1607503811;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h/kXW4iKY1DjCVcb4D95oadjUU0aU/226G5DV29B1hU=;
- b=pBFwH27FydBDSqpUW9pl07V8sWQqwzNQpNaEftwI+/qwqZfdZ7qnEQo05uduiuw+mJVhbl
- ySHkRcRMrZp9v98wWPr8Kn9/eV7bHcEZdDNSCC9vdlEqJ7sHBuw/Rm6v6EfVIQfMIORTr1
- dRcs4keMu9BMOGGiBp71RokdEiHoE40=
-Subject: Re: [PATCH 2/4] target/mips: Don't use clock_get_ns() in clock period
- calculation
+ bh=TGg4omeGHmNIqfFq0CvLtVEQ5wzSsNFl8syHq41T9MI=;
+ b=vs2di5ahYRuneUFiHMMwquxfBR/eFpS0VP0Q3uybHPjnhATwxtqMsKbqtJQQKm7fTH3I0K
+ Bifx9IlCuYkt8o5cj8nElXwT8F+mveFvk3hFPa+XJMtexhwDp3o6QW7lP7NZgw5/yTBezq
+ HlYlsHnPCOuYHQ6GF3P21b2cH99u9wI=
+Subject: Re: [PATCH 3/4] clock: Remove clock_get_ns()
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20201208181554.435-1-peter.maydell@linaro.org>
- <20201208181554.435-3-peter.maydell@linaro.org>
+ <20201208181554.435-4-peter.maydell@linaro.org>
 From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <d8fc3be3-8b08-3291-5f66-b493cd84428f@greensocs.com>
-Date: Wed, 9 Dec 2020 09:50:14 +0100
+Message-ID: <88337452-5486-b3e6-ac5c-cad308852492@greensocs.com>
+Date: Wed, 9 Dec 2020 09:50:27 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.3
 MIME-Version: 1.0
-In-Reply-To: <20201208181554.435-3-peter.maydell@linaro.org>
+In-Reply-To: <20201208181554.435-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -75,38 +74,76 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/8/20 7:15 PM, Peter Maydell wrote:
-> Currently the MIPS code uses the old clock_get_ns() API to
-> calculate a time length in nanoseconds:
->   cpu->cp0_count_rate * clock_get_ns(MIPS_CPU(cpu)->clock)
-> 
-> This relies on the clock having a period which is an exact number
-> of nanoseconds.
-> 
-> Switch to the new clock_ticks_to_ns() function, which does the
-> multiplication internally at a higher precision.
+> Remove the now-unused clock_get_ns() API and the CLOCK_PERIOD_TO_NS()
+> macro that only it was using.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Reviewed-by: Luc Michel <luc@lmichel.fr>
 
 > ---
->   target/mips/cpu.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   docs/devel/clocks.rst | 17 +++++++++++++----
+>   include/hw/clock.h    |  6 ------
+>   2 files changed, 13 insertions(+), 10 deletions(-)
 > 
-> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-> index 76d50b00b42..de15ec6068a 100644
-> --- a/target/mips/cpu.c
-> +++ b/target/mips/cpu.c
-> @@ -147,8 +147,8 @@ static void mips_cp0_period_set(MIPSCPU *cpu)
->   {
->       CPUMIPSState *env = &cpu->env;
+> diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
+> index aebeedbb95e..9a93d1361b4 100644
+> --- a/docs/devel/clocks.rst
+> +++ b/docs/devel/clocks.rst
+> @@ -238,8 +238,17 @@ object during device instance init. For example:
+>   Fetching clock frequency/period
+>   -------------------------------
 >   
-> -    env->cp0_count_ns = cpu->cp0_count_rate
-> -                        * clock_get_ns(MIPS_CPU(cpu)->clock);
-> +    env->cp0_count_ns = clock_ticks_to_ns(MIPS_CPU(cpu)->clock,
-> +                                          cpu->cp0_count_rate);
->       assert(env->cp0_count_ns);
+> -To get the current state of a clock, use the functions ``clock_get()``,
+> -``clock_get_ns()`` or ``clock_get_hz()``.
+> +To get the current state of a clock, use the functions ``clock_get()``
+> +or ``clock_get_hz()``.
+> +
+> +``clock_get()`` returns the period of the clock in its fully precise
+> +internal representation, as an unsigned 64-bit integer in units of
+> +2^-32 nanoseconds. (For many purposes ``clock_ticks_to_ns()`` will
+> +be more convenient; see the section below on expiry deadlines.)
+> +
+> +``clock_get_hz()`` returns the frequency of the clock, rounded to the
+> +next lowest integer. This implies some inaccuracy due to the rounding,
+> +so be cautious about using it in calculations.
+>   
+>   It is also possible to register a callback on clock frequency changes.
+>   Here is an example:
+> @@ -254,8 +263,8 @@ Here is an example:
+>            */
+>   
+>           /* do something with the new period */
+> -        fprintf(stdout, "device new period is %" PRIu64 "ns\n",
+> -                        clock_get_ns(dev->my_clk_input));
+> +        fprintf(stdout, "device new period is %" PRIu64 "* 2^-32 ns\n",
+> +                        clock_get(dev->my_clk_input));
+>       }
+>   
+>   Calculating expiry deadlines
+> diff --git a/include/hw/clock.h b/include/hw/clock.h
+> index a9425d9fb14..9c0b1eb4c3f 100644
+> --- a/include/hw/clock.h
+> +++ b/include/hw/clock.h
+> @@ -39,7 +39,6 @@ typedef void ClockCallback(void *opaque);
+>    * macro helpers to convert to hertz / nanosecond
+>    */
+>   #define CLOCK_PERIOD_FROM_NS(ns) ((ns) * (CLOCK_PERIOD_1SEC / 1000000000llu))
+> -#define CLOCK_PERIOD_TO_NS(per) ((per) / (CLOCK_PERIOD_1SEC / 1000000000llu))
+>   #define CLOCK_PERIOD_FROM_HZ(hz) (((hz) != 0) ? CLOCK_PERIOD_1SEC / (hz) : 0u)
+>   #define CLOCK_PERIOD_TO_HZ(per) (((per) != 0) ? CLOCK_PERIOD_1SEC / (per) : 0u)
+>   
+> @@ -214,11 +213,6 @@ static inline unsigned clock_get_hz(Clock *clk)
+>       return CLOCK_PERIOD_TO_HZ(clock_get(clk));
 >   }
 >   
+> -static inline unsigned clock_get_ns(Clock *clk)
+> -{
+> -    return CLOCK_PERIOD_TO_NS(clock_get(clk));
+> -}
+> -
+>   /**
+>    * clock_ticks_to_ns:
+>    * @clk: the clock to query
 > 
 
