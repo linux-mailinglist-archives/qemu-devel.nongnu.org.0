@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E400D2D4779
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:09:27 +0100 (CET)
-Received: from localhost ([::1]:60714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E092D47B6
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:19:32 +0100 (CET)
+Received: from localhost ([::1]:54788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn2xy-0004Xz-Uw
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:09:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36306)
+	id 1kn37j-00065h-Kg
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:19:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kn2q3-0006Zb-IU
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:17 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36986)
+ id 1kn2q6-0006bZ-5I
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:18 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kn2px-0000ra-Sc
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:15 -0500
-Received: by mail-wr1-x441.google.com with SMTP id i9so2534935wrc.4
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 09:01:09 -0800 (PST)
+ id 1kn2pz-0000sB-Q2
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:17 -0500
+Received: by mail-wr1-x433.google.com with SMTP id a12so2520319wrv.8
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 09:01:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OxNIt5plYdOKFCx5JryMY8PTARCk/pBAH37rhtHgN+o=;
- b=U8HcXfQrcB3+4tI+3S8C8O70g8rMv6zchI0xWBmMIZwNDuLyQJ6Zbt+li8bjMIjuOf
- 2Ure8R5cs+j2EZ+hLcS3ZpG7dijAJ3NqDaucbpiQeq3BVJAS8pKINHPl57d16xR3V0u6
- apyi0mF0QO08rA/J3pR4fli4u7V7+A/FLCPsXMvnRhzir64xBAH972rnaFu/mpYqj215
- LvZHUXMvzvTuh/CQ1i/X0ihKPgKmuuHhns1NNN0fQLjMxTQqXJfk9FYViyWo++oG1iAL
- 7VXLC7dZgLGWk/5GA+G4puxRLC/FGpVk1gTB6leIE18uT0bJVCm5KfqyrynjJi/0I9xu
- aJ0g==
+ bh=nJvx+P2PZRrp618YFcEGq6gl+sZOUOOwd+CTLwUpasY=;
+ b=bpjpT+1qbs42N1PlZCVHZ+VS4Ky1IUELh3emZiSRqrlhlc8At9ThP8npUzh0eJxk8b
+ +BiPg5Q9eS+XPSFve9qtloEL8nZbl3Y16XZqTHL1mY8krH6X3tFRZSP/J+M9gjFPYh79
+ qj+/r+fzsh/teRuLSbYx5DHwGzBOm+krbQVs1EcxYRcXot81OjjfVdeD/CPlJneCjjAC
+ hShF9Plac0Cuijrvqli+Ibf3a/0EHqUS+ih+F4A1bx+EoCYEZGRboG4tTqQiphLF8vYC
+ FmUCJWKbPvwoSR7v5kNF0HhPpN/Jep0l0rzbv5VmvqE+sOQxJouPtOiq/g+azKOk3Prj
+ lF+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OxNIt5plYdOKFCx5JryMY8PTARCk/pBAH37rhtHgN+o=;
- b=pToZNkYUCCp788mK+61xAoeNUfNLrudKS+iM7ZsDATcQK9rE0Sk4Hd6mru3J5WctPX
- zYPNAD3nVD1w3gIcb5BCQ4NwG/A9Amr2afbel02E+djIG0Qc5ttxrtWo7qpeRf1w+cg2
- Jkdf5EgbJeV/oyqSaQaWJiZxSwZVPktTNDrBN71i/9gVgViwDkFY4NuB4bRjfos6g1CT
- Yz0L/xBHMMz+dFlvvgY90QzR/8grJjElStzadMdXigFnlzB+z3h41WRnhRqDMjIorrA0
- XrKocTFvFgQ58EH8BgUcTPt62OR/VJTiiMHJaLcotWIabvAs/ZON632K6pxJnAsMmCgV
- 7m0g==
-X-Gm-Message-State: AOAM533KAuqs5xPEY1b1VG2YRcClg9ipEOED2XktA53rw0x6BhodTpZ4
- xuaXOE5vlP9jiZg5pPwsHIlICg==
-X-Google-Smtp-Source: ABdhPJz8ekeE7ibAP8xmAgF7zqqMgYHD2BrLzuu6lDDYxtNSEGabI+JLsitcUMVYs1gUHh9YD1OVRg==
-X-Received: by 2002:adf:f607:: with SMTP id t7mr3667749wrp.169.1607533267836; 
- Wed, 09 Dec 2020 09:01:07 -0800 (PST)
+ bh=nJvx+P2PZRrp618YFcEGq6gl+sZOUOOwd+CTLwUpasY=;
+ b=R1Cm6NxBP3Mr8BiRv16c5pJ1ESAL8D4fUMXGzMoEQc4engQlTIjUpF/g03I6qbwgLO
+ 6nfee6dzidHz1hZ2nWVwaARgTMNvP5dweM3IXOeF8u7jPw+aIeZzhdcwCMJb+m1f1ILc
+ eydkafbnKeuDjySur+/Pjzil9aabzWmW5bypUYtiyuFr936HX8J4eWk3+gcRmk7p/Wu2
+ 2UgKlUWzW3k1BEaJsYb3ej0x+v5Hzk4J0HWvFLEY1PZUU7moOHYxFZ5IecgRZ5SiSC/g
+ MSYZymFG6CMAlYMVMuDnYmCGlNs4iXM1kBJPZpbFztk6teUUB8YyElbF65cG+Cfh5z7W
+ lnuA==
+X-Gm-Message-State: AOAM5324/33wB6/ICj9KtrKyxGBZqEbTjFyL97C1r8j4Q+lOqWZzWYfa
+ CgxcUMEQqCYOQ9MQP0hAjm32iw==
+X-Google-Smtp-Source: ABdhPJwM+Um8rFSqfDvO6aQSxjAkLumfm61o8WbLWugrlaPxHBJwrt751AKWZvq/Q1Im4Lj7Yx3B1Q==
+X-Received: by 2002:a5d:558a:: with SMTP id i10mr3827663wrv.363.1607533270255; 
+ Wed, 09 Dec 2020 09:01:10 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b83sm4156373wmd.48.2020.12.09.09.01.00
+ by smtp.gmail.com with ESMTPSA id d15sm4401716wrx.93.2020.12.09.09.01.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 09:01:03 -0800 (PST)
+ Wed, 09 Dec 2020 09:01:05 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 913F11FF90;
+ by zen.linaroharston (Postfix) with ESMTP id A88F81FF91;
  Wed,  9 Dec 2020 17:00:59 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 4/6] python: add __repr__ to ConsoleSocket to aid debugging
-Date: Wed,  9 Dec 2020 17:00:57 +0000
-Message-Id: <20201209170059.20742-5-alex.bennee@linaro.org>
+Subject: [PATCH v1 5/6] gitlab: move --without-default-devices build from
+ Travis
+Date: Wed,  9 Dec 2020 17:00:58 +0000
+Message-Id: <20201209170059.20742-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201209170059.20742-1-alex.bennee@linaro.org>
 References: <20201209170059.20742-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,47 +87,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Willian Rampazzo <willianr@redhat.com>, berrange@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>, stefanb@linux.vnet.ibm.com,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Cleber Rosa <crosa@redhat.com>, richard.henderson@linaro.org, f4bug@amsat.org,
- John Snow <jsnow@redhat.com>, cota@braap.org, stefanha@redhat.com,
- marcandre.lureau@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
+ richard.henderson@linaro.org, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While attempting to debug some console weirdness I thought it would be
-worth making it easier to see what it had inside.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-
 ---
-v2
-  - make more pythonic
----
- python/qemu/console_socket.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ .gitlab-ci.yml | 7 +++++++
+ .travis.yml    | 8 --------
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/python/qemu/console_socket.py b/python/qemu/console_socket.py
-index f060d79e06..ac21130e44 100644
---- a/python/qemu/console_socket.py
-+++ b/python/qemu/console_socket.py
-@@ -45,6 +45,13 @@ class ConsoleSocket(socket.socket):
-         if drain:
-             self._drain_thread = self._thread_start()
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 21b01c0547..878d114d40 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -434,6 +434,13 @@ build-trace-ust-system:
+     IMAGE: ubuntu2004
+     CONFIGURE_ARGS: --enable-trace-backends=ust --target-list=x86_64-softmmu
  
-+    def __repr__(self) -> str:
-+        s = super().__repr__()
-+        s = s.rstrip(">")
-+        s = "%s,  logfile=%s, drain_thread=%s>" % (s, self._logfile,
-+                                                   self._drain_thread)
-+        return s
++# Check our reduced build configurations
++build-without-default-devices:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: debian-amd64
++    CONFIGURE_ARGS: --without-default-devices --disable-user
 +
-     def _drain_fn(self) -> None:
-         """Drains the socket and runs while the socket is open."""
-         while self._open:
+ check-patch:
+   stage: build
+   image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+diff --git a/.travis.yml b/.travis.yml
+index 1f80bdb624..e89996c111 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -224,14 +224,6 @@ jobs:
+         - ${SRC_DIR}/scripts/travis/coverage-summary.sh
+ 
+ 
+-    # We manually include builds which we disable "make check" for
+-    - name: "GCC without-default-devices (softmmu)"
+-      env:
+-        - CONFIG="--without-default-devices --disable-user"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-        - TEST_CMD=""
+-
+-
+     # Using newer GCC with sanitizers
+     - name: "GCC9 with sanitizers (softmmu)"
+       dist: bionic
 -- 
 2.20.1
 
