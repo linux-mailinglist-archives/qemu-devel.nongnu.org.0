@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D52F2D4AEE
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:49:45 +0100 (CET)
-Received: from localhost ([::1]:55008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53CB2D4B22
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:59:42 +0100 (CET)
+Received: from localhost ([::1]:51690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn5T6-0006Ad-2N
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:49:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37066)
+	id 1kn5cj-0008BQ-V3
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:59:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kn4pY-00050j-4F
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 14:08:52 -0500
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:44537)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kn4pV-0001cY-FC
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 14:08:51 -0500
-Received: by mail-io1-xd44.google.com with SMTP id z5so2742839iob.11
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 11:08:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CnKxNHN4m6y2yJUCzP6bslM8aaY6GRHer4WkdpuQSXg=;
- b=W+5exp91toEmxdDXax5wCy+Lb1K4zA0On22MGVjt4xU1iXmpmc1fU+hlJJTL/iFOdN
- onBz9Wb5RQg6RqdKdTKJAZDK6STm8TVK/PmwMEx2neC5hG0bT4xCP+Ydblilbd2h+ZFu
- +Mv+OElxa8VQ4uEynQulPUJ3F570/ITkRsSlkkmKl1Q12pvUJ1h9s6909aEwwlu6HkGc
- PkTwb/PKj5ioa4d+R1MTAxJn2nwZgzz3oJTxfgCp57O69ntrfH/eu5/noDZCpsv11Tjz
- vSgptn0V7gQ6hRT+yo1SObQnUHCOaL1+PEjRSHB4g293Z8uLrA1hZbKhdPo7K70/i8LH
- fQXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CnKxNHN4m6y2yJUCzP6bslM8aaY6GRHer4WkdpuQSXg=;
- b=aIDLzPGgsY5/1HAir0DQ5SSK45At4COpePxAmDSULDZVPfiLgWmHVFoGbsuHHS9MXp
- 3Rhil5cnVXXZ2d7O7mjLiGRfqXlFjqobq5rq5JN7PRH884NGBqIlwCPtNcAgEeMV9EXw
- 3SUvjHnSRIXH3S+3N+ELYExbqrWX3kft1pqT7Gay74pZeyrhy7GbhgtYxdAcZU2U2SRp
- 77Vom/QOQW9IFRr2Ufg2dMx+CjbvYszBiwp5mmcJ1gdW2lX/Odf8oQQmobvvnevWQne7
- bQWBqJvfleoRmaC1EQqg8TnDnXTTpbVZ1tXDV0PVwJh8fnOGQ3nGzzg2HScowbxSmIK7
- bryw==
-X-Gm-Message-State: AOAM53200yw+KHW8e7uiY1O/R7Ha2AyY0Fsn+ZY4Zd0Y6B7KgpJPfK/Q
- WGUZFGBMyk8Bql4Jr96y4Qxa+tqDDytCxDvjLVU=
-X-Google-Smtp-Source: ABdhPJywJh5t6ueXXTpq3okgVQo/p+oK1nIB1VVhTH6OhjA66X1R6U6otLkh/c42aWQWkzC5sjeD7ZF9yr/HiaCB61k=
-X-Received: by 2002:a5d:9c91:: with SMTP id p17mr4619181iop.36.1607540928576; 
- Wed, 09 Dec 2020 11:08:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kn4w4-00019v-06
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 14:15:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27196)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kn4w1-0003em-9A
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 14:15:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607541330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EV42uk9zXU0mS3m5+2kmPbekn011LQfdSjD/Evueflc=;
+ b=Cu5DqWEm8fVSB/wSbsdYTfLCNPofrJ7l1atqheghrNhTX6Zw8SD2ajdU5aPkyoOzPYJxj7
+ zI4/OTNXU8ioNN1TlaSYdsvKpygFYkCn0KT3FsOZ72TEDfsO5+bbNzB9xHVsfFRcG6Xxww
+ K+nKUiN/6jFEL5oLYir3E16N2seNn68=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-469-M6J2S3W0PIC4OR3vEO4GMA-1; Wed, 09 Dec 2020 14:15:28 -0500
+X-MC-Unique: M6J2S3W0PIC4OR3vEO4GMA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F809102C7CF;
+ Wed,  9 Dec 2020 19:15:27 +0000 (UTC)
+Received: from [10.36.113.30] (ovpn-113-30.ams2.redhat.com [10.36.113.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC38D163CC;
+ Wed,  9 Dec 2020 19:15:06 +0000 (UTC)
+Subject: Re: [PATCH] virtio-pmem: add trace events
+To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>, mst@redhat.com
+References: <20201117115705.32195-1-pankaj.gupta.linux@gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <37d62ca6-2f2b-d8c5-5700-9324c41ee812@redhat.com>
+Date: Wed, 9 Dec 2020 20:15:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201208163950.29617-1-david@redhat.com>
- <20201208163950.29617-3-david@redhat.com>
-In-Reply-To: <20201208163950.29617-3-david@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 9 Dec 2020 20:08:37 +0100
-Message-ID: <CAM9Jb+ja6eWz3FAYwteMPs--JE6sU79z1vpC3bj5+jV+YpOuGg@mail.gmail.com>
-Subject: Re: [PATCH v2 02/10] virtio-mem: Factor out traversing unplugged
- ranges
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd44.google.com
+In-Reply-To: <20201117115705.32195-1-pankaj.gupta.linux@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,159 +81,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Kedzierski <mkedzier@redhat.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Let's factor out the core logic, to be reused soon.
->
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Auger Eric <eric.auger@redhat.com>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Cc: teawater <teawaterz@linux.alibaba.com>
-> Cc: Marek Kedzierski <mkedzier@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On 17.11.20 12:57, Pankaj Gupta wrote:
+> This patch adds trace events for virtio-pmem functionality.
+> Adding trace events for virtio pmem request, reponse and host
+> side fsync functionality.
+> 
+> Signed-off-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 > ---
->  hw/virtio/virtio-mem.c | 86 ++++++++++++++++++++++++------------------
->  1 file changed, 49 insertions(+), 37 deletions(-)
->
-> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-> index 655824ff81..471e464171 100644
-> --- a/hw/virtio/virtio-mem.c
-> +++ b/hw/virtio/virtio-mem.c
-> @@ -145,6 +145,33 @@ static bool virtio_mem_is_busy(void)
->      return migration_in_incoming_postcopy() || !migration_is_idle();
->  }
->
-> +typedef int (*virtio_mem_range_cb)(const VirtIOMEM *vmem, void *arg,
-> +                                   uint64_t offset, uint64_t size);
+>  hw/virtio/trace-events  | 5 +++++
+>  hw/virtio/virtio-pmem.c | 4 ++++
+>  2 files changed, 9 insertions(+)
+> 
+> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> index 2060a144a2..c62727f879 100644
+> --- a/hw/virtio/trace-events
+> +++ b/hw/virtio/trace-events
+> @@ -122,3 +122,8 @@ virtio_mem_unplug_all_request(void) ""
+>  virtio_mem_resized_usable_region(uint64_t old_size, uint64_t new_size) "old_size=0x%" PRIx64 "new_size=0x%" PRIx64
+>  virtio_mem_state_request(uint64_t addr, uint16_t nb_blocks) "addr=0x%" PRIx64 " nb_blocks=%" PRIu16
+>  virtio_mem_state_response(uint16_t state) "state=%" PRIu16
 > +
-> +static int virtio_mem_for_each_unplugged_range(const VirtIOMEM *vmem, void *arg,
-> +                                               virtio_mem_range_cb cb)
-> +{
-> +    unsigned long first_zero_bit, last_zero_bit;
-> +    uint64_t offset, size;
-> +    int ret = 0;
-> +
-> +    first_zero_bit = find_first_zero_bit(vmem->bitmap, vmem->bitmap_size);
-> +    while (first_zero_bit < vmem->bitmap_size) {
-> +        offset = first_zero_bit * vmem->block_size;
-> +        last_zero_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
-> +                                      first_zero_bit + 1) - 1;
-> +        size = (last_zero_bit - first_zero_bit + 1) * vmem->block_size;
-> +
-> +        ret = cb(vmem, arg, offset, size);
-> +        if (ret) {
-> +            break;
-> +        }
-> +        first_zero_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
-> +                                            last_zero_bit + 2);
-> +    }
-> +    return ret;
-> +}
-> +
->  static bool virtio_mem_test_bitmap(VirtIOMEM *vmem, uint64_t start_gpa,
->                                     uint64_t size, bool plugged)
->  {
-> @@ -594,33 +621,27 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
->      ram_block_discard_require(false);
->  }
->
-> -static int virtio_mem_restore_unplugged(VirtIOMEM *vmem)
-> +static int virtio_mem_discard_range_cb(const VirtIOMEM *vmem, void *arg,
-> +                                       uint64_t offset, uint64_t size)
->  {
->      RAMBlock *rb = vmem->memdev->mr.ram_block;
-> -    unsigned long first_zero_bit, last_zero_bit;
-> -    uint64_t offset, length;
->      int ret;
->
-> -    /* Find consecutive unplugged blocks and discard the consecutive range. */
-> -    first_zero_bit = find_first_zero_bit(vmem->bitmap, vmem->bitmap_size);
-> -    while (first_zero_bit < vmem->bitmap_size) {
-> -        offset = first_zero_bit * vmem->block_size;
-> -        last_zero_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
-> -                                      first_zero_bit + 1) - 1;
-> -        length = (last_zero_bit - first_zero_bit + 1) * vmem->block_size;
-> -
-> -        ret = ram_block_discard_range(rb, offset, length);
-> -        if (ret) {
-> -            error_report("Unexpected error discarding RAM: %s",
-> -                         strerror(-ret));
-> -            return -EINVAL;
-> -        }
-> -        first_zero_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
-> -                                            last_zero_bit + 2);
-> +    ret = ram_block_discard_range(rb, offset, size);
-> +    if (ret) {
-> +        error_report("Unexpected error discarding RAM: %s", strerror(-ret));
-> +        return -EINVAL;
+> +# virtio-pmem.c
+> +virtio_pmem_flush_request(void) "flush request"
+> +virtio_pmem_response(void) "flush response"
+> +virtio_pmem_flush_done(int type) "fsync return=%d"
+> diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
+> index ddb0125901..d83e973bf2 100644
+> --- a/hw/virtio/virtio-pmem.c
+> +++ b/hw/virtio/virtio-pmem.c
+> @@ -24,6 +24,7 @@
+>  #include "sysemu/hostmem.h"
+>  #include "block/aio.h"
+>  #include "block/thread-pool.h"
+> +#include "trace.h"
+>  
+>  typedef struct VirtIODeviceRequest {
+>      VirtQueueElement elem;
+> @@ -41,6 +42,7 @@ static int worker_cb(void *opaque)
+>  
+>      /* flush raw backing image */
+>      err = fsync(req_data->fd);
+> +    trace_virtio_pmem_flush_done(err);
+>      if (err != 0) {
+>          err = 1;
 >      }
->      return 0;
+> @@ -59,6 +61,7 @@ static void done_cb(void *opaque, int ret)
+>      /* Callbacks are serialized, so no need to use atomic ops. */
+>      virtqueue_push(req_data->pmem->rq_vq, &req_data->elem, len);
+>      virtio_notify((VirtIODevice *)req_data->pmem, req_data->pmem->rq_vq);
+> +    trace_virtio_pmem_response();
+>      g_free(req_data);
 >  }
->
-> +static int virtio_mem_restore_unplugged(VirtIOMEM *vmem)
-> +{
-> +    /* Make sure all memory is really discarded after migration. */
-> +    return virtio_mem_for_each_unplugged_range(vmem, NULL,
-> +                                               virtio_mem_discard_range_cb);
-> +}
-> +
->  static int virtio_mem_post_load(void *opaque, int version_id)
->  {
->      if (migration_in_incoming_postcopy()) {
-> @@ -872,28 +893,19 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
->      vmem->block_size = value;
->  }
->
-> -static void virtio_mem_precopy_exclude_unplugged(VirtIOMEM *vmem)
-> +static int virtio_mem_precopy_exclude_range_cb(const VirtIOMEM *vmem, void *arg,
-> +                                               uint64_t offset, uint64_t size)
->  {
->      void * const host = qemu_ram_get_host_addr(vmem->memdev->mr.ram_block);
-> -    unsigned long first_zero_bit, last_zero_bit;
-> -    uint64_t offset, length;
->
-> -    /*
-> -     * Find consecutive unplugged blocks and exclude them from migration.
-> -     *
-> -     * Note: Blocks cannot get (un)plugged during precopy, no locking needed.
-> -     */
-> -    first_zero_bit = find_first_zero_bit(vmem->bitmap, vmem->bitmap_size);
-> -    while (first_zero_bit < vmem->bitmap_size) {
-> -        offset = first_zero_bit * vmem->block_size;
-> -        last_zero_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
-> -                                      first_zero_bit + 1) - 1;
-> -        length = (last_zero_bit - first_zero_bit + 1) * vmem->block_size;
-> +    qemu_guest_free_page_hint(host + offset, size);
-> +    return 0;
-> +}
->
-> -        qemu_guest_free_page_hint(host + offset, length);
-> -        first_zero_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
-> -                                            last_zero_bit + 2);
-> -    }
-> +static void virtio_mem_precopy_exclude_unplugged(VirtIOMEM *vmem)
-> +{
-> +    virtio_mem_for_each_unplugged_range(vmem, NULL,
-> +                                        virtio_mem_precopy_exclude_range_cb);
->  }
->
->  static int virtio_mem_precopy_notify(NotifierWithReturn *n, void *data)
+>  
+> @@ -69,6 +72,7 @@ static void virtio_pmem_flush(VirtIODevice *vdev, VirtQueue *vq)
+>      HostMemoryBackend *backend = MEMORY_BACKEND(pmem->memdev);
+>      ThreadPool *pool = aio_get_thread_pool(qemu_get_aio_context());
+>  
+> +    trace_virtio_pmem_flush_request();
+>      req_data = virtqueue_pop(vq, sizeof(VirtIODeviceRequest));
+>      if (!req_data) {
+>          virtio_error(vdev, "virtio-pmem missing request data");
+> 
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+LGTM
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
