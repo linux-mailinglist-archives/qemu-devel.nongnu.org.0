@@ -2,59 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333CF2D3E03
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 09:59:36 +0100 (CET)
-Received: from localhost ([::1]:54588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F0B42D3E11
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 10:02:35 +0100 (CET)
+Received: from localhost ([::1]:56844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmvJv-0003gT-4G
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 03:59:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48382)
+	id 1kmvMo-0004od-If
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 04:02:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kmvB7-0000Ym-SV
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:50:29 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:46614)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1kmvFV-0002oG-Ck; Wed, 09 Dec 2020 03:55:01 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kmvB6-0004DH-2w
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:50:29 -0500
-Received: from [192.168.61.100] (lfbn-lyo-1-447-149.w2-7.abo.wanadoo.fr
- [2.7.4.149])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 513FF21CD2;
- Wed,  9 Dec 2020 08:50:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1607503826;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sNdqjCfShFF+WPCJ6EShyv8kSL/2cfEp7XK2TzOeoM8=;
- b=wOsntz2G0d/lywEvR/YsgXFuRJARYSPrR4O6jK8r2raaSvE0ns1oztgWWWyrnVkJB6KHFv
- iLwB3FEvgDv2A08gxYwNtZzvVqHz0P5OIOzIdMopLTVCEQz6rsoEanv399ZxPytfpfNT1D
- zUrO/cXO/F1JOs1+n+AInx5RXj3pobI=
-Subject: Re: [PATCH 4/4] clock: Define and use new clock_display_freq()
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20201208181554.435-1-peter.maydell@linaro.org>
- <20201208181554.435-5-peter.maydell@linaro.org>
-From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <7eff2b82-8649-8ccf-8db2-d24b6bae46b8@greensocs.com>
-Date: Wed, 9 Dec 2020 09:50:42 +0100
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1kmvFT-0005h9-GL; Wed, 09 Dec 2020 03:55:01 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0B98VmqM169667; Wed, 9 Dec 2020 03:54:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=to : cc : references :
+ from : subject : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=nmogp2sZeQdu1o7RWX6+1CpB5ec5Ym1A/5bbhuhSpiM=;
+ b=pyvxT19apg5u6t3D4oWkVvHmQGnUoO25DpJW+wobn4/5LkDqYgJle9dL3FFwsdhX4ItO
+ omYUNUqWVRQmYqBrrldnXHZ8eYrc+Vwq4wRb2iPmpNtdIyypujpZeyiiTfoAiC0Eo6V/
+ zQinaUqtdQCs+bZcb8Bn1xHp6DapXpt1CRfHUS9UIb7NoYpeIt2Egbtzs+sADspbzll7
+ ZgLWTqVNdz7gQgFE/RF2n7y/wBgSZE3aBq/tGpMi7lDpu1CnkxaIaT8JL7Mu1GFwXR8T
+ 2pcNqgNR+p6HmYhRr8LMVuAEwsXpPWd32untv40NiWEhFAkz8bWM27J/7L6ROvdmsfsU vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35ahbdxsav-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 09 Dec 2020 03:54:54 -0500
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B98WQL0172974;
+ Wed, 9 Dec 2020 03:54:53 -0500
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35ahbdxsa6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 09 Dec 2020 03:54:53 -0500
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0B98riig030591;
+ Wed, 9 Dec 2020 08:54:51 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma05fra.de.ibm.com with ESMTP id 35958q1bkh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 09 Dec 2020 08:54:51 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0B98smsI65208788
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 9 Dec 2020 08:54:49 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DCC78A4054;
+ Wed,  9 Dec 2020 08:54:48 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 97615A405B;
+ Wed,  9 Dec 2020 08:54:48 +0000 (GMT)
+Received: from localhost.localdomain (unknown [9.145.43.26])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed,  9 Dec 2020 08:54:48 +0000 (GMT)
+To: David Hildenbrand <david@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-devel@nongnu.org
+References: <20201204083655.27946-1-frankja@linux.ibm.com>
+ <1c42abcc-b28e-4b6a-d363-ff6daf7b7883@de.ibm.com>
+ <e2f69754-6b31-4854-b52a-e0e1c2676d67@redhat.com>
+ <66975842-fcf3-013d-9bba-fed5c2c69a67@de.ibm.com>
+ <e22f4e78-c996-ed3d-0680-7c33bd480d83@redhat.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH] s390x: pv: Fence additional unavailable SCLP facilities
+ for PV guests
+Message-ID: <65c709d2-b6a1-d8ee-4bcc-de57d98d2b0b@linux.ibm.com>
+Date: Wed, 9 Dec 2020 09:54:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.3
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201208181554.435-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <e22f4e78-c996-ed3d-0680-7c33bd480d83@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-09_07:2020-12-08,
+ 2020-12-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0
+ mlxlogscore=999 malwarescore=0 clxscore=1015 priorityscore=1501 mlxscore=0
+ bulkscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012090056
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,127 +115,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-s390x@nongnu.org, cohuck@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/8/20 7:15 PM, Peter Maydell wrote:
-> It's common to want to print a human-readable indication of a clock's
-> frequency. Provide a utility function in the clock API to return a
-> string which is a displayable representation of the frequency,
-> and use it in qdev-monitor.c.
+On 12/8/20 5:19 PM, David Hildenbrand wrote:
+> On 08.12.20 17:11, Christian Borntraeger wrote:
+>>
+>>
+>> On 08.12.20 15:55, David Hildenbrand wrote:
+>>> On 08.12.20 14:29, Christian Borntraeger wrote:
+>>>>
+>>>>
+>>>> On 04.12.20 09:36, Janosch Frank wrote:
+>>>>> There's no VSIE support for a protected guest, so let's better not
+>>>>> advertise it and its support facilities.
+>>>>>
+>>>>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>>>>
+>>>> Looks sane. Assuming that all features that depend on SIE are named S390_FEAT_SIE_*
+>>>> this should take care of everything. (i compared to gen-facilities.c)
+>>>
+>>> We could add dependency checks to
+>>> target/s390x/cpu_models.c:check_consistency()
+>>
+>> That could be an additional patch, right?
 > 
-> Before:
+> Yeah sure.
 > 
->    (qemu) info qtree
->    [...]
->    dev: xilinx,zynq_slcr, id ""
->      clock-in "ps_clk" freq_hz=3.333333e+07
->      mmio 00000000f8000000/0000000000001000
+>>
+>>>
+>>> What about
+>>>
+>>> DEF_FEAT(ESOP, "esop", SCLP_CONF_CHAR, 46,
+>>> "Enhanced-suppression-on-protection facility")
+>>
+>> ESOP does make sense independent from SIE see chapter 3-15 in the POP
+>> in "Suppression on Protection"
+>>
 > 
-> After:
+> Rings a bell :)
 > 
->    dev: xilinx,zynq_slcr, id ""
->      clock-in "ps_clk" freq_hz=33.3 MHz
->      mmio 00000000f8000000/0000000000001000
+>>
+>>> DEF_FEAT(HPMA2, "hpma2", SCLP_CONF_CHAR, 90, "Host page management
+>>> assist 2 Facility")
+>>
+>> Right. We should also fence of hpma2.
 > 
+> I was also wondering about CMM, but as the guest senses it by executing
+> the instruction, protected guests will never see it I assume.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-
-> ---
-> This is based on Philippe's patch
-> "qdev-monitor: Display frequencies scaled to SI unit"
-> but I have abstracted out the "prettified string" into the clock API.
-> ---
->   docs/devel/clocks.rst  |  5 +++++
->   include/hw/clock.h     | 12 ++++++++++++
->   hw/core/clock.c        |  6 ++++++
->   softmmu/qdev-monitor.c |  6 +++---
->   4 files changed, 26 insertions(+), 3 deletions(-)
-> 
-> diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
-> index 9a93d1361b4..cf8067542a1 100644
-> --- a/docs/devel/clocks.rst
-> +++ b/docs/devel/clocks.rst
-> @@ -267,6 +267,11 @@ Here is an example:
->                           clock_get(dev->my_clk_input));
->       }
->   
-> +If you are only interested in the frequency for displaying it to
-> +humans (for instance in debugging), use ``clock_display_freq()``,
-> +which returns a prettified string-representation, e.g. "33.3 MHz".
-> +The caller must free the string with g_free() after use.
-> +
->   Calculating expiry deadlines
->   ----------------------------
->   
-> diff --git a/include/hw/clock.h b/include/hw/clock.h
-> index 9c0b1eb4c3f..7bc9afb0800 100644
-> --- a/include/hw/clock.h
-> +++ b/include/hw/clock.h
-> @@ -252,4 +252,16 @@ static inline bool clock_is_enabled(const Clock *clk)
->       return clock_get(clk) != 0;
->   }
->   
-> +/**
-> + * clock_display_freq: return human-readable representation of clock frequency
-> + * @clk: clock
-> + *
-> + * Return a string which has a human-readable representation of the
-> + * clock's frequency, e.g. "33.3 MHz". This is intended for debug
-> + * and display purposes.
-> + *
-> + * The caller is responsible for freeing the string with g_free().
-> + */
-> +char *clock_display_freq(Clock *clk);
-> +
->   #endif /* QEMU_HW_CLOCK_H */
-> diff --git a/hw/core/clock.c b/hw/core/clock.c
-> index 8c6af223e7c..76b5f468b6e 100644
-> --- a/hw/core/clock.c
-> +++ b/hw/core/clock.c
-> @@ -12,6 +12,7 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include "qemu/cutils.h"
->   #include "hw/clock.h"
->   #include "trace.h"
->   
-> @@ -111,6 +112,11 @@ static void clock_disconnect(Clock *clk)
->       QLIST_REMOVE(clk, sibling);
->   }
->   
-> +char *clock_display_freq(Clock *clk)
-> +{
-> +    return freq_to_str(clock_get_hz(clk));
-> +}
-> +
->   static void clock_initfn(Object *obj)
->   {
->       Clock *clk = CLOCK(obj);
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index bf79d0bbcd9..6263d600026 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -747,11 +747,11 @@ static void qdev_print(Monitor *mon, DeviceState *dev, int indent)
->           }
->       }
->       QLIST_FOREACH(ncl, &dev->clocks, node) {
-> -        qdev_printf("clock-%s%s \"%s\" freq_hz=%e\n",
-> +        g_autofree char *freq_str = clock_display_freq(ncl->clock);
-> +        qdev_printf("clock-%s%s \"%s\" freq_hz=%s\n",
->                       ncl->output ? "out" : "in",
->                       ncl->alias ? " (alias)" : "",
-> -                    ncl->name,
-> -                    CLOCK_PERIOD_TO_HZ(1.0 * clock_get(ncl->clock)));
-> +                    ncl->name, freq_str);
->       }
->       class = object_get_class(OBJECT(dev));
->       do {
-> 
+Yep, it's a operation exception.
 
