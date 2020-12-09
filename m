@@ -2,86 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9700D2D3B9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 07:42:58 +0100 (CET)
-Received: from localhost ([::1]:35706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7612D3BC7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 08:00:27 +0100 (CET)
+Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmtBg-0006lv-V2
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 01:42:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53406)
+	id 1kmtSc-0002pW-5J
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 02:00:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kmt6K-0006Bo-7V; Wed, 09 Dec 2020 01:37:24 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:60783)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kmtR8-0002FT-2g; Wed, 09 Dec 2020 01:58:54 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kmt6H-0000gi-C9; Wed, 09 Dec 2020 01:37:24 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id B5E065802A6;
- Wed,  9 Dec 2020 01:37:19 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 09 Dec 2020 01:37:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=bn7DsXDWpe33GB8KgGSK3imTR+q
- qPOpV22BM1L+9Bt0=; b=qhPQFV/5E4K1Hrusa91wYVrMbbDerolcoG8lwgeXENg
- nI2bS2n3gsiCaB+lmrZF/jjEVpB5MWvSYYS65LgBibuGWi2h42hWpJ2Helq+deE8
- yxBSQx9lFoafxz+DI1ei3qFgs70k++oU6fbIk9n5kYXUSMuJy3WrpGzcBOZzVD5N
- TXkWsa+oCOK88A80zf0Gt2n2JVXxbzo5yHHRyOKkH3pfBaW71E6dl3iQc+q/4kMN
- NTDTDMYluFsLO9TsgDrr9TfJNUmroI+7dHlQCJS/Bamyzg4p/6xD2FdpZr+pIMjT
- +oyoeaGD+Pl8kDofHuWzCIhimGVXcJhTqIU7wIjtxag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=bn7DsX
- DWpe33GB8KgGSK3imTR+qqPOpV22BM1L+9Bt0=; b=XGHJgDhsVgxgd52FxEH7fY
- vP3Qe7xlEXsrYHK8+/fwIkP/j/OSRd0darf+3XGYzo3AgpyIqxAI7z+Y71+s2gw1
- iIYFyB9tfuyW63HM5R/4qSGb0GWglU0eSQoCXJQxWlfiLPTbnKXSkaXc3fhbDqDU
- mG3YQyTEBbdZ9o9cCe6tx/d6StXuOPp8wzQP7TD74JGT0Fo9qUiOrda+oZ1O2He7
- QmI9e4ctMyjwBaKFZnckiRnbEUkB6/Rb5f//muambysF3qVcfJWwp8IC5WcGOO1Q
- TDCN291fevc+l8BqBiBjKikfABFS6HIK9aYhyP3E70C8EYXkmwHD2lxLfPmF385Q
- ==
-X-ME-Sender: <xms:nXDQXz8Op_gHUrrCfAfShV_h1amo-PqMB-rmiIKJ5blVxHA_qvNx8w>
- <xme:nXDQX_vG9wFw6Q7NorZd_4kFkzEiKRuoWyBoqOgYiT0OPF-RaMR_X1UwZP0THaR5z
- 4dJwi6hjAR-RRDjlUQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejjedgleejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:nXDQXxCTCYSaU5oHL0Ki5jQCYvJJe4h5znNedzur_p4SMC9ZG-NZ9g>
- <xmx:nXDQX_dp14lw56z9_R7J_KplILcjNIeVR9iZSiiuIZ0YbIEpUAKGwg>
- <xmx:nXDQX4PM41f6HudRNY_Dt7njiWuqdUibwhHfKugEbtjkE4QSrKBmoA>
- <xmx:n3DQX6tZO28simRGAkVTxMJbIr0DQFur8py3lk0Ju3nPooUjI7UwxQ>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 609691080057;
- Wed,  9 Dec 2020 01:37:14 -0500 (EST)
-Date: Wed, 9 Dec 2020 07:37:11 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH v11 08/13] block/nvme: Make ZNS-related definitions
-Message-ID: <X9Bwlyx3yvRuOaQw@apples.localdomain>
-References: <20201208200410.27900-1-dmitry.fomichev@wdc.com>
- <20201208200410.27900-9-dmitry.fomichev@wdc.com>
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kmtR5-0001mj-1h; Wed, 09 Dec 2020 01:58:53 -0500
+Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.55])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4CrSYN5DNSz5245;
+ Wed,  9 Dec 2020 14:58:00 +0800 (CST)
+Received: from DGGEMM422-HUB.china.huawei.com (10.1.198.39) by
+ DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Wed, 9 Dec 2020 14:58:41 +0800
+Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.162]) by
+ dggemm422-hub.china.huawei.com ([169.254.138.104]) with mapi id
+ 14.03.0487.000; Wed, 9 Dec 2020 14:58:35 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: zhukeqian <zhukeqian1@huawei.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Igor Mammedov <imammedo@redhat.com>, "Eduardo
+ Habkost" <ehabkost@redhat.com>
+Subject: RE: [PATCH] bugfix: hostmem: Free host_nodes list right after visited
+Thread-Topic: [PATCH] bugfix: hostmem: Free host_nodes list right after visited
+Thread-Index: AQHWzdb2bpPhpoOZ/kejtTT+18xBT6nuSzDg
+Date: Wed, 9 Dec 2020 06:58:35 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83BADE9F8@dggemm531-mbx.china.huawei.com>
+References: <20201209025648.23068-1-zhukeqian1@huawei.com>
+In-Reply-To: <20201209025648.23068-1-zhukeqian1@huawei.com>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.149]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xWrEU/D4joBtGxyA"
-Content-Disposition: inline
-In-Reply-To: <20201208200410.27900-9-dmitry.fomichev@wdc.com>
-Received-SPF: pass client-ip=66.111.4.230; envelope-from=its@irrelevant.dk;
- helo=new4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,250 +65,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Max Reitz <mreitz@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matias Bjorling <matias.bjorling@wdc.com>
+Cc: "Chenzhendong \(alex\)" <alex.chen@huawei.com>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---xWrEU/D4joBtGxyA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-CC for Stefan (nvme block driver co-maintainer).
-
-On Dec  9 05:04, Dmitry Fomichev wrote:
-> Define values and structures that are needed to support Zoned
-> Namespace Command Set (NVMe TP 4053).
+> -----Original Message-----
+> From: zhukeqian
+> Sent: Wednesday, December 9, 2020 10:57 AM
+> To: Peter Maydell <peter.maydell@linaro.org>; Igor Mammedov
+> <imammedo@redhat.com>; Eduardo Habkost <ehabkost@redhat.com>
+> Cc: qemu-devel@nongnu.org; qemu-arm@nongnu.org; Wanghaibin (D)
+> <wanghaibin.wang@huawei.com>; Chenqun (kuhn)
+> <kuhn.chenqun@huawei.com>; Chenzhendong (alex)
+> <alex.chen@huawei.com>; zhukeqian <zhukeqian1@huawei.com>
+> Subject: [PATCH] bugfix: hostmem: Free host_nodes list right after visite=
+d
 >=20
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> In host_memory_backend_get_host_nodes, we build host_nodes list and
+> output it to v (a StringOutputVisitor) but forget to free the list. This =
+fixes the
+> memory leak.
+>=20
+> The memory leak stack:
+>=20
+> =3D=3Dqemu-kvm=3D=3D209357=3D=3DERROR: LeakSanitizer: detected memory lea=
+ks Direct
+> leak of 32 byte(s) in 2 object(s) allocated from:
+>   #0 0xfffe430e3393 in __interceptor_calloc
+> (/lib64/libasan.so.4+0xd3393)  ??:?
+>   #1 0xfffe41d58b9b in g_malloc0 (/lib64/libglib-2.0.so.0+0x58b9b)  ??:?
+>   #2 0xaaac0cdb6e43 (/usr/libexec/qemu-kvm+0xe16e43)
+> backends/hostmem.c:94
+>   #3 0xaaac0d2edf83 (/usr/libexec/qemu-kvm+0x134df83) qom/object.c:1478
+>   #4 0xaaac0c976513 (/usr/libexec/qemu-kvm+0x9d6513)
+> hw/core/machine-qmp-cmds.c:312
+>   #5 0xaaac0d2e980b (/usr/libexec/qemu-kvm+0x134980b) qom/object.c:1001
+>   #6 0xaaac0c97779b (/usr/libexec/qemu-kvm+0x9d779b)
+> hw/core/machine-qmp-cmds.c:328 (discriminator 1)
+>   #7 0xaaac0d26ed3f (/usr/libexec/qemu-kvm+0x12ced3f)
+> qapi/qapi-commands-machine.c:327
+>   #8 0xaaac0d43d647 (/usr/libexec/qemu-kvm+0x149d647)
+> qapi/qmp-dispatch.c:147
+>   #9 0xaaac0d21f74b (/usr/libexec/qemu-kvm+0x127f74b) monitor/qmp.c:120
+>   #10 0xaaac0d22074b (/usr/libexec/qemu-kvm+0x128074b)
+> monitor/qmp.c:209 (discriminator 4)
+>   #11 0xaaac0d4daefb (/usr/libexec/qemu-kvm+0x153aefb) util/async.c:117
+>   #12 0xaaac0d4e30fb (/usr/libexec/qemu-kvm+0x15430fb)
+> util/aio-posix.c:459
+>   #13 0xaaac0d4dac8f (/usr/libexec/qemu-kvm+0x153ac8f) util/async.c:268
+>   #14 0xfffe41d52a6b in g_main_context_dispatch
+> (/lib64/libglib-2.0.so.0+0x52a6b)  ??:?
+>   #15 0xaaac0d4e0e97 (/usr/libexec/qemu-kvm+0x1540e97)
+> util/main-loop.c:218
+>   #16 0xaaac0cd9bfa7 (/usr/libexec/qemu-kvm+0xdfbfa7)  vl.c:1791
+>   #17 0xaaac0c823bc3 (/usr/libexec/qemu-kvm+0x883bc3)  vl.c:4473
+>   #18 0xfffe40ab3ebf in __libc_start_main (/lib64/libc.so.6+0x23ebf)  ??:=
+?
+>   #19 0xaaac0c82ed5f (/usr/libexec/qemu-kvm+0x88ed5f)  ??:?
+> SUMMARY: AddressSanitizer: 32 byte(s) leaked in 2 allocation(s).
+>=20
+> Fixes: 4cf1b76bf1e2 (hostmem: add properties for NUMA memory policy)
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
 > ---
->  include/block/nvme.h | 114 ++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 113 insertions(+), 1 deletion(-)
+
+Tested-by: Chen Qun <kuhn.chenqun@huawei.com>
+
+By the way, the bug detailed stack is as follows:
+ Direct leak of 32 byte(s) in 2 object(s) allocated from:
+    #0 0xfffda30b3393 in __interceptor_calloc (/usr/lib64/libasan.so.4+0xd3=
+393)
+    #1 0xfffda1d28b9b in g_malloc0 (/usr/lib64/libglib-2.0.so.0+0x58b9b)
+    #2 0xaaab05ca6e43 in host_memory_backend_get_host_nodes backends/hostme=
+m.c:94
+    #3 0xaaab061ddf83 in object_property_get_uint16List qom/object.c:1478
+    #4 0xaaab05866513 in query_memdev hw/core/machine-qmp-cmds.c:312
+    #5 0xaaab061d980b in do_object_child_foreach qom/object.c:1001
+    #6 0xaaab0586779b in qmp_query_memdev hw/core/machine-qmp-cmds.c:328
+    #7 0xaaab0615ed3f in qmp_marshal_query_memdev qapi/qapi-commands-machin=
+e.c:327
+    #8 0xaaab0632d647 in do_qmp_dispatch qapi/qmp-dispatch.c:147
+    #9 0xaaab0632d647 in qmp_dispatch qapi/qmp-dispatch.c:190
+    #10 0xaaab0610f74b in monitor_qmp_dispatch monitor/qmp.c:120
+    #11 0xaaab0611074b in monitor_qmp_bh_dispatcher monitor/qmp.c:209
+    #12 0xaaab063caefb in aio_bh_poll util/async.c:117
+    #13 0xaaab063d30fb in aio_dispatch util/aio-posix.c:459
+    #14 0xaaab063cac8f in aio_ctx_dispatch util/async.c:268
+    #15 0xfffda1d22a6b in g_main_context_dispatch (/usr/lib64/libglib-2.0.s=
+o.0+0x52a6b)
+    #16 0xaaab063d0e97 in glib_pollfds_poll util/main-loop.c:218
+    #17 0xaaab063d0e97 in os_host_main_loop_wait util/main-loop.c:241
+    #18 0xaaab063d0e97 in main_loop_wait util/main-loop.c:517
+    #19 0xaaab05c8bfa7 in main_loop /root/rpmbuild/BUILD/qemu-4.1.0/vl.c:17=
+91
+    #20 0xaaab05713bc3 in main /root/rpmbuild/BUILD/qemu-4.1.0/vl.c:4473
+    #21 0xfffda0a83ebf in __libc_start_main (/usr/lib64/libc.so.6+0x23ebf)
+    #22 0xaaab0571ed5f  (aarch64-softmmu/qemu-system-aarch64+0x88ed5f)
+
+ SUMMARY: AddressSanitizer: 32 byte(s) leaked in 2 allocation(s).
+
+
+>  backends/hostmem.c | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> index 29d826ab19..a9165402d6 100644
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -489,6 +489,9 @@ enum NvmeIoCommands {
->      NVME_CMD_COMPARE            =3D 0x05,
->      NVME_CMD_WRITE_ZEROES       =3D 0x08,
->      NVME_CMD_DSM                =3D 0x09,
-> +    NVME_CMD_ZONE_MGMT_SEND     =3D 0x79,
-> +    NVME_CMD_ZONE_MGMT_RECV     =3D 0x7a,
-> +    NVME_CMD_ZONE_APPEND        =3D 0x7d,
->  };
-> =20
->  typedef struct QEMU_PACKED NvmeDeleteQ {
-> @@ -648,9 +651,13 @@ typedef struct QEMU_PACKED NvmeAerResult {
->      uint8_t resv;
->  } NvmeAerResult;
-> =20
-> +typedef struct QEMU_PACKED NvmeZonedResult {
-> +    uint64_t slba;
-> +} NvmeZonedResult;
-> +
->  typedef struct QEMU_PACKED NvmeCqe {
->      uint32_t    result;
-> -    uint32_t    rsvd;
-> +    uint32_t    dw1;
->      uint16_t    sq_head;
->      uint16_t    sq_id;
->      uint16_t    cid;
-> @@ -679,6 +686,7 @@ enum NvmeStatusCodes {
->      NVME_INVALID_USE_OF_CMB     =3D 0x0012,
->      NVME_INVALID_PRP_OFFSET     =3D 0x0013,
->      NVME_CMD_SET_CMB_REJECTED   =3D 0x002b,
-> +    NVME_INVALID_CMD_SET        =3D 0x002c,
->      NVME_LBA_RANGE              =3D 0x0080,
->      NVME_CAP_EXCEEDED           =3D 0x0081,
->      NVME_NS_NOT_READY           =3D 0x0082,
-> @@ -703,6 +711,14 @@ enum NvmeStatusCodes {
->      NVME_CONFLICTING_ATTRS      =3D 0x0180,
->      NVME_INVALID_PROT_INFO      =3D 0x0181,
->      NVME_WRITE_TO_RO            =3D 0x0182,
-> +    NVME_ZONE_BOUNDARY_ERROR    =3D 0x01b8,
-> +    NVME_ZONE_FULL              =3D 0x01b9,
-> +    NVME_ZONE_READ_ONLY         =3D 0x01ba,
-> +    NVME_ZONE_OFFLINE           =3D 0x01bb,
-> +    NVME_ZONE_INVALID_WRITE     =3D 0x01bc,
-> +    NVME_ZONE_TOO_MANY_ACTIVE   =3D 0x01bd,
-> +    NVME_ZONE_TOO_MANY_OPEN     =3D 0x01be,
-> +    NVME_ZONE_INVAL_TRANSITION  =3D 0x01bf,
->      NVME_WRITE_FAULT            =3D 0x0280,
->      NVME_UNRECOVERED_READ       =3D 0x0281,
->      NVME_E2E_GUARD_ERROR        =3D 0x0282,
-> @@ -888,6 +904,11 @@ typedef struct QEMU_PACKED NvmeIdCtrl {
->      uint8_t     vs[1024];
->  } NvmeIdCtrl;
-> =20
-> +typedef struct NvmeIdCtrlZoned {
-> +    uint8_t     zasl;
-> +    uint8_t     rsvd1[4095];
-> +} NvmeIdCtrlZoned;
-> +
->  enum NvmeIdCtrlOacs {
->      NVME_OACS_SECURITY  =3D 1 << 0,
->      NVME_OACS_FORMAT    =3D 1 << 1,
-> @@ -1016,6 +1037,12 @@ typedef struct QEMU_PACKED NvmeLBAF {
->      uint8_t     rp;
->  } NvmeLBAF;
-> =20
-> +typedef struct QEMU_PACKED NvmeLBAFE {
-> +    uint64_t    zsze;
-> +    uint8_t     zdes;
-> +    uint8_t     rsvd9[7];
-> +} NvmeLBAFE;
-> +
->  #define NVME_NSID_BROADCAST 0xffffffff
-> =20
->  typedef struct QEMU_PACKED NvmeIdNs {
-> @@ -1075,10 +1102,24 @@ enum NvmeNsIdentifierType {
-> =20
->  enum NvmeCsi {
->      NVME_CSI_NVM                =3D 0x00,
-> +    NVME_CSI_ZONED              =3D 0x02,
->  };
-> =20
->  #define NVME_SET_CSI(vec, csi) (vec |=3D (uint8_t)(1 << (csi)))
-> =20
-> +typedef struct QEMU_PACKED NvmeIdNsZoned {
-> +    uint16_t    zoc;
-> +    uint16_t    ozcs;
-> +    uint32_t    mar;
-> +    uint32_t    mor;
-> +    uint32_t    rrl;
-> +    uint32_t    frl;
-> +    uint8_t     rsvd20[2796];
-> +    NvmeLBAFE   lbafe[16];
-> +    uint8_t     rsvd3072[768];
-> +    uint8_t     vs[256];
-> +} NvmeIdNsZoned;
-> +
->  /*Deallocate Logical Block Features*/
->  #define NVME_ID_NS_DLFEAT_GUARD_CRC(dlfeat)       ((dlfeat) & 0x10)
->  #define NVME_ID_NS_DLFEAT_WRITE_ZEROES(dlfeat)    ((dlfeat) & 0x08)
-> @@ -1111,10 +1152,76 @@ enum NvmeIdNsDps {
->      DPS_FIRST_EIGHT =3D 8,
->  };
-> =20
-> +enum NvmeZoneAttr {
-> +    NVME_ZA_FINISHED_BY_CTLR         =3D 1 << 0,
-> +    NVME_ZA_FINISH_RECOMMENDED       =3D 1 << 1,
-> +    NVME_ZA_RESET_RECOMMENDED        =3D 1 << 2,
-> +    NVME_ZA_ZD_EXT_VALID             =3D 1 << 7,
-> +};
-> +
-> +typedef struct QEMU_PACKED NvmeZoneReportHeader {
-> +    uint64_t    nr_zones;
-> +    uint8_t     rsvd[56];
-> +} NvmeZoneReportHeader;
-> +
-> +enum NvmeZoneReceiveAction {
-> +    NVME_ZONE_REPORT                 =3D 0,
-> +    NVME_ZONE_REPORT_EXTENDED        =3D 1,
-> +};
-> +
-> +enum NvmeZoneReportType {
-> +    NVME_ZONE_REPORT_ALL             =3D 0,
-> +    NVME_ZONE_REPORT_EMPTY           =3D 1,
-> +    NVME_ZONE_REPORT_IMPLICITLY_OPEN =3D 2,
-> +    NVME_ZONE_REPORT_EXPLICITLY_OPEN =3D 3,
-> +    NVME_ZONE_REPORT_CLOSED          =3D 4,
-> +    NVME_ZONE_REPORT_FULL            =3D 5,
-> +    NVME_ZONE_REPORT_READ_ONLY       =3D 6,
-> +    NVME_ZONE_REPORT_OFFLINE         =3D 7,
-> +};
-> +
-> +enum NvmeZoneType {
-> +    NVME_ZONE_TYPE_RESERVED          =3D 0x00,
-> +    NVME_ZONE_TYPE_SEQ_WRITE         =3D 0x02,
-> +};
-> +
-> +enum NvmeZoneSendAction {
-> +    NVME_ZONE_ACTION_RSD             =3D 0x00,
-> +    NVME_ZONE_ACTION_CLOSE           =3D 0x01,
-> +    NVME_ZONE_ACTION_FINISH          =3D 0x02,
-> +    NVME_ZONE_ACTION_OPEN            =3D 0x03,
-> +    NVME_ZONE_ACTION_RESET           =3D 0x04,
-> +    NVME_ZONE_ACTION_OFFLINE         =3D 0x05,
-> +    NVME_ZONE_ACTION_SET_ZD_EXT      =3D 0x10,
-> +};
-> +
-> +typedef struct QEMU_PACKED NvmeZoneDescr {
-> +    uint8_t     zt;
-> +    uint8_t     zs;
-> +    uint8_t     za;
-> +    uint8_t     rsvd3[5];
-> +    uint64_t    zcap;
-> +    uint64_t    zslba;
-> +    uint64_t    wp;
-> +    uint8_t     rsvd32[32];
-> +} NvmeZoneDescr;
-> +
-> +enum NvmeZoneState {
-> +    NVME_ZONE_STATE_RESERVED         =3D 0x00,
-> +    NVME_ZONE_STATE_EMPTY            =3D 0x01,
-> +    NVME_ZONE_STATE_IMPLICITLY_OPEN  =3D 0x02,
-> +    NVME_ZONE_STATE_EXPLICITLY_OPEN  =3D 0x03,
-> +    NVME_ZONE_STATE_CLOSED           =3D 0x04,
-> +    NVME_ZONE_STATE_READ_ONLY        =3D 0x0D,
-> +    NVME_ZONE_STATE_FULL             =3D 0x0E,
-> +    NVME_ZONE_STATE_OFFLINE          =3D 0x0F,
-> +};
-> +
->  static inline void _nvme_check_size(void)
->  {
->      QEMU_BUILD_BUG_ON(sizeof(NvmeBar) !=3D 4096);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeAerResult) !=3D 4);
-> +    QEMU_BUILD_BUG_ON(sizeof(NvmeZonedResult) !=3D 8);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeCqe) !=3D 16);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeDsmRange) !=3D 16);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeCmd) !=3D 64);
-> @@ -1130,8 +1237,13 @@ static inline void _nvme_check_size(void)
->      QEMU_BUILD_BUG_ON(sizeof(NvmeSmartLog) !=3D 512);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeEffectsLog) !=3D 4096);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrl) !=3D 4096);
-> +    QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrlZoned) !=3D 4096);
-> +    QEMU_BUILD_BUG_ON(sizeof(NvmeLBAF) !=3D 4);
-> +    QEMU_BUILD_BUG_ON(sizeof(NvmeLBAFE) !=3D 16);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeIdNs) !=3D 4096);
-> +    QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsZoned) !=3D 4096);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeSglDescriptor) !=3D 16);
->      QEMU_BUILD_BUG_ON(sizeof(NvmeIdNsDescr) !=3D 4);
-> +    QEMU_BUILD_BUG_ON(sizeof(NvmeZoneDescr) !=3D 64);
+> diff --git a/backends/hostmem.c b/backends/hostmem.c index
+> 4bde00e8e7..9f9ac95edd 100644
+> --- a/backends/hostmem.c
+> +++ b/backends/hostmem.c
+> @@ -105,6 +105,7 @@ host_memory_backend_get_host_nodes(Object *obj,
+> Visitor *v, const char *name,
+>=20
+>  ret:
+>      visit_type_uint16List(v, name, &host_nodes, errp);
+> +    qapi_free_uint16List(host_nodes);
 >  }
->  #endif
-> --=20
-> 2.28.0
 >=20
->=20
+>  static void
+> --
+> 2.23.0
 
---=20
-One of us - No more doubt, silence or taboo about mental illness.
-
---xWrEU/D4joBtGxyA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/QcJYACgkQTeGvMW1P
-DemAnAf8DplB96ErzJ0tJsQWUNK4YVXnXlD7Ri9K1QTFvNbsHiyv4Sy3HyDRn+Mn
-Bh+pApV594s0rwOFc1aGRj/z+i3CCjpFhx/POI0l/u5CX8oR0BTRuu+K9cCrOdwb
-4hrDOkp9y4hM8JM6lyhMw80zWqWZcN4H8leLK4uC1RzWPgf7J0Ab0MyNxEy/yLQf
-hBi3y91TxIyITiBYtQAO3olwT1uNbBm0BI6xvVWQ+TuDJP+EhrA8Q3gDzNZfRwxM
-QaG+a+slFI/lNtvismzxz0M+tbBJkbw56Ovr4QS/SltPlBdai2HCwQNB+AeD2pEh
-FoyZahhYczoAcgT69rLNE5r91ufJWw==
-=/An5
------END PGP SIGNATURE-----
-
---xWrEU/D4joBtGxyA--
 
