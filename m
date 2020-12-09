@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2392D466C
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:11:12 +0100 (CET)
-Received: from localhost ([::1]:44492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E89DA2D4696
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:18:32 +0100 (CET)
+Received: from localhost ([::1]:51668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn23b-00044O-CM
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:11:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50394)
+	id 1kn2Ah-0007gk-Gd
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:18:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kn21h-0003U4-Gi
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:09:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46592)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kn21e-0007FD-Pz
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:09:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607530148;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fOS/4HJ6CdAMgJzGnNDCHYvTBIuYNCc44EVO6kOzhSI=;
- b=gc6Csu8rpi6qW9fNP7zYdoTe+G5+V2PTMytmvw2FUFMPlfKqkG/8CSqti4aTKi5O/khg50
- Xas4g1LNGo3nOE5/PGzfH95ji4EwH+220JBgSs+LX+RpkEd8Db/hKC4CO/HVb8CS9gWHuR
- 5/SjF+OX7IVDH6MmCxtnPxY1V3CH3mE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-rVoJ1VpoO0KvyhUnBjsi5w-1; Wed, 09 Dec 2020 11:09:05 -0500
-X-MC-Unique: rVoJ1VpoO0KvyhUnBjsi5w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 127241005504;
- Wed,  9 Dec 2020 16:09:02 +0000 (UTC)
-Received: from localhost (ovpn-115-48.ams2.redhat.com [10.36.115.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3AC6B60BF1;
- Wed,  9 Dec 2020 16:08:58 +0000 (UTC)
-Date: Wed, 9 Dec 2020 16:08:57 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Subject: Re: [RFC PATCH 04/27] vhost: add vhost_kernel_set_vring_enable
-Message-ID: <20201209160857.GC396498@stefanha-x1.localdomain>
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-5-eperezma@redhat.com>
- <20201207164323.GK203660@stefanha-x1.localdomain>
- <CAJaqyWd5oAJ4kJOhyDz+1KNvwzqJi3NO+5Z7X6W5ju2Va=LTMQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kn270-0006F4-Lk
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:14:42 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39761)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kn26y-0000vy-EG
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:14:42 -0500
+Received: by mail-wr1-x443.google.com with SMTP id c1so2344195wrq.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 08:14:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=DGAmtdceXQKb0E+73nCz65S1HEaDi8IGTYQFnXZItos=;
+ b=vUG1HYp3ssCtsTa0X8Clj54I82aDQzJBExJCGNhGUPZ+4cGyhsjJEjBAbyzuDcXS6M
+ 1DlIyPJwtGKIV3tlqaxdfQFLlYajmpJWv8aYeTcff4W1TaPzZ/1GVqLpVo+/B1u++pKP
+ oxMdApQfHyX+/hRgnFZSFidG/otzdpzoQRLvxPoLplFzy/EXSaOzTIAanv4seGyz/YbB
+ cbx09m12jnzQTsdUhNoax5thZPWEHKlmg9w0IuumG44kZ9E3iOn6TNR7GL1kb/6D4/Qf
+ YoKCDArhjwbMMjsck4DY/gb7aX5JQMahKoq5KUZLr66mYJ/5YjoDzH5Ff31jUshy/MSo
+ GVpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=DGAmtdceXQKb0E+73nCz65S1HEaDi8IGTYQFnXZItos=;
+ b=GJQwgsIb2qHmFwUnwwi61U3Z3FbRFx1Ha0BRRFw+J2ukbc4rlJlxT9qorZXFoAFHzV
+ 3dqCba2xmriEF2wozry6DIl2UDSZg/9tr1ofIpXEBRQm3stzM8pz2Y9/f5hDvn0RDspZ
+ 7V0lp6Gm8fdYnH1bGQAlzCZ4QdwzooM72Bn0Yb9PxTIsNS7Q26lZAZhN4vvLvXRQ8No+
+ iG6q3VBL/d47j+ikCXZONDnddcp97RSLuqiFIk0z8KKj4Czmc+H2058LQyvJVDjVt4ty
+ rAkqAdR5cr3IxQHhUVdzfUyjqF/8N/Yhuq7WRdT8ybiO8hdb96husI2/kiqErbUeQPms
+ ummg==
+X-Gm-Message-State: AOAM530lUEXenDj6KA33v79oxih6IMo/BmSx73tgi1nPuM/Pwob4DDKY
+ cHqMoO77mnp10RIOL0mjv+9RQA==
+X-Google-Smtp-Source: ABdhPJwb5YOnGczcUozrJRD0xWe0fAZf+brA2S1OzbaEQqLcMzh/LY8sb+yTwv/EguNU8pARjuQYMg==
+X-Received: by 2002:adf:dbc6:: with SMTP id e6mr3540978wrj.37.1607530478554;
+ Wed, 09 Dec 2020 08:14:38 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z13sm4594878wmz.3.2020.12.09.08.14.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Dec 2020 08:14:37 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6D7FD1FF7E;
+ Wed,  9 Dec 2020 16:14:36 +0000 (GMT)
+References: <20201208194839.31305-1-cfontana@suse.de>
+ <20201208194839.31305-21-cfontana@suse.de> <87czzjdxsx.fsf@linaro.org>
+ <ff41bd99-c5e8-c517-f7b0-5ab26a9a0e73@suse.de>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [RFC v9 20/32] cpu: Move tlb_fill to tcg_ops
+Date: Wed, 09 Dec 2020 16:12:40 +0000
+In-reply-to: <ff41bd99-c5e8-c517-f7b0-5ab26a9a0e73@suse.de>
+Message-ID: <87k0trc5xv.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWd5oAJ4kJOhyDz+1KNvwzqJi3NO+5Z7X6W5ju2Va=LTMQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Bu8it7iiRSEf40bY"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,140 +88,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Daniel Daly <dandaly0@gmail.com>,
- virtualization@lists.linux-foundation.org, Liran Alon <liralon@gmail.com>,
- Eli Cohen <eli@mellanox.com>, Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Bu8it7iiRSEf40bY
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 09, 2020 at 01:00:19PM +0100, Eugenio Perez Martin wrote:
-> On Mon, Dec 7, 2020 at 5:43 PM Stefan Hajnoczi <stefanha@gmail.com> wrote=
-:
-> >
-> > On Fri, Nov 20, 2020 at 07:50:42PM +0100, Eugenio P=E9rez wrote:
-> > > Signed-off-by: Eugenio P=E9rez <eperezma@redhat.com>
-> > > ---
-> > >  hw/virtio/vhost-backend.c | 29 +++++++++++++++++++++++++++++
-> > >  1 file changed, 29 insertions(+)
-> > >
-> > > diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-> > > index 222bbcc62d..317f1f96fa 100644
-> > > --- a/hw/virtio/vhost-backend.c
-> > > +++ b/hw/virtio/vhost-backend.c
-> > > @@ -201,6 +201,34 @@ static int vhost_kernel_get_vq_index(struct vhos=
-t_dev *dev, int idx)
-> > >      return idx - dev->vq_index;
-> > >  }
-> > >
-> > > +static int vhost_kernel_set_vq_enable(struct vhost_dev *dev, unsigne=
-d idx,
-> > > +                                      bool enable)
-> > > +{
-> > > +    struct vhost_vring_file file =3D {
-> > > +        .index =3D idx,
-> > > +    };
-> > > +
-> > > +    if (!enable) {
-> > > +        file.fd =3D -1; /* Pass -1 to unbind from file. */
-> > > +    } else {
-> > > +        struct vhost_net *vn_dev =3D container_of(dev, struct vhost_=
-net, dev);
-> > > +        file.fd =3D vn_dev->backend;
-> > > +    }
-> > > +
-> > > +    return vhost_kernel_net_set_backend(dev, &file);
-> >
-> > This is vhost-net specific even though the function appears to be
-> > generic. Is there a plan to extend this to all devices?
-> >
->=20
-> I expected each vhost backend to enable-disable in its own terms, but
-> I think it could be 100% virtio-device generic with something like the
-> device state capability:
-> https://lists.oasis-open.org/archives/virtio-comment/202012/msg00005.html
-> .
+Claudio Fontana <cfontana@suse.de> writes:
 
-Great, thanks for the link!
+> On 12/9/20 12:26 PM, Alex Benn=C3=A9e wrote:
+>>=20
+>> Claudio Fontana <cfontana@suse.de> writes:
+>>=20
+>>> From: Eduardo Habkost <ehabkost@redhat.com>
+>>>
+>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>>> [claudio: wrapped in CONFIG_TCG]
+>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>> ---
+>>>  accel/tcg/cputlb.c              |  6 +++---
+>>>  accel/tcg/user-exec.c           |  6 +++---
+>>>  include/hw/core/cpu.h           |  9 ---------
+>>>  include/hw/core/tcg-cpu-ops.h   | 12 ++++++++++++
+>>>  target/alpha/cpu.c              |  2 +-
+>>>  target/arm/cpu.c                |  2 +-
+>>>  target/avr/cpu.c                |  2 +-
+>>>  target/cris/cpu.c               |  2 +-
+>>>  target/hppa/cpu.c               |  2 +-
+>>>  target/i386/tcg-cpu.c           |  2 +-
+>>>  target/lm32/cpu.c               |  2 +-
+>>>  target/m68k/cpu.c               |  2 +-
+>>>  target/microblaze/cpu.c         |  2 +-
+>>>  target/mips/cpu.c               |  2 +-
+>>>  target/moxie/cpu.c              |  2 +-
+>>>  target/nios2/cpu.c              |  2 +-
+>>>  target/openrisc/cpu.c           |  2 +-
+>>>  target/ppc/translate_init.c.inc |  2 +-
+>>>  target/riscv/cpu.c              |  2 +-
+>>>  target/rx/cpu.c                 |  2 +-
+>>>  target/s390x/cpu.c              |  2 +-
+>>>  target/sh4/cpu.c                |  2 +-
+>>>  target/sparc/cpu.c              |  2 +-
+>>>  target/tilegx/cpu.c             |  2 +-
+>>>  target/tricore/cpu.c            |  2 +-
+>>>  target/unicore32/cpu.c          |  2 +-
+>>>  target/xtensa/cpu.c             |  2 +-
+>>>  27 files changed, 41 insertions(+), 38 deletions(-)
+>>>
+>>> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+>>> index 42ab79c1a5..2dc71b5528 100644
+>>> --- a/accel/tcg/cputlb.c
+>>> +++ b/accel/tcg/cputlb.c
+>>> @@ -1286,7 +1286,7 @@ static void tlb_fill(CPUState *cpu, target_ulong =
+addr, int size,
+>>>       * This is not a probe, so only valid return is success; failure
+>>>       * should result in exception + longjmp to the cpu loop.
+>>>       */
+>>> -    ok =3D cc->tlb_fill(cpu, addr, size, access_type, mmu_idx, false, =
+retaddr);
+>>> +    ok =3D cc->tcg_ops.tlb_fill(cpu, addr, size, access_type, mmu_idx,=
+ false, retaddr);
+>>>      assert(ok);
+>>>  }
+>>>=20=20
+>>> @@ -1557,8 +1557,8 @@ static int probe_access_internal(CPUArchState *en=
+v, target_ulong addr,
+>>>              CPUState *cs =3D env_cpu(env);
+>>>              CPUClass *cc =3D CPU_GET_CLASS(cs);
+>>>=20=20
+>>> -            if (!cc->tlb_fill(cs, addr, fault_size, access_type,
+>>> -                              mmu_idx, nonfault, retaddr)) {
+>>> +            if (!cc->tcg_ops.tlb_fill(cs, addr, fault_size, access_typ=
+e,
+>>> +                                      mmu_idx, nonfault, retaddr)) {
+>>>                  /* Non-faulting page table read failed.  */
+>>>                  *phost =3D NULL;
+>>>                  return TLB_INVALID_MASK;
+>>> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+>>> index 4ebe25461a..7f53992251 100644
+>>> --- a/accel/tcg/user-exec.c
+>>> +++ b/accel/tcg/user-exec.c
+>>> @@ -186,7 +186,7 @@ static inline int handle_cpu_signal(uintptr_t pc, s=
+iginfo_t *info,
+>>>      clear_helper_retaddr();
+>>>=20=20
+>>>      cc =3D CPU_GET_CLASS(cpu);
+>>> -    cc->tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc=
+);
+>>> +    cc->tcg_ops.tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, f=
+alse, pc);
+>>>      g_assert_not_reached();
+>>>  }
+>>>=20=20
+>>> @@ -216,8 +216,8 @@ static int probe_access_internal(CPUArchState *env,=
+ target_ulong addr,
+>>>          } else {
+>>>              CPUState *cpu =3D env_cpu(env);
+>>>              CPUClass *cc =3D CPU_GET_CLASS(cpu);
+>>> -            cc->tlb_fill(cpu, addr, fault_size, access_type,
+>>> -                         MMU_USER_IDX, false, ra);
+>>> +            cc->tcg_ops.tlb_fill(cpu, addr, fault_size, access_type,
+>>> +                                 MMU_USER_IDX, false, ra);
+>>>              g_assert_not_reached();
+>>>          }
+>>>      }
+>>> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+>>> index 52142e9094..c82ef261c6 100644
+>>> --- a/include/hw/core/cpu.h
+>>> +++ b/include/hw/core/cpu.h
+>>> @@ -110,12 +110,6 @@ struct TranslationBlock;
+>>>   *       If the target behaviour here is anything other than "set
+>>>   *       the PC register to the value passed in" then the target must
+>>>   *       also implement the synchronize_from_tb hook.
+>>> - * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
+>>> - *       address fault.  For system mode, if the access is valid, call
+>>> - *       tlb_set_page and return true; if the access is invalid, and
+>>> - *       probe is true, return false; otherwise raise an exception and
+>>> - *       do not return.  For user-only mode, always raise an exception
+>>> - *       and do not return.
+>>>   * @get_phys_page_debug: Callback for obtaining a physical address.
+>>>   * @get_phys_page_attrs_debug: Callback for obtaining a physical addre=
+ss and the
+>>>   *       associated memory transaction attributes to use for the acces=
+s.
+>>> @@ -183,9 +177,6 @@ struct CPUClass {
+>>>      void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+>>>                                 Error **errp);
+>>>      void (*set_pc)(CPUState *cpu, vaddr value);
+>>> -    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+>>> -                     MMUAccessType access_type, int mmu_idx,
+>>> -                     bool probe, uintptr_t retaddr);
+>>>      hwaddr (*get_phys_page_debug)(CPUState *cpu, vaddr addr);
+>>>      hwaddr (*get_phys_page_attrs_debug)(CPUState *cpu, vaddr addr,
+>>>                                          MemTxAttrs *attrs);
+>>> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-op=
+s.h
+>>> index e12f32919b..2ea94acca0 100644
+>>> --- a/include/hw/core/tcg-cpu-ops.h
+>>> +++ b/include/hw/core/tcg-cpu-ops.h
+>>> @@ -37,6 +37,18 @@ typedef struct TcgCpuOperations {
+>>>      void (*cpu_exec_exit)(CPUState *cpu);
+>>>      /** @cpu_exec_interrupt: Callback for processing interrupts in cpu=
+_exec */
+>>>      bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
+>>> +    /**
+>>> +     * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
+>>> +     *
+>>> +     * For system mode, if the access is valid, call tlb_set_page
+>>> +     * and return true; if the access is invalid, and probe is
+>>> +     * true, return false; otherwise raise an exception and do
+>>> +     * not return.  For user-only mode, always raise an exception
+>>> +     * and do not return.
+>>> +     */
+>>> +    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+>>> +                     MMUAccessType access_type, int mmu_idx,
+>>> +                     bool probe, uintptr_t retaddr);
+>>=20
+>> As per previous patch, here is a chance to clean-up the comment.
+>
+>
+> Could you provide the text? I think you understand this better than I
+> do...
 
-> > > +}
-> > > +
-> > > +static int vhost_kernel_set_vring_enable(struct vhost_dev *dev, int =
-enable)
-> > > +{
-> > > +    int i;
-> > > +
-> > > +    for (i =3D 0; i < dev->nvqs; ++i) {
-> > > +        vhost_kernel_set_vq_enable(dev, i, enable);
-> > > +    }
-> > > +
-> > > +    return 0;
-> > > +}
-> >
-> > I suggest exposing the per-vq interface (vhost_kernel_set_vq_enable())
-> > in VhostOps so it follows the ioctl interface.
->=20
-> It was actually the initial plan, I left as all-or-nothing to make less c=
-hanges.
->=20
-> > vhost_kernel_set_vring_enable() can be moved to vhost.c can loop over
-> > all vqs if callers find it convenient to loop over all vqs.
->=20
-> I'm ok with it. Thinking out loud, I don't know if it is easier for
-> some devices to enable/disable all of it (less syscalls? less downtime
-> somehow?) but I find more generic and useful the per-virtqueue
-> approach.
+As Eduardo pointed out the kernel-doc pass won't work with in-line
+functions unless they are extracted and typedefed which seems excessive
+considering we don't currently generate docs from these headers. Ignore
+the request.
 
-That's an interesting question, the ability to enable/disable specific
-virtqueues seems like it could be useful. For example, guests with vCPU
-hotplug may want to enable/disable virtqueues so that multi-queue
-adapts as the number of vCPUs changes. A per-vq interface is needed for
-that.
+>
+>
+>>=20
+>> Otherwise:
+>>=20
+>> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>=20
+>
+> Thanks!
+>
+> Claudio
 
-I'm a little worried that some device types might not cope well with
-quiescing individual vqs. Here "quiesce" means to complete in flight
-requests. This would be where two or more vqs have a relationship and
-disabling one vq could cause a deadlock when trying to disable the other
-one. However, I can't think of a case where this happens.
 
-virtio-vsock is the closest example but luckily we don't need complete
-in flight requests, we can just stop the vq immediately. So although
-there is a dependency on the other vq it won't deadlock in this case.
-
-Stefan
-
---Bu8it7iiRSEf40bY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/Q9pkACgkQnKSrs4Gr
-c8iMSwgAuQkVy+8P+reUkH3zK4kRMJP39XJyEVGBk4XKwPzrKZMdOaUjfCdmtrS5
-8mdhYb/M4pl2/kvGRgIMZFL/6fF+FqPl2awpYD7fWDQvMuUmg6Ky2czgPERekkjy
-awjY044CskD0euoaLLbF8NawY+5/vkm65diOPvwhSVu9w/2ZPhAmEX8I+kL1w/8H
-RfFdptKdp8+U24zVbF/Deb8i0aTC0SCpOlkdMzhXuK+KIVtz71I68T/bFgIgkThM
-J/SvDM0FkIxRP4+BKY5fkxgNidAqWA3CnNZZxLNBZEhFeApizydASnYZyur+asYH
-2WuQ+zP5DcEQTL5ehLWnwkSYdndt9A==
-=VK9G
------END PGP SIGNATURE-----
-
---Bu8it7iiRSEf40bY--
-
+--=20
+Alex Benn=C3=A9e
 
