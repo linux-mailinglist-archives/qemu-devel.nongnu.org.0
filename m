@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F5112D4866
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:56:48 +0100 (CET)
-Received: from localhost ([::1]:49952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D43B2D486B
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:58:40 +0100 (CET)
+Received: from localhost ([::1]:54848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn3hn-0007AF-AN
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:56:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45544)
+	id 1kn3jS-0000wr-4g
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:58:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kn3TJ-00022O-Cs; Wed, 09 Dec 2020 12:41:49 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:33562)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1kn3TH-0007J2-Nz; Wed, 09 Dec 2020 12:41:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=N3uBH36JDrW10IvFdxGhtJ2MS0aGjVmU6MbMGICAjLg=; 
- b=em7fYeIY6RJb61wEa1pmiIgS6Qy4q/q5Ek28jqfhKHBIxix9BwodV277UG6q2ShuWGw8XFwZyUOANcWnmWYptgIlWwi2oU092xb5VAjdJ1P0WI9GD68E4NqjiZhjYJ1u7ywQrnqOVbIwgsXxGEx5Xb2oZLH6cHiTpacQczFFq+wD9MaatxHGrEaE5NZTxgKASLpqP/qetTRLi1ngscbpYD1f/wUms8o/yZRHnUgQS4DW5VsUBku4o+KtLO0S+ZeaKnVVHMpBwnnUz5j7a/twURy1REo8LM5nQD+tYtCHZPbi7RVYC+YCaKSFeE3fCD+GDSkzubKOYos7+l3d6zmlyA==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1kn3TE-0005xd-FP; Wed, 09 Dec 2020 18:41:44 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1kn3TE-0003Co-61; Wed, 09 Dec 2020 18:41:44 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 4/4] block: qcow2: remove the created file on
- initialization error
-In-Reply-To: <20201209164441.867945-5-mlevitsk@redhat.com>
-References: <20201209164441.867945-1-mlevitsk@redhat.com>
- <20201209164441.867945-5-mlevitsk@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Wed, 09 Dec 2020 18:41:44 +0100
-Message-ID: <w51k0tqnag7.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kn3U5-00037u-FB
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:42:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kn3U3-0007fY-BR
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:42:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607535753;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LuEbuo/ieSF1uHa6V8Xq9PJM6Uihm9PtVKUVD5o7Ms4=;
+ b=S4wZ/TZqg6Mkm1S3YMSlmR4ylqP5MP40WB6sj3WEbycbaQp4uuehKht539Qbfta5bdfpt+
+ q0QdsGpI29OUytYeLYCF2fTnRbX4/tgnr+Lfxxur2roYjReqtHZEjFYp6RpGqDRkfRKEsR
+ S54zfaDX5z1fRblZu8oV+Rgorzk0ZkM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-bvntxmrpMyODsF9q3ct6kA-1; Wed, 09 Dec 2020 12:42:31 -0500
+X-MC-Unique: bvntxmrpMyODsF9q3ct6kA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16AD185818D;
+ Wed,  9 Dec 2020 17:42:30 +0000 (UTC)
+Received: from localhost (ovpn-115-48.ams2.redhat.com [10.36.115.48])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B56196064B;
+ Wed,  9 Dec 2020 17:42:26 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] trace: convert docs to rST and feature "log" backend in
+ quickstart
+Date: Wed,  9 Dec 2020 17:42:22 +0000
+Message-Id: <20201209174225.401337-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,33 +76,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 09 Dec 2020 05:44:41 PM CET, Maxim Levitsky wrote:
-> @@ -3847,12 +3847,13 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
->  
->      /* Create the qcow2 image (format layer) */
->      ret = qcow2_co_create(create_options, errp);
-> +
-> +finish:
->      if (ret < 0) {
-> -        goto finish;
-> +        bdrv_co_delete_file_noerr(bs);
-> +        bdrv_co_delete_file_noerr(data_bs);
->      }
->  
-> -    ret = 0;
+Q29udmVydCB0cmFjaW5nLnR4dCB0byByU1QgYW5kIGFkZCBpdCB0byB0aGUgZ2VuZXJhdGVkIGRl
+dmVsb3BlciBkb2N1bWVudGF0aW9uLg0KDQpQZXRlciBNYXlkZWxsIHN1Z2dlc3RlZCBtYWtpbmcg
+dGhlICJsb2ciIGJhY2tlbmQgdGhlIHJlY29tbWVuZGVkIGJhY2tlbmQgaW4gdGhlDQpxdWlja3N0
+YXJ0IGRvY3VtZW50YXRpb24uIEl0J3MgZWFzaWVyIHRvIHVzZSB0aGFuIHRoZSAic2ltcGxlIiBi
+YWNrZW5kLiBUaGUNCmZpbmFsIHBhdGNoIHVwZGF0ZXMgdGhlIGRvY3VtZW50YXRpb24gdG8gZG8g
+dGhpcy4NCg0KU3RlZmFuIEhham5vY3ppICgzKToNCiAgdHJhY2U6IGZpeCBzaW1wbGV0cmFjZSBk
+b2MgbWlzbWVyZ2UNCiAgdHJhY2luZzogY29udmVydCBkb2N1bWVudGF0aW9uIHRvIHJTVA0KICB0
+cmFjZTogcmVjb21tZW5kICJsb2ciIGJhY2tlbmQgZm9yIGdldHRpbmcgc3RhcnRlZCB3aXRoIHRy
+YWNpbmcNCg0KIGRvY3MvZGV2ZWwvaW5kZXgucnN0ICAgICAgICAgICAgICAgICAgICB8ICAgMSAr
+DQogZG9jcy9kZXZlbC97dHJhY2luZy50eHQgPT4gdHJhY2luZy5yc3R9IHwgMTc1ICsrKysrKysr
+KysrKysrLS0tLS0tLS0tLQ0KIDIgZmlsZXMgY2hhbmdlZCwgMTAwIGluc2VydGlvbnMoKyksIDc2
+IGRlbGV0aW9ucygtKQ0KIHJlbmFtZSBkb2NzL2RldmVsL3t0cmFjaW5nLnR4dCA9PiB0cmFjaW5n
+LnJzdH0gKDg2JSkNCg0KLS0gDQoyLjI4LjANCg0K
 
-Many/most functions in qcow2.c force ret to be 0 on success, we could
-also keep that here (although in practice I don't think that ret can be
-greater than 0 in this case, or that the caller would care).
-
-Either way,
-
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-
-Berto
 
