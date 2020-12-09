@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37442D4716
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:48:08 +0100 (CET)
-Received: from localhost ([::1]:51062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C2E2D4717
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:48:14 +0100 (CET)
+Received: from localhost ([::1]:51142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn2dK-0003zC-E6
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:48:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60116)
+	id 1kn2dP-00041V-O9
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:48:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kn2aE-0002jx-2X
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:44:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60833)
+ id 1kn2aF-0002kS-Kr
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:44:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kn2a9-0003HS-VD
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:44:52 -0500
+ id 1kn2aC-0003IU-7W
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:44:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607532288;
+ s=mimecast20190719; t=1607532291;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6dB/ieE9eZw9+0mSXz9s1qlRiOq1oCs2d4w6XZs/RZg=;
- b=fulDcUyp/jKeJvwBRvY6//4pElT/+CyXM1M4AwSW2go94VVoP9CzE79HAXJaRvbeDiUoOm
- ZWAs4q8+xyjpnl6e5ZgwR7Zha6fBEhHVkNnls5UGN8ACfGR3BZUN0+PrPjeu0198ogkEM8
- F5/8lcL+YaEJgn9ZHrCvPrUAV7JEMK4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LjARZZQ93Yi2jO25c2MoH/1rJ5AGJI/lx7Ttbk0VCHA=;
+ b=i1hnYruppKArH81Sd6HLBYzNyx60K8HLZEWbFbnxZ3pq/100W22NgIJzikm1/I9Ax/DK/Q
+ wEZFLJcQNlJ0HEviv68MgzJTigyftlWrs3LoJgq51Cl62a8nqunJrColCfc0NjEtO2hVAO
+ e59W7DQDUE/JslkK1PsxmVIdr2THFtM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-yLHu4VE7O6CvtZTDT8VPOg-1; Wed, 09 Dec 2020 11:44:46 -0500
-X-MC-Unique: yLHu4VE7O6CvtZTDT8VPOg-1
+ us-mta-57-CAOij9UKOt2BMGcV1S5-2w-1; Wed, 09 Dec 2020 11:44:48 -0500
+X-MC-Unique: CAOij9UKOt2BMGcV1S5-2w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B87771842140;
- Wed,  9 Dec 2020 16:44:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E7661005504;
+ Wed,  9 Dec 2020 16:44:47 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.206.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7950E6064B;
- Wed,  9 Dec 2020 16:44:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 546BD63B8C;
+ Wed,  9 Dec 2020 16:44:45 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/4] qcow2: don't leave partially initialized file on image
- creation
-Date: Wed,  9 Dec 2020 18:44:37 +0200
-Message-Id: <20201209164441.867945-1-mlevitsk@redhat.com>
+Subject: [PATCH v4 1/4] crypto: luks: Fix tiny memory leak
+Date: Wed,  9 Dec 2020 18:44:38 +0200
+Message-Id: <20201209164441.867945-2-mlevitsk@redhat.com>
+In-Reply-To: <20201209164441.867945-1-mlevitsk@redhat.com>
+References: <20201209164441.867945-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -82,37 +84,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the bdrv_co_delete_file interface to delete the underlying=0D
-file if qcow2 initialization fails (e.g due to bad encryption secret)=0D
-=0D
-This makes the qcow2 driver behave the same way as the luks driver behaves.=
-=0D
-=0D
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1845353=0D
-=0D
-V3: addressed review feedback and reworked commit messages=0D
-=0D
-V4: got rid of code duplication by adding bdrv_co_delete_file_noerr=0D
-and made the qcow2 driver use this function to delete=0D
-both the main and the data file.=0D
-=0D
-Best regards,=0D
-=09Maxim Levitsky=0D
-=0D
-Maxim Levitsky (4):=0D
-  crypto: luks: Fix tiny memory leak=0D
-  block: add bdrv_co_delete_file_noerr=0D
-  crypto: luks: use bdrv_co_delete_file_noerr=0D
-  block: qcow2: remove the created file on initialization error=0D
-=0D
- block.c               | 23 +++++++++++++++++++++++=0D
- block/crypto.c        | 13 ++-----------=0D
- block/qcow2.c         |  7 ++++---=0D
- include/block/block.h |  1 +=0D
- 4 files changed, 30 insertions(+), 14 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+When the underlying block device doesn't support the
+bdrv_co_delete_file interface, an 'Error' object was leaked.
+
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+---
+ block/crypto.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/block/crypto.c b/block/crypto.c
+index aef5a5721a..b3a5275132 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -735,6 +735,8 @@ fail:
+          */
+         if ((r_del < 0) && (r_del != -ENOTSUP)) {
+             error_report_err(local_delete_err);
++        } else {
++            error_free(local_delete_err);
+         }
+     }
+ 
+-- 
+2.26.2
 
 
