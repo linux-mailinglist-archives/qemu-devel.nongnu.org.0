@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B392D402A
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 11:44:33 +0100 (CET)
-Received: from localhost ([::1]:53396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1F6B2D4050
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 11:51:08 +0100 (CET)
+Received: from localhost ([::1]:37092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmwxU-0008UD-6W
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 05:44:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
+	id 1kmx3o-0005EL-OC
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 05:51:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmwsb-0004Xt-2d
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:39:29 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39094)
+ id 1kmx2Z-0004Xc-7u
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:49:48 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmwsU-0007re-Qj
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:39:28 -0500
-Received: by mail-wm1-x335.google.com with SMTP id 3so1120282wmg.4
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 02:39:22 -0800 (PST)
+ id 1kmx2W-0002yx-RZ
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 05:49:46 -0500
+Received: by mail-wm1-x343.google.com with SMTP id a3so1150312wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 02:49:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=HRtw0YiIThgtylpuMqmx+UhRjwLwUiVTGqlmczHD6SA=;
- b=dgALy5Ue+3o1blRMJWcoZEOKEE05a1V4BXGvmC7/TvbAYB3vZIl1LrKi4TNFW+S9gg
- xb1qCSdy6CfykySMUeEX1bfDiroIdBJbX8ASjxAFFZP0vD6YiPlpH1rGwC0opMJysHjR
- JuSDryPBWKoaFXbn7aN/pYin0vLuBQgl5RvQx2MMtfeuuQ3B755ItYDZ2qVTR4lVbJXU
- K2wYn6Lbu9obNxoAG6P+ONXyAZFaqtZIQznFSUmaNp9rL1lpEYKbMkt1BHLbXkPRkBQ+
- jAXjAfNrmTWT24iFYLIfzn6GD8sJm/GjmNA2M/yyJmL3rFhdUdxnro8HaNbuEOVmDdHW
- Cp7w==
+ bh=+isKnzEPdeZ32cOZ/ZbwORZbWAyIgrtDt6GJNZjHPA0=;
+ b=uTyREvVfTqLirLeeKNbf2z4DTmNNqcWOyP4mc6ymYGG6Fb0VW5aUNHxI2z6El1ePdO
+ BU5ySdO19Q69M+bexQDD6rIyRk83ckjT3UaUzxU/GnwmlatRu1J8eo3ElWC/QeaCS3u1
+ NLrt0VpYt9TggcuFy7Qz3CVJP+EIdECOjUO+L0ZlPOOHxKWVZvz7VIxAyoxD8zGKDhVm
+ iEOce5xw69VjyNxbrShhW1HuD9vwMPRIxd+6RcPWqLGeLjhp7JmtM6ZQCjMJCJFtrMQx
+ d7aCmI0yaiT00n6lxx+1FB0YpJZrLuED3A4RjWZaNSptvi3jDq+cuXHMytn/xI7Qunp1
+ tMDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=HRtw0YiIThgtylpuMqmx+UhRjwLwUiVTGqlmczHD6SA=;
- b=gW6Yn4EMwUyNsoE8hZikcqS9R222tAP+3uSGkG43T1mz1Qd55ANLUY/tfFIOoCu4vd
- +6FTRWwHOivcaZ3XW2PukDV9zLELY+/Ol7pEDsmTp+CQpZ3l9JXKpUGy6Vlt9Hkyq5yc
- 10L2ltIZQ/sq1u3UmgQYR6iuGnGPWy8oohqhNnmiaGmxJIywbb+id7AIpv4pgg0X6tie
- bVAQu/V6UQk3BqIMMtbCv4hAS199Lao3etZaLmiBxDkRTN2DYqJ3Ch2X0fQYeogj5uX+
- 5WolSWl9u4K30g6cwtHsPoUJ2XBOr/xyD+LnqjOUQZY53kV65v1Y8otQAk9uLSyw9lma
- iBtw==
-X-Gm-Message-State: AOAM533byBMdj8cgT13/EBjpUejLVI7KoYWEZtCrOPuqZBoh1HyF3Pmc
- 0O1SMO7qCRWq9iUyhwTS+gX/nQ==
-X-Google-Smtp-Source: ABdhPJw/qqekJ68MwAcMAEvX42qwK61t3TB9aGIuCF/28ufJdtQm820g82h6XOffViTkpj7rcmhDcg==
-X-Received: by 2002:a1c:bd87:: with SMTP id n129mr2079452wmf.32.1607510361314; 
- Wed, 09 Dec 2020 02:39:21 -0800 (PST)
+ bh=+isKnzEPdeZ32cOZ/ZbwORZbWAyIgrtDt6GJNZjHPA0=;
+ b=cGcnY7Lq//ExwtUDoTNKxr3+2JWtyoGEY7E2HmbjwW0DWFA/XcmPkQ34Ze1nE2dL+W
+ WN7sPAE8aNy0rhDS+AalrHt/ophVlarmNZkBCFtqiI6rRLs0oYkHBpB211GrCxFaRL+z
+ bGtNLaDYEKemg7CI8gD5t7NUR5Qz7tzih1gOPiNLzRgzj5dJ5iAV7rdeaqKk8y8OKZUf
+ hupXf5U/Hb2njoqWhCoDYI3oDjyzBZrTNTk9rywrSqmRMzPaIhJAa/KMhu7ubX9VB8LB
+ vMi/6ZL21uYLJ5gQCu0ioIc6ckls3xlN4WcPwaRxDHJbhDccOBKjSD+tinE0d5sblBfB
+ DpLg==
+X-Gm-Message-State: AOAM533oM6I9WKkdOBR0iWtObYMsrSc+vI4ugylfu6vj89jtUl4AOQ7f
+ bhvEW1ZhzvUyplesGKewV6glWg==
+X-Google-Smtp-Source: ABdhPJzP5CWNqhHQuYDbEMTq6Tu4TD84Ccci+O19eiUkSXa9rDjtcpvy7cIvp+gTgRaN6Eq9+ErRYg==
+X-Received: by 2002:a1c:2316:: with SMTP id j22mr2127977wmj.82.1607510982299; 
+ Wed, 09 Dec 2020 02:49:42 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a65sm2327221wmc.35.2020.12.09.02.39.20
+ by smtp.gmail.com with ESMTPSA id r13sm2565253wrm.25.2020.12.09.02.49.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 02:39:20 -0800 (PST)
+ Wed, 09 Dec 2020 02:49:41 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 863BE1FF7E;
- Wed,  9 Dec 2020 10:39:19 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 3E5451FF7E;
+ Wed,  9 Dec 2020 10:49:40 +0000 (GMT)
 References: <20201208194839.31305-1-cfontana@suse.de>
- <20201208194839.31305-16-cfontana@suse.de>
+ <20201208194839.31305-18-cfontana@suse.de>
 User-agent: mu4e 1.5.7; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v9 15/32] cpu: Introduce TCGCpuOperations struct
-Date: Wed, 09 Dec 2020 10:39:13 +0000
-In-reply-to: <20201208194839.31305-16-cfontana@suse.de>
-Message-ID: <87o8j3e014.fsf@linaro.org>
+Subject: Re: [RFC v9 17/32] accel/tcg: split TCG-only code from
+ cpu_exec_realizefn
+Date: Wed, 09 Dec 2020 10:42:54 +0000
+In-reply-to: <20201208194839.31305-18-cfontana@suse.de>
+Message-ID: <87lfe7dzjv.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -107,22 +108,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Claudio Fontana <cfontana@suse.de> writes:
 
-> From: Eduardo Habkost <ehabkost@redhat.com>
->
-> The TCG-specific CPU methods will be moved to a separate struct,
-> to make it easier to move accel-specific code outside generic CPU
-> code in the future.  Start by moving tcg_initialize().
->
-> The new CPUClass.tcg_opts field may eventually become a pointer,
-> but keep it an embedded struct for now, to make code conversion
-> easier.
->
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->
-> [claudio: make the tcg code build for CONFIG_TCG only]
+> move away TCG-only code, make it compile only on TCG.
 >
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  accel/tcg/cpu-exec.c  | 28 +++++++++++++++++
+>  cpu.c                 | 70 ++++++++++++++++++++-----------------------
+>  hw/core/cpu.c         |  6 +++-
+>  include/hw/core/cpu.h |  8 +++++
+>  4 files changed, 74 insertions(+), 38 deletions(-)
+>
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index 64cba89356..436dfbf155 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -801,6 +801,34 @@ int cpu_exec(CPUState *cpu)
+>      return ret;
+>  }
+>=20=20
+> +void tcg_exec_realizefn(CPUState *cpu, Error **errp)
+> +{
+> +    static bool tcg_target_initialized;
+> +    CPUClass *cc =3D CPU_GET_CLASS(cpu);
+> +
+> +    if (!tcg_target_initialized) {
+> +        tcg_target_initialized =3D true;
+> +        cc->tcg_ops.initialize();
+
+nit: it makes no difference but stylistically it makes sense to set
+tcg_target_initialized after we have in fact initialised.
+
+Also we've dropped the tcg_enabled() check, if indeed it will always be
+true should we not assert it to ensure the statement for tcg_exec_init
+remains the case: "Must be called before using the QEMU cpus."
+
+Otherwise LGTM:
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
