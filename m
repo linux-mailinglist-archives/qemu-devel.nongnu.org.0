@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 902312D3F2E
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 10:52:23 +0100 (CET)
-Received: from localhost ([::1]:60018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192DD2D3F43
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 10:57:15 +0100 (CET)
+Received: from localhost ([::1]:48322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmw90-0007Bw-JF
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 04:52:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34212)
+	id 1kmwDi-0005nr-3V
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 04:57:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmw5y-0005JS-Sq
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:49:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55129)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmw63-0005ME-JE
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:49:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmw5x-0007Nz-B3
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:49:14 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kmw60-0007P8-8o
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 04:49:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607507352;
+ s=mimecast20190719; t=1607507355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vDDqdZAeiiL2gZpo5csTBBz4F6jgVsFNvSff4mtN/Bk=;
- b=cNjZmntqrW8CJYHxnyeIb71Wu8QehmnWpSxttfV4kk4qOmBNrK9JW9WyJ/iofTvjBmqvhD
- /PCtIdDrejt8pULvQLgWj1rwprTzzhqAmHdY/0HAF8zbIf8u12rh0zAVDhpQQjhrm2Csmz
- EVNZweTS9X/w3FQMcLNtbDmvtikjfAs=
+ bh=kjhazOPgtvZ6B/zqhf9DQqbMkE3gduMMNFqxEyilhBA=;
+ b=UzXN+JYTO5Qj5tCRwg5PrzDFMBBc2KEYlVQRSo30Tqz3Zmg+JaoIbPfH5hTpU34u6gSIoy
+ l2AUm+XDLgM1maJ9If6FPyuRPfuXnWd6gpSoDKPmd9jdbBGUFC7pBgXcoigCl29KGVxykJ
+ Mrp+W+25IDsTrsOUj5iSkWkDNplKqp8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-GCCeTCxUOOmnsHTJfwHX8w-1; Wed, 09 Dec 2020 04:49:10 -0500
-X-MC-Unique: GCCeTCxUOOmnsHTJfwHX8w-1
+ us-mta-336-gJ_wUNKZN0GK1E8-kdyKCg-1; Wed, 09 Dec 2020 04:49:12 -0500
+X-MC-Unique: gJ_wUNKZN0GK1E8-kdyKCg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74082425C8;
- Wed,  9 Dec 2020 09:49:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5DB7107ACE3;
+ Wed,  9 Dec 2020 09:49:10 +0000 (UTC)
 Received: from thuth.com (ovpn-112-183.ams2.redhat.com [10.36.112.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 694615C234;
- Wed,  9 Dec 2020 09:49:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C28F95C23D;
+ Wed,  9 Dec 2020 09:49:09 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/13] gitlab-ci: Add Xen cross-build jobs
-Date: Wed,  9 Dec 2020 10:48:48 +0100
-Message-Id: <20201209094856.17788-6-thuth@redhat.com>
+Subject: [PULL 06/13] test-qga: fix a resource leak in
+ test_qga_guest_get_osinfo()
+Date: Wed,  9 Dec 2020 10:48:49 +0100
+Message-Id: <20201209094856.17788-7-thuth@redhat.com>
 In-Reply-To: <20201209094856.17788-1-thuth@redhat.com>
 References: <20201209094856.17788-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -56,14 +57,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,44 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Alex Chen <alex.chen@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Alex Chen <alex.chen@huawei.com>
 
-Cross-build ARM and X86 targets with only Xen accelerator enabled.
+The fixture->fd is created in fixture_setup() and, likewise, needs to be closed
+in fixture_tear_down().
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201207131503.3858889-6-philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20201125102403.57709-1-alex.chen@huawei.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/crossbuilds.yml | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ tests/test-qga.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index 51896bbc9f..bd6473a75a 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -134,3 +134,17 @@ cross-win64-system:
-   extends: .cross_system_build_job
-   variables:
-     IMAGE: fedora-win64-cross
-+
-+cross-amd64-xen-only:
-+  extends: .cross_accel_build_job
-+  variables:
-+    IMAGE: debian-amd64-cross
-+    ACCEL: xen
-+    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
-+
-+cross-arm64-xen-only:
-+  extends: .cross_accel_build_job
-+  variables:
-+    IMAGE: debian-arm64-cross
-+    ACCEL: xen
-+    ACCEL_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+diff --git a/tests/test-qga.c b/tests/test-qga.c
+index c1b173b3cb..eb33264e8e 100644
+--- a/tests/test-qga.c
++++ b/tests/test-qga.c
+@@ -111,6 +111,7 @@ fixture_tear_down(TestFixture *fixture, gconstpointer data)
+ 
+     g_rmdir(fixture->test_dir);
+     g_free(fixture->test_dir);
++    close(fixture->fd);
+ }
+ 
+ static void qmp_assertion_message_error(const char     *domain,
 -- 
 2.18.4
 
