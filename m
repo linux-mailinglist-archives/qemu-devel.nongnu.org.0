@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89912D40E7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 12:21:02 +0100 (CET)
-Received: from localhost ([::1]:55626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C0A2D40F7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 12:23:30 +0100 (CET)
+Received: from localhost ([::1]:57886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmxWn-0005vI-SK
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 06:21:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54142)
+	id 1kmxZB-0006zc-VM
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 06:23:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmxVW-0005Uc-OO
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 06:19:42 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmxY1-0006XX-5c
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 06:22:21 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmxVU-00051Q-Ub
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 06:19:42 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kmxXz-0005xr-Jt
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 06:22:16 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4B7FEAD09;
- Wed,  9 Dec 2020 11:19:39 +0000 (UTC)
-Subject: Re: [RFC v9 10/32] i386: move TCG cpu class initialization out of
- helper.c
+ by mx2.suse.de (Postfix) with ESMTP id 449AAAC94;
+ Wed,  9 Dec 2020 11:22:14 +0000 (UTC)
+Subject: Re: [RFC v9 17/32] accel/tcg: split TCG-only code from
+ cpu_exec_realizefn
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20201208194839.31305-1-cfontana@suse.de>
- <20201208194839.31305-11-cfontana@suse.de> <87360ffewo.fsf@linaro.org>
+ <20201208194839.31305-18-cfontana@suse.de> <87lfe7dzjv.fsf@linaro.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <03de7a9a-632d-185b-6ade-25a8cab97d02@suse.de>
-Date: Wed, 9 Dec 2020 12:19:37 +0100
+Message-ID: <365e2ba8-9105-4028-10c1-4d66c7422018@suse.de>
+Date: Wed, 9 Dec 2020 12:22:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <87360ffewo.fsf@linaro.org>
+In-Reply-To: <87lfe7dzjv.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -73,123 +73,59 @@ Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/9/20 11:23 AM, Alex Bennée wrote:
+On 12/9/20 11:42 AM, Alex Bennée wrote:
 > 
 > Claudio Fontana <cfontana@suse.de> writes:
 > 
+>> move away TCG-only code, make it compile only on TCG.
+>>
 >> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 >> ---
->>  target/i386/cpu.c             |  33 ++++------
->>  target/i386/cpu.h             |  97 ++---------------------------
->>  target/i386/helper-tcg.h      | 112 ++++++++++++++++++++++++++++++++++
->>  target/i386/helper.c          |  23 -------
->>  target/i386/meson.build       |   1 +
->>  target/i386/tcg-cpu.c         |  71 +++++++++++++++++++++
->>  target/i386/tcg-cpu.h         |  15 +++++
->>  target/i386/tcg/bpt_helper.c  |   1 +
->>  target/i386/tcg/cc_helper.c   |   1 +
->>  target/i386/tcg/excp_helper.c |   1 +
->>  target/i386/tcg/fpu_helper.c  |  33 +++++-----
->>  target/i386/tcg/int_helper.c  |   1 +
->>  target/i386/tcg/mem_helper.c  |   1 +
->>  target/i386/tcg/misc_helper.c |   1 +
->>  target/i386/tcg/mpx_helper.c  |   1 +
->>  target/i386/tcg/seg_helper.c  |   1 +
->>  target/i386/tcg/smm_helper.c  |   2 +
->>  target/i386/tcg/svm_helper.c  |   1 +
->>  target/i386/tcg/translate.c   |   1 +
->>  19 files changed, 244 insertions(+), 153 deletions(-)
->>  create mode 100644 target/i386/helper-tcg.h
->>  create mode 100644 target/i386/tcg-cpu.c
->>  create mode 100644 target/i386/tcg-cpu.h
+>>  accel/tcg/cpu-exec.c  | 28 +++++++++++++++++
+>>  cpu.c                 | 70 ++++++++++++++++++++-----------------------
+>>  hw/core/cpu.c         |  6 +++-
+>>  include/hw/core/cpu.h |  8 +++++
+>>  4 files changed, 74 insertions(+), 38 deletions(-)
 >>
->> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
->> index b9bd249c8f..3462d0143f 100644
->> --- a/target/i386/cpu.c
->> +++ b/target/i386/cpu.c
->> @@ -24,6 +24,8 @@
->>  #include "qemu/qemu-print.h"
->>  
->>  #include "cpu.h"
->> +#include "tcg-cpu.h"
->> +#include "helper-tcg.h"
->>  #include "exec/exec-all.h"
->>  #include "sysemu/kvm.h"
->>  #include "sysemu/reset.h"
->> @@ -1495,7 +1497,8 @@ static inline uint64_t x86_cpu_xsave_components(X86CPU *cpu)
->>             cpu->env.features[FEAT_XSAVE_COMP_LO];
+>> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+>> index 64cba89356..436dfbf155 100644
+>> --- a/accel/tcg/cpu-exec.c
+>> +++ b/accel/tcg/cpu-exec.c
+>> @@ -801,6 +801,34 @@ int cpu_exec(CPUState *cpu)
+>>      return ret;
 >>  }
 >>  
->> -const char *get_register_name_32(unsigned int reg)
->> +/* Return name of 32-bit register, from a R_* constant */
->> +static const char *get_register_name_32(unsigned int reg)
->>  {
->>      if (reg >= CPU_NB_REGS32) {
->>          return NULL;
->> @@ -7012,13 +7015,6 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr value)
->>      cpu->env.eip = value;
->>  }
->>  
->> -static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
->> -{
->> -    X86CPU *cpu = X86_CPU(cs);
->> -
->> -    cpu->env.eip = tb->pc - tb->cs_base;
->> -}
->> -
->>  int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
->>  {
->>      X86CPU *cpu = X86_CPU(cs);
->> @@ -7252,17 +7248,18 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
->>      cc->class_by_name = x86_cpu_class_by_name;
->>      cc->parse_features = x86_cpu_parse_featurestr;
->>      cc->has_work = x86_cpu_has_work;
->> +
->>  #ifdef CONFIG_TCG
->> -    cc->do_interrupt = x86_cpu_do_interrupt;
->> -    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
->> -#endif
->> +    tcg_cpu_common_class_init(cc);
-> 
-> Are we likely to have clashing names here as other arches get converted?
-> tcg_x86_cpu_common_class_init or x86_cpu_common_class_init?
-
-
-well, not in the same binary I presume? But I can add an x86 in front.
-
-
-> 
-> <snip>
->> diff --git a/target/i386/tcg-cpu.c b/target/i386/tcg-cpu.c
->> new file mode 100644
->> index 0000000000..628dd29fe7
->> --- /dev/null
->> +++ b/target/i386/tcg-cpu.c
->> @@ -0,0 +1,71 @@
-> <snip>
->> +
->> +void tcg_cpu_common_class_init(CPUClass *cc)
+>> +void tcg_exec_realizefn(CPUState *cpu, Error **errp)
 >> +{
->> +    cc->do_interrupt = x86_cpu_do_interrupt;
->> +    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
->> +    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
->> +    cc->cpu_exec_enter = x86_cpu_exec_enter;
->> +    cc->cpu_exec_exit = x86_cpu_exec_exit;
->> +    cc->tcg_initialize = tcg_x86_init;
->> +    cc->tlb_fill = x86_cpu_tlb_fill;
->> +#ifndef CONFIG_USER_ONLY
->> +    cc->debug_excp_handler = breakpoint_handler;
->> +#endif
->> +}
+>> +    static bool tcg_target_initialized;
+>> +    CPUClass *cc = CPU_GET_CLASS(cpu);
+>> +
+>> +    if (!tcg_target_initialized) {
+>> +        tcg_target_initialized = true;
+>> +        cc->tcg_ops.initialize();
 > 
-> Oh I see this moves down to target/i386/tcg/ eventually. Maybe we should
-> just create the new file in place so it's easier to follow the changes
-> as we convert to a proper abstracted class?
+> nit: it makes no difference but stylistically it makes sense to set
+> tcg_target_initialized after we have in fact initialised.
+> 
+> Also we've dropped the tcg_enabled() check,
+
+
+The tcg_enabled() check should be there, not here but in cpu_exec_realizefn,
+
+if (tcg_enabled()) {
+  tcg_exec_realizefn(...)
+}
+
+will check, thanks!
+
+
+> if indeed it will always be
+> true should we not assert it to ensure the statement for tcg_exec_init
+> remains the case: "Must be called before using the QEMU cpus."
+> 
+> Otherwise LGTM:
+> 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > 
 
-Yes, will do.
-
-Thanks,
-
-C
 
