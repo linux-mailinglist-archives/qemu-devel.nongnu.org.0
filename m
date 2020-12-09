@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B1D2D47C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:25:20 +0100 (CET)
-Received: from localhost ([::1]:43382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA23E2D47B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:19:32 +0100 (CET)
+Received: from localhost ([::1]:54872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn3DL-0004l2-1C
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:25:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38588)
+	id 1kn37j-00068B-NW
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:19:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kn301-0007ul-MF
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:11:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27423)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kn320-0001Tv-PS
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:13:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kn300-0005JW-4F
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:11:33 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kn31y-0005p7-M8
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:13:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607533891;
+ s=mimecast20190719; t=1607534013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m3F91DzN5F0kKEtYvqJ6fzYS6pCWzQz+4AjnxofhPjM=;
- b=abu/IPdPUQqeK+PzWOUPtJFczAYciPCrODrqZex1M6EIXlUTbWjpHZdKL7Kc9LKyJ4QVTS
- 6hrdKCXJhikjLI3/Rr0ciR70eR4CrDM8GNoe3tp78tgnXMLIJbK1Rt8dfuvAIgAJivGcCU
- Ep27djecJTroDy6eHtxYAHElQMCM1ys=
+ bh=3IJDrCv8GLIAoZZKP7F9LOsCs4nzxCBj5aUEuFASnhg=;
+ b=VL4eCK9dNqoqyYQZpNnlUz416hPWPo+9zlYRyPnXumDEIOiqSC1RYGLupEbzWdGSKjOj06
+ FRDjyYFN9IsMcxc/RcA6QDYrTSdlAEDrkrzkNARBw3WSt75zRD1elZVxkowZwXuRe6a1CC
+ PjyD8qP4KFmbS5myxJ29bILUvQ1+obs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-XcBx9OwSPOazE8VNq1ebjw-1; Wed, 09 Dec 2020 12:11:29 -0500
-X-MC-Unique: XcBx9OwSPOazE8VNq1ebjw-1
+ us-mta-575-LSTc6DvmNSiDm1k6Tj7Ffg-1; Wed, 09 Dec 2020 12:13:32 -0500
+X-MC-Unique: LSTc6DvmNSiDm1k6Tj7Ffg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7084A19251A0;
- Wed,  9 Dec 2020 17:11:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51A5F10054FF;
+ Wed,  9 Dec 2020 17:13:30 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-183.ams2.redhat.com [10.36.112.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B35526EF48;
- Wed,  9 Dec 2020 17:10:59 +0000 (UTC)
-Subject: Re: [PATCH v1 5/6] gitlab: move --without-default-devices build from
- Travis
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C33656EF61;
+ Wed,  9 Dec 2020 17:13:15 +0000 (UTC)
+Subject: Re: [PATCH v1 6/6] gitlab: add --without-default-features build
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20201209170059.20742-1-alex.bennee@linaro.org>
- <20201209170059.20742-6-alex.bennee@linaro.org>
+ <20201209170059.20742-7-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <1cee701f-0c59-33bb-64d1-0d93b97e5c6e@redhat.com>
-Date: Wed, 9 Dec 2020 18:10:58 +0100
+Message-ID: <0d1a0b59-ecbc-208f-8eb7-0aa323930cd9@redhat.com>
+Date: Wed, 9 Dec 2020 18:13:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201209170059.20742-6-alex.bennee@linaro.org>
+In-Reply-To: <20201209170059.20742-7-alex.bennee@linaro.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
@@ -96,26 +95,26 @@ On 09/12/2020 18.00, Alex Bennée wrote:
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
 >  .gitlab-ci.yml | 7 +++++++
->  .travis.yml    | 8 --------
->  2 files changed, 7 insertions(+), 8 deletions(-)
+>  1 file changed, 7 insertions(+)
 > 
 > diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 21b01c0547..878d114d40 100644
+> index 878d114d40..f87584ca8f 100644
 > --- a/.gitlab-ci.yml
 > +++ b/.gitlab-ci.yml
-> @@ -434,6 +434,13 @@ build-trace-ust-system:
->      IMAGE: ubuntu2004
->      CONFIGURE_ARGS: --enable-trace-backends=ust --target-list=x86_64-softmmu
+> @@ -441,6 +441,13 @@ build-without-default-devices:
+>      IMAGE: debian-amd64
+>      CONFIGURE_ARGS: --without-default-devices --disable-user
 >  
-> +# Check our reduced build configurations
-> +build-without-default-devices:
+> +build-without-default-features:
 > +  <<: *native_build_job_definition
 > +  variables:
-> +    IMAGE: debian-amd64
-> +    CONFIGURE_ARGS: --without-default-devices --disable-user
+> +    IMAGE: centos8
+> +    CONFIGURE_ARGS: --without-default-devices --without-default-features --disable-user
+> +    MAKE_CHECK_ARGS: check-unit
 
-We're interested in --without-default-devices in downstream RHEL ... would
-it be ok for you to test this with Fedora or CentOS instead?
+I wonder whether we'd rather want to check without
+"--without-default-devices" here to see whether all code compiles fine with
+"--without-default-features" ... ?
 
  Thomas
 
