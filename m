@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB97E2D46C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:31:59 +0100 (CET)
-Received: from localhost ([::1]:41326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E37442D4716
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:48:08 +0100 (CET)
+Received: from localhost ([::1]:51062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn2Ni-0007Mu-OW
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:31:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56464)
+	id 1kn2dK-0003zC-E6
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:48:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1kn2Li-0006UP-Ls; Wed, 09 Dec 2020 11:29:54 -0500
-Received: from home.keithp.com ([63.227.221.253]:43716 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1kn2LW-0005w8-VE; Wed, 09 Dec 2020 11:29:54 -0500
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id 72F8F3F2E329;
- Wed,  9 Dec 2020 08:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1607531376; bh=NfvvG9R1oZHC0/72KAn4eRO/RbaxPTHZX0E9qTml3UI=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=syXM6nJ8lwxL0amBETOnN1p1SckCQYDv5U4mPPW/2YfeTOArON8cCF/QOYDuHzrbs
- CAVZNTkOEA01WyciO1sxR0S7pwbKE5eqUj2ka14ZzGxMgzChMZz/qhXn4LbHtJpiwF
- oMXmkmrf50Y6mkeiO0F0mkozOtThwxrbuavVEV8m0r2zc5+EaXj+yfoKIClcusJB8q
- vPpnni8NEPyMtrQZs7d3FOBE0Z8XJUR110eEMK7Imn8NlumNfPL9BR3MkHR9bXG4ST
- YIV7TXhwjp3x9lvAiAqBP5yC5UgyXKhtsXR42qcnDn923N4N4jsYreuNxyx3LTZM6w
- SQ/Li2sZe1ePw==
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 6I6X17j2ur1b; Wed,  9 Dec 2020 08:29:36 -0800 (PST)
-Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id 0E6273F2DE35;
- Wed,  9 Dec 2020 08:29:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1607531376; bh=NfvvG9R1oZHC0/72KAn4eRO/RbaxPTHZX0E9qTml3UI=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=syXM6nJ8lwxL0amBETOnN1p1SckCQYDv5U4mPPW/2YfeTOArON8cCF/QOYDuHzrbs
- CAVZNTkOEA01WyciO1sxR0S7pwbKE5eqUj2ka14ZzGxMgzChMZz/qhXn4LbHtJpiwF
- oMXmkmrf50Y6mkeiO0F0mkozOtThwxrbuavVEV8m0r2zc5+EaXj+yfoKIClcusJB8q
- vPpnni8NEPyMtrQZs7d3FOBE0Z8XJUR110eEMK7Imn8NlumNfPL9BR3MkHR9bXG4ST
- YIV7TXhwjp3x9lvAiAqBP5yC5UgyXKhtsXR42qcnDn923N4N4jsYreuNxyx3LTZM6w
- SQ/Li2sZe1ePw==
-Received: by keithp.com (Postfix, from userid 1000)
- id EA9AC15820DB; Wed,  9 Dec 2020 08:29:35 -0800 (PST)
-To: Kito Cheng <kito.cheng@gmail.com>
-Cc: qemu-devel@nongnu.org, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>, Alistair
- Francis <Alistair.Francis@wdc.com>, Bastian Koppelmann
- <kbastian@mail.uni-paderborn.de>, Laurent Vivier <laurent@vivier.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>, Peter Maydell
- <peter.maydell@linaro.org>, qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
- Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: Re: [PATCH 5/8] riscv: Add semihosting support [v13]
-In-Reply-To: <CA+yXCZC038LfuswrAo6W3gHXfGkwPscMEKDQJvutV7xcoC+wPw@mail.gmail.com>
-References: <20201125213617.2496935-1-keithp@keithp.com>
- <20201125213617.2496935-6-keithp@keithp.com>
- <CA+yXCZC038LfuswrAo6W3gHXfGkwPscMEKDQJvutV7xcoC+wPw@mail.gmail.com>
-Date: Wed, 09 Dec 2020 08:29:35 -0800
-Message-ID: <87r1nz6iz4.fsf@keithp.com>
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kn2aE-0002jx-2X
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:44:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60833)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kn2a9-0003HS-VD
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:44:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607532288;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=6dB/ieE9eZw9+0mSXz9s1qlRiOq1oCs2d4w6XZs/RZg=;
+ b=fulDcUyp/jKeJvwBRvY6//4pElT/+CyXM1M4AwSW2go94VVoP9CzE79HAXJaRvbeDiUoOm
+ ZWAs4q8+xyjpnl6e5ZgwR7Zha6fBEhHVkNnls5UGN8ACfGR3BZUN0+PrPjeu0198ogkEM8
+ F5/8lcL+YaEJgn9ZHrCvPrUAV7JEMK4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-437-yLHu4VE7O6CvtZTDT8VPOg-1; Wed, 09 Dec 2020 11:44:46 -0500
+X-MC-Unique: yLHu4VE7O6CvtZTDT8VPOg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B87771842140;
+ Wed,  9 Dec 2020 16:44:44 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.35.206.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7950E6064B;
+ Wed,  9 Dec 2020 16:44:42 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/4] qcow2: don't leave partially initialized file on image
+ creation
+Date: Wed,  9 Dec 2020 18:44:37 +0200
+Message-Id: <20201209164441.867945-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,49 +76,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Keith Packard <keithp@keithp.com>
-From: Keith Packard via <qemu-devel@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Use the bdrv_co_delete_file interface to delete the underlying=0D
+file if qcow2 initialization fails (e.g due to bad encryption secret)=0D
+=0D
+This makes the qcow2 driver behave the same way as the luks driver behaves.=
+=0D
+=0D
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1845353=0D
+=0D
+V3: addressed review feedback and reworked commit messages=0D
+=0D
+V4: got rid of code duplication by adding bdrv_co_delete_file_noerr=0D
+and made the qcow2 driver use this function to delete=0D
+both the main and the data file.=0D
+=0D
+Best regards,=0D
+=09Maxim Levitsky=0D
+=0D
+Maxim Levitsky (4):=0D
+  crypto: luks: Fix tiny memory leak=0D
+  block: add bdrv_co_delete_file_noerr=0D
+  crypto: luks: use bdrv_co_delete_file_noerr=0D
+  block: qcow2: remove the created file on initialization error=0D
+=0D
+ block.c               | 23 +++++++++++++++++++++++=0D
+ block/crypto.c        | 13 ++-----------=0D
+ block/qcow2.c         |  7 ++++---=0D
+ include/block/block.h |  1 +=0D
+ 4 files changed, 30 insertions(+), 14 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-Kito Cheng <kito.cheng@gmail.com> writes:
-
-> Hi Keith:
->
-> Thanks for the patch, I've verified with newlib semihosting support
-> which is contributed by Craig Blackmore from embecosm,
-> and I would like to add semihosting to user mode, do you mind add this
-> patch into this patch series?
-
-I tried to add that already, but I admit that I haven't tested it in a
-while. You should find that there are patches to linux-user/semihost.c
-and linux-user/qemu.h to enable it.
-
-=2D-=20
-=2Dkeith
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl/Q+28ACgkQ2yIaaQAA
-ABGFNw//Ul4a0PbfO3j4ey6T6eC53q1i4ObgE0Bsatdm6xLYgMB7CyJ8Bn/T8h8d
-/J31ZrEuRl3+vZhMZE4BGm6BuMEW/uwbrlKjfkTTep4T7JzXSDxUBaO4xa7OYnkI
-6R/k9QYoOdvo31zfYG6zg6B1U8FtwnX1mSCUb+GjELEwKdea3yxa64yzapWnzsnU
-TqkEP3Vux/M4M+z1LFkZfmvjhVaYcuNczuY3XbL1R7HZJGQktIaBh/lLvOPSL5u7
-CQP6H7GZMJMrbJ4VH2KmcyBHFERlBsodXmJKf/ed7fzQLcuhKEYyuzzJ8JeQqwS0
-IoHu6DCA5LbzNZQPvjxY2WJ8Rxzpq7uNbrioNC5xLIPvypzdVJUUW4u20bP8wJtf
-jUvFNK1ZJYTGomlpL4p+5/f8M2MCj61Fz7wJaHRt12SIRYP0Lt1m4Obkglh9Aneh
-PTvepH9BIqEd7FFoJMIFJ2bCcs6Yva8f5lAlW2MPxSs1s42iCVTyOHU/IrcX6e1y
-HH68QwmxaJb9XoUV4luCD7WSXm3x8uyH3nPLsxxhTNd/EsczDK/r3q7v4cAjmPQm
-URnGQx88afZnpI4xPmCPWI6IGmUta8gzCYw6BdcJbQOA8bxIyTFklV9ouzV25awT
-Vnc0GlPGnSi6AjgdHv7wSi7qcuA2SWfLuc+wZZdHTXMyAKT43SQ=
-=aNTI
------END PGP SIGNATURE-----
---=-=-=--
 
