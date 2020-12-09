@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60FF2D4637
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:00:55 +0100 (CET)
-Received: from localhost ([::1]:58924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C5A2D4677
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:13:10 +0100 (CET)
+Received: from localhost ([::1]:47166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn1te-0005Kj-Qc
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:00:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46736)
+	id 1kn25V-0005KN-6A
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:13:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kn1rl-0004lW-9o
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:58:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28521)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kn1rY-0002kl-MD
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:58:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607529521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JBr32EfwjraHmhGUU1qWmpGQu6trXhEY+c3U2JTdT58=;
- b=EHRqZhI1iU2TFMUvyVWZumnkSy20K6+N3dsvlAVkMEvSP1U8lKdZNG1grb9exd5aw0I8NN
- 4q16gnwJCYhIwraENdW6FxsPoRF37gr7AQWtVukVp9cSXJm3Ry8WlgBK64lexrlVo/VKS4
- B0aZb/VV+tA+fnGiaHWiQi03w5B07gY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-2pOf97PaMRukBQZCgWs7BA-1; Wed, 09 Dec 2020 10:58:35 -0500
-X-MC-Unique: 2pOf97PaMRukBQZCgWs7BA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADE23180DE10;
- Wed,  9 Dec 2020 15:57:31 +0000 (UTC)
-Received: from localhost (ovpn-115-48.ams2.redhat.com [10.36.115.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD6786064B;
- Wed,  9 Dec 2020 15:57:30 +0000 (UTC)
-Date: Wed, 9 Dec 2020 15:57:29 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [RFC PATCH 00/27] vDPA software assisted live migration
-Message-ID: <20201209155729.GB396498@stefanha-x1.localdomain>
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201208093715.GX203660@stefanha-x1.localdomain>
- <1410217602.34486578.1607506010536.JavaMail.zimbra@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kn24L-0004hJ-4b
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:11:57 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40495)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kn24J-0008JR-93
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:11:56 -0500
+Received: by mail-wm1-x343.google.com with SMTP id a3so2244849wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 08:11:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=dfUNewbhznPYS41Y8VXX90A6UNkB8dN4dHjPPyVp290=;
+ b=K5bNTqsFx+xnFXhPsHjaARo6hqohjA/q6v2rRO4Likk4qlZtFQjrHE0lWWyB7cQISV
+ rJTcDG+58QzCv/xN8GrwIcQAaMJztyix8AnhdtgIun4O1f4teIwHSsl3y6QllvfV5rkT
+ ATaiBTbgekaCe/hO6trh5eYOV9oiSuClB3cWCFA+DSurScMBk9VX96ErM9PLAI3zLxIy
+ P5h/EfJhkyJQnSOnSAjLr0Tt6I3TsuGpeCTlnfNJJTs9F9B1m0qb/MFbRqirfOf/xThr
+ bOfJULndqoP3Uv6eu28Du+PMr90cz5iYPaClJfjLa2dEe2VcJGITwCl9Lsyqhp2SRH/M
+ /tdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=dfUNewbhznPYS41Y8VXX90A6UNkB8dN4dHjPPyVp290=;
+ b=aw+7LrXB6zHrAWf6ULZ96W9LN4AkmKbnaAz8VvFx6phw2BHxVBrZW1uIvr1o0oPUNd
+ +LFEdKlwFGSCpCrTK03z8KmTkBYU728GCwnQKeNvDYV2Ud6B9s5kLMP15qRK4eOrHPOR
+ DPvtXK0B1oQMUKjXFmwKiLj1HdsYRpBPlm3n+XvFDd/4RHNSj1119wcSt/GNKjGODvdT
+ mX4pfRCrJkx3Y2Bh8kIsrv5ahQOGnrr8IVVn/10rdYT99aG4uR6RSNmu45mclyJ03dMM
+ RjrQdXrkw1vPE3Jb4JRyReSlk5ty8H4qzUTR0ZNyzZiq0CGoCdGiiRP+57LgoL0wvmvm
+ xEUQ==
+X-Gm-Message-State: AOAM532QD5LtFUc6L+5EveIeJFhD1Evfn9Kehb3dNhOwGBOplX5YJ6na
+ KhzyiiznBL2iSeUO0YftWK9POQ==
+X-Google-Smtp-Source: ABdhPJwqmRxWImBJzKUWZkhyFn46iuGzcR8zcHgKUnGXdAcUn0bat+0oXQ8g+5QOf2fG/x6/Wme4pQ==
+X-Received: by 2002:a1c:1c1:: with SMTP id 184mr3533573wmb.112.1607530313059; 
+ Wed, 09 Dec 2020 08:11:53 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s133sm4270938wmf.38.2020.12.09.08.11.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Dec 2020 08:11:51 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4BF7C1FF7E;
+ Wed,  9 Dec 2020 16:11:50 +0000 (GMT)
+References: <20201208194839.31305-1-cfontana@suse.de>
+ <20201208194839.31305-19-cfontana@suse.de> <87im9bdzab.fsf@linaro.org>
+ <20201209144603.GO1289986@habkost.net>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [RFC v9 18/32] cpu: Move synchronize_from_tb() to tcg_ops
+Date: Wed, 09 Dec 2020 15:51:45 +0000
+In-reply-to: <20201209144603.GO1289986@habkost.net>
+Message-ID: <87mtync62h.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1410217602.34486578.1607506010536.JavaMail.zimbra@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JP+T4n/bALQSJXh8"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x343.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,137 +88,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
- Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
- Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>,
- Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
- Lars Ganrot <lars.ganrot@gmail.com>, Rob Miller <rob.miller@broadcom.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Howard Cai <howard.cai@gmail.com>,
- Parav Pandit <parav@mellanox.com>, vm <vmireyno@marvell.com>,
- Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
+ Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
+ "Emilio G . Cota" <cota@braap.org>, Claudio Fontana <cfontana@suse.de>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---JP+T4n/bALQSJXh8
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 09, 2020 at 04:26:50AM -0500, Jason Wang wrote:
-> ----- Original Message -----
-> > On Fri, Nov 20, 2020 at 07:50:38PM +0100, Eugenio P=E9rez wrote:
-> > > This series enable vDPA software assisted live migration for vhost-ne=
-t
-> > > devices. This is a new method of vhost devices migration: Instead of
-> > > relay on vDPA device's dirty logging capability, SW assisted LM
-> > > intercepts dataplane, forwarding the descriptors between VM and devic=
-e.
-> >=20
-> > Pros:
-> > + vhost/vDPA devices don't need to implement dirty memory logging
-> > + Obsoletes ioctl(VHOST_SET_LOG_BASE) and friends
-> >=20
-> > Cons:
-> > - Not generic, relies on vhost-net-specific ioctls
-> > - Doesn't support VIRTIO Shared Memory Regions
-> >   https://github.com/oasis-tcs/virtio-spec/blob/master/shared-mem.tex
->=20
-> I may miss something but my understanding is that it's the
-> responsiblity of device to migrate this part?
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Good point. You're right.
+> On Wed, Dec 09, 2020 at 10:50:29AM +0000, Alex Benn=C3=A9e wrote:
+>>=20
+>> Claudio Fontana <cfontana@suse.de> writes:
+>>=20
+>> > From: Eduardo Habkost <ehabkost@redhat.com>
+>> >
+>> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>> > [claudio: wrapped in CONFIG_TCG]
+>> > Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> > ---
+> [...]
+>> > @@ -20,6 +17,17 @@ typedef struct TcgCpuOperations {
+>> >       * Called when the first CPU is realized.
+>> >       */
+>> >      void (*initialize)(void);
+>> > +    /**
+>> > +     * @synchronize_from_tb: Synchronize state from a TCG #Translatio=
+nBlock
+>> > +     *
+>> > +     * This is called when we abandon execution of a TB before
+>> > +     * starting it, and must set all parts of the CPU state which
+>> > +     * the previous TB in the chain may not have updated. This
+>> > +     * will need to do more. If this hook is not implemented then
+>> > +     * the default is to call
+>> > +     * @set_pc(tb->pc).
+>> > +     */
+>>=20
+>> We could clean-up the comment here to better fit the javadoc style API
+>> documentation format, i.e.:
+>>=20
+>>     /**
+>>      * synchronize_from_tb: Synchronize current TCG execution state
+>>      * @cpu: current cpu
+>>      * @tb: about to be executed #TranslationBlock
+>>      *
+>>      * This is called when we abandon execution of a TB before
+>>      * starting it, and must set all parts of the CPU state which
+>>      * the previous TB in the chain may not have updated. This
+>>      * will need to do more. If this hook is not implemented then
+>>      * the default is to call @set_pc(tb->pc).
+>>      */
+>
+> Would this work with kernel-doc?  This will be parsed as a
+> portion of the documentation of struct TcgCpuOperations, so I was
+> not expecting kernel-doc to treat the "@cpu: ..." and "@tb: ..."
+> lines as valid.
 
-> > - Performance (see below)
-> >=20
-> > I think performance will be significantly lower when the shadow vq is
-> > enabled. Imagine a vDPA device with hardware vq doorbell registers
-> > mapped into the guest so the guest driver can directly kick the device.
-> > When the shadow vq is enabled a vmexit is needed to write to the shadow
-> > vq ioeventfd, then the host kernel scheduler switches to a QEMU thread
-> > to read the ioeventfd, the descriptors are translated, QEMU writes to
-> > the vhost hdev kick fd, the host kernel scheduler switches to the vhost
-> > worker thread, vhost/vDPA notifies the virtqueue, and finally the
-> > vDPA driver writes to the hardware vq doorbell register. That is a lot
-> > of overhead compared to writing to an exitless MMIO register!
->=20
-> I think it's a balance. E.g we can poll the virtqueue to have an
-> exitless doorbell.
->=20
-> >=20
-> > If the shadow vq was implemented in drivers/vhost/ and QEMU used the
-> > existing ioctl(VHOST_SET_LOG_BASE) approach, then the overhead would be
-> > reduced to just one set of ioeventfd/irqfd. In other words, the QEMU
-> > dirty memory logging happens asynchronously and isn't in the dataplane.
-> >=20
-> > In addition, hardware that supports dirty memory logging as well as
-> > software vDPA devices could completely eliminate the shadow vq for even
-> > better performance.
->=20
-> Yes. That's our plan. But the interface might require more thought.
->=20
-> E.g is the bitmap a good approach? To me reporting dirty pages via
-> virqueue is better since it get less footprint and is self throttled.
->=20
-> And we need an address space other than the one used by guest for
-> either bitmap for virtqueue.
->=20
-> >=20
-> > But performance is a question of "is it good enough?". Maybe this
-> > approach is okay and users don't expect good performance while dirty
-> > memory logging is enabled.
->=20
-> Yes, and actually such slow down may help for the converge of the
-> migration.
->=20
-> Note that the whole idea is try to have a generic solution for all
-> types of devices. It's good to consider the performance but for the
-> first stage, it should be sufficient to make it work and consider to
-> optimize on top.
+Hmm looking at the guides it seems they wouldn't be processed:
 
-Moving the shadow vq to the kernel later would be quite a big change
-requiring rewriting much of the code. That's why I mentioned this now
-before a lot of effort is invested in a QEMU implementation.
+  https://www.kernel.org/doc/html/v4.18/doc-guide/kernel-doc.html#structure=
+-union-and-enumeration-documentation
 
-> > I just wanted to share the idea of moving the
-> > shadow vq into the kernel in case you like that approach better.
->=20
-> My understanding is to keep kernel as simple as possible and leave the
-> polices to userspace as much as possible. E.g it requires us to
-> disable doorbell mapping and irq offloading, all of which were under
-> the control of userspace.
+I must admit I had previously just used exec-all.h as my template for
+what a well formed function document comment is meant to look like. It
+seems for it to work properly you need to use function pointer typedefs
+and document those.
 
-If the performance is acceptable with the QEMU approach then I think
-that's the best place to implement it. It looks high-overhead though so
-maybe one of the first things to do is to run benchmarks to collect data
-on how it performs?
+However looking at which headers we convert into docs at the moment this
+is all moot as we don't process these headers at the moment. IOW ignore
+this request ;-)
 
-Stefan
-
---JP+T4n/bALQSJXh8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/Q8+kACgkQnKSrs4Gr
-c8gzgwf/R8XyRehTNARVsYQYQS8pC8vzoJcb4LMSB4/opM4DdNb2gIFzVOzHt7am
-ibFu8Wyl3C2txGaFCh4YlGIwVkGTdAp++Dwhl9wWZaVA0vvjv/yxR/r82IIid7oR
-tLb5LibQ19LXmVdFgAfGaT3dXSIkPG38RECJZwSk3QBrgXfsKclGZHRpnPGsK0B3
-3PIQtGy3wjJIuVXoknfAXjThXpzXmwlc/EHQnBSajm9byvMVWzlHb2Kirc5PO0xP
-Vrg2wdmUUwnVgSC2n9DgEjb1IRyVWEW9dsF+8QdmBnPtYSOJ74EekvFkn6fKWd2A
-/NyM+ry+1zHgomC5WqzC9bKCp+KacQ==
-=WM5k
------END PGP SIGNATURE-----
-
---JP+T4n/bALQSJXh8--
-
+--=20
+Alex Benn=C3=A9e
 
