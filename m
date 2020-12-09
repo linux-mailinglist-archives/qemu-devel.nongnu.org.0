@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D432D4AB0
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:43:34 +0100 (CET)
-Received: from localhost ([::1]:44236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3094F2D4ADE
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 20:48:30 +0100 (CET)
+Received: from localhost ([::1]:52942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn5N7-0001cH-QM
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:43:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59070)
+	id 1kn5Rt-0005J7-8a
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 14:48:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kn4IL-0000tK-AM
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:34:33 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kn4IH-0007yG-VO
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:34:32 -0500
-Received: by mail-wr1-x441.google.com with SMTP id 91so2839236wrj.7
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:34:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=aqMZV1melTRW+dD9HVS7RhIoOojRAokaAgOOsHPSxWA=;
- b=LEzXyMWhWf5iKkyqRxpSwjY0VMK3A0sN/crqz01KJfPxw8d3w+y97ncZDK6o/mXeDS
- iEdJt18o0uwSRoAbHqTSU0vqx3W6uSwUkZIV1CNRmVCG1q9O4k1Gr1sLOfquGW0fW5m0
- TaOXnUvmshRff7A1nyNKPZX7iuPuZFUDGjzTe2eMU29Ytag9kXqoXw+gJHOfmxfzrWgf
- EFmnRyYjp3AipDVkaGL8bmrx67lNv/4+mbiihuF3dgmIu5BLWB1scHRg4GpcJJ/UR4tN
- hPSuxgUazeUO2hva8i2RMbpmj1QZzKwLc2LUVUGwcUx2VcC6nxj605yVz+ednSoaucjt
- UEUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=aqMZV1melTRW+dD9HVS7RhIoOojRAokaAgOOsHPSxWA=;
- b=iXCDvE6jmwjzIz4sNVmRUrHY4iLps7/cgG4wrJgTvLYi5DKvsQPQ/klcSiSzn3iYIb
- J/f5hYDzEr6a1FOb4ZwO4P1vF1BUv8Fm15b20LjaUCouRloLOtOdNjt5Ld6OxVepW932
- D/b1AvFruazRJ7Oc5zUCqzhNqtv/preoazo2neG1HWqRgK+tbY947r0lcqbg1M21IUYG
- CKzmqSXikGCyDyxpfqPnYHuLJlBJnuuJ6g+I4e23jnel7D3wZF/TicK2zY+xmoIcqa0S
- bWeLD3D1UXjYqQx0WcckJMEINEIWf2R9glbXJZFuOFVwCQhxo5bS1SstTk8AkuUIjY98
- g3aw==
-X-Gm-Message-State: AOAM533YI38k/v2SneCpzTZGj6dV6eyOJJS2/iZ5/pxrLE97EDUM+7Zj
- uz6DiPMaBrvw3iVZ0arTf6vOSw==
-X-Google-Smtp-Source: ABdhPJz4r1MJgXPwF0fB8E0ExJPVja9Wpfhics5AkxTjYdI7WdoHkw1UiPxrMJ2fgIue1uOzj/uQpQ==
-X-Received: by 2002:adf:f98b:: with SMTP id f11mr4258776wrr.235.1607538867820; 
- Wed, 09 Dec 2020 10:34:27 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l1sm4805572wrq.64.2020.12.09.10.34.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 10:34:26 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2522D1FF7E;
- Wed,  9 Dec 2020 18:34:26 +0000 (GMT)
-References: <20201209170059.20742-1-alex.bennee@linaro.org>
- <20201209170059.20742-7-alex.bennee@linaro.org>
- <0d1a0b59-ecbc-208f-8eb7-0aa323930cd9@redhat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v1 6/6] gitlab: add --without-default-features build
-Date: Wed, 09 Dec 2020 18:32:19 +0000
-In-reply-to: <0d1a0b59-ecbc-208f-8eb7-0aa323930cd9@redhat.com>
-Message-ID: <878sa6de19.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kn4Ib-0000z1-Cn
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:34:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kn4IX-00081r-RB
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:34:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607538883;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g+1Q8auRqEosiI+y9hZxOmmaj+CXcQnPb06PCi+j7WA=;
+ b=ExSZRRk3vUc9aq1Ji9VjeNfIR17TeSYRa3kgXcweOCM1ywPnfdva7174XQyOygGZEm7V32
+ OJ1f5x6U0vZ4XmFwFrUXMrW5QV+wE05gTqdV2AJ8ayKwSB9/0sA34j9mmdNoWDIQAsDSzn
+ h9JnoP+1H163njxWG/d8STIg7tSCvXk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-DrwJQ9wOM1mqPAUf4T49gQ-1; Wed, 09 Dec 2020 13:34:41 -0500
+X-MC-Unique: DrwJQ9wOM1mqPAUf4T49gQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 750E71005504;
+ Wed,  9 Dec 2020 18:34:39 +0000 (UTC)
+Received: from omen.home (ovpn-112-10.phx2.redhat.com [10.3.112.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 658B310016F5;
+ Wed,  9 Dec 2020 18:34:32 +0000 (UTC)
+Date: Wed, 9 Dec 2020 11:34:31 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [RFC PATCH v2 1/3] vfio: Move the saving of the config space to
+ the right place in VFIO migration
+Message-ID: <20201209113431.5b252e93@omen.home>
+In-Reply-To: <20201209132947.3177f130.cohuck@redhat.com>
+References: <20201209080919.156-1-lushenming@huawei.com>
+ <20201209080919.156-2-lushenming@huawei.com>
+ <20201209132947.3177f130.cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,53 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, f4bug@amsat.org,
- cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
+ mst@redhat.com, Marc Zyngier <maz@kernel.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Shenming Lu <lushenming@huawei.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com,
+ Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 9 Dec 2020 13:29:47 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
 
-Thomas Huth <thuth@redhat.com> writes:
+> On Wed, 9 Dec 2020 16:09:17 +0800
+> Shenming Lu <lushenming@huawei.com> wrote:
+> 
+> > On ARM64 the VFIO SET_IRQS ioctl is dependent on the VM interrupt
+> > setup, if the restoring of the VFIO PCI device config space is
+> > before the VGIC, an error might occur in the kernel.
+> > 
+> > So we move the saving of the config space to the non-iterable
+> > process, so that it will be called after the VGIC according to
+> > their priorities.
+> > 
+> > As for the possible dependence of the device specific migration
+> > data on it's config space, we can let the vendor driver to
+> > include any config info it needs in its own data stream.
+> > (Should we note this in the header file linux-headers/linux/vfio.h?)  
+> 
+> Given that the header is our primary source about how this interface
+> should act, we need to properly document expectations about what will
+> be saved/restored when there (well, in the source file in the kernel.)
+> That goes in both directions: what a userspace must implement, and what
+> a vendor driver can rely on.
+> 
+> [Related, but not a todo for you: I think we're still missing proper
+> documentation of the whole migration feature.]
 
-> On 09/12/2020 18.00, Alex Benn=C3=A9e wrote:
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  .gitlab-ci.yml | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>=20
->> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->> index 878d114d40..f87584ca8f 100644
->> --- a/.gitlab-ci.yml
->> +++ b/.gitlab-ci.yml
->> @@ -441,6 +441,13 @@ build-without-default-devices:
->>      IMAGE: debian-amd64
->>      CONFIGURE_ARGS: --without-default-devices --disable-user
->>=20=20
->> +build-without-default-features:
->> +  <<: *native_build_job_definition
->> +  variables:
->> +    IMAGE: centos8
->> +    CONFIGURE_ARGS: --without-default-devices --without-default-feature=
-s --disable-user
->> +    MAKE_CHECK_ARGS: check-unit
->
-> I wonder whether we'd rather want to check without
-> "--without-default-devices" here to see whether all code compiles fine wi=
-th
-> "--without-default-features" ... ?
+Yes, we never saw anything past v1 of the documentation patch.  Thanks,
 
-Yeah at the moment the full-fat without everything doesn't achieve much.
-So how about I swap the IMAGE around with the previous build and drop
-the --without-default-devices?
-
->
->  Thomas
+Alex
 
 
---=20
-Alex Benn=C3=A9e
+> > Signed-off-by: Shenming Lu <lushenming@huawei.com>
+> > ---
+> >  hw/vfio/migration.c | 25 +++++++++++++++----------
+> >  1 file changed, 15 insertions(+), 10 deletions(-)  
+
 
