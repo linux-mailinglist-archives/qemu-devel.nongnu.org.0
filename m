@@ -2,85 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED952D455C
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 16:27:55 +0100 (CET)
-Received: from localhost ([::1]:33850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6DF2D4566
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 16:29:36 +0100 (CET)
+Received: from localhost ([::1]:36474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn1Ni-0001do-IJ
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 10:27:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37268)
+	id 1kn1PL-0002lP-7A
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 10:29:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kn1Ln-0000sq-Ny
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:25:56 -0500
-Received: from mail-oo1-xc44.google.com ([2607:f8b0:4864:20::c44]:44825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kn1Ll-00086P-0q
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:25:55 -0500
-Received: by mail-oo1-xc44.google.com with SMTP id n20so458300ooq.11
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 07:25:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=viI5vrk7EiAHTVvmvfnKMG6eoEpdfqILmVpNFtfqTCE=;
- b=H5ZUdumapfaNqCxjpCmTLZV+kdGTBBz2I2QEO8VQZklWt98f47yYhl259OjErEFpx7
- 4+nz94Y6vbpLlcOxYRLQjbEbBXOJChXPr5sblIn9IHgw1R0vG6RzyiUmJmSL5488iIK3
- gEP76I5Vcfzf3e26ImBtFqbt+N6+3167Z/EGL5ZeF2co26oOOCtjqh7NvttGXB9OCjeO
- m46hF0dy09fsh9D6JRKIpo63W5t8p863iZAKs+IXaDhc60A6N+lVvuh8gqIh9/emjWig
- yLpb53oCCdA52lONk8daHuefb24chRYKn83HK9lKPCqv822LEgzKnYHucnpIC55AR0eu
- SDCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=viI5vrk7EiAHTVvmvfnKMG6eoEpdfqILmVpNFtfqTCE=;
- b=k2Zz8E/PLwk1+AtE4rBSabkxz4zhV987E3YqNkZSJ6nMOQMsHD3D7ySHgn+mUuQlQV
- HxS9g65UtKOg1YGlle9sG9+tG5HwKJDrdjXCuQgaSR1wo0eMX8JIDUT3jQTdkcULcMT3
- e6FGBFylrjUqyps6y8h6J2rC/9bJhd/G84VvuXDiPVCvAqSqOAGPrFaUwosMNpW2y11+
- sGMm3c2joQW4dabNmOxeW+MfQ4oOtYZIuUy96euqbcO8sQbqqdvJvoQ/Gj6Cha3JbL0P
- /d/Id4n8brMYO536VgsV2sOPiYamb20DKRg3DXX0Uqp121xsJKQzhEOmZejyIZoUUlCq
- WVpw==
-X-Gm-Message-State: AOAM530NTbIVcheP909v+Zi+7RrPYOJoim0k2yNgNLQr/1lwLEPbguYn
- kHfhpDCvCf4jNbJPQOofWigc6g==
-X-Google-Smtp-Source: ABdhPJxnvhlcBvObCgsIhXmcR2XwH2a7ygUMj0YUwqB7r+6uJ3ezWUuw89eCiIYnVtTVM/tGMfD2XA==
-X-Received: by 2002:a4a:9502:: with SMTP id m2mr2233955ooi.93.1607527550647;
- Wed, 09 Dec 2020 07:25:50 -0800 (PST)
-Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
- [187.189.51.144])
- by smtp.gmail.com with ESMTPSA id 11sm433334oty.65.2020.12.09.07.25.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Dec 2020 07:25:49 -0800 (PST)
-Subject: Re: [PATCH 14/17] target/mips: Declare gen_msa/_branch() in
- 'translate.h'
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201208003702.4088927-1-f4bug@amsat.org>
- <20201208003702.4088927-15-f4bug@amsat.org>
- <45ab33e0-f00e-097a-74fb-4c7c42e29e33@linaro.org>
- <b0cf35c4-a086-b704-5710-0f05bf7921bb@linaro.org>
- <58a0d6c4-fc01-3932-52b9-9deb13b43c51@linaro.org>
- <1d2a6f44-1eab-2e92-01c2-703a2ee5bd50@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d5f0d2ad-065e-e4bf-9eaf-1d8450aa4726@linaro.org>
-Date: Wed, 9 Dec 2020 09:25:46 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1kn1Nh-000293-F5
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:27:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39778)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cmarinas@kernel.org>)
+ id 1kn1Ne-0000IW-K3
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:27:52 -0500
+Date: Wed, 9 Dec 2020 15:27:41 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH v5 0/2] MTE support for KVM guest
+Message-ID: <20201209152741.GC13566@gaia>
+References: <46fd98a2-ee39-0086-9159-b38c406935ab@arm.com>
+ <CAFEAcA_Q8RSB-zcS8+cEfvWz_0U5GLzmsf12m_7BFjX8h-1hrA@mail.gmail.com>
+ <b975422f-14fd-13b3-c8ca-e8b1a68c0837@arm.com>
+ <0d0eb6da6a11f76d10e532c157181985@kernel.org>
+ <20201207163405.GD1526@gaia> <874kkx5thq.wl-maz@kernel.org>
+ <20201208172143.GB13960@gaia>
+ <7ff14490e253878d0735633b792e1ea9@kernel.org>
+ <20201209124443.GB13566@gaia>
+ <ef14a5158fc65c00f6c3c842cfa83b2c@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1d2a6f44-1eab-2e92-01c2-703a2ee5bd50@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c44;
- envelope-from=richard.henderson@linaro.org; helo=mail-oo1-xc44.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ef14a5158fc65c00f6c3c842cfa83b2c@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=cmarinas@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,34 +58,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>,
- kvm@vger.kernel.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Dave Martin <Dave.Martin@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ arm-mail-list <linux-arm-kernel@lists.infradead.org>,
+ Haibo Xu <haibo.xu@linaro.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm <kvmarm@lists.cs.columbia.edu>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/9/20 3:17 AM, Philippe Mathieu-Daudé wrote:
-> Hi Richard,
+On Wed, Dec 09, 2020 at 01:25:18PM +0000, Marc Zyngier wrote:
+> On 2020-12-09 12:44, Catalin Marinas wrote:
+> > On Tue, Dec 08, 2020 at 06:21:12PM +0000, Marc Zyngier wrote:
+> > > On 2020-12-08 17:21, Catalin Marinas wrote:
+> > > > On Mon, Dec 07, 2020 at 07:03:13PM +0000, Marc Zyngier wrote:
+> > > > > I wonder whether we will have to have something kernel side to
+> > > > > dump/reload tags in a way that matches the patterns used by live
+> > > > > migration.
+> > > >
+> > > > We have something related - ptrace dumps/resores the tags. Can the same
+> > > > concept be expanded to a KVM ioctl?
+> > > 
+> > > Yes, although I wonder whether we should integrate this deeply into
+> > > the dirty-log mechanism: it would be really interesting to dump the
+> > > tags at the point where the page is flagged as clean from a dirty-log
+> > > point of view. As the page is dirtied, discard the saved tags.
+> > 
+> > From the VMM perspective, the tags can be treated just like additional
+> > (meta)data in a page. We'd only need the tags when copying over. It can
+> > race with the VM dirtying the page (writing tags would dirty it) but I
+> > don't think the current migration code cares about this. If dirtied, it
+> > copies it again.
+> > 
+> > The only downside I see is an extra syscall per page both on the origin
+> > VMM and the destination one to dump/restore the tags. Is this a
+> > performance issue?
 > 
-> On 12/9/20 1:03 AM, Richard Henderson wrote:
-> In a previous version I tried to directly pass from
+> I'm not sure. Migrating VMs already has a massive overhead, so an extra
+> syscall per page isn't terrifying. But that's the point where I admit
+> not knowing enough about what the VMM expects, nor whether that matches
+> what happens on other architectures that deal with per-page metadata.
 > 
-> static void gen_msa(DisasContext *ctx) ...
-> 
-> to:
-> 
-> static bool trans_MSA(DisasContext *ctx, arg_MSA *a) ...
-> 
-> without declaring the intermediate 'void gen_msa(DisasContext)'
-> in "translate.h" (this patch). The result was less trivial to
-> review, so I went back to using an intermediate patch for
-> simplicity.
-> 
-> Is that what you were thinking about?
+> Would this syscall operate on the guest address space? Or on the VMM's
+> own mapping?
 
-Yes, exactly that.
+Whatever is easier for the VMM, I don't think it matters as long as the
+host kernel can get the actual physical address (and linear map
+correspondent). Maybe simpler if it's the VMM address space as the
+kernel can check the access permissions in case you want to hide the
+guest memory from the VMM for other reasons (migration is also off the
+table).
 
+Without syscalls, an option would be for the VMM to create two mappings:
+one with PROT_MTE for migration and the other without for normal DMA
+etc. That's achievable using memfd_create() or shm_open() and two mmap()
+calls, only one having PROT_MTE. The VMM address space should be
+sufficiently large to map two guest IPAs.
 
-r~
+-- 
+Catalin
 
