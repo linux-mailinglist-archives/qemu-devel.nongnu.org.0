@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3961B2D4149
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 12:45:50 +0100 (CET)
-Received: from localhost ([::1]:46954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA912D4185
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 12:58:25 +0100 (CET)
+Received: from localhost ([::1]:37750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmxum-00077d-RU
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 06:45:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59358)
+	id 1kmy6x-00082c-L7
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 06:58:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmxsd-0006IO-W1
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 06:43:37 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45748)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmxsZ-0004tf-73
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 06:43:35 -0500
-Received: by mail-wr1-x430.google.com with SMTP id t4so1377744wrr.12
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 03:43:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=SOD3NreGo1V885+N/yx+58IbyIp4/uSuO02wnwe4frc=;
- b=XsHdcuwnQW/mLz9rzeShicZXhMy0iFg5SNn0LVyd4YOdUGeYmKwf+SNCkA/rmYNEMh
- 3rMk71qxstONt9LRD23rNNUkxJpXj9UqPhIC4lmxbnX92+KGoJHfwQ2h0MQXAxSPwPJw
- x0ELIaJL953NIpWZdEIwnuWKMCl/fz3nb/Jh1TU0QEXZfDFJ2Zo3Dx9+4SaM1AmhQKlK
- W1LM7IgWG+dQ45Rv0qPmTISMEqIEGM+9D/WjT80sRiuxC56CDn8P8BRJ91nAT+Fj9MVf
- ME1UzuKQ1VTTLzcKyAs1fRUmID5nV1bn49GcidtXX+E6aQTFfBufcq5nFzEWvCTl08Q0
- sQEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=SOD3NreGo1V885+N/yx+58IbyIp4/uSuO02wnwe4frc=;
- b=LQl1aKrlwMMheW8T8TsIxMuZmN3WKVGcQXznGc3hhR470vw6Ee6Kx2U+LzbRhK3vka
- dtIY8xPueEONxuRR1I5kNAZEigLDpPi+MYHCmNwHzyMFlx6SUdNlZqyvFMSOmSqW9rJu
- bT0O7KeMCpFRVQmyPPl357ktlQS1ZuPx/+Br69xZ4sgphQCUt2sYAjxME1LG4pxBhMHa
- ey7v86h9m/QcODBmUh7clbpejyfmKu9ugm+tIiJK/l19iYBmbcREsVEa67VT2qBUmrap
- /CMHnpoExp2fshfhBmaLeg37coIxmezQO17GSX2PQDZVzaPzjc8lEzZy0LCdLFpPlydG
- UiZA==
-X-Gm-Message-State: AOAM530llDeo8o7F15WJaoZM+SlIrV/aGFftcvYl8koKGyBnIs1BG7DN
- Rntu7fGN2cl6AzIsiboly0R9fQ==
-X-Google-Smtp-Source: ABdhPJwaspVyxtZI1Wi5fh6MWyaHXO18VA2pH1ztIo314MUiBQUOoy6IGmB3JQFeTZrnVzPtHl8J1g==
-X-Received: by 2002:adf:d843:: with SMTP id k3mr2272751wrl.346.1607514209406; 
- Wed, 09 Dec 2020 03:43:29 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 35sm3241550wrf.9.2020.12.09.03.43.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 03:43:28 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 62E2A1FF7E;
- Wed,  9 Dec 2020 11:43:27 +0000 (GMT)
-References: <20201208194839.31305-1-cfontana@suse.de>
- <20201208194839.31305-24-cfontana@suse.de>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v9 23/32] cpu: move cc->do_interrupt to tcg_ops
-Date: Wed, 09 Dec 2020 11:43:19 +0000
-In-reply-to: <20201208194839.31305-24-cfontana@suse.de>
-Message-ID: <874kkvdx28.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kmxsl-0006Jp-2D; Wed, 09 Dec 2020 06:43:45 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:44049)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kmxsi-0004vo-2A; Wed, 09 Dec 2020 06:43:42 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id A67315C03A5;
+ Wed,  9 Dec 2020 06:43:38 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 09 Dec 2020 06:43:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=sfsMxPE7y6i2RdMKmcAEhBeqysC
+ PLeZc6Xo3K9XuzVY=; b=mF4USyWYQENFChK0FjFQZuedw/a8tYU3PN1xMZEz62Q
+ f8mddThXqQwYj1tXcnltfvtladMt7UkTM5hd7T5HIV3tX4rZPhs6/X5MQgfr7mbU
+ TJjIAbBQjIje16iq8k8XNi7gR7JflMJRCxV0v2z3AZfNIKByLNB2CcgaufYv0WCA
+ ZeGxlYwCyEvNXi7VL1+2dIsXa7jpph/dPBuMP6RDjG5VMqAfbL2DIK/HS9Dw8yIo
+ 9qurXZVud0G0BJUA5Gc83f9Mm9pgUrPG+jEznCPIwJP5F94zNaB94on3dMAIfsGw
+ WxMeuld/W2mecjqpG2KlYT/NJYwgtiMeHqyZjc/4Rtg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=sfsMxP
+ E7y6i2RdMKmcAEhBeqysCPLeZc6Xo3K9XuzVY=; b=K0Gq5VhjXGsoZNknQR81cb
+ gEb9yf/uwSMsb1AZjDtnFsQP6qZ84iXnwfnbXrRsMth5b7GcypNOvZUq0TlEERkV
+ m8I09CFq0JaOXdOmDHgp3388ymMfWgZ6Y2EPH18N6hX0Jfq2OfzLZ9X4Ly4oq4+5
+ Za0odgv8E1/HMuwL95ZBnzDkj9pmx4XMZzzQ+uVEeLWg81hHCWJ55LcbLd4MGUjg
+ uL0u/+EMcFiEnLPtfbUNs+uevmYHc5BfQEbLQ7Bsnt/pG2AnP7gc4rDZQXo3c5jI
+ OWqQmZsKW3V9vqlP5paagHeQP3EZhpdvfbgp9dO9hcI+C2skSCPzw73TlMt5Jhrw
+ ==
+X-ME-Sender: <xms:abjQXyRLRukF8g_KEs6yf_Qr_BjYaxi7a2p5KGYpnrOgK4qv8yZtWA>
+ <xme:abjQX3xylj9-oSjWTSeUD-D_mKvn8-HN8277_HEp1egxgW_yo-pVWcGY_Q2Fk1FAn
+ XCb0gRd3nIAKaDwPWo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejkedgfedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:abjQX_1-mkfSa7Z4m7acnAUIiex8rdUyQrFcGiEmd4gP9rscx1PUMw>
+ <xmx:abjQX-DL_gZn12OO3CDGpFmOLFddY1h5aCpS9zeo2KI4z12fJI741w>
+ <xmx:abjQX7jSa1QgVjPcJUvpkEvjIOw0Twa9c744r5NUtGrrdc0Z4WZ4RA>
+ <xmx:arjQX7dNGjPKv_qDU2nc9tut3zlN1WWhfQ1vXwl0ubWKP-4ToaodxQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 69D3E240057;
+ Wed,  9 Dec 2020 06:43:36 -0500 (EST)
+Date: Wed, 9 Dec 2020 12:43:34 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/block/nvme: fix bad clearing of CAP
+Message-ID: <X9C4Zqupd2FQ3B/x@apples.localdomain>
+References: <20201208091658.41820-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="x7LxTeh6HYJPYQg1"
+Content-Disposition: inline
+In-Reply-To: <20201208091658.41820-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,30 +93,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Claudio Fontana <cfontana@suse.de> writes:
+--x7LxTeh6HYJPYQg1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+On Dec  8 10:16, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> Commit 37712e00b1f0 ("hw/block/nvme: factor out pmr setup") changed the
+> control flow such that the CAP register is erronously cleared after
+> nvme_init_pmr() has configured it. Since the entire NvmeCtrl structure
+> is zero-filled initially, there is no need for the explicit clearing, so
+> just remove it.
+>=20
+> Fixes: 37712e00b1f0 ("hw/block/nvme: factor out pmr setup")
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 8814201364c1..28416b18a5c0 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -3040,7 +3040,6 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *=
+pci_dev)
+>      id->psd[0].enlat =3D cpu_to_le32(0x10);
+>      id->psd[0].exlat =3D cpu_to_le32(0x4);
+> =20
+> -    n->bar.cap =3D 0;
+>      NVME_CAP_SET_MQES(n->bar.cap, 0x7ff);
+>      NVME_CAP_SET_CQR(n->bar.cap, 1);
+>      NVME_CAP_SET_TO(n->bar.cap, 0xf);
+> --=20
+> 2.29.2
+>=20
+>=20
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Thanks for the reviews, applied to nvme-next.
 
---=20
-Alex Benn=C3=A9e
+--x7LxTeh6HYJPYQg1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/QuGQACgkQTeGvMW1P
+Del4qwf/dp+Wd2uHaHUNZTOPRkjmtP7joLw04fRxzv/TmhHD2cx5G8oo+F6gGT/v
+jLqr1+z3Uf4lnwOV48f3XpgQktfF89VJI9l7YOqfn1N9ghTwg2XHkTsNEfrKOqy2
+1ycF8P4E7Ue0TkHD/jq/oIb38w7o4nd6iS7UHJ5Wd9CEoZO5bJ1e8cISJp7zDnHW
+BVjjGdCXMFQ2IwTrgd2F9EZA3ZRLBo/zpci5UpqXStWgXxD72ik0B53jXGGRGtB7
+llZz1vC+AcrtPPT3nZnx0ig8/p6/uFjw66gVf4KVSefs5aoZUm3MlT85qUxbPJmp
+jlpmqy1iVCwZXKA6J6NEO7ixHviTCQ==
+=i2RC
+-----END PGP SIGNATURE-----
+
+--x7LxTeh6HYJPYQg1--
 
