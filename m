@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29CB2D42D9
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 14:12:24 +0100 (CET)
-Received: from localhost ([::1]:42266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0972D4324
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 14:27:21 +0100 (CET)
+Received: from localhost ([::1]:47762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmzGZ-0003bb-8M
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 08:12:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51332)
+	id 1kmzV1-00073B-J0
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 08:27:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmz6o-0000pu-Nu
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 08:02:18 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:50607)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kmz6k-0007Zr-Uv
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 08:02:18 -0500
-Received: by mail-wm1-x330.google.com with SMTP id c198so1410473wmd.0
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 05:02:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=2XsExiL1VtyWhsgjypzTFGi5wG+IpMZO3q8YPancIO8=;
- b=jOISjl7uiRmKf+hYshFJyNzRzvqxfBSwjzBmNTsaC7ahyVGkU1pftgBLAcCUbomPli
- dkoA2JE8oijjP1bKPq7Qt/g1wYv4vbFs4do8/D01bi/7alhbsmG70a+8BPO5XUe2p5LT
- ZJZCTOXmMa08KihX9/zrO7lzK3ZN4++cKH39fZu2Mup56bR8uTTtlRLjFitrriMMiuNG
- vpRvv8Ljlux9mQkG7QmM/68g3UkgrgnHWV+yuefcFsf2ot7KO1ghqXXf3ogDsHzomL88
- iAgprs9yzRghAeYq5gKPHm9Lo1WWLPDqxHx8bEbM2GWMhKMliqlTBMqMWqQTGfwLe8Lh
- mRzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=2XsExiL1VtyWhsgjypzTFGi5wG+IpMZO3q8YPancIO8=;
- b=rGEYYNpddBhKWal0m1VfmWgJ1AaC1BJ4vS/37TB8iJKhELpa/n/+prOm/u3HXknMR3
- rDaiOdP2Qj48j6Ewc+G32L0HEj9Cbx0js2dU8R8UcrbVrLa38iKI6Tol21WMX+GBSyCb
- RXCZqqmqrwpOi2a/j6XJC2wNxWros7qui3Lt0f9rHW+xPLg+HdC5Me7Pp9QzG2zExMga
- tgk+uawZtujyPOlysPLeowo2uVLhdzipWWpNWe7l4dJkSjIGWY4oUAvws9z30HdoC26W
- ZjvMIAPTAjl+1LH7qXeVuL5TA3ZYGE6d/vE2gUQMrVUaIvTA5kqORAmmIEJ5EJ4QdlpB
- 4iBg==
-X-Gm-Message-State: AOAM530xuhADSJzuf9cyloWNR79IpQLRTaGde7H1ILxp2U5d7C9pBPS1
- KnFsRoqQkp2U1vZyRwB9Rhx75A==
-X-Google-Smtp-Source: ABdhPJwEWy9bj9rofbmeU0FFHzJ1D4rZpd7i6kqpD5jLZrW27+Y/yS2Y9aVypaEKdkK0FabLt6jfOQ==
-X-Received: by 2002:a05:600c:1483:: with SMTP id
- c3mr2676987wmh.87.1607518932966; 
- Wed, 09 Dec 2020 05:02:12 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u66sm3567739wmg.2.2020.12.09.05.02.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 05:02:09 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E95B41FF7E;
- Wed,  9 Dec 2020 13:02:07 +0000 (GMT)
-References: <20201208194839.31305-1-cfontana@suse.de>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v9 00/22] i386 cleanup
-Date: Wed, 09 Dec 2020 12:58:54 +0000
-In-reply-to: <20201208194839.31305-1-cfontana@suse.de>
-Message-ID: <87pn3jceuo.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1kmzTB-0006F1-Hk
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 08:25:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1kmzT8-000758-UK
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 08:25:25 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 0167123101;
+ Wed,  9 Dec 2020 13:25:21 +0000 (UTC)
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1kmzT4-00HOUv-VX; Wed, 09 Dec 2020 13:25:19 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 09 Dec 2020 13:25:18 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH v5 0/2] MTE support for KVM guest
+In-Reply-To: <20201209124443.GB13566@gaia>
+References: <c25c297e-e9b5-ab3f-e401-c21ddd4d2ad1@arm.com>
+ <CAJc+Z1H7akXwDtVvQLiGVVyZ0DfmsxyJQhE7Sno6aAO9GaafEA@mail.gmail.com>
+ <46fd98a2-ee39-0086-9159-b38c406935ab@arm.com>
+ <CAFEAcA_Q8RSB-zcS8+cEfvWz_0U5GLzmsf12m_7BFjX8h-1hrA@mail.gmail.com>
+ <b975422f-14fd-13b3-c8ca-e8b1a68c0837@arm.com>
+ <0d0eb6da6a11f76d10e532c157181985@kernel.org> <20201207163405.GD1526@gaia>
+ <874kkx5thq.wl-maz@kernel.org> <20201208172143.GB13960@gaia>
+ <7ff14490e253878d0735633b792e1ea9@kernel.org> <20201209124443.GB13566@gaia>
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <ef14a5158fc65c00f6c3c842cfa83b2c@kernel.org>
+X-Sender: maz@kernel.org
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: catalin.marinas@arm.com, steven.price@arm.com,
+ peter.maydell@linaro.org, haibo.xu@linaro.org, linux-kernel@vger.kernel.org,
+ quintela@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, tglx@linutronix.de, will@kernel.org,
+ kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+ Dave.Martin@arm.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,41 +77,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G .
- Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Dave Martin <Dave.Martin@arm.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ lkml - Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ arm-mail-list <linux-arm-kernel@lists.infradead.org>,
+ Haibo Xu <haibo.xu@linaro.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Will Deacon <will@kernel.org>, kvmarm <kvmarm@lists.cs.columbia.edu>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2020-12-09 12:44, Catalin Marinas wrote:
+> On Tue, Dec 08, 2020 at 06:21:12PM +0000, Marc Zyngier wrote:
+>> On 2020-12-08 17:21, Catalin Marinas wrote:
+>> > On Mon, Dec 07, 2020 at 07:03:13PM +0000, Marc Zyngier wrote:
+>> > > I wonder whether we will have to have something kernel side to
+>> > > dump/reload tags in a way that matches the patterns used by live
+>> > > migration.
+>> >
+>> > We have something related - ptrace dumps/resores the tags. Can the same
+>> > concept be expanded to a KVM ioctl?
+>> 
+>> Yes, although I wonder whether we should integrate this deeply into
+>> the dirty-log mechanism: it would be really interesting to dump the
+>> tags at the point where the page is flagged as clean from a dirty-log
+>> point of view. As the page is dirtied, discard the saved tags.
+> 
+> From the VMM perspective, the tags can be treated just like additional
+> (meta)data in a page. We'd only need the tags when copying over. It can
+> race with the VM dirtying the page (writing tags would dirty it) but I
+> don't think the current migration code cares about this. If dirtied, it
+> copies it again.
+> 
+> The only downside I see is an extra syscall per page both on the origin
+> VMM and the destination one to dump/restore the tags. Is this a
+> performance issue?
 
-Claudio Fontana <cfontana@suse.de> writes:
+I'm not sure. Migrating VMs already has a massive overhead, so an extra
+syscall per page isn't terrifying. But that's the point where I admit
+not knowing enough about what the VMM expects, nor whether that matches
+what happens on other architectures that deal with per-page metadata.
 
-<snip>
->
-> Looking forward to your comments on this proposal,
+Would this syscall operate on the guest address space? Or on the VMM's
+own mapping?
 
-OK I've completed my pass although I petered out a little just before
-the changes that affect the explicit ordering which was a bit too much
-for my brain to process after lunch. Some general thoughts...
-
-I like the way this is going and having the much more modular concept
-for both accelerators and target accelerator support. However to protect
-the new build combinations I think we need to cover some TCG and HW
-accelerator builds in the gitlab build matrix.
-
---=20
-Alex Benn=C3=A9e
+         M.
+-- 
+Jazz is not dead. It just smells funny...
 
