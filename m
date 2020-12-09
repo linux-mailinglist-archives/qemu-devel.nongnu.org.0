@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9B12D4477
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 15:37:22 +0100 (CET)
-Received: from localhost ([::1]:47360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 708242D4459
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 15:31:37 +0100 (CET)
+Received: from localhost ([::1]:39612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn0am-0002ao-UL
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 09:37:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41172)
+	id 1kn0VC-0007SW-M7
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 09:31:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kn0Ku-0002aC-Kj
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:20:56 -0500
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:44786)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kn0NX-0004Aj-25
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:23:39 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kn0Kn-0000pU-Si
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:20:55 -0500
-Received: by mail-io1-xd42.google.com with SMTP id z5so1770463iob.11
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 06:20:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xZlFFRSSgGUms4vekMfzEj2xvKdY51o2ZdZCfDqU4bc=;
- b=CqapVN9LbQHklD7TE/6Rl9hhUBs+HGFkwh/xeI0XklP17UXa9TeBJWRw0esTw/gkBm
- X5+Dpjp4lGuK7v1/LG63x9kz8RPrskd8MQtjl+USlb9LrLOGd9azA2FRJBMgjKxWLtvf
- UJRY/ixM42TuW7fDyOv27AowFaJ605ZLe+1nNDuzMjjAOxY7oIGPNGGKrgrArYIS/V/2
- Clo72GssKf54jKhqJF9dWXND9meI7ESu7/iAnQy0L+PbrdICJGPG4FO1bjLLYqhWzBjX
- 1byuLrsnrbPBnGSb75ZFsXgckYkltCN0gFilqYSBpDuHCj5P5f8DPJ6FrcEe6UZ5CvC1
- y4aw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kn0NT-0001fu-2l
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:23:37 -0500
+Received: by mail-ot1-x344.google.com with SMTP id d8so1486805otq.6
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 06:23:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tTA1IsTePYgWBdPx8ZpBk1dZ/WLITOHitvV89Vv4cK8=;
+ b=eEMeJIf65WDmKi1a2IMyImAncMn91rnSXwgZ75dvh6Lm1LPygqlUUGu0p3a3qZKw61
+ d4w0sque1DWrby9tBt/3JUOACHTy6sBcQs2inJTd1jj/PUlCObXfMOqoPgtDnnH+5ESl
+ ndoCj4ARJCd/Lr2GftJIRSl4E4quGzuhsgFpEghSAKgz9hrYjXVzFl48t/qQf0gxxdHY
+ P5NyB44oc45VcNSnD9c9LYDlNYOoSR3PGdFWPg3pAO52Dabjtr9JjlKSp/g4S9v1SW+8
+ CU5MX15lVXWXp9eNQ86w2f3HCJT03OAOif7cnZhTPR7E6JKkKw+3YDzJzlE3w5v7Ym17
+ DIXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xZlFFRSSgGUms4vekMfzEj2xvKdY51o2ZdZCfDqU4bc=;
- b=rFPBiIHPt9cUnYBmXhOQ5WKUZLFes320VzMQvVFmOVQlpX69fV2/hAnlD3iegCBMkT
- I+9IF2cxKpzmEaUMIYjM1TCqNuqZ0kdHBsBmk+ka2MvIdJYz6Gn/R5FwpmXC9FYEcWwW
- kOek0ScnOdlwmbpbASB9+GIlRK1LcEJw+qaQzVWecXEx+gbc0J4nz4MpVmCP2oHsp3Jr
- y8+b4QFQt5QM8vuKM5r5j+2kAufwRrH+wsPycy9CFg3ymsJTj8uubHWqmiOHI9fAWg7+
- k6zWPRyOVLDBBCsHOEnCcysnbNZnozA8OPfv1Mzz2G8za1PGtlLe2eZNGS2CLk1y+A6+
- mjLQ==
-X-Gm-Message-State: AOAM531YDdW0G3G9msL1cn7kM7jlxHuVoNjMkRG5PlYxnjXltpt+XwLe
- tQ0M50HVxxyInzL10gLk8dK2bjifUSIFhuzCgdw=
-X-Google-Smtp-Source: ABdhPJwfjb/ueWL6pvp5VSkQ8JVoyeeNYMZPmnucqkq3Xb+spDtDnBIzStKCBmc5olqGS0Kn4rEgZdMuLlD4rcBJIC8=
-X-Received: by 2002:a6b:5d07:: with SMTP id r7mr3227169iob.84.1607523647202;
- Wed, 09 Dec 2020 06:20:47 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tTA1IsTePYgWBdPx8ZpBk1dZ/WLITOHitvV89Vv4cK8=;
+ b=PcQ1tUN+0hjqFjnBhkUhpdlVsmusgGhUU8cy0Zbw2h2BoszCtqSINjOCLxYPzojW4W
+ tQHHyLx8NxGAijrkG4GqguJ4fbWfZGCnjzTraDZ66AAMr41+lVNNrNBzHvRhoZ0W+h9Z
+ 7g4+dhKw8sLxNiYcsw9NgfLR1wkb+XJ4VnpN5FA7wLaEexzkgXqZda38IeNF5eyoxPcu
+ +rzRV39T96SkZdjjjJJozAsS9EG6xjid8KIgJkqOQX7US2rGSrEc7ZejhFc4BAxvDlao
+ 3hNzw9+GkidMY4Rr9/uTbbJOQIDlrTYn2OuYiAuYqeGuH6SIES6N0eS/ff8p1qNhXaXh
+ NQ5g==
+X-Gm-Message-State: AOAM532rIHj/2cipkyDBOkWXDZKf+0jxS6Ryk3UpJ0DYT6NRHlybcs9B
+ a7JRAHmuxed8LuHEbxDAAhJrrQ==
+X-Google-Smtp-Source: ABdhPJwsxcQjXsWwKjz03k94ARr21LEW8PrwIgjUvL49fqEXXL834KabVeCpGCGM8L3gfnEEAQ1G1A==
+X-Received: by 2002:a05:6830:90f:: with SMTP id
+ v15mr1900791ott.223.1607523813903; 
+ Wed, 09 Dec 2020 06:23:33 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id b91sm407342otc.13.2020.12.09.06.23.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Dec 2020 06:23:32 -0800 (PST)
+Subject: Re: [PATCH 06/13] target/mips: Convert Rel6 Special2 opcode to
+ decodetree
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201208203704.243704-1-f4bug@amsat.org>
+ <20201208203704.243704-7-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5b83b1c3-4e1e-9c68-3320-33c406962c21@linaro.org>
+Date: Wed, 9 Dec 2020 08:23:30 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <6b704294ad2e405781c38fb38d68c744@h3c.com>
-In-Reply-To: <6b704294ad2e405781c38fb38d68c744@h3c.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 9 Dec 2020 15:20:35 +0100
-Message-ID: <CAM9Jb+jhfBqFurCQj_XpoP0cEOU9oiZcO9xrWm3GA3NAxcCdEg@mail.gmail.com>
-Subject: Re: [PATCH v3] migration: Don't allow migration if vm is in
- POSTMIGRATE
-To: Tuguoyi <tu.guoyi@h3c.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd42.google.com
+In-Reply-To: <20201208203704.243704-7-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x344.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,77 +91,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Li Zhang <li.zhang@cloud.ionos.com>,
- "vsementsov@virtuozzo.com" <vsementsov@virtuozzo.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> The following steps will cause qemu assertion failure:
-> - pause vm by executing 'virsh suspend'
-> - create external snapshot of memory and disk using 'virsh snapshot-create-as'
-> - doing the above operation again will cause qemu crash
->
-> The backtrace looks like:
-> #0  0x00007fbf958c5c37 in raise () from /lib/x86_64-linux-gnu/libc.so.6
-> #1  0x00007fbf958c9028 in abort () from /lib/x86_64-linux-gnu/libc.so.6
-> #2  0x00007fbf958bebf6 in ?? () from /lib/x86_64-linux-gnu/libc.so.6
-> #3  0x00007fbf958beca2 in __assert_fail () from /lib/x86_64-linux-gnu/libc.so.6
-> #4  0x000055ca8decd39d in bdrv_inactivate_recurse (bs=0x55ca90c80400) at /build/qemu-5.0/block.c:5724
-> #5  0x000055ca8dece967 in bdrv_inactivate_all () at /build//qemu-5.0/block.c:5792
-> #6  0x000055ca8de5539d in qemu_savevm_state_complete_precopy_non_iterable (inactivate_disks=true, in_postcopy=false, f=0x55ca907044b0)
->     at /build/qemu-5.0/migration/savevm.c:1401
-> #7  qemu_savevm_state_complete_precopy (f=0x55ca907044b0, iterable_only=iterable_only@entry=false, inactivate_disks=inactivate_disks@entry=true)
->     at /build/qemu-5.0/migration/savevm.c:1453
-> #8  0x000055ca8de4f581 in migration_completion (s=0x55ca8f64d9f0) at /build/qemu-5.0/migration/migration.c:2941
-> #9  migration_iteration_run (s=0x55ca8f64d9f0) at /build/qemu-5.0/migration/migration.c:3295
-> #10 migration_thread (opaque=opaque@entry=0x55ca8f64d9f0) at /build/qemu-5.0/migration/migration.c:3459
-> #11 0x000055ca8dfc6716 in qemu_thread_start (args=<optimized out>) at /build/qemu-5.0/util/qemu-thread-posix.c:519
-> #12 0x00007fbf95c5f184 in start_thread () from /lib/x86_64-linux-gnu/libpthread.so.0
-> #13 0x00007fbf9598cbed in clone () from /lib/x86_64-linux-gnu/libc.so.6
->
-> When the first migration completes, bs->open_flags will set BDRV_O_INACTIVE
-> flag by bdrv_inactivate_all(), and during the second migration the
-> bdrv_inactivate_recurse assert that the bs->open_flags is already
-> BDRV_O_INACTIVE enabled which cause crash.
->
-> As Vladimir suggested, this patch makes migrate_prepare check the state of vm and
-> return error if it is in RUN_STATE_POSTMIGRATE state.
->
-> Signed-off-by: Tuguoyi <tu.guoyi@h3c.com>
-Similar issue is reported by Li Zhang(+CC) with almost same patch[3]
-to fix this.
-
-Reported-by: Li Zhang <li.zhang@cloud.ionos.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
-
-[3] https://marc.info/?l=qemu-devel&m=160749859831357&w=2
+On 12/8/20 2:36 PM, Philippe Mathieu-Daudé wrote:
+> Special2 opcode have been removed from the Release 6.
+> Add a single decodetree entry for all the opcode class,
+> triggering Reserved Instruction if ever used.
+> 
+> Remove unreachable check_insn_opc_removed() call.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  migration/migration.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 87a9b59..5e33962 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -2115,6 +2115,12 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
->          return false;
->      }
->
-> +    if (runstate_check(RUN_STATE_POSTMIGRATE)) {
-> +        error_setg(errp, "Can't migrate the vm that was paused due to "
-> +                   "previous migration");
-> +        return false;
-> +    }
-> +
->      if (migration_is_blocked(errp)) {
->          return false;
->      }
-> --
-> 2.7.4
->
-> [Patch v2]: https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg01318.html
-> [Patch v1]: https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05950.html
+>  target/mips/isa-mips32r6.decode       | 2 ++
+>  target/mips/isa-mips_rel6_translate.c | 7 +++++++
+>  target/mips/translate.c               | 2 --
+>  3 files changed, 9 insertions(+), 2 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
