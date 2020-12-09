@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84012D46A6
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:23:32 +0100 (CET)
-Received: from localhost ([::1]:58644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB97E2D46C5
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:31:59 +0100 (CET)
+Received: from localhost ([::1]:41326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn2FX-0002P9-Dn
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:23:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53862)
+	id 1kn2Ni-0007Mu-OW
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:31:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kn2DK-00015y-6K
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:21:14 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kn2DI-0003I4-C0
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:21:13 -0500
-Received: by mail-ej1-x642.google.com with SMTP id lt17so2973234ejb.3
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 08:21:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Bt93WnOP4SzNJQLQCpu/2tj414eFyql4+fCRs6BgwsM=;
- b=jn34NOcO0CQSnarpbQvuu4mtw1FDaY0pGMN6gjovdBYLkvePZMifnFW+ZeW4GlxsRc
- dWKpVdWmLmjx7a39xeyKn2MR0oKt0lAJfS3FLcj9Qu6PihatJK7bf2dzBQ9+rdtSSgFs
- AuwHJOmAXu6POQHPRvyW5j9LZi7OmfwyVS78C+lpFThvceQY1y7QoGDcseGbp1DjK7Z5
- jvAA8sm6fcI9B4trqa7zB1Xv1QQfeD02CUly/ja22UCUMRRmE0PAg4JOgvDzMlegclId
- g5HBBIp3Cg78xcECgJF5HlJcnsZNsxvR5Y4C9eboe6XAvmYSY0U0peYr0XVpplW4l7U5
- fK6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Bt93WnOP4SzNJQLQCpu/2tj414eFyql4+fCRs6BgwsM=;
- b=IV7PNQ6CbQR+VGsX6Jz9UyHRZqbnHOHi3mLHT3IwM0FsN+V1S/BtYc2Jmp0Ad8vLL1
- q7BPt0WFJuDfBcNIB0AHV8O2hySIVEezTfcehDGsGpUvzTeJA58hsCd92AfH/J2QMD0L
- cqF8JSjzRP7k2mmhaiNlCIhLqo5R36/kYwnffQlXa3sE2Y6wIEVyJPFnfQLJGiaOwUj0
- kwj2QN0yEoxp7OWf3rY00lEgJQA13Ke1P3dhcnOyp1u8WfCsXgG3flFYR3P9LuvmrHOO
- CS55RBAp1gFlyBlQXAFY6rKO1dO65kWi7sdx3xd5EPiFrEqB1lMK5VAfnnu6CvljfcIz
- 9Cmg==
-X-Gm-Message-State: AOAM533wqI8cbqjfBhz1cO2MqIwQyIrcAKzavlwFu5PmOHYNX/SZknYz
- Vh3stiCi6XXDcfWRytZZ7aWxOP4TSosjSt6I2JCzzw==
-X-Google-Smtp-Source: ABdhPJxd6HFl3s32+f3FW2nj2rcUBUX5TgRRyt75PfZZz078vMu7+pwp+vh7BoeHcrIH5f8SS36mO0wgW7uP9NsWEkA=
-X-Received: by 2002:a17:906:1542:: with SMTP id
- c2mr2649532ejd.382.1607530870836; 
- Wed, 09 Dec 2020 08:21:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
+ id 1kn2Li-0006UP-Ls; Wed, 09 Dec 2020 11:29:54 -0500
+Received: from home.keithp.com ([63.227.221.253]:43716 helo=elaine.keithp.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
+ id 1kn2LW-0005w8-VE; Wed, 09 Dec 2020 11:29:54 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by elaine.keithp.com (Postfix) with ESMTP id 72F8F3F2E329;
+ Wed,  9 Dec 2020 08:29:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1607531376; bh=NfvvG9R1oZHC0/72KAn4eRO/RbaxPTHZX0E9qTml3UI=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=syXM6nJ8lwxL0amBETOnN1p1SckCQYDv5U4mPPW/2YfeTOArON8cCF/QOYDuHzrbs
+ CAVZNTkOEA01WyciO1sxR0S7pwbKE5eqUj2ka14ZzGxMgzChMZz/qhXn4LbHtJpiwF
+ oMXmkmrf50Y6mkeiO0F0mkozOtThwxrbuavVEV8m0r2zc5+EaXj+yfoKIClcusJB8q
+ vPpnni8NEPyMtrQZs7d3FOBE0Z8XJUR110eEMK7Imn8NlumNfPL9BR3MkHR9bXG4ST
+ YIV7TXhwjp3x9lvAiAqBP5yC5UgyXKhtsXR42qcnDn923N4N4jsYreuNxyx3LTZM6w
+ SQ/Li2sZe1ePw==
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+ by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id 6I6X17j2ur1b; Wed,  9 Dec 2020 08:29:36 -0800 (PST)
+Received: from keithp.com (koto.keithp.com [10.0.0.2])
+ by elaine.keithp.com (Postfix) with ESMTPSA id 0E6273F2DE35;
+ Wed,  9 Dec 2020 08:29:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1607531376; bh=NfvvG9R1oZHC0/72KAn4eRO/RbaxPTHZX0E9qTml3UI=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=syXM6nJ8lwxL0amBETOnN1p1SckCQYDv5U4mPPW/2YfeTOArON8cCF/QOYDuHzrbs
+ CAVZNTkOEA01WyciO1sxR0S7pwbKE5eqUj2ka14ZzGxMgzChMZz/qhXn4LbHtJpiwF
+ oMXmkmrf50Y6mkeiO0F0mkozOtThwxrbuavVEV8m0r2zc5+EaXj+yfoKIClcusJB8q
+ vPpnni8NEPyMtrQZs7d3FOBE0Z8XJUR110eEMK7Imn8NlumNfPL9BR3MkHR9bXG4ST
+ YIV7TXhwjp3x9lvAiAqBP5yC5UgyXKhtsXR42qcnDn923N4N4jsYreuNxyx3LTZM6w
+ SQ/Li2sZe1ePw==
+Received: by keithp.com (Postfix, from userid 1000)
+ id EA9AC15820DB; Wed,  9 Dec 2020 08:29:35 -0800 (PST)
+To: Kito Cheng <kito.cheng@gmail.com>
+Cc: qemu-devel@nongnu.org, Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>, Alistair
+ Francis <Alistair.Francis@wdc.com>, Bastian Koppelmann
+ <kbastian@mail.uni-paderborn.de>, Laurent Vivier <laurent@vivier.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Peter Maydell
+ <peter.maydell@linaro.org>, qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Subject: Re: [PATCH 5/8] riscv: Add semihosting support [v13]
+In-Reply-To: <CA+yXCZC038LfuswrAo6W3gHXfGkwPscMEKDQJvutV7xcoC+wPw@mail.gmail.com>
+References: <20201125213617.2496935-1-keithp@keithp.com>
+ <20201125213617.2496935-6-keithp@keithp.com>
+ <CA+yXCZC038LfuswrAo6W3gHXfGkwPscMEKDQJvutV7xcoC+wPw@mail.gmail.com>
+Date: Wed, 09 Dec 2020 08:29:35 -0800
+Message-ID: <87r1nz6iz4.fsf@keithp.com>
 MIME-Version: 1.0
-References: <20201208193307.646726-1-mst@redhat.com>
- <CAFEAcA_F7F_FHFmKvDbcrKE=5cr7-3KqBbTti1kA2N+xQPX=Kg@mail.gmail.com>
-In-Reply-To: <CAFEAcA_F7F_FHFmKvDbcrKE=5cr7-3KqBbTti1kA2N+xQPX=Kg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 9 Dec 2020 16:20:59 +0000
-Message-ID: <CAFEAcA97wx5DdyJHy-SCs1G5vR_YpY9rOsem-M0Vn6A7revvaA@mail.gmail.com>
-Subject: Re: [PULL 00/66] pc,pci,virtio: fixes, cleanups
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
+ helo=elaine.keithp.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,39 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Keith Packard <keithp@keithp.com>
+From: Keith Packard via <qemu-devel@nongnu.org>
 
-On Wed, 9 Dec 2020 at 14:37, Peter Maydell <peter.maydell@linaro.org> wrote:
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+Kito Cheng <kito.cheng@gmail.com> writes:
+
+> Hi Keith:
 >
-> On Tue, 8 Dec 2020 at 19:33, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > The following changes since commit 553032db17440f8de011390e5a1cfddd13751b0b:
-> >
-> >   Update version for v5.2.0 release (2020-12-08 15:55:19 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to 023e57b93a24f2e7901cf460a45cb5058fa23549:
-> >
-> >   hw/virtio-pci Added AER capability. (2020-12-08 13:48:58 -0500)
-> >
-> > ----------------------------------------------------------------
-> > pc,pci,virtio: fixes, cleanups
-> >
-> > Lots of fixes, cleanups.
-> > CPU hot-unplug improvements.
-> > A new AER property for virtio devices, adding a dummy AER capability.
-> >
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
-> Fails to compile on ppc64:
+> Thanks for the patch, I've verified with newlib semihosting support
+> which is contributed by Craig Blackmore from embecosm,
+> and I would like to add semihosting to user mode, do you mind add this
+> patch into this patch series?
 
-You can see the same failure also if you run it through the gitlab CI:
-https://gitlab.com/qemu-project/qemu/-/jobs/900063570
+I tried to add that already, but I admit that I haven't tested it in a
+while. You should find that there are patches to linux-user/semihost.c
+and linux-user/qemu.h to enable it.
 
--- PMM
+=2D-=20
+=2Dkeith
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl/Q+28ACgkQ2yIaaQAA
+ABGFNw//Ul4a0PbfO3j4ey6T6eC53q1i4ObgE0Bsatdm6xLYgMB7CyJ8Bn/T8h8d
+/J31ZrEuRl3+vZhMZE4BGm6BuMEW/uwbrlKjfkTTep4T7JzXSDxUBaO4xa7OYnkI
+6R/k9QYoOdvo31zfYG6zg6B1U8FtwnX1mSCUb+GjELEwKdea3yxa64yzapWnzsnU
+TqkEP3Vux/M4M+z1LFkZfmvjhVaYcuNczuY3XbL1R7HZJGQktIaBh/lLvOPSL5u7
+CQP6H7GZMJMrbJ4VH2KmcyBHFERlBsodXmJKf/ed7fzQLcuhKEYyuzzJ8JeQqwS0
+IoHu6DCA5LbzNZQPvjxY2WJ8Rxzpq7uNbrioNC5xLIPvypzdVJUUW4u20bP8wJtf
+jUvFNK1ZJYTGomlpL4p+5/f8M2MCj61Fz7wJaHRt12SIRYP0Lt1m4Obkglh9Aneh
+PTvepH9BIqEd7FFoJMIFJ2bCcs6Yva8f5lAlW2MPxSs1s42iCVTyOHU/IrcX6e1y
+HH68QwmxaJb9XoUV4luCD7WSXm3x8uyH3nPLsxxhTNd/EsczDK/r3q7v4cAjmPQm
+URnGQx88afZnpI4xPmCPWI6IGmUta8gzCYw6BdcJbQOA8bxIyTFklV9ouzV25awT
+Vnc0GlPGnSi6AjgdHv7wSi7qcuA2SWfLuc+wZZdHTXMyAKT43SQ=
+=aNTI
+-----END PGP SIGNATURE-----
+--=-=-=--
 
