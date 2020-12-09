@@ -2,92 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B582D4D19
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 22:47:24 +0100 (CET)
-Received: from localhost ([::1]:33610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5574D2D4D78
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 23:21:22 +0100 (CET)
+Received: from localhost ([::1]:53348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn7Ix-0000th-Qm
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 16:47:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44710)
+	id 1kn7po-0003V2-Ts
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 17:21:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kn7Fx-0007j4-5y
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 16:44:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25142)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kn7Fv-0003lz-6n
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 16:44:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607550254;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pJjFIeLVof+JxjOuQw/guQoR7S9jQk8Z3R/I5mbTZP4=;
- b=aARs8nFFcgs4tklZ8NMVwvpuPGcg8soGKH6vwFZ7zxR+RJg1Um23d5KIjXHVkw9XtdW/aK
- gzELQBzcFS2FFZFrfpcmGTk43y7hlmIvyS3Z2/L1+Mqy1VxIfpHqf12WC7YeTDwYUXk26L
- u5qxf9dHH/lnDQbexVGh8cE+5BMS+WQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-nHmDOoQXNLa448HFY7kYVg-1; Wed, 09 Dec 2020 16:44:12 -0500
-X-MC-Unique: nHmDOoQXNLa448HFY7kYVg-1
-Received: by mail-ed1-f69.google.com with SMTP id g8so1490992edm.7
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 13:44:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kn7oH-00032l-Qg; Wed, 09 Dec 2020 17:19:46 -0500
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:35908)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kn7oE-0007yS-Oy; Wed, 09 Dec 2020 17:19:45 -0500
+Received: by mail-io1-xd44.google.com with SMTP id z136so3375356iof.3;
+ Wed, 09 Dec 2020 14:19:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7vfY1/zFQM28B3wC4xTWhKqmMIvMJ1vOwkRbrzZeXjk=;
+ b=vOOigCjkP+zg1VwfgPfQ4PRcoFputKi48WlafZby6rwr9WQHqwL1izkorEuTEYKsTO
+ yk2Vzgf0FgHutqg5X7q6e/OT8TSNXU69mS3b2oCaWnX8CWp85Uj+UoKSPsBYDLmSWuXu
+ 1alRPV0qnZQyQGv0u7qRx1pU8ES79NTUl9WkliMQuiY9/hBGESlw1kck85aaVy1HZOAg
+ ow1JIs5wHjqkuAMMMg3FnDplqFeyTb6KuwcyUyJkWFUNSg5LdUr/QDT4tRsX9fGTsqaw
+ a3srjHST4/2+CoUfk3g5Le5UnXZQH0keR4LONP82cBq9uNF1uqNQnqE7drxNLLAHiWSJ
+ UsiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pJjFIeLVof+JxjOuQw/guQoR7S9jQk8Z3R/I5mbTZP4=;
- b=dX82XN3slaub0mDdmYN8gco/ZagsS2d2BKAVByRC+gBWnfEvY7pupsPwns6lyaRniZ
- tbFhd3Y6ipEy7uI+8aGgIRCQhFH6ppwkTlDKKs8H/tcbGB5/2vo7n4HQRDsNNAFaOmJj
- 3NC3b1Il6NlAdtnJHnFQUkG3oQ0v3p5PLdXxzAFyDKfVHli+98aXFi9K+gLgkOQMdXRA
- 45ANuJCeOdDQhzW7ZaCaJl4zwNPLUTXCmHVr1NKMq6tLhToEE66VAHDrWpR2yrpFoFTk
- 9owgRjGkjPd2uInJP12QoCv2ugq/mKRPWL6177ZoQIrjTptr5hTqXiSzUY728xKAz1LU
- L2nQ==
-X-Gm-Message-State: AOAM533YKCcq3s6tkj2ciWx+MWWF8Gzih8el+QQ39OO6j47IhcGfW0UD
- xMqbzWFad9zoBw4WtKB1LgGR0qXTh5dTcOMoHLSZiVTBjNdlydFvvuvlTTOPCFxrB7VW5nfZ/We
- 0KYQoknPThfPltJY=
-X-Received: by 2002:aa7:da01:: with SMTP id r1mr3981986eds.45.1607550251659;
- Wed, 09 Dec 2020 13:44:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxSsjhYBSajNz0ZsTKMmdWbQes3I/P5O0oM7ES5Yoz8fJq/0X6LUtTKYDXKRXXnoxzZn0M/0A==
-X-Received: by 2002:aa7:da01:: with SMTP id r1mr3981973eds.45.1607550251460;
- Wed, 09 Dec 2020 13:44:11 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:48f9:bea:a04c:3dfe?
- ([2001:b07:6468:f312:48f9:bea:a04c:3dfe])
- by smtp.gmail.com with ESMTPSA id j7sm2966282edp.52.2020.12.09.13.44.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Dec 2020 13:44:10 -0800 (PST)
-Subject: Re: [PATCH v2 1/4] vl: Add an -action option to respond to guest
- events
-To: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>, qemu-devel@nongnu.org
-References: <1607536336-24701-1-git-send-email-alejandro.j.jimenez@oracle.com>
- <1607536336-24701-2-git-send-email-alejandro.j.jimenez@oracle.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d6a63dd6-a10f-c352-f1ca-f79cd1db4070@redhat.com>
-Date: Wed, 9 Dec 2020 22:44:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7vfY1/zFQM28B3wC4xTWhKqmMIvMJ1vOwkRbrzZeXjk=;
+ b=FwIBPNsQDsUaMKKzdUbsj59DWozjwmSE2mU+vUCKCyt+mxp/HzOa5MRn7bZUpP8Fwn
+ vYMsv7ZxV/C3fOMOs2PQzb3tDV1Xkp8kypKD3g54en6aoGyccIThZQ+aEdXMu6mF0npZ
+ KDXLhhwg4XpyrZZs4ZjnncKInv5w/nh9ybq9i2sogcay6XisgcsExjpnXuhIbqz/LvT/
+ IBNWh6ws2M4SdcawP4+E6WlC4Z7zb8QxQ4tf3hgC+Zsb0HscX8C8WTt6XMXfnRWQ7Wie
+ TGx/f1Qlk7HqpaawSAO3Vnj7k1sNA7019HFeTk7FYGtI8w3pYm9+7MMDkU5Q/G2QX2kl
+ BGNg==
+X-Gm-Message-State: AOAM5325UETOlNUDrWd0vxYhX3f34I+cgE0R+wwEbMJLgIo/KLNn2rjr
+ XfEvJhXOaW2rSn8O+hoCzf7KL5TTEHNY3x+Ymfg=
+X-Google-Smtp-Source: ABdhPJwIJu+mcU+s1TiHhwdlT6kzu/IROXoLEpGRkOmu9yIYn9gM1F/XtS5rmjUUvPpz2eEVkdrENscNyopGBQyuIHE=
+X-Received: by 2002:a02:6c09:: with SMTP id w9mr5891393jab.135.1607552380949; 
+ Wed, 09 Dec 2020 14:19:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1607536336-24701-2-git-send-email-alejandro.j.jimenez@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <cover.1607467819.git.alistair.francis@wdc.com>
+ <64d6afcb62eb7b27b863436219cf1a4e28018de1.1607467819.git.alistair.francis@wdc.com>
+ <b19249c1-2aef-ae9c-8109-d6d5d0a4425c@linaro.org>
+In-Reply-To: <b19249c1-2aef-ae9c-8109-d6d5d0a4425c@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 9 Dec 2020 14:19:14 -0800
+Message-ID: <CAKmqyKMpM2Q9++_2NCDNVA_uKMWbK+pWZo2stY9Pf95X-tAh6Q@mail.gmail.com>
+Subject: Re: [PATCH v2 05/15] hw/riscv: boot: Remove compile time XLEN checks
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd44.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,17 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.edmondson@oracle.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/12/20 18:52, Alejandro Jimenez wrote:
-> -static int no_reboot;
-> +int no_reboot;
->   int no_shutdown = 0;
+On Wed, Dec 9, 2020 at 7:51 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 12/8/20 4:56 PM, Alistair Francis wrote:
+> > +    if (riscv_is_32_bit(machine)) {
+> > +        dinfo.magic = cpu_to_le32(FW_DYNAMIC_INFO_MAGIC_VALUE);
+> > +        dinfo.version = cpu_to_le32(FW_DYNAMIC_INFO_VERSION);
+> > +        dinfo.next_mode = cpu_to_le32(FW_DYNAMIC_INFO_NEXT_MODE_S);
+> > +        dinfo.next_addr = cpu_to_le32(kernel_entry);
+> > +    } else {
+> > +        dinfo.magic = cpu_to_le64(FW_DYNAMIC_INFO_MAGIC_VALUE);
+> > +        dinfo.version = cpu_to_le64(FW_DYNAMIC_INFO_VERSION);
+> > +        dinfo.next_mode = cpu_to_le64(FW_DYNAMIC_INFO_NEXT_MODE_S);
+> > +        dinfo.next_addr = cpu_to_le64(kernel_entry);
+> > +    }
+>
+> This looks like it's still based on the TARGET, but via the types in
+> fw_dynamic_info.  So far it would be clearer with sizeof(dinfo.magic) or something.
 
-Since you are at it, please move these globals to the new file.
+Fixed.
 
-Paolo
+Alistair
 
+>
+>
+> r~
 
