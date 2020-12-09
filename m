@@ -2,43 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0CD2D4590
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 16:40:02 +0100 (CET)
-Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 789932D45CE
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 16:52:53 +0100 (CET)
+Received: from localhost ([::1]:52040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn1ZR-0006Df-1P
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 10:40:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40090)
+	id 1kn1lr-0002AO-28
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 10:52:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stephane.duverger@free.fr>)
- id 1kn1Xn-0005O6-Eg; Wed, 09 Dec 2020 10:38:20 -0500
-Received: from smtp5-g21.free.fr ([212.27.42.5]:26550)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stephane.duverger@free.fr>)
- id 1kn1Xk-0003l5-Ol; Wed, 09 Dec 2020 10:38:18 -0500
-Received: from wise (unknown [77.159.208.71])
- (Authenticated sender: stephane.duverger@free.fr)
- by smtp5-g21.free.fr (Postfix) with ESMTPSA id 1827A5FFD8;
- Wed,  9 Dec 2020 16:38:03 +0100 (CET)
-Date: Wed, 9 Dec 2020 16:38:00 +0100
-From: Stephane Duverger <stephane.duverger@free.fr>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] ppc/translate: Fix need_access_type for non MMU_64
-Message-ID: <20201209153800.GA60507@wise>
-References: <20201209093544.GA58577@wise> <20201209144045.65b4d9da@bahia.lan>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kn1kD-0001dS-4a
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:51:09 -0500
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:39997)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kn1k9-0000Gn-02
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 10:51:08 -0500
+Received: by mail-oi1-x242.google.com with SMTP id p126so2166569oif.7
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 07:51:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yjoPZWVMJiJHJVskpcWh/Fn51f3+4mNU+ZLWYWY7Lck=;
+ b=LJxnuU1xCbJM6WLAPpcWvxKXVHQkJTxlKeSAQcJcEa737cpSaEyvGj5oBzRzFPkq7u
+ CnyOUNpDEji+BxvBJvf3gdVtyR76NB2UsAFh7g/GtKYWEBNOHHPINMNuP/1aG3M4yrPm
+ VpNhji6fD7PqasJDCK6QnCg4ah9OqicRQ9DRpK++16E6POc2DXc94KPm9dy0UXsCvLlS
+ zc5GSdoFAzVfM1BuGpX+hRNgjoO/iHvqbQRV8q23vptrq4tNlvvgfhdTUOl9GZooGowP
+ mkJFBd8kRJrZn2u9fjG+MJddrBKANG7iRmgNMq22+ctpFKV8XmT7a7FyYzvg4oz8tntl
+ t55w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yjoPZWVMJiJHJVskpcWh/Fn51f3+4mNU+ZLWYWY7Lck=;
+ b=p5GL1a0xuUSGTGl9P/4Dtl6415QlsAtHbEjfJFkHeeZ2LQtzd4sQZwwrvX4JH9qIYI
+ Ly4L9uNUo5jmbseTNpqnprit562S1THkCGZXvy2r/wHZTcqqEdub7oGwGqHbsdz0Detr
+ +6r00QA3U+1gl/fcC7X4dRx4s1Tg1kpkQprczH0KCYHrVfAkdWY3Q//JZ3djX2f1PQwm
+ 1Pexht3BFYdRDJZaa4+hmhe+l571KuIowF8g5ThdsoRMc75p1rQcsWtmTXATcMTZ6dDC
+ +Gg0bzytqhPM3HlyN/WkGvP2V1TKffzDdPBX2AkniMaEt2XE3E1juZm+RcVXEdQZlxkP
+ Odmg==
+X-Gm-Message-State: AOAM533Y5QMeSnmW+ARNM1N00N44xK+lqom+wQJKc10GDNxaVjnx0ybj
+ pK45Dd9MWDN71Ri6zBGGCO2ygA==
+X-Google-Smtp-Source: ABdhPJxjRDQKCHlz5Pt+quwaeG79haPWgg7G7TYGoMwIvQEs3SotJj+ei4M24kp8gJNuXIQa4aA1kw==
+X-Received: by 2002:aca:448b:: with SMTP id r133mr2161531oia.121.1607529063505; 
+ Wed, 09 Dec 2020 07:51:03 -0800 (PST)
+Received: from [10.10.121.52] (fixed-187-189-51-144.totalplay.net.
+ [187.189.51.144])
+ by smtp.gmail.com with ESMTPSA id c21sm454347otd.44.2020.12.09.07.51.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 09 Dec 2020 07:51:02 -0800 (PST)
+Subject: Re: [PATCH v2 05/15] hw/riscv: boot: Remove compile time XLEN checks
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <cover.1607467819.git.alistair.francis@wdc.com>
+ <64d6afcb62eb7b27b863436219cf1a4e28018de1.1607467819.git.alistair.francis@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b19249c1-2aef-ae9c-8109-d6d5d0a4425c@linaro.org>
+Date: Wed, 9 Dec 2020 09:50:59 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201209144045.65b4d9da@bahia.lan>
-Received-SPF: none client-ip=212.27.42.5;
- envelope-from=stephane.duverger@free.fr; helo=smtp5-g21.free.fr
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <64d6afcb62eb7b27b863436219cf1a4e28018de1.1607467819.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::242;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x242.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,89 +89,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 09, 2020 at 02:40:45PM +0100, Greg Kurz wrote:
-> But I agree that the 0x00000001 causes the check to be wrong for
-> CPUs using the POWERPC_MMU_32B MMU model. So your change is clearly
-> the way to go but the changelog should rather state that it doesn't
-> make sense to use an MMU model enum as a mask. The POWERPC_MMU_64
-> flag is to be used to detect 64-bit MMU models, as it is done
-> everywhere else.
+On 12/8/20 4:56 PM, Alistair Francis wrote:
+> +    if (riscv_is_32_bit(machine)) {
+> +        dinfo.magic = cpu_to_le32(FW_DYNAMIC_INFO_MAGIC_VALUE);
+> +        dinfo.version = cpu_to_le32(FW_DYNAMIC_INFO_VERSION);
+> +        dinfo.next_mode = cpu_to_le32(FW_DYNAMIC_INFO_NEXT_MODE_S);
+> +        dinfo.next_addr = cpu_to_le32(kernel_entry);
+> +    } else {
+> +        dinfo.magic = cpu_to_le64(FW_DYNAMIC_INFO_MAGIC_VALUE);
+> +        dinfo.version = cpu_to_le64(FW_DYNAMIC_INFO_VERSION);
+> +        dinfo.next_mode = cpu_to_le64(FW_DYNAMIC_INFO_NEXT_MODE_S);
+> +        dinfo.next_addr = cpu_to_le64(kernel_entry);
+> +    }
 
-Good to know, I understand your concern :)
-
-> How did you spot this ? Would you have an example that illustrates
-> how this can break things to share ?
-
-I run a proprietary embedded OS inside qemu with a board I
-developped. It uses a 32 bits PPC with mmu-hash32 implementation. At
-some point, I add a slow path memory access throught
-helper_be_stl_mmu() that triggered:
-
-mmu-hash32.c:ppc_hash32_direct_store()
-{
-    switch (env->access_type) {
-    ...
-    default:
-        cpu_abort(cs, "ERROR: instruction should not need "
-                  "address translation\n");
-}
-
-How come did we lost 'access_type' ? In turn, it was related to:
-
-translate.c:gen_set_access_type()
-{
-    if (ctx->need_access_type && ctx->access_type != access_type) {
-        tcg_gen_movi_i32(cpu_access_type, access_type);
-        ctx->access_type = access_type;
-    }
-}
-
-At TCG level, the 'need_access_type' prevented updating the
-'access_type'. And so I ended up in
-translate.c:ppc_tr_init_disas_context() and discovered the bug.
-
-Unfortunately, it will be difficult to provide you with a test case as
-it depends on the current MMU state configured by the running
-firmware.
-
-Maybe you might be able to craft something that triggers a slow-path
-memory access through:
-
-ppc_hash32_handle_mmu_fault()
-...
-    /* 3. Look up the Segment Register */
-    sr = env->sr[eaddr >> 28];
-
-    /* 4. Handle direct store segments */
-    if (sr & SR32_T) {
-        if (ppc_hash32_direct_store(cpu, sr, eaddr, rwx,
-                                    &raddr, &prot) == 0) {
-...
+This looks like it's still based on the TARGET, but via the types in
+fw_dynamic_info.  So far it would be clearer with sizeof(dinfo.magic) or something.
 
 
-> Also, this could have:
-> 
-> Fixes: 5f2a6254522b ("ppc: Don't set access_type on all load/stores on hash64")
-> 
-> Finally, we also have a similar nit a few lines below in the same
-> function:
-> 
->     ctx->lazy_tlb_flush = env->mmu_model == POWERPC_MMU_32B
->         || env->mmu_model == POWERPC_MMU_601
->         || (env->mmu_model & POWERPC_MMU_64B);
-> 
-> This happens to be working because POWERPC_MMU_32B is checked first but
-> the last check should also be (env->mmu_model & POWERPC_MMU_64).
-
-Great. I didn't look few lines below nor other locations using
-POWERPC_MMU_64B. Just spotted my initial issue. Maybe it would be more
-consistent to trash my patch and submit something fixing both issues.
-
-Feel free to fusion my finding with your and sign-off a new candidate
-for the sake of the glory of our dear PPC softmmu :)
+r~
 
