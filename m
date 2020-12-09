@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7182D3DF1
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 09:54:15 +0100 (CET)
-Received: from localhost ([::1]:49610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2DF92D3DF2
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 09:54:35 +0100 (CET)
+Received: from localhost ([::1]:50098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmvEk-0001PQ-P9
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 03:54:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48058)
+	id 1kmvF4-0001da-LY
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 03:54:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kmv9k-0008A5-Cv
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:49:04 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:46472)
+ id 1kmvAh-0000Ez-9A
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:50:03 -0500
+Received: from beetle.greensocs.com ([5.135.226.135]:46542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kmv9h-0003jF-PQ
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:49:04 -0500
+ id 1kmvAf-00043N-7k
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 03:50:03 -0500
 Received: from [192.168.61.100] (lfbn-lyo-1-447-149.w2-7.abo.wanadoo.fr
  [2.7.4.149])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 30D0721CC4;
- Wed,  9 Dec 2020 08:48:57 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 20E3D21CD2;
+ Wed,  9 Dec 2020 08:49:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1607503737;
+ s=mail; t=1607503798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dYKPAbN7G+P2pq0UaKuP00j2q15hHhbQRClOa+GePwQ=;
- b=xbplTeXinCRuXZgT4Ub7gPWC8wX1MFmZ1BbyZ1aafi+RCf9czIXukA2yq+7J+aSuLVPGkS
- rcEcfT35p5Y9jMCtjRcIV8XcGsVWwA9QEJZCC1niok52c1+FMNnxah46pokB7TDrX4qlPO
- RIj0GQJcu81mvSQGl0NILaQ/vmbTn2I=
-Subject: Re: [PATCH 1/4] clock: Introduce clock_ticks_to_ns()
-To: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+ bh=h/kXW4iKY1DjCVcb4D95oadjUU0aU/226G5DV29B1hU=;
+ b=pBFwH27FydBDSqpUW9pl07V8sWQqwzNQpNaEftwI+/qwqZfdZ7qnEQo05uduiuw+mJVhbl
+ ySHkRcRMrZp9v98wWPr8Kn9/eV7bHcEZdDNSCC9vdlEqJ7sHBuw/Rm6v6EfVIQfMIORTr1
+ dRcs4keMu9BMOGGiBp71RokdEiHoE40=
+Subject: Re: [PATCH 2/4] target/mips: Don't use clock_get_ns() in clock period
+ calculation
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 References: <20201208181554.435-1-peter.maydell@linaro.org>
- <20201208181554.435-2-peter.maydell@linaro.org>
- <fc447673-dada-5f00-8c52-29d90e6db641@linaro.org>
+ <20201208181554.435-3-peter.maydell@linaro.org>
 From: Luc Michel <luc.michel@greensocs.com>
-Message-ID: <a446bff4-04ff-bf3f-d916-2245fdf5436a@greensocs.com>
-Date: Wed, 9 Dec 2020 09:49:12 +0100
+Message-ID: <d8fc3be3-8b08-3291-5f66-b493cd84428f@greensocs.com>
+Date: Wed, 9 Dec 2020 09:50:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.3
 MIME-Version: 1.0
-In-Reply-To: <fc447673-dada-5f00-8c52-29d90e6db641@linaro.org>
+In-Reply-To: <20201208181554.435-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -75,122 +74,39 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/9/20 12:39 AM, Richard Henderson wrote:
-> On 12/8/20 12:15 PM, Peter Maydell wrote:
->> The clock_get_ns() API claims to return the period of a clock in
->> nanoseconds. Unfortunately since it returns an integer and a
->> clock's period is represented in units of 2^-32 nanoseconds,
->> the result is often an approximation, and calculating a clock
->> expiry deadline by multiplying clock_get_ns() by a number-of-ticks
->> is unacceptably inaccurate.
->>
->> Introduce a new API clock_ticks_to_ns() which returns the number
->> of nanoseconds it takes the clock to make a given number of ticks.
->> This function can do the complete calculation internally and
->> will thus give a more accurate result.
->>
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->> ---
->> The 64x64->128 multiply is a bit painful for 32-bit and I
->> guess in theory since we know we only want bits [95:32]
->> of the result we could special-case it, but TBH I don't
->> think 32-bit hosts merit much optimization effort these days.
->> ---
->>   docs/devel/clocks.rst | 15 +++++++++++++++
->>   include/hw/clock.h    | 29 +++++++++++++++++++++++++++++
->>   2 files changed, 44 insertions(+)
->>
->> diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
->> index e5da28e2111..aebeedbb95e 100644
->> --- a/docs/devel/clocks.rst
->> +++ b/docs/devel/clocks.rst
->> @@ -258,6 +258,21 @@ Here is an example:
->>                           clock_get_ns(dev->my_clk_input));
->>       }
->>   
->> +Calculating expiry deadlines
->> +----------------------------
->> +
->> +A commonly required operation for a clock is to calculate how long
->> +it will take for the clock to tick N times; this can then be used
->> +to set a timer expiry deadline. Use the function ``clock_ticks_to_ns()``,
->> +which takes an unsigned 64-bit count of ticks and returns the length
->> +of time in nanoseconds required for the clock to tick that many times.
->> +
->> +It is important not to try to calculate expiry deadlines using a
->> +shortcut like multiplying a "period of clock in nanoseconds" value
->> +by the tick count, because clocks can have periods which are not a
->> +whole number of nanoseconds, and the accumulated error in the
->> +multiplication can be significant.
->> +
->>   Changing a clock period
->>   -----------------------
->>   
->> diff --git a/include/hw/clock.h b/include/hw/clock.h
->> index 81bcf3e505a..a9425d9fb14 100644
->> --- a/include/hw/clock.h
->> +++ b/include/hw/clock.h
->> @@ -16,6 +16,7 @@
->>   
->>   #include "qom/object.h"
->>   #include "qemu/queue.h"
->> +#include "qemu/host-utils.h"
->>   
->>   #define TYPE_CLOCK "clock"
->>   OBJECT_DECLARE_SIMPLE_TYPE(Clock, CLOCK)
->> @@ -218,6 +219,34 @@ static inline unsigned clock_get_ns(Clock *clk)
->>       return CLOCK_PERIOD_TO_NS(clock_get(clk));
->>   }
->>   
->> +/**
->> + * clock_ticks_to_ns:
->> + * @clk: the clock to query
->> + * @ticks: number of ticks
->> + *
->> + * Returns the length of time in nanoseconds for this clock
->> + * to tick @ticks times. Because a clock can have a period
->> + * which is not a whole number of nanoseconds, it is important
->> + * to use this function when calculating things like timer
->> + * expiry deadlines, rather than attempting to obtain a "period
->> + * in nanoseconds" value and then multiplying that by a number
->> + * of ticks.
->> + */
->> +static inline uint64_t clock_ticks_to_ns(const Clock *clk, uint64_t ticks)
->> +{
->> +    uint64_t ns_low, ns_high;
->> +
->> +    /*
->> +     * clk->period is the period in units of 2^-32 ns, so
->> +     * (clk->period * ticks) is the required length of time in those
->> +     * units, and we can convert to nanoseconds by multiplying by
->> +     * 2^32, which is the same as shifting the 128-bit multiplication
->> +     * result right by 32.
->> +     */
->> +    mulu64(&ns_low, &ns_high, clk->period, ticks);
->> +    return ns_low >> 32 | ns_high << 32;
+On 12/8/20 7:15 PM, Peter Maydell wrote:
+> Currently the MIPS code uses the old clock_get_ns() API to
+> calculate a time length in nanoseconds:
+>   cpu->cp0_count_rate * clock_get_ns(MIPS_CPU(cpu)->clock)
 > 
-> With the shift, you're discarding the high 32 bits of the result.  You'll lose
-> those same bits if you shift one of the inputs left by 32, and use only the
-> high part of the result, e.g.
+> This relies on the clock having a period which is an exact number
+> of nanoseconds.
 > 
->      mulu(&discard, &ret, clk->period, ticks << 32);
->      return ret;
+> Switch to the new clock_ticks_to_ns() function, which does the
+> multiplication internally at a higher precision.
 > 
-> Which on some hosts, e.g. aarch64, only requires umulh and not two multiply
-> instructions.
-> 
-> Either way, I wonder if you want to either use uint32_t ticks, or assert that
-> ticks <= UINT32_MAX?  Or if you don't shift ticks, assert that ns_high <=
-> UINT32_MAX, so that you don't lose output bits?
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-If I'm not mistaken, loosing bits in the 32 bits upper part would mean 
-that the number of ticks correspond to a period greater or equal to:
-   2^96 ns ~= 251230855258 years.
-So I guess this case is not that relevant anyways. Maybe asserting here 
-would help the developer using this function to catch a bug in her/his code.
+Reviewed-by: Luc Michel <luc@lmichel.fr>
 
+> ---
+>   target/mips/cpu.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> 
-> r~
+> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+> index 76d50b00b42..de15ec6068a 100644
+> --- a/target/mips/cpu.c
+> +++ b/target/mips/cpu.c
+> @@ -147,8 +147,8 @@ static void mips_cp0_period_set(MIPSCPU *cpu)
+>   {
+>       CPUMIPSState *env = &cpu->env;
+>   
+> -    env->cp0_count_ns = cpu->cp0_count_rate
+> -                        * clock_get_ns(MIPS_CPU(cpu)->clock);
+> +    env->cp0_count_ns = clock_ticks_to_ns(MIPS_CPU(cpu)->clock,
+> +                                          cpu->cp0_count_rate);
+>       assert(env->cp0_count_ns);
+>   }
+>   
 > 
 
