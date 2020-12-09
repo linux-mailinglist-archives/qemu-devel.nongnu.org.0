@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5010A2D48FC
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 19:29:51 +0100 (CET)
-Received: from localhost ([::1]:35308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652692D490A
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 19:32:31 +0100 (CET)
+Received: from localhost ([::1]:39690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn4Dm-00041N-B7
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 13:29:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52182)
+	id 1kn4GK-00060H-RP
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 13:32:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3tM-0002MO-HG
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:08:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27903)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3rt-0001QJ-TO
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:07:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3tK-00089W-Kf
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:08:44 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3rr-0007iz-6R
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:07:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607537321;
+ s=mimecast20190719; t=1607537230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9RFF5IIg4Ekdu4nz+jRqhTZiRa2N98qwhPD7+O5MB5A=;
- b=UjWC8/m0o7zx50g54I0CsyZ00MD1pa13IRPoG5p4+kOFBjgLC83pVUP7h7SFbPXIPF/l17
- Lp7SzXwVlibn5uKiUUsf+FN0AA2AleUxCKthXq/IOV0hDEW52O3jjUHGlr1FtDnZhQFaJD
- 6O/a4TV5ijAeRWjQnmGOKnNDim5X1yk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-HGpVb2UgP1Ssn1SrKT3qBA-1; Wed, 09 Dec 2020 13:08:39 -0500
-X-MC-Unique: HGpVb2UgP1Ssn1SrKT3qBA-1
-Received: by mail-wm1-f70.google.com with SMTP id b4so819354wmj.4
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:08:39 -0800 (PST)
+ bh=zxJ3f9AkcimEoHVGFWIULEfxtXcI3G+nN2yyJC0qTJU=;
+ b=TJ7u0oAF2K0iZ7jdUymuFu0V7ZFUYPobowPmI4eiUyv9kuxdBUJtmL6YZCNfzXCkdLau+Z
+ ks9uS4TXIRu6+1zGNktfEkPq8C6vuH7GDzfu2TUxRLqc++77aD2x4OZY0mE0Tn1OoqfmIs
+ +ToDYyESqJ4VBbz2H4rJ+KtHzeuJLxQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-ONaq8ufYNzC251S1rZI1zQ-1; Wed, 09 Dec 2020 13:07:07 -0500
+X-MC-Unique: ONaq8ufYNzC251S1rZI1zQ-1
+Received: by mail-wr1-f70.google.com with SMTP id j5so948927wro.12
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:07:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=5YIE8TOZ0aPYSq7YQ6myb7vJz28nvuSjnYuTinySwjY=;
- b=W2E90sndbTpTzNmljaS/b/zECe9/r63fkHlMxCYRLqQS1vZVVyED1xTqcle6p/LC8A
- Oxd2bhM6ff7d3bAaPJf/7PDQd3O6W2PkqTB82SLKvVZt89jSGfKztoHGj4P4IS2VTYZX
- x5mr1CJ2XjBE8Jw5YFjCXBZUWbW5oIZa2+tCD5bx23ReMoS7ZyQU6ArQEFiIcMN7V1x+
- DTJSwqoPEUYPXTnPIGBH0unnOwvZ3yAfNdBBPiSFc4jnCrZDLFreRr8ysmKD14x/1uSY
- ALsAROMYKWG3713wGnfFkquYIZXf48tVv4cmGnP7TnIjiPKfU+/8N2rFyeSyAyFxaPX5
- 1hwA==
-X-Gm-Message-State: AOAM531gO1QPxDnNk5bRnKDVhJAz0dF9WzysTCd//aj4dhv97341bpy6
- xGg6P549Omh8Vn6GcNZ7AlpqzwV/wnmeJe56Ge0Dc5A9OhAB/rlRukGLbdNm0flz5XhUyxZWT3J
- g1Q/Q3h+y3iN4bkE=
-X-Received: by 2002:adf:ebd2:: with SMTP id v18mr3982049wrn.322.1607537318745; 
- Wed, 09 Dec 2020 10:08:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxVcp8S41ZaJ40b9+ZVN74YngQp5qaaGK9Fdgm1HGUXVqmv23az+1UfKhXtqRcrq3Kh2rq0Fg==
-X-Received: by 2002:adf:ebd2:: with SMTP id v18mr3982020wrn.322.1607537318381; 
- Wed, 09 Dec 2020 10:08:38 -0800 (PST)
+ bh=zxJ3f9AkcimEoHVGFWIULEfxtXcI3G+nN2yyJC0qTJU=;
+ b=ZBgcuIMOXKJa7uhOvhB2JuRtVV+byVUDqKJUTABjlbggKG13sq+7Jt6BZuEvB7OCdC
+ thQdAEAceCtUQ3I0liY9iMYMazaVOkLY69y+FvPXyrGphbaD5AmUDpMKGeT1VoZNNxyv
+ g3sBDc9Sl7SFneOucD1cZS2LIiTY2vxRaKCZ9hUaGAPkdb8vdQqJg67F1zfNIulQoUgX
+ SxfR6M1oW73vJr4b16R5mpg2z+3OHEO5UjBFIwhvJ9HpcqsCxnwgatnlft9BHv1jDUVA
+ IJiOkYKQAfTWE4QuHcFPwyPg3cYhFSgdsJ3m9GEFPwPQw24vwqZM1JZSxoP0vTPDcSph
+ Yh0Q==
+X-Gm-Message-State: AOAM531HqztssMGc1EdaHT/pV91dsdcMF8YTITbgTbZPJf+zOF4K5NcF
+ UPGAcdwGIgXBb17GiwT1d868zJMm+e7SYBsPvGbR1kIcjVpyowG3q1z/DsSMGmjLEAzpzoMVttY
+ CJL1S7aNSMZSGPqYcp7mm+GRYkwZ1rhneVvej+CU5kMLmvTd0tfgqOhMTwLUB
+X-Received: by 2002:adf:dd90:: with SMTP id x16mr3950373wrl.85.1607537226087; 
+ Wed, 09 Dec 2020 10:07:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVC6oR2ZrKX9VPHlDs/pKJHwvwr60/ZT4uH5qmXowcMrZ6PGPpOO6b2UuGEPaLD+c/UtLTEA==
+X-Received: by 2002:adf:dd90:: with SMTP id x16mr3950348wrl.85.1607537225821; 
+ Wed, 09 Dec 2020 10:07:05 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id f7sm4860205wmc.1.2020.12.09.10.08.36
+ by smtp.gmail.com with ESMTPSA id z17sm4486307wrh.88.2020.12.09.10.07.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 10:08:37 -0800 (PST)
-Date: Wed, 9 Dec 2020 13:08:34 -0500
+ Wed, 09 Dec 2020 10:07:05 -0800 (PST)
+Date: Wed, 9 Dec 2020 13:07:03 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 6/8] libvhost-user: check memfd API
-Message-ID: <20201209130729-mutt-send-email-mst@kernel.org>
-References: <20201125100640.366523-1-marcandre.lureau@redhat.com>
- <20201125100640.366523-7-marcandre.lureau@redhat.com>
- <20201202142753.GH655829@stefanha-x1.localdomain>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 06/65] memory: Skip bad range assertion if notifier is
+ DEVIOTLB_UNMAP type
+Message-ID: <20201209180546.721296-7-mst@redhat.com>
+References: <20201209180546.721296-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201202142753.GH655829@stefanha-x1.localdomain>
+In-Reply-To: <20201209180546.721296-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
@@ -95,35 +96,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Peter Xu <peterx@redhat.com>,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 02, 2020 at 02:27:53PM +0000, Stefan Hajnoczi wrote:
-> On Wed, Nov 25, 2020 at 02:06:38PM +0400, marcandre.lureau@redhat.com wrote:
-> > From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > 
-> > Do not compile potentially panicking code, instead check memfd API is
-> > present during configure time.
-> > 
-> > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  subprojects/libvhost-user/libvhost-user.c |  6 ------
-> >  subprojects/libvhost-user/meson.build     | 12 ++++++++++++
-> >  2 files changed, 12 insertions(+), 6 deletions(-)
-> 
-> Runtime checks are useful in environments where the QEMU and kernel
-> version are not matched. In other words, if QEMU can be built against
-> new kernel headers and launched on an old kernel then it needs to handle
-> ENOSYS. But in some cases this situation is unlikely and we can stick to
-> static feature checks. I'm not sure if it matters here, so...
-> 
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+From: Eugenio Pérez <eperezma@redhat.com>
 
-It's a good point, and given this patch also made build fail on a bunch
-of systems, I dropped it.
+Device IOTLB invalidations can unmap arbitrary ranges, eiter outside of
+the memory region or even [0, ~0ULL] for all the space. The assertion
+could be hit by a guest, and rhel7 guest effectively hit it.
 
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20201116165506.31315-6-eperezma@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ softmmu/memory.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 6ca87e8d73..22bacbbc78 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1947,6 +1947,7 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
+ {
+     IOMMUTLBEntry *entry = &event->entry;
+     hwaddr entry_end = entry->iova + entry->addr_mask;
++    IOMMUTLBEntry tmp = *entry;
+ 
+     if (event->type == IOMMU_NOTIFIER_UNMAP) {
+         assert(entry->perm == IOMMU_NONE);
+@@ -1960,10 +1961,16 @@ void memory_region_notify_iommu_one(IOMMUNotifier *notifier,
+         return;
+     }
+ 
+-    assert(entry->iova >= notifier->start && entry_end <= notifier->end);
++    if (notifier->notifier_flags & IOMMU_NOTIFIER_DEVIOTLB_UNMAP) {
++        /* Crop (iova, addr_mask) to range */
++        tmp.iova = MAX(tmp.iova, notifier->start);
++        tmp.addr_mask = MIN(entry_end, notifier->end) - tmp.iova;
++    } else {
++        assert(entry->iova >= notifier->start && entry_end <= notifier->end);
++    }
+ 
+     if (event->type & notifier->notifier_flags) {
+-        notifier->notify(notifier, entry);
++        notifier->notify(notifier, &tmp);
+     }
+ }
+ 
 -- 
 MST
 
