@@ -2,57 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E39B42D4790
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:11:32 +0100 (CET)
-Received: from localhost ([::1]:36910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E99F2D47B5
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:19:26 +0100 (CET)
+Received: from localhost ([::1]:54702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn2zz-0006Pv-US
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:11:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36184)
+	id 1kn37d-00062w-Mb
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:19:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kn2pz-0006Th-8m
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:11 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54004)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kn2pw-0000qa-VB
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:10 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-7YL6mpyEP3KxcjVP4aScNA-1; Wed, 09 Dec 2020 12:01:04 -0500
-X-MC-Unique: 7YL6mpyEP3KxcjVP4aScNA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2BFE803627;
- Wed,  9 Dec 2020 17:01:02 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-113-78.ams2.redhat.com [10.36.113.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8BDF5D6CF;
- Wed,  9 Dec 2020 17:01:01 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kn2q2-0006YI-Dx
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:15 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36392)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kn2ps-0000pT-Ut
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:13 -0500
+Received: by mail-wm1-x341.google.com with SMTP id y23so2437287wmi.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 09:01:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F/OufLkcg2BRq+en8GKAvZBJDlSbU413z51RYXACQ28=;
+ b=xk/OrSG5qRvK5b2BfkMYRywPqg9eNWL6ITO7UaedTM6TyVZFQxrEN5GwZnb7oYYfcZ
+ TBxE7lw04fXRwMLZ/+erQdCrqu7UAfoOljBrS7PlezoYq2sLZqS2IPpqCsBcki/O1gNg
+ mP+IeMnfu7snK0nq7s+lLnK12/48B71zn0/huRPqwbClrrrDhupZezWHTZbAvxPPzGJc
+ PfVo1jKD3vFDhvqj42HY9hwiJt+NiJLz7RTW/klnwV81FGhhMIoRtYBMdkuRPuTeyI9o
+ v0/P6Qm3hr0XJCWKCkiIf85SCNaqbxfJXj+WYgZRaus7BHjWmA+8tkSzovJLMRZbTlPv
+ XMvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=F/OufLkcg2BRq+en8GKAvZBJDlSbU413z51RYXACQ28=;
+ b=ajjPIRzciGv5snywqFrWRZY15z64d9WIgjJhSwhKxkRtzpClfjReBnnb/TdQPmKfCT
+ Kwyq92SKbBeiKumae/OVIzMZ8C9qwzAKzA7RCd8B54oKPkg6svI/MbfbfRIpgy3+Dh1y
+ c7t3IPlHlrtschW3+VMEPChs286yT/348BbAvN6SGPD9S2o4lBz++wAsTipVsxjWnFKP
+ uvHS2qElRBbhYa1urtpwd4xeq4AOhXUcle+LxziisZkEiP00jErTwoUaWFPsOMLAwEXm
+ p9U2dIH/CXGC/O7GT0XyjEpgOHqOeKV0a6rrlHi1hnfX4Xjrug1oyBgx0ehPw2DWBWv0
+ yyxw==
+X-Gm-Message-State: AOAM531yWz2jhWtERn18sHrbPJSIh5UVc5VGcZRC0k2OYePhcCQtKYD0
+ 6MxHDz/DvKCWJzd50MGRzLPmVQ==
+X-Google-Smtp-Source: ABdhPJwR0mklEPkgfZjjkeeNb/O8FoDJ5ENPWC4IyQGOyhhEOHIHdZ7EIxfpEhLT8Jt6Qhl5HiSOxQ==
+X-Received: by 2002:a05:600c:210e:: with SMTP id
+ u14mr3831100wml.48.1607533262097; 
+ Wed, 09 Dec 2020 09:01:02 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h5sm5017230wrp.56.2020.12.09.09.00.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Dec 2020 09:00:59 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 365771FF7E;
+ Wed,  9 Dec 2020 17:00:59 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] target/ppc: Add mce_req_event() handler to
- PPCVirtualHypervisorClass
-Date: Wed,  9 Dec 2020 18:00:52 +0100
-Message-Id: <20201209170052.1431440-7-groug@kaod.org>
-In-Reply-To: <20201209170052.1431440-1-groug@kaod.org>
-References: <20201209170052.1431440-1-groug@kaod.org>
+Subject: [PATCH  v1 0/6] testing/next (without-features, gitlab, python)
+Date: Wed,  9 Dec 2020 17:00:53 +0000
+Message-Id: <20201209170059.20742-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,114 +85,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
+ stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kvm_handle_nmi() directly calls spapr_mce_req_event() which is machine
-level code. Apart from being ugly, this forces spapr_mce_req_event()
-to rely on qdev_get_machine() to get a pointer to the machine state.
-This is a bit unfortunate since POWER CPUs have a backlink to the
-virtual hypervisor, which happens to be the machine itself with
-sPAPR.
+Hi,
 
-Turn spapr_mce_req_event() into a PPC virtual hypervisor operation,
-and adapt kvm_handle_nmi() to call it as such.
+With another release away time to start the ball rolling with testing
+patches again. Not much in the current queue but few little configure
+tweaks and a working version of --without-default-features. Currently
+combined with --without-default-devices it's not super useful but on
+it's own it cuts a fair amount of weight from the build.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- include/hw/ppc/spapr.h | 3 ++-
- target/ppc/cpu.h       | 2 ++
- hw/ppc/spapr.c         | 1 +
- hw/ppc/spapr_events.c  | 5 +++--
- target/ppc/kvm.c       | 9 +++++++--
- 5 files changed, 15 insertions(+), 5 deletions(-)
+Alex Bennée (6):
+  configure: include moxie-softmmu in deprecated_targets_list
+  gitlab: include aarch64-softmmu and ppc64-softmmu cross-system-build
+  configure: add --without-default-features
+  python: add __repr__ to ConsoleSocket to aid debugging
+  gitlab: move --without-default-devices build from Travis
+  gitlab: add --without-default-features build
 
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index e0f10f252c08..476c5b809794 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -852,7 +852,8 @@ void spapr_clear_pending_hotplug_events(SpaprMachineSta=
-te *spapr);
- int spapr_max_server_number(SpaprMachineState *spapr);
- void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
-                       uint64_t pte0, uint64_t pte1);
--void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
-+void spapr_mce_req_event(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
-+                         bool recovered);
- bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr);
-=20
- /* DRC callbacks. */
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 2609e4082ed8..5bac68aec826 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1219,6 +1219,8 @@ struct PPCVirtualHypervisorClass {
-     target_ulong (*encode_hpt_for_kvm_pr)(PPCVirtualHypervisor *vhyp);
-     void (*cpu_exec_enter)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-     void (*cpu_exec_exit)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu);
-+    void (*mce_req_event)(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
-+                          bool recovered);
- };
-=20
- #define TYPE_PPC_VIRTUAL_HYPERVISOR "ppc-virtual-hypervisor"
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index aca7d7af283a..09fc605f11ba 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4441,6 +4441,7 @@ static void spapr_machine_class_init(ObjectClass *oc,=
- void *data)
-     vhc->encode_hpt_for_kvm_pr =3D spapr_encode_hpt_for_kvm_pr;
-     vhc->cpu_exec_enter =3D spapr_cpu_exec_enter;
-     vhc->cpu_exec_exit =3D spapr_cpu_exec_exit;
-+    vhc->mce_req_event =3D spapr_mce_req_event;
-     xic->ics_get =3D spapr_ics_get;
-     xic->ics_resend =3D spapr_ics_resend;
-     xic->icp_get =3D spapr_icp_get;
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 3f37b49fd8ad..8e988eb939da 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -868,9 +868,10 @@ static void spapr_mce_dispatch_elog(SpaprMachineState =
-*spapr, PowerPCCPU *cpu,
-     ppc_cpu_do_fwnmi_machine_check(cs, spapr->fwnmi_machine_check_addr);
- }
-=20
--void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
-+void spapr_mce_req_event(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu,
-+                         bool recovered)
- {
--    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-+    SpaprMachineState *spapr =3D SPAPR_MACHINE(vhyp);
-     CPUState *cs =3D CPU(cpu);
-     int ret;
-     Error *local_err =3D NULL;
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index daf690a67820..ba6edf178a39 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2816,10 +2816,15 @@ int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run =
-*run)
- {
-     uint16_t flags =3D run->flags & KVM_RUN_PPC_NMI_DISP_MASK;
-=20
--    cpu_synchronize_state(CPU(cpu));
-+    if (cpu->vhyp) {
-+        PPCVirtualHypervisorClass *vhc =3D
-+            PPC_VIRTUAL_HYPERVISOR_GET_CLASS(cpu->vhyp);
-=20
--    spapr_mce_req_event(cpu, flags =3D=3D KVM_RUN_PPC_NMI_DISP_FULLY_RECOV=
-);
-+        cpu_synchronize_state(CPU(cpu));
-=20
-+        vhc->mce_req_event(cpu->vhyp, cpu,
-+                           flags =3D=3D KVM_RUN_PPC_NMI_DISP_FULLY_RECOV);
-+    }
-     return 0;
- }
- #endif
---=20
-2.26.2
+ configure                     | 161 +++++++++++++++++++---------------
+ .gitlab-ci.d/crossbuilds.yml  |   4 +-
+ .gitlab-ci.yml                |  16 +++-
+ .travis.yml                   |   8 --
+ python/qemu/console_socket.py |   7 ++
+ 5 files changed, 113 insertions(+), 83 deletions(-)
+
+-- 
+2.20.1
 
 
