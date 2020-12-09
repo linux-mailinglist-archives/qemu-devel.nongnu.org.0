@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ACF42D4917
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 19:35:49 +0100 (CET)
-Received: from localhost ([::1]:48326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCB12D492C
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 19:40:27 +0100 (CET)
+Received: from localhost ([::1]:56822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn4JY-0001CO-40
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 13:35:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51652)
+	id 1kn4Ny-0004lv-VZ
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 13:40:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3sI-0001sr-8E
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:07:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56773)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3sb-0001yD-C2
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:08:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3sF-0007rD-RF
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:07:38 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kn3sV-0007w0-I7
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 13:07:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607537254;
+ s=mimecast20190719; t=1607537269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aC7Cd6TYlILALJJv5OMkXJYmgQWD2IPIt7fFj22zuwI=;
- b=jTDP7SJW2hlDMu8XSHDZ1JpLwekWrQ5g0KZz4YOIhQUfazYOSu9piGfRbcLG8lqSkmztR7
- 9EEZC7sWLG3vNWdQ8VQlubfSCOojFt82PJbTa/+0vWVbNKU+DaFb2JP62I5FEpd18x3823
- D+FWvmQYEbwnELAogSduYFGzsNgilk0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-BndqvIoMM72A4goj1UPcMQ-1; Wed, 09 Dec 2020 13:07:32 -0500
-X-MC-Unique: BndqvIoMM72A4goj1UPcMQ-1
-Received: by mail-wm1-f72.google.com with SMTP id b4so818092wmj.4
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:07:32 -0800 (PST)
+ bh=mzQ1+jPNPrN4c5K1M4rWE8GS0J7EkEqlO41LOzITqvE=;
+ b=PCnoVVpUj8hrq6jrOqSTisY55Oj3bIUaGqW083rMCy41lFTOzwFXSJo1XZT4xTMlXILOXF
+ uIniEO8rfBUa3+zQhwD5sADohgX9I0WmxRW+0Z3Nb7bNG9RIrLrV4vbbDw8EmBUQum4FOq
+ eMBGq4CTSaJTZycpQ6FpfrfRxSNGZ34=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-GCz_hle0NW-XCmIae0YdFA-1; Wed, 09 Dec 2020 13:07:46 -0500
+X-MC-Unique: GCz_hle0NW-XCmIae0YdFA-1
+Received: by mail-wr1-f71.google.com with SMTP id b5so951019wrp.3
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 10:07:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=aC7Cd6TYlILALJJv5OMkXJYmgQWD2IPIt7fFj22zuwI=;
- b=tnhFJOT7tu34LBKuLYFaEOVCrqAjsYlol2mV69TFkGHZdDker4yckftA3XrnqB07Ru
- 2YvKIlWNEY0FnglE5mqVpUvHgIac+dhGOrcgXjS5kVUTJI/UohAOO0lXsmvcGVs7s30P
- K90OEYm9fFUdp6MTIw3UnfMvgxwiuJKJSuFilYzosQGkfqq13RD+mYMh+/BPZ01iLsoV
- oqgVEOtxHEoSBYPCiy7wUhrxXftxMHBynREojnuCF0Je6tVTohHAF2lBMOmmopqBmLuu
- Xpg2Mr+E2VqOmch6zlqMcoWwYrpkS5+u5zo+b59cjj2a8G9HIQ5U4+RpP2la/4BzlxHd
- m4FQ==
-X-Gm-Message-State: AOAM5309mgbmE7vAnddxXKjwfEd+xF4rUqH0nulO+u0Vddu+0N6UK0KE
- hLtWHECMVnd9iaUJYMCt8p+fU3FG3uMELVgl297W5T+YKR2RcYE838FfjRRvdQv48EW0qeDwq3r
- Ya3jj8/2PAwh37tkXQm9Rl7UN2Wnu8wwTeHUbldJNXUPbHvz7Hl4TM+HXOgIQ
-X-Received: by 2002:a5d:464b:: with SMTP id j11mr4031579wrs.227.1607537251054; 
- Wed, 09 Dec 2020 10:07:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwrpaR+96Fm3Qx/dQWw6n8bWAkplFKCscSQm7Uy4zB0zIS8i86a5OeQVmT7M9eJa0Ofc1viKw==
-X-Received: by 2002:a5d:464b:: with SMTP id j11mr4031547wrs.227.1607537250816; 
- Wed, 09 Dec 2020 10:07:30 -0800 (PST)
+ bh=mzQ1+jPNPrN4c5K1M4rWE8GS0J7EkEqlO41LOzITqvE=;
+ b=RXD8TjepowOCOZFNNpMwuR1DoyB8GE0atDpls2npymmUFKjcn+OYWpggQrlBbBucQi
+ SaOn94yA6iw9Y4T9CSgARMrWOhhsUWU+28lS2EoTI4D6zYx6RKtvMZxAMtyZ42ploe89
+ 3hHDOrJfuxVadQAX2if5uAq6s9p3bWLTsk5I+DCLTkBuvHs4LvecRHABSTIEHlIHBTHh
+ LGUXJhsFU2l9ohsCby9WGP1s7ckYnnqOUG0CDjscBILmrE1o2ljHlI3lFEgqIoK80q+c
+ MuoTSuSgE7BlFJkNJfE4HxD1rf6C1njsoUSn4SI2rOAq37j74eLDAJFD5xjY5B1LSUGr
+ GS4A==
+X-Gm-Message-State: AOAM531TkL4+2TjeTPZbNT719anktHMNGCSV6xJhWqO+lRFCX4ORIqtS
+ EwDMH0DCPUytGLQR+4wLm6Cl2l1QNNDpZzf2JXRjYmOu+7t0SwysVBaEaGzbIGrXA/GEOlmHm4h
+ nA1s031OD/9ZpYNsMmCmb6LwgWlCVhlM8kT6luFhPAUfWbav9BbAC9N9r9dbn
+X-Received: by 2002:adf:e704:: with SMTP id c4mr4059599wrm.355.1607537265113; 
+ Wed, 09 Dec 2020 10:07:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwbDB41aQvYtH7TuFbS+Mr9Gpd9x94WQqS5vrxZPBMS30J4UVQnHQES4YzsjoeVC57zFQbEJw==
+X-Received: by 2002:adf:e704:: with SMTP id c4mr4059563wrm.355.1607537264865; 
+ Wed, 09 Dec 2020 10:07:44 -0800 (PST)
 Received: from redhat.com (bzq-79-176-44-197.red.bezeqint.net. [79.176.44.197])
- by smtp.gmail.com with ESMTPSA id s13sm4490435wmj.28.2020.12.09.10.07.23
+ by smtp.gmail.com with ESMTPSA id a21sm4561894wmb.38.2020.12.09.10.07.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 10:07:30 -0800 (PST)
-Date: Wed, 9 Dec 2020 13:07:14 -0500
+ Wed, 09 Dec 2020 10:07:44 -0800 (PST)
+Date: Wed, 9 Dec 2020 13:07:42 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 09/65] fw_cfg: Refactor extra pci roots addition
-Message-ID: <20201209180546.721296-10-mst@redhat.com>
+Subject: [PULL v2 12/65] acpi/gpex: Build tables for pxb
+Message-ID: <20201209180546.721296-13-mst@redhat.com>
 References: <20201209180546.721296-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201209180546.721296-1-mst@redhat.com>
@@ -79,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,128 +93,147 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jiahui Cen <cenjiahui@huawei.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Yubo Miao <miaoyubo@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Shannon Zhao <shannon.zhaosl@gmail.com>, Yubo Miao <miaoyubo@huawei.com>,
+ qemu-arm@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jiahui Cen <cenjiahui@huawei.com>
+From: Yubo Miao <miaoyubo@huawei.com>
 
-Extract extra pci roots addition from pc machine, which could be used by
-other machines.
+The resources of pxbs are obtained by crs_build and the resources
+used by pxbs would be moved from the resources defined for host-bridge.
 
-In order to make uefi get the extra roots, it is necessary to write extra
-roots into fw_cfg. And only if the uefi knows there are extra roots,
-the config spaces of devices behind the root could be obtained.
+The resources for pxb are composed of following two parts:
+1. The bar space of the pci-bridge/pcie-root-port behined it
+2. The config space of devices behind it.
 
-Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 Signed-off-by: Yubo Miao <miaoyubo@huawei.com>
-Message-Id: <20201119014841.7298-3-cenjiahui@huawei.com>
+Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+Message-Id: <20201119014841.7298-6-cenjiahui@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/nvram/fw_cfg.h |  9 +++++++++
- hw/i386/pc.c              | 18 +-----------------
- hw/nvram/fw_cfg.c         | 23 +++++++++++++++++++++++
- 3 files changed, 33 insertions(+), 17 deletions(-)
+ include/hw/pci-host/gpex.h |  1 +
+ hw/arm/virt-acpi-build.c   |  6 +++--
+ hw/pci-host/gpex-acpi.c    | 54 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 59 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
-index 8a9f5738bf..0e7a8bc7af 100644
---- a/include/hw/nvram/fw_cfg.h
-+++ b/include/hw/nvram/fw_cfg.h
-@@ -308,6 +308,15 @@ void *fw_cfg_modify_file(FWCfgState *s, const char *filename, void *data,
- bool fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
-                                const char *gen_id, Error **errp);
+diff --git a/include/hw/pci-host/gpex.h b/include/hw/pci-host/gpex.h
+index d52ea80d4e..d48a020a95 100644
+--- a/include/hw/pci-host/gpex.h
++++ b/include/hw/pci-host/gpex.h
+@@ -59,6 +59,7 @@ struct GPEXConfig {
+     MemMapEntry mmio64;
+     MemMapEntry pio;
+     int         irq;
++    PCIBus      *bus;
+ };
  
-+/**
-+ * fw_cfg_add_extra_pci_roots:
-+ * @bus: main pci root bus to be scanned from
-+ * @s: fw_cfg device being modified
-+ *
-+ * Add a new fw_cfg item...
-+ */
-+void fw_cfg_add_extra_pci_roots(PCIBus *bus, FWCfgState *s);
-+
- FWCfgState *fw_cfg_init_io_dma(uint32_t iobase, uint32_t dma_iobase,
-                                 AddressSpace *dma_as);
- FWCfgState *fw_cfg_init_io(uint32_t iobase);
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 17b514d1da..76a846ff9a 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -777,27 +777,11 @@ void pc_machine_done(Notifier *notifier, void *data)
-     PCMachineState *pcms = container_of(notifier,
-                                         PCMachineState, machine_done);
-     X86MachineState *x86ms = X86_MACHINE(pcms);
--    PCIBus *bus = pcms->bus;
- 
-     /* set the number of CPUs */
-     x86_rtc_set_cpus_count(x86ms->rtc, x86ms->boot_cpus);
- 
--    if (bus) {
--        int extra_hosts = 0;
--
--        QLIST_FOREACH(bus, &bus->child, sibling) {
--            /* look for expander root buses */
--            if (pci_bus_is_root(bus)) {
--                extra_hosts++;
--            }
--        }
--        if (extra_hosts && x86ms->fw_cfg) {
--            uint64_t *val = g_malloc(sizeof(*val));
--            *val = cpu_to_le64(extra_hosts);
--            fw_cfg_add_file(x86ms->fw_cfg,
--                    "etc/extra-pci-roots", val, sizeof(*val));
--        }
--    }
-+    fw_cfg_add_extra_pci_roots(pcms->bus, x86ms->fw_cfg);
- 
-     acpi_setup();
-     if (x86ms->fw_cfg) {
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index 08539a1aab..282ba93e2e 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -40,6 +40,7 @@
- #include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "hw/acpi/aml-build.h"
-+#include "hw/pci/pci_bus.h"
- 
- #define FW_CFG_FILE_SLOTS_DFLT 0x20
- 
-@@ -1061,6 +1062,28 @@ bool fw_cfg_add_from_generator(FWCfgState *s, const char *filename,
-     return true;
+ int gpex_set_irq_num(GPEXHost *s, int index, int gsi);
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 9747a6458f..e0bed9037c 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -153,7 +153,8 @@ static void acpi_dsdt_add_virtio(Aml *scope,
  }
  
-+void fw_cfg_add_extra_pci_roots(PCIBus *bus, FWCfgState *s)
-+{
-+    int extra_hosts = 0;
+ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+-                              uint32_t irq, bool use_highmem, bool highmem_ecam)
++                              uint32_t irq, bool use_highmem, bool highmem_ecam,
++                              VirtMachineState *vms)
+ {
+     int ecam_id = VIRT_ECAM_ID(highmem_ecam);
+     struct GPEXConfig cfg = {
+@@ -161,6 +162,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+         .pio    = memmap[VIRT_PCIE_PIO],
+         .ecam   = memmap[ecam_id],
+         .irq    = irq,
++        .bus    = vms->bus,
+     };
+ 
+     if (use_highmem) {
+@@ -609,7 +611,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     acpi_dsdt_add_virtio(scope, &memmap[VIRT_MMIO],
+                     (irqmap[VIRT_MMIO] + ARM_SPI_BASE), NUM_VIRTIO_TRANSPORTS);
+     acpi_dsdt_add_pci(scope, memmap, (irqmap[VIRT_PCIE] + ARM_SPI_BASE),
+-                      vms->highmem, vms->highmem_ecam);
++                      vms->highmem, vms->highmem_ecam, vms);
+     if (vms->acpi_dev) {
+         build_ged_aml(scope, "\\_SB."GED_DEVICE,
+                       HOTPLUG_HANDLER(vms->acpi_dev),
+diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+index 32a9f2796d..7f20ee1c98 100644
+--- a/hw/pci-host/gpex-acpi.c
++++ b/hw/pci-host/gpex-acpi.c
+@@ -1,6 +1,10 @@
+ #include "qemu/osdep.h"
+ #include "hw/acpi/aml-build.h"
+ #include "hw/pci-host/gpex.h"
++#include "hw/arm/virt.h"
++#include "hw/pci/pci_bus.h"
++#include "hw/pci/pci_bridge.h"
++#include "hw/pci/pcie_host.h"
+ 
+ static void acpi_dsdt_add_pci_route_table(Aml *dev, uint32_t irq)
+ {
+@@ -124,7 +128,57 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+ {
+     int nr_pcie_buses = cfg->ecam.size / PCIE_MMCFG_SIZE_MIN;
+     Aml *method, *crs, *dev, *rbuf;
++    PCIBus *bus = cfg->bus;
++    CrsRangeSet crs_range_set;
+ 
++    /* start to construct the tables for pxb */
++    crs_range_set_init(&crs_range_set);
++    if (bus) {
++        QLIST_FOREACH(bus, &bus->child, sibling) {
++            uint8_t bus_num = pci_bus_num(bus);
++            uint8_t numa_node = pci_bus_numa_node(bus);
 +
-+    if (!bus) {
-+        return;
-+    }
++            if (!pci_bus_is_root(bus)) {
++                continue;
++            }
 +
-+    QLIST_FOREACH(bus, &bus->child, sibling) {
-+        /* look for expander root buses */
-+        if (pci_bus_is_root(bus)) {
-+            extra_hosts++;
++            /*
++             * 0 - (nr_pcie_buses - 1) is the bus range for the main
++             * host-bridge and it equals the MIN of the
++             * busNr defined for pxb-pcie.
++             */
++            if (bus_num < nr_pcie_buses) {
++                nr_pcie_buses = bus_num;
++            }
++
++            dev = aml_device("PC%.02X", bus_num);
++            aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
++            aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
++            aml_append(dev, aml_name_decl("_BBN", aml_int(bus_num)));
++            aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
++            aml_append(dev, aml_name_decl("_STR", aml_unicode("pxb Device")));
++            if (numa_node != NUMA_NODE_UNASSIGNED) {
++                aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
++            }
++
++            acpi_dsdt_add_pci_route_table(dev, cfg->irq);
++
++            /*
++             * Resources defined for PXBs are composed by the folling parts:
++             * 1. The resources the pci-brige/pcie-root-port need.
++             * 2. The resources the devices behind pxb need.
++             */
++            crs = build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set);
++            aml_append(dev, aml_name_decl("_CRS", crs));
++
++            acpi_dsdt_add_pci_osc(dev);
++
++            aml_append(scope, dev);
 +        }
 +    }
++    crs_range_set_free(&crs_range_set);
 +
-+    if (extra_hosts && s) {
-+        uint64_t *val = g_malloc(sizeof(*val));
-+        *val = cpu_to_le64(extra_hosts);
-+        fw_cfg_add_file(s, "etc/extra-pci-roots", val, sizeof(*val));
-+    }
-+}
-+
- static void fw_cfg_machine_reset(void *opaque)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
++    /* tables for the main */
+     dev = aml_device("%s", "PCI0");
+     aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
+     aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
 -- 
 MST
 
