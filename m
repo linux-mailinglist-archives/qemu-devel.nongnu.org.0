@@ -2,71 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E172D4732
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:54:09 +0100 (CET)
-Received: from localhost ([::1]:37530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6763A2D4744
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 17:58:07 +0100 (CET)
+Received: from localhost ([::1]:42720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn2jA-0001rh-Kw
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:54:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33460)
+	id 1kn2n0-00048w-GS
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 11:58:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kn2gp-0007xh-Bt
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:51:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <slp@redhat.com>) id 1kn2gm-0005nZ-Ls
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:51:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607532696;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tReWGyepUz23ZTnlnZelJ4Kc+SDqhse3nS+om1kmOcU=;
- b=K6MV+TZ1YV5iH4refHa2oiv5f689zcexllgknKTADB/01jdH3N4hj+MfwzGSGgmwajRF4H
- +C++f9D9zPzBhqZzoGcUKeVCNs6b4DLpAIlasciawXQ5EVd/CcYg5ol8mMq8P8QXIp6Gu4
- mQkbKXKoorNBjAU2mAmcoyVTPJgEVkM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-_KWT8ps9MhiiwKxfNJUImw-1; Wed, 09 Dec 2020 11:51:30 -0500
-X-MC-Unique: _KWT8ps9MhiiwKxfNJUImw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95F7411300F1;
- Wed,  9 Dec 2020 16:51:17 +0000 (UTC)
-Received: from localhost (ovpn-115-46.rdu2.redhat.com [10.10.115.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D03775D719;
- Wed,  9 Dec 2020 16:51:13 +0000 (UTC)
-Date: Wed, 9 Dec 2020 17:51:12 +0100
-From: Sergio Lopez <slp@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 1/2] virtio-blk: Acquire context while switching them on
- dataplane start
-Message-ID: <20201209165112.o46ommtx2xab7lg2@mhamilton>
-References: <20201204165347.73542-1-slp@redhat.com>
- <20201204165347.73542-2-slp@redhat.com>
- <20201207153753.GD5281@merkur.fritz.box>
-MIME-Version: 1.0
-In-Reply-To: <20201207153753.GD5281@merkur.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=slp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wfcebcaqsb2aydis"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=slp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1kn2lX-0003RN-5c
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:56:36 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:45046)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1kn2lT-0007a5-3Q
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 11:56:34 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B9GtRkV045712;
+ Wed, 9 Dec 2020 16:56:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=OT3NgzSHiUqGzAc135vUgmtVNTJDX6Mo4utqIzrG9/c=;
+ b=FARLyNzEp1/64kM1ofRg4wJGZLEfTVKL1JBN/M6Tcp0+hrb7A6fgVTplL7AEUEdx3wzj
+ CxsbJSLa2+99jnM4RcwYbMG16MqFcLNmAhCkSbcPAjTITNdTTH1quuZty5KjS9ii8Crs
+ jkzLrbjSYsevjXzSr92/h2hRWilImev9M8YBVWKbN9STWGBV8J7aXfWZCtboisU5LlM7
+ mO0xKpLxcrPBpgVnLvVk9hClCEmEF61pOL0wWI2IHB0m4tHrfleXshkt7GB1i5aKgaaf
+ liy1n0FzeinWwsVkNltSnSFA4O8OOH3ua/6W9Fj0Qk7mDBHknmCKPC2bC6EGzuitpFDR ew== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 35825m97wx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 09 Dec 2020 16:56:23 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B9GojXS039029;
+ Wed, 9 Dec 2020 16:56:23 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 358kyuybry-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 09 Dec 2020 16:56:22 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B9GuKh6004126;
+ Wed, 9 Dec 2020 16:56:20 GMT
+Received: from dhcp-10-39-220-44.vpn.oracle.com (/10.39.220.44)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 09 Dec 2020 08:56:19 -0800
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
+Subject: Re: [PATCH v12 06/19] multi-process: setup a machine object for
+ remote device process
+From: Jag Raman <jag.raman@oracle.com>
+In-Reply-To: <CAJ+F1CLt8ysY6er9wLEfgAcoE0rMXaX2kfjOeHGK_VKOQoudkw@mail.gmail.com>
+Date: Wed, 9 Dec 2020 11:56:16 -0500
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <9F7AC7EA-6EDA-4831-A843-82BE6C51E22F@oracle.com>
+References: <cover.1606853298.git.jag.raman@oracle.com>
+ <8b654f7ac999a3594f117fcf3b2da1c4cfe4cc65.1606853298.git.jag.raman@oracle.com>
+ <CAJ+F1CLt8ysY6er9wLEfgAcoE0rMXaX2kfjOeHGK_VKOQoudkw@mail.gmail.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@gmail.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.4)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 mlxscore=0
+ malwarescore=0 suspectscore=4 mlxlogscore=999 bulkscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012090118
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=4
+ adultscore=0 bulkscore=0
+ phishscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501 mlxscore=0
+ spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012090119
+Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
+ helo=aserp2120.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,108 +100,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Ross Lagerwall <ross.lagerwall@citrix.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---wfcebcaqsb2aydis
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 07, 2020 at 04:37:53PM +0100, Kevin Wolf wrote:
-> Am 04.12.2020 um 17:53 hat Sergio Lopez geschrieben:
-> > On dataplane start, acquire the new AIO context before calling
-> > 'blk_set_aio_context', releasing it immediately afterwards. This
-> > prevents reaching the AIO context attach/detach notifier functions
-> > without having acquired it first.
-> >=20
-> > It was also the only place where 'blk_set_aio_context' was called with
-> > an unprotected AIO context.
-> >=20
-> > Signed-off-by: Sergio Lopez <slp@redhat.com>
-> > ---
-> >  hw/block/dataplane/virtio-blk.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >=20
-> > diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virti=
-o-blk.c
-> > index 37499c5564..034e43cb1f 100644
-> > --- a/hw/block/dataplane/virtio-blk.c
-> > +++ b/hw/block/dataplane/virtio-blk.c
-> > @@ -214,7 +214,9 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-> >      vblk->dataplane_started =3D true;
-> >      trace_virtio_blk_data_plane_start(s);
-> > =20
-> > +    aio_context_acquire(s->ctx);
-> >      r =3D blk_set_aio_context(s->conf->conf.blk, s->ctx, &local_err);
-> > +    aio_context_release(s->ctx);
+
+> On Dec 4, 2020, at 9:35 AM, Marc-Andr=C3=A9 Lureau =
+<marcandre.lureau@gmail.com> wrote:
 >=20
-> bdrv_set_aio_context_ignore() is documented like this:
 >=20
->  * The caller must own the AioContext lock for the old AioContext of bs, =
-but it
->  * must not own the AioContext lock for new_context (unless new_context i=
-s the
->  * same as the current context of bs).
+>=20
+> On Wed, Dec 2, 2020 at 12:23 AM Jagannathan Raman =
+<jag.raman@oracle.com> wrote:
+> x-remote-machine object sets up various subsystems of the remote
+> device process. Instantiate PCI host bridge object and initialize RAM, =
+IO &
+> PCI memory regions.
+>=20
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  include/hw/pci-host/remote.h |  1 +
+>  include/hw/remote/machine.h  | 28 ++++++++++++++++++
+>  hw/remote/machine.c          | 69 =
+++++++++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                  |  2 ++
+>  hw/meson.build               |  1 +
+>  hw/remote/meson.build        |  5 ++++
+>  6 files changed, 106 insertions(+)
+>  create mode 100644 include/hw/remote/machine.h
+>  create mode 100644 hw/remote/machine.c
+>  create mode 100644 hw/remote/meson.build
+>=20
+> diff --git a/include/hw/pci-host/remote.h =
+b/include/hw/pci-host/remote.h
+> index bab6d3c..cc0fff4 100644
+> --- a/include/hw/pci-host/remote.h
+> +++ b/include/hw/pci-host/remote.h
+> @@ -25,6 +25,7 @@ typedef struct RemotePCIHost {
+>=20
+>      MemoryRegion *mr_pci_mem;
+>      MemoryRegion *mr_sys_io;
+> +    MemoryRegion *mr_sys_mem;
+>=20
+> Why is this not part of the previous patch?
 
-Does that rule apply to blk_set_aio_context too? All use cases I can
-find in the code are acquiring the new context:
+Hi Marc-Andre,
 
-hw/block/dataplane/xen-block.c:
- 719 void xen_block_dataplane_start(XenBlockDataPlane *dataplane,
- 720                                const unsigned int ring_ref[],
- 721                                unsigned int nr_ring_ref,
- 722                                unsigned int event_channel,
- 723                                unsigned int protocol,
- 724                                Error **errp)
- 725 {
- ...
- 811     aio_context_acquire(dataplane->ctx);
- 812     /* If other users keep the BlockBackend in the iothread, that's ok=
- */
- 813     blk_set_aio_context(dataplane->blk, dataplane->ctx, NULL);
- 814     /* Only reason for failure is a NULL channel */
- 815     xen_device_set_event_channel_context(xendev, dataplane->event_chan=
-nel,
- 816                                          dataplane->ctx, &error_abort)=
-;
- 817     aio_context_release(dataplane->ctx);
+We originally defined this variable in a previous patch. But we were
+not using it in that patch.
 
-hw/scsi/virtio-scsi.c:
- 818 static void virtio_scsi_hotplug(HotplugHandler *hotplug_dev, DeviceSta=
-te *dev,
- 819                                 Error **errp)
- 820 {
- ...
- 830         virtio_scsi_acquire(s);
- 831         ret =3D blk_set_aio_context(sd->conf.blk, s->ctx, errp);
- 832         virtio_scsi_release(s);
+Based on feedback we previously received, we moved it to this patch
+as it is used for the first time here.
 
-Thanks,
-Sergio.
+Thank you!
+=E2=80=94
+Jag
 
---wfcebcaqsb2aydis
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl/RAHwACgkQ9GknjS8M
-AjVLtxAAogu0h8fSY8UwSYOC5iPWu+2v4BO3HSdd6u6T0Y37Ni5NLF3BoEe4hDhw
-o9nNEAmwcWy5LteCLcfqUl7Qs+QCCzWNeu4TWBhbvkm8PZrZF9CddnzvDl62UlQ9
-P6yZMdbSwq/ThIH9lqqktUf4YSBu1vRGbjsQwPiToGrXFJlFqc3xuaaz/TJ2DuoT
-gBzV01HZSae1EWCDXCCUvSGZxBzGyzXC+j3UQ8muveoUxO/X9+ljrYwaohiADUzG
-phRCsqkczTZhxvGjQxsrn+LbCDqBZvv2Gvg6eNTEGwkEXeqo/ozSMzlWnWXnmLzi
-1arnWUtNX8NZjbRIGujE1jUjL59N/wdY5W2pXVGomnCJu06xajbNEs4m9lTtDTk4
-F9F0viirV0lF7NEggOMAI5tcFrXKmB++hLVnQKMwCWhwJRENJ6+aTuenZvyviMvJ
-4XMyBQ4M0dcpMnK8y5aFmHA4qNXfwmLbsnMuMBGZK2e5IR8FmTT5wyi9Q2uzHbag
-mVRMj0GK/bKhq/l/jOYoRXZdX7a8h074lXULv6E6MnljPNeV5UBU0PEc4Hh6/Stw
-VEQ4ZcUCtuAl3xGg9OmWQKofBCFeziQC9poMmbVBcm/pcu7Uwt5E7ikVRF4J/FuB
-uF/C2/03/xk62JnSROtpffFdpussFsZo7+HSux5w8x4sFpS/T8I=
-=U/Wt
------END PGP SIGNATURE-----
-
---wfcebcaqsb2aydis--
+>=20
+>  } RemotePCIHost;
+>=20
+>  #endif
+> diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h
+> new file mode 100644
+> index 0000000..d312972
+> --- /dev/null
+> +++ b/include/hw/remote/machine.h
+> @@ -0,0 +1,28 @@
+> +/*
+> + * Remote machine configuration
+> + *
+> + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or =
+later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#ifndef REMOTE_MACHINE_H
+> +#define REMOTE_MACHINE_H
+> +
+> +#include "qom/object.h"
+> +#include "hw/boards.h"
+> +#include "hw/pci-host/remote.h"
+> +
+> +typedef struct RemoteMachineState {
+> +    MachineState parent_obj;
+> +
+> +    RemotePCIHost *host;
+> +} RemoteMachineState;
+> +
+> +#define TYPE_REMOTE_MACHINE "x-remote-machine"
+> +#define REMOTE_MACHINE(obj) \
+> +    OBJECT_CHECK(RemoteMachineState, (obj), TYPE_REMOTE_MACHINE)
+> +
+> +#endif
+> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
+> new file mode 100644
+> index 0000000..c5658bf
+> --- /dev/null
+> +++ b/hw/remote/machine.c
+> @@ -0,0 +1,69 @@
+> +/*
+> + * Machine for remote device
+> + *
+> + *  This machine type is used by the remote device process in =
+multi-process
+> + *  QEMU. QEMU device models depend on parent busses, interrupt =
+controllers,
+> + *  memory regions, etc. The remote machine type offers this =
+environment so
+> + *  that QEMU device models can be used as remote devices.
+> + *
+> + * Copyright =C2=A9 2018, 2020 Oracle and/or its affiliates.
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or =
+later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +
+> +#include "hw/remote/machine.h"
+> +#include "exec/address-spaces.h"
+> +#include "exec/memory.h"
+> +#include "qapi/error.h"
+> +
+> +static void remote_machine_init(MachineState *machine)
+> +{
+> +    MemoryRegion *system_memory, *system_io, *pci_memory;
+> +    RemoteMachineState *s =3D REMOTE_MACHINE(machine);
+> +    RemotePCIHost *rem_host;
+> +
+> +    system_memory =3D get_system_memory();
+> +    system_io =3D get_system_io();
+> +
+> +    pci_memory =3D g_new(MemoryRegion, 1);
+> +    memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
+> +
+> +    rem_host =3D =
+REMOTE_HOST_DEVICE(qdev_new(TYPE_REMOTE_HOST_DEVICE));
+> +
+> +    rem_host->mr_pci_mem =3D pci_memory;
+> +    rem_host->mr_sys_mem =3D system_memory;
+> +    rem_host->mr_sys_io =3D system_io;
+> +
+> +    s->host =3D rem_host;
+> +
+> +    object_property_add_child(OBJECT(s), "remote-device", =
+OBJECT(rem_host));
+>=20
+> "remote-pcihost" instead ?
+>=20
+> +    memory_region_add_subregion_overlap(system_memory, 0x0, =
+pci_memory, -1);
+> +
+> +    qdev_realize(DEVICE(rem_host), sysbus_get_default(), =
+&error_fatal);
+> +}
+> +
+> +static void remote_machine_class_init(ObjectClass *oc, void *data)
+> +{
+> +    MachineClass *mc =3D MACHINE_CLASS(oc);
+> +
+> +    mc->init =3D remote_machine_init;
+>=20
+> Set mc->desc =3D "Experimental remote machine" ?
+>=20
+> +}
+> +
+> +static const TypeInfo remote_machine =3D {
+> +    .name =3D TYPE_REMOTE_MACHINE,
+> +    .parent =3D TYPE_MACHINE,
+> +    .instance_size =3D sizeof(RemoteMachineState),
+> +    .class_init =3D remote_machine_class_init,
+> +};
+> +
+> +static void remote_machine_register_types(void)
+> +{
+> +    type_register_static(&remote_machine);
+> +}
+> +
+> +type_init(remote_machine_register_types);
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4515476..c45ac1d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3139,6 +3139,8 @@ F: docs/devel/multi-process.rst
+>  F: tests/multiprocess/multiprocess-lsi53c895a.py
+>  F: hw/pci-host/remote.c
+>  F: include/hw/pci-host/remote.h
+> +F: hw/remote/machine.c
+> +F: include/hw/remote/machine.h
+>=20
+>  Build and test automation
+>  -------------------------
+> diff --git a/hw/meson.build b/hw/meson.build
+> index 010de72..e615d72 100644
+> --- a/hw/meson.build
+> +++ b/hw/meson.build
+> @@ -56,6 +56,7 @@ subdir('moxie')
+>  subdir('nios2')
+>  subdir('openrisc')
+>  subdir('ppc')
+> +subdir('remote')
+>  subdir('riscv')
+>  subdir('rx')
+>  subdir('s390x')
+> diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+> new file mode 100644
+> index 0000000..197b038
+> --- /dev/null
+> +++ b/hw/remote/meson.build
+> @@ -0,0 +1,5 @@
+> +remote_ss =3D ss.source_set()
+> +
+> +remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: =
+files('machine.c'))
+> +
+> +softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
+> --=20
+> 1.8.3.1
+>=20
+>=20
+>=20
+> --=20
+> Marc-Andr=C3=A9 Lureau
 
 
