@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BABD2D421C
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 13:24:31 +0100 (CET)
-Received: from localhost ([::1]:38820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821B12D4228
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 13:32:25 +0100 (CET)
+Received: from localhost ([::1]:41842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kmyWE-0004wf-6x
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 07:24:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43456)
+	id 1kmyds-0006gm-JE
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 07:32:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kmySk-0003WW-Dy
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 07:20:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29449)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kmybv-0005z6-Q8
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 07:30:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1kmySi-0002mW-Dl
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 07:20:53 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kmybj-0005eU-8L
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 07:30:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607516450;
+ s=mimecast20190719; t=1607517009;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=02tquZiATMN/D94oqS1HgMSz6T4cchxv1MZSl+fk/68=;
- b=Ptv6WlCombD7SXxPNnrHWi1O0Z49VMlTL1hC7Lpy124LaRhscuv7DBZTl2mFQtOUXHoKoE
- /YH+i2qOM/svCqsRxHFDpakwKYud+sIcajoKktS8J6bbC8ENRUH6s1nvoj5ZBeuYuUo20k
- Hcztr/LK3gMPf011sCVbVIevrkA1EHM=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-EeJjww5sND6RymDyPxWgLA-1; Wed, 09 Dec 2020 07:20:47 -0500
-X-MC-Unique: EeJjww5sND6RymDyPxWgLA-1
-Received: by mail-qk1-f198.google.com with SMTP id u17so879737qku.17
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 04:20:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=02tquZiATMN/D94oqS1HgMSz6T4cchxv1MZSl+fk/68=;
- b=fxfQ6fQK+BWSV06FoP7HpXCOWMuccD3ILVHu8pLpo9caAQ9tBwfKJ5Qin5SUvsMEKi
- /U71BrCY3wvApwE6YdgPq0kOOplArvUwsEmES5TAnSr33fJN9hP2oAtXqukOKeKJaJl1
- rmVUAjlrShte54eXlySU6643YbP6uj37xUn0w6XuRA3dbOHZqK4K/XHt9KDuIL6HyPW4
- 2ardN7fw7qO/+ZU2q9N8ZryqodLI8+11/lfDSBsi/ZnrB+H6DaeAPCTfdCe7FtP9niku
- 3L9dVXUGkVfpwo2Ix7ytTgjN39n2ODmBDYwPDLrvZg9XPhzkaR+tRx4BseOPGupxjfq5
- bC8g==
-X-Gm-Message-State: AOAM532epqajwMGIhJL+KprBwnN+esq2BGPu0gB9mWKXmddnpHLM/sNJ
- 0NmIONK/w3wrs4lOmcHEa2Ij7w8RlvGt5+CJvW/8v9on+2C1Fc8oINmz4UreW8/eDumPfb0UV7Z
- zndP1R6PZ7Ok6n8l+83k1CYdiKb0FClk=
-X-Received: by 2002:a37:8485:: with SMTP id g127mr2590264qkd.233.1607516447503; 
- Wed, 09 Dec 2020 04:20:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxt/nrA+PEG+B8jRnIAdin9fm1aHeI7kL5mjtjcSfyl2llDTS9p8AJqVYo87tA8/xuhq3mMWO7Vd0gMqaadb3Y=
-X-Received: by 2002:a37:8485:: with SMTP id g127mr2590212qkd.233.1607516447222; 
- Wed, 09 Dec 2020 04:20:47 -0800 (PST)
+ bh=knk/7SMK06nT463TgLi3CGb9tMWaA9M2L0P91mUeT+M=;
+ b=i1r1IHKEfW+kbeaMHX+3As1rBW1/NqXvX+pqZuIvLkKyIHptI7UPdV618NE2scljjcFROj
+ iJ0STi/0HAcKuHHdHKkD8E3ljKItScpgRi2Br5uxKGRKv/xquX4q28D2vcrALwPu6r9DoW
+ vYP689EblTWzfdRbOXy+brB2v6NhooM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-47-DUszSkpbPESt4OPb73Ohlw-1; Wed, 09 Dec 2020 07:30:05 -0500
+X-MC-Unique: DUszSkpbPESt4OPb73Ohlw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6DE1C73A0;
+ Wed,  9 Dec 2020 12:30:03 +0000 (UTC)
+Received: from gondolin (ovpn-113-135.ams2.redhat.com [10.36.113.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74FCB60BF3;
+ Wed,  9 Dec 2020 12:29:50 +0000 (UTC)
+Date: Wed, 9 Dec 2020 13:29:47 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Shenming Lu <lushenming@huawei.com>
+Subject: Re: [RFC PATCH v2 1/3] vfio: Move the saving of the config space to
+ the right place in VFIO migration
+Message-ID: <20201209132947.3177f130.cohuck@redhat.com>
+In-Reply-To: <20201209080919.156-2-lushenming@huawei.com>
+References: <20201209080919.156-1-lushenming@huawei.com>
+ <20201209080919.156-2-lushenming@huawei.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-3-eperezma@redhat.com>
- <20201207161938.GJ203660@stefanha-x1.localdomain>
-In-Reply-To: <20201207161938.GJ203660@stefanha-x1.localdomain>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 9 Dec 2020 13:20:10 +0100
-Message-ID: <CAJaqyWcZ_LEu1OibCoG+couDPoOjDPQNLkoEppEat=jDP6zvxQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 02/27] vhost: Add device callback in
- vhost_migration_log
-To: Stefan Hajnoczi <stefanha@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,62 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Daniel Daly <dandaly0@gmail.com>, virtualization@lists.linux-foundation.org,
- Liran Alon <liralon@gmail.com>, Eli Cohen <eli@mellanox.com>,
- Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
+ mst@redhat.com, qemu-devel@nongnu.org, Marc Zyngier <maz@kernel.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
+ yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 7, 2020 at 5:19 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
->
-> On Fri, Nov 20, 2020 at 07:50:40PM +0100, Eugenio P=C3=A9rez wrote:
-> > This allows code to reuse the logic to not to re-enable or re-disable
-> > migration mechanisms. Code works the same way as before.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >  hw/virtio/vhost.c | 12 +++++++-----
-> >  1 file changed, 7 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> > index 2bd8cdf893..2adb2718c1 100644
-> > --- a/hw/virtio/vhost.c
-> > +++ b/hw/virtio/vhost.c
-> > @@ -862,7 +862,9 @@ err_features:
-> >      return r;
-> >  }
-> >
-> > -static int vhost_migration_log(MemoryListener *listener, bool enable)
-> > +static int vhost_migration_log(MemoryListener *listener,
-> > +                               bool enable,
-> > +                               int (*device_cb)(struct vhost_dev *, bo=
-ol))
->
-> Please document the argument. What is the callback function supposed to
-> do ("device_cb" is not descriptive so I'm not sure)?
+On Wed, 9 Dec 2020 16:09:17 +0800
+Shenming Lu <lushenming@huawei.com> wrote:
 
-Sure, I will expand documentation if we stick with this approach to
-enable/disable the shadow virtqueue (I hope we agree on a better one
-anyway).
+> On ARM64 the VFIO SET_IRQS ioctl is dependent on the VM interrupt
+> setup, if the restoring of the VFIO PCI device config space is
+> before the VGIC, an error might occur in the kernel.
+> 
+> So we move the saving of the config space to the non-iterable
+> process, so that it will be called after the VGIC according to
+> their priorities.
+> 
+> As for the possible dependence of the device specific migration
+> data on it's config space, we can let the vendor driver to
+> include any config info it needs in its own data stream.
+> (Should we note this in the header file linux-headers/linux/vfio.h?)
 
-Just for completion, it was meant for vhost_dev_set_log, so vhost_dev*
-is the device to enable/disable migration, and the second bool is for
-enable/disable it.
+Given that the header is our primary source about how this interface
+should act, we need to properly document expectations about what will
+be saved/restored when there (well, in the source file in the kernel.)
+That goes in both directions: what a userspace must implement, and what
+a vendor driver can rely on.
 
-Thanks!
+[Related, but not a todo for you: I think we're still missing proper
+documentation of the whole migration feature.]
+
+> 
+> Signed-off-by: Shenming Lu <lushenming@huawei.com>
+> ---
+>  hw/vfio/migration.c | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
 
 
