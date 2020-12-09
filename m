@@ -2,13 +2,13 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA23E2D47B7
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:19:32 +0100 (CET)
-Received: from localhost ([::1]:54872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B0C2D47B1
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:18:36 +0100 (CET)
+Received: from localhost ([::1]:51070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn37j-00068B-NW
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:19:31 -0500
+	id 1kn36p-0004X4-Sq
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:18:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kn320-0001Tv-PS
