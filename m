@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623C52D4796
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:13:31 +0100 (CET)
-Received: from localhost ([::1]:41760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C172D47C8
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 18:24:04 +0100 (CET)
+Received: from localhost ([::1]:41312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn31u-0000Bz-E0
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:13:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36310)
+	id 1kn3C7-0003tP-D0
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 12:24:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kn2q3-0006Zj-IR
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:17 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:43935)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kn2q6-0006bb-5z
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:18 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:42315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kn2px-0000oG-SZ
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:15 -0500
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kn2q0-0000pm-Q1
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 12:01:16 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-k-eCIie1MoeaaKm4kGI1eQ-1; Wed, 09 Dec 2020 12:00:58 -0500
-X-MC-Unique: k-eCIie1MoeaaKm4kGI1eQ-1
+ us-mta-47-1bqiYXxoMeazFzYXYgunxQ-1; Wed, 09 Dec 2020 12:00:59 -0500
+X-MC-Unique: 1bqiYXxoMeazFzYXYgunxQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6861E107ACF7;
- Wed,  9 Dec 2020 17:00:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B445510054FF;
+ Wed,  9 Dec 2020 17:00:58 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-113-78.ams2.redhat.com [10.36.113.78])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 677775D6BA;
- Wed,  9 Dec 2020 17:00:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B47A05D6CF;
+ Wed,  9 Dec 2020 17:00:57 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] spapr: Add an "spapr" property to sPAPR PHB
-Date: Wed,  9 Dec 2020 18:00:48 +0100
-Message-Id: <20201209170052.1431440-3-groug@kaod.org>
+Subject: [PATCH 3/6] spapr: Pass sPAPR machine state down to
+ spapr_pci_switch_vga()
+Date: Wed,  9 Dec 2020 18:00:49 +0100
+Message-Id: <20201209170052.1431440-4-groug@kaod.org>
 In-Reply-To: <20201209170052.1431440-1-groug@kaod.org>
 References: <20201209170052.1431440-1-groug@kaod.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
  helo=us-smtp-delivery-44.mimecast.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,145 +68,85 @@ Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sPAPR PHB device can only work with pseries machine types. This
-is currently checked in the realize function with a dynamic cast of
-qdev_get_machine(). Some other places also need to reach out to the
-machine using qdev_get_machine().
-
-Make this dependency explicit by introducing an "spapr" link
-property which officialy points to the machine. This link is
-set by pseries machine types only in the pre-plug handler. This
-allows to drop some users of qdev_get_machine().
+This allows to drop a user of qdev_get_machine().
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- include/hw/pci-host/spapr.h |  1 +
- hw/ppc/spapr.c              |  4 ++++
- hw/ppc/spapr_pci.c          | 17 +++++++----------
- hw/ppc/spapr_pci_nvlink2.c  |  2 +-
- 4 files changed, 13 insertions(+), 11 deletions(-)
+ include/hw/ppc/spapr.h | 2 +-
+ hw/ppc/spapr_hcall.c   | 7 ++++---
+ hw/ppc/spapr_pci.c     | 3 +--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
-index 4f58f0223b56..622a4f1a07c6 100644
---- a/include/hw/pci-host/spapr.h
-+++ b/include/hw/pci-host/spapr.h
-@@ -76,6 +76,7 @@ struct SpaprPhbState {
-     SpaprPciMsiMig *msi_devs;
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index b7ced9faebf5..e0f10f252c08 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -834,7 +834,7 @@ int spapr_dma_dt(void *fdt, int node_off, const char *p=
+ropname,
+                  uint32_t liobn, uint64_t window, uint32_t size);
+ int spapr_tcet_dma_dt(void *fdt, int node_off, const char *propname,
+                       SpaprTceTable *tcet);
+-void spapr_pci_switch_vga(bool big_endian);
++void spapr_pci_switch_vga(SpaprMachineState *spapr, bool big_endian);
+ void spapr_hotplug_req_add_by_index(SpaprDrc *drc);
+ void spapr_hotplug_req_remove_by_index(SpaprDrc *drc);
+ void spapr_hotplug_req_add_by_count(SpaprDrcType drc_type,
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 1d8e8e6a888f..c0ea0bd5794b 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1351,6 +1351,7 @@ static target_ulong h_logical_dcbf(PowerPCCPU *cpu, S=
+paprMachineState *spapr,
+ }
 =20
-     QLIST_ENTRY(SpaprPhbState) list;
-+    SpaprMachineState *spapr;
+ static target_ulong h_set_mode_resource_le(PowerPCCPU *cpu,
++                                           SpaprMachineState *spapr,
+                                            target_ulong mflags,
+                                            target_ulong value1,
+                                            target_ulong value2)
+@@ -1365,12 +1366,12 @@ static target_ulong h_set_mode_resource_le(PowerPCC=
+PU *cpu,
+     switch (mflags) {
+     case H_SET_MODE_ENDIAN_BIG:
+         spapr_set_all_lpcrs(0, LPCR_ILE);
+-        spapr_pci_switch_vga(true);
++        spapr_pci_switch_vga(spapr, true);
+         return H_SUCCESS;
 =20
-     bool ddw_enabled;
-     uint64_t page_size_mask;
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 4cc51723c62e..aca7d7af283a 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3892,6 +3892,10 @@ static bool spapr_phb_pre_plug(HotplugHandler *hotpl=
-ug_dev, DeviceState *dev,
-     const unsigned windows_supported =3D spapr_phb_windows_supported(sphb)=
-;
-     SpaprDrc *drc;
+     case H_SET_MODE_ENDIAN_LITTLE:
+         spapr_set_all_lpcrs(LPCR_ILE, LPCR_ILE);
+-        spapr_pci_switch_vga(false);
++        spapr_pci_switch_vga(spapr, false);
+         return H_SUCCESS;
+     }
 =20
-+    /* Required by spapr_phb_realize() */
-+    object_property_set_link(OBJECT(dev), "spapr", OBJECT(hotplug_dev),
-+                             &error_abort);
-+
-     if (dev->hotplugged && !smc->dr_phb_enabled) {
-         error_setg(errp, "PHB hotplug not supported for this machine");
-         return false;
+@@ -1411,7 +1412,7 @@ static target_ulong h_set_mode(PowerPCCPU *cpu, Spapr=
+MachineState *spapr,
+=20
+     switch (resource) {
+     case H_SET_MODE_RESOURCE_LE:
+-        ret =3D h_set_mode_resource_le(cpu, args[0], args[2], args[3]);
++        ret =3D h_set_mode_resource_le(cpu, spapr, args[0], args[2], args[=
+3]);
+         break;
+     case H_SET_MODE_RESOURCE_ADDR_TRANS_MODE:
+         ret =3D h_set_mode_resource_addr_trans_mode(cpu, args[0],
 diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index e946bd5055cc..2d9b88b93122 100644
+index 2d9b88b93122..149bf4c21d22 100644
 --- a/hw/ppc/spapr_pci.c
 +++ b/hw/ppc/spapr_pci.c
-@@ -722,7 +722,7 @@ static void pci_spapr_set_irq(void *opaque, int irq_num=
-, int level)
-      * corresponding qemu_irq.
-      */
-     SpaprPhbState *phb =3D opaque;
--    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-+    SpaprMachineState *spapr =3D phb->spapr;
+@@ -2490,9 +2490,8 @@ static int spapr_switch_one_vga(DeviceState *dev, voi=
+d *opaque)
+     return 0;
+ }
 =20
-     trace_spapr_pci_lsi_set(phb->dtbusname, irq_num, phb->lsi_table[irq_nu=
-m].irq);
-     qemu_set_irq(spapr_qirq(spapr, phb->lsi_table[irq_num].irq), level);
-@@ -1743,10 +1743,10 @@ static void spapr_phb_finalizefn(Object *obj)
-=20
- static void spapr_phb_unrealize(DeviceState *dev)
+-void spapr_pci_switch_vga(bool big_endian)
++void spapr_pci_switch_vga(SpaprMachineState *spapr, bool big_endian)
  {
 -    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-     SysBusDevice *s =3D SYS_BUS_DEVICE(dev);
-     PCIHostState *phb =3D PCI_HOST_BRIDGE(s);
-     SpaprPhbState *sphb =3D SPAPR_PCI_HOST_BRIDGE(phb);
-+    SpaprMachineState *spapr =3D sphb->spapr;
-     SpaprTceTable *tcet;
-     int i;
-     const unsigned windows_supported =3D spapr_phb_windows_supported(sphb)=
-;
-@@ -1817,15 +1817,9 @@ static void spapr_phb_destroy_msi(gpointer opaque)
- static void spapr_phb_realize(DeviceState *dev, Error **errp)
- {
-     ERRP_GUARD();
--    /* We don't use SPAPR_MACHINE() in order to exit gracefully if the use=
-r
--     * tries to add a sPAPR PHB to a non-pseries machine.
--     */
--    SpaprMachineState *spapr =3D
--        (SpaprMachineState *) object_dynamic_cast(qdev_get_machine(),
--                                                  TYPE_SPAPR_MACHINE);
--    SpaprMachineClass *smc =3D spapr ? SPAPR_MACHINE_GET_CLASS(spapr) : NU=
-LL;
-     SysBusDevice *s =3D SYS_BUS_DEVICE(dev);
-     SpaprPhbState *sphb =3D SPAPR_PCI_HOST_BRIDGE(s);
-+    SpaprMachineState *spapr =3D sphb->spapr;
-     PCIHostState *phb =3D PCI_HOST_BRIDGE(s);
-     MachineState *ms =3D MACHINE(spapr);
-     char *namebuf;
-@@ -1835,6 +1829,7 @@ static void spapr_phb_realize(DeviceState *dev, Error=
- **errp)
-     SpaprTceTable *tcet;
-     const unsigned windows_supported =3D spapr_phb_windows_supported(sphb)=
-;
+     SpaprPhbState *sphb;
 =20
-+    /* Set in spapr_phb_pre_plug() */
-     if (!spapr) {
-         error_setg(errp, TYPE_SPAPR_PCI_HOST_BRIDGE " needs a pseries mach=
-ine");
-         return;
-@@ -1986,7 +1981,7 @@ static void spapr_phb_realize(DeviceState *dev, Error=
- **errp)
-     for (i =3D 0; i < PCI_NUM_PINS; i++) {
-         int irq =3D SPAPR_IRQ_PCI_LSI + sphb->index * PCI_NUM_PINS + i;
-=20
--        if (smc->legacy_irq_allocation) {
-+        if (SPAPR_MACHINE_GET_CLASS(spapr)->legacy_irq_allocation) {
-             irq =3D spapr_irq_findone(spapr, errp);
-             if (irq < 0) {
-                 error_prepend(errp, "can't allocate LSIs: ");
-@@ -2109,6 +2104,8 @@ static Property spapr_phb_properties[] =3D {
-     DEFINE_PROP_UINT64("atsd", SpaprPhbState, nv2_atsd_win_addr, 0),
-     DEFINE_PROP_BOOL("pre-5.1-associativity", SpaprPhbState,
-                      pre_5_1_assoc, false),
-+    DEFINE_PROP_LINK("spapr", SpaprPhbState, spapr, TYPE_SPAPR_MACHINE,
-+                     SpaprMachineState *),
-     DEFINE_PROP_END_OF_LIST(),
- };
-=20
-diff --git a/hw/ppc/spapr_pci_nvlink2.c b/hw/ppc/spapr_pci_nvlink2.c
-index 8ef9b40a18dc..ce62318a6d73 100644
---- a/hw/ppc/spapr_pci_nvlink2.c
-+++ b/hw/ppc/spapr_pci_nvlink2.c
-@@ -368,7 +368,7 @@ void spapr_phb_nvgpu_ram_populate_dt(SpaprPhbState *sph=
-b, void *fdt)
-         _FDT((fdt_setprop_string(fdt, off, "device_type", "memory")));
-         _FDT((fdt_setprop(fdt, off, "reg", mem_reg, sizeof(mem_reg))));
-=20
--        spapr_numa_write_associativity_dt(SPAPR_MACHINE(qdev_get_machine()=
-),
-+        spapr_numa_write_associativity_dt(sphb->spapr,
-                                           fdt, off, nvslot->numa_id);
-=20
-         _FDT((fdt_setprop_string(fdt, off, "compatible",
+     /*
 --=20
 2.26.2
 
