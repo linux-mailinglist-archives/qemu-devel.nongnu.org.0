@@ -2,47 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018BC2D44A0
-	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 15:45:56 +0100 (CET)
-Received: from localhost ([::1]:39198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0382D44C3
+	for <lists+qemu-devel@lfdr.de>; Wed,  9 Dec 2020 15:50:17 +0100 (CET)
+Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn0j5-0002ut-34
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 09:45:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47062)
+	id 1kn0nH-0005Vi-2r
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 09:50:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kn0bw-0004xV-BY
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:38:33 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48250)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kn0bs-000707-KJ
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:38:32 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C4EC0AD2B;
- Wed,  9 Dec 2020 14:38:26 +0000 (UTC)
-Subject: Re: [RFC v9 20/32] cpu: Move tlb_fill to tcg_ops
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20201208194839.31305-1-cfontana@suse.de>
- <20201208194839.31305-21-cfontana@suse.de> <87czzjdxsx.fsf@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <ff41bd99-c5e8-c517-f7b0-5ab26a9a0e73@suse.de>
-Date: Wed, 9 Dec 2020 15:38:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <dan.streetman@canonical.com>)
+ id 1kn0d2-0005qU-Cc
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:39:45 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:41261)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
+ (Exim 4.90_1) (envelope-from <dan.streetman@canonical.com>)
+ id 1kn0cv-0007Xf-2L
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 09:39:38 -0500
+Received: from mail-io1-f72.google.com ([209.85.166.72])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <dan.streetman@canonical.com>) id 1kn0cq-0003zm-SF
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 14:39:29 +0000
+Received: by mail-io1-f72.google.com with SMTP id c7so1365251iob.10
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 06:39:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mwEfW97G5dIkBmOnOBzhYMBLUw5TSKWVpip9+czHrFk=;
+ b=tPkf1yE01D/nsq/wkhM+bQyWzdAPCfl7kuhXuW8WtpruMrIxQYQERb0a6la+gbW86w
+ febGpM5HXWs+++3ZD6mdhec2CPnxXi7zxCPH5GjwcERm6ExOPfDiMbAZcoNu/13a8AZf
+ lO1RM2FmmXu83Ek4aASxikDEbeMc9+OKPl5L6j5/gTVSS+qlqNpqpz3/rNlqhdcBSneZ
+ VCToyxl61cGdZeoczhVvTfTWkazKpY+5zJ/SH3miPNi4VtfqzuPRBT3OfWKqP+arzEKq
+ ttVdRMpMGxMiU/UiIYSxCzdgbr/NSxlyk2U5UJ2NN0qCbfYsr7cfkctOmH/H9GQX+aHy
+ al2A==
+X-Gm-Message-State: AOAM5312zWEMCT9I/CavlB8/8J9c51eW/gXhMV0EiAHxd0t0fqe8113u
+ QuqSXCrhfNJWiS5Sh2CGwk6hh4uavIFTj2q2tA4QhYXlVoZizoAWugMsAnu8hu/XdwogrpYJxWk
+ KmDMq89W4Z7Ovp0CvlJVCVrKokTrwAmhMrE4s2gwJYOaCeg/t
+X-Received: by 2002:a92:d4c4:: with SMTP id o4mr3299204ilm.28.1607524767596;
+ Wed, 09 Dec 2020 06:39:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxjw6LfltNmAqpR4BtyE01WLYqbaYlDpYDCvzw4zRPxBUpltwoPo/tu6K3Sj16OK5OFKYZiQcgmKkIS1BXAKC0=
+X-Received: by 2002:a92:d4c4:: with SMTP id o4mr3299152ilm.28.1607524767087;
+ Wed, 09 Dec 2020 06:39:27 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87czzjdxsx.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201016203857.62572-1-ddstreet@canonical.com>
+In-Reply-To: <20201016203857.62572-1-ddstreet@canonical.com>
+From: Dan Streetman <ddstreet@canonical.com>
+Date: Wed, 9 Dec 2020 09:38:51 -0500
+Message-ID: <CAOZ2QJNorhPqkToAJsN6h6nS4vEOfcYrpAs2Cro4TyDWY1M_8g@mail.gmail.com>
+Subject: Re: [PATCH] configure: replace --enable/disable-git-update with
+ --with-git-submodules
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=91.189.89.112;
+ envelope-from=dan.streetman@canonical.com; helo=youngberry.canonical.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,172 +75,301 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Durrant <paul@xen.org>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, haxm-team@intel.com,
- Colin Xu <colin.xu@intel.com>, Olaf Hering <ohering@suse.de>,
- Stefano Stabellini <sstabellini@kernel.org>, Bruce Rogers <brogers@suse.com>,
- "Emilio G . Cota" <cota@braap.org>, Anthony Perard <anthony.perard@citrix.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Dario Faggioli <dfaggioli@suse.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Rafael David Tinoco <rafael.tinoco@canonical.com>,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/9/20 12:26 PM, Alex Bennée wrote:
-> 
-> Claudio Fontana <cfontana@suse.de> writes:
-> 
->> From: Eduardo Habkost <ehabkost@redhat.com>
->>
->> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->> [claudio: wrapped in CONFIG_TCG]
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  accel/tcg/cputlb.c              |  6 +++---
->>  accel/tcg/user-exec.c           |  6 +++---
->>  include/hw/core/cpu.h           |  9 ---------
->>  include/hw/core/tcg-cpu-ops.h   | 12 ++++++++++++
->>  target/alpha/cpu.c              |  2 +-
->>  target/arm/cpu.c                |  2 +-
->>  target/avr/cpu.c                |  2 +-
->>  target/cris/cpu.c               |  2 +-
->>  target/hppa/cpu.c               |  2 +-
->>  target/i386/tcg-cpu.c           |  2 +-
->>  target/lm32/cpu.c               |  2 +-
->>  target/m68k/cpu.c               |  2 +-
->>  target/microblaze/cpu.c         |  2 +-
->>  target/mips/cpu.c               |  2 +-
->>  target/moxie/cpu.c              |  2 +-
->>  target/nios2/cpu.c              |  2 +-
->>  target/openrisc/cpu.c           |  2 +-
->>  target/ppc/translate_init.c.inc |  2 +-
->>  target/riscv/cpu.c              |  2 +-
->>  target/rx/cpu.c                 |  2 +-
->>  target/s390x/cpu.c              |  2 +-
->>  target/sh4/cpu.c                |  2 +-
->>  target/sparc/cpu.c              |  2 +-
->>  target/tilegx/cpu.c             |  2 +-
->>  target/tricore/cpu.c            |  2 +-
->>  target/unicore32/cpu.c          |  2 +-
->>  target/xtensa/cpu.c             |  2 +-
->>  27 files changed, 41 insertions(+), 38 deletions(-)
->>
->> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
->> index 42ab79c1a5..2dc71b5528 100644
->> --- a/accel/tcg/cputlb.c
->> +++ b/accel/tcg/cputlb.c
->> @@ -1286,7 +1286,7 @@ static void tlb_fill(CPUState *cpu, target_ulong addr, int size,
->>       * This is not a probe, so only valid return is success; failure
->>       * should result in exception + longjmp to the cpu loop.
->>       */
->> -    ok = cc->tlb_fill(cpu, addr, size, access_type, mmu_idx, false, retaddr);
->> +    ok = cc->tcg_ops.tlb_fill(cpu, addr, size, access_type, mmu_idx, false, retaddr);
->>      assert(ok);
->>  }
->>  
->> @@ -1557,8 +1557,8 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
->>              CPUState *cs = env_cpu(env);
->>              CPUClass *cc = CPU_GET_CLASS(cs);
->>  
->> -            if (!cc->tlb_fill(cs, addr, fault_size, access_type,
->> -                              mmu_idx, nonfault, retaddr)) {
->> +            if (!cc->tcg_ops.tlb_fill(cs, addr, fault_size, access_type,
->> +                                      mmu_idx, nonfault, retaddr)) {
->>                  /* Non-faulting page table read failed.  */
->>                  *phost = NULL;
->>                  return TLB_INVALID_MASK;
->> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
->> index 4ebe25461a..7f53992251 100644
->> --- a/accel/tcg/user-exec.c
->> +++ b/accel/tcg/user-exec.c
->> @@ -186,7 +186,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
->>      clear_helper_retaddr();
->>  
->>      cc = CPU_GET_CLASS(cpu);
->> -    cc->tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc);
->> +    cc->tcg_ops.tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc);
->>      g_assert_not_reached();
->>  }
->>  
->> @@ -216,8 +216,8 @@ static int probe_access_internal(CPUArchState *env, target_ulong addr,
->>          } else {
->>              CPUState *cpu = env_cpu(env);
->>              CPUClass *cc = CPU_GET_CLASS(cpu);
->> -            cc->tlb_fill(cpu, addr, fault_size, access_type,
->> -                         MMU_USER_IDX, false, ra);
->> +            cc->tcg_ops.tlb_fill(cpu, addr, fault_size, access_type,
->> +                                 MMU_USER_IDX, false, ra);
->>              g_assert_not_reached();
->>          }
->>      }
->> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
->> index 52142e9094..c82ef261c6 100644
->> --- a/include/hw/core/cpu.h
->> +++ b/include/hw/core/cpu.h
->> @@ -110,12 +110,6 @@ struct TranslationBlock;
->>   *       If the target behaviour here is anything other than "set
->>   *       the PC register to the value passed in" then the target must
->>   *       also implement the synchronize_from_tb hook.
->> - * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
->> - *       address fault.  For system mode, if the access is valid, call
->> - *       tlb_set_page and return true; if the access is invalid, and
->> - *       probe is true, return false; otherwise raise an exception and
->> - *       do not return.  For user-only mode, always raise an exception
->> - *       and do not return.
->>   * @get_phys_page_debug: Callback for obtaining a physical address.
->>   * @get_phys_page_attrs_debug: Callback for obtaining a physical address and the
->>   *       associated memory transaction attributes to use for the access.
->> @@ -183,9 +177,6 @@ struct CPUClass {
->>      void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
->>                                 Error **errp);
->>      void (*set_pc)(CPUState *cpu, vaddr value);
->> -    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
->> -                     MMUAccessType access_type, int mmu_idx,
->> -                     bool probe, uintptr_t retaddr);
->>      hwaddr (*get_phys_page_debug)(CPUState *cpu, vaddr addr);
->>      hwaddr (*get_phys_page_attrs_debug)(CPUState *cpu, vaddr addr,
->>                                          MemTxAttrs *attrs);
->> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
->> index e12f32919b..2ea94acca0 100644
->> --- a/include/hw/core/tcg-cpu-ops.h
->> +++ b/include/hw/core/tcg-cpu-ops.h
->> @@ -37,6 +37,18 @@ typedef struct TcgCpuOperations {
->>      void (*cpu_exec_exit)(CPUState *cpu);
->>      /** @cpu_exec_interrupt: Callback for processing interrupts in cpu_exec */
->>      bool (*cpu_exec_interrupt)(CPUState *cpu, int interrupt_request);
->> +    /**
->> +     * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
->> +     *
->> +     * For system mode, if the access is valid, call tlb_set_page
->> +     * and return true; if the access is invalid, and probe is
->> +     * true, return false; otherwise raise an exception and do
->> +     * not return.  For user-only mode, always raise an exception
->> +     * and do not return.
->> +     */
->> +    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
->> +                     MMUAccessType access_type, int mmu_idx,
->> +                     bool probe, uintptr_t retaddr);
-> 
-> As per previous patch, here is a chance to clean-up the comment.
+Hi, just a ping to try to keep this alive, does the patch look ok? I
+can rebase it on the latest git if so (and if needed)
 
-
-Could you provide the text? I think you understand this better than I do...
-
-
-> 
-> Otherwise:
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-
-Thanks!
-
-Claudio
+On Fri, Oct 16, 2020 at 4:39 PM Dan Streetman <ddstreet@canonical.com> wrote:
+>
+> Replace the --enable-git-update and --disable-git-update configure params
+> with the param --with-git-submodules=(update|validate|ignore) to
+> allow 3 options for building from a git repo.
+>
+> This is needed because downstream packagers, e.g. Debian, Ubuntu, etc,
+> also keep the source code in git, but do not want to enable the
+> 'git_update' mode; with the current code, that's not possible even
+> if the downstream package specifies --disable-git-update.
+>
+> Signed-off-by: Dan Streetman <ddstreet@canonical.com>
+> ---
+>  Makefile                 | 26 ++-----------------
+>  configure                | 55 +++++++++++++++++++++++++---------------
+>  scripts/git-submodule.sh | 34 +++++++++++++++++++------
+>  3 files changed, 62 insertions(+), 53 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index c37e513431..033455dc8f 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -34,33 +34,11 @@ ifneq ($(wildcard config-host.mak),)
+>  all:
+>  include config-host.mak
+>
+> -git-submodule-update:
+> -
+>  .PHONY: git-submodule-update
+> -
+> -git_module_status := $(shell \
+> -  cd '$(SRC_PATH)' && \
+> -  GIT="$(GIT)" ./scripts/git-submodule.sh status $(GIT_SUBMODULES); \
+> -  echo $$?; \
+> -)
+> -
+> -ifeq (1,$(git_module_status))
+> -ifeq (no,$(GIT_UPDATE))
+>  git-submodule-update:
+>         $(call quiet-command, \
+> -            echo && \
+> -            echo "GIT submodule checkout is out of date. Please run" && \
+> -            echo "  scripts/git-submodule.sh update $(GIT_SUBMODULES)" && \
+> -            echo "from the source directory checkout $(SRC_PATH)" && \
+> -            echo && \
+> -            exit 1)
+> -else
+> -git-submodule-update:
+> -       $(call quiet-command, \
+> -          (cd $(SRC_PATH) && GIT="$(GIT)" ./scripts/git-submodule.sh update $(GIT_SUBMODULES)), \
+> -          "GIT","$(GIT_SUBMODULES)")
+> -endif
+> -endif
+> +               (GIT="$(GIT)" "$(SRC_PATH)/scripts/git-submodule.sh" $(GIT_SUBMODULES_ACTION) $(GIT_SUBMODULES)), \
+> +               "GIT","$(GIT_SUBMODULES)")
+>
+>  export NINJA=./ninjatool
+>
+> diff --git a/configure b/configure
+> index f839c2a557..c5df778790 100755
+> --- a/configure
+> +++ b/configure
+> @@ -249,12 +249,12 @@ gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
+>
+>  if test -e "$source_path/.git"
+>  then
+> -    git_update=yes
+> +    git_submodules_action="update"
+>      git_submodules="ui/keycodemapdb"
+>      git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
+>      git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
+>  else
+> -    git_update=no
+> +    git_submodules_action="ignore"
+>      git_submodules=""
+>
+>      if ! test -f "$source_path/ui/keycodemapdb/README"
+> @@ -1478,9 +1478,16 @@ for opt do
+>    ;;
+>    --with-git=*) git="$optarg"
+>    ;;
+> -  --enable-git-update) git_update=yes
+> +  --enable-git-update)
+> +      git_submodules_action="update"
+> +      echo "--enable-git-update deprecated, use --with-git-submodules=update"
+>    ;;
+> -  --disable-git-update) git_update=no
+> +  --disable-git-update)
+> +      git_submodules_action="validate"
+> +      echo "--disable-git-update deprecated, use --with-git-submodules=validate"
+> +  ;;
+> +  --with-git-submodules=*)
+> +      git_submodules_action="$optarg"
+>    ;;
+>    --enable-debug-mutex) debug_mutex=yes
+>    ;;
+> @@ -1528,6 +1535,20 @@ for opt do
+>    esac
+>  done
+>
+> +case $git_submodules_action in
+> +    update|validate)
+> +        if test ! -e "$source_path/.git"; then
+> +            echo "ERROR: cannot $git_submodules_action git submodules without .git"
+> +            exit 1
+> +        fi
+> +    ;;
+> +    ignore) ;;
+> +    *)
+> +        echo "ERROR: invalid --with-git-submodules= value '$git_submodules_action'"
+> +        exit 1
+> +    ;;
+> +esac
+> +
+>  firmwarepath="${firmwarepath:-$prefix/share/qemu-firmware}"
+>  libdir="${libdir:-$prefix/lib}"
+>  libexecdir="${libexecdir:-$prefix/libexec}"
+> @@ -1868,7 +1889,7 @@ python="$python -B"
+>  if test -z "$meson"; then
+>      if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.55.1; then
+>          meson=meson
+> -    elif test -e "${source_path}/.git" && test $git_update = 'yes' ; then
+> +    elif test $git_submodules_action != 'ignore' ; then
+>          meson=git
+>      elif test -e "${source_path}/meson/meson.py" ; then
+>          meson=internal
+> @@ -1936,7 +1957,7 @@ fi
+>  # Consult white-list to determine whether to enable werror
+>  # by default.  Only enable by default for git builds
+>  if test -z "$werror" ; then
+> -    if test -e "$source_path/.git" && \
+> +    if test "$git_submodules_action" != "ignore" && \
+>          { test "$linux" = "yes" || test "$mingw32" = "yes"; }; then
+>          werror="yes"
+>      else
+> @@ -3824,9 +3845,7 @@ fi
+>  case "$fdt" in
+>    auto | enabled | internal)
+>      # Simpler to always update submodule, even if not needed.
+> -    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
+> -      git_submodules="${git_submodules} dtc"
+> -    fi
+> +    git_submodules="${git_submodules} dtc"
+>      ;;
+>  esac
+>
+> @@ -4696,9 +4715,7 @@ fi
+>  case "$capstone" in
+>    auto | enabled | internal)
+>      # Simpler to always update submodule, even if not needed.
+> -    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
+> -      git_submodules="${git_submodules} capstone"
+> -    fi
+> +    git_submodules="${git_submodules} capstone"
+>      ;;
+>  esac
+>
+> @@ -5636,9 +5653,7 @@ fi
+>  case "$slirp" in
+>    auto | enabled | internal)
+>      # Simpler to always update submodule, even if not needed.
+> -    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
+> -      git_submodules="${git_submodules} slirp"
+> -    fi
+> +    git_submodules="${git_submodules} slirp"
+>      ;;
+>  esac
+>
+> @@ -5893,9 +5908,7 @@ if test "$cpu" = "s390x" ; then
+>      roms="$roms s390-ccw"
+>      # SLOF is required for building the s390-ccw firmware on s390x,
+>      # since it is using the libnet code from SLOF for network booting.
+> -    if test -e "${source_path}/.git" ; then
+> -      git_submodules="${git_submodules} roms/SLOF"
+> -    fi
+> +    git_submodules="${git_submodules} roms/SLOF"
+>    fi
+>  fi
+>
+> @@ -5931,8 +5944,8 @@ else
+>      cxx=
+>  fi
+>
+> -if test $git_update = 'yes' ; then
+> -    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
+> +if !(GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
+> +    exit 1
+>  fi
+>
+>  config_host_mak="config-host.mak"
+> @@ -5960,7 +5973,7 @@ echo "qemu_icondir=$qemu_icondir" >> $config_host_mak
+>  echo "qemu_desktopdir=$qemu_desktopdir" >> $config_host_mak
+>  echo "GIT=$git" >> $config_host_mak
+>  echo "GIT_SUBMODULES=$git_submodules" >> $config_host_mak
+> -echo "GIT_UPDATE=$git_update" >> $config_host_mak
+> +echo "GIT_SUBMODULES_ACTION=$git_submodules_action" >> $config_host_mak
+>
+>  echo "ARCH=$ARCH" >> $config_host_mak
+>
+> diff --git a/scripts/git-submodule.sh b/scripts/git-submodule.sh
+> index 65ed877aef..e225d3a963 100755
+> --- a/scripts/git-submodule.sh
+> +++ b/scripts/git-submodule.sh
+> @@ -9,9 +9,14 @@ command=$1
+>  shift
+>  maybe_modules="$@"
+>
+> +# if --with-git-submodules=ignore, do nothing
+> +test "$command" = "ignore" && exit 0
+> +
+>  test -z "$GIT" && GIT=git
+>
+> -error() {
+> +cd "$(dirname "$0")/.."
+> +
+> +update_error() {
+>      echo "$0: $*"
+>      echo
+>      echo "Unable to automatically checkout GIT submodules '$modules'."
+> @@ -24,7 +29,7 @@ error() {
+>      echo "Alternatively you may disable automatic GIT submodule checkout"
+>      echo "with:"
+>      echo
+> -    echo " $ ./configure --disable-git-update"
+> +    echo " $ ./configure --with-git-submodules=validate"
+>      echo
+>      echo "and then manually update submodules prior to running make, with:"
+>      echo
+> @@ -33,6 +38,19 @@ error() {
+>      exit 1
+>  }
+>
+> +validate_error() {
+> +    if test "$1" = "validate"; then
+> +        echo "GIT submodules checkout is out of date, and submodules"
+> +        echo "configured for validate only. Please run"
+> +        echo "  scripts/git-submodule.sh update $maybe_modules"
+> +        echo "from the source directory or call configure with"
+> +        echo "  --with-git-submodules=update"
+> +        echo "To disable GIT submodules validation, use"
+> +        echo "  --with-git-submodules=ignore"
+> +    fi
+> +    exit 1
+> +}
+> +
+>  modules=""
+>  for m in $maybe_modules
+>  do
+> @@ -52,18 +70,18 @@ then
+>  fi
+>
+>  case "$command" in
+> -status)
+> +status|validate)
+>      if test -z "$maybe_modules"
+>      then
+> -         test -s ${substat} && exit 1 || exit 0
+> +         test -s ${substat} && validate_error "$command" || exit 0
+>      fi
+>
+> -    test -f "$substat" || exit 1
+> +    test -f "$substat" || validate_error "$command"
+>      for module in $modules; do
+>          CURSTATUS=$($GIT submodule status $module)
+>          OLDSTATUS=$(cat $substat | grep $module)
+>          if test "$CURSTATUS" != "$OLDSTATUS"; then
+> -            exit 1
+> +            validate_error "$command"
+>          fi
+>      done
+>      exit 0
+> @@ -76,10 +94,10 @@ update)
+>      fi
+>
+>      $GIT submodule update --init $modules 1>/dev/null
+> -    test $? -ne 0 && error "failed to update modules"
+> +    test $? -ne 0 && update_error "failed to update modules"
+>
+>      $GIT submodule status $modules > "${substat}"
+> -    test $? -ne 0 && error "failed to save git submodule status" >&2
+> +    test $? -ne 0 && update_error "failed to save git submodule status" >&2
+>      ;;
+>  esac
+>
+> --
+> 2.25.1
+>
 
