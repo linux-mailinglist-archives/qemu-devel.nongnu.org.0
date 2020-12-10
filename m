@@ -2,70 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B6A2D592F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:29:06 +0100 (CET)
-Received: from localhost ([::1]:47490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E182D593E
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:32:55 +0100 (CET)
+Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knK87-0002lG-Mv
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:29:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
+	id 1knKBr-00051F-1X
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:32:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1knK5E-0001R4-Gk
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:26:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49915)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knK9q-0004Tc-Vs
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:30:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1knK4w-0007od-U0
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:25:56 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knK9n-0000zY-C0
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:30:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607599545;
+ s=mimecast20190719; t=1607599845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HvAsoREgQ/k56391ELB00thpkus2GKI+7OzLGEoFAI4=;
- b=NlEqCNvYbBMqrwLicf1lCt3mmQeV1ZvxmNhn01Hh0Dd9/yeZdlw/mkyVgr8kOj+K+kRMoB
- WfOOYRD7JOTLmJEK8HJHiOAdZ+BXD8909RLkLL/dgynb1FHGHJvcGgFQceer7/yGaQJXeg
- OO87b5sTk/5oGHTkWKEVDfyoQP5r0Y0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-5UCMoVGjP822iXA6uHl7QQ-1; Thu, 10 Dec 2020 06:25:43 -0500
-X-MC-Unique: 5UCMoVGjP822iXA6uHl7QQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A430BEC1A0;
- Thu, 10 Dec 2020 11:25:42 +0000 (UTC)
-Received: from localhost (ovpn-113-62.ams2.redhat.com [10.36.113.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63C1236FA;
- Thu, 10 Dec 2020 11:25:41 +0000 (UTC)
-Date: Thu, 10 Dec 2020 11:25:40 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Doug Evans <dje@google.com>
+ bh=4SviQHGe/ji3mNg6gpdNpjky4QY5zlJfqfJjs3BUorY=;
+ b=Gh0KgZnaCB12Lj9IL6EdeA+RS+R0PP0QqOdBm3HAbIsvtH9rhEGg/Cm1oMgDrVpS6GfsZd
+ OQzDww6X488YpC9/Rnz8GjyfeaXuvXC3fBWXQsqppRI6WspZvo6ctBCuLXPwncxYlasF4d
+ u6xWsIk2JEPxMpZ7xkExHpKIZRq2j8Q=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-578-q6_kef07NsW2hfaRpbi0LQ-1; Thu, 10 Dec 2020 06:30:42 -0500
+X-MC-Unique: q6_kef07NsW2hfaRpbi0LQ-1
+Received: by mail-wm1-f70.google.com with SMTP id w204so1101625wmb.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:30:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4SviQHGe/ji3mNg6gpdNpjky4QY5zlJfqfJjs3BUorY=;
+ b=I5A2YE7FlcrZZXeSQiCbh9YSI4e93z+nGf9FhA3aJCqrLDdue8EWyImeMnj2KDy1S2
+ 0AWflUs4RFhzgtzsw9bd+4Og82r/gMkMXzF8XjRMIXZ/5dCaXP6SHFJca4aRBOAo5FdP
+ 3tr5Oc+yTB/39CX7wdrYe07GX0b8KCKbgpRJar06IXtQkGXmAIe1m67vhSIp8h582YIh
+ 4rQXlTyzJF2UR4+2cqCFLzh1kgUBelhmPHXqj2iDC/MUIN/Kx41YHfv813xgGYSHzlVG
+ KWVl0TDcnJTmS5dabb7EzAkcXEMYdan5DLcVbU84OgrBiycdNwqki1QUba90zWW4n3/V
+ uw7w==
+X-Gm-Message-State: AOAM531+3snLDWfuu5gWC90690IO3b/lYUQXWMgiibXu1Lj/G49s9ifx
+ KdVDbX97Klk5R5/6VqQ392p4pkbW/LTmb218lRHumMfrBDxyuNCU05nxu5+fan1obZAyZWH1gfv
+ qPeT/uxkWgfKkeN0/OQ6XxJTmngdsz8yu8hPhGb+MbXPMYQaEjsfiMRGBxvVeCRua
+X-Received: by 2002:a5d:4a06:: with SMTP id m6mr7979161wrq.189.1607599841335; 
+ Thu, 10 Dec 2020 03:30:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy5cYQ9J21r1MubPB4sFZBd1ece8Q/7vsItMyXHfKJDny2GKCYPQ8nGzOW2w2rsSc4gZUHlgg==
+X-Received: by 2002:a5d:4a06:: with SMTP id m6mr7979135wrq.189.1607599841099; 
+ Thu, 10 Dec 2020 03:30:41 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id v1sm8457960wrr.48.2020.12.10.03.30.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Dec 2020 03:30:40 -0800 (PST)
 Subject: Re: [PATCH 1/1] trace: Send "-d trace:help" output to stdout
-Message-ID: <20201210112540.GE416119@stefanha-x1.localdomain>
+To: Stefan Hajnoczi <stefanha@redhat.com>, Doug Evans <dje@google.com>
 References: <20201125215245.3514695-1-dje@google.com>
+ <20201210112540.GE416119@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <1143378e-3c44-228b-4c20-85cbc43fbd8a@redhat.com>
+Date: Thu, 10 Dec 2020 12:30:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201125215245.3514695-1-dje@google.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201210112540.GE416119@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tVmo9FyGdCe4F4YN"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,40 +102,31 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---tVmo9FyGdCe4F4YN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Stefan,
 
-On Wed, Nov 25, 2020 at 01:52:45PM -0800, Doug Evans wrote:
-> ... for consistency with "-d help".
->=20
-> Signed-off-by: Doug Evans <dje@google.com>
-> ---
->  trace/control.c | 12 ++++++------
->  trace/control.h |  3 ++-
->  2 files changed, 8 insertions(+), 7 deletions(-)
+On 12/10/20 12:25 PM, Stefan Hajnoczi wrote:
+> On Wed, Nov 25, 2020 at 01:52:45PM -0800, Doug Evans wrote:
+>> ... for consistency with "-d help".
 
-Thanks, applied to my tracing tree:
-https://gitlab.com/stefanha/qemu/commits/tracing
+Do you mind replacing the '...' by the subject:
+'Send "-d trace:help" output to stdout', so the
+commit description makes more sense?
 
-Stefan
+Thanks,
 
---tVmo9FyGdCe4F4YN
-Content-Type: application/pgp-signature; name="signature.asc"
+Phil.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/SBbQACgkQnKSrs4Gr
-c8imBAf/XS9vDQ2plur6zngOUzPFWvHzHWx9vjoMhS8YCzWgefe7V676N3Qjfb0O
-GpGl14BluZAuWVcPF7qYFlq0uC20pYS44qvTLu1V8ewncMT8AJGD8WW0r2p04qcb
-v4p5t+BkZYxWPSUGHwdzDSFRrPNc5RsmIp03abN/vw2j06BHeG1N4GDr3Kp0KoyH
-3rJc8JSJhfhOZqLLpOMq9xGvmOQVke4UgYiikNq9KCNWuSRXCx07Sxc5RSL3BpDz
-W2yMcAPoypb0cKxxZFQJhtut9dbn6Va3WBWNwshUry1zvNmi2l5HNjG47xywWZKf
-xAmXWwImtwXZ+qzX2LMyNfZDMZHpPg==
-=EQBK
------END PGP SIGNATURE-----
-
---tVmo9FyGdCe4F4YN--
+>>
+>> Signed-off-by: Doug Evans <dje@google.com>
+>> ---
+>>  trace/control.c | 12 ++++++------
+>>  trace/control.h |  3 ++-
+>>  2 files changed, 8 insertions(+), 7 deletions(-)
+> 
+> Thanks, applied to my tracing tree:
+> https://gitlab.com/stefanha/qemu/commits/tracing
+> 
+> Stefan
+> 
 
 
