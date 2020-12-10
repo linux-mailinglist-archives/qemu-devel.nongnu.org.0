@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C828E2D5736
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:32:52 +0100 (CET)
-Received: from localhost ([::1]:49354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20A32D577B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:46:26 +0100 (CET)
+Received: from localhost ([::1]:50814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knIJf-0006JM-Ot
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:32:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43586)
+	id 1knIWn-00022F-TL
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:46:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHz3-0003dI-IW
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:33 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34190)
+ id 1knI8N-0003AT-VE
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:21:11 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHz1-00044s-5F
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:33 -0500
+ id 1knI8M-0007Dh-96
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:21:11 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knHyz-0006OM-Tb
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:29 +0000
+ id 1knI8L-0007mT-7P
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:21:09 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DF3042E8137
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:29 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3692F2E8137
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:21:09 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 09:02:06 -0000
-From: Thomas Huth <1890333@bugs.launchpad.net>
+Date: Thu, 10 Dec 2020 09:05:56 -0000
+From: Thomas Huth <1897783@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
+ assignee=cleber.gnu@gmail.com; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Commenters: cleber-gnu philmd th-huth wrampazz
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159656782458.2385.15174533675764579105.malonedeb@gac.canonical.com>
-Message-Id: <160759092666.10418.3526134912019005138.malone@wampee.canonical.com>
-Subject: [Bug 1890333] Re: [OSS-Fuzz] Issue 26797:
- qemu:qemu-fuzz-i386-target-generic-fuzz-virtio-blk: ASSERT: addr < cache->len
- && 2 <= cache->len - addr
+References: <160140299141.23116.14910893698614529826.malonedeb@wampee.canonical.com>
+Message-Id: <160759115671.10726.8244283649474222442.malone@wampee.canonical.com>
+Subject: [Bug 1897783] Re: avocado tests not running on aarch64 host
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 21b6bda68e698b232e5ea91acc94b9d9a07c446e
+X-Launchpad-Hash: 187980e8c7e59c210d1136af324b82ce5e264d5a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,11 +71,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890333 <1890333@bugs.launchpad.net>
+Reply-To: Bug 1897783 <1897783@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix in commit 2d69eba5fe52045b2c8b0d04fd3806414352afc1
+Released with QEMU v5.2.0.
 
 ** Changed in: qemu
        Status: New =3D> Fix Released
@@ -85,42 +84,45 @@ Fix in commit 2d69eba5fe52045b2c8b0d04fd3806414352afc1
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890333
+https://bugs.launchpad.net/bugs/1897783
 
 Title:
-  [OSS-Fuzz]  Issue 26797: qemu:qemu-fuzz-i386-target-generic-fuzz-
-  virtio-blk: ASSERT: addr < cache->len && 2 <=3D cache->len - addr
+  avocado tests not running on aarch64 host
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Hello,
-  Reproducer:
-  cat << EOF | ./i386-softmmu/qemu-system-i386 \
-  -drive id=3Dmydrive,file=3Dnull-co://,size=3D2M,format=3Draw,if=3Dnone \
-  -device virtio-blk,drive=3Dmydrive \
-  -nodefaults -qtest stdio -nographic
-  outl 0xcf8 0x80001001
-  outl 0xcfc 0x6574c1ff
-  outl 0xcf8 0x8000100e
-  outl 0xcfc 0xefe5e1e
-  outl 0xe86 0x3aff9090
-  outl 0xe84 0x3aff9090
-  outl 0xe8e 0xe
-  EOF
+  $ lsb_release -a
+  No LSB modules are available.
+  Distributor ID: Ubuntu
+  Description:    Ubuntu 20.04.1 LTS
+  Release:        20.04
+  Codename:       focal
 
-  qemu-system-i386: /home/alxndr/Development/qemu/general-fuzz/include/exec=
-/memory_ldst_cached.inc.h:88: void address_space_stw_le_cached(MemoryRegion=
-Cache *, hwaddr, uint32_t, MemTxAttrs, MemTxResult *): Assertion `addr < ca=
-che->len && 2 <=3D cache->len - addr' failed.
-  Aborted
+  $ make check-venv
+    VENV    /home/phil/qemu/build/tests/venv
+    PIP     /home/phil/qemu/tests/requirements.txt
+    ERROR: Command errored out with exit status 1:
+     command: /home/phil/qemu/build/tests/venv/bin/python -u -c 'import sys=
+, setuptools, tokenize; sys.argv[0] =3D '"'"'/tmp/pip-install-w1h2bh4a/pycd=
+lib/setup.py'"'"'; __file__=3D'"'"'/tmp/pip-install-w1h2bh4a/pycdlib/setup.=
+py'"'"';f=3Dgetattr(tokenize, '"'"'open'"'"', open)(__file__);code=3Df.read=
+().replace('"'"'\r\n'"'"', '"'"'\n'"'"');f.close();exec(compile(code, __fil=
+e__, '"'"'exec'"'"'))' bdist_wheel -d /tmp/pip-wheel-ic25ctcg
+         cwd: /tmp/pip-install-w1h2bh4a/pycdlib/
+    Complete output (6 lines):
+    usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]
+       or: setup.py --help [cmd1 cmd2 ...]
+       or: setup.py --help-commands
+       or: setup.py cmd --help
+    =
 
-  I can trigger similar assertions with other VIRTIO devices, as-well.
-  I reported this at some point in Message-ID: <20200511033001.dzvtbdhl3oz5=
-pgiy@mozz.bu.edu> but never created a Launchpad issue...
-  -Alex
+    error: invalid command 'bdist_wheel'
+    ----------------------------------------
+    ERROR: Failed building wheel for pycdlib
+  $
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890333/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1897783/+subscriptions
 
