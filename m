@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29B522D5A6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:24:44 +0100 (CET)
-Received: from localhost ([::1]:38600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CBB2D5A79
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:27:23 +0100 (CET)
+Received: from localhost ([::1]:47326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKzz-0005Yc-2t
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:24:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56416)
+	id 1knL2Y-0000jm-UG
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:27:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoK-00022E-I5
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:40 -0500
-Received: from mx2.suse.de ([195.135.220.15]:47202)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoX-0002MJ-Gs
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:53 -0500
+Received: from mx2.suse.de ([195.135.220.15]:47358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoH-0006R7-IW
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:40 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoV-0006T9-To
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:53 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 40BD2AD3F;
- Thu, 10 Dec 2020 12:12:36 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 9B146AD3F;
+ Thu, 10 Dec 2020 12:12:40 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,10 +29,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v10 07/32] i386: hvf: remove stale MAINTAINERS entry for old
- hvf stubs
-Date: Thu, 10 Dec 2020 13:12:01 +0100
-Message-Id: <20201210121226.19822-8-cfontana@suse.de>
+Subject: [PATCH v10 11/32] tcg: cpu_exec_{enter,exit} helpers
+Date: Thu, 10 Dec 2020 13:12:05 +0100
+Message-Id: <20201210121226.19822-12-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201210121226.19822-1-cfontana@suse.de>
 References: <20201210121226.19822-1-cfontana@suse.de>
@@ -66,32 +65,85 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
  Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
  Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Claudio Fontana <cfontana@suse.de>,
+ haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
  Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
  Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>,
- Colin Xu <colin.xu@intel.com>
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Eduardo Habkost <ehabkost@redhat.com>
+
+Move invocation of CPUClass.cpu_exec_*() to separate helpers,
+to make it easier to refactor that code later.
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- MAINTAINERS | 1 -
- 1 file changed, 1 deletion(-)
+ accel/tcg/cpu-exec.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 448593c904..f53f2678d8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -444,7 +444,6 @@ M: Cameron Esfahani <dirty@apple.com>
- M: Roman Bolshakov <r.bolshakov@yadro.com>
- W: https://wiki.qemu.org/Features/HVF
- S: Maintained
--F: accel/stubs/hvf-stub.c
- F: target/i386/hvf/
- F: include/sysemu/hvf.h
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 58aea605d8..8d31145ad2 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -236,9 +236,22 @@ static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
+ }
+ #endif
  
++static void cpu_exec_enter(CPUState *cpu)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    cc->cpu_exec_enter(cpu);
++}
++
++static void cpu_exec_exit(CPUState *cpu)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    cc->cpu_exec_exit(cpu);
++}
++
+ void cpu_exec_step_atomic(CPUState *cpu)
+ {
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+     TranslationBlock *tb;
+     target_ulong cs_base, pc;
+     uint32_t flags;
+@@ -257,11 +270,11 @@ void cpu_exec_step_atomic(CPUState *cpu)
+ 
+         /* Since we got here, we know that parallel_cpus must be true.  */
+         parallel_cpus = false;
+-        cc->cpu_exec_enter(cpu);
++        cpu_exec_enter(cpu);
+         /* execute the generated code */
+         trace_exec_tb(tb, pc);
+         cpu_tb_exec(cpu, tb);
+-        cc->cpu_exec_exit(cpu);
++        cpu_exec_exit(cpu);
+     } else {
+         /*
+          * The mmap_lock is dropped by tb_gen_code if it runs out of
+@@ -713,7 +726,7 @@ int cpu_exec(CPUState *cpu)
+ 
+     rcu_read_lock();
+ 
+-    cc->cpu_exec_enter(cpu);
++    cpu_exec_enter(cpu);
+ 
+     /* Calculate difference between guest clock and host clock.
+      * This delay includes the delay of the last cycle, so
+@@ -775,7 +788,7 @@ int cpu_exec(CPUState *cpu)
+         }
+     }
+ 
+-    cc->cpu_exec_exit(cpu);
++    cpu_exec_exit(cpu);
+     rcu_read_unlock();
+ 
+     return ret;
 -- 
 2.26.2
 
