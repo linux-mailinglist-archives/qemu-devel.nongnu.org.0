@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84BF2D5E2D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:44:26 +0100 (CET)
-Received: from localhost ([::1]:46594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1134F2D5E35
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:44:44 +0100 (CET)
+Received: from localhost ([::1]:47586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knNBB-0005e3-TT
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:44:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37698)
+	id 1knNBS-000636-RI
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:44:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <darrell.walisser@gmail.com>)
- id 1knN0L-0004WB-AN; Thu, 10 Dec 2020 09:33:14 -0500
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:35037)
+ id 1knN0L-0004WK-Cx; Thu, 10 Dec 2020 09:33:14 -0500
+Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:38838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <darrell.walisser@gmail.com>)
- id 1knN0J-00018M-Lu; Thu, 10 Dec 2020 09:33:13 -0500
-Received: by mail-io1-xd44.google.com with SMTP id i9so5718047ioo.2;
- Thu, 10 Dec 2020 06:33:09 -0800 (PST)
+ id 1knN0J-00018k-NW; Thu, 10 Dec 2020 09:33:13 -0500
+Received: by mail-il1-x143.google.com with SMTP id v3so5493519ilo.5;
+ Thu, 10 Dec 2020 06:33:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:to:from:cc:subject:message-id:mime-version;
  bh=l+WiHgdU4xiBBY9SYTWama7q6740QDxFaUE2NyHI0O8=;
- b=uIHn+FNXEDPBS5aKnRimMNEuzS9dmi83EPaP7L9BOtGaLAJY8CfDqnukS80JU60MbE
- tyf7sG2XaNFtTeRVOaecFObhw2fNCGQEcCOHuF2YfBgLc7CuY8WvwUwn4bnkBr1k/epo
- e0dUDcQLRhMVlR6rAY182+DIquGNEanidT2Yr82BRbirHnfGFBGkcuHIt6mZ9YQhCX48
- PAf4QgXYSEQF8OZ49ojSlWeyMY2C5ENzubFTW3VmkbQ5mRcQt6bAZ+Aj5rlCNQT2G2vd
- +I6lw9NF3NimDZMOrbwcjh3ZIpEGnLEltx+1YNJJXRrf0gZ2O8lPyw0z0yzOcPrdcYKL
- SpCw==
+ b=TMwOh+KchvU6bK6bHdudVOjI6XjxYAn6Sc8nnSxsceqXnNfsP4P1zlG2RfOtQKk7U4
+ yLpG6V9HHUJEQ7MW5pigGsxfKx8LHxbZ61e7sgZqNYmx7klyWaczADSs75cVQ3b+AaLm
+ MGFnu4LdV1QdquYkJe3WtpQzcUj8r93eCoqXbo9Vrq/hL0YWmQy2lAv2w0TmXCJksRef
+ SAD15kLwZDDRP3eQPpczqxB9uaC/AlRkJWUhiW4skWWAkqblois4MaNoW5Thh3Jj2lc6
+ a4QxWQTwUnzgqBbwdXPFTNJN2kMz2P0Gi66bw8aFMIM7Pxmbx4z7KQWSSD2zjcF+7YhQ
+ MOEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:to:from:cc:subject:message-id:mime-version;
  bh=l+WiHgdU4xiBBY9SYTWama7q6740QDxFaUE2NyHI0O8=;
- b=RUnR0RyReu3ciZ2y/8cRCp7XObPhXdpI1/45T127XOkHadHGW/fhhMPWGBDiP0Fnrj
- LDiH3OVFmOVZd5FDloRZXLXMLyIniyILLrKLDFWki0O0gXcbIp3fdD7BCY42d0kccMYg
- Ns7IiV3udT4eWfbEV2Nfh17JZJD8wjOfLmVaZbMXe5hGjYUKlWltdG9kvcsXRqzFOIkk
- viSAjuWJmkzfp/CJHLfb5THqp7Gpxg9PGpGPT9DQMPTr5GqsU4n49kO1pRudmWUJ5NDy
- Y6Um417azppB5qas0ZxxggrKm3xUYSW/a5PnDyYv2OHoWwF4/hZkJlcH+hvYHe2QzhKN
- Pr7g==
-X-Gm-Message-State: AOAM530hsQsza5/y+xBnAysUKrkfnfA/nVGEj8P0gC9IK32NRLrMhY1U
- 1wSHhWD2WyBjwyc/L/gSya8l3yZURxc=
-X-Google-Smtp-Source: ABdhPJw1kFDhMc8AsFFp89+Pi81h1P5LAhpmaldo2Q1UkXM/6sXc8DhtokJO5ozOfuWSzkSrkHVegw==
-X-Received: by 2002:a02:cc54:: with SMTP id i20mr9403523jaq.136.1607610788305; 
- Thu, 10 Dec 2020 06:33:08 -0800 (PST)
+ b=T8hmaartvZTKipY5sgeseBS6IYUWNk1ip06irLlB/8c5S8eoK5ruRIGXO2N6cvdKC8
+ 1mkmVdzN5fRYCUdkYkMxtjQ9D1+mAS/WpqBSwEcYNO/Txai/rEZ4RuhnKCWmKBQ16hbz
+ itLzoCL8T8qLmIqJpkbpzWTRVOxmkfs7yUfJwpX5LrMM3IGpYkiTazze7XMBxyZY5DcY
+ QZMLo3Pd3BiKBMBGF8wusmP9E1F+PVYQh2b2N5WC2Kq31/PN+0F6jnwV7zHsH/fl0HpH
+ Ii8kLgt1ZVf5OKUBx+GR/0px+uQFrhdA5GVwX9XcZqERmPou1XZRh8QyZ8LAgWcfjuAc
+ Juag==
+X-Gm-Message-State: AOAM530Wzj7twE5HoS20oFwm3ZmNp5hYxsJQ8ZrmH9V13n+pGF4hefyb
+ g08T2b+MMPzbkAPRMVz/Pi4V4dSb4zI=
+X-Google-Smtp-Source: ABdhPJygpMCzOS24XsxDNeDKsjhAs80oxXnaZv0hX+u/qsJnY+80BNlnu1ZKFQ5fhXe8jnnA9PUw6Q==
+X-Received: by 2002:a05:6e02:c32:: with SMTP id
+ q18mr9504609ilg.203.1607610789077; 
+ Thu, 10 Dec 2020 06:33:09 -0800 (PST)
 Received: from ubuntu ([74.119.146.240])
- by smtp.gmail.com with ESMTPSA id s1sm2698967iot.0.2020.12.10.06.33.07
+ by smtp.gmail.com with ESMTPSA id c21sm3476586ilg.9.2020.12.10.06.33.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 10 Dec 2020 06:33:07 -0800 (PST)
 Date: Thu, 10 Dec 2020 14:33:06 +0000
 To: qemu-devel@nongnu.org
 From: Darrell Walisser <darrell.walisser@gmail.com>
 Subject: [PATCH] sdl2: Add extra mouse buttons
-Message-ID: <XXgAoOzljr9denOsyerHO3XbEkdTY0oL7WLHkZopu9w@ubuntu>
+Message-ID: <8aeIgKDrK0wSGHIBHqDJniFwwWSDwkhE9wZT6bQsk@ubuntu>
 X-Priority: 1
 X-Mailer: PHPMailer 6.1.3 (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=darrell.walisser@gmail.com; helo=mail-io1-xd44.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
+ envelope-from=darrell.walisser@gmail.com; helo=mail-il1-x143.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
