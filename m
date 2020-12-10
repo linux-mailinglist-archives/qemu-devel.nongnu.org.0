@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E3C2D6628
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 20:17:04 +0100 (CET)
-Received: from localhost ([::1]:40306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4069D2D664A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 20:22:51 +0100 (CET)
+Received: from localhost ([::1]:47344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knRR1-00033r-5O
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 14:17:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46672)
+	id 1knRWb-0006YA-NZ
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 14:22:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1knRFX-0005zA-EG
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:05:12 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42692)
+ id 1knRN7-0002Gi-1Y
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:13:07 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1knRFU-0003d9-Md
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:05:11 -0500
-Received: by mail-wr1-x435.google.com with SMTP id m5so6600094wrx.9
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 11:05:08 -0800 (PST)
+ id 1knRN4-0005wm-Gt
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:13:00 -0500
+Received: by mail-wm1-x336.google.com with SMTP id q75so6419291wme.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 11:12:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wGyJhuUq9nJhWmxBmUt1APOSMihuq+Wu//XDALmnB3Q=;
- b=w0EIe7fqnEznjb6OmpSemXMtFo08uUOFWrrJvmpNOvX3EZcuVV7XoymVmnFLQMCY7I
- ENRlL1sw5t3SZ3QKD3retbzNI2U19mlmUtaSOoyMoyKgTuc3NP1Nodh8utoFXMfcEbow
- GyTLfn3T53EOqtqEm4nI/4bvOkitbxzbxSDNV4Xh81Hffpkfxehqw34Mm8wxrQ9hTKME
- 1bLIEo7TvVKlZf+o1BwT8CJUeUS1F0Jba9f2Xj5b2Nuckg4h9ivBGg7I4zQmk9WbDExX
- DoufT/fvdHyo//XukShjrEJT9H1x+aYkrvkjEOIp0nmaKTLrtlRfM4ybh0Y+E1mcG8tV
- vUPA==
+ bh=fOr0XArySi+Z0qeK90fLBYF/Fy8ZvCV112uZ64g+PY0=;
+ b=Hz+Q4xBT8Brp6EzB5j2JvG9q3m/CDRWzGkT7U61Nq5UYufXb3UJ98vtpUX2YMRi8de
+ TVmHm5Qng4yjAVMJj+EUJDhLk+RB0GVBEQbgQ5ZMvOTVdxK736CYfFgKRHunf36tdzlq
+ zXluHyDcrkLIpK+0xgw4iEXJSeQrive++lH9lRhuTWV13/yIyGoOOguy7Cgn8n8kNdYY
+ DnHiX7ZSWYV2AjIhxpq1hZwo9ATtpf7YD1B0P+xFttIX0oCMc8gvPA1id3Eqsqd0vyLQ
+ 7zUZGlIJZFeDprEjhutNiz/zfPgs1Ei5335AyK5DbSMvXcWgwYZLAiRgFgkGPPfGtgpH
+ t8LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wGyJhuUq9nJhWmxBmUt1APOSMihuq+Wu//XDALmnB3Q=;
- b=ZmzGtAL0cPycLAmnCf4puoSmVyZxE/9fgWOEWoQneOVAldnvRQ6doDHLSGAPlrjT8g
- 9MB8AviWU/7cF+0L7V8eZnPSaPFbSllwD3cRq7JAc5XnuiOSyAY/GM9oT69qXrs2hfFK
- nHOnXQ2VNX/RrSpZuNB1vmqKTBvgXxrxok0mwwntjbrUT2hb5NgyPGdnPEYKf2qZhFML
- mRsa7uH2BX3Dhijku/Y43+cK9bCiWMt+FwvDBh43f27u0JWzDPvCXRj6/zwE+hx5PXQN
- ksD9fwq/LY2E3gEhyrjitRb/N9ejwgY9IaJjeKtn5iXX/j2BbKWDPofsX4BInELI+cKo
- eQmA==
-X-Gm-Message-State: AOAM533vMKMQin08NwoYaxABd70rvyjZp0k3vDqsDde0nlHii2gI14O/
- anKm2Uzrxv9YHxeE1+avCQdaLQ==
-X-Google-Smtp-Source: ABdhPJzzjyWrAb3rI/BbNUfOXH7j2y5kkKh/5ZqWIXpG7BsXhPq2qHN/6aqLwq2/WTMmaD/gWahF6g==
-X-Received: by 2002:a5d:6a4f:: with SMTP id t15mr9479864wrw.62.1607627107346; 
- Thu, 10 Dec 2020 11:05:07 -0800 (PST)
+ bh=fOr0XArySi+Z0qeK90fLBYF/Fy8ZvCV112uZ64g+PY0=;
+ b=r6JnflMAhk/bW75oPQ+ZQnPtLkh0EhgVO2ntsNDrgKlJePbLQYUjjLIhW89A4OZNiH
+ j72ya5u432oFcXYQRhKDHbJv++19BlOvjQ4J8ICyp+6C3xzsmpr1Qt1oU14XU4+scTV3
+ GAPc5whJk2hev+PjxU2bNEpFi0kv6PNme+WnL5nMMI6mH6wCzS3dhmNAvLQJEUxp6v2A
+ e+hGXk4Lyot0Duaf9WRX04XT1Pmj0zAFrS7XMK2o993fGYZ2V1GVsOBwvP6YPq74tF8I
+ m7IOF+0z8xDRZQN1f3MP3cyevaZaw5ZqW3B/OZuyZgvs5yE9Nc9XJ3KUcjEXb938b1Z/
+ YGmA==
+X-Gm-Message-State: AOAM531hO3aYli94OUyuKL1OKMLQpWhwxMrEPQyFBgk1oH9sG995OqF3
+ 5syrFVblu2E9ZmuvufCbEaBg0g==
+X-Google-Smtp-Source: ABdhPJzn2e3nZ39EghMZAY0i36i30gksM2DeBhPclwIJOcFfSuUjD9EI04+ra5AavLcbrFJ3k11TAg==
+X-Received: by 2002:a1c:f715:: with SMTP id v21mr9964274wmh.2.1607627576943;
+ Thu, 10 Dec 2020 11:12:56 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a144sm10590694wmd.47.2020.12.10.11.04.22
+ by smtp.gmail.com with ESMTPSA id m4sm10504135wmi.41.2020.12.10.11.12.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 11:04:52 -0800 (PST)
+ Thu, 10 Dec 2020 11:12:55 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8142E1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 97A521FF93;
  Thu, 10 Dec 2020 19:04:18 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/8] gitlab: move --without-default-devices build from
- Travis
-Date: Thu, 10 Dec 2020 19:04:15 +0000
-Message-Id: <20201210190417.31673-7-alex.bennee@linaro.org>
+Subject: [PATCH  v2 7/8] gitlab: add --without-default-features build
+Date: Thu, 10 Dec 2020 19:04:16 +0000
+Message-Id: <20201210190417.31673-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210190417.31673-1-alex.bennee@linaro.org>
 References: <20201210190417.31673-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,49 +101,29 @@ Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 ---
 v2
-  - move to centos8
+  - swap with centos8, don't include --without-default-devuces
 ---
  .gitlab-ci.yml | 7 +++++++
- .travis.yml    | 8 --------
- 2 files changed, 7 insertions(+), 8 deletions(-)
+ 1 file changed, 7 insertions(+)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index b3bcaacf7b..2134453717 100644
+index 2134453717..229545bc03 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -514,6 +514,13 @@ build-trace-ust-system:
-     IMAGE: ubuntu2004
-     CONFIGURE_ARGS: --enable-trace-backends=ust --target-list=x86_64-softmmu
+@@ -521,6 +521,13 @@ build-without-default-devices:
+     IMAGE: centos8
+     CONFIGURE_ARGS: --without-default-devices --disable-user
  
-+# Check our reduced build configurations
-+build-without-default-devices:
++build-without-default-features:
 +  <<: *native_build_job_definition
 +  variables:
-+    IMAGE: centos8
-+    CONFIGURE_ARGS: --without-default-devices --disable-user
++    IMAGE: debian-amd64
++    CONFIGURE_ARGS: --without-default-features --disable-user
++    MAKE_CHECK_ARGS: check-unit
 +
  check-patch:
    stage: build
    image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
-diff --git a/.travis.yml b/.travis.yml
-index d01714a5ae..f2a101936c 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -205,14 +205,6 @@ jobs:
-         - ${SRC_DIR}/scripts/travis/coverage-summary.sh
- 
- 
--    # We manually include builds which we disable "make check" for
--    - name: "GCC without-default-devices (softmmu)"
--      env:
--        - CONFIG="--without-default-devices --disable-user"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
--        - TEST_CMD=""
--
--
-     # Using newer GCC with sanitizers
-     - name: "GCC9 with sanitizers (softmmu)"
-       dist: bionic
 -- 
 2.20.1
 
