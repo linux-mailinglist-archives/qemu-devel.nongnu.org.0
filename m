@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FACA2D5B44
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:08:51 +0100 (CET)
-Received: from localhost ([::1]:59496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF7C2D5B63
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:13:42 +0100 (CET)
+Received: from localhost ([::1]:39574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knLgg-0007PK-D7
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:08:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56588)
+	id 1knLlN-0002YV-7B
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:13:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoe-0002T7-SK
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:13:01 -0500
-Received: from mx2.suse.de ([195.135.220.15]:47592)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKol-0002ZR-Fe
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:13:09 -0500
+Received: from mx2.suse.de ([195.135.220.15]:47830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKob-0006VT-W0
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:13:00 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoi-0006Wp-M5
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:13:07 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BC815AD29;
- Thu, 10 Dec 2020 12:12:46 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id E4448AD57;
+ Thu, 10 Dec 2020 12:12:51 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,10 +29,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v10 17/32] accel/tcg: split TCG-only code from
- cpu_exec_realizefn
-Date: Thu, 10 Dec 2020 13:12:11 +0100
-Message-Id: <20201210121226.19822-18-cfontana@suse.de>
+Subject: [PATCH v10 22/32] target/arm: do not use cc->do_interrupt for KVM
+ directly
+Date: Thu, 10 Dec 2020 13:12:16 +0100
+Message-Id: <20201210121226.19822-23-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201210121226.19822-1-cfontana@suse.de>
 References: <20201210121226.19822-1-cfontana@suse.de>
@@ -73,205 +73,94 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-move away TCG-only code, make it compile only on TCG.
+cc->do_interrupt is in theory a TCG callback used in accel/tcg only,
+to prepare the emulated architecture to take an interrupt as defined
+in the hardware specifications,
+
+but in reality the _do_interrupt style of functions in targets are
+also occasionally reused by KVM to prepare the architecture state in a
+similar way where userspace code has identified that it needs to
+deliver an exception to the guest.
+
+In the case of ARM, that includes:
+
+1) the vcpu thread got a SIGBUS indicating a memory error,
+   and we need to deliver a Synchronous External Abort to the guest to
+   let it know about the error.
+2) the kernel told us about a debug exception (breakpoint, watchpoint)
+   but it is not for one of QEMU's own gdbstub breakpoints/watchpoints
+   so it must be a breakpoint the guest itself has set up, therefore
+   we need to deliver it to the guest.
+
+So in order to reuse code, the same arm_do_interrupt function is used.
+This is all fine, but we need to avoid calling it using the callback
+registered in CPUClass, since that one is now TCG-only.
+
+Fortunately this is easily solved by replacing calls to
+CPUClass::do_interrupt() with explicit calls to arm_do_interrupt().
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/core/cpu.h |  8 +++++
- accel/tcg/cpu-exec.c  | 28 +++++++++++++++++
- cpu.c                 | 70 ++++++++++++++++++++-----------------------
- hw/core/cpu.c         |  6 +++-
- 4 files changed, 74 insertions(+), 38 deletions(-)
+ target/arm/helper.c | 4 ++++
+ target/arm/kvm64.c  | 6 ++----
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index c93b08a0fb..ea648d52ad 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -1119,10 +1119,18 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx);
- void QEMU_NORETURN cpu_abort(CPUState *cpu, const char *fmt, ...)
-     GCC_FMT_ATTR(2, 3);
- extern Property cpu_common_props[];
-+
-+/* $(top_srcdir)/cpu.c */
- void cpu_exec_initfn(CPUState *cpu);
- void cpu_exec_realizefn(CPUState *cpu, Error **errp);
- void cpu_exec_unrealizefn(CPUState *cpu);
- 
-+#ifdef CONFIG_TCG
-+/* accel/tcg/cpu-exec.c */
-+void tcg_exec_realizefn(CPUState *cpu, Error **errp);
-+void tcg_exec_unrealizefn(CPUState *cpu);
-+#endif /* CONFIG_TCG */
-+
- /**
-  * target_words_bigendian:
-  * Returns true if the (default) endianness of the target is big endian,
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 64cba89356..50eb92d217 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -801,6 +801,34 @@ int cpu_exec(CPUState *cpu)
-     return ret;
- }
- 
-+void tcg_exec_realizefn(CPUState *cpu, Error **errp)
-+{
-+    static bool tcg_target_initialized;
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (!tcg_target_initialized) {
-+        cc->tcg_ops.initialize();
-+        tcg_target_initialized = true;
-+    }
-+    tlb_init(cpu);
-+    qemu_plugin_vcpu_init_hook(cpu);
-+
-+#ifndef CONFIG_USER_ONLY
-+    tcg_iommu_init_notifier_list(cpu);
-+#endif /* !CONFIG_USER_ONLY */
-+}
-+
-+/* undo the initializations in reverse order */
-+void tcg_exec_unrealizefn(CPUState *cpu)
-+{
-+#ifndef CONFIG_USER_ONLY
-+    tcg_iommu_free_notifier_list(cpu);
-+#endif /* !CONFIG_USER_ONLY */
-+
-+    qemu_plugin_vcpu_exit_hook(cpu);
-+    tlb_destroy(cpu);
-+}
-+
- #ifndef CONFIG_USER_ONLY
- 
- void dump_drift_info(void)
-diff --git a/cpu.c b/cpu.c
-index 27ad096cc4..5cc8f181be 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -124,13 +124,35 @@ const VMStateDescription vmstate_cpu_common = {
- };
- #endif
- 
-+void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    cpu_list_add(cpu);
-+
-+#ifdef CONFIG_TCG
-+    /* NB: errp parameter is unused currently */
-+    if (tcg_enabled()) {
-+        tcg_exec_realizefn(cpu, errp);
-+    }
-+#endif /* CONFIG_TCG */
-+
-+#ifdef CONFIG_USER_ONLY
-+    assert(cc->vmsd == NULL);
-+#else
-+    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-+        vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
-+    }
-+    if (cc->vmsd != NULL) {
-+        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
-+    }
-+#endif /* CONFIG_USER_ONLY */
-+}
-+
- void cpu_exec_unrealizefn(CPUState *cpu)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 38cd35c049..bebaabf525 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -9895,6 +9895,10 @@ static void handle_semihosting(CPUState *cs)
+  * Do any appropriate logging, handle PSCI calls, and then hand off
+  * to the AArch64-entry or AArch32-entry function depending on the
+  * target exception level's register width.
++ *
++ * Note: this is used for both TCG (as the do_interrupt tcg op),
++ *       and KVM to re-inject guest debug exceptions, and to
++ *       inject a Synchronous-External-Abort.
+  */
+ void arm_cpu_do_interrupt(CPUState *cs)
  {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
--    tlb_destroy(cpu);
--    cpu_list_remove(cpu);
--
- #ifdef CONFIG_USER_ONLY
-     assert(cc->vmsd == NULL);
- #else
-@@ -140,8 +162,15 @@ void cpu_exec_unrealizefn(CPUState *cpu)
-     if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
-         vmstate_unregister(NULL, &vmstate_cpu_common, cpu);
-     }
--    tcg_iommu_free_notifier_list(cpu);
- #endif
-+#ifdef CONFIG_TCG
-+    /* NB: errp parameter is unused currently */
-+    if (tcg_enabled()) {
-+        tcg_exec_unrealizefn(cpu);
-+    }
-+#endif /* CONFIG_TCG */
-+
-+    cpu_list_remove(cpu);
- }
- 
- Property cpu_common_props[] = {
-@@ -171,39 +200,6 @@ void cpu_exec_initfn(CPUState *cpu)
- #endif
- }
- 
--void cpu_exec_realizefn(CPUState *cpu, Error **errp)
--{
--    CPUClass *cc = CPU_GET_CLASS(cpu);
--#ifdef CONFIG_TCG
--    static bool tcg_target_initialized;
--#endif /* CONFIG_TCG */
--
--    cpu_list_add(cpu);
--
--#ifdef CONFIG_TCG
--    if (tcg_enabled() && !tcg_target_initialized) {
--        tcg_target_initialized = true;
--        cc->tcg_ops.initialize();
--    }
--#endif /* CONFIG_TCG */
--    tlb_init(cpu);
--
--    qemu_plugin_vcpu_init_hook(cpu);
--
--#ifdef CONFIG_USER_ONLY
--    assert(cc->vmsd == NULL);
--#else /* !CONFIG_USER_ONLY */
--    if (qdev_get_vmsd(DEVICE(cpu)) == NULL) {
--        vmstate_register(NULL, cpu->cpu_index, &vmstate_cpu_common, cpu);
--    }
--    if (cc->vmsd != NULL) {
--        vmstate_register(NULL, cpu->cpu_index, cc->vmsd, cpu);
--    }
--
--    tcg_iommu_init_notifier_list(cpu);
--#endif
--}
--
- const char *parse_cpu_option(const char *cpu_option)
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index f74bac2457..3728b3a336 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -944,7 +944,6 @@ static void kvm_inject_arm_sea(CPUState *c)
  {
-     ObjectClass *oc;
-diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 994a12cb35..1f04aab16b 100644
---- a/hw/core/cpu.c
-+++ b/hw/core/cpu.c
-@@ -199,6 +199,10 @@ static bool cpu_common_virtio_is_big_endian(CPUState *cpu)
-     return target_words_bigendian();
+     ARMCPU *cpu = ARM_CPU(c);
+     CPUARMState *env = &cpu->env;
+-    CPUClass *cc = CPU_GET_CLASS(c);
+     uint32_t esr;
+     bool same_el;
+ 
+@@ -960,7 +959,7 @@ static void kvm_inject_arm_sea(CPUState *c)
+ 
+     env->exception.syndrome = esr;
+ 
+-    cc->do_interrupt(c);
++    arm_cpu_do_interrupt(c);
  }
  
-+/*
-+ * XXX the following #if is always true because this is a common_ss
-+ * module, so target CONFIG_* is never defined.
-+ */
- #if !defined(CONFIG_USER_ONLY)
- GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
+ #define AARCH64_CORE_REG(x)   (KVM_REG_ARM64 | KVM_REG_SIZE_U64 | \
+@@ -1491,7 +1490,6 @@ bool kvm_arm_handle_debug(CPUState *cs, struct kvm_debug_exit_arch *debug_exit)
  {
-@@ -340,9 +344,9 @@ static void cpu_common_realizefn(DeviceState *dev, Error **errp)
- static void cpu_common_unrealizefn(DeviceState *dev)
- {
-     CPUState *cpu = CPU(dev);
-+
-     /* NOTE: latest generic point before the cpu is fully unrealized */
-     trace_fini_vcpu(cpu);
--    qemu_plugin_vcpu_exit_hook(cpu);
-     cpu_exec_unrealizefn(cpu);
- }
+     int hsr_ec = syn_get_ec(debug_exit->hsr);
+     ARMCPU *cpu = ARM_CPU(cs);
+-    CPUClass *cc = CPU_GET_CLASS(cs);
+     CPUARMState *env = &cpu->env;
  
+     /* Ensure PC is synchronised */
+@@ -1545,7 +1543,7 @@ bool kvm_arm_handle_debug(CPUState *cs, struct kvm_debug_exit_arch *debug_exit)
+     env->exception.vaddress = debug_exit->far;
+     env->exception.target_el = 1;
+     qemu_mutex_lock_iothread();
+-    cc->do_interrupt(cs);
++    arm_cpu_do_interrupt(cs);
+     qemu_mutex_unlock_iothread();
+ 
+     return false;
 -- 
 2.26.2
 
