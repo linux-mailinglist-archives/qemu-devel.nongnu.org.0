@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242A02D599D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:49:58 +0100 (CET)
-Received: from localhost ([::1]:33216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E712D59AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:51:30 +0100 (CET)
+Received: from localhost ([::1]:38384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKSK-0001Re-Ev
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:49:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50684)
+	id 1knKTp-0003eR-Lo
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:51:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1knKPv-0000if-Pd
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:47:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55174)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1knKPs-0006hs-Ks
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:47:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607600843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k9gKm5v1sRzv2f2CSXVYbei/yOwHFnugpi7wKZdqwDk=;
- b=MIZr6oQWDr6u0z/duhNKa+mG6ZPzEcpW0f0YurNz5XvyYM3l2UTnlTRQzVxZmQlKKKkjAb
- B6EkqGRVteid/IrU48tSkWuhvtL+i6buTz08y/MSPLMzIcUG57xOKOmK/5+CSMvbXtZRwL
- SPsZFa/KrwTFppsOR2gOMgWTqOfI/x4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-E6PdSPZ4Ozepy-oR-y3w6g-1; Thu, 10 Dec 2020 06:47:21 -0500
-X-MC-Unique: E6PdSPZ4Ozepy-oR-y3w6g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 729C0100C60B;
- Thu, 10 Dec 2020 11:47:20 +0000 (UTC)
-Received: from starship (unknown [10.35.206.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E1A69100AE3F;
- Thu, 10 Dec 2020 11:47:16 +0000 (UTC)
-Message-ID: <21389a95e4265f17fbc28490858bd1ec54798c63.camel@redhat.com>
-Subject: Re: [PATCH v5 2/4] block: add bdrv_co_delete_file_noerr
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, 
- qemu-devel@nongnu.org
-Date: Thu, 10 Dec 2020 13:47:14 +0200
-In-Reply-To: <c6bcf0e0-c3b6-89d8-9587-a5e43a7ccee4@virtuozzo.com>
-References: <20201209203326.879381-1-mlevitsk@redhat.com>
- <20201209203326.879381-3-mlevitsk@redhat.com>
- <c6bcf0e0-c3b6-89d8-9587-a5e43a7ccee4@virtuozzo.com>
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knKQf-0001HR-Dr
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:13 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:39664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1knKQT-0006w9-Rk
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:13 -0500
+Received: by mail-wm1-x329.google.com with SMTP id 3so4990676wmg.4
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9yZA4g3A8HZN+50GCnNcBF1Lx4mak0axvIgtiXKAWUQ=;
+ b=bmzpuGS7SG0LWVamO+TnL3AfcxAktjeA7YldX6zEqbVGILCyAEKjh3TEHhAJvEA1FD
+ FqwK/EXHSUX1DNZ4QbrEbasPn25l6H55gzsnsZ0saR9TsAmyWMsbQTv2DQx1SHEImiiN
+ TMKS0ezdoXD26iVbATHVL66hk5WeCkWesdByiH1kCEtjc7VkzkfBUnudwM43namW6BCS
+ V42cK1Cen7v9CuIhTUAkRMqmLdrFUtGmG8FGgZIhdjMzJWa+f9LOIl9dg+8CQLL9riEZ
+ 8/MBh3lJjb/XHLX9Ay2VayM2SXjWSbuACPx0804d9DQrqBW9xjhcnBoECe7Pi0K38c4R
+ JiqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9yZA4g3A8HZN+50GCnNcBF1Lx4mak0axvIgtiXKAWUQ=;
+ b=EuszclsvePJXWSz7ucevxBBQTGXGr2TtiE0PcbA5o/LPio7d+7oRbp4ILSCnmXyLdP
+ pT8jQifIMN/JPLgFouY6dwvMBj6pE05wBg3j3sB76fV+UwSU6HnjqE6nD06ZB5gUwIjM
+ LUr+oBRtXt8+57sjmON/Cb46ITbKgY8EsyflH8rtjMOWrPIppBV1eeZ72Fbi3jhshV9o
+ u+x3RSrgLsyCcHMIZz3cbmycN50/P1f1dW5cXr7/z0K5lI/6T7qiSY8s+FDLAb2dUrPn
+ q/nUKM+anUOJ6kWpbwu286YKHH2ICwzSDBGa0r6PfSslR0TC1ElN42D/JRxeJpCXKNt/
+ xSvA==
+X-Gm-Message-State: AOAM533bYn3ec1HTACZh7AF2yB9IwP9YHglDYwUUOtiDat2afw0cq2tj
+ WwNv8XPHo6WkHWMHN8sgEh0PMO+f9HK5Qw==
+X-Google-Smtp-Source: ABdhPJxvMw/qowiN71pkXheLpuzrniiryIZ4zxu/acvsJIawsJH+d/0bLJyXvIAZoyJIuNjtMsInmw==
+X-Received: by 2002:a1c:4954:: with SMTP id w81mr7736233wma.60.1607600878878; 
+ Thu, 10 Dec 2020 03:47:58 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.47.58
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Dec 2020 03:47:58 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/36] target-arm queue
+Date: Thu, 10 Dec 2020 11:47:20 +0000
+Message-Id: <20201210114756.16501-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,117 +82,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2020-12-10 at 13:54 +0300, Vladimir Sementsov-Ogievskiy wrote:
-> 09.12.2020 23:33, Maxim Levitsky wrote:
-> > This function wraps bdrv_co_delete_file for the common case of removing a file,
-> > which was just created by format driver, on an error condition.
-> > 
-> > It hides the -ENOTSUPP error, and reports all other errors otherwise.
-> 
-> I've looked at original commit added this logic, and didn't find exactly, why should we hide it..
-> 
-> > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > Reviewed-by: Alberto Garcia <berto@igalia.com>
-> > ---
-> >   block.c               | 24 ++++++++++++++++++++++++
-> >   include/block/block.h |  1 +
-> >   2 files changed, 25 insertions(+)
-> > 
-> > diff --git a/block.c b/block.c
-> > index f1cedac362..5d35ba2fb8 100644
-> > --- a/block.c
-> > +++ b/block.c
-> > @@ -704,6 +704,30 @@ int coroutine_fn bdrv_co_delete_file(BlockDriverState *bs, Error **errp)
-> >       return ret;
-> >   }
-> >   
-> > +void coroutine_fn bdrv_co_delete_file_noerr(BlockDriverState *bs)
-> > +{
-> > +    Error *local_err = NULL;
-> > +    int ret;
-> > +
-> > +    if (!bs) {
-> > +        return;
-> > +    }
-> > +
-> > +    ret = bdrv_co_delete_file(bs, &local_err);
-> > +    /*
-> > +     * ENOTSUP will happen if the block driver doesn't support
-> > +     * the 'bdrv_co_delete_file' interface. This is a predictable
-> > +     * scenario and shouldn't be reported back to the user.
-> > +     */
-> 
-> It's not predictable for user: user doesn't know internal processes and interfaces.
-> 
-> The problem: we've left extra file on failure scenario and can't remove it. We want to warn the user that there is a wrong file left. Why not to warn, when the removement is unsupported internally by the driver?
-> 
-> I think, it's better to report it in any case.
+First pullreq for 6.0: mostly my v8.1M work, plus some other
+bits and pieces. (I still have a lot of stuff in my to-review
+folder, which I may or may not get to before the Christmas break...)
 
-This is a good point, but it is not something I changed.
-I prefer this to be changed in a separate patch.
+thanks
+-- PMM
 
+The following changes since commit 5e7b204dbfae9a562fc73684986f936b97f63877:
 
-> 
-> Another reason: less code and logic on failure case. Optimizing failure scenarios in different manner is seldom a good thing to do.
-> 
-> And finally: why to report the error at all? If we have errp parameter, it's better to add the info to it using error_append.. something like error_append(errp, " (also failed to remove unfinished file %s: %s)", file_name, error_get_pretty(local_err))
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-12-09 20:08:54 +0000)
 
-The idea behind this was to reduce code duplication in the callers of this function,
-and this is why this function doesn't even have the 'errp' parameter.
-I'll think about it.
+are available in the Git repository at:
 
-> 
-> 
-> Probably I'm making mountains out of molehills. It should work, so take my r-b anyway:
-> 
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
-> 
-> Side note: I'd not split patches 02 and 03: this way it would be simpler to see the code movement.
-> 
-> > +    if (ret == -ENOTSUP) {
-> > +        error_free(local_err);
-> > +    } else if (ret < 0) {
-> > +        error_report_err(local_err);
-> > +    }
-> > +}
-> > +
-> > +
-> > +
-> 
-> three empty lines..
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201210
 
-Will fix.
-> 
-> >   /**
-> >    * Try to get @bs's logical and physical block size.
-> >    * On success, store them in @bsz struct and return 0.
-> > diff --git a/include/block/block.h b/include/block/block.h
-> > index c9d7c58765..af03022723 100644
-> > --- a/include/block/block.h
-> > +++ b/include/block/block.h
-> > @@ -428,6 +428,7 @@ int bdrv_freeze_backing_chain(BlockDriverState *bs, BlockDriverState *base,
-> >                                 Error **errp);
-> >   void bdrv_unfreeze_backing_chain(BlockDriverState *bs, BlockDriverState *base);
-> >   int coroutine_fn bdrv_co_delete_file(BlockDriverState *bs, Error **errp);
-> > +void coroutine_fn bdrv_co_delete_file_noerr(BlockDriverState *bs);
-> >   
-> >   
-> >   typedef struct BdrvCheckResult {
-> > 
+for you to fetch changes up to 71f916be1c7e9ede0e37d9cabc781b5a9e8638ff:
 
-Thanks a lot for the review!
+  hw/arm/armv7m: Correct typo in QOM object name (2020-12-10 11:44:56 +0000)
 
-Best regards,
-	Maxim Levitsky
+----------------------------------------------------------------
+target-arm queue:
+ * hw/arm/smmuv3: Fix up L1STD_SPAN decoding
+ * xlnx-zynqmp: Support Xilinx ZynqMP CAN controllers
+ * sbsa-ref: allow to use Cortex-A53/57/72 cpus
+ * Various minor code cleanups
+ * hw/intc/armv7m_nvic: Make all of system PPB range be RAZWI/BusFault
+ * Implement more pieces of ARMv8.1M support
 
-> 
-> 
+----------------------------------------------------------------
+Alex Chen (4):
+      i.MX25: Fix bad printf format specifiers
+      i.MX31: Fix bad printf format specifiers
+      i.MX6: Fix bad printf format specifiers
+      i.MX6ul: Fix bad printf format specifiers
 
+Havard Skinnemoen (1):
+      tests/qtest/npcm7xx_rng-test: dump random data on failure
 
+Kunkun Jiang (1):
+      hw/arm/smmuv3: Fix up L1STD_SPAN decoding
+
+Marcin Juszkiewicz (1):
+      sbsa-ref: allow to use Cortex-A53/57/72 cpus
+
+Peter Maydell (25):
+      hw/intc/armv7m_nvic: Make all of system PPB range be RAZWI/BusFault
+      target/arm: Implement v8.1M PXN extension
+      target/arm: Don't clobber ID_PFR1.Security on M-profile cores
+      target/arm: Implement VSCCLRM insn
+      target/arm: Implement CLRM instruction
+      target/arm: Enforce M-profile VMRS/VMSR register restrictions
+      target/arm: Refactor M-profile VMSR/VMRS handling
+      target/arm: Move general-use constant expanders up in translate.c
+      target/arm: Implement VLDR/VSTR system register
+      target/arm: Implement M-profile FPSCR_nzcvqc
+      target/arm: Use new FPCR_NZCV_MASK constant
+      target/arm: Factor out preserve-fp-state from full_vfp_access_check()
+      target/arm: Implement FPCXT_S fp system register
+      hw/intc/armv7m_nvic: Update FPDSCR masking for v8.1M
+      target/arm: For v8.1M, always clear R0-R3, R12, APSR, EPSR on exception entry
+      target/arm: In v8.1M, don't set HFSR.FORCED on vector table fetch failures
+      target/arm: Implement v8.1M REVIDR register
+      target/arm: Implement new v8.1M NOCP check for exception return
+      target/arm: Implement new v8.1M VLLDM and VLSTM encodings
+      hw/intc/armv7m_nvic: Support v8.1M CCR.TRD bit
+      target/arm: Implement CCR_S.TRD behaviour for SG insns
+      hw/intc/armv7m_nvic: Fix "return from inactive handler" check
+      target/arm: Implement M-profile "minimal RAS implementation"
+      hw/intc/armv7m_nvic: Implement read/write for RAS register block
+      hw/arm/armv7m: Correct typo in QOM object name
+
+Vikram Garhwal (4):
+      hw/net/can: Introduce Xilinx ZynqMP CAN controller
+      xlnx-zynqmp: Connect Xilinx ZynqMP CAN controllers
+      tests/qtest: Introduce tests for Xilinx ZynqMP CAN controller
+      MAINTAINERS: Add maintainer entry for Xilinx ZynqMP CAN controller
+
+ meson.build                      |    1 +
+ hw/arm/smmuv3-internal.h         |    2 +-
+ hw/net/can/trace.h               |    1 +
+ include/hw/arm/xlnx-zynqmp.h     |    8 +
+ include/hw/intc/armv7m_nvic.h    |    2 +
+ include/hw/net/xlnx-zynqmp-can.h |   78 +++
+ target/arm/cpu.h                 |   46 ++
+ target/arm/m-nocp.decode         |   10 +-
+ target/arm/t32.decode            |   10 +-
+ target/arm/vfp.decode            |   14 +
+ hw/arm/armv7m.c                  |    4 +-
+ hw/arm/sbsa-ref.c                |   23 +-
+ hw/arm/xlnx-zcu102.c             |   20 +
+ hw/arm/xlnx-zynqmp.c             |   34 ++
+ hw/intc/armv7m_nvic.c            |  246 ++++++--
+ hw/misc/imx25_ccm.c              |   12 +-
+ hw/misc/imx31_ccm.c              |   14 +-
+ hw/misc/imx6_ccm.c               |   20 +-
+ hw/misc/imx6_src.c               |    2 +-
+ hw/misc/imx6ul_ccm.c             |    4 +-
+ hw/misc/imx_ccm.c                |    4 +-
+ hw/net/can/xlnx-zynqmp-can.c     | 1161 ++++++++++++++++++++++++++++++++++++++
+ target/arm/cpu.c                 |    5 +-
+ target/arm/helper.c              |    7 +-
+ target/arm/m_helper.c            |  130 ++++-
+ target/arm/translate.c           |  105 +++-
+ tests/qtest/npcm7xx_rng-test.c   |   12 +
+ tests/qtest/xlnx-can-test.c      |  360 ++++++++++++
+ MAINTAINERS                      |    8 +
+ hw/Kconfig                       |    1 +
+ hw/net/can/meson.build           |    1 +
+ hw/net/can/trace-events          |    9 +
+ target/arm/translate-vfp.c.inc   |  511 ++++++++++++++++-
+ tests/qtest/meson.build          |    1 +
+ 34 files changed, 2713 insertions(+), 153 deletions(-)
+ create mode 100644 hw/net/can/trace.h
+ create mode 100644 include/hw/net/xlnx-zynqmp-can.h
+ create mode 100644 hw/net/can/xlnx-zynqmp-can.c
+ create mode 100644 tests/qtest/xlnx-can-test.c
+ create mode 100644 hw/net/can/trace-events
 
