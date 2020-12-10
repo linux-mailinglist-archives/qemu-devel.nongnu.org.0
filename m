@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862612D5611
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:07:32 +0100 (CET)
-Received: from localhost ([::1]:48562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5721B2D5634
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:11:37 +0100 (CET)
+Received: from localhost ([::1]:57102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knHv9-0007L0-Jh
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:07:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41374)
+	id 1knHz6-0002OB-AO
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:11:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHp2-0001it-3F
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:01:12 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59728)
+ id 1knHpE-0001zz-Sz
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:01:24 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHp0-0000dR-7t
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:01:11 -0500
+ id 1knHp5-0000fx-9X
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:01:24 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knHow-0004ft-QN
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:01:06 +0000
+ id 1knHp3-0004hz-V6
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:01:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C2C1F2E8047
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:01:06 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E79862E813F
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:01:13 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 08:49:59 -0000
-From: Thomas Huth <1904486@bugs.launchpad.net>
+Date: Thu, 10 Dec 2020 08:50:32 -0000
+From: Thomas Huth <1890312@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
+ assignee=deller@gmx.de; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell th-huth yjruc zdchen
-X-Launchpad-Bug-Reporter: yuanjungong (yjruc)
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160557932327.14164.11613670931205353723.malonedeb@soybean.canonical.com>
-Message-Id: <160759019974.11599.7996984647460438411.malone@wampee.canonical.com>
-Subject: [Bug 1904486] Re: resource leak in /net/tap.c
+References: <159655837180.16425.4114028291831523850.malonedeb@wampee.canonical.com>
+Message-Id: <160759023248.15799.10339364537071280268.malone@chaenomeles.canonical.com>
+Subject: [Bug 1890312] Re: Segfault in artist_vram_read
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 0d1782ea8e7011baf67b7bd0db61f83a1f843ccd
+X-Launchpad-Hash: 45e3da339308e327e4e6387329f22054b6b91726
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904486 <1904486@bugs.launchpad.net>
+Reply-To: Bug 1890312 <1890312@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,50 +83,65 @@ Released with QEMU v5.2.0.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904486
+https://bugs.launchpad.net/bugs/1890312
 
 Title:
-  resource leak in /net/tap.c
+  Segfault in artist_vram_read
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Hi,there might be a resource leak in function net_init_tap in
-  /net/tap.c. The version is 5.1.91.
+  Hello,
+  Reproducer:
 
-  =
+  cat << EOF | ./hppa-softmmu/qemu-system-hppa -m 64 -display none \
+  -qtest stdio -accel qtest
+  writew 0xf8118001 0x105a
+  readq 0xf900f8ff
+  EOF
 
-  =C2=A0811         fd =3D monitor_fd_param(monitor_cur(), tap->fd, errp);
-  =C2=A0812         if (fd =3D=3D -1) {
-  =C2=A0813             return -1;
-  =C2=A0814         }
-  =C2=A0815
-  =C2=A0816         ret =3D qemu_try_set_nonblock(fd);
-  =C2=A0817         if (ret < 0) {
-  =C2=A0818             error_setg_errno(errp, -ret, "%s: Can't use file de=
-scriptor %d",
-  =C2=A0819                              name, fd);
-  =C2=A0820             return -1;
-  =C2=A0821         }
-  =C2=A0822
-  =C2=A0823         vnet_hdr =3D tap_probe_vnet_hdr(fd, errp);
-  =C2=A0824         if (vnet_hdr < 0) {
-  =C2=A0825             close(fd);
-  =C2=A0826             return -1;
-  =C2=A0827         }
-  =C2=A0828
-  =C2=A0829         net_init_tap_one(tap, peer, "tap", name, NULL,
-  =C2=A0830                          script, downscript,
-  =C2=A0831                          vhostfdname, vnet_hdr, fd, &err);
-  =C2=A0832         if (err) {
-  =C2=A0833             error_propagate(errp, err);
-  =C2=A0834             return -1;
-  =C2=A0835         }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D20118=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x7fc6f=
+b847672 (pc 0x55ec9c0f6828 bp 0x7ffd91000230 sp 0x7ffd90ffffd0 T0)
+  =3D=3D20118=3D=3DThe signal is caused by a READ memory access.
+      #0 0x55ec9c0f6828 in artist_vram_read /hw/display/artist.c:1174:15
+      #1 0x55ec9b84a582 in memory_region_read_accessor /softmmu/memory.c:43=
+4:11
+      #2 0x55ec9b7d1adc in access_with_adjusted_size /softmmu/memory.c:539:=
+18
+      #3 0x55ec9b7cd769 in memory_region_dispatch_read1 /softmmu/memory.c:1=
+385:16
+      #4 0x55ec9b7cc855 in memory_region_dispatch_read /softmmu/memory.c:14=
+14:9
+      #5 0x55ec9ae621de in flatview_read_continue /exec.c:3239:23
+      #6 0x55ec9ae64fb1 in flatview_read /exec.c:3279:12
+      #7 0x55ec9ae64af7 in address_space_read_full /exec.c:3292:18
+      #8 0x55ec9b87c990 in address_space_read /include/exec/memory.h:2429:18
+      #9 0x55ec9b87c990 in qtest_process_command /softmmu/qtest.c:485:13
+      #10 0x55ec9b870c08 in qtest_process_inbuf /softmmu/qtest.c:710:9
+      #11 0x55ec9b86f895 in qtest_read /softmmu/qtest.c:722:5
+      #12 0x55ec9dd2b2f3 in qemu_chr_be_write_impl /chardev/char.c:188:9
+      #13 0x55ec9dd2b477 in qemu_chr_be_write /chardev/char.c:200:9
+      #14 0x55ec9dd3f763 in fd_chr_read /chardev/char-fd.c:68:9
+      #15 0x55ec9de93b24 in qio_channel_fd_source_dispatch /io/channel-watc=
+h.c:84:12
+      #16 0x7fc7261ad897 in g_main_context_dispatch ()
+      #17 0x55ec9e28ba2b in glib_pollfds_poll /util/main-loop.c:217:9
+      #18 0x55ec9e28915b in os_host_main_loop_wait /util/main-loop.c:240:5
+      #19 0x55ec9e288af4 in main_loop_wait /util/main-loop.c:516:11
+      #20 0x55ec9b891d00 in qemu_main_loop /softmmu/vl.c:1676:9
+      #21 0x55ec9decb911 in main /softmmu/main.c:49:5
 
-  fd should be closed before return in line 820 and line 834, similar to
-  the implementation in line 825.
+  The error occurs even with Message-Id:
+  <20200804140056.7690-1-deller@gmx.de> applied (I collected the above
+  trace with the patch-set applied)
+
+  Thanks
+  -Alex
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904486/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1890312/+subscriptions
 
