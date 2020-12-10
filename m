@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C582D55C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 09:54:34 +0100 (CET)
-Received: from localhost ([::1]:53714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A662A2D55A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 09:52:38 +0100 (CET)
+Received: from localhost ([::1]:50404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knHib-0005lD-EM
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 03:54:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39086)
+	id 1knHgj-0004LA-N3
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 03:52:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHfX-0003OT-TQ
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:23 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58446)
+ id 1knHfW-0003Mh-6l
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:22 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHfU-0005mf-Sw
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:23 -0500
+ id 1knHfT-0005mY-Nv
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:21 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knHfQ-0003kr-TZ
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:17 +0000
+ id 1knHfQ-0003kH-62
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:16 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C4CD92E8148
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:16 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D2FDD2E814A
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:15 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 08:43:03 -0000
-From: Thomas Huth <1896263@bugs.launchpad.net>
+Date: Thu, 10 Dec 2020 08:43:34 -0000
+From: Thomas Huth <1900155@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: ide
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ehabkost laurent-vivier maxco stefanha th-huth
- vkuznets
-X-Launchpad-Bug-Reporter: Apteryx (maxco)
+X-Launchpad-Bug-Commenters: jnsnow philmd th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160044888692.1133.11388395637815022535.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160758978380.5723.15989162641610053570.malone@gac.canonical.com>
-Subject: [Bug 1896263] Re: The bios-tables-test test causes QEMU to crash
- (Assertion `ret == cpu->kvm_msr_buf->nmsrs' failed) on AMD processors
+References: <160285970200.13301.15621205793966891788.malonedeb@wampee.canonical.com>
+Message-Id: <160758981464.5286.17826121174716069186.malone@gac.canonical.com>
+Subject: [Bug 1900155] Re: MIPS Malta fails booting due to IDE error
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 318a4210af099640dd417462d29a46d9929ff5db
+X-Launchpad-Hash: 2c3382ddf742a1a8cb88cf02c03913009c6ed471
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896263 <1896263@bugs.launchpad.net>
+Reply-To: Bug 1900155 <1900155@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,191 +85,89 @@ Released with QEMU v5.2.0.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896263
+https://bugs.launchpad.net/bugs/1900155
 
 Title:
-  The bios-tables-test test causes QEMU to crash (Assertion `ret =3D=3D
-  cpu->kvm_msr_buf->nmsrs' failed) on AMD processors
+  MIPS Malta fails booting due to IDE error
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  QEMU release version: Any recent version (5.0.0, 5.1.0, git master)
-  Host CPU: AMD Ryzen 3900X
+  As of commit 3e407488349:
 
-  The following backtrace is from commit
-  e883b492c221241d28aaa322c61536436090538a.
+  $ avocado --show=3Dconsole run -t machine:malta tests/acceptance/boot_lin=
+ux_console.py    =
 
-  QTEST_QEMU_BINARY=3D./build/qemu-system-x86_64 gdb ./build/tests/qtest/bi=
-os-tables-test
-  GNU gdb (GDB) 9.2
-  Copyright (C) 2020 Free Software Foundation, Inc.
-  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.h=
-tml>
-  This is free software: you are free to change and redistribute it.
-  There is NO WARRANTY, to the extent permitted by law.
-  Type "show copying" and "show warranty" for details.
-  This GDB was configured as "x86_64-unknown-linux-gnu".
-  Type "show configuration" for configuration details.
-  For bug reporting instructions, please see:
-  <http://www.gnu.org/software/gdb/bugs/>.
-  Find the GDB manual and other documentation resources online at:
-      <http://www.gnu.org/software/gdb/documentation/>.
+  console: [    0.000000] Linux version 4.5.0-2-4kc-malta (debian-kernel@li=
+sts.debian.org) (gcc version 5.3.1 20160519 (Debian 5.3.1-20) ) #1 Debian 4=
+.5.5-1 (2016-05-29)
+  console: [    0.000000] earlycon: Early serial console at I/O port 0x3f8 =
+(options '38400n8')
+  console: [    0.000000] bootconsole [uart0] enabled
+  console: [    0.000000] CPU0 revision is: 00019300 (MIPS 24Kc)
+  console: [    0.000000] FPU revision is: 00739300
+  console: [    0.000000] MIPS: machine is mti,malta
+  [...]
+  console: ata2.00: ATAPI: QEMU DVD-ROM, 2.5+, max UDMA/100
+  console: ata2.00: Drive reports diagnostics failure. This may indicate a =
+drive
+  console: ata2.00: fault or invalid emulation. Contact drive vendor for in=
+formation.
+  console: ata2.00: configured for UDMA/33
+  console: scsi 1:0:0:0: CD-ROM            QEMU     QEMU DVD-ROM     2.5+ P=
+Q: 0 ANSI: 5
+  console: Freeing unused kernel memory: 412K (80979000 - 809e0000)
+  console: do_page_fault(): sending SIGSEGV to mount for invalid write acce=
+ss to 0018a000
+  console: epc =3D 775cca54 in libc-2.27.so[775b3000+177000]
+  console: ra  =3D 77754618 in ld-2.27.so[77743000+24000]
+  console: do_page_fault(): sending SIGSEGV to klogd for invalid write acce=
+ss to 0018a000
+  console: epc =3D 770f0a54 in libc-2.27.so[770d7000+177000]
+  console: ra  =3D 77278618 in ld-2.27.so[77267000+24000]
+  console: do_page_fault(): sending SIGSEGV to S20urandom for invalid write=
+ access to 0018a000
+  console: epc =3D 77d0ca54 in libc-2.27.so[77cf3000+177000]
+  console: ra  =3D 77e94618 in ld-2.27.so[77e83000+24000]
+  console: do_page_fault(): sending SIGSEGV to mkdir for invalid write acce=
+ss to 0018a000
+  console: epc =3D 776b8a54 in libc-2.27.so[7769f000+177000]
+  console: ra  =3D 77840618 in ld-2.27.so[7782f000+24000]
+  console: do_page_fault(): sending SIGSEGV to sh for invalid write access =
+to 0018a000
+  console: epc =3D 77364a54 in libc-2.27.so[7734b000+177000]
+  console: ra  =3D 774ec618 in ld-2.27.so[774db000+24000]
+  console: do_page_fault(): sending SIGSEGV to sh for invalid write access =
+to 0018a000
+  console: epc =3D 77bd4a54 in libc-2.27.so[77bbb000+177000]
+  console: ra  =3D 77d5c618 in ld-2.27.so[77d4b000+24000]
+  console: do_page_fault(): sending SIGSEGV to awk for invalid write access=
+ to 0018a000
+  console: epc =3D 76f44a54 in libc-2.27.so[76f2b000+177000]
+  console: ra  =3D 770cc618 in ld-2.27.so[770bb000+24000]
+  console: do_page_fault(): sending SIGSEGV to cat for invalid write access=
+ to 0018a000
+  console: epc =3D 770cca54 in libc-2.27.so[770b3000+177000]
+  console: ra  =3D 77254618 in ld-2.27.so[77243000+24000]
+  $ echo $?
+  8
 
-  For help, type "help".
-  Type "apropos word" to search for commands related to "word"...
-  Reading symbols from ./build/tests/qtest/bios-tables-test...
-  (gdb) run
-  Starting program: /home/mcournoyer/src/qemu/build/tests/qtest/bios-tables=
--test =
+  55adb3c45620c31f29978f209e2a44a08d34e2da is the first bad commit
+  commit 55adb3c45620c31f29978f209e2a44a08d34e2da
+  Author: John Snow <jsnow@redhat.com>
+  Date:   Fri Jul 24 01:23:00 2020 -0400
 
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a=
-0cr-glibc-2.31/lib/libthread_db.so.1".
-  [New Thread 0x7ffff7af6700 (LWP 18955)]
-  # random seed: R02S5106b7afa2fd84a0353605795c04ab7d
-  1..19
-  # Start of x86_64 tests
-  # Start of acpi tests
-  # starting QEMU: exec ./build/qemu-system-x86_64 -qtest unix:/tmp/qtest-1=
-8951.sock -qtest-log /dev/null -chardev socket,path=3D/tmp/qtest-18951.qmp,=
-id=3Dchar0 -mon chardev=3Dchar0,mode=3Dcontrol -display none -machine pc,ke=
-rnel-irqchip=3Doff -accel kvm -accel tcg -net none -display none  -drive id=
-=3Dhd0,if=3Dnone,file=3Dtests/acpi-test-disk-R3kbyc,format=3Draw -device id=
-e-hd,drive=3Dhd0  -accel qtest
-  [Attaching after Thread 0x7ffff7af7900 (LWP 18951) fork to child process =
-18956]
-  [New inferior 2 (process 18956)]
-  [Detaching after fork from parent process 18951]
-  [Inferior 1 (process 18951) detached]
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a=
-0cr-glibc-2.31/lib/libthread_db.so.1".
-  [New Thread 0x7ffff7af6700 (LWP 18957)]
-  [Thread 0x7ffff7af6700 (LWP 18957) exited]
-  process 18956 is executing new program: /gnu/store/87kif0bpf0anwbsaw0jvg8=
-fyciw4sz67-bash-5.0.16/bin/bash
-  process 18956 is executing new program: /home/mcournoyer/src/qemu/build/q=
-emu-system-x86_64
-  [Thread debugging using libthread_db enabled]
-  Using host libthread_db library "/gnu/store/fa6wj5bxkj5ll1d7292a70knmyl7a=
-0cr-glibc-2.31/lib/libthread_db.so.1".
-  [New Thread 0x7ffff48ed700 (LWP 18958)]
-  [New Thread 0x7fffeffff700 (LWP 18960)]
-  [New Thread 0x7fffef61c700 (LWP 18961)]
-  [New Thread 0x7fffed5ff700 (LWP 18962)]
-  qemu-system-x86_64: error: failed to set MSR 0x4b564d02 to 0x0
-  qemu-system-x86_64: ../target/i386/kvm.c:2714: kvm_buf_set_msrs: Assertio=
-n `ret =3D=3D cpu->kvm_msr_buf->nmsrs' failed.
+      ide: cancel pending callbacks on SRST
 
-  Thread 2.5 "qemu-system-x86" received signal SIGABRT, Aborted.
-  [Switching to Thread 0x7fffef61c700 (LWP 18961)]
-  0x00007ffff65dbaba in raise () from /gnu/store/fa6wj5bxkj5ll1d7292a70knmy=
-l7a0cr-glibc-2.31/lib/libc.so.6
-  (gdb) taas bt
+      The SRST implementation did not keep up with the rest of IDE; it is
+      possible to perform a weak reset on an IDE device to remove the BSY/D=
+RQ
+      bits, and then issue writes to the control/device registers which can
+      cause chaos with the state machine.
 
-  Thread 2.6 (Thread 0x7fffed5ff700 (LWP 18962)):
-  #0  0x00007ffff6770c4d in pthread_cond_timedwait@@GLIBC_2.3.2 () from /gn=
-u/store/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #1  0x0000555555cc8a0e in qemu_sem_timedwait (sem=3Dsem@entry=3D0x5555566=
-2f758, ms=3Dms@entry=3D10000) at ../util/qemu-thread-posix.c:282
-  #2  0x0000555555cd91b5 in worker_thread (opaque=3Dopaque@entry=3D0x555556=
-62f6e0) at ../util/thread-pool.c:91
-  #3  0x0000555555cc7e86 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #4  0x00007ffff6769f64 in start_thread () from /gnu/store/fa6wj5bxkj5ll1d=
-7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #5  0x00007ffff669b9af in clone () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-
-  Thread 2.5 (Thread 0x7fffef61c700 (LWP 18961)):
-  #0  0x00007ffff65dbaba in raise () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #1  0x00007ffff65dcbf5 in abort () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #2  0x00007ffff65d470a in __assert_fail_base () from /gnu/store/fa6wj5bxk=
-j5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #3  0x00007ffff65d4782 in __assert_fail () from /gnu/store/fa6wj5bxkj5ll1=
-d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #4  0x0000555555a3e979 in kvm_buf_set_msrs (cpu=3D0x555556688a20) at ../t=
-arget/i386/kvm.c:2714
-  #5  0x0000555555a438cc in kvm_put_msrs (level=3D3, cpu=3D0x555556688a20) =
-at ../target/i386/kvm.c:3005
-  #6  kvm_arch_put_registers (cpu=3Dcpu@entry=3D0x555556688a20, level=3Dlev=
-el@entry=3D3) at ../target/i386/kvm.c:3989
-  #7  0x0000555555af7b0e in do_kvm_cpu_synchronize_post_init (cpu=3D0x55555=
-6688a20, arg=3D...) at ../accel/kvm/kvm-all.c:2355
-  #8  0x00005555558ef8e2 in process_queued_cpu_work (cpu=3Dcpu@entry=3D0x55=
-5556688a20) at ../cpus-common.c:343
-  #9  0x0000555555b6ac25 in qemu_wait_io_event_common (cpu=3Dcpu@entry=3D0x=
-555556688a20) at ../softmmu/cpus.c:1117
-  #10 0x0000555555b6ac84 in qemu_wait_io_event (cpu=3Dcpu@entry=3D0x5555566=
-88a20) at ../softmmu/cpus.c:1157
-  #11 0x0000555555b6aec8 in qemu_kvm_cpu_thread_fn (arg=3Darg@entry=3D0x555=
-556688a20) at ../softmmu/cpus.c:1193
-  #12 0x0000555555cc7e86 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #13 0x00007ffff6769f64 in start_thread () from /gnu/store/fa6wj5bxkj5ll1d=
-7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #14 0x00007ffff669b9af in clone () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-
-  Thread 2.4 (Thread 0x7fffeffff700 (LWP 18960)):
-  #0  0x00007ffff66919d9 in poll () from /gnu/store/fa6wj5bxkj5ll1d7292a70k=
-nmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #1  0x00007ffff78f0051 in g_main_context_iterate.isra () from /gnu/store/=
-n1mx1dp0hcrzm1akf8qdqa9gmybzazs2-profile/lib/libglib-2.0.so.0
-  #2  0x00007ffff78f0392 in g_main_loop_run () from /gnu/store/n1mx1dp0hcrz=
-m1akf8qdqa9gmybzazs2-profile/lib/libglib-2.0.so.0
-  #3  0x000055555584b5a1 in iothread_run (opaque=3Dopaque@entry=3D0x5555565=
-57720) at ../iothread.c:80
-  #4  0x0000555555cc7e86 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #5  0x00007ffff6769f64 in start_thread () from /gnu/store/fa6wj5bxkj5ll1d=
-7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #6  0x00007ffff669b9af in clone () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-
-  Thread 2.3 (Thread 0x7ffff48ed700 (LWP 18958)):
-  #0  0x00007ffff66657a1 in clock_nanosleep@GLIBC_2.2.5 () from /gnu/store/=
-fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #1  0x00007ffff666ac03 in nanosleep () from /gnu/store/fa6wj5bxkj5ll1d729=
-2a70knmyl7a0cr-glibc-2.31/lib/libc.so.6
-  #2  0x00007ffff7919cdf in g_usleep () from /gnu/store/n1mx1dp0hcrzm1akf8q=
-dqa9gmybzazs2-profile/lib/libglib-2.0.so.0
-  #3  0x0000555555cb3b04 in call_rcu_thread (opaque=3Dopaque@entry=3D0x0) a=
-t ../util/rcu.c:250
-  #4  0x0000555555cc7e86 in qemu_thread_start (args=3D<optimized out>) at .=
-./util/qemu-thread-posix.c:521
-  #5  0x00007ffff6769f64 in start_thread () from /gnu/store/fa6wj5bxkj5ll1d=
-7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #6  0x00007ffff669b9af in clone () from /gnu/store/fa6wj5bxkj5ll1d7292a70=
-knmyl7a0cr-glibc-2.31/lib/libc.so.6
-
-  Thread 2.1 (Thread 0x7ffff48f2c80 (LWP 18956)):
-  #0  0x00007ffff677094c in pthread_cond_wait@@GLIBC_2.3.2 () from /gnu/sto=
-re/fa6wj5bxkj5ll1d7292a70knmyl7a0cr-glibc-2.31/lib/libpthread.so.0
-  #1  0x0000555555cc854f in qemu_cond_wait_impl (cond=3D0x5555563b0020 <qem=
-u_work_cond>, mutex=3D0x5555563cd620 <qemu_global_mutex>, file=3D0x555555db=
-ad06 "../cpus-common.c", line=3D154) at ../util/qemu-thread-posix.c:174
-  #2  0x00005555558ef484 in do_run_on_cpu (cpu=3Dcpu@entry=3D0x555556688a20=
-, func=3Dfunc@entry=3D0x555555af7b00 <do_kvm_cpu_synchronize_post_init>, da=
-ta=3D..., mutex=3Dmutex@entry=3D0x5555563cd620 <qemu_global_mutex>) at ../c=
-pus-common.c:154
-  #3  0x0000555555b6aa7c in run_on_cpu (cpu=3Dcpu@entry=3D0x555556688a20, f=
-unc=3Dfunc@entry=3D0x555555af7b00 <do_kvm_cpu_synchronize_post_init>, data=
-=3D..., data@entry=3D...) at ../softmmu/cpus.c:1085
-  #4  0x0000555555af8d4e in kvm_cpu_synchronize_post_init (cpu=3Dcpu@entry=
-=3D0x555556688a20) at ../accel/kvm/kvm-all.c:2361
-  #5  0x0000555555b6a94a in cpu_synchronize_post_init (cpu=3D0x555556688a20=
-) at /home/mcournoyer/src/qemu/include/sysemu/hw_accel.h:55
-  #6  cpu_synchronize_all_post_init () at ../softmmu/cpus.c:953
-  #7  0x0000555555b0dca7 in qemu_init (argc=3D<optimized out>, argv=3D<opti=
-mized out>, envp=3D<optimized out>) at ../softmmu/vl.c:4387
-  #8  0x0000555555840609 in main (argc=3D<optimized out>, argv=3D<optimized=
- out>, envp=3D<optimized out>) at ../softmmu/main.c:49
+      Fix that by actually performing a real reset.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896263/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1900155/+subscriptions
 
