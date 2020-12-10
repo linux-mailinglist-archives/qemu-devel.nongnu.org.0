@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3982D2D5A89
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:29:33 +0100 (CET)
-Received: from localhost ([::1]:53370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E515E2D5A32
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:17:28 +0100 (CET)
+Received: from localhost ([::1]:49858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knL4e-0003AE-7D
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:29:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51658)
+	id 1knKsx-00071w-UD
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:17:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKRH-0001oZ-23
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:57 -0500
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40873)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1knKiV-0002tg-A5
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:06:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKR6-0007BI-ED
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:50 -0500
-Received: by mail-wr1-x444.google.com with SMTP id 91so5148609wrj.7
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=ooHjKj5Ndp5pD0CA5cS7KzNA6LKH6qDCEuw8GlWYL/A=;
- b=SRw+VdqPl9s+50dnCp/tdmLxxQewnT8Wj6KGVlnI9rYVP9KJWyOy3MiENjzbBYqD98
- EqbJy7pjf2RD30+4m+OHDk4DLTwp8Wpf51vgg0rnAjmhC2Hs46dGo+RP1aWxbDTpiZo6
- vW/pMzwI3fgj5Lq+EeWyU4hjk0rHkwviEbxiIexQkO+sgKSprCojQ4VQ142kXtAWzdNl
- Q4hDmChgxGMVPBDMxdD66xlFZBtaBr6hMwVvHSCqo8Sfs0xQb7rdCUIQ5VbWZy7xAn3C
- fSb8am5tJP4ToNqhFkPN6e94jdhspoxFKcvXziddi3BRmgMD2BLdxYIs0R3LjuIVVxWf
- ZcHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ooHjKj5Ndp5pD0CA5cS7KzNA6LKH6qDCEuw8GlWYL/A=;
- b=uhqY1RCg4mE6P4J6hWcCvYAViScl5wwbw3LIjKBM+3uF3FtuilwHJ1j5DDwaoajh80
- +s1ZpxGW8HAAcsOYAPWa2pNHnIrvf/hCujjktVQbNKAK3OBH/RcPtXhk4wl1U/zTI54P
- 3glvOGanvgx8bVmhGk5G2vSkeibgdSaurr7idWaRkm2lxos/7O0bEBTK7vNu044iRtEf
- kaG7mAAHGbVXCWZEY8xo6oO8xIgrIi46x4USMYqHEhTUdw+F+OF9u9lna+97puKBsn4N
- EaGTmsuyCLBvDWcN7t+pGkea/Ve9npSJOMwlrUhcCpzN/6Oq9gmWMNvqbVImm/MOLs7Z
- Y0Ow==
-X-Gm-Message-State: AOAM5309U8jnp9eRYHdkOxBBZhslGunS1zAGmUQOnSvsqQjvpJ2rQ8fl
- Ivo980j4HfGOy6erkaU68LthvBhvlVTN6A==
-X-Google-Smtp-Source: ABdhPJx5/n8Yu6qGUO///ZN2+TU4A6cvPKusdImx0xq8tUknahl8yx+w3TU9aogHJBA+rBxF1qCppg==
-X-Received: by 2002:adf:e710:: with SMTP id c16mr7849013wrm.295.1607600918991; 
- Thu, 10 Dec 2020 03:48:38 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.38
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 03:48:38 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 36/36] hw/arm/armv7m: Correct typo in QOM object name
-Date: Thu, 10 Dec 2020 11:47:56 +0000
-Message-Id: <20201210114756.16501-37-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201210114756.16501-1-peter.maydell@linaro.org>
-References: <20201210114756.16501-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1knKiT-0004fV-9L
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:06:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1knKiR-000465-OZ
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:06:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B8B7B2E8058
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:06:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Dec 2020 11:48:48 -0000
+From: Thomas Huth <1336794@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
+ status=Confirmed; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: agretha crobinso ericvh gkurz infinoid janitor
+ l-admin-o maxim-kuvyrkov th-huth
+X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20140702135258.23882.15100.malonedeb@soybean.canonical.com>
+Message-Id: <160760092815.6163.7204279690361320671.malone@gac.canonical.com>
+Subject: [Bug 1336794] Re: 9pfs does not honor open file handles on unlinked
+ files
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 45cd91f9d4ffcbe5a7ad7de46473f479e1983953
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,33 +74,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1336794 <1336794@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Correct a typo in the name we give the NVIC object.
+Closed by accident, Christian just told me that this is not fixed yet.
+Sorry for the inconvenience.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201119215617.29887-28-peter.maydell@linaro.org
----
- hw/arm/armv7m.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+** Changed in: qemu
+       Status: Fix Released =3D> Confirmed
 
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 944f261dd05..8224d4ade9f 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -136,7 +136,7 @@ static void armv7m_instance_init(Object *obj)
- 
-     memory_region_init(&s->container, obj, "armv7m-container", UINT64_MAX);
- 
--    object_initialize_child(obj, "nvnic", &s->nvic, TYPE_NVIC);
-+    object_initialize_child(obj, "nvic", &s->nvic, TYPE_NVIC);
-     object_property_add_alias(obj, "num-irq",
-                               OBJECT(&s->nvic), "num-irq");
- 
--- 
-2.20.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1336794
+
+Title:
+  9pfs does not honor open file handles on unlinked files
+
+Status in QEMU:
+  Confirmed
+Status in Ubuntu:
+  Confirmed
+
+Bug description:
+  This was originally filed over here:
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1114221
+
+  The open-unlink-fstat idiom used in some places to create an anonymous
+  private temporary file does not work in a QEMU guest over a virtio-9p
+  filesystem.
+
+  Version-Release number of selected component (if applicable):
+
+  qemu-kvm-1.6.2-6.fc20.x86_64
+  qemu-system-x86-1.6.2-6.fc20.x86_64
+  (those are fedora RPMs)
+
+  How reproducible:
+
+  Always. See this example C program:
+
+  https://bugzilla.redhat.com/attachment.cgi?id=3D913069
+
+  Steps to Reproduce:
+  1. Export a filesystem with virt-manager for the guest.
+        (type: mount, driver: default, mode: passthrough)
+  2. Start guest and mount that filesystem
+        (mount -t 9p -o trans=3Dvirtio,version=3D9p2000.L  ...)
+  3. Run a program that uses open-unlink-fstat
+        (in my case it was trying to compile Perl 5.20)
+
+  Actual results:
+
+  fstat fails:
+
+  open("/home/tst/filename", O_RDWR|O_CREAT|O_EXCL, 0600) =3D 3
+  unlink("/home/tst/filename")            =3D 0
+  fstat(3, 0x23aa1a8)                     =3D -1 ENOENT (No such file or di=
+rectory)
+  close(3)
+
+  Expected results:
+
+  open("/home/tst/filename", O_RDWR|O_CREAT|O_EXCL, 0600) =3D 3
+  unlink("/home/tst/filename")            =3D 0
+  fstat(3, {st_mode=3DS_IFREG|0600, st_size=3D0, ...}) =3D 0
+  fcntl(3, F_SETFD, FD_CLOEXEC)           =3D 0
+  close(3) =
+
+
+  Additional info:
+
+  There was a patch put into the kernel back in '07 to handle this very
+  problem for other filesystems; maybe its helpful:
+
+        http://lwn.net/Articles/251228/
+
+  There is also a thread on LKML from last December specifically about
+  this very problem:
+
+        https://lkml.org/lkml/2013/12/31/163
+
+  There was a discussion on the QEMU list back in '11 that doesn't seem
+  to have come to a conclusion, but did provide the test program that
+  i've attached to this report:
+
+        http://marc.info/?l=3Dqemu-devel&m=3D130443605720648&w=3D2
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1336794/+subscriptions
 
