@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36362D5A22
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:15:43 +0100 (CET)
-Received: from localhost ([::1]:43896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036EC2D59EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:02:08 +0100 (CET)
+Received: from localhost ([::1]:33930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKrF-0004X6-Rm
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:15:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51356)
+	id 1knKe7-0005Fm-0L
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:02:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKR2-0001WS-Ri
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:36 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:32929)
+ id 1knKR3-0001Xe-UC
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:37 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKQk-00074f-LD
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:36 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id w206so2617060wma.0
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:17 -0800 (PST)
+ id 1knKQo-00076v-DE
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:37 -0500
+Received: by mail-wm1-x334.google.com with SMTP id v14so4386918wml.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Af8GvxZMcrjzyfwJIHGDTyViExTE+D3Q+RDUgzSTiS0=;
- b=FdBWQVGQCFPIdLiIucg3Xcsl9AZ3wO3Ii+kzi0sO0cZ9zR6pM1hd1XXyDq427N7JJs
- dnym9q65nHRdrPp1t99KvbO+rCWpas0CYI31q32tG9QCMHJ/Xq2AtMyV7fZMMvr7RUz5
- gt46VCutWscwVS6BwtmPODYYJwSYGOfp0PsmyFx4/6LqzA2qXR/ibVWWcIVv5ulX4Br7
- E/gFoMkwZxm37o3t0qjK9SL5l0WoGxXi2rDPIc/4uvBGikHd77E+sst8OFFnopZilQmX
- IeZdTzGe1UpwATRVYYnhQ18YDgByndsD3TPXeLh6h+V/MZYcO8KK0xc7LJkglFz9Mty7
- wNmg==
+ bh=Kf6SvkRVMY6oZcYZ8wg1EY7jkVpy7B/pu1pTCaT3ND4=;
+ b=Bv+cP1u2W7RsEhwXTHdJhMb15PzcFSbUwTCo+iP6L6Xe4NazBtKkM5Ji3d+CXLQQIj
+ kHdvmCTGCC71aZit2LPb9rMZ1YoqNwX+cS0uPMot2XLHRA3WniYcqIAUqSBcV7D0LaNY
+ Tr2NiaVwvEvdYu2tWQ8DIZgu2ofwu/X5MLm5ysDkJ6e6MLNZdzqIq1kbwyCxd2qr+IS+
+ sQx6811GbgH9XMMvut2GIL0+NgF4/HLYFNF0UhUPXREr5chhZqAvdXyyB7z/zkqbq05c
+ XUoGg7Ul4o1wt8dGyPCbzUdkK8OKlLHv7JaU0sC/ur01QtdDkDktyiJSTna61rX8F63Z
+ 9zSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Af8GvxZMcrjzyfwJIHGDTyViExTE+D3Q+RDUgzSTiS0=;
- b=T3OduZRzxjjHpvhWKA19Wes+0AfUdRXP+m8xm2D8i9n/YbmfEd8P73d6u5j1wSmys5
- qvLqEHwbccVstcQyKV8EeB/0LY5WVTN9/U4EmTz2hUF82mPu6IVPDr938jjv+foFRJFn
- S6FzW/DgUU6lfqW/8C7/kI5SbYq2v4XEOB0m8eSchKdGgbexUL23dmvrd+yhzuHEAOn6
- Jc9ew7W6jL+XgsKGzMqWhXjajbWOQM6E2OjwXLLfZ/qKPtJ0lJW4lUYf+GvxPVsFfgKt
- A7+Igl4DClFb9rUZY/kGC5P+pnIq3H7Y9p6TtmjMH7dkiG2w1AHm9jEXaRF9nW+bz9Dz
- Khbw==
-X-Gm-Message-State: AOAM532t5wDUyyni31NU4py/IfBZ+obNWsW3K/nEjv+ep32RjF07Pjtt
- 2lD7uVpBBZcNvlEJONJU0HrcY9cI50W5PQ==
-X-Google-Smtp-Source: ABdhPJwcSbFIjO4VsY/McjCxKPC6D2Kkvc2pjoh94wUfJ5vctcxGlDRWV/kVcc+VFxhVAhoz116Xkw==
-X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr7585121wms.111.1607600896639; 
- Thu, 10 Dec 2020 03:48:16 -0800 (PST)
+ bh=Kf6SvkRVMY6oZcYZ8wg1EY7jkVpy7B/pu1pTCaT3ND4=;
+ b=IGYcUwJNDo4UbOPp4H22hUaEuW/KsN3mIe7sg2iY2tPs8caGPhG0xxy/1trSRCTNod
+ Jxg+Eg7lCREho+D3v0Qbvo//KPdDlSwwJRVLprg4fAGD27KrOZoULBwjJvoAXgYYsuNH
+ F3TzxvdfA8H7DPB9Gt6S88YkSLL9tenUoWS7J7DvBadA+IkeIUJFX55i/UjUqE0vswJx
+ R2uzHTS4dDAK55qu1nB5efXl4n3RA9oAGJdtBnyobewAV5FSMUbhJq3LNpFYCQGRiSG5
+ Q8DoGMuDnwMwXD8DEMCEsRSV5MRaaRBAb6Xe7tW/PgGNi81c+KGPzIbzDzcAXaONSr8W
+ CBYQ==
+X-Gm-Message-State: AOAM530p/f6W0VoudApT5prC8Cpo1C3wFJB7tzzZ1uVfyPHpZuZ830kx
+ Cg16ofInfkupdYwERy7H+/mLnm0ym4y77w==
+X-Google-Smtp-Source: ABdhPJzeM6QElKzQ90muv8N1rVXqjuh7fGc52F82QWVO7KJe9o4HGmFmvjyC7BdX5re/GghNgS6eVA==
+X-Received: by 2002:a1c:f002:: with SMTP id a2mr7703264wmb.101.1607600899699; 
+ Thu, 10 Dec 2020 03:48:19 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.15
+ by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 03:48:15 -0800 (PST)
+ Thu, 10 Dec 2020 03:48:19 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/36] target/arm: Implement VSCCLRM insn
-Date: Thu, 10 Dec 2020 11:47:35 +0000
-Message-Id: <20201210114756.16501-16-peter.maydell@linaro.org>
+Subject: [PULL 18/36] target/arm: Refactor M-profile VMSR/VMRS handling
+Date: Thu, 10 Dec 2020 11:47:38 +0000
+Message-Id: <20201210114756.16501-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210114756.16501-1-peter.maydell@linaro.org>
 References: <20201210114756.16501-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,210 +86,249 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the v8.1M VSCCLRM insn, which zeros floating point
-registers if there is an active floating point context.
-This requires support in write_neon_element32() for the MO_32
-element size, so add it.
+Currently M-profile borrows the A-profile code for VMSR and VMRS
+(access to the FP system registers), because all it needs to support
+is the FPSCR.  In v8.1M things become significantly more complicated
+in two ways:
 
-Because we want to use arm_gen_condlabel(), we need to move
-the definition of that function up in translate.c so it is
-before the #include of translate-vfp.c.inc.
+ * there are several new FP system registers; some have side effects
+   on read, and one (FPCXT_NS) needs to avoid the usual
+   vfp_access_check() and the "only if FPU implemented" check
+
+ * all sysregs are now accessible both by VMRS/VMSR (which
+   reads/writes a general purpose register) and also by VLDR/VSTR
+   (which reads/writes them directly to memory)
+
+Refactor the structure of how we handle VMSR/VMRS to cope with this:
+
+ * keep the M-profile code entirely separate from the A-profile code
+
+ * abstract out the "read or write the general purpose register" part
+   of the code into a loadfn or storefn function pointer, so we can
+   reuse it for VLDR/VSTR.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201119215617.29887-5-peter.maydell@linaro.org
+Message-id: 20201119215617.29887-8-peter.maydell@linaro.org
 ---
- target/arm/cpu.h               |  9 ++++
- target/arm/m-nocp.decode       |  8 +++-
- target/arm/translate.c         | 21 +++++----
- target/arm/translate-vfp.c.inc | 84 ++++++++++++++++++++++++++++++++++
- 4 files changed, 111 insertions(+), 11 deletions(-)
+ target/arm/cpu.h               |   3 +
+ target/arm/translate-vfp.c.inc | 182 ++++++++++++++++++++++++++++++---
+ 2 files changed, 171 insertions(+), 14 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e5514c82862..11400a9d248 100644
+index 11400a9d248..ad8b80c667d 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -3555,6 +3555,15 @@ static inline bool isar_feature_aa32_mprofile(const ARMISARegisters *id)
-     return FIELD_EX32(id->id_pfr1, ID_PFR1, MPROGMOD) != 0;
- }
+@@ -1569,6 +1569,9 @@ enum arm_cpu_mode {
+ #define ARM_VFP_FPINST  9
+ #define ARM_VFP_FPINST2 10
  
-+static inline bool isar_feature_aa32_m_sec_state(const ARMISARegisters *id)
-+{
-+    /*
-+     * Return true if M-profile state handling insns
-+     * (VSCCLRM, CLRM, FPCTX access insns) are implemented
-+     */
-+    return FIELD_EX32(id->id_pfr1, ID_PFR1, SECURITY) >= 3;
-+}
++/* QEMU-internal value meaning "FPSCR, but we care only about NZCV" */
++#define QEMU_VFP_FPSCR_NZCV 0xffff
 +
- static inline bool isar_feature_aa32_fp16_arith(const ARMISARegisters *id)
- {
-     /* Sadly this is encoded differently for A-profile and M-profile */
-diff --git a/target/arm/m-nocp.decode b/target/arm/m-nocp.decode
-index 28c8ac6b94c..ccd62e8739a 100644
---- a/target/arm/m-nocp.decode
-+++ b/target/arm/m-nocp.decode
-@@ -29,13 +29,17 @@
- # If the coprocessor is not present or disabled then we will generate
- # the NOCP exception; otherwise we let the insn through to the main decode.
- 
-+%vd_dp  22:1 12:4
-+%vd_sp  12:4 22:1
-+
- &nocp cp
- 
- {
-   # Special cases which do not take an early NOCP: VLLDM and VLSTM
-   VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 0000 0000
--  # TODO: VSCCLRM (new in v8.1M) is similar:
--  #VSCCLRM      1110 1100 1-01 1111 ---- 1011 ---- ---0
-+  # VSCCLRM (new in v8.1M) is similar:
-+  VSCCLRM      1110 1100 1.01 1111 .... 1011 imm:7 0   vd=%vd_dp size=3
-+  VSCCLRM      1110 1100 1.01 1111 .... 1010 imm:8     vd=%vd_sp size=2
- 
-   NOCP         111- 1110 ---- ---- ---- cp:4 ---- ---- &nocp
-   NOCP         111- 110- ---- ---- ---- cp:4 ---- ---- &nocp
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 6d04ca3a8a0..9f2b6018a21 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -100,6 +100,15 @@ void arm_translate_init(void)
-     a64_translate_init();
- }
- 
-+/* Generate a label used for skipping this instruction */
-+static void arm_gen_condlabel(DisasContext *s)
-+{
-+    if (!s->condjmp) {
-+        s->condlabel = gen_new_label();
-+        s->condjmp = 1;
-+    }
-+}
-+
- /* Flags for the disas_set_da_iss info argument:
-  * lower bits hold the Rt register number, higher bits are flags.
-  */
-@@ -1221,6 +1230,9 @@ static void write_neon_element64(TCGv_i64 src, int reg, int ele, MemOp memop)
-     long off = neon_element_offset(reg, ele, memop);
- 
-     switch (memop) {
-+    case MO_32:
-+        tcg_gen_st32_i64(src, cpu_env, off);
-+        break;
-     case MO_64:
-         tcg_gen_st_i64(src, cpu_env, off);
-         break;
-@@ -5156,15 +5168,6 @@ static void gen_srs(DisasContext *s,
-     s->base.is_jmp = DISAS_UPDATE_EXIT;
- }
- 
--/* Generate a label used for skipping this instruction */
--static void arm_gen_condlabel(DisasContext *s)
--{
--    if (!s->condjmp) {
--        s->condlabel = gen_new_label();
--        s->condjmp = 1;
--    }
--}
--
- /* Skip this instruction if the ARM condition is false */
- static void arm_skip_unless(DisasContext *s, uint32_t cond)
- {
+ /* iwMMXt coprocessor control registers.  */
+ #define ARM_IWMMXT_wCID  0
+ #define ARM_IWMMXT_wCon  1
 diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 96948f5a2d3..2a67ed0f6e2 100644
+index e100182a32c..7a0cbca6640 100644
 --- a/target/arm/translate-vfp.c.inc
 +++ b/target/arm/translate-vfp.c.inc
-@@ -3406,6 +3406,90 @@ static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
+@@ -607,27 +607,181 @@ static bool trans_VDUP(DisasContext *s, arg_VDUP *a)
      return true;
  }
  
-+static bool trans_VSCCLRM(DisasContext *s, arg_VSCCLRM *a)
++/*
++ * M-profile provides two different sets of instructions that can
++ * access floating point system registers: VMSR/VMRS (which move
++ * to/from a general purpose register) and VLDR/VSTR sysreg (which
++ * move directly to/from memory). In some cases there are also side
++ * effects which must happen after any write to memory (which could
++ * cause an exception). So we implement the common logic for the
++ * sysreg access in gen_M_fp_sysreg_write() and gen_M_fp_sysreg_read(),
++ * which take pointers to callback functions which will perform the
++ * actual "read/write general purpose register" and "read/write
++ * memory" operations.
++ */
++
++/*
++ * Emit code to store the sysreg to its final destination; frees the
++ * TCG temp 'value' it is passed.
++ */
++typedef void fp_sysreg_storefn(DisasContext *s, void *opaque, TCGv_i32 value);
++/*
++ * Emit code to load the value to be copied to the sysreg; returns
++ * a new TCG temporary
++ */
++typedef TCGv_i32 fp_sysreg_loadfn(DisasContext *s, void *opaque);
++
++/* Common decode/access checks for fp sysreg read/write */
++typedef enum FPSysRegCheckResult {
++    FPSysRegCheckFailed, /* caller should return false */
++    FPSysRegCheckDone, /* caller should return true */
++    FPSysRegCheckContinue, /* caller should continue generating code */
++} FPSysRegCheckResult;
++
++static FPSysRegCheckResult fp_sysreg_checks(DisasContext *s, int regno)
 +{
-+    int btmreg, topreg;
-+    TCGv_i64 zero;
-+    TCGv_i32 aspen, sfpa;
-+
-+    if (!dc_isar_feature(aa32_m_sec_state, s)) {
-+        /* Before v8.1M, fall through in decode to NOCP check */
-+        return false;
++    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
++        return FPSysRegCheckFailed;
 +    }
 +
-+    /* Explicitly UNDEF because this takes precedence over NOCP */
-+    if (!arm_dc_feature(s, ARM_FEATURE_M_MAIN) || !s->v8m_secure) {
-+        unallocated_encoding(s);
-+        return true;
-+    }
-+
-+    if (!dc_isar_feature(aa32_vfp_simd, s)) {
-+        /* NOP if we have neither FP nor MVE */
-+        return true;
-+    }
-+
-+    /*
-+     * If FPCCR.ASPEN != 0 && CONTROL_S.SFPA == 0 then there is no
-+     * active floating point context so we must NOP (without doing
-+     * any lazy state preservation or the NOCP check).
-+     */
-+    aspen = load_cpu_field(v7m.fpccr[M_REG_S]);
-+    sfpa = load_cpu_field(v7m.control[M_REG_S]);
-+    tcg_gen_andi_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
-+    tcg_gen_xori_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
-+    tcg_gen_andi_i32(sfpa, sfpa, R_V7M_CONTROL_SFPA_MASK);
-+    tcg_gen_or_i32(sfpa, sfpa, aspen);
-+    arm_gen_condlabel(s);
-+    tcg_gen_brcondi_i32(TCG_COND_EQ, sfpa, 0, s->condlabel);
-+
-+    if (s->fp_excp_el != 0) {
-+        gen_exception_insn(s, s->pc_curr, EXCP_NOCP,
-+                           syn_uncategorized(), s->fp_excp_el);
-+        return true;
-+    }
-+
-+    topreg = a->vd + a->imm - 1;
-+    btmreg = a->vd;
-+
-+    /* Convert to Sreg numbers if the insn specified in Dregs */
-+    if (a->size == 3) {
-+        topreg = topreg * 2 + 1;
-+        btmreg *= 2;
-+    }
-+
-+    if (topreg > 63 || (topreg > 31 && !(topreg & 1))) {
-+        /* UNPREDICTABLE: we choose to undef */
-+        unallocated_encoding(s);
-+        return true;
-+    }
-+
-+    /* Silently ignore requests to clear D16-D31 if they don't exist */
-+    if (topreg > 31 && !dc_isar_feature(aa32_simd_r32, s)) {
-+        topreg = 31;
++    switch (regno) {
++    case ARM_VFP_FPSCR:
++    case QEMU_VFP_FPSCR_NZCV:
++        break;
++    default:
++        return FPSysRegCheckFailed;
 +    }
 +
 +    if (!vfp_access_check(s)) {
-+        return true;
++        return FPSysRegCheckDone;
 +    }
 +
-+    /* Zero the Sregs from btmreg to topreg inclusive. */
-+    zero = tcg_const_i64(0);
-+    if (btmreg & 1) {
-+        write_neon_element64(zero, btmreg >> 1, 1, MO_32);
-+        btmreg++;
++    return FPSysRegCheckContinue;
++}
++
++static bool gen_M_fp_sysreg_write(DisasContext *s, int regno,
++
++                                  fp_sysreg_loadfn *loadfn,
++                                 void *opaque)
++{
++    /* Do a write to an M-profile floating point system register */
++    TCGv_i32 tmp;
++
++    switch (fp_sysreg_checks(s, regno)) {
++    case FPSysRegCheckFailed:
++        return false;
++    case FPSysRegCheckDone:
++        return true;
++    case FPSysRegCheckContinue:
++        break;
 +    }
-+    for (; btmreg + 1 <= topreg; btmreg += 2) {
-+        write_neon_element64(zero, btmreg >> 1, 0, MO_64);
++
++    switch (regno) {
++    case ARM_VFP_FPSCR:
++        tmp = loadfn(s, opaque);
++        gen_helper_vfp_set_fpscr(cpu_env, tmp);
++        tcg_temp_free_i32(tmp);
++        gen_lookup_tb(s);
++        break;
++    default:
++        g_assert_not_reached();
 +    }
-+    if (btmreg == topreg) {
-+        write_neon_element64(zero, btmreg >> 1, 0, MO_32);
-+        btmreg++;
-+    }
-+    assert(btmreg == topreg + 1);
-+    /* TODO: when MVE is implemented, zero VPR here */
 +    return true;
 +}
 +
- static bool trans_NOCP(DisasContext *s, arg_nocp *a)
++static bool gen_M_fp_sysreg_read(DisasContext *s, int regno,
++                                fp_sysreg_storefn *storefn,
++                                void *opaque)
++{
++    /* Do a read from an M-profile floating point system register */
++    TCGv_i32 tmp;
++
++    switch (fp_sysreg_checks(s, regno)) {
++    case FPSysRegCheckFailed:
++        return false;
++    case FPSysRegCheckDone:
++        return true;
++    case FPSysRegCheckContinue:
++        break;
++    }
++
++    switch (regno) {
++    case ARM_VFP_FPSCR:
++        tmp = tcg_temp_new_i32();
++        gen_helper_vfp_get_fpscr(tmp, cpu_env);
++        storefn(s, opaque, tmp);
++        break;
++    case QEMU_VFP_FPSCR_NZCV:
++        /*
++         * Read just NZCV; this is a special case to avoid the
++         * helper call for the "VMRS to CPSR.NZCV" insn.
++         */
++        tmp = load_cpu_field(vfp.xregs[ARM_VFP_FPSCR]);
++        tcg_gen_andi_i32(tmp, tmp, 0xf0000000);
++        storefn(s, opaque, tmp);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    return true;
++}
++
++static void fp_sysreg_to_gpr(DisasContext *s, void *opaque, TCGv_i32 value)
++{
++    arg_VMSR_VMRS *a = opaque;
++
++    if (a->rt == 15) {
++        /* Set the 4 flag bits in the CPSR */
++        gen_set_nzcv(value);
++        tcg_temp_free_i32(value);
++    } else {
++        store_reg(s, a->rt, value);
++    }
++}
++
++static TCGv_i32 gpr_to_fp_sysreg(DisasContext *s, void *opaque)
++{
++    arg_VMSR_VMRS *a = opaque;
++
++    return load_reg(s, a->rt);
++}
++
++static bool gen_M_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
++{
++    /*
++     * Accesses to R15 are UNPREDICTABLE; we choose to undef.
++     * FPSCR -> r15 is a special case which writes to the PSR flags;
++     * set a->reg to a special value to tell gen_M_fp_sysreg_read()
++     * we only care about the top 4 bits of FPSCR there.
++     */
++    if (a->rt == 15) {
++        if (a->l && a->reg == ARM_VFP_FPSCR) {
++            a->reg = QEMU_VFP_FPSCR_NZCV;
++        } else {
++            return false;
++        }
++    }
++
++    if (a->l) {
++        /* VMRS, move FP system register to gp register */
++        return gen_M_fp_sysreg_read(s, a->reg, fp_sysreg_to_gpr, a);
++    } else {
++        /* VMSR, move gp register to FP system register */
++        return gen_M_fp_sysreg_write(s, a->reg, gpr_to_fp_sysreg, a);
++    }
++}
++
+ static bool trans_VMSR_VMRS(DisasContext *s, arg_VMSR_VMRS *a)
  {
-     /*
+     TCGv_i32 tmp;
+     bool ignore_vfp_enabled = false;
+ 
+-    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
+-        return false;
++    if (arm_dc_feature(s, ARM_FEATURE_M)) {
++        return gen_M_VMSR_VMRS(s, a);
+     }
+ 
+-    if (arm_dc_feature(s, ARM_FEATURE_M)) {
+-        /*
+-         * The only M-profile VFP vmrs/vmsr sysreg is FPSCR.
+-         * Accesses to R15 are UNPREDICTABLE; we choose to undef.
+-         * (FPSCR -> r15 is a special case which writes to the PSR flags.)
+-         */
+-        if (a->reg != ARM_VFP_FPSCR) {
+-            return false;
+-        }
+-        if (a->rt == 15 && !a->l) {
+-            return false;
+-        }
++    if (!dc_isar_feature(aa32_fpsp_v2, s)) {
++        return false;
+     }
+ 
+     switch (a->reg) {
 -- 
 2.20.1
 
