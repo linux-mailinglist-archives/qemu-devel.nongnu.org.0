@@ -2,70 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E515E2D5A32
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:17:28 +0100 (CET)
-Received: from localhost ([::1]:49858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1AC52D5A13
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:14:43 +0100 (CET)
+Received: from localhost ([::1]:39646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKsx-00071w-UD
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:17:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55124)
+	id 1knKqI-0002hi-SK
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:14:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knKiV-0002tg-A5
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:06:39 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knKiT-0004fV-9L
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:06:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knKiR-000465-OZ
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:06:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B8B7B2E8058
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:06:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1knKXO-0008II-FT
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:55:11 -0500
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:44878)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1knKXJ-0000kA-SQ
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:55:09 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1082813|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.0229386-0.000646465-0.976415;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047203; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=4; RT=4; SR=0; TI=SMTPD_---.J5TnyRP_1607601286; 
+Received: from 30.225.208.62(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.J5TnyRP_1607601286)
+ by smtp.aliyun-inc.com(10.147.42.22); Thu, 10 Dec 2020 19:54:46 +0800
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Subject: Re: [PATCH 2/4] target/arm: Fixup contiguous first-fault and no-fault
+ loads
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20201207044655.2312-1-zhiwei_liu@c-sky.com>
+ <20201207044655.2312-3-zhiwei_liu@c-sky.com>
+ <7c6ad308-a2ae-c90b-cac5-19c486b441b3@linaro.org>
+Message-ID: <88fcf758-4723-3fb7-4a10-ebf23191e0b0@c-sky.com>
+Date: Thu, 10 Dec 2020 19:54:46 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 11:48:48 -0000
-From: Thomas Huth <1336794@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
- status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: agretha crobinso ericvh gkurz infinoid janitor
- l-admin-o maxim-kuvyrkov th-huth
-X-Launchpad-Bug-Reporter: Cole Robinson (crobinso)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20140702135258.23882.15100.malonedeb@soybean.canonical.com>
-Message-Id: <160760092815.6163.7204279690361320671.malone@gac.canonical.com>
-Subject: [Bug 1336794] Re: 9pfs does not honor open file handles on unlinked
- files
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 45cd91f9d4ffcbe5a7ad7de46473f479e1983953
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <7c6ad308-a2ae-c90b-cac5-19c486b441b3@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------4A3754A2CD88D9CEF1414C3D"
+Content-Language: en-US
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,95 +62,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1336794 <1336794@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Closed by accident, Christian just told me that this is not fixed yet.
-Sorry for the inconvenience.
-
-** Changed in: qemu
-       Status: Fix Released =3D> Confirmed
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1336794
-
-Title:
-  9pfs does not honor open file handles on unlinked files
-
-Status in QEMU:
-  Confirmed
-Status in Ubuntu:
-  Confirmed
-
-Bug description:
-  This was originally filed over here:
-  https://bugzilla.redhat.com/show_bug.cgi?id=3D1114221
-
-  The open-unlink-fstat idiom used in some places to create an anonymous
-  private temporary file does not work in a QEMU guest over a virtio-9p
-  filesystem.
-
-  Version-Release number of selected component (if applicable):
-
-  qemu-kvm-1.6.2-6.fc20.x86_64
-  qemu-system-x86-1.6.2-6.fc20.x86_64
-  (those are fedora RPMs)
-
-  How reproducible:
-
-  Always. See this example C program:
-
-  https://bugzilla.redhat.com/attachment.cgi?id=3D913069
-
-  Steps to Reproduce:
-  1. Export a filesystem with virt-manager for the guest.
-        (type: mount, driver: default, mode: passthrough)
-  2. Start guest and mount that filesystem
-        (mount -t 9p -o trans=3Dvirtio,version=3D9p2000.L  ...)
-  3. Run a program that uses open-unlink-fstat
-        (in my case it was trying to compile Perl 5.20)
-
-  Actual results:
-
-  fstat fails:
-
-  open("/home/tst/filename", O_RDWR|O_CREAT|O_EXCL, 0600) =3D 3
-  unlink("/home/tst/filename")            =3D 0
-  fstat(3, 0x23aa1a8)                     =3D -1 ENOENT (No such file or di=
-rectory)
-  close(3)
-
-  Expected results:
-
-  open("/home/tst/filename", O_RDWR|O_CREAT|O_EXCL, 0600) =3D 3
-  unlink("/home/tst/filename")            =3D 0
-  fstat(3, {st_mode=3DS_IFREG|0600, st_size=3D0, ...}) =3D 0
-  fcntl(3, F_SETFD, FD_CLOEXEC)           =3D 0
-  close(3) =
+This is a multi-part message in MIME format.
+--------------4A3754A2CD88D9CEF1414C3D
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-  Additional info:
 
-  There was a patch put into the kernel back in '07 to handle this very
-  problem for other filesystems; maybe its helpful:
+On 2020/12/9 4:16, Richard Henderson wrote:
+> On 12/6/20 10:46 PM, LIU Zhiwei wrote:
+>> First-fault or no-fault doesn't mean only access one page.
+> But the implementation is *allowed* to access only one page.
+> Thus the comment:
+>
+>> -    /*
+>> -     * MemSingleNF is allowed to fail for any reason.  We have special
+>> -     * code above to handle the first element crossing a page boundary.
+>> -     * As an implementation choice, decline to handle a cross-page element
+>> -     * in any other position.
+>> -     */
+ From the pseudo code,  I see  that we should handle the first element 
+in first-fault follow Mem. And the other elements in this function 
+should follow  MemNF.
 
-        http://lwn.net/Articles/251228/
+I have some questions here：
 
-  There is also a thread on LKML from last December specifically about
-  this very problem:
+1. Why  do special process to the first element if it crosses pages in 
+no-fault? Because it's not aligned?
 
-        https://lkml.org/lkml/2013/12/31/163
+// MemNF[] - non-assignment form
 
-  There was a discussion on the QEMU list back in '11 that doesn't seem
-  to have come to a conclusion, but did provide the test program that
-  i've attached to this report:
+// =============================
 
-        http://marc.info/?l=3Dqemu-devel&m=3D130443605720648&w=3D2
+(bits(8*size), boolean) MemNF[bits(64) address, integer size, AccType 
+acctype]
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1336794/+subscriptions
+    assert size IN {1, 2, 4, 8, 16};
+
+    bits(8*size) value;
+
+    aligned = (address == Align(address, size));
+
+    A = SCTLR[].A;
+
+    if !aligned && (A == '1') then
+
+         return (bits(8*size) UNKNOWN, TRUE);
+
+    atomic = aligned || size == 1;
+
+    if !atomic then
+
+         (value<7:0>, bad) = MemSingleNF[address, 1, acctype, aligned];
+
+         if bad then
+
+             return (bits(8*size) UNKNOWN, TRUE);
+
+         // For subsequent bytes it is CONSTRAINED UNPREDICTABLE whether
+    an unaligned Device memory
+
+         // access will generate an Alignment Fault, as to get this far
+    means the first byte did
+
+         // not, so we must be changing to a new translation page.
+
+         if !aligned then
+
+         c = ConstrainUnpredictable(Unpredictable_DEVPAGE2);
+
+         assert c IN {Constraint_FAULT, Constraint_NONE};
+
+         if c == Constraint_NONE then aligned = TRUE;
+
+         for i = 1 to size-1
+
+             (value<8*i+7:8*i>, bad) = MemSingleNF[address+i, 1,
+    acctype, aligned];
+
+         if bad then
+
+             return (bits(8*size) UNKNOWN, TRUE);
+
+    else
+
+         (value, bad) = MemSingleNF[address, size, acctype, aligned];
+
+         if bad then
+
+             return (bits(8*size) UNKNOWN, TRUE);
+
+    return (value, FALSE);
+
+
+
+2.  Why it doesn't access the second page like the first page? I think 
+they should obey the same MemSingleNF implementation.
+
+> r~
+
+
+--------------4A3754A2CD88D9CEF1414C3D
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 2020/12/9 4:16, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:7c6ad308-a2ae-c90b-cac5-19c486b441b3@linaro.org">
+      <pre class="moz-quote-pre" wrap="">On 12/6/20 10:46 PM, LIU Zhiwei wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">First-fault or no-fault doesn't mean only access one page.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">But the implementation is *allowed* to access only one page.
+Thus the comment:
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">-    /*
+-     * MemSingleNF is allowed to fail for any reason.  We have special
+-     * code above to handle the first element crossing a page boundary.
+-     * As an implementation choice, decline to handle a cross-page element
+-     * in any other position.
+-     */
+</pre>
+      </blockquote>
+    </blockquote>
+    From the pseudo code,  I see  that we should handle the first
+    element in first-fault follow Mem. And the other elements in this
+    function should follow  MemNF.<br>
+    <br>
+    I have some questions here：<br>
+    <br>
+    1. Why  do special process to the first element if it crosses pages
+    in no-fault? Because it's not aligned?<br>
+    <br>
+    <pre><font face="monospace">// MemNF[] - non-assignment form</font></pre>
+    <pre><font face="monospace">// =============================</font></pre>
+    <pre><font face="monospace">(bits(8*size), boolean) MemNF[bits(64) address, integer size, AccType acctype]</font></pre>
+    <blockquote>
+      <pre><font face="monospace">assert size IN {1, 2, 4, 8, 16};</font></pre>
+      <pre><font face="monospace">bits(8*size) value;</font></pre>
+      <pre><font face="monospace">aligned = (address == Align(address, size));</font></pre>
+      <pre><font face="monospace">A = SCTLR[].A;</font></pre>
+      <pre><font face="monospace">if !aligned &amp;&amp; (A == '1') then</font></pre>
+      <pre><font face="monospace">    return (bits(8*size) UNKNOWN, TRUE);</font></pre>
+      <pre><font face="monospace">atomic = aligned || size == 1;</font></pre>
+      <pre><font face="monospace">if !atomic then</font></pre>
+      <pre><font face="monospace">    (value&lt;7:0&gt;, bad) = MemSingleNF[address, 1, acctype, aligned];</font></pre>
+      <pre><font face="monospace">    if bad then</font></pre>
+      <pre><font face="monospace">        return (bits(8*size) UNKNOWN, TRUE);</font></pre>
+      <pre><font face="monospace">    // For subsequent bytes it is CONSTRAINED UNPREDICTABLE whether an unaligned Device memory</font></pre>
+      <pre><font face="monospace">    // access will generate an Alignment Fault, as to get this far means the first byte did</font></pre>
+      <pre><font face="monospace">    // not, so we must be changing to a new translation page.</font></pre>
+      <pre><font face="monospace">    if !aligned then</font></pre>
+      <pre><font face="monospace">           c = ConstrainUnpredictable(Unpredictable_DEVPAGE2);</font></pre>
+      <pre><font face="monospace">    assert c IN {Constraint_FAULT, Constraint_NONE};</font></pre>
+      <pre><font face="monospace">    if c == Constraint_NONE then aligned = TRUE;</font></pre>
+      <pre><font face="monospace">    for i = 1 to size-1</font></pre>
+      <pre><font face="monospace">        (value&lt;8*i+7:8*i&gt;, bad) = MemSingleNF[address+i, 1, acctype, aligned];</font></pre>
+      <pre><font face="monospace">    if bad then</font></pre>
+      <pre><font face="monospace">        return (bits(8*size) UNKNOWN, TRUE);</font></pre>
+      <pre><font face="monospace">else</font></pre>
+      <pre><font face="monospace">    (value, bad) = MemSingleNF[address, size, acctype, aligned];</font></pre>
+      <pre><font face="monospace">    if bad then</font></pre>
+      <pre><font face="monospace">        return (bits(8*size) UNKNOWN, TRUE);</font></pre>
+      <pre><font face="monospace">return (value, FALSE);</font></pre>
+    </blockquote>
+    <br>
+    <br>
+    2.  Why it doesn't access the second page like the first page? I
+    think they should obey the same MemSingleNF implementation.<br>
+    <br>
+    <blockquote type="cite"
+      cite="mid:7c6ad308-a2ae-c90b-cac5-19c486b441b3@linaro.org">
+      <pre class="moz-quote-pre" wrap="">r~
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------4A3754A2CD88D9CEF1414C3D--
 
