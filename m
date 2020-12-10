@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FA92D6A71
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 23:11:00 +0100 (CET)
-Received: from localhost ([::1]:59962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EAA2D6A7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 23:38:07 +0100 (CET)
+Received: from localhost ([::1]:38762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knU9K-0001Bc-Jt
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 17:10:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39036)
+	id 1knUZZ-0006if-JY
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 17:38:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1knU5n-00009Q-CR
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 17:07:19 -0500
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:34930)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1knU5i-0006z6-MW
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 17:07:19 -0500
-Received: by mail-ed1-x543.google.com with SMTP id u19so7238014edx.2
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 14:07:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wfVCOUPVgB3X9xDb6v7sTCalWAGhkCWwG574qMDXgsg=;
- b=mAaBZuDDV8Trnlu+gpk0GNFyFZPJB1XIeF4Avv39VAFPreGXBQ5X92sFwOxMCBHuSi
- dz7VDZo0Al3mibKLk4GEGrU96CHbSD9ZoX1AUMRbMv8zGVQ5XJFBsWfNQBZi05yp1pzx
- tSIz2dg/s6l97y4LChbUUN/Lk0au3BfetEQORiEi2g2nJrafbCsWEdYwlniJ6jl+aPRX
- wKZ4hwXxAJiRvQsd7xal+g/n3iCSXjwl0jGEG6F2OssOQeSvlYUZfwmXKdTA8OAe0CjE
- UG5AHc91EThd+FrN4meXNWJEohcg7lOWycqzbdICJipSrgaGoKkMhW9kOZTsC9VNl6CC
- OlCw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knUWr-000690-Qp
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 17:35:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29392)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knUWo-0007xn-4Y
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 17:35:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607639712;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+KwTndPVgNd8JvS7s43DTp85DD35WUPGDIJytpQmrGU=;
+ b=b4zey+ZsCcGQo7mr7hu3jC/ZLGv8KZUMNT0mrOH+JDrk3t3Mh5WgZWUbN9vaWcXgKjsfAI
+ H9QmIXwnhHX8y46sy1wbiPp2oGGHjuj1JrmYEdUCFvv5PCRWMSoMjFwdCH0aLpazNpI5Kr
+ i8DZsEXY0bJolXJvKySW3mJXHSyEfL0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177--4dp-gu_O4a63mv9GOVwYg-1; Thu, 10 Dec 2020 17:35:10 -0500
+X-MC-Unique: -4dp-gu_O4a63mv9GOVwYg-1
+Received: by mail-ed1-f70.google.com with SMTP id e12so3050345eds.19
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 14:35:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=wfVCOUPVgB3X9xDb6v7sTCalWAGhkCWwG574qMDXgsg=;
- b=p50bEijvuw0RvcBUtCb9CnUaXij8/Hr7DaziEcyTPThT+klH7SnJWdb5EJv6ClyyaB
- uwXnvAbkjBnyRJcekfTaLGB2eEHP10tTud7gs30VO3dImWak3awtIPjvOvSqt9Sou3a0
- qM66wkSZAZmbouE2YUQm4EXiTp4Mdj5B7USvbTfsSwp4uO37kRf5EwVqPZsS0wfVO7CL
- FqAThpc3u+NZ1V1NnRqqANACXRs7O7uVzXQWcFAd6R+/uZ6hGuYonbFh+kuIQPr24rMc
- NO8rx1VVYSa1Rvo45Jx58HedE4RYbDV6WlWlzcuKbn4zOnI0A046x+dQlXKkNumfAf4r
- Dd9A==
-X-Gm-Message-State: AOAM530iWXZfHXAm7lGOOAI45wF9t+/yliaILFlBdV7fGQ2wIDa51Cao
- CmvKYLx9Y0CJr7SRr3+dSgY=
-X-Google-Smtp-Source: ABdhPJzI994CpYxaSbkZcj4P0txhSGx08hsjNDM5MuEIKIsvGBm46dzJoov2aN9DTV7Fypc0/Hw3ew==
-X-Received: by 2002:aa7:dacf:: with SMTP id x15mr8816817eds.134.1607638033127; 
- Thu, 10 Dec 2020 14:07:13 -0800 (PST)
-Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ bh=+KwTndPVgNd8JvS7s43DTp85DD35WUPGDIJytpQmrGU=;
+ b=aiR2Yh7YWAYu0P0SQ61fRNyxDtHUjA6NFdSIDqOJrEFQ66KNcIHdhA3ndUetizN5ZO
+ FQqjZ571Ax2uzsccZbYsOApXVLpRFP2/7qlUIs4u/wsL2dZQpfcBPgQtJN5PBM5qW0Lk
+ yHR3/jf9ZIxUcBhiQ0xioOiy+05tP3D3khPT2wg+OunDxoVH6Zn18bJMAsCuObAwUQZr
+ 74u3zRHtfCez9K4SzrhOmM6+Bja8ZHoY4md0KGnN8KWMTMf4niOSsKS8cgONBWGBtDgq
+ HaulyUITB10iBNH2VMttLCRmJTbRzaFFY6lYtSerwU0AYv0AyTSv+rSEG1DhPWnV858Z
+ Pt7Q==
+X-Gm-Message-State: AOAM531NWynHkeejnI5xyWypZPsHxHgpfGinidX6MFIfVsOJVtsEfsqD
+ YcT3Nl1XsWeJIehLTJl8UTOg3cvDhT38C/bVAu0NvcxZ4Pj2k1SmaGF7+NvcxXWhJ7izNHcUL6q
+ /eY+4WcfxtbdypyZS47Ki5txY/ZwBZUTOWR8lxGITnJLPyGCAq9hA/aCt2DDDkguG
+X-Received: by 2002:aa7:d459:: with SMTP id q25mr8938611edr.279.1607639709516; 
+ Thu, 10 Dec 2020 14:35:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz1n/3Ha74wxqWt2er5TcOrJXbepmYGGh8CAvZShcy7kW/NaAKcgXNTViZyWQ0wDEa5jMU/bw==
+X-Received: by 2002:aa7:d459:: with SMTP id q25mr8938593edr.279.1607639709230; 
+ Thu, 10 Dec 2020 14:35:09 -0800 (PST)
+Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id f19sm5359795ejk.116.2020.12.10.14.07.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Dec 2020 14:07:12 -0800 (PST)
-Subject: Re: [PATCH v2 8/8] tests/tcg: build tests with -Werror
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20201210190417.31673-1-alex.bennee@linaro.org>
- <20201210190417.31673-9-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8e9321d7-0a11-6917-c67d-eef2dda4952c@amsat.org>
-Date: Thu, 10 Dec 2020 23:07:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ by smtp.gmail.com with ESMTPSA id rl7sm5310282ejb.107.2020.12.10.14.35.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Dec 2020 14:35:08 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] audio: Simplify audio_bug() removing old code
+Date: Thu, 10 Dec 2020 23:35:06 +0100
+Message-Id: <20201210223506.263709-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201210190417.31673-9-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::543;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x543.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,21 +90,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- richard.henderson@linaro.org, cota@braap.org, stefanha@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, aurelien@aurel32.net
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Gerd Hoffmann <gerd@kraxel.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/20 8:04 PM, Alex Bennée wrote:
-> Hopefully this will guard against sloppy code getting into our tests.
-> 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  tests/tcg/Makefile.target | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+This code (introduced in commit 1d14ffa97ea, Oct 2005)
+is likely unused since years. Time to remove it.  If
+the condition is true, simply call abort().
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Suggested-by: Gerd Hoffmann <gerd@kraxel.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ audio/audio.c | 19 +------------------
+ 1 file changed, 1 insertion(+), 18 deletions(-)
+
+diff --git a/audio/audio.c b/audio/audio.c
+index 46578e4a583..b71ab8912c5 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -104,9 +104,6 @@ const struct mixeng_volume nominal_volume = {
+ 
+ static bool legacy_config = true;
+ 
+-#ifdef AUDIO_IS_FLAWLESS_AND_NO_CHECKS_ARE_REQURIED
+-#error No its not
+-#else
+ int audio_bug (const char *funcname, int cond)
+ {
+     if (cond) {
+@@ -119,25 +116,11 @@ int audio_bug (const char *funcname, int cond)
+             AUD_log (NULL, "I am sorry\n");
+         }
+         AUD_log (NULL, "Context:\n");
+-
+-#if defined AUDIO_BREAKPOINT_ON_BUG
+-#  if defined HOST_I386
+-#    if defined __GNUC__
+-        __asm__ ("int3");
+-#    elif defined _MSC_VER
+-        _asm _emit 0xcc;
+-#    else
+-        abort ();
+-#    endif
+-#  else
+-        abort ();
+-#  endif
+-#endif
++        abort();
+     }
+ 
+     return cond;
+ }
+-#endif
+ 
+ static inline int audio_bits_to_index (int bits)
+ {
+-- 
+2.26.2
 
 
