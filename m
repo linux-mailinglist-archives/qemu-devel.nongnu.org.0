@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7F52D5B06
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:57:39 +0100 (CET)
-Received: from localhost ([::1]:39000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 209D82D5ADB
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:51:27 +0100 (CET)
+Received: from localhost ([::1]:50742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knLVq-00077o-NF
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:57:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58596)
+	id 1knLPq-00007k-33
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:51:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1knKur-0001kl-W3
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:19:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49237)
+ id 1knKur-0001kL-Pp
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:19:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1knKum-0000Hw-0o
+ id 1knKul-0000Ho-II
  for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:19:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607602759;
+ s=mimecast20190719; t=1607602758;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m8XaAqBgivGsQCrIvNp2L93XGAwDy2CNT3/3nnQeNLo=;
- b=WZofDsxypUEslPnxIKUhA1lfYwwC5ORfjLNauv8kBbmntReJM+TYSs69Yvtxa8f60MXoPg
- kqedwWkIfG+9r+8np7fh0qenRHjJRdgu3skd+A9wjtWKMvKpsSnmwT/4ZLG7wXFts7AJnG
- iLIy+qATJNsi9mPswky+MCmy7v+DIUc=
+ bh=jIJosOG3HoXyJ0KUKSyD2m9e6xU5iQS9RJxafClwmxk=;
+ b=Shnv0n4ZAoJqX73Ahx6ul9Gj0nKDyihc2dNFrxjGTfSBUpNQ/KE2BttBIs5Lb334mXcn1r
+ 6+2Kca4blBl3DvyLJe5PgOTJKfDMKveAN9Lxs36ujI1kWn1R7ZEtZS1npqXXzDYJrW/pCV
+ KpzizPCOw6cZdcf9AO7cu4HG7KRqgLg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-Xw_zpawEMiedrT8--gTOXw-1; Thu, 10 Dec 2020 07:19:15 -0500
-X-MC-Unique: Xw_zpawEMiedrT8--gTOXw-1
+ us-mta-396-fXpPvsJ_Ogyi6eqCgkErCw-1; Thu, 10 Dec 2020 07:19:16 -0500
+X-MC-Unique: fXpPvsJ_Ogyi6eqCgkErCw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96C0710054FF
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:19:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AADF1800D42
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:19:15 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C0F960BF1
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:19:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2016460BF1
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:19:15 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 001/113] target/i386: fix operand order for PDEP and PEXT
-Date: Thu, 10 Dec 2020 07:19:11 -0500
-Message-Id: <20201210121913.531490-2-pbonzini@redhat.com>
+Subject: [PULL 051/113] treewide: do not use short-form boolean options
+Date: Thu, 10 Dec 2020 07:19:13 -0500
+Message-Id: <20201210121913.531490-4-pbonzini@redhat.com>
 In-Reply-To: <20201210121913.531490-1-pbonzini@redhat.com>
 References: <20201210121913.531490-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,125 +82,276 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For PDEP and PEXT, the mask is provided in the memory (mod+r/m)
-operand, and therefore is loaded in s->T0 by gen_ldst_modrm.
-The source is provided in the second source operand (VEX.vvvv)
-and therefore is loaded in s->T1.  Fix the order in which
-they are passed to the helpers.
+They are going to be deprecated, avoid warnings on stdout while the
+tests run.
 
-Reported-by: Lenard Szolnoki <blog@lenardszolnoki.com>
-Analyzed-by: Lenard Szolnoki <blog@lenardszolnoki.com>
-Fixes: https://bugs.launchpad.net/qemu/+bug/1605123
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/translate.c         |  8 +++----
- tests/tcg/i386/Makefile.target  |  3 +++
- tests/tcg/i386/test-i386-bmi2.c | 41 +++++++++++++++++++++++++++++++++
- 3 files changed, 48 insertions(+), 4 deletions(-)
- create mode 100644 tests/tcg/i386/test-i386-bmi2.c
+ docs/specs/tpm.rst                   |  2 +-
+ python/qemu/machine.py               |  2 +-
+ qemu-options.hx                      | 32 ++++++++++++++--------------
+ tests/qtest/bios-tables-test.c       |  4 ++--
+ tests/qtest/pflash-cfi02-test.c      |  4 ++--
+ tests/qtest/test-filter-redirector.c |  8 +++----
+ tests/qtest/vhost-user-test.c        |  8 +++----
+ tests/test-char.c                    |  8 +++----
+ 8 files changed, 34 insertions(+), 34 deletions(-)
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 4c57307e42..e8f5f5803a 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -3936,14 +3936,14 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                 }
-                 ot = mo_64_32(s->dflag);
-                 gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                /* Note that by zero-extending the mask operand, we
-+                /* Note that by zero-extending the source operand, we
-                    automatically handle zero-extending the result.  */
-                 if (ot == MO_64) {
-                     tcg_gen_mov_tl(s->T1, cpu_regs[s->vex_v]);
-                 } else {
-                     tcg_gen_ext32u_tl(s->T1, cpu_regs[s->vex_v]);
-                 }
--                gen_helper_pdep(cpu_regs[reg], s->T0, s->T1);
-+                gen_helper_pdep(cpu_regs[reg], s->T1, s->T0);
-                 break;
+diff --git a/docs/specs/tpm.rst b/docs/specs/tpm.rst
+index 5e9aef4db3..3be190343a 100644
+--- a/docs/specs/tpm.rst
++++ b/docs/specs/tpm.rst
+@@ -343,7 +343,7 @@ In case an Arm virt machine is emulated, use the following command line:
+     -device tpm-tis-device,tpmdev=tpm0 \
+     -device virtio-blk-pci,drive=drv0 \
+     -drive format=qcow2,file=hda.qcow2,if=none,id=drv0 \
+-    -drive if=pflash,format=raw,file=flash0.img,readonly \
++    -drive if=pflash,format=raw,file=flash0.img,readonly=on \
+     -drive if=pflash,format=raw,file=flash1.img
  
-             case 0x2f5: /* pext Gy, By, Ey */
-@@ -3954,14 +3954,14 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                 }
-                 ot = mo_64_32(s->dflag);
-                 gen_ldst_modrm(env, s, modrm, ot, OR_TMP0, 0);
--                /* Note that by zero-extending the mask operand, we
-+                /* Note that by zero-extending the source operand, we
-                    automatically handle zero-extending the result.  */
-                 if (ot == MO_64) {
-                     tcg_gen_mov_tl(s->T1, cpu_regs[s->vex_v]);
-                 } else {
-                     tcg_gen_ext32u_tl(s->T1, cpu_regs[s->vex_v]);
-                 }
--                gen_helper_pext(cpu_regs[reg], s->T0, s->T1);
-+                gen_helper_pext(cpu_regs[reg], s->T1, s->T0);
-                 break;
+ In case SeaBIOS is used as firmware, it should show the TPM menu item
+diff --git a/python/qemu/machine.py b/python/qemu/machine.py
+index 64d966aeeb..7a40f4604b 100644
+--- a/python/qemu/machine.py
++++ b/python/qemu/machine.py
+@@ -292,7 +292,7 @@ class QEMUMachine:
+         for _ in range(self._console_index):
+             args.extend(['-serial', 'null'])
+         if self._console_set:
+-            chardev = ('socket,id=console,path=%s,server,nowait' %
++            chardev = ('socket,id=console,path=%s,server=on,wait=off' %
+                        self._console_address)
+             args.extend(['-chardev', chardev])
+             if self._console_device_type is None:
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 104632ea34..e60ad42976 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1406,25 +1406,25 @@ ERST
  
-             case 0x1f6: /* adcx Gy, Ey */
-diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
-index a66232a67d..ad187cb2c9 100644
---- a/tests/tcg/i386/Makefile.target
-+++ b/tests/tcg/i386/Makefile.target
-@@ -18,6 +18,9 @@ test-i386-pcmpistri: CFLAGS += -msse4.2
- run-test-i386-pcmpistri: QEMU_OPTS += -cpu max
- run-plugin-test-i386-pcmpistri-%: QEMU_OPTS += -cpu max
+ DEF("fsdev", HAS_ARG, QEMU_OPTION_fsdev,
+     "-fsdev local,id=id,path=path,security_model=mapped-xattr|mapped-file|passthrough|none\n"
+-    " [,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode]\n"
++    " [,writeout=immediate][,readonly=on][,fmode=fmode][,dmode=dmode]\n"
+     " [[,throttling.bps-total=b]|[[,throttling.bps-read=r][,throttling.bps-write=w]]]\n"
+     " [[,throttling.iops-total=i]|[[,throttling.iops-read=r][,throttling.iops-write=w]]]\n"
+     " [[,throttling.bps-total-max=bm]|[[,throttling.bps-read-max=rm][,throttling.bps-write-max=wm]]]\n"
+     " [[,throttling.iops-total-max=im]|[[,throttling.iops-read-max=irm][,throttling.iops-write-max=iwm]]]\n"
+     " [[,throttling.iops-size=is]]\n"
+-    "-fsdev proxy,id=id,socket=socket[,writeout=immediate][,readonly]\n"
+-    "-fsdev proxy,id=id,sock_fd=sock_fd[,writeout=immediate][,readonly]\n"
++    "-fsdev proxy,id=id,socket=socket[,writeout=immediate][,readonly=on]\n"
++    "-fsdev proxy,id=id,sock_fd=sock_fd[,writeout=immediate][,readonly=on]\n"
+     "-fsdev synth,id=id\n",
+     QEMU_ARCH_ALL)
  
-+run-test-i386-bmi2: QEMU_OPTS += -cpu max
-+run-plugin-test-i386-bmi2-%: QEMU_OPTS += -cpu max
-+
- #
- # hello-i386 is a barebones app
- #
-diff --git a/tests/tcg/i386/test-i386-bmi2.c b/tests/tcg/i386/test-i386-bmi2.c
-new file mode 100644
-index 0000000000..b61f05b69e
---- /dev/null
-+++ b/tests/tcg/i386/test-i386-bmi2.c
-@@ -0,0 +1,41 @@
-+/* See if various BMI2 instructions give expected results */
-+#include <assert.h>
-+#include <stdint.h>
-+
-+int main(int argc, char *argv[]) {
-+    uint64_t ehlo = 0x202020204f4c4845ull;
-+    uint64_t mask = 0xa080800302020001ull;
-+    uint64_t result64;
-+    uint32_t result32;
-+
-+#ifdef __x86_64
-+    /* 64 bits */
-+    asm volatile ("pextq   %2, %1, %0" : "=r"(result64) : "r"(ehlo), "m"(mask));
-+    assert(result64 == 133);
-+
-+    asm volatile ("pdepq   %2, %1, %0" : "=r"(result64) : "r"(result64), "m"(mask));
-+    assert(result64 == (ehlo & mask));
-+
-+    asm volatile ("pextq   %2, %1, %0" : "=r"(result64) : "r"(-1ull), "m"(mask));
-+    assert(result64 == 511); /* mask has 9 bits set */
-+
-+    asm volatile ("pdepq   %2, %1, %0" : "=r"(result64) : "r"(-1ull), "m"(mask));
-+    assert(result64 == mask);
-+#endif
-+
-+    /* 32 bits */
-+    asm volatile ("pextl   %2, %k1, %k0" : "=r"(result32) : "r"((uint32_t) ehlo), "m"(mask));
-+    assert(result32 == 5);
-+
-+    asm volatile ("pdepl   %2, %k1, %k0" : "=r"(result32) : "r"(result32), "m"(mask));
-+    assert(result32 == (uint32_t)(ehlo & mask));
-+
-+    asm volatile ("pextl   %2, %k1, %k0" : "=r"(result32) : "r"(-1ull), "m"(mask));
-+    assert(result32 == 7); /* mask has 3 bits set */
-+
-+    asm volatile ("pdepl   %2, %k1, %k0" : "=r"(result32) : "r"(-1ull), "m"(mask));
-+    assert(result32 == (uint32_t)mask);
-+
-+    return 0;
-+}
-+
+ SRST
+-``-fsdev local,id=id,path=path,security_model=security_model [,writeout=writeout][,readonly][,fmode=fmode][,dmode=dmode] [,throttling.option=value[,throttling.option=value[,...]]]``
++``-fsdev local,id=id,path=path,security_model=security_model [,writeout=writeout][,readonly=on][,fmode=fmode][,dmode=dmode] [,throttling.option=value[,throttling.option=value[,...]]]``
+   \ 
+-``-fsdev proxy,id=id,socket=socket[,writeout=writeout][,readonly]``
++``-fsdev proxy,id=id,socket=socket[,writeout=writeout][,readonly=on]``
+   \
+-``-fsdev proxy,id=id,sock_fd=sock_fd[,writeout=writeout][,readonly]``
++``-fsdev proxy,id=id,sock_fd=sock_fd[,writeout=writeout][,readonly=on]``
+   \
+-``-fsdev synth,id=id[,readonly]``
++``-fsdev synth,id=id[,readonly=on]``
+     Define a new file system device. Valid options are:
+ 
+     ``local``
+@@ -1467,7 +1467,7 @@ SRST
+         guest only when the data has been reported as written by the
+         storage subsystem.
+ 
+-    ``readonly``
++    ``readonly=on``
+         Enables exporting 9p share as a readonly mount for guests. By
+         default read-write access is given.
+ 
+@@ -1532,18 +1532,18 @@ ERST
+ 
+ DEF("virtfs", HAS_ARG, QEMU_OPTION_virtfs,
+     "-virtfs local,path=path,mount_tag=tag,security_model=mapped-xattr|mapped-file|passthrough|none\n"
+-    "        [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode][,multidevs=remap|forbid|warn]\n"
+-    "-virtfs proxy,mount_tag=tag,socket=socket[,id=id][,writeout=immediate][,readonly]\n"
+-    "-virtfs proxy,mount_tag=tag,sock_fd=sock_fd[,id=id][,writeout=immediate][,readonly]\n"
+-    "-virtfs synth,mount_tag=tag[,id=id][,readonly]\n",
++    "        [,id=id][,writeout=immediate][,readonly=on][,fmode=fmode][,dmode=dmode][,multidevs=remap|forbid|warn]\n"
++    "-virtfs proxy,mount_tag=tag,socket=socket[,id=id][,writeout=immediate][,readonly=on]\n"
++    "-virtfs proxy,mount_tag=tag,sock_fd=sock_fd[,id=id][,writeout=immediate][,readonly=on]\n"
++    "-virtfs synth,mount_tag=tag[,id=id][,readonly=on]\n",
+     QEMU_ARCH_ALL)
+ 
+ SRST
+-``-virtfs local,path=path,mount_tag=mount_tag ,security_model=security_model[,writeout=writeout][,readonly] [,fmode=fmode][,dmode=dmode][,multidevs=multidevs]``
++``-virtfs local,path=path,mount_tag=mount_tag ,security_model=security_model[,writeout=writeout][,readonly=on] [,fmode=fmode][,dmode=dmode][,multidevs=multidevs]``
+   \ 
+-``-virtfs proxy,socket=socket,mount_tag=mount_tag [,writeout=writeout][,readonly]``
++``-virtfs proxy,socket=socket,mount_tag=mount_tag [,writeout=writeout][,readonly=on]``
+   \ 
+-``-virtfs proxy,sock_fd=sock_fd,mount_tag=mount_tag [,writeout=writeout][,readonly]``
++``-virtfs proxy,sock_fd=sock_fd,mount_tag=mount_tag [,writeout=writeout][,readonly=on]``
+   \
+ ``-virtfs synth,mount_tag=mount_tag``
+     Define a new virtual filesystem device and expose it to the guest using
+@@ -1598,7 +1598,7 @@ SRST
+         guest only when the data has been reported as written by the
+         storage subsystem.
+ 
+-    ``readonly``
++    ``readonly=on``
+         Enables exporting 9p share as a readonly mount for guests. By
+         default read-write access is given.
+ 
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 64a9a772ee..4cb523dfb7 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -674,14 +674,14 @@ static void test_acpi_one(const char *params, test_data *data)
+         if (data->cd) {
+             args = g_strdup_printf("-machine %s %s -accel tcg "
+                 "-nodefaults -nographic "
+-                "-drive if=pflash,format=raw,file=%s,readonly "
++                "-drive if=pflash,format=raw,file=%s,readonly=on "
+                 "-drive if=pflash,format=raw,file=%s,snapshot=on -cdrom %s %s",
+                 data->machine, data->tcg_only ? "" : "-accel kvm",
+                 data->uefi_fl1, data->uefi_fl2, data->cd, params ? params : "");
+         } else {
+             args = g_strdup_printf("-machine %s %s -accel tcg "
+                 "-nodefaults -nographic "
+-                "-drive if=pflash,format=raw,file=%s,readonly "
++                "-drive if=pflash,format=raw,file=%s,readonly=on "
+                 "-drive if=pflash,format=raw,file=%s,snapshot=on %s",
+                 data->machine, data->tcg_only ? "" : "-accel kvm",
+                 data->uefi_fl1, data->uefi_fl2, params ? params : "");
+diff --git a/tests/qtest/pflash-cfi02-test.c b/tests/qtest/pflash-cfi02-test.c
+index afb702b565..60db81a3a2 100644
+--- a/tests/qtest/pflash-cfi02-test.c
++++ b/tests/qtest/pflash-cfi02-test.c
+@@ -261,7 +261,7 @@ static void test_geometry(const void *opaque)
+     const FlashConfig *config = opaque;
+     QTestState *qtest;
+     qtest = qtest_initf("-M musicpal"
+-                        " -drive if=pflash,file=%s,format=raw,copy-on-read"
++                        " -drive if=pflash,file=%s,format=raw,copy-on-read=on"
+                         /* Device geometry properties. */
+                         " -global driver=cfi.pflash02,"
+                         "property=num-blocks0,value=%d"
+@@ -581,7 +581,7 @@ static void test_cfi_in_autoselect(const void *opaque)
+     const FlashConfig *config = opaque;
+     QTestState *qtest;
+     qtest = qtest_initf("-M musicpal"
+-                        " -drive if=pflash,file=%s,format=raw,copy-on-read",
++                        " -drive if=pflash,file=%s,format=raw,copy-on-read=on",
+                         image_path);
+     FlashConfig explicit_config = expand_config_defaults(config);
+     explicit_config.qtest = qtest;
+diff --git a/tests/qtest/test-filter-redirector.c b/tests/qtest/test-filter-redirector.c
+index 829db8c2ea..4269b2cdd9 100644
+--- a/tests/qtest/test-filter-redirector.c
++++ b/tests/qtest/test-filter-redirector.c
+@@ -95,8 +95,8 @@ static void test_redirector_tx(void)
+     qts = qtest_initf(
+         "-netdev socket,id=qtest-bn0,fd=%d "
+         "-device %s,netdev=qtest-bn0,id=qtest-e0 "
+-        "-chardev socket,id=redirector0,path=%s,server,nowait "
+-        "-chardev socket,id=redirector1,path=%s,server,nowait "
++        "-chardev socket,id=redirector0,path=%s,server=on,wait=off "
++        "-chardev socket,id=redirector1,path=%s,server=on,wait=off "
+         "-chardev socket,id=redirector2,path=%s "
+         "-object filter-redirector,id=qtest-f0,netdev=qtest-bn0,"
+         "queue=tx,outdev=redirector0 "
+@@ -165,8 +165,8 @@ static void test_redirector_rx(void)
+     qts = qtest_initf(
+         "-netdev socket,id=qtest-bn0,fd=%d "
+         "-device %s,netdev=qtest-bn0,id=qtest-e0 "
+-        "-chardev socket,id=redirector0,path=%s,server,nowait "
+-        "-chardev socket,id=redirector1,path=%s,server,nowait "
++        "-chardev socket,id=redirector0,path=%s,server=on,wait=off "
++        "-chardev socket,id=redirector1,path=%s,server=on,wait=off "
+         "-chardev socket,id=redirector2,path=%s "
+         "-object filter-redirector,id=qtest-f0,netdev=qtest-bn0,"
+         "queue=rx,indev=redirector0 "
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 3df5322614..1a5f5313ff 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -537,7 +537,7 @@ static void test_server_create_chr(TestServer *server, const gchar *opt)
+ 
+ static void test_server_listen(TestServer *server)
+ {
+-    test_server_create_chr(server, ",server,nowait");
++    test_server_create_chr(server, ",server=on,wait=off");
+ }
+ 
+ static void test_server_free(TestServer *server)
+@@ -846,7 +846,7 @@ static void *vhost_user_test_setup_reconnect(GString *cmd_line, void *arg)
+ 
+     g_thread_new("connect", connect_thread, s);
+     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
+-    s->vu_ops->append_opts(s, cmd_line, ",server");
++    s->vu_ops->append_opts(s, cmd_line, ",server=on");
+ 
+     g_test_queue_destroy(vhost_user_test_cleanup, s);
+ 
+@@ -883,7 +883,7 @@ static void *vhost_user_test_setup_connect_fail(GString *cmd_line, void *arg)
+ 
+     g_thread_new("connect", connect_thread, s);
+     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
+-    s->vu_ops->append_opts(s, cmd_line, ",server");
++    s->vu_ops->append_opts(s, cmd_line, ",server=on");
+ 
+     g_test_queue_destroy(vhost_user_test_cleanup, s);
+ 
+@@ -898,7 +898,7 @@ static void *vhost_user_test_setup_flags_mismatch(GString *cmd_line, void *arg)
+ 
+     g_thread_new("connect", connect_thread, s);
+     append_mem_opts(s, cmd_line, 256, TEST_MEMFD_AUTO);
+-    s->vu_ops->append_opts(s, cmd_line, ",server");
++    s->vu_ops->append_opts(s, cmd_line, ",server=on");
+ 
+     g_test_queue_destroy(vhost_user_test_cleanup, s);
+ 
+diff --git a/tests/test-char.c b/tests/test-char.c
+index 9196e566e9..953e0d1c1f 100644
+--- a/tests/test-char.c
++++ b/tests/test-char.c
+@@ -413,7 +413,7 @@ static void char_websock_test(void)
+     CharBackend client_be;
+     Chardev *chr_client;
+     Chardev *chr = qemu_chr_new("server",
+-                                "websocket:127.0.0.1:0,server,nowait", NULL);
++                                "websocket:127.0.0.1:0,server=on,wait=off", NULL);
+     const char handshake[] = "GET / HTTP/1.1\r\n"
+                              "Upgrade: websocket\r\n"
+                              "Connection: Upgrade\r\n"
+@@ -696,7 +696,7 @@ char_socket_addr_to_opt_str(SocketAddress *addr, bool fd_pass,
+         fd = ioc->fd;
+         ioc->fd = -1;
+         optstr = g_strdup_printf("socket,id=cdev0,fd=%d%s",
+-                                 fd, is_listen ? ",server,nowait" : "");
++                                 fd, is_listen ? ",server=on,wait=off" : "");
+         object_unref(OBJECT(ioc));
+         return optstr;
+     } else {
+@@ -706,13 +706,13 @@ char_socket_addr_to_opt_str(SocketAddress *addr, bool fd_pass,
+                                    addr->u.inet.host,
+                                    addr->u.inet.port,
+                                    reconnect ? reconnect : "",
+-                                   is_listen ? ",server,nowait" : "");
++                                   is_listen ? ",server=on,wait=off" : "");
+ 
+         case SOCKET_ADDRESS_TYPE_UNIX:
+             return g_strdup_printf("socket,id=cdev0,path=%s%s%s",
+                                    addr->u.q_unix.path,
+                                    reconnect ? reconnect : "",
+-                                   is_listen ? ",server,nowait" : "");
++                                   is_listen ? ",server=on,wait=off" : "");
+ 
+         default:
+             g_assert_not_reached();
 -- 
 2.26.2
-
 
 
