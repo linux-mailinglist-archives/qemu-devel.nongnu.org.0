@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A662A2D55A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 09:52:38 +0100 (CET)
-Received: from localhost ([::1]:50404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41E42D55A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 09:49:05 +0100 (CET)
+Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knHgj-0004LA-N3
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 03:52:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
+	id 1knHdI-0002Fp-R3
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 03:49:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHfW-0003Mh-6l
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:22 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHfT-0005mY-Nv
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:21 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knHfQ-0003kH-62
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:16 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D2FDD2E814A
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:15 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1knHbM-0001iM-6D
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:47:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52137)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1knHbI-0004Ee-Ae
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:47:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607590018;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8cCVEo4WJK8HWfvjbmTSJaM8xh0fUdoFkrRYJo+RhgI=;
+ b=CqCo46rlsN10M64/okFWVLn+K8q8Ty2P84oNREkZBjzHw86m3r4PIe0RhPQioLYGf2OU1f
+ KoMX2ExMdqpYlNHLb1StV0VQtfiwKJ+bJQj6ffRcFJKL3WqhdEf58vtHiPVjHYdt4IbRB7
+ NFd3c4YSEMNK3vZ2D76aMCspzNvENnE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-mDI1ltknP36qBmpXz_4fag-1; Thu, 10 Dec 2020 03:46:53 -0500
+X-MC-Unique: mDI1ltknP36qBmpXz_4fag-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64FB110054FF
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:46:52 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-52.ams2.redhat.com
+ [10.36.113.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB2F45C626;
+ Thu, 10 Dec 2020 08:46:45 +0000 (UTC)
+Subject: Re: [PATCH] smbios: entry-point-type option
+To: Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
+References: <20201208212023.1560846-1-ehabkost@redhat.com>
+ <20201209094225.GE3214234@redhat.com> <20201209181626.GU1289986@habkost.net>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <d647702c-341d-8433-31c9-b97f4a7581dd@redhat.com>
+Date: Thu, 10 Dec 2020 09:46:44 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 08:43:34 -0000
-From: Thomas Huth <1900155@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ide
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow philmd th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <160285970200.13301.15621205793966891788.malonedeb@wampee.canonical.com>
-Message-Id: <160758981464.5286.17826121174716069186.malone@gac.canonical.com>
-Subject: [Bug 1900155] Re: MIPS Malta fails booting due to IDE error
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 2c3382ddf742a1a8cb88cf02c03913009c6ed471
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201209181626.GU1289986@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,102 +80,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900155 <1900155@bugs.launchpad.net>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Released with QEMU v5.2.0.
+On 12/09/20 19:16, Eduardo Habkost wrote:
+> On Wed, Dec 09, 2020 at 09:42:25AM +0000, Daniel P. Berrangé wrote:
+>> On Tue, Dec 08, 2020 at 04:20:23PM -0500, Eduardo Habkost wrote:
+>>> Add command-line option that lets the SMBIOS entry point type to
+>>> be configured.
+>>>
+>>> SMBIOS 3.0 support is necessary to allow us to support more
+>>> than 720 VCPUs in x86_64, due to SMBIOS 2.1 table size limits.
+>>>
+>>> Note that it's still up to firmware to decide whether to generate
+>>> SMBIOS 2.1 and/or 3.0 entry points for the guest, using the
+>>> information contained in etc/smbios/smbios-anchor.  OVMF, for
+>>> example, is able to generate both entry points, depending on the
+>>> value of PcdSmbiosEntryPointProvideMethod.
+>>>
+>>> The SMBIOS 3.0 entry point won't be enabled by default because it
+>>> is not supported yet by Seabios.  This may be changed once
+>>> Seabios starts supporting SMBIOS 3.0 entry points.
+>>>
+>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>>> ---
+>>> Laszlo, Philippe: do you know how exactly the value of
+>>> PcdSmbiosEntryPointProvideMethod is chosen when running OVMF?
+>>
+>> Laszlo proides alot of detail in my original proposal for
+>> selecting SMBIOS entry point here:
+>>
+>> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg03347.html
+> 
+> Thanks!
+> 
+>>
+> [...]
+>>> diff --git a/qemu-options.hx b/qemu-options.hx
+>>> index 104632ea34..d2a973f8a7 100644
+>>> --- a/qemu-options.hx
+>>> +++ b/qemu-options.hx
+>>> @@ -2294,7 +2294,9 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+>>>      "                specify SMBIOS type 11 fields\n"
+>>>      "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
+>>>      "               [,asset=str][,part=str][,speed=%d]\n"
+>>> -    "                specify SMBIOS type 17 fields\n",
+>>> +    "                specify SMBIOS type 17 fields\n"
+>>> +    "-smbios entry-point-type=2.1|3.0\n"
+>>> +    "                specify SMBIOS entry point type\n",
+>>
+>> My previous patch:
+>>
+>>   https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg03027.html
+>>
+>> exposed the entry point version as a property on the PC machine
+>> rather than the -smbios arg, principally because it is the machin
+>> setup code that currently defines what version is used via the calls
+>> to smbios_set_defaults().
+>>
+>> IIUC from Laszlo's reply,  SMBIOS 2.1 is not valid for AArch64
+>> at all - they only support 3.0.  So there's a small benefit from
+>> configuring this against the PC machine types, because it prevents
+>> ability to select 2.1 for ARM SMBIOS which would be invalid.
+> 
+> Good point.  It would also make it easier to change the machine
+> type default in the future.
+> 
+> I will submit something based on your patches, instead.
+> 
 
-** Changed in: qemu
-       Status: Fix Committed =3D> Fix Released
+Thank you, Daniel, for finding that write-up; I've got it completely
+paged-out by now :) I don't have anything to add here, just confirming
+that I've read this thread quickly. Eduardo, if you have questions wrt.
+OVMF, please let me know; I'll try to find the time.
 
--- =
+Thanks!
+Laszlo
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900155
-
-Title:
-  MIPS Malta fails booting due to IDE error
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  As of commit 3e407488349:
-
-  $ avocado --show=3Dconsole run -t machine:malta tests/acceptance/boot_lin=
-ux_console.py    =
-
-  console: [    0.000000] Linux version 4.5.0-2-4kc-malta (debian-kernel@li=
-sts.debian.org) (gcc version 5.3.1 20160519 (Debian 5.3.1-20) ) #1 Debian 4=
-.5.5-1 (2016-05-29)
-  console: [    0.000000] earlycon: Early serial console at I/O port 0x3f8 =
-(options '38400n8')
-  console: [    0.000000] bootconsole [uart0] enabled
-  console: [    0.000000] CPU0 revision is: 00019300 (MIPS 24Kc)
-  console: [    0.000000] FPU revision is: 00739300
-  console: [    0.000000] MIPS: machine is mti,malta
-  [...]
-  console: ata2.00: ATAPI: QEMU DVD-ROM, 2.5+, max UDMA/100
-  console: ata2.00: Drive reports diagnostics failure. This may indicate a =
-drive
-  console: ata2.00: fault or invalid emulation. Contact drive vendor for in=
-formation.
-  console: ata2.00: configured for UDMA/33
-  console: scsi 1:0:0:0: CD-ROM            QEMU     QEMU DVD-ROM     2.5+ P=
-Q: 0 ANSI: 5
-  console: Freeing unused kernel memory: 412K (80979000 - 809e0000)
-  console: do_page_fault(): sending SIGSEGV to mount for invalid write acce=
-ss to 0018a000
-  console: epc =3D 775cca54 in libc-2.27.so[775b3000+177000]
-  console: ra  =3D 77754618 in ld-2.27.so[77743000+24000]
-  console: do_page_fault(): sending SIGSEGV to klogd for invalid write acce=
-ss to 0018a000
-  console: epc =3D 770f0a54 in libc-2.27.so[770d7000+177000]
-  console: ra  =3D 77278618 in ld-2.27.so[77267000+24000]
-  console: do_page_fault(): sending SIGSEGV to S20urandom for invalid write=
- access to 0018a000
-  console: epc =3D 77d0ca54 in libc-2.27.so[77cf3000+177000]
-  console: ra  =3D 77e94618 in ld-2.27.so[77e83000+24000]
-  console: do_page_fault(): sending SIGSEGV to mkdir for invalid write acce=
-ss to 0018a000
-  console: epc =3D 776b8a54 in libc-2.27.so[7769f000+177000]
-  console: ra  =3D 77840618 in ld-2.27.so[7782f000+24000]
-  console: do_page_fault(): sending SIGSEGV to sh for invalid write access =
-to 0018a000
-  console: epc =3D 77364a54 in libc-2.27.so[7734b000+177000]
-  console: ra  =3D 774ec618 in ld-2.27.so[774db000+24000]
-  console: do_page_fault(): sending SIGSEGV to sh for invalid write access =
-to 0018a000
-  console: epc =3D 77bd4a54 in libc-2.27.so[77bbb000+177000]
-  console: ra  =3D 77d5c618 in ld-2.27.so[77d4b000+24000]
-  console: do_page_fault(): sending SIGSEGV to awk for invalid write access=
- to 0018a000
-  console: epc =3D 76f44a54 in libc-2.27.so[76f2b000+177000]
-  console: ra  =3D 770cc618 in ld-2.27.so[770bb000+24000]
-  console: do_page_fault(): sending SIGSEGV to cat for invalid write access=
- to 0018a000
-  console: epc =3D 770cca54 in libc-2.27.so[770b3000+177000]
-  console: ra  =3D 77254618 in ld-2.27.so[77243000+24000]
-  $ echo $?
-  8
-
-  55adb3c45620c31f29978f209e2a44a08d34e2da is the first bad commit
-  commit 55adb3c45620c31f29978f209e2a44a08d34e2da
-  Author: John Snow <jsnow@redhat.com>
-  Date:   Fri Jul 24 01:23:00 2020 -0400
-
-      ide: cancel pending callbacks on SRST
-
-      The SRST implementation did not keep up with the rest of IDE; it is
-      possible to perform a weak reset on an IDE device to remove the BSY/D=
-RQ
-      bits, and then issue writes to the control/device registers which can
-      cause chaos with the state machine.
-
-      Fix that by actually performing a real reset.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900155/+subscriptions
 
