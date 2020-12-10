@@ -2,71 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41E42D55A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 09:49:05 +0100 (CET)
-Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065782D55E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 09:58:17 +0100 (CET)
+Received: from localhost ([::1]:58276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knHdI-0002Fp-R3
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 03:49:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38116)
+	id 1knHmC-0007qD-3c
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 03:58:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1knHbM-0001iM-6D
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:47:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52137)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1knHg4-0004Ce-LU
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1knHbI-0004Ee-Ae
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:47:03 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1knHg3-0005yc-5e
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607590018;
+ s=mimecast20190719; t=1607590314;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8cCVEo4WJK8HWfvjbmTSJaM8xh0fUdoFkrRYJo+RhgI=;
- b=CqCo46rlsN10M64/okFWVLn+K8q8Ty2P84oNREkZBjzHw86m3r4PIe0RhPQioLYGf2OU1f
- KoMX2ExMdqpYlNHLb1StV0VQtfiwKJ+bJQj6ffRcFJKL3WqhdEf58vtHiPVjHYdt4IbRB7
- NFd3c4YSEMNK3vZ2D76aMCspzNvENnE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-mDI1ltknP36qBmpXz_4fag-1; Thu, 10 Dec 2020 03:46:53 -0500
-X-MC-Unique: mDI1ltknP36qBmpXz_4fag-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64FB110054FF
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:46:52 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-52.ams2.redhat.com
- [10.36.113.52])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB2F45C626;
- Thu, 10 Dec 2020 08:46:45 +0000 (UTC)
-Subject: Re: [PATCH] smbios: entry-point-type option
-To: Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
-References: <20201208212023.1560846-1-ehabkost@redhat.com>
- <20201209094225.GE3214234@redhat.com> <20201209181626.GU1289986@habkost.net>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <d647702c-341d-8433-31c9-b97f4a7581dd@redhat.com>
-Date: Thu, 10 Dec 2020 09:46:44 +0100
+ bh=vtuG8EjqLmlm3vtZdQjbO8BUhyUZ47yfBOdFKGXkm74=;
+ b=dbXM9h6HUVMqfhzShGupXbA/hM1Y9kJfzASgNiN/V7LWLEriZaMlFY/1FyLlZKIlk4WRiv
+ NHS1IYBx7aPlPpPiIUiOPk/kjP6K3YiCzQxf4Hg8VOvzI1J/Nb2c8DXeNNBc0ZhCX9HIY/
+ 8wz9GfmgLrOodgQj7C2ygIejO1X3+hc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-MuW5CSuDMBmVGylbL-AfAA-1; Thu, 10 Dec 2020 03:51:52 -0500
+X-MC-Unique: MuW5CSuDMBmVGylbL-AfAA-1
+Received: by mail-wr1-f71.google.com with SMTP id b5so1661403wrp.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 00:51:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vtuG8EjqLmlm3vtZdQjbO8BUhyUZ47yfBOdFKGXkm74=;
+ b=ckZ1KuEeEK2jtbLTHtOc+Sef5W7hxP2vs7oT63TrpZ38UIvvAhidvXRtdEjVhH78l1
+ xXCZ4yBnrab6oSj6hqrqsPAzHU1lqmdKRrc9C97dFUZSVsD+M2q9POFnOQQ3253O2vth
+ C0JFa93iBCrZ7KDc3PFazXUKaieovAlZPtIT8resxcw3lyjlHmrqR052BHgYpLUnmZ3b
+ NXUv/y9O8g8LMA7Z1K6m7FwaSwvzSbLSUvOC0qzKE3tu/kDALbrvqgWdbja0wLuE28fx
+ 70im8g/dqx7RWKYI4wdmEtzRXyDafvNHWtaRxDitxlRTYO52XlGlbQxVPScemYB6iJTV
+ Q6QA==
+X-Gm-Message-State: AOAM530ZNCVpbZ7auebDFwfIRfyazxNWhcKbb7OwUSOKyg8nrCKX6POJ
+ /QXTdnTuXDVpZNY0/K/SKZ1qNC/PAUZ4ncofAY5KuKcwf01SHs96J5/BmjHjyz9RqYkqfpmbI6s
+ 6/0NBs2BNT/zgRW4=
+X-Received: by 2002:a5d:5643:: with SMTP id j3mr6735632wrw.43.1607590311262;
+ Thu, 10 Dec 2020 00:51:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwq+fpZzMhdrg1b3lKECckAYhZFmI6v93w9scTV6ZSxEUozFuH4ibJ44L4bYSvjCB9BsNjbLg==
+X-Received: by 2002:a5d:5643:: with SMTP id j3mr6735616wrw.43.1607590311041;
+ Thu, 10 Dec 2020 00:51:51 -0800 (PST)
+Received: from steredhat (host-79-24-227-66.retail.telecomitalia.it.
+ [79.24.227.66])
+ by smtp.gmail.com with ESMTPSA id g11sm8331663wrq.7.2020.12.10.00.51.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Dec 2020 00:51:50 -0800 (PST)
+Date: Thu, 10 Dec 2020 09:51:48 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: ruc_gongyuanjun@163.com
+Subject: Re: [PATCH 1/1] net/socket.c: Fix memory leak
+Message-ID: <20201210085148.yz65odiu6wdtdmiv@steredhat>
+References: <20201209120013.13317-1-ruc_gongyuanjun@163.com>
 MIME-Version: 1.0
-In-Reply-To: <20201209181626.GU1289986@habkost.net>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201209120013.13317-1-ruc_gongyuanjun@163.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,84 +93,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/09/20 19:16, Eduardo Habkost wrote:
-> On Wed, Dec 09, 2020 at 09:42:25AM +0000, Daniel P. Berrangé wrote:
->> On Tue, Dec 08, 2020 at 04:20:23PM -0500, Eduardo Habkost wrote:
->>> Add command-line option that lets the SMBIOS entry point type to
->>> be configured.
->>>
->>> SMBIOS 3.0 support is necessary to allow us to support more
->>> than 720 VCPUs in x86_64, due to SMBIOS 2.1 table size limits.
->>>
->>> Note that it's still up to firmware to decide whether to generate
->>> SMBIOS 2.1 and/or 3.0 entry points for the guest, using the
->>> information contained in etc/smbios/smbios-anchor.  OVMF, for
->>> example, is able to generate both entry points, depending on the
->>> value of PcdSmbiosEntryPointProvideMethod.
->>>
->>> The SMBIOS 3.0 entry point won't be enabled by default because it
->>> is not supported yet by Seabios.  This may be changed once
->>> Seabios starts supporting SMBIOS 3.0 entry points.
->>>
->>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>> ---
->>> Laszlo, Philippe: do you know how exactly the value of
->>> PcdSmbiosEntryPointProvideMethod is chosen when running OVMF?
->>
->> Laszlo proides alot of detail in my original proposal for
->> selecting SMBIOS entry point here:
->>
->> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg03347.html
-> 
-> Thanks!
-> 
->>
-> [...]
->>> diff --git a/qemu-options.hx b/qemu-options.hx
->>> index 104632ea34..d2a973f8a7 100644
->>> --- a/qemu-options.hx
->>> +++ b/qemu-options.hx
->>> @@ -2294,7 +2294,9 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
->>>      "                specify SMBIOS type 11 fields\n"
->>>      "-smbios type=17[,loc_pfx=str][,bank=str][,manufacturer=str][,serial=str]\n"
->>>      "               [,asset=str][,part=str][,speed=%d]\n"
->>> -    "                specify SMBIOS type 17 fields\n",
->>> +    "                specify SMBIOS type 17 fields\n"
->>> +    "-smbios entry-point-type=2.1|3.0\n"
->>> +    "                specify SMBIOS entry point type\n",
->>
->> My previous patch:
->>
->>   https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg03027.html
->>
->> exposed the entry point version as a property on the PC machine
->> rather than the -smbios arg, principally because it is the machin
->> setup code that currently defines what version is used via the calls
->> to smbios_set_defaults().
->>
->> IIUC from Laszlo's reply,  SMBIOS 2.1 is not valid for AArch64
->> at all - they only support 3.0.  So there's a small benefit from
->> configuring this against the PC machine types, because it prevents
->> ability to select 2.1 for ARM SMBIOS which would be invalid.
-> 
-> Good point.  It would also make it easier to change the machine
-> type default in the future.
-> 
-> I will submit something based on your patches, instead.
-> 
+On Wed, Dec 09, 2020 at 08:00:13PM +0800, ruc_gongyuanjun@163.com wrote:
+>From: yuanjungong <ruc_gongyuanjun@163.com>
+>
+>close fd opened by monitor_fd_param() before returning.
+>
+>Signed-off-by: yuanjungong <ruc_gongyuanjun@163.com>
+>---
+> net/socket.c | 3 +++
+> 1 file changed, 3 insertions(+)
+>
+>diff --git a/net/socket.c b/net/socket.c
+>index 15b410e..2f720a7 100644
+>--- a/net/socket.c
+>+++ b/net/socket.c
+>@@ -735,12 +735,15 @@ int net_init_socket(const Netdev *netdev, const char *name,
+>         if (ret < 0) {
+>             error_setg_errno(errp, -ret, "%s: Can't use file descriptor %d",
+>                              name, fd);
+>+            close(fd);
+>             return -1;
+>         }
+>         if (!net_socket_fd_init(peer, "socket", name, fd, 1, sock->mcast,
+>                                 errp)) {
+>+            close(fd);
 
-Thank you, Daniel, for finding that write-up; I've got it completely
-paged-out by now :) I don't have anything to add here, just confirming
-that I've read this thread quickly. Eduardo, if you have questions wrt.
-OVMF, please let me know; I'll try to find the time.
+net_socket_fd_init() closes the fd in the error path, so this close 
+should be avoided.
 
-Thanks!
-Laszlo
+>             return -1;
+>         }
+>+        close(fd);
+
+I don't know the code, but is it right to close the file descriptor in 
+the success path?
+
+Thanks,
+Stefano
+
+>         return 0;
+>     }
+>
+>-- 
+>2.17.1
+>
+>
 
 
