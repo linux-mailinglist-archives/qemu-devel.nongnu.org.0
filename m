@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E34392D5EB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:56:37 +0100 (CET)
-Received: from localhost ([::1]:36488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A53E2D5EC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:58:04 +0100 (CET)
+Received: from localhost ([::1]:39494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knNMy-0005ho-TW
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:56:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42868)
+	id 1knNON-000719-0F
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:58:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1knNKs-0004lh-SS
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:54:26 -0500
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:42143)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1knNLv-0005Qr-2Z; Thu, 10 Dec 2020 09:55:31 -0500
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:44747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1knNKq-0008GN-K3
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:54:26 -0500
-Received: by mail-il1-x142.google.com with SMTP id 2so5539352ilg.9
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 06:54:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1knNLt-0000Dn-Ao; Thu, 10 Dec 2020 09:55:30 -0500
+Received: by mail-qt1-x844.google.com with SMTP id u21so3784952qtw.11;
+ Thu, 10 Dec 2020 06:55:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tFPSuEw5e4pj1irmJoWUQHCXuxgSTo2RlsusyGmz6NI=;
- b=u8YDiqaB6sVVctjnQZi62wW/KjlO3tqENPYqwwpyd6WwV+L5BdS9fSqCQiGNRV2Ag4
- UYHO28SRJduJphoiI1NiYKepZ1+Db97cVWjxJZ6NRpG7fWajKSsvEKtF6broegPabN7t
- 3E3a707SRZpYvmhFQB896NIIJquEJXjoZySB26CxKVuwPGsyudnZoC2ltH8Rq20tOue2
- lsqFLTK9X2oH3uhqwRCl8hPtOZS8h7Irg+kGAElvFJjmUNlvfDsY+dfQmx0qMBOSPP2r
- veZFSSLEfNJgcshK1OJHsPAg+LgzhIrpKXAbHP1K7HQ0ZzkjZXMZxjcrJpuRGxcWy4pd
- JWkg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3T/xx8BxsbUIawVPQVEIKoqgmKBBcveomridufBtqNc=;
+ b=gb7LzZ72LkZDMDyS1jOT0RnajlIY1Y9Nq4UHdRV3e0gDTd23cmeZ610/QqqK4QPnOS
+ NrL0/4aCG6NaSDZcRRT5WaOt/MyrirwBrK9YyGS0jTF7NuitMHmzlZfkHPJr/sZcz0Fq
+ i2z7y/a8okRmYSttZsGLwRylMurpo4n+nrMyxogpglRKtU1OsVTWaPw2gZY920juRnnf
+ BUdhAk6ryCsvuhE9RO3CbTltjx8uekKEftf45lZxvJdnFxF/Hzb8SplcCWYzbI4xC9RX
+ nOKvgDxap1pgAjzwqqF5zxHhdVPgFXkBaQ4sHIoKd0PC99y3F2+JAFSA3YEq520ocPT1
+ zMpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tFPSuEw5e4pj1irmJoWUQHCXuxgSTo2RlsusyGmz6NI=;
- b=ediKKKRxQPkL3hKxwlAbIP4ej35uSuE9hVnLVGXOwwM4S8L1YanqDFWiGgYiMkI3gw
- +f5lXxN9LSQWI9zwjj7utk1zs+YjTjwUP+q4uWeA2sLa3xq896YK4a4nfd0L4K1eNvd4
- y2nb7jbJbqFmo7WnqjZHtVruqkLmZJlR43Ny3z2P/R7/DW2JoOCvWi3ph0iSbouE1FIp
- wOl+gLZQJNNaH0ISNEDMnr9JIt4LA/i/ogXhH0Ipn1xnD3oXeMJCY/l2TAXMMzksTZyk
- QLfAF191T6yRk5uSmfSNTybfdOdN7vVrA2E+mvs1XoxIL4BoMA8msi9Y+jCrNjmCgRT/
- pNSA==
-X-Gm-Message-State: AOAM533Whp7hQ287JhtQl39ZT3z7ePho3A+cvBuZ5v+Flqq1w/9O5Vb9
- BJPgyX7zSO94mdtFC9BZTxiPngex908TXDd93NY=
-X-Google-Smtp-Source: ABdhPJw4HorVpPsggfJ++ILOt1o60c7tg2yQ2tBH7cI4rM7L2ijhuBOQrsg6yaJSjl+NiRdUEN/6N0JasYddPAlWdds=
-X-Received: by 2002:a92:c112:: with SMTP id p18mr9756416ile.89.1607612063416; 
- Thu, 10 Dec 2020 06:54:23 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3T/xx8BxsbUIawVPQVEIKoqgmKBBcveomridufBtqNc=;
+ b=jGVd668AaNdzBbK8UDGyo8ckjCl+bfsEJWG1zmyIl0NBCZjWQmKvwvzEFmSWuZ0fnt
+ zWr5JkYpRDbmvPeGaw77If0SjW5UeWnkmW6RCv95X0/pbDerELVJ82QscSCeLD5F2klF
+ qh5Vcbhvacwhs8RepfLBq8wyuGSyhn3D3Z0ZusbjcxPqr6wXhDFI14xvHfN+VRvu3RLe
+ emRWZ24UMkMMD8Bklxtn+/pMpiLsW6AU6e0uUlf2BICr3RFPI+8jyHbFnCqhUwR5g94r
+ GxliVdGBnzTeREiK/yAUMmGcjPWit/OxOiXo1EQ4/JqmzgINLXuDfo2sp8mHOdOceUlK
+ 6Hwg==
+X-Gm-Message-State: AOAM533F0rLkYJ4fr6IVSTSckWItMggd4AL/gFyA2ziBhvFWpAU8q8Mh
+ VM6eYDH93oBKTRx2s3n3fhr0Hsf4V8g=
+X-Google-Smtp-Source: ABdhPJzP0f6xLqKFEyhUl9iO+XSu2QosuBlJcbbIzMCG5wpSRbuvXzcEHw4AuUxQ8YxsirMXw0oFFQ==
+X-Received: by 2002:ac8:5982:: with SMTP id e2mr9305291qte.257.1607612126386; 
+ Thu, 10 Dec 2020 06:55:26 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:c1a:69c1:2b22:e880:fc49])
+ by smtp.gmail.com with ESMTPSA id b6sm3592534qkc.128.2020.12.10.06.55.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Dec 2020 06:55:25 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/1] spapr.c: set a 'kvm-type' default value instead of
+ relying on NULL
+Date: Thu, 10 Dec 2020 11:55:16 -0300
+Message-Id: <20201210145517.1532269-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201208163950.29617-1-david@redhat.com>
- <20201208163950.29617-8-david@redhat.com>
-In-Reply-To: <20201208163950.29617-8-david@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Thu, 10 Dec 2020 15:54:12 +0100
-Message-ID: <CAM9Jb+gOvCqW2rcz++SG1VZV0PoaZqx-_fE5X54PFttD-+1X_w@mail.gmail.com>
-Subject: Re: [PATCH v2 07/10] softmmu/physmem: Don't use atomic operations in
- ram_block_discard_(disable|require)
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-il1-x142.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x844.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,148 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Kedzierski <mkedzier@redhat.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: pbonzini@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> We have users in migration context that don't hold the BQL (when
-> finishing migration). To prepare for further changes, use a dedicated mutex
-> instead of atomic operations. Keep using qatomic_read ("READ_ONCE") for the
-> functions that only extract the current state (e.g., used by
-> virtio-balloon), locking isn't necessary.
->
-> While at it, split up the counter into two variables to make it easier
-> to understand.
->
-> Suggested-by: Peter Xu <peterx@redhat.com>
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Auger Eric <eric.auger@redhat.com>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Cc: teawater <teawaterz@linux.alibaba.com>
-> Cc: Marek Kedzierski <mkedzier@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  softmmu/physmem.c | 70 ++++++++++++++++++++++++++---------------------
->  1 file changed, 39 insertions(+), 31 deletions(-)
->
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 3027747c03..448e4e8c86 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -3650,56 +3650,64 @@ void mtree_print_dispatch(AddressSpaceDispatch *d, MemoryRegion *root)
->      }
->  }
->
-> -/*
-> - * If positive, discarding RAM is disabled. If negative, discarding RAM is
-> - * required to work and cannot be disabled.
-> - */
-> -static int ram_block_discard_disabled;
-> +static unsigned int ram_block_discard_requirers;
-> +static unsigned int ram_block_discard_disablers;
-> +static QemuMutex ram_block_discard_disable_mutex;
-> +
-> +static void ram_block_discard_disable_mutex_lock(void)
-> +{
-> +    static gsize initialized;
-> +
-> +    if (g_once_init_enter(&initialized)) {
-> +        qemu_mutex_init(&ram_block_discard_disable_mutex);
-> +        g_once_init_leave(&initialized, 1);
-> +    }
-> +    qemu_mutex_lock(&ram_block_discard_disable_mutex);
-> +}
-> +
-> +static void ram_block_discard_disable_mutex_unlock(void)
-> +{
-> +    qemu_mutex_unlock(&ram_block_discard_disable_mutex);
-> +}
->
->  int ram_block_discard_disable(bool state)
->  {
-> -    int old;
-> +    int ret = 0;
->
-> +    ram_block_discard_disable_mutex_lock();
->      if (!state) {
-> -        qatomic_dec(&ram_block_discard_disabled);
-> -        return 0;
-> +        ram_block_discard_disablers--;
-> +    } else if (!ram_block_discard_requirers) {
-> +        ram_block_discard_disablers++;
-> +    } else {
-> +        ret = -EBUSY;
->      }
-> -
-> -    do {
-> -        old = qatomic_read(&ram_block_discard_disabled);
-> -        if (old < 0) {
-> -            return -EBUSY;
-> -        }
-> -    } while (qatomic_cmpxchg(&ram_block_discard_disabled,
-> -                             old, old + 1) != old);
-> -    return 0;
-> +    ram_block_discard_disable_mutex_unlock();
-> +    return ret;
->  }
->
->  int ram_block_discard_require(bool state)
->  {
-> -    int old;
-> +    int ret = 0;
->
-> +    ram_block_discard_disable_mutex_lock();
->      if (!state) {
-> -        qatomic_inc(&ram_block_discard_disabled);
-> -        return 0;
-> +        ram_block_discard_requirers--;
-> +    } else if (!ram_block_discard_disablers) {
-> +        ram_block_discard_requirers++;
-> +    } else {
-> +        ret = -EBUSY;
->      }
-> -
-> -    do {
-> -        old = qatomic_read(&ram_block_discard_disabled);
-> -        if (old > 0) {
-> -            return -EBUSY;
-> -        }
-> -    } while (qatomic_cmpxchg(&ram_block_discard_disabled,
-> -                             old, old - 1) != old);
-> -    return 0;
-> +    ram_block_discard_disable_mutex_unlock();
-> +    return ret;
->  }
->
->  bool ram_block_discard_is_disabled(void)
->  {
-> -    return qatomic_read(&ram_block_discard_disabled) > 0;
-> +    return qatomic_read(&ram_block_discard_disablers);
->  }
-return value won't be bool?
->
->  bool ram_block_discard_is_required(void)
->  {
-> -    return qatomic_read(&ram_block_discard_disabled) < 0;
-> +    return qatomic_read(&ram_block_discard_requirers);
-same here.
->  }
-> --
-Apart from query above, looks good.
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+changes from v2, all proposed by Greg:
+* Handle 'NULL' value as default mode fallback in spapr_kvm_type()
+* Do not allow for 'AUTO' to be a valid mode in spapr_kvm_type()
+* Initialize 'spapr->kvm_type' in spapr_instance_init() like Paolo
+  proposed. This will spare us from changing spapr_get_kvm_type()
+  altogether.
+v2 link: https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg02623.html
+
+
+This patch addresses an issue that happens with the pseries machine after
+testing Paolo's patch [1]:
+
+$ sudo ./ppc64-softmmu/qemu-system-ppc64 -nographic -nodefaults -machine pseries --enable-kvm
+qemu-system-ppc64: Unknown kvm-type specified '' 
+
+The reason lies on how qemu_opt_get() and object_property_get_str() works
+when there is no 'kvm-type' specified. We were conting on receiving NULL
+for kvm-type, but the latter will use a blank string "". Instead on relying
+on NULL, let's expose the already existing 'auto' kvm-type mode to the users
+and use that as default.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg00471.html
+
+Daniel Henrique Barboza (1):
+  spapr.c: set a 'kvm-type' default value instead of relying on NULL
+
+ hw/ppc/spapr.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
+
+-- 
+2.26.2
+
 
