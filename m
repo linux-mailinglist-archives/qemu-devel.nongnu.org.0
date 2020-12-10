@@ -2,128 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BB92D58A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 11:57:32 +0100 (CET)
-Received: from localhost ([::1]:49910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9AC2D58A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 11:58:41 +0100 (CET)
+Received: from localhost ([::1]:52644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knJdb-00073D-CO
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 05:57:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38098)
+	id 1knJei-0008D9-Aj
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 05:58:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knJc2-0005zF-BT; Thu, 10 Dec 2020 05:55:54 -0500
-Received: from mail-eopbgr50114.outbound.protection.outlook.com
- ([40.107.5.114]:30848 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knJbx-0005ly-5R; Thu, 10 Dec 2020 05:55:54 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=clx6/vPDqfcrCgvSiKdD8NF3NZampZ/mS1UGedJNTu9EW6fd578Ars4b6rhH5FDaIUGYb8lUVd2htkK/5Sj5BChKwLbqVqu4g5gDbYNMHE/aU6wzQ3NAme6nfOiKDdIXN1LBqVn94i99FgxPa9ninCw9DovpcChtinBo8neYkksqOpi6+C43TEpfRVH8pPN9ap4ZdwFyuzeuJBq/JgbnwQLKPW64lmPHnK8SBpv/CKX3fLTDcwfLKPg8VdK6LhbE4VD2+jjI/AMSD0/goriC9r4DO2V/rWIPTIqwEMTXedoTKq6aMwD+xbjL29oaAkNUBgnI3VSyNla50EjngIEfAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eVFQbTQwrUfaoCS2eLhQkOa12AeglmFxuEkyuzxnIac=;
- b=irbiklo0cpXuRAwhITNP7g0ehCQ2vhBqrrAgUG6OGgx8WENVtgIGEmZrwIpv0d3qZWTNORy8Qq8Aw3ib2IN0PjMCtKA7Rk/IeAPdGNA64uGslNQRmPlitFdHEDzfAHkyLzwWSZU0ILy3/cGJoUm33NH8Afq/CqKH9mrlk87eCTRUZFCqDvTLpJntAa05lkU6ZRPGlcLGOOLTM2LeylLXxd/CH6Q9De/3waLOvzP7Iu/JFjrtHG0w6XSqT70U+l27pcmaXr8nE2zHDlozRFhKo6n+m2a+4Sz1NTnXiL686Dvyy7yefOF3cpBonQD9nfQZJlewVe5TABbm+921fX7eYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eVFQbTQwrUfaoCS2eLhQkOa12AeglmFxuEkyuzxnIac=;
- b=eup5alA153kzcnM6QIXRGqQoDLxmhCHFu0MznDYjXKujFU1RVY1sM6Yz0oPeeUguVYtYEwrmpSLOfX3MyjiuZVt5Yp3qbki3scqfidQnPQDsUYKT9vygOfd/lfeMb0Y2Ep3j0coW3XNCEyxyPmn1znSBlFhG8MnuYAhGdhmAyrc=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4536.eurprd08.prod.outlook.com (2603:10a6:20b:bf::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.13; Thu, 10 Dec
- 2020 10:55:45 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.012; Thu, 10 Dec 2020
- 10:55:45 +0000
-Subject: Re: [PATCH v5 3/4] crypto: luks: use bdrv_co_delete_file_noerr
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20201209203326.879381-1-mlevitsk@redhat.com>
- <20201209203326.879381-4-mlevitsk@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <84fc0e9b-2101-c5ef-3afd-1f4799c1cc58@virtuozzo.com>
-Date: Thu, 10 Dec 2020 13:55:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-In-Reply-To: <20201209203326.879381-4-mlevitsk@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.91]
-X-ClientProxiedBy: AM0PR02CA0219.eurprd02.prod.outlook.com
- (2603:10a6:20b:28f::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1knJck-0006jz-Ul
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 05:56:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1knJch-0005zb-TG
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 05:56:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607597793;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=L8N0J4UiHQG9CPZmS6v1PyLWhJBRcq6n7AifI+4cG0I=;
+ b=IypleSYbRqWcKiHdwsyfhkdWglGSWG58RwrwOkypjgxRxtDsjlnaS0R9E/kWrwP/357pRQ
+ B7t1/gd6rZQVWA7i5NKEdzw9e5BJawwtIDM9eF9c4wIq432vfRjoytllvRHp/QVyXCtKEH
+ bHX82XAWbSD3o/HD0EatiUK0uepjKdg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-42--otPnQK_MTSppisnhi9bEg-1; Thu, 10 Dec 2020 05:56:31 -0500
+X-MC-Unique: -otPnQK_MTSppisnhi9bEg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 725851005D52;
+ Thu, 10 Dec 2020 10:56:30 +0000 (UTC)
+Received: from work-vm (ovpn-113-58.ams2.redhat.com [10.36.113.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8417C60BFA;
+ Thu, 10 Dec 2020 10:56:22 +0000 (UTC)
+Date: Thu, 10 Dec 2020 10:56:13 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH V2] virtiofsd: Use --thread-pool-size=0 to mean no thread
+ pool
+Message-ID: <20201210105613.GA12670@work-vm>
+References: <20201109143548.GA1479853@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.91) by
- AM0PR02CA0219.eurprd02.prod.outlook.com (2603:10a6:20b:28f::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.23 via Frontend
- Transport; Thu, 10 Dec 2020 10:55:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 735520d6-dee2-4c9f-d76a-08d89cfa2561
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4536:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB45369162C77996929D07BF52C1CB0@AM6PR08MB4536.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:565;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YLu6UfHCi/5kHdVVeOmVd20zD2A/cfxahAR+KVxO3rfjjs1QXk77tna05dijIOPcL+F5m8cWRy6/5YoO1ClOCbYEQWkoktk40oKvUDHVNaK2FkDpcIAnFz7/WFg1h2KccDeaclKavytUQIu0qz8IaUHJ4jGV4HN65oqLY5fGTU/KKORjByod2eWXVG+8X7yL64nswPsaRTSKEcJz6nQatDTOI/9dxwjpo3DKaFTflVo3Vib7Ftxza0W7ojkwjA0mq+wSPNuZWRDEUQIqZWv02mxSOyPZhsU4Bt4qqyNCxmU+ntePXeGDNstSQQCXGv3/jKBxePIizFxk4bpeyVxy8r3KQGg2smYjK2NYlT2AYOvnHZ2J423PJlmhA3MnYOecWlvce8VAov7Ble6k5QXXWffyfenNmc4e9EmQqxwRO/I=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(346002)(39830400003)(136003)(376002)(54906003)(2616005)(86362001)(16576012)(5660300002)(66476007)(66946007)(4326008)(956004)(66556008)(26005)(31696002)(52116002)(558084003)(36756003)(8676002)(478600001)(31686004)(6486002)(316002)(186003)(8936002)(16526019)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TnZpNFpCS3JKZVlIRTlVbjIxd1N3SDFEZitRU1pCWVZ1cElDcFVnWXdkNlJM?=
- =?utf-8?B?Y2s0MVowTGREc3RkTkF4TnJ0OFpFN25pcXZwdXBia1ExMkVXcGJ1Nnk5Z2l6?=
- =?utf-8?B?d0lxZ0pNRzdkeFk2bFFLUUJsSWRCZ0w0QVB3YTFlTE5vZnRTQzEvRk1TbGVQ?=
- =?utf-8?B?WlRBOHFhLzBsaEZyVktsSDdiOXdsbFBpbldxQ2J5OUVQVDZZUlBUQTNXM2ll?=
- =?utf-8?B?S1JsZzBxTXdaTFlwV3kvaUd0WG8rUldOQWlCbzdkUTh1bXJvbEdrZUd3ckxj?=
- =?utf-8?B?TkFWWFp1dHF3bGNGaUhaOEgyNVI1dTZJcHdEK3lhcU95S1AwVkNWeGNkRW5k?=
- =?utf-8?B?MUNTeGlUYUFicFFsOXFub3Q4VWQ2YXhxT3J4b0xNZjE2aTc2Q0o4NjVWU2RV?=
- =?utf-8?B?TE4xVC8yYjRYclJkcGplQXpEY29XWUpLWmxhNVQvU1U3QkRTRTRXR3BCZzYv?=
- =?utf-8?B?SlNNUWZiaDNzYXpKRExmQVBzMVl6T0tWODRyTDlhYS9mUzc1djZMdjVMeXJy?=
- =?utf-8?B?VDYwUkszVnNqN0ZPTVN3U0ZSYmZtcElJV1VBWi9TVHdxYncrNk5LTlNEWXhz?=
- =?utf-8?B?bkRidmFENklZZ2RBejh2Nk8rZHE2aytEWGExWXUvY1RHSWdWU1VpSUk4NXBU?=
- =?utf-8?B?OGlRTG9YVk9xTDhHVWprSGswT042TzdadHFrenEwUkZreXZ2UFdtL1I3SWt6?=
- =?utf-8?B?TWEyMzBtckhqdVQ4Z3orcGVXM0JzZEZQZzRVV0FvSzhlaGlwa044dmdsbmFu?=
- =?utf-8?B?ZGVnRlA3M3QrRHNMS3pYaUFDdkFWU0JpSW9PMkZ5dTBnSXg3N3NtdTBDWjJM?=
- =?utf-8?B?dVArYk5sQXFGbFpXajlpVnprRXRNZk4rQ1B6TkVLSkp3bENQZFBrSUFqVzZP?=
- =?utf-8?B?cHA2LzZxTVZHclY3czhVeUpjRDZNRHB2bWFHZVlXYW01RXpBMDc1a2IwUlhq?=
- =?utf-8?B?V3AwVGpqM0lqdFVjZG5SN0txeU9PRGRaTDYrNC9nK3NoQk1NSmVscGZrL3dq?=
- =?utf-8?B?N0tOeGRDY2tiTGxxbTBoRWlEcVRPZS9DSDIrbVVXTm8rUmVNUFNxQlQ5YWE3?=
- =?utf-8?B?SXh5cWtncE9sTVJMN0srTDJZRVFscWovcHpRb3czUllLcDVHVVhJYlo4K2tQ?=
- =?utf-8?B?ZWtkM0hMU0JzMmhDOHUwQ0NhSDQrZjF3RzFPS2I4Y0Ryb3NBWld6Si8yYTMr?=
- =?utf-8?B?YTl2UmYwUGxWeHoxb2VZR21NaWQ5NjNscVpBb29yNnR4S1lKRXI5bGhZcE5C?=
- =?utf-8?B?cUgxZUNBOE1DWkZvWWZWYWdBSkdjTG5GRitaWEJCMzJiMm5vR2p3WWRsY1VI?=
- =?utf-8?Q?84dbkojHU5mAcvEdOECSN9UE1TbafxKAg3?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2020 10:55:45.4815 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: 735520d6-dee2-4c9f-d76a-08d89cfa2561
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uvA8RPEtat7DSDTfk5HzOil5qtQ9iVx60VtqWF8vHDP6vNzCVRdN1hXBkI36fV5qwNfzNBUccrTzjOJP7y0zmbci5uJCpwKFSA5xVwMtOrw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4536
-Received-SPF: pass client-ip=40.107.5.114;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-VE1-obe.outbound.protection.outlook.com
+In-Reply-To: <20201109143548.GA1479853@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -136,20 +79,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: virtio-fs-list <virtio-fs@redhat.com>, jose.carlos.venegas.munoz@intel.com,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-09.12.2020 23:33, Maxim Levitsky wrote:
-> This refactoring is now possible thanks to this function.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> Right now we create a thread pool and main thread hands over the request
+> to thread in thread pool to process. Number of threads in thread pool
+> can be managed by option --thread-pool-size.
 > 
-> Signed-off-by: Maxim Levitsky<mlevitsk@redhat.com>
-> Reviewed-by: Alberto Garcia<berto@igalia.com>
+> In tests we have noted that many of the workloads are getting better
+> performance if we don't use a thread pool at all and process all
+> the requests in the context of a thread receiving the request.
+> 
+> Hence give user an option to be able to run virtiofsd without using
+> a thread pool.
+> 
+> To implement this, I have used existing option --thread-pool-size. This
+> option defines how many maximum threads can be in the thread pool.
+> Thread pool size zero freezes thead pool. I can't see why will one
+> start virtiofsd with a frozen thread pool (hence frozen file system).
+> So I am redefining --thread-pool-size=0 to mean, don't use a thread pool.
+> Instead process the request in the context of thread receiving request
+> from the queue.
+> 
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Queued.
 
+> ---
+>  tools/virtiofsd/fuse_virtio.c | 36 ++++++++++++++++++++++++++---------
+>  1 file changed, 27 insertions(+), 9 deletions(-)
+> 
+> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+> index 83ba07c6cd..944b9a577c 100644
+> --- a/tools/virtiofsd/fuse_virtio.c
+> +++ b/tools/virtiofsd/fuse_virtio.c
+> @@ -588,13 +588,18 @@ static void *fv_queue_thread(void *opaque)
+>      struct VuDev *dev = &qi->virtio_dev->dev;
+>      struct VuVirtq *q = vu_get_queue(dev, qi->qidx);
+>      struct fuse_session *se = qi->virtio_dev->se;
+> -    GThreadPool *pool;
+> -
+> -    pool = g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size, FALSE,
+> -                             NULL);
+> -    if (!pool) {
+> -        fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func__);
+> -        return NULL;
+> +    GThreadPool *pool = NULL;
+> +    GList *req_list = NULL;
+> +
+> +    if (se->thread_pool_size) {
+> +        fuse_log(FUSE_LOG_DEBUG, "%s: Creating thread pool for Queue %d\n",
+> +                 __func__, qi->qidx);
+> +        pool = g_thread_pool_new(fv_queue_worker, qi, se->thread_pool_size,
+> +                                 FALSE, NULL);
+> +        if (!pool) {
+> +            fuse_log(FUSE_LOG_ERR, "%s: g_thread_pool_new failed\n", __func__);
+> +            return NULL;
+> +        }
+>      }
+>  
+>      fuse_log(FUSE_LOG_INFO, "%s: Start for queue %d kick_fd %d\n", __func__,
+> @@ -669,14 +674,27 @@ static void *fv_queue_thread(void *opaque)
+>  
+>              req->reply_sent = false;
+>  
+> -            g_thread_pool_push(pool, req, NULL);
+> +            if (!se->thread_pool_size) {
+> +                req_list = g_list_prepend(req_list, req);
+> +            } else {
+> +                g_thread_pool_push(pool, req, NULL);
+> +            }
+>          }
+>  
+>          pthread_mutex_unlock(&qi->vq_lock);
+>          pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
+> +
+> +        /* Process all the requests. */
+> +        if (!se->thread_pool_size && req_list != NULL) {
+> +            g_list_foreach(req_list, fv_queue_worker, qi);
+> +            g_list_free(req_list);
+> +            req_list = NULL;
+> +        }
+>      }
+>  
+> -    g_thread_pool_free(pool, FALSE, TRUE);
+> +    if (pool) {
+> +        g_thread_pool_free(pool, FALSE, TRUE);
+> +    }
+>  
+>      return NULL;
+>  }
+> -- 
+> 2.25.4
+> 
+> 
 -- 
-Best regards,
-Vladimir
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
