@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4E62D5A3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:18:36 +0100 (CET)
-Received: from localhost ([::1]:52360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9290B2D5A10
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:12:42 +0100 (CET)
+Received: from localhost ([::1]:35308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKu3-00082D-Il
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:18:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51406)
+	id 1knKoL-0000qC-Gs
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:12:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKR4-0001Yd-LN
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:38 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36300)
+ id 1knKR1-0001UH-Hj
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:35 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKQg-000736-CT
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:38 -0500
-Received: by mail-wm1-x331.google.com with SMTP id y23so5005776wmi.1
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:14 -0800 (PST)
+ id 1knKQj-00074Q-2L
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:35 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id c5so1532583wrp.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=t3m1K3VFzcJivp35jn7u4hjssugJbQusEvdAPiBN5BU=;
- b=RhqxyzYri52+2FTPMz4Ul9e6BUc4BATyJv5HgmTZh2j0OdDgiBhkz/J31N+9mw3GWH
- i+m+1+8CwoGLkTu7//ndb/VDrtSQuGrXE7UE7dDXml0tXj/08VWgGWZ/H/8INX5Udftz
- 6maLedWrfPNetMdS2mq686hYzG2yXhebGFRIcq1wctBlvuCeg1f2eDcEL5VKU1fDdrPc
- Z1mNVbytL+ayDvz9yUO9cMcMOqKbqIfHY1b8EbrczUJV949KSKDrBdon88WWp0EoZgE9
- pEwy4BTPINpoRqm7/qJvrmhNqf1HfPziKv/BEF2JEZQGBhd0Ku+tf/dRMJ1NA4tPc4P6
- yQqg==
+ bh=mcv/XrXC4b0o58at+mfsbi4y+Psa/cPzkJdZahv1VmE=;
+ b=ZsKRt/A8Don/Cr6ShGiYancdWtH3ZUmxbpmzeFUR298iqwqjkOhFHdVTKwdhFn1x5Y
+ gIxHMUxPL/DBp/Pa4k6W7g+IPlUmkv2yqzDrpegp8uE5OZAx3U7y11PWcMIyUGFfLYhA
+ hXSS/uAwl3UiBcgct8ofM5pgYZ84nUbtd/3QIXBekBADCWC+8sJxXhCl+u8fMobjuzTy
+ k1rX6UGOV/cF2bkj/s51OZ61hElrDi0JnkBW2tX0QTmAvlK0dv9Tcqbwdm+h3qPuEhan
+ 4N8CRlTiDnwXzGfv1DfE7DkDFdJRrp4Czxu6tYn9ZtubKrrUFJLhpUonnqEa0tSZshwb
+ ymzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t3m1K3VFzcJivp35jn7u4hjssugJbQusEvdAPiBN5BU=;
- b=qwn3cmQ6k7nFjT0rOOqOMZ/JPw0bFpZx20qn1RzFJUNb777MvXShbK0NuSVwsmvr6x
- 71yAAvGSG53TOAHUnTM1bg+Y7VU2z0NlssUUjkUOooEpSlepwkupztBLWOBMpPryZjEv
- 9xCRP2vjTir/wfQPrs4qDCkIsQOgKu/DxbA4g2edRkWw9lbSAFhqIX6YYFbcl+2/x+TD
- 21JhYtBUKuwewlybvmrqXEunnXLKeVeszVuecVY7WS7UgZT28X8Fm7EL8bnBsO468mwn
- dTvehg3aRl70WfIuWgdZfVLCKLzxMZxjJkdreIoKiEjDYYhQlt2t41OcpJRTqYtYOlhN
- cYRA==
-X-Gm-Message-State: AOAM531YrwKNEHouNTGl3x3wvJZluLSe3GAd6YYh0ey3rix71D90IP0m
- PJTCYcoxdJYKWgq4ZnDOwhQJs0EPXHaa/Q==
-X-Google-Smtp-Source: ABdhPJxZY8Z952n2+I2lpLBGSTwJW3YTewYgWSTbGTrr54zOHHWP0zom3F524nu9x+I6EWOa0JwUYg==
-X-Received: by 2002:a1c:f00a:: with SMTP id a10mr7743721wmb.83.1607600892814; 
- Thu, 10 Dec 2020 03:48:12 -0800 (PST)
+ bh=mcv/XrXC4b0o58at+mfsbi4y+Psa/cPzkJdZahv1VmE=;
+ b=TSEkn+FEr6R9eJwgFIY47j+34H+tdy1f/UgEGgHNYMHr3qKVX3qPT/vUgWAwklacSu
+ BnQQNCN3OHn14cl6JIKuOWmA8A/UW29kuYjqiGmy08ZMKBJAdFxYZOxb+JBj8qWjj63o
+ 94U5OfIoOSp2BekPrMYT+LsDE5xvOZTWh6bAMtvuTkHeTbzoagSgIxGLSl/kYRzD0mal
+ F04D+0A1e6hi8jURyurIr9XQrEDrk65cVXQWqO6d7NRA0eXppf9Bga1CnrEHbCk6RNdS
+ bPHsEb+BpYpv+G998Il1HcMPH90rP6i0Q8Ubv0NB+cnttXoJfPXaxmz/G6eYz2bXpySd
+ kPWw==
+X-Gm-Message-State: AOAM530ns+TBHYNsmEsxKjmJXTESDHNyGuas5/pUp0bOX+cCo6oAIjMr
+ XkuoLezEXgvtRpBzho2sWgUcjv0SujDG2A==
+X-Google-Smtp-Source: ABdhPJw8D1+VAM8VCOD17Qsx9sH+s9prDOVKWJR+lozgYFREcTdkZWh/Gl0u0v2JFEWmv3qFPmAWzw==
+X-Received: by 2002:adf:d085:: with SMTP id y5mr2159035wrh.41.1607600895516;
+ Thu, 10 Dec 2020 03:48:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.11
+ by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 03:48:12 -0800 (PST)
+ Thu, 10 Dec 2020 03:48:14 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/36] hw/intc/armv7m_nvic: Make all of system PPB range be
- RAZWI/BusFault
-Date: Thu, 10 Dec 2020 11:47:32 +0000
-Message-Id: <20201210114756.16501-13-peter.maydell@linaro.org>
+Subject: [PULL 14/36] target/arm: Don't clobber ID_PFR1.Security on M-profile
+ cores
+Date: Thu, 10 Dec 2020 11:47:34 +0000
+Message-Id: <20201210114756.16501-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210114756.16501-1-peter.maydell@linaro.org>
 References: <20201210114756.16501-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,200 +87,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For M-profile CPUs, the range from 0xe0000000 to 0xe00fffff is the
-Private Peripheral Bus range, which includes all of the memory mapped
-devices and registers that are part of the CPU itself, including the
-NVIC, systick timer, and debug and trace components like the Data
-Watchpoint and Trace unit (DWT).  Within this large region, the range
-0xe000e000 to 0xe000efff is the System Control Space (NVIC, system
-registers, systick) and 0xe002e000 to 0exe002efff is its Non-secure
-alias.
+In arm_cpu_realizefn() we check whether the board code disabled EL3
+via the has_el3 CPU object property, which we create if the CPU
+starts with the ARM_FEATURE_EL3 feature bit.  If it is disabled, then
+we turn off ARM_FEATURE_EL3 and also zero out the relevant fields in
+the ID_PFR1 and ID_AA64PFR0 registers.
 
-The architecture is clear that within the SCS unimplemented registers
-should be RES0 for privileged accesses and generate BusFault for
-unprivileged accesses, and we currently implement this.
+This codepath was incorrectly being taken for M-profile CPUs, which
+do not have an EL3 and don't set ARM_FEATURE_EL3, but which may have
+the M-profile Security extension and so should have non-zero values
+in the ID_PFR1.Security field.
 
-It is less clear about how to handle accesses to unimplemented
-regions of the wider PPB.  Unprivileged accesses should definitely
-cause BusFaults (R_DQQS), but the behaviour of privileged accesses is
-not given as a general rule.  However, the register definitions of
-individual registers for components like the DWT all state that they
-are RES0 if the relevant component is not implemented, so the
-simplest way to provide that is to provide RAZ/WI for the whole range
-for privileged accesses.  (The v7M Arm ARM does say that reserved
-registers should be UNK/SBZP.)
-
-Expand the container MemoryRegion that the NVIC exposes so that
-it covers the whole PPB space. This means:
- * moving the address that the ARMV7M device maps it to down by
-   0xe000 bytes
- * moving the off and the offsets within the container of all the
-   subregions forward by 0xe000 bytes
- * adding a new default MemoryRegion that covers the whole container
-   at a lower priority than anything else and which provides the
-   RAZWI/BusFault behaviour
+Restrict the handling of the feature flag to A/R-profile cores.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201119215617.29887-2-peter.maydell@linaro.org
+Message-id: 20201119215617.29887-4-peter.maydell@linaro.org
 ---
- include/hw/intc/armv7m_nvic.h |  1 +
- hw/arm/armv7m.c               |  2 +-
- hw/intc/armv7m_nvic.c         | 78 ++++++++++++++++++++++++++++++-----
- 3 files changed, 69 insertions(+), 12 deletions(-)
+ target/arm/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/intc/armv7m_nvic.h b/include/hw/intc/armv7m_nvic.h
-index bb087b23c35..33b6d8810c7 100644
---- a/include/hw/intc/armv7m_nvic.h
-+++ b/include/hw/intc/armv7m_nvic.h
-@@ -84,6 +84,7 @@ struct NVICState {
-     MemoryRegion systickmem;
-     MemoryRegion systick_ns_mem;
-     MemoryRegion container;
-+    MemoryRegion defaultmem;
- 
-     uint32_t num_irq;
-     qemu_irq excpout;
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 8113b29f1fd..944f261dd05 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -225,7 +225,7 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(sbd, 0,
-                        qdev_get_gpio_in(DEVICE(s->cpu), ARM_CPU_IRQ));
- 
--    memory_region_add_subregion(&s->container, 0xe000e000,
-+    memory_region_add_subregion(&s->container, 0xe0000000,
-                                 sysbus_mmio_get_region(sbd, 0));
- 
-     for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 42b1ad59e65..9628ce876e0 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -2479,6 +2479,43 @@ static const MemoryRegionOps nvic_systick_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
-+/*
-+ * Unassigned portions of the PPB space are RAZ/WI for privileged
-+ * accesses, and fault for non-privileged accesses.
-+ */
-+static MemTxResult ppb_default_read(void *opaque, hwaddr addr,
-+                                    uint64_t *data, unsigned size,
-+                                    MemTxAttrs attrs)
-+{
-+    qemu_log_mask(LOG_UNIMP, "Read of unassigned area of PPB: offset 0x%x\n",
-+                  (uint32_t)addr);
-+    if (attrs.user) {
-+        return MEMTX_ERROR;
-+    }
-+    *data = 0;
-+    return MEMTX_OK;
-+}
-+
-+static MemTxResult ppb_default_write(void *opaque, hwaddr addr,
-+                                     uint64_t value, unsigned size,
-+                                     MemTxAttrs attrs)
-+{
-+    qemu_log_mask(LOG_UNIMP, "Write of unassigned area of PPB: offset 0x%x\n",
-+                  (uint32_t)addr);
-+    if (attrs.user) {
-+        return MEMTX_ERROR;
-+    }
-+    return MEMTX_OK;
-+}
-+
-+static const MemoryRegionOps ppb_default_ops = {
-+    .read_with_attrs = ppb_default_read,
-+    .write_with_attrs = ppb_default_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .valid.min_access_size = 1,
-+    .valid.max_access_size = 8,
-+};
-+
- static int nvic_post_load(void *opaque, int version_id)
- {
-     NVICState *s = opaque;
-@@ -2675,7 +2712,6 @@ static void nvic_systick_trigger(void *opaque, int n, int level)
- static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
- {
-     NVICState *s = NVIC(dev);
--    int regionlen;
- 
-     /* The armv7m container object will have set our CPU pointer */
-     if (!s->cpu || !arm_feature(&s->cpu->env, ARM_FEATURE_M)) {
-@@ -2718,7 +2754,20 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
-                                                   M_REG_S));
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 07492e9f9a4..40f3f798b2b 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1674,7 +1674,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         }
      }
  
--    /* The NVIC and System Control Space (SCS) starts at 0xe000e000
-+    /*
-+     * This device provides a single sysbus memory region which
-+     * represents the whole of the "System PPB" space. This is the
-+     * range from 0xe0000000 to 0xe00fffff and includes the NVIC,
-+     * the System Control Space (system registers), the systick timer,
-+     * and for CPUs with the Security extension an NS banked version
-+     * of all of these.
-+     *
-+     * The default behaviour for unimplemented registers/ranges
-+     * (for instance the Data Watchpoint and Trace unit at 0xe0001000)
-+     * is to RAZ/WI for privileged access and BusFault for non-privileged
-+     * access.
-+     *
-+     * The NVIC and System Control Space (SCS) starts at 0xe000e000
-      * and looks like this:
-      *  0x004 - ICTR
-      *  0x010 - 0xff - systick
-@@ -2741,32 +2790,39 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
-      * generally code determining which banked register to use should
-      * use attrs.secure; code determining actual behaviour of the system
-      * should use env->v7m.secure.
-+     *
-+     * The container covers the whole PPB space. Within it the priority
-+     * of overlapping regions is:
-+     *  - default region (for RAZ/WI and BusFault) : -1
-+     *  - system register regions : 0
-+     *  - systick : 1
-+     * This is because the systick device is a small block of registers
-+     * in the middle of the other system control registers.
-      */
--    regionlen = arm_feature(&s->cpu->env, ARM_FEATURE_V8) ? 0x21000 : 0x1000;
--    memory_region_init(&s->container, OBJECT(s), "nvic", regionlen);
--    /* The system register region goes at the bottom of the priority
--     * stack as it covers the whole page.
--     */
-+    memory_region_init(&s->container, OBJECT(s), "nvic", 0x100000);
-+    memory_region_init_io(&s->defaultmem, OBJECT(s), &ppb_default_ops, s,
-+                          "nvic-default", 0x100000);
-+    memory_region_add_subregion_overlap(&s->container, 0, &s->defaultmem, -1);
-     memory_region_init_io(&s->sysregmem, OBJECT(s), &nvic_sysreg_ops, s,
-                           "nvic_sysregs", 0x1000);
--    memory_region_add_subregion(&s->container, 0, &s->sysregmem);
-+    memory_region_add_subregion(&s->container, 0xe000, &s->sysregmem);
- 
-     memory_region_init_io(&s->systickmem, OBJECT(s),
-                           &nvic_systick_ops, s,
-                           "nvic_systick", 0xe0);
- 
--    memory_region_add_subregion_overlap(&s->container, 0x10,
-+    memory_region_add_subregion_overlap(&s->container, 0xe010,
-                                         &s->systickmem, 1);
- 
-     if (arm_feature(&s->cpu->env, ARM_FEATURE_V8)) {
-         memory_region_init_io(&s->sysreg_ns_mem, OBJECT(s),
-                               &nvic_sysreg_ns_ops, &s->sysregmem,
-                               "nvic_sysregs_ns", 0x1000);
--        memory_region_add_subregion(&s->container, 0x20000, &s->sysreg_ns_mem);
-+        memory_region_add_subregion(&s->container, 0x2e000, &s->sysreg_ns_mem);
-         memory_region_init_io(&s->systick_ns_mem, OBJECT(s),
-                               &nvic_sysreg_ns_ops, &s->systickmem,
-                               "nvic_systick_ns", 0xe0);
--        memory_region_add_subregion_overlap(&s->container, 0x20010,
-+        memory_region_add_subregion_overlap(&s->container, 0x2e010,
-                                             &s->systick_ns_mem, 1);
-     }
- 
+-    if (!cpu->has_el3) {
++    if (!arm_feature(env, ARM_FEATURE_M) && !cpu->has_el3) {
+         /* If the has_el3 CPU property is disabled then we need to disable the
+          * feature.
+          */
 -- 
 2.20.1
 
