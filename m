@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A342D4F38
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 01:11:41 +0100 (CET)
-Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1253E2D4F39
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 01:12:18 +0100 (CET)
+Received: from localhost ([::1]:41596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kn9XW-00031e-8K
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 19:10:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50220)
+	id 1kn9ZB-0004IZ-5G
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 19:12:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kn9VS-0002aD-QV
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 19:08:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20692)
+ id 1kn9Wz-0003Fz-N4
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 19:10:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kn9VP-0004Ul-Nl
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 19:08:25 -0500
+ id 1kn9Wx-0004Yz-TJ
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 19:10:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607558902;
+ s=mimecast20190719; t=1607558999;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oO6FYUm6Ud1afXDPaPXXM6tKB/GWdCUBTneC+/Mmhek=;
- b=iuQ+1+DfeY5dAEN5/OOAB9GCDKM+fjYVc+hEbXZ/BKGhK5ITsORtRsNVFGoZ0PvDhsA3Gu
- b2dL+hsq12RKVukBgvtS+vuLPLr/rpmi3MQUcMHklDxKe1yQhmYUpd+B9iuHEpwDzx6QTD
- de1RjZCzJrsUaX06+df/iuZkZB9syZs=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-tUCGogsuNHuBsHnkCwJvcg-1; Wed, 09 Dec 2020 19:08:20 -0500
-X-MC-Unique: tUCGogsuNHuBsHnkCwJvcg-1
-Received: by mail-ej1-f71.google.com with SMTP id m11so1038645ejr.20
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 16:08:20 -0800 (PST)
+ bh=vVPSQ8wwXrlFycG42d7TH1E+2vCy40xiBHZyy+54g04=;
+ b=AK8rpxIFTiVeoDiftrsy3njvswZ98vAS3Sdsr3KDyXahtTkSk+gs1610Q3KCdgjiLEnjQl
+ E6SKFW5UDCOT7UgWtJTPTvGjH/ugpXESVu3nRzv5iauHdmi+r1F5Wg20C4f/oDEWVdRSfi
+ /r5aPiCNEbkKZZnMrikuFjiLzk51a1Q=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-y4bKQgSfPGqCwckwa4SM0A-1; Wed, 09 Dec 2020 19:09:55 -0500
+X-MC-Unique: y4bKQgSfPGqCwckwa4SM0A-1
+Received: by mail-ed1-f72.google.com with SMTP id l33so1641030ede.1
+ for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 16:09:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oO6FYUm6Ud1afXDPaPXXM6tKB/GWdCUBTneC+/Mmhek=;
- b=fNJxm5imxcVhUVVJ8uIpnVwq2gi6+Bc3cRRuKbZlThxUW/Z09WnssweVZA/6AmJBEA
- 9tc3MhViIuUpqo1NwsFcm46xs856Jth3PxbE9aVeh4BuMYZeiqcxUz6GlEjHNVVhbkqZ
- mUjJvVUEsF7GtYr/aYhTsueAu5EhhYZoZ8eond20Y/zQxEa4KXAbaFeu7O4nhTKdNj+9
- T7jAceFHmQp9FoJEVKpRYQ8GRVjlaZXWpBhAvJsdxRu0+p5mfWtS/eEuAbvxAQJnMfgf
- dSg5HCB3qxhEsrf7IzcuVy0CEPJ/mc0vwquPdKclYUJRqDHiLzV5IDP3LnVS4eXx8niH
- 86Uw==
-X-Gm-Message-State: AOAM531vIhcpFgRmlrHvXdQxSrPkrnLg9gRzgvTY9kMtz0t3zcAz1x55
- hwub9yQTSJL/fAT/Su0FJmq5bs36PLjAuTBzURIKtqVtmOLGa4gK3eMB7qeL7RJ2aM9OpG05DHL
- hELaaOD2pQ78Y9Ps=
-X-Received: by 2002:a50:8e0e:: with SMTP id 14mr4190758edw.171.1607558899160; 
- Wed, 09 Dec 2020 16:08:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyIFoju34Kz4zsPXwjyCIDCGuhMCIxpSlQrcvq/B0SZ0We6JOzA8/fIlLSSJeYPzkFJwZdc/A==
-X-Received: by 2002:a50:8e0e:: with SMTP id 14mr4190739edw.171.1607558898969; 
- Wed, 09 Dec 2020 16:08:18 -0800 (PST)
+ bh=vVPSQ8wwXrlFycG42d7TH1E+2vCy40xiBHZyy+54g04=;
+ b=Yqj9C2K74zmQBKXj++3NuVKx6dRffvv2DirTiw4JSANj6E0ShGY6nDmoiUimsNukba
+ OaxKHCqMbPP+PVfU1CXNEexewZYt93jVFAN1YnSffP2gj48mHe1NZjtrGF9WjUWbDjKP
+ J/FM8al7AMZG7FhfZ77wDoibQqw1nglULMclGSax5re4oXO7arKMG//iU7YmY8Di4aHT
+ ARt0v7tAvQbIVlc2BLSMj75X51gxqa+thWqB6mulI1GJvBQh0kSYYsJzS6CEKb680y8K
+ iC4ep1U27PqfMQemurVhxImkoy2+BPAQFFSA07YSZ2OXNsWXongRWAVMi/OseeProbTo
+ FAbA==
+X-Gm-Message-State: AOAM531kSjnBU38Zwt6OWLVaKOmAhgv+C3p62w27+hUiwf554ovE163n
+ O1Fv5FHfgzdLcrt2latdJgN8UtcjmAP31Ke5J284QSVVyzq5Y8qjyDq7LWt8YW6qsOmrSvW/DyQ
+ h92t/Ztqeupgcm64=
+X-Received: by 2002:a17:906:f9da:: with SMTP id
+ lj26mr4053037ejb.467.1607558994567; 
+ Wed, 09 Dec 2020 16:09:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw+2AqgnAq6cVGwkqGPN35mBZTfjLerZjS+poKhTBbaZWrvnAzz5RaZLqDua4VctdP9WgrGqA==
+X-Received: by 2002:a17:906:f9da:: with SMTP id
+ lj26mr4053015ejb.467.1607558994377; 
+ Wed, 09 Dec 2020 16:09:54 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:48f9:bea:a04c:3dfe?
  ([2001:b07:6468:f312:48f9:bea:a04c:3dfe])
- by smtp.gmail.com with ESMTPSA id r24sm3100692edc.21.2020.12.09.16.08.17
+ by smtp.gmail.com with ESMTPSA id ot18sm2828024ejb.54.2020.12.09.16.09.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Dec 2020 16:08:18 -0800 (PST)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20201209170059.20742-1-alex.bennee@linaro.org>
- <20201209170059.20742-4-alex.bennee@linaro.org>
+ Wed, 09 Dec 2020 16:09:53 -0800 (PST)
+Subject: Re: [PATCH v2 0/5] SCSI: fix transfer limits for SCSI passthrough
+To: qemu-devel@nongnu.org, mlevitsk@redhat.com
+References: <160752262015.25926.10971176014472074579@600e7e483b3a>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v1 3/6] configure: add --without-default-features
-Message-ID: <3605142c-6815-b2a1-1008-69bd791d6a6d@redhat.com>
-Date: Thu, 10 Dec 2020 01:08:17 +0100
+Message-ID: <29a0d8e6-53a8-e3ab-5bef-c978d79696bf@redhat.com>
+Date: Thu, 10 Dec 2020 01:09:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201209170059.20742-4-alex.bennee@linaro.org>
+In-Reply-To: <160752262015.25926.10971176014472074579@600e7e483b3a>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -101,111 +101,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
- stefanha@redhat.com, marcandre.lureau@redhat.com, aurelien@aurel32.net
+Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com,
+ qemu-block@nongnu.org, pl@kamp.de, tom.ty89@gmail.com,
+ ronniesahlberg@gmail.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/12/20 18:00, Alex Bennée wrote:
-> By default QEMU enables a lot of features if it can probe and find the
-> support libraries. It also enables a bunch of features by default.
-> This patch adds the ability to build --without-default-features which
-> can be paired with a --without-default-devices for a barely functional
-> build.
+On 09/12/20 15:03, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20201209135355.561745-1-mlevitsk@redhat.com/
 > 
-> The main use case for this is testing our build assumptions and for
-> minimising the amount of stuff you build if you just want to test a
-> particular feature on your relatively slow emulated test system.
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> Hi,
+> 
+> This series seems to have some coding style problems. See output below for
+> more information:
+> 
+> Type: series
+> Message-id: 20201209135355.561745-1-mlevitsk@redhat.com
+> Subject: [PATCH v2 0/5] SCSI: fix transfer limits for SCSI passthrough
+> 
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> === TEST SCRIPT END ===
+> 
+> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
+>  From https://github.com/patchew-project/qemu
+>   * [new tag]         patchew/20201209135355.561745-1-mlevitsk@redhat.com -> patchew/20201209135355.561745-1-mlevitsk@redhat.com
+> Switched to a new branch 'test'
+> 77c9000 block/scsi: correctly emulate the VPD block limits page
+> 61f49e1 block: use blk_get_max_ioctl_transfer for SCSI passthrough
+> 35c66d6 block: add max_ioctl_transfer to BlockLimits
+> 08ba263 file-posix: add sg_get_max_segments that actually works with sg
+> e9fd749 file-posix: split hdev_refresh_limits from raw_refresh_limits
+> 
+> === OUTPUT BEGIN ===
+> 1/5 Checking commit e9fd7498060c (file-posix: split hdev_refresh_limits from raw_refresh_limits)
+> 2/5 Checking commit 08ba263f565d (file-posix: add sg_get_max_segments that actually works with sg)
+> 3/5 Checking commit 35c66d636d83 (block: add max_ioctl_transfer to BlockLimits)
+> 4/5 Checking commit 61f49e1c953b (block: use blk_get_max_ioctl_transfer for SCSI passthrough)
+> 5/5 Checking commit 77c9000b7c30 (block/scsi: correctly emulate the VPD block limits page)
+> ERROR: braces {} are necessary for all arms of this statement
+> #39: FILE: hw/scsi/scsi-generic.c:204:
+> +            if (len < r->buflen)
+> [...]
+> 
+> total: 1 errors, 0 warnings, 28 lines checked
+> 
+> Patch 5/5 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 
+> === OUTPUT END ===
+> 
+> Test command exited with code: 1
+> 
+> 
+> The full log is available at
+> http://patchew.org/logs/20201209135355.561745-1-mlevitsk@redhat.com/testing.checkpatch/?type=message.
 > ---
->   configure | 159 ++++++++++++++++++++++++++++++------------------------
->   1 file changed, 88 insertions(+), 71 deletions(-)
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 > 
-> diff --git a/configure b/configure
-> index 8f2095a2db..a08e6c96e0 100755
-> --- a/configure
-> +++ b/configure
-> @@ -291,10 +291,24 @@ unset target_list_exclude
->   #
->   # Always add --enable-foo and --disable-foo command line args.
->   # Distributions want to ensure that several features are compiled in, and it
-> -# is impossible without a --enable-foo that exits if a feature is not found.
-> +# is impossible without a --enable-foo that exits if a feature is not
-> +# found.
->   
-> -brlapi=""
-> -curl=""
-> +default_feature=""
-> +default_yes_feature="yes"
-> +# parse CC options second
-> +for opt do
-> +  optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
-> +  case "$opt" in
-> +      --without-default-features)
-> +          default_feature="no"
-> +          default_yes_feature="no"
 
-default_yes_features can be replaced with ${default_feature:-yes} if you 
-wish.
-
-> +  ;;
-> +  esac
-> +done
-
-Since Meson has equivalent functionality to --without-default-features, 
-you also want to add -Dauto_features=disabled to the meson command line.
-
-Also, the gettext feature is true/false/empty rather than yes/no, so 
-it's not being adjusted.  I suggest you change it (in meson_options.txt) 
-from "boolean" to "feature" (auto/enabled/disabled) and move the 
-detection code from configure to po/meson.build.  It should be as simple as
-
--if get_option('gettext')
-+if find_program('xgettext', required: get_option('gettext')).found()
-
-and then it will also get the functionality from -Dauto_features.
+Time for v3?
 
 Paolo
-
-> @@ -453,7 +467,7 @@ gettext=""
->   bogus_os="no"
->   malloc_trim="auto"
->   
-> -# parse CC options first
-> +# parse CC options second
->   for opt do
->     optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
->     case "$opt" in
-> @@ -796,7 +810,7 @@ Linux)
->     audio_possible_drivers="oss alsa sdl pa"
->     linux="yes"
->     linux_user="yes"
-> -  vhost_user="yes"
-> +  vhost_user="$default_yes_feature"
->   ;;
->   esac
->   
-> @@ -940,6 +954,8 @@ for opt do
->     ;;
->     --without-default-devices) default_devices="no"
->     ;;
-> +  --without-default-features) # processed above
-> +  ;;
->     --enable-gprof) gprof="yes"
->     ;;
->     --enable-gcov) gcov="yes"
-> @@ -1737,7 +1753,8 @@ Advanced options (experts only):
->     --gdb=GDB-path           gdb to use for gdbstub tests [$gdb_bin]
->   
->   Optional features, enabled with --enable-FEATURE and
-> -disabled with --disable-FEATURE, default is enabled if available:
-> +disabled with --disable-FEATURE, default is enabled if available
-> +(unless built with --without-default-features):
->   
->     system          all system emulation targets
->     user            supported user emulation targets
-> 
 
 
