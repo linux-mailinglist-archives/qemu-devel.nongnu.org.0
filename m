@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138162D5BE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:35:43 +0100 (CET)
-Received: from localhost ([::1]:59856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C7C2D5BE0
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:34:52 +0100 (CET)
+Received: from localhost ([::1]:58178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knM6g-00061v-3a
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:35:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39118)
+	id 1knM5r-0005L7-M5
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:34:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1knLXs-0001ma-LE
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:59:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25275)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1knLXl-0003ny-SR
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:59:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607605177;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f5f3C9upXcRtl4Y0TQCia9ogi+eO0XGOmvOojP5JgiY=;
- b=apmXReUbJfP4OeAYYBvp/A3vtBIfvLEy4I8tA9ZHAj/TF1EdDVcHbed+S7Lh/SK97xWviW
- TKL87gEe75nl2EXOLXzopk6DvCfpCCrMLc2ALrt15ZVf65bWVVuY5abYLxH1r7+dBe5cF2
- kTcF91PKuN9tbPkVVYk7nA6AUbmHMZ0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-R4hJjw9WNAanqQpqrN6V3Q-1; Thu, 10 Dec 2020 07:59:35 -0500
-X-MC-Unique: R4hJjw9WNAanqQpqrN6V3Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B0C618C8C05;
- Thu, 10 Dec 2020 12:59:34 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.35.206.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A26EC5D6BA;
- Thu, 10 Dec 2020 12:59:32 +0000 (UTC)
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] scsi: fix device removal race vs IO restart callback on
- resume
-Date: Thu, 10 Dec 2020 14:59:29 +0200
-Message-Id: <20201210125929.1136390-2-mlevitsk@redhat.com>
-In-Reply-To: <20201210125929.1136390-1-mlevitsk@redhat.com>
-References: <20201210125929.1136390-1-mlevitsk@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1knLjS-0002Bw-O7
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:11:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1knLjM-0007W0-KB
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:11:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1knLjK-0002nN-9o
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 13:11:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 3A72F2E813B
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 13:11:34 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Dec 2020 13:04:50 -0000
+From: Fishface60 <1877384@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: richard-maw schoenebeck th-huth
+X-Launchpad-Bug-Reporter: Fishface60 (richard-maw)
+X-Launchpad-Bug-Modifier: Fishface60 (richard-maw)
+References: <158886102295.5250.16201751310283363946.malonedeb@chaenomeles.canonical.com>
+ <160760081255.4964.13202614344127315520.malone@gac.canonical.com>
+Message-Id: <CAB2VqoYzM9-5VDL=ZFdi21JbOC1qTJwv-fRc+NvitsziXuxQnA@mail.gmail.com>
+Subject: Re: [Bug 1877384] Re: 9pfs file create with mapped-xattr can fail on
+ overlayfs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 6a910e59a61953d5f323527ed273b4231c72f97d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,51 +72,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>
+Reply-To: Bug 1877384 <1877384@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is (mostly theoretical) race between removal of a scsi device and
-scsi_dma_restart_bh.
+It might be, I revisited a month back and could no longer trigger the
+bug, so it's possible unrelated changes or kernel changes have fixed
+the overlayfs copy-up semantics in cases where it would cause issues
+with QEMU. If I ever see it again I can resubmit evidence, so it may
+be better off closed.
 
-It used to be easier to hit this race prior to my / Paulo's patch series
-that added rcu to scsi bus device handling code, but IMHO this race
-should still be possible to hit, at least in theory.
+On Thu, 10 Dec 2020 at 12:01, Thomas Huth <1877384@bugs.launchpad.net> wrot=
+e:
+>
+> Closed by accident, Christian just told me that this is not fixed yet.
+> Sorry for the inconvenience.
+>
+> ** Changed in: qemu
+>        Status: Fix Released =3D> Confirmed
+>
+> --
+> You received this bug notification because you are subscribed to the bug
+> report.
+> https://bugs.launchpad.net/bugs/1877384
+>
+> Title:
+>   9pfs file create with mapped-xattr can fail on overlayfs
+>
+> Status in QEMU:
+>   Confirmed
+>
+> Bug description:
+>   QEMU Version: 3.1.0 as packaged in debian buster, but the code appears =
+to do the same in master.
+>   qemu command-line: qemu-system-x86_64 -m 1G -nographic -nic "user,model=
+=3Dvirtio-net-pci,tftp=3D$(pwd),net=3D10.0.2.0/24,host=3D10.0.2.2" -fsdev l=
+ocal,id=3Dfs,path=3D$thisdir/..,security_model=3Dmapped-xattr -device virti=
+o-9p-pci,fsdev=3Dfs,mount_tag=3Dfs -drive "file=3D$rootdisk,if=3Dvirtio,for=
+mat=3Draw" -kernel "$kernel" -initrd "$initrd" -append "$append"
+>
+>
+>   I'm using CI that runs in a Docker container and runs a qemu VM with co=
+de and results shared via virtio 9p.
+>   The 9p fsdev is configured with security_model=3Dmapped-xattr
+>   When the test code attempts to create a log file in an existing directo=
+ry, open with O_CREAT fails with -ENOENT.
+>
+>   The relevant strace excerpt is:
+>
+>   28791 openat(11, ".", O_RDONLY|O_NOFOLLOW|O_PATH|O_DIRECTORY) =3D 20
+>   28791 openat(20, "src", O_RDONLY|O_NOCTTY|O_NONBLOCK|O_NOFOLLOW|O_DIREC=
+TORY) =3D 21
+>   28791 fcntl(21, F_SETFL, O_RDONLY|O_DIRECTORY) =3D 0
+>   28791 close(20)                         =3D 0
+>   28791 openat(21, "client.log", O_WRONLY|O_CREAT|O_NOCTTY|O_NONBLOCK|O_N=
+OFOLLOW, 0600) =3D 20
+>   28791 fcntl(20, F_SETFL, O_WRONLY|O_CREAT|O_NONBLOCK|O_NOFOLLOW) =3D 0
+>   28791 lsetxattr("/proc/self/fd/21/client.log", "user.virtfs.uid", "\0\0=
+\0", 4, 0) =3D -1 ENOENT (No such file or directory)
+>
+>   My hypothesis for what's going wrong is since the Docker container's
+>   overlayfs copies-up on writes, when it opens the file it's created a
+>   new version of the `src` directory containing a `client.log`, but this
+>   new src directory isn't accessible by file descriptor 20 and the
+>   lsetxattr call is instead attempting to set attributes on the path in
+>   the old `src` directory.
+>
+>   Looking at the code, a fix would be to change `hw/9pfs/9p-local.c` and
+>   change `local_open2` to instead of calling `local_set_xattrat` to set
+>   the xattrs by directory file descriptor and file name, to have a
+>   version of local_set_xattrat` which uses `fsetxattr` to set the virtfs
+>   attributes instead of the `fsetxattrat_nofollow` helper.
+>
+>   This reliably happened for me in CI, but I don't have access to the CI
+>   host or the time to strip the test down to make a minimal test case,
+>   and had difficulty reproducing the error on other machines.
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1877384/+subscriptions
 
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1854811
+-- =
 
-Fix it anyway with a patch that was proposed by Paulo in the above bugzilla.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877384
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
----
- hw/scsi/scsi-bus.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Title:
+  9pfs file create with mapped-xattr can fail on overlayfs
 
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index b901e701f0..edb5c3492a 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -170,6 +170,8 @@ static void scsi_dma_restart_bh(void *opaque)
-         scsi_req_unref(req);
-     }
-     aio_context_release(blk_get_aio_context(s->conf.blk));
-+    /* Drop the reference that was acquired in scsi_dma_restart_cb */
-+    object_unref(OBJECT(s));
- }
- 
- void scsi_req_retry(SCSIRequest *req)
-@@ -188,6 +190,8 @@ static void scsi_dma_restart_cb(void *opaque, int running, RunState state)
-     }
-     if (!s->bh) {
-         AioContext *ctx = blk_get_aio_context(s->conf.blk);
-+        /* The reference is dropped in scsi_dma_restart_bh.*/
-+        object_ref(OBJECT(s));
-         s->bh = aio_bh_new(ctx, scsi_dma_restart_bh, s);
-         qemu_bh_schedule(s->bh);
-     }
--- 
-2.26.2
+Status in QEMU:
+  Confirmed
 
+Bug description:
+  QEMU Version: 3.1.0 as packaged in debian buster, but the code appears to=
+ do the same in master.
+  qemu command-line: qemu-system-x86_64 -m 1G -nographic -nic "user,model=
+=3Dvirtio-net-pci,tftp=3D$(pwd),net=3D10.0.2.0/24,host=3D10.0.2.2" -fsdev l=
+ocal,id=3Dfs,path=3D$thisdir/..,security_model=3Dmapped-xattr -device virti=
+o-9p-pci,fsdev=3Dfs,mount_tag=3Dfs -drive "file=3D$rootdisk,if=3Dvirtio,for=
+mat=3Draw" -kernel "$kernel" -initrd "$initrd" -append "$append"
+
+  =
+
+  I'm using CI that runs in a Docker container and runs a qemu VM with code=
+ and results shared via virtio 9p.
+  The 9p fsdev is configured with security_model=3Dmapped-xattr
+  When the test code attempts to create a log file in an existing directory=
+, open with O_CREAT fails with -ENOENT.
+
+  The relevant strace excerpt is:
+
+  28791 openat(11, ".", O_RDONLY|O_NOFOLLOW|O_PATH|O_DIRECTORY) =3D 20
+  28791 openat(20, "src", O_RDONLY|O_NOCTTY|O_NONBLOCK|O_NOFOLLOW|O_DIRECTO=
+RY) =3D 21
+  28791 fcntl(21, F_SETFL, O_RDONLY|O_DIRECTORY) =3D 0
+  28791 close(20)                         =3D 0
+  28791 openat(21, "client.log", O_WRONLY|O_CREAT|O_NOCTTY|O_NONBLOCK|O_NOF=
+OLLOW, 0600) =3D 20
+  28791 fcntl(20, F_SETFL, O_WRONLY|O_CREAT|O_NONBLOCK|O_NOFOLLOW) =3D 0
+  28791 lsetxattr("/proc/self/fd/21/client.log", "user.virtfs.uid", "\0\0\0=
+", 4, 0) =3D -1 ENOENT (No such file or directory)
+
+  My hypothesis for what's going wrong is since the Docker container's
+  overlayfs copies-up on writes, when it opens the file it's created a
+  new version of the `src` directory containing a `client.log`, but this
+  new src directory isn't accessible by file descriptor 20 and the
+  lsetxattr call is instead attempting to set attributes on the path in
+  the old `src` directory.
+
+  Looking at the code, a fix would be to change `hw/9pfs/9p-local.c` and
+  change `local_open2` to instead of calling `local_set_xattrat` to set
+  the xattrs by directory file descriptor and file name, to have a
+  version of local_set_xattrat` which uses `fsetxattr` to set the virtfs
+  attributes instead of the `fsetxattrat_nofollow` helper.
+
+  This reliably happened for me in CI, but I don't have access to the CI
+  host or the time to strip the test down to make a minimal test case,
+  and had difficulty reproducing the error on other machines.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877384/+subscriptions
 
