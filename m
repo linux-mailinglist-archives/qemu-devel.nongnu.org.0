@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A53E2D5EC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:58:04 +0100 (CET)
-Received: from localhost ([::1]:39494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0D12D5EC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:58:10 +0100 (CET)
+Received: from localhost ([::1]:39634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knNON-000719-0F
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:58:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43240)
+	id 1knNOT-00074Y-MX
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:58:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1knNLv-0005Qr-2Z; Thu, 10 Dec 2020 09:55:31 -0500
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:44747)
+ id 1knNLw-0005S1-3m; Thu, 10 Dec 2020 09:55:32 -0500
+Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:38047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1knNLt-0000Dn-Ao; Thu, 10 Dec 2020 09:55:30 -0500
-Received: by mail-qt1-x844.google.com with SMTP id u21so3784952qtw.11;
- Thu, 10 Dec 2020 06:55:27 -0800 (PST)
+ id 1knNLu-0000Ey-9M; Thu, 10 Dec 2020 09:55:31 -0500
+Received: by mail-qk1-x743.google.com with SMTP id w79so4977743qkb.5;
+ Thu, 10 Dec 2020 06:55:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3T/xx8BxsbUIawVPQVEIKoqgmKBBcveomridufBtqNc=;
- b=gb7LzZ72LkZDMDyS1jOT0RnajlIY1Y9Nq4UHdRV3e0gDTd23cmeZ610/QqqK4QPnOS
- NrL0/4aCG6NaSDZcRRT5WaOt/MyrirwBrK9YyGS0jTF7NuitMHmzlZfkHPJr/sZcz0Fq
- i2z7y/a8okRmYSttZsGLwRylMurpo4n+nrMyxogpglRKtU1OsVTWaPw2gZY920juRnnf
- BUdhAk6ryCsvuhE9RO3CbTltjx8uekKEftf45lZxvJdnFxF/Hzb8SplcCWYzbI4xC9RX
- nOKvgDxap1pgAjzwqqF5zxHhdVPgFXkBaQ4sHIoKd0PC99y3F2+JAFSA3YEq520ocPT1
- zMpA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uuBdtTFPCzwR4FETWOA6e8aH1OYR/u7pzKmo9V2OtXU=;
+ b=CM0TdPiSWiwcpAtX7mcKvtmmoHsAPa11/v96pN2O0ZXJi9TrDtA7s2I4C8NksKXUyz
+ vkZ3rKGyk5cxPAbFXWI8U7Eu2SmTBotW4PtDTCQF3p/2aySp+nqYD/wmeVNjyt9OEIrG
+ 2XHTOl7h4OnC/pHBxFzfMZPG1RtfWqx8iUPW/+au4PAkHQ4rxXmHBH9iMvHzLMn6sEuu
+ 2WDHbEyqFRizzkLkDDmeiA52pEZ3/0/rfzFgiyXLiucVMrhm/v1dIH2Kd28XYFcnWw3L
+ +/EkGAzXuyRp0pd+sg9u0dhLirpuwAKMk97WiGtGr8lhHbysflJiqHsaqzYmrvTjcZlu
+ tAtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3T/xx8BxsbUIawVPQVEIKoqgmKBBcveomridufBtqNc=;
- b=jGVd668AaNdzBbK8UDGyo8ckjCl+bfsEJWG1zmyIl0NBCZjWQmKvwvzEFmSWuZ0fnt
- zWr5JkYpRDbmvPeGaw77If0SjW5UeWnkmW6RCv95X0/pbDerELVJ82QscSCeLD5F2klF
- qh5Vcbhvacwhs8RepfLBq8wyuGSyhn3D3Z0ZusbjcxPqr6wXhDFI14xvHfN+VRvu3RLe
- emRWZ24UMkMMD8Bklxtn+/pMpiLsW6AU6e0uUlf2BICr3RFPI+8jyHbFnCqhUwR5g94r
- GxliVdGBnzTeREiK/yAUMmGcjPWit/OxOiXo1EQ4/JqmzgINLXuDfo2sp8mHOdOceUlK
- 6Hwg==
-X-Gm-Message-State: AOAM533F0rLkYJ4fr6IVSTSckWItMggd4AL/gFyA2ziBhvFWpAU8q8Mh
- VM6eYDH93oBKTRx2s3n3fhr0Hsf4V8g=
-X-Google-Smtp-Source: ABdhPJzP0f6xLqKFEyhUl9iO+XSu2QosuBlJcbbIzMCG5wpSRbuvXzcEHw4AuUxQ8YxsirMXw0oFFQ==
-X-Received: by 2002:ac8:5982:: with SMTP id e2mr9305291qte.257.1607612126386; 
- Thu, 10 Dec 2020 06:55:26 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uuBdtTFPCzwR4FETWOA6e8aH1OYR/u7pzKmo9V2OtXU=;
+ b=QrKHfyFNmdXKN5svnDODUK4CYKKUr17siog7RTAqT9WBFUQ/221vVxwaj0jvO46J8Y
+ mMNnlEUMAKV5rsifnD3jHj3h27evn1Bu/Epr/2vlxVFmEcYGziWVcJ9Ez194aw8hyqR3
+ wQFCA2JVmsUIYWDGwfmflZHRBkBJz1MjY+KRAFSFEB0Fmjudjvb+3PmkYpTt/2kUStfj
+ 4Yk8FNY6mlzoRo6/7Ww0Dyr0hQNc/83NSzNK2ibaQi+OaritAHZNIMFt46h9qYc+kEmk
+ 8bFUg7xD/mNk9kRLkuO5pkqTMSx1zVZDjQum2LwVoItDt+qNNd1wgLrBFSlBk/5rk01R
+ 71uw==
+X-Gm-Message-State: AOAM533NXs7KPRtBnqjVM6QemPxR4EGCjJojs6lGIXmHhyoKII+ohTAZ
+ 8XgwjocrggDmHcl+3I9dmgUD5D6rtcQ=
+X-Google-Smtp-Source: ABdhPJzGMVyiaRIYFRRuCind4jGVsFlJANvWzOLGcbis1T9bFbGQl4MTfNHipEWdzu7LCb5Eg+BS+g==
+X-Received: by 2002:a37:4dd1:: with SMTP id a200mr6024998qkb.457.1607612128753; 
+ Thu, 10 Dec 2020 06:55:28 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:c1a:69c1:2b22:e880:fc49])
- by smtp.gmail.com with ESMTPSA id b6sm3592534qkc.128.2020.12.10.06.55.24
+ by smtp.gmail.com with ESMTPSA id b6sm3592534qkc.128.2020.12.10.06.55.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 06:55:25 -0800 (PST)
+ Thu, 10 Dec 2020 06:55:27 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/1] spapr.c: set a 'kvm-type' default value instead of
+Subject: [PATCH v3 1/1] spapr.c: set a 'kvm-type' default value instead of
  relying on NULL
-Date: Thu, 10 Dec 2020 11:55:16 -0300
-Message-Id: <20201210145517.1532269-1-danielhb413@gmail.com>
+Date: Thu, 10 Dec 2020 11:55:17 -0300
+Message-Id: <20201210145517.1532269-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201210145517.1532269-1-danielhb413@gmail.com>
+References: <20201210145517.1532269-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x844.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::743;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x743.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,35 +87,83 @@ Cc: pbonzini@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-changes from v2, all proposed by Greg:
-* Handle 'NULL' value as default mode fallback in spapr_kvm_type()
-* Do not allow for 'AUTO' to be a valid mode in spapr_kvm_type()
-* Initialize 'spapr->kvm_type' in spapr_instance_init() like Paolo
-  proposed. This will spare us from changing spapr_get_kvm_type()
-  altogether.
-v2 link: https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg02623.html
+spapr_kvm_type() is considering 'vm_type=NULL' as a valid input, where
+the function returns 0. This is relying on the current QEMU machine
+options handling logic, where the absence of the 'kvm-type' option
+will be reflected as 'vm_type=NULL' in this function.
 
+This is not robust, and will break if QEMU options code decides to propagate
+something else in the case mentioned above (e.g. an empty string instead
+of NULL).
 
-This patch addresses an issue that happens with the pseries machine after
-testing Paolo's patch [1]:
+Let's avoid this entirely by setting a non-NULL default value in case of
+no user input for 'kvm-type'. spapr_kvm_type() was changed to handle 3 fixed
+values of kvm-type: "auto", "hv", and "pr", with "auto" being the default
+if no kvm-type was set by the user. This allows us to always be predictable
+regardless of any enhancements/changes made in QEMU options mechanics.
 
-$ sudo ./ppc64-softmmu/qemu-system-ppc64 -nographic -nodefaults -machine pseries --enable-kvm
-qemu-system-ppc64: Unknown kvm-type specified '' 
+While we're at it, let's also document in 'kvm-type' description the
+already existing default mode, now named 'auto'. The information provided
+about it is based on how the pseries kernel handles the KVM_CREATE_VM
+ioctl(), where the default value '0' makes the kernel choose an available
+KVM module to use, giving precedence to kvm_hv. This logic is described in
+the kernel source file arch/powerpc/kvm/powerpc.c, function kvm_arch_init_vm().
 
-The reason lies on how qemu_opt_get() and object_property_get_str() works
-when there is no 'kvm-type' specified. We were conting on receiving NULL
-for kvm-type, but the latter will use a blank string "". Instead on relying
-on NULL, let's expose the already existing 'auto' kvm-type mode to the users
-and use that as default.
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg00471.html
-
-Daniel Henrique Barboza (1):
-  spapr.c: set a 'kvm-type' default value instead of relying on NULL
-
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
  hw/ppc/spapr.c | 21 +++++++++++++++++----
  1 file changed, 17 insertions(+), 4 deletions(-)
 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index b7e0894019..877bd264ce 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3021,17 +3021,25 @@ static void spapr_machine_init(MachineState *machine)
+     qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
+ }
+ 
++#define DEFAULT_KVM_TYPE "auto"
+ static int spapr_kvm_type(MachineState *machine, const char *vm_type)
+ {
+-    if (!vm_type) {
++    /*
++     * The use of g_ascii_strcasecmp() for 'hv' and 'pr' is to
++     * accomodate the 'HV' and 'PV' formats that exists in the
++     * wild. The 'auto' mode is being introduced already as
++     * lower-case, thus we don't need to bother checking for
++     * "AUTO".
++     */
++    if (!vm_type || !strcmp(vm_type, DEFAULT_KVM_TYPE)) {
+         return 0;
+     }
+ 
+-    if (!strcmp(vm_type, "HV")) {
++    if (!g_ascii_strcasecmp(vm_type, "hv")) {
+         return 1;
+     }
+ 
+-    if (!strcmp(vm_type, "PR")) {
++    if (!g_ascii_strcasecmp(vm_type, "pr")) {
+         return 2;
+     }
+ 
+@@ -3270,10 +3278,15 @@ static void spapr_instance_init(Object *obj)
+ 
+     spapr->htab_fd = -1;
+     spapr->use_hotplug_event_source = true;
++    spapr->kvm_type = g_strdup(DEFAULT_KVM_TYPE);
+     object_property_add_str(obj, "kvm-type",
+                             spapr_get_kvm_type, spapr_set_kvm_type);
+     object_property_set_description(obj, "kvm-type",
+-                                    "Specifies the KVM virtualization mode (HV, PR)");
++                                    "Specifies the KVM virtualization mode (auto,"
++                                    " hv, pr). Defaults to 'auto'. This mode will use"
++                                    " any available KVM module loaded in the host,"
++                                    " where kvm_hv takes precedence if both kvm_hv and"
++                                    " kvm_pr are loaded.");
+     object_property_add_bool(obj, "modern-hotplug-events",
+                             spapr_get_modern_hotplug_events,
+                             spapr_set_modern_hotplug_events);
 -- 
 2.26.2
 
