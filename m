@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133532D55FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:01:12 +0100 (CET)
-Received: from localhost ([::1]:33672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DA22D5610
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:07:31 +0100 (CET)
+Received: from localhost ([::1]:48548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knHp1-0000xz-2Z
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:01:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40010)
+	id 1knHv8-0007Kh-92
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:07:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1knHie-00068X-7B
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:54:36 -0500
-Received: from 3.mo52.mail-out.ovh.net ([178.33.254.192]:45906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1knHic-0006kB-BP
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:54:35 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.53])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id A543C220298;
- Thu, 10 Dec 2020 09:54:30 +0100 (CET)
-Received: from kaod.org (37.59.142.106) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 10 Dec
- 2020 09:54:29 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R0064de7f0a3-a0c8-4984-8449-abf2adaba063,
- 7F90A86A4359BCD1ACB0618936AE64BD6AD86209) smtp.auth=groug@kaod.org
-Date: Thu, 10 Dec 2020 09:54:28 +0100
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH 1/6] spapr: Add an "spapr" property to sPAPR CPU core
-Message-ID: <20201210095428.5996f0ba@bahia.lan>
-In-Reply-To: <20201210035302.GM2555@yekko.fritz.box>
-References: <20201209170052.1431440-1-groug@kaod.org>
- <20201209170052.1431440-2-groug@kaod.org>
- <de3d6170-3e28-ce78-41a3-59eca3cb6b67@redhat.com>
- <20201209184225.1b544523@bahia.lan>
- <d0f7cde7-c550-4a6c-8730-c3422002516c@redhat.com>
- <b8474a48-5dcd-343e-ef29-531c628b2ff2@redhat.com>
- <20201209182617.GV1289986@habkost.net>
- <20201210035302.GM2555@yekko.fritz.box>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1knHpK-00027L-D0
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:01:30 -0500
+Received: from indium.canonical.com ([91.189.90.7]:60062)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1knHpA-0000iF-0I
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:01:30 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1knHp7-0004i4-Ku
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:01:17 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9D1812E8047
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:01:17 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ycvz4_kT4uHW/.D+aLtkc8Q";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: cbd052d3-0421-4113-9c68-4c85481e137a
-X-Ovh-Tracer-Id: 16304438028702882211
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudejledguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtghisehgtderreertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhfffgjeelfeeggffgteehfedtvefhhedtgeegheffudetudduuefgvdelleeuteenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhpphgtsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=groug@kaod.org;
- helo=3.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Dec 2020 08:55:16 -0000
+From: Thomas Huth <1877384@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: richard-maw schoenebeck th-huth
+X-Launchpad-Bug-Reporter: Fishface60 (richard-maw)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158886102295.5250.16201751310283363946.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160759051615.11526.14189244857812791663.malone@wampee.canonical.com>
+Subject: [Bug 1877384] Re: 9pfs file create with mapped-xattr can fail on
+ overlayfs
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: eef4e33119723cf99c37f1d1861f2a79fec1c1a1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,102 +71,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
- Philippe =?UTF-8?B?TWF0aGlldS1E?= =?UTF-8?B?YXVkw6k=?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1877384 <1877384@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/ycvz4_kT4uHW/.D+aLtkc8Q
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Fixed in commit d76f4f97eb2772bf85fe286097183d0c7db19ae8
 
-On Thu, 10 Dec 2020 14:53:02 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+** Changed in: qemu
+       Status: New =3D> Fix Released
 
-> On Wed, Dec 09, 2020 at 01:26:17PM -0500, Eduardo Habkost wrote:
-> > On Wed, Dec 09, 2020 at 07:11:40PM +0100, Philippe Mathieu-Daud=C3=A9 w=
-rote:
-> > [...]
-> > > >>>> @@ -200,7 +199,7 @@ static void spapr_cpu_core_reset(DeviceState=
- *dev)
-> > > >>>>      int i;
-> > > >>>> =20
-> > > >>>>      for (i =3D 0; i < cc->nr_threads; i++) {
-> > > >>>> -        spapr_reset_vcpu(sc->threads[i]);
-> > > >>>> +        spapr_reset_vcpu(sc->threads[i], sc->spapr);
-> > > >>>
-> > > >>> Why reset() needs access to the machine state, don't
-> > > >>> you have it in realize()?
-> > > >>>
-> > > >>
-> > > >> This is for the vCPU threads of the sPAPR CPU core. They don't hav=
-e the
-> > > >> link to the machine state.
-> > > >=20
-> > > > They are created by spapr_create_vcpu() + spapr_realize_vcpu() in
-> > > > spapr_cpu_core_realize(), which has sc->spapr set... Am I missing
-> > > > something?
-> > >=20
-> > > Anyhow, from a QOM design point of view, resetfn() is not the correct
-> > > place to set a property IMHO, so Cc'ing Eduardo.
-> >=20
-> > This patch is not setting the property on resetfn(), it is
-> > setting it on CPU core pre_plug().
->=20
-> Well, also machine reset, but the point is it's not the resetfn() of
-> the cpu.
->=20
-> Basically what this is doing is machine specific (rather than just cpu
-> specific) initialization of the cpu state - we need that because the
-> pseries machine is implementing an explicitly paravirtualized platform
-> which starts things off in a state a bit different from the "raw" cpu
-> behaviour.
->=20
-> So, although it's working on a CPU's state, this function actually
-> belongs to the machine, rather than the cpu.
->=20
-> > This is more complex than simply using qdev_get_machine() and I
-> > don't see why it would be better, but I don't think it's wrong.
->=20
-> But, yeah, this...
->=20
-> I've applied some of the later patches in this series, but I'm not
-> convinced on this one or 2/6.  It seems like they're just replacing
-> one ugly (access to qdev_machine_state() as a global) with a different
-> ugly (duplicating something which has to equal the global machine
-> pointer as properties in a bunch of other objects).
->=20
-> Both 1/6 and 2/6 are altering explicitly spapr specific devices, they
-> have interactions with the overall platform model which mean they have
-> to sit in that environment, so I think trying to add a property here
-> implies an abstraction that can't actually be used in practice.
->=20
+-- =
 
-Eduardo and you convinced me that 1/6 and 2/6 might not be an
-improvement in the end, but rather making things more complex
-than simply calling qdev_get_machine() when needed.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877384
 
---Sig_/ycvz4_kT4uHW/.D+aLtkc8Q
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Title:
+  9pfs file create with mapped-xattr can fail on overlayfs
 
------BEGIN PGP SIGNATURE-----
+Status in QEMU:
+  Fix Released
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl/R4kQACgkQcdTV5YIv
-c9YaqxAApUYxq2Awkl4paalG30k3PavdFlHSV3v09K0X5i9xjOaK9DoYRFyWyH2Q
-ogNoMra2119GP1LqqhYQ+fSSGPn/SBEujPR3aHsxSnhTojAy2ad1MLH6yLhfdPZ7
-FDZePx4G6xIGC6saKSuU5lmiMvA1St44j6Z4alfJkHlQC3hBAVfu1nBn//jyX2Pv
-wGj9SPoOss6sbyRIj6QeESscxjW2uJhaAKAcOPZqg215VnkcQ8AF9zBhb+90jhCn
-bDWCpq0q4EF/FXiWOhxItVMFG2tpbhXFxg2CfBtMSspiLBAaY3HzxtlI8kdo526k
-UyBjmaHWsZwk5yK4mfyL4sqynAamHx0GWsdZ51Qv1btrhwhut2QMPs7iI1qJo/aW
-1AdS0BaCGbR0HVY+OQtUNT5gYxa3Tu8MUBd1aXruBo0dX5+g0WMDvXMz96eERP3T
-izylhKBorWZSKl4mkMjNnne/5lLDtnZp5gINak6XX5+6+emCYDF5d8ZDFN3TPjIM
-MJK6eZn3U3cV+pMMGypQrS6MAC7rC1okih9elWhLZm9zH85PWjGTRPfAZbZydmlb
-n7LSTvEXLOYYt/4X0cUNS5aZoZswxa74ZPvtqlCkZyEZy7WjMCCaaC+WHDii79IF
-LVyvlzuy0KVndg7kwNYzTQnmClGsztRbxH2JGSD9/HumTe5r76E=
-=xkjD
------END PGP SIGNATURE-----
+Bug description:
+  QEMU Version: 3.1.0 as packaged in debian buster, but the code appears to=
+ do the same in master.
+  qemu command-line: qemu-system-x86_64 -m 1G -nographic -nic "user,model=
+=3Dvirtio-net-pci,tftp=3D$(pwd),net=3D10.0.2.0/24,host=3D10.0.2.2" -fsdev l=
+ocal,id=3Dfs,path=3D$thisdir/..,security_model=3Dmapped-xattr -device virti=
+o-9p-pci,fsdev=3Dfs,mount_tag=3Dfs -drive "file=3D$rootdisk,if=3Dvirtio,for=
+mat=3Draw" -kernel "$kernel" -initrd "$initrd" -append "$append"
 
---Sig_/ycvz4_kT4uHW/.D+aLtkc8Q--
+  =
+
+  I'm using CI that runs in a Docker container and runs a qemu VM with code=
+ and results shared via virtio 9p.
+  The 9p fsdev is configured with security_model=3Dmapped-xattr
+  When the test code attempts to create a log file in an existing directory=
+, open with O_CREAT fails with -ENOENT.
+
+  The relevant strace excerpt is:
+
+  28791 openat(11, ".", O_RDONLY|O_NOFOLLOW|O_PATH|O_DIRECTORY) =3D 20
+  28791 openat(20, "src", O_RDONLY|O_NOCTTY|O_NONBLOCK|O_NOFOLLOW|O_DIRECTO=
+RY) =3D 21
+  28791 fcntl(21, F_SETFL, O_RDONLY|O_DIRECTORY) =3D 0
+  28791 close(20)                         =3D 0
+  28791 openat(21, "client.log", O_WRONLY|O_CREAT|O_NOCTTY|O_NONBLOCK|O_NOF=
+OLLOW, 0600) =3D 20
+  28791 fcntl(20, F_SETFL, O_WRONLY|O_CREAT|O_NONBLOCK|O_NOFOLLOW) =3D 0
+  28791 lsetxattr("/proc/self/fd/21/client.log", "user.virtfs.uid", "\0\0\0=
+", 4, 0) =3D -1 ENOENT (No such file or directory)
+
+  My hypothesis for what's going wrong is since the Docker container's
+  overlayfs copies-up on writes, when it opens the file it's created a
+  new version of the `src` directory containing a `client.log`, but this
+  new src directory isn't accessible by file descriptor 20 and the
+  lsetxattr call is instead attempting to set attributes on the path in
+  the old `src` directory.
+
+  Looking at the code, a fix would be to change `hw/9pfs/9p-local.c` and
+  change `local_open2` to instead of calling `local_set_xattrat` to set
+  the xattrs by directory file descriptor and file name, to have a
+  version of local_set_xattrat` which uses `fsetxattr` to set the virtfs
+  attributes instead of the `fsetxattrat_nofollow` helper.
+
+  This reliably happened for me in CI, but I don't have access to the CI
+  host or the time to strip the test down to make a minimal test case,
+  and had difficulty reproducing the error on other machines.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877384/+subscriptions
 
