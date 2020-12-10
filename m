@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF2C2D5D44
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:15:12 +0100 (CET)
-Received: from localhost ([::1]:41152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBEBD2D5CA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:01:59 +0100 (CET)
+Received: from localhost ([::1]:37844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knMit-0004DR-5C
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:15:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51580)
+	id 1knMW6-0007V0-Mn
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:01:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1knMJC-0002Ek-9h
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:48:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38888)
+ id 1knMKK-0003en-MT
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:49:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1knMJA-0002Y1-UC
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:48:38 -0500
+ id 1knMKI-0002yY-A9
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:49:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607608115;
+ s=mimecast20190719; t=1607608185;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L84sEemMXWD2SD9KwsemmLR042MHG0edSakZTzouy6E=;
- b=ilFhJTQzvW/PwmmTq2Av8YKgSSHNU2uhDA0DI/0B+HcQ8tjPVbbx5mpgjifibPoMPInShP
- 8e+EBZS8RpIpXyJUmU4qMpn6oLqeAZn4buRoGhDf/kXNBQPFxthoWqraotUmeMlZTMpqcP
- 74LErBWJy/f9hESSi9wdM5rmP14WeKM=
+ bh=iHYSa9kEpwoKzIqL0kHciIz6Aw/ueVjJb1/YiLOQ2lU=;
+ b=PWeD6ogERY3OVZgXFvXfWlGIDhAxwR6vP3/codNXBXPdxcBFtkAvgyUdlpA30lwt3MhfG3
+ Fw0MX0bYKMd4exQojM4bnVJJv1+igCJLJfssAR/C29c1mdt0bUIqxJcOKXa3uaLi2v8U/j
+ j+cK0TyVY4g3A7yWg6CHfcaQCg13PQM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-WetvPUssOgaCqGMOqlYqLw-1; Thu, 10 Dec 2020 08:48:33 -0500
-X-MC-Unique: WetvPUssOgaCqGMOqlYqLw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-548-wSJyU3UuOkCKoQd_7B4-4g-1; Thu, 10 Dec 2020 08:49:41 -0500
+X-MC-Unique: wSJyU3UuOkCKoQd_7B4-4g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40A641005E45;
- Thu, 10 Dec 2020 13:48:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9659107ACE4;
+ Thu, 10 Dec 2020 13:49:39 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4728E1975F;
- Thu, 10 Dec 2020 13:48:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1AE7B5C1C4;
+ Thu, 10 Dec 2020 13:49:27 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 02/13] accel/tcg: Remove special case for GCC < 4.6
-Date: Thu, 10 Dec 2020 17:47:41 +0400
-Message-Id: <20201210134752.780923-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 06/13] virtiofsd: replace _Static_assert with
+ QEMU_BUILD_BUG_ON
+Date: Thu, 10 Dec 2020 17:47:45 +0400
+Message-Id: <20201210134752.780923-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20201210134752.780923-1-marcandre.lureau@redhat.com>
 References: <20201210134752.780923-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,45 +84,46 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
  philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Since commit efc6c070aca ("configure: Add a test for the
-minimum compiler version") the minimum compiler version
-required for GCC is 4.8.
+This allows to get rid of a check for older GCC version (which was a bit
+bogus too since it was falling back on c++ version..)
 
-We can safely remove the special case for GCC 4.6 introduced
-in commit 0448f5f8b81 ("cpu-exec: Fix compiler warning
-(-Werror=clobbered)").
-No change for Clang as we don't know.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- accel/tcg/cpu-exec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/virtiofsd/fuse_common.h | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 58aea605d8..37a88edb6d 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -724,7 +724,7 @@ int cpu_exec(CPUState *cpu)
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index 5aee5193eb..a2484060b6 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -809,15 +809,6 @@ void fuse_remove_signal_handlers(struct fuse_session *se);
+  *
+  * On 32bit systems please add -D_FILE_OFFSET_BITS=64 to your compile flags!
+  */
+-
+-#if defined(__GNUC__) &&                                      \
+-    (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ >= 6) && \
+-    !defined __cplusplus
+-_Static_assert(sizeof(off_t) == 8, "fuse: off_t must be 64bit");
+-#else
+-struct _fuse_off_t_must_be_64bit_dummy_struct {
+-    unsigned _fuse_off_t_must_be_64bit:((sizeof(off_t) == 8) ? 1 : -1);
+-};
+-#endif
++QEMU_BUILD_BUG_ON(sizeof(off_t) != 8);
  
-     /* prepare setjmp context for exception handling */
-     if (sigsetjmp(cpu->jmp_env, 0) != 0) {
--#if defined(__clang__) || !QEMU_GNUC_PREREQ(4, 6)
-+#if defined(__clang__)
-         /* Some compilers wrongly smash all local variables after
-          * siglongjmp. There were bug reports for gcc 4.5.0 and clang.
-          * Reload essential local variables here for those compilers.
+ #endif /* FUSE_COMMON_H_ */
 -- 
 2.29.0
 
