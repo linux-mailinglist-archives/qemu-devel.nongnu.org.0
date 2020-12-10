@@ -2,91 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1114B2D55FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:03:22 +0100 (CET)
-Received: from localhost ([::1]:37844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A092D56AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:19:26 +0100 (CET)
+Received: from localhost ([::1]:44530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knHr7-0002tV-3Y
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:03:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41188)
+	id 1knI6f-0000e8-JB
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:19:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1knHoL-0001E0-4q
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:00:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26199)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1knHoF-0000Jf-NO
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:00:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607590822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TNP/S7RrYO7SRHdoAnPXmh7RCUcSMXyzlri/NHKJ2nU=;
- b=OYMK4p5YYTl4Z4uN2lH4Kc2E7Qyk3JXWarrVAUnX3ug+kHNTtpoTbfmYeRJk3VFsw9viSR
- IaWeJV77yI26cObSe7QtxZ6OoJwXcLDIDOS+6TFpRpb7FXZvVjTcasSfAS0WE2sJVjotC3
- 7oowsjIFP7oMbkdW9GjbD/vYCn9mZrE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-P4IvFhFCOGKb2DawqBU9UQ-1; Thu, 10 Dec 2020 04:00:21 -0500
-X-MC-Unique: P4IvFhFCOGKb2DawqBU9UQ-1
-Received: by mail-wr1-f71.google.com with SMTP id j5so1672469wro.12
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 01:00:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=TNP/S7RrYO7SRHdoAnPXmh7RCUcSMXyzlri/NHKJ2nU=;
- b=O2/TtQvFR40jcslqbt4ZC70KsBMTUN2FJz89sAgdgNIxwz6VKORioEY5xlwjO16Coc
- jOZGMRkFwmOibvVOR+ouNvOEz7nZK2YR2UkQkY6FaBivv+jN0dxHA7F9h+1qDdnu1caO
- ddStCQ085xobIGvhTMHTk+p8Bov67EUqOqUgDYOgFp4kerlcSHUiRlubQnyRSf4frzoE
- 5cBQdPcAtflTLhfKZwpg3jPHac/s5EMq8oHWBrN/DGFx7qGImoEJKS8aKQ7Ywgx5O9X3
- j/ELe3BxejkE/Y84tzxTVa+qXnSOYG1Y8G8rVjgShgwbzNX2RvDF667np5CQ01HJ6FW9
- eKFQ==
-X-Gm-Message-State: AOAM530aaUzWSsjKDFNDaIOdWI5/bsKl6df8X1+IhAysO/5dc67pLubd
- zB3zmzdIT7KhVAWrMMV/pDkFPwEonQWVxhdJ30Vaagx98Zwslg1+Ech9661I7NEmPCFRYJAwZ+s
- k1Wlgk9XGoIZouNo=
-X-Received: by 2002:a05:600c:20f:: with SMTP id
- 15mr7029877wmi.36.1607590819869; 
- Thu, 10 Dec 2020 01:00:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyd/xz9H6PmPv2VIeAppgNqK0gUR7RI/DADbvCa7r7pQj8DgctBIgLOzSNzjAINQ02OmS+abw==
-X-Received: by 2002:a05:600c:20f:: with SMTP id
- 15mr7029856wmi.36.1607590819698; 
- Thu, 10 Dec 2020 01:00:19 -0800 (PST)
-Received: from steredhat (host-79-24-227-66.retail.telecomitalia.it.
- [79.24.227.66])
- by smtp.gmail.com with ESMTPSA id o74sm10490203wme.36.2020.12.10.01.00.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 01:00:18 -0800 (PST)
-Date: Thu, 10 Dec 2020 10:00:16 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Peter Lieven <pl@kamp.de>
-Subject: Re: [PATCH] block/nfs: fix int overflow in nfs_client_open_qdict
-Message-ID: <20201210090016.c5fa57c6q266xvbv@steredhat>
-References: <20201209121735.16437-1-pl@kamp.de>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1knHz4-0003fx-Sy
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:34 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1knHz2-00045d-UA
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:34 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1knHz1-0006OO-Iw
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8DD742E8019
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:31 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201209121735.16437-1-pl@kamp.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Dec 2020 09:00:17 -0000
+From: Thomas Huth <1890310@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=deller@gmx.de; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159655836781.5403.11127209005915887374.malonedeb@soybean.canonical.com>
+Message-Id: <160759081786.15679.1240456863994394832.malone@chaenomeles.canonical.com>
+Subject: [Bug 1890310] Re: Segfault in artist.c:block_move
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 56957b3c7fc1fabe29d98fea85a63b7369c0a7f1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -95,50 +70,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, mreitz@redhat.com, qemu-stable@nongnu.org,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
+Reply-To: Bug 1890310 <1890310@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 09, 2020 at 01:17:35PM +0100, Peter Lieven wrote:
->nfs_client_open returns the file size in sectors. This effectively
->makes it impossible to open files larger than 1TB.
->
->Fixes: a1a42af422d46812f1f0cebe6b230c20409a3731
->Cc: qemu-stable@nongnu.org
->Signed-off-by: Peter Lieven <pl@kamp.de>
->---
-> block/nfs.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
+Released with QEMU v5.2.0.
 
-The issue seems to be pre-existing to the commit 
-a1a42af422d46812f1f0cebe6b230c20409a3731, but of course that commit 
-touched this code and this patch would not apply before, so it seems 
-okay to me:
+** Changed in: qemu
+       Status: Fix Committed =3D> Fix Released
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+-- =
 
-Thanks,
-Stefano
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1890310
 
->
->diff --git a/block/nfs.c b/block/nfs.c
->index 77905f516d..8c1968bb41 100644
->--- a/block/nfs.c
->+++ b/block/nfs.c
->@@ -592,7 +592,7 @@ static int64_t nfs_client_open_qdict(NFSClient *client, QDict *options,
->                                      int flags, int open_flags, Error **errp)
-> {
->     BlockdevOptionsNfs *opts;
->-    int ret;
->+    int64_t ret;
->
->     opts = nfs_options_qdict_to_qapi(options, errp);
->     if (opts == NULL) {
->-- 
->2.17.1
->
->
->
+Title:
+  Segfault in artist.c:block_move
 
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  Hello,
+  Reproducer:
+
+  cat << EOF | ./hppa-softmmu/qemu-system-hppa -m 64 -display none \
+  -qtest stdio -accel qtest
+  writeq 0xf8100802 0xff5c651ffffb7c5c
+  writeq 0xf8100afb 0x25e000000000000
+  EOF
+
+  AddressSanitizer:DEADLYSIGNAL
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D12686=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x7f001=
+a540000 (pc 0x55af3a373078 bp 0x7ffc23001a00 sp 0x7ffc23001670 T0)
+  =3D=3D12686=3D=3DThe signal is caused by a READ memory access.
+      #0 0x55af3a373078 in block_move /hw/display/artist.c:525:13
+      #1 0x55af3a365fbc in artist_reg_write /hw/display/artist.c:964:9
+      #2 0x55af39a577a3 in memory_region_write_accessor /softmmu/memory.c:4=
+83:5
+      #3 0x55af39a56adc in access_with_adjusted_size /softmmu/memory.c:539:=
+18
+      #4 0x55af39a54873 in memory_region_dispatch_write /softmmu/memory.c:1=
+466:16
+      #5 0x55af39102056 in flatview_write_continue /exec.c:3176:23
+      #6 0x55af390ea866 in flatview_write /exec.c:3216:14
+      #7 0x55af390ea387 in address_space_write /exec.c:3308:18
+      #8 0x55af39afe604 in qtest_process_command /softmmu/qtest.c:452:13
+      #9 0x55af39af5c08 in qtest_process_inbuf /softmmu/qtest.c:710:9
+      #10 0x55af39af4895 in qtest_read /softmmu/qtest.c:722:5
+      #11 0x55af3bfb0c43 in qemu_chr_be_write_impl /chardev/char.c:188:9
+      #12 0x55af3bfb0dc7 in qemu_chr_be_write /chardev/char.c:200:9
+      #13 0x55af3bfc50b3 in fd_chr_read /chardev/char-fd.c:68:9
+      #14 0x55af3c119474 in qio_channel_fd_source_dispatch /io/channel-watc=
+h.c:84:12
+      #15 0x7f0028f60897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4e897)
+      #16 0x55af3c51137b in glib_pollfds_poll /util/main-loop.c:217:9
+      #17 0x55af3c50eaab in os_host_main_loop_wait /util/main-loop.c:240:5
+      #18 0x55af3c50e444 in main_loop_wait /util/main-loop.c:516:11
+      #19 0x55af39b16d00 in qemu_main_loop /softmmu/vl.c:1676:9
+      #20 0x55af3c151261 in main /softmmu/main.c:49:5
+      #21 0x7f0027ae6e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
+0/csu/../csu/libc-start.c:308:16
+      #22 0x55af38ff5729 in _start (/home/alxndr/Development/qemu/general-f=
+uzz/build/hppa-softmmu/qemu-system-hppa+0x22d4729)
+
+  AddressSanitizer can not provide additional info.
+  SUMMARY: AddressSanitizer: SEGV /hw/display/artist.c:525:13 in block_move
+  =3D=3D12686=3D=3DABORTING
+
+  The error occurs even with Message-Id:
+  <20200804140056.7690-1-deller@gmx.de> applied (I collected the above
+  trace with the patch-set applied)
+
+  Thanks
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1890310/+subscriptions
 
