@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7172D5B4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:09:56 +0100 (CET)
-Received: from localhost ([::1]:32846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E972D5B68
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:14:55 +0100 (CET)
+Received: from localhost ([::1]:41264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knLhj-00087L-7i
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:09:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37356)
+	id 1knLmY-0003G4-7X
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:14:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1knLQ9-0001nj-LG; Thu, 10 Dec 2020 07:51:45 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1knLQ7-0001UU-DH; Thu, 10 Dec 2020 07:51:45 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BAC48Ea001075; Thu, 10 Dec 2020 07:51:25 -0500
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35bj9m37uw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 07:51:25 -0500
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BACVQ4f003655;
- Thu, 10 Dec 2020 12:51:23 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 3581u85sxn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 12:51:23 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BACpLMY17170912
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Dec 2020 12:51:21 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 42DF811C04A;
- Thu, 10 Dec 2020 12:51:21 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 00B4011C054;
- Thu, 10 Dec 2020 12:51:21 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 10 Dec 2020 12:51:20 +0000 (GMT)
-Received: from yukon.ibmuc.com (sig-9-145-158-23.de.ibm.com [9.145.158.23])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 34995220156;
- Thu, 10 Dec 2020 13:51:20 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/5] aspeed/smc: Add support for address lane disablement
-Date: Thu, 10 Dec 2020 13:51:14 +0100
-Message-Id: <20201210125115.1812083-5-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knLQf-0002Pe-FD
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:52:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knLQb-0001cH-U3
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:52:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607604728;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LD4AGNpIw1YXczLSKVws4EcAyhWjSWHAbR6F2wj+Y9o=;
+ b=AN8jS6xsyEcIg0XNGFPUdr7QB6hymYvvoaCvk34oAIqFQUPVKR2tKlEi4RZj9qF77GeIhD
+ 7YazI5POLzvxr90JjDpG+XAZ9/CS4FcqKHvr5yD4yKYp/9roJSX2Xymhvj7K3Hc9H8X3hY
+ a4wMtlC0Kgh/QFhspU+WmjlXpEx/fX4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-385-PEutrPp3OiiEiEHU3FaiRA-1; Thu, 10 Dec 2020 07:52:06 -0500
+X-MC-Unique: PEutrPp3OiiEiEHU3FaiRA-1
+Received: by mail-wr1-f72.google.com with SMTP id u29so1911961wru.6
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 04:52:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LD4AGNpIw1YXczLSKVws4EcAyhWjSWHAbR6F2wj+Y9o=;
+ b=ojeJsbkhbpt8SXo7ejh60QUxY/fdjDBQAFj7WtxrdQXWmiJRtMBqzaUodf0xjg5wMJ
+ xQD7LIzACyJ4QPad7k49Rge1Wkv73lUJJZnncHnctuLmGwMIvlAP4dim7n6Mnys8t2dD
+ Hxo7/fGRD7+oFnTNbhRxsaNJ4pdROTB1qm+HTdHXnTfJ77dfvYkCX6yuCouc91mTX0hr
+ z+/LWCuwGY/1KM0k46+fHc8z5vf6pkTxzQ9xri6MdImbLQ6MTFlE/x3AQsmv0ZX0fWDe
+ mVrbd8m6FlFzBvZeA6QI0wa9KIxYVXuTx2nIzbSm5X38z6JkXIyZ8iDrHzZ6eUviB4Xv
+ nQng==
+X-Gm-Message-State: AOAM533euGfjyH6soTgUHxs6KdsyCppupDlExralHk5D6UXVPJ+fvSP/
+ yFxVQRnT8R8d8LgLKfc7oPI6xqzLw6KeKyEAVWTUI2qI4SVrOUwJGLAbqDolu6SkjVETjnk2JCX
+ 7ew7c/NuU2cFeYRD2Hwh8UWBHxrFTqcrjzhlMx3E6fiywxEHzEk6XmCDt8OMr6WTj
+X-Received: by 2002:a5d:67c3:: with SMTP id n3mr8068591wrw.297.1607604725523; 
+ Thu, 10 Dec 2020 04:52:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJykYtZce4rsa9A7EvvAqyd3v6leMoaCpFVnL9ntxaGykoN4FgjOEfOPweR4dfFEWvMWDXZwhQ==
+X-Received: by 2002:a5d:67c3:: with SMTP id n3mr8068562wrw.297.1607604725278; 
+ Thu, 10 Dec 2020 04:52:05 -0800 (PST)
+Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id z64sm8757573wme.10.2020.12.10.04.52.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Dec 2020 04:52:04 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] block/nvme: Implement fake truncate() coroutine
+Date: Thu, 10 Dec 2020 13:52:02 +0100
+Message-Id: <20201210125202.858656-1-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201210125115.1812083-1-clg@kaod.org>
-References: <20201210125115.1812083-1-clg@kaod.org>
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-10_05:2020-12-09,
- 2020-12-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=652
- malwarescore=0 phishscore=0 impostorscore=0 bulkscore=0 mlxscore=0
- lowpriorityscore=0 clxscore=1034 suspectscore=0 spamscore=0 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012100080
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,103 +90,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Xueqiang Wei <xuwei@redhat.com>, qemu-block@nongnu.org,
+ Maxim Levitsky <mlevitsk@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The controller can be configured to disable or enable address and data
-byte lanes when issuing commands. This is useful in read command mode
-to send SPI NOR commands that don't have an address space, such as
-RDID. It's a good way to have a unified read operation for registers
-and flash contents accesses.
+NVMe drive can not be shrunk.
 
-A new SPI driver proposed by Aspeed makes use of this feature. Add
-support for address lanes to start with. We will do the same for the
-data lanes if they are controlled one day.
+Since commit c80d8b06cfa we can use the @exact parameter (set
+to false) to return success if the block device is larger than
+the requested offset (even if we can not be shrunk).
 
-Cc: Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-Id: <20201120161547.740806-2-clg@kaod.org>
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Use this parameter to implement the NVMe truncate() coroutine,
+similarly how it is done for the iscsi and file-posix drivers
+(see commit 82325ae5f2f "Evaluate @exact in protocol drivers").
+
+Reported-by: Xueqiang Wei <xuwei@redhat.com>
+Suggested-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/ssi/aspeed_smc.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
+ block/nvme.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 795784e5f364..e3d5e26058c0 100644
---- a/hw/ssi/aspeed_smc.c
-+++ b/hw/ssi/aspeed_smc.c
-@@ -71,6 +71,16 @@
- #define   INTR_CTRL_CMD_ABORT_EN          (1 << 2)
- #define   INTR_CTRL_WRITE_PROTECT_EN      (1 << 1)
-=20
-+/* Command Control Register */
-+#define R_CE_CMD_CTRL      (0x0C / 4)
-+#define   CTRL_ADDR_BYTE0_DISABLE_SHIFT       4
-+#define   CTRL_DATA_BYTE0_DISABLE_SHIFT       0
+diff --git a/block/nvme.c b/block/nvme.c
+index a06a188d530..5a6fbacf4a5 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -1389,6 +1389,29 @@ out:
+ 
+ }
+ 
++static int coroutine_fn nvme_co_truncate(BlockDriverState *bs, int64_t offset,
++                                         bool exact, PreallocMode prealloc,
++                                         BdrvRequestFlags flags, Error **errp)
++{
++    int64_t cur_length;
 +
-+#define aspeed_smc_addr_byte_enabled(s, i)                              =
- \
-+    (!((s)->regs[R_CE_CMD_CTRL] & (1 << (CTRL_ADDR_BYTE0_DISABLE_SHIFT +=
- (i)))))
-+#define aspeed_smc_data_byte_enabled(s, i)                              =
- \
-+    (!((s)->regs[R_CE_CMD_CTRL] & (1 << (CTRL_DATA_BYTE0_DISABLE_SHIFT +=
- (i)))))
++    if (prealloc != PREALLOC_MODE_OFF) {
++        error_setg(errp, "Unsupported preallocation mode '%s'",
++                   PreallocMode_str(prealloc));
++        return -ENOTSUP;
++    }
 +
- /* CEx Control Register */
- #define R_CTRL0           (0x10 / 4)
- #define   CTRL_IO_QPI              (1 << 31)
-@@ -702,19 +712,17 @@ static void aspeed_smc_flash_setup(AspeedSMCFlash *=
-fl, uint32_t addr)
- {
-     const AspeedSMCState *s =3D fl->controller;
-     uint8_t cmd =3D aspeed_smc_flash_cmd(fl);
--    int i;
-+    int i =3D aspeed_smc_flash_is_4byte(fl) ? 4 : 3;
-=20
-     /* Flash access can not exceed CS segment */
-     addr =3D aspeed_smc_check_segment_addr(fl, addr);
-=20
-     ssi_transfer(s->spi, cmd);
--
--    if (aspeed_smc_flash_is_4byte(fl)) {
--        ssi_transfer(s->spi, (addr >> 24) & 0xff);
-+    while (i--) {
-+        if (aspeed_smc_addr_byte_enabled(s, i)) {
-+            ssi_transfer(s->spi, (addr >> (i * 8)) & 0xff);
-+        }
-     }
--    ssi_transfer(s->spi, (addr >> 16) & 0xff);
--    ssi_transfer(s->spi, (addr >> 8) & 0xff);
--    ssi_transfer(s->spi, (addr & 0xff));
-=20
-     /*
-      * Use fake transfers to model dummy bytes. The value should
-@@ -988,6 +996,7 @@ static uint64_t aspeed_smc_read(void *opaque, hwaddr =
-addr, unsigned int size)
-         (addr >=3D s->r_timings &&
-          addr < s->r_timings + s->ctrl->nregs_timings) ||
-         addr =3D=3D s->r_ce_ctrl ||
-+        addr =3D=3D R_CE_CMD_CTRL ||
-         addr =3D=3D R_INTR_CTRL ||
-         addr =3D=3D R_DUMMY_DATA ||
-         (s->ctrl->has_dma && addr =3D=3D R_DMA_CTRL) ||
-@@ -1276,6 +1285,8 @@ static void aspeed_smc_write(void *opaque, hwaddr a=
-ddr, uint64_t data,
-         if (value !=3D s->regs[R_SEG_ADDR0 + cs]) {
-             aspeed_smc_flash_set_segment(s, cs, value);
-         }
-+    } else if (addr =3D=3D R_CE_CMD_CTRL) {
-+        s->regs[addr] =3D value & 0xff;
-     } else if (addr =3D=3D R_DUMMY_DATA) {
-         s->regs[addr] =3D value & 0xff;
-     } else if (addr =3D=3D R_INTR_CTRL) {
---=20
++    cur_length = nvme_getlength(bs);
++    if (offset != cur_length && exact) {
++        error_setg(errp, "Cannot resize NVMe devices");
++        return -ENOTSUP;
++    } else if (offset > cur_length) {
++        error_setg(errp, "Cannot grow NVMe devices");
++        return -EINVAL;
++    }
++
++    return 0;
++}
+ 
+ static int nvme_reopen_prepare(BDRVReopenState *reopen_state,
+                                BlockReopenQueue *queue, Error **errp)
+@@ -1523,6 +1546,7 @@ static BlockDriver bdrv_nvme = {
+     .bdrv_close               = nvme_close,
+     .bdrv_getlength           = nvme_getlength,
+     .bdrv_probe_blocksizes    = nvme_probe_blocksizes,
++    .bdrv_co_truncate         = nvme_co_truncate,
+ 
+     .bdrv_co_preadv           = nvme_co_preadv,
+     .bdrv_co_pwritev          = nvme_co_pwritev,
+-- 
 2.26.2
 
 
