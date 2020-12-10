@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BCAF2D5774
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:44:29 +0100 (CET)
-Received: from localhost ([::1]:45918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7C542D5759
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:39:24 +0100 (CET)
+Received: from localhost ([::1]:37658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knIUu-0008Pk-Fh
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:44:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46318)
+	id 1knIPz-0004tg-KT
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:39:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knICa-00082o-HT
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:25:34 -0500
-Received: from indium.canonical.com ([91.189.90.7]:36528)
+ id 1knII6-00061k-IC
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:31:14 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knICW-0008Qf-1G
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:25:32 -0500
+ id 1knII3-00023Z-Hv
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:31:14 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knICT-00086f-MY
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:25:25 +0000
+ id 1knII1-0000HS-ER
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:31:09 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6D3602E813C
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:25:25 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6C2C92E8137
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:31:09 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 09:15:02 -0000
-From: Thomas Huth <1598612@bugs.launchpad.net>
+Date: Thu, 10 Dec 2020 09:16:21 -0000
+From: Thomas Huth <1895703@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: buildsys tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jschwart th-huth
-X-Launchpad-Bug-Reporter: Julius Schwartzenberg (jschwart)
+X-Launchpad-Bug-Commenters: ahmedkrmn bonzini philmd pmaydell th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160703192444.23593.70037.malonedeb@gac.canonical.com>
-Message-Id: <160759170257.31319.12120746421786097195.malone@soybean.canonical.com>
-Subject: [Bug 1598612] Re: Windows for Workgroups 3.11 installer crashes with
- a general protection fault
+References: <160018860889.17103.9156462398304890013.malonedeb@soybean.canonical.com>
+Message-Id: <160759178192.11272.16267605903393682011.malone@wampee.canonical.com>
+Subject: [Bug 1895703] Re: performance degradation in tcg since Meson switch
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 71524259a16b955803058d0253236100103d07f5
+X-Launchpad-Hash: 92861d746f673c771ac8a91abaa854fe9e67370c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,60 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1598612 <1598612@bugs.launchpad.net>
+Reply-To: Bug 1895703 <1895703@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU project is currently considering to move its bug tracking to anoth=
-er system. For this we need to know which bugs are still valid and which co=
-uld be closed already. Thus we are setting older bugs to "Incomplete" now.
-If you still think this bug report here is valid, then please switch the st=
-ate back to "New" within the next 60 days, otherwise this report will be ma=
-rked as "Expired". Or mark it as "Fix Released" if the problem has be
+Released with QEMU v5.2.0.
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
+       Status: Fix Committed =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1598612
+https://bugs.launchpad.net/bugs/1895703
 
 Title:
-  Windows for Workgroups 3.11 installer crashes with a general
-  protection fault
+  performance degradation in tcg since Meson switch
 
 Status in QEMU:
-  Incomplete
+  Fix Released
 
 Bug description:
-  I used only disk images from here:
-  http://ia801606.us.archive.org/zipview.php?zip=3D/22/items/IBM_PC_Compati=
-bles_TOSEC_2012_04_23/IBM_PC_Compatibles_TOSEC_2012_04_23.zip
+  The buildsys conversion to Meson (1d806cef0e3..7fd51e68c34)
+  introduced a degradation in performance in some TCG targets:
 
-  When I try to install Windows for Workgroups 3.11 on either PC DOS
-  2000 or MS-DOS 6.22, the installer crashes after entering the
-  graphical part with two dialogs containing:
+  --------------------------------------------------------
+  Test Program: matmult_double
+  --------------------------------------------------------
+  Target              Instructions     Previous    Latest
+                                       1d806cef   7fd51e68
+  ----------  --------------------  ----------  ----------
+  alpha              3 233 957 639       -----     +7.472%
+  m68k               3 919 110 506       -----    +18.433%
+  --------------------------------------------------------
 
-  Application Error
-  WINSETUP caused a General Protection Fault in module <unknown>0EDF:7011WI=
-NSETUP will close.
-
-  Application Error
-  WINSETUP caused a General Protection Fault in module USER.EXE at 0001:40B=
-6.
-
-  And then:
-  Standard Mode: Bad Fault in MS-DOS Extender.
-  Fault: 000D Stack Dump: 0000 0000 0070
-  Raw fault frame: EC=3D0000 IP=3D5EF7 CS=3D037F FL=3D3087 SP=3DFFEE SS=3D0=
-2DF
-
-  This happens both with and without KVM. I tested with QEMU from Ubuntu
-  14.04 and 16.04 and recent GIT
-  (ef8757f1fe8095a256ee617e4dbac69d3b33ae94).
+  Original report from Ahmed Karaman with further testing done
+  by Aleksandar Markovic:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg740279.html
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1598612/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1895703/+subscriptions
 
