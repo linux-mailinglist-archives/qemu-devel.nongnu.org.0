@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DA22D5610
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:07:31 +0100 (CET)
-Received: from localhost ([::1]:48548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA092D5608
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:04:22 +0100 (CET)
+Received: from localhost ([::1]:40048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knHv8-0007Kh-92
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:07:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41576)
+	id 1knHs5-0003mm-1y
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:04:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHpK-00027L-D0
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:01:30 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60062)
+ id 1knHot-0001b3-Sj
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:01:03 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHpA-0000iF-0I
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:01:30 -0500
+ id 1knHok-0000Z7-Py
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:01:03 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knHp7-0004i4-Ku
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:01:17 +0000
+ id 1knHoi-0004N3-Tx
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:00:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9D1812E8047
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:01:17 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E18782E8139
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:00:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 08:55:16 -0000
-From: Thomas Huth <1877384@bugs.launchpad.net>
+Date: Thu, 10 Dec 2020 08:55:18 -0000
+From: John Paul Adrian Glaubitz <1907427@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: richard-maw schoenebeck th-huth
-X-Launchpad-Bug-Reporter: Fishface60 (richard-maw)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158886102295.5250.16201751310283363946.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160759051615.11526.14189244857812791663.malone@wampee.canonical.com>
-Subject: [Bug 1877384] Re: 9pfs file create with mapped-xattr can fail on
- overlayfs
+X-Launchpad-Bug-Commenters: glaubitz th-huth
+X-Launchpad-Bug-Reporter: John Paul Adrian Glaubitz (glaubitz)
+X-Launchpad-Bug-Modifier: John Paul Adrian Glaubitz (glaubitz)
+References: <160750521215.10480.16469807239042219779.malonedeb@wampee.canonical.com>
+Message-Id: <160759051871.4904.17251245408642195046.malone@gac.canonical.com>
+Subject: [Bug 1907427] Re: Build on sparc64 fails with "undefined reference to
+ `fdt_check_full'"
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: eef4e33119723cf99c37f1d1861f2a79fec1c1a1
+X-Launchpad-Hash: dcc1dc0684d18f58ea954ea5688b9f793c735372
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,74 +69,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1877384 <1877384@bugs.launchpad.net>
+Reply-To: Bug 1907427 <1907427@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in commit d76f4f97eb2772bf85fe286097183d0c7db19ae8
+Indeed, libfdt has been failing to build from source on sparc64 since
+version 1.4.7 due to the testsuite crashing with unaligned access:
 
-** Changed in: qemu
-       Status: New =3D> Fix Released
+> https://buildd.debian.org/status/fetch.php?pkg=3Ddevice-tree-
+compiler&arch=3Dsparc64&ver=3D1.6.0-1&stamp=3D1605385435&raw=3D0
+
+libfdt-dev probably contains some fancy pointer arithmetic resulting in
+unaligned access which is not allowed but not recognized by gcc.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1877384
+https://bugs.launchpad.net/bugs/1907427
 
 Title:
-  9pfs file create with mapped-xattr can fail on overlayfs
+  Build on sparc64 fails with "undefined reference to `fdt_check_full'"
 
 Status in QEMU:
-  Fix Released
+  New
 
 Bug description:
-  QEMU Version: 3.1.0 as packaged in debian buster, but the code appears to=
- do the same in master.
-  qemu command-line: qemu-system-x86_64 -m 1G -nographic -nic "user,model=
-=3Dvirtio-net-pci,tftp=3D$(pwd),net=3D10.0.2.0/24,host=3D10.0.2.2" -fsdev l=
-ocal,id=3Dfs,path=3D$thisdir/..,security_model=3Dmapped-xattr -device virti=
-o-9p-pci,fsdev=3Dfs,mount_tag=3Dfs -drive "file=3D$rootdisk,if=3Dvirtio,for=
-mat=3Draw" -kernel "$kernel" -initrd "$initrd" -append "$append"
+  Trying to build QEMU on sparc64 fails with:
 
-  =
+  [4648/8435] c++  -o qemu-system-ppc64 qemu-system-ppc64.p/softmmu_main.c.=
+o libcommon.fa.p/ui_vnc-auth-sasl.c.o libcommon.fa.p/migration_colo-failove=
+r.c.o libcommon.fa.p/hw_input_vhost-user-input.c.o libcommon.fa.p/replay_re=
+play-random.c.o libcommon.fa.p/hw_9pfs_codir.c.o libcommon.fa.p/hw_display_=
+edid-region.c.o libcommon.fa.p/hw_net_vhost_net.c.o libcommon.fa.p/hw_isa_i=
+82378.c.o libcommon.fa.p/backends_rng-egd.c.o libcommon.fa.p/hw_usb_core.c.=
+o libcommon.fa.p/hw_pci-bridge_i82801b11.c.o libcommon.fa.p/net_tap.c.o lib=
+common.fa.p/hw_ipack_ipack.c.o libcommon.fa.p/hw_scsi_mptconfig.c.o libcomm=
+on.fa.p/hw_usb_libhw.c.o libcommon.fa.p/hw_display_sm501.c.o libcommon.fa.p=
+/hw_net_rocker_rocker_world.c.o libcommon.fa.p/fsdev_qemu-fsdev.c.o libcomm=
+on.fa.p/backends_tpm_tpm_util.c.o libcommon.fa.p/net_tap-linux.c.o libcommo=
+n.fa.p/hw_net_rocker_rocker_fp.c.o libcommon.fa.p/hw_usb_dev-uas.c.o libcom=
+mon.fa.p/hw_net_fsl_etsec_miim.c.o libcommon.fa.p/net_queue.c.o libcommon.f=
+a.p/hw_isa_isa-superio.c.o libcommon.fa.p/migration_global_state.c.o libcom=
+mon.fa.p/backends_rng-random.c.o libcommon.fa.p/hw_ipmi_ipmi_bmc_extern.c.o=
+ libcommon.fa.p/migration_postcopy-ram.c.o libcommon.fa.p/hw_scsi_megasas.c=
+.o libcommon.fa.p/hw_acpi_acpi-stub.c.o libcommon.fa.p/hw_nvram_mac_nvram.c=
+.o libcommon.fa.p/hw_net_pcnet-pci.c.o libcommon.fa.p/cpus-common.c.o libco=
+mmon.fa.p/hw_core_qdev-properties-system.c.o libcommon.fa.p/migration_colo.=
+c.o libcommon.fa.p/ui_spice-module.c.o libcommon.fa.p/hw_usb_hcd-ehci-pci.c=
+.o libcommon.fa.p/migration_exec.c.o libcommon.fa.p/hw_input_adb-kbd.c.o li=
+bcommon.fa.p/hw_timer_xilinx_timer.c.o libcommon.fa.p/hw_cpu_core.c.o libco=
+mmon.fa.p/chardev_msmouse.c.o libcommon.fa.p/migration_socket.c.o libcommon=
+.fa.p/hw_9pfs_9p-synth.c.o libcommon.fa.p/backends_dbus-vmstate.c.o libcomm=
+on.fa.p/net_colo-compare.c.o libcommon.fa.p/hw_misc_macio_cuda.c.o libcommo=
+n.fa.p/hw_audio_intel-hda.c.o libcommon.fa.p/audio_audio_legacy.c.o
+  (...)
+  libio.fa libchardev.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,re=
+lro -Wl,-z,now -m64 -g -O2 -fdebug-prefix-map=3D/<<PKGBUILDDIR>>=3D. -fstac=
+k-protector-strong -Wformat -Werror=3Dformat-security -Wdate-time -D_FORTIF=
+Y_SOURCE=3D2 -Wl,-z,relro -Wl,--as-needed -fstack-protector-strong libmigra=
+tion.fa -Wl,--start-group libqemuutil.a contrib/libvhost-user/libvhost-user=
+.a libqmp.fa libhwcore.fa libblockdev.fa libblock.fa libcrypto.fa libauthz.=
+fa libqom.fa libio.fa libchardev.fa @block.syms @qemu.syms /usr/lib/gcc/spa=
+rc64-linux-gnu/10/../../../sparc64-linux-gnu/libfdt.so /usr/lib/sparc64-lin=
+ux-gnu/libcapstone.so -lepoxy -lgbm /usr/lib/sparc64-linux-gnu/libpixman-1.=
+so /usr/lib/sparc64-linux-gnu/libz.so /usr/lib/sparc64-linux-gnu/libslirp.s=
+o /usr/lib/sparc64-linux-gnu/libglib-2.0.so -lrdmacm -libverbs -libumad -lg=
+io-2.0 -lgobject-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 /usr/lib=
+/gcc/sparc64-linux-gnu/10/../../../sparc64-linux-gnu/libsasl2.so @block.sym=
+s -lusb-1.0 /lib/sparc64-linux-gnu/libudev.so /usr/lib/sparc64-linux-gnu/li=
+bpng16.so -lvdeplug /usr/lib/sparc64-linux-gnu/libjpeg.so -pthread -luring =
+-lgnutls -lutil -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lgio-2.0 -lgobject-2.0 =
+-lglib-2.0 -lm -Wl,--export-dynamic -lgmodule-2.0 -lglib-2.0 -laio -luring =
+-lgnutls -lnettle -lstdc++ -Wl,--end-group
+  /usr/bin/ld: libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_hcall.c.o: in functi=
+on `h_update_dt':
+  ./b/qemu/../../hw/ppc/spapr_hcall.c:1966: undefined reference to `fdt_che=
+ck_full'
+  collect2: error: ld returned 1 exit status
 
-  I'm using CI that runs in a Docker container and runs a qemu VM with code=
- and results shared via virtio 9p.
-  The 9p fsdev is configured with security_model=3Dmapped-xattr
-  When the test code attempts to create a log file in an existing directory=
-, open with O_CREAT fails with -ENOENT.
-
-  The relevant strace excerpt is:
-
-  28791 openat(11, ".", O_RDONLY|O_NOFOLLOW|O_PATH|O_DIRECTORY) =3D 20
-  28791 openat(20, "src", O_RDONLY|O_NOCTTY|O_NONBLOCK|O_NOFOLLOW|O_DIRECTO=
-RY) =3D 21
-  28791 fcntl(21, F_SETFL, O_RDONLY|O_DIRECTORY) =3D 0
-  28791 close(20)                         =3D 0
-  28791 openat(21, "client.log", O_WRONLY|O_CREAT|O_NOCTTY|O_NONBLOCK|O_NOF=
-OLLOW, 0600) =3D 20
-  28791 fcntl(20, F_SETFL, O_WRONLY|O_CREAT|O_NONBLOCK|O_NOFOLLOW) =3D 0
-  28791 lsetxattr("/proc/self/fd/21/client.log", "user.virtfs.uid", "\0\0\0=
-", 4, 0) =3D -1 ENOENT (No such file or directory)
-
-  My hypothesis for what's going wrong is since the Docker container's
-  overlayfs copies-up on writes, when it opens the file it's created a
-  new version of the `src` directory containing a `client.log`, but this
-  new src directory isn't accessible by file descriptor 20 and the
-  lsetxattr call is instead attempting to set attributes on the path in
-  the old `src` directory.
-
-  Looking at the code, a fix would be to change `hw/9pfs/9p-local.c` and
-  change `local_open2` to instead of calling `local_set_xattrat` to set
-  the xattrs by directory file descriptor and file name, to have a
-  version of local_set_xattrat` which uses `fsetxattr` to set the virtfs
-  attributes instead of the `fsetxattrat_nofollow` helper.
-
-  This reliably happened for me in CI, but I don't have access to the CI
-  host or the time to strip the test down to make a minimal test case,
-  and had difficulty reproducing the error on other machines.
+  Full build log available at:
+  https://buildd.debian.org/status/fetch.php?pkg=3Dqemu&arch=3Dsparc64&ver=
+=3D1%3A5.2%2Bdfsg-1&stamp=3D1607502300&raw=3D0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1877384/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1907427/+subscriptions
 
