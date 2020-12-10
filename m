@@ -2,96 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276872D6471
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 19:07:13 +0100 (CET)
-Received: from localhost ([::1]:54720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 493D72D6460
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 19:05:01 +0100 (CET)
+Received: from localhost ([::1]:50434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knQLQ-0005Dl-2D
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 13:07:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60326)
+	id 1knQJI-0003IP-8o
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 13:05:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1knQEv-0001Zc-0q
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 13:00:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53068)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1knQFH-0001iQ-1e
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 13:00:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1knQEf-0000H2-Fn
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 13:00:28 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1knQFA-0000Ug-94
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 13:00:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607623211;
+ s=mimecast20190719; t=1607623243;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R41GMw1T5YoWopNRTE+pUbr700wp0qy3I048Z6Lr/PU=;
- b=AhOMCTV/MG0et3ak6pcI4/9y9FPmF31I/ZKSgjjOZbZKZBv4+4aAYCQF5/07YWfhXhGSob
- cnjkbFNZEd+mpFU0xg3PdMDLtuE5NZW4ByJdRVZPNq5jA+VS8dV8L/1Lovtvdg8XOCtaQa
- D1ovtscVNxNvYaixVVCg1GTuKE2tfjo=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-402-98GwghdNOzuU1wALtmrLaQ-1; Thu, 10 Dec 2020 13:00:09 -0500
-X-MC-Unique: 98GwghdNOzuU1wALtmrLaQ-1
-Received: by mail-ej1-f70.google.com with SMTP id bm18so1880774ejb.6
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 10:00:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=R41GMw1T5YoWopNRTE+pUbr700wp0qy3I048Z6Lr/PU=;
- b=NXuXvMPNge9xxbxurAdpvqxlteNAWD5B7PCdOj/INBH+4j2bNjsduY9WdTqYZ8kqI8
- E7uVg4npB4j+2ZMd+xmbe3UronUW/k5hXOfRv4KIydQHU2HVbrXD7Bf50qDf+KVXl+G8
- 7O8zSKoowLii0w/6iIbMIv8VEEXIIITUY9mL7MzuRPQ4Z/qZCE2FFac9sahZNqwACccf
- 8zCa9aH2HbjYZ1Q0ukoUlScIu6J2QoCngmAAy9xLqJADSODoigvtAlcaMiJKdq+dBPca
- eER3uXkyZXFyxUp5R/mcnrWF2+PTqnrS4k+bxOg5dpvr7Ful4i28Fcgl7c98o3KLmNmt
- 1L4Q==
-X-Gm-Message-State: AOAM5322QX4rbxBYsVb296LW3MVCQMYoC+KDoBzT9FYtM114I2D8VyQ8
- ILm1Jyp4qcnWbTZTAFJnSaU1mXSjohcen0oNmX41quSNG/fhAIxP8ol1XPhRPymv378YX7dHHdw
- 2ySup7acG/uZYW+E=
-X-Received: by 2002:a17:906:3881:: with SMTP id
- q1mr7617277ejd.490.1607623207074; 
- Thu, 10 Dec 2020 10:00:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwRvJ88a/2ef1LB75m2Iy6XKPt74EEv0pqQtAl4m4lHd0iI8rQ34iVjUUigRsdehJ0PpNZXjQ==
-X-Received: by 2002:a17:906:3881:: with SMTP id
- q1mr7617193ejd.490.1607623206354; 
- Thu, 10 Dec 2020 10:00:06 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id z24sm5572736edr.9.2020.12.10.10.00.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Dec 2020 10:00:05 -0800 (PST)
-To: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>, qemu-devel@nongnu.org
-References: <1607536336-24701-1-git-send-email-alejandro.j.jimenez@oracle.com>
- <1607536336-24701-4-git-send-email-alejandro.j.jimenez@oracle.com>
- <99a5b268-f37f-b7a3-c976-3342e1145157@redhat.com>
- <12769054-aa3a-161b-2b25-6804d547d41c@oracle.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 3/4] qmp: Allow setting -action parameters on the fly
-Message-ID: <b02bb673-1128-799d-1310-62b43e359982@redhat.com>
-Date: Thu, 10 Dec 2020 19:00:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=eEv02TkJ3ZxJp4sNOjbr3fw7o9eG8eOgMJNISH+HE7A=;
+ b=O+20qrDB3kseIXBLLaaUisT6cZUO23dPmDfQI74jFXIwuZc778IP1QvlO86DwzkLEAmfIp
+ zeppSifyN6m76Ai5V1EoXS7mxiPKuSfVycCmFyDwou3ITR70qHlhiLXPLiP45IktTueNGZ
+ 2gfK8c6HVCicnv+YQjlS9qRRXW92XKA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-dIxifL-nO2ueqh8tL92yAg-1; Thu, 10 Dec 2020 13:00:41 -0500
+X-MC-Unique: dIxifL-nO2ueqh8tL92yAg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B8C8835DE4;
+ Thu, 10 Dec 2020 18:00:40 +0000 (UTC)
+Received: from work-vm (ovpn-113-66.ams2.redhat.com [10.36.113.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE65E60BFA;
+ Thu, 10 Dec 2020 18:00:13 +0000 (UTC)
+Date: Thu, 10 Dec 2020 18:00:10 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Alex Chen <alex.chen@huawei.com>
+Subject: Re: [PATCH] virtiofsd: Fix potential NULL pointer dereference in
+ virtio_send_msg()
+Message-ID: <20201210180010.GG3629@work-vm>
+References: <20201210151426.89244-1-alex.chen@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <12769054-aa3a-161b-2b25-6804d547d41c@oracle.com>
+In-Reply-To: <20201210151426.89244-1-alex.chen@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,41 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.edmondson@oracle.com
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, stefanha@redhat.com,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/20 04:21, Alejandro Jimenez wrote:
-> I misunderstood your request in v1. 
-
-Oh ypu're right, in v1 you had multiple commands.  My fault then.
-
+* Alex Chen (alex.chen@huawei.com) wrote:
+> The 'ch' will be NULL in the following stack:
+> send_notify_iov()->fuse_send_msg()->virtio_send_msg(),
+> so we should check 'ch' is valid before dereferencing it
 > 
-> { 'command': 'set-action',
-> 'data' : {
->      '*reboot': 'RebootAction',
->      '*shutdown': 'ShutdownAction',
->      '*panic': 'PanicAction',
->      '*watchdog': 'WatchdogAction' } }
-> ?
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+
+Please check, but I don't think we can currently hit this because
+we never call send_notify_iov - it's currently called by
+fuse_lowlevel_notify_inval_entry, inval_inode, and
+fuse_lowlevel_notify_poll -
+but I don't think those are called anywhere.
+
+In that case, probably the best fix is to remove those until we
+put notify back in.
+
+Dave
+
+> ---
+>  tools/virtiofsd/fuse_virtio.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Or is it better to encapsulate all of those optional fields inside a new 
-> struct definition (RunStateActions?) so that the command would be:
+> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+> index 623812c432..31b2187a15 100644
+> --- a/tools/virtiofsd/fuse_virtio.c
+> +++ b/tools/virtiofsd/fuse_virtio.c
+> @@ -205,6 +205,8 @@ static void copy_iov(struct iovec *src_iov, int src_count,
+>  int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
+>                      struct iovec *iov, int count)
+>  {
+> +    assert(ch);
+> +
+>      FVRequest *req = container_of(ch, FVRequest, ch);
+>      struct fv_QueueInfo *qi = ch->qi;
+>      VuDev *dev = &se->virtio_dev->dev;
+> -- 
+> 2.19.1
 > 
-> { 'command': 'set-action', 'data': 'actions' : 'RunStateActions' }
-
-Any of the two is fine; the QMP stream is the same.  I used 
-actions->reboot because that's what you did in v2.
-
-While at it, you might add
-
-    'allow-preconfig': true,
-
-as well.  (Right now there are relatively few allow-preconfig commands, 
-but I'm in the process of adding it to all commands where it makes sense).
-
-Thanks,
-
-Paolo
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
