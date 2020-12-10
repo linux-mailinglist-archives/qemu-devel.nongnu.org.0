@@ -2,46 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B2D2D54EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 08:54:49 +0100 (CET)
-Received: from localhost ([::1]:55272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A452D54F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 08:58:08 +0100 (CET)
+Received: from localhost ([::1]:58650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knGmm-00055u-DR
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 02:54:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55706)
+	id 1knGpz-0006e7-Up
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 02:58:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1knGl8-0004VA-Lf; Thu, 10 Dec 2020 02:53:06 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1knGl6-0002dH-2s; Thu, 10 Dec 2020 02:53:06 -0500
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cs5jJ3k86zknpL;
- Thu, 10 Dec 2020 15:52:04 +0800 (CST)
-Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.37) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 10 Dec 2020 15:52:39 +0800
-From: Keqian Zhu <zhukeqian1@huawei.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Igor Mammedov
- <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH v2] bugfix: hostmem: Free host_nodes list right after visited
-Date: Thu, 10 Dec 2020 15:52:26 +0800
-Message-ID: <20201210075226.20196-1-zhukeqian1@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1knGnk-0005mh-Af
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 02:55:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45815)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1knGne-0003aA-Su
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 02:55:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607586934;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CeBMIAVmZ35m/43o3q33s+5aU/qTklRE8ojXTLa05/E=;
+ b=UoNp1AUQKZD49bAkU5lpjXg/0JbhNKHoZLDe7cOEQFVTZMKFzT0o4n3daoi+5zzaal+NxW
+ uERsJfh39AKcjF3PAbpNasV0zu+o2GPxj0fDRung2NqCjYTn2iKufnob2OT3IEP/2grYwV
+ jdEmhs8vU+YOxTeS6JXh8oG1Ug1PCL0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-395-vHE536DDN7Gq2tW5abR_tw-1; Thu, 10 Dec 2020 02:55:32 -0500
+X-MC-Unique: vHE536DDN7Gq2tW5abR_tw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F409800D55
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 07:55:31 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-52.ams2.redhat.com
+ [10.36.113.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A75519746;
+ Thu, 10 Dec 2020 07:55:27 +0000 (UTC)
+Subject: Re: [Virtio-fs] [PATCH] virtiofsd: make the debug log timestamp on
+ stderr more human-readable
+To: Vivek Goyal <vgoyal@redhat.com>
+References: <20201208055043.31548-1-lersek@redhat.com>
+ <20201208165725.GB20722@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <9e1966ea-049e-1c3d-b81a-a6ce17f5f134@redhat.com>
+Date: Thu, 10 Dec 2020 08:55:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.37]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhukeqian1@huawei.com; helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201208165725.GB20722@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,72 +80,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, alex.chen@huawei.com, qemu-arm@nongnu.org,
- kuhn.chenqun@huawei.com, wanghaibin.wang@huawei.com,
- Keqian Zhu <zhukeqian1@huawei.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In host_memory_backend_get_host_nodes, we build host_nodes
-list and output it to v (a StringOutputVisitor) but forget
-to free the list. This fixes the memory leak.
+On 12/08/20 17:57, Vivek Goyal wrote:
+> On Tue, Dec 08, 2020 at 06:50:43AM +0100, Laszlo Ersek wrote:
+>> The current timestamp format doesn't help me visually notice small jumps
+>> in time ("small" as defined on human scale, such as a few seconds or a few
+>> ten seconds). Replace it with a local time format where such differences
+>> stand out.
+> 
+> Switching to a human readable time stamp makes sense. That seems much
+> more helpful for debugging, IMHO.
 
-The memory leak stack:
+Thanks! (for the other review as well)
+laszlo
 
- Direct leak of 32 byte(s) in 2 object(s) allocated from:
-    #0 0xfffda30b3393 in __interceptor_calloc (/usr/lib64/libasan.so.4+0xd3393)
-    #1 0xfffda1d28b9b in g_malloc0 (/usr/lib64/libglib-2.0.so.0+0x58b9b)
-    #2 0xaaab05ca6e43 in host_memory_backend_get_host_nodes backends/hostmem.c:94
-    #3 0xaaab061ddf83 in object_property_get_uint16List qom/object.c:1478
-    #4 0xaaab05866513 in query_memdev hw/core/machine-qmp-cmds.c:312
-    #5 0xaaab061d980b in do_object_child_foreach qom/object.c:1001
-    #6 0xaaab0586779b in qmp_query_memdev hw/core/machine-qmp-cmds.c:328
-    #7 0xaaab0615ed3f in qmp_marshal_query_memdev qapi/qapi-commands-machine.c:327
-    #8 0xaaab0632d647 in do_qmp_dispatch qapi/qmp-dispatch.c:147
-    #9 0xaaab0632d647 in qmp_dispatch qapi/qmp-dispatch.c:190
-    #10 0xaaab0610f74b in monitor_qmp_dispatch monitor/qmp.c:120
-    #11 0xaaab0611074b in monitor_qmp_bh_dispatcher monitor/qmp.c:209
-    #12 0xaaab063caefb in aio_bh_poll util/async.c:117
-    #13 0xaaab063d30fb in aio_dispatch util/aio-posix.c:459
-    #14 0xaaab063cac8f in aio_ctx_dispatch util/async.c:268
-    #15 0xfffda1d22a6b in g_main_context_dispatch (/usr/lib64/libglib-2.0.so.0+0x52a6b)
-    #16 0xaaab063d0e97 in glib_pollfds_poll util/main-loop.c:218
-    #17 0xaaab063d0e97 in os_host_main_loop_wait util/main-loop.c:241
-    #18 0xaaab063d0e97 in main_loop_wait util/main-loop.c:517
-    #19 0xaaab05c8bfa7 in main_loop /root/rpmbuild/BUILD/qemu-4.1.0/vl.c:1791
-    #20 0xaaab05713bc3 in main /root/rpmbuild/BUILD/qemu-4.1.0/vl.c:4473
-    #21 0xfffda0a83ebf in __libc_start_main (/usr/lib64/libc.so.6+0x23ebf)
-    #22 0xaaab0571ed5f  (aarch64-softmmu/qemu-system-aarch64+0x88ed5f)
- SUMMARY: AddressSanitizer: 32 byte(s) leaked in 2 allocation(s).
-
-Fixes: 4cf1b76bf1e2 (hostmem: add properties for NUMA memory policy)
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Tested-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
----
- backends/hostmem.c | 1 +
- 1 file changed, 1 insertion(+)
----
-
-v2:
- - Update commit message.
- - Add Chen Qun's T.b.
- - Add Igor's R.b.
-
-diff --git a/backends/hostmem.c b/backends/hostmem.c
-index 4bde00e8e7..9f9ac95edd 100644
---- a/backends/hostmem.c
-+++ b/backends/hostmem.c
-@@ -105,6 +105,7 @@ host_memory_backend_get_host_nodes(Object *obj, Visitor *v, const char *name,
- 
- ret:
-     visit_type_uint16List(v, name, &host_nodes, errp);
-+    qapi_free_uint16List(host_nodes);
- }
- 
- static void
--- 
-2.23.0
+> 
+> Thanks
+> Vivek
+> 
+>>
+>> Before:
+>>
+>>> [13316826770337] [ID: 00000004] unique: 62, opcode: RELEASEDIR (29), nodeid: 1, insize: 64, pid: 1
+>>> [13316826778175] [ID: 00000004]    unique: 62, success, outsize: 16
+>>> [13316826781156] [ID: 00000004] virtio_send_msg: elem 0: with 1 in desc of length 16
+>>> [15138279317927] [ID: 00000001] virtio_loop: Got VU event
+>>> [15138279504884] [ID: 00000001] fv_queue_set_started: qidx=1 started=0
+>>> [15138279519034] [ID: 00000003] fv_queue_thread: kill event on queue 1 - quitting
+>>> [15138280876463] [ID: 00000001] fv_remove_watch: TODO! fd=9
+>>> [15138280897381] [ID: 00000001] virtio_loop: Waiting for VU event
+>>> [15138280946834] [ID: 00000001] virtio_loop: Got VU event
+>>> [15138281175421] [ID: 00000001] virtio_loop: Waiting for VU event
+>>> [15138281182387] [ID: 00000001] virtio_loop: Got VU event
+>>> [15138281189474] [ID: 00000001] virtio_loop: Waiting for VU event
+>>> [15138309321936] [ID: 00000001] virtio_loop: Unexpected poll revents 11
+>>> [15138309434150] [ID: 00000001] virtio_loop: Exit
+>>
+>> (Notice how you don't (easily) notice the gap in time after
+>> "virtio_send_msg", and especially the amount of time passed is hard to
+>> estimate.)
+>>
+>> After:
+>>
+>>> [2020-12-08 06:43:22.58+0100] [ID: 00000004] unique: 51, opcode: RELEASEDIR (29), nodeid: 1, insize: 64, pid: 1
+>>> [2020-12-08 06:43:22.58+0100] [ID: 00000004]    unique: 51, success, outsize: 16
+>>> [2020-12-08 06:43:22.58+0100] [ID: 00000004] virtio_send_msg: elem 0: with 1 in desc of length 16
+>>> [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Got VU event
+>>> [2020-12-08 06:43:29.34+0100] [ID: 00000001] fv_queue_set_started: qidx=1 started=0
+>>> [2020-12-08 06:43:29.34+0100] [ID: 00000003] fv_queue_thread: kill event on queue 1 - quitting
+>>> [2020-12-08 06:43:29.34+0100] [ID: 00000001] fv_remove_watch: TODO! fd=9
+>>> [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Waiting for VU event
+>>> [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Got VU event
+>>> [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Waiting for VU event
+>>> [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Got VU event
+>>> [2020-12-08 06:43:29.34+0100] [ID: 00000001] virtio_loop: Waiting for VU event
+>>> [2020-12-08 06:43:29.37+0100] [ID: 00000001] virtio_loop: Unexpected poll revents 11
+>>> [2020-12-08 06:43:29.37+0100] [ID: 00000001] virtio_loop: Exit
+>>
+>> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+>> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+>> ---
+>>  tools/virtiofsd/passthrough_ll.c | 31 +++++++++++++++++++++++++++----
+>>  1 file changed, 27 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+>> index 48a109d3f682..06543b20dcbb 100644
+>> --- a/tools/virtiofsd/passthrough_ll.c
+>> +++ b/tools/virtiofsd/passthrough_ll.c
+>> @@ -3311,18 +3311,38 @@ static void setup_nofile_rlimit(unsigned long rlimit_nofile)
+>>  static void log_func(enum fuse_log_level level, const char *fmt, va_list ap)
+>>  {
+>>      g_autofree char *localfmt = NULL;
+>> +    struct timespec ts;
+>> +    struct tm tm;
+>> +    char sec_fmt[sizeof "2020-12-07 18:17:54"];
+>> +    char zone_fmt[sizeof "+0100"];
+>>  
+>>      if (current_log_level < level) {
+>>          return;
+>>      }
+>>  
+>>      if (current_log_level == FUSE_LOG_DEBUG) {
+>> -        if (!use_syslog) {
+>> -            localfmt = g_strdup_printf("[%" PRId64 "] [ID: %08ld] %s",
+>> -                                       get_clock(), syscall(__NR_gettid), fmt);
+>> -        } else {
+>> +        if (use_syslog) {
+>> +            /* no timestamp needed */
+>>              localfmt = g_strdup_printf("[ID: %08ld] %s", syscall(__NR_gettid),
+>>                                         fmt);
+>> +        } else {
+>> +            /* try formatting a broken-down timestamp */
+>> +            if (clock_gettime(CLOCK_REALTIME, &ts) != -1 &&
+>> +                localtime_r(&ts.tv_sec, &tm) != NULL &&
+>> +                strftime(sec_fmt, sizeof sec_fmt, "%Y-%m-%d %H:%M:%S",
+>> +                         &tm) != 0 &&
+>> +                strftime(zone_fmt, sizeof zone_fmt, "%z", &tm) != 0) {
+>> +                localfmt = g_strdup_printf("[%s.%02ld%s] [ID: %08ld] %s",
+>> +                                           sec_fmt,
+>> +                                           ts.tv_nsec / (10L * 1000 * 1000),
+>> +                                           zone_fmt, syscall(__NR_gettid),
+>> +                                           fmt);
+>> +            } else {
+>> +                /* fall back to a flat timestamp */
+>> +                localfmt = g_strdup_printf("[%" PRId64 "] [ID: %08ld] %s",
+>> +                                           get_clock(), syscall(__NR_gettid),
+>> +                                           fmt);
+>> +            }
+>>          }
+>>          fmt = localfmt;
+>>      }
+>> @@ -3452,6 +3472,9 @@ int main(int argc, char *argv[])
+>>      struct lo_map_elem *reserve_elem;
+>>      int ret = -1;
+>>  
+>> +    /* Initialize time conversion information for localtime_r(). */
+>> +    tzset();
+>> +
+>>      /* Don't mask creation mode, kernel already did that */
+>>      umask(0);
+>>  
+>> -- 
+>> 2.19.1.3.g30247aa5d201
+>>
+>> _______________________________________________
+>> Virtio-fs mailing list
+>> Virtio-fs@redhat.com
+>> https://www.redhat.com/mailman/listinfo/virtio-fs
 
 
