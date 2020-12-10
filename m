@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA262D5F6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 16:21:48 +0100 (CET)
-Received: from localhost ([::1]:36520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B96DA2D5FC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 16:33:34 +0100 (CET)
+Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knNlK-00029V-BS
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 10:21:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
+	id 1knNwj-0006LC-PD
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 10:33:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1knNjy-0001f0-8S
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:20:22 -0500
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:38779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1knNjw-0000HG-Rb
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:20:22 -0500
-Received: by mail-io1-xd44.google.com with SMTP id y5so5868940iow.5
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 07:20:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P5yw0nojv1FxIPkklRD+Vn1mPyoBzspT5SRNNaz7RGU=;
- b=kIdr8oPuKbMPuSqytIabpVf+M8isfoCi3bJgUzBNpduqmRs6PlO+aExAa8yBeWKMDn
- ahjKluUROgVS9FRrTefqt6u96vjI7N16HkHdj9Mm23ZeS6GS7A+JFAbHavsyT19j38Ia
- MB5xmI5PiWQP+P3Xu7ltfVYAG49HmT0Fw2kldNMhi7fZBm8FQ2xIUJb4gshxZw7zIIuy
- 7CJGh2rCq8mCgRMMlEhm2elKoZwoQlCzAxa3oIaEe76XRXx3gWjwFBckZO6x03ensySA
- h5bZpJgNfjb+J2w6P1+aS+pAypbINVMqAC5whhvPaRh2gqCvgWuAhkCacmlJQaQFEErP
- MxPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P5yw0nojv1FxIPkklRD+Vn1mPyoBzspT5SRNNaz7RGU=;
- b=WXsf23bK+ABNBf8/ZykWKMbihl/irXIoLwZyp+I20/1g7S4x51sE4sAXlBz/YcxNVP
- p48bkhHqpJiv5fONAv2TJKF+ZxbavSkJYNey/ajzyImJDKHp96mUN0rpQD/dAAPJTGgQ
- LPToFNw4h9PcPVlkUs1nKbLNmj0aWpazyJcEEgMvap4P3GG3GAzVbWAnhLfBHaGI2VUC
- +k4Jjc28SCC3GvNWTvJOED0CT0Hr4SRILlHRh7kZ3aZZccKw7YOSaTsWwDYMCqe2+v1D
- WF9thX7VLCmZoGd/2w5GB+M0b8JbzO3bDacp8rBtxH7NG35ApxQGAy+P/nJFM34K12Hs
- kOLg==
-X-Gm-Message-State: AOAM530YDqRNjEaJJjBjHExXc+ok3d7xzjQ99XWFJXALU796skwQB4Nh
- 91JEfR41MZWNNl3GL/l1ZjBGIEV1J/wc6ZTFugY=
-X-Google-Smtp-Source: ABdhPJyEZ4S2+oxMimkHdRzgR2seFLMyinaLcN3ZuFQxkKH3nYaf06LyEPgddbRBF/3kaGh+G4Jr0qMXXo5gHK8Dwvc=
-X-Received: by 2002:a5d:9c91:: with SMTP id p17mr8676140iop.36.1607613619761; 
- Thu, 10 Dec 2020 07:20:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1knNt1-0005Ae-KG
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:29:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1knNsy-0003PA-Fe
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:29:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607614178;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Lk1uwibabQPOTN1KXTEwzdps2CC3Y2Vsvb955Kl7Jyk=;
+ b=IL40cMobXD1KonS2aqQyLyfMSX+0uuG3Vsuc+llKUPn6O5WHnTaJ6pUp+RLoIMhjktMDHw
+ aNVW/fP9ohZJRU8UAt23FvMtAtjbd2tB8CX+qWrMvRYdraLiJfFYinsYUf1NnPYXBZdOJB
+ RnoLAmtpouC2dvM9lTZyEW7/pYcoM40=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-229-L7KGgI5tNliA6FGaN8gfuA-1; Thu, 10 Dec 2020 10:29:28 -0500
+X-MC-Unique: L7KGgI5tNliA6FGaN8gfuA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43000100C600;
+ Thu, 10 Dec 2020 15:29:26 +0000 (UTC)
+Received: from redhat.com (ovpn-115-31.ams2.redhat.com [10.36.115.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 25AA45B4D1;
+ Thu, 10 Dec 2020 15:29:23 +0000 (UTC)
+Date: Thu, 10 Dec 2020 15:29:21 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Li Feng <fengli@smartx.com>
+Subject: Re: [PATCH] file-posix: detect the lock using the real file
+Message-ID: <20201210152730.GK24855@redhat.com>
+References: <1607432377-87084-1-git-send-email-fengli@smartx.com>
+ <20201208143822.GA6392@merkur.fritz.box>
+ <20201209093326.GD3214234@redhat.com>
+ <20201209174338.GB6660@merkur.fritz.box>
+ <CAHckoCxunkqV6=-KKwbcB9_hbY0HUV7k+syHnHvwKnqXx6FDtw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201208163950.29617-1-david@redhat.com>
- <20201208163950.29617-8-david@redhat.com>
- <CAM9Jb+gOvCqW2rcz++SG1VZV0PoaZqx-_fE5X54PFttD-+1X_w@mail.gmail.com>
- <1a69a01e-9be5-0a3f-0ac6-c1f1fb4b4561@redhat.com>
-In-Reply-To: <1a69a01e-9be5-0a3f-0ac6-c1f1fb4b4561@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Thu, 10 Dec 2020 16:20:08 +0100
-Message-ID: <CAM9Jb+iFuVzVpYj=zjQgMZAcNRLAAstzjxp4c1g2cNBc5rnM-g@mail.gmail.com>
-Subject: Re: [PATCH v2 07/10] softmmu/physmem: Don't use atomic operations in
- ram_block_discard_(disable|require)
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd44.google.com
+In-Reply-To: <CAHckoCxunkqV6=-KKwbcB9_hbY0HUV7k+syHnHvwKnqXx6FDtw@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,31 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Kedzierski <mkedzier@redhat.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Feng Li <lifeng1519@gmail.com>,
+ "open list:raw" <qemu-block@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Kyle Zhang <kyle@smartx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> >>  bool ram_block_discard_is_disabled(void)
-> >>  {
-> >> -    return qatomic_read(&ram_block_discard_disabled) > 0;
-> >> +    return qatomic_read(&ram_block_discard_disablers);
-> >>  }
-> > return value won't be bool?
->
-> The compiler does type conversion.
->
-> != 0 -> true
-> == 0 -> false
-ah... I missed it :(
+On Thu, Dec 10, 2020 at 10:56:59PM +0800, Li Feng wrote:
+> Kevin Wolf <kwolf@redhat.com> 于2020年12月10日周四 上午1:43写道：
+> >
+> > Am 09.12.2020 um 10:33 hat Daniel P. Berrangé geschrieben:
+> > > On Tue, Dec 08, 2020 at 03:38:22PM +0100, Kevin Wolf wrote:
+> > > > Am 08.12.2020 um 13:59 hat Li Feng geschrieben:
+> > > > > This patch addresses this issue:
+> > > > > When accessing a volume on an NFS filesystem without supporting the file lock,
+> > > > > tools, like qemu-img, will complain "Failed to lock byte 100".
+> > > > >
+> > > > > In the original code, the qemu_has_ofd_lock will test the lock on the
+> > > > > "/dev/null" pseudo-file. Actually, the file.locking is per-drive property,
+> > > > > which depends on the underlay filesystem.
+> > > > >
+> > > > > In this patch, make the 'qemu_has_ofd_lock' with a filename be more generic
+> > > > > and reasonable.
+> > > > >
+> > > > > Signed-off-by: Li Feng <fengli@smartx.com>
+> > > >
+> > > > Do you know any way how I could configure either the NFS server or the
+> > > > NFS client such that locking would fail? For any patch related to this,
+> > > > it would be good if I could even test the scenario.
+> > >
+> > > One could write a qtest that uses an LD_PRELOAD to replace the standard
+> > > glibc fcntl() function with one that returns an error for locking commands.
+> >
+> > Sounds a bit ugly, but for regression testing it could make sense.
+> >
+> > However, part of the testing would be to verify that we our checks
+> > actually match the kernel code, which this approach couldn't solve.
+> >
+> Hi, Kevin and Daniel.
+> 
+> How about this patch? I think it's very straightforward.
+> Except we need a mock syscall test case.
 
-Thanks,
-Pankaj
+You don't seem to have attached any patch here.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
