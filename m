@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BE7E2D518B
+	by mail.lfdr.de (Postfix) with ESMTPS id 274262D518C
 	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 04:41:44 +0100 (CET)
-Received: from localhost ([::1]:43358 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knCpq-0000A4-Ka
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 22:41:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35532)
+	id 1knCpr-00007g-4W
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 22:41:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knCmA-0006nv-6r; Wed, 09 Dec 2020 22:37:54 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58377 helo=ozlabs.org)
+ id 1knCmA-0006nq-62; Wed, 09 Dec 2020 22:37:54 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:39461 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knCm5-0003U2-AY; Wed, 09 Dec 2020 22:37:51 -0500
+ id 1knCm5-0003US-8S; Wed, 09 Dec 2020 22:37:51 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cs03n53w1z9sWR; Thu, 10 Dec 2020 14:37:41 +1100 (AEDT)
+ id 4Cs03n5bHNz9sWL; Thu, 10 Dec 2020 14:37:41 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1607571461;
- bh=osS3KDSNpJf1pMK8lmKQy55/oSoDtINaRPPOjRc7N4E=;
+ bh=m++D17J9CytwBeq6eKjAkLZxJE2+D9uo4WEox4EZ1bo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BgKYtKQ/g54n8ulUhqp/FnSoBOxMyrdsiENJ6bl04FXdjdQTFpJ29hUmS7R1Grvqf
- l7amrMi2Y6I5lZ8D/x7mQEKhg8RzyAAEgxt38hkc/5ubg1LCVxQ7gl5yY8vF+K93oV
- xtKqpqk+Z8ZPITzFIzYIHBX7TrBoJmoz4peqyVy0=
-Date: Thu, 10 Dec 2020 14:24:08 +1100
+ b=a2gIicoq0vFA2S3UUDC1lZdnzY1tGn4nwsEE9Bqs8R2dsD+IW7aVouTz+vfyCzHX5
+ //hnCgsN4MeXYE40rnSW4eKUK+Dlwuhlnn0Q1OIog0udhu3xFBlu7534ss4CfE0Qjh
+ TxalS6NRm00BMCfnO8izvX0qz8DS1yCdl2p4DOVw=
+Date: Thu, 10 Dec 2020 14:28:54 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 0/2] target/ppc: Fix detection of 64-bit MMU models
-Message-ID: <20201210032408.GG2555@yekko.fritz.box>
-References: <20201209173536.1437351-1-groug@kaod.org>
+Subject: Re: [PATCH 3/6] spapr: Pass sPAPR machine state down to
+ spapr_pci_switch_vga()
+Message-ID: <20201210032854.GH2555@yekko.fritz.box>
+References: <20201209170052.1431440-1-groug@kaod.org>
+ <20201209170052.1431440-4-groug@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FwyhczKCDPOVeYh6"
+ protocol="application/pgp-signature"; boundary="nOM8ykUjac0mNN89"
 Content-Disposition: inline
-In-Reply-To: <20201209173536.1437351-1-groug@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20201209170052.1431440-4-groug@kaod.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,31 +59,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stephane Duverger <stephane.duverger@free.fr>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---FwyhczKCDPOVeYh6
+--nOM8ykUjac0mNN89
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 09, 2020 at 06:35:34PM +0100, Greg Kurz wrote:
-> Stephane Duverger posted a patch to fix a miscomputation of the
-> 'need_access_type' flag in ppc_tr_init_disas_context(), which can
-> cause QEMU to abort with 32-bit CPUs.
+On Wed, Dec 09, 2020 at 06:00:49PM +0100, Greg Kurz wrote:
+> This allows to drop a user of qdev_get_machine().
 >=20
-> This series contains an extended version of Stephane's patch and
-> introduce an mmu_is_64bit() helper to avoid a similar confusion
-> in the future.
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-Applied to ppc-for-6.0, thanks.
+Applied to ppc-for-6.0.
 
-Really that whole mmu_model thing is a mess.  A mix of flags and an
-enum, for something that should probably be class callbacks in most
-cases.  But your patches certainly improve things.
+> ---
+>  include/hw/ppc/spapr.h | 2 +-
+>  hw/ppc/spapr_hcall.c   | 7 ++++---
+>  hw/ppc/spapr_pci.c     | 3 +--
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index b7ced9faebf5..e0f10f252c08 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -834,7 +834,7 @@ int spapr_dma_dt(void *fdt, int node_off, const char =
+*propname,
+>                   uint32_t liobn, uint64_t window, uint32_t size);
+>  int spapr_tcet_dma_dt(void *fdt, int node_off, const char *propname,
+>                        SpaprTceTable *tcet);
+> -void spapr_pci_switch_vga(bool big_endian);
+> +void spapr_pci_switch_vga(SpaprMachineState *spapr, bool big_endian);
+>  void spapr_hotplug_req_add_by_index(SpaprDrc *drc);
+>  void spapr_hotplug_req_remove_by_index(SpaprDrc *drc);
+>  void spapr_hotplug_req_add_by_count(SpaprDrcType drc_type,
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 1d8e8e6a888f..c0ea0bd5794b 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1351,6 +1351,7 @@ static target_ulong h_logical_dcbf(PowerPCCPU *cpu,=
+ SpaprMachineState *spapr,
+>  }
+> =20
+>  static target_ulong h_set_mode_resource_le(PowerPCCPU *cpu,
+> +                                           SpaprMachineState *spapr,
+>                                             target_ulong mflags,
+>                                             target_ulong value1,
+>                                             target_ulong value2)
+> @@ -1365,12 +1366,12 @@ static target_ulong h_set_mode_resource_le(PowerP=
+CCPU *cpu,
+>      switch (mflags) {
+>      case H_SET_MODE_ENDIAN_BIG:
+>          spapr_set_all_lpcrs(0, LPCR_ILE);
+> -        spapr_pci_switch_vga(true);
+> +        spapr_pci_switch_vga(spapr, true);
+>          return H_SUCCESS;
+> =20
+>      case H_SET_MODE_ENDIAN_LITTLE:
+>          spapr_set_all_lpcrs(LPCR_ILE, LPCR_ILE);
+> -        spapr_pci_switch_vga(false);
+> +        spapr_pci_switch_vga(spapr, false);
+>          return H_SUCCESS;
+>      }
+> =20
+> @@ -1411,7 +1412,7 @@ static target_ulong h_set_mode(PowerPCCPU *cpu, Spa=
+prMachineState *spapr,
+> =20
+>      switch (resource) {
+>      case H_SET_MODE_RESOURCE_LE:
+> -        ret =3D h_set_mode_resource_le(cpu, args[0], args[2], args[3]);
+> +        ret =3D h_set_mode_resource_le(cpu, spapr, args[0], args[2], arg=
+s[3]);
+>          break;
+>      case H_SET_MODE_RESOURCE_ADDR_TRANS_MODE:
+>          ret =3D h_set_mode_resource_addr_trans_mode(cpu, args[0],
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 2d9b88b93122..149bf4c21d22 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -2490,9 +2490,8 @@ static int spapr_switch_one_vga(DeviceState *dev, v=
+oid *opaque)
+>      return 0;
+>  }
+> =20
+> -void spapr_pci_switch_vga(bool big_endian)
+> +void spapr_pci_switch_vga(SpaprMachineState *spapr, bool big_endian)
+>  {
+> -    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+>      SpaprPhbState *sphb;
+> =20
+>      /*
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -89,25 +159,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---FwyhczKCDPOVeYh6
+--nOM8ykUjac0mNN89
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/RlNYACgkQbDjKyiDZ
-s5JE6Q/7Bgv46tSdkdpmTGqxQJ+4LIgvT3J3zomrm0fAhJB5fT9Um/PepZLrb/0W
-7/U/ZSbSEvjaMCANM0dWHH/CxPI/cQDsT0p5DWhlEv8jfLHPrTK4eVUGKrcXbTXK
-KLu4MSbetH7yhzZMmJV5+HiqbXnjDyV89qKwsqLGLi9rg14h4eQ3QnM6Lp28FqTD
-bofcV2qp1qSkX2yYfQldpGN2vQXDfsF2EHPTy3ka+rfoYqWKm5uQVQ7vjHJ0wmsg
-+Fxra3Kcyg4gsc42oKyZZdo3VqB2m4sdIw/tR1iBNxSvfZ9+O6G3U2TJyFZA59gT
-IxYCUi7YLyFtK/YQYcJ08Jw7por17+Jxxn3VEEJ4g1PmbIj+wmEnAwLfOto5Zehy
-pLKzgFgOIllyHVG4ZeGNpvNJiYGCGrMogKtzux5et7xQhkdOxX8OhssXkRRkLNtL
-lJlW1KS0WaLkd7nZtChcjzrMXx1IRi1GFIrr2iBP2tGy5dfMJpg11ZdljNH1wF+i
-9bDZIXAit3zfBGhBh/k4jUdUVI/MwORyBEU/sAwGkcIClwdfwX4AzW44buJIeaVp
-tNUDrBGizargrZ6RRan2zTBh4CETiK+UvlX+gGm54JKk33YZ75lafS26T69ySV7P
-9hM4stwcxee6S4vaLlw4GXHHBq7SrXS2E61nd5QSPNyUUkSbrp0=
-=Ik6k
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/RlfYACgkQbDjKyiDZ
+s5LVpQ//biS09yMa13P4OEfGe0FBbDRNUY1hHrEU4Sax0dkkQ+qdPIqWzk2tJyv7
+L2Q3JRcVT5+JHOSubwZIFQyCEFyXCn7JZ1AilXh0qAFdEUmxlA+ZfznbOHYt0kRE
+dy4c3xpT/yUqFsrZbCiBL20HGp4KkWKBYVhNmbvvvGy9eWB4dqCyk1gu+gMIfYYk
+2LVDnaOg/O2judlviwog4HHnpFX2DF5WvBbvAqze8tZ1IhKZoo6Mm0kwvE5wKrGd
+7U5SFnYb/yLDs23p1PBYDMCh6xFcXDVO+4PlBpu7nwqbn/FOGoD4bR0ePbJXNCS5
+D37gIqnrbd74963GlEk59Yan4OQJycacNhwstguzBkeGQcL/DDSKtTTMtbYNJBnj
+ZNrhuQLNhTnNuXd3Jl3RvgrTnqLjWotKm8lt6OYUWzPrUjGY1HHA/WgdSBSZtLne
+DUA1bMKVyLyExiZleQ0gU2MwOnDtxZ1JMJo8L3HLA30AGImjzMX94COwROATT2J3
+ipezXq7XyLXzdauoW9XCRMYe8kpNaGcnZyXPVegJFmclQ5g/k5fwK4HtDMINQ2WD
+2emkwlx3+x6DD2GRGFB+VnWxyNlDjXeQHpifuY4Q51JHDbFQVaLzMNvlj7VKf271
+pDbgB8cEWNBAqRMF313yoybPg75oCbThk64qMskrA2Q+cdVyyNc=
+=+vSk
 -----END PGP SIGNATURE-----
 
---FwyhczKCDPOVeYh6--
+--nOM8ykUjac0mNN89--
 
