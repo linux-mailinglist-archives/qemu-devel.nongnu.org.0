@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37D32D60ED
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 17:04:23 +0100 (CET)
-Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 900B12D60D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 17:03:14 +0100 (CET)
+Received: from localhost ([::1]:41726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knOQY-0002MH-PZ
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 11:04:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59084)
+	id 1knOPR-00017U-J6
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 11:03:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knOKu-00081B-AS
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:58:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38504)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knOKt-00080g-Sv
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:58:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knOKs-0004xQ-8A
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:58:32 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knOKs-0004xW-77
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:58:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607615908;
+ s=mimecast20190719; t=1607615909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qrOR0Tl997KqvCRQUJd5UybCDqSFFivrHCOxc1QYHPI=;
- b=Ym2XCGzwaXKw7QI0oeP8S2HeS/SAZROYRf7TuH6AjdDZLg1vE+Nh8Wv0nuM37wELnoMs+r
- W332R6Sxgd9TIeuK7t3rDvRD8bIkHpqCTvS7arpKeYSZQziawSaOy3zDLr4/JEdidMv0At
- TK/MKfTyAVLRs+VZC2FFRj6AhIDE47I=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BCeL/qeSN/z/0Q9k7we8womR84qkwG3g7qODeMJB1Uo=;
+ b=QSmDnZZffm+SMpfB7VjIQdAWiXZU4+LDHCXlXZ26+My5mJiTmfczVSL2awgjHynoaoPj8I
+ yriz0+zZE71ng6ofX0MtqX5lWiFSuysx2We8IlbvZdoTcLsxvY2XNcVxsT/3uV9vfIav7n
+ KU3stoQA8/AgJSZ46RPRW5yPy1CGIXU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-Ysp8wFRFMz-xGT4Pr7LMcw-1; Thu, 10 Dec 2020 10:58:24 -0500
-X-MC-Unique: Ysp8wFRFMz-xGT4Pr7LMcw-1
+ us-mta-298-26GsEjq1NxK8TeVQWwYQIg-1; Thu, 10 Dec 2020 10:58:26 -0500
+X-MC-Unique: 26GsEjq1NxK8TeVQWwYQIg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFBE7800D53
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 15:58:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08D8C10054FF
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 15:58:26 +0000 (UTC)
 Received: from thuth.com (ovpn-112-62.ams2.redhat.com [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F1CE6F97E;
- Thu, 10 Dec 2020 15:58:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 640A36F968;
+ Thu, 10 Dec 2020 15:58:24 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 0/4] Remove deprecated CLI parameters
-Date: Thu, 10 Dec 2020 16:58:04 +0100
-Message-Id: <20201210155808.233895-1-thuth@redhat.com>
+Subject: [PATCH 1/4] accel/tcg: Remove deprecated '-tb-size' option
+Date: Thu, 10 Dec 2020 16:58:05 +0100
+Message-Id: <20201210155808.233895-2-thuth@redhat.com>
+In-Reply-To: <20201210155808.233895-1-thuth@redhat.com>
+References: <20201210155808.233895-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -80,26 +83,102 @@ Cc: libvir-list@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove some simple CLI parameters that have been deprecated since
-at least two releass already.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Philippe Mathieu-Daudé (1):
-  accel/tcg: Remove deprecated '-tb-size' option
+The '-tb-size' option (replaced by '-accel tcg,tb-size') is
+deprecated since 5.0 (commit fe174132478). Remove it.
 
-Thomas Huth (3):
-  docs/system: Move the list of removed features to a separate file
-  Remove the deprecated -realtime option
-  Remove the deprecated -show-cursor option
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20201202112714.1223783-1-philmd@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ accel/tcg/translate-all.c  |  2 +-
+ docs/system/deprecated.rst | 12 +++++-------
+ qemu-options.hx            |  8 --------
+ softmmu/vl.c               |  8 --------
+ 4 files changed, 6 insertions(+), 24 deletions(-)
 
- accel/tcg/translate-all.c           |   2 +-
- docs/system/deprecated.rst          | 246 ----------------------------
- docs/system/removed-features.rst    | 243 +++++++++++++++++++++++++++
- qemu-options.hx                     |  29 +---
- softmmu/vl.c                        |  45 +----
- tests/migration/guestperf/engine.py |   2 +-
- 6 files changed, 247 insertions(+), 320 deletions(-)
- create mode 100644 docs/system/removed-features.rst
-
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 4572b4901f..b7d50a73d4 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2379,7 +2379,7 @@ void dump_exec_info(void)
+     qemu_printf("Translation buffer state:\n");
+     /*
+      * Report total code size including the padding and TB structs;
+-     * otherwise users might think "-tb-size" is not honoured.
++     * otherwise users might think "-accel tcg,tb-size" is not honoured.
+      * For avg host size we use the precise numbers from tb_tree_stats though.
+      */
+     qemu_printf("gen code size       %zu/%zu\n",
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 565389697e..70bdb62a6d 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -100,13 +100,6 @@ QEMU 5.1 has three options:
+       to the user to load all the images they need.
+  3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
+ 
+-``-tb-size`` option (since 5.0)
+-'''''''''''''''''''''''''''''''
+-
+-QEMU 5.0 introduced an alternative syntax to specify the size of the translation
+-block cache, ``-accel tcg,tb-size=``.  The new syntax deprecates the
+-previously available ``-tb-size`` option.
+-
+ ``-show-cursor`` option (since 5.0)
+ '''''''''''''''''''''''''''''''''''
+ 
+@@ -523,6 +516,11 @@ for the ``id`` parameter, which should now be used instead.
+ 
+ The ``-no-kvm`` argument was a synonym for setting ``-machine accel=tcg``.
+ 
++``-tb-size`` option (removed in 6.0)
++'''''''''''''''''''''''''''''''
++
++QEMU 5.0 introduced an alternative syntax to specify the size of the translation
++block cache, ``-accel tcg,tb-size=``.
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 104632ea34..7ce06290b6 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4080,14 +4080,6 @@ SRST
+     Show cursor.
+ ERST
+ 
+-DEF("tb-size", HAS_ARG, QEMU_OPTION_tb_size, \
+-    "-tb-size n      set TB size\n", QEMU_ARCH_ALL)
+-SRST
+-``-tb-size n``
+-    Set TCG translation block cache size. Deprecated, use
+-    '\ ``-accel tcg,tb-size=n``\ ' instead.
+-ERST
+-
+ DEF("incoming", HAS_ARG, QEMU_OPTION_incoming, \
+     "-incoming tcp:[host]:port[,to=maxport][,ipv4][,ipv6]\n" \
+     "-incoming rdma:host:port[,ipv4][,ipv6]\n" \
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index e6e0ad5a92..3f052849d8 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3639,14 +3639,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                     exit(1);
+                 }
+                 break;
+-            case QEMU_OPTION_tb_size:
+-#ifndef CONFIG_TCG
+-                error_report("TCG is disabled");
+-                exit(1);
+-#endif
+-                warn_report("The -tb-size option is deprecated, use -accel tcg,tb-size instead");
+-                object_register_sugar_prop(ACCEL_CLASS_NAME("tcg"), "tb-size", optarg);
+-                break;
+             case QEMU_OPTION_icount:
+                 icount_opts = qemu_opts_parse_noisily(qemu_find_opts("icount"),
+                                                       optarg, true);
 -- 
 2.27.0
 
