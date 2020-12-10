@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C630B2D5A23
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:15:48 +0100 (CET)
-Received: from localhost ([::1]:44092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DEB92D5A06
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:08:22 +0100 (CET)
+Received: from localhost ([::1]:50764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKrL-0004bu-QA
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:15:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51568)
+	id 1knKk9-0003z9-II
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:08:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKR9-0001iJ-Oc
+ id 1knKR9-0001gu-4s
  for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:43 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43184)
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKR0-000793-Bm
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:43 -0500
-Received: by mail-wr1-x433.google.com with SMTP id y17so5133943wrr.10
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:33 -0800 (PST)
+ id 1knKR1-00079A-8n
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:42 -0500
+Received: by mail-wm1-x342.google.com with SMTP id y23so5006930wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=J7TAdII+zoL9ZYUXkFl6fW/f+7IWQ2Rf6gIgGSvs/e8=;
- b=vd01gzaV9SPnOo56IPYIho20N5JDv3X0Ynm4sUsJ7F/SuQVQzxPRdkLIVG3JcDP17D
- uvMWCjFgTUvFwKFRryt4hV0Ta11QL9mx4MwMTkweGgIyKEb5oMo4QtsguxJxTsfV7eKB
- fQCauhFO5R4VRm4c5US00EvUl0WTpLKUSNDjvbgp2s6s9uFWBQcyBgWTgkASuv6ZRvr/
- SIqt+IZ5NoVUxWSqBEp7BSLpOIahbv2tE/IcVS0etWbxlApvltdq0FoOL2qf4Gfts/Jj
- 590yAHCaUaD9YuKsiD9voixEZQjEH9UCqc/4/ihgN2JN8DTs6h9dmbMD1SjTLLHWJtOp
- 188Q==
+ bh=JLPn2HKUKMTiq62Z0j1xU/zunH06nHY3wxhczZYbRZk=;
+ b=HvI/aA4ysiXIbSouVC8CmPvDjIdu/e1AoLFdkw0XJEz4qqy6LqmOJBbYWdd1oQUoWE
+ CPazyktdS8qjSumAKCgqXnY9vOdwjD/xc6wxjIhjW5krvXyOsNAIjY4TUcqqlPEU+/Ax
+ IifvLkRwPrGaMFN3gueLPSWxlHKtkMul0kDrLFf/uTJB9Hl0xCoABL/wHcohdVlan0UA
+ Ul5OWg2K6o0rFwaIh9TU7x5+L3t6HWK+5AYkhiFdi0uqAqllgdYs34drvJ1fNwd1OCbI
+ kR/Uz4MzsTzMkBRJosvzisxJOjnZHuM3f+NZTksHE2bNev7ehfhDN95pO6Nvo79XQItL
+ P7bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=J7TAdII+zoL9ZYUXkFl6fW/f+7IWQ2Rf6gIgGSvs/e8=;
- b=gtQvANBpAAwTUpYtbwjeBtFjovZx+ssjtEVPgUq/iDFn2868viKyS1nSSY4d2gmZ3p
- NZ9DPQp9/9IPl/xfNjgSKtH9MrDo6V9GLPIIw5rpPTmqaF6Y3NywUBITsPDucu3FhiGq
- 66CIamJORVJHU6YuicVtFV57GKfX9VLNVW3Nje2fm+0z8RJ9P//UuPdLBn9aU16OHMWp
- UL83Zo0IgqzZcEAzx5Auneeo014c5jjp01IqCZkoduU4mrC9B5wZvsjV7m3uF+L973cu
- Ir6OdnLdf2cyCiVP/PWv8/R2m7j8N466kT56h/o0W2w3/b83/sv6ijc6gJc60G2v7KQl
- AWTQ==
-X-Gm-Message-State: AOAM531K8VtWjJfk4DBCLtYL8kygy9Hcji2XcW7sdkEHarH305U4VlQF
- SXh0mDBPe1KRh1vAp7HWVNEgFmUCxpAvdA==
-X-Google-Smtp-Source: ABdhPJzqlbevQuvklcHmJifaYvDnE1KTr+YQlKT2fZJh4JyytWP/9CEpNNIWPKDVnpBL4MjJC6F8AQ==
-X-Received: by 2002:adf:efc5:: with SMTP id i5mr7629530wrp.377.1607600912876; 
- Thu, 10 Dec 2020 03:48:32 -0800 (PST)
+ bh=JLPn2HKUKMTiq62Z0j1xU/zunH06nHY3wxhczZYbRZk=;
+ b=of3vH/Abtksmp8Nd6g/JIaler7eIntSi0uKdnzvH6OFENgINgaQ38CjThwdU4N4EyA
+ qg2a3M+j7fL85gQaDOYxY/S+S+/Y6AztCGsyL0CVxAm8XUV59b9L8qar9eeqAgxoYv+q
+ yNzfl/CKPp1XQ6uk7TVIssgD3d+pVEkYM9mvqOnd5rZd5I2AXXSDoBgrm2WqoMS6fI4Z
+ dowhgnbAoqKD6kn5Az4aumkw21csJt4ic+HhVpFsNmWW5e0716XW7sfXqoDRTNA2FDWF
+ btPrEVZ/rMzJzadp3GvOu7Vy1obokU28z6myKSLj7iQ+2vRpxVeHAKmDzfqlDW4xlJfJ
+ DJ2Q==
+X-Gm-Message-State: AOAM533rV29O8GcDYSm6p4CLBzyDyAstJ8MISn0rb8y2+o/no4VGZPl0
+ rUJWBpR9kRFXf4QDxPrfkbg3xYSv1toqtg==
+X-Google-Smtp-Source: ABdhPJzgb+1Gd1vT1VCvirXXt5t+yc9d/dYT43nKEasyzeAEPO28YufawQEhVFYtaLMMMOfb9Yc/Qw==
+X-Received: by 2002:a1c:f60b:: with SMTP id w11mr7884732wmc.180.1607600913730; 
+ Thu, 10 Dec 2020 03:48:33 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.31
+ by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.32
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 03:48:32 -0800 (PST)
+ Thu, 10 Dec 2020 03:48:33 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/36] target/arm: Implement new v8.1M VLLDM and VLSTM encodings
-Date: Thu, 10 Dec 2020 11:47:50 +0000
-Message-Id: <20201210114756.16501-31-peter.maydell@linaro.org>
+Subject: [PULL 31/36] hw/intc/armv7m_nvic: Support v8.1M CCR.TRD bit
+Date: Thu, 10 Dec 2020 11:47:51 +0000
+Message-Id: <20201210114756.16501-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210114756.16501-1-peter.maydell@linaro.org>
 References: <20201210114756.16501-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,74 +86,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v8.1M adds new encodings of VLLDM and VLSTM (where bit 7 is set).
-The only difference is that:
- * the old T1 encodings UNDEF if the implementation implements 32
-   Dregs (this is currently architecturally impossible for M-profile)
- * the new T2 encodings have the implementation-defined option to
-   read from memory (discarding the data) or write UNKNOWN values to
-   memory for the stack slots that would be D16-D31
-
-We choose not to make those accesses, so for us the two
-instructions behave identically assuming they don't UNDEF.
+v8.1M introduces a new TRD flag in the CCR register, which enables
+checking for stack frame integrity signatures on SG instructions.
+This bit is not banked, and is always RAZ/WI to Non-secure code.
+Adjust the code for handling CCR reads and writes to handle this.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201119215617.29887-21-peter.maydell@linaro.org
+Message-id: 20201119215617.29887-23-peter.maydell@linaro.org
 ---
- target/arm/m-nocp.decode       |  2 +-
- target/arm/translate-vfp.c.inc | 25 +++++++++++++++++++++++++
- 2 files changed, 26 insertions(+), 1 deletion(-)
+ target/arm/cpu.h      |  2 ++
+ hw/intc/armv7m_nvic.c | 26 ++++++++++++++++++--------
+ 2 files changed, 20 insertions(+), 8 deletions(-)
 
-diff --git a/target/arm/m-nocp.decode b/target/arm/m-nocp.decode
-index ccd62e8739a..6699626d7cb 100644
---- a/target/arm/m-nocp.decode
-+++ b/target/arm/m-nocp.decode
-@@ -36,7 +36,7 @@
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 47cb5032ce9..22c55c81933 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1611,6 +1611,8 @@ FIELD(V7M_CCR, STKOFHFNMIGN, 10, 1)
+ FIELD(V7M_CCR, DC, 16, 1)
+ FIELD(V7M_CCR, IC, 17, 1)
+ FIELD(V7M_CCR, BP, 18, 1)
++FIELD(V7M_CCR, LOB, 19, 1)
++FIELD(V7M_CCR, TRD, 20, 1)
  
- {
-   # Special cases which do not take an early NOCP: VLLDM and VLSTM
--  VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 0000 0000
-+  VLLDM_VLSTM  1110 1100 001 l:1 rn:4 0000 1010 op:1 000 0000
-   # VSCCLRM (new in v8.1M) is similar:
-   VSCCLRM      1110 1100 1.01 1111 .... 1011 imm:7 0   vd=%vd_dp size=3
-   VSCCLRM      1110 1100 1.01 1111 .... 1010 imm:8     vd=%vd_sp size=2
-diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 808b4077054..0db936084bd 100644
---- a/target/arm/translate-vfp.c.inc
-+++ b/target/arm/translate-vfp.c.inc
-@@ -3721,6 +3721,31 @@ static bool trans_VLLDM_VLSTM(DisasContext *s, arg_VLLDM_VLSTM *a)
-         !arm_dc_feature(s, ARM_FEATURE_V8)) {
-         return false;
-     }
+ /* V7M SCR bits */
+ FIELD(V7M_SCR, SLEEPONEXIT, 1, 1)
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index effc4a784ca..6f94f88a795 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -1095,8 +1095,9 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
+         }
+         return cpu->env.v7m.scr[attrs.secure];
+     case 0xd14: /* Configuration Control.  */
+-        /* The BFHFNMIGN bit is the only non-banked bit; we
+-         * keep it in the non-secure copy of the register.
++        /*
++         * Non-banked bits: BFHFNMIGN (stored in the NS copy of the register)
++         * and TRD (stored in the S copy of the register)
+          */
+         val = cpu->env.v7m.ccr[attrs.secure];
+         val |= cpu->env.v7m.ccr[M_REG_NS] & R_V7M_CCR_BFHFNMIGN_MASK;
+@@ -1639,17 +1640,25 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
+         cpu->env.v7m.scr[attrs.secure] = value;
+         break;
+     case 0xd14: /* Configuration Control.  */
++    {
++        uint32_t mask;
 +
-+    if (a->op) {
-+        /*
-+         * T2 encoding ({D0-D31} reglist): v8.1M and up. We choose not
-+         * to take the IMPDEF option to make memory accesses to the stack
-+         * slots that correspond to the D16-D31 registers (discarding
-+         * read data and writing UNKNOWN values), so for us the T2
-+         * encoding behaves identically to the T1 encoding.
-+         */
-+        if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
-+            return false;
+         if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
+             goto bad_offset;
+         }
+ 
+         /* Enforce RAZ/WI on reserved and must-RAZ/WI bits */
+-        value &= (R_V7M_CCR_STKALIGN_MASK |
+-                  R_V7M_CCR_BFHFNMIGN_MASK |
+-                  R_V7M_CCR_DIV_0_TRP_MASK |
+-                  R_V7M_CCR_UNALIGN_TRP_MASK |
+-                  R_V7M_CCR_USERSETMPEND_MASK |
+-                  R_V7M_CCR_NONBASETHRDENA_MASK);
++        mask = R_V7M_CCR_STKALIGN_MASK |
++            R_V7M_CCR_BFHFNMIGN_MASK |
++            R_V7M_CCR_DIV_0_TRP_MASK |
++            R_V7M_CCR_UNALIGN_TRP_MASK |
++            R_V7M_CCR_USERSETMPEND_MASK |
++            R_V7M_CCR_NONBASETHRDENA_MASK;
++        if (arm_feature(&cpu->env, ARM_FEATURE_V8_1M) && attrs.secure) {
++            /* TRD is always RAZ/WI from NS */
++            mask |= R_V7M_CCR_TRD_MASK;
 +        }
-+    } else {
-+        /*
-+         * T1 encoding ({D0-D15} reglist); undef if we have 32 Dregs.
-+         * This is currently architecturally impossible, but we add the
-+         * check to stay in line with the pseudocode. Note that we must
-+         * emit code for the UNDEF so it takes precedence over the NOCP.
-+         */
-+        if (dc_isar_feature(aa32_simd_r32, s)) {
-+            unallocated_encoding(s);
-+            return true;
-+        }
++        value &= mask;
+ 
+         if (arm_feature(&cpu->env, ARM_FEATURE_V8)) {
+             /* v8M makes NONBASETHRDENA and STKALIGN be RES1 */
+@@ -1666,6 +1675,7 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
+ 
+         cpu->env.v7m.ccr[attrs.secure] = value;
+         break;
 +    }
-+
-     /*
-      * If not secure, UNDEF. We must emit code for this
-      * rather than returning false so that this takes
+     case 0xd24: /* System Handler Control and State (SHCSR) */
+         if (!arm_feature(&cpu->env, ARM_FEATURE_V7)) {
+             goto bad_offset;
 -- 
 2.20.1
 
