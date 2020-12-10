@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0412D5AA2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:36:51 +0100 (CET)
-Received: from localhost ([::1]:45682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403552D5AB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:40:49 +0100 (CET)
+Received: from localhost ([::1]:55844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knLBi-0003AK-KG
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:36:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53074)
+	id 1knLFX-0007FS-UX
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:40:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1knKYI-0000VU-Bm
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:56:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45460)
+ id 1knKa2-0002q7-1A
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:57:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1knKYC-0001Ch-7x
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:56:05 -0500
+ id 1knKZy-0001iP-Jb
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:57:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607601359;
+ s=mimecast20190719; t=1607601469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MucEp2q9Z+8tlAqhqnNq4svdhUxR95XxXhNV9vCD9Kw=;
- b=L2QwYC2LHZRYpVurznZ4Pcg5X2/FgZiqmeWPISmAERIpz/fmidHpR6BcDGw4ppILwOx06/
- Ip/TWiu4e60NEuTI9wNdev7twlV9Rm0ZHzv7XlNj9bUUIwR7eSOwdHJstJE/Qod7fRXk8N
- XJYtTY2zaeNaX/3g/YfX6rGsWKRveug=
+ bh=+gQ9iINAWDXR5JwO1kT+v2+a0wsEJwps06F6jliWiHg=;
+ b=DAW1g+CzcU3QHaEKuM5kxTDvNAa6W0SfgptrhwUrPHxL6ob9HH+yYU2zON3G+apDjLHIL1
+ NqD8EOTsjJJ7YqKC84rAiAtMJ2FUr7vbWlk5G2VKqBaBuUyMHzvpfYq7bQAYaRbpc6Rxe3
+ bA5hVgv9LcQ9q0ZrblmFAJCqJrh81qM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-Iu-oSkLwM9qwB-9bm14vaA-1; Thu, 10 Dec 2020 06:55:55 -0500
-X-MC-Unique: Iu-oSkLwM9qwB-9bm14vaA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-218-uuDY_b2UP4KRLbhduxHdtQ-1; Thu, 10 Dec 2020 06:57:46 -0500
+X-MC-Unique: uuDY_b2UP4KRLbhduxHdtQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14D46100C605;
- Thu, 10 Dec 2020 11:55:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14A6F1005513;
+ Thu, 10 Dec 2020 11:57:43 +0000 (UTC)
 Received: from localhost (ovpn-113-62.ams2.redhat.com [10.36.113.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 568F419C78;
- Thu, 10 Dec 2020 11:55:48 +0000 (UTC)
-Date: Thu, 10 Dec 2020 11:55:47 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48B0C5C67A;
+ Thu, 10 Dec 2020 11:57:29 +0000 (UTC)
+Date: Thu, 10 Dec 2020 11:57:29 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Eugenio Perez Martin <eperezma@redhat.com>
-Subject: Re: [RFC PATCH 13/27] vhost: Send buffers to device
-Message-ID: <20201210115547.GH416119@stefanha-x1.localdomain>
+Subject: Re: [RFC PATCH 16/27] virtio: Expose virtqueue_alloc_element
+Message-ID: <20201210115729.GI416119@stefanha-x1.localdomain>
 References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-14-eperezma@redhat.com>
- <20201208081621.GR203660@stefanha-x1.localdomain>
- <CAJaqyWf13ta5MtzmTUz2N5XnQ+ebqFPYAivdggL64LEQAf=y+A@mail.gmail.com>
+ <20201120185105.279030-17-eperezma@redhat.com>
+ <20201208082552.GT203660@stefanha-x1.localdomain>
+ <CAJaqyWdN7iudf8mDN4k4Fs9j1x+ztZARuBbinPHD3ZQSMH1pyQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWf13ta5MtzmTUz2N5XnQ+ebqFPYAivdggL64LEQAf=y+A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <CAJaqyWdN7iudf8mDN4k4Fs9j1x+ztZARuBbinPHD3ZQSMH1pyQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="y0Ed1hDcWxc3B7cn"
+ protocol="application/pgp-signature"; boundary="dMdWWqg3F2Dv/qfw"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,57 +100,60 @@ Cc: kvm list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---y0Ed1hDcWxc3B7cn
+--dMdWWqg3F2Dv/qfw
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 09, 2020 at 07:41:23PM +0100, Eugenio Perez Martin wrote:
-> On Tue, Dec 8, 2020 at 9:16 AM Stefan Hajnoczi <stefanha@gmail.com> wrote=
+On Wed, Dec 09, 2020 at 07:46:49PM +0100, Eugenio Perez Martin wrote:
+> On Tue, Dec 8, 2020 at 9:26 AM Stefan Hajnoczi <stefanha@gmail.com> wrote=
 :
-> > On Fri, Nov 20, 2020 at 07:50:51PM +0100, Eugenio P=E9rez wrote:
-> > > +        while (true) {
-> > > +            int r;
-> > > +            if (virtio_queue_full(vq)) {
-> > > +                break;
-> > > +            }
 > >
-> > Why is this check necessary? The guest cannot provide more descriptors
-> > than there is ring space. If that happens somehow then it's a driver
-> > error that is already reported in virtqueue_pop() below.
+> > On Fri, Nov 20, 2020 at 07:50:54PM +0100, Eugenio P=E9rez wrote:
+> > > Specify VirtQueueElement * as return type makes no harm at this momen=
+t.
 > >
+> > The reason for the void * return type is that C implicitly converts voi=
+d
+> > pointers to pointers of any type. The function takes a size_t sz
+> > argument so it can allocate a object of user-defined size. The idea is
+> > that the user's struct embeds a VirtQueueElement field. Changing the
+> > return type to VirtQueueElement * means that callers may need to
+> > explicitly cast to the user's struct type.
+> >
+> > It's a question of coding style but I think the void * return type
+> > communicates what is going on better than VirtQueueElement *.
 >=20
-> It's just checked because virtqueue_pop prints an error on that case,
-> and there is no way to tell the difference between a regular error and
-> another caused by other causes. Maybe the right thing to do is just to
-> not to print that error? Caller should do the error printing in that
-> case. Should we return an error code?
+> Right, what I meant with that is that nobody uses that feature, but I
+> just re-check and I saw that contrib/vhost-user-blk actually uses it
+> (not checked for more uses). I think it is better just to drop this
+> commit.
 
-The reason an error is printed today is because it's a guest error that
-never happens with correct guest drivers. Something is broken and the
-user should know about it.
+contrib/vhost-user-blk doesn't use hw/virtio/virtio.c. The code is
+similar and copy-pasted, but you are free to change this file without
+affecting vontrib/vhost-user-blk :).
 
-Why is "virtio_queue_full" (I already forgot what that actually means,
-it's not clear whether this is referring to avail elements or used
-elements) a condition that should be silently ignored in shadow vqs?
+I still think it's clearer to make it obvious that this function
+allocates an object of generic type or at least the change is purely a
+question of style and probably not worth making.
 
 Stefan
 
---y0Ed1hDcWxc3B7cn
+--dMdWWqg3F2Dv/qfw
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/SDMMACgkQnKSrs4Gr
-c8g6rQgAoyNP4PVcZp9IjF/ZpHcUkbIw8vq2zHMVYynE086IcL4SufcLEwnibkyk
-6zkRHz9diZrDtE8JiVVDCgd335nP1fB5Gc6QtuTy6TP03GFD7jRCBtFuWZz0zPNJ
-EhBn7yQGyh2MI6U5qE4cIZso2KQO0KxgU/TGSMcwY5dErD/LvDh+WZBIUVqpJvem
-5/uSCeSkVXyHIwMzsTYV770Ja7yiiOeNSsODlonzy7GfBg05wnh7SCtVbyiKcvTF
-n4KEqDQyurGvMZg4tExPxNL04bu9AAPvdK1QGjAfPdufdAPllV4xfiUEI5sOM9l1
-N3hvUjX/foOV3ccIX3dyrNyRIa/mgA==
-=x9KI
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/SDSgACgkQnKSrs4Gr
+c8gBXggAw53QuLAS8n2bgSqAmCJga4/haYpDTp+tcWdB6R0QXZYfoJpiYcwL6Xor
+xVRBetMYe7/mi+28pZ8gklFMpXUoxN4ZqJiIfGUXlLzhUaT5nkpvfxqyhnXkf1Hy
+GqNiuv+V6U6kEvlVKK5ImLovsDj9xN6Gy80NUSk1a689Z+6qlD6zs21HAGOSpl47
+ZsDLjAP6SMiYE6ZTVxvm42vBho0ixxW/ulW1BxlAOzWnukknFQr1Ci5Hl3RMsDmR
+TmaccrPr8RgZtRzOVIOT/MhxCxBke95BKC5SQiLeooYIGGr6kIvIfEonTBCgLBkO
+06D5WVldB7oAONWscYTRjJzqlKSUIA==
+=090p
 -----END PGP SIGNATURE-----
 
---y0Ed1hDcWxc3B7cn--
+--dMdWWqg3F2Dv/qfw--
 
 
