@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1137C2D678B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 20:53:15 +0100 (CET)
-Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 686CE2D67E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 21:02:30 +0100 (CET)
+Received: from localhost ([::1]:44812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knS01-0000bv-Ft
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 14:53:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32824)
+	id 1knS8y-0003HL-TY
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 15:02:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1knRxp-0008Lj-Fk
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:50:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45957)
+ id 1knS5k-00025c-AI
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:59:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1knRxm-00029e-VA
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:50:56 -0500
+ id 1knS5i-0004UZ-1D
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:59:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607629853;
+ s=mimecast20190719; t=1607630345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=8MQ+nPwdEZTcRgp89CkiYaqT52reIeGV27WjwADJByw=;
- b=Tfok1Y9A8qCDnDElPnsvGVsyMkiyZrMKzkzPU09LNqp8IG92EZU+oI3R3PLZxCTZKo6YDm
- YM7S8U2udYu9YCRoJaZtkha8oUNQmMqhnqAe3RUJHEX7cuRTqV8FaAxIOYCk6kbss50VYS
- XnK4Mt+7EjV7MCTaF7h0kinq76+i3BQ=
+ bh=ZQaxlj+pvZEtTgksdXFFrWVr4izwRVTrmc3PQqbQNiE=;
+ b=DNMyxweNqf5BnPSMHrdrbjFQhZG8QrFR+cpfNP8JBoANjSJxVoJiBoLpGT/SN3nRbkspdn
+ kbKaTSqq8mLVyWi9W5ixYzhZBjn3wJ1MMPVbsaJq0L8B0+jbsmRRhXT0Kbpo6FquxqdZpk
+ 4JJHtA25vDqz+euHflb4cxIfF/49mvM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-4t47Ot41PFmDxaPI2evrog-1; Thu, 10 Dec 2020 14:50:51 -0500
-X-MC-Unique: 4t47Ot41PFmDxaPI2evrog-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-243-Ttpgij_JNQmygCQ70xxbiA-1; Thu, 10 Dec 2020 14:59:03 -0500
+X-MC-Unique: Ttpgij_JNQmygCQ70xxbiA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D51B0801817
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 19:50:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2467019611A0
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 19:59:02 +0000 (UTC)
 Received: from work-vm (ovpn-113-66.ams2.redhat.com [10.36.113.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DBDC6F130;
- Thu, 10 Dec 2020 19:50:43 +0000 (UTC)
-Date: Thu, 10 Dec 2020 19:50:35 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BF285D6D3;
+ Thu, 10 Dec 2020 19:58:54 +0000 (UTC)
+Date: Thu, 10 Dec 2020 19:58:51 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH 1/3] virtiofsd: Set up posix_lock hash table for root inode
-Message-ID: <20201210195035.GD12670@work-vm>
+Subject: Re: [PATCH 2/3] virtiofsd: Disable posix_lock hash table if remote
+ locks are not enabled
+Message-ID: <20201210195851.GM3629@work-vm>
 References: <20201207183021.22752-1-vgoyal@redhat.com>
- <20201207183021.22752-2-vgoyal@redhat.com>
- <20201207195539.GB3107@redhat.com>
+ <20201207183021.22752-3-vgoyal@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201207195539.GB3107@redhat.com>
+In-Reply-To: <20201207183021.22752-3-vgoyal@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,51 +86,129 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Vivek Goyal (vgoyal@redhat.com) wrote:
-> We setup per inode hash table ->posix_lock to support remote posix locks.
-> But we forgot to initialize this table for root inode.
+> If remote posix locks are not enabled (lo->posix_lock == false), then disable
+> code paths taken to initialize inode->posix_lock hash table and corresponding
+> destruction and search etc.
 > 
-> Laszlo managed to trigger an issue where he sent a FUSE_FLUSH request for
-> root inode and lo_flush() found inode with inode->posix_lock NULL and
-> accessing this table crashed virtiofsd.
+> lo_getlk() and lo_setlk() have been modified to return ENOSYS if daemon
+> does not support posix lock but client still sends a lock/unlock request.
 > 
-> May be we can get rid of initializing this hash table for directory
-> objects completely. But that optimization is for another day.
-> 
-> Reported-by: Laszlo Ersek <lersek@redhat.com>
 > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
 > ---
->  tools/virtiofsd/passthrough_ll.c |    7 +++++++
->  1 file changed, 7 insertions(+)
+>  tools/virtiofsd/passthrough_ll.c | 51 +++++++++++++++++++++-----------
+>  1 file changed, 34 insertions(+), 17 deletions(-)
 > 
-> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
-> ===================================================================
-> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2020-12-07 14:46:22.198359486 -0500
-> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2020-12-07 14:48:07.873737472 -0500
-> @@ -3372,6 +3372,9 @@ static void setup_root(struct lo_data *l
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index 59202a843b..8ba79f503a 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -914,10 +914,11 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+>          inode->key.ino = e->attr.st_ino;
+>          inode->key.dev = e->attr.st_dev;
+>          inode->key.mnt_id = mnt_id;
+> -        pthread_mutex_init(&inode->plock_mutex, NULL);
+> -        inode->posix_locks = g_hash_table_new_full(
+> -            g_direct_hash, g_direct_equal, NULL, posix_locks_value_destroy);
+> -
+> +        if (lo->posix_lock) {
+> +            pthread_mutex_init(&inode->plock_mutex, NULL);
+> +            inode->posix_locks = g_hash_table_new_full(
+> +                g_direct_hash, g_direct_equal, NULL, posix_locks_value_destroy);
+> +        }
+>          pthread_mutex_lock(&lo->mutex);
+>          inode->fuse_ino = lo_add_inode_mapping(req, inode);
+>          g_hash_table_insert(lo->inodes, &inode->key, inode);
+> @@ -1303,12 +1304,13 @@ static void unref_inode(struct lo_data *lo, struct lo_inode *inode, uint64_t n)
+>      if (!inode->nlookup) {
+>          lo_map_remove(&lo->ino_map, inode->fuse_ino);
+>          g_hash_table_remove(lo->inodes, &inode->key);
+> -        if (g_hash_table_size(inode->posix_locks)) {
+> -            fuse_log(FUSE_LOG_WARNING, "Hash table is not empty\n");
+> +        if (lo->posix_lock) {
+> +            if (g_hash_table_size(inode->posix_locks)) {
+> +                fuse_log(FUSE_LOG_WARNING, "Hash table is not empty\n");
+> +            }
+> +            g_hash_table_destroy(inode->posix_locks);
+> +            pthread_mutex_destroy(&inode->plock_mutex);
+>          }
+> -        g_hash_table_destroy(inode->posix_locks);
+> -        pthread_mutex_destroy(&inode->plock_mutex);
+> -
+>          /* Drop our refcount from lo_do_lookup() */
+>          lo_inode_put(lo, &inode);
+>      }
+> @@ -1784,6 +1786,11 @@ static void lo_getlk(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
+>               ino, fi->flags, fi->lock_owner, lock->l_type, lock->l_start,
+>               lock->l_len);
+>  
+> +    if (!lo->posix_lock) {
+> +        fuse_reply_err(req, ENOSYS);
+> +        return;
+> +    }
+> +
+>      inode = lo_inode(req, ino);
+>      if (!inode) {
+>          fuse_reply_err(req, EBADF);
+> @@ -1829,6 +1836,11 @@ static void lo_setlk(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
+>               ino, fi->flags, lock->l_type, lock->l_pid, fi->lock_owner, sleep,
+>               lock->l_whence, lock->l_start, lock->l_len);
+>  
+> +    if (!lo->posix_lock) {
+> +        fuse_reply_err(req, ENOSYS);
+> +        return;
+> +    }
+> +
+>      if (sleep) {
+>          fuse_reply_err(req, EOPNOTSUPP);
+>          return;
+> @@ -1953,6 +1965,7 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+>      int res;
+>      (void)ino;
+>      struct lo_inode *inode;
+> +    struct lo_data *lo = lo_data(req);
+>  
+>      inode = lo_inode(req, ino);
+>      if (!inode) {
+> @@ -1961,12 +1974,14 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+>      }
+>  
+>      /* An fd is going away. Cleanup associated posix locks */
+> -    pthread_mutex_lock(&inode->plock_mutex);
+> -    g_hash_table_remove(inode->posix_locks, GUINT_TO_POINTER(fi->lock_owner));
+> -    pthread_mutex_unlock(&inode->plock_mutex);
+> -
+> +    if (lo->posix_lock) {
+> +        pthread_mutex_lock(&inode->plock_mutex);
+> +        g_hash_table_remove(inode->posix_locks,
+> +            GUINT_TO_POINTER(fi->lock_owner));
+> +        pthread_mutex_unlock(&inode->plock_mutex);
+> +    }
+>      res = close(dup(lo_fi_fd(req, fi)));
+> -    lo_inode_put(lo_data(req), &inode);
+> +    lo_inode_put(lo, &inode);
+>      fuse_reply_err(req, res == -1 ? errno : 0);
+>  }
+>  
+> @@ -3372,9 +3387,11 @@ static void setup_root(struct lo_data *lo, struct lo_inode *root)
 >      root->key.mnt_id = mnt_id;
 >      root->nlookup = 2;
 >      g_atomic_int_set(&root->refcount, 2);
-> +    pthread_mutex_init(&root->plock_mutex, NULL);
-> +    root->posix_locks = g_hash_table_new_full(
-> +        g_direct_hash, g_direct_equal, NULL, posix_locks_value_destroy);
+> -    pthread_mutex_init(&root->plock_mutex, NULL);
+> -    root->posix_locks = g_hash_table_new_full(
+> -        g_direct_hash, g_direct_equal, NULL, posix_locks_value_destroy);
+> +    if (lo->posix_lock) {
+> +        pthread_mutex_init(&root->plock_mutex, NULL);
+> +        root->posix_locks = g_hash_table_new_full(
+> +            g_direct_hash, g_direct_equal, NULL, posix_locks_value_destroy);
+> +    }
 >  }
 >  
 >  static guint lo_key_hash(gconstpointer key)
-> @@ -3394,6 +3397,10 @@ static void fuse_lo_data_cleanup(struct
->      if (lo->inodes) {
->          g_hash_table_destroy(lo->inodes);
->      }
-> +
-> +    if (lo->root.posix_locks) {
-> +        g_hash_table_destroy(lo->root.posix_locks);
-> +    }
->      lo_map_destroy(&lo->fd_map);
->      lo_map_destroy(&lo->dirp_map);
->      lo_map_destroy(&lo->ino_map);
-> 
+> -- 
+> 2.25.4
 > 
 -- 
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
