@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75B412D522C
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 04:57:25 +0100 (CET)
-Received: from localhost ([::1]:33354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2612D5208
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 04:50:53 +0100 (CET)
+Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knD51-0008TE-PP
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 22:57:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37994)
+	id 1knCye-0005Jm-DL
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 22:50:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knD26-0006y4-RJ; Wed, 09 Dec 2020 22:54:24 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:56603)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1knD23-0000IR-24; Wed, 09 Dec 2020 22:54:22 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Cs0Qs6nZmz9sWK; Thu, 10 Dec 2020 14:54:13 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1607572453;
- bh=Tf/PnAYOxZF9afMLct/7DlqXTND19BvHvIbbrh/zD78=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FvsEFdL8c4gQNoe0esxP/yA2gIB1HxOdV62zbHkY97oV6MVeWoa9CsHljrhpK0MYe
- o6IpWMnQfl8zUTPE68B8dTJy2qkfS7qacXefPcMwi8kddVY6P/80S2rszHEr4tMBBz
- JtCovG5xuiZGQLSUHo9wbYYx7O5siqvwJ8qYjgiM=
-Date: Thu, 10 Dec 2020 14:38:44 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH for-6.0] spapr: Allow memory unplug to always succeed
-Message-ID: <20201210033844.GL2555@yekko.fritz.box>
-References: <20201207133704.952459-1-groug@kaod.org>
- <20201208043004.GE2555@yekko.fritz.box>
- <20201208100609.5fcc604a@bahia.lan>
+ (Exim 4.90_1) (envelope-from <npickito@gmail.com>)
+ id 1knCnm-000837-Iq; Wed, 09 Dec 2020 22:39:34 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40288)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npickito@gmail.com>)
+ id 1knCnk-00042l-TQ; Wed, 09 Dec 2020 22:39:34 -0500
+Received: by mail-wm1-x341.google.com with SMTP id a3so3829941wmb.5;
+ Wed, 09 Dec 2020 19:39:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z5d9TBTvx+BrjDrYNZfyHcLW2iP9KNHH88askXsDz00=;
+ b=CGSkPkaMNtXyAxAMo8w81C07vDV9Mz59tSefQT/Qm2FsCeetPYLREb1+pR5eh0SV3S
+ EeLmJEo8ZCDYCIkrWqFqvy7SwnQQkFZqfUzpnzsA50fkymghyWTNOCjqMAsTQojojxj9
+ ecKXqTerOBZZBjUYE1k3eCNhe+7ZWZgN0bYTJwhwNt+h51SouI8RyBP8owJteCIPjgV4
+ w15Y/akQxX1QPZzeevPA/HpxS2xefQ3R6DvHZsav+Vn+MhqbcMVY5lpKGZ5AR6so/BZd
+ fqpuPCFmdgBa2wOWQOdPw8pxa3S8oU8+xwBaR7eAmLZlBMkNXI5dMa2kXXdtrlJ93TC6
+ ifkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z5d9TBTvx+BrjDrYNZfyHcLW2iP9KNHH88askXsDz00=;
+ b=F63PNTnnmvuRH8624/quzi5v5LgBQ7qpTqu/BKFBO71KtJTy1GzT6C23wnkGO/44Q9
+ 1Pzg2JMbKZo3ACZI/KaQVpO8YbkCym5ikFXG7dARecFxxOvszlPfdDtbKo3CWx0mUyAx
+ 0Z5KNGChgB/7/Qyz8Goxydgi9HlPqvEY5v+1dxGLhbZ1vPGFaKasgkWY/UEVicqm1zit
+ zDaYmBhn+Zmv5GrFycDNP/pmgTM6k09EHPgpOuwv/2I1LEfjFm6HVi1Y6vCkyrPt2aCw
+ GRVuaadMQp2X3gIvzpTMolNka5BjlrFlh/TG9tu8uyCR9ZfAfUiCNtk8uOzk5DSwDyPb
+ AhTw==
+X-Gm-Message-State: AOAM531uoAaxVElHz3Fp36RdLBSrb8tD179niOC6KiY9H/o3zBSrWM6i
+ bY5OHc/yjNzXGDORHJ3utKVvokk+oJCS65dheC0=
+X-Google-Smtp-Source: ABdhPJy3t0yqduZbqTK+CWFHcIMePNKlf1S6Sr/0F768Pq8MCEoOcfn5f+G2IJ9cxtu9Vjh1QAwSw3KojQAvffc7cnE=
+X-Received: by 2002:a7b:cc16:: with SMTP id f22mr5885750wmh.154.1607571570716; 
+ Wed, 09 Dec 2020 19:39:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="oY1uq2ONqt5kuovO"
-Content-Disposition: inline
-In-Reply-To: <20201208100609.5fcc604a@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20201125213617.2496935-1-keithp@keithp.com>
+ <20201125213617.2496935-6-keithp@keithp.com>
+ <CA+yXCZC038LfuswrAo6W3gHXfGkwPscMEKDQJvutV7xcoC+wPw@mail.gmail.com>
+ <87r1nz6iz4.fsf@keithp.com>
+In-Reply-To: <87r1nz6iz4.fsf@keithp.com>
+From: Kito Cheng <kito.cheng@gmail.com>
+Date: Thu, 10 Dec 2020 11:39:19 +0800
+Message-ID: <CA+yXCZA7XhLXDN7ZDk8D90eyXOLCzsrzwUyego1Sn=D9x3BGMQ@mail.gmail.com>
+Subject: Re: [PATCH 5/8] riscv: Add semihosting support [v13]
+To: Keith Packard <keithp@keithp.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=npickito@gmail.com; helo=mail-wm1-x341.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,100 +77,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Keith:
 
---oY1uq2ONqt5kuovO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for your reply, but it seems like we need some more modification in
+ linux-user/riscv/cpu_loop.c to enable that, I guess I should post that in mail
+rather than attachment :)
 
-On Tue, Dec 08, 2020 at 10:06:09AM +0100, Greg Kurz wrote:
-> On Tue, 8 Dec 2020 15:30:04 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > On Mon, Dec 07, 2020 at 02:37:04PM +0100, Greg Kurz wrote:
-> > > It is currently impossible to hot-unplug a memory device between
-> > > machine reset and CAS.
-> > >=20
-> > > (qemu) device_del dimm1
-> > > Error: Memory hot unplug not supported for this guest
-> > >=20
-> > > This limitation was introduced in order to provide an explicit
-> > > error path for older guests that didn't support hot-plug event
-> > > sources (and thus memory hot-unplug).
-> > >=20
-> > > The linux kernel has been supporting these since 4.11. All recent
-> > > enough guests are thus capable of handling the removal of a memory
-> > > device at all time, including during early boot.
-> > >=20
-> > > Lift the limitation for the latest machine type. This means that
-> > > trying to unplug memory from a guest that doesn't support it will
-> > > likely just do nothing and the memory will only get removed at
-> > > next reboot. Such older guests can still get the existing behavior
-> > > by using an older machine type.
-> > >=20
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> >=20
-> > Looks like this conflicts with something I've added to for-6.0
-> > recently.  Can you rebase and resend, please.
-> >=20
->=20
-> I'm not quite sure what for-6.0 you're talking about. Despite
-> you're recent announcement about moving to gitlab, it seems
-> that the branch at github is the most up to date.
->=20
-> gitlab:
-> - HEAD is "xive: Add trace events"
-> - Date: 26 Nov, 2020
->=20
-> github:
-> - HEAD is "MAINTAINERS: Add Greg Kurz as co-maintainer for ppc"
-> - Date: Dec 4, 2020
->=20
-> I've thus based this patch on github. Also, this is based on Connie's
-> "hw: add compat machines for 6.0" patch...
->=20
-> > > ---
-> > > Based-on: 20201109173928.1001764-1-cohuck@redhat.com
->=20
-> ... maybe I should have made it more clear than just
-> mentioning the message id ?
->=20
-> I think I'll just wait for Connie's patch to get merged and I'll repost a=
-fter
-> you've rebased ppc-for-6.0.
+Patch here:
 
-Sorry, I think I forgot to push the latest to either gitlab *or*
-github.  I've pushed some new stuff now.
+From 2f1eb5825a6dda177d3289106970eab05cb08445 Mon Sep 17 00:00:00 2001
+From: Kito Cheng <kito.cheng@sifive.com>
+Date: Wed, 9 Dec 2020 14:24:51 +0800
+Subject: [PATCH] riscv: Add semihosting support for user mode
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+This could make testing easier and ARM/AArch64 has support on
+their linux user mode too, so I think it should be reasonable.
 
---oY1uq2ONqt5kuovO
-Content-Type: application/pgp-signature; name="signature.asc"
+Verified GCC testsuite with newlib/semihosting.
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+---
+ linux-user/riscv/cpu_loop.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/RmEQACgkQbDjKyiDZ
-s5KjphAAu87d3C859QhNY42I0u3EPLOqlVcksoOiJyZkfzam2PwXC9cOcghqzh3i
-x4TfsHxEONZ3EgSr4riByzZxgXA73VjfrqBIxs8XGqZ4rSimFasF45zGXIaiHJbL
-zi/v0u5OFajC0Y1vBSC+d62e8je5iTE5W98Ol0NyV46Vy5885x2zdGUulHAkMMGR
-uQ1AzLtRPG76oTT1Ctr831aX7NKACwg55GMbD4MFWjdJle09b7ZSyvXmKcmHUipM
-zBSi0DSLUoLYk+dm2JRqmroYzum1gZGS7UkbER5ANwCdYP+4wVGYSQf3mxp3SmnY
-hgH+ZGKJWCZOf/KKfMssCdU1cMSykPT5omeGSHzPcAZaHenCsGve1WWKGXZ69KcF
-3XKVfJMt3zwkChi/TieYqg6XezOEj4jGsGksa+N9C88gGbQLbjDDcpGN9m0E8QkQ
-sWA6goRpFuO4pQfb7nc301m9rLlNghghlW2n/CsyEw9wd1pvNSMS3BaAYZYuYjxD
-tCSK+XRcPYoK++C1VsgOQQ13+Gyc0EboPKb9oNsn8lu8fuPm/48k0X43t1tK63cz
-dVVe/xVaGDvBvvTxx9d8HyQAp4RPVcTwbYmr9eIsBZR3P8ugMazGD7AgWghajAkB
-z1/snDzP7n1pBIJCw/5YLFOzSw84eNeCVW04bgDT7BLfKJ3xDHs=
-=pcP1
------END PGP SIGNATURE-----
+diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
+index aa9e437875..9665dabb09 100644
+--- a/linux-user/riscv/cpu_loop.c
++++ b/linux-user/riscv/cpu_loop.c
+@@ -23,6 +23,7 @@
+ #include "qemu.h"
+ #include "cpu_loop-common.h"
+ #include "elf.h"
++#include "hw/semihosting/common-semi.h"
 
---oY1uq2ONqt5kuovO--
+ void cpu_loop(CPURISCVState *env)
+ {
+@@ -91,6 +92,10 @@ void cpu_loop(CPURISCVState *env)
+             sigcode = TARGET_SEGV_MAPERR;
+             sigaddr = env->badaddr;
+             break;
++        case RISCV_EXCP_SEMIHOST:
++            env->gpr[xA0] = do_common_semihosting(cs);
++            env->pc += 4;
++            break;
+         case EXCP_DEBUG:
+         gdbstep:
+             signum = TARGET_SIGTRAP;
+-- 
+2.29.2
+
+On Thu, Dec 10, 2020 at 12:30 AM Keith Packard via
+<qemu-devel@nongnu.org> wrote:
+>
+> Kito Cheng <kito.cheng@gmail.com> writes:
+>
+> > Hi Keith:
+> >
+> > Thanks for the patch, I've verified with newlib semihosting support
+> > which is contributed by Craig Blackmore from embecosm,
+> > and I would like to add semihosting to user mode, do you mind add this
+> > patch into this patch series?
+>
+> I tried to add that already, but I admit that I haven't tested it in a
+> while. You should find that there are patches to linux-user/semihost.c
+> and linux-user/qemu.h to enable it.
+>
+> --
+> -keith
 
