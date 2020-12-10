@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074C72D56AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:19:34 +0100 (CET)
-Received: from localhost ([::1]:44756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28CB22D56F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:22:36 +0100 (CET)
+Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knI6n-0000jz-1Y
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:19:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43528)
+	id 1knI9j-0003ml-5d
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:22:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHz0-0003V3-2m
+ id 1knHz0-0003WM-JO
  for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:30 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33986)
+Received: from indium.canonical.com ([91.189.90.7]:33940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHyy-00043i-4s
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:29 -0500
+ id 1knHyy-00043d-4o
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:30 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knHyw-0006EC-9l
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:26 +0000
+ id 1knHyv-0006Je-1e
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:25 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 476DE2E8137
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:26 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 079BE2E8019
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:25 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 09:04:59 -0000
-From: Thomas Huth <1894836@bugs.launchpad.net>
+Date: Thu, 10 Dec 2020 09:05:25 -0000
+From: Thomas Huth <1895310@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: hvf macos
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jrtc27 jwillikers th-huth
-X-Launchpad-Bug-Reporter: Jordan Williams (jwillikers)
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159956768761.20174.3940381536855370035.malonedeb@gac.canonical.com>
-Message-Id: <160759109978.16321.14474173815237443197.malone@chaenomeles.canonical.com>
-Subject: [Bug 1894836] Re: kernel panic using hvf with CPU passthrough
+References: <159983760940.22223.155030952574347545.malonedeb@wampee.canonical.com>
+Message-Id: <160759112576.30243.7330234950287837995.malone@soybean.canonical.com>
+Subject: [Bug 1895310] Re: Heap-overflow (read) in sd_erase
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 00f89ebb7062ca10727744271f89a811b5406c49
+X-Launchpad-Hash: 22991414700edd39027e8ed9cab4dc582dd53150
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,76 +70,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1894836 <1894836@bugs.launchpad.net>
+Reply-To: Bug 1895310 <1895310@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in commit 65baabca22366e5246955474228908d6a8354881
+Released with QEMU v5.2.0.
 
 ** Changed in: qemu
-       Status: New =3D> Fix Released
+       Status: Fix Committed =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1894836
+https://bugs.launchpad.net/bugs/1895310
 
 Title:
-  kernel panic using hvf with CPU passthrough
+  Heap-overflow (read) in sd_erase
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Host Details
-  QEMU 5.1 (Homebrew)
-  macOS 10.15.6 Catalina
-  Late 2014 iMac
-  i5-4690 @ 3.5 GHz
-  8 GB RAM
+  Hello,
+  One more bug in sd ...
 
-  Guest Details
-  Ubuntu Desktop 20.04.1 Installer ISO
+  cat << EOF | ./qemu-system-i386 -nodefaults \
+  -device sdhci-pci,sd-spec-version=3D3 \
+  -device sd-card,drive=3Dmydrive \
+  -drive if=3Dsd,index=3D0,file=3Dnull-co://,format=3Draw,id=3Dmydrive \
+  -nographic -qtest stdio -m 64m -trace 'sd*'
+  outl 0xcf8 0x80001003
+  outl 0xcfc 0xd735d735
+  outl 0xcf8 0x80001011
+  outl 0xcfc 0x3405064c
+  write 0x5064c2c 0x1 0xd7
+  write 0x5064c0f 0x1 0xf7
+  write 0x5064c05 0x1 0xd7
+  write 0x5064c0a 0x1 0x84
+  write 0x5064c0b 0x1 0x4c
+  write 0x5064c0c 0x1 0x11
+  write 0x5064c0f 0x1 0xa9
+  write 0x5064c0f 0x1 0x02
+  write 0x5064c0f 0x1 0x03
+  write 0x5064c0e 0x1 0x2c
+  write 0x5064c0f 0x1 0x06
+  write 0x5064c0f 0x1 0xe1
+  write 0x5064c0f 0x1 0x60
+  write 0x5064c0f 0x1 0x26
+  EOF
 
-  Problem
-  Whenever I boot with "-accel hvf -cpu host", the Ubuntu desktop installer=
- will immediately crash with a kernel panic after the initial splash screen.
-  See the attached picture of the kernel panic for more details.
+  The crash:
+  =3D=3D133840=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
+s 0x607000059e78 at pc 0x55abd1d761e6 bp 0x7ffc12800630 sp 0x7ffc12800628
+  READ of size 8 at 0x607000059e78 thread T0
+  =C2=A0=C2=A0=C2=A0=C2=A0#0 0x55abd1d761e5 in test_bit /home/alxndr/Develo=
+pment/qemu/general-fuzz/include/qemu/bitops.h:135:19
+  =C2=A0=C2=A0=C2=A0=C2=A0#1 0x55abd1d6cb1e in sd_erase /home/alxndr/Develo=
+pment/qemu/general-fuzz/build/../hw/sd/sd.c:771:13
+  =C2=A0=C2=A0=C2=A0=C2=A0#2 0x55abd1d4c893 in sd_normal_command /home/alxn=
+dr/Development/qemu/general-fuzz/build/../hw/sd/sd.c:1412:13
+  =C2=A0=C2=A0=C2=A0=C2=A0#3 0x55abd1d33c5d in sd_do_command /home/alxndr/D=
+evelopment/qemu/general-fuzz/build/../hw/sd/sd.c:1724:17
+  =C2=A0=C2=A0=C2=A0=C2=A0#4 0x55abd20117a4 in sdbus_do_command /home/alxnd=
+r/Development/qemu/general-fuzz/build/../hw/sd/core.c:99:16
+  =C2=A0=C2=A0=C2=A0=C2=A0#5 0x55abd27ecc90 in sdhci_send_command /home/alx=
+ndr/Development/qemu/general-fuzz/build/../hw/sd/sdhci.c:326:12
+  =C2=A0=C2=A0=C2=A0=C2=A0#6 0x55abd27e16ed in sdhci_write /home/alxndr/Dev=
+elopment/qemu/general-fuzz/build/../hw/sd/sdhci.c:1136:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#7 0x55abd43aacc0 in memory_region_write_accessor=
+ /home/alxndr/Development/qemu/general-fuzz/build/../softmmu/memory.c:483:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#8 0x55abd43aa19d in access_with_adjusted_size /h=
+ome/alxndr/Development/qemu/general-fuzz/build/../softmmu/memory.c:544:18
+  =C2=A0=C2=A0=C2=A0=C2=A0#9 0x55abd43a7e50 in memory_region_dispatch_write=
+ /home/alxndr/Development/qemu/general-fuzz/build/../softmmu/memory.c:1466:=
+16
+  =C2=A0=C2=A0=C2=A0=C2=A0#10 0x55abd3de5dc6 in flatview_write_continue /ho=
+me/alxndr/Development/qemu/general-fuzz/build/../exec.c:3176:23
+  =C2=A0=C2=A0=C2=A0=C2=A0#11 0x55abd3dced98 in flatview_write /home/alxndr=
+/Development/qemu/general-fuzz/build/../exec.c:3216:14
+  =C2=A0=C2=A0=C2=A0=C2=A0#12 0x55abd3dce8c8 in address_space_write /home/a=
+lxndr/Development/qemu/general-fuzz/build/../exec.c:3308:18
+  =C2=A0=C2=A0=C2=A0=C2=A0#13 0x55abd3ffabbc in qtest_process_command /home=
+/alxndr/Development/qemu/general-fuzz/build/../softmmu/qtest.c:567:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#14 0x55abd3feb8be in qtest_process_inbuf /home/a=
+lxndr/Development/qemu/general-fuzz/build/../softmmu/qtest.c:710:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#15 0x55abd3fea663 in qtest_read /home/alxndr/Dev=
+elopment/qemu/general-fuzz/build/../softmmu/qtest.c:722:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#16 0x55abd51cb9a2 in qemu_chr_be_write_impl /hom=
+e/alxndr/Development/qemu/general-fuzz/build/../chardev/char.c:188:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#17 0x55abd51cbaea in qemu_chr_be_write /home/alx=
+ndr/Development/qemu/general-fuzz/build/../chardev/char.c:200:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#18 0x55abd51e6264 in fd_chr_read /home/alxndr/De=
+velopment/qemu/general-fuzz/build/../chardev/char-fd.c:68:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#19 0x55abd515bef6 in qio_channel_fd_source_dispa=
+tch /home/alxndr/Development/qemu/general-fuzz/build/../io/channel-watch.c:=
+84:12
+  =C2=A0=C2=A0=C2=A0=C2=A0#20 0x7fd5d58bd4cd in g_main_context_dispatch (/u=
+sr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x504cd)
+  =C2=A0=C2=A0=C2=A0=C2=A0#21 0x55abd54db327 in glib_pollfds_poll /home/alx=
+ndr/Development/qemu/general-fuzz/build/../util/main-loop.c:217:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#22 0x55abd54d8c27 in os_host_main_loop_wait /hom=
+e/alxndr/Development/qemu/general-fuzz/build/../util/main-loop.c:240:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#23 0x55abd54d8607 in main_loop_wait /home/alxndr=
+/Development/qemu/general-fuzz/build/../util/main-loop.c:516:11
+  =C2=A0=C2=A0=C2=A0=C2=A0#24 0x55abd3d55afd in qemu_main_loop /home/alxndr=
+/Development/qemu/general-fuzz/build/../softmmu/vl.c:1676:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#25 0x55abd16df67c in main /home/alxndr/Developme=
+nt/qemu/general-fuzz/build/../softmmu/main.c:50:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#26 0x7fd5d4ec0cc9 in __libc_start_main csu/../cs=
+u/libc-start.c:308:16
+  =C2=A0=C2=A0=C2=A0=C2=A0#27 0x55abd1634e59 in _start (/home/alxndr/Develo=
+pment/qemu/general-fuzz/build/qemu-system-i386+0x2d3ee59)
 
-  Steps to recreate
-  From https://www.jwillikers.com/posts/virtualize_ubuntu_desktop_on_macos_=
-with_qemu/
+  0x607000059e78 is located 0 bytes to the right of 72-byte region [0x60700=
+0059e30,0x607000059e78)
+  allocated by thread T0 here:
+  =C2=A0=C2=A0=C2=A0=C2=A0#0 0x55abd16ad712 in calloc (/home/alxndr/Develop=
+ment/qemu/general-fuzz/build/qemu-system-i386+0x2db7712)
+  =C2=A0=C2=A0=C2=A0=C2=A0#1 0x55abd1d75464 in bitmap_try_new /home/alxndr/=
+Development/qemu/general-fuzz/include/qemu/bitmap.h:96:12
+  =C2=A0=C2=A0=C2=A0=C2=A0#2 0x55abd1d74bd4 in bitmap_new /home/alxndr/Deve=
+lopment/qemu/general-fuzz/include/qemu/bitmap.h:101:26
+  =C2=A0=C2=A0=C2=A0=C2=A0#3 0x55abd1d67b68 in sd_reset /home/alxndr/Develo=
+pment/qemu/general-fuzz/build/../hw/sd/sd.c:576:21
+  =C2=A0=C2=A0=C2=A0=C2=A0#4 0x55abd47f34b2 in device_transitional_reset /h=
+ome/alxndr/Development/qemu/general-fuzz/build/../hw/core/qdev.c:1114:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#5 0x55abd47f8ca9 in resettable_phase_hold /home/=
+alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:182:13
+  =C2=A0=C2=A0=C2=A0=C2=A0#6 0x55abd47afdbd in bus_reset_child_foreach /hom=
+e/alxndr/Development/qemu/general-fuzz/build/../hw/core/bus.c:94:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#7 0x55abd47fdac3 in resettable_child_foreach /ho=
+me/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:96:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#8 0x55abd47f8685 in resettable_phase_hold /home/=
+alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:173:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#9 0x55abd47ec5f8 in device_reset_child_foreach /=
+home/alxndr/Development/qemu/general-fuzz/build/../hw/core/qdev.c:358:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#10 0x55abd47fdac3 in resettable_child_foreach /h=
+ome/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:96:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#11 0x55abd47f8685 in resettable_phase_hold /home=
+/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:173:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#12 0x55abd47afdbd in bus_reset_child_foreach /ho=
+me/alxndr/Development/qemu/general-fuzz/build/../hw/core/bus.c:94:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#13 0x55abd47fdac3 in resettable_child_foreach /h=
+ome/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:96:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#14 0x55abd47f8685 in resettable_phase_hold /home=
+/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:173:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#15 0x55abd47ec5f8 in device_reset_child_foreach =
+/home/alxndr/Development/qemu/general-fuzz/build/../hw/core/qdev.c:358:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#16 0x55abd47fdac3 in resettable_child_foreach /h=
+ome/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:96:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#17 0x55abd47f8685 in resettable_phase_hold /home=
+/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:173:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#18 0x55abd47afdbd in bus_reset_child_foreach /ho=
+me/alxndr/Development/qemu/general-fuzz/build/../hw/core/bus.c:94:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#19 0x55abd47fdac3 in resettable_child_foreach /h=
+ome/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:96:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#20 0x55abd47f8685 in resettable_phase_hold /home=
+/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:173:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#21 0x55abd47f6b28 in resettable_assert_reset /ho=
+me/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:60:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#22 0x55abd47f68cf in resettable_reset /home/alxn=
+dr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:45:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#23 0x55abd47fb779 in resettable_cold_reset_fn /h=
+ome/alxndr/Development/qemu/general-fuzz/build/../hw/core/resettable.c:269:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#24 0x55abd47f67e5 in qemu_devices_reset /home/al=
+xndr/Development/qemu/general-fuzz/build/../hw/core/reset.c:69:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#25 0x55abd35a5c1e in pc_machine_reset /home/alxn=
+dr/Development/qemu/general-fuzz/build/../hw/i386/pc.c:1901:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#26 0x55abd3d52d9e in qemu_system_reset /home/alx=
+ndr/Development/qemu/general-fuzz/build/../softmmu/vl.c:1403:9
+  =C2=A0=C2=A0=C2=A0=C2=A0#27 0x55abd3d67d2e in qemu_init /home/alxndr/Deve=
+lopment/qemu/general-fuzz/build/../softmmu/vl.c:4458:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#28 0x55abd16df677 in main /home/alxndr/Developme=
+nt/qemu/general-fuzz/build/../softmmu/main.c:49:5
+  =C2=A0=C2=A0=C2=A0=C2=A0#29 0x7fd5d4ec0cc9 in __libc_start_main csu/../cs=
+u/libc-start.c:308:16
 
-  1. Install QEMU with Homebrew.
-  $ brew install qemu
+  SUMMARY: AddressSanitizer: heap-buffer-overflow
+  /home/alxndr/Development/qemu/general-
+  fuzz/include/qemu/bitops.h:135:19 in test_bit
 
-  2. Create a qcow2 disk image to which to install.
-  $ qemu-img create -f qcow2 ubuntu2004.qcow2 60G
-
-  3. Download the ISO.
-  $ curl -L -o ubuntu-20.04.1-desktop-amd64.iso https://releases.ubuntu.com=
-/20.04/ubuntu-20.04.1-desktop-amd64.iso
-
-  4. Run the installer in QEMU.
-  $ qemu-system-x86_64 \
-  =C2=A0=C2=A0-accel hvf \
-  =C2=A0=C2=A0-cpu host \
-  =C2=A0=C2=A0-smp 2 \
-  =C2=A0=C2=A0-m 4G \
-  =C2=A0=C2=A0-usb \
-  =C2=A0=C2=A0-device usb-tablet \
-  =C2=A0=C2=A0-vga virtio \
-  =C2=A0=C2=A0-display default,show-cursor=3Don \
-  =C2=A0=C2=A0-device virtio-net,netdev=3Dvmnic -netdev user,id=3Dvmnic \
-  =C2=A0=C2=A0-audiodev coreaudio,id=3Dsnd0 \
-  =C2=A0=C2=A0-device ich9-intel-hda -device hda-output,audiodev=3Dsnd0 \
-  =C2=A0=C2=A0-cdrom ubuntu-20.04.1-desktop-amd64.iso \
-  =C2=A0=C2=A0-drive file=3Dubuntu2004.qcow2,if=3Dvirtio
-
-  Workaround
-  Emulating the CPU with "-cpu qemu64" does not result in a kernel panic.
+  -Alex
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1894836/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1895310/+subscriptions
 
