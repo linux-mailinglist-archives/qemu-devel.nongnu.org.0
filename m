@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E2032D612E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 17:07:33 +0100 (CET)
-Received: from localhost ([::1]:49634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2972D6136
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 17:09:38 +0100 (CET)
+Received: from localhost ([::1]:53876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knOTc-000519-8H
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 11:07:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59258)
+	id 1knOVd-0007EZ-5q
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 11:09:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knOLz-0000PF-2Z
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:59:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31553)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1knOMC-0000bm-ON
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:59:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knOLw-0005Gl-EU
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:59:38 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1knOM8-0005KT-Ug
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:59:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607615975;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=weNXQ0RWPOEHPasc6pLJLQD8ca1ncaYoxY+OugjHfuY=;
- b=DnDUOiVVGJl4CgE22zNVOphT0kK5QP4o5XcNNHMrUN2VA62Z2CNvNeRLQ2T0YUXKYTD/wM
- u9LDgIpg03ajMWgr0XOhgJeJFp9Od72ishSt61J8YNCYzDWWcCXcCEaQsqJBuaxgB12mBs
- SpE8FZFxOqgYiO+5EMVO3LV3MkHeq7w=
+ s=mimecast20190719; t=1607615988;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=QFCv/dkVItlKNLeUqV+j8mABtIRLwYg9S19bowBNNFk=;
+ b=WCFsngwuPG5A9c6tqlnfb1bUVe/8KJdAlPY01xdWqcsvpImY6/G3LLCVyLD4L0lhrRr55E
+ 6OwloStKIBuOhbYozGkIIQ7zlN+KHHTqsQ+/nHHi2071Xg/T6/gV4S77MKu6NIwf3dteRO
+ mORtwiKx5QVGKOGJ169bnUAc08b0pAA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-gyMAbwyoPOmgu3yRxzGgMg-1; Thu, 10 Dec 2020 10:59:33 -0500
-X-MC-Unique: gyMAbwyoPOmgu3yRxzGgMg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-30-SDYd-8FTOBaBB2ZVTxXJoQ-1; Thu, 10 Dec 2020 10:59:46 -0500
+X-MC-Unique: SDYd-8FTOBaBB2ZVTxXJoQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4267100E34F
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 15:59:05 +0000 (UTC)
-Received: from thuth.com (ovpn-112-62.ams2.redhat.com [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1DD270862;
- Thu, 10 Dec 2020 15:58:30 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 4/4] Remove the deprecated -show-cursor option
-Date: Thu, 10 Dec 2020 16:58:08 +0100
-Message-Id: <20201210155808.233895-5-thuth@redhat.com>
-In-Reply-To: <20201210155808.233895-1-thuth@redhat.com>
-References: <20201210155808.233895-1-thuth@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2219805F0B;
+ Thu, 10 Dec 2020 15:59:15 +0000 (UTC)
+Received: from redhat.com (ovpn-115-31.ams2.redhat.com [10.36.115.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 534AE5C559;
+ Thu, 10 Dec 2020 15:59:13 +0000 (UTC)
+Date: Thu, 10 Dec 2020 15:59:10 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Li Feng <fengli@smartx.com>
+Subject: Re: [PATCH v2] file-posix: detect the lock using the real file
+Message-ID: <20201210155910.GN24855@redhat.com>
+References: <1607432377-87084-1-git-send-email-fengli@smartx.com>
+ <1607489688-37088-1-git-send-email-fengli@smartx.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <1607489688-37088-1-git-send-email-fengli@smartx.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,95 +79,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- kraxel@redhat.com, mst@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, lifeng1519@gmail.com,
+ "open list:raw" <qemu-block@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, kyle@smartx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It has been marked as deprecated since QEMU v5.0, replaced by the
-corresponding parameter of the -display option.
+On Wed, Dec 09, 2020 at 12:54:48PM +0800, Li Feng wrote:
+> This patch addresses this issue:
+> When accessing a volume on an NFS filesystem without supporting the file lock,
+> tools, like qemu-img, will complain "Failed to lock byte 100".
+> 
+> In the original code, the qemu_has_ofd_lock will test the lock on the
+> "/dev/null" pseudo-file. Actually, the file.locking is per-drive property,
+> which depends on the underlay filesystem.
+> 
+> In this patch, make the 'qemu_has_ofd_lock' with a filename be more
+> generic and reasonable.
+> 
+> Signed-off-by: Li Feng <fengli@smartx.com>
+> ---
+> v2: remove the refactoring.
+> ---
+>  block/file-posix.c         | 32 ++++++++++++++++++--------------
+>  include/qemu/osdep.h       |  2 +-
+>  tests/test-image-locking.c |  2 +-
+>  util/osdep.c               | 19 ++++++++++++-------
+>  4 files changed, 32 insertions(+), 23 deletions(-)
+> 
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 806764f7e3..03be1b188c 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -595,7 +595,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>      switch (locking) {
+>      case ON_OFF_AUTO_ON:
+>          s->use_lock = true;
+> -        if (!qemu_has_ofd_lock()) {
+> +        if (!qemu_has_ofd_lock(filename)) {
+>              warn_report("File lock requested but OFD locking syscall is "
+>                          "unavailable, falling back to POSIX file locks");
+>              error_printf("Due to the implementation, locks can be lost "
+> @@ -606,7 +606,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>          s->use_lock = false;
+>          break;
+>      case ON_OFF_AUTO_AUTO:
+> -        s->use_lock = qemu_has_ofd_lock();
+> +        s->use_lock = qemu_has_ofd_lock(filename);
+>          break;
+>      default:
+>          abort();
+> @@ -2388,6 +2388,7 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
+>      int fd;
+>      uint64_t perm, shared;
+>      int result = 0;
+> +    bool use_lock;
+>  
+>      /* Validate options and set default values */
+>      assert(options->driver == BLOCKDEV_DRIVER_FILE);
+> @@ -2428,19 +2429,22 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
+>      perm = BLK_PERM_WRITE | BLK_PERM_RESIZE;
+>      shared = BLK_PERM_ALL & ~BLK_PERM_RESIZE;
+>  
+> -    /* Step one: Take locks */
+> -    result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
+> -    if (result < 0) {
+> -        goto out_close;
+> -    }
+> +    use_lock = qemu_has_ofd_lock(file_opts->filename);
+> +    if (use_lock) {
+> +        /* Step one: Take locks */
+> +        result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
+> +        if (result < 0) {
+> +            goto out_close;
+> +        }
+>  
+> -    /* Step two: Check that nobody else has taken conflicting locks */
+> -    result = raw_check_lock_bytes(fd, perm, shared, errp);
+> -    if (result < 0) {
+> -        error_append_hint(errp,
+> -                          "Is another process using the image [%s]?\n",
+> -                          file_opts->filename);
+> -        goto out_unlock;
+> +        /* Step two: Check that nobody else has taken conflicting locks */
+> +        result = raw_check_lock_bytes(fd, perm, shared, errp);
+> +        if (result < 0) {
+> +            error_append_hint(errp,
+> +                              "Is another process using the image [%s]?\n",
+> +                              file_opts->filename);
+> +            goto out_unlock;
+> +        }
+>      }
+>  
+>      /* Clear the file by truncating it to 0 */
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index f9ec8c84e9..349adad465 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -512,7 +512,7 @@ int qemu_dup(int fd);
+>  int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
+>  int qemu_unlock_fd(int fd, int64_t start, int64_t len);
+>  int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
+> -bool qemu_has_ofd_lock(void);
+> +bool qemu_has_ofd_lock(const char *filename);
+>  #endif
+>  
+>  #if defined(__HAIKU__) && defined(__i386__)
+> diff --git a/tests/test-image-locking.c b/tests/test-image-locking.c
+> index ba057bd66c..3e80246081 100644
+> --- a/tests/test-image-locking.c
+> +++ b/tests/test-image-locking.c
+> @@ -149,7 +149,7 @@ int main(int argc, char **argv)
+>  
+>      g_test_init(&argc, &argv, NULL);
+>  
+> -    if (qemu_has_ofd_lock()) {
+> +    if (qemu_has_ofd_lock(NULL)) {
+>          g_test_add_func("/image-locking/basic", test_image_locking_basic);
+>          g_test_add_func("/image-locking/set-perm-abort", test_set_perm_abort);
+>      }
+> diff --git a/util/osdep.c b/util/osdep.c
+> index 66d01b9160..20119aa9ae 100644
+> --- a/util/osdep.c
+> +++ b/util/osdep.c
+> @@ -187,7 +187,7 @@ static int qemu_parse_fdset(const char *param)
+>      return qemu_parse_fd(param);
+>  }
+>  
+> -static void qemu_probe_lock_ops(void)
+> +static void qemu_probe_lock_ops(const char *filename)
+>  {
+>      if (fcntl_op_setlk == -1) {
+>  #ifdef F_OFD_SETLK
+> @@ -200,10 +200,15 @@ static void qemu_probe_lock_ops(void)
+>              .l_type   = F_WRLCK,
+>          };
+>  
+> -        fd = open("/dev/null", O_RDWR);
+> +        if (filename) {
+> +            fd = open(filename, O_RDWR);
+> +        } else {
+> +            fd = open("/dev/null", O_RDONLY);
+> +        }
+>          if (fd < 0) {
+>              fprintf(stderr,
+> -                    "Failed to open /dev/null for OFD lock probing: %s\n",
+> +                    "Failed to open %s for OFD lock probing: %s\n",
+> +                    filename ? filename : "/dev/null",
+>                      strerror(errno));
+>              fcntl_op_setlk = F_SETLK;
+>              fcntl_op_getlk = F_GETLK;
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/system/deprecated.rst       | 6 ------
- docs/system/removed-features.rst | 6 ++++++
- qemu-options.hx                  | 7 -------
- softmmu/vl.c                     | 8 --------
- 4 files changed, 6 insertions(+), 21 deletions(-)
+This is still just as broken as v1, because it is setting
+a global variable fcntl_op_getlk, based on result of an
+operation whose result will vary depending on the filename
+parameter.
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 307b83ea60..2ea7ec812d 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -94,12 +94,6 @@ QEMU 5.1 has three options:
-       to the user to load all the images they need.
-  3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
- 
--``-show-cursor`` option (since 5.0)
--'''''''''''''''''''''''''''''''''''
--
--Use ``-display sdl,show-cursor=on`` or
-- ``-display gtk,show-cursor=on`` instead.
--
- ``Configuring floppies with ``-global``
- '''''''''''''''''''''''''''''''''''''''
- 
-diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 63046d5c24..89c45f23f8 100644
---- a/docs/system/removed-features.rst
-+++ b/docs/system/removed-features.rst
-@@ -26,6 +26,12 @@ The ``-no-kvm`` argument was a synonym for setting ``-machine accel=tcg``.
- The ``-realtime mlock=on|off`` argument has been replaced by the
- ``-overcommit mem-lock=on|off`` argument.
- 
-+``-show-cursor`` option (since 5.0)
-+'''''''''''''''''''''''''''''''''''
-+
-+Use ``-display sdl,show-cursor=on``, ``-display gtk,show-cursor=on``
-+or ``-display default,show-cursor=on`` instead.
-+
- ``-tb-size`` option (removed in 6.0)
- '''''''''''''''''''''''''''''''
- 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 79a4c35b49..daa6bc2eda 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4061,13 +4061,6 @@ SRST
- 
- ERST
- 
--DEF("show-cursor", 0, QEMU_OPTION_show_cursor, \
--    "-show-cursor    show cursor\n", QEMU_ARCH_ALL)
--SRST
--``-show-cursor``
--    Show cursor.
--ERST
--
- DEF("incoming", HAS_ARG, QEMU_OPTION_incoming, \
-     "-incoming tcp:[host]:port[,to=maxport][,ipv4][,ipv6]\n" \
-     "-incoming rdma:host:port[,ipv4][,ipv6]\n" \
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 9f4c228c0e..1d6d144442 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3557,14 +3557,6 @@ void qemu_init(int argc, char **argv, char **envp)
-             case QEMU_OPTION_no_shutdown:
-                 no_shutdown = 1;
-                 break;
--            case QEMU_OPTION_show_cursor:
--                warn_report("The -show-cursor option is deprecated. Please "
--                            "add show-cursor=on to your -display options.");
--                warn_report("When using the default display you can use "
--                            "-display default,show-cursor=on");
--                dpy.has_show_cursor = true;
--                dpy.show_cursor = true;
--                break;
-             case QEMU_OPTION_uuid:
-                 if (qemu_uuid_parse(optarg, &qemu_uuid) < 0) {
-                     error_report("failed to parse UUID string: wrong format");
+
+If you want to test whether a filesystem supports fcntl
+locks in general, don't touch qemu_has_ofd_lock or
+qemu_probe_lock_ops methods at all. Those are just for
+probing regular fcntl vs OFD fcntl locks.
+
+
+
+> @@ -225,9 +230,9 @@ static void qemu_probe_lock_ops(void)
+>      }
+>  }
+>  
+> -bool qemu_has_ofd_lock(void)
+> +bool qemu_has_ofd_lock(const char *filename)
+>  {
+> -    qemu_probe_lock_ops();
+> +    qemu_probe_lock_ops(filename);
+>  #ifdef F_OFD_SETLK
+>      return fcntl_op_setlk == F_OFD_SETLK;
+>  #else
+> @@ -244,7 +249,7 @@ static int qemu_lock_fcntl(int fd, int64_t start, int64_t len, int fl_type)
+>          .l_len    = len,
+>          .l_type   = fl_type,
+>      };
+> -    qemu_probe_lock_ops();
+> +    qemu_probe_lock_ops(NULL);
+>      do {
+>          ret = fcntl(fd, fcntl_op_setlk, &fl);
+>      } while (ret == -1 && errno == EINTR);
+> @@ -270,7 +275,7 @@ int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive)
+>          .l_len    = len,
+>          .l_type   = exclusive ? F_WRLCK : F_RDLCK,
+>      };
+> -    qemu_probe_lock_ops();
+> +    qemu_probe_lock_ops(NULL);
+>      ret = fcntl(fd, fcntl_op_getlk, &fl);
+>      if (ret == -1) {
+>          return -errno;
+> -- 
+> 2.24.3
+> 
+> 
+
+Regards,
+Daniel
 -- 
-2.27.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
