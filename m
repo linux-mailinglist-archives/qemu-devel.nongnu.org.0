@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E522D639C
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 18:34:00 +0100 (CET)
-Received: from localhost ([::1]:43004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 294BA2D63CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 18:40:53 +0100 (CET)
+Received: from localhost ([::1]:50558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knPpH-0003Q5-Gn
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 12:33:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50116)
+	id 1knPvv-00075t-KR
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 12:40:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knPd9-00053W-Se
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:21:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49333)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1knPdH-00055N-9U
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:21:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knPd4-0002sN-7l
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:21:27 -0500
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1knPdD-0002um-5p
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:21:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607620878;
+ s=mimecast20190719; t=1607620889;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TUB+tdqJVam0Ka2WQ7+iPmxajuOAWN6UWIthadc/vek=;
- b=ZmIJZddEmJk+RUp+/GGjOUUirEH0U6TSgnpP4rUORJLJeE/gS/LLB5JBmzxoHIuWSwLhrD
- z3YuBUtR+NDEly6CvGF4U1jXZFSHRyBa/uqJl5D06+O0jqusLpxdL93kV3JTRfuAmGaskp
- tfQiK+elHxj/c5VT/j/+wXeyIFk1PPY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-bIYg4mbdN1yjLWVl1GIM6Q-1; Thu, 10 Dec 2020 12:21:17 -0500
-X-MC-Unique: bIYg4mbdN1yjLWVl1GIM6Q-1
-Received: by mail-wr1-f70.google.com with SMTP id w8so2173212wrv.18
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:21:17 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pfj1puOpiJL6VjR02uzkC4xoC7j8c4k8TsJ1EKm2VO4=;
+ b=d4ekcO55EykaliswuDX5UybCXQosNTrYT09FxmZXSeWW8+ugjj0C1/F38u9Ow3PSVek0m4
+ qQYFt/myYk9aJMMN/AWKMY9EPvSTivr0Tr+qcZE+oxBm6ShfzOhDHvEQ74CGC85JwGGYYX
+ R9YoITXupfu+WjqI1D+Sb/Rd3UuQHq8=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-fUsRGemaPru9_efoqwTFZA-1; Thu, 10 Dec 2020 12:21:25 -0500
+X-MC-Unique: fUsRGemaPru9_efoqwTFZA-1
+Received: by mail-ed1-f72.google.com with SMTP id h5so2742203edq.3
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:21:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TUB+tdqJVam0Ka2WQ7+iPmxajuOAWN6UWIthadc/vek=;
- b=PbVs61+R0jC1Rizd4bvz4wboXSMZ6Oa6ibd4FIf4Nd0nP7RPnDzozV+5JKM783leWN
- ARSVe0oN7ZhYKTl/vXCdOkwFxMh8SwIgwbVvMOR6p7mJvpzdE1ZyKVasOXA3yUwCgahn
- jn96VXcBkOspZoyTtSj4vzCgtfXj5CVqAZfRfwcsLrzAyGoyE26zyrkYNVaViZaYzFnE
- 4ZXV2Ov6ygs1wyAUIHTEZkLgumvfnWR235D05AD54Su3lo4jckwKtcit5OSxpRBucobK
- LheGAME5Di5mYeeFoHqkohqupU3idlQEgstOpRLC3LfhTQfCHv/0e7GgzNg/hPDkFyKk
- 4ywg==
-X-Gm-Message-State: AOAM533VTe1OcuGtTSdjSPAhRP7EAWB3mnU0W1B2Urys8XpMCNv+yi9P
- 07hpwG6TLGlIj3l/M66nRwaxDhMqDs2weaqDFd/BchR8b6bhz6snv7gcQTPEgHCy+p2qCbPU2Vd
- MAn810sVxxOroYM6Xh0JpayFLagJJaXIkBvTCLK3dRT1GYTd8f8BNP7g1YPCI+iaD
-X-Received: by 2002:a1c:790f:: with SMTP id l15mr9390189wme.188.1607620875984; 
- Thu, 10 Dec 2020 09:21:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwhmLKJ8/6opJK8jk7uu+wIWqCk/dQqmBbhpZoqL4HEaOEJWFqXp3RPaobXIHeJX7etDLh82g==
-X-Received: by 2002:a1c:790f:: with SMTP id l15mr9390162wme.188.1607620875740; 
- Thu, 10 Dec 2020 09:21:15 -0800 (PST)
-Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id y6sm10652342wmg.39.2020.12.10.09.21.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 09:21:14 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] accel/tcg: Remove deprecated '-tb-size' option
-Date: Thu, 10 Dec 2020 18:21:13 +0100
-Message-Id: <20201210172113.167640-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pfj1puOpiJL6VjR02uzkC4xoC7j8c4k8TsJ1EKm2VO4=;
+ b=PuXaH1ZS3xXH7AFM9ocUrYc+VOj3KFCZb9kWKiJU9w6kHN6JRL7jfirGeyumn7fd8r
+ QeRNEyyzL3mx+SkdF+j8Hb3VmpI67khOUltHcx3IIWofZmPyLjHh9L5NxdOoO1JlmHdp
+ NLBgakwIyPZg1utGHaXokr2YbqguSEDLXDZU4s/GbHICFWNs+UTtIZ3I58w7YUlRFcQ3
+ QAOSsJFVkAwY7nU6C3KEmZ6mwvYNQlWdq6ct3v9k/Amk4RxG7MxLIDtoNBcFkGsgm4IX
+ ZBIBre2110YHxlmhJm3+T9HZRepi4wHqKPrHiI32ehszdhX4TfPRpVqHyo6NYKiVjNfM
+ gyWw==
+X-Gm-Message-State: AOAM530XvBfPps71+3ub3q5eBdcrSok3iEuiA8vFmuY4VbPIqZb4UHH8
+ Gg8oGB547IP1SDSFsQt2csDfFfcY1sF5/G+fTnfUqdrowK0GcgAJ2zncjtsgfmDUYS/owCShuGa
+ LVq2D5Q1pUnRMzHICssX9epxWv/8MVLw=
+X-Received: by 2002:a17:906:c087:: with SMTP id
+ f7mr7374239ejz.492.1607620884404; 
+ Thu, 10 Dec 2020 09:21:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzYYEpx/R/iydy3Xhy0N5pUkv270SFvoP9bX27yBOSPFH7XFrip7Iz8hOrtgBpw2+bAkXoRN9wJdr7BVDSoIQY=
+X-Received: by 2002:a17:906:c087:: with SMTP id
+ f7mr7374225ejz.492.1607620884230; 
+ Thu, 10 Dec 2020 09:21:24 -0800 (PST)
 MIME-Version: 1.0
+References: <20201210141610.884600-1-f4bug@amsat.org>
+In-Reply-To: <20201210141610.884600-1-f4bug@amsat.org>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Thu, 10 Dec 2020 18:21:13 +0100
+Message-ID: <CAA8xKjXOgSHh+MQnnLRaPCtkC-but0-Y4oi9Fi607o3iOjiiCw@mail.gmail.com>
+Subject: Re: [RFC PATCH] hw/misc/zynq_slcr: Avoid #DIV/0! error
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mcascell@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,7 +78,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,111 +91,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Gaoning Pan <gaoning.pgn@antgroup.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Gaoning Pan <pgn@zju.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The '-tb-size' option (replaced by '-accel tcg,tb-size') is
-deprecated since 5.0 (commit fe174132478). Remove it.
+On Thu, Dec 10, 2020 at 3:16 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Malicious user can set the feedback divisor for the PLLs
+> to zero, triggering a floating-point exception (SIGFPE).
+>
+> As the datasheet [*] is not clear how hardware behaves
+> when these bits are zeroes, use the maximum divisor
+> possible (128) to avoid the software FPE.
+>
+> [*] Zynq-7000 TRM, UG585 (v1.12.2)
+>     B.28 System Level Control Registers (slcr)
+>     -> "Register (slcr) ARM_PLL_CTRL"
+>     25.10.4 PLLs
+>     -> "Software-Controlled PLL Update"
+>
+> Fixes: 38867cb7ec9 ("hw/misc/zynq_slcr: add clock generation for uarts")
+> Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Cc: Damien Hedde <damien.hedde@greensocs.com>
+> Cc: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Cc: Alistair Francis <alistair.francis@wdc.com>
+> Cc: Gaoning Pan <gaoning.pgn@antgroup.com>
+> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
+>
+> Alternative is to threat that as PLL disabled and return 0...
+> ---
+>  hw/misc/zynq_slcr.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
+> index a2b28019e3c..66504a9d3ab 100644
+> --- a/hw/misc/zynq_slcr.c
+> +++ b/hw/misc/zynq_slcr.c
+> @@ -217,6 +217,11 @@ static uint64_t zynq_slcr_compute_pll(uint64_t input=
+, uint32_t ctrl_reg)
+>          return 0;
+>      }
+>
+> +    /* Consider zero feedback as maximum divide ratio possible */
+> +    if (!mult) {
+> +        mult =3D 1 << R_xxx_PLL_CTRL_PLL_FPDIV_LENGTH;
+> +    }
+> +
+>      /* frequency multiplier -> period division */
+>      return input / mult;
+>  }
+> --
+> 2.26.2
+>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Ján Tomko <jtomko@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-v2: fixed "Title underline too short." (Thomas)
----
- docs/system/deprecated.rst | 12 +++++-------
- accel/tcg/translate-all.c  |  2 +-
- softmmu/vl.c               |  8 --------
- qemu-options.hx            |  8 --------
- 4 files changed, 6 insertions(+), 24 deletions(-)
+This patch fixes RHBZ#1906388:
+https://bugzilla.redhat.com/show_bug.cgi?id=3D1906388
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 565389697e8..14326063e9a 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -100,13 +100,6 @@ QEMU 5.1 has three options:
-       to the user to load all the images they need.
-  3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
- 
--``-tb-size`` option (since 5.0)
--'''''''''''''''''''''''''''''''
--
--QEMU 5.0 introduced an alternative syntax to specify the size of the translation
--block cache, ``-accel tcg,tb-size=``.  The new syntax deprecates the
--previously available ``-tb-size`` option.
--
- ``-show-cursor`` option (since 5.0)
- '''''''''''''''''''''''''''''''''''
- 
-@@ -523,6 +516,11 @@ for the ``id`` parameter, which should now be used instead.
- 
- The ``-no-kvm`` argument was a synonym for setting ``-machine accel=tcg``.
- 
-+``-tb-size`` option (removed in 6.0)
-+''''''''''''''''''''''''''''''''''''
-+
-+QEMU 5.0 introduced an alternative syntax to specify the size of the translation
-+block cache, ``-accel tcg,tb-size=``.
- 
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 4572b4901fb..b7d50a73d44 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2379,7 +2379,7 @@ void dump_exec_info(void)
-     qemu_printf("Translation buffer state:\n");
-     /*
-      * Report total code size including the padding and TB structs;
--     * otherwise users might think "-tb-size" is not honoured.
-+     * otherwise users might think "-accel tcg,tb-size" is not honoured.
-      * For avg host size we use the precise numbers from tb_tree_stats though.
-      */
-     qemu_printf("gen code size       %zu/%zu\n",
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index e6e0ad5a925..3f052849d8c 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3639,14 +3639,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                     exit(1);
-                 }
-                 break;
--            case QEMU_OPTION_tb_size:
--#ifndef CONFIG_TCG
--                error_report("TCG is disabled");
--                exit(1);
--#endif
--                warn_report("The -tb-size option is deprecated, use -accel tcg,tb-size instead");
--                object_register_sugar_prop(ACCEL_CLASS_NAME("tcg"), "tb-size", optarg);
--                break;
-             case QEMU_OPTION_icount:
-                 icount_opts = qemu_opts_parse_noisily(qemu_find_opts("icount"),
-                                                       optarg, true);
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 104632ea343..7ce06290b68 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4080,14 +4080,6 @@ SRST
-     Show cursor.
- ERST
- 
--DEF("tb-size", HAS_ARG, QEMU_OPTION_tb_size, \
--    "-tb-size n      set TB size\n", QEMU_ARCH_ALL)
--SRST
--``-tb-size n``
--    Set TCG translation block cache size. Deprecated, use
--    '\ ``-accel tcg,tb-size=n``\ ' instead.
--ERST
--
- DEF("incoming", HAS_ARG, QEMU_OPTION_incoming, \
-     "-incoming tcp:[host]:port[,to=maxport][,ipv4][,ipv6]\n" \
-     "-incoming rdma:host:port[,ipv4][,ipv6]\n" \
--- 
-2.26.2
+Thank you,
+--=20
+Mauro Matteo Cascella
+Red Hat Product Security
+PGP-Key ID: BB3410B0
 
 
