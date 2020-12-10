@@ -2,124 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6532F2D5DFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:36:54 +0100 (CET)
-Received: from localhost ([::1]:56420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B61A42D5E18
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:39:39 +0100 (CET)
+Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knN3t-000673-D0
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:36:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35648)
+	id 1knN6Y-0000ix-Kr
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:39:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knMuS-00014q-Bg; Thu, 10 Dec 2020 09:27:08 -0500
-Received: from mail-vi1eur05on2131.outbound.protection.outlook.com
- ([40.107.21.131]:11424 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1knMuL-0007RM-Jj; Thu, 10 Dec 2020 09:27:05 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L0uUY/t1RXKNZ46EE39IFdDavND57g2fcX7C9h+MLuV3yK8qAIEyk3YVqMUQ2TqhR6eRe1VjasT2Xj/4gUyD4y+XaVprjYDnlKtofoHP7U5qtnUtXpqzXW4BFRAppptjUB9jMTxO/lkEXlIm+osPSEaWVsdalFzk/HjZ7i//6OljDGliZozG1Ho5iUQQUAaG+Gq2Pn2RAaHaj7Fzk84B4+Saqk7g37VjNx91VwM4gkyQUoDBauFdholSHBAsceWXBvEWn6XMgBRzN2wxtE413f4w69E33VZxtOs1RHM3dZw6E8pCa7BQmuw5Sdh5C6wJ8WL5LhZR/H+nSLXmTkyOCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MaF4cPHj5DX/Vn+8JPFoePpHOV1uu6EIvL74JGNqMlI=;
- b=H/8zUw4/E+BItyqzXJi63cLTkk6TM2toZ1RaJGKVTyi2m3sXkuyurVYVqFNA/UNRfk5seitnzXoZGld3VAoMZCGAvMuU+m4NWDS0sLe4LP/xwtrqSQP+zgImencyql4V/OSlGh3tdDpdHEIS4Wrdc99uWl1SOypcjyu05v19gU8v9/gIKBDZVnZFXe1x50McWJmVzz6F6f4S6GyEBsEEVuH/jU9CAgf73zpbl5w1m3wXOrXT2jylm2dzE7OVkRQjTfO9sI+j4vQA+7RM3BpD/B5tnRuaBc3ZDunTakMvQL4IrINaSu0BTKtg7GwMNWX/SuWAQs9+xAXlZByVEBPY8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MaF4cPHj5DX/Vn+8JPFoePpHOV1uu6EIvL74JGNqMlI=;
- b=haFNhBHjUPQ/NeN+RytD5ZDOnMknUXhWkutC89BlcivhONKjy23lGHHb3Bi8nhr6r2U2aZmQOnMBKrQIrRkS2CaHOl2hpq35NQgT7uitbbIYWHOjthIjzC3oHy5yAMervgVygBkkxhLPm84iPC0iHw78TAc8/ZThYWiuVEkfsMM=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6119.eurprd08.prod.outlook.com (2603:10a6:20b:290::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Thu, 10 Dec
- 2020 14:26:54 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::d585:99a4:d7a4:d478%4]) with mapi id 15.20.3654.012; Thu, 10 Dec 2020
- 14:26:54 +0000
-To: qemu block <qemu-block@nongnu.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: RFC: don't store backing filename in qcow2 image
-Message-ID: <20581556-6550-e0f7-aca9-6b4034821f6c@virtuozzo.com>
-Date: Thu, 10 Dec 2020 17:26:52 +0300
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knMuf-0001Ir-Cp
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:27:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47944)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knMuc-0007bB-ID
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:27:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607610437;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8rn2VH4T8LuIT+s6rlqEBKnGBqM/nvNt/ScI69+xP3I=;
+ b=fNyffFdKY0BoLStxXVHzKRO/PX8plME2OWWZrFLttEByl7OHBKSQxlePx0fD6KpFDs6Fx1
+ nFWuoKfM6jS4c4RQ/FsR4X16AWTV/MnG3Nu3igS7yd/9X2I316KZJe2C+zHfogSKQ7txj+
+ MOKjq2YjKNJmonDVdoT9V3ApRGkjkro=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-a40822ySNtaUS464ZMfSxQ-1; Thu, 10 Dec 2020 09:27:15 -0500
+X-MC-Unique: a40822ySNtaUS464ZMfSxQ-1
+Received: by mail-wm1-f72.google.com with SMTP id a134so1166898wmd.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 06:27:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8rn2VH4T8LuIT+s6rlqEBKnGBqM/nvNt/ScI69+xP3I=;
+ b=WKSez89rx1IpJIhYX6JoF2YGaxNKbWltf4E1JfRezp7seTSjHd2owda3Ag25fhTiIF
+ qGr8fj9k5NE1VfUiiQPIngjmh/+Ot+RslyL/PQpBjZ1HYzDocMhUurcoFtYTwzqA0a2+
+ +3a1LZfozMZ46Y7zz+Hnla/6Qr6ryp0iibumhUT9FMwgpnDfjI0WKgLdSFDJNsL7sphT
+ 3WrUEaJ/GqojPaODwVGfFaVtwyp3ChyXooZKSDZxmVjNn7CB9NuGFDymU3alpDUzF/UI
+ EgBll3m948RhdQQNI8Jyifjr3ayuA91WGLCNeX9awidUPgBeK5WHcFp/JsqtQfysD8V4
+ vGCg==
+X-Gm-Message-State: AOAM530JPYHdeIrzrFPtt7ntbCYlt8a9fEZ4EM+fwqOqE50f2p6K70n5
+ F+P8tHm4/Q4F3UOoEXbuga7fcP0IaypXQFSwJwjSnDS6CVt/7nlB8MtzwJXY+07kkDCLPUV7j3a
+ lrQCHKKRJrQvdP2k=
+X-Received: by 2002:a1c:2646:: with SMTP id m67mr8479011wmm.81.1607610434242; 
+ Thu, 10 Dec 2020 06:27:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyJWAdz+KqZMUM8QDoTMVk+MZI2a3+4LfwDInoEr+NawwT5wR47Yw7MbaR5q6dQWccikQgqIQ==
+X-Received: by 2002:a1c:2646:: with SMTP id m67mr8478997wmm.81.1607610434130; 
+ Thu, 10 Dec 2020 06:27:14 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id c10sm8484225wrb.92.2020.12.10.06.27.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Dec 2020 06:27:13 -0800 (PST)
+Subject: Re: [PATCH v3 09/13] poison: remove GNUC check
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20201210134752.780923-1-marcandre.lureau@redhat.com>
+ <20201210134752.780923-10-marcandre.lureau@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ec8d32e4-11ca-8a59-c021-5b212b8f6d78@redhat.com>
+Date: Thu, 10 Dec 2020 15:27:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.91]
-X-ClientProxiedBy: AM0PR08CA0003.eurprd08.prod.outlook.com
- (2603:10a6:208:d2::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.91) by
- AM0PR08CA0003.eurprd08.prod.outlook.com (2603:10a6:208:d2::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Thu, 10 Dec 2020 14:26:53 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d543b7f1-6564-4d7e-0b2b-08d89d17a4b5
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6119:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB611937E371E9B3F6DCC6EDB9C1CB0@AS8PR08MB6119.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aWo3sPsiyxRRR4cM6JNKb5ULpozH8+fXzB+jrERDVFEVVkuyF5ELlnqny8OF5wZyXjrRKSVHqnnHwIqLc9wLujFvkcbc2ha5F19vjcGvcCErVA/AtE65GXCs8d4ES9G7yi7u2UNcAGlRpeklM4JJkKD4YusxwkklcKlfG3PyiBgbwOYdO7IChvsZqkMOIXJZD5Jr98Wkv++Vz3FXgJVCNNu8vJ/HnOPxUtR++kM5yMudyoqw/3O0rkhBBvPC8F5jJtLlkIdbuz8l81sopQyA1WZ5XQYcjf+JnRU5ot+o8fGnwVhKRJEQI8Za/p7rbtxNKKJLNovR8YLJcVWVx0fuLucta/cTP7m/Wp9FRYBoQtESV6Er9H4MZljl2ograElbLUiNTGpoJYgWchrVVvtH8e5FNhUJV3UrAlV1Z4M9uNA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(376002)(39840400004)(136003)(396003)(366004)(54906003)(6486002)(6916009)(316002)(16576012)(83380400001)(8676002)(31696002)(186003)(26005)(86362001)(8936002)(66556008)(2906002)(66946007)(5660300002)(36756003)(16526019)(52116002)(66476007)(2616005)(956004)(4326008)(478600001)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VzQ0MDc3emU3ZVlvc1gwdC9KR1cvMkgrVHFNVEFMM3RDNVZCSlIyalhDcmRx?=
- =?utf-8?B?VCsvbjNHcWhHbkJtTFFHNGN0dUhiUEZJNmsycm9pVE54emk1VGcxKzV2TU5D?=
- =?utf-8?B?VnVZTDR1ZG9tcklnd3RBT1p0alY2Vmt6cFMrMUdSdzdPRVpkd1ptdURaSk8x?=
- =?utf-8?B?b0prYlFIYXNrb0FSanR6clhzNmdSbnh2VDNUOXhReUZ1Z01HR25MVzNCRjNi?=
- =?utf-8?B?RDd2WGtBRy9MVkFWdGhNbDdqZm55bXkvT21JSG05Vm1zRENmS25rQ0pFUW5i?=
- =?utf-8?B?TVQrZDJzZ3kwSXVKRGNVM2pxZFg4R2dIRUxsNmNBMDdJNWVVTjlNa2NJN2hV?=
- =?utf-8?B?Z1NTekRFRlMxaThYQWdRWWNVZlowVE5nUllmYU5oNmVjeVVNQWtMTGVTL05w?=
- =?utf-8?B?R1pQdGRyb1RCVlM4TXJOd21XM0o1OUlSN1NYUWNtMXdjMHNmSkJPb1c2NlJz?=
- =?utf-8?B?ZlBQUXJScTB6Nk9yQWd4Q0dMSlp1bjlpK01JSHZ0L3JwWXpmbW9hdDU3TG5w?=
- =?utf-8?B?VGpmcXh0ZU5jYW9OK1dpNzY3STlYSFhTbWUrSFJmRktFaDJEN0dWWUMzUEw3?=
- =?utf-8?B?eHhuNENaeFg3SnJWKzdDZ05UbmFsV1N2aG5uQzI3T3VObjdyY1dqb2RFeGdF?=
- =?utf-8?B?NmdmMXMzamdsN0Ftbk5LVGpHVzY0SS85YThHZ2NCYUFsbXRYMGZ0N3pmR1Nt?=
- =?utf-8?B?LzdTUjEvQlg3VUY4Um1ydUpUNHI1cDd2bUFPTTVHOEVZck0xVC9IK0xSelF6?=
- =?utf-8?B?NHBPL0lkTHZCSWQ0bGI5dkJFbjFhSU4vTy83S2RzTTI0MkVGY2l5N2RPSHdO?=
- =?utf-8?B?Mkw3YURqVkpEQ3dlb2FwRWIwUkxudjlsOWlVSG9URlFFTExKSWdaempFZ2l3?=
- =?utf-8?B?SVNQT2ZBTVZxdExybGdnOGI1VTdDMC9kaVpMRUt3RkNqRlpPS0hXRG1kU09J?=
- =?utf-8?B?RXBzM0c1UktLMHFOck5iRHdEbzNldENwS0RlUkxpN0JmRXNKZWFremJnbmp2?=
- =?utf-8?B?MzR2TGEzVnpiM2p0a3IzT1YzQlRtRk9nQzZPRWVnOTFwakQ5QmFUWXBYcVdK?=
- =?utf-8?B?anU2TTZzMkVsOE9GYUZTdzVid0lhd0dMbHVyL2Fzb1g4RWNTUE9nOGlFQWhJ?=
- =?utf-8?B?ZUEzV2hVN09nL1hZYjVQTUxCRzlEb1JaVmFReTJ6WUs0V0IySkpiVUQ5ZDBG?=
- =?utf-8?B?VXVlS3BwQTM5OUlKSW9Vam4yN1E5Sm0wMEhPZ1I5cGNQbnVCOUNQTUNyNEJI?=
- =?utf-8?B?QVpEOXpJck15cE5QWEQyblFsZ1NvemYxOWtldlFzSU9RK1A5cFhsd29DNUF2?=
- =?utf-8?Q?9OHf3YNDgumVl702CGrUCGH3EaDvgvAIzj?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2020 14:26:54.4937 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: d543b7f1-6564-4d7e-0b2b-08d89d17a4b5
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: T5LLxCxz9wV2GPvxaENrr7/YVtIF0z7uIRDscXwZJAfUMbW83ixkCOqFH3qZbSKcUUmYGHrNjGm5uH1n5Qwb036QZty3JlLk9z1RZxVw2KM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6119
-Received-SPF: pass client-ip=40.107.21.131;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
+In-Reply-To: <20201210134752.780923-10-marcandre.lureau@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -133,38 +98,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Alberto Garcia <berto@igalia.com>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Nikolay Shirokovskiy <nshirokovskiy@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Denis V. Lunev" <den@openvz.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+On 12/10/20 2:47 PM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> QEMU requires Clang or GCC, that define and support __GNUC__ extensions
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  include/exec/poison.h | 2 --
+>  1 file changed, 2 deletions(-)
 
-I have an idea, that not storing backing filename in qcow2 image at all may be a good thing. I'll give some reasons and want to know what do you think about it.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-1. Libvirt has to manage and keep in mind backing chains anyway.
-
-This means, that storing this information in qcow2 header is a source of bugs when we update it in one place but failed/forget to update in another. Of course, Libvirt is not the only user of qemu.. But we are moving to "blockdev" anyway, when management tool should control all node-names at least. It would be strange to not control the relations between images in the same time.
-
-2. backing file name specified in qcow2 metadata doesn't relate to any other thing, and nothing rely on it.
-
-3. calculating and updating backing file name in Qemu is a headache:
-    - with some options specified or with filters we risk to write json filenames into qcow2 metadata, which is almost never what user wants. Also, json may exceed the qcow2 limitation of backing_file_size to be <= 1023
-    - updating it in transactional way for read-only image during reopen, when another transactional permission update is ongoing is difficult (who know, how to do it?) (remember recent d669ed6ab02849 "block: make bdrv_drop_intermediate() less wrong")
-
-4. Moving qcow2 files to another directory is a problem: you should care to update backing file names in all dependent qcow2 images.
-
-
-So, what about moving libvirt (at least) to not rely on backing file name stored in qcow2 image? Backing chain then should be in xml? Is it hard or not? Finally, will it make the code simpler, or more difficult?
-
-
-Then, if the idea is good in general, what to do on Qemu part? If we want to finally get rid of problem code (see [3.]) we should deprecate something.. Just deprecate support for qcow2 images with backing file specified, requiring user always specify backing chain by hand? I don't see anything that should be changed in qcow2 format itself: no reason to add some kind of restricted bits, etc..
-
--- 
-Best regards,
-Vladimir
 
