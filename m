@@ -2,69 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2612D5208
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 04:50:53 +0100 (CET)
-Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3AB2D522D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 04:57:28 +0100 (CET)
+Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knCye-0005Jm-DL
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 22:50:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35776)
+	id 1knD55-0008Sv-G6
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 22:57:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npickito@gmail.com>)
- id 1knCnm-000837-Iq; Wed, 09 Dec 2020 22:39:34 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40288)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npickito@gmail.com>)
- id 1knCnk-00042l-TQ; Wed, 09 Dec 2020 22:39:34 -0500
-Received: by mail-wm1-x341.google.com with SMTP id a3so3829941wmb.5;
- Wed, 09 Dec 2020 19:39:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z5d9TBTvx+BrjDrYNZfyHcLW2iP9KNHH88askXsDz00=;
- b=CGSkPkaMNtXyAxAMo8w81C07vDV9Mz59tSefQT/Qm2FsCeetPYLREb1+pR5eh0SV3S
- EeLmJEo8ZCDYCIkrWqFqvy7SwnQQkFZqfUzpnzsA50fkymghyWTNOCjqMAsTQojojxj9
- ecKXqTerOBZZBjUYE1k3eCNhe+7ZWZgN0bYTJwhwNt+h51SouI8RyBP8owJteCIPjgV4
- w15Y/akQxX1QPZzeevPA/HpxS2xefQ3R6DvHZsav+Vn+MhqbcMVY5lpKGZ5AR6so/BZd
- fqpuPCFmdgBa2wOWQOdPw8pxa3S8oU8+xwBaR7eAmLZlBMkNXI5dMa2kXXdtrlJ93TC6
- ifkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z5d9TBTvx+BrjDrYNZfyHcLW2iP9KNHH88askXsDz00=;
- b=F63PNTnnmvuRH8624/quzi5v5LgBQ7qpTqu/BKFBO71KtJTy1GzT6C23wnkGO/44Q9
- 1Pzg2JMbKZo3ACZI/KaQVpO8YbkCym5ikFXG7dARecFxxOvszlPfdDtbKo3CWx0mUyAx
- 0Z5KNGChgB/7/Qyz8Goxydgi9HlPqvEY5v+1dxGLhbZ1vPGFaKasgkWY/UEVicqm1zit
- zDaYmBhn+Zmv5GrFycDNP/pmgTM6k09EHPgpOuwv/2I1LEfjFm6HVi1Y6vCkyrPt2aCw
- GRVuaadMQp2X3gIvzpTMolNka5BjlrFlh/TG9tu8uyCR9ZfAfUiCNtk8uOzk5DSwDyPb
- AhTw==
-X-Gm-Message-State: AOAM531uoAaxVElHz3Fp36RdLBSrb8tD179niOC6KiY9H/o3zBSrWM6i
- bY5OHc/yjNzXGDORHJ3utKVvokk+oJCS65dheC0=
-X-Google-Smtp-Source: ABdhPJy3t0yqduZbqTK+CWFHcIMePNKlf1S6Sr/0F768Pq8MCEoOcfn5f+G2IJ9cxtu9Vjh1QAwSw3KojQAvffc7cnE=
-X-Received: by 2002:a7b:cc16:: with SMTP id f22mr5885750wmh.154.1607571570716; 
- Wed, 09 Dec 2020 19:39:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1knD28-0006y6-0i; Wed, 09 Dec 2020 22:54:24 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:47117)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1knD23-0000IT-0e; Wed, 09 Dec 2020 22:54:23 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Cs0Qs724Rz9sWC; Thu, 10 Dec 2020 14:54:13 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1607572453;
+ bh=GXmGvBt8EmfLg0rv4AHCjwDzJ0sBNLm7hogx17HnPOk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MVVQC4CrpFl7bUwP+XWqL+TsRIqYGyTOUzfblV+jQMAINBiC2GA6Kxs/bobnzChtW
+ DNfB4ebdYixUeYgwvPMkUKdrkwz56O4mZG3RH5r5XHP5fnBOY11TScoiiHws8M0NS2
+ 2MNxjbHgPYHHuhRYh4OeKdmKUZbjK+vHsCT6Yu6c=
+Date: Thu, 10 Dec 2020 14:53:02 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 1/6] spapr: Add an "spapr" property to sPAPR CPU core
+Message-ID: <20201210035302.GM2555@yekko.fritz.box>
+References: <20201209170052.1431440-1-groug@kaod.org>
+ <20201209170052.1431440-2-groug@kaod.org>
+ <de3d6170-3e28-ce78-41a3-59eca3cb6b67@redhat.com>
+ <20201209184225.1b544523@bahia.lan>
+ <d0f7cde7-c550-4a6c-8730-c3422002516c@redhat.com>
+ <b8474a48-5dcd-343e-ef29-531c628b2ff2@redhat.com>
+ <20201209182617.GV1289986@habkost.net>
 MIME-Version: 1.0
-References: <20201125213617.2496935-1-keithp@keithp.com>
- <20201125213617.2496935-6-keithp@keithp.com>
- <CA+yXCZC038LfuswrAo6W3gHXfGkwPscMEKDQJvutV7xcoC+wPw@mail.gmail.com>
- <87r1nz6iz4.fsf@keithp.com>
-In-Reply-To: <87r1nz6iz4.fsf@keithp.com>
-From: Kito Cheng <kito.cheng@gmail.com>
-Date: Thu, 10 Dec 2020 11:39:19 +0800
-Message-ID: <CA+yXCZA7XhLXDN7ZDk8D90eyXOLCzsrzwUyego1Sn=D9x3BGMQ@mail.gmail.com>
-Subject: Re: [PATCH 5/8] riscv: Add semihosting support [v13]
-To: Keith Packard <keithp@keithp.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=npickito@gmail.com; helo=mail-wm1-x341.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XlS4q8O07AKt4+K1"
+Content-Disposition: inline
+In-Reply-To: <20201209182617.GV1289986@habkost.net>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,81 +63,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Keith:
 
-Thanks for your reply, but it seems like we need some more modification in
- linux-user/riscv/cpu_loop.c to enable that, I guess I should post that in mail
-rather than attachment :)
+--XlS4q8O07AKt4+K1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Patch here:
+On Wed, Dec 09, 2020 at 01:26:17PM -0500, Eduardo Habkost wrote:
+> On Wed, Dec 09, 2020 at 07:11:40PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> [...]
+> > >>>> @@ -200,7 +199,7 @@ static void spapr_cpu_core_reset(DeviceState *=
+dev)
+> > >>>>      int i;
+> > >>>> =20
+> > >>>>      for (i =3D 0; i < cc->nr_threads; i++) {
+> > >>>> -        spapr_reset_vcpu(sc->threads[i]);
+> > >>>> +        spapr_reset_vcpu(sc->threads[i], sc->spapr);
+> > >>>
+> > >>> Why reset() needs access to the machine state, don't
+> > >>> you have it in realize()?
+> > >>>
+> > >>
+> > >> This is for the vCPU threads of the sPAPR CPU core. They don't have =
+the
+> > >> link to the machine state.
+> > >=20
+> > > They are created by spapr_create_vcpu() + spapr_realize_vcpu() in
+> > > spapr_cpu_core_realize(), which has sc->spapr set... Am I missing
+> > > something?
+> >=20
+> > Anyhow, from a QOM design point of view, resetfn() is not the correct
+> > place to set a property IMHO, so Cc'ing Eduardo.
+>=20
+> This patch is not setting the property on resetfn(), it is
+> setting it on CPU core pre_plug().
 
-From 2f1eb5825a6dda177d3289106970eab05cb08445 Mon Sep 17 00:00:00 2001
-From: Kito Cheng <kito.cheng@sifive.com>
-Date: Wed, 9 Dec 2020 14:24:51 +0800
-Subject: [PATCH] riscv: Add semihosting support for user mode
+Well, also machine reset, but the point is it's not the resetfn() of
+the cpu.
 
-This could make testing easier and ARM/AArch64 has support on
-their linux user mode too, so I think it should be reasonable.
+Basically what this is doing is machine specific (rather than just cpu
+specific) initialization of the cpu state - we need that because the
+pseries machine is implementing an explicitly paravirtualized platform
+which starts things off in a state a bit different from the "raw" cpu
+behaviour.
 
-Verified GCC testsuite with newlib/semihosting.
+So, although it's working on a CPU's state, this function actually
+belongs to the machine, rather than the cpu.
 
-Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
----
- linux-user/riscv/cpu_loop.c | 5 +++++
- 1 file changed, 5 insertions(+)
+> This is more complex than simply using qdev_get_machine() and I
+> don't see why it would be better, but I don't think it's wrong.
 
-diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-index aa9e437875..9665dabb09 100644
---- a/linux-user/riscv/cpu_loop.c
-+++ b/linux-user/riscv/cpu_loop.c
-@@ -23,6 +23,7 @@
- #include "qemu.h"
- #include "cpu_loop-common.h"
- #include "elf.h"
-+#include "hw/semihosting/common-semi.h"
+But, yeah, this...
 
- void cpu_loop(CPURISCVState *env)
- {
-@@ -91,6 +92,10 @@ void cpu_loop(CPURISCVState *env)
-             sigcode = TARGET_SEGV_MAPERR;
-             sigaddr = env->badaddr;
-             break;
-+        case RISCV_EXCP_SEMIHOST:
-+            env->gpr[xA0] = do_common_semihosting(cs);
-+            env->pc += 4;
-+            break;
-         case EXCP_DEBUG:
-         gdbstep:
-             signum = TARGET_SIGTRAP;
--- 
-2.29.2
+I've applied some of the later patches in this series, but I'm not
+convinced on this one or 2/6.  It seems like they're just replacing
+one ugly (access to qdev_machine_state() as a global) with a different
+ugly (duplicating something which has to equal the global machine
+pointer as properties in a bunch of other objects).
 
-On Thu, Dec 10, 2020 at 12:30 AM Keith Packard via
-<qemu-devel@nongnu.org> wrote:
->
-> Kito Cheng <kito.cheng@gmail.com> writes:
->
-> > Hi Keith:
-> >
-> > Thanks for the patch, I've verified with newlib semihosting support
-> > which is contributed by Craig Blackmore from embecosm,
-> > and I would like to add semihosting to user mode, do you mind add this
-> > patch into this patch series?
->
-> I tried to add that already, but I admit that I haven't tested it in a
-> while. You should find that there are patches to linux-user/semihost.c
-> and linux-user/qemu.h to enable it.
->
-> --
-> -keith
+Both 1/6 and 2/6 are altering explicitly spapr specific devices, they
+have interactions with the overall platform model which mean they have
+to sit in that environment, so I think trying to add a property here
+implies an abstraction that can't actually be used in practice.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--XlS4q8O07AKt4+K1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/Rm5wACgkQbDjKyiDZ
+s5L6zg//UePOD3Om1YM88HyLBzZnviVD4A0Dqr29E24FIkqWfLvh7JZdo++dt55x
+4Ts1SXj8nWGOX3PJP4awyAfxMvEkYJZFKuyv+J4RTxou05w4sYbmvpH8OSPB7J+G
+8H+KrlglV9/DJMroJ+iCf92WJXPbYNe+D4GZL74PimwVs2UFQMc+CiDveYcqFEYr
+j10qrsI7xyrwdZ+Eia+gGCISJWxLvYOoXk1SW4N7n4PZKz2LnqtqEHq6uewuzqH8
+6igDekoRVsH7EKAe8ycZDggirWeB8ncvOMgM8l7+qlEEgESE7tYx8E14Qk8aTRer
+QzSaZA4iCiOQr5lIhJZkD61Q5eciLQBjA5oW8HcrspSD1eNIFzQ28fSPwqhnL+PE
+VezWxllCyCc5t/3CMP+qW9Ka1OHMUpsMKAsQKk6Fn7kZOUjbN7SUmteu2UfdOjsu
+CkbYC5uV1uHFUZKDjD8k9h8U3oTGf5n//3xxQ0ouTRTsIDNQGPTTknWAVaLyHPu8
+g+YypbmmrZLVRx4mIFgfp61hpU088FAMEirbHPSpffh0UxcT4HSJnqCPVTAQmbYH
+IKepm2EXvM4lv/GvY1XFQje4u/xM0p9TgepE2urabepzwwFh3m6xFO+fkFZy+ZWt
+r82vDSUptwnfj+zqip2YxgieEhAQNjpTvxtvjmKfAC5CR0Pre20=
+=6Yx2
+-----END PGP SIGNATURE-----
+
+--XlS4q8O07AKt4+K1--
 
