@@ -2,60 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76A472D5F3D
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 16:15:06 +0100 (CET)
-Received: from localhost ([::1]:57030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720152D5F4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 16:17:17 +0100 (CET)
+Received: from localhost ([::1]:59694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knNer-0006qQ-0X
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 10:15:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48036)
+	id 1knNgy-0008FP-GE
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 10:17:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1knNdI-00060k-Ox
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:13:28 -0500
-Received: from 2.mo51.mail-out.ovh.net ([178.33.255.19]:51860)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1knNeg-00076I-Aa; Thu, 10 Dec 2020 10:14:54 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1knNdA-0006Lz-Mu
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:13:28 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.3])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 65DA823898B;
- Thu, 10 Dec 2020 16:13:14 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 10 Dec
- 2020 16:13:13 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003513d35d0-78e7-4723-ab14-47a0ec264919,
- 7F90A86A4359BCD1ACB0618936AE64BD6AD86209) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Thu, 10 Dec 2020 16:13:12 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 1/1] spapr.c: set a 'kvm-type' default value instead
- of relying on NULL
-Message-ID: <20201210161312.371c207d@bahia.lan>
-In-Reply-To: <20201210145517.1532269-2-danielhb413@gmail.com>
-References: <20201210145517.1532269-1-danielhb413@gmail.com>
- <20201210145517.1532269-2-danielhb413@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1knNed-0006n3-BI; Thu, 10 Dec 2020 10:14:54 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0BAF3CKd091646; Thu, 10 Dec 2020 10:14:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=5KfeWEi9PoqQfYMt3T+j8mAbIupQZwiuH96wVEG9CA8=;
+ b=MmprIOgk2gIWAlTOOCN3VMv3Bj3/9m1jc4yXokRIR2vgblZsHd1hrpnoSDLY5hHAMVbU
+ iFDhfVDoO3/2GrDsWkFALTSRG+tIOM8yUaK+RW+QDpoWw2H6OHmsxIcYIN2Gd3jt6L0U
+ uArA/GmvoyXbE8qtsq/KLAYBqRWXc9tjxWuqfcu1XjPX5SjMIUCzsC2H1AsYQqZGlk9u
+ x/pnGdKrdruZ4i3cmHQzExsnUhZiGQr4aah303UwwUIwP5dO26xaYxmYd6rbxW3LOrxQ
+ ETVA9wZqpoy9XLl5uW/bok9FkVCd5beo3LLVQ+eRmka9sxIBQ53pXmmMleB8zoQHt3yW xg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35bnpm18km-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Dec 2020 10:14:48 -0500
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BAF3R3J095562;
+ Thu, 10 Dec 2020 10:14:48 -0500
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35bnpm18jx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Dec 2020 10:14:48 -0500
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BAF9KSn006483;
+ Thu, 10 Dec 2020 15:14:47 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma01wdc.us.ibm.com with ESMTP id 3581u9qu7d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Dec 2020 15:14:47 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0BAFDV3T16580866
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Dec 2020 15:13:31 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 22BB26E06B;
+ Thu, 10 Dec 2020 15:13:31 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F37B16E065;
+ Thu, 10 Dec 2020 15:13:29 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.163.37.122])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 10 Dec 2020 15:13:29 +0000 (GMT)
+Subject: Re: [RFC 2/8] s390x/pci: MSI-X isn't strictly required for passthrough
+To: Cornelia Huck <cohuck@redhat.com>
+References: <1607546066-2240-1-git-send-email-mjrosato@linux.ibm.com>
+ <1607546066-2240-3-git-send-email-mjrosato@linux.ibm.com>
+ <20201210112806.61b0c854.cohuck@redhat.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+Message-ID: <9fc712d1-2350-f16f-7073-87162def13eb@linux.ibm.com>
+Date: Thu, 10 Dec 2020 10:13:29 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <20201210112806.61b0c854.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: cf812b51-d417-42a5-a63b-d251e48a90bc
-X-Ovh-Tracer-Id: 4254212800021043619
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgjeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepphgsohhniihinhhisehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=178.33.255.19; envelope-from=groug@kaod.org;
- helo=2.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-10_06:2020-12-09,
+ 2020-12-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxscore=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 suspectscore=2
+ mlxlogscore=999 adultscore=0 spamscore=0 impostorscore=0 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012100095
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,93 +111,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
+ schnelle@linux.ibm.com, richard.henderson@linaro.org, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Dec 2020 11:55:17 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On 12/10/20 5:28 AM, Cornelia Huck wrote:
+> On Wed,  9 Dec 2020 15:34:20 -0500
+> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+> 
+>> s390 PCI currently disallows PCI devices without the MSI-X capability.
+>> However, this fence doesn't make sense for passthrough devices.  Move
+>> the check to only fence emulated devices (e.g., virtio).
+>>
+>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   hw/s390x/s390-pci-bus.c | 14 ++++++++------
+>>   1 file changed, 8 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+>> index 05f7460..afad048 100644
+>> --- a/hw/s390x/s390-pci-bus.c
+>> +++ b/hw/s390x/s390-pci-bus.c
+>> @@ -1028,12 +1028,12 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>>               s390_pci_get_clp_info(pbdev);
+>>           } else {
+>>               pbdev->fh |= FH_SHM_EMUL;
+>> -        }
+>>   
+>> -        if (s390_pci_msix_init(pbdev)) {
+>> -            error_setg(errp, "MSI-X support is mandatory "
+>> -                       "in the S390 architecture");
+>> -            return;
+>> +            if (s390_pci_msix_init(pbdev)) {
+>> +                error_setg(errp, "MSI-X support is mandatory "
+>> +                           "in the S390 architecture");
+>> +                return;
+>> +            }
+>>           }
+>>   
+>>           if (dev->hotplugged) {
+>> @@ -1073,7 +1073,9 @@ static void s390_pcihost_unplug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>>           devfn = pci_dev->devfn;
+>>           qdev_unrealize(dev);
+>>   
+>> -        s390_pci_msix_free(pbdev);
+>> +        if (pbdev->fh & FH_SHM_EMUL) {
+>> +            s390_pci_msix_free(pbdev);
+>> +        }
+>>           s390_pci_iommu_free(s, bus, devfn);
+>>           pbdev->pdev = NULL;
+>>           pbdev->state = ZPCI_FS_RESERVED;
+> 
+> Remind me: Wasn't it only msi that was strictly required (i.e., not msi-x?)
+> 
+> Can we generally relax this requirement, possibly with some changes in
+> the adapter interrupt mapping? I might misremember, though.
+> 
 
-> spapr_kvm_type() is considering 'vm_type=NULL' as a valid input, where
-> the function returns 0. This is relying on the current QEMU machine
-> options handling logic, where the absence of the 'kvm-type' option
-> will be reflected as 'vm_type=NULL' in this function.
-> 
-> This is not robust, and will break if QEMU options code decides to propagate
-> something else in the case mentioned above (e.g. an empty string instead
-> of NULL).
-> 
-> Let's avoid this entirely by setting a non-NULL default value in case of
-> no user input for 'kvm-type'. spapr_kvm_type() was changed to handle 3 fixed
-> values of kvm-type: "auto", "hv", and "pr", with "auto" being the default
-> if no kvm-type was set by the user. This allows us to always be predictable
-> regardless of any enhancements/changes made in QEMU options mechanics.
-> 
-> While we're at it, let's also document in 'kvm-type' description the
-> already existing default mode, now named 'auto'. The information provided
-> about it is based on how the pseries kernel handles the KVM_CREATE_VM
-> ioctl(), where the default value '0' makes the kernel choose an available
-> KVM module to use, giving precedence to kvm_hv. This logic is described in
-> the kernel source file arch/powerpc/kvm/powerpc.c, function kvm_arch_init_vm().
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  hw/ppc/spapr.c | 21 +++++++++++++++++----
->  1 file changed, 17 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index b7e0894019..877bd264ce 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3021,17 +3021,25 @@ static void spapr_machine_init(MachineState *machine)
->      qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
->  }
->  
-> +#define DEFAULT_KVM_TYPE "auto"
->  static int spapr_kvm_type(MachineState *machine, const char *vm_type)
->  {
-> -    if (!vm_type) {
-> +    /*
-> +     * The use of g_ascii_strcasecmp() for 'hv' and 'pr' is to
-> +     * accomodate the 'HV' and 'PV' formats that exists in the
-> +     * wild. The 'auto' mode is being introduced already as
-> +     * lower-case, thus we don't need to bother checking for
-> +     * "AUTO".
-> +     */
-> +    if (!vm_type || !strcmp(vm_type, DEFAULT_KVM_TYPE)) {
->          return 0;
->      }
->  
-> -    if (!strcmp(vm_type, "HV")) {
-> +    if (!g_ascii_strcasecmp(vm_type, "hv")) {
->          return 1;
->      }
->  
-> -    if (!strcmp(vm_type, "PR")) {
-> +    if (!g_ascii_strcasecmp(vm_type, "pr")) {
->          return 2;
->      }
->  
-> @@ -3270,10 +3278,15 @@ static void spapr_instance_init(Object *obj)
->  
->      spapr->htab_fd = -1;
->      spapr->use_hotplug_event_source = true;
-> +    spapr->kvm_type = g_strdup(DEFAULT_KVM_TYPE);
->      object_property_add_str(obj, "kvm-type",
->                              spapr_get_kvm_type, spapr_set_kvm_type);
->      object_property_set_description(obj, "kvm-type",
-> -                                    "Specifies the KVM virtualization mode (HV, PR)");
-> +                                    "Specifies the KVM virtualization mode (auto,"
-> +                                    " hv, pr). Defaults to 'auto'. This mode will use"
-> +                                    " any available KVM module loaded in the host,"
-> +                                    " where kvm_hv takes precedence if both kvm_hv and"
-> +                                    " kvm_pr are loaded.");
->      object_property_add_bool(obj, "modern-hotplug-events",
->                              spapr_get_modern_hotplug_events,
->                              spapr_set_modern_hotplug_events);
+Yes, but even so our current emulation support only sets up for MSI-X, 
+it does not have an msi_init() equivalent.  I do believe that this 
+requirement can be relaxed at some point for the emulation support as 
+well, but the focus on this set was to at least stop fencing passthrough 
+for no reason.
 
 
