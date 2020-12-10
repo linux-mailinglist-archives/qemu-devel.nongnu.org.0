@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F072D6690
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 20:33:50 +0100 (CET)
-Received: from localhost ([::1]:55260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1137C2D678B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 20:53:15 +0100 (CET)
+Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knRhF-00022C-TR
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 14:33:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52590)
+	id 1knS01-0000bv-Ft
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 14:53:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knReE-000193-68
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:30:45 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:41778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knRe3-00032A-0L
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:30:41 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id i24so6752474edj.8
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 11:30:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9FeWFQXPVGQi2VhUWi52UZJuGCQ96aIWJzCI/mg+dQI=;
- b=IGBfiEc963FUSMKiK1YGunS2wpWHJAyCjk/Vk/eQLZnBWFQPEyR8/h6Djzltda9yE5
- ERutaCAn0NUcqcpTOB+SASRYYINGX+nuo3iD/h9W3jUCJ+fIhopIs8RK0wb2eEbOjwUn
- 7OBeYYJnFf6q0uLdaBEa8CU8D7fcxv+es/fvxF8tjEwrezawvhJBsdIxxgi1TVR6gpPq
- I+aR5DX5r32jV4/4PN6tnPrOa9dCnMmZt2Hm5jHDptbbj0ksykS356Etu+k0KEHeVhgv
- GXDLWVmbCVjeVt4J4Op0EoZHei2K7Zw91OEXeF90S6Pu9ydY8HD7U9bbkrZd7UQB1zjR
- DB9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9FeWFQXPVGQi2VhUWi52UZJuGCQ96aIWJzCI/mg+dQI=;
- b=qLOjF+UFPZk32mCt+HuPd48W5bUYzudteaT8z3OkdMid5JpmNeWa/u77ioUeNAO2Ru
- GHYlP25ZtFr24vPVGB/qK/Apa06x2yD5VduYwLKcRPVk2ZGH+tGlZ9Yf5KYXCCxMEM8O
- kbsim7mTnLrDzOZjyxFzXzb63W4ue+Nc9KsNq3CWlAo6zABTIekLRYOyDOHiSprvKy9u
- TrDNU6GIGtX/9BGs3okb4+n3XFS3tyOyLpBGJRaLMSv0SXB0nGhvggE/7+ssQsKXYo1w
- EDQf6tLkJY3Hgr7RyIbjnp2mygPZk9VyvdhPbK+N2gqcWZx27lGuyyoWzLJYWLeZWHu2
- 0W7g==
-X-Gm-Message-State: AOAM533SHmhBG3RVkpsu8svPWlcbrKmQgBk3EFQh0MQHSDvvHdpqvDr3
- Q8JEJfDabouR8dwe18FEcnR12n+VG3kEGfZM1d+eZQ==
-X-Google-Smtp-Source: ABdhPJyoRKxfUU0O7UIn8KuMBLe9EVwkeAsT2mUpEE8QAqOJAkEoZO/vE9YjeCSmuRvT+wdmvdJDcpSrzHMy4j1tRlA=
-X-Received: by 2002:a05:6402:1383:: with SMTP id
- b3mr8222799edv.100.1607628629412; 
- Thu, 10 Dec 2020 11:30:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1knRxp-0008Lj-Fk
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:50:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45957)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1knRxm-00029e-VA
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:50:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607629853;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8MQ+nPwdEZTcRgp89CkiYaqT52reIeGV27WjwADJByw=;
+ b=Tfok1Y9A8qCDnDElPnsvGVsyMkiyZrMKzkzPU09LNqp8IG92EZU+oI3R3PLZxCTZKo6YDm
+ YM7S8U2udYu9YCRoJaZtkha8oUNQmMqhnqAe3RUJHEX7cuRTqV8FaAxIOYCk6kbss50VYS
+ XnK4Mt+7EjV7MCTaF7h0kinq76+i3BQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-9-4t47Ot41PFmDxaPI2evrog-1; Thu, 10 Dec 2020 14:50:51 -0500
+X-MC-Unique: 4t47Ot41PFmDxaPI2evrog-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D51B0801817
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 19:50:50 +0000 (UTC)
+Received: from work-vm (ovpn-113-66.ams2.redhat.com [10.36.113.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DBDC6F130;
+ Thu, 10 Dec 2020 19:50:43 +0000 (UTC)
+Date: Thu, 10 Dec 2020 19:50:35 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH 1/3] virtiofsd: Set up posix_lock hash table for root inode
+Message-ID: <20201210195035.GD12670@work-vm>
+References: <20201207183021.22752-1-vgoyal@redhat.com>
+ <20201207183021.22752-2-vgoyal@redhat.com>
+ <20201207195539.GB3107@redhat.com>
 MIME-Version: 1.0
-References: <20201210163132.2919935-1-armbru@redhat.com>
-In-Reply-To: <20201210163132.2919935-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 10 Dec 2020 19:30:18 +0000
-Message-ID: <CAFEAcA_tJVOTZXCyYJrXMLiSeZDaSVXDR466hB6OhWvJ0nCx7Q@mail.gmail.com>
-Subject: Re: [PULL 00/13] Miscellaneous patches for 2020-12-10
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+In-Reply-To: <20201207195539.GB3107@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,33 +80,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: virtio-fs@redhat.com, mszeredi@redhat.com, lersek@redhat.com,
+ qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Dec 2020 at 16:32, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit 00ef48ff0de9c3e5834e7e3f6691bbc80d08c114:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/microvm-20201210-pull-request' into staging (2020-12-10 12:53:01 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-misc-2020-12-10
->
-> for you to fetch changes up to 4eb79bdf87206a223a7ad7a698af519d2ec75c14:
->
->   docs/devel/writing-qmp-commands.txt: Fix docs (2020-12-10 17:16:44 +0100)
->
-> ----------------------------------------------------------------
-> Miscellaneous patches for 2020-12-10
->
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> We setup per inode hash table ->posix_lock to support remote posix locks.
+> But we forgot to initialize this table for root inode.
+> 
+> Laszlo managed to trigger an issue where he sent a FUSE_FLUSH request for
+> root inode and lo_flush() found inode with inode->posix_lock NULL and
+> accessing this table crashed virtiofsd.
+> 
+> May be we can get rid of initializing this hash table for directory
+> objects completely. But that optimization is for another day.
+> 
+> Reported-by: Laszlo Ersek <lersek@redhat.com>
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Applied, thanks.
+> ---
+>  tools/virtiofsd/passthrough_ll.c |    7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
+> ===================================================================
+> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2020-12-07 14:46:22.198359486 -0500
+> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2020-12-07 14:48:07.873737472 -0500
+> @@ -3372,6 +3372,9 @@ static void setup_root(struct lo_data *l
+>      root->key.mnt_id = mnt_id;
+>      root->nlookup = 2;
+>      g_atomic_int_set(&root->refcount, 2);
+> +    pthread_mutex_init(&root->plock_mutex, NULL);
+> +    root->posix_locks = g_hash_table_new_full(
+> +        g_direct_hash, g_direct_equal, NULL, posix_locks_value_destroy);
+>  }
+>  
+>  static guint lo_key_hash(gconstpointer key)
+> @@ -3394,6 +3397,10 @@ static void fuse_lo_data_cleanup(struct
+>      if (lo->inodes) {
+>          g_hash_table_destroy(lo->inodes);
+>      }
+> +
+> +    if (lo->root.posix_locks) {
+> +        g_hash_table_destroy(lo->root.posix_locks);
+> +    }
+>      lo_map_destroy(&lo->fd_map);
+>      lo_map_destroy(&lo->dirp_map);
+>      lo_map_destroy(&lo->ino_map);
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
 
