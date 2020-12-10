@@ -2,103 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E5B2D6237
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 17:42:46 +0100 (CET)
-Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6542B2D6216
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 17:38:10 +0100 (CET)
+Received: from localhost ([::1]:41050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knP1h-0006s4-5U
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 11:42:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34610)
+	id 1knOxF-000389-DC
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 11:38:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1knObV-000586-R5
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:15:48 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:12522
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1knObL-0001Ii-I7
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:15:41 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BAG8JmK117442; Thu, 10 Dec 2020 11:15:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=2zSaeJyMImLTGA0olPxsmbdkSyRuOyihRCAxeyJ7UJ0=;
- b=sQr+E3e8uJRIH9+a0YrJf+GOAX307aJQu2li/sDhov22HSredp+vGS5fAAHOy2f7g+Sc
- IbTLe0vteyvnXXDT09TvXdm1XJGyNqt9ofD+kBr96FDI/ZQ747mOmSXFdCdRfvwE56sf
- PbenwjKq/Copz48MlTwMqdFXK//1245bby4Kgadcz1U1jJYBpzSGdNr73Jm+jvGCH8uo
- 0mD9zXprOztBDhbw7c80TR65UMVPeYrouxY1kPnvWUJquvFdZfr9zst9fRdReuhJ08Va
- OCFvl/k1VtOwnXnDpjHVPiwWSkSYNyHsY7XyU0pAuJ5k1sJiiVQC1VrLUWnX+qLpZK00 kw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 35bpgss2rt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 11:15:29 -0500
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BAG8cwu119797;
- Thu, 10 Dec 2020 11:15:28 -0500
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 35bpgss2r4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 11:15:28 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BAG7Kms017567;
- Thu, 10 Dec 2020 16:15:27 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma01wdc.us.ibm.com with ESMTP id 3581u9rbak-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 16:15:27 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BAGEBNc18350588
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Dec 2020 16:14:12 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D89DE6A057;
- Thu, 10 Dec 2020 16:14:11 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A30146A058;
- Thu, 10 Dec 2020 16:14:10 +0000 (GMT)
-Received: from jarvis.int.hansenpartnership.com (unknown [9.85.183.17])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 10 Dec 2020 16:14:10 +0000 (GMT)
-Message-ID: <22795177a81715d31a141887771b21e518b363c7.camel@linux.ibm.com>
-Subject: Re: [PATCH] target/i386/sev: add the support to query the
- attestation report
-From: James Bottomley <jejb@linux.ibm.com>
-To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
-Date: Thu, 10 Dec 2020 08:13:59 -0800
-In-Reply-To: <20201204213101.14552-1-brijesh.singh@amd.com>
-References: <20201204213101.14552-1-brijesh.singh@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knObF-00053S-6i
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:15:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51448)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knOb8-0001BU-1D
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:15:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607616917;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=A41DWRBo+5HnRPqleia0WdszhYBjKwJp6t+0HzVqi4k=;
+ b=UBV5J9WWTAkzfYRUHnyl90kkxgMg6/ZMKA5iIOq+NxAdMTa+ek4WLVY5hsVV8Gh2IxF7I7
+ kM5KzgiSJuzpJLvn872MCMC4KJT2n/fLcl716i0sB/f8rViD2VupmIOnkypCHvlByqYhsR
+ zzCqbybq+ZmBhaxYWNtJdpMSP1ekf2I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-583-HCzzlOEsMpuHZCOcoAvbAQ-1; Thu, 10 Dec 2020 11:14:55 -0500
+X-MC-Unique: HCzzlOEsMpuHZCOcoAvbAQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 363AF10151ED;
+ Thu, 10 Dec 2020 16:14:54 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 05EB360862;
+ Thu, 10 Dec 2020 16:14:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 71A9011336D6; Thu, 10 Dec 2020 17:14:52 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/10] Fix floating-point -> text conversion precision
+Date: Thu, 10 Dec 2020 17:14:42 +0100
+Message-Id: <20201210161452.2813491-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-10_06:2020-12-09,
- 2020-12-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0
- mlxlogscore=999 suspectscore=2 malwarescore=0 spamscore=0 phishscore=0
- clxscore=1011 adultscore=0 mlxscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012100099
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,213 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
-Cc: Tom Lendacky <Thomas.Lendacky@amd.com>, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2020-12-04 at 15:31 -0600, Brijesh Singh wrote:
-> The SEV FW >= 0.23 added a new command that can be used to query the
-> attestation report containing the SHA-256 digest of the guest memory
-> and VMSA encrypted with the LAUNCH_UPDATE and sign it with the PEK.
-> 
-> Note, we already have a command (LAUNCH_MEASURE) that can be used to
-> query the SHA-256 digest of the guest memory encrypted through the
-> LAUNCH_UPDATE. The main difference between previous and this command
-> is that the report is signed with the PEK and unlike the
-> LAUNCH_MEASURE
-> command the ATTESATION_REPORT command can be called while the guest
-> is running.
-> 
-> Add a QMP interface "query-sev-attestation-report" that can be used
-> to get the report encoded in base64.
-> 
-> Cc: James Bottomley <jejb@linux.ibm.com>
-> Cc: Tom Lendacky <Thomas.Lendacky@amd.com>
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: kvm@vger.kernel.org
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
-> ---
->  linux-headers/linux/kvm.h |  8 ++++++
->  qapi/misc-target.json     | 38 +++++++++++++++++++++++++++
->  target/i386/monitor.c     |  6 +++++
->  target/i386/sev-stub.c    |  7 +++++
->  target/i386/sev.c         | 54
-> +++++++++++++++++++++++++++++++++++++++
->  target/i386/sev_i386.h    |  2 ++
->  6 files changed, 115 insertions(+)
-> 
-> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-> index 56ce14ad20..6d0f8101ba 100644
-> --- a/linux-headers/linux/kvm.h
-> +++ b/linux-headers/linux/kvm.h
-> @@ -1585,6 +1585,8 @@ enum sev_cmd_id {
->  	KVM_SEV_DBG_ENCRYPT,
->  	/* Guest certificates commands */
->  	KVM_SEV_CERT_EXPORT,
-> +	/* Attestation report */
-> +	KVM_SEV_GET_ATTESTATION_REPORT,
->  
->  	KVM_SEV_NR_MAX,
->  };
-> @@ -1637,6 +1639,12 @@ struct kvm_sev_dbg {
->  	__u32 len;
->  };
->  
-> +struct kvm_sev_attestation_report {
-> +	__u8 mnonce[16];
-> +	__u64 uaddr;
-> +	__u32 len;
-> +};
-> +
->  #define KVM_DEV_ASSIGN_ENABLE_IOMMU	(1 << 0)
->  #define KVM_DEV_ASSIGN_PCI_2_3		(1 << 1)
->  #define KVM_DEV_ASSIGN_MASK_INTX	(1 << 2)
-> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-> index 1e561fa97b..ec6565e6ef 100644
-> --- a/qapi/misc-target.json
-> +++ b/qapi/misc-target.json
-> @@ -267,3 +267,41 @@
->  ##
->  { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
->    'if': 'defined(TARGET_ARM)' }
-> +
-> +
-> +##
-> +# @SevAttestationReport:
-> +#
-> +# The struct describes attestation report for a Secure Encrypted
-> Virtualization
-> +# feature.
-> +#
-> +# @data:  guest attestation report (base64 encoded)
-> +#
-> +#
-> +# Since: 5.2
-> +##
-> +{ 'struct': 'SevAttestationReport',
-> +  'data': { 'data': 'str'},
-> +  'if': 'defined(TARGET_I386)' }
-> +
-> +##
-> +# @query-sev-attestation-report:
-> +#
-> +# This command is used to get the SEV attestation report, and is
-> supported on AMD
-> +# X86 platforms only.
-> +#
-> +# @mnonce: a random 16 bytes of data (it will be included in report)
-> +#
-> +# Returns: SevAttestationReport objects.
-> +#
-> +# Since: 5.2
-> +#
-> +# Example:
-> +#
-> +# -> { "execute" : "query-sev-attestation-report", "arguments": {
-> "mnonce": "aaaaaaa" } }
-> +# <- { "return" : { "data": "aaaaaaaabbbddddd"} }
+This takes care of ancient FIXMEs, mostly because a future series will
+rework the code, and I can't bring myself tiptoeing around these bugs.
 
-It would be nice here, rather than returning a binary blob to break it
-up into the actual returned components like query-sev does.
+Markus Armbruster (10):
+  tests/check-qjson: Don't skip funny QNumber to JSON conversions
+  tests/check-qjson: Examine QNum more thoroughly
+  tests/check-qjson: Cover number 2^63
+  tests/check-qjson: Replace redundant large_number()
+  tests/check-qnum: Cover qnum_to_string() for "unround" argument
+  qobject: Fix qnum_to_string() to use sufficient precision
+  test-string-output-visitor: Cover "unround" number
+  string-output-visitor: Fix to use sufficient precision
+  test-visitor-serialization: Drop insufficient precision workaround
+  test-visitor-serialization: Clean up test_primitives()
 
-> +##
-> +{ 'command': 'query-sev-attestation-report', 'data': { 'mnonce':
-> 'str' },
-> +  'returns': 'SevAttestationReport',
-> +  'if': 'defined(TARGET_I386)' }
-[...]
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 93c4d60b82..28958fb71b 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -68,6 +68,7 @@ struct SevGuestState {
->  
->  #define DEFAULT_GUEST_POLICY    0x1 /* disable debug */
->  #define DEFAULT_SEV_DEVICE      "/dev/sev"
-> +#define DEFAULT_ATTESATION_REPORT_BUF_SIZE      4096
->  
->  static SevGuestState *sev_guest;
->  static Error *sev_mig_blocker;
-> @@ -490,6 +491,59 @@ out:
->      return cap;
->  }
->  
-> +SevAttestationReport *
-> +sev_get_attestation_report(const char *mnonce, Error **errp)
-> +{
-> +    struct kvm_sev_attestation_report input = {};
-> +    SevGuestState *sev = sev_guest;
-> +    SevAttestationReport *report;
-> +    guchar *data;
-> +    int err = 0, ret;
-> +
-> +    if (!sev_enabled()) {
-> +        error_setg(errp, "SEV is not enabled");
-> +        return NULL;
-> +    }
-> +
-> +    /* Verify that user provided random data length */
+ qapi/string-output-visitor.c       |   2 +-
+ qobject/qnum.c                     |  24 +----
+ tests/check-qjson.c                | 146 +++++++++++++++--------------
+ tests/check-qnum.c                 |   8 +-
+ tests/test-string-output-visitor.c |   4 +-
+ tests/test-visitor-serialization.c |  62 +++++++-----
+ 6 files changed, 127 insertions(+), 119 deletions(-)
 
-There should be a g_base64_decode here, shouldn't there, so we can pass
-an arbitrary 16 byte binary blob.
-
-> +    if (strlen(mnonce) != sizeof(input.mnonce)) {
-
-So this if would check the decoded length.
-
-> +        error_setg(errp, "Expected mnonce data len %ld got %ld",
-> +                sizeof(input.mnonce), strlen(mnonce));
-> +        return NULL;
-> +    }
-> +
-> +    /* Query the report length */
-> +    ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
-> +            &input, &err);
-> +    if (ret < 0) {
-> +        if (err != SEV_RET_INVALID_LEN) {
-> +            error_setg(errp, "failed to query the attestation report
-> length "
-> +                    "ret=%d fw_err=%d (%s)", ret, err,
-> fw_error_to_str(err));
-> +            return NULL;
-> +        }
-> +    }
-> +
-> +    data = g_malloc(input.len);
-> +    input.uaddr = (unsigned long)data;
-> +    memcpy(input.mnonce, mnonce, sizeof(input.mnonce));
-> +
-> +    /* Query the report */
-> +    ret = sev_ioctl(sev->sev_fd, KVM_SEV_GET_ATTESTATION_REPORT,
-> +            &input, &err);
-> +    if (ret) {
-> +        error_setg_errno(errp, errno, "Failed to get attestation
-> report"
-> +                " ret=%d fw_err=%d (%s)", ret, err,
-> fw_error_to_str(err));
-
-report should be set to NULL here to avoid returning uninitialized data
-from the goto.
-
-> +        goto e_free_data;
-> +    }
-> +
-> +    report = g_new0(SevAttestationReport, 1);
-> +    report->data = g_base64_encode(data, input.len);
-> +
-> +e_free_data:
-> +    g_free(data);
-> +    return report;
-> +}
-> +
->  static int
->  sev_read_file_base64(const char *filename, guchar **data, gsize
-> *len)
-
-James
-
+-- 
+2.26.2
 
 
