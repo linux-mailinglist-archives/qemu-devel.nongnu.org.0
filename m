@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F752D59D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:56:45 +0100 (CET)
-Received: from localhost ([::1]:49870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2959E2D59DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:59:42 +0100 (CET)
+Received: from localhost ([::1]:58252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKYu-000087-DK
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:56:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51118)
+	id 1knKbk-0003eC-Um
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:59:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKQm-0001M7-O1
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:22 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:54587)
+ id 1knKQs-0001PJ-Le
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:28 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKQb-00070E-1e
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:20 -0500
-Received: by mail-wm1-x336.google.com with SMTP id d3so4379571wmb.4
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:07 -0800 (PST)
+ id 1knKQb-00070J-1x
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:25 -0500
+Received: by mail-wm1-x333.google.com with SMTP id y23so5005486wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=pxyeVdBMn1RtIRNelqoqiHzeaVL19d3HeWFjF4ofw4A=;
- b=oDnfCRToJlhpebEZYC2xhvVZyXvYZKHlsSwPXE5DhVayLKZ4FPW1xtTHA18jxiKAgV
- 8h4Ku87l6k1uKT6eKKpB0tKJl3d+1Kqxyby4E1J5c7fCuPPP5wz807+ePwFNrNQiIVsH
- dqDJnAOyReL7rCEyAisCUPoma4aUKSuuwjRBlwf+uLwo0dRBw7XFuHF2bDLEeUWHtw3A
- aH8TY/VX5bEoAIBYgzq5dCkNE6a6wedXnr2+YgxJ5woZu5ZMelp2hDU6GRIh7q/ssLvE
- mwirZy4/EqFeyTG/0+6UyZZBtBtCHEojNRs7Qsrcj81jQg91PEyy/5CQrQfr+UZwFpPS
- 8MkQ==
+ bh=dpThmaMoogi/5GyS9PRoz+06UyOQ4dJ+IrOLxiQU3vE=;
+ b=SCH4N21yuypemMdFsIi94E0a4TicFHyCsEYw1Rw+PyzF1LHQJErwFz+yUp0kAjmrdo
+ 7nBkdwBkvJAdJx/NH45hIQSl3zn6G5TUfzQPkOnr32cC31j+MesYNh+HuLf68UInH/9C
+ jxHw9myWX/pE3Uo4o5FUJoamvLmeT6XADyDNz85tG8ywbbJXAwJbdrjaeBLR6Ftea6fX
+ DBuSl0orDHzIZvjeZaBQaiuGY1smGULWRm2Gjkmi3ZxgGvpBRZeklj4j/K8+cfvHF9fu
+ 9YvfgwjyaDHPXwz4DKoGfyc5EYMIsKyKMHMEcyWScBPsGG+qWXtBfyXsvct5rMVIxZhT
+ 4OzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pxyeVdBMn1RtIRNelqoqiHzeaVL19d3HeWFjF4ofw4A=;
- b=eo92Wb/8pHg+uBgpLai4I9XQkIOET75VdoXMSwKFnN47KGCHzLWfjTj+paB4w/SGef
- HtMuULVf/lV6HM13t86lUA966tJa6JqMfpclmW8VuLqEGzyO+BquLfK9ey0DuTG10OGU
- mGxYuNZhvHACp5jKxNp/9+zr7+qVnK2XsA/X9uBhgwPf1jOZu0u3BlN39bs1hUD7DBvr
- KGRvi8UL7nLIFSPYv71h2KJS4I7eBxY1Fju2PF2wBhv1uRLoHwvQ4WTnuJ+eMeVQP1a5
- 0rfvG3tDeRdb09OiNpRoPoSxnNGtRprq8z/JuAVxYMkSYa5B+9XUh8eJuA0Gvo+mrmyx
- Tkfw==
-X-Gm-Message-State: AOAM532BXMzUoAeLJHPtwnYw3tx6zCrpXJknVIv1eHjxoJdJQd1jTa4Z
- t49cPCLmz4SGAaSYQ6J6MOx2UVFaGANpMw==
-X-Google-Smtp-Source: ABdhPJxmmPy2YIWCBS4pIyzKK5ikie/qQevts4WtGABqo7WgZ1J+CcfVeo4cHJlVNmY86gL6+qchAw==
-X-Received: by 2002:a7b:c208:: with SMTP id x8mr7766467wmi.179.1607600886559; 
- Thu, 10 Dec 2020 03:48:06 -0800 (PST)
+ bh=dpThmaMoogi/5GyS9PRoz+06UyOQ4dJ+IrOLxiQU3vE=;
+ b=Px24IdTDSEIKyb8R0zOaR9LzRUIby1YS4M9v7VvAM/pTsIaERGK6nGjJg8mlJSlc6Z
+ wIruFby2mcxMFSg51tvarQDe65Nl8a4EaDHZowm2kzNFZQPFq4j1p85VlsYY+Hc1d7AO
+ toNkuRoPtZ5DtCfdtJwX9E5MnIT+8mpsBewZ3mxsak5Yo5vAUU5XWby9TOgbRd6b7niI
+ c9QP56y1IQ27nt2pS3OzL6YQKwzqhsLoK3V8bcFxbpBpsVlcEU9DcK93nCCtYRuMOsCo
+ sjE4rW7yU8NGwBdHaDCOzaXIj82DYc8/m2043JYsX+ABFn8XnzUS7EZ31mA93FLJbv9J
+ tsKQ==
+X-Gm-Message-State: AOAM532xPRmI/3KjeGOJkEX1JYdBhjslnvZ4hBmfbqm1CBxtBFc9WTxn
+ J4Ac1DGfQrUqce2NBk1MJAKi5iWqT9ohmg==
+X-Google-Smtp-Source: ABdhPJzxR7OBEjBtycWt/Pa3ITe4Nm15/USiRjjB7wWQPre7HOsHA9xGepFWKgKSCZdmv9o+/0qSlQ==
+X-Received: by 2002:a1c:a501:: with SMTP id o1mr7692056wme.44.1607600887601;
+ Thu, 10 Dec 2020 03:48:07 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.05
+ by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.06
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 03:48:05 -0800 (PST)
+ Thu, 10 Dec 2020 03:48:07 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/36] sbsa-ref: allow to use Cortex-A53/57/72 cpus
-Date: Thu, 10 Dec 2020 11:47:26 +0000
-Message-Id: <20201210114756.16501-7-peter.maydell@linaro.org>
+Subject: [PULL 07/36] tests/qtest/npcm7xx_rng-test: dump random data on failure
+Date: Thu, 10 Dec 2020 11:47:27 +0000
+Message-Id: <20201210114756.16501-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210114756.16501-1-peter.maydell@linaro.org>
 References: <20201210114756.16501-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,63 +86,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+From: Havard Skinnemoen <hskinnemoen@google.com>
 
-Trusted Firmware now supports A72 on sbsa-ref by default [1] so enable
-it for QEMU as well. A53 was already enabled there.
+Dump the collected random data after a randomness test failure.
 
-1. https://review.trustedfirmware.org/c/TF-A/trusted-firmware-a/+/7117
+Note that this relies on the test having called
+g_test_set_nonfatal_assertions() so we don't abort immediately on the
+assertion failure.
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201120141705.246690-1-marcin.juszkiewicz@linaro.org
+Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+[PMM: minor commit message tweak]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/sbsa-ref.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ tests/qtest/npcm7xx_rng-test.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 7d9e180c0db..4a5ea42938a 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -143,6 +143,24 @@ static const int sbsa_ref_irqmap[] = {
-     [SBSA_GWDT] = 16,
- };
+diff --git a/tests/qtest/npcm7xx_rng-test.c b/tests/qtest/npcm7xx_rng-test.c
+index c614968ffcd..797f832e53a 100644
+--- a/tests/qtest/npcm7xx_rng-test.c
++++ b/tests/qtest/npcm7xx_rng-test.c
+@@ -20,6 +20,7 @@
  
-+static const char * const valid_cpus[] = {
-+    ARM_CPU_TYPE_NAME("cortex-a53"),
-+    ARM_CPU_TYPE_NAME("cortex-a57"),
-+    ARM_CPU_TYPE_NAME("cortex-a72"),
-+};
-+
-+static bool cpu_type_valid(const char *cpu)
+ #include "libqtest-single.h"
+ #include "qemu/bitops.h"
++#include "qemu-common.h"
+ 
+ #define RNG_BASE_ADDR   0xf000b000
+ 
+@@ -36,6 +37,13 @@
+ /* Number of bits to collect for randomness tests. */
+ #define TEST_INPUT_BITS  (128)
+ 
++static void dump_buf_if_failed(const uint8_t *buf, size_t size)
 +{
-+    int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(valid_cpus); i++) {
-+        if (strcmp(cpu, valid_cpus[i]) == 0) {
-+            return true;
-+        }
++    if (g_test_failed()) {
++        qemu_hexdump(stderr, "", buf, size);
 +    }
-+    return false;
 +}
 +
- static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
+ static void rng_writeb(unsigned int offset, uint8_t value)
  {
-     uint8_t clustersz = ARM_DEFAULT_CPUS_PER_CLUSTER;
-@@ -649,9 +667,8 @@ static void sbsa_ref_init(MachineState *machine)
-     const CPUArchIdList *possible_cpus;
-     int n, sbsa_max_cpus;
- 
--    if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a57"))) {
--        error_report("sbsa-ref: CPU type other than the built-in "
--                     "cortex-a57 not supported");
-+    if (!cpu_type_valid(machine->cpu_type)) {
-+        error_report("mach-virt: CPU type %s not supported", machine->cpu_type);
-         exit(1);
+     writeb(RNG_BASE_ADDR + offset, value);
+@@ -188,6 +196,7 @@ static void test_continuous_monobit(void)
      }
  
+     g_assert_cmpfloat(calc_monobit_p(buf, sizeof(buf)), >, 0.01);
++    dump_buf_if_failed(buf, sizeof(buf));
+ }
+ 
+ /*
+@@ -209,6 +218,7 @@ static void test_continuous_runs(void)
+     }
+ 
+     g_assert_cmpfloat(calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE), >, 0.01);
++    dump_buf_if_failed(buf.c, sizeof(buf));
+ }
+ 
+ /*
+@@ -230,6 +240,7 @@ static void test_first_byte_monobit(void)
+     }
+ 
+     g_assert_cmpfloat(calc_monobit_p(buf, sizeof(buf)), >, 0.01);
++    dump_buf_if_failed(buf, sizeof(buf));
+ }
+ 
+ /*
+@@ -254,6 +265,7 @@ static void test_first_byte_runs(void)
+     }
+ 
+     g_assert_cmpfloat(calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE), >, 0.01);
++    dump_buf_if_failed(buf.c, sizeof(buf));
+ }
+ 
+ int main(int argc, char **argv)
 -- 
 2.20.1
 
