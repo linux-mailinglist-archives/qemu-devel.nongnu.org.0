@@ -2,71 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F1CE2D68E4
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 21:38:53 +0100 (CET)
-Received: from localhost ([::1]:50062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D5622D68E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 21:38:50 +0100 (CET)
+Received: from localhost ([::1]:50376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knSiC-0002dQ-5b
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 15:38:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44192)
+	id 1knSi9-0002kq-4z
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 15:38:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knSfQ-0001JU-M2
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 15:36:01 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38496)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knSfL-0000TD-Ie
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 15:35:59 -0500
-Received: by mail-wr1-x429.google.com with SMTP id r7so6852291wrc.5
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:35:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RyKkpjZW9rNTdT2fCEAENjxQbG7ZcxEPL1G84igIcOU=;
- b=Fld0CPWgB6EbDU6nHYfBwwKYAGWj85gKu/g61Ij4WEQboUZQY5A+RhLllQC0+SqBYQ
- O8iWyLbzaCeNbCI9f3gfaSKUjA2x5WlcIo4YYoCWPxLIB8pjFNZKi5hdtzBoo43Kjsi8
- 4UAAiTfR2LlKZBNcGE42/Imhc/db8KxgEzHcJmn5re+9JmB8zjpsh0sOJEZW0RO6X0wd
- pvSYaXiKAYqMerQkYiCOGYVCV1waJ7GsVEw3w1IK3Ylm7wFdZgb3p6eHR0nuwC8St6JY
- Pp7Gww58x1GbLx2TZ4XLRzPTfW9UJIAuNq5pizkGykYmFOLe2eqEk04J506urum7UWra
- VU/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RyKkpjZW9rNTdT2fCEAENjxQbG7ZcxEPL1G84igIcOU=;
- b=PmuradgUtJ39+m4YNNNp+kI1IYM0qZZjbylIqRUc7Mqg3fAMSW9MyeZwNo3MTE8P7z
- dB8rBh+YdnnLSLIVuMdghKcILlUdI3S836OTJTbqjNTsbiKBD6kDej5ye5/lHlH2FHHf
- nKaN2hCHBza7btzA0TmkD4fbRZRIgT2igI3LMzBhkuSdmdXZJEOm30ZkqVoeUeF9spuX
- 0DM3R8SL5BQcZkTyWYke/tS12UlxRndTt6spghUZ2c+IHJGz0AIBF59agJ726qjuSFKr
- tRk86ObKg0OEYfCLV4rwOB3hsvjEDUXV0A9kl9vAMxR2PG5Jy9UdFhJaz/0RravxGvT+
- Af8w==
-X-Gm-Message-State: AOAM531rROaX77VVacIuweFw4VjtTlYxMr2tYhU5r48XExtiXVwFwxG4
- Bg3GP4j/LB9bexk5OV/tcz2fBe7ZtIM8EQ==
-X-Google-Smtp-Source: ABdhPJyVmWTVE+rSatoI+d8IpuDZV1fjLGS62sGAb5ILJnRjxTW16LzDhZvz8iSj+txZw/3G4SBezQ==
-X-Received: by 2002:adf:ec92:: with SMTP id z18mr10407927wrn.166.1607632552339; 
- Thu, 10 Dec 2020 12:35:52 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g11sm11170373wrq.7.2020.12.10.12.35.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 12:35:51 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs: Build and install all the docs in a single manual
-Date: Thu, 10 Dec 2020 20:35:49 +0000
-Message-Id: <20201210203549.379-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1knSgO-0001c1-I5
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 15:37:02 -0500
+Resent-Date: Thu, 10 Dec 2020 15:37:00 -0500
+Resent-Message-Id: <E1knSgO-0001c1-I5@lists.gnu.org>
+Received: from sender4-of-o52.zoho.com ([136.143.188.52]:21212)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1knSgK-0000mk-6l
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 15:37:00 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1607632605; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=LxJyToMZlI8hCxFAlITRNHu+AeYeQDSJP88gA+TMlHDp4s4UTd2EA3V2kYqbWjDmXUG33rvvx051sqDmRwbAzSFaDe0Pgp2MZXMMT5BmoWr3zG4bulfjQmz3JxY9qhHokQ6wR83AIjJN8/4hR/6UIBMNfk1E339IarzNf/lY+go=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1607632605;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=9lA7Y3wC+Dz4Ev9QmvqvYOPDrhoFIZY+qqDicTWLAeU=; 
+ b=IQwKahtUSC1BHl89DLPk26u76afugRABnq8NNN7de3/mMg2XBWwPfQiH6fZExE592c9zSi+aYJaw1bY36H2yF6FiUQT9OVZGbAnOhpqbs2KAyutGrRC5aWxIQi4fYvqxj4vl4YFTRQxHfG+8EEhagHu307P9OLEDk+IgH2A8GEE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1607632604677785.055319624066;
+ Thu, 10 Dec 2020 12:36:44 -0800 (PST)
+In-Reply-To: <20201210161452.2813491-1-armbru@redhat.com>
+Subject: Re: [PATCH 00/10] Fix floating-point -> text conversion precision
+Message-ID: <160763260337.10419.687666075184398381@600e7e483b3a>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: armbru@redhat.com
+Date: Thu, 10 Dec 2020 12:36:44 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.52; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o52.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,420 +67,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we first converted our documentation to Sphinx, we split it into
-multiple manuals (system, interop, tools, etc), which are all built
-separately.  The primary driver for this was wanting to be able to
-avoid shipping the 'devel' manual to end-users.  However, this is
-working against the grain of the way Sphinx wants to be used and
-causes some annoyances:
- * Cross-references between documents become much harder or
-   possibly impossible
- * There is no single index to the whole documentation
- * Within one manual there's no links or table-of-contents info
-   that lets you easily navigate to the others
- * The devel manual doesn't get published on the QEMU website
-   (it would be nice to able to refer to it there)
-
-Merely hiding our developer documentation from end users seems like
-it's not enough benefit for these costs.  Combine all the
-documentation into a single manual (the same way that the readthedocs
-site builds it) and install the whole thing.  The previous manual
-divisions remain as the new top level sections in the manual.
-
- * The per-manual conf.py files are no longer needed
- * The man_pages[] specifications previously in each per-manual
-   conf.py move to the top level conf.py
- * docs/meson.build logic is simplified as we now only need to run
-   Sphinx once for the HTML and then once for the manpages5B
- * The old index.html.in that produced the top-level page with
-   links to each manual is no longer needed
-
-Unfortunately this means that we now have to build the HTML
-documentation into docs/manual in the build tree rather than directly
-into docs/; otherwise it is too awkward to ensure we install only the
-built manual and not also the dependency info, stamp file, etc.  The
-manual still ends up in the same place in the final installed
-directory, but anybody who was consulting documentation from within
-the build tree will have to adjust where they're looking.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-I posted this as an RFC back in November. Nobody objected, so here
-it is again as a patch intended to go into master. The RFC's initial
-"mark stuff as orphan" patch is no longer needed because we cleaned
-up all the orphan docs for 5.2. Only other change since the RFC is
-a minor rebase to deal with a new manpage whose man_pages line needs
-to live in docs/conf.py now.
----
- docs/conf.py         | 40 ++++++++++++++++++++++++++-
- docs/devel/conf.py   | 15 -----------
- docs/index.html.in   | 17 ------------
- docs/interop/conf.py | 26 ------------------
- docs/meson.build     | 64 +++++++++++++++++---------------------------
- docs/specs/conf.py   | 16 -----------
- docs/system/conf.py  | 28 -------------------
- docs/tools/conf.py   | 35 ------------------------
- docs/user/conf.py    | 15 -----------
- 9 files changed, 64 insertions(+), 192 deletions(-)
- delete mode 100644 docs/devel/conf.py
- delete mode 100644 docs/index.html.in
- delete mode 100644 docs/interop/conf.py
- delete mode 100644 docs/specs/conf.py
- delete mode 100644 docs/system/conf.py
- delete mode 100644 docs/tools/conf.py
- delete mode 100644 docs/user/conf.py
-
-diff --git a/docs/conf.py b/docs/conf.py
-index d40d8ff37ba..14bfeabd2a4 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -224,7 +224,45 @@ latex_documents = [
- 
- # -- Options for manual page output ---------------------------------------
- # Individual manual/conf.py can override this to create man pages
--man_pages = []
-+man_pages = [
-+    ('interop/qemu-ga', 'qemu-ga',
-+     'QEMU Guest Agent',
-+     ['Michael Roth <mdroth@linux.vnet.ibm.com>'], 8),
-+    ('interop/qemu-ga-ref', 'qemu-ga-ref',
-+     'QEMU Guest Agent Protocol Reference',
-+     [], 7),
-+    ('interop/qemu-qmp-ref', 'qemu-qmp-ref',
-+     'QEMU QMP Reference Manual',
-+     [], 7),
-+    ('system/qemu-manpage', 'qemu',
-+     'QEMU User Documentation',
-+     ['Fabrice Bellard'], 1),
-+    ('system/qemu-block-drivers', 'qemu-block-drivers',
-+     'QEMU block drivers reference',
-+     ['Fabrice Bellard and the QEMU Project developers'], 7),
-+    ('system/qemu-cpu-models', 'qemu-cpu-models',
-+     'QEMU CPU Models',
-+     ['The QEMU Project developers'], 7),
-+    ('tools/qemu-img', 'qemu-img',
-+     'QEMU disk image utility',
-+     ['Fabrice Bellard'], 1),
-+    ('tools/qemu-nbd', 'qemu-nbd',
-+     'QEMU Disk Network Block Device Server',
-+     ['Anthony Liguori <anthony@codemonkey.ws>'], 8),
-+    ('tools/qemu-pr-helper', 'qemu-pr-helper',
-+     'QEMU persistent reservation helper',
-+     [], 8),
-+    ('tools/qemu-trace-stap', 'qemu-trace-stap',
-+     'QEMU SystemTap trace tool',
-+     [], 1),
-+    ('tools/virtfs-proxy-helper', 'virtfs-proxy-helper',
-+     'QEMU 9p virtfs proxy filesystem helper',
-+     ['M. Mohan Kumar'], 1),
-+    ('tools/virtiofsd', 'virtiofsd',
-+     'QEMU virtio-fs shared file system daemon',
-+     ['Stefan Hajnoczi <stefanha@redhat.com>',
-+      'Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>'], 1),
-+]
- 
- # -- Options for Texinfo output -------------------------------------------
- 
-diff --git a/docs/devel/conf.py b/docs/devel/conf.py
-deleted file mode 100644
-index 7441f87e7f5..00000000000
---- a/docs/devel/conf.py
-+++ /dev/null
-@@ -1,15 +0,0 @@
--# -*- coding: utf-8 -*-
--#
--# QEMU documentation build configuration file for the 'devel' manual.
--#
--# This includes the top level conf file and then makes any necessary tweaks.
--import sys
--import os
--
--qemu_docdir = os.path.abspath("..")
--parent_config = os.path.join(qemu_docdir, "conf.py")
--exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
--
--# This slightly misuses the 'description', but is the best way to get
--# the manual title to appear in the sidebar.
--html_theme_options['description'] = u'Developer''s Guide'
-diff --git a/docs/index.html.in b/docs/index.html.in
-deleted file mode 100644
-index 33db4396ac8..00000000000
---- a/docs/index.html.in
-+++ /dev/null
-@@ -1,17 +0,0 @@
--<!DOCTYPE html>
--<html lang="en">
--    <head>
--        <meta charset="UTF-8">
--        <title>QEMU @VERSION@ Documentation</title>
--    </head>
--    <body>
--        <h1>QEMU @VERSION@ Documentation</h1>
--        <ul>
--            <li><a href="system/index.html">System Emulation User's Guide</a></li>
--            <li><a href="user/index.html">User Mode Emulation User's Guide</a></li>
--            <li><a href="tools/index.html">Tools Guide</a></li>
--            <li><a href="interop/index.html">System Emulation Management and Interoperability Guide</a></li>
--            <li><a href="specs/index.html">System Emulation Guest Hardware Specifications</a></li>
--        </ul>
--    </body>
--</html>
-diff --git a/docs/interop/conf.py b/docs/interop/conf.py
-deleted file mode 100644
-index 2634ca3410a..00000000000
---- a/docs/interop/conf.py
-+++ /dev/null
-@@ -1,26 +0,0 @@
--# -*- coding: utf-8 -*-
--#
--# QEMU documentation build configuration file for the 'interop' manual.
--#
--# This includes the top level conf file and then makes any necessary tweaks.
--import sys
--import os
--
--qemu_docdir = os.path.abspath("..")
--parent_config = os.path.join(qemu_docdir, "conf.py")
--exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
--
--# This slightly misuses the 'description', but is the best way to get
--# the manual title to appear in the sidebar.
--html_theme_options['description'] = u'System Emulation Management and Interoperability Guide'
--
--# One entry per manual page. List of tuples
--# (source start file, name, description, authors, manual section).
--man_pages = [
--    ('qemu-ga', 'qemu-ga', u'QEMU Guest Agent',
--     ['Michael Roth <mdroth@linux.vnet.ibm.com>'], 8),
--    ('qemu-ga-ref', 'qemu-ga-ref', 'QEMU Guest Agent Protocol Reference',
--     [], 7),
--    ('qemu-qmp-ref', 'qemu-qmp-ref', 'QEMU QMP Reference Manual',
--     [], 7),
--]
-diff --git a/docs/meson.build b/docs/meson.build
-index ebd85d59f98..8471fedc4c0 100644
---- a/docs/meson.build
-+++ b/docs/meson.build
-@@ -46,71 +46,57 @@ if build_docs
-                           meson.source_root() / 'docs/sphinx/qmp_lexer.py',
-                           qapi_gen_depends ]
- 
--  configure_file(output: 'index.html',
--                 input: files('index.html.in'),
--                 configuration: {'VERSION': meson.project_version()},
--                 install_dir: qemu_docdir)
--  manuals = [ 'devel', 'interop', 'tools', 'specs', 'system', 'user' ]
-   man_pages = {
--    'interop' : {
-         'qemu-ga.8': (have_tools ? 'man8' : ''),
-         'qemu-ga-ref.7': 'man7',
-         'qemu-qmp-ref.7': 'man7',
--    },
--    'tools': {
-         'qemu-img.1': (have_tools ? 'man1' : ''),
-         'qemu-nbd.8': (have_tools ? 'man8' : ''),
-         'qemu-pr-helper.8': (have_tools ? 'man8' : ''),
-         'qemu-trace-stap.1': (config_host.has_key('CONFIG_TRACE_SYSTEMTAP') ? 'man1' : ''),
-         'virtfs-proxy-helper.1': (have_virtfs_proxy_helper ? 'man1' : ''),
-         'virtiofsd.1': (have_virtiofsd ? 'man1' : ''),
--    },
--    'system': {
-         'qemu.1': 'man1',
-         'qemu-block-drivers.7': 'man7',
-         'qemu-cpu-models.7': 'man7'
--    },
-   }
- 
-   sphinxdocs = []
-   sphinxmans = []
--  foreach manual : manuals
--    private_dir = meson.current_build_dir() / (manual + '.p')
--    output_dir = meson.current_build_dir() / manual
--    input_dir = meson.current_source_dir() / manual
- 
--    this_manual = custom_target(manual + ' manual',
-+  private_dir = meson.current_build_dir() / 'manual.p'
-+  output_dir = meson.current_build_dir() / 'manual'
-+  input_dir = meson.current_source_dir()
-+
-+  this_manual = custom_target('QEMU manual',
-                 build_by_default: build_docs,
--                output: [manual + '.stamp'],
--                input: [files('conf.py'), files(manual / 'conf.py')],
--                depfile: manual + '.d',
-+                output: 'docs.stamp',
-+                input: files('conf.py'),
-+                depfile: 'docs.d',
-                 depend_files: sphinx_extn_depends,
-                 command: [SPHINX_ARGS, '-Ddepfile=@DEPFILE@',
-                           '-Ddepfile_stamp=@OUTPUT0@',
-                           '-b', 'html', '-d', private_dir,
-                           input_dir, output_dir])
--    sphinxdocs += this_manual
--    if build_docs and manual != 'devel'
--      install_subdir(output_dir, install_dir: qemu_docdir)
--    endif
-+  sphinxdocs += this_manual
-+  install_subdir(output_dir, install_dir: qemu_docdir, strip_directory: true)
- 
--    these_man_pages = []
--    install_dirs = []
--    foreach page, section : man_pages.get(manual, {})
--      these_man_pages += page
--      install_dirs += section == '' ? false : get_option('mandir') / section
--    endforeach
--    if these_man_pages.length() > 0
--      sphinxmans += custom_target(manual + ' man pages',
--                         build_by_default: build_docs,
--                         output: these_man_pages,
--                         input: this_manual,
--                         install: build_docs,
--                         install_dir: install_dirs,
--                         command: [SPHINX_ARGS, '-b', 'man', '-d', private_dir,
--                                   input_dir, meson.current_build_dir()])
--    endif
-+  these_man_pages = []
-+  install_dirs = []
-+  foreach page, section : man_pages
-+    these_man_pages += page
-+    install_dirs += section == '' ? false : get_option('mandir') / section
-   endforeach
-+
-+  sphinxmans += custom_target('QEMU man pages',
-+                              build_by_default: build_docs,
-+                              output: these_man_pages,
-+                              input: this_manual,
-+                              install: build_docs,
-+                              install_dir: install_dirs,
-+                              command: [SPHINX_ARGS, '-b', 'man', '-d', private_dir,
-+                                        input_dir, meson.current_build_dir()])
-+
-   alias_target('sphinxdocs', sphinxdocs)
-   alias_target('html', sphinxdocs)
-   alias_target('man', sphinxmans)
-diff --git a/docs/specs/conf.py b/docs/specs/conf.py
-deleted file mode 100644
-index 4d56f3ae13c..00000000000
---- a/docs/specs/conf.py
-+++ /dev/null
-@@ -1,16 +0,0 @@
--# -*- coding: utf-8 -*-
--#
--# QEMU documentation build configuration file for the 'specs' manual.
--#
--# This includes the top level conf file and then makes any necessary tweaks.
--import sys
--import os
--
--qemu_docdir = os.path.abspath("..")
--parent_config = os.path.join(qemu_docdir, "conf.py")
--exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
--
--# This slightly misuses the 'description', but is the best way to get
--# the manual title to appear in the sidebar.
--html_theme_options['description'] = \
--    u'System Emulation Guest Hardware Specifications'
-diff --git a/docs/system/conf.py b/docs/system/conf.py
-deleted file mode 100644
-index 6251849fefc..00000000000
---- a/docs/system/conf.py
-+++ /dev/null
-@@ -1,28 +0,0 @@
--# -*- coding: utf-8 -*-
--#
--# QEMU documentation build configuration file for the 'system' manual.
--#
--# This includes the top level conf file and then makes any necessary tweaks.
--import sys
--import os
--
--qemu_docdir = os.path.abspath("..")
--parent_config = os.path.join(qemu_docdir, "conf.py")
--exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
--
--# This slightly misuses the 'description', but is the best way to get
--# the manual title to appear in the sidebar.
--html_theme_options['description'] = u'System Emulation User''s Guide'
--
--# One entry per manual page. List of tuples
--# (source start file, name, description, authors, manual section).
--man_pages = [
--    ('qemu-manpage', 'qemu', u'QEMU User Documentation',
--     ['Fabrice Bellard'], 1),
--    ('qemu-block-drivers', 'qemu-block-drivers',
--     u'QEMU block drivers reference',
--     ['Fabrice Bellard and the QEMU Project developers'], 7),
--    ('qemu-cpu-models', 'qemu-cpu-models',
--     u'QEMU CPU Models',
--     ['The QEMU Project developers'], 7)
--]
-diff --git a/docs/tools/conf.py b/docs/tools/conf.py
-deleted file mode 100644
-index 4760d36ff2a..00000000000
---- a/docs/tools/conf.py
-+++ /dev/null
-@@ -1,35 +0,0 @@
--# -*- coding: utf-8 -*-
--#
--# QEMU documentation build configuration file for the 'tools' manual.
--#
--# This includes the top level conf file and then makes any necessary tweaks.
--import sys
--import os
--
--qemu_docdir = os.path.abspath("..")
--parent_config = os.path.join(qemu_docdir, "conf.py")
--exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
--
--# This slightly misuses the 'description', but is the best way to get
--# the manual title to appear in the sidebar.
--html_theme_options['description'] = \
--    u'Tools Guide'
--
--# One entry per manual page. List of tuples
--# (source start file, name, description, authors, manual section).
--man_pages = [
--    ('qemu-img', 'qemu-img', u'QEMU disk image utility',
--     ['Fabrice Bellard'], 1),
--    ('qemu-nbd', 'qemu-nbd', u'QEMU Disk Network Block Device Server',
--     ['Anthony Liguori <anthony@codemonkey.ws>'], 8),
--    ('qemu-pr-helper', 'qemu-pr-helper', 'QEMU persistent reservation helper',
--     [], 8),
--    ('qemu-trace-stap', 'qemu-trace-stap', u'QEMU SystemTap trace tool',
--     [], 1),
--    ('virtfs-proxy-helper', 'virtfs-proxy-helper',
--     u'QEMU 9p virtfs proxy filesystem helper',
--     ['M. Mohan Kumar'], 1),
--    ('virtiofsd', 'virtiofsd', u'QEMU virtio-fs shared file system daemon',
--     ['Stefan Hajnoczi <stefanha@redhat.com>',
--      'Masayoshi Mizuma <m.mizuma@jp.fujitsu.com>'], 1),
--]
-diff --git a/docs/user/conf.py b/docs/user/conf.py
-deleted file mode 100644
-index 4b09aedd454..00000000000
---- a/docs/user/conf.py
-+++ /dev/null
-@@ -1,15 +0,0 @@
--# -*- coding: utf-8 -*-
--#
--# QEMU documentation build configuration file for the 'user' manual.
--#
--# This includes the top level conf file and then makes any necessary tweaks.
--import sys
--import os
--
--qemu_docdir = os.path.abspath("..")
--parent_config = os.path.join(qemu_docdir, "conf.py")
--exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
--
--# This slightly misuses the 'description', but is the best way to get
--# the manual title to appear in the sidebar.
--html_theme_options['description'] = u'User Mode Emulation User''s Guide'
--- 
-2.20.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxMDE2MTQ1Mi4yODEz
+NDkxLTEtYXJtYnJ1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTIxMDE2MTQ1Mi4yODEz
+NDkxLTEtYXJtYnJ1QHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIDAwLzEwXSBGaXggZmxvYXRp
+bmctcG9pbnQgLT4gdGV4dCBjb252ZXJzaW9uIHByZWNpc2lvbgoKPT09IFRFU1QgU0NSSVBUIEJF
+R0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhp
+dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBo
+aXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRF
+U1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0
+YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUK
+IC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIwMDkxNjA5NTE1MC43NTU3MTQtMS1zdGVm
+YW5oYUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMDA5MTYwOTUxNTAuNzU1NzE0LTEtc3RlZmFu
+aGFAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAxMjEwMTYxNDUy
+LjI4MTM0OTEtMS1hcm1icnVAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjAxMjEwMTYxNDUyLjI4
+MTM0OTEtMS1hcm1icnVAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3Qn
+CmI0ODRkNDEgdGVzdC12aXNpdG9yLXNlcmlhbGl6YXRpb246IENsZWFuIHVwIHRlc3RfcHJpbWl0
+aXZlcygpCjIyODRmZDUgdGVzdC12aXNpdG9yLXNlcmlhbGl6YXRpb246IERyb3AgaW5zdWZmaWNp
+ZW50IHByZWNpc2lvbiB3b3JrYXJvdW5kCmJlMmU2MDggc3RyaW5nLW91dHB1dC12aXNpdG9yOiBG
+aXggdG8gdXNlIHN1ZmZpY2llbnQgcHJlY2lzaW9uCmVmZDJhNTcgdGVzdC1zdHJpbmctb3V0cHV0
+LXZpc2l0b3I6IENvdmVyICJ1bnJvdW5kIiBudW1iZXIKOWVkMWVkZCBxb2JqZWN0OiBGaXggcW51
+bV90b19zdHJpbmcoKSB0byB1c2Ugc3VmZmljaWVudCBwcmVjaXNpb24KMGNkY2I5NyB0ZXN0cy9j
+aGVjay1xbnVtOiBDb3ZlciBxbnVtX3RvX3N0cmluZygpIGZvciAidW5yb3VuZCIgYXJndW1lbnQK
+YTM0OWJjMyB0ZXN0cy9jaGVjay1xanNvbjogUmVwbGFjZSByZWR1bmRhbnQgbGFyZ2VfbnVtYmVy
+KCkKMDBkYjcxMiB0ZXN0cy9jaGVjay1xanNvbjogQ292ZXIgbnVtYmVyIDJeNjMKNDg3YzIyNiB0
+ZXN0cy9jaGVjay1xanNvbjogRXhhbWluZSBRTnVtIG1vcmUgdGhvcm91Z2hseQpiNzgzZGU2IHRl
+c3RzL2NoZWNrLXFqc29uOiBEb24ndCBza2lwIGZ1bm55IFFOdW1iZXIgdG8gSlNPTiBjb252ZXJz
+aW9ucwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xMCBDaGVja2luZyBjb21taXQgYjc4M2RlNjU2
+ZTliICh0ZXN0cy9jaGVjay1xanNvbjogRG9uJ3Qgc2tpcCBmdW5ueSBRTnVtYmVyIHRvIEpTT04g
+Y29udmVyc2lvbnMpCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24g
+YSBzZXBhcmF0ZSBsaW5lCiM5NDogRklMRTogdGVzdHMvY2hlY2stcWpzb24uYzo4ODM6CisgICAg
+ICAgIHsgIi0zMi4yMGUtMTAiLCAtMzIuMjBlLTEwLCAiLTAiIC8qIEJVRyAqLyB9LAoKRVJST1I6
+IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnLScgKGN0eDpWeFYpCiM5NDogRklMRTogdGVz
+dHMvY2hlY2stcWpzb24uYzo4ODM6CisgICAgICAgIHsgIi0zMi4yMGUtMTAiLCAtMzIuMjBlLTEw
+LCAiLTAiIC8qIEJVRyAqLyB9LAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCnRv
+dGFsOiAxIGVycm9ycywgMSB3YXJuaW5ncywgOTcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS8xMCBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMi8xMCBDaGVja2luZyBjb21taXQgNDg3YzIyNmM4
+MTMyICh0ZXN0cy9jaGVjay1xanNvbjogRXhhbWluZSBRTnVtIG1vcmUgdGhvcm91Z2hseSkKMy8x
+MCBDaGVja2luZyBjb21taXQgMDBkYjcxMmUzZDQyICh0ZXN0cy9jaGVjay1xanNvbjogQ292ZXIg
+bnVtYmVyIDJeNjMpCjQvMTAgQ2hlY2tpbmcgY29tbWl0IGEzNDliYzNmMmZiNSAodGVzdHMvY2hl
+Y2stcWpzb246IFJlcGxhY2UgcmVkdW5kYW50IGxhcmdlX251bWJlcigpKQo1LzEwIENoZWNraW5n
+IGNvbW1pdCAwY2RjYjk3MzBkOTAgKHRlc3RzL2NoZWNrLXFudW06IENvdmVyIHFudW1fdG9fc3Ry
+aW5nKCkgZm9yICJ1bnJvdW5kIiBhcmd1bWVudCkKNi8xMCBDaGVja2luZyBjb21taXQgOWVkMWVk
+ZDJlYjk0IChxb2JqZWN0OiBGaXggcW51bV90b19zdHJpbmcoKSB0byB1c2Ugc3VmZmljaWVudCBw
+cmVjaXNpb24pCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBz
+ZXBhcmF0ZSBsaW5lCiMxMDQ6IEZJTEU6IHFvYmplY3QvcW51bS5jOjE3MDoKKyAgICAgICAgLyog
+RklYTUU6IGdfc3RyZHVwX3ByaW50ZigpIGlzIGxvY2FsZSBkZXBlbmRlbnQ7IGJ1dCBKU09OIHJl
+cXVpcmVzCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikK
+IzE0NDogRklMRTogdGVzdHMvY2hlY2stcWpzb24uYzo4ODY6CisgICAgICAgIHsgIi0zMi4yMGUt
+MTAiLCAtMzIuMjBlLTEwLCAiLTMuMjJlLTA5IiB9LAogICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIF4KCnRvdGFsOiAxIGVycm9ycywgMSB3YXJuaW5ncywgNjkgbGluZXMgY2hlY2tlZAoK
+UGF0Y2ggNi8xMCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2Yg
+dGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50
+YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNy8xMCBDaGVja2luZyBjb21t
+aXQgZWZkMmE1N2U1ZDIwICh0ZXN0LXN0cmluZy1vdXRwdXQtdmlzaXRvcjogQ292ZXIgInVucm91
+bmQiIG51bWJlcikKOC8xMCBDaGVja2luZyBjb21taXQgYmUyZTYwODBlNWRlIChzdHJpbmctb3V0
+cHV0LXZpc2l0b3I6IEZpeCB0byB1c2Ugc3VmZmljaWVudCBwcmVjaXNpb24pCjkvMTAgQ2hlY2tp
+bmcgY29tbWl0IDIyODRmZDUyOGIyYyAodGVzdC12aXNpdG9yLXNlcmlhbGl6YXRpb246IERyb3Ag
+aW5zdWZmaWNpZW50IHByZWNpc2lvbiB3b3JrYXJvdW5kKQoxMC8xMCBDaGVja2luZyBjb21taXQg
+YjQ4NGQ0MTI2ODY1ICh0ZXN0LXZpc2l0b3Itc2VyaWFsaXphdGlvbjogQ2xlYW4gdXAgdGVzdF9w
+cmltaXRpdmVzKCkpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRo
+IGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
+Zy9sb2dzLzIwMjAxMjEwMTYxNDUyLjI4MTM0OTEtMS1hcm1icnVAcmVkaGF0LmNvbS90ZXN0aW5n
+LmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNh
+bGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBm
+ZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
