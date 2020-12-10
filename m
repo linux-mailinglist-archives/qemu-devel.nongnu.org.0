@@ -2,88 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881142D5EA8
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:53:45 +0100 (CET)
-Received: from localhost ([::1]:60688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E34392D5EB9
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:56:37 +0100 (CET)
+Received: from localhost ([::1]:36488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knNKC-0003vt-Jr
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:53:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41936)
+	id 1knNMy-0005ho-TW
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:56:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1knNGr-00023n-FY
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:50:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1knNGo-0006lC-3R
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:50:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607611811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p6ZLlBz5Y6AkBvx4isJCMiyeQmxt0MW+uZahiLuJP9A=;
- b=B6mw+T8+poQOxACmSGb4DaUfV7ZIOqDLYG/3dJdHlG2ONF6hkr/dbwm+qBjmtPkT56vQZ/
- CU10Bl/fTltNghepRLIvnkEOSTdG63aLORq8PF5R69XD5/+z3UMru3AiLsCIEXyaA2Cdb/
- qvKL2+R+kjk5BCm77W+6R6Xx0sTosHs=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-uvMultnXNYiyIfjcHH8QiA-1; Thu, 10 Dec 2020 09:50:10 -0500
-X-MC-Unique: uvMultnXNYiyIfjcHH8QiA-1
-Received: by mail-qt1-f198.google.com with SMTP id o12so4091701qtw.14
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 06:50:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1knNKs-0004lh-SS
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:54:26 -0500
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:42143)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1knNKq-0008GN-K3
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:54:26 -0500
+Received: by mail-il1-x142.google.com with SMTP id 2so5539352ilg.9
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 06:54:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tFPSuEw5e4pj1irmJoWUQHCXuxgSTo2RlsusyGmz6NI=;
+ b=u8YDiqaB6sVVctjnQZi62wW/KjlO3tqENPYqwwpyd6WwV+L5BdS9fSqCQiGNRV2Ag4
+ UYHO28SRJduJphoiI1NiYKepZ1+Db97cVWjxJZ6NRpG7fWajKSsvEKtF6broegPabN7t
+ 3E3a707SRZpYvmhFQB896NIIJquEJXjoZySB26CxKVuwPGsyudnZoC2ltH8Rq20tOue2
+ lsqFLTK9X2oH3uhqwRCl8hPtOZS8h7Irg+kGAElvFJjmUNlvfDsY+dfQmx0qMBOSPP2r
+ veZFSSLEfNJgcshK1OJHsPAg+LgzhIrpKXAbHP1K7HQ0ZzkjZXMZxjcrJpuRGxcWy4pd
+ JWkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=p6ZLlBz5Y6AkBvx4isJCMiyeQmxt0MW+uZahiLuJP9A=;
- b=JxN5c/7bMpGPJH2Bpp6TZEpdYEZhpVaKDfR1GSbiIh1IAKZxLrbmZ5FvpHA5PX7Sb3
- gZuL8yOs0LeQWy168+8NImGrJrIRE7R1isr0AmxTWhb9mIA8CxGT9WcaT6ILCCuG2dSE
- FaCPb//3BRYuDzzhZcONpGPtLxgsaWmt6SuH1IbmulrnOBmuJEA6JOr2t9/ab696OFTE
- 5qmA4oP3CVfM4b1AGfceG3NeQLNzs6C4MDXx77TtPpxa1WPezyLrrb6F1Ahi6DJhDf7w
- k19vCupCvL8G5AGijo2/f+Y0GnTJxDscBTYzXPtgDYHyDbM0dOrIaYfLK97j0r6EzVse
- rIww==
-X-Gm-Message-State: AOAM532TOZE2RoTNSnAnKoodUzoZqnWxee11dBPgzRrDMRpnD5JxyuZc
- Ee2oSuUykj7ZoALTh/3S+4RPLk5MyZBXWFU90g8dZC3OgVB8h0KoEn1V30dYeU9krgJ2x/IGjj3
- 8VpGlInpzzmFgtPU=
-X-Received: by 2002:ac8:4b50:: with SMTP id e16mr9727947qts.205.1607611808666; 
- Thu, 10 Dec 2020 06:50:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwjJ6WswwqGFvyiv9ip5WIAUM0JCIUYY8mmXDfsQtdy0IJ+fsvY10//4cIOe8MqDtXBsvPBog==
-X-Received: by 2002:ac8:4b50:: with SMTP id e16mr9727933qts.205.1607611808464; 
- Thu, 10 Dec 2020 06:50:08 -0800 (PST)
-Received: from xz-x1 ([142.126.83.202])
- by smtp.gmail.com with ESMTPSA id v128sm3583774qkc.126.2020.12.10.06.50.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 06:50:07 -0800 (PST)
-Date: Thu, 10 Dec 2020 09:50:06 -0500
-From: Peter Xu <peterx@redhat.com>
-To: zhukeqian <zhukeqian1@huawei.com>
-Subject: Re: [PATCH] kvm: Take into account the unaligned section size when
- preparing bitmap
-Message-ID: <20201210145006.GD3211@xz-x1>
-References: <20201208114013.875-1-yuzenghui@huawei.com>
- <20201208151654.GA6432@xz-x1>
- <bb4bcc8b-1d36-9529-d7cd-4d93162d092f@huawei.com>
- <6dc82702-9246-4684-4f28-e104abc0c11d@huawei.com>
- <20201210020843.GB3211@xz-x1>
- <7d46e5ca-24ab-7c44-201c-77e8fc6a2ace@huawei.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tFPSuEw5e4pj1irmJoWUQHCXuxgSTo2RlsusyGmz6NI=;
+ b=ediKKKRxQPkL3hKxwlAbIP4ej35uSuE9hVnLVGXOwwM4S8L1YanqDFWiGgYiMkI3gw
+ +f5lXxN9LSQWI9zwjj7utk1zs+YjTjwUP+q4uWeA2sLa3xq896YK4a4nfd0L4K1eNvd4
+ y2nb7jbJbqFmo7WnqjZHtVruqkLmZJlR43Ny3z2P/R7/DW2JoOCvWi3ph0iSbouE1FIp
+ wOl+gLZQJNNaH0ISNEDMnr9JIt4LA/i/ogXhH0Ipn1xnD3oXeMJCY/l2TAXMMzksTZyk
+ QLfAF191T6yRk5uSmfSNTybfdOdN7vVrA2E+mvs1XoxIL4BoMA8msi9Y+jCrNjmCgRT/
+ pNSA==
+X-Gm-Message-State: AOAM533Whp7hQ287JhtQl39ZT3z7ePho3A+cvBuZ5v+Flqq1w/9O5Vb9
+ BJPgyX7zSO94mdtFC9BZTxiPngex908TXDd93NY=
+X-Google-Smtp-Source: ABdhPJw4HorVpPsggfJ++ILOt1o60c7tg2yQ2tBH7cI4rM7L2ijhuBOQrsg6yaJSjl+NiRdUEN/6N0JasYddPAlWdds=
+X-Received: by 2002:a92:c112:: with SMTP id p18mr9756416ile.89.1607612063416; 
+ Thu, 10 Dec 2020 06:54:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <7d46e5ca-24ab-7c44-201c-77e8fc6a2ace@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20201208163950.29617-1-david@redhat.com>
+ <20201208163950.29617-8-david@redhat.com>
+In-Reply-To: <20201208163950.29617-8-david@redhat.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Thu, 10 Dec 2020 15:54:12 +0100
+Message-ID: <CAM9Jb+gOvCqW2rcz++SG1VZV0PoaZqx-_fE5X54PFttD-+1X_w@mail.gmail.com>
+Subject: Re: [PATCH v2 07/10] softmmu/physmem: Don't use atomic operations in
+ ram_block_discard_(disable|require)
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-il1-x142.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,49 +78,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, pbonzini@redhat.com,
- qemu-devel@nongnu.org, wanghaibin.wang@huawei.com
+Cc: Marek Kedzierski <mkedzier@redhat.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 10, 2020 at 10:53:23AM +0800, zhukeqian wrote:
-> 
-> 
-> On 2020/12/10 10:08, Peter Xu wrote:
-> > Keqian,
-> > 
-> > On Thu, Dec 10, 2020 at 09:46:06AM +0800, zhukeqian wrote:
-> >> Hi,
-> >>
-> >> I see that if start or size is not PAGE aligned, it also clears areas
-> >> which beyond caller's expectation, so do we also need to consider this?
-> > 
-> > Could you elaborate?
-> > 
-> > If start_delta != 0, kvm_log_clear_one_slot() should already go the slow path.
-> > 
-> > Thanks,
-> > 
-> 
-> Hi Peter,
-> 
-> start_delta /= psize;
-> 
-> If start is not PAGE aligned, then start_delta is not PAGE aligned.
-> so I think the above code will implicitly extend our start to be PAGE aligned.
-> 
-> I suggest that we should shrink the start and (start + size) to be PAGE aligned
-> at beginning of this function.
-
-Callers should be with TARGET_PAGE_SIZE aligned on the size, so at least x86_64
-should be pretty safe since host/guest page sizes match.
-
-Though indeed I must confess I don't know how it worked in general when host
-page size != target page size, at least for migration.  For example, I believe
-kvm dirty logging is host page size based, though migration should be migrating
-pages in guest page size granule when it spots a dirty bit set.
-
--- 
-Peter Xu
-
+> We have users in migration context that don't hold the BQL (when
+> finishing migration). To prepare for further changes, use a dedicated mutex
+> instead of atomic operations. Keep using qatomic_read ("READ_ONCE") for the
+> functions that only extract the current state (e.g., used by
+> virtio-balloon), locking isn't necessary.
+>
+> While at it, split up the counter into two variables to make it easier
+> to understand.
+>
+> Suggested-by: Peter Xu <peterx@redhat.com>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Auger Eric <eric.auger@redhat.com>
+> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+> Cc: teawater <teawaterz@linux.alibaba.com>
+> Cc: Marek Kedzierski <mkedzier@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  softmmu/physmem.c | 70 ++++++++++++++++++++++++++---------------------
+>  1 file changed, 39 insertions(+), 31 deletions(-)
+>
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 3027747c03..448e4e8c86 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -3650,56 +3650,64 @@ void mtree_print_dispatch(AddressSpaceDispatch *d, MemoryRegion *root)
+>      }
+>  }
+>
+> -/*
+> - * If positive, discarding RAM is disabled. If negative, discarding RAM is
+> - * required to work and cannot be disabled.
+> - */
+> -static int ram_block_discard_disabled;
+> +static unsigned int ram_block_discard_requirers;
+> +static unsigned int ram_block_discard_disablers;
+> +static QemuMutex ram_block_discard_disable_mutex;
+> +
+> +static void ram_block_discard_disable_mutex_lock(void)
+> +{
+> +    static gsize initialized;
+> +
+> +    if (g_once_init_enter(&initialized)) {
+> +        qemu_mutex_init(&ram_block_discard_disable_mutex);
+> +        g_once_init_leave(&initialized, 1);
+> +    }
+> +    qemu_mutex_lock(&ram_block_discard_disable_mutex);
+> +}
+> +
+> +static void ram_block_discard_disable_mutex_unlock(void)
+> +{
+> +    qemu_mutex_unlock(&ram_block_discard_disable_mutex);
+> +}
+>
+>  int ram_block_discard_disable(bool state)
+>  {
+> -    int old;
+> +    int ret = 0;
+>
+> +    ram_block_discard_disable_mutex_lock();
+>      if (!state) {
+> -        qatomic_dec(&ram_block_discard_disabled);
+> -        return 0;
+> +        ram_block_discard_disablers--;
+> +    } else if (!ram_block_discard_requirers) {
+> +        ram_block_discard_disablers++;
+> +    } else {
+> +        ret = -EBUSY;
+>      }
+> -
+> -    do {
+> -        old = qatomic_read(&ram_block_discard_disabled);
+> -        if (old < 0) {
+> -            return -EBUSY;
+> -        }
+> -    } while (qatomic_cmpxchg(&ram_block_discard_disabled,
+> -                             old, old + 1) != old);
+> -    return 0;
+> +    ram_block_discard_disable_mutex_unlock();
+> +    return ret;
+>  }
+>
+>  int ram_block_discard_require(bool state)
+>  {
+> -    int old;
+> +    int ret = 0;
+>
+> +    ram_block_discard_disable_mutex_lock();
+>      if (!state) {
+> -        qatomic_inc(&ram_block_discard_disabled);
+> -        return 0;
+> +        ram_block_discard_requirers--;
+> +    } else if (!ram_block_discard_disablers) {
+> +        ram_block_discard_requirers++;
+> +    } else {
+> +        ret = -EBUSY;
+>      }
+> -
+> -    do {
+> -        old = qatomic_read(&ram_block_discard_disabled);
+> -        if (old > 0) {
+> -            return -EBUSY;
+> -        }
+> -    } while (qatomic_cmpxchg(&ram_block_discard_disabled,
+> -                             old, old - 1) != old);
+> -    return 0;
+> +    ram_block_discard_disable_mutex_unlock();
+> +    return ret;
+>  }
+>
+>  bool ram_block_discard_is_disabled(void)
+>  {
+> -    return qatomic_read(&ram_block_discard_disabled) > 0;
+> +    return qatomic_read(&ram_block_discard_disablers);
+>  }
+return value won't be bool?
+>
+>  bool ram_block_discard_is_required(void)
+>  {
+> -    return qatomic_read(&ram_block_discard_disabled) < 0;
+> +    return qatomic_read(&ram_block_discard_requirers);
+same here.
+>  }
+> --
+Apart from query above, looks good.
+Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
 
