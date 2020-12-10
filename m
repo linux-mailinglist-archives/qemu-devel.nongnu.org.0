@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24ECF2D557E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 09:32:17 +0100 (CET)
-Received: from localhost ([::1]:47426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0710C2D55AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 09:52:41 +0100 (CET)
+Received: from localhost ([::1]:50554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knHN2-0007Nq-9F
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 03:32:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34214)
+	id 1knHgm-0004Pq-0r
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 03:52:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1knHKZ-0006qU-Tf; Thu, 10 Dec 2020 03:29:43 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:45408)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1knHfY-0003Oa-06
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:24 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1knHKY-0006Ti-B8; Thu, 10 Dec 2020 03:29:43 -0500
-Received: by mail-ej1-x641.google.com with SMTP id qw4so6085514ejb.12;
- Thu, 10 Dec 2020 00:29:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ANmmXfT7nWxlI1V/AiIa/hQzBZWe0tKmBvGaZWeR9Y4=;
- b=EAU8RAZWo/4v7mKj7l/JTP3G+p6BYjE3c6WezWqVhgyx4ghpaoOGXLon4Zs/r7DuMd
- W3FVoLbFgwdzjl2RVLywfa1fb8s3AZeFMD/EcOJHu74G9WZHKRm72a+ppl82Rxkee0Bl
- XrpjnKapGSdTt364o/UVSeLWQ/7Xy4d7Zbrk4CnGftbso3alIxNcxVlumYUKezo2DybK
- j9sNBEt1feD9xStj88A5RHDBwj5uF2Zs43DRALAyaZ//X8Ut+8M4R+swfdlpYwFRDhA1
- +VvTSZK22Z7tmbtLmpR8QMcmJJW5cizytn/wzSr1StjA5CFRQMujoTgrZ6zUGP+R7iv0
- RoGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ANmmXfT7nWxlI1V/AiIa/hQzBZWe0tKmBvGaZWeR9Y4=;
- b=lv5sve5t/8f7ZFZz+QtH3Q972yFZrks+NAT43RgELgulte+T6iUxLB+otrSSIsMvSX
- WiI2SaEfEwc+bqmQOm9oeEqVZWnaaWe0A5pcVt7rZRXaOOhRCiA5mE2/ieNmxI0iR4eO
- zLsRvyhoZMs35gJmkmlMcsN70us76Tv+Nuhb49mhm/4h+b5YKaQqyy1JdXCMNAdr3k2v
- lhbM+XAZaocogJ7O/gTiDHMIT6BrExd3UmEDLeiB1IlF7h9qS5vCjv/5KXbAP51por+C
- Elc33D+p45sq93/bPkBsZeDRVN/ZpJuM/ZAqpgmvxlB/VeRONOCk/dXVsVk9h9T9gypl
- Il1g==
-X-Gm-Message-State: AOAM531pH8jWNlHyRiZRDHvtkt+0E9fYpfYFRLcQazVuXqSNmTBh1mGJ
- 9qsqH0RsYFqtHHtiOq3hRE1sN13g6lVLu+Rjj9E=
-X-Google-Smtp-Source: ABdhPJzOrvRA1mi3ULKWroWC5SamYF8f1bx7WOP8GBkdjfRFQXnh/oDd8L93+4zApzN9Zpru9dr+B3GUhjTLGPtPbTA=
-X-Received: by 2002:a17:906:30d2:: with SMTP id
- b18mr5383065ejb.109.1607588980241; 
- Thu, 10 Dec 2020 00:29:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1knHfV-0005nR-VX
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 03:51:23 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1knHfT-0003kD-B0
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:19 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 12FA02E8147
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:51:19 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201202152611.677753-1-stefanha@redhat.com>
- <20201203134117.2fdqiiapcjnlwj66@steredhat>
-In-Reply-To: <20201203134117.2fdqiiapcjnlwj66@steredhat>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 10 Dec 2020 12:29:28 +0400
-Message-ID: <CAJ+F1CKm2TALspCX1VK3dM=9zdkz8u4yu-rsuH8oHC0vC8rKsQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] vhost-user: avoid g_return_val_if() in
- get/set_config()
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000001cba6e05b617fa1d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x641.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Dec 2020 08:40:24 -0000
+From: Thomas Huth <1881231@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alanjager2321 dgilbert-h th-huth zhangckid
+X-Launchpad-Bug-Reporter: ye.zou (alanjager2321)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159072520391.13844.465385675639953986.malonedeb@soybean.canonical.com>
+Message-Id: <160758962501.16321.10388694695693484272.malone@chaenomeles.canonical.com>
+Subject: [Bug 1881231] Re: colo: Can not recover colo after svm failover twice
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
+X-Launchpad-Hash: 9d70717a88654c5f49445d78f38114d80738eb47
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,116 +70,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Coiby Xu <Coiby.Xu@gmail.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Reply-To: Bug 1881231 <1881231@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001cba6e05b617fa1d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+QEMU v5.2 has been released now and should contain the fix
 
-Hi Michael,
+** Changed in: qemu
+       Status: Fix Committed =3D> Fix Released
 
-On Thu, Dec 3, 2020 at 5:41 PM Stefano Garzarella <sgarzare@redhat.com>
-wrote:
+-- =
 
-> On Wed, Dec 02, 2020 at 03:26:07PM +0000, Stefan Hajnoczi wrote:
-> >v2:
-> > * Print errors [Marc-Andr=C3=A9]
-> >
-> >Markus Armbruster pointed out that g_return_val_if() is meant for
-> programming
-> >errors. It must not be used for input validation since it can be compile=
-d
-> out.
-> >Use explicit if statements instead.
-> >
-> >This patch series converts vhost-user device backends that use
-> >g_return_val_if() in get/set_config().
-> >
-> >Stefan Hajnoczi (4):
-> >  contrib/vhost-user-blk: avoid g_return_val_if() input validation
-> >  contrib/vhost-user-gpu: avoid g_return_val_if() input validation
-> >  contrib/vhost-user-input: avoid g_return_val_if() input validation
-> >  block/export: avoid g_return_val_if() input validation
-> >
-> > block/export/vhost-user-blk-server.c    | 6 +++++-
-> > contrib/vhost-user-blk/vhost-user-blk.c | 6 +++++-
-> > contrib/vhost-user-gpu/vhost-user-gpu.c | 6 +++++-
-> > contrib/vhost-user-input/main.c         | 6 +++++-
-> > 4 files changed, 20 insertions(+), 4 deletions(-)
-> >
-> >--
-> >2.28.0
-> >
->
-> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
->
->
-You didn't collect the v2 patch series, with the received reviewed-by. Not
-a big deal here, but please be more careful.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1881231
 
-thanks
+Title:
+  colo: Can not  recover colo after svm failover twice
 
---=20
-Marc-Andr=C3=A9 Lureau
+Status in QEMU:
+  Fix Released
 
---0000000000001cba6e05b617fa1d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Bug description:
+  Hi Expert,
+  x-blockdev-change met some error, during testing colo
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Michael,<br></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 3, 2020 at 5:4=
-1 PM Stefano Garzarella &lt;<a href=3D"mailto:sgarzare@redhat.com">sgarzare=
-@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Wed, Dec 02, 2020 at 03:26:07PM +0000, Stefan Hajnoczi wrote:=
-<br>
-&gt;v2:<br>
-&gt; * Print errors [Marc-Andr=C3=A9]<br>
-&gt;<br>
-&gt;Markus Armbruster pointed out that g_return_val_if() is meant for progr=
-amming<br>
-&gt;errors. It must not be used for input validation since it can be compil=
-ed out.<br>
-&gt;Use explicit if statements instead.<br>
-&gt;<br>
-&gt;This patch series converts vhost-user device backends that use<br>
-&gt;g_return_val_if() in get/set_config().<br>
-&gt;<br>
-&gt;Stefan Hajnoczi (4):<br>
-&gt;=C2=A0 contrib/vhost-user-blk: avoid g_return_val_if() input validation=
-<br>
-&gt;=C2=A0 contrib/vhost-user-gpu: avoid g_return_val_if() input validation=
-<br>
-&gt;=C2=A0 contrib/vhost-user-input: avoid g_return_val_if() input validati=
-on<br>
-&gt;=C2=A0 block/export: avoid g_return_val_if() input validation<br>
-&gt;<br>
-&gt; block/export/vhost-user-blk-server.c=C2=A0 =C2=A0 | 6 +++++-<br>
-&gt; contrib/vhost-user-blk/vhost-user-blk.c | 6 +++++-<br>
-&gt; contrib/vhost-user-gpu/vhost-user-gpu.c | 6 +++++-<br>
-&gt; contrib/vhost-user-input/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 6 +=
-++++-<br>
-&gt; 4 files changed, 20 insertions(+), 4 deletions(-)<br>
-&gt;<br>
-&gt;-- <br>
-&gt;2.28.0<br>
-&gt;<br>
-<br>
-Reviewed-by: Stefano Garzarella &lt;<a href=3D"mailto:sgarzare@redhat.com" =
-target=3D"_blank">sgarzare@redhat.com</a>&gt;<br>
-<br>
-</blockquote></div><div><br></div><div>You didn&#39;t collect the v2 patch =
-series, with the received reviewed-by. Not a big deal here, but please be m=
-ore careful.<br></div><div><br></div><div>thanks</div><div><br></div>-- <br=
-><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div=
-></div>
+  Host os:
+  CentOS Linux release 7.6.1810 (Core)
 
---0000000000001cba6e05b617fa1d--
+  Reproduce steps:
+  1. create colo vm following https://github.com/qemu/qemu/blob/master/docs=
+/COLO-FT.txt
+  2. kill secondary vm and remove the nbd child from the quorum to wait for=
+ recover
+    type those commands on primary vm console:
+    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
+ 'child': 'children.1'}}
+    { 'execute': 'human-monitor-command','arguments': {'command-line': 'dri=
+ve_del replication0'}}
+    { 'execute': 'x-colo-lost-heartbeat'}
+  3. recover colo
+  4. kill secondary vm again after recover colo and type same commands as s=
+tep 2:
+    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
+ 'child': 'children.1'}}
+    { 'execute': 'human-monitor-command','arguments': {'command-line': 'dri=
+ve_del replication0'}}
+    { 'execute': 'x-colo-lost-heartbeat'}
+    but the first command got error
+    { 'execute': 'x-blockdev-change', 'arguments': {'parent': 'colo-disk0',=
+ 'child': 'children.1'}}
+  {"error": {"class": "GenericError", "desc": "Node 'colo-disk0' does not h=
+ave child 'children.1'"}}
+
+  according to https://www.qemu.org/docs/master/qemu-qmp-ref.html
+  Command: x-blockdev-change
+  Dynamically reconfigure the block driver state graph. It can be used to a=
+dd, remove, insert or replace a graph node. Currently only the Quorum drive=
+r implements this feature to add or remove its child. This is useful to fix=
+ a broken quorum child.
+
+  It seems x-blockdev-change not worked as expected.
+
+  Thanks.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1881231/+subscriptions
 
