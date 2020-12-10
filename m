@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5F72D5C68
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:54:15 +0100 (CET)
-Received: from localhost ([::1]:47686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9747B2D5C8C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:57:54 +0100 (CET)
+Received: from localhost ([::1]:57558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knMOc-0008G8-Ah
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:54:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51628)
+	id 1knMS9-0003xu-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:57:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1knMJT-0002NK-Ij
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:48:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23937)
+ id 1knMJl-0002cM-0o
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:49:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1knMJS-0002fU-1q
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:48:55 -0500
+ id 1knMJj-0002lo-HJ
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:49:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607608133;
+ s=mimecast20190719; t=1607608150;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1DdfdKdA7l8BixI1VKlgzbdz9vMe5mVRY9RuhcSENTs=;
- b=a3GdI08aPy7uMc9VHpSQ5bstbRBapA1JHGtbR90t3jvxOyVl+h56hqIH7+K/M8NW1KoZlt
- gCRE7kz7kKPdgtJIcdr9b0LhHG1UugYJIruL6H3RBSVtGVWK/QcloW0ROeROubIqnAsD/d
- fqxx1j83t5mJ2zLS+XAUnkz6eCYc9ac=
+ bh=7laBw/T720iHN/BJanY29fxaiafvWQ3ZmcJva9ZXuMM=;
+ b=Wv1DpRygaa2SVfAeF95ABzbcvyj6tyKJjhQ8omb8yO1AFcPMoGEkfo/ZMK0ThZ+Kqq9Avk
+ BG76s3CCY4LZ59v1VeWCOvHbVpg2d5SSJ15xZsMdFqfbzK/At83N2oTym2I7jUa/I3RPSI
+ DAhvRN7VhNMiltLQyE3xbiARIj5vlaU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-3rhGTMrfP0ODZkGQQriAyA-1; Thu, 10 Dec 2020 08:48:51 -0500
-X-MC-Unique: 3rhGTMrfP0ODZkGQQriAyA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-277-tt29vyJuMMCsKfnRw_kDUw-1; Thu, 10 Dec 2020 08:49:08 -0500
+X-MC-Unique: tt29vyJuMMCsKfnRw_kDUw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D45791005E45;
- Thu, 10 Dec 2020 13:48:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08B9315732;
+ Thu, 10 Dec 2020 13:49:07 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D37D710016F6;
- Thu, 10 Dec 2020 13:48:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E42817046C;
+ Thu, 10 Dec 2020 13:48:52 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/13] compiler.h: remove GCC < 3 __builtin_expect fallback
-Date: Thu, 10 Dec 2020 17:47:42 +0400
-Message-Id: <20201210134752.780923-4-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 04/13] qemu-plugin.h: remove GCC < 4
+Date: Thu, 10 Dec 2020 17:47:43 +0400
+Message-Id: <20201210134752.780923-5-marcandre.lureau@redhat.com>
 In-Reply-To: <20201210134752.780923-1-marcandre.lureau@redhat.com>
 References: <20201210134752.780923-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -97,29 +97,34 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Since commit efc6c07 ("configure: Add a test for the minimum compiler
 version"), QEMU explicitely depends on GCC >= 4.8.
 
-(clang >= 3.4 advertizes itself as GCC >= 4.2 compatible and supports
-__builtin_expect too)
+(clang >= 3.4 advertizes itself as GCC >= 4.2 compatible)
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/qemu/compiler.h | 4 ----
- 1 file changed, 4 deletions(-)
+ include/qemu/qemu-plugin.h | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index c76281f354..226ead6c90 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -44,10 +44,6 @@
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index bab8b0d4b3..5775e82c4e 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -28,13 +28,8 @@
+   #endif
+   #define QEMU_PLUGIN_LOCAL
+ #else
+-  #if __GNUC__ >= 4
+-    #define QEMU_PLUGIN_EXPORT __attribute__((visibility("default")))
+-    #define QEMU_PLUGIN_LOCAL  __attribute__((visibility("hidden")))
+-  #else
+-    #define QEMU_PLUGIN_EXPORT
+-    #define QEMU_PLUGIN_LOCAL
+-  #endif
++  #define QEMU_PLUGIN_EXPORT __attribute__((visibility("default")))
++  #define QEMU_PLUGIN_LOCAL  __attribute__((visibility("hidden")))
  #endif
  
- #ifndef likely
--#if __GNUC__ < 3
--#define __builtin_expect(x, n) (x)
--#endif
--
- #define likely(x)   __builtin_expect(!!(x), 1)
- #define unlikely(x)   __builtin_expect(!!(x), 0)
- #endif
+ typedef uint64_t qemu_plugin_id_t;
 -- 
 2.29.0
 
