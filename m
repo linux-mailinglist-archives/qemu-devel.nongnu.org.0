@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791A32D5CE0
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:07:46 +0100 (CET)
-Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC282D5D32
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:11:15 +0100 (CET)
+Received: from localhost ([::1]:59482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knMbh-0005C0-FI
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:07:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41078)
+	id 1knMf4-0008Nv-S3
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:11:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1knLfb-0007k8-A1; Thu, 10 Dec 2020 08:07:43 -0500
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:46160)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1knLfX-0006Fr-6o; Thu, 10 Dec 2020 08:07:43 -0500
-Received: by mail-qk1-x741.google.com with SMTP id d14so3946491qkc.13;
- Thu, 10 Dec 2020 05:07:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=a84nTp4DZ+8jZgGQiBVuv7ILzRk0ryR91U6XmleK49I=;
- b=EOBIBwCCmU7IvWCqL2HDuoYpkhbw2f7iQu5dGuWNwh3ERalfzTBqh4SAOj7aGuGA3b
- PPV8n3L2ADPIBy2uMCwLHiWL9z1h7s8WgHkaGXgRvz4pGINjwwAVD/m80S7TItmIMExZ
- 5akhOrd1+Y/dlNn63Edo3n6CFapHTDZdP9xaG7+a03EMbzhqq3DpTrWt34gMrrtqxtar
- OrAFFz/nhghrExoAJLLWzqX/sXTLwBFBlI9CqUgqqbunT2+Cx1Q0yCoH9f8lhYfVgpf5
- vcaJ47kRyRYB8WzEYbDucsGV/sWZ4gv/FqJNGyZX1RA/tVaa+h2MYs6XIqPbtflqmHgv
- 2ZiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=a84nTp4DZ+8jZgGQiBVuv7ILzRk0ryR91U6XmleK49I=;
- b=ex3KvXjxC+mTin+IRYJkmHHMBBs7Ot46H6qwVZN2peOF5awXprEr6gN7Weu1rCtKqx
- 3+t5Vrl8fNTl+IcVIwP37Vfncmfi6ZjeBFS9UsCwHpicVaCOR9xV4It+24xDZwuEii2f
- NlDzBZSJxX2MLS/IQXNJbLI2+D9dkHqlH2SLht07KWhbsAhvLPETf4bCP8ekYzWtpTOX
- NmmjcqcVanCHT4dtV7UpDvVk68KSN+xQ3s7snTPxD9h4yJ5B6kTuUMd7u6xbX7+yS9x7
- wz/Aiwr6vO2fiTAytxiQvzvPpczzJ1erf0JT/6WJjb0afrHDzRmh60Z28J/HMsq4AZco
- hlkA==
-X-Gm-Message-State: AOAM530bOo6B6sfh6c+jTjYK6UWxc8fJNiXBEEmPPxP6okWEIbjpEC8l
- UoA+DavuoYzY77iLNLe7vq+HDLMNe7I=
-X-Google-Smtp-Source: ABdhPJyWdyRLgsHmXTkVIIqqoky2tuDH05AiTCQLRFY6TM1/831FVCHo6+Fy4qIpnQVW7Wql2NkMpw==
-X-Received: by 2002:a37:8943:: with SMTP id l64mr8590914qkd.212.1607605654682; 
- Thu, 10 Dec 2020 05:07:34 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:c1a:69c1:2b22:e880:fc49])
- by smtp.gmail.com with ESMTPSA id d66sm3594914qke.132.2020.12.10.05.07.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 05:07:33 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] spapr.c: set a 'kvm-type' default value instead of
- relying on NULL
-Date: Thu, 10 Dec 2020 10:07:20 -0300
-Message-Id: <20201210130721.1521487-1-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knLiv-0001sJ-4N
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:11:09 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50294)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knLis-0007OS-LI
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:11:08 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5A8C6AC6A;
+ Thu, 10 Dec 2020 13:11:05 +0000 (UTC)
+Subject: Re: [PATCH v10 00/32] i386 cleanup
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>
+References: <20201210121226.19822-1-cfontana@suse.de>
+ <3b70ca52-8b06-42c3-1187-9cf700a506f3@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <d25c5912-8945-b1dd-e7c0-9922fe09ba07@suse.de>
+Date: Thu, 10 Dec 2020 14:11:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <3b70ca52-8b06-42c3-1187-9cf700a506f3@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::741;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x741.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,41 +61,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-changes from v1, all proposed by Greg:
-* Removed comment at the start of spapr_get_kvm_type()
-* Added a one liner return in spapr_get_kvm_type()
-* use g_ascii_strcasecmp() in all str comparisons in spapr_kvm_type()
-* Exposed the 'auto' default kvm-type mode in the docs
-* changed HV and PR to lower-case in the docs
-v1 link: https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg01677.html
+On 12/10/20 2:05 PM, Philippe Mathieu-Daudé wrote:
+> Hi Claudio,
+> 
+> On 12/10/20 1:11 PM, Claudio Fontana wrote:
+>> Hello, this is version 10 of the cleanup, changed from RFC to PATCH.
+>>
+>> v9 -> v10: minor tweaks and fixes
+>>
+>> * in "i386: split cpu accelerators from cpu.c",
+>>
+>> use kvm/kvm-cpu.c, hvf/hvf-cpu.c, tcg/tcg-cpu.c.
+>> Easier to understand compared to editing multiple cpu.c files,
+>> and matches the header files if needed (kvm-cpu.h).
+>>
+>> * in "accel: replace struct CpusAccel with AccelOpsClass",
+>>
+>> make it a bit more consistent, by naming the files defining
+>> the AccelOpsClass types "...-accel-ops.c" instead of the old
+>> naming "...-cpus.c".
+>>
+>> * in "cpu: move cc->transaction_failed to tcg_ops",
+>>
+>> protect with CONFIG_TCG the use of tcg_ops for hw/misc/jazz.c,
+>>
+>>  #include "exec/memattrs.h" (Philippe, Eduardo)
+>>
+>> * in "cpu: Move synchronize_from_tb() to tcg_ops",
+>>
+>>  #include "hw/core/cpu.h" (Philippe, Eduardo)
+>>
+>> do not remove the comment about struct TcgCpuOperations (Philippe)
+>>
+>> * in "accel/tcg: split TCG-only code from cpu_exec_realizefn",
+>>
+>> invert tcg_target_initialized set order (Alex)
+>>
+>> * in "i386: move TCG cpu class initialization out of helper.c",
+>>
+>> extract helper-tcg.h, tcg-cpu.c, and tcg-cpu.h directly into
+>> tcg/, avoiding the extra move later to tcg/ (Alex)
+>>
+> ...
+> 
+>> Claudio Fontana (23):
+>>   accel/tcg: split CpusAccel into three TCG variants
+>>   accel/tcg: split tcg_start_vcpu_thread
+>>   accel/tcg: rename tcg-cpus functions to match module name
+>>   i386: move kvm accel files into kvm/
+>>   i386: move whpx accel files into whpx/
+>>   i386: move hax accel files into hax/
+>>   i386: hvf: remove stale MAINTAINERS entry for old hvf stubs
+>>   i386: move TCG accel files into tcg/
+>>   i386: move cpu dump out of helper.c into cpu-dump.c
+>>   i386: move TCG cpu class initialization out of helper.c
+>>   target/riscv: remove CONFIG_TCG, as it is always TCG
+>>   accel/tcg: split TCG-only code from cpu_exec_realizefn
+>>   target/arm: do not use cc->do_interrupt for KVM directly
+>>   cpu: move cc->do_interrupt to tcg_ops
+>>   cpu: move cc->transaction_failed to tcg_ops
+>>   cpu: move do_unaligned_access to tcg_ops
+> 
+> To be honest this is a lot to digest... I'd split your
+> series in 2, the first part until here, almost ready;
+> 
+> And this second part, the accel refactor:
+> 
+>>   accel: extend AccelState and AccelClass to user-mode
+>>   accel: replace struct CpusAccel with AccelOpsClass
+>>   accel: introduce AccelCPUClass extending CPUClass
+>>   i386: split cpu accelerators from cpu.c, using AccelCPUClass
+>>   cpu: call AccelCPUClass::cpu_realizefn in cpu_exec_realizefn
+>>   hw/core/cpu: call qemu_init_vcpu in cpu_common_realizefn
+>>   cpu: introduce cpu_accel_instance_init
+> 
 
+Ok, will do for the next spin
 
-This patch addresses an issue that happens with the pseries machine after
-testing Paolo's patch [1]:
+Ciao,
 
-$ sudo ./ppc64-softmmu/qemu-system-ppc64 -nographic -nodefaults -machine pseries --enable-kvm
-qemu-system-ppc64: Unknown kvm-type specified '' 
-
-The reason lies on how qemu_opt_get() and object_property_get_str() works
-when there is no 'kvm-type' specified. We were conting on receiving NULL
-for kvm-type, but the latter will use a blank string "". Instead on relying
-on NULL, let's expose the already existing 'auto' kvm-type mode to the users
-and use that as default.
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg00471.html
-
-Daniel Henrique Barboza (1):
-  spapr.c: set a 'kvm-type' default value instead of relying on NULL
-
- hw/ppc/spapr.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
--- 
-2.26.2
-
+Claudio
 
