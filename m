@@ -2,73 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6822D593F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:33:57 +0100 (CET)
-Received: from localhost ([::1]:54138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198502D595D
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:39:06 +0100 (CET)
+Received: from localhost ([::1]:57842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKCk-0005s0-Jw
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:33:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46430)
+	id 1knKHo-0007jT-T5
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:39:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1knKAd-0004t2-81
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:31:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38205)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1knKAb-0001PE-KL
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:31:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607599896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0vpeFoxvipiFfHjrK3SmcHRfsuQ3JzQdub6tkzQBRZk=;
- b=AmeZAkkhUfvHpCvF4rQkCCdDVbRnXxwiRq0to+RVCLLujb/GXeXK4uDRG0HxNFCmftdbMI
- +etWsfLUDTqLnwbKhGm0Da4lFaedirHBzN5aXghUbTxToBkL5J035+mAWVphgpamzxC9AH
- gAhNJQrbvwV/jd+1CbGx0ag0N0PsMZM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-IPyTpgFpPWuti1cYkS4kHA-1; Thu, 10 Dec 2020 06:31:33 -0500
-X-MC-Unique: IPyTpgFpPWuti1cYkS4kHA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0353810CE7BC;
- Thu, 10 Dec 2020 11:30:53 +0000 (UTC)
-Received: from localhost (ovpn-113-62.ams2.redhat.com [10.36.113.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 380665D9DD;
- Thu, 10 Dec 2020 11:30:52 +0000 (UTC)
-Date: Thu, 10 Dec 2020 11:30:51 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Subject: Re: [RFC PATCH 05/27] vhost: Add hdev->dev.sw_lm_vq_handler
-Message-ID: <20201210113051.GF416119@stefanha-x1.localdomain>
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-6-eperezma@redhat.com>
- <20201207165216.GL203660@stefanha-x1.localdomain>
- <CAJaqyWfSUHD0MU=1yfU1N6pZ4TU7prxyoG6NY-VyNGt=MO9H4g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1knKFz-0007Dr-2c
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:37:11 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:39066)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1knKFw-0003DN-VS
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:37:10 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BABTmlk076434;
+ Thu, 10 Dec 2020 11:37:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=G9wm202feCXW5oWd+GqvJBlCK9icii+Kki3cxdkEkeU=;
+ b=TzxZRhOhSIcVSXJyOnQOhbshVKl9kcl0yk7LrnNdRtFSd/RWbAE2nVuvYIY47I0NQorl
+ fD6UOI/ataYCi9zpbFjPJHzBLPQyO9Yu4E6nxiVcemWK++7lDFMNPadnYxkPd13j13Co
+ E/M/mQeKFZUJQFjA4oCQAFWabsTNDYCMVx2rZinvPX6PFs0yXYad9ID3i426B9w/tRfC
+ cb75iPwnwu0mAdT2w2CPYNc+cbyh9jMJjUfLyhwYiu5CoXR2T/lTRgeR5j0Se6ZT3n04
+ cm41pNdIkcQeGou9ol8nOIZB+S0xjMBI6F0mxOjviuG3yHlD1qhP9J25JNQ1X3FeQfc1 qQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 35825mcxxh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 10 Dec 2020 11:37:03 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BABOkb9143223;
+ Thu, 10 Dec 2020 11:37:02 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 358kyw7vvk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Dec 2020 11:37:02 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BABb1Al015435;
+ Thu, 10 Dec 2020 11:37:01 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 10 Dec 2020 03:37:01 -0800
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id 18EC82621DED; Thu, 10 Dec 2020 11:36:58 +0000 (GMT)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] fuzz: map all BARs and enable PCI devices
+In-Reply-To: <20201209201054.391408-1-alxndr@bu.edu>
+References: <20201209201054.391408-1-alxndr@bu.edu>
+Date: Thu, 10 Dec 2020 11:36:57 +0000
+Message-ID: <m2im99ao4m.fsf@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWfSUHD0MU=1yfU1N6pZ4TU7prxyoG6NY-VyNGt=MO9H4g@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wtjvnLv0o8UUzur2"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9830
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 mlxscore=0
+ malwarescore=0 suspectscore=1 mlxlogscore=999 bulkscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012100077
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9830
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ adultscore=0 bulkscore=0
+ phishscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501 mlxscore=0
+ spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012100077
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=darren.kenny@oracle.com; helo=aserp2120.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,76 +96,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Daniel Daly <dandaly0@gmail.com>,
- virtualization@lists.linux-foundation.org, Liran Alon <liralon@gmail.com>,
- Eli Cohen <eli@mellanox.com>, Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---wtjvnLv0o8UUzur2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Alex,
 
-On Wed, Dec 09, 2020 at 04:02:56PM +0100, Eugenio Perez Martin wrote:
-> On Mon, Dec 7, 2020 at 5:52 PM Stefan Hajnoczi <stefanha@gmail.com> wrote=
-:
-> > On Fri, Nov 20, 2020 at 07:50:43PM +0100, Eugenio P=E9rez wrote:
-> > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > > index 9179013ac4..9a69ae3598 100644
-> > > --- a/hw/net/virtio-net.c
-> > > +++ b/hw/net/virtio-net.c
-> > > @@ -2628,24 +2628,32 @@ static void virtio_net_tx_bh(void *opaque)
-> > >      }
-> > >  }
-> > >
-> > > -static void virtio_net_add_queue(VirtIONet *n, int index)
-> > > +static void virtio_net_add_queue(VirtIONet *n, int index,
-> > > +                                 VirtIOHandleOutput custom_handler)
-> > >  {
-> >
-> > We talked about the possibility of moving this into the generic vhost
-> > code so that devices don't need to be modified. It would be nice to hid=
-e
-> > this feature inside vhost.
->=20
-> I'm thinking of tying it to VirtQueue, allowing the caller to override
-> the handler knowing it is not going to be called (I mean, not offering
-> race conditions protection, like before of starting processing
-> notifications in qemu calling vhost_dev_disable_notifiers).
+On Wednesday, 2020-12-09 at 15:10:54 -05, Alexander Bulekov wrote:
+> Prior to this patch, the fuzzer found inputs to map PCI device BARs and
+> enable the device. While it is nice that the fuzzer can do this, it
+> added significant overhead, since the fuzzer needs to map all the
+> BARs (regenerating the memory topology), at the start of each input.
+> With this patch, we do this once, before fuzzing, mitigating some of
+> this overhead.
+>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
-Yes, I can see how at least part of this belongs to VirtQueue.
+In general this looks good, I've a small comment/nit below, but nothing
+serious, so:
 
-Stefan
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 
---wtjvnLv0o8UUzur2
-Content-Type: application/pgp-signature; name="signature.asc"
+> ---
+>  tests/qtest/fuzz/generic_fuzz.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>
+> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+> index 07ad690683..d95093ee53 100644
+> --- a/tests/qtest/fuzz/generic_fuzz.c
+> +++ b/tests/qtest/fuzz/generic_fuzz.c
+> @@ -16,6 +16,7 @@
+>  
+>  #include "hw/core/cpu.h"
+>  #include "tests/qtest/libqos/libqtest.h"
+> +#include "tests/qtest/libqos/pci-pc.h"
+>  #include "fuzz.h"
+>  #include "fork_fuzz.h"
+>  #include "exec/address-spaces.h"
+> @@ -762,6 +763,22 @@ static int locate_fuzz_objects(Object *child, void *opaque)
+>      return 0;
+>  }
+>  
+> +
+> +static void pci_enum(gpointer pcidev, gpointer bus)
+> +{
+> +    PCIDevice *dev = pcidev;
+> +    QPCIDevice *qdev;
+> +
+> +    qdev = qpci_device_find(bus, dev->devfn);
+> +    g_assert(qdev != NULL);
+> +    for (int i = 0; i < 6; i++) {
+> +        if (dev->io_regions[i].size) {
+> +            qpci_iomap(qdev, i, NULL);
+> +        }
+> +    }
+> +    qpci_device_enable(qdev);
+> +}
+> +
+>  static void generic_pre_fuzz(QTestState *s)
+>  {
+>      GHashTableIter iter;
+> @@ -810,6 +827,12 @@ static void generic_pre_fuzz(QTestState *s)
+>          exit(1);
+>      }
+>  
+> +    QPCIBus *pcibus;
 
------BEGIN PGP SIGNATURE-----
+NIT: I'm not a huge fan of defining variables in the middle of code,
+     call me old-fashioned if you will, but I tend to prefer them at the
+     top of the function, or block ;)
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/SBusACgkQnKSrs4Gr
-c8iLwgf/aaGiY0DHn8I8FYdQGoreiYRr1SK+yJ4QWre7tvYsACl3EXz8Uq2PKZRo
-+7NkNHIwhXEpcb1usOfH5PrUw4pRoMH78oQckxlnJtoQOdKiYi1SikAQKxOrooRs
-Cn4E2SA9vVnDyCa0ZFs83GkRJyhnsLfs/AOYtWk/t2JdxzXWZhbewHgI3lUhy5qN
-nLo/wINyWrndWt1HoI7HFbe82IDwhpwh5ACBxlb5579HaSwJsI/HX4k+jcHEJGAl
-S7wSdufuVz9xzQ07r3fIWjTh9GsVJRJhHS3cfUcYmL/7CbmkGxYOiHPveHLEPogL
-0G812OH8HJc+Hde+Ce/yAwlHGjXPFw==
-=/sJb
------END PGP SIGNATURE-----
+     It does look good in the diff, but would seem odd in the overall
+     code.
 
---wtjvnLv0o8UUzur2--
+Thanks,
 
+Darren.
 
