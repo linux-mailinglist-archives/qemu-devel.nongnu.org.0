@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 661DC2D5B0A
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:59:30 +0100 (CET)
-Received: from localhost ([::1]:42526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A5D2D5A90
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:33:17 +0100 (CET)
+Received: from localhost ([::1]:34460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knLXd-000079-Dz
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:59:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56432)
+	id 1knL8G-0006z1-QK
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:33:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoP-0002DU-Ay
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:45 -0500
-Received: from mx2.suse.de ([195.135.220.15]:47284)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoY-0002Nf-VM
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:55 -0500
+Received: from mx2.suse.de ([195.135.220.15]:47328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoJ-0006SE-Sg
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:45 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knKoU-0006ST-Tg
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:12:54 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 90FC2AD29;
- Thu, 10 Dec 2020 12:12:38 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 8FA9CAD5C;
+ Thu, 10 Dec 2020 12:12:39 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,14 +29,14 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v10 09/32] i386: move cpu dump out of helper.c into cpu-dump.c
-Date: Thu, 10 Dec 2020 13:12:03 +0100
-Message-Id: <20201210121226.19822-10-cfontana@suse.de>
+Subject: [PATCH v10 10/32] i386: move TCG cpu class initialization out of
+ helper.c
+Date: Thu, 10 Dec 2020 13:12:04 +0100
+Message-Id: <20201210121226.19822-11-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201210121226.19822-1-cfontana@suse.de>
 References: <20201210121226.19822-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -61,7 +61,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
  Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
@@ -73,35 +72,664 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/i386/cpu.h       |   1 +
- target/i386/cpu-dump.c  | 537 ++++++++++++++++++++++++++++++++++++++++
- target/i386/helper.c    | 514 --------------------------------------
- target/i386/meson.build |   1 +
- 4 files changed, 539 insertions(+), 514 deletions(-)
- create mode 100644 target/i386/cpu-dump.c
+ target/i386/cpu.h             |  97 ++---------------------------
+ target/i386/tcg/helper-tcg.h  | 112 ++++++++++++++++++++++++++++++++++
+ target/i386/tcg/tcg-cpu.h     |  15 +++++
+ target/i386/cpu.c             |  33 ++++------
+ target/i386/helper.c          |  23 -------
+ target/i386/tcg/bpt_helper.c  |   1 +
+ target/i386/tcg/cc_helper.c   |   1 +
+ target/i386/tcg/excp_helper.c |   1 +
+ target/i386/tcg/fpu_helper.c  |  33 +++++-----
+ target/i386/tcg/int_helper.c  |   1 +
+ target/i386/tcg/mem_helper.c  |   1 +
+ target/i386/tcg/misc_helper.c |   1 +
+ target/i386/tcg/mpx_helper.c  |   1 +
+ target/i386/tcg/seg_helper.c  |   1 +
+ target/i386/tcg/smm_helper.c  |   2 +
+ target/i386/tcg/svm_helper.c  |   1 +
+ target/i386/tcg/tcg-cpu.c     |  71 +++++++++++++++++++++
+ target/i386/tcg/translate.c   |   1 +
+ target/i386/tcg/meson.build   |   1 +
+ 19 files changed, 244 insertions(+), 153 deletions(-)
+ create mode 100644 target/i386/tcg/helper-tcg.h
+ create mode 100644 target/i386/tcg/tcg-cpu.h
+ create mode 100644 target/i386/tcg/tcg-cpu.c
 
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 9ecda75aec..d6ed45c5d7 100644
+index d6ed45c5d7..a0d64613dc 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -2232,6 +2232,7 @@ void enable_compat_apic_id_mode(void);
+@@ -31,9 +31,6 @@
+ 
+ #define KVM_HAVE_MCE_INJECTION 1
+ 
+-/* Maximum instruction code size */
+-#define TARGET_MAX_INSN_SIZE 16
+-
+ /* support for self modifying code even if the modified instruction is
+    close to the modifying instruction */
+ #define TARGET_HAS_PRECISE_SMC
+@@ -1037,6 +1034,12 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
+  * using this information. Condition codes are not generated if they
+  * are only needed for conditional branches.
+  */
++
++#define CC_DST  (env->cc_dst)
++#define CC_SRC  (env->cc_src)
++#define CC_SRC2 (env->cc_src2)
++#define CC_OP   (env->cc_op)
++
+ typedef enum {
+     CC_OP_DYNAMIC, /* must use dynamic code to get cc_op */
+     CC_OP_EFLAGS,  /* all cc are explicitly computed, CC_SRC = flags */
+@@ -1765,12 +1768,6 @@ struct X86CPU {
+ extern VMStateDescription vmstate_x86_cpu;
+ #endif
+ 
+-/**
+- * x86_cpu_do_interrupt:
+- * @cpu: vCPU the interrupt is to be handled by.
+- */
+-void x86_cpu_do_interrupt(CPUState *cpu);
+-bool x86_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request);
+ 
+ int x86_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cpu,
+@@ -1793,9 +1790,6 @@ hwaddr x86_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
+ int x86_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int x86_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ 
+-void x86_cpu_exec_enter(CPUState *cpu);
+-void x86_cpu_exec_exit(CPUState *cpu);
+-
+ void x86_cpu_list(void);
+ int cpu_x86_support_mca_broadcast(CPUX86State *env);
+ 
+@@ -1920,9 +1914,6 @@ void host_cpuid(uint32_t function, uint32_t count,
+ void host_vendor_fms(char *vendor, int *family, int *model, int *stepping);
+ 
+ /* helper.c */
+-bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+-                      MMUAccessType access_type, int mmu_idx,
+-                      bool probe, uintptr_t retaddr);
+ void x86_cpu_set_a20(X86CPU *cpu, int a20_state);
+ 
+ #ifndef CONFIG_USER_ONLY
+@@ -1947,8 +1938,6 @@ void x86_stl_phys(CPUState *cs, hwaddr addr, uint32_t val);
+ void x86_stq_phys(CPUState *cs, hwaddr addr, uint64_t val);
+ #endif
+ 
+-void breakpoint_handler(CPUState *cs);
+-
+ /* will be suppressed */
+ void cpu_x86_update_cr0(CPUX86State *env, uint32_t new_cr0);
+ void cpu_x86_update_cr3(CPUX86State *env, target_ulong new_cr3);
+@@ -1958,16 +1947,6 @@ void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7);
+ /* hw/pc.c */
+ uint64_t cpu_get_tsc(CPUX86State *env);
+ 
+-/* XXX: This value should match the one returned by CPUID
+- * and in exec.c */
+-# if defined(TARGET_X86_64)
+-# define TCG_PHYS_ADDR_BITS 40
+-# else
+-# define TCG_PHYS_ADDR_BITS 36
+-# endif
+-
+-#define PHYS_ADDR_MASK MAKE_64BIT_MASK(0, TCG_PHYS_ADDR_BITS)
+-
+ #define X86_CPU_TYPE_SUFFIX "-" TYPE_X86_CPU
+ #define X86_CPU_TYPE_NAME(name) (name X86_CPU_TYPE_SUFFIX)
+ #define CPU_RESOLVING_TYPE TYPE_X86_CPU
+@@ -1999,30 +1978,6 @@ static inline int cpu_mmu_index_kernel(CPUX86State *env)
+         ? MMU_KNOSMAP_IDX : MMU_KSMAP_IDX;
+ }
+ 
+-#define CC_DST  (env->cc_dst)
+-#define CC_SRC  (env->cc_src)
+-#define CC_SRC2 (env->cc_src2)
+-#define CC_OP   (env->cc_op)
+-
+-/* n must be a constant to be efficient */
+-static inline target_long lshift(target_long x, int n)
+-{
+-    if (n >= 0) {
+-        return x << n;
+-    } else {
+-        return x >> (-n);
+-    }
+-}
+-
+-/* float macros */
+-#define FT0    (env->ft0)
+-#define ST0    (env->fpregs[env->fpstt].d)
+-#define ST(n)  (env->fpregs[(env->fpstt + (n)) & 7].d)
+-#define ST1    ST(1)
+-
+-/* translate.c */
+-void tcg_x86_init(void);
+-
+ typedef CPUX86State CPUArchState;
+ typedef X86CPU ArchCPU;
+ 
+@@ -2052,19 +2007,6 @@ void cpu_x86_inject_mce(Monitor *mon, X86CPU *cpu, int bank,
+                         uint64_t status, uint64_t mcg_status, uint64_t addr,
+                         uint64_t misc, int flags);
+ 
+-/* excp_helper.c */
+-void QEMU_NORETURN raise_exception(CPUX86State *env, int exception_index);
+-void QEMU_NORETURN raise_exception_ra(CPUX86State *env, int exception_index,
+-                                      uintptr_t retaddr);
+-void QEMU_NORETURN raise_exception_err(CPUX86State *env, int exception_index,
+-                                       int error_code);
+-void QEMU_NORETURN raise_exception_err_ra(CPUX86State *env, int exception_index,
+-                                          int error_code, uintptr_t retaddr);
+-void QEMU_NORETURN raise_interrupt(CPUX86State *nenv, int intno, int is_int,
+-                                   int error_code, int next_eip_addend);
+-
+-/* cc_helper.c */
+-extern const uint8_t parity_table[256];
+ uint32_t cpu_cc_compute_all(CPUX86State *env1, int op);
+ 
+ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
+@@ -2076,18 +2018,6 @@ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
+     return eflags;
+ }
+ 
+-/* NOTE: the translator must set DisasContext.cc_op to CC_OP_EFLAGS
+- * after generating a call to a helper that uses this.
+- */
+-static inline void cpu_load_eflags(CPUX86State *env, int eflags,
+-                                   int update_mask)
+-{
+-    CC_SRC = eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
+-    CC_OP = CC_OP_EFLAGS;
+-    env->df = 1 - (2 * ((eflags >> 10) & 1));
+-    env->eflags = (env->eflags & ~update_mask) |
+-        (eflags & update_mask) | 0x2;
+-}
+ 
+ /* load efer and update the corresponding hflags. XXX: do consistency
+    checks with cpuid bits? */
+@@ -2176,16 +2106,6 @@ void helper_lock_init(void);
+ /* svm_helper.c */
+ void cpu_svm_check_intercept_param(CPUX86State *env1, uint32_t type,
+                                    uint64_t param, uintptr_t retaddr);
+-void QEMU_NORETURN cpu_vmexit(CPUX86State *nenv, uint32_t exit_code,
+-                              uint64_t exit_info_1, uintptr_t retaddr);
+-void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1);
+-
+-/* seg_helper.c */
+-void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw);
+-
+-/* smm_helper.c */
+-void do_smm_enter(X86CPU *cpu);
+-
+ /* apic.c */
+ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access);
+ void apic_handle_tpr_access_report(DeviceState *d, target_ulong ip,
+@@ -2224,11 +2144,6 @@ typedef int X86CPUVersion;
+  */
+ void x86_cpu_set_default_version(X86CPUVersion version);
+ 
+-/* Return name of 32-bit register, from a R_* constant */
+-const char *get_register_name_32(unsigned int reg);
+-
+-void enable_compat_apic_id_mode(void);
+-
  #define APIC_DEFAULT_ADDRESS 0xfee00000
  #define APIC_SPACE_SIZE      0x100000
  
-+/* cpu-dump.c */
- void x86_cpu_dump_local_apic_state(CPUState *cs, int flags);
- 
- /* cpu.c */
-diff --git a/target/i386/cpu-dump.c b/target/i386/cpu-dump.c
+diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
 new file mode 100644
-index 0000000000..aac21f1f60
+index 0000000000..57b4391a7d
 --- /dev/null
-+++ b/target/i386/cpu-dump.c
-@@ -0,0 +1,537 @@
++++ b/target/i386/tcg/helper-tcg.h
+@@ -0,0 +1,112 @@
 +/*
-+ *  i386 CPU dump to FILE
++ * TCG specific prototypes for helpers
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef I386_HELPER_TCG_H
++#define I386_HELPER_TCG_H
++
++#include "exec/exec-all.h"
++
++/* Maximum instruction code size */
++#define TARGET_MAX_INSN_SIZE 16
++
++/*
++ * XXX: This value should match the one returned by CPUID
++ * and in exec.c
++ */
++# if defined(TARGET_X86_64)
++# define TCG_PHYS_ADDR_BITS 40
++# else
++# define TCG_PHYS_ADDR_BITS 36
++# endif
++
++#define PHYS_ADDR_MASK MAKE_64BIT_MASK(0, TCG_PHYS_ADDR_BITS)
++
++/**
++ * x86_cpu_do_interrupt:
++ * @cpu: vCPU the interrupt is to be handled by.
++ */
++void x86_cpu_do_interrupt(CPUState *cpu);
++bool x86_cpu_exec_interrupt(CPUState *cpu, int int_req);
++
++/* helper.c */
++bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                      MMUAccessType access_type, int mmu_idx,
++                      bool probe, uintptr_t retaddr);
++
++void breakpoint_handler(CPUState *cs);
++
++/* n must be a constant to be efficient */
++static inline target_long lshift(target_long x, int n)
++{
++    if (n >= 0) {
++        return x << n;
++    } else {
++        return x >> (-n);
++    }
++}
++
++/* float macros */
++#define FT0    (env->ft0)
++#define ST0    (env->fpregs[env->fpstt].d)
++#define ST(n)  (env->fpregs[(env->fpstt + (n)) & 7].d)
++#define ST1    ST(1)
++
++/* translate.c */
++void tcg_x86_init(void);
++
++/* excp_helper.c */
++void QEMU_NORETURN raise_exception(CPUX86State *env, int exception_index);
++void QEMU_NORETURN raise_exception_ra(CPUX86State *env, int exception_index,
++                                      uintptr_t retaddr);
++void QEMU_NORETURN raise_exception_err(CPUX86State *env, int exception_index,
++                                       int error_code);
++void QEMU_NORETURN raise_exception_err_ra(CPUX86State *env, int exception_index,
++                                          int error_code, uintptr_t retaddr);
++void QEMU_NORETURN raise_interrupt(CPUX86State *nenv, int intno, int is_int,
++                                   int error_code, int next_eip_addend);
++
++/* cc_helper.c */
++extern const uint8_t parity_table[256];
++
++/*
++ * NOTE: the translator must set DisasContext.cc_op to CC_OP_EFLAGS
++ * after generating a call to a helper that uses this.
++ */
++static inline void cpu_load_eflags(CPUX86State *env, int eflags,
++                                   int update_mask)
++{
++    CC_SRC = eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
++    CC_OP = CC_OP_EFLAGS;
++    env->df = 1 - (2 * ((eflags >> 10) & 1));
++    env->eflags = (env->eflags & ~update_mask) |
++        (eflags & update_mask) | 0x2;
++}
++
++/* svm_helper.c */
++void QEMU_NORETURN cpu_vmexit(CPUX86State *nenv, uint32_t exit_code,
++                              uint64_t exit_info_1, uintptr_t retaddr);
++void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1);
++
++/* seg_helper.c */
++void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw);
++
++/* smm_helper.c */
++void do_smm_enter(X86CPU *cpu);
++
++#endif /* I386_HELPER_TCG_H */
+diff --git a/target/i386/tcg/tcg-cpu.h b/target/i386/tcg/tcg-cpu.h
+new file mode 100644
+index 0000000000..81f02e562e
+--- /dev/null
++++ b/target/i386/tcg/tcg-cpu.h
+@@ -0,0 +1,15 @@
++/*
++ * i386 TCG CPU class initialization
++ *
++ * Copyright 2020 SUSE LLC
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef TCG_CPU_H
++#define TCG_CPU_H
++
++void tcg_cpu_common_class_init(CPUClass *cc);
++
++#endif /* TCG_CPU_H */
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index b9bd249c8f..f0aa6d1841 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -24,6 +24,8 @@
+ #include "qemu/qemu-print.h"
+ 
+ #include "cpu.h"
++#include "tcg/tcg-cpu.h"
++#include "tcg/helper-tcg.h"
+ #include "exec/exec-all.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/reset.h"
+@@ -1495,7 +1497,8 @@ static inline uint64_t x86_cpu_xsave_components(X86CPU *cpu)
+            cpu->env.features[FEAT_XSAVE_COMP_LO];
+ }
+ 
+-const char *get_register_name_32(unsigned int reg)
++/* Return name of 32-bit register, from a R_* constant */
++static const char *get_register_name_32(unsigned int reg)
+ {
+     if (reg >= CPU_NB_REGS32) {
+         return NULL;
+@@ -7012,13 +7015,6 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.eip = value;
+ }
+ 
+-static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
+-{
+-    X86CPU *cpu = X86_CPU(cs);
+-
+-    cpu->env.eip = tb->pc - tb->cs_base;
+-}
+-
+ int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+@@ -7252,17 +7248,18 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+     cc->class_by_name = x86_cpu_class_by_name;
+     cc->parse_features = x86_cpu_parse_featurestr;
+     cc->has_work = x86_cpu_has_work;
++
+ #ifdef CONFIG_TCG
+-    cc->do_interrupt = x86_cpu_do_interrupt;
+-    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
+-#endif
++    tcg_cpu_common_class_init(cc);
++#endif /* CONFIG_TCG */
++
+     cc->dump_state = x86_cpu_dump_state;
+     cc->set_pc = x86_cpu_set_pc;
+-    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
+     cc->gdb_read_register = x86_cpu_gdb_read_register;
+     cc->gdb_write_register = x86_cpu_gdb_write_register;
+     cc->get_arch_id = x86_cpu_get_arch_id;
+     cc->get_paging_enabled = x86_cpu_get_paging_enabled;
++
+ #ifndef CONFIG_USER_ONLY
+     cc->asidx_from_attrs = x86_asidx_from_attrs;
+     cc->get_memory_mapping = x86_cpu_get_memory_mapping;
+@@ -7273,7 +7270,8 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+     cc->write_elf32_note = x86_cpu_write_elf32_note;
+     cc->write_elf32_qemunote = x86_cpu_write_elf32_qemunote;
+     cc->vmsd = &vmstate_x86_cpu;
+-#endif
++#endif /* !CONFIG_USER_ONLY */
++
+     cc->gdb_arch_name = x86_gdb_arch_name;
+ #ifdef TARGET_X86_64
+     cc->gdb_core_xml_file = "i386-64bit.xml";
+@@ -7281,15 +7279,6 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+ #else
+     cc->gdb_core_xml_file = "i386-32bit.xml";
+     cc->gdb_num_core_regs = 50;
+-#endif
+-#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+-    cc->debug_excp_handler = breakpoint_handler;
+-#endif
+-    cc->cpu_exec_enter = x86_cpu_exec_enter;
+-    cc->cpu_exec_exit = x86_cpu_exec_exit;
+-#ifdef CONFIG_TCG
+-    cc->tcg_initialize = tcg_x86_init;
+-    cc->tlb_fill = x86_cpu_tlb_fill;
+ #endif
+     cc->disas_set_info = x86_disas_set_info;
+ 
+diff --git a/target/i386/helper.c b/target/i386/helper.c
+index 6e7e0f507c..6bb0c53182 100644
+--- a/target/i386/helper.c
++++ b/target/i386/helper.c
+@@ -24,10 +24,8 @@
+ #include "sysemu/runstate.h"
+ #include "kvm/kvm_i386.h"
+ #ifndef CONFIG_USER_ONLY
+-#include "sysemu/tcg.h"
+ #include "sysemu/hw_accel.h"
+ #include "monitor/monitor.h"
+-#include "hw/i386/apic_internal.h"
+ #endif
+ 
+ void cpu_sync_bndcs_hflags(CPUX86State *env)
+@@ -572,27 +570,6 @@ void do_cpu_sipi(X86CPU *cpu)
+ }
+ #endif
+ 
+-/* Frob eflags into and out of the CPU temporary format.  */
+-
+-void x86_cpu_exec_enter(CPUState *cs)
+-{
+-    X86CPU *cpu = X86_CPU(cs);
+-    CPUX86State *env = &cpu->env;
+-
+-    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
+-    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
+-    CC_OP = CC_OP_EFLAGS;
+-    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
+-}
+-
+-void x86_cpu_exec_exit(CPUState *cs)
+-{
+-    X86CPU *cpu = X86_CPU(cs);
+-    CPUX86State *env = &cpu->env;
+-
+-    env->eflags = cpu_compute_eflags(env);
+-}
+-
+ #ifndef CONFIG_USER_ONLY
+ uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr)
+ {
+diff --git a/target/i386/tcg/bpt_helper.c b/target/i386/tcg/bpt_helper.c
+index e6cc2921e2..979230ac12 100644
+--- a/target/i386/tcg/bpt_helper.c
++++ b/target/i386/tcg/bpt_helper.c
+@@ -21,6 +21,7 @@
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "exec/helper-proto.h"
++#include "helper-tcg.h"
+ 
+ 
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/i386/tcg/cc_helper.c b/target/i386/tcg/cc_helper.c
+index 924dd3cd57..cc7ea9e8b9 100644
+--- a/target/i386/tcg/cc_helper.c
++++ b/target/i386/tcg/cc_helper.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "exec/helper-proto.h"
++#include "helper-tcg.h"
+ 
+ const uint8_t parity_table[256] = {
+     CC_P, 0, 0, CC_P, 0, CC_P, CC_P, 0,
+diff --git a/target/i386/tcg/excp_helper.c b/target/i386/tcg/excp_helper.c
+index 191471749f..a0f44431fe 100644
+--- a/target/i386/tcg/excp_helper.c
++++ b/target/i386/tcg/excp_helper.c
+@@ -23,6 +23,7 @@
+ #include "qemu/log.h"
+ #include "sysemu/runstate.h"
+ #include "exec/helper-proto.h"
++#include "helper-tcg.h"
+ 
+ void helper_raise_interrupt(CPUX86State *env, int intno, int next_eip_addend)
+ {
+diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+index 03b35443a6..13f31b6ac7 100644
+--- a/target/i386/tcg/fpu_helper.c
++++ b/target/i386/tcg/fpu_helper.c
+@@ -26,6 +26,7 @@
+ #include "exec/cpu_ldst.h"
+ #include "fpu/softfloat.h"
+ #include "fpu/softfloat-macros.h"
++#include "helper-tcg.h"
+ 
+ #ifdef CONFIG_SOFTMMU
+ #include "hw/irq.h"
+@@ -2986,23 +2987,21 @@ void update_mxcsr_status(CPUX86State *env)
+ 
+ void update_mxcsr_from_sse_status(CPUX86State *env)
+ {
+-    if (tcg_enabled()) {
+-        uint8_t flags = get_float_exception_flags(&env->sse_status);
+-        /*
+-         * The MXCSR denormal flag has opposite semantics to
+-         * float_flag_input_denormal (the softfloat code sets that flag
+-         * only when flushing input denormals to zero, but SSE sets it
+-         * only when not flushing them to zero), so is not converted
+-         * here.
+-         */
+-        env->mxcsr |= ((flags & float_flag_invalid ? FPUS_IE : 0) |
+-                       (flags & float_flag_divbyzero ? FPUS_ZE : 0) |
+-                       (flags & float_flag_overflow ? FPUS_OE : 0) |
+-                       (flags & float_flag_underflow ? FPUS_UE : 0) |
+-                       (flags & float_flag_inexact ? FPUS_PE : 0) |
+-                       (flags & float_flag_output_denormal ? FPUS_UE | FPUS_PE :
+-                        0));
+-    }
++    uint8_t flags = get_float_exception_flags(&env->sse_status);
++    /*
++     * The MXCSR denormal flag has opposite semantics to
++     * float_flag_input_denormal (the softfloat code sets that flag
++     * only when flushing input denormals to zero, but SSE sets it
++     * only when not flushing them to zero), so is not converted
++     * here.
++     */
++    env->mxcsr |= ((flags & float_flag_invalid ? FPUS_IE : 0) |
++                   (flags & float_flag_divbyzero ? FPUS_ZE : 0) |
++                   (flags & float_flag_overflow ? FPUS_OE : 0) |
++                   (flags & float_flag_underflow ? FPUS_UE : 0) |
++                   (flags & float_flag_inexact ? FPUS_PE : 0) |
++                   (flags & float_flag_output_denormal ? FPUS_UE | FPUS_PE :
++                    0));
+ }
+ 
+ void helper_update_mxcsr(CPUX86State *env)
+diff --git a/target/i386/tcg/int_helper.c b/target/i386/tcg/int_helper.c
+index 4f89436b53..87fa7280ee 100644
+--- a/target/i386/tcg/int_helper.c
++++ b/target/i386/tcg/int_helper.c
+@@ -24,6 +24,7 @@
+ #include "exec/helper-proto.h"
+ #include "qapi/error.h"
+ #include "qemu/guest-random.h"
++#include "helper-tcg.h"
+ 
+ //#define DEBUG_MULDIV
+ 
+diff --git a/target/i386/tcg/mem_helper.c b/target/i386/tcg/mem_helper.c
+index 21ca3e3e88..e5cd2de1bf 100644
+--- a/target/i386/tcg/mem_helper.c
++++ b/target/i386/tcg/mem_helper.c
+@@ -25,6 +25,7 @@
+ #include "qemu/int128.h"
+ #include "qemu/atomic128.h"
+ #include "tcg/tcg.h"
++#include "helper-tcg.h"
+ 
+ void helper_cmpxchg8b_unlocked(CPUX86State *env, target_ulong a0)
+ {
+diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
+index ae259d9145..c99370e5e3 100644
+--- a/target/i386/tcg/misc_helper.c
++++ b/target/i386/tcg/misc_helper.c
+@@ -24,6 +24,7 @@
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/address-spaces.h"
++#include "helper-tcg.h"
+ 
+ void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
+ {
+diff --git a/target/i386/tcg/mpx_helper.c b/target/i386/tcg/mpx_helper.c
+index fd966174b4..22423eedcd 100644
+--- a/target/i386/tcg/mpx_helper.c
++++ b/target/i386/tcg/mpx_helper.c
+@@ -22,6 +22,7 @@
+ #include "exec/helper-proto.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/exec-all.h"
++#include "helper-tcg.h"
+ 
+ 
+ void helper_bndck(CPUX86State *env, uint32_t fail)
+diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
+index 09b6554660..ed3e04a187 100644
+--- a/target/i386/tcg/seg_helper.c
++++ b/target/i386/tcg/seg_helper.c
+@@ -25,6 +25,7 @@
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/log.h"
++#include "helper-tcg.h"
+ 
+ //#define DEBUG_PCALL
+ 
+diff --git a/target/i386/tcg/smm_helper.c b/target/i386/tcg/smm_helper.c
+index d20e8edfdf..62d027abd3 100644
+--- a/target/i386/tcg/smm_helper.c
++++ b/target/i386/tcg/smm_helper.c
+@@ -22,6 +22,8 @@
+ #include "cpu.h"
+ #include "exec/helper-proto.h"
+ #include "exec/log.h"
++#include "helper-tcg.h"
++
+ 
+ /* SMM support */
+ 
+diff --git a/target/i386/tcg/svm_helper.c b/target/i386/tcg/svm_helper.c
+index 38931586e5..097bb9b83d 100644
+--- a/target/i386/tcg/svm_helper.c
++++ b/target/i386/tcg/svm_helper.c
+@@ -22,6 +22,7 @@
+ #include "exec/helper-proto.h"
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
++#include "helper-tcg.h"
+ 
+ /* Secure Virtual Machine helpers */
+ 
+diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
+new file mode 100644
+index 0000000000..628dd29fe7
+--- /dev/null
++++ b/target/i386/tcg/tcg-cpu.c
+@@ -0,0 +1,71 @@
++/*
++ * i386 TCG cpu class initialization
 + *
 + *  Copyright (c) 2003 Fabrice Bellard
 + *
@@ -121,1066 +749,78 @@ index 0000000000..aac21f1f60
 +
 +#include "qemu/osdep.h"
 +#include "cpu.h"
-+#include "qemu/qemu-print.h"
-+#ifndef CONFIG_USER_ONLY
-+#include "hw/i386/apic_internal.h"
++#include "tcg-cpu.h"
++#include "exec/exec-all.h"
++#include "sysemu/runstate.h"
++#include "helper-tcg.h"
++
++#if !defined(CONFIG_USER_ONLY)
++#include "hw/i386/apic.h"
 +#endif
 +
-+/***********************************************************/
-+/* x86 debug */
++/* Frob eflags into and out of the CPU temporary format.  */
 +
-+static const char *cc_op_str[CC_OP_NB] = {
-+    "DYNAMIC",
-+    "EFLAGS",
-+
-+    "MULB",
-+    "MULW",
-+    "MULL",
-+    "MULQ",
-+
-+    "ADDB",
-+    "ADDW",
-+    "ADDL",
-+    "ADDQ",
-+
-+    "ADCB",
-+    "ADCW",
-+    "ADCL",
-+    "ADCQ",
-+
-+    "SUBB",
-+    "SUBW",
-+    "SUBL",
-+    "SUBQ",
-+
-+    "SBBB",
-+    "SBBW",
-+    "SBBL",
-+    "SBBQ",
-+
-+    "LOGICB",
-+    "LOGICW",
-+    "LOGICL",
-+    "LOGICQ",
-+
-+    "INCB",
-+    "INCW",
-+    "INCL",
-+    "INCQ",
-+
-+    "DECB",
-+    "DECW",
-+    "DECL",
-+    "DECQ",
-+
-+    "SHLB",
-+    "SHLW",
-+    "SHLL",
-+    "SHLQ",
-+
-+    "SARB",
-+    "SARW",
-+    "SARL",
-+    "SARQ",
-+
-+    "BMILGB",
-+    "BMILGW",
-+    "BMILGL",
-+    "BMILGQ",
-+
-+    "ADCX",
-+    "ADOX",
-+    "ADCOX",
-+
-+    "CLR",
-+};
-+
-+static void
-+cpu_x86_dump_seg_cache(CPUX86State *env, FILE *f,
-+                       const char *name, struct SegmentCache *sc)
-+{
-+#ifdef TARGET_X86_64
-+    if (env->hflags & HF_CS64_MASK) {
-+        qemu_fprintf(f, "%-3s=%04x %016" PRIx64 " %08x %08x", name,
-+                     sc->selector, sc->base, sc->limit,
-+                     sc->flags & 0x00ffff00);
-+    } else
-+#endif
-+    {
-+        qemu_fprintf(f, "%-3s=%04x %08x %08x %08x", name, sc->selector,
-+                     (uint32_t)sc->base, sc->limit,
-+                     sc->flags & 0x00ffff00);
-+    }
-+
-+    if (!(env->hflags & HF_PE_MASK) || !(sc->flags & DESC_P_MASK))
-+        goto done;
-+
-+    qemu_fprintf(f, " DPL=%d ",
-+                 (sc->flags & DESC_DPL_MASK) >> DESC_DPL_SHIFT);
-+    if (sc->flags & DESC_S_MASK) {
-+        if (sc->flags & DESC_CS_MASK) {
-+            qemu_fprintf(f, (sc->flags & DESC_L_MASK) ? "CS64" :
-+                         ((sc->flags & DESC_B_MASK) ? "CS32" : "CS16"));
-+            qemu_fprintf(f, " [%c%c", (sc->flags & DESC_C_MASK) ? 'C' : '-',
-+                         (sc->flags & DESC_R_MASK) ? 'R' : '-');
-+        } else {
-+            qemu_fprintf(f, (sc->flags & DESC_B_MASK
-+                             || env->hflags & HF_LMA_MASK)
-+                         ? "DS  " : "DS16");
-+            qemu_fprintf(f, " [%c%c", (sc->flags & DESC_E_MASK) ? 'E' : '-',
-+                         (sc->flags & DESC_W_MASK) ? 'W' : '-');
-+        }
-+        qemu_fprintf(f, "%c]", (sc->flags & DESC_A_MASK) ? 'A' : '-');
-+    } else {
-+        static const char *sys_type_name[2][16] = {
-+            { /* 32 bit mode */
-+                "Reserved", "TSS16-avl", "LDT", "TSS16-busy",
-+                "CallGate16", "TaskGate", "IntGate16", "TrapGate16",
-+                "Reserved", "TSS32-avl", "Reserved", "TSS32-busy",
-+                "CallGate32", "Reserved", "IntGate32", "TrapGate32"
-+            },
-+            { /* 64 bit mode */
-+                "<hiword>", "Reserved", "LDT", "Reserved", "Reserved",
-+                "Reserved", "Reserved", "Reserved", "Reserved",
-+                "TSS64-avl", "Reserved", "TSS64-busy", "CallGate64",
-+                "Reserved", "IntGate64", "TrapGate64"
-+            }
-+        };
-+        qemu_fprintf(f, "%s",
-+                     sys_type_name[(env->hflags & HF_LMA_MASK) ? 1 : 0]
-+                     [(sc->flags & DESC_TYPE_MASK) >> DESC_TYPE_SHIFT]);
-+    }
-+done:
-+    qemu_fprintf(f, "\n");
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+
-+/* ARRAY_SIZE check is not required because
-+ * DeliveryMode(dm) has a size of 3 bit.
-+ */
-+static inline const char *dm2str(uint32_t dm)
-+{
-+    static const char *str[] = {
-+        "Fixed",
-+        "...",
-+        "SMI",
-+        "...",
-+        "NMI",
-+        "INIT",
-+        "...",
-+        "ExtINT"
-+    };
-+    return str[dm];
-+}
-+
-+static void dump_apic_lvt(const char *name, uint32_t lvt, bool is_timer)
-+{
-+    uint32_t dm = (lvt & APIC_LVT_DELIV_MOD) >> APIC_LVT_DELIV_MOD_SHIFT;
-+    qemu_printf("%s\t 0x%08x %s %-5s %-6s %-7s %-12s %-6s",
-+                name, lvt,
-+                lvt & APIC_LVT_INT_POLARITY ? "active-lo" : "active-hi",
-+                lvt & APIC_LVT_LEVEL_TRIGGER ? "level" : "edge",
-+                lvt & APIC_LVT_MASKED ? "masked" : "",
-+                lvt & APIC_LVT_DELIV_STS ? "pending" : "",
-+                !is_timer ?
-+                    "" : lvt & APIC_LVT_TIMER_PERIODIC ?
-+                            "periodic" : lvt & APIC_LVT_TIMER_TSCDEADLINE ?
-+                                            "tsc-deadline" : "one-shot",
-+                dm2str(dm));
-+    if (dm != APIC_DM_NMI) {
-+        qemu_printf(" (vec %u)\n", lvt & APIC_VECTOR_MASK);
-+    } else {
-+        qemu_printf("\n");
-+    }
-+}
-+
-+/* ARRAY_SIZE check is not required because
-+ * destination shorthand has a size of 2 bit.
-+ */
-+static inline const char *shorthand2str(uint32_t shorthand)
-+{
-+    const char *str[] = {
-+        "no-shorthand", "self", "all-self", "all"
-+    };
-+    return str[shorthand];
-+}
-+
-+static inline uint8_t divider_conf(uint32_t divide_conf)
-+{
-+    uint8_t divide_val = ((divide_conf & 0x8) >> 1) | (divide_conf & 0x3);
-+
-+    return divide_val == 7 ? 1 : 2 << divide_val;
-+}
-+
-+static inline void mask2str(char *str, uint32_t val, uint8_t size)
-+{
-+    while (size--) {
-+        *str++ = (val >> size) & 1 ? '1' : '0';
-+    }
-+    *str = 0;
-+}
-+
-+#define MAX_LOGICAL_APIC_ID_MASK_SIZE 16
-+
-+static void dump_apic_icr(APICCommonState *s, CPUX86State *env)
-+{
-+    uint32_t icr = s->icr[0], icr2 = s->icr[1];
-+    uint8_t dest_shorthand = \
-+        (icr & APIC_ICR_DEST_SHORT) >> APIC_ICR_DEST_SHORT_SHIFT;
-+    bool logical_mod = icr & APIC_ICR_DEST_MOD;
-+    char apic_id_str[MAX_LOGICAL_APIC_ID_MASK_SIZE + 1];
-+    uint32_t dest_field;
-+    bool x2apic;
-+
-+    qemu_printf("ICR\t 0x%08x %s %s %s %s\n",
-+                icr,
-+                logical_mod ? "logical" : "physical",
-+                icr & APIC_ICR_TRIGGER_MOD ? "level" : "edge",
-+                icr & APIC_ICR_LEVEL ? "assert" : "de-assert",
-+                shorthand2str(dest_shorthand));
-+
-+    qemu_printf("ICR2\t 0x%08x", icr2);
-+    if (dest_shorthand != 0) {
-+        qemu_printf("\n");
-+        return;
-+    }
-+    x2apic = env->features[FEAT_1_ECX] & CPUID_EXT_X2APIC;
-+    dest_field = x2apic ? icr2 : icr2 >> APIC_ICR_DEST_SHIFT;
-+
-+    if (!logical_mod) {
-+        if (x2apic) {
-+            qemu_printf(" cpu %u (X2APIC ID)\n", dest_field);
-+        } else {
-+            qemu_printf(" cpu %u (APIC ID)\n",
-+                        dest_field & APIC_LOGDEST_XAPIC_ID);
-+        }
-+        return;
-+    }
-+
-+    if (s->dest_mode == 0xf) { /* flat mode */
-+        mask2str(apic_id_str, icr2 >> APIC_ICR_DEST_SHIFT, 8);
-+        qemu_printf(" mask %s (APIC ID)\n", apic_id_str);
-+    } else if (s->dest_mode == 0) { /* cluster mode */
-+        if (x2apic) {
-+            mask2str(apic_id_str, dest_field & APIC_LOGDEST_X2APIC_ID, 16);
-+            qemu_printf(" cluster %u mask %s (X2APIC ID)\n",
-+                        dest_field >> APIC_LOGDEST_X2APIC_SHIFT, apic_id_str);
-+        } else {
-+            mask2str(apic_id_str, dest_field & APIC_LOGDEST_XAPIC_ID, 4);
-+            qemu_printf(" cluster %u mask %s (APIC ID)\n",
-+                        dest_field >> APIC_LOGDEST_XAPIC_SHIFT, apic_id_str);
-+        }
-+    }
-+}
-+
-+static void dump_apic_interrupt(const char *name, uint32_t *ireg_tab,
-+                                uint32_t *tmr_tab)
-+{
-+    int i, empty = true;
-+
-+    qemu_printf("%s\t ", name);
-+    for (i = 0; i < 256; i++) {
-+        if (apic_get_bit(ireg_tab, i)) {
-+            qemu_printf("%u%s ", i,
-+                        apic_get_bit(tmr_tab, i) ? "(level)" : "");
-+            empty = false;
-+        }
-+    }
-+    qemu_printf("%s\n", empty ? "(none)" : "");
-+}
-+
-+void x86_cpu_dump_local_apic_state(CPUState *cs, int flags)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    APICCommonState *s = APIC_COMMON(cpu->apic_state);
-+    if (!s) {
-+        qemu_printf("local apic state not available\n");
-+        return;
-+    }
-+    uint32_t *lvt = s->lvt;
-+
-+    qemu_printf("dumping local APIC state for CPU %-2u\n\n",
-+                CPU(cpu)->cpu_index);
-+    dump_apic_lvt("LVT0", lvt[APIC_LVT_LINT0], false);
-+    dump_apic_lvt("LVT1", lvt[APIC_LVT_LINT1], false);
-+    dump_apic_lvt("LVTPC", lvt[APIC_LVT_PERFORM], false);
-+    dump_apic_lvt("LVTERR", lvt[APIC_LVT_ERROR], false);
-+    dump_apic_lvt("LVTTHMR", lvt[APIC_LVT_THERMAL], false);
-+    dump_apic_lvt("LVTT", lvt[APIC_LVT_TIMER], true);
-+
-+    qemu_printf("Timer\t DCR=0x%x (divide by %u) initial_count = %u"
-+                " current_count = %u\n",
-+                s->divide_conf & APIC_DCR_MASK,
-+                divider_conf(s->divide_conf),
-+                s->initial_count, apic_get_current_count(s));
-+
-+    qemu_printf("SPIV\t 0x%08x APIC %s, focus=%s, spurious vec %u\n",
-+                s->spurious_vec,
-+                s->spurious_vec & APIC_SPURIO_ENABLED ? "enabled" : "disabled",
-+                s->spurious_vec & APIC_SPURIO_FOCUS ? "on" : "off",
-+                s->spurious_vec & APIC_VECTOR_MASK);
-+
-+    dump_apic_icr(s, &cpu->env);
-+
-+    qemu_printf("ESR\t 0x%08x\n", s->esr);
-+
-+    dump_apic_interrupt("ISR", s->isr, s->tmr);
-+    dump_apic_interrupt("IRR", s->irr, s->tmr);
-+
-+    qemu_printf("\nAPR 0x%02x TPR 0x%02x DFR 0x%02x LDR 0x%02x",
-+                s->arb_id, s->tpr, s->dest_mode, s->log_dest);
-+    if (s->dest_mode == 0) {
-+        qemu_printf("(cluster %u: id %u)",
-+                    s->log_dest >> APIC_LOGDEST_XAPIC_SHIFT,
-+                    s->log_dest & APIC_LOGDEST_XAPIC_ID);
-+    }
-+    qemu_printf(" PPR 0x%02x\n", apic_get_ppr(s));
-+}
-+#else
-+void x86_cpu_dump_local_apic_state(CPUState *cs, int flags)
-+{
-+}
-+#endif /* !CONFIG_USER_ONLY */
-+
-+#define DUMP_CODE_BYTES_TOTAL    50
-+#define DUMP_CODE_BYTES_BACKWARD 20
-+
-+void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags)
++static void x86_cpu_exec_enter(CPUState *cs)
 +{
 +    X86CPU *cpu = X86_CPU(cs);
 +    CPUX86State *env = &cpu->env;
-+    int eflags, i, nb;
-+    char cc_op_name[32];
-+    static const char *seg_name[6] = { "ES", "CS", "SS", "DS", "FS", "GS" };
 +
-+    eflags = cpu_compute_eflags(env);
-+#ifdef TARGET_X86_64
-+    if (env->hflags & HF_CS64_MASK) {
-+        qemu_fprintf(f, "RAX=%016" PRIx64 " RBX=%016" PRIx64 " RCX=%016" PRIx64 " RDX=%016" PRIx64 "\n"
-+                     "RSI=%016" PRIx64 " RDI=%016" PRIx64 " RBP=%016" PRIx64 " RSP=%016" PRIx64 "\n"
-+                     "R8 =%016" PRIx64 " R9 =%016" PRIx64 " R10=%016" PRIx64 " R11=%016" PRIx64 "\n"
-+                     "R12=%016" PRIx64 " R13=%016" PRIx64 " R14=%016" PRIx64 " R15=%016" PRIx64 "\n"
-+                     "RIP=%016" PRIx64 " RFL=%08x [%c%c%c%c%c%c%c] CPL=%d II=%d A20=%d SMM=%d HLT=%d\n",
-+                     env->regs[R_EAX],
-+                     env->regs[R_EBX],
-+                     env->regs[R_ECX],
-+                     env->regs[R_EDX],
-+                     env->regs[R_ESI],
-+                     env->regs[R_EDI],
-+                     env->regs[R_EBP],
-+                     env->regs[R_ESP],
-+                     env->regs[8],
-+                     env->regs[9],
-+                     env->regs[10],
-+                     env->regs[11],
-+                     env->regs[12],
-+                     env->regs[13],
-+                     env->regs[14],
-+                     env->regs[15],
-+                     env->eip, eflags,
-+                     eflags & DF_MASK ? 'D' : '-',
-+                     eflags & CC_O ? 'O' : '-',
-+                     eflags & CC_S ? 'S' : '-',
-+                     eflags & CC_Z ? 'Z' : '-',
-+                     eflags & CC_A ? 'A' : '-',
-+                     eflags & CC_P ? 'P' : '-',
-+                     eflags & CC_C ? 'C' : '-',
-+                     env->hflags & HF_CPL_MASK,
-+                     (env->hflags >> HF_INHIBIT_IRQ_SHIFT) & 1,
-+                     (env->a20_mask >> 20) & 1,
-+                     (env->hflags >> HF_SMM_SHIFT) & 1,
-+                     cs->halted);
-+    } else
-+#endif
-+    {
-+        qemu_fprintf(f, "EAX=%08x EBX=%08x ECX=%08x EDX=%08x\n"
-+                     "ESI=%08x EDI=%08x EBP=%08x ESP=%08x\n"
-+                     "EIP=%08x EFL=%08x [%c%c%c%c%c%c%c] CPL=%d II=%d A20=%d SMM=%d HLT=%d\n",
-+                     (uint32_t)env->regs[R_EAX],
-+                     (uint32_t)env->regs[R_EBX],
-+                     (uint32_t)env->regs[R_ECX],
-+                     (uint32_t)env->regs[R_EDX],
-+                     (uint32_t)env->regs[R_ESI],
-+                     (uint32_t)env->regs[R_EDI],
-+                     (uint32_t)env->regs[R_EBP],
-+                     (uint32_t)env->regs[R_ESP],
-+                     (uint32_t)env->eip, eflags,
-+                     eflags & DF_MASK ? 'D' : '-',
-+                     eflags & CC_O ? 'O' : '-',
-+                     eflags & CC_S ? 'S' : '-',
-+                     eflags & CC_Z ? 'Z' : '-',
-+                     eflags & CC_A ? 'A' : '-',
-+                     eflags & CC_P ? 'P' : '-',
-+                     eflags & CC_C ? 'C' : '-',
-+                     env->hflags & HF_CPL_MASK,
-+                     (env->hflags >> HF_INHIBIT_IRQ_SHIFT) & 1,
-+                     (env->a20_mask >> 20) & 1,
-+                     (env->hflags >> HF_SMM_SHIFT) & 1,
-+                     cs->halted);
-+    }
-+
-+    for(i = 0; i < 6; i++) {
-+        cpu_x86_dump_seg_cache(env, f, seg_name[i], &env->segs[i]);
-+    }
-+    cpu_x86_dump_seg_cache(env, f, "LDT", &env->ldt);
-+    cpu_x86_dump_seg_cache(env, f, "TR", &env->tr);
-+
-+#ifdef TARGET_X86_64
-+    if (env->hflags & HF_LMA_MASK) {
-+        qemu_fprintf(f, "GDT=     %016" PRIx64 " %08x\n",
-+                     env->gdt.base, env->gdt.limit);
-+        qemu_fprintf(f, "IDT=     %016" PRIx64 " %08x\n",
-+                     env->idt.base, env->idt.limit);
-+        qemu_fprintf(f, "CR0=%08x CR2=%016" PRIx64 " CR3=%016" PRIx64 " CR4=%08x\n",
-+                     (uint32_t)env->cr[0],
-+                     env->cr[2],
-+                     env->cr[3],
-+                     (uint32_t)env->cr[4]);
-+        for(i = 0; i < 4; i++)
-+            qemu_fprintf(f, "DR%d=%016" PRIx64 " ", i, env->dr[i]);
-+        qemu_fprintf(f, "\nDR6=%016" PRIx64 " DR7=%016" PRIx64 "\n",
-+                     env->dr[6], env->dr[7]);
-+    } else
-+#endif
-+    {
-+        qemu_fprintf(f, "GDT=     %08x %08x\n",
-+                     (uint32_t)env->gdt.base, env->gdt.limit);
-+        qemu_fprintf(f, "IDT=     %08x %08x\n",
-+                     (uint32_t)env->idt.base, env->idt.limit);
-+        qemu_fprintf(f, "CR0=%08x CR2=%08x CR3=%08x CR4=%08x\n",
-+                     (uint32_t)env->cr[0],
-+                     (uint32_t)env->cr[2],
-+                     (uint32_t)env->cr[3],
-+                     (uint32_t)env->cr[4]);
-+        for(i = 0; i < 4; i++) {
-+            qemu_fprintf(f, "DR%d=" TARGET_FMT_lx " ", i, env->dr[i]);
-+        }
-+        qemu_fprintf(f, "\nDR6=" TARGET_FMT_lx " DR7=" TARGET_FMT_lx "\n",
-+                     env->dr[6], env->dr[7]);
-+    }
-+    if (flags & CPU_DUMP_CCOP) {
-+        if ((unsigned)env->cc_op < CC_OP_NB)
-+            snprintf(cc_op_name, sizeof(cc_op_name), "%s", cc_op_str[env->cc_op]);
-+        else
-+            snprintf(cc_op_name, sizeof(cc_op_name), "[%d]", env->cc_op);
-+#ifdef TARGET_X86_64
-+        if (env->hflags & HF_CS64_MASK) {
-+            qemu_fprintf(f, "CCS=%016" PRIx64 " CCD=%016" PRIx64 " CCO=%-8s\n",
-+                         env->cc_src, env->cc_dst,
-+                         cc_op_name);
-+        } else
-+#endif
-+        {
-+            qemu_fprintf(f, "CCS=%08x CCD=%08x CCO=%-8s\n",
-+                         (uint32_t)env->cc_src, (uint32_t)env->cc_dst,
-+                         cc_op_name);
-+        }
-+    }
-+    qemu_fprintf(f, "EFER=%016" PRIx64 "\n", env->efer);
-+    if (flags & CPU_DUMP_FPU) {
-+        int fptag;
-+        fptag = 0;
-+        for(i = 0; i < 8; i++) {
-+            fptag |= ((!env->fptags[i]) << i);
-+        }
-+        update_mxcsr_from_sse_status(env);
-+        qemu_fprintf(f, "FCW=%04x FSW=%04x [ST=%d] FTW=%02x MXCSR=%08x\n",
-+                     env->fpuc,
-+                     (env->fpus & ~0x3800) | (env->fpstt & 0x7) << 11,
-+                     env->fpstt,
-+                     fptag,
-+                     env->mxcsr);
-+        for(i=0;i<8;i++) {
-+            CPU_LDoubleU u;
-+            u.d = env->fpregs[i].d;
-+            qemu_fprintf(f, "FPR%d=%016" PRIx64 " %04x",
-+                         i, u.l.lower, u.l.upper);
-+            if ((i & 1) == 1)
-+                qemu_fprintf(f, "\n");
-+            else
-+                qemu_fprintf(f, " ");
-+        }
-+        if (env->hflags & HF_CS64_MASK)
-+            nb = 16;
-+        else
-+            nb = 8;
-+        for(i=0;i<nb;i++) {
-+            qemu_fprintf(f, "XMM%02d=%08x%08x%08x%08x",
-+                         i,
-+                         env->xmm_regs[i].ZMM_L(3),
-+                         env->xmm_regs[i].ZMM_L(2),
-+                         env->xmm_regs[i].ZMM_L(1),
-+                         env->xmm_regs[i].ZMM_L(0));
-+            if ((i & 1) == 1)
-+                qemu_fprintf(f, "\n");
-+            else
-+                qemu_fprintf(f, " ");
-+        }
-+    }
-+    if (flags & CPU_DUMP_CODE) {
-+        target_ulong base = env->segs[R_CS].base + env->eip;
-+        target_ulong offs = MIN(env->eip, DUMP_CODE_BYTES_BACKWARD);
-+        uint8_t code;
-+        char codestr[3];
-+
-+        qemu_fprintf(f, "Code=");
-+        for (i = 0; i < DUMP_CODE_BYTES_TOTAL; i++) {
-+            if (cpu_memory_rw_debug(cs, base - offs + i, &code, 1, 0) == 0) {
-+                snprintf(codestr, sizeof(codestr), "%02x", code);
-+            } else {
-+                snprintf(codestr, sizeof(codestr), "??");
-+            }
-+            qemu_fprintf(f, "%s%s%s%s", i > 0 ? " " : "",
-+                         i == offs ? "<" : "", codestr, i == offs ? ">" : "");
-+        }
-+        qemu_fprintf(f, "\n");
-+    }
++    CC_SRC = env->eflags & (CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
++    env->df = 1 - (2 * ((env->eflags >> 10) & 1));
++    CC_OP = CC_OP_EFLAGS;
++    env->eflags &= ~(DF_MASK | CC_O | CC_S | CC_Z | CC_A | CC_P | CC_C);
 +}
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index a1b3367ab2..6e7e0f507c 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -21,8 +21,6 @@
- #include "qapi/qapi-events-run-state.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
--#include "qemu/qemu-print.h"
--#include "sysemu/kvm.h"
- #include "sysemu/runstate.h"
- #include "kvm/kvm_i386.h"
- #ifndef CONFIG_USER_ONLY
-@@ -88,518 +86,6 @@ int cpu_x86_support_mca_broadcast(CPUX86State *env)
-     return 0;
- }
++
++static void x86_cpu_exec_exit(CPUState *cs)
++{
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
++
++    env->eflags = cpu_compute_eflags(env);
++}
++
++static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++{
++    X86CPU *cpu = X86_CPU(cs);
++
++    cpu->env.eip = tb->pc - tb->cs_base;
++}
++
++void tcg_cpu_common_class_init(CPUClass *cc)
++{
++    cc->do_interrupt = x86_cpu_do_interrupt;
++    cc->cpu_exec_interrupt = x86_cpu_exec_interrupt;
++    cc->synchronize_from_tb = x86_cpu_synchronize_from_tb;
++    cc->cpu_exec_enter = x86_cpu_exec_enter;
++    cc->cpu_exec_exit = x86_cpu_exec_exit;
++    cc->tcg_initialize = tcg_x86_init;
++    cc->tlb_fill = x86_cpu_tlb_fill;
++#ifndef CONFIG_USER_ONLY
++    cc->debug_excp_handler = breakpoint_handler;
++#endif
++}
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 4c57307e42..5988ea0289 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -28,6 +28,7 @@
  
--/***********************************************************/
--/* x86 debug */
--
--static const char *cc_op_str[CC_OP_NB] = {
--    "DYNAMIC",
--    "EFLAGS",
--
--    "MULB",
--    "MULW",
--    "MULL",
--    "MULQ",
--
--    "ADDB",
--    "ADDW",
--    "ADDL",
--    "ADDQ",
--
--    "ADCB",
--    "ADCW",
--    "ADCL",
--    "ADCQ",
--
--    "SUBB",
--    "SUBW",
--    "SUBL",
--    "SUBQ",
--
--    "SBBB",
--    "SBBW",
--    "SBBL",
--    "SBBQ",
--
--    "LOGICB",
--    "LOGICW",
--    "LOGICL",
--    "LOGICQ",
--
--    "INCB",
--    "INCW",
--    "INCL",
--    "INCQ",
--
--    "DECB",
--    "DECW",
--    "DECL",
--    "DECQ",
--
--    "SHLB",
--    "SHLW",
--    "SHLL",
--    "SHLQ",
--
--    "SARB",
--    "SARW",
--    "SARL",
--    "SARQ",
--
--    "BMILGB",
--    "BMILGW",
--    "BMILGL",
--    "BMILGQ",
--
--    "ADCX",
--    "ADOX",
--    "ADCOX",
--
--    "CLR",
--};
--
--static void
--cpu_x86_dump_seg_cache(CPUX86State *env, FILE *f,
--                       const char *name, struct SegmentCache *sc)
--{
--#ifdef TARGET_X86_64
--    if (env->hflags & HF_CS64_MASK) {
--        qemu_fprintf(f, "%-3s=%04x %016" PRIx64 " %08x %08x", name,
--                     sc->selector, sc->base, sc->limit,
--                     sc->flags & 0x00ffff00);
--    } else
--#endif
--    {
--        qemu_fprintf(f, "%-3s=%04x %08x %08x %08x", name, sc->selector,
--                     (uint32_t)sc->base, sc->limit,
--                     sc->flags & 0x00ffff00);
--    }
--
--    if (!(env->hflags & HF_PE_MASK) || !(sc->flags & DESC_P_MASK))
--        goto done;
--
--    qemu_fprintf(f, " DPL=%d ",
--                 (sc->flags & DESC_DPL_MASK) >> DESC_DPL_SHIFT);
--    if (sc->flags & DESC_S_MASK) {
--        if (sc->flags & DESC_CS_MASK) {
--            qemu_fprintf(f, (sc->flags & DESC_L_MASK) ? "CS64" :
--                         ((sc->flags & DESC_B_MASK) ? "CS32" : "CS16"));
--            qemu_fprintf(f, " [%c%c", (sc->flags & DESC_C_MASK) ? 'C' : '-',
--                         (sc->flags & DESC_R_MASK) ? 'R' : '-');
--        } else {
--            qemu_fprintf(f, (sc->flags & DESC_B_MASK
--                             || env->hflags & HF_LMA_MASK)
--                         ? "DS  " : "DS16");
--            qemu_fprintf(f, " [%c%c", (sc->flags & DESC_E_MASK) ? 'E' : '-',
--                         (sc->flags & DESC_W_MASK) ? 'W' : '-');
--        }
--        qemu_fprintf(f, "%c]", (sc->flags & DESC_A_MASK) ? 'A' : '-');
--    } else {
--        static const char *sys_type_name[2][16] = {
--            { /* 32 bit mode */
--                "Reserved", "TSS16-avl", "LDT", "TSS16-busy",
--                "CallGate16", "TaskGate", "IntGate16", "TrapGate16",
--                "Reserved", "TSS32-avl", "Reserved", "TSS32-busy",
--                "CallGate32", "Reserved", "IntGate32", "TrapGate32"
--            },
--            { /* 64 bit mode */
--                "<hiword>", "Reserved", "LDT", "Reserved", "Reserved",
--                "Reserved", "Reserved", "Reserved", "Reserved",
--                "TSS64-avl", "Reserved", "TSS64-busy", "CallGate64",
--                "Reserved", "IntGate64", "TrapGate64"
--            }
--        };
--        qemu_fprintf(f, "%s",
--                     sys_type_name[(env->hflags & HF_LMA_MASK) ? 1 : 0]
--                     [(sc->flags & DESC_TYPE_MASK) >> DESC_TYPE_SHIFT]);
--    }
--done:
--    qemu_fprintf(f, "\n");
--}
--
--#ifndef CONFIG_USER_ONLY
--
--/* ARRAY_SIZE check is not required because
-- * DeliveryMode(dm) has a size of 3 bit.
-- */
--static inline const char *dm2str(uint32_t dm)
--{
--    static const char *str[] = {
--        "Fixed",
--        "...",
--        "SMI",
--        "...",
--        "NMI",
--        "INIT",
--        "...",
--        "ExtINT"
--    };
--    return str[dm];
--}
--
--static void dump_apic_lvt(const char *name, uint32_t lvt, bool is_timer)
--{
--    uint32_t dm = (lvt & APIC_LVT_DELIV_MOD) >> APIC_LVT_DELIV_MOD_SHIFT;
--    qemu_printf("%s\t 0x%08x %s %-5s %-6s %-7s %-12s %-6s",
--                name, lvt,
--                lvt & APIC_LVT_INT_POLARITY ? "active-lo" : "active-hi",
--                lvt & APIC_LVT_LEVEL_TRIGGER ? "level" : "edge",
--                lvt & APIC_LVT_MASKED ? "masked" : "",
--                lvt & APIC_LVT_DELIV_STS ? "pending" : "",
--                !is_timer ?
--                    "" : lvt & APIC_LVT_TIMER_PERIODIC ?
--                            "periodic" : lvt & APIC_LVT_TIMER_TSCDEADLINE ?
--                                            "tsc-deadline" : "one-shot",
--                dm2str(dm));
--    if (dm != APIC_DM_NMI) {
--        qemu_printf(" (vec %u)\n", lvt & APIC_VECTOR_MASK);
--    } else {
--        qemu_printf("\n");
--    }
--}
--
--/* ARRAY_SIZE check is not required because
-- * destination shorthand has a size of 2 bit.
-- */
--static inline const char *shorthand2str(uint32_t shorthand)
--{
--    const char *str[] = {
--        "no-shorthand", "self", "all-self", "all"
--    };
--    return str[shorthand];
--}
--
--static inline uint8_t divider_conf(uint32_t divide_conf)
--{
--    uint8_t divide_val = ((divide_conf & 0x8) >> 1) | (divide_conf & 0x3);
--
--    return divide_val == 7 ? 1 : 2 << divide_val;
--}
--
--static inline void mask2str(char *str, uint32_t val, uint8_t size)
--{
--    while (size--) {
--        *str++ = (val >> size) & 1 ? '1' : '0';
--    }
--    *str = 0;
--}
--
--#define MAX_LOGICAL_APIC_ID_MASK_SIZE 16
--
--static void dump_apic_icr(APICCommonState *s, CPUX86State *env)
--{
--    uint32_t icr = s->icr[0], icr2 = s->icr[1];
--    uint8_t dest_shorthand = \
--        (icr & APIC_ICR_DEST_SHORT) >> APIC_ICR_DEST_SHORT_SHIFT;
--    bool logical_mod = icr & APIC_ICR_DEST_MOD;
--    char apic_id_str[MAX_LOGICAL_APIC_ID_MASK_SIZE + 1];
--    uint32_t dest_field;
--    bool x2apic;
--
--    qemu_printf("ICR\t 0x%08x %s %s %s %s\n",
--                icr,
--                logical_mod ? "logical" : "physical",
--                icr & APIC_ICR_TRIGGER_MOD ? "level" : "edge",
--                icr & APIC_ICR_LEVEL ? "assert" : "de-assert",
--                shorthand2str(dest_shorthand));
--
--    qemu_printf("ICR2\t 0x%08x", icr2);
--    if (dest_shorthand != 0) {
--        qemu_printf("\n");
--        return;
--    }
--    x2apic = env->features[FEAT_1_ECX] & CPUID_EXT_X2APIC;
--    dest_field = x2apic ? icr2 : icr2 >> APIC_ICR_DEST_SHIFT;
--
--    if (!logical_mod) {
--        if (x2apic) {
--            qemu_printf(" cpu %u (X2APIC ID)\n", dest_field);
--        } else {
--            qemu_printf(" cpu %u (APIC ID)\n",
--                        dest_field & APIC_LOGDEST_XAPIC_ID);
--        }
--        return;
--    }
--
--    if (s->dest_mode == 0xf) { /* flat mode */
--        mask2str(apic_id_str, icr2 >> APIC_ICR_DEST_SHIFT, 8);
--        qemu_printf(" mask %s (APIC ID)\n", apic_id_str);
--    } else if (s->dest_mode == 0) { /* cluster mode */
--        if (x2apic) {
--            mask2str(apic_id_str, dest_field & APIC_LOGDEST_X2APIC_ID, 16);
--            qemu_printf(" cluster %u mask %s (X2APIC ID)\n",
--                        dest_field >> APIC_LOGDEST_X2APIC_SHIFT, apic_id_str);
--        } else {
--            mask2str(apic_id_str, dest_field & APIC_LOGDEST_XAPIC_ID, 4);
--            qemu_printf(" cluster %u mask %s (APIC ID)\n",
--                        dest_field >> APIC_LOGDEST_XAPIC_SHIFT, apic_id_str);
--        }
--    }
--}
--
--static void dump_apic_interrupt(const char *name, uint32_t *ireg_tab,
--                                uint32_t *tmr_tab)
--{
--    int i, empty = true;
--
--    qemu_printf("%s\t ", name);
--    for (i = 0; i < 256; i++) {
--        if (apic_get_bit(ireg_tab, i)) {
--            qemu_printf("%u%s ", i,
--                        apic_get_bit(tmr_tab, i) ? "(level)" : "");
--            empty = false;
--        }
--    }
--    qemu_printf("%s\n", empty ? "(none)" : "");
--}
--
--void x86_cpu_dump_local_apic_state(CPUState *cs, int flags)
--{
--    X86CPU *cpu = X86_CPU(cs);
--    APICCommonState *s = APIC_COMMON(cpu->apic_state);
--    if (!s) {
--        qemu_printf("local apic state not available\n");
--        return;
--    }
--    uint32_t *lvt = s->lvt;
--
--    qemu_printf("dumping local APIC state for CPU %-2u\n\n",
--                CPU(cpu)->cpu_index);
--    dump_apic_lvt("LVT0", lvt[APIC_LVT_LINT0], false);
--    dump_apic_lvt("LVT1", lvt[APIC_LVT_LINT1], false);
--    dump_apic_lvt("LVTPC", lvt[APIC_LVT_PERFORM], false);
--    dump_apic_lvt("LVTERR", lvt[APIC_LVT_ERROR], false);
--    dump_apic_lvt("LVTTHMR", lvt[APIC_LVT_THERMAL], false);
--    dump_apic_lvt("LVTT", lvt[APIC_LVT_TIMER], true);
--
--    qemu_printf("Timer\t DCR=0x%x (divide by %u) initial_count = %u"
--                " current_count = %u\n",
--                s->divide_conf & APIC_DCR_MASK,
--                divider_conf(s->divide_conf),
--                s->initial_count, apic_get_current_count(s));
--
--    qemu_printf("SPIV\t 0x%08x APIC %s, focus=%s, spurious vec %u\n",
--                s->spurious_vec,
--                s->spurious_vec & APIC_SPURIO_ENABLED ? "enabled" : "disabled",
--                s->spurious_vec & APIC_SPURIO_FOCUS ? "on" : "off",
--                s->spurious_vec & APIC_VECTOR_MASK);
--
--    dump_apic_icr(s, &cpu->env);
--
--    qemu_printf("ESR\t 0x%08x\n", s->esr);
--
--    dump_apic_interrupt("ISR", s->isr, s->tmr);
--    dump_apic_interrupt("IRR", s->irr, s->tmr);
--
--    qemu_printf("\nAPR 0x%02x TPR 0x%02x DFR 0x%02x LDR 0x%02x",
--                s->arb_id, s->tpr, s->dest_mode, s->log_dest);
--    if (s->dest_mode == 0) {
--        qemu_printf("(cluster %u: id %u)",
--                    s->log_dest >> APIC_LOGDEST_XAPIC_SHIFT,
--                    s->log_dest & APIC_LOGDEST_XAPIC_ID);
--    }
--    qemu_printf(" PPR 0x%02x\n", apic_get_ppr(s));
--}
--#else
--void x86_cpu_dump_local_apic_state(CPUState *cs, int flags)
--{
--}
--#endif /* !CONFIG_USER_ONLY */
--
--#define DUMP_CODE_BYTES_TOTAL    50
--#define DUMP_CODE_BYTES_BACKWARD 20
--
--void x86_cpu_dump_state(CPUState *cs, FILE *f, int flags)
--{
--    X86CPU *cpu = X86_CPU(cs);
--    CPUX86State *env = &cpu->env;
--    int eflags, i, nb;
--    char cc_op_name[32];
--    static const char *seg_name[6] = { "ES", "CS", "SS", "DS", "FS", "GS" };
--
--    eflags = cpu_compute_eflags(env);
--#ifdef TARGET_X86_64
--    if (env->hflags & HF_CS64_MASK) {
--        qemu_fprintf(f, "RAX=%016" PRIx64 " RBX=%016" PRIx64 " RCX=%016" PRIx64 " RDX=%016" PRIx64 "\n"
--                     "RSI=%016" PRIx64 " RDI=%016" PRIx64 " RBP=%016" PRIx64 " RSP=%016" PRIx64 "\n"
--                     "R8 =%016" PRIx64 " R9 =%016" PRIx64 " R10=%016" PRIx64 " R11=%016" PRIx64 "\n"
--                     "R12=%016" PRIx64 " R13=%016" PRIx64 " R14=%016" PRIx64 " R15=%016" PRIx64 "\n"
--                     "RIP=%016" PRIx64 " RFL=%08x [%c%c%c%c%c%c%c] CPL=%d II=%d A20=%d SMM=%d HLT=%d\n",
--                     env->regs[R_EAX],
--                     env->regs[R_EBX],
--                     env->regs[R_ECX],
--                     env->regs[R_EDX],
--                     env->regs[R_ESI],
--                     env->regs[R_EDI],
--                     env->regs[R_EBP],
--                     env->regs[R_ESP],
--                     env->regs[8],
--                     env->regs[9],
--                     env->regs[10],
--                     env->regs[11],
--                     env->regs[12],
--                     env->regs[13],
--                     env->regs[14],
--                     env->regs[15],
--                     env->eip, eflags,
--                     eflags & DF_MASK ? 'D' : '-',
--                     eflags & CC_O ? 'O' : '-',
--                     eflags & CC_S ? 'S' : '-',
--                     eflags & CC_Z ? 'Z' : '-',
--                     eflags & CC_A ? 'A' : '-',
--                     eflags & CC_P ? 'P' : '-',
--                     eflags & CC_C ? 'C' : '-',
--                     env->hflags & HF_CPL_MASK,
--                     (env->hflags >> HF_INHIBIT_IRQ_SHIFT) & 1,
--                     (env->a20_mask >> 20) & 1,
--                     (env->hflags >> HF_SMM_SHIFT) & 1,
--                     cs->halted);
--    } else
--#endif
--    {
--        qemu_fprintf(f, "EAX=%08x EBX=%08x ECX=%08x EDX=%08x\n"
--                     "ESI=%08x EDI=%08x EBP=%08x ESP=%08x\n"
--                     "EIP=%08x EFL=%08x [%c%c%c%c%c%c%c] CPL=%d II=%d A20=%d SMM=%d HLT=%d\n",
--                     (uint32_t)env->regs[R_EAX],
--                     (uint32_t)env->regs[R_EBX],
--                     (uint32_t)env->regs[R_ECX],
--                     (uint32_t)env->regs[R_EDX],
--                     (uint32_t)env->regs[R_ESI],
--                     (uint32_t)env->regs[R_EDI],
--                     (uint32_t)env->regs[R_EBP],
--                     (uint32_t)env->regs[R_ESP],
--                     (uint32_t)env->eip, eflags,
--                     eflags & DF_MASK ? 'D' : '-',
--                     eflags & CC_O ? 'O' : '-',
--                     eflags & CC_S ? 'S' : '-',
--                     eflags & CC_Z ? 'Z' : '-',
--                     eflags & CC_A ? 'A' : '-',
--                     eflags & CC_P ? 'P' : '-',
--                     eflags & CC_C ? 'C' : '-',
--                     env->hflags & HF_CPL_MASK,
--                     (env->hflags >> HF_INHIBIT_IRQ_SHIFT) & 1,
--                     (env->a20_mask >> 20) & 1,
--                     (env->hflags >> HF_SMM_SHIFT) & 1,
--                     cs->halted);
--    }
--
--    for(i = 0; i < 6; i++) {
--        cpu_x86_dump_seg_cache(env, f, seg_name[i], &env->segs[i]);
--    }
--    cpu_x86_dump_seg_cache(env, f, "LDT", &env->ldt);
--    cpu_x86_dump_seg_cache(env, f, "TR", &env->tr);
--
--#ifdef TARGET_X86_64
--    if (env->hflags & HF_LMA_MASK) {
--        qemu_fprintf(f, "GDT=     %016" PRIx64 " %08x\n",
--                     env->gdt.base, env->gdt.limit);
--        qemu_fprintf(f, "IDT=     %016" PRIx64 " %08x\n",
--                     env->idt.base, env->idt.limit);
--        qemu_fprintf(f, "CR0=%08x CR2=%016" PRIx64 " CR3=%016" PRIx64 " CR4=%08x\n",
--                     (uint32_t)env->cr[0],
--                     env->cr[2],
--                     env->cr[3],
--                     (uint32_t)env->cr[4]);
--        for(i = 0; i < 4; i++)
--            qemu_fprintf(f, "DR%d=%016" PRIx64 " ", i, env->dr[i]);
--        qemu_fprintf(f, "\nDR6=%016" PRIx64 " DR7=%016" PRIx64 "\n",
--                     env->dr[6], env->dr[7]);
--    } else
--#endif
--    {
--        qemu_fprintf(f, "GDT=     %08x %08x\n",
--                     (uint32_t)env->gdt.base, env->gdt.limit);
--        qemu_fprintf(f, "IDT=     %08x %08x\n",
--                     (uint32_t)env->idt.base, env->idt.limit);
--        qemu_fprintf(f, "CR0=%08x CR2=%08x CR3=%08x CR4=%08x\n",
--                     (uint32_t)env->cr[0],
--                     (uint32_t)env->cr[2],
--                     (uint32_t)env->cr[3],
--                     (uint32_t)env->cr[4]);
--        for(i = 0; i < 4; i++) {
--            qemu_fprintf(f, "DR%d=" TARGET_FMT_lx " ", i, env->dr[i]);
--        }
--        qemu_fprintf(f, "\nDR6=" TARGET_FMT_lx " DR7=" TARGET_FMT_lx "\n",
--                     env->dr[6], env->dr[7]);
--    }
--    if (flags & CPU_DUMP_CCOP) {
--        if ((unsigned)env->cc_op < CC_OP_NB)
--            snprintf(cc_op_name, sizeof(cc_op_name), "%s", cc_op_str[env->cc_op]);
--        else
--            snprintf(cc_op_name, sizeof(cc_op_name), "[%d]", env->cc_op);
--#ifdef TARGET_X86_64
--        if (env->hflags & HF_CS64_MASK) {
--            qemu_fprintf(f, "CCS=%016" PRIx64 " CCD=%016" PRIx64 " CCO=%-8s\n",
--                         env->cc_src, env->cc_dst,
--                         cc_op_name);
--        } else
--#endif
--        {
--            qemu_fprintf(f, "CCS=%08x CCD=%08x CCO=%-8s\n",
--                         (uint32_t)env->cc_src, (uint32_t)env->cc_dst,
--                         cc_op_name);
--        }
--    }
--    qemu_fprintf(f, "EFER=%016" PRIx64 "\n", env->efer);
--    if (flags & CPU_DUMP_FPU) {
--        int fptag;
--        fptag = 0;
--        for(i = 0; i < 8; i++) {
--            fptag |= ((!env->fptags[i]) << i);
--        }
--        update_mxcsr_from_sse_status(env);
--        qemu_fprintf(f, "FCW=%04x FSW=%04x [ST=%d] FTW=%02x MXCSR=%08x\n",
--                     env->fpuc,
--                     (env->fpus & ~0x3800) | (env->fpstt & 0x7) << 11,
--                     env->fpstt,
--                     fptag,
--                     env->mxcsr);
--        for(i=0;i<8;i++) {
--            CPU_LDoubleU u;
--            u.d = env->fpregs[i].d;
--            qemu_fprintf(f, "FPR%d=%016" PRIx64 " %04x",
--                         i, u.l.lower, u.l.upper);
--            if ((i & 1) == 1)
--                qemu_fprintf(f, "\n");
--            else
--                qemu_fprintf(f, " ");
--        }
--        if (env->hflags & HF_CS64_MASK)
--            nb = 16;
--        else
--            nb = 8;
--        for(i=0;i<nb;i++) {
--            qemu_fprintf(f, "XMM%02d=%08x%08x%08x%08x",
--                         i,
--                         env->xmm_regs[i].ZMM_L(3),
--                         env->xmm_regs[i].ZMM_L(2),
--                         env->xmm_regs[i].ZMM_L(1),
--                         env->xmm_regs[i].ZMM_L(0));
--            if ((i & 1) == 1)
--                qemu_fprintf(f, "\n");
--            else
--                qemu_fprintf(f, " ");
--        }
--    }
--    if (flags & CPU_DUMP_CODE) {
--        target_ulong base = env->segs[R_CS].base + env->eip;
--        target_ulong offs = MIN(env->eip, DUMP_CODE_BYTES_BACKWARD);
--        uint8_t code;
--        char codestr[3];
--
--        qemu_fprintf(f, "Code=");
--        for (i = 0; i < DUMP_CODE_BYTES_TOTAL; i++) {
--            if (cpu_memory_rw_debug(cs, base - offs + i, &code, 1, 0) == 0) {
--                snprintf(codestr, sizeof(codestr), "%02x", code);
--            } else {
--                snprintf(codestr, sizeof(codestr), "??");
--            }
--            qemu_fprintf(f, "%s%s%s%s", i > 0 ? " " : "",
--                         i == offs ? "<" : "", codestr, i == offs ? ">" : "");
--        }
--        qemu_fprintf(f, "\n");
--    }
--}
--
- /***********************************************************/
- /* x86 mmu */
- /* XXX: add PGE support */
-diff --git a/target/i386/meson.build b/target/i386/meson.build
-index 750471c9f3..c4bf20b319 100644
---- a/target/i386/meson.build
-+++ b/target/i386/meson.build
-@@ -4,6 +4,7 @@ i386_ss.add(files(
-   'gdbstub.c',
-   'helper.c',
-   'xsave_helper.c',
-+  'cpu-dump.c',
- ))
- i386_ss.add(when: 'CONFIG_SEV', if_true: files('sev.c'), if_false: files('sev-stub.c'))
+ #include "exec/helper-proto.h"
+ #include "exec/helper-gen.h"
++#include "helper-tcg.h"
  
+ #include "trace-tcg.h"
+ #include "exec/log.h"
+diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
+index 02794226c2..6a1a73cdbf 100644
+--- a/target/i386/tcg/meson.build
++++ b/target/i386/tcg/meson.build
+@@ -10,4 +10,5 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'seg_helper.c',
+   'smm_helper.c',
+   'svm_helper.c',
++  'tcg-cpu.c',
+   'translate.c'), if_false: files('tcg-stub.c'))
 -- 
 2.26.2
 
