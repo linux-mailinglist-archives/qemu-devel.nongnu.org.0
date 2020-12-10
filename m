@@ -2,102 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720152D5F4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 16:17:17 +0100 (CET)
-Received: from localhost ([::1]:59694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 499332D5FB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 16:30:32 +0100 (CET)
+Received: from localhost ([::1]:43378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knNgy-0008FP-GE
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 10:17:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48438)
+	id 1knNtm-0005KW-Su
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 10:30:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1knNeg-00076I-Aa; Thu, 10 Dec 2020 10:14:54 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64456)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1knNrk-0004aT-K5; Thu, 10 Dec 2020 10:28:24 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1knNed-0006n3-BI; Thu, 10 Dec 2020 10:14:54 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BAF3CKd091646; Thu, 10 Dec 2020 10:14:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=5KfeWEi9PoqQfYMt3T+j8mAbIupQZwiuH96wVEG9CA8=;
- b=MmprIOgk2gIWAlTOOCN3VMv3Bj3/9m1jc4yXokRIR2vgblZsHd1hrpnoSDLY5hHAMVbU
- iFDhfVDoO3/2GrDsWkFALTSRG+tIOM8yUaK+RW+QDpoWw2H6OHmsxIcYIN2Gd3jt6L0U
- uArA/GmvoyXbE8qtsq/KLAYBqRWXc9tjxWuqfcu1XjPX5SjMIUCzsC2H1AsYQqZGlk9u
- x/pnGdKrdruZ4i3cmHQzExsnUhZiGQr4aah303UwwUIwP5dO26xaYxmYd6rbxW3LOrxQ
- ETVA9wZqpoy9XLl5uW/bok9FkVCd5beo3LLVQ+eRmka9sxIBQ53pXmmMleB8zoQHt3yW xg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35bnpm18km-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 10:14:48 -0500
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BAF3R3J095562;
- Thu, 10 Dec 2020 10:14:48 -0500
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35bnpm18jx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 10:14:48 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BAF9KSn006483;
- Thu, 10 Dec 2020 15:14:47 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01wdc.us.ibm.com with ESMTP id 3581u9qu7d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 15:14:47 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BAFDV3T16580866
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Dec 2020 15:13:31 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 22BB26E06B;
- Thu, 10 Dec 2020 15:13:31 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F37B16E065;
- Thu, 10 Dec 2020 15:13:29 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.163.37.122])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 10 Dec 2020 15:13:29 +0000 (GMT)
-Subject: Re: [RFC 2/8] s390x/pci: MSI-X isn't strictly required for passthrough
-To: Cornelia Huck <cohuck@redhat.com>
-References: <1607546066-2240-1-git-send-email-mjrosato@linux.ibm.com>
- <1607546066-2240-3-git-send-email-mjrosato@linux.ibm.com>
- <20201210112806.61b0c854.cohuck@redhat.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <9fc712d1-2350-f16f-7073-87162def13eb@linux.ibm.com>
-Date: Thu, 10 Dec 2020 10:13:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1knNrh-0002qu-Uc; Thu, 10 Dec 2020 10:28:24 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CsHpb6GqJz7Bxg;
+ Thu, 10 Dec 2020 23:27:19 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Thu, 10 Dec 2020
+ 23:27:43 +0800
+From: Alex Chen <alex.chen@huawei.com>
+To: <dgilbert@redhat.com>, <stefanha@redhat.com>
+Subject: [PATCH] virtiofsd: Fix potential NULL pointer dereference in
+ virtio_send_msg()
+Date: Thu, 10 Dec 2020 15:14:26 +0000
+Message-ID: <20201210151426.89244-1-alex.chen@huawei.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <20201210112806.61b0c854.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-10_06:2020-12-09,
- 2020-12-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- malwarescore=0 bulkscore=0 priorityscore=1501 suspectscore=2
- mlxlogscore=999 adultscore=0 spamscore=0 impostorscore=0 phishscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012100095
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=alex.chen@huawei.com;
+ helo=szxga07-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,71 +55,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
- schnelle@linux.ibm.com, richard.henderson@linaro.org, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com
+Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/20 5:28 AM, Cornelia Huck wrote:
-> On Wed,  9 Dec 2020 15:34:20 -0500
-> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
-> 
->> s390 PCI currently disallows PCI devices without the MSI-X capability.
->> However, this fence doesn't make sense for passthrough devices.  Move
->> the check to only fence emulated devices (e.g., virtio).
->>
->> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   hw/s390x/s390-pci-bus.c | 14 ++++++++------
->>   1 file changed, 8 insertions(+), 6 deletions(-)
->>
->> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
->> index 05f7460..afad048 100644
->> --- a/hw/s390x/s390-pci-bus.c
->> +++ b/hw/s390x/s390-pci-bus.c
->> @@ -1028,12 +1028,12 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
->>               s390_pci_get_clp_info(pbdev);
->>           } else {
->>               pbdev->fh |= FH_SHM_EMUL;
->> -        }
->>   
->> -        if (s390_pci_msix_init(pbdev)) {
->> -            error_setg(errp, "MSI-X support is mandatory "
->> -                       "in the S390 architecture");
->> -            return;
->> +            if (s390_pci_msix_init(pbdev)) {
->> +                error_setg(errp, "MSI-X support is mandatory "
->> +                           "in the S390 architecture");
->> +                return;
->> +            }
->>           }
->>   
->>           if (dev->hotplugged) {
->> @@ -1073,7 +1073,9 @@ static void s390_pcihost_unplug(HotplugHandler *hotplug_dev, DeviceState *dev,
->>           devfn = pci_dev->devfn;
->>           qdev_unrealize(dev);
->>   
->> -        s390_pci_msix_free(pbdev);
->> +        if (pbdev->fh & FH_SHM_EMUL) {
->> +            s390_pci_msix_free(pbdev);
->> +        }
->>           s390_pci_iommu_free(s, bus, devfn);
->>           pbdev->pdev = NULL;
->>           pbdev->state = ZPCI_FS_RESERVED;
-> 
-> Remind me: Wasn't it only msi that was strictly required (i.e., not msi-x?)
-> 
-> Can we generally relax this requirement, possibly with some changes in
-> the adapter interrupt mapping? I might misremember, though.
-> 
+The 'ch' will be NULL in the following stack:
+send_notify_iov()->fuse_send_msg()->virtio_send_msg(),
+so we should check 'ch' is valid before dereferencing it
 
-Yes, but even so our current emulation support only sets up for MSI-X, 
-it does not have an msi_init() equivalent.  I do believe that this 
-requirement can be relaxed at some point for the emulation support as 
-well, but the focus on this set was to at least stop fencing passthrough 
-for no reason.
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+---
+ tools/virtiofsd/fuse_virtio.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index 623812c432..31b2187a15 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -205,6 +205,8 @@ static void copy_iov(struct iovec *src_iov, int src_count,
+ int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
+                     struct iovec *iov, int count)
+ {
++    assert(ch);
++
+     FVRequest *req = container_of(ch, FVRequest, ch);
+     struct fv_QueueInfo *qi = ch->qi;
+     VuDev *dev = &se->virtio_dev->dev;
+-- 
+2.19.1
 
 
