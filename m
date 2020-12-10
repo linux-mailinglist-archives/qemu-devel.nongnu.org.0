@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0372D5B1B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:01:32 +0100 (CET)
-Received: from localhost ([::1]:45318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB892D5B79
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:20:13 +0100 (CET)
+Received: from localhost ([::1]:49652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knLZb-0001LR-5d
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:01:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37284)
+	id 1knLrg-0006rC-L6
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:20:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1knLQ2-0001bn-Gq; Thu, 10 Dec 2020 07:51:40 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16582)
+ id 1knLR9-00034G-JK; Thu, 10 Dec 2020 07:52:47 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1knLPy-0001Rl-CM; Thu, 10 Dec 2020 07:51:36 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ id 1knLR8-0001oE-5g; Thu, 10 Dec 2020 07:52:47 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BACXMqg163897; Thu, 10 Dec 2020 07:51:24 -0500
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35bfm3y6cg-1
+ 0BACXD6g067315; Thu, 10 Dec 2020 07:52:39 -0500
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 35bkbkhbds-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 07:51:23 -0500
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BACXOVK028225;
- Thu, 10 Dec 2020 12:51:22 GMT
+ Thu, 10 Dec 2020 07:52:39 -0500
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BACqXiZ021407;
+ Thu, 10 Dec 2020 12:52:37 GMT
 Received: from b06cxnps3074.portsmouth.uk.ibm.com
  (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06fra.de.ibm.com with ESMTP id 3581fhk0fs-1
+ by ppma03fra.de.ibm.com with ESMTP id 3581u8rhyx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 12:51:21 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
+ Thu, 10 Dec 2020 12:52:37 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
  by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BACpJwJ26542412
+ 0BACpK6w21299688
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Dec 2020 12:51:19 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C36CD11C052;
- Thu, 10 Dec 2020 12:51:19 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 809F111C04A;
- Thu, 10 Dec 2020 12:51:19 +0000 (GMT)
+ Thu, 10 Dec 2020 12:51:20 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6F0FF52051;
+ Thu, 10 Dec 2020 12:51:20 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 10 Dec 2020 12:51:19 +0000 (GMT)
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 33F355204F;
+ Thu, 10 Dec 2020 12:51:20 +0000 (GMT)
 Received: from yukon.ibmuc.com (sig-9-145-158-23.de.ibm.com [9.145.158.23])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id B4659220156;
- Thu, 10 Dec 2020 13:51:18 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 779BE220188;
+ Thu, 10 Dec 2020 13:51:19 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 2/5] aspeed: Add support for the g220a-bmc board
-Date: Thu, 10 Dec 2020 13:51:12 +0100
-Message-Id: <20201210125115.1812083-3-clg@kaod.org>
+Subject: [PULL 3/5] ast2600: SRAM is 89KB
+Date: Thu, 10 Dec 2020 13:51:13 +0100
+Message-Id: <20201210125115.1812083-4-clg@kaod.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201210125115.1812083-1-clg@kaod.org>
 References: <20201210125115.1812083-1-clg@kaod.org>
@@ -67,13 +64,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
  definitions=2020-12-10_05:2020-12-09,
  2020-12-10 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- clxscore=1034 suspectscore=0 lowpriorityscore=0 mlxlogscore=999
- priorityscore=1501 adultscore=0 impostorscore=0 spamscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxlogscore=793 spamscore=0
+ phishscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1034 mlxscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2012100082
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0b-001b2d01.pphosted.com
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,146 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
- John Wang <wangzhiqiang.bj@bytedance.com>,
+Cc: Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>
+ Joel Stanley <joel@jms.id.au>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Wang <wangzhiqiang.bj@bytedance.com>
+From: Joel Stanley <joel@jms.id.au>
 
-G220A is a 2 socket x86 motherboard supported by OpenBMC.
-Strapping configuration was obtained from hardware.
+On the AST2600A1, the SRAM size was increased to 89KB.
 
-Signed-off-by: John Wang <wangzhiqiang.bj@bytedance.com>
+Fixes: 7582591ae745 ("aspeed: Support AST2600A1 silicon revision")
+Signed-off-by: Joel Stanley <joel@jms.id.au>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-Id: <20201122105134.671-2-wangzhiqiang.bj@bytedance.com>
+Message-Id: <20201112012113.835858-1-joel@jms.id.au>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+ hw/arm/aspeed_ast2600.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 0ef3f6b412fe..aee00ba8d682 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -121,6 +121,20 @@ struct AspeedMachineState {
-         SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              =
-\
-         SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
-=20
-+#define G220A_BMC_HW_STRAP1 (                                      \
-+        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     =
-\
-+        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        =
-\
-+        SCU_AST2500_HW_STRAP_UART_DEBUG |                               =
-\
-+        SCU_AST2500_HW_STRAP_RESERVED28 |                               =
-\
-+        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                              =
-\
-+        SCU_HW_STRAP_2ND_BOOT_WDT |                                     =
-\
-+        SCU_HW_STRAP_VGA_CLASS_CODE |                                   =
-\
-+        SCU_HW_STRAP_LPC_RESET_PIN |                                    =
-\
-+        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER) |                =
-\
-+        SCU_AST2500_HW_STRAP_SET_AXI_AHB_RATIO(AXI_AHB_RATIO_2_1) |     =
-\
-+        SCU_HW_STRAP_VGA_SIZE_SET(VGA_64M_DRAM) |                       =
-\
-+        SCU_AST2500_HW_STRAP_RESERVED1)
-+
- /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) *=
-/
- #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
-=20
-@@ -579,6 +593,30 @@ static void witherspoon_bmc_i2c_init(AspeedMachineSt=
-ate *bmc)
-     /* Bus 11: TODO ucd90160@64 */
- }
-=20
-+static void g220a_bmc_i2c_init(AspeedMachineState *bmc)
-+{
-+    AspeedSoCState *soc =3D &bmc->soc;
-+    DeviceState *dev;
-+
-+    dev =3D DEVICE(i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c,=
- 3),
-+                                         "emc1413", 0x4c));
-+    object_property_set_int(OBJECT(dev), "temperature0", 31000, &error_a=
-bort);
-+    object_property_set_int(OBJECT(dev), "temperature1", 28000, &error_a=
-bort);
-+    object_property_set_int(OBJECT(dev), "temperature2", 20000, &error_a=
-bort);
-+
-+    dev =3D DEVICE(i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c,=
- 12),
-+                                         "emc1413", 0x4c));
-+    object_property_set_int(OBJECT(dev), "temperature0", 31000, &error_a=
-bort);
-+    object_property_set_int(OBJECT(dev), "temperature1", 28000, &error_a=
-bort);
-+    object_property_set_int(OBJECT(dev), "temperature2", 20000, &error_a=
-bort);
-+
-+    dev =3D DEVICE(i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c,=
- 13),
-+                                         "emc1413", 0x4c));
-+    object_property_set_int(OBJECT(dev), "temperature0", 31000, &error_a=
-bort);
-+    object_property_set_int(OBJECT(dev), "temperature1", 28000, &error_a=
-bort);
-+    object_property_set_int(OBJECT(dev), "temperature2", 20000, &error_a=
-bort);
-+}
-+
- static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
- {
-     return ASPEED_MACHINE(obj)->mmio_exec;
-@@ -818,6 +856,24 @@ static void aspeed_machine_tacoma_class_init(ObjectC=
-lass *oc, void *data)
-         aspeed_soc_num_cpus(amc->soc_name);
- };
-=20
-+static void aspeed_machine_g220a_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       =3D "Bytedance G220A BMC (ARM1176)";
-+    amc->soc_name  =3D "ast2500-a1";
-+    amc->hw_strap1 =3D G220A_BMC_HW_STRAP1;
-+    amc->fmc_model =3D "n25q512a";
-+    amc->spi_model =3D "mx25l25635e";
-+    amc->num_cs    =3D 2;
-+    amc->macs_mask  =3D ASPEED_MAC1_ON | ASPEED_MAC2_ON;
-+    amc->i2c_init  =3D g220a_bmc_i2c_init;
-+    mc->default_ram_size =3D 1024 * MiB;
-+    mc->default_cpus =3D mc->min_cpus =3D mc->max_cpus =3D
-+        aspeed_soc_num_cpus(amc->soc_name);
-+};
-+
- static const TypeInfo aspeed_machine_types[] =3D {
-     {
-         .name          =3D MACHINE_TYPE_NAME("palmetto-bmc"),
-@@ -855,6 +911,10 @@ static const TypeInfo aspeed_machine_types[] =3D {
-         .name          =3D MACHINE_TYPE_NAME("tacoma-bmc"),
-         .parent        =3D TYPE_ASPEED_MACHINE,
-         .class_init    =3D aspeed_machine_tacoma_class_init,
-+    }, {
-+        .name          =3D MACHINE_TYPE_NAME("g220a-bmc"),
-+        .parent        =3D TYPE_ASPEED_MACHINE,
-+        .class_init    =3D aspeed_machine_g220a_class_init,
-     }, {
-         .name          =3D TYPE_ASPEED_MACHINE,
-         .parent        =3D TYPE_MACHINE,
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index 1450bde7cf26..12e4a16d3765 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -481,7 +481,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass=
+ *oc, void *data)
+     sc->name         =3D "ast2600-a1";
+     sc->cpu_type     =3D ARM_CPU_TYPE_NAME("cortex-a7");
+     sc->silicon_rev  =3D AST2600_A1_SILICON_REV;
+-    sc->sram_size    =3D 0x10000;
++    sc->sram_size    =3D 0x16400;
+     sc->spis_num     =3D 2;
+     sc->ehcis_num    =3D 2;
+     sc->wdts_num     =3D 4;
 --=20
 2.26.2
 
