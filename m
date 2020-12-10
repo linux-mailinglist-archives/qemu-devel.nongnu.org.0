@@ -2,46 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499332D5FB0
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 16:30:32 +0100 (CET)
-Received: from localhost ([::1]:43378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4212D5F58
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 16:17:53 +0100 (CET)
+Received: from localhost ([::1]:60660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knNtm-0005KW-Su
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 10:30:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52372)
+	id 1knNhY-0000D3-Nw
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 10:17:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1knNrk-0004aT-K5; Thu, 10 Dec 2020 10:28:24 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2168)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1knNf0-0007ZX-MC; Thu, 10 Dec 2020 10:15:14 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52284
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1knNrh-0002qu-Uc; Thu, 10 Dec 2020 10:28:24 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CsHpb6GqJz7Bxg;
- Thu, 10 Dec 2020 23:27:19 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Thu, 10 Dec 2020
- 23:27:43 +0800
-From: Alex Chen <alex.chen@huawei.com>
-To: <dgilbert@redhat.com>, <stefanha@redhat.com>
-Subject: [PATCH] virtiofsd: Fix potential NULL pointer dereference in
- virtio_send_msg()
-Date: Thu, 10 Dec 2020 15:14:26 +0000
-Message-ID: <20201210151426.89244-1-alex.chen@huawei.com>
-X-Mailer: git-send-email 2.19.1
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1knNey-0006v4-Og; Thu, 10 Dec 2020 10:15:14 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0BAF2cSc187464; Thu, 10 Dec 2020 10:15:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=8g8vARb2mjBjBLduNt+uCk9eJ3iqJX3RMRGSGoQ3l+A=;
+ b=PhsA6aSaMnb9HZnYWG425DgZC9g75ieV9AAT2gek+TwuBm46yaU93+RWhfAuF3vh+3Ww
+ 8Wa243w263MN74qvFqiI4oRpt3hGuowxoSwN3tmpEHDZnT6KX+LBotmMgf2Id18bJtlx
+ my+FIRFIJlbZhFQ/jITCXQbYgmrUMpdqGxdg1O01m//or1ox8BvIAFoJqSXdyAHPB64D
+ BPaFPvS0+32kACdjI655bzaFD5JbU9nXk6FfcD/vcNvTibjsBGsfcQdCNzs68mG2OAfp
+ oGSj06AiFjUZKdEmXvyMnyIdStsO/T/Bq1oEvBJg8GuhW6ylACDdwpNJbH7rLnRHmeld mg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35bnhn9hv9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Dec 2020 10:15:11 -0500
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BAF33Gr190970;
+ Thu, 10 Dec 2020 10:15:10 -0500
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35bnhn9hum-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Dec 2020 10:15:10 -0500
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BAF7k76030363;
+ Thu, 10 Dec 2020 15:15:09 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma03wdc.us.ibm.com with ESMTP id 3581u9gg11-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 10 Dec 2020 15:15:09 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0BAFF81T9109892
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Dec 2020 15:15:08 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4D99A6E075;
+ Thu, 10 Dec 2020 15:15:08 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 24E476E079;
+ Thu, 10 Dec 2020 15:15:07 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.163.37.122])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 10 Dec 2020 15:15:07 +0000 (GMT)
+Subject: Re: [RFC 3/8] s390x/pci: fix pcistb length
+To: Cornelia Huck <cohuck@redhat.com>
+References: <1607546066-2240-1-git-send-email-mjrosato@linux.ibm.com>
+ <1607546066-2240-4-git-send-email-mjrosato@linux.ibm.com>
+ <20201210113006.666ce143.cohuck@redhat.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+Message-ID: <84b3a7bf-6a37-bd9f-cd99-8eb969c83bda@linux.ibm.com>
+Date: Thu, 10 Dec 2020 10:15:06 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=alex.chen@huawei.com;
- helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201210113006.666ce143.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2020-12-10_05:2020-12-09,
+ 2020-12-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0
+ bulkscore=0 mlxscore=0 phishscore=0 suspectscore=0 mlxlogscore=790
+ adultscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012100092
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,35 +112,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- zhang.zhanghailiang@huawei.com
+Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
+ schnelle@linux.ibm.com, richard.henderson@linaro.org, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 'ch' will be NULL in the following stack:
-send_notify_iov()->fuse_send_msg()->virtio_send_msg(),
-so we should check 'ch' is valid before dereferencing it
+On 12/10/20 5:30 AM, Cornelia Huck wrote:
+> On Wed,  9 Dec 2020 15:34:21 -0500
+> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+> 
+>> In pcistb_service_call, we are grabbing 8 bits from a guest register to
+>> indicate the length of the store operation -- but per the architecture
+>> the length is actually defined by 13 bits of the guest register.
+>>
+>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   hw/s390x/s390-pci-inst.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+>> index 70bfd91..db86f12 100644
+>> --- a/hw/s390x/s390-pci-inst.c
+>> +++ b/hw/s390x/s390-pci-inst.c
+>> @@ -750,7 +750,7 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
+>>       int i;
+>>       uint32_t fh;
+>>       uint8_t pcias;
+>> -    uint8_t len;
+>> +    uint16_t len;
+>>       uint8_t buffer[128];
+>>   
+>>       if (env->psw.mask & PSW_MASK_PSTATE) {
+>> @@ -760,7 +760,7 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
+>>   
+>>       fh = env->regs[r1] >> 32;
+>>       pcias = (env->regs[r1] >> 16) & 0xf;
+>> -    len = env->regs[r1] & 0xff;
+>> +    len = env->regs[r1] & 0x1fff;
+>>       offset = env->regs[r3];
+>>   
+>>       if (!(fh & FH_MASK_ENABLE)) {
+> 
+> Is that a general problem that we just did not notice before?
+> 
+> If yes, this probably deserves a Fixes: tag and can be queued
+> independently of the rest of the series.
+> 
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Alex Chen <alex.chen@huawei.com>
----
- tools/virtiofsd/fuse_virtio.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 623812c432..31b2187a15 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -205,6 +205,8 @@ static void copy_iov(struct iovec *src_iov, int src_count,
- int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
-                     struct iovec *iov, int count)
- {
-+    assert(ch);
-+
-     FVRequest *req = container_of(ch, FVRequest, ch);
-     struct fv_QueueInfo *qi = ch->qi;
-     VuDev *dev = &se->virtio_dev->dev;
--- 
-2.19.1
-
+Good point.  I can split this out, and same for "s390x/pci: Fix 
+memory_region_access_valid call"
 
