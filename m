@@ -2,74 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E0172D6493
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 19:12:20 +0100 (CET)
-Received: from localhost ([::1]:58836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB502D6518
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 19:34:04 +0100 (CET)
+Received: from localhost ([::1]:36856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knQQN-0007Iu-7M
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 13:12:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34828)
+	id 1knQlP-0003Nc-Dz
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 13:34:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1knQOl-0006nI-W8
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 13:10:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21301)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1knQOg-0002PC-1Y
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 13:10:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607623832;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mqs8Ebcc+w+wsrWBWc1TymbBMrV26yTjnWG2wxto/ug=;
- b=GBDthqa+oqjO7/7Ug8jU1BD8KFFUvxEj7SCnz55ahgBX0mMDx8BYmx3omAwb+URH+SnYfO
- R28vkQRA6wBBxS/lYYvgffSoi26lMfY7QJD0RxCELELpYjXVnojGODOK+lqfSE5uZujtwr
- YWnzS7uSkOFKog9T6ggb1DefMRY8Qa4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-5amN1dIJOoOSOp1MJruoxg-1; Thu, 10 Dec 2020 13:10:28 -0500
-X-MC-Unique: 5amN1dIJOoOSOp1MJruoxg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24465800C78
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 18:10:15 +0000 (UTC)
-Received: from redhat.com (ovpn-115-31.ams2.redhat.com [10.36.115.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C60F10016F7;
- Thu, 10 Dec 2020 18:10:12 +0000 (UTC)
-Date: Thu, 10 Dec 2020 18:10:09 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 1/6] migration: Fix and clean up around @tls-authz
-Message-ID: <20201210181009.GA59494@redhat.com>
-References: <20201113065236.2644169-1-armbru@redhat.com>
- <20201113065236.2644169-2-armbru@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20201113065236.2644169-2-armbru@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1knQhz-0002Uu-2s; Thu, 10 Dec 2020 13:30:35 -0500
+Received: from mail-eopbgr60094.outbound.protection.outlook.com
+ ([40.107.6.94]:26790 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1knQhs-0000Ex-If; Thu, 10 Dec 2020 13:30:30 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RaTp+0wOBC657IRO/nf8edMhPIt3uku5TYvqeB1Qb15r5M1MeYSXGjSMuTcgnrkv6QV+h1p2lKq6KUIc7WoWr7Y5S1Vl0USwx+TsRGFxddV5JBL1JYlFmteW9kQUUcGujXaFqhxhhBoj44Brqi5vlVM5ICNsmiAn9A76fdqN6NpjmgvdtUhSIx4+duHHMt5YWVlGoU4KGHrvOciP9EFOBHSDnIdny7w8rFybRxGNMrs9p0IyCCK7pIKfmVdO1vD+ksZ5cJ9DtyLufxgBg6QbxrZqIQw5iz5tPZ9ehTlEUtbJks8sGr1+D5cIaD0UiuXdS6CqJtAvAh3u51XzUEmGvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZZ6LTojsLoA6c+BZX99qnSzTEiayQkN83cCVjUk98q0=;
+ b=jSu6zUX9fbJqHbli4GgPoKCjC4q8HembBannJnhM9rVm7hAM2xhjCrgxAhcY7l0xsTrXaRVGxahLdendvtfGq2MQCquPQu668NcX6D+3JE9czyekMxz3gxhzqSSeMhYnDK91xTEjz+u+EnCQmaZN24FUY5P8Eh3jjrnp8gsTkgRq5s84+ce2quCJ1u3SO/+UD0QritLSriCvLdiu3m8SV2sqXvJ68Xn6NkL4eHAFrrGT7+FEEVP5C2mla1a9WGsyMsVzm/hR78wdx0V0L438kldulTjsEEaDGIvjk+Y1cjisYFTS/v+rw7VOZKXPEffFxSrKVqiGDWBdX7CzK0nb5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZZ6LTojsLoA6c+BZX99qnSzTEiayQkN83cCVjUk98q0=;
+ b=c2R3DzdNOLBlQWpYo326LYqvPN1ynSL1vq8/d6v8WuNMJloFyhoRmXMZI7nZQBKHz0Dbh56Ulhy7SPHb0RYunLKogyf4Uvw5Dp+tlnxGNn4ulYTdsPK4k72CXVZCXW3jYJHw0FIn/i0GaI5Ouo/FO0eXdwYgECGLNidkoBOe9xU=
+Authentication-Results: virtuozzo.com; dkim=none (message not signed)
+ header.d=none;virtuozzo.com; dmarc=none action=none
+ header.from=virtuozzo.com;
+Received: from DB8PR08MB5499.eurprd08.prod.outlook.com (2603:10a6:10:fa::16)
+ by DBBPR08MB6041.eurprd08.prod.outlook.com (2603:10a6:10:206::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Thu, 10 Dec
+ 2020 18:30:16 +0000
+Received: from DB8PR08MB5499.eurprd08.prod.outlook.com
+ ([fe80::382b:db97:31c6:7520]) by DB8PR08MB5499.eurprd08.prod.outlook.com
+ ([fe80::382b:db97:31c6:7520%9]) with mapi id 15.20.3654.012; Thu, 10 Dec 2020
+ 18:30:16 +0000
+Subject: Re: [PATCH v14 05/13] qapi: create BlockdevOptionsCor structure for
+ COR driver
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
+ <20201204220758.2879-6-vsementsov@virtuozzo.com>
+ <e3621773-9000-31e6-5f41-9a7bfd5ccbbe@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <42e4cd28-e073-b8d6-4853-ddf3a47dec59@virtuozzo.com>
+Date: Thu, 10 Dec 2020 21:30:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
+In-Reply-To: <e3621773-9000-31e6-5f41-9a7bfd5ccbbe@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Originating-IP: [185.215.60.91]
+X-ClientProxiedBy: AM9P193CA0002.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21e::7) To DB8PR08MB5499.eurprd08.prod.outlook.com
+ (2603:10a6:10:fa::16)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.91) by
+ AM9P193CA0002.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3654.12 via Frontend Transport; Thu, 10 Dec 2020 18:30:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 784dc7c2-5ad4-4f10-1331-08d89d39a43e
+X-MS-TrafficTypeDiagnostic: DBBPR08MB6041:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DBBPR08MB604180E591DC2D8D17B223F6C1CB0@DBBPR08MB6041.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HE/9VTMVHytb9gp22raQneXFMNndCPkApeKxh038waEeuQ4olFY0i3hKAehWI7Ik0gs89VHeRPJpWQFZaQZbjcdvLzqzvC06TvChK+MiPZ+D2A0MWBiVWeVro2LbawhiK/SxM1YIfTsLqEVdNzmz59pUfCgVNQnpAdSIxo3E8fAFR9ncKSkuoXhZ2pUXyWfruF97hU3F87VM/ggPi4qEGLnbTHQ9mNOSTyz2w79cdxRZ8zif7QXApvDyulri4Jgq25Y8Uag2yOT2UbN8qx9rSVji1oqOObnlbju+Ucyj6j5UZNYj7SDZsN20ZdExaiABNjYMl2ETHosA+CY4IcH4DIk4Ti+V+hu5WZNc7YT816Gj1QKpupWUt97hhLZdGOlw8oJdE1YVGH5pLS94nCUXqaax79ihGlarBmdGa0eBeYU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DB8PR08MB5499.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(366004)(376002)(136003)(346002)(396003)(8936002)(16526019)(66476007)(66556008)(66946007)(16576012)(36756003)(4326008)(107886003)(5660300002)(2906002)(31686004)(316002)(8676002)(478600001)(6486002)(956004)(86362001)(53546011)(2616005)(52116002)(31696002)(186003)(26005)(83380400001)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TUI0emN1MGdaUC9CQWZkRkgzQSttVzZENUp3bnI5U1o5QkJoM0RyeWZ6N0wz?=
+ =?utf-8?B?eFpPYWJsVUtsakJxVU9MSUMxOWhXbVFqYlNZOGg2R1RUQmJqckZFR3VWU3Bu?=
+ =?utf-8?B?YTFwZWZLaEk1dzZ1OWFMeUpXdWdmTk44VjUxK0t4dVhlbG1OMDNaOTlET3pN?=
+ =?utf-8?B?UTU0N05iVUtrL3hCK2l0T1plaUNEa2ExUm5jSnh4VDlpOVNKaGQ0MW5raDg4?=
+ =?utf-8?B?T2VsSllnV2pqVHJzTCtmNXQ2RllSbG5FUHp2MDJhM3BmOEdUM0p6UmV5MWRM?=
+ =?utf-8?B?aGJweFpFcTVWZDFqSmFUQ0QwVHJOMG5uSzJMS3pUcWJ5QVNGYmFtWURIejJh?=
+ =?utf-8?B?M3NZUUhLMmZuWkRWcXljbjFrRUtPODlIMVhVZU1pZ2JhZmJWbWphWmZXN0Iy?=
+ =?utf-8?B?cVYvQlBFTmxvR1Z0cHVXZm1hTEpEdE01UnhxZUVrSkgxcFRVc3J1TmxOdllT?=
+ =?utf-8?B?NXFrWFc5R29HOUQrSm5hMDhyTnRUcHNkVmdjZmhJczZSQ2JYbGcrYnI2VDFz?=
+ =?utf-8?B?UUFVcENXaGlRQWY3bmFsL0NhOS8xV2xpeFk5VTJPYjJ2aHFTd2x2OVRQME8w?=
+ =?utf-8?B?YWVoOE9sdXgwUEZRWGdGdGNSN04xWjMxTFhFUmpxNkx5YkNjTjAyeDVKcm9h?=
+ =?utf-8?B?WUQ4RCtDSElSbUV1WnNDdHpSYnJsMDlBNmEyMDVPVzYyVHhROUMwVk9vc1pF?=
+ =?utf-8?B?b3llUTFmeHhGNEt1RU1JZXdUYytwU2VpMzZpV3dJZTZXdmtSQlM2S290S2dE?=
+ =?utf-8?B?VHo1RElWWTN3ME5qY1dwTHIzeTZ5dkx2V1JzaTFHQXRIQVorRWNIMHZjdDFY?=
+ =?utf-8?B?RHhaYTgzQm15LzJkckhPQk1GUUN6QmNIeFowbkRRNWhnVnhLdGM4SC9ZSGNm?=
+ =?utf-8?B?eXFxSGhid3Iycis5UmE1dXF6RE9HWFEwK1hoZWs3TDUyVkJKMHplay9lbUZv?=
+ =?utf-8?B?eHJ2S3UrUlppSEdlVlZrRFdsbXh5WjNuMU1iM1B6RVRNcStGL3RkdXFGQnN4?=
+ =?utf-8?B?WlBHa0JqL01XR1czcitKRW9mazNLQ3BKZWVWWVRlZVV4RUl4OUduWEFQZU92?=
+ =?utf-8?B?ZjU5YytZNEhLNFZQTldjSUpDQmZDalFxdTMvRko1RFJFcHNxNUJBa253UlJx?=
+ =?utf-8?B?SjFsTTRHaG8xbzNrNDZyeWRRSWZ5UUhTVUlrb1g1RHpNem9vTzlGNWw0bHpB?=
+ =?utf-8?B?VDVpRXFiK2RhV3pRVitFa0s2V2tXUFl1eVo1ZjJxaTZkTGpZUkhhSElsN241?=
+ =?utf-8?B?cFBtUnBwUEFoZUFMVmF2QmZlNC90SW8xeGo2SjE3b01YQzJ5RWNwNUVoTkZU?=
+ =?utf-8?Q?QoPqGaCzWm7anqFEUeJM3zUoFBOF4whRrg?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR08MB5499.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2020 18:30:16.6187 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 784dc7c2-5ad4-4f10-1331-08d89d39a43e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ABsgQ+BIPP4v0/0GiDZb7ekQC04z9tDTWXlSXgaAKYlHQiCHQXTf4ijtFE+4vl6ck91AYEsKQcJc4U6OVW6DgNsK8u5QF2yXB7AoXmoxo4E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB6041
+Received-SPF: pass client-ip=40.107.6.94;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,160 +139,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, quintela@redhat.com
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 13, 2020 at 07:52:31AM +0100, Markus Armbruster wrote:
-> Commit d2f1d29b95 "migration: add support for a "tls-authz" migration
-> parameter" added MigrationParameters member @tls-authz.  Whereas the
-> other members aren't really optional (see commit 1bda8b3c695), this
-> one is genuinely optional: migration_instance_init() leaves it absent,
-> and migration_tls_channel_process_incoming() passes it to
-> qcrypto_tls_session_new(), which checks for null.
+10.12.2020 20:43, Max Reitz wrote:
+> I don’t like this patch’s subject very much, because I find the implementation of the @bottom option to be more noteworthy than the addition of the QAPI structure.
 > 
-> Commit d2f1d29b95 has a number of issues, though:
 > 
-> * When qmp_query_migrate_parameters() copies migration parameters into
->   its reply, it ignores has_tls_authz, and assumes true instead.  When
->   it is false,
+> On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
+>> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>
+>> Create the BlockdevOptionsCor structure for COR driver specific options
+>> splitting it off form the BlockdevOptionsGenericFormat. The only option
+>> 'bottom' node in the structure denotes an image file that limits the
+>> COR operations in the backing chain.
+>> We are going to use the COR-filter for a block-stream job and will pass
+>> a bottom node name to the COR driver. The bottom node is the first
+>> non-filter overlay of the base. It was introduced because the base node
+>> itself may change due to possible concurrent jobs.
+>>
+>> Suggested-by: Max Reitz <mreitz@redhat.com>
+>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>    [vsementsov: fix bdrv_is_allocated_above() usage]
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   qapi/block-core.json | 21 +++++++++++++++-
+>>   block/copy-on-read.c | 57 ++++++++++++++++++++++++++++++++++++++++++--
+>>   2 files changed, 75 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/qapi/block-core.json b/qapi/block-core.json
+>> index 8ef3df6767..04055ef50c 100644
+>> --- a/qapi/block-core.json
+>> +++ b/qapi/block-core.json
+>> @@ -3942,6 +3942,25 @@
+>>     'data': { 'throttle-group': 'str',
+>>               'file' : 'BlockdevRef'
+>>                } }
+>> +
+>> +##
+>> +# @BlockdevOptionsCor:
+>> +#
+>> +# Driver specific block device options for the copy-on-read driver.
+>> +#
+>> +# @bottom: the name of a non-filter node (allocation-bearing layer) that limits
+>> +#          the COR operations in the backing chain (inclusive).
 > 
->   - HMP info migrate_parameters prints the null pointer (crash bug on
->     some systems), and
+> This seems to me like something’s missing.  Perhaps technically there isn’t, but “limits the COR operations” begs the question (to me) “Limits them in what way?” (to which the answer is: No data below @bottom is copied).
 > 
->   - QMP query-migrate-parameters replies "tls-authz": "" (because the
->     QObject output visitor silently maps null pointer to "", which it
->     really shouldn't).
+> Could you make it more verbose?  Perhaps something like “The name of a non-filter node (allocation-bearing layer) that limits the COR operations in the backing chain (inclusive), so that no data below this node will be copied by this filter”?
+
+Sounds good for me.
+
 > 
->   The HMP defect was noticed and fixed in commit 7cd75cbdb8
->   'migration: use "" instead of (null) for tls-authz'.  Unfortunately,
->   the fix papered over the real bug: it made
->   qmp_query_migrate_parameters() map null tls_authz to "".  It also
->   dropped the check for has_tls_authz from
->   hmp_info_migrate_parameters().
+>> +#          For the block-stream job, it will be the first non-filter overlay of
+>> +#          the base node. We do not involve the base node into the COR
+>> +#          operations because the base may change due to a concurrent
+>> +#          block-commit job on the same backing chain.
 > 
->   Revert, and fix qmp_query_migrate_parameters() not to screw up
->   has_tls_authz.  No change to HMP.  QMP now has "tls-authz" in the
->   reply only when it's actually present in
->   migrate_get_current()->parameters.  If we prefer to remain
->   bug-compatible, we should make tls_authz non-optional there.
+
+I now see that paragraph conflicts with further introduce of "bottom" for stream job itself. I think it may be safely dropped. It's a wrong place to describe how block-stream works.
+
+> I think the default behavior should be mentioned here somewhere, i.e. that no limit is applied, so that data from all backing layers may be copied.
+
+agree
+
 > 
-> * migrate_params_test_apply() neglects to apply tls_authz.  Currently
->   harmless, because migrate_params_check() doesn't care.  Fix it
->   anyway.
+>> +#
+>> +# Since: 5.2
 > 
-> * qmp_migrate_set_parameters() crashes:
+> *6.0
 > 
->     {"execute": "migrate-set-parameters", "arguments": {"tls-authz": null}}
+>> +##
+>> +{ 'struct': 'BlockdevOptionsCor',
+>> +  'base': 'BlockdevOptionsGenericFormat',
+>> +  'data': { '*bottom': 'str' } }
+>> +
+>>   ##
+>>   # @BlockdevOptions:
+>>   #
 > 
->   Add the necessary rewrite of null to "".  For background
->   information, see commit 01fa559826 "migration: Use JSON null instead
->   of "" to reset parameter to default".
+> [...]
 > 
-> Fixes: d2f1d29b95aa45d13262b39153ff501ed6b1ac95
-> Cc: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  qapi/migration.json   |  2 +-
->  migration/migration.c | 17 ++++++++++++++---
->  monitor/hmp-cmds.c    |  2 +-
->  3 files changed, 16 insertions(+), 5 deletions(-)
+>> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+>> index 618c4c4f43..67f61983c0 100644
+>> --- a/block/copy-on-read.c
+>> +++ b/block/copy-on-read.c
 > 
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 3c75820527..688e8da749 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -928,7 +928,7 @@
->  ##
->  # @MigrationParameters:
->  #
-> -# The optional members aren't actually optional.
-> +# The optional members aren't actually optional, except for @tls-authz.
+> [...]
+> 
+>> @@ -51,7 +56,17 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+>>           ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
+>>               bs->file->bs->supported_zero_flags);
+>> +    if (bottom_node) {
+>> +        bottom_bs = bdrv_lookup_bs(NULL, bottom_node, errp);
+>> +        if (!bottom_bs) {
+>> +            error_setg(errp, "Bottom node '%s' not found", bottom_node);
+>> +            qdict_del(options, "bottom");
+>> +            return -EINVAL;
+>> +        }
+> 
+> Should we verify that bottom_bs is not a filter, as required by the schema?
+> 
 
-and tls-hostname and tls-creds.
-
->  #
->  # @announce-initial: Initial delay (in milliseconds) before sending the
->  #                    first announce (Since 4.0)
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 3263aa55a9..cad56fbf8c 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -855,9 +855,8 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
->      params->tls_creds = g_strdup(s->parameters.tls_creds);
->      params->has_tls_hostname = true;
->      params->tls_hostname = g_strdup(s->parameters.tls_hostname);
-> -    params->has_tls_authz = true;
-> -    params->tls_authz = g_strdup(s->parameters.tls_authz ?
-> -                                 s->parameters.tls_authz : "");
-> +    params->has_tls_authz = s->parameters.has_tls_authz;
-
-I'm kind of confused why has_tls_authz needs to be handled differently
-from tls_hostname and tls_creds - both of these are optional to
-the same extent that tls_authz is AFAIR.
-
-> +    params->tls_authz = g_strdup(s->parameters.tls_authz);
-
-This makes it match what is done for tls_hostname/creds though
-which makes sense.
-
->      params->has_max_bandwidth = true;
->      params->max_bandwidth = s->parameters.max_bandwidth;
->      params->has_downtime_limit = true;
-> @@ -1433,6 +1432,11 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
->          dest->tls_hostname = params->tls_hostname->u.s;
->      }
->  
-> +    if (params->has_tls_authz) {
-> +        assert(params->tls_authz->type == QTYPE_QSTRING);
-> +        dest->tls_authz = params->tls_authz->u.s;
-> +    }
-> +
-
-Makes sense, as it was missed previously
-
->      if (params->has_max_bandwidth) {
->          dest->max_bandwidth = params->max_bandwidth;
->      }
-> @@ -1622,6 +1626,13 @@ void qmp_migrate_set_parameters(MigrateSetParameters *params, Error **errp)
->          params->tls_hostname->type = QTYPE_QSTRING;
->          params->tls_hostname->u.s = strdup("");
->      }
-> +    /* TODO Rewrite "" to null instead */
-> +    if (params->has_tls_authz
-> +        && params->tls_authz->type == QTYPE_QNULL) {
-> +        qobject_unref(params->tls_authz->u.n);
-> +        params->tls_authz->type = QTYPE_QSTRING;
-> +        params->tls_authz->u.s = strdup("");
-> +    }
-
-Makes sense, as it matches what was done for tls_creds/tls_hostname
-
->  
->      migrate_params_test_apply(params, &tmp);
->  
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index a6a6684df1..492789248f 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -476,7 +476,7 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
->              params->max_postcopy_bandwidth);
->          monitor_printf(mon, "%s: '%s'\n",
->              MigrationParameter_str(MIGRATION_PARAMETER_TLS_AUTHZ),
-> -            params->tls_authz);
-> +            params->has_tls_authz ? params->tls_authz : "");
-
-Again, I'm confused why it needs to be handled differently from
-tls_creds / tls_hostname, which are also optional. It feels like
-either we need to change all three, or none of them.
+yes, thanks for the catch!
 
 
-Regards,
-Daniel
+Hmm.. Interesting, we don't freeze the backing chain in cor filter open. And I think we shouldn't. But then, bottom node may disappear. We should handle it without a crash.
+
+I suggest:
+
+1. document, that if bottom node disappear from the backing chain of the filter, it continues to work like without any specified "bottom" node
+
+2. do bdrv_ref/bdrv_unref of bottom_bs, to not work with dead pointer
+
+3. check in cor_co_preadv_part() is bottom_bs is still in backing chain or not
+
+Haha, bottom node may return into backing chain at some moment and we can continue to handle it:)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Best regards,
+Vladimir
 
