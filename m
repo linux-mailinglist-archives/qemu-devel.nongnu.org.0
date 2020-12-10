@@ -2,53 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477C52D512B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 04:13:31 +0100 (CET)
-Received: from localhost ([::1]:55680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0AE62D5143
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 04:24:31 +0100 (CET)
+Received: from localhost ([::1]:33064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knCOX-0000mT-UZ
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 22:13:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59530)
+	id 1knCZC-0003YS-Dw
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 22:24:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1knCMn-0000C5-PM; Wed, 09 Dec 2020 22:11:41 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2473)
+ (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
+ id 1knCWt-0002nS-Lu
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 22:22:07 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:36334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1knCMi-0000RI-VM; Wed, 09 Dec 2020 22:11:41 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CrzSg42TvzM0Cm;
- Thu, 10 Dec 2020 11:10:43 +0800 (CST)
-Received: from [10.174.187.219] (10.174.187.219) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 10 Dec 2020 11:11:18 +0800
-Subject: Re: [RFC PATCH v2 2/3] vfio: Set the priority of the VFIO VM state
- change handler explicitly
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20201209080919.156-1-lushenming@huawei.com>
- <20201209080919.156-3-lushenming@huawei.com>
- <20201209134537.5c7ab401.cohuck@redhat.com>
-From: Shenming Lu <lushenming@huawei.com>
-Message-ID: <817ace0f-ddcf-db7f-8f92-f94cc450fb90@huawei.com>
-Date: Thu, 10 Dec 2020 11:11:17 +0800
+ (Exim 4.90_1) (envelope-from <alejandro.j.jimenez@oracle.com>)
+ id 1knCWr-0001Nw-6O
+ for qemu-devel@nongnu.org; Wed, 09 Dec 2020 22:22:06 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BA3A6rD051543;
+ Thu, 10 Dec 2020 03:22:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=Dd3UjPOZTrYsfcfNT5ssOtquMyvUU4/W+pUEa7pFzGo=;
+ b=MpsnCueITZ04Aw7wm5STJbf6OEjQxxQiDFg+Grf9XTLgb0GAwVvxIx82n5tyZuVNPuaL
+ t480bMNFXKfCve6aPzKqCL3l9y7kyPZYOFSBymNAuKqzzZMdsNTzMV5jr8wF6iIahJNo
+ rWEjM8WzB1da+MB4f4zvuSWu4avIYg+ji7q9xZR1uy50p03fXJ3vowM4Itthr3fiZJ83
+ fwmB2Bp9+An+zLXxmgIZqWbbcpG0kimQp0Mb59r6MWtuv40QFE04d357aMqZFJpgfdo1
+ 3ooInMd96O2omWV5+hdj96jRwm2eT7PCTXtv/ESBio+SiTEWzrRlCgxYIX3tQvg9FAYz tw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 3581mr3878-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 10 Dec 2020 03:22:00 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BA3Aaqf053990;
+ Thu, 10 Dec 2020 03:21:59 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 358m415qa3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Dec 2020 03:21:59 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BA3Lw8c011498;
+ Thu, 10 Dec 2020 03:21:58 GMT
+Received: from [10.39.212.11] (/10.39.212.11)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 09 Dec 2020 19:21:57 -0800
+Subject: Re: [PATCH v2 3/4] qmp: Allow setting -action parameters on the fly
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <1607536336-24701-1-git-send-email-alejandro.j.jimenez@oracle.com>
+ <1607536336-24701-4-git-send-email-alejandro.j.jimenez@oracle.com>
+ <99a5b268-f37f-b7a3-c976-3342e1145157@redhat.com>
+From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <12769054-aa3a-161b-2b25-6804d547d41c@oracle.com>
+Date: Wed, 9 Dec 2020 22:21:54 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20201209134537.5c7ab401.cohuck@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <99a5b268-f37f-b7a3-c976-3342e1145157@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.219]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=lushenming@huawei.com; helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9830
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 adultscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012100021
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9830
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ clxscore=1015 malwarescore=0 priorityscore=1501 adultscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 impostorscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012100021
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=alejandro.j.jimenez@oracle.com; helo=userp2130.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,71 +101,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
- mst@redhat.com, qemu-devel@nongnu.org, Marc Zyngier <maz@kernel.org>,
- Kirti Wankhede <kwankhede@nvidia.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- yuzenghui@huawei.com, wanghaibin.wang@huawei.com
+Cc: david.edmondson@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/12/9 20:45, Cornelia Huck wrote:
-> On Wed, 9 Dec 2020 16:09:18 +0800
-> Shenming Lu <lushenming@huawei.com> wrote:
-> 
->> In the VFIO VM state change handler, VFIO devices are transitioned
->> in the _SAVING state, which should keep them from sending interrupts.
->> Then we can save the pending states of all interrupts in the GIC VM
->> state change handler (on ARM).
->>
->> So we have to set the priority of the VFIO VM state change handler
->> explicitly (like virtio devices) to ensure it is called before the
->> GIC's in saving.
-> 
-> What this patch does is to make the priority of the vfio migration
-> state change handler depending on the position in the qdev tree. As all
-> state change handlers with no explicit priority are added at priority
-> 0, this will make sure that this handler runs before (save) resp. after
-> (restore) nearly all other handlers, which will address your issue here
-> (and possibly similar ones).
-> 
-> So, this patch seems fine for now, but I'm wondering whether we need to
-> think more about priorities for handlers in general, and if there are
-> more hidden dependencies lurking in there.
 
-As far as I know, as for the migration of interrupt, on x86 the sync from
-the PIR field to the Virtual-APIC page for posted interrupts (in
-KVM_GET_LAPIC ioctl) is after the pause of VFIO devices, which is fine.
-Not sure about others...
 
-Thanks,
-Shenming
+On 12/9/2020 4:43 PM, Paolo Bonzini wrote:
+> On 09/12/20 18:52, Alejandro Jimenez wrote:
+>> +# Set the action that will be taken by the emulator in response to a 
+>> guest
+>> +# event.
+>> +#
+>> +# @pair: a @RunStateAction type that describes an event|action pair.
+>> +#
+>> +# Returns: Nothing on success.
+>> +#
+>> +# Since: 6.0
+>> +#
+>> +# Example:
+>> +#
+>> +# -> { "execute": "set-action",
+>> +#         "arguments": { "pair": {
+>> +#             "event": "shutdown",
+>> +#             "action": "pause" } } }
+>> +# <- { "return": {} }
+>> +##
+>> +{ 'command': 'set-action', 'data' : {'pair': 'RunStateAction'} }
+>> +
+>> +##
+>>   # @GUEST_PANICKED:
+>>   #
+>>   # Emitted when guest OS panic is detected
+>> diff --git a/softmmu/runstate-action.c b/softmmu/runstate-action.c
+>> index a644d80..7877e7e 100644
+>> --- a/softmmu/runstate-action.c
+>> +++ b/softmmu/runstate-action.c
+>> @@ -80,6 +80,35 @@ static void panic_set_action(PanicAction action, 
+>> Error **errp)
+>>   }
+>>     /*
+>> + * Receives a RunStateAction type which represents an event|action pair
+>> + * and sets the internal state as requested.
+>> + */
+>> +void qmp_set_action(RunStateAction *pair, Error **errp)
+>> +{
+>> +    switch (pair->event) {
+>> +    case RUN_STATE_EVENT_TYPE_REBOOT:
+>> +        reboot_set_action(pair->u.reboot.action, NULL);
+>> +        break;
+>> +    case RUN_STATE_EVENT_TYPE_SHUTDOWN:
+>> +        shutdown_set_action(pair->u.shutdown.action, NULL);
+>> +        break;
+>> +    case RUN_STATE_EVENT_TYPE_PANIC:
+>> +        panic_set_action(pair->u.panic.action, NULL);
+>> +        break;
+>> +    case RUN_STATE_EVENT_TYPE_WATCHDOG:
+>> +        qmp_watchdog_set_action(pair->u.watchdog.action, NULL);
+>> +        break;
+>> +    default:
+>> +        /*
+>> +         * The fields in the RunStateAction argument are validated
+>> +         * by the QMP marshalling code before this function is called.
+>> +         * This case is unreachable unless new variants are added.
+>> +         */
+>> +        g_assert_not_reached();
+>> +    }
+>> +}
+>> +
+>
+> Any reason not to have the multiple optional arguments as discussed in 
+> v1 (no reply usually means you agree)?  The implementation would be 
+> nice, like
+>
+>     if (actions->has_reboot) {
+>         reboot_set_action(actions->reboot);
+>     }
+>     etc.
+>
+> ?
+I misunderstood your request in v1. I'll try to be explicit to avoid 
+more confusion. Are you expecting a command of the form:
 
-> 
->>
->> Signed-off-by: Shenming Lu <lushenming@huawei.com>
->> Reviewed-by: Kirti Wankhede <kwankhede@nvidia.com>
->> ---
->>  hw/vfio/migration.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
->> index 3b9de1353a..97ea82b100 100644
->> --- a/hw/vfio/migration.c
->> +++ b/hw/vfio/migration.c
->> @@ -862,7 +862,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
->>      register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1, &savevm_vfio_handlers,
->>                           vbasedev);
->>  
->> -    migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
->> +    migration->vm_state = qdev_add_vm_change_state_handler(vbasedev->dev,
->> +                                                           vfio_vmstate_change,
->>                                                             vbasedev);
->>      migration->migration_state.notify = vfio_migration_state_notifier;
->>      add_migration_state_change_notifier(&migration->migration_state);
-> 
-> .
-> 
+{ 'command': 'set-action',
+'data' : {
+     '*reboot': 'RebootAction',
+     '*shutdown': 'ShutdownAction',
+     '*panic': 'PanicAction',
+     '*watchdog': 'WatchdogAction' } }
+?
+
+Or is it better to encapsulate all of those optional fields inside a new 
+struct definition (RunStateActions?) so that the command would be:
+
+{ 'command': 'set-action', 'data': 'actions' : 'RunStateActions' }
+
+which is what the "actions->has_reboot" example seems to suggest?
+
+Or is it something else that I am not understanding yet?
+
+>
+> Note that, in patches 1-2, you don't need to add an Error** argument 
+> to functions that cannot fail.
+This was left over from the initial patch. I'll fix it.
+
+Alejandro
+>
+> Thanks,
+>
+> Paolo
+>
+
 
