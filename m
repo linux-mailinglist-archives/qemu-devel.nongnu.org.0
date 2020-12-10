@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1AA2D687B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 21:17:47 +0100 (CET)
-Received: from localhost ([::1]:56418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A6F2D6890
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 21:22:21 +0100 (CET)
+Received: from localhost ([::1]:34484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knSNl-0000X7-Ch
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 15:17:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39954)
+	id 1knSSC-0003IZ-1C
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 15:22:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knSKp-0007YK-B7
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 15:14:43 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52565)
+ id 1knSKq-0007ZL-5j
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 15:14:44 -0500
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44472)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knSKn-00012d-D1
+ id 1knSKo-00013D-Ir
  for qemu-devel@nongnu.org; Thu, 10 Dec 2020 15:14:43 -0500
-Received: by mail-wm1-x329.google.com with SMTP id a6so5752324wmc.2
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:14:40 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id w5so3056245wrm.11
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 12:14:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=VW73SL2e03HTZn5SraqkB3la7LiS2Li1U2Ibx4vs/D8=;
- b=opQuOfDRjs14oB2GM83bdzsk0jmJ4Mgl8BxrlydHs0SNGyxh5bUZPV4fgGuUIDoie4
- OCDnN3hbG6Wio12Hqrdgl74APgfNZztvIoQ1gQhxf9WjTSRu41maXGxCcAKUIzWhnV4B
- n53b/D1ujM8SpLHZFIlVvaIulxJ/xD++DD1LJQEgs6pX18zQ8msoNntVEB6kQ9sIQ1R1
- 9TbxE6bWWc2OU6V7vQspZkt7oZSwYmhMCiv4mo1xTG5aXqmQ6jtp1MEzBM3GwAbrH5oC
- eWy6fr3QT+s4Hr4uTg5shhgVv0U9OWzz1qlSLlcyOEaQDLmJ7fyG/JqSfrH5g8BFKfLi
- fJKA==
+ bh=aUi6vcMH4o0CYad/653lpbXGwZgjtkuhUa4zld0PALo=;
+ b=w+BS881wXyEJlIKegHwmhD1uj1IrL/mXlXoc+eOME4KbzWEpgZ4nrFPvKLYZDhwyhD
+ WRyxv8wPH+1LFjx73bJPG/cOWVz9SqvGDkZXsvcJoFXGNsWbbUrkjjuKmyfwXmdoi0iZ
+ juNRPU9pmOB6XxZR7AHaKyErAJX2tvi7RttdorGiTbt6a3+gqXrfVvGxybSEwil7FjiE
+ l9Av3qEUqAFunOK68qazkWwsnoRweIYD8rPRYz6zsGdIUBO5eLSgFG2kY/MToQ64GFsn
+ 1SARu6R5mzgopuq6qWuCz3GyY85PMHUJw/pupYBakboQoyLKLLOwBb9aeeyPKcs/twcM
+ EwEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VW73SL2e03HTZn5SraqkB3la7LiS2Li1U2Ibx4vs/D8=;
- b=h7nlDeHNpt4nhn+HtsO35Vh8EQUwpZhYjLt4ECbiv1IQouhPJgrsBmde05C+oWacq/
- eq28iyTZAgs2wkI9mwOpi8/yjKLszvK3EPwWBgbfjMkpLupTnHCC1mhWaHu+1KCkyGDQ
- tS9wOSWRWOxYYRcrdpuoNUXrw7k6axHRZVPcQlYTinYTn7WRqtLCp7GSUd9g/gmDn4xa
- +VdZlbIG0tF2ufsteRSIILIxb/xTInF78G1pmj+sBJIgXfyPckPgvy3ER1jzOC4ZcLeZ
- 0RbAnTrqfPeRHDF0XpWsM/l6pGE9TwxtmWOAi5ZiA4b5hsm9HrSGneMQy+fEZzmmfCGY
- 8ydA==
-X-Gm-Message-State: AOAM531m6+LcWBDvP5/DLU2ZivlElvJmWgIBmf8PkQ+OprFVj9/2v6n3
- MPQxyc42iLBowS3rZ9b/+TbnbqQIGRTzRg==
-X-Google-Smtp-Source: ABdhPJy0Y3CQvaLJc/6aG4eJ7oc8RFBpwobvTSqdPJjcpg4UJMguHJSSPNXjfWzscs0ATQITwLSm8Q==
-X-Received: by 2002:a7b:c773:: with SMTP id x19mr9761941wmk.127.1607631279694; 
- Thu, 10 Dec 2020 12:14:39 -0800 (PST)
+ bh=aUi6vcMH4o0CYad/653lpbXGwZgjtkuhUa4zld0PALo=;
+ b=jAAgEopPkGzY8Gc9lJcG1Yyi3ShHeDdgrT7Gj8VWavSXrDrFBQRyjf15NI15EHZZa6
+ 7FLDKUiXmUR5yd03RAOEOPcAOYOXuV/8ZUwhX4lQxr9GsEwmZpq2FCiyIZWkBJNLbXH9
+ DwC+czxAfcldnR0owxYNYYcuVq7BgqXyl12cUz7f7ZfBo1UQPC1DeXF2iCgpZFI7nflz
+ KRPoPLyy9K/arfoLhh1boioZ90013Jqe/C3EVQGGVAT/0PlVlc8ztgPjTHAKVtt6SbV7
+ tkJb4f0pXHua7/2yXaEkQ7jeaQkJgPEajQeTnyhR7MCP2cmqwZcsBD82/IXE80FTVOPD
+ 9IkQ==
+X-Gm-Message-State: AOAM531UdfZjcDiecdawTH9ZCAZehhSu8uiG8ROJ4PqA6J6UkGshmo0J
+ 6XzJZVEXrOjNtLcQTgXkDY4gXAuInYulxw==
+X-Google-Smtp-Source: ABdhPJwNDE6XgkdBLyjbgT+woL3dcoshKqW6e0n5hm+4CYI/GMNYOAYrwZxbTqx1NGl/fPhpujGJ/Q==
+X-Received: by 2002:a5d:5385:: with SMTP id d5mr6260008wrv.384.1607631280697; 
+ Thu, 10 Dec 2020 12:14:40 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y130sm11879591wmc.22.2020.12.10.12.14.38
+ by smtp.gmail.com with ESMTPSA id y130sm11879591wmc.22.2020.12.10.12.14.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 12:14:39 -0800 (PST)
+ Thu, 10 Dec 2020 12:14:40 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/4] target/arm: Implement FPCXT_NS fp system register
-Date: Thu, 10 Dec 2020 20:14:32 +0000
-Message-Id: <20201210201433.26262-4-peter.maydell@linaro.org>
+Subject: [PATCH v3 4/4] target/arm: Implement Cortex-M55 model
+Date: Thu, 10 Dec 2020 20:14:33 +0000
+Message-Id: <20201210201433.26262-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210201433.26262-1-peter.maydell@linaro.org>
 References: <20201210201433.26262-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,184 +86,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the v8.1M FPCXT_NS floating-point system register.  This is
-a little more complicated than FPCXT_S, because it has specific
-handling for "current FP state is inactive", and it only wants to do
-PreserveFPState(), not the full set of actions done by
-ExecuteFPCheck() which vfp_access_check() implements.
+Now that we have implemented all the features needed by the v8.1M
+architecture, we can add the model of the Cortex-M55.  This is the
+configuration without MVE support; we'll add MVE later.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-Changes since v2: refactored along lines suggested by RTH
----
- target/arm/translate-vfp.c.inc | 102 ++++++++++++++++++++++++++++++++-
- 1 file changed, 99 insertions(+), 3 deletions(-)
+ target/arm/cpu_tcg.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
-index 8b4cfd68cad..10766f210c1 100644
---- a/target/arm/translate-vfp.c.inc
-+++ b/target/arm/translate-vfp.c.inc
-@@ -663,6 +663,7 @@ static FPSysRegCheckResult fp_sysreg_checks(DisasContext *s, int regno)
-         }
-         break;
-     case ARM_VFP_FPCXT_S:
-+    case ARM_VFP_FPCXT_NS:
-         if (!arm_dc_feature(s, ARM_FEATURE_V8_1M)) {
-             return false;
-         }
-@@ -674,13 +675,48 @@ static FPSysRegCheckResult fp_sysreg_checks(DisasContext *s, int regno)
-         return FPSysRegCheckFailed;
-     }
- 
--    if (!vfp_access_check(s)) {
-+    /*
-+     * FPCXT_NS is a special case: it has specific handling for
-+     * "current FP state is inactive", and must do the PreserveFPState()
-+     * but not the usual full set of actions done by ExecuteFPCheck().
-+     * So we don't call vfp_access_check() and the callers must handle this.
-+     */
-+    if (regno != ARM_VFP_FPCXT_NS && !vfp_access_check(s)) {
-         return FPSysRegCheckDone;
-     }
--
-     return FPSysRegCheckContinue;
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 0013e25412f..98544db2df3 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -401,6 +401,46 @@ static void cortex_m33_initfn(Object *obj)
+     cpu->ctr = 0x8000c000;
  }
  
-+static void gen_branch_fpInactive(DisasContext *s, TCGCond cond,
-+                                  TCGLabel *label)
++static void cortex_m55_initfn(Object *obj)
 +{
-+    /*
-+     * FPCXT_NS is a special case: it has specific handling for
-+     * "current FP state is inactive", and must do the PreserveFPState()
-+     * but not the usual full set of actions done by ExecuteFPCheck().
-+     * We don't have a TB flag that matches the fpInactive check, so we
-+     * do it at runtime as we don't expect FPCXT_NS accesses to be frequent.
-+     *
-+     * Emit code that checks fpInactive and does a conditional
-+     * branch to label based on it:
-+     *  if cond is TCG_COND_NE then branch if fpInactive != 0 (ie if inactive)
-+     *  if cond is TCG_COND_EQ then branch if fpInactive == 0 (ie if active)
-+     */
-+    assert(cond == TCG_COND_EQ || cond == TCG_COND_NE);
++    ARMCPU *cpu = ARM_CPU(obj);
 +
-+    /* fpInactive = FPCCR_NS.ASPEN == 1 && CONTROL.FPCA == 0 */
-+    TCGv_i32 aspen, fpca;
-+    aspen = load_cpu_field(v7m.fpccr[M_REG_NS]);
-+    fpca = load_cpu_field(v7m.control[M_REG_S]);
-+    tcg_gen_andi_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
-+    tcg_gen_xori_i32(aspen, aspen, R_V7M_FPCCR_ASPEN_MASK);
-+    tcg_gen_andi_i32(fpca, fpca, R_V7M_CONTROL_FPCA_MASK);
-+    tcg_gen_or_i32(fpca, fpca, aspen);
-+    tcg_gen_brcondi_i32(tcg_invert_cond(cond), fpca, 0, label);
-+    tcg_temp_free_i32(aspen);
-+    tcg_temp_free_i32(fpca);
++    set_feature(&cpu->env, ARM_FEATURE_V8);
++    set_feature(&cpu->env, ARM_FEATURE_V8_1M);
++    set_feature(&cpu->env, ARM_FEATURE_M);
++    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
++    set_feature(&cpu->env, ARM_FEATURE_M_SECURITY);
++    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
++    cpu->midr = 0x410fd221; /* r0p1 */
++    cpu->revidr = 0;
++    cpu->pmsav7_dregion = 16;
++    cpu->sau_sregion = 8;
++    /*
++     * These are the MVFR* values for the FPU, no MVE configuration;
++     * we will update them later when we implement MVE
++     */
++    cpu->isar.mvfr0 = 0x10110221;
++    cpu->isar.mvfr1 = 0x12100011;
++    cpu->isar.mvfr2 = 0x00000040;
++    cpu->isar.id_pfr0 = 0x20000030;
++    cpu->isar.id_pfr1 = 0x00000230;
++    cpu->isar.id_dfr0 = 0x10200000;
++    cpu->id_afr0 = 0x00000000;
++    cpu->isar.id_mmfr0 = 0x00111040;
++    cpu->isar.id_mmfr1 = 0x00000000;
++    cpu->isar.id_mmfr2 = 0x01000000;
++    cpu->isar.id_mmfr3 = 0x00000011;
++    cpu->isar.id_isar0 = 0x01103110;
++    cpu->isar.id_isar1 = 0x02212000;
++    cpu->isar.id_isar2 = 0x20232232;
++    cpu->isar.id_isar3 = 0x01111131;
++    cpu->isar.id_isar4 = 0x01310132;
++    cpu->isar.id_isar5 = 0x00000000;
++    cpu->isar.id_isar6 = 0x00000000;
++    cpu->clidr = 0x00000000; /* caches not implemented */
++    cpu->ctr = 0x8303c003;
 +}
 +
- static bool gen_M_fp_sysreg_write(DisasContext *s, int regno,
- 
-                                   fp_sysreg_loadfn *loadfn,
-@@ -688,6 +724,7 @@ static bool gen_M_fp_sysreg_write(DisasContext *s, int regno,
- {
-     /* Do a write to an M-profile floating point system register */
-     TCGv_i32 tmp;
-+    TCGLabel *lab_end = NULL;
- 
-     switch (fp_sysreg_checks(s, regno)) {
-     case FPSysRegCheckFailed:
-@@ -721,6 +758,13 @@ static bool gen_M_fp_sysreg_write(DisasContext *s, int regno,
-         tcg_temp_free_i32(tmp);
-         break;
-     }
-+    case ARM_VFP_FPCXT_NS:
-+        lab_end = gen_new_label();
-+        /* fpInactive case: write is a NOP, so branch to end */
-+        gen_branch_fpInactive(s, TCG_COND_NE, lab_end);
-+        /* !fpInactive: PreserveFPState(), and reads same as FPCXT_S */
-+        gen_preserve_fp_state(s);
-+        /* fall through */
-     case ARM_VFP_FPCXT_S:
-     {
-         TCGv_i32 sfpa, control;
-@@ -744,6 +788,9 @@ static bool gen_M_fp_sysreg_write(DisasContext *s, int regno,
-     default:
-         g_assert_not_reached();
-     }
-+    if (lab_end) {
-+        gen_set_label(lab_end);
-+    }
-     return true;
- }
- 
-@@ -753,6 +800,8 @@ static bool gen_M_fp_sysreg_read(DisasContext *s, int regno,
- {
-     /* Do a read from an M-profile floating point system register */
-     TCGv_i32 tmp;
-+    TCGLabel *lab_end = NULL;
-+    bool lookup_tb = false;
- 
-     switch (fp_sysreg_checks(s, regno)) {
-     case FPSysRegCheckFailed:
-@@ -811,12 +860,59 @@ static bool gen_M_fp_sysreg_read(DisasContext *s, int regno,
-         fpscr = load_cpu_field(v7m.fpdscr[M_REG_NS]);
-         gen_helper_vfp_set_fpscr(cpu_env, fpscr);
-         tcg_temp_free_i32(fpscr);
--        gen_lookup_tb(s);
-+        lookup_tb = true;
-+        break;
-+    }
-+    case ARM_VFP_FPCXT_NS:
-+    {
-+        TCGv_i32 control, sfpa, fpscr, fpdscr, zero;
-+        TCGLabel *lab_active = gen_new_label();
-+
-+        lookup_tb = true;
-+
-+        gen_branch_fpInactive(s, TCG_COND_EQ, lab_active);
-+        /* fpInactive case: reads as FPDSCR_NS */
-+        TCGv_i32 tmp = load_cpu_field(v7m.fpdscr[M_REG_NS]);
-+        storefn(s, opaque, tmp);
-+        lab_end = gen_new_label();
-+        tcg_gen_br(lab_end);
-+
-+        gen_set_label(lab_active);
-+        /* !fpInactive: Reads the same as FPCXT_S, but side effects differ */
-+        gen_preserve_fp_state(s);
-+        tmp = tcg_temp_new_i32();
-+        sfpa = tcg_temp_new_i32();
-+        fpscr = tcg_temp_new_i32();
-+        gen_helper_vfp_get_fpscr(fpscr, cpu_env);
-+        tcg_gen_andi_i32(tmp, fpscr, ~FPCR_NZCV_MASK);
-+        control = load_cpu_field(v7m.control[M_REG_S]);
-+        tcg_gen_andi_i32(sfpa, control, R_V7M_CONTROL_SFPA_MASK);
-+        tcg_gen_shli_i32(sfpa, sfpa, 31 - R_V7M_CONTROL_SFPA_SHIFT);
-+        tcg_gen_or_i32(tmp, tmp, sfpa);
-+        tcg_temp_free_i32(control);
-+        /* Store result before updating FPSCR, in case it faults */
-+        storefn(s, opaque, tmp);
-+        /* If SFPA is zero then set FPSCR from FPDSCR_NS */
-+        fpdscr = load_cpu_field(v7m.fpdscr[M_REG_NS]);
-+        zero = tcg_const_i32(0);
-+        tcg_gen_movcond_i32(TCG_COND_EQ, fpscr, sfpa, zero, fpdscr, fpscr);
-+        gen_helper_vfp_set_fpscr(cpu_env, fpscr);
-+        tcg_temp_free_i32(zero);
-+        tcg_temp_free_i32(sfpa);
-+        tcg_temp_free_i32(fpdscr);
-+        tcg_temp_free_i32(fpscr);
-         break;
-     }
-     default:
-         g_assert_not_reached();
-     }
-+
-+    if (lab_end) {
-+        gen_set_label(lab_end);
-+    }
-+    if (lookup_tb) {
-+        gen_lookup_tb(s);
-+    }
-     return true;
- }
- 
+ static const ARMCPRegInfo cortexr5_cp_reginfo[] = {
+     /* Dummy the TCM region regs for the moment */
+     { .name = "ATCM", .cp = 15, .opc1 = 0, .crn = 9, .crm = 1, .opc2 = 0,
+@@ -655,6 +695,8 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
+                              .class_init = arm_v7m_class_init },
+     { .name = "cortex-m33",  .initfn = cortex_m33_initfn,
+                              .class_init = arm_v7m_class_init },
++    { .name = "cortex-m55",  .initfn = cortex_m55_initfn,
++                             .class_init = arm_v7m_class_init },
+     { .name = "cortex-r5",   .initfn = cortex_r5_initfn },
+     { .name = "cortex-r5f",  .initfn = cortex_r5f_initfn },
+     { .name = "ti925t",      .initfn = ti925t_initfn },
 -- 
 2.20.1
 
