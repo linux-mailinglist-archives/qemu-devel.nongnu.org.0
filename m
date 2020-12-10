@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9742D63F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 18:48:14 +0100 (CET)
-Received: from localhost ([::1]:33978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A5F12D6459
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 19:03:46 +0100 (CET)
+Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knQ33-0003oW-6i
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 12:48:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55886)
+	id 1knQI4-0002J7-N5
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 13:03:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knPz0-000267-UQ
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:44:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33921)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knQDt-0000v8-0E
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:59:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knPyy-0006cN-Dj
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:44:02 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knQDq-00009x-Os
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:59:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607622237;
+ s=mimecast20190719; t=1607623161;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NvRugQ2vZYh7KPEoUIRH7EV7CLXtVyLdPmyQ3SrwY78=;
- b=cyFuvnIR6QAGYvMr0mN8J+HG3boqpBJ3C49pw7KUoIdgNdFCQlkAbOHQbBD7Tdf2ugykQ7
- EwFWuWUozMbOQKf0Ol4MPs6AePsr/uSioyESvQc7F5H1sx1wbwXeSb1Qiv6UHiFuBVSPEB
- GqWWWl1NTb5LWy3t4r0+DGN79C0vQNo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-gADnXVVTMNu-lQxK3j48KQ-1; Thu, 10 Dec 2020 12:43:56 -0500
-X-MC-Unique: gADnXVVTMNu-lQxK3j48KQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9466C1005513;
- Thu, 10 Dec 2020 17:43:53 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-115-58.ams2.redhat.com
- [10.36.115.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 806605D9DD;
- Thu, 10 Dec 2020 17:43:47 +0000 (UTC)
-Subject: Re: [PATCH v14 05/13] qapi: create BlockdevOptionsCor structure for
- COR driver
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
- <20201204220758.2879-6-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <e3621773-9000-31e6-5f41-9a7bfd5ccbbe@redhat.com>
-Date: Thu, 10 Dec 2020 18:43:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/Ud3KxDqUBdjOZUtEIZXpH5CF1Q02Z/msk2wmjc+8dE=;
+ b=XZp4qBLuUvnOLRvaT9KHl8k4tsxgPcUVflavjjiPZBuOR4g+V+RAy01EHyUF5XH13VS9XL
+ DPASpibXKxZr95S9F8Cc0SATUss6hMiAEheI5CdRi20kfmZyLwGvunzjI3JzCakYWH6lcs
+ AX6eseYnEaIPez+zonAYyFTtuU0vsOM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-E9VGky7GOAyyXLBngR9RGA-1; Thu, 10 Dec 2020 12:59:19 -0500
+X-MC-Unique: E9VGky7GOAyyXLBngR9RGA-1
+Received: by mail-wm1-f69.google.com with SMTP id s130so1450731wme.0
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:59:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/Ud3KxDqUBdjOZUtEIZXpH5CF1Q02Z/msk2wmjc+8dE=;
+ b=MfNDJyCSMk7RzFOQhdoZgaGNMxvLds3L/rKZB8K0x4y4fdJfI0VxHYLkEh+JB0fvqn
+ uSS8EmbXuXzDBrkJR42c6aC9PPX2wN2PlQeZJyrj8Kkr9xRqJaqX1AwAJANoqs2eTpnD
+ d+kdnjQ4abnoZnGWPFNXx7PQFAcK3ZM3vlFBm+/2ZJFh/ENyBlefIdK2fx3zdvbSxlLA
+ o7P/KFmH3gQN8KXWVL/tX+0wzXt4so3K0uczY4AIkLM4UdzEbRryaIFWhjz3MLXwAq9k
+ suoMscmf5VeK8RkCh3b7Kaw5KqnEI+5Y1xNvCrL/hvAr4hWhdF6gUGotVdr9j2iqHKNO
+ zGtg==
+X-Gm-Message-State: AOAM531yoHSa8oJ2CESJGy6WWPwVeUHqbbqaeBdy1IbtCUkVzDynEpNd
+ 3av0lUiDt+ZardGYGl44Dnp40V/lrTB59FEoJ0QS0JLEJQfqYjto0Q3vU/l0Hwtq0bJ0XmpS57s
+ BY0nrhsELSFHF4swVVbLryLizutKmfrm8lmaB7ndNuu3a5aIYEKqgZJPBNkQZnSkf
+X-Received: by 2002:a7b:cb82:: with SMTP id m2mr9265022wmi.75.1607623158525;
+ Thu, 10 Dec 2020 09:59:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzEQiDzySAPyn/08D+Jwn9LrpXnRXpJUua0gftvYcLqvx4RatZX0RndEb4S2ie3TXWMMIZUgQ==
+X-Received: by 2002:a7b:cb82:: with SMTP id m2mr9264989wmi.75.1607623158220;
+ Thu, 10 Dec 2020 09:59:18 -0800 (PST)
+Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id o74sm13298630wme.36.2020.12.10.09.59.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Dec 2020 09:59:17 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] virtio: Only display errors if GUEST_ERROR is enabled
+Date: Thu, 10 Dec 2020 18:59:16 +0100
+Message-Id: <20201210175916.187273-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201204220758.2879-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,112 +90,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
- jsnow@redhat.com
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don’t like this patch’s subject very much, because I find the 
-implementation of the @bottom option to be more noteworthy than the 
-addition of the QAPI structure.
+Do not display virtio guest errors until the user request it.
 
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/virtio/virtio.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
-> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> 
-> Create the BlockdevOptionsCor structure for COR driver specific options
-> splitting it off form the BlockdevOptionsGenericFormat. The only option
-> 'bottom' node in the structure denotes an image file that limits the
-> COR operations in the backing chain.
-> We are going to use the COR-filter for a block-stream job and will pass
-> a bottom node name to the COR driver. The bottom node is the first
-> non-filter overlay of the base. It was introduced because the base node
-> itself may change due to possible concurrent jobs.
-> 
-> Suggested-by: Max Reitz <mreitz@redhat.com>
-> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->    [vsementsov: fix bdrv_is_allocated_above() usage]
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   qapi/block-core.json | 21 +++++++++++++++-
->   block/copy-on-read.c | 57 ++++++++++++++++++++++++++++++++++++++++++--
->   2 files changed, 75 insertions(+), 3 deletions(-)
-> 
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 8ef3df6767..04055ef50c 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -3942,6 +3942,25 @@
->     'data': { 'throttle-group': 'str',
->               'file' : 'BlockdevRef'
->                } }
-> +
-> +##
-> +# @BlockdevOptionsCor:
-> +#
-> +# Driver specific block device options for the copy-on-read driver.
-> +#
-> +# @bottom: the name of a non-filter node (allocation-bearing layer) that limits
-> +#          the COR operations in the backing chain (inclusive).
-
-This seems to me like something’s missing.  Perhaps technically there 
-isn’t, but “limits the COR operations” begs the question (to me) “Limits 
-them in what way?” (to which the answer is: No data below @bottom is 
-copied).
-
-Could you make it more verbose?  Perhaps something like “The name of a 
-non-filter node (allocation-bearing layer) that limits the COR 
-operations in the backing chain (inclusive), so that no data below this 
-node will be copied by this filter”?
-
-> +#          For the block-stream job, it will be the first non-filter overlay of
-> +#          the base node. We do not involve the base node into the COR
-> +#          operations because the base may change due to a concurrent
-> +#          block-commit job on the same backing chain.
-
-I think the default behavior should be mentioned here somewhere, i.e. 
-that no limit is applied, so that data from all backing layers may be 
-copied.
-
-> +#
-> +# Since: 5.2
-
-*6.0
-
-> +##
-> +{ 'struct': 'BlockdevOptionsCor',
-> +  'base': 'BlockdevOptionsGenericFormat',
-> +  'data': { '*bottom': 'str' } }
-> +
->   ##
->   # @BlockdevOptions:
->   #
-
-[...]
-
-> diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-> index 618c4c4f43..67f61983c0 100644
-> --- a/block/copy-on-read.c
-> +++ b/block/copy-on-read.c
-
-[...]
-
-> @@ -51,7 +56,17 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
->           ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
->               bs->file->bs->supported_zero_flags);
->   
-> +    if (bottom_node) {
-> +        bottom_bs = bdrv_lookup_bs(NULL, bottom_node, errp);
-> +        if (!bottom_bs) {
-> +            error_setg(errp, "Bottom node '%s' not found", bottom_node);
-> +            qdict_del(options, "bottom");
-> +            return -EINVAL;
-> +        }
-
-Should we verify that bottom_bs is not a filter, as required by the schema?
-
-Max
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index eff35fab7ce..bde0d31c5d9 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3622,9 +3622,11 @@ void GCC_FMT_ATTR(2, 3) virtio_error(VirtIODevice *vdev, const char *fmt, ...)
+ {
+     va_list ap;
+ 
+-    va_start(ap, fmt);
+-    error_vreport(fmt, ap);
+-    va_end(ap);
++    if (qemu_loglevel_mask(LOG_GUEST_ERROR)) {
++        va_start(ap, fmt);
++        error_vreport(fmt, ap);
++        va_end(ap);
++    }
+ 
+     if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+         vdev->status = vdev->status | VIRTIO_CONFIG_S_NEEDS_RESET;
+-- 
+2.26.2
 
 
