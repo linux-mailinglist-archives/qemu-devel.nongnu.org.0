@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EAE2D62F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 18:04:47 +0100 (CET)
-Received: from localhost ([::1]:54052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F102D6306
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 18:08:56 +0100 (CET)
+Received: from localhost ([::1]:33638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knPMz-0005pN-Sj
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 12:04:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39742)
+	id 1knPR1-0001yn-HP
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 12:08:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1knOxN-0004f9-5H
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:38:17 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:32996)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1knOz4-0006RP-Dx; Thu, 10 Dec 2020 11:40:02 -0500
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:38843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <fengli@smartx.com>) id 1knOxK-0004Dc-G7
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:38:16 -0500
-Received: by mail-pg1-x542.google.com with SMTP id o4so4724625pgj.0
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 08:38:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=smartx-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=JzJ5j2j1RYfOUcN3mcMsR2iB/uIWdqx6Tnrj8acZOJ0=;
- b=rhxRh81l46hsXe/FKCfIm5dxiO+uofIG2OzRJdTawBKubaePY73kS0mNuTSH8sfUt2
- TZzMFXLt5e11ZORwYp26swkmuG2LILpdh1Wdvmh4elFCOV63JL7VNTnVWEB/8g17IE+j
- lePFopRfSz2900U8gaWqi6UiOuWA3CiSqJlRACuBH4S7sibOLRgYgow7t5qYgE/yhQto
- oXfFIrBYPPpBPiVoRBjDnHXhmFClWz18bqBMVDbbA7dyazQTw4Gc3V8/aQi6aUnuYBNo
- ywEpPUmMBGx0Db5BOJjrrRIrM/VxjjfnoFzgR4Rdlda/dbPTBi8DGOnwYcxPe8kiOJsI
- 1+sw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1knOz2-0004Vj-FO; Thu, 10 Dec 2020 11:40:02 -0500
+Received: by mail-io1-xd42.google.com with SMTP id y5so6156648iow.5;
+ Thu, 10 Dec 2020 08:39:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uk/W4SrdbhM8HJz81c2x1XeC5dGv7Mig+9zyU1Cpmg4=;
+ b=g6f/Fse9YjoR6vzgV3mdXzKqEX6k9SRPeJSkzXoITycYuPKWnqTx0CpgRBpZuexKZT
+ wrdIC+D7TcGPh+yWQlrr2uUWZSn9AIAJ5Vzar22Ylkh/3hvAqyv29HdiWF/JmSQIwlPf
+ n+ubc61Tma2git5He9q5GJnij96JZAJhJdLS3YXLp22/NaUbvMZO1BiPgxDNDN6Gx/s+
+ LXHKCjV37c4HqlNuLe10ErzLKUhBEFvzXo1nVgX5oGpwJfIsTdrS1+9snNq5KPQMc0bY
+ IuApv+8bkyMCjVqK1UG/PpE3WStvLnSbaxhPzrISU0F5EZzVhhZ0k59zI/2ZCTuQwDZ5
+ pQqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=JzJ5j2j1RYfOUcN3mcMsR2iB/uIWdqx6Tnrj8acZOJ0=;
- b=pNSicFwBIy1fcKZilS4RqtroiJJKjmBsm1XsCJT7qVrarZ6+nrOMmpu1/jM5fld9/e
- /jTmCwsSBwyStpI2yIgAFyCsxinPrIukn1K9VV1pAAZ8N60+DfDvd8VsYi7AGcKWMC5v
- Fh8lIARW1w16UlCP/5GHIOBLhEiyp4fpnJ+MVWAoMBjrp8qXuocty4wFfU8bNwxccwVk
- Zq1fYlzCQ2aQRpAhpzoL8fsultIXfb4rC//eKS2vt0E3XHSUmVMBA1+YwKvxhXxRlYJg
- a7AuCHvA+D8PouikBUrM/jNdLy5z2jSTsw2OlgtBzfxypxB1WCqZADmvhiv9fkAd/4XE
- W83A==
-X-Gm-Message-State: AOAM531TkUdd3BDh79Y78ZwoBefe+bxL60xHaqZ8hB4zP5C3I1N8KNRD
- rQM2cnQN0f9rZQo0FwyCV355TQ==
-X-Google-Smtp-Source: ABdhPJwcw+FGnwjojKo+PZSGgui2wGKrK6Zn/oOlkkepHQAvkv0UFBnI8N7Hg9nAv3pGfxn5sqBGqA==
-X-Received: by 2002:a17:90a:4042:: with SMTP id
- k2mr8691704pjg.160.1607618291960; 
- Thu, 10 Dec 2020 08:38:11 -0800 (PST)
-Received: from 64-217.abest.vip ([129.227.156.197])
- by smtp.gmail.com with ESMTPSA id u7sm6576343pfh.115.2020.12.10.08.38.09
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 10 Dec 2020 08:38:11 -0800 (PST)
-From: Li Feng <fengli@smartx.com>
-To: berrange@redhat.com, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org (open list:raw),
- qemu-devel@nongnu.org (open list:All patches CC here)
-Subject: [PATCH v3] file-posix: detect the lock using the real file
-Date: Fri, 11 Dec 2020 00:38:19 +0800
-Message-Id: <1607618299-55092-1-git-send-email-fengli@smartx.com>
-X-Mailer: git-send-email 1.8.3.1
-Received-SPF: none client-ip=2607:f8b0:4864:20::542;
- envelope-from=fengli@smartx.com; helo=mail-pg1-x542.google.com
-X-Spam_score_int: 14
-X-Spam_score: 1.4
-X-Spam_bar: +
-X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uk/W4SrdbhM8HJz81c2x1XeC5dGv7Mig+9zyU1Cpmg4=;
+ b=ajIhme2+M+L81PB9XLEz2mtT2Ea85lKWHGUrFre9y07+JQQe2CktV265n+yAyUyywL
+ TeHv47iWLRdm5UNx9qObd+vRjoqoIc8s08uto09g5laVUWSNFXhvdz+GeHfEP1U9zuc6
+ FAzBJRDXJMhLfESqed6vSo3fOw1VWwxG1b/1BSCPEDpB56nuMN4tmaCMr5aNw8EA+lx8
+ c0JAv9CY5XCM+4w2do9TDXHpyKZfwhgUt23TR/90+Hj46VFxC1rxwkNfvw1XZTdfZJv4
+ aNFiVK77esNH+j7cX8iaK3Vinw3RKkndbLeLlMONbLnsklwrogig66PCBXgA/Q2njU/A
+ Zq5g==
+X-Gm-Message-State: AOAM532og2szzxZB2nfwYNg2QEDkDVy6pQIUafb/ahWgvCuDZI7lu6Vb
+ FgeJOPj1/etYCyPIbnduvGa4Jb2Obwg0c/JKqZ0=
+X-Google-Smtp-Source: ABdhPJx+5UZ3lrFiNZ5AGuJgMKSo1n4jkRYJ2flV6JKvGmSLv2LD6YVTlKOu4kDnSB+rH1QbklLF6SH/ZDrx76bZKjo=
+X-Received: by 2002:a02:a419:: with SMTP id c25mr9467558jal.91.1607618398980; 
+ Thu, 10 Dec 2020 08:39:58 -0800 (PST)
+MIME-Version: 1.0
+References: <20201210141610.884600-1-f4bug@amsat.org>
+In-Reply-To: <20201210141610.884600-1-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 10 Dec 2020 08:39:32 -0800
+Message-ID: <CAKmqyKN7OMipCzi-B+qNJb_J--ontKzpwX5J=rQ8zye3tmYePQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] hw/misc/zynq_slcr: Avoid #DIV/0! error
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,137 +77,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lifeng1519@gmail.com, Li Feng <fengli@smartx.com>, kyle@smartx.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Gaoning Pan <gaoning.pgn@antgroup.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Gaoning Pan <pgn@zju.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch addresses this issue:
-When accessing a volume on an NFS filesystem without supporting the file lock,
-tools, like qemu-img, will complain "Failed to lock byte 100".
+On Thu, Dec 10, 2020 at 6:27 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Malicious user can set the feedback divisor for the PLLs
+> to zero, triggering a floating-point exception (SIGFPE).
+>
+> As the datasheet [*] is not clear how hardware behaves
+> when these bits are zeroes, use the maximum divisor
+> possible (128) to avoid the software FPE.
+>
+> [*] Zynq-7000 TRM, UG585 (v1.12.2)
+>     B.28 System Level Control Registers (slcr)
+>     -> "Register (slcr) ARM_PLL_CTRL"
+>     25.10.4 PLLs
+>     -> "Software-Controlled PLL Update"
+>
+> Fixes: 38867cb7ec9 ("hw/misc/zynq_slcr: add clock generation for uarts")
+> Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> Cc: Damien Hedde <damien.hedde@greensocs.com>
+> Cc: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Cc: Alistair Francis <alistair.francis@wdc.com>
+> Cc: Gaoning Pan <gaoning.pgn@antgroup.com>
+> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
+>
+> Alternative is to threat that as PLL disabled and return 0...
 
-Add a new function 'qemu_has_file_lock' to detect if the filesystem supports locks
-or not.
-And when the drive is auto mode, use the 'qemu_has_file_lock' to set the toggle.
+I'm not sure which is better, but this patch now is better then before:
 
-Signed-off-by: Li Feng <fengli@smartx.com>
----
-v3: don't call the qemu_has_ofd_lock, use a new function instead.
-v2: remove the refactoring.
----
- block/file-posix.c   | 30 +++++++++++++++++-------------
- include/qemu/osdep.h |  1 +
- util/osdep.c         | 29 +++++++++++++++++++++++++++++
- 3 files changed, 47 insertions(+), 13 deletions(-)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 806764f7e3..48f9a32de2 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -606,7 +606,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
-         s->use_lock = false;
-         break;
-     case ON_OFF_AUTO_AUTO:
--        s->use_lock = qemu_has_ofd_lock();
-+        s->use_lock = qemu_has_file_lock(filename);
-         break;
-     default:
-         abort();
-@@ -2388,6 +2388,7 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
-     int fd;
-     uint64_t perm, shared;
-     int result = 0;
-+    bool use_lock;
- 
-     /* Validate options and set default values */
-     assert(options->driver == BLOCKDEV_DRIVER_FILE);
-@@ -2428,19 +2429,22 @@ raw_co_create(BlockdevCreateOptions *options, Error **errp)
-     perm = BLK_PERM_WRITE | BLK_PERM_RESIZE;
-     shared = BLK_PERM_ALL & ~BLK_PERM_RESIZE;
- 
--    /* Step one: Take locks */
--    result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
--    if (result < 0) {
--        goto out_close;
--    }
-+    use_lock = qemu_has_file_lock(file_opts->filename);
-+    if (use_lock) {
-+        /* Step one: Take locks */
-+        result = raw_apply_lock_bytes(NULL, fd, perm, ~shared, false, errp);
-+        if (result < 0) {
-+            goto out_close;
-+        }
- 
--    /* Step two: Check that nobody else has taken conflicting locks */
--    result = raw_check_lock_bytes(fd, perm, shared, errp);
--    if (result < 0) {
--        error_append_hint(errp,
--                          "Is another process using the image [%s]?\n",
--                          file_opts->filename);
--        goto out_unlock;
-+        /* Step two: Check that nobody else has taken conflicting locks */
-+        result = raw_check_lock_bytes(fd, perm, shared, errp);
-+        if (result < 0) {
-+            error_append_hint(errp,
-+                              "Is another process using the image [%s]?\n",
-+                              file_opts->filename);
-+            goto out_unlock;
-+        }
-     }
- 
-     /* Clear the file by truncating it to 0 */
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index f9ec8c84e9..593ae0f4d2 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -513,6 +513,7 @@ int qemu_lock_fd(int fd, int64_t start, int64_t len, bool exclusive);
- int qemu_unlock_fd(int fd, int64_t start, int64_t len);
- int qemu_lock_fd_test(int fd, int64_t start, int64_t len, bool exclusive);
- bool qemu_has_ofd_lock(void);
-+bool qemu_has_file_lock(const char *filename);
- #endif
- 
- #if defined(__HAIKU__) && defined(__i386__)
-diff --git a/util/osdep.c b/util/osdep.c
-index 66d01b9160..5d9961d261 100644
---- a/util/osdep.c
-+++ b/util/osdep.c
-@@ -225,6 +225,35 @@ static void qemu_probe_lock_ops(void)
-     }
- }
- 
-+bool qemu_has_file_lock(const char *filename)
-+{
-+#ifdef F_OFD_SETLK
-+    int cmd = F_OFD_GETLK;
-+#else
-+    int cmd = F_GETLK;
-+#endif
-+        int fd;
-+        int ret;
-+        struct flock fl = {
-+            .l_whence = SEEK_SET,
-+            .l_start  = 0,
-+            .l_len    = 0,
-+            .l_type   = F_WRLCK,
-+        };
-+
-+        fd = open(filename, O_RDWR);
-+        if (fd < 0) {
-+            fprintf(stderr,
-+                    "Failed to open %s for OFD lock probing: %s\n",
-+                    filename,
-+                    strerror(errno));
-+            return false;
-+        }
-+        ret = fcntl(fd, cmd, &fl);
-+        close(fd);
-+        return ret == 0;
-+}
-+
- bool qemu_has_ofd_lock(void)
- {
-     qemu_probe_lock_ops();
--- 
-2.24.3
+Alistair
 
+> ---
+>  hw/misc/zynq_slcr.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
+> index a2b28019e3c..66504a9d3ab 100644
+> --- a/hw/misc/zynq_slcr.c
+> +++ b/hw/misc/zynq_slcr.c
+> @@ -217,6 +217,11 @@ static uint64_t zynq_slcr_compute_pll(uint64_t input=
+, uint32_t ctrl_reg)
+>          return 0;
+>      }
+>
+> +    /* Consider zero feedback as maximum divide ratio possible */
+> +    if (!mult) {
+> +        mult =3D 1 << R_xxx_PLL_CTRL_PLL_FPDIV_LENGTH;
+> +    }
+> +
+>      /* frequency multiplier -> period division */
+>      return input / mult;
+>  }
+> --
+> 2.26.2
+>
+>
 
