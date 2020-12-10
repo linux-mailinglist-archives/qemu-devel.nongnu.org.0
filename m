@@ -2,48 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C06A2D5C8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:58:16 +0100 (CET)
-Received: from localhost ([::1]:58760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A32D32D5CA7
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:01:41 +0100 (CET)
+Received: from localhost ([::1]:36694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knMSV-0004Tv-6N
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:58:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53692)
+	id 1knMVo-00072C-Hk
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:01:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1knMQ4-0002gO-TU
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:55:46 -0500
-Received: from relay68.bu.edu ([128.197.228.73]:58099)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1knMQ2-00059B-SI
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:55:44 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 0BADsx8e007631
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 10 Dec 2020 08:55:03 -0500
-Date: Thu, 10 Dec 2020 08:54:59 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] fuzz: map all BARs and enable PCI devices
-Message-ID: <20201210135459.w6o7chqwmrorrrmz@mozz.bu.edu>
-References: <20201209201054.391408-1-alxndr@bu.edu> <m2im99ao4m.fsf@oracle.com>
- <114d98b5-5c4e-6315-d91d-92c6baf49d09@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knLUC-0006tG-2t
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:55:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knLUA-0002qK-Bl
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:55:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607604953;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P872E0NgP6cNmnhEWXzxfP+Gkvdoe+FPjZG7WSgpwt8=;
+ b=ON79PqXo84XW7sfMsZkhQmfPE4i9K0bX0Hp3RU3Ww07AIdeGHDfgoX40QFFrPdRGG0xlx7
+ rW071L02oalKtai7aKu+lxIpTz8L5yLMkrIZGTtrOy3aHmewrq9UFVpYKQob2OZivZkPrn
+ rQds0D78r5o+jKTudmCJwTmMkf1vhpc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-lME5oNjZPI6d8n2I6NM2cQ-1; Thu, 10 Dec 2020 07:55:52 -0500
+X-MC-Unique: lME5oNjZPI6d8n2I6NM2cQ-1
+Received: by mail-wm1-f72.google.com with SMTP id l5so1091254wmi.4
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 04:55:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=P872E0NgP6cNmnhEWXzxfP+Gkvdoe+FPjZG7WSgpwt8=;
+ b=pmP/PulcTLaUByv+XstPfKZec02vWrSO3OnxEew+/pCVjKhaWInC48BScN89kff9Jo
+ kkF4w1WZGToTwBk9TUgzRfYwOs9WgZoDV0e7bjDXq2nX6toDbpDsY2/dc7kAKrdwy4Ey
+ PdAvnBoPWiBBqv7bxfuUdGtS07q+QnF+5tbyyfYpdLW3PLj4D0/cNzIbK+2FN0eZNgzS
+ ARyqd7Ke9lq3TijkpjRjB7izuf6xbMF0b40TsazQVKpXqRy0T3eJnVVCYEwzkgV0dtug
+ nYG1eFrlexlQYeg5/ZxI2bVoS8E1P2tNUMR+g7mVYOHHAhjhI9ArUG6byGmXvnd77E2N
+ SJqA==
+X-Gm-Message-State: AOAM531xjE3+7IXdBH8ccaBahN3BmaD2N7dHEaHCpJfSp7sePmykdm8f
+ hj5QSG2aeSwE+D+AyHwUtOqLjKrKj02/OGqp1FwXqqLIMLyA5lB7AhFL8P54gFfts2DiyfTOd46
+ FU1Ji38piV2n8rQo=
+X-Received: by 2002:a5d:4d41:: with SMTP id a1mr8099872wru.399.1607604950392; 
+ Thu, 10 Dec 2020 04:55:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy37kNp0ezFyo3zNK3PSCSK/VTFZkdyY8D/hwbS9/hs0vYk4yyhEpU7BmvDgghCXYTnPkqKlg==
+X-Received: by 2002:a5d:4d41:: with SMTP id a1mr8099850wru.399.1607604950264; 
+ Thu, 10 Dec 2020 04:55:50 -0800 (PST)
+Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
+ [88.21.206.101])
+ by smtp.gmail.com with ESMTPSA id c10sm8082514wrb.92.2020.12.10.04.55.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Dec 2020 04:55:49 -0800 (PST)
+Subject: Re: [PATCH v10 23/32] cpu: move cc->do_interrupt to tcg_ops
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>
+References: <20201210121226.19822-1-cfontana@suse.de>
+ <20201210121226.19822-24-cfontana@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a3c59102-6bd8-84f6-9663-0f557f9f1ff4@redhat.com>
+Date: Thu, 10 Dec 2020 13:55:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <20201210121226.19822-24-cfontana@suse.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <114d98b5-5c4e-6315-d91d-92c6baf49d09@redhat.com>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.344, RCVD_IN_BL_SPAMCOP_NET=1.347, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,106 +104,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Darren Kenny <darren.kenny@oracle.com>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 201210 1411, Philippe Mathieu-Daudé wrote:
-> On 12/10/20 12:36 PM, Darren Kenny wrote:
-> > Hi Alex,
-> > 
-> > On Wednesday, 2020-12-09 at 15:10:54 -05, Alexander Bulekov wrote:
-> >> Prior to this patch, the fuzzer found inputs to map PCI device BARs and
-> >> enable the device. While it is nice that the fuzzer can do this, it
-> >> added significant overhead, since the fuzzer needs to map all the
-> >> BARs (regenerating the memory topology), at the start of each input.
-> >> With this patch, we do this once, before fuzzing, mitigating some of
-> >> this overhead.
-> >>
-> >> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > 
-> > In general this looks good, I've a small comment/nit below, but nothing
-> > serious, so:
-> > 
-> > Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-> > 
-> >> ---
-> >>  tests/qtest/fuzz/generic_fuzz.c | 23 +++++++++++++++++++++++
-> >>  1 file changed, 23 insertions(+)
-> >>
-> >> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-> >> index 07ad690683..d95093ee53 100644
-> >> --- a/tests/qtest/fuzz/generic_fuzz.c
-> >> +++ b/tests/qtest/fuzz/generic_fuzz.c
-> >> @@ -16,6 +16,7 @@
-> >>  
-> >>  #include "hw/core/cpu.h"
-> >>  #include "tests/qtest/libqos/libqtest.h"
-> >> +#include "tests/qtest/libqos/pci-pc.h"
-> >>  #include "fuzz.h"
-> >>  #include "fork_fuzz.h"
-> >>  #include "exec/address-spaces.h"
-> >> @@ -762,6 +763,22 @@ static int locate_fuzz_objects(Object *child, void *opaque)
-> >>      return 0;
-> >>  }
-> >>  
-> >> +
-> >> +static void pci_enum(gpointer pcidev, gpointer bus)
-> >> +{
-> >> +    PCIDevice *dev = pcidev;
-> >> +    QPCIDevice *qdev;
-> >> +
-> >> +    qdev = qpci_device_find(bus, dev->devfn);
-> >> +    g_assert(qdev != NULL);
-> >> +    for (int i = 0; i < 6; i++) {
-> >> +        if (dev->io_regions[i].size) {
-> >> +            qpci_iomap(qdev, i, NULL);
-> >> +        }
-> >> +    }
-> >> +    qpci_device_enable(qdev);
-> >> +}
-> >> +
-> >>  static void generic_pre_fuzz(QTestState *s)
-> >>  {
-> >>      GHashTableIter iter;
-> >> @@ -810,6 +827,12 @@ static void generic_pre_fuzz(QTestState *s)
-> >>          exit(1);
-> >>      }
-> >>  
-> >> +    QPCIBus *pcibus;
-> > 
-> > NIT: I'm not a huge fan of defining variables in the middle of code,
-> >      call me old-fashioned if you will, but I tend to prefer them at the
-> >      top of the function, or block ;)
-> 
-> This is barely tolerated in for(;;) loops.
-> 
-> See commit 7be41675f7c ("configure: Force the C standard to gnu99")
-> and QEMU CODING_STYLE.rst:
-> 
->  Declarations
->  ============
-> 
->  Mixed declarations (interleaving statements and declarations within
->  blocks) are generally not allowed; declarations should be at the
->  beginning of blocks.
-> 
->  Every now and then, an exception is made for declarations inside a
->  #ifdef or #ifndef block: if the code looks nicer, such declarations can
->  be placed at the top of the block even if there are statements above.
->  On the other hand, however, it's often best to move that #ifdef/#ifndef
->  block to a separate function altogether.
-> 
-> Regards,
->
+On 12/10/20 1:12 PM, Claudio Fontana wrote:
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  include/hw/core/cpu.h           |  2 --
+>  include/hw/core/tcg-cpu-ops.h   |  3 +++
+>  accel/tcg/cpu-exec.c            |  4 ++--
+>  target/alpha/cpu.c              |  2 +-
+>  target/arm/cpu.c                |  6 ++++--
+>  target/arm/cpu_tcg.c            |  9 ++++-----
+>  target/avr/cpu.c                |  2 +-
+>  target/avr/helper.c             |  4 ++--
+>  target/cris/cpu.c               | 12 ++++++------
+>  target/cris/helper.c            |  4 ++--
+>  target/hppa/cpu.c               |  2 +-
+>  target/i386/tcg/tcg-cpu.c       |  2 +-
+>  target/lm32/cpu.c               |  2 +-
+>  target/m68k/cpu.c               |  2 +-
+>  target/microblaze/cpu.c         |  2 +-
+>  target/mips/cpu.c               |  6 ++++--
+>  target/moxie/cpu.c              |  2 +-
+>  target/nios2/cpu.c              |  2 +-
+>  target/openrisc/cpu.c           |  2 +-
+>  target/riscv/cpu.c              |  2 +-
+>  target/rx/cpu.c                 |  2 +-
+>  target/s390x/cpu.c              |  2 +-
+>  target/sh4/cpu.c                |  2 +-
+>  target/sparc/cpu.c              |  2 +-
+>  target/tilegx/cpu.c             |  2 +-
+>  target/unicore32/cpu.c          |  2 +-
+>  target/xtensa/cpu.c             |  2 +-
+>  target/ppc/translate_init.c.inc |  2 +-
+>  28 files changed, 46 insertions(+), 42 deletions(-)
 
-Sounds good - I'll send out a v2.
-Thanks
--Alex
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> Phil.
-> 
 
