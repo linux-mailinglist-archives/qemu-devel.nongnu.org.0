@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466772D5379
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 06:53:25 +0100 (CET)
-Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B272D53BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 07:23:51 +0100 (CET)
+Received: from localhost ([::1]:40058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knEtH-0002nn-OO
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 00:53:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35536)
+	id 1knFMQ-0000bg-M5
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 01:23:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knEsE-0002Kq-Vw
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 00:52:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29225)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1knEsB-00053v-B4
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 00:52:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607579533;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ceKKNvxYviG2X0UPfYdcj5wxl44tfOyTD+m0qI2h8HI=;
- b=Z3vXZGGtgovHTCP1Dv0ISx6NhTJpH9SqMIMc1YaphNGYUq5eJERI/bOlfvggurjxRkwmWh
- r3seQSVHIVqlChEBKvVBs045Gue99NWZGBvYSRxfxlG5AQCcin7QsFee66Zbi+KSbsMx41
- A40Um+vaUYirG/H3o4CfB+pYBUu0c8M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-aOJfVOJFOeuOVnMh5bGzLA-1; Thu, 10 Dec 2020 00:52:11 -0500
-X-MC-Unique: aOJfVOJFOeuOVnMh5bGzLA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0130559;
- Thu, 10 Dec 2020 05:52:10 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-62.ams2.redhat.com [10.36.112.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B5B86064B;
- Thu, 10 Dec 2020 05:51:54 +0000 (UTC)
-Subject: Re: [PATCH v1 6/6] gitlab: add --without-default-features build
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20201209170059.20742-1-alex.bennee@linaro.org>
- <20201209170059.20742-7-alex.bennee@linaro.org>
- <0d1a0b59-ecbc-208f-8eb7-0aa323930cd9@redhat.com> <878sa6de19.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <10ef3cb1-21fd-3653-9772-ad93fdc487e1@redhat.com>
-Date: Thu, 10 Dec 2020 06:51:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
+ id 1knFKx-0008PF-06; Thu, 10 Dec 2020 01:21:59 -0500
+Received: from home.keithp.com ([63.227.221.253]:48422 helo=elaine.keithp.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
+ id 1knFKr-0005zT-95; Thu, 10 Dec 2020 01:21:58 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by elaine.keithp.com (Postfix) with ESMTP id 7E6673F2E34F;
+ Wed,  9 Dec 2020 22:21:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1607581309; bh=WiZcTrRc8mRZ2nFBgQVmDVQ67kro6pXUo7LIKeVniBI=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=bPOHgD+1pWkrER7VuUQkFhcx57PGa9uBAFSiPSLd6E6HAjw4VgtU6kkWa7olW0rG3
+ Ql0hmms5FtqPDx9UuSqXe1rj41TO/X2ib0JbjmAa7BQdxH0taBckrRp8D/g9kqXzda
+ Br3BqbqaERkcjHLgwpLgAT5l7QuClMLVBkl50HEU839peRF+Spfq3GeNJ6xc3etXSO
+ DY//iJOayO+az9f71iMLofjeHsd0yWktGfRATTcJE2HRnak6VgRmSNYEAe+9n9YBan
+ FahhLjbrxPIkZWZLeRGj0OyDMbhXY1Ofy/ng3hPY9TYe/yXNG4t7tGh18XwxIQhYEC
+ dykmxC46hjEfg==
+X-Virus-Scanned: Debian amavisd-new at keithp.com
+Received: from elaine.keithp.com ([127.0.0.1])
+ by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id PIPf-FKm5K6w; Wed,  9 Dec 2020 22:21:49 -0800 (PST)
+Received: from keithp.com (koto.keithp.com [10.0.0.2])
+ by elaine.keithp.com (Postfix) with ESMTPSA id 1F7AE3F2D58D;
+ Wed,  9 Dec 2020 22:21:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
+ t=1607581309; bh=WiZcTrRc8mRZ2nFBgQVmDVQ67kro6pXUo7LIKeVniBI=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=bPOHgD+1pWkrER7VuUQkFhcx57PGa9uBAFSiPSLd6E6HAjw4VgtU6kkWa7olW0rG3
+ Ql0hmms5FtqPDx9UuSqXe1rj41TO/X2ib0JbjmAa7BQdxH0taBckrRp8D/g9kqXzda
+ Br3BqbqaERkcjHLgwpLgAT5l7QuClMLVBkl50HEU839peRF+Spfq3GeNJ6xc3etXSO
+ DY//iJOayO+az9f71iMLofjeHsd0yWktGfRATTcJE2HRnak6VgRmSNYEAe+9n9YBan
+ FahhLjbrxPIkZWZLeRGj0OyDMbhXY1Ofy/ng3hPY9TYe/yXNG4t7tGh18XwxIQhYEC
+ dykmxC46hjEfg==
+Received: by keithp.com (Postfix, from userid 1000)
+ id D92BD15820DB; Wed,  9 Dec 2020 22:21:48 -0800 (PST)
+To: Kito Cheng <kito.cheng@gmail.com>
+Subject: Re: [PATCH 5/8] riscv: Add semihosting support [v13]
+In-Reply-To: <CA+yXCZA7XhLXDN7ZDk8D90eyXOLCzsrzwUyego1Sn=D9x3BGMQ@mail.gmail.com>
+References: <20201125213617.2496935-1-keithp@keithp.com>
+ <20201125213617.2496935-6-keithp@keithp.com>
+ <CA+yXCZC038LfuswrAo6W3gHXfGkwPscMEKDQJvutV7xcoC+wPw@mail.gmail.com>
+ <87r1nz6iz4.fsf@keithp.com>
+ <CA+yXCZA7XhLXDN7ZDk8D90eyXOLCzsrzwUyego1Sn=D9x3BGMQ@mail.gmail.com>
+Date: Wed, 09 Dec 2020 22:21:47 -0800
+Message-ID: <871rfy6v0k.fsf@keithp.com>
 MIME-Version: 1.0
-In-Reply-To: <878sa6de19.fsf@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; boundary="=-=-=";
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
+ helo=elaine.keithp.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,50 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, f4bug@amsat.org,
- cota@braap.org, stefanha@redhat.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Keith Packard <keithp@keithp.com>
+From: Keith Packard via <qemu-devel@nongnu.org>
 
-On 09/12/2020 19.32, Alex Bennée wrote:
-> 
-> Thomas Huth <thuth@redhat.com> writes:
-> 
->> On 09/12/2020 18.00, Alex Bennée wrote:
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> ---
->>>  .gitlab-ci.yml | 7 +++++++
->>>  1 file changed, 7 insertions(+)
->>>
->>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->>> index 878d114d40..f87584ca8f 100644
->>> --- a/.gitlab-ci.yml
->>> +++ b/.gitlab-ci.yml
->>> @@ -441,6 +441,13 @@ build-without-default-devices:
->>>      IMAGE: debian-amd64
->>>      CONFIGURE_ARGS: --without-default-devices --disable-user
->>>  
->>> +build-without-default-features:
->>> +  <<: *native_build_job_definition
->>> +  variables:
->>> +    IMAGE: centos8
->>> +    CONFIGURE_ARGS: --without-default-devices --without-default-features --disable-user
->>> +    MAKE_CHECK_ARGS: check-unit
->>
->> I wonder whether we'd rather want to check without
->> "--without-default-devices" here to see whether all code compiles fine with
->> "--without-default-features" ... ?
-> 
-> Yeah at the moment the full-fat without everything doesn't achieve much.
-> So how about I swap the IMAGE around with the previous build and drop
-> the --without-default-devices?
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Sounds like a plan, thanks!
+Kito Cheng <kito.cheng@gmail.com> writes:
 
- Thomas
+> Hi Keith:
+>
+> Thanks for your reply, but it seems like we need some more modification in
+>  linux-user/riscv/cpu_loop.c to enable that, I guess I should post that i=
+n mail
+> rather than attachment :)
 
+Ah, I completely missed the attachment! So sorry. That applies cleanly
+on top of the rest of my series, so I think we can just leave it like
+that unless someone wants it presented differently. Not sure why I
+thought this was working before; I clearly missed the most important
+bit.
+
+Reviewed-by: Keith Packard <keithp@keithp.com>
+
+I've got a github repo with these bits in case anyone wants to look at
+the whole tree:
+
+        https://github.com/keith-packard/qemu/tree/semihosting
+
+=2D-=20
+=2Dkeith
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl/RvnwACgkQ2yIaaQAA
+ABE0Dg//R+H0GxY+Y4VCpnq8akZdTtLwCs06v9ziZQ+xmVO1qXZxNpWXNwPTLUQ9
+/T3J0t3LATimH2kn+3j3Q5vqm3gwTYZQuTQPGd+62KwfDHE6ua4DcvXRT5deClfU
+66ZdgsJkObDbX+peoE0NxDlyaWh1DZE8gWPojWXjcpoyfV+j/QRm16h7Bx5rwJdv
+Fp/JaQ8H8TRdKtynnCMF5IWLRFGxnhOhZOhPC5z6PW2NcZVCKb4PASwW7wxF6xrC
+8BA26oLrS9pOJvrgGsEz19i2J3C3lamdJ243Yu5wkndyVnxvQtPc2gA2NV8PZrry
+JwwsX6oSo3/1lCXnlCiWnfxVorKbSdJx37Hz9rAsZYGgu/uLRFMrDpcx4jeBN0w2
+oQhuxfdm8H5JoP7VEuPl6EG/fAk9hR8xMTpCkiixoWMk+8OV3hzzMScS8PbBVLKg
+p5Nw5cwtwMs4BwSHPZ+A9Byd2om3tI+DZxwAik2mf/Pkw1hBm+uJb7ywKekL0QKD
+8yEXckjRVmOLuzIQZ/fpwqwv56xJuh3/me3sTgH9njH36jULTs23cvbViJ2zI79E
+P87GE4HCCSlM4KLj3tOIBZLySBbYAf4TqLSzUwTQIgPLoe7VuEMAPM2phm38QjIv
+UPOdBLAKC9ZXsnt6+QJlQwAgSsesu66ngm2IcYaG4bV0z77/H54=
+=a27Q
+-----END PGP SIGNATURE-----
+--=-=-=--
 
