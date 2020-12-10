@@ -2,103 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD4212D5F58
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 16:17:53 +0100 (CET)
-Received: from localhost ([::1]:60660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA262D5F6B
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 16:21:48 +0100 (CET)
+Received: from localhost ([::1]:36520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knNhY-0000D3-Nw
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 10:17:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48580)
+	id 1knNlK-00029V-BS
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 10:21:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1knNf0-0007ZX-MC; Thu, 10 Dec 2020 10:15:14 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52284
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1knNey-0006v4-Og; Thu, 10 Dec 2020 10:15:14 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0BAF2cSc187464; Thu, 10 Dec 2020 10:15:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=8g8vARb2mjBjBLduNt+uCk9eJ3iqJX3RMRGSGoQ3l+A=;
- b=PhsA6aSaMnb9HZnYWG425DgZC9g75ieV9AAT2gek+TwuBm46yaU93+RWhfAuF3vh+3Ww
- 8Wa243w263MN74qvFqiI4oRpt3hGuowxoSwN3tmpEHDZnT6KX+LBotmMgf2Id18bJtlx
- my+FIRFIJlbZhFQ/jITCXQbYgmrUMpdqGxdg1O01m//or1ox8BvIAFoJqSXdyAHPB64D
- BPaFPvS0+32kACdjI655bzaFD5JbU9nXk6FfcD/vcNvTibjsBGsfcQdCNzs68mG2OAfp
- oGSj06AiFjUZKdEmXvyMnyIdStsO/T/Bq1oEvBJg8GuhW6ylACDdwpNJbH7rLnRHmeld mg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 35bnhn9hv9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 10:15:11 -0500
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0BAF33Gr190970;
- Thu, 10 Dec 2020 10:15:10 -0500
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0b-001b2d01.pphosted.com with ESMTP id 35bnhn9hum-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 10:15:10 -0500
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0BAF7k76030363;
- Thu, 10 Dec 2020 15:15:09 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03wdc.us.ibm.com with ESMTP id 3581u9gg11-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 10 Dec 2020 15:15:09 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0BAFF81T9109892
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Dec 2020 15:15:08 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4D99A6E075;
- Thu, 10 Dec 2020 15:15:08 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 24E476E079;
- Thu, 10 Dec 2020 15:15:07 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.163.37.122])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 10 Dec 2020 15:15:07 +0000 (GMT)
-Subject: Re: [RFC 3/8] s390x/pci: fix pcistb length
-To: Cornelia Huck <cohuck@redhat.com>
-References: <1607546066-2240-1-git-send-email-mjrosato@linux.ibm.com>
- <1607546066-2240-4-git-send-email-mjrosato@linux.ibm.com>
- <20201210113006.666ce143.cohuck@redhat.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <84b3a7bf-6a37-bd9f-cd99-8eb969c83bda@linux.ibm.com>
-Date: Thu, 10 Dec 2020 10:15:06 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1knNjy-0001f0-8S
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:20:22 -0500
+Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:38779)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1knNjw-0000HG-Rb
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 10:20:22 -0500
+Received: by mail-io1-xd44.google.com with SMTP id y5so5868940iow.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 07:20:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=P5yw0nojv1FxIPkklRD+Vn1mPyoBzspT5SRNNaz7RGU=;
+ b=kIdr8oPuKbMPuSqytIabpVf+M8isfoCi3bJgUzBNpduqmRs6PlO+aExAa8yBeWKMDn
+ ahjKluUROgVS9FRrTefqt6u96vjI7N16HkHdj9Mm23ZeS6GS7A+JFAbHavsyT19j38Ia
+ MB5xmI5PiWQP+P3Xu7ltfVYAG49HmT0Fw2kldNMhi7fZBm8FQ2xIUJb4gshxZw7zIIuy
+ 7CJGh2rCq8mCgRMMlEhm2elKoZwoQlCzAxa3oIaEe76XRXx3gWjwFBckZO6x03ensySA
+ h5bZpJgNfjb+J2w6P1+aS+pAypbINVMqAC5whhvPaRh2gqCvgWuAhkCacmlJQaQFEErP
+ MxPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=P5yw0nojv1FxIPkklRD+Vn1mPyoBzspT5SRNNaz7RGU=;
+ b=WXsf23bK+ABNBf8/ZykWKMbihl/irXIoLwZyp+I20/1g7S4x51sE4sAXlBz/YcxNVP
+ p48bkhHqpJiv5fONAv2TJKF+ZxbavSkJYNey/ajzyImJDKHp96mUN0rpQD/dAAPJTGgQ
+ LPToFNw4h9PcPVlkUs1nKbLNmj0aWpazyJcEEgMvap4P3GG3GAzVbWAnhLfBHaGI2VUC
+ +k4Jjc28SCC3GvNWTvJOED0CT0Hr4SRILlHRh7kZ3aZZccKw7YOSaTsWwDYMCqe2+v1D
+ WF9thX7VLCmZoGd/2w5GB+M0b8JbzO3bDacp8rBtxH7NG35ApxQGAy+P/nJFM34K12Hs
+ kOLg==
+X-Gm-Message-State: AOAM530YDqRNjEaJJjBjHExXc+ok3d7xzjQ99XWFJXALU796skwQB4Nh
+ 91JEfR41MZWNNl3GL/l1ZjBGIEV1J/wc6ZTFugY=
+X-Google-Smtp-Source: ABdhPJyEZ4S2+oxMimkHdRzgR2seFLMyinaLcN3ZuFQxkKH3nYaf06LyEPgddbRBF/3kaGh+G4Jr0qMXXo5gHK8Dwvc=
+X-Received: by 2002:a5d:9c91:: with SMTP id p17mr8676140iop.36.1607613619761; 
+ Thu, 10 Dec 2020 07:20:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201210113006.666ce143.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2020-12-10_05:2020-12-09,
- 2020-12-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- bulkscore=0 mlxscore=0 phishscore=0 suspectscore=0 mlxlogscore=790
- adultscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012100092
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+References: <20201208163950.29617-1-david@redhat.com>
+ <20201208163950.29617-8-david@redhat.com>
+ <CAM9Jb+gOvCqW2rcz++SG1VZV0PoaZqx-_fE5X54PFttD-+1X_w@mail.gmail.com>
+ <1a69a01e-9be5-0a3f-0ac6-c1f1fb4b4561@redhat.com>
+In-Reply-To: <1a69a01e-9be5-0a3f-0ac6-c1f1fb4b4561@redhat.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Thu, 10 Dec 2020 16:20:08 +0100
+Message-ID: <CAM9Jb+iFuVzVpYj=zjQgMZAcNRLAAstzjxp4c1g2cNBc5rnM-g@mail.gmail.com>
+Subject: Re: [PATCH v2 07/10] softmmu/physmem: Don't use atomic operations in
+ ram_block_discard_(disable|require)
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd44.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,56 +80,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, pmorel@linux.ibm.com, david@redhat.com,
- schnelle@linux.ibm.com, richard.henderson@linaro.org, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- alex.williamson@redhat.com, mst@redhat.com, pbonzini@redhat.com
+Cc: Marek Kedzierski <mkedzier@redhat.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/10/20 5:30 AM, Cornelia Huck wrote:
-> On Wed,  9 Dec 2020 15:34:21 -0500
-> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
-> 
->> In pcistb_service_call, we are grabbing 8 bits from a guest register to
->> indicate the length of the store operation -- but per the architecture
->> the length is actually defined by 13 bits of the guest register.
->>
->> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   hw/s390x/s390-pci-inst.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
->> index 70bfd91..db86f12 100644
->> --- a/hw/s390x/s390-pci-inst.c
->> +++ b/hw/s390x/s390-pci-inst.c
->> @@ -750,7 +750,7 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
->>       int i;
->>       uint32_t fh;
->>       uint8_t pcias;
->> -    uint8_t len;
->> +    uint16_t len;
->>       uint8_t buffer[128];
->>   
->>       if (env->psw.mask & PSW_MASK_PSTATE) {
->> @@ -760,7 +760,7 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
->>   
->>       fh = env->regs[r1] >> 32;
->>       pcias = (env->regs[r1] >> 16) & 0xf;
->> -    len = env->regs[r1] & 0xff;
->> +    len = env->regs[r1] & 0x1fff;
->>       offset = env->regs[r3];
->>   
->>       if (!(fh & FH_MASK_ENABLE)) {
-> 
-> Is that a general problem that we just did not notice before?
-> 
-> If yes, this probably deserves a Fixes: tag and can be queued
-> independently of the rest of the series.
-> 
+> >>  bool ram_block_discard_is_disabled(void)
+> >>  {
+> >> -    return qatomic_read(&ram_block_discard_disabled) > 0;
+> >> +    return qatomic_read(&ram_block_discard_disablers);
+> >>  }
+> > return value won't be bool?
+>
+> The compiler does type conversion.
+>
+> != 0 -> true
+> == 0 -> false
+ah... I missed it :(
 
-Good point.  I can split this out, and same for "s390x/pci: Fix 
-memory_region_access_valid call"
+Thanks,
+Pankaj
 
