@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1492D59A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:51:17 +0100 (CET)
-Received: from localhost ([::1]:37204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189D72D59C6
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:54:45 +0100 (CET)
+Received: from localhost ([::1]:45490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKTc-0003BS-3e
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:51:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51236)
+	id 1knKWy-0006kI-3b
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:54:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKQw-0001Qz-IL
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:32 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41479)
+ id 1knKR0-0001Su-LW
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:34 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKQe-00071X-64
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:29 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id a12so5151938wrv.8
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:11 -0800 (PST)
+ id 1knKQi-00073P-Jc
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:34 -0500
+Received: by mail-wm1-x330.google.com with SMTP id x22so4369046wmc.5
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wf1XuqV8Ky+w4DmMBlqPnGd/R9XRzh/8oQR8ynsnFpk=;
- b=Ap6Qg2xElTbN205uZ09enxrYZgJRlDu5lB9OVCOssMbklAYUGg/zFVCQZeyZgoaqS9
- aJzg/NU3HGxo3mAVXQJh9o67qUZ5hWsNW/5XiL0qqfxOrRo4abazHuu6reBUH/AcArdA
- xDe5g1XKCwBiko8WXez6v86KKrtrbEqLi9KMEhUMYqLHDNpXzNQEekYENuO6L+vc/BDV
- 2Ma2cysm4S46b4KEI12/gfq4c97CgRdqYuimb+ltIgj86gjG4XmCG2IBWK2Dl4Ed0k+8
- TKSAT9/yXWBGwFml/nuNJr+LMEHaueIbyaoiXTMtAhGjDApaHZ0ge+DJt28MoltXlR9O
- Z3Kw==
+ bh=BigYO5HdCfFdu3P9A2wjZ5T3N7amcDFj0WcAvdbkd2A=;
+ b=eyRrEEixygBpgaDIdnrJZG97Jc9ZavHXju/6hziKoq7IqqLYlm85woTYgKFeNzQ+F9
+ nOGdZIKBhTv1n/cc9fwjk5TblxQrLDbImZDLbYMyGuS50InfcX/VhZgPdV1lbK148VAG
+ XuUSxkYDJBsOQ6ZJ//h5YP8mBRibihHOyas9z5nNxlJ1+5wsZ/u6lHvmTLPP+jrB2v+U
+ IExdM3bPtTEJpqtKK3qIJhBDkN0FbPS26765wAKyWq8TvPnzh2/a6yZRnrrSEci8MxVe
+ Fhx2VgkF3wfkHjnAv+yTnOz0jAQMkFm78WYZy/+IDw/KgZChr6II47dgE8S+9bwn0bW1
+ 0s6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wf1XuqV8Ky+w4DmMBlqPnGd/R9XRzh/8oQR8ynsnFpk=;
- b=c1/VFQcj4HElt5zQJtaQS05QezIkWWHZ8Ry68rmf6r8VY5xMCiwHsk29GZnd/bpyEM
- wsXT9bn6VZ3cEb5wliv/s87A6Mc/z/9Tjzsmbz+kpiAOEoQ708MQZ+OsldqPyXS6ZF8n
- nLegvTD5YRIjLPCJyVbKBas27QoKWL/e8zmxpLjQEkWSbwShpTSv9ypeTxa1sDYHMiYS
- +RubvLYOoSGPWgfFUcefMq1gZYMX60fJGy+2tbUaRepJ6wC87ErFjah4UxkXVk1tTtAK
- B5+nQcBLS69fYpGRO5z/u9f8iSEBPMO1iczGHhaR/lFvNsDycL/h9AvoxPwTot4klxVm
- Y7Dw==
-X-Gm-Message-State: AOAM531I8h5eMPhHxdjrHLFZorGVS2YGMv1xtxmi35JLoEfOt9eUVLGa
- YLH96qbrXWeftLWf0/5vn5YKohKm3+MWOA==
-X-Google-Smtp-Source: ABdhPJyL3qsX7xi8w7/39g+bDZZ6PMHV4CQhoS9IAWIXGJbVKwJjr5ObImNEK4Tc0u+mZGjMHp+M9g==
-X-Received: by 2002:adf:e710:: with SMTP id c16mr7846842wrm.295.1607600890646; 
- Thu, 10 Dec 2020 03:48:10 -0800 (PST)
+ bh=BigYO5HdCfFdu3P9A2wjZ5T3N7amcDFj0WcAvdbkd2A=;
+ b=HZOiZal7GWhOutlcAzAIyUJ2/ys2D7pF8KkZZ60Qhay/Coeye/zWyd+kU0PMjG0+LJ
+ npi7aKzz+x/NKcR+utl7qPTLjDLdQeNxIxpOfp+nTC8BP5IcVlh7w+u7F3DKq2FozHCM
+ Scvr8WL2eYOV8bq1P66UrBISBGJH0FOfCFrVLT60HboIju0J92yJkiOS+s9UraOnFQRS
+ uPot0CqVMPhRY+GdulSmBHq1ccyF9zc8IF6/+zR1ENgJkpSrGMTRS2m00s3tIA0L/Pe6
+ q1TnPWWj1E5Cf1B+pYyfONSEg08jpaau8Mxp9Ts6Qr2fq+lx0ncICFVvS9MBHlgWnYv+
+ EcnQ==
+X-Gm-Message-State: AOAM533TPsEeMoSVhVM6UEoeWyD0ntGVLpIPf7yUL3OjHqi+7xD+KY2W
+ Vx5FH+JhukP/yxMqy9fiAbPtXYwUD5gXWA==
+X-Google-Smtp-Source: ABdhPJwbVomU9zkiOHe/MqvIuERnCIG1fsSLf6FzJlC904RZpghtK6NGBqRrwoLJ0YjqPc0L/nPOIg==
+X-Received: by 2002:a1c:df57:: with SMTP id w84mr7726878wmg.37.1607600893995; 
+ Thu, 10 Dec 2020 03:48:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.09
+ by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 03:48:10 -0800 (PST)
+ Thu, 10 Dec 2020 03:48:13 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/36] i.MX6: Fix bad printf format specifiers
-Date: Thu, 10 Dec 2020 11:47:30 +0000
-Message-Id: <20201210114756.16501-11-peter.maydell@linaro.org>
+Subject: [PULL 13/36] target/arm: Implement v8.1M PXN extension
+Date: Thu, 10 Dec 2020 11:47:33 +0000
+Message-Id: <20201210114756.16501-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210114756.16501-1-peter.maydell@linaro.org>
 References: <20201210114756.16501-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,128 +86,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Chen <alex.chen@huawei.com>
+In v8.1M the PXN architecture extension adds a new PXN bit to the
+MPU_RLAR registers, which forbids execution of code in the region
+from a privileged mode.
 
-We should use printf format specifier "%u" instead of "%d" for
-argument of type "unsigned int".
+This is another feature which is just in the generic "in v8.1M" set
+and has no ID register field indicating its presence.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Alex Chen <alex.chen@huawei.com>
-Message-id: 20201126111109.112238-4-alex.chen@huawei.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20201119215617.29887-3-peter.maydell@linaro.org
 ---
- hw/misc/imx6_ccm.c | 20 ++++++++++----------
- hw/misc/imx6_src.c |  2 +-
- 2 files changed, 11 insertions(+), 11 deletions(-)
+ target/arm/helper.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/hw/misc/imx6_ccm.c b/hw/misc/imx6_ccm.c
-index 7fec8f0a476..cb740427eca 100644
---- a/hw/misc/imx6_ccm.c
-+++ b/hw/misc/imx6_ccm.c
-@@ -96,7 +96,7 @@ static const char *imx6_ccm_reg_name(uint32_t reg)
-     case CCM_CMEOR:
-         return "CMEOR";
-     default:
--        sprintf(unknown, "%d ?", reg);
-+        sprintf(unknown, "%u ?", reg);
-         return unknown;
-     }
- }
-@@ -235,7 +235,7 @@ static const char *imx6_analog_reg_name(uint32_t reg)
-     case USB_ANALOG_DIGPROG:
-         return "USB_ANALOG_DIGPROG";
-     default:
--        sprintf(unknown, "%d ?", reg);
-+        sprintf(unknown, "%u ?", reg);
-         return unknown;
-     }
- }
-@@ -263,7 +263,7 @@ static uint64_t imx6_analog_get_pll2_clk(IMX6CCMState *dev)
-         freq *= 20;
-     }
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 38cd35c0492..7b8bcd69030 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -11754,6 +11754,11 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
+     } else {
+         uint32_t ap = extract32(env->pmsav8.rbar[secure][matchregion], 1, 2);
+         uint32_t xn = extract32(env->pmsav8.rbar[secure][matchregion], 0, 1);
++        bool pxn = false;
++
++        if (arm_feature(env, ARM_FEATURE_V8_1M)) {
++            pxn = extract32(env->pmsav8.rlar[secure][matchregion], 4, 1);
++        }
  
--    DPRINTF("freq = %d\n", (uint32_t)freq);
-+    DPRINTF("freq = %u\n", (uint32_t)freq);
+         if (m_is_system_region(env, address)) {
+             /* System space is always execute never */
+@@ -11761,7 +11766,7 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
+         }
  
-     return freq;
- }
-@@ -275,7 +275,7 @@ static uint64_t imx6_analog_get_pll2_pfd0_clk(IMX6CCMState *dev)
-     freq = imx6_analog_get_pll2_clk(dev) * 18
-            / EXTRACT(dev->analog[CCM_ANALOG_PFD_528], PFD0_FRAC);
- 
--    DPRINTF("freq = %d\n", (uint32_t)freq);
-+    DPRINTF("freq = %u\n", (uint32_t)freq);
- 
-     return freq;
- }
-@@ -287,7 +287,7 @@ static uint64_t imx6_analog_get_pll2_pfd2_clk(IMX6CCMState *dev)
-     freq = imx6_analog_get_pll2_clk(dev) * 18
-            / EXTRACT(dev->analog[CCM_ANALOG_PFD_528], PFD2_FRAC);
- 
--    DPRINTF("freq = %d\n", (uint32_t)freq);
-+    DPRINTF("freq = %u\n", (uint32_t)freq);
- 
-     return freq;
- }
-@@ -315,7 +315,7 @@ static uint64_t imx6_analog_get_periph_clk(IMX6CCMState *dev)
-         break;
-     }
- 
--    DPRINTF("freq = %d\n", (uint32_t)freq);
-+    DPRINTF("freq = %u\n", (uint32_t)freq);
- 
-     return freq;
- }
-@@ -327,7 +327,7 @@ static uint64_t imx6_ccm_get_ahb_clk(IMX6CCMState *dev)
-     freq = imx6_analog_get_periph_clk(dev)
-            / (1 + EXTRACT(dev->ccm[CCM_CBCDR], AHB_PODF));
- 
--    DPRINTF("freq = %d\n", (uint32_t)freq);
-+    DPRINTF("freq = %u\n", (uint32_t)freq);
- 
-     return freq;
- }
-@@ -339,7 +339,7 @@ static uint64_t imx6_ccm_get_ipg_clk(IMX6CCMState *dev)
-     freq = imx6_ccm_get_ahb_clk(dev)
-            / (1 + EXTRACT(dev->ccm[CCM_CBCDR], IPG_PODF));
- 
--    DPRINTF("freq = %d\n", (uint32_t)freq);
-+    DPRINTF("freq = %u\n", (uint32_t)freq);
- 
-     return freq;
- }
-@@ -351,7 +351,7 @@ static uint64_t imx6_ccm_get_per_clk(IMX6CCMState *dev)
-     freq = imx6_ccm_get_ipg_clk(dev)
-            / (1 + EXTRACT(dev->ccm[CCM_CSCMR1], PERCLK_PODF));
- 
--    DPRINTF("freq = %d\n", (uint32_t)freq);
-+    DPRINTF("freq = %u\n", (uint32_t)freq);
- 
-     return freq;
- }
-@@ -385,7 +385,7 @@ static uint32_t imx6_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
-         break;
-     }
- 
--    DPRINTF("Clock = %d) = %d\n", clock, freq);
-+    DPRINTF("Clock = %d) = %u\n", clock, freq);
- 
-     return freq;
- }
-diff --git a/hw/misc/imx6_src.c b/hw/misc/imx6_src.c
-index dd99cc7acf0..79f43759113 100644
---- a/hw/misc/imx6_src.c
-+++ b/hw/misc/imx6_src.c
-@@ -68,7 +68,7 @@ static const char *imx6_src_reg_name(uint32_t reg)
-     case SRC_GPR10:
-         return "SRC_GPR10";
-     default:
--        sprintf(unknown, "%d ?", reg);
-+        sprintf(unknown, "%u ?", reg);
-         return unknown;
-     }
- }
+         *prot = simple_ap_to_rw_prot(env, mmu_idx, ap);
+-        if (*prot && !xn) {
++        if (*prot && !xn && !(pxn && !is_user)) {
+             *prot |= PAGE_EXEC;
+         }
+         /* We don't need to look the attribute up in the MAIR0/MAIR1
 -- 
 2.20.1
 
