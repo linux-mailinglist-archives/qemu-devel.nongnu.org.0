@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055792D578B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:51:36 +0100 (CET)
-Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B562D5783
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:49:04 +0100 (CET)
+Received: from localhost ([::1]:56668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knIbh-0007NY-Gj
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:51:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46358)
+	id 1knIZL-0004ZC-AK
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:49:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knICd-00086q-SX
+ id 1knICd-00086M-N2
  for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:25:35 -0500
-Received: from indium.canonical.com ([91.189.90.7]:36592)
+Received: from indium.canonical.com ([91.189.90.7]:36568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knICa-0008Up-8p
+ id 1knICY-0008SE-1o
  for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:25:35 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knICY-000898-L0
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:25:30 +0000
+ id 1knICW-00088D-R3
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:25:28 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9BF7D2E8042
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:25:30 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C80C72E8042
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:25:28 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 09:12:45 -0000
-From: Thomas Huth <1580586@bugs.launchpad.net>
+Date: Thu, 10 Dec 2020 09:14:05 -0000
+From: Thomas Huth <1597138@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: freeze
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: none123456 th-huth
-X-Launchpad-Bug-Reporter: None (none123456)
+X-Launchpad-Bug-Commenters: sgbarber th-huth
+X-Launchpad-Bug-Reporter: Shannon Barber (sgbarber)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20160511125051.9523.41725.malonedeb@gac.canonical.com>
-Message-Id: <160759156563.15491.12898637366220851567.malone@chaenomeles.canonical.com>
-Subject: [Bug 1580586] Re: Qemu WinXP SP3 second loadvm freezes Guest OS
+References: <20160628234609.30466.21966.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160759164599.31738.16376998443499479658.malone@soybean.canonical.com>
+Subject: [Bug 1597138] Re: Deadlock on Windows 10 pop-up
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 78d3ee5464a6e261e69ea839419d97c6eaac16cf
+X-Launchpad-Hash: aae2a6d5a0cd16cbc4fe26fb4db69801f7e9736d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1580586 <1580586@bugs.launchpad.net>
+Reply-To: Bug 1597138 <1597138@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -89,28 +88,32 @@ rked as "Expired". Or mark it as "Fix Released" if the problem has be
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1580586
+https://bugs.launchpad.net/bugs/1597138
 
 Title:
-  Qemu WinXP SP3 second loadvm freezes Guest OS
+  Deadlock on Windows 10 pop-up
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  Using Qemu-system-i386 to run WinXP SP3 with the following command
-  line:
+  I was able to install and can log in but whenever a pop-up is attempted t=
+he VM appears to deadlock.
+  I can still kill -9 the process and recover but the VM and the QEmu conso=
+le both hang with no error output.
 
-  qemu-system-i386 -hda qcow2/windowsxp_32bits_dd.qcow2 -m 1024  -net
-  user,smb=3D/shared -vga std -net nic,model=3Drtl8139 -rtc
-  base=3Dlocaltime,clock=3Dvm -s -snapshot
+  At first I thought it was UAC but renaming a file causes a pop-up and tha=
+t also deadlocks.
+  I rebuilt QEmu 2.6.0 with debug info and did a thread back-trace once the=
+ deadlock occurs.
+  See the attachment for the trace.
 
-  savevm works fine, and the first loadvm to the snapshot works
-  properly, but the next ones will all freeze the guest OS.
+  I am attempting to setup GPU pass-thru with a GTX 970 but this
+  deadlock occurs with -vga std (and no GPU pass-thru) as well.
 
-  First I thought it was due to the clock but adding the rtc options did
-  not fix it.
+  (I cannot install or start Windows 7 but I am told this is a known
+  bug.)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1580586/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1597138/+subscriptions
 
