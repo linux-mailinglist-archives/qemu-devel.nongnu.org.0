@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32D32D5CA7
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:01:41 +0100 (CET)
-Received: from localhost ([::1]:36694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 364BD2D5CBA
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:04:56 +0100 (CET)
+Received: from localhost ([::1]:44874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knMVo-00072C-Hk
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:01:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38438)
+	id 1knMYx-0002CU-2m
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:04:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knLUC-0006tG-2t
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:55:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27451)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knLXu-0001oV-SW
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:59:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knLUA-0002qK-Bl
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:55:55 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knLXp-0003oh-It
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:59:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607604953;
+ s=mimecast20190719; t=1607605178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P872E0NgP6cNmnhEWXzxfP+Gkvdoe+FPjZG7WSgpwt8=;
- b=ON79PqXo84XW7sfMsZkhQmfPE4i9K0bX0Hp3RU3Ww07AIdeGHDfgoX40QFFrPdRGG0xlx7
- rW071L02oalKtai7aKu+lxIpTz8L5yLMkrIZGTtrOy3aHmewrq9UFVpYKQob2OZivZkPrn
- rQds0D78r5o+jKTudmCJwTmMkf1vhpc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-lME5oNjZPI6d8n2I6NM2cQ-1; Thu, 10 Dec 2020 07:55:52 -0500
-X-MC-Unique: lME5oNjZPI6d8n2I6NM2cQ-1
-Received: by mail-wm1-f72.google.com with SMTP id l5so1091254wmi.4
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 04:55:51 -0800 (PST)
+ bh=QjAFLsdsIJSoZqRmTT/hg1Lsggo/twaabBmmCaZLVwA=;
+ b=LdFGUM2xTqXrMXVuqvxTlxKIlkSUIrYQr5ePCvG4Lbh/kH7x3+SdbZ6vbfEQP4vUpZyZ1P
+ XDKuCvRrIitZrOt0G+S7rIGY0dYHON/tc2a6S9buWLYBdMY7up930w4KTokVVyKwOpKHhl
+ uAwywmnnlz3w4BGw6E0wjTOi9m++6Gk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-549-Q83ixYQCOf-VGZn4leftFw-1; Thu, 10 Dec 2020 07:59:36 -0500
+X-MC-Unique: Q83ixYQCOf-VGZn4leftFw-1
+Received: by mail-wr1-f70.google.com with SMTP id p18so1893791wro.9
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 04:59:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=P872E0NgP6cNmnhEWXzxfP+Gkvdoe+FPjZG7WSgpwt8=;
- b=pmP/PulcTLaUByv+XstPfKZec02vWrSO3OnxEew+/pCVjKhaWInC48BScN89kff9Jo
- kkF4w1WZGToTwBk9TUgzRfYwOs9WgZoDV0e7bjDXq2nX6toDbpDsY2/dc7kAKrdwy4Ey
- PdAvnBoPWiBBqv7bxfuUdGtS07q+QnF+5tbyyfYpdLW3PLj4D0/cNzIbK+2FN0eZNgzS
- ARyqd7Ke9lq3TijkpjRjB7izuf6xbMF0b40TsazQVKpXqRy0T3eJnVVCYEwzkgV0dtug
- nYG1eFrlexlQYeg5/ZxI2bVoS8E1P2tNUMR+g7mVYOHHAhjhI9ArUG6byGmXvnd77E2N
- SJqA==
-X-Gm-Message-State: AOAM531xjE3+7IXdBH8ccaBahN3BmaD2N7dHEaHCpJfSp7sePmykdm8f
- hj5QSG2aeSwE+D+AyHwUtOqLjKrKj02/OGqp1FwXqqLIMLyA5lB7AhFL8P54gFfts2DiyfTOd46
- FU1Ji38piV2n8rQo=
-X-Received: by 2002:a5d:4d41:: with SMTP id a1mr8099872wru.399.1607604950392; 
- Thu, 10 Dec 2020 04:55:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy37kNp0ezFyo3zNK3PSCSK/VTFZkdyY8D/hwbS9/hs0vYk4yyhEpU7BmvDgghCXYTnPkqKlg==
-X-Received: by 2002:a5d:4d41:: with SMTP id a1mr8099850wru.399.1607604950264; 
- Thu, 10 Dec 2020 04:55:50 -0800 (PST)
+ bh=QjAFLsdsIJSoZqRmTT/hg1Lsggo/twaabBmmCaZLVwA=;
+ b=CuMeLhMGr+aLdUhfj0wKbm6FFX2b5zXGrrK1JMb2/tQZfBBd/QMMMA+X8j4mKU2c6T
+ I2s99m7pbyo4YKejgEgwfKtEB7wYsUSgSfswpu6Pm1NJKwPtci3dUVN+/Qy2I9QHitdp
+ dUMLLZDfLnrPCsLOSx43LZb6Mv7Wh+ujHTmZoeno9CgXqnZ5VfP1ZecAInoclYAPtIpZ
+ xkGVgbdH82pDVqY5q9/W98XzZdcZVOxtcjr/moWVE8gq+XKlu7XzUx4F6gnjBb8pSJuW
+ Em6N8vC0oTkvAOV7x0ZWjNQVeXgftAInDk2Hls/2UnR5gCrmf2gZAY2qDFeyeaTrBpVR
+ BCOw==
+X-Gm-Message-State: AOAM533ZzFbh3M1o/GILNARfzmRNohdLmHLCyK31UZKCFgieygWrmLvE
+ PT5W+8d6FvWl0g9CtLrJhV7PqKLigL8nfrKR6+SUWi1Nod7FOvDkXzQUqcX/CUaJW53/2cYyq9U
+ HwHz2iIJwj/sWug4=
+X-Received: by 2002:a7b:cb84:: with SMTP id m4mr8118970wmi.157.1607605175745; 
+ Thu, 10 Dec 2020 04:59:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz8k4DTyyDz5ywkDD5Dw3/a32ddNVQILxxblk+fPw2Gi85GlbhkR89gaQtplH4l0evBfGrX0g==
+X-Received: by 2002:a7b:cb84:: with SMTP id m4mr8118935wmi.157.1607605175574; 
+ Thu, 10 Dec 2020 04:59:35 -0800 (PST)
 Received: from [192.168.1.36] (101.red-88-21-206.staticip.rima-tde.net.
  [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id c10sm8082514wrb.92.2020.12.10.04.55.47
+ by smtp.gmail.com with ESMTPSA id b4sm9070341wrr.30.2020.12.10.04.59.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Dec 2020 04:55:49 -0800 (PST)
-Subject: Re: [PATCH v10 23/32] cpu: move cc->do_interrupt to tcg_ops
+ Thu, 10 Dec 2020 04:59:34 -0800 (PST)
+Subject: Re: [PATCH v10 24/32] cpu: move cc->transaction_failed to tcg_ops
 To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -67,14 +67,14 @@ To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>
 References: <20201210121226.19822-1-cfontana@suse.de>
- <20201210121226.19822-24-cfontana@suse.de>
+ <20201210121226.19822-25-cfontana@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a3c59102-6bd8-84f6-9663-0f557f9f1ff4@redhat.com>
-Date: Thu, 10 Dec 2020 13:55:47 +0100
+Message-ID: <a6f8dc47-1065-e744-4119-3fa67238a687@redhat.com>
+Date: Thu, 10 Dec 2020 13:59:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201210121226.19822-24-cfontana@suse.de>
+In-Reply-To: <20201210121226.19822-25-cfontana@suse.de>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -121,36 +121,55 @@ On 12/10/20 1:12 PM, Claudio Fontana wrote:
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  include/hw/core/cpu.h           |  2 --
->  include/hw/core/tcg-cpu-ops.h   |  3 +++
->  accel/tcg/cpu-exec.c            |  4 ++--
->  target/alpha/cpu.c              |  2 +-
->  target/arm/cpu.c                |  6 ++++--
->  target/arm/cpu_tcg.c            |  9 ++++-----
->  target/avr/cpu.c                |  2 +-
->  target/avr/helper.c             |  4 ++--
->  target/cris/cpu.c               | 12 ++++++------
->  target/cris/helper.c            |  4 ++--
->  target/hppa/cpu.c               |  2 +-
->  target/i386/tcg/tcg-cpu.c       |  2 +-
->  target/lm32/cpu.c               |  2 +-
->  target/m68k/cpu.c               |  2 +-
->  target/microblaze/cpu.c         |  2 +-
->  target/mips/cpu.c               |  6 ++++--
->  target/moxie/cpu.c              |  2 +-
->  target/nios2/cpu.c              |  2 +-
->  target/openrisc/cpu.c           |  2 +-
->  target/riscv/cpu.c              |  2 +-
->  target/rx/cpu.c                 |  2 +-
->  target/s390x/cpu.c              |  2 +-
->  target/sh4/cpu.c                |  2 +-
->  target/sparc/cpu.c              |  2 +-
->  target/tilegx/cpu.c             |  2 +-
->  target/unicore32/cpu.c          |  2 +-
->  target/xtensa/cpu.c             |  2 +-
->  target/ppc/translate_init.c.inc |  2 +-
->  28 files changed, 46 insertions(+), 42 deletions(-)
+>  include/hw/core/cpu.h         | 18 +++++++-----------
+>  include/hw/core/tcg-cpu-ops.h | 10 ++++++++++
+>  hw/mips/jazz.c                |  9 +++++++--
+>  target/alpha/cpu.c            |  2 +-
+>  target/arm/cpu.c              |  4 ++--
+>  target/m68k/cpu.c             |  2 +-
+>  target/microblaze/cpu.c       |  2 +-
+>  target/mips/cpu.c             |  2 +-
+>  target/riscv/cpu.c            |  2 +-
+>  target/sparc/cpu.c            |  2 +-
+>  target/xtensa/cpu.c           |  2 +-
+>  11 files changed, 33 insertions(+), 22 deletions(-)
+...
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+> index a7387b5c39..3cc2733410 100644
+> --- a/include/hw/core/tcg-cpu-ops.h
+> +++ b/include/hw/core/tcg-cpu-ops.h
+> @@ -11,6 +11,7 @@
+>  #define TCG_CPU_OPS_H
+>  
+>  #include "hw/core/cpu.h"
+> +#include "exec/memattrs.h"
+>  
+>  /**
+>   * struct TcgCpuOperations: TCG operations specific to a CPU class
+> @@ -41,6 +42,15 @@ typedef struct TcgCpuOperations {
+>      /** @do_interrupt: Callback for interrupt handling. */
+>      void (*do_interrupt)(CPUState *cpu);
+>  
+
+Do we want to restrict this handler to system-mode?
+
+#ifdef CONFIG_SOFTMMU
+
+> +    /**
+> +     * @do_transaction_failed: Callback for handling failed memory transactions
+> +     * (ie bus faults or external aborts; not MMU faults)
+> +     */
+> +    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
+> +                                  unsigned size, MMUAccessType access_type,
+> +                                  int mmu_idx, MemTxAttrs attrs,
+> +                                  MemTxResult response, uintptr_t retaddr);
+
+#endif
+
+>      /**
+>       * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
+>       *
+...
 
 
