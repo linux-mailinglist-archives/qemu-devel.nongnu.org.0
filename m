@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F102D6306
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 18:08:56 +0100 (CET)
-Received: from localhost ([::1]:33638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35032D630F
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 18:09:38 +0100 (CET)
+Received: from localhost ([::1]:35352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knPR1-0001yn-HP
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 12:08:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40128)
+	id 1knPRh-0002jV-IW
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 12:09:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1knOz4-0006RP-Dx; Thu, 10 Dec 2020 11:40:02 -0500
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:38843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1knOz2-0004Vj-FO; Thu, 10 Dec 2020 11:40:02 -0500
-Received: by mail-io1-xd42.google.com with SMTP id y5so6156648iow.5;
- Thu, 10 Dec 2020 08:39:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uk/W4SrdbhM8HJz81c2x1XeC5dGv7Mig+9zyU1Cpmg4=;
- b=g6f/Fse9YjoR6vzgV3mdXzKqEX6k9SRPeJSkzXoITycYuPKWnqTx0CpgRBpZuexKZT
- wrdIC+D7TcGPh+yWQlrr2uUWZSn9AIAJ5Vzar22Ylkh/3hvAqyv29HdiWF/JmSQIwlPf
- n+ubc61Tma2git5He9q5GJnij96JZAJhJdLS3YXLp22/NaUbvMZO1BiPgxDNDN6Gx/s+
- LXHKCjV37c4HqlNuLe10ErzLKUhBEFvzXo1nVgX5oGpwJfIsTdrS1+9snNq5KPQMc0bY
- IuApv+8bkyMCjVqK1UG/PpE3WStvLnSbaxhPzrISU0F5EZzVhhZ0k59zI/2ZCTuQwDZ5
- pQqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uk/W4SrdbhM8HJz81c2x1XeC5dGv7Mig+9zyU1Cpmg4=;
- b=ajIhme2+M+L81PB9XLEz2mtT2Ea85lKWHGUrFre9y07+JQQe2CktV265n+yAyUyywL
- TeHv47iWLRdm5UNx9qObd+vRjoqoIc8s08uto09g5laVUWSNFXhvdz+GeHfEP1U9zuc6
- FAzBJRDXJMhLfESqed6vSo3fOw1VWwxG1b/1BSCPEDpB56nuMN4tmaCMr5aNw8EA+lx8
- c0JAv9CY5XCM+4w2do9TDXHpyKZfwhgUt23TR/90+Hj46VFxC1rxwkNfvw1XZTdfZJv4
- aNFiVK77esNH+j7cX8iaK3Vinw3RKkndbLeLlMONbLnsklwrogig66PCBXgA/Q2njU/A
- Zq5g==
-X-Gm-Message-State: AOAM532og2szzxZB2nfwYNg2QEDkDVy6pQIUafb/ahWgvCuDZI7lu6Vb
- FgeJOPj1/etYCyPIbnduvGa4Jb2Obwg0c/JKqZ0=
-X-Google-Smtp-Source: ABdhPJx+5UZ3lrFiNZ5AGuJgMKSo1n4jkRYJ2flV6JKvGmSLv2LD6YVTlKOu4kDnSB+rH1QbklLF6SH/ZDrx76bZKjo=
-X-Received: by 2002:a02:a419:: with SMTP id c25mr9467558jal.91.1607618398980; 
- Thu, 10 Dec 2020 08:39:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <liam.merwick@oracle.com>)
+ id 1knP9t-0005AR-2t
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:51:13 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:41576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <liam.merwick@oracle.com>)
+ id 1knP9q-00066M-TQ
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:51:12 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BAGoAm7120020;
+ Thu, 10 Dec 2020 16:51:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=nRUr6tLvvj1PS9yIAEioUCiYk6Yf/pRu+tp4QyQra34=;
+ b=WSxl4L2JouX59u37eOGwQVyHsmDIteS/xeBCD+8RF4j/ggJOFi3SZ8zPkka9wAa+aEp3
+ wEyaw2FfaclFWKjXAzHYt13JHrjlxJFH/YwBR/MtMPKSREMOdRsgLNv82f0VOOy16Dgx
+ HnvaONVxiK8D/08qw3CmlzG3e99V8bEfaCaeaisDnqbaM7G6wxVaXZMvGh4QKufYxAqZ
+ GJqcxAqFrsFwJ2nEgEypEVBZAXLS328QZLrEdDKcgi0NufEnyoow/9qt1Vqy3j9Y+ocP
+ JhoC3kTxuwRNcbREkSdv752omA48UcuWusyqwPDBWFydiEGuTeZ64nu83J+YdwFXV5lL TA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 3581mr6cyu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 10 Dec 2020 16:51:04 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BAGkc1Z007234;
+ Thu, 10 Dec 2020 16:49:04 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 358m41wsfg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Dec 2020 16:49:04 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BAGn19j027470;
+ Thu, 10 Dec 2020 16:49:01 GMT
+Received: from [10.175.204.97] (/10.175.204.97)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 10 Dec 2020 08:49:00 -0800
+Subject: Re: [PATCH v2 0/3] nvdimm: read-only file support
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20200916095150.755714-1-stefanha@redhat.com>
+From: Liam Merwick <liam.merwick@oracle.com>
+Message-ID: <fe1dca5a-a373-7634-7e11-5dee6019036e@oracle.com>
+Date: Thu, 10 Dec 2020 16:48:57 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201210141610.884600-1-f4bug@amsat.org>
-In-Reply-To: <20201210141610.884600-1-f4bug@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 10 Dec 2020 08:39:32 -0800
-Message-ID: <CAKmqyKN7OMipCzi-B+qNJb_J--ontKzpwX5J=rQ8zye3tmYePQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] hw/misc/zynq_slcr: Avoid #DIV/0! error
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200916095150.755714-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9830
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 adultscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012100106
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9830
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ clxscore=1011 malwarescore=0 priorityscore=1501 adultscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 impostorscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012100106
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=liam.merwick@oracle.com; helo=userp2130.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,75 +98,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Gaoning Pan <gaoning.pgn@antgroup.com>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Gaoning Pan <pgn@zju.edu.cn>
+Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julio Montes <julio.montes@intel.com>,
+ eric.g.ernst@gmail.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 10, 2020 at 6:27 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Malicious user can set the feedback divisor for the PLLs
-> to zero, triggering a floating-point exception (SIGFPE).
->
-> As the datasheet [*] is not clear how hardware behaves
-> when these bits are zeroes, use the maximum divisor
-> possible (128) to avoid the software FPE.
->
-> [*] Zynq-7000 TRM, UG585 (v1.12.2)
->     B.28 System Level Control Registers (slcr)
->     -> "Register (slcr) ARM_PLL_CTRL"
->     25.10.4 PLLs
->     -> "Software-Controlled PLL Update"
->
-> Fixes: 38867cb7ec9 ("hw/misc/zynq_slcr: add clock generation for uarts")
-> Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> Cc: Damien Hedde <damien.hedde@greensocs.com>
-> Cc: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Cc: Gaoning Pan <gaoning.pgn@antgroup.com>
-> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
->
-> Alternative is to threat that as PLL disabled and return 0...
+On 16/09/2020 10:51, Stefan Hajnoczi wrote:
+> v2:
+>   * s/the the/the/ in documentation [Philippe]
+>   * Assign nvdimm->unarmed earlier [Philippe]
+> 
+> There is currently no way to back an NVDIMM with a read-only file so it can be
+> safely shared between untrusted guests.
+> 
+> Introduce an -object memory-backend-file,readonly=on|off option.
+> 
+> Julio Montes sent an earlier patch here:
+> https://patchew.org/QEMU/20190708211936.8037-1-julio.montes@intel.com/
+> 
+> Eric Ernst requested this feature again for Kata Containers so I gave it a try.
+> 
+> Stefan Hajnoczi (3):
+>    memory: add readonly support to memory_region_init_ram_from_file()
+>    hostmem-file: add readonly=on|off option
+>    nvdimm: honor -object memory-backend-file,readonly=on option
+> 
 
-I'm not sure which is better, but this patch now is better then before:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+Tested-by: Liam Merwick <liam.merwick@oracle.com>
 
-Alistair
+(I just quickly modified kata-runtime to unconditionally pass 
+readonly=on and verified that the root filesystem couldn't be remounted 
+as rw)
 
-> ---
->  hw/misc/zynq_slcr.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
-> index a2b28019e3c..66504a9d3ab 100644
-> --- a/hw/misc/zynq_slcr.c
-> +++ b/hw/misc/zynq_slcr.c
-> @@ -217,6 +217,11 @@ static uint64_t zynq_slcr_compute_pll(uint64_t input=
-, uint32_t ctrl_reg)
->          return 0;
->      }
->
-> +    /* Consider zero feedback as maximum divide ratio possible */
-> +    if (!mult) {
-> +        mult =3D 1 << R_xxx_PLL_CTRL_PLL_FPDIV_LENGTH;
-> +    }
-> +
->      /* frequency multiplier -> period division */
->      return input / mult;
->  }
-> --
-> 2.26.2
->
->
+Is this a candidate for 6.0?
+
+Regards,
+Liam
+
+
+>   docs/nvdimm.txt           |  8 +++++++-
+>   include/exec/memory.h     |  2 ++
+>   include/exec/ram_addr.h   |  5 +++--
+>   include/qemu/mmap-alloc.h |  2 ++
+>   backends/hostmem-file.c   | 26 +++++++++++++++++++++++++-
+>   exec.c                    | 18 +++++++++++-------
+>   hw/mem/nvdimm.c           |  4 ++++
+>   softmmu/memory.c          |  7 +++++--
+>   util/mmap-alloc.c         | 10 ++++++----
+>   util/oslib-posix.c        |  2 +-
+>   qemu-options.hx           |  5 ++++-
+>   11 files changed, 70 insertions(+), 19 deletions(-)
+> 
+
 
