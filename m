@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A452C2D639B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 18:33:55 +0100 (CET)
-Received: from localhost ([::1]:42890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B0D2D63CB
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 18:41:01 +0100 (CET)
+Received: from localhost ([::1]:51124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knPpC-0003N5-76
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 12:33:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52012)
+	id 1knPw4-0007OG-0o
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 12:41:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knPkD-0001kI-1U
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:28:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20449)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knPpT-0004Se-Us
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:34:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knPkA-00045O-E6
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:28:44 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1knPpR-0004vk-QL
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 12:34:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607621320;
+ s=mimecast20190719; t=1607621648;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=OnkF8Tn4lCrqBLKCn21DuDMmWVcEld5oTgeMIUmzvrM=;
- b=YEoxofkEr7+po1Pe80Pm8/ewvjYLijb4KDtZepcXSmmDn1kedNnogFiYYQy53ZrGVNDl1/
- IheBnhlvwEZU8a3wukc/4V+6bboiI9/Cy0196xfnwDKyoZjIZ0fgNstXEY56z+vMDd7X0B
- z76e7YQ7Og75/udY+TodkpPVRhfUND8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-IZ0Bfo90PmmZ-7zC32av4w-1; Thu, 10 Dec 2020 12:28:39 -0500
-X-MC-Unique: IZ0Bfo90PmmZ-7zC32av4w-1
-Received: by mail-wr1-f71.google.com with SMTP id p16so2195466wrx.4
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:28:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OnkF8Tn4lCrqBLKCn21DuDMmWVcEld5oTgeMIUmzvrM=;
- b=ZK9qBsW3bijt/+ZlhpLtPK4ICcMY8g3DlcUgII2j1YZLJwRcThYITjYgQ+lRoyaTAu
- 1LVWWlxLf5oeUr5wmWJWhPMFejQCDzNt2YA6qJ4yhx0gIaL3Oeqtg0GNs5KcbcufBd7M
- qQobXbzzDEM6G5KL2CQZ+PZ+TtIzPPOs27RFR4FWZBzYz2gGcMMw8h+A56rPOQKmHRU2
- Mu8kX4KUPeGFTZmhjnKinUXP4z+eWiDTFw+uMim/tGC/PZgUB+MldlK4QvG2AGdxzvja
- 2nSqSwDffyJPcEZ7f/p/df4q693iTnZ7S9Cebii7YArnuSQJshkk0YaquVElUgZpUTLO
- mdNQ==
-X-Gm-Message-State: AOAM532c47m0T5cgHmbklOcMOkDB27YnULvUBJSj21zHrOJhwoxeMg+C
- 1EV4WcmSvBicLqxfKK8/iQqBEXVRWmXKUrrmIbbROMHa0OaOAYD/EqKiTN1G8VlANIHFf74RC5v
- aUV/xjoF8lOUqUVS1lQOt+GS6DYhEWVkbZXEy+fWstW0zES/FtmZ3c69mn+Lc+YzI
-X-Received: by 2002:adf:8b8f:: with SMTP id o15mr9560619wra.311.1607621317036; 
- Thu, 10 Dec 2020 09:28:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy9zFPfiITG2inh9BBvSevH3g6HsV2chB5pJXQWKTD/Ts0lUIWKFH46Wowf0PMMx4MwtX8fGg==
-X-Received: by 2002:adf:8b8f:: with SMTP id o15mr9560596wra.311.1607621316768; 
- Thu, 10 Dec 2020 09:28:36 -0800 (PST)
-Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id p19sm12765072wrg.18.2020.12.10.09.28.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 09:28:36 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/virtio-pci: Replace error_report() by
- qemu_log_mask(GUEST_ERROR)
-Date: Thu, 10 Dec 2020 18:28:34 +0100
-Message-Id: <20201210172834.178052-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5fZawlMIHmJo2uiXX/h3jGwaro74FhUBlVka5E8k1s4=;
+ b=E4zIys1wcU7ohuSitHtXlnF8JRcMVAH7xFJH5haPiYb6l3No27j/eUQBXd8L97JvkLys7L
+ ycoc1KpojuwBqzvZyiUEr4lIDQppDaiRyc2/fxJWUXY+wE9BaK7dwxxjPPF0ybMSAHP21i
+ UbyQJVhTZ5gXrfsldfQQY1csjEue360=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-j5RLoDUOO0aeRSJHoeDooA-1; Thu, 10 Dec 2020 12:34:06 -0500
+X-MC-Unique: j5RLoDUOO0aeRSJHoeDooA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54238180A086;
+ Thu, 10 Dec 2020 17:34:05 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-58.ams2.redhat.com
+ [10.36.115.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6F5C1E5;
+ Thu, 10 Dec 2020 17:33:57 +0000 (UTC)
+Subject: Re: [PATCH v14 02/13] block: add API function to insert a node
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201204220758.2879-1-vsementsov@virtuozzo.com>
+ <20201204220758.2879-3-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <e0c83922-c039-5eed-6f50-276a9455fc64@redhat.com>
+Date: Thu, 10 Dec 2020 18:33:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <20201204220758.2879-3-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,45 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ stefanha@redhat.com, andrey.shinkevich@virtuozzo.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace I/O write error reported with error_report() by
-qemu_log_mask(GUEST_ERROR) which allow filtering.
+On 04.12.20 23:07, Vladimir Sementsov-Ogievskiy wrote:
+> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> 
+> Provide API for insertion a node to backing chain.
+> 
+> Suggested-by: Max Reitz <mreitz@redhat.com>
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   include/block/block.h |  2 ++
+>   block.c               | 25 +++++++++++++++++++++++++
+>   2 files changed, 27 insertions(+)
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/virtio/virtio-pci.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+[...]
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index f863f69ede4..094c36aa3ea 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -27,6 +27,7 @@
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/log.h"
- #include "qemu/module.h"
- #include "hw/pci/msi.h"
- #include "hw/pci/msix.h"
-@@ -365,8 +366,9 @@ static void virtio_ioport_write(void *opaque, uint32_t addr, uint32_t val)
-         virtio_queue_set_vector(vdev, vdev->queue_sel, val);
-         break;
-     default:
--        error_report("%s: unexpected address 0x%x value 0x%x",
--                     __func__, addr, val);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: unexpected address 0x%x value 0x%x\n",
-+                      __func__, addr, val);
-         break;
-     }
- }
--- 
-2.26.2
+> diff --git a/block.c b/block.c
+> index f1cedac362..b71c39f3e6 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -4698,6 +4698,31 @@ static void bdrv_delete(BlockDriverState *bs)
+>       g_free(bs);
+>   }
+>   
+> +BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *node_options,
+> +                                   int flags, Error **errp)
+> +{
+> +    BlockDriverState *new_node_bs;
+> +    Error *local_err = NULL;
+> +
+> +    new_node_bs =  bdrv_open(NULL, NULL, node_options, flags, errp);
+
+s/ =  / = /
+
+With that done:
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
