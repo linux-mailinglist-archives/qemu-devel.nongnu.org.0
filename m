@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57862D59EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:03:45 +0100 (CET)
-Received: from localhost ([::1]:38196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E380C2D5A08
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 13:10:06 +0100 (CET)
+Received: from localhost ([::1]:54900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKfg-00079j-MN
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:03:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51210)
+	id 1knKlp-0005gC-Sn
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 07:10:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKQu-0001QA-N3
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:28 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38645)
+ id 1knKQy-0001RZ-IW
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:32 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKQe-00071S-KV
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:28 -0500
-Received: by mail-wr1-x432.google.com with SMTP id r7so5150961wrc.5
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:11 -0800 (PST)
+ id 1knKQf-00072a-6p
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:32 -0500
+Received: by mail-wm1-x332.google.com with SMTP id v14so4386590wml.1
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XQsrNMirMBP/WD1WlqfVCpC5aj7zOTNhm+B7VyZuN1Y=;
- b=KR4Yo6FgIvY9YNPabC8wEqMtc95vv0XRLSGfaJVACJo3RpFM37+k14u5fOZ1CxXMpy
- B5d0y3AmJin04DZzLdoOQU+D7CJtxWpH2+hTVW4EPqUs8rrAypDTL74dmR8s5DSV3KwB
- Dwg9/tjkjp6V1Fe5EYQ5FfyvxflQAJm7wlYeog4bamQ8pdGV3E5ED/uLpUq9pwm91rtm
- 6IAtOwKXdlrUo8pkhBeWP2wi+vaVVuFB8d7eWmqUg+z5m7u7g5Fc5GY6HHXNqujAU5Mu
- QV8TRfp+j+mweZfcqdfnZPnSM3vffe0is7FphuzAtSwfozCKEZsEcblinltJblRS0gmA
- pMQg==
+ bh=PnlWOn3wj5epMR6Ukz4GSi3hf0wbVdyWVyWPmQyzxt0=;
+ b=NO8hswIonz5L2tq9zhW1tMu+EMfN8DcaDgeKQue78QOwa1ncoN87OG1Bdvz9VB3Vsr
+ LOPMlpLIjdK8tNTa69xOzb1+F9tR2V9Su7gNR2epFywQfO2jYGosppylj/6FQa1pLBfB
+ hF9eZ7R+YFH8guHdLGFfyU09C1PbQrwMCX0V9xM0/v0ArgSZilbLeU0BcTg5Q/m/sgA7
+ +1Bb20GCLyWljN+Bet/Dml509mHjyoCVzQ0JgKVc2cepVGDFTD0FkaS9coDUg3Bqqzvy
+ /4PKIS0hTYXAu3v0IxD31xCrtjY4ylwW+J/081NhRv9EtV7rKmnnEa0KVhalyX2olswt
+ zWjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XQsrNMirMBP/WD1WlqfVCpC5aj7zOTNhm+B7VyZuN1Y=;
- b=daFmHUTPlJoZSXHZLbd25AYCmx3tsRJykp7M3LAYC90/COlucCwgK/cVqEhTBQr7Im
- yddDF8guBak86OWnPbVsTFatiKYDaVm+2JY5ltWVVBkx3/2WoZyUCu283M1CeCeI1A67
- 7FG+HrdpsPh9hT9mjJatu59fFwxTO1jFDKKXzohw14DS80iFjmPlcxhn+HHq0wI+jCgb
- FouB0+gPgU5TTAOeDSA4qqujk7hF4t64uZFyHF14pvtqUXGE4imK541NZ09x2/W0ad3q
- PEL6XlZQn/cAc38sDBrygIIdlR+dePiarYcxWzdu5Tcrw7bHicnV+TEQMDX/cb7nz3J8
- xKkg==
-X-Gm-Message-State: AOAM530HqlL3dlKtdvOss8H1wTRjDEUgp2bYue0rCzprZohI+gzqHTEl
- VODYdROhb3EzGA8+MOzamsAH7orQ4bNe5g==
-X-Google-Smtp-Source: ABdhPJyba+nAZ4eYkh5JYRNjdsBedRwi5njhhP0u+O0ThWkTVM/shzkHEDKxPLPFPwODtEc9Ex1B7A==
-X-Received: by 2002:a5d:6ccb:: with SMTP id c11mr7848188wrc.224.1607600889778; 
- Thu, 10 Dec 2020 03:48:09 -0800 (PST)
+ bh=PnlWOn3wj5epMR6Ukz4GSi3hf0wbVdyWVyWPmQyzxt0=;
+ b=Rrp0GyFox+5HtfdjXa4aHXH+rXPzZ5RmNLRstw2i/fZeYraiUIYuKVzYLRPTCz7VhG
+ c60vaHSPD7fyBIOWyjPDa5l6fxoBduCpZouozo6nBPJ4doBQCVWuDEDh2mdl2pjmuzY7
+ Z6xmXT5WRtkqseKjyoFgsgqsLeI25YGHlVaT1Pk9dYlYTJbbrgv3H3cUwvW0smRAWT4v
+ BsAXdt5LQdtf+RTroYbl8ImNFIa3hllrbmvU7wR7QwELBfLMfVH3brT+NtF6/5Z1nbvt
+ YNvbzDtOIK2mJXgiI3wCIFwrGm8XR3FqjgAhG32J1Pf3czVuO9VCN3gq3fSdGFPE/ozd
+ ZLbg==
+X-Gm-Message-State: AOAM532qvx6g861ke0GrPxJvrYMD2DgUV653n7Uk8bePT+clazlAsVwH
+ tNl57MQx56tggMk0dex+Nkz8uZqDZq7shA==
+X-Google-Smtp-Source: ABdhPJwLEP6BAUbMbF0roZKx3bRsrGL9WF3DXK1kA+kHenGRs7np5ivONKWUPA8l/M3H7uL+EIRY5A==
+X-Received: by 2002:a05:600c:cc:: with SMTP id
+ u12mr7951014wmm.42.1607600891635; 
+ Thu, 10 Dec 2020 03:48:11 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.08
+ by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 03:48:09 -0800 (PST)
+ Thu, 10 Dec 2020 03:48:10 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/36] i.MX31: Fix bad printf format specifiers
-Date: Thu, 10 Dec 2020 11:47:29 +0000
-Message-Id: <20201210114756.16501-10-peter.maydell@linaro.org>
+Subject: [PULL 11/36] i.MX6ul: Fix bad printf format specifiers
+Date: Thu, 10 Dec 2020 11:47:31 +0000
+Message-Id: <20201210114756.16501-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210114756.16501-1-peter.maydell@linaro.org>
 References: <20201210114756.16501-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,103 +94,35 @@ argument of type "unsigned int".
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Alex Chen <alex.chen@huawei.com>
-Message-id: 20201126111109.112238-3-alex.chen@huawei.com
+Message-id: 20201126111109.112238-5-alex.chen@huawei.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/imx31_ccm.c | 14 +++++++-------
- hw/misc/imx_ccm.c   |  4 ++--
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ hw/misc/imx6ul_ccm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/misc/imx31_ccm.c b/hw/misc/imx31_ccm.c
-index 6e246827ab6..ad30a4b2c0c 100644
---- a/hw/misc/imx31_ccm.c
-+++ b/hw/misc/imx31_ccm.c
-@@ -89,7 +89,7 @@ static const char *imx31_ccm_reg_name(uint32_t reg)
-     case IMX31_CCM_PDR2_REG:
-         return "PDR2";
+diff --git a/hw/misc/imx6ul_ccm.c b/hw/misc/imx6ul_ccm.c
+index 5e0661dacf7..a65d0314556 100644
+--- a/hw/misc/imx6ul_ccm.c
++++ b/hw/misc/imx6ul_ccm.c
+@@ -143,7 +143,7 @@ static const char *imx6ul_ccm_reg_name(uint32_t reg)
+     case CCM_CMEOR:
+         return "CMEOR";
      default:
--        sprintf(unknown, "[%d ?]", reg);
-+        sprintf(unknown, "[%u ?]", reg);
+-        sprintf(unknown, "%d ?", reg);
++        sprintf(unknown, "%u ?", reg);
          return unknown;
      }
  }
-@@ -120,7 +120,7 @@ static uint32_t imx31_ccm_get_pll_ref_clk(IMXCCMState *dev)
-         freq = CKIH_FREQ;
+@@ -274,7 +274,7 @@ static const char *imx6ul_analog_reg_name(uint32_t reg)
+     case USB_ANALOG_DIGPROG:
+         return "USB_ANALOG_DIGPROG";
+     default:
+-        sprintf(unknown, "%d ?", reg);
++        sprintf(unknown, "%u ?", reg);
+         return unknown;
      }
- 
--    DPRINTF("freq = %d\n", freq);
-+    DPRINTF("freq = %u\n", freq);
- 
-     return freq;
  }
-@@ -133,7 +133,7 @@ static uint32_t imx31_ccm_get_mpll_clk(IMXCCMState *dev)
-     freq = imx_ccm_calc_pll(s->reg[IMX31_CCM_MPCTL_REG],
-                             imx31_ccm_get_pll_ref_clk(dev));
- 
--    DPRINTF("freq = %d\n", freq);
-+    DPRINTF("freq = %u\n", freq);
- 
-     return freq;
- }
-@@ -150,7 +150,7 @@ static uint32_t imx31_ccm_get_mcu_main_clk(IMXCCMState *dev)
-         freq = imx31_ccm_get_mpll_clk(dev);
-     }
- 
--    DPRINTF("freq = %d\n", freq);
-+    DPRINTF("freq = %u\n", freq);
- 
-     return freq;
- }
-@@ -163,7 +163,7 @@ static uint32_t imx31_ccm_get_hclk_clk(IMXCCMState *dev)
-     freq = imx31_ccm_get_mcu_main_clk(dev)
-            / (1 + EXTRACT(s->reg[IMX31_CCM_PDR0_REG], MAX));
- 
--    DPRINTF("freq = %d\n", freq);
-+    DPRINTF("freq = %u\n", freq);
- 
-     return freq;
- }
-@@ -176,7 +176,7 @@ static uint32_t imx31_ccm_get_ipg_clk(IMXCCMState *dev)
-     freq = imx31_ccm_get_hclk_clk(dev)
-            / (1 + EXTRACT(s->reg[IMX31_CCM_PDR0_REG], IPG));
- 
--    DPRINTF("freq = %d\n", freq);
-+    DPRINTF("freq = %u\n", freq);
- 
-     return freq;
- }
-@@ -201,7 +201,7 @@ static uint32_t imx31_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
-         break;
-     }
- 
--    DPRINTF("Clock = %d) = %d\n", clock, freq);
-+    DPRINTF("Clock = %d) = %u\n", clock, freq);
- 
-     return freq;
- }
-diff --git a/hw/misc/imx_ccm.c b/hw/misc/imx_ccm.c
-index 52882071d3b..08a50ee4c8a 100644
---- a/hw/misc/imx_ccm.c
-+++ b/hw/misc/imx_ccm.c
-@@ -38,7 +38,7 @@ uint32_t imx_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
-         freq = klass->get_clock_frequency(dev, clock);
-     }
- 
--    DPRINTF("(clock = %d) = %d\n", clock, freq);
-+    DPRINTF("(clock = %d) = %u\n", clock, freq);
- 
-     return freq;
- }
-@@ -65,7 +65,7 @@ uint32_t imx_ccm_calc_pll(uint32_t pllreg, uint32_t base_freq)
-     freq = ((2 * (base_freq >> 10) * (mfi * mfd + mfn)) /
-             (mfd * pd)) << 10;
- 
--    DPRINTF("(pllreg = 0x%08x, base_freq = %d) = %d\n", pllreg, base_freq,
-+    DPRINTF("(pllreg = 0x%08x, base_freq = %u) = %d\n", pllreg, base_freq,
-             freq);
- 
-     return freq;
 -- 
 2.20.1
 
