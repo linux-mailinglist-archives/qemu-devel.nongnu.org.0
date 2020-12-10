@@ -2,80 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F49D2D5D39
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:13:39 +0100 (CET)
-Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5112D5D38
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:11:34 +0100 (CET)
+Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knMhO-0002aK-Aa
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:13:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52252)
+	id 1knMfN-0000cN-Mp
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:11:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1knMLM-00059d-9o
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:50:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1knMLK-0003V6-9c
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:50:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607608249;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eCpcOM7opyiDsolDV3pJXlPM7/hesfcwMZvgEBTmWQY=;
- b=Ca3rKrpjuy+mnxwAru2eOzGUmH9nG2kASEwXZQbaXED+Fzw9uwhSG52C2nyOQ9Jqz/YpHo
- M7nWvtyjoCWyAAW0E1Sf+Xf5+vDnwBmnrV7QQR38qDXfXRLUNXyVQSDVIw/Fm4D3vm1b/o
- YAvXDjEhTWWH0NcVcUeGO0znkB8VtE4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-8AYv8388MnKiNbSg8P13ew-1; Thu, 10 Dec 2020 08:50:47 -0500
-X-MC-Unique: 8AYv8388MnKiNbSg8P13ew-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43DEB8145E5;
- Thu, 10 Dec 2020 13:50:46 +0000 (UTC)
-Received: from redhat.com (ovpn-115-31.ams2.redhat.com [10.36.115.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A382A100AE2D;
- Thu, 10 Dec 2020 13:50:44 +0000 (UTC)
-Date: Thu, 10 Dec 2020 13:50:41 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH v2 02/13] qemu/atomic: Drop special case for unsupported
- compiler
-Message-ID: <20201210135041.GA35584@redhat.com>
-References: <20201126112915.525285-1-marcandre.lureau@redhat.com>
- <20201126112915.525285-3-marcandre.lureau@redhat.com>
- <CAFEAcA8QY_rt_JXy+O-3nOJUvbeAz7QMfXU3uDm78JigNvogiA@mail.gmail.com>
- <20201126120624.GE1122957@redhat.com>
- <CAFEAcA-uE7-NjWQLHz2QWznjOhRExuTKWH-J9vz6=kQ4fvwdKA@mail.gmail.com>
- <CAJ+F1CLKyi6aDuf6w7kQRuyPa_xEXnRBM_gX8dCRzfvmrVjbDA@mail.gmail.com>
- <20201210134247.GH24855@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1knMSP-0005T9-A3; Thu, 10 Dec 2020 08:58:09 -0500
+Resent-Date: Thu, 10 Dec 2020 08:58:09 -0500
+Resent-Message-Id: <E1knMSP-0005T9-A3@lists.gnu.org>
+Received: from sender4-of-o56.zoho.com ([136.143.188.56]:21611)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1knMSM-0005pm-TC; Thu, 10 Dec 2020 08:58:09 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1607608667; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=J7yP/bEcqUv7RGlQn2+HOgTRvXtN83USY+vfvkEnpC3H3bveRAvH2vBshR99WVsDPGSkx4siWC2XRiIJBBPevmrfZHEreKZmVgUi5jqGTFSUslwc+va7/dfG2zMY6Q+/Hj0DKDWTxAZvoWK2zD1raWa60/ZeWnBeCTbw6pZ6Ojs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1607608667;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=FqEloFzX8R1oXIXHz5gZRze20BKsfvsbNvg1Fkrpw5E=; 
+ b=nnlYfeVVM2I51k1BWBbq+ctE0KKAmNCJRNn2KkvSoV6WAm37gKQr219+RBgDo7ECHccOXcj0k4IOTd2nQkbDfIxtJnpX1OT7dfaK2B+hJYGDD500SY1lXfgPtfljDEQMp4QTDq+7xgAs4r0lcgLKGKl7CGt/iuTEsZfSncVnjrU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1607608665218928.6832951833587;
+ Thu, 10 Dec 2020 05:57:45 -0800 (PST)
+In-Reply-To: <20201210134752.780923-1-marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v3 00/13] Remove GCC < 4.8 checks
+Message-ID: <160760866227.10419.11672890973023491886@600e7e483b3a>
 MIME-Version: 1.0
-In-Reply-To: <20201210134247.GH24855@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: marcandre.lureau@redhat.com
+Date: Thu, 10 Dec 2020 05:57:45 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.56; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o56.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,85 +65,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, sstabellini@kernel.org, paul@xen.org,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, laurent@vivier.eu,
+ marcandre.lureau@redhat.com, qemu-arm@nongnu.org, kraxel@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, anthony.perard@citrix.com,
+ xen-devel@lists.xenproject.org, philmd@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 10, 2020 at 01:42:51PM +0000, Daniel P. Berrangé wrote:
-> On Thu, Dec 10, 2020 at 05:17:05PM +0400, Marc-André Lureau wrote:
-> > Hi
-> > 
-> > On Thu, Nov 26, 2020 at 4:23 PM Peter Maydell <peter.maydell@linaro.org>
-> > wrote:
-> > 
-> > > On Thu, 26 Nov 2020 at 12:06, Daniel P. Berrangé <berrange@redhat.com>
-> > > wrote:
-> > > >
-> > > > On Thu, Nov 26, 2020 at 11:49:28AM +0000, Peter Maydell wrote:
-> > > > > On Thu, 26 Nov 2020 at 11:29, <marcandre.lureau@redhat.com> wrote:
-> > > > > >
-> > > > > > From: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > > > > >
-> > > > > > Since commit efc6c070aca ("configure: Add a test for the
-> > > > > > minimum compiler version") the minimum compiler version
-> > > > > > required for GCC is 4.8, which has the GCC BZ#36793 bug fixed.
-> > > > > >
-> > > > > > We can safely remove the special case introduced in commit
-> > > > > > a281ebc11a6 ("virtio: add missing mb() on notification").
-> > > > > >
-> > > > > > With clang 3.8 (xenial amd64) __ATOMIC_RELAXED is defined, so the
-> > > chunk
-> > > > > > to remove (which is x86-specific), isn't reached.
-> > > > >
-> > > > > The minimum clang version enforced by configure is 3.4, not 3.8.
-> > > > > (Or Apple XCode clang 5.1 -- they use a different versioning scheme!)
-> > > >
-> > > > We picked clang 3.4 based on fact that is what ships in EPEL7, and
-> > > > Debian Jessie 3.5.  We then picked the XCode version to match.
-> > > >
-> > > > Based on our platform support matrix we no longer support Debian
-> > > > Jessie, and IMHO we also don't really need to consider 3rd party
-> > > > add-on repos shipping non-default toolschains. So IMHO we could
-> > > > entirely ignore clang in EPEL7 when picking min versions.
-> > > >
-> > > > IOW, we are likely justified in picking a new clang version if
-> > > > someone wants to research what is a suitable min version across
-> > > > our intended supported distros.
-> > >
-> > > Sure, but if we do that then the series should start with the
-> > > "bump the minimum clang version" patch with accompanying
-> > > justification.
-> > >
-> > 
-> > 
-> > With clang-3.4.2-9.el7.x86_64 (epel7), __ATOMIC_RELAXED is defined. I'll
-> > update the commit message.
-> > 
-> > Some research on google suggests that it might be true also with XCode
-> > clang 5.1, I could use some help to verify that:
-> > clang -dM -E - < /dev/null | grep __ATOMIC_RELAXED
-> 
-> The oldest xcode that travis has support for is 7.3. I'd really just
-> suggest bumping min clang to something more modern, than trying to
-> find xcode 5.1
-
-Actually, since you've validated main clang 3.4 code, you can assume
-this applies equally to xcode 5.1, as that is using the clang 3.4 codebase.
-
-Basically we can assume features match across the regular and xcode
-clangs, with the mapped versions. IOW changing either is sufficient,
-no need to check both IMHO.
-
-  https://en.wikipedia.org/wiki/Xcode#Xcode_5.0_-_6.x_(since_arm64_support)_2
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxMDEzNDc1Mi43ODA5
+MjMtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
+bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
+b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTIxMDEz
+NDc1Mi43ODA5MjMtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENI
+IHYzIDAwLzEzXSBSZW1vdmUgR0NDIDwgNC44IGNoZWNrcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
+ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
+CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
+IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
+b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
+U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
+ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICAg
+NWU3YjIwNC4uMTgwODM0ZCAgbWFzdGVyICAgICAtPiBtYXN0ZXIKIC0gW3RhZyB1cGRhdGVdICAg
+ICAgcGF0Y2hldy8yMDIwMTIwODA1NTA0My4zMTU0OC0xLWxlcnNla0ByZWRoYXQuY29tIC0+IHBh
+dGNoZXcvMjAyMDEyMDgwNTUwNDMuMzE1NDgtMS1sZXJzZWtAcmVkaGF0LmNvbQogLSBbdGFnIHVw
+ZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAxMjA5MTAwODExLjE5MDMxNi0xLWFuZHJleS5ncnV6ZGV2
+QHZpcnR1b3p6by5jb20gLT4gcGF0Y2hldy8yMDIwMTIwOTEwMDgxMS4xOTAzMTYtMS1hbmRyZXku
+Z3J1emRldkB2aXJ0dW96em8uY29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDEy
+MTAxMjU5MjkuMTEzNjM5MC0xLW1sZXZpdHNrQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIwMTIx
+MDEyNTkyOS4xMTM2MzkwLTEtbWxldml0c2tAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAg
+ICBwYXRjaGV3LzIwMjAxMjEwMTM0NzUyLjc4MDkyMy0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0
+LmNvbSAtPiBwYXRjaGV3LzIwMjAxMjEwMTM0NzUyLjc4MDkyMy0xLW1hcmNhbmRyZS5sdXJlYXVA
+cmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjc3OGEyZTMgY29tcGls
+ZXIuaDogcmVtb3ZlIFFFTVVfR05VQ19QUkVSRVEKMGEzZjQxMCBsaW51eC11c2VyOiByZW1vdmUg
+R05VQyBjaGVjawo5Njc4YzFlIGNvbXBpbGVyOiByZW1vdmUgR05VQyBjaGVjawphMDEzOGY4IHhl
+bjogcmVtb3ZlIEdOVUMgY2hlY2sKNDBmMzE3MCBwb2lzb246IHJlbW92ZSBHTlVDIGNoZWNrCmI4
+MGY1Y2IgYXVkaW86IHJlbW92ZSBHTlVDICYgTVNWQyBjaGVjawpiNjM1ZjVmIGNvbXBpbGVyLmg6
+IGV4cGxpY2l0IGNhc2UgZm9yIENsYW5nIHByaW50ZiBhdHRyaWJ1dGUKZDUyZjNjNCB2aXJ0aW9m
+c2Q6IHJlcGxhY2UgX1N0YXRpY19hc3NlcnQgd2l0aCBRRU1VX0JVSUxEX0JVR19PTgo5YmJlMmEw
+IHRlc3RzOiByZW1vdmUgR0NDIDwgNCBmYWxsYmFja3MKN2MzMzBjYiBxZW11LXBsdWdpbi5oOiBy
+ZW1vdmUgR0NDIDwgNAo0MzRkZTVkIGNvbXBpbGVyLmg6IHJlbW92ZSBHQ0MgPCAzIF9fYnVpbHRp
+bl9leHBlY3QgZmFsbGJhY2sKMDY5OWU3OCBhY2NlbC90Y2c6IFJlbW92ZSBzcGVjaWFsIGNhc2Ug
+Zm9yIEdDQyA8IDQuNgowM2UyMzE4IHFlbXUvYXRvbWljOiBEcm9wIHNwZWNpYWwgY2FzZSBmb3Ig
+dW5zdXBwb3J0ZWQgY29tcGlsZXIKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTMgQ2hlY2tpbmcg
+Y29tbWl0IDAzZTIzMTgzZmI1NSAocWVtdS9hdG9taWM6IERyb3Agc3BlY2lhbCBjYXNlIGZvciB1
+bnN1cHBvcnRlZCBjb21waWxlcikKMi8xMyBDaGVja2luZyBjb21taXQgMDY5OWU3OGEyNWZiIChh
+Y2NlbC90Y2c6IFJlbW92ZSBzcGVjaWFsIGNhc2UgZm9yIEdDQyA8IDQuNikKV0FSTklORzogYXJj
+aGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzMwOiBGSUxFOiBh
+Y2NlbC90Y2cvY3B1LWV4ZWMuYzo3Mjc6CisjaWYgZGVmaW5lZChfX2NsYW5nX18pCgp0b3RhbDog
+MCBlcnJvcnMsIDEgd2FybmluZ3MsIDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8xMyBoYXMgc3R5
+bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
+YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
+VENIIGluIE1BSU5UQUlORVJTLgozLzEzIENoZWNraW5nIGNvbW1pdCA0MzRkZTVkMjQ0MWEgKGNv
+bXBpbGVyLmg6IHJlbW92ZSBHQ0MgPCAzIF9fYnVpbHRpbl9leHBlY3QgZmFsbGJhY2spCjQvMTMg
+Q2hlY2tpbmcgY29tbWl0IDdjMzMwY2I2ZTQ0YyAocWVtdS1wbHVnaW4uaDogcmVtb3ZlIEdDQyA8
+IDQpCjUvMTMgQ2hlY2tpbmcgY29tbWl0IDliYmUyYTAwYTIyOCAodGVzdHM6IHJlbW92ZSBHQ0Mg
+PCA0IGZhbGxiYWNrcykKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBu
+YW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojMzA6IEZJTEU6IHRlc3RzL3RjZy9hcm0vZmN2
+dC5jOjc2OgorIyBkZWZpbmUgU05BTkYgKF9fYnVpbHRpbl9uYW5zZiAoIiIpKQoKRVJST1I6IHNw
+YWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lz
+ICcoJwojMzE6IEZJTEU6IHRlc3RzL3RjZy9hcm0vZmN2dC5jOjc3OgorIyBkZWZpbmUgU05BTiAo
+X19idWlsdGluX25hbnMgKCIiKSkKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVu
+Y3Rpb24gbmFtZSBhbmQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzMyOiBGSUxFOiB0ZXN0cy90Y2cv
+YXJtL2ZjdnQuYzo3ODoKKyMgZGVmaW5lIFNOQU5MIChfX2J1aWx0aW5fbmFuc2wgKCIiKSkKCnRv
+dGFsOiAzIGVycm9ycywgMCB3YXJuaW5ncywgMTQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8xMyBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNi8xMyBDaGVja2luZyBjb21taXQgZDUyZjNjNDll
+N2Y4ICh2aXJ0aW9mc2Q6IHJlcGxhY2UgX1N0YXRpY19hc3NlcnQgd2l0aCBRRU1VX0JVSUxEX0JV
+R19PTikKNy8xMyBDaGVja2luZyBjb21taXQgYjYzNWY1ZjBmMWMwIChjb21waWxlci5oOiBleHBs
+aWNpdCBjYXNlIGZvciBDbGFuZyBwcmludGYgYXR0cmlidXRlKQpXQVJOSU5HOiBhcmNoaXRlY3R1
+cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojMzg6IEZJTEU6IGluY2x1ZGUv
+cWVtdS9jb21waWxlci5oOjEwMjoKKyNpZiBkZWZpbmVkKF9fY2xhbmdfXykKCnRvdGFsOiAwIGVy
+cm9ycywgMSB3YXJuaW5ncywgMzAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNy8xMyBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgo4LzEzIENoZWNraW5nIGNvbW1pdCBiODBmNWNiMTUzYWUgKGF1ZGlv
+OiByZW1vdmUgR05VQyAmIE1TVkMgY2hlY2spCjkvMTMgQ2hlY2tpbmcgY29tbWl0IDQwZjMxNzA2
+YzU1NCAocG9pc29uOiByZW1vdmUgR05VQyBjaGVjaykKMTAvMTMgQ2hlY2tpbmcgY29tbWl0IGEw
+MTM4ZjhiOGNhMSAoeGVuOiByZW1vdmUgR05VQyBjaGVjaykKMTEvMTMgQ2hlY2tpbmcgY29tbWl0
+IDk2NzhjMWUxYjBkOCAoY29tcGlsZXI6IHJlbW92ZSBHTlVDIGNoZWNrKQoxMi8xMyBDaGVja2lu
+ZyBjb21taXQgMGEzZjQxMDJiY2ZhIChsaW51eC11c2VyOiByZW1vdmUgR05VQyBjaGVjaykKMTMv
+MTMgQ2hlY2tpbmcgY29tbWl0IDc3OGEyZTMxYzVjZSAoY29tcGlsZXIuaDogcmVtb3ZlIFFFTVVf
+R05VQ19QUkVSRVEpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRo
+IGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
+Zy9sb2dzLzIwMjAxMjEwMTM0NzUyLjc4MDkyMy0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNv
+bS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
+dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
+bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
