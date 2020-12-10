@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CC42D6633
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 20:18:51 +0100 (CET)
-Received: from localhost ([::1]:42266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F592D660C
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 20:12:08 +0100 (CET)
+Received: from localhost ([::1]:34274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knRSk-000443-BK
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 14:18:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46490)
+	id 1knRMF-0000CI-AG
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 14:12:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1knREw-0005Xw-Vb
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:04:39 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:46754)
+ id 1knREu-0005X2-Is
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:04:32 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1knREv-0003Sk-3Q
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:04:34 -0500
-Received: by mail-wr1-x443.google.com with SMTP id l9so6583078wrt.13
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 11:04:32 -0800 (PST)
+ id 1knREr-0003RM-HS
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 14:04:32 -0500
+Received: by mail-wm1-x335.google.com with SMTP id a6so5588008wmc.2
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 11:04:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TICSptmRquseAr/MW7mzIdwFqUHsR5vAFCTCP5aYKdg=;
- b=u0tK1SXpPkExod3LEfkRjh40XawRT4w5Wizr9J7L0918kXxHg6N2fc2L5K2hR+lpvy
- RrTwRXM5Wpgv6yhrNhgiC+L3/jwh+X5pwCJ+2EESoatRUyEjOHLGCn1+phDw+cu8zNWj
- bwpbyXIUrM/Y71y1kPEAGUVWMO4+5lXtEZjeZybMCPvoLrcOURiFcm/gSjsLXeQ03zYY
- cNxsIdf9VTd3PAFfcQ0NL28ih3NE6KZgzbbwDkr2qSK3xh/v0q/89Y8vgGcLnDRpKZGk
- b4BNjrQJHj7wHNSspp9ofqT+pp69r8NWASck1Kr6pkqyDkIR1tLgfAIUS5vx1BKplUyM
- wGHw==
+ bh=n9WUJiJmld4s3sHaKN9tOH+lZYonDBgJUTA33cJhtVE=;
+ b=FcnOWv9XJJO/IKf9yje/bGJPghtScCuGsyvX2XSl+hXuI7RXHQPS0+t5J9osdm70GX
+ TYo1u7h4qc4VlCevEbvgPZknR3VGbDVMcNGtdn8pIPx8ag1yT2Z7zjhZx2ZfFsLS2EX+
+ Ww36pWJJfZdeNNAN1IoGE9xumccaCsNTRAPCIXOsGFTwnXB5dgoz0HNEwQHxc1NISIh6
+ L6tlS59mGzRISJegr8S2uVRa1rEaRditiYLL377iuNrKHnbGzvghKElZUFSh0Y8Xpmfl
+ PGOJMjOq0uqY+PPLr37qKvJNxHn1DU8++iLHXnPExU/xO6y4P4/XXilYzJoeB7VBmS3n
+ IMVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TICSptmRquseAr/MW7mzIdwFqUHsR5vAFCTCP5aYKdg=;
- b=jmyJplc466TkuJVjAbc/0P7FBdmJU1omKoUMfcyV2jhCEZ6oWk/7Zd51OzIPzOC2ts
- U811hUvSqzmWIMuSV8EqARU7XxGAq8Vyk9ckVcSxzlCzI9tctkmgT3Vt85PiRSnnXMBQ
- 5rL1Hqzx7RrJw/xxINakJQHVAi+B1miGh9FAD4g53lS4hiuukmYlAnqOiU2M8me/ViJY
- iLl/dnobTa3VceWFysavqV8lJTk6DZqWUOPWfa/Lixj+9ksVntHWHpqGAaXcoZPYlBBK
- QpVeyfDGjHlGvpsvULmMYd7gPa7ph/CyAoYOHdHnU3iuQDoxRvjXIg0Vb8K3sFg7RTf0
- Q6Cw==
-X-Gm-Message-State: AOAM532uxWLCZAtW5/hgRES0ukvbOuIzp3UYRZmnjaYsIa2rQ9Cl8CxT
- tQpogtZGQ5il7xIZivQpWmToeg==
-X-Google-Smtp-Source: ABdhPJzSB3G3ypc6y1xKISgGO4UZpSL6311n6250VPKViewt/ulsIIIc4w4LgIXGjZ5ErGUgOY2qcw==
-X-Received: by 2002:adf:f88d:: with SMTP id u13mr10237974wrp.161.1607627071676; 
- Thu, 10 Dec 2020 11:04:31 -0800 (PST)
+ bh=n9WUJiJmld4s3sHaKN9tOH+lZYonDBgJUTA33cJhtVE=;
+ b=fGnbwkZQuWfqi8XcW/n5D1GYEDPSiKRpQVXbBMLZuuEoHAfzSHQaw1kCgvSS7AqjPa
+ j1gblK6s5Vwpe67zUaHqEr1VSogz7kJhp51BcGQZBAzs7g5wvpHnu32gAQ4EKkGH+tOp
+ z5lUDi06Bqdbo0wl9DxAfX5aNNfV0QVjiJkyCtrn+QRnhAsuVpZJzXIqUATDX/ynMEU4
+ 7s7HvINFV+ew73TS4tlsoB6UvpgQ81OwXLf0hh5xQmqONKh1l/fEcxyJk3azvjaskwH0
+ rO5ZSMo/H8jWK/Q/ymoq0vELYANdxV77R9upnEtLRq5ikOrwuScdOCS45HaMBTebEJd/
+ ZCCA==
+X-Gm-Message-State: AOAM530cBFq/UHYTTgyNRUSyN2NUfnjDQrcEpTgrlCBqomduZNEXr3R4
+ jVXxdAnSouVovBFiKqTsTg134g==
+X-Google-Smtp-Source: ABdhPJzvevohSKJ2xViIYAeqXL5VIvGTkAwwf6XfXZTrkO3TC4ag8NeIHM8vWvTUSTHdrZpGwONChA==
+X-Received: by 2002:a05:600c:410d:: with SMTP id
+ j13mr9770573wmi.95.1607627068141; 
+ Thu, 10 Dec 2020 11:04:28 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k18sm12488440wrd.45.2020.12.10.11.04.18
+ by smtp.gmail.com with ESMTPSA id h98sm11987061wrh.69.2020.12.10.11.04.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 10 Dec 2020 11:04:19 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2367F1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 3BE411FF8F;
  Thu, 10 Dec 2020 19:04:18 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/8] gitlab: include aarch64-softmmu and ppc64-softmmu
- cross-system-build
-Date: Thu, 10 Dec 2020 19:04:11 +0000
-Message-Id: <20201210190417.31673-3-alex.bennee@linaro.org>
+Subject: [PATCH  v2 3/8] configure: move gettext detection to meson.build
+Date: Thu, 10 Dec 2020 19:04:12 +0000
+Message-Id: <20201210190417.31673-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210190417.31673-1-alex.bennee@linaro.org>
 References: <20201210190417.31673-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,44 +87,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- stefanb@linux.vnet.ibm.com,
+Cc: fam@euphon.net, berrange@redhat.com, stefanb@linux.vnet.ibm.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, cota@braap.org,
+ richard.henderson@linaro.org, f4bug@amsat.org, cota@braap.org,
  stefanha@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Otherwise we miss coverage of KVM support in the cross build. To
-balance it out add arm-softmmu (no kvm, subset of aarch64),
-cris-softmmu and ppc-softmmu to the exclude list which do get coverage
-elsewhere.
+This will allow meson to honour -Dauto_features=disabled later.
 
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/crossbuilds.yml | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ configure         | 19 +++----------------
+ meson_options.txt |  2 +-
+ po/meson.build    |  2 +-
+ 3 files changed, 5 insertions(+), 18 deletions(-)
 
-diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-index bd6473a75a..fcc1b95290 100644
---- a/.gitlab-ci.d/crossbuilds.yml
-+++ b/.gitlab-ci.d/crossbuilds.yml
-@@ -7,9 +7,9 @@
-     - cd build
-     - PKG_CONFIG_PATH=$PKG_CONFIG_PATH
-       ../configure --enable-werror $QEMU_CONFIGURE_OPTS --disable-user
--        --target-list-exclude="aarch64-softmmu i386-softmmu microblaze-softmmu
--          mips-softmmu mipsel-softmmu mips64-softmmu ppc64-softmmu sh4-softmmu
--          xtensa-softmmu"
-+        --target-list-exclude="arm-softmmu cris-softmmu i386-softmmu
-+          microblaze-softmmu mips-softmmu mipsel-softmmu mips64-softmmu
-+          ppc-softmmu sh4-softmmu xtensa-softmmu"
-     - make -j$(expr $(nproc) + 1) all check-build
+diff --git a/configure b/configure
+index 8f2095a2db..46fdea88c7 100755
+--- a/configure
++++ b/configure
+@@ -448,7 +448,7 @@ libdaxctl=""
+ meson=""
+ ninja=""
+ skip_meson=no
+-gettext=""
++gettext="auto"
  
- # Job to cross-build specific accelerators.
+ bogus_os="no"
+ malloc_trim="auto"
+@@ -1014,9 +1014,9 @@ for opt do
+   ;;
+   --enable-vnc) vnc="enabled"
+   ;;
+-  --disable-gettext) gettext="false"
++  --disable-gettext) gettext="disabled"
+   ;;
+-  --enable-gettext) gettext="true"
++  --enable-gettext) gettext="enabled"
+   ;;
+   --oss-lib=*) oss_lib="$optarg"
+   ;;
+@@ -2839,19 +2839,6 @@ if test "$xen_pci_passthrough" != "disabled"; then
+   fi
+ fi
+ 
+-##########################################
+-# gettext probe
+-if test "$gettext" != "false" ; then
+-  if has xgettext; then
+-    gettext=true
+-  else
+-    if test "$gettext" = "true" ; then
+-      feature_not_found "gettext" "Install xgettext binary"
+-    fi
+-    gettext=false
+-  fi
+-fi
+-
+ ##########################################
+ # X11 probe
+ if $pkg_config --exists "x11"; then
+diff --git a/meson_options.txt b/meson_options.txt
+index f6f64785fe..191e848600 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -9,7 +9,7 @@ option('sphinx_build', type : 'string', value : '',
+ 
+ option('docs', type : 'feature', value : 'auto',
+        description: 'Documentations build support')
+-option('gettext', type : 'boolean', value : true,
++option('gettext', type : 'feature', value : 'auto',
+        description: 'Localization of the GTK+ user interface')
+ option('install_blobs', type : 'boolean', value : true,
+        description: 'install provided firmware blobs')
+diff --git a/po/meson.build b/po/meson.build
+index 1387fd979a..a863f0575f 100644
+--- a/po/meson.build
++++ b/po/meson.build
+@@ -1,6 +1,6 @@
+ i18n = import('i18n')
+ 
+-if get_option('gettext')
++if find_program('xgettext', required: get_option('gettext')).found()
+   i18n.gettext(meson.project_name(),
+                args: '--msgid-bugs-address=qemu-devel@nongnu.org',
+                preset: 'glib')
 -- 
 2.20.1
 
