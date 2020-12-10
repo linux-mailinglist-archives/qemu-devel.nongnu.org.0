@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4B42D56FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:26:01 +0100 (CET)
-Received: from localhost ([::1]:60040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A5F2D5720
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 10:29:15 +0100 (CET)
+Received: from localhost ([::1]:41096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knID2-0007Gr-Q1
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:26:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43714)
+	id 1knIGA-0002hM-MQ
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 04:29:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHzS-000495-2k
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34694)
+ id 1knHzQ-00045e-Pk
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:56 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1knHzM-00048W-0o
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:57 -0500
+ id 1knHzK-00048O-No
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 04:11:56 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1knHzA-0006b2-GF
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:40 +0000
+ id 1knHz9-0006EC-GC
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6D1CC2E8141
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7888F2E8138
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 09:11:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Dec 2020 08:56:47 -0000
-From: Thomas Huth <1878263@bugs.launchpad.net>
+Date: Thu, 10 Dec 2020 08:57:08 -0000
+From: Thomas Huth <1878642@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158930890733.12498.3041231636988541980.malonedeb@wampee.canonical.com>
-Message-Id: <160759060795.15679.12673221838753720706.malone@chaenomeles.canonical.com>
-Subject: [Bug 1878263] Re: Assertion-failure in scsi_dma_complete, with megasas
+References: <158947186100.17636.13410831714995033672.malonedeb@soybean.canonical.com>
+Message-Id: <160759062810.31186.777382959211772789.malone@soybean.canonical.com>
+Subject: [Bug 1878642] Re: Assertion failure in pci_bus_get_irq_level
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4853cb86c14c5a9e513816c8a61121c639b30835"; Instance="production"
-X-Launchpad-Hash: 56a89d8039ef04dd0d024e782d76d513eb1fb896
+X-Launchpad-Hash: 838f202f36559d6c811e361842d97d3f77c94ea6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,116 +70,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878263 <1878263@bugs.launchpad.net>
+Reply-To: Bug 1878642 <1878642@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed in commit 4773a5f35b0d83674f92816a226a594b03bbcf60
+Released with QEMU v5.2.0.
 
 ** Changed in: qemu
-       Status: New =3D> Fix Released
+       Status: Confirmed =3D> Fix Released
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878263
+https://bugs.launchpad.net/bugs/1878642
 
 Title:
-  Assertion-failure in scsi_dma_complete, with megasas
+  Assertion failure in pci_bus_get_irq_level
 
 Status in QEMU:
   Fix Released
 
 Bug description:
   Hello,
-  While fuzzing, I found an input that triggers an assertion-failure in scs=
-i_dma_complete, with megasas:
+  I found an input which triggers an assertion failure in pci_bus_get_irq_l=
+evel:
 
-  qemu-system-i386: /home/alxndr/Development/qemu/hw/scsi/scsi-
-  disk.c:292: void scsi_dma_complete(void *, int): Assertion
-  `r->req.aiocb !=3D NULL' failed.
+  qemu-system-i386: /home/alxndr/Development/qemu/hw/pci/pci.c:268: int pci=
+_bus_get_irq_level(PCIBus *, int): Assertion `irq_num < bus->nirq' failed.
+  Aborted
+  #0  0x00007ffff686d761 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
+s/unix/sysv/linux/raise.c:50
+  #1  0x00007ffff685755b in __GI_abort () at abort.c:79
+  #2  0x00007ffff685742f in __assert_fail_base (fmt=3D0x7ffff69bdb48 "%s%s%=
+s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3D0x555557f9bca0 <str> "ir=
+q_num < bus->nirq", file=3D0x555557f9bbe0 <str> "/home/alxndr/Development/q=
+emu/hw/pci/pci.c", line=3D0x10c, function=3D<optimized out>) at assert.c:92
+  #3  0x00007ffff6866092 in __GI___assert_fail (assertion=3D0x555557f9bca0 =
+<str> "irq_num < bus->nirq", file=3D0x555557f9bbe0 <str> "/home/alxndr/Deve=
+lopment/qemu/hw/pci/pci.c", line=3D0x10c, function=3D0x555557f9bc40 <__PRET=
+TY_FUNCTION__.pci_bus_get_irq_level> "int pci_bus_get_irq_level(PCIBus *, i=
+nt)") at assert.c:101
+  #4  0x0000555557060c34 in pci_bus_get_irq_level (bus=3D0x61d000096080, ir=
+q_num=3D0xef) at /home/alxndr/Development/qemu/hw/pci/pci.c:268
+  #5  0x0000555556657391 in ich9_lpc_update_apic (lpc=3D0x62a000006200, gsi=
+=3D0xff) at /home/alxndr/Development/qemu/hw/isa/lpc_ich9.c:249
+  #6  0x0000555556658ea7 in ich9_set_sci (opaque=3D0x62a000006200, irq_num=
+=3D0x0, level=3D0x1) at /home/alxndr/Development/qemu/hw/isa/lpc_ich9.c:354
+  #7  0x0000555556ccefc6 in qemu_set_irq (irq=3D0x60600002af80, level=3D0x1=
+) at /home/alxndr/Development/qemu/hw/core/irq.c:44
+  #8  0x0000555556bc06fd in acpi_update_sci (regs=3D0x62a000006c80, irq=3D0=
+x60600002af80) at /home/alxndr/Development/qemu/hw/acpi/core.c:723
+  #9  0x0000555556bccb08 in ich9_pm_update_sci_fn (regs=3D0x62a000006c80) a=
+t /home/alxndr/Development/qemu/hw/acpi/ich9.c:56
+  #10 0x0000555556bc10ee in acpi_pm_evt_write (opaque=3D0x62a000006c80, add=
+r=3D0x2, val=3D0x2049, width=3D0x2) at /home/alxndr/Development/qemu/hw/acp=
+i/core.c:456
+  #11 0x00005555564938b5 in memory_region_write_accessor (mr=3D0x62a000006d=
+b0, addr=3D0x2, value=3D0x7fffffff9c70, size=3D0x2, shift=3D0x0, mask=3D0xf=
+fff, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:483
+  #12 0x000055555649328a in access_with_adjusted_size (addr=3D0x2, value=3D=
+0x7fffffff9c70, size=3D0x2, access_size_min=3D0x1, access_size_max=3D0x4, a=
+ccess_fn=3D0x555556493360 <memory_region_write_accessor>, mr=3D0x62a000006d=
+b0, attrs=3D...) at /home/alxndr/Development/qemu/memory.c:544
+  #13 0x0000555556491df6 in memory_region_dispatch_write (mr=3D0x62a000006d=
+b0, addr=3D0x2, data=3D0x2049, op=3DMO_16, attrs=3D...) at /home/alxndr/Dev=
+elopment/qemu/memory.c:1476
+  #14 0x00005555562cbbf4 in flatview_write_continue (fv=3D0x606000033fe0, a=
+ddr=3D0x5d02, attrs=3D..., ptr=3D0x7fffffffa4e0, len=3D0x4, addr1=3D0x2, l=
+=3D0x2, mr=3D0x62a000006db0) at /home/alxndr/Development/qemu/exec.c:3137
+  #15 0x00005555562bbad9 in flatview_write (fv=3D0x606000033fe0, addr=3D0x5=
+d02, attrs=3D..., buf=3D0x7fffffffa4e0, len=3D0x4) at /home/alxndr/Developm=
+ent/qemu/exec.c:3177
+  #16 0x00005555562bb609 in address_space_write (as=3D0x55555968f940 <addre=
+ss_space_io>, addr=3D0x5d02, attrs=3D..., buf=3D0x7fffffffa4e0, len=3D0x4) =
+at /home/alxndr/Development/qemu/exec.c:3268
+  #17 0x0000555556478c0a in cpu_outl (addr=3D0x5d02, val=3D0xedf82049) at /=
+home/alxndr/Development/qemu/ioport.c:80
+  #18 0x000055555648166f in qtest_process_command (chr=3D0x555559691d00 <qt=
+est_chr>, words=3D0x60300009ef20) at /home/alxndr/Development/qemu/qtest.c:=
+396
+  #19 0x000055555647f187 in qtest_process_inbuf (chr=3D0x555559691d00 <qtes=
+t_chr>, inbuf=3D0x61900000f680) at /home/alxndr/Development/qemu/qtest.c:710
+  #20 0x000055555647e8b4 in qtest_read (opaque=3D0x555559691d00 <qtest_chr>=
+, buf=3D0x7fffffffca40 "outl 0xcf8 0x8400f841\noutl 0xcfc 0xebed205d\noutl =
+0x5d02 0xedf82049\n-M pc-q35-5.0 -device intel-hda,id=3Dhda0 -device hda-ou=
+tput,bus=3Dhda0.0 -device hda-micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dh=
+da0.0 -display none -nodefaults -nographic\n", size=3D0xe9) at /home/alxndr=
+/Development/qemu/qtest.c:722
+  #21 0x00005555579c260c in qemu_chr_be_write_impl (s=3D0x60f000001f30, buf=
+=3D0x7fffffffca40 "outl 0xcf8 0x8400f841\noutl 0xcfc 0xebed205d\noutl 0x5d0=
+2 0xedf82049\n-M pc-q35-5.0 -device intel-hda,id=3Dhda0 -device hda-output,=
+bus=3Dhda0.0 -device hda-micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0=
+ -display none -nodefaults -nographic\n", len=3D0xe9) at /home/alxndr/Devel=
+opment/qemu/chardev/char.c:183
+  #22 0x00005555579c275b in qemu_chr_be_write (s=3D0x60f000001f30, buf=3D0x=
+7fffffffca40 "outl 0xcf8 0x8400f841\noutl 0xcfc 0xebed205d\noutl 0x5d02 0xe=
+df82049\n-M pc-q35-5.0 -device intel-hda,id=3Dhda0 -device hda-output,bus=
+=3Dhda0.0 -device hda-micro,bus=3Dhda0.0 -device hda-duplex,bus=3Dhda0.0 -d=
+isplay none -nodefaults -nographic\n", len=3D0xe9) at /home/alxndr/Developm=
+ent/qemu/chardev/char.c:195
+  #23 0x00005555579cb97a in fd_chr_read (chan=3D0x6080000026a0, cond=3DG_IO=
+_IN, opaque=3D0x60f000001f30) at /home/alxndr/Development/qemu/chardev/char=
+-fd.c:68
+  #24 0x0000555557a530ea in qio_channel_fd_source_dispatch (source=3D0x60c0=
+0002ef00, callback=3D0x5555579cb540 <fd_chr_read>, user_data=3D0x60f000001f=
+30) at /home/alxndr/Development/qemu/io/channel-watch.c:84
+  #25 0x00007ffff7ca8898 in g_main_context_dispatch () at /usr/lib/x86_64-l=
+inux-gnu/libglib-2.0.so.0
+  #26 0x0000555557c10b85 in glib_pollfds_poll () at /home/alxndr/Developmen=
+t/qemu/util/main-loop.c:219
+  #27 0x0000555557c0f57e in os_host_main_loop_wait (timeout=3D0x0) at /home=
+/alxndr/Development/qemu/util/main-loop.c:242
+  #28 0x0000555557c0f177 in main_loop_wait (nonblocking=3D0x0) at /home/alx=
+ndr/Development/qemu/util/main-loop.c:518
+  #29 0x000055555689fd1e in qemu_main_loop () at /home/alxndr/Development/q=
+emu/softmmu/vl.c:1664
+  #30 0x0000555557a6a29d in main (argc=3D0x17, argv=3D0x7fffffffe148, envp=
+=3D0x7fffffffe208) at /home/alxndr/Development/qemu/softmmu/main.c:49
 
-  #3  0x00007ffff6866092 in __GI___assert_fail (assertion=3D0x555556efa460 =
-<str> "r->req.aiocb !=3D NULL", file=3D0x555556ef9b20 <str> "/home/alxndr/D=
-evelopment/qemu/hw/scsi/scsi-disk.c", line=3D0x124, function=3D0x555556efa5=
-60 <__PRETTY_FUNCTION__.scsi_dma_complete> "void scsi_dma_complete(void *, =
-int)") at assert.c:101
-  #4  0x000055555669d473 in scsi_dma_complete (opaque=3D0x616000040280, ret=
-=3D<optimized out>) at /home/alxndr/Development/qemu/hw/scsi/scsi-disk.c:292
-  #5  0x000055555639c89b in dma_complete (dbs=3D<optimized out>, ret=3D<opt=
-imized out>) at /home/alxndr/Development/qemu/dma-helpers.c:118
-  #6  0x000055555639c89b in dma_blk_cb (opaque=3D<optimized out>, ret=3D<op=
-timized out>) at /home/alxndr/Development/qemu/dma-helpers.c:136
-  #7  0x000055555639bd58 in dma_blk_io (ctx=3D<optimized out>, sg=3D<optimi=
-zed out>, offset=3D<optimized out>, align=3D<optimized out>, io_func=3D<opt=
-imized
-  out>, io_func_opaque=3D<optimized out>, cb=3D<optimized out>, opaque=3D<o=
-ptimized out>, dir=3D<optimized out>) at /home/alxndr/Development/qemu/dma-=
-helpers.c:232
-  #8  0x000055555669baa5 in scsi_write_data (req=3D0x616000040280) at /home=
-/alxndr/Development/qemu/hw/scsi/scsi-disk.c:583
-  #9  0x00005555566b5d93 in scsi_req_continue (req=3D0x616000040280) at /ho=
-me/alxndr/Development/qemu/hw/scsi/scsi-bus.c:1337
-  #10 0x00005555566f52e3 in megasas_enqueue_req (cmd=3D<optimized out>, is_=
-write=3D<optimized out>) at /home/alxndr/Development/qemu/hw/scsi/megasas.c=
-:1651
-  #11 0x00005555566e276f in megasas_handle_io (s=3D<optimized out>, cmd=3D<=
-optimized out>, frame_cmd=3D<optimized out>) at /home/alxndr/Development/qe=
-mu/hw/scsi/megasas.c:1790
-  #12 0x00005555566e276f in megasas_handle_frame (s=3D<optimized out>, fram=
-e_addr=3D<optimized out>, frame_count=3D<optimized out>) at /home/alxndr/De=
-velopment/qemu/hw/scsi/megasas.c:1969
-  #13 0x00005555566e276f in megasas_mmio_write (opaque=3D<optimized out>, a=
-ddr=3D<optimized out>, val=3D<optimized out>, size=3D<optimized out>) at /h=
-ome/alxndr/Development/qemu/hw/scsi/megasas.c:2122
-  #14 0x00005555560028d7 in memory_region_write_accessor (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
->, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...) at /home/a=
-lxndr/Development/qemu/memory.c:483
-  #15 0x0000555556002280 in access_with_adjusted_size (addr=3D<optimized ou=
-t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
-imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
-, mr=3D0x7fffeeb301e0, attrs=3D...) at /home/alxndr/Development/qemu/memory=
-.c:544
-  #16 0x0000555556002280 in memory_region_dispatch_write (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, data=3D0x17, op=3D<optimized out>, attrs=3D...=
-) at /home/alxndr/Development/qemu/memory.c:1476
-  #17 0x0000555555f171d4 in flatview_write_continue (fv=3D<optimized out>, =
-addr=3D0xc1c0, attrs=3D..., ptr=3D<optimized out>, len=3D0x1, addr1=3D0x7ff=
-fffffae00, l=3D<optimized out>, mr=3D0x7fffeeb301e0) at /home/alxndr/Develo=
-pment/qemu/exec.c:3137
-  #18 0x0000555555f0fb98 in flatview_write (fv=3D0x606000038180, addr=3D<op=
-timized out>, attrs=3D..., buf=3D<optimized out>, len=3D<optimized out>) at=
- /home/alxndr/Development/qemu/exec.c:3177
+  I can reproduce this in qemu 5.0 using these qtest commands:
 
-  I can reproduce it in qemu 5.0 using:
-
-  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -qtes=
-t stdio -nographic -monitor none -serial none -M q35 -device megasas -devic=
-e scsi-cd,drive=3Dnull0 -blockdev driver=3Dnull-co,read-zeroes=3Don,node-na=
-me=3Dnull0
-  outl 0xcf8 0x80001818
-  outl 0xcfc 0xc101
-  outl 0xcf8 0x8000181c
-  outl 0xcf8 0x80001804
-  outw 0xcfc 0x7
-  outl 0xcf8 0x8000186a
-  write 0x14 0x1 0xfe
-  write 0x0 0x1 0x02
-  outb 0xc1c0 0x17
+  cat << EOF | ./qemu-system-i386 \
+  -qtest stdio -nographic -monitor none -serial none \
+  -M pc-q35-5.0
+  outl 0xcf8 0x8400f841
+  outl 0xcfc 0xebed205d
+  outl 0x5d02 0xedf82049
   EOF
-
-  I also attached the commands to this launchpad report, in case the
-  formatting is broken:
-
-  qemu-system-i386 -qtest stdio -nographic -monitor none -serial none -M
-  q35 -device megasas -device scsi-cd,drive=3Dnull0 -blockdev driver=3Dnull-
-  co,read-zeroes=3Don,node-name=3Dnull0 < attachment
 
   Please let me know if I can provide any further info.
   -Alex
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878263/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1878642/+subscriptions
 
