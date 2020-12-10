@@ -2,84 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05FFC2D5B69
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:15:14 +0100 (CET)
-Received: from localhost ([::1]:41540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F872D5B80
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:21:35 +0100 (CET)
+Received: from localhost ([::1]:52196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knLmq-0003Mi-9w
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:15:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41650)
+	id 1knLsz-0007tb-Qm
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:21:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1knLiJ-0001Gk-MC; Thu, 10 Dec 2020 08:10:31 -0500
-Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:44793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1knLiH-00072V-35; Thu, 10 Dec 2020 08:10:31 -0500
-Received: by mail-qt1-x844.google.com with SMTP id u21so3514103qtw.11;
- Thu, 10 Dec 2020 05:10:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dA/9zJe+DFMFkYQFun04Zc4CmguftmVuLpcBEqBsOv4=;
- b=TAmdowlM98iUWSK8LY2JdVN+c5OrO1lV8TJlP5mJ+MMF8d85rupIB+k+yTktYzuDvr
- SCUv3beelbJQgOd6X7HFvFlZORHLq5r0dHzJlpj4VX2hHJ45pChkcnewk/F3bTcAID6O
- mSbXUSZHbRX1fxDoD3CEuMoK5pTwclt0YMHDDiOjKokKTh3jYI0IxWHXChzC1S/haZwo
- 4jO1/AQS3WOXvgd24iuhpZ8ZnD7mxmtGITddPoQWT0QTHpGWbLtzCsImFS779R8Ztt5r
- 6+dEVSDYQuzmwK0FlGO4qhuQjDVjb3cKcsga1lPIFgFCis0Bo8As+WBbVYj5L3uSpItb
- 4r3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dA/9zJe+DFMFkYQFun04Zc4CmguftmVuLpcBEqBsOv4=;
- b=OL1BBNfub6XKHNVoDYfu+aLwhLQbpVkH3HnAVX2pzitLoXJD6u+fz09LejpdGlmRuX
- i/QpZflyr2vw49Y03r1bIcD40GrupP5OutoP6l6qEruEug9qAzC/PpqCAWpPPKJmTNOb
- WYdhVnfeS2kQHeEroW64KmQZTixankbC9cXClMLM52UB7EuhTYNXTIsgnNkAaJM0mQac
- m7gyO3N4dlXebDLRxurpZzRdGoFKi3V/RTPlq871RugJnWDiPRebiqfsJksPTapuR57p
- mUF/zqt0Fgxrf0tgh3ma8enzv3ldvARg65Iu3UVSndjVnSYZlc3CJSBoZ9+JDyYWSJnw
- 6yfg==
-X-Gm-Message-State: AOAM530XNWq5w1F5zeWhhzKMY2Dqrk8ysooXguypQI9bUqtlUt9fgOcy
- WG9XcASgZHeq8mS4QdlxMZHk19zDZMg=
-X-Google-Smtp-Source: ABdhPJwmr5Eur7TUjzzJfBSsMFWtB4mAwHawA0QBr7Saozwo2dFsT3MNS+3Lnuc/SzmOEZPSB6bVrw==
-X-Received: by 2002:ac8:1082:: with SMTP id a2mr9077546qtj.189.1607605826800; 
- Thu, 10 Dec 2020 05:10:26 -0800 (PST)
-Received: from ?IPv6:2804:431:c7c7:c1a:69c1:2b22:e880:fc49?
- ([2804:431:c7c7:c1a:69c1:2b22:e880:fc49])
- by smtp.gmail.com with ESMTPSA id a13sm3081701qtj.69.2020.12.10.05.10.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Dec 2020 05:10:26 -0800 (PST)
-Subject: Re: [PATCH 1/1] spapr.c: set a 'kvm-type' default value instead of
- relying on NULL
-To: Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20201208134536.1012045-1-danielhb413@gmail.com>
- <20201208153309.78825861@bahia.lan>
- <d142b41a-69c2-77de-861e-e68c3c0459b4@gmail.com>
- <20201210033736.GK2555@yekko.fritz.box>
- <ffee7463-13e9-0bd2-a3c3-c6239a861be8@redhat.com>
- <20201210134705.6adaf940@bahia.lan>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <c1bae366-135d-f240-ff03-2abc8967c908@gmail.com>
-Date: Thu, 10 Dec 2020 10:10:21 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knLpj-0006FX-91
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:18:11 -0500
+Received: from mx2.suse.de ([195.135.220.15]:53436)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1knLpg-0000p2-H5
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:18:11 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id F291BAB91;
+ Thu, 10 Dec 2020 13:18:05 +0000 (UTC)
+Subject: Re: [PATCH v10 25/32] cpu: move do_unaligned_access to tcg_ops
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>
+References: <20201210121226.19822-1-cfontana@suse.de>
+ <20201210121226.19822-26-cfontana@suse.de>
+ <a69f4101-5b0f-7ca5-d39a-7ad8b68a92bf@redhat.com>
+ <a7ce2d59-2177-e873-8a2c-40e3682923c8@suse.de>
+Message-ID: <30aee4f1-f827-b4bf-f1b2-ba020928a278@suse.de>
+Date: Thu, 10 Dec 2020 14:18:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201210134705.6adaf940@bahia.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <a7ce2d59-2177-e873-8a2c-40e3682923c8@suse.de>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::844;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x844.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,91 +63,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12/10/20 9:47 AM, Greg Kurz wrote:
-> On Thu, 10 Dec 2020 13:34:59 +0100
-> Paolo Bonzini <pbonzini@redhat.com> wrote:
+On 12/10/20 2:14 PM, Claudio Fontana wrote:
+> On 12/10/20 2:01 PM, Philippe Mathieu-Daudé wrote:
+>> On 12/10/20 1:12 PM, Claudio Fontana wrote:
+>>> make it consistently SOFTMMU-only.
+>>>
+>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>>> ---
+>>>  include/hw/core/cpu.h           | 17 +++--------------
+>>>  include/hw/core/tcg-cpu-ops.h   |  7 +++++++
+>>>  target/alpha/cpu.c              |  2 +-
+>>>  target/arm/cpu.c                |  2 +-
+>>>  target/hppa/cpu.c               |  4 +++-
+>>>  target/microblaze/cpu.c         |  2 +-
+>>>  target/mips/cpu.c               |  3 ++-
+>>>  target/nios2/cpu.c              |  2 +-
+>>>  target/riscv/cpu.c              |  2 +-
+>>>  target/s390x/cpu.c              |  2 +-
+>>>  target/sh4/cpu.c                |  2 +-
+>>>  target/sparc/cpu.c              |  2 +-
+>>>  target/xtensa/cpu.c             |  2 +-
+>>>  target/ppc/translate_init.c.inc |  2 +-
+>>>  14 files changed, 25 insertions(+), 26 deletions(-)
+>> ...
+>>
+>>> -#ifdef CONFIG_SOFTMMU
+>>> +#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+>>>  static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
+>>>                                          MMUAccessType access_type,
+>>>                                          int mmu_idx, uintptr_t retaddr)
+>>>  {
+>>>      CPUClass *cc = CPU_GET_CLASS(cpu);
+>>>  
+>>> -    cc->do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
+>>> +    cc->tcg_ops.do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
+>>>  }
+>>> -#ifdef CONFIG_TCG
+>>>  static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
+>>>                                            vaddr addr, unsigned size,
+>>>                                            MMUAccessType access_type,
+>>> @@ -858,10 +850,7 @@ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
+>>>                                            mmu_idx, attrs, response, retaddr);
+>>>      }
+>>>  }
+>>> -#endif /* CONFIG_TCG */
+>>> -#endif /* CONFIG_SOFTMMU */
+>>> -
+>>> -#endif /* NEED_CPU_H */
+>>> +#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
+>>>  
+>>>  /**
+>>>   * cpu_set_pc:
+>>> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.h
+>>> index 3cc2733410..bac0165db6 100644
+>>> --- a/include/hw/core/tcg-cpu-ops.h
+>>> +++ b/include/hw/core/tcg-cpu-ops.h
+>>> @@ -50,6 +50,13 @@ typedef struct TcgCpuOperations {
+>>>                                    unsigned size, MMUAccessType access_type,
+>>>                                    int mmu_idx, MemTxAttrs attrs,
+>>>                                    MemTxResult response, uintptr_t retaddr);
+>>> +    /**
+>>> +     * @do_unaligned_access: Callback for unaligned access handling, if
+>>> +     * the target defines #TARGET_ALIGNED_ONLY.
+>>> +     */
+>>> +    void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+>>> +                                MMUAccessType access_type,
+>>> +                                int mmu_idx, uintptr_t retaddr);
+>>
+>> Similarly to previous patch, don't we want to restrict this
+>> to system-mode?
 > 
->> To sum up everything:
+> In theory yes, (and what about exec_interrupt..?)
+
+exec_interrupt: probably not.
+
+> but we need to triple check the targets, because they tend to set these unconditionally.
+> 
+> Same concern about CONFIG_USER_ONLY vs NEED_CPU_H / CONFIG_SOFTMMU, would use CONFIG_USER_ONLY for consistency with the other targets?
+> 
+> 
+> 
+>>
+>>>  
+>>>      /**
+>>>       * @tlb_fill: Handle a softmmu tlb miss or user-only address fault
 >>
 > 
-> LGTM
 
-I just sent a v2 with a bit more done (e.g. added ignore case compare
-for 'auto'). Feel free to use that version or this one amended by this
-diff from Paolo.
-
-
-Thanks,
-
-
-DHB
-
-> 
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index 2d5aeeb45a..61f0963916 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -3028,11 +3028,11 @@ static int spapr_kvm_type(MachineState *machine,
->> const char *vm_type)
->>            return 0;
->>        }
->>
->> -    if (!strcmp(vm_type, "HV")) {
->> +    if (!g_ascii_strcasecmp(vm_type, "hv")) {
->>            return 1;
->>        }
->>
->> -    if (!strcmp(vm_type, "PR")) {
->> +    if (!g_ascii_strcasecmp(vm_type, "pr")) {
->>            return 2;
->>        }
->>
->> @@ -3132,16 +3132,6 @@ static char *spapr_get_kvm_type(Object *obj,
->> Error **errp)
->>    {
->>        SpaprMachineState *spapr = SPAPR_MACHINE(obj);
->>
->> -    /*
->> -     * In case the user didn't set 'kvm-type', return DEFAULT_KVM_TYPE
->> -     * instead of NULL. This allows us to be more predictable with what
->> -     * is expected to happen in spapr_kvm_type(), since we can stop relying
->> -     * on receiving a 'NULL' parameter as a valid input there.
->> -     */
->> -    if (!spapr->kvm_type) {
->> -        return g_strdup(DEFAULT_KVM_TYPE);
->> -    }
->> -
->>        return g_strdup(spapr->kvm_type);
->>    }
->>
->> @@ -3294,11 +3284,13 @@ static void spapr_instance_init(Object *obj)
->>
->>        spapr->htab_fd = -1;
->>        spapr->use_hotplug_event_source = true;
->> +
->> +    spapr->kvm_type = g_strdup(DEFAULT_KVM_TYPE);
->>        object_property_add_str(obj, "kvm-type",
->>                                spapr_get_kvm_type, spapr_set_kvm_type);
->>        object_property_set_description(obj, "kvm-type",
->> -                                    "Specifies the KVM virtualization
->> mode (HV, PR)."
->> -                                    " If not specified, defaults to any
->> available KVM"
->> +                                    "Specifies the KVM virtualization
->> mode (hv, pr, auto)."
->> +                                    " auto is the default and allows
->> any available KVM"
->>                                        " module loaded in the host. In
->> case both kvm_hv"
->>                                        " and kvm_pr are loaded, kvm_hv
->> takes precedence.");
->>
-> 
 
