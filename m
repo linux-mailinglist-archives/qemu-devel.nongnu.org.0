@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E972D5B68
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:14:55 +0100 (CET)
-Received: from localhost ([::1]:41264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BF62D5B87
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 14:23:42 +0100 (CET)
+Received: from localhost ([::1]:58616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knLmY-0003G4-7X
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:14:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37542)
+	id 1knLv3-0002Ay-FQ
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 08:23:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knLQf-0002Pe-FD
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:52:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39440)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knLRC-00036T-V7
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:52:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1knLQb-0001cH-U3
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:52:16 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knLRA-0001p5-8K
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 07:52:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607604728;
+ s=mimecast20190719; t=1607604766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LD4AGNpIw1YXczLSKVws4EcAyhWjSWHAbR6F2wj+Y9o=;
- b=AN8jS6xsyEcIg0XNGFPUdr7QB6hymYvvoaCvk34oAIqFQUPVKR2tKlEi4RZj9qF77GeIhD
- 7YazI5POLzvxr90JjDpG+XAZ9/CS4FcqKHvr5yD4yKYp/9roJSX2Xymhvj7K3Hc9H8X3hY
- a4wMtlC0Kgh/QFhspU+WmjlXpEx/fX4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-PEutrPp3OiiEiEHU3FaiRA-1; Thu, 10 Dec 2020 07:52:06 -0500
-X-MC-Unique: PEutrPp3OiiEiEHU3FaiRA-1
-Received: by mail-wr1-f72.google.com with SMTP id u29so1911961wru.6
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 04:52:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LD4AGNpIw1YXczLSKVws4EcAyhWjSWHAbR6F2wj+Y9o=;
- b=ojeJsbkhbpt8SXo7ejh60QUxY/fdjDBQAFj7WtxrdQXWmiJRtMBqzaUodf0xjg5wMJ
- xQD7LIzACyJ4QPad7k49Rge1Wkv73lUJJZnncHnctuLmGwMIvlAP4dim7n6Mnys8t2dD
- Hxo7/fGRD7+oFnTNbhRxsaNJ4pdROTB1qm+HTdHXnTfJ77dfvYkCX6yuCouc91mTX0hr
- z+/LWCuwGY/1KM0k46+fHc8z5vf6pkTxzQ9xri6MdImbLQ6MTFlE/x3AQsmv0ZX0fWDe
- mVrbd8m6FlFzBvZeA6QI0wa9KIxYVXuTx2nIzbSm5X38z6JkXIyZ8iDrHzZ6eUviB4Xv
- nQng==
-X-Gm-Message-State: AOAM533euGfjyH6soTgUHxs6KdsyCppupDlExralHk5D6UXVPJ+fvSP/
- yFxVQRnT8R8d8LgLKfc7oPI6xqzLw6KeKyEAVWTUI2qI4SVrOUwJGLAbqDolu6SkjVETjnk2JCX
- 7ew7c/NuU2cFeYRD2Hwh8UWBHxrFTqcrjzhlMx3E6fiywxEHzEk6XmCDt8OMr6WTj
-X-Received: by 2002:a5d:67c3:: with SMTP id n3mr8068591wrw.297.1607604725523; 
- Thu, 10 Dec 2020 04:52:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJykYtZce4rsa9A7EvvAqyd3v6leMoaCpFVnL9ntxaGykoN4FgjOEfOPweR4dfFEWvMWDXZwhQ==
-X-Received: by 2002:a5d:67c3:: with SMTP id n3mr8068562wrw.297.1607604725278; 
- Thu, 10 Dec 2020 04:52:05 -0800 (PST)
-Received: from x1w.redhat.com (101.red-88-21-206.staticip.rima-tde.net.
- [88.21.206.101])
- by smtp.gmail.com with ESMTPSA id z64sm8757573wme.10.2020.12.10.04.52.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 04:52:04 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] block/nvme: Implement fake truncate() coroutine
-Date: Thu, 10 Dec 2020 13:52:02 +0100
-Message-Id: <20201210125202.858656-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ in-reply-to:in-reply-to:references:references;
+ bh=JxXZJLREWm3t9F17WA4TqEWeB4+MCEkNegI1V45TngA=;
+ b=XQNjMA0ccKkXjCEJeJN2XOVxWRHnIZGhSASM49TgDF1AL18iJVNg3Y10Tc7ulJh72qDXVe
+ pLyZWjFa3fm8PxYKfDDcoa9eoEsL+23ZKjJ/+chPXXZImCmDKn1qeQ1694jBDKaS37cB4G
+ 9F6n+RI0Kw03RNqFmzfqvFp+tEQMxbQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-N3Up37c-Oair9fA0kf-eZg-1; Thu, 10 Dec 2020 07:52:42 -0500
+X-MC-Unique: N3Up37c-Oair9fA0kf-eZg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3E4A100C660;
+ Thu, 10 Dec 2020 12:52:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EC4D6F439;
+ Thu, 10 Dec 2020 12:52:38 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EE0BA11336D6; Thu, 10 Dec 2020 13:52:36 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrey Gruzdev via <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v6 1/4] migration: introduce 'background-snapshot'
+ migration capability
+References: <20201209100811.190316-1-andrey.gruzdev@virtuozzo.com>
+ <20201209100811.190316-2-andrey.gruzdev@virtuozzo.com>
+Date: Thu, 10 Dec 2020 13:52:36 +0100
+In-Reply-To: <20201209100811.190316-2-andrey.gruzdev@virtuozzo.com> (Andrey
+ Gruzdev via's message of "Wed, 9 Dec 2020 13:08:08 +0300")
+Message-ID: <878sa5su0b.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -90,74 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Xueqiang Wei <xuwei@redhat.com>, qemu-block@nongnu.org,
- Maxim Levitsky <mlevitsk@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NVMe drive can not be shrunk.
+Andrey Gruzdev via <qemu-devel@nongnu.org> writes:
 
-Since commit c80d8b06cfa we can use the @exact parameter (set
-to false) to return success if the block device is larger than
-the requested offset (even if we can not be shrunk).
+> Add new capability to 'qapi/migration.json' schema.
+> Update migrate_caps_check() to validate enabled capability set
+> against introduced one. Perform checks for required kernel features
+> and compatibility with guest memory backends.
+>
+> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+[...]
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 3c75820527..6291143678 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -442,6 +442,11 @@
+>  # @validate-uuid: Send the UUID of the source to allow the destination
+>  #                 to ensure it is the same. (since 4.2)
+>  #
+> +# @background-snapshot: If enabled, the migration stream will be a snapshot
+> +#                       of the VM exactly at the point when the migration
+> +#                       procedure starts. The VM RAM is saved with running VM.
+> +#                       (since 6.0)
+> +#
+>  # Since: 1.2
+>  ##
+>  { 'enum': 'MigrationCapability',
+> @@ -449,7 +454,7 @@
+>             'compress', 'events', 'postcopy-ram', 'x-colo', 'release-ram',
+>             'block', 'return-path', 'pause-before-switchover', 'multifd',
+>             'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+> -           'x-ignore-shared', 'validate-uuid' ] }
+> +           'x-ignore-shared', 'validate-uuid', 'background-snapshot'] }
+>  
+>  ##
+>  # @MigrationCapabilityStatus:
 
-Use this parameter to implement the NVMe truncate() coroutine,
-similarly how it is done for the iscsi and file-posix drivers
-(see commit 82325ae5f2f "Evaluate @exact in protocol drivers").
-
-Reported-by: Xueqiang Wei <xuwei@redhat.com>
-Suggested-by: Max Reitz <mreitz@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- block/nvme.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/block/nvme.c b/block/nvme.c
-index a06a188d530..5a6fbacf4a5 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -1389,6 +1389,29 @@ out:
- 
- }
- 
-+static int coroutine_fn nvme_co_truncate(BlockDriverState *bs, int64_t offset,
-+                                         bool exact, PreallocMode prealloc,
-+                                         BdrvRequestFlags flags, Error **errp)
-+{
-+    int64_t cur_length;
-+
-+    if (prealloc != PREALLOC_MODE_OFF) {
-+        error_setg(errp, "Unsupported preallocation mode '%s'",
-+                   PreallocMode_str(prealloc));
-+        return -ENOTSUP;
-+    }
-+
-+    cur_length = nvme_getlength(bs);
-+    if (offset != cur_length && exact) {
-+        error_setg(errp, "Cannot resize NVMe devices");
-+        return -ENOTSUP;
-+    } else if (offset > cur_length) {
-+        error_setg(errp, "Cannot grow NVMe devices");
-+        return -EINVAL;
-+    }
-+
-+    return 0;
-+}
- 
- static int nvme_reopen_prepare(BDRVReopenState *reopen_state,
-                                BlockReopenQueue *queue, Error **errp)
-@@ -1523,6 +1546,7 @@ static BlockDriver bdrv_nvme = {
-     .bdrv_close               = nvme_close,
-     .bdrv_getlength           = nvme_getlength,
-     .bdrv_probe_blocksizes    = nvme_probe_blocksizes,
-+    .bdrv_co_truncate         = nvme_co_truncate,
- 
-     .bdrv_co_preadv           = nvme_co_preadv,
-     .bdrv_co_pwritev          = nvme_co_pwritev,
--- 
-2.26.2
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
