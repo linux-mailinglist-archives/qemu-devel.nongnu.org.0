@@ -2,85 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56182D50A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 03:11:14 +0100 (CET)
-Received: from localhost ([::1]:38918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 880322D50D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 03:23:16 +0100 (CET)
+Received: from localhost ([::1]:42464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knBQH-0007H0-GO
-	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 21:11:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48598)
+	id 1knBbv-0000xK-1b
+	for lists+qemu-devel@lfdr.de; Wed, 09 Dec 2020 21:23:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1knBO7-0006nD-4l
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 21:08:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33282)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1knBNy-0001rL-QV
- for qemu-devel@nongnu.org; Wed, 09 Dec 2020 21:08:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607566127;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Jf1/1X4YnO7VtDijfV9FEnR1Y3UtMrA4GiDIxWU3vDM=;
- b=JOwyBQJgqmfpgCIZgTr4y6M6YcnEx8E6aLUpLA1ZHHqi1LxNJXeXec0s9j+uVdBUbMNda4
- 1tE8pLByJU5DJWpY5JoPHzAwHF/a0P8jBf+FhvGOXN5uvbX6fwmjPhlFxBqtA1nLDT2raO
- ltg3pGbPwUomQzjubZ7QJG01ZTzpceU=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-L0fQ5rkmM6uR4W7TApCJgg-1; Wed, 09 Dec 2020 21:08:46 -0500
-X-MC-Unique: L0fQ5rkmM6uR4W7TApCJgg-1
-Received: by mail-qk1-f198.google.com with SMTP id z129so2653796qkb.13
- for <qemu-devel@nongnu.org>; Wed, 09 Dec 2020 18:08:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Jf1/1X4YnO7VtDijfV9FEnR1Y3UtMrA4GiDIxWU3vDM=;
- b=hyvXVr7gxo6N8l+SLFNK2m/+/HnKcAlxszf+eEBu/vvTiVCz1f7iEWgIUpooh9iI3v
- HeGRBLwBdkYVP6pwgjcg+H5ipr97mi/URPb7WRoWJ+xtvMRZ6wnX7xTDncCTZdROBrtF
- 6HH1u2oCRFunpgYx0gBnExWtZ/JZv0WAkD81CDanqXEsOAQdqJeWohzgxVtgiUn1vNtw
- 5Qgv7wUTPbBIJc9JRQoXEG4rw8FPNnGIm/EwW9psVMnrXFz6fV1/Vth+hqRXOMYHMl+H
- V3iK/GGRzu2B/VTzEDFVPTTXnVJyBvTFdZ01yIyIkZixEa3CsMnmys78uSHnX74Mvz8r
- nSlQ==
-X-Gm-Message-State: AOAM531ohW9VFXpVBAxG/MSb97r9xZYqKIgq+EJCLbGwy1td44QtAPhb
- +gaxQWnzulscTUWDCgEUa8GDIglwBU53zmk83l368vyNcMwUDBXUXJml+yJEJaB62JHAIbYzftf
- hDqdnFPjI+fdRIbs=
-X-Received: by 2002:ae9:ebd5:: with SMTP id b204mr6314217qkg.195.1607566125719; 
- Wed, 09 Dec 2020 18:08:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxI8aOTk8eEfkmR7fk8ueNpeKozgNDK6u79EM2P252ac8OAnWQ/P91PLbLFC5JhAhlUyjU0Mw==
-X-Received: by 2002:ae9:ebd5:: with SMTP id b204mr6314193qkg.195.1607566125494; 
- Wed, 09 Dec 2020 18:08:45 -0800 (PST)
-Received: from xz-x1 ([142.126.83.202])
- by smtp.gmail.com with ESMTPSA id s11sm2677291qkm.124.2020.12.09.18.08.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 18:08:44 -0800 (PST)
-Date: Wed, 9 Dec 2020 21:08:43 -0500
-From: Peter Xu <peterx@redhat.com>
-To: zhukeqian <zhukeqian1@huawei.com>
-Subject: Re: [PATCH] kvm: Take into account the unaligned section size when
- preparing bitmap
-Message-ID: <20201210020843.GB3211@xz-x1>
-References: <20201208114013.875-1-yuzenghui@huawei.com>
- <20201208151654.GA6432@xz-x1>
- <bb4bcc8b-1d36-9529-d7cd-4d93162d092f@huawei.com>
- <6dc82702-9246-4684-4f28-e104abc0c11d@huawei.com>
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1knBaS-0000NE-8V; Wed, 09 Dec 2020 21:21:44 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1knBaP-0003Pk-Jm; Wed, 09 Dec 2020 21:21:43 -0500
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CryM55SqJzkkWT;
+ Thu, 10 Dec 2020 10:20:49 +0800 (CST)
+Received: from [10.174.187.219] (10.174.187.219) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 10 Dec 2020 10:21:22 +0800
+Subject: Re: [RFC PATCH v2 1/3] vfio: Move the saving of the config space to
+ the right place in VFIO migration
+To: Alex Williamson <alex.williamson@redhat.com>, Cornelia Huck
+ <cohuck@redhat.com>
+References: <20201209080919.156-1-lushenming@huawei.com>
+ <20201209080919.156-2-lushenming@huawei.com>
+ <20201209132947.3177f130.cohuck@redhat.com>
+ <20201209113431.5b252e93@omen.home>
+From: Shenming Lu <lushenming@huawei.com>
+Message-ID: <3f7db9e7-3c98-5022-e907-e6214815fae9@huawei.com>
+Date: Thu, 10 Dec 2020 10:21:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-In-Reply-To: <6dc82702-9246-4684-4f28-e104abc0c11d@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20201209113431.5b252e93@omen.home>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.219]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=lushenming@huawei.com; helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,26 +63,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, pbonzini@redhat.com,
- qemu-devel@nongnu.org, wanghaibin.wang@huawei.com
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
+ mst@redhat.com, Marc Zyngier <maz@kernel.org>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Keqian,
-
-On Thu, Dec 10, 2020 at 09:46:06AM +0800, zhukeqian wrote:
-> Hi,
+On 2020/12/10 2:34, Alex Williamson wrote:
+> On Wed, 9 Dec 2020 13:29:47 +0100
+> Cornelia Huck <cohuck@redhat.com> wrote:
 > 
-> I see that if start or size is not PAGE aligned, it also clears areas
-> which beyond caller's expectation, so do we also need to consider this?
+>> On Wed, 9 Dec 2020 16:09:17 +0800
+>> Shenming Lu <lushenming@huawei.com> wrote:
+>>
+>>> On ARM64 the VFIO SET_IRQS ioctl is dependent on the VM interrupt
+>>> setup, if the restoring of the VFIO PCI device config space is
+>>> before the VGIC, an error might occur in the kernel.
+>>>
+>>> So we move the saving of the config space to the non-iterable
+>>> process, so that it will be called after the VGIC according to
+>>> their priorities.
+>>>
+>>> As for the possible dependence of the device specific migration
+>>> data on it's config space, we can let the vendor driver to
+>>> include any config info it needs in its own data stream.
+>>> (Should we note this in the header file linux-headers/linux/vfio.h?)  
+>>
+>> Given that the header is our primary source about how this interface
+>> should act, we need to properly document expectations about what will
+>> be saved/restored when there (well, in the source file in the kernel.)
+>> That goes in both directions: what a userspace must implement, and what
+>> a vendor driver can rely on.
 
-Could you elaborate?
+Yeah, in order to make the vendor driver and QEMU cooperate better, we might
+need to document some expectations about the data section in the migration
+region...
 
-If start_delta != 0, kvm_log_clear_one_slot() should already go the slow path.
+>>
+>> [Related, but not a todo for you: I think we're still missing proper
+>> documentation of the whole migration feature.]
+> 
+> Yes, we never saw anything past v1 of the documentation patch.  Thanks,
+> 
 
-Thanks,
+By the way, is there anything unproper with this patch? Wish your suggestion. :-)
 
--- 
-Peter Xu
-
+> Alex
+> 
+> 
+>>> Signed-off-by: Shenming Lu <lushenming@huawei.com>
+>>> ---
+>>>  hw/vfio/migration.c | 25 +++++++++++++++----------
+>>>  1 file changed, 15 insertions(+), 10 deletions(-)  
+> 
+> .
+> 
 
