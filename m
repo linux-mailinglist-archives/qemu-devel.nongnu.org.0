@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A492D62AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 17:57:44 +0100 (CET)
-Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D62E2D6267
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 17:48:35 +0100 (CET)
+Received: from localhost ([::1]:57354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knPGB-0000cW-K8
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 11:57:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38666)
+	id 1knP7K-0002B2-6Z
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 11:48:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knOrm-0008SO-31
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:32:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49091)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knOrj-0008Nt-Np
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:32:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knOra-0003TV-3F
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:32:29 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1knOrZ-0003Th-7f
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 11:32:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607617933;
+ s=mimecast20190719; t=1607617934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q9mYqMdY2wit4YRtgFZ9a0FsNrNzKz02wZhr+/VziCU=;
- b=PzVz6zXRaEcb12Hnoq+OCxbhDFjDH7b4FKuIG2YeOFu1leJlWdg2F+a+fwgj4S4Ifs0BlO
- oWe/OpSIJl4jh18OS0SQB7HghlzcGQpTYwYPg773i5nYk9TB/10RGl7TWFzzFDIH7Bwqci
- 1F+/SeJrRiH+p9gQ79+jesXZ3ZrjBZ8=
+ bh=ui5ZoOjNR7TGnKFeRY7gBJ6jmyr1OpeMdHskRzGsr0Q=;
+ b=hXhpd0baRSNKPMcFOHIZ7F9eY43VMJ4IwePQV+DQOQox4gjw2WoCYZHaLQ8bgT8Vs/5GM0
+ wzF80MP/fH0EsSD69Btwlp2FgI2v/u9JqKUWr1hDnddjZVtvhosXasI0miat5I70vI7cBX
+ /8zggX1M5rVfBF/ZH/imHMJToQynz6o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-97_oz3hwNxC0rDbm7a1w2A-1; Thu, 10 Dec 2020 11:32:10 -0500
-X-MC-Unique: 97_oz3hwNxC0rDbm7a1w2A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-230-VSya15mbN3KKUniuWX8A-A-1; Thu, 10 Dec 2020 11:32:10 -0500
+X-MC-Unique: VSya15mbN3KKUniuWX8A-A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BE2B100A8F4;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B051F107ACE3;
  Thu, 10 Dec 2020 16:31:39 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
  [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DE3075D6D3;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF6766E71D;
  Thu, 10 Dec 2020 16:31:35 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C9E9E10FA0A7; Thu, 10 Dec 2020 17:31:32 +0100 (CET)
+ id CD2A210FA0A8; Thu, 10 Dec 2020 17:31:32 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/13] ui: Improve some set_passwd,
- expire_password error messages
-Date: Thu, 10 Dec 2020 17:31:24 +0100
-Message-Id: <20201210163132.2919935-6-armbru@redhat.com>
+Subject: [PULL 06/13] ui: Improve a client_migrate_info error message
+Date: Thu, 10 Dec 2020 17:31:25 +0100
+Message-Id: <20201210163132.2919935-7-armbru@redhat.com>
 In-Reply-To: <20201210163132.2919935-1-armbru@redhat.com>
 References: <20201210163132.2919935-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,113 +83,47 @@ Cc: peter.maydell@linaro.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-set_passwd and expire_password reject invalid "protocol" with "Invalid
-parameter 'protocol'".  Misleading; the parameter is valid, its value
-isn't.  Improve to "Parameter 'protocol' expects 'vnc' or 'spice'".
+client_migrate_info reports spice_server_migrate_connect() failure as
+"An undefined error has occurred".  Improve to "Could not set up
+display for migration".
 
-expire_password fails with "Could not set password".  Misleading;
-improve to "Could not set password expire time".
-
-QERR_SET_PASSWD_FAILED is now unused.  Drop.
+QERR_UNDEFINED_ERROR is now unused.  Drop.
 
 Cc: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20201113082626.2725812-5-armbru@redhat.com>
+Message-Id: <20201113082626.2725812-6-armbru@redhat.com>
 ---
- include/qapi/qmp/qerror.h |  3 ---
- monitor/qmp-cmds.c        | 38 +++++++++++++++-----------------------
- 2 files changed, 15 insertions(+), 26 deletions(-)
+ include/qapi/qmp/qerror.h | 3 ---
+ monitor/misc.c            | 2 +-
+ 2 files changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/include/qapi/qmp/qerror.h b/include/qapi/qmp/qerror.h
-index 5d7e69cc1f..d8267129bc 100644
+index d8267129bc..596fce0c54 100644
 --- a/include/qapi/qmp/qerror.h
 +++ b/include/qapi/qmp/qerror.h
 @@ -65,9 +65,6 @@
  #define QERR_REPLAY_NOT_SUPPORTED \
      "Record/replay feature is not supported for '%s'"
  
--#define QERR_SET_PASSWD_FAILED \
--    "Could not set password"
+-#define QERR_UNDEFINED_ERROR \
+-    "An undefined error has occurred"
 -
- #define QERR_UNDEFINED_ERROR \
-     "An undefined error has occurred"
+ #define QERR_UNSUPPORTED \
+     "this feature or command is not currently supported"
  
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index a08143b323..ffbf948d55 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -199,13 +199,7 @@ void qmp_set_password(const char *protocol, const char *password,
-         }
-         rc = qemu_spice.set_passwd(password, fail_if_connected,
-                                    disconnect_if_connected);
--        if (rc != 0) {
--            error_setg(errp, QERR_SET_PASSWD_FAILED);
--        }
--        return;
--    }
--
--    if (strcmp(protocol, "vnc") == 0) {
-+    } else if (strcmp(protocol, "vnc") == 0) {
-         if (fail_if_connected || disconnect_if_connected) {
-             /* vnc supports "connected=keep" only */
-             error_setg(errp, QERR_INVALID_PARAMETER, "connected");
-@@ -214,13 +208,15 @@ void qmp_set_password(const char *protocol, const char *password,
-         /* Note that setting an empty password will not disable login through
-          * this interface. */
-         rc = vnc_display_password(NULL, password);
--        if (rc < 0) {
--            error_setg(errp, QERR_SET_PASSWD_FAILED);
--        }
-+    } else {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
-+                   "'vnc' or 'spice'");
-         return;
-     }
- 
--    error_setg(errp, QERR_INVALID_PARAMETER, "protocol");
-+    if (rc != 0) {
-+        error_setg(errp, "Could not set password");
-+    }
- }
- 
- void qmp_expire_password(const char *protocol, const char *whenstr,
-@@ -244,28 +240,24 @@ void qmp_expire_password(const char *protocol, const char *whenstr,
+diff --git a/monitor/misc.c b/monitor/misc.c
+index c563e901c0..bb102df823 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -441,7 +441,7 @@ void qmp_client_migrate_info(const char *protocol, const char *hostname,
+                                     has_port ? port : -1,
+                                     has_tls_port ? tls_port : -1,
+                                     cert_subject)) {
+-            error_setg(errp, QERR_UNDEFINED_ERROR);
++            error_setg(errp, "Could not set up display for migration");
              return;
          }
-         rc = qemu_spice.set_pw_expire(when);
--        if (rc != 0) {
--            error_setg(errp, QERR_SET_PASSWD_FAILED);
--        }
--        return;
--    }
--
--    if (strcmp(protocol, "vnc") == 0) {
-+    } else if (strcmp(protocol, "vnc") == 0) {
-         rc = vnc_display_pw_expire(NULL, when);
--        if (rc != 0) {
--            error_setg(errp, QERR_SET_PASSWD_FAILED);
--        }
-+    } else {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
-+                   "'vnc' or 'spice'");
          return;
-     }
- 
--    error_setg(errp, QERR_INVALID_PARAMETER, "protocol");
-+    if (rc != 0) {
-+        error_setg(errp, "Could not set password expire time");
-+    }
- }
- 
- #ifdef CONFIG_VNC
- void qmp_change_vnc_password(const char *password, Error **errp)
- {
-     if (vnc_display_password(NULL, password) < 0) {
--        error_setg(errp, QERR_SET_PASSWD_FAILED);
-+        error_setg(errp, "Could not set password");
-     }
- }
- 
 -- 
 2.26.2
 
