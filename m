@@ -2,71 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B272D53BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 07:23:51 +0100 (CET)
-Received: from localhost ([::1]:40058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B2D2D54EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 08:54:49 +0100 (CET)
+Received: from localhost ([::1]:55272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knFMQ-0000bg-M5
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 01:23:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40278)
+	id 1knGmm-00055u-DR
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 02:54:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1knFKx-0008PF-06; Thu, 10 Dec 2020 01:21:59 -0500
-Received: from home.keithp.com ([63.227.221.253]:48422 helo=elaine.keithp.com)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1knGl8-0004VA-Lf; Thu, 10 Dec 2020 02:53:06 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1knFKr-0005zT-95; Thu, 10 Dec 2020 01:21:58 -0500
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id 7E6673F2E34F;
- Wed,  9 Dec 2020 22:21:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1607581309; bh=WiZcTrRc8mRZ2nFBgQVmDVQ67kro6pXUo7LIKeVniBI=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=bPOHgD+1pWkrER7VuUQkFhcx57PGa9uBAFSiPSLd6E6HAjw4VgtU6kkWa7olW0rG3
- Ql0hmms5FtqPDx9UuSqXe1rj41TO/X2ib0JbjmAa7BQdxH0taBckrRp8D/g9kqXzda
- Br3BqbqaERkcjHLgwpLgAT5l7QuClMLVBkl50HEU839peRF+Spfq3GeNJ6xc3etXSO
- DY//iJOayO+az9f71iMLofjeHsd0yWktGfRATTcJE2HRnak6VgRmSNYEAe+9n9YBan
- FahhLjbrxPIkZWZLeRGj0OyDMbhXY1Ofy/ng3hPY9TYe/yXNG4t7tGh18XwxIQhYEC
- dykmxC46hjEfg==
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id PIPf-FKm5K6w; Wed,  9 Dec 2020 22:21:49 -0800 (PST)
-Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id 1F7AE3F2D58D;
- Wed,  9 Dec 2020 22:21:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1607581309; bh=WiZcTrRc8mRZ2nFBgQVmDVQ67kro6pXUo7LIKeVniBI=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=bPOHgD+1pWkrER7VuUQkFhcx57PGa9uBAFSiPSLd6E6HAjw4VgtU6kkWa7olW0rG3
- Ql0hmms5FtqPDx9UuSqXe1rj41TO/X2ib0JbjmAa7BQdxH0taBckrRp8D/g9kqXzda
- Br3BqbqaERkcjHLgwpLgAT5l7QuClMLVBkl50HEU839peRF+Spfq3GeNJ6xc3etXSO
- DY//iJOayO+az9f71iMLofjeHsd0yWktGfRATTcJE2HRnak6VgRmSNYEAe+9n9YBan
- FahhLjbrxPIkZWZLeRGj0OyDMbhXY1Ofy/ng3hPY9TYe/yXNG4t7tGh18XwxIQhYEC
- dykmxC46hjEfg==
-Received: by keithp.com (Postfix, from userid 1000)
- id D92BD15820DB; Wed,  9 Dec 2020 22:21:48 -0800 (PST)
-To: Kito Cheng <kito.cheng@gmail.com>
-Subject: Re: [PATCH 5/8] riscv: Add semihosting support [v13]
-In-Reply-To: <CA+yXCZA7XhLXDN7ZDk8D90eyXOLCzsrzwUyego1Sn=D9x3BGMQ@mail.gmail.com>
-References: <20201125213617.2496935-1-keithp@keithp.com>
- <20201125213617.2496935-6-keithp@keithp.com>
- <CA+yXCZC038LfuswrAo6W3gHXfGkwPscMEKDQJvutV7xcoC+wPw@mail.gmail.com>
- <87r1nz6iz4.fsf@keithp.com>
- <CA+yXCZA7XhLXDN7ZDk8D90eyXOLCzsrzwUyego1Sn=D9x3BGMQ@mail.gmail.com>
-Date: Wed, 09 Dec 2020 22:21:47 -0800
-Message-ID: <871rfy6v0k.fsf@keithp.com>
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1knGl6-0002dH-2s; Thu, 10 Dec 2020 02:53:06 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cs5jJ3k86zknpL;
+ Thu, 10 Dec 2020 15:52:04 +0800 (CST)
+Received: from DESKTOP-5IS4806.china.huawei.com (10.174.187.37) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 10 Dec 2020 15:52:39 +0800
+From: Keqian Zhu <zhukeqian1@huawei.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Igor Mammedov
+ <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Subject: [PATCH v2] bugfix: hostmem: Free host_nodes list right after visited
+Date: Thu, 10 Dec 2020 15:52:26 +0800
+Message-ID: <20201210075226.20196-1-zhukeqian1@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.37]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhukeqian1@huawei.com; helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,65 +54,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, alex.chen@huawei.com, qemu-arm@nongnu.org,
+ kuhn.chenqun@huawei.com, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Keith Packard <keithp@keithp.com>
-From: Keith Packard via <qemu-devel@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+In host_memory_backend_get_host_nodes, we build host_nodes
+list and output it to v (a StringOutputVisitor) but forget
+to free the list. This fixes the memory leak.
 
-Kito Cheng <kito.cheng@gmail.com> writes:
+The memory leak stack:
 
-> Hi Keith:
->
-> Thanks for your reply, but it seems like we need some more modification in
->  linux-user/riscv/cpu_loop.c to enable that, I guess I should post that i=
-n mail
-> rather than attachment :)
+ Direct leak of 32 byte(s) in 2 object(s) allocated from:
+    #0 0xfffda30b3393 in __interceptor_calloc (/usr/lib64/libasan.so.4+0xd3393)
+    #1 0xfffda1d28b9b in g_malloc0 (/usr/lib64/libglib-2.0.so.0+0x58b9b)
+    #2 0xaaab05ca6e43 in host_memory_backend_get_host_nodes backends/hostmem.c:94
+    #3 0xaaab061ddf83 in object_property_get_uint16List qom/object.c:1478
+    #4 0xaaab05866513 in query_memdev hw/core/machine-qmp-cmds.c:312
+    #5 0xaaab061d980b in do_object_child_foreach qom/object.c:1001
+    #6 0xaaab0586779b in qmp_query_memdev hw/core/machine-qmp-cmds.c:328
+    #7 0xaaab0615ed3f in qmp_marshal_query_memdev qapi/qapi-commands-machine.c:327
+    #8 0xaaab0632d647 in do_qmp_dispatch qapi/qmp-dispatch.c:147
+    #9 0xaaab0632d647 in qmp_dispatch qapi/qmp-dispatch.c:190
+    #10 0xaaab0610f74b in monitor_qmp_dispatch monitor/qmp.c:120
+    #11 0xaaab0611074b in monitor_qmp_bh_dispatcher monitor/qmp.c:209
+    #12 0xaaab063caefb in aio_bh_poll util/async.c:117
+    #13 0xaaab063d30fb in aio_dispatch util/aio-posix.c:459
+    #14 0xaaab063cac8f in aio_ctx_dispatch util/async.c:268
+    #15 0xfffda1d22a6b in g_main_context_dispatch (/usr/lib64/libglib-2.0.so.0+0x52a6b)
+    #16 0xaaab063d0e97 in glib_pollfds_poll util/main-loop.c:218
+    #17 0xaaab063d0e97 in os_host_main_loop_wait util/main-loop.c:241
+    #18 0xaaab063d0e97 in main_loop_wait util/main-loop.c:517
+    #19 0xaaab05c8bfa7 in main_loop /root/rpmbuild/BUILD/qemu-4.1.0/vl.c:1791
+    #20 0xaaab05713bc3 in main /root/rpmbuild/BUILD/qemu-4.1.0/vl.c:4473
+    #21 0xfffda0a83ebf in __libc_start_main (/usr/lib64/libc.so.6+0x23ebf)
+    #22 0xaaab0571ed5f  (aarch64-softmmu/qemu-system-aarch64+0x88ed5f)
+ SUMMARY: AddressSanitizer: 32 byte(s) leaked in 2 allocation(s).
 
-Ah, I completely missed the attachment! So sorry. That applies cleanly
-on top of the rest of my series, so I think we can just leave it like
-that unless someone wants it presented differently. Not sure why I
-thought this was working before; I clearly missed the most important
-bit.
+Fixes: 4cf1b76bf1e2 (hostmem: add properties for NUMA memory policy)
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Tested-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+---
+ backends/hostmem.c | 1 +
+ 1 file changed, 1 insertion(+)
+---
 
-Reviewed-by: Keith Packard <keithp@keithp.com>
+v2:
+ - Update commit message.
+ - Add Chen Qun's T.b.
+ - Add Igor's R.b.
 
-I've got a github repo with these bits in case anyone wants to look at
-the whole tree:
+diff --git a/backends/hostmem.c b/backends/hostmem.c
+index 4bde00e8e7..9f9ac95edd 100644
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -105,6 +105,7 @@ host_memory_backend_get_host_nodes(Object *obj, Visitor *v, const char *name,
+ 
+ ret:
+     visit_type_uint16List(v, name, &host_nodes, errp);
++    qapi_free_uint16List(host_nodes);
+ }
+ 
+ static void
+-- 
+2.23.0
 
-        https://github.com/keith-packard/qemu/tree/semihosting
-
-=2D-=20
-=2Dkeith
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl/RvnwACgkQ2yIaaQAA
-ABE0Dg//R+H0GxY+Y4VCpnq8akZdTtLwCs06v9ziZQ+xmVO1qXZxNpWXNwPTLUQ9
-/T3J0t3LATimH2kn+3j3Q5vqm3gwTYZQuTQPGd+62KwfDHE6ua4DcvXRT5deClfU
-66ZdgsJkObDbX+peoE0NxDlyaWh1DZE8gWPojWXjcpoyfV+j/QRm16h7Bx5rwJdv
-Fp/JaQ8H8TRdKtynnCMF5IWLRFGxnhOhZOhPC5z6PW2NcZVCKb4PASwW7wxF6xrC
-8BA26oLrS9pOJvrgGsEz19i2J3C3lamdJ243Yu5wkndyVnxvQtPc2gA2NV8PZrry
-JwwsX6oSo3/1lCXnlCiWnfxVorKbSdJx37Hz9rAsZYGgu/uLRFMrDpcx4jeBN0w2
-oQhuxfdm8H5JoP7VEuPl6EG/fAk9hR8xMTpCkiixoWMk+8OV3hzzMScS8PbBVLKg
-p5Nw5cwtwMs4BwSHPZ+A9Byd2om3tI+DZxwAik2mf/Pkw1hBm+uJb7ywKekL0QKD
-8yEXckjRVmOLuzIQZ/fpwqwv56xJuh3/me3sTgH9njH36jULTs23cvbViJ2zI79E
-P87GE4HCCSlM4KLj3tOIBZLySBbYAf4TqLSzUwTQIgPLoe7VuEMAPM2phm38QjIv
-UPOdBLAKC9ZXsnt6+QJlQwAgSsesu66ngm2IcYaG4bV0z77/H54=
-=a27Q
------END PGP SIGNATURE-----
---=-=-=--
 
