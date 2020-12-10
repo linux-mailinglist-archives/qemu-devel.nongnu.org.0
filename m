@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B7D2D6A94
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 23:46:38 +0100 (CET)
-Received: from localhost ([::1]:42180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1422D2D6A95
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 23:46:42 +0100 (CET)
+Received: from localhost ([::1]:42356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knUho-0000D0-Io
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 17:46:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45386)
+	id 1knUht-0000I4-2i
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 17:46:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1knUdi-0007hM-DU
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 17:42:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49969)
+ id 1knUe4-0007is-IG
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 17:42:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1knUdg-0001qh-1c
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 17:42:22 -0500
+ id 1knUdm-0001s1-7x
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 17:42:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607640138;
+ s=mimecast20190719; t=1607640143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JcfywAObyBZcxRzXRmg08y3zLHYNWFbpZZoBIhdCEjY=;
- b=igc/YcT8qFyMePBcO5pZsYfRekI6SBn1C/1OVQp/390UWe/zxHXZdtKaK9Jd3WkVhRlogq
- EP70KzL1HukX3jGvfGUt8vo0f4BUcP/8BD4brbMBJo1jf1yqjFilW/TFWr/hB/iveGJ6Sn
- VeKnZKCrjXmKlCNy3YzTDew0vWHa6Ro=
+ bh=1y0zPi2ru21X0rjiJ29i4CXAupbBLZoAiNlha59D3kU=;
+ b=P3rq4YmjqVs96FYXaXHVev3Z5w/VEySQpxqEO+CjLBaI6juGotLTUAW6sd7ittyEilUirV
+ rXUR5BEuP+94V6Po+im2xGLbV/Tj1gefEK6j4PoEz7B6f0Bmp6S2r1KXfr/zJ2t/9zTKef
+ GdLsVYprsCg+5ydjO14jed5mEivpLTU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-Vy5XeawxN6K9L7S-lkvlEg-1; Thu, 10 Dec 2020 17:42:16 -0500
-X-MC-Unique: Vy5XeawxN6K9L7S-lkvlEg-1
+ us-mta-173-9IWcJiNmMx-PLzybIMXoww-1; Thu, 10 Dec 2020 17:42:18 -0500
+X-MC-Unique: 9IWcJiNmMx-PLzybIMXoww-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89E3110054FF;
- Thu, 10 Dec 2020 22:42:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D52F915722;
+ Thu, 10 Dec 2020 22:42:16 +0000 (UTC)
 Received: from localhost (ovpn-116-160.rdu2.redhat.com [10.10.116.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F35585D9CC;
- Thu, 10 Dec 2020 22:42:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96F9E5D9CC;
+ Thu, 10 Dec 2020 22:42:16 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 1/3] qom: code hardening - have bound checking while looping
- with integer value
-Date: Thu, 10 Dec 2020 17:42:10 -0500
-Message-Id: <20201210224212.2052368-2-ehabkost@redhat.com>
+Subject: [PULL 2/3] sev: add sev-inject-launch-secret
+Date: Thu, 10 Dec 2020 17:42:11 -0500
+Message-Id: <20201210224212.2052368-3-ehabkost@redhat.com>
 In-Reply-To: <20201210224212.2052368-1-ehabkost@redhat.com>
 References: <20201210224212.2052368-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -59,15 +58,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,59 +79,271 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Brijesh Singh <brijesh.singh@amd.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+ Tobin Feldman-Fitzthum <tobin@ibm.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ani Sinha <ani@anisinha.ca>
+From: Tobin Feldman-Fitzthum <tobin@ibm.com>
 
-Object property insertion code iterates over an integer to get an unused
-index that can be used as an unique name for an object property. This loop
-increments the integer value indefinitely. Although very unlikely, this can
-still cause an integer overflow.
-In this change, we fix the above code by checking against INT16_MAX and making
-sure that the interger index does not overflow beyond that value. If no
-available index is found, the code would cause an assertion failure. This
-assertion failure is necessary because the callers of the function do not check
-the return value for NULL.
+AMD SEV allows a guest owner to inject a secret blob
+into the memory of a virtual machine. The secret is
+encrypted with the SEV Transport Encryption Key and
+integrity is guaranteed with the Transport Integrity
+Key. Although QEMU facilitates the injection of the
+launch secret, it cannot access the secret.
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Signed-off-by: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20200921093325.25617-1-ani@anisinha.ca>
+Reviewed-by: Brijesh Singh <brijesh.singh@amd.com>
+Message-Id: <20201027170303.47550-1-tobin@linux.ibm.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- qom/object.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ qapi/misc-target.json     | 18 +++++++++++
+ include/monitor/monitor.h |  3 ++
+ include/sysemu/sev.h      |  2 ++
+ monitor/misc.c            | 17 +++++++---
+ target/i386/monitor.c     |  7 +++++
+ target/i386/sev-stub.c    |  5 +++
+ target/i386/sev.c         | 65 +++++++++++++++++++++++++++++++++++++++
+ target/i386/trace-events  |  1 +
+ 8 files changed, 114 insertions(+), 4 deletions(-)
 
-diff --git a/qom/object.c b/qom/object.c
-index 1065355233..e73d70a993 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -1196,11 +1196,11 @@ object_property_try_add(Object *obj, const char *name, const char *type,
+diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+index cbe5135264..06ef8757f0 100644
+--- a/qapi/misc-target.json
++++ b/qapi/misc-target.json
+@@ -201,6 +201,24 @@
+ { 'command': 'query-sev-capabilities', 'returns': 'SevCapability',
+   'if': 'defined(TARGET_I386)' }
  
-     if (name_len >= 3 && !memcmp(name + name_len - 3, "[*]", 4)) {
-         int i;
--        ObjectProperty *ret;
-+        ObjectProperty *ret = NULL;
-         char *name_no_array = g_strdup(name);
++##
++# @sev-inject-launch-secret:
++#
++# This command injects a secret blob into memory of SEV guest.
++#
++# @packet-header: the launch secret packet header encoded in base64
++#
++# @secret: the launch secret data to be injected encoded in base64
++#
++# @gpa: the guest physical address where secret will be injected.
++#
++# Since: 6.0
++#
++##
++{ 'command': 'sev-inject-launch-secret',
++  'data': { 'packet-header': 'str', 'secret': 'str', 'gpa': 'uint64' },
++  'if': 'defined(TARGET_I386)' }
++
+ ##
+ # @dump-skeys:
+ #
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index 348bfad3d5..af3887bb71 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -4,6 +4,7 @@
+ #include "block/block.h"
+ #include "qapi/qapi-types-misc.h"
+ #include "qemu/readline.h"
++#include "include/exec/hwaddr.h"
  
-         name_no_array[name_len - 3] = '\0';
--        for (i = 0; ; ++i) {
-+        for (i = 0; i < INT16_MAX; ++i) {
-             char *full_name = g_strdup_printf("%s[%d]", name_no_array, i);
+ typedef struct MonitorHMP MonitorHMP;
+ typedef struct MonitorOptions MonitorOptions;
+@@ -37,6 +38,8 @@ void monitor_flush(Monitor *mon);
+ int monitor_set_cpu(Monitor *mon, int cpu_index);
+ int monitor_get_cpu_index(Monitor *mon);
  
-             ret = object_property_try_add(obj, full_name, type, get, set,
-@@ -1211,6 +1211,7 @@ object_property_try_add(Object *obj, const char *name, const char *type,
-             }
-         }
-         g_free(name_no_array);
-+        assert(ret);
-         return ret;
++void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, uint64_t size, Error **errp);
++
+ void monitor_read_command(MonitorHMP *mon, int show_prompt);
+ int monitor_read_password(MonitorHMP *mon, ReadLineFunc *readline_func,
+                           void *opaque);
+diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+index 98c1ec8d38..7ab6e3e31d 100644
+--- a/include/sysemu/sev.h
++++ b/include/sysemu/sev.h
+@@ -18,4 +18,6 @@
+ 
+ void *sev_guest_init(const char *id);
+ int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len);
++int sev_inject_launch_secret(const char *hdr, const char *secret,
++                             uint64_t gpa, Error **errp);
+ #endif
+diff --git a/monitor/misc.c b/monitor/misc.c
+index 7ffe6f7a84..fde6e36a0b 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -667,10 +667,11 @@ static void hmp_physical_memory_dump(Monitor *mon, const QDict *qdict)
+     memory_dump(mon, count, format, size, addr, 1);
+ }
+ 
+-static void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, Error **errp)
++void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, uint64_t size, Error **errp)
+ {
++    Int128 gpa_region_size;
+     MemoryRegionSection mrs = memory_region_find(get_system_memory(),
+-                                                 addr, 1);
++                                                 addr, size);
+ 
+     if (!mrs.mr) {
+         error_setg(errp, "No memory is mapped at address 0x%" HWADDR_PRIx, addr);
+@@ -683,6 +684,14 @@ static void *gpa2hva(MemoryRegion **p_mr, hwaddr addr, Error **errp)
+         return NULL;
      }
  
++    gpa_region_size = int128_make64(size);
++    if (int128_lt(mrs.size, gpa_region_size)) {
++        error_setg(errp, "Size of memory region at 0x%" HWADDR_PRIx
++                   " exceeded.", addr);
++        memory_region_unref(mrs.mr);
++        return NULL;
++    }
++
+     *p_mr = mrs.mr;
+     return qemu_map_ram_ptr(mrs.mr->ram_block, mrs.offset_within_region);
+ }
+@@ -694,7 +703,7 @@ static void hmp_gpa2hva(Monitor *mon, const QDict *qdict)
+     MemoryRegion *mr = NULL;
+     void *ptr;
+ 
+-    ptr = gpa2hva(&mr, addr, &local_err);
++    ptr = gpa2hva(&mr, addr, 1, &local_err);
+     if (local_err) {
+         error_report_err(local_err);
+         return;
+@@ -770,7 +779,7 @@ static void hmp_gpa2hpa(Monitor *mon, const QDict *qdict)
+     void *ptr;
+     uint64_t physaddr;
+ 
+-    ptr = gpa2hva(&mr, addr, &local_err);
++    ptr = gpa2hva(&mr, addr, 1, &local_err);
+     if (local_err) {
+         error_report_err(local_err);
+         return;
+diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+index 9f9e1c42f4..1bc91442b1 100644
+--- a/target/i386/monitor.c
++++ b/target/i386/monitor.c
+@@ -729,3 +729,10 @@ SevCapability *qmp_query_sev_capabilities(Error **errp)
+ {
+     return sev_get_capabilities(errp);
+ }
++
++void qmp_sev_inject_launch_secret(const char *packet_hdr,
++                                  const char *secret, uint64_t gpa,
++                                  Error **errp)
++{
++    sev_inject_launch_secret(packet_hdr, secret, gpa, errp);
++}
+diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+index 88e3f39a1e..c1fecc2101 100644
+--- a/target/i386/sev-stub.c
++++ b/target/i386/sev-stub.c
+@@ -49,3 +49,8 @@ SevCapability *sev_get_capabilities(Error **errp)
+     error_setg(errp, "SEV is not available in this QEMU");
+     return NULL;
+ }
++int sev_inject_launch_secret(const char *hdr, const char *secret,
++                             uint64_t gpa, Error **errp)
++{
++    return 1;
++}
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 93c4d60b82..1546606811 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -29,6 +29,8 @@
+ #include "trace.h"
+ #include "migration/blocker.h"
+ #include "qom/object.h"
++#include "exec/address-spaces.h"
++#include "monitor/monitor.h"
+ 
+ #define TYPE_SEV_GUEST "sev-guest"
+ OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
+@@ -785,6 +787,69 @@ sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
+     return 0;
+ }
+ 
++int sev_inject_launch_secret(const char *packet_hdr, const char *secret,
++                             uint64_t gpa, Error **errp)
++{
++    struct kvm_sev_launch_secret input;
++    g_autofree guchar *data = NULL, *hdr = NULL;
++    int error, ret = 1;
++    void *hva;
++    gsize hdr_sz = 0, data_sz = 0;
++    MemoryRegion *mr = NULL;
++
++    if (!sev_guest) {
++        error_setg(errp, "SEV: SEV not enabled.");
++        return 1;
++    }
++
++    /* secret can be injected only in this state */
++    if (!sev_check_state(sev_guest, SEV_STATE_LAUNCH_SECRET)) {
++        error_setg(errp, "SEV: Not in correct state. (LSECRET) %x",
++                     sev_guest->state);
++        return 1;
++    }
++
++    hdr = g_base64_decode(packet_hdr, &hdr_sz);
++    if (!hdr || !hdr_sz) {
++        error_setg(errp, "SEV: Failed to decode sequence header");
++        return 1;
++    }
++
++    data = g_base64_decode(secret, &data_sz);
++    if (!data || !data_sz) {
++        error_setg(errp, "SEV: Failed to decode data");
++        return 1;
++    }
++
++    hva = gpa2hva(&mr, gpa, data_sz, errp);
++    if (!hva) {
++        error_prepend(errp, "SEV: Failed to calculate guest address: ");
++        return 1;
++    }
++
++    input.hdr_uaddr = (uint64_t)(unsigned long)hdr;
++    input.hdr_len = hdr_sz;
++
++    input.trans_uaddr = (uint64_t)(unsigned long)data;
++    input.trans_len = data_sz;
++
++    input.guest_uaddr = (uint64_t)(unsigned long)hva;
++    input.guest_len = data_sz;
++
++    trace_kvm_sev_launch_secret(gpa, input.guest_uaddr,
++                                input.trans_uaddr, input.trans_len);
++
++    ret = sev_ioctl(sev_guest->sev_fd, KVM_SEV_LAUNCH_SECRET,
++                    &input, &error);
++    if (ret) {
++        error_setg(errp, "SEV: failed to inject secret ret=%d fw_error=%d '%s'",
++                     ret, error, fw_error_to_str(error));
++        return ret;
++    }
++
++    return 0;
++}
++
+ static void
+ sev_register_types(void)
+ {
+diff --git a/target/i386/trace-events b/target/i386/trace-events
+index 789c700d4a..9f299e94a2 100644
+--- a/target/i386/trace-events
++++ b/target/i386/trace-events
+@@ -15,3 +15,4 @@ kvm_sev_launch_start(int policy, void *session, void *pdh) "policy 0x%x session
+ kvm_sev_launch_update_data(void *addr, uint64_t len) "addr %p len 0x%" PRIu64
+ kvm_sev_launch_measurement(const char *value) "data %s"
+ kvm_sev_launch_finish(void) ""
++kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, int len) "hpa 0x%" PRIx64 " hva 0x%" PRIx64 " data 0x%" PRIx64 " len %d"
 -- 
 2.28.0
 
