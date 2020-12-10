@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC5112D5D38
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:11:34 +0100 (CET)
-Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 115212D5D3A
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:14:01 +0100 (CET)
+Received: from localhost ([::1]:38960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knMfN-0000cN-Mp
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:11:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54372)
+	id 1knMhj-0003H1-P6
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:13:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1knMSP-0005T9-A3; Thu, 10 Dec 2020 08:58:09 -0500
-Resent-Date: Thu, 10 Dec 2020 08:58:09 -0500
-Resent-Message-Id: <E1knMSP-0005T9-A3@lists.gnu.org>
-Received: from sender4-of-o56.zoho.com ([136.143.188.56]:21611)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1knMVj-0008Pi-Oc
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:01:35 -0500
+Received: from 4.mo52.mail-out.ovh.net ([178.33.43.201]:45314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1knMSM-0005pm-TC; Thu, 10 Dec 2020 08:58:09 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1607608667; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=J7yP/bEcqUv7RGlQn2+HOgTRvXtN83USY+vfvkEnpC3H3bveRAvH2vBshR99WVsDPGSkx4siWC2XRiIJBBPevmrfZHEreKZmVgUi5jqGTFSUslwc+va7/dfG2zMY6Q+/Hj0DKDWTxAZvoWK2zD1raWa60/ZeWnBeCTbw6pZ6Ojs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1607608667;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=FqEloFzX8R1oXIXHz5gZRze20BKsfvsbNvg1Fkrpw5E=; 
- b=nnlYfeVVM2I51k1BWBbq+ctE0KKAmNCJRNn2KkvSoV6WAm37gKQr219+RBgDo7ECHccOXcj0k4IOTd2nQkbDfIxtJnpX1OT7dfaK2B+hJYGDD500SY1lXfgPtfljDEQMp4QTDq+7xgAs4r0lcgLKGKl7CGt/iuTEsZfSncVnjrU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1607608665218928.6832951833587;
- Thu, 10 Dec 2020 05:57:45 -0800 (PST)
-In-Reply-To: <20201210134752.780923-1-marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v3 00/13] Remove GCC < 4.8 checks
-Message-ID: <160760866227.10419.11672890973023491886@600e7e483b3a>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1knMVZ-000729-QV
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:01:35 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 23EA0221B74;
+ Thu, 10 Dec 2020 15:01:22 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 10 Dec
+ 2020 15:01:21 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R0053590302a-f4f5-44a1-81ed-c09b9b4470b7,
+ 7F90A86A4359BCD1ACB0618936AE64BD6AD86209) smtp.auth=groug@kaod.org
+Date: Thu, 10 Dec 2020 15:01:20 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v2 1/1] spapr.c: set a 'kvm-type' default value instead
+ of relying on NULL
+Message-ID: <20201210150120.128ab5a2@bahia.lan>
+In-Reply-To: <20201210130721.1521487-2-danielhb413@gmail.com>
+References: <20201210130721.1521487-1-danielhb413@gmail.com>
+ <20201210130721.1521487-2-danielhb413@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: marcandre.lureau@redhat.com
-Date: Thu, 10 Dec 2020 05:57:45 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.56; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o56.zoho.com
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: e35db272-6159-40f4-9fea-b5816b071d94
+X-Ovh-Tracer-Id: 3040211223922252195
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgheelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepphgsohhniihinhhisehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=groug@kaod.org;
+ helo=4.mo52.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,92 +68,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, sstabellini@kernel.org, paul@xen.org,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, laurent@vivier.eu,
- marcandre.lureau@redhat.com, qemu-arm@nongnu.org, kraxel@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, anthony.perard@citrix.com,
- xen-devel@lists.xenproject.org, philmd@redhat.com, dgilbert@redhat.com
+Cc: pbonzini@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTIxMDEzNDc1Mi43ODA5
-MjMtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
-bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
-b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTIxMDEz
-NDc1Mi43ODA5MjMtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENI
-IHYzIDAwLzEzXSBSZW1vdmUgR0NDIDwgNC44IGNoZWNrcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
-ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICAg
-NWU3YjIwNC4uMTgwODM0ZCAgbWFzdGVyICAgICAtPiBtYXN0ZXIKIC0gW3RhZyB1cGRhdGVdICAg
-ICAgcGF0Y2hldy8yMDIwMTIwODA1NTA0My4zMTU0OC0xLWxlcnNla0ByZWRoYXQuY29tIC0+IHBh
-dGNoZXcvMjAyMDEyMDgwNTUwNDMuMzE1NDgtMS1sZXJzZWtAcmVkaGF0LmNvbQogLSBbdGFnIHVw
-ZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAxMjA5MTAwODExLjE5MDMxNi0xLWFuZHJleS5ncnV6ZGV2
-QHZpcnR1b3p6by5jb20gLT4gcGF0Y2hldy8yMDIwMTIwOTEwMDgxMS4xOTAzMTYtMS1hbmRyZXku
-Z3J1emRldkB2aXJ0dW96em8uY29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMDEy
-MTAxMjU5MjkuMTEzNjM5MC0xLW1sZXZpdHNrQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIwMTIx
-MDEyNTkyOS4xMTM2MzkwLTEtbWxldml0c2tAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAg
-ICBwYXRjaGV3LzIwMjAxMjEwMTM0NzUyLjc4MDkyMy0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0
-LmNvbSAtPiBwYXRjaGV3LzIwMjAxMjEwMTM0NzUyLjc4MDkyMy0xLW1hcmNhbmRyZS5sdXJlYXVA
-cmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjc3OGEyZTMgY29tcGls
-ZXIuaDogcmVtb3ZlIFFFTVVfR05VQ19QUkVSRVEKMGEzZjQxMCBsaW51eC11c2VyOiByZW1vdmUg
-R05VQyBjaGVjawo5Njc4YzFlIGNvbXBpbGVyOiByZW1vdmUgR05VQyBjaGVjawphMDEzOGY4IHhl
-bjogcmVtb3ZlIEdOVUMgY2hlY2sKNDBmMzE3MCBwb2lzb246IHJlbW92ZSBHTlVDIGNoZWNrCmI4
-MGY1Y2IgYXVkaW86IHJlbW92ZSBHTlVDICYgTVNWQyBjaGVjawpiNjM1ZjVmIGNvbXBpbGVyLmg6
-IGV4cGxpY2l0IGNhc2UgZm9yIENsYW5nIHByaW50ZiBhdHRyaWJ1dGUKZDUyZjNjNCB2aXJ0aW9m
-c2Q6IHJlcGxhY2UgX1N0YXRpY19hc3NlcnQgd2l0aCBRRU1VX0JVSUxEX0JVR19PTgo5YmJlMmEw
-IHRlc3RzOiByZW1vdmUgR0NDIDwgNCBmYWxsYmFja3MKN2MzMzBjYiBxZW11LXBsdWdpbi5oOiBy
-ZW1vdmUgR0NDIDwgNAo0MzRkZTVkIGNvbXBpbGVyLmg6IHJlbW92ZSBHQ0MgPCAzIF9fYnVpbHRp
-bl9leHBlY3QgZmFsbGJhY2sKMDY5OWU3OCBhY2NlbC90Y2c6IFJlbW92ZSBzcGVjaWFsIGNhc2Ug
-Zm9yIEdDQyA8IDQuNgowM2UyMzE4IHFlbXUvYXRvbWljOiBEcm9wIHNwZWNpYWwgY2FzZSBmb3Ig
-dW5zdXBwb3J0ZWQgY29tcGlsZXIKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTMgQ2hlY2tpbmcg
-Y29tbWl0IDAzZTIzMTgzZmI1NSAocWVtdS9hdG9taWM6IERyb3Agc3BlY2lhbCBjYXNlIGZvciB1
-bnN1cHBvcnRlZCBjb21waWxlcikKMi8xMyBDaGVja2luZyBjb21taXQgMDY5OWU3OGEyNWZiIChh
-Y2NlbC90Y2c6IFJlbW92ZSBzcGVjaWFsIGNhc2UgZm9yIEdDQyA8IDQuNikKV0FSTklORzogYXJj
-aGl0ZWN0dXJlIHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzMwOiBGSUxFOiBh
-Y2NlbC90Y2cvY3B1LWV4ZWMuYzo3Mjc6CisjaWYgZGVmaW5lZChfX2NsYW5nX18pCgp0b3RhbDog
-MCBlcnJvcnMsIDEgd2FybmluZ3MsIDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8xMyBoYXMgc3R5
-bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBm
-YWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BB
-VENIIGluIE1BSU5UQUlORVJTLgozLzEzIENoZWNraW5nIGNvbW1pdCA0MzRkZTVkMjQ0MWEgKGNv
-bXBpbGVyLmg6IHJlbW92ZSBHQ0MgPCAzIF9fYnVpbHRpbl9leHBlY3QgZmFsbGJhY2spCjQvMTMg
-Q2hlY2tpbmcgY29tbWl0IDdjMzMwY2I2ZTQ0YyAocWVtdS1wbHVnaW4uaDogcmVtb3ZlIEdDQyA8
-IDQpCjUvMTMgQ2hlY2tpbmcgY29tbWl0IDliYmUyYTAwYTIyOCAodGVzdHM6IHJlbW92ZSBHQ0Mg
-PCA0IGZhbGxiYWNrcykKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBu
-YW1lIGFuZCBvcGVuIHBhcmVudGhlc2lzICcoJwojMzA6IEZJTEU6IHRlc3RzL3RjZy9hcm0vZmN2
-dC5jOjc2OgorIyBkZWZpbmUgU05BTkYgKF9fYnVpbHRpbl9uYW5zZiAoIiIpKQoKRVJST1I6IHNw
-YWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhlc2lz
-ICcoJwojMzE6IEZJTEU6IHRlc3RzL3RjZy9hcm0vZmN2dC5jOjc3OgorIyBkZWZpbmUgU05BTiAo
-X19idWlsdGluX25hbnMgKCIiKSkKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVu
-Y3Rpb24gbmFtZSBhbmQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzMyOiBGSUxFOiB0ZXN0cy90Y2cv
-YXJtL2ZjdnQuYzo3ODoKKyMgZGVmaW5lIFNOQU5MIChfX2J1aWx0aW5fbmFuc2wgKCIiKSkKCnRv
-dGFsOiAzIGVycm9ycywgMCB3YXJuaW5ncywgMTQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8xMyBo
-YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
-CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
-SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNi8xMyBDaGVja2luZyBjb21taXQgZDUyZjNjNDll
-N2Y4ICh2aXJ0aW9mc2Q6IHJlcGxhY2UgX1N0YXRpY19hc3NlcnQgd2l0aCBRRU1VX0JVSUxEX0JV
-R19PTikKNy8xMyBDaGVja2luZyBjb21taXQgYjYzNWY1ZjBmMWMwIChjb21waWxlci5oOiBleHBs
-aWNpdCBjYXNlIGZvciBDbGFuZyBwcmludGYgYXR0cmlidXRlKQpXQVJOSU5HOiBhcmNoaXRlY3R1
-cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAojMzg6IEZJTEU6IGluY2x1ZGUv
-cWVtdS9jb21waWxlci5oOjEwMjoKKyNpZiBkZWZpbmVkKF9fY2xhbmdfXykKCnRvdGFsOiAwIGVy
-cm9ycywgMSB3YXJuaW5ncywgMzAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNy8xMyBoYXMgc3R5bGUg
-cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
-ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
-IGluIE1BSU5UQUlORVJTLgo4LzEzIENoZWNraW5nIGNvbW1pdCBiODBmNWNiMTUzYWUgKGF1ZGlv
-OiByZW1vdmUgR05VQyAmIE1TVkMgY2hlY2spCjkvMTMgQ2hlY2tpbmcgY29tbWl0IDQwZjMxNzA2
-YzU1NCAocG9pc29uOiByZW1vdmUgR05VQyBjaGVjaykKMTAvMTMgQ2hlY2tpbmcgY29tbWl0IGEw
-MTM4ZjhiOGNhMSAoeGVuOiByZW1vdmUgR05VQyBjaGVjaykKMTEvMTMgQ2hlY2tpbmcgY29tbWl0
-IDk2NzhjMWUxYjBkOCAoY29tcGlsZXI6IHJlbW92ZSBHTlVDIGNoZWNrKQoxMi8xMyBDaGVja2lu
-ZyBjb21taXQgMGEzZjQxMDJiY2ZhIChsaW51eC11c2VyOiByZW1vdmUgR05VQyBjaGVjaykKMTMv
-MTMgQ2hlY2tpbmcgY29tbWl0IDc3OGEyZTMxYzVjZSAoY29tcGlsZXIuaDogcmVtb3ZlIFFFTVVf
-R05VQ19QUkVSRVEpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRo
-IGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
-Zy9sb2dzLzIwMjAxMjEwMTM0NzUyLjc4MDkyMy0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNv
-bS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
-dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
-bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Thu, 10 Dec 2020 10:07:21 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+
+> spapr_kvm_type() is considering 'vm_type=NULL' as a valid input, where
+> the function returns 0. This is relying on the current QEMU machine
+> options handling logic, where the absence of the 'kvm-type' option
+> will be reflected as 'vm_type=NULL' in this function.
+> 
+> This is not robust, and will break if QEMU options code decides to propagate
+> something else in the case mentioned above (e.g. an empty string instead
+> of NULL).
+> 
+> Let's avoid this entirely by setting a non-NULL default value in case of
+> no user input for 'kvm-type'. spapr_kvm_type() was changed to handle 3 fixed
+> values of kvm-type: "auto", "hv", and "pr", with "auto" being the default
+> if no kvm-type was set by the user. This allows us to always be predictable
+> regardless of any enhancements/changes made in QEMU options mechanics.
+> 
+> While we're at it, let's also document in 'kvm-type' description the
+> already existing default mode, now named 'auto'. The information provided
+> about it is based on how the pseries kernel handles the KVM_CREATE_VM
+> ioctl(), where the default value '0' makes the kernel choose an available
+> KVM module to use, giving precedence to kvm_hv. This logic is described in
+> the kernel source file arch/powerpc/kvm/powerpc.c, function kvm_arch_init_vm().
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  hw/ppc/spapr.c | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index b7e0894019..f097f4ea30 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3021,17 +3021,18 @@ static void spapr_machine_init(MachineState *machine)
+>      qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
+>  }
+>  
+> +#define DEFAULT_KVM_TYPE "auto"
+>  static int spapr_kvm_type(MachineState *machine, const char *vm_type)
+>  {
+> -    if (!vm_type) {
+> +    if (!g_ascii_strcasecmp(vm_type, DEFAULT_KVM_TYPE)) {
+
+strcmp() would be better here : we don't want to support an 
+already existing "AUTO" value like for the other ones.
+
+And, of course, add a comment to explain why the two other
+ones are handled differently.
+
+>          return 0;
+>      }
+>  
+> -    if (!strcmp(vm_type, "HV")) {
+> +    if (!g_ascii_strcasecmp(vm_type, "hv")) {
+>          return 1;
+>      }
+>  
+> -    if (!strcmp(vm_type, "PR")) {
+> +    if (!g_ascii_strcasecmp(vm_type, "pr")) {
+>          return 2;
+>      }
+>  
+> @@ -3131,7 +3132,7 @@ static char *spapr_get_kvm_type(Object *obj, Error **errp)
+>  {
+>      SpaprMachineState *spapr = SPAPR_MACHINE(obj);
+>  
+> -    return g_strdup(spapr->kvm_type);
+> +    return g_strdup(spapr->kvm_type ? spapr->kvm_type : DEFAULT_KVM_TYPE);
+
+As in Paolo's diff, it seems better to simply initialize spapr->kvm_type ...
+
+>  }
+>  
+>  static void spapr_set_kvm_type(Object *obj, const char *value, Error **errp)
+> @@ -3273,7 +3274,11 @@ static void spapr_instance_init(Object *obj)
+
+... here.
+
+    spapr->kvm_type = g_strdup(DEFAULT_KVM_TYPE);
+
+>      object_property_add_str(obj, "kvm-type",
+>                              spapr_get_kvm_type, spapr_set_kvm_type);
+>      object_property_set_description(obj, "kvm-type",
+> -                                    "Specifies the KVM virtualization mode (HV, PR)");
+> +                                    "Specifies the KVM virtualization mode (auto,"
+> +                                    " hv, pr). Defaults to 'auto'. This mode will use"
+> +                                    " any available KVM module loaded in the host,"
+> +                                    " where kvm_hv takes precedence if both kvm_hv and"
+> +                                    " kvm_pr are loaded.");
+>      object_property_add_bool(obj, "modern-hotplug-events",
+>                              spapr_get_modern_hotplug_events,
+>                              spapr_set_modern_hotplug_events);
+
 
