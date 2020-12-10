@@ -2,69 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8026C2D5E9B
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:51:46 +0100 (CET)
-Received: from localhost ([::1]:58522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881142D5EA8
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:53:45 +0100 (CET)
+Received: from localhost ([::1]:60688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knNIH-0002pu-Hu
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:51:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
+	id 1knNKC-0003vt-Jr
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:53:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1knNE6-0008Pt-Q5
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:47:27 -0500
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:45146)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1knNE2-0005rz-Jx
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:47:26 -0500
-Received: by mail-io1-xd44.google.com with SMTP id n4so5739495iow.12
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 06:47:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O9g8sBrnA+RbVK7UGq5E9n9J/+BjsylR6CGwX1jg5OA=;
- b=fn1P7lgH7jL7cmm4w+/pNdUbP9LKoOvlYT9ZFQjd1dvaol5TKQw4ZQH4aQTrkFk7Re
- 1MYFUNGgYY6FMMWE/Dh5rSIYEtZnBF4xxQKsjJbfqeUPDmzqZ5srYz1r2kH5JO31NGSO
- DuiI5p4/u+Z14BPUc09o8hBKzZ92oPg/FXYuZpuwDcndqqr+NfAZBuV1u+klC4M4KWWi
- id857ojzbUOwuZtHwGlbbxfESIHMoCWPLDF9BqVA377rV3lTdPNARuY0EAY/mQSTfPY8
- VS3v23CMzZlVgNTS27fJrs8DvYL2BxShHTBgOYPBULRMt+JCOV03es3tlkp70jZFKA5N
- nDnQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1knNGr-00023n-FY
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:50:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1knNGo-0006lC-3R
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 09:50:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607611811;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p6ZLlBz5Y6AkBvx4isJCMiyeQmxt0MW+uZahiLuJP9A=;
+ b=B6mw+T8+poQOxACmSGb4DaUfV7ZIOqDLYG/3dJdHlG2ONF6hkr/dbwm+qBjmtPkT56vQZ/
+ CU10Bl/fTltNghepRLIvnkEOSTdG63aLORq8PF5R69XD5/+z3UMru3AiLsCIEXyaA2Cdb/
+ qvKL2+R+kjk5BCm77W+6R6Xx0sTosHs=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-uvMultnXNYiyIfjcHH8QiA-1; Thu, 10 Dec 2020 09:50:10 -0500
+X-MC-Unique: uvMultnXNYiyIfjcHH8QiA-1
+Received: by mail-qt1-f198.google.com with SMTP id o12so4091701qtw.14
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 06:50:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O9g8sBrnA+RbVK7UGq5E9n9J/+BjsylR6CGwX1jg5OA=;
- b=LG7FYgYttc3hvdSO5W0vZVeMjn9DDDx6/AtYnR7sySwvJDtkh6v7rVYqgTrHoAf21P
- J9AlKIZ3DHKSOaDanHVT1G0vZr+ukav/lCZUqdaaGolJEfX9FXKUYTFUFRELV1DAijgV
- B+BSwYE+mm6RsXIS64K4QIh1IoxKqRRchI9jkYMY1ArH94FeaqpVvgae/45aJYtSrFCx
- yFUa6sSlC7v3In5O9GBoUGBkAQ/6IunI0u4vLM7oTLdNUVDe7fNE1mRlqWC7nlYqQTvp
- njWXa9m/eXDXG82Mv+fth6PRMx/oY0draUscVnFJeZIueYFUgu74k7NDpsCinHG/o+6A
- XfNg==
-X-Gm-Message-State: AOAM531MguMCnIIaADz9WYWuvpmxYuArzGQCIVYsxlVAuAmFkp5Cyrv7
- q5Lflc8KZJit9GpJfzhiiLsmMf01fRQSEsHwSa4=
-X-Google-Smtp-Source: ABdhPJzJrOKvmVWlWgKwsLGq3iDGekQ8M+3OupzNdWGGz22ViJgYrDiOiLI0eoYF6JQxWPiv0dAGUqkeCrd1k34RY5E=
-X-Received: by 2002:a5d:85c7:: with SMTP id e7mr8649640ios.162.1607611637293; 
- Thu, 10 Dec 2020 06:47:17 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=p6ZLlBz5Y6AkBvx4isJCMiyeQmxt0MW+uZahiLuJP9A=;
+ b=JxN5c/7bMpGPJH2Bpp6TZEpdYEZhpVaKDfR1GSbiIh1IAKZxLrbmZ5FvpHA5PX7Sb3
+ gZuL8yOs0LeQWy168+8NImGrJrIRE7R1isr0AmxTWhb9mIA8CxGT9WcaT6ILCCuG2dSE
+ FaCPb//3BRYuDzzhZcONpGPtLxgsaWmt6SuH1IbmulrnOBmuJEA6JOr2t9/ab696OFTE
+ 5qmA4oP3CVfM4b1AGfceG3NeQLNzs6C4MDXx77TtPpxa1WPezyLrrb6F1Ahi6DJhDf7w
+ k19vCupCvL8G5AGijo2/f+Y0GnTJxDscBTYzXPtgDYHyDbM0dOrIaYfLK97j0r6EzVse
+ rIww==
+X-Gm-Message-State: AOAM532TOZE2RoTNSnAnKoodUzoZqnWxee11dBPgzRrDMRpnD5JxyuZc
+ Ee2oSuUykj7ZoALTh/3S+4RPLk5MyZBXWFU90g8dZC3OgVB8h0KoEn1V30dYeU9krgJ2x/IGjj3
+ 8VpGlInpzzmFgtPU=
+X-Received: by 2002:ac8:4b50:: with SMTP id e16mr9727947qts.205.1607611808666; 
+ Thu, 10 Dec 2020 06:50:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwjJ6WswwqGFvyiv9ip5WIAUM0JCIUYY8mmXDfsQtdy0IJ+fsvY10//4cIOe8MqDtXBsvPBog==
+X-Received: by 2002:ac8:4b50:: with SMTP id e16mr9727933qts.205.1607611808464; 
+ Thu, 10 Dec 2020 06:50:08 -0800 (PST)
+Received: from xz-x1 ([142.126.83.202])
+ by smtp.gmail.com with ESMTPSA id v128sm3583774qkc.126.2020.12.10.06.50.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Dec 2020 06:50:07 -0800 (PST)
+Date: Thu, 10 Dec 2020 09:50:06 -0500
+From: Peter Xu <peterx@redhat.com>
+To: zhukeqian <zhukeqian1@huawei.com>
+Subject: Re: [PATCH] kvm: Take into account the unaligned section size when
+ preparing bitmap
+Message-ID: <20201210145006.GD3211@xz-x1>
+References: <20201208114013.875-1-yuzenghui@huawei.com>
+ <20201208151654.GA6432@xz-x1>
+ <bb4bcc8b-1d36-9529-d7cd-4d93162d092f@huawei.com>
+ <6dc82702-9246-4684-4f28-e104abc0c11d@huawei.com>
+ <20201210020843.GB3211@xz-x1>
+ <7d46e5ca-24ab-7c44-201c-77e8fc6a2ace@huawei.com>
 MIME-Version: 1.0
-References: <20201208163950.29617-1-david@redhat.com>
- <20201208163950.29617-11-david@redhat.com>
-In-Reply-To: <20201208163950.29617-11-david@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Thu, 10 Dec 2020 15:47:06 +0100
-Message-ID: <CAM9Jb+iOYRqYSrX9ERGfO3xvx2+HUGF+=EQrgzghJ_WPVoBfqg@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] vfio: Disable only uncoordinated discards
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d44;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd44.google.com
+In-Reply-To: <7d46e5ca-24ab-7c44-201c-77e8fc6a2ace@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,92 +96,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Kedzierski <mkedzier@redhat.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, pbonzini@redhat.com,
+ qemu-devel@nongnu.org, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> We support coordinated discarding of RAM using the RamDiscardMgr. Let's
-> unlock support for coordinated discards, keeping uncoordinated discards
-> (e.g., via virtio-balloon) disabled.
->
-> This unlocks virtio-mem + vfio. Note that vfio used via "nvme://" by the
-> block layer has to be implemented/unlocked separately. For now,
-> virtio-mem only supports x86-64 - spapr IOMMUs are not tested/affected.
->
-> Note: The block size of a virtio-mem device has to be set to sane sizes,
-> depending on the maximum hotplug size - to not run out of vfio mappings.
-> The default virtio-mem block size is usually in the range of a couple of
-> MBs. The maximum number of mapping is 64k, shared with other users.
-> Assume you want to hotplug 256GB using virtio-mem - the block size would
-> have to be set to at least 8 MiB (resulting in 32768 separate mappings).
->
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Auger Eric <eric.auger@redhat.com>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Cc: teawater <teawaterz@linux.alibaba.com>
-> Cc: Marek Kedzierski <mkedzier@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  hw/vfio/common.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 57c83a2f14..3ce5e26bab 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -1974,8 +1974,10 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
->       * new memory, it will not yet set ram_block_discard_set_required() and
->       * therefore, neither stops us here or deals with the sudden memory
->       * consumption of inflated memory.
-> +     *
-> +     * We do support discarding of memory coordinated via the RamDiscardMgr.
->       */
-> -    ret = ram_block_discard_disable(true);
-> +    ret = ram_block_uncoordinated_discard_disable(true);
->      if (ret) {
->          error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
->          return ret;
-> @@ -2155,7 +2157,7 @@ close_fd_exit:
->      close(fd);
->
->  put_space_exit:
-> -    ram_block_discard_disable(false);
-> +    ram_block_uncoordinated_discard_disable(false);
->      vfio_put_address_space(space);
->
->      return ret;
-> @@ -2277,7 +2279,7 @@ void vfio_put_group(VFIOGroup *group)
->      }
->
->      if (!group->ram_block_discard_allowed) {
-> -        ram_block_discard_disable(false);
-> +        ram_block_uncoordinated_discard_disable(false);
->      }
->      vfio_kvm_device_del_group(group);
->      vfio_disconnect_container(group);
-> @@ -2331,7 +2333,7 @@ int vfio_get_device(VFIOGroup *group, const char *name,
->
->          if (!group->ram_block_discard_allowed) {
->              group->ram_block_discard_allowed = true;
-> -            ram_block_discard_disable(false);
-> +            ram_block_uncoordinated_discard_disable(false);
->          }
->      }
->
-Looks good to me.
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+On Thu, Dec 10, 2020 at 10:53:23AM +0800, zhukeqian wrote:
+> 
+> 
+> On 2020/12/10 10:08, Peter Xu wrote:
+> > Keqian,
+> > 
+> > On Thu, Dec 10, 2020 at 09:46:06AM +0800, zhukeqian wrote:
+> >> Hi,
+> >>
+> >> I see that if start or size is not PAGE aligned, it also clears areas
+> >> which beyond caller's expectation, so do we also need to consider this?
+> > 
+> > Could you elaborate?
+> > 
+> > If start_delta != 0, kvm_log_clear_one_slot() should already go the slow path.
+> > 
+> > Thanks,
+> > 
+> 
+> Hi Peter,
+> 
+> start_delta /= psize;
+> 
+> If start is not PAGE aligned, then start_delta is not PAGE aligned.
+> so I think the above code will implicitly extend our start to be PAGE aligned.
+> 
+> I suggest that we should shrink the start and (start + size) to be PAGE aligned
+> at beginning of this function.
+
+Callers should be with TARGET_PAGE_SIZE aligned on the size, so at least x86_64
+should be pretty safe since host/guest page sizes match.
+
+Though indeed I must confess I don't know how it worked in general when host
+page size != target page size, at least for migration.  For example, I believe
+kvm dirty logging is host page size based, though migration should be migrating
+pages in guest page size granule when it spots a dirty bit set.
+
+-- 
+Peter Xu
+
 
