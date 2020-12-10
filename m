@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2959E2D59DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:59:42 +0100 (CET)
-Received: from localhost ([::1]:58252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1492D59A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 12:51:17 +0100 (CET)
+Received: from localhost ([::1]:37204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knKbk-0003eC-Um
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:59:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51170)
+	id 1knKTc-0003BS-3e
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 06:51:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKQs-0001PJ-Le
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:28 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36301)
+ id 1knKQw-0001Qz-IL
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:32 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1knKQb-00070J-1x
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:25 -0500
-Received: by mail-wm1-x333.google.com with SMTP id y23so5005486wmi.1
- for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:08 -0800 (PST)
+ id 1knKQe-00071X-64
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 06:48:29 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id a12so5151938wrv.8
+ for <qemu-devel@nongnu.org>; Thu, 10 Dec 2020 03:48:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=dpThmaMoogi/5GyS9PRoz+06UyOQ4dJ+IrOLxiQU3vE=;
- b=SCH4N21yuypemMdFsIi94E0a4TicFHyCsEYw1Rw+PyzF1LHQJErwFz+yUp0kAjmrdo
- 7nBkdwBkvJAdJx/NH45hIQSl3zn6G5TUfzQPkOnr32cC31j+MesYNh+HuLf68UInH/9C
- jxHw9myWX/pE3Uo4o5FUJoamvLmeT6XADyDNz85tG8ywbbJXAwJbdrjaeBLR6Ftea6fX
- DBuSl0orDHzIZvjeZaBQaiuGY1smGULWRm2Gjkmi3ZxgGvpBRZeklj4j/K8+cfvHF9fu
- 9YvfgwjyaDHPXwz4DKoGfyc5EYMIsKyKMHMEcyWScBPsGG+qWXtBfyXsvct5rMVIxZhT
- 4OzA==
+ bh=wf1XuqV8Ky+w4DmMBlqPnGd/R9XRzh/8oQR8ynsnFpk=;
+ b=Ap6Qg2xElTbN205uZ09enxrYZgJRlDu5lB9OVCOssMbklAYUGg/zFVCQZeyZgoaqS9
+ aJzg/NU3HGxo3mAVXQJh9o67qUZ5hWsNW/5XiL0qqfxOrRo4abazHuu6reBUH/AcArdA
+ xDe5g1XKCwBiko8WXez6v86KKrtrbEqLi9KMEhUMYqLHDNpXzNQEekYENuO6L+vc/BDV
+ 2Ma2cysm4S46b4KEI12/gfq4c97CgRdqYuimb+ltIgj86gjG4XmCG2IBWK2Dl4Ed0k+8
+ TKSAT9/yXWBGwFml/nuNJr+LMEHaueIbyaoiXTMtAhGjDApaHZ0ge+DJt28MoltXlR9O
+ Z3Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dpThmaMoogi/5GyS9PRoz+06UyOQ4dJ+IrOLxiQU3vE=;
- b=Px24IdTDSEIKyb8R0zOaR9LzRUIby1YS4M9v7VvAM/pTsIaERGK6nGjJg8mlJSlc6Z
- wIruFby2mcxMFSg51tvarQDe65Nl8a4EaDHZowm2kzNFZQPFq4j1p85VlsYY+Hc1d7AO
- toNkuRoPtZ5DtCfdtJwX9E5MnIT+8mpsBewZ3mxsak5Yo5vAUU5XWby9TOgbRd6b7niI
- c9QP56y1IQ27nt2pS3OzL6YQKwzqhsLoK3V8bcFxbpBpsVlcEU9DcK93nCCtYRuMOsCo
- sjE4rW7yU8NGwBdHaDCOzaXIj82DYc8/m2043JYsX+ABFn8XnzUS7EZ31mA93FLJbv9J
- tsKQ==
-X-Gm-Message-State: AOAM532xPRmI/3KjeGOJkEX1JYdBhjslnvZ4hBmfbqm1CBxtBFc9WTxn
- J4Ac1DGfQrUqce2NBk1MJAKi5iWqT9ohmg==
-X-Google-Smtp-Source: ABdhPJzxR7OBEjBtycWt/Pa3ITe4Nm15/USiRjjB7wWQPre7HOsHA9xGepFWKgKSCZdmv9o+/0qSlQ==
-X-Received: by 2002:a1c:a501:: with SMTP id o1mr7692056wme.44.1607600887601;
- Thu, 10 Dec 2020 03:48:07 -0800 (PST)
+ bh=wf1XuqV8Ky+w4DmMBlqPnGd/R9XRzh/8oQR8ynsnFpk=;
+ b=c1/VFQcj4HElt5zQJtaQS05QezIkWWHZ8Ry68rmf6r8VY5xMCiwHsk29GZnd/bpyEM
+ wsXT9bn6VZ3cEb5wliv/s87A6Mc/z/9Tjzsmbz+kpiAOEoQ708MQZ+OsldqPyXS6ZF8n
+ nLegvTD5YRIjLPCJyVbKBas27QoKWL/e8zmxpLjQEkWSbwShpTSv9ypeTxa1sDYHMiYS
+ +RubvLYOoSGPWgfFUcefMq1gZYMX60fJGy+2tbUaRepJ6wC87ErFjah4UxkXVk1tTtAK
+ B5+nQcBLS69fYpGRO5z/u9f8iSEBPMO1iczGHhaR/lFvNsDycL/h9AvoxPwTot4klxVm
+ Y7Dw==
+X-Gm-Message-State: AOAM531I8h5eMPhHxdjrHLFZorGVS2YGMv1xtxmi35JLoEfOt9eUVLGa
+ YLH96qbrXWeftLWf0/5vn5YKohKm3+MWOA==
+X-Google-Smtp-Source: ABdhPJyL3qsX7xi8w7/39g+bDZZ6PMHV4CQhoS9IAWIXGJbVKwJjr5ObImNEK4Tc0u+mZGjMHp+M9g==
+X-Received: by 2002:adf:e710:: with SMTP id c16mr7846842wrm.295.1607600890646; 
+ Thu, 10 Dec 2020 03:48:10 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.06
+ by smtp.gmail.com with ESMTPSA id g192sm9304725wme.48.2020.12.10.03.48.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 03:48:07 -0800 (PST)
+ Thu, 10 Dec 2020 03:48:10 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/36] tests/qtest/npcm7xx_rng-test: dump random data on failure
-Date: Thu, 10 Dec 2020 11:47:27 +0000
-Message-Id: <20201210114756.16501-8-peter.maydell@linaro.org>
+Subject: [PULL 10/36] i.MX6: Fix bad printf format specifiers
+Date: Thu, 10 Dec 2020 11:47:30 +0000
+Message-Id: <20201210114756.16501-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210114756.16501-1-peter.maydell@linaro.org>
 References: <20201210114756.16501-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,80 +86,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Havard Skinnemoen <hskinnemoen@google.com>
+From: Alex Chen <alex.chen@huawei.com>
 
-Dump the collected random data after a randomness test failure.
+We should use printf format specifier "%u" instead of "%d" for
+argument of type "unsigned int".
 
-Note that this relies on the test having called
-g_test_set_nonfatal_assertions() so we don't abort immediately on the
-assertion failure.
-
-Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+Message-id: 20201126111109.112238-4-alex.chen@huawei.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-[PMM: minor commit message tweak]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/qtest/npcm7xx_rng-test.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/misc/imx6_ccm.c | 20 ++++++++++----------
+ hw/misc/imx6_src.c |  2 +-
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/tests/qtest/npcm7xx_rng-test.c b/tests/qtest/npcm7xx_rng-test.c
-index c614968ffcd..797f832e53a 100644
---- a/tests/qtest/npcm7xx_rng-test.c
-+++ b/tests/qtest/npcm7xx_rng-test.c
-@@ -20,6 +20,7 @@
- 
- #include "libqtest-single.h"
- #include "qemu/bitops.h"
-+#include "qemu-common.h"
- 
- #define RNG_BASE_ADDR   0xf000b000
- 
-@@ -36,6 +37,13 @@
- /* Number of bits to collect for randomness tests. */
- #define TEST_INPUT_BITS  (128)
- 
-+static void dump_buf_if_failed(const uint8_t *buf, size_t size)
-+{
-+    if (g_test_failed()) {
-+        qemu_hexdump(stderr, "", buf, size);
-+    }
-+}
-+
- static void rng_writeb(unsigned int offset, uint8_t value)
- {
-     writeb(RNG_BASE_ADDR + offset, value);
-@@ -188,6 +196,7 @@ static void test_continuous_monobit(void)
+diff --git a/hw/misc/imx6_ccm.c b/hw/misc/imx6_ccm.c
+index 7fec8f0a476..cb740427eca 100644
+--- a/hw/misc/imx6_ccm.c
++++ b/hw/misc/imx6_ccm.c
+@@ -96,7 +96,7 @@ static const char *imx6_ccm_reg_name(uint32_t reg)
+     case CCM_CMEOR:
+         return "CMEOR";
+     default:
+-        sprintf(unknown, "%d ?", reg);
++        sprintf(unknown, "%u ?", reg);
+         return unknown;
+     }
+ }
+@@ -235,7 +235,7 @@ static const char *imx6_analog_reg_name(uint32_t reg)
+     case USB_ANALOG_DIGPROG:
+         return "USB_ANALOG_DIGPROG";
+     default:
+-        sprintf(unknown, "%d ?", reg);
++        sprintf(unknown, "%u ?", reg);
+         return unknown;
+     }
+ }
+@@ -263,7 +263,7 @@ static uint64_t imx6_analog_get_pll2_clk(IMX6CCMState *dev)
+         freq *= 20;
      }
  
-     g_assert_cmpfloat(calc_monobit_p(buf, sizeof(buf)), >, 0.01);
-+    dump_buf_if_failed(buf, sizeof(buf));
- }
+-    DPRINTF("freq = %d\n", (uint32_t)freq);
++    DPRINTF("freq = %u\n", (uint32_t)freq);
  
- /*
-@@ -209,6 +218,7 @@ static void test_continuous_runs(void)
+     return freq;
+ }
+@@ -275,7 +275,7 @@ static uint64_t imx6_analog_get_pll2_pfd0_clk(IMX6CCMState *dev)
+     freq = imx6_analog_get_pll2_clk(dev) * 18
+            / EXTRACT(dev->analog[CCM_ANALOG_PFD_528], PFD0_FRAC);
+ 
+-    DPRINTF("freq = %d\n", (uint32_t)freq);
++    DPRINTF("freq = %u\n", (uint32_t)freq);
+ 
+     return freq;
+ }
+@@ -287,7 +287,7 @@ static uint64_t imx6_analog_get_pll2_pfd2_clk(IMX6CCMState *dev)
+     freq = imx6_analog_get_pll2_clk(dev) * 18
+            / EXTRACT(dev->analog[CCM_ANALOG_PFD_528], PFD2_FRAC);
+ 
+-    DPRINTF("freq = %d\n", (uint32_t)freq);
++    DPRINTF("freq = %u\n", (uint32_t)freq);
+ 
+     return freq;
+ }
+@@ -315,7 +315,7 @@ static uint64_t imx6_analog_get_periph_clk(IMX6CCMState *dev)
+         break;
      }
  
-     g_assert_cmpfloat(calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE), >, 0.01);
-+    dump_buf_if_failed(buf.c, sizeof(buf));
- }
+-    DPRINTF("freq = %d\n", (uint32_t)freq);
++    DPRINTF("freq = %u\n", (uint32_t)freq);
  
- /*
-@@ -230,6 +240,7 @@ static void test_first_byte_monobit(void)
+     return freq;
+ }
+@@ -327,7 +327,7 @@ static uint64_t imx6_ccm_get_ahb_clk(IMX6CCMState *dev)
+     freq = imx6_analog_get_periph_clk(dev)
+            / (1 + EXTRACT(dev->ccm[CCM_CBCDR], AHB_PODF));
+ 
+-    DPRINTF("freq = %d\n", (uint32_t)freq);
++    DPRINTF("freq = %u\n", (uint32_t)freq);
+ 
+     return freq;
+ }
+@@ -339,7 +339,7 @@ static uint64_t imx6_ccm_get_ipg_clk(IMX6CCMState *dev)
+     freq = imx6_ccm_get_ahb_clk(dev)
+            / (1 + EXTRACT(dev->ccm[CCM_CBCDR], IPG_PODF));
+ 
+-    DPRINTF("freq = %d\n", (uint32_t)freq);
++    DPRINTF("freq = %u\n", (uint32_t)freq);
+ 
+     return freq;
+ }
+@@ -351,7 +351,7 @@ static uint64_t imx6_ccm_get_per_clk(IMX6CCMState *dev)
+     freq = imx6_ccm_get_ipg_clk(dev)
+            / (1 + EXTRACT(dev->ccm[CCM_CSCMR1], PERCLK_PODF));
+ 
+-    DPRINTF("freq = %d\n", (uint32_t)freq);
++    DPRINTF("freq = %u\n", (uint32_t)freq);
+ 
+     return freq;
+ }
+@@ -385,7 +385,7 @@ static uint32_t imx6_ccm_get_clock_frequency(IMXCCMState *dev, IMXClk clock)
+         break;
      }
  
-     g_assert_cmpfloat(calc_monobit_p(buf, sizeof(buf)), >, 0.01);
-+    dump_buf_if_failed(buf, sizeof(buf));
- }
+-    DPRINTF("Clock = %d) = %d\n", clock, freq);
++    DPRINTF("Clock = %d) = %u\n", clock, freq);
  
- /*
-@@ -254,6 +265,7 @@ static void test_first_byte_runs(void)
+     return freq;
+ }
+diff --git a/hw/misc/imx6_src.c b/hw/misc/imx6_src.c
+index dd99cc7acf0..79f43759113 100644
+--- a/hw/misc/imx6_src.c
++++ b/hw/misc/imx6_src.c
+@@ -68,7 +68,7 @@ static const char *imx6_src_reg_name(uint32_t reg)
+     case SRC_GPR10:
+         return "SRC_GPR10";
+     default:
+-        sprintf(unknown, "%d ?", reg);
++        sprintf(unknown, "%u ?", reg);
+         return unknown;
      }
- 
-     g_assert_cmpfloat(calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE), >, 0.01);
-+    dump_buf_if_failed(buf.c, sizeof(buf));
  }
- 
- int main(int argc, char **argv)
 -- 
 2.20.1
 
