@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBEBD2D5CA8
-	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:01:59 +0100 (CET)
-Received: from localhost ([::1]:37844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43BE22D5D31
+	for <lists+qemu-devel@lfdr.de>; Thu, 10 Dec 2020 15:10:28 +0100 (CET)
+Received: from localhost ([::1]:56888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1knMW6-0007V0-Mn
-	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:01:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51982)
+	id 1knMeJ-0007Gr-8c
+	for lists+qemu-devel@lfdr.de; Thu, 10 Dec 2020 09:10:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1knMKK-0003en-MT
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:49:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44404)
+ id 1knMKa-0003uZ-Td
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:50:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1knMKI-0002yY-A9
- for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:49:48 -0500
+ id 1knMKY-00033G-QW
+ for qemu-devel@nongnu.org; Thu, 10 Dec 2020 08:50:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607608185;
+ s=mimecast20190719; t=1607608201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iHYSa9kEpwoKzIqL0kHciIz6Aw/ueVjJb1/YiLOQ2lU=;
- b=PWeD6ogERY3OVZgXFvXfWlGIDhAxwR6vP3/codNXBXPdxcBFtkAvgyUdlpA30lwt3MhfG3
- Fw0MX0bYKMd4exQojM4bnVJJv1+igCJLJfssAR/C29c1mdt0bUIqxJcOKXa3uaLi2v8U/j
- j+cK0TyVY4g3A7yWg6CHfcaQCg13PQM=
+ bh=uC8B/2alqBgSU7hoZ9+H0Qhhp1eKRr97cLOh0lFkCEo=;
+ b=hgNp7FKyNlQ0CIiAOV0LJGJW81IdzpUdNhQab6fv5pWoqNLU18VGavlw2UrVubedadIE/P
+ N+QFJ+jFKNqyu6IEF3AiXfkYkd9ketYdMTLvWbyl1W4e4Q2ReiROddEGCecgeXIBZ8RicT
+ nbALtfHI11Hju5uqMOrf3FEisnIMreQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-wSJyU3UuOkCKoQd_7B4-4g-1; Thu, 10 Dec 2020 08:49:41 -0500
-X-MC-Unique: wSJyU3UuOkCKoQd_7B4-4g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-439-d9qAt3hLPxmeeP3x39eJCw-1; Thu, 10 Dec 2020 08:49:56 -0500
+X-MC-Unique: d9qAt3hLPxmeeP3x39eJCw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9659107ACE4;
- Thu, 10 Dec 2020 13:49:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A7811005504;
+ Thu, 10 Dec 2020 13:49:55 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1AE7B5C1C4;
- Thu, 10 Dec 2020 13:49:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 14C1010021AA;
+ Thu, 10 Dec 2020 13:49:43 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/13] virtiofsd: replace _Static_assert with
- QEMU_BUILD_BUG_ON
-Date: Thu, 10 Dec 2020 17:47:45 +0400
-Message-Id: <20201210134752.780923-7-marcandre.lureau@redhat.com>
+Subject: [PATCH v3 07/13] compiler.h: explicit case for Clang printf attribute
+Date: Thu, 10 Dec 2020 17:47:46 +0400
+Message-Id: <20201210134752.780923-8-marcandre.lureau@redhat.com>
 In-Reply-To: <20201210134752.780923-1-marcandre.lureau@redhat.com>
 References: <20201210134752.780923-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -66,8 +65,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,35 +94,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-This allows to get rid of a check for older GCC version (which was a bit
-bogus too since it was falling back on c++ version..)
+Since commit efc6c07 ("configure: Add a test for the minimum compiler
+version"), QEMU explicitely depends on GCC >= 4.8, we could thus drop
+earlier version checks. Except clang advertizes itself as GCC 4.2.1.
+
+Since clang doesn't support gnu_printf, make that case explicitely and
+drop GCC version check.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tools/virtiofsd/fuse_common.h | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ include/qemu/compiler.h | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-index 5aee5193eb..a2484060b6 100644
---- a/tools/virtiofsd/fuse_common.h
-+++ b/tools/virtiofsd/fuse_common.h
-@@ -809,15 +809,6 @@ void fuse_remove_signal_handlers(struct fuse_session *se);
-  *
-  * On 32bit systems please add -D_FILE_OFFSET_BITS=64 to your compile flags!
-  */
--
--#if defined(__GNUC__) &&                                      \
--    (__GNUC__ > 4 || __GNUC__ == 4 && __GNUC_MINOR__ >= 6) && \
--    !defined __cplusplus
--_Static_assert(sizeof(off_t) == 8, "fuse: off_t must be 64bit");
--#else
--struct _fuse_off_t_must_be_64bit_dummy_struct {
--    unsigned _fuse_off_t_must_be_64bit:((sizeof(off_t) == 8) ? 1 : -1);
--};
--#endif
-+QEMU_BUILD_BUG_ON(sizeof(off_t) != 8);
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index 226ead6c90..6212295e52 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -99,18 +99,18 @@
+ #define QEMU_BUILD_BUG_ON_ZERO(x) (sizeof(QEMU_BUILD_BUG_ON_STRUCT(x)) - \
+                                    sizeof(QEMU_BUILD_BUG_ON_STRUCT(x)))
  
- #endif /* FUSE_COMMON_H_ */
+-#if defined __GNUC__
+-# if !QEMU_GNUC_PREREQ(4, 4)
+-   /* gcc versions before 4.4.x don't support gnu_printf, so use printf. */
+-#  define GCC_FMT_ATTR(n, m) __attribute__((format(printf, n, m)))
+-# else
+-   /* Use gnu_printf when supported (qemu uses standard format strings). */
+-#  define GCC_FMT_ATTR(n, m) __attribute__((format(gnu_printf, n, m)))
+-#  if defined(_WIN32)
+-    /* Map __printf__ to __gnu_printf__ because we want standard format strings
+-     * even when MinGW or GLib include files use __printf__. */
+-#   define __printf__ __gnu_printf__
+-#  endif
++#if defined(__clang__)
++/* clang doesn't support gnu_printf, so use printf. */
++# define GCC_FMT_ATTR(n, m) __attribute__((format(printf, n, m)))
++#elif defined(__GNUC__)
++/* Use gnu_printf (qemu uses standard format strings). */
++# define GCC_FMT_ATTR(n, m) __attribute__((format(gnu_printf, n, m)))
++# if defined(_WIN32)
++/*
++ * Map __printf__ to __gnu_printf__ because we want standard format strings even
++ * when MinGW or GLib include files use __printf__.
++ */
++#  define __printf__ __gnu_printf__
+ # endif
+ #else
+ #define GCC_FMT_ATTR(n, m)
 -- 
 2.29.0
 
